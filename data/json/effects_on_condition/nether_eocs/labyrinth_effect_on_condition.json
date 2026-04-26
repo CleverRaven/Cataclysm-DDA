@@ -373,7 +373,20 @@
     "id": "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE",
     "effect": [
       { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
-      { "mapgen_update": "labyrinth_safehouse_utility_space", "target_var": { "global_val": "LS_SAFEHOUSE_1" } }
+      { "mapgen_update": "labyrinth_safehouse_utility_space", "target_var": { "global_val": "LS_SAFEHOUSE_1" } },
+      { "math": [ "nl_utility_space_placed = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE_OBELISK",
+    "effect": [
+      { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
+      {
+        "mapgen_update": "labyrinth_safehouse_utility_space_obelisk",
+        "target_var": { "global_val": "LS_SAFEHOUSE_1" }
+      },
+      { "math": [ "nl_utility_space_obelisk_placed = 1" ] }
     ]
   },
   {
@@ -457,6 +470,229 @@
       {
         "u_message": "You smell something acrid, then your mind reels - you suddenly find yourself standing upon a landscape, yourself and it completely flat.  You try to find your footing.",
         "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_UTILITY_SPACE_OBELISK_HACKSAW",
+    "condition": {
+      "and": [ { "u_has_item": "hacksaw" }, { "not": { "math": [ "has_var(u_safehouse_utility_space_deposited_hacksaw)" ] } } ]
+    },
+    "effect": [
+      { "u_consume_item": "hacksaw" },
+      { "u_add_var": "safehouse_utility_space_deposited_hacksaw", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_hacksaw)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_screwdriver)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_gaj)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_wrench)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_cord)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_nutbolt)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_sheetmetal)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize into a door.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_UTILITY_SPACE_OBELISK_SCREWDRIVER",
+    "condition": {
+      "and": [
+        { "u_has_item": "screwdriver" },
+        { "not": { "math": [ "has_var(u_safehouse_utility_space_deposited_screwdriver)" ] } }
+      ]
+    },
+    "effect": [
+      { "u_consume_item": "screwdriver" },
+      { "u_add_var": "safehouse_utility_space_deposited_screwdriver", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_hacksaw)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_screwdriver)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_gaj)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_wrench)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_cord)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_nutbolt)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_sheetmetal)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize into a door.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_UTILITY_SPACE_OBELISK_GAJ",
+    "condition": {
+      "and": [ { "u_has_item": "nl_grav_aware_jig" }, { "not": { "math": [ "has_var(u_safehouse_utility_space_deposited_gaj)" ] } } ]
+    },
+    "effect": [
+      { "u_consume_item": "nl_grav_aware_jig" },
+      { "u_add_var": "safehouse_utility_space_deposited_gaj", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_hacksaw)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_screwdriver)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_gaj)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_wrench)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_cord)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_nutbolt)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_sheetmetal)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize into a door.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_UTILITY_SPACE_OBELISK_WRENCH",
+    "condition": {
+      "and": [ { "u_has_item": "wrench" }, { "not": { "math": [ "has_var(u_safehouse_utility_space_deposited_wrench)" ] } } ]
+    },
+    "effect": [
+      { "u_consume_item": "wrench" },
+      { "u_add_var": "safehouse_utility_space_deposited_wrench", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_hacksaw)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_screwdriver)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_gaj)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_wrench)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_cord)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_nutbolt)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_sheetmetal)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize into a door.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_UTILITY_SPACE_OBELISK_CORD",
+    "condition": {
+      "and": [ { "u_has_item": "extension_cable" }, { "not": { "math": [ "has_var(u_safehouse_utility_space_deposited_cord)" ] } } ]
+    },
+    "effect": [
+      { "u_consume_item": "extension_cable" },
+      { "u_add_var": "safehouse_utility_space_deposited_cord", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_hacksaw)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_screwdriver)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_gaj)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_wrench)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_cord)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_nutbolt)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_sheetmetal)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize into a door.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_UTILITY_SPACE_OBELISK_NUTBOLT",
+    "condition": {
+      "and": [ { "u_has_item": "nuts_bolts" }, { "not": { "math": [ "has_var(u_safehouse_utility_space_deposited_nutbolt)" ] } } ]
+    },
+    "effect": [
+      { "u_consume_item": "nuts_bolts" },
+      { "u_add_var": "safehouse_utility_space_deposited_nutbolt", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_hacksaw)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_screwdriver)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_gaj)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_wrench)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_cord)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_nutbolt)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_sheetmetal)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize into a door.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_UTILITY_SPACE_OBELISK_SHEETMETAL",
+    "condition": {
+      "and": [
+        { "u_has_item": "sheet_metal" },
+        { "not": { "math": [ "has_var(u_safehouse_utility_space_deposited_sheetmetal)" ] } }
+      ]
+    },
+    "effect": [
+      { "u_consume_item": "sheet_metal" },
+      { "u_add_var": "safehouse_utility_space_deposited_sheetmetal", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_hacksaw)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_screwdriver)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_gaj)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_wrench)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_cord)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_nutbolt)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_sheetmetal)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize into a door.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE" ] }
+        ]
       }
     ]
   }

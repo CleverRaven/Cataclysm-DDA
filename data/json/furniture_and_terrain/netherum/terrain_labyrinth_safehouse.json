@@ -1,0 +1,54 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_nl_obelisk_mission_utility_space",
+    "name": "Metal stele",
+    "description": "A floor to ceiling, shining column.  A massive face with a gaping jaw is cast upon it.  Inside the mouth are several pre-fabricated slots.",
+    "symbol": "A",
+    "color": "green",
+    "coverage": 70,
+    "move_cost": -1,
+    "flags": [ "NOITEM", "NO_SCENT", "BLOCK_WIND" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_LS_SAFEHOUSE_UTILITY_SPACE_OBELISK",
+          "effect": [
+            {
+              "run_eoc_selector": [
+                "EOC_LS_SAFEHOUSE_UTILITY_SPACE_OBELISK_HACKSAW",
+                "EOC_LS_SAFEHOUSE_UTILITY_SPACE_OBELISK_SCREWDRIVER",
+                "EOC_LS_SAFEHOUSE_UTILITY_SPACE_OBELISK_GAJ",
+                "EOC_LS_SAFEHOUSE_UTILITY_SPACE_OBELISK_WRENCH",
+                "EOC_LS_SAFEHOUSE_UTILITY_SPACE_OBELISK_CORD",
+                "EOC_LS_SAFEHOUSE_UTILITY_SPACE_OBELISK_NUTBOLT",
+                "EOC_LS_SAFEHOUSE_UTILITY_SPACE_OBELISK_SHEETMETAL"
+              ],
+              "allow_cancel": true,
+              "names": [
+                "Insert a <color_white>hacksaw</color>.",
+                "Insert a <color_white>screwdriver</color>.",
+                "Insert a <color_yellow>gravimetrically aware jig</color>?",
+                "Insert an <color_white>adjustable wrench</color>.",
+                "Insert an <color_white>extension cord</color>.",
+                "Insert a <color_white>nut and bolt</color>.",
+                "Insert a piece of <color_white>sheet metal</color>."
+              ],
+              "title": "You see before you a floor to ceiling, shining column.\n\nA massive face with a gaping jaw is cast upon it.\n\nInside the mouth are several pre-fabricated slots.\n\nThe slots are clearly labeled:",
+              "descriptions": [
+                "Looks like a standard wrench will fit.",
+                "Looks like a standard screwdriver will fit.",
+                "You don't know what a gravimetrically aware jig is, but maybe you can find one in the labyrinthine structures?",
+                "Looks like a standard wrench will fit.",
+                "Looks like a standard extension cord will fit.",
+                "Looks like a standard nut and bolt will fit.",
+                "Looks like a standard piece of sheet metal will fit."
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

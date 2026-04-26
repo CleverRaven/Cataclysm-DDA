@@ -1,5 +1,45 @@
 [
   {
+    "id": "LS_tools_common_small",
+    "type": "item_group",
+    "//": "Common household tools that are small enough to fit in a bag",
+    "items": [
+      [ "hacksaw", 50 ],
+      [ "hammer", 80 ],
+      [ "pliers", 60 ],
+      [ "big_pliers", 2 ],
+      [ "screwdriver", 100 ],
+      [ "screwdriver_set", 50 ],
+      [ "socket_screwdriver_set", 10 ],
+      { "group": "duct_tape_roll_part", "prob": 10 },
+      { "group": "glue_weak_domestic", "prob": 5 },
+      { "group": "glue_strong_domestic", "prob": 5 },
+      [ "tin_snips", 10 ],
+      [ "wrench", 20 ],
+      [ "wrench_small", 20 ],
+      [ "hand_pump", 10 ],
+      [ "socket_wrench_set", 20 ],
+      [ "pliers_locking", 20 ],
+      [ "xacto", 40 ],
+      [ "jumper_cable", 10 ],
+      [ "extension_cable", 15 ],
+      [ "hd_tow_cable", 5 ],
+      [ "claw_bar", 2 ],
+      [ "crowbar", 10 ],
+      [ "thermometer", 5 ],
+      [ "multitool", 10 ],
+      [ "recharge_station", 10 ],
+      [ "hand_crank_charger", 25 ],
+      { "item": "graphite", "prob": 10, "charges": [ 50, 12500 ] },
+      [ "metal_file", 10 ],
+      [ "clamp", 10 ],
+      [ "sandpaper", 80 ],
+      { "group": "writing_utensils", "prob": 5 },
+      { "group": "soldering_supplies", "prob": 50 },
+      [ "nl_grav_aware_jig", 20 ]
+    ]
+  },
+  {
     "type": "item_group",
     "id": "LS_SUS_crate_tier0_supplies",
     "//": "Filler.  Things to keep you going in the dungeon.",
@@ -98,7 +138,7 @@
     "id": "LS_SUS_shelf_tier0_tools",
     "//": "Filler.  Should contain tools you might need to survive down here.",
     "subtype": "collection",
-    "entries": [ { "group": "tools_common_small", "prob": 100 } ]
+    "entries": [ { "group": "LS_tools_common_small", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -109,7 +149,7 @@
       { "item": "scrap", "prob": 40 },
       { "item": "e_scrap", "prob": 40 },
       { "item": "bone", "prob": 40 },
-      { "group": "tools_common_small", "prob": 20 }
+      { "group": "LS_tools_common_small", "prob": 20 }
     ]
   },
   {

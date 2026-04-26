@@ -16,13 +16,13 @@
       { "text": "<color_light_green>Activate entry protocol", "topic": "COMP_labyrinthine_safehouse_computer_blood_tax" },
       {
         "text": "<color_light_green>Check for updates",
-        "condition": { "math": [ "nl_boiler_placed != 1" ] },
-        "topic": "COMP_LS_Exit_Controls2_safehouse_missions_boiler"
+        "condition": { "or": [ { "math": [ "nl_boiler_placed != 1" ] }, { "math": [ "nl_utility_space_obelisk_placed != 1" ] } ] },
+        "topic": "COMP_labyrinthine_safehouse_missions_list"
       },
       {
         "text": "<color_light_green>Check for updates",
-        "condition": { "math": [ "nl_boiler_placed == 1" ] },
-        "topic": "COMP_LS_Exit_Controls2_safehouse_missions_none"
+        "condition": { "and": [ { "math": [ "nl_boiler_placed == 1" ] }, { "math": [ "nl_utility_space_obelisk_placed == 1" ] } ] },
+        "topic": "COMP_labyrinthine_safehouse_missions_none"
       },
       {
         "text": "<color_red>Activate exit protocol: Earth gate",
@@ -38,7 +38,7 @@
             { "u_has_trait": "LS_Passcode_string_dimension" }
           ]
         },
-        "topic": "COMP_LS_Exit_Controls2_string_dimension_tunnel"
+        "topic": "COMP_labyrinthine_safehouse_string_dimension_tunnel"
       },
       {
         "text": "<color_red>Activate exit protocol: KÁ gate",
@@ -70,13 +70,46 @@
   },
   {
     "type": "talk_topic",
-    "id": "COMP_LS_Exit_Controls2_safehouse_missions_boiler",
-    "dynamic_line": "&<color_light_green> @User > update\n\n .  .  .  .  .  .  %100\n\n Update to ELECTRIC POWER available from AltarOS remote.  Route a path to cache?  Y/N",
+    "id": "COMP_labyrinthine_safehouse_missions_list",
+    "dynamic_line": "&<color_light_green> @User > update\n\n .  .  .  .  .  .  %100\n\n Update available from AltarOS remote.",
     "responses": [
       { "text": "Help.", "topic": "COMP_labyrinthine_safehouse_computer_missions_help" },
       {
+        "text": "[Update ELECTRIC POWER available]",
+        "condition": { "math": [ "nl_boiler_placed != 1" ] },
+        "topic": "COMP_labyrinthine_safehouse_missions_boiler"
+      },
+      {
+        "text": "[Update HUMAN DESIRES: STORAGE available]",
+        "condition": { "and": [ { "math": [ "nl_utility_space_obelisk_placed != 1" ] }, { "math": [ "nl_boiler_placed == 1" ] } ] },
+        "topic": "COMP_labyrinthine_safehouse_missions_utility_space"
+      },
+      { "text": "Exit.", "topic": "COMP_labyrinthine_safehouse_computer" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_labyrinthine_safehouse_missions_boiler",
+    "dynamic_line": "&<color_light_green> @User > update -ELECTRICPOWER\n\n .  .  .  .  .  .  %100\n\n Update to ELECTRIC POWER available from AltarOS remote.  Route a path to cache?  Y/N",
+    "responses": [
+      { "text": "Yes.", "effect": { "run_eocs": "EOC_LS_mission_boiler_teleport_to_labyrinth" }, "topic": "TALK_DONE" },
+      { "text": "No.", "topic": "COMP_labyrinthine_safehouse_computer" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_labyrinthine_safehouse_missions_utility_space",
+    "dynamic_line": "&<color_light_green> @User > update -HUMANDESIRES\n\n .  .  .  .  .  .  %100\n\n Update to HUMAN DESIRES: STORAGE available from AltarOS remote.  New dependencies required.  Download new system obelisk?  Y/N",
+    "responses": [
+      {
         "text": "Yes.",
-        "effect": { "run_eocs": "EOC_LS_mission_boiler_teleport_to_labyrinth" },
+        "effect": [
+          { "run_eocs": "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE_OBELISK" },
+          {
+            "u_message": "The ground shakes for a moment, then you hear a distant, mechanical grinding.",
+            "popup": true
+          }
+        ],
         "topic": "TALK_DONE"
       },
       { "text": "No.", "topic": "COMP_labyrinthine_safehouse_computer" }
@@ -86,18 +119,18 @@
     "type": "talk_topic",
     "id": "COMP_labyrinthine_safehouse_computer_missions_help",
     "dynamic_line": [
-      "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS can make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Fully recovering the package is required to update.\n   Your system obelisk will provide instructions on site.",
-      "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS can make a route to the cache, making it possible for hᵤmₐn to access the update package.\n   Fully recovering the package is required to update.\n   Your system obelisk will provide instructions on site.",
-      "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS can make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Fully recovering the package is required to update.\n   Your system obelisk will provide instructions on site.  ᵃˢˢʰᵒˡᵉ",
-      "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS can make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Fully recovering the package is required to update.\n   Your system obelisk will provide instructions on site.  Go get them tᵢgₑᵣ",
-      "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS can make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Fully recovering the package is required to update.\n   Your system obelisk will provide instructions on site.  ᵗʳᵉᵃᵈ ᶜᵃʳᵉᶠᵘˡˡʸ",
-      "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS can make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Fully recovering the package is required to update.\n   Your system obelisk will provide instructions on site.  ᵖˡᵉᵃˢᵉ ᵍᵒ"
+      "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS will download the update or make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Your system obelisk will provide instructions on site.",
+      "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS will download the update or make a route to the cache, making it possible for hᵤmₐn to access the update package.\n   Your system obelisk will provide instructions on site.",
+      "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS will download the update or make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Your system obelisk will provide instructions on site.  ᵃˢˢʰᵒˡᵉ",
+      "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS will download the update or make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Your system obelisk will provide instructions on site.  Go get them tᵢgₑᵣ",
+      "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS will download the update or make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Your system obelisk will provide instructions on site.  ᵗʳᵉᵃᵈ ᶜᵃʳᵉᶠᵘˡˡʸ",
+      "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS will download the update or make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Your system obelisk will provide instructions on site.  ᵖˡᵉᵃˢᵉ ᵍᵒ"
     ],
     "responses": [ { "text": "Return.", "topic": "COMP_labyrinthine_safehouse_computer" } ]
   },
   {
     "type": "talk_topic",
-    "id": "COMP_LS_Exit_Controls2_safehouse_missions_none",
+    "id": "COMP_labyrinthine_safehouse_missions_none",
     "dynamic_line": [
       "&<color_light_green> @User > update\n\n.  .  .  .  .  .  %100\n\nNo updates available.",
       "&<color_light_green> @User > update\n\n.  .  .  .  .  .  %100\n\nNo updates available, ᴴᵁᴹᴬᴺ.",
@@ -114,7 +147,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "COMP_LS_Exit_Controls2_string_dimension_tunnel",
+    "id": "COMP_labyrinthine_safehouse_string_dimension_tunnel",
     "dynamic_line": "&<color_light_green> @User > gatestatus -update -pass KÁ\n\n .  .  .  .  .  .  %100\n\n Passcode accepted.  Route path to node?  Y/N",
     "responses": [
       {

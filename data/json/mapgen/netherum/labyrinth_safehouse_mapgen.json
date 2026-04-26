@@ -73,11 +73,46 @@
   },
   {
     "type": "mapgen",
+    "update_mapgen_id": "labyrinth_safehouse_utility_space_obelisk",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "          ###           ",
+        "           A            ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "NO_UNDERLYING_ROTATE", "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "labyrinthine_safehouse_palette" ],
+      "terrain": { "A": "t_nl_obelisk_mission_utility_space" }
+    }
+  },
+  {
+    "type": "mapgen",
     "update_mapgen_id": "labyrinth_safehouse_utility_space",
     "object": {
       "rows": [
         "    ################    ",
-        "    .....|...|.....#    ",
+        "    .....|.R.|.....#    ",
         "     ....|...|....##    ",
         "     ||+|||+|||+||#     ",
         "                        ",
@@ -102,7 +137,9 @@
         "                        "
       ],
       "flags": [ "NO_UNDERLYING_ROTATE", "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "labyrinthine_safehouse_palette" ]
+      "palettes": [ "labyrinthine_safehouse_palette" ],
+      "terrain": { "R": "t_nl_metal_floor" },
+      "furniture": { "R": "f_rack" }
     }
   },
   {
