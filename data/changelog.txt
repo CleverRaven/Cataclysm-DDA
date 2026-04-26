@@ -16,7 +16,7 @@ Several new eldritch abominations to kill you!
 Revamped many maps, including hospitals and military outposts.
 Long list of updates to mods like Aftershock, Xedra Evolved, Mind Over Matter, Sky Island, and many more.
 Massive oil platform in the ocean.
-Tie-down/haul system for furniture on vehicles.  Get that fridge home!
+Allow pushing/pulling furniture directly onto and off of vehicles that can load them.  Get that fridge home!
 The player can swap between defined outfits with the 'set of clothes' item.
 River generation overhaul - rivers are more rivery!
 Mutations, and your chances of getting bad ones, are based on how many mutation trees you've mutated into, and how many mutations you have.
