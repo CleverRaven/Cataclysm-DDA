@@ -2276,8 +2276,9 @@ static void character_edit_desc_menu( Character &you )
         break;
         case 2: {
             int result = you.base_age();
-            if( query_int( result, true, _( "Enter age in years.  Minimum 16, maximum 55" ) ) && result > 0 ) {
-                you.set_base_age( clamp( result, 16, 55 ) );
+            if( query_int( result, true, _( "Enter age in years.  Minimum %d, maximum %d" ), CHARACTER_AGE_MIN,
+                           CHARACTER_AGE_MAX ) && result > 0 ) {
+                you.set_base_age( clamp( result, CHARACTER_AGE_MIN, CHARACTER_AGE_MAX ) );
             }
         }
         break;

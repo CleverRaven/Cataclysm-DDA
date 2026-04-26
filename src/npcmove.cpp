@@ -483,7 +483,7 @@ tripoint_bub_ms npc::good_escape_direction( bool include_pos )
     } else if( path.empty() && run_to_friend && is_player_ally() ) {
         Character &player_character = get_player_character();
         int dist = rl_dist( pos_bub(), player_character.pos_bub() );
-        int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
+        int def_radius = desired_follow_radius();
         if( dist > def_radius ) {
             add_msg_debug( debugmode::DF_NPC_MOVEAI,
                            "<color_light_gray>%s is repositioning closer to</color> you", name );
@@ -887,7 +887,7 @@ void npc::assess_danger()
     float highest_priority = 1.0f;
     int hostile_count = 0; // for tallying nearby threatening enemies
     int friendly_count = 1; // count yourself as a friendly
-    int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
+    int def_radius = desired_follow_radius();
     bool npc_ranged = get_wielded_item() && get_wielded_item()->is_gun();
 
     if( !confident_range_cache ) {
@@ -1858,6 +1858,10 @@ void npc::move()
                 action = npc_goto_to_this_pos;
             } else if( new_goal == "hold_position" ) {
                 action = address_needs( NPC_DANGER_VERY_LOW + 1 );
+                if( action == npc_undecided ) {
+                    // Otherwise legacy cascade overrides BT's duty decision.
+                    action = npc_pause;
+                }
             } else if( new_goal == "camp_work" ) {
                 last_job_scan = calendar::turn;
                 if( find_job_to_perform() ) {
@@ -1882,6 +1886,9 @@ void npc::move()
                     // Only for NPCs actively on guard mission, not NPCs
                     // with stale guard_pos from a previous assignment.
                     action = address_needs( NPC_DANGER_VERY_LOW + 1 );
+                    if( action == npc_undecided ) {
+                        action = npc_pause;
+                    }
                 } else if( ai_cache.guard_pos && !guard_pos ) {
                     // Temp anchor (sound investigation): return to origin.
                     // Excluded when guard_pos is set -- that means
@@ -1960,8 +1967,8 @@ void npc::move()
         path.clear();
     }
 
-    if( action == npc_undecided && should_follow_close() &&
-        rl_dist( pos_bub(), player_character.pos_bub() ) > follow_distance() ) {
+    if( action == npc_undecided && can_follow_player_now() &&
+        rl_dist( pos_bub(), player_character.pos_bub() ) > desired_follow_radius() ) {
         action = npc_follow_player;
     }
 

@@ -336,7 +336,7 @@
         "require_targeting_monster": true,
         "targeting_cost": 10,
         "targeting_timeout_extend": -1,
-        "targeting_sound": "\"Hostile Detected.\"",
+        "targeting_sound": "\"Hostile detected.\"",
         "targeting_volume": 10
       },
       {
@@ -355,7 +355,7 @@
         "require_targeting_monster": true,
         "targeting_cost": 10,
         "targeting_timeout_extend": -1,
-        "targeting_sound": "\"Hostile Detected.\"",
+        "targeting_sound": "\"Hostile detected.\"",
         "targeting_volume": 10
       }
     ],
@@ -418,7 +418,7 @@
         "require_targeting_monster": true,
         "targeting_cost": 10,
         "targeting_timeout_extend": -1,
-        "targeting_sound": "\"Hostile Detected.\"",
+        "targeting_sound": "\"Hostile detected.\"",
         "targeting_volume": 10
       },
       {
@@ -437,7 +437,7 @@
         "require_targeting_monster": true,
         "targeting_cost": 10,
         "targeting_timeout_extend": -1,
-        "targeting_sound": "\"Hostile Detected.\"",
+        "targeting_sound": "\"Hostile detected.\"",
         "targeting_volume": 10
       }
     ],

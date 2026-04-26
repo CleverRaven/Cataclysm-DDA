@@ -463,6 +463,12 @@ void Character::randomize( const bool random_scenario, bool play_now )
     zero_all_skills();
 
     init_age = rng( this->prof->age_lower, this->prof->age_upper );
+    // random NPCs have a special minimum age
+    if( init_age < NPC_RAND_AGE_MIN ) {
+        init_age = NPC_RAND_AGE_MIN ;
+    }
+
+
     starting_city = std::nullopt;
     world_origin = std::nullopt;
     random_start_location = true;

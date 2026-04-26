@@ -612,7 +612,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
 
     // Additional 50% chance for heavy damage to disabled vehicles
     if( veh_status == 1 && one_in( 2 ) ) {
-        smash( placed_on, 0.5 );
+        damage_all_parts( 0.5 );
     }
 
     for( const int p : engines ) {
@@ -904,11 +904,11 @@ units::angle vehicle::get_angle_from_targ( const tripoint_abs_ms &targ ) const
  * (i.e., any spot with multiple frames) will be completely destroyed, as that
  * was the collision point.
  */
-void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_max,
-                     float percent_of_parts_to_affect, point_rel_ms damage_origin, float damage_size )
+void vehicle::damage_all_parts( float hp_percent_loss_min, float hp_percent_loss_max,
+                                float percent_of_parts_to_affect, point_rel_ms damage_origin,
+                                float damage_size )
 {
     for( vehicle_part &part : parts ) {
-        //Skip any parts already mashed up or removed.
         if( part.is_broken() || part.removed ) {
             continue;
         }
@@ -923,7 +923,6 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
         }
 
         if( structures_found > 1 ) {
-            //Destroy everything in the square
             for( int idx : parts_in_square ) {
                 vehicle_part &vp = parts[idx];
                 vp.ammo_unset();
@@ -938,19 +937,29 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
             double dist = damage_size == 0.0f ? 1.0f :
                           clamp( 1.0f - trig_dist( damage_origin, part.precalc[0].xy() ) /
                                  damage_size, 0.0f, 1.0f );
-            //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
+            // Drop by 10-120% of max HP (anything over 100 = broken)
             const float roll = rng_float( hp_percent_loss_min * dist, hp_percent_loss_max * dist );
             if( mod_hp( part, -part.info().durability * roll ) ) {
                 part.ammo_unset();
             }
         }
     }
+}
+
+void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_max,
+                     float percent_of_parts_to_affect, point_rel_ms damage_origin, float damage_size )
+{
+    damage_all_parts( hp_percent_loss_min, hp_percent_loss_max,
+                      percent_of_parts_to_affect, damage_origin, damage_size );
 
     std::unique_ptr<RemovePartHandler> handler_ptr;
-    // clear out any duplicated locations
     for( int p = static_cast<int>( parts.size() ) - 1; p >= 0; p-- ) {
         vehicle_part &part = parts[p];
         if( part.removed ) {
+            continue;
+        }
+        // OOB parts belong to a neighboring map; leave them alone
+        if( !m.inbounds( bub_part_pos( m, part ) ) ) {
             continue;
         }
         std::vector<int> parts_here = parts_at_relative( part.mount, true );
@@ -966,12 +975,7 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
 
             if( vpi1.id == vpi2.id ||
                 ( !vpi1.location.is_empty() && vpi1.location == vpi2.location ) ) {
-                // Deferred creation of the handler to here so it is only created when actually needed.
                 if( !handler_ptr ) {
-                    // This is a heuristic: we just assume the default handler is good enough when called
-                    // on the main game map. And assume that we run from some mapgen code if called on
-                    // another instance.
-                    // TODO: Make this capable of distinguishing between mapgen and non bubble active maps.
                     if( g && &reality_bubble() == &m ) {
                         handler_ptr = std::make_unique<DefaultRemovePartHandler>();
                     } else {

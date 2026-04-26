@@ -40,5 +40,23 @@
     "//": "remove after 0.J",
     "id": "AID_AF_bio_trickle",
     "replace": "AID_AF_bio_power_storage"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.J",
+    "id": "xlleather_belt",
+    "replace": "leather_belt"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.J",
+    "id": "xlpolice_belt",
+    "replace": "police_belt"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.J",
+    "id": "xllegpouch_large",
+    "replace": "legpouch_large"
   }
 ]

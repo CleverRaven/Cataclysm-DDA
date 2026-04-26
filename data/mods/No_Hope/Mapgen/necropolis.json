@@ -469,7 +469,7 @@
       ],
       "place_vehicles": [
         { "vehicle": "fire_truck", "x": 15, "y": 8, "chance": 90, "rotation": 45 },
-        { "vehicle": "car", "x": 45, "y": 5, "rotation": 45 }
+        { "vehicle": "car", "x": 44, "y": 5, "rotation": 45 }
       ]
     }
   },
