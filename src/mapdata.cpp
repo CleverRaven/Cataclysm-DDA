@@ -523,6 +523,10 @@ std::string map_common_deconstruct_info::potential_deconstruct_items( const map_
                    _( "\nYou feel you might also learn something about <color_cyan>%s</color>." ),
                    skill->id.obj().name() );
     }
+    // Remove extra newline
+    if( !ret.empty() && ret.back() == '\n' ) {
+        ret.pop_back();
+    }
     return ret;
 }
 

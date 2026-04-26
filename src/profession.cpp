@@ -23,6 +23,7 @@
 #include "item.h"
 #include "item_group.h"
 #include "itype.h"
+#include "localized_comparator.h"
 #include "magic.h"
 #include "mission.h"
 #include "mutation.h"
@@ -269,8 +270,8 @@ void profession::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "npc_background", _starting_npc_background,
               Trait_group_BG_survival_story_UNIVERSAL );
     optional( jo, was_loaded, "chargen_allow_npc", _chargen_allow_npc, true );
-    optional( jo, was_loaded, "age_lower", age_lower, 16 );
-    optional( jo, was_loaded, "age_upper", age_upper, 55 );
+    optional( jo, was_loaded, "age_lower", age_lower, DEFAULT_PROF_AGE_LOWER );
+    optional( jo, was_loaded, "age_upper", age_upper, DEFAULT_PROF_AGE_UPPER );
     optional( jo, was_loaded, "starting_cash", _starting_cash );
 
     if( jo.has_string( "vehicle" ) ) {
@@ -827,6 +828,33 @@ void profession::learn_spells( avatar &you ) const
 std::vector<effect_on_condition_id> profession::get_eocs() const
 {
     return effect_on_conditions;
+}
+
+bool profession_sorter::operator()( const string_id<profession> &a,
+                                    const string_id<profession> &b ) const
+{
+    // The generic ("Unemployed") profession should be listed first.
+    const profession *gen = profession::generic();
+    if( &b.obj() == gen ) {
+        return false;
+    } else if( &a.obj() == gen ) {
+        return true;
+    }
+
+    if( !a->can_pick().success() && b->can_pick().success() ) {
+        return false;
+    }
+
+    if( a->can_pick().success() && !b->can_pick().success() ) {
+        return true;
+    }
+
+    if( sort_by_points ) {
+        return a->point_cost() < b->point_cost();
+    } else {
+        return localized_compare( a->gender_appropriate_name( male ),
+                                  b->gender_appropriate_name( male ) );
+    }
 }
 
 // item_substitution stuff:

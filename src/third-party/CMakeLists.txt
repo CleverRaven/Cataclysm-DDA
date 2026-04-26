@@ -242,6 +242,15 @@ target_link_libraries(
         snmalloc
         )
 
+if (WIN32)
+    target_link_libraries(
+            third-party
+            INTERFACE
+            Synchronization.lib
+            WindowsApp.lib
+            )
+endif ()
+
 # Zstandard
 file(GLOB ZSTD_HEADERS zstd/**/*.h)
 file(GLOB ZSTD_SOURCES zstd/common/*.c zstd/compress/*.c zstd/decompress/*.c)

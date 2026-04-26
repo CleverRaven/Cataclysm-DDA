@@ -305,5 +305,25 @@
     "difficulty": 1,
     "time": "10 m",
     "components": [ [ [ "plastic_chunk", 33 ] ], [ [ "string_36", 8 ] ] ]
+  },
+  {
+    "result": "hoodie",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "sheet_cotton", 15 ] ], [ [ "thread", 80 ] ] ]
+  },
+  {
+    "result": "hoodie_cropped",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "sheet_cotton", 12 ] ], [ [ "thread", 60 ] ] ]
   }
 ]

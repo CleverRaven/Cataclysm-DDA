@@ -220,6 +220,7 @@ Colored light rendering overlay, dawn/dusk tint
 Changing move mode can cost time and is deferred
 NPC behavior tree evaluates for all NPCs, not just guards
 It is possible to make factions be radio-contactable
+Some limbs are unable to use firearms
 
 
 ## Content:
@@ -2114,6 +2115,7 @@ Upgrade vcpkg baseline
 Remove MXE from release, fix clang on macOS
 Fix maybe-uninitialized warning in unseal_and_spill_test
 Cache vcpkg installed packages in MSVC CI
+Build instruction and files for Visual Studio Code
 
 
 ## I18N and A11Y:

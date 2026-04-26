@@ -2,7 +2,7 @@
   {
     "type": "npc",
     "id": "refugee_MangalpreetSingh",
-    "name_unique": "Mangalpreet Singh",
+    "name_unique": "Mangalpreet Kaur",
     "gender": "female",
     "name_suffix": "Refugee",
     "class": "NC_REFUGEE_Mangalpreet",

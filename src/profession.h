@@ -136,8 +136,10 @@ class profession
         int ma_choice_amount;
         StartingSkillList skills() const;
         const std::vector<mission_type_id> &missions() const;
-        int age_lower = 21;
-        int age_upper = 55;
+        static constexpr int DEFAULT_PROF_AGE_LOWER = 21;
+        static constexpr int DEFAULT_PROF_AGE_UPPER = 55;
+        int age_lower = DEFAULT_PROF_AGE_LOWER;
+        int age_upper = DEFAULT_PROF_AGE_UPPER;
 
         std::vector<std::pair<string_id<profession>, mod_id>> src;
 
@@ -188,6 +190,14 @@ struct profession_blacklist {
     static void reset();
     void load( const JsonObject &jo, std::string_view );
     void check_consistency() const;
+};
+
+
+struct profession_sorter {
+    bool sort_by_points = true;
+    bool male = false;
+    /** @related player */
+    bool operator()( const string_id<profession> &a, const string_id<profession> &b ) const;
 };
 
 #endif // CATA_SRC_PROFESSION_H

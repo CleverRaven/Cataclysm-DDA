@@ -166,7 +166,7 @@ class texture
         /// the stored source rectangle. Other parameters are simply passed through.
         int render_copy_ex( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const dstrect,
                             const double angle,
-                            const SDL_Point *const center, const SDL_RendererFlip flip ) const {
+                            const SDL_Point *const center, const CataFlipMode flip ) const {
             RenderCopyEx( renderer, sdl_texture_ptr.get(), &srcrect, dstrect, angle, center, flip );
             return 0;
         }
@@ -943,6 +943,9 @@ class cata_tiles
         bool has_animated_tiles() const {
             return has_animated_tiles_;
         }
+
+        // True if the minimap rendered critters with blinking beacons.
+        bool has_blinking_minimap() const;
 
         // Draw caches persist data between draws and are only recalculated when dirty
         void set_draw_cache_dirty();

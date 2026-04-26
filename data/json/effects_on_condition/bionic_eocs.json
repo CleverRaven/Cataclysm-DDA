@@ -107,9 +107,11 @@
   {
     "type": "effect_on_condition",
     "id": "bio_noise_quiet_burn",
-    "condition": { "or": [ { "u_has_bionics": "bio_ethanol" }, { "u_has_bionics": "bio_lampoil" } ] },
+    "condition": {
+      "and": [ { "or": [ { "u_has_bionics": "bio_ethanol" }, { "u_has_bionics": "bio_lampoil" } ] }, { "one_in_chance": 120 } ]
+    },
     "effect": [
-      { "if": { "one_in_chance": 120 }, "then": [ { "u_make_sound": "Hiss!!!", "volume": 6, "type": "movement" } ] },
+      { "u_make_sound": "Hiss!!!", "volume": 6, "type": "movement" },
       {
         "run_eocs": [
           {
@@ -129,12 +131,9 @@
   {
     "type": "effect_on_condition",
     "id": "bio_noise_digestive",
-    "condition": { "u_has_bionics": "bio_metabolics" },
+    "condition": { "and": [ { "u_has_bionics": "bio_metabolics" }, { "one_in_chance": 1800 } ] },
     "effect": [
-      {
-        "if": { "one_in_chance": 1800 },
-        "then": [ { "u_make_sound": "*STOMACH GURGLING NOISES*", "volume": 14, "type": "movement" } ]
-      },
+      { "u_make_sound": "*STOMACH GURGLING NOISES*", "volume": 14, "type": "movement" },
       {
         "run_eocs": [
           {
@@ -154,14 +153,8 @@
   {
     "type": "effect_on_condition",
     "id": "bio_noise_gasoline",
-    "condition": { "u_has_bionics": "bio_fuel_cell_gasoline" },
-    "effect": [
-      {
-        "if": { "one_in_chance": 900 },
-        "then": [ { "u_make_sound": "*ENGINE REVS*", "volume": 60, "type": "movement" } ],
-        "else": [ { "u_make_sound": "*ENGINE IDLES*", "volume": 15, "type": "movement" } ]
-      }
-    ]
+    "condition": { "and": [ { "u_has_bionics": "bio_fuel_cell_gasoline" }, { "one_in_chance": 900 } ] },
+    "effect": [ { "u_make_sound": "*ENGINE IDLES*", "volume": 15, "type": "movement" } ]
   },
   {
     "type": "effect_on_condition",

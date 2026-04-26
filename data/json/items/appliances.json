@@ -71,6 +71,20 @@
   },
   {
     "type": "ITEM",
+    "id": "power_hammer",
+    "looks_like": "f_drophammer",
+    "symbol": "7",
+    "description": "A self-contained pneumatic power hammer using compressed air from an integrated compressor to strike repeatedly with great force.  Used for efficiently shaping and working metal.  Needs to be placed and plugged into a power source.",
+    "color": "light_blue",
+    "name": { "str": "disconnected power hammer" },
+    "material": [ "steel" ],
+    "//": "Based off Big Blu 65 MAX & Anyang ST 25 Power Hammer",
+    "longest_side": "170 cm",
+    "volume": "1000 L",
+    "weight": "1100 kg"
+  },
+  {
+    "type": "ITEM",
     "id": "tablesaw",
     "looks_like": "f_machinery_light",
     "symbol": "7",

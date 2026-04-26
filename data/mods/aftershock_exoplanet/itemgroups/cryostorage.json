@@ -1,0 +1,14 @@
+[
+  {
+    "id": "farmlab_cryostorage",
+    "type": "item_group",
+    "items": [
+      [ "yum_lichen", 10 ],
+      [ "moxie_biopsy", 10 ],
+      [ "afs_cryo_goop", 10 ],
+      [ "afs_cryo_egg", 5 ],
+      [ "afs_cryo_terraforming_moss", 2 ],
+      [ "afs_cryo_seedlings", 1 ]
+    ]
+  }
+]

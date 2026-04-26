@@ -322,6 +322,12 @@ void overmapbuffer::add_extra( const tripoint_abs_omt &p, const map_extra_id &id
     om_loc.om->add_extra( om_loc.local, id );
 }
 
+void overmapbuffer::add_extra_note( const tripoint_abs_omt &p, const bool force_add )
+{
+    overmap_with_local_coords om_loc = get_om_global( p );
+    om_loc.om->add_extra_note( om_loc.local, force_add );
+}
+
 void overmapbuffer::delete_extra( const tripoint_abs_omt &p )
 {
     if( has_extra( p ) ) {
@@ -920,6 +926,12 @@ std::optional<mapgen_arguments> *overmapbuffer::mapgen_args( const tripoint_abs_
     return om_loc.om->mapgen_args( om_loc.local );
 }
 
+std::vector<pp_resolved_generator> *overmapbuffer::pp_decisions( const tripoint_abs_omt &p )
+{
+    const overmap_with_local_coords om_loc = get_om_global( p );
+    return om_loc.om->pp_decisions( om_loc.local );
+}
+
 std::string *overmapbuffer::join_used_at( const std::pair<tripoint_abs_omt, cube_direction> &p )
 {
     const overmap_with_local_coords om_loc = get_om_global( p.first );
@@ -988,6 +1000,7 @@ overmap_path_params overmap_path_params::for_player()
     ret.set_cost( oter_travel_cost_type::road, 24 );
     ret.set_cost( oter_travel_cost_type::dirt_road, 24 );
     ret.set_cost( oter_travel_cost_type::field, 36 );
+    ret.set_cost( oter_travel_cost_type::crop_field, 54 );
     ret.set_cost( oter_travel_cost_type::trail, 43 );
     ret.set_cost( oter_travel_cost_type::shore, 48 );
     ret.set_cost( oter_travel_cost_type::forest, 72 );
@@ -1018,6 +1031,8 @@ overmap_path_params overmap_path_params::for_land_vehicle( float offroad_coeff, 
     ret.set_cost( oter_travel_cost_type::road, 8 ); // limited by vehicle autodrive speed
     const int field_cost = can_offroad ? std::lround( 12 / std::min( 1.0f, offroad_coeff ) ) : -1;
     ret.set_cost( oter_travel_cost_type::field, field_cost );
+    ret.set_cost( oter_travel_cost_type::crop_field,
+                  can_offroad ? std::lround( 36 / std::min( 1.0f, offroad_coeff ) ) : -1 );
     ret.set_cost( oter_travel_cost_type::dirt_road, field_cost );
     ret.set_cost( oter_travel_cost_type::trail,
                   ( can_offroad && tiny ) ? field_cost + 8 : -1 );

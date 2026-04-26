@@ -302,6 +302,18 @@
   },
   {
     "type": "construction",
+    "id": "app_power_hammer",
+    "group": "place_power_hammer",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "20 m",
+    "components": [ [ [ "power_hammer", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "app_arc_furnace",
     "group": "place_arc_furnace",
     "category": "APPLIANCE",

@@ -1112,11 +1112,12 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 std::string plain;
                 std::string colored;
                 if( total_yield > 1 ) {
-                    //~ %1$s: success chance, %2$d: yield count, %3$s: time, %4$s: activity level
-                    const std::string fmt = _( "%1$s chance to yield %2$d in %3$s of %4$s" );
-                    plain = string_format( fmt, chance_str, total_yield, time_str, activity_str );
+                    //~ %1$s: success chance, %2$s: yield count, %3$s: time, %4$s: activity level
+                    const std::string fmt = _( "%1$s chance to yield %2$s in %3$s of %4$s" );
+                    plain = string_format( fmt, chance_str, std::to_string( total_yield ), time_str, activity_str );
                     colored = string_format( fmt,
-                                             colorize( chance_str, success_col ), total_yield,
+                                             colorize( chance_str, success_col ),
+                                             colorize( std::to_string( total_yield ), c_light_blue ),
                                              colorize( time_str, c_cyan ),
                                              colorize( activity_str, activity_col ) );
                 } else {
@@ -1134,6 +1135,16 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 }
                 cataimgui::draw_colored_text( colored, c_light_gray );
             }
+        }
+
+        // Line 4: lighting warning, if applicable
+        if( !recp.is_nested() && crafter->lighting_craft_speed_multiplier( recp ) <= 0.0f ) {
+            const std::string lighting_str = _( "Lighting conditions are too poor to craft this." );
+            float line_w = ImGui::CalcTextSize( lighting_str.c_str() ).x;
+            if( line_w < region_w ) {
+                ImGui::SetCursorPosX( ImGui::GetCursorPosX() + ( region_w - line_w ) / 2.f );
+            }
+            cataimgui::draw_colored_text( lighting_str, c_red );
         }
         ImGui::Separator();
 

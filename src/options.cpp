@@ -1605,11 +1605,6 @@ void options_manager::add_options_general()
     add_option_group( "general", Group( "safe_mode_opts", to_translation( "Safe mode options" ),
                                         to_translation( "Options regarding safe mode." ) ),
     [&]( const std::string & page_id ) {
-        add( "SAFEMODE", page_id, to_translation( "Safe mode" ),
-             to_translation( "If true, will hold the game and display a warning if a hostile monster/NPC is approaching." ),
-             true
-           );
-
         add( "SAFEMODEPROXIMITY", page_id, to_translation( "Safe mode proximity distance" ),
              to_translation( "If safe mode is enabled, distance to hostiles at which safe mode should show a warning.  0 = Max player view distance.  This option only has effect when no safe mode rule is specified.  Otherwise, edit the default rule in Safe mode manager instead of this value." ),
              0, MAX_VIEW_DISTANCE, 0
@@ -3980,7 +3975,7 @@ void options_manager::deserialize( const JsonArray &ja )
         joOptions.allow_omitted_members();
 
         // yay hardcoded list! remove after 0.J
-        std::vector<std::string> removed_options = { "DISTANCE_INITIAL_VISIBILITY", "FOV_3D_Z_RANGE",
+        std::vector<std::string> removed_options = { "DISTANCE_INITIAL_VISIBILITY", "FOV_3D_Z_RANGE", "SAFEMODE",
                                                      "INITIAL_STAT_POINTS", "INITIAL_TRAIT_POINTS", "INITIAL_SKILL_POINTS", "MAX_TRAIT_POINTS",
                                                      "SKILL_TRAINING_SPEED", "PROFICIENCY_TRAINING_SPEED", "CITY_SPACING", "CITY_SIZE"
                                                    };

@@ -83,11 +83,10 @@ constexpr units::temperature boiling = units::from_celsius( 100 ); // 100 Celsiu
 // Slowest speed at which a gun can be aimed.
 constexpr int MAX_AIM_COST = 10;
 
+// Minimum (effective) level for a skill.
+constexpr int MIN_SKILL = 0;
 // Maximum (effective) level for a skill.
 constexpr int MAX_SKILL = 10;
-
-// Maximum (effective) level for a stat.
-constexpr int MAX_STAT = 14;
 
 // Accuracy levels which a shot's tangent must be below.
 constexpr double accuracy_headshot = 0.1;

@@ -39,6 +39,7 @@
 #include "faction.h"
 #include "field_type.h"
 #include "flag.h"
+#include "flat_set.h" // IWYU pragma: keep
 #include "fungal_effects.h"
 #include "game.h"
 #include "game_constants.h"

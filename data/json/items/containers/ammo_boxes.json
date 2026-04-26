@@ -18,7 +18,7 @@
       {
         "id": "22lr_ammo_box_50",
         "name": { "str": ".22 LR ammo box", "str_pl": ".22 LR ammo boxes" },
-        "description": "This box holds 50 rounds of 22 LR ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+        "description": "This box holds 50 rounds of .22 LR ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
         "weight": 0
       }
     ]

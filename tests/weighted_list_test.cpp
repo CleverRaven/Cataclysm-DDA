@@ -4,6 +4,12 @@
 #include "test_statistics.h"
 #include "weighted_list.h"
 
+// Cap the convergence loops so a genuinely broken distribution fails the avg
+// checks instead of hanging. At Z99_9 and MARGIN_OF_ERROR=0.01 the worst-case
+// bool confidence interval (CI) fits inside the target band well below 100k
+// samples.
+static constexpr int MAX_CONVERGENCE_TRIALS = 100000;
+
 // returns true if T is picked from list in trials attempts
 template<typename W, typename T>
 bool picked_in_trials( const weighted_list<W, T> &list, T value, int trials )
@@ -141,6 +147,10 @@ TEST_CASE( "weighted_list_distribution", "[weighted_list]" )
         statistics<bool> I_stats;
         statistics<bool> J_stats;
         statistics<bool> K_stats;
+        // Loop until CI is fully inside the target band, not merely outside
+        // uncertain. The `uncertain_about` exit also fires when CI lies fully
+        // outside the band, which would then fail the avg checks below by
+        // construction on unlucky seeds.
         do {
             int *picked = list.pick();
             REQUIRE( picked != nullptr );
@@ -148,8 +158,9 @@ TEST_CASE( "weighted_list_distribution", "[weighted_list]" )
             I_stats.add( *picked == I );
             J_stats.add( *picked == J );
             K_stats.add( *picked == K );
-        } while( H_stats.uncertain_about( threshold ) || I_stats.uncertain_about( threshold ) ||
-                 J_stats.uncertain_about( threshold ) || K_stats.uncertain_about( threshold ) );
+        } while( ( !H_stats.test_threshold( threshold ) || !I_stats.test_threshold( threshold ) ||
+                   !J_stats.test_threshold( threshold ) || !K_stats.test_threshold( threshold ) ) &&
+                 H_stats.n() < MAX_CONVERGENCE_TRIALS );
 
         INFO( H_stats.n() );
 
@@ -193,8 +204,11 @@ TEST_CASE( "weighted_list_distribution", "[weighted_list]" )
             I_stats.add( *picked == I );
             J_stats.add( *picked == J );
             K_stats.add( *picked == K );
-        } while( H_stats.uncertain_about( H_threshold ) || I_stats.uncertain_about( I_threshold ) ||
-                 J_stats.uncertain_about( J_threshold ) || K_stats.uncertain_about( K_threshold ) );
+        } while( ( !H_stats.test_threshold( H_threshold ) ||
+                   !I_stats.test_threshold( I_threshold ) ||
+                   !J_stats.test_threshold( J_threshold ) ||
+                   !K_stats.test_threshold( K_threshold ) ) &&
+                 H_stats.n() < MAX_CONVERGENCE_TRIALS );
 
         INFO( H_stats.n() );
 
@@ -244,9 +258,10 @@ TEST_CASE( "weighted_list_weights_after_remove", "[weighted_list]" )
             Q_stats.add( *picked == Q );
             R_stats.add( *picked == R );
             S_stats.add( *picked == S );
-        } while( Q_stats.uncertain_about( Q_threshold ) ||
-                 R_stats.uncertain_about( R_threshold ) ||
-                 S_stats.uncertain_about( S_threshold ) );
+        } while( ( !Q_stats.test_threshold( Q_threshold ) ||
+                   !R_stats.test_threshold( R_threshold ) ||
+                   !S_stats.test_threshold( S_threshold ) ) &&
+                 Q_stats.n() < MAX_CONVERGENCE_TRIALS );
 
         INFO( Q_stats.n() );
 
@@ -277,14 +292,15 @@ TEST_CASE( "weighted_list_weights_after_remove", "[weighted_list]" )
             Q_stats.add( *picked == Q );
             R_stats.add( *picked == R );
             S_stats.add( *picked == S );
-        } while( Q_stats.uncertain_about( Q_threshold ) ||
-                 R_stats.uncertain_about( R_threshold ) ||
-                 S_stats.uncertain_about( S_threshold ) );
+        } while( ( !Q_stats.test_threshold( Q_threshold ) ||
+                   !R_stats.test_threshold( R_threshold ) ||
+                   !S_stats.test_threshold( S_threshold ) ) &&
+                 Q_stats.n() < MAX_CONVERGENCE_TRIALS );
 
         INFO( Q_stats.n() );
 
+        CHECK( R_stats.sum() == 0 );
         CHECK( Q_stats.avg() == Approx( Q_weight / new_total_weight ).margin( MARGIN_OF_ERROR ) );
-        CHECK( R_stats.avg() == Approx( 0.0 ).margin( MARGIN_OF_ERROR ) );
         CHECK( S_stats.avg() == Approx( S_weight / new_total_weight ).margin( MARGIN_OF_ERROR ) );
     }
 }

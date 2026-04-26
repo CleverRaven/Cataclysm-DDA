@@ -10,16 +10,8 @@
       {
         "run_eocs": "EOC_TELEPATH_CONCENTRATION_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('telepathic_concentration') * 132) + 560) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('telepathic_concentration') * 605) + 1033) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('telepathic_concentration') * 132) + 560) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('telepathic_concentration') * 605) + 1033) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -43,16 +35,8 @@
       {
         "run_eocs": "EOC_TELEPATH_CONCENTRATION_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('telepathic_concentration') * 132) + 560) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('telepathic_concentration') * 605) + 1033) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('telepathic_concentration') * 132) + 560) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('telepathic_concentration') * 605) + 1033) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -71,12 +55,12 @@
         "time_in_future": [
           {
             "math": [
-              "( ( (u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack') ) * 15) + 180) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack') ) * 15) + 180) * psionic_power_modifiers()"
             ]
           },
           {
             "math": [
-              "( ( (u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack') ) * 36) + 720) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack') ) * 36) + 720) * psionic_power_modifiers()"
             ]
           }
         ]
@@ -112,12 +96,12 @@
         "time_in_future": [
           {
             "math": [
-              "( ( (u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack') ) * 15) + 180) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack') ) * 15) + 180) * psionic_power_modifiers()"
             ]
           },
           {
             "math": [
-              "( ( (u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack') ) * 36) + 720) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('telepathic_shield') + u_spell_level('telepathic_shield_knack') ) * 36) + 720) * psionic_power_modifiers()"
             ]
           }
         ]
@@ -138,12 +122,12 @@
         "time_in_future": [
           {
             "math": [
-              "( ( (u_spell_level('telepathic_mind_sense') + u_spell_level('telepathic_mind_sense_knack') ) * 26) + 90) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('telepathic_mind_sense') + u_spell_level('telepathic_mind_sense_knack') ) * 26) + 90) * psionic_power_modifiers()"
             ]
           },
           {
             "math": [
-              "( ( (u_spell_level('telepathic_mind_sense') + u_spell_level('telepathic_mind_sense_knack') ) * 131) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('telepathic_mind_sense') + u_spell_level('telepathic_mind_sense_knack') ) * 131) + 600) * psionic_power_modifiers()"
             ]
           }
         ]
@@ -179,12 +163,12 @@
         "time_in_future": [
           {
             "math": [
-              "( ( (u_spell_level('telepathic_mind_sense') + u_spell_level('telepathic_mind_sense_knack') ) * 26) + 90) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('telepathic_mind_sense') + u_spell_level('telepathic_mind_sense_knack') ) * 26) + 90) * psionic_power_modifiers()"
             ]
           },
           {
             "math": [
-              "( ( (u_spell_level('telepathic_mind_sense') + u_spell_level('telepathic_mind_sense_knack') ) * 131) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('telepathic_mind_sense') + u_spell_level('telepathic_mind_sense_knack') ) * 131) + 600) * psionic_power_modifiers()"
             ]
           }
         ]
@@ -204,18 +188,18 @@
         "u_add_morale": "morale_telepathy",
         "bonus": {
           "math": [
-            "( ( (u_spell_level('telepathic_morale') + u_spell_level('telepathic_morale_knack') ) * 1) + 10) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            "( ( (u_spell_level('telepathic_morale') + u_spell_level('telepathic_morale_knack') ) * 1) + 10) * psionic_power_modifiers()"
           ]
         },
         "max_bonus": 35,
         "duration": {
           "math": [
-            "rng( ( ( ( (u_spell_level('telepathic_morale') + u_spell_level('telepathic_morale_knack') ) * 381) + 981) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), ( ( (u_spell_level('telepathic_morale') * 899) + 2520) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling) )"
+            "rng( ( ( ( (u_spell_level('telepathic_morale') + u_spell_level('telepathic_morale_knack') ) * 381) + 981) * psionic_power_modifiers() ), ( ( (u_spell_level('telepathic_morale') * 899) + 2520) * psionic_power_modifiers() ) )"
           ]
         },
         "decay_start": {
           "math": [
-            "rng( ( ( ( (u_spell_level('telepathic_morale') + u_spell_level('telepathic_morale_knack') ) * 381) + 981) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), ( ( (u_spell_level('telepathic_morale') * 899) + 2520) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling) ) / 2"
+            "rng( ( ( ( (u_spell_level('telepathic_morale') + u_spell_level('telepathic_morale_knack') ) * 381) + 981) * psionic_power_modifiers() ), ( ( (u_spell_level('telepathic_morale') * 899) + 2520) * psionic_power_modifiers() ) ) / 2"
           ]
         }
       },
@@ -224,12 +208,12 @@
         "time_in_future": [
           {
             "math": [
-              "( ( (u_spell_level('telepathic_morale') + u_spell_level('telepathic_morale_knack') ) * 381) + 981) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('telepathic_morale') + u_spell_level('telepathic_morale_knack') ) * 381) + 981) * psionic_power_modifiers()"
             ]
           },
           {
             "math": [
-              "( ( (u_spell_level('telepathic_morale') + u_spell_level('telepathic_morale_knack') ) * 899) + 2520) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('telepathic_morale') + u_spell_level('telepathic_morale_knack') ) * 899) + 2520) * psionic_power_modifiers()"
             ]
           }
         ]
@@ -264,18 +248,18 @@
         "u_add_morale": "morale_telepathy",
         "bonus": {
           "math": [
-            "( ( (u_spell_level('telepathic_morale') + u_spell_level('telepathic_morale_knack') ) * 1) + 10) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            "( ( (u_spell_level('telepathic_morale') + u_spell_level('telepathic_morale_knack') ) * 1) + 10) * psionic_power_modifiers()"
           ]
         },
         "max_bonus": 35,
         "duration": {
           "math": [
-            "rng( ( ( ( (u_spell_level('telepathic_morale') + u_spell_level('telepathic_morale_knack') ) * 381) + 981) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), ( ( (u_spell_level('telepathic_morale') * 899) + 2520) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling) )"
+            "rng( ( ( ( (u_spell_level('telepathic_morale') + u_spell_level('telepathic_morale_knack') ) * 381) + 981) * psionic_power_modifiers() ), ( ( (u_spell_level('telepathic_morale') * 899) + 2520) * psionic_power_modifiers() ) )"
           ]
         },
         "decay_start": {
           "math": [
-            "rng( ( ( ( (u_spell_level('telepathic_morale') + u_spell_level('telepathic_morale_knack') ) * 381) + 981) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), ( ( (u_spell_level('telepathic_morale') * 899) + 2520) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling) ) / 2"
+            "rng( ( ( ( (u_spell_level('telepathic_morale') + u_spell_level('telepathic_morale_knack') ) * 381) + 981) * psionic_power_modifiers() ), ( ( (u_spell_level('telepathic_morale') * 899) + 2520) * psionic_power_modifiers() ) ) / 2"
           ]
         }
       },
@@ -284,12 +268,12 @@
         "time_in_future": [
           {
             "math": [
-              "( ( (u_spell_level('telepathic_morale') + u_spell_level('telepathic_morale_knack') ) * 381) + 981) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('telepathic_morale') + u_spell_level('telepathic_morale_knack') ) * 381) + 981) * psionic_power_modifiers()"
             ]
           },
           {
             "math": [
-              "( ( (u_spell_level('telepathic_morale') + u_spell_level('telepathic_morale_knack') ) * 899) + 2520) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('telepathic_morale') + u_spell_level('telepathic_morale_knack') ) * 899) + 2520) * psionic_power_modifiers()"
             ]
           }
         ]

@@ -110,5 +110,36 @@
       { "damage_id": "bash", "multiply": 0.3 }
     ],
     "affected_by_degradation": true
+  },
+  {
+    "type": "fault",
+    "id": "fault_steel_pipe_bent",
+    "//": "This fault is meant for tools and weapons whose handle resembles a steel pipe.  Examples are pipe, makeshift crowbar, sharpened pipe.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Bent" },
+    "degradation_mod": 50,
+    "description": "The %s has been bent.",
+    "item_suffix": "bent",
+    "melee_damage_mod": [
+      { "damage_id": "cut", "multiply": 0.8 },
+      { "damage_id": "stab", "multiply": 0.7 },
+      { "damage_id": "bash", "multiply": 0.8 }
+    ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_steel_pipe_bent_heavy",
+    "//": "This fault is supposed to be a followup of fault_steel_pipe_bent if it isn't mended quickly",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Heavily bent" },
+    "description": "The %s has been heavily bent.",
+    "block_faults": [ "fault_steel_pipe_bent" ],
+    "item_suffix": "heavily bent",
+    "melee_damage_mod": [
+      { "damage_id": "cut", "multiply": 0.5 },
+      { "damage_id": "stab", "multiply": 0.4 },
+      { "damage_id": "bash", "multiply": 0.5 }
+    ],
+    "affected_by_degradation": true
   }
 ]

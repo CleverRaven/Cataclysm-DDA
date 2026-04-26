@@ -17,6 +17,7 @@
 #include "cata_io.h"
 #include "cata_path.h"
 #include "city.h"
+#include "colony.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -28,6 +29,7 @@
 #include "json_loader.h"
 #include "kill_tracker.h"
 #include "map.h"
+#include "mapgen_post_process.h"
 #include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
@@ -282,9 +284,6 @@ void game::unserialize_impl( const JsonObject &data )
     load_map( project_combine( com, lev ), /*pump_events=*/true );
 
     safe_mode = static_cast<safe_mode_type>( tmprun );
-    if( get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF ) {
-        safe_mode = SAFE_MODE_ON;
-    }
 
     std::string linebuff;
     std::string linebuf;
@@ -479,6 +478,17 @@ void overmap::unserialize( const JsonObject &jsobj )
         jsobj.read( "omt_stack_arguments_map", flat_omt_stack_arguments_map, true );
         for( const std::pair<point_abs_omt, mapgen_arguments> &p : flat_omt_stack_arguments_map ) {
             omt_stack_arguments_map.emplace( p );
+        }
+    }
+    if( jsobj.has_member( "pp_decision_storage" ) ) {
+        jsobj.read( "pp_decision_storage", pp_decision_storage, true );
+    }
+    if( jsobj.has_member( "pp_decisions_index" ) ) {
+        std::vector<std::pair<tripoint_om_omt, int>> flat_index;
+        jsobj.read( "pp_decisions_index", flat_index, true );
+        for( const std::pair<tripoint_om_omt, int> &p : flat_index ) {
+            auto it = pp_decision_storage.get_iterator_from_index( p.second );
+            pp_decisions_index.emplace( p.first, &*it );
         }
     }
     std::vector<tripoint_abs_omt> camps_to_place;
@@ -1558,6 +1568,22 @@ void overmap::serialize( std::ostream &fout ) const
         json.start_array();
         json.write( p.first );
         p.second.serialize( json );
+        json.end_array();
+    }
+    json.end_array();
+    fout << std::endl;
+
+    json.member( "pp_decision_storage", pp_decision_storage );
+    fout << std::endl;
+    json.member( "pp_decisions_index" );
+    json.start_array();
+    for( const std::pair<const tripoint_om_omt, std::vector<pp_resolved_generator> *> &p :
+         pp_decisions_index ) {
+        json.start_array();
+        json.write( p.first );
+        auto it = pp_decision_storage.get_iterator_from_pointer( p.second );
+        int index = pp_decision_storage.get_index_from_iterator( it );
+        json.write( index );
         json.end_array();
     }
     json.end_array();

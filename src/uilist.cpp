@@ -36,32 +36,6 @@
 #include "sdl_wrappers.h"
 #endif
 
-class uilist_impl : cataimgui::window
-{
-        uilist &parent;
-    public:
-        explicit uilist_impl( uilist &parent ) : cataimgui::window( "UILIST",
-                    ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse |
-                    ImGuiWindowFlags_NoNavInputs ),
-            parent( parent ) {
-        }
-
-        uilist_impl( uilist &parent, const std::string &title ) : cataimgui::window( title,
-                    ImGuiWindowFlags_None | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse |
-                    ImGuiWindowFlags_NoNavInputs ),
-            parent( parent ) {
-        }
-
-        cataimgui::bounds get_bounds() override {
-            if( !parent.started ) {
-                parent.setup();
-            }
-
-            return parent.desired_bounds.value_or( parent.calculated_bounds );
-        }
-        void draw_controls() override;
-};
-
 void uilist_impl::draw_controls()
 {
 #if defined(TILES)
@@ -515,6 +489,12 @@ void uilist::init()
 input_context uilist::create_main_input_context() const
 {
     input_context ctxt( input_category, keyboard_mode::keycode );
+    register_uilist_inputs( ctxt );
+    return ctxt;
+}
+
+void uilist::register_uilist_inputs( input_context &ctxt ) const
+{
     ctxt.register_action( "UILIST.UP" );
     ctxt.register_action( "UILIST.DOWN" );
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
@@ -536,10 +516,10 @@ input_context uilist::create_main_input_context() const
     }
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    //TODO: redundant, remove
     for( const auto &additional_action : additional_actions ) {
         ctxt.register_action( additional_action.first, additional_action.second );
     }
-    return ctxt;
 }
 
 /**
@@ -619,6 +599,11 @@ static ImVec2 calc_size( std::string_view line )
 void uilist::calc_data()
 {
     ImGuiStyle s = ImGui::GetStyle();
+    const float frame_padding_y = s.FramePadding.y * 2.0;
+    const float window_border = s.WindowBorderSize * 2.0;
+    const float window_padding_x = s.WindowPadding.x * 2.0;
+    const float main_view_max_y = 0.9 * ImGui::GetMainViewport()->Size.y;
+    const float item_double_spacing_y = s.ItemSpacing.y * 2.0;
 
     std::vector<int> autoassign;
     for( size_t i = 0; i < entries.size(); i++ ) {
@@ -659,50 +644,56 @@ void uilist::calc_data()
     if( has_titlebar ) {
         title_size = calc_size( title );
         float expected_num_lines = title_size.y / ImGui::GetTextLineHeight();
-        title_size.y += ( s.ItemSpacing.y * expected_num_lines ) + ( s.ItemSpacing.y * 2.0 );
+        title_size.y += ( s.ItemSpacing.y * expected_num_lines ) + item_double_spacing_y;
     }
 
     ImVec2 text_size = ImVec2();
     if( !text.empty() ) {
         text_size = calc_size( text );
         float expected_num_lines = text_size.y / ImGui::GetTextLineHeight();
-        text_size.y += ( s.ItemSpacing.y * expected_num_lines ) + ( s.ItemSpacing.y * 2.0 );
+        text_size.y += ( s.ItemSpacing.y * expected_num_lines ) + item_double_spacing_y;
     }
 
     ImVec2 tabs_size = ImVec2();
     if( !categories.empty() ) {
-        tabs_size.y = ImGui::GetTextLineHeightWithSpacing() + ( 2.0 * s.FramePadding.y );
+        tabs_size.y = ImGui::GetTextLineHeightWithSpacing() + frame_padding_y;
     }
 
     ImVec2 desc_size = ImVec2();
     if( desc_enabled ) {
         desc_size = calc_size( footer_text );
         for( const uilist_entry &ent : entries ) {
-            ImVec2 entry_size = calc_size( ent.desc );
-            desc_size.x = std::max( desc_size.x, entry_size.x );
-            desc_size.y = std::max( desc_size.y, entry_size.y );
+            if( !ent.desc.empty() ) {
+                ImVec2 entry_size = calc_size( ent.desc );
+                desc_size.x = std::max( desc_size.x, entry_size.x );
+                desc_size.y = std::max( desc_size.y, entry_size.y );
+            }
         }
         if( desc_size.y <= 0.0 ) {
             desc_enabled = false;
         }
         float expected_num_lines = desc_size.y / ImGui::GetTextLineHeight();
-        desc_size.y += ( s.ItemSpacing.y * expected_num_lines ) + ( s.ItemSpacing.y * 2.0 );
+        desc_size.y += ( s.ItemSpacing.y * expected_num_lines ) + item_double_spacing_y;
     }
     float additional_height = title_size.y + text_size.y + desc_size.y + tabs_size.y +
-                              2.0 * ( s.FramePadding.y + s.WindowBorderSize );
+                              window_border + frame_padding_y;
 
     if( vmax * ImGui::GetTextLineHeightWithSpacing() + additional_height >
-        0.9 * ImGui::GetMainViewport()->Size.y ) {
-        vmax = floorf( ( 0.9 * ImGui::GetMainViewport()->Size.y - additional_height +
-                         ( s.FramePadding.y * 2.0 ) ) /
+        main_view_max_y ) {
+        vmax = floorf( ( main_view_max_y - additional_height +
+                         frame_padding_y ) /
                        ImGui::GetTextLineHeightWithSpacing() );
     }
 
     float padding = 2.0f * s.CellPadding.x;
-    calculated_hotkey_width = ImGui::CalcTextSize( "M" ).x;
+    calculated_hotkey_width = 0.0;
     calculated_label_width = 0.0;
     calculated_secondary_width = 0.0;
     for( const uilist_entry &entry : entries ) {
+        if( entry.hotkey.has_value() ) {
+            calculated_hotkey_width = std::max( calculated_hotkey_width,
+                                                calc_size( entry.hotkey.value().short_description() ).x );
+        }
         calculated_label_width = std::max( calculated_label_width, calc_size( entry.txt ).x );
         calculated_secondary_width = std::max( calculated_secondary_width,
                                                calc_size( entry.ctxt ).x );
@@ -711,7 +702,16 @@ void uilist::calc_data()
     calculated_menu_size.x += calculated_hotkey_width + padding;
     calculated_menu_size.x += calculated_label_width + padding;
     calculated_menu_size.x += calculated_secondary_width + padding;
-    float max_avail_height = 0.9 * ImGui::GetMainViewport()->Size.y;
+
+    if( !categories.empty() && size_to_all_categories ) {
+        float category_total_width = s.ItemInnerSpacing.x * ( categories.size() - 1 );
+        for( const std::pair<std::string, std::string> &category_text : categories ) {
+            category_total_width += ImGui::TabItemCalcSize( category_text.second.c_str(), false ).x;
+        }
+        calculated_menu_size.x = std::max( calculated_menu_size.x, category_total_width );
+    }
+
+    float max_avail_height = main_view_max_y;
     if( desired_bounds.has_value() ) {
         float desired_height = desired_bounds.value().h;
         if( desired_height != -1 ) {
@@ -719,8 +719,8 @@ void uilist::calc_data()
         }
     }
     calculated_menu_size.y = std::min(
-                                 max_avail_height - additional_height + ( s.FramePadding.y * 2.0 ),
-                                 vmax * ImGui::GetTextLineHeightWithSpacing() + ( s.FramePadding.y * 2.0 ) );
+                                 max_avail_height - additional_height,
+                                 vmax * ImGui::GetTextLineHeightWithSpacing() ) + frame_padding_y;
 
     extra_space_left = 0.0;
     extra_space_right = 0.0;
@@ -732,7 +732,7 @@ void uilist::calc_data()
     float longest_line_width = std::max( { title_size.x, text_size.x,
                                            calculated_menu_size.x, desc_size.x } );
     calculated_bounds.w = extra_space_left + extra_space_right + longest_line_width
-                          + 2 * ( s.WindowPadding.x + s.WindowBorderSize );
+                          + window_padding_x + window_border;
     calculated_bounds.h = calculated_menu_size.y + additional_height;
 
     if( desired_bounds.has_value() ) {
@@ -754,6 +754,10 @@ void uilist::calc_data()
         calculated_menu_size.x = longest_line_width;
         calculated_label_width = calculated_menu_size.x - calculated_hotkey_width - padding -
                                  calculated_secondary_width - padding - padding;
+    }
+    if( force_desired_bounds && desired_bounds.has_value() ) {
+        calculated_menu_size.x = desired_bounds->w;
+        calculated_menu_size.y = desired_bounds->h;
     }
 }
 
@@ -880,11 +884,34 @@ shared_ptr_fast<uilist_impl> uilist::create_or_get_ui()
     return current_ui;
 }
 
+shared_ptr_fast<uilist_impl> uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
+{
+    input_context ctxt = create_main_input_context();
+
+#if defined(__ANDROID__)
+    for( const auto &entry : entries ) {
+        if( entry.enabled && entry.hotkey.has_value()
+            && entry.hotkey.value() != input_event() ) {
+            ctxt.register_manual_key( entry.hotkey.value().get_first_input(), entry.txt );
+        }
+    }
+#endif
+    if( !query_setup() ) {
+        return nullptr;
+    }
+    shared_ptr_fast<uilist_impl> ui = create_or_get_ui();
+    do {
+        ui_manager::redraw();
+        query_once( ctxt, timeout, allow_unfiltered_hotkeys );
+    } while( loop && ret == UILIST_WAIT_INPUT );
+    return ui;
+}
+
 /**
  * Handle input and update display
  *
  */
-shared_ptr_fast<uilist_impl> uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
+bool uilist::query_setup()
 {
 #if defined(__ANDROID__)
     if( get_option<bool>( "ANDROID_NATIVE_UI" ) && !entries.empty() && !desired_bounds ) {
@@ -947,97 +974,87 @@ shared_ptr_fast<uilist_impl> uilist::query( bool loop, int timeout, bool allow_u
         } else {
             ret = UILIST_ERROR;
         }
-        return nullptr;
+        return false;
     }
 #endif
     ret_evt = input_event();
     if( entries.empty() ) {
         ret = UILIST_ERROR;
-        return nullptr;
+        return false;
     }
     ret = UILIST_WAIT_INPUT;
 
-    input_context ctxt = create_main_input_context();
+    return true;
+}
 
-    shared_ptr_fast<uilist_impl> ui = create_or_get_ui();
+void uilist::query_once( input_context &ctxt, int timeout,
+                         bool allow_unfiltered_hotkeys )
+{
+    ret_act = ctxt.handle_input( timeout );
+    const input_event event = ctxt.get_raw_input();
+    ret_evt = event;
+    const auto iter = keymap.find( ret_evt );
+    recalc_start = false;
 
-#if defined(__ANDROID__)
-    for( const auto &entry : entries ) {
-        if( entry.enabled && entry.hotkey.has_value()
-            && entry.hotkey.value() != input_event() ) {
-            ctxt.register_manual_key( entry.hotkey.value().get_first_input(), entry.txt );
+    if( scrollby( scroll_amount_from_action( ret_act ) ) ) {
+        need_to_scroll = true;
+        recalc_start = true;
+    } else if( filtering && ret_act == "UILIST.FILTER" ) {
+        inputfilter();
+    } else if( !categories.empty() && ( ret_act == "UILIST.LEFT" || ret_act == "UILIST.RIGHT" ) ) {
+        switch_to_category = inc_clamp_wrap( current_category, ret_act == "UILIST.RIGHT",
+                                             categories.size() );
+    } else if( iter != keymap.end() ) {
+        if( allow_unfiltered_hotkeys ) {
+            const bool enabled = entries[iter->second].enabled;
+            if( enabled || allow_disabled ) {
+                ret = entries[iter->second].retval;
+            }
+        } else {
+            const auto it = std::find( fentries.begin(), fentries.end(), iter->second );
+            if( it != fentries.end() ) {
+                const bool enabled = entries[*it].enabled;
+                if( enabled || allow_disabled || hilight_disabled ) {
+                    // Change the selection to display correctly when this function
+                    // is called again.
+                    fselected = std::distance( fentries.begin(), it );
+                    selected = *it;
+                    if( enabled || allow_disabled ) {
+                        ret = entries[selected].retval;
+                    }
+                    if( callback != nullptr ) {
+                        callback->select( this );
+                    }
+                }
+            }
+        }
+    } else if( allow_confirm && !fentries.empty() && ( clicked || ret_act == "CONFIRM" ) ) {
+        clicked = false;
+        if( entries[ selected ].enabled || allow_disabled ) {
+            ret = entries[selected].retval;
+            if( callback != nullptr ) {
+                callback->confirm( this );
+            }
+        }
+    } else if( allow_cancel && ret_act == "UILIST.QUIT" ) {
+        ret = UILIST_CANCEL;
+    } else if( ret_act == "TIMEOUT" ) {
+        ret = UILIST_WAIT_INPUT;
+    } else {
+        // including HELP_KEYBINDINGS, in case the caller wants to refresh their contents
+        bool unhandled = callback == nullptr || !callback->key( ctxt, event, selected, this );
+        if( unhandled && allow_anykey ) {
+            ret = UILIST_UNBOUND;
+        } else if( unhandled && allow_additional ) {
+            recalc_start = true;
+            for( const auto &it : additional_actions ) {
+                if( it.first == ret_act ) {
+                    ret = UILIST_ADDITIONAL;
+                    break;
+                }
+            }
         }
     }
-#endif
-
-    do {
-        ui_manager::redraw();
-
-        ret_act = ctxt.handle_input( timeout );
-        const input_event event = ctxt.get_raw_input();
-        ret_evt = event;
-        const auto iter = keymap.find( ret_evt );
-        recalc_start = false;
-
-        if( scrollby( scroll_amount_from_action( ret_act ) ) ) {
-            need_to_scroll = true;
-            recalc_start = true;
-        } else if( filtering && ret_act == "UILIST.FILTER" ) {
-            inputfilter();
-        } else if( !categories.empty() && ( ret_act == "UILIST.LEFT" || ret_act == "UILIST.RIGHT" ) ) {
-            switch_to_category = inc_clamp_wrap( current_category, ret_act == "UILIST.RIGHT",
-                                                 categories.size() );
-        } else if( iter != keymap.end() ) {
-            if( allow_unfiltered_hotkeys ) {
-                const bool enabled = entries[iter->second].enabled;
-                if( enabled || allow_disabled ) {
-                    ret = entries[iter->second].retval;
-                }
-            } else {
-                const auto it = std::find( fentries.begin(), fentries.end(), iter->second );
-                if( it != fentries.end() ) {
-                    const bool enabled = entries[*it].enabled;
-                    if( enabled || allow_disabled || hilight_disabled ) {
-                        // Change the selection to display correctly when this function
-                        // is called again.
-                        fselected = std::distance( fentries.begin(), it );
-                        selected = *it;
-                        if( enabled || allow_disabled ) {
-                            ret = entries[selected].retval;
-                        }
-                        if( callback != nullptr ) {
-                            callback->select( this );
-                        }
-                    }
-                }
-            }
-        } else if( allow_confirm && !fentries.empty() && ( clicked || ret_act == "CONFIRM" ) ) {
-            clicked = false;
-            if( entries[ selected ].enabled || allow_disabled ) {
-                ret = entries[selected].retval;
-            }
-        } else if( allow_cancel && ret_act == "UILIST.QUIT" ) {
-            ret = UILIST_CANCEL;
-        } else if( ret_act == "TIMEOUT" ) {
-            ret = UILIST_WAIT_INPUT;
-        } else {
-            // including HELP_KEYBINDINGS, in case the caller wants to refresh their contents
-            bool unhandled = callback == nullptr || !callback->key( ctxt, event, selected, this );
-            if( unhandled && allow_anykey ) {
-                ret = UILIST_UNBOUND;
-            } else if( unhandled && allow_additional ) {
-                recalc_start = true;
-                for( const auto &it : additional_actions ) {
-                    if( it.first == ret_act ) {
-                        ret = UILIST_ADDITIONAL;
-                        break;
-                    }
-                }
-            }
-        }
-    } while( loop && ret == UILIST_WAIT_INPUT );
-
-    return ui;
 }
 
 ///@}
@@ -1052,6 +1069,11 @@ void uilist::reset()
 void uilist::addentry( const std::string &txt )
 {
     entries.emplace_back( txt );
+}
+
+void uilist::addentry( const uilist_entry &entry )
+{
+    entries.emplace_back( entry );
 }
 
 void uilist::addentry( int retval, bool enabled, int key, const std::string &txt )

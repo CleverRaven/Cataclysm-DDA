@@ -277,6 +277,31 @@
   },
   {
     "type": "material",
+    "id": "tainted_bone",
+    "name": "Tainted Bone",
+    "density": 1.4,
+    "specific_heat_liquid": 1.2,
+    "specific_heat_solid": 1.2,
+    "latent_heat": 200,
+    "rotting": true,
+    "chip_resist": 10,
+    "wind_resist": 90,
+    "repaired_with": "bone",
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "chipped",
+    "//": "Zombified bones. Useless as fuel. More smoke.",
+    "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0.0003 },
+      { "fuel": 0.0, "smoke": 5, "burn": 0.01, "volume_per_turn": "250 ml" },
+      { "fuel": 0.0, "smoke": 10, "burn": 0.02, "volume_per_turn": "250 ml" }
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ],
+    "resist": { "bash": 2, "cut": 3, "acid": 7, "heat": 1, "bullet": 1 },
+    "repair_difficulty": 3
+  },
+  {
+    "type": "material",
     "id": "cyber_bone",
     "name": "Bone-like material",
     "copy-from": "bone",
@@ -646,9 +671,10 @@
     "type": "material",
     "id": "cotton_quilted_salted",
     "name": "Salt Hardened Quilted Cotton",
+    "//": "Biggest change is reducing heat resistance from ten to 2.  Aramids have 3 heat resistance and sources say that salt hardened cotton has lower than aramid fire resistance.",
     "copy-from": "cotton",
     "repaired_with": "null",
-    "resist": { "bash": 3.5, "cut": 3.5, "acid": 5, "heat": 10, "bullet": 2 }
+    "resist": { "bash": 3, "cut": 3, "acid": 5, "heat": 2, "bullet": 1.5 }
   },
   {
     "type": "material",

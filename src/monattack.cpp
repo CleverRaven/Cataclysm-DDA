@@ -123,6 +123,7 @@ static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_grown_of_fuse( "grown_of_fuse" );
 static const efftype_id effect_has_bag( "has_bag" );
+static const efftype_id effect_monster_locked_on( "monster_locked_on" );
 static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
@@ -3857,7 +3858,12 @@ bool mattack::tindalos_teleport( monster *z )
     const int distance_to_target = rl_dist( z->pos_abs(), target->pos_abs() );
     if( distance_to_target > 5 ) {
         const tripoint_bub_ms oldpos = z->pos_bub( here );
+        const bool locked_on = z->has_effect( effect_monster_locked_on );
         for( const tripoint_bub_ms &dest : here.points_in_radius( target->pos_bub( here ), 4 ) ) {
+            // Only teleports if player has been seen and locked on
+            if( !locked_on ) {
+                continue;
+            }
             if( here.is_cornerfloor( dest ) ) {
                 if( g->is_empty( dest ) ) {
                     z->setpos( here, dest );

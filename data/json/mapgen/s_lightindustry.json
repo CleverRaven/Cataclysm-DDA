@@ -145,7 +145,7 @@
       "furniture": {
         "5": "f_machinery_electronic",
         "6": "f_machinery_light",
-        "7": "f_machinery_heavy",
+        "7": [ [ "f_machinery_heavy", 70 ], [ "f_power_hammer", 30 ] ],
         "8": "f_machinery_old",
         "k": "f_sink",
         "l": "f_oven",
@@ -175,7 +175,7 @@
         "B": "f_trashcan",
         "v": "f_safe_l",
         "1": "f_arcfurnace_empty",
-        "2": "f_hydraulic_press",
+        "2": [ [ "f_hydraulic_press", 80 ], [ "f_power_hammer", 20 ] ],
         "3": "f_air_compressor",
         "4": "f_drill_press",
         "9": [ [ "f_heavy_lathe", 50 ], [ "f_mill_vertical", 50 ] ],

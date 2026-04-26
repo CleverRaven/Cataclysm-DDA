@@ -167,6 +167,14 @@ class scenario
         std::vector<std::pair<string_id<scenario>, mod_id>> src;
 };
 
+struct scenario_sorter {
+    bool sort_by_points = true;
+    bool male = false;
+    bool cities_enabled = false;
+    /** @related player */
+    bool operator()( const scenario *a, const scenario *b ) const;
+};
+
 struct scen_blacklist {
     std::set<string_id<scenario>> scenarios;
     bool whitelist = false;

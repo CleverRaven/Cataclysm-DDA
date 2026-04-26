@@ -22,6 +22,7 @@
 #include "coordinates.h"
 #include "craft_command.h"
 #include "enums.h"
+#include "flat_set.h"
 #include "global_vars.h"
 #include "gun_mode.h"
 #include "io_tags.h"
@@ -198,7 +199,7 @@ struct stacking_info {
 class item : public visitable
 {
     public:
-        using FlagsSetType = std::set<flag_id>;
+        using FlagsSetType = cata::flat_set<flag_id>;
 
         item();
 
@@ -1023,10 +1024,12 @@ class item : public visitable
         int insert_cost( const item &it ) const;
 
         /**
-         * Puts the given item into this one.
+         * Puts the given item into this one. When @p quiet is true, failure
+         * returns silently instead of triggering a debugmsg.
          */
         ret_val<void> put_in( const item &payload, pocket_type pk_type,
-                              bool unseal_pockets = false, Character *carrier = nullptr );
+                              bool unseal_pockets = false, Character *carrier = nullptr,
+                              bool quiet = false );
         void force_insert_item( const item &it, pocket_type pk_type );
 
         /**
@@ -1477,15 +1480,19 @@ class item : public visitable
         /**
          * Apply damage to const itemrained by @ref min_damage and @ref max_damage
          * @param qty maximum amount by which to adjust damage (negative permissible)
+         * @param holder character who is wearing/wielding/carrying this item, used to
+         *               surface a player-facing fault message when the avatar owns it.
+         *               Pass nullptr (default) for silent application.
          * @return whether item should be destroyed
          */
-        bool mod_damage( int qty );
+        bool mod_damage( int qty, const Character *holder = nullptr );
 
         /**
          * Same as mod_damage( itype::damage_scale ), advances item to next damage level
+         * @param holder see mod_damage. Pass nullptr (default) for silent application.
          * @return whether item should be destroyed
          */
-        bool inc_damage();
+        bool inc_damage( const Character *holder = nullptr );
 
         enum class armor_status {
             UNDAMAGED,
@@ -1497,11 +1504,13 @@ class item : public visitable
         /**
          * Damage related logic for armor items, wraps mod_damage with needed logic
          * This version is for items with durability
+         * @param holder see mod_damage. Pass nullptr (default) for silent application.
          * @return the state of the armor
          */
         armor_status damage_armor_durability( damage_unit &du, damage_unit &premitigated,
                                               const bodypart_id &bp,
-                                              double enchant_multiplier = 1 );
+                                              double enchant_multiplier = 1,
+                                              const Character *holder = nullptr );
 
         /**
          * Damage related logic for armor items that warp and transform instead of degrading.
@@ -2113,16 +2122,22 @@ class item : public visitable
         /** Idempotent filter setting an item specific flag. */
         item &set_flag( const flag_id &flag );
 
-        /** Check if item can have a fault, and if yes, applies it. This version do not print a message, use item_location version instead
-         * `force`, if true, bypasses the check and applies the fault item do not define
+        /** Check if item can have a fault, and if yes, applies it.
+         * `force`, if true, bypasses the check and applies the fault item do not define.
+         * `holder`, when non-null and indicating the avatar carrying this item,
+         * surfaces the fault's "message" JSON (with %s substituted by tname()) to the
+         * player log. Pass nullptr (default) for silent application. Some callers that
+         * already emit bespoke per-damage text should pass nullptr to avoid duplicates.
          */
-        bool set_fault( const fault_id &f_id, bool force = false, bool message = true );
+        bool set_fault( const fault_id &f_id, bool force = false,
+                        const Character *holder = nullptr );
 
-        /** Check if item can have any fault of type, and if yes, applies it. This version do not print a message, use item_location version instead
-        * `force`, if true, bypasses the check and applies the fault item do not define
+        /** Check if item can have any fault of type, and if yes, applies it.
+        * `force`, if true, bypasses the check and applies the fault item do not define.
+        * `holder`, see set_fault. Pass nullptr (default) for silent application.
         */
         void set_random_fault_of_type( const std::string &fault_type, bool force = false,
-                                       bool message = true );
+                                       const Character *holder = nullptr );
 
         /** Removes the fault from the item, if such is presented. Returns true if a fault was removed */
         bool remove_fault( const fault_id &fault_id );

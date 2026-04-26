@@ -61,19 +61,19 @@
     "variants": [
       {
         "id": "modular_h&k416a5",
-        "name": { "str": "H&K416 A5 rifle" },
-        "description": "Designed to replace the M4A1, the Heckler and Koch 416A5 features most of the former's strengths, while being considerably more durable."
+        "name": { "str": "H&K HK416 A5 rifle" },
+        "description": "Designed to replace the M4A1, the Heckler and Koch 416 A5 features most of the former's strengths, while being considerably more durable."
       },
       {
         "id": "modular_m27iar",
         "name": { "str": "M27 IAR carbine" },
-        "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
+        "description": "A HK416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
         "ascii_picture": "m27_iar"
       },
       {
         "id": "modular_m38dmr",
         "name": { "str": "M38 DMR rifle" },
-        "description": "The M38 Designated Marksman Rifle is an M27 IAR, itself derived from a H&K416, selected for accuracy, and outfitted with a variable power scope and a QDSS suppressor."
+        "description": "The M38 Designated Marksman Rifle is an M27 IAR, itself derived from a HK416, selected for accuracy, and outfitted with a variable power scope and a QDSS suppressor."
       }
     ],
     "to_hit": -1,

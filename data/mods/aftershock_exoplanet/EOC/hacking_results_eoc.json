@@ -1,0 +1,19 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_hack_cryo_storage_unit_success",
+    "effect": [
+      {
+        "u_transform_radius": { "context_val": "t_radius" },
+        "ter_furn_transform": "afs_open_cryo_storage",
+        "target_var": { "context_val": "furn_pos" }
+      },
+      {
+        "map_spawn_item": "farmlab_cryostorage",
+        "use_item_group": true,
+        "loc": { "context_val": "furn_pos" },
+        "count": 2
+      }
+    ]
+  }
+]

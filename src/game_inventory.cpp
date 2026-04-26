@@ -168,6 +168,9 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
         // Default behavior.
         inv_s.add_character_items( u, add_ebooks );
         inv_s.add_nearby_items( radius, add_ebooks );
+        if( using_consume_menu ) {
+            inv_s.add_vehicle_tank_items( u.pos_bub() );
+        }
     }
 
     //input from global consume menu UI state
@@ -2150,6 +2153,20 @@ class saw_stock_inventory_preset : public weapon_inventory_preset
         const saw_stock_actor &actor;
 };
 
+class target_practice_inventory_preset: public weapon_inventory_preset
+{
+    public:
+        explicit target_practice_inventory_preset( const Character &you ) :
+            weapon_inventory_preset( you ) {
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->is_gun();
+        }
+
+    private:
+};
+
 class attach_molle_inventory_preset : public inventory_selector_preset
 {
     public:
@@ -2362,6 +2379,15 @@ item_location game_menus::inv::saw_stock( Character &you, item &tool )
                          string_format( _( "Choose a weapon to use your %s on" ),
                                         tool.tname( 1, false )
                                       )
+                       );
+}
+
+item_location game_menus::inv::pick_target_practice_gun( Character &you )
+{
+    return inv_internal( you, target_practice_inventory_preset( you ),
+                         _( "Pick a gun to practice with" ), 1,
+                         _( "You don't have any gun to practice with." ),
+                         _( "Choose a weapon to practice with" )
                        );
 }
 

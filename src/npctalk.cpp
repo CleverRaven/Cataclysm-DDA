@@ -23,6 +23,7 @@
 
 #include "achievement.h"
 #include "action.h"
+#include "activity_actor_definitions.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "bionics.h"
@@ -158,6 +159,7 @@ class recipe_subset;
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
+static const activity_id ACT_TARGET_PRACTICE( "ACT_TARGET_PRACTICE" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 
@@ -2216,8 +2218,10 @@ void dialogue::gen_responses( const talk_topic &the_topic )
 
 static int parse_mod( const_dialogue const &d, const std::string &attribute, const int factor )
 {
-    return d.const_actor( true )->parse_mod( attribute, factor ) +
-           d.const_actor( false )->parse_mod( attribute, factor );
+    const int alpha_mod = d.const_actor( true )->parse_mod( attribute, factor );
+    const int beta_mod = d.const_actor( false )->parse_mod( attribute, factor );
+    add_msg_debug( debugmode::DF_NPC, "Parsed %d and %d", alpha_mod, beta_mod );
+    return alpha_mod + beta_mod;
 }
 
 static int total_price( const_talker const &seller, const itype_id &item_type )
@@ -2276,8 +2280,13 @@ int talk_trial::calc_chance( const_dialogue const &d ) const
                       d.const_actor( true )->trial_chance_mod( "intimidate" );
             break;
     }
+    add_msg_debug( debugmode::DF_NPC, "\nBase trial chance %d", chance );
     for( const auto &this_mod : modifiers ) {
-        chance += parse_mod( d, this_mod.first, this_mod.second );
+        const int trial_mod_int = parse_mod( d, this_mod.first, this_mod.second );
+        chance += trial_mod_int;
+        // Extra spaces at start for legibility.
+        add_msg_debug( debugmode::DF_NPC, "    %s modified trial chance by %d, now %d",
+                       this_mod.first, trial_mod_int, chance );
     }
 
     return std::max( 0, std::min( 100, chance ) );
@@ -3703,6 +3712,126 @@ talk_effect_fun_t::func f_lose_bionic( const JsonObject &jo, std::string_view me
     };
 }
 
+talk_effect_fun_t::func f_pick_bodypart( const JsonObject &jo, std::string_view member,
+        std::string_view, bool is_npc )
+{
+    var_info var = read_var_info( jo.get_object( member ) );
+
+    std::optional<str_or_var> whitelist_flag;
+    optional( jo, false, "whitelist_flag", whitelist_flag );
+    std::optional<str_or_var> blacklist_flag;
+    optional( jo, false, "blacklist_flag", blacklist_flag );
+
+    std::vector<str_or_var> whitelist_type;
+    std::vector<str_or_var> blacklist_type;
+
+    if( jo.has_array( "whitelist_type" ) ) {
+        for( JsonValue jv : jo.get_array( "whitelist_type" ) ) {
+            whitelist_type.emplace_back( get_str_or_var( jv, member ) );
+        }
+    }
+
+    if( jo.has_array( "blacklist_type" ) ) {
+        for( JsonValue jv : jo.get_array( "blacklist_type" ) ) {
+            blacklist_type.emplace_back( get_str_or_var( jv, member ) );
+        }
+    }
+    std::optional<bool> wounded;
+    if( jo.has_bool( "wounded" ) ) {
+        wounded = jo.get_bool( "wounded" );
+    }
+
+    const bool pick_random = jo.get_bool( "pick_random", false );
+
+    const bool allow_cancel = jo.get_bool( "allow_cancel", false );
+
+    translation title = to_translation( "Select an option." );
+    jo.read( "title", title );
+
+    return [is_npc, var, whitelist_flag, blacklist_flag, whitelist_type,
+            blacklist_type, wounded, pick_random, allow_cancel, title]( dialogue & d ) {
+
+        std::vector<bodypart_id> final_bp;
+        for( const bodypart_id &bp_id : d.actor( is_npc )->get_all_body_parts(
+                 get_body_part_flags::only_main | get_body_part_flags::sorted ) ) {
+
+            // doesn't have bp type we want
+            for( const str_or_var &bp_type_var : whitelist_type ) {
+                const bp_type type = io::string_to_enum<bp_type>( bp_type_var.evaluate( d ) );
+                if( !bp_id->has_type( type ) ) {
+                    continue;
+                }
+            }
+
+            // has no flag we want
+            if( whitelist_flag.has_value() &&
+                !bp_id->has_flag( json_character_flag( whitelist_flag.value().evaluate( d ) ) ) ) {
+                continue;
+            }
+
+            // has type we do not want
+            for( const str_or_var &bp_type_var : blacklist_type ) {
+                const bp_type type = io::string_to_enum<bp_type>( bp_type_var.evaluate( d ) );
+                if( bp_id->has_type( type ) ) {
+                    continue;
+                }
+            }
+
+            // has flag we do not want
+            if( blacklist_flag.has_value() &&
+                bp_id->has_flag( json_character_flag( blacklist_flag.value().evaluate( d ) ) ) ) {
+                continue;
+            }
+
+            if( wounded.has_value() ) {
+                Character *you = d.actor( is_npc )->get_character();
+
+                if( wounded.value() && !you->get_part( bp_id )->has_wounds() ) {
+                    // ask for wounded bp, but bp is not wounded
+                    continue;
+                }
+
+                if( !wounded.value() && you->get_part( bp_id )->has_wounds() ) {
+                    // ask for healthy bp, but bp is wounded
+                    continue;
+                }
+
+            }
+
+            final_bp.emplace_back( bp_id );
+        }
+
+        if( final_bp.empty() ) {
+            return;
+        }
+
+        // pick_random, or list contain only 1 bodypart, or talker is not avatar
+        if( pick_random || final_bp.size() == 1 || !d.actor( is_npc )->get_character()->is_avatar() ) {
+            const bodypart_id picked_bp = random_entry( final_bp );
+            write_var_value( var.type, var.name, &d, picked_bp.id().str() );
+            return;
+        }
+
+        uilist list;
+        list.allow_cancel = allow_cancel;
+        list.title = title.translated();
+
+        for( const bodypart_id &bp : final_bp ) {
+            list.addentry( MENU_AUTOASSIGN, true, MENU_AUTOASSIGN, body_part_name( bp ) );
+        }
+
+        list.query();
+
+        if( list.ret < 0 ) {
+            return;
+        }
+
+        const bodypart_id picked_bp = final_bp[list.ret];
+        write_var_value( var.type, var.name, &d, picked_bp.id().str() );
+    };
+}
+
+
 talk_effect_fun_t::func f_add_var( const JsonObject &jo, std::string_view member,
                                    std::string_view, bool is_npc )
 {
@@ -3758,6 +3887,9 @@ void receive_item( const itype_id &item_id, int count, const itype_id &container
                    const tripoint_abs_ms &p = tripoint_abs_ms::zero, bool force_equip = false )
 {
     item new_item = item( item_id, calendar::turn );
+    if( new_item.has_flag( flag_PRESERVE_SPAWN_LOC ) ) {
+        new_item.preserve_location( p );
+    }
     for( const std::string &flag : flags ) {
         new_item.set_flag( flag_id( flag ) );
     }
@@ -3819,6 +3951,9 @@ void receive_item_group( const item_group_id &group_id, const dialogue &d, bool 
     for( item &new_item : new_items ) {
         for( const std::string &flag : flags ) {
             new_item.set_flag( flag_id( flag ) );
+        }
+        if( new_item.has_flag( flag_PRESERVE_SPAWN_LOC ) ) {
+            new_item.preserve_location( p );
         }
         if( add_talker ) {
             d.actor( false )->i_add_or_drop( new_item, force_equip );
@@ -5478,12 +5613,17 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
 talk_effect_fun_t::func f_assign_activity( const JsonObject &jo, std::string_view member,
         std::string_view, bool is_npc )
 {
-    duration_or_var dov = get_duration_or_var( jo, "duration", true );
+    duration_or_var dov = get_duration_or_var( jo, "duration", false );
     str_or_var act = get_str_or_var( jo.get_member( member ), member, true );
     return [is_npc, dov, act]( dialogue & d ) {
         Character *target = d.actor( is_npc )->get_character();
         if( target ) {
-            target->assign_activity( activity_id( act.evaluate( d ) ), to_moves<int>( dov.evaluate( d ) ) );
+            const activity_id a = activity_id( act.evaluate( d ) );
+            if( a == ACT_TARGET_PRACTICE ) {
+                target->assign_activity( target_practice_activity_actor() );
+            } else {
+                target->assign_activity( a, to_moves<int>( dov.evaluate( d ) ) );
+            }
         }
     };
 }
@@ -6084,7 +6224,8 @@ talk_effect_fun_t::func f_set_fault( const JsonObject &jo, std::string_view memb
     bool msg = jo.get_bool( "message", true );
     return [fault_var, force, msg, is_npc]( dialogue const & d ) {
         item_location &it = *d.actor( is_npc )->get_item();
-        it.get_item()->set_fault( fault_id( fault_var.evaluate( d ) ), force, msg );
+        const Character *holder = msg ? d.actor( is_npc )->get_character() : nullptr;
+        it.get_item()->set_fault( fault_id( fault_var.evaluate( d ) ), force, holder );
     };
 }
 
@@ -6096,7 +6237,8 @@ talk_effect_fun_t::func f_set_random_fault_of_type( const JsonObject &jo, std::s
     bool msg = jo.get_bool( "message", true );
     return [fault_type_var, force, msg, is_npc]( dialogue const & d ) {
         item_location &it = *d.actor( is_npc )->get_item();
-        it.get_item()->set_random_fault_of_type( fault_type_var.evaluate( d ), force, msg );
+        const Character *holder = msg ? d.actor( is_npc )->get_character() : nullptr;
+        it.get_item()->set_random_fault_of_type( fault_type_var.evaluate( d ), force, holder );
     };
 }
 
@@ -7851,7 +7993,7 @@ talk_effect_fun_t::func f_pickup_items( const JsonObject &jo, std::string_view m
         extra_moves_per_item = jo.get_int( "extra_moves_per_item" );
     }
     if( jo.has_float( "max_volume" ) ) {
-        max_volume =  units::from_liter( jo.get_float( "max_volume" ) );
+        max_volume =  units::from_milliliter( jo.get_float( "max_volume" ) );
     }
     if( jo.has_float( "max_mass" ) ) {
         max_mass = units::from_gram( jo.has_float( "max_mass" ) );
@@ -8233,6 +8375,7 @@ parsers = {
     { "u_sell_item", jarg::member, &talk_effect_fun::f_u_sell_item },
     { "u_buy_item", jarg::member, &talk_effect_fun::f_u_buy_item },
     { "u_spawn_item", jarg::member, &talk_effect_fun::f_spawn_item },
+    { "u_pick_bodypart", "npc_pick_bodypart", jarg::member, &talk_effect_fun::f_pick_bodypart },
     { "toggle_npc_rule", jarg::member, &talk_effect_fun::f_toggle_npc_rule },
     { "set_npc_rule", jarg::member, &talk_effect_fun::f_set_npc_rule },
     { "clear_npc_rule", jarg::member, &talk_effect_fun::f_clear_npc_rule },

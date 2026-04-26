@@ -399,6 +399,12 @@ input_context game::get_player_input( std::string &action )
             }
 
             if( pixel_minimap_option && g->w_pixel_minimap ) {
+#if defined(TILES)
+                // Mark minimap dirty so beacon colors keep cycling
+                if( tilecontext->has_blinking_minimap() ) {
+                    werase( g->w_pixel_minimap );
+                }
+#endif
                 wnoutrefresh( g->w_pixel_minimap );
             }
 

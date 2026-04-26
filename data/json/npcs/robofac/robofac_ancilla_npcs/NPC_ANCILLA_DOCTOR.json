@@ -657,10 +657,6 @@
           { "u_add_effect": "sleep", "duration": "2 hours" },
           { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
           { "u_lose_bionic": "bio_robofac_xmarm" },
-          {
-            "if": { "u_has_items": { "item": "integrated_bio_robofac_xmarm_on", "count": 1 } },
-            "then": { "u_consume_item": "integrated_bio_robofac_xmarm_on", "count": 1, "popup": false }
-          },
           { "u_add_bionic": "bio_robofac_xmarm" },
           { "u_consume_item": "RobofacCoin", "count": 10, "popup": true }
         ]
@@ -680,10 +676,6 @@
           { "u_add_effect": "sleep", "duration": "2 hours" },
           { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
           { "u_lose_bionic": "bio_robofac_xmleg" },
-          {
-            "if": { "u_has_items": { "item": "integrated_bio_robofac_xmleg_on", "count": 1 } },
-            "then": { "u_consume_item": "integrated_bio_robofac_xmleg_on", "count": 1, "popup": false }
-          },
           { "u_add_bionic": "bio_robofac_xmleg" },
           { "u_consume_item": "RobofacCoin", "count": 10, "popup": true }
         ]
@@ -703,10 +695,6 @@
           { "u_add_effect": "sleep", "duration": "2 hours" },
           { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
           { "u_lose_bionic": "bio_robofac_xmback" },
-          {
-            "if": { "u_has_items": { "item": "integrated_bio_robofac_xmback_on", "count": 1 } },
-            "then": { "u_consume_item": "integrated_bio_robofac_xmback_on", "count": 1, "popup": false }
-          },
           { "u_add_bionic": "bio_robofac_xmback" },
           { "u_consume_item": "RobofacCoin", "count": 10, "popup": true }
         ]
@@ -800,10 +788,6 @@
           { "u_add_effect": "sleep", "duration": "6 hours" },
           { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "6 hours" },
           { "u_lose_bionic": "bio_robofac_xmarm" },
-          {
-            "if": { "u_has_items": { "item": "integrated_bio_robofac_xmarm_on", "count": 1 } },
-            "then": { "u_consume_item": "integrated_bio_robofac_xmarm_on", "count": 1, "popup": false }
-          },
           { "u_lose_bionic": "bio_armor_arms" },
           { "u_add_trait": "BIONIC_ARM_BASIC_RIGHT" },
           { "u_consume_item": "RobofacCoin", "count": 20, "popup": true }
@@ -825,10 +809,6 @@
           { "u_add_effect": "sleep", "duration": "6 hours" },
           { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "6 hours" },
           { "u_lose_bionic": "bio_robofac_xmarm" },
-          {
-            "if": { "u_has_items": { "item": "integrated_bio_robofac_xmarm_on", "count": 1 } },
-            "then": { "u_consume_item": "integrated_bio_robofac_xmarm_on", "count": 1, "popup": false }
-          },
           { "u_lose_bionic": "bio_armor_arms" },
           { "u_add_trait": "BIONIC_ARM_BASIC_LEFT" },
           { "u_consume_item": "RobofacCoin", "count": 20, "popup": true }
@@ -870,10 +850,6 @@
           { "u_add_effect": "sleep", "duration": "6 hours" },
           { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "6 hours" },
           { "u_lose_bionic": "bio_robofac_xmleg" },
-          {
-            "if": { "u_has_items": { "item": "integrated_bio_robofac_xmleg_on", "count": 1 } },
-            "then": { "u_consume_item": "integrated_bio_robofac_xmleg_on", "count": 1, "popup": false }
-          },
           { "u_lose_bionic": "bio_armor_legs" },
           { "u_add_trait": "BIONIC_LEG_BASIC_RIGHT" },
           { "u_consume_item": "RobofacCoin", "count": 20, "popup": true }
@@ -895,10 +871,6 @@
           { "u_add_effect": "sleep", "duration": "6 hours" },
           { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "6 hours" },
           { "u_lose_bionic": "bio_robofac_xmleg" },
-          {
-            "if": { "u_has_items": { "item": "integrated_bio_robofac_xmleg_on", "count": 1 } },
-            "then": { "u_consume_item": "integrated_bio_robofac_xmleg_on", "count": 1, "popup": false }
-          },
           { "u_lose_bionic": "bio_armor_legs" },
           { "u_add_trait": "BIONIC_LEG_BASIC_LEFT" },
           { "u_consume_item": "RobofacCoin", "count": 20, "popup": true }

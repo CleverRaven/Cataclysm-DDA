@@ -783,6 +783,7 @@
     "color": "brown",
     "diameter": 20,
     "width": 3,
+    "faults": [ { "fault": "fault_axle_broken" }, { "fault": "fault_cracked_rim" } ],
     "melee_damage": { "bash": 8 }
   },
   {

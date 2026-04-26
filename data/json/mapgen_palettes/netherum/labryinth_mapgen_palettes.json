@@ -46,6 +46,47 @@
   },
   {
     "type": "palette",
+    "id": "labyrinthine_base_palette_no_enemies",
+    "terrain": {
+      "|": "t_nl_metal_wall",
+      "_": "t_nl_metal_floor",
+      ".": "t_nl_catwalk",
+      "!": "t_nl_metal_wall_edge",
+      "v": "t_nl_chasm",
+      "+": "t_nl_door_c",
+      "=": "t_nl_door_l",
+      "ϴ": "t_nl_catwalk",
+      "o": [ [ "t_nl_catwalk", 3 ], [ "t_nl_chasm", 1 ] ]
+    },
+    "furniture": {
+      "â": "f_autodoc",
+      "ä": "f_autodoc_couch",
+      "A": "f_scrap_antenna",
+      "b": "f_exodii_charger",
+      "B": "f_exodii_charger_cheap",
+      "c": [ [ "f_metal_crate_r", 1 ], [ "f_metal_crate_c", 3 ] ],
+      "C": [ [ "f_metal_crate_r", 9 ], [ "f_metal_crate_c", 1 ] ],
+      "¢": [ "f_metal_crate_r", "f_metal_crate_c", [ "f_null", 2 ] ],
+      "Ç": "f_control_station",
+      "d": "f_dialysis",
+      "E": "f_exodii_scanner",
+      "F": "f_curtain",
+      "l": "f_locker",
+      "L": "f_exodii_lamp",
+      "ϴ": [ [ "f_null", 75 ], [ "f_exodii_lamp", 20 ], [ "f_electrical_conduit", 5 ] ],
+      "M": "f_machinery_electronic",
+      "U": "f_utility_shelf",
+      "P": "f_exodii_pump",
+      "(": "f_electrical_conduit",
+      "Ƥ": "f_exodii_printer_large",
+      "ƥ": "f_exodii_printer_small",
+      "Ṫ": "f_metal_table",
+      "ϟ": "f_capacitor",
+      "ß": "f_metal_bench"
+    }
+  },
+  {
+    "type": "palette",
     "id": "labyrinthine_item_palette_utility_tier0",
     "items": {
       "c": { "item": "LS_SUS_crate_tier0_materials", "chance": 75 },
@@ -73,5 +114,50 @@
       "U": { "item": "LS_SUS_bunk_room", "chance": 25 },
       "Ṫ": { "item": "LS_SUS_table_items_mess", "chance": 35 }
     }
+  },
+  {
+    "type": "palette",
+    "id": "labyrinthine_safehouse_palette",
+    "terrain": {
+      "#": "t_nl_safehouse_metal_wall_wired",
+      "|": "t_nl_safehouse_metal_wall_wired_destructable",
+      ".": "t_nl_metal_floor",
+      "B": "t_nl_metal_floor",
+      "f": "t_nl_metal_floor",
+      "O": "t_nl_metal_floor",
+      "T": "t_nl_metal_floor",
+      "G": "t_nl_metal_floor",
+      "~": "t_nl_metal_floor",
+      "c": "t_nl_metal_floor",
+      "D": "t_nl_door_c",
+      "+": "t_nl_safehouse_door_metal_corrugated_c"
+    },
+    "furniture": {
+      "B": "f_bed",
+      "f": "f_foot_locker_aluminum",
+      "O": "f_exodii_floor_portal_enclosure",
+      "G": "f_compact_ASRG_containment",
+      "~": "f_shower",
+      "c": "f_counter"
+    }
+  },
+  {
+    "type": "palette",
+    "id": "labyrinth_string_dimension_tunnel_palette",
+    "terrain": {
+      "L": "t_nl_sd_2d_sky_walkable",
+      " ": "t_nl_sd_2d_sky_walkable",
+      "%": "t_nl_sd_2d_ground",
+      "#": "t_string_xyz",
+      ".": [
+        [ "t_nl_sd_2d_sky", 194 ],
+        [ "t_string_point_big", 1 ],
+        [ "t_string_point_big", 1 ],
+        [ "t_string_point_small_gray", 2 ],
+        [ "t_string_point_small_gray", 2 ]
+      ]
+    },
+    "furniture": { "L": "f_exodii_lamp_string_warped" },
+    "traps": { "#": "tr_ls_sd_tunnel_portal" }
   }
 ]

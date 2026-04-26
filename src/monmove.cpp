@@ -70,6 +70,7 @@ static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_immobilization( "immobilization" );
 static const efftype_id effect_led_by_leash( "led_by_leash" );
+static const efftype_id effect_monster_locked_on( "monster_locked_on" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_pacified( "pacified" );
@@ -515,6 +516,11 @@ void monster::plan()
     std::bitset<OVERMAP_LAYERS> seen_levels = here.get_inter_level_visibility( posz() );
     monster_attitude mood = attitude();
     Character &player_character = get_player_character();
+    // If this monster locks on via LoS, refresh the locked-on tracking effect
+    if( has_flag( mon_flag_LOCKS_ON ) &&
+        sees( here, player_character.pos_bub( here ), true ) ) {
+        add_effect( effect_monster_locked_on, 2_minutes );
+    }
     // If we can see the player, move toward them or flee.
     if( friendly == 0 && seen_levels.test( player_character.posz() + OVERMAP_DEPTH ) &&
         sees( here, player_character ) ) {
@@ -2416,11 +2422,25 @@ void monster::stumble_base( const bool is_voluntary )
         }
     }
 
-    // When forced to stumble, monsters can't stumble-walk downstairs
+    // The same-z radius scan above cannot produce straight-up or straight-down
+    // candidates; add them here, gated by stair / climb / swim / fly rules.
     if( is_voluntary ) {
         const tripoint_bub_ms below( pos_bub() + tripoint::below );
         if( here.valid_move( pos_bub(), below, false, true ) ) {
             valid_stumbles.push_back( below );
+        }
+        const tripoint_bub_ms above( pos_bub() + tripoint::above );
+        const bool stair_up = here.has_flag( ter_furn_flag::TFLAG_GOES_UP, pos_bub() ) &&
+                              !here.has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z, pos_bub() );
+        const bool ladder_up = here.has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z, pos_bub() ) &&
+                               can_climb() &&
+                               here.has_floor_or_support( above );
+        const bool swim_up = swims() &&
+                             here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) &&
+                             here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, above );
+        if( ( flies() || stair_up || ladder_up || swim_up ) &&
+            here.valid_move( pos_bub(), above, false, flies() ) ) {
+            valid_stumbles.push_back( above );
         }
     }
 

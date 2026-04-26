@@ -18,6 +18,7 @@
         "          "
       ],
       "palettes": [ "cabin_cellar" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [ { "chunks": [ "cabin_cellar" ], "x": 0, "y": 0, "z": -1 } ]
     }
   },

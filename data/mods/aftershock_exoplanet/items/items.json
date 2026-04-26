@@ -250,6 +250,19 @@
   },
   {
     "type": "ITEM",
+    "id": "afs_enzime_replicator",
+    "name": { "str_sp": "enzime biofactory" },
+    "description": "A complex Mercurial manufactured bacterial biome that partially replicates human biochemistry.  Output volume is small, so this device is mostly used for medical research and tailor-made medical solutions.  Rarely seen in the frontier.",
+    "symbol": "o",
+    "color": "yellow",
+    "weight": "14 kg",
+    "volume": "1 L",
+    "price": "3 kUSD",
+    "material": [ "steel" ],
+    "category": "spare_parts"
+  },
+  {
+    "type": "ITEM",
     "id": "afs_fusion_engine_core",
     "name": { "str_sp": "fusion drive powerplant" },
     "description": "A very heavy sphere of radiation shielding completely obscures the inner workings of this hyperspace-age device.  Any experienced salvor knows that opening it would completely ruin it.",

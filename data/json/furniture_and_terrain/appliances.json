@@ -170,6 +170,30 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_power_hammer",
+    "name": { "str": "power hammer" },
+    "looks_like": "f_drophammer",
+    "color": "light_blue",
+    "categories": [ "utility" ],
+    "description": "A self-contained pneumatic power hammer using compressed air from an integrated compressor to strike repeatedly with great force.  Used for efficiently shaping and working metal.  Plugged in and ready to smash!",
+    "broken_color": "light_blue",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 80,
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "power_hammer_tool" } ],
+    "item": "power_hammer",
+    "breaks_into": [
+      { "item": "scrap", "count": [ 8, 12 ] },
+      { "item": "hc_steel_chunk", "count": [ 8, 12 ] },
+      { "item": "plastic_chunk", "count": [ 4, 10 ] },
+      { "item": "e_scrap", "count": [ 2, 4 ] },
+      { "item": "steel_plate", "count": [ 10, 12 ] }
+    ],
+    "variants": [ { "symbols": "7", "symbols_broken": "x" } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_tablesaw",
     "name": { "str": "table saw" },
     "looks_like": "f_machinery_light",

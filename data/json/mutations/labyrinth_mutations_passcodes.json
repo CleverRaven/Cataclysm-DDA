@@ -53,5 +53,16 @@
     "valid": false,
     "purifiable": false,
     "player_display": true
+  },
+  {
+    "id": "LS_Passcode_string_dimension",
+    "type": "mutation",
+    "name": { "str": "Passcode: KÁ!" },
+    "description": "There's a sound etched into your mind.  Somehow you implicitly understand that it is a type of password, though how you know this isn't clear.  The sound is KÁ!",
+    "points": 0,
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true
   }
 ]

@@ -183,5 +183,35 @@
     "description": "This %s is completely broken.",
     "block_faults": [ "fault_staff_long_chipping", "fault_staff_long_cracked", "fault_staff_long_broken_half" ],
     "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.1 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_steel_pipe_staff_bent",
+    "//": "This fault is meant for weapons that have a long handle made out of steel pipes (120cm +) (so mostly spear type weapons)",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Bent" },
+    "degradation_mod": 50,
+    "description": "The %s has been bent.",
+    "item_suffix": "bent",
+    "melee_damage_mod": [
+      { "damage_id": "cut", "multiply": 0.6 },
+      { "damage_id": "stab", "multiply": 0.5 },
+      { "damage_id": "bash", "multiply": 0.6 }
+    ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_steel_pipe_staff_bent_heavy",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Heavily bent" },
+    "description": "The %s has been heavily bent.",
+    "block_faults": [ "fault_steel_pipe_staff_bent" ],
+    "item_suffix": "heavily bent",
+    "melee_damage_mod": [
+      { "damage_id": "cut", "multiply": 0.2 },
+      { "damage_id": "stab", "multiply": 0.1 },
+      { "damage_id": "bash", "multiply": 0.2 }
+    ],
+    "affected_by_degradation": true
   }
 ]

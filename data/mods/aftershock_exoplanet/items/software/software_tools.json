@@ -1,0 +1,12 @@
+[
+  {
+    "id": "software_archiving",
+    "copy-from": "abstract_software",
+    "type": "ITEM",
+    "name": { "str_sp": "openVault" },
+    "description": "A popular software suite used to extract and organize data from abandoned devices.  Can be used with minimal training, so long as the target device is powered and unsecured.",
+    "price": "1200 USD",
+    "price_postapoc": "1200 USD",
+    "ememory_size": "256 MB"
+  }
+]

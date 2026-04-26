@@ -446,6 +446,21 @@
     "components": [ [ [ "wheat", 10 ] ] ]
   },
   {
+    "result": "seed_red_winter_wheat",
+    "type": "recipe",
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "winter_wheat", 1 ] ] ]
+  },
+  {
+    "result": "seed_red_winter_wheat",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "winter_wheat", 10 ] ] ]
+  },
+  {
     "result": "wheat",
     "type": "recipe",
     "id_suffix": "seed_designation",

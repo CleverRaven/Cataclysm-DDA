@@ -1050,6 +1050,42 @@ bool ignore_zone_position( Character &you, const tripoint_abs_ms &src,
            here.impassable_field_at( src_bub );
 }
 
+// vehicle::add_item and map::add_item_or_charges silently fail at the count
+// limits even when volume fits, so sort must pre-check to avoid bounce loops.
+bool dest_has_capacity( const tripoint_abs_ms &dest, const zone_type_id &ztype,
+                        const item &sample, const faction_id &fac )
+{
+    const zone_manager &mgr = zone_manager::get_manager();
+    map &here = get_map();
+    const tripoint_bub_ms dest_bub = here.get_bub( dest );
+    const bool has_veh_zone = mgr.has_vehicle( ztype, dest, fac );
+    const bool has_ter_zone = mgr.has_terrain( ztype, dest, fac );
+    if( has_veh_zone ) {
+        if( const std::optional<vpart_reference> vp_dest = here.veh_at( dest_bub ).cargo() ) {
+            if( vp_dest->items().amount_can_fit( sample ) > 0 ) {
+                return true;
+            }
+        }
+        if( !has_ter_zone ) {
+            return false;
+        }
+    }
+    return static_cast<int>( here.i_at( dest_bub ).size() ) < MAX_ITEM_IN_SQUARE &&
+           here.free_volume( dest_bub ) >= sample.volume();
+}
+
+static bool any_dest_has_capacity( const std::unordered_set<tripoint_abs_ms> &dests,
+                                   const zone_type_id &ztype, const item &sample,
+                                   const faction_id &fac )
+{
+    for( const tripoint_abs_ms &dest : dests ) {
+        if( dest_has_capacity( dest, ztype, sample, fac ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
                         unload_sort_options zone_unload_options,
                         const std::vector<item_location> &other_activity_items,
@@ -1153,8 +1189,8 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
                 }
             }
         }
-        // if item has destination
-        if( !dest_set.empty() ) {
+        if( !dest_set.empty() &&
+            any_dest_has_capacity( dest_set, dest_zone_type_id, *it, fac_id ) ) {
             return true;
         }
     }

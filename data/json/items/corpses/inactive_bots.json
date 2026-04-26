@@ -493,32 +493,6 @@
     "flags": [ "SINGLE_USE" ]
   },
   {
-    "id": "bot_molebot",
-    "looks_like": "broken_molebot",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "inactive demining bot" },
-    "description": "An inactive demining robot.  Using this item involves placing it on the ground and turning it on.",
-    "weight": "81500 g",
-    "volume": "62500 ml",
-    "price": "250 USD",
-    "price_postapoc": "10 USD",
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "light_green",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_molebot",
-      "friendly_msg": "The demining bot whirs and tunnels into the ground.",
-      "hostile_msg": "The demining bot spins out of control and lunges at you.  Make way!",
-      "//": "Digging parameters need special attention but no (intentional) lethal weapons",
-      "difficulty": 3,
-      "moves": 100,
-      "skills": [ "electronics", "computer" ]
-    },
-    "flags": [ "SINGLE_USE" ]
-  },
-  {
     "id": "bot_skitterbot",
     "looks_like": "broken_skitterbot",
     "type": "ITEM",

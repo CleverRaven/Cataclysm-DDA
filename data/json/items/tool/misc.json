@@ -390,7 +390,7 @@
     "use_action": [
       {
         "target": "large_space_heater_on",
-        "msg": "You turn on the heater.",
+        "msg": "You turn on the %s.",
         "need_charges": 1,
         "need_charges_msg": "The batteries are dead.",
         "type": "transform"
@@ -424,7 +424,7 @@
       {
         "ammo_scale": 0,
         "target": "large_space_heater",
-        "msg": "You turn off the heater.",
+        "msg": "You turn off the %s.",
         "menu_text": "Turn off",
         "type": "transform"
       },
@@ -600,7 +600,7 @@
     "use_action": [
       {
         "target": "small_space_heater_on",
-        "msg": "You turn on the heater.",
+        "msg": "You turn on the %s.",
         "need_charges": 1,
         "need_charges_msg": "The batteries are dead.",
         "type": "transform"
@@ -634,7 +634,7 @@
       {
         "ammo_scale": 0,
         "target": "small_space_heater",
-        "msg": "You turn off the heater.",
+        "msg": "You turn off the %s.",
         "menu_text": "Turn off",
         "type": "transform"
       },

@@ -13,6 +13,7 @@
     "symbol": "[",
     "looks_like": "kilt",
     "color": "brown",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -49,6 +50,7 @@
     "symbol": "[",
     "looks_like": "shorts",
     "color": "cyan",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -97,6 +99,7 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "brown",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 10,
     "material_thickness": 0.4,
     "flags": [ "VARSIZE" ],
@@ -124,6 +127,7 @@
     "symbol": "[",
     "looks_like": "skirt",
     "color": "red",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 2,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
@@ -146,6 +150,7 @@
     "symbol": "[",
     "looks_like": "skirt",
     "color": "red",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
     "armor": [
@@ -201,6 +206,7 @@
     "symbol": "[",
     "looks_like": "boxer_briefs",
     "color": "light_red",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ],
@@ -666,6 +672,7 @@
     "symbol": "[",
     "looks_like": "kilt",
     "color": "brown_yellow",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -838,6 +845,7 @@
     "symbol": "[",
     "looks_like": "briefs",
     "color": "brown",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ],
     "armor": [ { "coverage": 25, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
@@ -912,6 +920,7 @@
     "symbol": "[",
     "looks_like": "skirt",
     "color": "pink",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "material_thickness": 0.5,
     "flags": [ "VARSIZE" ],
     "armor": [ { "coverage": 35, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
@@ -930,6 +939,7 @@
     "symbol": "[",
     "looks_like": "jeans",
     "color": "brown",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1252,6 +1262,7 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "light_gray",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1315,6 +1326,7 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "dark_gray",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1364,6 +1376,7 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "brown",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1425,6 +1438,7 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "dark_gray",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 8,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
@@ -1553,6 +1567,7 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "dark_gray",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 2, 5 ] } ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
@@ -1578,6 +1593,7 @@
     "symbol": "[",
     "looks_like": "shorts_cargo",
     "color": "blue",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1640,6 +1656,7 @@
     "symbol": "[",
     "looks_like": "shorts",
     "color": "red",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 5,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
@@ -1667,6 +1684,7 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "red",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1717,6 +1735,7 @@
     "symbol": "[",
     "looks_like": "boxer_shorts",
     "color": "brown",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1780,6 +1799,7 @@
     "symbol": "[",
     "looks_like": "shorts",
     "color": "light_gray",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1937,6 +1957,7 @@
     "symbol": "[",
     "looks_like": "kilt",
     "color": "dark_gray",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
     "warmth": 5,
     "material_thickness": 0.1,
@@ -2045,6 +2066,7 @@
     "symbol": "[",
     "looks_like": "kilt",
     "color": "dark_gray",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
@@ -2116,6 +2138,7 @@
     "symbol": "[",
     "looks_like": "pants_checkered",
     "color": "white",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -2312,6 +2335,7 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "white",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 5,
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "STURDY" ],
@@ -2388,6 +2412,7 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "light_gray",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -2563,6 +2588,7 @@
     "symbol": "[",
     "looks_like": "skirt",
     "color": "blue",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 10,
     "material_thickness": 0.6,
     "flags": [ "VARSIZE" ],
@@ -2681,6 +2707,7 @@
     "symbol": "[",
     "looks_like": "leg_warmers",
     "color": "black",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 15,
     "environmental_protection": 2,
     "flags": [ "OUTER", "VARSIZE", "WATERPROOF" ],

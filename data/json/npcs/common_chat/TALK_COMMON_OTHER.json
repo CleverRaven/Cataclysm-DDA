@@ -103,7 +103,11 @@
         "switch": true,
         "default": true,
         "text": "I can keep you safe.",
-        "trial": { "type": "PERSUADE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] },
+        "trial": {
+          "type": "PERSUADE",
+          "difficulty": 20,
+          "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ], [ "u_has_trait: PSYCHOPATH", -40 ] ]
+        },
         "success": {
           "topic": "TALK_AGREE_FOLLOW",
           "effect": [
@@ -123,7 +127,14 @@
         "trial": {
           "type": "PERSUADE",
           "difficulty": 0,
-          "mod": [ [ "ALTRUISM", 6 ], [ "POS_FEAR", -6 ], [ "BRAVERY", 2 ], [ "ANGER", -6 ], [ "VALUE", 2 ] ]
+          "mod": [
+            [ "ALTRUISM", 6 ],
+            [ "POS_FEAR", -6 ],
+            [ "BRAVERY", 2 ],
+            [ "ANGER", -6 ],
+            [ "VALUE", 2 ],
+            [ "u_has_trait: PSYCHOPATH", -40 ]
+          ]
         },
         "success": {
           "topic": "TALK_AGREE_FOLLOW",
@@ -141,7 +152,11 @@
         "switch": true,
         "default": true,
         "text": "We're friends, aren't we?",
-        "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ] ] },
+        "trial": {
+          "type": "PERSUADE",
+          "difficulty": 0,
+          "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ], [ "u_has_trait: PSYCHOPATH", -40 ] ]
+        },
         "success": {
           "topic": "TALK_AGREE_FOLLOW",
           "effect": [
@@ -158,7 +173,11 @@
         "switch": true,
         "default": true,
         "text": "I'll kill you if you don't.",
-        "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] },
+        "trial": {
+          "type": "INTIMIDATE",
+          "difficulty": 20,
+          "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ], [ "u_has_trait: PSYCHOPATH", -30 ] ]
+        },
         "success": {
           "topic": "TALK_AGREE_FOLLOW",
           "effect": [
@@ -442,7 +461,11 @@
         "text": "Because I'm your friend!",
         "switch": true,
         "default": true,
-        "trial": { "type": "PERSUADE", "difficulty": 10, "mod": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ] ] },
+        "trial": {
+          "type": "PERSUADE",
+          "difficulty": 10,
+          "mod": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ], [ "u_has_trait: PSYCHOPATH", -10 ] ]
+        },
         "success": {
           "topic": "TALK_GIVE_EQUIPMENT",
           "effect": { "give_equipment": { "allowance": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ], [ "TOTAL", 300 ] ] } },
@@ -458,7 +481,7 @@
         "trial": {
           "type": "PERSUADE",
           "difficulty": 12,
-          "mod": [ [ "TRUST", 1 ], [ "VALUE", 2 ], [ "ALTRUISM", 1 ], [ "MISSIONS", 1 ] ]
+          "mod": [ [ "TRUST", 1 ], [ "VALUE", 2 ], [ "ALTRUISM", 1 ], [ "MISSIONS", 1 ], [ "u_has_trait: PSYCHOPATH", -10 ] ]
         },
         "success": { "topic": "TALK_GIVE_EQUIPMENT", "effect": "give_equipment" },
         "failure": { "topic": "TALK_DENY_EQUIPMENT", "opinion": { "value": -1, "anger": 2 } }
@@ -467,7 +490,11 @@
         "text": "I'll give it back!",
         "switch": true,
         "default": true,
-        "trial": { "type": "LIE", "difficulty": 0, "mod": [ [ "TRUST", 2 ], [ "VALUE", 5 ], [ "ALTRUISM", 3 ] ] },
+        "trial": {
+          "type": "LIE",
+          "difficulty": 0,
+          "mod": [ [ "TRUST", 2 ], [ "VALUE", 5 ], [ "ALTRUISM", 3 ], [ "u_has_trait: PSYCHOPATH", -10 ] ]
+        },
         "success": {
           "topic": "TALK_GIVE_EQUIPMENT",
           "effect": { "give_equipment": { "allowance": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ], [ "TOTAL", 300 ] ] } },
@@ -532,21 +559,29 @@
       {
         "text": "No, I'm keeping it.  Try and take it off me, I dare you.",
         "condition": "u_has_stolen_item",
-        "trial": { "type": "INTIMIDATE", "difficulty": 30, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] },
+        "trial": {
+          "type": "INTIMIDATE",
+          "difficulty": 30,
+          "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ], [ "u_has_trait: PSYCHOPATH", -25 ] ]
+        },
         "success": { "topic": "TALK_KEEPING_ITEM", "effect": { "u_faction_rep": -2 } },
         "failure": { "topic": "TALK_DONE", "effect": [ "hostile", { "u_faction_rep": -75 } ] }
       },
       {
         "text": "Look, I really need this.  Please let me have it.",
         "condition": "u_has_stolen_item",
-        "trial": { "type": "PERSUADE", "difficulty": 20, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ] ] },
+        "trial": {
+          "type": "PERSUADE",
+          "difficulty": 20,
+          "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ], [ "u_has_trait: PSYCHOPATH", -25 ] ]
+        },
         "success": { "topic": "TALK_ALLOW_KEEP_ITEM", "effect": { "u_faction_rep": -1 } },
         "failure": { "topic": "TALK_DISALLOW_KEEP_ITEM", "opinion": { "trust": -3, "anger": 2 }, "effect": { "u_faction_rep": -15 } }
       },
       {
         "text": "What, this?  It's not the same one, you are mistaken.",
         "condition": "u_has_stolen_item",
-        "trial": { "type": "LIE", "difficulty": 25, "mod": [ [ "TRUST", 3 ] ] },
+        "trial": { "type": "LIE", "difficulty": 25, "mod": [ [ "TRUST", 3 ], [ "u_has_trait: PSYCHOPATH", -25 ] ] },
         "success": { "topic": "TALK_DONE", "effect": "remove_stolen_status" },
         "failure": { "topic": "TALK_DISALLOW_KEEP_ITEM", "opinion": { "trust": -3, "value": -1, "anger": 2 } }
       },

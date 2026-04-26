@@ -859,7 +859,8 @@
     "starting_trait": true,
     "active": true,
     "starts_active": true,
-    "vitamin_cost": 210
+    "vitamin_cost": 210,
+    "cancels": [ "ELFA_NV", "ELFA_FNV" ]
   },
   {
     "type": "mutation",
@@ -873,7 +874,8 @@
     "points": 4,
     "active": true,
     "starts_active": true,
-    "vitamin_cost": 190
+    "vitamin_cost": 190,
+    "cancels": [ "ELFA_NV", "ELFA_FNV" ]
   },
   {
     "type": "mutation",
@@ -887,7 +889,8 @@
     "points": 6,
     "active": true,
     "starts_active": true,
-    "vitamin_cost": 210
+    "vitamin_cost": 210,
+    "cancels": [ "ELFA_NV", "ELFA_FNV" ]
   },
   {
     "type": "mutation",
@@ -3014,7 +3017,7 @@
     "points": 0,
     "mixed_effect": true,
     "vitamin_cost": 160,
-    "flags": [ "COLDBLOOD3" ],
+    "flags": [ "COLDBLOOD3", "NO_BODY_HEAT" ],
     "enchantments": [
       {
         "values": [
@@ -3037,7 +3040,7 @@
     "mixed_effect": true,
     "purifiable": false,
     "vitamin_cost": 160,
-    "flags": [ "ECTOTHERM" ],
+    "flags": [ "ECTOTHERM", "NO_BODY_HEAT" ],
     "enchantments": [
       {
         "values": [
@@ -4411,9 +4414,8 @@
     "types": [ "VISION" ],
     "prereqs": [ "FEL_EYE" ],
     "points": 4,
-    "active": true,
-    "starts_active": true,
-    "vitamin_cost": 160
+    "vitamin_cost": 160,
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_feline" } ] } ]
   },
   {
     "type": "mutation",
@@ -5384,7 +5386,8 @@
     "mixed_effect": true,
     "vitamin_cost": 60,
     "visibility": 8,
-    "ugliness": 4
+    "ugliness": 4,
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_bulging" } ] } ]
   },
   {
     "type": "mutation",
@@ -5721,7 +5724,8 @@
     "points": 3,
     "active": true,
     "starts_active": true,
-    "vitamin_cost": 160
+    "vitamin_cost": 160,
+    "flags": [ "HIGH_GLARE" ]
   },
   {
     "type": "mutation",
@@ -6956,30 +6960,30 @@
     "type": "mutation",
     "id": "ELFA_NV",
     "name": { "str": "Fey Vision" },
-    "description": "The shadows don't seem as dark now.  Activate to toggle NV-visible areas on or off.",
+    "description": "The shadows don't seem as dark now.",
     "category": [ "ELFA" ],
     "types": [ "VISION" ],
     "prereqs": [ "ELFAEYES" ],
     "changes_to": [ "ELFA_FNV" ],
     "threshreq": [ "THRESH_ELFA" ],
     "points": 3,
-    "active": true,
-    "starts_active": true,
-    "vitamin_cost": 160
+    "vitamin_cost": 160,
+    "cancels": [ "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_fey" } ] } ]
   },
   {
     "type": "mutation",
     "id": "ELFA_FNV",
     "name": { "str": "Fey Nightsight" },
-    "description": "You have great low-light vision now, but it doesn't allow you to perform fine tasks such as crafting and reading in darkness.  Activate to toggle NV-visible areas on or off.",
+    "description": "You have great low-light vision now, but it doesn't allow you to perform fine tasks such as crafting and reading in darkness.",
     "category": [ "ELFA" ],
     "types": [ "VISION" ],
     "prereqs": [ "ELFA_NV" ],
     "threshreq": [ "THRESH_ELFA" ],
     "points": 5,
-    "active": true,
-    "starts_active": true,
-    "vitamin_cost": 210
+    "vitamin_cost": 210,
+    "cancels": [ "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_fey_full" } ] } ]
   },
   {
     "type": "mutation",

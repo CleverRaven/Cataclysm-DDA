@@ -41,6 +41,7 @@
 #include "harvest.h"
 #include "imgui/imgui.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_factory.h"
 #include "item_group.h"
 #include "item_location.h"
@@ -2149,6 +2150,12 @@ bool monster::melee_attack( Creature &target, float accuracy )
         debugmsg( "Z-Level view violation: %s tried to attack %s.", disp_name(), target.disp_name() );
         return false;
     }
+    // Prevent monsters from attacking THROUGH terrain if they are submerged under it & target isn't.
+    if( is_underwater() && !target.is_underwater() &&
+        ( here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, pos_bub() ) ||
+          here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, target.pos_bub() ) ) ) {
+        return false;
+    }
 
     const int monster_hit_roll = melee::melee_hit_range( accuracy );
     int hitspread = target.deal_melee_attack( this, monster_hit_roll );
@@ -3297,6 +3304,9 @@ void monster::generate_inventory( bool disableDrops )
             if( ( it.is_armor() || it.is_pet_armor() ) && !it.is_gun() ) {
                 // handle wearable guns as a special case
                 it.set_flag( json_flag_FILTHY );
+                for( item *pocket : it.get_contents().get_added_pockets_mutable() ) {
+                    pocket->set_flag( json_flag_FILTHY );
+                }
             }
         }
         inv.push_back( it );
@@ -3336,6 +3346,9 @@ void monster::drop_items_on_death( map *here, item *corpse ) const
             if( ( it.is_armor() || it.is_pet_armor() ) && !it.is_gun() ) {
                 // handle wearable guns as a special case
                 it.set_flag( json_flag_FILTHY );
+                for( item *pocket : it.get_contents().get_added_pockets_mutable() ) {
+                    pocket->set_flag( json_flag_FILTHY );
+                }
             }
         }
 
@@ -3851,6 +3864,9 @@ void monster::init_from_item( item &itm )
         for( item *it : itm.all_items_top( pocket_type::CONTAINER ) ) {
             if( it->is_armor() ) {
                 it->set_flag( json_flag_FILTHY );
+                for( item *pocket : it->get_contents().get_added_pockets_mutable() ) {
+                    pocket->set_flag( json_flag_FILTHY );
+                }
             }
             inv.push_back( *it );
             itm.remove_item( *it );

@@ -202,6 +202,45 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_WINTER_STOP_BLEEDING",
+    "effect": [
+      {
+        "foreach": "array",
+        "target": [ "arm_l", "arm_r", "leg_l", "leg_r", "torso", "head" ],
+        "var": { "context_val": "id" },
+        "effect": [
+          {
+            "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': _id) >= 1" ] },
+            "then": [
+              { "math": [ "_bleed_intensity = u_effect_intensity('bleed', 'bodypart': _id)" ] },
+              {
+                "u_deal_damage": "cold",
+                "amount": { "math": [ "max( 1, ( _bleed_intensity / 10 ) )" ] },
+                "bodypart": { "context_val": "id" }
+              },
+              { "u_lose_effect": "bleed", "target_part": { "context_val": "id" } }
+            ]
+          }
+        ]
+      },
+      {
+        "math": [
+          "u_spell_low_duration = ( ( ( 18.12 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 5.82) + (u_skill('gramarye') * 15.46) ) ) * (global_what_is_the_season == 2 ? 0.4 : 1) )"
+        ]
+      },
+      {
+        "math": [
+          "u_spell_high_duration = ( ( ( 35.21 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 13.46) + (u_skill('gramarye') * 36.46) ) ) * (global_what_is_the_season == 2 ? 0.4 : 1) )"
+        ]
+      },
+      {
+        "u_add_effect": "effect_changeling_winter_stop_bleeding",
+        "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHANGELING_WINTER_NEUTRALIZE_MORALE",
     "effect": [
       { "run_eocs": "EOC_FULL_MORALE_NEUTRALIZATION" },
