@@ -5,7 +5,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "otherworldly clamp-set" },
-    "description": "A set of 7 small clamps set upon a metal guide-board, each capable of rotating around in a circular configuration.  The board itself has several depressed marks, as if they're made to guide cuts, but they don't span any obvious units you're aware of.  The clamps slide in and out, toward each other, with unnatural ease.  You don't know this things original purpose, but it you think it would clamp and guide things quite efficiently.",
+    "description": "A set of 7 small clamps set upon a metal guide-board, each capable of rotating around in a circular configuration.  The board itself has several depressed marks, as if they're made to guide cuts, but they don't span any obvious units you're aware of.  The clamps slide in and out, toward each other, with unnatural ease.  You don't know this tool's original purpose, but it you think it would clamp and guide things quite efficiently.",
     "weight": "640 g",
     "volume": "600 ml",
     "price": "0 USD",
