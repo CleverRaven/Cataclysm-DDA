@@ -8,7 +8,7 @@ Overmap locations have different vision levels.  Some things are easy to see fro
 You can now take over and loot camps, pending nobody is there to stop you.
 Enjoy a beautiful sunrise or sunset.  What a time to be alive.
 Hub 01 expansion, including but not limited to missions, bespoke armor, and exoskeleton repairs.
-Yrax shinanigans.  They may be hard to find, but they're there...
+Yrax shenanigans.  They may be hard to find, but they're there...
 Boomers can give you eye infections!
 Duh-nuh-nuh-nuh-nuh-nuh-nuh-nuh, bat mutants.
 More Exodii guns (also new normal firearms).
@@ -21,7 +21,7 @@ The player can swap between defined outfits with the 'set of clothes' item.
 River generation overhaul - rivers are more rivery!
 Mutations, and your chances of getting bad ones, are based on how many mutation trees you've mutated into, and how many mutations you have.
 ASCII art for hundreds of items.
-Cities can have damage from the Catacylsm riots.
+Cities can have damage from the Cataclysm riots.
 
 ## Statistics:
 
