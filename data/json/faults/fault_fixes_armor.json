@@ -312,7 +312,7 @@
   {
     "type": "fault_fix",
     "id": "mend_armor_denim_hole_close",
-    "name": "Stitch the fabric back together",
+    "name": "Patch the hole",
     "faults_removed": [ "fault_denim_hole" ],
     "copy-from": "mend_armor_cotton_tear_stitch",
     "requirements": [ [ "tailoring_denim_small_simple", 1 ] ]
