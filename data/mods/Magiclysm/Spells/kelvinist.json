@@ -713,8 +713,6 @@
     "shape": "blast",
     "difficulty": 8,
     "max_level": 15,
-    "min_damage": 1,
-    "max_damage": 1,
     "min_duration": 60000,
     "max_duration": 960000,
     "duration_increment": 60000,
