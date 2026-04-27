@@ -3487,9 +3487,6 @@
     "time": "1 m",
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "components": [
-      [ [ "small_storage_battery", 1 ] ],
-      [ [ "salt_water", 2 ] ] 
-    ]
-   }
+    "components": [ [ [ "small_storage_battery", 1 ] ], [ [ "salt_water", 2 ] ] ]
+  }
 ]

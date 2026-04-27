@@ -389,6 +389,13 @@
     "skill_used": "electronics",
     "time": "20 m",
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "CUT_FINE", "level": 2 } ],
-    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "scrap", 7 ] ], [ [ "copper", 13 ] ], [ [ "aluminum_foil", 400 ] ], [ [ "graphite", 4900 ] ], [ [ "chem_nickel_powder", 2000 ] ] ]
+    "components": [
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "scrap", 7 ] ],
+      [ [ "copper", 13 ] ],
+      [ [ "aluminum_foil", 400 ] ],
+      [ [ "graphite", 4900 ] ],
+      [ [ "chem_nickel_powder", 2000 ] ]
+    ]
   }
 ]
