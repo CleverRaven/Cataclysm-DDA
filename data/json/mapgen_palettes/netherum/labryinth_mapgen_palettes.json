@@ -20,7 +20,7 @@
       "b": "f_exodii_charger",
       "B": "f_exodii_charger_cheap",
       "c": [ [ "f_metal_crate_r", 1 ], [ "f_metal_crate_c", 3 ] ],
-      "C": [ [ "f_metal_crate_r", 9 ], [ "f_metal_crate_c", 1 ] ],
+      "C": [ [ "f_metal_crate_r", 3 ], [ "f_metal_crate_c", 1 ] ],
       "¢": [ "f_metal_crate_r", "f_metal_crate_c", [ "f_null", 2 ] ],
       "Ç": "f_control_station",
       "d": "f_dialysis",

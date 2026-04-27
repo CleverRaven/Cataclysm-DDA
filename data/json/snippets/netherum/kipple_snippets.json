@@ -89,7 +89,11 @@
   {
     "type": "snippet",
     "category": "<meta_noun>",
-    "text": [ { "id": "<object_noun>", "text": "<object_noun>" }, { "id": "<trash_object>", "text": "<trash_object>" } ]
+    "text": [
+      { "id": "<object_noun>", "text": "<object_noun>" },
+      { "id": "<trash_object>", "text": "<trash_object>" },
+      { "id": "<nl_scrap_object>", "text": "<nl_scrap_object>" }
+    ]
   },
   {
     "type": "snippet",
@@ -141,6 +145,34 @@
       { "id": "brokenhandle", "text": "broken handle" },
       { "id": "scrapmetal", "text": "scrap metal" },
       { "id": "discardedlid", "text": "discarded lid" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<nl_scrap_object>",
+    "text": [
+      { "id": "nl_piston", "text": "piston" },
+      { "id": "nl_valve", "text": "valve" },
+      { "id": "nl_rocker_arm", "text": "rocker arm" },
+      { "id": "nl_lifter", "text": "lifter" },
+      { "id": "nl_ljoint", "text": "L-joint" },
+      { "id": "nl_manifold", "text": "manifold" },
+      { "id": "nl_nozzle", "text": "twisting nozzle" },
+      { "id": "nl_rotor", "text": "rotor" },
+      { "id": "nl_linkage", "text": "linkage" },
+      { "id": "nl_chamber", "text": "chamber" },
+      { "id": "nl_fluxrotor", "text": "fluxrotor" },
+      { "id": "nl_coil", "text": "coil" },
+      { "id": "nl_fluxcoil", "text": "fluxcoil" },
+      { "id": "nl_latchframe", "text": "latchframe" },
+      { "id": "nl_triplehinge", "text": "triplehinge" },
+      { "id": "nl_clampjoint", "text": "clamp-joint" },
+      { "id": "nl_meshedbore", "text": "meshed bore" },
+      { "id": "nl_doubleplate", "text": "double-plate" },
+      { "id": "nl_tripleplate", "text": "triple-plate" },
+      { "id": "nl_torgquetube", "text": "torque-tube" },
+      { "id": "nl_slag", "text": "slag" },
+      { "id": "nl_crumpledmass", "text": "crumpled mass" }
     ]
   },
   {
@@ -206,6 +238,11 @@
   },
   {
     "type": "snippet",
+    "category": "<meta_colors>",
+    "text": [ { "id": "<made_up_colors>", "text": "<made_up_colors>" }, { "id": "<nl_real_colors>", "text": "<nl_real_colors>" } ]
+  },
+  {
+    "type": "snippet",
     "category": "<made_up_colors>",
     "text": [
       { "id": "voidteal", "text": "void teal" },
@@ -228,6 +265,27 @@
       { "id": "smokesaffron", "text": "smoke saffron" },
       { "id": "voidplum", "text": "void plum" },
       { "id": "frostedochre", "text": "frosted ochre" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<nl_real_colors>",
+    "text": [
+      { "id": "nl_tyrianpurple", "text": "tyrian purple" },
+      { "id": "nl_caputmortuum", "text": "caput mortuum" },
+      { "id": "nl_verdigris", "text": "verdigris" },
+      { "id": "nl_uraniumgreen", "text": "uranium green" },
+      { "id": "nl_ivory", "text": "ivory" },
+      { "id": "nl_ebony", "text": "ebony" },
+      { "id": "nl_saffron", "text": "saffron" },
+      { "id": "nl_neonorange", "text": "neon orange" },
+      { "id": "nl_offyellow", "text": "off-yellow" },
+      { "id": "nl_coquelicot", "text": "coquelicot" },
+      { "id": "nl_offwhite", "text": "off-white" },
+      { "id": "nl_rose", "text": "rose" },
+      { "id": "nl_opaquecouche", "text": "opaque couché" },
+      { "id": "nl_sicklygreen", "text": "sickly green" },
+      { "id": "nl_neonyellow", "text": "neon yellow" }
     ]
   }
 ]
