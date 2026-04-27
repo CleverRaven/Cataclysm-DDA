@@ -347,9 +347,9 @@ static const itype_id itype_water_clean( "water_clean" );
 static const json_character_flag json_flag_ASOCIAL1( "ASOCIAL1" );
 static const json_character_flag json_flag_ASOCIAL2( "ASOCIAL2" );
 static const json_character_flag json_flag_IMMUNE_HEARING_DAMAGE( "IMMUNE_HEARING_DAMAGE" );
-static const json_character_flag json_flag_NUMB( "flag_NUMB" );
+static const json_character_flag json_flag_NUMB( "NUMB" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
-static const json_character_flag json_flag_PSYCHOPATH( "flag_PSYCHOPATH" );
+static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
 static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
@@ -411,7 +411,6 @@ static const ter_str_id ter_t_trunk( "t_trunk" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_NUMB( "NUMB" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 

@@ -117,7 +117,7 @@ static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_wall_wiring( "wall_wiring" );
 
-static const json_character_flag json_flag_PSYCHOPATH( "flag_PSYCHOPATH" );
+static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 
 static const morale_type morale_funeral( "morale_funeral" );
 static const morale_type morale_gravedigger( "morale_gravedigger" );
