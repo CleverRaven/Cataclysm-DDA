@@ -221,6 +221,10 @@ Changing move mode can cost time and is deferred
 NPC behavior tree evaluates for all NPCs, not just guards
 It is possible to make factions be radio-contactable
 Some limbs are unable to use firearms
+Applied faults to multiple cotton clothing pieces
+batch cooking of elderberries
+Misc ascii art for some common household items
+Add power hammer to the game. Add recipes it can be used for
 
 
 ## Content:
@@ -476,6 +480,15 @@ Add inner cabins dimension
 Greenhouses!
 Added the jetski map extra, a jetski abandoned on the side of the river
 Added the Final Showdown map extra, an injured survivor's last stand against a few zombies
+First AltarOS mission to upgrade labyrinth safehouse
+New alcohols from potion ingredients
+Dialogue and a teleporter to access the Alpha Exodii Labyrinth
+Path from the labyrinth to the string dimension
+A cost to enter the labyrinth
+Change vision level of Morgantown (XEDRA field mystery II)
+Add another power tool for blacksmithing as a successor to #86591, working towards smithing modernisation
+Adds a victim of a dermatik sting as a map extra
+Add oysters in shell, a recipe to craft shucked oysters from oysters in shell, a map-extra that spawns on lake shores called 'Tidal Flat' that generates oyster-covered boulders (which can be harvested for oysters), adds oysters to fresh fish market stall, adds fresh fish item group to stocked refrigerators
 
 
 ## Interface:
@@ -636,6 +649,8 @@ Show cable connections for appliances
 Split battery percentage into a separate widget from fuel
 Add viewport lock option for zone sorting
 Replace curses crafting menu with ImGui implementation
+Add vehicle tanks to the consume menu
+Fix uilist hotkey column size for key code input mode
 
 
 ## Mods:
@@ -1120,6 +1135,14 @@ XE Proficiency CBMs
 [Sky Island] Challenge Mode
 [Sky Island] NPCs may join raids
 [BPerks/MM/Sorc] XP mods can level up more than once at a time
+[Xedra Evolved] Add more seasonal glamours
+[Sky Island] Warped harness upgrades
+[MoM/Psychic Scream] Add backgrounds to start with random psychic knacks
+Aftershock: Add new wings to the agricultural habitat building.
+Add extended metamagic to bombastic perks with magiclysm
+[MoM] Scale MoM power XP based on the `SKILL_TRAINING_SPEED` external option
+[DDotD] Remove `WARM` flag from all zombies
+Fix heavy electronoetic battery copy-from
 
 ## Balance:
 Visitors Passes and Freight Badges no longer reveal roads
@@ -1265,6 +1288,12 @@ Being poisoned penalizes your health
 Easier lying to Rubik about selling the warehouse to Hub 01
 Fixes Cloud Formation and Pressure
 Respect magazine_well when calculating encumbrance
+Nobody wants to cooperate with psychopaths
+Fix high power drain of RC car and controller. Made RC car accept medium batteries.
+Add `Stubby Fingers` and `Extended Fingers` traits to lead into paws
+Zombie corpses aren't useful
+Power CBMs using Slots
+Change the ammunition stocks in the armory of multiple existing military locations
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1805,6 +1834,30 @@ Aftershock: Plasma degrades armors
 Stop spamming player log when NPCs are hot
 Stop ref center guard EOCs from firing in alternate dimensions
 Uncomfortable limbs must exist
+Allow Survival Knife to fit in knife sheaths
+lab coat encumbrance scales correctly
+Let wandering creatures stumble up regular stairs
+Disable colored light tint overlay in isometric mode
+Fix MOLLE pockets not being washed
+remove deprecated trait group from XE vampire mentor
+Correct tile rotations
+Restore default name setting in custom chargen
+Correct highway bridge support rotation on overmap
+remove nonexistent <ls_obelisk_firsttime2> snippet reference from labyrinth obelisks
+Stop zone sort from looping when destinations are at count limit
+Add missing is_animal flag to mammal monstergroups
+Fix ImGui window border showing on loading screen
+[MoM] Momentum alteration effectiveness cap
+Stop burned ground map extra spamming furniture-on-open-air debugmsg above ground level
+No more hub bionic duplications
+Fix NPCs not seeing the player through gaps the player sees them through
+Stop fault messages spamming for unowned items and substitute item name properly
+Fix loading screen text not being cleared
+Stop billboard_0 mapgen tripping debugmsgs over field furniture
+Fix recruited NPC follower oscillating between guard post and player
+Fix SDL render artifacts when closing ImGui UIs
+Age Constants and fixes
+Stop vehicle wrecks losing parts at OMT boundaries
 
 
 ## Performance:
@@ -1848,6 +1901,8 @@ Batch zone sorting pickups from nearby sources
 Shrink level_cache by 48kb to save almost 1MB of ram (or more with allocator overhead)
 Save map size by not serializing unnecessary item components.
 Skip lightmap rebuild on idle frames
+Speed up mapgen near item-heavy locations
+Speed up inventory stacking for e-files in nested containers
 
 
 ## Infrastructure:
@@ -2081,6 +2136,9 @@ Make map::add_spawn private to prevent hardcoded monster spawns
 Move items across dimensions with dimensional travel
 Remove single-magazine assumptions in item_contents
 Give access to an item's pre and post apocalypse price to EOCs
+Wrap remaining SDL names at the CATA_* boundary
+Fix flaky weighted_list test convergence
+Add crop_field overmap travel cost type so vehicle autodrive avoids farm fields
 
 
 ## Build:
@@ -2116,6 +2174,8 @@ Remove MXE from release, fix clang on macOS
 Fix maybe-uninitialized warning in unseal_and_spill_test
 Cache vcpkg installed packages in MSVC CI
 Build instruction and files for Visual Studio Code
+Guard snmalloc Windows libraries behind WIN32
+Fix GCC 15 build error in input_context
 
 
 ## I18N and A11Y:
