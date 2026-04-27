@@ -124,6 +124,43 @@
     "armor": { "bash": 10, "bullet": 2, "cut": 14, "stab": 20 }
   },
   {
+    "id": "mon_labyrinth_turret_1_2",
+    "type": "MONSTER",
+    "name": { "str": "massive bone turret" },
+    "description": "An immense tube, something between a fire hose and a cannon, set upon a rotating platform.  As you look closer, it becomes clear it's actually a grinding pile of cartilage, bone, and tendon, slowly rotating and scanning the area, an orange laser following its movements.",
+    "looks_like": "mon_exodii_turret",
+    "default_faction": "nether_hate_humans",
+    "species": [ "ROBOT", "HUMAN" ],
+    "diff": 20,
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 300,
+    "weakpoint_sets": [ "wps_turret" ],
+    "families": [ "prof_wp_netherium_abomination" ],
+    "speed": 90,
+    "material": [ "bone" ],
+    "symbol": "t",
+    "color": "light_red",
+    "aggression": 100,
+    "morale": 100,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "dodge": 1,
+    "vision_day": 50,
+    "vision_night": 40,
+    "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
+    "special_attacks": [
+      [ "nl_destruction_ray_damage_warming_up", 10 ],
+      {
+        "type": "spell",
+        "spell_data": { "id": "nl_destruction_ray" },
+        "cooldown": 15,
+        "monster_message": "An immense stream of air and debris flies forth!"
+      }
+    ],
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "IMMOBILE", "NO_BREATHE" ],
+    "armor": { "bash": 10, "bullet": 2, "cut": 14, "stab": 20 }
+  },
+  {
     "id": "mon_stiltwalker_1_1",
     "type": "MONSTER",
     "name": { "str": "Stiltwalker" },
