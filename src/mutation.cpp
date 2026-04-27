@@ -582,7 +582,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
     }
 
     if( mut == trait_ACIDBLOOD ) {
-        my_blood_type = blood_acid;
+        my_blood_type = blood_type::blood_acid;
     }
 
     if( mut == trait_GLASSJAW ) {
@@ -678,7 +678,7 @@ void Character::mutation_loss_effect( const trait_id &mut )
 
     // give the player a random new blood type, regardless of what it was before
     if( mut == trait_ACIDBLOOD ) {
-        my_blood_type = randomize_blood();
+        randomize_blood();
     }
 
     if( mut == trait_GLASSJAW ) {
