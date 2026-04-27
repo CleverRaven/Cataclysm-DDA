@@ -158,6 +158,6 @@
     "type": "fault",
     "id": "fault_denim_hole",
     "name": { "str": "Hole" },
-    "copy-from": "fault_denim_hole"
+    "copy-from": "fault_cotton_hole"
   }
 ]
