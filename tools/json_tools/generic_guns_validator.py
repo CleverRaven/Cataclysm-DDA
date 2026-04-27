@@ -50,6 +50,7 @@ SKILL_WHITELIST = {
 ID_WHITELIST = {
     # Guns
     'bone_dart_launcher',
+    'nl_destruction_ray',
     'coilgun',
     'slamfire_shotgun',
     'slamfire_shotgun_d',

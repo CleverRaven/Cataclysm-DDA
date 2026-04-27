@@ -4,10 +4,9 @@
     "type": "SPELL",
     "name": "Labyrinth Destruction Ray",
     "description": "Destruction ray for turret in labyrinthine structures.",
-    "valid_targets": [ "hostile", "ground" ],
+    "valid_targets": [ "ground" ],
     "effect": "bash",
-    "extra_effects": [ { "id": "nl_destruction_ray_damage" } ],
-    "flags": [ "NO_PROJECTILE", "IGNORE_WALLS" ],
+    "flags": [ "LOUD", "IGNORE_WALLS" ],
     "shape": "line",
     "min_damage": 999,
     "max_damage": 999,
@@ -15,50 +14,5 @@
     "max_aoe": 1,
     "min_range": 20,
     "max_range": 20
-  },
-  {
-    "id": "nl_destruction_ray_damage",
-    "type": "SPELL",
-    "name": "Labyrinth Destruction Ray Damage",
-    "description": "Damage with the destruction ray.",
-    "valid_targets": [ "hostile" ],
-    "effect": "attack",
-    "damage_type": "bash",
-    "flags": [ "NO_PROJECTILE", "IGNORE_WALLS" ],
-    "shape": "blast",
-    "min_damage": 20,
-    "max_damage": 50,
-    "min_range": 20,
-    "max_range": 20
-  },
-  {
-    "id": "nl_destruction_ray_damage_warming_up",
-    "type": "SPELL",
-    "name": "Labyrinth Destruction Ray Warning",
-    "description": "Warning between shots.",
-    "valid_targets": [ "hostile", "ground", "ally" ],
-    "effect": "attack",
-    "shape": "blast",
-    "effect_str": "nl_destruction_ray_damage_warming_up",
-    "flags": [ "NO_PROJECTILE", "IGNORE_WALLS", "SILENT" ],
-    "min_range": 20,
-    "max_range": 20
-  },
-  {
-    "type": "effect_type",
-    "id": "nl_destruction_ray_damage_warming_up",
-    "name": [ "Being Targeted" ],
-    "desc": [ "You're being targeted by an orange laser!" ],
-    "apply_message": "",
-    "max_duration": "60 s",
-    "rating": "bad"
-  },
-  {
-    "type": "monster_attack",
-    "id": "nl_destruction_ray_damage_warming_up",
-    "cooldown": 0,
-    "spell_data": { "id": "nl_destruction_ray_damage_warming_up" },
-    "monster_message": "You're being targeted by an orange laser!",
-    "attack_type": "spell"
   }
 ]

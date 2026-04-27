@@ -414,5 +414,16 @@
     "range": 10,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bile": 1000 }, "watertight": true } ],
     "melee_damage": { "bash": 9 }
+  },
+  {
+    "id": "nl_destruction_ray",
+    "copy-from": "v29",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "destruction ray", "//~": "NO_I18N" },
+    "energy_drain": "0 kJ",
+    "ammo_effects": [ "NL_DESTRUCTION_RAY" ],
+    "ranged_damage": { "damage_type": "bash", "amount": 15, "armor_penetration": 10 },
+    "flags": [ "PSEUDO", "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
   }
 ]

@@ -149,12 +149,22 @@
     "vision_night": 40,
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
     "special_attacks": [
-      [ "nl_destruction_ray_damage_warming_up", 10 ],
       {
-        "type": "spell",
-        "spell_data": { "id": "nl_destruction_ray" },
-        "cooldown": 15,
-        "monster_message": "An immense stream of air and debris flies forth!"
+        "type": "gun",
+        "cooldown": 20,
+        "move_cost": 200,
+        "gun_type": "nl_destruction_ray",
+        "fake_skills": [ [ "gun", 5 ] ],
+        "fake_dex": 12,
+        "ranges": [ [ 0, 25, "DEFAULT" ] ],
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "target_moving_vehicles": true,
+        "laser_lock": true,
+        "targeting_sound": "a series of fleshy knocks.",
+        "targeting_volume": 50,
+        "targeting_cost": 600,
+        "targeting_timeout_extend": -10
       }
     ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "IMMOBILE", "NO_BREATHE" ],
