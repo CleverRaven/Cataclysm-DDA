@@ -306,8 +306,15 @@
       {
         "name": "I am the One",
         "id": "lab_file_electrokinesis_05",
-        "weight": 900,
+        "weight": 650,
         "text": "I flow through the data and watch the patterns stream around me.  I turn and choose between them.  A confidential email exchange, perhaps.  A receipt from a delivery.  A junk email for performance enhancement.  The secret plans of XEDRA management.  All is laid bare before my electronic gaze.  Passwords do not even slow me down.  I hear the voices of the satellites as they chatter in ones and zeroes.  I am a true inhabitant of the digital age, at home on the waves of the sea of information.\n\n*Handwritten below in red are the words, \"Refer I32 for psychological evaluation.\"*"
+      },
+      {
+        
+        "name": "testing report R5-3317",
+        "id": "lab_file_electrokinesis_06",
+        "weight": 1000,
+        "text": "I32 was provided an air-gapped, recently-formatted desktop on which a series of text files containing a set of alphanumeric codes had been entered, as well as a notebook and a pen.  The desktop was not equipped with either a mouse, a keyboard, or a monitor.  Despite these limitations, I32 began writing after 23 seconds and within two minutes had transcribed the complete sequence of codes.\n\nFor the follow-up, I23 was provided with the same materials but had no physical access to the desktop.  Timing was similar to the first iteration of the experiment (22 seconds).\n\nFor a second follow-up, I32 also had no line of sight to the desktop due to it being placed in an adjacent room.  While I32 did eventually transcribe the sequence successfully, it took significantly longer (1 minute 15 seconds).  A further experiment to see if a Faraday cage or a shield of particular materials can block the effect is in the planning stage."
       }
     ]
   },
@@ -333,7 +340,7 @@
         "name": "Note scribbled on the back of an HR memo",
         "id": "lab_file_photokinesis_03",
         "weight": 500,
-        "text": "I'm not sure I should be writing this down but I'm definitely not putting it on the network.  Ever since the quarantine I've been able to pick up the occasional radio signal, mostly music, some news, some hobbyists\n\nThings are a lot worse than we're being told.  I keep hearing reports from preppers on the radio talking about rioters fighting police and the military with no regard for their safety, running screaming straight into gunfire.  And the reanimations are so widespread that they're happening basically everywhere.  Neither the police nor the military can keep up.\n\nThe brass have to know about this, so why aren't they telling us?  They're trying to maintain morale?  I have to keep practicing until I can send a signal to one of those preppers, tell them what I know.  Maybe something good can come from being stuck down here."
+        "text": "I'm not sure I should be writing this down but I'm definitely not putting it on the network.  Ever since the quarantine I've been able to pick up the occasional radio signal, mostly music, some news, some hobbyists.\n\nThings are a lot worse than we're being told.  I keep hearing reports from preppers on the radio talking about rioters fighting police and the military with no regard for their safety, running screaming straight into gunfire.  And the reanimations are so widespread that they're happening basically everywhere.  Neither the police nor the military can keep up.\n\nThe brass have to know about this, so why aren't they telling us?  They're trying to maintain morale?  I have to keep practicing until I can send a signal to one of those preppers, tell them what I know.  Maybe something good can come from being stuck down here."
       },
       {
         "name": "testing report C2-8850",
