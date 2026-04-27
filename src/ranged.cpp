@@ -166,7 +166,7 @@ static const flag_id json_flag_PUMP_ACTION( "PUMP_ACTION" );
 static const flag_id json_flag_SINGLE_ACTION( "SINGLE_ACTION" );
 
 static const material_id material_budget_steel( "budget_steel" );
-static const material_id material_case_hardened_steel( "case_hardened_steel" );
+static const material_id material_hardened_steel( "hardened_steel" );
 static const material_id material_glass( "glass" );
 static const material_id material_high_steel( "high_steel" );
 static const material_id material_iron( "iron" );
@@ -195,7 +195,7 @@ static const trap_str_id tr_target_spinner( "tr_target_spinner" );
 
 static const std::string gun_mechanical_simple( "gun_mechanical_simple" );
 
-static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_case_hardened_steel, material_high_steel, material_low_steel, material_med_steel, material_tempered_steel };
+static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_hardened_steel, material_high_steel, material_low_steel, material_med_steel, material_tempered_steel };
 
 // Maximum duration of aim-and-fire loop, in turns
 static constexpr int AIF_DURATION_LIMIT = 10;

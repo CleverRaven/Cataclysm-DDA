@@ -675,7 +675,7 @@
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" },
-      { "proficiency": "prof_quenching" }
+      { "proficiency": "prof_tempering" }
     ],
     "book_learn": [ [ "manual_mechanics", 3 ], [ "manual_fabrication", 3 ], [ "textbook_fabrication", 4 ] ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
@@ -1041,8 +1041,8 @@
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ],
     "steps": [
       {
-        "name": "Prep & cutting steel",
-        "time": "15 m",
+        "name": "Forge welding & cutting steel",
+        "time": "30 m",
         "activity_level": "MODERATE_EXERCISE",
         "using": [ [ "hotcut_any", -1 ] ],
         "proficiencies": [ { "proficiency": "prof_metalworking" } ]
@@ -1063,7 +1063,7 @@
       },
       {
         "name": "Truing the profile.  Flattening bevel.",
-        "time": "2 h",
+        "time": "3 h",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "GRIND", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
@@ -1071,12 +1071,17 @@
       { "name": "Normalizing steel", "time": "45 m", "activity_level": "NO_EXERCISE" },
       {
         "name": "Filing, sharpening, and polishing",
-        "time": "1 h 30 m",
+        "time": "3 h 30 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ [ { "id": "FILE", "level": 2 } ] ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
       },
-      { "name": "Shaping and attaching handle", "time": "35 m", "activity_level": "LIGHT_EXERCISE" }
+      {
+        "name": "Shaping and attaching handle",
+        "time": "45 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ { "id": "FILE", "level": 2 } ]
+      }
     ]
   },
   {

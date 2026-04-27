@@ -1987,8 +1987,7 @@
   {
     "type": "material",
     "id": "ch_steel",
-    "name": "Case Hardened Carbon Steel",
-    "//": "Case hardening based on average between .1 and .95 carbon steel with a 1.25 multiplier.",
+    "name": "Hardened Carbon Steel",
     "density": 8.0,
     "specific_heat_liquid": 0.82,
     "specific_heat_solid": 0.45,

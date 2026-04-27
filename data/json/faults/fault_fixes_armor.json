@@ -54,7 +54,7 @@
     "success_msg": "You weld %s hole.",
     "time": "3 h",
     "skills": { "fabrication": 6 },
-    "time_save_profs": { "prof_armorsmithing": 0.8, "prof_welding_basic": 0.9, "prof_welding": 0.8, "prof_case_hardening": 0.8 },
+    "time_save_profs": { "prof_armorsmithing": 0.8, "prof_welding_basic": 0.9, "prof_welding": 0.8, "prof_hardening": 0.8 },
     "requirements": [ [ "forging_standard", 1 ], [ "repair_welding_standard", 1 ], [ "carbon", 1 ] ]
   },
   {
@@ -66,7 +66,7 @@
     "success_msg": "You weld %s hole.",
     "time": "3 h",
     "skills": { "fabrication": 7 },
-    "time_save_profs": { "prof_armorsmithing": 0.8, "prof_welding_basic": 0.9, "prof_welding": 0.8, "prof_quenching": 0.8 },
+    "time_save_profs": { "prof_armorsmithing": 0.8, "prof_welding_basic": 0.9, "prof_welding": 0.8, "prof_tempering": 0.8 },
     "requirements": [
       [ "forging_standard", 1 ],
       [ "repair_welding_standard", 1 ],
@@ -152,7 +152,7 @@
     "success_msg": "You weld %s hole.",
     "time": "3 h",
     "skills": { "fabrication": 6 },
-    "time_save_profs": { "prof_armorsmithing": 0.9, "prof_blacksmithing": 0.9, "prof_case_hardening": 0.8 },
+    "time_save_profs": { "prof_armorsmithing": 0.9, "prof_blacksmithing": 0.9, "prof_hardening": 0.8 },
     "requirements": [ [ "blacksmithing_standard", 1 ], { "components": [ [ [ "lc_steel_chunk", 1 ] ] ] }, [ "carbon", 1 ] ]
   },
   {
@@ -163,7 +163,7 @@
     "success_msg": "You weld %s hole.",
     "time": "3 h",
     "skills": { "fabrication": 7 },
-    "time_save_profs": { "prof_armorsmithing": 0.9, "prof_blacksmithing": 0.9, "prof_quenching": 0.8 },
+    "time_save_profs": { "prof_armorsmithing": 0.9, "prof_blacksmithing": 0.9, "prof_tempering": 0.8 },
     "requirements": [
       [ "blacksmithing_standard", 1 ],
       { "components": [ [ [ "mc_steel_chunk", 1 ] ] ] },
@@ -221,7 +221,7 @@
     "id": "mend_armor_ch_replace",
     "name": "Replace the damaged part with a new one.",
     "faults_removed": [ "fault_armor_ch_punctured", "fault_armor_ch_dented" ],
-    "time_save_profs": { "prof_armorsmithing": 0.9, "prof_blacksmithing": 0.9, "prof_case_hardening": 0.9 },
+    "time_save_profs": { "prof_armorsmithing": 0.9, "prof_blacksmithing": 0.9, "prof_hardening": 0.9 },
     "requirements": [
       { "qualities": [ { "id": "CHISEL", "level": 3 } ] },
       { "tools": [ [ [ "swage", -1 ] ] ] },
@@ -237,7 +237,7 @@
     "name": "Replace the damaged part with a new one.",
     "time": "6 d 21h 36m",
     "faults_removed": [ "fault_armor_qt_punctured", "fault_armor_qt_dented" ],
-    "time_save_profs": { "prof_armorsmithing": 0.9, "prof_blacksmithing": 0.9, "prof_quenching": 0.9 },
+    "time_save_profs": { "prof_armorsmithing": 0.9, "prof_blacksmithing": 0.9, "prof_tempering": 0.9 },
     "requirements": [
       { "qualities": [ { "id": "CHISEL", "level": 3 } ] },
       {
