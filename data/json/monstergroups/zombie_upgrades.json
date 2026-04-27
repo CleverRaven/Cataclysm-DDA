@@ -37,6 +37,7 @@
     "monsters": [
       { "monster": "mon_zombie_rot", "weight": 250 },
       { "monster": "mon_zombie_rot_grabber", "weight": 350 },
+      { "monster": "mon_zombie_rot_diseased", "weight": 200 },
       { "monster": "mon_devourer", "weight": 150 }
     ]
   },
