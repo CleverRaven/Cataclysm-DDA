@@ -258,6 +258,7 @@ enum class blood_type {
     blood_A,
     blood_B,
     blood_AB,
+    blood_acid,
     num_bt
 };
 
