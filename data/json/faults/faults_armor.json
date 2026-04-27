@@ -152,12 +152,14 @@
     "type": "fault",
     "id": "fault_denim_torn",
     "name": { "str": "Torn denim" },
+    "description": "There's a tear in the fabric.",
     "copy-from": "fault_cotton_torn"
   },
   {
     "type": "fault",
     "id": "fault_denim_hole",
     "name": { "str": "Hole" },
+    "description": "There's a big hole in the fabric.",
     "copy-from": "fault_cotton_hole"
   }
 ]
