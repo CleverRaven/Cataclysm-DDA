@@ -409,6 +409,7 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "light_blue",
+    "faults": [ { "fault_group": "fabric_denim" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -465,6 +466,7 @@
     "symbol": "[",
     "looks_like": "jeans",
     "color": "light_blue",
+    "faults": [ { "fault_group": "fabric_denim" } ],
     "armor": [
       {
         "encumbrance": [ 7, 11 ],
@@ -527,6 +529,7 @@
     "symbol": "[",
     "looks_like": "jeans",
     "color": "light_blue",
+    "faults": [ { "fault_group": "fabric_denim" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -595,6 +598,7 @@
     "symbol": "[",
     "looks_like": "jeans",
     "color": "light_blue",
+    "faults": [ { "fault_group": "fabric_denim" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1877,6 +1881,7 @@
     "symbol": "[",
     "looks_like": "shorts",
     "color": "light_blue",
+    "faults": [ { "fault_group": "fabric_denim" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1933,6 +1938,7 @@
     "symbol": "[",
     "looks_like": "skirt",
     "color": "blue",
+    "faults": [ { "fault_group": "fabric_denim" } ],
     "warmth": 7,
     "armor": [
       { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },

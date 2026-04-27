@@ -957,6 +957,7 @@
     "looks_like": "dress_shirt",
     "symbol": "[",
     "color": "light_blue",
+    "faults": [ { "fault_group": "fabric_denim" } ],
     "flags": [ "VARSIZE" ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 4, 5 ] },
