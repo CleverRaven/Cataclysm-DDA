@@ -1387,6 +1387,7 @@
     "desc": [ "All emotion is frozen out." ],
     "remove_message": "You take a shuddering breath as emotion floods back into your heart.",
     "rating": "mixed",
+    "max_duration": 38400,
     "flags": [ "NUMB", "PSYCHOPATH" ]
   },
   {
@@ -1397,7 +1398,7 @@
     "apply_message": "",
     "remove_message": "The world seems dreary as your spell fades.",
     "rating": "good",
-    "max_duration": 38400,
+    "max_duration": 39600,
     "enchantments": [
       {
         "values": [
