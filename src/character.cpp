@@ -326,7 +326,6 @@ static const species_id species_HUMAN( "HUMAN" );
 static const start_location_id start_location_sloc_shelter_safe( "sloc_shelter_safe" );
 
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
-static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
@@ -2474,9 +2473,6 @@ void Character::recalc_sight_limits()
         ( is_mounted() && mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ) {
         vision_mode_cache.set( NIGHTVISION_3 );
     }
-    if( has_active_mutation( trait_CEPH_VISION ) ) {
-        vision_mode_cache.set( CEPH_VISION );
-    }
     if( has_active_mutation( trait_NIGHTVISION2 ) ) {
         vision_mode_cache.set( NIGHTVISION_2 );
     }
@@ -2518,7 +2514,7 @@ float Character::get_vision_threshold( float light_level ) const
                                      ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
 
     float range = get_per() / 3.0f;
-    if( vision_mode_cache[NIGHTVISION_3] || vision_mode_cache[CEPH_VISION] ) {
+    if( vision_mode_cache[NIGHTVISION_3] ) {
         range += 10;
     } else if( vision_mode_cache[NIGHTVISION_2] || vision_mode_cache[URSINE_VISION] ) {
         range += 4.5;

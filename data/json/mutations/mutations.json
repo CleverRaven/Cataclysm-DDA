@@ -5725,7 +5725,7 @@
     "active": true,
     "starts_active": true,
     "vitamin_cost": 160,
-    "flags": [ "HIGH_GLARE" ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_ceph" } ] } ]
   },
   {
     "type": "mutation",
