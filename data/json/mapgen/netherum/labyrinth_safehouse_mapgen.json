@@ -33,7 +33,8 @@
       "palettes": [ "labyrinthine_safehouse_palette" ],
       "computers": {
         "T": { "name": "bulbous console", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "COMP_labyrinthine_safehouse_computer" ] }
-      }
+      },
+      "item": { "f": { "item": "kipple_object" } }
     }
   },
   {
