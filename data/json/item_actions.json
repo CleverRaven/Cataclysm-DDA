@@ -857,7 +857,7 @@
   {
     "type": "item_action",
     "id": "musical_instrument",
-    "name": { "ctxt": "musical_instrument", "str": "Play" }
+    "name": { "str": "Play instrument" }
   },
   {
     "type": "item_action",
@@ -932,7 +932,7 @@
   {
     "type": "item_action",
     "id": "effect_on_conditions",
-    "name": { "str": "Activate item" }
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",

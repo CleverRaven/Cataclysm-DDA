@@ -26,6 +26,7 @@
 #include "debug_menu.h"
 #include "effect.h"
 #include "enums.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "imgui/imgui.h"
@@ -62,8 +63,6 @@
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
-
-class uilist_impl;
 
 static const efftype_id effect_pet( "pet" );
 
@@ -1197,6 +1196,9 @@ void debug_menu::wishitem( Character *you, const tripoint_bub_ms &pos )
                 canceled = popup.canceled();
             }
             if( !canceled ) {
+                if( granted.has_flag( flag_PRESERVE_SPAWN_LOC ) ) {
+                    granted.preserve_location( you->pos_abs() );
+                }
                 did_amount_prompt = true;
                 if( you != nullptr ) {
                     if( amount > 0 ) {

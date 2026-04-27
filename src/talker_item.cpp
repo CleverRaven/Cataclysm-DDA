@@ -179,15 +179,15 @@ void talker_item::die( map * )
     me_it->remove_item();
 }
 
-void talker_item::set_fault( const fault_id &fault_id, bool force, bool message )
+void talker_item::set_fault( const fault_id &fault_id, bool force, const Character *holder )
 {
-    me_it->get_item()->set_fault( fault_id, force, message );
+    me_it->get_item()->set_fault( fault_id, force, holder );
 }
 
 void talker_item::set_random_fault_of_type( const std::string &fault_type, bool force,
-        const bool message )
+        const Character *holder )
 {
-    me_it->get_item()->set_random_fault_of_type( fault_type, force, message );
+    me_it->get_item()->set_random_fault_of_type( fault_type, force, holder );
 }
 
 int talker_item_const::get_price() const

@@ -17,6 +17,8 @@
 #include "output.h"
 #include "string_formatter.h"
 
+class pp_generator;
+
 static const oter_str_id oter_road_nesw_manhole( "road_nesw_manhole" );
 
 static const oter_vision_id oter_vision_default( "default" );
@@ -466,6 +468,7 @@ std::string enum_to_string<oter_travel_cost_type>( oter_travel_cost_type data )
         case oter_travel_cost_type::highway: return "highway";
         case oter_travel_cost_type::road: return "road";
         case oter_travel_cost_type::field: return "field";
+        case oter_travel_cost_type::crop_field: return "crop_field";
         case oter_travel_cost_type::dirt_road: return "dirt_road";
         case oter_travel_cost_type::trail: return "trail";
         case oter_travel_cost_type::forest: return "forest";
@@ -554,6 +557,7 @@ static string_id<map_data_summary> map_data_for_travel_cost( oter_travel_cost_ty
         case oter_travel_cost_type::field:
         case oter_travel_cost_type::dirt_road:
             return map_data_summary_empty_omt;
+        case oter_travel_cost_type::crop_field:
         case oter_travel_cost_type::trail:
         case oter_travel_cost_type::forest:
         case oter_travel_cost_type::shore:
@@ -611,6 +615,8 @@ void oter_type_t::load( const JsonObject &jo, const std::string_view )
 
 
     optional( jo, was_loaded, "vision_levels", vision_levels, oter_vision_default );
+    optional( jo, was_loaded, "post_process_generators", post_process_generators,
+              string_id_reader<pp_generator> {} );
     optional( jo, false, "uniform_terrain", uniform_terrain );
     if( uniform_terrain ) {
         return;
@@ -650,6 +656,21 @@ void oter_type_t::check() const
     }
     if( uniform_terrain && !uniform_terrain->is_valid() ) {
         debugmsg( "Invalid uniform_terrain id '%s' for '%s'", uniform_terrain->c_str(), id.str() );
+    }
+    for( const pp_generator_id &gen : post_process_generators ) {
+        if( !gen.is_valid() ) {
+            debugmsg( "Invalid post_process_generators id '%s' for '%s'", gen.str(), id.str() );
+        }
+    }
+    if( !post_process_generators.empty() && has_flag( oter_flags::road ) ) {
+        debugmsg( "'%s' has post_process_generators but road flag; "
+                  "road OMTs use hardcoded dispatch and the field will be ignored",
+                  id.str() );
+    }
+    if( has_flag( oter_flags::pp_generate_riot_damage ) && post_process_generators.empty() ) {
+        DebugLog( D_WARNING, D_MAP_GEN ) <<
+                                         "oter_type " << id.str() << " uses deprecated PP_GENERATE_RIOT_DAMAGE flag; "
+                                         "use \"post_process_generators\": [\"riot_damage\"] instead";
     }
     /* find omts without vision_levels assigned
     if( vision_levels == oter_vision_default && !has_flag( oter_flags::should_not_spawn ) ) {
@@ -816,7 +837,7 @@ void oter_t::get_rotation_and_subtile( int &rotation, int &subtile ) const
 {
     if( is_linear() ) {
         const om_lines::type &t = om_lines::all[line];
-        rotation = t.rotation;
+        rotation = ( 4 - t.rotation ) % 4;;
         subtile = t.subtile;
     } else if( is_rotatable() ) {
         rotation = static_cast<int>( get_dir() );

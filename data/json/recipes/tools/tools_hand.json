@@ -1031,22 +1031,53 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "machete",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "6 h",
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
-      { "proficiency": "prof_bladesmith" }
-    ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ],
+    "steps": [
+      {
+        "name": "Prep & cutting steel",
+        "time": "15 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "using": [ [ "hotcut_any", -1 ] ],
+        "proficiencies": [ { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Forging profile and tang",
+        "time": "2 h 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Forging bevels and tapering",
+        "time": "1 h 10 m",
+        "activity_level": "BRISK_EXERCISE",
+        "tools": [ [ [ "hammer", -1 ] ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Truing the profile.  Flattening bevel.",
+        "time": "2 h",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      { "name": "Normalizing steel", "time": "45 m", "activity_level": "NO_EXERCISE" },
+      {
+        "name": "Filing, sharpening, and polishing",
+        "time": "1 h 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ [ { "id": "FILE", "level": 2 } ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      { "name": "Shaping and attaching handle", "time": "35 m", "activity_level": "LIGHT_EXERCISE" }
+    ]
   },
   {
     "type": "recipe",

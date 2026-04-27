@@ -178,6 +178,15 @@
   },
   {
     "type": "item_group",
+    "subtype": "collection",
+    "id": "map_extra_dermatik_victim_itemgroup",
+    "entries": [
+      { "group": "default_zombie_death_drops", "prob": 100, "damage": [ 1, 3 ] },
+      { "item": "corpse_dermatik_victim", "prob": 100, "damage": [ 1, 3 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "subtype": "distribution",
     "id": "underwear",
     "groups": [ [ "female_underwear", 50 ], [ "male_underwear", 50 ] ]

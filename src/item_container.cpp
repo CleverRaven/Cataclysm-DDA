@@ -165,12 +165,14 @@ int item::insert_cost( const item &it ) const
 }
 
 ret_val<void> item::put_in( const item &payload, pocket_type pk_type,
-                            const bool unseal_pockets, Character *carrier )
+                            const bool unseal_pockets, Character *carrier, const bool quiet )
 {
     ret_val<item *> result = contents.insert_item( payload, pk_type, false, unseal_pockets );
     if( !result.success() ) {
-        debugmsg( "tried to put an item (%s) count (%d) in a container (%s) that cannot contain it: %s",
-                  payload.typeId().str(), payload.count(), typeId().str(), result.str() );
+        if( !quiet ) {
+            debugmsg( "tried to put an item (%s) count (%d) in a container (%s) that cannot contain it: %s",
+                      payload.typeId().str(), payload.count(), typeId().str(), result.str() );
+        }
         return ret_val<void>::make_failure( result.str() );
     }
     if( pk_type == pocket_type::MOD ) {

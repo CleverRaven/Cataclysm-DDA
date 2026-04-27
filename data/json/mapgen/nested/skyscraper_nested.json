@@ -1419,7 +1419,8 @@
         "****************"
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -1447,7 +1448,8 @@
         "****************"
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -1485,7 +1487,8 @@
         "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -1513,7 +1516,8 @@
         "****************"
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -1541,7 +1545,8 @@
         "****************"
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -1581,7 +1586,8 @@
       },
       "furniture": { "å": "f_trashcan", "⌅": [ "f_indoor_plant", "f_indoor_plant_y" ] },
       "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
-      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -1621,7 +1627,8 @@
       },
       "furniture": { "å": "f_trashcan", "⌅": [ "f_indoor_plant", "f_indoor_plant_y" ] },
       "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
-      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -1661,7 +1668,8 @@
       },
       "furniture": { "å": "f_trashcan", "⌅": [ "f_indoor_plant", "f_indoor_plant_y" ] },
       "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
-      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -1701,7 +1709,8 @@
       },
       "furniture": { "å": "f_trashcan", "⌅": [ "f_indoor_plant", "f_indoor_plant_y" ] },
       "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
-      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -1729,7 +1738,8 @@
         "****************"
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -1765,7 +1775,8 @@
         "d": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "x": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -2035,7 +2046,8 @@
         "*V.............."
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -2063,7 +2075,8 @@
         "*V.............."
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -2091,7 +2104,8 @@
         "*V.............."
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -2119,7 +2133,8 @@
         "*V.............."
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -2157,7 +2172,8 @@
         "M": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -2185,7 +2201,8 @@
         "..............V*"
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -2213,7 +2230,8 @@
         "..............V*"
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -2241,7 +2259,8 @@
         "..............V*"
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -2269,7 +2288,8 @@
         "..............V*"
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -2305,7 +2325,8 @@
         "x": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -2457,7 +2478,8 @@
         "*****",
         "*****"
       ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -2474,7 +2496,8 @@
         "*****"
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -2490,7 +2513,8 @@
         "*****",
         "*****"
       ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -2507,7 +2531,8 @@
         "*****"
       ],
       "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
-      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -2523,7 +2548,8 @@
         "*****",
         "*****"
       ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "skyscraper_office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {

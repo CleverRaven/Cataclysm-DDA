@@ -2437,7 +2437,7 @@ void Character::cough( bool harmful, int loudness )
         const int stam = get_stamina();
         const int malus = get_stamina_max() * 0.05; // 5% max stamina
         mod_stamina( -malus );
-        if( stam < malus && x_in_y( malus - stam, malus ) && one_in( 6 ) ) {
+        if( stam < malus && x_in_y( malus - stam, malus ) && one_in( 20 ) ) {
             apply_damage( nullptr, body_part_torso, 1 );
         }
     }

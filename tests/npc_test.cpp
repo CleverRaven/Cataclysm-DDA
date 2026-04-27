@@ -3901,7 +3901,7 @@ TEST_CASE( "bt_idle_falls_through_to_cascade_goto", "[npc][behavior]" )
     CHECK( rl_dist( guy.pos_abs(), target ) < 5 );
 }
 
-TEST_CASE( "anchored_follower_uses_duty_not_follow", "[npc][behavior]" )
+TEST_CASE( "recruited_follower_with_guard_pos_follows_player", "[npc][behavior]" )
 {
     clear_map_without_vision();
     clear_avatar();
@@ -3918,7 +3918,6 @@ TEST_CASE( "anchored_follower_uses_duty_not_follow", "[npc][behavior]" )
     guy.set_fac( faction_your_followers );
     guy.set_attitude( NPCATT_FOLLOW );
     guy.rules.set_flag( ally_rule::follow_close );
-    guy.set_mission( NPC_MISSION_GUARD_ALLY );
     const tripoint_abs_ms post = guy.pos_abs() + tripoint( 10, 0, 0 );
     guy.set_guard_pos( post );
     calendar::turn = calendar::turn_zero + 12_hours;
@@ -3934,16 +3933,21 @@ TEST_CASE( "anchored_follower_uses_duty_not_follow", "[npc][behavior]" )
     const auto &[wh_start, wh_end] = guy.myclass.obj().get_work_hours();
     REQUIRE( ( wh_start == 0 && wh_end == 24 ) );
     REQUIRE( guy.get_guard_post().has_value() );
+    REQUIRE( guy.is_walking_with() );
     REQUIRE( guy.pos_abs() != post );
     REQUIRE( rl_dist( guy.pos_abs(), get_player_character().pos_abs() ) > 4 );
 
-    SECTION( "BT returns return_to_guard_pos, not follow_player" ) {
+    SECTION( "BT picks follow_player, suppresses duty" ) {
         behavior::character_oracle_t oracle( &guy );
+        CHECK( oracle.on_shift( "" ) == behavior::status_t::failure );
+        CHECK( oracle.displaced_from_post( "" ) == behavior::status_t::failure );
+        CHECK( oracle.duty_urgency( "" ) == Approx( 0.0f ) );
+        CHECK( oracle.npc_is_following( "" ) == behavior::status_t::running );
         behavior::tree decision_tree;
         decision_tree.add( &behavior_node_t_npc_decision.obj() );
-        CHECK( decision_tree.tick( &oracle ) == "return_to_guard_pos" );
+        CHECK( decision_tree.tick( &oracle ) == "follow_player" );
     }
-    SECTION( "live turns: NPC moves toward post, not player" ) {
+    SECTION( "live turns: NPC closes distance to player, not post" ) {
         const int initial_dist_post = rl_dist( guy.pos_abs(), post );
         const int initial_dist_player = rl_dist( guy.pos_abs(),
                                         get_player_character().pos_abs() );
@@ -3951,10 +3955,34 @@ TEST_CASE( "anchored_follower_uses_duty_not_follow", "[npc][behavior]" )
             guy.set_moves( 100 );
             guy.move();
         }
-        CHECK( rl_dist( guy.pos_abs(), post ) < initial_dist_post );
         CHECK( rl_dist( guy.pos_abs(), get_player_character().pos_abs() )
-               > initial_dist_player );
+               < initial_dist_player );
+        CHECK( rl_dist( guy.pos_abs(), post ) >= initial_dist_post );
     }
+}
+
+TEST_CASE( "follow_only_engages_follow_regardless_of_rules", "[npc][behavior]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    map &here = get_map();
+    get_player_character().setpos( here, tripoint_bub_ms( 50, 50, 0 ) );
+
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy, true );
+    guy.set_attitude( NPCATT_NULL );
+    // Simulate a stale "move freely" toggle from a prior interaction:
+    // base flag cleared. Mission-attached follow must engage anyway,
+    // since follow_close controls spacing, not whether-to-follow.
+    guy.rules.clear_flag( ally_rule::follow_close );
+    REQUIRE_FALSE( guy.rules.has_flag( ally_rule::follow_close ) );
+
+    talk_function::follow_only( guy );
+
+    CHECK( guy.get_attitude() == NPCATT_FOLLOW );
+    CHECK( guy.can_follow_player_now() );
+    // Loose-follow radius applies because follow_close stays cleared.
+    CHECK( guy.desired_follow_radius() == 6 );
 }
 
 TEST_CASE( "guard_assignment_clears_follow_commitment", "[npc][behavior]" )

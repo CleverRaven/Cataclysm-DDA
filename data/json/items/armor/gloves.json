@@ -450,24 +450,6 @@
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
-    "id": "gloves_bag",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str_sp": "bag gloves (pair)" },
-    "description": "A pair of disposable plastic bags, adapted to be used as gloves.",
-    "weight": "6 g",
-    "volume": "250 ml",
-    "price": "50 cent",
-    "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
-    "symbol": "[",
-    "looks_like": "gloves_wraps",
-    "color": "light_blue",
-    "material_thickness": 0.01,
-    "flags": [ "WATERPROOF", "OVERSIZE", "OUTER", "SOFT" ],
-    "armor": [ { "encumbrance": 7, "coverage": 70, "covers": [ "hand_l", "hand_r" ] } ]
-  },
-  {
     "id": "gloves_fingerless",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],

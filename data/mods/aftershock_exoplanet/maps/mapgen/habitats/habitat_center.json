@@ -120,5 +120,85 @@
       },
       "furniture": { "3": "f_habitat_floodlight" }
     }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_center_left_hallway",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                       -",
+        "                       -",
+        "             -...-------",
+        "             -.,......,!",
+        "             -.,......,!",
+        "             -----------",
+        "                       -",
+        "                       -",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        ".": "t_metal_floor",
+        ",": "t_metal_floor_olight",
+        "!": [ [ "t_door_metal_c", 5 ], [ "t_door_metal_pickable", 3 ], [ "t_door_metal_locked", 1 ], [ "t_door_metal_o", 5 ] ],
+        "-": "t_wall_metal"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_center_right_hallway",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "-                       ",
+        "-                       ",
+        "------..-               ",
+        "!.,...,.-               ",
+        "!.,...,.-               ",
+        "---------               ",
+        "-                       ",
+        "-                       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        ".": "t_metal_floor",
+        ",": "t_metal_floor_olight",
+        "!": [ [ "t_door_metal_c", 5 ], [ "t_door_metal_pickable", 3 ], [ "t_door_metal_locked", 1 ], [ "t_door_metal_o", 5 ] ],
+        "-": "t_wall_metal"
+      }
+    }
   }
 ]

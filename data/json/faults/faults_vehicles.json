@@ -97,5 +97,29 @@
     "vehicle_move_penalty_mod": 5,
     "item_suffix": "rim",
     "flags": [ "FLAT_TIRE" ]
+  },
+  {
+    "id": "fault_axle_broken",
+    "type": "fault",
+    "name": { "str": "Broken axle" },
+    "//COMMENT": "INTENTIONALLY CANNOT BE REPAIRED. It must be replaced. You aren't fixing this!",
+    "description": "This primitive wheel's axle has completely snapped.  The wheel will have to be replaced entirely.",
+    "//COMMENT2": "These values are meant to instantly render the vehicle part 'destroyed'.",
+    "instant_damage": 4000,
+    "degradation_mod": 4000,
+    "price_modifier": 0.0,
+    "item_suffix": "broken axle"
+  },
+  {
+    "id": "fault_cracked_rim",
+    "type": "fault",
+    "name": { "str": "Cracked" },
+    "description": "This primitive wheel has been damaged by riding rough.",
+    "//COMMENT": "This damage causes the wheel to have worse steering until 'repaired'. The fault itself cannot be mended and will continue to impair its ability as a wheel.",
+    "instant_damage": 1000,
+    "price_modifier": 0.1,
+    "contact_area_mod": 0.7,
+    "rolling_resistance_mod": 1.5,
+    "item_suffix": "cracked"
   }
 ]

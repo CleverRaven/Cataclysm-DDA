@@ -145,7 +145,7 @@
     "color": "light_cyan",
     "move_cost_mod": -1,
     "coverage": 55,
-    "required_str": 16,
+    "required_str": -1,
     "flags": [ "TRANSPARENT", "NOITEM" ],
     "bash": {
       "str_min": 40,
@@ -154,5 +154,43 @@
       "items": [ { "item": "afs_catalytic_core", "count": 1 }, { "item": "frame", "count": 1 } ]
     },
     "deconstruct": { "items": [ { "item": "afs_catalytic_core", "count": 1 }, { "item": "frame", "count": 1 } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_algae_bioreactor",
+    "name": "panel bioreactor",
+    "looks_like": "f_solar_unit",
+    "description": "Tall panels of glass stretching up to the ceiling, with a complex network of pipes and tubes running between them.  Purpose built for the cultivation of algae.",
+    "symbol": "&",
+    "bgcolor": "yellow",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "flags": [ "NOITEM", "TRANSLUCENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "reinforced_glass_sheet", "count": 8 },
+        { "item": "afs_material_1", "count": [ 10, 20 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
+        { "item": "pipe_fittings", "count": 4 },
+        { "item": "pipe", "prob": 80 },
+        { "item": "mc_steel_lump", "prob": 60 },
+        { "item": "hose", "prob": 50 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 45,
+      "sound": "smash!",
+      "sound_fail": "thunk.",
+      "items": [
+        { "item": "glass_shard", "count": [ 20, 50 ] },
+        { "item": "afs_material_1", "count": [ 1, 20 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
+        { "item": "pipe_fittings", "count": 4 },
+        { "item": "pipe", "prob": 80 },
+        { "item": "mc_steel_lump", "prob": 60 },
+        { "item": "hose", "prob": 50 }
+      ]
+    }
   }
 ]

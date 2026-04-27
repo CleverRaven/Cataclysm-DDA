@@ -2787,5 +2787,20 @@
     "id": "sinister_dress",
     "replace": "long_dress_sleeved",
     "variant": "sinister"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "broken_molebot",
+    "replace": "pickaxe"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "schematics_molebot",
+    "replace": "textbook_electronics"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bot_molebot",
+    "replace": "pickaxe"
   }
 ]

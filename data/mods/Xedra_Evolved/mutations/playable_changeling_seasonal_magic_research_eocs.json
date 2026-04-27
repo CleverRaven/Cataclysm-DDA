@@ -631,7 +631,8 @@
         "u_roll_remainder": [
           "changeling_spring_protective_plant_armor_spell",
           "changeling_spring_remove_fatigue_and_sleep_deprivation_spell",
-          "changeling_spring_summon_rain_shower_spell"
+          "changeling_spring_summon_rain_shower_spell",
+          "changeling_spring_enchanted_butterfly_wings_spell"
         ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
@@ -645,7 +646,11 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_4",
     "effect": [
       {
-        "u_roll_remainder": [ "changeling_spring_healing_increase_while_outside_spell", "changeling_spring_summon_smashing_plants_spell" ],
+        "u_roll_remainder": [
+          "changeling_spring_healing_increase_while_outside_spell",
+          "changeling_spring_summon_smashing_plants_spell",
+          "changeling_spring_fertilize_plant_aoe_spell"
+        ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
@@ -869,7 +874,7 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_TIER_5",
     "effect": [
       {
-        "u_roll_remainder": [ "changeling_autumn_create_confusion_mist_spell" ],
+        "u_roll_remainder": [ "changeling_autumn_time_fells_mighty_warrior" ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
@@ -917,7 +922,9 @@
         "u_roll_remainder": [
           "changeling_winter_walk_on_water_spell",
           "changeling_winter_freeze_target_in_place_spell",
-          "changeling_winter_walk_in_silence"
+          "changeling_winter_walk_in_silence",
+          "changeling_winter_create_field_of_ice_spell",
+          "changeling_winter_walk_on_the_snow"
         ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
@@ -935,6 +942,7 @@
           "changeling_winter_frozen_breath_spell",
           "changeling_winter_feign_death_spell",
           "changeling_winter_silence_spell",
+          "changeling_winter_stop_bleeding_spell",
           "changeling_winter_blinding_spell"
         ],
         "type": "spell",

@@ -1144,7 +1144,8 @@
       { "item": "fish_scrap", "prob": 20, "count": [ 3, 6 ] },
       { "item": "lobster", "prob": 10 },
       { "item": "gastropod_purged", "prob": 10, "count": [ 3, 8 ] },
-      { "item": "mollusk", "prob": 10, "count": [ 1, 2 ] }
+      { "item": "mollusk", "prob": 10, "count": [ 1, 2 ] },
+      { "item": "oyster", "prob": 10, "count": [ 6, 24 ] }
     ]
   },
   {

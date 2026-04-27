@@ -12,12 +12,12 @@
         "time_in_future": [
           {
             "math": [
-              "( ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 150) + 900) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 150) + 900) * psionic_power_modifiers()"
             ]
           },
           {
             "math": [
-              "( ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 300) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 300) + 1800) * psionic_power_modifiers()"
             ]
           }
         ]
@@ -53,12 +53,12 @@
         "time_in_future": [
           {
             "math": [
-              "( ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 150) + 900) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 150) + 900) * psionic_power_modifiers()"
             ]
           },
           {
             "math": [
-              "( ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 300) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 300) + 1800) * psionic_power_modifiers()"
             ]
           }
         ]
@@ -77,16 +77,8 @@
       {
         "run_eocs": "EOC_ELECTROKIN_ZAP_ENEMIES_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('electrokinetic_zap_enemies') * 80) + 300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('electrokinetic_zap_enemies') * 225) + 800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('electrokinetic_zap_enemies') * 80) + 300) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('electrokinetic_zap_enemies') * 225) + 800) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -110,16 +102,8 @@
       {
         "run_eocs": "EOC_ELECTROKIN_ZAP_ENEMIES_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('electrokinetic_zap_enemies') * 80) + 300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('electrokinetic_zap_enemies') * 225) + 800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('electrokinetic_zap_enemies') * 80) + 300) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('electrokinetic_zap_enemies') * 225) + 800) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -136,16 +120,8 @@
       {
         "run_eocs": "EOC_ELECTROKIN_MELEE_ATTACKS_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('electrokinetic_melee_attacks') * 55) + 240) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('electrokinetic_melee_attacks') * 90) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('electrokinetic_melee_attacks') * 55) + 240) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('electrokinetic_melee_attacks') * 90) + 600) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -169,16 +145,8 @@
       {
         "run_eocs": "EOC_ELECTROKIN_MELEE_ATTACKS_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('electrokinetic_melee_attacks') * 55) + 240) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('electrokinetic_melee_attacks') * 90) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('electrokinetic_melee_attacks') * 55) + 240) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('electrokinetic_melee_attacks') * 90) + 600) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -197,12 +165,12 @@
         "time_in_future": [
           {
             "math": [
-              "( ( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 45 ) + 600) * psionic_power_modifiers()"
             ]
           },
           {
             "math": [
-              "( ( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 90 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 90 ) + 1800) * psionic_power_modifiers()"
             ]
           }
         ]
@@ -225,7 +193,7 @@
     "effect": {
       "switch": {
         "math": [
-          "(u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+          "(u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * psionic_power_modifiers()"
         ]
       },
       "cases": [
@@ -331,12 +299,12 @@
         "time_in_future": [
           {
             "math": [
-              "( ( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 45 ) + 600) * psionic_power_modifiers()"
             ]
           },
           {
             "math": [
-              "( ( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 90 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 90 ) + 1800) * psionic_power_modifiers()"
             ]
           }
         ]
@@ -366,14 +334,10 @@
         "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_DRAIN",
         "time_in_future": [
           {
-            "math": [
-              "min( (( ( (u_spell_level('electrokinetic_personal_battery') * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
-            ]
+            "math": [ "min( ( ( (u_spell_level('electrokinetic_personal_battery') * 45 ) + 600) * psionic_power_modifiers() ), 14400)" ]
           },
           {
-            "math": [
-              "min( (( ( (u_spell_level('electrokinetic_personal_battery') * 90 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
-            ]
+            "math": [ "min( ( ( (u_spell_level('electrokinetic_personal_battery') * 90 ) + 1800) * psionic_power_modifiers() ), 14400)" ]
           }
         ]
       }
@@ -395,14 +359,10 @@
         "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT_BEGIN",
         "time_in_future": [
           {
-            "math": [
-              "max( ( 60 - ( ( (u_spell_level('electrokinetic_personal_battery') * 2.5 ) * scaling_factor(u_val('intelligence')  ) * u_nether_attunement_power_scaling ) ) ), 5)"
-            ]
+            "math": [ "max( ( 60 - ( ( (u_spell_level('electrokinetic_personal_battery') * 2.5 ) * psionic_power_modifiers() ) ) ), 5)" ]
           },
           {
-            "math": [
-              "max( ( 240 - ( (  (u_spell_level('electrokinetic_personal_battery') * 5 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling ) ) ), 10)"
-            ]
+            "math": [ "max( ( 240 - ( (  (u_spell_level('electrokinetic_personal_battery') * 5 ) * psionic_power_modifiers() ) ) ), 10)" ]
           }
         ]
       },
@@ -410,7 +370,7 @@
         "math": [
           "u_electrokin_personal_battery_power_count",
           "=",
-          "( (u_spell_level('electrokinetic_personal_battery') / 5) + 1) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+          "( (u_spell_level('electrokinetic_personal_battery') / 5) + 1) * psionic_power_modifiers()"
         ]
       },
       { "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_EFFECT" }
@@ -541,14 +501,10 @@
         "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_DRAIN",
         "time_in_future": [
           {
-            "math": [
-              "min( (( ( (u_spell_level('electrokinetic_personal_battery') * 45 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
-            ]
+            "math": [ "min( ( ( (u_spell_level('electrokinetic_personal_battery') * 45 ) + 600) * psionic_power_modifiers() ), 14400)" ]
           },
           {
-            "math": [
-              "min( (( ( (u_spell_level('electrokinetic_personal_battery') * 90 ) + 1800) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 14400)"
-            ]
+            "math": [ "min( ( ( (u_spell_level('electrokinetic_personal_battery') * 90 ) + 1800) * psionic_power_modifiers() ), 14400)" ]
           }
         ]
       }
@@ -565,16 +521,8 @@
       {
         "run_eocs": "EOC_ELECTROKIN_REDUCE_PAIN_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('electrokinetic_reduce_pain') * 120) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('electrokinetic_reduce_pain') * 280) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('electrokinetic_reduce_pain') * 120) + 600) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('electrokinetic_reduce_pain') * 280) + 1500) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -598,16 +546,8 @@
       {
         "run_eocs": "EOC_ELECTROKIN_REDUCE_PAIN_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('electrokinetic_reduce_pain') * 120) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('electrokinetic_reduce_pain') * 280) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('electrokinetic_reduce_pain') * 120) + 600) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('electrokinetic_reduce_pain') * 280) + 1500) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -624,16 +564,8 @@
       {
         "run_eocs": "EOC_ELECTROKIN_SPEED_BOOST_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('electrokinetic_speed_boost') * 18) + 81) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('electrokinetic_speed_boost') * 57) + 286) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('electrokinetic_speed_boost') * 18) + 81) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('electrokinetic_speed_boost') * 57) + 286) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -657,16 +589,8 @@
       {
         "run_eocs": "EOC_ELECTROKIN_SPEED_BOOST_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('electrokinetic_speed_boost') * 18) + 81) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('electrokinetic_speed_boost') * 57) + 286) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('electrokinetic_speed_boost') * 18) + 81) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('electrokinetic_speed_boost') * 57) + 286) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -684,16 +608,8 @@
       {
         "run_eocs": "EOC_ELECTROKIN_LIGHTNING_AURA_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('electrokinetic_lightning_aura') * 15) + 60) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('electrokinetic_lightning_aura') * 25) + 250) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('electrokinetic_lightning_aura') * 15) + 60) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('electrokinetic_lightning_aura') * 25) + 250) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -721,16 +637,8 @@
       {
         "run_eocs": "EOC_ELECTROKIN_LIGHTNING_AURA_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('electrokinetic_lightning_aura') * 15) + 60) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('electrokinetic_lightning_aura') * 25) + 250) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('electrokinetic_lightning_aura') * 15) + 60) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('electrokinetic_lightning_aura') * 25) + 250) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -746,9 +654,7 @@
         "monster": "",
         "target_min_radius": 0,
         "target_max_radius": {
-          "math": [
-            "min( ( (u_spell_level('electrokinetic_lightning_aura') * 0.33) + 2) * (scaling_factor(u_val('intelligence') ) ), 10)"
-          ]
+          "math": [ "min( ( ( (u_spell_level('electrokinetic_lightning_aura') * 0.33) + 2) * psionic_power_modifiers() ), 10)" ]
         }
       },
       {

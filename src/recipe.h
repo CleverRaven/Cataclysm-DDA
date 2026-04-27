@@ -121,7 +121,9 @@ struct recipe_step {
     batch_savings batch_info;
     // Stored as requirement_id refs during load, resolved during finalize
     std::vector<std::pair<requirement_id, int>> reqs_internal;
-    // Populated during finalize from reqs_internal
+    // External requirements via "using" syntax, resolved during finalize
+    std::vector<std::pair<requirement_id, int>> reqs_external;
+    // Populated during finalize from reqs_internal + reqs_external
     requirement_data requirements;
 
     void load( const JsonObject &jo, const std::string &recipe_name, int step_index );

@@ -523,5 +523,25 @@
       { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "assist_arm_r" }, { "gain": "assist_arm_l" } ] },
       { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.6 } ] }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "MUTATION_COSMETIC_BUTTERFLY_WINGS",
+    "name": { "str": "Butterfly Wings Sprite Mutation", "//~": "NO_I18N" },
+    "description": { "str": "This exists only to tie a sprite to.", "//~": "NO_I18N" },
+    "points": 0,
+    "valid": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "MUTATION_NO_RIGID_TORSO_ARMOR",
+    "name": { "str": "No Rigid Torso Armor", "//~": "NO_I18N" },
+    "description": { "str": "This exists only to prevent rigid armor on the torso.", "//~": "NO_I18N" },
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "restricts_gear": [ "torso" ],
+    "allow_soft_gear": true
   }
 ]

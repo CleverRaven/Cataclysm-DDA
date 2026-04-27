@@ -20,6 +20,7 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP", "DURABLE_MELEE" ],
     "weapon_category": [ "BATONS" ],
+    "faults": [ { "fault_group": "steel_pipe_short", "weight_mult": 0.2 } ],
     "melee_damage": { "bash": 19, "cut": 1 },
     "//2": "Based on https://www.amazon.com/dp/B07B4JDQB4"
   },
@@ -97,6 +98,7 @@
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
     "flags": [ "BELT_CLIP", "FRAGILE_MELEE" ],
     "weapon_category": [ "BATONS" ],
+    "faults": [ { "fault_group": "steel_pipe_short" } ],
     "melee_damage": { "bash": 10, "cut": 1 }
   },
   {
@@ -150,6 +152,7 @@
     "price": "90 USD",
     "qualities": [ [ "HAMMER", 1 ], [ "PRY", 3 ], [ "COOK", 1 ] ],
     "use_action": [ "CROWBAR" ],
+    "faults": [ { "fault_group": "steel_pipe_long", "weight_mult": 0.1 } ],
     "melee_damage": { "bash": 45 },
     "//2": "Based on https://www.amazon.com/dp/B007DHX596"
   }

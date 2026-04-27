@@ -219,6 +219,24 @@
   },
   {
     "type": "furniture",
+    "id": "f_camp_anvil",
+    "name": "anvil (camp)",
+    "looks_like": "f_anvil",
+    "description": "A heavy block of oddly-shaped metal with a pritchel hole and hardy hole.  It's used for metalworking.",
+    "symbol": "^",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 10,
+    "mass": "26 kg",
+    "crafting_pseudo_item": "fake_anvil",
+    "//COMMENT": "Yes this can technically be used to transform any other anvil into a regular anvil, but they are effectively interchangeable so this is not a serious problem.",
+    "item": "anvil",
+    "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
+    "bash": { "str_min": 130, "str_max": 500, "sound": "crunch!", "sound_fail": "whump." }
+  },
+  {
+    "type": "furniture",
     "id": "f_anvil_bronze",
     "name": "bronze anvil",
     "looks_like": "f_anvil",
@@ -845,6 +863,33 @@
     "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
     "item": "drill_press",
     "bash": { "str_min": 40, "str_max": 150, "sound_fail": "clang!" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_power_hammer",
+    "name": "power hammer",
+    "looks_like": "f_drophammer",
+    "description": "A self-contained pneumatic power hammer using compressed air from an integrated compressor to strike repeatedly with great force.  Used for efficiently shaping and working metal.",
+    "symbol": "7",
+    "color": "light_blue",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 17,
+    "mass": "1100 kg",
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "power_hammer" },
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 60,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "hc_steel_chunk", "count": [ 8, 12 ] },
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "e_scrap", "count": [ 2, 4 ] },
+        { "item": "steel_plate", "count": [ 10, 12 ] }
+      ]
+    }
   },
   {
     "type": "furniture",

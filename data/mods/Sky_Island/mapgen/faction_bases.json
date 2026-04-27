@@ -7,6 +7,12 @@
   },
   {
     "type": "overmap_special",
+    "id": "Cabin_Lapin",
+    "copy-from": "Cabin_Lapin",
+    "extend": { "flags": [ "SKY_ISLAND_NO_RAID_SPAWN" ] }
+  },
+  {
+    "type": "overmap_special",
     "id": "Isherwood Farm Mutable",
     "copy-from": "Isherwood Farm Mutable",
     "extend": { "flags": [ "SKY_ISLAND_NO_RAID_SPAWN" ] }

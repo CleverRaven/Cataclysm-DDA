@@ -415,6 +415,8 @@ struct jmapgen_objects {
                                      const mapgen_parameters &params, int depth_limit ) const;
         void collect_terrain_data( terrain_coord_map &data,
                                    const mapgen_parameters &params, int depth_limit ) const;
+        void collect_furniture_coords( std::set<point_rel_ms> &coords,
+                                       const mapgen_parameters &params, int depth_limit ) const;
         void check_nested_overlaps(
             const std::string &context,
             const mapgen_parameters &parameters,
@@ -432,6 +434,8 @@ struct jmapgen_objects {
          **/
         ret_val<void> has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &offset ) const;
 
+        void collect_terrain_coords_for_sibling( std::set<point_rel_ms> &coords,
+                const mapgen_parameters &params ) const;
     private:
         /**
          * Combination of where to place something and what to place.
@@ -456,12 +460,15 @@ class mapgen_function_json_base
         void add_placement_coords_to( std::unordered_set<point_rel_ms> & ) const;
 
         bool has_furniture_clearing_flags() const;
+        bool reliably_clears_furniture() const;
         point_rel_ms get_mapgensize() const;
         bool has_unguarded_terrain_for_furniture( int depth_limit = 10 ) const;
         void collect_terrain_coords( std::set<point_rel_ms> &coords,
                                      int depth_limit = 10 ) const;
         void collect_terrain_data( terrain_coord_map &data,
                                    int depth_limit = 10 ) const;
+        void collect_furniture_coords( std::set<point_rel_ms> &coords,
+                                       int depth_limit = 10 ) const;
         void collect_setmap_terrain( terrain_coord_map &data ) const;
 
         virtual const mapgen_value<ter_id> *get_fill_ter() const {
@@ -470,6 +477,11 @@ class mapgen_function_json_base
 
         const mapgen_parameters &get_parameters() const {
             return parameters;
+        }
+
+        // For static sibling overlap checks
+        const jmapgen_objects &jmapgen_objects_for_check() const {
+            return objects;
         }
 
     private:

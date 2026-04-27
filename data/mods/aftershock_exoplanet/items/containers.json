@@ -92,6 +92,74 @@
     "flags": [ "COLLAPSE_CONTENTS", "BELT_CLIP" ]
   },
   {
+    "id": "afs_sample_container",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "cryogenic flask" },
+    "looks_like": "thermos",
+    "description": "A sealed flask used to transport hazardous and delicate materials.  Of advanced design, it utilizes a miniaturized riemann barrier to achieve both perfect insulation and containment.  Although the scientific principles of Riemann barriers are not completely lost, its exceedingly difficult for contemporary industry to produce emitters of this size, making these containers extremely valuable.",
+    "subtypes": [ "TOOL" ],
+    "ascii_picture": "thermos",
+    "weight": "530 g",
+    "volume": "1250 ml",
+    "longest_side": "32 cm",
+    "price": "175 USD ",
+    "price_postapoc": "175 USD",
+    "material": [ "steel" ],
+    "symbol": "I",
+    "color": "green",
+    "tool_ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "750 ml",
+        "insulation": 3000,
+        "max_contains_weight": "4 kg"
+      },
+      { "pocket_type": "MAGAZINE_WELL", "holster": true, "item_restriction": [ "afs_compact_cartridge" ] }
+    ],
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn on",
+      "msg": "You activate your %s.  A faint humming noise can be heard as the Riemann barrier powers up.",
+      "target": "afs_sample_container_on"
+    },
+    "flags": [ "COLLAPSE_CONTENTS", "BELT_CLIP" ]
+  },
+  {
+    "id": "afs_sample_container_on",
+    "type": "ITEM",
+    "copy-from": "afs_sample_container",
+    "name": { "str": "cryogenic flask" },
+    "subtypes": [ "TOOL" ],
+    "description": "A sealed flask used to transport hazardous and delicate materials.  Of advanced design, it utilizes a miniaturized riemann barrier to achieve both perfect insulation and containment.  Its currently active, and its contents are completely inaccessible.",
+    "power_draw": "11111 mW",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "1 L",
+        "insulation": 3000,
+        "spoil_multiplier": 0.0,
+        "max_contains_weight": "4 kg"
+      },
+      { "pocket_type": "MAGAZINE_WELL", "holster": true, "item_restriction": [ "afs_compact_cartridge" ] }
+    ],
+    "revert_to": "afs_sample_container",
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "afs_sample_container"
+    },
+    "flags": [ "COLLAPSE_CONTENTS", "BELT_CLIP", "NO_UNLOAD", "NO_RELOAD", "SPAWN_ACTIVE" ]
+  },
+  {
     "type": "ITEM",
     "category": "container",
     "id": "plastic_bowl_fast_food",

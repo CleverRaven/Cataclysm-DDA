@@ -588,5 +588,10 @@
       "central_lab_shaft_west": "empty_rock",
       "central_lab_entrance_west": "forest"
     }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "Corrected rotation in 0.J experimental",
+    "oter_ids": { "hw_supports": "hw_supports_north" }
   }
 ]

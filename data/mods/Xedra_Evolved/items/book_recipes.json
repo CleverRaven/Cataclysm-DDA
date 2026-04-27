@@ -27,6 +27,7 @@
     "subtypes": [ "BOOK" ],
     "name": { "ctxt": "book", "str": "sap-stained documents", "str_pl": "sets of sap-stained documents" },
     "price_postapoc": "10 USD",
+    "weight": "60 g",
     "description": "A set of documents describing some kind of esoteric martial art that apparently controls the plants and power of nature.  Their are repeated references to \"lashing vines\" and \"poison claws.\"",
     "martial_art": "xe_ma_style_arvore_elemental"
   }

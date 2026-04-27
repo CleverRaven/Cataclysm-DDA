@@ -110,7 +110,8 @@
         "              ",
         "              "
       ],
-      "terrain": { "#": "t_rock", "№": [ [ "t_pillar", 10 ], [ "t_rock", 90 ] ] }
+      "terrain": { "#": "t_rock", "№": [ [ "t_pillar", 10 ], [ "t_rock", 90 ] ] },
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -135,7 +136,8 @@
         "              ",
         "              "
       ],
-      "terrain": { "#": "t_rock", "№": [ [ "t_pillar", 10 ], [ "t_rock", 90 ] ] }
+      "terrain": { "#": "t_rock", "№": [ [ "t_pillar", 10 ], [ "t_rock", 90 ] ] },
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -160,7 +162,8 @@
         "#             ",
         "#             "
       ],
-      "terrain": { "#": "t_rock", "№": [ [ "t_pillar", 10 ], [ "t_rock", 90 ] ] }
+      "terrain": { "#": "t_rock", "№": [ [ "t_pillar", 10 ], [ "t_rock", 90 ] ] },
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -185,7 +188,8 @@
         "              ",
         "              "
       ],
-      "terrain": { "#": "t_rock", "№": [ [ "t_pillar", 10 ], [ "t_rock", 90 ] ] }
+      "terrain": { "#": "t_rock", "№": [ [ "t_pillar", 10 ], [ "t_rock", 90 ] ] },
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {

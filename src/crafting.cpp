@@ -37,6 +37,7 @@
 #include "enums.h"
 #include "faction.h"
 #include "flag.h"
+#include "flat_set.h" // IWYU pragma: keep
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -871,9 +872,15 @@ static item_location set_item_map_or_vehicle( const Character &p, const tripoint
 }
 
 static item_location place_craft_or_disassembly(
-    Character &ch, item &craft, std::optional<tripoint_bub_ms> target )
+    Character &ch, item &craft, std::optional<tripoint_bub_ms> target,
+    bool always_start_on_ground = false )
 {
     item_location craft_in_world;
+
+    if( always_start_on_ground ) {
+        craft_in_world = set_item_map_or_vehicle( ch, ch.pos_bub(), craft );
+        return craft_in_world;
+    }
 
     // Check if we are standing next to a workbench. If so, just use that.
     float best_bench_multi = 0.0f;
@@ -990,7 +997,8 @@ void Character::start_craft( craft_command &command, const std::optional<tripoin
         calc_encumbrance();
     }
 
-    item_location craft_in_world = place_craft_or_disassembly( *this, craft, loc );
+    item_location craft_in_world = place_craft_or_disassembly( *this, craft, loc,
+                                   command.always_start_on_ground() );
 
     if( !craft_in_world ) {
         return;

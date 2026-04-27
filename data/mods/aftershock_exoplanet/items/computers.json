@@ -1,0 +1,22 @@
+[
+  {
+    "id": "afs_data_shard",
+    "copy-from": "memory_card",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "memory shard" },
+    "description": "A tiny rectangle made of memory glass.  Compatible with most computer systems, modern or otherwise.",
+    "price": "0 USD",
+    "price_postapoc": "0 USD",
+    "pocket_data": [
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0,
+        "ememory_max": "16 GB"
+      }
+    ]
+  }
+]

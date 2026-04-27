@@ -35,6 +35,12 @@ ifndef CLANG
   CLANG = 0
 endif
 
+# clang 22 bug results in non-trivially supressable error about counter with -Wc2y-extensions
+# see https://github.com/llvm/llvm-project/issues/189645
+ifeq ($(CLANG), 1)
+  DEFINES += -DCATCH_CONFIG_NO_COUNTER
+endif
+
 ifeq ($(PCH), 1)
 PCHFLAGS += -DCATA_CATCH_PCH
 PCH_H = pch/tests-pch.hpp

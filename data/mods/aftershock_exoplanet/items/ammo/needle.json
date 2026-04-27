@@ -4,7 +4,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "name": { "str": "GG Stinger 3x35mm flechette" },
-    "description": "The Gibson Gear Stinger flechette is a magnetically propelled dart roughly half the length of the average human thumb.   ",
+    "description": "The Gibson Gear Stinger flechette is a magnetically propelled dart roughly half the length of the average human thumb.",
     "weight": "7 g",
     "volume": "105 ml",
     "price": "200 USD",

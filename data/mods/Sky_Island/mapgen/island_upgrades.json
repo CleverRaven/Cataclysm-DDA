@@ -65,7 +65,7 @@
         "          #####         ",
         "          #...#         ",
         "          #.<.#         ",
-        "          #.X.#         ",
+        "          #...#         ",
         "          #####         "
       ],
       "flags": [ "NO_UNDERLYING_ROTATE", "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],

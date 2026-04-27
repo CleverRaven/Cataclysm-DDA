@@ -284,30 +284,33 @@ template <typename T> struct weighted_int_list : public weighted_list<T, int> {
             if( this->objects.size() == 1 ) {
                 return 0;
             }
-            size_t i;
             const int picked = ( randi % ( this->total_weight ) ) + 1;
             if( !precalc_array.empty() ) {
                 // if the precalc_array is populated, use it for O(1) lookup
-                i = precalc_array[picked - 1];
-            } else {
-                // otherwise do O(N) search through items
-                int accumulated_weight = 0;
-                for( i = 0; i < this->objects.size(); i++ ) {
-                    accumulated_weight += this->objects[i].second;
-                    if( accumulated_weight >= picked ) {
-                        break;
-                    }
+                return precalc_array[picked - 1];
+            }
+            // lazy-populate cumulative-weight table for O(log N) binary search
+            if( cum_weights.size() != this->objects.size() ) {
+                cum_weights.clear();
+                cum_weights.reserve( this->objects.size() );
+                int acc = 0;
+                for( const std::pair<T, int> &o : this->objects ) {
+                    acc += o.second;
+                    cum_weights.push_back( acc );
                 }
             }
-            return i;
+            return std::distance( cum_weights.begin(),
+                                  std::lower_bound( cum_weights.begin(), cum_weights.end(), picked ) );
         }
 
         void invalidate_precalc() override {
             precalc_array.clear();
+            cum_weights.clear();
         }
 
         int default_weight = 1;
         std::vector<int> precalc_array;
+        mutable std::vector<int> cum_weights;
 };
 
 static_assert( std::is_nothrow_move_constructible_v<weighted_int_list<int>> );

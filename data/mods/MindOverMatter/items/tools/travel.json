@@ -75,7 +75,7 @@
       {
         "ammo_scale": 0,
         "target": "psionic_transporter_remote",
-        "msg": "You turn the transporter remote off.",
+        "msg": "You turn off the %s.",
         "menu_text": "Turn off",
         "type": "transform"
       },

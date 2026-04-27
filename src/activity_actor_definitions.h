@@ -1626,6 +1626,62 @@ class fish_activity_actor : public activity_actor
         time_duration fishing_duration;
 };
 
+class target_practice_activity_actor : public activity_actor
+{
+    public:
+        target_practice_activity_actor() = default;
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_TARGET_PRACTICE( "ACT_TARGET_PRACTICE" );
+            return ACT_TARGET_PRACTICE;
+        }
+
+        // return false if fails
+        bool check_character( Character &who );
+        // return false if fails
+        bool get_gun( Character &who );
+        // return false if fails
+        bool check_character_and_gun( Character &who );
+        // return false if fails
+        bool get_round_qty();
+        // return false if fails
+        bool get_trajectory( Character &who );
+
+        bool check_target_valid( Character &who );
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &act, Character &who ) override;
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<target_practice_activity_actor>( *this );
+        }
+
+        std::string get_progress_message( const player_activity & ) const override;
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        item_location gun_loc;
+        tripoint_abs_ms target_position;
+        int rounds_planned = -1;
+        int rounds_fired = 0;
+        int delay_between_shots = 0;
+        character_id coach_id;
+        bool is_spinner_target = false;
+
+        bool check_weapon_valid( Character &who );
+        // todo: when activity within activity will be possible, switch to reload_activity_actor
+        bool attempt_reload( Character &who );
+        void fire_shot( Character &who, player_activity &act );
+        void show_flavor_message( Character &who, float effective_skill ) const;
+        npc *find_coach( Character &who, const skill_id &weapon_skill );
+        void apply_coaching( Character &who, const skill_id &weapon_skill );
+        void apply_skill_modifiers( Character &who, const skill_id &weapon_skill,
+                                    float effective_skill ) const;
+};
+
 class migration_cancel_activity_actor : public activity_actor
 {
     public:

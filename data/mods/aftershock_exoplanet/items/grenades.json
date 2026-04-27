@@ -58,7 +58,7 @@
       "target": "afs_demo_charge_act",
       "msg": "You activate the demolition charge.",
       "target_timer": "1 seconds",
-      "menu_text": "Activate charge",
+      "menu_text": "Activate",
       "type": "transform"
     },
     "flags": [ "RADIO_ACTIVATION", "RADIO_INVOKE_PROC", "RADIOSIGNAL_1", "BOMB" ]

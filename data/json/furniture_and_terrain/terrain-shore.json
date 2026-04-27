@@ -1,0 +1,27 @@
+[
+  {
+    "id": "t_shore_boulder",
+    "type": "terrain",
+    "name": "smooth rocky outcropping",
+    "description": "A medium rocky outcropping, smoothed by the waves and weather.",
+    "symbol": "O",
+    "color": "dark_gray",
+    "move_cost": 6,
+    "coverage": 45,
+    "flags": [ "NOITEM", "TRANSPARENT", "UNSTABLE", "MOUNTABLE", "SHORT" ]
+  },
+  {
+    "id": "t_shore_boulder_oyster",
+    "type": "terrain",
+    "name": "oyster-encrusted boulder",
+    "description": "An oyster-encrusted boulder, promising the potential for a tasty meal if you can get to it and pry the oysters off.",
+    "symbol": "@",
+    "color": "white",
+    "move_cost": 6,
+    "coverage": 45,
+    "flags": [ "NOITEM", "TRANSPARENT", "UNSTABLE", "MOUNTABLE", "SHORT" ],
+    "examine_action": "harvest_ter",
+    "harvest_by_season": [ { "seasons": [ "spring", "autumn", "winter" ], "id": "oyster_harv" } ],
+    "transforms_into": "t_shore_boulder"
+  }
+]

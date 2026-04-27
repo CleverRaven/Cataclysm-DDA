@@ -7,7 +7,7 @@
     "color": "light_blue",
     "see_cost": "high",
     "travel_cost_type": "impassable",
-    "flags": [ "LINEAR", "SHOULD_NOT_SPAWN" ]
+    "flags": [ "LINEAR" ]
   },
   {
     "type": "overmap_terrain",
@@ -16,8 +16,7 @@
     "sym": "O",
     "color": "red",
     "see_cost": "high",
-    "travel_cost_type": "impassable",
-    "flags": [ "SHOULD_NOT_SPAWN" ]
+    "travel_cost_type": "impassable"
   },
   {
     "type": "overmap_terrain",
@@ -33,5 +32,42 @@
     "type": "overmap_location",
     "id": "netherum_labyrinth_sparkling_chasm",
     "terrains": [ "netherum_labyrinth_sparkling_chasm" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "home away from home",
+    "id": "labyrinth_safehouse",
+    "sym": "@",
+    "color": "white",
+    "see_cost": "high",
+    "travel_cost_type": "impassable",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "central node",
+    "id": "labyrinth_nl_exit_boiler",
+    "sym": "O",
+    "color": "red",
+    "see_cost": "high",
+    "travel_cost_type": "impassable"
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "flattened landscape",
+    "id": [
+      "labyrinth_string_dimension_tunnel_start",
+      "labyrinth_string_dimension_tunnel_end",
+      "labyrinth_string_dimension_tunnel_left",
+      "labyrinth_string_dimension_tunnel_right",
+      "labyrinth_string_dimension_tunnel_over",
+      "labyrinth_string_dimension_tunnel_under",
+      "labyrinth_string_dimension_tunnel_portal"
+    ],
+    "sym": "-",
+    "color": "light_blue",
+    "see_cost": "high",
+    "travel_cost_type": "impassable",
+    "flags": [ "NO_ROTATE" ]
   }
 ]

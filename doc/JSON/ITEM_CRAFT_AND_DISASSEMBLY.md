@@ -145,11 +145,17 @@ Recipes can optionally define a `"steps"` array to split the craft into named ph
 
 When `"steps"` is present, the following fields must appear per-step and must **not** appear at root level: `"time"`, `"activity_level"`, `"tools"`, `"qualities"`, `"proficiencies"`, `"batch_time_factors"`.
 
-`"using"` is also not allowed at root level for step recipes.  Step-level `"using"` is not yet supported.
+`"using"` is allowed at both root level and step level for step recipes.  Root-level `"using"` merges into whole-recipe requirements (tools, qualities, and components are all gated at craft start).  Step-level `"using"` merges into that step's requirements and also participates in tool speed resolution for that step.
 
 `"components"` remains at root level.  All other recipe fields (`"result"`, `"skill_used"`, `"difficulty"`, `"book_learn"`, `"autolearn"`, etc.) also remain at root.
 
-Step recipes cannot use `"copy-from"` or `"abstract"`.
+### Inheritance
+
+Step recipes support `"copy-from"` and `"abstract"`.
+
+- If a child recipe uses `"copy-from"` pointing to a step recipe and does **not** include a `"steps"` array, it inherits the base's steps.  The child can override root-level fields like `"difficulty"`, `"skill_used"`, `"components"`, etc.
+- If the child **does** include a `"steps"` array, its steps replace the base's.  Root-level `"using"` from the base is preserved; the child can override it by providing its own `"using"`.
+- An `"abstract"` recipe with steps serves as a template.  Concrete children inherit steps and provide their own `"components"` and `"result"`.
 
 ### Step fields
 
@@ -163,6 +169,7 @@ Each entry in the `"steps"` array is an object with these fields:
                       //             trained while the craft is in this step.
 "tools":              // (Optional)  Same format as recipe-level.
 "qualities":          // (Optional)  Same format as recipe-level.
+"using":              // (Optional)  Same format as recipe-level.  Merges into this step's requirements.
 "batch_time_factors": // (Optional)  Same format as recipe-level.
 ```
 

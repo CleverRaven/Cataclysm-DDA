@@ -65,6 +65,10 @@ struct faction_price_rule;
 
 constexpr int NPC_PERSONALITY_MIN = -10;
 constexpr int NPC_PERSONALITY_MAX = 10;
+// Normally 16-55, but potential violence towards *underage* NPCs is a more problematic than towards adults
+// Note: npcs with ages defined in json files are not limited to these values.
+constexpr int NPC_RAND_AGE_MIN = 18;
+constexpr int NPC_RAND_AGE_MAX = 55;
 constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 constexpr float NPC_MONSTER_DANGER_MAX = 150.0f;
 constexpr float NPC_CHARACTER_DANGER_MAX = 250.0f;
@@ -976,9 +980,10 @@ class npc : public Character
         bool is_leader() const;
         // Leading, following, or waiting for the player
         bool is_walking_with() const;
-        // Can actively close-follow right now: walking_with + follow_close
-        // rule + can move + no vehicle mismatch with player.
-        bool should_follow_close() const;
+        // FOLLOW/WAIT (not LEAD), mobile, vehicle-compatible with player.
+        bool can_follow_player_now() const;
+        // Spacing preference: follow_close on -> follow_distance(), off -> 6.
+        int desired_follow_radius() const;
         // In the same faction
         bool is_ally( const Character &p ) const override;
         // Is an ally of the player

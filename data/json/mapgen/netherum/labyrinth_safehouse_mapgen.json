@@ -1,0 +1,142 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "labyrinth_safehouse" ],
+    "object": {
+      "fill_ter": "t_nl_chasm_no_trap",
+      "rows": [
+        " ###                    ",
+        " #T#                    ",
+        "##O##                   ",
+        "#...#                   ",
+        "#f..#                   ",
+        "#B..#                   ",
+        "#####                   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "labyrinthine_safehouse_palette" ],
+      "computers": {
+        "T": { "name": "bulbous console", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "COMP_labyrinthine_safehouse_computer" ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "labyrinth_safehouse_boiler",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "     ##############     ",
+        "    +.............#     ",
+        "     ######.#######     ",
+        "          #.#           ",
+        "          #.#           ",
+        "         ##+##          ",
+        "        ##f..##         ",
+        "        #.....#         ",
+        "        #..G..#         ",
+        "        #.....#         ",
+        "        ##...##         ",
+        "         #####          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "NO_UNDERLYING_ROTATE", "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "labyrinthine_safehouse_palette" ],
+      "item": { "f": { "item": "large_storage_battery" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "labyrinth_safehouse_utility_space",
+    "object": {
+      "rows": [
+        "    ################    ",
+        "    .....|...|.....#    ",
+        "     ....|...|....##    ",
+        "     ||+|||+|||+||#     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "NO_UNDERLYING_ROTATE", "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "labyrinthine_safehouse_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "labyrinth_safehouse_living_space_1",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     ||+|||             ",
+        "     .....|             ",
+        "#c.cc.....|             ",
+        "#...c....||             ",
+        "#.......||              ",
+        "##.||||+|               ",
+        " #.|..|.|               ",
+        " #.D..|~|               ",
+        " #######                ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "NO_UNDERLYING_ROTATE", "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "labyrinthine_safehouse_palette" ]
+    }
+  }
+]

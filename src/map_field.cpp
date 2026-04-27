@@ -92,6 +92,7 @@ static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rock( "rock" );
 
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
+static const json_character_flag json_flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
 
 static const material_id material_iflesh( "iflesh" );
 static const material_id material_veggy( "veggy" );
@@ -1528,7 +1529,8 @@ void map::player_in_field( Character &you )
         }
         if( ft == fd_fire ) {
             // Heatsink or suit prevents ALL fire damage.
-            if( !you.has_flag( json_flag_HEATSINK ) && !you.is_wearing( itype_rm13_armor_on ) ) {
+            if( !you.has_flag( json_flag_HEATSINK ) && !you.has_flag( json_flag_HEAT_IMMUNE ) &&
+                !you.is_wearing( itype_rm13_armor_on ) ) {
 
                 // To modify power of a field based on... whatever is relevant for the effect.
                 int adjusted_intensity = cur.get_field_intensity();
@@ -1539,6 +1541,14 @@ void map::player_in_field( Character &you )
                     } else {
                         adjusted_intensity -= 1;
                     }
+                }
+
+                // After adjusting intensity, check if the fire is powerful enough to actually hurt us
+                if( cur.get_field_intensity() == 1 ) {
+                    continue; // Small piddly fire cannot hurt anything
+                }
+                if( cur.get_field_intensity() == 2 && !one_in( 10 ) ) {
+                    continue; // Active fire can barely hurt anything walking through, 10% chance
                 }
 
                 if( adjusted_intensity >= 1 ) {

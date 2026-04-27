@@ -5545,6 +5545,7 @@ void basecamp::feed_workers( const std::vector<std::reference_wrapper <Character
             case ROTTEN:
             case NAUSEA:
             case NO_TOOL:
+                debugmsg( "Unexpected food condition encountered in camp larder" );
                 break;
         }
     }

@@ -1102,6 +1102,9 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
     if( dp.z() != 0 && veh.is_rotorcraft( *this ) ) {
         can_move = true;
     }
+    if( vertical ) {
+        veh.check_falling_or_floating(); // fix for vehicle falling into floor
+    }
     units::angle coll_turn = 0_degrees;
     if( impulse > 0 ) {
         coll_turn = shake_vehicle( veh, velocity_before, facing.dir() );
@@ -4988,7 +4991,7 @@ double map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_it
         debugmsg( "Called map::shoot on out-of-bounds tile %s", p.to_string() );
         return 0;
     }
-    // TODO: make bashing better a destroying, worse at penetrating
+    // TODO: make bashing better at destroying, worse at penetrating
     std::map<damage_type_id, float> dmg_by_type {};
     damage_instance &impact = proj.multishot ? proj.shot_impact : proj.impact;
     for( const damage_unit &dam : impact ) {

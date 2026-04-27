@@ -1372,6 +1372,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_power_hammer",
+    "name": "Place Power Hammer"
+  },
+  {
+    "type": "construction_group",
     "id": "place_tablesaw",
     "name": "Place Table Saw"
   },
@@ -1574,6 +1579,11 @@
     "type": "construction_group",
     "id": "place_anvil_bronze",
     "name": "Place Bronze Anvil"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_camp_anvil",
+    "name": "Prepare any suitable anvil for camp"
   },
   {
     "type": "construction_group",

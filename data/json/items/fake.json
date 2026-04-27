@@ -300,6 +300,16 @@
     "charged_qualities": [ [ "DRILL", 3 ] ]
   },
   {
+    "id": "power_hammer_tool",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "power hammer" },
+    "copy-from": "fake_appliance_tool",
+    "charges_per_use": 20,
+    "charged_qualities": [ { "id": "HAMMER", "level": 5, "speed": 0.2 }, { "id": "ANVIL", "level": 1, "speed": 1.0 } ],
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] }
+  },
+  {
     "id": "glassblowers_crucible_tool",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
