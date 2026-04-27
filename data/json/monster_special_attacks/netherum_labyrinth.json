@@ -47,8 +47,8 @@
   {
     "type": "effect_type",
     "id": "nl_destruction_ray_damage_warming_up",
-    "name": [ "Being Targetted" ],
-    "desc": [ "You're being targetted by an orange laser!" ],
+    "name": [ "Being Targeted" ],
+    "desc": [ "You're being targeted by an orange laser!" ],
     "apply_message": "",
     "max_duration": "60 s",
     "rating": "bad"
@@ -58,7 +58,7 @@
     "id": "nl_destruction_ray_damage_warming_up",
     "cooldown": 0,
     "spell_data": { "id": "nl_destruction_ray_damage_warming_up" },
-    "monster_message": "You're being targetted by an orange laser!",
+    "monster_message": "You're being targeted by an orange laser!",
     "attack_type": "spell"
   }
 ]
