@@ -514,8 +514,8 @@
     "description": "The vampires are right about one thing; they are better than humans, and your vampire blood makes you better as well.",
     "purifiable": false,
     "valid": false,
-    "enchantments": [ { "mutations": [ "PSYCHOPATH" ] } ],
-    "social_modifiers": { "persuade": -25, "lie": -15 }
+    "social_modifiers": { "persuade": -25, "lie": -15 },
+    "flags": [ "PSYCHOPATH" ]
   },
   {
     "type": "mutation",
