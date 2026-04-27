@@ -3483,7 +3483,7 @@ bool character_creator_ui::handle_action( const std::string &action )
         if( !you.blood_rh_factor ) {
             you.blood_rh_factor = true;
         } else {
-            if( static_cast<blood_type>( static_cast<int>( you.my_blood_type ) + 1 ) != blood_type::num_bt ) {
+            if( static_cast<blood_type>( static_cast<int>( you.my_blood_type ) + 1 ) < blood_type::blood_acid ) {
                 you.my_blood_type = static_cast<blood_type>( static_cast<int>( you.my_blood_type ) + 1 );
                 you.blood_rh_factor = false;
             } else {
