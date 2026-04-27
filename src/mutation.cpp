@@ -581,7 +581,6 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
         return;
     }
 
-    // give the player a random new blood type, regardless of what it was before
     if( mut = trait_ACIDBLOOD ) {
         you.my_blood_type = blood_acid;
     }
