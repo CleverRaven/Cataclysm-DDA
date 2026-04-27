@@ -473,5 +473,12 @@
     "field": "fd_nm_monster_gas_2",
     "intensity": 3,
     "chance": 10
+  },
+  {
+    "id": "emit_nauseating_smell",
+    "type": "emit",
+    "field": "fd_nauseating_smell",
+    "intensity": 1,
+    "qty": 20
   }
 ]

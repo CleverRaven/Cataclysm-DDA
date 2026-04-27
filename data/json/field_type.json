@@ -2372,5 +2372,38 @@
     "display_items": true,
     "display_field": true,
     "looks_like": "fd_fatigue"
+  },
+  {
+    "id": "fd_nauseating_smell",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "nauseating stench",
+        "effects": [
+          {
+            "effect_id": "nauseating_smell",
+            "min_duration": "15 seconds",
+            "max_duration": "45 seconds",
+            "intensity": 1,
+            "immune_in_vehicle": false,
+            "is_environmental": true
+          }
+        ]
+      },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": "80m",
+    "percent_spread": 25,
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
+    "priority": 8,
+    "half_life": "2 minutes",
+    "phase": "gas",
+    "display_items": true,
+    "display_field": true,
+    "looks_like": "fd_nuke_gas"
   }
 ]
