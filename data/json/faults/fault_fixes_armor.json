@@ -300,6 +300,21 @@
     "mod_degradation": -25,
     "time": "20 m",
     "skills": { "tailor": 1 },
-    "requirements": [ [ "filament", 3 ], [ "fabric_standard_small", 1 ], { "qualities": [ { "id": "SEW", "level": 1 } ] } ]
+    "requirements": [ [ "tailoring_cotton_small_simple", 1 ] ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_armor_denim_tear_stitch",
+    "name": "Stitch the fabric back together",
+    "faults_removed": [ "fault_denim_torn" ],
+    "copy-from": "mend_armor_cotton_tear_stitch"
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_armor_denim_tear_stitch",
+    "name": "Stitch the fabric back together",
+    "faults_removed": [ "fault_denim_torn" ],
+    "copy-from": "mend_armor_cotton_tear_stitch",
+    "requirements": [ [ "tailoring_denim_small_simple", 1 ] ]
   }
 ]

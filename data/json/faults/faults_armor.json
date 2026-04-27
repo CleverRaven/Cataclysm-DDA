@@ -147,5 +147,17 @@
       { "damage_id": "cut", "multiply": 0.85 },
       { "damage_id": "stab", "multiply": 0.85 }
     ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_denim_torn",
+    "name": { "str": "Torn denim" },
+    "copy-from": "fault_cotton_torn"
+  },
+  {
+    "type": "fault",
+    "id": "fault_denim_hole",
+    "name": { "str": "Hole" },
+    "copy-from": "fault_denim_hole"
   }
 ]
