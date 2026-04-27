@@ -8,6 +8,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "cached_options.h"
 #include "cata_catch.h"
@@ -22,6 +23,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "map_selector.h"
+#include "player_activity.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
 #include "ret_val.h"
@@ -611,10 +613,13 @@ void test_scenario::run()
     INFO( player_action_str );
 
     contents_change_handler handler;
-    // TODO replace with actual activities
     unseal_items_containing( handler, it_loc,
                              std::set<itype_id> { itype_test_liquid_1ml, itype_test_solid_1ml } );
-    handler.handle_by( guy );
+    guy.assign_activity( contents_change_activity_actor( handler ) );
+
+    while( guy.activity ) {
+        guy.activity.do_turn( guy );
+    }
 
     // check final state
     // whether the outermost container will spill. inner containers will always spill.

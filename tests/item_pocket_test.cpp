@@ -3058,6 +3058,10 @@ TEST_CASE( "unload_from_spillable_container", "[item][pocket]" )
             item_location steelpan_loc( backpack_loc, steelpan );
             item_location bottle1_loc( steelpan_loc, bottle1 );
             unload_activity_actor::unload( u, bottle1_loc );
+            // process contents_change_activity_actor
+            while( u.activity ) {
+                u.activity.do_turn( u );
+            }
             THEN( "pill is unloaded into bottle that previously had 4 pills, remaining empty bottle is kept" ) {
                 // Expected inventory after unloading should be:
                 //   backpack >

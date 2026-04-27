@@ -56,20 +56,13 @@
     "dynamic_line": "& Truly?  Aye/Nay",
     "responses": [
       {
-        "text": "[Select \"Aye\"] (enter the Labyrinthine Structure alpha test 0.1, which is still low on content and lacking combat balance)",
-        "condition": { "u_has_trait": "LS_Alphatest" },
+        "text": "[Select \"Aye\"]",
         "effect": [
           { "finish_mission": "MISSION_EXODII_LABYRINTHS_INTRO", "success": true },
           { "math": [ "u_timer_exodii_labyrinth_cooldown = time('now')" ] },
           { "run_eocs": "EOC_LS_Teleport_to_labyrinth" }
         ],
         "topic": "TALK_DONE"
-      },
-      {
-        "text": "[Select \"Aye\"]",
-        "condition": { "not": { "u_has_trait": "LS_Alphatest" } },
-        "effect": { "u_message": "The screen glitches and the terminal reboots.", "popup": true },
-        "topic": "COMP_LS_Entrance_Controls"
       },
       { "text": "[Select \"Nay\"]", "topic": "COMP_LS_Entrance_Controls" }
     ]

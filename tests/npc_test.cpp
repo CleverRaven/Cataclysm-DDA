@@ -80,6 +80,7 @@
 class Creature;
 enum npc_action : int;
 
+static const activity_id ACT_CONTENTS_CHANGE( "ACT_CONTENTS_CHANGE" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_HARVEST( "ACT_HARVEST" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
@@ -2597,9 +2598,8 @@ TEST_CASE( "npc_harvest_scavenging", "[npc][needs]" )
         const size_t items_before = here.i_at( adj ).size();
 
         guy.address_needs( 0 );
-
         CHECK( here.i_at( adj ).size() < items_before );
-        CHECK_FALSE( guy.has_activity() );
+        CHECK( guy.activity.id() == ACT_CONTENTS_CHANGE );
     }
 
     SECTION( "distant reachable food preferred over nearby harvestable" ) {
@@ -2633,7 +2633,7 @@ TEST_CASE( "npc_harvest_scavenging", "[npc][needs]" )
 
         guy.address_needs( 0 );
 
-        CHECK_FALSE( guy.has_activity() );
+        CHECK( guy.activity.id() == ACT_CONTENTS_CHANGE );
         CHECK( cargo->items().size() < cargo_before );
     }
 

@@ -1,11 +1,25 @@
 #include <algorithm>
 
-#include "character.h"
 #include "contents_change_handler.h"
 #include "debug.h"
 #include "flexbuffer_json.h"
+#include "item.h" // IWYU pragma: keep
 #include "item_pocket.h"
 #include "json.h"
+
+
+void contents_change_handler::sort_containers()
+{
+    sorted_containers.clear();
+    for( const item_location &loc : unsealed ) {
+        sorted_containers.emplace( loc );
+    }
+}
+
+bool contents_change_handler::finished() const
+{
+    return sorted_containers.empty();
+}
 
 void contents_change_handler::add_unsealed( const item_location &loc )
 {
@@ -31,25 +45,30 @@ void contents_change_handler::unseal_pocket_containing( const item_location &loc
     }
 }
 
-void contents_change_handler::handle_by( Character &guy )
-{
-    // some containers could have been destroyed by e.g. monster attack
-    auto it = std::remove_if( unsealed.begin(), unsealed.end(),
-    []( const item_location & loc ) -> bool {
-        return !loc;
-    } );
-    unsealed.erase( it, unsealed.end() );
-    guy.handle_contents_changed( unsealed );
-    unsealed.clear();
-}
-
 void contents_change_handler::serialize( JsonOut &jsout ) const
 {
     jsout.write( unsealed );
+    jsout.write( sorted_containers );
 }
 
 void contents_change_handler::deserialize( const JsonValue &jsin )
 {
     jsin.read( unsealed );
+    jsin.read( sorted_containers );
 }
 
+void item_loc_with_depth::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "item_location", _loc );
+    jsout.member( "depth", _depth );
+
+    jsout.end_object();
+}
+
+void item_loc_with_depth::deserialize( const JsonObject &obj )
+{
+    obj.read( "item_location", _loc );
+    obj.read( "depth", _depth );
+}

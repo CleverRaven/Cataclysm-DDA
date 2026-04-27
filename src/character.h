@@ -2181,23 +2181,6 @@ class Character : public Creature, public visitable
         */
         bool i_drop_at( item &it, int qty = 1 );
 
-        /**
-         * Check any already unsealed pockets in items pointed to by `containers`
-         * and propagate the unsealed status through the container tree. In the
-         * process the player may be asked to handle containers or spill contents,
-         * so make sure all unsealed containers are passed to this function in a
-         * single batch; items (not limited to the ones listed in `containers` and
-         * their contents) may be invalidated or moved after a call to this function.
-         *
-         * @param containers Item locations pointing to containers. Item locations
-         *        in this vector can contain each other, but should always be valid
-         *        (i.e. if A contains B and B contains C, A and C can be in the vector
-         *        at the same time and should be valid, but B shouldn't be invalidated
-         *        either, otherwise C is invalidated). Item location in this vector
-         *        should be unique.
-         */
-        void handle_contents_changed( const std::vector<item_location> &containers );
-
         /** Only use for UI things. Returns all invlets that are currently used in
          * the player inventory, the weapon slot and the worn items. */
         std::bitset<std::numeric_limits<char>::max()> allocated_invlets() const;

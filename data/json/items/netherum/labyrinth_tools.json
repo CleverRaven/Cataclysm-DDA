@@ -1,0 +1,20 @@
+[
+  {
+    "id": "nl_grav_aware_jig",
+    "//": "The nether misunderstanding a jig, and applying sci-fi tech it 'knows' from other worlds.  Uselessly high VISE quality.",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "otherworldly clamp-set" },
+    "description": "A set of 7 small clamps set upon a metal guide-board, each capable of rotating around in a circular configuration.  The board itself has several depressed marks, as if they're made to guide cuts, but they don't span any obvious units you're aware of.  The clamps slide in and out, toward each other, with unnatural ease.  You don't know this tool's original purpose, but you think it could clamp things quite efficiently.",
+    "weight": "640 g",
+    "volume": "600 ml",
+    "price": "0 USD",
+    "price_postapoc": "7 USD",
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "VISE", 10 ] ],
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "melee_damage": { "bash": 2 }
+  }
+]

@@ -2260,7 +2260,7 @@ int game::inventory_item_menu( item_location locThisItem,
                         add_msg( m_info, _( "You can't use a %s there." ), locThisItem->tname() );
                         break;
                     }
-                    handler.handle_by( u );
+                    u.assign_activity( contents_change_activity_actor( handler ) );
                     break;
                 }
                 case 'E':
@@ -2277,7 +2277,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     contents_change_handler handler;
                     handler.unseal_pocket_containing( locThisItem );
                     u.wear( locThisItem );
-                    handler.handle_by( u );
+                    u.assign_activity( contents_change_activity_actor( handler ) );
                     break;
                 }
                 case 'w':
@@ -2285,7 +2285,7 @@ int game::inventory_item_menu( item_location locThisItem,
                         contents_change_handler handler;
                         handler.unseal_pocket_containing( locThisItem );
                         u.wield( locThisItem );
-                        handler.handle_by( u );
+                        u.assign_activity( contents_change_activity_actor( handler ) );
                     } else {
                         add_msg( m_info, "%s", u.can_wield( *locThisItem ).c_str() );
                     }
@@ -2295,7 +2295,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     contents_change_handler handler;
                     handler.unseal_pocket_containing( locThisItem );
                     avatar_action::plthrow( u, locThisItem );
-                    handler.handle_by( u );
+                    u.assign_activity( contents_change_activity_actor( handler ) );
                     break;
                 }
                 case 'c':

@@ -15,6 +15,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "addiction.h"
 #include "avatar.h"
 #include "bodypart.h"
@@ -2023,14 +2024,15 @@ trinary Character::consume( item_location loc, bool force )
     trinary result = consume( target, force );
     if( result != trinary::NONE ) {
         handler.unseal_pocket_containing( loc );
-    }
-    if( result == trinary::ALL ) {
-        if( loc.where() == item_location::type::character ) {
-            i_rem( loc.get_item() );
-        } else {
-            loc.remove_item();
+
+        if( result == trinary::ALL ) {
+            if( loc.where() == item_location::type::character ) {
+                i_rem( loc.get_item() );
+            } else {
+                loc.remove_item();
+            }
         }
+        assign_activity( contents_change_activity_actor( handler ) );
     }
-    handler.handle_by( *this );
     return result;
 }

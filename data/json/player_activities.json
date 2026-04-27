@@ -1132,5 +1132,12 @@
     "activity_level": "NO_EXERCISE",
     "based_on": "speed",
     "verb": "aiming the artillery"
+  },
+  {
+    "id": "ACT_CONTENTS_CHANGE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "based_on": "neither",
+    "verb": "handling items"
   }
 ]

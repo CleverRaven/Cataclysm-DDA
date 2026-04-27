@@ -158,6 +158,7 @@ static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
 static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CONSUME( "ACT_CONSUME" );
+static const activity_id ACT_CONTENTS_CHANGE( "ACT_CONTENTS_CHANGE" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_DISABLE( "ACT_DISABLE" );
@@ -6111,11 +6112,9 @@ void unload_activity_actor::unload( Character &who, item_location &target )
             if( changed ) {
                 it.on_contents_changed();
                 who.invalidate_weight_carried_cache();
-                handler.handle_by( who );
-                // Warning: the above call to `contents_change_handler::handle_by` will
-                // call `Character::handle_contents_changed`, which might invalidate items
-                // and item_locations. See description for `::handle_contents_changed`
-                // in character.h .
+                who.assign_activity( contents_change_activity_actor( handler ) );
+                // Warning: the above call might invalidate items and item_locations.
+                // See description for `::handle_contents_changed` in `contents_change_handler.h`
                 // Therefore, it is important that we don't use `target` or `it` after here.
                 break;
             }
@@ -6881,7 +6880,7 @@ void drop_activity_actor::do_turn( player_activity &, Character &who )
 
 void drop_activity_actor::canceled( player_activity &, Character &who )
 {
-    handler.handle_by( who );
+    who.assign_activity( contents_change_activity_actor( handler ) );
 }
 
 void drop_activity_actor::serialize( JsonOut &jsout ) const
@@ -7118,7 +7117,7 @@ void stash_activity_actor::do_turn( player_activity &, Character &who )
 
 void stash_activity_actor::canceled( player_activity &, Character &who )
 {
-    handler.handle_by( who );
+    who.assign_activity( contents_change_activity_actor( handler ) );
 }
 
 void stash_activity_actor::serialize( JsonOut &jsout ) const
@@ -7731,8 +7730,8 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
     items.pop_front();
     if( items.empty() || !success || items.front().first == item_location::nowhere ) {
         holster.make_active();
-        handler.handle_by( who );
         act.set_to_null();
+        who.assign_activity( contents_change_activity_actor( handler ) );
         if( !items_remain.empty() ) {
             g->insert_item( items_remain );
         }
@@ -7747,7 +7746,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
 
 void insert_item_activity_actor::canceled( player_activity &/*act*/, Character &who )
 {
-    handler.handle_by( who );
+    who.assign_activity( contents_change_activity_actor( handler ) );
 }
 
 void insert_item_activity_actor::serialize( JsonOut &jsout ) const
@@ -9499,7 +9498,9 @@ void wield_activity_actor::do_turn( player_activity &, Character &who )
                         target_item.remove_item();
                     }
                 }
-                handler.handle_by( who );
+                who.cancel_activity();
+                who.assign_activity( contents_change_activity_actor( handler ) );
+                return;
             }
         }
 
@@ -9575,8 +9576,8 @@ void wear_activity_actor::do_turn( player_activity &, Character &who )
 
     // If there are no items left we are done
     if( target_items.empty() ) {
-        handler.handle_by( who );
         who.cancel_activity();
+        who.assign_activity( contents_change_activity_actor( handler ) );
     }
 }
 
@@ -11293,7 +11294,7 @@ void vehicle_activity_actor::complete_vehicle( player_activity &act, Character &
                     you.add_msg_if_player( m_good, _( "There's some left over!" ) );
                 }
 
-                handler.handle_by( you );
+                you.assign_activity( contents_change_activity_actor( handler ) );
             } else if( vp.is_fuel_store() ) {
                 contents_change_handler handler;
                 handler.unseal_pocket_containing( src );
@@ -11304,7 +11305,7 @@ void vehicle_activity_actor::complete_vehicle( player_activity &act, Character &
                 //~ 1$s vehicle name, 2$s reactor name
                 you.add_msg_if_player( m_good, _( "You refuel the %1$s's %2$s." ), veh.name, vp.name() );
 
-                handler.handle_by( you );
+                you.assign_activity( contents_change_activity_actor( handler ) );
             } else {
                 debugmsg( "vehicle part is not reloadable" );
                 break;
@@ -14697,6 +14698,45 @@ std::unique_ptr<activity_actor> zone_sort_activity_actor::deserialize( JsonValue
     return actor.clone();
 }
 
+void contents_change_activity_actor::start( player_activity &, Character & )
+{
+    handler.sort_containers();
+}
+
+void contents_change_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( handler.finished() ) {
+        // prevent backlogged activity UI from reprompting with now-invalid item_locations
+        if( handled_any_items ) {
+            if( !who.backlog.empty() ) {
+                who.backlog.pop_front();
+            }
+            uistate.open_menu.reset();
+        }
+        act.set_to_null();
+        return;
+    }
+    handled_any_items = true;
+    handler.handle_contents_changed( who );
+}
+
+void contents_change_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "handler", handler );
+    jsout.member( "handled_any_items", handled_any_items );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> contents_change_activity_actor::deserialize( JsonValue &jsin )
+{
+    contents_change_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "handler", actor.handler );
+    data.read( "handled_any_items", actor.handled_any_items );
+    return actor.clone();
+}
+
 namespace activity_actors
 {
 
@@ -14721,6 +14761,7 @@ deserialize_functions = {
     { ACT_CHURN, &churn_activity_actor::deserialize },
     { ACT_CLEAR_RUBBLE, &clear_rubble_activity_actor::deserialize },
     { ACT_CONSUME, &consume_activity_actor::deserialize },
+    { ACT_CONTENTS_CHANGE, &contents_change_activity_actor::deserialize },
     { ACT_CRACKING, &safecracking_activity_actor::deserialize },
     { ACT_CRAFT, &craft_activity_actor::deserialize },
     { ACT_DISABLE, &disable_activity_actor::deserialize },

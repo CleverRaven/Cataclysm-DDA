@@ -2456,6 +2456,34 @@ class insert_item_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
+// Forwarding activity for handling contents of changed items.
+// Iterates through unsealed items and processes changes per-turn,
+// assigning related activities as needed.
+class contents_change_activity_actor : public activity_actor
+{
+        bool handled_any_items = false;
+        contents_change_handler handler;
+        contents_change_activity_actor() = default;
+    public:
+        explicit contents_change_activity_actor( const contents_change_handler &handler ) : handler(
+                handler ) {};
+        const activity_id &get_type() const override {
+            static const activity_id ACT_CONTENTS_CHANGE( "ACT_CONTENTS_CHANGE" );
+            return ACT_CONTENTS_CHANGE;
+        }
+
+        void start( player_activity &, Character & ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &, Character & ) override {};
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<contents_change_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
 class tent_placement_activity_actor : public activity_actor
 {
     private:

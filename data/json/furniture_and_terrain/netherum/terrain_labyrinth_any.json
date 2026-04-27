@@ -20,7 +20,24 @@
     "move_cost": -1,
     "coverage": 0,
     "trap": "tr_nl_chasm",
-    "flags": [ "TRANSPARENT", "EMPTY_SPACE", "DESTROY_ITEM", "NOCOLLIDE", "MON_AVOID_STRICT" ]
+    "flags": [ "TRANSPARENT", "EMPTY_SPACE", "DESTROY_ITEM", "NOCOLLIDE", "MON_AVOID_STRICT" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_NL_CHASM_EXAMINE",
+          "effect": [
+            {
+              "run_eoc_selector": [ "EOC_NL_PEEK_DOWN_CHASM", "EOC_LS_Exit_labyrinth_sparkling_chasm" ],
+              "allow_cancel": true,
+              "names": [ "Peek down.", "Fall down." ],
+              "title": "There is a ledge here.  What do you want to do?",
+              "descriptions": [ "What do you see down there?", "Jump into the darkness." ]
+            }
+          ]
+        }
+      ]
+    }
   },
   {
     "type": "terrain",
