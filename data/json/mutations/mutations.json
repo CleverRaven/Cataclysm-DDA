@@ -860,7 +860,7 @@
     "active": true,
     "starts_active": true,
     "vitamin_cost": 210,
-    "cancels": [ "ELFA_NV", "ELFA_FNV" ]
+    "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "CEPH_VISION" ]
   },
   {
     "type": "mutation",
@@ -875,7 +875,7 @@
     "active": true,
     "starts_active": true,
     "vitamin_cost": 190,
-    "cancels": [ "ELFA_NV", "ELFA_FNV" ]
+    "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "CEPH_VISION" ]
   },
   {
     "type": "mutation",
@@ -890,7 +890,7 @@
     "active": true,
     "starts_active": true,
     "vitamin_cost": 210,
-    "cancels": [ "ELFA_NV", "ELFA_FNV" ]
+    "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "CEPH_VISION" ]
   },
   {
     "type": "mutation",
@@ -5725,7 +5725,8 @@
     "active": true,
     "starts_active": true,
     "vitamin_cost": 160,
-    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_ceph" } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_ceph" } ] } ],
+    "cancels": [ "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3" ]
   },
   {
     "type": "mutation",
