@@ -167,8 +167,8 @@ static const flag_id json_flag_SINGLE_ACTION( "SINGLE_ACTION" );
 
 static const material_id material_budget_steel( "budget_steel" );
 static const material_id material_glass( "glass" );
-static const material_id material_high_steel( "high_steel" );
 static const material_id material_hardened_steel("hardened_steel");
+static const material_id material_high_steel( "high_steel" );
 static const material_id material_iron( "iron" );
 static const material_id material_low_steel( "low_steel" );
 static const material_id material_med_steel( "med_steel" );
