@@ -23,6 +23,9 @@
 #include "bionics.h"
 #include "cached_options.h"
 #include "calendar.h"
+#ifdef TILES
+#include "cata_imgui.h"
+#endif
 #include "cata_variant.h"
 #include "clzones.h"
 #include "coordinates.h"
@@ -59,9 +62,7 @@
 #include "player_activity.h"
 #include "point.h"
 #include "popup.h"
-#ifdef TILES
-#include "cata_imgui.h"
-#endif
+
 #include "rng.h"
 #include "scent_map.h"
 #include "sdlsound.h"
