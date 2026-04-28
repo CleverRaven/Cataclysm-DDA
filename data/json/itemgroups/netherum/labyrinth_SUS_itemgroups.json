@@ -99,6 +99,7 @@
       { "item": "rebar", "prob": 30, "count": [ 2, 30 ] },
       { "item": "sheet_metal", "prob": 20, "count": [ 2, 30 ] },
       { "item": "sheet_metal_small", "prob": 40, "count": [ 5, 50 ] },
+      { "item": "nl_chem_thrower_mag", "prob": 5, "charges": 57 },
       { "item": "nl_kipple_scrap_plastic", "prob": 40, "count": [ 2, 5 ] },
       { "item": "nl_kipple_scrap_nanotubes", "prob": 40, "count": [ 2, 5 ] },
       { "item": "nl_kipple_scrap_unob", "prob": 40, "count": [ 2, 5 ] },

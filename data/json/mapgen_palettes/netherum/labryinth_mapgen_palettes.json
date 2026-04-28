@@ -246,6 +246,7 @@
       "Ṫ": "f_metal_table",
       "ϟ": "f_capacitor",
       "ß": "f_metal_bench"
-    }
+    },
+    "monsters": { "v": { "monster": "GROUP_Labyrinth_Flooded", "density": 0.0003 } }
   }
 ]

@@ -51,6 +51,7 @@ ID_WHITELIST = {
     # Guns
     'bone_dart_launcher',
     'nl_destruction_ray',
+    'nl_turret_chem_thrower',
     'coilgun',
     'slamfire_shotgun',
     'slamfire_shotgun_d',

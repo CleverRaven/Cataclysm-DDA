@@ -777,5 +777,11 @@
         "max": 5
       }
     ]
+  },
+  {
+    "id": "dissect_mon_labyrinth_buoy_turret_1_1",
+    "type": "harvest",
+    "message": "You dig through the very human flesh of this creature, finding bone, hair, and nail.  Some of the internal electronics seem to be intact.",
+    "entries": [ { "drop": "nl_chem_thrower_mag", "base_num": [ 1, 3 ] } ]
   }
 ]

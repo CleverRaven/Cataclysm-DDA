@@ -1,0 +1,23 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_WATER_COOLER_REFILL_CHECK",
+    "condition": {
+      "and": [
+        { "math": [ "u_nl_safehouse_water_stock < 5" ] },
+        {
+          "or": [ { "current_dimension": "netherum_labyrinth" }, { "current_dimension": "netherum_labyrinth_safehouse" } ]
+        }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_nl_safehouse_water_stock += 1" ] },
+      {
+        "if": { "current_dimension": "netherum_labyrinth_safehouse" },
+        "then": { "u_message": "You hear water bubbling." }
+      },
+      { "run_eocs": "EOC_LS_SAFEHOUSE_WATER_COOLER_REFILL_CHECK", "time_in_future": "18 hours" }
+    ],
+    "false_effect": { "run_eocs": "EOC_LS_SAFEHOUSE_WATER_COOLER_REFILL_CHECK", "time_in_future": "18 hours" }
+  }
+]

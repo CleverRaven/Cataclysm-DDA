@@ -27,7 +27,19 @@
     "color": "yellow",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "SWIM_UNDER" ],
-    "connect_groups": "WATER"
+    "connect_groups": "WATER",
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_nl_water_pool",
+      "str_min": 100,
+      "str_max": 200,
+      "str_min_supported": 100,
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
   },
   {
     "type": "terrain",
@@ -45,7 +57,7 @@
       "str_max": 210,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_sewage",
+      "ter_set": "t_nl_bridge",
       "items": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "steel_plate", "count": [ 0, 2 ] } ]
     }
   },
@@ -65,7 +77,7 @@
       "str_max": 210,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_sewage",
+      "ter_set": "t_nl_bridge",
       "items": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "steel_plate", "count": [ 0, 2 ] } ]
     }
   }

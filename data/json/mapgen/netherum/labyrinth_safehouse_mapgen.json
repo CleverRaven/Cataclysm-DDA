@@ -145,6 +145,42 @@
   },
   {
     "type": "mapgen",
+    "update_mapgen_id": "labyrinth_safehouse_water_cooler",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      |+|||             ",
+        "      #..W|             ",
+        "      #####             ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "NO_UNDERLYING_ROTATE", "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "labyrinthine_safehouse_palette" ],
+      "terrain": { "W": "t_nl_metal_floor" },
+      "furniture": { "W": "f_nl_water_cooler" }
+    }
+  },
+  {
+    "type": "mapgen",
     "update_mapgen_id": "labyrinth_safehouse_living_space_1",
     "object": {
       "rows": [
@@ -153,8 +189,8 @@
         "                        ",
         "                        ",
         "                        ",
-        "     ||+|||             ",
-        "     .....|             ",
+        "     |                  ",
+        "     ..                 ",
         "#c.cc.....|             ",
         "#...c....||             ",
         "#.......||              ",

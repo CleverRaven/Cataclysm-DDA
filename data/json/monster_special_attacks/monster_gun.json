@@ -425,5 +425,17 @@
     "ammo_effects": [ "NL_DESTRUCTION_RAY" ],
     "ranged_damage": { "damage_type": "bash", "amount": 15, "armor_penetration": 10 },
     "flags": [ "PSEUDO", "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
+  },
+  {
+    "id": "nl_turret_chem_thrower",
+    "copy-from": "v29",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "chem thrower", "//~": "NO_I18N" },
+    "energy_drain": "0 kJ",
+    "ammo_effects": [ "LASER" ],
+    "dispersion": 2000,
+    "ranged_damage": { "damage_type": "acid", "amount": 6, "armor_penetration": 0 },
+    "flags": [ "PSEUDO", "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
   }
 ]

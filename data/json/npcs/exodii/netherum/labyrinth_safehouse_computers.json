@@ -16,12 +16,24 @@
       { "text": "<color_light_green>Activate entry protocol", "topic": "COMP_labyrinthine_safehouse_computer_blood_tax" },
       {
         "text": "<color_light_green>Check for updates",
-        "condition": { "or": [ { "math": [ "nl_boiler_placed != 1" ] }, { "math": [ "nl_utility_space_obelisk_placed != 1" ] } ] },
+        "condition": {
+          "or": [
+            { "math": [ "nl_boiler_placed != 1" ] },
+            { "math": [ "nl_utility_space_obelisk_placed != 1" ] },
+            { "math": [ "nl_water_cooler_placed != 1" ] }
+          ]
+        },
         "topic": "COMP_labyrinthine_safehouse_missions_list"
       },
       {
         "text": "<color_light_green>Check for updates",
-        "condition": { "and": [ { "math": [ "nl_boiler_placed == 1" ] }, { "math": [ "nl_utility_space_obelisk_placed == 1" ] } ] },
+        "condition": {
+          "and": [
+            { "math": [ "nl_boiler_placed == 1" ] },
+            { "math": [ "nl_utility_space_obelisk_placed == 1" ] },
+            { "math": [ "nl_water_cooler_placed == 1" ] }
+          ]
+        },
         "topic": "COMP_labyrinthine_safehouse_missions_none"
       },
       {
@@ -84,6 +96,11 @@
         "condition": { "and": [ { "math": [ "nl_utility_space_obelisk_placed != 1" ] }, { "math": [ "nl_boiler_placed == 1" ] } ] },
         "topic": "COMP_labyrinthine_safehouse_missions_utility_space"
       },
+      {
+        "text": "[Update HUMAN NEEDS: WATER available]",
+        "condition": { "and": [ { "math": [ "nl_water_cooler_placed != 1" ] }, { "math": [ "nl_boiler_placed == 1" ] } ] },
+        "topic": "COMP_labyrinthine_safehouse_missions_water_cooler"
+      },
       { "text": "Exit.", "topic": "COMP_labyrinthine_safehouse_computer" }
     ]
   },
@@ -112,6 +129,15 @@
         ],
         "topic": "TALK_DONE"
       },
+      { "text": "No.", "topic": "COMP_labyrinthine_safehouse_computer" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_labyrinthine_safehouse_missions_water_cooler",
+    "dynamic_line": "&<color_light_green> @User > update -HUMANNEEDS\n\n .  .  .  .  .  .  %100\n\n Update to HUMAN NEEDS: WATER available from AltarOS remote.  Route a path to cache?  Y/N",
+    "responses": [
+      { "text": "Yes.", "effect": { "run_eocs": "EOC_LS_mission_water_coolor_teleport_to_labyrinth" }, "topic": "TALK_DONE" },
       { "text": "No.", "topic": "COMP_labyrinthine_safehouse_computer" }
     ]
   },

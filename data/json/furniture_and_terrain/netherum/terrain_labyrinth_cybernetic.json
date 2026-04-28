@@ -213,6 +213,59 @@
   },
   {
     "type": "terrain",
+    "id": "t_nl_obelisk_mission_water_cooler",
+    "name": "Obelisk",
+    "description": "A tall, cerulean-blue, metallic pillar covered in swirling patterns.  You could Examine it closer to try and discern the shapes.",
+    "symbol": "A",
+    "color": "cyan",
+    "coverage": 70,
+    "move_cost": -1,
+    "flags": [ "NOITEM", "NO_SCENT", "BLOCK_WIND" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_LS_Obelisk_mission_water_cooler_have",
+          "condition": { "u_has_mission": "MISSION_nl_water_cooler" },
+          "effect": [ { "u_message": "The obelisk is inert." } ]
+        },
+        {
+          "id": "EOC_LS_Obelisk_mission_water_cooler_grant",
+          "condition": { "not": { "u_has_mission": "MISSION_nl_water_cooler" } },
+          "effect": [
+            {
+              "u_message": "You see a tall, drab grey, metallic pillar covered in swirling patterns.  As you focus on it, the patterns take the shape of a face, its features clouded by fractal overlays.  It speaks to you, booming loudly as if from some distant place:\n\n Hear this: a source of HUMAN lifeblood is here.\n But it is hidden to me.\n Seek it out.  Feed it,\n and it will be YOURS.\n Your blood will anchor the rhythm of the object.\n And you,\n and that which will then be bound to you,\n will be carried home.",
+              "popup": true
+            },
+            { "assign_mission": "MISSION_nl_water_cooler" }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_mission_water_cooler",
+    "name": "bulbous water tank",
+    "description": "This would almost look like an earthly water cooler, except the base is made up of cobbled together scrap metal, and the tank is a clouded fishbowl of green liquid.  Where the tap would be is a very thin, sharp spike, which feeds a dribble-tube that might flow into the tank itself.",
+    "symbol": "W",
+    "color": "blue",
+    "looks_like": "f_water_purifier",
+    "coverage": 70,
+    "move_cost": -1,
+    "flags": [ "NOITEM", "NO_SCENT", "BLOCK_WIND" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_LS_Obelisk_mission_water_cooler_finish",
+          "effect": { "open_dialogue": { "topic": "COMP_LS_Water_Cooler_Exit_Controls" } }
+        }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_nl_door_l",
     "name": "mysterious locked door",
     "looks_like": "t_door_metal_locked",
@@ -222,16 +275,7 @@
     "move_cost": -1,
     "coverage": 100,
     "roof": "t_nl_roof",
-    "flags": [
-      "NOITEM",
-      "CONNECT_WITH_WALL",
-      "BLOCK_WIND",
-      "SUPPORTS_ROOF",
-      "LOCKED",
-      "REDUCE_SCENT",
-      "BARRICADABLE_DOOR",
-      "OPENCLOSE_INSIDE"
-    ],
+    "flags": [ "NOITEM", "CONNECT_WITH_WALL", "BLOCK_WIND", "SUPPORTS_ROOF", "LOCKED", "REDUCE_SCENT", "BARRICADABLE_DOOR", "DOOR" ],
     "prying": {
       "result": "t_nl_door_o",
       "message": "With great effort, you pry open the door.",
@@ -260,15 +304,7 @@
     "move_cost": -1,
     "coverage": 100,
     "roof": "t_nl_roof",
-    "flags": [
-      "NOITEM",
-      "CONNECT_WITH_WALL",
-      "BLOCK_WIND",
-      "SUPPORTS_ROOF",
-      "REDUCE_SCENT",
-      "BARRICADABLE_DOOR",
-      "OPENCLOSE_INSIDE"
-    ],
+    "flags": [ "NOITEM", "CONNECT_WITH_WALL", "BLOCK_WIND", "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_DOOR", "DOOR" ],
     "open": "t_nl_door_o"
   },
   {

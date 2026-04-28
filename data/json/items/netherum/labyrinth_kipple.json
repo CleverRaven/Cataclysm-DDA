@@ -127,5 +127,35 @@
     "material": [ "nanotubes" ],
     "symbol": "-",
     "color": "blue"
+  },
+  {
+    "id": "nl_water_bottle",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "strange plastic bottle" },
+    "looks_like": "bottle_twoliter",
+    "description": "A slim, one-and-a-half-liter plastic bottle, made of a metalized plastic.  It has a label, but the characters upon it are unintelligible.",
+    "ascii_picture": "bottle_twoliter",
+    "weight": "80 g",
+    "volume": "1540 ml",
+    "longest_side": "31 cm",
+    "price": "25 cent",
+    "price_postapoc": "10 cent",
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ")",
+    "color": "cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "transparent": true,
+        "max_contains_volume": "1500 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "3 kg",
+        "moves": 400
+      }
+    ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   }
 ]

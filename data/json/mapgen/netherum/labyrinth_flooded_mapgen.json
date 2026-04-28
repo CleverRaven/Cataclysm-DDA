@@ -15,7 +15,7 @@
         "vvvvvv.Lvv....vvL.vvvvvv",
         "vvvvvvvvvv(..(vvvvvvvvvv",
         "      vvv||++||vvv      ",
-        "      ..(|Ç..(|(..      ",
+        "      ..(|@..(|(..      ",
         "      ...+....+...      ",
         "      ...+.A..+...      ",
         "      ..(|(..L|(..      ",
@@ -31,7 +31,7 @@
         "vvvvvvvvv      vvvvvvvvv"
       ],
       "palettes": [ "labyrinthine_flooded_palette" ],
-      "computers": { "Ç": { "name": "Exit Controls", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "COMP_LS_Exit_Controls" ] } }
+      "terrain": { "@": "t_nl_obelisk_mission_water_cooler" }
     }
   },
   {
@@ -45,34 +45,22 @@
   {
     "type": "mapgen",
     "om_terrain": "labyrinth_flooded_hall_curved",
-    "object": {
-      "fill_ter": "t_nl_bridge",
-      "place_nested": [ { "chunks": [ "ls_corner_template_chasm_flooded" ], "x": 0, "y": 0 } ]
-    }
+    "object": { "fill_ter": "t_nl_bridge", "place_nested": [ { "chunks": [ "ls_corner_template_chasm_flooded" ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
     "om_terrain": "labyrinth_flooded_hall_tee",
-    "object": {
-      "fill_ter": "t_nl_bridge",
-      "place_nested": [ { "chunks": [ "ls_tee_template_chasm_flooded" ], "x": 0, "y": 0 } ]
-    }
+    "object": { "fill_ter": "t_nl_bridge", "place_nested": [ { "chunks": [ "ls_tee_template_chasm_flooded" ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
     "om_terrain": "labyrinth_flooded_hall_four_way",
-    "object": {
-      "fill_ter": "t_nl_bridge",
-      "place_nested": [ { "chunks": [ "ls_4way_template_chasm_flooded" ], "x": 0, "y": 0 } ]
-    }
+    "object": { "fill_ter": "t_nl_bridge", "place_nested": [ { "chunks": [ "ls_4way_template_chasm_flooded" ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
     "om_terrain": "labyrinth_flooded_hall_end",
-    "object": {
-      "fill_ter": "t_nl_bridge",
-      "place_nested": [ { "chunks": [ "ls_deadend_template_chasm_flooded" ], "x": 0, "y": 0 } ]
-    }
+    "object": { "fill_ter": "t_nl_bridge", "place_nested": [ { "chunks": [ "ls_deadend_template_chasm_flooded" ], "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
@@ -116,12 +104,12 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
-        "!v?    ?v?    ?v?    ?v!",
-        "!v?    ?v?    ?v?    ?v!",
-        "!v?    ?v?    ?v?    ?v!",
-        "!v?    ?v?    ?v?    ?v!",
-        "!v?    ?v?    ?v?    ?v!",
-        "!v?    ?v?    ?v?    ?v!",
+        "!v?                  ?v!",
+        "!v?                  ?v!",
+        "!v?                  ?v!",
+        "!v?                  ?v!",
+        "!v?                  ?v!",
+        "!v?    ??????????    ?v!",
         "!v?    ?vvvvvvvv?    ?v!",
         "!v?    ?vvvvvvvv?    ?v!",
         "!v?    ?vvvvvvvv?    ?v!",
@@ -134,12 +122,12 @@
         "!v?    ?vvvvvvvv?    ?v!",
         "!v?    ?vvvvvvvv?    ?v!",
         "!v?    ?vvvvvvvv?    ?v!",
-        "!v?    ?v?    ?v?    ?v!",
-        "!v?    ?v?    ?v?    ?v!",
-        "!v?    ?v?    ?v?    ?v!",
-        "!v?    ?v?    ?v?    ?v!",
-        "!v?    ?v?    ?v?    ?v!",
-        "!v?    ?v?    ?v?    ?v!"
+        "!v?    ??????????    ?v!",
+        "!v?                  ?v!",
+        "!v?                  ?v!",
+        "!v?                  ?v!",
+        "!v?                  ?v!",
+        "!v?                  ?v!"
       ],
       "palettes": [ "labyrinthine_flooded_palette" ]
     }
@@ -210,7 +198,6 @@
         "!vvvvvvvv?    ?vvvvvvvv!",
         "!vvvvvvvv?    ?vvvvvvvv!",
         "!vvvvvvvv?    ?vvvvvvvv!"
-
       ],
       "palettes": [ "labyrinthine_flooded_palette" ]
     }
@@ -419,6 +406,41 @@
         "!!!!!!!!!!!!!!!!!!!!!!!!"
       ],
       "palettes": [ "labyrinthine_flooded_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "labyrinth_nl_flooded_water_cooler_location",
+    "object": {
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvv..vv....vv..vvvvvv",
+        "vvvvvv.Lvv....vvL.vvvvvv",
+        "vvvvvvvvvv(..(vvvvvvvvvv",
+        "......vvv||++||vvv......",
+        "........(|....|(........",
+        ".........+..@.+.........",
+        ".........+.L..+.........",
+        "........(|....|(........",
+        "......vvv||++||vvv......",
+        "vvvvvvvvvv(..(vvvvvvvvvv",
+        "vvvvvv.Lvv....vvL.vvvvvv",
+        "vvvvvv..vv....vv..vvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_flooded_palette" ],
+      "terrain": { "@": "t_nl_mission_water_cooler", "(": "t_nl_bridge" }
     }
   }
 ]

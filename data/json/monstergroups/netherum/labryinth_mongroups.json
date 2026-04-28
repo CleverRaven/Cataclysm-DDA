@@ -31,5 +31,15 @@
     "id": "GROUP_Labyrinth_Turret",
     "//": "Monsters walking the catwalks in a Labyrinth.  Filler.",
     "monsters": [ { "monster": "mon_labyrinth_turret_1_1", "weight": 1000 } ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_Labyrinth_Flooded",
+    "//": "Monsters in the flooded labyrinth.",
+    "monsters": [
+      { "monster": "mon_labyrinth_buoy_turret_1_1", "weight": 850 },
+      { "monster": "mon_nl_turret_searchlight_1_1", "weight": 215 },
+      { "monster": "mon_labyrinth_buoy_turret_1_2", "weight": 85 }
+    ]
   }
 ]
