@@ -85,7 +85,8 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "pumpkin", 1 ] ] ],
     "byproducts": [ [ "pumpkin_cut", 4 ] ],
-    "result_mult": 6
+    "result_mult": 6,
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_watermelon",
@@ -94,7 +95,8 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "watermelon", 1 ] ] ],
     "byproducts": [ [ "watermelon_wedge", 16 ] ],
-    "result_mult": 5
+    "result_mult": 5,
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_melon",
@@ -103,7 +105,8 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "melon", 1 ] ] ],
     "byproducts": [ [ "melon_chunks", 4 ] ],
-    "result_mult": 3
+    "result_mult": 3,
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_cucumber",
@@ -131,7 +134,8 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "byproducts": [ [ "eggplant_cut", 2 ] ],
     "components": [ [ [ "eggplant", 1 ] ] ],
-    "result_mult": 2
+    "result_mult": 2,
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_oats",
@@ -170,7 +174,8 @@
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "cattail_stalk", 1 ] ] ]
+    "components": [ [ [ "cattail_stalk", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_corn",
@@ -283,28 +288,32 @@
     "copy-from": "seed_extraction_cutting",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "byproducts": [ [ "tomato_cut", 1 ] ],
-    "components": [ [ [ "tomato", 1 ] ] ]
+    "components": [ [ [ "tomato", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_cranberries",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "cranberries", 1 ] ] ]
+    "components": [ [ [ "cranberries", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_blackberries",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "blackberries", 1 ] ] ]
+    "components": [ [ [ "blackberries", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_blueberries",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "blueberries", 1 ] ] ]
+    "components": [ [ [ "blueberries", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_poppy_bud",
@@ -334,7 +343,8 @@
     "result": "seed_chicory",
     "type": "recipe",
     "copy-from": "seed_extraction_base",
-    "components": [ [ [ "chicory_raw", 1 ] ] ]
+    "components": [ [ [ "chicory_raw", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_chicory",
@@ -344,13 +354,15 @@
     "time": "5 m",
     "result_mult": 10,
     "copy-from": "seed_extraction_base",
-    "components": [ [ [ "chicory_raw", 10 ] ] ]
+    "components": [ [ [ "chicory_raw", 10 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_wildcarrot",
     "type": "recipe",
     "copy-from": "seed_extraction_base",
-    "components": [ [ [ "carrot_wild", 3 ] ] ]
+    "components": [ [ [ "carrot_wild", 3 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_wildcarrot",
@@ -360,49 +372,56 @@
     "time": "5 m",
     "result_mult": 10,
     "copy-from": "seed_extraction_base",
-    "components": [ [ [ "carrot_wild", 30 ] ] ]
+    "components": [ [ [ "carrot_wild", 30 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_raspberries",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "raspberries", 1 ] ] ]
+    "components": [ [ [ "raspberries", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_strawberries",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "strawberries", 1 ] ] ]
+    "components": [ [ [ "strawberries", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_elderberries",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "elderberries", 1 ] ] ]
+    "components": [ [ [ "elderberries", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_mulberries",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "mulberries", 1 ] ] ]
+    "components": [ [ [ "mulberries", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_huckleberries",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "huckleberries", 1 ] ] ]
+    "components": [ [ [ "huckleberries", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_grapes",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "grapes", 1 ] ] ]
+    "components": [ [ [ "grapes", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_rose",
@@ -410,7 +429,8 @@
     "copy-from": "seed_extraction_cutting",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rose_hips", 1 ] ] ],
-    "byproducts": [ [ "rose_hips_cut", 1 ] ]
+    "byproducts": [ [ "rose_hips_cut", 1 ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_chili_pepper",
@@ -419,7 +439,8 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "chili_pepper", 1 ] ] ],
     "byproducts": [ [ "chili_pepper_cut", 1 ] ],
-    "result_mult": 2
+    "result_mult": 2,
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_bell_pepper",
@@ -428,7 +449,8 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "bell_pepper", 1 ] ] ],
     "byproducts": [ [ "bell_pepper_cut", 1 ] ],
-    "result_mult": 2
+    "result_mult": 2,
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_wheat",
@@ -562,7 +584,8 @@
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "mugwort", 1 ] ] ]
+    "components": [ [ [ "mugwort", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_mushroom",
@@ -669,7 +692,8 @@
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "mayapple", 1 ] ] ]
+    "components": [ [ [ "mayapple", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_wintergreen",
@@ -697,7 +721,8 @@
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rhubarb", 1 ] ] ]
+    "components": [ [ [ "rhubarb", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_thyme",
