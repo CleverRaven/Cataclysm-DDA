@@ -62,7 +62,6 @@
 #include "player_activity.h"
 #include "point.h"
 #include "popup.h"
-
 #include "rng.h"
 #include "scent_map.h"
 #include "sdlsound.h"
