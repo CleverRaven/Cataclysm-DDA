@@ -1217,7 +1217,7 @@
     "name": { "str": "tape measure" },
     "description": "A 25' tape measure, with a bright yellow, plastic exterior.",
     "material": [ "plastic" ],
-    "weight": "450 g",
+    "weight": "250 g",
     "volume": "250 ml",
     "price": "20 USD",
     "price_postapoc": "2 USD 50 cent",
