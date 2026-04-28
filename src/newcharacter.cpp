@@ -3459,7 +3459,7 @@ bool character_creator_ui::handle_action( const std::string &action )
         you.name = popup.query();
     } else if( action == "CHANGE_AGE" ) {
         const int age_current = you.base_age();
-        number_input_popup<int> age_query( 0, age_current,
+        number_input_popup<int> age_query( 48, age_current,
                                            string_format( _( "Enter age in years.  Minimum %d, maximum %d" ),
                                                    CHARACTER_AGE_MIN, CHARACTER_AGE_MAX ) );
         int age_result = age_query.query();
