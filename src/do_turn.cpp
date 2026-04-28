@@ -59,6 +59,9 @@
 #include "player_activity.h"
 #include "point.h"
 #include "popup.h"
+#ifdef TILES
+#include "cata_imgui.h"
+#endif
 #include "rng.h"
 #include "scent_map.h"
 #include "sdlsound.h"
@@ -731,6 +734,13 @@ bool do_turn()
             }
 
             // Avoid redrawing the main UI every time due to invalidation
+#ifdef TILES
+            // If an ImGui window just closed and cleared the buffer, do a full
+            // redraw now before blocking UIs below.
+            if( cataimgui::clear_pending() ) {
+                ui_manager::redraw();
+            }
+#endif
             ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
             if( !g->wait_popup ) {
                 g->wait_popup = std::make_unique<static_popup>();

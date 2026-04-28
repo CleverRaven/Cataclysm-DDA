@@ -250,6 +250,8 @@ RGBTuple color_loader<RGBTuple>::from_rgb( const int r, const int g, const int b
 #include <imgui/imgui_impl_sdl2.h>
 #include <imgui/imgui_impl_sdlrenderer2.h>
 
+static bool clear_screen = false;
+
 ImVec4 cataimgui::imvec4_from_color( const nc_color &color )
 {
     SDL_Color c = curses_color_to_SDL( color );
@@ -589,6 +591,11 @@ void cataimgui::client::new_frame()
         ImGui_ImplSDLRenderer2_CreateDeviceObjects();
     }
 #endif
+    if( clear_screen )
+    {
+        clear_screen = false;
+        clear_sdl_window();
+    }
     ImGui_ImplSDLRenderer2_NewFrame();
     ImGui_ImplSDL2_NewFrame();
 
@@ -607,6 +614,11 @@ void cataimgui::client::end_frame()
         io.AddKeyEvent( cata_key_to_imgui( code ), false );
     }
     cata_input_trail.clear();
+}
+
+bool cataimgui::clear_pending()
+{
+    return clear_screen;
 }
 
 void cataimgui::client::process_input( void *input )
@@ -902,7 +914,7 @@ cataimgui::window::~window()
             GImGui->InputEventsQueue.resize( 0 );
 #ifdef TILES
             // Removes leftover ImGui artifacts
-            clear_sdl_window();
+            clear_screen = true;
 #endif
         }
     }
