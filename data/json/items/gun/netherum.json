@@ -13,7 +13,7 @@
     "longest_side": "900 mm",
     "price": "0 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "cyber_bone" ],
     "symbol": "(",
     "color": "white",
