@@ -591,8 +591,7 @@ void cataimgui::client::new_frame()
         ImGui_ImplSDLRenderer2_CreateDeviceObjects();
     }
 #endif
-    if( clear_screen )
-    {
+    if( clear_screen ) {
         clear_screen = false;
         clear_sdl_window();
     }
