@@ -85,8 +85,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "pumpkin", 1 ] ] ],
     "byproducts": [ [ "pumpkin_cut", 4 ] ],
-    "result_mult": 6,
-    "flags": [ "ALLOW_ROTTEN" ]
+    "result_mult": 6
   },
   {
     "result": "seed_watermelon",
@@ -95,8 +94,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "watermelon", 1 ] ] ],
     "byproducts": [ [ "watermelon_wedge", 16 ] ],
-    "result_mult": 5,
-    "flags": [ "ALLOW_ROTTEN" ]
+    "result_mult": 5
   },
   {
     "result": "seed_melon",
@@ -105,8 +103,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "melon", 1 ] ] ],
     "byproducts": [ [ "melon_chunks", 4 ] ],
-    "result_mult": 3,
-    "flags": [ "ALLOW_ROTTEN" ]
+    "result_mult": 3
   },
   {
     "result": "seed_cucumber",
@@ -134,8 +131,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "byproducts": [ [ "eggplant_cut", 2 ] ],
     "components": [ [ [ "eggplant", 1 ] ] ],
-    "result_mult": 2,
-    "flags": [ "ALLOW_ROTTEN" ]
+    "result_mult": 2
   },
   {
     "result": "seed_oats",
@@ -288,8 +284,7 @@
     "copy-from": "seed_extraction_cutting",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "byproducts": [ [ "tomato_cut", 1 ] ],
-    "components": [ [ [ "tomato", 1 ] ] ],
-    "flags": [ "ALLOW_ROTTEN" ]
+    "components": [ [ [ "tomato", 1 ] ] ]
   },
   {
     "result": "seed_cranberries",
@@ -429,8 +424,7 @@
     "copy-from": "seed_extraction_cutting",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rose_hips", 1 ] ] ],
-    "byproducts": [ [ "rose_hips_cut", 1 ] ],
-    "flags": [ "ALLOW_ROTTEN" ]
+    "byproducts": [ [ "rose_hips_cut", 1 ] ]
   },
   {
     "result": "seed_chili_pepper",
@@ -439,8 +433,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "chili_pepper", 1 ] ] ],
     "byproducts": [ [ "chili_pepper_cut", 1 ] ],
-    "result_mult": 2,
-    "flags": [ "ALLOW_ROTTEN" ]
+    "result_mult": 2
   },
   {
     "result": "seed_bell_pepper",
@@ -449,8 +442,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "bell_pepper", 1 ] ] ],
     "byproducts": [ [ "bell_pepper_cut", 1 ] ],
-    "result_mult": 2,
-    "flags": [ "ALLOW_ROTTEN" ]
+    "result_mult": 2
   },
   {
     "result": "seed_wheat",
