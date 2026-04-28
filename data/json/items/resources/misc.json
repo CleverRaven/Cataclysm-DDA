@@ -324,9 +324,9 @@
       "msg": "You dump the colorful saltwater and dry the battery.",
       "moves": 1000,
       "type": "delayed_transform",
-      "transform_age": 86400,
+      "transform_age": 172800,
       "not_ready_msg": "The battery is still discharging.",
-      "//": "24 hours"
+      "//": "48 hours"
     }
   },
   {
