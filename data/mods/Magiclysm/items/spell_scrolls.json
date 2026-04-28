@@ -2256,7 +2256,7 @@
     "id": "spell_scroll_earthshaper_repair_metal_stone",
     "//": "Earthshaper spell",
     "name": { "str": "Scroll of Fault-Mending Chant", "str_pl": "Scrolls of Fault-Mending Chant" },
-    "description": "With some earth and stone and a song, repair and item made of natural stone or metal.",
+    "description": "With some earth and stone and a song, repair an item made of natural stone or metal.",
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_repair_metal_stone" ] }
   },
   {

@@ -8,5 +8,15 @@
     "id": "meat_red_raw",
     "type": "requirement",
     "extend": { "components": [ [ [ "purified_meat", 1 ] ] ] }
+  },
+  {
+    "id": "hard_liquor_unmixed",
+    "type": "requirement",
+    "extend": { "components": [ [ [ "dragonfire", 1 ], [ "goldbrew", 1 ] ] ] }
+  },
+  {
+    "id": "wash_liquor",
+    "type": "requirement",
+    "extend": { "components": [ [ [ "wash_dragonfire", 1 ], [ "wash_goldbrew", 1 ] ] ] }
   }
 ]
