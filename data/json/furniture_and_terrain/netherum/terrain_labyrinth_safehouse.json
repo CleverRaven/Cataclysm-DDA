@@ -50,5 +50,54 @@
         }
       ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_obelisk_mission_living_space_1",
+    "name": "Metal stele",
+    "description": "A floor to ceiling, shining column.  A massive face with a gaping jaw is cast upon it.  Inside the mouth are several pre-fabricated slots.",
+    "symbol": "A",
+    "color": "green",
+    "coverage": 70,
+    "move_cost": -1,
+    "flags": [ "NOITEM", "NO_SCENT", "BLOCK_WIND" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_LS_SAFEHOUSE_LIVING_SPACE_1_OBELISK",
+          "effect": [
+            {
+              "run_eoc_selector": [
+                "EOC_LS_SAFEHOUSE_LIVING_SPACE_1_HAMMER",
+                "EOC_LS_SAFEHOUSE_LIVING_SPACE_1_HINGE",
+                "EOC_LS_SAFEHOUSE_LIVING_SPACE_1_WIRE",
+                "EOC_LS_SAFEHOUSE_LIVING_SPACE_1_LAMI",
+                "EOC_LS_SAFEHOUSE_LIVING_SPACE_1_TAPE_MEASURE",
+                "EOC_LS_SAFEHOUSE_LIVING_SPACE_1_PIPE"
+              ],
+              "allow_cancel": true,
+              "names": [
+                "Insert a <color_white>hammer</color>.",
+                "Insert a <color_white>hinge</color>.",
+                "Insert a <color_white>wire</color>.",
+                "Insert an <color_yellow>laser-assisted mass indexer</color>?",
+                "Insert a <color_white>tape measure</color>.",
+                "Insert an <color_white>pipe</color>."
+              ],
+              "title": "You see before you a floor to ceiling, shining column.\n\nA massive face with a gaping jaw is cast upon it.\n\nInside the mouth are several pre-fabricated slots.\n\nThe slots are clearly labeled:",
+              "descriptions": [
+                "Looks like a standard hammer will fit.",
+                "Looks like a standard hinge will fit.",
+                "Looks like a length of thin, relatively stiff steel wire will fit.",
+                "You don't know what a laser-assisted mass indexer is, but maybe you can find one in the labyrinthine structures?",
+                "Looks like a standard tape measure will fit.",
+                "Looks like a standard pipe will fit."
+              ]
+            }
+          ]
+        }
+      ]
+    }
   }
 ]

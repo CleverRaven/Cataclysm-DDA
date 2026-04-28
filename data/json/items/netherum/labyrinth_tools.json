@@ -16,5 +16,23 @@
     "qualities": [ [ "VISE", 10 ] ],
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "melee_damage": { "bash": 2 }
+  },
+  {
+    "id": "nl_laser_mass_indexer",
+    "//": "An otherworldly mass measuring device, or, you know, a wierd scale.  Can measure a stupidly high weight, and is otherwise useless.",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "laser-guided measurement device" },
+    "description": "At first glance this appears to be a set of calipers, with the ability to open and close via a spring-loaded handle.  The tips of the pincers each emit a laser that always meet in the center.  On one side of the handle is a small screen that displays various numbers; while you don't recognize most of them, you do notice grams and pounds are displayed, albeit not next to each other.",
+    "weight": "320 g",
+    "volume": "300 ml",
+    "price": "0 USD",
+    "price_postapoc": "7 USD",
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "use_action": { "type": "weigh_self", "max_weight": "25000 kg" },
+    "melee_damage": { "bash": 1 }
   }
 ]

@@ -181,6 +181,41 @@
   },
   {
     "type": "mapgen",
+    "update_mapgen_id": "labyrinth_safehouse_living_space_1_obelisk",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       A                ",
+        "      ###               ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "NO_UNDERLYING_ROTATE", "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "labyrinthine_safehouse_palette" ],
+      "terrain": { "A": "t_nl_obelisk_mission_living_space_1" }
+    }
+  },
+  {
+    "type": "mapgen",
     "update_mapgen_id": "labyrinth_safehouse_living_space_1",
     "object": {
       "rows": [

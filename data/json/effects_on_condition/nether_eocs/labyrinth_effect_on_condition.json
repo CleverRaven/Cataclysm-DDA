@@ -470,10 +470,23 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_UPDATE_LIVING_SPACE_1_OBELISK",
+    "effect": [
+      { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
+      {
+        "mapgen_update": "labyrinth_safehouse_living_space_1_obelisk",
+        "target_var": { "global_val": "LS_SAFEHOUSE_1" }
+      },
+      { "math": [ "nl_living_space_1_obelisk_placed = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_LS_SAFEHOUSE_UPDATE_LIVING_SPACE_1",
     "effect": [
       { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
-      { "mapgen_update": "labyrinth_safehouse_living_space_1", "target_var": { "global_val": "LS_SAFEHOUSE_1" } }
+      { "mapgen_update": "labyrinth_safehouse_living_space_1", "target_var": { "global_val": "LS_SAFEHOUSE_1" } },
+      { "math": [ "nl_living_space_1_placed = 1" ] }
     ]
   },
   {
@@ -771,6 +784,188 @@
             "popup": true
           },
           { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_LIVING_SPACE_1_HAMMER",
+    "condition": {
+      "and": [ { "u_has_item": "hammer" }, { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_hammer)" ] } } ]
+    },
+    "effect": [
+      { "u_consume_item": "hammer" },
+      { "u_add_var": "safehouse_living_space_1_deposited_hammer", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hammer)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hinge)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_wire)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_lami)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_tape_measure)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_pipe)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize themselves into an opening.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_LIVING_SPACE_1" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_LIVING_SPACE_1_HINGE",
+    "condition": {
+      "and": [ { "u_has_item": "hinge" }, { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_hinge)" ] } } ]
+    },
+    "effect": [
+      { "u_consume_item": "hinge" },
+      { "u_add_var": "safehouse_living_space_1_deposited_hinge", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hammer)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hinge)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_wire)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_lami)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_tape_measure)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_pipe)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize themselves into an opening.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_LIVING_SPACE_1" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_LIVING_SPACE_1_WIRE",
+    "condition": { "and": [ { "u_has_item": "wire" }, { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_wire)" ] } } ] },
+    "effect": [
+      { "u_consume_item": "wire" },
+      { "u_add_var": "safehouse_living_space_1_deposited_wire", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hammer)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hinge)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_wire)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_lami)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_tape_measure)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_pipe)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize themselves into an opening.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_LIVING_SPACE_1" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_LIVING_SPACE_1_LAMI",
+    "condition": {
+      "and": [
+        { "u_has_item": "nl_laser_mass_indexer" },
+        { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_lami)" ] } }
+      ]
+    },
+    "effect": [
+      { "u_consume_item": "nl_laser_mass_indexer" },
+      { "u_add_var": "safehouse_living_space_1_deposited_lami", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hammer)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hinge)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_wire)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_lami)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_tape_measure)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_pipe)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize themselves into an opening.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_LIVING_SPACE_1" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_LIVING_SPACE_1_TAPE_MEASURE",
+    "condition": {
+      "and": [
+        { "u_has_item": "tape_measure" },
+        { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_tape_measure)" ] } }
+      ]
+    },
+    "effect": [
+      { "u_consume_item": "tape_measure" },
+      { "u_add_var": "safehouse_living_space_1_deposited_tape_measure", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hammer)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hinge)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_wire)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_lami)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_tape_measure)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_pipe)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize themselves into an opening.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_LIVING_SPACE_1" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_LIVING_SPACE_1_PIPE",
+    "condition": { "and": [ { "u_has_item": "pipe" }, { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_pipe)" ] } } ] },
+    "effect": [
+      { "u_consume_item": "pipe" },
+      { "u_add_var": "safehouse_living_space_1_deposited_pipe", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hammer)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hinge)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_wire)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_lami)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_tape_measure)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_pipe)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize themselves into an opening.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_LIVING_SPACE_1" ] }
         ]
       }
     ]
