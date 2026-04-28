@@ -394,8 +394,7 @@
       [ [ "scrap", 7 ] ],
       [ [ "copper", 13 ] ],
       [ [ "aluminum_foil", 400 ] ],
-      [ [ "graphite", 4900 ] ],
-      [ [ "chem_nickel_powder", 2000 ] ]
+      [ [ "graphite", 4900 ] ]
     ]
   }
 ]
