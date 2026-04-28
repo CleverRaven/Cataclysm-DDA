@@ -36,7 +36,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_MAGICIANS_HAT2",
-    "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } } ], [ { "math": [ "u_magicians_hat_xp = 1" ] } ] ] },
+    "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } } ], [ { "math": [ "u_magicians_hat_xp = 1" ] } ] } ] },
     "effect": [ { "run_eocs": "EOC_DREAM_CLASS_XP" } ],
     "false_effect": { "u_message": "You've learned as much as you can from this item." }
   },
