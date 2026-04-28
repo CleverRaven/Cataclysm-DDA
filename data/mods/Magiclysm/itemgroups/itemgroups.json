@@ -1871,8 +1871,6 @@
     "copy-from": "liquor_and_spirits",
     "subtype": "distribution",
     "//": "Goldbrew - rarity as single malt whiskey, dragonfire - rarity as vodka.",
-    "extend": {
-      "entries": [ { "item": "dragonfire", "prob": 20 }, { "item": "goldbrew", "prob": 2 } ]
-    }
+    "extend": { "entries": [ { "item": "dragonfire", "prob": 20 }, { "item": "goldbrew", "prob": 2 } ] }
   }
 ]
