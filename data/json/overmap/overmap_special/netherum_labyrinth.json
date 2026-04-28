@@ -187,5 +187,56 @@
     "rotate": false,
     "locations": [ "netherum_labyrinth_sparkling_chasm" ],
     "flags": [ "EXTRADIMENSIONAL", "NETHERUM_LABYRINTH", "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "labyrinthine_structure_flooded",
+    "subtype": "mutable",
+    "locations": [ "netherum_labyrinth_sparkling_chasm" ],
+    "occurrences": [ 0, 0 ],
+    "flags": [ "EXODII", "EXTRADIMENSIONAL", "NETHERUM_LABYRINTH", "OVERMAP_UNIQUE" ],
+    "check_for_locations_area": [ { "type": [ "netherum_labyrinth_sparkling_chasm" ], "from": [ 10, 10, 0 ], "to": [ -10, -10, 0 ] } ],
+    "joins": [ "passage_to_passage" ],
+    "overmaps": {
+      "entrance": {
+        "overmap": "labyrinth_flooded_entrance_north",
+        "north": "passage_to_passage",
+        "east": "passage_to_passage",
+        "south": "passage_to_passage",
+        "west": "passage_to_passage"
+      },
+      "crossroads": {
+        "overmap": "labyrinth_flooded_hall_nesw",
+        "north": "passage_to_passage",
+        "east": "passage_to_passage",
+        "south": "passage_to_passage",
+        "west": "passage_to_passage"
+      },
+      "tee": {
+        "overmap": "labyrinth_flooded_hall_nes",
+        "north": "passage_to_passage",
+        "east": "passage_to_passage",
+        "south": "passage_to_passage"
+      },
+      "straight_passage": { "overmap": "labyrinth_flooded_hall_ew", "east": "passage_to_passage", "west": "passage_to_passage" },
+      "corner": { "overmap": "labyrinth_flooded_hall_ne", "north": "passage_to_passage", "east": "passage_to_passage" },
+      "dead_end": { "overmap": "labyrinth_flooded_hall_end_west", "west": "passage_to_passage" }
+    },
+    "root": "entrance",
+    "phases": [
+      [
+        { "overmap": "straight_passage", "max": { "poisson": 20 } },
+        { "overmap": "corner", "max": { "poisson": 30 } },
+        { "overmap": "tee", "max": { "poisson": 20 } },
+        { "overmap": "dead_end", "weight": 1 }
+      ],
+      [
+        { "overmap": "dead_end", "weight": 2000 },
+        { "overmap": "straight_passage", "weight": 20 },
+        { "overmap": "corner", "weight": 100 },
+        { "overmap": "tee", "weight": 20 },
+        { "overmap": "crossroads", "weight": 1 }
+      ]
+    ]
   }
 ]
