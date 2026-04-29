@@ -739,7 +739,7 @@ void keybindings_ui::draw_controls()
         ImGui::TableSetupColumn( "Assigned Key(s)",
                                  ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoSort, keys_col_width );
         float row_height = ImGui::GetTextLineHeightWithSpacing();
-        cataimgui::set_scroll ( keybinds_scroll );
+        cataimgui::set_scroll( keybinds_scroll );
         ImGuiListClipper clipper;
         clipper.Begin( filtered_registered_actions.size(), row_height );
         while( clipper.Step() ) {
