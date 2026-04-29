@@ -1096,8 +1096,14 @@ action_id input_context::display_menu( bool permit_execute_action )
             if( !kb_menu.filtered_registered_actions.empty() ) {
                 kb_menu.status = kb_menu_status::execute;
             }
-        } else if( action == "PAGE_UP" || action == "PAGE_DOWN" || action == "HOME" || action == "END" ) {
-            continue; // do nothing - on tiles version for some reason this counts as pressing various alphabet keys
+        } else if( action == "PAGE_UP" ) {
+            kb_menu.keybinds_scroll = cataimgui::scroll::page_up;
+        } else if( action == "PAGE_DOWN" ) {
+            kb_menu.keybinds_scroll = cataimgui::scroll::page_down;
+        } else if( action == "HOME" ) {
+            kb_menu.keybinds_scroll = cataimgui::scroll::begin;
+        } else if( action == "END" ) {
+            kb_menu.keybinds_scroll = cataimgui::scroll::end;
         } else if( action == "UILIST.UP" ) {
             kb_menu.keybinds_scroll = cataimgui::scroll::line_up;
         } else if( action == "UILIST.DOWN" ) {
