@@ -40,7 +40,7 @@
   {
     "id": "TALK_FRIEND_GUARD_BONE_SEER",
     "type": "talk_topic",
-    "dynamic_line": "Listen...  Can't you hear the song here?",
+    "dynamic_line": "Listen…  Can't you hear the song here?",
     "responses": [
       { "text": "I need you to come with me.", "topic": "TALK_FRIEND_BONE_SEER", "effect": "stop_guard" },
       { "text": "Let's talk.", "topic": "TALK_FRIEND_BONE_SEER" },
@@ -323,6 +323,6 @@
     "type": "talk_topic",
     "id": "TALK_BONE_SEER_END_FRIEND",
     "dynamic_line": "The Song holds immeasurable power.  A grand symphony could revert the Cataclysm - or accelerate it to a time beyond all.  But with the world looking as is, both options are preferable.",
-    "responses": [ { "text": "Yes, that's right. Thank you for reminding me.", "topic": "TALK_FRIEND_BONE_SEER" } ]
+    "responses": [ { "text": "Yes, that's right.  Thank you for reminding me.", "topic": "TALK_FRIEND_BONE_SEER" } ]
   }
 ]
