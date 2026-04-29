@@ -900,7 +900,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_LOVECRAFTIAN",
     "type": "talk_topic",
-    "dynamic_line": "There are these city-sized creatures called Void Leviathans that lives in the vast nether regions between realities.  Sometimes they used to wash up onto Earths that had recently had a Cataclysm.  Caused all kinds of trouble, they did, so Valzain made it so they would spawn underground instead.  I can mark the marooned corpse of one such creature on your map for one denarius.",
+    "dynamic_line": "There are these city-sized creatures called Void Leviathans that live in the vast nether regions between realities.  Sometimes they used to wash up onto Earths that had recently had a Cataclysm.  Caused all kinds of trouble, they did, so Valzain made it so they would spawn underground instead.  I can mark the marooned corpse of one such creature on your map for one denarius.",
     "responses": [
       {
         "text": "It's a deal.",
