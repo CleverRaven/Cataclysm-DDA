@@ -68,7 +68,7 @@
         "type": "debug"
       }
     ],
-    "false_effects": [ { "run_eocs": "EOC_FIRE_BALL2" } ]
+    "false_effect": [ { "run_eocs": "EOC_FIRE_BALL2" } ]
   },
   {
     "type": "effect_on_condition",
