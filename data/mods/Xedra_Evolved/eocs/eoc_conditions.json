@@ -206,7 +206,7 @@
     "id": "EOC_DREAM_CLASS_XP",
     "condition": { "one_in_chance": 2 },
     "effect": [ { "run_eocs": "EOC_DREAM_CRAFTS", "time_in_future": 1 } ],
-    "false_effect": [ { "run_eocs": "EOC_DREAM_SPELLS", "time_in_future": 1 } ]
+    "false_effect": [ { "run_eocs": "EOC_XE_GOT_A_SPELL_LVL", "time_in_future": 1 } ]
   },
   {
     "type": "effect_on_condition",
