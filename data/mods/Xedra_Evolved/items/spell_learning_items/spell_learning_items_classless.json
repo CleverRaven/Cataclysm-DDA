@@ -26,7 +26,9 @@
     "effect": [
       { "math": [ "u_magicians_hat_xp ++" ] },
       { "math": [ "magic_potential++" ] },
-      { "u_message": "You do some extemperaneous magic tricks with the hat and somehow feel as though something inside of you has changed." },
+      {
+        "u_message": "You do some extemperaneous magic tricks with the hat and somehow feel as though something inside of you has changed."
+      },
       {
         "u_message": "Got magic potential from Frosty's hat, magic_potential: <global_val:magic_potential>",
         "type": "debug"
