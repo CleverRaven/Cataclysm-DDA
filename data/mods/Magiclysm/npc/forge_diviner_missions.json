@@ -418,5 +418,18 @@
     "start": {
       "assign_mission_target": { "om_terrain": "magic_field_a1", "om_special": "magic_field", "reveal_radius": 3, "cant_see": true }
     }
+  },
+  {
+    "id": "MISSION_FORGE_DIVINER_LOVECRAFTIAN",
+    "type": "mission_definition",
+    "name": { "str": "Visit the Lovecraftian horror" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you that there would be the corpse of a Lovecraftian horror here.",
+    "destination": "corpse_surface",
+    "start": {
+      "assign_mission_target": { "om_terrain": "corpse_surface", "om_special": "nether_monster_corpse", "reveal_radius": 2, "cant_see": true }
+    }
   }
 ]
