@@ -168,6 +168,41 @@
           }
         ],
         "condition": { "npc_has_any_effect": [ "downed" ] }
+      },
+      {
+        "id": "brain",
+        "name": "the brain",
+        "is_head": true,
+        "coverage": 2,
+        "difficulty": { "melee": 4, "ranged": 5 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          {
+            "effect": "staggered",
+            "instant_death_chance": 100,
+            "chance": 100,
+            "message": "The %s collapses in a heap!",
+            "damage_required": [ 7, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "brain_coup",
+        "name": "the brain",
+        "is_head": true,
+        "coverage": 8,
+        "difficulty": { "melee": 3, "ranged": 4 },
+        "coverage_mult": { "broad": 0.5 },
+        "condition": { "npc_has_any_effect": [ "downed" ] }
+        "effects": [
+          {
+            "effect": "staggered",
+            "instant_death_chance": 100,
+            "chance": 100,
+            "message": "The %s collapses in a heap!",
+            "damage_required": [ 7, 100 ]
+          }
+        ]
       }
     ]
   },
@@ -229,6 +264,41 @@
             "damage_required": [ 26, 100 ]
           }
         ]
+      },
+      {
+        "id": "brain",
+        "name": "the brain",
+        "is_head": true,
+        "coverage": 3,
+        "difficulty": { "melee": 4, "ranged": 5 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          {
+            "effect": "staggered",
+            "instant_death_chance": 100,
+            "chance": 100,
+            "message": "The %s collapses in a heap!",
+            "damage_required": [ 7, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "brain_coup",
+        "name": "the brain",
+        "is_head": true,
+        "coverage": 10,
+        "difficulty": { "melee": 3, "ranged": 4 },
+        "coverage_mult": { "broad": 0.5 },
+        "condition": { "npc_has_any_effect": [ "downed" ] }
+        "effects": [
+          {
+            "effect": "staggered",
+            "instant_death_chance": 100,
+            "chance": 100,
+            "message": "The %s collapses in a heap!",
+            "damage_required": [ 7, 100 ]
+          }
+        ]
       }
     ]
   },
@@ -288,6 +358,41 @@
             "chance": 30,
             "message": "The %s's eyes are obliterated!",
             "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "brain",
+        "name": "the brain",
+        "is_head": true,
+        "coverage": 1,
+        "difficulty": { "melee": 6, "ranged": 9 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          {
+            "effect": "staggered",
+            "instant_death_chance": 100,
+            "chance": 100,
+            "message": "The %s collapses in a heap!",
+            "damage_required": [ 7, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "brain_coup",
+        "name": "the brain",
+        "is_head": true,
+        "coverage": 5,
+        "difficulty": { "melee": 4, "ranged": 7 },
+        "coverage_mult": { "broad": 0.5 },
+        "condition": { "npc_has_any_effect": [ "downed" ] }
+        "effects": [
+          {
+            "effect": "staggered",
+            "instant_death_chance": 100,
+            "chance": 100,
+            "message": "The %s collapses in a heap!",
+            "damage_required": [ 7, 100 ]
           }
         ]
       }
