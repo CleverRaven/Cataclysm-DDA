@@ -54,6 +54,7 @@ class keybindings_ui : public cataimgui::window
         const nc_color h_unbound_key = h_light_red;
         input_context *ctxt;
     public:
+        cataimgui::scroll keybinds_scroll = cataimgui::scroll::none;
         // current status: adding/removing/reseting/executing/showing keybindings
         kb_menu_status status = kb_menu_status::show, last_status = kb_menu_status::execute;
 
@@ -727,7 +728,6 @@ void keybindings_ui::draw_controls()
         ImGui::SetNextWindowFocus();
     }
     if( ImGui::BeginTable( "KB_KEYS", 4, ImGuiTableFlags_ScrollY ) ) {
-
         float one_char_width = ImGui::CalcTextSize( "M" ).x;
         ImGui::TableSetupColumn( "##invlet",
                                  ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoSort, one_char_width );
@@ -739,6 +739,7 @@ void keybindings_ui::draw_controls()
         ImGui::TableSetupColumn( "Assigned Key(s)",
                                  ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoSort, keys_col_width );
         float row_height = ImGui::GetTextLineHeightWithSpacing();
+        cataimgui::set_scroll ( keybinds_scroll );
         ImGuiListClipper clipper;
         clipper.Begin( filtered_registered_actions.size(), row_height );
         while( clipper.Step() ) {
@@ -1004,6 +1005,8 @@ action_id input_context::display_menu( bool permit_execute_action )
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "TEXT.INPUT_FROM_FILE" );
+    ctxt.register_action( "UILIST.UP" );
+    ctxt.register_action( "UILIST.DOWN" );
     if( permit_execute_action ) {
         ctxt.register_action( "EXECUTE" );
     }
@@ -1095,6 +1098,10 @@ action_id input_context::display_menu( bool permit_execute_action )
             }
         } else if( action == "PAGE_UP" || action == "PAGE_DOWN" || action == "HOME" || action == "END" ) {
             continue; // do nothing - on tiles version for some reason this counts as pressing various alphabet keys
+        } else if( action == "UILIST.UP" ) {
+            kb_menu.keybinds_scroll = cataimgui::scroll::line_up;
+        } else if( action == "UILIST.DOWN" ) {
+            kb_menu.keybinds_scroll = cataimgui::scroll::line_down;
         } else if( action == "TEXT.CLEAR" ) {
             kb_menu.clear_filter();
             kb_menu.filtered_registered_actions = filter_strings_by_phrase( org_registered_actions,
