@@ -22,7 +22,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_MAGICIANS_HAT",
-    "condition": { "math": [ "u_magicians_hat_xp = 0" ] },
+    "condition": { "math": [ "u_magicians_hat_xp == 0" ] },
     "effect": [
       { "math": [ "u_magicians_hat_xp ++" ] },
       { "math": [ "magic_potential++" ] },
@@ -59,7 +59,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_FIRE_BALL",
-    "condition": { "math": [ "u_fire_ball_xp = 0" ] },
+    "condition": { "math": [ "u_fire_ball_xp == 0" ] },
     "effect": [
       { "math": [ "u_fire_ball_xp ++" ] },
       { "math": [ "magic_potential++" ] },
