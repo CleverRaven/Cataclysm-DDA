@@ -33,7 +33,7 @@
   {
     "type": "faction",
     "id": "UICA",
-    "name": "United Interstellar Coordination Agency",
+    "name": "United Interstellar Coordination Authority",
     "mon_faction": "UICA_mil",
     "likes_u": 0,
     "respects_u": 0,

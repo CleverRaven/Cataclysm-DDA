@@ -1096,6 +1096,8 @@
     "subtypes": [ "BOOK" ],
     "category": "manuals",
     "copy-from": "magic_square_base",
+    "weight": "0 g",
+    "extend": { "flags": [ "ZERO_WEIGHT" ] },
     "name": { "str_sp": "The Real Actual Excerpts of Avodah Zarah", "//~": "NO_I18N" },
     "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
     "use_action": { "type": "learn_spell", "spells": [ "hedge_scare_shabriri" ] }

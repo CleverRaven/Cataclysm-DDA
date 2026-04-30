@@ -122,7 +122,6 @@
     "id": "fault_cotton_torn",
     "name": { "str": "Torn cotton" },
     "description": "There's a tear in the fabric.",
-    "item_prefix": "torn",
     "message": "%s's fabric was torn!",
     "fault_type": "mechanical_damage",
     "degradation_mod": 25,
@@ -147,6 +146,35 @@
       { "damage_id": "bash", "multiply": 0.85 },
       { "damage_id": "cut", "multiply": 0.85 },
       { "damage_id": "stab", "multiply": 0.85 }
+    ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_denim_torn",
+    "name": { "str": "Torn denim" },
+    "description": "There's a tear in the fabric.",
+    "copy-from": "fault_cotton_torn"
+  },
+  {
+    "type": "fault",
+    "id": "fault_denim_hole",
+    "name": { "str": "Hole" },
+    "description": "There's a big hole in the fabric.",
+    "copy-from": "fault_cotton_hole"
+  },
+  {
+    "type": "fault",
+    "id": "fault_nl_phase_goo",
+    "name": { "str": "Out of phase" },
+    "description": "The object is covered in dimensionally-altered goo, lowering its protective value.  You think you could mend the problem by just wiping it off.",
+    "item_prefix": "out-of-phase",
+    "message": "Out-of-phase goo sticks to the %s!",
+    "degradation_mod": 0,
+    "price_modifier": 0,
+    "armor_mod": [
+      { "damage_id": "bash", "multiply": 0.5 },
+      { "damage_id": "cut", "multiply": 0.5 },
+      { "damage_id": "stab", "multiply": 0.5 }
     ]
   }
 ]

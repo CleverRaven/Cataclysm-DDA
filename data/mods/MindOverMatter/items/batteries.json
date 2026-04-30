@@ -105,7 +105,7 @@
   },
   {
     "id": "heavy_battery_electronoetic_refined",
-    "copy-from": "medium_battery_electronoetic",
+    "copy-from": "heavy_battery_electronoetic",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",

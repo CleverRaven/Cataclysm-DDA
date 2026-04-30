@@ -44,6 +44,7 @@ class character_oracle_t : public oracle_t
         status_t displaced_from_post( std::string_view ) const;
         status_t on_shift( std::string_view ) const;
         status_t npc_is_following( std::string_view ) const;
+        status_t npc_should_embark( std::string_view ) const;
         status_t npc_has_goto_order( std::string_view ) const;
         status_t has_camp_job( std::string_view ) const;
         status_t is_away_from_camp( std::string_view ) const;
@@ -57,6 +58,7 @@ class character_oracle_t : public oracle_t
         float sleepiness_urgency( std::string_view ) const;
         float duty_urgency( std::string_view ) const;
         float npc_following_urgency( std::string_view ) const;
+        float npc_embark_urgency( std::string_view ) const;
         float npc_goto_order_urgency( std::string_view ) const;
         float camp_work_urgency( std::string_view ) const;
         float return_to_camp_urgency( std::string_view ) const;

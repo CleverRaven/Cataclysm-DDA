@@ -166,8 +166,8 @@ static const flag_id json_flag_PUMP_ACTION( "PUMP_ACTION" );
 static const flag_id json_flag_SINGLE_ACTION( "SINGLE_ACTION" );
 
 static const material_id material_budget_steel( "budget_steel" );
-static const material_id material_case_hardened_steel( "case_hardened_steel" );
 static const material_id material_glass( "glass" );
+static const material_id material_hardened_steel( "hardened_steel" );
 static const material_id material_high_steel( "high_steel" );
 static const material_id material_iron( "iron" );
 static const material_id material_low_steel( "low_steel" );
@@ -195,7 +195,7 @@ static const trap_str_id tr_target_spinner( "tr_target_spinner" );
 
 static const std::string gun_mechanical_simple( "gun_mechanical_simple" );
 
-static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_case_hardened_steel, material_high_steel, material_low_steel, material_med_steel, material_tempered_steel };
+static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_hardened_steel, material_high_steel, material_low_steel, material_med_steel, material_tempered_steel };
 
 // Maximum duration of aim-and-fire loop, in turns
 static constexpr int AIF_DURATION_LIMIT = 10;
@@ -683,7 +683,7 @@ int Character::gun_engagement_moves( const item &gun, int target, int start,
     double penalty = start;
     const aim_mods_cache aim_cache = gen_aim_mods_cache( gun );
     while( penalty > target ) {
-        const double adj = aim_per_move( gun, penalty, attributes, { std::ref( aim_cache ) } );
+        const double adj = aim_per_move( gun, penalty, attributes, aim_cache );
         if( adj <= MIN_RECOIL_IMPROVEMENT ) {
             break;
         }
@@ -1813,9 +1813,11 @@ static void mod_stamina_archery( Character &you, const item &relevant )
                    stamina_cost, str_ratio, skill_modifier );
 }
 
-static void do_aim( Character &you, const item &relevant, const double min_recoil )
+static void do_aim( Character &you, const item &relevant, const Target_attributes &target,
+                    const double min_recoil )
 {
-    const double aim_amount = you.aim_per_move( relevant, you.recoil );
+    const aim_mods_cache aim_cache = you.gen_aim_mods_cache( relevant );
+    const double aim_amount = you.aim_per_move( relevant, you.recoil, target, aim_cache );
     if( aim_amount > 0 && you.recoil > min_recoil ) {
         // Increase aim at the cost of moves
         you.mod_moves( -1 );
@@ -1969,10 +1971,9 @@ static recoil_prediction predict_recoil( const Character &you, const item &weapo
     double predicted_recoil = start_recoil;
     int predicted_delay = 0;
     const aim_mods_cache &aim_cache = you.gen_aim_mods_cache( weapon );
-    auto aim_cache_opt = std::make_optional( std::ref( aim_cache ) );
     // next loop simulates aiming until either aim mode threshold or sight_dispersion is reached
     do {
-        const double aim_amount = you.aim_per_move( weapon, predicted_recoil, target, aim_cache_opt );
+        const double aim_amount = you.aim_per_move( weapon, predicted_recoil, target, aim_cache );
         if( aim_amount <= MIN_RECOIL_IMPROVEMENT ) {
             break;
         }
@@ -3896,10 +3897,11 @@ bool target_ui::action_aim()
 {
     set_last_target();
     apply_aim_turning_penalty();
+    const Target_attributes target( src, dst );
     const double min_recoil = calculate_aim_cap( *you, dst );
     double hold_recoil = you->recoil;
     for( int i = 0; i < 10; ++i ) {
-        do_aim( *you, *relevant, min_recoil );
+        do_aim( *you, *relevant, target, min_recoil );
     }
     add_msg_debug( debugmode::debug_filter::DF_BALLISTIC,
                    "you reduced recoil from %f to %f in 10 moves",
@@ -3935,9 +3937,10 @@ bool target_ui::action_aim_and_shoot( const std::string &action )
     int aim_threshold = it->threshold;
     set_last_target();
     apply_aim_turning_penalty();
+    const Target_attributes target( src, dst );
     const double min_recoil = calculate_aim_cap( *you, dst );
     do {
-        do_aim( *you, relevant ? *relevant : null_item_reference(), min_recoil );
+        do_aim( *you, relevant ? *relevant : null_item_reference(), target, min_recoil );
     } while( you->get_moves() > 0 && you->recoil > aim_threshold &&
              you->recoil - sight_dispersion > min_recoil );
 

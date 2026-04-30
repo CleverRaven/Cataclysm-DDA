@@ -804,6 +804,20 @@
   },
   {
     "type": "mutation",
+    "id": "perk_metamagic_extended",
+    "name": { "str": "Metamagic: Extended Spell" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You have learned to make the effects of your spells last much longer for the same amount of mana with a more challenging invocation.  +100% duration, +4 difficulty.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "You activate your extended metamagic.",
+    "activated_eocs": [ "EOC_metamagic_toggle_extended_on" ],
+    "deactivated_eocs": [ "EOC_metamagic_toggle_extended_off" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_metamagic_widen",
     "name": { "str": "Metamagic: Widen Spell" },
     "points": 0,

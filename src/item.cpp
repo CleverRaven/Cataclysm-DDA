@@ -8,6 +8,7 @@
 #include <set>
 #include <sstream>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <utility>
 
@@ -445,6 +446,7 @@ item &item::convert( const itype_id &new_type, Character *carrier )
 
     item_counter = 0;
     update_link_traits();
+    update_inherited_flags();
     update_prefix_suffix_flags();
     return *this;
 }
@@ -646,9 +648,10 @@ bool _stacks_weapon_mods( item const &lhs, item const &rhs )
 {
     item const *const lb = lhs.is_gun() ? lhs.gunmod_find( itype_barrel_small ) : nullptr;
     item const *const rb = rhs.is_gun() ? rhs.gunmod_find( itype_barrel_small ) : nullptr;
+    constexpr uint64_t mask = static_cast<uint64_t>( hot_flag_bit::REMOVED_STOCK ) |
+                              static_cast<uint64_t>( hot_flag_bit::DIAMOND );
     return ( ( lb && rb ) || ( !lb && !rb ) ) &&
-           lhs.has_flag( flag_REMOVED_STOCK ) == rhs.has_flag( flag_REMOVED_STOCK ) &&
-           lhs.has_flag( flag_DIAMOND ) == rhs.has_flag( flag_DIAMOND );
+           ( lhs.combined_hot_flags() & mask ) == ( rhs.combined_hot_flags() & mask );
 }
 
 bool _stacks_location_hint( item const &lhs, item const &rhs )
@@ -680,6 +683,11 @@ bool _stacks_location_hint( item const &lhs, item const &rhs )
 
 bool _stacks_location_precise_closest_city( item const &lhs, item const &rhs )
 {
+    // Skip the closest_city sort unless both items can actually display the segment.
+    constexpr uint64_t bit = static_cast<uint64_t>( hot_flag_bit::LOC_CITY );
+    if( !( lhs.combined_hot_flags() & bit ) || !( rhs.combined_hot_flags() & bit ) ) {
+        return true;
+    }
     static const std::string omt_loc_var = "spawn_location";
     const tripoint_abs_ms this_loc( lhs.get_var( omt_loc_var, tripoint_abs_ms::invalid ) );
     const tripoint_abs_ms that_loc( rhs.get_var( omt_loc_var, tripoint_abs_ms::invalid ) );
@@ -716,8 +724,10 @@ bool _stacks_rot( item const &lhs, item const &rhs, bool combine_liquid )
 
 bool _stacks_mushy_dirty( item const &lhs, item const &rhs )
 {
-    return lhs.has_flag( flag_MUSHY ) == rhs.has_flag( flag_MUSHY ) &&
-           lhs.has_own_flag( flag_DIRTY ) == rhs.has_own_flag( flag_DIRTY );
+    constexpr uint64_t mushy = static_cast<uint64_t>( hot_flag_bit::MUSHY );
+    constexpr uint64_t dirty = static_cast<uint64_t>( hot_flag_bit::DIRTY );
+    return ( lhs.combined_hot_flags() & mushy ) == ( rhs.combined_hot_flags() & mushy ) &&
+           ( lhs.own_hot_flags() & dirty ) == ( rhs.own_hot_flags() & dirty );
 }
 
 bool _stacks_food_status( item const &lhs, item const &rhs )
@@ -729,32 +739,36 @@ bool _stacks_food_status( item const &lhs, item const &rhs )
 
 bool _stacks_food_traits( item const &lhs, item const &rhs )
 {
+    constexpr uint64_t mask = static_cast<uint64_t>( hot_flag_bit::HIDDEN_POISON ) |
+                              static_cast<uint64_t>( hot_flag_bit::HIDDEN_HALLU );
     return ( !lhs.is_food() && !rhs.is_food() ) ||
            ( lhs.is_food() && rhs.is_food() &&
-             lhs.has_flag( flag_HIDDEN_POISON ) == rhs.has_flag( flag_HIDDEN_POISON ) &&
-             lhs.has_flag( flag_HIDDEN_HALLU ) == rhs.has_flag( flag_HIDDEN_HALLU ) );
+             ( lhs.combined_hot_flags() & mask ) == ( rhs.combined_hot_flags() & mask ) );
 }
 
 bool _stacks_food_irradiated( item const &lhs, item const &rhs )
 {
-    return lhs.has_flag( flag_IRRADIATED ) == rhs.has_flag( flag_IRRADIATED );
+    constexpr uint64_t bit = static_cast<uint64_t>( hot_flag_bit::IRRADIATED );
+    return ( lhs.combined_hot_flags() & bit ) == ( rhs.combined_hot_flags() & bit );
 }
 
 bool _stacks_food_perishable( item const &lhs, item const &rhs, bool check_cat )
 {
+    constexpr uint64_t bit = static_cast<uint64_t>( hot_flag_bit::INEDIBLE );
     return !check_cat || ( !lhs.is_food() && !rhs.is_food() ) ||
            ( lhs.is_food() && rhs.is_food() && lhs.goes_bad() == rhs.goes_bad() &&
-             lhs.has_flag( flag_INEDIBLE ) == rhs.has_flag( flag_INEDIBLE ) );
+             ( lhs.combined_hot_flags() & bit ) == ( rhs.combined_hot_flags() & bit ) );
 }
 
 bool _stacks_clothing_size( item const &lhs, item const &rhs )
 {
     avatar &u = get_avatar();
     item::sizing const u_sizing = lhs.get_sizing( u );
+    constexpr uint64_t mask = static_cast<uint64_t>( hot_flag_bit::FIT ) |
+                              static_cast<uint64_t>( hot_flag_bit::VARSIZE );
     return u_sizing == rhs.get_sizing( u ) &&
            ( u_sizing == item::sizing::ignore ||
-             ( lhs.has_flag( flag_FIT ) == rhs.has_flag( flag_FIT ) &&
-               lhs.has_flag( flag_VARSIZE ) == rhs.has_flag( flag_VARSIZE ) ) );
+             ( lhs.combined_hot_flags() & mask ) == ( rhs.combined_hot_flags() & mask ) );
 }
 
 bool _stacks_wetness( item const &lhs, item const &rhs, bool precise )
@@ -764,10 +778,11 @@ bool _stacks_wetness( item const &lhs, item const &rhs, bool precise )
 
 bool _stacks_cbm_status( item const &lhs, item const &rhs )
 {
+    constexpr uint64_t mask = static_cast<uint64_t>( hot_flag_bit::NO_PACKED ) |
+                              static_cast<uint64_t>( hot_flag_bit::NO_STERILE );
     return ( !lhs.is_bionic() && !rhs.is_bionic() ) ||
            ( lhs.is_bionic() && rhs.is_bionic() &&
-             lhs.has_flag( flag_NO_PACKED ) == rhs.has_flag( flag_NO_PACKED ) &&
-             lhs.has_flag( flag_NO_STERILE ) == rhs.has_flag( flag_NO_STERILE ) );
+             ( lhs.combined_hot_flags() & mask ) == ( rhs.combined_hot_flags() & mask ) );
 }
 
 bool _stacks_ethereal( item const &lhs, item const &rhs )
@@ -779,9 +794,10 @@ bool _stacks_ethereal( item const &lhs, item const &rhs )
 
 bool _stacks_ups( item const &lhs, item const &rhs )
 {
+    constexpr uint64_t bit = static_cast<uint64_t>( hot_flag_bit::USE_UPS );
     return ( !lhs.is_tool() && !rhs.is_tool() ) ||
            ( lhs.is_tool() && rhs.is_tool() &&
-             lhs.has_flag( flag_USE_UPS ) == rhs.has_flag( flag_USE_UPS ) );
+             ( lhs.combined_hot_flags() & bit ) == ( rhs.combined_hot_flags() & bit ) );
 }
 
 bool _stacks_mods( item const &lhs, item const &rhs )
@@ -833,15 +849,16 @@ bool _stacks_components( item const &lhs, item const &rhs, bool check_components
 stacking_info item::stacks_with( const item &rhs, bool check_components, bool combine_liquid,
                                  bool check_cat, int depth, int maxdepth, bool precise ) const
 {
+    // Type mismatch cannot stack without a CATEGORY check.
+    if( type != rhs.type && !check_cat ) {
+        return {};
+    }
+
     tname::segment_bitset bits;
     if( type == rhs.type ) {
         bits.set( tname::segments::TYPE );
         bits.set( tname::segments::WHEEL_DIAMETER );
         bits.set( tname::segments::WHITEBLACKLIST, _stacks_whiteblacklist( *this, rhs ) );
-    }
-
-    if( !check_cat && bits.none() ) {
-        return {};
     }
 
     bits.set( tname::segments::CATEGORY,
@@ -897,8 +914,9 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
     bits.set( tname::segments::BROKEN, is_broken() == rhs.is_broken() );
     bits.set( tname::segments::UPS, _stacks_ups( *this, rhs ) );
     // Guns that differ only by dirt/shot_counter can still stack,
-    // but other item_vars such as label/note will prevent stacking
-    static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location", "ethereal", "last_act_by_char_id", "activity_var" };
+    // but other item_vars such as label/note will prevent stacking.
+    // CAMERA_*_PHOTOS_count and EIPC_RECIPES_count are derived caches; not part of identity.
+    static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location", "ethereal", "last_act_by_char_id", "activity_var", "CAMERA_EXTENDED_PHOTOS_count", "CAMERA_MONSTER_PHOTOS_count", "EIPC_RECIPES_count" };
     bits.set( tname::segments::TRAITS, template_traits == rhs.template_traits );
     bits.set( tname::segments::VARS, map_equal_ignoring_keys( item_vars, rhs.item_vars, ignore_keys ) );
     bits.set( tname::segments::ETHEREAL, _stacks_ethereal( *this, rhs ) );
@@ -939,8 +957,15 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
               link_length() == rhs.link_length() && max_link_length() == rhs.max_link_length() );
     bits.set( tname::segments::MODS, _stacks_mods( *this, rhs ) );
     //checking browsed status is not necessary, equal vars are checked earlier
+    const bool lhs_estorage = is_estorage();
+    const bool rhs_estorage = rhs.is_estorage();
+    // Non-estorage pairs short-circuit true (printer skips segment); mixed pairs
+    // stay false so aggregated headers drop free-mem when grouped with non-estorage.
     bits.set( tname::segments::EMEMORY,
-              occupied_ememory() == rhs.occupied_ememory() && total_ememory() == rhs.total_ememory() );
+              lhs_estorage == rhs_estorage &&
+              ( !lhs_estorage ||
+                ( occupied_ememory() == rhs.occupied_ememory() &&
+                  total_ememory() == rhs.total_ememory() ) ) );
     bits.set( tname::segments::last_segment );
 
     // only check contents if everything else matches
@@ -1355,7 +1380,7 @@ void item::handle_pickup_ownership( Character &c )
                     owned_by = is_owned_by( *as_monster );
                 }
                 return &cr != &c && owned_by && rl_dist( cr.pos_abs(), c.pos_abs() ) < MAX_VIEW_DISTANCE &&
-                       cr.sees( here, c.pos_bub( here ) );
+                       cr.sees( here, c );
             };
             const auto sort_criteria = []( const Creature * lhs, const Creature * rhs ) {
                 const npc *const lnpc = lhs->as_npc();
@@ -1415,7 +1440,7 @@ void item::update_inherited_flags()
     auto const inehrit_flags = [this]( FlagsSetType const & Flags ) {
         for( flag_id const &f : Flags ) {
             if( f->inherit() ) {
-                inherited_tags_cache.emplace( f );
+                inherited_tags_cache.insert( f );
             }
         }
     };
@@ -1444,6 +1469,12 @@ void item::update_inherited_flags()
         }
     }
 
+    hot_flags_inherited = 0;
+    const FlagsSetType &inherited = inherited_tags_cache;
+    for( const flag_id &f : inherited ) {
+        hot_flags_inherited |= hot_bit_for( f );
+    }
+
     update_prefix_suffix_flags();
 }
 
@@ -1464,10 +1495,10 @@ void item::update_prefix_suffix_flags()
 void item::update_prefix_suffix_flags( const flag_id &f )
 {
     if( !f->item_prefix().empty() ) {
-        prefix_tags_cache.emplace( f );
+        prefix_tags_cache.insert( f );
     }
     if( !f->item_suffix().empty() ) {
-        suffix_tags_cache.emplace( f );
+        suffix_tags_cache.insert( f );
     }
 }
 
@@ -2078,7 +2109,13 @@ int item::lift_strength() const
 void item::unset_flags()
 {
     item_tags.clear();
+    hot_flags_own = 0;
     requires_tags_processing = true;
+}
+
+uint64_t item::combined_hot_flags() const
+{
+    return ( type ? type->hot_flag_bits : 0 ) | hot_flags_own | hot_flags_inherited;
 }
 
 bool item::has_own_flag( const flag_id &f ) const
@@ -2088,32 +2125,26 @@ bool item::has_own_flag( const flag_id &f ) const
 
 bool item::has_flag( const flag_id &f ) const
 {
-    bool ret = false;
     if( !f.is_valid() ) {
         debugmsg( "Attempted to check invalid flag_id %s", f.str() );
         return false;
     }
 
-    ret = inherited_tags_cache.find( f ) != inherited_tags_cache.end();
-    if( ret ) {
-        return ret;
+    // Itype flags cover the common case; check them first.
+    if( type->has_flag( f ) ) {
+        return true;
     }
-
-    // other item type flags
-    ret = type->has_flag( f );
-    if( ret ) {
-        return ret;
+    if( inherited_tags_cache.find( f ) != inherited_tags_cache.end() ) {
+        return true;
     }
-
-    // now check for item specific flags
-    ret = has_own_flag( f );
-    return ret;
+    return has_own_flag( f );
 }
 
 item &item::set_flag( const flag_id &flag )
 {
     if( flag.is_valid() ) {
         item_tags.insert( flag );
+        hot_flags_own |= hot_bit_for( flag );
         update_prefix_suffix_flags( flag );
         requires_tags_processing = true;
     } else {
@@ -2143,6 +2174,7 @@ bool item::has_vitamin( const vitamin_id &v ) const
 item &item::unset_flag( const flag_id &flag )
 {
     item_tags.erase( flag );
+    hot_flags_own &= ~hot_bit_for( flag );
     update_prefix_suffix_flags();
     requires_tags_processing = true;
     return *this;
@@ -2503,11 +2535,37 @@ bool item::efiles_all_browsed() const
     return true;
 }
 
+static int count_valid_recipes( const std::string_view csv )
+{
+    // Match get_saved_recipes() semantics: deduplicate via set so a malformed
+    // CSV like ",balclava,balclava," returns 1, not 2.
+    std::set<recipe_id> seen;
+    for( const std::string &rid_str : string_split( csv, ',' ) ) {
+        const recipe_id rid( rid_str );
+        if( !rid.is_empty() && rid.is_valid() ) {
+            seen.emplace( rid );
+        }
+    }
+    return static_cast<int>( seen.size() );
+}
+
 units::ememory item::ememory_size() const
 {
     units::ememory ememory_return = type->ememory_size;
     if( typeId() == itype_efile_recipes ) {
-        ememory_return *= get_saved_recipes().size();
+        if( is_broken_on_active() ) {
+            return 0_KB;
+        }
+        // Reading a cached count avoids parsing EIPC_RECIPES and validating
+        // every recipe_id in stacks_with.
+        int n;
+        if( has_var( "EIPC_RECIPES_count" ) ) {
+            n = static_cast<int>( get_var( "EIPC_RECIPES_count", 0.0 ) );
+        } else {
+            n = count_valid_recipes( get_var( "EIPC_RECIPES" ) );
+            const_cast<item *>( this )->set_var( "EIPC_RECIPES_count", n );
+        }
+        ememory_return *= n;
     } else if( typeId() == itype_efile_photos ) {
         ememory_return *= total_photos();
     }
@@ -2516,12 +2574,7 @@ units::ememory item::ememory_size() const
 
 units::ememory item::occupied_ememory() const
 {
-    std::vector<const item *> all_efiles = efiles();
-    units::ememory total = 0_KB;
-    for( const item *i : all_efiles ) {
-        total += i->ememory_size();
-    }
-    return total;
+    return contents.occupied_ememory();
 }
 
 units::ememory item::total_ememory() const
@@ -2591,10 +2644,20 @@ const item *item::get_photo_gallery() const
 
 int item::total_photos() const
 {
-    std::vector<item::extended_photo_def> extended_photos;
-    read_extended_photos( extended_photos, "CAMERA_EXTENDED_PHOTOS", true );
-    read_extended_photos( extended_photos, "CAMERA_MONSTER_PHOTOS", true );
-    return extended_photos.size();
+    // Reading a cached count avoids reparsing the JSON blob in stacks_with.
+    const auto count_for = [this]( const std::string & var_name ) -> int {
+        const std::string count_var = var_name + "_count";
+        if( has_var( count_var ) )
+        {
+            return static_cast<int>( get_var( count_var, 0.0 ) );
+        }
+        std::vector<item::extended_photo_def> v;
+        read_extended_photos( v, var_name, true );
+        const int n = static_cast<int>( v.size() );
+        const_cast<item *>( this )->set_var( count_var, n );
+        return n;
+    };
+    return count_for( "CAMERA_EXTENDED_PHOTOS" ) + count_for( "CAMERA_MONSTER_PHOTOS" );
 }
 
 bool item::is_software() const
@@ -3234,7 +3297,11 @@ std::set<recipe_id> item::get_saved_recipes() const
 
 void item::set_saved_recipes( const std::set<recipe_id> &recipes )
 {
-    set_var( "EIPC_RECIPES", string_join( recipes, "," ) );
+    const std::string csv = string_join( recipes, "," );
+    set_var( "EIPC_RECIPES", csv );
+    // Compute from the persisted CSV so the cache reflects steady-state validity,
+    // not transient state like is_broken_on_active().
+    set_var( "EIPC_RECIPES_count", count_valid_recipes( csv ) );
 }
 
 void item::generate_recipes()
@@ -3787,6 +3854,9 @@ const item_category &item::get_category_of_contents( int depth, int maxdepth ) c
             cached_category = { cat.get_id(), calendar::turn };
             return cat;
         }
+        item_category const &cat = this->get_category_shallow();
+        cached_category = { cat.get_id(), calendar::turn };
+        return cat;
     }
     return this->get_category_shallow();
 }

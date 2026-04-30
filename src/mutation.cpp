@@ -81,6 +81,7 @@ static const mtype_id mon_player_blob( "mon_player_blob" );
 
 static const mutation_category_id mutation_category_ANY( "ANY" );
 
+static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ARVORE_FOREST_MAPPING( "ARVORE_FOREST_MAPPING" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
@@ -579,6 +580,11 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
     if( mut.obj().vanity ) {
         return;
     }
+
+    if( mut == trait_ACIDBLOOD ) {
+        my_blood_type = blood_type::blood_acid;
+    }
+
     if( mut == trait_GLASSJAW ) {
         recalc_hp();
     }
@@ -668,6 +674,11 @@ void Character::mutation_loss_effect( const trait_id &mut )
 {
     if( mut.obj().vanity ) {
         return;
+    }
+
+    // give the player a random new blood type, regardless of what it was before
+    if( mut == trait_ACIDBLOOD ) {
+        randomize_blood();
     }
 
     if( mut == trait_GLASSJAW ) {

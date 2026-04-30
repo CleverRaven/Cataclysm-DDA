@@ -62,5 +62,11 @@
     "subtype": "collection",
     "id": "inner_cabins_grue_drops",
     "entries": [ { "group": "SUS_book_nonf_soft_occult", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_fleshborg_2_3_string_dimension_drops",
+    "entries": [ { "item": "ls_sd_passcode" } ]
   }
 ]

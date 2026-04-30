@@ -59,6 +59,22 @@
     "flags": [ "HIGH_GLARE", "HYPEROPIC", "LIMB_UPPER" ]
   },
   {
+    "type": "body_part",
+    "id": "eyes_ceph",
+    "//": "Same size as bulging, plus high glare and eye membrane",
+    "name": "cephalopod eyes",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "cephalopod eyes" },
+    "heading": "eyes",
+    "heading_multiple": "eyes",
+    "copy-from": "eyes_bulging",
+    "opposite_part": "eyes_ceph",
+    "limb_scores": [ [ "vision", 0.7 ], [ "night_vis", 5.0 ], [ "reaction", 0.8 ] ],
+    "wet_morale": 5,
+    "sub_parts": [ "eyes_ceph_left", "eyes_ceph_right" ],
+    "similar_bodypart": "eyes",
+    "flags": [ "IGNORE_TEMP", "HIGH_GLARE", "LIMB_UPPER", "EYE_MEMBRANE" ]
+  },
+  {
     "id": "muzzle",
     "//": "Used as a default for similar_bodypart to work for armor.",
     "type": "body_part",

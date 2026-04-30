@@ -1,0 +1,38 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_nl_water_cooler",
+    "looks_like": "f_water_purifier",
+    "name": "bulbous water dispenser",
+    "description": "This device almost looks like an earthly water cooler, but the base is made of scrap metal, and the tank is a bulbous, black glass globe that obfuscates its contents.  It has no tap; instead, the base has a small compartment with a plastic flap, resembling that of a vending machine.  Examine it to dispense drinks, if it has any.",
+    "symbol": "W",
+    "bgcolor": "blue",
+    "move_cost_mod": 0,
+    "coverage": 50,
+    "required_str": 0,
+    "bash": {
+      "str_min": 15,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "destroyed_field": [ "fd_dirty_water", 4 ]
+    },
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_LS_SAFEHOUSE_WATER_COOLER_DISPENSE",
+          "effect": [
+            {
+              "run_eoc_selector": [ "EOC_LS_SAFEHOUSE_WATER_COOLER_DISPENSE_2" ],
+              "allow_cancel": true,
+              "names": [ "Press the button." ],
+              "title": "You see a seven-segment LED display and a circular button.  The display reads: <u_val:nl_safehouse_water_stock>",
+              "descriptions": [ "Press the button." ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

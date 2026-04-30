@@ -505,10 +505,10 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_carving" },
-      { "proficiency": "prof_case_hardening" }
+      { "proficiency": "prof_hardening" }
     ],
-    "using": [ [ "blacksmithing_standard", 6 ], [ "lc_steel_standard", 3 ], [ "carbon", 3 ], [ "wood_sealant_any", 2 ] ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
+    "using": [ [ "blacksmithing_standard", 6 ], [ "mc_steel_standard", 3 ], [ "wood_sealant_any", 2 ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
       { "id": "SAW_W", "level": 2 },
@@ -532,7 +532,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_carving" },
-      { "proficiency": "prof_quenching" }
+      { "proficiency": "prof_tempering" }
     ],
     "using": [ [ "blacksmithing_standard", 10 ], [ "mc_steel_standard", 3 ], [ "wood_sealant_any", 2 ] ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
@@ -682,10 +682,10 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_carving" },
-      { "proficiency": "prof_case_hardening" }
+      { "proficiency": "prof_hardening" }
     ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "lc_steel_standard", 1 ], [ "carbon", 1 ], [ "wood_sealant_any", 1 ] ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "mc_steel_standard", 1 ], [ "wood_sealant_any", 1 ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
       { "id": "SAW_W", "level": 2 },
@@ -709,10 +709,10 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_carving" },
-      { "proficiency": "prof_quenching" }
+      { "proficiency": "prof_tempering" }
     ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ], [ "wood_sealant_any", 1 ] ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
       { "id": "SAW_W", "level": 2 },
@@ -1149,10 +1149,11 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" },
       { "proficiency": "prof_carving", "skill_penalty": 0 },
-      { "proficiency": "prof_case_hardening", "skill_penalty": 0 }
+      { "proficiency": "prof_hardening", "skill_penalty": 0 }
     ],
-    "using": [ [ "blacksmithing_standard", 5 ], [ "lc_steel_standard", 2 ], [ "metal_punch", 1 ], [ "carbon", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 5 ], [ "mc_steel_standard", 2 ], [ "metal_punch", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
@@ -1170,7 +1171,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" },
       { "proficiency": "prof_carving", "skill_penalty": 0 },
-      { "proficiency": "prof_quenching", "skill_penalty": 1 }
+      { "proficiency": "prof_tempering", "skill_penalty": 1 }
     ],
     "using": [ [ "blacksmithing_standard", 5 ], [ "mc_steel_standard", 2 ], [ "metal_punch", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
@@ -1289,15 +1290,16 @@
     "time": "15 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_weapwest", 4 ], [ "recipe_melee", 4 ], [ "textbook_weparabic", 4 ], [ "textbook_armschina", 4 ] ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "lc_steel_standard", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_carving", "skill_penalty": 0 },
       { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0 },
-      { "proficiency": "prof_case_hardening", "skill_penalty": 0 }
+      { "proficiency": "prof_hardening", "skill_penalty": 0 }
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "fur", 3 ], [ "leather", 3 ] ] ]
   },
   {
@@ -1317,7 +1319,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_carving", "skill_penalty": 0 },
       { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0 },
-      { "proficiency": "prof_quenching", "skill_penalty": 1 }
+      { "proficiency": "prof_tempering", "skill_penalty": 1 }
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "fur", 3 ], [ "leather", 3 ] ] ],
@@ -1598,14 +1600,15 @@
     "time": "744m",
     "autolearn": true,
     "book_learn": [ [ "textbook_weapwest", 3 ], [ "recipe_melee", 4 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" },
-      { "proficiency": "prof_case_hardening", "skill_penalty": 0 }
+      { "proficiency": "prof_hardening", "skill_penalty": 0 }
     ],
-    "components": [ [ [ "bo", 1 ] ] ]
+    "components": [ [ [ "bo", 1 ] ] ],
+    "tools": [ [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
   },
   {
     "type": "recipe",
@@ -1623,7 +1626,7 @@
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" },
-      { "proficiency": "prof_quenching", "skill_penalty": 0 }
+      { "proficiency": "prof_tempering", "skill_penalty": 0 }
     ],
     "components": [ [ [ "bo", 1 ] ] ],
     "tools": [ [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]

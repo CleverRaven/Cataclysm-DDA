@@ -102,7 +102,7 @@
       "ammo_scale": 0,
       "type": "transform",
       "menu_text": "Turn off",
-      "msg": "Your %s deactivates.",
+      "msg": "You deactivate your %s.",
       "target": "psionic_mindsight_glasses"
     },
     "extend": { "flags": [ "SPAWN_ACTIVE" ] },

@@ -457,6 +457,7 @@ Currently the defined flags are as follows:
 - Clearing flags for layered mapgens: see [dedicated section below](#clearing-flags-for-layered-mapgens)
 - `NO_UNDERLYING_ROTATE` The map won't be rotated even if the underlying tile is.
 - `AVOID_CREATURES` If a creature is present, terrain, furniture and traps won't be placed.
+- `SKIP_ON_OPEN_AIR` Furniture placement is skipped silently when the target tile is open air. Useful for mapgens (e.g. map extras) that may run above ground level where many tiles are open air.
 
 ### Clearing flags for layered mapgens
 Some mapgens are intended to be layered on top of existing terrain.  This can be update mapgen,

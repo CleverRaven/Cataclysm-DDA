@@ -9,7 +9,7 @@
     - [Mild Carbon Steel](#mild-carbon-steel)
     - [Medium Carbon Steel](#medium-carbon-steel)
     - [High Carbon Steel](#high-carbon-steel)
-    - [Case Hardened Carbon Steel](#case-hardened-carbon-steel)
+      - [Hardened Carbon Steel](#hardened-carbon-steel)
     - [Quench Tempered Carbon Steel](#quench-tempered-carbon-steel)
 - [Making Steel](#making-steel)
     - [Tools](#tools)
@@ -53,13 +53,15 @@ Approximates SAE 1050, a 0.5% carbon steel with no slag. This is commonly used i
 
 Approximates SAE 1085, a 0.85% carbon steel with no slag. This is a particularly hard steel, often used in metalworking and high strength applications like bladed tools, heavy-duty wires and cables. Higher carbon content than this becomes extremely difficult to work outside of a survivor's garage workshop. High carbon steel is the most difficult of the mild/medium/high steels to work as it is extremely hard.
 
-### Case Hardened Carbon Steel
+### Hardened Carbon Steel
 
-Case hardening (also known as face hardening) is an old process used to improve mild steels. The steel is sealed in a container which is packed tightly with high carbon substances (ground charcoal or coal is ideal). It is then heated to ~900°C for several hours, releasing carbon monoxide which binds with the steel which is in a transitioning phase at that temperature. The process forms a higher carbon case around the softer steel core, allowing for a hard surface that can hold an edge well with a softer center to prevent fracturing.
+Hardening is a process of heating steel to the point where it becomes non-magnetic, or reaches a critical temperature, and then using a variety of techniques to cool it, either by quenching or otherwise. Quenching the steel in water or oil allows the formation of martensite, a very hard steel crystalline structure. Slow cooling allows the formation of pearlite, a softer, more ductile crystalline structure. This can be used to create a blade with a hard edge and a softer spine, or to create an item with uniform hardness through thorough hardening.
+
+Case hardening is a specific type of hardening, most suited to armor-making, where low carbon steel that cannot usually be hardened is packed in a carbon-rich environment and heated for a long period of time, allowing the carbon to diffuse into the surface of the item, creating a very hard, abrasion resistant outer layer while maintaining a softer inner core. 
 
 ### Quench Tempered Carbon Steel
 
-Tempering (specifically, Martensitic transformation) is a process of hardening the steel by heating it to just under ~900°C and then rapidly cooled in water. This results in an extremely hard crystalline structure forming within the steel, making this one of the toughest substance a survivor can create.
+Tempering is also a heat treating process, usually performed after hardening, where the steel is heated to a specific temperature for a specific amount of time and then allowed to cool. Tempering affects martensite structures by altering the size and distribution of carbides in it, forming tempered martensite microstructures. This decreases the brittleness of the steel by decreasing the hardness and consequently increasing the ductility, thus increasing the steel's fracture toughness. Tempering is used to decrease internal stresses in the steel, balancing its mechanical properties as the smith desires. It is a critical step in the production of high quality steel items, especially bladed tools and armor.
 
 # Making Steel
 
@@ -115,14 +117,15 @@ One of the longest parts of any metalworking project is the heating and cooling.
 
 Mild steel can be 'raised' to medium steel, and medium to high steel. These recipes exist in the game for lumps and chunks. Mild steel can be hardened and medium steel can be tempered, but neither of these would be done to an ingot of metal that would then later be worked. Instead a hardened or tempered item should be crafted from scratch or by using a mild/medium steel item and upgrading it to a higher type of steel.
 
-### Case Hardening Requirements
+### Hardening Requirements
+
+Hardening only takes a medium or high carbon steel, and tanks of quenching liquid, and does not require any additional materials. It takes some practice to heat the steel to the right temperature and quench it at the right time. Differential hardening techniques for blades take more time than uniform hardening, but the process is similar. This usually does not take as long as case hardening, and is a rather straightforward process but for the sake of simplicity, and gamification, it should add a minimum of 6 hours to the crafting time of unhardened steel items. 
 
 Case hardening does not require a significant increase in material consumption as only a small amount of coal/charcoal is needed to pack each item, so the costs of steel remains the same as a mild/medium/high steel version and a small amount of the material requirement "carbon" should be used: 5 carbon should be sufficient for a complete front and back torso plate. The case hardening process is longer, crafting time should increase by a minimum of 12 hours to represent packing the item in carbon, heating, 'cooking' and cooling. Multiple items can be hardened at the same time, so if you're making something like a steel gauntlet with lots of small parts, each can be separately packed and then all heated together. Consider additional crafting time for the disassembly of complex items. The fuel costs for the craft should increase to represent keeping the forge hot for a long period of time, but that is difficult to model with the variety of forges we have. This also does not consume materials to represent a container for the item as those can typically be made from miscellaneous scraps of steel and can often be reused but vary in size.
 
 ### Tempering Requirements
 
-Similar to hardening, the material costs do not dramatically increase. The biggest increase is in crafting time as each item is repeatedly heated and quenched. This should add a minimum of 16 hours over a mild/medium/high steel version. The fuel costs should increase to represent the repeated heating, but that is difficult to model with the variety of forges we have. 
-
+Similar to hardening, the material costs do not dramatically increase. Tempering does take more time than hardening, as the steel must be heated to a specific temperature and held there for a specific amount of time, then allowed to cool. This is mostly passive waiting time! In the modern era, something like an oven would be used to perform the tempering process, but it can also be done in a forge with a hot piece of metal pressed to the blade, or by burying the item in hot sand or ashed, or by placing it next to a low fire. This means it should add at most 4-5 hours on top of our 'hardened' versions.
 
 ### Repairing
 

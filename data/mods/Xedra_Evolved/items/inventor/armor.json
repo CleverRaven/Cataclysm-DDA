@@ -64,7 +64,15 @@
     "name": { "str": "helmet of creative juices (on)", "str_pl": "helmets of creative juices (on)" },
     "power_draw": "7 W",
     "revert_to": "helmet_inventor",
-    "use_action": [ { "ammo_scale": 0, "target": "helmet_inventor", "msg": "The helmet turns off.", "type": "transform" } ]
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "helmet_inventor",
+        "menu_text": "Turn off",
+        "msg": "You turn off the %s.",
+        "type": "transform"
+      }
+    ]
   },
   {
     "id": "inventor_backpack",
@@ -171,7 +179,7 @@
     "looks_like": "legguard_hard",
     "color": "light_red",
     "flags": [ "MORPHIC", "STURDY", "OUTER", "BELTED", "MUNDANE", "INVENTOR_CRAFTED" ],
-    "use_action": { "target": "inventor_leg_weight_on", "msg": "You turn on the weight suspension system.", "type": "transform" },
+    "use_action": { "target": "inventor_leg_weight_on", "msg": "You turn on the %s.", "type": "transform" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -213,7 +221,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "power_draw": "5 W",
     "revert_to": "inventor_leg_weight",
-    "use_action": { "target": "inventor_leg_weight", "msg": "You turn off the weight suspension system.", "type": "transform" }
+    "use_action": { "target": "inventor_leg_weight", "menu_text": "Turn off", "msg": "You turn off the %s.", "type": "transform" }
   },
   {
     "id": "inventor_jump_boots",
@@ -350,7 +358,9 @@
     "name": { "str": "force shield (on)", "str_pl": "force shields (on)" },
     "power_draw": "250 W",
     "revert_to": "aura_force",
-    "use_action": [ { "ammo_scale": 0, "target": "aura_force", "msg": "Torus stops working.", "type": "transform" } ]
+    "use_action": [
+      { "ammo_scale": 0, "target": "aura_force", "menu_text": "Turn off", "msg": "Torus stops working.", "type": "transform" }
+    ]
   },
   {
     "id": "vision_halo",
@@ -373,7 +383,7 @@
       "EBOOKSAVE",
       {
         "target": "vision_halo_on",
-        "msg": "Turn on.",
+        "msg": "You turn on the %s.",
         "menu_text": "Turn on a battle mode",
         "need_charges": 1,
         "need_charges_msg": "The batteries are dead.",
@@ -457,7 +467,7 @@
       "EBOOKSAVE",
       {
         "target": "vision_halo",
-        "msg": "Turn off.",
+        "msg": "You turn off the %s.",
         "menu_text": "Turn off battle mode",
         "need_charges": 0,
         "type": "transform"
@@ -584,8 +594,7 @@
     "use_action": [
       {
         "target": "inventor_electric_fist_act",
-        "msg": "Turn on.",
-        "menu_text": "Turn on the overture",
+        "msg": "You turn on the %s.",
         "need_charges": 1,
         "need_charges_msg": "The batteries are dead.",
         "type": "transform"
@@ -621,7 +630,15 @@
     "name": { "str": "\"Overture\" (on)", "str_pl": "\"Overtures\" (on)" },
     "power_draw": "50 W",
     "revert_to": "inventor_electric_fist",
-    "use_action": [ { "ammo_scale": 0, "target": "inventor_electric_fist", "msg": "The fist turns off.", "type": "transform" } ]
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "inventor_electric_fist",
+        "menu_text": "Turn off",
+        "msg": "You turn off the %s.",
+        "type": "transform"
+      }
+    ]
   },
   {
     "id": "wolf_mask",
@@ -658,8 +675,7 @@
     "use_action": [
       {
         "target": "wolf_mask_act",
-        "msg": "Turn on.",
-        "menu_text": "Turn on the mask",
+        "msg": "You turn on the %s.",
         "need_charges": 1,
         "need_charges_msg": "The batteries are dead.",
         "type": "transform"
@@ -678,7 +694,9 @@
     "power_draw": "5 W",
     "environmental_protection": 25,
     "revert_to": "wolf_mask",
-    "use_action": [ { "ammo_scale": 0, "target": "wolf_mask", "msg": "The mask stops working.", "type": "transform" } ]
+    "use_action": [
+      { "ammo_scale": 0, "target": "wolf_mask", "menu_text": "Turn off", "msg": "You turn off the %s.", "type": "transform" }
+    ]
   },
   {
     "id": "magnetic_holster",
@@ -762,6 +780,7 @@
       {
         "ammo_scale": 0,
         "target": "crafting_assistant",
+        "menu_text": "Turn off",
         "msg": "The assistant retracts and recycles its arms.",
         "type": "transform"
       }

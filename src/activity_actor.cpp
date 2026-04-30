@@ -347,7 +347,9 @@ static const itype_id itype_water_clean( "water_clean" );
 static const json_character_flag json_flag_ASOCIAL1( "ASOCIAL1" );
 static const json_character_flag json_flag_ASOCIAL2( "ASOCIAL2" );
 static const json_character_flag json_flag_IMMUNE_HEARING_DAMAGE( "IMMUNE_HEARING_DAMAGE" );
+static const json_character_flag json_flag_NUMB( "NUMB" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
+static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
 static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
@@ -408,8 +410,6 @@ static const ter_str_id ter_t_tree( "t_tree" );
 static const ter_str_id ter_t_trunk( "t_trunk" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_NUMB( "NUMB" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
@@ -9052,7 +9052,7 @@ void play_with_pet_activity_actor::finish( player_activity &act, Character &who 
         who.add_msg_if_player( m_good, playstr, pet_name );
     }
 
-    if( !who.has_trait( trait_PSYCHOPATH ) && !who.has_trait( trait_NUMB ) ) {
+    if( !who.has_flag( json_flag_PSYCHOPATH ) && !who.has_flag( json_flag_NUMB ) ) {
         who.add_morale( morale_play_with_pet, rng( 3, 10 ), 10, 5_hours, 25_minutes );
         who.add_msg_if_player( m_good, _( "Playing with your %s has lifted your spirits a bit." ),
                                pet_name );
@@ -10443,7 +10443,7 @@ void mend_item_activity_actor::finish( player_activity &act, Character &who )
         }
     }
     for( const ::fault_id &id : fix.faults_added ) {
-        target.set_fault( id, true, false );
+        target.set_fault( id, true, nullptr );
     }
     for( const auto& [var_name, var_value] : fix.set_variables ) {
         target.set_var( var_name, var_value );
@@ -14006,6 +14006,15 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 } else {
                     ++dit;
                 }
+            }
+        }
+        // Drop count-full destinations so pickup does not bounce.
+        for( auto dit = dest_set.begin(); dit != dest_set.end(); ) {
+            if( zt_id != zone_type_id::NULL_ID() &&
+                !zone_sorting::dest_has_capacity( *dit, zt_id, thisitem, fac_id ) ) {
+                dit = dest_set.erase( dit );
+            } else {
+                ++dit;
             }
         }
 

@@ -775,6 +775,34 @@ static cata::value_ptr<parameterized_build_reqs> calculate_all_blueprint_reqs(
     return result;
 }
 
+static void finalize_nested_recipes( recipe &r )
+{
+    int min_diff = MAX_SKILL;
+    recipe_id easiest_recipe;
+    for( const recipe_id &res : r.nested_category_data ) {
+        if( !res.is_valid() ) {
+            debugmsg( "%s nested recipe %s is an invalid recipe id", r.ident().str(), res.str() );
+            continue;
+        }
+        if( res->is_nested() ) {
+            finalize_nested_recipes( const_cast<recipe &>( res.obj() ) );
+        }
+        if( res.obj().difficulty < min_diff ) {
+            min_diff = res.obj().difficulty;
+            easiest_recipe = res;
+        }
+    }
+    if( easiest_recipe.is_valid() ) {
+        if( easiest_recipe->skill_used.is_valid() ) {
+            r.skill_used = easiest_recipe->skill_used;
+        }
+        if( !easiest_recipe->required_skills.empty() ) {
+            r.required_skills = easiest_recipe->required_skills;
+        }
+    }
+    r.difficulty = min_diff;
+}
+
 void recipe::finalize()
 {
     if( bp_autocalc ) {
@@ -899,6 +927,11 @@ void recipe::finalize()
         name_ = translation::to_translation( string_format( name_.translated(),
                                              result_->nname( makes_amount() ) ) );
     }
+
+    if( is_nested() ) {
+        finalize_nested_recipes( *this );
+    }
+
 }
 
 void recipe::add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs )

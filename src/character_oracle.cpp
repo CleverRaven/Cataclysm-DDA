@@ -25,12 +25,30 @@
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 #include "weather.h"
 
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const trait_id trait_IGNORE_SOUND( "IGNORE_SOUND" );
+
+// Vehicle currently in motion that the player is inside, otherwise nullptr.
+// NPCs should neither path toward it (collision risk) nor try to board it.
+static const vehicle *player_moving_vehicle()
+{
+    const Character &p = get_player_character();
+    if( !p.in_vehicle ) {
+        return nullptr;
+    }
+    const optional_vpart_position vp = get_map().veh_at( p.pos_bub() );
+    if( !vp ) {
+        return nullptr;
+    }
+    const vehicle &veh = vp->vehicle();
+    return veh.velocity != 0 ? &veh : nullptr;
+}
 
 // Whether the NPC is on any tile belonging to their assigned camp,
 // including expansions.  Falls back to base-OMT match when the camp
@@ -340,6 +358,9 @@ status_t character_oracle_t::displaced_from_post( std::string_view ) const
     if( n->has_flag( json_flag_CANNOT_MOVE ) ) {
         return status_t::failure;
     }
+    if( n->is_walking_with() ) {
+        return status_t::failure;
+    }
     std::optional<tripoint_abs_ms> gp = n->get_guard_post();
     if( !gp ) {
         return status_t::failure;
@@ -351,6 +372,10 @@ status_t character_oracle_t::on_shift( std::string_view ) const
 {
     const npc *n = dynamic_cast<const npc *>( subject );
     if( !n || !n->get_guard_post() || !n->myclass.is_valid() ) {
+        return status_t::failure;
+    }
+    // Player-attached state suspends duty; mirrors has_sound_alerts.
+    if( n->is_walking_with() ) {
         return status_t::failure;
     }
     const auto &[start, end] = n->myclass.obj().get_work_hours();
@@ -366,6 +391,9 @@ float character_oracle_t::duty_urgency( std::string_view ) const
     }
     std::optional<tripoint_abs_ms> gp = n->get_guard_post();
     if( !gp || !n->myclass.is_valid() ) {
+        return 0.0f;
+    }
+    if( n->is_walking_with() ) {
         return 0.0f;
     }
     const auto &[start, end] = n->myclass.obj().get_work_hours();
@@ -391,15 +419,16 @@ float character_oracle_t::duty_urgency( std::string_view ) const
 status_t character_oracle_t::npc_is_following( std::string_view ) const
 {
     const npc *n = dynamic_cast<const npc *>( subject );
-    if( !n || !n->should_follow_close() ) {
+    if( !n || !n->can_follow_player_now() ) {
         return status_t::failure;
     }
-    if( n->get_guard_post() ) {
+    // Wait until the player parks; don't path into a moving vehicle.
+    if( player_moving_vehicle() ) {
         return status_t::failure;
     }
     const Character &player = get_player_character();
     const int dist = rl_dist( n->pos_abs(), player.pos_abs() );
-    if( dist <= n->follow_distance() && n->posz() == player.posz() ) {
+    if( dist <= n->desired_follow_radius() && n->posz() == player.posz() ) {
         return status_t::success;
     }
     return status_t::running;
@@ -408,7 +437,10 @@ status_t character_oracle_t::npc_is_following( std::string_view ) const
 float character_oracle_t::npc_following_urgency( std::string_view ) const
 {
     const npc *n = dynamic_cast<const npc *>( subject );
-    if( !n || !n->should_follow_close() ) {
+    if( !n || !n->can_follow_player_now() ) {
+        return 0.0f;
+    }
+    if( player_moving_vehicle() ) {
         return 0.0f;
     }
     const Character &player = get_player_character();
@@ -416,10 +448,35 @@ float character_oracle_t::npc_following_urgency( std::string_view ) const
         return 0.6f;
     }
     const int dist = rl_dist( n->pos_abs(), player.pos_abs() );
-    if( dist <= n->follow_distance() ) {
+    const int radius = n->desired_follow_radius();
+    if( dist <= radius ) {
         return 0.0f;
     }
-    return std::clamp( 0.3f + ( dist - n->follow_distance() ) * 0.015f, 0.3f, 0.6f );
+    return std::clamp( 0.3f + ( dist - radius ) * 0.015f, 0.3f, 0.6f );
+}
+
+status_t character_oracle_t::npc_should_embark( std::string_view ) const
+{
+    const npc *n = dynamic_cast<const npc *>( subject );
+    if( !n || !n->is_walking_with() || n->has_flag( json_flag_CANNOT_MOVE ) ) {
+        return status_t::failure;
+    }
+    const Character &player = get_player_character();
+    if( !player.in_vehicle ) {
+        return status_t::failure;
+    }
+    // Boarding a moving vehicle is impossible; wait for the player to stop.
+    if( player_moving_vehicle() ) {
+        return status_t::failure;
+    }
+    // Stays running once the NPC is in the vehicle: the action handler
+    // routes them to a real seat (or pauses when already seated).
+    return status_t::running;
+}
+
+float character_oracle_t::npc_embark_urgency( std::string_view ) const
+{
+    return npc_should_embark( "" ) == status_t::running ? 0.6f : 0.0f;
 }
 
 status_t character_oracle_t::npc_has_goto_order( std::string_view ) const

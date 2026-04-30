@@ -61,6 +61,7 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -84,6 +85,9 @@ static const item_category_id item_category_BIONIC_FUEL_SOURCE( "BIONIC_FUEL_SOU
 static const item_category_id item_category_INTEGRATED( "INTEGRATED" );
 static const item_category_id item_category_ITEMS_WORN( "ITEMS_WORN" );
 static const item_category_id item_category_WEAPON_HELD( "WEAPON_HELD" );
+
+static const itype_id itype_water_faucet( "water_faucet" );
+static const quality_id qual_HOSE( "HOSE" );
 
 namespace
 {
@@ -653,13 +657,18 @@ void inventory_entry::cache_denial( inventory_selector_preset const &preset ) co
 
 const item_category *inventory_entry::get_category_ptr() const
 {
+    if( cached_category_ptr != nullptr ) {
+        return cached_category_ptr;
+    }
     if( custom_category != nullptr ) {
-        return custom_category;
+        cached_category_ptr = custom_category;
+        return cached_category_ptr;
     }
     if( !is_item() ) {
         return nullptr;
     }
-    return &any_item()->get_category_of_contents();
+    cached_category_ptr = &any_item()->get_category_of_contents();
+    return cached_category_ptr;
 }
 
 inventory_column::inventory_column( const inventory_selector_preset &preset ) :
@@ -1342,15 +1351,16 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
     paging_is_valid = false;
     if( entry.is_item() ) {
         item_location entry_item = entry.locations.front();
+        item_category const *entry_cat_ptr = entry.get_category_ptr();
 
         auto entry_with_loc = std::find_if( dest.begin(),
-        dest.end(), [&entry, &entry_item, this]( const inventory_entry & e ) {
+        dest.end(), [&entry_item, entry_cat_ptr, this]( const inventory_entry & e ) {
             if( !e.is_item() ) {
                 return false;
             }
             item_location found_entry_item = e.locations.front();
             return !e.is_collated() &&
-                   e.get_category_ptr() == entry.get_category_ptr() &&
+                   e.get_category_ptr() == entry_cat_ptr &&
                    entry_item.where() == found_entry_item.where() &&
                    entry_item.pos_abs() == found_entry_item.pos_abs() &&
                    entry_item.parent_item() == found_entry_item.parent_item() &&
@@ -2223,6 +2233,43 @@ void inventory_selector::add_vehicle_items( const tripoint_bub_ms &target, bool 
     _add_map_items( target, vehicle_cat, items, [&cursor]( item & it ) {
         return item_location( cursor, &it );
     }, add_efiles );
+}
+
+void inventory_selector::add_vehicle_tank_items( const tripoint_bub_ms &target )
+{
+    map &here = get_map();
+
+    // Check for a vehicle at the player's tile
+    const optional_vpart_position ovp = here.veh_at( target );
+    if( !ovp ) {
+        return;
+    }
+
+    // Check for hose or faucet to determine if we can access the tank
+    const bool has_hose = u.crafting_inventory().has_quality( qual_HOSE );
+    bool has_faucet = false;
+    if( !has_hose ) {
+        for( const tripoint_bub_ms &pos : closest_points_first( target, 1 ) ) {
+            if( here.veh_at( pos ).part_with_tool( here, itype_water_faucet ) ) {
+                has_faucet = true;
+                break;
+            }
+        }
+    }
+    if( !has_hose && !has_faucet ) {
+        return;
+    }
+
+    // Get all tank liquids on the vehicle
+    vehicle &veh = ovp->vehicle();
+    for( const vpart_reference &vpr : veh.get_all_parts() ) {
+        if( !vpr.part().contains_liquid() ) {
+            continue;
+        }
+        item_location base_loc = veh.part_base( vpr.part_index() );
+        add_entry( map_column, std::vector<item_location>( 1, item_location( base_loc,
+                   &base_loc->only_item() ) ) );
+    }
 }
 
 void inventory_selector::_add_map_items( tripoint_bub_ms const &target, item_category const &cat,

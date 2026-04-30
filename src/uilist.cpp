@@ -686,10 +686,14 @@ void uilist::calc_data()
     }
 
     float padding = 2.0f * s.CellPadding.x;
-    calculated_hotkey_width = ImGui::CalcTextSize( "M" ).x;
+    calculated_hotkey_width = 0.0;
     calculated_label_width = 0.0;
     calculated_secondary_width = 0.0;
     for( const uilist_entry &entry : entries ) {
+        if( entry.hotkey.has_value() ) {
+            calculated_hotkey_width = std::max( calculated_hotkey_width,
+                                                calc_size( entry.hotkey.value().short_description() ).x );
+        }
         calculated_label_width = std::max( calculated_label_width, calc_size( entry.txt ).x );
         calculated_secondary_width = std::max( calculated_secondary_width,
                                                calc_size( entry.ctxt ).x );

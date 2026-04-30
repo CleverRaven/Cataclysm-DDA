@@ -3189,8 +3189,10 @@ void monster::die( map *here, Creature *nkiller )
         }
     }
 
-    if( death_drops && !no_extra_death_drops ) {
-        drop_items_on_death( here, corpse.get_item() );
+    if( death_drops ) {
+        if( !no_extra_death_drops ) {
+            drop_items_on_death( here, corpse.get_item() );
+        }
         spawn_dissectables_on_death( corpse.get_item() );
     }
     if( death_drops && !is_hallucination() ) {
@@ -3466,8 +3468,6 @@ void monster::process_one_effect( effect &it, bool is_new )
         effect_cache[VISION_IMPAIRED] = true;
     } else if( ( id == effect_bleed || id == effect_dripping_mechanical_fluid ) &&
                x_in_y( it.get_intensity(), it.get_max_intensity() ) ) {
-        // this is for balance only
-        it.mod_duration( -rng( 1_turns, it.get_int_dur_factor() / 2 ) );
         bleed( here );
         if( id == effect_bleed ) {
             // monsters are simplified so they just take damage from bleeding

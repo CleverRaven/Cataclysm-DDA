@@ -170,13 +170,13 @@
   {
     "type": "talk_topic",
     "id": "TALK_MILITIA_INTRODUCTION",
-    "dynamic_line": "I'm the most senior member at this point so I'm what passes for the leader here now.  I'm just trying to make plans to keep us alive since everything fell apart.",
+    "dynamic_line": "I'm the most senior member at this point, so I'm what passes for the leader here now.  I'm just trying to make plans to keep us alive since everything fell apart.",
     "responses": [ { "text": "I see.", "topic": "TALK_NONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_MILITIA_BACKGROUND",
-    "dynamic_line": "Well, that's a long story.  We are what's left of the Grey Moose militia.  We had plans for when things went south cause of crazy politicians or war, but we didn't expect people to go crazy then turn zombie.  Only a handful of our members actually made it through all that madness.  What's worse is that we lost so much of our supplies and gear due to military checkpoints and trigger happy soldiers.  It didn't matter that half of us were former military the checkpoint guards just saw weapons, panicked and then confiscated everything but the clothes on our back.  So here we are at our planned escape location with not even a fraction of our manpower or supplies.",
+    "dynamic_line": "Well, that's a long story.  We are what's left of the Grey Moose militia.  We had plans for when things went south cause of crazy politicians or war, but we didn't expect people to go crazy then turn zombie.  Only a handful of our members actually made it through all that madness.  What's worse is that we lost so much of our supplies and gear due to military checkpoints and trigger happy soldiers.  It didn't matter that half of us were former military, the checkpoint guards just saw weapons, panicked and then confiscated everything but the clothes on our back.  So here we are, at our planned escape location, with not even a fraction of our manpower or supplies.",
     "responses": [ { "text": "I see.", "topic": "TALK_NONE" } ]
   },
   {

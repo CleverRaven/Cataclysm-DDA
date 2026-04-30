@@ -142,6 +142,7 @@
     "id": "makeshift_halberd",
     "type": "ITEM",
     "name": { "str": "simple makeshift glaive" },
+    "ascii_picture": "makeshift_glaive",
     "//": "Name changed to simple makeshift glaive, but changing the id would break e.g.  tilesets.",
     "description": "A large blade attached to a stout section of tree branch.  It could do a considerable amount of damage, but the blade isn't secured very well and could easily break off.",
     "weight": "1800 g",
@@ -163,6 +164,7 @@
   {
     "id": "makeshift_glaive",
     "type": "ITEM",
+    "ascii_picture": "makeshift_glaive",
     "copy-from": "makeshift_halberd",
     "name": { "str": "makeshift glaive" },
     "description": "A stout tree branch that has been carefully split and reinforced.  At the split point, a sharp blade has been bolted into place and reinforced with layers of sturdy wrapped bindings.",

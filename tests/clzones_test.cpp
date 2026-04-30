@@ -21,6 +21,7 @@
 #include "clzones.h"
 #include "coordinates.h"
 #include "enums.h"
+#include "game_constants.h"
 #include "item.h"
 #include "item_location.h"
 #include "item_pocket.h"
@@ -53,6 +54,7 @@ static const itype_id itype_test_bitter_almond( "test_bitter_almond" );
 static const itype_id itype_test_heavy_boulder( "test_heavy_boulder" );
 static const itype_id itype_test_liquid_1ml( "test_liquid_1ml" );
 static const itype_id itype_test_milk( "test_milk" );
+static const itype_id itype_test_rod_14cm( "test_rod_14cm" );
 static const itype_id
 itype_test_watertight_open_sealed_container_250ml( "test_watertight_open_sealed_container_250ml" );
 static const itype_id itype_test_wine( "test_wine" );
@@ -413,6 +415,156 @@ TEST_CASE( "zone_sorting_skips_items_with_unreachable_destinations",
     CHECK( dummy.charges_of( itype_test_apple ) == 0 );
     // Activity should have completed (no hang)
     CHECK( !dummy.activity );
+}
+
+// Count-full destinations must gate pickup, not just volume-full ones.
+TEST_CASE( "zone_sorting_skips_source_when_all_destinations_count_full",
+           "[zones][items][activities][sorting]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager::get_manager().clear();
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    dummy.setpos( here, start_pos );
+    dummy.clear_destination();
+    dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
+
+    const tripoint_bub_ms src_pos = start_pos;
+    const tripoint_abs_ms src_abs = here.get_abs( src_pos );
+    here.ter_set( src_pos, ter_t_floor );
+
+    const tripoint_bub_ms dest_pos = start_pos + tripoint::east;
+    const tripoint_abs_ms dest_abs = here.get_abs( dest_pos );
+    here.ter_set( dest_pos, ter_t_floor );
+
+    std::optional<vpart_reference> dest_vp;
+
+    SECTION( "vehicle cargo destination at MAX_ITEM_IN_VEHICLE_STORAGE" ) {
+        vehicle *cart = here.add_vehicle( vehicle_prototype_test_shopping_cart,
+                                          dest_pos, 0_degrees, 0, 0 );
+        REQUIRE( cart != nullptr );
+        cart->set_owner( dummy );
+        dest_vp = here.veh_at( dest_pos ).cargo();
+        REQUIRE( dest_vp );
+
+        const int cargo_fill_target = MAX_ITEM_IN_VEHICLE_STORAGE;
+        int inserted = 0;
+        for( int i = 0; i < cargo_fill_target; ++i ) {
+            item filler( itype_test_rod_14cm );
+            if( dest_vp->vehicle().add_item( here, dest_vp->part(), filler ) ) {
+                ++inserted;
+            } else {
+                break;
+            }
+        }
+        REQUIRE( inserted >= cargo_fill_target - 1 );
+
+        create_tile_zone( "Food", zone_type_LOOT_FOOD, dest_abs, /*veh=*/true );
+        REQUIRE( zone_manager::get_manager().has_vehicle( zone_type_LOOT_FOOD, dest_abs ) );
+    }
+
+    SECTION( "ground destination at MAX_ITEM_IN_SQUARE" ) {
+        int inserted = 0;
+        for( int i = 0; i < MAX_ITEM_IN_SQUARE; ++i ) {
+            item *added = here.add_item_or_charges_ret_loc( dest_pos, item( itype_test_rod_14cm ),
+                          false ).get_item();
+            if( added == nullptr ) {
+                break;
+            }
+            ++inserted;
+        }
+        REQUIRE( inserted >= MAX_ITEM_IN_SQUARE - 1 );
+
+        create_tile_zone( "Food", zone_type_LOOT_FOOD, dest_abs );
+    }
+
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, src_abs );
+    here.add_item_or_charges( src_pos, item( itype_test_apple ) );
+    REQUIRE( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 1 );
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    REQUIRE( zone_manager::get_manager().get_near_zone_type_for_item(
+                 item( itype_test_apple ), src_abs ) == zone_type_LOOT_FOOD );
+
+    bool pickup_failure = false;
+    bool spillable_skipped = false;
+    zone_sorting::zone_items items = zone_sorting::populate_items( src_pos );
+    zone_sorting::unload_sort_options opts = zone_sorting::set_unload_options( dummy, src_abs,
+            false );
+    std::vector<item_location> other_activity;
+    CHECK_FALSE( zone_sorting::has_items_to_sort( dummy, src_abs, opts, other_activity, items,
+                 &pickup_failure, &spillable_skipped ) );
+}
+
+// Activity must terminate even when every destination is count-full.
+TEST_CASE( "zone_sorting_activity_terminates_with_count_full_vehicle_destination",
+           "[zones][items][activities][sorting][vehicle]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager::get_manager().clear();
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    dummy.setpos( here, start_pos );
+    dummy.clear_destination();
+    dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
+
+    const tripoint_bub_ms src_pos = start_pos;
+    const tripoint_abs_ms src_abs = here.get_abs( src_pos );
+    here.ter_set( src_pos, ter_t_floor );
+
+    const tripoint_bub_ms dest_pos = start_pos + tripoint::east;
+    const tripoint_abs_ms dest_abs = here.get_abs( dest_pos );
+    here.ter_set( dest_pos, ter_t_floor );
+
+    vehicle *cart = here.add_vehicle( vehicle_prototype_test_shopping_cart,
+                                      dest_pos, 0_degrees, 0, 0 );
+    REQUIRE( cart != nullptr );
+    cart->set_owner( dummy );
+    std::optional<vpart_reference> vp = here.veh_at( dest_pos ).cargo();
+    REQUIRE( vp );
+
+    int inserted = 0;
+    for( int i = 0; i < MAX_ITEM_IN_VEHICLE_STORAGE; ++i ) {
+        item filler( itype_test_rod_14cm );
+        if( vp->vehicle().add_item( here, vp->part(), filler ) ) {
+            ++inserted;
+        } else {
+            break;
+        }
+    }
+    REQUIRE( inserted >= MAX_ITEM_IN_VEHICLE_STORAGE - 1 );
+
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, dest_abs, /*veh=*/true );
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, src_abs );
+    here.add_item_or_charges( src_pos, item( itype_test_apple ) );
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    dummy.assign_activity( zone_sort_activity_actor() );
+
+    const int max_turns = 500;
+    int turns = 0;
+    while( dummy.activity && turns < max_turns ) {
+        dummy.mod_moves( dummy.get_speed() );
+        while( dummy.get_moves() > 0 && dummy.activity ) {
+            dummy.activity.do_turn( dummy );
+        }
+        ++turns;
+    }
+
+    CHECK( !dummy.activity );
+    CHECK( turns < max_turns );
 }
 
 // Grab-aware A* destination probing should find paths for single-tile vehicles.

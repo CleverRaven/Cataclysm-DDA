@@ -13,12 +13,15 @@
         "npc_travel_filter": "none"
       },
       {
-        "u_location_variable": { "context_val": "safehouse_floor_portal_enclosure" },
-        "target_params": { "om_terrain": "labyrinth_safehouse", "om_special": "labyrinth_safehouse" },
-        "furniture": "f_exodii_floor_portal_enclosure",
-        "target_max_radius": 250
+        "if": { "not": { "math": [ "has_var(u_safehouse_floor_portal_enclosure)" ] } },
+        "then": {
+          "u_location_variable": { "u_val": "safehouse_floor_portal_enclosure" },
+          "target_params": { "om_terrain": "labyrinth_safehouse", "om_special": "labyrinth_safehouse" },
+          "furniture": "f_exodii_floor_portal_enclosure",
+          "target_max_radius": 250
+        }
       },
-      { "u_teleport": { "context_val": "safehouse_floor_portal_enclosure" } },
+      { "u_teleport": { "u_val": "safehouse_floor_portal_enclosure" } },
       {
         "if": { "compare_string": [ "yes", { "u_val": "traveled_to_labyrinth_safehouse" } ] },
         "then": { "u_message": "Zwoink.", "popup": true },
@@ -48,12 +51,15 @@
         "npc_travel_filter": "none"
       },
       {
-        "u_location_variable": { "context_val": "safehouse_floor_portal_enclosure" },
-        "target_params": { "om_terrain": "labyrinth_safehouse", "om_special": "labyrinth_safehouse" },
-        "furniture": "f_exodii_floor_portal_enclosure",
-        "target_max_radius": 250
+        "if": { "not": { "math": [ "has_var(u_safehouse_floor_portal_enclosure)" ] } },
+        "then": {
+          "u_location_variable": { "u_val": "safehouse_floor_portal_enclosure" },
+          "target_params": { "om_terrain": "labyrinth_safehouse", "om_special": "labyrinth_safehouse" },
+          "furniture": "f_exodii_floor_portal_enclosure",
+          "target_max_radius": 250
+        }
       },
-      { "u_teleport": { "context_val": "safehouse_floor_portal_enclosure" } },
+      { "u_teleport": { "u_val": "safehouse_floor_portal_enclosure" } },
       { "alter_timed_events": "string_dimension_lights_on" },
       {
         "if": { "compare_string": [ "yes", { "u_val": "traveled_to_labyrinth_safehouse" } ] },
@@ -93,6 +99,7 @@
         "x_adjust": 1
       },
       { "u_teleport": { "global_val": "original_labyrinth_portal_loc" }, "fail_message": "Nope!", "force": true },
+      { "run_eocs": [ "EOC_LS_ROLL_FOR_STRING_DIMENSION_ENCOUNTER" ] },
       { "u_message": "Zwoink.", "popup": true }
     ],
     "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
@@ -334,6 +341,50 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_LS_mission_water_coolor_teleport_to_labyrinth",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
+    "effect": [
+      { "u_location_variable": { "u_val": "player_location_safehouse_before_labyrinth" } },
+      { "u_add_var": "traveled_safehouse_to_labyrinth", "value": "yes" },
+      {
+        "u_travel_to_dimension": "netherum_labyrinth",
+        "npc_travel_radius": 0,
+        "region_type": "netherum_labyrinth",
+        "npc_travel_filter": "none",
+        "fail_message": "Nope!",
+        "success_message": "Zwoink."
+      },
+      {
+        "u_location_variable": { "global_val": "original_labyrinth_portal_loc" },
+        "target_params": { "om_terrain": "labyrinth_flooded_entrance", "om_special": "labyrinthine_structure_flooded" },
+        "furniture": "f_scrap_antenna",
+        "target_max_radius": 24,
+        "x_adjust": 1
+      },
+      { "u_teleport": { "global_val": "original_labyrinth_portal_loc" }, "fail_message": "Nope!", "force": true },
+      {
+        "u_location_variable": { "global_val": "LS_WATER_COOLER_LOC" },
+        "target_params": {
+          "om_terrain": "labyrinth_flooded_hall",
+          "om_special": "labyrinthine_structure_flooded",
+          "min_distance": 5,
+          "search_range": 20,
+          "random": true
+        }
+      },
+      {
+        "mapgen_update": "labyrinth_nl_flooded_water_cooler_location",
+        "target_var": { "global_val": "LS_WATER_COOLER_LOC" }
+      },
+      {
+        "u_message": "Zwoink.  You find yourself in a standard entry room, but instead of a terminal, this one houses an obelisk.",
+        "popup": true
+      }
+    ],
+    "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_LS_mission_boiler_teleport_to_safehouse",
     "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
     "effect": [
@@ -354,6 +405,30 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_LS_mission_water_cooler_teleport_to_safehouse",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
+    "effect": [
+      {
+        "u_travel_to_dimension": "netherum_labyrinth_safehouse",
+        "npc_travel_radius": 0,
+        "region_type": "netherum_labyrinth_safehouse",
+        "npc_travel_filter": "none",
+        "fail_message": "You feel a prickle at the edge of your senses.",
+        "success_message": "Your surroundings warp and fold into a familiar place."
+      },
+      { "u_teleport": { "u_val": "player_location_safehouse_before_labyrinth" }, "force": true },
+      {
+        "u_message": "You move to prick your palm upon the device, but everything goes black.  Did you ever prick it?\n\nZworunk.  The ground shakes for a moment.  Then you hear water bubbling.",
+        "popup": true
+      },
+      { "clear_dimension": "netherum_labyrinth" },
+      { "finish_mission": "MISSION_nl_water_coolor", "success": true },
+      { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_WATER_COOLER" ] }
+    ],
+    "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_LS_SAFEHOUSE_UPDATE_BOILER",
     "effect": [
       { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
@@ -366,7 +441,43 @@
     "id": "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE",
     "effect": [
       { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
-      { "mapgen_update": "labyrinth_safehouse_utility_space", "target_var": { "global_val": "LS_SAFEHOUSE_1" } }
+      { "mapgen_update": "labyrinth_safehouse_utility_space", "target_var": { "global_val": "LS_SAFEHOUSE_1" } },
+      { "math": [ "nl_utility_space_placed = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE_OBELISK",
+    "effect": [
+      { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
+      {
+        "mapgen_update": "labyrinth_safehouse_utility_space_obelisk",
+        "target_var": { "global_val": "LS_SAFEHOUSE_1" }
+      },
+      { "math": [ "nl_utility_space_obelisk_placed = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_UPDATE_WATER_COOLER",
+    "effect": [
+      { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
+      { "mapgen_update": "labyrinth_safehouse_water_cooler", "target_var": { "global_val": "LS_SAFEHOUSE_1" } },
+      { "math": [ "u_nl_safehouse_water_stock = 1" ] },
+      { "math": [ "nl_water_cooler_placed = 1" ] },
+      { "run_eocs": "EOC_LS_SAFEHOUSE_WATER_COOLER_REFILL_CHECK", "time_in_future": "18 hours" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_UPDATE_LIVING_SPACE_1_OBELISK",
+    "effect": [
+      { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
+      {
+        "mapgen_update": "labyrinth_safehouse_living_space_1_obelisk",
+        "target_var": { "global_val": "LS_SAFEHOUSE_1" }
+      },
+      { "math": [ "nl_living_space_1_obelisk_placed = 1" ] }
     ]
   },
   {
@@ -374,7 +485,509 @@
     "id": "EOC_LS_SAFEHOUSE_UPDATE_LIVING_SPACE_1",
     "effect": [
       { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
-      { "mapgen_update": "labyrinth_safehouse_living_space_1", "target_var": { "global_val": "LS_SAFEHOUSE_1" } }
+      { "mapgen_update": "labyrinth_safehouse_living_space_1", "target_var": { "global_val": "LS_SAFEHOUSE_1" } },
+      { "math": [ "nl_living_space_1_placed = 1" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "//": "EOC instead of mapgen because this should happen as many times as it takes for the player to find it, but then never again",
+    "id": "EOC_LS_ROLL_FOR_STRING_DIMENSION_ENCOUNTER",
+    "condition": {
+      "and": [ { "one_in_chance": 5 }, { "not": { "compare_string": [ "yes", { "u_val": "ls_used_holographic_shard" } ] } } ]
+    },
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "LS_STRING_DIMENSION_ENCOUNTER_LOC" },
+        "target_params": {
+          "om_terrain": "labyrinth_hall",
+          "om_special": "labyrinthine_structure",
+          "min_distance": 5,
+          "search_range": 20,
+          "random": true
+        }
+      },
+      {
+        "mapgen_update": "labyrinth_nl_string_dimension_encounter",
+        "target_var": { "global_val": "LS_STRING_DIMENSION_ENCOUNTER_LOC" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SD_tunnel_portal",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
+    "effect": [
+      { "u_add_var": "traveled_string_dimension_to_labyrinth", "value": "yes" },
+      {
+        "u_travel_to_dimension": "string_dimension",
+        "npc_travel_radius": 0,
+        "region_type": "string_dimension",
+        "npc_travel_filter": "none",
+        "fail_message": "You feel a prickle at the edge of your senses.",
+        "success_message": "Your surroundings warp and fold into the recesses of another world."
+      },
+      {
+        "u_location_variable": { "context_val": "string_dimension_floor_portal_enclosure" },
+        "target_params": { "om_terrain": "string_dimension_dome_x1y1z-2", "om_special": "string_dimension_dome" },
+        "furniture": "f_exodii_floor_portal_enclosure",
+        "target_max_radius": 100
+      },
+      { "u_teleport": { "context_val": "string_dimension_floor_portal_enclosure" } },
+      { "u_message": "Zworunk.", "popup": true },
+      { "custom_light_level": 125, "length": "9999 days", "key": "string_dimension_lights_on" },
+      { "clear_dimension": "netherum_labyrinth" }
+    ],
+    "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SD_enter_tunnel",
+    "effect": [
+      {
+        "u_travel_to_dimension": "netherum_labyrinth",
+        "npc_travel_radius": 0,
+        "region_type": "netherum_labyrinth",
+        "npc_travel_filter": "none",
+        "fail_message": "Nope!",
+        "success_message": "Zwoink."
+      },
+      {
+        "u_location_variable": { "context_val": "string_dimension_tunnel" },
+        "target_params": { "om_terrain": "labyrinth_string_dimension_tunnel_start", "om_special": "labyrinth_string_dimension_tunnel" },
+        "furniture": "f_exodii_lamp_string_warped",
+        "target_max_radius": 24
+      },
+      { "u_teleport": { "context_val": "string_dimension_tunnel" } },
+      {
+        "u_message": "You smell something acrid, then your mind reels - you suddenly find yourself standing upon a landscape, yourself and it completely flat.  You try to find your footing.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_UTILITY_SPACE_OBELISK_HACKSAW",
+    "condition": {
+      "and": [ { "u_has_item": "hacksaw" }, { "not": { "math": [ "has_var(u_safehouse_utility_space_deposited_hacksaw)" ] } } ]
+    },
+    "effect": [
+      { "u_consume_item": "hacksaw" },
+      { "u_add_var": "safehouse_utility_space_deposited_hacksaw", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_hacksaw)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_screwdriver)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_gaj)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_wrench)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_cord)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_nutbolt)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_sheetmetal)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize into a door.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_UTILITY_SPACE_OBELISK_SCREWDRIVER",
+    "condition": {
+      "and": [
+        { "u_has_item": "screwdriver" },
+        { "not": { "math": [ "has_var(u_safehouse_utility_space_deposited_screwdriver)" ] } }
+      ]
+    },
+    "effect": [
+      { "u_consume_item": "screwdriver" },
+      { "u_add_var": "safehouse_utility_space_deposited_screwdriver", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_hacksaw)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_screwdriver)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_gaj)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_wrench)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_cord)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_nutbolt)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_sheetmetal)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize into a door.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_UTILITY_SPACE_OBELISK_GAJ",
+    "condition": {
+      "and": [ { "u_has_item": "nl_grav_aware_jig" }, { "not": { "math": [ "has_var(u_safehouse_utility_space_deposited_gaj)" ] } } ]
+    },
+    "effect": [
+      { "u_consume_item": "nl_grav_aware_jig" },
+      { "u_add_var": "safehouse_utility_space_deposited_gaj", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_hacksaw)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_screwdriver)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_gaj)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_wrench)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_cord)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_nutbolt)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_sheetmetal)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize into a door.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_UTILITY_SPACE_OBELISK_WRENCH",
+    "condition": {
+      "and": [ { "u_has_item": "wrench" }, { "not": { "math": [ "has_var(u_safehouse_utility_space_deposited_wrench)" ] } } ]
+    },
+    "effect": [
+      { "u_consume_item": "wrench" },
+      { "u_add_var": "safehouse_utility_space_deposited_wrench", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_hacksaw)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_screwdriver)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_gaj)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_wrench)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_cord)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_nutbolt)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_sheetmetal)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize into a door.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_UTILITY_SPACE_OBELISK_CORD",
+    "condition": {
+      "and": [ { "u_has_item": "extension_cable" }, { "not": { "math": [ "has_var(u_safehouse_utility_space_deposited_cord)" ] } } ]
+    },
+    "effect": [
+      { "u_consume_item": "extension_cable" },
+      { "u_add_var": "safehouse_utility_space_deposited_cord", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_hacksaw)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_screwdriver)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_gaj)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_wrench)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_cord)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_nutbolt)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_sheetmetal)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize into a door.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_UTILITY_SPACE_OBELISK_NUTBOLT",
+    "condition": {
+      "and": [ { "u_has_item": "nuts_bolts" }, { "not": { "math": [ "has_var(u_safehouse_utility_space_deposited_nutbolt)" ] } } ]
+    },
+    "effect": [
+      { "u_consume_item": "nuts_bolts" },
+      { "u_add_var": "safehouse_utility_space_deposited_nutbolt", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_hacksaw)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_screwdriver)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_gaj)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_wrench)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_cord)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_nutbolt)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_sheetmetal)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize into a door.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_UTILITY_SPACE_OBELISK_SHEETMETAL",
+    "condition": {
+      "and": [
+        { "u_has_item": "sheet_metal" },
+        { "not": { "math": [ "has_var(u_safehouse_utility_space_deposited_sheetmetal)" ] } }
+      ]
+    },
+    "effect": [
+      { "u_consume_item": "sheet_metal" },
+      { "u_add_var": "safehouse_utility_space_deposited_sheetmetal", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_hacksaw)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_screwdriver)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_gaj)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_wrench)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_cord)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_nutbolt)" ] },
+            { "math": [ "has_var(u_safehouse_utility_space_deposited_sheetmetal)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize into a door.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_LIVING_SPACE_1_HAMMER",
+    "condition": {
+      "and": [ { "u_has_item": "hammer" }, { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_hammer)" ] } } ]
+    },
+    "effect": [
+      { "u_consume_item": "hammer" },
+      { "u_add_var": "safehouse_living_space_1_deposited_hammer", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hammer)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hinge)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_wire)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_lami)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_tape_measure)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_pipe)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize themselves into an opening.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_LIVING_SPACE_1" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_LIVING_SPACE_1_HINGE",
+    "condition": {
+      "and": [ { "u_has_item": "hinge" }, { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_hinge)" ] } } ]
+    },
+    "effect": [
+      { "u_consume_item": "hinge" },
+      { "u_add_var": "safehouse_living_space_1_deposited_hinge", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hammer)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hinge)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_wire)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_lami)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_tape_measure)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_pipe)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize themselves into an opening.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_LIVING_SPACE_1" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_LIVING_SPACE_1_WIRE",
+    "condition": { "and": [ { "u_has_item": "wire" }, { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_wire)" ] } } ] },
+    "effect": [
+      { "u_consume_item": "wire" },
+      { "u_add_var": "safehouse_living_space_1_deposited_wire", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hammer)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hinge)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_wire)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_lami)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_tape_measure)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_pipe)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize themselves into an opening.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_LIVING_SPACE_1" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_LIVING_SPACE_1_LAMI",
+    "condition": {
+      "and": [
+        { "u_has_item": "nl_laser_mass_indexer" },
+        { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_lami)" ] } }
+      ]
+    },
+    "effect": [
+      { "u_consume_item": "nl_laser_mass_indexer" },
+      { "u_add_var": "safehouse_living_space_1_deposited_lami", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hammer)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hinge)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_wire)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_lami)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_tape_measure)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_pipe)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize themselves into an opening.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_LIVING_SPACE_1" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_LIVING_SPACE_1_TAPE_MEASURE",
+    "condition": {
+      "and": [
+        { "u_has_item": "tape_measure" },
+        { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_tape_measure)" ] } }
+      ]
+    },
+    "effect": [
+      { "u_consume_item": "tape_measure" },
+      { "u_add_var": "safehouse_living_space_1_deposited_tape_measure", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hammer)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hinge)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_wire)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_lami)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_tape_measure)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_pipe)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize themselves into an opening.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_LIVING_SPACE_1" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_LIVING_SPACE_1_PIPE",
+    "condition": { "and": [ { "u_has_item": "pipe" }, { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_pipe)" ] } } ] },
+    "effect": [
+      { "u_consume_item": "pipe" },
+      { "u_add_var": "safehouse_living_space_1_deposited_pipe", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hammer)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_hinge)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_wire)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_lami)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_tape_measure)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_pipe)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize themselves into an opening.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_LIVING_SPACE_1" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NL_PEEK_DOWN_CHASM",
+    "effect": [
+      {
+        "u_message": "At a glance this just looks like darkness.  Then, gazing deeper, you think it might be full of stars.  Still deeper, perhaps those stars are eyes?"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_WATER_COOLER_DISPENSE_2",
+    "condition": { "math": [ "u_nl_safehouse_water_stock > 0" ] },
+    "effect": [
+      { "u_message": "Kathunk.  The water dispenser dispenses a water bottle." },
+      { "u_spawn_item": "water_clean", "count": 6, "container": "nl_water_bottle" },
+      { "math": [ "u_nl_safehouse_water_stock -= 1" ] }
+    ],
+    "false_effect": { "u_message": "Nothing happens." }
   }
 ]

@@ -1233,7 +1233,7 @@ void game::on_witness_theft( const item &target )
     std::vector<npc *> witnesses;
     for( npc &elem : g->all_npcs() ) {
         if( rl_dist( elem.pos_bub(), p.pos_bub() ) < MAX_VIEW_DISTANCE &&
-            elem.sees( here, p.pos_bub( here ) ) &&
+            elem.sees( here, p ) &&
             target.is_owned_by( elem ) ) {
             witnesses.push_back( &elem );
         }

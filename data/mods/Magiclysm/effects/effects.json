@@ -1382,6 +1382,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_kelvinist_frozen_heart",
+    "name": [ "The Rime-Covered Heart" ],
+    "desc": [ "All emotion is frozen out." ],
+    "remove_message": "You take a shuddering breath as emotion floods back into your heart.",
+    "rating": "mixed",
+    "max_duration": 38400,
+    "flags": [ "NUMB", "PSYCHOPATH" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_kelvinist_flames_of_passion",
     "name": [ "Flames of Passion" ],
     "desc": [ "You burn with the intensity of your conviction." ],

@@ -966,7 +966,9 @@ bool input_context::action_add( const std::string &name, const std::string &acti
         return false;
     }
 
-    if( !resolve_conflicts( { new_event }, action_id ) ) {
+    std::vector<input_event> new_events;
+    new_events.push_back( new_event );
+    if( !resolve_conflicts( new_events, action_id ) ) {
         return false;
     }
 

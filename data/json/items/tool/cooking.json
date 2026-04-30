@@ -556,6 +556,7 @@
   {
     "id": "mortar_pestle",
     "type": "ITEM",
+    "ascii_picture": "mortar_pestle",
     "subtypes": [ "TOOL" ],
     "name": { "str": "mortar and pestle", "str_pl": "mortars and pestles" },
     "description": "A simple combination of a small grindstone and a bowl-shaped stone.  Used for grinding grain, but time-consuming compared to more complex methods.",
@@ -1120,6 +1121,7 @@
   {
     "id": "metal_honing_rod",
     "type": "ITEM",
+    "ascii_picture": "honing_rod",
     "subtypes": [ "TOOL" ],
     "name": { "str": "honing rod" },
     "description": "A steel rod with fine grit used to hone the edge of knives.",
@@ -1137,6 +1139,7 @@
   {
     "id": "knife_sharpener_handheld",
     "type": "ITEM",
+    "ascii_picture": "knife_sharpener_handheld",
     "subtypes": [ "TOOL" ],
     "name": { "str": "handheld knife sharpener" },
     "description": "A tool with slots of grits for sharpening knives.",

@@ -3132,6 +3132,24 @@
   },
   {
     "type": "effect_type",
+    "id": "lung_collapse",
+    "name": [ "Lung Collapse" ],
+    "desc": [ "Your have difficulties breathing!" ],
+    "rating": "bad",
+    "max_intensity": 2,
+    "//": "intensity 1 - one of two lungs is collapsed; intensity 2 - both lungs are collapsed",
+    "base_mods": { "hurt_amount": [ 1 ], "hurt_tick": [ 4 ] },
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "SPEED", "multiply": { "math": [ "u_effect_intensity('lung_collapse') * -0.25" ] } } ]
+      }
+    ],
+    "chance_kill": [ [ 0, 1 ], [ 1, 120 ] ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "revived_marker",
     "//COMMENT": "Hardcoded dummy effect to track a monster as revived. Applied and checked in C++ only.",
     "name": [ "Revived" ],
@@ -5710,5 +5728,27 @@
       "vomit_chance": [ 15 ],
       "vomit_tick": [ 10 ]
     }
+  },
+  {
+    "type": "effect_type",
+    "id": "nl_phase_goo",
+    "name": [ "Out of phase" ],
+    "desc": [
+      "Your body is partially out of phase with reality.  You move much more slowly, but you might be able to phase through some obstacles with ease."
+    ],
+    "apply_message": "You're coated in out-of-phase goo!",
+    "remove_message": "Your body returns to its normal phase.",
+    "rating": "bad",
+    "max_intensity": 1,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": 0.75 },
+          { "value": "MOVECOST_OBSTACLE_MOD", "multiply": -1 },
+          { "value": "PHASE_DISTANCE", "add": 1 }
+        ]
+      }
+    ],
+    "show_in_info": true
   }
 ]

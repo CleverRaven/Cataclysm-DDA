@@ -416,6 +416,22 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "oyster_shucked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "30 s",
+    "charges": 1,
+    "autolearn": true,
+    "difficulty": 2,
+    "batch_time_factors": [ 10, 11 ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
+    "components": [ [ [ "oyster", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "tallow",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",

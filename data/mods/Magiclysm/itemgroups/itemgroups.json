@@ -1856,5 +1856,21 @@
     "extend": {
       "entries": [ { "group": "spellbook_restricted_loot_0", "prob": 4 }, { "group": "spellbook_restricted_loot_1", "prob": 1 } ]
     }
+  },
+  {
+    "type": "item_group",
+    "id": "table_wine",
+    "copy-from": "table_wine",
+    "subtype": "distribution",
+    "//": "This way goldbrew spawns more often in places where you'd expect fancy alcohols",
+    "extend": { "items": [ { "item": "goldbrew", "prob": 20 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "liquor_and_spirits",
+    "copy-from": "liquor_and_spirits",
+    "subtype": "distribution",
+    "//": "Goldbrew - rarity as single malt whiskey, dragonfire - rarity as vodka.",
+    "extend": { "entries": [ { "item": "dragonfire", "prob": 20 }, { "item": "goldbrew", "prob": 2 } ] }
   }
 ]

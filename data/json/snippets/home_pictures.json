@@ -297,7 +297,16 @@
       { "id": "dog_breed_03", "text": "chihuahua" },
       { "id": "dog_breed_04", "text": "corgi" },
       { "id": "dog_breed_05", "text": "Labrador" },
-      { "id": "dog_breed_06", "text": "pitbull" }
+      { "id": "dog_breed_06", "text": "pitbull" },
+      { "id": "dog_breed_07", "text": "Border Collie" },
+      { "id": "dog_breed_08", "text": "boxer mastiff" },
+      { "id": "dog_breed_09", "text": "dachshund" },
+      { "id": "dog_breed_11", "text": "German shepherd" },
+      { "id": "dog_breed_12", "text": "Great Pyrenees" },
+      { "id": "dog_breed_13", "text": "rottweiler" },
+      { "id": "dog_breed_14", "text": "cattle dog" },
+      { "id": "dog_breed_15", "text": "Samoyed" },
+      { "id": "dog_breed_16", "text": "Flat-coated Retriever" }
     ]
   }
 ]

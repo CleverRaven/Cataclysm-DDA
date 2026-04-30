@@ -889,6 +889,11 @@ void Item_factory::finalize_post( itype &obj )
         return false;
     } );
 
+    obj.hot_flag_bits = 0;
+    for( const flag_id &f : obj.item_tags ) {
+        obj.hot_flag_bits |= hot_bit_for( f );
+    }
+
     if( obj.gun && !obj.gunmod && !obj.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
         const quality_id qual_gun_skill( to_upper_case( obj.gun->skill_used.str() ) );
 

@@ -1001,6 +1001,12 @@ class vehicle
                          bool force_status = false );
 
         // damages all parts of a vehicle by a random amount
+        void damage_all_parts( float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,
+                               float percent_of_parts_to_affect = 1.0f,
+                               point_rel_ms damage_origin = point_rel_ms::zero,
+                               float damage_size = 0 );
+
+        // damage_all_parts, plus deduplication of overlapping parts
         void smash( map &m, float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,
                     float percent_of_parts_to_affect = 1.0f, point_rel_ms damage_origin = point_rel_ms::zero,
                     float damage_size = 0 );

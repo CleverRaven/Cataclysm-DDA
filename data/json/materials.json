@@ -671,9 +671,10 @@
     "type": "material",
     "id": "cotton_quilted_salted",
     "name": "Salt Hardened Quilted Cotton",
+    "//": "Biggest change is reducing heat resistance from ten to 2.  Aramids have 3 heat resistance and sources say that salt hardened cotton has lower than aramid fire resistance.",
     "copy-from": "cotton",
     "repaired_with": "null",
-    "resist": { "bash": 3.5, "cut": 3.5, "acid": 5, "heat": 10, "bullet": 2 }
+    "resist": { "bash": 3, "cut": 3, "acid": 5, "heat": 2, "bullet": 1.5 }
   },
   {
     "type": "material",
@@ -1986,8 +1987,7 @@
   {
     "type": "material",
     "id": "ch_steel",
-    "name": "Case Hardened Carbon Steel",
-    "//": "Case hardening based on average between .1 and .95 carbon steel with a 1.25 multiplier.",
+    "name": "Hardened Carbon Steel",
     "density": 8.0,
     "specific_heat_liquid": 0.82,
     "specific_heat_solid": 0.45,

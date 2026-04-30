@@ -1207,5 +1207,20 @@
     "symbol": "p",
     "color": "dark_gray",
     "melee_damage": { "bash": 1 }
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "id": "tape_measure",
+    "symbol": ";",
+    "color": "yellow",
+    "name": { "str": "tape measure" },
+    "description": "A 25' tape measure, with a bright yellow, plastic exterior.",
+    "material": [ "plastic" ],
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": "20 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "melee_damage": { "bash": 1 }
   }
 ]

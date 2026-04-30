@@ -40,6 +40,18 @@
   },
   {
     "type": "ter_furn_transform",
+    "id": "afs_open_cryo_storage",
+    "furniture": [
+      {
+        "result": "f_cryo_storage_o",
+        "valid_furniture": [ "f_cryo_storage_l" ],
+        "message": "Vapor hisses out from the cryogenic storage unit as its locking mechanism releases.  Whatever is inside should be recovered before it thaws out.",
+        "message_good": true
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
     "id": "your_ship_stairs_up",
     "terrain": [ { "result": "t_ship_stairs_down_retracted", "valid_terrain": [ "t_ship_stairs_down" ] } ]
   },

@@ -16,7 +16,8 @@
       [ "hotcut", 90 ],
       [ "metalworking_tongs", 90 ],
       [ "hammer", 90 ],
-      [ "sandpaper", 90 ]
+      [ "sandpaper", 90 ],
+      [ "belt_grinder", 50 ]
     ]
   },
   {
@@ -35,6 +36,7 @@
       [ "chisel", 10 ],
       { "group": "tools_toolbox", "prob": 12 },
       { "group": "tools_workshop", "prob": 3 },
+      { "item": "tape_measure", "prob": 100 },
       [ "sandpaper", 100 ]
     ]
   },
@@ -80,6 +82,7 @@
     "//": "Common household tools",
     "items": [
       [ "bucket", 5 ],
+      { "item": "tape_measure", "prob": 25 },
       [ "bucket_5gal", 5 ],
       [ "funnel", 50 ],
       [ "rake", 15 ],
@@ -129,7 +132,8 @@
       [ "clamp", 10 ],
       [ "sandpaper", 80 ],
       { "group": "writing_utensils", "prob": 5 },
-      { "group": "soldering_supplies", "prob": 50 }
+      { "group": "soldering_supplies", "prob": 50 },
+      { "item": "tape_measure", "prob": 40 }
     ]
   },
   {
@@ -149,6 +153,7 @@
       [ "funnel", 50 ],
       [ "metal_file", 40 ],
       { "item": "graphite", "prob": 50, "charges": [ 50, 12500 ] },
+      { "item": "tape_measure", "prob": 70 },
       [ "sandpaper", 65 ]
     ]
   },
@@ -170,6 +175,7 @@
       [ "funnel", 50 ],
       [ "metal_file", 40 ],
       [ "sandpaper", 65 ],
+      { "item": "tape_measure", "prob": 90 },
       [ "hacksaw", 30 ],
       [ "saw", 65 ],
       { "item": "bow_saw", "prob": 40 },
@@ -204,6 +210,7 @@
       [ "lug_wrench", 20 ],
       [ "jerrycan", 10 ],
       [ "jerrycan_big", 10 ],
+      [ "belt_grinder", 20 ],
       { "item": "char_smoker", "prob": 5, "charges": [ 0, 300 ] },
       { "item": "dehydrator", "prob": 5 },
       [ "tourist_table", 1 ],
@@ -952,7 +959,8 @@
       { "item": "grinder_metal_grinding_disc", "prob": 10 },
       { "item": "masonrysaw_off", "prob": 50, "charges": [ 0, 450 ] },
       { "item": "heavy_masonrysaw_off", "prob": 50, "charges": [ 0, 450 ] },
-      { "item": "electric_masonrysaw_off", "prob": 50, "charges": [ 0, 495 ] }
+      { "item": "electric_masonrysaw_off", "prob": 50, "charges": [ 0, 495 ] },
+      { "item": "belt_grinder", "prob": 20 }
     ]
   },
   {

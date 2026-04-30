@@ -34,7 +34,16 @@
     "type": "behavior",
     "id": "npc_priorities",
     "strategy": "utility",
-    "children": [ "npc_needs", "npc_duty", "npc_follow", "npc_player_order", "npc_camp_work", "npc_return_to_camp", "npc_free_time" ]
+    "children": [
+      "npc_needs",
+      "npc_duty",
+      "npc_follow_embarked",
+      "npc_follow",
+      "npc_player_order",
+      "npc_camp_work",
+      "npc_return_to_camp",
+      "npc_free_time"
+    ]
   },
   {
     "type": "behavior",
@@ -54,6 +63,13 @@
     "id": "npc_hold_post",
     "conditions": [ { "predicate": "npc_on_shift" } ],
     "goal": "hold_position"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_follow_embarked",
+    "conditions": [ { "predicate": "npc_should_embark" } ],
+    "goal": "follow_embarked",
+    "score": "npc_embark_urgency"
   },
   {
     "type": "behavior",

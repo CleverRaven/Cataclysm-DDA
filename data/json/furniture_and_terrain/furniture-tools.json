@@ -866,6 +866,33 @@
   },
   {
     "type": "furniture",
+    "id": "f_power_hammer",
+    "name": "power hammer",
+    "looks_like": "f_drophammer",
+    "description": "A self-contained pneumatic power hammer using compressed air from an integrated compressor to strike repeatedly with great force.  Used for efficiently shaping and working metal.",
+    "symbol": "7",
+    "color": "light_blue",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 17,
+    "mass": "1100 kg",
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "power_hammer" },
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 60,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "hc_steel_chunk", "count": [ 8, 12 ] },
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "e_scrap", "count": [ 2, 4 ] },
+        { "item": "steel_plate", "count": [ 10, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_firefly_terrarium",
     "name": "firefly terrarium",
     "description": "While many survivors would have focused on trying to bring back electric lights, whoever lives here has apparently decided to make use of the changes wrought by the Cataclysm to provide light.  This vivarium contains soil, strange plants you don't recognize immediately, and most strikingly, a giant mutant firefly.",

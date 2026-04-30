@@ -39,22 +39,14 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "target_condition": {
       "or": [
-        { "and": [ "npc_is_monster", { "npc_has_effect": "onfire" } ] },
-        {
-          "and": [
-            "npc_is_character",
-            {
-              "or": [
-                { "npc_has_effect": "onfire", "bodypart": "torso" },
-                { "npc_has_effect": "onfire", "bodypart": "head" },
-                { "npc_has_effect": "onfire", "bodypart": "arm_l" },
-                { "npc_has_effect": "onfire", "bodypart": "arm_r" },
-                { "npc_has_effect": "onfire", "bodypart": "leg_l" },
-                { "npc_has_effect": "onfire", "bodypart": "leg_r" }
-              ]
-            }
-          ]
-        }
+        { "npc_has_effect": "onfire" },
+        { "npc_has_effect": "onfire", "bodypart": "torso" },
+        { "npc_has_effect": "onfire", "bodypart": "head" },
+        { "npc_has_effect": "onfire", "bodypart": "arm_l" },
+        { "npc_has_effect": "onfire", "bodypart": "arm_r" },
+        { "npc_has_effect": "onfire", "bodypart": "leg_l" },
+        { "npc_has_effect": "onfire", "bodypart": "leg_r" },
+        { "npc_has_effect": "onfire", "bodypart": "tail" }
       ]
     },
     "effect": "attack",

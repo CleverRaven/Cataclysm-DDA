@@ -1,0 +1,53 @@
+[
+  {
+    "id": "nl_destruction_ray",
+    "type": "SPELL",
+    "name": "Labyrinth Destruction Ray",
+    "description": "Destruction ray for turret in labyrinthine structures.",
+    "valid_targets": [ "ground" ],
+    "effect": "bash",
+    "flags": [ "LOUD", "IGNORE_WALLS" ],
+    "shape": "line",
+    "min_damage": 999,
+    "max_damage": 999,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "min_range": 20,
+    "max_range": 20
+  },
+  {
+    "id": "nl_phase_goo",
+    "type": "SPELL",
+    "name": "Nether Phase Goo",
+    "description": "Phase Goo effect in labyrinthine structures.",
+    "valid_targets": [ "hostile" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_NL_PHASE_GOO",
+    "shape": "blast",
+    "min_damage": 0,
+    "max_damage": 0,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "min_range": 0,
+    "max_range": 25
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NL_PHASE_GOO",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, "u_is_character" ] },
+    "effect": [
+      { "u_add_effect": "nl_phase_goo", "duration": "30 seconds" },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "worn_only": true } ],
+        "true_eocs": [
+          {
+            "id": "EOC_NL_PHASE_GOO_PHASED_FAULT",
+            "condition": { "one_in_chance": 4 },
+            "effect": { "npc_set_fault": "fault_nl_phase_goo", "force": true, "message": true }
+          }
+        ]
+      }
+    ]
+  }
+]

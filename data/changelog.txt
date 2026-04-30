@@ -221,6 +221,7 @@ Changing move mode can cost time and is deferred
 NPC behavior tree evaluates for all NPCs, not just guards
 It is possible to make factions be radio-contactable
 Some limbs are unable to use firearms
+Power hammer and it's recipes
 
 
 ## Content:
@@ -1265,6 +1266,8 @@ Being poisoned penalizes your health
 Easier lying to Rubik about selling the warehouse to Hub 01
 Fixes Cloud Formation and Pressure
 Respect magazine_well when calculating encumbrance
+Nobody wants to cooperate with psychopaths
+Zombie corpses aren't useful
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them

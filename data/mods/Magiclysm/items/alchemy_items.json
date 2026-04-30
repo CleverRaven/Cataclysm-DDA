@@ -155,12 +155,7 @@
     "material": [ "glass" ],
     "symbol": ",",
     "color": "light_blue",
-    "use_action": {
-      "target": "glow_light_off",
-      "msg": "You close the nightlight's cover.",
-      "menu_text": "Close cover",
-      "type": "transform"
-    },
+    "use_action": { "target": "glow_light_off", "msg": "You close the lamp's cover.", "menu_text": "Close cover", "type": "transform" },
     "light": 5,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
@@ -176,7 +171,7 @@
     "material": [ "glass" ],
     "symbol": ",",
     "color": "light_blue",
-    "use_action": { "target": "glow_light", "msg": "You open the nightlight's cover.", "menu_text": "Open cover", "type": "transform" },
+    "use_action": { "target": "glow_light", "msg": "You open the lamp's cover.", "menu_text": "Open cover", "type": "transform" },
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {

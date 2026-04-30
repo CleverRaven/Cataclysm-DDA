@@ -860,7 +860,7 @@
     "active": true,
     "starts_active": true,
     "vitamin_cost": 210,
-    "cancels": [ "ELFA_NV", "ELFA_FNV" ]
+    "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "CEPH_VISION" ]
   },
   {
     "type": "mutation",
@@ -875,7 +875,7 @@
     "active": true,
     "starts_active": true,
     "vitamin_cost": 190,
-    "cancels": [ "ELFA_NV", "ELFA_FNV" ]
+    "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "CEPH_VISION" ]
   },
   {
     "type": "mutation",
@@ -890,7 +890,7 @@
     "active": true,
     "starts_active": true,
     "vitamin_cost": 210,
-    "cancels": [ "ELFA_NV", "ELFA_FNV" ]
+    "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "CEPH_VISION" ]
   },
   {
     "type": "mutation",
@@ -3891,6 +3891,7 @@
     "threshreq": [ "THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME" ],
     "points": 3,
     "vitamin_cost": 160,
+    "purifiable": false,
     "flags": [ "ACID_IMMUNE", "IRRITANT_IMMUNE" ]
   },
   {
@@ -3904,6 +3905,7 @@
     "threshreq": [ "THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME" ],
     "points": 4,
     "vitamin_cost": 160,
+    "purifiable": false,
     "flags": [ "ACIDBLOOD" ]
   },
   {
@@ -5725,7 +5727,8 @@
     "active": true,
     "starts_active": true,
     "vitamin_cost": 160,
-    "flags": [ "HIGH_GLARE" ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_ceph" } ] } ],
+    "cancels": [ "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3" ]
   },
   {
     "type": "mutation",

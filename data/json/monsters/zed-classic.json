@@ -192,7 +192,7 @@
     "melee_dice_sides": 2,
     "grab_strength": 15,
     "fungalize_into": "mon_zombie_rot_dusted",
-    "upgrades": { "half_life": 172, "into": "mon_devourer" },
+    "upgrades": { "half_life": 172, "into_group": "GROUP_ZOMBIE_DECAYED_UPGRADE" },
     "extend": { "flags": [ "GEN_DORMANT", "CLUMSY_ATTACKS" ] }
   },
   {

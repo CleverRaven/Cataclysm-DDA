@@ -8601,5 +8601,36 @@
       "CEPH_EYES",
       "CEPH_VISION"
     ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_chiropteran",
+    "name": "Chiropteran Mutant",
+    "description": "When power flickered, you didn't mind the dark.  But mutants down here don't make for a great community, and you yearn to see the night-sky.",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "DEX_UP_2",
+      "FANGS",
+      "BATEARS",
+      "LEAFNOSE",
+      "SOCIAL1",
+      "LIGHTFUR",
+      "LIGHT_BONES",
+      "SOCIAL2",
+      "HEMOVORE",
+      "ARMS_BAT",
+      "TROGLO",
+      "MESOPIC",
+      "ANTIWHEAT",
+      "UGLY"
+    ]
   }
 ]

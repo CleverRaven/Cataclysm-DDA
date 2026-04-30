@@ -463,6 +463,12 @@ void Character::randomize( const bool random_scenario, bool play_now )
     zero_all_skills();
 
     init_age = rng( this->prof->age_lower, this->prof->age_upper );
+    // random NPCs have a special minimum age
+    if( init_age < NPC_RAND_AGE_MIN ) {
+        init_age = NPC_RAND_AGE_MIN ;
+    }
+
+
     starting_city = std::nullopt;
     world_origin = std::nullopt;
     random_start_location = true;
@@ -755,6 +761,9 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     switch( type ) {
         case character_type::CUSTOM:
+            if( !get_option<std::string>( "DEF_CHAR_NAME" ).empty() ) {
+                name = get_option<std::string>( "DEF_CHAR_NAME" );
+            }
             randomize_cosmetics();
             break;
         case character_type::RANDOM:
@@ -3474,7 +3483,8 @@ bool character_creator_ui::handle_action( const std::string &action )
         if( !you.blood_rh_factor ) {
             you.blood_rh_factor = true;
         } else {
-            if( static_cast<blood_type>( static_cast<int>( you.my_blood_type ) + 1 ) != blood_type::num_bt ) {
+            if( static_cast<blood_type>( static_cast<int>( you.my_blood_type ) + 1 ) <
+                blood_type::blood_acid ) {
                 you.my_blood_type = static_cast<blood_type>( static_cast<int>( you.my_blood_type ) + 1 );
                 you.blood_rh_factor = false;
             } else {

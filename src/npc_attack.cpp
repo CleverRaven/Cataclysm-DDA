@@ -475,12 +475,13 @@ void npc_attack_gun::use( npc &source, const tripoint_bub_ms &location ) const
         return;
     }
 
-    const int dist = rl_dist( source.pos_bub(), location );
+    const Target_attributes target( source.pos_bub(), location );
+    const aim_mods_cache aim_cache = source.gen_aim_mods_cache( gun );
 
     // Only aim if we aren't in risk of being hit
     // TODO: Get distance to closest enemy
-    if( dist > 1 && source.aim_per_move( gun, source.recoil ) > 0 &&
-        source.confident_gun_mode_range( gunmode, source.recoil ) < dist ) {
+    if( target.range > 1 && source.aim_per_move( gun, source.recoil, target, aim_cache ) > 0 &&
+        source.confident_gun_mode_range( gunmode, source.recoil ) < target.range ) {
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is aiming", source.disp_name() );
         source.aim( Target_attributes( source.pos_bub(), location ) );
     } else {

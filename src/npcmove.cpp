@@ -296,7 +296,7 @@ decision_category bt_goal_to_category( const std::string &goal )
         goal == "start_fire" || goal == "seek_warmth" ) {
         return decision_category::needs;
     }
-    if( goal == "follow_player" ) {
+    if( goal == "follow_player" || goal == "follow_embarked" ) {
         return decision_category::follow;
     }
     if( goal == "goto_ordered_position" ) {
@@ -483,7 +483,7 @@ tripoint_bub_ms npc::good_escape_direction( bool include_pos )
     } else if( path.empty() && run_to_friend && is_player_ally() ) {
         Character &player_character = get_player_character();
         int dist = rl_dist( pos_bub(), player_character.pos_bub() );
-        int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
+        int def_radius = desired_follow_radius();
         if( dist > def_radius ) {
             add_msg_debug( debugmode::DF_NPC_MOVEAI,
                            "<color_light_gray>%s is repositioning closer to</color> you", name );
@@ -887,7 +887,7 @@ void npc::assess_danger()
     float highest_priority = 1.0f;
     int hostile_count = 0; // for tallying nearby threatening enemies
     int friendly_count = 1; // count yourself as a friendly
-    int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
+    int def_radius = desired_follow_radius();
     bool npc_ranged = get_wielded_item() && get_wielded_item()->is_gun();
 
     if( !confident_range_cache ) {
@@ -908,7 +908,7 @@ void npc::assess_danger()
     }
 
     Character &player_character = get_player_character();
-    bool sees_player = sees( here, player_character.pos_bub( here ) );
+    bool sees_player = sees( here, player_character );
     const bool self_defense_only = rules.engagement == combat_engagement::NO_MOVE ||
                                    rules.engagement == combat_engagement::NONE;
     const bool no_fighting = rules.has_flag( ally_rule::forbid_engage );
@@ -1360,7 +1360,7 @@ void npc::act_on_danger_assessment()
                 if( !is_player_ally() ) {
                     set_attitude( NPCATT_FLEE_TEMP );
                 }
-                if( mem_combat.panic > 5 && is_player_ally() && sees( here, player_character.pos_bub( here ) ) ) {
+                if( mem_combat.panic > 5 && is_player_ally() && sees( here, player_character ) ) {
                     // consider warning player about panic
                     int panic_alert = rl_dist( pos_bub(), player_character.pos_bub() ) - player_character.get_per();
                     if( mem_combat.panic - personality.bravery > panic_alert ) {
@@ -1727,6 +1727,8 @@ void npc::move()
                     if( !completed_goal ) {
                         completed_goal = ( new_goal != "follow_player" );
                     }
+                } else if( committed == "follow_embarked" ) {
+                    completed_goal = ( new_goal != "follow_embarked" );
                 } else if( committed == "goto_ordered_position" ) {
                     completed_goal = !goto_to_this_pos || pos_abs() == *goto_to_this_pos;
                     if( !completed_goal ) {
@@ -1854,10 +1856,17 @@ void npc::move()
                 action = npc_return_to_guard_pos;
             } else if( new_goal == "follow_player" ) {
                 action = npc_follow_player;
+            } else if( new_goal == "follow_embarked" ) {
+                action = npc_follow_embarked;
+                path.clear();
             } else if( new_goal == "goto_ordered_position" ) {
                 action = npc_goto_to_this_pos;
             } else if( new_goal == "hold_position" ) {
                 action = address_needs( NPC_DANGER_VERY_LOW + 1 );
+                if( action == npc_undecided ) {
+                    // Otherwise legacy cascade overrides BT's duty decision.
+                    action = npc_pause;
+                }
             } else if( new_goal == "camp_work" ) {
                 last_job_scan = calendar::turn;
                 if( find_job_to_perform() ) {
@@ -1882,6 +1891,9 @@ void npc::move()
                     // Only for NPCs actively on guard mission, not NPCs
                     // with stale guard_pos from a previous assignment.
                     action = address_needs( NPC_DANGER_VERY_LOW + 1 );
+                    if( action == npc_undecided ) {
+                        action = npc_pause;
+                    }
                 } else if( ai_cache.guard_pos && !guard_pos ) {
                     // Temp anchor (sound investigation): return to origin.
                     // Excluded when guard_pos is set -- that means
@@ -1946,23 +1958,6 @@ void npc::move()
             action = address_player();
             print_action( "address_player %s", action );
         }
-    }
-
-    if( action == npc_undecided && is_walking_with() && goto_to_this_pos &&
-        !has_flag( json_flag_CANNOT_MOVE ) ) {
-        action = npc_goto_to_this_pos;
-    }
-
-    // check if in vehicle before doing any other follow activities
-    if( action == npc_undecided && is_walking_with() && player_character.in_vehicle &&
-        !in_vehicle ) {
-        action = npc_follow_embarked;
-        path.clear();
-    }
-
-    if( action == npc_undecided && should_follow_close() &&
-        rl_dist( pos_bub(), player_character.pos_bub() ) > follow_distance() ) {
-        action = npc_follow_player;
     }
 
     if( action == npc_undecided && attitude == NPCATT_ACTIVITY && !has_flag( json_flag_CANNOT_MOVE ) ) {
@@ -2034,16 +2029,9 @@ void npc::move()
             action = npc_pause;
         }
 
-        // check if in vehicle before rushing off to fetch things
-        if( is_walking_with() && player_character.in_vehicle && !has_flag( json_flag_CANNOT_MOVE ) ) {
-            action = npc_follow_embarked;
-            path.clear();
-        } else if( fetching_item ) {
+        if( fetching_item ) {
             // Set to true if find_item() found something
             action = npc_pickup;
-        } else if( is_following() && !has_flag( json_flag_CANNOT_MOVE ) ) {
-            // No items, so follow the player?
-            action = npc_follow_player;
         }
         // Friendly NPCs who are followers/ doing tasks for the player should never get here.
         // This will revert them to a dynamic NPC state.
@@ -2054,21 +2042,41 @@ void npc::move()
         }
     }
 
-    /* Sometimes we'll be following the player at this point, but close enough that
-     * "following" means standing still.  If that's the case, if there are any
-     * monsters around, we should attack them after all!
-     *
-     * If we are following a embarked player and we are in a vehicle then shoot anyway
-     * as we are most likely riding shotgun
+    /* Idle follower (close-follow standing still, or riding shotgun in the
+     * player's vehicle) should engage nearby targets instead of standing
+     * around. Gate on passive actions so flee / heal / escape decisions
+     * taken earlier this turn are not overridden.
      */
+    const auto is_passive_follow_action = []( npc_action a ) {
+        switch( a ) {
+            case npc_undecided:
+            case npc_pause:
+            case npc_noop:
+            case npc_follow_player:
+            case npc_follow_embarked:
+                return true;
+            default:
+                return false;
+        }
+    };
     if( ai_cache.danger > 0 && target != nullptr &&
-        (
-            ( action == npc_follow_embarked && in_vehicle ) ||
-            ( action == npc_follow_player &&
-              ( rl_dist( pos_bub(), player_character.pos_bub() ) <= follow_distance() ||
-                posz() != player_character.posz() ) )
-        ) && !has_flag( json_flag_CANNOT_ATTACK ) ) {
-        action = method_of_attack();
+        is_passive_follow_action( action ) && !has_flag( json_flag_CANNOT_ATTACK ) ) {
+        bool engage = false;
+        if( player_character.in_vehicle && in_vehicle && is_walking_with() ) {
+            // Both must occupy the same vehicle; player in a different vehicle
+            // does not justify forcing combat.
+            const optional_vpart_position pvp = here.veh_at( player_character.pos_bub() );
+            const optional_vpart_position nvp = here.veh_at( pos_bub() );
+            engage = pvp && nvp && &pvp->vehicle() == &nvp->vehicle();
+        } else if( !player_character.in_vehicle && is_following() ) {
+            // is_following() excludes LEAD: leaders do not get pulled into
+            // close-follow combat. follow_distance() is the rule-driven radius.
+            engage = rl_dist( pos_bub(), player_character.pos_bub() ) <= follow_distance() ||
+                     posz() != player_character.posz();
+        }
+        if( engage ) {
+            action = method_of_attack();
+        }
     }
 
     add_msg_debug( debugmode::DF_NPC, "%s chose action %s.", get_name(), npc_action_name( action ) );
@@ -2367,6 +2375,12 @@ void npc::execute_action( npc_action action )
                 break;
             }
             vehicle *const veh = &vp->vehicle();
+            // Defensive: BT predicate may have committed embark on a parked
+            // vehicle that started moving before this action ran. Wait.
+            if( veh->velocity != 0 ) {
+                move_pause();
+                break;
+            }
 
             // Try to find the last destination
             // This is mount point, not actual position
@@ -3530,15 +3544,16 @@ bool npc::enough_time_to_reload( const item &gun ) const
 void npc::aim( const Target_attributes &target_attributes )
 {
     const item_location weapon = get_wielded_item();
-    double aim_amount = weapon ? aim_per_move( *weapon, recoil ) : 0.0;
     const aim_mods_cache aim_cache = gen_aim_mods_cache( *weapon );
     int hold_moves = moves;
     double hold_recoil = recoil;
-    while( aim_amount > 0 && recoil > 0 && moves > 0 ) {
+    while( recoil > 0 && moves > 0 ) {
+        const double aim_amount = aim_per_move( *weapon, recoil, target_attributes, aim_cache );
+        if( aim_amount <= MIN_RECOIL_IMPROVEMENT ) {
+            break;
+        }
         moves--;
-        recoil -= aim_amount;
-        recoil = std::max( 0.0, recoil );
-        aim_amount = aim_per_move( *weapon, recoil, target_attributes, { std::ref( aim_cache ) } );
+        recoil = std::max( 0.0, recoil - aim_amount );
     }
     add_msg_debug( debugmode::debug_filter::DF_NPC_COMBATAI,
                    "%s reduced recoil from %f to %f in %d moves",

@@ -446,7 +446,7 @@
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
-      "msg": "You turn the wizard cane on.",
+      "msg": "You turn on the %s.",
       "target": "wizard_cane_cheap_on",
       "need_charges": 1,
       "need_charges_msg": "The batteries are dead."
@@ -474,7 +474,7 @@
     "use_action": {
       "menu_text": "Turn off",
       "type": "transform",
-      "msg": "You turn the wizard cane off.",
+      "msg": "You turn off the %s.",
       "target": "wizard_cane_cheap",
       "ammo_scale": 0
     },
@@ -499,7 +499,7 @@
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
-      "msg": "You turn the wizard cane on.",
+      "msg": "You turn on the %s.",
       "target": "wizard_cane_on",
       "need_charges": 1,
       "need_charges_msg": "The batteries are dead."
@@ -527,7 +527,7 @@
     "use_action": {
       "menu_text": "Turn off",
       "type": "transform",
-      "msg": "You turn the wizard cane off.",
+      "msg": "You turn off the %s.",
       "target": "wizard_cane",
       "ammo_scale": 0
     },
@@ -1644,7 +1644,7 @@
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
     "weapon_category": [ "BATONS" ],
-    "use_action": { "menu_text": "Retract", "type": "transform", "target": "PR24-retracted", "msg": "You collapse your PR-24 baton." },
+    "use_action": { "menu_text": "Retract", "type": "transform", "target": "PR24-retracted", "msg": "You collapse your baton." },
     "volume": "2 L",
     "longest_side": "60 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
@@ -1664,7 +1664,7 @@
     "material": [ "aluminum", "plastic" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
-    "use_action": { "menu_text": "Extend", "type": "transform", "target": "PR24-extended", "msg": "You snap open your PR-24 baton." },
+    "use_action": { "menu_text": "Extend", "type": "transform", "target": "PR24-extended", "msg": "You snap open your baton." },
     "volume": "1 L",
     "longest_side": "20 cm",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },

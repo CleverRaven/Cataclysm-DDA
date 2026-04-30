@@ -421,31 +421,31 @@
     "type": "tool_quality",
     "id": "GUN",
     "//": "A catchall for firearms so they can be used in practice recipes.",
-    "name": { "str": "gun" }
+    "name": { "str": "firearm practice" }
   },
   {
     "type": "tool_quality",
     "id": "RIFLE",
     "//": "A catchall for firearms so they can be used in practice recipes.",
-    "name": { "str": "rifle" }
+    "name": { "str": "rifle practice" }
   },
   {
     "type": "tool_quality",
     "id": "SHOTGUN",
     "//": "A catchall for firearms so they can be used in practice recipes.",
-    "name": { "str": "shotgun" }
+    "name": { "str": "shotgun practice" }
   },
   {
     "type": "tool_quality",
     "id": "SMG",
     "//": "A catchall for firearms so they can be used in practice recipes.",
-    "name": { "str": "smg" }
+    "name": { "str": "submachinegun practice" }
   },
   {
     "type": "tool_quality",
     "id": "PISTOL",
     "//": "A catchall for firearms so they can be used in practice recipes.",
-    "name": { "str": "pistol" }
+    "name": { "str": "pistol practice" }
   },
   {
     "type": "tool_quality",

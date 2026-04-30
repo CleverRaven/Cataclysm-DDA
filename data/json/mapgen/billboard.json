@@ -4,6 +4,7 @@
     "om_terrain": [ "billboard_0" ],
     "object": {
       "predecessor_mapgen": "field",
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN" ],
       "rows": [
         "                        ",
         "                        ",

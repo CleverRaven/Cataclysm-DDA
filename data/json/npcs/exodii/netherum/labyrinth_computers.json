@@ -263,5 +263,18 @@
       { "text": "Yes.", "effect": { "run_eocs": "EOC_LS_mission_boiler_teleport_to_safehouse" }, "topic": "TALK_DONE" },
       { "text": "No.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Water_Cooler_Exit_Controls",
+    "dynamic_line": "&This would almost look like an earthly water cooler, except the base is made up of cobbled together scrap metal, and the tank is a clouded fishbowl of green liquid.  Where the tap would be is a thin, sharp spike, feeding a dribble-tube that vanishes into the tank.  As you approach, some lights flicker, and a beam of light from some unseen projector casts an image upon the bulbous tank.\n\n\n\u00A0\u00A0▄▄▄\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0██▓\u00A0\u00A0▄▄▄█████▓\u00A0▄▄▄\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0██▀███\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0▒█████\u00A0\u00A0\u00A0\u00A0██████\u00A0\n▒████▄\u00A0\u00A0\u00A0\u00A0▓██▒\u00A0\u00A0▓\u00A0\u00A0██▒\u00A0▓▒▒████▄\u00A0\u00A0\u00A0\u00A0▓██\u00A0▒\u00A0██▒\u00A0\u00A0\u00A0▒██▒\u00A0\u00A0██▒▒██\u00A0\u00A0\u00A0\u00A0▒\u00A0\n▒██\u00A0\u00A0▀█▄\u00A0\u00A0▒██░\u00A0\u00A0▒\u00A0▓██░\u00A0▒░▒██\u00A0\u00A0▀█▄\u00A0\u00A0▓██\u00A0░▄█\u00A0▒\u00A0\u00A0\u00A0▒██░\u00A0\u00A0██▒░\u00A0▓██▄\u00A0\u00A0\u00A0\n░██▄▄▄▄██\u00A0▒██░\u00A0\u00A0░\u00A0▓██▓\u00A0░\u00A0░██▄▄▄▄██\u00A0▒██▀▀█▄\u00A0\u00A0\u00A0\u00A0\u00A0▒██\u00A0\u00A0\u00A0██░\u00A0\u00A0▒\u00A0\u00A0\u00A0██▒\n\u00A0▓█\u00A0\u00A0\u00A0▓██▒░██████▒▒██▒\u00A0░\u00A0\u00A0▓█\u00A0\u00A0\u00A0▓██▒░██▓\u00A0▒██▒\u00A0\u00A0\u00A0░\u00A0████▓▒░▒██████▒▒\n\u00A0▒▒\u00A0\u00A0\u00A0▓▒█░░\u00A0▒░▓\u00A0\u00A0░▒\u00A0░░\u00A0\u00A0\u00A0\u00A0▒▒\u00A0\u00A0\u00A0▓▒█░░\u00A0▒▓\u00A0░▒▓░\u00A0\u00A0\u00A0░\u00A0▒░▒░▒░\u00A0▒\u00A0▒▓▒\u00A0▒\u00A0░\n\u00A0\u00A0▒\u00A0\u00A0\u00A0▒▒\u00A0░░\u00A0░\u00A0▒\u00A0\u00A0░\u00A0\u00A0░\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0▒\u00A0\u00A0\u00A0▒▒\u00A0░\u00A0\u00A0░▒\u00A0░\u00A0▒░\u00A0\u00A0\u00A0\u00A0\u00A0░\u00A0▒\u00A0▒░\u00A0░\u00A0░▒\u00A0\u00A0░\u00A0░\n\u00A0\u00A0░\u00A0\u00A0\u00A0▒\u00A0\u00A0\u00A0\u00A0\u00A0░\u00A0░\u00A0\u00A0\u00A0░\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0░\u00A0\u00A0\u00A0▒\u00A0\u00A0\u00A0\u00A0\u00A0░░\u00A0\u00A0\u00A0░\u00A0\u00A0\u00A0\u00A0░\u00A0░\u00A0░\u00A0▒\u00A0\u00A0░\u00A0\u00A0░\u00A0\u00A0░\u00A0\u00A0\n\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0░\u00A0\u00A0░\u00A0\u00A0\u00A0\u00A0░\u00A0\u00A0░\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0░\u00A0\u00A0░\u00A0\u00A0\u00A0░\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0░\u00A0░\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0░\u00A0\u00A0\n\n @AltarOS > Bringing us here is a great service hᵤmₐn.  A blood tax is required to attune the object, and return it to your home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ.",
+    "responses": [
+      {
+        "text": "Prick your hand upon the metal spike.",
+        "effect": { "run_eocs": "EOC_LS_mission_water_cooler_teleport_to_safehouse" },
+        "topic": "TALK_DONE"
+      },
+      { "text": "Step away.", "topic": "TALK_DONE" }
+    ]
   }
 ]

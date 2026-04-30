@@ -127,7 +127,7 @@
       "target": "kelvinist_booster_1_active",
       "msg": "You light the candle.",
       "need_fire": 1,
-      "menu_text": "Light",
+      "menu_text": { "str": "Light", "ctxt": "verb" },
       "type": "transform"
     },
     "flags": [ "BURNOUT", "NO_RELOAD", "NO_UNLOAD" ]
@@ -173,6 +173,7 @@
     "charges_per_use": 1,
     "use_action": {
       "target": "kelvinist_booster_2_active",
+      "menu_text": { "str": "Light", "ctxt": "verb" },
       "msg": "You light the lamp.",
       "need_fire": 1,
       "need_charges": 1,
@@ -198,7 +199,7 @@
         "ammo_scale": 0,
         "target": "kelvinist_booster_2",
         "msg": "The lamp is extinguished.",
-        "menu_text": "Turn off",
+        "menu_text": "Extinguish",
         "type": "transform"
       },
       { "type": "firestarter", "moves": 100 }

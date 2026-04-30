@@ -390,7 +390,7 @@
     "dynamic_line": "Have you seen mi-go architecture?  They make these living, organic structures out of resin.  Kind of cool.  And disturbing, I guess.  Of course, they'll cut you to pieces if you gawk at it too long.  I'll mark the location of one of these places on your map for one denarius.  I heard a story, not sure if it was true, but allegedly one guy tried to use the mi-go building resin as armor.  Apparently, it bore into the poor guy's flesh!  Like lichen!  His friends tried to tear it off, but it wouldn't bulge.  He was in so much pain they decided to put him out of his misery.  But they couldn't do it, because the armor was too good!  So I guess that in a sense it worked.  Heh.  The mental image still keeps me awake at night, occasionally.  And now you have it too.  You're welcome.",
     "responses": [
       {
-        "text": "Uh sure.  Thanks?  It's a deal.",
+        "text": "Uh, sure.  Thanks?  It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
         "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_MI_GO_ENCAMPMENT" }, { "u_consume_item": "denarius" } ]
@@ -407,7 +407,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_MI_GO_TOWER",
     "type": "talk_topic",
-    "dynamic_line": "The mi-go seem to abduct humans and animals for some alien purpose, and then build these towers for their spaceships to dock with to move the prisoners of-world.  Did I mention they have space ships?  Well, I've never actually seen one dock with a tower, but still.  I'll mark such a tower on your map for one denarius.",
+    "dynamic_line": "The mi-go seem to abduct humans and animals for some alien purpose, and then build these towers for their spaceships to dock with to move the prisoners off-world.  Did I mention they have space ships?  Well, I've never actually seen one dock with a tower, but still.  I'll mark such a tower on your map for one denarius.",
     "responses": [
       {
         "text": "It's a deal.",
@@ -882,7 +882,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_GOD",
     "type": "talk_topic",
-    "dynamic_line": "Valzain is over at the entrance of the forge, selling overpriced magical knick-knacks.  Or perhaps there was something else you had in mind?",
+    "dynamic_line": "Valzain is in the back, down in the vault, selling overpriced magical knick-knacks.  Or perhaps there was something else you had in mind?",
     "responses": [
       { "text": "Another forge?", "topic": "TALK_FORGE_LORD_DIVINER_OTHER_FORGE" },
       { "text": "A Lovecraftian horror.", "topic": "TALK_FORGE_LORD_DIVINER_LOVECRAFTIAN" },
@@ -894,20 +894,33 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_OTHER_FORGE",
     "type": "talk_topic",
-    "dynamic_line": "There is only one Forge of Wonders, it's not like this is a multidimensional franchise opportunity.",
+    "dynamic_line": "There is only one Forge of Wonders.  It's not like this is a multidimensional franchise opportunity.",
     "responses": [ { "text": "About something else…", "topic": "TALK_NONE" }, { "text": "Nevermind.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_FORGE_LORD_DIVINER_LOVECRAFTIAN",
     "type": "talk_topic",
-    "dynamic_line": "There are these city-sized creatures called Void Leviathans that lives in the vast nether regions between realities.  Sometimes they used to wash up onto Earths that had recently had a Cataclysm.  Caused all kinds of trouble, they did, so Valzain made it so they would spawn underground instead.  But I haven't seen any of them in quite a while.  Perhaps they retreated deeper into the empty parts of the nether?  Sorry, I haven't seen any in this reality yet.  I can't help you.",
-    "//": "This is for if nether_monster_corpse gets implemented.",
-    "responses": [ { "text": "About something else…", "topic": "TALK_NONE" }, { "text": "Nevermind.", "topic": "TALK_DONE" } ]
+    "dynamic_line": "There are these city-sized creatures called Void Leviathans that live in the vast nether regions between realities.  Sometimes they used to wash up onto Earths that had recently had a Cataclysm.  Caused all kinds of trouble, they did, so Valzain made it so they would spawn underground instead.  I can mark the marooned corpse of one such creature on your map for one denarius.",
+    "responses": [
+      {
+        "text": "It's a deal.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_item": "denarius" },
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_LOVECRAFTIAN" }, { "u_consume_item": "denarius" } ]
+      },
+      {
+        "text": "I can't afford that right now.",
+        "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
+        "condition": { "not": { "u_has_item": "denarius" } }
+      },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "TALK_FORGE_LORD_DIVINER_MALIGNANCE",
     "type": "talk_topic",
-    "dynamic_line": "The Malignance is the cause for much of our woes.  It is the force animating the zombies.  It is responsible for the portal storms, and it seems to be absolutely bursting with hate.  Valzain theorizes that it used to be a fundamental force of nature or perhaps a school of magic that somehow grew conscious, or perhaps had a consciousness imposed on it. Allegedly, the Mi-Go speak of a time before it existed, or perhaps a time in which it wasn't so dangerous.  By now, it is everywhere on Earth.  As far as I can tell, it builds no structures and has no bases of operation, so there is no place I can point you towards.  Sorry.",
+    "dynamic_line": "The Malignance is the cause for much of our woes.  It is the force animating the zombies.  It is responsible for the portal storms, and it seems to be absolutely bursting with hate.  Valzain theorizes that it used to be a fundamental force of nature or perhaps a school of magic that somehow grew conscious, or perhaps had a consciousness imposed on it.  Allegedly, the Mi-Go speak of a time before it existed, or perhaps a time in which it wasn't so dangerous.  By now, it is everywhere on Earth.  As far as I can tell, it builds no structures and has no bases of operation, so there is no place I can point you towards.  Sorry.",
     "responses": [ { "text": "About something else…", "topic": "TALK_NONE" }, { "text": "Nevermind.", "topic": "TALK_DONE" } ]
   }
 ]

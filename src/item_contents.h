@@ -172,6 +172,10 @@ class item_contents
         std::vector<item *> efiles();
         std::vector<const item *> efiles() const;
 
+        // Sum of ememory_size() across all efiles. Avoids the heap-allocated
+        // intermediate containers that efiles() builds, on the stacking hot path.
+        units::ememory occupied_ememory() const;
+
         std::vector<item *> cables();
         std::vector<const item *> cables() const;
 

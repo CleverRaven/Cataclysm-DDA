@@ -99,12 +99,12 @@
     "id": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro_how",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Getting there is tricky, but easier than moving a castle.  They're less expensive and dangerous than a whole jump, which itself is curious.  Downstiars is a metal ring with a terminal - I wrote the messages, so you'll understand it.  We'll consider you a volunteer who wants to scout the place out.  It's good for both of us.  You're free to use it.  Your first time will leave you dizzy, but it'll pass if you're tough.",
-      "str": "Gettin' there a mite tricky, but not so tangled as jumpin' this whole castle.  They're less dear to go to an' fro, so t'speak, which is odd itself, I s'pose.\n\nDown below, ye'll find a ring o' metal, wi' a terminal us'n has just set up.  Ol' Rubik set the words by hand, in preparation, so ye should ken it well enough.  Ye'll be a free - a volunteer to escolt it.  Good for you, good for we - more metal for you, and sell extras to we, aye?  Ye're free to go an' make use of it.\n\nFirst time'll leave ya' addled, though, spin o' the boat race.  If ye've the grit, passes quick enough."
+      "//~": "Getting there is tricky, but easier than moving a castle.  They're less expensive and dangerous than a whole jump, which itself is curious.  Downstairs is a metal ring with a terminal - I wrote the messages, so you'll understand it.  We'll consider you a volunteer who wants to scout the place out.  It's good for both of us.  You're free to use it.  Keep in mind that the teleporter needs to recharge for 5 days between jumps.  Your first time will leave you dizzy, but it'll pass if you're tough.",
+      "str": "Gettin' there a mite tricky, but not so tangled as jumpin' this whole castle.  They're less dear to go to an' fro, so t'speak, which is odd itself, I s'pose.\n\nDown below, ye'll find a ring o' metal, wi' a terminal us'n has just set up.  Ol' Rubik set the words by hand, in preparation, so ye should ken it well enough.  Ye'll be a free - a volunteer to escolt it.  Good for you, good for we - more metal for you, and sell extras to we, aye?  Ye're free to go an' make use of it.  Keep mind 'at once you jump, the ring'll need a full five day rest afore it'll take ye again.\n\nFirst time'll leave ya' addled, though, spin o' the boat race.  If ye've the grit, passes quick enough."
     },
     "responses": [
       {
-        "text": "So there's a terminal downstairs?  Just stand on the metal ring and use it?  Sounds too easy.  Sure, thanks Rubik.",
+        "text": "So there's a terminal downstairs?  I can just stand on the metal ring and use the terminal, but only once every five days or so?  Sounds too easy.  Sure, thanks Rubik.",
         "effect": [
           { "u_add_var": "rubik_told_about_labyrinth", "value": "yes" },
           { "assign_mission": "MISSION_EXODII_LABYRINTHS_INTRO" }

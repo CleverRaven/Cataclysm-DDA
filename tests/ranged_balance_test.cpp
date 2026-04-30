@@ -15,6 +15,7 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -193,6 +194,8 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
                                     const int min_good_range, const int max_good_range )
 {
     {
+        aim_mods_cache aim_cache = shooter.gen_aim_mods_cache( *shooter.get_wielded_item() );
+        const Target_attributes target;
         const dispersion_sources dispersion = get_dispersion( shooter, 0, min_quickdraw_range );
         std::vector<firing_statistics> minimum_stats = firing_test( dispersion, min_quickdraw_range, {
             Threshold( accuracy_grazing, 0.2 ),
@@ -200,8 +203,10 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
         } );
         INFO( dispersion );
         INFO( "Range: " << min_quickdraw_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil ) );
+        INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL, target,
+                aim_cache ) );
+        INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil,
+                target, aim_cache ) );
         CAPTURE( shooter.get_modifier( character_modifier_ranged_dispersion_manip_mod ) );
         CAPTURE( minimum_stats[0].n() );
         CAPTURE( minimum_stats[0].margin_of_error() );
@@ -211,26 +216,34 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
         CHECK( minimum_stats[1].avg() < 0.1 );
     }
     {
+        aim_mods_cache aim_cache = shooter.gen_aim_mods_cache( *shooter.get_wielded_item() );
+        const Target_attributes target;
         const dispersion_sources dispersion = get_dispersion( shooter, 300, min_good_range );
         firing_statistics good_stats = firing_test( dispersion, min_good_range, Threshold( accuracy_goodhit,
                                        0.5 ) );
         INFO( dispersion );
         INFO( "Range: " << min_good_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil ) );
+        INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL, target,
+                aim_cache ) );
+        INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil,
+                target, aim_cache ) );
         CAPTURE( shooter.get_modifier( character_modifier_ranged_dispersion_manip_mod ) );
         CAPTURE( good_stats.n() );
         CAPTURE( good_stats.margin_of_error() );
         CHECK( good_stats.avg() > 0.0 );
     }
     {
+        aim_mods_cache aim_cache = shooter.gen_aim_mods_cache( *shooter.get_wielded_item() );
+        const Target_attributes target;
         const dispersion_sources dispersion = get_dispersion( shooter, 500, max_good_range );
         firing_statistics good_stats = firing_test( dispersion, max_good_range, Threshold( accuracy_goodhit,
                                        0.1 ) );
         INFO( dispersion );
         INFO( "Range: " << max_good_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil ) );
+        INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL, target,
+                aim_cache ) );
+        INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil,
+                target, aim_cache ) );
         CAPTURE( shooter.get_modifier( character_modifier_ranged_dispersion_manip_mod ) );
         CAPTURE( good_stats.n() );
         CAPTURE( good_stats.margin_of_error() );
@@ -240,6 +253,8 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
 
 static void test_fast_shooting( npc &shooter, const int moves, float hit_rate )
 {
+    aim_mods_cache aim_cache = shooter.gen_aim_mods_cache( *shooter.get_wielded_item() );
+    const Target_attributes target;
     const int fast_shooting_range = 3;
     const float hit_rate_cap = hit_rate + 0.5f;
     const dispersion_sources dispersion = get_dispersion( shooter, moves, fast_shooting_range );
@@ -249,8 +264,10 @@ static void test_fast_shooting( npc &shooter, const int moves, float hit_rate )
                                          Threshold( accuracy_standard, hit_rate_cap ) );
     INFO( dispersion );
     INFO( "Range: " << fast_shooting_range );
-    INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL ) );
-    INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil ) );
+    INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL, target,
+            aim_cache ) );
+    INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil,
+            target, aim_cache ) );
     CAPTURE( shooter.get_modifier( character_modifier_ranged_dispersion_manip_mod ) );
     CAPTURE( shooter.get_wielded_item()->gun_skill().str() );
     CAPTURE( shooter.get_skill_level( shooter.get_wielded_item()->gun_skill() ) );

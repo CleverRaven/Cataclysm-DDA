@@ -117,6 +117,8 @@ static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_wall_wiring( "wall_wiring" );
 
+static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
+
 static const morale_type morale_funeral( "morale_funeral" );
 static const morale_type morale_gravedigger( "morale_gravedigger" );
 
@@ -148,7 +150,6 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
@@ -2261,7 +2262,7 @@ void construct::do_turn_exhume( const tripoint_bub_ms &p, Character &who )
 {
     do_turn_shovel( p, who );
     if( !who.has_morale( morale_gravedigger ) ) {
-        if( who.has_trait( trait_SPIRITUAL ) && !who.has_trait( trait_PSYCHOPATH ) )  {
+        if( who.has_trait( trait_SPIRITUAL ) && !who.has_flag( json_flag_PSYCHOPATH ) )  {
             if( who.query_yn(
                     _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
                 add_msg( m_info, _( "Exhuming a grave is really against your beliefs." ) );
@@ -2272,7 +2273,7 @@ void construct::do_turn_exhume( const tripoint_bub_ms &p, Character &who )
             } else {
                 who.activity.set_to_null();
             }
-        } else if( who.has_trait( trait_PSYCHOPATH ) ) {
+        } else if( who.has_flag( json_flag_PSYCHOPATH ) ) {
             who.add_msg_if_player(
                 m_good, _( "Exhuming a grave is fun now, when there is no one to object." ) );
             who.add_morale( morale_gravedigger, 25, 50, 2_hours, 1_hours );

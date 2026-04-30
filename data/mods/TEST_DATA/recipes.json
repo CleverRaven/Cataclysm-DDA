@@ -54,7 +54,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_articulation" },
-      { "proficiency": "prof_quenching", "skill_penalty": 1 }
+      { "proficiency": "prof_tempering", "skill_penalty": 1 }
     ],
     "components": [ [ [ "2x4", 1 ], [ "pool_cue", 1 ] ] ]
   },

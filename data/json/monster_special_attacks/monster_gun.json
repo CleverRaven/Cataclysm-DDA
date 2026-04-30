@@ -182,6 +182,51 @@
     "melee_damage": { "bash": 2 }
   },
   {
+    "id": "bone_dart_launcher",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "symbol": "%",
+    "color": "red",
+    "name": { "str": "bone dart launching organ", "//~": "NO_I18N" },
+    "description": { "str": "Bone dart launched from a netherum creature.", "//~": "NO_I18N" },
+    "material": [ "cyber_bone" ],
+    "flags": [
+      "PRIMITIVE_RANGED_WEAPON",
+      "PSEUDO",
+      "NEVER_JAMS",
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "WATERPROOF_GUN",
+      "NO_SALVAGE",
+      "NO_UNLOAD",
+      "RELOAD_AND_SHOOT"
+    ],
+    "skill": "throw",
+    "ammo": [ "bone_dart" ],
+    "ammo_effects": [ "NEVER_MISFIRES" ],
+    "clip_size": 1,
+    "weight": "540 g",
+    "volume": "750 ml",
+    "longest_side": "25 cm",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "reload_noise_volume": 2,
+    "loudness": 2,
+    "range": 8,
+    "dispersion": 130,
+    "durability": 8,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "400 kg",
+        "max_item_length": "2000 m",
+        "ammo_restriction": { "bone_dart": 20 }
+      }
+    ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
     "id": "nether_huntsman_arm",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -369,5 +414,39 @@
     "range": 10,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bile": 1000 }, "watertight": true } ],
     "melee_damage": { "bash": 9 }
+  },
+  {
+    "id": "nl_destruction_ray",
+    "copy-from": "v29",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "destruction ray", "//~": "NO_I18N" },
+    "energy_drain": "0 kJ",
+    "ammo_effects": [ "NL_DESTRUCTION_RAY" ],
+    "ranged_damage": { "damage_type": "bash", "amount": 15, "armor_penetration": 10 },
+    "flags": [ "PSEUDO", "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
+  },
+  {
+    "id": "nl_turret_chem_thrower",
+    "copy-from": "v29",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "chem thrower", "//~": "NO_I18N" },
+    "energy_drain": "0 kJ",
+    "ammo_effects": [ "LASER" ],
+    "dispersion": 2000,
+    "ranged_damage": { "damage_type": "acid", "amount": 6, "armor_penetration": 0 },
+    "flags": [ "PSEUDO", "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
+  },
+  {
+    "id": "nl_turret_phase_goo_thrower",
+    "copy-from": "v29",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "phase alternator", "//~": "NO_I18N" },
+    "energy_drain": "0 kJ",
+    "ammo_effects": [ "NL_PHASE_GOO" ],
+    "ranged_damage": { "damage_type": "pure", "amount": 1, "armor_penetration": 0 },
+    "flags": [ "PSEUDO", "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
   }
 ]

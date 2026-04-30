@@ -88,6 +88,28 @@
     "similar_bodypart": "eyes_right"
   },
   {
+    "id": "eyes_ceph_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_ceph",
+    "side": "left",
+    "opposite": "eyes_ceph_right",
+    "name_multiple": "eyes",
+    "name": "left eye",
+    "similar_bodypart": "eyes_left"
+  },
+  {
+    "id": "eyes_ceph_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_ceph",
+    "side": "right",
+    "opposite": "eyes_ceph_left",
+    "name_multiple": "eyes",
+    "name": "right eye",
+    "similar_bodypart": "eyes_right"
+  },
+  {
     "id": "muzzle_lips",
     "type": "sub_body_part",
     "max_coverage": 25,

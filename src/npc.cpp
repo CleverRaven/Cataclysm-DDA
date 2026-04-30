@@ -613,8 +613,7 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     male = one_in( 2 );
     pick_name();
     randomize_height();
-    // Normally 16-55, but potential violence towards *underage* NPCs is a more problematic than towards adults.
-    set_base_age( rng( 18, 55 ) );
+    set_base_age( rng( NPC_RAND_AGE_MIN, NPC_RAND_AGE_MAX ) );
     int str_base = dice( 4, 3 );
     int dex_base = dice( 4, 3 );
     int int_base = dice( 4, 3 );
@@ -2039,7 +2038,7 @@ int npc::indoor_voice() const
     const int distance_to_player = rl_dist( pos_abs(), player.pos_abs() );
     if( is_following() || is_ally( player ) ) {
         wanted_volume = distance_to_player;
-    } else if( is_enemy() && sees( here, player.pos_bub( here ) ) ) {
+    } else if( is_enemy() && sees( here, player ) ) {
         // Battle cry! Bandits have no concept of indoor voice, even when not threatened.
         wanted_volume = max_volume;
     }
@@ -2691,12 +2690,9 @@ bool npc::is_walking_with() const
     return attitude == NPCATT_FOLLOW || attitude == NPCATT_LEAD || attitude == NPCATT_WAIT;
 }
 
-bool npc::should_follow_close() const
+bool npc::can_follow_player_now() const
 {
     if( !is_following() ) {
-        return false;
-    }
-    if( !rules.has_flag( ally_rule::follow_close ) ) {
         return false;
     }
     if( has_flag( json_flag_CANNOT_MOVE ) ) {
@@ -2710,6 +2706,11 @@ bool npc::should_follow_close() const
         return false;
     }
     return true;
+}
+
+int npc::desired_follow_radius() const
+{
+    return rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
 }
 
 bool npc::is_obeying( const Character &p ) const
