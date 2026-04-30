@@ -3623,7 +3623,7 @@ bool npc::is_valid_sleep_candidate( const tripoint_bub_ms &p ) const
     }
     // Only allow allies to sleep in your vehicle
     if( !is_player_ally() ) {
-        const auto vp = here.veh_at( p );
+        const optional_vpart_position vp = here.veh_at( p );
         if( vp && vp->vehicle().is_owned_by( get_player_character() ) ) {
             return false;
         }
