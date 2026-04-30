@@ -390,7 +390,8 @@ void string_input_popup_imgui::use_uilist_history( bool use_uilist )
 template<typename T>
 number_input_popup<T>::number_input_popup( int width, T old_value, const std::string &title,
         const point &pos, ImGuiWindowFlags flags ) :
-    input_popup( width, title, pos, flags ),
+    // the 'width + 4' is due to the X icon for close window getting in the way of text
+    input_popup( width + 4, title, pos, flags ),
     value( old_value ),
     old_value( old_value )
 {
