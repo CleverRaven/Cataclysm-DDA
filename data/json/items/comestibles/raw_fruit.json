@@ -269,6 +269,7 @@
     "spoils_in": "3 days",
     "comestible_type": "FOOD",
     "symbol": "%",
+    "use_action": [ "POISON" ],
     "calories": 30,
     "healthy": -1,
     "description": "A small, edible fruit of an otherwise toxic plant.  You should not eat too many of them.",
@@ -278,8 +279,8 @@
     "volume": "20 ml",
     "flags": [ "FORAGE_POISON" ],
     "smoking_result": "dry_fruit",
-    "//": "entire plant contains poison interacting with the central nervous system, but the fruit is edible in small quantities. the effect of the poison is very similar to our mutant_toxin excess, a dedicated toxin just for this would be a waste of time and resources.",
-    "vitamins": [ [ "vitC", 3 ], [ "mutant_toxin", 15 ], [ "fruit_allergen", 1 ] ]
+    "//": "entire plant contains poison interacting with the central nervous system, but the fruit is edible in small quantities. When nervous toxin will be created it can be added to this fruit",
+    "vitamins": [ [ "vitC", 3 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "ITEM",
