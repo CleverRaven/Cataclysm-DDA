@@ -193,7 +193,7 @@
         "coverage": 8,
         "difficulty": { "melee": 3, "ranged": 4 },
         "coverage_mult": { "broad": 0.5 },
-        "condition": { "npc_has_any_effect": [ "downed" ] }
+        "condition": { "npc_has_any_effect": [ "downed" ] },
         "effects": [
           {
             "effect": "staggered",
@@ -289,7 +289,7 @@
         "coverage": 10,
         "difficulty": { "melee": 3, "ranged": 4 },
         "coverage_mult": { "broad": 0.5 },
-        "condition": { "npc_has_any_effect": [ "downed" ] }
+        "condition": { "npc_has_any_effect": [ "downed" ] },
         "effects": [
           {
             "effect": "staggered",
@@ -385,7 +385,7 @@
         "coverage": 5,
         "difficulty": { "melee": 4, "ranged": 7 },
         "coverage_mult": { "broad": 0.5 },
-        "condition": { "npc_has_any_effect": [ "downed" ] }
+        "condition": { "npc_has_any_effect": [ "downed" ] },
         "effects": [
           {
             "effect": "staggered",
