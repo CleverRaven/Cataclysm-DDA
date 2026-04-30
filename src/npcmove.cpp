@@ -3621,6 +3621,11 @@ bool npc::is_valid_sleep_candidate( const tripoint_bub_ms &p ) const
     if( is_no_go_position( here.get_abs( p ) ) ) {
         return false;
     }
+    if( get_attitude_group( get_attitude() ) == attitude_group::neutral ) {
+        if( here.veh_at( p ) ) {
+            return false;
+        }
+    }
     if( p == pos_bub() ) {
         return true;
     }
