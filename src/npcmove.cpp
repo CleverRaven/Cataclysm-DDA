@@ -3621,8 +3621,10 @@ bool npc::is_valid_sleep_candidate( const tripoint_bub_ms &p ) const
     if( is_no_go_position( here.get_abs( p ) ) ) {
         return false;
     }
-    if( get_attitude_group( get_attitude() ) == attitude_group::neutral ) {
-        if( here.veh_at( p ) ) {
+    // Only allow allies to sleep in your vehicle
+    if( !is_player_ally() ) {
+        const auto vp = here.veh_at( p );
+        if( vp && vp->vehicle().is_owned_by( get_player_character() ) ) {
             return false;
         }
     }
