@@ -5692,5 +5692,23 @@
     "name": [ "" ],
     "desc": [ "" ],
     "max_duration": "2 minutes"
+  },
+  {
+    "id": "nauseating_smell",
+    "type": "effect_type",
+    "name": [ "Nauseating Stench" ],
+    "desc": [ "Something smells unbelievably foul." ],
+    "apply_message": "You are assaulted by one of the most vile smells you've ever smelled.",
+    "remove_message": "The last traces of the foul stench leave your nostrils.",
+    "rating": "bad",
+    "max_duration": 120,
+    "base_mods": {
+      "str_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "speed_mod": [ -10 ],
+      "cough_chance": [ 3 ],
+      "vomit_chance": [ 15 ],
+      "vomit_tick": [ 10 ]
+    }
   }
 ]
