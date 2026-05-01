@@ -8049,9 +8049,10 @@ bool vehicle::explode_fuel( map &here, vehicle_part &vp, const damage_type_id &t
         explosion_handler::explosion( nullptr, bub_part_pos( here, vp ), pow, 0.7, data.fiery_explosion );
         mod_hp( vp, -vp.hp() );
         vp.ammo_unset();
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_type_id &type )
@@ -8070,8 +8071,10 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
         return break_off( here, vp, dmg );
     }
 
-    int tsh = std::min( 20, vpi.durability / 10 );
-    if( dmg < tsh && type != damage_pure ) {
+    // Parts have a minimum threshold to be damaged, durability/10.
+    int dmg_threshold = std::min( VEH_PART_DMG_REDUCTION_FROM_DURABILITY_CAP, vpi.durability / 10 );
+    if( dmg < dmg_threshold && type != damage_pure ) {
+        // Volatile fuel still has a chance to explode.
         if( type == damage_heat && vp.is_fuel_store() ) {
             explode_fuel( here, vp, type );
         }
@@ -8082,7 +8085,7 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
     if( !type->no_resist ) {
         dmg -= std::min<int>( dmg, vpi.damage_reduction.at( type ) );
     }
-    int dres = dmg - vp.hp();
+    int overkill_dmg = dmg - vp.hp();
     if( mod_hp( vp, -dmg ) ) {
         if( is_flyable() && !rotors.empty() && !vpi.has_flag( VPFLAG_SIMPLE_PART ) ) {
             // If we break a part, we can no longer fly the vehicle.
@@ -8145,7 +8148,7 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
         }
     }
 
-    return std::max( dres, 0 );
+    return std::max( overkill_dmg, 0 );
 }
 
 void vehicle::leak_fuel( map &here, vehicle_part &pt ) const
