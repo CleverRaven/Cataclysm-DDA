@@ -39,6 +39,7 @@ faction_template::faction_template()
     lone_wolf_faction = false;
     limited_area_claim = false;
     currency = itype_id::NULL_ID();
+    steal_persist = std::nullopt; // Default ask
 }
 
 faction::faction( const faction_template &templ )

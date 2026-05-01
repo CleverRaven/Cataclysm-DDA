@@ -54,6 +54,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "faction.h"
 #include "fault.h"
 #include "field_type.h"
 #include "flag.h"
@@ -3088,10 +3089,6 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
 
         cancel_pickup( who );
 
-        if( who.get_value( "THIEF_MODE_KEEP" ).str() != "YES" ) {
-            who.set_value( "THIEF_MODE", "THIEF_ASK" );
-        }
-
         if( !keep_going ) {
             // The user canceled the activity, so we're done
             // AIM might have more pickup activities pending, also cancel them.
@@ -5796,9 +5793,6 @@ void consume_activity_actor::finish( player_activity &act, Character & )
             player_character.consume( consume_item, /*force=*/true );
         } else {
             debugmsg( "Item location/name to be consumed should not be null." );
-        }
-        if( player_character.get_value( "THIEF_MODE_KEEP" ).str() != "YES" ) {
-            player_character.set_value( "THIEF_MODE", "THIEF_ASK" );
         }
     }
 
@@ -9458,18 +9452,22 @@ std::unique_ptr<activity_actor> haircut_activity_actor::deserialize( JsonValue &
 static bool check_stealing( Character &who, item &it )
 {
     if( !it.is_owned_by( who, true ) ) {
-        // Has the player given input on if stealing is ok?
-        if( who.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
-            Pickup::query_thief( it );
-        }
-        if( who.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" ) {
-            if( who.get_value( "THIEF_MODE_KEEP" ).str() != "YES" ) {
-                who.set_value( "THIEF_MODE", "THIEF_ASK" );
-            }
+        const std::string thief_mode = who.get_value( "THIEF_MODE" ).str();
+        if( thief_mode == "THIEF_HONEST" ) {
             return false;
+        } else if( thief_mode != "THIEF_STEAL" ) {
+            // Default (THIEF_ASK) - check faction steal_persist
+            faction *owner_fac = g->faction_manager_ptr->get( it.get_owner(), false );
+            if( owner_fac && owner_fac->steal_persist.has_value() ) {
+                if( !*owner_fac->steal_persist ) {
+                    return false; // NEVER
+                }
+                // ALWAYS
+            } else if( !Pickup::query_thief( it ) ) {
+                return false;
+            }
         }
     }
-
     return true;
 }
 

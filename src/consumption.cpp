@@ -32,6 +32,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "faction.h"
 #include "flag.h"
 #include "flat_set.h"
 #include "game.h"
@@ -1907,12 +1908,20 @@ time_duration Character::get_consume_time( const item &it ) const
 static bool query_consume_ownership( item &target, Character &p )
 {
     if( !target.is_owned_by( p, true ) ) {
-        bool choice = true;
-        if( p.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
-            choice = Pickup::query_thief( target );
-        }
-        if( p.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" || !choice ) {
+        const std::string thief_mode = p.get_value( "THIEF_MODE" ).str();
+        if( thief_mode == "THIEF_HONEST" ) {
             return false;
+        } else if( thief_mode != "THIEF_STEAL" ) {
+            // Default (THIEF_ASK) - check faction steal_persist
+            faction *owner_fac = g->faction_manager_ptr->get( target.get_owner(), false );
+            if( owner_fac && owner_fac->steal_persist.has_value() ) {
+                if( !*owner_fac->steal_persist ) {
+                    return false; // NEVER
+                }
+                // ALWAYS
+            } else if( !Pickup::query_thief( target ) ) {
+                return false;
+            }
         }
         g->on_witness_theft( target );
     }
