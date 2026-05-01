@@ -8213,7 +8213,7 @@ void Character::pause()
                                    _( "Your bleeding is beyond staunching barehanded!  A tourniquet might help." ),
                                    _( "<npcname>'s bleeding is beyond staunching barehanded!" ) );
         } else {
-            // 5 - 30 sec per turn (with standard hands)
+            // 5 - 20 sec per turn (with standard hands)
             time_duration benefit = 5_turns + 1_turns * max;
             effect &e = get_effect( effect_bleed, bp_id );
             e.mod_duration( - benefit );
