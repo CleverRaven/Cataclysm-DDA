@@ -17,11 +17,7 @@
     "id": "NC_FORGE_LORD_ALCHEMIST",
     "name": { "str": "Forge Alchemist" },
     "job_description": "I brew potions and alchemical concoctions.",
-    "traits": [
-      { "trait": "VAULT_DEFENDER" },
-      { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" }
-    ],
+    "traits": [ { "trait": "VAULT_DEFENDER" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "//": "This is a unique NPC who doesn't get randomly selected background traits",
     "common": false,
     "bonus_int": { "one_in": 4 },
