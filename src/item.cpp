@@ -3343,23 +3343,12 @@ const material_type &item::get_random_material() const
 
 const material_type &item::get_base_material() const
 {
-    const std::map<material_id, int> &mats = made_of();
-    const material_type *m = &material_id::NULL_ID().obj();
-    int portion = 0;
-    for( const std::pair<const material_id, int> &mat : mats ) {
-        if( mat.second > portion ) {
-            portion = mat.second;
-            m = &mat.first.obj();
-        }
+    // Monsters corpses are made out of what the monster is made of.
+    // Corpses don't usally have specific itypes.
+    if( is_corpse() && get_corpse_mon() ) {
+        return get_corpse_mon()->mat.begin()->first.obj();
     }
-    // Material portions all equal / not specified. Select first material.
-    if( portion == 1 ) {
-        if( is_corpse() ) {
-            return corpse->mat.begin()->first.obj();
-        }
-        return *type->default_mat;
-    }
-    return *m;
+    return type->get_base_material();
 }
 
 bool item::operator<( const item &other ) const

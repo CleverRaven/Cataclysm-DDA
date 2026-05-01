@@ -5365,7 +5365,7 @@ void vehicle::consume_fuel( map &here, int load, bool idling )
         int base_burn = actual_staminaRegen - 3;
         base_burn = std::max( eff_load / 3, base_burn );
         //charge bionics when using muscle engine
-        const item muscle( fuel_type_muscle );
+        static const item muscle( fuel_type_muscle );
         for( const bionic_id &bid : driver->get_bionic_fueled_with_muscle() ) {
             if( driver->has_active_bionic( bid ) ) { // active power gen
                 // more pedaling = more power
@@ -8029,15 +8029,17 @@ int vehicle::break_off( map &here, vehicle_part &vp, int dmg )
 
 bool vehicle::explode_fuel( map &here, vehicle_part &vp, const damage_type_id &type )
 {
-    const itype_id &ft = vp.info().fuel_type;
-    item fuel = item( ft );
-    if( !fuel.has_explosion_data() ) {
+    const itype_id &ft = vp.fuel_current();
+    if( ft.is_null() ) {
         return false;
     }
-    const fuel_explosion_data &data = fuel.get_explosion_data();
-
     if( vp.is_broken() ) {
         leak_fuel( here, vp );
+    }
+
+    const fuel_explosion_data &data = ft->get_explosion_data();
+    if( data.is_empty() ) {
+        return false;
     }
 
     int explosion_chance = type == damage_heat ? data.explosion_chance_hot :

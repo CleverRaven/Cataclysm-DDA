@@ -945,15 +945,6 @@ std::string item::fuel_pump_terrain() const
     return get_base_material().get_fuel_data().pump_terrain;
 }
 
-bool item::has_explosion_data() const
-{
-    return !get_base_material().get_fuel_data().explosion_data.is_empty();
-}
-
-struct fuel_explosion_data item::get_explosion_data() const {
-    return get_base_material().get_fuel_data().explosion_data;
-}
-
 bool item::is_magazine_full() const
 {
     return contents.is_magazine_full();
