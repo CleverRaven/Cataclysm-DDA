@@ -3854,6 +3854,7 @@ void faction::deserialize( const JsonObject &jo )
     jo.read( "known_by_u", known_by_u );
     jo.read( "size", size );
     jo.read( "power", power );
+    jo.read( "steal_persist", steal_persist );
     if( jo.has_int( "food_supply" ) ) {
         int calories;
         // Legacy kcal value found, migrate to calories
@@ -3888,6 +3889,7 @@ void faction::serialize( JsonOut &json ) const
     json.member( "known_by_u", known_by_u );
     json.member( "size", size );
     json.member( "power", power );
+    json.member( "steal_persist", steal_persist );
     // pruned version of the food supply
     cata::list<std::pair<time_point, nutrients>> pruned_food_supply = _food_supply;
     for( auto it = pruned_food_supply.begin(); it != pruned_food_supply.end(); ) {
