@@ -86,8 +86,9 @@
     "id": "NC_FORGE_LORD_STORE_REAGENT",
     "items": [
       { "group": "organic_materials", "count": [ 13, 18 ], "prob": 100 },
-      { "group": "magic_shop_potions", "count": [ 1, 3 ], "prob": 100 },
-      { "group": "potions_common", "count": [ 5, 8 ], "prob": 50 }
+      { "group": "alchemy_monster_loot", "count": [ 1, 3 ], "prob": 100 },
+      { "item": "crystallized_mana", "count": [ 2, 6 ], "prob": 100, "charges": [ 1, 10 ] },
+      { "item": "small_mana_crystal", "count": [ 1, 5 ], "prob": 100, "charges": [ 5, 50 ] }
     ]
   },
   {
