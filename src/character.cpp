@@ -8210,7 +8210,7 @@ void Character::pause()
         if( bp_id == bodypart_str_id::NULL_ID() ) {
             // We're bleeding, but couldn't find any bp we can staunch
             add_msg_player_or_npc( m_warning,
-                                   _( "Your bleeding is beyond staunching barehanded!  A tourniquet might help." ),
+                                   _( "Your bleeding is beyond staunching barehanded!  Bandaging it or using a tourniquet might help." ),
                                    _( "<npcname>'s bleeding is beyond staunching barehanded!" ) );
         } else {
             // 5 - 20 sec per turn (with standard hands)
