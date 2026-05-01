@@ -116,6 +116,11 @@
     "info": "Each boat hull will reduce the draft of your vehicle and increase the height sealed against water.  If the draft is less than the sealed height, your vehicle will float if placed in water."
   },
   {
+    "id": "FRAGILE_COMPONENTS",
+    "type": "json_flag",
+    "info": "Some components of this part are <color_red>fragile</color> and might be damaged even if the part itself isn't."
+  },
+  {
     "id": "FURNITURE_TIEDOWN",
     "type": "json_flag",
     "info": "You can tie down a furniture here."

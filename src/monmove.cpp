@@ -25,6 +25,7 @@
 #include "field.h"
 #include "field_type.h"
 #include "game.h"
+#include "gates.h"
 #include "item.h"
 #include "line.h"
 #include "map.h"
@@ -1269,6 +1270,11 @@ void monster::move()
             // is there an openable door?
             if( can_open_doors &&
                 here.open_door( *this, candidate, !here.is_outside( pos_bub() ), true ) ) {
+                moved = true;
+                next_step = candidate_abs;
+                continue;
+            } else if( can_open_doors && doors::can_unlock_door( here, *this, candidate ) ) {
+                doors::unlock_door( here, *this, candidate );
                 moved = true;
                 next_step = candidate_abs;
                 continue;

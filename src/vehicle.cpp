@@ -103,6 +103,7 @@ static const damage_type_id damage_pure( "pure" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_winded( "winded" );
 
+static const fault_id fault_broken_window( "fault_broken_window" );
 static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
 static const fault_id fault_flat_tire_riding_on_rims( "fault_flat_tire_riding_on_rims" );
 static const fault_id fault_punctured_tires( "fault_punctured_tires" );
@@ -3265,7 +3266,8 @@ int vehicle::next_part_to_unlock( int p, bool outside ) const
     }
     for( const int elem : parts_at_relative( parts[p].mount, true, true ) ) {
         const vehicle_part &vp = part( elem );
-        if( vp.info().has_flag( "LOCKABLE_DOOR" ) && vp.is_available() && vp.locked && !outside ) {
+        const bool accessible_lock = !outside || vp.has_fault( fault_broken_window );
+        if( vp.info().has_flag( "LOCKABLE_DOOR" ) && vp.is_available() && vp.locked && accessible_lock ) {
             return elem;
         }
     }
@@ -5365,7 +5367,9 @@ void vehicle::consume_fuel( map &here, int load, bool idling )
         int base_burn = actual_staminaRegen - 3;
         base_burn = std::max( eff_load / 3, base_burn );
         //charge bionics when using muscle engine
-        static const item muscle( fuel_type_muscle );
+        // FIXME: stop initializing new items every time this runs.
+        // Can't make it static, itype can change if we quit to menu and load a different set of mods...
+        const item muscle( fuel_type_muscle );
         for( const bionic_id &bid : driver->get_bionic_fueled_with_muscle() ) {
             if( driver->has_active_bionic( bid ) ) { // active power gen
                 // more pedaling = more power
@@ -8079,6 +8083,9 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
         // Volatile fuel still has a chance to explode.
         if( type == damage_heat && vp.is_fuel_store() ) {
             explode_fuel( here, vp, type );
+        } else if( vpi.has_flag( "FRAGILE_COMPONENTS" ) && one_in( 5 ) ) {
+            // Then any damage has a chance to cause faults, even if it would be nulled out.
+            vp.base.set_random_fault_of_type( "mechanical_damage" );
         }
 
         return dmg;

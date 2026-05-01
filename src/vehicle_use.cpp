@@ -2647,13 +2647,13 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         vp.avail_part_with_feature( "LOCKABLE_DOOR" );
     const std::optional<vpart_reference> vp_door_lock = vp.avail_part_with_feature( "DOOR_LOCKING" );
     if( vp_lockable_door && vp_door_lock && !vp_lockable_door->part().open ) {
-        if( player_inside && !vp_lockable_door->part().locked ) {
+        if( doors::can_lock_door( *here, get_player_character(), p ) ) {
             menu.add( string_format( _( "Lock %s" ), vp_lockable_door->part().name() ) )
             .hotkey( "LOCK_DOOR" )
             .on_submit( [p, here] {
                 doors::lock_door( *here, get_player_character(), p );
             } );
-        } else if( player_inside && vp_lockable_door->part().locked ) {
+        } else if( doors::can_unlock_door( *here, get_player_character(), p ) ) {
             menu.add( string_format( _( "Unlock %s" ), vp_lockable_door->part().name() ) )
             .hotkey( "UNLOCK_DOOR" )
             .on_submit( [p, here] {

@@ -9,7 +9,18 @@
     "damage_reduction": { "all": 20 },
     "description": "A door.  Has a window so you can see out of it, even when closed.",
     "durability": 225,
-    "flags": [ "CARGO", "CARGO_PASSABLE", "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "DOOR", "LOCKABLE_DOOR", "HUGE_OK" ],
+    "flags": [
+      "CARGO",
+      "CARGO_PASSABLE",
+      "OBSTACLE",
+      "OPENABLE",
+      "BOARDABLE",
+      "WINDOW",
+      "DOOR",
+      "LOCKABLE_DOOR",
+      "HUGE_OK",
+      "FRAGILE_COMPONENTS"
+    ],
     "item": "frame",
     "location": "center",
     "looks_like": "t_door_metal_c",
@@ -210,7 +221,7 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_lc_steel", 3 ] ] }
     },
     "size": "125000 ml",
-    "extend": { "flags": [ "LOCKABLE_CARGO", "MULTISQUARE", "COVERED" ] },
+    "extend": { "flags": [ "LOCKABLE_CARGO", "MULTISQUARE", "COVERED", "FRAGILE_COMPONENTS" ] },
     "type": "vehicle_part"
   },
   {
@@ -232,7 +243,7 @@
     },
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
     "extend": { "flags": [ "SIMPLE_PART" ] },
-    "delete": { "flags": [ "CARGO", "CARGO_PASSABLE" ] },
+    "delete": { "flags": [ "CARGO", "CARGO_PASSABLE", "LOCKABLE_DOOR" ] },
     "damage_reduction": { "all": 8 }
   },
   {
