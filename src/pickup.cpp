@@ -36,6 +36,7 @@
 #include "messages.h"
 #include "overmapbuffer.h"
 #include "options.h"
+#include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
 #include "popup.h"
