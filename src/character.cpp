@@ -8089,8 +8089,8 @@ bodypart_id Character::most_staunchable_bp()
 bodypart_id Character::most_staunchable_bp( int &max_staunch )
 {
     // Calculate max staunchable bleed level
-    // Top out at 20 intensity for base, unencumbered survivors
-    max_staunch = 20;
+    // Top out at 10 intensity for base, unencumbered survivors
+    max_staunch = 10;
     max_staunch *= get_modifier( character_modifier_bleed_staunch_mod );
     add_msg_debug( debugmode::DF_CHARACTER, "Staunch limit after limb score modifier %d", max_staunch );
 
