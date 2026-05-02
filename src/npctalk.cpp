@@ -87,7 +87,6 @@
 #include "kill_tracker.h"
 #include "line.h"
 #include "localized_comparator.h"
-#include "line.h"
 #include "magic.h"
 #include "magic_teleporter_list.h"
 #include "map.h"
