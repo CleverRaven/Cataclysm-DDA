@@ -90,7 +90,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "", { "npc_val": "mortar_assignment" } ] } },
-            { "compare_string": [ "yes", { "npc_val": "mortar_has_target" } ] }
+            { "not": { "compare_string": [ "", { "npc_val": "mortar_target" } ] } }
           ]
         },
         "topic": "TALK_DONE",
