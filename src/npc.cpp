@@ -3975,8 +3975,12 @@ int npc::clear_mortar_support( const bool notify )
 
     int dropped_rounds = 0;
     map &here = get_map();
-    if( stored_types.is_str() && !stored_types.str().empty() ) {
-        for( const std::string &ammo_type : string_split( stored_types.str(), ',' ) ) {
+    if( stored_types.is_array() ) {
+        for( const diag_value &stored_type : stored_types.array() ) {
+            if( !stored_type.is_str() ) {
+                continue;
+            }
+            const std::string &ammo_type = stored_type.str();
             const diag_value stored_count = get_value( "mortar_ammo_" + ammo_type );
             const int count = stored_count.is_dbl()
                               ? std::max( 0, static_cast<int>( stored_count.dbl() ) )
@@ -3999,13 +4003,8 @@ int npc::clear_mortar_support( const bool notify )
     }
 
     remove_value( "mortar_assignment" );
-    remove_value( "mortar_assignment_x" );
-    remove_value( "mortar_assignment_y" );
-    remove_value( "mortar_assignment_z" );
-    remove_value( "mortar_has_target" );
-    remove_value( "mortar_target_x" );
-    remove_value( "mortar_target_y" );
-    remove_value( "mortar_target_z" );
+    remove_value( "mortar_assignment_pos" );
+    remove_value( "mortar_target" );
     remove_value( "mortar_current_cep" );
     remove_value( "mortar_selected_ammo" );
     remove_value( "mortar_ammo_types" );
