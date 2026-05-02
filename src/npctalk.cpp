@@ -6281,8 +6281,8 @@ void assign_mortar_support_impl( npc &gunner )
     gunner.assign_activity( man_mortar_activity_actor( mortar_abs, mortar->type->id ) );
     g->add_npc_follower( gunner.getID() );
     gunner.chatbin.first_topic = gunner.chatbin.talk_friend;
-    gunner.guard_pos = tripoint_abs_ms::zero;
-    gunner.set_ai_guard_pos( tripoint_abs_ms::zero );
+    gunner.guard_pos = std::nullopt;
+    gunner.clear_ai_guard_pos();
     gunner.goal = npc::no_goal_point;
     gunner.omt_path.clear();
     gunner.path.clear();
