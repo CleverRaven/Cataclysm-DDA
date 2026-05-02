@@ -57,6 +57,7 @@
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
+#include "mortar.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc_class.h"
@@ -124,7 +125,6 @@ static const item_group_id Item_spawn_data_survivor_bashing( "survivor_bashing" 
 static const item_group_id Item_spawn_data_survivor_cutting( "survivor_cutting" );
 static const item_group_id Item_spawn_data_survivor_stabbing( "survivor_stabbing" );
 
-static const ammotype ammo_mortar_60mm( "mortar_60mm" );
 static const itype_id itype_molotov( "molotov" );
 
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
@@ -3986,9 +3986,7 @@ int npc::clear_mortar_support( const bool notify )
         }
     }
 
-    std::list<item> physical_ammo = remove_items_with( []( const item & it ) {
-        return it.ammo_type() == ammo_mortar_60mm;
-    } );
+    std::list<item> physical_ammo = remove_items_with( mortar_type::is_mortar_round );
     for( item &round : physical_ammo ) {
         dropped_rounds += round.count_by_charges() ? round.charges : 1;
         here.add_item_or_charges( pos_bub( here ), std::move( round ) );

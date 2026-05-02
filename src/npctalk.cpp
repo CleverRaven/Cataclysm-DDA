@@ -24,6 +24,7 @@
 #include "achievement.h"
 #include "action.h"
 #include "activity_actor_definitions.h"
+#include "ammo.h"
 #include "ammo_effect.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -103,6 +104,7 @@
 #include "mission.h"
 #include "mongroup.h"
 #include "monster.h"
+#include "mortar.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
@@ -174,8 +176,6 @@ static const efftype_id effect_under_operation( "under_operation" );
 static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
 static const flag_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
 
-static const ammotype ammo_mortar_60mm( "mortar_60mm" );
-static const furn_str_id furn_f_m224_mortar( "f_m224_mortar" );
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
@@ -5773,28 +5773,34 @@ talk_effect_fun_t::func f_take_control_menu()
     };
 }
 
-std::optional<tripoint_bub_ms> find_nearby_m224_mortar( const Character &center )
+struct nearby_mortar_assignment {
+    tripoint_bub_ms pos;
+    const mortar_type *type = nullptr;
+};
+
+std::optional<nearby_mortar_assignment> find_nearby_mortar( const Character &center )
 {
     map &here = get_map();
     const tripoint_bub_ms center_pos = center.pos_bub( here );
-    std::optional<tripoint_bub_ms> best;
+    std::optional<nearby_mortar_assignment> best;
     int best_dist = INT_MAX;
     for( const tripoint_bub_ms &pos : here.points_in_radius( center_pos, 24 ) ) {
-        if( here.furn( pos ).id() != furn_f_m224_mortar ) {
+        const mortar_type *mortar = mortar_type::from_furniture( here.furn( pos ).id() );
+        if( mortar == nullptr ) {
             continue;
         }
         const int dist = rl_dist( center_pos, pos );
         if( dist < best_dist ) {
-            best = pos;
+            best = nearby_mortar_assignment{ pos, mortar };
             best_dist = dist;
         }
     }
     return best;
 }
 
-bool is_60mm_mortar_round( const item &it )
+bool is_mortar_round_for_type( const item &it, const mortar_type &mortar )
 {
-    return it.ammo_type() == ammo_mortar_60mm;
+    return it.ammo_type() == mortar.ammo();
 }
 
 int diag_value_to_int( const diag_value &value, const int fallback = 0 )
@@ -5878,7 +5884,8 @@ void add_mortar_ammo( npc &gunner, const item &round, const int count )
     }
 }
 
-std::vector<itype_id> available_mortar_ammo_types( const npc &gunner );
+std::vector<itype_id> available_mortar_ammo_types( const npc &gunner,
+        const mortar_type &mortar );
 
 drop_locations select_nearby_handover_items( const std::function<bool( const item & )> &filter,
         const std::string &title, const bool quiet = false )
@@ -5923,13 +5930,16 @@ std::optional<item> take_handover_item( item_location &loc, const int requested_
     return taken;
 }
 
-int give_mortar_rounds( npc &gunner, const std::string &title, const bool quiet = false )
+int give_mortar_rounds( npc &gunner, const mortar_type &mortar, const std::string &title,
+                        const bool quiet = false )
 {
     int transferred = 0;
-    drop_locations selected_rounds = select_nearby_handover_items( is_60mm_mortar_round, title, quiet );
+    drop_locations selected_rounds = select_nearby_handover_items( [&mortar]( const item & it ) {
+        return is_mortar_round_for_type( it, mortar );
+    }, title, quiet );
     for( drop_location &selected : selected_rounds ) {
         std::optional<item> round = take_handover_item( selected.first, selected.second );
-        if( !round || !is_60mm_mortar_round( *round ) ) {
+        if( !round || !is_mortar_round_for_type( *round, mortar ) ) {
             continue;
         }
         const int round_count = round->count_by_charges() ? round->charges : 1;
@@ -5939,10 +5949,10 @@ int give_mortar_rounds( npc &gunner, const std::string &title, const bool quiet 
     return transferred;
 }
 
-std::string mortar_ammo_summary( const npc &gunner )
+std::string mortar_ammo_summary( const npc &gunner, const mortar_type &mortar )
 {
     std::vector<std::string> lines;
-    for( const itype_id &ammo_id : available_mortar_ammo_types( gunner ) ) {
+    for( const itype_id &ammo_id : available_mortar_ammo_types( gunner, mortar ) ) {
         const item round( ammo_id, calendar::turn );
         lines.emplace_back( string_format( "%s x%d", round.tname(), mortar_ammo_count( gunner,
                                            ammo_id ) ) );
@@ -5950,18 +5960,18 @@ std::string mortar_ammo_summary( const npc &gunner )
     return lines.empty() ? _( "nothing" ) : string_join( lines, ", " );
 }
 
-int total_mortar_ammo_count( const npc &gunner )
+int total_mortar_ammo_count( const npc &gunner, const mortar_type &mortar )
 {
     int total = 0;
-    for( const itype_id &ammo_id : available_mortar_ammo_types( gunner ) ) {
+    for( const itype_id &ammo_id : available_mortar_ammo_types( gunner, mortar ) ) {
         total += mortar_ammo_count( gunner, ammo_id );
     }
     return total;
 }
 
-int take_back_mortar_rounds( npc &gunner )
+int take_back_mortar_rounds( npc &gunner, const mortar_type &mortar )
 {
-    const std::vector<itype_id> ammo_types = available_mortar_ammo_types( gunner );
+    const std::vector<itype_id> ammo_types = available_mortar_ammo_types( gunner, mortar );
     if( ammo_types.empty() ) {
         popup( _( "There are no mortar rounds to take back." ), PF_GET_KEY );
         return 0;
@@ -5995,7 +6005,7 @@ int take_back_mortar_rounds( npc &gunner )
     return count;
 }
 
-std::optional<item> take_cached_mortar_round( npc &gunner )
+std::optional<item> take_cached_mortar_round( npc &gunner, const mortar_type &mortar )
 {
     if( const std::optional<itype_id> selected = selected_mortar_ammo( gunner ) ) {
         set_mortar_ammo_count( gunner, *selected, mortar_ammo_count( gunner, *selected ) - 1 );
@@ -6009,7 +6019,7 @@ std::optional<item> take_cached_mortar_round( npc &gunner )
             continue;
         }
         item round( ammo_id, calendar::turn );
-        if( !is_60mm_mortar_round( round ) ) {
+        if( !is_mortar_round_for_type( round, mortar ) ) {
             set_mortar_ammo_count( gunner, ammo_id, 0 );
             continue;
         }
@@ -6020,43 +6030,64 @@ std::optional<item> take_cached_mortar_round( npc &gunner )
     return std::nullopt;
 }
 
-void cache_physical_mortar_rounds( npc &gunner )
+void cache_physical_mortar_rounds( npc &gunner, const mortar_type &mortar )
 {
-    std::list<item> ammo = gunner.remove_items_with( is_60mm_mortar_round );
+    std::list<item> ammo = gunner.remove_items_with( [&mortar]( const item & it ) {
+        return is_mortar_round_for_type( it, mortar );
+    } );
     for( item &round : ammo ) {
         add_mortar_ammo( gunner, round, round.count_by_charges() ? round.charges : 1 );
     }
 }
 
-std::optional<item> take_mortar_round( npc &gunner )
+std::optional<item> take_mortar_round( npc &gunner, const mortar_type &mortar )
 {
-    cache_physical_mortar_rounds( gunner );
-    if( std::optional<item> round = take_cached_mortar_round( gunner ) ) {
+    cache_physical_mortar_rounds( gunner, mortar );
+    if( std::optional<item> round = take_cached_mortar_round( gunner, mortar ) ) {
         return round;
     }
     return std::nullopt;
 }
 
-std::vector<itype_id> available_mortar_ammo_types( const npc &gunner )
+std::string mortar_ammo_name( const mortar_type &mortar )
+{
+    return mortar.ammo().obj().name();
+}
+
+std::vector<itype_id> available_mortar_ammo_types( const npc &gunner, const mortar_type &mortar )
 {
     std::vector<itype_id> result;
     for( const std::string &ammo_type : mortar_ammo_types( gunner ) ) {
         const itype_id ammo_id( ammo_type );
-        if( ammo_id.is_valid() && mortar_ammo_count( gunner, ammo_id ) > 0 ) {
+        if( ammo_id.is_valid() && mortar_ammo_count( gunner, ammo_id ) > 0 &&
+            is_mortar_round_for_type( item( ammo_id, calendar::turn ), mortar ) ) {
             result.emplace_back( ammo_id );
         }
     }
     return result;
 }
 
-std::optional<tripoint_abs_ms> get_assigned_mortar_pos( const npc &gunner )
+struct assigned_mortar {
+    tripoint_abs_ms pos;
+    const mortar_type *type = nullptr;
+};
+
+std::optional<assigned_mortar> get_assigned_mortar( const npc &gunner )
 {
-    if( gunner.get_value( "mortar_assignment" ).str() != "m224" ) {
+    const diag_value assignment = gunner.get_value( "mortar_assignment" );
+    if( !assignment.is_str() || assignment.str().empty() ) {
         return std::nullopt;
     }
-    return tripoint_abs_ms( static_cast<int>( gunner.get_value( "mortar_assignment_x" ).dbl() ),
-                            static_cast<int>( gunner.get_value( "mortar_assignment_y" ).dbl() ),
-                            static_cast<int>( gunner.get_value( "mortar_assignment_z" ).dbl() ) );
+    const mortar_type_id mortar_id( assignment.str() );
+    if( !mortar_id.is_valid() ) {
+        return std::nullopt;
+    }
+    return assigned_mortar{
+        tripoint_abs_ms( static_cast<int>( gunner.get_value( "mortar_assignment_x" ).dbl() ),
+                         static_cast<int>( gunner.get_value( "mortar_assignment_y" ).dbl() ),
+                         static_cast<int>( gunner.get_value( "mortar_assignment_z" ).dbl() ) ),
+        &mortar_id.obj()
+    };
 }
 
 std::optional<tripoint_abs_ms> get_mortar_last_target( const npc &gunner )
@@ -6077,11 +6108,11 @@ void set_mortar_last_target( npc &gunner, const tripoint_abs_ms &target )
     gunner.set_value( "mortar_target_z", target.z() );
 }
 
-double get_mortar_current_cep( const npc &gunner )
+double get_mortar_current_cep( const npc &gunner, const mortar_type &mortar )
 {
     const diag_value cep_value = gunner.get_value( "mortar_current_cep" );
     if( cep_value.is_empty() ) {
-        return 100.0;
+        return mortar.baseline_cep();
     }
     if( cep_value.is_dbl() ) {
         return std::max( 1.0, cep_value.dbl() );
@@ -6090,40 +6121,15 @@ double get_mortar_current_cep( const npc &gunner )
         try {
             return std::max( 1.0, std::stod( cep_value.str() ) );
         } catch( const std::exception & ) {
-            return 100.0;
+            return mortar.baseline_cep();
         }
     }
-    return 100.0;
+    return mortar.baseline_cep();
 }
 
 void set_mortar_current_cep( npc &gunner, const double cep )
 {
     gunner.set_value( "mortar_current_cep", cep );
-}
-
-double mortar_minimum_cep( const int launcher_skill )
-{
-    return std::max( 5.0, 20.0 - launcher_skill );
-}
-
-double mortar_repeat_cep_multiplier( const int launcher_skill )
-{
-    const double skill = clamp<double>( launcher_skill, 1.0, 10.0 );
-    if( skill <= 2.0 ) {
-        return 0.7 + ( 2.0 - skill ) * 0.05;
-    }
-    if( skill <= 5.0 ) {
-        return 0.7 - ( skill - 2.0 ) * ( 0.2 / 3.0 );
-    }
-    return 0.5 - ( skill - 5.0 ) * ( 0.2 / 5.0 );
-}
-
-double mortar_axis_ratio( const double cep, const int launcher_skill )
-{
-    const double minimum_cep = mortar_minimum_cep( launcher_skill );
-    const double final_ratio = std::max( 1.2, 2.5 - launcher_skill * 0.1 );
-    const double progress = clamp( ( cep - minimum_cep ) / ( 100.0 - minimum_cep ), 0.0, 1.0 );
-    return final_ratio + ( 4.0 - final_ratio ) * progress;
 }
 
 int mortar_heading_degrees( const tripoint_abs_ms &from, const tripoint_abs_ms &to )
@@ -6136,35 +6142,6 @@ int mortar_heading_degrees( const tripoint_abs_ms &from, const tripoint_abs_ms &
         degrees += 360;
     }
     return degrees;
-}
-
-tripoint_abs_ms apply_mortar_dispersion( const tripoint_abs_ms &target,
-        const tripoint_abs_ms &axis_from, const tripoint_abs_ms &axis_to, const double cep,
-        const int launcher_skill, double &minor_cep )
-{
-    const double axis_ratio = mortar_axis_ratio( cep, launcher_skill );
-    minor_cep = cep / axis_ratio;
-    double ux = axis_to.x() - axis_from.x();
-    double uy = axis_to.y() - axis_from.y();
-    const double axis_length = std::hypot( ux, uy );
-    if( axis_length > 0.0 ) {
-        ux /= axis_length;
-        uy /= axis_length;
-    } else {
-        ux = 1.0;
-        uy = 0.0;
-    }
-
-    // For a normal distribution, 50% of results fall inside about 1.177 sigma.
-    const double major_sigma = cep / 1.1774;
-    const double minor_sigma = minor_cep / 1.1774;
-    const double major_offset = normal_roll( 0.0, major_sigma );
-    const double minor_offset = normal_roll( 0.0, minor_sigma );
-    const double dx = major_offset * ux - minor_offset * uy;
-    const double dy = major_offset * uy + minor_offset * ux;
-    return tripoint_abs_ms( target.x() + static_cast<int>( std::round( dx ) ),
-                            target.y() + static_cast<int>( std::round( dy ) ),
-                            target.z() );
 }
 
 std::string encode_mortar_target_key( const tripoint_abs_ms &target )
@@ -6200,9 +6177,9 @@ talk_effect_fun_t::func f_assign_mortar()
             return;
         }
 
-        std::optional<tripoint_bub_ms> mortar_pos = find_nearby_m224_mortar( *gunner );
-        if( !mortar_pos ) {
-            add_msg( _( "There is no deployed M224 mortar within one overmap tile of %s." ),
+        std::optional<nearby_mortar_assignment> mortar = find_nearby_mortar( *gunner );
+        if( !mortar ) {
+            add_msg( _( "There is no deployed mortar within one overmap tile of %s." ),
                      gunner->disp_name() );
             return;
         }
@@ -6225,17 +6202,17 @@ talk_effect_fun_t::func f_assign_mortar()
             gunner->i_add( std::move( radios.front() ) );
         }
 
-        const int ammo_transferred = give_mortar_rounds( *gunner,
+        const int ammo_transferred = give_mortar_rounds( *gunner, *mortar->type,
                                      _( "Select mortar rounds to hand over" ), true );
 
         map &here = get_map();
-        const tripoint_abs_ms mortar_abs = here.get_abs( *mortar_pos );
-        gunner->set_value( "mortar_assignment", "m224" );
+        const tripoint_abs_ms mortar_abs = here.get_abs( mortar->pos );
+        gunner->set_value( "mortar_assignment", mortar->type->id.str() );
         gunner->set_value( "mortar_assignment_x", mortar_abs.x() );
         gunner->set_value( "mortar_assignment_y", mortar_abs.y() );
         gunner->set_value( "mortar_assignment_z", mortar_abs.z() );
         gunner->set_value( "mortar_has_target", "no" );
-        set_mortar_current_cep( *gunner, 100.0 );
+        set_mortar_current_cep( *gunner, mortar->type->baseline_cep() );
         if( gunner->has_player_activity() ) {
             gunner->revert_after_activity();
         }
@@ -6257,8 +6234,8 @@ talk_effect_fun_t::func f_assign_mortar()
             add_msg( _( "%1$s mans the mortar and takes %2$d mortar round." ),
                      gunner->disp_name(), ammo_transferred );
         } else {
-            add_msg( _( "%s mans the mortar, but still needs 60mm ammunition." ),
-                     gunner->disp_name() );
+            add_msg( _( "%1$s mans the mortar, but still needs %2$s." ),
+                     gunner->disp_name(), mortar_ammo_name( *mortar->type ) );
         }
     };
 }
@@ -6276,7 +6253,8 @@ talk_effect_fun_t::func f_manage_mortar_ammo()
             add_msg( _( "You need to do that in person." ) );
             return;
         }
-        if( !get_assigned_mortar_pos( *gunner ) ) {
+        const std::optional<assigned_mortar> mortar = get_assigned_mortar( *gunner );
+        if( !mortar ) {
             add_msg( _( "%s has not been assigned to a mortar." ), gunner->disp_name() );
             return;
         }
@@ -6291,20 +6269,20 @@ talk_effect_fun_t::func f_manage_mortar_ammo()
                 return;
             }
             if( action == 0 ) {
-                const int transferred = give_mortar_rounds( *gunner,
+                const int transferred = give_mortar_rounds( *gunner, *mortar->type,
                                         _( "Select mortar rounds to hand over" ) );
                 if( transferred > 0 ) {
                     add_msg( _( "You hand %1$d mortar round to %2$s." ), transferred,
                              gunner->disp_name() );
                 }
             } else if( action == 1 ) {
-                const int returned = take_back_mortar_rounds( *gunner );
+                const int returned = take_back_mortar_rounds( *gunner, *mortar->type );
                 if( returned > 0 ) {
                     add_msg( _( "%1$s returns %2$d mortar round." ), gunner->disp_name(), returned );
                 }
             } else {
                 add_msg( _( "%1$s reports available mortar ammunition: %2$s." ),
-                         gunner->disp_name(), mortar_ammo_summary( *gunner ) );
+                         gunner->disp_name(), mortar_ammo_summary( *gunner, *mortar->type ) );
             }
         }
     };
@@ -6325,21 +6303,23 @@ talk_effect_fun_t::func f_report_mortar_support()
             add_msg( _( "Both you and %s need a two-way radio." ), gunner->disp_name() );
             return;
         }
-        if( !get_assigned_mortar_pos( *gunner ) ) {
+        const std::optional<assigned_mortar> mortar = get_assigned_mortar( *gunner );
+        if( !mortar ) {
             add_msg( _( "%s has not been assigned to a mortar." ), gunner->disp_name() );
             return;
         }
 
-        cache_physical_mortar_rounds( *gunner );
-        const int total_ammo = total_mortar_ammo_count( *gunner );
+        cache_physical_mortar_rounds( *gunner, *mortar->type );
+        const int total_ammo = total_mortar_ammo_count( *gunner, *mortar->type );
         if( total_ammo <= 0 ) {
-            add_msg( _( "%s reports that they have no 60mm mortar rounds ready." ),
-                     gunner->disp_name() );
+            add_msg( _( "%1$s reports that they have no %2$s ready." ),
+                     gunner->disp_name(), mortar_ammo_name( *mortar->type ) );
             return;
         }
 
-        add_msg( _( "%1$s reports %2$d 60mm mortar rounds ready: %3$s." ),
-                 gunner->disp_name(), total_ammo, mortar_ammo_summary( *gunner ) );
+        add_msg( _( "%1$s reports %2$d %3$s ready: %4$s." ),
+                 gunner->disp_name(), total_ammo, mortar_ammo_name( *mortar->type ),
+                 mortar_ammo_summary( *gunner, *mortar->type ) );
     };
 }
 
@@ -6358,15 +6338,18 @@ talk_effect_fun_t::func f_select_mortar_ammo()
             add_msg( _( "Both you and %s need a two-way radio." ), gunner->disp_name() );
             return;
         }
-        if( !get_assigned_mortar_pos( *gunner ) ) {
+        const std::optional<assigned_mortar> mortar = get_assigned_mortar( *gunner );
+        if( !mortar ) {
             add_msg( _( "%s has not been assigned to a mortar." ), gunner->disp_name() );
             return;
         }
 
-        cache_physical_mortar_rounds( *gunner );
-        const std::vector<itype_id> ammo_types = available_mortar_ammo_types( *gunner );
+        cache_physical_mortar_rounds( *gunner, *mortar->type );
+        const std::vector<itype_id> ammo_types = available_mortar_ammo_types( *gunner,
+            *mortar->type );
         if( ammo_types.empty() ) {
-            add_msg( _( "%s reports that they have no 60mm mortar rounds." ), gunner->disp_name() );
+            add_msg( _( "%1$s reports that they have no %2$s." ), gunner->disp_name(),
+                     mortar_ammo_name( *mortar->type ) );
             return;
         }
 
@@ -6406,17 +6389,19 @@ void request_mortar_fire( dialogue const &d, const bool repeat_target )
         return;
     }
 
-    std::optional<tripoint_abs_ms> mortar_abs = get_assigned_mortar_pos( *gunner );
-    if( !mortar_abs ) {
+    const std::optional<assigned_mortar> mortar = get_assigned_mortar( *gunner );
+    if( !mortar ) {
         add_msg( _( "%s has not been assigned to a mortar." ), gunner->disp_name() );
         return;
     }
-    if( rl_dist( gunner->pos_abs_omt(), project_to<coords::omt>( *mortar_abs ) ) > 1 ) {
+    const tripoint_abs_ms &mortar_abs = mortar->pos;
+    const mortar_type &mortar_data = *mortar->type;
+    if( rl_dist( gunner->pos_abs_omt(), project_to<coords::omt>( mortar_abs ) ) > 1 ) {
         add_msg( _( "%s is too far from the assigned mortar." ), gunner->disp_name() );
         return;
     }
 
-    const int max_range_ms = 3500;
+    const int max_range_ms = mortar_data.range();
     map &here = get_map();
     std::optional<tripoint_abs_ms> target_abs_ms;
     const std::optional<tripoint_abs_ms> previous_target = get_mortar_last_target( *gunner );
@@ -6450,7 +6435,7 @@ void request_mortar_fire( dialogue const &d, const bool repeat_target )
             target_abs_ms = here.get_abs( *target_bub );
         } else {
             const int max_range_omt = max_range_ms / ( 2 * SEEX );
-            const tripoint_abs_omt mortar_omt = project_to<coords::omt>( *mortar_abs );
+            const tripoint_abs_omt mortar_omt = project_to<coords::omt>( mortar_abs );
             const tripoint_abs_omt target_omt = ui::omap::choose_point( _( "Pick a mortar target." ),
                                                 mortar_omt, false, max_range_omt );
             if( target_omt == tripoint_abs_omt::invalid ) {
@@ -6463,33 +6448,35 @@ void request_mortar_fire( dialogue const &d, const bool repeat_target )
         }
     }
 
-    if( rl_dist( *mortar_abs, *target_abs_ms ) > max_range_ms ) {
-        add_msg( _( "Target is outside the 3.5 km fire mission range." ) );
+    if( rl_dist( mortar_abs, *target_abs_ms ) > max_range_ms ) {
+        add_msg( _( "Target is outside the mortar's fire mission range." ) );
         return;
     }
-    if( rl_dist( *mortar_abs, *target_abs_ms ) <= MAX_VIEW_DISTANCE ) {
+    if( rl_dist( mortar_abs, *target_abs_ms ) <= MAX_VIEW_DISTANCE ) {
         add_msg( _( "Target is too close to the mortar." ) );
         return;
     }
 
-    double cep = get_mortar_current_cep( *gunner );
-    const double minimum_cep = mortar_minimum_cep( launcher_skill );
+    double cep = get_mortar_current_cep( *gunner, mortar_data );
+    const double minimum_cep = mortar_data.minimum_cep( launcher_skill );
     if( repeat_target ) {
-        cep = std::max( minimum_cep, cep * mortar_repeat_cep_multiplier( launcher_skill ) );
+        cep = std::max( minimum_cep, cep * mortar_data.repeat_cep_multiplier( launcher_skill ) );
     } else if( previous_target ) {
         double retarget_factor = 3.0 - launcher_skill / 5.0;
         const int close_target_distance = 50 + 5 * launcher_skill;
         if( rl_dist( *previous_target, *target_abs_ms ) < close_target_distance ) {
             retarget_factor -= 1.0;
         }
-        cep = clamp( cep * std::max( 1.0, retarget_factor ), minimum_cep, 100.0 );
+        cep = clamp( cep * std::max( 1.0, retarget_factor ), minimum_cep,
+                     mortar_data.baseline_cep() );
     } else {
-        cep = 100.0;
+        cep = mortar_data.baseline_cep();
     }
 
-    std::optional<item> round = take_mortar_round( *gunner );
+    std::optional<item> round = take_mortar_round( *gunner, mortar_data );
     if( !round ) {
-        add_msg( _( "%s reports that they have no 60mm mortar rounds." ), gunner->disp_name() );
+        add_msg( _( "%1$s reports that they have no %2$s." ), gunner->disp_name(),
+                 mortar_ammo_name( mortar_data ) );
         return;
     }
     if( !round->ammo_data() ) {
@@ -6499,8 +6486,8 @@ void request_mortar_fire( dialogue const &d, const bool repeat_target )
     }
 
     double minor_cep = 0.0;
-    const tripoint_abs_ms impact_abs_ms = apply_mortar_dispersion( *target_abs_ms, *mortar_abs,
-                                          *target_abs_ms, cep, launcher_skill, minor_cep );
+    const tripoint_abs_ms impact_abs_ms = mortar_data.apply_dispersion( *target_abs_ms, mortar_abs,
+                                          *target_abs_ms, cep, launcher_skill, &minor_cep );
 
     bool scheduled = false;
     for( const ammo_effect_str_id &ammo_eff : round->ammo_data()->ammo->ammo_effects ) {
@@ -6508,8 +6495,9 @@ void request_mortar_fire( dialogue const &d, const bool repeat_target )
         if( effect.aoe_explosion_data.power > 0 ) {
             // Match player-operated mortars: queue an absolute-map timed explosion.
             // process_explosions() loads a temporary map if the impact is outside the bubble.
-            get_timed_events().add( timed_event_type::EXPLOSION, calendar::turn + 40_seconds,
-                                    impact_abs_ms, effect.aoe_explosion_data );
+            get_timed_events().add( timed_event_type::EXPLOSION,
+                                    calendar::turn + mortar_data.npc_impact_delay(), impact_abs_ms,
+                                    effect.aoe_explosion_data );
             scheduled = true;
         }
     }
@@ -6519,9 +6507,11 @@ void request_mortar_fire( dialogue const &d, const bool repeat_target )
         return;
     }
 
-    get_timed_events().add( timed_event_type::MORTAR_FIRE_MESSAGE, calendar::turn + 10_seconds, -1,
+    get_timed_events().add( timed_event_type::MORTAR_FIRE_MESSAGE,
+                            calendar::turn + mortar_data.npc_fire_message_delay(), -1,
                             impact_abs_ms, -1, gunner->disp_name(), "" );
-    get_timed_events().add( timed_event_type::MORTAR_IMPACT_MESSAGE, calendar::turn + 41_seconds, -1,
+    get_timed_events().add( timed_event_type::MORTAR_IMPACT_MESSAGE,
+                            calendar::turn + mortar_data.npc_impact_message_delay(), -1,
                             impact_abs_ms, -1, gunner->disp_name(), encode_mortar_target_key( *target_abs_ms ) );
     set_mortar_last_target( *gunner, *target_abs_ms );
     set_mortar_current_cep( *gunner, cep );
@@ -6529,13 +6519,16 @@ void request_mortar_fire( dialogue const &d, const bool repeat_target )
 
     const int heading = mortar_heading_degrees( gunner->pos_abs(), you.pos_abs() );
     const std::string heading_text = string_format( "%03d", heading );
+    const int shot_seconds = to_seconds<int>( mortar_data.npc_fire_message_delay() );
+    const int splash_seconds = to_seconds<int>( mortar_data.npc_impact_delay() );
     if( launcher_skill >= 5 ) {
-        add_msg( _( "You transmit the fire mission.  %1$s reads back: \"Grid accepted.  OT direction %2$s; probable error %3$d by %4$d meters.  Shot in ten, splash in forty.\"" ),
+        add_msg( _( "You transmit the fire mission.  %1$s reads back: \"Grid accepted.  OT direction %2$s; probable error %3$d by %4$d meters.  Shot in %5$d, splash in %6$d.\"" ),
                  gunner->disp_name(), heading_text, static_cast<int>( std::round( cep ) ),
-                 static_cast<int>( std::round( minor_cep ) ) );
+                 static_cast<int>( std::round( minor_cep ) ), shot_seconds, splash_seconds );
     } else {
-        add_msg( _( "You transmit the fire mission.  %1$s reports expected heading %2$s degrees and CEP about %3$d meters.  Shot expected in 10 seconds; impact in 40 seconds." ),
-                 gunner->disp_name(), heading_text, static_cast<int>( std::round( cep ) ) );
+        add_msg( _( "You transmit the fire mission.  %1$s reports expected heading %2$s degrees and CEP about %3$d meters.  Shot expected in %4$d seconds; impact in %5$d seconds." ),
+                 gunner->disp_name(), heading_text, static_cast<int>( std::round( cep ) ),
+                 shot_seconds, splash_seconds );
     }
 }
 
