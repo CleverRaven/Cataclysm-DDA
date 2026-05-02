@@ -197,6 +197,8 @@ void field_effect::deserialize( const JsonObject &jo )
     optional( jo, false, "message_type", env_message_type, game_message_type_reader );
     JsonObject jid = jo.get_object( "immunity_data" );
     field_types::load_immunity( jid, immunity_data );
+    JsonObject jid = jo.get_object( "weakness_data" );
+    field_types::load_weakness( jid, weakness_data );
 }
 
 void field_type::load( const JsonObject &jo, std::string_view )
@@ -291,7 +293,11 @@ void field_type::load( const JsonObject &jo, std::string_view )
     JsonObject jid = jo.get_object( "immunity_data" );
     field_types::load_immunity( jid, immunity_data );
 
+    JsonObject jid = jo.get_object( "weakness_data" );
+    field_types::load_weakness( jid, weakness_data );
+
     optional( jo, was_loaded, "immune_mtypes", immune_mtypes );
+    optional( jo, was_loaded, "weak_mtypes", weak_mtypes );
     optional( jo, was_loaded, "underwater_age_speedup", underwater_age_speedup, 0_turns );
     optional( jo, was_loaded, "outdoor_age_speedup", outdoor_age_speedup, 0_turns );
     optional( jo, was_loaded, "decay_amount_factor", decay_amount_factor, 0 );
@@ -358,6 +364,12 @@ void field_type::finalize()
         }
     }
 
+    for( const mtype_id &m_id : weak_mtypes ) {
+        if( !m_id.is_valid() ) {
+            debugmsg( "Invalid mtype_id %s in weak_mtypes for field %s.", m_id.c_str(), id.c_str() );
+        }
+    }
+
     // should be the last operation for the type
     processors = map_field_processing::processors_for_type( *this );
 }
@@ -420,6 +432,13 @@ void field_types::load_immunity( const JsonObject &jid, field_immunity_data &fd 
         fd.immunity_data_part_item_flags_any.emplace_back(
             io::string_to_enum<bp_type>
             ( jao.get_string( 0 ) ), jao.get_string( 1 ) );
+    }
+}
+
+void field_types::load_weakness( const JsonObject &jid, field_weakness_data &fd )
+{
+    for( const std::string id : jid.get_array( "flags" ) ) {
+        fd.weakness_data_flags.emplace_back( id );
     }
 }
 

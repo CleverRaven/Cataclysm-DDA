@@ -216,6 +216,7 @@ struct field_type {
         field_immunity_data immunity_data;
 
         std::set<mtype_id> immune_mtypes;
+        std::set<mtype_id> weak_mtypes;
 
         int priority = 0;
         time_duration half_life = 0_turns;

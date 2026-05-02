@@ -139,6 +139,12 @@ bool monster::is_immune_field( const field_type_id &fid ) const
     if( check_immunity_data( ft.immunity_data ) ) {
         return true;
     }
+    if( ft.weak_mtypes.count( type->id ) > 0 ) {
+        return true;
+    }
+    if( check_weakness_data( ft.weakness_data ) ) {
+        return true;
+    }
     // No specific immunity was found, so fall upwards
     return Creature::is_immune_field( fid );
 }
