@@ -178,6 +178,9 @@ static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
+static const itype_id itype_60mm_shell_m720a1( "60mm_shell_m720a1" );
+static const itype_id itype_60mm_shell_m768( "60mm_shell_m768" );
+static const itype_id itype_60mm_shell_m721( "60mm_shell_m721" );
 
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_launcher( "launcher" );
@@ -5903,11 +5906,20 @@ int mortar_ammo_count( const npc &gunner, const itype_id &ammo_id )
     return std::max( 0, static_cast<int>( stored_count.dbl() ) );
 }
 
-std::optional<itype_id> selected_mortar_ammo( const npc &gunner )
+std::optional<itype_id> stored_selected_mortar_ammo( const npc &gunner )
 {
     const diag_value selected = gunner.get_value( "mortar_selected_ammo" );
     const itype_id ammo_id( selected.str() );
-    if( !ammo_id.is_valid() || mortar_ammo_count( gunner, ammo_id ) <= 0 ) {
+    if( !ammo_id.is_valid() ) {
+        return std::nullopt;
+    }
+    return ammo_id;
+}
+
+std::optional<itype_id> selected_mortar_ammo( const npc &gunner )
+{
+    const std::optional<itype_id> ammo_id = stored_selected_mortar_ammo( gunner );
+    if( !ammo_id || mortar_ammo_count( gunner, *ammo_id ) <= 0 ) {
         return std::nullopt;
     }
     return ammo_id;
@@ -5959,7 +5971,7 @@ void add_mortar_ammo( npc &gunner, const item &round, const int count )
     const itype_id ammo_id = round.typeId();
     add_mortar_ammo_type( gunner, ammo_id );
     set_mortar_ammo_count( gunner, ammo_id, mortar_ammo_count( gunner, ammo_id ) + count );
-    if( !selected_mortar_ammo( gunner ) ) {
+    if( !stored_selected_mortar_ammo( gunner ) ) {
         set_selected_mortar_ammo( gunner, ammo_id );
     }
 }
@@ -6085,28 +6097,75 @@ int take_back_mortar_rounds( npc &gunner, const mortar_type &mortar )
     return count;
 }
 
-std::optional<item> take_cached_mortar_round( npc &gunner, const mortar_type &mortar )
+bool mortar_ammo_auto_switch_allowed( const itype_id &from, const itype_id &to )
 {
-    if( const std::optional<itype_id> selected = selected_mortar_ammo( gunner ) ) {
-        set_mortar_ammo_count( gunner, *selected, mortar_ammo_count( gunner, *selected ) - 1 );
-        return item( *selected, calendar::turn );
-    }
+    return ( from == itype_60mm_shell_m720a1 && to == itype_60mm_shell_m768 ) ||
+           ( from == itype_60mm_shell_m768 && to == itype_60mm_shell_m720a1 );
+}
 
+std::optional<itype_id> find_mortar_ammo_auto_switch( const npc &gunner,
+        const mortar_type &mortar, const itype_id &depleted_ammo )
+{
     for( const std::string &ammo_type : mortar_ammo_types( gunner ) ) {
         const itype_id ammo_id( ammo_type );
-        const int count = mortar_ammo_count( gunner, ammo_id );
-        if( count <= 0 ) {
+        if( !ammo_id.is_valid() || mortar_ammo_count( gunner, ammo_id ) <= 0 ||
+            !mortar_ammo_auto_switch_allowed( depleted_ammo, ammo_id ) ||
+            !is_mortar_round_for_type( item( ammo_id, calendar::turn ), mortar ) ) {
             continue;
         }
-        item round( ammo_id, calendar::turn );
+        return ammo_id;
+    }
+    return std::nullopt;
+}
+
+bool select_mortar_ammo_auto_switch( npc &gunner, const mortar_type &mortar,
+                                     const itype_id &depleted_ammo,
+                                     const bool announce_no_replacement )
+{
+    const item depleted_round( depleted_ammo, calendar::turn );
+    const std::optional<itype_id> replacement = find_mortar_ammo_auto_switch( gunner, mortar,
+            depleted_ammo );
+    if( !replacement ) {
+        if( announce_no_replacement ) {
+            add_msg( _( "%1$s reports they are out of %2$s." ), gunner.disp_name(),
+                     depleted_round.tname() );
+        }
+        return false;
+    }
+    const item replacement_round( *replacement, calendar::turn );
+    set_selected_mortar_ammo( gunner, *replacement );
+    add_msg( _( "%1$s reports they are out of %2$s and will use %3$s." ), gunner.disp_name(),
+             depleted_round.tname(), replacement_round.tname() );
+    return true;
+}
+
+std::optional<item> take_cached_mortar_round( npc &gunner, const mortar_type &mortar )
+{
+    std::optional<itype_id> selected = stored_selected_mortar_ammo( gunner );
+    if( !selected ) {
+        return std::nullopt;
+    }
+    int count = mortar_ammo_count( gunner, *selected );
+    if( count <= 0 ) {
+        if( !select_mortar_ammo_auto_switch( gunner, mortar, *selected, false ) ) {
+            return std::nullopt;
+        }
+        selected = stored_selected_mortar_ammo( gunner );
+        count = selected ? mortar_ammo_count( gunner, *selected ) : 0;
+    }
+    if( selected && count > 0 ) {
+        item round( *selected, calendar::turn );
         if( !is_mortar_round_for_type( round, mortar ) ) {
-            set_mortar_ammo_count( gunner, ammo_id, 0 );
-            continue;
+            set_mortar_ammo_count( gunner, *selected, 0 );
+            return std::nullopt;
         }
-        set_mortar_ammo_count( gunner, ammo_id, count - 1 );
-        set_selected_mortar_ammo( gunner, ammo_id );
+        set_mortar_ammo_count( gunner, *selected, count - 1 );
+        if( count == 1 ) {
+            select_mortar_ammo_auto_switch( gunner, mortar, *selected, true );
+        }
         return round;
     }
+
     return std::nullopt;
 }
 
@@ -6213,6 +6272,11 @@ double get_mortar_current_cep( const npc &gunner, const mortar_type &mortar )
 void set_mortar_current_cep( npc &gunner, const double cep )
 {
     gunner.set_value( "mortar_current_cep", cep );
+}
+
+double mortar_ammo_change_cep_penalty( const npc &gunner )
+{
+    return std::max( 0.0, 15.0 - gunner.get_skill_level( skill_launcher ) );
 }
 
 int mortar_heading_degrees( const tripoint_abs_ms &from, const tripoint_abs_ms &to )
@@ -6471,8 +6535,13 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
 
     std::optional<item> round = take_mortar_round( gunner, mortar_data );
     if( !round ) {
-        add_msg( _( "%1$s reports that they have no %2$s." ), gunner.disp_name(),
-                 mortar_ammo_name( mortar_data ) );
+        if( total_mortar_ammo_count( gunner, mortar_data ) > 0 ) {
+            add_msg( _( "%s reports that you need to select a mortar ammunition type first." ),
+                     gunner.disp_name() );
+        } else {
+            add_msg( _( "%1$s reports that they have no %2$s." ), gunner.disp_name(),
+                     mortar_ammo_name( mortar_data ) );
+        }
         return;
     }
     if( !round->ammo_data() ) {
@@ -6485,16 +6554,31 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
     const tripoint_abs_ms impact_abs_ms = mortar_data.apply_dispersion( *target_abs_ms, mortar_abs,
                                           *target_abs_ms, cep, launcher_skill, &minor_cep );
 
+    const time_point impact_time = calendar::turn + mortar_data.npc_impact_delay();
     bool scheduled = false;
+    if( round->typeId() == itype_60mm_shell_m721 ) {
+        const int illumination_duration = rng( 40, 60 );
+        get_timed_events().add( timed_event_type::MORTAR_FIELD, impact_time, -1,
+                                impact_abs_ms, 1, "fd_mortar_illumination",
+                                string_format( "0,%d", illumination_duration ) );
+        scheduled = true;
+    }
     for( const ammo_effect_str_id &ammo_eff : round->ammo_data()->ammo->ammo_effects ) {
         const ammo_effect &effect = ammo_eff.obj();
         if( effect.aoe_explosion_data.power > 0 ) {
             // Match player-operated mortars: queue an absolute-map timed explosion.
             // process_explosions() loads a temporary map if the impact is outside the bubble.
             get_timed_events().add( timed_event_type::EXPLOSION,
-                                    calendar::turn + mortar_data.npc_impact_delay(), impact_abs_ms,
-                                    effect.aoe_explosion_data );
+                                    impact_time, impact_abs_ms, effect.aoe_explosion_data );
             scheduled = true;
+        }
+        for( const aoe_field_effect &aoe : effect.aoe_field_types ) {
+            if( x_in_y( aoe.chance, 100 ) ) {
+                get_timed_events().add( timed_event_type::MORTAR_FIELD, impact_time, -1,
+                                        impact_abs_ms, rng( aoe.intensity_min, aoe.intensity_max ),
+                                        aoe.field_type.str(), std::to_string( aoe.radius ) );
+                scheduled = true;
+            }
         }
     }
     if( !scheduled ) {
@@ -6579,8 +6663,13 @@ void select_mortar_ammo_impl( npc &gunner )
         return;
     }
 
-    set_selected_mortar_ammo( gunner, ammo_types[menu.ret] );
-    const item round( ammo_types[menu.ret], calendar::turn );
+    const itype_id &ammo_id = ammo_types[menu.ret];
+    if( selected && *selected != ammo_id ) {
+        set_mortar_current_cep( gunner, get_mortar_current_cep( gunner, *mortar->type ) +
+                                mortar_ammo_change_cep_penalty( gunner ) );
+    }
+    set_selected_mortar_ammo( gunner, ammo_id );
+    const item round( ammo_id, calendar::turn );
     add_msg( _( "You tell %1$s to use %2$s for mortar fire missions." ), gunner.disp_name(),
              round.tname() );
 }
