@@ -3,12 +3,13 @@
 #include <algorithm>
 #include <cmath>
 #include <unordered_map>
+#include <utility>
 
 #include "cata_utility.h"
 #include "debug.h"
-#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
+#include "point.h"
 #include "rng.h"
 
 namespace
