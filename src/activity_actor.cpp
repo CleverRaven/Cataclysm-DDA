@@ -13482,6 +13482,20 @@ void man_mortar_activity_actor::do_turn( player_activity &act, Character &who )
         gunner.revert_after_activity();
         return;
     }
+    map &here = get_map();
+    const tripoint_bub_ms mortar_bub = here.get_bub( mortar_pos );
+    if( rl_dist( gunner.pos_bub( here ), mortar_bub ) > 1 ) {
+        const std::vector<tripoint_bub_ms> route = route_adjacent( who, mortar_bub );
+        if( route.empty() ) {
+            act.set_to_null();
+            gunner.revert_after_activity();
+            return;
+        }
+        who.activity = player_activity();
+        who.set_destination( route, player_activity( man_mortar_activity_actor( mortar_pos,
+                             mortar_type ) ) );
+        return;
+    }
     gunner.pause();
     act.moves_left = calendar::INDEFINITELY_LONG;
 }
