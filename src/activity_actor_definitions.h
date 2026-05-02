@@ -4012,9 +4012,9 @@ class man_mortar_activity_actor : public activity_actor
 {
     public:
         man_mortar_activity_actor() = default;
-        man_mortar_activity_actor( const tripoint_abs_ms &mortar_pos,
+        man_mortar_activity_actor( const tripoint_abs_ms &assigned_mortar_pos,
                                    const mortar_type_id &mortar_type_id ) :
-            mortar_pos( mortar_pos ), mortar_type( mortar_type_id ) {}
+            mortar_pos( assigned_mortar_pos ), mortar_type( mortar_type_id ) {}
 
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &act, Character &who ) override;
