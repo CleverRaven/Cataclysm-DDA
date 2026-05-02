@@ -13485,7 +13485,16 @@ void man_mortar_activity_actor::do_turn( player_activity &act, Character &who )
     map &here = get_map();
     const tripoint_bub_ms mortar_bub = here.get_bub( mortar_pos );
     if( rl_dist( gunner.pos_bub( here ), mortar_bub ) > 1 ) {
-        const std::vector<tripoint_bub_ms> route = route_adjacent( who, mortar_bub );
+        std::vector<tripoint_bub_ms> route;
+        for( const tripoint_bub_ms &post : closest_points_first( mortar_bub, 1 ) ) {
+            if( square_dist( post, mortar_bub ) != 1 || !here.passable_through( post ) ) {
+                continue;
+            }
+            route = here.route( who, pathfinding_target::point( post ) );
+            if( !route.empty() ) {
+                break;
+            }
+        }
         if( route.empty() ) {
             act.set_to_null();
             gunner.revert_after_activity();
