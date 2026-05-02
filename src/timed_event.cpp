@@ -1,11 +1,9 @@
 #include "timed_event.h"
 
-#include <algorithm>
 #include <array>
 #include <cerrno>
 #include <climits>
 #include <cmath>
-#include <cstdio>
 #include <cstdlib>
 #include <memory>
 #include <optional>
