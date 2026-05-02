@@ -373,7 +373,7 @@ void timed_event::actualize()
             } else {
                 const std::string miss_direction = direction_name( direction_from( point::zero, d ) );
                 add_msg( m_info,
-                         _( "You radio back to %1$s: \"Splash %2$s, about %3$d meters %4$s of target.\"" ),
+                         _( "You radio back to %1$s: \"Splash %2$s, about %3$d tiles %4$s of target.\"" ),
                          recipient, cue, miss_distance, miss_direction );
             }
         }
