@@ -1,14 +1,17 @@
 #include "timed_event.h"
 
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <memory>
 #include <optional>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "avatar.h"
 #include "avatar_action.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "coordinates.h"
 #include "debug.h"
@@ -35,6 +38,7 @@
 #include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
+#include "try_parse_integer.h"
 #include "type_id.h"
 
 static const itype_id itype_petrified_eye( "petrified_eye" );
@@ -65,6 +69,39 @@ static const ter_str_id ter_t_water_sh( "t_water_sh" );
 static int round_to_nearest_10( const double value )
 {
     return static_cast<int>( std::round( value / 10.0 ) ) * 10;
+}
+
+static std::optional<std::pair<int, int>> parse_mortar_field_key( const std::string &key )
+{
+    const std::vector<std::string> parts = string_split( key, ',' );
+    if( parts.empty() || parts.size() > 2 ) {
+        return std::nullopt;
+    }
+
+    ret_val<int> radius = try_parse_integer<int>( parts[0], false );
+    if( !radius.success() ) {
+        return std::nullopt;
+    }
+
+    if( parts.size() == 1 ) {
+        return std::pair<int, int>( radius.value(), 0 );
+    }
+
+    ret_val<int> age_seconds = try_parse_integer<int>( parts[1], false );
+    if( !age_seconds.success() ) {
+        return std::nullopt;
+    }
+    return std::pair<int, int>( radius.value(), age_seconds.value() );
+}
+
+static void apply_mortar_field( map &target_map, const tripoint_abs_ms &center_abs,
+                                const field_type_str_id &field_type, const int intensity,
+                                const int radius, const time_duration &age = 0_turns )
+{
+    const tripoint_bub_ms center = target_map.get_bub( center_abs );
+    for( const tripoint_bub_ms &pt : points_in_radius_circ( center, radius ) ) {
+        target_map.add_field( pt, field_type, intensity, age, false );
+    }
 }
 
 timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p,
@@ -345,6 +382,33 @@ void timed_event::actualize()
                 add_msg( m_info,
                          _( "You radio back to %1$s: \"Splash %2$s, about %3$d tiles %4$s of target.\"" ),
                          recipient, cue, miss_distance, miss_direction );
+            }
+        }
+        break;
+
+        case timed_event_type::MORTAR_FIELD: {
+            const std::optional<std::pair<int, int>> mortar_field_key = parse_mortar_field_key( key );
+            if( !mortar_field_key ) {
+                debugmsg( "Mortar field event has invalid key: %s", key );
+                break;
+            }
+            const int radius = std::max( 0, mortar_field_key->first );
+            const int age_seconds = mortar_field_key->second;
+            const time_duration age = age_seconds == 0 ? 0_turns :
+                                      -time_duration::from_seconds( age_seconds );
+            const field_type_str_id field_type( string_id );
+            if( string_id.empty() || !field_type.is_valid() ) {
+                debugmsg( "Mortar field event has invalid field type: %s", string_id );
+                break;
+            }
+
+            if( here.inbounds( map_square ) ) {
+                apply_mortar_field( here, map_square, field_type, strength, radius, age );
+            } else {
+                map tm;
+                tm.load( project_to<coords::sm>( map_square - point{ radius, radius } ), false );
+                apply_mortar_field( tm, map_square, field_type, strength, radius, age );
+                tm.save();
             }
         }
         break;
