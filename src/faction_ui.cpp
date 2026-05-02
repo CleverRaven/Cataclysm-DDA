@@ -32,6 +32,7 @@
 #include "line.h"
 #include "localized_comparator.h"
 #include "map.h"
+#include "math_parser_diag_value.h"
 #include "mission_companion.h"
 #include "mod_manager.h"
 #include "mtype.h"
@@ -74,6 +75,16 @@ static bool has_radio( const Character &guy )
     return guy.cache_has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
 }
 
+static bool is_assigned_mortar_gunner( const Character &guy )
+{
+    const npc *guy_npc = guy.as_npc();
+    if( guy_npc == nullptr ) {
+        return false;
+    }
+    const diag_value *assignment = guy_npc->maybe_get_value( "mortar_assignment" );
+    return assignment != nullptr && assignment->is_str() && !assignment->str().empty();
+}
+
 // is physically close enough to contact the beta without much hassle
 // mainly for followers
 static bool can_contact( const Character &alpha, const Character &beta )
@@ -88,6 +99,10 @@ static bool can_contact( const Character &alpha, const Character &beta )
 // opposite to previouis one, far enough to check for radio contact
 static radio_contact_result can_radio_contact( const Character &alpha, const Character &beta )
 {
+    if( is_assigned_mortar_gunner( beta ) ) {
+        return radio_contact_result::YES;
+    }
+
     bool u_has_radio = has_radio( alpha );
     bool guy_has_radio = has_radio( beta );
     if( u_has_radio && guy_has_radio ) {
