@@ -139,12 +139,6 @@ bool monster::is_immune_field( const field_type_id &fid ) const
     if( check_immunity_data( ft.immunity_data ) ) {
         return true;
     }
-    if( ft.weak_mtypes.count( type->id ) > 0 ) {
-        return true;
-    }
-    if( check_weakness_data( ft.weakness_data ) ) {
-        return true;
-    }
     // No specific immunity was found, so fall upwards
     return Creature::is_immune_field( fid );
 }
@@ -158,6 +152,14 @@ static bool z_is_valid( int z )
 bool monster::will_move_to( map *here, const tripoint_bub_ms &p ) const
 {
     const std::vector<field_type_id> impassable_field_ids = here->get_impassable_field_type_ids_at( p );
+
+    for( const std::pair<const int_id<field_type>, field_entry> &pair : here->field_at( p ) ) {
+        const field_type_id &fid = pair.first;
+        const field_type &ft = fid.obj();
+        if( ft.weak_mtypes.count( type->id ) > 0 ) {
+            return false;
+        }
+    }
 
     if( here->has_flag( ter_furn_flag::TFLAG_MON_AVOID_STRICT, p ) ) {
         return false;

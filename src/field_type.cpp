@@ -197,8 +197,6 @@ void field_effect::deserialize( const JsonObject &jo )
     optional( jo, false, "message_type", env_message_type, game_message_type_reader );
     JsonObject jid = jo.get_object( "immunity_data" );
     field_types::load_immunity( jid, immunity_data );
-    JsonObject jid = jo.get_object( "weakness_data" );
-    field_types::load_weakness( jid, weakness_data );
 }
 
 void field_type::load( const JsonObject &jo, std::string_view )
@@ -292,9 +290,6 @@ void field_type::load( const JsonObject &jo, std::string_view )
 
     JsonObject jid = jo.get_object( "immunity_data" );
     field_types::load_immunity( jid, immunity_data );
-
-    JsonObject jid = jo.get_object( "weakness_data" );
-    field_types::load_weakness( jid, weakness_data );
 
     optional( jo, was_loaded, "immune_mtypes", immune_mtypes );
     optional( jo, was_loaded, "weak_mtypes", weak_mtypes );
@@ -432,13 +427,6 @@ void field_types::load_immunity( const JsonObject &jid, field_immunity_data &fd 
         fd.immunity_data_part_item_flags_any.emplace_back(
             io::string_to_enum<bp_type>
             ( jao.get_string( 0 ) ), jao.get_string( 1 ) );
-    }
-}
-
-void field_types::load_weakness( const JsonObject &jid, field_weakness_data &fd )
-{
-    for( const std::string id : jid.get_array( "flags" ) ) {
-        fd.weakness_data_flags.emplace_back( id );
     }
 }
 
