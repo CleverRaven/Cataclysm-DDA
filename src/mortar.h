@@ -10,9 +10,8 @@
 #include "coordinates.h"
 #include "type_id.h"
 
-class DynamicDataLoader;
-class item;
 class JsonObject;
+class item;
 
 class mortar_type
 {
