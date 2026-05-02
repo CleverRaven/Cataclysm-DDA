@@ -53,7 +53,7 @@
       { "text": "Please go to this location.", "topic": "TALK_GOTO_LOCATION", "effect": "goto_location" },
       {
         "text": "Mortar fire support.",
-        "condition": { "and": [ "is_by_radio", { "not": { "compare_string": [ "", { "npc_val": "mortar_assignment" } ] } } ] },
+        "condition": { "not": { "compare_string": [ "", { "npc_val": "mortar_assignment" } ] } },
         "topic": "TALK_NPC_MORTAR_SUPPORT"
       },
       { "text": "There's something I want you to do.", "topic": "TALK_ALLY_ORDERS" },
@@ -77,11 +77,11 @@
   {
     "id": "TALK_NPC_MORTAR_SUPPORT",
     "type": "talk_topic",
-    "dynamic_line": "Mortar radio is open.  What do you need?",
+    "dynamic_line": { "is_by_radio": "Mortar radio is open.  What do you need?", "no": "Mortar support is ready.  What do you need?" },
     "responses": [
       {
         "text": "Fire a mortar round at a target I mark.",
-        "condition": { "and": [ "is_by_radio", { "not": { "compare_string": [ "", { "npc_val": "mortar_assignment" } ] } } ] },
+        "condition": { "not": { "compare_string": [ "", { "npc_val": "mortar_assignment" } ] } },
         "topic": "TALK_DONE",
         "effect": "request_mortar_fire"
       },
@@ -89,7 +89,6 @@
         "text": "Repeat the last mortar fire mission.",
         "condition": {
           "and": [
-            "is_by_radio",
             { "not": { "compare_string": [ "", { "npc_val": "mortar_assignment" } ] } },
             { "compare_string": [ "yes", { "npc_val": "mortar_has_target" } ] }
           ]
@@ -99,17 +98,17 @@
       },
       {
         "text": "Select mortar ammunition.",
-        "condition": { "and": [ "is_by_radio", { "not": { "compare_string": [ "", { "npc_val": "mortar_assignment" } ] } } ] },
+        "condition": { "not": { "compare_string": [ "", { "npc_val": "mortar_assignment" } ] } },
         "topic": "TALK_DONE",
         "effect": "select_mortar_ammo"
       },
       {
         "text": "Report mortar ammunition.",
-        "condition": { "and": [ "is_by_radio", { "not": { "compare_string": [ "", { "npc_val": "mortar_assignment" } ] } } ] },
+        "condition": { "not": { "compare_string": [ "", { "npc_val": "mortar_assignment" } ] } },
         "topic": "TALK_DONE",
         "effect": "report_mortar_support"
       },
-      { "text": "Back to the radio menu.", "topic": "TALK_NONE" },
+      { "text": "Back.", "topic": "TALK_NONE" },
       { "text": "<lets_go>", "topic": "TALK_DONE" }
     ]
   },
