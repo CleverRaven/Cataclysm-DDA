@@ -3228,6 +3228,8 @@ void npc::die( map *here, Creature *nkiller )
         }
     }
 
+    clear_mortar_support();
+
     if( assigned_camp ) {
         std::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
         if( bcp ) {
