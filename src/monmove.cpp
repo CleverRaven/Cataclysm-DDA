@@ -156,7 +156,7 @@ bool monster::will_move_to( map *here, const tripoint_bub_ms &p ) const
     for( const std::pair<const int_id<field_type>, field_entry> &pair : here->field_at( p ) ) {
         const field_type_id &fid = pair.first;
         const field_type &ft = fid.obj();
-        if( ft.weak_mtypes.count( type->id ) > 0 ) {
+        if( ft.block_mtypes.count( type->id ) > 0 ) {
             return false;
         }
     }
