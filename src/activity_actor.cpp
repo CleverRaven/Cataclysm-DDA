@@ -13485,6 +13485,7 @@ void man_mortar_activity_actor::do_turn( player_activity &act, Character &who )
     map &here = get_map();
     const tripoint_bub_ms mortar_bub = here.get_bub( mortar_pos );
     if( rl_dist( gunner.pos_bub( here ), mortar_bub ) > 1 ) {
+        std::vector<std::vector<tripoint_bub_ms>> routes;
         std::vector<tripoint_bub_ms> route;
         for( const tripoint_bub_ms &post : closest_points_first( mortar_bub, 1 ) ) {
             if( square_dist( post, mortar_bub ) != 1 || !here.passable_through( post ) ) {
@@ -13492,16 +13493,21 @@ void man_mortar_activity_actor::do_turn( player_activity &act, Character &who )
             }
             route = here.route( who, pathfinding_target::point( post ) );
             if( !route.empty() ) {
-                break;
+                routes.emplace_back( route );
             }
         }
-        if( route.empty() ) {
+        if( routes.empty() ) {
             act.set_to_null();
             gunner.revert_after_activity();
             return;
         }
+        const std::vector<tripoint_bub_ms> &best_route = *std::min_element( routes.begin(),
+        routes.end(), []( const std::vector<tripoint_bub_ms> &lhs,
+        const std::vector<tripoint_bub_ms> &rhs ) {
+            return lhs.size() < rhs.size();
+        } );
         who.activity = player_activity();
-        who.set_destination( route, player_activity( man_mortar_activity_actor( mortar_pos,
+        who.set_destination( best_route, player_activity( man_mortar_activity_actor( mortar_pos,
                              mortar_type ) ) );
         return;
     }
