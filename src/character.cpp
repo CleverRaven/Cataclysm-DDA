@@ -116,6 +116,7 @@ static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
+static const activity_id ACT_MAN_MORTAR( "ACT_MAN_MORTAR" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
@@ -5273,9 +5274,13 @@ void Character::assign_activity( const player_activity &act )
         activity.set_resume_values( act, *this );
     } else {
         if( activity ) {
-            backlog.push_front( activity );
-            if( backlog.size() > 100 ) {
-                debugmsg( "activity backlog exceeded 100, likely an infinite loop" );
+            if( is_npc() && activity.id() == ACT_MAN_MORTAR && act.id() != ACT_MAN_MORTAR ) {
+                activity.canceled( *this );
+            } else {
+                backlog.push_front( activity );
+                if( backlog.size() > 100 ) {
+                    debugmsg( "activity backlog exceeded 100, likely an infinite loop" );
+                }
             }
         }
 

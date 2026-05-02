@@ -91,6 +91,7 @@
 #include "vpart_position.h"
 #include "weather.h"
 
+static const activity_id ACT_MAN_MORTAR( "ACT_MAN_MORTAR" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 
 static const efftype_id effect_bouldering( "bouldering" );
@@ -1129,7 +1130,9 @@ void npc::starting_inv_wear_item( npc *who, item &it )
 
 void npc::revert_after_activity()
 {
-    if( previous_mission != NPC_MISSION_GUARD_ALLY ) {
+    if( activity.id() == ACT_MAN_MORTAR ) {
+        activity.canceled( *this );
+    } else if( previous_mission != NPC_MISSION_GUARD_ALLY ) {
         clear_mortar_support();
     }
     mission = previous_mission;
@@ -3946,7 +3949,8 @@ std::string npc::get_unique_id() const
 
 void npc::set_mission( npc_mission new_mission )
 {
-    if( new_mission != NPC_MISSION_GUARD_ALLY ) {
+    if( new_mission != NPC_MISSION_GUARD_ALLY &&
+        ( new_mission != NPC_MISSION_ACTIVITY || activity.id() != ACT_MAN_MORTAR ) ) {
         clear_mortar_support();
     }
     if( new_mission != mission ) {

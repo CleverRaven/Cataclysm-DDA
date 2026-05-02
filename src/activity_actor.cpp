@@ -199,6 +199,7 @@ static const activity_id ACT_INVOKE_ITEM( "ACT_INVOKE_ITEM" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_LOCKPICK( "ACT_LOCKPICK" );
 static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
+static const activity_id ACT_MAN_MORTAR( "ACT_MAN_MORTAR" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
@@ -13459,6 +13460,59 @@ std::unique_ptr<activity_actor> find_mount_activity_actor::deserialize( JsonValu
     return find_mount_activity_actor().clone();
 }
 
+void man_mortar_activity_actor::start( player_activity &act, Character &who )
+{
+    if( !who.is_npc() ) {
+        act.set_to_null();
+        return;
+    }
+    act.moves_total = calendar::INDEFINITELY_LONG;
+    act.moves_left = calendar::INDEFINITELY_LONG;
+}
+
+void man_mortar_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( !who.is_npc() ) {
+        act.set_to_null();
+        return;
+    }
+    npc &gunner = dynamic_cast<npc &>( who );
+    if( gunner.get_value( "mortar_assignment" ).str().empty() ) {
+        act.set_to_null();
+        gunner.revert_after_activity();
+        return;
+    }
+    gunner.pause();
+    act.moves_left = calendar::INDEFINITELY_LONG;
+}
+
+void man_mortar_activity_actor::canceled( player_activity &, Character &who )
+{
+    if( who.is_npc() ) {
+        dynamic_cast<npc &>( who ).clear_mortar_support( true );
+    }
+}
+
+void man_mortar_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "mortar_type", mortar_type.str() );
+    jsout.member( "mortar_x", mortar_pos.x() );
+    jsout.member( "mortar_y", mortar_pos.y() );
+    jsout.member( "mortar_z", mortar_pos.z() );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> man_mortar_activity_actor::deserialize( JsonValue &jsin )
+{
+    JsonObject data = jsin.get_object();
+    man_mortar_activity_actor actor;
+    actor.mortar_type = mortar_type_id( data.get_string( "mortar_type" ) );
+    actor.mortar_pos = tripoint_abs_ms( data.get_int( "mortar_x" ), data.get_int( "mortar_y" ),
+                                        data.get_int( "mortar_z" ) );
+    return actor.clone();
+}
+
 void wait_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = to_moves<int>( initial_wait_time );
@@ -14951,6 +15005,7 @@ deserialize_functions = {
     { ACT_JACKHAMMER, &jackhammer_activity_actor::deserialize },
     { ACT_LOCKPICK, &lockpick_activity_actor::deserialize },
     { ACT_LONGSALVAGE, &longsalvage_activity_actor::deserialize },
+    { ACT_MAN_MORTAR, &man_mortar_activity_actor::deserialize },
     { ACT_MEDITATE, &meditate_activity_actor::deserialize },
     { ACT_MEND_ITEM, &mend_item_activity_actor::deserialize },
     { ACT_MIGRATION_CANCEL, &migration_cancel_activity_actor::deserialize },

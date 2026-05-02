@@ -363,13 +363,7 @@
       },
       {
         "text": "Manage mortar ammunition.",
-        "condition": {
-          "and": [
-            { "not": "is_by_radio" },
-            { "not": "npc_has_activity" },
-            { "not": { "compare_string": [ "", { "npc_val": "mortar_assignment" } ] } }
-          ]
-        },
+        "condition": { "and": [ { "not": "is_by_radio" }, { "not": { "compare_string": [ "", { "npc_val": "mortar_assignment" } ] } } ] },
         "topic": "TALK_DONE",
         "effect": "manage_mortar_ammo"
       },

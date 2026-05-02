@@ -196,6 +196,11 @@ static const zone_type_id zone_type_NPC_NO_INVESTIGATE( "NPC_NO_INVESTIGATE" );
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
+namespace talk_effect_fun
+{
+void assign_mortar_support( npc &gunner );
+} // namespace talk_effect_fun
+
 using item_menu = std::function<item_location( const item_location_filter & )>;
 using item_menu_mul = std::function<drop_locations( const item_location_filter & )>;
 
@@ -716,6 +721,7 @@ enum npc_chat_menu {
     NPC_CHAT_ACTIVITIES_FISHING,
     NPC_CHAT_ACTIVITIES_MINING,
     NPC_CHAT_ACTIVITIES_MOPPING,
+    NPC_CHAT_ACTIVITIES_MAN_MORTAR,
     NPC_CHAT_ACTIVITIES_READ_REPEATEDLY,
     NPC_CHAT_ACTIVITIES_STUDY,
     NPC_CHAT_ACTIVITIES_VEHICLE_DECONSTRUCTION,
@@ -994,6 +1000,7 @@ static int npc_activities_menu()
     nmenu.addentry( NPC_CHAT_ACTIVITIES_FISHING, true, 'F', _( "Fishing in a zone" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_MINING, true, 'M', _( "Mining out tiles" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_MOPPING, true, 'm', _( "Mopping up stains" ) );
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_MAN_MORTAR, true, 'o', _( "Manning a nearby mortar" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_READ_REPEATEDLY, true, 'R',
                     _( "Study from books you have in order" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_STUDY, true, 's',
@@ -1511,6 +1518,10 @@ void game::chat( const std::optional<tripoint_bub_ms> &p )
                     }
                     case NPC_CHAT_ACTIVITIES_MOPPING: {
                         talk_function::do_mopping( *selected_npc );
+                        break;
+                    }
+                    case NPC_CHAT_ACTIVITIES_MAN_MORTAR: {
+                        talk_effect_fun::assign_mortar_support( *selected_npc );
                         break;
                     }
                     case NPC_CHAT_ACTIVITIES_VEHICLE_DECONSTRUCTION: {
@@ -6155,6 +6166,82 @@ void practice_mortar_shot( npc &gunner )
     launcher.set_exercise( launcher.exercise() + 1 );
 }
 
+void assign_mortar_support_impl( npc &gunner )
+{
+    if( !gunner.is_player_ally() ) {
+        add_msg( _( "%s is not willing to operate a mortar for you." ), gunner.disp_name() );
+        return;
+    }
+    if( gunner.get_skill_level( skill_launcher ) < 1 ) {
+        add_msg( _( "%s needs at least basic launcher training to operate the mortar." ),
+                 gunner.disp_name() );
+        return;
+    }
+
+    std::optional<nearby_mortar_assignment> mortar = find_nearby_mortar( gunner );
+    if( !mortar ) {
+        add_msg( _( "There is no deployed mortar within one overmap tile of %s." ),
+                 gunner.disp_name() );
+        return;
+    }
+
+    avatar &you = get_avatar();
+    const bool needs_radio = !gunner.cache_has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
+    if( needs_radio && you.amount_of( itype_two_way_radio, false ) < 2 ) {
+        add_msg( _( "%s needs a two-way radio, and you need a spare one to hand over." ),
+                 gunner.disp_name() );
+        return;
+    }
+
+    if( gunner.has_player_activity() ) {
+        gunner.revert_after_activity();
+    }
+
+    if( needs_radio ) {
+        std::list<item> radios = you.remove_items_with( []( const item & it ) {
+            return it.typeId() == itype_two_way_radio;
+        }, 1 );
+        if( radios.empty() ) {
+            add_msg( _( "%s needs a two-way radio, and you do not have one to hand over." ),
+                     gunner.disp_name() );
+            return;
+        }
+        gunner.i_add( std::move( radios.front() ) );
+    }
+
+    const int ammo_transferred = give_mortar_rounds( gunner, *mortar->type,
+                                 _( "Select mortar rounds to hand over" ), true );
+
+    map &here = get_map();
+    const tripoint_abs_ms mortar_abs = here.get_abs( mortar->pos );
+    gunner.set_value( "mortar_assignment", mortar->type->id.str() );
+    gunner.set_value( "mortar_assignment_x", mortar_abs.x() );
+    gunner.set_value( "mortar_assignment_y", mortar_abs.y() );
+    gunner.set_value( "mortar_assignment_z", mortar_abs.z() );
+    gunner.set_value( "mortar_has_target", "no" );
+    set_mortar_current_cep( gunner, mortar->type->baseline_cep() );
+    gunner.assign_activity( man_mortar_activity_actor( mortar_abs, mortar->type->id ) );
+    g->add_npc_follower( gunner.getID() );
+    gunner.chatbin.first_topic = gunner.chatbin.talk_friend;
+    gunner.guard_pos = tripoint_abs_ms::zero;
+    gunner.set_ai_guard_pos( tripoint_abs_ms::zero );
+    gunner.goal = npc::no_goal_point;
+    gunner.omt_path.clear();
+    gunner.path.clear();
+    gunner.chair_pos = std::nullopt;
+    gunner.wander_pos = std::nullopt;
+    gunner.clear_destination();
+    gunner.clear_committed_goal();
+
+    if( ammo_transferred > 0 ) {
+        add_msg( _( "%1$s mans the mortar and takes %2$d mortar round." ),
+                 gunner.disp_name(), ammo_transferred );
+    } else {
+        add_msg( _( "%1$s mans the mortar, but still needs %2$s." ),
+                 gunner.disp_name(), mortar_ammo_name( *mortar->type ) );
+    }
+}
+
 talk_effect_fun_t::func f_assign_mortar()
 {
     return []( dialogue const & d ) {
@@ -6167,76 +6254,7 @@ talk_effect_fun_t::func f_assign_mortar()
             add_msg( _( "You need to do that in person." ) );
             return;
         }
-        if( !gunner->is_player_ally() ) {
-            add_msg( _( "%s is not willing to operate a mortar for you." ), gunner->disp_name() );
-            return;
-        }
-        if( gunner->get_skill_level( skill_launcher ) < 1 ) {
-            add_msg( _( "%s needs at least basic launcher training to operate the mortar." ),
-                     gunner->disp_name() );
-            return;
-        }
-
-        std::optional<nearby_mortar_assignment> mortar = find_nearby_mortar( *gunner );
-        if( !mortar ) {
-            add_msg( _( "There is no deployed mortar within one overmap tile of %s." ),
-                     gunner->disp_name() );
-            return;
-        }
-
-        avatar &you = get_avatar();
-        if( !gunner->cache_has_item_with_flag( json_flag_TWO_WAY_RADIO, true ) ) {
-            if( you.amount_of( itype_two_way_radio, false ) < 2 ) {
-                add_msg( _( "%s needs a two-way radio, and you need a spare one to hand over." ),
-                         gunner->disp_name() );
-                return;
-            }
-            std::list<item> radios = you.remove_items_with( []( const item & it ) {
-                return it.typeId() == itype_two_way_radio;
-            }, 1 );
-            if( radios.empty() ) {
-                add_msg( _( "%s needs a two-way radio, and you do not have one to hand over." ),
-                         gunner->disp_name() );
-                return;
-            }
-            gunner->i_add( std::move( radios.front() ) );
-        }
-
-        const int ammo_transferred = give_mortar_rounds( *gunner, *mortar->type,
-                                     _( "Select mortar rounds to hand over" ), true );
-
-        map &here = get_map();
-        const tripoint_abs_ms mortar_abs = here.get_abs( mortar->pos );
-        gunner->set_value( "mortar_assignment", mortar->type->id.str() );
-        gunner->set_value( "mortar_assignment_x", mortar_abs.x() );
-        gunner->set_value( "mortar_assignment_y", mortar_abs.y() );
-        gunner->set_value( "mortar_assignment_z", mortar_abs.z() );
-        gunner->set_value( "mortar_has_target", "no" );
-        set_mortar_current_cep( *gunner, mortar->type->baseline_cep() );
-        if( gunner->has_player_activity() ) {
-            gunner->revert_after_activity();
-        }
-        gunner->set_attitude( NPCATT_NULL );
-        gunner->set_mission( NPC_MISSION_GUARD_ALLY );
-        g->add_npc_follower( gunner->getID() );
-        gunner->chatbin.first_topic = gunner->chatbin.talk_friend_guard;
-        gunner->guard_pos = gunner->pos_abs();
-        gunner->set_ai_guard_pos( gunner->pos_abs() );
-        gunner->goal = npc::no_goal_point;
-        gunner->omt_path.clear();
-        gunner->path.clear();
-        gunner->chair_pos = std::nullopt;
-        gunner->wander_pos = std::nullopt;
-        gunner->clear_destination();
-        gunner->clear_committed_goal();
-
-        if( ammo_transferred > 0 ) {
-            add_msg( _( "%1$s mans the mortar and takes %2$d mortar round." ),
-                     gunner->disp_name(), ammo_transferred );
-        } else {
-            add_msg( _( "%1$s mans the mortar, but still needs %2$s." ),
-                     gunner->disp_name(), mortar_ammo_name( *mortar->type ) );
-        }
+        assign_mortar_support_impl( *gunner );
     };
 }
 
@@ -9051,6 +9069,12 @@ talk_effect_fun_t::func f_trigger_event( const JsonObject &jo, std::string_view 
 }
 
 } // namespace
+
+void assign_mortar_support( npc &gunner )
+{
+    assign_mortar_support_impl( gunner );
+}
+
 } // namespace talk_effect_fun
 
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun,
