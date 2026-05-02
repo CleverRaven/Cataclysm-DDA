@@ -6518,11 +6518,11 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
     const int shot_seconds = to_seconds<int>( mortar_data.npc_fire_message_delay() );
     const int splash_seconds = to_seconds<int>( mortar_data.npc_impact_delay() );
     if( launcher_skill >= 5 ) {
-        add_msg( _( "You give the fire mission.  %1$s reads back: \"Grid accepted.  OT direction %2$s; probable error %3$d by %4$d meters.  Shot in %5$d, splash in %6$d.\"" ),
+        add_msg( _( "You give the fire mission.  %1$s reads back: \"Grid accepted.  OT direction %2$s; probable error %3$d by %4$d tiles.  Shot in %5$d, splash in %6$d.\"" ),
                  gunner.disp_name(), heading_text, static_cast<int>( std::round( cep ) ),
                  static_cast<int>( std::round( minor_cep ) ), shot_seconds, splash_seconds );
     } else {
-        add_msg( _( "You give the fire mission.  %1$s reports expected heading %2$s degrees and CEP about %3$d meters.  Shot expected in %4$d seconds; impact in %5$d seconds." ),
+        add_msg( _( "You give the fire mission.  %1$s reports expected heading %2$s degrees and CEP about %3$d tiles.  Shot expected in %4$d seconds; impact in %5$d seconds." ),
                  gunner.disp_name(), heading_text, static_cast<int>( std::round( cep ) ),
                  shot_seconds, splash_seconds );
     }
