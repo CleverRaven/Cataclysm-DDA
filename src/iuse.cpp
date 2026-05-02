@@ -52,6 +52,7 @@
 #include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
+#include "faction_ui.h"
 #include "field.h"
 #include "field_type.h"
 #include "flag.h"
@@ -1688,6 +1689,18 @@ std::optional<int> iuse::radio_mod( Character *p, item *, const tripoint_bub_ms 
     .set_flag( flag_RADIOCARITEM )
     .set_flag( flag_RADIO_MOD )
     .set_flag( newtag );
+    return 1;
+}
+
+std::optional<int> iuse::radio_call( Character *p, item *, const tripoint_bub_ms & )
+{
+    if( !p->is_avatar() ) {
+        return std::nullopt;
+    }
+
+    faction_ui ui;
+    ui.set_selected_tab( tab_mode::TAB_FOLLOWERS );
+    ui.execute();
     return 1;
 }
 

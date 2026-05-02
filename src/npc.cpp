@@ -17,6 +17,7 @@
 #include "avatar.h"
 #include "basecamp.h"
 #include "bodypart.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_attire.h"
@@ -123,6 +124,7 @@ static const item_group_id Item_spawn_data_survivor_bashing( "survivor_bashing" 
 static const item_group_id Item_spawn_data_survivor_cutting( "survivor_cutting" );
 static const item_group_id Item_spawn_data_survivor_stabbing( "survivor_stabbing" );
 
+static const ammotype ammotype_mortar_60mm( "mortar_60mm" );
 static const itype_id itype_molotov( "molotov" );
 
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
@@ -1127,6 +1129,9 @@ void npc::starting_inv_wear_item( npc *who, item &it )
 
 void npc::revert_after_activity()
 {
+    if( previous_mission != NPC_MISSION_GUARD_ALLY ) {
+        clear_mortar_support();
+    }
     mission = previous_mission;
     attitude = previous_attitude;
     activity = player_activity();
@@ -3941,6 +3946,9 @@ std::string npc::get_unique_id() const
 
 void npc::set_mission( npc_mission new_mission )
 {
+    if( new_mission != NPC_MISSION_GUARD_ALLY ) {
+        clear_mortar_support();
+    }
     if( new_mission != mission ) {
         previous_mission = mission;
         mission = new_mission;
@@ -3948,6 +3956,63 @@ void npc::set_mission( npc_mission new_mission )
     if( mission == NPC_MISSION_ACTIVITY ) {
         current_activity_id = activity.id();
     }
+}
+
+int npc::clear_mortar_support( const bool notify )
+{
+    const diag_value assignment = get_value( "mortar_assignment" );
+    const diag_value stored_types = get_value( "mortar_ammo_types" );
+    if( ( !assignment.is_str() || assignment.str().empty() ) &&
+        ( !stored_types.is_str() || stored_types.str().empty() ) ) {
+        return 0;
+    }
+
+    int dropped_rounds = 0;
+    map &here = get_map();
+    if( stored_types.is_str() && !stored_types.str().empty() ) {
+        for( const std::string &ammo_type : string_split( stored_types.str(), ',' ) ) {
+            const diag_value stored_count = get_value( "mortar_ammo_" + ammo_type );
+            const int count = stored_count.is_dbl()
+                              ? std::max( 0, static_cast<int>( stored_count.dbl() ) )
+                              : 0;
+            if( count > 0 ) {
+                const itype_id ammo_id( ammo_type );
+                if( ammo_id.is_valid() ) {
+                    here.add_item_or_charges( pos_bub( here ), item( ammo_id, calendar::turn, count ) );
+                    dropped_rounds += count;
+                }
+            }
+            remove_value( "mortar_ammo_" + ammo_type );
+        }
+    }
+
+    std::list<item> physical_ammo = remove_items_with( []( const item & it ) {
+        return it.ammo_type() == ammotype_mortar_60mm;
+    } );
+    for( item &round : physical_ammo ) {
+        dropped_rounds += round.count_by_charges() ? round.charges : 1;
+        here.add_item_or_charges( pos_bub( here ), std::move( round ) );
+    }
+
+    remove_value( "mortar_assignment" );
+    remove_value( "mortar_assignment_x" );
+    remove_value( "mortar_assignment_y" );
+    remove_value( "mortar_assignment_z" );
+    remove_value( "mortar_has_target" );
+    remove_value( "mortar_target_x" );
+    remove_value( "mortar_target_y" );
+    remove_value( "mortar_target_z" );
+    remove_value( "mortar_current_cep" );
+    remove_value( "mortar_selected_ammo" );
+    remove_value( "mortar_ammo_types" );
+
+    if( notify && dropped_rounds > 0 ) {
+        add_msg( n_gettext( "%1$s stops manning the mortar and drops %2$d mortar round.",
+                            "%1$s stops manning the mortar and drops %2$d mortar rounds.",
+                            dropped_rounds ),
+                 disp_name(), dropped_rounds );
+    }
+    return dropped_rounds;
 }
 
 bool npc::has_activity() const
@@ -4272,5 +4337,3 @@ std::unique_ptr<talker> get_talker_for( npc *guy )
 {
     return std::make_unique<talker_npc>( guy );
 }
-
-

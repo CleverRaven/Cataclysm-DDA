@@ -15,6 +15,11 @@
       },
       { "text": "Please go to this location.", "topic": "TALK_GOTO_LOCATION", "effect": "goto_location" },
       { "text": "There's something I want you to do.", "topic": "TALK_Liam_ORDERS" },
+      {
+        "text": "Mortar fire support.",
+        "condition": { "and": [ "is_by_radio", { "compare_string": [ "m224", { "npc_val": "mortar_assignment" } ] } ] },
+        "topic": "TALK_NPC_MORTAR_SUPPORT"
+      },
       { "text": "I'd like your opinion on a job we're doing.", "topic": "TALK_Liam_Opinions" },
       {
         "text": "I just wanted to talk for a bit.",
