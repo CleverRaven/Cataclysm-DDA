@@ -96,7 +96,7 @@ class mortar_examine_actor : public iexamine_actor
 {
     private:
         std::vector<ammotype> ammo_type;
-        int range;
+        int range = 0;
         std::function<bool( const_dialogue const & )> condition;
         bool has_condition = false;
         translation condition_fail_msg;

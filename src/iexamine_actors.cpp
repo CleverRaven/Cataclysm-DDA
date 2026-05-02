@@ -34,13 +34,13 @@
 #include "mapgendata.h"
 #include "messages.h"
 #include "monster.h"
+#include "mortar.h"
 #include "mtype.h"
 #include "output.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "ret_val.h"
-#include "rng.h"
 #include "skill.h"
 #include "talker.h"
 #include "timed_event.h"
@@ -55,48 +55,6 @@ static const skill_id skill_launcher( "launcher" );
 
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
-
-static double mortar_minimum_cep_for_skill( const int launcher_skill )
-{
-    return std::max( 5.0, 20.0 - launcher_skill );
-}
-
-static double mortar_axis_ratio_for_skill( const double cep, const int launcher_skill )
-{
-    const double minimum_cep = mortar_minimum_cep_for_skill( launcher_skill );
-    const double final_ratio = std::max( 1.2, 2.5 - launcher_skill * 0.1 );
-    const double progress = clamp( ( cep - minimum_cep ) / ( 100.0 - minimum_cep ), 0.0, 1.0 );
-    return final_ratio + ( 4.0 - final_ratio ) * progress;
-}
-
-static tripoint_abs_ms apply_mortar_skill_dispersion( const tripoint_abs_ms &target,
-        const tripoint_abs_ms &axis_from, const tripoint_abs_ms &axis_to, const double cep,
-        const int launcher_skill )
-{
-    const double axis_ratio = mortar_axis_ratio_for_skill( cep, launcher_skill );
-    const double minor_cep = cep / axis_ratio;
-    double ux = axis_to.x() - axis_from.x();
-    double uy = axis_to.y() - axis_from.y();
-    const double axis_length = std::hypot( ux, uy );
-    if( axis_length > 0.0 ) {
-        ux /= axis_length;
-        uy /= axis_length;
-    } else {
-        ux = 1.0;
-        uy = 0.0;
-    }
-
-    // For a normal distribution, 50% of results fall inside about 1.177 sigma.
-    const double major_sigma = cep / 1.1774;
-    const double minor_sigma = minor_cep / 1.1774;
-    const double major_offset = normal_roll( 0.0, major_sigma );
-    const double minor_offset = normal_roll( 0.0, minor_sigma );
-    const double dx = major_offset * ux - minor_offset * uy;
-    const double dy = major_offset * uy + minor_offset * ux;
-    return tripoint_abs_ms( target.x() + static_cast<int>( std::round( dx ) ),
-                            target.y() + static_cast<int>( std::round( dy ) ),
-                            target.z() );
-}
 
 void appliance_convert_examine_actor::load( const JsonObject &jo, const std::string & )
 {
@@ -373,6 +331,7 @@ std::unique_ptr<iexamine_actor> eoc_examine_actor::clone() const
 void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) const
 {
     map &here = get_map();
+    const mortar_type *mortar = mortar_type::from_furniture( here.furn( examp ).id() );
 
     dialogue d( get_talker_for( you ), nullptr );
 
@@ -382,6 +341,14 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
     }
 
     std::vector<ammotype> expected_ammo_types = ammo_type;
+    if( mortar != nullptr ) {
+        expected_ammo_types = { mortar->ammo() };
+    }
+    if( expected_ammo_types.empty() ) {
+        debugmsg( "Mortar examine action for %s has no configured ammunition.",
+                  here.furn( examp ).id().c_str() );
+        return;
+    }
     inventory_filter_preset preset( [expected_ammo_types]( const item_location & loc ) {
         for( ammotype desired_ammo : expected_ammo_types ) {
             if( desired_ammo == loc->ammo_type() ) {
@@ -414,7 +381,13 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
         return;
     }
 
-    const int aim_range = range / 24;
+    const int mortar_range = mortar != nullptr ? mortar->range() : range;
+    if( mortar_range <= 0 ) {
+        debugmsg( "Mortar examine action for %s has invalid range %d.",
+                  here.furn( examp ).id().c_str(), mortar_range );
+        return;
+    }
+    const int aim_range = mortar_range / 24;
     const tripoint_abs_omt pos_omt = project_to<coords::omt>( here.get_abs( examp ) );
     tripoint_abs_omt target = ui::omap::choose_point( "Pick a target.", pos_omt, false, aim_range );
 
@@ -440,14 +413,20 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
     target_abs_ms.z() = overmap_buffer.highest_omt_point( project_to<coords::omt>( target_abs_ms ) );
     const int launcher_skill = you.get_skill_level( skill_launcher );
     const tripoint_abs_ms mortar_abs = here.get_abs( examp );
-    target_abs_ms = apply_mortar_skill_dispersion( target_abs_ms, mortar_abs, target_abs_ms, 100.0,
-                    launcher_skill );
+    if( mortar != nullptr ) {
+        const int distance = rl_dist( mortar_abs, target_abs_ms );
+        const double cep = mortar->player_cep( aim_deviation.evaluate( d ), distance, launcher_skill );
+        target_abs_ms = mortar->apply_dispersion( target_abs_ms, mortar_abs, target_abs_ms, cep,
+                        launcher_skill );
+    }
 
     for( ammo_effect_str_id ammo_eff : loc.get_item()->ammo_data()->ammo->ammo_effects ) {
         const ammo_effect &effect = ammo_eff.obj();
         if( effect.aoe_explosion_data.power > 0 ) {
+            const time_duration impact_delay = mortar != nullptr ? mortar->player_flight_time() :
+                                               flight_time.evaluate( d );
             get_timed_events().add( timed_event_type::EXPLOSION,
-                                    calendar::turn + flight_time.evaluate( d ) + aim_dur,
+                                    calendar::turn + impact_delay + aim_dur,
                                     target_abs_ms, effect.aoe_explosion_data );
         }
 
@@ -468,8 +447,8 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
 
 void mortar_examine_actor::load( const JsonObject &jo, const std::string &src )
 {
-    mandatory( jo, false, "ammo", ammo_type );
-    mandatory( jo, false, "range", range );
+    optional( jo, false, "ammo", ammo_type );
+    optional( jo, false, "range", range, 0 );
     if( jo.has_member( "condition" ) ) {
         read_condition( jo, "condition", condition, false );
         has_condition = true;
