@@ -2,6 +2,8 @@
 
 #include <algorithm>
 #include <array>
+#include <cerrno>
+#include <climits>
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
@@ -70,15 +72,40 @@ static int round_to_nearest_10( const double value )
     return static_cast<int>( std::round( value / 10.0 ) ) * 10;
 }
 
+static bool parse_mortar_target_coordinate( const char *&cursor, int &value,
+        const char separator )
+{
+    errno = 0;
+    char *end = nullptr;
+    const long parsed = std::strtol( cursor, &end, 10 );
+    if( end == cursor || errno == ERANGE || parsed < INT_MIN || parsed > INT_MAX ) {
+        return false;
+    }
+    if( separator != '\0' ) {
+        if( *end != separator ) {
+            return false;
+        }
+        cursor = end + 1;
+    } else {
+        if( *end != '\0' ) {
+            return false;
+        }
+        cursor = end;
+    }
+    value = static_cast<int>( parsed );
+    return true;
+}
+
 static std::optional<tripoint_abs_ms> parse_mortar_target_key( const std::string &key )
 {
-    int x = 0;
-    int y = 0;
-    int z = 0;
-    if( std::sscanf( key.c_str(), "%d,%d,%d", &x, &y, &z ) != 3 ) {
+    tripoint p;
+    const char *cursor = key.c_str();
+    if( !parse_mortar_target_coordinate( cursor, p.x, ',' ) ||
+        !parse_mortar_target_coordinate( cursor, p.y, ',' ) ||
+        !parse_mortar_target_coordinate( cursor, p.z, '\0' ) ) {
         return std::nullopt;
     }
-    return tripoint_abs_ms( x, y, z );
+    return tripoint_abs_ms( p.x, p.y, p.z );
 }
 
 timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p,
@@ -331,9 +358,8 @@ void timed_event::actualize()
                 break;
             }
 
-            const int dx = map_square.x() - target->x();
-            const int dy = map_square.y() - target->y();
-            const int miss_distance = round_to_nearest_10( std::hypot( dx, dy ) );
+            const point d( map_square.x() - target->x(), map_square.y() - target->y() );
+            const int miss_distance = round_to_nearest_10( std::hypot( d.x, d.y ) );
             const bool in_bubble = here.inbounds( map_square );
             const int player_distance = rl_dist( player_character.pos_abs(), map_square );
             const std::string cue = !in_bubble ? _( "heard in the far distance" ) :
@@ -345,8 +371,7 @@ void timed_event::actualize()
                 add_msg( m_info, _( "You radio back to %1$s: \"Splash %2$s, on target.\"" ),
                          recipient, cue );
             } else {
-                const std::string miss_direction = direction_name( direction_from( point::zero,
-                                                   point( dx, dy ) ) );
+                const std::string miss_direction = direction_name( direction_from( point::zero, d ) );
                 add_msg( m_info,
                          _( "You radio back to %1$s: \"Splash %2$s, about %3$d meters %4$s of target.\"" ),
                          recipient, cue, miss_distance, miss_direction );
