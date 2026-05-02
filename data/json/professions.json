@@ -2163,8 +2163,8 @@
     "name": "Medical Resident",
     "description": "Fresh out of med school, you've got little in the way of practical experience and just a handful of first-aid supplies.  You just hope it will be enough if 'physician, heal thyself' turns out to be more literal than you expected.",
     "npc_background": "BG_survival_story_MEDICAL",
-    "points": 2,
-    "skills": [ { "level": 5, "name": "firstaid" } ],
+    "points": 5,
+    "skills": [ { "level": 7, "name": "firstaid" }, { "level": 2, "name": "speech" }, { "level": 4, "name": "chemistry" } ],
     "proficiencies": [
       "prof_wound_care",
       "prof_wound_care_expert",
@@ -2172,7 +2172,9 @@
       "prof_intro_chemistry",
       "prof_physiology",
       "prof_burn_care",
-      "prof_dissect_humans"
+      "prof_dissect_humans",
+      "prof_organic_chemistry",
+      "prof_gross_anatomy"
     ],
     "traits": [ "PROF_MED" ],
     "items": {
@@ -2199,7 +2201,9 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 26,
+    "age_upper": 33
   },
   {
     "type": "profession",
@@ -2208,8 +2212,8 @@
     "requirement": "achievement_reach_hospital",
     "description": "You were a patient-facing doctor practicing general or specialized medicine.  While your bedside manner might not get you far in this new world, your medical skills will certainly help.",
     "npc_background": "BG_survival_story_MEDICAL",
-    "points": 5,
-    "skills": [ { "level": 7, "name": "firstaid" }, { "level": 3, "name": "speech" } ],
+    "points": 6,
+    "skills": [ { "level": 8, "name": "firstaid" }, { "level": 3, "name": "speech" },{ "level": 4, "name": "chemistry" } ],
     "proficiencies": [
       "prof_wound_care",
       "prof_wound_care_expert",
@@ -2217,7 +2221,9 @@
       "prof_intro_chemistry",
       "prof_physiology",
       "prof_burn_care",
-      "prof_dissect_humans"
+      "prof_dissect_humans",
+      "prof_organic_chemistry",
+      "prof_gross_anatomy"
     ],
     "traits": [ "PROF_MED" ],
     "items": {
@@ -2250,7 +2256,7 @@
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     },
-    "age_lower": 25
+    "age_lower": 30
   },
   {
     "type": "profession",
@@ -2260,9 +2266,17 @@
     "description": "You were a pharmacist working in a community pharmacy.  No simple pill-pusher, you have a plethora of knowledge of drug preparation, biochemistry, and biology.  With your trusty mortar and pestle, you hope to grind the undead to a pulp.",
     "npc_background": "BG_survival_story_MEDICAL",
     "points": 5,
-    "skills": [ { "level": 6, "name": "firstaid" }, { "level": 1, "name": "speech" } ],
-    "proficiencies": [ "prof_intro_biology", "prof_intro_chemistry", "prof_organic_chemistry", "prof_biochemistry", "prof_physiology" ],
-    "traits": [ "PROF_MED" ],
+    "skills": [ { "level": 5, "name": "firstaid" }, { "level": 1, "name": "speech" }, { "level": 5, "name": "chemistry" } ],
+    "proficiencies": [ 
+      "prof_wound_care",
+      "prof_intro_biology",                                                                                                              "prof_intro_chemistry",
+      "prof_organic_chemistry",
+      "prof_gross_anatomy",
+      "prof_biochemistry",
+      "prof_intro_chem_synth",
+      "prof_chem_synth",
+      "prof_pharmaceutical"
+    ],
     "items": {
       "both": {
         "items": [
@@ -2271,7 +2285,6 @@
           "socks",
           "dress_shoes",
           "coat_lab",
-          "badge_doctor",
           "goggles_chem",
           "wristwatch",
           "mortar_pestle",
@@ -2328,7 +2341,7 @@
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     },
-    "age_lower": 25
+    "age_lower": 26
   },
   {
     "type": "profession",
@@ -3546,19 +3559,18 @@
     "npc_background": "BG_survival_story_WORKER_FIREFIGHTER",
     "points": 5,
     "skills": [
-      { "level": 6, "name": "firstaid" },
+      { "level": 5, "name": "firstaid" },
       { "level": 4, "name": "melee" },
       { "level": 4, "name": "bashing" },
-      { "level": 4, "name": "swimming" },
+      { "level": 3, "name": "swimming" },
       { "level": 4, "name": "driving" }
     ],
     "proficiencies": [
       "prof_wound_care",
       "prof_wound_care_expert",
-      "prof_intro_biology",
-      "prof_physiology",
       "prof_burn_care",
-      "prof_dissect_humans",
+      "prof_gross_anatomy",
+      "prof_intro_biology",
       "prof_driver"
     ],
     "vehicle": "fire_engine",
@@ -3574,7 +3586,7 @@
           { "item": "fire_gauntlets" },
           { "item": "nomex_hood" },
           { "item": "firehelmet" },
-          { "item": "mask_bunker" },
+          { "item": "mask_bunker", "ammo-item": "gasfilter_med", "charges": 100 },
           { "item": "mbag" },
           { "item": "nomex_socks" },
           { "item": "water_clean" },
@@ -4476,9 +4488,10 @@
       { "level": 4, "name": "melee" },
       { "level": 4, "name": "bashing" },
       { "level": 4, "name": "firstaid" },
-      { "level": 3, "name": "swimming" }
+      { "level": 3, "name": "swimming" },
+      { "level": 4, "name": "driving" }
     ],
-    "proficiencies": [ "prof_burn_care" ],
+    "proficiencies": [ "prof_burn_care", "prof_wound_care" ],
     "items": {
       "both": {
         "entries": [
@@ -4489,7 +4502,7 @@
           { "item": "boots_bunker" },
           { "item": "nomex_gloves" },
           { "item": "fire_gauntlets" },
-          { "item": "mask_bunker" },
+          { "item": "mask_bunker", "ammo-item": "gasfilter_med", "charges": 100 },
           { "item": "nomex_hood" },
           { "item": "firehelmet" },
           { "item": "pocketwatch" },
@@ -6892,10 +6905,9 @@
     "name": "EMT",
     "description": "You were responding to a call with your partner before you got separated.  Now all you have is your trusty ambulance, ready to transport patients through the apocalypse.",
     "npc_background": "BG_survival_story_MEDICAL",
-    "points": 3,
-    "skills": [ { "level": 5, "name": "firstaid" }, { "level": 4, "name": "driving" }, { "level": 2, "name": "mechanics" } ],
-    "proficiencies": [ "prof_wound_care", "prof_intro_biology", "prof_physiology", "prof_burn_care", "prof_driver", "prof_gross_anatomy" ],
-    "traits": [ "PROF_MED" ],
+    "points": 2,
+    "skills": [ { "level": 4, "name": "firstaid" }, { "level": 4, "name": "driving" } ],
+    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_burn_care", "prof_driver" ],
     "vehicle": "ambulance",
     "items": {
       "both": {
@@ -6925,17 +6937,15 @@
     "description": "You were separated from your partner while out on a call.  You managed to hang onto some medical supplies, but it's looking like the only life that needs saving now is yours.",
     "npc_background": "BG_survival_story_MEDICAL",
     "points": 3,
-    "skills": [ { "level": 6, "name": "firstaid" }, { "level": 3, "name": "driving" }, { "level": 1, "name": "mechanics" } ],
+    "skills": [ { "level": 5, "name": "firstaid" }, { "level": 4, "name": "driving" } ],
     "proficiencies": [
       "prof_wound_care",
       "prof_wound_care_expert",
-      "prof_intro_biology",
-      "prof_physiology",
       "prof_burn_care",
-      "prof_dissect_humans",
-      "prof_gross_anatomy"
+      "prof_gross_anatomy",
+      "prof_intro_biology",
+      "prof_driver"
     ],
-    "traits": [ "PROF_MED" ],
     "items": {
       "both": {
         "entries": [
@@ -6971,7 +6981,7 @@
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 5,
     "skills": [
-      { "level": 6, "name": "firstaid" },
+      { "level": 4, "name": "firstaid" },
       { "level": 4, "name": "gun" },
       { "level": 4, "name": "rifle" },
       { "level": 3, "name": "pistol" },
@@ -6986,10 +6996,7 @@
       "prof_spotting",
       "prof_wound_care",
       "prof_wound_care_expert",
-      "prof_intro_biology",
-      "prof_physiology",
       "prof_burn_care",
-      "prof_dissect_humans",
       "prof_gun_cleaning",
       "prof_knives_familiar",
       "prof_auto_rifles_familiar",
@@ -7105,15 +7112,17 @@
     "name": "Hazmat Unit",
     "description": "You were deployed to autopsy one of the rioters showing feral behavior before being put down.  When they got back up, you knew this was out of your pay grade.",
     "npc_background": "BG_survival_story_WORKER_FIREFIGHTER",
-    "points": 4,
-    "skills": [ { "level": 6, "name": "firstaid" } ],
+    "points": 5,
+    "skills": [ { "level": 7, "name": "firstaid" }, { "level": 4, "name": "chemistry" } ],
     "proficiencies": [
       "prof_wound_care",
       "prof_wound_care_expert",
       "prof_intro_biology",
+      "prof_intro_chemistry",
       "prof_physiology",
       "prof_burn_care",
       "prof_dissect_humans",
+      "prof_organic_chemistry",
       "prof_gross_anatomy"
     ],
     "traits": [ "PROF_MED" ],
@@ -7134,7 +7143,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 26
   },
   {
     "type": "profession",
