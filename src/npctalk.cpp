@@ -6292,7 +6292,7 @@ talk_effect_fun_t::func f_manage_mortar_ammo()
             }
             if( action == 0 ) {
                 const int transferred = give_mortar_rounds( *gunner,
-                                          _( "Select mortar rounds to hand over" ) );
+                                        _( "Select mortar rounds to hand over" ) );
                 if( transferred > 0 ) {
                     add_msg( _( "You hand %1$d mortar round to %2$s." ), transferred,
                              gunner->disp_name() );
@@ -6452,7 +6452,7 @@ void request_mortar_fire( dialogue const &d, const bool repeat_target )
             const int max_range_omt = max_range_ms / ( 2 * SEEX );
             const tripoint_abs_omt mortar_omt = project_to<coords::omt>( *mortar_abs );
             const tripoint_abs_omt target_omt = ui::omap::choose_point( _( "Pick a mortar target." ),
-                                               mortar_omt, false, max_range_omt );
+                                                mortar_omt, false, max_range_omt );
             if( target_omt == tripoint_abs_omt::invalid ) {
                 return;
             }
@@ -6500,7 +6500,7 @@ void request_mortar_fire( dialogue const &d, const bool repeat_target )
 
     double minor_cep = 0.0;
     const tripoint_abs_ms impact_abs_ms = apply_mortar_dispersion( *target_abs_ms, *mortar_abs,
-                                           *target_abs_ms, cep, launcher_skill, minor_cep );
+                                          *target_abs_ms, cep, launcher_skill, minor_cep );
 
     bool scheduled = false;
     for( const ammo_effect_str_id &ammo_eff : round->ammo_data()->ammo->ammo_effects ) {
