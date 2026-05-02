@@ -1,6 +1,10 @@
 #include "timed_event.h"
 
+#include <algorithm>
 #include <array>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
 #include <memory>
 #include <optional>
 #include <string>
@@ -16,6 +20,7 @@
 #include "event_bus.h"
 #include "explosion.h"
 #include "game.h"
+#include "line.h"
 #include "magic.h"
 #include "map.h"
 #include "map_extras.h"
@@ -59,6 +64,22 @@ static const ter_str_id ter_t_stairs_down( "t_stairs_down" );
 static const ter_str_id ter_t_underbrush( "t_underbrush" );
 static const ter_str_id ter_t_water_dp( "t_water_dp" );
 static const ter_str_id ter_t_water_sh( "t_water_sh" );
+
+static int round_to_nearest_10( const double value )
+{
+    return static_cast<int>( std::round( value / 10.0 ) ) * 10;
+}
+
+static std::optional<tripoint_abs_ms> parse_mortar_target_key( const std::string &key )
+{
+    int x = 0;
+    int y = 0;
+    int z = 0;
+    if( std::sscanf( key.c_str(), "%d,%d,%d", &x, &y, &z ) != 3 ) {
+        return std::nullopt;
+    }
+    return tripoint_abs_ms( x, y, z );
+}
 
 timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p,
                           int s, std::string key )
@@ -292,6 +313,44 @@ void timed_event::actualize()
             };
             const mtype_id &montype = random_entry( temple_monsters );
             g->place_critter_around( montype, pos, 2 );
+        }
+        break;
+
+        case timed_event_type::MORTAR_FIRE_MESSAGE:
+            if( string_id.empty() ) {
+                add_msg( m_info, _( "Over the radio, you hear, \"Shot out.\"" ) );
+            } else {
+                add_msg( m_info, _( "Over the radio, %s reports, \"Shot out.\"" ), string_id );
+            }
+            break;
+
+        case timed_event_type::MORTAR_IMPACT_MESSAGE: {
+            const std::optional<tripoint_abs_ms> target = parse_mortar_target_key( key );
+            if( !target ) {
+                debugmsg( "Mortar impact message missing target key: %s", key );
+                break;
+            }
+
+            const int dx = map_square.x() - target->x();
+            const int dy = map_square.y() - target->y();
+            const int miss_distance = round_to_nearest_10( std::hypot( dx, dy ) );
+            const bool in_bubble = here.inbounds( map_square );
+            const int player_distance = rl_dist( player_character.pos_abs(), map_square );
+            const std::string cue = !in_bubble ? _( "heard in the far distance" ) :
+                                    player_distance > MAX_VIEW_DISTANCE ? _( "heard in the distance" ) :
+                                    _( "observed" );
+            const std::string recipient = string_id.empty() ? _( "the mortar team" ) : string_id;
+
+            if( miss_distance == 0 ) {
+                add_msg( m_info, _( "You radio back to %1$s: \"Splash %2$s, on target.\"" ),
+                         recipient, cue );
+            } else {
+                const std::string miss_direction = direction_name( direction_from( point::zero,
+                                                   point( dx, dy ) ) );
+                add_msg( m_info,
+                         _( "You radio back to %1$s: \"Splash %2$s, about %3$d meters %4$s of target.\"" ),
+                         recipient, cue, miss_distance, miss_direction );
+            }
         }
         break;
 

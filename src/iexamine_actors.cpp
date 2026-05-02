@@ -41,6 +41,7 @@
 #include "point.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "skill.h"
 #include "talker.h"
 #include "timed_event.h"
 #include "translations.h"
@@ -50,8 +51,52 @@
 
 static const activity_id ACT_MORTAR_AIMING( "ACT_MORTAR_AIMING" );
 
+static const skill_id skill_launcher( "launcher" );
+
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
+
+static double mortar_minimum_cep_for_skill( const int launcher_skill )
+{
+    return std::max( 5.0, 20.0 - launcher_skill );
+}
+
+static double mortar_axis_ratio_for_skill( const double cep, const int launcher_skill )
+{
+    const double minimum_cep = mortar_minimum_cep_for_skill( launcher_skill );
+    const double final_ratio = std::max( 1.2, 2.5 - launcher_skill * 0.1 );
+    const double progress = clamp( ( cep - minimum_cep ) / ( 100.0 - minimum_cep ), 0.0, 1.0 );
+    return final_ratio + ( 4.0 - final_ratio ) * progress;
+}
+
+static tripoint_abs_ms apply_mortar_skill_dispersion( const tripoint_abs_ms &target,
+        const tripoint_abs_ms &axis_from, const tripoint_abs_ms &axis_to, const double cep,
+        const int launcher_skill )
+{
+    const double axis_ratio = mortar_axis_ratio_for_skill( cep, launcher_skill );
+    const double minor_cep = cep / axis_ratio;
+    double ux = axis_to.x() - axis_from.x();
+    double uy = axis_to.y() - axis_from.y();
+    const double axis_length = std::hypot( ux, uy );
+    if( axis_length > 0.0 ) {
+        ux /= axis_length;
+        uy /= axis_length;
+    } else {
+        ux = 1.0;
+        uy = 0.0;
+    }
+
+    // For a normal distribution, 50% of results fall inside about 1.177 sigma.
+    const double major_sigma = cep / 1.1774;
+    const double minor_sigma = minor_cep / 1.1774;
+    const double major_offset = normal_roll( 0.0, major_sigma );
+    const double minor_offset = normal_roll( 0.0, minor_sigma );
+    const double dx = major_offset * ux - minor_offset * uy;
+    const double dy = major_offset * uy + minor_offset * ux;
+    return tripoint_abs_ms( target.x() + static_cast<int>( std::round( dx ) ),
+                            target.y() + static_cast<int>( std::round( dy ) ),
+                            target.z() );
+}
 
 void appliance_convert_examine_actor::load( const JsonObject &jo, const std::string & )
 {
@@ -387,19 +432,23 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
 
     tripoint_abs_ms target_abs_ms = project_to<coords::ms>( target );
 
-    const int deviation = ( aim_deviation.evaluate( d ) * rl_dist( you.pos_abs(), target_abs_ms ) / 2 );
-    // aim at the center of OMT, but with some deviation
-    // we just assume mortar projectiles fall at 90 degrees, duh
-    target_abs_ms.x() += rng_float( 12 + deviation, 12 - deviation );
-    target_abs_ms.y() += rng_float( 12 + deviation, 12 - deviation );
+    // Aim at the center of OMT, then apply indirect-fire dispersion comparable
+    // to NPC-guided mortar fire for the same launcher skill.
+    target_abs_ms.x() += 12;
+    target_abs_ms.y() += 12;
     // we can have edge cases with it if, for example, we target radio tower (high building, but with small profile)
     target_abs_ms.z() = overmap_buffer.highest_omt_point( project_to<coords::omt>( target_abs_ms ) );
+    const int launcher_skill = you.get_skill_level( skill_launcher );
+    const tripoint_abs_ms mortar_abs = here.get_abs( examp );
+    target_abs_ms = apply_mortar_skill_dispersion( target_abs_ms, mortar_abs, target_abs_ms, 100.0,
+                    launcher_skill );
 
     for( ammo_effect_str_id ammo_eff : loc.get_item()->ammo_data()->ammo->ammo_effects ) {
-        if( ammo_eff.obj().aoe_explosion_data.power > 0 ) {
+        const ammo_effect &effect = ammo_eff.obj();
+        if( effect.aoe_explosion_data.power > 0 ) {
             get_timed_events().add( timed_event_type::EXPLOSION,
                                     calendar::turn + flight_time.evaluate( d ) + aim_dur,
-                                    target_abs_ms, ammo_eff.obj().aoe_explosion_data );
+                                    target_abs_ms, effect.aoe_explosion_data );
         }
 
     }

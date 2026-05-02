@@ -51,6 +51,11 @@
         "effect": "reveal_stats"
       },
       { "text": "Please go to this location.", "topic": "TALK_GOTO_LOCATION", "effect": "goto_location" },
+      {
+        "text": "Mortar fire support.",
+        "condition": { "and": [ "is_by_radio", { "compare_string": [ "m224", { "npc_val": "mortar_assignment" } ] } ] },
+        "topic": "TALK_NPC_MORTAR_SUPPORT"
+      },
       { "text": "There's something I want you to do.", "topic": "TALK_ALLY_ORDERS" },
       { "text": "I just wanted to talk for a bit.", "topic": "TALK_ALLY_SOCIAL" },
       { "text": "Can you help me understand something?  (HELP/TUTORIAL)", "topic": "TALK_ALLY_TUTORIAL" },
@@ -66,6 +71,45 @@
         "effect": "return_to_camp_duties"
       },
       { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
+      { "text": "<lets_go>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NPC_MORTAR_SUPPORT",
+    "type": "talk_topic",
+    "dynamic_line": "Mortar radio is open.  What do you need?",
+    "responses": [
+      {
+        "text": "Fire a mortar round at a target I mark.",
+        "condition": { "and": [ "is_by_radio", { "compare_string": [ "m224", { "npc_val": "mortar_assignment" } ] } ] },
+        "topic": "TALK_DONE",
+        "effect": "request_mortar_fire"
+      },
+      {
+        "text": "Repeat the last mortar fire mission.",
+        "condition": {
+          "and": [
+            "is_by_radio",
+            { "compare_string": [ "m224", { "npc_val": "mortar_assignment" } ] },
+            { "compare_string": [ "yes", { "npc_val": "mortar_has_target" } ] }
+          ]
+        },
+        "topic": "TALK_DONE",
+        "effect": "request_mortar_repeat_fire"
+      },
+      {
+        "text": "Select mortar ammunition.",
+        "condition": { "and": [ "is_by_radio", { "compare_string": [ "m224", { "npc_val": "mortar_assignment" } ] } ] },
+        "topic": "TALK_DONE",
+        "effect": "select_mortar_ammo"
+      },
+      {
+        "text": "Report mortar ammunition.",
+        "condition": { "and": [ "is_by_radio", { "compare_string": [ "m224", { "npc_val": "mortar_assignment" } ] } ] },
+        "topic": "TALK_DONE",
+        "effect": "report_mortar_support"
+      },
+      { "text": "Back to the radio menu.", "topic": "TALK_NONE" },
       { "text": "<lets_go>", "topic": "TALK_DONE" }
     ]
   },
@@ -310,6 +354,30 @@
         "topic": "TALK_DONE",
         "condition": "npc_has_activity",
         "effect": "revert_activity"
+      },
+      {
+        "text": "Man the nearby mortar and take these rounds.",
+        "condition": {
+          "and": [
+            { "not": "is_by_radio" },
+            { "not": "npc_has_activity" },
+            { "not": { "npc_has_trait": "HALLUCINATION" } }
+          ]
+        },
+        "topic": "TALK_DONE",
+        "effect": "assign_mortar"
+      },
+      {
+        "text": "Manage mortar ammunition.",
+        "condition": {
+          "and": [
+            { "not": "is_by_radio" },
+            { "not": "npc_has_activity" },
+            { "compare_string": [ "m224", { "npc_val": "mortar_assignment" } ] }
+          ]
+        },
+        "topic": "TALK_DONE",
+        "effect": "manage_mortar_ammo"
       },
       {
         "text": "Please sort out some of these items nearby.",
