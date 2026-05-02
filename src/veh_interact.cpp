@@ -33,6 +33,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "handle_liquid.h"
+#include "input_popup.h"
 #include "inventory.h"
 #include "item.h"
 #include "itype.h"
@@ -55,7 +56,6 @@
 #include "ret_val.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "tileray.h"
 #include "translation.h"
 #include "translations.h"
@@ -1035,12 +1035,12 @@ void veh_interact::do_install( map &here )
         const std::string action = main_context.handle_input();
         msg.reset();
         if( action == "FILTER" ) {
-            string_input_popup()
-            .title( _( "Search for part" ) )
-            .width( 50 )
-            .description( _( "Filter" ) )
-            .max_length( 100 )
-            .edit( filter );
+            string_input_popup_imgui popup(34);
+            popup.set_text(_("Search for part"));
+            popup.set_description(_("Filter"));
+            100jpopup.set_max_input_length(100);
+
+      filter = popup.query();
             tab = tab_filters.size() - 1; // Move to the user filter tab.
             pos = 0;
         } else if( action == "REPAIR" ) {
@@ -2058,11 +2058,8 @@ void veh_interact::do_assign_crew( map &here )
 
 void veh_interact::do_rename()
 {
-    std::string name = string_input_popup()
-                       .title( _( "Enter new vehicle name:" ) )
-                       .width( 60 )
-                       .text( veh->name )
-                       .query_string();
+    string_input_popup_imgui popup(34, veh->name, _("Enter new vechicle name:"));
+    std::string name = popup.query();
     if( !name.empty() ) {
         veh->name = name;
         if( veh->tracking_on ) {
@@ -2081,12 +2078,9 @@ void veh_interact::do_relabel( const map &here )
     }
 
     const vpart_position vp( *veh, cpart );
-    string_input_popup pop;
-    std::string text = pop
-                       .title( _( "New label:" ) )
-                       .width( 20 )
-                       .text( vp.get_label().value_or( "" ) )
-                       .query_string();
+    string_input_popup_imgui popup(34, vp.get_label().value_or(""),
+                                 _("New label:"));
+    std::string text = popup.query();
     if( pop.confirmed() ) {
         vp.set_label( text );
     }
