@@ -357,13 +357,7 @@
       },
       {
         "text": "Man the nearby mortar and take these rounds.",
-        "condition": {
-          "and": [
-            { "not": "is_by_radio" },
-            { "not": "npc_has_activity" },
-            { "not": { "npc_has_trait": "HALLUCINATION" } }
-          ]
-        },
+        "condition": { "and": [ { "not": "is_by_radio" }, { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
         "topic": "TALK_DONE",
         "effect": "assign_mortar"
       },

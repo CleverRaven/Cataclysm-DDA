@@ -174,7 +174,7 @@ static const efftype_id effect_under_operation( "under_operation" );
 static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
 static const flag_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
 
-static const ammotype ammotype_mortar_60mm( "mortar_60mm" );
+static const ammotype ammo_mortar_60mm( "mortar_60mm" );
 static const furn_str_id furn_f_m224_mortar( "f_m224_mortar" );
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
@@ -5773,7 +5773,7 @@ talk_effect_fun_t::func f_take_control_menu()
     };
 }
 
-static std::optional<tripoint_bub_ms> find_nearby_m224_mortar( const Character &center )
+std::optional<tripoint_bub_ms> find_nearby_m224_mortar( const Character &center )
 {
     map &here = get_map();
     const tripoint_bub_ms center_pos = center.pos_bub( here );
@@ -5792,12 +5792,12 @@ static std::optional<tripoint_bub_ms> find_nearby_m224_mortar( const Character &
     return best;
 }
 
-static bool is_60mm_mortar_round( const item &it )
+bool is_60mm_mortar_round( const item &it )
 {
-    return it.ammo_type() == ammotype_mortar_60mm;
+    return it.ammo_type() == ammo_mortar_60mm;
 }
 
-static int diag_value_to_int( const diag_value &value, const int fallback = 0 )
+int diag_value_to_int( const diag_value &value, const int fallback = 0 )
 {
     if( value.is_dbl() ) {
         return static_cast<int>( value.dbl() );
@@ -5812,17 +5812,17 @@ static int diag_value_to_int( const diag_value &value, const int fallback = 0 )
     return fallback;
 }
 
-static std::string mortar_ammo_count_key( const itype_id &ammo_id )
+std::string mortar_ammo_count_key( const itype_id &ammo_id )
 {
     return "mortar_ammo_" + ammo_id.str();
 }
 
-static int mortar_ammo_count( const npc &gunner, const itype_id &ammo_id )
+int mortar_ammo_count( const npc &gunner, const itype_id &ammo_id )
 {
     return std::max( 0, diag_value_to_int( gunner.get_value( mortar_ammo_count_key( ammo_id ) ) ) );
 }
 
-static std::optional<itype_id> selected_mortar_ammo( const npc &gunner )
+std::optional<itype_id> selected_mortar_ammo( const npc &gunner )
 {
     const diag_value selected = gunner.get_value( "mortar_selected_ammo" );
     if( !selected.is_str() || selected.str().empty() ) {
@@ -5835,12 +5835,12 @@ static std::optional<itype_id> selected_mortar_ammo( const npc &gunner )
     return ammo_id;
 }
 
-static void set_selected_mortar_ammo( npc &gunner, const itype_id &ammo_id )
+void set_selected_mortar_ammo( npc &gunner, const itype_id &ammo_id )
 {
     gunner.set_value( "mortar_selected_ammo", ammo_id.str() );
 }
 
-static std::vector<std::string> mortar_ammo_types( const npc &gunner )
+std::vector<std::string> mortar_ammo_types( const npc &gunner )
 {
     std::vector<std::string> result;
     const diag_value stored_types = gunner.get_value( "mortar_ammo_types" );
@@ -5850,22 +5850,22 @@ static std::vector<std::string> mortar_ammo_types( const npc &gunner )
     return result;
 }
 
-static void add_mortar_ammo_type( npc &gunner, const itype_id &ammo_id )
+void add_mortar_ammo_type( npc &gunner, const itype_id &ammo_id )
 {
     std::vector<std::string> ammo_types = mortar_ammo_types( gunner );
-    const std::string ammo_type = ammo_id.str();
+    const std::string &ammo_type = ammo_id.str();
     if( std::find( ammo_types.begin(), ammo_types.end(), ammo_type ) == ammo_types.end() ) {
         ammo_types.emplace_back( ammo_type );
         gunner.set_value( "mortar_ammo_types", string_join( ammo_types, "," ) );
     }
 }
 
-static void set_mortar_ammo_count( npc &gunner, const itype_id &ammo_id, const int count )
+void set_mortar_ammo_count( npc &gunner, const itype_id &ammo_id, const int count )
 {
     gunner.set_value( mortar_ammo_count_key( ammo_id ), std::max( 0, count ) );
 }
 
-static void add_mortar_ammo( npc &gunner, const item &round, const int count )
+void add_mortar_ammo( npc &gunner, const item &round, const int count )
 {
     if( count <= 0 ) {
         return;
@@ -5878,9 +5878,9 @@ static void add_mortar_ammo( npc &gunner, const item &round, const int count )
     }
 }
 
-static std::vector<itype_id> available_mortar_ammo_types( const npc &gunner );
+std::vector<itype_id> available_mortar_ammo_types( const npc &gunner );
 
-static drop_locations select_nearby_handover_items( const std::function<bool( const item & )> &filter,
+drop_locations select_nearby_handover_items( const std::function<bool( const item & )> &filter,
         const std::string &title, const bool quiet = false )
 {
     avatar &you = get_avatar();
@@ -5902,7 +5902,7 @@ static drop_locations select_nearby_handover_items( const std::function<bool( co
     return inv_s.execute( true );
 }
 
-static std::optional<item> take_handover_item( item_location &loc, const int requested_count )
+std::optional<item> take_handover_item( item_location &loc, const int requested_count )
 {
     if( !loc ) {
         return std::nullopt;
@@ -5923,7 +5923,7 @@ static std::optional<item> take_handover_item( item_location &loc, const int req
     return taken;
 }
 
-static int give_mortar_rounds( npc &gunner, const std::string &title, const bool quiet = false )
+int give_mortar_rounds( npc &gunner, const std::string &title, const bool quiet = false )
 {
     int transferred = 0;
     drop_locations selected_rounds = select_nearby_handover_items( is_60mm_mortar_round, title, quiet );
@@ -5939,7 +5939,7 @@ static int give_mortar_rounds( npc &gunner, const std::string &title, const bool
     return transferred;
 }
 
-static std::string mortar_ammo_summary( const npc &gunner )
+std::string mortar_ammo_summary( const npc &gunner )
 {
     std::vector<std::string> lines;
     for( const itype_id &ammo_id : available_mortar_ammo_types( gunner ) ) {
@@ -5950,7 +5950,7 @@ static std::string mortar_ammo_summary( const npc &gunner )
     return lines.empty() ? _( "nothing" ) : string_join( lines, ", " );
 }
 
-static int total_mortar_ammo_count( const npc &gunner )
+int total_mortar_ammo_count( const npc &gunner )
 {
     int total = 0;
     for( const itype_id &ammo_id : available_mortar_ammo_types( gunner ) ) {
@@ -5959,7 +5959,7 @@ static int total_mortar_ammo_count( const npc &gunner )
     return total;
 }
 
-static int take_back_mortar_rounds( npc &gunner )
+int take_back_mortar_rounds( npc &gunner )
 {
     const std::vector<itype_id> ammo_types = available_mortar_ammo_types( gunner );
     if( ammo_types.empty() ) {
@@ -5995,7 +5995,7 @@ static int take_back_mortar_rounds( npc &gunner )
     return count;
 }
 
-static std::optional<item> take_cached_mortar_round( npc &gunner )
+std::optional<item> take_cached_mortar_round( npc &gunner )
 {
     if( const std::optional<itype_id> selected = selected_mortar_ammo( gunner ) ) {
         set_mortar_ammo_count( gunner, *selected, mortar_ammo_count( gunner, *selected ) - 1 );
@@ -6020,7 +6020,7 @@ static std::optional<item> take_cached_mortar_round( npc &gunner )
     return std::nullopt;
 }
 
-static void cache_physical_mortar_rounds( npc &gunner )
+void cache_physical_mortar_rounds( npc &gunner )
 {
     std::list<item> ammo = gunner.remove_items_with( is_60mm_mortar_round );
     for( item &round : ammo ) {
@@ -6028,7 +6028,7 @@ static void cache_physical_mortar_rounds( npc &gunner )
     }
 }
 
-static std::optional<item> take_mortar_round( npc &gunner )
+std::optional<item> take_mortar_round( npc &gunner )
 {
     cache_physical_mortar_rounds( gunner );
     if( std::optional<item> round = take_cached_mortar_round( gunner ) ) {
@@ -6037,7 +6037,7 @@ static std::optional<item> take_mortar_round( npc &gunner )
     return std::nullopt;
 }
 
-static std::vector<itype_id> available_mortar_ammo_types( const npc &gunner )
+std::vector<itype_id> available_mortar_ammo_types( const npc &gunner )
 {
     std::vector<itype_id> result;
     for( const std::string &ammo_type : mortar_ammo_types( gunner ) ) {
@@ -6049,7 +6049,7 @@ static std::vector<itype_id> available_mortar_ammo_types( const npc &gunner )
     return result;
 }
 
-static std::optional<tripoint_abs_ms> get_assigned_mortar_pos( const npc &gunner )
+std::optional<tripoint_abs_ms> get_assigned_mortar_pos( const npc &gunner )
 {
     if( gunner.get_value( "mortar_assignment" ).str() != "m224" ) {
         return std::nullopt;
@@ -6059,7 +6059,7 @@ static std::optional<tripoint_abs_ms> get_assigned_mortar_pos( const npc &gunner
                             static_cast<int>( gunner.get_value( "mortar_assignment_z" ).dbl() ) );
 }
 
-static std::optional<tripoint_abs_ms> get_mortar_last_target( const npc &gunner )
+std::optional<tripoint_abs_ms> get_mortar_last_target( const npc &gunner )
 {
     if( gunner.get_value( "mortar_has_target" ).str() != "yes" ) {
         return std::nullopt;
@@ -6069,7 +6069,7 @@ static std::optional<tripoint_abs_ms> get_mortar_last_target( const npc &gunner 
                             static_cast<int>( gunner.get_value( "mortar_target_z" ).dbl() ) );
 }
 
-static void set_mortar_last_target( npc &gunner, const tripoint_abs_ms &target )
+void set_mortar_last_target( npc &gunner, const tripoint_abs_ms &target )
 {
     gunner.set_value( "mortar_has_target", "yes" );
     gunner.set_value( "mortar_target_x", target.x() );
@@ -6077,7 +6077,7 @@ static void set_mortar_last_target( npc &gunner, const tripoint_abs_ms &target )
     gunner.set_value( "mortar_target_z", target.z() );
 }
 
-static double get_mortar_current_cep( const npc &gunner )
+double get_mortar_current_cep( const npc &gunner )
 {
     const diag_value cep_value = gunner.get_value( "mortar_current_cep" );
     if( cep_value.is_empty() ) {
@@ -6096,17 +6096,17 @@ static double get_mortar_current_cep( const npc &gunner )
     return 100.0;
 }
 
-static void set_mortar_current_cep( npc &gunner, const double cep )
+void set_mortar_current_cep( npc &gunner, const double cep )
 {
     gunner.set_value( "mortar_current_cep", cep );
 }
 
-static double mortar_minimum_cep( const int launcher_skill )
+double mortar_minimum_cep( const int launcher_skill )
 {
     return std::max( 5.0, 20.0 - launcher_skill );
 }
 
-static double mortar_repeat_cep_multiplier( const int launcher_skill )
+double mortar_repeat_cep_multiplier( const int launcher_skill )
 {
     const double skill = clamp<double>( launcher_skill, 1.0, 10.0 );
     if( skill <= 2.0 ) {
@@ -6118,7 +6118,7 @@ static double mortar_repeat_cep_multiplier( const int launcher_skill )
     return 0.5 - ( skill - 5.0 ) * ( 0.2 / 5.0 );
 }
 
-static double mortar_axis_ratio( const double cep, const int launcher_skill )
+double mortar_axis_ratio( const double cep, const int launcher_skill )
 {
     const double minimum_cep = mortar_minimum_cep( launcher_skill );
     const double final_ratio = std::max( 1.2, 2.5 - launcher_skill * 0.1 );
@@ -6126,7 +6126,7 @@ static double mortar_axis_ratio( const double cep, const int launcher_skill )
     return final_ratio + ( 4.0 - final_ratio ) * progress;
 }
 
-static int mortar_heading_degrees( const tripoint_abs_ms &from, const tripoint_abs_ms &to )
+int mortar_heading_degrees( const tripoint_abs_ms &from, const tripoint_abs_ms &to )
 {
     static constexpr double pi = 3.14159265358979323846;
     const double dx = to.x() - from.x();
@@ -6138,7 +6138,7 @@ static int mortar_heading_degrees( const tripoint_abs_ms &from, const tripoint_a
     return degrees;
 }
 
-static tripoint_abs_ms apply_mortar_dispersion( const tripoint_abs_ms &target,
+tripoint_abs_ms apply_mortar_dispersion( const tripoint_abs_ms &target,
         const tripoint_abs_ms &axis_from, const tripoint_abs_ms &axis_to, const double cep,
         const int launcher_skill, double &minor_cep )
 {
@@ -6167,12 +6167,12 @@ static tripoint_abs_ms apply_mortar_dispersion( const tripoint_abs_ms &target,
                             target.z() );
 }
 
-static std::string encode_mortar_target_key( const tripoint_abs_ms &target )
+std::string encode_mortar_target_key( const tripoint_abs_ms &target )
 {
     return string_format( "%d,%d,%d", target.x(), target.y(), target.z() );
 }
 
-static void practice_mortar_shot( npc &gunner )
+void practice_mortar_shot( npc &gunner )
 {
     SkillLevel &launcher = gunner.get_skill_level_object( skill_launcher );
     launcher.set_exercise( launcher.exercise() + 1 );
@@ -6391,7 +6391,7 @@ talk_effect_fun_t::func f_select_mortar_ammo()
     };
 }
 
-static void request_mortar_fire( dialogue const &d, const bool repeat_target )
+void request_mortar_fire( dialogue const &d, const bool repeat_target )
 {
     npc *gunner = d.actor( true )->get_npc();
     if( gunner == nullptr ) {

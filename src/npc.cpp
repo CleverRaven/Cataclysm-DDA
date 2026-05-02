@@ -124,7 +124,7 @@ static const item_group_id Item_spawn_data_survivor_bashing( "survivor_bashing" 
 static const item_group_id Item_spawn_data_survivor_cutting( "survivor_cutting" );
 static const item_group_id Item_spawn_data_survivor_stabbing( "survivor_stabbing" );
 
-static const ammotype ammotype_mortar_60mm( "mortar_60mm" );
+static const ammotype ammo_mortar_60mm( "mortar_60mm" );
 static const itype_id itype_molotov( "molotov" );
 
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
@@ -3987,7 +3987,7 @@ int npc::clear_mortar_support( const bool notify )
     }
 
     std::list<item> physical_ammo = remove_items_with( []( const item & it ) {
-        return it.ammo_type() == ammotype_mortar_60mm;
+        return it.ammo_type() == ammo_mortar_60mm;
     } );
     for( item &round : physical_ammo ) {
         dropped_rounds += round.count_by_charges() ? round.charges : 1;
