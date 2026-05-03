@@ -2942,6 +2942,7 @@ static void faction_edit_menu()
             break;
         case D_THIEF:
             fac->steal_persist = std::nullopt;
+            break;
     }
 }
 
