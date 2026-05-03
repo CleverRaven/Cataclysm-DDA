@@ -5,9 +5,9 @@
     "items": [
       { "group": "ammo_can_60mm_m720a1_full", "prob": 100 },
       { "group": "ammo_can_60mm_m768_full", "prob": 80 },
-      { "group": "ammo_can_60mm_m769_full", "prob": 60 },
-      { "group": "ammo_can_60mm_m722_full", "prob": 50 },
-      { "group": "ammo_can_60mm_m721_full", "prob": 40 }
+      { "group": "ammo_can_60mm_m769_full", "prob": 70 },
+      { "group": "ammo_can_60mm_m722_full", "prob": 40 },
+      { "group": "ammo_can_60mm_m721_full", "prob": 30 }
     ]
   },
   {

@@ -96,7 +96,7 @@
       { "group": "ammo_can_belt40mm_full", "count": [ 2, 4 ], "prob": 50 },
       { "group": "ammo_box_84x246mm_any_full", "count": [ 3, 6 ], "prob": 192 },
       { "item": "LAW_Packed", "count": [ 2, 6 ], "prob": 30 },
-      { "group": "ammo_can_60mm_any_full", "count": [ 3, 6 ], "prob": 30 },
+      { "group": "ammo_can_60mm_any_full", "count": [ 3, 6 ], "prob": 40 },
       { "item": "atgm_heat", "count": [ 2, 6 ], "prob": 10 }
     ]
   },
