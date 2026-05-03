@@ -311,7 +311,7 @@
   {
     "type": "ITEM",
     "id": "discharging_battery",
-    "name": { "str": "discharging lithium-ion battery" },
+    "name": { "str": "discharging lithium-ion battery", "str_pl": "discharging lithium-ion batteries" },
     "symbol": "=",
     "color": "dark_gray",
     "description": "A lithium-ion battery that is soaking in saltwater.  After about a day, it should have short-circuited and discharged its energy, leaving it safe to handle… ideally.",
@@ -332,7 +332,7 @@
   {
     "type": "ITEM",
     "id": "discharged_storage_battery",
-    "name": { "str": "discharged lithium-ion battery" },
+    "name": { "str": "discharged lithium-ion battery", "str_pl": "discharged lithium-ion batteries" },
     "symbol": "=",
     "color": "dark_gray",
     "description": "A lithium-ion battery that has been shorted and discharged using saltwater.  At least, you hope it is.",
