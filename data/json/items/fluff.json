@@ -1920,7 +1920,7 @@
     "material": [ "acid" ],
     "volume": "400 ml",
     "weight": "700 g",
-    "phase": "liquid"
+    "phase": "liquid",
     "freezing_point": -30
   }
 ]
