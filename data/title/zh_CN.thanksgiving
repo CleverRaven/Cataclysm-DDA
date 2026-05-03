@@ -10,25 +10,20 @@
 <color_light_cyan>      **       ****                **     ***                  ***  ***        
 <color_light_cyan>   ***           *****         ****         *******        ****       *****    
 
-
-<color_light_blue>         ##                     ##              ####             ##   ##        
-<color_light_blue>         ##           #####  ########        ###    ###         ##############  
-<color_light_blue>    ##   ##    ##        ##  ## #  ##     ### ######## ###     ###    ##        
-<color_light_blue>   ##    ##   ##      ## ##  ##  ####            ##           ##      ##        
-<color_light_blue>        ###            ###   #########    ################      ##############  
-<color_light_blue>       ## ##           ####  ______ ##       ##  ##  ##               ##        
-<color_light_blue>     ###   ###        ##  #  ^^^^^^ ##     ###   ##   ###             ##        
-<color_light_blue>  ####        ###    ##         #####     ##   ####     ##     ################ 
-<color_white>                    .--.          
-<color_white>    {\<color_brown>             / <color_yellow>q<color_red> {\
-<color_white>    { `\<color_brown>           \ (-<color_red>(~`
-<color_white>   { '.{`\<color_brown>          \ \ <color_red>)
-<color_white>   {'-{ ' \<color_brown>  .-""'-. \ \
-<color_white>   {._{'.' \<color_brown>/       '.) \
-<color_white>   {_.{.   <color_brown>{`            |
-<color_white>   {._{ ' <color_brown>{   <color_white>;'-=-.<color_brown>     |
-<color_white>    {-.{.' <color_brown>{  <color_white>';-=-.`<color_brown>    /
-<color_white>     {._.{.<color_brown>;    <color_white>'-=-<color_brown>   .'
-<color_white>      {_.-' <color_brown>`'.__  _,-'
-<color_white>               <color_red>|||`
-<color_white>              <color_red>.='==,
+<color_light_blue>                                      ##                     ##        
+<color_light_blue>                                      ##           #####  ########     
+<color_light_blue>                                 ##   ##    ##        ##  ## #  ##     
+<color_light_blue>                                ##    ##   ##      ## ##  ##  ####     
+<color_white>                    .--.     <color_light_blue>        ###            ###   #########    
+<color_white>    {\<color_brown>             / <color_yellow>q<color_red> {\    <color_light_blue>       ## ##           ####  ______ ##    
+<color_white>    { `\<color_brown>           \ (-<color_red>(~`   <color_light_blue>     ###   ###        ##  #  ^^^^^^ ##    
+<color_white>   { '.{`\<color_brown>          \ \ <color_red>)    <color_light_blue>  ####        ###    ##         #####  
+<color_white>   {'-{ ' \<color_brown>  .-""'-. \ \                  
+<color_white>   {._{'.' \<color_brown>/       '.) \               <color_light_blue>      ####             ##   ##        
+<color_white>   {_.{.   <color_brown>{`            |              <color_light_blue>   ###    ###         ##############  
+<color_white>   {._{ ' <color_brown>{   <color_white>;'-=-.<color_brown>     |              <color_light_blue>### ######## ###     ###    ##        
+<color_white>    {-.{.' <color_brown>{  <color_white>';-=-.`<color_brown>    /              <color_light_blue>       ##           ##      ##        
+<color_white>     {._.{.<color_brown>;    <color_white>'-=-<color_brown>   .'               <color_light_blue>################      ##############  
+<color_white>      {_.-' <color_brown>`'.__  _,-'                 <color_light_blue>   ##  ##  ##               ##        
+<color_white>               <color_red>|||`                     <color_light_blue> ###   ##   ###             ##        
+<color_white>              <color_red>.='==,                    <color_light_blue>##   ####     ##     ################ 
