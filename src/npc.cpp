@@ -53,6 +53,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
