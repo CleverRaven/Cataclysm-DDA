@@ -1916,11 +1916,10 @@
     "name": { "str_sp": "Electrolyte Slurry" },
     "symbol": "o",
     "color": "cyan",
-    "description": "The leftover remnants of what was inside of a lithium-ion battery. It has a rainbow sheen, almost like oil resting on water.",
+    "description": "The leftover remnants of what was inside of a lithium-ion battery.  It has a rainbow sheen, almost like oil resting on water.",
     "material": [ "acid" ],
     "volume": "400 ml",
     "weight": "700 g",
-    "phase": "liquid",
-    "freezing_point": -30
+    "phase": "liquid"
   }
 ]
