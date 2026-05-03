@@ -5984,7 +5984,7 @@ drop_locations select_nearby_handover_items( const std::function<bool( const ite
     inv_s.set_display_stats( false );
     inv_s.clear_items();
     inv_s.add_character_items( you );
-    inv_s.add_nearby_items( 1 );
+    inv_s.add_nearby_items( PICKUP_RANGE );
     if( inv_s.empty() ) {
         if( !quiet ) {
             popup( _( "You don't have any matching items at hand." ), PF_GET_KEY );
