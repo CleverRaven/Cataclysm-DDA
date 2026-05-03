@@ -1000,7 +1000,7 @@
         "region_type": "netherum_labyrinth2",
         "npc_travel_filter": "none",
         "fail_message": "Nope!",
-        "success_message": "The mist fades away."
+        "success_message": "You experience brief vertigo and the mist before you fades away."
       },
       {
         "u_location_variable": { "global_val": "labyrinth_nl_new_loc" },
@@ -1029,7 +1029,7 @@
         "region_type": "netherum_labyrinth",
         "npc_travel_filter": "none",
         "fail_message": "Nope!",
-        "success_message": "The mist fades away"
+        "success_message": "You experience brief vertigo and the mist before you fades away."
       },
       {
         "u_location_variable": { "global_val": "labyrinth_nl_new_loc" },
