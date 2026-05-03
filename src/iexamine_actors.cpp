@@ -41,7 +41,6 @@
 #include "overmapbuffer.h"
 #include "point.h"
 #include "ret_val.h"
-#include "skill.h"
 #include "talker.h"
 #include "timed_event.h"
 #include "translations.h"
