@@ -1145,6 +1145,7 @@ CDC
 CDDA
 CDL
 CE
+CEP
 cecaelia
 cecaelian
 Celsius
@@ -5056,6 +5057,7 @@ otherworlds
 otherworldy
 Othniel
 Otis
+OT
 OTM
 OTMSS
 Otomo
