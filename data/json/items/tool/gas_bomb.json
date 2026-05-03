@@ -227,38 +227,31 @@
   },
   {
     "id": "gasbomb_makeshift",
-    "copy-from": "gasbomb",
     "type": "ITEM",
+    "copy-from": "abstract_gas_bomb_inactive",
     "name": { "str": "makeshift toxic gas grenade" },
-    "description": "A crude gas bomb made using household chemicals.  Use this item to arm it.  In three seconds it will begin to expel a highly toxic gas for a short time.  This gas poisons those exposed to it, in addition to obscuring vision and scent.",
-    "price": "5 USD",
-    "price_postapoc": "2 USD 50 cent",
+    "description": "A makeshift canister grenade filled with household chemicals.  Use this item to pull the pin and start the fuse, turning it into an active toxic gas grenade.  In five seconds it will begin to expel a highly toxic gas for a short time.  This gas poisons those exposed to it, in addition to obscuring vision and scent.",
     "use_action": {
       "need_wielding": true,
-      "target": "gasbomb_makeshift_act",
-      "msg": "You pull the pin on the %s.",
       "menu_text": "Pull pin",
-      "type": "transform"
-    },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "CYLINDER_GRENADE" ]
+      "msg": "You pull the pin on the %s.",
+      "type": "transform",
+      "target": "gasbomb_makeshift_primed"
+    }
+  },
+  {
+    "id": "gasbomb_makeshift_primed",
+    "type": "ITEM",
+    "copy-from": "abstract_gas_bomb_primed",
+    "name": { "str": "makeshift toxic gas grenade" },
+    "revert_to": "gasbomb_makeshift_act"
   },
   {
     "id": "gasbomb_makeshift_act",
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "copy-from": "gasbomb_makeshift",
-    "looks_like": "smokebomb_act",
-    "description": "This homemade canister of poison gas has been unsealed, and is (or will shortly be) expelling highly toxic gas.  You should consider getting rid of it soon.",
-    "use_action": { "type": "message", "message": "You've already pulled the pin, try throwing it instead.", "name": "Pull pin" },
-    "revert_to": "canister_empty",
-    "countdown_interval": "3 seconds",
-    "countdown_action": {
-      "type": "explosion",
-      "fields_type": "fd_toxic_gas",
-      "fields_radius": 2,
-      "fields_min_intensity": 1,
-      "fields_max_intensity": 3
-    },
-    "flags": [ "DANGEROUS", "SPAWN_ACTIVE" ]
+    "copy-from": "abstract_gas_bomb_active",
+    "name": { "str": "makeshift toxic gas grenade" },
+    "countdown_interval": "30 seconds",
+    "emits": [ "emit_toxic_stream" ]
   }
 ]
