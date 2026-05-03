@@ -86,7 +86,7 @@
     ],
     "price": "300 USD",
     "price_postapoc": "8 USD",
-    "extend": { "effects": [ "SMOKE_BIG" ] },
+    "extend": { "effects": [ "EXPLOSIVE_60mm_PRACTICE", "SMOKE_BIG" ] },
     "delete": { "effects": [ "EXPLOSIVE_60mmHE" ] }
   },
   {
