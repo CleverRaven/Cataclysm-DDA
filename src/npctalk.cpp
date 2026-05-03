@@ -1005,7 +1005,6 @@ static int npc_activities_menu()
     nmenu.addentry( NPC_CHAT_ACTIVITIES_FISHING, true, 'F', _( "Fishing in a zone" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_MINING, true, 'M', _( "Mining out tiles" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_MOPPING, true, 'm', _( "Mopping up stains" ) );
-    nmenu.addentry( NPC_CHAT_ACTIVITIES_MAN_MORTAR, true, 'o', _( "Manning a nearby mortar" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_READ_REPEATEDLY, true, 'R',
                     _( "Study from books you have in order" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_STUDY, true, 's',
@@ -1015,6 +1014,7 @@ static int npc_activities_menu()
     nmenu.addentry( NPC_CHAT_ACTIVITIES_VEHICLE_REPAIR, true, 'V', _( "Repairing vehicles" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_UNASSIGN, true, '-',
                     _( "Taking it easy (Stop what they are working on)" ) );
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_MAN_MORTAR, true, 'o', _( "Manning a nearby mortar" ) );
 
     nmenu.query();
 

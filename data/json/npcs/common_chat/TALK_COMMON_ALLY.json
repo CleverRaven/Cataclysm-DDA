@@ -350,18 +350,6 @@
         "effect": "revert_activity"
       },
       {
-        "text": "Man the nearby mortar and take these rounds.",
-        "condition": { "and": [ { "not": "is_by_radio" }, { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
-        "topic": "TALK_DONE",
-        "effect": "assign_mortar"
-      },
-      {
-        "text": "Manage mortar ammunition.",
-        "condition": { "and": [ { "not": "is_by_radio" }, { "math": [ "has_var(n_mortar_assignment)" ] } ] },
-        "topic": "TALK_DONE",
-        "effect": "manage_mortar_ammo"
-      },
-      {
         "text": "Please sort out some of these items nearby.",
         "topic": "TALK_DONE",
         "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
@@ -462,6 +450,18 @@
         "topic": "TALK_DONE",
         "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
         "effect": "do_craft"
+      },
+      {
+        "text": "Manage mortar ammunition.",
+        "condition": { "and": [ { "not": "is_by_radio" }, { "math": [ "has_var(n_mortar_assignment)" ] } ] },
+        "topic": "TALK_DONE",
+        "effect": "manage_mortar_ammo"
+      },
+      {
+        "text": "Man the nearby mortar and take these rounds.",
+        "condition": { "and": [ { "not": "is_by_radio" }, { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "topic": "TALK_DONE",
+        "effect": "assign_mortar"
       }
     ]
   },
