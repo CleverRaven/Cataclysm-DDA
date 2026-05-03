@@ -6186,6 +6186,17 @@ std::optional<tripoint_abs_ms> get_mortar_last_target( const npc &gunner )
     return target.tripoint();
 }
 
+std::string mortar_fire_event_key( const npc &gunner )
+{
+    return string_format( "mortar_fire_%d", gunner.getID().get_value() );
+}
+
+bool mortar_fire_order_pending( const npc &gunner )
+{
+    return get_timed_events().get( timed_event_type::MORTAR_FIRE_MESSAGE,
+                                   mortar_fire_event_key( gunner ) ) != nullptr;
+}
+
 void set_mortar_last_target( npc &gunner, const tripoint_abs_ms &target )
 {
     gunner.set_value( "mortar_target", target );
@@ -6382,6 +6393,10 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
         add_msg( _( "%s is too far from the assigned mortar." ), gunner.disp_name() );
         return;
     }
+    if( mortar_fire_order_pending( gunner ) ) {
+        add_msg( _( "%s is still preparing the previous mortar fire mission." ), gunner.disp_name() );
+        return;
+    }
 
     const int max_range_ms = mortar_data.range();
     map &here = get_map();
@@ -6491,7 +6506,7 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
 
     get_timed_events().add( timed_event_type::MORTAR_FIRE_MESSAGE,
                             calendar::turn + mortar_data.npc_fire_message_delay(), -1,
-                            impact_abs_ms, -1, gunner.disp_name(), "" );
+                            impact_abs_ms, -1, gunner.disp_name(), mortar_fire_event_key( gunner ) );
     get_timed_events().add( timed_event_type::MORTAR_IMPACT_MESSAGE,
                             calendar::turn + mortar_data.npc_impact_message_delay(), -1,
                             impact_abs_ms, -1, gunner.disp_name(), *target_abs_ms );
