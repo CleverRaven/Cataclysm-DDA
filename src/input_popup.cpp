@@ -1,5 +1,6 @@
 #include "input_popup.h"
 
+#include <algorithm>
 #include <cstddef>
 
 #include "coordinates.h"
@@ -7,11 +8,12 @@
 #include "imgui/imgui_stdlib.h"
 #include "input_enums.h"
 #include "ret_val.h"
+#include "string_formatter.h"
 #include "text.h"
 #include "translations.h"
 #include "try_parse_integer.h"
-#include "uilist.h"
 #include "ui_manager.h"
+#include "uilist.h"
 #include "uistate.h"
 
 input_popup::input_popup( int width, const std::string &title, const point &pos,
@@ -78,10 +80,46 @@ bool input_popup::cancelled() const
 
 cataimgui::bounds input_popup::get_bounds()
 {
+    // AlwaysAutoResize fits to inner widgets only, so neither the title bar
+    // nor a multi-line description gets a chance to widen the window.
+    // When the caller hasn't pinned an explicit width, request one wide
+    // enough for the longer of the title text or the widest description
+    // line, plus the close button.
+    float bounds_w = -1.f;
+    if( width > 0 ) {
+        bounds_w = str_width_to_pixels( width );
+    } else {
+        const ImGuiStyle &style = ImGui::GetStyle();
+        const float padding = style.WindowPadding.x * 2.f;
+        const float close_w = ImGui::GetFrameHeight() + style.ItemInnerSpacing.x;
+        float title_needs = 0.f;
+        if( !id.empty() ) {
+            title_needs = ImGui::CalcTextSize( id.c_str(), nullptr, true ).x + close_w;
+        }
+        float description_needs = 0.f;
+        size_t off = 0;
+        while( off <= description.size() ) {
+            const size_t nl = description.find( '\n', off );
+            const std::string line = description.substr( off, nl - off );
+            description_needs = std::max( description_needs,
+                                          ImGui::CalcTextSize( line.c_str() ).x );
+            if( nl == std::string::npos ) {
+                break;
+            }
+            off = nl + 1;
+        }
+        if( title_needs > 0.f || description_needs > 0.f ) {
+            bounds_w = std::max( title_needs, description_needs ) + padding;
+        }
+        // Floor at a comfortable minimum so popups with very short titles
+        // and descriptions still have room for the input + step buttons.
+        const float min_w = str_width_to_pixels( 30 );
+        bounds_w = std::max( bounds_w, min_w );
+    }
     return {
         pos.x < 0 ? -1.f : str_width_to_pixels( pos.x ),
         pos.y < 0 ? -1.f : str_height_to_pixels( pos.y ),
-        width <= 0 ? -1.f : str_width_to_pixels( width ),
+        bounds_w,
         -1.f
     };
 }
@@ -99,12 +137,12 @@ void input_popup::draw_controls()
             pos = description.find( '\n', offset );
             std::string str = description.substr( offset, pos - offset );
             cataimgui::TextColoredParagraph( description_default_color, str );
-            ImGui::NewLine();
             offset = pos + 1;
         }
         if( description_monofont ) {
             ImGui::PopFont();
         }
+        ImGui::SameLine();
     }
 
     if( !label.empty() ) {
@@ -123,6 +161,21 @@ void input_popup::draw_controls()
         set_focus = false;
     }
     draw_input_control();
+
+    // Save / Cancel row, right-aligned.  Mirrors TEXT.CONFIRM / TEXT.QUIT keys.
+    const ImGuiStyle &style = ImGui::GetStyle();
+    const std::string save_label = _( "Save" );
+    const std::string cancel_label = _( "Cancel" );
+    const float buttons_w = ImGui::CalcTextSize( save_label.c_str() ).x
+                            + ImGui::CalcTextSize( cancel_label.c_str() ).x
+                            + 4.f * style.FramePadding.x + style.ItemSpacing.x;
+    const float row_avail = ImGui::GetContentRegionAvail().x;
+    if( buttons_w < row_avail ) {
+        ImGui::SetCursorPosX( ImGui::GetCursorPosX() + ( row_avail - buttons_w ) );
+    }
+    action_button( "TEXT.QUIT", cancel_label );
+    ImGui::SameLine();
+    action_button( "TEXT.CONFIRM", save_label );
 }
 
 bool input_popup::handle_custom_callbacks( const std::string &action )
@@ -340,6 +393,9 @@ std::string string_input_popup_imgui::query()
         ui_manager::redraw_invalidated();
 
         std::string action = ctxt.handle_input();
+        if( has_button_action() ) {
+            action = get_button_action();
+        }
         if( handle_custom_callbacks( action ) ) {
             continue;
         }
@@ -397,11 +453,31 @@ number_input_popup<T>::number_input_popup( int width, T old_value, const std::st
     // potentially register context keys
 }
 
+// SetNextItemWidth on InputScalar (used by InputInt/InputFloat) sizes the
+// whole group; ImGui subtracts the step buttons internally for the text
+// field.  When max_input_length is set we use it as the digit budget and
+// right-align the input + buttons against the row.
+static void number_input_popup_apply_width( cataimgui::window &win, int max_input_length )
+{
+    if( max_input_length <= 0 ) {
+        return;
+    }
+    const ImGuiStyle &style = ImGui::GetStyle();
+    const float button_w = ImGui::GetFrameHeight();
+    const float spacing = style.ItemInnerSpacing.x;
+    const float text_w = win.str_width_to_pixels( max_input_length + 1 );
+    const float group_w = text_w + 2.f * ( button_w + spacing );
+    const float avail = ImGui::GetContentRegionAvail().x;
+    if( group_w < avail ) {
+        ImGui::SetCursorPosX( ImGui::GetCursorPosX() + ( avail - group_w ) );
+    }
+    ImGui::SetNextItemWidth( group_w );
+}
+
 template<>
 void number_input_popup<int>::draw_input_control()
 {
-    // todo: maybe set width of input field, default is fairly long
-    // step size default values are imgui defaults
+    number_input_popup_apply_width( *this, max_input_length );
     ImGui::InputInt( "##number_input", &value, step_size.value_or( 1 ),
                      fast_step_size.value_or( 100 ) );
 }
@@ -409,10 +485,18 @@ void number_input_popup<int>::draw_input_control()
 template<>
 void number_input_popup<float>::draw_input_control()
 {
-    // todo: maybe set width of input field, default is fairly long
-    // step size default values are imgui defaults
+    number_input_popup_apply_width( *this, max_input_length );
     cataimgui::InputFloat( "##number_input", &value, step_size.value_or( 0.f ),
                            fast_step_size.value_or( 0.f ) );
+}
+
+template<typename T>
+void number_input_popup<T>::set_value_range( T min, T max )
+{
+    range_min = min;
+    range_max = max;
+    set_description( string_format( _( "Range: %s - %s" ),
+                                    std::to_string( min ), std::to_string( max ) ) );
 }
 
 template<typename T>
@@ -422,6 +506,9 @@ T number_input_popup<T>::query()
     while( true ) {
         ui_manager::redraw_invalidated();
         std::string action = ctxt.handle_input();
+        if( has_button_action() ) {
+            action = get_button_action();
+        }
 
         if( handle_custom_callbacks( action ) ) {
             continue;

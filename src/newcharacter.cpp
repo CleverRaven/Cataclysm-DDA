@@ -3459,9 +3459,9 @@ bool character_creator_ui::handle_action( const std::string &action )
         you.name = popup.query();
     } else if( action == "CHANGE_AGE" ) {
         const int age_current = you.base_age();
-        number_input_popup<int> age_query( 0, age_current,
-                                           string_format( _( "Enter age in years.  Minimum %d, maximum %d" ),
-                                                   CHARACTER_AGE_MIN, CHARACTER_AGE_MAX ) );
+        number_input_popup<int> age_query( 0, age_current, _( "Age in years" ) );
+        age_query.set_value_range( CHARACTER_AGE_MIN, CHARACTER_AGE_MAX );
+        age_query.set_max_input_length( 3 );
         int age_result = age_query.query();
         if( age_result != age_current ) {
             you.set_base_age( clamp( age_result, CHARACTER_AGE_MIN, CHARACTER_AGE_MAX ) );
@@ -3473,8 +3473,9 @@ bool character_creator_ui::handle_action( const std::string &action )
         const int max_allowed_height = Character::max_height();
 
         number_input_popup<int> height_query( 0, height_current,
-                                              string_format( _( "Enter height in centimeters.  Minimum %d, maximum %d" ),
-                                                      min_allowed_height, max_allowed_height ) );
+                                              _( "Height in centimeters" ) );
+        height_query.set_value_range( min_allowed_height, max_allowed_height );
+        height_query.set_max_input_length( 3 );
         int height_result = height_query.query();
         if( height_result != height_current ) {
             you.set_base_height( clamp( height_result, min_allowed_height, max_allowed_height ) );
@@ -3641,9 +3642,9 @@ void character_creator_callback::confirm( uilist *menu )
             character_stat selected_stat = static_cast<character_stat>( selected_stat_index );
             const int stat_queried = cc_uistate.stats[selected_stat_index];
             number_input_popup<int> stat_query( 0, stat_queried,
-                                                string_format( "Set new %s (between %d and %d):",
-                                                        io::enum_to_full_string( selected_stat ),
-                                                        CHARACTER_STAT_MIN, CHARACTER_STAT_MAX ) );
+                                                io::enum_to_full_string( selected_stat ) );
+            stat_query.set_value_range( CHARACTER_STAT_MIN, CHARACTER_STAT_MAX );
+            stat_query.set_max_input_length( 2 );
             int stat_queried_result = stat_query.query();
             const int stat_result_clamped = std::clamp( stat_queried_result, CHARACTER_STAT_MIN,
                                             CHARACTER_STAT_MAX );
@@ -3740,8 +3741,10 @@ void character_creator_callback::confirm( uilist *menu )
             const skill_id skill_queried = cc_uistate.get_selected_skill();
             int previous_skill_level = u.get_skill_level( skill_queried );
             number_input_popup<int> skill_query( 0, previous_skill_level,
-                                                 string_format( "Set new %s skill level (between %d and %d):",
-                                                         skill_queried->name(), MIN_SKILL, MAX_SKILL ) );
+                                                 string_format( "%s skill level",
+                                                         skill_queried->name() ) );
+            skill_query.set_value_range( MIN_SKILL, MAX_SKILL );
+            skill_query.set_max_input_length( 2 );
             int skill_queried_result = skill_query.query();
             if( skill_queried_result != previous_skill_level ) {
                 const int skill_result_clamped = std::clamp( skill_queried_result, MIN_SKILL, MAX_SKILL );
