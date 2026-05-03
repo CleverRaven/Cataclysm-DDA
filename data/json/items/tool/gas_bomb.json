@@ -1,42 +1,76 @@
 [
   {
-    "id": "gasbomb",
-    "looks_like": "smokebomb",
-    "//": "Based on the M73A riot grenade",
+    "abstract": "abstract_gas_bomb_inactive",
     "type": "ITEM",
     "category": "weapons",
-    "name": { "str": "tear gas grenade" },
+    "looks_like": "smokebomb",
+    "name": { "str": "gas grenade", "//~": "NO_I18N" },
+    "description": { "str": "A canister grenade filled with a variety of chemicals.", "//~": "NO_I18N" },
     "weight": "431 g",
     "volume": "459 ml",
     "longest_side": "158 mm",
+    "price": "5 USD",
+    "price_postapoc": "5 USD",
     "material": [ "steel" ],
     "symbol": "*",
     "color": "dark_gray",
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "CYLINDER_GRENADE" ],
+    "//": "intended fields: use_action (transform to primed grenade); name; description"
+  },
+  {
+    "abstract": "abstract_gas_bomb_primed",
+    "type": "ITEM",
+    "copy-from": "abstract_gas_bomb_inactive",
+    "description": "This grenade has had its pin removed and will shortly be expelling highly toxic gas.",
+    "looks_like": "smokebomb_act",
+    "price": "0 USD",
+    "price_postapoc": "0 USD",
+    "use_action": { "type": "message", "message": "You've already pulled the pin, try throwing it instead.", "name": "Pull pin" },
+    "countdown_interval": "5 seconds",
+    "flags": [ "DANGEROUS", "SPAWN_ACTIVE" ],
+    "//": "intended fields: revert_to active grenade; name"
+  },
+  {
+    "abstract": "abstract_gas_bomb_active",
+    "type": "ITEM",
+    "copy-from": "abstract_gas_bomb_primed",
+    "description": "This grenade has had its pin pulled and is now expelling highly toxic gas.",
+    "countdown_interval": "60 seconds",
+    "revert_to": "canister_empty",
+    "//": "intended fields: emits; countdown_interval; name"
+  },
+  {
+    "id": "gasbomb",
+    "type": "ITEM",
+    "copy-from": "abstract_gas_bomb_inactive",
+    "//": "Based on the M73A riot grenade",
+    "name": { "str": "tear gas grenade" },
+    "description": "A canister grenade filled with noxious irritant.  Use this item to pull the pin and start the fuse, turning it into an active tear gas grenade.  In five seconds it will begin to expel a highly toxic gas for some time.  This gas damages and slows those who enter it, as well as obscuring vision and scent.",
     "price": "36 USD",
     "price_postapoc": "2 USD 50 cent",
-    "description": "A canister grenade filled with noxious irritant.  Use this item to pull the pin and start the fuse, turning it into an active tear gas grenade.  In five seconds it will begin to expel a highly toxic gas for some time.  This gas damages and slows those who enter it, as well as obscuring vision and scent.",
     "use_action": {
       "need_wielding": true,
       "menu_text": "Pull pin",
       "msg": "You pull the pin on the %s.",
       "type": "transform",
-      "target": "gasbomb_act"
-    },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "CYLINDER_GRENADE" ]
+      "target": "gasbomb_primed"
+    }
+  },
+  {
+    "id": "gasbomb_primed",
+    "type": "ITEM",
+    "copy-from": "abstract_gas_bomb_primed",
+    "name": { "str": "tear gas grenade" },
+    "description": "This tear gas grenade has had its pin removed and will shortly be expelling highly noxious gas.",
+    "revert_to": "gasbomb_act"
   },
   {
     "id": "gasbomb_act",
-    "copy-from": "gasbomb",
-    "looks_like": "smokebomb_act",
     "type": "ITEM",
-    "price": "0 cent",
-    "price_postapoc": "0 cent",
-    "description": "This tear gas grenade has had its pin removed and is (or will shortly be) expelling highly noxious gas.",
-    "use_action": { "type": "message", "message": "You've already pulled the pin, try throwing it instead.", "name": "Pull pin" },
-    "emits": [ "emit_tear_gas_stream" ],
-    "countdown_interval": "50 seconds",
-    "revert_to": "canister_empty",
-    "flags": [ "DANGEROUS", "SPAWN_ACTIVE" ]
+    "copy-from": "abstract_gas_bomb_active",
+    "name": { "str": "tear gas grenade" },
+    "description": "This tear gas grenade has had its pin removed and is expelling highly noxious gas.",
+    "emits": [ "emit_tear_gas_stream" ]
   },
   {
     "id": "smokebomb",
