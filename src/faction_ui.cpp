@@ -81,8 +81,7 @@ static bool is_assigned_mortar_gunner( const Character &guy )
     if( guy_npc == nullptr ) {
         return false;
     }
-    const diag_value *assignment = guy_npc->maybe_get_value( "mortar_assignment" );
-    return assignment != nullptr && assignment->is_str() && !assignment->str().empty();
+    return !guy_npc->get_value( "mortar_assignment" ).is_empty();
 }
 
 // is physically close enough to contact the beta without much hassle

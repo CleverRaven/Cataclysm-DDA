@@ -56,6 +56,8 @@ struct timed_event {
     std::string string_id;
     /** key to alter this event later */
     std::string key;
+    /** Optional secondary location used by event-specific logic. */
+    tripoint_abs_ms target = tripoint_abs_ms::invalid;
     /** specifically for EXPLOSION event */
     explosion_data expl_data;
 
@@ -64,6 +66,8 @@ struct timed_event {
                  std::string key );
     timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p, int s,
                  std::string s_id, std::string key );
+    timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p, int s,
+                 std::string s_id, tripoint_abs_ms target );
     timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p, int s,
                  std::string s_id, submap sr, std::string key );
     // i have little experience with code, but something tell me
@@ -99,6 +103,9 @@ class timed_event_manager
         void add( timed_event_type type, const time_point &when, int faction_id,
                   const tripoint_abs_ms &where, int strength, const std::string &string_id,
                   const std::string &key = "" );
+        void add( timed_event_type type, const time_point &when, int faction_id,
+                  const tripoint_abs_ms &where, int strength, const std::string &string_id,
+                  const tripoint_abs_ms &target );
         void add( timed_event_type type, const time_point &when, int faction_id,
                   const tripoint_abs_ms &where, int strength, const std::string &string_id, submap sr,
                   const std::string &key = "" );

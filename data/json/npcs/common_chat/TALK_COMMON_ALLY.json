@@ -53,7 +53,7 @@
       { "text": "Please go to this location.", "topic": "TALK_GOTO_LOCATION", "effect": "goto_location" },
       {
         "text": "Mortar fire support.",
-        "condition": { "not": { "compare_string": [ "", { "npc_val": "mortar_assignment" } ] } },
+        "condition": { "math": [ "has_var(n_mortar_assignment)" ] },
         "topic": "TALK_NPC_MORTAR_SUPPORT"
       },
       { "text": "There's something I want you to do.", "topic": "TALK_ALLY_ORDERS" },
@@ -81,30 +81,25 @@
     "responses": [
       {
         "text": "Fire a mortar round at a target I mark.",
-        "condition": { "not": { "compare_string": [ "", { "npc_val": "mortar_assignment" } ] } },
+        "condition": { "math": [ "has_var(n_mortar_assignment)" ] },
         "topic": "TALK_DONE",
         "effect": "request_mortar_fire"
       },
       {
         "text": "Repeat the last mortar fire mission.",
-        "condition": {
-          "and": [
-            { "not": { "compare_string": [ "", { "npc_val": "mortar_assignment" } ] } },
-            { "not": { "compare_string": [ "", { "npc_val": "mortar_target" } ] } }
-          ]
-        },
+        "condition": { "and": [ { "math": [ "has_var(n_mortar_assignment)" ] }, { "math": [ "has_var(n_mortar_target)" ] } ] },
         "topic": "TALK_DONE",
         "effect": "request_mortar_repeat_fire"
       },
       {
         "text": "Select mortar ammunition.",
-        "condition": { "not": { "compare_string": [ "", { "npc_val": "mortar_assignment" } ] } },
+        "condition": { "math": [ "has_var(n_mortar_assignment)" ] },
         "topic": "TALK_DONE",
         "effect": "select_mortar_ammo"
       },
       {
         "text": "Report mortar ammunition.",
-        "condition": { "not": { "compare_string": [ "", { "npc_val": "mortar_assignment" } ] } },
+        "condition": { "math": [ "has_var(n_mortar_assignment)" ] },
         "topic": "TALK_DONE",
         "effect": "report_mortar_support"
       },
@@ -362,7 +357,7 @@
       },
       {
         "text": "Manage mortar ammunition.",
-        "condition": { "and": [ { "not": "is_by_radio" }, { "not": { "compare_string": [ "", { "npc_val": "mortar_assignment" } ] } } ] },
+        "condition": { "and": [ { "not": "is_by_radio" }, { "math": [ "has_var(n_mortar_assignment)" ] } ] },
         "topic": "TALK_DONE",
         "effect": "manage_mortar_ammo"
       },

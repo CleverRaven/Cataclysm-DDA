@@ -1,10 +1,7 @@
 #include "timed_event.h"
 
 #include <array>
-#include <cerrno>
-#include <climits>
 #include <cmath>
-#include <cstdlib>
 #include <memory>
 #include <optional>
 #include <string>
@@ -70,42 +67,6 @@ static int round_to_nearest_10( const double value )
     return static_cast<int>( std::round( value / 10.0 ) ) * 10;
 }
 
-static bool parse_mortar_target_coordinate( const char *&cursor, int &value,
-        const char separator )
-{
-    errno = 0;
-    char *end = nullptr;
-    const long parsed = std::strtol( cursor, &end, 10 );
-    if( end == cursor || errno == ERANGE || parsed < INT_MIN || parsed > INT_MAX ) {
-        return false;
-    }
-    if( separator != '\0' ) {
-        if( *end != separator ) {
-            return false;
-        }
-        cursor = end + 1;
-    } else {
-        if( *end != '\0' ) {
-            return false;
-        }
-        cursor = end;
-    }
-    value = static_cast<int>( parsed );
-    return true;
-}
-
-static std::optional<tripoint_abs_ms> parse_mortar_target_key( const std::string &key )
-{
-    tripoint p;
-    const char *cursor = key.c_str();
-    if( !parse_mortar_target_coordinate( cursor, p.x, ',' ) ||
-        !parse_mortar_target_coordinate( cursor, p.y, ',' ) ||
-        !parse_mortar_target_coordinate( cursor, p.z, '\0' ) ) {
-        return std::nullopt;
-    }
-    return tripoint_abs_ms( p.x, p.y, p.z );
-}
-
 timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p,
                           int s, std::string key )
     : type( e_t )
@@ -127,6 +88,19 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, t
     , strength( s )
     , string_id( std::move( s_id ) )
     , key( std::move( key ) )
+{
+    map_point = project_to<coords::sm>( map_square );
+}
+
+timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p,
+                          int s, std::string s_id, tripoint_abs_ms t )
+    : type( e_t )
+    , when( w )
+    , faction_id( f_id )
+    , map_square( p )
+    , strength( s )
+    , string_id( std::move( s_id ) )
+    , target( t )
 {
     map_point = project_to<coords::sm>( map_square );
 }
@@ -350,13 +324,12 @@ void timed_event::actualize()
             break;
 
         case timed_event_type::MORTAR_IMPACT_MESSAGE: {
-            const std::optional<tripoint_abs_ms> target = parse_mortar_target_key( key );
-            if( !target ) {
-                debugmsg( "Mortar impact message missing target key: %s", key );
+            if( target.is_invalid() ) {
+                debugmsg( "Mortar impact message missing target." );
                 break;
             }
 
-            const point d( map_square.x() - target->x(), map_square.y() - target->y() );
+            const point d( map_square.x() - target.x(), map_square.y() - target.y() );
             const int miss_distance = round_to_nearest_10( std::hypot( d.x, d.y ) );
             const bool in_bubble = here.inbounds( map_square );
             const int player_distance = rl_dist( player_character.pos_abs(), map_square );
@@ -512,6 +485,15 @@ void timed_event_manager::add( timed_event_type type, const time_point &when,
                                const std::string &key )
 {
     events.emplace_back( type, when, faction_id, where, strength, string_id, key );
+}
+
+void timed_event_manager::add( timed_event_type type, const time_point &when,
+                               const int faction_id,
+                               const tripoint_abs_ms &where,
+                               int strength, const std::string &string_id,
+                               const tripoint_abs_ms &target )
+{
+    events.emplace_back( type, when, faction_id, where, strength, string_id, target );
 }
 
 void timed_event_manager::add( timed_event_type type, const time_point &when,
