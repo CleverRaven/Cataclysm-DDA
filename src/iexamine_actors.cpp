@@ -36,8 +36,6 @@
 #include "monster.h"
 #include "mortar.h"
 #include "mtype.h"
-#include "output.h"
-#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "ret_val.h"
