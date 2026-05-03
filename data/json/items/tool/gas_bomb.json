@@ -111,51 +111,60 @@
   },
   {
     "id": "insecticidalbomb",
-    "copy-from": "gasbomb",
     "type": "ITEM",
+    "copy-from": "abstract_gas_bomb_inactive",
     "name": { "str": "insecticidal gas grenade" },
-    "price": "36 USD",
-    "price_postapoc": "7 USD 50 cent",
     "description": "A canister grenade filled with insecticidal solution.  Use this item to pull the pin and start the fuse, turning it into an active insecticidal grenade.  In five seconds it will begin to expel a volatile gas that is highly toxic to insect life forms.",
+    "price": "18 USD",
+    "price_postapoc": "7 USD 50 cent",
     "use_action": {
       "need_wielding": true,
       "menu_text": "Pull pin",
       "msg": "You pull the pin on the %s.",
       "type": "transform",
-      "target": "insecticidalbomb_act"
+      "target": "insecticidalbomb_primed"
     }
   },
   {
+    "id": "insecticidalbomb_primed",
+    "type": "ITEM",
+    "copy-from": "abstract_gas_bomb_primed",
+    "name": { "str": "insecticidal gas grenade" },
+    "revert_to": "insecticidalbomb_act"
+  },
+  {
     "id": "insecticidalbomb_act",
-    "copy-from": "gasbomb_act",
+    "copy-from": "abstract_gas_bomb_active",
     "type": "ITEM",
     "name": { "str": "insecticidal gas grenade" },
-    "description": "This insecticidal grenade has had its pin removed and is (or will shortly be) expelling highly toxic gas.",
     "emits": [ "emit_insecticidal_stream" ]
   },
   {
     "id": "insecticidalbomb_makeshift",
-    "copy-from": "gasbomb",
     "type": "ITEM",
+    "copy-from": "abstract_gas_bomb_inactive",
     "name": { "str": "makeshift insecticidal gas grenade" },
-    "price": "36 USD",
-    "price_postapoc": "5 USD",
     "description": "A makeshift canister grenade filled with insecticidal solution.  Use this item to pull the pin and start the fuse, turning it into an active insecticidal grenade.  In five seconds it will begin to expel a volatile gas that is highly toxic to insect life forms.",
     "use_action": {
       "need_wielding": true,
       "menu_text": "Pull pin",
       "msg": "You pull the pin on the %s.",
       "type": "transform",
-      "target": "insecticidalbomb_makeshift_act"
+      "target": "insecticidalbomb_makeshift_primed"
     }
   },
   {
+    "id": "insecticidalbomb_makeshift_primed",
+    "type": "ITEM",
+    "copy-from": "abstract_gas_bomb_primed",
+    "name": { "str": "makeshift insecticidal gas grenade" },
+    "revert_to": "insecticidalbomb_makeshift_act"
+  },
+  {
     "id": "insecticidalbomb_makeshift_act",
-    "copy-from": "gasbomb_act",
+    "copy-from": "abstract_gas_bomb_active",
     "type": "ITEM",
     "name": { "str": "makeshift insecticidal gas grenade" },
-    "description": "This makeshift insecticidal grenade has had its pin removed and is (or will shortly be) expelling highly toxic gas.",
-    "countdown_interval": "100 seconds",
     "emits": [ "emit_small_insecticidal_stream" ]
   },
   {
