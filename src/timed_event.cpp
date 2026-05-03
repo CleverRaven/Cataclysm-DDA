@@ -321,7 +321,7 @@ void timed_event::actualize()
             } else {
                 add_msg( m_info, _( "Over the radio, %s reports, \"Shot out.\"" ), string_id );
             }
-        break;
+            break;
 
         case timed_event_type::MORTAR_IMPACT_MESSAGE: {
             const bool in_bubble = here.inbounds( map_square );
