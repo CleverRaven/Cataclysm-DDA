@@ -2891,7 +2891,7 @@ static void faction_edit_menu()
     data << string_format( _( "Known by you: %s" ), fac->known_by_u ? "true" : "false" ) << " | "
          << string_format( _( "Lone wolf: %s" ), fac->lone_wolf_faction ? "true" : "false" ) << std::endl;
     data << string_format( _( "Steal mode: %s" ),
-        fac->steal_persist ? ( *fac->steal_persist ? "thief" : "honest" ) : "ask" ) << std::endl;
+                           fac->steal_persist ? ( *fac->steal_persist ? "thief" : "honest" ) : "ask" ) << std::endl;
 
     nmenu.text = data.str();
 
