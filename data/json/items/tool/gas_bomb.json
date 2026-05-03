@@ -74,9 +74,9 @@
   },
   {
     "id": "smokebomb",
-    "//": "Based on AN-M8 grenade",
-    "copy-from": "gasbomb",
     "type": "ITEM",
+    "copy-from": "abstract_gas_bomb_inactive",
+    "//": "Based on AN-M8 grenade",
     "name": { "str": "smoke grenade" },
     "description": "A canister grenade filled with a variety of pyrotechnic chemicals.  Use this item to pull the pin and start the fuse, turning it into an active smoke bomb.  Five seconds after you do that, it will begin to expel a thick white smoke.  This smoke will obscure vision and scent, and choke out those who enter it.",
     "weight": "680 g",
@@ -87,19 +87,27 @@
       "menu_text": "Pull pin",
       "msg": "You pull the pin on the %s.",
       "type": "transform",
-      "target": "smokebomb_act"
+      "target": "smokebomb_primed"
     }
   },
   {
-    "id": "smokebomb_act",
-    "copy-from": "smokebomb",
+    "id": "smokebomb_primed",
     "type": "ITEM",
-    "description": "This smoke bomb has had its pin removed and is (or will shortly be) expelling thick smoke.",
+    "copy-from": "abstract_gas_bomb_primed",
+    "name": { "str": "smoke grenade" },
+    "weight": "680 g",
+    "description": "This smoke bomb has had its pin removed and will shortly be expelling thick smoke.",
+    "revert_to": "smokebomb_act"
+  },
+  {
+    "id": "smokebomb_act",
+    "type": "ITEM",
+    "copy-from": "abstract_gas_bomb_active",
+    "name": { "str": "smoke grenade" },
+    "weight": "680 g",
+    "description": "This smoke bomb has had its pin removed and is expelling thick smoke.",
     "emits": [ "emit_smoke_stream" ],
-    "countdown_interval": "100 seconds",
-    "revert_to": "canister_empty",
-    "use_action": { "type": "message", "message": "You've already pulled the pin, try throwing it instead.", "name": "Pull pin" },
-    "flags": [ "DANGEROUS", "SPAWN_ACTIVE" ]
+    "countdown_interval": "100 seconds"
   },
   {
     "id": "insecticidalbomb",
