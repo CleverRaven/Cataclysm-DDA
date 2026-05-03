@@ -318,6 +318,7 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "ls_4way_template_chasm",
+    "weight": 1000,
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -352,6 +353,52 @@
         "2": { "chunks": [ "ls_ew_6x6hall_basic" ] },
         "3": { "chunks": [ "ls_ns_6x6hall_basic" ] }
       }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_4way_template_chasm",
+    "weight": 500,
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvvv....vvvvvvvvvv",
+        "vvvvvvvvvv....vvvvvvvvvv",
+        "vvvvvvvvvv....vvvvvvvvvv",
+        "......vvvv###.vvvv......",
+        "..........#>o...........",
+        "..........###...........",
+        "..........#<#...........",
+        "..........+.+...........",
+        "......vvvv###.vvvv......",
+        "vvvvvvvvvv....vvvvvvvvvv",
+        "vvvvvvvvvv....vvvvvvvvvv",
+        "vvvvvvvvvv....vvvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
+      "terrain": {
+        ">": "t_nl_stairs_down",
+        "<": "t_nl_stairs_up_false",
+        "#": "t_nl_metal_wall",
+        "s": "t_nl_mist",
+        ".": "t_nl_metal_floor",
+        "+": "t_nl_door_c",
+        "o": "t_nl_archway",
+        "v": "t_nl_chasm"
+      },
+      "place_nested": [ { "chunks": [ [ "labyrinth_stairs_1_to_2_teleporter", 1 ] ], "x": 0, "y": 0, "z": -1 } ]
     }
   },
   {

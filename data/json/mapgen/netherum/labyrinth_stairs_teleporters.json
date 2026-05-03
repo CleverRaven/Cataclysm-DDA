@@ -1,0 +1,117 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth_stairs_1_to_2",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvvv....vvvvvvvvvv",
+        "vvvvvvvvvv....vvvvvvvvvv",
+        "vvvvvvvvvv....vvvvvvvvvv",
+        "......vvvv###.vvvv......",
+        "..........#>o...........",
+        "..........###...........",
+        "..........#<#...........",
+        "..........+.+...........",
+        "......vvvv###.vvvv......",
+        "vvvvvvvvvv....vvvvvvvvvv",
+        "vvvvvvvvvv....vvvvvvvvvv",
+        "vvvvvvvvvv....vvvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        ">": "t_nl_stairs_down",
+        "<": "t_nl_stairs_up_false",
+        "#": "t_nl_metal_wall",
+        "s": "t_nl_mist",
+        ".": "t_nl_metal_floor",
+        "+": "t_nl_door_c",
+        "o": "t_nl_archway",
+        "v": "t_nl_chasm"
+      },
+      "place_nested": [ { "chunks": [ [ "labyrinth_stairs_1_to_2_teleporter", 1 ] ], "x": 0, "y": 0, "z": -1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth_stairs_1_to_2_teleporter",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssss###sssssssssss",
+        "ssssssssss#<+sssssssssss",
+        "ssssssssss###sssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "<": "t_nl_stairs_up", "#": "t_nl_metal_wall", "s": "t_nl_mist", "+": "t_nl_door_c" },
+      "place_traps": [ { "trap": "tr_nl_stairs_1_to_2", "x": 12, "y": 10 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth_stairs_2_to_1",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        ".....",
+        ".###.",
+        ".#<o.",
+        ".###.",
+        "....."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "<": "t_nl_stairs_up", "#": "t_nl_metal_wall", "s": "t_nl_mist", ".": "t_nl_metal_floor", "o": "t_nl_archway" },
+      "place_nested": [ { "chunks": [ [ "labyrinth_stairs_2_to_1_teleporter", 1 ] ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth_stairs_2_to_1_teleporter",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "sssss",
+        "s###s",
+        "s#>+s",
+        "s###s",
+        "sssss"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { ">": "t_nl_stairs_down", "#": "t_nl_metal_wall", "s": "t_nl_mist", "+": "t_nl_door_c" },
+      "place_traps": [ { "trap": "tr_nl_stairs_2_to_1", "x": 3, "y": 2 } ]
+    }
+  }
+]

@@ -989,5 +989,61 @@
       { "math": [ "u_nl_safehouse_water_stock -= 1" ] }
     ],
     "false_effect": { "u_message": "Nothing happens." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_stairs_1_to_2",
+    "effect": [
+      {
+        "u_travel_to_dimension": "netherum_labyrinth2",
+        "npc_travel_radius": 0,
+        "region_type": "netherum_labyrinth2",
+        "npc_travel_filter": "none",
+        "fail_message": "Nope!",
+        "success_message": "The mist fades away."
+      },
+      {
+        "u_location_variable": { "global_val": "labyrinth_nl_new_loc" },
+        "target_params": { "om_terrain": "labyrinth2" },
+        "terrain": "t_nl_scrap_floor",
+        "target_max_radius": 50
+      },
+      { "mapgen_update": "labyrinth_stairs_2_to_1", "target_var": { "global_val": "labyrinth_nl_new_loc" } },
+      {
+        "u_location_variable": { "context_val": "player_teleport_loc" },
+        "target_params": { "om_terrain": "labyrinth2" },
+        "terrain": "t_nl_archway",
+        "target_max_radius": 1000
+      },
+      { "u_teleport": { "context_val": "player_teleport_loc" }, "fail_message": "Nope!", "force": true },
+      { "clear_dimension": "netherum_labyrinth" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_stairs_2_to_1",
+    "effect": [
+      {
+        "u_travel_to_dimension": "netherum_labyrinth",
+        "npc_travel_radius": 0,
+        "region_type": "netherum_labyrinth",
+        "npc_travel_filter": "none",
+        "fail_message": "Nope!",
+        "success_message": "The mist fades away"
+      },
+      {
+        "u_location_variable": { "global_val": "labyrinth_nl_new_loc" },
+        "target_params": { "om_terrain": "labyrinth_hall", "om_special": "labyrinthine_structure", "z": 0 }
+      },
+      { "mapgen_update": "labyrinth_stairs_1_to_2", "target_var": { "global_val": "labyrinth_nl_new_loc" } },
+      {
+        "u_location_variable": { "context_val": "player_teleport_loc" },
+        "target_params": { "om_terrain": "labyrinth_hall", "om_special": "labyrinthine_structure" },
+        "terrain": "t_nl_archway",
+        "target_max_radius": 1000
+      },
+      { "u_teleport": { "context_val": "player_teleport_loc" }, "fail_message": "Nope!", "force": true },
+      { "clear_dimension": "netherum_labyrinth2" }
+    ]
   }
 ]

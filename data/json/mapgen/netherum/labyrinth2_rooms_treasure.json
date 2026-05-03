@@ -1,0 +1,84 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_treasure_room",
+    "//": "A double maze with a cutout in the middle, filled with enemies, and with a central turret.  The turret risks locking you in by destroying the path out.",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "#####              #####",
+        "1          ##2          ",
+        "                        ",
+        "                        ",
+        "      3                 ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           5            ",
+        "            4           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "labyrinth2_backdrop_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "nested": {
+        "1": { "chunks": [ "ls_ns_11x23_maze" ] },
+        "2": { "chunks": [ "ls_ns_11x23_maze" ] },
+        "3": { "chunks": [ [ "ls_ns_9x9_maze_cutout", 97 ], [ "null", 3 ] ] },
+        "4": { "chunks": [ [ "ls_ns_9x9_maze_cutout", 97 ], [ "null", 3 ] ] }
+      },
+      "monster": { "5": { "monster": "mon_labyrinth_turret_1_2" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_treasure_room",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "#########1     #########",
+        "####vvvvv      vvvvv####",
+        "###vvvvvv      vvvvvv###",
+        "##vvvvvvv      vvvvvvv##",
+        "#vvvvvvvv      vvvvvvvv#",
+        "#vvvvvvvv      vvvvvvvv#",
+        "#vvvvvvvvvv   Çvvvvvvvv#",
+        "#vvvvvvvvvvvvvvvvvvvvvv#",
+        "#vvvvvvvvvvvvvvvvvvvvvv#",
+        "#vvvvvv####++####vvvvvv#",
+        "#vvvvv##........##vvvvv#",
+        "#vvvvv#..........#vvvvv#",
+        "#vvvvv#..........#vvvvv#",
+        "#vvvvv#..........#vvvvv#",
+        "#vvvvv#..........#vvvvv#",
+        "#vvvvv#..........#vvvvv#",
+        "#vvvvv#..........#vvvvv#",
+        "#vvvvv#..........#vvvvv#",
+        "#vvvvv#..........#vvvvv#",
+        "#vvvvv##........##vvvvv#",
+        "##vvvvv##########vvvvv##",
+        "###vvvvvvvvvvvvvvvvvv###",
+        "####vvvvvvvvvvvvvvvv####",
+        "########################"
+      ],
+      "palettes": [ "labyrinth2_backdrop_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "nested": { "1": { "chunks": [ [ "ls_ns_6x6hall_basic", 50 ], [ "ls_ns_6x6hall_fancy", 50 ] ] } },
+      "computers": {
+        "Ç": { "name": "Bridge Controls", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "COMP_LS_Bridge_control_deadend_1" ] }
+      }
+    }
+  }
+]

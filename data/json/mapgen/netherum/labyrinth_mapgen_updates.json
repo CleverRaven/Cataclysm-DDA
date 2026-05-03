@@ -90,5 +90,15 @@
     "type": "mapgen",
     "update_mapgen_id": "labyrinth_nl_string_dimension_encounter",
     "object": { "place_monster": [ { "monster": "mon_fleshborg_2_3_string_dimension", "x": 11, "y": 11, "chance": 100 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "labyrinth_stairs_1_to_2",
+    "object": { "place_nested": [ { "chunks": [ "labyrinth_stairs_1_to_2" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "labyrinth_stairs_2_to_1",
+    "object": { "place_nested": [ { "chunks": [ "labyrinth_stairs_2_to_1" ], "x": 0, "y": 0 } ] }
   }
 ]

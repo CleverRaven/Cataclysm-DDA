@@ -1,0 +1,27 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "labyrinth2" ],
+    "object": {
+      "fill_ter": "t_nl_metal_floor",
+      "place_nested": [
+        { "chunks": [ [ "labyrinth2_backdrop", 100 ] ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 500 ], [ "labyrinth2_hall", 250 ] ], "x": 0, "y": 0 },
+        {
+          "chunks": [ [ "null", 250 ], [ "labyrinth2_large_room", 250 ] ],
+          "x": [ 0, 13 ],
+          "y": [ 0, 13 ],
+          "repeat": [ 0, 2 ]
+        },
+        {
+          "chunks": [ [ "null", 250 ], [ "labyrinth2_small_room", 250 ] ],
+          "x": [ 0, 18 ],
+          "y": [ 0, 18 ],
+          "repeat": [ 0, 3 ]
+        },
+        { "chunks": [ [ "null", 49 ], [ "labyrinth_stairs_2_to_1", 1 ] ], "x": [ 1, 18 ], "y": [ 1, 18 ] },
+        { "chunks": [ [ "null", 49 ], [ "labyrinth2_treasure_room", 1 ] ], "x": 0, "y": 0 }
+      ]
+    }
+  }
+]

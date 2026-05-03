@@ -88,5 +88,14 @@
     "see_cost": "high",
     "travel_cost_type": "impassable",
     "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "labyrinthian hallways",
+    "id": "labyrinth2",
+    "sym": "+",
+    "color": "light_blue",
+    "see_cost": "high",
+    "travel_cost_type": "impassable"
   }
 ]
