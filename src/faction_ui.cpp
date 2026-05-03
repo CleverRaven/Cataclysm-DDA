@@ -98,12 +98,12 @@ static bool can_contact( const Character &alpha, const Character &beta )
 // opposite to previouis one, far enough to check for radio contact
 static radio_contact_result can_radio_contact( const Character &alpha, const Character &beta )
 {
-    if( is_assigned_mortar_gunner( beta ) ) {
+    bool u_has_radio = has_radio( alpha );
+    bool guy_has_radio = has_radio( beta );
+    if( is_assigned_mortar_gunner( beta ) && u_has_radio && guy_has_radio ) {
         return radio_contact_result::YES;
     }
 
-    bool u_has_radio = has_radio( alpha );
-    bool guy_has_radio = has_radio( beta );
     if( u_has_radio && guy_has_radio ) {
         if( !( alpha.posz() >= 0 && beta.posz() >= 0 ) &&
             !( alpha.posz() == beta.posz() ) ) {
@@ -227,8 +227,9 @@ bool faction_ui::execute()
                         talk_function::basecamp_mission( *picked_follower );
                         return true;
                     } else {
-                        get_avatar().talk_to( get_talker_for( *picked_follower ), true, false, false,
-                                              picked_follower->chatbin.talk_radio );
+                        const bool use_radio = !interactable && radio_interactable;
+                        get_avatar().talk_to( get_talker_for( *picked_follower ), use_radio, false, false,
+                                              use_radio ? picked_follower->chatbin.talk_radio : "" );
                         return true;
                     }
                 } else {
