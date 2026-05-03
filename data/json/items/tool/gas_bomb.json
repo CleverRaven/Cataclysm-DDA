@@ -169,50 +169,60 @@
   },
   {
     "id": "fungicidalbomb",
-    "copy-from": "gasbomb",
     "type": "ITEM",
+    "copy-from": "abstract_gas_bomb_inactive",
     "name": { "str": "fungicidal gas grenade" },
-    "price": "36 USD",
-    "price_postapoc": "7 USD 50 cent",
     "description": "A canister grenade filled with fungicidal solution.  Use this item to pull the pin and start the fuse, turning it into an active fungicidal grenade.  In five seconds it will begin to expel a volatile gas that is highly toxic to fungal life forms.",
+    "price": "18 USD",
+    "price_postapoc": "7 USD 50 cent",
     "use_action": {
       "need_wielding": true,
       "menu_text": "Pull pin",
       "msg": "You pull the pin on the %s.",
       "type": "transform",
-      "target": "fungicidalbomb_act"
+      "target": "fungicidalbomb_primed"
     }
   },
   {
-    "id": "fungicidalbomb_act",
-    "copy-from": "gasbomb_act",
+    "id": "fungicidalbomb_primed",
     "type": "ITEM",
+    "copy-from": "abstract_gas_bomb_primed",
     "name": { "str": "fungicidal gas grenade" },
-    "description": "This fungicidal bomb has had its pin removed and is (or will shortly be) expelling highly toxic gas.",
+    "revert_to": "fungicidalbomb_act"
+  },
+  {
+    "id": "fungicidalbomb_act",
+    "type": "ITEM",
+    "copy-from": "abstract_gas_bomb_active",
+    "name": { "str": "fungicidal gas grenade" },
     "emits": [ "emit_fungicidal_stream" ]
   },
   {
     "id": "fungicidalbomb_makeshift",
-    "copy-from": "gasbomb",
     "type": "ITEM",
+    "copy-from": "abstract_gas_bomb_inactive",
     "name": { "str": "makeshift fungicidal gas grenade" },
-    "price": "36 USD",
-    "price_postapoc": "5 USD",
     "description": "A makeshift canister grenade filled with fungicidal solution.  Use this item to pull the pin and start the fuse, turning it into an active fungicidal grenade.  In five seconds it will begin to expel a volatile gas that is highly toxic to fungal life forms.",
     "use_action": {
       "need_wielding": true,
       "menu_text": "Pull pin",
       "msg": "You pull the pin on the %s.",
       "type": "transform",
-      "target": "fungicidalbomb_makeshift_act"
+      "target": "fungicidalbomb_makeshift_primed"
     }
   },
   {
-    "id": "fungicidalbomb_makeshift_act",
-    "copy-from": "gasbomb_act",
+    "id": "fungicidalbomb_makeshift_primed",
     "type": "ITEM",
+    "copy-from": "abstract_gas_bomb_primed",
     "name": { "str": "makeshift fungicidal gas grenade" },
-    "description": "This makeshift fungicidal bomb has had its pin removed and is (or will shortly be) expelling highly toxic gas.",
+    "revert_to": "fungicidalbomb_makeshift_act"
+  },
+  {
+    "id": "fungicidalbomb_makeshift_act",
+    "type": "ITEM",
+    "copy-from": "abstract_gas_bomb_active",
+    "name": { "str": "makeshift fungicidal gas grenade" },
     "emits": [ "emit_small_fungicidal_stream" ]
   },
   {
