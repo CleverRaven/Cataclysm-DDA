@@ -682,7 +682,7 @@
     "id": "t_nl_stairs_up_false",
     "looks_like": "t_nl_stairs_up",
     "name": "mysterious stairs",
-    "description": "A tightly wound spiral staircase going up.  However, it stops at the cieling, perfectly flush with it, as if it were supposed to go up, but couldn't.",
+    "description": "A tightly wound spiral staircase going up.  However, it stops at the ceiling, perfectly flush with it, as if it were supposed to go up, but couldn't.",
     "symbol": "<",
     "color": "yellow",
     "move_cost": 2,

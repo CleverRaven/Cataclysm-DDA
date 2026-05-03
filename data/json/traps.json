@@ -1041,7 +1041,7 @@
   {
     "type": "trap",
     "id": "tr_nl_stairs_1_to_2",
-    "name": "myserious staircase",
+    "name": "mysterious staircase",
     "symbol": "#",
     "color": "white",
     "action": "eocs",
@@ -1056,7 +1056,7 @@
   {
     "type": "trap",
     "id": "tr_nl_stairs_2_to_1",
-    "name": "myserious staircase",
+    "name": "mysterious staircase",
     "symbol": "#",
     "color": "white",
     "action": "eocs",
