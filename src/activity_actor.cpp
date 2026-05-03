@@ -13477,14 +13477,20 @@ void man_mortar_activity_actor::do_turn( player_activity &act, Character &who )
         return;
     }
     npc &gunner = dynamic_cast<npc &>( who );
-    if( gunner.get_value( "mortar_assignment" ).str().empty() ) {
+    if( gunner.get_value( "mortar_assignment" ).is_empty() ) {
         act.set_to_null();
         gunner.revert_after_activity();
         return;
     }
     map &here = get_map();
     const diag_value assignment_pos = gunner.get_value( "mortar_assignment_pos" );
+    if( assignment_pos.is_empty() ) {
+        act.set_to_null();
+        gunner.revert_after_activity();
+        return;
+    }
     if( !assignment_pos.is_tripoint() ) {
+        assignment_pos.tripoint();
         act.set_to_null();
         gunner.revert_after_activity();
         return;

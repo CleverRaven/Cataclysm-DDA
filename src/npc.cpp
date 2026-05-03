@@ -3967,23 +3967,20 @@ int npc::clear_mortar_support( const bool notify )
 {
     const diag_value assignment = get_value( "mortar_assignment" );
     const diag_value stored_types = get_value( "mortar_ammo_types" );
-    if( ( !assignment.is_str() || assignment.str().empty() ) &&
-        ( !stored_types.is_str() || stored_types.str().empty() ) ) {
+    if( assignment.is_empty() && stored_types.is_empty() ) {
         return 0;
     }
 
     int dropped_rounds = 0;
     map &here = get_map();
-    if( stored_types.is_array() ) {
+    if( !stored_types.is_empty() ) {
         for( const diag_value &stored_type : stored_types.array() ) {
-            if( !stored_type.is_str() ) {
+            const std::string &ammo_type = stored_type.str();
+            if( ammo_type.empty() ) {
                 continue;
             }
-            const std::string &ammo_type = stored_type.str();
             const diag_value stored_count = get_value( "mortar_ammo_" + ammo_type );
-            const int count = stored_count.is_dbl()
-                              ? std::max( 0, static_cast<int>( stored_count.dbl() ) )
-                              : 0;
+            const int count = std::max( 0, static_cast<int>( stored_count.dbl() ) );
             if( count > 0 ) {
                 const itype_id ammo_id( ammo_type );
                 if( ammo_id.is_valid() ) {

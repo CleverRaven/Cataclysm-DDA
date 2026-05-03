@@ -195,10 +195,10 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 
 namespace talk_effect_fun
 {
-void assign_mortar_support( npc &gunner );
-void report_mortar_support( npc &gunner );
-void request_mortar_fire( npc &gunner, bool repeat_target );
-void select_mortar_ammo( npc &gunner );
+static void assign_mortar_support( npc &gunner );
+static void report_mortar_support( npc &gunner );
+static void request_mortar_fire( npc &gunner, bool repeat_target );
+static void select_mortar_ammo( npc &gunner );
 } // namespace talk_effect_fun
 
 using item_menu = std::function<item_location( const item_location_filter & )>;
@@ -1147,7 +1147,7 @@ void game::chat( const std::optional<tripoint_bub_ms> &p )
     const std::vector<npc *> available_mortar_support = get_npcs_if( [&]( const npc & guy ) {
         return guy.is_player_ally() && guy.can_hear( player_character.pos_bub(), volume ) &&
                guy.companion_mission_role_id != "FACTION_CAMP" &&
-               !guy.get_value( "mortar_assignment" ).str().empty();
+               !guy.get_value( "mortar_assignment" ).is_empty();
     } );
     const int available_mortar_support_count = available_mortar_support.size();
 
@@ -5899,13 +5899,13 @@ std::string mortar_ammo_count_key( const itype_id &ammo_id )
 int mortar_ammo_count( const npc &gunner, const itype_id &ammo_id )
 {
     const diag_value stored_count = gunner.get_value( mortar_ammo_count_key( ammo_id ) );
-    return stored_count.is_dbl() ? std::max( 0, static_cast<int>( stored_count.dbl() ) ) : 0;
+    return std::max( 0, static_cast<int>( stored_count.dbl() ) );
 }
 
 std::optional<itype_id> selected_mortar_ammo( const npc &gunner )
 {
     const diag_value selected = gunner.get_value( "mortar_selected_ammo" );
-    if( !selected.is_str() || selected.str().empty() ) {
+    if( selected.is_empty() ) {
         return std::nullopt;
     }
     const itype_id ammo_id( selected.str() );
@@ -5924,11 +5924,13 @@ std::vector<std::string> mortar_ammo_types( const npc &gunner )
 {
     std::vector<std::string> result;
     const diag_value stored_types = gunner.get_value( "mortar_ammo_types" );
-    if( stored_types.is_array() ) {
-        for( const diag_value &ammo_type : stored_types.array() ) {
-            if( ammo_type.is_str() && !ammo_type.str().empty() ) {
-                result.emplace_back( ammo_type.str() );
-            }
+    if( stored_types.is_empty() ) {
+        return result;
+    }
+    for( const diag_value &ammo_type : stored_types.array() ) {
+        const std::string &ammo_type_id = ammo_type.str();
+        if( !ammo_type_id.empty() ) {
+            result.emplace_back( ammo_type_id );
         }
     }
     return result;
@@ -6158,15 +6160,16 @@ struct assigned_mortar {
 std::optional<assigned_mortar> get_assigned_mortar( const npc &gunner )
 {
     const diag_value assignment = gunner.get_value( "mortar_assignment" );
-    if( !assignment.is_str() || assignment.str().empty() ) {
+    if( assignment.is_empty() ) {
         return std::nullopt;
     }
     const mortar_type_id mortar_id( assignment.str() );
-    if( !mortar_id.is_valid() ) {
+    const diag_value assignment_pos = gunner.get_value( "mortar_assignment_pos" );
+    if( !mortar_id.is_valid() || assignment_pos.is_empty() ) {
         return std::nullopt;
     }
-    const diag_value assignment_pos = gunner.get_value( "mortar_assignment_pos" );
     if( !assignment_pos.is_tripoint() ) {
+        assignment_pos.tripoint();
         return std::nullopt;
     }
     return assigned_mortar{
@@ -6178,7 +6181,11 @@ std::optional<assigned_mortar> get_assigned_mortar( const npc &gunner )
 std::optional<tripoint_abs_ms> get_mortar_last_target( const npc &gunner )
 {
     const diag_value target = gunner.get_value( "mortar_target" );
+    if( target.is_empty() ) {
+        return std::nullopt;
+    }
     if( !target.is_tripoint() ) {
+        target.tripoint();
         return std::nullopt;
     }
     return target.tripoint();
@@ -6195,17 +6202,7 @@ double get_mortar_current_cep( const npc &gunner, const mortar_type &mortar )
     if( cep_value.is_empty() ) {
         return mortar.baseline_cep();
     }
-    if( cep_value.is_dbl() ) {
-        return std::max( 1.0, cep_value.dbl() );
-    }
-    if( cep_value.is_str() ) {
-        try {
-            return std::max( 1.0, std::stod( cep_value.str() ) );
-        } catch( const std::exception & ) {
-            return mortar.baseline_cep();
-        }
-    }
-    return mortar.baseline_cep();
+    return std::max( 1.0, cep_value.dbl() );
 }
 
 void set_mortar_current_cep( npc &gunner, const double cep )
@@ -6223,11 +6220,6 @@ int mortar_heading_degrees( const tripoint_abs_ms &from, const tripoint_abs_ms &
         degrees += 360;
     }
     return degrees;
-}
-
-std::string encode_mortar_target_key( const tripoint_abs_ms &target )
-{
-    return string_format( "%d,%d,%d", target.x(), target.y(), target.z() );
 }
 
 void practice_mortar_shot( npc &gunner )
@@ -6507,7 +6499,7 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
                             impact_abs_ms, -1, gunner.disp_name(), "" );
     get_timed_events().add( timed_event_type::MORTAR_IMPACT_MESSAGE,
                             calendar::turn + mortar_data.npc_impact_message_delay(), -1,
-                            impact_abs_ms, -1, gunner.disp_name(), encode_mortar_target_key( *target_abs_ms ) );
+                            impact_abs_ms, -1, gunner.disp_name(), *target_abs_ms );
     set_mortar_last_target( gunner, *target_abs_ms );
     set_mortar_current_cep( gunner, cep );
     practice_mortar_shot( gunner );
@@ -9116,22 +9108,22 @@ talk_effect_fun_t::func f_trigger_event( const JsonObject &jo, std::string_view 
 
 } // namespace
 
-void assign_mortar_support( npc &gunner )
+static void assign_mortar_support( npc &gunner )
 {
     assign_mortar_support_impl( gunner );
 }
 
-void report_mortar_support( npc &gunner )
+static void report_mortar_support( npc &gunner )
 {
     report_mortar_support_impl( gunner );
 }
 
-void request_mortar_fire( npc &gunner, const bool repeat_target )
+static void request_mortar_fire( npc &gunner, const bool repeat_target )
 {
     request_mortar_fire_impl( gunner, repeat_target );
 }
 
-void select_mortar_ammo( npc &gunner )
+static void select_mortar_ammo( npc &gunner )
 {
     select_mortar_ammo_impl( gunner );
 }
