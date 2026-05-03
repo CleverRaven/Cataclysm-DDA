@@ -21,6 +21,7 @@
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "explosion.h"
 #include "faction.h"
 #include "hash_utils.h"
 #include "horde_entity.h"
@@ -1868,6 +1869,8 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
         tripoint_abs_sm map_point;
         std::string string_id;
         std::string key;
+        tripoint_abs_ms target = tripoint_abs_ms::invalid;
+        explosion_data expl_data;
         submap revert;
         jo.read( "faction", faction_id );
         jo.read( "map_point", map_point );
@@ -1877,6 +1880,10 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
         jo.read( "type", type );
         jo.read( "when", when );
         jo.read( "key", key );
+        jo.read( "target", target, false );
+        if( jo.has_object( "explosion" ) ) {
+            expl_data.deserialize( jo.get_object( "explosion" ) );
+        }
         point_sm_ms pt;
         if( jo.has_string( "revert" ) ) {
             revert.set_all_ter( ter_id( jo.get_string( "revert" ) ), true );
@@ -1902,9 +1909,11 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
                 }
             }
         }
-        get_timed_events().add( static_cast<timed_event_type>( type ), when, faction_id, map_square,
-                                strength,
-                                string_id, std::move( revert ), key );
+        timed_event event( static_cast<timed_event_type>( type ), when, faction_id, map_square,
+                           strength, string_id, std::move( revert ), key );
+        event.target = target;
+        event.expl_data = expl_data;
+        get_timed_events().events.emplace_back( std::move( event ) );
     }
 }
 
@@ -1998,6 +2007,25 @@ void timed_event_manager::serialize_all( JsonOut &jsout )
         jsout.member( "type", elem.type );
         jsout.member( "when", elem.when );
         jsout.member( "key", elem.key );
+        if( !elem.target.is_invalid() ) {
+            jsout.member( "target", elem.target );
+        }
+        if( elem.expl_data.power > 0.0f ) {
+            jsout.member( "explosion" );
+            jsout.start_object();
+            jsout.member( "power", elem.expl_data.power );
+            jsout.member( "distance_factor", elem.expl_data.distance_factor );
+            jsout.member( "max_noise", elem.expl_data.max_noise );
+            jsout.member( "fire", elem.expl_data.fire );
+            jsout.member( "shrapnel" );
+            jsout.start_object();
+            jsout.member( "casing_mass", elem.expl_data.shrapnel.casing_mass );
+            jsout.member( "fragment_mass", elem.expl_data.shrapnel.fragment_mass );
+            jsout.member( "recovery", elem.expl_data.shrapnel.recovery );
+            jsout.member( "drop", elem.expl_data.shrapnel.drop );
+            jsout.end_object();
+            jsout.end_object();
+        }
         if( elem.revert.is_uniform() ) {
             jsout.member( "revert", elem.revert.get_ter( point_sm_ms::zero ) );
         } else {
@@ -2229,4 +2257,3 @@ void npc::export_to( const cata_path &path ) const
         serialize( jsout );
     } );
 }
-

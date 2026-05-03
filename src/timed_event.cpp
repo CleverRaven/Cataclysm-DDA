@@ -321,23 +321,22 @@ void timed_event::actualize()
             } else {
                 add_msg( m_info, _( "Over the radio, %s reports, \"Shot out.\"" ), string_id );
             }
-            break;
+        break;
 
         case timed_event_type::MORTAR_IMPACT_MESSAGE: {
-            if( target.is_invalid() ) {
-                debugmsg( "Mortar impact message missing target." );
-                break;
-            }
-
-            const point d( map_square.x() - target.x(), map_square.y() - target.y() );
-            const int miss_distance = round_to_nearest_10( std::hypot( d.x, d.y ) );
             const bool in_bubble = here.inbounds( map_square );
             const int player_distance = rl_dist( player_character.pos_abs(), map_square );
             const std::string cue = !in_bubble ? _( "heard in the far distance" ) :
                                     player_distance > MAX_VIEW_DISTANCE ? _( "heard in the distance" ) :
                                     _( "observed" );
             const std::string recipient = string_id.empty() ? _( "the mortar team" ) : string_id;
+            if( target.is_invalid() ) {
+                add_msg( m_info, _( "You radio back to %1$s: \"Splash %2$s.\"" ), recipient, cue );
+                break;
+            }
 
+            const point d( map_square.x() - target.x(), map_square.y() - target.y() );
+            const int miss_distance = round_to_nearest_10( std::hypot( d.x, d.y ) );
             if( miss_distance == 0 ) {
                 add_msg( m_info, _( "You radio back to %1$s: \"Splash %2$s, on target.\"" ),
                          recipient, cue );
