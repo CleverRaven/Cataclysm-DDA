@@ -1950,7 +1950,7 @@
     "type": "keybinding",
     "id": "CHOOSE_LOCATION",
     "name": "Choose character starting location",
-    "bindings": [ { "input_method": "keyboard_any", "key": ":" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "l" } ]
   },
   {
     "type": "keybinding",
