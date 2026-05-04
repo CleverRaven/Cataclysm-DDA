@@ -406,8 +406,8 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
 
     // Aim at the center of OMT, then apply indirect-fire dispersion comparable
     // to NPC-guided mortar fire for the same launcher skill.
-    target_abs_ms.x() += 12;
-    target_abs_ms.y() += 12;
+    target_abs_ms.x() += SEEX;
+    target_abs_ms.y() += SEEY;
     // we can have edge cases with it if, for example, we target radio tower (high building, but with small profile)
     target_abs_ms.z() = overmap_buffer.highest_omt_point( project_to<coords::omt>( target_abs_ms ) );
     const int launcher_skill = you.get_skill_level( skill_launcher );
