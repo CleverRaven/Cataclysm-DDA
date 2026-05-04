@@ -39,14 +39,14 @@
           {
             "effect": "maimed_leg",
             "chance": 10,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's leg falls limp!",
             "damage_required": [ 1, 10 ]
           },
           {
             "effect": "maimed_leg",
             "chance": 25,
-            "duration": [ 15, 50 ],
+            "duration": [ "15 seconds", "50 seconds" ],
             "message": "The %s's leg falls limp!",
             "damage_required": [ 11, 30 ]
           },
@@ -104,14 +104,14 @@
           {
             "effect": "maimed_acid_gland",
             "chance": 15,
-            "duration": [ 1, 10 ],
+            "duration": [ "1 seconds", "10 seconds" ],
             "message": "The %s's acid glands are maimed!",
             "damage_required": [ 1, 15 ]
           },
           {
             "effect": "maimed_acid_gland",
             "chance": 33,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's acid glands are maimed!",
             "damage_required": [ 16, 30 ]
           },
@@ -136,14 +136,14 @@
           {
             "effect": "maimed_mandible",
             "chance": 25,
-            "duration": [ 1, 10 ],
+            "duration": [ "1 seconds", "10 seconds" ],
             "message": "The %s's proboscis is maimed!",
             "damage_required": [ 1, 15 ]
           },
           {
             "effect": "maimed_mandible",
             "chance": 50,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's proboscis is maimed!",
             "damage_required": [ 16, 30 ]
           },
@@ -222,14 +222,14 @@
           {
             "effect": "maimed_capacitor",
             "chance": 25,
-            "duration": [ 1, 10 ],
+            "duration": [ "1 seconds", "10 seconds" ],
             "message": "Sparks fly from the %s!",
             "damage_required": [ 1, 15 ]
           },
           {
             "effect": "maimed_acid_gland",
             "chance": 50,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "Sparks fly from the %s!",
             "damage_required": [ 16, 30 ]
           },
@@ -258,14 +258,14 @@
           {
             "effect": "maimed_mandible",
             "chance": 25,
-            "duration": [ 1, 10 ],
+            "duration": [ "1 seconds", "10 seconds" ],
             "message": "The %s's mandibles are maimed!",
             "damage_required": [ 1, 15 ]
           },
           {
             "effect": "maimed_mandible",
             "chance": 50,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's mandibles are maimed!",
             "damage_required": [ 16, 30 ]
           },
@@ -295,7 +295,7 @@
           {
             "effect": "maimed_tail",
             "chance": 25,
-            "duration": [ 15, 30 ],
+            "duration": [ "15 seconds", "30 seconds" ],
             "message": "The %s's tail is maimed!",
             "damage_required": [ 0, 24 ]
           },
@@ -325,7 +325,7 @@
           {
             "effect": "maimed_wings",
             "chance": 25,
-            "duration": [ 15, 30 ],
+            "duration": [ "15 seconds", "30 seconds" ],
             "message": "The %s's wings are maimed!",
             "damage_required": [ 0, 24 ]
           },

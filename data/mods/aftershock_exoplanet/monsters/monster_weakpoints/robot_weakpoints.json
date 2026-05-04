@@ -44,7 +44,12 @@
         "coverage_mult": { "melee": 0 },
         "armor_mult": { "all": 2 },
         "effects": [
-          { "effect": "downed", "duration": [ 5, 10 ], "message": "The %s stumbles.", "damage_required": [ 1, 2 ] },
+          {
+            "effect": "downed",
+            "duration": [ "5 seconds", "10 seconds" ],
+            "message": "The %s stumbles.",
+            "damage_required": [ 1, 2 ]
+          },
           {
             "effect": "effect_robot_immobilized",
             "permanent": true,
@@ -63,7 +68,13 @@
         "coverage_mult": { "melee": 2 },
         "armor_mult": { "all": 0.1 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 1 ] },
+          {
+            "effect": "blind",
+            "duration": [ "1 seconds", "2 seconds" ],
+            "chance": 40,
+            "message": "The %s is blinded!",
+            "damage_required": [ 1, 1 ]
+          },
           {
             "effect": "blind",
             "permanent": true,
@@ -304,7 +315,13 @@
         "condition": { "not": { "npc_has_any_effect": [ "blind", "afs_ai_defensive" ] } },
         "armor_mult": { "all": 0.1 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 1 ] },
+          {
+            "effect": "blind",
+            "duration": [ "1 seconds", "2 seconds" ],
+            "chance": 40,
+            "message": "The %s is blinded!",
+            "damage_required": [ 1, 1 ]
+          },
           {
             "effect": "blind",
             "permanent": true,

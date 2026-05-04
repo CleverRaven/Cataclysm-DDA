@@ -65,21 +65,21 @@
         "effects": [
           {
             "effect": "stunned",
-            "duration": [ 1, 1 ],
+            "duration": [ "1 seconds", "1 seconds" ],
             "chance": 5,
             "message": "The %s is stunned!",
             "damage_required": [ 5, 10 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 1 ],
+            "duration": [ "1 seconds", "1 seconds" ],
             "chance": 25,
             "message": "The %s is stunned!",
             "damage_required": [ 11, 50 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 1 ],
+            "duration": [ "1 seconds", "1 seconds" ],
             "chance": 45,
             "message": "The %s is stunned!",
             "damage_required": [ 51, 100 ]

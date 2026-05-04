@@ -195,7 +195,7 @@
         "effects": [
           {
             "effect": "stunned",
-            "duration": [ 1, 3 ],
+            "duration": [ "1 seconds", "3 seconds" ],
             "permanent": false,
             "intensity": [ 0, 0 ],
             "damage_required": [ 0, 100 ],

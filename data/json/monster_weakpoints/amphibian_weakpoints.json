@@ -14,21 +14,21 @@
         "effects": [
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 5,
             "message": "The %s is stunned!",
             "damage_required": [ 1, 10 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 25,
             "message": "The %s is stunned!",
             "damage_required": [ 11, 50 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 45,
             "message": "The %s is stunned!",
             "damage_required": [ 51, 100 ]
@@ -45,7 +45,13 @@
         "crit_mult": { "all": 1.25 },
         "difficulty": { "melee": 5, "ranged": 7 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "duration": [ "1 seconds", "2 seconds" ],
+            "chance": 40,
+            "message": "The %s is blinded!",
+            "damage_required": [ 1, 25 ]
+          },
           {
             "effect": "blind",
             "permanent": true,
@@ -67,14 +73,14 @@
           {
             "effect": "maimed_mandible",
             "chance": 10,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's mouth hangs slack!",
             "damage_required": [ 1, 20 ]
           },
           {
             "effect": "maimed_mandible",
             "chance": 25,
-            "duration": [ 15, 50 ],
+            "duration": [ "15 seconds", "50 seconds" ],
             "message": "The %s's mouth hangs slack!",
             "damage_required": [ 21, 40 ]
           },
@@ -99,14 +105,14 @@
           {
             "effect": "maimed_mandible",
             "chance": 10,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's mouth hangs slack!",
             "damage_required": [ 1, 20 ]
           },
           {
             "effect": "maimed_mandible",
             "chance": 25,
-            "duration": [ 15, 50 ],
+            "duration": [ "15 seconds", "50 seconds" ],
             "message": "The %s's mouth hangs slack!",
             "damage_required": [ 21, 40 ]
           },
@@ -137,14 +143,14 @@
           {
             "effect": "maimed_leg",
             "chance": 10,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's leg goes limp!",
             "damage_required": [ 1, 20 ]
           },
           {
             "effect": "maimed_leg",
             "chance": 25,
-            "duration": [ 15, 50 ],
+            "duration": [ "15 seconds", "50 seconds" ],
             "message": "The %s's leg goes limp!",
             "damage_required": [ 21, 40 ]
           },
@@ -175,14 +181,14 @@
           {
             "effect": "maimed_leg",
             "chance": 10,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's leg goes limp!",
             "damage_required": [ 1, 20 ]
           },
           {
             "effect": "maimed_leg",
             "chance": 25,
-            "duration": [ 15, 50 ],
+            "duration": [ "15 seconds", "50 seconds" ],
             "message": "The %s's leg goes limp!",
             "damage_required": [ 21, 40 ]
           },
@@ -222,14 +228,14 @@
           {
             "effect": "maimed_tongue",
             "chance": 10,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's tongue recoils in pain!",
             "damage_required": [ 1, 20 ]
           },
           {
             "effect": "maimed_tongue",
             "chance": 25,
-            "duration": [ 15, 50 ],
+            "duration": [ "15 seconds", "50 seconds" ],
             "message": "The %s's tongue recoils in pain!",
             "damage_required": [ 21, 40 ]
           },
@@ -260,14 +266,14 @@
           {
             "effect": "maimed_leg",
             "chance": 10,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's leg goes limp!",
             "damage_required": [ 1, 20 ]
           },
           {
             "effect": "maimed_leg",
             "chance": 25,
-            "duration": [ 15, 50 ],
+            "duration": [ "15 seconds", "50 seconds" ],
             "message": "The %s's leg goes limp!",
             "damage_required": [ 21, 40 ]
           },
@@ -307,14 +313,14 @@
           {
             "effect": "maimed_tail",
             "chance": 10,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's tail goes limp!",
             "damage_required": [ 1, 20 ]
           },
           {
             "effect": "maimed_tail",
             "chance": 25,
-            "duration": [ 15, 50 ],
+            "duration": [ "15 seconds", "50 seconds" ],
             "message": "The %s's tail goes limp!",
             "damage_required": [ 1, 40 ]
           },
@@ -345,21 +351,21 @@
         "effects": [
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 5,
             "message": "The %s is stunned!",
             "damage_required": [ 1, 10 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 25,
             "message": "The %s is stunned!",
             "damage_required": [ 11, 50 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 45,
             "message": "The %s is stunned!",
             "damage_required": [ 51, 100 ]
@@ -376,7 +382,13 @@
         "crit_mult": { "all": 1.25 },
         "difficulty": { "melee": 5, "ranged": 7 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "duration": [ "1 seconds", "2 seconds" ],
+            "chance": 40,
+            "message": "The %s is blinded!",
+            "damage_required": [ 1, 25 ]
+          },
           {
             "effect": "blind",
             "permanent": true,
@@ -398,14 +410,14 @@
           {
             "effect": "maimed_mandible",
             "chance": 10,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's mouth hangs slack!",
             "damage_required": [ 1, 20 ]
           },
           {
             "effect": "maimed_mandible",
             "chance": 25,
-            "duration": [ 15, 50 ],
+            "duration": [ "15 seconds", "50 seconds" ],
             "message": "The %s's mouth hangs slack!",
             "damage_required": [ 21, 40 ]
           },
@@ -430,14 +442,14 @@
           {
             "effect": "maimed_mandible",
             "chance": 10,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's mouth hangs slack!",
             "damage_required": [ 1, 20 ]
           },
           {
             "effect": "maimed_mandible",
             "chance": 25,
-            "duration": [ 15, 50 ],
+            "duration": [ "15 seconds", "50 seconds" ],
             "message": "The %s's mouth hangs slack!",
             "damage_required": [ 21, 40 ]
           },
@@ -467,14 +479,14 @@
           {
             "effect": "zapped",
             "chance": 25,
-            "duration": [ 2, 10 ],
+            "duration": [ "2 seconds", "10 seconds" ],
             "message": "The %s twitches and spasms!  It's zapping itself!",
             "damage_required": [ 1, 15 ]
           },
           {
             "effect": "electrocuted",
             "chance": 50,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s electrifies itself!  It begins seizing!",
             "damage_required": [ 16, 30 ]
           },

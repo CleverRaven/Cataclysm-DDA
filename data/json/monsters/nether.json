@@ -2426,7 +2426,7 @@
             "effect": "sectioned_filaments",
             "effect_on_conditions": [ "EOC_MORALE_SUBTRACT_100" ],
             "chance": 50,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's filaments are cut off!",
             "damage_required": [ 25, 100 ]
           }
