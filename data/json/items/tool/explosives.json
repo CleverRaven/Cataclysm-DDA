@@ -583,52 +583,6 @@
     "flags": [ "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
-    "id": "tool_rocket_candy",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "category": "weapons",
-    "name": { "str": "rocket candy", "str_pl": "rocket candies" },
-    "description": "A pear-shaped chunk of rocket candy obtained by heating saltpeter with sugar and casting the obtained liquid.  Can serve as a rocket fuel, but also as a smokescreen - if you light the narrow end, you should be able to throw it before the flame reaches the broad end.",
-    "weight": "250 g",
-    "volume": "250 ml",
-    "price": "1 USD",
-    "price_postapoc": "1 USD",
-    "material": [ "steel", "plastic" ],
-    "symbol": "*",
-    "color": "green",
-    "use_action": {
-      "need_wielding": true,
-      "target": "tool_rocket_candy_act",
-      "msg": "You light the rocket candy on fire.  Throw it!",
-      "menu_text": { "str": "Light", "ctxt": "verb" },
-      "type": "transform"
-    },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ],
-    "melee_damage": { "bash": 1 }
-  },
-  {
-    "id": "tool_rocket_candy_act",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "copy-from": "tool_rocket_candy",
-    "description": "A chunk of rocket candy that has been lit on fire and burns with a loud hiss, spewing forth large amounts of smoke.",
-    "use_action": {
-      "type": "message",
-      "message": "You've already lit the rocket candy, try throwing it instead.",
-      "name": { "str": "Light", "ctxt": "verb" }
-    },
-    "countdown_interval": "2 seconds",
-    "countdown_action": {
-      "type": "explosion",
-      "fields_type": "fd_smoke",
-      "fields_radius": 2,
-      "fields_min_intensity": 2,
-      "fields_max_intensity": 3,
-      "explosion": { "power": 1 }
-    },
-    "flags": [ "DANGEROUS", "SPAWN_ACTIVE" ]
-  },
-  {
     "id": "military_explosive_small_grenade",
     "copy-from": "grenade",
     "type": "ITEM",

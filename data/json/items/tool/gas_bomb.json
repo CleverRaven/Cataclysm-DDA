@@ -253,5 +253,53 @@
     "name": { "str": "makeshift toxic gas grenade" },
     "countdown_interval": "30 seconds",
     "emits": [ "emit_toxic_stream" ]
+  },
+  {
+    "id": "tool_rocket_candy",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "weapons",
+    "name": { "str": "rocket candy", "str_pl": "rocket candies" },
+    "description": "A pear-shaped chunk of rocket candy obtained by heating saltpeter with sugar and casting the obtained liquid.  Can serve as a rocket fuel, but also as a smokescreen - if you light the narrow end, you should be able to throw it before the flame reaches the broad end.",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": "1 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "powder_nonflam" ],
+    "symbol": "*",
+    "color": "green",
+    "use_action": {
+      "need_wielding": true,
+      "need_fire": 1,
+      "menu_text": "Light up",
+      "msg": "You light the rocket candy on fire.  Throw it!",
+      "type": "transform",
+      "target": "tool_rocket_candy_primed"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE" ]
+  },
+  {
+    "id": "tool_rocket_candy_primed",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "copy-from": "tool_rocket_candy",
+    "description": "A chunk of rocket candy that has been ignited and burns with a loud hiss.",
+    "use_action": { "type": "message", "message": "You've already lit the rocket candy, try throwing it instead.", "name": "Light up" },
+    "tick_action": [ { "type": "sound", "sound_message": "ssss…", "sound_volume": 5, "sound_id": "misc", "sound_variant": "lit_fuse" } ],
+    "countdown_interval": "5 seconds",
+    "revert_to": "tool_rocket_candy_act",
+    "flags": [ "DANGEROUS", "SPAWN_ACTIVE" ]
+  },
+  {
+    "id": "tool_rocket_candy_act",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "copy-from": "tool_rocket_candy",
+    "description": "A chunk of rocket candy that burns with a loud hiss, spewing forth large amounts of smoke.",
+    "use_action": { "type": "message", "message": "You've already lit the rocket candy, try throwing it instead.", "name": "Light up" },
+    "tick_action": [ { "type": "sound", "sound_message": "ssss…", "sound_volume": 10, "sound_id": "misc", "sound_variant": "lit_fuse" } ],
+    "countdown_interval": "30 seconds",
+    "emits": [ "emit_smoke_stream" ],
+    "flags": [ "DANGEROUS", "SPAWN_ACTIVE" ]
   }
 ]
