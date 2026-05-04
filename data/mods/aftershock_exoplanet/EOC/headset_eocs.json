@@ -1,0 +1,96 @@
+[
+  {
+    "id": "afs_paint_target_attempt",
+    "type": "SPELL",
+    "name": { "str": "Headset Targeting_Setup", "//~": "NO_I18N" },
+    "description": { "str": "Setup for afs_paint_target.", "//~": "NO_I18N" },
+    "message": "",
+    "valid_targets": [ "self" ],
+    "extra_effects": [ { "id": "afs_paint_target" } ],
+    "max_level": 4,
+    "effect": "attack",
+    "shape": "blast",
+    "flags": [ "NO_EXPLOSION_SFX", "SILENT" ],
+    "base_casting_time": 100
+  },
+  {
+    "type": "SPELL",
+    "id": "afs_paint_target",
+    "name": { "str": "Headset Targeted", "//~": "NO_I18N" },
+    "description": { "str": "Adds the smart targeted effect to victim.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "effect": "attack",
+    "shape": "blast",
+    "message": "",
+    "damage_type": "bash",
+    "effect_str": "smart_targeted",
+    "min_duration": 3000,
+    "max_duration": 3000,
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "RANDOM_TARGET", "RANDOM_CRITTER" ],
+    "base_casting_time": 100,
+    "min_range": 15,
+    "max_range": 60,
+    "max_level": 4,
+    "range_increment": 15
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEADSET_SPOT_FAR",
+    "recurrence": "5 seconds",
+    "condition": { "u_is_wearing": "afs_combat_headset_sniping" },
+    "effect": [
+      { "u_cast_spell": { "id": "afs_paint_target_attempt", "min_level": 4 } },
+      {
+        "u_run_monster_eocs": [
+          {
+            "id": "_remove_headset_spot_mon",
+            "condition": { "u_has_effect": "smart_targeted" },
+            "effect": [ { "u_lose_effect": "smart_targeted" } ]
+          }
+        ],
+        "monster_range": 20,
+        "monster_must_see": true
+      },
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "_remove_headset_spot_npc",
+            "condition": { "u_has_effect": "smart_targeted" },
+            "effect": [ { "u_lose_effect": "smart_targeted" } ]
+          }
+        ],
+        "npc_range": 10,
+        "npc_must_see": true,
+        "local": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEADSET_SPOT_NEAR",
+    "recurrence": "5 seconds",
+    "condition": { "u_is_wearing": "afs_combat_headset" },
+    "effect": [ { "u_cast_spell": { "id": "afs_paint_target_attempt", "min_level": 1 } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "BALLISTIC_TARGETING_MON",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_monster",
+    "condition": { "u_has_worn_with_flag": "ACTIVE_TARGETING" },
+    "effect": [ { "run_eocs": [ "BALLISTIC_TARGETING" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "BALLISTIC_TARGETING_CHAR",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_character",
+    "condition": { "u_has_worn_with_flag": "ACTIVE_TARGETING" },
+    "effect": [ { "run_eocs": [ "BALLISTIC_TARGETING" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "BALLISTIC_TARGETING",
+    "effect": [ { "npc_add_effect": "smart_targeted", "duration": "10 seconds" } ]
+  }
+]

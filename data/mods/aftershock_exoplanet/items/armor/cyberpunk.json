@@ -1,5 +1,13 @@
 [
   {
+    "id": "afs_mirror_shades",
+    "copy-from": "glasses_bal",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "mirror shades", "str_pl": "pairs of mirror shades" },
+    "description": "A pair of mirrored combat sunglasses.  Not good for playing poker."
+  },
+  {
     "id": "afs_transparent_coat",
     "repairs_like": "coat_rain",
     "type": "ITEM",
@@ -151,6 +159,109 @@
         "description": "Its so old and worn down that you think it might be made from actual leather.",
         "color": "dark_gray",
         "weight": 5
+      }
+    ]
+  },
+  {
+    "id": "afs_cyberpunk_longcoat",
+    "copy-from": "trenchcoat_leather",
+    "repairs_like": "coat_rain",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "looks_like": "trenchcoat_leather",
+    "name": { "str": "synth longcoat" },
+    "description": "A long, dark gray coat made from synthetic leather.  It has a high collar and a long vent in the back.",
+    "material": [ "nylon" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "10 cm",
+        "moves": 80,
+        "description": "Zip-up chest pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "10 cm",
+        "moves": 80,
+        "description": "Zip-up chest pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "16 cm",
+        "moves": 80,
+        "description": "Zip-up hip pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "16 cm",
+        "moves": 80,
+        "description": "Zip-up hip pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "442 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 150,
+        "description": "Velcro-fastened internal pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "442 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 150,
+        "description": "Velcro-fastened internal pocket."
+      }
+    ],
+    "variants": [
+      {
+        "id": "generic",
+        "name": { "str": "synth longcoat" },
+        "description": "A long, dark gray coat made from synthetic leather.  It has a high collar and a long vent in the back.",
+        "color": "dark_gray",
+        "weight": 50,
+        "append": true
+      },
+      {
+        "id": "admirality",
+        "name": { "str": "UISF longcoat" },
+        "description": "A navy-blue longcoat with deliberatedly ancient styling.  Part of the formal dress uniform of the UICA admirality, its either stolen or a knockoff.",
+        "color": "blue",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "transparent",
+        "name": { "str": "transparent longcoat" },
+        "description": "A long coat made from transparent plastic.  Not good for hiding smuggling contraband.",
+        "color": "dark_gray",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "rags",
+        "name": { "str": "long rags" },
+        "description": "A patchwork of rags and plastic scraps stitched together into a coat.  Genuine underhab wear, good for camouflage around trash heaps.",
+        "color": "dark_gray",
+        "weight": 5,
+        "append": true
+      },
+      {
+        "id": "red",
+        "name": { "str": "red longcoat" },
+        "description": "A candy red longcoat with a faux fur collar.  Fashion icon or a walking street sign?  Either way its not subtle.",
+        "color": "dark_gray",
+        "weight": 5,
+        "append": true
       }
     ]
   },
