@@ -1035,12 +1035,12 @@ void veh_interact::do_install( map &here )
         const std::string action = main_context.handle_input();
         msg.reset();
         if( action == "FILTER" ) {
-            string_input_popup_imgui popup(34);
-            popup.set_text(_("Search for part"));
-            popup.set_description(_("Filter"));
-            100jpopup.set_max_input_length(100);
+            string_input_popup_imgui popup( 34 );
+            popup.set_text( _( "Search for part" ) );
+            popup.set_description( _( "Filter" ) );
+            popup.set_max_input_length( 100 );
 
-      filter = popup.query();
+            filter = popup.query();
             tab = tab_filters.size() - 1; // Move to the user filter tab.
             pos = 0;
         } else if( action == "REPAIR" ) {
@@ -2058,7 +2058,7 @@ void veh_interact::do_assign_crew( map &here )
 
 void veh_interact::do_rename()
 {
-    string_input_popup_imgui popup(34, veh->name, _("Enter new vechicle name:"));
+    string_input_popup_imgui popup( 34, veh->name, _( "Enter new vechicle name:" ) );
     std::string name = popup.query();
     if( !name.empty() ) {
         veh->name = name;
@@ -2078,10 +2078,10 @@ void veh_interact::do_relabel( const map &here )
     }
 
     const vpart_position vp( *veh, cpart );
-    string_input_popup_imgui popup(34, vp.get_label().value_or(""),
-                                 _("New label:"));
+    string_input_popup_imgui popup( 34, vp.get_label().value_or( "" ),
+                                    _( "New label:" ) );
     std::string text = popup.query();
-    if( pop.confirmed() ) {
+    if( !popup.cancelled() ) {
         vp.set_label( text );
     }
 }
