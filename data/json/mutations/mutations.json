@@ -4248,7 +4248,7 @@
     "active": true,
     "starts_active": true,
     "vitamin_cost": 60,
-    "flags": [ "MYOPIC_IN_LIGHT" ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_ursine" } ] } ]
   },
   {
     "type": "mutation",
