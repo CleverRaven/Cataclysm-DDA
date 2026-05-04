@@ -6194,10 +6194,10 @@ std::optional<assigned_mortar> get_assigned_mortar( const npc &gunner )
     if( !mortar_id.is_valid() || assignment_pos.is_empty() ) {
         return std::nullopt;
     }
-    const tripoint_abs_ms pos = assignment_pos.tripoint();
     if( !assignment_pos.is_tripoint() ) {
         return std::nullopt;
     }
+    const tripoint_abs_ms pos = assignment_pos.tripoint();
     return assigned_mortar{
         pos,
         &mortar_id.obj()
@@ -6211,7 +6211,6 @@ std::optional<tripoint_abs_ms> get_mortar_last_target( const npc &gunner )
         return std::nullopt;
     }
     if( !target.is_tripoint() ) {
-        target.tripoint();
         return std::nullopt;
     }
     return target.tripoint();
