@@ -13524,9 +13524,7 @@ void man_mortar_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
     jsout.member( "mortar_type", mortar_type.str() );
-    jsout.member( "mortar_x", mortar_pos.x() );
-    jsout.member( "mortar_y", mortar_pos.y() );
-    jsout.member( "mortar_z", mortar_pos.z() );
+    jsout.member( "mortar_pos", mortar_pos );
     jsout.end_object();
 }
 
@@ -13535,8 +13533,7 @@ std::unique_ptr<activity_actor> man_mortar_activity_actor::deserialize( JsonValu
     JsonObject data = jsin.get_object();
     man_mortar_activity_actor actor;
     actor.mortar_type = mortar_type_id( data.get_string( "mortar_type" ) );
-    actor.mortar_pos = tripoint_abs_ms( data.get_int( "mortar_x" ), data.get_int( "mortar_y" ),
-                                        data.get_int( "mortar_z" ) );
+    data.read( "mortar_pos", actor.mortar_pos );
     return actor.clone();
 }
 
