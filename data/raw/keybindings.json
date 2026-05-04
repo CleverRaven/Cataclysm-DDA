@@ -1797,13 +1797,13 @@
     "type": "keybinding",
     "id": "CHANGE_GENDER",
     "name": "Change gender",
-    "bindings": [ { "input_method": "keyboard_char", "key": "@" }, { "input_method": "keyboard_code", "key": "2", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "g" } ]
   },
   {
     "type": "keybinding",
     "id": "CHANGE_OUTFIT",
     "name": "Change outfit",
-    "bindings": [ { "input_method": "keyboard_char", "key": "$" }, { "input_method": "keyboard_code", "key": "4", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "o" } ]
   },
   {
     "type": "keybinding",
@@ -1827,7 +1827,7 @@
     "type": "keybinding",
     "id": "CHANGE_HEIGHT",
     "name": "Change height",
-    "bindings": [ { "input_method": "keyboard_char", "key": "e" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "h" } ]
   },
   {
     "type": "keybinding",
@@ -1914,11 +1914,7 @@
     "type": "keybinding",
     "id": "RANDOMIZE_CHAR_DESCRIPTION",
     "name": "Pick random character description",
-    "bindings": [
-      { "input_method": "keyboard_char", "key": "*" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
-      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
-    ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "D" }, { "input_method": "keyboard_code", "key": "d", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
