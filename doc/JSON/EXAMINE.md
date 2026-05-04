@@ -219,7 +219,7 @@ List of ammo types, that can be used in this mortar.
 #### `range`
 Mandatory
 Integer
-How far this mortar can shoot, in meters.
+How far this mortar can shoot, in tiles.
 
 #### `condition`
 Optional, defaults to true.

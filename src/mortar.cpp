@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <unordered_map>
 #include <utility>
 
@@ -127,22 +128,27 @@ bool mortar_type::is_mortar_round( const item &it )
 
 void mortar_type::load( const JsonObject &jo, std::string_view )
 {
+    const numeric_bound_reader<int> positive_int{ 1 };
+    const numeric_bound_reader<double> positive_double{ std::numeric_limits<double>::min() };
+    const numeric_bound_reader<double> non_negative_double{ 0.0 };
+
     mandatory( jo, was_loaded, "furniture", furniture_ );
     mandatory( jo, was_loaded, "ammo", ammo_ );
-    mandatory( jo, was_loaded, "range", range_ );
+    mandatory( jo, was_loaded, "range", range_, positive_int );
     optional( jo, was_loaded, "player_flight_time", player_flight_time_, 0_seconds );
     optional( jo, was_loaded, "npc_fire_message_delay", npc_fire_message_delay_, 0_seconds );
     optional( jo, was_loaded, "npc_impact_delay", npc_impact_delay_, 0_seconds );
     optional( jo, was_loaded, "npc_impact_message_delay", npc_impact_message_delay_,
               npc_impact_delay_ );
-    optional( jo, was_loaded, "cep_baseline", cep_baseline_, 100.0 );
-    optional( jo, was_loaded, "cep_min_base", cep_min_base_, 20.0 );
-    optional( jo, was_loaded, "cep_min_skill_scale", cep_min_skill_scale_, 1.0 );
-    optional( jo, was_loaded, "cep_min_floor", cep_min_floor_, 5.0 );
-    optional( jo, was_loaded, "axis_ratio_baseline", axis_ratio_baseline_, 4.0 );
-    optional( jo, was_loaded, "axis_ratio_final_base", axis_ratio_final_base_, 2.5 );
-    optional( jo, was_loaded, "axis_ratio_skill_scale", axis_ratio_skill_scale_, 0.1 );
-    optional( jo, was_loaded, "axis_ratio_floor", axis_ratio_floor_, 1.2 );
+    optional( jo, was_loaded, "cep_baseline", cep_baseline_, positive_double, 100.0 );
+    optional( jo, was_loaded, "cep_min_base", cep_min_base_, positive_double, 20.0 );
+    optional( jo, was_loaded, "cep_min_skill_scale", cep_min_skill_scale_, non_negative_double, 1.0 );
+    optional( jo, was_loaded, "cep_min_floor", cep_min_floor_, positive_double, 5.0 );
+    optional( jo, was_loaded, "axis_ratio_baseline", axis_ratio_baseline_, positive_double, 4.0 );
+    optional( jo, was_loaded, "axis_ratio_final_base", axis_ratio_final_base_, positive_double, 2.5 );
+    optional( jo, was_loaded, "axis_ratio_skill_scale", axis_ratio_skill_scale_,
+              non_negative_double, 0.1 );
+    optional( jo, was_loaded, "axis_ratio_floor", axis_ratio_floor_, positive_double, 1.2 );
     was_loaded = true;
 }
 
