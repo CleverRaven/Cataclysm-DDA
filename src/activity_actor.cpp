@@ -13489,12 +13489,12 @@ void man_mortar_activity_actor::do_turn( player_activity &act, Character &who )
         gunner.revert_after_activity();
         return;
     }
-    const tripoint_abs_ms assigned_mortar_pos = assignment_pos.tripoint();
     if( !assignment_pos.is_tripoint() ) {
         act.set_to_null();
         gunner.revert_after_activity();
         return;
     }
+    const tripoint_abs_ms assigned_mortar_pos = assignment_pos.tripoint();
     mortar_pos = assigned_mortar_pos;
     const tripoint_bub_ms mortar_bub = here.get_bub( assigned_mortar_pos );
     if( rl_dist( gunner.pos_bub( here ), mortar_bub ) > 1 ) {
