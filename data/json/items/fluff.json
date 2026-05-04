@@ -1920,6 +1920,8 @@
     "material": [ "acid" ],
     "volume": "400 ml",
     "weight": "700 g",
+    "count": 1,
+    "stack_size": 1,
     "phase": "liquid"
   }
 ]
