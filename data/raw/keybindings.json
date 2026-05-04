@@ -1870,7 +1870,7 @@
     "type": "keybinding",
     "id": "SAVE_TEMPLATE",
     "name": "Save template",
-    "bindings": [ { "input_method": "keyboard_char", "key": "!" }, { "input_method": "keyboard_code", "key": "1", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "s" } ]
   },
   {
     "type": "keybinding",
