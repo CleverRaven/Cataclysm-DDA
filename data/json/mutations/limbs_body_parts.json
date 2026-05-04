@@ -83,7 +83,7 @@
     "heading_multiple": "eyes",
     "copy-from": "eyes",
     "opposite_part": "eyes_ursine",
-    "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 3.0 ], [ "reaction", 0.7 ] ],
+    "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 2.75 ], [ "reaction", 0.7 ] ],
     "sub_parts": [ "eyes_ursine_left", "eyes_ursine_right" ],
     "similar_bodypart": "eyes",
     "flags": [ "IGNORE_TEMP", "LIMB_UPPER", "MYOPIC_IN_LIGHT" ]
