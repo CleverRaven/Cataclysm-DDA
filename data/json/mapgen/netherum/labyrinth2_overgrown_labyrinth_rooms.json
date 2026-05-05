@@ -465,7 +465,12 @@
       ],
       "palettes": [ "labyrinthine_overgrown_room_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "6": "t_nl_metal_wall_overgrown", "7": "t_nl_metal_wall_overgrown", "8": "t_nl_metal_wall_overgrown", "9": "t_nl_metal_wall_overgrown" },
+      "terrain": {
+        "6": "t_nl_metal_wall_overgrown",
+        "7": "t_nl_metal_wall_overgrown",
+        "8": "t_nl_metal_wall_overgrown",
+        "9": "t_nl_metal_wall_overgrown"
+      },
       "nested": {
         "6": { "chunks": [ "ls_overgrown_bubblecell_6x6_room_Wentry" ] },
         "7": { "chunks": [ "ls_overgrown_bubblecell_5x5_room_Wentry" ] },

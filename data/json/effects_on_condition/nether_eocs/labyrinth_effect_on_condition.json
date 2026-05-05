@@ -133,7 +133,11 @@
           "success_message": "Zwoink."
         }
       },
-      { "u_teleport": { "u_val": "player_location_temp_labyrinth_return_loc" }, "fail_message": "Nope!", "force": true },
+      {
+        "u_teleport": { "u_val": "player_location_temp_labyrinth_return_loc" },
+        "fail_message": "Nope!",
+        "force": true
+      },
       { "u_message": "Zwoink.", "popup": true }
     ],
     "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]

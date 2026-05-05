@@ -113,27 +113,15 @@
     "id": "labyrinthine_overgrown_palette",
     "terrain": {
       "#": "t_nl_metal_wall_overgrown",
-      "_": [
-          [ "t_nl_metal_floor_overgrown", 8000 ],
-          [ "t_nl_metal_floor_grass", 800 ],
-          [ "t_nl_shrub_glowberries", 1 ]
-      ],
-      " ": [
-          [ "t_nl_metal_floor_overgrown", 8000 ],
-          [ "t_nl_metal_floor_grass", 800 ],
-          [ "t_nl_shrub_glowberries", 1 ]
-      ],
-      ".": [
-          [ "t_nl_metal_floor_overgrown", 8000 ],
-          [ "t_nl_metal_floor_grass", 800 ],
-          [ "t_nl_shrub_glowberries", 1 ]
-      ],
+      "_": [ [ "t_nl_metal_floor_overgrown", 8000 ], [ "t_nl_metal_floor_grass", 800 ], [ "t_nl_shrub_glowberries", 1 ] ],
+      " ": [ [ "t_nl_metal_floor_overgrown", 8000 ], [ "t_nl_metal_floor_grass", 800 ], [ "t_nl_shrub_glowberries", 1 ] ],
+      ".": [ [ "t_nl_metal_floor_overgrown", 8000 ], [ "t_nl_metal_floor_grass", 800 ], [ "t_nl_shrub_glowberries", 1 ] ],
       ",": [
-          [ "t_nl_grass", 4000 ],
-          [ "t_nl_grass_long", 1800 ],
-          [ "t_nl_grass_tall", 100 ],
-          [ "t_nl_shrub_glowberries", 20 ],
-          [ "t_marloss", 1 ]
+        [ "t_nl_grass", 4000 ],
+        [ "t_nl_grass_long", 1800 ],
+        [ "t_nl_grass_tall", 100 ],
+        [ "t_nl_shrub_glowberries", 20 ],
+        [ "t_marloss", 1 ]
       ],
       "!": "t_nl_metal_wall_edge",
       "v": [ [ "t_nl_soil", 1 ], [ "t_nl_rock", 49 ] ],
@@ -200,31 +188,21 @@
     },
     "nested": { "1": { "chunks": [ [ "null", 1 ], [ "ls_2x2_furniture", 3 ] ] } },
     "items": { "X": { "item": "LS_SUS_crate_tier1_loot", "chance": 70, "repeat": [ 1, 2 ] } },
-    "monsters": {
-      " ": { "monster": "GROUP_Labyrinth_Hallmonitors", "density": 0.0003 }
-    }
+    "monsters": { " ": { "monster": "GROUP_Labyrinth_Hallmonitors", "density": 0.0003 } }
   },
   {
     "type": "palette",
     "id": "labyrinthine_overgrown_room_palette",
     "terrain": {
       "#": "t_nl_metal_wall_overgrown",
-      "_": [
-          [ "t_nl_metal_floor_overgrown", 8000 ],
-          [ "t_nl_metal_floor_grass", 800 ],
-          [ "t_nl_shrub_glowberries", 1 ]
-      ],
-      ".": [
-          [ "t_nl_metal_floor_overgrown", 8000 ],
-          [ "t_nl_metal_floor_grass", 800 ],
-          [ "t_nl_shrub_glowberries", 1 ]
-      ],
+      "_": [ [ "t_nl_metal_floor_overgrown", 8000 ], [ "t_nl_metal_floor_grass", 800 ], [ "t_nl_shrub_glowberries", 1 ] ],
+      ".": [ [ "t_nl_metal_floor_overgrown", 8000 ], [ "t_nl_metal_floor_grass", 800 ], [ "t_nl_shrub_glowberries", 1 ] ],
       ",": [
-          [ "t_nl_grass", 4000 ],
-          [ "t_nl_grass_long", 1800 ],
-          [ "t_nl_grass_tall", 100 ],
-          [ "t_nl_shrub_glowberries", 20 ],
-          [ "t_marloss", 1 ]
+        [ "t_nl_grass", 4000 ],
+        [ "t_nl_grass_long", 1800 ],
+        [ "t_nl_grass_tall", 100 ],
+        [ "t_nl_shrub_glowberries", 20 ],
+        [ "t_marloss", 1 ]
       ],
       "!": "t_nl_metal_wall_edge",
       "v": [ [ "t_nl_soil", 1 ], [ "t_nl_rock", 49 ] ],
@@ -297,30 +275,37 @@
     "id": "labyrinthine_overgrown_cave_palette",
     "terrain": {
       "*": [ [ "t_nl_soil", 1 ], [ "t_nl_rock", 49 ] ],
-      "1": [ [ "t_nl_soil", 25 ], [ "t_nl_rock", 25 ], [ "t_nl_rock_floor", 40 ], [ "t_nl_dirt", 5 ], [ "t_nl_grass", 4 ], [ "t_nl_grass_long", 1 ] ],
+      "1": [
+        [ "t_nl_soil", 25 ],
+        [ "t_nl_rock", 25 ],
+        [ "t_nl_rock_floor", 40 ],
+        [ "t_nl_dirt", 5 ],
+        [ "t_nl_grass", 4 ],
+        [ "t_nl_grass_long", 1 ]
+      ],
       ",": [
-          [ "t_nl_rock_floor", 4000 ],
-          [ "t_nl_dirt", 1800 ],
-          [ "t_nl_grass", 100 ],
-          [ "t_nl_grass_long", 50 ],
-          [ "t_nl_grass_tall", 1 ],
-          [ "t_nl_shrub_glowberries", 20 ],
-          [ "t_marloss", 1 ]
+        [ "t_nl_rock_floor", 4000 ],
+        [ "t_nl_dirt", 1800 ],
+        [ "t_nl_grass", 100 ],
+        [ "t_nl_grass_long", 50 ],
+        [ "t_nl_grass_tall", 1 ],
+        [ "t_nl_shrub_glowberries", 20 ],
+        [ "t_marloss", 1 ]
       ],
       ".": [
-          [ "t_nl_grass", 4000 ],
-          [ "t_nl_grass_long", 1800 ],
-          [ "t_nl_grass_tall", 100 ],
-          [ "t_nl_shrub_glowberries", 20 ],
-          [ "t_marloss", 1 ]
+        [ "t_nl_grass", 4000 ],
+        [ "t_nl_grass_long", 1800 ],
+        [ "t_nl_grass_tall", 100 ],
+        [ "t_nl_shrub_glowberries", 20 ],
+        [ "t_marloss", 1 ]
       ],
       "2": [
-          [ "t_null", 6000 ],
-          [ "t_nl_grass", 4000 ],
-          [ "t_nl_grass_long", 1800 ],
-          [ "t_nl_grass_tall", 100 ],
-          [ "t_nl_shrub_glowberries", 20 ],
-          [ "t_marloss", 1 ]
+        [ "t_null", 6000 ],
+        [ "t_nl_grass", 4000 ],
+        [ "t_nl_grass_long", 1800 ],
+        [ "t_nl_grass_tall", 100 ],
+        [ "t_nl_shrub_glowberries", 20 ],
+        [ "t_marloss", 1 ]
       ]
     },
     "furniture": { ",": [ [ "f_swamp_gas", 1 ], [ "f_null", 199 ] ] }

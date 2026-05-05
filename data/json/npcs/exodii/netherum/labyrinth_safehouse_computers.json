@@ -278,7 +278,11 @@
       {
         "text": "Yes.",
         "condition": { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
-        "effect": [ { "run_eocs": "EOC_LS_SD_enter_tunnel" }, { "u_lose_trait": "LS_Passcode_string_dimension" }, { "u_add_var": "stuck_in_labyrinth", "value": "no" } ],
+        "effect": [
+          { "run_eocs": "EOC_LS_SD_enter_tunnel" },
+          { "u_lose_trait": "LS_Passcode_string_dimension" },
+          { "u_add_var": "stuck_in_labyrinth", "value": "no" }
+        ],
         "topic": "TALK_DONE"
       },
       {
