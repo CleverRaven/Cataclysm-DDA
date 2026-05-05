@@ -2189,5 +2189,10 @@
     "type": "construction_group",
     "id": "build_flagpole_indoor_wooden",
     "name": "Build a wooden indoor flagpole"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_nl_safehouse_boiler",
+    "name": "Place Otherworldly Boiler"
   }
 ]

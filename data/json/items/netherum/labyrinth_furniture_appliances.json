@@ -5,5 +5,24 @@
     "copy-from": "exodii_lamp",
     "name": { "str": "disconnected strange utility light" },
     "description": "Parts of this utility light have a curved appearance, as though the metal were grown in a lab.  Its single, round bulb will emit light if connected to power."
+  },
+  {
+    "id": "nl_safehouse_boiler",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "disconnected otherworldly boiler" },
+    "description": "A huge, pot-bellied device that resembles something between a coal-burning stove and a boiler, with a wide, hinged cage covering the combustion chamber.  Three unmarked gauges sit like alien eyes upon its face.  A side-mounted crank is its only visible control.  In defiance of its apparent function, it has no exhaust vent; in its place is a hose twisted on itself several times, coiled in copper, and terminating in a bulbous back-mounted battery pack.",
+    "weight": "400 kg",
+    "volume": "200 L",
+    "longest_side": "200 cm",
+    "price": "0 USD",
+    "price_postapoc": "0 cent",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
+    "material": [ "steel" ],
+    "symbol": "&",
+    "color": "red",
+    "melee_damage": { "bash": 30 },
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10000 } } ]
   }
 ]

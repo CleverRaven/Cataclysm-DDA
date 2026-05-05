@@ -1292,5 +1292,28 @@
     "id": "ap_robofac_mobile_weather_station",
     "copy-from": "veh_robofac_mobile_weather_station",
     "extend": { "flags": [ "APPLIANCE" ] }
+  },
+  {
+    "id": "ap_nl_safehouse_boiler",
+    "type": "vehicle_part",
+    "name": { "str": "otherworldly boiler" },
+    "item": "nl_safehouse_boiler",
+    "color": "red",
+    "broken_color": "light_gray",
+    "durability": 60,
+    "description": "A huge, pot-bellied device that resembles something between a coal-burning stove and a boiler, with a wide, hinged cage covering the combustion chamber.  Three unmarked gauges sit like alien eyes upon its face.  A side-mounted crank is its only visible control.  In defiance of its apparent function, it has no exhaust vent; in its place is a hose twisted on itself several times, coiled in copper, and terminating in a bulbous back-mounted battery pack.",
+    "breaks_into": [
+      { "item": "scrap", "count": [ 8, 12 ] },
+      { "item": "pipe", "count": [ 0, 3 ] },
+      { "item": "sheet_metal_small", "count": [ 2, 10 ] },
+      { "item": "scrap_copper", "count": [ 2, 12 ] },
+      { "item": "amplifier", "count": [ 0, 5 ] },
+      { "item": "power_supply", "count": [ 0, 1 ] },
+      { "item": "cable", "charges": [ 0, 5 ] }
+    ],
+    "flags": [ "APPLIANCE", "NL_BOILER", "CTRL_ELECTRONIC", "CARGO", "OBSTACLE" ],
+    "size": "200 L",
+    "requirements": { "removal": { "time": "5 s" } },
+    "variants": [ { "symbols": "&", "symbols_broken": "-" } ]
   }
 ]

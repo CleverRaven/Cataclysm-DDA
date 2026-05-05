@@ -747,5 +747,10 @@
     "id": "NEEDS_WHEEL_MOUNT_CONCRETE_MIX",
     "type": "json_flag",
     "requires_flag": "WHEEL_MOUNT_CONCRETE_MIX"
+  },
+  {
+    "id": "NL_BOILER",
+    "type": "json_flag",
+    "info": "This part functions as a boiler from the nether."
   }
 ]
