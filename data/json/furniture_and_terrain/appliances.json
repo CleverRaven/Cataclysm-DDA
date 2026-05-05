@@ -1296,6 +1296,7 @@
   {
     "id": "ap_nl_safehouse_boiler",
     "type": "vehicle_part",
+    "categories": [ "energy" ],
     "name": { "str": "otherworldly boiler" },
     "item": "nl_safehouse_boiler",
     "color": "red",
