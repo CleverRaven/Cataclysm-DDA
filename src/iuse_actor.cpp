@@ -119,7 +119,6 @@ static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_masked_scent( "masked_scent" );
-static const efftype_id effect_music( "music" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_playing_instrument( "playing_instrument" );
 static const efftype_id effect_recover( "recover" );
@@ -2598,11 +2597,8 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it,
                        it.typeId().str() );
     }
 
-    if( !p->has_effect( effect_music ) && p->can_hear( p->pos_bub( *here ), volume ) ) {
-        // Sound code doesn't describe noises at the player position
-        if( desc != "music" ) {
-            p->add_msg_if_player( m_info, desc );
-        }
+    if( desc != "music" && p->can_hear( p->pos_bub( *here ), volume ) ) {
+        p->add_msg_if_player( m_info, desc );
     }
 
     // We already played the sounds, just handle applying effects now
