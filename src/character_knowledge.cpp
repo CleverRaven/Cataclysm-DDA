@@ -136,8 +136,13 @@ std::vector<spell_id> Character::spells_offered_to( const Character *you ) const
 
 void Character::zero_all_skills()
 {
+    set_all_skills( 0 );
+}
+
+void Character::set_all_skills( const int lvl )
+{
     for( Skill &skill : Skill::skills ) {
-        set_skill_level( skill.ident(), 0 );
+        set_skill_level( skill.ident(), lvl );
     }
 }
 
