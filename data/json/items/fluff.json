@@ -1912,7 +1912,6 @@
   {
     "type": "ITEM",
     "id": "waste_electrolyte_slurry",
-    "subtypes": [ "AMMO" ],
     "category": "other",
     "name": { "str_sp": "Electrolyte Slurry" },
     "symbol": "o",
@@ -1921,6 +1920,7 @@
     "material": [ "acid" ],
     "volume": "400 ml",
     "weight": "700 g",
+    "stackable": true,
     "count": 1,
     "stack_size": 1,
     "phase": "liquid"
