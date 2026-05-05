@@ -97,7 +97,7 @@
     "heading_multiple": "eyes",
     "copy-from": "eyes",
     "opposite_part": "eyes_avian",
-    "limb_scores": [ [ "vision", 2.5 ], [ "night_vis", 1.5 ], [ "reaction", 0.7 ] ],
+    "limb_scores": [ [ "vision", 2.5 ], [ "night_vis", 1.0 ], [ "reaction", 0.7 ] ],
     "sub_parts": [ "eyes_avian_left", "eyes_avian_right" ],
     "similar_bodypart": "eyes",
     "flags": [ "IGNORE_TEMP", "LIMB_UPPER" ]
