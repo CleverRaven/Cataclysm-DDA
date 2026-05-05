@@ -1609,6 +1609,29 @@ void vehicle::use_mws( map &here, int p )
     }
 }
 
+void vehicle::use_nl_boiler( map &here, int p )
+{
+    std::string dimension_prefix = g->get_dimension_prefix();
+    if( dimension_prefix == "netherum_labyrinth_safehouse" ) {
+        vehicle_part &vp = parts[p];
+        vehicle_stack items = get_items( vp );
+
+        units::mass total_weight = 0_gram;
+        for( item &it : items ) {
+            total_weight += it.weight();
+            remove_item( vp, &it );
+        }
+
+        charge_battery( here, total_weight / 10_gram, false );
+
+        add_msg( m_good,
+                 _( "You turn the crank and the combustion chamber flashes, leaving behind not but an acrid smell." ) );
+    } else {
+        add_msg( m_bad,
+                 _( "You turn the crank and nothing happens." ) );
+    }
+}
+
 void vehicle::use_monster_capture( int part, map */*here*/, const tripoint_bub_ms &pos )
 {
     if( parts[part].is_broken() || parts[part].removed ) {
@@ -2415,6 +2438,13 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
                   : _( "Activate the recording subroutine (1 hour)" ) )
         .hotkey( "TOGGLE_MWS" )
         .on_submit( [this, dw_idx, here] { use_mws( *here, dw_idx ); } );
+    }
+    
+    const std::optional<vpart_reference> vp_nl_boiler = vp.avail_part_with_feature( "NL_BOILER" );
+    if( vp_nl_boiler ) {
+        const size_t dw_idx = vp_nl_boiler->part_index();
+        menu.add( _( "Activate the boiler" ) )
+        .on_submit( [this, dw_idx, here] { use_nl_boiler( *here, dw_idx ); } );
     }
 
     const std::optional<vpart_reference> vp_cargo = vp.cargo();
