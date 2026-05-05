@@ -358,13 +358,13 @@ TEST_CASE( "weakpoint_hit_distribution_projectile", "[.]" )
     REQUIRE( output.is_open() );
     output << "Monster,Weapon,Weapon skill level,Accuracy,Weakpoint id,Probability\n";
 
-    for( const auto& [values, probs] : results ) {
-        for( const auto &[wp_id, wp_prob] : probs ) {
+    for( const hit_distribution_result &result : results ) {
+        for( const auto &[wp_id, wp_prob] : result.id_and_hits ) {
             output << string_format( "%s,%s,%f,%f,%s,%i\n",
-                                     values.mon.str(),
-                                     values.weapon.str(),
-                                     values.skill_lvl,
-                                     values.accuracy,
+                                     result.values.mon.str(),
+                                     result.values.weapon.str(),
+                                     result.values.skill_lvl,
+                                     result.values.accuracy,
                                      wp_id,
                                      wp_prob );
         }
