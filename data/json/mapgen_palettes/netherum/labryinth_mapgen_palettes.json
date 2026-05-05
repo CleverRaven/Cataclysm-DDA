@@ -142,7 +142,8 @@
     "type": "palette",
     "id": "labyrinthine_safehouse_palette",
     "terrain": {
-      "#": "t_nl_safehouse_metal_wall_wired",
+      "#": "t_nl_safehouse_metal_wall",
+      "*": "t_nl_safehouse_metal_wall_wired",
       "|": "t_nl_safehouse_metal_wall_wired_destructable",
       ".": "t_nl_metal_floor",
       "B": "t_nl_metal_floor",
