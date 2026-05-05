@@ -629,7 +629,7 @@
     "light_color": [ 220, 255, 200 ],
     "durability": 20,
     "description": "The bulbs emit an eerie greenish glow, and some parts of it have a curved appearance as though the metal were grown in a lab, but by and large this isn't a particularly unusual looking area light.",
-    "epower": "-10 W",
+    "epower": "-100 W",
     "bonus": 200,
     "damage_modifier": 10,
     "looks_like": "f_exodii_lamp",
