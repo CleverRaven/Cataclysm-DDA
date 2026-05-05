@@ -726,6 +726,8 @@
     "main_part": "arm_r",
     "opposite_part": "paw_broad_l",
     "side": "right",
+    "limb_type": "hand",
+    "limb_scores": [ [ "grip", 0.27 ], [ "manip", 0.27, 0.54 ], [ "swim", 0.25 ] ],
     "sub_parts": [ "paw_broad_wrist_r", "paw_broad_palm_r", "paw_broad_back_r", "paw_broad_fingers_r" ]
   },
   {
@@ -773,6 +775,8 @@
     "main_part": "arm_r",
     "opposite_part": "paw_l",
     "side": "right",
+    "limb_type": "hand",
+    "limb_scores": [ [ "grip", 0.38 ], [ "manip", 0.38, 0.72 ], [ "swim", 0.15 ] ],
     "sub_parts": [ "paw_wrist_r", "paw_palm_r", "paw_back_r", "paw_fingers_r" ]
   },
   {
@@ -819,6 +823,8 @@
     "main_part": "arm_r",
     "opposite_part": "paw_rat_l",
     "side": "right",
+    "limb_type": "hand",
+    "limb_scores": [ [ "grip", 0.5 ], [ "manip", 0.47, 0.95 ], [ "swim", 0.15 ] ],
     "sub_parts": [ "paw_rat_wrist_r", "paw_rat_palm_r", "paw_rat_back_r", "paw_rat_fingers_r" ]
   },
   {
@@ -866,6 +872,8 @@
     "main_part": "arm_r",
     "opposite_part": "paw_little_l",
     "side": "right",
+    "limb_type": "hand",
+    "limb_scores": [ [ "grip", 0.45 ], [ "manip", 0.45, 0.9 ], [ "swim", 0.15 ] ],
     "sub_parts": [ "paw_little_wrist_r", "paw_little_palm_r", "paw_little_back_r", "paw_little_fingers_r" ]
   },
   {
