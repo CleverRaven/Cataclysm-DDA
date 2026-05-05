@@ -636,6 +636,7 @@
     "encumbrance_threshold": 3,
     "main_part": "arm_insect_good_l",
     "opposite_part": "arm_insect_good_r",
+    "limb_type": "arm",
     "limb_scores": [ [ "balance", 0 ], [ "manip", 0.1, 2 ], [ "lift", 0.1 ], [ "block", 0.5 ], [ "crawl", 0.1 ] ],
     "sub_parts": [ "arm_insect_good_upper_l", "arm_insect_good_elbow_l", "arm_insect_good_lower_l" ]
   },
@@ -645,6 +646,7 @@
     "copy-from": "arm_insect_r",
     "main_part": "arm_insect_good_r",
     "opposite_part": "arm_insect_good_l",
+    "limb_type": "arm",
     "limb_scores": [ [ "balance", 0 ], [ "manip", 0.1, 2 ], [ "lift", 0.1 ], [ "block", 0.5 ], [ "crawl", 0.1 ] ],
     "sub_parts": [ "arm_insect_good_upper_r", "arm_insect_good_elbow_r", "arm_insect_good_lower_r" ]
   },
@@ -678,6 +680,7 @@
     "copy-from": "insect_hand_l",
     "main_part": "arm_insect_good_r",
     "opposite_part": "insect_hand_l",
+    "limb_type": "hand",
     "sub_parts": [ "insect_tarsomere_r", "insect_segment_r", "insect_terminus_r" ]
   },
   {
@@ -727,7 +730,6 @@
     "opposite_part": "paw_broad_l",
     "side": "right",
     "limb_type": "hand",
-    "limb_scores": [ [ "grip", 0.27 ], [ "manip", 0.27, 0.54 ], [ "swim", 0.25 ] ],
     "sub_parts": [ "paw_broad_wrist_r", "paw_broad_palm_r", "paw_broad_back_r", "paw_broad_fingers_r" ]
   },
   {
@@ -776,7 +778,6 @@
     "opposite_part": "paw_l",
     "side": "right",
     "limb_type": "hand",
-    "limb_scores": [ [ "grip", 0.38 ], [ "manip", 0.38, 0.72 ], [ "swim", 0.15 ] ],
     "sub_parts": [ "paw_wrist_r", "paw_palm_r", "paw_back_r", "paw_fingers_r" ]
   },
   {
@@ -824,7 +825,6 @@
     "opposite_part": "paw_rat_l",
     "side": "right",
     "limb_type": "hand",
-    "limb_scores": [ [ "grip", 0.5 ], [ "manip", 0.47, 0.95 ], [ "swim", 0.15 ] ],
     "sub_parts": [ "paw_rat_wrist_r", "paw_rat_palm_r", "paw_rat_back_r", "paw_rat_fingers_r" ]
   },
   {
@@ -873,7 +873,6 @@
     "opposite_part": "paw_little_l",
     "side": "right",
     "limb_type": "hand",
-    "limb_scores": [ [ "grip", 0.45 ], [ "manip", 0.45, 0.9 ], [ "swim", 0.15 ] ],
     "sub_parts": [ "paw_little_wrist_r", "paw_little_palm_r", "paw_little_back_r", "paw_little_fingers_r" ]
   },
   {
