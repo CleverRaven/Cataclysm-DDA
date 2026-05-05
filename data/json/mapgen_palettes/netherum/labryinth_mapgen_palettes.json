@@ -128,8 +128,16 @@
           [ "t_nl_metal_floor_grass", 800 ],
           [ "t_nl_shrub_glowberries", 1 ]
       ],
+      ",": [
+          [ "t_nl_grass", 4000 ],
+          [ "t_nl_grass_long", 1800 ],
+          [ "t_nl_grass_tall", 100 ],
+          [ "t_nl_shrub_glowberries", 20 ],
+          [ "t_marloss", 1 ]
+      ],
       "!": "t_nl_metal_wall_edge",
       "v": [ [ "t_nl_soil", 1 ], [ "t_nl_rock", 49 ] ],
+      "%": "t_nl_shrub_glowberries",
       "+": "t_nl_door_c",
       "=": "t_nl_door_l",
       "ϴ": "t_nl_metal_floor_overgrown",
@@ -157,6 +165,7 @@
       "Ṫ": "t_nl_metal_floor_overgrown",
       "ϟ": "t_nl_metal_floor_overgrown",
       "ß": "t_nl_metal_floor_overgrown",
+      "]": "t_nl_metal_floor_overgrown",
       "-": "t_nl_sewage_pipe",
       "I": "t_nl_gates_mech_control"
     },
@@ -186,9 +195,14 @@
       "ϟ": "f_capacitor",
       "ß": "f_metal_bench",
       "W": "f_workbench",
-      "]": "f_chair_folding"
+      "]": "f_chair_folding",
+      "X": [ [ "f_metal_crate_r", 1 ], [ "f_metal_crate_c", 3 ] ]
     },
-    "nested": { "1": { "chunks": [ [ "null", 1 ], [ "ls_2x2_furniture", 3 ] ] } }
+    "nested": { "1": { "chunks": [ [ "null", 1 ], [ "ls_2x2_furniture", 3 ] ] } },
+    "items": { "X": { "item": "LS_SUS_crate_tier1_loot", "chance": 70, "repeat": [ 1, 2 ] } },
+    "monsters": {
+      " ": { "monster": "GROUP_Labyrinth_Hallmonitors", "density": 0.0003 }
+    }
   },
   {
     "type": "palette",
@@ -205,6 +219,13 @@
           [ "t_nl_metal_floor_grass", 800 ],
           [ "t_nl_shrub_glowberries", 1 ]
       ],
+      ",": [
+          [ "t_nl_grass", 4000 ],
+          [ "t_nl_grass_long", 1800 ],
+          [ "t_nl_grass_tall", 100 ],
+          [ "t_nl_shrub_glowberries", 20 ],
+          [ "t_marloss", 1 ]
+      ],
       "!": "t_nl_metal_wall_edge",
       "v": [ [ "t_nl_soil", 1 ], [ "t_nl_rock", 49 ] ],
       "+": "t_nl_door_c",
@@ -234,6 +255,8 @@
       "Ṫ": "t_nl_metal_floor_overgrown",
       "ϟ": "t_nl_metal_floor_overgrown",
       "ß": "t_nl_metal_floor_overgrown",
+      "X": "t_nl_metal_floor_overgrown",
+      "]": "t_nl_metal_floor_overgrown",
       "-": "t_nl_sewage_pipe",
       "I": "t_nl_gates_mech_control"
     },
@@ -263,9 +286,11 @@
       "ϟ": "f_capacitor",
       "ß": "f_metal_bench",
       "W": "f_workbench",
-      "]": "f_chair_folding"
+      "]": "f_chair_folding",
+      "X": [ [ "f_metal_crate_r", 1 ], [ "f_metal_crate_c", 3 ] ]
     },
-    "nested": { "1": { "chunks": [ [ "null", 1 ], [ "ls_2x2_furniture", 3 ] ] } }
+    "nested": { "1": { "chunks": [ [ "null", 1 ], [ "ls_2x2_furniture", 3 ] ] } },
+    "items": { "X": { "item": "LS_SUS_crate_tier1_loot", "chance": 70, "repeat": [ 1, 2 ] } }
   },
   {
     "type": "palette",
