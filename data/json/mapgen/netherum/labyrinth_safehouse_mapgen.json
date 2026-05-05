@@ -69,7 +69,7 @@
       ],
       "flags": [ "NO_UNDERLYING_ROTATE", "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "labyrinthine_safehouse_palette" ],
-      "furniture": {"G": "f_nl_safehouse_boiler" },
+      "furniture": { "G": "f_nl_safehouse_boiler" },
       "item": { "f": { "item": "nl_safehouse_boiler_plans" } }
     }
   },

@@ -2439,7 +2439,6 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         .hotkey( "TOGGLE_MWS" )
         .on_submit( [this, dw_idx, here] { use_mws( *here, dw_idx ); } );
     }
-    
     const std::optional<vpart_reference> vp_nl_boiler = vp.avail_part_with_feature( "NL_BOILER" );
     if( vp_nl_boiler ) {
         const size_t dw_idx = vp_nl_boiler->part_index();
