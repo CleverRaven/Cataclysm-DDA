@@ -219,7 +219,6 @@
     "type": "effect_on_condition",
     "id": "EOC_LS_Exit_labyrinth_sparkling_chasm",
     "effect": [
-      { "u_add_var": "stuck_in_labyrinth", "value": "no" }, 
       {
         "u_travel_to_dimension": "netherum_labyrinth_safehouse",
         "npc_travel_radius": 0,

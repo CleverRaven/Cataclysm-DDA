@@ -9,7 +9,7 @@
     "spoils_in": "2 days 12 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "quench": 0,
+    "quench": 2,
     "calories": 46,
     "description": "A handful of strange berries picked from a plastic plant.  You're not sure if they're edible, and their texture makes them seem chewy, like gum, or tough gummies.  Nevertheless, they smell extremely pleasent.",
     "price": "50 cent",

@@ -19,7 +19,7 @@
         "#..........#",
         "#####++#####"
       ],
-      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -43,7 +43,7 @@
         "#..##==##..#",
         "####...I####"
       ],
-      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -67,7 +67,7 @@
         "#...#==##..#",
         "#####..I####"
       ],
-      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -91,7 +91,7 @@
         "#ÇÇMÇ..MÇÇM#",
         "#####++#####"
       ],
-      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -115,7 +115,7 @@
         "#.M....M...#",
         "#####++#####"
       ],
-      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -139,7 +139,7 @@
         "#..........#",
         "#####++#####"
       ],
-      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -163,7 +163,7 @@
         "#..W.....W.#",
         "#####++#####"
       ],
-      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -187,7 +187,7 @@
         "#..........#",
         "#####++#####"
       ],
-      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -211,7 +211,7 @@
         "#...F..F...#",
         "#####++#####"
       ],
-      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -235,7 +235,7 @@
         "#......#   #",
         "#####++#####"
       ],
-      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -259,7 +259,7 @@
         "#.U.U...#..#",
         "#####++#####"
       ],
-      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -283,7 +283,7 @@
         "#  ##..##  #",
         "#   #..#   #"
       ],
-      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -307,7 +307,7 @@
         "#..........#",
         "#####++#####"
       ],
-      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -331,7 +331,7 @@
         "#..........#",
         "#####++#####"
       ],
-      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -355,7 +355,7 @@
         "#PPP....PPP#",
         "#####++#####"
       ],
-      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -379,7 +379,7 @@
         "#PPP#..#PPP#",
         "#####++#####"
       ],
-      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -403,7 +403,7 @@
         "#PPP#..#PPP#",
         "#####++#####"
       ],
-      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -427,7 +427,223 @@
         "#PPP#..#PPP#",
         "#####++#####"
       ],
-      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth_overgrown_v_room",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  ####################  ",
+        "  #..................#  ",
+        "  ##................##  ",
+        "   ##..............##   ",
+        "    ##............##    ",
+        "     #+..........+#     ",
+        "      ##........##      ",
+        "       ##......##       ",
+        "        ##....##        ",
+        "         ##..##         ",
+        "          ####          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+
+      ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth_overgrown_v_room",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "          ####          ",
+        "         ##..##         ",
+        "        ##....##        ",
+        "       ##......##       ",
+        "      ##........##      ",
+        "     ##..........##     ",
+        "    ##............##    ",
+        "   ##..............##   ",
+        "  ##................##  ",
+        "  #..................#  ",
+        "  ##................##  ",
+        "   ##..............##   ",
+        "    ##............##    ",
+        "     ##..........##     ",
+        "      ##........##      ",
+        "       ##......##       ",
+        "        ##....##        ",
+        "         ##..##         ",
+        "          #++#          ",
+        "           ..           ",
+        "                        ",
+        "                        ",
+        "                        "
+
+      ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth_overgrown_v_room",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "  ####################  ",
+        "  #..................#  ",
+        "  #..................#  ",
+        "  #..................#  ",
+        "  #..................#  ",
+        "  #..................#  ",
+        "  #..................#  ",
+        "  #..................#  ",
+        "  #..................#  ",
+        "  #..................#  ",
+        "  ##................##  ",
+        "   ##..............##   ",
+        "    ##............##    ",
+        "     ##..........##     ",
+        "      ##........##      ",
+        "       ##......##       ",
+        "        ##....##        ",
+        "         ##..##         ",
+        "          #++#          ",
+        "           ..           ",
+        "                        ",
+        "                        ",
+        "                        "
+
+      ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth_overgrown_v_room",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "          ####          ",
+        "         ##..##         ",
+        "        ##....##        ",
+        "       ##......##       ",
+        "      ##........##      ",
+        "     ##..........##     ",
+        "    ##............##    ",
+        "   ##..............##   ",
+        "  ##................##  ",
+        " .+..................+. ",
+        "  ####################  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+
+      ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth_overgrown_v_room",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "  ####################  ",
+        "  #..................#  ",
+        "  #..................#  ",
+        "  #..................#  ",
+        "  #..................#  ",
+        "  #..................#  ",
+        "  #..................#  ",
+        "  #..................#  ",
+        "  #..................#  ",
+        " .+..................+. ",
+        "  ####################  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+
+      ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth_overgrown_v_room",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  ####################  ",
+        " .+..................+. ",
+        "  ####################  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+
+      ],
+      "palettes": [ "labyrinthine_overgrown_room_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }

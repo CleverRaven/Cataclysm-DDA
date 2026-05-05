@@ -37,7 +37,11 @@
         { "chunks": [ "labyrinth_overgrown_9x9_cave_nw" ], "x": 0, "y": 0 },
         { "chunks": [ "labyrinth_overgrown_9x9_cave_sw" ], "x": 0, "y": 15 },
         { "chunks": [ "labyrinth_overgrown_9x9_cave_ne" ], "x": 15, "y": 0 },
-        { "chunks": [ "labyrinth_overgrown_9x9_cave_se" ], "x": 15, "y": 15 }
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_se" ], "x": 15, "y": 15 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 10, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 10, "y": 15 }
       ]
     }
   },
@@ -122,7 +126,19 @@
       "palettes": [ "labyrinthine_overgrown_palette" ],
       "place_nested": [
         { "chunks": [ "labyrinth_overgrown_8x24_cave_ns_left" ], "x": 0, "y": 0 },
-        { "chunks": [ "labyrinth_overgrown_8x24_cave_ns_right" ], "x": 0, "y": 0 }
+        { "chunks": [ "labyrinth_overgrown_8x24_cave_ns_right" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 4 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 8 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 12 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 16 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 20 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 10, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 8 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 10, "y": 8 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 10, "y": 15 }
       ]
     }
   },
@@ -159,7 +175,14 @@
       ],
       "palettes": [ "labyrinthine_overgrown_palette" ],
       "place_nested": [
-        { "chunks": [ "labyrinth_overgrown_8x24_cave_ns_left" ], "x": 0, "y": 0 }
+        { "chunks": [ "labyrinth_overgrown_8x24_cave_ns_left" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 20 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 10, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 8 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 10, "y": 15 }
       ]
     }
   },
@@ -196,7 +219,16 @@
       ],
       "palettes": [ "labyrinthine_overgrown_palette" ],
       "place_nested": [
-        { "chunks": [ "labyrinth_overgrown_8x24_cave_ns_left" ], "x": 0, "y": 0 }
+        { "chunks": [ "labyrinth_overgrown_8x24_cave_ns_left" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 8 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 12 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 16 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 20 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 8 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 10, "y": 8 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 10, "y": 15 }
       ]
     }
   },
@@ -233,7 +265,9 @@
       ],
       "palettes": [ "labyrinthine_overgrown_palette" ],
       "place_nested": [
-        { "chunks": [ "labyrinth_overgrown_8x24_cave_ns_right_bulbous" ], "x": 0, "y": 0 }
+        { "chunks": [ "labyrinth_overgrown_8x24_cave_ns_right_bulbous" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 2, "y": 9 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 2, "y": 8 }
       ]
     }
   },
@@ -270,7 +304,12 @@
       ],
       "palettes": [ "labyrinthine_overgrown_palette" ],
       "place_nested": [
-        { "chunks": [ "labyrinth_overgrown_8x24_cave_ns_right" ], "x": 0, "y": 0 }
+        { "chunks": [ "labyrinth_overgrown_8x24_cave_ns_right" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 2, "y": 9 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 1, "y": 1 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 1, "y": 10 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 6, "y": 1 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 6, "y": 10 }
       ]
     }
   },
@@ -308,6 +347,8 @@
       "palettes": [ "labyrinthine_overgrown_palette" ],
       "place_nested": [
         { "chunks": [ "labyrinth_overgrown_cave_curved_outside" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 10, "y": 15 },
         { "chunks": [ "labyrinth_overgrown_12x12_room" ], "x": 6, "y": 6 }
       ]
     }
@@ -344,7 +385,12 @@
         "!vvvvvvvv#    #vvvvvvvvv"
       ],
       "palettes": [ "labyrinthine_overgrown_palette" ],
-      "place_nested": [ { "chunks": [ "labyrinth_overgrown_cave_curved_outside" ], "x": 0, "y": 0 }, { "chunks": [ "labyrinth_overgrown_cave_curved_inside" ], "x": 0, "y": 0 } ]
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_cave_curved_outside" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_cave_curved_inside" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 10, "y": 15 }
+      ]
     }
   },
   {
@@ -379,7 +425,12 @@
         "!vvvvvvvv#    #vvvvvvvvv"
       ],
       "palettes": [ "labyrinthine_overgrown_palette" ],
-      "place_nested": [ { "chunks": [ "labyrinth_overgrown_cave_curved_outside" ], "x": 0, "y": 0 }, { "chunks": [ "labyrinth_overgrown_cave_curved_inside" ], "x": 0, "y": 0 } ]
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_cave_curved_outside" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_cave_curved_inside" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 10, "y": 15 }
+      ]
     }
   },
   {
@@ -414,7 +465,10 @@
         "!vvvvvvvv#    ##vvvvvvvv"
       ],
       "palettes": [ "labyrinthine_overgrown_palette" ],
-      "place_nested": [ { "chunks": [ "labyrinth_overgrown_cave_curved_outside" ], "x": 0, "y": 0 } ]
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_cave_curved_outside_wide" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_cave_curved_inside_small" ], "x": 0, "y": 0 }
+      ]
     }
   },
   {
@@ -449,7 +503,14 @@
         "vvvvvvvvv#    #vvvvvvvvv"
       ],
       "palettes": [ "labyrinthine_overgrown_palette" ],
-      "place_nested": [ { "chunks": [ "labyrinth_overgrown_cave_tee_n" ], "x": 0, "y": 0 }, { "chunks": [ "labyrinth_overgrown_cave_v_sw" ], "x": 0, "y": 0 }, { "chunks": [ "labyrinth_overgrown_cave_v_se" ], "x": 0, "y": 0 }, { "chunks": [ "labyrinth_overgrown_12x12_room" ], "x": 6, "y": 6 } ]
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_cave_tee_n" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_cave_v_sw" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_cave_v_se" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 10, "y": 15 },
+        { "chunks": [ "labyrinth_overgrown_12x12_room" ], "x": 6, "y": 6 }
+      ]
     }
   },
   {
@@ -484,7 +545,13 @@
         "vvvvvvvvv#    #vvvvvvvvv"
       ],
       "palettes": [ "labyrinthine_overgrown_palette" ],
-      "place_nested": [ { "chunks": [ "labyrinth_overgrown_cave_tee_n" ], "x": 0, "y": 0 }, { "chunks": [ "labyrinth_overgrown_cave_tee_sw" ], "x": 0, "y": 0 }, { "chunks": [ "labyrinth_overgrown_cave_tee_se" ], "x": 0, "y": 0 } ]
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_cave_tee_n" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_cave_tee_sw" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_cave_tee_se" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 10, "y": 15 }
+      ]
     }
   },
   {
@@ -519,7 +586,12 @@
         "vvvvvvvv##    ##vvvvvvvv"
       ],
       "palettes": [ "labyrinthine_overgrown_palette" ],
-      "place_nested": [ { "chunks": [ "labyrinth_overgrown_cave_tee_n" ], "x": 0, "y": 0 }, { "chunks": [ "labyrinth_overgrown_cave_v_sw" ], "x": 0, "y": 0 }, { "chunks": [ "labyrinth_overgrown_cave_v_se" ], "x": 0, "y": 0 } ]
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_cave_tee_n_wide" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_cave_v_sw" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_cave_v_se" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_v_room" ], "x": 0, "y": 0 }
+      ]
     }
   },
   {
@@ -559,6 +631,10 @@
         { "chunks": [ "labyrinth_overgrown_9x9_cave_sw" ], "x": 0, "y": 15 },
         { "chunks": [ "labyrinth_overgrown_9x9_cave_ne" ], "x": 15, "y": 0 },
         { "chunks": [ "labyrinth_overgrown_9x9_cave_se" ], "x": 15, "y": 15 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 10, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 10, "y": 15 },
         { "chunks": [ "labyrinth_overgrown_12x12_room" ], "x": 6, "y": 6 }
       ]
     }
@@ -599,7 +675,11 @@
         { "chunks": [ "labyrinth_overgrown_9x9_cave_nw" ], "x": 0, "y": 0 },
         { "chunks": [ "labyrinth_overgrown_9x9_cave_sw" ], "x": 0, "y": 15 },
         { "chunks": [ "labyrinth_overgrown_9x9_cave_ne" ], "x": 15, "y": 0 },
-        { "chunks": [ "labyrinth_overgrown_9x9_cave_se" ], "x": 15, "y": 15 }
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_se" ], "x": 15, "y": 15 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 10, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 10, "y": 15 }
       ]
     }
   },
@@ -639,7 +719,11 @@
         { "chunks": [ "labyrinth_overgrown_9x9_cave_nw" ], "x": 0, "y": 0 },
         { "chunks": [ "labyrinth_overgrown_9x9_cave_sw" ], "x": 0, "y": 15 },
         { "chunks": [ "labyrinth_overgrown_9x9_cave_ne" ], "x": 15, "y": 0 },
-        { "chunks": [ "labyrinth_overgrown_9x9_cave_se" ], "x": 15, "y": 15 }
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_se" ], "x": 15, "y": 15 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 10, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 10, "y": 15 }
       ]
     }
   },
@@ -675,7 +759,17 @@
         "!!!!!!!!!#    #!!!!!!!!!"
 
       ],
-      "palettes": [ "labyrinthine_overgrown_palette" ]
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_8x24_cave_ns_deadend_left" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_8x24_cave_ns_deadend_right" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 10, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 8 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 10, "y": 8 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_9x9_grass_transition", 5 ] ], "x": 10, "y": 15 }
+      ]
     }
   }
 ]
