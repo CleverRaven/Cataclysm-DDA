@@ -21,7 +21,6 @@ class JsonArray;
 class JsonObject;
 class JsonValue;
 class item;
-class time_duration;
 struct const_dialogue;
 struct damage_instance;
 struct resistances;
