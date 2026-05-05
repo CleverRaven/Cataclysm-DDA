@@ -11,10 +11,11 @@
 #include "character.h"
 #include "coordinates.h"
 #include "damage.h"
-#include "itype.h"
+#include "item.h"
 #include "monster.h"
 #include "mtype.h"
 #include "player_helpers.h"
+#include "string_formatter.h"
 #include "type_id.h"
 #include "weakpoint.h"
 
