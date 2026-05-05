@@ -619,6 +619,43 @@
     "variants": [ { "symbols": "*", "symbols_broken": "-" } ]
   },
   {
+    "id": "ap_exodii_lamp",
+    "type": "vehicle_part",
+    "name": { "str": "scavenged utility light" },
+    "item": "exodii_lamp",
+    "categories": [ "lighting" ],
+    "color": "light_gray",
+    "broken_color": "red",
+    "light_color": [ 220, 255, 200 ],
+    "durability": 20,
+    "description": "The bulbs emit an eerie greenish glow, and some parts of it have a curved appearance as though the metal were grown in a lab, but by and large this isn't a particularly unusual looking area light.",
+    "epower": "-10 W",
+    "bonus": 200,
+    "damage_modifier": 10,
+    "looks_like": "f_exodii_lamp",
+    "breaks_into": [
+      { "item": "scrap", "count": [ 8, 12 ] },
+      { "item": "pipe", "count": [ 0, 3 ] },
+      { "item": "sheet_metal_small", "count": [ 2, 10 ] },
+      { "item": "scrap_copper", "count": [ 2, 12 ] },
+      { "item": "amplifier", "count": [ 0, 5 ] },
+      { "item": "power_supply", "count": [ 0, 1 ] },
+      { "item": "cable", "charges": [ 0, 5 ] }
+    ],
+    "flags": [ "CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC" ],
+    "requirements": { "removal": { "time": "5 s" } },
+    "variants": [ { "symbols": "T", "symbols_broken": "-" } ]
+  },
+  {
+    "id": "ap_nl_exodii_lamp",
+    "type": "vehicle_part",
+    "name": { "str": "strange utility light" },
+    "item": "nl_exodii_lamp",
+    "looks_like": "f_nl_exodii_lamp",
+    "description": "Parts of this utility light have a curved appearance, as though the metal were grown in a lab.  The round bulb emits an eerie greenish glow.",
+    "copy-from": "ap_exodii_lamp"
+  },
+  {
     "id": "ap_standing_floodlight",
     "type": "vehicle_part",
     "name": { "str": "standing floodlight" },

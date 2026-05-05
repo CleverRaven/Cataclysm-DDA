@@ -774,6 +774,30 @@
   },
   {
     "type": "construction",
+    "id": "app_exodii_lamp",
+    "group": "place_exodii_lamp",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 s",
+    "components": [ [ [ "exodii_lamp", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "NO_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_nl_exodii_lamp",
+    "group": "place_nl_exodii_lamp",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 s",
+    "components": [ [ [ "nl_exodii_lamp", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "NO_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "app_tablesaw",
     "group": "place_tablesaw",
     "category": "APPLIANCE",

@@ -309,7 +309,8 @@
     "required_str": 6,
     "light_emitted": 90,
     "light_color": [ 220, 255, 200 ],
-    "flags": [ "TRANSPARENT", "NOITEM", "BLOCKSDOOR" ],
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "exodii_lamp" },
+    "flags": [ "TRANSPARENT", "NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 20,
       "str_max": 150,

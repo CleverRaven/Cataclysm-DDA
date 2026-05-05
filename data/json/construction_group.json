@@ -1447,6 +1447,16 @@
   },
   {
     "type": "construction_group",
+    "id": "place_exodii_lamp",
+    "name": "Place Scavenged Utility Light"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_nl_exodii_lamp",
+    "name": "Place Strange Utility Light"
+  },
+  {
+    "type": "construction_group",
     "id": "place_solar_panel",
     "name": "Place Small Solar Panel"
   },
