@@ -1,7 +1,10 @@
 #include <cmath>
+#include <fstream>
+#include <iostream>
 #include <list>
 #include <map>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
