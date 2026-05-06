@@ -1,5 +1,19 @@
 [
   {
+    "type": "body_part",
+    "id": "eyes_goblin",
+    "name": "goblin eyes",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "goblin eyes" },
+    "heading": "eyes",
+    "heading_multiple": "eyes",
+    "copy-from": "eyes",
+    "opposite_part": "eyes_goblin",
+    "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 8 ], [ "reaction", 0.7 ] ],
+    "sub_parts": [ "eyes_goblin_left", "eyes_goblin_right" ],
+    "similar_bodypart": "eyes",
+    "flags": [ "IGNORE_TEMP", "LIMB_UPPER", "MYOPIC_IN_LIGHT" ]
+  },
+  {
     "id": "wing_ravenfolk_l",
     "type": "body_part",
     "name": "left wing",
