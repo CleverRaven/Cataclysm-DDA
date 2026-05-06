@@ -11,7 +11,7 @@
     "symbol": "%",
     "quench": 2,
     "calories": 46,
-    "description": "A handful of strange berries picked from a plastic plant.  You're not sure if they're edible, and their texture makes them seem chewy, like gum, or tough gummies.  Nevertheless, they smell extremely pleasent.",
+    "description": "A handful of strange berries picked from a plastic plant.  You're not sure if they're edible.  Nevertheless, they smell extremely pleasant.",
     "price": "50 cent",
     "price_postapoc": "50 cent",
     "material": [ "fruit" ],
