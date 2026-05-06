@@ -28,17 +28,61 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "         ",
+        " ÇÇÇ ÇÇÇ ",
         "         ",
+        " ϴÇÇÇÇϴ  ",
         "         ",
+        "  ϴÇÇÇÇ  ",
         "         ",
-        "         ",
-        "         ",
-        "         ",
-        "         ",
+        "   ÇÇÇÇÇ ",
         "         "
       ],
       "palettes": [ "labyrinth2_nest_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_9x9_square_room_nest",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "         ",
+        " ÇÇÇ ÇÇÇ ",
+        "         ",
+        "  ÇÇÇÇϴ  ",
+        "         ",
+        "  ϴÇÇÇÇ  ",
+        "         ",
+        "  ϴÇÇÇçÇ ",
+        "         "
+      ],
+      "palettes": [ "labyrinth2_nest_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "computers": { "ç": { "name": "Active Terminal", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "COMP_LS2_MAP" ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_9x9_square_room_nest",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "         ",
+        " ÇÇÇ ÇÇÇ ",
+        " ϴ       ",
+        "  ÇçÇÇϴ  ",
+        "         ",
+        "   ÇÇÇÇ  ",
+        " ϴ       ",
+        "  ÇÇÇÇÇÇ ",
+        "         "
+      ],
+      "palettes": [ "labyrinth2_nest_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "computers": { "ç": { "name": "Active Terminal", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "COMP_LS2_MAP" ] } }
     }
   },
   {
@@ -987,6 +1031,30 @@
       ],
       "palettes": [ "labyrinth2_nest_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_9x9_circle_room_nest",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "           ",
+        "   Ç   Ç   ",
+        "  Ç M M Ç  ",
+        "   M   M   ",
+        "     L     ",
+        "  (     (  ",
+        "     L     ",
+        "   M   M   ",
+        "  ç M M Ç  ",
+        "   Ç   Ç   ",
+        "           "
+      ],
+      "palettes": [ "labyrinth2_nest_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "computers": { "ç": { "name": "Active Terminal", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "COMP_LS2_MAP" ] } }
     }
   },
   {
