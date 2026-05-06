@@ -5050,7 +5050,7 @@
     "type": "mutation",
     "id": "BIRD_EYE",
     "name": { "str": "Avian Eyes" },
-    "description": "Your vision has become particularly acute: you suspect you could pick out zombies much farther away.  Perception +2, as well as increased vision and night vision limb scores.",
+    "description": "Your vision has become particularly acute: you suspect you could pick out zombies much farther away.  Perception +2, as well as increased vision and reaction limb scores.",
     "category": [ "BIRD" ],
     "types": [ "EYES" ],
     "prereqs": [ "PER_UP_4" ],
