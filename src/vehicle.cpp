@@ -8586,15 +8586,18 @@ void vehicle::update_time( map &here, const time_point &update_to )
         const double area_in_mm2 = std::pow( pt.info().bonus, 2 ) * M_PI;
         const int qty = roll_remainder( funnel_charges_per_turn( area_in_mm2, accum_weather.rain_amount ) );
         int c_qty = qty + ( tank->can_reload( water_clean ) ?  tank->ammo_remaining( ) : 0 );
-        int cost_to_purify = c_qty * itype_water_purifier->charges_to_use();
 
         if( qty > 0 ) {
             const std::optional<vpart_reference> vp_purifier = vpart_position( *this, idx )
                     .part_with_tool( here, itype_water_purifier );
+            const int64_t per_use = itype_water_purifier->charges_to_use();
+            const bool can_purify_all = vp_purifier &&
+                                        fuel_left( here, itype_battery ) >=
+                                        static_cast<int64_t>( c_qty ) * per_use;
 
-            if( vp_purifier && ( fuel_left( here, itype_battery ) > cost_to_purify ) ) {
+            if( can_purify_all ) {
+                run_legacy_charge_tool_uses( here, itype_water_purifier, c_qty );
                 tank->ammo_set( itype_water_clean, c_qty );
-                discharge_battery( here, cost_to_purify );
             } else {
                 tank->ammo_set( itype_water, tank->ammo_remaining( ) + qty );
             }

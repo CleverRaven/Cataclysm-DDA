@@ -5733,6 +5733,103 @@
     ]
   },
   {
+    "id": "test_multimag_turret_flamethrower",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "test multimag flamethrower turret" },
+    "description": "Direct MAGAZINE liquid pocket + battery; exercises USE_TANKS heuristic.",
+    "weight": "2500 g",
+    "volume": "2000 ml",
+    "longest_side": "600 mm",
+    "material": [ "steel" ],
+    "symbol": "(",
+    "color": "red",
+    "ammo": [ "gasoline" ],
+    "skill": "rifle",
+    "range": 6,
+    "ranged_damage": { "damage_type": "heat", "amount": 5 },
+    "dispersion": 480,
+    "durability": 10,
+    "modes": [ [ "DEFAULT", "default", 1 ] ],
+    "pocket_data": [
+      { "id": "fuel", "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 50 } },
+      {
+        "id": "power",
+        "magazine_well": "500 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "heavy_battery_cell" ]
+      }
+    ],
+    "firing_requirements": { "DEFAULT": [ { "pocket": "fuel", "qty": 5 }, { "pocket": "power", "qty": 2 } ] }
+  },
+  {
+    "id": "test_multimag_turret_gun",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "test multimag turret gun" },
+    "description": "Test multimag turret: 9mm well (player) + battery well (vehicle).",
+    "weight": "1000 g",
+    "volume": "1500 ml",
+    "longest_side": "400 mm",
+    "material": [ "steel" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "ammo": [ "9mm" ],
+    "skill": "pistol",
+    "range": 10,
+    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
+    "dispersion": 480,
+    "durability": 10,
+    "modes": [ [ "DEFAULT", "default", 1 ], [ "BURST", "burst", 3 ] ],
+    "pocket_data": [
+      { "id": "ammo", "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glockmag" ] },
+      {
+        "id": "power",
+        "magazine_well": "500 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "heavy_battery_cell" ]
+      }
+    ],
+    "firing_requirements": {
+      "DEFAULT": [ { "pocket": "ammo", "qty": 1 }, { "pocket": "power", "qty": 5 } ],
+      "BURST": [ { "pocket": "ammo", "qty": 3 }, { "pocket": "power", "qty": 15 } ]
+    }
+  },
+  {
+    "id": "test_multimag_turret_gun_ups",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "test multimag turret gun (USE_UPS)" },
+    "description": "Carrier-null isolation variant: same shape but flagged USE_UPS.",
+    "weight": "1000 g",
+    "volume": "1500 ml",
+    "longest_side": "400 mm",
+    "material": [ "steel" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "ammo": [ "9mm" ],
+    "skill": "pistol",
+    "range": 10,
+    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
+    "dispersion": 480,
+    "durability": 10,
+    "flags": [ "USE_UPS" ],
+    "modes": [ [ "DEFAULT", "default", 1 ], [ "BURST", "burst", 3 ] ],
+    "pocket_data": [
+      { "id": "ammo", "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glockmag" ] },
+      {
+        "id": "power",
+        "magazine_well": "500 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "heavy_battery_cell" ]
+      }
+    ],
+    "firing_requirements": {
+      "DEFAULT": [ { "pocket": "ammo", "qty": 1 }, { "pocket": "power", "qty": 5 } ],
+      "BURST": [ { "pocket": "ammo", "qty": 3 }, { "pocket": "power", "qty": 15 } ]
+    }
+  },
+  {
     "id": "test_multimag_gun_consume",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -5825,5 +5922,184 @@
     "legacy_charges_per_use_factor": 5,
     "pocket_data": [ { "id": "well_a", "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glockmag" ] } ],
     "consumption_per_use": [ { "pocket": "well_a", "qty": 1 } ]
+  },
+  {
+    "id": "test_multimag_vehicle_welder",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "test multimag vehicle welder" },
+    "description": "Test multimag pseudo-tool: battery well + oxygen pocket + filler pocket.",
+    "weight": "500 g",
+    "volume": "750 ml",
+    "material": [ "steel" ],
+    "symbol": "&",
+    "color": "light_gray",
+    "flags": [ "USE_UPS" ],
+    "pocket_data": [
+      {
+        "id": "power",
+        "magazine_well": "500 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "heavy_battery_cell" ]
+      },
+      {
+        "id": "oxygen",
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "airtight": true,
+        "ammo_restriction": { "oxygen": 40 }
+      },
+      { "id": "rod", "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "components": 40 } }
+    ],
+    "consumption_per_use": [ { "pocket": "power", "qty": 5 }, { "pocket": "oxygen", "qty": 2 }, { "pocket": "rod", "qty": 1 } ]
+  },
+  {
+    "id": "test_multimag_vehicle_combo",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "test multimag vehicle combo" },
+    "description": "Test multimag pseudo-tool: battery well + tank pocket (gasoline).",
+    "weight": "500 g",
+    "volume": "750 ml",
+    "material": [ "steel" ],
+    "symbol": "&",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "id": "power",
+        "magazine_well": "500 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "heavy_battery_cell" ]
+      },
+      {
+        "id": "fluid",
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "watertight": true,
+        "ammo_restriction": { "gasoline": 40 }
+      }
+    ],
+    "consumption_per_use": [ { "pocket": "power", "qty": 5 }, { "pocket": "fluid", "qty": 2 } ]
+  },
+  {
+    "id": "test_multimag_well_fluid_mag",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "test multimag well fluid mag" },
+    "description": "Test fluid magazine for vehicle tank synth.",
+    "weight": "100 g",
+    "volume": "500 ml",
+    "material": [ "steel" ],
+    "symbol": "(",
+    "color": "white",
+    "ammo_type": [ "gasoline" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 40 } } ]
+  },
+  {
+    "id": "test_multimag_well_fluid",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "test multimag well fluid" },
+    "description": "Test multimag pseudo-tool: MAGAZINE_WELL accepting fluid magazine, sourced from vehicle tank.",
+    "weight": "500 g",
+    "volume": "750 ml",
+    "material": [ "steel" ],
+    "symbol": "&",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "id": "fuel",
+        "magazine_well": "500 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "test_multimag_well_fluid_mag" ]
+      }
+    ],
+    "consumption_per_use": [ { "pocket": "fuel", "qty": 3 } ]
+  },
+  {
+    "id": "test_multimag_two_battery",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "test multimag two battery" },
+    "description": "Test multimag pseudo-tool with two battery wells sharing one network.",
+    "weight": "500 g",
+    "volume": "750 ml",
+    "material": [ "steel" ],
+    "symbol": "&",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "id": "left",
+        "magazine_well": "500 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "heavy_battery_cell" ]
+      },
+      {
+        "id": "right",
+        "magazine_well": "500 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "heavy_battery_cell" ]
+      }
+    ],
+    "consumption_per_use": [ { "pocket": "left", "qty": 5 }, { "pocket": "right", "qty": 5 } ]
+  },
+  {
+    "id": "test_multimag_two_fluid",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "test multimag two fluid" },
+    "description": "Test multimag pseudo-tool with two same-fuel tank pockets.",
+    "weight": "500 g",
+    "volume": "750 ml",
+    "material": [ "steel" ],
+    "symbol": "&",
+    "color": "light_gray",
+    "pocket_data": [
+      { "id": "left", "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 40 } },
+      {
+        "id": "right",
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "watertight": true,
+        "ammo_restriction": { "gasoline": 40 }
+      }
+    ],
+    "consumption_per_use": [ { "pocket": "left", "qty": 2 }, { "pocket": "right", "qty": 2 } ]
+  },
+  {
+    "id": "test_multimag_direct_battery",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "test multimag direct battery" },
+    "description": "Test multimag pseudo-tool with one direct MAGAZINE battery pocket.",
+    "weight": "500 g",
+    "volume": "750 ml",
+    "material": [ "steel" ],
+    "symbol": "&",
+    "color": "light_gray",
+    "pocket_data": [ { "id": "core", "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 40 } } ],
+    "consumption_per_use": [ { "pocket": "core", "qty": 5 } ]
+  },
+  {
+    "id": "test_multimag_mixed_battery",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "test multimag mixed battery" },
+    "description": "Test multimag pseudo-tool with one MAGAZINE_WELL and one direct MAGAZINE battery pocket.",
+    "weight": "500 g",
+    "volume": "750 ml",
+    "material": [ "steel" ],
+    "symbol": "&",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "id": "well",
+        "magazine_well": "500 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "heavy_battery_cell" ]
+      },
+      { "id": "direct", "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 40 } }
+    ],
+    "consumption_per_use": [ { "pocket": "well", "qty": 5 }, { "pocket": "direct", "qty": 3 } ]
   }
 ]

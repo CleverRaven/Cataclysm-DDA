@@ -1119,6 +1119,11 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
         const int ammo_left = ammo ? ammo.get_item()->count() : gun.ammo_remaining( );
         shots = std::min( shots, ammo_left / gun.ammo_required() );
     }
+    // Multimag vehicle turrets: also cap by per-pocket feasibility so the
+    // firing loop never overruns a vehicle-loaded battery pocket mid-burst.
+    if( gun.has_flag( flag_VEHICLE ) && gun.uses_firing_requirements() ) {
+        shots = std::min( shots, gun.shots_remaining( here, nullptr ) );
+    }
 
     if( shots <= 0 ) {
         debugmsg( "Attempted to fire zero or negative shots using %s", gun.tname() );
@@ -1274,14 +1279,11 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
         }
 
         if( gun.uses_firing_requirements() ) {
-            // Turret install is filtered out at mountable_gun_filter; this
-            // catches debug-spawn or save-state pairings that bypass it.
-            if( gun.has_flag( flag_VEHICLE ) ) {
-                debugmsg( "TODO(multimag): turret + firing_requirements not "
-                          "supported, B2 reconciliation pending (%s)", gun.tname() );
-                break;
-            }
-            if( gun.consume_one_shot( here, pos_bub( here ), this ) != 1 ) {
+            // Vehicle turret passes nullptr carrier so multimag_drain skips
+            // player UPS/bionic. Vehicle is billed via drain_back_multimag
+            // in turret_data::post_fire.
+            Character *drain_carrier = gun.has_flag( flag_VEHICLE ) ? nullptr : this;
+            if( gun.consume_one_shot( here, pos_bub( here ), drain_carrier ) != 1 ) {
                 debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname() );
                 break;
             }
@@ -4326,7 +4328,33 @@ void target_ui::panel_gun_info( int &text_y )
     nc_color clr = c_light_gray;
     print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
 
-    if( status == Status::OutOfAmmo ) {
+    if( mode == TargetMode::TurretManual && turret &&
+        relevant->uses_firing_requirements() ) {
+        // Show panel even when not ready, so player sees which pocket is short.
+        if( status == Status::OutOfAmmo ) {
+            mvwprintz( w_target, point( 1, text_y++ ), c_red, _( "OUT OF AMMO" ) );
+        }
+        const std::vector<multimag_display_pocket> dps = turret->multimag_display_state();
+        for( const multimag_display_pocket &dp : dps ) {
+            const itype *ad = dp.ammo_itype.is_null() ? nullptr : item::find_type( dp.ammo_itype );
+            const std::string ammo_name = ad ? ad->nname( std::max( dp.effective_qty, 1 ) ) :
+                                          dp.pocket_id;
+            const nc_color ammo_clr = ad ? ad->color : c_light_gray;
+            const bool short_of_one_use = dp.effective_qty < dp.per_use_qty;
+            nc_color row_clr = short_of_one_use ? c_red : clr;
+            std::string ammo_str;
+            if( dp.vehicle_bound ) {
+                ammo_str = string_format( _( "%s: %s (vehicle %d, need %d)" ),
+                                          dp.pocket_id, colorize( ammo_name, ammo_clr ),
+                                          dp.effective_qty, dp.per_use_qty );
+            } else {
+                ammo_str = string_format( _( "%s: %s (%d, need %d)" ),
+                                          dp.pocket_id, colorize( ammo_name, ammo_clr ),
+                                          dp.effective_qty, dp.per_use_qty );
+            }
+            print_colored_text( w_target, point( 1, text_y++ ), row_clr, row_clr, ammo_str );
+        }
+    } else if( status == Status::OutOfAmmo ) {
         mvwprintz( w_target, point( 1, text_y++ ), c_red, _( "OUT OF AMMO" ) );
     } else if( ammo ) {
         bool is_favorite = relevant->is_ammo_container() && relevant->first_ammo().is_favorite;

@@ -51,6 +51,32 @@
   },
   {
     "type": "talk_topic",
+    "id": "COMP_LS2_MAP",
+    "dynamic_line": "&<color_light_green> AltarOS map-node ONLINE.\n<color_light_green> Connection to AltarOS remote FAILED.\n<color_light_green> @User > _",
+    "responses": [ { "text": "Download map data.", "topic": "COMP_LS2_MAP_2" }, { "text": "Log off.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS2_MAP_2",
+    "dynamic_line": "&<color_light_green> @User > map get --update\n<color_light_green> Error: Insufficient confidence.  Blood tax requested.\n\n</color>A drawer on the side of the terminal slides open, revealing a a bloodstained stone with the outline of a human hand.",
+    "responses": [
+      {
+        "text": "[Place your hand on the stone]",
+        "topic": "TALK_DONE",
+        "effect": [
+          { "math": [ "u_vitamin('blood') -= 250" ] },
+          { "u_location_variable": { "context_val": "loc" } },
+          { "reveal_map": { "context_val": "loc" }, "radius": 30 },
+          {
+            "u_message": "You place your hand on the stone.  There is a pinch, then a wet, mechanical hiss, as something draws a bit of blood.  The terminal immediately displays a topological map of the surrounding labyrinthian structures."
+          }
+        ]
+      },
+      { "text": "Log off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": [ "COMP_LS_Passcode_Door", "COMP_LS_Passcode_Door2", "COMP_LS_Passcode_Door3" ],
     "responses": [
       {

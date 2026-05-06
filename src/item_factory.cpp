@@ -2404,9 +2404,8 @@ void Item_factory::check_definitions() const
                 for( const pocket_data &p : type->pockets ) {
                     if( p.pocket_id == id ) {
                         found = true;
-                        // Integral MAGAZINE pockets aren't wired through
-                        // energy/recharge/aggregation helpers yet.
-                        if( p.type == pocket_type::MAGAZINE_WELL ) {
+                        if( p.type == pocket_type::MAGAZINE_WELL ||
+                            ( p.type == pocket_type::MAGAZINE && !p.ammo_restriction.empty() ) ) {
                             right_type = true;
                         }
                         break;
@@ -2417,7 +2416,7 @@ void Item_factory::check_definitions() const
                                "firing_requirements references unknown pocket id \"%s\"\n", id );
                 } else if( !right_type ) {
                     msg += string_format(
-                               "firing_requirements references pocket id \"%s\" which is not a MAGAZINE_WELL pocket\n",
+                               "firing_requirements references pocket id \"%s\" which is neither a MAGAZINE_WELL nor a MAGAZINE with ammo_restriction\n",
                                id );
                 }
             }

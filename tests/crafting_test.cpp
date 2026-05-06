@@ -137,6 +137,7 @@ static const itype_id itype_vac_mold( "vac_mold" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_faucet( "water_faucet" );
+static const itype_id itype_welder( "welder" );
 static const itype_id itype_wrench( "wrench" );
 
 static const morale_type morale_food_good( "morale_food_good" );
@@ -897,6 +898,55 @@ TEST_CASE( "UPS_modded_tools", "[crafting][ups]" )
         tinv.add_item_ref( *ups_loc );
     }
     REQUIRE( tinv.charges_of( soldering_iron->typeId() ) == ammo_count );
+}
+
+TEST_CASE( "UPS_modded_tools_dedup_one_pool_across_two_tools", "[crafting][ups]" )
+{
+    // Legacy USE_UPS dedup: two UPS-modded tools sharing one UPS must not
+    // double-count the UPS pool. inventory::charges_of is a feasibility query,
+    // not a reservation API, so the shared external pool counts once.
+    avatar dummy;
+    clear_character( dummy );
+    dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
+
+    // One UPS with N charges, carried.
+    constexpr int ups_charges = 259;
+    item_location ups_loc = dummy.i_add( item( itype_UPS_ON ) );
+    item ups_mag( ups_loc->magazine_default() );
+    ups_mag.ammo_set( ups_mag.ammo_default(), ups_charges );
+    REQUIRE( ups_loc->put_in( ups_mag, pocket_type::MAGAZINE_WELL ).success() );
+    REQUIRE( units::to_kilojoule( dummy.available_ups() ) == ups_charges );
+
+    GIVEN( "two UPS-modded soldering irons (charges_per_use 1) sharing one UPS" ) {
+        for( int i = 0; i < 2; ++i ) {
+            item_location s = dummy.i_add( item( itype_soldering_iron ) );
+            REQUIRE( s->put_in( item( itype_battery_ups ), pocket_type::MOD ).success() );
+            REQUIRE( s->has_flag( json_flag_USE_UPS ) );
+        }
+        WHEN( "querying charges_of via crafting_inventory" ) {
+            const int reported = dummy.crafting_inventory().charges_of( itype_soldering_iron );
+            THEN( "result is the shared UPS pool, not double" ) {
+                CHECK( reported == ups_charges );
+                CHECK( reported != ups_charges * 2 );
+            }
+        }
+    }
+
+    GIVEN( "two UPS-modded arc welders (charges_per_use 20) sharing one UPS" ) {
+        for( int i = 0; i < 2; ++i ) {
+            item_location w = dummy.i_add( item( itype_welder ) );
+            REQUIRE( w->put_in( item( itype_battery_ups ), pocket_type::MOD ).success() );
+            REQUIRE( w->has_flag( json_flag_USE_UPS ) );
+        }
+        WHEN( "querying charges_of via crafting_inventory" ) {
+            const int reported = dummy.crafting_inventory().charges_of( itype_welder );
+            THEN( "legacy returns raw charge count once, not per-tool sum" ) {
+                // Legacy must NOT divide by charges_per_use, must NOT add UPS per tool.
+                CHECK( reported == ups_charges );
+                CHECK( reported != ups_charges * 2 );
+            }
+        }
+    }
 }
 
 TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )

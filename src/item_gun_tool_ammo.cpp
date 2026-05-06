@@ -2595,10 +2595,26 @@ int item::tool_uses_remaining_local() const
     return feasible_uses( *this, *entries, INT_MAX, /*external_pool=*/0 );
 }
 
+int item::feasible_tool_uses( int external_pool ) const
+{
+    if( !uses_firing_requirements() ) {
+        return 0;
+    }
+    const std::vector<pocket_consumption_entry> *entries =
+        type->firing_requirements.for_mode( gun_mode_DEFAULT );
+    if( entries == nullptr || entries->empty() ) {
+        return 0;
+    }
+    return feasible_uses( *this, *entries, INT_MAX, std::max( 0, external_pool ) );
+}
+
 namespace
 {
 // Multimag drain in cable -> local -> UPS -> bionic order; applies
 // external deltas exactly once. Returns shots / uses actually consumed.
+// TODO(multimag): cable-before-local order can misallocate when 2+ battery
+// pockets share cable and have mixed local stocks. Drain local first per
+// pocket, then bill external for the residual.
 int multimag_drain( item &host, const std::vector<pocket_consumption_entry> &entries,
                     int requested, map &here, const tripoint_bub_ms &pos,
                     Character *carrier )

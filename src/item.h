@@ -2891,6 +2891,11 @@ class item : public visitable
         int tool_uses_remaining( map &here, const Character *carrier ) const;
         int tool_uses_remaining_local() const;
 
+        // Multimag uses given an arbitrary external (cable / UPS / bionic)
+        // budget. Used by inventory aggregation to greedily allocate a shared
+        // pool across multiple matching tools.
+        int feasible_tool_uses( int external_pool ) const;
+
         int available_cable_charges( map &here ) const;
         int available_ups_charges( const Character *carrier ) const;
         int available_bionic_charges( const Character *carrier ) const;

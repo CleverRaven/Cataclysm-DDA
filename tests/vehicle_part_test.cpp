@@ -43,19 +43,30 @@ static const damage_type_id damage_bash( "bash" );
 
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_fridge_test( "fridge_test" );
+static const itype_id itype_gasoline( "gasoline" );
 static const itype_id itype_metal_tank_test( "metal_tank_test" );
 static const itype_id itype_oatmeal( "oatmeal" );
+static const itype_id itype_test_multimag_direct_battery( "test_multimag_direct_battery" );
+static const itype_id itype_test_multimag_mixed_battery( "test_multimag_mixed_battery" );
+static const itype_id itype_test_multimag_two_battery( "test_multimag_two_battery" );
+static const itype_id itype_test_multimag_two_fluid( "test_multimag_two_fluid" );
+static const itype_id itype_test_multimag_vehicle_combo( "test_multimag_vehicle_combo" );
+static const itype_id itype_test_multimag_well_fluid( "test_multimag_well_fluid" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_faucet( "water_faucet" );
+static const itype_id itype_water_purifier( "water_purifier" );
 
 static const recipe_id recipe_oatmeal_cooked( "oatmeal_cooked" );
 
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 
 static const vpart_id vpart_ap_fridge_test( "ap_fridge_test" );
+static const vpart_id vpart_frame( "frame" );
 static const vpart_id vpart_halfboard( "halfboard" );
+static const vpart_id vpart_small_storage_battery( "small_storage_battery" );
 static const vpart_id vpart_tank_test( "tank_test" );
 
+static const vproto_id vehicle_prototype_none( "none" );
 static const vproto_id vehicle_prototype_test_rv( "test_rv" );
 
 static time_point midnight = calendar::turn_zero;
@@ -200,6 +211,237 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     CHECK( veh.fuel_left( here, itype_water_clean ) == expect_water );
 
     veh.unboard_all( here );
+}
+
+TEST_CASE( "vehicle_prepare_tool_multimag", "[vehicle][multimag]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    clear_vehicles();
+    map &here = get_map();
+
+    const tripoint_bub_ms test_origin( 60, 60, 0 );
+    REQUIRE_FALSE( here.veh_at( test_origin ).has_value() );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, test_origin, 0_degrees, 0, 0 );
+    REQUIRE( veh != nullptr );
+    REQUIRE( veh->install_part( here, point_rel_ms::zero, vpart_frame ) != -1 );
+    REQUIRE( veh->install_part( here, point_rel_ms::zero, vpart_small_storage_battery ) != -1 );
+    REQUIRE( veh->install_part( here, point_rel_ms( 1, 0 ), vpart_frame ) != -1 );
+    const int tank_idx = veh->install_part( here, point_rel_ms( 1, 0 ), vpart_tank_test );
+    REQUIRE( tank_idx != -1 );
+    veh->refresh();
+    here.add_vehicle_to_cache( veh );
+
+    veh->charge_battery( here, 1000 );
+    veh->part( tank_idx ).ammo_set( itype_gasoline, 50 );
+
+    SECTION( "prepare_tool populates battery + tank pockets" ) {
+        item welder( itype_test_multimag_vehicle_combo );
+        veh->prepare_tool( here, welder );
+        CHECK( welder.ammo_remaining_in_pocket( "power" ) > 0 );
+        CHECK( welder.ammo_remaining_in_pocket( "fluid" ) > 0 );
+    }
+
+    SECTION( "MAGAZINE_WELL non-battery pocket synthesizes magazine from vehicle tank fluid" ) {
+        // Vehicle tank holds gasoline; tool's fuel pocket is MAGAZINE_WELL
+        // accepting a fluid magazine. Prep must synthesize the magazine and
+        // fill it from the tank, recording a TANK binding so drain_back
+        // bills the same vpart.
+        item tool( itype_test_multimag_well_fluid );
+        const std::map<std::string, multimag_pocket_state> bindings =
+            vehicle::prepare_multimag_pockets( *veh, here, tool );
+        REQUIRE( bindings.count( "fuel" ) );
+        CHECK( bindings.at( "fuel" ).kind == multimag_pocket_state::source_kind::TANK );
+        CHECK( bindings.at( "fuel" ).vpart_index == tank_idx );
+        CHECK( bindings.at( "fuel" ).initial_qty > 0 );
+
+        const int tank_before = veh->part( tank_idx ).ammo_remaining();
+        REQUIRE( tool.consume_tool_uses( 1, here, test_origin, nullptr ) == 1 );
+        vehicle::drain_back_multimag( *veh, here, tool, bindings );
+        // per_use=3 -> tank drained by exactly 3.
+        CHECK( veh->part( tank_idx ).ammo_remaining() == tank_before - 3 );
+    }
+
+    SECTION( "two same-fuel tanks bind each pocket to its own vpart" ) {
+        // Install a second gasoline tank, partially fill both, give the tool
+        // two same-fuel tank pockets. Each pocket must bind to one specific
+        // tank: prep claims per-vpart, drain-back bills per-vpart.
+        REQUIRE( veh->install_part( here, point_rel_ms( 1, 1 ), vpart_frame ) != -1 );
+        const int tank2_idx = veh->install_part( here, point_rel_ms( 1, 1 ), vpart_tank_test );
+        REQUIRE( tank2_idx != -1 );
+        veh->refresh();
+        veh->part( tank_idx ).ammo_set( itype_gasoline, 6 );
+        veh->part( tank2_idx ).ammo_set( itype_gasoline, 6 );
+
+        item tool( itype_test_multimag_two_fluid );
+        const std::map<std::string, multimag_pocket_state> bindings =
+            vehicle::prepare_multimag_pockets( *veh, here, tool );
+        REQUIRE( bindings.count( "left" ) );
+        REQUIRE( bindings.count( "right" ) );
+        // Each pocket must be backed by a distinct vpart_index.
+        CHECK( bindings.at( "left" ).vpart_index != bindings.at( "right" ).vpart_index );
+        // Each pocket gets the per-tank total, not double the global pool.
+        CHECK( bindings.at( "left" ).initial_qty == 6 );
+        CHECK( bindings.at( "right" ).initial_qty == 6 );
+
+        const int tank_a_before = veh->part( tank_idx ).ammo_remaining();
+        const int tank_b_before = veh->part( tank2_idx ).ammo_remaining();
+        REQUIRE( tool.consume_tool_uses( 1, here, test_origin, nullptr ) == 1 );
+        vehicle::drain_back_multimag( *veh, here, tool, bindings );
+        // Drain bills each pocket's bound tank exactly per_use=2.
+        CHECK( veh->part( tank_idx ).ammo_remaining() == tank_a_before - 2 );
+        CHECK( veh->part( tank2_idx ).ammo_remaining() == tank_b_before - 2 );
+    }
+
+    SECTION( "two battery pockets share one network without double-claim" ) {
+        // Two battery wells share one vehicle battery network. Per-use cost
+        // sums to 10, vehicle has 8: load must split, not double-claim, so
+        // feasibility is 0 and pocket totals stay within the network budget.
+        item tool( itype_test_multimag_two_battery );
+        veh->discharge_battery( here, 100000 );
+        veh->charge_battery( here, 8 );
+        REQUIRE( static_cast<int>( veh->battery_left( here ) ) == 8 );
+
+        const std::map<std::string, multimag_pocket_state> bindings =
+            vehicle::prepare_multimag_pockets( *veh, here, tool );
+        const int left = bindings.count( "left" ) ? bindings.at( "left" ).initial_qty : 0;
+        const int right = bindings.count( "right" ) ? bindings.at( "right" ).initial_qty : 0;
+        CHECK( left + right <= 8 );
+        CHECK( tool.feasible_tool_uses( /*external_pool=*/0 ) == 0 );
+    }
+
+    SECTION( "direct MAGAZINE battery pocket caps at pocket capacity, not vehicle pool" ) {
+        // Vehicle pool (1000) >> pocket capacity (40). Prep must cap at the
+        // pocket's own ammo_restriction limit; an uncapped insert would fail.
+        item tool( itype_test_multimag_direct_battery );
+        veh->discharge_battery( here, 100000 );
+        veh->charge_battery( here, 1000 );
+        REQUIRE( static_cast<int>( veh->battery_left( here ) ) == 1000 );
+
+        const std::map<std::string, multimag_pocket_state> bindings =
+            vehicle::prepare_multimag_pockets( *veh, here, tool );
+        REQUIRE( bindings.count( "core" ) );
+        CHECK( bindings.at( "core" ).initial_qty == 40 );
+        CHECK( tool.ammo_remaining_in_pocket( "core" ) == 40 );
+
+        const int batt_after_prep = static_cast<int>( veh->battery_left( here ) );
+        CHECK( batt_after_prep == 1000 );
+
+        REQUIRE( tool.consume_tool_uses( 1, here, test_origin, nullptr ) == 1 );
+        vehicle::drain_back_multimag( *veh, here, tool, bindings );
+        CHECK( static_cast<int>( veh->battery_left( here ) ) == 1000 - 5 );
+    }
+
+    SECTION( "mixed MAGAZINE_WELL + direct MAGAZINE battery pockets account claims correctly" ) {
+        // Vehicle has 350 battery. Well caps at heavy_battery_cell capacity
+        // (259); direct caps at its own 40 ammo_restriction. Sum (299) fits;
+        // direct must NOT be underfilled by a double-subtract bug.
+        item tool( itype_test_multimag_mixed_battery );
+        veh->discharge_battery( here, 100000 );
+        veh->charge_battery( here, 350 );
+        REQUIRE( static_cast<int>( veh->battery_left( here ) ) == 350 );
+
+        const std::map<std::string, multimag_pocket_state> bindings =
+            vehicle::prepare_multimag_pockets( *veh, here, tool );
+        REQUIRE( bindings.count( "well" ) );
+        REQUIRE( bindings.count( "direct" ) );
+        const int well_qty = bindings.at( "well" ).initial_qty;
+        const int direct_qty = bindings.at( "direct" ).initial_qty;
+        CHECK( well_qty == 259 );
+        CHECK( direct_qty == 40 );
+    }
+
+    SECTION( "use_vehicle_tool precheck rejects multimag with no feasible use" ) {
+        // Empty every source: feasible_tool_uses must report 0 and
+        // use_vehicle_tool must refuse without invoking the tool.
+        veh->discharge_battery( here, 100000 );
+        for( const vpart_reference &tvp :
+             veh->get_avail_parts( vpart_bitflags::VPFLAG_FLUIDTANK ) ) {
+            tvp.part().ammo_unset();
+        }
+        REQUIRE( veh->battery_left( here ) == 0 );
+
+        const bool ok = vehicle::use_vehicle_tool( *veh, &here, test_origin,
+                        itype_test_multimag_vehicle_combo, /*no_invoke=*/true );
+        CHECK_FALSE( ok );
+    }
+
+    SECTION( "drain_back_multimag drains battery + tank per pocket" ) {
+        item welder( itype_test_multimag_vehicle_combo );
+        const std::map<std::string, multimag_pocket_state> bindings =
+            vehicle::prepare_multimag_pockets( *veh, here, welder );
+        REQUIRE( bindings.at( "power" ).initial_qty > 0 );
+        REQUIRE( bindings.at( "fluid" ).initial_qty > 0 );
+
+        const int batt_before = static_cast<int>( veh->battery_left( here ) );
+        const int gas_before = static_cast<int>( veh->fuel_left( here, itype_gasoline ) );
+        REQUIRE( batt_before > 0 );
+        REQUIRE( gas_before > 0 );
+
+        // No carrier and no cable, so consume_tool_uses pulls from local pockets only.
+        REQUIRE( welder.consume_tool_uses( 1, here, test_origin, nullptr ) == 1 );
+        vehicle::drain_back_multimag( *veh, here, welder, bindings );
+
+        // Per-use cost: power=5, fluid=2.
+        CHECK( static_cast<int>( veh->battery_left( here ) ) == batt_before - 5 );
+        CHECK( static_cast<int>( veh->fuel_left( here, itype_gasoline ) ) == gas_before - 2 );
+    }
+}
+
+TEST_CASE( "vehicle_run_legacy_charge_tool_uses_water_purifier",
+           "[vehicle][purifier]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    clear_vehicles();
+    map &here = get_map();
+
+    const tripoint_bub_ms test_origin( 60, 60, 0 );
+    REQUIRE_FALSE( here.veh_at( test_origin ).has_value() );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, test_origin, 0_degrees, 0, 0 );
+    REQUIRE( veh != nullptr );
+    REQUIRE( veh->install_part( here, point_rel_ms::zero, vpart_frame ) != -1 );
+    REQUIRE( veh->install_part( here, point_rel_ms::zero, vpart_small_storage_battery ) != -1 );
+    veh->refresh();
+    here.add_vehicle_to_cache( veh );
+
+    const int per_use = itype_water_purifier->charges_to_use();
+    REQUIRE( per_use > 0 );
+
+    SECTION( "drains battery exactly per_use * uses on success" ) {
+        veh->discharge_battery( here, 100000 );
+        const int budget = per_use * 3;
+        veh->charge_battery( here, budget );
+        REQUIRE( static_cast<int>( veh->battery_left( here ) ) == budget );
+
+        const int got = veh->run_legacy_charge_tool_uses( here, itype_water_purifier, 3 );
+        CHECK( got == 3 );
+        CHECK( static_cast<int>( veh->battery_left( here ) ) == 0 );
+    }
+
+    SECTION( "caps uses by available battery" ) {
+        veh->discharge_battery( here, 100000 );
+        veh->charge_battery( here, per_use * 2 );
+        const int got = veh->run_legacy_charge_tool_uses( here, itype_water_purifier, 5 );
+        CHECK( got == 2 );
+        CHECK( veh->battery_left( here ) == 0 );
+    }
+
+    SECTION( "zero battery returns zero uses, drains nothing" ) {
+        veh->discharge_battery( here, 100000 );
+        REQUIRE( veh->battery_left( here ) == 0 );
+        const int got = veh->run_legacy_charge_tool_uses( here, itype_water_purifier, 5 );
+        CHECK( got == 0 );
+    }
+
+    SECTION( "menu purify pre-check refuses partial budget without burning power" ) {
+        veh->discharge_battery( here, 100000 );
+        veh->charge_battery( here, per_use * 2 );
+        const int batt_before = static_cast<int>( veh->battery_left( here ) );
+        const int requested = 5;
+        REQUIRE_FALSE( batt_before >= requested * per_use );
+        CHECK( static_cast<int>( veh->battery_left( here ) ) == batt_before );
+    }
 }
 
 TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )

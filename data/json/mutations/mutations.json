@@ -5050,7 +5050,7 @@
     "type": "mutation",
     "id": "BIRD_EYE",
     "name": { "str": "Avian Eyes" },
-    "description": "Your vision has become particularly acute: you suspect you could pick out zombies much farther away.  Perception +4.",
+    "description": "Your vision has become particularly acute: you suspect you could pick out zombies much farther away.  Perception +2, as well as increased vision and reaction limb scores.",
     "category": [ "BIRD" ],
     "types": [ "EYES" ],
     "prereqs": [ "PER_UP_4" ],
@@ -5058,7 +5058,10 @@
     "points": 5,
     "vitamin_cost": 210,
     "visibility": 1,
-    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 4 } ] } ]
+    "enchantments": [
+      { "values": [ { "value": "PERCEPTION", "add": 2 } ] },
+      { "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_avian" } ] }
+    ]
   },
   {
     "type": "mutation",

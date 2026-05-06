@@ -257,6 +257,9 @@ class veh_interact
             /** Writes any extra details for this entry */
             std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details;
 
+            /** Number of additional rows past the title row that details writes. */
+            std::function<int( const vehicle_part &pt )> extra_rows;
+
             /** Writes to message window when part is selected */
             std::function<void( const vehicle_part &pt )> message;
         };

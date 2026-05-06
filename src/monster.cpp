@@ -1647,7 +1647,23 @@ bool monster::is_fleeing( Character &u ) const
         return false;
     }
     monster_attitude att = attitude( &u );
-    return att == MATT_FLEE || ( att == MATT_FOLLOW && rl_dist( pos_bub(), u.pos_bub() ) <= 4 );
+    if( att == MATT_FLEE ) {
+        return true;
+    }
+    if( att != MATT_FOLLOW ) {
+        return false;
+    }
+    // Scale vertical separation for fliers (one z is roughly four meters).
+    constexpr int FLIER_Z_PENALTY = 4;
+    int effective;
+    if( flies() ) {
+        const int xy = rl_dist( pos_bub().xy(), u.pos_bub().xy() );
+        const int z_diff = std::abs( pos_abs().z() - u.pos_abs().z() );
+        effective = xy + z_diff * FLIER_Z_PENALTY;
+    } else {
+        effective = rl_dist( pos_bub(), u.pos_bub() );
+    }
+    return effective <= 4;
 }
 
 Creature::Attitude monster::attitude_to( const Creature &other ) const
@@ -4079,7 +4095,22 @@ void monster::hear_sound( const tripoint_bub_ms &source, const int vol, const in
         // TODO: make the destination scale with the sound and handle
         // the case when (x,y) is the same by picking a random direction
         tripoint_abs_ms away = pos_abs() + ( pos_abs() - target );
-        away.z() = posz();
+        // Aloft fliers descend, grounded fliers take off; non-fliers stay at
+        // current z. Mirror in monster::plan.
+        int chosen_z = posz();
+        if( flies() ) {
+            map &here = get_map();
+            const tripoint_bub_ms here_bub = pos_bub();
+            const bool grounded = here.has_floor_or_water( here_bub );
+            if( !grounded &&
+                here.valid_move( here_bub, here_bub + tripoint::below, false, true ) ) {
+                chosen_z = posz() - 1;
+            } else if( grounded &&
+                       here.valid_move( here_bub, here_bub + tripoint::above, false, true ) ) {
+                chosen_z = posz() + 1;
+            }
+        }
+        away.z() = chosen_z;
         wander_to( away, wander_turns );
     }
 }

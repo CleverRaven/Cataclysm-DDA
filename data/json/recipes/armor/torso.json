@@ -16,26 +16,66 @@
   {
     "result": "apron_cotton",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 1,
-    "time": "3 h",
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_patchwork", 9 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 9 ] ],
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "1 h 30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "1 h 30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "using": [ [ "sewing_tool", 90 ] ]
+      }
+    ]
   },
   {
     "copy-from": "apron_cotton",
     "result": "apron_cotton_xl",
     "type": "recipe",
-    "using": [ [ "tailoring_cotton", 12 ] ]
+    "using": [ [ "tailoring_cotton", 12 ] ],
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "1 h 45 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "1 h 45 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "using": [ [ "sewing_tool", 105 ] ]
+      }
+    ]
   },
   {
     "copy-from": "apron_cotton",
     "result": "apron_cotton_xs",
     "type": "recipe",
-    "using": [ [ "tailoring_cotton", 4 ] ]
+    "using": [ [ "tailoring_cotton", 4 ] ],
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "45 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "45 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "using": [ [ "sewing_tool", 45 ] ]
+      }
+    ]
   },
   {
     "copy-from": "apron_cotton",
@@ -58,26 +98,66 @@
   {
     "result": "waist_apron_short",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 1,
-    "time": "1 h 30 m",
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_patchwork", 4 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 4 ] ],
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "45 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "45 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "using": [ [ "sewing_tool", 45 ] ]
+      }
+    ]
   },
   {
     "copy-from": "waist_apron_short",
     "result": "waist_apron_short_xl",
     "type": "recipe",
-    "using": [ [ "tailoring_cotton", 6 ] ]
+    "using": [ [ "tailoring_cotton", 6 ] ],
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "1 h",
+        "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "1 h",
+        "activity_level": "LIGHT_EXERCISE",
+        "using": [ [ "sewing_tool", 60 ] ]
+      }
+    ]
   },
   {
     "copy-from": "waist_apron_short",
     "result": "waist_apron_short_xs",
     "type": "recipe",
-    "using": [ [ "tailoring_cotton", 2 ] ]
+    "using": [ [ "tailoring_cotton", 2 ] ],
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "using": [ [ "sewing_tool", 30 ] ]
+      }
+    ]
   },
   {
     "copy-from": "waist_apron_short",
@@ -100,26 +180,66 @@
   {
     "result": "waist_apron_long",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 1,
-    "time": "2 h",
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_patchwork", 6 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 6 ] ],
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "1 h",
+        "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "1 h",
+        "activity_level": "LIGHT_EXERCISE",
+        "using": [ [ "sewing_tool", 60 ] ]
+      }
+    ]
   },
   {
     "copy-from": "waist_apron_long",
     "result": "waist_apron_long_xl",
     "type": "recipe",
-    "using": [ [ "tailoring_cotton", 9 ] ]
+    "using": [ [ "tailoring_cotton", 9 ] ],
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "1 h 30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "1 h 30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "using": [ [ "sewing_tool", 90 ] ]
+      }
+    ]
   },
   {
     "copy-from": "waist_apron_long",
     "result": "waist_apron_long_xs",
     "type": "recipe",
-    "using": [ [ "tailoring_cotton", 3 ] ]
+    "using": [ [ "tailoring_cotton", 3 ] ],
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "using": [ [ "sewing_tool", 90 ] ]
+      }
+    ]
   },
   {
     "copy-from": "waist_apron_long",
@@ -203,61 +323,136 @@
   {
     "result": "binder_top",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "90 m",
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork", 5 ], [ "tailoring_lycra_patchwork", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" } ],
-    "byproducts": [ [ "scrap_cotton", 3 ], [ "scrap_lycra", 3 ] ]
+    "byproducts": [ [ "scrap_cotton", 3 ], [ "scrap_lycra", 3 ] ],
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "45 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_elastics" } ],
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "45 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_elastics" } ],
+        "using": [ [ "sewing_tool", 45 ] ]
+      }
+    ]
   },
   {
     "result": "xl_binder_top",
     "type": "recipe",
     "copy-from": "binder_top",
-    "time": "2 h",
-    "using": [ [ "tailoring_cotton_patchwork", 8 ], [ "tailoring_lycra_patchwork", 5 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 8 ], [ "tailoring_lycra_patchwork", 5 ] ],
+    "byproducts": [ [ "scrap_cotton", 6 ], [ "scrap_lycra", 5 ] ],
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "1 h",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_elastics" } ],
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "1 h",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_elastics" } ],
+        "using": [ [ "sewing_tool", 60 ] ]
+      }
+    ]
   },
   {
     "result": "xs_binder_top",
     "type": "recipe",
     "copy-from": "binder_top",
-    "using": [ [ "tailoring_cotton_patchwork", 3 ], [ "tailoring_lycra_patchwork", 2 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 3 ], [ "tailoring_lycra_patchwork", 2 ] ],
+    "byproducts": [ [ "scrap_cotton", 2 ], [ "scrap_lycra", 2 ] ],
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_elastics" } ],
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_elastics" } ],
+        "using": [ [ "sewing_tool", 30 ] ]
+      }
+    ]
   },
   {
     "result": "bikini_top",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 2,
-    "time": "1 h",
     "autolearn": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
     "using": [ [ "sewing_standard", 10 ], [ "tailoring_lycra_patchwork", 1 ] ],
-    "byproducts": [ [ "scrap_lycra", 3 ] ]
+    "byproducts": [ [ "scrap_lycra", 3 ] ],
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_elastics", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_elastics", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
+        "using": [ [ "sewing_tool", 30 ] ]
+      }
+    ]
   },
   {
     "result": "bikini_top_fur",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 2,
-    "time": "1 h",
     "autolearn": true,
+    "book_learn": [ [ "mag_animecon", 1 ] ],
     "using": [ [ "tailoring_fur_patchwork", 1 ] ],
     "byproducts": [ [ "scrap_fur", 2 ] ],
-    "book_learn": [ [ "mag_animecon", 1 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "time_multiplier": 1.25, "skill_penalty": 0.25 },
-      { "proficiency": "prof_furriery", "time_multiplier": 1.5, "skill_penalty": 0.15 }
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [
+          { "proficiency": "prof_leatherworking_basic", "time_multiplier": 1.25, "skill_penalty": 0.25 },
+          { "proficiency": "prof_furriery", "time_multiplier": 1.5, "skill_penalty": 0.15 }
+        ],
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [
+          { "proficiency": "prof_leatherworking_basic", "time_multiplier": 1.25, "skill_penalty": 0.25 },
+          { "proficiency": "prof_furriery", "time_multiplier": 1.5, "skill_penalty": 0.15 }
+        ],
+        "using": [ [ "sewing_tool", 30 ] ]
+      }
     ]
   },
   {
@@ -277,16 +472,29 @@
   {
     "result": "blazer",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 5,
-    "time": "7 h",
     "autolearn": true,
     "using": [ [ "tailoring_felt_patchwork", 27 ] ],
     "components": [ [ [ "button_plastic", 2 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" } ]
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "3 h 30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_closures" } ],
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "3 h 30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_closures" } ],
+        "using": [ [ "sewing_tool", 210 ] ]
+      }
+    ]
   },
   {
     "result": "carpet_cuirass",
@@ -450,31 +658,75 @@
   {
     "result": "bra",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 2,
-    "time": "2 h",
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork", 1 ], [ "fastener_small", 3 ] ],
     "components": [ [ [ "lc_wire", 1 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" } ]
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "1 h",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_closures" } ],
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "1 h",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_closures" } ],
+        "using": [ [ "sewing_tool", 60 ] ]
+      }
+    ]
   },
   {
     "result": "xl_bra",
     "type": "recipe",
     "copy-from": "bra",
-    "time": "3 h",
     "using": [ [ "tailoring_cotton_patchwork", 2 ], [ "fastener_small", 5 ] ],
-    "components": [ [ [ "lc_wire", 2 ] ] ]
+    "components": [ [ [ "lc_wire", 2 ] ] ],
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "1 h 30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_closures" } ],
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "1 h 30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_closures" } ],
+        "using": [ [ "sewing_tool", 90 ] ]
+      }
+    ]
   },
   {
     "result": "xs_bra",
     "type": "recipe",
     "copy-from": "bra",
     "using": [ [ "tailoring_cotton_patchwork", 1 ], [ "fastener_small", 1 ] ],
-    "components": [ [ [ "lc_wire", 1 ] ] ]
+    "components": [ [ [ "lc_wire", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_closures" } ],
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_closures" } ],
+        "using": [ [ "sewing_tool", 30 ] ]
+      }
+    ]
   },
   {
     "result": "bellyband",
@@ -577,68 +829,146 @@
   {
     "result": "coat_fur",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 4,
     "skills_required": [ "survival", 1 ],
-    "time": "6 h",
     "autolearn": true,
     "reversible": true,
     "book_learn": [ [ "textbook_survival", 1 ], [ "trappers_companion", 3 ], [ "survival_book", 2 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 6 ], [ "tailoring_fur_patchwork", 6 ], [ "fastener_large", 1 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_closures" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_furriery" }
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "3 h",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [
+          { "proficiency": "prof_closures" },
+          { "proficiency": "prof_leatherworking_basic" },
+          { "proficiency": "prof_furriery" }
+        ],
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "3 h",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [
+          { "proficiency": "prof_closures" },
+          { "proficiency": "prof_leatherworking_basic" },
+          { "proficiency": "prof_furriery" }
+        ],
+        "using": [ [ "sewing_tool", 180 ] ]
+      }
     ]
   },
   {
     "result": "xs_coat_fur",
     "type": "recipe",
     "copy-from": "coat_fur",
-    "time": "6 h",
     "using": [ [ "tailoring_cotton_patchwork", 4 ], [ "tailoring_fur_patchwork", 4 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "xl_coat_fur",
     "type": "recipe",
     "copy-from": "coat_fur",
-    "time": "6 h 45 m",
-    "using": [ [ "tailoring_cotton_patchwork", 8 ], [ "tailoring_fur_patchwork", 8 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 8 ], [ "tailoring_fur_patchwork", 8 ], [ "fastener_large", 1 ] ],
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "3 h 30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [
+          { "proficiency": "prof_closures" },
+          { "proficiency": "prof_leatherworking_basic" },
+          { "proficiency": "prof_furriery" }
+        ],
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "3 h 30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [
+          { "proficiency": "prof_closures" },
+          { "proficiency": "prof_leatherworking_basic" },
+          { "proficiency": "prof_furriery" }
+        ],
+        "using": [ [ "sewing_tool", 210 ] ]
+      }
+    ]
   },
   {
     "result": "coat_faux_fur",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "6 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 3 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 6 ], [ "tailoring_faux_fur_patchwork", 6 ], [ "fastener_large", 1 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_closures" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_furriery" }
-    ],
-    "byproducts": [ [ "faux_fur", 3 ], [ "scrap_faux_fur", 5 ] ]
+    "byproducts": [ [ "faux_fur", 3 ], [ "scrap_faux_fur", 5 ] ],
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "3 h",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [
+          { "proficiency": "prof_closures" },
+          { "proficiency": "prof_leatherworking_basic" },
+          { "proficiency": "prof_furriery" }
+        ],
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "3 h",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [
+          { "proficiency": "prof_closures" },
+          { "proficiency": "prof_leatherworking_basic" },
+          { "proficiency": "prof_furriery" }
+        ],
+        "using": [ [ "sewing_tool", 180 ] ]
+      }
+    ]
   },
   {
     "result": "xs_coat_faux_fur",
     "type": "recipe",
     "copy-from": "coat_faux_fur",
-    "time": "6 h",
     "using": [ [ "tailoring_cotton_patchwork", 4 ], [ "tailoring_faux_fur_patchwork", 4 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "xl_coat_faux_fur",
     "type": "recipe",
     "copy-from": "coat_faux_fur",
-    "time": "6 h 45 m",
-    "using": [ [ "tailoring_cotton_patchwork", 8 ], [ "tailoring_faux_fur_patchwork", 8 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 8 ], [ "tailoring_faux_fur_patchwork", 8 ], [ "fastener_large", 1 ] ],
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "3 h 30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [
+          { "proficiency": "prof_closures" },
+          { "proficiency": "prof_leatherworking_basic" },
+          { "proficiency": "prof_furriery" }
+        ],
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "3 h 30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [
+          { "proficiency": "prof_closures" },
+          { "proficiency": "prof_leatherworking_basic" },
+          { "proficiency": "prof_furriery" }
+        ],
+        "using": [ [ "sewing_tool", 210 ] ]
+      }
+    ]
   },
   {
     "result": "coat_gut",
@@ -800,64 +1130,133 @@
   {
     "result": "duster",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "8 h",
     "autolearn": true,
     "reversible": { "time": "50 m" },
     "using": [ [ "tailoring_canvas_patchwork", 36 ], [ "fastener_large", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" } ]
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "4 h",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_closures" } ],
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "4 h",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_closures" } ],
+        "using": [ [ "sewing_tool", 240 ] ]
+      }
+    ]
   },
   {
     "result": "xs_duster",
     "type": "recipe",
     "copy-from": "duster",
-    "time": "8 h",
     "using": [ [ "tailoring_canvas_patchwork", 27 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "xl_duster",
     "type": "recipe",
     "copy-from": "duster",
-    "time": "9 h",
-    "using": [ [ "tailoring_canvas_patchwork", 54 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "tailoring_canvas_patchwork", 54 ], [ "fastener_large", 1 ] ],
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "4 h 30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_closures" } ],
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "4 h 30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_closures" } ],
+        "using": [ [ "sewing_tool", 270 ] ]
+      }
+    ]
   },
   {
     "result": "duster_fur",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "survival", 1 ],
-    "time": "10 h",
     "autolearn": true,
     "reversible": { "time": "50 m" },
     "using": [ [ "sewing_standard", 60 ], [ "fabric_fur_pelt", 7 ], [ "fastener_large", 1 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_closures" },
-      { "proficiency": "prof_closures_waterproofing" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_furriery" }
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "5 h",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [
+          { "proficiency": "prof_closures" },
+          { "proficiency": "prof_closures_waterproofing" },
+          { "proficiency": "prof_leatherworking_basic" },
+          { "proficiency": "prof_furriery" }
+        ],
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "5 h",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [
+          { "proficiency": "prof_closures" },
+          { "proficiency": "prof_closures_waterproofing" },
+          { "proficiency": "prof_leatherworking_basic" },
+          { "proficiency": "prof_furriery" }
+        ],
+        "using": [ [ "sewing_tool", 300 ] ]
+      }
     ]
   },
   {
     "result": "xs_duster_fur",
     "type": "recipe",
     "copy-from": "duster_fur",
-    "time": "10 h",
     "using": [ [ "sewing_standard", 45 ], [ "fabric_fur_pelt", 5 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "xl_duster_fur",
     "type": "recipe",
     "copy-from": "duster_fur",
-    "time": "11 h 15 m",
-    "using": [ [ "sewing_standard", 80 ], [ "fabric_fur_pelt", 9 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "sewing_standard", 80 ], [ "fabric_fur_pelt", 9 ], [ "fastener_large", 1 ] ],
+    "steps": [
+      {
+        "name": "Cutting the pieces",
+        "time": "5 h 30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [
+          { "proficiency": "prof_closures" },
+          { "proficiency": "prof_closures_waterproofing" },
+          { "proficiency": "prof_leatherworking_basic" },
+          { "proficiency": "prof_furriery" }
+        ],
+        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+      },
+      {
+        "name": "Sewing the pieces together",
+        "time": "5 h 30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [
+          { "proficiency": "prof_closures" },
+          { "proficiency": "prof_closures_waterproofing" },
+          { "proficiency": "prof_leatherworking_basic" },
+          { "proficiency": "prof_furriery" }
+        ],
+        "using": [ [ "sewing_tool", 330 ] ]
+      }
+    ]
   },
   {
     "result": "duster_faux_fur",

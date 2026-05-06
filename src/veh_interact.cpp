@@ -1560,9 +1560,49 @@ void veh_interact::calc_overview( map &here )
                                             details_ammo );
             }
             if( vpr.part().is_turret() ) {
-                overview_opts.emplace_back( "5_TURRET", &vpr.part(), selectable,
-                                            selectable ? next_hotkey( hotkey ) : input_event(),
-                                            details_ammo );
+                if( vpr.part().get_base().uses_firing_requirements() ) {
+                    auto multimag_details = [veh = this->veh]( const vehicle_part & pt,
+                    const catacurses::window & w, int y ) {
+                        const turret_data td = veh->turret_query( const_cast<vehicle_part &>( pt ) );
+                        const std::vector<multimag_display_pocket> dps = td.multimag_display_state();
+                        int row = y + 1;
+                        for( const multimag_display_pocket &dp : dps ) {
+                            const std::string &label = dp.pocket_id;
+                            std::string ammo_text;
+                            nc_color ammo_clr = c_light_gray;
+                            if( !dp.ammo_itype.is_null() ) {
+                                const itype *ad = item::find_type( dp.ammo_itype );
+                                ammo_text = ad ? ad->nname( std::max( dp.effective_qty, 1 ) ) : dp.pocket_id;
+                                ammo_clr = ad ? ad->color : c_light_gray;
+                            } else {
+                                ammo_text = "-";
+                            }
+                            const nc_color row_clr = ( dp.effective_qty < dp.per_use_qty )
+                                                     ? c_red : c_light_gray;
+                            const std::string source_tag = dp.vehicle_bound ?
+                                                           colorize( "[v] ", c_cyan ) : "    ";
+                            trim_and_print( w, point( 8, row ), getmaxx( w ) - 14, row_clr, "%s",
+                                            label );
+                            right_print( w, row, 1, ammo_clr,
+                                         string_format( "%s%s   %5i", source_tag,
+                                                        colorize( ammo_text, ammo_clr ),
+                                                        dp.effective_qty ) );
+                            row++;
+                        }
+                    };
+                    auto multimag_extra_rows = [veh = this->veh]( const vehicle_part & pt ) {
+                        const turret_data td = veh->turret_query( const_cast<vehicle_part &>( pt ) );
+                        return static_cast<int>( td.multimag_display_state().size() );
+                    };
+                    overview_opts.emplace_back( "5_TURRET", &vpr.part(), selectable,
+                                                selectable ? next_hotkey( hotkey ) : input_event(),
+                                                multimag_details );
+                    overview_opts.back().extra_rows = multimag_extra_rows;
+                } else {
+                    overview_opts.emplace_back( "5_TURRET", &vpr.part(), selectable,
+                                                selectable ? next_hotkey( hotkey ) : input_event(),
+                                                details_ammo );
+                }
             }
         }
 
@@ -1632,7 +1672,9 @@ void veh_interact::display_overview( const map &here )
 
         // print extra columns (if any)
         overview_opts[idx].details( pt, w_list, y );
-        y++;
+        const int rows_used = 1 + ( overview_opts[idx].extra_rows
+                                    ? overview_opts[idx].extra_rows( pt ) : 0 );
+        y += rows_used;
         if( y < ( getmaxy( w_list ) - 1 ) ) {
             overview_limit = overview_offset;
         } else {

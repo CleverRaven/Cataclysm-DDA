@@ -17,30 +17,29 @@ jobs:
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
           script: |
-            script: |
-              // Get a list of all issues created by the PR opener
-              // See: https://octokit.github.io/rest.js/#pagination
-              const creator = context.payload.sender.login
-              const opts = github.rest.pulls.list.endpoint.merge({
-                context.repo.owner,
-                context.repo.repo,
-                state: 'closed'
+            // Get a list of all issues created by the PR opener
+            // See: https://octokit.github.io/rest.js/#pagination
+            const creator = context.payload.sender.login
+            const opts = github.rest.pulls.list.endpoint.merge({
+              context.repo.owner,
+              context.repo.repo,
+              state: 'closed'
+            })
+
+            const this_pr = context.pull_request.number;
+            let is_new_contributor = true;
+            for await (const pr of github.paginate.iterator(opts)) {
+              if (pr.number !== this_pr && pr.merged_at !== null) {
+                is_new_contributor = false;
+                break;
+              }
+            }
+
+            if (is_new_contributor) {
+              await github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['new contributor']
               })
-
-              const this_pr = context.pull_request.number;
-              let is_new_contributor = true;
-              for await (const pr of github.paginate.iterator(opts)) {
-                if (pr.number !== this_pr && pr.merged_at !== null) {
-                  is_new_contributor = false;
-                  break;
-                }
-              }
-
-              if (is_new_contributor) {
-                await github.rest.issues.addLabels({
-                  issue_number: context.issue.number,
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  labels: ['new contributor']
-                })
-              }
+            }

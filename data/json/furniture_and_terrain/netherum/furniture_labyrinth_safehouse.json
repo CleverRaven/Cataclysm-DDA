@@ -34,5 +34,54 @@
         }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_nl_boiler",
+    "name": "clouded cylinder",
+    "description": "A massive cylindrical device.  Perhaps the exterior was once translucent, but it's now deeply clouded and yellowed, with filth grasping where the plastic-like material meets the floor and ceiling.  Behind the plastic is some sort of large, bulbous object, too obscured to make heads or tails of.  It's bolted down with extremely thick and heavy-looking hardware.",
+    "symbol": "G",
+    "color": "white",
+    "move_cost_mod": -1,
+    "coverage": 60,
+    "required_str": -1,
+    "flags": [ "NOITEM", "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 120,
+      "str_max": 400,
+      "explosive": 400,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 16 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 6 ] },
+        { "item": "plutonium", "count": [ 0, 3 ] },
+        { "item": "lead", "charges": [ 12, 18 ] },
+        { "item": "sheet_metal_small", "count": [ 10, 30 ] },
+        { "item": "scrap_copper", "count": [ 25, 50 ] },
+        { "item": "e_scrap", "count": [ 20, 40 ] },
+        { "item": "circuit", "count": [ 6, 10 ] },
+        { "item": "power_supply", "count": [ 4, 8 ] },
+        { "item": "exodii_module", "count": [ 0, 5 ] },
+        { "item": "exodii_motor", "count": [ 0, 6 ] },
+        { "item": "exodii_computer", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_nl_safehouse_boiler",
+    "name": "otherworldly boiler",
+    "description": "A huge, pot-bellied device that resembles something between a coal-burning stove and a boiler, with a wide, hinged cage covering the combustion chamber.  Three unmarked gauges sit like alien eyes upon its face.  A side-mounted crank is its only visible control.  In defiance of its apparent function, it has no exhaust vent; in its place is a hose twisted on itself several times, coiled in copper, and terminating in a bulbous back-mounted battery pack.",
+    "symbol": "&",
+    "color": "red",
+    "coverage": 60,
+    "required_str": 20,
+    "move_cost_mod": 0,
+    "mass": "400 kg",
+    "flags": [ "EASY_DECONSTRUCT" ],
+    "item": "nl_safehouse_boiler",
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "nl_safehouse_boiler" },
+    "bash": { "str_min": 14, "str_max": 30, "sound": "metal screeching!", "sound_fail": "clang!" }
   }
 ]

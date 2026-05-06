@@ -89,6 +89,20 @@
     "flags": [ "IGNORE_TEMP", "LIMB_UPPER", "MYOPIC_IN_LIGHT" ]
   },
   {
+    "type": "body_part",
+    "id": "eyes_avian",
+    "name": "avian eyes",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "avian eyes" },
+    "heading": "eyes",
+    "heading_multiple": "eyes",
+    "copy-from": "eyes",
+    "opposite_part": "eyes_avian",
+    "limb_scores": [ [ "vision", 2.5 ], [ "night_vis", 1.0 ], [ "reaction", 1.0 ] ],
+    "sub_parts": [ "eyes_avian_left", "eyes_avian_right" ],
+    "similar_bodypart": "eyes",
+    "flags": [ "IGNORE_TEMP", "LIMB_UPPER" ]
+  },
+  {
     "id": "muzzle",
     "//": "Used as a default for similar_bodypart to work for armor.",
     "type": "body_part",

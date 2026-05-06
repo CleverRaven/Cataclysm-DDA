@@ -3083,14 +3083,14 @@ A thin container for weakpoint definitions. The only unique fields for this obje
       "effects": [
         {
           "effect": "stunned",
-          "duration": [ 1, 2 ],
+          "duration": [ "1 seconds", "2 seconds" ],
           "chance": 5,
           "message": "The %s is stunned!",
           "damage_required": [ 1, 10 ]
         },
         {
           "effect": "stunned",
-          "duration": [ 1, 2 ],
+          "duration": [ "1 seconds", "2 seconds" ],
           "chance": 25,
           "message": "The %s is stunned!",
           "damage_required": [ 11, 100 ]
