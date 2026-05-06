@@ -1076,6 +1076,10 @@ void veh_interact::do_install( map &here )
                     return;
                 }
             }
+            if (sel_vpart_info->has_flag("BALLOON") && veh->has_part("BALLOON")) {
+                msg = _( "You cannot install more than one balloon envelope on a vehicle. ");
+                return; 
+            }
             if( veh->is_foldable() && !sel_vpart_info->folded_volume &&
                 !query_yn( _( "Installing this part will make the vehicle unfoldable. "
                               " Continue?" ) ) ) {

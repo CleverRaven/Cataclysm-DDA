@@ -115,6 +115,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "WALL_MOUNTED", VPFLAG_WALL_MOUNTED },
     { "WHEEL", VPFLAG_WHEEL },
     { "ROTOR", VPFLAG_ROTOR },
+    { "BALLOON", VPFLAG_BALLOON},
     { "FLOATS", VPFLAG_FLOATS },
     { "NO_LEAK", VPFLAG_NO_LEAK },
     { "DOME_LIGHT", VPFLAG_DOME_LIGHT },
@@ -434,6 +435,13 @@ void vpslot_wheel::deserialize( const JsonObject &jo )
 void vpslot_rotor::deserialize( const JsonObject &jo )
 {
     optional( jo, was_loaded, "rotor_diameter", rotor_diameter, 1 );
+
+    was_loaded = true;
+}
+
+void vpslot_balloon::deserialize( const JsonObject &jo) {
+
+    optional(jo, was_loaded, "balloon_volume", balloon_volume, 0);
 
     was_loaded = true;
 }

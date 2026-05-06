@@ -1924,6 +1924,8 @@ class vehicle
         bool check_heli_descend( map &here, Character &p ) const;
         bool check_heli_ascend( map &here, Character &p ) const;
         bool check_is_heli_landed( map &here );
+        bool is_hot_air_balloon(map &here) const;
+        bool is_airworthy(map& here) const;
         /**
          * Player is driving the vehicle
          * @param trn is turn direction

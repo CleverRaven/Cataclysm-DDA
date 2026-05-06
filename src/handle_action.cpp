@@ -557,7 +557,7 @@ static void pldrive( const tripoint_rel_ms &p )
         }
     }
     if( p.z() != 0 ) {
-        if( !veh->can_control_in_air( player_character ) ) {
+        if( !veh->can_control_in_air( player_character ) && veh->is_rotorcraft(here) ) {
             player_character.add_msg_if_player( m_info, _( "You have no idea how to make the vehicle fly." ) );
             return;
         }
@@ -565,6 +565,10 @@ static void pldrive( const tripoint_rel_ms &p )
             player_character.add_msg_if_player( m_info, _( "This vehicle doesn't look very airworthy." ) );
             return;
         }
+        if (veh->is_hot_air_balloon(here) ) {
+           player_character.add_msg_if_player( m_info,
+                      _( "To fly in a hot air balloon, operate the burner from the controls." ) );
+       }
     }
     if( p.z() == -1 ) {
         if( veh->check_heli_descend( here, player_character ) ) {

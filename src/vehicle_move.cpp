@@ -1533,7 +1533,7 @@ bool vehicle::check_is_heli_landed( map &here )
 
 bool vehicle::check_heli_descend( map &here, Character &p ) const
 {
-    if( !is_rotorcraft( here ) ) {
+    if( !is_airworthy( here ) ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
         return true;
     }
@@ -1558,7 +1558,7 @@ bool vehicle::check_heli_descend( map &here, Character &p ) const
         }
         count++;
     }
-    if( velocity > 0 && air_count != count ) {
+    if( velocity > 0 && air_count != count && !is_hot_air_balloon) {
         p.add_msg_if_player( m_bad, _( "It would be unsafe to try and land while you are moving." ) );
         return false;
     }
@@ -1568,7 +1568,7 @@ bool vehicle::check_heli_descend( map &here, Character &p ) const
 
 bool vehicle::check_heli_ascend( map &here, Character &p ) const
 {
-    if( !is_rotorcraft( here ) ) {
+    if( !is_airworthy( here ) ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
         return true;
     }

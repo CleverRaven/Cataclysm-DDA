@@ -4778,6 +4778,16 @@ bool vehicle::is_rotorcraft( map &here ) const
            has_sufficient_rotorlift( here );
 }
 
+bool vehicle::is_airworthy(map &here) const
+{
+   return is_rotorcraft(here) || is_hot_air_balloon(here);
+}
+
+bool vehicle::is_hot_air_balloon(map &here) const
+{
+    return has_part("BALLOON") && has_part("BURNER") && has_driver(here) && has_sufficient_balloon_lift(here);
+}
+
 bool vehicle::is_flyable() const
 {
     return flyable;

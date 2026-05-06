@@ -83,6 +83,7 @@ enum vpart_bitflags : int {
     VPFLAG_WALL_MOUNTED,
     VPFLAG_WHEEL,
     VPFLAG_ROTOR,
+    VPFLAG_BALLOON,
     VPFLAG_MOUNTABLE,
     VPFLAG_FLOATS,
     VPFLAG_NO_LEAK,
@@ -169,6 +170,13 @@ struct vpslot_rotor {
     int rotor_diameter = 1;
 
     void deserialize( const JsonObject &jo );
+};
+
+struct vpslot_balloon {
+    bool was_loaded = false;
+    int balloon_volume = 0;
+
+    void deserialize(const JsonObject& jo);
 };
 
 struct vpslot_workbench {
