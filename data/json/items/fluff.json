@@ -1910,15 +1910,8 @@
     "symbol": ","
   },
   {
-    "type": "ammunition_type",
-    "id": "electrolyte_slurry",
-    "name": "electrolyte slurry",
-    "default": "waste_electrolyte_slurry"
-  },
-  {
     "type": "ITEM",
     "id": "waste_electrolyte_slurry",
-    "subtypes": [ "AMMO" ],
     "category": "other",
     "name": { "str_sp": "Electrolyte Slurry" },
     "symbol": "o",
@@ -1927,9 +1920,7 @@
     "material": [ "acid" ],
     "volume": "400 ml",
     "weight": "700 g",
-    "ammo_type": "electrolyte_slurry",
-    "count": 1,
-    "stack_size": 1,
+    "stackable": true,
     "phase": "liquid"
   }
 ]
