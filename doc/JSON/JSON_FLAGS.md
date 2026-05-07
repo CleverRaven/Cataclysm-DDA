@@ -325,6 +325,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NO_LIMB_FIRST_AID``` This bodypart cannot be bandaged or disinfected.
 - ```NON_FLESH_LIMB``` The bodypart is immune to a number of effects like poisoning or infection.
 - ```NONSTANDARD_BLOCK``` This limb is different enough that martial arts' arm/leg blocks aren't applicable - blocking with this limb is unlocked by reaching the MA's `nonstandard_block` level, unless the limb also has `ALWAYS_BLOCK`.  Either block flag is **required** for non-arm / non-leg limbs to be eligible to block.
+- ```WINGS_2``` You can slow your fall, effectively reducing the height of falls by 2 levels, and ignore pit-like traps if two instances of the flag are present.
 - ```WING_ARMS``` Counts as a wing for `Character::can_fly` if two instances of the flag are present.
 
 
@@ -481,8 +482,6 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```WEBBED_HANDS``` You have webbings on your hands, supporting your swimming speed.
 - ```WEB_RAPPEL``` You can rappel down staircases and sheer drops of any height.
 - ```WEB_WALKER``` Removes the movement speed demerit while walking through webs.
-- ```WINGS_2``` You can slow your fall, effectively reducing the height of falls by 2 levels, and ignore pit-like traps.
-- ```WING_ARMS``` Two instances of this flag enable you to glide and ignore pit traps if not above 50% carryweight or 4 lift strength.
 - ```WINGGLIDE``` You can glide using some part of your body and strenuous physical effort.
 - ```mycus``` acts as `THRESH_MYCUS`, makes all monsters with FUNGUS species friendly, fungicidal gas & antifungal pills cause worse effects.  Mutate when eating mycus fruit, or when sleeping.
 
