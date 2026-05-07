@@ -1110,7 +1110,7 @@
     "hp_bar_ui_text": "R WING",
     "main_part": "wing_insect_r",
     "opposite_part": "wing_insect_l",
-    "limb_type": "wing",
+    "limb_types": "wing",
     "side": "right",
     "sub_parts": [ "wing_insect_costal_margin_r", "wing_insect_posterior_margin_r", "wing_insect_apex_r" ]
   },
