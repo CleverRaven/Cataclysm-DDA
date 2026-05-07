@@ -1226,6 +1226,12 @@ int get_window_height();
 void refresh_display();
 
 /**
+ * Sync OS cursor and ImGui cursor-handling flags with the current
+ * ENABLE_MOUSE and HIDE_CURSOR option values. No-op in curses builds.
+ */
+void refresh_mouse_config();
+
+/**
  * Assigns a custom color to each symbol.
  *
  * @param str String to colorize symbols in

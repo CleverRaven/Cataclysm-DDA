@@ -2890,11 +2890,13 @@ static void faction_edit_menu()
          << string_format( _( "Trust: %d" ), fac->trusts_u ) << std::endl;
     data << string_format( _( "Known by you: %s" ), fac->known_by_u ? "true" : "false" ) << " | "
          << string_format( _( "Lone wolf: %s" ), fac->lone_wolf_faction ? "true" : "false" ) << std::endl;
+    data << string_format( _( "Steal mode: %s" ),
+                           fac->steal_persist ? ( *fac->steal_persist ? "thief" : "honest" ) : "ask" ) << std::endl;
 
     nmenu.text = data.str();
 
     enum {
-        D_WEALTH, D_SIZE, D_POWER, D_FOOD, D_OPINION, D_KNOWN, D_LONE
+        D_WEALTH, D_SIZE, D_POWER, D_FOOD, D_OPINION, D_KNOWN, D_LONE, D_THIEF
     };
     nmenu.addentry( D_WEALTH, true, 'w', "%s", _( "Set wealth" ) );
     nmenu.addentry( D_SIZE, true, 's', "%s", _( "Set size" ) );
@@ -2903,6 +2905,7 @@ static void faction_edit_menu()
     nmenu.addentry( D_OPINION, true, 'o', "%s", _( "Set opinions" ) );
     nmenu.addentry( D_KNOWN, true, 'k', "%s", _( "Toggle Known by you" ) );
     nmenu.addentry( D_LONE, true, 'l', "%s", _( "Toggle Lone wolf" ) );
+    nmenu.addentry( D_THIEF, true, 't', "%s", _( "Reset steal mode" ) );
 
     nmenu.query();
     int value;
@@ -2936,6 +2939,9 @@ static void faction_edit_menu()
             break;
         case D_LONE:
             fac->lone_wolf_faction = !fac->lone_wolf_faction;
+            break;
+        case D_THIEF:
+            fac->steal_persist = std::nullopt;
             break;
     }
 }

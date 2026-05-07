@@ -103,6 +103,7 @@ static const damage_type_id damage_pure( "pure" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_winded( "winded" );
 
+static const fault_id fault_broken_window( "fault_broken_window" );
 static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
 static const fault_id fault_flat_tire_riding_on_rims( "fault_flat_tire_riding_on_rims" );
 static const fault_id fault_punctured_tires( "fault_punctured_tires" );
@@ -3265,7 +3266,8 @@ int vehicle::next_part_to_unlock( int p, bool outside ) const
     }
     for( const int elem : parts_at_relative( parts[p].mount, true, true ) ) {
         const vehicle_part &vp = part( elem );
-        if( vp.info().has_flag( "LOCKABLE_DOOR" ) && vp.is_available() && vp.locked && !outside ) {
+        const bool accessible_lock = !outside || vp.has_fault( fault_broken_window );
+        if( vp.info().has_flag( "LOCKABLE_DOOR" ) && vp.is_available() && vp.locked && accessible_lock ) {
             return elem;
         }
     }
@@ -5365,6 +5367,8 @@ void vehicle::consume_fuel( map &here, int load, bool idling )
         int base_burn = actual_staminaRegen - 3;
         base_burn = std::max( eff_load / 3, base_burn );
         //charge bionics when using muscle engine
+        // FIXME: stop initializing new items every time this runs.
+        // Can't make it static, itype can change if we quit to menu and load a different set of mods...
         const item muscle( fuel_type_muscle );
         for( const bionic_id &bid : driver->get_bionic_fueled_with_muscle() ) {
             if( driver->has_active_bionic( bid ) ) { // active power gen
@@ -8037,15 +8041,17 @@ int vehicle::break_off( map &here, vehicle_part &vp, int dmg )
 
 bool vehicle::explode_fuel( map &here, vehicle_part &vp, const damage_type_id &type )
 {
-    const itype_id &ft = vp.info().fuel_type;
-    item fuel = item( ft );
-    if( !fuel.has_explosion_data() ) {
+    const itype_id &ft = vp.fuel_current();
+    if( ft.is_null() ) {
         return false;
     }
-    const fuel_explosion_data &data = fuel.get_explosion_data();
-
     if( vp.is_broken() ) {
         leak_fuel( here, vp );
+    }
+
+    const fuel_explosion_data &data = ft->get_explosion_data();
+    if( data.is_empty() ) {
+        return false;
     }
 
     int explosion_chance = type == damage_heat ? data.explosion_chance_hot :
@@ -8057,9 +8063,10 @@ bool vehicle::explode_fuel( map &here, vehicle_part &vp, const damage_type_id &t
         explosion_handler::explosion( nullptr, bub_part_pos( here, vp ), pow, 0.7, data.fiery_explosion );
         mod_hp( vp, -vp.hp() );
         vp.ammo_unset();
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_type_id &type )
@@ -8078,10 +8085,15 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
         return break_off( here, vp, dmg );
     }
 
-    int tsh = std::min( 20, vpi.durability / 10 );
-    if( dmg < tsh && type != damage_pure ) {
+    // Parts have a minimum threshold to be damaged, durability/10.
+    int dmg_threshold = std::min( VEH_PART_DMG_REDUCTION_FROM_DURABILITY_CAP, vpi.durability / 10 );
+    if( dmg < dmg_threshold && type != damage_pure ) {
+        // Volatile fuel still has a chance to explode.
         if( type == damage_heat && vp.is_fuel_store() ) {
             explode_fuel( here, vp, type );
+        } else if( vpi.has_flag( "FRAGILE_COMPONENTS" ) && one_in( 5 ) ) {
+            // Then any damage has a chance to cause faults, even if it would be nulled out.
+            vp.base.set_random_fault_of_type( "mechanical_damage" );
         }
 
         return dmg;
@@ -8090,7 +8102,7 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
     if( !type->no_resist ) {
         dmg -= std::min<int>( dmg, vpi.damage_reduction.at( type ) );
     }
-    int dres = dmg - vp.hp();
+    int overkill_dmg = dmg - vp.hp();
     if( mod_hp( vp, -dmg ) ) {
         if( is_flyable() && !rotors.empty() && !vpi.has_flag( VPFLAG_SIMPLE_PART ) ) {
             // If we break a part, we can no longer fly the vehicle.
@@ -8153,7 +8165,7 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
         }
     }
 
-    return std::max( dres, 0 );
+    return std::max( overkill_dmg, 0 );
 }
 
 void vehicle::leak_fuel( map &here, vehicle_part &pt ) const
@@ -8574,15 +8586,18 @@ void vehicle::update_time( map &here, const time_point &update_to )
         const double area_in_mm2 = std::pow( pt.info().bonus, 2 ) * M_PI;
         const int qty = roll_remainder( funnel_charges_per_turn( area_in_mm2, accum_weather.rain_amount ) );
         int c_qty = qty + ( tank->can_reload( water_clean ) ?  tank->ammo_remaining( ) : 0 );
-        int cost_to_purify = c_qty * itype_water_purifier->charges_to_use();
 
         if( qty > 0 ) {
             const std::optional<vpart_reference> vp_purifier = vpart_position( *this, idx )
                     .part_with_tool( here, itype_water_purifier );
+            const int64_t per_use = itype_water_purifier->charges_to_use();
+            const bool can_purify_all = vp_purifier &&
+                                        fuel_left( here, itype_battery ) >=
+                                        static_cast<int64_t>( c_qty ) * per_use;
 
-            if( vp_purifier && ( fuel_left( here, itype_battery ) > cost_to_purify ) ) {
+            if( can_purify_all ) {
+                run_legacy_charge_tool_uses( here, itype_water_purifier, c_qty );
                 tank->ammo_set( itype_water_clean, c_qty );
-                discharge_battery( here, cost_to_purify );
             } else {
                 tank->ammo_set( itype_water, tank->ammo_remaining( ) + qty );
             }

@@ -24,12 +24,13 @@
 #include <stdexcept>
 #include <type_traits>
 #include <vector>
+#ifndef USE_SDL3
 #if defined(_MSC_VER) && defined(USE_VCPKG)
-#   include <SDL2/SDL_image.h>
 #   include <SDL2/SDL_syswm.h>
 #else
 #ifdef _WIN32
 #   include <SDL_syswm.h>
+#endif
 #endif
 #endif
 
@@ -71,6 +72,9 @@
 #include "sdl_wrappers.h"
 #include "sdl_font.h"
 #include "sdl_gamepad.h"
+#if defined(SDL_SOUND)
+#include "sound_backend.h"
+#endif
 #include "sdlsound.h"
 #include "string_formatter.h"
 #include "uistate.h"
@@ -175,11 +179,17 @@ void clear_sdl_window()
 
 static void InitSDL()
 {
+#if SDL_MAJOR_VERSION >= 3
+    int init_flags = SDL_INIT_VIDEO;
+#else
     int init_flags = SDL_INIT_VIDEO | SDL_INIT_TIMER;
+#endif
 #if defined(SDL_SOUND)
     init_flags |= SDL_INIT_AUDIO;
 #endif
+#if SDL_MAJOR_VERSION < 3
     int ret;
+#endif
 
 #if defined(SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING)
     // Requires SDL 2.0.5. Disables thread naming so that gdb works correctly
@@ -209,7 +219,7 @@ static void InitSDL()
     SDL_SetHint( SDL_HINT_APP_NAME, _( "Cataclysm: Dark Days Ahead" ) );
 #endif
 
-#if defined(__linux__)
+#if defined(__linux__) && SDL_MAJOR_VERSION < 3
     // https://bugzilla.libsdl.org/show_bug.cgi?id=3472#c5
     if( SDL_COMPILEDVERSION == SDL_VERSIONNUM( 2, 0, 5 ) ) {
         const char *xmod = getenv( "XMODIFIERS" );
@@ -219,6 +229,11 @@ static void InitSDL()
     }
 #endif
 
+#if SDL_MAJOR_VERSION >= 3
+    throwErrorIf( !SDL_Init( init_flags ), "SDL_Init failed" );
+    throwErrorIf( !TTF_Init(), "TTF_Init failed" );
+    // SDL3_image: IMG_Init removed; loading functions init on demand.
+#else
     ret = SDL_Init( init_flags );
     throwErrorIf( ret != 0, "SDL_Init failed" );
 
@@ -230,6 +245,7 @@ static void InitSDL()
     ret = IMG_Init( IMG_INIT_PNG );
     printErrorIf( ( ret & IMG_INIT_PNG ) != IMG_INIT_PNG,
                   "IMG_Init failed to initialize PNG support, tiles won't work" );
+#endif
 
     //SDL2 has no functionality for INPUT_DELAY, we would have to query it manually, which is expensive
     //SDL2 instead uses the OS's Input Delay.
@@ -254,6 +270,38 @@ static bool SetupRenderTarget()
     ClearScreen();
 
     return true;
+}
+
+// NoMouseCursorChange blocks ImGui's per-frame SDL_ShowCursor, which
+// would otherwise re-show the cursor immediately after HideCursor.
+void refresh_mouse_config()
+{
+    using cata::options::mouse;
+    ImGuiIO &io = ImGui::GetIO();
+    if( !mouse.enabled ) {
+        io.ConfigFlags |= ImGuiConfigFlags_NoMouse;
+        io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+        if( IsCursorVisible() ) {
+            HideCursor();
+        }
+        return;
+    }
+
+    io.ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
+    const std::string hide_mode = get_option<std::string>( "HIDE_CURSOR" );
+    if( hide_mode == "show" ) {
+        io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
+        if( !IsCursorVisible() ) {
+            ShowCursor();
+        }
+    } else {
+        // "hide" and "hidekb" both require blocking ImGui's per-frame
+        // cursor show so the game can manage visibility directly.
+        io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+        if( hide_mode == "hide" && IsCursorVisible() ) {
+            HideCursor();
+        }
+    }
 }
 
 //Registers, creates, and shows the Window!!
@@ -409,14 +457,6 @@ static void WinCreate()
 
     ClearScreen();
 
-    // Errors here are ignored, worst case: the option does not work as expected,
-    // but that won't crash
-    if( get_option<std::string>( "HIDE_CURSOR" ) != "show" && IsCursorVisible() ) {
-        HideCursor();
-    } else {
-        ShowCursor();
-    }
-
     if( get_option<bool>( "ENABLE_JOYSTICK" ) ) {
         gamepad::init();
     }
@@ -540,6 +580,10 @@ void refresh_display()
     if( test_mode ) {
         return;
     }
+
+#if defined(SDL_SOUND)
+    sound_backend::poll();
+#endif
 
     // Select default target (the window), copy rendered buffer
     // there, present it, select the buffer as target again.
@@ -3880,12 +3924,7 @@ void catacurses::init_interface()
     init_term_size_and_scaling_factor();
 
     WinCreate();
-    using cata::options::mouse;
-    if( mouse.enabled ) {
-        ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
-    } else {
-        ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
-    }
+    refresh_mouse_config();
     dbg( D_INFO ) << "Initializing SDL Tiles context";
     fartilecontext = std::make_shared<cata_tiles>( renderer, geometry, ts_cache );
     if( use_far_tiles ) {
@@ -4405,10 +4444,16 @@ bool save_screenshot( const std::string &file_path )
 #ifdef _WIN32
 HWND getWindowHandle()
 {
+#if SDL_MAJOR_VERSION >= 3
+    return static_cast<HWND>( SDL_GetPointerProperty(
+                                  SDL_GetWindowProperties( ::window.get() ),
+                                  SDL_PROP_WINDOW_WIN32_HWND_POINTER, nullptr ) );
+#else
     SDL_SysWMinfo info;
     SDL_VERSION( &info.version );
     SDL_GetWindowWMInfo( ::window.get(), &info );
     return info.info.win.window;
+#endif
 }
 #endif
 

@@ -93,6 +93,7 @@ class spell_events;
 class static_popup;
 class stats_tracker;
 class timed_event_manager;
+class item_wakeup_manager;
 class ui_adaptor;
 class uilist;
 class vehicle;
@@ -190,6 +191,7 @@ class game
         friend stats_tracker &get_stats();
         friend scent_map &get_scent();
         friend timed_event_manager &get_timed_events();
+        friend item_wakeup_manager &get_item_wakeups();
         friend memorial_logger &get_memorial();
         friend bool do_turn();
         friend bool turn_handler::cleanup_at_end();
@@ -1148,6 +1150,7 @@ class game
         live_view &liveview; // NOLINT(cata-serialize)
         pimpl<scent_map> scent_ptr; // NOLINT(cata-serialize)
         pimpl<timed_event_manager> timed_event_manager_ptr; // NOLINT(cata-serialize)
+        pimpl<item_wakeup_manager> item_wakeup_manager_ptr;
         pimpl<event_bus> event_bus_ptr; // NOLINT(cata-serialize)
         pimpl<stats_tracker> stats_tracker_ptr;
         pimpl<achievements_tracker> achievements_tracker_ptr;

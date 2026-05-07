@@ -6,7 +6,9 @@
 // sdl_wrappers.h, which defines SDL_MAIN_HANDLED and would break entry-point
 // handling in main.cpp (WinMain / SDL_main plumbing).
 
-#if defined(_MSC_VER) && defined(USE_VCPKG)
+#if defined(USE_SDL3)
+#   include <SDL3/SDL_version.h>
+#elif defined(_MSC_VER) && defined(USE_VCPKG)
 #   include <SDL2/SDL_version.h>
 #else
 #   include <SDL_version.h>

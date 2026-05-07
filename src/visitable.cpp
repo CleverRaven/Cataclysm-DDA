@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <climits>
+#include <cstdint>
 #include <limits>
 #include <map>
 #include <memory>
@@ -43,6 +44,8 @@ static const flag_id json_flag_ITEM_BROKEN( "ITEM_BROKEN" );
 static const flag_id json_flag_PSEUDO( "PSEUDO" );
 static const flag_id json_flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
 static const flag_id json_flag_USE_UPS( "USE_UPS" );
+
+static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_any( "any" );
@@ -853,67 +856,209 @@ std::list<item> vehicle_selector::remove_items_with( const
     return res;
 }
 
-template <typename T, typename M>
-static int charges_of_internal( const T &self, const M &main, const itype_id &id, int limit,
-                                const std::function<bool( const item & )> &filter,
-                                const std::function<void( int )> &visitor, bool in_tools )
+// Per-tool stock for charges_of dedup. Legacy contributes local charges;
+// multimag records per-battery-pocket so shared-pool greedy can bill K uses
+// without re-solving firing_requirements.
+struct tool_stock_entry {
+    enum class kind_t { LEGACY, MULTIMAG };
+    kind_t kind = kind_t::LEGACY;
+    bool uses_ups = false;
+    bool uses_bionic = false;
+    int local_charges = 0;
+    const item *src = nullptr;
+    std::vector<std::pair<int, int>> battery;
+};
+
+static tool_stock_entry build_multimag_entry( const item &e )
+{
+    tool_stock_entry out;
+    out.kind = tool_stock_entry::kind_t::MULTIMAG;
+    out.uses_ups = e.has_flag( json_flag_USE_UPS );
+    out.uses_bionic = e.has_flag( json_flag_USES_BIONIC_POWER );
+    out.src = &e;
+
+    // Tools lower consumption_per_use into firing_requirements per_mode[DEFAULT].
+    const std::vector<pocket_consumption_entry> *entries =
+        e.type->firing_requirements.for_mode( gun_mode_DEFAULT );
+    if( entries == nullptr ) {
+        return out;
+    }
+    for( const pocket_consumption_entry &pce : *entries ) {
+        const item_pocket *pkt = e.pocket_by_id( pce.pocket );
+        if( pkt == nullptr || pce.qty < 1 ) {
+            continue;
+        }
+        if( e.pocket_accepts_battery( pkt ) ) {
+            out.battery.emplace_back( e.ammo_remaining_in_pocket( pce.pocket ), pce.qty );
+        }
+    }
+    return out;
+}
+
+template <typename T>
+static void scan_tool_charges( const T &self, const itype_id &id,
+                               const std::function<bool( const item & )> &filter,
+                               bool in_tools, std::vector<tool_stock_entry> &entries,
+                               int &raw_ups_charges )
 {
     map &here = get_map();
-
-    int qty = 0;
-
-    bool found_tool_with_UPS = false;
-    bool found_bionic_tool = false;
     self.visit_items( [&]( const item * e, item * ) {
         if( filter( *e ) &&
             ( id == e->typeId() || ( in_tools && id == e->ammo_current() ) ||
               ( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) ) &&
             !e->is_broken() ) {
-            if( id != itype_UPS ) {
+            if( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) {
+                raw_ups_charges = sum_no_wrap( raw_ups_charges,
+                                               e->ammo_remaining_linked( here, nullptr ) );
+            } else if( id != itype_UPS ) {
                 if( e->uses_firing_requirements() ) {
-                    // Multimag: contribute local-only uses to avoid summing
-                    // the same external pool once per matching item.
-                    qty = sum_no_wrap( qty, e->tool_uses_remaining_local() );
-                } else if( e->count_by_charges() ) {
-                    qty = sum_no_wrap( qty, e->charges );
+                    entries.push_back( build_multimag_entry( *e ) );
                 } else {
-                    qty = sum_no_wrap( qty, e->ammo_remaining_linked( here, nullptr ) );
-                    if( e->has_flag( json_flag_USE_UPS ) ) {
-                        found_tool_with_UPS = true;
-                    } else if( e->has_flag( json_flag_USES_BIONIC_POWER ) ) {
-                        found_bionic_tool = true;
+                    tool_stock_entry entry;
+                    entry.kind = tool_stock_entry::kind_t::LEGACY;
+                    if( e->count_by_charges() ) {
+                        entry.local_charges = e->charges;
+                    } else {
+                        entry.local_charges = e->ammo_remaining_linked( here, nullptr );
+                        entry.uses_ups = e->has_flag( json_flag_USE_UPS );
+                        entry.uses_bionic = e->has_flag( json_flag_USES_BIONIC_POWER );
                     }
+                    entries.push_back( entry );
                 }
-            } else if( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) {
-                qty = sum_no_wrap( qty, e->ammo_remaining_linked( here, nullptr ) );
             }
         }
-        if( qty >= limit ) {
-            return VisitResponse::ABORT;
-        }
-        // recurse through nested containers if any
         return e->is_container() ? VisitResponse::NEXT : VisitResponse::SKIP;
     } );
+}
 
-    if( found_tool_with_UPS && qty < limit && get_player_character().has_active_bionic( bio_ups ) ) {
+template <typename M>
+static int apply_external_pools_legacy( const M &main,
+                                        const std::vector<tool_stock_entry> &entries, int limit,
+                                        const std::function<void( int )> &visitor )
+{
+    int qty = 0;
+    bool any_ups = false;
+    bool any_bionic = false;
+    for( const tool_stock_entry &e : entries ) {
+        qty = sum_no_wrap( qty, e.local_charges );
+        any_ups = any_ups || e.uses_ups;
+        any_bionic = any_bionic || e.uses_bionic;
+    }
+    // bio_ups: USE_UPS tools also drain active bio_ups bionic energy.
+    if( any_ups && qty < limit && get_player_character().has_active_bionic( bio_ups ) ) {
         qty = sum_no_wrap( qty, static_cast<int>( units::to_kilojoule(
                                get_player_character().get_power_level() ) ) );
     }
-
-    if( found_bionic_tool ) {
+    if( any_bionic ) {
         qty = sum_no_wrap( qty, static_cast<int>( units::to_kilojoule(
                                get_player_character().get_power_level() ) ) );
     }
-
-    if( qty < limit && found_tool_with_UPS ) {
-        int used_ups = main.charges_of( itype_UPS, limit - qty );
+    if( qty < limit && any_ups ) {
+        const int used_ups = main.charges_of( itype_UPS, limit - qty );
         qty += used_ups;
         if( visitor ) {
             visitor( used_ups );
         }
     }
-
     return std::min( qty, limit );
+}
+
+template <typename M>
+static int apply_external_pools_multimag( const M &main,
+        const std::vector<tool_stock_entry> &entries, int limit )
+{
+    bool any_ups = false;
+    bool any_bionic = false;
+    for( const tool_stock_entry &e : entries ) {
+        any_ups = any_ups || e.uses_ups;
+        any_bionic = any_bionic || e.uses_bionic;
+    }
+    // UPS goes through main so ground UPS in crafting_inventory is seen.
+    // Character::charges_of(itype_UPS) strips bio_ups; add it back here.
+    int external = 0;
+    if( any_bionic ) {
+        external = sum_no_wrap( external, static_cast<int>( units::to_kilojoule(
+                                    get_player_character().get_power_level() ) ) );
+    }
+    if( any_ups ) {
+        if( get_player_character().has_active_bionic( bio_ups ) ) {
+            external = sum_no_wrap( external, static_cast<int>( units::to_kilojoule(
+                                        get_player_character().get_power_level() ) ) );
+        }
+        external = sum_no_wrap( external, main.charges_of( itype_UPS, INT_MAX ) );
+    }
+
+    int total = 0;
+    int external_remaining = external;
+    map &here = get_map();
+    for( const tool_stock_entry &e : entries ) {
+        if( e.src == nullptr ) {
+            continue;
+        }
+        // Cable to a linked vehicle battery is per-tool, not shared, so it
+        // adds to this tool's budget without affecting the shared external.
+        const int cable_pool = e.src->available_cable_charges( here );
+        const int budget = sum_no_wrap( external_remaining, cable_pool );
+        const int uses = e.src->feasible_tool_uses( budget );
+        // Battery consumed for K uses is sum max(0, K * per_use - local) over
+        // battery pockets. Drain cable first (matches firing-loop order), then
+        // bill the remainder to the shared external pool.
+        int64_t consumed = 0;
+        for( const std::pair<int, int> &b : e.battery ) {
+            const int64_t per = b.second;
+            const int64_t local = b.first;
+            consumed += std::max<int64_t>( 0, static_cast<int64_t>( uses ) * per - local );
+        }
+        const int64_t cable_used = std::min<int64_t>( consumed, cable_pool );
+        const int64_t shared_used = consumed - cable_used;
+        external_remaining -= static_cast<int>(
+                                  std::min<int64_t>( shared_used, external_remaining ) );
+        total = sum_no_wrap( total, uses );
+        if( total >= limit ) {
+            break;
+        }
+    }
+    return std::min( total, limit );
+}
+
+template <typename M>
+static int apply_external_pools( const M &main,
+                                 const std::vector<tool_stock_entry> &entries, int limit,
+                                 const std::function<void( int )> &visitor, int raw_ups_charges )
+{
+    if( raw_ups_charges > 0 ) {
+        return std::min( raw_ups_charges, limit );
+    }
+    std::vector<tool_stock_entry> legacy;
+    std::vector<tool_stock_entry> multi;
+    legacy.reserve( entries.size() );
+    multi.reserve( entries.size() );
+    for( const tool_stock_entry &e : entries ) {
+        if( e.kind == tool_stock_entry::kind_t::MULTIMAG ) {
+            multi.push_back( e );
+        } else {
+            legacy.push_back( e );
+        }
+    }
+    int total = 0;
+    if( !legacy.empty() ) {
+        total = sum_no_wrap( total, apply_external_pools_legacy( main, legacy, limit, visitor ) );
+    }
+    if( !multi.empty() && total < limit ) {
+        total = sum_no_wrap( total, apply_external_pools_multimag( main, multi, limit - total ) );
+    }
+    return std::min( total, limit );
+}
+
+template <typename T, typename M>
+static int charges_of_internal( const T &self, const M &main, const itype_id &id, int limit,
+                                const std::function<bool( const item & )> &filter,
+                                const std::function<void( int )> &visitor, bool in_tools )
+{
+    std::vector<tool_stock_entry> entries;
+    int raw_ups_charges = 0;
+    scan_tool_charges( self, id, filter, in_tools, entries, raw_ups_charges );
+    return apply_external_pools( main, entries, limit, visitor, raw_ups_charges );
 }
 
 template <typename T>
@@ -976,14 +1121,14 @@ int inventory::charges_of( const itype_id &what, int limit,
         return 0;
     }
 
-    int res = 0;
+    // Scan every matching item into one entry list so apply_external_pools can
+    // dedup the shared UPS / bionic pool across tools (legacy and multimag).
+    std::vector<tool_stock_entry> entries;
+    int raw_ups_charges = 0;
     for( const item *it : iter->second ) {
-        res = sum_no_wrap( res, charges_of_internal( *it, *this, what, limit, filter, visitor, in_tools ) );
-        if( res >= limit ) {
-            break;
-        }
+        scan_tool_charges( *it, what, filter, in_tools, entries, raw_ups_charges );
     }
-    return std::min( limit, res );
+    return apply_external_pools( *this, entries, limit, visitor, raw_ups_charges );
 }
 
 /** @relates visitable */

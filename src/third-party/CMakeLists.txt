@@ -85,6 +85,21 @@ target_link_libraries(
 
 # ImGUI
 if (TILES)
+        if (USE_SDL3)
+            set(_imgui_backend_sources
+                imgui/imgui_impl_sdl3.cpp
+                imgui/imgui_impl_sdl3.h
+                imgui/imgui_impl_sdlrenderer3.cpp
+                imgui/imgui_impl_sdlrenderer3.h
+                )
+        else ()
+            set(_imgui_backend_sources
+                imgui/imgui_impl_sdl2.cpp
+                imgui/imgui_impl_sdl2.h
+                imgui/imgui_impl_sdlrenderer2.cpp
+                imgui/imgui_impl_sdlrenderer2.h
+                )
+        endif ()
         add_library(
                 imgui
                 STATIC
@@ -95,10 +110,7 @@ if (TILES)
                 imgui/imgui_draw.cpp
                 imgui/imgui_freetype.cpp
                 imgui/imgui_freetype.h
-                imgui/imgui_impl_sdl2.cpp
-                imgui/imgui_impl_sdl2.h
-                imgui/imgui_impl_sdlrenderer2.cpp
-                imgui/imgui_impl_sdlrenderer2.h
+                ${_imgui_backend_sources}
                 imgui/imgui_internal.h
                 imgui/imgui_stdlib.cpp
                 imgui/imgui_stdlib.h
@@ -116,13 +128,22 @@ if (TILES)
                 ${CMAKE_CURRENT_SOURCE_DIR}
                 )
 
-        target_include_directories(
-                imgui
-                SYSTEM
-                PRIVATE
-                ${SDL2_INCLUDE_DIR}/..
-                /usr/include/freetype2
-                )
+        if (USE_SDL3)
+            target_include_directories(
+                    imgui
+                    SYSTEM
+                    PRIVATE
+                    /usr/include/freetype2
+                    )
+        else ()
+            target_include_directories(
+                    imgui
+                    SYSTEM
+                    PRIVATE
+                    ${SDL2_INCLUDE_DIR}/..
+                    /usr/include/freetype2
+                    )
+        endif ()
 
         target_compile_options(
                 imgui
@@ -130,16 +151,30 @@ if (TILES)
                 -w
                 )
 
-        if (NOT DYNAMIC_LINKING)
-            target_link_libraries(imgui PUBLIC
-                SDL2::SDL2-static
-                $<TARGET_NAME_IF_EXISTS:PkgConfig::Freetype>
-            )
-        else()
-            target_link_libraries(imgui PUBLIC
-                SDL2::SDL2
-                freetype
-            )
+        if (USE_SDL3)
+            if (NOT DYNAMIC_LINKING)
+                target_link_libraries(imgui PUBLIC
+                    $<IF:$<TARGET_EXISTS:SDL3::SDL3-static>,SDL3::SDL3-static,SDL3::SDL3>
+                    $<TARGET_NAME_IF_EXISTS:PkgConfig::Freetype>
+                )
+            else()
+                target_link_libraries(imgui PUBLIC
+                    SDL3::SDL3
+                    freetype
+                )
+            endif ()
+        else ()
+            if (NOT DYNAMIC_LINKING)
+                target_link_libraries(imgui PUBLIC
+                    SDL2::SDL2-static
+                    $<TARGET_NAME_IF_EXISTS:PkgConfig::Freetype>
+                )
+            else()
+                target_link_libraries(imgui PUBLIC
+                    SDL2::SDL2
+                    freetype
+                )
+            endif ()
         endif ()
 
 

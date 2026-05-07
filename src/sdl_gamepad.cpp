@@ -162,7 +162,8 @@ void init()
 
 #if SDL_MAJOR_VERSION >= 3
     // SDL3: SDL_INIT_GAMECONTROLLER removed; use SDL_INIT_GAMEPAD.
-    int ret = SDL_Init( SDL_INIT_TIMER | SDL_INIT_GAMEPAD );
+    // SDL3: SDL_INIT_TIMER removed (timers work without explicit init).
+    int ret = SDL_Init( SDL_INIT_GAMEPAD );
     if( !ret ) {
         printErrorIf( true, "Init gamepad+timer failed" );
         return;

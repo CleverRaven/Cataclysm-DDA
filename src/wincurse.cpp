@@ -10,6 +10,9 @@
 #include <fstream>
 
 #include "cached_options.h"
+#if defined(SDL_SOUND)
+#include "sound_backend.h"
+#endif
 #include "cursesdef.h"
 #include "options.h"
 #include "output.h"
@@ -814,7 +817,14 @@ HWND getWindowHandle()
 
 void refresh_display()
 {
+#if defined(SDL_SOUND)
+    sound_backend::poll();
+#endif
     RedrawWindow( WindowHandle, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW );
+}
+
+void refresh_mouse_config()
+{
 }
 
 void set_title( const std::string &title )

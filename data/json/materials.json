@@ -312,6 +312,16 @@
   },
   {
     "type": "material",
+    "id": "cyber_wood",
+    "name": "Wood-like material",
+    "copy-from": "wood",
+    "//": "A netherum copy of wood that has been confused with metal and stone, and is something in between",
+    "density": 5,
+    "resist": { "bash": 7, "cut": 13, "acid": 12, "heat": 2, "bullet": 4 },
+    "repair_difficulty": 9
+  },
+  {
+    "type": "material",
     "id": "brass",
     "name": "Brass",
     "//": "Density value assumes median bronze alloy weight",

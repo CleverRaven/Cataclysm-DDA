@@ -10,6 +10,7 @@
 #include <optional>
 #include <string>
 #include <tuple>
+#include <type_traits>
 
 #include "basecamp.h"
 #include "calendar.h"
@@ -1059,6 +1060,33 @@ overmap_path_params overmap_path_params::for_aircraft()
     overmap_path_params ret;
     ret.set_cost( oter_travel_cost_type::air, 8 ); // limited by vehicle autodrive speed
     ret.allow_diagonal = false;
+    return ret;
+}
+
+// For the for-loop in the below function.
+using enum_traits_int = std::underlying_type_t<oter_travel_cost_type>;
+static constexpr enum_traits_int max = static_cast<enum_traits_int>
+                                       ( enum_traits<oter_travel_cost_type>::last );
+overmap_path_params overmap_path_params::flatten_pathfinding_costs( overmap_path_params orig )
+{
+    overmap_path_params ret = std::move( orig );
+
+    for( enum_traits_int i = 0; i < max; ++i ) {
+        // In order to make a more direct path we take the logarithm (base 2) of the existing travel cost.
+        // This allows the pathfinding to consider most passable terrains as 'close enough', while still
+        // avoiding any really bad routes, and never pathing into impassable terrains.
+
+        oter_travel_cost_type checked = static_cast<oter_travel_cost_type>( i );
+
+        if( ret.travel_cost_per_type.find( checked ) == ret.travel_cost_per_type.end() ) {
+            continue; // Value doesn't already exist in the map, skip.
+        }
+        if( ret.travel_cost_per_type[checked] < 1 ) {
+            continue; // Impassable, skip.
+        }
+        ret.travel_cost_per_type[checked] = log2( ret.travel_cost_per_type[checked] );
+    }
+
     return ret;
 }
 

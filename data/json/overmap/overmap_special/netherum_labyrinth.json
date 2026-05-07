@@ -238,5 +238,56 @@
         { "overmap": "crossroads", "weight": 1 }
       ]
     ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "labyrinthine_structure_overgrown",
+    "subtype": "mutable",
+    "locations": [ "labyrinth2" ],
+    "occurrences": [ 0, 20 ],
+    "flags": [ "EXODII", "EXTRADIMENSIONAL", "NETHERUM_LABYRINTH2" ],
+    "check_for_locations_area": [ { "type": [ "labyrinth2" ], "from": [ 10, 10, 0 ], "to": [ -10, -10, 0 ] } ],
+    "joins": [ "passage_to_passage" ],
+    "overmaps": {
+      "entrance": {
+        "overmap": "labyrinth_overgrown_entrance_north",
+        "north": "passage_to_passage",
+        "east": "passage_to_passage",
+        "south": "passage_to_passage",
+        "west": "passage_to_passage"
+      },
+      "crossroads": {
+        "overmap": "labyrinth_overgrown_hall_nesw",
+        "north": "passage_to_passage",
+        "east": "passage_to_passage",
+        "south": "passage_to_passage",
+        "west": "passage_to_passage"
+      },
+      "tee": {
+        "overmap": "labyrinth_overgrown_hall_nes",
+        "north": "passage_to_passage",
+        "east": "passage_to_passage",
+        "south": "passage_to_passage"
+      },
+      "straight_passage": { "overmap": "labyrinth_overgrown_hall_ew", "east": "passage_to_passage", "west": "passage_to_passage" },
+      "corner": { "overmap": "labyrinth_overgrown_hall_ne", "north": "passage_to_passage", "east": "passage_to_passage" },
+      "dead_end": { "overmap": "labyrinth_overgrown_hall_end_west", "west": "passage_to_passage" }
+    },
+    "root": "entrance",
+    "phases": [
+      [
+        { "overmap": "straight_passage", "max": { "poisson": 20 } },
+        { "overmap": "corner", "max": { "poisson": 30 } },
+        { "overmap": "tee", "max": { "poisson": 20 } },
+        { "overmap": "dead_end", "weight": 1 }
+      ],
+      [
+        { "overmap": "dead_end", "weight": 1500 },
+        { "overmap": "straight_passage", "weight": 20 },
+        { "overmap": "corner", "weight": 100 },
+        { "overmap": "tee", "weight": 20 },
+        { "overmap": "crossroads", "weight": 1 }
+      ]
+    ]
   }
 ]

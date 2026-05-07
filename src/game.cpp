@@ -128,6 +128,7 @@
 #include "item_pocket.h"
 #include "item_search.h"
 #include "item_stack.h"
+#include "item_wakeup.h"
 #include "iteminfo_query.h"
 #include "itype.h"
 #include "iuse.h"
@@ -7679,6 +7680,13 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
             }
             u.mounted_creature->shove_vehicle( dest_loc + diff.xy(),
                                                dest_loc );
+        } else if( vp_there && vp_there->vehicle().part_has_lock( vp_there->part_index() ) ) {
+            // Automatically try to open locked door. Prints appropriate messages to log, etc.
+            if( doors::can_unlock_door( here, u, dest_loc ) ) {
+                doors::unlock_door( here, u, dest_loc );
+            } else {
+                iexamine::locked_object( u, dest_loc );
+            }
         }
         return false;
     }
@@ -8940,6 +8948,8 @@ void game::on_move_effects()
 {
     // TODO: Move this to a character method
     if( !u.is_mounted() ) {
+        // FIXME: stop initializing new items every time this runs.
+        // Can't make it static, itype can change if we quit to menu and load a different set of mods...
         const item muscle( fuel_type_muscle );
         for( const bionic_id &bid : u.get_bionic_fueled_with_muscle() ) {
             if( u.has_active_bionic( bid ) ) {// active power gen
@@ -8984,6 +8994,7 @@ void game::on_options_changed()
 #if defined(TILES)
     tilecontext->on_options_changed();
 #endif
+    refresh_mouse_config();
 }
 
 void game::water_affect_items( Character &ch ) const
@@ -11549,6 +11560,11 @@ stats_tracker &get_stats()
 timed_event_manager &get_timed_events()
 {
     return g->timed_events;
+}
+
+item_wakeup_manager &get_item_wakeups()
+{
+    return *g->item_wakeup_manager_ptr;
 }
 
 weather_manager &get_weather()

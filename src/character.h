@@ -124,7 +124,7 @@ const int CHARACTER_STAT_MIN = 4;
 const int CHARACTER_STAT_MAX = 20;
 
 const int CHARACTER_AGE_MIN = 16;
-const int CHARACTER_AGE_MAX = 55;
+const int CHARACTER_AGE_MAX = 100;
 
 const int NAME_CHARACTER_LIMIT = 50;
 
@@ -2533,6 +2533,7 @@ class Character : public Creature, public visitable
 
         //sets all skills to 0 so that they're guaranteed to be in the map
         void zero_all_skills();
+        void set_all_skills( int lvl );
         float get_skill_level( const skill_id &ident ) const;
         float get_skill_level( const skill_id &ident, const item &context ) const;
         int get_knowledge_level( const skill_id &ident ) const;

@@ -1,7 +1,10 @@
 #include <cmath>
+#include <fstream>
+#include <iostream>
 #include <list>
 #include <map>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -11,9 +14,11 @@
 #include "character.h"
 #include "coordinates.h"
 #include "damage.h"
+#include "item.h"
 #include "monster.h"
 #include "mtype.h"
 #include "player_helpers.h"
+#include "string_formatter.h"
 #include "type_id.h"
 #include "weakpoint.h"
 
@@ -21,6 +26,10 @@ static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
 static const damage_type_id damage_cut( "cut" );
 
+static const itype_id itype_compbow( "compbow" );
+
+
+static const mtype_id mon_pig( "mon_pig" );
 static const mtype_id mon_test_weakpoint_mon( "mon_test_weakpoint_mon" );
 static const mtype_id mon_test_zombie_cop( "mon_test_zombie_cop" );
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -270,4 +279,99 @@ TEST_CASE( "Check_copy-from_inheritance_between_sets_and_inline_weakpoints",
     for( const auto &found : wp_found ) {
         CHECK( found.second.first == true );
     }
+}
+
+struct wp_test_values {
+    mtype_id mon;
+    itype_id weapon;
+    float skill_lvl;
+    float accuracy = 0.f;
+};
+
+static std::unordered_map<std::string, int> weakpoint_hit_distribution_proj(
+    wp_test_values test_values )
+{
+    avatar &player_character = get_avatar();
+
+    monster target{ test_values.mon, tripoint_bub_ms::zero };
+
+    weakpoint_attack wp_attack = weakpoint_attack();
+    wp_attack.type = weakpoint_attack::attack_type::PROJECTILE;
+    wp_attack.target = &target;
+    wp_attack.source = &player_character;
+    const item it( test_values.weapon );
+    wp_attack.weapon = &it;
+    wp_attack.compute_wp_skill();
+
+    wp_attack.accuracy = test_values.accuracy;
+
+    player_character.set_all_skills( test_values.skill_lvl );
+
+    std::unordered_map<std::string, int> hits;
+
+    // construct map of all weakpoints; if some weakpoints were hitted 0 times, we want to see it
+    for( const weakpoint &wp : test_values.mon->weakpoints.weakpoint_list ) {
+        hits.emplace( wp.id, 0 );
+    }
+
+    for( int i = 0; i < 10000; i++ ) {
+        const weakpoint *picked = target.type->weakpoints.select_weakpoint( wp_attack );
+
+        std::string wp_id = picked->id;
+
+        if( wp_id.empty() ) {
+            wp_id = "none";
+        }
+
+        hits[wp_id]++;
+    }
+
+    return hits;
+}
+
+TEST_CASE( "weakpoint_hit_distribution_projectile", "[.]" )
+{
+
+    static const std::vector<wp_test_values> test = {
+        // tested creature, weapon, weapon skill level, accuracy
+        { mon_pig, itype_compbow, 0.f },
+        { mon_pig, itype_compbow, 5.f },
+        { mon_pig, itype_compbow, 10.f }
+    };
+
+
+    struct hit_distribution_result {
+        wp_test_values values;
+        std::unordered_map<std::string, int> id_and_hits;
+    };
+
+    std::vector<hit_distribution_result> results;
+
+    for( const wp_test_values &i_test_val : test ) {
+        const std::unordered_map<std::string, int> distr = weakpoint_hit_distribution_proj(
+                    i_test_val );
+
+        hit_distribution_result result = { i_test_val, distr };
+        results.emplace_back( result );
+    }
+
+    std::ofstream output;
+    std::string filename = "weakpoint_hit_distribution.csv";
+    output.open( filename );
+    REQUIRE( output.is_open() );
+    output << "Monster,Weapon,Weapon skill level,Accuracy,Weakpoint id,Probability\n";
+
+    for( const hit_distribution_result &result : results ) {
+        for( const auto &[wp_id, wp_prob] : result.id_and_hits ) {
+            output << string_format( "%s,%s,%f,%f,%s,%i\n",
+                                     result.values.mon.str(),
+                                     result.values.weapon.str(),
+                                     result.values.skill_lvl,
+                                     result.values.accuracy,
+                                     wp_id,
+                                     wp_prob );
+        }
+    }
+
+    std::cout << "Output written to " << filename << std::endl;
 }

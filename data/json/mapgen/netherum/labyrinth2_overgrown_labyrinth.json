@@ -1,0 +1,1021 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "labyrinth_overgrown_entrance" ],
+    "object": {
+      "fill_ter": "t_nl_metal_floor",
+      "rows": [
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#....#vvvvvvvvv",
+        "vvvvvvvvv#....#vvvvvvvvv",
+        "vvvvvvvvv#(..(#vvvvvvvvv",
+        "###########++###########",
+        "      ..(#Ç..(#(..      ",
+        "      ...+....+...      ",
+        "      ...+.A..+...      ",
+        "      ..(#(..L#(..      ",
+        "###########++###########",
+        "vvvvvvvvv#(..(#vvvvvvvvv",
+        "vvvvvvvvv#....#vvvvvvvvv",
+        "vvvvvvvvv#....#vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "computers": {
+        "Ç": { "name": "AltarOS Console", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "COMP_LS_Exit_Controls_Temp_overgrown" ] }
+      },
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_nw" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_sw" ], "x": 0, "y": 15 },
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_ne" ], "x": 15, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_se" ], "x": 15, "y": 15 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 15 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "labyrinth_overgrown_entrance" ],
+    "object": {
+      "fill_ter": "t_nl_metal_floor",
+      "rows": [
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#   %#vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv# %  #vvvvvvvvv",
+        "vvvvvvvvv#%  ,#vvvvvvvvv",
+        "vvvv,,,vv#  ,%#vvvvvvvvv",
+        "vvvv,,vvv#,,,,#vvvvvvvvv",
+        "vvvvv,,vv#,%,,#,,,vvvvvv",
+        "vvvvvv,,%,,,%,%,,vvvvvvv",
+        "####,,%,,,%,,,,,########",
+        "%%% % ,,%,,%,,,%,,,%,,  ",
+        "    ,,,,%,,,Ç,,,%,,,%%  ",
+        "      ,,,,,A,,,,, %     ",
+        "  ,%,,,%,,,,,%,,,,,,,%, ",
+        "######,,,,,%,,,,,,######",
+        "vvvvv,,,%%,,,,,%,,,vvvvv",
+        "vvvvv,,,,,,,,,,,,,,,vvvv",
+        "vvvvv,,,,#,%,,#,%,,,vvvv",
+        "vvvvvvvvv#,, ,#,,,,vvvvv",
+        "vvvvvvvvv#    #,,,,vvvvv",
+        "vvvvvvvvv#%   #,,vvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "computers": {
+        "Ç": { "name": "AltarOS Console", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "COMP_LS_Exit_Controls_Temp_overgrown" ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "labyrinth_overgrown_entrance" ],
+    "object": {
+      "fill_ter": "t_nl_metal_floor",
+      "rows": [
+        "vvvv,,vvv#    #vvvvvvvvv",
+        "vvv,,vvvv#   ,#vvvvvvvvv",
+        "vvvv,,vvv#    #vvvvvvvvv",
+        "vv,,,vvvv# ,  #vvvvvvvvv",
+        "vvv,,,,vv#,  ,#v,,,,vvvv",
+        "vvv,,,,,v#  ,,#v,,,,vvvv",
+        "vvv,,,,vv#,,,,#,,,,,,vvv",
+        "vvvv,,,vv#,,,,#,,,,,,vvv",
+        "vvvvvv,,,,,,,,,,,,vvvvvv",
+        "####,,,,,,,,,,,,########",
+        ",,, , ,,,,,,,,,,,,,,,,  ",
+        "    ,,,,,,,,Ç,,,,,,,,,  ",
+        "      ,,,,,A~,,,, ,     ",
+        "  ,,,,,,,,,,,,,,,,,,,,  ",
+        "######,,,,,,,,,,,,######",
+        "vvvvv,,,,,,,,,,,,,,vvvvv",
+        "vvvvv,,,,,,,,,,,,,,vvvvv",
+        "vvvvv,,,,#,,,,#,,,,vvvvv",
+        "vvvvvvvvv#,, ,#,,,,vvvvv",
+        "vvvvvvvvv#    #,,,,,,,vv",
+        "vvvvvvvvv#,   #,,,,,,,vv",
+        "vvvvvvvvv#    #vvv,,,,,v",
+        "vvvvvvvvv#    #vvvv,,,,v",
+        "vvvvvvvvv#    #vv,,,,,vv"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "computers": {
+        "Ç": { "name": "AltarOS Console", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "COMP_LS_Exit_Controls_Temp_overgrown" ] }
+      },
+      "terrain": { "~": "t_water_murky" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "labyrinth_overgrown_entrance" ],
+    "object": {
+      "fill_ter": "t_nl_metal_floor",
+      "rows": [
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#X  X#vvvvvvvvv",
+        "vvvvvvvvv#X  X#vvvvvvvvv",
+        "vvvvvvvvv#X  X#vvvvvvvvv",
+        "vvvvvvvvv#X  X#vvvvvvvvv",
+        "vvvvvvvvv#X  X#vvvvvvvvv",
+        "vvvvvvvvv#....#vvvvvvvvv",
+        "vvvvvvvvv#....#vvvvvvvvv",
+        "vvvvvvvvv#(..(#vvvvvvvvv",
+        "###########+############",
+        "    XXX.(#Ç.XX#(..XXX   ",
+        "      ...+....+...      ",
+        "      ...#.AXX#...      ",
+        "    XX..(#X.XX#(..XXX   ",
+        "###########+############",
+        "vvvvvvvvv#(..(#vvvvvvvvv",
+        "vvvvvvvvv#....#vvvvvvvvv",
+        "vvvvvvvvv#....#vvvvvvvvv",
+        "vvvvvvvvv#   X#vvvvvvvvv",
+        "vvvvvvvvv#X  X#vvvvvvvvv",
+        "vvvvvvvvv#X  X#vvvvvvvvv",
+        "vvvvvvvvv#X   #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "computers": {
+        "Ç": { "name": "AltarOS Console", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "COMP_LS_Exit_Controls_Temp_overgrown" ] }
+      },
+      "place_loot": [ { "item": "nl_overgrown_halligan", "x": 12, "y": 11, "chance": 50 } ],
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_nw" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_sw" ], "x": 0, "y": 15 },
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_ne" ], "x": 15, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_se" ], "x": 15, "y": 15 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 15 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "labyrinth_overgrown_hall_straight",
+    "object": {
+      "fill_ter": "t_nl_metal_floor",
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [ { "chunks": [ "ls_straight_template_overgrown" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "labyrinth_overgrown_hall_curved",
+    "object": {
+      "fill_ter": "t_nl_metal_floor",
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [ { "chunks": [ "ls_corner_template_overgrown" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "labyrinth_overgrown_hall_tee",
+    "object": {
+      "fill_ter": "t_nl_metal_floor",
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [ { "chunks": [ "ls_tee_template_overgrown" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "labyrinth_overgrown_hall_four_way",
+    "object": {
+      "fill_ter": "t_nl_metal_floor",
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [ { "chunks": [ "ls_four_way_template_overgrown" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "labyrinth_overgrown_hall_end",
+    "object": {
+      "fill_ter": "t_nl_metal_floor",
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [ { "chunks": [ "ls_deadend_template_overgrown" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_straight_template_overgrown",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_8x24_cave_ns_left" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_8x24_cave_ns_right" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 4 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 8 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 12 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 16 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 20 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 8 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 8 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 15 },
+        { "chunks": [ [ "null", 25 ], [ "labyrinth_overgrown_straight_hall_room", 75 ] ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_straight_template_overgrown",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    ##vvvvvvv!",
+        "!vvvvvvvv#     ########!",
+        "!vvvvvvvv#            #!",
+        "!vvvvvvvv#            #!",
+        "!vvvvvvvv#            #!",
+        "!vvvvvvvv#            #!",
+        "!vvvvvvvv#     ########!",
+        "!vvvvvvvv#    ##vvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_8x24_cave_ns_left" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 20 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 8 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 15 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_straight_template_overgrown",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    ##vvvvvvv!",
+        "!vvvvvvvv#     ########!",
+        "!vvvvvvvv#            #!",
+        "!vvvvvvvv#            #!",
+        "!vvvvvvvv#            #!",
+        "!vvvvvvvv#            #!",
+        "!vvvvvvvv#     ########!",
+        "!vvvvvvvv#    ##vvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_8x24_cave_ns_left" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 8 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 12 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 16 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 10, "y": 20 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 8 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 8 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 15 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_straight_template_overgrown",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!vvvvvvv##    ##vvvvvvv!",
+        "!vvvvvv##    ##vvvvvvvv!",
+        "!vvvvv##    ##vvvvvvvvv!",
+        "!vvvv##    ##vvvvvvvvvv!",
+        "!vvv##    ##vvvvvvvvvvv!",
+        "!vv##    ##vvvvvvvvvvvv!",
+        "!v##    ##vvvvvvvvvvvvv!",
+        "!##    ##vvvvvvvvvvvvvv!",
+        "!#    ##vvvvvvvvvvvvvvv!",
+        "!#    #vvvvvvvvvvvvvvvv!",
+        "!#    #vvvvvvvvvvvvvvvv!",
+        "!#    #vvvvvvvvvvvvvvvv!",
+        "!#    #vvvvvvvvvvvvvvvv!",
+        "!#    #vvvvvvvvvvvvvvvv!",
+        "!#    #vvvvvvvvvvvvvvvv!",
+        "!#    ##vvvvvvvvvvvvvvv!",
+        "!##    ##vvvvvvvvvvvvvv!",
+        "!v##    ##vvvvvvvvvvvvv!",
+        "!vv##    ##vvvvvvvvvvvv!",
+        "!vvv##    ##vvvvvvvvvvv!",
+        "!vvvv##    ##vvvvvvvvvv!",
+        "!vvvvv##    ##vvvvvvvvv!",
+        "!vvvvvv##    ##vvvvvvvv!",
+        "!vvvvvvv##    ##vvvvvvv!"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_8x24_cave_ns_right_bulbous" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 2, "y": 9 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 2, "y": 8 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_straight_template_overgrown",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!vvvvvvv##  --##vvvvvvv!",
+        "!vvvvvv##  --##vvvvvvvv!",
+        "!vvvvv##  --##vvvvvvvvv!",
+        "!vvvv##  --##vvvvvvvvvv!",
+        "!vvv##  --##vvvvvvvvvvv!",
+        "!vv##  --##vvvvvvvvvvvv!",
+        "!v##  --##vvvvvvvvvvvvv!",
+        "!##  --##vvvvvvvvvvvvvv!",
+        "!#   -##vvvvvvvvvvvvvvv!",
+        "!#   -#vvvvvvvvvvvvvvvv!",
+        "!#   -#vvvvvvvvvvvvvvvv!",
+        "!#   -#vvvvvvvvvvvvvvvv!",
+        "!#    #vvvvvvvvvvvvvvvv!",
+        "!#    #vvvvvvvvvvvvvvvv!",
+        "!#    #vvvvvvvvvvvvvvvv!",
+        "!#    ##vvvvvvvvvvvvvvv!",
+        "!##    ##vvvvvvvvvvvvvv!",
+        "!v##    ##vvvvvvvvvvvvv!",
+        "!vv##    ##vvvvvvvvvvvv!",
+        "!vvv##    ##vvvvvvvvvvv!",
+        "!vvvv##    ##vvvvvvvvvv!",
+        "!vvvvv##    ##vvvvvvvvv!",
+        "!vvvvvv##    ##vvvvvvvv!",
+        "!vvvvvvv##    ##vvvvvvv!"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_8x24_cave_ns_right_bulbous" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 2, "y": 9 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 2, "y": 8 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_straight_template_overgrown",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!vvvvvvv##    ##vvvvvvv!",
+        "!vvvvvv##    ##vvvvvvvv!",
+        "!vvvvv##    ##vvvvvvvvv!",
+        "!vvvv##    ##vvvvvvvvvv!",
+        "!vvvv#    ##vvvvvvvvvvv!",
+        "!vvvv#    #vvvvvvvvvvvv!",
+        "!vvvv#    #vvvvvvvvvvvv!",
+        "!vvvv#    #vvvvvvvvvvvv!",
+        "!vvvv#    #vvvvvvvvvvvv!",
+        "!vvvv#    #vvvvvvvvvvvv!",
+        "!vvvv#    #vvvvvvvvvvvv!",
+        "!vvvv#    #vvvvvvvvvvvv!",
+        "!vvvv#    #vvvvvvvvvvvv!",
+        "!vvvv#    #vvvvvvvvvvvv!",
+        "!vvvv#    #vvvvvvvvvvvv!",
+        "!vvvv#    #vvvvvvvvvvvv!",
+        "!vvvv#    #vvvvvvvvvvvv!",
+        "!vvvv#    #vvvvvvvvvvvv!",
+        "!vvvv#    #vvvvvvvvvvvv!",
+        "!vvvv#    ##vvvvvvvvvvv!",
+        "!vvvv##    ##vvvvvvvvvv!",
+        "!vvvvv##    ##vvvvvvvvv!",
+        "!vvvvvv##    ##vvvvvvvv!",
+        "!vvvvvvv##    ##vvvvvvv!"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_8x24_cave_ns_right" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "labyrinth_4x4_barrier", 5 ] ], "x": 2, "y": 9 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 1, "y": 1 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 1, "y": 10 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 6, "y": 1 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 6, "y": 10 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_corner_template_overgrown",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!!!!!!",
+        "!#####vvvvvvvvvvvvvvvvvv",
+        "!###vvvvvvvvvvvvvvvvvvvv",
+        "!##vvvvvvvvvvvvvvvvvvvvv",
+        "!#vvvvvvvvvvvvvvvvvvvvvv",
+        "!#vvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvv############vvvvvv",
+        "!vvvvv#          #vvvvvv",
+        "!vvvvv#          #vvvvvv",
+        "!vvvvv#          #######",
+        "!vvvvv#                 ",
+        "!vvvvv#                 ",
+        "!vvvvv#                 ",
+        "!vvvvv#                 ",
+        "!vvvvv#          #######",
+        "!vvvvv#          #vvvvvv",
+        "!vvvvv#          #vvvvvv",
+        "!vvvvv####    ####vvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_cave_curved_outside" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 15 },
+        { "chunks": [ "labyrinth_overgrown_12x12_room" ], "x": 6, "y": 6 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_corner_template_overgrown",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!!!!!!",
+        "!#####vvvvvvvvvvvvvvvvvv",
+        "!###vvvvvvvvvvvvvvvvvvvv",
+        "!##vvvvvvvvvvvvvvvvvvvvv",
+        "!#vvvvvvvvvvvvvvvvvvvvvv",
+        "!#vvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvv###############",
+        "!vvvvvvvv#              ",
+        "!vvvvvvvv#              ",
+        "!vvvvvvvv#              ",
+        "!vvvvvvvv#              ",
+        "!vvvvvvvv#    ##########",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_cave_curved_outside" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_cave_curved_inside" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 15 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_corner_template_overgrown",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!!!!!!",
+        "!#####vvvvvvvvvvvvvvvvvv",
+        "!###vvvvvvvvvvvvvvvvvvvv",
+        "!##vvvvvvvvvvvvvvvvvvvvv",
+        "!#vvvvvvvvvvvvvvvvvvvvvv",
+        "!#vvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvv###############",
+        "!vvvvvvvv#--------      ",
+        "!vvvvvvvv#-             ",
+        "!vvvvvvvv#-             ",
+        "!vvvvvvvv#-             ",
+        "!vvvvvvvv#-   ##########",
+        "!vvvvvvvv#-   #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_cave_curved_outside" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_cave_curved_inside" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 15 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_corner_template_overgrown",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!!!!!!",
+        "!#####vvvvvvvvvvvvvvvvvv",
+        "!###vvvvvvvvvvvvvvvvvvvv",
+        "!##vvvvvvvvvvvvvvvvvvvvv",
+        "!#vvvvvvvvvvvvvvvvvvvvvv",
+        "!#vvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvvv##############",
+        "!vvvvvvvv##             ",
+        "!vvvvvvvv#              ",
+        "!vvvvvvvv#              ",
+        "!vvvvvvvv#              ",
+        "!vvvvvvvv#     #########",
+        "!vvvvvvvv#    ##vvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv",
+        "!vvvvvvvv#    #vvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_cave_curved_outside" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_cave_curved_inside" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 15 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_corner_template_overgrown",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!!!!!!",
+        "!#####vvvvvvvvvvvvvvvvvv",
+        "!###vvvvvvvvvvvvvvvvvvvv",
+        "!##vvvvvvvvvvvvvvvvvvvvv",
+        "!#vvvvvvvvvvvvvvvvvvvvvv",
+        "!#vvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvvvvvvvvvvvvvvv##",
+        "!vvvvvvvvvvvvvvvvvvvv## ",
+        "!vvvvvvvvvvvvvvvvvvv##  ",
+        "!vvvvvvvvvvvvvvvvvv##   ",
+        "!vvvvvvvvvvvvvvvvv##    ",
+        "!vvvvvvvvvvvvvvvv##    #",
+        "!vvvvvvvvvvvvvvv##    ##",
+        "!vvvvvvvvvvvvvv##    ##v",
+        "!vvvvvvvvvvvvv##    ##vv",
+        "!vvvvvvvvvvvv##    ##vvv",
+        "!vvvvvvvvvvv##    ##vvvv",
+        "!vvvvvvvvvv##    ##vvvvv",
+        "!vvvvvvvvv##    ##vvvvvv",
+        "!vvvvvvvv##    ##vvvvvvv",
+        "!vvvvvvvv#    ##vvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_cave_curved_outside_wide" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_cave_curved_inside_small" ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_tee_template_overgrown",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!!!!!!",
+        "vvvvvvvvvv####vvvvvvvvvv",
+        "vvvvvvvvvvv##vvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvv############vvvvvv",
+        "vvvvvv#          #vvvvvv",
+        "vvvvvv#          #vvvvvv",
+        "#######          #######",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "#######          #######",
+        "vvvvvv#          #vvvvvv",
+        "vvvvvv#          #vvvvvv",
+        "vvvvvv####    ####vvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_cave_tee_n" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_cave_v_sw" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_cave_v_se" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 15 },
+        { "chunks": [ "labyrinth_overgrown_12x12_room" ], "x": 6, "y": 6 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_tee_template_overgrown",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!!!!!!",
+        "vvvvvvvvvv####vvvvvvvvvv",
+        "vvvvvvvvvvv##vvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "########################",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "##########    ##########",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_cave_tee_n" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_cave_tee_sw" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_cave_tee_se" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 15 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_tee_template_overgrown",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!!!!!!",
+        "vvvvvvvvvv####vvvvvvvvvv",
+        "vvvvvvvvvvv##vvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "########################",
+        " ---------------------- ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "##########    ##########",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_cave_tee_n" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_cave_tee_sw" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_cave_tee_se" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 15 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_tee_template_overgrown",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!!!!!!",
+        "vvvvvvvvvv####vvvvvvvvvv",
+        "vvvvvvvvvvv##vvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "##vvvvvvvvvvvvvvvvvvvv##",
+        " ##vvvvvvvvvvvvvvvvvv## ",
+        "  ##vvvvvvvvvvvvvvvv##  ",
+        "   ##vvvvvvvvvvvvvv##   ",
+        "    ##vvvvvvvvvvvv##    ",
+        "#    ##vvvvvvvvvv##    #",
+        "##    ##vvvvvvvv##    ##",
+        "v##    ##vvvvvv##    ##v",
+        "vv##    ##vvvv##    ##vv",
+        "vvv##    ##vv##    ##vvv",
+        "vvvv##    ####    ##vvvv",
+        "vvvvv##    ##    ##vvvvv",
+        "vvvvvv##        ##vvvvvv",
+        "vvvvvvv##      ##vvvvvvv",
+        "vvvvvvvv##    ##vvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_cave_tee_n_wide" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_cave_v_sw" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_cave_v_se" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_v_room" ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_four_way_template_overgrown",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvv####    ####vvvvvv",
+        "vvvvvv#          #vvvvvv",
+        "vvvvvv#          #vvvvvv",
+        "#######          #######",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "#######          #######",
+        "vvvvvv#          #vvvvvv",
+        "vvvvvv#          #vvvvvv",
+        "vvvvvv####    ####vvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_nw" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_sw" ], "x": 0, "y": 15 },
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_ne" ], "x": 15, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_se" ], "x": 15, "y": 15 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 15 },
+        { "chunks": [ "labyrinth_overgrown_12x12_room" ], "x": 6, "y": 6 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_four_way_template_overgrown",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "##########    ##########",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "##########    ##########",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_nw" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_sw" ], "x": 0, "y": 15 },
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_ne" ], "x": 15, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_se" ], "x": 15, "y": 15 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 15 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_four_way_template_overgrown",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvv##    ##vvvvvvvv",
+        "#########      #########",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "#########      #########",
+        "vvvvvvvv##    ##vvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_nw" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_sw" ], "x": 0, "y": 15 },
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_ne" ], "x": 15, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_se" ], "x": 15, "y": 15 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 15 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_deadend_template_overgrown",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!vvvvvvvv#    #vvvvvvvv!",
+        "!!!!!!!!!#    #!!!!!!!!!"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_8x24_cave_ns_deadend_left" ], "x": 0, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_8x24_cave_ns_deadend_right" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 8 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 8 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 90 ], [ "labyrinth_9x9_grass_transition", 10 ] ], "x": 10, "y": 15 }
+      ]
+    }
+  }
+]

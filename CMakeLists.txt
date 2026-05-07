@@ -14,6 +14,7 @@ set(CMAKE_TLS_VERIFY ON)
 # Build options
 include(CMakeDependentOption)
 option(TILES "Build graphical tileset version." "OFF")
+option(USE_SDL3 "Build against SDL3 instead of SDL2 (requires TILES)." "OFF")
 option(CURSES "Build curses version." "ON")
 option(SOUND "Support for in-game sounds & music." "OFF")
 option(BACKTRACE "Support for printing stack backtraces on crash" "ON")
@@ -211,6 +212,7 @@ endif ()
 message(STATUS "GIT_BINARY                    : ${GIT_EXECUTABLE}")
 message(STATUS "DYNAMIC_LINKING               : ${DYNAMIC_LINKING}")
 message(STATUS "TILES                         : ${TILES}")
+message(STATUS "USE_SDL3                      : ${USE_SDL3}")
 message(STATUS "CURSES                        : ${CURSES}")
 message(STATUS "SOUND                         : ${SOUND}")
 message(STATUS "BACKTRACE                     : ${BACKTRACE}")
@@ -233,14 +235,24 @@ if (NOT MSVC)
              -Wpedantic \
              -Wsuggest-override \
              -Wunused-macros \
-             -Wzero-as-null-pointer-constant \
-             -Wno-dangling-reference \
-             -Wno-c++20-compat")
+             -Wzero-as-null-pointer-constant")
+    check_cxx_compiler_flag(-Wdangling-reference HAVE_DANGLING_REFERENCE)
+    if (HAVE_DANGLING_REFERENCE)
+        set(CATA_WARNINGS "${CATA_WARNINGS} -Wno-dangling-reference")
+    endif ()
+    check_cxx_compiler_flag(-Wc++20-compat HAVE_CXX20_COMPAT)
+    if (HAVE_CXX20_COMPAT)
+        set(CATA_WARNINGS "${CATA_WARNINGS} -Wno-c++20-compat")
+    endif ()
     if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
         set(CATA_WARNINGS "${CATA_WARNINGS} -Wno-unknown-warning-option")
-    else()
-        set(CATA_WARNINGS "${CATA_WARNINGS} -Wno-unknown-warning")
     endif()
+    # GCC 16 -Wsfinae-incomplete: SFINAE on incomplete forward-declared types
+    # (e.g. std::reference_wrapper<vehicle>) is link-compatible across TUs.
+    check_cxx_compiler_flag(-Wsfinae-incomplete HAVE_SFINAE_INCOMPLETE)
+    if (HAVE_SFINAE_INCOMPLETE)
+        set(CATA_WARNINGS "${CATA_WARNINGS} -Wno-error=sfinae-incomplete")
+    endif ()
     if (NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Windows")
         set(CATA_WARNINGS "${CATA_WARNINGS} -Wredundant-decls")
     endif ()
@@ -271,7 +283,34 @@ find_package(Threads REQUIRED)
 find_package(ZLIB REQUIRED)
 
 # Check for build types and libraries
-if (TILES)
+if (TILES AND USE_SDL3)
+    message(STATUS "Searching for SDL3 library --")
+    find_package(SDL3 CONFIG)
+    if (NOT (SDL3_FOUND OR TARGET SDL3::SDL3 OR TARGET SDL3::SDL3-static))
+        message(FATAL_ERROR
+                "USE_SDL3=ON requires SDL3 to be installed. \
+                 Install the SDL3 development libraries, \
+                 or set USE_SDL3=OFF to build against SDL2.")
+    endif ()
+
+    message(STATUS "Searching for SDL3_ttf library --")
+    find_package(SDL3_ttf CONFIG)
+    if (NOT (SDL3_TTF_FOUND OR TARGET SDL3_ttf::SDL3_ttf OR TARGET SDL3_ttf::SDL3_ttf-static))
+        message(FATAL_ERROR
+                "USE_SDL3=ON requires SDL3_ttf to be installed.")
+    endif ()
+
+    message(STATUS "Searching for SDL3_image library --")
+    find_package(SDL3_image CONFIG)
+    if (NOT (SDL3_IMAGE_FOUND OR TARGET SDL3_image::SDL3_image
+                              OR TARGET SDL3_image::SDL3_image-static))
+        message(FATAL_ERROR
+                "USE_SDL3=ON requires SDL3_image to be installed.")
+    endif ()
+    add_definitions(-DTILES -DUSE_SDL3)
+endif ()
+
+if (TILES AND NOT USE_SDL3)
     # Find SDL, SDL_ttf & SDL_image for graphical install
     message(STATUS "Searching for SDL2 library --")
     if (NOT CMAKE_FIND_PACKAGE_PREFER_CONFIG)
@@ -373,7 +412,17 @@ if (CURSES)
     endif ()
 endif ()
 
-if (SOUND)
+if (SOUND AND USE_SDL3)
+    message(STATUS "Searching for SDL3_mixer library --")
+    find_package(SDL3_mixer CONFIG)
+    if (NOT (SDL3_MIXER_FOUND OR TARGET SDL3_mixer::SDL3_mixer
+                              OR TARGET SDL3_mixer::SDL3_mixer-static))
+        message(FATAL_ERROR
+                "USE_SDL3 + SOUND requires SDL3_mixer to be installed.")
+    endif()
+endif ()
+
+if (SOUND AND NOT USE_SDL3)
     # Sound requires SDL_mixer library
     message(STATUS "Searching for SDL2_mixer library --")
     if (VCPKG_MANIFEST_MODE)

@@ -90,7 +90,7 @@ jobs:
       id: runvcpkg
       with:
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
-        vcpkgGitCommitId: '1b6e030cf096faf4f82d7b7025de8b2abee3e3df'
+        vcpkgGitCommitId: 'c3867e714dd3a51c272826eea77267876517ed99'
 
     - name: Integrate vcpkg
       run: |
@@ -102,7 +102,7 @@ jobs:
       uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
       with:
         path: msvc-full-features/vcpkg_installed
-        key: vcpkg-installed-${{ hashFiles('msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/x64-windows-static.cmake') }}-1b6e030cf096faf4f82d7b7025de8b2abee3e3df
+        key: vcpkg-installed-${{ hashFiles('msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/x64-windows-static.cmake') }}-c3867e714dd3a51c272826eea77267876517ed99
 
     - name: Download ccache
       uses: robinraju/release-downloader@368754b9c6f47c345fcfbf42bcb577c2f0f5f395 # v1.9

@@ -1,0 +1,183 @@
+name: SDL3 build matrix
+
+on:
+  push:
+    branches:
+    - master
+    paths-ignore:
+    - 'data/**'
+    - 'doc/**'
+    - 'doxygen_doc/**'
+    - 'lang/**'
+  pull_request:
+    branches:
+    - master
+    types: [opened, reopened, synchronize, ready_for_review]
+    paths-ignore:
+    - 'data/**'
+    - 'doc/**'
+    - 'doxygen_doc/**'
+    - 'lang/**'
+
+concurrency:
+  group: sdl3-matrix-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  skip-duplicates-code:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip_code: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@04a1aebece824b56e6ad6a401d015479cd1c50b3 # master
+        with:
+          skip_after_successful_duplicate: 'false'
+          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "tools/**", "utilities/**", "data/**", "lang/**"]'
+  build:
+    needs: [ skip-duplicates-code ]
+    if: ${{ needs.skip-duplicates-code.outputs.should_skip_code != 'true' && github.event.pull_request.draft == false }}
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        include:
+          - title: macOS
+            os: macos-15
+            platform: macos
+          - title: Ubuntu
+            os: ubuntu-24.04
+            platform: linux
+          - title: Windows
+            os: windows-2022
+            platform: windows
+    name: ${{ matrix.title }}
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      with:
+        persist-credentials: false
+
+    - name: install build deps (Ubuntu)
+      if: matrix.platform == 'linux'
+      run: |
+          sudo apt-get update
+          sudo apt-get install libflac-dev libogg-dev libvorbis-dev libmpg123-dev libwavpack-dev \
+              libfreetype-dev libharfbuzz-dev libjpeg-dev libpng-dev libwebp-dev libtiff-dev \
+              libpulse-dev libncursesw5-dev ccache gettext parallel pkg-config cmake \
+              libx11-dev libxext-dev libxcursor-dev libxi-dev libxfixes-dev libxrandr-dev \
+              libxrender-dev libxss-dev libxtst-dev libxkbcommon-dev libwayland-dev \
+              libdecor-0-dev libdrm-dev libgbm-dev libudev-dev libpipewire-0.3-dev \
+              libdbus-1-dev libibus-1.0-dev
+
+    - name: cache SDL3 stack source build (Ubuntu)
+      if: matrix.platform == 'linux'
+      id: cache-sdl3
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+      with:
+        path: ${{ runner.workspace }}/sdl3_prefix
+        key: sdl3-stack-sdl-3.4.4-image-3.4.2-ttf-3.2.2-mixer-3.2.0-${{ runner.os }}-v1
+
+    - name: build SDL3 stack from source (Ubuntu)
+      if: matrix.platform == 'linux' && steps.cache-sdl3.outputs.cache-hit != 'true'
+      run: |
+          PREFIX=${{ runner.workspace }}/sdl3_prefix
+          export PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig:$PREFIX/lib/x86_64-linux-gnu/pkgconfig
+          export CMAKE_PREFIX_PATH=$PREFIX
+          git clone --depth 1 --branch release-3.4.4 https://github.com/libsdl-org/SDL.git sdl3_src
+          cmake -S sdl3_src -B sdl3_build \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_INSTALL_PREFIX=$PREFIX \
+              -DBUILD_SHARED_LIBS=ON
+          cmake --build sdl3_build -j$(nproc)
+          cmake --install sdl3_build
+          git clone --depth 1 --branch release-3.4.2 https://github.com/libsdl-org/SDL_image.git sdl3_image_src
+          cmake -S sdl3_image_src -B sdl3_image_build \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_INSTALL_PREFIX=$PREFIX \
+              -DSDLIMAGE_VENDORED=OFF \
+              -DBUILD_SHARED_LIBS=ON
+          cmake --build sdl3_image_build -j$(nproc)
+          cmake --install sdl3_image_build
+          git clone --depth 1 --branch release-3.2.2 https://github.com/libsdl-org/SDL_ttf.git sdl3_ttf_src
+          cmake -S sdl3_ttf_src -B sdl3_ttf_build \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_INSTALL_PREFIX=$PREFIX \
+              -DSDLTTF_VENDORED=OFF \
+              -DBUILD_SHARED_LIBS=ON
+          cmake --build sdl3_ttf_build -j$(nproc)
+          cmake --install sdl3_ttf_build
+          git clone --depth 1 --branch release-3.2.0 https://github.com/libsdl-org/SDL_mixer.git sdl3_mixer_src
+          cmake -S sdl3_mixer_src -B sdl3_mixer_build \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_INSTALL_PREFIX=$PREFIX \
+              -DSDLMIXER_VENDORED=OFF \
+              -DSDLMIXER_FLAC=ON -DSDLMIXER_FLAC_LIBFLAC=ON \
+              -DSDLMIXER_MP3=ON -DSDLMIXER_MP3_MPG123=ON \
+              -DSDLMIXER_VORBIS=VORBISFILE \
+              -DSDLMIXER_WAVPACK=ON \
+              -DSDLMIXER_OPUS=OFF -DSDLMIXER_MOD=OFF -DSDLMIXER_MIDI=OFF \
+              -DBUILD_SHARED_LIBS=ON
+          cmake --build sdl3_mixer_build -j$(nproc)
+          cmake --install sdl3_mixer_build
+
+    - name: install SDL3 (macOS)
+      if: matrix.platform == 'macos'
+      run: |
+          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes \
+              brew install pkgconf sdl3 sdl3_image sdl3_ttf sdl3_mixer \
+              gettext ccache parallel
+
+    - name: setup MSVC (Windows)
+      if: matrix.platform == 'windows'
+      uses: microsoft/setup-msbuild@6fb02220983dee41ce7ae257b6f4d8f9bf5ed4ce # v2
+
+    - name: install vcpkg (Windows)
+      if: matrix.platform == 'windows'
+      uses: lukka/run-vcpkg@7d259227a1fb6471a0253dd5ab7419835228f7d7 # v11
+      with:
+        vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
+        vcpkgGitCommitId: 'c3867e714dd3a51c272826eea77267876517ed99'
+
+    - name: integrate vcpkg (Windows)
+      if: matrix.platform == 'windows'
+      run: |
+        vcpkg integrate install --vcpkg-root "$env:RUNNER_WORKSPACE\b\vcpkg"
+      env:
+        RUNNER_WORKSPACE: ${{ runner.workspace }}
+
+    - name: cache vcpkg packages (Windows)
+      if: matrix.platform == 'windows'
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+      with:
+        path: msvc-full-features/vcpkg_installed
+        key: vcpkg-installed-sdl3-${{ hashFiles('msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/x64-windows-static.cmake') }}-c3867e714dd3a51c272826eea77267876517ed99
+
+    - name: build (Ubuntu)
+      if: matrix.platform == 'linux'
+      env:
+        PKG_CONFIG_PATH: ${{ runner.workspace }}/sdl3_prefix/lib/pkgconfig:${{ runner.workspace }}/sdl3_prefix/lib/x86_64-linux-gnu/pkgconfig
+        LD_LIBRARY_PATH: ${{ runner.workspace }}/sdl3_prefix/lib:${{ runner.workspace }}/sdl3_prefix/lib/x86_64-linux-gnu
+      run: |
+          make -j$(nproc) TILES=1 SDL3=1 SOUND=1 NATIVE=linux64 RELEASE=1 BACKTRACE=0 LOCALIZE=0
+
+    - name: build (macOS)
+      if: matrix.platform == 'macos'
+      env:
+        PKG_CONFIG_PATH: /opt/homebrew/lib/pkgconfig
+      run: |
+          make -j$(sysctl -n hw.ncpu) TILES=1 SDL3=1 SOUND=1 NATIVE=osx RELEASE=1 LOCALIZE=0
+
+    - name: build (Windows)
+      if: matrix.platform == 'windows'
+      env:
+        VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
+      run: |
+          msbuild -m -p:Configuration=Release -p:Platform=x64 -p:UseSDL3=true "-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static" msvc-full-features\Cataclysm-vcpkg-static.sln
+
+    - name: run sound_backend tests (Windows)
+      if: matrix.platform == 'windows'
+      run: |
+          .\Cataclysm-test-vcpkg-static-Release-x64.exe --min-duration 20 --order lex --wait-for-keypress exit "[sound_backend]"

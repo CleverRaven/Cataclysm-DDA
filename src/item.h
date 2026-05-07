@@ -47,6 +47,8 @@ class Character;
 class Creature;
 class JsonObject;
 class JsonOut;
+struct desired_wakeup;
+enum class item_wakeup_kind : uint8_t;
 class book_proficiency_bonuses;
 class enchant_cache;
 class enchantment;
@@ -1583,6 +1585,12 @@ class item : public visitable
         bool leak( map &here, Character *carrier, const tripoint_bub_ms &pos,
                    item_pocket *pocke = nullptr );
 
+        // Producer for the wakeup scheduler.  Default empty.
+        std::vector<desired_wakeup> enumerate_scheduled_wakeups() const;
+
+        // Idempotent: receiving (kind, now) twice must not corrupt state.
+        void actualize_scheduled( item_wakeup_kind kind, time_point now );
+
         struct link_data {
             /// State of the link's source connection, the end usually represented by the device/cable item itself. @ref link_state.
             link_state source = link_state::no_link;
@@ -1816,8 +1824,6 @@ class item : public visitable
         units::energy fuel_energy() const;
         /** Returns the string of the id of the terrain that pumps this fuel, if any. */
         std::string fuel_pump_terrain() const;
-        bool has_explosion_data() const;
-        fuel_explosion_data get_explosion_data() const;
 
         /**
          * returns whether any of the pockets is compatible with the specified item.
@@ -2892,6 +2898,11 @@ class item : public visitable
         // sum the same UPS/bionic/cable once per matching item.
         int tool_uses_remaining( map &here, const Character *carrier ) const;
         int tool_uses_remaining_local() const;
+
+        // Multimag uses given an arbitrary external (cable / UPS / bionic)
+        // budget. Used by inventory aggregation to greedily allocate a shared
+        // pool across multiple matching tools.
+        int feasible_tool_uses( int external_pool ) const;
 
         int available_cable_charges( map &here ) const;
         int available_ups_charges( const Character *carrier ) const;

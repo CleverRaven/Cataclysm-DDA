@@ -372,7 +372,6 @@ static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_THORNS( "THORNS" );
-static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_VISCOUS( "VISCOUS" );
 
 static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_ch_steel, material_hc_steel, material_lc_steel, material_mc_steel, material_qt_steel };
@@ -2454,9 +2453,6 @@ void Character::recalc_sight_limits()
     if( has_active_mutation( trait_NIGHTVISION2 ) ) {
         vision_mode_cache.set( NIGHTVISION_2 );
     }
-    if( has_active_mutation( trait_URSINE_EYE ) ) {
-        vision_mode_cache.set( URSINE_VISION );
-    }
     if( has_active_mutation( trait_NIGHTVISION ) ) {
         vision_mode_cache.set( NIGHTVISION_1 );
     }
@@ -2494,7 +2490,7 @@ float Character::get_vision_threshold( float light_level ) const
     float range = get_per() / 3.0f;
     if( vision_mode_cache[NIGHTVISION_3] ) {
         range += 10;
-    } else if( vision_mode_cache[NIGHTVISION_2] || vision_mode_cache[URSINE_VISION] ) {
+    } else if( vision_mode_cache[NIGHTVISION_2] ) {
         range += 4.5;
     } else if( vision_mode_cache[NIGHTVISION_1] ) {
         range += 2;

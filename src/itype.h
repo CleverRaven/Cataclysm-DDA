@@ -33,6 +33,7 @@
 #include "item_transformation.h"
 #include "iuse.h" // use_function
 #include "mapdata.h"
+#include "material.h"
 #include "proficiency.h"
 #include "relic.h"
 #include "stomach.h"
@@ -1648,6 +1649,15 @@ struct itype {
         * item damage [ 4000 - 4000 ] returns 5
         */
         int damage_level( int damage ) const;
+
+        /**
+         * Get the basic (main) material of this item. May return the null-material.
+         * This is the material with the highest "portion" value.
+         */
+        const material_type &get_base_material() const;
+
+        // Ways in which this itype does or does not explode.
+        fuel_explosion_data get_explosion_data() const;
 
         std::string get_item_type_string() const;
 

@@ -307,5 +307,38 @@
     "price_postapoc": "10 cent",
     "volume": "250 ml",
     "flags": [ "UNRECOVERABLE" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "discharging_battery",
+    "name": { "str": "discharging lithium-ion battery", "str_pl": "discharging lithium-ion batteries" },
+    "symbol": "=",
+    "color": "dark_gray",
+    "description": "A lithium-ion battery that is soaking in saltwater.  After about a day, it should have short-circuited and discharged its energy, leaving it safe to handle… ideally.",
+    "material": [ "plastic", "steel" ],
+    "weight": "1500 g",
+    "volume": "500 ml",
+    "category": "other",
+    "use_action": {
+      "target": "discharged_storage_battery",
+      "msg": "You dump the colorful saltwater and dry the battery.",
+      "moves": 1000,
+      "type": "delayed_transform",
+      "transform_age": 172800,
+      "not_ready_msg": "The battery is still discharging.",
+      "//": "48 hours"
+    }
+  },
+  {
+    "type": "ITEM",
+    "id": "discharged_storage_battery",
+    "name": { "str": "discharged lithium-ion battery", "str_pl": "discharged lithium-ion batteries" },
+    "symbol": "=",
+    "color": "dark_gray",
+    "description": "A lithium-ion battery that has been shorted and discharged using saltwater.  At least, you hope it is.",
+    "material": [ "plastic", "steel" ],
+    "weight": "1500 g",
+    "volume": "500 ml",
+    "category": "other"
   }
 ]

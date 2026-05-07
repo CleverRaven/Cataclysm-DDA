@@ -84,6 +84,27 @@ std::string enum_to_string<itype_variant_kind>( itype_variant_kind data )
 }
 } // namespace io
 
+const material_type &itype::get_base_material() const
+{
+    const material_type *m = &material_id::NULL_ID().obj();
+    int portion = 0;
+    for( const std::pair<const material_id, int> &mat : materials ) {
+        if( mat.second > portion ) {
+            portion = mat.second;
+            m = &mat.first.obj();
+        }
+    }
+    // Material portions all equal / not specified. Select first material.
+    if( portion == 1 ) {
+        return *default_mat;
+    }
+    return *m;
+}
+
+struct fuel_explosion_data itype::get_explosion_data() const {
+    return get_base_material().get_fuel_data().explosion_data;
+}
+
 std::string itype::get_item_type_string() const
 {
     if( tool ) {

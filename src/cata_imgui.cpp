@@ -247,8 +247,13 @@ RGBTuple color_loader<RGBTuple>::from_rgb( const int r, const int g, const int b
 #include "sdltiles.h"
 #include "font_loader.h"
 #include "wcwidth.h"
+#if SDL_MAJOR_VERSION >= 3
+#include <imgui/imgui_impl_sdl3.h>
+#include <imgui/imgui_impl_sdlrenderer3.h>
+#else
 #include <imgui/imgui_impl_sdl2.h>
 #include <imgui/imgui_impl_sdlrenderer2.h>
+#endif
 
 static bool clear_screen = false;
 
@@ -289,8 +294,13 @@ cataimgui::client::client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Windo
     // Default cellPadding is {4, 2}. We reduce this to {3, 2}.
     ImGui::PushStyleVar( ImGuiStyleVar_CellPadding, ImVec2( 3, style.CellPadding.y ) );
 
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDL3_InitForSDLRenderer( sdl_window.get(), sdl_renderer.get() );
+    ImGui_ImplSDLRenderer3_Init( sdl_renderer.get() );
+#else
     ImGui_ImplSDL2_InitForSDLRenderer( sdl_window.get(), sdl_renderer.get() );
     ImGui_ImplSDLRenderer2_Init( sdl_renderer.get() );
+#endif
 }
 
 // this function QUEUES a character to be drawn
@@ -476,7 +486,11 @@ void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
             check_font( io.Fonts->Fonts[i] );
         }
         ImGui::SetCurrentFont( ImGui::GetDefaultFont() );
+#if SDL_MAJOR_VERSION >= 3
+        ImGui_ImplSDLRenderer3_SetFallbackGlyphDrawCallback( [&]( const ImFontGlyphToDraw & glyph ) {
+#else
         ImGui_ImplSDLRenderer2_SetFallbackGlyphDrawCallback( [&]( const ImFontGlyphToDraw & glyph ) {
+#endif
             std::string uni_string = std::string( glyph.uni_str );
             point p( int( glyph.pos.x ), int( glyph.pos.y - 3 ) );
             unsigned char col = 0;
@@ -491,7 +505,11 @@ void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
 
 cataimgui::client::~client()
 {
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDL3_Shutdown();
+#else
     ImGui_ImplSDL2_Shutdown();
+#endif
 }
 
 #if 0 and not TUI
@@ -587,16 +605,26 @@ void cataimgui::client::new_frame()
 #if 0 and not TUI
     if( freetype_test.PreNewFrame() ) {
         // REUPLOAD FONT TEXTURE TO GPU
+#if SDL_MAJOR_VERSION >= 3
+        ImGui_ImplSDLRenderer3_DestroyDeviceObjects();
+        ImGui_ImplSDLRenderer3_CreateDeviceObjects();
+#else
         ImGui_ImplSDLRenderer2_DestroyDeviceObjects();
         ImGui_ImplSDLRenderer2_CreateDeviceObjects();
+#endif
     }
 #endif
     if( clear_screen ) {
         clear_screen = false;
         clear_sdl_window();
     }
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDLRenderer3_NewFrame();
+    ImGui_ImplSDL3_NewFrame();
+#else
     ImGui_ImplSDLRenderer2_NewFrame();
     ImGui_ImplSDL2_NewFrame();
+#endif
 
     ImGui::NewFrame();
 #if 0 and not TUI
@@ -607,7 +635,11 @@ void cataimgui::client::new_frame()
 void cataimgui::client::end_frame()
 {
     ImGui::Render();
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDLRenderer3_RenderDrawData( ImGui::GetDrawData(), sdl_renderer.get() );
+#else
     ImGui_ImplSDLRenderer2_RenderDrawData( ImGui::GetDrawData(), sdl_renderer.get() );
+#endif
     ImGuiIO &io = ImGui::GetIO();
     for( const int &code : cata_input_trail ) {
         io.AddKeyEvent( cata_key_to_imgui( code ), false );
@@ -634,7 +666,11 @@ void cataimgui::client::process_input( void *input )
                     return;
             }
         }
+#if SDL_MAJOR_VERSION >= 3
+        ImGui_ImplSDL3_ProcessEvent( evt );
+#else
         ImGui_ImplSDL2_ProcessEvent( evt );
+#endif
     }
 }
 

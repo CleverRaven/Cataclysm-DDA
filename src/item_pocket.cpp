@@ -103,6 +103,12 @@ std::string pocket_data::check_definition() const
             return string_format( "invalid ammotype %s", at.str() );
         }
         const itype_id &it = at->default_ammotype();
+        // Abstract ammotypes (e.g. "components", "thrown") intentionally point
+        // their default at an undefined itype; ammunition_type::check_consistency
+        // skips them and so does the per-pocket phase check.
+        if( it.is_empty() || !item::type_is_defined( it ) ) {
+            continue;
+        }
         if( it->phase == phase_id::LIQUID && !watertight ) {
             return string_format( "restricted to liquid item %s but not watertight\n",
                                   it->get_id().str() );

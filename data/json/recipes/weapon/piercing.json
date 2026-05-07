@@ -127,23 +127,49 @@
   {
     "result": "kris",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
     "difficulty": 9,
-    "time": "10 h",
     "book_learn": [ [ "textbook_weapeast", 9 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" },
-      { "proficiency": "prof_carving", "time_multiplier": 1.2, "learning_time_multiplier": 0.2, "skill_penalty": 0 }
-    ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_chunk_any", 2 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ],
+    "steps": [
+      {
+        "name": "Heating steel and cutting stock for blade",
+        "time": "1 h",
+        "activity_level": "BRISK_EXERCISE",
+        "using": [ [ "hotcut_any", 1 ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Drawing out tang.  Drawing out and forging the wavy blade",
+        "time": "4 h 20 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Normalizing the blade",
+        "time": "1 h",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Grinding the edge and shaping the bevels along the curves.  Polishing",
+        "time": "2 h",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 }, { "id": "FILE", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Carving and shaping the wooden handle",
+        "time": "1 h ",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.2, "learning_time_multiplier": 0.2, "skill_penalty": 0 } ]
+      },
+      { "name": "Fitting and securing the tang into the handle", "time": "10 m", "activity_level": "LIGHT_EXERCISE" }
+    ]
   },
   {
     "result": "pitchfork",
@@ -169,131 +195,344 @@
   {
     "result": "sword_cane",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
     "difficulty": 8,
-    "time": "8 h",
     "book_learn": [ [ "textbook_weapwest", 8 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" },
-      { "proficiency": "prof_carving", "time_multiplier": 1.2, "learning_time_multiplier": 0.2, "skill_penalty": 0 }
-    ],
     "using": [ [ "blacksmithing_standard", 3 ], [ "steel_chunk_any", 3 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ],
+    "steps": [
+      {
+        "name": "Forge welding steel and cutting stock for the thin blade",
+        "time": "1 h",
+        "activity_level": "BRISK_EXERCISE",
+        "using": [ [ "hotcut_any", 1 ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Drawing out a long, narrow blade and tang",
+        "time": "2 h",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Normalizing",
+        "time": "30 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Grinding and polishing",
+        "time": "1 h 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 }, { "id": "FILE", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Sawing, shaping, and carefully hollowing out the wooden cane body",
+        "time": "3 h",
+        "activity_level": "ACTIVE_EXERCISE",
+        "qualities": [ { "id": "SAW_W", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "FILE", "level": 1 } ],
+        "proficiencies": [ { "proficiency": "prof_carving" } ]
+      },
+      {
+        "name": "Carving the handle, securing the tang, and tuning the friction fit of the cane scabbard",
+        "time": "20 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "qualities": [ { "id": "CUT", "level": 1 } ],
+        "proficiencies": [ { "proficiency": "prof_carving" } ]
+      }
+    ]
   },
   {
     "result": "lc_spear_steel",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "3 h",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 1 ], [ "metal_punch", 1 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" },
-      { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 }
-    ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "components": [ [ [ "spear_shaft", 1 ] ] ]
+    "components": [ [ [ "spear_shaft", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Preparing and forming steel for the spearhead",
+        "time": "40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ],
+        "qualities": [ { "id": "HAMMER", "level": 3 } ]
+      },
+      {
+        "name": "Forming the mounting socket using taper drift as mandrel",
+        "time": "20 m",
+        "activity_level": "BRISK_EXERCISE",
+        "tools": [ [ [ "drift", -1 ] ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Drawing out metal for blade",
+        "time": "40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Grinding and polishing",
+        "time": "30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Carving the tip of the shaft to fit the socket and securing the head",
+        "time": "30 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 } ],
+        "qualities": [ { "id": "CUT", "level": 2 } ]
+      }
+    ]
   },
   {
     "result": "spear_steel",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "4 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_weapwest", 3 ] ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ], [ "metal_punch", 1 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" },
-      { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 }
-    ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "components": [ [ [ "spear_shaft", 1 ] ] ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "nail", 2 ] ] ],
+    "steps": [
+      {
+        "name": "Preparing and forming steel for the spearhead",
+        "time": "40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ],
+        "qualities": [ { "id": "HAMMER", "level": 3 } ]
+      },
+      {
+        "name": "Forming the mounting socket using taper drift as mandrel",
+        "time": "20 m",
+        "activity_level": "BRISK_EXERCISE",
+        "tools": [ [ [ "drift", -1 ] ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Drawing out metal for blade",
+        "time": "40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Punching hole in the socket for rivet",
+        "time": "15 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Normalizing the forged spearhead to relieve stress",
+        "time": "30 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Grinding and polishing.  Preparing nail for riveting",
+        "time": "1 h 20 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Preparing shaft to secure spearhead.  Riveting spearhead with nail and peening",
+        "time": "40 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 } ],
+        "tools": [ [ [ "hammer", -1 ] ] ],
+        "qualities": [ { "id": "CUT", "level": 2 }, { "id": "DRILL", "level": 2 } ]
+      }
+    ]
   },
   {
     "result": "hc_spear_steel",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "copy-from": "spear_steel",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "time": "5 h",
     "autolearn": false,
     "book_learn": [ [ "textbook_weapwest", 4 ] ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "hc_steel_standard", 1 ], [ "metal_punch", 1 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" },
-      { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 }
-    ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "components": [ [ [ "spear_shaft", 1 ] ] ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "nail", 1 ] ] ]
   },
   {
     "result": "ch_spear_steel",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": "10 h",
     "autolearn": false,
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ], [ "metal_punch", 1 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" },
-      { "proficiency": "prof_hardening" },
-      { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 }
-    ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
-    "components": [ [ [ "spear_shaft", 1 ] ] ]
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ], [ "metal_punch", 1 ], [ "quench", 120 ] ],
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "nail", 1 ] ] ],
+    "byproducts": [ [ "water", 120 ] ],
+    "steps": [
+      {
+        "name": "Preparing and forming steel for the spearhead",
+        "time": "50 m",
+        "activity_level": "BRISK_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ],
+        "qualities": [ { "id": "HAMMER", "level": 3 } ]
+      },
+      {
+        "name": "Forming the mounting socket using taper drift as mandrel",
+        "time": "30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "tools": [ [ [ "drift", -1 ] ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Drawing out metal for blade",
+        "time": "40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Punching hole in the socket for rivet",
+        "time": "15 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Normalizing the spearhead",
+        "time": "30 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Rough grinding.  Preparing nail for riveting",
+        "time": "2 h",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Heating spearhead and carefully slack quenching.  Watching steel until desired toughness is achieved",
+        "time": "40 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_hardening" } ]
+      },
+      {
+        "name": "Final grind and polish",
+        "time": "1 h 40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "FILE", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Carving the tip of the shaft to fit the socket and securing the head.  Riveting spearhead with nail and peening",
+        "time": "40 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 } ],
+        "tools": [ [ [ "hammer", -1 ] ] ],
+        "qualities": [ { "id": "CUT", "level": 2 }, { "id": "DRILL", "level": 2 } ]
+      }
+    ]
   },
   {
     "result": "qt_spear_steel",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 8,
-    "time": "18 h 30 m",
     "autolearn": false,
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ], [ "metal_punch", 1 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" },
-      { "proficiency": "prof_tempering" },
-      { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 }
-    ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
-    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "leather", 2 ] ] ]
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ], [ "metal_punch", 1 ], [ "quench", 120 ] ],
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "leather", 2 ] ], [ [ "nail", 1 ] ] ],
+    "byproducts": [ [ "water", 120 ] ],
+    "steps": [
+      {
+        "name": "Preparing and forming steel for the spearhead",
+        "time": "50 m",
+        "activity_level": "BRISK_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ],
+        "qualities": [ { "id": "HAMMER", "level": 3 } ]
+      },
+      {
+        "name": "Forming the mounting socket using taper drift as mandrel",
+        "time": "30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "tools": [ [ [ "drift", -1 ] ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Drawing out metal for blade",
+        "time": "40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Punching hole in the socket for rivet.  Cutting your touchmark on the flat of the spearhead",
+        "time": "30 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Normalizing the spearhead",
+        "time": "30 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Rough grinding.  Preparing nail for riveting",
+        "time": "2 h 20 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Thorough hardening",
+        "time": "20 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_hardening" } ]
+      },
+      {
+        "name": "Carefully grinding off forge scale to observe temper color",
+        "time": "20 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ]
+      },
+      {
+        "name": "Tempering the spearhead to purple-bluish",
+        "time": "4 h",
+        "activity_level": "NO_EXERCISE",
+        "qualities": [ { "id": "TEMPER", "level": 1 } ],
+        "proficiencies": [ { "proficiency": "prof_tempering" } ]
+      },
+      {
+        "name": "Final grind and polish to perfection",
+        "time": "2 h 10 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "FILE", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Carving the tip of the shaft to fit the socket and securing the head.  Riveting spearhead with nail and peening",
+        "time": "40 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 } ],
+        "tools": [ [ [ "hammer", -1 ] ] ],
+        "qualities": [ { "id": "CUT", "level": 2 }, { "id": "DRILL", "level": 2 } ]
+      }
+    ]
   },
   {
     "type": "recipe",
@@ -510,132 +749,377 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "pike_bronze",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "time": "6 h",
     "book_learn": [ [ "bronze_book", 4 ], [ "bronze_mag", 5 ], [ "textbook_weapwest", 5 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_redsmithing" },
-      { "proficiency": "prof_redsmithing_adv" },
-      { "proficiency": "prof_bladesmith" },
-      { "proficiency": "prof_carving", "skill_penalty": 0 }
-    ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "tools": [ [ [ "casting_mold", -1 ] ] ],
-    "components": [ [ [ "scrap_bronze", 2 ] ], [ [ "long_pole", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+    "components": [ [ [ "scrap_bronze", 2 ] ], [ [ "long_pole", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ],
+    "steps": [
+      {
+        "name": "Melting the bronze scrap and casting",
+        "time": "1 h 30 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "tools": [ [ [ "casting_mold", -1 ] ] ],
+        "proficiencies": [ { "proficiency": "prof_redsmithing" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Removing the rough casting from the mold and cutting off the sprue",
+        "time": "30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "SAW_M", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Cold-forging and work-hardening the bronze edges",
+        "time": "2 h",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_redsmithing_adv" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Filing and grinding the hardened bronze",
+        "time": "1 h",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "FILE", "level": 2 }, { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Carving a taper into the pole, fitting the bronze socket, and wrapping a leather grip",
+        "time": "1 h",
+        "activity_level": "MODERATE_EXERCISE",
+        "qualities": [ { "id": "CUT", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_carving", "skill_penalty": 0 } ]
+      }
+    ]
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "lc_pike",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "time": "5 h",
     "book_learn": [ [ "textbook_weapwest", 5 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" },
-      { "proficiency": "prof_carving", "skill_penalty": 0 }
-    ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "lc_steel_standard", 2 ], [ "metal_punch", 1 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
-    "components": [ [ [ "long_pole", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+    "components": [ [ [ "long_pole", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ],
+    "steps": [
+      {
+        "name": "Forge welding and cutting steel for the spearhead",
+        "time": "1 h",
+        "activity_level": "BRISK_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ],
+        "using": [ [ "hotcut_any", 1 ] ],
+        "qualities": [ { "id": "HAMMER", "level": 3 } ]
+      },
+      {
+        "name": "Forming the mounting socket using taper drift as mandrel",
+        "time": "40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "tools": [ [ [ "drift", -1 ] ] ],
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Drawing out metal for blade",
+        "time": "1 h",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Grinding and polishing",
+        "time": "1 h 40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Carving the tip of the shaft to fit the socket and securing the head",
+        "time": "40 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 } ],
+        "qualities": [ { "id": "CUT", "level": 2 } ]
+      }
+    ]
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "pike",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": "6 h",
     "book_learn": [ [ "textbook_weapwest", 5 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" },
-      { "proficiency": "prof_carving", "skill_penalty": 0 }
-    ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ], [ "metal_punch", 1 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
-    "components": [ [ [ "long_pole", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+    "components": [ [ [ "long_pole", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ], [ [ "nail", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Forge welding and cutting steel for the spearhead",
+        "time": "1 h 20 m",
+        "activity_level": "BRISK_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ],
+        "using": [ [ "hotcut_any", 1 ] ],
+        "qualities": [ { "id": "HAMMER", "level": 3 } ]
+      },
+      {
+        "name": "Forming the mounting socket using taper drift as mandrel",
+        "time": "40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "tools": [ [ [ "drift", -1 ] ] ],
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Punching hole in the socket for rivet",
+        "time": "15 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Drawing out metal for blade",
+        "time": "1 h 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Normalizing",
+        "time": "40 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Grinding and polishing",
+        "time": "2 h 10 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Carving the tip of the shaft to fit the socket and securing the head.  Wrapping and riveting",
+        "time": "40 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 } ],
+        "qualities": [ { "id": "CUT", "level": 2 } ]
+      }
+    ]
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "hc_pike",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 8,
-    "time": "8 h",
     "book_learn": [ [ "textbook_weapwest", 7 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" },
-      { "proficiency": "prof_carving", "skill_penalty": 0 }
-    ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "hc_steel_standard", 2 ], [ "metal_punch", 1 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
-    "components": [ [ [ "long_pole", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+    "components": [ [ [ "long_pole", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ], [ [ "nail", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Forge welding and cutting steel for the spearhead",
+        "time": "1 h 20 m",
+        "activity_level": "BRISK_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ],
+        "using": [ [ "hotcut_any", 1 ] ],
+        "qualities": [ { "id": "HAMMER", "level": 3 } ]
+      },
+      {
+        "name": "Forming the mounting socket using taper drift as mandrel",
+        "time": "40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "tools": [ [ [ "drift", -1 ] ] ],
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Punching hole in the socket for rivet",
+        "time": "15 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Drawing out metal for blade",
+        "time": "1 h 40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Normalizing to soften high carbon steel",
+        "time": "1h 10 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Grinding and polishing",
+        "time": "2 h 10 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Carving the tip of the shaft to fit the socket and securing the head.  Wrapping and riveting",
+        "time": "40 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 } ],
+        "qualities": [ { "id": "CUT", "level": 2 }, { "id": "DRILL", "level": 2 } ],
+        "tools": [ [ [ "hammer", -1 ] ] ]
+      }
+    ]
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "ch_pike",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 9,
-    "time": "12 h",
     "book_learn": [ [ "textbook_weapwest", 7 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" },
-      { "proficiency": "prof_hardening" },
-      { "proficiency": "prof_carving", "skill_penalty": 0 }
-    ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ], [ "metal_punch", 1 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
-    "components": [ [ [ "long_pole", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ], [ "metal_punch", 1 ], [ "quench", 120 ] ],
+    "components": [ [ [ "long_pole", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ], [ [ "nail", 1 ] ] ],
+    "byproducts": [ [ "water", 120 ] ],
+    "steps": [
+      {
+        "name": "Forge welding and cutting steel for the spearhead",
+        "time": "1 h 20 m",
+        "activity_level": "BRISK_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ],
+        "using": [ [ "hotcut_any", 1 ] ],
+        "qualities": [ { "id": "HAMMER", "level": 3 } ]
+      },
+      {
+        "name": "Forming the mounting socket using taper drift as mandrel",
+        "time": "40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "tools": [ [ [ "drift", -1 ] ] ],
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Drawing out metal for blade",
+        "time": "1 h 40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Normalizing for slack quenching",
+        "time": "45 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Rough grinding",
+        "time": "2 h 20 m",
+        "activity_level": "BRISK_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Heating and slack quenching pike.  Watching edge for desired hardness.",
+        "time": "50 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_hardening" } ]
+      },
+      {
+        "name": "Final grinding and polishing",
+        "time": "2 h 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Carving the tip of the shaft to fit the socket and securing the head.  Wrapping and riveting",
+        "time": "40 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 } ],
+        "qualities": [ { "id": "CUT", "level": 2 } ]
+      }
+    ]
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "qt_pike",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 10,
-    "time": "17 h 30 m",
     "book_learn": [ [ "textbook_weapwest", 8 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" },
-      { "proficiency": "prof_tempering" },
-      { "proficiency": "prof_carving", "skill_penalty": 0 }
-    ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ], [ "metal_punch", 1 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
-    "components": [ [ [ "long_pole", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ], [ "metal_punch", 1 ], [ "quench", 120 ] ],
+    "components": [ [ [ "long_pole", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ], [ [ "nail", 1 ] ] ],
+    "byproducts": [ [ "water", 120 ] ],
+    "steps": [
+      {
+        "name": "Forge welding and cutting steel for the spearhead",
+        "time": "1 h 20 m",
+        "activity_level": "BRISK_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ],
+        "using": [ [ "hotcut_any", 1 ] ],
+        "qualities": [ { "id": "HAMMER", "level": 3 } ]
+      },
+      {
+        "name": "Forming the mounting socket using taper drift as mandrel.  Etching touchmark on underside of socket",
+        "time": "40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "tools": [ [ [ "drift", -1 ] ] ],
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Drawing out metal for blade",
+        "time": "1 h 40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Normalizing",
+        "time": "40 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Rough grinding",
+        "time": "2 h 40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Heating and thorough hardening",
+        "time": "30 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_hardening" } ]
+      },
+      {
+        "name": "Grinding away forge scale to observe temper color",
+        "time": "30 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Tempering the pike to purple-bluish",
+        "time": "4 h 20 m",
+        "activity_level": "NO_EXERCISE",
+        "qualities": [ { "id": "TEMPER", "level": 1 } ],
+        "proficiencies": [ { "proficiency": "prof_tempering" } ]
+      },
+      {
+        "name": "Final grinding and polishing",
+        "time": "2 h 40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "FILE", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Carving the tip of the shaft to fit the socket and securing the head.  Wrapping and riveting",
+        "time": "40 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 } ],
+        "qualities": [ { "id": "CUT", "level": 2 } ]
+      }
+    ]
   },
   {
     "type": "recipe",
@@ -652,7 +1136,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" }
     ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
@@ -678,25 +1162,6 @@
   {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
-    "result": "mc_knife_rambo",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 6,
-    "time": "3 h",
-    "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" }
-    ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "hc_knife_rambo",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -715,43 +1180,128 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "ch_knife_rambo",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": "15 h",
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" },
-      { "proficiency": "prof_hardening" }
-    ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ], [ "quench", 120 ] ],
+    "byproducts": [ [ "water", 120 ] ],
+    "steps": [
+      {
+        "name": "Heating and preparing steel",
+        "time": "40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "using": [ [ "hotcut_any", 1 ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Drawing out the blade, forming the hollow handle, and forge-welding together",
+        "time": "1 h 20 m",
+        "activity_level": "BRISK_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Hotcutting saw teeth",
+        "time": "40 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "using": [ [ "hotcut_any", 1 ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Normalization cycle to relieve major forging stresses",
+        "time": "30 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Rough grinding on primary bevels and saw teeth",
+        "time": "1 h 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Heating and edge-quenching",
+        "time": "30 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_hardening" } ]
+      },
+      {
+        "name": "Final polish, sealing the hollow handle, and seating the pommel",
+        "time": "1 h 40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      }
+    ]
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "qt_knife_rambo",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 8,
-    "time": "19 h",
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" },
-      { "proficiency": "prof_tempering" }
-    ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ], [ "quench", 120 ] ],
+    "byproducts": [ [ "water", 120 ] ],
+    "steps": [
+      {
+        "name": "Heating and preparing steel",
+        "time": "40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "using": [ [ "hotcut_any", 1 ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Drawing out the blade, forming the hollow handle, and forge-welding together",
+        "time": "1 h 20 m",
+        "activity_level": "BRISK_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Hotcutting saw teeth",
+        "time": "40 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "using": [ [ "hotcut_any", 1 ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Normalization cycle to relieve forging stresses",
+        "time": "30 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Rough grinding on primary bevels and saw teeth",
+        "time": "1 h 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Heating and thorough hardening",
+        "time": "20 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_hardening" } ]
+      },
+      {
+        "name": "Tempering the knife to a spring temper",
+        "time": "3 h",
+        "activity_level": "NO_EXERCISE",
+        "qualities": [ { "id": "TEMPER", "level": 1 } ],
+        "proficiencies": [ { "proficiency": "prof_tempering" } ]
+      },
+      {
+        "name": "Final polish, sealing the hollow handle, and seating the pommel",
+        "time": "2 h",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "FILE", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      }
+    ]
   },
   {
     "type": "recipe",
@@ -805,28 +1355,52 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "bronze_knife",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "6 h 30 m",
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_redsmithing" },
-      { "proficiency": "prof_redsmithing_adv" },
-      { "proficiency": "prof_bladesmith" }
-    ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "casting_mold", -1 ] ] ],
     "components": [
       [ [ "cordage_short", 2, "LIST" ] ],
       [ [ "scrap_bronze", 2 ] ],
       [ [ "leather", 1 ], [ "fur", 1 ] ],
       [ [ "adhesive", 2, "LIST" ] ]
+    ],
+    "steps": [
+      {
+        "name": "Melting scrap bronze and molding",
+        "time": "1 h 30 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "tools": [ [ [ "casting_mold", -1 ] ] ],
+        "proficiencies": [ { "proficiency": "prof_redsmithing" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Removing the rough casting and cleaning off sprue",
+        "time": "30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Cold-forging and planishing the bronze knife to work-harden the blade edges",
+        "time": "2 h 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_redsmithing_adv" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Grinding the hardened bronze to a sharp edge and polishing the blade",
+        "time": "1 h 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Applying adhesive and tightly wrapping the tang with cordage and leather for a secure grip",
+        "time": "30 m",
+        "activity_level": "LIGHT_EXERCISE"
+      }
     ]
   },
   {
@@ -1300,23 +1874,56 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "knife_trench",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "time": "6 h 30 m",
     "book_learn": [ [ "manual_knives", 4 ], [ "recipe_melee", 5 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" }
-    ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Forge welding and cutting steel for the blade, tang, and guard",
+        "time": "30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "using": [ [ "hotcut_any", 1 ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Drawing out the double-edged blade profile and forming the handle tang",
+        "time": "1 h",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Forging and shaping the guard.  Forge welding to knife",
+        "time": "1 h 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Normalizing",
+        "time": "40 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Grinding and filing",
+        "time": "2 h",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Carving wooden scales from the stock and pinning them to the tang inside the guard",
+        "time": "50 m",
+        "qualities": [ { "id": "CUT", "level": 2 } ],
+        "activity_level": "MODERATE_EXERCISE"
+      }
+    ]
   },
   {
     "type": "recipe",
@@ -1340,85 +1947,159 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
-    "result": "mc_knife_trench",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 6,
-    "time": "6 h 30 m",
-    "book_learn": [ [ "manual_knives", 4 ], [ "recipe_melee", 5 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" }
-    ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "hc_knife_trench",
+    "copy-from": "knife_trench",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "time": "6 h 30 m",
     "book_learn": [ [ "manual_knives", 4 ], [ "recipe_melee", 5 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" }
-    ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "hc_steel_standard", 2 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "ch_knife_trench",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": "18 h 30 m",
     "book_learn": [ [ "manual_knives", 5 ], [ "recipe_melee", 6 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" },
-      { "proficiency": "prof_hardening" }
-    ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ], [ "quench", 120 ] ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ],
+    "byproducts": [ [ "water", 120 ] ],
+    "steps": [
+      {
+        "name": "Forge welding and cutting steel for the blade, tang, and guard",
+        "time": "30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "using": [ [ "hotcut_any", 1 ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Drawing out the double-edged blade profile and forming the handle tang",
+        "time": "1 h",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Forging and shaping the guard.  Forge welding to knife",
+        "time": "1 h 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Normalizing",
+        "time": "40 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Rough grinding",
+        "time": "1 h 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Heating knife and carefully slack quenching.  Watching steel until desired toughness is achieved",
+        "time": "50 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_hardening" } ]
+      },
+      {
+        "name": "Final grind and polish",
+        "time": "1 h 10 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "FILE", "level": 2 } ]
+      },
+      {
+        "name": "Carving wooden scales from the stock and pinning them to the tang inside the guard",
+        "time": "50 m",
+        "qualities": [ { "id": "CUT", "level": 2 } ],
+        "activity_level": "MODERATE_EXERCISE"
+      }
+    ]
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "qt_knife_trench",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 8,
-    "time": "22 h 30 m",
     "book_learn": [ [ "manual_knives", 6 ], [ "recipe_melee", 7 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" },
-      { "proficiency": "prof_tempering" }
-    ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ], [ "quench", 120 ] ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ],
+    "byproducts": [ [ "water", 120 ] ],
+    "steps": [
+      {
+        "name": "Forge welding and cutting steel for the blade, tang, and guard",
+        "time": "30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "using": [ [ "hotcut_any", 1 ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Drawing out the double-edged blade profile and forming the handle tang",
+        "time": "1 h",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Forging and shaping the guard.  Etching touchmark into underside of handle.  Forge welding to knife",
+        "time": "1 h 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Normalizing",
+        "time": "40 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Rough grinding",
+        "time": "1 h 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Thorough hardening",
+        "time": "30 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_hardening" } ]
+      },
+      {
+        "name": "Grinding away forge scale to observe temper",
+        "time": "30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ]
+      },
+      {
+        "name": "Tempering",
+        "time": "4 h",
+        "activity_level": "NO_EXERCISE",
+        "qualities": [ { "id": "TEMPER", "level": 1 } ]
+      },
+      {
+        "name": "Final grind and polish",
+        "time": "1 h 40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "FILE", "level": 2 } ]
+      },
+      {
+        "name": "Carving wooden scales from the stock and pinning them to the tang inside the guard",
+        "time": "50 m",
+        "qualities": [ { "id": "CUT", "level": 2 } ],
+        "activity_level": "MODERATE_EXERCISE"
+      }
+    ]
   },
   {
     "type": "recipe",
@@ -1494,104 +2175,258 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "lc_rapier",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": "6 h",
     "book_learn": [ [ "textbook_weapwest", 7 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" }
-    ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "lc_steel_standard", 2 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
+    "steps": [
+      {
+        "name": "Heating and cutting low-carbon steel stock for the long blade and hilt",
+        "time": "30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "using": [ [ "hotcut_any", 1 ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Drawing out the long, slender blade and forging the tang",
+        "time": "2 h 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Forging a simple crossguard",
+        "time": "1 h",
+        "activity_level": "BRISK_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Grinding the blade to achieve proper distal taper",
+        "time": "2 h",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Fitting the guard, shaping the grip, and peening the tang to secure the hilt",
+        "time": "30 m",
+        "activity_level": "MODERATE_EXERCISE"
+      }
+    ]
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "mc_rapier",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 8,
-    "time": "7 h",
     "book_learn": [ [ "textbook_weapwest", 8 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" }
-    ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
-    "components": [ [ [ "leather", 1 ], [ "mc_wire", 2 ] ] ]
+    "components": [ [ [ "leather", 1 ], [ "mc_wire", 2 ] ] ],
+    "steps": [
+      {
+        "name": "Forge welding steel for the blade, tang, and hilt",
+        "time": "50 m",
+        "activity_level": "BRISK_EXERCISE",
+        "using": [ [ "hotcut_any", 1 ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Drawing out the blade with a diamond cross section",
+        "time": "2 h 50 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Forging simple hilt",
+        "time": "1 h 20 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Normalizing the blade",
+        "time": "30 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Grinding the blade to create distal taper and point",
+        "time": "2 h",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Assembling the hilt, wrapping the grip, and binding it with wire",
+        "time": "40 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_metalworking" } ]
+      }
+    ]
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "hc_rapier",
+    "copy-from": "mc_rapier",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 8,
-    "time": "7 h",
     "book_learn": [ [ "textbook_weapwest", 8 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" }
-    ],
     "using": [ [ "blacksmithing_standard", 16 ], [ "hc_steel_standard", 4 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "leather", 1 ], [ "hc_wire", 2 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "ch_rapier",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 9,
-    "time": "7 h",
     "book_learn": [ [ "textbook_weapwest", 8 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" },
-      { "proficiency": "prof_hardening" }
-    ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
-    "components": [ [ [ "scrap_kevlar", 2 ], [ "plastic_chunk", 1 ] ] ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 3 ], [ "quench", 120 ] ],
+    "components": [ [ [ "scrap_kevlar", 2 ], [ "plastic_chunk", 1 ] ] ],
+    "byproducts": [ [ "water", 120 ] ],
+    "steps": [
+      {
+        "name": "Forge welding steel for the blade, tang, pommel and hilt",
+        "time": "55 m",
+        "activity_level": "BRISK_EXERCISE",
+        "using": [ [ "hotcut_any", 1 ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Drawing out the blade with a diamond cross section",
+        "time": "4 h 10 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Forging hilt",
+        "time": "1 h 20 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Normalizing the blade with extra cycles",
+        "time": "1 h 10 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Rough grinding the blade",
+        "time": "2 h",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Hardening rapier",
+        "time": "30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_hardening" } ]
+      },
+      {
+        "name": "Final grinding and polishing",
+        "time": "1 h 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "FILE", "level": 2 } ]
+      },
+      {
+        "name": "Assembling the hilt, attaching pommel, wrapping the grip, and binding it with wire",
+        "time": "1 h",
+        "activity_level": "MODERATE_EXERCISE",
+        "tools": [ [ [ "hammer", -1 ] ] ],
+        "proficiencies": [ { "proficiency": "prof_metalworking" } ]
+      }
+    ]
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "qt_rapier",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
-    "difficulty": 9,
-    "time": "7 h",
+    "difficulty": 10,
     "book_learn": [ [ "textbook_weapwest", 8 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" },
-      { "proficiency": "prof_tempering" }
-    ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
-    "components": [ [ [ "scrap_kevlar", 2 ], [ "plastic_chunk", 1 ] ] ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 3 ], [ "quench", 120 ] ],
+    "components": [ [ [ "scrap_kevlar", 2 ], [ "plastic_chunk", 1 ] ] ],
+    "byproducts": [ [ "water", 120 ] ],
+    "steps": [
+      {
+        "name": "Forge welding steel for the blade, tang, pommel and hilt",
+        "time": "1 h 10 m",
+        "activity_level": "BRISK_EXERCISE",
+        "using": [ [ "hotcut_any", 1 ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Drawing out the blade with a diamond cross section",
+        "time": "4 h 10 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Forging hilt.  Etching touchmark in hilt",
+        "time": "2 h 10 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Normalizing the blade with extra cycles",
+        "time": "1 h 15 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Rough grinding the blade",
+        "time": "2 h 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Thorough hardening rapier",
+        "time": "20 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_hardening" } ]
+      },
+      {
+        "name": "Carefully grinding away forge scale",
+        "time": "30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Tempering to a spring temper",
+        "time": "4 h 30 m",
+        "activity_level": "NO_EXERCISE",
+        "qualities": [ { "id": "TEMPER", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_tempering" } ]
+      },
+      {
+        "name": "Final grinding and polishing",
+        "time": "1 h 50 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "FILE", "level": 2 } ]
+      },
+      {
+        "name": "Assembling the hilt, attaching pommel, wrapping the grip, and binding it with wire",
+        "time": "1 h",
+        "activity_level": "MODERATE_EXERCISE",
+        "tools": [ [ [ "hammer", -1 ] ] ],
+        "proficiencies": [ { "proficiency": "prof_metalworking" } ]
+      }
+    ]
   },
   {
     "type": "recipe",
@@ -1685,23 +2520,47 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "tanto",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": "6 h 20 m",
     "book_learn": [ [ "textbook_weapeast", 6 ], [ "manual_knives", 7 ], [ "recipe_melee", 8 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" }
-    ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ],
+    "steps": [
+      {
+        "name": "Heating and cutting steel for  blade and tang",
+        "time": "30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "using": [ [ "hotcut_any", 1 ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Drawing out the steel and forging single-edged blade geometry and point",
+        "time": "1 h 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Normalizing the blade to relieve stress",
+        "time": "40 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Grinding and polishing the blade",
+        "time": "1 h 20 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Carving the tsuka, tightly wrapping it for grip, and securing the tang",
+        "time": "1 h 20 m",
+        "activity_level": "MODERATE_EXERCISE"
+      }
+    ]
   },
   {
     "result": "knuckle_skewer",

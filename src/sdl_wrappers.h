@@ -2,16 +2,23 @@
 #ifndef CATA_SRC_SDL_WRAPPERS_H
 #define CATA_SRC_SDL_WRAPPERS_H
 
-#ifndef SDL_MAIN_HANDLED
-#define SDL_MAIN_HANDLED
-#endif
 // IWYU pragma: begin_exports
-#if defined(_MSC_VER) && defined(USE_VCPKG)
+#if defined(USE_SDL3)
+#   include <SDL3/SDL.h>
+#   include <SDL3_image/SDL_image.h>
+#   include <SDL3_ttf/SDL_ttf.h>
+#elif defined(_MSC_VER) && defined(USE_VCPKG)
+#   ifndef SDL_MAIN_HANDLED
+#   define SDL_MAIN_HANDLED
+#   endif
 #   include <SDL2/SDL.h>
 #   include <SDL2/SDL_image.h>
 #   include <SDL2/SDL_ttf.h>
 #   include <SDL2/SDL_mouse.h>
 #else
+#   ifndef SDL_MAIN_HANDLED
+#   define SDL_MAIN_HANDLED
+#   endif
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #   include <SDL.h>
@@ -27,9 +34,13 @@
 
 struct point;
 
-// SDL3 renames SDL_RendererFlip to SDL_FlipMode. Use CataFlipMode at call sites.
+// SDL3 type renames. Use CataFlipMode at call sites.
 #if SDL_MAJOR_VERSION >= 3
 using CataFlipMode = SDL_FlipMode;
+// SDL3 renames KMOD_* -> SDL_KMOD_*
+inline constexpr SDL_Keymod KMOD_CTRL  = SDL_KMOD_CTRL;
+inline constexpr SDL_Keymod KMOD_SHIFT = SDL_KMOD_SHIFT;
+inline constexpr SDL_Keymod KMOD_ALT   = SDL_KMOD_ALT;
 #else
 using CataFlipMode = SDL_RendererFlip;
 #endif
@@ -57,7 +68,11 @@ using SDL_Texture_Ptr = std::unique_ptr<SDL_Texture, SDL_Texture_deleter>;
 
 struct SDL_Surface_deleter {
     void operator()( SDL_Surface *const ptr ) {
+#if SDL_MAJOR_VERSION >= 3
+        SDL_DestroySurface( ptr );
+#else
         SDL_FreeSurface( ptr );
+#endif
     }
 };
 using SDL_Surface_Ptr = std::unique_ptr<SDL_Surface, SDL_Surface_deleter>;

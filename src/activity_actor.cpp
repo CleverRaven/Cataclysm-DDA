@@ -347,9 +347,11 @@ static const itype_id itype_water_clean( "water_clean" );
 
 static const json_character_flag json_flag_ASOCIAL1( "ASOCIAL1" );
 static const json_character_flag json_flag_ASOCIAL2( "ASOCIAL2" );
+static const json_character_flag json_flag_DEAF( "DEAF" );
 static const json_character_flag json_flag_IMMUNE_HEARING_DAMAGE( "IMMUNE_HEARING_DAMAGE" );
 static const json_character_flag json_flag_NUMB( "NUMB" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
+static const json_character_flag json_flag_PARTIAL_DEAF( "PARTIAL_DEAF" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
 static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
@@ -4785,6 +4787,7 @@ bool target_practice_activity_actor::check_character_and_gun( Character &who )
 
     const bool has_hearing_protection =
         who.cache_has_item_with( flag_DEAF ) || who.cache_has_item_with( flag_PARTIAL_DEAF ) ||
+        who.has_flag( json_flag_DEAF ) || who.has_flag( json_flag_PARTIAL_DEAF ) ||
     who.has_item_with( [&]( const item & held_item ) {
         return transforms_into_hearing_protection.count( held_item.typeId() ) > 0;
     } );

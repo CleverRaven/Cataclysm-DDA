@@ -1722,6 +1722,7 @@ Note: Vehicle parts requiring other parts is defined by setting a `requires_flag
 - ```E_STARTS_INSTANTLY``` Is an engine that starts instantly, like food pedals.
 - ```FLAT_SURF``` Part with a flat hard surface (e.g. table).
 - ```FLUIDTANK``` Allow to store liquid in this part.  Amount of liquid should be defined in item for this vehicle part.
+- ```FRAGILE_COMPONENTS``` This vehicle part can get a fault when receiving damage, even if that damage is nullified or reduced to 0.
 - ```FREEZER``` Can freeze items in below zero degrees Celsius temperature.
 - ```FRIDGE``` Can refrigerate items.
 - ```FUNNEL``` If installed over a vehicle tank, can collect rainwater during rains.

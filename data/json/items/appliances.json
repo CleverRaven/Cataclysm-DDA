@@ -272,6 +272,23 @@
   },
   {
     "type": "ITEM",
+    "id": "exodii_lamp",
+    "name": { "str": "disconnected scavenged utility light" },
+    "description": "Some parts of this lamp have a curved appearance as though the metal were grown in a lab, but by and large this isn't a particularly unusual looking area light.  Its bulbs will emit light if connected to power.",
+    "weight": "2500 g",
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
+    "material": [ "steel" ],
+    "volume": "2 L",
+    "longest_side": "170 cm",
+    "price": "30 USD",
+    "price_postapoc": "3 USD",
+    "symbol": "T",
+    "color": "light_gray",
+    "looks_like": "f_exodii_lamp",
+    "melee_damage": { "bash": 5 }
+  },
+  {
+    "type": "ITEM",
     "id": "standing_floodlight",
     "name": { "str": "disconnected standing floodlight" },
     "description": "A large, heavy light designed to illuminate wide areas when plugged into a power outlet.",

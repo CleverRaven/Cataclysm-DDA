@@ -99,6 +99,15 @@
     "flags": [ "FLAT_TIRE" ]
   },
   {
+    "id": "fault_broken_window",
+    "type": "fault",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "broken window" },
+    "description": "Something broke through this door's window.",
+    "//COMMENT": "Hardcoded effects. Allows locked doors to be opened from the outside.",
+    "item_suffix": "broken window"
+  },
+  {
     "id": "fault_axle_broken",
     "type": "fault",
     "name": { "str": "Broken axle" },

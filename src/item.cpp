@@ -44,6 +44,7 @@
 #include "item_group.h"
 #include "item_tname.h"
 #include "item_transformation.h"
+#include "item_wakeup.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -3457,23 +3458,12 @@ const material_type &item::get_random_material() const
 
 const material_type &item::get_base_material() const
 {
-    const std::map<material_id, int> &mats = made_of();
-    const material_type *m = &material_id::NULL_ID().obj();
-    int portion = 0;
-    for( const std::pair<const material_id, int> &mat : mats ) {
-        if( mat.second > portion ) {
-            portion = mat.second;
-            m = &mat.first.obj();
-        }
+    // Monsters corpses are made out of what the monster is made of.
+    // Corpses don't usally have specific itypes.
+    if( is_corpse() && get_corpse_mon() ) {
+        return get_corpse_mon()->mat.begin()->first.obj();
     }
-    // Material portions all equal / not specified. Select first material.
-    if( portion == 1 ) {
-        if( is_corpse() ) {
-            return corpse->mat.begin()->first.obj();
-        }
-        return *type->default_mat;
-    }
-    return *m;
+    return type->get_base_material();
 }
 
 bool item::operator<( const item &other ) const
@@ -4586,6 +4576,16 @@ bool item::process_wet( Character *carrier, const tripoint_bub_ms & /*pos*/ )
     }
     // Always return true so our caller will bail out instead of processing us as a tool.
     return true;
+}
+
+std::vector<desired_wakeup> item::enumerate_scheduled_wakeups() const
+{
+    return enumerate_scheduled_dispatch( *this );
+}
+
+void item::actualize_scheduled( item_wakeup_kind kind, time_point now )
+{
+    actualize_scheduled_dispatch( *this, kind, now );
 }
 
 bool item::process( map &here, Character *carrier, const tripoint_bub_ms &pos, float insulation,

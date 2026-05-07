@@ -208,9 +208,13 @@ def run_iwyu_on(iwyu_tool_path: str, files: list[Path]) -> int:
             break  # IWYU finished and closed the pipe
         fix_lines.append(line)
         line = line.strip()
-        print(line)
         if "#includes/fwd-decls are correct" not in line:
-            problem_lines.append(line)
+            print(line)
+            if line:
+                problem_lines.append(line)
+            elif len(problem_lines) > 0 and len(problem_lines[-1]) != 0:
+                # Only push empty lines if the previous line is not empty.
+                problem_lines.append(line)
     iwyu_proc.wait()
     print("Applying fixes to files.")
     fix_proc.communicate("\n".join(fix_lines))

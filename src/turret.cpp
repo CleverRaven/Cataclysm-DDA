@@ -119,6 +119,14 @@ const itype *turret_data::ammo_data() const
     if( !veh || !part ) {
         return nullptr;
     }
+    if( part->base.uses_firing_requirements() ) {
+        // Same prep-on-temp-copy pattern as range() so callers always see the
+        // post-prep ammo identity, not the empty pre-fire pocket state.
+        item gun_copy( part->base );
+        const gun_mode_id mode = gun_copy.gun_get_mode_id();
+        vehicle::prepare_multimag_pockets( *veh, get_map(), gun_copy, mode, ammo_current() );
+        return gun_copy.ammo_data();
+    }
     if( uses_vehicle_tanks_or_batteries() ) {
         return !ammo_current().is_null() ? item::find_type( ammo_current() ) : nullptr;
     }
@@ -145,6 +153,49 @@ std::set<itype_id> turret_data::ammo_options() const
     std::set<itype_id> opts;
 
     if( !veh || !part ) {
+        return opts;
+    }
+
+    if( part->base.uses_firing_requirements() ) {
+        // Battery pockets are not user-selectable and never enumerated.
+        const item &gun = part->base;
+        const std::vector<pocket_consumption_entry> *entries =
+            gun.type->firing_requirements.for_mode( gun.gun_get_mode_id() );
+        if( entries == nullptr ) {
+            return opts;
+        }
+        for( const pocket_consumption_entry &pce : *entries ) {
+            const item_pocket *pkt = gun.pocket_by_id( pce.pocket );
+            if( pkt == nullptr ) {
+                continue;
+            }
+            const pocket_data *pdat = pkt->get_pocket_data();
+            if( pdat == nullptr ) {
+                continue;
+            }
+            if( gun.pocket_accepts_battery( pkt ) ) {
+                continue;
+            }
+            if( pdat->type == pocket_type::MAGAZINE ) {
+                for( const std::pair<const ammotype, int> &ar : pdat->ammo_restriction ) {
+                    for( const vpart_reference &tvp :
+                         veh->get_avail_parts( vpart_bitflags::VPFLAG_FLUIDTANK ) ) {
+                        const itype_id &tank_ammo = tvp.part().ammo_current();
+                        if( tank_ammo.is_null() || !tank_ammo->ammo ) {
+                            continue;
+                        }
+                        if( tank_ammo->ammo->type == ar.first ) {
+                            opts.insert( tank_ammo );
+                        }
+                    }
+                }
+            } else if( pdat->type == pocket_type::MAGAZINE_WELL ) {
+                const itype_id loaded = gun.ammo_data() ? gun.ammo_data()->get_id() : itype_id::NULL_ID();
+                if( !loaded.is_null() ) {
+                    opts.insert( loaded );
+                }
+            }
+        }
         return opts;
     }
 
@@ -182,6 +233,19 @@ std::set<ammo_effect_str_id> turret_data::ammo_effects() const
     if( !veh || !part ) {
         return std::set<ammo_effect_str_id>();
     }
+    if( part->base.uses_firing_requirements() ) {
+        // Auto-fire reads ammo_effects() to size AoE before firing. Vehicle-
+        // bound pockets are empty until prep loads them, so prep on a temp
+        // copy and read effects from the resulting ammo_data.
+        item gun_copy( part->base );
+        const gun_mode_id mode = gun_copy.gun_get_mode_id();
+        vehicle::prepare_multimag_pockets( *veh, get_map(), gun_copy, mode, ammo_current() );
+        auto res = gun_copy.ammo_effects();
+        if( const itype *ad = gun_copy.ammo_data() ) {
+            res.insert( ad->ammo->ammo_effects.begin(), ad->ammo->ammo_effects.end() );
+        }
+        return res;
+    }
     auto res = part->base.ammo_effects();
     if( uses_vehicle_tanks_or_batteries() && ammo_data() ) {
         res.insert( ammo_data()->ammo->ammo_effects.begin(), ammo_data()->ammo->ammo_effects.end() );
@@ -193,6 +257,19 @@ int turret_data::range() const
 {
     if( !veh || !part ) {
         return 0;
+    }
+    if( part->base.uses_firing_requirements() ) {
+        // Vehicle-bound pockets are empty pre-fire, so reading range off
+        // part->base.ammo_data() would miss the ammo bonus entirely. Prep a
+        // temp copy so range reflects what the firing path will actually load.
+        item gun_copy( part->base );
+        const gun_mode_id mode = gun_copy.gun_get_mode_id();
+        vehicle::prepare_multimag_pockets( *veh, get_map(), gun_copy, mode, ammo_current() );
+        int res = gun_copy.gun_range();
+        if( const itype *ad = gun_copy.ammo_data() ) {
+            res += ad->ammo->range;
+        }
+        return res;
     }
     int res = part->base.gun_range();
     if( uses_vehicle_tanks_or_batteries() && ammo_data() ) {
@@ -213,7 +290,13 @@ bool turret_data::in_range( const tripoint_abs_ms &target ) const
 
 bool turret_data::can_reload() const
 {
-    if( !veh || !part || uses_vehicle_tanks_or_batteries() ) {
+    if( !veh || !part ) {
+        return false;
+    }
+    if( part->base.uses_firing_requirements() ) {
+        return part->base.is_reloadable();
+    }
+    if( uses_vehicle_tanks_or_batteries() ) {
         return false;
     }
     if( !part->base.magazine_integral() ) {
@@ -228,10 +311,64 @@ bool turret_data::can_reload() const
 
 bool turret_data::can_unload() const
 {
-    if( !veh || !part || uses_vehicle_tanks_or_batteries() ) {
+    if( !veh || !part ) {
+        return false;
+    }
+    if( part->base.uses_firing_requirements() ) {
+        // Multimag aggregate: any loaded mag in any well, or any loose ammo
+        // in any direct MAGAZINE pocket. magazine_current() returns only the
+        // first well's mag and would miss the second well.
+        return !part->base.magazines_current().empty() || part->base.ammo_remaining() > 0;
+    }
+    if( uses_vehicle_tanks_or_batteries() ) {
         return false;
     }
     return part->base.ammo_remaining( ) || part->base.magazine_current();
+}
+
+std::vector<multimag_display_pocket> turret_data::multimag_display_state() const
+{
+    std::vector<multimag_display_pocket> out;
+    if( !veh || !part ) {
+        return out;
+    }
+    const item &gun = part->base;
+    if( !gun.uses_firing_requirements() ) {
+        return out;
+    }
+    const gun_mode_id mode = gun.gun_get_mode_id();
+    const std::vector<pocket_consumption_entry> *entries =
+        gun.type->firing_requirements.for_mode( mode );
+    if( entries == nullptr ) {
+        return out;
+    }
+    item gun_copy( gun );
+    const std::map<std::string, multimag_pocket_state> bindings =
+        vehicle::prepare_multimag_pockets( *veh, get_map(), gun_copy, mode, ammo_current() );
+    for( const pocket_consumption_entry &pce : *entries ) {
+        multimag_display_pocket dp;
+        dp.pocket_id = pce.pocket;
+        dp.per_use_qty = pce.qty;
+        dp.local_qty = gun.ammo_remaining_in_pocket( pce.pocket );
+        dp.effective_qty = gun_copy.ammo_remaining_in_pocket( pce.pocket );
+        dp.vehicle_bound = bindings.count( pce.pocket ) > 0;
+        if( const item_pocket *pkt = gun_copy.pocket_by_id( pce.pocket ) ) {
+            for( const item *it : pkt->all_items_top() ) {
+                if( !it ) {
+                    continue;
+                }
+                if( const itype *ad = it->ammo_data() ) {
+                    dp.ammo_itype = ad->get_id();
+                    break;
+                }
+                if( !it->typeId().is_null() ) {
+                    dp.ammo_itype = it->typeId();
+                }
+            }
+        }
+        out.push_back( std::move( dp ) );
+    }
+    return out;
 }
 
 turret_data::status turret_data::query() const
@@ -243,6 +380,17 @@ turret_data::status turret_data::query() const
     }
 
     const item &gun = part->base;
+
+    if( gun.uses_firing_requirements() ) {
+        // Temp-copy the gun, prep vehicle-backed pockets, then ask the same
+        // mode-aware feasibility the firing path will use. Vehicle is never
+        // mutated by prepare_multimag_pockets (only the temp gun is loaded).
+        item gun_copy( gun );
+        const gun_mode_id mode = gun_copy.gun_get_mode_id();
+        vehicle::prepare_multimag_pockets( *veh, here, gun_copy, mode, ammo_current() );
+        return gun_copy.shots_remaining( here, nullptr ) >= 1
+               ? status::ready : status::no_ammo;
+    }
 
     if( uses_vehicle_tanks_or_batteries() ) {
         if( veh->fuel_left( here, ammo_current() ) < gun.ammo_required() ) {
@@ -273,6 +421,14 @@ void turret_data::prepare_fire( Character &you )
     cached_recoil = you.recoil;
     you.recoil = 0;
 
+    item &gun = part->base;
+    if( gun.uses_firing_requirements() ) {
+        const gun_mode_id mode = gun.gun_get_mode_id();
+        mm_bindings_ = vehicle::prepare_multimag_pockets( *veh, here, gun, mode,
+                       ammo_current() );
+        return;
+    }
+
     // set fuel tank fluid as ammo, if appropriate
     if( uses_vehicle_tanks_or_batteries() ) {
         gun_mode mode = base()->gun_current_mode();
@@ -301,6 +457,19 @@ void turret_data::post_fire( map *here, Character &you, int shots )
             pocket->clear_items();
         }
     };
+
+    item &gun = part->base;
+    if( gun.uses_firing_requirements() ) {
+        // Bill bound pockets, clear only those so player-loaded pockets keep residue.
+        vehicle::drain_back_multimag( *veh, *here, gun, mm_bindings_ );
+        for( const auto &b : mm_bindings_ ) {
+            if( item_pocket *pkt = gun.pocket_by_id( b.first ) ) {
+                pkt->clear_items();
+            }
+        }
+        mm_bindings_.clear();
+        return;
+    }
 
     // handle draining of vehicle tanks or batteries, if applicable
     if( uses_vehicle_tanks_or_batteries() ) {

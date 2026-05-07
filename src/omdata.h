@@ -358,6 +358,7 @@ enum class oter_travel_cost_type : int {
 
 template<>
 struct enum_traits<oter_travel_cost_type> {
+    static constexpr oter_travel_cost_type first = static_cast<oter_travel_cost_type>( 0 );
     static constexpr oter_travel_cost_type last = oter_travel_cost_type::last;
 };
 

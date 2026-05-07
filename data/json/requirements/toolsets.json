@@ -646,5 +646,11 @@
     "type": "requirement",
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "FILE", "level": 2 } ],
     "components": [ [ [ "rivets", 1 ] ] ]
+  },
+  {
+    "id": "quench",
+    "type": "requirement",
+    "//": "Quenching hot metal items",
+    "tools": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "metal_tank", -1 ] ] ]
   }
 ]

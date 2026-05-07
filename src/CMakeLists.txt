@@ -117,29 +117,72 @@ if (TILES)
         target_link_libraries(cataclysm-tiles-common PUBLIC ${CMAKE_THREAD_LIBS_INIT})
     endif ()
 
-    if (NOT DYNAMIC_LINKING)
-        target_link_libraries(cataclysm-tiles-common PUBLIC
-            SDL2::SDL2-static
-            SDL2_image::SDL2_image-static
-            SDL2_ttf::SDL2_ttf-static
-        )
-    else()
-        target_link_libraries(cataclysm-tiles-common PUBLIC
-            SDL2::SDL2
-            SDL2_image::SDL2_image
-            SDL2_ttf::SDL2_ttf
-        )
-    endif ()
-    if (SOUND)
+    if (USE_SDL3)
         if (NOT DYNAMIC_LINKING)
+            if (TARGET SDL3::SDL3-static)
+                set(_SDL3 SDL3::SDL3-static)
+            else ()
+                set(_SDL3 SDL3::SDL3)
+            endif ()
+            if (TARGET SDL3_image::SDL3_image-static)
+                set(_SDL3_IMAGE SDL3_image::SDL3_image-static)
+            else ()
+                set(_SDL3_IMAGE SDL3_image::SDL3_image)
+            endif ()
+            if (TARGET SDL3_ttf::SDL3_ttf-static)
+                set(_SDL3_TTF SDL3_ttf::SDL3_ttf-static)
+            else ()
+                set(_SDL3_TTF SDL3_ttf::SDL3_ttf)
+            endif ()
             target_link_libraries(cataclysm-tiles-common PUBLIC
-                SDL2_mixer::SDL2_mixer-static
+                ${_SDL3}
+                ${_SDL3_IMAGE}
+                ${_SDL3_TTF}
             )
         else()
             target_link_libraries(cataclysm-tiles-common PUBLIC
-                SDL2_mixer::SDL2_mixer
+                SDL3::SDL3
+                SDL3_image::SDL3_image
+                SDL3_ttf::SDL3_ttf
             )
-        endif()
+        endif ()
+    else ()
+        if (NOT DYNAMIC_LINKING)
+            target_link_libraries(cataclysm-tiles-common PUBLIC
+                SDL2::SDL2-static
+                SDL2_image::SDL2_image-static
+                SDL2_ttf::SDL2_ttf-static
+            )
+        else()
+            target_link_libraries(cataclysm-tiles-common PUBLIC
+                SDL2::SDL2
+                SDL2_image::SDL2_image
+                SDL2_ttf::SDL2_ttf
+            )
+        endif ()
+    endif ()
+    if (SOUND)
+        if (USE_SDL3)
+            if (NOT DYNAMIC_LINKING AND TARGET SDL3_mixer::SDL3_mixer-static)
+                target_link_libraries(cataclysm-tiles-common PUBLIC
+                    SDL3_mixer::SDL3_mixer-static
+                )
+            else()
+                target_link_libraries(cataclysm-tiles-common PUBLIC
+                    SDL3_mixer::SDL3_mixer
+                )
+            endif()
+        else ()
+            if (NOT DYNAMIC_LINKING)
+                target_link_libraries(cataclysm-tiles-common PUBLIC
+                    SDL2_mixer::SDL2_mixer-static
+                )
+            else()
+                target_link_libraries(cataclysm-tiles-common PUBLIC
+                    SDL2_mixer::SDL2_mixer
+                )
+            endif()
+        endif ()
         add_definitions(-DSDL_SOUND)
     endif ()
 
@@ -310,7 +353,7 @@ if (MINGW AND NOT RELEASE)
                 ${RuntimeLib_SDL2_TTF}
                 ${RuntimeLib_ft}
                 ${RuntimeLib_glib})
-        if (SOUND)
+        if (SOUND AND NOT USE_SDL3)
             find_library(RuntimeLib_SDL_SND  "SDL2_mixer")
             find_library(RuntimeLib_flac  "libFLAC-8")
             find_library(RuntimeLib_ogg  "libogg-0")
