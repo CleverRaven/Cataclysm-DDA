@@ -1083,7 +1083,7 @@
     "hit_difficulty": 0.9,
     "is_limb": true,
     "is_vital": false,
-    "limb_type": "wing",
+    "limb_types": "wing",
     "base_hp": 30,
     "health_limit": 10,
     "mend_rate": 0.4,
