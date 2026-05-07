@@ -364,7 +364,7 @@
           "hit_dmg_npc": "%1$s' s skin takes on a waxen sheen.",
           "miss_msg_u": "",
           "miss_msg_npc": "",
-          "no_dmg_msg_u": "%1$s"s skin takes on a waxen sheen.",
+          "no_dmg_msg_u": "%1$s's skin takes on a waxen sheen.",
           "no_dmg_msg_u": "%1$s's skin takes on a waxen sheen.",
           "no_dmg_msg_npc": "%1$s' s skin takes on a waxen sheen.",
           "dodgeable": false,
@@ -1150,7 +1150,7 @@
         "miss_msg_u": "%1$s tries to bite you, but you dodge!",
         "miss_msg_npc": "%1$s tries to bite <npcname>, but they dodge!",
         "no_dmg_msg_u": "%1$s tries to bite your %2$s, but can't penetrate your armor.",
-        "no_dmg_msg_npc": "%1$s tries to bite <npcname>"s %2$s, but can't penetrate their armor."
+        "no_dmg_msg_npc": "%1$s tries to bite <npcname>'s %2$s, but can't penetrate their armor."
       },
       {
         "type": "monster_attack",
