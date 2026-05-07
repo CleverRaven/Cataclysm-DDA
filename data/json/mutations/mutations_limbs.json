@@ -726,19 +726,14 @@
     "vitamin_cost": 220,
     "visibility": 4,
     "ugliness": 4,
-    "flags": [ "WINGS_1" ],
     "cost": 115,
     "stamina": true,
     "time": "1 s",
     "restricts_gear": [ "torso" ],
-    "active_flags": [ "ONE_STORY_FALL", "MUSCLE_VEH_BOOST" ],
     "//": "We apply WINGS_INSECT_active as a mutation because there are sound penalties with custom messages hard-coded to its id.",
     "enchantments": [
-      {
-        "condition": "ACTIVE",
-        "values": [ { "value": "MOVE_COST", "multiply": -0.25 } ],
-        "mutations": [ "WINGS_INSECT_active" ]
-      }
+      { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "wing_insect_l" }, { "gain": "wing_insect_r" } ] },
+      { "condition": "ACTIVE", "mutations": [ "WINGS_INSECT_active" ] }
     ]
   },
   {
@@ -748,7 +743,14 @@
     "description": "You're fluttering your wings as fast as you can.  This doesn't generate enough lift to move you, but it does increase your movement speed.  If you're not burdened, you can fall short distances without harm.",
     "valid": false,
     "points": 0,
-    "player_display": false
+    "player_display": false,
+    "enchantments": [
+      {
+        "condition": { "and": [ { "math": [ "u_hp('wing_insect_l') > 10" ] }, { "math": [ "u_hp('wing_insect_r') > 10" ] } ] },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.25 } ],
+        "ench_effects": [ { "effect": "effect_insect_wings_muscle_veh_boost", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",

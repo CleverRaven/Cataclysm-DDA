@@ -1560,6 +1560,66 @@
     "max_coverage": 40
   },
   {
+    "type": "sub_body_part",
+    "id": "wing_insect_costal_margin_l",
+    "parent": "wing_insect_l",
+    "name": "left forewing",
+    "name_multiple": "forewings",
+    "side": "left",
+    "opposite": "wing_insect_costal_margin_r",
+    "max_coverage": 40
+  },
+  {
+    "type": "sub_body_part",
+    "id": "wing_insect_posterior_margin_l",
+    "parent": "wing_insect_l",
+    "name": "left hindwing",
+    "name_multiple": "hindwings",
+    "side": "left",
+    "opposite": "wing_insect_posterior_margin_r",
+    "max_coverage": 40
+  },
+  {
+    "type": "sub_body_part",
+    "id": "wing_insect_apex_l",
+    "parent": "wing_insect_l",
+    "name": "left wingtip",
+    "name_multiple": "wingtips",
+    "side": "left",
+    "opposite": "wing_insect_apex_r",
+    "max_coverage": 20
+  },
+  {
+    "type": "sub_body_part",
+    "id": "wing_insect_costal_margin_r",
+    "parent": "wing_insect_r",
+    "name": "right forewing",
+    "name_multiple": "forewings",
+    "side": "right",
+    "opposite": "wing_insect_costal_margin_l",
+    "max_coverage": 40
+  },
+  {
+    "type": "sub_body_part",
+    "id": "wing_insect_posterior_margin_r",
+    "parent": "wing_insect_r",
+    "name": "right hindwing",
+    "name_multiple": "hindwings",
+    "side": "right",
+    "opposite": "wing_insect_posterior_margin_l",
+    "max_coverage": 40
+  },
+  {
+    "type": "sub_body_part",
+    "id": "wing_insect_apex_r",
+    "parent": "wing_insect_r",
+    "name": "right wingtip",
+    "name_multiple": "wingtips",
+    "side": "right",
+    "opposite": "wing_insect_apex_l",
+    "max_coverage": 20
+  },
+  {
     "id": "leg_crab_basis_fl",
     "type": "sub_body_part",
     "max_coverage": 5,

@@ -5696,6 +5696,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_insect_wings_muscle_veh_boost",
+    "//": "Hidden effect, provides the muscle vehicle boost from active insect wings",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "MUSCLE_VEH_BOOST" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_dextrous_paws_no_practice_manipulation_penalty",
     "//": "Hidden effect, provides the limb score penalty from Little or Dextrous Paws when you haven't practiced",
     "name": [ "Clumsy Fingers" ],
