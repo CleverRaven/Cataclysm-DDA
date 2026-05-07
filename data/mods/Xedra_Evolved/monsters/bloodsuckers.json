@@ -1152,70 +1152,6 @@
         "no_dmg_msg_u": "%1$s tries to bite your %2$s, but can't penetrate your armor.",
         "no_dmg_msg_npc": "%1$s tries to bite <npcname>'s %2$s, but can't penetrate their armor."
       },
-      {
-        "type": "monster_attack",
-        "attack_type": "melee",
-        "id": "arion_blood_drinking",
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 5, "armor_penetration": 5, "armor_multiplier": 0.5 } ],
-        "condition": {
-          "and": [
-            { "u_has_flag": "GRAB_FILTER" },
-            { "npc_has_flag": "GRAB" } ] },
-        "default_faction": "vampire",
-        "bodytype": "human",
-        "species": [
-            "VAMPIRE",
-            "HUMAN"
-        ],
-        "volume": "62500 ml",
-        "weight": "81500 g",
-        "hp": 90,
-        "speed": 80,
-        "material": [
-            "flesh"
-        ],
-        "symbol": "V",
-        "color": "red",
-        "aggression": 100,
-        "morale": 100,
-        "melee_skill": 3,
-        "melee_dice": 1,
-        "melee_dice_sides": 6,
-        "melee_damage": [
-            {
-                "damage_type": "cut",
-                "amount": 5
-            }
-        ],
-        "dodge": 3,
-        "weakpoints": [
-            {
-                "name": "the head",
-                "is_head": true,
-                "armor_mult": {
-                    "physical": 0.5
-                },
-                "coverage": 3
-            },
-            {
-                "name": "the eye",
-                "is_head": true,
-                "armor_mult": {
-                    "physical": 0
-                },
-                "coverage": 1
-            }
-        ],
-        "families": [
-            "prof_wp_demihuman"
-        ],
-        "bleed_rate": 80,
-        "vision_day": 45,
-        "vision_night": 15,
-        "harvest": "vampire",
-        "path_settings": {
-            "max_dist": 5
-        } },
         {
           "type": "monster_attack",
           "attack_type": "melee",
@@ -1247,7 +1183,7 @@
         } ]
       }
     ],
-      "flags": [ "FILTHY", "KEENNOSE" ]
+      "flags": [ "FILTHY", "KEENNOSE" ],
     "death_drops": "revenant_death_drops"
   },
   {
