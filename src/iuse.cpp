@@ -2952,10 +2952,10 @@ std::optional<int> iuse::dig( Character *p, item *it, const tripoint_bub_ms & )
 
     std::vector<construction> const &cnstr = get_constructions();
     auto const build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
-        return it.str_id == construction_constr_pit;
+        return it.id == construction_constr_pit;
     } );
     auto const build_shallow = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
-        return it.str_id == construction_constr_pit_shallow;
+        return it.id == construction_constr_pit_shallow;
     } );
 
     place_construction( { build->group, build_shallow->group } );
@@ -2976,7 +2976,7 @@ std::optional<int> iuse::dig_channel( Character *p, item *it, const tripoint_bub
 
     std::vector<construction> const &cnstr = get_constructions();
     auto const build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
-        return it.str_id == construction_constr_water_channel;
+        return it.id == construction_constr_water_channel;
     } );
 
     place_construction( { build->group } );
@@ -2996,7 +2996,7 @@ std::optional<int> iuse::fill_pit( Character *p, item *it, const tripoint_bub_ms
 
     std::vector<construction> const &cnstr = get_constructions();
     auto const build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
-        return it.str_id == construction_constr_fill_pit;
+        return it.id == construction_constr_fill_pit;
     } );
 
     place_construction( { build->group } );
@@ -3016,7 +3016,7 @@ std::optional<int> iuse::clear_rubble( Character *p, item *it, const tripoint_bu
 
     std::vector<construction> const &cnstr = get_constructions();
     auto const build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
-        return it.str_id == construction_constr_clear_rubble;
+        return it.id == construction_constr_clear_rubble;
     } );
 
     place_construction( { build->group } );

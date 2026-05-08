@@ -124,7 +124,7 @@ const int CHARACTER_STAT_MIN = 4;
 const int CHARACTER_STAT_MAX = 20;
 
 const int CHARACTER_AGE_MIN = 16;
-const int CHARACTER_AGE_MAX = 55;
+const int CHARACTER_AGE_MAX = 100;
 
 const int NAME_CHARACTER_LIMIT = 50;
 

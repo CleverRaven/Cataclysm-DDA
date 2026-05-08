@@ -39,10 +39,26 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "afs_modular_habitat_center_industry", "afs_modular_habitat_industry" ],
+    "name": "industrial habitat",
+    "sym": "i",
+    "color": "yellow",
+    "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_modular_habitat_biodiesel_end", "afs_modular_habitat_biodiesel_straight" ],
+    "name": "refinery wing",
+    "sym": "i",
+    "color": "yellow",
+    "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "afs_modular_habitat_roof" ],
     "name": "habitat roof",
-    "sym": "f",
-    "color": "light_green",
+    "sym": "r",
+    "color": "light_gray",
     "see_cost": "none",
     "flags": [ "PP_GENERATE_RUINED" ]
   },

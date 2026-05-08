@@ -2256,6 +2256,14 @@ class text_style_check_reader : public generic_typed_reader<text_style_check_rea
         allow_object object_allowed;
 };
 
+struct time_duration_as_moves_reader : public generic_typed_reader<time_duration_as_moves_reader> {
+    int64_t get_next( const JsonValue &jv ) const {
+        time_duration ret;
+        jv.read( ret );
+        return to_moves<int64_t>( ret );
+    }
+};
+
 class activity_level_reader : public generic_typed_reader<activity_level_reader>
 {
     public:

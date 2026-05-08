@@ -455,7 +455,7 @@ std::string map_common_bash_info::potential_bash_items( const map_data_common_t 
         for( const item_comp &comp : ter_furn.get_uncraft_components() ) {
             ret += string_format( "- <color_cyan>%d %s</color>\n", comp.count, item::nname( comp.type ) );
         }
-        ret += string_format( _( "Bashing the %s may yield:\n%s" ), ter_furn.name(), ret );
+        ret = string_format( _( "Bashing the %s may yield:\n%s" ), ter_furn.name(), ret );
         ret += "\n";
         ret += _( "Or whatever remains of that which you manage to not destroy" );
         return ret;
@@ -760,9 +760,14 @@ std::vector<std::string> ter_t::extended_description() const
     std::vector<std::string> tmp = map_data_common_t::extended_description();
     ret.insert( ret.end(), tmp.begin(), tmp.end() );
 
-    if( deconstruct || !base_item.is_null() ) {
+    if( deconstruct.has_value() ) {
         ret.emplace_back( "--" );
         ret.emplace_back( deconstruct->potential_deconstruct_items( *this ) );
+    } else if( !base_item.is_null() ) {
+        ret.emplace_back( "--" );
+        ret.emplace_back( string_format(
+                              _( "Deconstructing the %s would yield:\n- <color_cyan>1 %s</color>\n" ), name(),
+                              item::nname( base_item ) ) );
     }
 
     if( is_smashable() ) {
@@ -800,9 +805,14 @@ std::vector<std::string> furn_t::extended_description() const
         }
     }
 
-    if( deconstruct || !base_item.is_null() ) {
+    if( deconstruct.has_value() ) {
         ret.emplace_back( "--" );
         ret.emplace_back( deconstruct->potential_deconstruct_items( *this ) );
+    } else if( !base_item.is_null() ) {
+        ret.emplace_back( "--" );
+        ret.emplace_back( string_format(
+                              _( "Deconstructing the %s would yield:\n- <color_cyan>1 %s</color>\n" ), name(),
+                              item::nname( base_item ) ) );
     }
 
     if( is_smashable() ) {

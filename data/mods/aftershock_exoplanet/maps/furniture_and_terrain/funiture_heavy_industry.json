@@ -46,6 +46,51 @@
   },
   {
     "type": "furniture",
+    "id": "f_powder_fusion_forge",
+    "name": "powder fusion bed",
+    "looks_like": "f_machinery_electronic",
+    "description": "An automated manufacturing bed that employs high-energy lasers to manufacture parts out of powdered metal.  Most commonly used for maintenance rather than large scale manufacturing.",
+    "symbol": "&",
+    "bgcolor": "yellow",
+    "move_cost_mod": 3,
+    "required_str": 18,
+    "flags": [ "TRANSPARENT", "MOUNTABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "afs_circuitry_2", "count": 1 },
+        { "item": "afs_material_1", "count": [ 10, 20 ] },
+        { "item": "afs_material_3", "count": [ 1, 3 ] },
+        { "item": "afs_magnet_1", "count": [ 1, 3 ] },
+        { "item": "afs_optics_3", "count": 1 },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
+        { "item": "spring", "prob": 80 },
+        { "item": "mc_steel_lump", "prob": 60 },
+        { "item": "sheet_metal", "prob": 50 },
+        { "item": "motor_small", "prob": 60 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 45,
+      "sound": "smash!",
+      "sound_fail": "thunk.",
+      "items": [
+        { "item": "afs_circuitry_2", "count": [ 0, 1 ] },
+        { "item": "afs_material_1", "count": [ 5, 20 ] },
+        { "item": "afs_material_3", "count": [ 1, 3 ] },
+        { "item": "afs_magnet_1", "count": [ 1, 3 ] },
+        { "item": "afs_optics_3", "count": [ 0, 1 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
+        { "item": "spring", "prob": 80 },
+        { "item": "mc_steel_lump", "prob": 50 },
+        { "item": "sheet_metal", "prob": 30 },
+        { "item": "scrap", "count": [ 2, 5 ] },
+        { "item": "motor_small", "prob": 30 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_robotic_arm",
     "name": "robotic arm",
     "looks_like": "f_machinery_electronic",

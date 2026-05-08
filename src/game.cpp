@@ -128,6 +128,7 @@
 #include "item_pocket.h"
 #include "item_search.h"
 #include "item_stack.h"
+#include "item_wakeup.h"
 #include "iteminfo_query.h"
 #include "itype.h"
 #include "iuse.h"
@@ -11559,6 +11560,11 @@ stats_tracker &get_stats()
 timed_event_manager &get_timed_events()
 {
     return g->timed_events;
+}
+
+item_wakeup_manager &get_item_wakeups()
+{
+    return *g->item_wakeup_manager_ptr;
 }
 
 weather_manager &get_weather()

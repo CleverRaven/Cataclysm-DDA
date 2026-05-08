@@ -44,6 +44,7 @@
 #include "item_group.h"
 #include "item_tname.h"
 #include "item_transformation.h"
+#include "item_wakeup.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -4575,6 +4576,17 @@ bool item::process_wet( Character *carrier, const tripoint_bub_ms & /*pos*/ )
     }
     // Always return true so our caller will bail out instead of processing us as a tool.
     return true;
+}
+
+std::vector<desired_wakeup> item::enumerate_scheduled_wakeups( const item_location &loc ) const
+{
+    return enumerate_scheduled_dispatch( *this, loc );
+}
+
+void item::actualize_scheduled( item_wakeup_kind kind, time_point now,
+                                const item_location &loc )
+{
+    actualize_scheduled_dispatch( *this, kind, now, loc );
 }
 
 bool item::process( map &here, Character *carrier, const tripoint_bub_ms &pos, float insulation,

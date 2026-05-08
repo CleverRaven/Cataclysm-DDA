@@ -13,7 +13,16 @@
     "id": "COMP_labyrinthine_safehouse_computer",
     "dynamic_line": "& █████╗ ██╗  ████████╗ █████╗ ██████╗      ██████╗ ███████╗\n██╔══██╗██║  ╚══██╔══╝██╔══██╗██╔══██╗    ██╔═══██╗██╔════╝\n███████║██║     ██║   ███████║██████╔╝    ██║   ██║███████╗\n██╔══██║██║     ██║   ██╔══██║██╔══██╗    ██║   ██║╚════██║\n██║  ██║███████╗██║   ██║  ██║██║  ██║    ╚██████╔╝███████║\n╚═╝  ╚═╝╚══════╝╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚══════╝\n\nᵖˡᵉᵃˢᵉ select a program\n\n<color_light_green> @User > _</color>",
     "responses": [
-      { "text": "<color_light_green>Activate entry protocol", "topic": "COMP_labyrinthine_safehouse_computer_blood_tax" },
+      {
+        "text": "<color_light_green>Activate entry protocol",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "stuck_in_labyrinth" } ] } },
+        "topic": "COMP_labyrinthine_safehouse_computer_blood_tax"
+      },
+      {
+        "text": "<color_light_green>Activate entry protocol",
+        "condition": { "compare_string": [ "yes", { "u_val": "stuck_in_labyrinth" } ] },
+        "topic": "COMP_labyrinthine_safehouse_computer_blood_tax_reenter"
+      },
       {
         "text": "<color_light_green>Check for updates",
         "condition": {
@@ -40,9 +49,24 @@
       },
       {
         "text": "<color_red>Activate exit protocol: Earth gate",
-        "condition": { "compare_string": [ "yes", { "u_val": "traveled_home_to_labyrinth" } ] },
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "traveled_home_to_labyrinth" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "stuck_in_labyrinth" } ] } }
+          ]
+        },
         "effect": { "run_eocs": "EOC_LS_Exit_labyrinth" },
         "topic": "TALK_DONE"
+      },
+      {
+        "text": "<color_light_green>ERROR001: No contact with Earth gate",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "traveled_home_to_labyrinth" } ] },
+            { "compare_string": [ "yes", { "u_val": "stuck_in_labyrinth" } ] }
+          ]
+        },
+        "topic": "COMP_labyrinthine_safehouse_computer_stuck_in_labyrinth_help"
       },
       {
         "text": "<color_red>Enter passcode: KÁ",
@@ -56,9 +80,24 @@
       },
       {
         "text": "<color_red>Activate exit protocol: KÁ gate",
-        "condition": { "compare_string": [ "yes", { "u_val": "traveled_string_dimension_to_labyrinth" } ] },
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "traveled_string_dimension_to_labyrinth" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "stuck_in_labyrinth" } ] } }
+          ]
+        },
         "effect": { "run_eocs": "EOC_LS_SD_Exit_labyrinth" },
         "topic": "TALK_DONE"
+      },
+      {
+        "text": "<color_light_green>ERROR001: No contact with KÁ gate",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "traveled_string_dimension_to_labyrinth" } ] },
+            { "compare_string": [ "yes", { "u_val": "stuck_in_labyrinth" } ] }
+          ]
+        },
+        "topic": "COMP_labyrinthine_safehouse_computer_stuck_in_labyrinth_help"
       },
       { "text": "<color_yellow>Log off", "topic": "TALK_DONE" }
     ]
@@ -78,9 +117,28 @@
   },
   {
     "type": "talk_topic",
+    "id": "COMP_labyrinthine_safehouse_computer_blood_tax_reenter",
+    "dynamic_line": "&<color_light_green> @User > skill -ENTER -@User\n\n<color_light_green> Blood required for reality stabilization.\n\nA drawer on the side of the terminal slides open, revealing a small, thin needle.\n\n<color_light_green> @User > _",
+    "responses": [
+      {
+        "text": "[Prick yourself with the needle]",
+        "topic": "COMP_labyrinthine_safehouse_computer_blood_tax_reenter_yes",
+        "effect": [ { "math": [ "u_vitamin('blood') -= 250" ] } ]
+      },
+      { "text": "Log off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "COMP_labyrinthine_safehouse_computer_blood_tax_yes",
     "dynamic_line": "&You place your hand on the terminal.  There is a pinch, then a wet, mechanical hiss, as the needle draws a bit of blood.  Your vision blurs.",
     "responses": [ { "text": "…", "topic": "TALK_DONE", "effect": { "run_eocs": "EOC_LS_SAFEHOUSE_Teleport_to_labyrinth" } } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_labyrinthine_safehouse_computer_blood_tax_reenter_yes",
+    "dynamic_line": "&You place your hand on the terminal.  There is a pinch, then a wet, mechanical hiss, as the needle draws a bit of blood.  Your vision blurs.",
+    "responses": [ { "text": "…", "topic": "TALK_DONE", "effect": { "run_eocs": "EOC_LS_SAFEHOUSE_Teleport_to_labyrinth_reenter" } } ]
   },
   {
     "type": "talk_topic",
@@ -188,18 +246,27 @@
   },
   {
     "type": "talk_topic",
+    "id": "COMP_labyrinthine_safehouse_computer_stuck_in_labyrinth_help",
+    "dynamic_line": [
+      "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR001\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and return to gate.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.",
+      "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR001\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and return to gate.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.",
+      "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR001\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and return to gate.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  ᵃˢˢʰᵒˡᵉ",
+      "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR001\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and return to gate.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  ᵗʳᵉᵃᵈ ᶜᵃʳᵉᶠᵘˡˡʸ",
+      "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR001\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and return to gate.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  ᵖˡᵉᵃˢᵉ DON'T ᵍᵒ",
+      "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR001\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and return to gate.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  STAY STAY STAY STAY",
+      "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR001\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and return to gate.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  maybe"
+    ],
+    "responses": [ { "text": "Return.", "topic": "COMP_labyrinthine_safehouse_computer" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": "COMP_labyrinthine_safehouse_missions_none",
     "dynamic_line": [
       "&<color_light_green> @User > update\n\n.  .  .  .  .  .  %100\n\nNo updates available.",
       "&<color_light_green> @User > update\n\n.  .  .  .  .  .  %100\n\nNo updates available, ᴴᵁᴹᴬᴺ.",
       "&<color_light_green> @User > update\n\n.  .  .  .  .  .  %100\n\nNo updates available, hᵤmₐn.",
       "&<color_light_green> @User > update\n\n.  .  .  .  .  .  %100\n\nNo updates available, tᵢgₑᵣ.",
-      "&<color_light_green> @User > update\n\n.  .  .  .  .  .  %100\n\nNo updates available.          ᵃˢˢʰᵒˡᵉ",
-      "&<color_light_green> @User > update\n\n.  .  .  .  .  %CONNECTION LOST\n\nPlease contact your system obelisk.",
-      "&<color_light_green> @User > update\n\n.  .  .  .  .  %CONNECTION LOST\n\nPlease contact your system obelisk, ᴴᵁᴹᴬᴺ.",
-      "&<color_light_green> @User > update\n\n.  .  .  .  .  %CONNECTION LOST\n\nPlease contact your system obelisk, hᵤmₐn.",
-      "&<color_light_green> @User > update\n\n.  .  .  .  .  %CONNECTION LOST\n\nPlease contact your system obelisk, tᵢgₑᵣ.",
-      "&<color_light_green> @User > update\n\n.  .  .  .  .  %CONNECTION LOST\n\nPlease contact your system obelisk.         ᵃˢˢʰᵒˡᵉ"
+      "&<color_light_green> @User > update\n\n.  .  .  .  .  .  %100\n\nNo updates available.          ᵃˢˢʰᵒˡᵉ"
     ],
     "responses": [ { "text": "Return.", "topic": "COMP_labyrinthine_safehouse_computer" } ]
   },
@@ -211,7 +278,11 @@
       {
         "text": "Yes.",
         "condition": { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
-        "effect": [ { "run_eocs": "EOC_LS_SD_enter_tunnel" }, { "u_lose_trait": "LS_Passcode_string_dimension" } ],
+        "effect": [
+          { "run_eocs": "EOC_LS_SD_enter_tunnel" },
+          { "u_lose_trait": "LS_Passcode_string_dimension" },
+          { "u_add_var": "stuck_in_labyrinth", "value": "no" }
+        ],
         "topic": "TALK_DONE"
       },
       {

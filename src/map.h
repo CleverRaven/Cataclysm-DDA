@@ -1961,6 +1961,13 @@ class map
         void saven( const tripoint_bub_sm &grid );
         void loadn( const point_bub_sm &grid, bool update_vehicles );
         /**
+         * Walk all items currently in the bubble (map tiles + vehicle cargo,
+         * recursing into containers) and call rebuild_for_item on each.  Run
+         * after submaps come back into range so item-targeted wakeups re-arm
+         * from authoritative item state.
+         */
+        void reconcile_item_wakeups();
+        /**
          * Fast forward a submap that has just been loading into this map.
          * This is used to rot and remove rotten items, grow plants, fill funnels etc.
          */

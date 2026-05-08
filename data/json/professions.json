@@ -949,7 +949,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -1017,7 +1018,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -1045,7 +1047,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -1094,7 +1097,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -1132,8 +1136,7 @@
       },
       "male": { "entries": [ { "item": "boxer_briefs" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    },
-    "age_lower": 18
+    }
   },
   {
     "type": "profession",
@@ -1198,7 +1201,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
     },
-    "age_lower": 16
+    "age_lower": 16,
+    "age_upper": 30
   },
   {
     "type": "profession",
@@ -1227,7 +1231,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
     },
-    "age_lower": 16
+    "age_lower": 16,
+    "age_upper": 30
   },
   {
     "type": "profession",
@@ -1264,7 +1269,8 @@
       "male": { "entries": [ { "item": "under_armor_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
     },
-    "age_lower": 16
+    "age_lower": 16,
+    "age_upper": 30
   },
   {
     "type": "profession",
@@ -1331,7 +1337,9 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "panties" }, { "item": "sports_bra" } ] }
-    }
+    },
+    "age_lower": 23,
+    "age_upper": 30
   },
   {
     "type": "profession",
@@ -1442,7 +1450,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -1497,7 +1506,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -1549,7 +1559,8 @@
       "male": { "entries": [ { "item": "rashguard" }, { "item": "wetsuit_shorts" } ] },
       "female": { "entries": [ { "item": "bikini_top" }, { "item": "wetsuit_shorts" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -1586,7 +1597,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -1646,7 +1658,9 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_lower": 18,
+    "age_upper": 23
   },
   {
     "type": "profession",
@@ -1698,7 +1712,9 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_lower": 25,
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -1747,7 +1763,9 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_lower": 25,
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -1809,7 +1827,9 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_lower": 30,
+    "age_upper": 45
   },
   {
     "type": "profession",
@@ -1870,7 +1890,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -1930,7 +1951,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -1997,7 +2019,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -2056,7 +2079,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -2553,7 +2577,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -2651,7 +2676,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -2696,7 +2722,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 30
   },
   {
     "type": "profession",
@@ -2864,7 +2891,8 @@
       { "level": 1, "name": "dodge" },
       { "level": 1, "name": "swimming" }
     ],
-    "addictions": [ { "intensity": 10, "type": "nicotine" } ]
+    "addictions": [ { "intensity": 10, "type": "nicotine" } ],
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -2916,7 +2944,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -2976,7 +3005,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -3031,7 +3061,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -3149,7 +3180,8 @@
       },
       "male": { "entries": [ { "item": "briefs" }, { "item": "citrine_gold_cufflinks" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" }, { "item": "gold_ear" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -3494,7 +3526,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -3824,7 +3857,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -3943,7 +3977,8 @@
       },
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -4073,7 +4108,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" }, { "item": "tank_top" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4282,7 +4318,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4363,7 +4400,8 @@
         "entries": [ { "item": "panties" }, { "item": "bra" }, { "item": "dress" }, { "item": "fanny" }, { "item": "gold_watch" } ]
       }
     },
-    "age_lower": 50
+    "age_lower": 65,
+    "age_upper": 85
   },
   {
     "type": "profession",
@@ -4476,7 +4514,8 @@
           { "item": "stockings", "variant": "stockings_black" }
         ]
       }
-    }
+    },
+    "age_lower": 18
   },
   {
     "type": "profession",
@@ -4659,7 +4698,8 @@
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4674,7 +4714,8 @@
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4800,7 +4841,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4825,7 +4867,8 @@
         "entries": [ { "item": "briefs" }, { "item": "dress_shirt" }, { "item": "suit" }, { "item": "pants", "variant": "pants_black" } ]
       },
       "female": { "entries": [ { "item": "dress" }, { "item": "purse" }, { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4866,7 +4909,8 @@
           { "item": "panties" }
         ]
       }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4893,7 +4937,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4918,7 +4963,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4973,7 +5019,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -5003,7 +5050,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 30
   },
   {
     "type": "profession",
@@ -5034,7 +5082,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -5060,7 +5109,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
     },
-    "missions": [ "MISSION_BLACK_BELT_GOAL" ]
+    "missions": [ "MISSION_BLACK_BELT_GOAL" ],
+    "age_lower": 18
   },
   {
     "type": "profession",
@@ -5100,7 +5150,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
     },
-    "missions": [ "MISSION_BLACK_BELT_GOAL" ]
+    "missions": [ "MISSION_BLACK_BELT_GOAL" ],
+    "age_lower": 18
   },
   {
     "type": "profession",
@@ -5168,7 +5219,9 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 18,
+    "age_upper": 25
   },
   {
     "type": "profession",
@@ -5201,7 +5254,9 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 16,
+    "age_upper": 25
   },
   {
     "type": "profession",
@@ -5390,7 +5445,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -5485,7 +5541,8 @@
       },
       "male": { "entries": [ { "item": "chestwrap_fur" }, { "item": "loincloth_fur" } ] },
       "female": { "entries": [ { "item": "bikini_top_fur" }, { "item": "hot_pants_fur" } ] }
-    }
+    },
+    "age_lower": 30
   },
   {
     "type": "profession",
@@ -5882,7 +5939,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 28
   },
   {
     "type": "profession",
@@ -5943,7 +6001,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -6107,7 +6166,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -6168,7 +6228,8 @@
         ]
       },
       "female": { "entries": [ { "item": "plastron_plastic" } ] }
-    }
+    },
+    "age_upper": 35
   },
   {
     "type": "profession",
@@ -6199,7 +6260,9 @@
       "male": { "entries": [ { "item": "boxer_shorts" }, { "item": "opal_platinum_cufflinks" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" }, { "item": "opal_platinum_earring" } ] }
     },
-    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ]
+    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ],
+    "age_lower": 35,
+    "age_upper": 70
   },
   {
     "type": "profession",
@@ -6486,7 +6549,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -6546,7 +6610,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -6614,7 +6679,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -6676,7 +6742,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -6740,7 +6807,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -6802,7 +6870,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -6848,7 +6917,9 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "boy_shorts" }, { "item": "sports_bra" } ] }
-    }
+    },
+    "age_lower": 23,
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -6898,7 +6969,8 @@
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
     },
     "flags": [ "SCEN_ONLY" ],
-    "missions": [ "MISSION_HELICOPTER_PILOT" ]
+    "missions": [ "MISSION_HELICOPTER_PILOT" ],
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -7046,7 +7118,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -7262,7 +7335,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 28
   },
   {
     "type": "profession",
@@ -7549,7 +7623,8 @@
       "male": { "entries": [ { "item": "speedo" } ] },
       "female": { "entries": [ { "item": "flag_swimsuit", "variant": "generic_swimsuit" } ] }
     },
-    "proficiencies": [ "prof_athlete_basic" ]
+    "proficiencies": [ "prof_athlete_basic" ],
+    "age_upper": 30
   },
   {
     "type": "profession",
@@ -7583,7 +7658,8 @@
         "entries": [ { "item": "trunks" }, { "item": "swim_briefs" }, { "item": "rashguard", "variant": "lifeguard_rashguard_shirt" } ]
       },
       "female": { "entries": [ { "item": "flag_swimsuit", "variant": "lifeguard_swimsuit" } ] }
-    }
+    },
+    "age_lower": 18
   },
   {
     "type": "profession",
@@ -7747,7 +7823,8 @@
         ]
       }
     },
-    "missions": [ "MISSION_ASSASSINATION" ]
+    "missions": [ "MISSION_ASSASSINATION" ],
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -7787,7 +7864,8 @@
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "boy_shorts" }, { "item": "bra" } ] }
     },
-    "age_lower": 50
+    "age_lower": 60,
+    "age_upper": 80
   },
   {
     "type": "profession",
@@ -7929,7 +8007,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "panties" }, { "item": "bra" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -7984,7 +8063,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -8012,7 +8092,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
     },
-    "missions": [ "MISSION_BLACK_BELT_GOAL" ]
+    "missions": [ "MISSION_BLACK_BELT_GOAL" ],
+    "age_upper": 30
   },
   {
     "type": "profession",
@@ -8055,7 +8136,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_upper": 25
   },
   {
     "type": "profession",

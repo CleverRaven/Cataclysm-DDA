@@ -2812,5 +2812,15 @@
     "type": "MIGRATION",
     "id": "mc_mace",
     "replace": "mace"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mc_knife_rambo",
+    "replace": "knife_rambo"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mc_knife_trench",
+    "replace": "knife_trench"
   }
 ]

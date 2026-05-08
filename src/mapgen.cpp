@@ -6256,7 +6256,7 @@ static ret_val<void> apply_mapgen_in_phases(
     }
     cata_assert( setmap_point == setmap_points.end() );
 
-    resolve_regional_terrain_and_furniture( md );
+    resolve_regional_terrain_and_furniture( md, offset.z() );
 
     return ret_val<void>::make_success();
 }

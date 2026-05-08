@@ -11,10 +11,29 @@
   },
   {
     "type": "overmap_terrain",
+    "name": "bosky labyrinth",
+    "id": "labyrinth_overgrown_hall",
+    "sym": "_",
+    "color": "light_green",
+    "see_cost": "high",
+    "travel_cost_type": "impassable",
+    "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
     "name": "terminal",
     "id": "labyrinth_entrance",
     "sym": "O",
     "color": "red",
+    "see_cost": "high",
+    "travel_cost_type": "impassable"
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "terminal",
+    "id": "labyrinth_overgrown_entrance",
+    "sym": "O",
+    "color": "light_red",
     "see_cost": "high",
     "travel_cost_type": "impassable"
   },
@@ -94,8 +113,13 @@
     "name": "labyrinthian hallways",
     "id": "labyrinth2",
     "sym": "+",
-    "color": "light_blue",
+    "color": "light_gray",
     "see_cost": "high",
     "travel_cost_type": "impassable"
+  },
+  {
+    "type": "overmap_location",
+    "id": "labyrinth2",
+    "terrains": [ "labyrinth2" ]
   }
 ]

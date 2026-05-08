@@ -27,7 +27,11 @@
     "id": "COMP_LS_Exit_Controls2_safehouse",
     "dynamic_line": "&<color_light_green> @User > skill -EXIT -@User\n<color_light_green>Really exit?  You will not be able to return to the same place.",
     "responses": [
-      { "text": "Yes.", "effect": { "run_eocs": "EOC_LS_SAFEHOUSE_Exit_labyrinth" }, "topic": "TALK_DONE" },
+      {
+        "text": "Yes.",
+        "effect": [ { "u_add_var": "stuck_in_labyrinth", "value": "no" }, { "run_eocs": "EOC_LS_SAFEHOUSE_Exit_labyrinth" } ],
+        "topic": "TALK_DONE"
+      },
       { "text": "No.", "topic": "TALK_DONE" }
     ]
   },
@@ -36,7 +40,11 @@
     "id": "COMP_LS_Exit_Controls2_home",
     "dynamic_line": "&<color_light_green> @User > skill -EXIT -@User\n<color_light_green>Really exit?  You will not be able to return to the same place.",
     "responses": [
-      { "text": "Yes.", "effect": { "run_eocs": "EOC_LS_Exit_labyrinth" }, "topic": "TALK_DONE" },
+      {
+        "text": "Yes.",
+        "effect": [ { "u_add_var": "stuck_in_labyrinth", "value": "no" }, { "run_eocs": "EOC_LS_Exit_labyrinth" } ],
+        "topic": "TALK_DONE"
+      },
       { "text": "No.", "topic": "TALK_DONE" }
     ]
   },
@@ -45,7 +53,51 @@
     "id": "COMP_LS_Exit_Controls2_string_dimension",
     "dynamic_line": "&<color_light_green> @User > skill -EXIT -@User\n<color_light_green>Really exit?  You will not be able to return to the same place.",
     "responses": [
-      { "text": "Yes.", "effect": { "run_eocs": "EOC_LS_SD_Exit_labyrinth" }, "topic": "TALK_DONE" },
+      {
+        "text": "Yes.",
+        "effect": [ { "u_add_var": "stuck_in_labyrinth", "value": "no" }, { "run_eocs": "EOC_LS_SD_Exit_labyrinth" } ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "No.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Exit_Controls_Temp_overgrown",
+    "dynamic_line": [
+      "&You see a computer terminal with slender vines growing out of its case.\n\n<color_light_green> AltarOS remote connected\n\n Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ translocated to this string\n\n @User > _</color>",
+      "&You see a computer terminal with slender vines growing out of its case.\n\n<color_light_green> AltarOS remote connected\n\n Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ translocated to this node\n\n @User > _</color>",
+      "&You see a computer terminal with slender vines growing out of its case.\n\n<color_light_green> AltarOS remote connected\n\n Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ translocated to this dimension\n\n @User > _</color>",
+      "&You see a computer terminal with slender vines growing out of its case.\n\n<color_light_green> AltarOS remote connected\n\n Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ translocated to this universe\n\n @User > _</color>",
+      "&You see a computer terminal with slender vines growing out of its case.\n\n<color_light_green> AltarOS remote connected\n\n Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ attuned to this string\n\n @User > _</color>",
+      "&You see a computer terminal with slender vines growing out of its case.\n\n<color_light_green> AltarOS remote connected\n\n Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ attuned to this node\n\n @User > _</color>",
+      "&You see a computer terminal with slender vines growing out of its case.\n\n<color_light_green> AltarOS remote connected\n\n Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ attuned to this dimension\n\n @User > _</color>",
+      "&You see a computer terminal with slender vines growing out of its case.\n\n<color_light_green> AltarOS remote connected\n\n Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ attuned to this universe\n\n @User > _</color>",
+      "&You see a computer terminal with slender vines growing out of its case.\n\n<color_light_green> AltarOS remote connected\n\n Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ dimensionally anchored\n\n @User > _</color>"
+    ],
+    "responses": [
+      {
+        "text": "<color_yellow>Activate exit protocol: Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ",
+        "condition": { "compare_string": [ "yes", { "u_val": "traveled_safehouse_to_labyrinth" } ] },
+        "topic": "COMP_LS_Exit_Controls_Temp_overgrown2_safehouse"
+      },
+      { "text": "<color_light_green>Log off", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Exit_Controls_Temp_overgrown2_safehouse",
+    "dynamic_line": "&<color_light_green> @User > skill -EXIT -@User\n\n<color_light_green> Really exit?  You </color><color_white>will</color><color_light_green> be able to return to this place, but </color><color_white>only</color><color_light_green> to this place.",
+    "responses": [
+      {
+        "text": "Yes.",
+        "effect": [
+          { "u_add_var": "stuck_in_labyrinth", "value": "yes" },
+          { "u_add_var": "player_location_temp_labyrinth_return_dimension", "value": "netherum_labyrinth2" },
+          { "run_eocs": "EOC_LS_SAFEHOUSE_Exit_labyrinth_temp" }
+        ],
+        "topic": "TALK_DONE"
+      },
       { "text": "No.", "topic": "TALK_DONE" }
     ]
   },

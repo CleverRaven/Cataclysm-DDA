@@ -433,7 +433,7 @@
       },
       {
         "name": "Final grind and polish",
-        "time": "2 h 30 m",
+        "time": "1 h 20 m",
         "activity_level": "LIGHT_EXERCISE",
         "qualities": [ { "id": "FILE", "level": 2 } ]
       },
@@ -448,7 +448,8 @@
         "name": "Attaching langets into handle",
         "time": "15 m",
         "activity_level": "MODERATE_EXERCISE",
-        "qualities": [ { "id": "DRILL", "level": 2 }, { "id": "HAMMER", "level": 2 } ]
+        "qualities": [ { "id": "DRILL", "level": 2 } ],
+        "tools": [ [ [ "hammer", -1 ] ] ]
       }
     ]
   },
@@ -682,7 +683,7 @@
       },
       {
         "name": "Filing steep bevels",
-        "time": "3 h",
+        "time": "2 h",
         "activity_level": "MODERATE_EXERCISE",
         "qualities": [ { "id": "FILE", "level": 2 }, { "id": "GRIND", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
@@ -741,9 +742,9 @@
       },
       {
         "name": "Rough grinding",
-        "time": "2 h 20 m",
-        "activity_level": "MODERATE_EXERCISE",
-        "qualities": [ { "id": "FILE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
+        "time": "2 h",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "FILE", "level": 2 }, { "id": "GRIND", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
       },
       {
@@ -808,9 +809,9 @@
       },
       {
         "name": "Rough grinding",
-        "time": "2 h 40 m",
-        "activity_level": "MODERATE_EXERCISE",
-        "qualities": [ { "id": "FILE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
+        "time": "2 h",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "FILE", "level": 2 }, { "id": "GRIND", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
       },
       {
@@ -875,17 +876,17 @@
         "using": [ [ "hotcut_any", 1 ] ]
       },
       {
-        "name": "Rough grinding",
-        "time": "2 h 40 m",
-        "activity_level": "MODERATE_EXERCISE",
-        "qualities": [ { "id": "FILE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
-        "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
-      },
-      {
         "name": "Normalizing steel to prepare for hardening",
         "time": "1 h 30 m",
         "activity_level": "NO_EXERCISE",
         "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Rough grinding",
+        "time": "2 h",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "FILE", "level": 2 }, { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
       },
       {
         "name": "Heating the steel teeth and edge quenching",
@@ -895,7 +896,7 @@
       },
       {
         "name": "Waiting for spine to cool slightly.  Softening edge slightly through residual heat and watching steel color",
-        "time": "35 m",
+        "time": "15 m",
         "activity_level": "NO_EXERCISE",
         "proficiencies": [ { "proficiency": "prof_hardening" } ]
       },
@@ -961,17 +962,17 @@
         "using": [ [ "hotcut_any", 1 ] ]
       },
       {
-        "name": "Rough grinding",
-        "time": "2 h 40 m",
-        "activity_level": "MODERATE_EXERCISE",
-        "qualities": [ { "id": "FILE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
-        "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
-      },
-      {
         "name": "Normalizing steel to prepare for hardening",
         "time": "1 h 30 m",
         "activity_level": "NO_EXERCISE",
         "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Rough grinding",
+        "time": "2 h 40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "FILE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
       },
       {
         "name": "Heating the steel and thorough hardening",
@@ -1280,17 +1281,17 @@
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
       },
       {
+        "name": "Normalizing steel to prepare for hardening",
+        "time": "30 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
         "name": "Rough grinding",
         "time": "2 h 20 m",
         "activity_level": "MODERATE_EXERCISE",
         "qualities": [ { "id": "FILE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
         "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
-      },
-      {
-        "name": "Normalizing steel to prepare for hardening",
-        "time": "1 h 20 m",
-        "activity_level": "NO_EXERCISE",
-        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
       },
       {
         "name": "Heating the steel teeth and edge quenching",
@@ -1366,17 +1367,17 @@
         "using": [ [ "hotcut_any", 1 ] ]
       },
       {
-        "name": "Rough grinding",
-        "time": "1 h 40 m",
-        "activity_level": "MODERATE_EXERCISE",
-        "qualities": [ { "id": "FILE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
-        "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
-      },
-      {
         "name": "Normalizing steel to prepare for hardening",
-        "time": "1 h",
+        "time": "30 m",
         "activity_level": "NO_EXERCISE",
         "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Rough grinding",
+        "time": "1 h 40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "FILE", "level": 2 }, { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
       },
       {
         "name": "Heating the steel and thorough hardening",
@@ -2046,14 +2047,14 @@
       { "name": "Normalizing the hammer head", "time": "40 m", "activity_level": "NO_EXERCISE" },
       {
         "name": "Rough grinding and shaping the spike and face",
-        "time": "2 h 10 m",
+        "time": "2 h",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "GRIND", "level": 2 }, { "id": "FILE", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
       },
       {
         "name": "Another normalizing cycle before hardening",
-        "time": "40 m",
+        "time": "20 m",
         "activity_level": "NO_EXERCISE",
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_hardening" } ]
       },
@@ -2147,10 +2148,10 @@
         "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_toolsmithing" } ]
       },
-      { "name": "Normalizing the hammer head", "time": "50 m", "activity_level": "NO_EXERCISE" },
+      { "name": "Normalizing the hammer head", "time": "40 m", "activity_level": "NO_EXERCISE" },
       {
         "name": "Rough grinding and shaping the spike and face",
-        "time": "2 h 10 m",
+        "time": "2 h",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "GRIND", "level": 2 }, { "id": "FILE", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
@@ -2192,7 +2193,8 @@
         "name": "Fitting and wedging the head to the handle.  Attaching langets",
         "time": "30 m",
         "activity_level": "LIGHT_EXERCISE",
-        "tools": [ [ [ "hammer", -1 ] ] ]
+        "tools": [ [ [ "hammer", -1 ] ] ],
+        "qualities": [ { "id": "DRILL", "level": 2 } ]
       }
     ]
   },

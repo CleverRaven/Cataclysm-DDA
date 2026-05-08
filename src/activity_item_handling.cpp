@@ -1691,7 +1691,7 @@ _find_alt_construction( tripoint_bub_ms const &loc, construction_id const &idx,
                         std::optional<construction_id> const &part_con_idx,
                         std::function<bool( construction const & )> const &filter )
 {
-    std::vector<construction *> cons = constructions_by_filter( filter );
+    std::vector<const construction *> cons = constructions_by_filter( filter );
     for( construction const *el : cons ) {
         if( _can_construct( loc, idx, *el, part_con_idx ) ) {
             return el;
@@ -1712,7 +1712,7 @@ construction const *_find_prereq( tripoint_bub_ms const &loc, construction_id co
                                   std::optional<construction_id> const &part_con_idx, checked_cache_t &checked_cache )
 {
     construction const *con = nullptr;
-    std::vector<construction *> cons = constructions_by_filter( [&idx, &top_idx](
+    std::vector<const construction *> cons = constructions_by_filter( [&idx, &top_idx](
     construction const & it ) {
         furn_id const f = top_idx->post_is_furniture ? _get_id<furn_id>( top_idx ) : furn_id();
         ter_id const t = top_idx->post_is_furniture ? ter_id() : _get_id<ter_id>( top_idx );

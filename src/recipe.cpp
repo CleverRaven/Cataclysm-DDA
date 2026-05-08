@@ -233,14 +233,6 @@ bool recipe::has_flag( const std::string &flag_name ) const
     return flags.count( flag_name );
 }
 
-struct time_duration_as_moves_reader : public generic_typed_reader<time_duration_as_moves_reader> {
-    int64_t get_next( const JsonValue &jv ) const {
-        time_duration ret;
-        jv.read( ret );
-        return to_moves<int64_t>( ret );
-    }
-};
-
 void recipe::load( const JsonObject &jo, const std::string_view src )
 {
     abstract = jo.has_string( "abstract" );

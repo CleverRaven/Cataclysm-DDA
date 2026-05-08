@@ -41,6 +41,7 @@
 #include "help.h"
 #include "input.h"
 #include "input_context.h"
+#include "item_wakeup.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -501,6 +502,7 @@ bool do_turn()
 
     timed_event_manager &timed_events = get_timed_events();
     timed_events.process();
+    get_item_wakeups().process( calendar::turn );
     mission::process_all();
     avatar &u = get_avatar();
     map &m = get_map();

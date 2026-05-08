@@ -2235,12 +2235,12 @@ void mremove_fields( map *m, const tripoint_bub_ms &p )
     m->clear_fields( p );
 }
 
-void resolve_regional_terrain_and_furniture( const mapgendata &dat )
+void resolve_regional_terrain_and_furniture( const mapgendata &dat, int z_offset /*= 0*/ )
 {
     if( dat.region.id.is_valid() ) {
         const region_settings_terrain_furniture &settings_terfurn =
             dat.region.get_settings_terrain_furniture();
-        for( const tripoint_bub_ms &p : dat.m.points_on_zlevel() ) {
+        for( const tripoint_bub_ms &p : dat.m.points_on_zlevel( dat.m.get_abs_sub().z() + z_offset ) ) {
             const ter_id &tid_before = dat.m.ter( p );
             if( !tid_before.id().is_null() && tid_before->has_flag( ter_furn_flag::TFLAG_REGION_PSEUDO ) ) {
                 const ter_id &tid_after = settings_terfurn.resolve( tid_before );

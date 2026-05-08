@@ -3926,7 +3926,7 @@
     "subcategory": "CSC_WEAPON_PIERCING",
     "name": "survival knives",
     "description": "Recipes for making survival knives.",
-    "nested_category_data": [ "lc_knife_rambo", "mc_knife_rambo", "hc_knife_rambo", "ch_knife_rambo", "qt_knife_rambo" ]
+    "nested_category_data": [ "lc_knife_rambo", "knife_rambo", "hc_knife_rambo", "ch_knife_rambo", "qt_knife_rambo" ]
   },
   {
     "id": "nested_trench",
@@ -3936,7 +3936,7 @@
     "subcategory": "CSC_WEAPON_PIERCING",
     "name": "trench knives",
     "description": "Recipes for making trench knives.",
-    "nested_category_data": [ "lc_knife_trench", "mc_knife_trench", "hc_knife_trench", "ch_knife_trench", "qt_knife_trench" ]
+    "nested_category_data": [ "lc_knife_trench", "knife_trench", "hc_knife_trench", "ch_knife_trench", "qt_knife_trench" ]
   },
   {
     "id": "nested_kukri",

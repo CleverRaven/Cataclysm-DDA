@@ -106,6 +106,44 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_Teleport_to_labyrinth_reenter",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
+    "effect": [
+      { "u_location_variable": { "u_val": "player_location_safehouse_before_labyrinth" } },
+      { "u_add_var": "traveled_safehouse_to_labyrinth", "value": "yes" },
+      {
+        "if": { "compare_string": [ "netherum_labyrinth", { "u_val": "player_location_temp_labyrinth_return_dimension" } ] },
+        "then": {
+          "u_travel_to_dimension": "netherum_labyrinth",
+          "npc_travel_radius": 0,
+          "region_type": "netherum_labyrinth",
+          "npc_travel_filter": "none",
+          "fail_message": "Nope!",
+          "success_message": "Zwoink."
+        }
+      },
+      {
+        "if": { "compare_string": [ "netherum_labyrinth2", { "u_val": "player_location_temp_labyrinth_return_dimension" } ] },
+        "then": {
+          "u_travel_to_dimension": "netherum_labyrinth2",
+          "npc_travel_radius": 0,
+          "region_type": "netherum_labyrinth2",
+          "npc_travel_filter": "none",
+          "fail_message": "Nope!",
+          "success_message": "Zwoink."
+        }
+      },
+      {
+        "u_teleport": { "u_val": "player_location_temp_labyrinth_return_loc" },
+        "fail_message": "Nope!",
+        "force": true
+      },
+      { "u_message": "Zwoink.", "popup": true }
+    ],
+    "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_LS_Exit_labyrinth",
     "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
     "effect": [
@@ -158,6 +196,26 @@
       { "u_teleport": { "u_val": "player_location_safehouse_before_labyrinth" }, "force": true },
       { "u_message": "Zworunk", "popup": true },
       { "clear_dimension": "netherum_labyrinth" }
+    ],
+    "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_Exit_labyrinth_temp",
+    "//": "For going to the safehouse when too deep in the labyrinth to escape.",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
+    "effect": [
+      { "u_location_variable": { "u_val": "player_location_temp_labyrinth_return_loc" } },
+      {
+        "u_travel_to_dimension": "netherum_labyrinth_safehouse",
+        "npc_travel_radius": 0,
+        "region_type": "netherum_labyrinth_safehouse",
+        "npc_travel_filter": "none",
+        "fail_message": "You feel a prickle at the edge of your senses.",
+        "success_message": "Your surroundings warp and fold into a familiar place."
+      },
+      { "u_teleport": { "u_val": "player_location_safehouse_before_labyrinth" }, "force": true },
+      { "u_message": "Zworunk", "popup": true }
     ],
     "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
   },

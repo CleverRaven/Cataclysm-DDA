@@ -337,7 +337,7 @@
     "id": "rambo_knives",
     "items": [
       [ "lc_knife_rambo", 20 ],
-      [ "mc_knife_rambo", 10 ],
+      [ "knife_rambo", 10 ],
       [ "hc_knife_rambo", 5 ],
       [ "ch_knife_rambo", 2 ],
       [ "qt_knife_rambo", 1 ]
@@ -348,7 +348,7 @@
     "id": "trench_knives",
     "items": [
       [ "lc_knife_trench", 20 ],
-      [ "mc_knife_trench", 10 ],
+      [ "knife_trench", 10 ],
       [ "hc_knife_trench", 5 ],
       [ "ch_knife_trench", 2 ],
       [ "qt_knife_trench", 1 ]
