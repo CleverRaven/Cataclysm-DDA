@@ -45,6 +45,7 @@
 #include "coordinates.h"
 #include "craft_command.h"
 #include "crafting.h"
+#include "crafting_enums.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -75,6 +76,7 @@
 #include "item_contents.h"
 #include "item_group.h"
 #include "item_location.h"
+#include "item_wakeup.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -161,6 +163,7 @@ static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CONSUME( "ACT_CONSUME" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
+static const activity_id ACT_CRAFT_WAIT( "ACT_CRAFT_WAIT" );
 static const activity_id ACT_DISABLE( "ACT_DISABLE" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
@@ -6278,6 +6281,65 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         }
     }
 
+    // Mode is derived from craft state every turn so wakeup handlers that
+    // advance current_step do not need to reach into the live actor.
+    auto derive_mode = [&]() -> mode {
+        if( !rec.has_steps() )
+        {
+            return mode::active;
+        }
+        const recipe_step &s = rec.steps()[craft.get_current_step()];
+        if( s.attention != step_attention::unattended )
+        {
+            return mode::active;
+        }
+        if( craft.get_passive_started_at() == calendar::before_time_starts )
+        {
+            return mode::active;
+        }
+        const std::vector<attention_plan> &plans = craft.get_step_plans();
+        const int idx = craft.get_current_step();
+        if( idx >= static_cast<int>( plans.size() ) )
+        {
+            return mode::waiting;
+        }
+        return plans[idx].choice == step_choice::do_wait ? mode::waiting : mode::active;
+    };
+    mode_ = derive_mode();
+
+    if( rec.has_steps() ) {
+        const recipe_step &cur_step = rec.steps()[craft.get_current_step()];
+        if( cur_step.attention == step_attention::unattended ) {
+            const std::vector<attention_plan> &plans = craft.get_step_plans();
+            const int idx = craft.get_current_step();
+            const attention_plan plan = idx < static_cast<int>( plans.size() ) ? plans[idx] :
+                                        attention_plan{};
+
+            // Past-due wakeup (off-bubble drop or same-turn race): advance inline.
+            if( craft.get_passive_started_at() != calendar::before_time_starts &&
+                craft.get_ready_at() != calendar::before_time_starts &&
+                calendar::turn >= craft.get_ready_at() ) {
+                craft_actualize_scheduled( craft, item_wakeup_kind::ready_check,
+                                           calendar::turn, craft_item );
+                return;
+            }
+
+            if( craft.get_passive_started_at() == calendar::before_time_starts ) {
+                craft_stamp_passive_entry( craft, crafter, calendar::turn, craft_item );
+                mode_ = derive_mode();
+            }
+
+            if( plan.choice == step_choice::do_wait ) {
+                crafter.set_moves( 0 );
+                return;
+            }
+            // do_something / set_timer: end activity without backlog.
+            act.set_to_null();
+            crafter.set_moves( 0 );
+            return;
+        }
+    }
+
     if( !use_cached_workbench_multiplier ) {
         cached_workbench_multiplier = crafter.workbench_crafting_speed_multiplier( craft, location );
         use_cached_workbench_multiplier = true;
@@ -6493,6 +6555,9 @@ void craft_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "craft_loc", craft_item );
     jsout.member( "long", is_long );
     jsout.member( "activity_override", activity_override );
+    if( mode_ == mode::waiting ) {
+        jsout.member( "mode", "waiting" );
+    }
 
     jsout.end_object();
 }
@@ -6506,6 +6571,10 @@ std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonValue &js
     data.read( "craft_loc", actor.craft_item );
     data.read( "long", actor.is_long );
     data.read( "activity_override", actor.activity_override );
+    std::string mode_str;
+    if( data.read( "mode", mode_str ) && mode_str == "waiting" ) {
+        actor.mode_ = mode::waiting;
+    }
 
     return actor.clone();
 }
@@ -14735,6 +14804,7 @@ deserialize_functions = {
     { ACT_CONSUME, &consume_activity_actor::deserialize },
     { ACT_CRACKING, &safecracking_activity_actor::deserialize },
     { ACT_CRAFT, &craft_activity_actor::deserialize },
+    { ACT_CRAFT_WAIT, &craft_activity_actor::deserialize },
     { ACT_DISABLE, &disable_activity_actor::deserialize },
     { ACT_DISASSEMBLE, &disassemble_activity_actor::deserialize },
     { ACT_DISMEMBER, &butchery_activity_actor::deserialize },

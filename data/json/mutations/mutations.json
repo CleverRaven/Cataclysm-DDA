@@ -5203,6 +5203,7 @@
     "flags": [ "SLUDGE_IMMUNE", "TOUGH_FEET" ],
     "destroys_gear": true,
     "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "allowed_items": [ "ALLOWS_GASTROPOD_FOOT" ],
     "enchantments": [
       {
         "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": 0.25 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.75 } ]

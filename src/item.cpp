@@ -5155,6 +5155,150 @@ void item::mod_step_progress( double delta )
     craft_data_->step_progress += delta;
 }
 
+const std::vector<attention_plan> &item::get_step_plans() const
+{
+    cata_assert( craft_data_ );
+    return craft_data_->step_plans;
+}
+
+void item::set_step_plans( std::vector<attention_plan> plans )
+{
+    cata_assert( craft_data_ );
+    craft_data_->step_plans = std::move( plans );
+}
+
+time_point item::get_passive_started_at() const
+{
+    cata_assert( craft_data_ );
+    return craft_data_->passive_started_at;
+}
+
+void item::set_passive_started_at( time_point t )
+{
+    cata_assert( craft_data_ );
+    craft_data_->passive_started_at = t;
+}
+
+time_point item::get_ready_at() const
+{
+    cata_assert( craft_data_ );
+    return craft_data_->ready_at;
+}
+
+void item::set_ready_at( time_point t )
+{
+    cata_assert( craft_data_ );
+    craft_data_->ready_at = t;
+}
+
+time_point item::get_alarm_at() const
+{
+    cata_assert( craft_data_ );
+    return craft_data_->alarm_at;
+}
+
+void item::set_alarm_at( time_point t )
+{
+    cata_assert( craft_data_ );
+    craft_data_->alarm_at = t;
+}
+
+time_point item::get_fail_at() const
+{
+    cata_assert( craft_data_ );
+    return craft_data_->fail_at;
+}
+
+void item::set_fail_at( time_point t )
+{
+    cata_assert( craft_data_ );
+    craft_data_->fail_at = t;
+}
+
+time_point item::get_pause_started_at() const
+{
+    cata_assert( craft_data_ );
+    return craft_data_->pause_started_at;
+}
+
+void item::set_pause_started_at( time_point t )
+{
+    cata_assert( craft_data_ );
+    craft_data_->pause_started_at = t;
+}
+
+time_point item::get_saved_ready_at() const
+{
+    cata_assert( craft_data_ );
+    return craft_data_->saved_ready_at;
+}
+
+void item::set_saved_ready_at( time_point t )
+{
+    cata_assert( craft_data_ );
+    craft_data_->saved_ready_at = t;
+}
+
+time_point item::get_saved_alarm_at() const
+{
+    cata_assert( craft_data_ );
+    return craft_data_->saved_alarm_at;
+}
+
+void item::set_saved_alarm_at( time_point t )
+{
+    cata_assert( craft_data_ );
+    craft_data_->saved_alarm_at = t;
+}
+
+time_point item::get_saved_fail_at() const
+{
+    cata_assert( craft_data_ );
+    return craft_data_->saved_fail_at;
+}
+
+void item::set_saved_fail_at( time_point t )
+{
+    cata_assert( craft_data_ );
+    craft_data_->saved_fail_at = t;
+}
+
+character_id item::get_crafter_id() const
+{
+    cata_assert( craft_data_ );
+    return craft_data_->crafter_id;
+}
+
+void item::set_crafter_id( character_id id )
+{
+    cata_assert( craft_data_ );
+    craft_data_->crafter_id = id;
+}
+
+int item::get_passive_start_counter() const
+{
+    cata_assert( craft_data_ );
+    return craft_data_->passive_start_counter;
+}
+
+void item::set_passive_start_counter( int c )
+{
+    cata_assert( craft_data_ );
+    craft_data_->passive_start_counter = c;
+}
+
+int item::get_passive_end_counter() const
+{
+    cata_assert( craft_data_ );
+    return craft_data_->passive_end_counter;
+}
+
+void item::set_passive_end_counter( int c )
+{
+    cata_assert( craft_data_ );
+    craft_data_->passive_end_counter = c;
+}
+
 const cata::value_ptr<islot_comestible> &item::get_comestible() const
 {
     if( is_craft() && !craft_data_->disassembly ) {

@@ -114,6 +114,26 @@ Checks: [
     -readability-simplify-boolean-expr,
     -readability-suspicious-call-argument,
     -readability-use-anyofallof,
+
+    # ====  Disabled noise from checks introduced in LLVM 19+  ====
+    # clang-tidy silently ignores unknown check names, so entries here only
+    # take effect on toolchains that already ship the corresponding check.
+    -bugprone-crtp-constructor-accessibility,           # CRTP base ctors are public on purpose
+    -modernize-avoid-c-arrays,                          # false-positive inside std::enable_if_t<>
+    -readability-math-missing-parentheses,              # would add parens around almost every existing binary op
+    -readability-use-std-min-max,                       # if/else clamp idiom is preferred to std::min/max here
+
+    # ====  Disabled noise from checks introduced in LLVM 21+  ====
+    -readability-use-concise-preprocessor-directives,
+
+    # ====  Disabled noise from checks introduced in LLVM 22+  ====
+    -bugprone-derived-method-shadowing-base-method,     # store/load/kcal_range are intentional; wield audit pending
+    -bugprone-std-namespace-modification,               # std::hash<UserType> specializations are legal
+    -bugprone-throwing-static-initialization,           # every static const xxx_id ID(...) trips it
+    -misc-multiple-inheritance,                         # Character: Creature, visitable is intentional
+    -misc-override-with-different-visibility,           # can_resume_with_internal access change is intentional
+    -modernize-avoid-c-style-cast,                      # codebase uses C-style casts widely
+    -readability-container-size-empty,                  # auto-fix !empty() differs from size()==N inside Catch2 macros
 ]
 
 WarningsAsErrors: '*'

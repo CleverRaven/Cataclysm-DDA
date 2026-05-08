@@ -52,16 +52,29 @@ static void CheckDecl( LargeStackObjectCheck &Check, const MatchFinder::MatchRes
         return;
     }
 
-    const Type *T = MatchedDecl->getType().getTypePtr();
+    const QualType QT = MatchedDecl->getType().getCanonicalType();
+    const Type *T = QT.getTypePtrOrNull();
+    if( !T ) {
+        return;
+    }
 
     if( T->isReferenceType() || T->isUndeducedAutoType() ) {
         return;
     }
 
+#if defined(LLVM_VERSION_MAJOR) && LLVM_VERSION_MAJOR >= 22
+    // ASTContext::getTypeInfoImpl recurses without bound on some complete
+    // CTAD-deduced template instantiations (e.g. restore_on_out_of_scope
+    // wrapping std::optional<units::quantity<...>>) and crashes the process.
+    // The matcher fires on every varDecl, so we cannot keep the check
+    // partially active without misclassifying safe types.
+    return;
+#endif
+
 #if defined(LLVM_VERSION_MAJOR) && LLVM_VERSION_MAJOR >= 17
-    if( std::optional<CharUnits> VarSize = Result.Context->getTypeSizeInCharsIfKnown( T ) ) {
+    if( std::optional<CharUnits> VarSize = Result.Context->getTypeSizeInCharsIfKnown( QT ) ) {
 #else
-    if( Optional<CharUnits> VarSize = Result.Context->getTypeSizeInCharsIfKnown( T ) ) {
+    if( Optional<CharUnits> VarSize = Result.Context->getTypeSizeInCharsIfKnown( QT ) ) {
 #endif
         int VarSize_KiB = *VarSize / CharUnits::fromQuantity( 1024 );
 

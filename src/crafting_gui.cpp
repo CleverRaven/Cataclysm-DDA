@@ -28,6 +28,7 @@
 #include "character_id.h"
 #include "color.h"
 #include "crafting.h"
+#include "crafting_enums.h"
 #include "crafting_gui_helpers.h"
 #include "display.h"
 #include "flag.h"
@@ -1364,6 +1365,11 @@ void crafting_ui_impl::draw_recipe_info_panel()
                         ImGui::SameLine( 0, ImGui::CalcTextSize( "  " ).x );
                         ImGui::TextColored( cataimgui::imvec4_from_color( act_col ), "%s",
                                             activity.c_str() );
+                        if( step.attention == step_attention::unattended ) {
+                            ImGui::SameLine( 0, ImGui::CalcTextSize( "  " ).x );
+                            ImGui::TextColored( cataimgui::imvec4_from_color( c_yellow ),
+                                                "%s", _( "[unattended]" ) );
+                        }
 
                         ImGui::Indent( step_indent );
 

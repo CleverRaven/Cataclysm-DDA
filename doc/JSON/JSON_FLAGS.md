@@ -176,8 +176,9 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ABLATIVE_SKIRT``` item can be worn with Hub 01 armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction.
 - ```ACTIVE_CLOAKING``` While active, drains UPS to provide invisibility.
 - ```ALARMCLOCK``` Has an alarm-clock feature.
+- ```ALLOWS_GASTROPOD_FOOT``` You can wear this item even if you have a gastropod foot instead of human legs.
 - ```ALLOWS_NATURAL_ATTACKS``` Doesn't prevent any natural attacks or similar benefits from mutations, fingertip razors, etc., like most items covering the relevant body part would.
-- ```ALLOWS_TAIL``` You can wear this leg-covering item even if you have a tail.
+- ```ALLOWS_TAIL``` You can wear this leg-covering item even if you have a tail
 - ```ALLOWS_TALONS``` People with talon mutations still can wear this armor, that cover feet.
 - ```AURA``` This item goes in the outer aura layer, intended for metaphysical effects.
 - ```BAROMETER``` This gear is equipped with an accurate barometer (which is used to measure atmospheric pressure).

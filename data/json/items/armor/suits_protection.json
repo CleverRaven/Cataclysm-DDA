@@ -1407,6 +1407,13 @@
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
         "coverage": 50,
         "encumbrance": 0
+      },
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "gastropod_foot" ],
+        "coverage": 50,
+        "encumbrance": 0,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ]
       }
     ]
   },

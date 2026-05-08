@@ -8691,6 +8691,19 @@ void map::reconcile_item_wakeups()
             }
         }
     }
+
+    auto walk_character = [&wakeups]( Character & c ) {
+        // all_items_loc() is already recursive; rebuild per location directly.
+        for( item_location &loc : c.all_items_loc() ) {
+            if( loc && loc.get_item() != nullptr ) {
+                wakeups.rebuild_for_item( loc );
+            }
+        }
+    };
+    walk_character( get_avatar() );
+    for( npc &n : g->all_npcs() ) {
+        walk_character( n );
+    }
 }
 
 void map::shift_traps( const point_rel_sm &shift )

@@ -9,6 +9,7 @@
 #include "cata_assert.h"
 #include "character.h"
 #include "character_id.h"
+#include "crafting.h"
 #include "debug.h"
 #include "flexbuffer_json.h"
 #include "item.h"
@@ -201,6 +202,9 @@ void clear_test_enumerate_handlers()
 std::vector<desired_wakeup> enumerate_scheduled_dispatch( const item &it,
         const item_location &loc )
 {
+    if( it.is_craft() ) {
+        return craft_enumerate_scheduled_wakeups( it, loc );
+    }
     const std::map<itype_id, item_wakeup_test_enumerator> &reg = test_enumerator_registry();
     const auto entry = reg.find( it.typeId() );
     if( entry != reg.end() ) {
@@ -213,6 +217,10 @@ std::vector<desired_wakeup> enumerate_scheduled_dispatch( const item &it,
 static void dispatch_actualize( item &it, item_wakeup_kind kind, time_point now,
                                 const item_location &loc )
 {
+    if( it.is_craft() ) {
+        craft_actualize_scheduled( it, kind, now, loc );
+        return;
+    }
     const std::map<itype_id, item_wakeup_test_handler> &reg = test_handler_registry();
     const auto it_handler = reg.find( it.typeId() );
     if( it_handler != reg.end() ) {

@@ -96,8 +96,12 @@ In addition to the usual means of creating a `tags` file via e.g. [`ctags`](http
 
 Cataclysm has a [clang-tidy configuration file](../../.clang-tidy) and if you have
 `clang-tidy` available you can run it to perform static analysis of the
-codebase.  We test with `clang-tidy` from LLVM 18.0.0 with CI, so for the most
-consistent results, you might want to use that version.
+codebase.  CI runs `clang-tidy` from LLVM 18.0.0 (Ubuntu apt.llvm.org build),
+so for the most consistent results that is still the recommended baseline.
+The build scripts also accept `LLVM_VERSION=19|20|21|22` (and `LLVM_PREFIX`
+for non-Ubuntu install layouts) so the same workflow works against newer
+toolchains; preemptive `.clang-tidy` disables keep newer-version noise out
+of the way.
 
 To run it, you have a few options.
 
@@ -128,10 +132,23 @@ The following set of commands should take you from zero to running clang-tidy eq
 sudo apt install build-essential cmake clang-18 libclang-18-dev llvm-18 llvm-18-dev llvm-18-tools pip
 sudo pip install compiledb lit
 test -f /usr/bin/python || sudo ln -s /usr/bin/python3 /usr/bin/python
-# The following command invokes clang-tidy exactly like CI does
-COMPILER=clang++-18 CLANG=clang++-18 CMAKE=1 CATA_CLANG_TIDY=plugin TILES=1 LOCALIZE=0 ./build-scripts/clang-tidy-build.sh
-COMPILER=clang++-18 CLANG=clang++-18 CMAKE=1 CATA_CLANG_TIDY=plugin TILES=1 LOCALIZE=0 ./build-scripts/clang-tidy-run.sh
+# The following commands invoke clang-tidy exactly like CI does
+COMPILER=clang++-18 CATA_CLANG_TIDY=clang-tidy-18 TILES=1 LOCALIZE=0 ./build-scripts/clang-tidy-build.sh
+COMPILER=clang++-18 CATA_CLANG_TIDY=clang-tidy-18 TILES=1 LOCALIZE=0 ./build-scripts/clang-tidy-run.sh
 ```
+
+To target another toolchain set `LLVM_VERSION` (and optionally `LLVM_PREFIX`)
+along with the matching `CATA_CLANG_TIDY` executable, e.g.
+
+```sh
+LLVM_VERSION=21 COMPILER=clang++-21 CATA_CLANG_TIDY=clang-tidy-21 \
+    TILES=1 LOCALIZE=0 ./build-scripts/clang-tidy-build.sh
+```
+
+The build directory can be overridden with `CATA_BUILD_DIR` (default `build`),
+which is honoured by `clang-tidy-build.sh`, `clang-tidy-run.sh`,
+`clang-tidy-wrapper.sh`, `tools/repeat_clang_tidy.sh`, and
+`tools/llama/clang_tidy.sh`.
 
 #### Ubuntu Focal
 
