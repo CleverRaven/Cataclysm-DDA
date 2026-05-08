@@ -58,7 +58,9 @@ else
     parallel -j "$num_test_jobs" ${parallel_opts} "run_test './tests/cata_test' '('{}')=> ' --user-dir=test_user_dir_{#} {}" ::: "[slow] ~starting_items" "~[slow] ~[.],starting_items"
     if [ -n "$MODS" ]
     then
-        parallel -j "$num_test_jobs" ${parallel_opts} "run_test './tests/cata_test' 'Mods-('{}')=> ' $(printf %q "${MODS}") --user-dir=modded_{#} {}" ::: "[slow] ~starting_items" "~[slow] ~[.],starting_items"
+        for MODSET in ${MODS//|/ }; do
+            parallel -j "$num_test_jobs" ${parallel_opts} "run_test './tests/cata_test' 'Mods-('{}')=> ' --mods=$(printf %q "${MODSET}") --user-dir=modded_{#} {}" ::: "[slow] ~starting_items" "~[slow] ~[.],starting_items"
+        done
     fi
 
     if [ -n "$TEST_STAGE" ]
