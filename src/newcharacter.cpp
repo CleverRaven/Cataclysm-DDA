@@ -170,8 +170,8 @@ static void setup_list_detail_ui( const std::string &header = std::string(),
 
 static std::string get_character_stat_name( int selected_stat_index )
 {
-    return uppercase_first_letter( io::enum_to_full_string(
-                                       static_cast<character_stat>( selected_stat_index ) ) );
+    return uppercase_first_letter( _( io::enum_to_full_string(
+                                       static_cast<character_stat>( selected_stat_index ) ) ) );
 }
 
 static std::string get_skill_entry_text( const skill_id selected_skill, const avatar &u )
@@ -1913,11 +1913,11 @@ void draw_scenario_details( const avatar &u )
 
     //TODO: Move this to JSON?
     const std::vector<std::pair<std::string, std::string>> flag_descriptions = {
-        { "FIRE_START", translate_marker( "Fire nearby" ) },
-        { "SUR_START", translate_marker( "Zombies nearby" ) },
-        { "HELI_CRASH", translate_marker( "Various limb wounds" ) },
-        { "LONE_START", translate_marker( "No starting NPC" ) },
-        { "BORDERED", translate_marker( "Starting location is bordered by an immense wall" ) },
+        { "FIRE_START", _( "Fire nearby" ) },
+        { "SUR_START", _( "Zombies nearby" ) },
+        { "HELI_CRASH", _( "Various limb wounds" ) },
+        { "LONE_START", _( "No starting NPC" ) },
+        { "BORDERED", _( "Starting location is bordered by an immense wall" ) },
     };
 
     bool flag_header_added = false;
@@ -2722,42 +2722,42 @@ void character_creator_ui_impl::draw_controls()
     }
 
     if( ImGui::BeginTabBar( "CHARACTER_CREATOR_TABS" ) ) {
-        if( ImGui::BeginTabItem( "SCENARIO", nullptr,
+        if( ImGui::BeginTabItem( _( "SCENARIO" ), nullptr,
                                  tab_selected[static_cast<int>( CHARCREATOR_SCENARIO )] ) ) {
             check_new_tab( CHARCREATOR_SCENARIO );
             draw_scenarios();
             ImGui::EndTabItem();
         }
-        if( ImGui::BeginTabItem( "PROFESSION", nullptr,
+        if( ImGui::BeginTabItem( _( "PROFESSION" ), nullptr,
                                  tab_selected[static_cast<int>( CHARCREATOR_PROFESSION )] ) ) {
             check_new_tab( CHARCREATOR_PROFESSION );
             draw_professions();
             ImGui::EndTabItem();
         }
-        if( ImGui::BeginTabItem( "BACKGROUND", nullptr,
+        if( ImGui::BeginTabItem( _( "BACKGROUND" ), nullptr,
                                  tab_selected[static_cast<int>( CHARCREATOR_BACKGROUND )] ) ) {
             check_new_tab( CHARCREATOR_BACKGROUND );
             draw_backgrounds();
             ImGui::EndTabItem();
         }
-        if( ImGui::BeginTabItem( "STATS", nullptr, tab_selected[static_cast<int>( CHARCREATOR_STATS )] ) ) {
+        if( ImGui::BeginTabItem( _( "STATS" ), nullptr, tab_selected[static_cast<int>( CHARCREATOR_STATS )] ) ) {
             check_new_tab( CHARCREATOR_STATS );
             draw_stats();
             ImGui::EndTabItem();
         }
-        if( ImGui::BeginTabItem( "TRAITS", nullptr,
+        if( ImGui::BeginTabItem( _( "TRAITS" ), nullptr,
                                  tab_selected[static_cast<int>( CHARCREATOR_TRAITS )] ) ) {
             check_new_tab( CHARCREATOR_TRAITS );
             draw_traits();
             ImGui::EndTabItem();
         }
-        if( ImGui::BeginTabItem( "SKILLS", nullptr,
+        if( ImGui::BeginTabItem( _( "SKILLS" ), nullptr,
                                  tab_selected[static_cast<int>( CHARCREATOR_SKILLS )] ) ) {
             check_new_tab( CHARCREATOR_SKILLS );
             draw_skills();
             ImGui::EndTabItem();
         }
-        if( ImGui::BeginTabItem( "SUMMARY", nullptr,
+        if( ImGui::BeginTabItem( _( "SUMMARY" ), nullptr,
                                  tab_selected[static_cast<int>( CHARCREATOR_SUMMARY )] ) ) {
             check_new_tab( CHARCREATOR_SUMMARY );
             draw_summary();
@@ -2795,7 +2795,7 @@ void character_creator_ui_impl::draw_top_bar( const avatar &u ) const
         char_creation::draw_outfit();
 
         ImGui::TableSetColumnIndex( 1 );
-        cataimgui::draw_colored_text( "Randomize:", c_white );
+        cataimgui::draw_colored_text( _( "Randomize:" ), c_white );
         ImGui::SameLine();
         char_creation::draw_action_button( _( "Name" ), "RANDOMIZE_CHAR_NAME" );
         ImGui::SameLine();
