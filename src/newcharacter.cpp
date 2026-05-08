@@ -1913,11 +1913,11 @@ void draw_scenario_details( const avatar &u )
 
     //TODO: Move this to JSON?
     const std::vector<std::pair<std::string, std::string>> flag_descriptions = {
-        { "FIRE_START", _( "Fire nearby" ) },
-        { "SUR_START", _( "Zombies nearby" ) },
-        { "HELI_CRASH", _( "Various limb wounds" ) },
-        { "LONE_START", _( "No starting NPC" ) },
-        { "BORDERED", _( "Starting location is bordered by an immense wall" ) },
+        { "FIRE_START", translate_marker( "Fire nearby" ) },
+        { "SUR_START", translate_marker( "Zombies nearby" ) },
+        { "HELI_CRASH", translate_marker( "Various limb wounds" ) },
+        { "LONE_START", translate_marker( "No starting NPC" ) },
+        { "BORDERED", translate_marker( "Starting location is bordered by an immense wall" ) },
     };
 
     bool flag_header_added = false;
@@ -1927,7 +1927,7 @@ void draw_scenario_details( const avatar &u )
                 draw_colored_text_wrap( _( "Scenario Flags:" ), COL_HEADER );
                 flag_header_added = true;
             }
-            draw_colored_text_wrap( std::get<1>( flag_pair ), COL_NOTE_MINOR );
+            draw_colored_text_wrap( _( std::get<1>( flag_pair ) ), COL_NOTE_MINOR );
         }
     }
 }
