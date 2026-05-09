@@ -362,7 +362,6 @@
           "miss_msg_u": "",
           "miss_msg_npc": "",
           "no_dmg_msg_u": "%1$s's skin takes on a waxen sheen.",
-          "no_dmg_msg_u": "%1$s's skin takes on a waxen sheen.",
           "no_dmg_msg_npc": "%1$s' s skin takes on a waxen sheen.",
           "dodgeable": false,
           "uncanny_dodgeable": false,
