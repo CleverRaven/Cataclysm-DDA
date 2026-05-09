@@ -688,6 +688,7 @@
     "book_learn": [ [ "manual_knives", 9 ], [ "textbook_armschina", 8 ], [ "textbook_weparabic", 8 ] ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ], ["quench", 120 ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ],
+    "byproducts": [ [ "water", 100 ] ],
     "steps": [
       {
         "name": "Drawing out medium carbon steel, forging the blade blank, and drawing out the hidden tang",
@@ -763,6 +764,7 @@
     "book_learn": [ [ "manual_knives", 10 ], [ "textbook_armschina", 9 ], [ "textbook_weparabic", 9 ] ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ], [ "quench", 120 ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ],
+    "byproducts": [ [ "water", 120 ] ],
     "steps": [
       {
         "name": "Drawing out medium carbon steel, forging the blade blank, and drawing out the hidden tang",
@@ -831,7 +833,6 @@
         "proficiencies": [ { "proficiency": "prof_carving", "skill_penalty": 0 } ]
       }
     ]
-  },
   },
   {
     "type": "recipe",
