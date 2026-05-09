@@ -251,9 +251,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_bio_nl_dimensional_anchor",
-    "effect": [
-      { "u_spawn_item": "integrated_nl_dimensional_anchor", "suppress_message": true, "force_equip": true }
-    ]
+    "effect": [ { "u_spawn_item": "integrated_nl_dimensional_anchor", "suppress_message": true, "force_equip": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -269,7 +267,11 @@
         "allow_cancel": true,
         "names": [ "Hairstyle", "Facial Hair", "Hair Color" ],
         "title": "Pick an action",
-        "descriptions": [ "Change the length and style of your hair.", "Change the length and style of your facial hair", "Change the color of your hair." ]
+        "descriptions": [
+          "Change the length and style of your hair.",
+          "Change the length and style of your facial hair",
+          "Change the color of your hair."
+        ]
       }
     ]
   },
@@ -290,18 +292,7 @@
           "bio_white_hair_dye",
           "EOC_NONE"
         ],
-        "names": [
-          "Black",
-          "Blond",
-          "Blue",
-          "Brown",
-          "Gray",
-          "Green",
-          "Red",
-          "Pink",
-          "White",
-          "Nevermind"
-        ],
+        "names": [ "Black", "Blond", "Blue", "Brown", "Gray", "Green", "Red", "Pink", "White", "Nevermind" ],
         "keys": [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" ],
         "descriptions": [
           "Make your hair black.",

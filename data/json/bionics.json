@@ -1815,7 +1815,7 @@
     "type": "bionic",
     "name": { "str": "Cranial EMF Shielding" },
     "description": "Your skull is coated in a microscopically thin layer of some non-newtonian fluid.  It can protect you from some types of electromagnetic fields.  Is it useful?  Maybe.  It slightly encumbers the head.",
-    "encumbrance": [ [ "head", 1  ] ],
+    "encumbrance": [ [ "head", 1 ] ],
     "occupied_bodyparts": [ [ "head", 1 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "passive_pseudo_items": [ "integrated_nl_psyshield" ]
