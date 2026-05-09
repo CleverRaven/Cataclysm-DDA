@@ -124,5 +124,11 @@
       { "math": [ "u_val('stim') = 0" ] },
       { "turn_cost": { "math": [ "1" ] } }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_nl_blood_factory",
+    "condition": { "math": [ "u_vitamin('blood') < 0" ] },
+    "effect": [ { "math": [ "u_vitamin('blood') += 2" ] }, { "math": [ "u_calories() -= 3" ] } ]
   }
 ]
