@@ -184,7 +184,6 @@
         [ "lc_rapier", -1 ],
         [ "hc_rapier", -1 ],
         [ "ch_rapier", -1 ],
-        [ "mc_rapier", -1 ],
         [ "qt_rapier", -1 ],
         [ "lc_talwar", -1 ],
         [ "mc_talwar", -1 ],
@@ -205,7 +204,6 @@
         [ "qt_jian", -1 ],
         [ "broadsword", -1 ],
         [ "lc_broadsword", -1 ],
-        [ "mc_broadsword", -1 ],
         [ "ch_broadsword", -1 ],
         [ "hc_broadsword", -1 ],
         [ "qt_broadsword", -1 ]
@@ -269,7 +267,6 @@
       [
         [ "broadsword", -1 ],
         [ "lc_broadsword", -1 ],
-        [ "mc_broadsword", -1 ],
         [ "ch_broadsword", -1 ],
         [ "hc_broadsword", -1 ],
         [ "qt_broadsword", -1 ],

@@ -686,7 +686,7 @@
     "skill_used": "fabrication",
     "difficulty": 8,
     "book_learn": [ [ "manual_knives", 9 ], [ "textbook_armschina", 8 ], [ "textbook_weparabic", 8 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ], ["quench", 120 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ], [ "quench", 120 ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ],
     "byproducts": [ [ "water", 100 ] ],
     "steps": [
@@ -799,11 +799,7 @@
         "time": "30 m",
         "activity_level": "LIGHT_EXERCISE"
       },
-      {
-        "name": "Thorough hardening",
-        "time": "20 m",
-        "proficiencies": [ { "proficiency": "prof_hardening" } ]
-      },
+      { "name": "Thorough hardening", "time": "20 m", "proficiencies": [ { "proficiency": "prof_hardening" } ] },
       {
         "name": "Grinding away forge scale to observe temper colors",
         "time": "20 m",
@@ -1139,7 +1135,7 @@
   {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
-    "result": "mc_broadsword",
+    "result": "broadsword",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",

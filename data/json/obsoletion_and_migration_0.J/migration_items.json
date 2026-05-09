@@ -826,5 +826,15 @@
     "type": "MIGRATION",
     "id": "mc_kukri",
     "replace": "kukri"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mc_broadsword",
+    "replace": "broadsword"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mc_rapier",
+    "replace": "rapier"
   }
 ]
