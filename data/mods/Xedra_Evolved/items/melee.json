@@ -389,7 +389,7 @@
   {
     "type": "ITEM",
     "id": "dreamforged_kukri",
-    "copy-from": "mc_kukri",
+    "copy-from": "kukri",
     "name": { "str": "dreamforged kukri" },
     "description": "A small kukri, forged entirely from dreamdross.  You barely feel any weight.  The dreamdross grants it some minor magical properties, but you can't control their effects.",
     "replace_materials": { "mc_steel": "forged_dreamstuff", "wood": "forged_dreamstuff" },

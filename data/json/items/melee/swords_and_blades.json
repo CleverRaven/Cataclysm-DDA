@@ -1057,18 +1057,8 @@
     "extend": { "flags": [ "FRAGILE_MELEE" ] }
   },
   {
-    "id": "kukri",
-    "copy-from": "mc_kukri",
-    "looks_like": "kukri",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "kukri" },
-    "description": "This versatile implement is a modern take on a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, it can be used as both a tool and a weapon.",
-    "replace_materials": { "mc_steel": "steel", "wood": "plastic" }
-  },
-  {
     "id": "lc_kukri",
-    "copy-from": "mc_kukri",
+    "copy-from": "kukri",
     "looks_like": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
@@ -1081,7 +1071,7 @@
     "relative": { "melee_damage": { "cut": -1 } }
   },
   {
-    "id": "mc_kukri",
+    "id": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "weapons",
@@ -1107,7 +1097,7 @@
   },
   {
     "id": "hc_kukri",
-    "copy-from": "mc_kukri",
+    "copy-from": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "high steel kukri" },
@@ -1118,7 +1108,7 @@
   },
   {
     "id": "ch_kukri",
-    "copy-from": "mc_kukri",
+    "copy-from": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel kukri" },
@@ -1129,7 +1119,7 @@
   },
   {
     "id": "qt_kukri",
-    "copy-from": "mc_kukri",
+    "copy-from": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel kukri" },

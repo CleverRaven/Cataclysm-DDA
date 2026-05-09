@@ -3946,7 +3946,7 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "kukris",
     "description": "Recipes for making kukris.",
-    "nested_category_data": [ "kukri", "lc_kukri", "mc_kukri", "hc_kukri", "ch_kukri", "qt_kukri" ]
+    "nested_category_data": [ "kukri", "lc_kukri", "hc_kukri", "ch_kukri", "qt_kukri" ]
   },
   {
     "id": "nested_wakizashi",

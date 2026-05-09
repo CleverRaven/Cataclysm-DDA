@@ -368,7 +368,7 @@
   {
     "type": "item_group",
     "id": "kukris",
-    "items": [ [ "lc_kukri", 20 ], [ "mc_kukri", 10 ], [ "hc_kukri", 5 ], [ "ch_kukri", 2 ], [ "qt_kukri", 1 ] ]
+    "items": [ [ "lc_kukri", 20 ], [ "kukri", 10 ], [ "hc_kukri", 5 ], [ "ch_kukri", 2 ], [ "qt_kukri", 1 ] ]
   },
   {
     "type": "item_group",
