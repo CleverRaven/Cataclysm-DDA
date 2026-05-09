@@ -2858,16 +2858,51 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "halberd",
-    "copy-from": "glaive",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
     "difficulty": 7,
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ], [ "metal_punch", 1 ] ],
-    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ], [ [ "nail", 2 ] ] ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ], [ [ "nail", 2 ] ] ],
+    "steps": [
+      {
+        "name": "Cutting steel.  Forging the blade, socket, and langets",
+        "time": "3 h",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "using": [ [ "hotcut_any", 1 ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Normalizing",
+        "time": "40 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Rough grinding the bevels and filing the socket",
+        "time": "1 h 30 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Final grind",
+        "time": "1 h 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "FILE", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Inserting nails through the langet holes.  Wrapping handle",
+        "time": "1 h 30 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 1 } ],
+        "proficiencies": [ { "proficiency": "prof_carving" } ]
+      }
+    ]
   },
   {
     "type": "recipe",
