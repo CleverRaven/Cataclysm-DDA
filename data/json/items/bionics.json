@@ -1616,7 +1616,7 @@
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Dimensional Anchor CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Your body has been wired with advanced technology, locking you into your native dimensionality.  This protects you from teleportation, and other phase-altering effects common to portals and extradimensional creatures.",
+    "description": "Advanced technology that locks the body into its native dimensionality, protecting from unwanted teleportation and some other phase altering effects.",
     "price": "14 kUSD",
     "price_postapoc": "150 USD",
     "difficulty": 11
@@ -1628,7 +1628,7 @@
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Laser-Assisted Reading Device CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Who needs a reading lamp when you don't need your eyes?  Your head has a short-distance laser scanner implant, allowing you to upload digital images of books straight into your brains optic lobe and language centers.  When active, you read slightly faster, and can read in the dark.",
+    "description": "Who needs a reading lamp when you don't need your eyes?  This is a short-distance laser scanner implant which allows one to upload digital images of books straight into your brains optic lobe and language centers.  When active, one can read slightly faster, and can read in the dark.",
     "price": "2 kUSD 200 USD",
     "weight": "1000 g",
     "difficulty": 3
@@ -1640,7 +1640,7 @@
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Cranial EMF Shielding CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Your skull is coated in a microscopically thin layer of some non-newtonian fluid.  It can protect you from some types of electromagnetic fields.  Is it useful?  Maybe.",
+    "description": "A a microscopically thin layer of some non-newtonian fluid for skull application.  It can protect from some types of electromagnetic fields.  Is it useful?  Maybe.",
     "price": "7 kUSD 500 USD",
     "price_postapoc": "50 USD",
     "difficulty": 9
@@ -1651,7 +1651,7 @@
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Artificial Hair CBM" },
-    "description": "Your hair follicles have been replaced with sphincters that control the extrusion and retraction of advanced nanotube hair technology.  Activate this to change the style and color of your artificial hair.",
+    "description": "Synthetic sphincters that control the extrusion and retraction of advanced nanotube hair technology, made to replace hair follicles, allowing one to control their hair length at will.",
     "weight": "100 g",
     "difficulty": 6
   },
@@ -1662,7 +1662,7 @@
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Bone Marrow Bio-Factory CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Your bone marrow is now home to several specialized nanorobots.  Activating them will increase blood cell production at the cost of stored calories and bionic energy.",
+    "description": "Specialized nanorobots that increase blood cell production at the cost of stored calories and bionic energy.",
     "price": "9 kUSD 500 USD",
     "price_postapoc": "100 USD",
     "weight": "200 g",
@@ -1675,7 +1675,7 @@
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Antigravity Leap Assist CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Your legs have been implanted with an antigravity device.  While it doesn't allow you to float or fly, it does allow you to make superhuman long jumps.",
+    "description": "An antigravity device designed to be implanted into the legs.  While it doesn't allow for real floating or flying, it does facilitate superhuman long jumps.",
     "price": "14 kUSD",
     "price_postapoc": "40 USD",
     "difficulty": 11

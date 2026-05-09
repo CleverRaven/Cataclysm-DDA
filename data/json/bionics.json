@@ -1786,13 +1786,14 @@
     "//": "Only found in netherum labyrinth",
     "type": "bionic",
     "name": { "str": "Dimensional Anchor" },
-    "description": "Your body has been wired with advanced technology, locking you into your native dimensionality.  This protects you from teleportation, and other phase-altering effects common to portals and extradimensional creatures.",
+    "description": "Your body has been wired with advanced technology that locks you into your native dimensionality, protecting you from unwanted teleportation and some other phase altering effects.",
     "occupied_bodyparts": [ [ "torso", 16 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 4 ], [ "leg_r", 4 ] ],
-    "flags": [ "BIONIC_TOGGLED" ],
-    "active_flags": [ "DIMENSIONAL_ANCHOR", "PORTAL_PROOF" ],
     "act_cost": "50 J",
     "react_cost": "50 J",
-    "time": "1 s"
+    "time": "1 s",
+    "flags": [ "USES_BIONIC_POWER", "BIONIC_TOGGLED" ],
+    "activated_eocs": [ "EOC_bio_nl_dimensional_anchor" ],
+    "deactivated_eocs": [ "EOC_bio_nl_dimensional_anchor_removal" ]
   },
   {
     "id": "bio_nl_laser_reader",
@@ -1824,11 +1825,12 @@
     "//": "Only found in netherum labyrinth",
     "type": "bionic",
     "name": { "str": "Artificial Hair" },
-    "description": "Your hair follicles have been replaced with sphincters that control the extrusion and retraction of advanced nanotube hair technology.  Activate this to change the style and color of your artificial hair.",
+    "description": "Your hair follicles have been replaced with mechanical sphincters that control the extrusion and retraction of advanced nanotube hair technology.  Activate this to change the style or color of your artificial hair.",
     "occupied_bodyparts": [ [ "head", 1 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "act_cost": "1 J",
-    "activated_eocs": [ "barber_hair" ]
+    "activated_eocs": [ "EOC_bio_nl_hair" ],
+    "canceled_mutations": [ "natural_hair_growth", "natural_beard_growth" ]
   },
   {
     "id": "bio_nl_blood_factory",
