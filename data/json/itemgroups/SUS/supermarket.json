@@ -280,6 +280,13 @@
     "entries": [ { "item": "mozzarella_cheese", "container-item": "null", "count": 1 } ]
   },
   {
+    "id": "mozzarella_cheese_smoked_bag_1",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "mozzarella_cheese_smoked", "container-item": "null", "count": 1 } ]
+  },
+  {
     "id": "mascarpone_container_1",
     "type": "item_group",
     "subtype": "collection",
@@ -604,6 +611,7 @@
       { "prob": 1, "group": "cheese_hard_wrapper_8" },
       { "prob": 1, "group": "cheese_bag_8" },
       { "prob": 1, "group": "mozzarella_cheese_bag_1" },
+      { "prob": 1, "group": "mozzarella_cheese_smoked_bag_1" },
       { "prob": 1, "group": "mascarpone_container_1" },
       { "prob": 1, "group": "pecorino_cheese_wrapper_4" },
       { "prob": 1, "group": "cottage_cheese_tub_1" }
