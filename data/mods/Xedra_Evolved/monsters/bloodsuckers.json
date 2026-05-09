@@ -1083,7 +1083,7 @@
     "melee_dice_sides": 15,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 5,
-    "regenerates": 0.2,
+    "regenerates": 1,
     "regeneration_modifiers": [ [ "arion_blood_drank", 2 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
