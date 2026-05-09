@@ -89,7 +89,6 @@
           "cooldown": 3,
           "move_cost": 110,
           "damage_max_instance": [ { "damage_type": "cut", "amount": 18, "armor_multiplier": 0.75 } ],
-          "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "u_has_effect": "effect_vampire_monster_strength" } ] },
           "condition": {
             "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "effect_vampire_monster_strength" } } ]
           },
