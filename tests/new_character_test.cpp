@@ -5,7 +5,6 @@
 #include <set>
 #include <sstream>
 #include <string>
-#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -134,9 +133,10 @@ TEST_CASE( "starting_items", "[slow]" )
         trait_WOOLALLERGY
     };
     // Prof/scen combinations that need to be checked.
-    std::unordered_map<const scenario *, std::vector<string_id<profession>>> scen_prof_combos;
+    std::vector<std::pair<const scenario *, std::vector<string_id<profession>>>> scen_prof_combos;
+    scen_prof_combos.emplace_back( scenario::generic(), std::vector<string_id<profession>> {} );
     for( const auto &id : scenario::generic()->permitted_professions() ) {
-        scen_prof_combos[scenario::generic()].push_back( id );
+        scen_prof_combos.back().second.push_back( id );
     }
 
     std::set<failure> failures;

@@ -3,7 +3,8 @@
 set -eu
 set -o pipefail
 
-plugin=build/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so
+build_dir=${CATA_BUILD_DIR:-build}
+plugin=${build_dir}/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so
 
 if [ -f "$plugin" ]
 then

@@ -661,7 +661,7 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
         monster_weight = std::round( 0.85 * monster_weight );
     }
     const int entry_count = ( action == butcher_type::DISSECT &&
-                              !mt.dissect.is_empty() ) ? mt.dissect->get_all().size() : mt.harvest->get_all().size();
+                              !mt.dissect.is_empty() ) ? mt.dissect->entries().size() : mt.harvest->entries().size();
     int monster_weight_remaining = monster_weight;
     int practice = 0;
 

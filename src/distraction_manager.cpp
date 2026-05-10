@@ -42,6 +42,7 @@ static const std::vector<configurable_distraction> &get_configurable_distraction
         {&uistate.distraction_mutation,        translate_marker( "Mutation" ),                     translate_marker( "This distraction will interrupt your activity when you gain or lose a mutation." )},
         {&uistate.distraction_oxygen,          translate_marker( "Asphyxiation" ),                 translate_marker( "This distraction will interrupt your activity when you can't breathe." )},
         {&uistate.distraction_withdrawal,      translate_marker( "Withdrawal" ),                  translate_marker( "This distraction will interrupt your activity when you have withdrawals." )},
+        {&uistate.distraction_craft_step_complete, translate_marker( "Craft step complete" ),      translate_marker( "This distraction will interrupt your activity when an unattended crafting step completes." )},
         {&uistate.distraction_all,             translate_marker( "Toggle all" ),                   translate_marker( "Toggle all distractions" ), true }
     };
     return configurable_distractions;
@@ -157,6 +158,7 @@ void distraction_manager_gui::show()
                 uistate.distraction_mutation = toggle_state;
                 uistate.distraction_oxygen = toggle_state;
                 uistate.distraction_withdrawal = toggle_state;
+                uistate.distraction_craft_step_complete = toggle_state;
             }
         }
     }

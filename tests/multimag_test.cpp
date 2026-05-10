@@ -10,6 +10,7 @@
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "avatar_action.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "cata_utility.h"
@@ -29,6 +30,7 @@
 #include "json.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "messages.h"
 #include "options_helpers.h"
 #include "output.h"
 #include "player_helpers.h"
@@ -63,6 +65,7 @@ static const itype_id itype_stanag30( "stanag30" );
 static const itype_id itype_sw_619( "sw_619" );
 static const itype_id itype_test_multimag_gun( "test_multimag_gun" );
 static const itype_id itype_test_multimag_gun_consume( "test_multimag_gun_consume" );
+static const itype_id itype_test_multimag_gun_integral_ammo( "test_multimag_gun_integral_ammo" );
 static const itype_id itype_test_multimag_gun_same_type( "test_multimag_gun_same_type" );
 static const itype_id itype_test_multimag_tool_consume( "test_multimag_tool_consume" );
 static const itype_id itype_test_multimag_tool_factor( "test_multimag_tool_factor" );
@@ -1659,4 +1662,37 @@ TEST_CASE( "ammo_consume_on_item_without_charges_per_use_drains_raw_count",
     const int consumed = legacy.ammo_consume( 4, pos, nullptr );
     CHECK( consumed == 4 );
     CHECK( legacy.ammo_remaining() == 11 );
+}
+
+// Multimag gun with integral MAGAZINE ammo pocket trips the single-mag
+// "incompatible ammunition" gate in fire_wielded_weapon: loaded_ammo()
+// recurses into a bare round and returns null_item_reference, so its
+// ammo_type() never matches gun.ammo. Pocket restrictions already enforce
+// per-pocket ammo at load time, so the gate must skip multimag guns.
+TEST_CASE( "multimag_fire_skips_incompatible_ammo_gate", "[multimag][fire]" )
+{
+    clear_map();
+    avatar &dummy = get_avatar();
+    dummy.set_body();
+    dummy.clear_worn();
+    dummy.remove_weapon();
+
+    item gun( itype_test_multimag_gun_integral_ammo );
+    REQUIRE( gun.uses_firing_requirements() );
+    REQUIRE( gun.put_in( item( itype_9mm, calendar::turn, 1 ),
+                         pocket_type::MAGAZINE ).success() );
+    item battery( itype_heavy_battery_cell );
+    battery.ammo_set( itype_battery, 100 );
+    REQUIRE( gun.put_in( battery, pocket_type::MAGAZINE_WELL ).success() );
+
+    dummy.set_wielded_item( gun );
+    REQUIRE( dummy.get_wielded_item() );
+
+    Messages::clear_messages();
+    avatar_action::fire_wielded_weapon( dummy );
+
+    for( const auto &msg : Messages::recent_messages( 0 ) ) {
+        INFO( "message: " << msg.second );
+        CHECK( msg.second.find( "incompatible ammunition" ) == std::string::npos );
+    }
 }

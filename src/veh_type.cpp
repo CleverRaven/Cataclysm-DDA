@@ -582,7 +582,7 @@ void vehicles::parts::finalize()
 {
     vpart_info_factory.finalize();
 
-    for( const itype *const item : item_controller->find( mountable_gun_filter ) ) {
+    for( const itype *const item : Item_factory::find( mountable_gun_filter ) ) {
         vpart_info new_part = *vpart_turret_generic; // copy from generic
         const itype_id item_id = item->get_id();
 

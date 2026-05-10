@@ -658,6 +658,37 @@ void recipe_step::load( const JsonObject &jo, const std::string &recipe_name, in
                                       + std::to_string( step_index ) );
     requirement_data::load_requirement( jo, step_req_id, false, false );
     reqs_internal.emplace_back( step_req_id, 1 );
+
+    if( jo.has_member( "attention" ) ) {
+        const std::string s = jo.get_string( "attention" );
+        if( s == "none" ) {
+            attention = step_attention::none;
+        } else if( s == "unattended" ) {
+            attention = step_attention::unattended;
+        } else if( s == "supervised" ) {
+            jo.throw_error( "supervised attention not yet supported" );
+        } else {
+            jo.throw_error( "invalid value for \"attention\": " + s );
+        }
+    }
+
+    if( jo.has_member( "max_time" ) ) {
+        time_duration d;
+        mandatory( jo, false, "max_time", d );
+        if( d <= time_duration::from_moves( time ) ) {
+            jo.throw_error( "max_time must exceed step time" );
+        }
+        max_time = d;
+    }
+    if( jo.has_member( "grace_period" ) ) {
+        if( !max_time.has_value() ) {
+            jo.throw_error( "grace_period requires max_time" );
+        }
+        time_duration d;
+        mandatory( jo, false, "grace_period", d );
+        grace_period = d;
+    }
+    optional( jo, false, "unattend_message", unattend_message );
 }
 
 static cata::value_ptr<parameterized_build_reqs> calculate_all_blueprint_reqs(
@@ -820,6 +851,20 @@ void recipe::finalize()
             step.requirements = std::accumulate(
                                     step.reqs_internal.begin(), step.reqs_internal.end(),
                                     step.requirements );
+            // TODO: charged-tool consumption is not modeled on unattended steps
+            // (the active 5%-loop debit path is bypassed).  Reject after
+            // requirements are fully resolved so step-level "using" injections
+            // are also caught.  Lift once metered charge debit is implemented.
+            if( step.attention == step_attention::unattended ) {
+                for( const std::vector<tool_comp> &tool_group : step.requirements.get_tools() ) {
+                    for( const tool_comp &t : tool_group ) {
+                        if( t.by_charges() ) {
+                            debugmsg( "recipe %s step '%s' is unattended and cannot require charged tools yet",
+                                      ident().str(), step.name.translated() );
+                        }
+                    }
+                }
+            }
             // Merge step requirements into recipe-level for whole-recipe gating
             requirements_ = requirements_ + step.requirements;
             step.reqs_external.clear();
@@ -1450,11 +1495,15 @@ float recipe::proficiency_time_maluses_for_step(
 }
 
 double recipe::step_budget_moves( const Character &guy, size_t step_idx, int batch,
-                                  const crafting_cost_context &ctx ) const
+                                  const crafting_cost_context &ctx,
+                                  recipe_time_flag flags ) const
 {
     cata_assert( step_idx < steps_.size() );
     const recipe_step &s = steps_[step_idx];
-    double t = s.time * proficiency_time_maluses_for_step( guy, s, ctx.books );
+    double t = s.time;
+    if( ( flags & recipe_time_flag::ignore_proficiencies ) != recipe_time_flag::ignore_proficiencies ) {
+        t *= proficiency_time_maluses_for_step( guy, s, ctx.books );
+    }
     if( step_idx < ctx.tool_speeds.size() ) {
         t *= ctx.tool_speeds[step_idx];
     }
@@ -1866,6 +1915,29 @@ void recipe::apply_positive_morale_mods( Character &guy ) const
 bool recipe::npc_can_craft( std::string & ) const
 {
     return true;
+}
+
+bool recipe::has_attention_steps() const
+{
+    for( const recipe_step &s : steps_ ) {
+        if( s.attention != step_attention::none ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool recipe::has_remaining_attention_steps( int from_step ) const
+{
+    if( from_step < 0 ) {
+        from_step = 0;
+    }
+    for( int i = from_step; i < static_cast<int>( steps_.size() ); ++i ) {
+        if( steps_[i].attention != step_attention::none ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool recipe::is_practice() const

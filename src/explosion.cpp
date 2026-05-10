@@ -351,7 +351,7 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
 
         if( const optional_vpart_position vp = m->veh_at( pt ) ) {
             // TODO: Make this weird unit used by vehicle::damage more sensible
-            vp->vehicle().damage( m[0], vp->part_index(), force,
+            vp->vehicle().damage( *m, vp->part_index(), force,
                                   fire ? damage_heat : damage_bash, false );
         }
 
@@ -504,7 +504,7 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
         }
         if( m->impassable( target ) ) {
             if( optional_vpart_position vp = m->veh_at( target ) ) {
-                vp->vehicle().damage( m[0], vp->part_index(), damage / 10 );
+                vp->vehicle().damage( *m, vp->part_index(), damage / 10 );
             } else {
                 m->bash( target, damage / 100, true );
             }

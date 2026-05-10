@@ -4575,7 +4575,7 @@ void npc::pick_up_item()
 }
 
 template <typename T>
-std::list<item> npc_pickup_from_stack( npc &who, T &items )
+static std::list<item> npc_pickup_from_stack( npc &who, T &items )
 {
     std::list<item> picked_up;
 

@@ -609,6 +609,7 @@ class JsonObject : JsonWithPath
 
         std::string get_string( const std::string &key ) const;
         std::string get_string( const char *key ) const;
+        std::string get_string( std::string_view key ) const;
 
         template<typename T, typename std::enable_if_t<std::is_convertible_v<T, std::string>>* = nullptr>
         std::string get_string( const std::string &key, T && fallback ) const;

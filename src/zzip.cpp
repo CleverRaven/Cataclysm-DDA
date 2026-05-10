@@ -768,6 +768,9 @@ bool zzip::update_footer( JsonObject const &original_footer,
     flexbuffers::Builder builder;
     size_t root_start = builder.StartMap();
     size_t total_content_size = 0;
+    // The k*Key constants are constexpr string_views built from string literals, so
+    // their underlying buffer is null-terminated and safe for the const char* APIs.
+    // NOLINTBEGIN(bugprone-suspicious-stringview-data-usage)
     {
         size_t entries_start = builder.StartMap( kEntriesKey.data() );
         // NOLINTNEXTLINE(cata-almost-never-auto)
@@ -783,7 +786,7 @@ bool zzip::update_footer( JsonObject const &original_footer,
                 processed_files.insert( new_filename );
             }
         }
-        for( JsonMember entry : original_footer.get_object( kEntriesKey.data() ) ) {
+        for( JsonMember entry : original_footer.get_object( kEntriesKey ) ) {
             std::string old_filename = entry.name();
             if( !processed_files.count( old_filename ) ) {
                 size_t entry_map = builder.StartMap( old_filename.c_str() );
@@ -805,6 +808,7 @@ bool zzip::update_footer( JsonObject const &original_footer,
         builder.UInt( kMetaTotalContentSizeKey.data(), total_content_size );
         builder.EndMap( meta_start );
     }
+    // NOLINTEND(bugprone-suspicious-stringview-data-usage)
     builder.EndMap( root_start );
     builder.Finish();
     auto buf = builder.GetBuffer();

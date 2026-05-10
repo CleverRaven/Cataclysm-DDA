@@ -118,6 +118,9 @@ class input_context
 
         template<typename Rhs>
         void reassign( Rhs &&other ) {
+            // Distinct member moves from the same source object are intentional;
+            // suppress the conservative use-after-move alert on the per-member chain.
+            // NOLINTBEGIN(bugprone-use-after-move)
             // Don't touch the handle
 #if defined(__ANDROID__)
             registered_manual_keys = std::forward<Rhs>( other ).registered_manual_keys;
@@ -135,6 +138,7 @@ class input_context
             timeout = std::forward<Rhs>( other ).timeout;
             preferred_keyboard_mode = std::forward<Rhs>( other ).preferred_keyboard_mode;
             action_name_overrides = std::forward<Rhs>( other ).action_name_overrides;
+            // NOLINTEND(bugprone-use-after-move)
         }
 
 

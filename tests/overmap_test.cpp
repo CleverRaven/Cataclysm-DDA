@@ -419,7 +419,7 @@ static bool tally_items( std::unordered_map<itype_id, float> &global_item_count,
 
 TEST_CASE( "enumerate_items", "[.]" )
 {
-    for( const itype *id : item_controller->find(
+    for( const itype *id : Item_factory::find(
     []( const itype & type ) -> bool {
     return !!type.gun;
 } ) ) {
@@ -437,7 +437,7 @@ static void finalize_item_counts( std::unordered_map<itype_id, float> &item_coun
         // Ammo has a lot of things in it we don't consider "real ammo" so there's a list
         // of item types to ignore that are applied here.
         if( category.first == "ammo" ) {
-            for( const itype *id : item_controller->find( []( const itype & type ) -> bool {
+            for( const itype *id : Item_factory::find( []( const itype & type ) -> bool {
             return !!type.ammo;
         } ) ) {
                 if( category.second.ignored_items.find( id->get_id() ) != category.second.ignored_items.end() ) {
@@ -459,7 +459,7 @@ static void finalize_item_counts( std::unordered_map<itype_id, float> &item_coun
                 }
             }
         } else if( category.first == "gun" ) {
-            for( const itype *id : item_controller->find( []( const itype & type ) -> bool {
+            for( const itype *id : Item_factory::find( []( const itype & type ) -> bool {
             return !!type.gun;
         } ) ) {
                 if( category.second.ignored_items.find( id->get_id() ) != category.second.ignored_items.end() ) {

@@ -7898,7 +7898,7 @@ bool Character::can_fly()
         return true;
     }
     // TODO: Remove grandfathering traits in after Limb Stuff
-    if( has_flag( json_flag_WINGS_2 ) || count_flag( json_flag_WING_ARMS ) >= 2 ) {
+    if( count_flag( json_flag_WINGS_2 ) >= 2 || count_flag( json_flag_WING_ARMS ) >= 2 ) {
 
         if( 100 * weight_carried() / weight_capacity() > 50 ) {
             return false;

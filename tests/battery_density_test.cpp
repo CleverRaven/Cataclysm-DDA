@@ -124,7 +124,7 @@ static bool is_battery( const itype &type )
 
 TEST_CASE( "battery_density_check" )
 {
-    for( const itype *id : item_controller->find( is_battery ) ) {
+    for( const itype *id : Item_factory::find( is_battery ) ) {
         auto chemistry_name = battery_to_chemistry.find( id->get_id() );
         battery_chemistry_family chemistry;
         if( chemistry_name == battery_to_chemistry.end() ) {

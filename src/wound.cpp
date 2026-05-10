@@ -188,7 +188,7 @@ void wound_fix::finalize()
     for( const wound_type_id &fid : wounds_removed ) {
         const_cast<wound_type &>( *fid ).fixes.emplace( id );
     }
-    requirements->finalize();
+    requirement_data::finalize();
 }
 
 void wound_proficiency::deserialize( const JsonObject &jo )

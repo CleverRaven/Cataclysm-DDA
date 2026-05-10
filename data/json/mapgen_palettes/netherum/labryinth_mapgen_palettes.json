@@ -113,6 +113,7 @@
     "id": "labyrinthine_overgrown_palette",
     "terrain": {
       "#": "t_nl_metal_wall_overgrown",
+      "*": [ [ "t_nl_soil", 1 ], [ "t_nl_rock", 49 ] ],
       "_": [ [ "t_nl_metal_floor_overgrown", 8000 ], [ "t_nl_metal_floor_grass", 800 ], [ "t_nl_shrub_glowberries", 1 ] ],
       " ": [ [ "t_nl_metal_floor_overgrown", 8000 ], [ "t_nl_metal_floor_grass", 800 ], [ "t_nl_shrub_glowberries", 1 ] ],
       ".": [ [ "t_nl_metal_floor_overgrown", 8000 ], [ "t_nl_metal_floor_grass", 800 ], [ "t_nl_shrub_glowberries", 1 ] ],
@@ -184,11 +185,16 @@
       "ß": "f_metal_bench",
       "W": "f_workbench",
       "]": "f_chair_folding",
-      "X": [ [ "f_metal_crate_r", 1 ], [ "f_metal_crate_c", 3 ] ]
+      "X": [ [ "f_metal_crate_r", 1 ], [ "f_metal_crate_c", 3 ] ],
+      " ": [ [ "f_null", 98 ], [ "f_nl_climbing_vine", 2 ] ],
+      ".": [ [ "f_null", 98 ], [ "f_nl_climbing_vine", 2 ] ]
     },
     "nested": { "1": { "chunks": [ [ "null", 1 ], [ "ls_2x2_furniture", 3 ] ] } },
     "items": { "X": { "item": "LS_SUS_crate_tier1_loot", "chance": 70, "repeat": [ 1, 2 ] } },
-    "monsters": { " ": { "monster": "GROUP_Labyrinth_Hallmonitors", "density": 0.0003 } }
+    "monsters": {
+      " ": { "monster": "GROUP_Labyrinth_Hallmonitors", "density": 0.0003 },
+      "t": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 }
+    }
   },
   {
     "type": "palette",
@@ -265,9 +271,14 @@
       "ß": "f_metal_bench",
       "W": "f_workbench",
       "]": "f_chair_folding",
-      "X": [ [ "f_metal_crate_r", 1 ], [ "f_metal_crate_c", 3 ] ]
+      "X": [ [ "f_metal_crate_r", 1 ], [ "f_metal_crate_c", 3 ] ],
+      ".": [ [ "f_null", 98 ], [ "f_nl_climbing_vine", 2 ] ]
     },
-    "nested": { "1": { "chunks": [ [ "null", 1 ], [ "ls_2x2_furniture", 3 ] ] } },
+    "nested": {
+      "1": { "chunks": [ [ "null", 1 ], [ "ls_2x2_furniture", 3 ] ] },
+      "2": { "chunks": [ "labyrinth_overgrown_12x12_room_square" ] },
+      "3": { "chunks": [ "labyrinth_overgrown_12x12_room_circle" ] }
+    },
     "items": { "X": { "item": "LS_SUS_crate_tier1_loot", "chance": 70, "repeat": [ 1, 2 ] } }
   },
   {
@@ -308,7 +319,7 @@
         [ "t_marloss", 1 ]
       ]
     },
-    "furniture": { ",": [ [ "f_swamp_gas", 1 ], [ "f_null", 199 ] ] }
+    "furniture": { ",": [ [ "f_swamp_gas", 1 ], [ "f_nl_climbing_vine", 4 ], [ "f_nl_pipe_plant", 6 ], [ "f_null", 199 ] ] }
   },
   {
     "type": "palette",
@@ -318,7 +329,8 @@
       "C": { "item": "LS_SUS_crate_tier0_machineparts", "chance": 75 },
       "U": { "item": "LS_SUS_shelf_tier0_tools", "chance": 35 },
       "l": { "item": "LS_SUS_shelf_tier0_tools", "chance": 55 },
-      "Ṫ": { "item": "LS_SUS_table_items_workspace", "chance": 25 }
+      "Ṫ": { "item": "LS_SUS_table_items_workspace", "chance": 25 },
+      "W": { "item": "LS_SUS_table_items_workspace", "chance": 75 }
     }
   },
   {
