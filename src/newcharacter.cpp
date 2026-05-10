@@ -171,7 +171,7 @@ static void setup_list_detail_ui( const std::string &header = std::string(),
 static std::string get_character_stat_name( int selected_stat_index )
 {
     return uppercase_first_letter( _( io::enum_to_full_string(
-                                       static_cast<character_stat>( selected_stat_index ) ) ) );
+                                          static_cast<character_stat>( selected_stat_index ) ) ) );
 }
 
 static std::string get_skill_entry_text( const skill_id selected_skill, const avatar &u )
@@ -2740,7 +2740,8 @@ void character_creator_ui_impl::draw_controls()
             draw_backgrounds();
             ImGui::EndTabItem();
         }
-        if( ImGui::BeginTabItem( _( "STATS" ), nullptr, tab_selected[static_cast<int>( CHARCREATOR_STATS )] ) ) {
+        if( ImGui::BeginTabItem( _( "STATS" ), nullptr,
+                                 tab_selected[static_cast<int>( CHARCREATOR_STATS )] ) ) {
             check_new_tab( CHARCREATOR_STATS );
             draw_stats();
             ImGui::EndTabItem();
