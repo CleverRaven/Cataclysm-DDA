@@ -8316,7 +8316,7 @@
     "type": "profession",
     "id": "mutant_patient_feline",
     "name": "Feline Mutant",
-    "description": "Considering the you always complained about Mondays, this was probably inevitable.  Too bad you can't eat lasagna to complete the fit.",
+    "description": "Considering that you always complained about Mondays, this was probably inevitable.  Too bad you can't eat lasagna to complete the fit.",
     "npc_background": "BG_survival_story_LAB_MUTANT",
     "points": 3,
     "items": {
