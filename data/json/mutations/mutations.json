@@ -5417,6 +5417,7 @@
     "name": { "str": "Eyestalks" },
     "description": "Your eyes protrude from your head on flexible tentacles, preventing the use of any eyewear.  On the plus side, you can see in two directions at once, and they automatically retract to reduce damage.",
     "category": [ "GASTROPOD" ],
+    "threshreq": [ "THRESH_GASTROPOD" ],
     "types": [ "EYES" ],
     "points": 2,
     "mixed_effect": true,

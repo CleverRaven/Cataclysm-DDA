@@ -71,6 +71,7 @@
     "hit_difficulty": 1.5,
     "ugliness": 3,
     "ugliness_mandatory": 2,
+    "similar_bodypart": "eyes",
     "sub_parts": [ "eyes_snail_left", "eyes_snail_right" ],
     "limb_scores": [ [ "vision", 1.1 ], [ "night_vis", 1.0 ], [ "reaction", 0.8 ] ]
   },
