@@ -5529,40 +5529,6 @@
   },
   {
     "type": "effect_type",
-    "id": "purple_incense_effect",
-    "name": [ "Spatial Dissociation" ],
-    "desc": [
-      "You feel strangely detached from the here and now.  It's like the world had been sliced into thin layers above which you move."
-    ],
-    "rating": "neutral",
-    "show_in_info": true,
-    "max_intensity": 1,
-    "remove_message": "Things seem to stitch back together.",
-    "enchantments": [
-      {
-        "values": [
-          { "value": "ARTIFACT_RESONANCE", "add": 4500 },
-          { "value": "PHASE_DISTANCE", "add": 2 },
-          { "value": "SPEED", "add": -10 },
-          { "value": "DODGE_CHANCE", "add": -25 },
-          { "value": "EVASION", "add": 10 }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_type",
-    "id": "red_incense_effect",
-    "name": [ "Ennervated" ],
-    "desc": [ "You feel like you have one foot in the grave." ],
-    "rating": "neutral",
-    "show_in_info": true,
-    "max_intensity": 1,
-    "remove_message": "The feeling of dread fades away.",
-    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": -0.75 }, { "value": "SPEED", "add": -10 } ] } ]
-  },
-  {
-    "type": "effect_type",
     "id": "effect_hound_of_tindalos_slobber",
     "name": [ "Hound Ichor" ],
     "desc": [ "Your %s is stained with bluish ichor." ],

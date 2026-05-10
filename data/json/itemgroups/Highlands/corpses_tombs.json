@@ -11,7 +11,12 @@
       { "item": "highland_medallion", "prob": 75 },
       { "item": "highland_purple_incense", "prob": 40, "count": [ 1, 2 ], "container-item": "bowl_clay" },
       { "item": "highland_red_incense", "prob": 10, "count": [ 1, 2 ], "container-item": "bowl_clay" },
-      { "item": "highland_yellow_incense", "prob": 10, "count": [ 1, 2 ], "container-item": "bowl_clay" }
+      { "item": "highland_yellow_incense", "prob": 10, "count": [ 1, 2 ], "container-item": "bowl_clay" },
+      { "item": "highland_green_incense", "prob": 10, "count": [ 1, 2 ], "container-item": "bowl_clay" },
+      { "item": "highland_black_incense", "prob": 10, "count": [ 1, 2 ], "container-item": "bowl_clay" },
+      { "item": "highland_white_incense", "prob": 10, "count": [ 1, 2 ], "container-item": "bowl_clay" },
+      { "item": "highland_blue_incense", "prob": 10, "count": [ 1, 2 ], "container-item": "bowl_clay" },
+      { "item": "highland_golden_incense", "prob": 10, "count": [ 1, 2 ], "container-item": "bowl_clay" }
     ]
   }
 ]
