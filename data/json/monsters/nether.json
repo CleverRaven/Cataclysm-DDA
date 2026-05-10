@@ -961,7 +961,7 @@
     "default_faction": "nether",
     "looks_like": "mon_hound_tindalos",
     "bodytype": "dog",
-    "species": [ "TINDALOS" ],
+    "species": [ "TINDALOS", "NETHER" ],
     "volume": "30000 ml",
     "weight": "40750 g",
     "hp": 1200,

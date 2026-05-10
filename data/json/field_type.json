@@ -1484,7 +1484,7 @@
         "color": "blue",
         "effects": [
           {
-            "effect_id": "blue_incense_effect",
+            "effect_id": "invisibility",
             "intensity": 1,
             "min_duration": "30 seconds",
             "max_duration": "30 seconds",

@@ -247,7 +247,7 @@
       "pain_chance": [ 1, 100 ],
       "hurt_min": [ 2, 2 ],
       "hurt_max": [ 5, 5 ],
-      "hurt_chance": [ 1, 30 ]
+      "hurt_chance": [ 2, 30 ]
     },
     "show_in_info": true
   },
@@ -255,7 +255,7 @@
     "type": "effect_type",
     "id": "green_incense_effect",
     "name": [ "Spatial Dissociation" ],
-    "desc": [ "Distances around you dont seem to quite add up, it feels like you were walking in a dream." ],
+    "desc": [ "Distances around you don't seem to quite add up, it feels like you were walking in a dream." ],
     "rating": "neutral",
     "show_in_info": true,
     "max_intensity": 1,
