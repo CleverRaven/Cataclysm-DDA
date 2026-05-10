@@ -6968,7 +6968,7 @@
     "type": "mutation",
     "id": "ELFA_NV",
     "name": { "str": "Fey Vision" },
-    "description": "Your corneas have taken on the same weird green as your irises, and golden veins shift below the surface in a mesmerizing dance.   The shadows don't seem nearly as dark now.",
+    "description": "Your corneas have taken on the same weird green as your irises, and golden veins shift below the surface in a mesmerizing dance.  The shadows don't seem nearly as dark now.",
     "category": [ "ELFA" ],
     "types": [ "VISION" ],
     "prereqs": [ "ELFAEYES" ],
