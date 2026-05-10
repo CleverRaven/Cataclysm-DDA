@@ -61,21 +61,21 @@ class ret_val : public ret_val_common
         ret_val() = delete;
 
         static ret_val make_success( T val = default_success::value ) {
-            return make_success( val, std::string() );
+            return make_success( std::move( val ), std::string() );
         }
 
         static ret_val make_failure( T val = default_failure::value ) {
-            return make_failure( val, std::string() );
+            return make_failure( std::move( val ), std::string() );
         }
 
         template<class... A, typename S = std::string, typename = is_convertible_to_string<S>>
         static ret_val make_success( T val, const S &msg, A && ... args ) {
-            return ret_val( string_format( msg, std::forward<A>( args )... ), val, true );
+            return ret_val( string_format( msg, std::forward<A>( args )... ), std::move( val ), true );
         }
 
         template<class... A, typename S = std::string, typename = is_convertible_to_string<S>>
         static ret_val make_failure( T val, const S &msg, A && ... args ) {
-            return ret_val( string_format( msg, std::forward<A>( args )... ), val, false );
+            return ret_val( string_format( msg, std::forward<A>( args )... ), std::move( val ), false );
         }
 
         template<class... A, typename S = std::string, typename = is_convertible_to_string<S>>
@@ -94,7 +94,7 @@ class ret_val : public ret_val_common
 
     private:
         ret_val( const std::string &msg, T val, bool succ )
-            : ret_val_common( msg, succ ), val( val ) {}
+            : ret_val_common( msg, succ ), val( std::move( val ) ) {}
 
         T val;
 };

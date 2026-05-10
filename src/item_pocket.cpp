@@ -2810,7 +2810,7 @@ const std::optional<std::string> &item_pocket::favorite_settings::get_preset_nam
 }
 
 template<typename T>
-std::string enumerate( cata::flat_set<T> container )
+static std::string enumerate( const cata::flat_set<T> &container )
 {
     std::vector<std::string> output;
     for( const T &id : container ) {

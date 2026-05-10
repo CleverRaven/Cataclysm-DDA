@@ -162,7 +162,7 @@ template<int xx_transform, int xy_transform, int yx_transform, int yy_transform,
          T( *calc )( const T &, const T &, const int & ),
          bool( *is_transparent )( const T &, const T & ),
          T( *accumulate )( const T &, const T &, const int & )>
-void cast_horizontal_zlight_segment(
+static void cast_horizontal_zlight_segment(
     const array_of_grids_of<T> &output_caches,
     const array_of_grids_of<const T> &input_arrays,
     const array_of_grids_of<const bool> &floor_caches,
@@ -359,7 +359,7 @@ template<int x_transform, int y_transform, int z_transform, typename T,
          T( *calc )( const T &, const T &, const int & ),
          bool( *is_transparent )( const T &, const T & ),
          T( *accumulate )( const T &, const T &, const int & )>
-void cast_vertical_zlight_segment(
+static void cast_vertical_zlight_segment(
     const array_of_grids_of<T> &output_caches,
     const array_of_grids_of<const T> &input_arrays,
     const array_of_grids_of<const bool> &floor_caches,

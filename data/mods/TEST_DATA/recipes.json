@@ -449,6 +449,125 @@
     ]
   },
   {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_unattended_simple",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      { "name": "Shape", "time": "5 m", "activity_level": "MODERATE_EXERCISE" },
+      { "name": "Cure", "time": "10 m", "activity_level": "NO_EXERCISE", "attention": "unattended" }
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_timeout_recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      { "name": "Shape", "time": "5 m", "activity_level": "MODERATE_EXERCISE" },
+      {
+        "name": "Cure",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "max_time": "20 m",
+        "grace_period": "5 m"
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_consecutive_unattended",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      { "name": "Shape", "time": "5 m", "activity_level": "MODERATE_EXERCISE" },
+      { "name": "Cure A", "time": "10 m", "activity_level": "NO_EXERCISE", "attention": "unattended" },
+      { "name": "Cure B", "time": "10 m", "activity_level": "NO_EXERCISE", "attention": "unattended" },
+      { "name": "Finish", "time": "5 m", "activity_level": "LIGHT_EXERCISE" }
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_terminal_unattended",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      { "name": "Shape", "time": "5 m", "activity_level": "MODERATE_EXERCISE" },
+      { "name": "Sand", "time": "5 m", "activity_level": "LIGHT_EXERCISE" },
+      { "name": "Cure", "time": "10 m", "activity_level": "NO_EXERCISE", "attention": "unattended" }
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_first_step_unattended",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      { "name": "Soak", "time": "10 m", "activity_level": "NO_EXERCISE", "attention": "unattended" },
+      { "name": "Shape", "time": "5 m", "activity_level": "MODERATE_EXERCISE" },
+      { "name": "Sand", "time": "5 m", "activity_level": "LIGHT_EXERCISE" }
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_only_unattended",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [ { "name": "Cure", "time": "10 m", "activity_level": "NO_EXERCISE", "attention": "unattended" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_unattended_with_qual",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      { "name": "Shape", "time": "5 m", "activity_level": "MODERATE_EXERCISE" },
+      {
+        "name": "Bake",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "qualities": [ { "id": "OVEN", "level": 1 } ]
+      }
+    ]
+  },
+  {
     "id": "test_nested_weapons",
     "type": "nested_category",
     "activity_level": "NO_EXERCISE",

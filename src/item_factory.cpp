@@ -325,7 +325,7 @@ static bool is_physical( const itype &type )
 }
 
 template<typename T>
-bool load_min_max( std::pair<T, T> &pa, const JsonObject &obj, const std::string &name )
+static bool load_min_max( std::pair<T, T> &pa, const JsonObject &obj, const std::string &name )
 {
     bool result = false;
     if( obj.has_array( name ) ) {
@@ -1985,7 +1985,7 @@ static std::pair<std::string, use_function> use_function_reader_helper(
         if( !method.get_actor_ptr() ) {
             return std::make_pair( type, use_function() );
         }
-        method.get_actor_ptr()->load( use_obj, std::string( src.data() ) );
+        method.get_actor_ptr()->load( use_obj, std::string( src ) );
         return std::make_pair( type, method );
     } else if( val.test_array() ) {
         JsonArray use_arr = val.get_array();
@@ -2260,7 +2260,7 @@ class snippet_reader : public generic_typed_reader<snippet_reader>
                 // auto-create a category that is unlikely to already be used and put the
                 // snippets in it.
                 std::string snippet_category = "auto:" + def.get_id().str();
-                SNIPPET.add_snippets_from_json( snippet_category, val.get_array(), std::string( src.data() ) );
+                SNIPPET.add_snippets_from_json( snippet_category, val.get_array(), std::string( src ) );
                 return snippet_category;
             } else {
                 return val.get_string();
@@ -4768,7 +4768,7 @@ static Item_group *make_group_or_throw(
 }
 
 template<typename T>
-bool load_str_arr( std::vector<T> &arr, const JsonObject &obj, std::string_view name )
+static bool load_str_arr( std::vector<T> &arr, const JsonObject &obj, std::string_view name )
 {
     if( obj.has_array( name ) ) {
         for( const std::string str : obj.get_array( name ) ) {
@@ -5309,6 +5309,7 @@ void items::finalize_all()
 void items::reset()
 {
     item_controller->get_generic_factory().reset();
+    // NOLINTNEXTLINE(readability-ambiguous-smartptr-reset-call) calls Item_factory::reset, not unique_ptr::reset
     item_controller->reset();
 }
 

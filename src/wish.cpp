@@ -344,7 +344,7 @@ void debug_menu::wishmutate( Character *you )
 
 void debug_menu::wishbionics( Character *you )
 {
-    std::vector<const itype *> cbm_items = item_controller->find( []( const itype & itm ) -> bool {
+    std::vector<const itype *> cbm_items = Item_factory::find( []( const itype & itm ) -> bool {
         return itm.can_use( "install_bionic" );
     } );
     std::sort( cbm_items.begin(), cbm_items.end(), []( const itype * a, const itype * b ) {

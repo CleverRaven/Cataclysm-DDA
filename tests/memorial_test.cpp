@@ -34,7 +34,8 @@ static const spell_id spell_pain_damage( "pain_damage" );
 static const trap_str_id tr_pit( "tr_pit" );
 
 template<event_type Type, typename... Args>
-void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, Args... args )
+static void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref,
+                            const Args &... args )
 {
     CAPTURE( io::enum_to_string( Type ) );
     CAPTURE( ref );

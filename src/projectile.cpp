@@ -56,6 +56,9 @@ projectile::projectile( const projectile &other )
 
 projectile &projectile::operator=( const projectile &other )
 {
+    if( this == &other ) {
+        return *this;
+    }
     impact = other.impact;
     speed = other.speed;
     range = other.range;

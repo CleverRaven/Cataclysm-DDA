@@ -625,8 +625,9 @@ ter_t null_terrain_t()
 }
 
 template<typename C, typename F>
-void load_season_array( const JsonObject &jo, const std::string &key, const std::string &context,
-                        const bool ignore_absent_key, C &container, F load_func )
+static void load_season_array( const JsonObject &jo, const std::string &key,
+                               const std::string &context,
+                               const bool ignore_absent_key, C &container, F load_func )
 {
     if( jo.has_string( key ) ) {
         container.fill( load_func( jo.get_string( key ) ) );

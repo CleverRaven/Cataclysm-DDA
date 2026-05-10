@@ -461,7 +461,7 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
 void mission_ui_impl::draw_selected_description( std::vector<point_of_interest> points_of_interest,
         const int &selected_mission ) const
 {
-    point_of_interest selected_point_of_interest = points_of_interest[selected_mission];
+    const point_of_interest &selected_point_of_interest = points_of_interest[selected_mission];
     ImGui::TextWrapped( _( "Point of Interest: %s" ), selected_point_of_interest.text.c_str() );
     ImGui::Separator();
     draw_location( _( "Target:" ), selected_point_of_interest.pos );

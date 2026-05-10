@@ -668,8 +668,8 @@ void requirement_data::check_consistency()
 }
 
 template <typename T>
-void inline_requirements( std::vector<std::vector<T>> &list,
-                          const std::function<const std::vector<std::vector<T>> & ( const requirement_data & )> &getter )
+static void inline_requirements( std::vector<std::vector<T>> &list,
+                                 const std::function<const std::vector<std::vector<T>> & ( const requirement_data & )> &getter )
 {
     // add a single component to the vector. If component already exists, chooses min count
     const auto add_component = []( const T & comp, std::vector<T> &accum ) {

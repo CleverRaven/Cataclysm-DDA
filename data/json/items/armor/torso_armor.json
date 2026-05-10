@@ -185,6 +185,24 @@
         "cover_vitals": 70,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_hip_l", "leg_upper_r", "leg_hip_r" ]
+      },
+      {
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 22,
+        "coverage": 90,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "covers": [ "gastropod_foot" ],
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ]
+      },
+      {
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 22,
+        "coverage": 50,
+        "cover_ranged": 55,
+        "cover_vitals": 40,
+        "covers": [ "gastropod_foot" ],
+        "specifically_covers": [ "leg_upper_gastropod" ]
       }
     ]
   },
@@ -346,7 +364,7 @@
     "longest_side": "60 cm",
     "warmth": 15,
     "material_thickness": 4,
-    "flags": [ "OUTER", "NO_REPAIR" ],
+    "flags": [ "OUTER", "NO_REPAIR", "ALLOWS_GASTROPOD_FOOT" ],
     "armor": [
       {
         "material": [
@@ -382,6 +400,18 @@
         "cover_vitals": 70,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "carpet_pilling", "covered_by_mat": 100, "thickness": 3.0 }
+        ],
+        "encumbrance": 5,
+        "coverage": 85,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "covers": [ "gastropod_foot" ],
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ]
       }
     ]
   },
@@ -484,7 +514,7 @@
     "color": "brown",
     "warmth": 18,
     "material_thickness": 5,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "ALLOWS_GASTROPOD_FOOT" ],
     "armor": [
       { "encumbrance": 17, "coverage": 93, "cover_melee": 95, "cover_ranged": 90, "cover_vitals": 100, "covers": [ "torso" ] },
       {
@@ -503,6 +533,15 @@
         "cover_vitals": 100,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      {
+        "encumbrance": 4,
+        "coverage": 93,
+        "cover_melee": 95,
+        "cover_ranged": 90,
+        "cover_vitals": 100,
+        "covers": [ "gastropod_foot" ],
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ]
       }
     ],
     "melee_damage": { "bash": 6 }
@@ -677,7 +716,7 @@
     "looks_like": "vest_leather",
     "color": "light_red",
     "warmth": 0,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "ALLOWS_GASTROPOD_FOOT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -704,6 +743,13 @@
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
         "coverage": 50,
         "encumbrance": 0
+      },
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "gastropod_foot" ],
+        "coverage": 50,
+        "encumbrance": 0,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ]
       },
       {
         "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -1000,7 +1046,7 @@
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "ALLOWS_GASTROPOD_FOOT" ],
     "armor": [
       { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] },
       {
@@ -1012,8 +1058,8 @@
       {
         "encumbrance": 4,
         "coverage": 95,
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+        "covers": [ "leg_l", "leg_r", "gastropod_foot" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_hip_gastropod_l", "leg_hip_gastropod_r" ]
       }
     ]
   },
@@ -1732,7 +1778,7 @@
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 2,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ALLOWS_GASTROPOD_FOOT" ],
     "max_worn": 1,
     "armor": [
       {
@@ -1751,8 +1797,8 @@
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
-        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "gastropod_foot" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r", "leg_hip_gastropod_l", "leg_hip_gastropod_r" ],
         "coverage": 100,
         "encumbrance": 10
       }
@@ -1859,7 +1905,7 @@
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 4,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ALLOWS_GASTROPOD_FOOT" ],
     "max_worn": 1,
     "armor": [
       {
@@ -1878,8 +1924,8 @@
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
-        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "gastropod_foot" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r", "leg_hip_gastropod_l", "leg_hip_gastropod_r" ],
         "coverage": 100,
         "encumbrance": 10
       }
@@ -2005,8 +2051,8 @@
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
-        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "gastropod_foot" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r", "leg_hip_gastropod_l", "leg_hip_gastropod_r" ],
         "coverage": 100,
         "encumbrance": 10
       }
@@ -2188,7 +2234,7 @@
     "color": "dark_gray",
     "warmth": 20,
     "longest_side": "60 cm",
-    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "PADDED" ],
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "PADDED", "ALLOWS_GASTROPOD_FOOT" ],
     "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
     "armor": [
       {
@@ -2218,6 +2264,13 @@
         "coverage": 30,
         "material": [ { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 7 } ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      {
+        "volume_encumber_modifier": 0,
+        "coverage": 30,
+        "material": [ { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 7 } ],
+        "covers": [ "gastropod_foot" ],
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r" ]
       }
     ]
   },

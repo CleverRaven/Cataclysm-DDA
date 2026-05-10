@@ -139,13 +139,13 @@ struct pulp_data {
     // how far the splatter goes
     int mess_radius = 1;
     // how much damage you deal to corpse every second, average of multiple values
-    float nominal_pulp_power;
+    float nominal_pulp_power = 0.0f;
     // The actual power produced, adjusted based on time adjustments.
-    float pulp_power;
+    float pulp_power = 0.0f;
     // how much stamina is consumed after each punch
-    float pulp_effort;
+    float pulp_effort = 0.0f;
     // time to pulp the corpse
-    int time_to_pulp;
+    int time_to_pulp = 0;
     // potential prof we can learn by pulping
     std::optional<proficiency_id> unknown_prof;
     // if monster has PULP_PRYING flag, can you pry armor faster using tool

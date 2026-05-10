@@ -1064,14 +1064,14 @@ template<int xx, int xy, int yx, int yy, typename T, typename Out,
          void( *update_output )( Out &, const T &, quadrant ),
          T( *accumulate )( const T &, const T &, const int & ),
          bool with_color = false>
-void castLight( cata::mdarray<Out, point_bub_ms> &output_cache,
-                const cata::mdarray<T, point_bub_ms> &input_array,
-                const point_bub_ms &offset, int offsetDistance,
-                T numerator = VISIBILITY_FULL,
-                int row = 1, float start = 1.0f, float end = 0.0f,
-                T cumulative_transparency = T( LIGHT_TRANSPARENCY_OPEN_AIR ),
-                light_color_rgb source_color = {},
-                cata::mdarray<light_color_rgb, point_bub_ms> *color_cache = nullptr );
+static void castLight( cata::mdarray<Out, point_bub_ms> &output_cache,
+                       const cata::mdarray<T, point_bub_ms> &input_array,
+                       const point_bub_ms &offset, int offsetDistance,
+                       T numerator = VISIBILITY_FULL,
+                       int row = 1, float start = 1.0f, float end = 0.0f,
+                       T cumulative_transparency = T( LIGHT_TRANSPARENCY_OPEN_AIR ),
+                       light_color_rgb source_color = {},
+                       cata::mdarray<light_color_rgb, point_bub_ms> *color_cache = nullptr );
 
 template<int xx, int xy, int yx, int yy, typename T, typename Out,
          T( *calc )( const T &, const T &, const int & ),

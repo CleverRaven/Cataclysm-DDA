@@ -917,10 +917,8 @@ void tileset_cache::loader::load_internal( const JsonObject &config,
             // Update maximum tile extent
             ts.max_tile_extent = half_open_rectangle<point> {
                 {
-                    std::min( ts.max_tile_extent.p_min.x,
-                              std::min( sprite_offset.x, sprite_offset_retracted.x ) ),
-                    std::min( ts.max_tile_extent.p_min.y,
-                              std::min( sprite_offset.y, sprite_offset_retracted.y ) ),
+                    std::min( { ts.max_tile_extent.p_min.x, sprite_offset.x, sprite_offset_retracted.x } ),
+                    std::min( { ts.max_tile_extent.p_min.y, sprite_offset.y, sprite_offset_retracted.y } ),
                 }, {
                     std::max( ts.max_tile_extent.p_max.x,
                               sprite_width + std::max( sprite_offset.x, sprite_offset_retracted.x ) ),

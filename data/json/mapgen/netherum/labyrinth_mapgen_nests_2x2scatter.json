@@ -8,7 +8,8 @@
         "¢c",
         "c¢"
       ],
-      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ]
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -20,7 +21,8 @@
         "¢c",
         "c¢"
       ],
-      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_dining_tier0" ]
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_dining_tier0" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -32,27 +34,21 @@
         "¢c",
         "c¢"
       ],
-      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_bunk_room_tier0" ]
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_bunk_room_tier0" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
     "nested_mapgen_id": "ls_2x2_furniture",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
         "BL",
         "( "
-      ], "palettes": [ "labyrinthine_base_palette" ] }
-  },
-  {
-    "type": "mapgen",
-    "nested_mapgen_id": "ls_2x2_furniture",
-    "object": {
-      "mapgensize": [ 2, 2 ],
-      "rows": [
-        "Ṫß",
-        "(b"
       ],
-      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ]
+      "palettes": [ "labyrinthine_base_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -64,7 +60,8 @@
         "Ṫß",
         "(b"
       ],
-      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_dining_tier0" ]
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -76,7 +73,21 @@
         "Ṫß",
         "(b"
       ],
-      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_bunk_room_tier0" ]
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_dining_tier0" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_2x2_furniture",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "Ṫß",
+        "(b"
+      ],
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_bunk_room_tier0" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -89,7 +100,8 @@
         "l "
       ],
       "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ],
-      "monsters": { "2": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
+      "monsters": { "2": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -102,7 +114,8 @@
         "l "
       ],
       "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_dining_tier0" ],
-      "monsters": { "2": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
+      "monsters": { "2": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -115,7 +128,8 @@
         "l "
       ],
       "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_bunk_room_tier0" ],
-      "monsters": { "2": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
+      "monsters": { "2": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -128,7 +142,8 @@
         " 2"
       ],
       "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ],
-      "monsters": { "2": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
+      "monsters": { "2": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -141,7 +156,8 @@
         " 2"
       ],
       "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_dining_tier0" ],
-      "monsters": { "2": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
+      "monsters": { "2": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -154,7 +170,8 @@
         " 2"
       ],
       "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_bunk_room_tier0" ],
-      "monsters": { "2": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
+      "monsters": { "2": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -166,7 +183,8 @@
         " L",
         "UU"
       ],
-      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ]
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -178,7 +196,8 @@
         " L",
         "UU"
       ],
-      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_dining_tier0" ]
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_dining_tier0" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -190,7 +209,8 @@
         " L",
         "UU"
       ],
-      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_bunk_room_tier0" ]
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_bunk_room_tier0" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -203,7 +223,8 @@
         "2ß"
       ],
       "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ],
-      "monsters": { "2": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
+      "monsters": { "2": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -216,7 +237,8 @@
         "2ß"
       ],
       "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_dining_tier0" ],
-      "monsters": { "2": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
+      "monsters": { "2": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -229,7 +251,8 @@
         "2ß"
       ],
       "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_bunk_room_tier0" ],
-      "monsters": { "2": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
+      "monsters": { "2": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }
 ]

@@ -1861,7 +1861,7 @@ static void fire()
 static void open_movement_mode_menu()
 {
     avatar &player_character = get_avatar();
-    std::vector<move_mode_id> modes = move_modes_by_speed();
+    const std::vector<move_mode_id> &modes = move_modes_by_speed();
     const int cycle = 1027;
     uilist as_m;
 

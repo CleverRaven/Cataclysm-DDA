@@ -153,6 +153,24 @@
     ]
   },
   {
+    "id": "integrated_nl_psyshield",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "copy-from": "fake_item",
+    "name": { "str": "Cranial EMF Shielding" },
+    "description": "Your skull is coated in a microscopically thin layer of some non-newtonian fluid.  It can protect you from some types of electromagnetic fields.",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "PSYSHIELD_PARTIAL" ]
+  },
+  {
+    "id": "integrated_nl_dimensional_anchor",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "copy-from": "fake_item",
+    "name": { "str": "Dimensional Anchor" },
+    "description": "Your body has been wired with advanced technology that locks you into your native dimensionality, protecting you from unwanted teleportation and some other phase altering effects.  It is currently active and draining bionic power.",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "DIMENSIONAL_ANCHOR", "SPAWN_ACTIVE" ]
+  },
+  {
     "id": "fake_goggles",
     "copy-from": "fake_item",
     "type": "ITEM",

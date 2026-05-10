@@ -108,7 +108,7 @@ TEST_CASE( "vehicle_parts_boardable_openable_parts_have_door_flag", "[vehicle][v
 TEST_CASE( "vehicle_parts_have_at_least_one_category", "[vehicle][vehicle_parts]" )
 {
     // check parts have at least one category
-    const std::vector<vpart_category> categories = vpart_category::all();
+    const std::vector<vpart_category> &categories = vpart_category::all();
     std::set<std::string> all_cat_ids;
     for( const vpart_category &cat : categories ) {
         all_cat_ids.insert( cat.get_id() );

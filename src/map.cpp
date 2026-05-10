@@ -763,7 +763,12 @@ void map::resolve_off_map_grid_generation()
     power_network_manager &pnm = g->power_networks();
     pnm.begin_rebuild();
 
-    for( vehicle *veh : in_bubble ) {
+    std::vector<vehicle *> ordered_in_bubble( in_bubble.begin(), in_bubble.end() );
+    std::sort( ordered_in_bubble.begin(), ordered_in_bubble.end(),
+    []( const vehicle * a, const vehicle * b ) {
+        return a->pos_abs() < b->pos_abs();
+    } );
+    for( vehicle *veh : ordered_in_bubble ) {
         if( resolved.count( veh ) ) {
             continue;
         }
@@ -925,7 +930,12 @@ void map::vehmove()
             veh->get_connected_vehicles( *this, connected_vehs );
         }
     }
-    for( vehicle *connected_veh : connected_vehs ) {
+    std::vector<vehicle *> ordered_connected( connected_vehs.begin(), connected_vehs.end() );
+    std::sort( ordered_connected.begin(), ordered_connected.end(),
+    []( const vehicle * a, const vehicle * b ) {
+        return a->pos_abs() < b->pos_abs();
+    } );
+    for( vehicle *connected_veh : ordered_connected ) {
         vehs.emplace( connected_veh, false ); // add with 'false' if does not exist (off map)
     }
     for( const std::pair<vehicle *const, bool> &veh_pair : vehs ) {
@@ -4678,6 +4688,8 @@ bash_params map::bash( const tripoint_bub_ms &p, const int str,
                        bool silent, bool destroy, bool bash_floor,
                        const vehicle *bashing_vehicle, bool repair_missing_ground )
 {
+    // Temporary map is bound to a const reference for the call duration; bash returns by value.
+    // NOLINTNEXTLINE(clang-analyzer-core.StackAddressEscape)
     return bash( p, {{{damage_bash, str}}}, silent, destroy, bash_floor, bashing_vehicle,
     repair_missing_ground );
 }
@@ -6570,8 +6582,8 @@ bool map::only_liquid_in_liquidcont( const tripoint_bub_ms &p )
 }
 
 template <typename Stack>
-std::list<item> use_amount_stack( Stack stack, const itype_id &type, int &quantity,
-                                  const std::function<bool( const item & )> &filter )
+static std::list<item> use_amount_stack( Stack stack, const itype_id &type, int &quantity,
+        const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
@@ -8691,6 +8703,19 @@ void map::reconcile_item_wakeups()
             }
         }
     }
+
+    auto walk_character = [&wakeups]( Character & c ) {
+        // all_items_loc() is already recursive; rebuild per location directly.
+        for( item_location &loc : c.all_items_loc() ) {
+            if( loc && loc.get_item() != nullptr ) {
+                wakeups.rebuild_for_item( loc );
+            }
+        }
+    };
+    walk_character( get_avatar() );
+    for( npc &n : g->all_npcs() ) {
+        walk_character( n );
+    }
 }
 
 void map::shift_traps( const point_rel_sm &shift )
@@ -10178,7 +10203,7 @@ int map::determine_wall_corner( const tripoint_bub_ms &p ) const
 
         case 8 | 0 | 1 | 4:
             return LINE_XOXX;
-        case 0 | 0 | 1 | 4:
+        case 0 | 0 | 1 | 4: // NOLINT(misc-redundant-expression)
             return LINE_OOXX;
 
         case 8 | 2 | 0 | 4:
@@ -10187,7 +10212,7 @@ int map::determine_wall_corner( const tripoint_bub_ms &p ) const
             return LINE_OXOX;
         case 8 | 0 | 0 | 4: // NOLINT(misc-redundant-expression)
             return LINE_XOOX;
-        case 0 | 0 | 0 | 4:
+        case 0 | 0 | 0 | 4: // NOLINT(misc-redundant-expression)
             return LINE_OXOX; // LINE_OOOX would be better
 
         case 8 | 2 | 1 | 0:
@@ -10196,7 +10221,7 @@ int map::determine_wall_corner( const tripoint_bub_ms &p ) const
             return LINE_OXXO;
         case 8 | 0 | 1 | 0: // NOLINT(bugprone-branch-clone,misc-redundant-expression)
             return LINE_XOXO;
-        case 0 | 0 | 1 | 0:
+        case 0 | 0 | 1 | 0: // NOLINT(misc-redundant-expression)
             return LINE_XOXO; // LINE_OOXO would be better
         case 8 | 2 | 0 | 0: // NOLINT(misc-redundant-expression)
             return LINE_XXOO;
@@ -10205,7 +10230,7 @@ int map::determine_wall_corner( const tripoint_bub_ms &p ) const
         case 8 | 0 | 0 | 0: // NOLINT(misc-redundant-expression)
             return LINE_XOXO; // LINE_XOOO would be better
 
-        case 0 | 0 | 0 | 0:
+        case 0 | 0 | 0 | 0: // NOLINT(misc-redundant-expression)
             return ter( p ).obj().symbol(); // technically just a column
 
         default:

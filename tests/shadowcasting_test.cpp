@@ -139,7 +139,7 @@ static bool is_nonzero( const four_quadrants &x )
 }
 
 template<typename Exp>
-bool grids_are_equivalent(
+static bool grids_are_equivalent(
     const cata::mdarray<float, point_bub_ms> &control,
     const cata::mdarray<Exp, point_bub_ms> &experiment )
 {
@@ -156,7 +156,7 @@ bool grids_are_equivalent(
 }
 
 template<typename Exp>
-void print_grid_comparison(
+static void print_grid_comparison(
     const point_bub_ms &offset,
     cata::mdarray<float, point_bub_ms> &transparency_cache,
     const cata::mdarray<float, point_bub_ms> &control,

@@ -407,7 +407,7 @@ static std::string trim_by_width( std::string_view text, float width )
         width = ImGui::GetContentRegionAvail().x;
     }
 
-    float text_width = ImGui::CalcTextSize( text.data(), nullptr, true ).x;
+    float text_width = ImGui::CalcTextSize( text.data(), text.data() + text.size(), true ).x;
 
     if( text_width < width ) {
         return std::string( text );

@@ -12,7 +12,7 @@ static constexpr int MAX_CONVERGENCE_TRIALS = 100000;
 
 // returns true if T is picked from list in trials attempts
 template<typename W, typename T>
-bool picked_in_trials( const weighted_list<W, T> &list, T value, int trials )
+static bool picked_in_trials( const weighted_list<W, T> &list, T value, int trials )
 {
     for( int i = 0; i < trials; ++i ) {
         const T *picked = list.pick();
@@ -25,7 +25,7 @@ bool picked_in_trials( const weighted_list<W, T> &list, T value, int trials )
 }
 
 template<typename W, typename T>
-void list_check_add( weighted_list<W, T> &list, T value, W weight, bool succeeds )
+static void list_check_add( weighted_list<W, T> &list, T value, W weight, bool succeeds )
 {
     T *ret = list.add( value, weight );
     if( !succeeds ) {
@@ -37,7 +37,7 @@ void list_check_add( weighted_list<W, T> &list, T value, W weight, bool succeeds
 }
 
 template<typename W, typename T>
-void list_check_add_replace( weighted_list<W, T> &list, T value, W weight, bool succeeds )
+static void list_check_add_replace( weighted_list<W, T> &list, T value, W weight, bool succeeds )
 {
     T *ret = list.add_or_replace( value, weight );
     if( !succeeds ) {

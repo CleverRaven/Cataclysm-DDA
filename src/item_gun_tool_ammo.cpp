@@ -810,9 +810,11 @@ std::pair<int, int> item::reach_range( const Character &guy ) const
                 continue;
             }
             if( m.second.melee() ) {
-                res = std::max( res, std::max( 1,
-                                               static_cast<int>( guy.calculate_by_enchantment( m.second.qty + reach_attack_add,
-                                                       enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) ) );
+                res = std::max( {
+                    res, 1,
+                    static_cast<int>( guy.calculate_by_enchantment( m.second.qty + reach_attack_add,
+                                      enchant_vals::mod::MELEE_RANGE_MODIFIER ) )
+                } );
             }
         }
     }
