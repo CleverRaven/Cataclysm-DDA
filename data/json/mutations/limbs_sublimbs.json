@@ -556,7 +556,7 @@
     "parent": "insect_proboscis",
     "opposite": "sub_limb_debug",
     "side": "both",
-    "name": "base"
+    "name": { "ctxt": "sub_bodypart_name", "str": "base" }
   },
   {
     "id": "insect_proboscis_labium",

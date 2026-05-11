@@ -1517,7 +1517,7 @@ void crafting_ui_impl::draw_modifier_table( const recipe &recp,
                                     _( "base (per item)" ) );
             } else {
                 ImGui::TextColored( cataimgui::imvec4_from_color( c_white ), "%s",
-                                    _( "base" ) );
+                                    pgettext( "Value without modifier", "base" ) );
             }
             ImGui::TableNextColumn();
             ImGui::TextColored( cataimgui::imvec4_from_color( c_light_gray ), "%s",
