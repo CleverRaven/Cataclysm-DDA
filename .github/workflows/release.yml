@@ -173,7 +173,7 @@ jobs:
         id: runvcpkg
         with:
           vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
-          vcpkgGitCommitId: '3b57fb2e1ff55613db14d2aaf0a30529289c7050'
+          vcpkgGitCommitId: 'c3867e714dd3a51c272826eea77267876517ed99'
       - name: Install dependencies (windows msvc) (3/4)
         if: runner.os == 'Windows'
         run: |
