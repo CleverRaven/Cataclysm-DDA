@@ -2290,26 +2290,26 @@
     "difficulty": 9,
     "book_learn": [ [ "textbook_weapwest", 8 ] ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 3 ], [ "quench", 120 ] ],
-    "components": [ [ [ "scrap_kevlar", 2 ], [ "plastic_chunk", 1 ] ] ],
+    "components": [ [ [ "scrap_kevlar", 2 ], [ "plastic_chunk", 1 ] ], [ [ "hc_wire", 2 ] ] ],
     "byproducts": [ [ "water", 120 ] ],
     "steps": [
       {
-        "name": "Forge welding steel for the blade, tang, pommel and hilt",
-        "time": "55 m",
+        "name": "Forge welding and cutting steel for the blade, tang, pommel and hilt",
+        "time": "1 h 30 m",
         "activity_level": "BRISK_EXERCISE",
         "using": [ [ "hotcut_any", 1 ] ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
       },
       {
         "name": "Drawing out the blade with a diamond cross section",
-        "time": "4 h 10 m",
+        "time": "5 h 30 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
       },
       {
         "name": "Forging hilt",
-        "time": "1 h 20 m",
+        "time": "2 h 30 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
@@ -2357,26 +2357,26 @@
     "difficulty": 10,
     "book_learn": [ [ "textbook_weapwest", 8 ] ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 3 ], [ "quench", 120 ] ],
-    "components": [ [ [ "scrap_kevlar", 2 ], [ "plastic_chunk", 1 ] ] ],
+    "components": [ [ [ "scrap_kevlar", 2 ], [ "plastic_chunk", 1 ] ], [ [ "hc_wire", 2 ] ] ],
     "byproducts": [ [ "water", 120 ] ],
     "steps": [
       {
         "name": "Forge welding steel for the blade, tang, pommel and hilt",
-        "time": "1 h 10 m",
+        "time": "1 h 50 m",
         "activity_level": "BRISK_EXERCISE",
         "using": [ [ "hotcut_any", 1 ] ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
       },
       {
         "name": "Drawing out the blade with a diamond cross section",
-        "time": "4 h 10 m",
+        "time": "5 h 50 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
       },
       {
-        "name": "Forging hilt.  Etching touchmark in hilt",
-        "time": "2 h 10 m",
+        "name": "Forging swept hilt.  Etching touchmark in hilt",
+        "time": "3 h 10 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
@@ -2415,7 +2415,7 @@
       },
       {
         "name": "Final grinding and polishing",
-        "time": "1 h 50 m",
+        "time": "2 h 30 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "FILE", "level": 2 } ]
       },

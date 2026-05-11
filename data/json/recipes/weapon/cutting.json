@@ -99,15 +99,15 @@
     "steps": [
       {
         "name": "Forge welding and drawing out steel, forging blade blank and tang",
-        "time": "2 h 40 m",
+        "time": "3 h 40 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "using": [ [ "hotcut_any", 1 ] ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
       },
       {
-        "name": "Forging the knucklebow guard from remaining steel",
-        "time": "1 h",
+        "name": "Forging the guard from remaining steel",
+        "time": "1 h 50 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
@@ -119,8 +119,8 @@
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
       },
       {
-        "name": "Rough grinding and establishing the edge geometry",
-        "time": "2 h 30 m",
+        "name": "Rough grinding and establishing the edge geometry.  Truing",
+        "time": "3 h",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "GRIND", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
@@ -176,15 +176,15 @@
     "steps": [
       {
         "name": "Forge welding and drawing out steel, forging blade blank and tang",
-        "time": "3 h 20 m",
+        "time": "3 h 50 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "using": [ [ "hotcut_any", 1 ] ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
       },
       {
-        "name": "Forging the knucklebow guard from remaining steel",
-        "time": "1 h 40 m",
+        "name": "Forging intricate guard from remaining steel",
+        "time": "2 h",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
@@ -197,7 +197,7 @@
       },
       {
         "name": "Rough grinding and establishing the edge geometry",
-        "time": "3 h",
+        "time": "3 h 30 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "GRIND", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
@@ -224,7 +224,7 @@
       },
       {
         "name": "Final sanding and polishing",
-        "time": "3 h",
+        "time": "3 h 20 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "FILE", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
@@ -1168,8 +1168,8 @@
         "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
       },
       {
-        "name": "Drawing out steel, forging the blade blank, and drawing out the hidden tang",
-        "time": "3 h 50 m",
+        "name": "Drawing out steel, forging the blade blank, and drawing out the hidden tang.  Using remaining steel to forge simple pommel",
+        "time": "4 h 40 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "using": [ [ "hotcut_any", 1 ] ],
@@ -1183,7 +1183,7 @@
       },
       {
         "name": "Rough grinding and filing the fuller",
-        "time": "2 h 50 m",
+        "time": "4 h",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "GRIND", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
@@ -1209,7 +1209,7 @@
       },
       {
         "name": "Final sharpening, sanding, and polishing",
-        "time": "1 h 45 m",
+        "time": "2 h 30 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "FILE", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
@@ -1239,7 +1239,7 @@
       },
       {
         "name": "Drawing out steel, forging the blade blank, and drawing out the hidden threaded tang.  Using remaining steel to forge pommel",
-        "time": "3 h 50 m",
+        "time": "4 h 50 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "using": [ [ "hotcut_any", 1 ] ],
@@ -1253,7 +1253,7 @@
       },
       {
         "name": "Rough grinding and filing the fuller",
-        "time": "4 h 15 m",
+        "time": "4 h 40 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "GRIND", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
@@ -1279,14 +1279,14 @@
       },
       {
         "name": "Tempering",
-        "time": "4 h 30 m",
+        "time": "5 h 30 m",
         "activity_level": "NO_EXERCISE",
         "qualities": [ { "id": "TEMPER", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_tempering" } ]
       },
       {
         "name": "Final sharpening, sanding, and polishing",
-        "time": "2 h",
+        "time": "3 h 30 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "FILE", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
@@ -1877,7 +1877,7 @@
       },
       {
         "name": "Drawing out steel, forging the blade blank, and drawing out the hidden threaded tang.  Using remaining steel to forge pommel",
-        "time": "2 h 20 m",
+        "time": "4 h 20 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "using": [ [ "hotcut_any", 1 ] ],
@@ -1891,7 +1891,7 @@
       },
       {
         "name": "Rough grinding and filing the fuller",
-        "time": "1 h 30 m",
+        "time": "3 h 30 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "GRIND", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
@@ -1904,7 +1904,7 @@
       },
       {
         "name": "Final sharpening, sanding, and polishing",
-        "time": "1 h 30 m",
+        "time": "2 h 30 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "FILE", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
@@ -1934,7 +1934,7 @@
       },
       {
         "name": "Drawing out steel, forging the blade blank, and drawing out the hidden threaded tang.  Using remaining steel to forge pommel",
-        "time": "2 h 55 m",
+        "time": "4 h 55 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "using": [ [ "hotcut_any", 1 ] ],
@@ -1948,7 +1948,7 @@
       },
       {
         "name": "Rough grinding and filing the fuller",
-        "time": "2 h",
+        "time": "4 h",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "GRIND", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
@@ -1981,7 +1981,7 @@
       },
       {
         "name": "Final sharpening, sanding, and polishing",
-        "time": "1 h 30 m",
+        "time": "2 h 30 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "FILE", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
@@ -2379,7 +2379,7 @@
       },
       {
         "name": "Truing the profile and rough grinding the bevels",
-        "time": "2 h",
+        "time": "2 h 30 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "GRIND", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
@@ -2405,7 +2405,7 @@
       },
       {
         "name": "Final grinding",
-        "time": "1 h 30 m",
+        "time": "2 h ",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "FILE", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
@@ -2433,7 +2433,7 @@
     "steps": [
       {
         "name": "Cutting steel.  Forging the blade to shape and drawing out the tang",
-        "time": "2 h",
+        "time": "2 h 40 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "using": [ [ "hotcut_any", 1 ] ],
@@ -2447,7 +2447,7 @@
       },
       {
         "name": "Truing the profile and rough grinding the bevels",
-        "time": "2 h 40 m",
+        "time": "2 h 50 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "GRIND", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
@@ -2467,7 +2467,7 @@
       },
       {
         "name": "Final grinding",
-        "time": "1 h 30 m",
+        "time": "2 h 20 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "FILE", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
@@ -2554,7 +2554,7 @@
     "steps": [
       {
         "name": "Cutting steel.  Forging the blade straight and drawing out the tang",
-        "time": "2 h 40 m",
+        "time": "3 h 40 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "using": [ [ "hotcut_any", 1 ] ],
@@ -2622,7 +2622,7 @@
     "steps": [
       {
         "name": "Cutting steel.  Forging the blade to shape and drawing out the tang",
-        "time": "3 h 50 m",
+        "time": "4 h 30 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "using": [ [ "hotcut_any", 1 ] ],
@@ -2636,7 +2636,7 @@
       },
       {
         "name": "Truing the profile and rough grinding the bevels",
-        "time": "3 h 40 m",
+        "time": "4 h 30 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "GRIND", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
@@ -2764,7 +2764,7 @@
     "steps": [
       {
         "name": "Forging the blank ensuring consistent grain flow",
-        "time": "5 h 40 m",
+        "time": "6 h",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
@@ -2777,7 +2777,7 @@
       },
       {
         "name": "Rough grinding",
-        "time": "4 h",
+        "time": "5 h 30 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "GRIND", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
