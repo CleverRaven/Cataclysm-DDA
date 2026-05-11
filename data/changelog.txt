@@ -222,6 +222,11 @@ NPC behavior tree evaluates for all NPCs, not just guards
 It is possible to make factions be radio-contactable
 Some limbs are unable to use firearms
 Power hammer and it's recipes
+Allow ferals to unlock car doors.
+Direct route autodrive pathfinding
+Added small storage battery disassembly.
+Vehicle turrets and tools draw from multimag pockets
+Recipes can mark steps as unattended; player can wait, walk away, or set a timer
 
 
 ## Content:
@@ -477,6 +482,14 @@ Add inner cabins dimension
 Greenhouses!
 Added the jetski map extra, a jetski abandoned on the side of the river
 Added the Final Showdown map extra, an injured survivor's last stand against a few zombies
+Limbify Ursine Eyes
+The labyrinth safehouse has a creepy boiler
+Limbify avian eyes
+Small feature room in labyrinth 2: map terminal
+Overgrown labyrinths
+Insect wings to body part
+Labyrinth specific CBMs:  anchor; laser reader; psyshield; artificial hair; blood biofactory; antigravity jump
+Expand the Highlands Artifact and add hint on how to use the Conquerors Road.
 
 
 ## Interface:
@@ -637,6 +650,9 @@ Show cable connections for appliances
 Split battery percentage into a separate widget from fuel
 Add viewport lock option for zone sorting
 Replace curses crafting menu with ImGui implementation
+Migrate popups in vehicle interaction menu to ImGui
+Update to ImGui 1.91.9b
+Move appliance infobox to imgui
 
 
 ## Mods:
@@ -1121,6 +1137,10 @@ XE Proficiency CBMs
 [Sky Island] Challenge Mode
 [Sky Island] NPCs may join raids
 [BPerks/MM/Sorc] XP mods can level up more than once at a time
+[Magiclysm] Fantasy species bodypart edits
+Aftershock: Add industrial habitat building.
+[MoM] The Netherum Labyrinth is in the Nether
+Aftershock: Sol turrets and Veles robots guns dont set things on fire.
 
 ## Balance:
 Visitors Passes and Freight Badges no longer reveal roads
@@ -1268,6 +1288,12 @@ Fixes Cloud Formation and Pressure
 Respect magazine_well when calculating encumbrance
 Nobody wants to cooperate with psychopaths
 Zombie corpses aren't useful
+Rebalancing medical professions
+Define speed for more power tools. Add tempering quality
+Even more weapon recipes stepped
+Swap bash and stab damage on war hammers
+Continue this endeavor. Stepping all piercing weapons
+Gastropod Foot coverage
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1808,6 +1834,21 @@ Aftershock: Plasma degrades armors
 Stop spamming player log when NPCs are hot
 Stop ref center guard EOCs from firing in alternate dimensions
 Uncomfortable limbs must exist
+No more teenage or unskilled RC mercenary
+Sound Dampeners bionic counts as hearing protection for target practice
+Fixes labyrinth safehouse wall wiring/mapgen update conflicts
+Spelling fixes for bath toy and weakened inertia
+Flying creatures land more, flee toward ground, and ignore distant z threats
+Fix gas grenade delay and field emission
+Realistic Ages
+[MoM] Fix the `unending conflagration` killing themselves with their own `burning aura`
+Migrate old proficiencies so they dont throw errors on legacy saves
+Unattended crafting follow-up bugs
+Gas mask filters drain again; multimag guns can fire when fully loaded
+[Magiclysm] Fix Mage Armor spell
+Fix segfault when reloading a torch that gets dropped mid-activity
+Fix debug message when stamina runs out while running
+Fix bullet points not being rendered in Crafting UI
 
 
 ## Performance:
@@ -1851,6 +1892,7 @@ Batch zone sorting pickups from nearby sources
 Shrink level_cache by 48kb to save almost 1MB of ram (or more with allocator overhead)
 Save map size by not serializing unnecessary item components.
 Skip lightmap rebuild on idle frames
+Speedup highway placement by caching expensive math
 
 
 ## Infrastructure:
@@ -2084,6 +2126,16 @@ Make map::add_spawn private to prevent hardcoded monster spawns
 Move items across dimensions with dimensional travel
 Remove single-magazine assumptions in item_contents
 Give access to an item's pre and post apocalypse price to EOCs
+Per-pocket consumption schema for multi-well items
+Add opt-in SDL3 dual build across Makefile/CMake/MSVC with SDL3_mixer sound
+Add item-targeted wakeup scheduler
+Pass item_location through item wakeup dispatch
+Support copy-from and other JSON inheritance features for constructions
+Fix regional terrain not working when spawned from z level < 0 to > 0
+clang-tidy: support LLVM 19-22 in custom plugin and helper scripts
+Fix lint findings reported by clang-tidy 21
+Bump clang-tidy CI baseline from LLVM 18 to LLVM 21
+Re-enable cata-large-stack-object check on LLVM 22
 
 
 ## Build:
@@ -2119,6 +2171,8 @@ Remove MXE from release, fix clang on macOS
 Fix maybe-uninitialized warning in unseal_and_spill_test
 Cache vcpkg installed packages in MSVC CI
 Build instruction and files for Visual Studio Code
+Demote GCC 16 -Wsfinae-incomplete to warning
+Fix SDL3 release artifacts for Linux, macOS, Windows
 
 
 ## I18N and A11Y:
