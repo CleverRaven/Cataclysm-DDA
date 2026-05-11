@@ -109,6 +109,7 @@ These fields can be read by any ITEM regardless of subtypes:
     "condition": "leather",       // The condition to check for.
     "name": { "str": "pair of leather socks", "str_pl": "pairs of leather socks" } // Name field, same rules as above.
 } ],
+"display_type": "BY_WEIGHT",      // (Optional) Whether this item should be displayed by weight or volume instead of count. Valid entries are `DEFAULT`(no need to put anything), `BY_VOLUME`, and `BY_WEIGHT`.
 "container": "null",             // What container (if any) this item should spawn within
 "repairs_like": "scarf",          // If this item does not have recipe, what item to look for a recipe for when repairing it.
 "color": "blue",                 // Color of the item symbol.

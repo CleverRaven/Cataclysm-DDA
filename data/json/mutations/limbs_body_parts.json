@@ -60,6 +60,31 @@
   },
   {
     "type": "body_part",
+    "id": "eyes_snail",
+    "copy-from": "eyes_bulging",
+    "name": "eyestalks",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "eyestalks" },
+    "heading": "Eyestalks",
+    "heading_multiple": "Eyestalks",
+    "opposite_part": "eyes_snail",
+    "hit_size": 1.5,
+    "hit_difficulty": 1.5,
+    "ugliness": 3,
+    "ugliness_mandatory": 2,
+    "similar_bodypart": "eyes",
+    "sub_parts": [ "eyes_snail_left", "eyes_snail_right" ],
+    "limb_scores": [ [ "vision", 1.1 ], [ "night_vis", 1.0 ], [ "reaction", 0.8 ] ]
+  },
+  {
+    "type": "body_part",
+    "id": "eyes_snail_good",
+    "copy-from": "eyes_snail",
+    "opposite_part": "eyes_snail_good",
+    "sub_parts": [ "eyes_snail_good_left", "eyes_snail_good_right" ],
+    "limb_scores": [ [ "vision", 1.25 ], [ "night_vis", 1.0 ], [ "reaction", 1.0 ] ]
+  },
+  {
+    "type": "body_part",
     "id": "eyes_ceph",
     "//": "Same size as bulging, plus high glare and eye membrane",
     "name": "cephalopod eyes",

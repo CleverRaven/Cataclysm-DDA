@@ -222,7 +222,7 @@ std::string craft( item const &it, unsigned int /* quantity */,
         } else {
             maintext = string_format( _( "in progress %s" ), it.get_making().result_name() );
         }
-        if( it.charges > 1 ) {
+        if( it.charges > 1 && !it.type->dont_display_count_or_charges() ) {
             maintext += string_format( " (%d)", it.charges );
         }
         int effective_counter = it.item_counter;
@@ -311,10 +311,11 @@ std::string contents( item const &it, unsigned int /* quantity */,
             if( total_count == aggi_count ) {
                 return string_format(
                            segments[tname::segments::CONTENTS_COUNT]
-                           //~ [container item name] " > [count] [type]"
-                           ? npgettext( "item name", " > %1$zd %2$s", " > %1$zd %2$s", total_count )
+                           //~ [container item name] " > [count or volume or weight (depending on type)] [type]"
+                           ? npgettext( "item name", " > %1$s %2$s", " > %1$s %2$s", total_count )
                            : " > %2$s",
-                           total_count, ctnc );
+                           contents_item.type->count_or_volume_or_weight_prefix( total_count ),
+                           ctnc );
             }
             return string_format(
                        segments[tname::segments::CONTENTS_COUNT]

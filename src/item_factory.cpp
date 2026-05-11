@@ -4167,6 +4167,22 @@ std::string enum_to_string<link_state>( link_state data )
 }
 
 template<>
+std::string enum_to_string<item_display_type>( item_display_type data )
+{
+    switch( data ) {
+        case item_display_type::DEFAULT:
+            return "DEFAULT";
+        case item_display_type::BY_WEIGHT:
+            return "BY_WEIGHT";
+        case item_display_type::BY_VOLUME:
+            return "BY_VOLUME";
+        case item_display_type::LAST:
+            break;
+    }
+    cata_fatal( "Invalid item_display_type" );
+}
+
+template<>
 std::string enum_to_string<grip_val>( grip_val val )
 {
     switch( val ) {
@@ -4365,6 +4381,7 @@ void itype::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "integral_weight", integral_weight, not_negative_mass, -1_gram );
     optional( jo, was_loaded, "volume", volume );
     optional( jo, was_loaded, "longest_side", longest_side, -1_mm );
+    optional( jo, was_loaded, "display_type", display_type, item_display_type::DEFAULT );
     optional( jo, was_loaded, "price", price, not_negative_money, 0_cent );
     optional( jo, was_loaded, "price_postapoc", price_post, not_negative_money, -1_cent );
     optional( jo, was_loaded, "stackable", stackable_ );

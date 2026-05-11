@@ -1739,7 +1739,7 @@ std::string item::display_name( unsigned int quantity ) const
                     amt = string_format( " (%s%s)", colorize( string_format( "%i/%i", amount, max_amount ),
                                          charges_color ),
                                          ammotext );
-                } else {
+                } else if( !type->dont_display_count_or_charges() )  {
                     amt = string_format( " (%i%s)", amount, ammotext );
                 }
             }

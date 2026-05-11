@@ -7903,6 +7903,12 @@ void reload_activity_actor::start( player_activity &act, Character &/*who*/ )
 
 void reload_activity_actor::reload_msg( Character &who, bool finished )
 {
+    // Item may have been dropped from inventory between turns (e.g. pocket
+    // overflow after the reload increased its size); the location is then
+    // stale and dereferencing it would crash.
+    if( !target_loc ) {
+        return;
+    }
     item &reloadable = *target_loc;
     const std::string reloadable_name = reloadable.tname();
 

@@ -103,7 +103,7 @@
   },
   {
     "id": "megachette",
-    "copy-from": "mc_broadsword",
+    "copy-from": "broadsword",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "megachette (extended)", "str_pl": "megachettes (extended)" },

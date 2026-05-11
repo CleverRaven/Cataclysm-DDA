@@ -63,12 +63,13 @@ static void CheckDecl( LargeStackObjectCheck &Check, const MatchFinder::MatchRes
     }
 
 #if defined(LLVM_VERSION_MAJOR) && LLVM_VERSION_MAJOR >= 22
-    // ASTContext::getTypeInfoImpl recurses without bound on some complete
-    // CTAD-deduced template instantiations (e.g. restore_on_out_of_scope
-    // wrapping std::optional<units::quantity<...>>) and crashes the process.
-    // The matcher fires on every varDecl, so we cannot keep the check
-    // partially active without misclassifying safe types.
-    return;
+    // LLVM 22 getTypeInfoImpl segfaults on DTS with null deduced type
+    // (CTAD aborted by earlier compile errors).
+    if( const auto *DTS = dyn_cast<DeducedTemplateSpecializationType>( T ) ) {
+        if( DTS->getDeducedType().isNull() ) {
+            return;
+        }
+    }
 #endif
 
 #if defined(LLVM_VERSION_MAJOR) && LLVM_VERSION_MAJOR >= 17

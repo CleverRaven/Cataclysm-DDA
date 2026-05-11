@@ -2218,7 +2218,7 @@
   },
   {
     "type": "recipe",
-    "result": "mc_rapier",
+    "result": "rapier",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -2272,7 +2272,7 @@
   {
     "type": "recipe",
     "result": "hc_rapier",
-    "copy-from": "mc_rapier",
+    "copy-from": "rapier",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",

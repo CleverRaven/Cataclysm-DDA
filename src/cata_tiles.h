@@ -38,8 +38,6 @@
 #include "weighted_list.h"
 
 class Character;
-class JsonObject;
-class cata_path;
 class memorized_tile;
 class monster;
 class nc_color;
@@ -338,105 +336,6 @@ class tileset_cache
         std::unordered_map<std::string, std::weak_ptr<tileset>> tilesets_;
 };
 
-class tileset_cache::loader
-{
-    private:
-        tileset &ts;
-        const SDL_Renderer_Ptr &renderer;
-
-        point sprite_offset;
-        point sprite_offset_retracted;
-        float sprite_pixelscale = 1.0;
-
-        int sprite_width = 0;
-        int sprite_height = 0;
-
-        int offset = 0;
-        int sprite_id_offset = 0;
-        int size = 0;
-
-        int R = 0;
-        int G = 0;
-        int B = 0;
-
-        int tile_atlas_width = 0;
-
-        void ensure_default_item_highlight();
-
-        void copy_surface_to_texture( const SDL_Surface_Ptr &surf, const point &offset,
-                                      std::vector<texture> &target,
-                                      const std::vector<SDL_Rect> &opaque_bounds );
-        void create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas, const point &offset );
-
-        void process_variations_after_loading( weighted_int_list<std::vector<int>> &v ) const;
-
-        void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int sprite_id,
-                                const std::string &s_id );
-        void load_ascii_set( const JsonObject &entry );
-        /**
-         * Create a new tile_type, add it to tile_ids (using <B>id</B>).
-         * Set the fg and bg properties of it (loaded from the json object).
-         * Makes sure each is either -1, or in the interval [0,size).
-         * If it's in that interval, adds offset to it, if it's not in the
-         * interval (and not -1), throw an std::string error.
-         */
-        tile_type &load_tile( const JsonObject &entry, const std::string &id );
-
-        void load_tile_spritelists( const JsonObject &entry, weighted_int_list<std::vector<int>> &vs,
-                                    std::string_view objname ) const;
-
-        void load_ascii( const JsonObject &config );
-        /** Load tileset, R,G,B, are the color components of the transparent color
-         * Returns the number of tiles that have been loaded from this tileset image
-         * @param pump_events Handle window events and refresh the screen when necessary.
-         *        Please ensure that the tileset is not accessed when this method is
-         *        executing if you set it to true.
-         * @throw std::exception If the image can not be loaded.
-         */
-        void load_tileset( const cata_path &path, bool pump_events );
-        /**
-         * Load tiles from json data.This expects a "tiles" array in
-         * <B>config</B>. That array should contain all the tile definition that
-         * should be taken from an tileset image.
-         * Because the function only loads tile definitions for a single tileset
-         * image, only tile indices (tile_type::fg tile_type::bg) in the interval
-         * [0,size].
-         * The <B>offset</B> is automatically added to the tile index.
-         * sprite offset dictates where each sprite should render in its tile
-         * @throw std::exception On any error.
-         */
-        void load_tilejson_from_file( const JsonObject &config );
-        /**
-         * Helper function called by load.
-         * @param pump_events Handle window events and refresh the screen when necessary.
-         *        Please ensure that the tileset is not accessed when this method is
-         *        executing if you set it to true.
-         * @throw std::exception On any error.
-         */
-        void load_internal( const JsonObject &config, const cata_path &tileset_root,
-                            const cata_path &img_path, bool pump_events );
-
-        /**
-         * Helper function to load layering data.
-         * @throw std::exception On any error.
-         */
-        void load_layers( const JsonObject &config );
-
-    public:
-        loader( tileset &ts, const SDL_Renderer_Ptr &r ) : ts( ts ), renderer( r ) {
-        }
-        /**
-         * @throw std::exception On any error.
-         * @param tileset_id Ident of the tileset, as it appears in the options.
-         * @param precheck If tue, only loads the meta data of the tileset (tile dimensions).
-         * @param pump_events Handle window events and refresh the screen when necessary.
-         *        Please ensure that the tileset is not accessed when this method is
-         *        executing if you set it to true.
-         * @param terrain If true, this will be an overmap/terrain tileset
-         */
-        void load( const std::string &tileset_id, bool precheck, bool pump_events = false,
-                   bool terrain = false );
-};
 
 enum class text_alignment : int {
     left,

@@ -2348,14 +2348,16 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
     int desired_move_mode_cost = 0;
     if( player_character.is_waiting_to_change_mode_mode() && !is_actions_move_mode ) {
         move_mode_id desired_move = player_character.get_desired_move_mode();
-        desired_move_mode_cost = player_character.move_mode_switch_cost( player_character.move_mode,
-                                 desired_move );
-        player_character.set_movement_mode( desired_move );
-        if( player_character.move_mode == desired_move ) {
-            player_character.mod_moves( -desired_move_mode_cost );
-        } else {
-            debugmsg( "Player unable to change from move_mode(%s) to desired_move_mode(%s)",
-                      player_character.move_mode.c_str(), desired_move.c_str() );
+        if( player_character.can_switch_to( desired_move ) ) {
+            desired_move_mode_cost = player_character.move_mode_switch_cost( player_character.move_mode,
+                                     desired_move );
+            player_character.set_movement_mode( desired_move );
+            if( player_character.move_mode == desired_move ) {
+                player_character.mod_moves( -desired_move_mode_cost );
+            } else {
+                debugmsg( "Player unable to change from move_mode(%s) to desired_move_mode(%s)",
+                          player_character.move_mode.c_str(), desired_move.c_str() );
+            }
         }
     }
 
