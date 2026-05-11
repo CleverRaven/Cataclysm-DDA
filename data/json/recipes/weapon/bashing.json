@@ -2010,7 +2010,7 @@
       },
       {
         "name": "Cutting off excess and squaring the steel stock",
-        "time": "2 h 10",
+        "time": "2 h 10 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "using": [ [ "hotcut_any", 1 ] ],
