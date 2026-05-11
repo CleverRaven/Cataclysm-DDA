@@ -182,8 +182,8 @@
     "parent": "eyes_snail_good",
     "side": "left",
     "opposite": "eyes_snail_good_right",
-    "name_multiple": "eyes",
-    "name": "left eye"
+    "name_multiple": "eyestalks",
+    "name": "left eyestalk"
   },
   {
     "id": "eyes_snail_good_right",
@@ -192,8 +192,28 @@
     "parent": "eyes_snail_good",
     "side": "right",
     "opposite": "eyes_snail_good_left",
-    "name_multiple": "eyes",
-    "name": "right eye"
+    "name_multiple": "eyestalks",
+    "name": "right eyestalk"
+  },
+  {
+    "id": "eyes_crab_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_crab",
+    "side": "left",
+    "opposite": "eyes_crab_right",
+    "name_multiple": "eyestalks",
+    "name": "left eyestalk"
+  },
+  {
+    "id": "eyes_crab_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_crab",
+    "side": "right",
+    "opposite": "eyes_crab_left",
+    "name_multiple": "eyestalks",
+    "name": "right eyestalk"
   },
   {
     "id": "muzzle_lips",

@@ -64,8 +64,8 @@
     "copy-from": "eyes_bulging",
     "name": "eyestalks",
     "accusative": { "ctxt": "bodypart_accusative", "str": "eyestalks" },
-    "heading": "Eyestalks",
-    "heading_multiple": "Eyestalks",
+    "heading": "eyestalks",
+    "heading_multiple": "eyestalks",
     "opposite_part": "eyes_snail",
     "hit_size": 1.5,
     "hit_difficulty": 1.5,
@@ -82,6 +82,18 @@
     "opposite_part": "eyes_snail_good",
     "sub_parts": [ "eyes_snail_good_left", "eyes_snail_good_right" ],
     "limb_scores": [ [ "vision", 1.25 ], [ "night_vis", 1.0 ], [ "reaction", 1.0 ] ]
+  },
+  {
+    "type": "body_part",
+    "id": "eyes_crab",
+    "copy-from": "eyes_snail",
+    "opposite_part": "eyes_crab",
+    "//": "Reduced hit size and difficulty to represent moving them out of the way of attacks",
+    "hit_size": 1.0,
+    "hit_difficulty": 1.15,
+    "sub_parts": [ "eyes_crab_left", "eyes_crab_right" ],
+    "flags": [ "EYE_MEMBRANE" ],
+    "limb_scores": [ [ "vision", 1.2 ], [ "night_vis", 1.0 ], [ "reaction", 0.8 ] ]
   },
   {
     "type": "body_part",
