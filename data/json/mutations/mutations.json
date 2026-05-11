@@ -5432,7 +5432,7 @@
     "type": "mutation",
     "id": "EYESTALKS_RIGID",
     "name": { "str": "Rigid Eyestalks" },
-    "description": "You have compound eyes on rigid stalks that can fold back against your head to protect them from danger.  This gives you better all-around vision and allows you to see underwater, but interferes with eyewear.  Perception +1",
+    "description": "You have compound eyes on rigid stalks that can fold back against your head to protect them from danger.  This gives you better all-around vision and allows you to see underwater, but interferes with eyewear.  Your vision and reaction limb scores are also increased.",
     "category": [ "CRUSTACEAN" ],
     "types": [ "EYES" ],
     "points": 2,
@@ -5440,10 +5440,9 @@
     "vitamin_cost": 160,
     "visibility": 8,
     "ugliness": 8,
-    "flags": [ "EYE_MEMBRANE" ],
     "allow_soft_gear": true,
     "restricts_gear": [ "eyes" ],
-    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 1 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_crab" } ] } ]
   },
   {
     "type": "mutation",
