@@ -111,42 +111,13 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "lmoe_prepperquest",
-    "name": "LMOE shelter",
-    "sym": "+",
-    "color": "red",
-    "vision_levels": "natural_outcropping",
-    "see_cost": "spaced_high",
-    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lmoe_roof",
-    "name": "LMOE shelter",
-    "vision_levels": "roof_or_air",
-    "sym": ".",
-    "color": "brown",
-    "see_cost": "none",
-    "flags": [ "KNOWN_DOWN" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "lmoe_under",
     "name": "LMOE shelter",
     "vision_levels": "underground_dirt",
     "sym": "+",
     "color": "red",
     "see_cost": "full_high",
-    "flags": [ "KNOWN_UP", "SHOULD_NOT_SPAWN", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lmoe_under_empty",
-    "name": "LMOE shelter",
-    "vision_levels": "underground_dirt",
-    "sym": "+",
-    "color": "red",
-    "see_cost": "full_high",
+    "spawns": { "group": "GROUP_PREPPER_HOUSE", "population": [ 2, 12 ], "chance": 50 },
     "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
@@ -158,26 +129,6 @@
     "color": "red",
     "see_cost": "full_high",
     "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lmoe_zombie",
-    "name": "LMOE shelter",
-    "vision_levels": "natural_outcropping",
-    "sym": "+",
-    "color": "red",
-    "see_cost": "spaced_high",
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lmoe_zombie_under_empty",
-    "name": "LMOE shelter",
-    "vision_levels": "underground_dirt",
-    "sym": "+",
-    "color": "red",
-    "see_cost": "full_high",
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",

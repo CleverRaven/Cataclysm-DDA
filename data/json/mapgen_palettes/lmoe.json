@@ -139,7 +139,7 @@
     "type": "palette",
     "id": "bunker_ext",
     "terrain": {
-      " ": [ "t_region_groundcover" ],
+      " ": "t_region_groundcover",
       "_": [ "t_region_groundcover", [ "t_region_groundcover_barren", 9 ] ],
       "#": "t_soil",
       "v": "t_open_air",

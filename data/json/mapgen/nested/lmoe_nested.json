@@ -70,15 +70,180 @@
     "nested_mapgen_id": "prepper_1_computer",
     "object": {
       "mapgensize": [ 1, 1 ],
-      "place_computers": [
+      "place_computers": [ { "x": 0, "y": 0, "name": "Personal Computer: User", "eocs": [ "EOC_PREPPER_1_COMPUTER" ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "lmoe_exit_n",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "))_)))",
+        ")#+##)",
+        ")#..#)",
+        ")#>>#)",
+        ")####)",
+        "))))))"
+      ],
+      "palettes": [ "bunker_ext" ],
+      "place_nested": [ { "chunks": [ "lmoe_exit_roof_s" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "lmoe_exit_roof_n",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "((v(((",
+        "(    (",
+        "(    (",
+        "(    (",
+        "(    (",
+        "(((((("
+      ],
+      "palettes": [ "bunker_ext" ],
+      "place_nested": [
         {
-          "x": 0,
-          "y": 0,
-          "name": "Personal Computer: User",
-          "eocs": [ "EOC_PREPPER_1_COMPUTER" ],
-          "chat_topics": [ "COMP_PREPPER_1_MAIN" ]
+          "//": "6% chance of solar, 20% chance it's v2",
+          "chunks": [
+            [ "residential_1x2_solar", 12 ],
+            [ "residential_2x2_solar", 4 ],
+            [ "residential_1x3_solar", 8 ],
+            [ "residential_1x2_solar_v2", 3 ],
+            [ "residential_2x2_solar_v2", 1 ],
+            [ "residential_1x3_solar_v2", 2 ],
+            [ "null", 470 ]
+          ],
+          "x": 2,
+          "y": 2
         }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "lmoe_exit_s",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "))))))",
+        ")####)",
+        ")#>>#)",
+        ")#..#)",
+        ")#+##)",
+        "))_)))"
+      ],
+      "palettes": [ "bunker_ext" ],
+      "place_nested": [ { "chunks": [ "lmoe_exit_roof_n" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "lmoe_exit_roof_s",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "((((((",
+        "(    (",
+        "(    (",
+        "(    (",
+        "(    (",
+        "((v((("
+      ],
+      "palettes": [ "bunker_ext" ],
+      "place_nested": [
+        {
+          "//": "6% chance of solar, 20% chance it's v2",
+          "chunks": [
+            [ "residential_1x2_solar", 12 ],
+            [ "residential_2x2_solar", 4 ],
+            [ "residential_1x3_solar", 8 ],
+            [ "residential_1x2_solar_v2", 3 ],
+            [ "residential_2x2_solar_v2", 1 ],
+            [ "residential_1x3_solar_v2", 2 ],
+            [ "null", 470 ]
+          ],
+          "x": 2,
+          "y": 2
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "lmoe_exit_w",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "))))))",
+        ")####)",
+        ")#> +_",
+        ")#> #)",
+        ")####)",
+        "))))))"
+      ],
+      "palettes": [ "bunker_ext" ],
+      "place_nested": [ { "chunks": [ "lmoe_exit_roof_w" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "lmoe_exit_roof_w",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "((((((",
+        "(    (",
+        "(    v",
+        "(    (",
+        "(    (",
+        "(((((("
+      ],
+      "palettes": [ "bunker_ext" ],
+      "place_nested": [
+        {
+          "//": "6% chance of solar, 20% chance it's v2",
+          "chunks": [
+            [ "residential_1x2_solar", 12 ],
+            [ "residential_2x2_solar", 4 ],
+            [ "residential_1x3_solar", 8 ],
+            [ "residential_1x2_solar_v2", 3 ],
+            [ "residential_2x2_solar_v2", 1 ],
+            [ "residential_1x3_solar_v2", 2 ],
+            [ "null", 470 ]
+          ],
+          "x": 2,
+          "y": 2
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "lmoe_exit_prepperquest_n",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "))_)))",
+        ")#X##)",
+        ")#..#)",
+        ")#>>#)",
+        ")####)",
+        "))))))"
+      ],
+      "palettes": [ "bunker_ext" ],
+      "terrain": { "X": "t_door_metal_locked" },
+      "place_nested": [ { "chunks": [ "lmoe_exit_roof_s" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "lmoe_prepperquest_sign",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_signs": [ { "signage": "PRIVATE PROPERTY!\nNO SOLICITING!\n\nATTEMPT TO ENTER\nAND YOU WILL BE SHOT!", "x": 0, "y": 0 } ]
     }
   }
 ]

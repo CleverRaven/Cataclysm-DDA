@@ -341,24 +341,8 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "lmoe_prepperquest",
-    "copy-from": "lmoe_prepperquest",
-    "name": "LMOE shelter",
-    "sym": "L",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "lmoe_under",
     "copy-from": "lmoe_under",
-    "name": "LMOE shelter",
-    "sym": "L",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lmoe_under_empty",
-    "copy-from": "lmoe_under_empty",
     "name": "LMOE shelter",
     "sym": "L",
     "color": "red"
