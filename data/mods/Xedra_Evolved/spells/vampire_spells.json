@@ -587,7 +587,7 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_ATTEMPT_HORSE_FAMILIAR",
     "shape": "blast",
-    "energy_source": "MANA",
+    "energy_source": "VITAMIN",
     "base_energy_cost": 0,
     "base_casting_time": { "math": [ "spell_time(u_val('time: 10 m'))" ] },
     "final_casting_time": { "math": [ "spell_time(u_val('time: 10 m'))" ] },
@@ -611,7 +611,7 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_FEED_HORSE_FAMILIAR",
     "shape": "blast",
-    "energy_source": "MANA",
+    "energy_source": "VITAMIN",
     "base_energy_cost": 0,
     "base_casting_time": { "math": [ "spell_time(u_val('time: 10 m'))" ] },
     "final_casting_time": { "math": [ "spell_time(u_val('time: 10 m'))" ] }
