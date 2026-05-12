@@ -5864,6 +5864,36 @@
     }
   },
   {
+    "id": "test_multimag_gun_integral_ammo",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "test integral-mag multimag gun" },
+    "description": "Test gun: integral 9mm magazine + battery well, dual firing requirements (SGG-5 shape).",
+    "weight": "1000 g",
+    "volume": "1500 ml",
+    "longest_side": "400 mm",
+    "material": [ "steel" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "ammo": [ "9mm" ],
+    "skill": "pistol",
+    "range": 10,
+    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
+    "dispersion": 480,
+    "durability": 10,
+    "flags": [ "NO_TURRET" ],
+    "pocket_data": [
+      { "id": "ammo", "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 1 } },
+      {
+        "id": "power",
+        "magazine_well": "500 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "heavy_battery_cell" ]
+      }
+    ],
+    "firing_requirements": { "DEFAULT": [ { "pocket": "ammo", "qty": 1 }, { "pocket": "power", "qty": 5 } ] }
+  },
+  {
     "id": "test_multimag_tool_consume",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],

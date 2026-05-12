@@ -2680,11 +2680,11 @@ requirement_id synthesize_requirements(
 requirement_id remove_met_requirements( requirement_id base_req_id, Character &you )
 {
 
-    requirement_data reqs = base_req_id.obj();
+    const requirement_data &reqs = base_req_id.obj();
     // Remove the requirements already met
     requirement_data::alter_tool_comp_vector tool_reqs_vector = reqs.get_tools();
     requirement_data::alter_quali_req_vector quality_reqs_vector = reqs.get_qualities();
-    requirement_data::alter_item_comp_vector component_reqs_vector = reqs.get_components();
+    const requirement_data::alter_item_comp_vector &component_reqs_vector = reqs.get_components();
     requirement_data::alter_tool_comp_vector reduced_tool_reqs_vector;
     requirement_data::alter_quali_req_vector reduced_quality_reqs_vector;
 

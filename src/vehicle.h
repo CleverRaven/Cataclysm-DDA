@@ -897,6 +897,11 @@ class vehicle
         bool do_environmental_effects( map &here ) const;
 
         // Vehicle fuel indicator (by fuel)
+        // Returns a string for appliance info box.
+        std::string print_fuel_indicator( map &here, const itype_id &fuel_type,
+                                          std::map<itype_id, units::energy> fuel_usages );
+
+        // Vehicle fuel indicator (by fuel)
         // TODO: Figure out what coordinate system "point" is in and type it.
         void print_fuel_indicator( map &here, const catacurses::window &w, const point &p,
                                    const itype_id &fuel_type,
@@ -1489,6 +1494,10 @@ class vehicle
 
         // Get all printable fuel types
         std::vector<itype_id> get_printable_fuel_types( map &here ) const;
+
+        // Vehicle fuel indicators (all of them)
+        // Returns a string for appliance info box.
+        std::string print_fuel_indicators( map &here, int start_index = 0 );
 
         // Vehicle fuel indicators (all of them)
         // TODO: Figure out what coordinate system this uses and convert to it.

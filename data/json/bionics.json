@@ -1780,5 +1780,79 @@
       "hair_very_long",
       "natural_hair_growth"
     ]
+  },
+  {
+    "id": "bio_nl_dimensional_anchor",
+    "//": "Only found in netherum labyrinth",
+    "type": "bionic",
+    "name": { "str": "Dimensional Anchor" },
+    "description": "Your body has been wired with advanced technology that locks you into your native dimensionality, protecting you from unwanted teleportation and some other phase altering effects.",
+    "occupied_bodyparts": [ [ "torso", 16 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 4 ], [ "leg_r", 4 ] ],
+    "act_cost": "50 J",
+    "react_cost": "50 J",
+    "time": "1 s",
+    "flags": [ "USES_BIONIC_POWER", "BIONIC_TOGGLED" ],
+    "activated_eocs": [ "EOC_bio_nl_dimensional_anchor" ],
+    "deactivated_eocs": [ "EOC_bio_nl_dimensional_anchor_removal" ]
+  },
+  {
+    "id": "bio_nl_laser_reader",
+    "//": "Only found in netherum labyrinth",
+    "type": "bionic",
+    "name": { "str": "Laser-Assisted Reading Device" },
+    "description": "Who needs a reading lamp when you don't need your eyes?  Your head has a short-distance laser scanner implant, allowing you to upload digital images of books straight into your brains optic lobe and language centers.  When active, you read slightly faster, and can read in the dark.",
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "active_flags": [ "READ_IN_DARKNESS" ],
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "READING_SPEED_MULTIPLIER", "multiply": -0.1 } ] } ],
+    "act_cost": "1 J",
+    "react_cost": "1 J",
+    "time": "1 s"
+  },
+  {
+    "id": "bio_nl_psyshield",
+    "//": "Only found in netherum labyrinth",
+    "type": "bionic",
+    "name": { "str": "Cranial EMF Shielding" },
+    "description": "Your skull is coated in a microscopically thin layer of some non-newtonian fluid.  It can protect you from some types of electromagnetic fields.  Is it useful?  Maybe.  It slightly encumbers the head.",
+    "encumbrance": [ [ "head", 1 ] ],
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "passive_pseudo_items": [ "integrated_nl_psyshield" ]
+  },
+  {
+    "id": "bio_nl_hair",
+    "//": "Only found in netherum labyrinth",
+    "type": "bionic",
+    "name": { "str": "Artificial Hair" },
+    "description": "Your hair follicles have been replaced with mechanical sphincters that control the extrusion and retraction of advanced nanotube hair technology.  Activate this to change the style or color of your artificial hair.",
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "act_cost": "1 J",
+    "activated_eocs": [ "EOC_bio_nl_hair" ],
+    "canceled_mutations": [ "natural_hair_growth", "natural_beard_growth" ]
+  },
+  {
+    "id": "bio_nl_blood_factory",
+    "//": "Only found in netherum labyrinth",
+    "type": "bionic",
+    "name": { "str": "Bone Marrow Bio-Factory" },
+    "description": "Your bone marrow is now home to several specialized nanorobots.  Activating them will increase blood cell production at the cost of stored calories and bionic energy.",
+    "occupied_bodyparts": [ [ "torso", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 1 ], [ "leg_r", 1 ] ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "BIONIC_SLEEP_FRIENDLY", "BIONIC_SHOCKPROOF" ],
+    "act_cost": "40 J",
+    "react_cost": "40 J",
+    "time": "1 s",
+    "processed_eocs": [ "EOC_bio_nl_blood_factory" ]
+  },
+  {
+    "id": "bio_nl_antigravity_jump",
+    "type": "bionic",
+    "name": { "str": "Antigravity Leap Assist" },
+    "description": "Your legs have been implanted with an antigravity device.  While it doesn't allow you to float or fly, it does allow you to make superhuman long jumps.",
+    "occupied_bodyparts": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "act_cost": "250 kJ",
+    "spell_on_activation": { "id": "bio_nl_antigravity_jump_spell" },
+    "activated_close_ui": true
   }
 ]

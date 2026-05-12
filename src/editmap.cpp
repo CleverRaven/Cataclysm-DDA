@@ -165,7 +165,7 @@ static std::vector<std::string> fld_string( const std::string &str, int width )
 }
 
 template<class SAVEOBJ>
-void edit_json( SAVEOBJ &it )
+static void edit_json( SAVEOBJ &it )
 {
     int tmret = -1;
     std::string save1 = serialize( it );
@@ -344,7 +344,7 @@ if (!!selected_ter) {
 
 */
 template <typename T_t, typename T_id>
-void brush_set_feature( editmap_brush &brush, T_id &brush_selected, bool &brush_enabled )
+static void brush_set_feature( editmap_brush &brush, T_id &brush_selected, bool &brush_enabled )
 {
     std::optional<T_id> selected_ter = brush.select_feature<T_t>();
     if( selected_ter.has_value() ) {

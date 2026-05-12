@@ -191,8 +191,8 @@ void handle_harvest( Character &you, const itype_id &itemid, bool force_drop );
 using iexamine_examine_function = void ( * )( Character &, const tripoint_bub_ms & );
 using iexamine_can_examine_function = bool ( * )( const tripoint_bub_ms & );
 struct iexamine_functions {
-    iexamine_can_examine_function can_examine;
-    iexamine_examine_function examine;
+    iexamine_can_examine_function can_examine = nullptr;
+    iexamine_examine_function examine = nullptr;
 };
 
 iexamine_functions iexamine_functions_from_string( const std::string &function_name );

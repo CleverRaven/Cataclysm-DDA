@@ -2121,6 +2121,22 @@
   },
   {
     "type": "terrain",
+    "id": "t_highlands_conqueror_statue",
+    "name": "statue of a conqueror",
+    "description": "The regal countenance of this long-dead conqueror still gazes down upon the world, but only ruins remain of the empire they once built.",
+    "looks_like": "f_statue",
+    "copy-from": "t_column",
+    "bash": {
+      "str_min": 120,
+      "str_max": 200,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "ter_set": "t_stone_masonry_floor",
+      "items": [ { "item": "rock", "count": [ 10, 14 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_bollard",
     "name": "bollard",
     "looks_like": "t_fence_post",

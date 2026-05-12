@@ -15,8 +15,10 @@
 #include "material.h"
 #include "recipe.h"
 #include "ret_val.h"
+#include "string_formatter.h"
 #include "subbodypart.h"
 #include "translations.h"
+#include "units_utility.h"
 
 static const flag_id json_flag_CAN_HAVE_CHARGES( "CAN_HAVE_CHARGES" );
 
@@ -123,6 +125,21 @@ std::string itype::get_item_type_string() const
         return "AMMO";
     }
     return "misc";
+}
+
+bool itype::dont_display_count_or_charges() const
+{
+    return display_type != item_display_type::DEFAULT;
+}
+
+std::string itype::count_or_volume_or_weight_prefix( unsigned int quantity ) const
+{
+    if( display_type == item_display_type::BY_WEIGHT ) {
+        return string_format( _( "%1$s" ), weight_to_string( weight * quantity, true, true ) );
+    } else if( display_type == item_display_type::BY_VOLUME ) {
+        return string_format( _( "%1$s" ), vol_to_string( volume * quantity, true, true ) );
+    }
+    return std::to_string( quantity );
 }
 
 std::string itype::nname( unsigned int quantity ) const

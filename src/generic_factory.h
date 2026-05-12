@@ -277,6 +277,8 @@ class generic_factory
                 check_plural = check_plural_t::none;
                 const std::string abstract_id =  jo.get_string( abstract_member_name );
                 def.id = string_id<T>( abstract_id );
+                // def is a local stack object; virtual dispatch is fine here.
+                // NOLINTNEXTLINE(clang-analyzer-optin.cplusplus.VirtualCall)
                 def.load( jo, src );
                 abstracts[abstract_id] = def;
             }
@@ -371,6 +373,8 @@ class generic_factory
                     }
                     def.id = string_id<T>( e );
                     mod_tracker::assign_src( def, src );
+                    // def is a local stack object; virtual dispatch is fine here.
+                    // NOLINTNEXTLINE(clang-analyzer-optin.cplusplus.VirtualCall)
                     def.load( jo, src );
                     insert( def );
                 }

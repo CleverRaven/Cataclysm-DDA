@@ -101,7 +101,7 @@
         "qualities": [ { "id": "CUT", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5 } ]
       },
-      { "name": "Smoke-curing wood", "time": "4 h", "activity_level": "NO_EXERCISE" },
+      { "name": "Smoke-curing wood", "time": "4 h", "activity_level": "NO_EXERCISE", "attention": "unattended" },
       { "name": "Applying sealant", "time": "30 m", "activity_level": "NO_EXERCISE" }
     ]
   },
@@ -1933,7 +1933,7 @@
       },
       {
         "name": "Punching and drifting the eye",
-        "time": "1 h 30 m",
+        "time": "1 h 50 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_toolsmithing" } ]
@@ -2010,7 +2010,7 @@
       },
       {
         "name": "Cutting off excess and squaring the steel stock",
-        "time": "1 h 40 m",
+        "time": "2 h 10 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "using": [ [ "hotcut_any", 1 ] ],
@@ -2018,21 +2018,21 @@
       },
       {
         "name": "Punching and drifting the eye",
-        "time": "1 h 35 m",
+        "time": "2 h 35 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_toolsmithing" } ]
       },
       {
         "name": "Drawing out and curving steel for the beak",
-        "time": "1 h 30 m",
+        "time": "2 h",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
       },
       {
         "name": "Drawing out langets and forge welding them to the head",
-        "time": "1 h",
+        "time": "1 h 20 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
@@ -2047,7 +2047,7 @@
       { "name": "Normalizing the hammer head", "time": "40 m", "activity_level": "NO_EXERCISE" },
       {
         "name": "Rough grinding and shaping the spike and face",
-        "time": "2 h",
+        "time": "2 h 20 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "GRIND", "level": 2 }, { "id": "FILE", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
@@ -2075,7 +2075,7 @@
         "time": "1 h 40 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "FILE", "level": 2 } ],
-        "proficiencies": [ { "proficiency": "prof_hardening" } ]
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
       },
       {
         "name": "Sawing plank and shaping the wooden handle",
@@ -2086,7 +2086,7 @@
       },
       {
         "name": "Fitting and wedging the head to the handle.  Attaching langets",
-        "time": "30 m",
+        "time": "40 m",
         "activity_level": "LIGHT_EXERCISE",
         "tools": [ [ [ "hammer", -1 ] ] ],
         "qualities": [ { "id": "DRILL", "level": 2 } ]
@@ -2114,7 +2114,7 @@
       },
       {
         "name": "Cutting off excess and squaring the steel stock",
-        "time": "1 h 40 m",
+        "time": "2 h 30 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "using": [ [ "hotcut_any", 1 ] ],
@@ -2122,28 +2122,28 @@
       },
       {
         "name": "Carefully punching and drifting the eye",
-        "time": "2 h",
+        "time": "3 h",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_toolsmithing" } ]
       },
       {
         "name": "Drawing out and curving steel for the beak",
-        "time": "1 h 30 m",
+        "time": "1 h 50 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
       },
       {
         "name": "Drawing out langets and forge welding them to the head",
-        "time": "1 h",
+        "time": "1 h 40 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
       },
       {
         "name": "Forming the hammer face and chiseling grooves.  Chiseling your touchmark on the hammer",
-        "time": "1 h 20 m",
+        "time": "1 h 50 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_toolsmithing" } ]
@@ -2151,14 +2151,14 @@
       { "name": "Normalizing the hammer head", "time": "40 m", "activity_level": "NO_EXERCISE" },
       {
         "name": "Rough grinding and shaping the spike and face",
-        "time": "2 h",
+        "time": "2 h 30 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "GRIND", "level": 2 }, { "id": "FILE", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
       },
       {
         "name": "Heating and thorough-hardening hammer head",
-        "time": "30 m",
+        "time": "20 m",
         "activity_level": "NO_EXERCISE",
         "proficiencies": [ { "proficiency": "prof_hardening" } ]
       },
@@ -2191,7 +2191,7 @@
       },
       {
         "name": "Fitting and wedging the head to the handle.  Attaching langets",
-        "time": "30 m",
+        "time": "40 m",
         "activity_level": "LIGHT_EXERCISE",
         "tools": [ [ [ "hammer", -1 ] ] ],
         "qualities": [ { "id": "DRILL", "level": 2 } ]
@@ -2373,7 +2373,7 @@
       },
       {
         "name": "Forging and shaping symmetrical flanges",
-        "time": "2 h",
+        "time": "3 h 10 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
@@ -2408,7 +2408,7 @@
       },
       {
         "name": "Grinding scale off roughly to observe temper colours",
-        "time": "40 m",
+        "time": "30 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "GRIND", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
@@ -2607,7 +2607,12 @@
         "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SAW_W", "level": 2 }, { "id": "FILE", "level": 1 } ],
         "proficiencies": [ { "proficiency": "prof_carving", "skill_penalty": 0.5 } ]
       },
-      { "name": "Oiling staff.  Watching the proverbial paint dry", "time": "4 h", "activity_level": "NO_EXERCISE" }
+      {
+        "name": "Oiling staff.  Watching the proverbial paint dry",
+        "time": "4 h",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended"
+      }
     ]
   },
   {

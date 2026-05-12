@@ -598,7 +598,9 @@ item visitable::remove_item( item &it )
         return obj.front();
 
     } else {
-        debugmsg( "Tried removing item from object which did not contain it" );
+        debugmsg( "Tried removing item '%s' (typeId=%s, charges=%d) "
+                  "from object which did not contain it",
+                  it.tname(), it.typeId().str(), it.charges );
         return item();
     }
 }

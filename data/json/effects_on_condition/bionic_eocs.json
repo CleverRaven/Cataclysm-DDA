@@ -247,5 +247,138 @@
     "type": "effect_on_condition",
     "id": "EOC_BIONIC_WEARMAN_REMOVAL",
     "effect": [ { "u_remove_item_with": "internal_mp3_music" }, { "u_remove_item_with": "internal_mp3_radio" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_nl_dimensional_anchor",
+    "effect": [ { "u_spawn_item": "integrated_nl_dimensional_anchor", "suppress_message": true, "force_equip": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_nl_dimensional_anchor_removal",
+    "effect": [ { "u_remove_item_with": "integrated_nl_dimensional_anchor" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_nl_hair",
+    "effect": [
+      {
+        "run_eoc_selector": [ "barber_hair", "barber_beard", "bio_use_hair_dye_kit" ],
+        "allow_cancel": true,
+        "names": [ "Hairstyle", "Facial Hair", "Hair Color" ],
+        "title": "Pick an action",
+        "descriptions": [
+          "Change the length and style of your hair.",
+          "Change the length and style of your facial hair",
+          "Change the color of your hair."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_use_hair_dye_kit",
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "bio_black_hair_dye",
+          "bio_blond_hair_dye",
+          "bio_blue_hair_dye",
+          "bio_brown_hair_dye",
+          "bio_gray_hair_dye",
+          "bio_green_hair_dye",
+          "bio_red_hair_dye",
+          "bio_pink_hair_dye",
+          "bio_white_hair_dye",
+          "EOC_NONE"
+        ],
+        "names": [ "Black", "Blond", "Blue", "Brown", "Gray", "Green", "Red", "Pink", "White", "Nevermind" ],
+        "keys": [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" ],
+        "descriptions": [
+          "Make your hair black.",
+          "Make your hair blond.",
+          "Make your hair blue.",
+          "Make your hair brown.",
+          "Make your hair gray.",
+          "Make your hair green.",
+          "Make your hair red.",
+          "Make your hair pink.",
+          "Make your hair white.",
+          "Don't do anything."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_black_hair_dye",
+    "effect": [
+      { "u_message": "You adjust the color of your artificial hair." },
+      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "black" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_blond_hair_dye",
+    "effect": [
+      { "u_message": "You adjust the color of your artificial hair." },
+      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "blond" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_blue_hair_dye",
+    "effect": [
+      { "u_message": "You adjust the color of your artificial hair." },
+      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "blue" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_brown_hair_dye",
+    "effect": [
+      { "u_message": "You adjust the color of your artificial hair." },
+      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "brown" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_gray_hair_dye",
+    "effect": [
+      { "u_message": "You adjust the color of your artificial hair." },
+      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "gray" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_green_hair_dye",
+    "effect": [
+      { "u_message": "You adjust the color of your artificial hair." },
+      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "green" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_red_hair_dye",
+    "effect": [
+      { "u_message": "You adjust the color of your artificial hair." },
+      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "red" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_pink_hair_dye",
+    "effect": [
+      { "u_message": "You adjust the color of your artificial hair." },
+      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "pink" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_white_hair_dye",
+    "effect": [
+      { "u_message": "You adjust the color of your artificial hair." },
+      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "white" } }
+    ]
   }
 ]

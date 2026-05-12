@@ -821,5 +821,20 @@
     "type": "MIGRATION",
     "id": "integrated_bio_robofac_xmback_on",
     "replace": "qt_steel_chunk"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mc_kukri",
+    "replace": "kukri"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mc_broadsword",
+    "replace": "broadsword"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mc_rapier",
+    "replace": "rapier"
   }
 ]

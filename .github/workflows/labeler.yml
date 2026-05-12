@@ -15,7 +15,6 @@ jobs:
       pull-requests: write  # for actions/labeler to add labels to PRs
     runs-on: ubuntu-latest
     steps:
-      # Original workflow still on node 20, fork to use node 24.
-      - uses: akrieger/multi-labeler@49c0e32651f03354db2f17eb9b7352fbaeae03df
+      - uses: fuxingloh/multi-labeler@bcd50af464202999e57f556b4aefcf05a34abf85 # v5.0.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}

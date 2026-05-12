@@ -90,6 +90,9 @@ struct heap {
             *this = rhs;
         }
         heap &operator=( heap const &rhs ) {
+            if( this == &rhs ) {
+                return *this;
+            }
             // This should always be true, however, sanity says do the right thing.
             if( rhs.heaped_ ) {
                 heaped_.reset( new T{ *rhs.heaped_ } );

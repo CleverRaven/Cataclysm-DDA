@@ -1057,18 +1057,8 @@
     "extend": { "flags": [ "FRAGILE_MELEE" ] }
   },
   {
-    "id": "kukri",
-    "copy-from": "mc_kukri",
-    "looks_like": "kukri",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "kukri" },
-    "description": "This versatile implement is a modern take on a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, it can be used as both a tool and a weapon.",
-    "replace_materials": { "mc_steel": "steel", "wood": "plastic" }
-  },
-  {
     "id": "lc_kukri",
-    "copy-from": "mc_kukri",
+    "copy-from": "kukri",
     "looks_like": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
@@ -1081,7 +1071,7 @@
     "relative": { "melee_damage": { "cut": -1 } }
   },
   {
-    "id": "mc_kukri",
+    "id": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "weapons",
@@ -1107,7 +1097,7 @@
   },
   {
     "id": "hc_kukri",
-    "copy-from": "mc_kukri",
+    "copy-from": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "high steel kukri" },
@@ -1118,7 +1108,7 @@
   },
   {
     "id": "ch_kukri",
-    "copy-from": "mc_kukri",
+    "copy-from": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel kukri" },
@@ -1129,7 +1119,7 @@
   },
   {
     "id": "qt_kukri",
-    "copy-from": "mc_kukri",
+    "copy-from": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel kukri" },
@@ -2553,17 +2543,8 @@
     "melee_damage": { "bash": 2, "stab": 25 }
   },
   {
-    "id": "broadsword",
-    "copy-from": "mc_broadsword",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "broadsword" },
-    "description": "An Early Modern sword that saw use in the 16th, 17th, and 18th centuries.  Called 'broad' to contrast with the slimmer rapiers.",
-    "replace_materials": { "mc_steel": "steel" }
-  },
-  {
     "id": "lc_broadsword",
-    "copy-from": "mc_broadsword",
+    "copy-from": "broadsword",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "mild steel broadsword" },
@@ -2575,7 +2556,7 @@
     "relative": { "melee_damage": { "cut": -4 }, "qualities": [ [ "BUTCHER", -1 ] ] }
   },
   {
-    "id": "mc_broadsword",
+    "id": "broadsword",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "weapons",
@@ -2601,7 +2582,7 @@
   },
   {
     "id": "hc_broadsword",
-    "copy-from": "mc_broadsword",
+    "copy-from": "broadsword",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "high steel broadsword" },
@@ -2612,7 +2593,7 @@
   },
   {
     "id": "ch_broadsword",
-    "copy-from": "mc_broadsword",
+    "copy-from": "broadsword",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel broadsword" },
@@ -2623,7 +2604,7 @@
   },
   {
     "id": "qt_broadsword",
-    "copy-from": "mc_broadsword",
+    "copy-from": "broadsword",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel broadsword" },
@@ -2634,7 +2615,7 @@
   },
   {
     "id": "broadsword_inferior",
-    "copy-from": "mc_broadsword",
+    "copy-from": "broadsword",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "broadsword" },
@@ -2645,7 +2626,7 @@
   },
   {
     "id": "broadsword_fake",
-    "copy-from": "mc_broadsword",
+    "copy-from": "broadsword",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "broadsword" },
@@ -2656,17 +2637,8 @@
     "extend": { "flags": [ "FRAGILE_MELEE" ] }
   },
   {
-    "id": "rapier",
-    "copy-from": "mc_rapier",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "rapier" },
-    "description": "A thin sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.",
-    "replace_materials": { "mc_steel": "steel" }
-  },
-  {
     "id": "lc_rapier",
-    "copy-from": "mc_rapier",
+    "copy-from": "rapier",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "mild steel rapier" },
@@ -2678,7 +2650,7 @@
     "relative": { "melee_damage": { "stab": -4 }, "qualities": [ [ "BUTCHER", -1 ] ] }
   },
   {
-    "id": "mc_rapier",
+    "id": "rapier",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "weapons",
@@ -2704,7 +2676,7 @@
   },
   {
     "id": "hc_rapier",
-    "copy-from": "mc_rapier",
+    "copy-from": "rapier",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "high steel rapier" },
@@ -2715,7 +2687,7 @@
   },
   {
     "id": "ch_rapier",
-    "copy-from": "mc_rapier",
+    "copy-from": "rapier",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel rapier" },
@@ -2726,7 +2698,7 @@
   },
   {
     "id": "qt_rapier",
-    "copy-from": "mc_rapier",
+    "copy-from": "rapier",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel rapier" },
@@ -2737,7 +2709,7 @@
   },
   {
     "id": "rapier_fake",
-    "copy-from": "mc_rapier",
+    "copy-from": "rapier",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "rapier" },

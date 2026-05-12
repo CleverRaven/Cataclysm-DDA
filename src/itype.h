@@ -348,6 +348,18 @@ enum class encumbrance_modifier_type : int {
     last
 };
 
+enum class item_display_type {
+    DEFAULT, // count, charges, etc.
+    BY_WEIGHT, // e.g. "12lbs of salt"
+    BY_VOLUME, // e.g. "4 liters of water"
+    LAST
+};
+
+template<>
+struct enum_traits<item_display_type> {
+    static constexpr item_display_type last = item_display_type::LAST;
+};
+
 struct armor_portion_data {
 
     // The base volume for an item
@@ -1579,6 +1591,9 @@ struct itype {
         /** Value after the Cataclysm, dependent upon practical usages. Price given is for a default-sized stack. */
         units::money price_post = -1_cent;
 
+        /** How should this display? */
+        item_display_type display_type = item_display_type::DEFAULT;
+
         // TODO: Add some very basic unwieldiness calc for non specified to_hit?
         int m_to_hit = -2;  // To-hit bonus for melee combat, see GAME_BALANCE.md#to-hit-value
         // itype specifies a legacy raw int to_hit, for use with for item_new_to_hit_enforcement TEST_CASE
@@ -1660,6 +1675,10 @@ struct itype {
         fuel_explosion_data get_explosion_data() const;
 
         std::string get_item_type_string() const;
+
+        std::string count_or_volume_or_weight_prefix( unsigned int quantity ) const;
+
+        bool dont_display_count_or_charges() const;
 
         // Returns the name of the item type in the correct language and with respect to its grammatical number,
         // based on quantity (example: item type "anvil", nname(4) would return "anvils" (as in "4 anvils").

@@ -16,14 +16,14 @@
 
 // Same as @ref string_format, but does not swallow errors and throws them instead.
 template<typename ...Args>
-std::string throwing_string_format( fmt::string_view format, Args &&...args )
+static std::string throwing_string_format( fmt::string_view format, Args &&...args )
 {
     return fmt::vsprintf( format, fmt::make_printf_args( args... ) );
 }
 
 template<typename ...Args>
-void importet_test( const int serial, const char *const expected, const char *const format,
-                    Args &&... args )
+static void importet_test( const int serial, const char *const expected, const char *const format,
+                           Args &&... args )
 {
     CAPTURE( serial );
     CAPTURE( format );
@@ -38,7 +38,8 @@ void importet_test( const int serial, const char *const expected, const char *co
 }
 
 template<typename ...Args>
-void test_for_expected( const std::string &expected, const char *const format, Args &&... args )
+static void test_for_expected( const std::string &expected, const char *const format,
+                               Args &&... args )
 {
     CAPTURE( format );
     CAPTURE( std::setlocale( LC_ALL, nullptr ), std::locale().name() );
@@ -50,7 +51,7 @@ void test_for_expected( const std::string &expected, const char *const format, A
 }
 
 template<typename ...Args>
-void test_for_error( const char *const format, Args &&... args )
+static void test_for_error( const char *const format, Args &&... args )
 {
     CAPTURE( format );
     CAPTURE( std::setlocale( LC_ALL, nullptr ), std::locale().name() );
@@ -62,8 +63,8 @@ void test_for_error( const char *const format, Args &&... args )
 // old_pattern in both). Test whether the new pattern (if any) yields the same
 // output via string_formatter (not used on raw printf).
 template<typename ...Args>
-void test_new_old_pattern( const char *const old_pattern, const char *const new_pattern,
-                           Args &&...args )
+static void test_new_old_pattern( const char *const old_pattern, const char *const new_pattern,
+                                  Args &&...args )
 {
     CAPTURE( old_pattern );
     CAPTURE( new_pattern );
@@ -80,7 +81,7 @@ void test_new_old_pattern( const char *const old_pattern, const char *const new_
 }
 // Test that supplying `T&&`, `T&` and `const T&` as arguments will work the same.
 template<typename T>
-void test_lvalues( const std::string &expected, const char *const pattern, const T &value )
+static void test_lvalues( const std::string &expected, const char *const pattern, const T &value )
 {
     test_for_expected( expected, pattern, T( value ) ); // T &&
     T lvalue( value );
@@ -94,14 +95,15 @@ void test_lvalues( const std::string &expected, const char *const pattern, const
 // string_formatter, which may be different (e.g. "%lli" requires a long long int
 // in raw printf, but string_formatter will accept an int as well.
 template<typename T>
-void test_typed_printf( const char *const old_pattern, const char *const new_pattern )
+static void test_typed_printf( const char *const old_pattern, const char *const new_pattern )
 {
     test_new_old_pattern( old_pattern, new_pattern, std::numeric_limits<T>::min() );
     test_new_old_pattern( old_pattern, new_pattern, std::numeric_limits<T>::max() );
 }
 
 template<typename T>
-void mingw_test( const char *const old_pattern, const char *const new_pattern, const T &value )
+static void mingw_test( const char *const old_pattern, const char *const new_pattern,
+                        const T &value )
 {
     CAPTURE( old_pattern );
     CAPTURE( new_pattern );

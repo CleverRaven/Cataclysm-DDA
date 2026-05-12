@@ -127,7 +127,7 @@ int terrain_type_to_nesw_array( oter_id terrain_type, std::array<bool, 4> &array
 
 // perform dist counterclockwise rotations on a nesw or neswx array
 template<typename T, size_t N>
-void nesw_array_rotate( std::array<T, N> &array, size_t dist )
+static void nesw_array_rotate( std::array<T, N> &array, size_t dist )
 {
     static_assert( N == 8 || N == 4, "Only arrays of size 4 and 8 are supported" );
     if( N == 4 ) {

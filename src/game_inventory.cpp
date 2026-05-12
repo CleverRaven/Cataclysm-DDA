@@ -3181,8 +3181,8 @@ class select_ammo_inventory_preset : public inventory_selector_preset
 
         // sort in order of move cost (ascending), then remaining ammo (descending) with empty magazines always last
         bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
-            item_location left = lhs.any_item();
-            item_location right = rhs.any_item();
+            const item_location &left = lhs.any_item();
+            const item_location &right = rhs.any_item();
 
             if( left->ammo_remaining( ) == 0 || right->ammo_remaining( ) == 0 ) {
                 return ( left->ammo_remaining( ) != 0 ) > ( right->ammo_remaining( ) != 0 );
@@ -3293,6 +3293,8 @@ item::reload_option game_menus::inv::select_ammo( Character &you, const item_loc
                     //~ %1$s is owner+well description, %2$d is 1-indexed well number on that owner
                     label = string_format( _( "%1$s (well %2$d)" ), label, n );
                 }
+            } else if( rt.kind == reload_target::kind::integral_magazine ) {
+                label = string_format( _( "%s: integral magazine" ), rt.owner->tname() );
             } else {
                 //~ %1$s is the gun or gunmod that holds the magazine, %2$s is the magazine's tname
                 label = string_format( _( "%1$s: top up %2$s" ), rt.owner->tname(),

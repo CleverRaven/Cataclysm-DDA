@@ -370,8 +370,8 @@ void region_settings::reset()
 }
 
 template<typename T>
-void read_and_set_or_throw( const JsonObject &jo, const std::string &member, T &target,
-                            bool required )
+static void read_and_set_or_throw( const JsonObject &jo, const std::string &member, T &target,
+                                   bool required )
 {
     T tmp;
     if( !jo.read( member, tmp ) ) {

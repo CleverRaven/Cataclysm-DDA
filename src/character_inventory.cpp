@@ -42,6 +42,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_factory.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
@@ -1604,8 +1605,73 @@ std::string Character::weapname_mode() const
 
 std::string Character::weapname_ammo() const
 {
-    // TODO(multimag): HUD '(empty)' indicator and ammo count summarize the
-    // first MAGAZINE_WELL only. Multi-well guns need a per-well summary.
+    // Per-pocket summary for multimag guns. Single-well aggregation
+    // resolves ammo_capacity(NULL_ID) == 0 on an empty projectile
+    // pocket and prints "/0".
+    if( weapon.uses_firing_requirements() && weapon.is_gun() ) {
+        std::vector<std::string> parts;
+        for( const item_pocket *p : weapon.get_pockets( []( const item_pocket & ) {
+        return true;
+    } ) ) {
+            int cur = 0;
+            int max = 0;
+            if( p->is_type( pocket_type::MAGAZINE_WELL ) ) {
+                if( const item *mag = p->magazine_current() ) {
+                    cur = mag->ammo_remaining( );
+                    const itype *adata = mag->ammo_data();
+                    max = adata
+                          ? mag->ammo_capacity( adata->ammo->type )
+                          : ( !mag->ammo_default().is_null()
+                              ? mag->ammo_capacity( item_controller->find_template(
+                                                        mag->ammo_default() )->ammo->type )
+                              : 0 );
+                } else {
+                    const pocket_data *pd = p->get_pocket_data();
+                    if( pd && !pd->default_magazine.is_null() && pd->default_magazine->magazine ) {
+                        max = pd->default_magazine->magazine->capacity;
+                    }
+                }
+            } else if( p->is_type( pocket_type::MAGAZINE ) ) {
+                for( const item *e : p->all_items_top() ) {
+                    if( e->has_flag( flag_CASING ) ) {
+                        continue;
+                    }
+                    cur += e->charges > 0 ? e->charges : 1;
+                }
+                const pocket_data *pd = p->get_pocket_data();
+                if( pd != nullptr && !pd->ammo_restriction.empty() ) {
+                    max = pd->ammo_restriction.begin()->second;
+                }
+            } else {
+                continue;
+            }
+            nc_color color = c_white;
+            if( cur == 0 ) {
+                color = c_light_red;
+            } else if( max > 0 && cur < max ) {
+                const double ratio = static_cast<double>( cur ) / static_cast<double>( max );
+                if( ratio < 1.0 / 3.0 ) {
+                    color = c_red;
+                } else if( ratio < 2.0 / 3.0 ) {
+                    color = c_yellow;
+                } else {
+                    color = c_light_green;
+                }
+            }
+            parts.emplace_back( colorize( string_format( "%i/%i", cur, max ), color ) );
+        }
+        if( parts.empty() ) {
+            return std::string();
+        }
+        std::string joined;
+        for( size_t i = 0; i < parts.size(); ++i ) {
+            if( i > 0 ) {
+                joined += ", ";
+            }
+            joined += parts[i];
+        }
+        return "(" + joined + ")";
+    }
     if( weapon.is_gun() ) {
         gun_mode current_mode = weapon.gun_current_mode();
         const bool no_mode = !current_mode.target;

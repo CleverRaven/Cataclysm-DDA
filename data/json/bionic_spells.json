@@ -30,5 +30,23 @@
     "sound_id": "bionics",
     "sound_variant": "elec_crackle_low",
     "message": "You discharge energy from your Super Stun Gun."
+  },
+  {
+    "type": "SPELL",
+    "id": "bio_nl_antigravity_jump_spell",
+    "name": "Antigravity Leap Assist",
+    "description": "You activate your antigravity leap assist device, launching yourself quite a distance.",
+    "message": "You leap with your Antigravity Assist.",
+    "valid_targets": [ "ground" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_FAIL", "NO_EXPLOSION_SFX" ],
+    "spell_class": "NONE",
+    "effect": "dash",
+    "shape": "cone",
+    "min_damage": 0,
+    "max_damage": 0,
+    "damage_increment": 0,
+    "damage_type": "bash",
+    "min_range": 5,
+    "max_range": 5
   }
 ]
