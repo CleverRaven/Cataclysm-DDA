@@ -323,12 +323,12 @@ std::string enum_to_string<inventory_selector::uimode>( inventory_selector::uimo
 {
     switch( mode ) {
         case inventory_selector::uimode::hierarchy:
-            return translate_marker_context( "inventory ui mode", "hierarchy" );
+            return pgettext( "inventory ui mode", "hierarchy" );
         case inventory_selector::uimode::last:
         case inventory_selector::uimode::categories:
             break;
     }
-    return translate_marker_context( "inventory ui mode", "categories" );
+    return pgettext( "inventory ui mode", "categories" );
 }
 } // namespace io
 
