@@ -224,7 +224,6 @@ Some limbs are unable to use firearms
 Power hammer and it's recipes
 Allow ferals to unlock car doors.
 Direct route autodrive pathfinding
-Added small storage battery disassembly.
 Vehicle turrets and tools draw from multimag pockets
 Recipes can mark steps as unattended; player can wait, walk away, or set a timer
 
@@ -482,14 +481,8 @@ Add inner cabins dimension
 Greenhouses!
 Added the jetski map extra, a jetski abandoned on the side of the river
 Added the Final Showdown map extra, an injured survivor's last stand against a few zombies
-Limbify Ursine Eyes
-The labyrinth safehouse has a creepy boiler
-Limbify avian eyes
-Small feature room in labyrinth 2: map terminal
 Overgrown labyrinths
-Insect wings to body part
 Labyrinth specific CBMs:  anchor; laser reader; psyshield; artificial hair; blood biofactory; antigravity jump
-Expand the Highlands Artifact and add hint on how to use the Conquerors Road.
 
 
 ## Interface:
@@ -1137,10 +1130,7 @@ XE Proficiency CBMs
 [Sky Island] Challenge Mode
 [Sky Island] NPCs may join raids
 [BPerks/MM/Sorc] XP mods can level up more than once at a time
-[Magiclysm] Fantasy species bodypart edits
 Aftershock: Add industrial habitat building.
-[MoM] The Netherum Labyrinth is in the Nether
-Aftershock: Sol turrets and Veles robots guns dont set things on fire.
 
 ## Balance:
 Visitors Passes and Freight Badges no longer reveal roads
@@ -1288,12 +1278,7 @@ Fixes Cloud Formation and Pressure
 Respect magazine_well when calculating encumbrance
 Nobody wants to cooperate with psychopaths
 Zombie corpses aren't useful
-Rebalancing medical professions
-Define speed for more power tools. Add tempering quality
-Even more weapon recipes stepped
-Swap bash and stab damage on war hammers
-Continue this endeavor. Stepping all piercing weapons
-Gastropod Foot coverage
+Stepped many many weapon recipes
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1834,21 +1819,6 @@ Aftershock: Plasma degrades armors
 Stop spamming player log when NPCs are hot
 Stop ref center guard EOCs from firing in alternate dimensions
 Uncomfortable limbs must exist
-No more teenage or unskilled RC mercenary
-Sound Dampeners bionic counts as hearing protection for target practice
-Fixes labyrinth safehouse wall wiring/mapgen update conflicts
-Spelling fixes for bath toy and weakened inertia
-Flying creatures land more, flee toward ground, and ignore distant z threats
-Fix gas grenade delay and field emission
-Realistic Ages
-[MoM] Fix the `unending conflagration` killing themselves with their own `burning aura`
-Migrate old proficiencies so they dont throw errors on legacy saves
-Unattended crafting follow-up bugs
-Gas mask filters drain again; multimag guns can fire when fully loaded
-[Magiclysm] Fix Mage Armor spell
-Fix segfault when reloading a torch that gets dropped mid-activity
-Fix debug message when stamina runs out while running
-Fix bullet points not being rendered in Crafting UI
 
 
 ## Performance:
