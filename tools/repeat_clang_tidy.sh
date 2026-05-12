@@ -22,6 +22,11 @@ set -eu
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 top_dir="$(dirname "$script_dir")"
+build_dir=${CATA_BUILD_DIR:-build}
+case "$build_dir" in
+    /*) ;;
+    *) build_dir="$top_dir/$build_dir" ;;
+esac
 
 if [ $# -ge 1 ]
 then
@@ -37,12 +42,12 @@ else
     file_regex='.'
 fi
 
-list_of_files=$(grep '"file": "' build/compile_commands.json | \
-    sed "s+.*$PWD/++;s+\",\?$++" | \
+list_of_files=$(grep '"file": "' "${build_dir}/compile_commands.json" | \
+    sed "s+.*$PWD/++" | sed 's+",\?$++' | \
     sort -u | \
-    egrep "$file_regex")
+    grep -E "$file_regex")
 
-plugin_lib="$top_dir/build/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so"
+plugin_lib="${build_dir}/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so"
 plugin_opt=
 if [ -r "$plugin_lib" ]
 then
@@ -50,19 +55,19 @@ then
 fi
 
 temp_file=$(mktemp)
-trap "rm -f $temp_file" EXIT
+trap 'rm -f "$temp_file"' EXIT
 num_iterations=0
 
 while [ -n "$list_of_files" ]
 do
-    exec 3>$temp_file
+    exec 3>"$temp_file"
     printf "Running clang-tidy on %d files\n" \
         "$(($(printf "%s" "$list_of_files" | wc -l)+1))"
     printf "%s" "$list_of_files" | \
         nice -15 xargs -P "$jobs" -n 1 \
         "$script_dir/repeat_clang_tidy_helper.sh" \
         -quiet ${plugin_opt:+"$plugin_opt"}
-    list_of_files="$(cat $temp_file)"
+    list_of_files="$(cat "$temp_file")"
     if (( ++num_iterations >= 10 ))
     then
         break

@@ -405,6 +405,8 @@ static const bodygraph_id &get_bg_rows( const bodygraph_id &bgid )
     if( !!bgid->mirror ) {
         return get_bg_rows( bgid->mirror.value() );
     }
+    // bodygraph_id is a string_id with stable storage; callers do not pass temporaries.
+    // NOLINTNEXTLINE(bugprone-return-const-ref-from-parameter)
     return bgid;
 }
 

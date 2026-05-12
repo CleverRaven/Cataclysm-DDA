@@ -200,5 +200,41 @@
         "-": "t_wall_metal"
       }
     }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_center_residential",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "..---------!!---------..",
+        "..-    - -    -      -..",
+        "---    -.-    -      ---",
+        "-      ---             -",
+        "-                      -",
+        "-                      -",
+        "-                 ------",
+        "-                 =<[..-",
+        "-                 ] [..-",
+        "-                 =>[..-",
+        "---     -%-]]-   -------",
+        "!       ---EE-         !",
+        "!        -eEE-         !",
+        "-        ------        -",
+        "---      -    -      ---",
+        "-                      -",
+        "-                      -",
+        "-                      -",
+        "-                      -",
+        "-                      -",
+        "-                      -",
+        "---      -    -      ---",
+        "..-      -    -      -..",
+        "..---------!!---------.."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure" ],
+      "terrain": { ".": "t_open_air", "e": "t_elevator_control", "E": "t_elevator" }
+    }
   }
 ]

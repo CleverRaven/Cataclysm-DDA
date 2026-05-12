@@ -1163,6 +1163,11 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
     int curshot = 0;
     int hits = 0; // total shots on target
     int delay = 0; // delayed recoil that has yet to be applied
+    // Snapshot the gun slot. The wielded item can stop being a gun
+    // mid-loop (recoil-induced unwield, fire transforms), and the
+    // post-shot hurt_part / skill-practice blocks still need to read
+    // it for the shots that already fired.
+    const islot_gun *const original_gun = gun.is_gun() ? gun.type->gun.get() : nullptr;
     while( curshot != shots ) {
         // Special handling for weapons where we supply the ammo separately (i.e. ammo is populated)
         // instead of it being loaded into the weapon, reload right before firing.
@@ -1316,18 +1321,23 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
     // Use different amounts of time depending on the type of gun and our skill
     mod_moves( -attack_moves );
 
-    const islot_gun &firing = *gun.type->gun;
-    for( const std::pair<const bodypart_str_id, int> &hurt_part : firing.hurt_part_when_fired ) {
-        apply_damage( nullptr, bodypart_id( hurt_part.first ), hurt_part.second );
-        add_msg_player_or_npc( _( "Your %s is hurt by the recoil!" ),
-                               _( "<npcname>'s %s is hurt by the recoil!" ),
-                               body_part_name_accusative( bodypart_id( hurt_part.first ) ) );
+    const islot_gun *firing = original_gun;
+    if( !firing && gun.is_gun() ) {
+        firing = gun.type->gun.get();
+    }
+    if( firing != nullptr ) {
+        for( const std::pair<const bodypart_str_id, int> &hurt_part : firing->hurt_part_when_fired ) {
+            apply_damage( nullptr, bodypart_id( hurt_part.first ), hurt_part.second );
+            add_msg_player_or_npc( _( "Your %s is hurt by the recoil!" ),
+                                   _( "<npcname>'s %s is hurt by the recoil!" ),
+                                   body_part_name_accusative( bodypart_id( hurt_part.first ) ) );
+        }
     }
 
     // Preventing using a trapped creature as an infinite training dummy.
-    if( times_shot_target < 100 ) {
+    if( times_shot_target < 100 && curshot > 0 ) {
         // Practice the base gun skill proportionally to number of hits, but always by one.
-        if( !gun.has_flag( flag_WONT_TRAIN_MARKSMANSHIP ) ) {
+        if( firing != nullptr && !gun.has_flag( flag_WONT_TRAIN_MARKSMANSHIP ) ) {
             practice( skill_gun, ( hits + 1 ) * 5 );
         }
         // launchers train weapon skill for both hits and misses.

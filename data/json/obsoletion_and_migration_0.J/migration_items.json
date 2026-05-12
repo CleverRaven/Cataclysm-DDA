@@ -645,6 +645,66 @@
   },
   {
     "type": "MIGRATION",
+    "id": "bundle_rag",
+    "replace": "cotton_patchwork"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bundle_cotton",
+    "replace": "sheet_cotton"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bundle_leather",
+    "replace": "leather"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bundle_wool",
+    "replace": "felt_patch"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bundle_nylon",
+    "replace": "nylon"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bundle_plank",
+    "replace": "2x4"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bundle_rebar",
+    "replace": "rebar"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bundle_pipe",
+    "replace": "pipe"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bundle_copper_pipe",
+    "replace": "cu_pipe"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bundle_branch",
+    "replace": "stick"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bundle_branch_long",
+    "replace": "stick_long"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bundle_javelin",
+    "replace": "javelin"
+  },
+  {
+    "type": "MIGRATION",
     "id": "xs_hood_h20survivor",
     "replace": "xs_wetsuit_hood"
   },
@@ -821,5 +881,20 @@
     "type": "MIGRATION",
     "id": "integrated_bio_robofac_xmback_on",
     "replace": "qt_steel_chunk"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mc_kukri",
+    "replace": "kukri"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mc_broadsword",
+    "replace": "broadsword"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mc_rapier",
+    "replace": "rapier"
   }
 ]

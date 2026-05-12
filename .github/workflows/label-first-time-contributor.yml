@@ -21,12 +21,12 @@ jobs:
             // See: https://octokit.github.io/rest.js/#pagination
             const creator = context.payload.sender.login
             const opts = github.rest.pulls.list.endpoint.merge({
-              context.repo.owner,
-              context.repo.repo,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
               state: 'closed'
             })
 
-            const this_pr = context.pull_request.number;
+            const this_pr = context.payload.pull_request.number;
             let is_new_contributor = true;
             for await (const pr of github.paginate.iterator(opts)) {
               if (pr.number !== this_pr && pr.merged_at !== null) {

@@ -1396,8 +1396,8 @@
           {
             "effect_id": "red_incense_effect",
             "intensity": 1,
-            "min_duration": "2 minutes",
-            "max_duration": "2 minutes",
+            "min_duration": "24 hours",
+            "max_duration": "24 hours",
             "is_environmental": false
           }
         ]
@@ -1428,6 +1428,113 @@
     "accelerated_decay": true,
     "display_field": true,
     "looks_like": "fd_cigsmoke"
+  },
+  {
+    "id": "fd_green_incense",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "swirl of green incense",
+        "translucency": 5,
+        "color": "green",
+        "effects": [
+          {
+            "effect_id": "green_incense_effect",
+            "intensity": 1,
+            "min_duration": "30 seconds",
+            "max_duration": "30 seconds",
+            "is_environmental": false
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 250,
+    "outdoor_age_speedup": "6 minutes",
+    "dirty_transparency_cache": true,
+    "priority": 8,
+    "half_life": "35 minutes",
+    "phase": "gas",
+    "accelerated_decay": true,
+    "display_field": true,
+    "looks_like": "fd_cigsmoke"
+  },
+  {
+    "id": "fd_incense",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "swirl of incense", "translucency": 5, "color": "yellow" } ],
+    "decay_amount_factor": 5,
+    "percent_spread": 250,
+    "outdoor_age_speedup": "6 minutes",
+    "dirty_transparency_cache": true,
+    "priority": 8,
+    "half_life": "35 minutes",
+    "phase": "gas",
+    "accelerated_decay": true,
+    "display_field": true,
+    "looks_like": "fd_cigsmoke"
+  },
+  {
+    "id": "fd_blue_incense",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "swirl of blue incense",
+        "translucency": 5,
+        "color": "blue",
+        "effects": [
+          {
+            "effect_id": "invisibility",
+            "intensity": 1,
+            "min_duration": "30 seconds",
+            "max_duration": "30 seconds",
+            "is_environmental": false
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 250,
+    "outdoor_age_speedup": "6 minutes",
+    "dirty_transparency_cache": true,
+    "priority": 8,
+    "half_life": "35 minutes",
+    "phase": "gas",
+    "accelerated_decay": true,
+    "display_field": true,
+    "looks_like": "fd_cigsmoke"
+  },
+  {
+    "id": "fd_black_incense",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "dense caustic gas",
+        "color": "dark_gray",
+        "translucency": 20,
+        "transparent": false,
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "black_incense_effect",
+            "body_part": "torso",
+            "intensity": 1,
+            "min_duration": "10 seconds",
+            "max_duration": "10 seconds",
+            "immune_inside_vehicle": true,
+            "message": "You feel the caustic gas burn through your skin.",
+            "message_type": "bad"
+          }
+        ]
+      }
+    ],
+    "looks_like": "fd_smoke",
+    "dirty_transparency_cache": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "torso", 15 ], [ "mouth", 15 ], [ "sensor", 15 ] ] },
+    "priority": 2,
+    "half_life": "5 minutes",
+    "phase": "solid",
+    "display_field": true
   },
   {
     "id": "fd_weedsmoke",

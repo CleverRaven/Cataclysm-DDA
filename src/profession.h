@@ -133,7 +133,7 @@ class profession
         std::vector<matype_id> ma_known() const;
         std::vector<matype_id> ma_choices() const;
         bool allows_hobby( const string_id<profession> &hobby )const;
-        int ma_choice_amount;
+        int ma_choice_amount = 0;
         StartingSkillList skills() const;
         const std::vector<mission_type_id> &missions() const;
         static constexpr int DEFAULT_PROF_AGE_LOWER = 21;

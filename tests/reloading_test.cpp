@@ -67,8 +67,6 @@ static const itype_id itype_water_clean( "water_clean" );
 
 static void test_reloading( item &target, item &ammo, bool expect_success = true )
 {
-    item target_copy( target );
-
     Character &dummy = get_avatar();
 
     clear_avatar();
@@ -92,7 +90,7 @@ static void test_reloading( item &target, item &ammo, bool expect_success = true
 
     // Quick and dirty check to see if anything was actually reloaded.
     // Doesn't check if right thing went to right place. But something did go somewhere
-    item_contents contents_before = target.get_contents();
+    const item_contents &contents_before = target.get_contents();
     item_contents contents_after = dummy.get_wielded_item()->get_contents();
     bool contents_changed = !contents_before.same_contents( contents_after );
     if( expect_success ) {

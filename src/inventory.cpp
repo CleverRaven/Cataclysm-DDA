@@ -909,7 +909,7 @@ units::mass inventory::weight() const
 // Helper function to iterate over the intersection of the inventory and a list
 // of items given
 template<typename F>
-void for_each_item_in_both(
+static void for_each_item_in_both(
     const invstack &items, const std::map<const item *, int> &other, const F &f )
 {
     // Shortcut the logic in the common case where other is empty

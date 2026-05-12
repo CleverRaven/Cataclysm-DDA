@@ -325,7 +325,7 @@ static bool is_physical( const itype &type )
 }
 
 template<typename T>
-bool load_min_max( std::pair<T, T> &pa, const JsonObject &obj, const std::string &name )
+static bool load_min_max( std::pair<T, T> &pa, const JsonObject &obj, const std::string &name )
 {
     bool result = false;
     if( obj.has_array( name ) ) {
@@ -1985,7 +1985,7 @@ static std::pair<std::string, use_function> use_function_reader_helper(
         if( !method.get_actor_ptr() ) {
             return std::make_pair( type, use_function() );
         }
-        method.get_actor_ptr()->load( use_obj, std::string( src.data() ) );
+        method.get_actor_ptr()->load( use_obj, std::string( src ) );
         return std::make_pair( type, method );
     } else if( val.test_array() ) {
         JsonArray use_arr = val.get_array();
@@ -2260,7 +2260,7 @@ class snippet_reader : public generic_typed_reader<snippet_reader>
                 // auto-create a category that is unlikely to already be used and put the
                 // snippets in it.
                 std::string snippet_category = "auto:" + def.get_id().str();
-                SNIPPET.add_snippets_from_json( snippet_category, val.get_array(), std::string( src.data() ) );
+                SNIPPET.add_snippets_from_json( snippet_category, val.get_array(), std::string( src ) );
                 return snippet_category;
             } else {
                 return val.get_string();
@@ -3039,10 +3039,16 @@ const itype *Item_factory::find_template( const itype_id &id ) const
 
     //If we didn't find the item maybe it is a building instead!
     const recipe_id &making_id = recipe_id( id.c_str() );
-    if( oter_str_id( id.c_str() ).is_valid() ||
-        ( making_id.is_valid() && making_id.obj().is_blueprint() ) ) {
-        return add_runtime( id, no_translation( string_format( "DEBUG: %s", id.c_str() ) ),
-                            making_id.obj().description );
+    const bool oter_match = oter_str_id( id.c_str() ).is_valid();
+    if( oter_match || ( making_id.is_valid() && making_id.obj().is_blueprint() ) ) {
+        // oter match alone makes the outer condition true; guard the
+        // making_id.obj() call so an invalid recipe id does not trigger
+        // a spurious "invalid recipe id" debugmsg.
+        translation desc;
+        if( making_id.is_valid() ) {
+            desc = making_id.obj().description;
+        }
+        return add_runtime( id, no_translation( string_format( "DEBUG: %s", id.c_str() ) ), desc );
     }
 
     debugmsg( "Missing item definition: %s", id.c_str() );
@@ -4167,6 +4173,22 @@ std::string enum_to_string<link_state>( link_state data )
 }
 
 template<>
+std::string enum_to_string<item_display_type>( item_display_type data )
+{
+    switch( data ) {
+        case item_display_type::DEFAULT:
+            return "DEFAULT";
+        case item_display_type::BY_WEIGHT:
+            return "BY_WEIGHT";
+        case item_display_type::BY_VOLUME:
+            return "BY_VOLUME";
+        case item_display_type::LAST:
+            break;
+    }
+    cata_fatal( "Invalid item_display_type" );
+}
+
+template<>
 std::string enum_to_string<grip_val>( grip_val val )
 {
     switch( val ) {
@@ -4365,6 +4387,7 @@ void itype::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "integral_weight", integral_weight, not_negative_mass, -1_gram );
     optional( jo, was_loaded, "volume", volume );
     optional( jo, was_loaded, "longest_side", longest_side, -1_mm );
+    optional( jo, was_loaded, "display_type", display_type, item_display_type::DEFAULT );
     optional( jo, was_loaded, "price", price, not_negative_money, 0_cent );
     optional( jo, was_loaded, "price_postapoc", price_post, not_negative_money, -1_cent );
     optional( jo, was_loaded, "stackable", stackable_ );
@@ -4768,7 +4791,7 @@ static Item_group *make_group_or_throw(
 }
 
 template<typename T>
-bool load_str_arr( std::vector<T> &arr, const JsonObject &obj, std::string_view name )
+static bool load_str_arr( std::vector<T> &arr, const JsonObject &obj, std::string_view name )
 {
     if( obj.has_array( name ) ) {
         for( const std::string str : obj.get_array( name ) ) {
@@ -5309,6 +5332,7 @@ void items::finalize_all()
 void items::reset()
 {
     item_controller->get_generic_factory().reset();
+    // NOLINTNEXTLINE(readability-ambiguous-smartptr-reset-call) calls Item_factory::reset, not unique_ptr::reset
     item_controller->reset();
 }
 

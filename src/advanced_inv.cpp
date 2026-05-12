@@ -2461,7 +2461,7 @@ void advanced_inventory::do_return_entry()
 
 void advanced_inventory::temp_hide()
 {
-    ui.reset();
+    ui = nullptr;
     do_return_entry();
     cancel_aim_processing();
 }

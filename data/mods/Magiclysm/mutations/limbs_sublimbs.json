@@ -1,5 +1,27 @@
 [
   {
+    "id": "eyes_goblin_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_goblin",
+    "side": "left",
+    "opposite": "eyes_goblin_right",
+    "name_multiple": "eyes",
+    "name": "left eye",
+    "similar_bodypart": "eyes_left"
+  },
+  {
+    "id": "eyes_goblin_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_goblin",
+    "side": "right",
+    "opposite": "eyes_goblin_left",
+    "name_multiple": "eyes",
+    "name": "right eye",
+    "similar_bodypart": "eyes_right"
+  },
+  {
     "type": "sub_body_part",
     "id": "wing_ravenfolk_shoulder_l",
     "parent": "wing_ravenfolk_l",

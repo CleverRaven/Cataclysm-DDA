@@ -78,6 +78,7 @@ struct pathfinder {
         for( int i = minz; i <= maxz; ++i ) {
             std::unique_ptr< path_data_layer > &ptr = path_data[i + OVERMAP_DEPTH];
             if( ptr != nullptr ) {
+                // NOLINTNEXTLINE(readability-ambiguous-smartptr-reset-call) calls path_data_layer::reset
                 path_data[i + OVERMAP_DEPTH]->reset();
             }
         }

@@ -234,14 +234,6 @@
     "components": [ [ [ "warptoken", 5 ] ] ]
   },
   {
-    "result": "warpwoodbag",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "2 s",
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
-    "components": [ [ [ "warptoken", 5 ] ] ]
-  },
-  {
     "result": "warp_carrier",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",

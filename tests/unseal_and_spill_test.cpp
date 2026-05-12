@@ -56,7 +56,7 @@ class enum_tuple
 
         template<int ind>
         void increment() {
-            using enum_t = typename std::tuple_element<ind, tuple_type>::type;
+            using enum_t = std::tuple_element_t<ind, tuple_type>;
             enum_t &val = std::get<ind>( enums );
             if( val != enum_t::end ) {
                 val = static_cast<enum_t>( static_cast<int>( val ) + 1 );
@@ -81,7 +81,7 @@ class enum_tuple
 
         enum_tuple operator++() {
             // *INDENT-OFF*
-            increment<std::tuple_size<tuple_type>::value - 1>();
+            increment<std::tuple_size_v<tuple_type> - 1>();
             // *INDENT-ON*
             return *this;
         }

@@ -7,7 +7,9 @@
 #include <utility>
 
 #include "cata_assert.h"
+#include "character.h"
 #include "character_id.h"
+#include "crafting.h"
 #include "debug.h"
 #include "flexbuffer_json.h"
 #include "item.h"
@@ -15,6 +17,8 @@
 #include "item_uid.h"
 #include "json.h"
 #include "type_id.h"
+#include "vehicle.h"
+#include "vehicle_selector.h"
 
 namespace
 {
@@ -195,24 +199,82 @@ void clear_test_enumerate_handlers()
     test_enumerator_registry().clear();
 }
 
-std::vector<desired_wakeup> enumerate_scheduled_dispatch( const item &it )
+std::vector<desired_wakeup> enumerate_scheduled_dispatch( const item &it,
+        const item_location &loc )
 {
+    if( it.is_craft() ) {
+        return craft_enumerate_scheduled_wakeups( it, loc );
+    }
     const std::map<itype_id, item_wakeup_test_enumerator> &reg = test_enumerator_registry();
     const auto entry = reg.find( it.typeId() );
     if( entry != reg.end() ) {
-        return entry->second( it );
+        return entry->second( it, loc );
     }
     return {};
 }
 
 // Dispatcher called from item::actualize_scheduled.
-static void dispatch_actualize( item &it, item_wakeup_kind kind, time_point now )
+static void dispatch_actualize( item &it, item_wakeup_kind kind, time_point now,
+                                const item_location &loc )
 {
+    if( it.is_craft() ) {
+        craft_actualize_scheduled( it, kind, now, loc );
+        return;
+    }
     const std::map<itype_id, item_wakeup_test_handler> &reg = test_handler_registry();
     const auto it_handler = reg.find( it.typeId() );
     if( it_handler != reg.end() ) {
-        it_handler->second( it, kind, now );
+        it_handler->second( it, kind, now, loc );
     }
+}
+
+// Persistable hint for find_item_by_uid on next dispatch.  Walks parent
+// containers to the topmost holder so uid lookup can recurse from there.
+static item_locator_hint hint_from_location( const item_location &loc )
+{
+    item_locator_hint h;
+    if( !loc ) {
+        return h;
+    }
+    item_location top = loc;
+    while( top.has_parent() ) {
+        top = top.parent_item();
+    }
+    switch( top.where() ) {
+        case item_location::type::character: {
+            Character *c = top.carrier();
+            if( c != nullptr ) {
+                h.where = item_locator_hint::place::character;
+                h.location = c->getID();
+            }
+            break;
+        }
+        case item_location::type::map:
+            h.where = item_locator_hint::place::map;
+            h.location = top.pos_abs();
+            break;
+        case item_location::type::vehicle: {
+            const vehicle_cursor *vc = top.veh_cursor();
+            if( vc != nullptr ) {
+                h.where = item_locator_hint::place::vehicle;
+                vehicle_hint vh;
+                vh.cargo_square = top.pos_abs();
+                vh.part_index = static_cast<int>( vc->part );
+                if( vh.part_index >= 0 && vh.part_index < vc->veh.part_count() ) {
+                    vh.mount_offset = vc->veh.part( vh.part_index ).mount;
+                }
+                h.location = vh;
+            } else {
+                h.where = item_locator_hint::place::map;
+                h.location = top.pos_abs();
+            }
+            break;
+        }
+        case item_location::type::container:
+        case item_location::type::invalid:
+            break;
+    }
+    return h;
 }
 
 // Min-heap comparator: top is smallest by (when, uid, kind).  push_heap and
@@ -274,10 +336,18 @@ void item_wakeup_manager::cancel_all( int64_t uid )
     clean_heap_top();
 }
 
-void item_wakeup_manager::rebuild_for_item( item &it, item_locator_hint hint )
+void item_wakeup_manager::rebuild_for_item( const item_location &loc )
 {
-    const int64_t uid = it.uid().get_value();
-    const std::vector<desired_wakeup> desired = it.enumerate_scheduled_wakeups();
+    if( !loc ) {
+        return;
+    }
+    const item *it = loc.get_item();
+    if( it == nullptr ) {
+        return;
+    }
+    const int64_t uid = it->uid().get_value();
+    const item_locator_hint hint = hint_from_location( loc );
+    const std::vector<desired_wakeup> desired = it->enumerate_scheduled_wakeups( loc );
 
     for( int k = 0; k < static_cast<int>( item_wakeup_kind::last ); ++k ) {
         const item_wakeup_kind kind = static_cast<item_wakeup_kind>( k );
@@ -393,7 +463,7 @@ void item_wakeup_manager::process( time_point now )
             }
             continue;
         }
-        loc->actualize_scheduled( e.kind, now );
+        loc->actualize_scheduled( e.kind, now, loc );
     }
 
     clean_heap_top();
@@ -513,7 +583,8 @@ void item_wakeup_manager::deserialize( const JsonObject &jo )
 }
 
 // Item-side dispatch entry called from item.cpp.
-void actualize_scheduled_dispatch( item &it, item_wakeup_kind kind, time_point now )
+void actualize_scheduled_dispatch( item &it, item_wakeup_kind kind, time_point now,
+                                   const item_location &loc )
 {
-    dispatch_actualize( it, kind, now );
+    dispatch_actualize( it, kind, now, loc );
 }

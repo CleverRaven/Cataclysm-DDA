@@ -1,4 +1,4 @@
-name: Clang-tidy 18
+name: Clang-tidy 21
 
 on:
   push:
@@ -37,7 +37,8 @@ jobs:
         fail-fast: true
     runs-on: ubuntu-24.04
     env:
-        COMPILER: clang++-18
+        COMPILER: clang++-21
+        LLVM_VERSION: '21'
     steps:
     - name: checkout repository
       if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && (github.event_name != 'pull_request' || github.event.pull_request.draft == false) }}
@@ -50,13 +51,14 @@ jobs:
       uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
       with:
         path: build/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so
-        key: clang-tidy-plugin-llvm18-ubuntu2404-${{ hashFiles('tools/clang-tidy-plugin/**', 'build-scripts/clang-tidy-build.sh', 'CMakeLists.txt', 'CMakeModules/**') }}
-    - name: install LLVM 18
+        key: clang-tidy-plugin-llvm21-ubuntu2404-${{ hashFiles('tools/clang-tidy-plugin/**', 'build-scripts/clang-tidy-build.sh', 'CMakeLists.txt', 'CMakeModules/**') }}
+    - name: install LLVM 21
       if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && (github.event_name != 'pull_request' || github.event.pull_request.draft == false) && steps.plugin-cache.outputs.cache-hit != 'true' }}
       run: |
-          sudo apt-get update
-          sudo apt install llvm-18 llvm-18-dev llvm-18-tools clang-18 clang-tidy-18 clang-tools-18 libclang-18-dev
-          sudo apt install python3-pip ninja-build cmake
+          wget -O llvm.sh https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 21 all
+          sudo apt-get install -y python3-pip ninja-build cmake
           pip3 install --user lit
     - uses: ammaraskar/gcc-problem-matcher@0f9c86f9e693db67dacf53986e1674de5f2e5f28 # master
     - name: build clang-tidy plugin
@@ -87,8 +89,9 @@ jobs:
 
     runs-on: ubuntu-24.04
     env:
-        COMPILER: clang++-18
-        CATA_CLANG_TIDY: clang-tidy-18
+        COMPILER: clang++-21
+        CATA_CLANG_TIDY: clang-tidy-21
+        LLVM_VERSION: '21'
         CATA_CLANG_TIDY_SUBSET: ${{ matrix.subset }}
         TILES: 1
         SOUND: 1
@@ -97,9 +100,11 @@ jobs:
     steps:
     - name: install dependencies
       run: |
-          sudo apt-get update
-          sudo apt install clang-18 clang-tidy-18 cmake ccache jq
-          sudo apt install libflac-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev gettext
+          wget -O llvm.sh https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 21
+          sudo apt-get install -y clang-tidy-21 cmake ccache jq
+          sudo apt-get install -y libflac-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev gettext
     - name: checkout repository
       uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       with:

@@ -132,14 +132,14 @@ class statistics
         }
         double upper() const {
             double result = avg() + margin_of_error();
-            if( std::is_same<T, bool>::value ) {
+            if( std::is_same_v<T, bool> ) {
                 result = std::min( result, 1.0 );
             }
             return result;
         }
         double lower() const {
             double result = avg() - margin_of_error();
-            if( std::is_same<T, bool>::value ) {
+            if( std::is_same_v<T, bool> ) {
                 result = std::max( result, 0.0 );
             }
             return result;

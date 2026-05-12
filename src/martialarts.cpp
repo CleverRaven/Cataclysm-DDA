@@ -192,8 +192,8 @@ void ma_technique::finalize_all()
 
 // To avoid adding empty entries
 template <typename Container>
-void add_if_exists( const JsonObject &jo, Container &cont, bool was_loaded,
-                    const std::string &json_key, const typename Container::key_type &id )
+static void add_if_exists( const JsonObject &jo, Container &cont, bool was_loaded,
+                           const std::string &json_key, const typename Container::key_type &id )
 {
     if( jo.has_member( json_key ) ) {
         mandatory( jo, was_loaded, json_key, cont[id] );

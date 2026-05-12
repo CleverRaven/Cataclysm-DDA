@@ -953,6 +953,7 @@
       { "item": "hamburger", "prob": 70 },
       { "prob": 45, "group": "cheese_bag_plastic" },
       { "item": "mozzarella_cheese", "prob": 30 },
+      { "item": "mozzarella_cheese_smoked", "prob": 10 },
       { "item": "ceramic_plate", "prob": 30 },
       { "item": "knife_small", "variant": "knife_steak", "prob": 45 },
       { "item": "tongs", "prob": 60 }

@@ -39,6 +39,8 @@
 #include "color.h"
 #include "construction.h"
 #include "coordinates.h"
+#include "crafting.h"
+#include "crafting_enums.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
@@ -2952,10 +2954,10 @@ std::optional<int> iuse::dig( Character *p, item *it, const tripoint_bub_ms & )
 
     std::vector<construction> const &cnstr = get_constructions();
     auto const build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
-        return it.str_id == construction_constr_pit;
+        return it.id == construction_constr_pit;
     } );
     auto const build_shallow = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
-        return it.str_id == construction_constr_pit_shallow;
+        return it.id == construction_constr_pit_shallow;
     } );
 
     place_construction( { build->group, build_shallow->group } );
@@ -2976,7 +2978,7 @@ std::optional<int> iuse::dig_channel( Character *p, item *it, const tripoint_bub
 
     std::vector<construction> const &cnstr = get_constructions();
     auto const build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
-        return it.str_id == construction_constr_water_channel;
+        return it.id == construction_constr_water_channel;
     } );
 
     place_construction( { build->group } );
@@ -2996,7 +2998,7 @@ std::optional<int> iuse::fill_pit( Character *p, item *it, const tripoint_bub_ms
 
     std::vector<construction> const &cnstr = get_constructions();
     auto const build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
-        return it.str_id == construction_constr_fill_pit;
+        return it.id == construction_constr_fill_pit;
     } );
 
     place_construction( { build->group } );
@@ -3016,7 +3018,7 @@ std::optional<int> iuse::clear_rubble( Character *p, item *it, const tripoint_bu
 
     std::vector<construction> const &cnstr = get_constructions();
     auto const build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
-        return it.str_id == construction_constr_clear_rubble;
+        return it.id == construction_constr_clear_rubble;
     } );
 
     place_construction( { build->group } );
@@ -4018,7 +4020,7 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint_bub_ms 
             }
         }
         if( it->get_var( "gas_absorbed", 0 ) >= 60 ) {
-            it->consume_tool_uses( 1, get_map(), pos, p );
+            it->ammo_consume( 1, pos, p );
             it->set_var( "gas_absorbed", 0 );
             if( it->ammo_remaining( ) < 10 ) {
                 p->add_msg_player_or_npc(
@@ -8653,9 +8655,11 @@ std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_it
                               crafting_inv.charges_of( itype_water, INT_MAX, is_liquid ),
                               crafting_inv.charges_of( itype_water_clean, INT_MAX, is_liquid )
                           );
-    int available_cleanser = std::max( crafting_inv.charges_of( itype_soap ),
-                                       std::max( crafting_inv.charges_of( itype_detergent ),
-                                               crafting_inv.charges_of( itype_liquid_soap, INT_MAX, is_liquid ) ) );
+    int available_cleanser = std::max( {
+        crafting_inv.charges_of( itype_soap ),
+        crafting_inv.charges_of( itype_detergent ),
+        crafting_inv.charges_of( itype_liquid_soap, INT_MAX, is_liquid )
+    } );
 
     const inventory_filter_preset preset( [soft_items, hard_items]( const item_location & location ) {
         return location->has_flag( flag_FILTHY ) && !location->has_flag( flag_NO_CLEAN ) &&
@@ -8829,10 +8833,25 @@ std::optional<int> iuse::craft( Character *p, item *it, const tripoint_bub_ms & 
         return std::nullopt;
     }
 
+    item_location craft_loc( *p, it );
+    craft_resolve_overdue_passive( *it, calendar::turn, craft_loc );
+    if( !craft_loc || !craft_loc.get_item() ) {
+        return std::nullopt;
+    }
+    it = craft_loc.get_item();
+    const recipe &rec = it->get_making();
+    std::optional<std::vector<attention_plan>> chosen;
+    if( rec.has_remaining_attention_steps( it->get_current_step() ) && p->is_avatar() ) {
+        chosen = show_craft_planning_modal( rec, *p, it->get_making_batch_size(),
+                                            it->get_current_step(),
+                                            it->get_step_plans() );
+        if( !chosen ) {
+            return std::nullopt;
+        }
+    }
     if( !p->can_continue_craft( *it ) ) {
         return std::nullopt;
     }
-    const recipe &rec = it->get_making();
     if( !p->has_recipe( &rec ) ) {
         p->add_msg_player_or_npc(
             _( "You don't know the recipe for the %s and can't continue crafting." ),
@@ -8840,10 +8859,14 @@ std::optional<int> iuse::craft( Character *p, item *it, const tripoint_bub_ms & 
             rec.result_name() );
         return 0;
     }
+    if( chosen ) {
+        it->set_step_plans( std::move( *chosen ) );
+        it->set_crafter_id( p->getID() );
+        craft_apply_resume_replan( craft_loc );
+    }
     p->add_msg_player_or_npc(
         pgettext( "in progress craft", "You start working on the %s." ),
         pgettext( "in progress craft", "<npcname> starts working on the %s." ), craft_name );
-    item_location craft_loc = item_location( *p, it );
     p->assign_activity( craft_activity_actor( craft_loc, false ) );
 
     return 0;

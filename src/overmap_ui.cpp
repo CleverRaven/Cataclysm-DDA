@@ -2921,6 +2921,6 @@ void ui::omap::path_mark(
 void ui::omap::force_quit()
 {
     overmap_ui::generated_omts.clear();
-    g->overmap_data.ui.reset();
+    g->overmap_data.ui = nullptr;
     g->overmap_data.fast_traveling = false;
 }

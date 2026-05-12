@@ -3786,7 +3786,7 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "broadswords",
     "description": "Recipes for making broadswords.",
-    "nested_category_data": [ "lc_broadsword", "mc_broadsword", "hc_broadsword", "ch_broadsword", "qt_broadsword" ]
+    "nested_category_data": [ "lc_broadsword", "broadsword", "hc_broadsword", "ch_broadsword", "qt_broadsword" ]
   },
   {
     "id": "nested_cavalry_sabre",
@@ -3886,7 +3886,7 @@
     "subcategory": "CSC_WEAPON_PIERCING",
     "name": "rapiers",
     "description": "Recipes for making rapiers.",
-    "nested_category_data": [ "lc_rapier", "mc_rapier", "hc_rapier", "ch_rapier", "qt_rapier" ]
+    "nested_category_data": [ "lc_rapier", "rapier", "hc_rapier", "ch_rapier", "qt_rapier" ]
   },
   {
     "id": "nested_scimitar",
@@ -3946,7 +3946,7 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "kukris",
     "description": "Recipes for making kukris.",
-    "nested_category_data": [ "kukri", "lc_kukri", "mc_kukri", "hc_kukri", "ch_kukri", "qt_kukri" ]
+    "nested_category_data": [ "kukri", "lc_kukri", "hc_kukri", "ch_kukri", "qt_kukri" ]
   },
   {
     "id": "nested_wakizashi",

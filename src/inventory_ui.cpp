@@ -398,6 +398,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "read_recipes", read_recipes );
     json.member( "recent_recipes", recent_recipes );
     json.member( "crafting_expand_details", crafting_expand_details );
+    json.member( "crafting_expand_steps", crafting_expand_steps );
     json.member( "bionic_ui_sort_mode", bionic_sort_mode );
     json.member( "overmap_debug_weather", overmap_debug_weather );
     json.member( "overmap_visible_weather", overmap_visible_weather );
@@ -421,6 +422,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "distraction_mutation", distraction_mutation );
     json.member( "distraction_oxygen", distraction_oxygen );
     json.member( "distraction_withdrawal", distraction_withdrawal );
+    json.member( "distraction_craft_step_complete", distraction_craft_step_complete );
     json.member( "numpad_navigation", numpad_navigation );
 
     json.member( "overmap_sidebar_uistate" );
@@ -488,6 +490,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "read_recipes", read_recipes );
     jo.read( "recent_recipes", recent_recipes );
     jo.read( "crafting_expand_details", crafting_expand_details );
+    jo.read( "crafting_expand_steps", crafting_expand_steps );
     jo.read( "bionic_ui_sort_mode", bionic_sort_mode );
     jo.read( "overmap_debug_weather", overmap_debug_weather );
     jo.read( "overmap_visible_weather", overmap_visible_weather );
@@ -513,6 +516,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "distraction_mutation", distraction_mutation );
     jo.read( "distraction_oxygen", distraction_oxygen );
     jo.read( "distraction_withdrawal", distraction_withdrawal );
+    jo.read( "distraction_craft_step_complete", distraction_craft_step_complete );
     jo.read( "numpad_navigation", numpad_navigation );
     jo.read( "vmenu_tab", vmenu_tab );
     jo.read( "vmenu_item_sort", vmenu_item_sort );
@@ -784,7 +788,8 @@ std::string inventory_selector_preset::get_caption( const inventory_entry &entry
         disp_name = entry.any_item()->display_name( count );
     }
 
-    return ( count > 1 ) ? string_format( "%d %s", count, disp_name ) : disp_name;
+    return ( count > 1 ) ? string_format( "%s %s",
+                                          entry.any_item()->type->count_or_volume_or_weight_prefix( count ), disp_name ) : disp_name;
 }
 
 std::string inventory_selector_preset::get_denial( const inventory_entry &entry ) const
@@ -3970,6 +3975,7 @@ std::vector<reload_target> get_possible_reload_targets( const item_location &tar
     auto append_owner = [&opts]( const item_location & owner ) {
         // pocket_index is the position in contents (stable across empty
         // wells), not the position in magazines_current().
+        const bool multimag = owner->uses_firing_requirements();
         int idx = 0;
         for( const item_pocket *p : owner->get_pockets( []( const item_pocket & ) {
         return true;
@@ -3992,19 +3998,32 @@ std::vector<reload_target> get_possible_reload_targets( const item_location &tar
                     mag_target.kind = reload_target::kind::loaded_mag;
                     opts.push_back( mag_target );
                 }
+            } else if( multimag && p->is_type( pocket_type::MAGAZINE ) &&
+                       p->get_pocket_data() != nullptr &&
+                       !p->get_pocket_data()->ammo_restriction.empty() ) {
+                // Integral MAGAZINE on a multimag host: surface as its own
+                // target so loose ammo reaches it past sibling wells.
+                reload_target mag_pocket;
+                mag_pocket.target = owner;
+                mag_pocket.owner = owner;
+                mag_pocket.pocket_index = idx;
+                mag_pocket.ui_well_index = idx;
+                mag_pocket.kind = reload_target::kind::integral_magazine;
+                opts.push_back( mag_pocket );
             }
             ++idx;
         }
-        // No MAGAZINE_WELL (integral mag, watertight container): target the
-        // owner directly so loose ammo discovery has a destination.
-        bool has_well = false;
+        // Owner-level fallback for hosts without a pocket-level target
+        // (integral mag, watertight container) so loose ammo discovery
+        // still has a destination.
+        bool has_dest = false;
         for( const reload_target &rt : opts ) {
             if( rt.owner == owner ) {
-                has_well = true;
+                has_dest = true;
                 break;
             }
         }
-        if( !has_well ) {
+        if( !has_dest ) {
             reload_target self;
             self.target = owner;
             self.owner = owner;
@@ -4023,12 +4042,12 @@ std::vector<reload_target> get_possible_reload_targets( const item_location &tar
     return opts;
 }
 
-// Well entries require owner-level (gun ammo type) AND pocket-level
-// (item id, fullness) compatibility. Loaded-mag entries delegate to the
-// magazine's own can_reload_with.
+// Well and integral-magazine entries gate on owner-level (gun ammo type) AND
+// pocket-level (item id, fullness) compatibility. Loaded-mag delegates.
 static bool reload_target_accepts( const reload_target &rt, const item_location &ammo )
 {
-    if( rt.kind == reload_target::kind::well ) {
+    if( rt.kind == reload_target::kind::well ||
+        rt.kind == reload_target::kind::integral_magazine ) {
         if( !rt.owner.can_reload_with( ammo, true ) ) {
             return false;
         }
@@ -4037,7 +4056,11 @@ static bool reload_target_accepts( const reload_target &rt, const item_location 
         return true;
     } ) ) {
             if( idx == rt.pocket_index ) {
-                return p->is_type( pocket_type::MAGAZINE_WELL ) &&
+                if( rt.kind == reload_target::kind::well ) {
+                    return p->is_type( pocket_type::MAGAZINE_WELL ) &&
+                           p->can_reload_with( *ammo, true );
+                }
+                return p->is_type( pocket_type::MAGAZINE ) &&
                        p->can_reload_with( *ammo, true );
             }
             ++idx;

@@ -49,6 +49,7 @@ std::string select_language();
 template<typename T>
 inline const T &translation_argument_identity( const T &t )
 {
+    // NOLINTNEXTLINE(bugprone-return-const-ref-from-parameter)
     return t;
 }
 

@@ -19,6 +19,7 @@
 class JsonObject;
 class JsonOut;
 class item;
+class item_location;
 
 // Distinct kinds coexist per item.
 enum class item_wakeup_kind : uint8_t {
@@ -78,8 +79,8 @@ class item_wakeup_manager
         void cancel_all( int64_t uid );
 
         // Reconcile this item's entries against its enumerate_scheduled_wakeups().
-        // Idempotent.
-        void rebuild_for_item( item &it, item_locator_hint hint );
+        // Idempotent.  Hint is derived from the location internally.
+        void rebuild_for_item( const item_location &loc );
 
         bool is_scheduled( int64_t uid, item_wakeup_kind kind ) const;
         std::optional<time_point> get( int64_t uid, item_wakeup_kind kind ) const;
@@ -132,21 +133,24 @@ item_wakeup_manager &get_item_wakeups();
 // Test handler registry.  Always compiled in; production cost is one
 // empty-map lookup per dispatch.
 using item_wakeup_test_handler =
-    void( * )( item &it, item_wakeup_kind kind, time_point now );
+    void( * )( item &it, item_wakeup_kind kind, time_point now,
+               const item_location &loc );
 void register_test_wakeup_handler( const itype_id &id, item_wakeup_test_handler fn );
 void clear_test_wakeup_handlers();
 
 // Dispatch entry called from item::actualize_scheduled.
-void actualize_scheduled_dispatch( item &it, item_wakeup_kind kind, time_point now );
+void actualize_scheduled_dispatch( item &it, item_wakeup_kind kind, time_point now,
+                                   const item_location &loc );
 
 // Test producer registry.  See test handler registry note above.
 using item_wakeup_test_enumerator =
-    std::vector<desired_wakeup>( * )( const item &it );
+    std::vector<desired_wakeup>( * )( const item &it, const item_location &loc );
 void register_test_enumerate_handler( const itype_id &id,
                                       item_wakeup_test_enumerator fn );
 void clear_test_enumerate_handlers();
 
 // Dispatch entry called from item::enumerate_scheduled_wakeups.
-std::vector<desired_wakeup> enumerate_scheduled_dispatch( const item &it );
+std::vector<desired_wakeup> enumerate_scheduled_dispatch( const item &it,
+        const item_location &loc );
 
 #endif // CATA_SRC_ITEM_WAKEUP_H

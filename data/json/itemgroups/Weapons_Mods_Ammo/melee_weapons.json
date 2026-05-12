@@ -368,7 +368,7 @@
   {
     "type": "item_group",
     "id": "kukris",
-    "items": [ [ "lc_kukri", 20 ], [ "mc_kukri", 10 ], [ "hc_kukri", 5 ], [ "ch_kukri", 2 ], [ "qt_kukri", 1 ] ]
+    "items": [ [ "lc_kukri", 20 ], [ "kukri", 10 ], [ "hc_kukri", 5 ], [ "ch_kukri", 2 ], [ "qt_kukri", 1 ] ]
   },
   {
     "type": "item_group",
@@ -432,7 +432,7 @@
     "id": "broadswords",
     "items": [
       [ "lc_broadsword", 20 ],
-      [ "mc_broadsword", 10 ],
+      [ "broadsword", 10 ],
       [ "hc_broadsword", 5 ],
       [ "ch_broadsword", 2 ],
       [ "qt_broadsword", 1 ]
@@ -441,7 +441,7 @@
   {
     "type": "item_group",
     "id": "rapiers",
-    "items": [ [ "lc_rapier", 20 ], [ "mc_rapier", 10 ], [ "hc_rapier", 5 ], [ "ch_rapier", 2 ], [ "qt_rapier", 1 ] ]
+    "items": [ [ "lc_rapier", 20 ], [ "rapier", 10 ], [ "hc_rapier", 5 ], [ "ch_rapier", 2 ], [ "qt_rapier", 1 ] ]
   },
   {
     "type": "item_group",

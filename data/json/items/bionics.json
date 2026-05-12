@@ -1608,5 +1608,76 @@
     "price": "4 kUSD 500 USD",
     "price_postapoc": "100 USD",
     "difficulty": 4
+  },
+  {
+    "id": "bio_nl_dimensional_anchor",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Dimensional Anchor CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "Advanced technology that locks the body into its native dimensionality, protecting from unwanted teleportation and some other phase altering effects.",
+    "price": "14 kUSD",
+    "price_postapoc": "150 USD",
+    "difficulty": 11
+  },
+  {
+    "id": "bio_nl_laser_reader",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Laser-Assisted Reading Device CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "Who needs a reading lamp when you don't need your eyes?  This is a short-distance laser scanner implant which allows one to upload digital images of books straight into your brains optic lobe and language centers.  When active, one can read slightly faster, and can read in the dark.",
+    "price": "2 kUSD 200 USD",
+    "weight": "1000 g",
+    "difficulty": 3
+  },
+  {
+    "id": "bio_nl_psyshield",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Cranial EMF Shielding CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A a microscopically thin layer of some non-newtonian fluid for skull application.  It can protect from some types of electromagnetic fields.  Is it useful?  Maybe.",
+    "price": "7 kUSD 500 USD",
+    "price_postapoc": "50 USD",
+    "difficulty": 9
+  },
+  {
+    "id": "bio_nl_hair",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Artificial Hair CBM" },
+    "description": "Synthetic sphincters that control the extrusion and retraction of advanced nanotube hair technology, made to replace hair follicles, allowing one to control their hair length at will.",
+    "weight": "100 g",
+    "difficulty": 6
+  },
+  {
+    "id": "bio_nl_blood_factory",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Bone Marrow Bio-Factory CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "Specialized nanorobots that increase blood cell production at the cost of stored calories and bionic energy.",
+    "price": "9 kUSD 500 USD",
+    "price_postapoc": "100 USD",
+    "weight": "200 g",
+    "difficulty": 6
+  },
+  {
+    "id": "bio_nl_antigravity_jump",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Antigravity Leap Assist CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "An antigravity device designed to be implanted into the legs.  While it doesn't allow for real floating or flying, it does facilitate superhuman long jumps.",
+    "price": "14 kUSD",
+    "price_postapoc": "40 USD",
+    "difficulty": 11
   }
 ]

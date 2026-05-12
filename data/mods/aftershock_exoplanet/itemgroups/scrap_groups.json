@@ -131,5 +131,10 @@
       [ "afs_neural_io_2", 10 ],
       [ "plut_cell", 20 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_laserlab_scrap",
+    "items": [ [ "afs_optics_2", 40 ], [ "afs_optics_3", 10 ], [ "afs_doping_agent", 50 ] ]
   }
 ]

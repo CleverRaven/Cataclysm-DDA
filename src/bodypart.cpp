@@ -310,6 +310,35 @@ class encumbrance_per_weight_reader : public generic_typed_reader<encumbrance_pe
         }
 };
 
+// similar to weighted_string_id_reader, but different enough to not really work
+struct limb_type_reader : generic_typed_reader<limb_type_reader> {
+    bp_type &primary; // there's a separate variable tracking the "primary" limb type
+    mutable std::pair<bp_type, float> max = { bp_type::num_types, 0.f }; // track max to set primary
+    float default_weight;
+
+    limb_type_reader( bp_type &primary_, const float def ) : primary( primary_ ),
+        default_weight( def ) {}
+
+    std::pair<bp_type, float> get_next( const JsonValue &jv ) const {
+        std::pair<bp_type, float> ret{ bp_type::num_types, default_weight };
+        if( jv.test_array() ) { // [ [ "head", 0.5 ], [ "arm", 0.3 ] ]
+            JsonArray ja = jv.get_array();
+            ja.read( 0, ret.first );
+            ja.read( 1, ret.second );
+        } else if( jv.test_string() ) { // "head" or [ "head", "arm" ]
+            jv.read( ret.first );
+        } else {
+            jv.throw_error( "Invalid format for limb type" );
+        }
+        // update primary to the highest weight
+        if( max.first == bp_type::num_types || max.second < ret.second ) {
+            max = ret;
+            primary = ret.first;
+        }
+        return ret;
+    }
+};
+
 void body_part_type::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
@@ -350,46 +379,8 @@ void body_part_type::load( const JsonObject &jo, std::string_view )
 
     optional( jo, was_loaded, "is_limb", is_limb, false );
     optional( jo, was_loaded, "is_vital", is_vital, false );
-    if( jo.has_array( "limb_types" ) ) {
-        limbtypes.clear();
-        bp_type first_type = bp_type::num_types;
-        bool set_first_type = true;
-        for( JsonValue jval : jo.get_array( "limb_types" ) ) {
-            float weight = 1.0f;
-            bp_type limb_type;
-            if( jval.test_array() ) {
-                JsonArray jarr = jval.get_array();
-                limb_type = io::string_to_enum<bp_type>( jarr.get_string( 0 ) );
-                weight = jarr.get_float( 1 );
-                set_first_type = false;
-            } else {
-                limb_type = io::string_to_enum<bp_type>( jval.get_string() );
-            }
-            limbtypes.emplace( limb_type, weight );
-            if( first_type == bp_type::num_types ) {
-                first_type = limb_type;
-            }
-        }
-        // set cached primary type if no weights specified
-        if( set_first_type ) {
-            _primary_limb_type = first_type;
-        }
-    } else {
-        limbtypes.clear();
-        bp_type limb_type = {};
-        mandatory( jo, was_loaded, "limb_type", limb_type );
-        limbtypes.emplace( limb_type, 1.0f );
-    }
 
-    if( _primary_limb_type == bp_type::num_types ) {
-        float high = 0.f;
-        for( auto &bp_type : limbtypes ) {
-            if( high < bp_type.second ) {
-                high = bp_type.second;
-                _primary_limb_type = bp_type.first;
-            }
-        }
-    }
+    mandatory( jo, was_loaded, "limb_types", limbtypes, limb_type_reader{ _primary_limb_type, 1.0f } );
 
     // tokens are actually legacy code that should be on their way out.
     if( !was_loaded ) {

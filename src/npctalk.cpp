@@ -2251,7 +2251,8 @@ int talk_trial::calc_chance( const_dialogue const &d ) const
     int chance = difficulty;
     switch( type ) {
         case NUM_TALK_TRIALS:
-            dbg( D_ERROR ) << "called calc_chance with invalid talk_trial value: " << type;
+            dbg( D_ERROR ) << "called calc_chance with invalid talk_trial value: "
+                           << static_cast<unsigned int>( type );
             break;
         case TALK_TRIAL_NONE:
             chance = 100;
@@ -4763,7 +4764,7 @@ talk_effect_fun_t::func f_explosion( const JsonObject &jo, std::string_view memb
 talk_effect_fun_t::func f_query_tile( const JsonObject &jo, std::string_view member,
                                       std::string_view, bool is_npc )
 {
-    std::string type = jo.get_string( member.data() );
+    std::string type = jo.get_string( member );
     var_info target_var = read_var_info( jo.get_object( "target_var" ) );
     std::string message;
     if( jo.has_member( "message" ) ) {
@@ -7213,7 +7214,7 @@ talk_effect_fun_t::func f_switch( const JsonObject &jo, std::string_view member,
 talk_effect_fun_t::func f_foreach( const JsonObject &jo, std::string_view member,
                                    std::string_view src )
 {
-    std::string type = jo.get_string( member.data() );
+    std::string type = jo.get_string( member );
     var_info itr = read_var_info( jo.get_object( "var" ) );
     talk_effect_t effect;
     effect.load_effect( jo, "effect", src );
@@ -7264,7 +7265,7 @@ talk_effect_fun_t::func f_foreach( const JsonObject &jo, std::string_view member
         }
 
         for( std::string_view str : list ) {
-            write_var_value( itr.type, itr.name, &d, str.data() );
+            write_var_value( itr.type, itr.name, &d, std::string{ str } );
             effect.apply( d );
         }
     };
@@ -8176,7 +8177,7 @@ talk_effect_fun_t::func f_wants_to_talk( bool is_npc )
 talk_effect_fun_t::func f_trigger_event( const JsonObject &jo, std::string_view member,
         std::string_view )
 {
-    std::string const type_str = jo.get_string( member.data() );
+    std::string const type_str = jo.get_string( member );
     JsonArray const &jargs = jo.get_array( "args" );
 
     event_type type = io::string_to_enum<event_type>( type_str );
@@ -9272,7 +9273,7 @@ std::string npc::pick_talk_topic( const Character &/*u*/ )
     return chatbin.talk_stranger_neutral;
 }
 
-std::string const &npc::get_specified_talk_topic( std::string const &topic_id )
+std::string npc::get_specified_talk_topic( std::string const &topic_id )
 {
     static const dialogue_chatbin default_chatbin;
     std::vector<std::pair<std::string const &, std::string const &>> const talk_topics = {

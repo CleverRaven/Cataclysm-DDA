@@ -218,16 +218,12 @@ void veh_app_interact::init_ui_windows( map &here )
     if( !veh->accessories.empty() ) {
         height_info++;
     }
-    const int width_info = win_width - 2;
     const int height_input = app_actions.size();
     const int win_height = height_info + 2;
     const int full_height = win_height + height_input;
 
-    // Center the UI
+    // NOTE: This offset is retained even though the header moved to uilist itself.
     point topleft( TERMX / 2 - win_width / 2, TERMY / 2 - full_height / 2 );
-    w_border = catacurses::newwin( win_height, win_width, topleft );
-    //NOLINTNEXTLINE(cata-use-named-point-constants)
-    w_info = catacurses::newwin( height_info, width_info, topleft + point( 1, 1 ) );
 
     // Try to align the imgui window to be below the header.
     // to that end, we have some awkward math translating character positions to screen positions here:
@@ -302,16 +298,18 @@ static void draw_appliance_connections( vehicle *veh )
 }
 #endif
 
-void veh_app_interact::draw_info( map &here )
+std::string veh_app_interact::draw_info_imgui_header( map &here )
 {
-    werase( w_info );
+    // Always print this warning and only this warning if we don't have a grid.
+    // We should not pretend anything is functional without a battery, because it's not!
+    if( !has_battery_in_grid( here, veh ) ) {
+        return colorize( _( "Appliance has no connection to a battery." ), c_light_red );
+    }
 
-    int row = 0;
-    // Fuel indicators
-    veh->print_fuel_indicators( here, w_info, point( 0, row ), 0, true, true, true, true );
-    row += veh->get_printable_fuel_types( here ).size();
+    std::string ret = veh->print_fuel_indicators( here, 0 );
 
     // Onboard battery power
+    // Pre-existing issue: If the specific appliance we selected isn't *itself* a battery, this is considered empty!
     if( !veh->batteries.empty() ) {
         std::pair<int, int> battery = veh->battery_power_level( );
         nc_color batt_col = c_yellow;
@@ -319,12 +317,12 @@ void veh_app_interact::draw_info( map &here )
             batt_col = battery.first == 0 ? c_light_red :
                        battery.first == battery.second ? c_light_green : c_yellow;
         }
-        mvwprintz( w_info, point( 0, row ), c_white, _( "Onboard battery power: " ) );
-        wprintz( w_info, batt_col, string_format( "%d/%d", battery.first, battery.second ) );
-        row++;
+        // Bad, but pre-existing.
+        ret += colorize( string_format( _( "Onboard battery power: " ) ), c_white );
+        ret += colorize( string_format( "%d/%d", battery.first, battery.second ), batt_col );
     }
 
-    auto print_charge = [this]( const std::string & lbl, units::power rate, int row ) {
+    auto print_charge = []( const std::string & lbl, units::power rate, std::string & ret ) {
         std::string rstr;
         if( rate > 10_kW || rate < -10_kW ) {
             //~ Power in killoWatts. %+4.1f is a 4 digit number with 1 decimal point (ex: 2198.3 kW)
@@ -335,66 +333,59 @@ void veh_app_interact::draw_info( map &here )
         }
         nc_color rcol = rate < 0_W ? c_light_red :
                         rate > 0_W ? c_light_green : c_yellow;
-        mvwprintz( w_info, point( 0, row ), c_white, lbl );
-        wprintz( w_info, rcol, rstr );
+        ret += colorize( lbl, c_white );
+        ret += colorize( rstr, rcol );
+        ret += "\n";
     };
-
-    if( !has_battery_in_grid( here, veh ) ) {
-        mvwprintz( w_info, point( 0, row ), c_light_red, _( "Appliance has no connection to a battery." ) );
-        row++;
-    }
 
     // Battery power output
     units::power grid_flow = 0_W;
     for( const std::pair<vehicle *const, float> &pair : veh->search_connected_vehicles( here ) ) {
         grid_flow += pair.first->net_battery_charge_rate( here, /* include_reactors = */ true );
     }
-    print_charge( _( "Grid battery power flow: " ), grid_flow, row );
-    row++;
+    // Always start printing this on its own line
+    ret += "\n";
+    print_charge( _( "Grid battery power flow: " ), grid_flow, ret );
 
     // Reactor power output
     if( !veh->reactors.empty() ) {
         const units::power rate = veh->active_reactor_epower( here );
-        print_charge( _( "Reactor power output: " ), rate, row );
-        row++;
+        print_charge( _( "Reactor power output: " ), rate, ret );
     }
 
     // Wind power output
     if( !veh->wind_turbines.empty() ) {
         units::power rate = veh->total_wind_epower( here );
-        print_charge( _( "Wind power output: " ), rate, row );
-        row++;
+        print_charge( _( "Wind power output: " ), rate, ret );
     }
 
     // Solar power output
     if( !veh->solar_panels.empty() ) {
         units::power rate = veh->total_solar_epower( here );
-        print_charge( _( "Solar power output: " ), rate, row );
-        row++;
+        print_charge( _( "Solar power output: " ), rate, ret );
     }
 
     // Water power output
     if( !veh->water_wheels.empty() ) {
         units::power rate = veh->total_water_wheel_epower( here );
-        print_charge( _( "Water power output: " ), rate, row );
-        row++;
+        print_charge( _( "Water power output: " ), rate, ret );
     }
 
     // Alternator power output
     if( !veh->alternators.empty() ) {
         units::power rate = veh->total_alternator_epower( here );
-        print_charge( _( "Alternator power output: " ), rate, row );
-        row++;
+        print_charge( _( "Alternator power output: " ), rate, ret );
     }
 
     // Other power output
     if( !veh->accessories.empty() || veh->has_part( "RECHARGE" ) ) {
         units::power rate = veh->total_accessory_epower() + veh->recharge_epower_this_turn;
-        print_charge( _( "Appliance power consumption: " ), rate, row );
-        row++;
+        print_charge( _( "Appliance power consumption: " ), rate, ret );
     }
 
-    wnoutrefresh( w_info );
+
+
+    return ret;
 }
 
 bool veh_app_interact::can_refill( )
@@ -637,6 +628,8 @@ void veh_app_interact::populate_app_actions( map &here )
 
     const std::string ctxt_letters = ctxt.get_available_single_char_hotkeys();
     imenu.entries.clear();
+    imenu.title = veh->name;
+    imenu.text = draw_info_imgui_header( here );
     app_actions.clear();
 
     /******************** General actions ********************/
@@ -722,14 +715,11 @@ shared_ptr_fast<ui_adaptor> veh_app_interact::create_or_get_ui_adaptor( map &her
             cui.position_from_window( catacurses::stdscr );
         } );
         current_ui->mark_resize();
-        current_ui->on_redraw( [&here, this]( const ui_adaptor & ) {
-            draw_border( w_border, c_white, veh->name, c_white );
-            wnoutrefresh( w_border );
-            draw_info( here );
 #if defined(TILES)
+        current_ui->on_redraw( [this]( const ui_adaptor & ) {
             draw_appliance_connections( veh );
-#endif
         } );
+#endif
     }
     return current_ui;
 }

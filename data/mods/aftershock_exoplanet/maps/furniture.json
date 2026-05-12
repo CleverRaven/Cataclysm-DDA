@@ -903,7 +903,7 @@
         { "item": "pipe_fittings", "count": [ 5, 15 ] },
         { "item": "afs_heat_2_salvage", "count": [ 5, 10 ] },
         { "item": "afs_heat_3", "count": [ 10, 25 ] },
-        { "item": "afs_heat_4", "count": [ 3, 6 ] },
+        { "item": "afs_heat_4", "count": [ 3, 6 ], "prob": 15 },
         { "item": "circuit", "count": [ 0, 1 ] }
       ]
     },
@@ -922,6 +922,49 @@
         { "item": "afs_heat_2_salvage", "count": [ 0, 3 ] },
         { "item": "afs_heat_3", "count": [ 0, 10 ], "prob": 50 },
         { "item": "afs_heat_4", "count": [ 0, 1 ], "prob": 15 },
+        { "item": "circuit", "count": [ 0, 1 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_heatsink",
+    "name": "heat dissipation unit",
+    "description": "A miniature forest of metallic fins and sparkling panels, this is a dedicated heat dissipation module for a high-energy machine.",
+    "looks_like": "f_mil_comms_heatsink",
+    "symbol": "=",
+    "color": "light_gray",
+    "move_cost_mod": -10,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "BLOCKSDOOR", "NOITEM" ],
+    "deconstruct": {
+      "items": [
+        { "item": "frame", "count": 1 },
+        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "scrap_copper", "count": [ 6, 12 ] },
+        { "item": "pipe", "count": [ 5, 15 ] },
+        { "item": "pipe_fittings", "count": [ 5, 15 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 5, 10 ] },
+        { "item": "afs_heat_3", "count": [ 10, 25 ] },
+        { "item": "circuit", "count": [ 0, 1 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "crash!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 2, 3 ] },
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "mc_steel_chunk", "count": [ 3, 6 ] },
+        { "item": "scrap_copper", "count": [ 3, 10 ] },
+        { "item": "pipe", "count": [ 0, 5 ] },
+        { "item": "pipe_fittings", "count": [ 0, 5 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 3 ] },
+        { "item": "afs_heat_3", "count": [ 0, 10 ], "prob": 50 },
         { "item": "circuit", "count": [ 0, 1 ], "prob": 50 }
       ]
     }
@@ -1150,7 +1193,7 @@
     "looks_like": "f_exo_gantry",
     "symbol": "{",
     "color": "light_gray",
-    "move_cost_mod": -6,
+    "move_cost_mod": 2,
     "coverage": 50,
     "required_str": 10,
     "flags": [ "TRANSPARENT", "PERMEABLE" ],

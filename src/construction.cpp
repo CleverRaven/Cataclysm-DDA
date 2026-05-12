@@ -91,6 +91,7 @@ static const construction_category_id construction_category_ALL( "ALL" );
 static const construction_category_id construction_category_APPLIANCE( "APPLIANCE" );
 static const construction_category_id construction_category_DECONSTRUCT( "DECONSTRUCT" );
 static const construction_category_id construction_category_FILTER( "FILTER" );
+static const construction_category_id construction_category_OTHER( "OTHER" );
 static const construction_category_id construction_category_REPAIR( "REPAIR" );
 
 static const construction_group_str_id
@@ -163,8 +164,6 @@ static const vproto_id vehicle_prototype_none( "none" );
 
 static const std::string flag_WIRING( "WIRING" );
 
-static bool finalized = false;
-
 // Construction functions.
 namespace construct
 {
@@ -231,12 +230,55 @@ static void failure_standard( const tripoint_bub_ms & );
 static void failure_deconstruct( const tripoint_bub_ms & );
 } // namespace construct
 
-static std::vector<construction> constructions;
-static std::map<construction_str_id, construction_id> construction_id_map;
+namespace
+{
+generic_factory<construction> construction_factory( "construction" );
+} // namespace
+
+template<>
+const construction &string_id<construction>::obj() const
+{
+    return construction_factory.obj( *this );
+}
+
+template<>
+int_id<construction> string_id<construction>::id() const
+{
+    return construction_factory.convert( *this, int_id<construction>( -1 ) );
+}
+
+template<>
+bool string_id<construction>::is_valid() const
+{
+    return construction_factory.is_valid( *this );
+}
+
+template<>
+const construction &int_id<construction>::obj() const
+{
+    return construction_factory.obj( *this );
+}
+
+template<>
+const string_id<construction> &int_id<construction>::id() const
+{
+    return construction_factory.convert( *this );
+}
+
+template<>
+bool int_id<construction>::is_valid() const
+{
+    return construction_factory.is_valid( *this );
+}
+
+template<>
+int_id<construction>::int_id( const string_id<construction> &id ) : _id( id.id() ) {}
+
+//static std::map<construction_str_id, construction_id> construction_id_map;
 
 // Helper functions, nobody but us needs to call these.
 static bool can_construct( const construction &con );
-static std::vector<construction *> player_can_build_valid_constructions( Character &you,
+static std::vector<const construction *> player_can_build_valid_constructions( Character &you,
         const read_only_visitable &inv, const construction_group_str_id &group );
 static bool player_can_build( Character &you, const read_only_visitable &inv,
                               const construction_group_str_id &group );
@@ -286,18 +328,7 @@ static bool has_pre_terrain( const construction &con )
     return false;
 }
 
-void standardize_construction_times( const int time )
-{
-    if( !finalized ) {
-        debugmsg( "standardize_construction_times called before finalization" );
-        return;
-    }
-    for( construction &c : constructions ) {
-        c.time = time;
-    }
-}
-
-std::vector<construction *> constructions_by_group( const construction_group_str_id &group )
+std::vector<const construction *> constructions_by_group( const construction_group_str_id &group )
 {
     return constructions_by_filter(
     [&group]( construction const & it ) {
@@ -305,16 +336,12 @@ std::vector<construction *> constructions_by_group( const construction_group_str
     } );
 }
 
-std::vector<construction *>
+std::vector<const construction *>
 constructions_by_filter( std::function<bool( construction const & )> const &filter )
 {
-    if( !finalized ) {
-        debugmsg( "constructions_by_filter called before finalization" );
-        return {};
-    }
-    std::vector<construction *> result;
-    for( construction &constructions_a : constructions ) {
-        if( filter( constructions_a ) ) {
+    std::vector<const construction *> result;
+    for( const construction &constructions_a : get_constructions() ) {
+        if( filter( constructions_a ) && !constructions_a.is_blacklisted() ) {
             result.push_back( &constructions_a );
         }
     }
@@ -327,13 +354,10 @@ static void load_available_constructions( std::vector<construction_group_str_id>
 {
     cat_available.clear();
     available.clear();
-    if( !finalized ) {
-        debugmsg( "load_available_constructions called before finalization" );
-        return;
-    }
+
     avatar &player_character = get_avatar();
-    for( construction &it : constructions ) {
-        if( !it.on_display ) {
+    for( const construction &it : get_constructions() ) {
+        if( !it.on_display || it.is_blacklisted() ) {
             continue;
         }
         bool ok = false;
@@ -394,8 +418,8 @@ static nc_color construction_color( const construction_group_str_id &group, bool
     if( player_character.has_trait( trait_DEBUG_HS ) ) {
         col = c_white;
     } else {
-        std::vector<construction *> cons = player_can_build_valid_constructions( player_character,
-                                           player_character.crafting_inventory(), group );
+        std::vector<const construction *> cons = player_can_build_valid_constructions( player_character,
+                player_character.crafting_inventory(), group );
         if( !cons.empty() ) {
             col = c_white;
             for( const auto &pr : cons.front()->required_skills ) {
@@ -413,12 +437,7 @@ static nc_color construction_color( const construction_group_str_id &group, bool
 
 const std::vector<construction> &get_constructions()
 {
-    if( !finalized ) {
-        debugmsg( "get_constructions called before finalization" );
-        static std::vector<construction> fake_constructions;
-        return fake_constructions;
-    }
-    return constructions;
+    return construction_factory.get_all();
 }
 
 static std::string furniture_qualities_string( const furn_id &fid )
@@ -438,7 +457,7 @@ static std::string furniture_qualities_string( const furn_id &fid )
     return ret;
 }
 
-static std::pair<std::map<tripoint_bub_ms, const construction *>, std::vector<construction *>>
+static std::pair<std::map<tripoint_bub_ms, const construction *>, std::vector<const construction *>>
         valid_constructions_near_player( const std::vector<construction_group_str_id> &groups,
                 const inventory &total_inv, avatar &player_character );
 
@@ -501,10 +520,6 @@ static std::string has_pre_flags_colorize( const construction &con );
 
 construction_id construction_menu( const bool blueprint )
 {
-    if( !finalized ) {
-        debugmsg( "construction_menu called before finalization" );
-        return construction_id( -1 );
-    }
     // filter_mode: 0 = all, 1 = ready (skills & materials satisfied, but location not satisfied),
     // 2 = buildable here (skills & materials satisfied and location satisfied)
     static int filter_mode = 0;
@@ -602,17 +617,17 @@ construction_id construction_menu( const bool blueprint )
             //construct the project list buffer
 
             // Print stages and their requirement.
-            std::vector<construction *> options = constructions_by_group( current_group );
+            std::vector<const construction *> options = constructions_by_group( current_group );
 
             construct_buffers.clear();
             current_construct_breakpoint = 0;
             construct_buffer_breakpoints.clear();
             full_construct_buffer.clear();
             int stage_counter = 0;
-            for( std::vector<construction *>::iterator it = options.begin();
+            for( std::vector<const construction *>::iterator it = options.begin();
                  it != options.end(); ++it ) {
                 stage_counter++;
-                construction *current_con = *it;
+                const construction *current_con = *it;
                 if( filter_mode == 1 ) {
                     // show stages where skills & materials are satisfied but location is not
                     if( !( player_can_build( player_character, total_inv, *current_con, true ) &&
@@ -1140,16 +1155,16 @@ construction_id construction_menu( const bool blueprint )
     return ret;
 }
 
-static std::vector<construction *> player_can_build_valid_constructions( Character &you,
+std::vector<const construction *> player_can_build_valid_constructions( Character &you,
         const read_only_visitable &inv,
         const construction_group_str_id &group )
 {
-    std::vector<construction *> result;
+    std::vector<const construction *> result;
 
     // check all with the same group to see if player can build any
     // if so, it will be added to the result
-    std::vector<construction *> cons = constructions_by_group( group );
-    for( construction *&con : cons ) {
+    std::vector<const construction *> cons = constructions_by_group( group );
+    for( const construction *&con : cons ) {
         if( player_can_build( you, inv, *con ) ) {
             result.push_back( con );
         }
@@ -1161,8 +1176,8 @@ bool player_can_build( Character &you, const read_only_visitable &inv,
                        const construction_group_str_id &group )
 {
     // check all with the same group to see if player can build any
-    std::vector<construction *> cons = constructions_by_group( group );
-    for( construction *&con : cons ) {
+    std::vector<const construction *> cons = constructions_by_group( group );
+    for( const construction *&con : cons ) {
         if( player_can_build( you, inv, *con ) ) {
             return true;
         }
@@ -1192,8 +1207,8 @@ bool player_can_see_to_build( Character &you, const construction_group_str_id &g
     if( you.fine_detail_vision_mod() < 4 || you.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
-    std::vector<construction *> cons = constructions_by_group( group );
-    for( construction *&con : cons ) {
+    std::vector<const construction *> cons = constructions_by_group( group );
+    for( const construction *&con : cons ) {
         if( con->dark_craftable ) {
             return true;
         }
@@ -1285,13 +1300,10 @@ bool can_construct( const construction &con, const tripoint_bub_ms &p )
     const map &here = get_map();
     const furn_id &f = here.furn( p );
     const ter_id &t = here.ter( p );
-    if( con.pre_specials.size() > 1 ) { // pre-functions
-        for( const auto &special : con.pre_specials ) {
-            if( !special( p ) ) {
-                return false;
-            }
-        }
-    } else if( !con.pre_special( p ) ) { // pre-function
+    // pre-functions
+    if( !std::all_of( con.pre_specials.begin(), con.pre_specials.end(), [&p]( const auto & fn ) {
+    return fn( p );
+    } ) ) {
         return false;
     }
     if( !has_pre_terrain( con, p ) || // terrain type
@@ -1319,16 +1331,16 @@ bool can_construct( const construction &con )
     return false;
 }
 
-std::pair<std::map<tripoint_bub_ms, const construction *>, std::vector<construction *>>
+std::pair<std::map<tripoint_bub_ms, const construction *>, std::vector<const construction *>>
         valid_constructions_near_player( const std::vector<construction_group_str_id> &groups,
                 const inventory &total_inv, avatar &player_character )
 {
-    std::pair<std::map<tripoint_bub_ms, const construction *>, std::vector<construction *>> ret;
+    std::pair<std::map<tripoint_bub_ms, const construction *>, std::vector<const construction *>> ret;
     std::map<tripoint_bub_ms, const construction *> &valid = ret.first;
-    std::vector<construction *> &cons = ret.second;
+    std::vector<const construction *> &cons = ret.second;
     map &here = get_map();
     for( construction_group_str_id const &group : groups ) {
-        std::vector<construction *> const temp = constructions_by_group( group );
+        std::vector<const construction *> const temp = constructions_by_group( group );
         for( const tripoint_bub_ms &p : here.points_in_radius( player_character.pos_bub(), 1 ) ) {
             for( const auto *con : temp ) {
                 if( p != player_character.pos_bub() && can_construct( *con, p ) &&
@@ -1347,10 +1359,10 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     avatar &player_character = get_avatar();
     const inventory &total_inv = player_character.crafting_inventory();
 
-    std::pair<std::map<tripoint_bub_ms, const construction *>, std::vector<construction *>>
+    std::pair<std::map<tripoint_bub_ms, const construction *>, std::vector<const construction *>>
             valid_pair = valid_constructions_near_player( groups, total_inv, player_character );
     std::map<tripoint_bub_ms, const construction *> &valid = valid_pair.first;
-    std::vector<construction *> &cons = valid_pair.second;
+    std::vector<const construction *> &cons = valid_pair.second;
     map &here = get_map();
 
     bool blink = true;
@@ -1445,10 +1457,6 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
 void build_construction_activity_actor::complete_construction( player_activity &act,
         Character &you )
 {
-    if( !finalized ) {
-        debugmsg( "complete_construction called before finalization" );
-        return;
-    }
     map &here = get_map();
     const tripoint_bub_ms terp = here.get_bub( construction_location );
     partial_con *pc = here.partial_con_at( terp );
@@ -1490,7 +1498,7 @@ void build_construction_activity_actor::complete_construction( player_activity &
     // partial_con contains components for vehicle and appliance construction
     // it's removal is handled in done_appliance() / done_vehicle
     if( pc->id->category != construction_category_APPLIANCE &&
-        pc->id->str_id != construction_constr_veh ) {
+        pc->id->id != construction_constr_veh ) {
         here.partial_con_remove( terp );
     }
 
@@ -1537,12 +1545,8 @@ void build_construction_activity_actor::complete_construction( player_activity &
 
     // This comes after clearing the activity, in case the function interrupts
     // activities
-    if( built.post_specials.size() > 1 ) { // pre-functions
-        for( const auto &special : built.post_specials ) {
-            special( terp, you );
-        }
-    } else {
-        built.post_special( terp, you );
+    for( const auto &special : built.post_specials ) {
+        special( terp, you );
     }
     // Players will not automatically resume backlog, other Characters will.
     if( you.is_avatar() && !you.backlog.empty() &&
@@ -2300,110 +2304,88 @@ void construct::failure_deconstruct( const tripoint_bub_ms & )
     add_msg( m_info, _( "You cannot deconstruct this!" ) );
 }
 
-template <typename T>
-void assign_or_debugmsg( T &dest, const std::string &fun_id,
-                         const std::map<std::string, T> &possible )
-{
-    const auto iter = possible.find( fun_id );
-    if( iter != possible.end() ) {
-        dest = iter->second;
-    } else {
-        dest = possible.find( "" )->second;
-        const std::string list_available = enumerate_as_string( possible.begin(), possible.end(),
-        []( const std::pair<std::string, T> &pr ) {
-            return pr.first;
-        } );
-        debugmsg( "Unknown function: %s, available values are %s", fun_id.c_str(), list_available );
+template <typename Fn>
+struct construction_special_reader : generic_typed_reader<construction_special_reader<Fn>> {
+    const std::map<std::string, Fn> &possible;
+    explicit construction_special_reader( const std::map<std::string, Fn> &lookup ) : possible(
+            lookup ) {}
+
+    Fn get_next( const JsonValue &jv ) const {
+        std::string fun_id = jv.get_string();
+        const auto iter = possible.find( fun_id );
+        if( iter != possible.end() ) {
+            return iter->second;
+        } else {
+            const std::string list_available = enumerate_as_string( possible.begin(), possible.end(),
+            []( const std::pair<std::string, Fn> &pr ) {
+                return pr.first;
+            } );
+            jv.throw_error( string_format( "Unknown function: %s, available values are %s", fun_id.c_str(),
+                                           list_available ) );
+        }
     }
+};
+
+void load_construction( const JsonObject &jo, const std::string &src )
+{
+    construction_factory.load( jo, src );
 }
 
-void load_construction( const JsonObject &jo )
+void construction::load( const JsonObject &jo, const std::string_view )
 {
-    construction con;
-    // These ids are only temporary. The actual ids are determined in finalize_construction,
-    // after removing blacklisted constructions.
-    con.id = construction_id( -1 );
-    con.str_id = construction_str_id( jo.get_string( "id" ) );
-    if( con.str_id.is_null() ) {
-        jo.throw_error_at( "id", "Null construction id specified" );
-    } else if( construction_id_map.find( con.str_id ) != construction_id_map.end() ) {
-        jo.throw_error_at( "id", "Duplicate construction id" );
-    }
-
-    jo.get_member( "group" ).read( con.group );
+    mandatory( jo, was_loaded, "group", group );
     if( jo.has_member( "required_skills" ) ) {
-        for( JsonArray arr : jo.get_array( "required_skills" ) ) {
-            con.required_skills[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
-        }
-    } else {
-        skill_id legacy_skill( jo.get_string( "skill", skill_fabrication.str() ) );
-        int legacy_diff = jo.get_int( "difficulty" );
-        con.required_skills[ legacy_skill ] = legacy_diff;
+        mandatory( jo, was_loaded, "required_skills", required_skills, pair_reader<skill_id, int> {} );
+    } else if( !was_loaded ) {
+        skill_id legacy_skill;
+        int legacy_diff;
+        optional( jo, was_loaded, "skill", legacy_skill, skill_fabrication );
+        mandatory( jo, was_loaded, "difficulty", legacy_diff );
+        required_skills[ legacy_skill ] = legacy_diff;
     }
 
-    con.category = construction_category_id( jo.get_string( "category", "OTHER" ) );
-    if( jo.has_string( "time" ) ) {
-        con.time = to_moves<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
-                                  time_duration::units ) );
-    }
+    optional( jo, was_loaded, "category", category, construction_category_OTHER );
+    optional( jo, was_loaded, "time", time, time_duration_as_moves_reader{} );
 
-    const requirement_id req_id( "inline_construction_" + con.str_id.str() );
+    const requirement_id req_id( "inline_construction_" + id.str() );
     requirement_data::load_requirement( jo, req_id );
-    con.requirements = req_id;
+    requirements = req_id;
 
     if( jo.has_string( "using" ) ) {
-        con.reqs_using = { { requirement_id( jo.get_string( "using" ) ), 1} };
+        reqs_using = { { requirement_id( jo.get_string( "using" ) ), 1} };
     } else if( jo.has_array( "using" ) ) {
         for( JsonArray cur : jo.get_array( "using" ) ) {
-            con.reqs_using.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
+            reqs_using.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
         }
     }
 
-    jo.read( "pre_note", con.pre_note );
-    con.pre_terrain = jo.get_as_string_set( "pre_terrain" );
-    if( !con.pre_terrain.empty() ) {
-        const std::string &first_pre_terrain = *con.pre_terrain.begin();
+    optional( jo, was_loaded, "pre_note", pre_note );
+    optional( jo, was_loaded, "pre_terrain", pre_terrain, auto_flags_reader<> {} );
+    if( !pre_terrain.empty() ) {
+        const std::string &first_pre_terrain = *pre_terrain.begin();
         if( first_pre_terrain.size() > 1
             && first_pre_terrain[0] == 'f'
             && first_pre_terrain[1] == '_' ) {
-            con.pre_is_furniture = true;
+            pre_is_furniture = true;
         }
     }
 
-    con.post_terrain = jo.get_string( "post_terrain", "" );
-    if( con.post_terrain.size() > 1
-        && con.post_terrain[0] == 'f'
-        && con.post_terrain[1] == '_' ) {
-        con.post_is_furniture = true;
+    optional( jo, was_loaded, "post_terrain", post_terrain );
+    if( post_terrain.size() > 1
+        && post_terrain[0] == 'f'
+        && post_terrain[1] == '_' ) {
+        post_is_furniture = true;
     }
 
-    optional( jo, false/*con.was_loaded*/, "activity_level", con.activity_level,
+    optional( jo, was_loaded, "activity_level", activity_level,
               activity_level_reader{}, MODERATE_EXERCISE );
 
-    if( jo.has_member( "pre_flags" ) ) {
-        con.pre_flags.clear();
-        if( jo.has_string( "pre_flags" ) ) {
-            con.pre_flags.emplace( jo.get_string( "pre_flags" ), false );
-        } else if( jo.has_object( "pre_flags" ) ) {
-            JsonObject jflag = jo.get_object( "pre_flags" );
-            con.pre_flags.emplace( jflag.get_string( "flag" ), jflag.get_bool( "force_terrain" ) );
-        } else if( jo.has_array( "pre_flags" ) ) {
-            for( JsonValue jval : jo.get_array( "pre_flags" ) ) {
-                if( jval.test_string() ) {
-                    con.pre_flags.emplace( jval.get_string(), false );
-                } else if( jval.test_object() ) {
-                    JsonObject jflag = jval.get_object();
-                    con.pre_flags.emplace( jflag.get_string( "flag" ), jflag.get_bool( "force_terrain" ) );
-                }
-            }
-        }
-    }
-
-    con.post_flags = jo.get_tags( "post_flags" );
+    optional( jo, was_loaded, "pre_flags", pre_flags, named_pair_reader<std::string, bool> { "flag", "force_terrain", false } );
+    optional( jo, was_loaded, "post_flags", post_flags, auto_flags_reader<> {} );
 
     if( jo.has_member( "byproducts" ) ) {
-        con.byproduct_item_group = item_group::load_item_group( jo.get_member( "byproducts" ),
-                                   "collection", "byproducts of construction " + con.str_id.str() );
+        byproduct_item_group = item_group::load_item_group( jo.get_member( "byproducts" ),
+                               "collection", "byproducts of construction " + id.str() );
     }
 
     static const std::map<std::string, bool( * )( const tripoint_bub_ms & )> pre_special_map = {{
@@ -2468,99 +2450,68 @@ void load_construction( const JsonObject &jo )
             { "deconstruct", construct::failure_deconstruct },
         }
     };
-    std::string failure_fallback = "standard";
-    if( jo.has_array( "pre_special" ) ) {
-        JsonArray jarr = jo.get_array( "pre_special" );
-        for( std::string special : jarr ) {
-            if( special == "check_deconstruct" ) {
-                failure_fallback =  "deconstruct";
-            }
-            assign_or_debugmsg( con.pre_special, special, pre_special_map );
-            con.pre_specials.push_back( con.pre_special );
-        }
-    } else {
-        const std::string special = jo.get_string( "pre_special", "" );
-        if( special == "check_deconstruct" ) {
-            failure_fallback =  "deconstruct";
-        }
-        assign_or_debugmsg( con.pre_special, special, pre_special_map );
-    }
-    if( jo.has_array( "post_special" ) ) {
-        JsonArray jarr = jo.get_array( "post_special" );
-        for( std::string special : jarr ) {
-            assign_or_debugmsg( con.post_special, special, post_special_map );
-            con.post_specials.push_back( con.post_special );
-        }
-    } else {
-        assign_or_debugmsg( con.post_special, jo.get_string( "post_special", "" ), post_special_map );
-    }
-    assign_or_debugmsg( con.do_turn_special, jo.get_string( "do_turn_special", "" ),
-                        do_turn_special_map );
-    assign_or_debugmsg( con.explain_failure, jo.get_string( "explain_failure", failure_fallback ),
-                        explain_fail_map );
-    con.vehicle_start = jo.get_bool( "vehicle_start", false );
+    optional( jo, was_loaded, "pre_special", pre_specials, construction_special_reader{ pre_special_map },
+    { construct::check_nothing } );
+    optional( jo, was_loaded, "post_special", post_specials, construction_special_reader{ post_special_map },
+    { construct::done_nothing } );
+    optional( jo, was_loaded, "do_turn_special", do_turn_special, construction_special_reader{ do_turn_special_map },
+              construct::done_nothing );
 
-    con.on_display = jo.get_bool( "on_display", true );
-    con.dark_craftable = jo.get_bool( "dark_craftable", false );
-    con.strict = jo.get_bool( "strict", false );
+    const bool fallback_deconstruct = std::any_of( pre_specials.begin(),
+    pre_specials.end(), []( const auto fn ) {
+        return fn == construct::check_deconstruct;
+    } );
+    optional( jo, was_loaded, "explain_failure", explain_failure, construction_special_reader{ explain_fail_map },
+              fallback_deconstruct ? construct::failure_deconstruct : construct::failure_standard );
 
-    constructions.push_back( con );
-    construction_id_map.emplace( con.str_id, con.id );
+    optional( jo, was_loaded, "vehicle_start", vehicle_start, false );
+    optional( jo, was_loaded, "on_display", on_display, true );
+    optional( jo, was_loaded, "dark_craftable", dark_craftable, false );
+    optional( jo, was_loaded, "strict", strict, false );
 }
 
 void reset_constructions()
 {
-    constructions.clear();
-    construction_id_map.clear();
-    finalized = false;
+    construction_factory.reset();
 }
 
 void check_constructions()
 {
-    for( size_t i = 0; i < constructions.size(); i++ ) {
-        const construction &c = constructions[ i ];
-        const std::string display_name = "construction " + c.str_id.str();
-        for( const auto &pr : c.required_skills ) {
-            if( !pr.first.is_valid() ) {
-                debugmsg( "Unknown skill %s in %s", pr.first.c_str(), display_name );
-            }
-        }
+    construction_factory.check();
+}
 
-        if( !c.requirements.is_valid() ) {
-            debugmsg( "%s has missing requirement data %s",
-                      display_name, c.requirements.c_str() );
+void construction::check() const
+{
+    const std::string display_name = "construction " + id.str();
+    for( const auto &pr : required_skills ) {
+        if( !pr.first.is_valid() ) {
+            debugmsg( "Unknown skill %s in %s", pr.first.c_str(), display_name );
         }
+    }
 
-        if( !c.pre_terrain.empty() ) {
-            for( const auto &pre_terrain : c.pre_terrain ) {
-                if( c.pre_is_furniture ) {
-                    if( !furn_str_id( pre_terrain ).is_valid() ) {
-                        debugmsg( "Unknown pre_terrain (furniture) %s in %s", pre_terrain, display_name );
-                    }
-                } else if( !ter_str_id( pre_terrain ).is_valid() ) {
-                    debugmsg( "Unknown pre_terrain (terrain) %s in %s", pre_terrain, display_name );
+    if( !requirements.is_valid() ) {
+        debugmsg( "%s has missing requirement data %s",
+                  display_name, requirements.c_str() );
+    }
+
+    if( !pre_terrain.empty() ) {
+        for( const auto &pre_terrain : pre_terrain ) {
+            if( pre_is_furniture ) {
+                if( !furn_str_id( pre_terrain ).is_valid() ) {
+                    debugmsg( "Unknown pre_terrain (furniture) %s in %s", pre_terrain, display_name );
                 }
+            } else if( !ter_str_id( pre_terrain ).is_valid() ) {
+                debugmsg( "Unknown pre_terrain (terrain) %s in %s", pre_terrain, display_name );
             }
         }
-        if( !c.post_terrain.empty() ) {
-            if( c.post_is_furniture ) {
-                if( !furn_str_id( c.post_terrain ).is_valid() ) {
-                    debugmsg( "Unknown post_terrain (furniture) %s in %s", c.post_terrain, display_name );
-                }
-            } else if( !ter_str_id( c.post_terrain ).is_valid() ) {
-                debugmsg( "Unknown post_terrain (terrain) %s in %s", c.post_terrain, display_name );
+    }
+    if( !post_terrain.empty() ) {
+        if( post_is_furniture ) {
+            if( !furn_str_id( post_terrain ).is_valid() ) {
+                debugmsg( "Unknown post_terrain (furniture) %s in %s", post_terrain, display_name );
             }
-        }
-        if( c.id != construction_id( i ) ) {
-            debugmsg( "%s has id %u, but should have %u",
-                      display_name, c.id.to_i(), i );
-        }
-        if( construction_id_map.find( c.str_id ) == construction_id_map.end() ) {
-            debugmsg( "%s is an invalid string id",
-                      display_name );
-        } else if( construction_id_map[c.str_id] != construction_id( i ) ) {
-            debugmsg( "%s points to int id %u, but should point to %u",
-                      display_name, construction_id_map[c.str_id].to_i(), i );
+        } else if( !ter_str_id( post_terrain ).is_valid() ) {
+            debugmsg( "Unknown post_terrain (terrain) %s in %s", post_terrain, display_name );
         }
     }
 }
@@ -2617,9 +2568,11 @@ std::vector<std::string> construction::get_folded_time_string( int width ) const
     return folded_time;
 }
 
+static std::vector<item_comp> frame_items;
+
 void finalize_constructions()
 {
-    std::vector<item_comp> frame_items;
+    frame_items.clear();
     for( const vpart_info &vpi : vehicles::parts::get_all() ) {
         if( !vpi.has_flag( flag_INITIAL_PART.str() ) ) {
             continue;
@@ -2635,45 +2588,40 @@ void finalize_constructions()
         debugmsg( "No valid frames detected for vehicle construction" );
     }
 
-    for( construction &con : constructions ) {
-        if( !con.group.is_valid() ) {
-            debugmsg( "Invalid construction group (%s) defined for construction (%s)",
-                      con.group.str(), con.str_id.str() );
-        }
-        if( con.vehicle_start ) {
-            const_cast<requirement_data &>( con.requirements.obj() ).get_components().push_back( frame_items );
-        }
-        bool is_valid_construction_category = false;
-        for( const construction_category &cc : construction_categories::get_all() ) {
-            if( con.category == cc.id ) {
-                is_valid_construction_category = true;
-                break;
-            }
-        }
-        if( !is_valid_construction_category ) {
-            debugmsg( "Invalid construction category (%s) defined for construction (%s)", con.category.str(),
-                      con.str_id.str() );
-        }
-        requirement_data requirements_ = std::accumulate(
-                                             con.reqs_using.begin(), con.reqs_using.end(), *con.requirements );
+    construction_factory.finalize();
+}
 
-        requirement_data::save_requirement( requirements_, con.requirements );
-        con.reqs_using.clear();
-        inp_mngr.pump_events();
+void construction::finalize()
+{
+    if( !group.is_valid() ) {
+        debugmsg( "Invalid construction group (%s) defined for construction (%s)",
+                  group.str(), id.str() );
     }
-
-    constructions.erase( std::remove_if( constructions.begin(), constructions.end(),
-    [&]( const construction & c ) {
-        return c.requirements->is_blacklisted();
-    } ), constructions.end() );
-
-    construction_id_map.clear();
-    for( size_t i = 0; i < constructions.size(); i++ ) {
-        constructions[ i ].id = construction_id( i );
-        construction_id_map.emplace( constructions[i].str_id, constructions[i].id );
+    if( vehicle_start ) {
+        const_cast<requirement_data &>( requirements.obj() ).get_components().push_back( frame_items );
     }
+    bool is_valid_construction_category = false;
+    for( const construction_category &cc : construction_categories::get_all() ) {
+        if( category == cc.id ) {
+            is_valid_construction_category = true;
+            break;
+        }
+    }
+    if( !is_valid_construction_category ) {
+        debugmsg( "Invalid construction category (%s) defined for construction (%s)", category.str(),
+                  id.str() );
+    }
+    requirement_data requirements_ = std::accumulate(
+                                         reqs_using.begin(), reqs_using.end(), *requirements );
 
-    finalized = true;
+    requirement_data::save_requirement( requirements_, requirements );
+    reqs_using.clear();
+    inp_mngr.pump_events();
+}
+
+bool construction::is_blacklisted() const
+{
+    return requirements->is_blacklisted();
 }
 
 // Using BFS to find the shortest route to create target terrain from empty or base terrain,
@@ -2683,8 +2631,8 @@ std::vector<construction_id> find_build_sequence( const std::string &target_id,
 {
     // make a post_terrain->construction multimap for speedy search
     std::unordered_multimap<std::string, const construction *> construction_map;
-    for( construction const &cons : constructions ) {
-        if( !filter( cons ) ) {
+    for( construction const &cons : get_constructions() ) {
+        if( !filter( cons ) || cons.is_blacklisted() ) {
             continue;
         }
         construction_map.insert( { cons.post_terrain, &cons } );
@@ -2748,7 +2696,7 @@ std::vector<construction_id> find_build_sequence( const std::string &target_id,
     while( current_terrain != target_id ) {
         auto it = parent.find( current_terrain );
         const auto& [cons_ptr, next_terrain] = it->second;
-        ret.push_back( cons_ptr->id );
+        ret.emplace_back( cons_ptr->id );
         current_terrain = next_terrain;
     }
     return ret;
@@ -2760,10 +2708,6 @@ build_reqs get_build_reqs_for_furn_ter_ids(
     ter_id const &base_ter = ter_t_dirt.id();
     build_reqs total_reqs;
 
-    if( !finalized ) {
-        debugmsg( "get_build_reqs_for_furn_ter_ids called before finalization" );
-        return total_reqs;
-    }
     std::map<construction_id, int> total_builds;
 
     // find the shortest route to create target terrain from empty or base terrain,
@@ -2816,90 +2760,4 @@ build_reqs get_build_reqs_for_furn_ter_ids(
     }
 
     return total_reqs;
-}
-
-static const construction null_construction {};
-
-template <>
-const construction_str_id &construction_id::id() const
-{
-    if( !finalized ) {
-        debugmsg( "construction_id::id called before finalization" );
-        return construction_str_id::NULL_ID();
-    } else if( is_valid() ) {
-        return constructions[to_i()].str_id;
-    } else {
-        if( to_i() != -1 ) {
-            debugmsg( "Invalid construction id %d", to_i() );
-        }
-        return construction_str_id::NULL_ID();
-    }
-}
-
-template <>
-const construction &construction_id::obj() const
-{
-    if( !finalized ) {
-        debugmsg( "construction_id::obj called before finalization" );
-        return null_construction;
-    } else if( is_valid() ) {
-        return constructions[to_i()];
-    } else {
-        debugmsg( "Invalid construction id %d", to_i() );
-        return null_construction;
-    }
-}
-
-template <>
-bool construction_id::is_valid() const
-{
-    if( !finalized ) {
-        debugmsg( "construction_id::is_valid called before finalization" );
-        return false;
-    }
-    return to_i() >= 0 && static_cast<size_t>( to_i() ) < constructions.size();
-}
-
-template <>
-construction_id construction_str_id::id() const
-{
-    if( !finalized ) {
-        debugmsg( "construction_str_id::id called before finalization" );
-        return construction_id( -1 );
-    }
-    auto it = construction_id_map.find( *this );
-    if( it != construction_id_map.end() ) {
-        return it->second;
-    } else {
-        if( !is_null() ) {
-            debugmsg( "Invalid construction str id %s", str() );
-        }
-        return construction_id( -1 );
-    }
-}
-
-template <>
-const construction &construction_str_id::obj() const
-{
-    if( !finalized ) {
-        debugmsg( "construction_str_id::obj called before finalization" );
-        return null_construction;
-    }
-    auto it = construction_id_map.find( *this );
-    if( it != construction_id_map.end() ) {
-        return it->second.obj();
-    } else {
-        debugmsg( "Invalid construction str id %s", str() );
-        return null_construction;
-    }
-}
-
-template <>
-bool construction_str_id::is_valid() const
-{
-    if( !finalized ) {
-        debugmsg( "construction_str_id::is_valid called before finalization" );
-        return false;
-    }
-    return construction_id_map.find( *this ) != construction_id_map.end();
 }

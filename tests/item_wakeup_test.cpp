@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cstdint>
 #include <functional>
+#include <list>
 #include <optional>
 #include <sstream>
 #include <string>
@@ -22,14 +23,18 @@
 #include "json_loader.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_selector.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "point.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 
+static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_test_wakeup_dummy( "test_wakeup_dummy" );
 static const itype_id itype_test_wakeup_no_handler( "test_wakeup_no_handler" );
 static const vproto_id vehicle_prototype_bicycle( "bicycle" );
@@ -49,7 +54,8 @@ std::vector<fire_record> &fire_log()
     return log;
 }
 
-void dummy_handler( item &it, item_wakeup_kind kind, time_point now )
+void dummy_handler( item &it, item_wakeup_kind kind, time_point now,
+                    const item_location &/*loc*/ )
 {
     fire_log().push_back( fire_record{ it.uid().get_value(), kind, now } );
 }
@@ -219,7 +225,8 @@ TEST_CASE( "item_wakeup_same_pass_reschedule_does_not_double_fire",
     const int64_t uid = on_map.uid().get_value();
 
     item_wakeup_manager *mgr_ptr = nullptr;
-    auto rescheduling_handler = []( item & it, item_wakeup_kind kind, time_point now ) {
+    auto rescheduling_handler = []( item & it, item_wakeup_kind kind, time_point now,
+    const item_location & /*loc*/ ) {
         fire_log().push_back( fire_record{ it.uid().get_value(), kind, now } );
         // Item handler reschedules itself for "now"; this MUST NOT fire again
         // in the same process pass.
@@ -270,7 +277,7 @@ TEST_CASE( "item_wakeup_handler_called_once_per_fire", "[item_wakeup][idempotenc
 TEST_CASE( "item_wakeup_default_enumerate_is_empty", "[item_wakeup][rebuild]" )
 {
     item it( itype_test_wakeup_dummy, calendar::turn );
-    CHECK( it.enumerate_scheduled_wakeups().empty() );
+    CHECK( it.enumerate_scheduled_wakeups( item_location() ).empty() );
 }
 
 TEST_CASE( "item_wakeup_rebuild_schedules_from_item", "[item_wakeup][rebuild]" )
@@ -291,7 +298,7 @@ TEST_CASE( "item_wakeup_rebuild_schedules_from_item", "[item_wakeup][rebuild]" )
                             hint_for_map( here.get_abs( origin ) ) );
     REQUIRE( mgr.is_scheduled( uid, item_wakeup_kind::ready_check ) );
 
-    mgr.rebuild_for_item( on_map, hint_for_map( here.get_abs( origin ) ) );
+    mgr.rebuild_for_item( item_location( map_cursor( here.get_abs( origin ) ), &on_map ) );
     CHECK_FALSE( mgr.is_scheduled( uid, item_wakeup_kind::ready_check ) );
 }
 
@@ -643,7 +650,8 @@ TEST_CASE( "item_wakeup_no_registered_handler_is_noop",
 
 namespace
 {
-std::vector<desired_wakeup> dummy_enumerator( const item &/*it*/ )
+std::vector<desired_wakeup> dummy_enumerator( const item &/*it*/,
+        const item_location &/*loc*/ )
 {
     return {
         desired_wakeup{ item_wakeup_kind::ready_check, calendar::turn_zero + 5_minutes },
@@ -666,7 +674,7 @@ TEST_CASE( "item_wakeup_rebuild_schedules_from_producer", "[item_wakeup][rebuild
     const int64_t uid = on_map.uid().get_value();
 
     item_wakeup_manager mgr;
-    mgr.rebuild_for_item( on_map, hint_for_map( here.get_abs( origin ) ) );
+    mgr.rebuild_for_item( item_location( map_cursor( here.get_abs( origin ) ), &on_map ) );
 
     CHECK( mgr.is_scheduled( uid, item_wakeup_kind::ready_check ) );
     CHECK( mgr.is_scheduled( uid, item_wakeup_kind::fail_check ) );
@@ -695,7 +703,7 @@ TEST_CASE( "item_wakeup_rebuild_updates_existing_when", "[item_wakeup][rebuild]"
                             item_wakeup_kind::ready_check,
                             hint_for_map( here.get_abs( origin ) ) );
 
-    mgr.rebuild_for_item( on_map, hint_for_map( here.get_abs( origin ) ) );
+    mgr.rebuild_for_item( item_location( map_cursor( here.get_abs( origin ) ), &on_map ) );
 
     CHECK( mgr.get( uid, item_wakeup_kind::ready_check ).value()
            == calendar::turn_zero + 5_minutes );
@@ -711,7 +719,7 @@ TEST_CASE( "item_wakeup_resolve_on_vehicle_cargo", "[item_wakeup][resolve][vehic
     u.setpos( here, origin );
 
     const tripoint_bub_ms veh_pos( 65, 65, 0 );
-    vehicle *veh = here.add_vehicle( vehicle_prototype_bicycle, veh_pos, 0_degrees, -1, 100 );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_bicycle, veh_pos, 0_degrees, -1, 2 );
     REQUIRE( veh != nullptr );
 
     int cargo_part_idx = -1;
@@ -753,7 +761,7 @@ TEST_CASE( "item_wakeup_resolve_vehicle_stale_part_index_uses_mount",
     u.setpos( here, origin );
 
     const tripoint_bub_ms veh_pos( 65, 65, 0 );
-    vehicle *veh = here.add_vehicle( vehicle_prototype_bicycle, veh_pos, 0_degrees, -1, 100 );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_bicycle, veh_pos, 0_degrees, -1, 2 );
     REQUIRE( veh != nullptr );
 
     int cargo_part_idx = -1;
@@ -798,7 +806,7 @@ TEST_CASE( "item_wakeup_resolve_vehicle_moved_uses_loaded_scan",
 
     const tripoint_bub_ms initial_pos( 65, 65, 0 );
     vehicle *veh = here.add_vehicle( vehicle_prototype_bicycle, initial_pos,
-                                     0_degrees, -1, 100 );
+                                     0_degrees, -1, 2 );
     REQUIRE( veh != nullptr );
 
     int cargo_part_idx = -1;
@@ -972,4 +980,209 @@ TEST_CASE( "item_wakeup_deserialize_restores_heap_invariant",
     REQUIRE( top.has_value() );
     CHECK( top->uid == 1 );
     CHECK( top->when == calendar::turn_zero + 1_minutes );
+}
+
+namespace
+{
+struct location_record {
+    int64_t uid = 0;
+    item_location::type where = item_location::type::invalid;
+    tripoint_abs_ms abs;
+};
+
+std::vector<location_record> &location_log()
+{
+    static std::vector<location_record> log;
+    return log;
+}
+
+void location_capturing_handler( item &it, item_wakeup_kind /*kind*/,
+                                 time_point /*now*/, const item_location &loc )
+{
+    location_record r;
+    r.uid = it.uid().get_value();
+    if( loc ) {
+        r.where = loc.where();
+        r.abs = loc.pos_abs();
+    }
+    location_log().push_back( r );
+}
+}  // namespace
+
+TEST_CASE( "item_wakeup_handler_observes_resolved_location",
+           "[item_wakeup][location]" )
+{
+    clear_map();
+    clear_test_wakeup_handlers();
+    location_log().clear();
+    register_test_wakeup_handler( itype_test_wakeup_dummy, &location_capturing_handler );
+
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    u.setpos( here, origin );
+    item &on_map = here.add_item( origin, item( itype_test_wakeup_dummy, calendar::turn ) );
+    const int64_t uid = on_map.uid().get_value();
+    const tripoint_abs_ms expected_abs = here.get_abs( origin );
+
+    item_wakeup_manager mgr;
+    const time_point t = calendar::turn + 1_minutes;
+    mgr.schedule_or_update( uid, t, item_wakeup_kind::ready_check,
+                            hint_for_map( expected_abs ) );
+    mgr.process( t );
+
+    REQUIRE( location_log().size() == 1 );
+    CHECK( location_log()[0].uid == uid );
+    CHECK( location_log()[0].where == item_location::type::map );
+    CHECK( location_log()[0].abs == expected_abs );
+
+    clear_test_wakeup_handlers();
+}
+
+TEST_CASE( "item_wakeup_enumerator_observes_resolved_location",
+           "[item_wakeup][location][rebuild]" )
+{
+    static std::vector<tripoint_abs_ms> seen_locs;
+    seen_locs.clear();
+    auto loc_enumerator = []( const item & /*it*/, const item_location & loc )
+    -> std::vector<desired_wakeup> {
+        if( loc )
+        {
+            seen_locs.push_back( loc.pos_abs() );
+        }
+        return {
+            desired_wakeup{ item_wakeup_kind::ready_check, calendar::turn_zero + 5_minutes },
+        };
+    };
+
+    clear_map();
+    clear_test_enumerate_handlers();
+    register_test_enumerate_handler( itype_test_wakeup_dummy, loc_enumerator );
+
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    u.setpos( here, origin );
+    item &on_map = here.add_item( origin, item( itype_test_wakeup_dummy, calendar::turn ) );
+    const tripoint_abs_ms expected_abs = here.get_abs( origin );
+
+    item_wakeup_manager mgr;
+    mgr.rebuild_for_item( item_location( map_cursor( expected_abs ), &on_map ) );
+
+    REQUIRE( seen_locs.size() == 1 );
+    CHECK( seen_locs[0] == expected_abs );
+
+    clear_test_enumerate_handlers();
+}
+
+TEST_CASE( "item_wakeup_map_load_reconciles_dropped_entries",
+           "[item_wakeup][reconcile]" )
+{
+    auto reconcile_enumerator = []( const item & /*it*/, const item_location & /*loc*/ )
+    -> std::vector<desired_wakeup> {
+        return {
+            desired_wakeup{ item_wakeup_kind::ready_check, calendar::turn_zero + 30_minutes },
+        };
+    };
+
+    clear_test_enumerate_handlers();
+    register_test_enumerate_handler( itype_test_wakeup_dummy, reconcile_enumerator );
+
+    item_wakeup_manager &mgr = get_item_wakeups();
+    mgr.clear();
+
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    u.setpos( here, origin );
+    item &on_map = here.add_item( origin, item( itype_test_wakeup_dummy, calendar::turn ) );
+    const int64_t uid = on_map.uid().get_value();
+
+    mgr.clear();
+    REQUIRE_FALSE( mgr.is_scheduled( uid, item_wakeup_kind::ready_check ) );
+
+    here.load( here.get_abs_sub(), /*update_vehicles=*/false, /*pump_events=*/false );
+
+    CHECK( mgr.is_scheduled( uid, item_wakeup_kind::ready_check ) );
+    if( mgr.is_scheduled( uid, item_wakeup_kind::ready_check ) ) {
+        CHECK( mgr.get( uid, item_wakeup_kind::ready_check ).value()
+               == calendar::turn_zero + 30_minutes );
+    }
+
+    mgr.clear();
+    clear_test_enumerate_handlers();
+}
+
+TEST_CASE( "item_wakeup_shift_reconciles_dropped_entries",
+           "[item_wakeup][reconcile][shift]" )
+{
+    auto enumerator = []( const item & /*it*/, const item_location & /*loc*/ )
+    -> std::vector<desired_wakeup> {
+        return {
+            desired_wakeup{ item_wakeup_kind::ready_check, calendar::turn_zero + 30_minutes },
+        };
+    };
+
+    clear_test_enumerate_handlers();
+    register_test_enumerate_handler( itype_test_wakeup_dummy, enumerator );
+
+    item_wakeup_manager &mgr = get_item_wakeups();
+    mgr.clear();
+
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    u.setpos( here, origin );
+    item &on_map = here.add_item( origin, item( itype_test_wakeup_dummy, calendar::turn ) );
+    const int64_t uid = on_map.uid().get_value();
+
+    mgr.clear();
+    REQUIRE_FALSE( mgr.is_scheduled( uid, item_wakeup_kind::ready_check ) );
+
+    here.shift( point_rel_sm::east );
+
+    CHECK( mgr.is_scheduled( uid, item_wakeup_kind::ready_check ) );
+
+    mgr.clear();
+    clear_test_enumerate_handlers();
+}
+
+TEST_CASE( "item_wakeup_map_load_recurses_into_containers",
+           "[item_wakeup][reconcile][container]" )
+{
+    auto enumerator = []( const item & /*it*/, const item_location & /*loc*/ )
+    -> std::vector<desired_wakeup> {
+        return {
+            desired_wakeup{ item_wakeup_kind::ready_check, calendar::turn_zero + 30_minutes },
+        };
+    };
+
+    clear_test_enumerate_handlers();
+    register_test_enumerate_handler( itype_test_wakeup_dummy, enumerator );
+
+    item_wakeup_manager &mgr = get_item_wakeups();
+    mgr.clear();
+
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    u.setpos( here, origin );
+
+    item box( itype_backpack, calendar::turn );
+    REQUIRE( box.put_in( item( itype_test_wakeup_dummy, calendar::turn ),
+                         pocket_type::CONTAINER ).success() );
+    item &placed_box = here.add_item( origin, box );
+    REQUIRE( !placed_box.all_items_top().empty() );
+    const int64_t inner_uid = placed_box.all_items_top().front()->uid().get_value();
+
+    mgr.clear();
+    here.load( here.get_abs_sub(), /*update_vehicles=*/false, /*pump_events=*/false );
+
+    CHECK( mgr.is_scheduled( inner_uid, item_wakeup_kind::ready_check ) );
+
+    mgr.clear();
+    clear_test_enumerate_handlers();
 }

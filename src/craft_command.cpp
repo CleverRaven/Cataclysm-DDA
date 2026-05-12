@@ -12,6 +12,7 @@
 #include "activity_actor_definitions.h"
 #include "character.h"
 #include "crafting.h"
+#include "crafting_enums.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enum_traits.h"
@@ -210,7 +211,16 @@ void craft_command::execute( bool only_cache_comps )
         return;
     }
 
-    crafter->start_craft( *this, loc );
+    std::vector<attention_plan> plans;
+    if( rec->has_attention_steps() && crafter->is_avatar() ) {
+        std::optional<std::vector<attention_plan>> chosen =
+                show_craft_planning_modal( *rec, *crafter, batch_size, /*from_step=*/0, {} );
+        if( !chosen ) {
+            return;
+        }
+        plans = std::move( *chosen );
+    }
+    crafter->start_craft( *this, loc, std::move( plans ) );
     crafter->last_batch = batch_size;
     crafter->lastrecipe = rec->ident();
 

@@ -55,6 +55,7 @@
 #include "construction.h"
 #include "coordinates.h"
 #include "craft_command.h"
+#include "crafting_enums.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
@@ -2800,6 +2801,30 @@ void time_duration::deserialize( const JsonValue &jsin )
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// item.h
 
+static const char *step_choice_to_string( step_choice c )
+{
+    switch( c ) {
+        case step_choice::do_wait:
+            return "do_wait";
+        case step_choice::do_something:
+            return "do_something";
+        case step_choice::set_timer:
+            return "set_timer";
+    }
+    return "do_wait";
+}
+
+static step_choice step_choice_from_string( const std::string &s )
+{
+    if( s == "do_something" ) {
+        return step_choice::do_something;
+    }
+    if( s == "set_timer" ) {
+        return step_choice::set_timer;
+    }
+    return step_choice::do_wait;
+}
+
 void item::craft_data::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
@@ -2812,6 +2837,52 @@ void item::craft_data::serialize( JsonOut &jsout ) const
     jsout.member( "cached_tool_selections", cached_tool_selections );
     jsout.member( "current_step", current_step );
     jsout.member( "step_progress", step_progress );
+    if( !step_plans.empty() ) {
+        jsout.member( "step_plans" );
+        jsout.start_array();
+        for( const attention_plan &p : step_plans ) {
+            jsout.start_object();
+            jsout.member( "choice", step_choice_to_string( p.choice ) );
+            if( p.alarm_offset.has_value() ) {
+                jsout.member( "alarm_offset", *p.alarm_offset );
+            }
+            jsout.end_object();
+        }
+        jsout.end_array();
+    }
+    if( passive_started_at != calendar::before_time_starts ) {
+        jsout.member( "passive_started_at", passive_started_at );
+    }
+    if( ready_at != calendar::before_time_starts ) {
+        jsout.member( "ready_at", ready_at );
+    }
+    if( alarm_at != calendar::before_time_starts ) {
+        jsout.member( "alarm_at", alarm_at );
+    }
+    if( fail_at != calendar::before_time_starts ) {
+        jsout.member( "fail_at", fail_at );
+    }
+    if( pause_started_at != calendar::before_time_starts ) {
+        jsout.member( "pause_started_at", pause_started_at );
+    }
+    if( saved_ready_at != calendar::before_time_starts ) {
+        jsout.member( "saved_ready_at", saved_ready_at );
+    }
+    if( saved_alarm_at != calendar::before_time_starts ) {
+        jsout.member( "saved_alarm_at", saved_alarm_at );
+    }
+    if( saved_fail_at != calendar::before_time_starts ) {
+        jsout.member( "saved_fail_at", saved_fail_at );
+    }
+    if( crafter_id.is_valid() ) {
+        jsout.member( "crafter_id", crafter_id );
+    }
+    if( passive_start_counter != 0 ) {
+        jsout.member( "passive_start_counter", passive_start_counter );
+    }
+    if( passive_end_counter != 0 ) {
+        jsout.member( "passive_end_counter", passive_end_counter );
+    }
     jsout.end_object();
 }
 
@@ -2845,6 +2916,80 @@ void item::craft_data::deserialize( const JsonObject &obj )
     } else {
         current_step = 0;
         step_progress = 0.0;
+    }
+    step_plans.clear();
+    if( obj.has_array( "step_plans" ) ) {
+        for( JsonObject row : obj.get_array( "step_plans" ) ) {
+            row.allow_omitted_members();
+            attention_plan p;
+            p.choice = step_choice_from_string( row.get_string( "choice", "do_wait" ) );
+            if( row.has_member( "alarm_offset" ) ) {
+                time_duration d;
+                row.read( "alarm_offset", d );
+                p.alarm_offset = d;
+            }
+            step_plans.push_back( p );
+        }
+    }
+    if( obj.has_member( "passive_started_at" ) ) {
+        obj.read( "passive_started_at", passive_started_at );
+    }
+    if( obj.has_member( "ready_at" ) ) {
+        obj.read( "ready_at", ready_at );
+    }
+    if( obj.has_member( "alarm_at" ) ) {
+        obj.read( "alarm_at", alarm_at );
+    }
+    if( obj.has_member( "fail_at" ) ) {
+        obj.read( "fail_at", fail_at );
+    }
+    if( obj.has_member( "pause_started_at" ) ) {
+        obj.read( "pause_started_at", pause_started_at );
+    }
+    if( obj.has_member( "saved_ready_at" ) ) {
+        obj.read( "saved_ready_at", saved_ready_at );
+    }
+    if( obj.has_member( "saved_alarm_at" ) ) {
+        obj.read( "saved_alarm_at", saved_alarm_at );
+    }
+    if( obj.has_member( "saved_fail_at" ) ) {
+        obj.read( "saved_fail_at", saved_fail_at );
+    }
+    if( obj.has_member( "crafter_id" ) ) {
+        obj.read( "crafter_id", crafter_id );
+    }
+    passive_start_counter = obj.get_int( "passive_start_counter", 0 );
+    passive_end_counter = obj.get_int( "passive_end_counter", 0 );
+    // Recipe-edit migration: drop stale passive runtime on shape mismatch.
+    bool stale = false;
+    if( making && !disassembly ) {
+        if( !step_plans.empty() && making->has_steps() &&
+            step_plans.size() != making->steps().size() ) {
+            stale = true;
+        }
+        if( !stale && passive_started_at != calendar::before_time_starts ) {
+            const bool no_steps = !making->has_steps();
+            const bool current_step_attended = making->has_steps()
+                                               && current_step >= 0
+                                               && current_step < static_cast<int>( making->steps().size() )
+                                               && making->steps()[current_step].attention != step_attention::unattended;
+            if( no_steps || current_step_attended ) {
+                stale = true;
+            }
+        }
+    }
+    if( stale ) {
+        step_plans.clear();
+        passive_started_at = calendar::before_time_starts;
+        ready_at = calendar::before_time_starts;
+        alarm_at = calendar::before_time_starts;
+        fail_at = calendar::before_time_starts;
+        pause_started_at = calendar::before_time_starts;
+        saved_ready_at = calendar::before_time_starts;
+        saved_alarm_at = calendar::before_time_starts;
+        saved_fail_at = calendar::before_time_starts;
+        passive_start_counter = 0;
+        passive_end_counter = 0;
     }
 }
 
