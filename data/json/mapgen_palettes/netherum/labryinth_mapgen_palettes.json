@@ -320,9 +320,7 @@
       ]
     },
     "furniture": { ",": [ [ "f_swamp_gas", 1 ], [ "f_nl_climbing_vine", 4 ], [ "f_nl_pipe_plant", 6 ], [ "f_null", 199 ] ] },
-    "monsters": {
-      ",": { "monster": "GROUP_Overgrown_Labyrinth_Turret", "density": 0.00015 }
-    }
+    "monsters": { ",": { "monster": "GROUP_Overgrown_Labyrinth_Turret", "density": 0.00015 } }
   },
   {
     "type": "palette",
