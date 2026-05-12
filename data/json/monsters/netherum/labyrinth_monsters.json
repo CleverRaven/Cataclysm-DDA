@@ -421,7 +421,7 @@
     "id": "mon_overgrown_labyrinth_turret_2_1",
     "type": "MONSTER",
     "name": { "str": "vine turret" },
-    "description": "A massive tangle of vines hanging from the ceiling.  While it looks to mostly be a plant, it is also dripping with blood and acrid ichor.  A metal gun dangles from its vines via a mix of copper tubes, shielded wires, woody tendrils, and fleshy sinew.  This amalgamation of plant, flesh, and metal slowly rotates, scanning the area.",
+    "description": "A massive tangle of vines hanging from the ceiling, dripping with blood and acrid ichor.  A metal gun dangles from its vines, tangled in a mix of copper tubes, shielded wires, woody tendrils, and fleshy sinew.  The amalgamation of flesh and metal slowly rotates, scanning the area.",
     "default_faction": "nether_hate_humans",
     "species": [ "ROBOT", "CYBORG", "PLANT" ],
     "weight": "206 kg",
