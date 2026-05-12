@@ -357,22 +357,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "lmoe_zombie",
-    "copy-from": "lmoe_zombie",
-    "name": "LMOE shelter",
-    "sym": "L",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lmoe_zombie_under_empty",
-    "copy-from": "lmoe_zombie_under_empty",
-    "name": "LMOE shelter",
-    "sym": "L",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "cabin_prepper_shelter",
     "copy-from": "cabin_prepper_shelter",
     "name": "LMOE shelter",
