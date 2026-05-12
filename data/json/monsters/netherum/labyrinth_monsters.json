@@ -470,7 +470,7 @@
     "id": "mon_vinewalker_2_1",
     "type": "MONSTER",
     "name": { "str": "vinewalker" },
-    "description": "This lanky, quadrupedal entity has a loosely humanoid torso, towering high over the ground on lanky, thorn-covered tendrils.  Its body is a jumble of rusting, metallic wire and dripping, plant-like tubes.  Where its mouth would be is insteal a simple clump of hanging wires and dead vines, slowly inflating and deflating like foul, external lungs.",
+    "description": "This lanky, quadrupedal entity has a loosely humanoid torso, towering high over the ground on lanky, thorn-covered tendrils.  Its body is a jumble of rusting, metallic wire and dripping, plant-like tubes.  Its face is nothing but a clump of hanging wires and dead vines, slowly inflating and deflating like foul, external lungs.",
     "volume": "100 L",
     "weight": "317 kg",
     "default_faction": "nether_hate_humans",
