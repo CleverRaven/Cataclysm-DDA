@@ -41,5 +41,35 @@
       { "monster": "mon_nl_turret_searchlight_1_1", "weight": 215 },
       { "monster": "mon_labyrinth_buoy_turret_1_2", "weight": 85 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_Overgrown_Labyrinth_Room",
+    "//": "Monsters in rooms in a Labyrinth.  Filler.",
+    "monsters": [
+      { "monster": "mon_plantborg_2_1", "weight": 500 },
+      { "monster": "mon_plantborg_2_1", "weight": 100, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_plantborg_2_1", "weight": 50, "cost_multiplier": 20, "pack_size": [ 6, 8 ] },
+      { "monster": "mon_plantborg_2_2", "weight": 50, "cost_multiplier": 20 },
+      { "monster": "mon_star_vampire", "weight": 1, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_Overgrown_Labyrinth_Hallmonitors",
+    "monsters": [
+      { "monster": "mon_plantborg_2_1", "weight": 850 },
+      { "monster": "mon_plantborg_2_1", "weight": 200, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_plantborg_2_1", "weight": 50, "cost_multiplier": 20, "pack_size": [ 6, 8 ] },
+      { "monster": "mon_vinewalker_2_1", "weight": 50 },
+      { "monster": "mon_flying_polyp", "weight": 2, "cost_multiplier": 0 },
+      { "monster": "mon_hunting_horror", "weight": 2, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter", "weight": 2, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_Overgrown_Labyrinth_Turret",
+    "monsters": [ { "monster": "mon_overgrown_labyrinth_turret_2_1", "weight": 1000 } ]
   }
 ]

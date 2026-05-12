@@ -192,8 +192,8 @@
     "nested": { "1": { "chunks": [ [ "null", 1 ], [ "ls_2x2_furniture", 3 ] ] } },
     "items": { "X": { "item": "LS_SUS_crate_tier1_loot", "chance": 70, "repeat": [ 1, 2 ] } },
     "monsters": {
-      " ": { "monster": "GROUP_Labyrinth_Hallmonitors", "density": 0.0003 },
-      "t": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 }
+      " ": { "monster": "GROUP_Overgrown_Labyrinth_Hallmonitors", "density": 0.0003 },
+      "t": { "monster": "GROUP_Overgrown_Labyrinth_Turret", "density": 0.01 }
     }
   },
   {
@@ -319,7 +319,10 @@
         [ "t_marloss", 1 ]
       ]
     },
-    "furniture": { ",": [ [ "f_swamp_gas", 1 ], [ "f_nl_climbing_vine", 4 ], [ "f_nl_pipe_plant", 6 ], [ "f_null", 199 ] ] }
+    "furniture": { ",": [ [ "f_swamp_gas", 1 ], [ "f_nl_climbing_vine", 4 ], [ "f_nl_pipe_plant", 6 ], [ "f_null", 199 ] ] },
+    "monsters": {
+      ",": { "monster": "GROUP_Overgrown_Labyrinth_Turret", "density": 0.00015 }
+    }
   },
   {
     "type": "palette",
