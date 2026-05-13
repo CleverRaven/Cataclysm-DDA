@@ -116,13 +116,12 @@
     "points": 1,
     "visibility": 1,
     "description": "Your eyes transform into the orbits of an unknown creature.  You now see much better in the light and dark.",
-    "//": "not actual replacement yet, because i'm afraid of how wearing stuff may interact with it",
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
     "activated_eocs": [ "EOC_STALKER_EYES_INITIATE" ],
     "enchantments": [
-      { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "stalker_eyes" } ] },
+      { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "stalker_eyes" } ] },
       { "values": [ { "value": "MAX_MANA", "multiply": -0.1 } ] }
     ]
   },
