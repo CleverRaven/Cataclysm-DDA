@@ -239,7 +239,109 @@ const char *shader_basename_for( variant_kind v )
     return nullptr;
 }
 
+const char *shader_basename_for( memory_preset p )
+{
+    switch( p ) {
+        case memory_preset::DARKEN:
+            return "memory_darken.frag";
+        case memory_preset::SEPIA_LIGHT:
+            return "memory_sepia_light.frag";
+        case memory_preset::SEPIA_DARK:
+            return "memory_sepia_dark.frag";
+        case memory_preset::BLUE_DARK:
+            return "memory_blue_dark.frag";
+        case memory_preset::count:
+            return nullptr;
+    }
+    return nullptr;
+}
+
+using probe_predicate = bool ( * )( int r, int g, int b );
+
+bool grayscale_predicate( int r, int g, int b )
+{
+    // Gray-toned (R~=G~=B within 8 LSB) AND strictly darker than the
+    // mid-gray (128) input.
+    return std::abs( r - g ) < 8 && std::abs( g - b ) < 8 && r < 120;
+}
+
+bool nightvision_predicate( int r, int g, int b )
+{
+    // Green-tinted: G clearly greater than R and B. Margin 20 covers driver
+    // rounding without false-positiving the unmodulated gray (R==G==B).
+    return g > r + 20 && g > b + 20;
+}
+
+bool darken_predicate( int r, int g, int b )
+{
+    // Memory darken multiplies by 85/256 (~1/3) of input mid-gray, so the
+    // expected output is ~42 on each channel. Allow some driver slack.
+    return std::abs( r - g ) < 8 && std::abs( g - b ) < 8 && r < 80;
+}
+
+bool warm_predicate( int r, int /*g*/, int b )
+{
+    // Sepia variants emit warm-tinted output: R clearly greater than B.
+    return r > b + 5;
+}
+
+bool cool_predicate( int r, int /*g*/, int b )
+{
+    // Blue dark emits cool-tinted output: B clearly greater than R.
+    return b > r + 5;
+}
+
+probe_predicate predicate_for( variant_kind v )
+{
+    switch( v ) {
+        case variant_kind::SHADOW:
+            return grayscale_predicate;
+        case variant_kind::NIGHT:
+        case variant_kind::OVEREXPOSED:
+            return nightvision_predicate;
+        case variant_kind::NORMAL:
+        case variant_kind::MEMORY:
+        case variant_kind::count:
+            return nullptr;
+    }
+    return nullptr;
+}
+
+probe_predicate predicate_for( memory_preset p )
+{
+    switch( p ) {
+        case memory_preset::DARKEN:
+            return darken_predicate;
+        case memory_preset::SEPIA_LIGHT:
+        case memory_preset::SEPIA_DARK:
+            return warm_predicate;
+        case memory_preset::BLUE_DARK:
+            return cool_predicate;
+        case memory_preset::count:
+            return nullptr;
+    }
+    return nullptr;
+}
+
 } // namespace
+
+std::optional<memory_preset> memory_preset_from_option_value(
+    const std::string &mode )
+{
+    if( mode == "color_pixel_darken" ) {
+        return memory_preset::DARKEN;
+    }
+    if( mode == "color_pixel_sepia_light" ) {
+        return memory_preset::SEPIA_LIGHT;
+    }
+    if( mode == "color_pixel_sepia_dark" ) {
+        return memory_preset::SEPIA_DARK;
+    }
+    if( mode == "color_pixel_blue_dark" ) {
+        return memory_preset::BLUE_DARK;
+    }
+    return std::nullopt;
+}
 
 variant_pass::variant_pass( SDL_Renderer *renderer )
     : renderer_( renderer )
@@ -256,14 +358,11 @@ variant_pass::~variant_pass()
 namespace
 {
 
-// Renders a single 1x1 mid-gray sprite via `state` to a 1x1 offscreen RT
-// and reads the result back. Mid-gray (128,128,128,255) is chosen because
-// every variant transform produces a distinctive output for it: grayscale
-// stays gray-but-dimmer, nightvision/overexposed produce a green tint
-// (G > R+20 and G > B+20). That distinguishes "shader ran" from "shader
-// bind was silently ignored" (the latter returns the unmodulated gray).
-bool variant_draw_probe( SDL_Renderer *renderer, SDL_GPURenderState *state,
-                         variant_kind v )
+// Renders a 1x1 mid-gray sprite via state and checks readback via pred.
+// Mid-gray (128,128,128,255) gives each variant a distinctive output, so a
+// passing predicate distinguishes "shader ran" from "bind silently ignored".
+bool draw_probe( SDL_Renderer *renderer, SDL_GPURenderState *state,
+                 probe_predicate pred )
 {
     SDL_Surface *src_surf = SDL_CreateSurface( 1, 1, SDL_PIXELFORMAT_RGBA32 );
     if( !src_surf ) {
@@ -306,30 +405,7 @@ bool variant_draw_probe( SDL_Renderer *renderer, SDL_GPURenderState *state,
                         const int g = p[1];
                         const int b = p[2];
                         const int a = p[3];
-                        if( a < 250 ) {
-                            ok = false;
-                        } else {
-                            switch( v ) {
-                                case variant_kind::SHADOW:
-                                    // Grayscale: gray-toned (R~=G~=B within 8 LSB) AND
-                                    // strictly darker than input mid-gray (128).
-                                    ok = std::abs( r - g ) < 8 && std::abs( g - b ) < 8
-                                         && r < 120;
-                                    break;
-                                case variant_kind::NIGHT:
-                                case variant_kind::OVEREXPOSED:
-                                    // Both variants emit green-tinted output: G clearly
-                                    // greater than R and B. Margin 20 covers driver
-                                    // rounding without false-positiving the unmodulated
-                                    // gray (R==G==B).
-                                    ok = g > r + 20 && g > b + 20;
-                                    break;
-                                default:
-                                    // NORMAL/MEMORY are not probed (no shader path).
-                                    ok = false;
-                                    break;
-                            }
-                        }
+                        ok = a >= 250 && pred && pred( r, g, b );
                         SDL_DestroySurface( rgba );
                     }
                 }
@@ -342,6 +418,42 @@ bool variant_draw_probe( SDL_Renderer *renderer, SDL_GPURenderState *state,
     SDL_DestroyTexture( rt );
     SDL_DestroyTexture( src );
     return ok;
+}
+
+} // namespace
+
+namespace
+{
+
+// Loads shader + render_state for basename and validates via draw_probe.
+bool load_and_probe( SDL_GPUDevice *device, SDL_Renderer *renderer,
+                     const char *basename, probe_predicate pred,
+                     shader &out_shader, render_state &out_state )
+{
+    shader frag = shader::load_fragment( device, basename, 1, 0 );
+    if( !frag.is_valid() ) {
+        DebugLog( D_ERROR, DC_ALL )
+                << "cata_shader::variant_pass: shader load failed for "
+                << basename << "; shader variant path disabled";
+        return false;
+    }
+    render_state state = render_state::create( renderer, frag );
+    if( !state.is_valid() ) {
+        DebugLog( D_ERROR, DC_ALL )
+                << "cata_shader::variant_pass: render_state::create failed for "
+                << basename << "; shader variant path disabled";
+        return false;
+    }
+    if( !draw_probe( renderer, state.get(), pred ) ) {
+        DebugLog( D_ERROR, DC_ALL )
+                << "cata_shader::variant_pass: textured-draw probe failed for "
+                << basename << " (silent miswire? readback did not match "
+                "expected variant transform); shader variant path disabled";
+        return false;
+    }
+    out_shader = std::move( frag );
+    out_state = std::move( state );
+    return true;
 }
 
 } // namespace
@@ -365,29 +477,21 @@ void variant_pass::probe()
         if( !basename ) {
             continue;
         }
-        shader frag = shader::load_fragment( device, basename, 1, 0 );
-        if( !frag.is_valid() ) {
-            DebugLog( D_ERROR, DC_ALL )
-                    << "cata_shader::variant_pass: shader load failed for "
-                    << basename << "; shader variant path disabled";
+        if( !load_and_probe( device, renderer_, basename, predicate_for( v ),
+                             shaders_[i], states_[i] ) ) {
             return;
         }
-        render_state state = render_state::create( renderer_, frag );
-        if( !state.is_valid() ) {
-            DebugLog( D_ERROR, DC_ALL )
-                    << "cata_shader::variant_pass: render_state::create failed for "
-                    << basename << "; shader variant path disabled";
+    }
+    for( int i = 0; i < static_cast<int>( memory_preset::count ); ++i ) {
+        const memory_preset p = static_cast<memory_preset>( i );
+        const char *basename = shader_basename_for( p );
+        if( !basename ) {
+            continue;
+        }
+        if( !load_and_probe( device, renderer_, basename, predicate_for( p ),
+                             memory_shaders_[i], memory_states_[i] ) ) {
             return;
         }
-        if( !variant_draw_probe( renderer_, state.get(), v ) ) {
-            DebugLog( D_ERROR, DC_ALL )
-                    << "cata_shader::variant_pass: textured-draw probe failed for "
-                    << basename << " (silent miswire? readback did not match "
-                    "expected variant transform); shader variant path disabled";
-            return;
-        }
-        shaders_[i] = std::move( frag );
-        states_[i] = std::move( state );
     }
     probed_ok_ = true;
 }
@@ -413,9 +517,17 @@ bool variant_pass::try_begin( variant_kind v )
         active_ = false;
         return false;
     }
-    SDL_GPURenderState *state = states_[static_cast<size_t>( v )].get();
+    SDL_GPURenderState *state = nullptr;
+    if( v == variant_kind::MEMORY ) {
+        if( active_memory_preset_ ) {
+            state = memory_states_[static_cast<size_t>(
+                                       *active_memory_preset_ )].get();
+        }
+    } else {
+        state = states_[static_cast<size_t>( v )].get();
+    }
     if( !state ) {
-        // NORMAL/MEMORY/unhandled: no shader path for this variant.
+        // NORMAL/unselected MEMORY preset: no shader path for this variant.
         return false;
     }
     if( !SDL_SetGPURenderState( renderer_, state ) ) {
@@ -443,6 +555,11 @@ bool variant_pass::end()
         return false;
     }
     return true;
+}
+
+void variant_pass::select_memory_preset( std::optional<memory_preset> preset )
+{
+    active_memory_preset_ = preset;
 }
 
 } // namespace cata_shader

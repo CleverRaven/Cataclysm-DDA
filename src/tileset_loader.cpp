@@ -247,9 +247,7 @@ void tileset_cache::loader::create_textures_from_tile_atlas( const SDL_Surface_P
             { std::make_tuple( &ts.shadow_tile_values, "color_pixel_grayscale" ) },
             { std::make_tuple( &ts.night_tile_values, "color_pixel_nightvision" ) },
             { std::make_tuple( &ts.overexposed_tile_values, "color_pixel_overexposed" ) },
-            // TODO: drop tilecontext->memory_map_mode reach; loader pulls a live cata_tiles
-            // option here, blocking runtime mode swaps and clean loader/renderer separation.
-            { std::make_tuple( &ts.memory_tile_values, tilecontext->memory_map_mode ) },
+            { std::make_tuple( &ts.memory_tile_values, memory_map_mode ) },
             { std::make_tuple( &ts.silhouette_tile_values, "color_pixel_silhouette" ) }
         }
     };

@@ -4,6 +4,7 @@
 
 #include <string>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 #include "cata_tiles.h"
@@ -19,6 +20,7 @@ class tileset_cache::loader
     private:
         tileset &ts;
         const SDL_Renderer_Ptr &renderer;
+        std::string memory_map_mode;
 
         point sprite_offset;
         point sprite_offset_retracted;
@@ -76,7 +78,8 @@ class tileset_cache::loader
         void load_layers( const JsonObject &config );
 
     public:
-        loader( tileset &ts, const SDL_Renderer_Ptr &r ) : ts( ts ), renderer( r ) {
+        loader( tileset &ts, const SDL_Renderer_Ptr &r, std::string memory_map_mode )
+            : ts( ts ), renderer( r ), memory_map_mode( std::move( memory_map_mode ) ) {
         }
         // tileset_id matches the option string. precheck only loads metadata
         // (tile dimensions). pump_events same caveat as load_tileset. terrain

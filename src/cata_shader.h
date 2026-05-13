@@ -13,14 +13,16 @@
 
 #include <array>
 #include <memory>
+#include <optional>
 #include <string>
 
 namespace cata_shader
 {
 
 // Sprite-variant kinds for the GPU shader path. NORMAL has no shader and
-// uses the atlas directly. MEMORY has no shader either; the memory atlas
-// drives MEMORIZED draws.
+// uses the atlas directly. MEMORY dispatches by the selected memory_preset
+// (see select_memory_preset); the custom MEMORY_MAP_MODE preset has no shader
+// and falls back to the memory atlas.
 enum class variant_kind : int {
     NORMAL = 0,
     SHADOW,       // lit_level::LOW without nightvision
@@ -29,6 +31,22 @@ enum class variant_kind : int {
     MEMORY,       // lit_level::MEMORIZED
     count
 };
+
+// Memory map overlay presets that have a baked shader. Mirrors the four
+// named MEMORY_MAP_MODE values; the custom preset has no shader here and
+// falls back to the memory atlas.
+enum class memory_preset : int {
+    DARKEN = 0,
+    SEPIA_LIGHT,
+    SEPIA_DARK,
+    BLUE_DARK,
+    count
+};
+
+// Maps a MEMORY_MAP_MODE option value to its memory_preset. Returns nullopt
+// for color_pixel_custom or any unknown value.
+std::optional<memory_preset> memory_preset_from_option_value(
+    const std::string &mode );
 
 // RAII over SDL_GPUShader *. Lifetime is tied to the SDL_GPUDevice that
 // created the shader (device-scoped).
@@ -146,10 +164,13 @@ class gpu_state_scope
 //
 // Lifecycle:
 //   - construct with renderer (no work).
-//   - probe() lazily on first use; loads shaders, creates states for
-//     SHADOW/NIGHT/OVEREXPOSED. Either every variant succeeds or every
-//     variant is marked unavailable (single decision, no per-variant
-//     gating). NORMAL and MEMORY are never probed: neither has a shader.
+//   - probe() lazily on first use; loads shaders and creates states for
+//     SHADOW/NIGHT/OVEREXPOSED plus one per named memory_preset. Either
+//     every variant succeeds or every variant is marked unavailable
+//     (single decision, no per-variant gating). NORMAL has no shader.
+//   - select_memory_preset(p) picks which memory shader try_begin(MEMORY)
+//     binds. Nullopt disables the MEMORY shader path so callers fall back
+//     to the memory atlas (used for the custom MEMORY_MAP_MODE preset).
 //   - try_begin(v) returns true iff v has an active shader path AND bind
 //     succeeded. Caller must call end() iff try_begin returned true.
 //   - end() returns true on clean unbind. False sets session_disabled
@@ -176,12 +197,18 @@ class variant_pass
         bool try_begin( variant_kind v );
         bool end();
 
+        void select_memory_preset( std::optional<memory_preset> preset );
+
     private:
         void probe();
 
         SDL_Renderer *renderer_ = nullptr;
         std::array<shader, static_cast<size_t>( variant_kind::count )> shaders_;
         std::array<render_state, static_cast<size_t>( variant_kind::count )> states_;
+        std::array<shader, static_cast<size_t>( memory_preset::count )> memory_shaders_;
+        std::array<render_state, static_cast<size_t>( memory_preset::count )>
+        memory_states_;
+        std::optional<memory_preset> active_memory_preset_;
         bool probe_attempted_ = false;
         bool probed_ok_ = false;
         bool session_disabled_ = false;
