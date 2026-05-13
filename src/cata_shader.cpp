@@ -350,9 +350,7 @@ variant_pass::variant_pass( SDL_Renderer *renderer )
 
 variant_pass::~variant_pass()
 {
-    if( active_ ) {
-        ( void )SDL_SetGPURenderState( renderer_, nullptr );
-    }
+    flush();
 }
 
 namespace
@@ -496,9 +494,23 @@ void variant_pass::probe()
     probed_ok_ = true;
 }
 
+SDL_GPURenderState *variant_pass::state_for( variant_kind v ) const
+{
+    if( v == variant_kind::MEMORY ) {
+        if( !active_memory_preset_ ) {
+            return nullptr;
+        }
+        return memory_states_[static_cast<size_t>( *active_memory_preset_ )].get();
+    }
+    return states_[static_cast<size_t>( v )].get();
+}
+
 bool variant_pass::try_begin( variant_kind v )
 {
     if( session_disabled_ ) {
+        // Drop any held bind so the disabled session does not leave shader
+        // state on subsequent draws.
+        flush();
         return false;
     }
     if( !probe_attempted_ ) {
@@ -507,54 +519,46 @@ bool variant_pass::try_begin( variant_kind v )
     if( !probed_ok_ ) {
         return false;
     }
-    if( active_ ) {
-        // try_begin called without preceding end(); programming error.
-        DebugLog( D_ERROR, DC_ALL )
-                << "cata_shader::variant_pass: try_begin while bind active; "
-                "session disabled to prevent state bleed";
-        session_disabled_ = true;
-        ( void )SDL_SetGPURenderState( renderer_, nullptr );
-        active_ = false;
-        return false;
+    SDL_GPURenderState *target = state_for( v );
+    SDL_GPURenderState *current = currently_bound_
+                                  ? state_for( *currently_bound_ )
+                                  : nullptr;
+    if( target == current ) {
+        return target != nullptr;
     }
-    SDL_GPURenderState *state = nullptr;
-    if( v == variant_kind::MEMORY ) {
-        if( active_memory_preset_ ) {
-            state = memory_states_[static_cast<size_t>(
-                                       *active_memory_preset_ )].get();
-        }
-    } else {
-        state = states_[static_cast<size_t>( v )].get();
-    }
-    if( !state ) {
-        // NORMAL/unselected MEMORY preset: no shader path for this variant.
-        return false;
-    }
-    if( !SDL_SetGPURenderState( renderer_, state ) ) {
+    if( !SDL_SetGPURenderState( renderer_, target ) ) {
         DebugLog( D_ERROR, DC_ALL )
                 << "cata_shader::variant_pass: SDL_SetGPURenderState failed: "
                 << SDL_GetError();
         session_disabled_ = true;
+        currently_bound_.reset();
         return false;
     }
-    active_ = true;
-    return true;
+    if( target ) {
+        currently_bound_ = v;
+    } else {
+        currently_bound_.reset();
+    }
+    return target != nullptr;
 }
 
 bool variant_pass::end()
 {
-    if( !active_ ) {
-        return true;
+    return true;
+}
+
+void variant_pass::flush()
+{
+    if( !currently_bound_ ) {
+        return;
     }
-    active_ = false;
+    currently_bound_.reset();
     if( !SDL_SetGPURenderState( renderer_, nullptr ) ) {
         DebugLog( D_ERROR, DC_ALL )
                 << "cata_shader::variant_pass: SDL_SetGPURenderState(NULL) failed: "
                 << SDL_GetError();
         session_disabled_ = true;
-        return false;
     }
-    return true;
 }
 
 void variant_pass::select_memory_preset( std::optional<memory_preset> preset )

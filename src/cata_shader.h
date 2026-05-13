@@ -162,6 +162,10 @@ class gpu_state_scope
 // without recycling, so each variant gets its own state and the dispatch
 // is a state switch rather than a uniform mutation.
 //
+// try_begin holds the bound state across same-variant runs of sprites and
+// only calls SDL_SetGPURenderState when the variant changes. flush() at the
+// end of the frame clears the held state.
+//
 // Lifecycle:
 //   - construct with renderer (no work).
 //   - probe() lazily on first use; loads shaders and creates states for
@@ -171,12 +175,13 @@ class gpu_state_scope
 //   - select_memory_preset(p) picks which memory shader try_begin(MEMORY)
 //     binds. Nullopt disables the MEMORY shader path so callers fall back
 //     to the memory atlas (used for the custom MEMORY_MAP_MODE preset).
-//   - try_begin(v) returns true iff v has an active shader path AND bind
-//     succeeded. Caller must call end() iff try_begin returned true.
-//   - end() returns true on clean unbind. False sets session_disabled
-//     (one-way) so subsequent try_begin returns false; recovers on
-//     restart.
-//   - destruction releases held shader/state slots.
+//   - try_begin(v) returns true iff v has an active shader path AND the
+//     state is bound. NORMAL or unsupported MEMORY preset returns false and
+//     ensures no shader stays bound from a previous draw.
+//   - end() is a no-op; bind persists for the next sprite.
+//   - flush() unbinds any held state. Call once per frame after the last
+//     sprite draw so ImGui or the next-frame draws see no leaked bind.
+//   - destruction unbinds and releases held shader/state slots.
 class variant_pass
 {
     public:
@@ -197,10 +202,13 @@ class variant_pass
         bool try_begin( variant_kind v );
         bool end();
 
+        void flush();
+
         void select_memory_preset( std::optional<memory_preset> preset );
 
     private:
         void probe();
+        SDL_GPURenderState *state_for( variant_kind v ) const;
 
         SDL_Renderer *renderer_ = nullptr;
         std::array<shader, static_cast<size_t>( variant_kind::count )> shaders_;
@@ -209,10 +217,10 @@ class variant_pass
         std::array<render_state, static_cast<size_t>( memory_preset::count )>
         memory_states_;
         std::optional<memory_preset> active_memory_preset_;
+        std::optional<variant_kind> currently_bound_;
         bool probe_attempted_ = false;
         bool probed_ok_ = false;
         bool session_disabled_ = false;
-        bool active_ = false;
 };
 
 } // namespace cata_shader

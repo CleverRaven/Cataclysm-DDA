@@ -1365,6 +1365,13 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
     }
 
     RenderSetClipRect( renderer, nullptr );
+#if SDL_MAJOR_VERSION >= 3
+    // Unbind any GPU render state held across sprite batches so ImGui or the
+    // next-frame draws see a clean state.
+    if( m_variant_pass ) {
+        m_variant_pass->flush();
+    }
+#endif
 }
 
 void cata_tiles::set_draw_cache_dirty()
@@ -2462,9 +2469,10 @@ bool cata_tiles::draw_sprite_at(
     if( m_variant_pass ) {
         const cata_shader::variant_kind v =
             compute_variant_kind( rp.ll, rp.use_night_vision_tiles );
-        if( v != cata_shader::variant_kind::NORMAL ) {
-            shader_bound = m_variant_pass->try_begin( v );
-        }
+        // Call try_begin for every variant including NORMAL. State-cached
+        // bind stays put across same-variant runs; NORMAL clears any prior
+        // shader state so it doesn't leak onto the next sprite.
+        shader_bound = m_variant_pass->try_begin( v );
     }
 #endif
 
@@ -2649,9 +2657,8 @@ bool cata_tiles::draw_sprite_at(
 
     printErrorIf( ret != 0, "SDL_RenderCopyEx() failed" );
 #if SDL_MAJOR_VERSION >= 3
-    if( shader_bound ) {
-        ( void )m_variant_pass->end();
-    }
+    // variant_pass unbinds on frame-end flush; nothing to do per-sprite.
+    ( void )shader_bound;
 #endif
     // this reference passes all the way back up the call chain back to
     // cata_tiles::draw() here.draw_points_cache[z][row][col].com.height_3d
