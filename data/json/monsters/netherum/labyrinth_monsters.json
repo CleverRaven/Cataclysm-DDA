@@ -53,7 +53,6 @@
   },
   {
     "id": "mon_fleshborg_1_2",
-    "//": "Labyrinth monster naming convention: first number - amount of 'chaos' (How weird is this creature).  Second number - difficulty level.",
     "type": "MONSTER",
     "name": { "str": "advanced fleshborg" },
     "description": "Compared to the cyborgs you've seen elsewhere, this one looks almost inverted.  Its body is made of smooth, segmented, paper-thin metallic plates; fleshy protrusions and bits of bone jut from components growing off this base frame.  It moves with dire purpose, like a trained combat machine.",
@@ -80,7 +79,6 @@
   },
   {
     "id": "mon_labyrinth_turret_1_1",
-    "//": "Labyrinth monster naming convention: first number - amount of 'chaos' (How weird is this creature).  Second number - difficulty level.",
     "type": "MONSTER",
     "name": { "str": "flesh turret" },
     "description": "At first glance, this looks like a turret made from scraps.  As you look closer, it becomes clear it's actually a grinding pile of cartilage, bone, and tendon, slowly rotating and scanning the area.",
@@ -403,7 +401,6 @@
   },
   {
     "id": "mon_plantborg_2_2",
-    "//": "Labyrinth monster naming convention: first number - amount of 'chaos' (How weird is this creature).  Second number - difficulty level.",
     "type": "MONSTER",
     "name": { "str": "advanced plantborg" },
     "description": "At first glance this creature is clearly some sort of human-metal cyborg, but all of its \"wiring\" looks like plastic, plant-like tangles, massively engorged and clearly weighing the creature down.  Its eyes glow with soft bioluminescence.",
