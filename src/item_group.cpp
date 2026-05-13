@@ -340,7 +340,8 @@ void Single_item_creator::check_consistency( bool actually_spawn ) const
             itype_id content_final( id );
             if( !modifier->ammo && !content_final->can_have_charges() && !content_final->tool &&
                 !content_final->gun && !content_final->magazine ) {
-                debugmsg( "itemgroup entry for spawning item %s defined charges but can't have any", id );
+                debugmsg( "itemgroup entry in \"%s\" for spawning item %s defined charges but can't have any",
+                          context_, id );
             }
         }
     } else if( type == S_ITEM_GROUP ) {

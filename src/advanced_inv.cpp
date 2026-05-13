@@ -619,6 +619,7 @@ struct advanced_inv_sorter {
                 // There are many items with "false" ammo types (e.g.
                 // scrap metal has "components") that actually is not
                 // used as ammo, so we consider them as non-ammo.
+                // FIXME: Remove this insane fake ammo stuff.
                 const bool ammoish1 = !a1.empty() && a1 != "components" && a1 != "none" && a1 != "NULL";
                 const bool ammoish2 = !a2.empty() && a2 != "components" && a2 != "none" && a2 != "NULL";
                 if( ammoish1 != ammoish2 ) {
