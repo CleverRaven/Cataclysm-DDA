@@ -1326,6 +1326,8 @@ static void finalize_passive_craft( item &craft, const item_location &loc )
     crafter->complete_craft( craft_copy, finalize_loc );
 }
 
+namespace
+{
 // Result of an env-check pass.
 enum class env_check_result {
     // Pause was entered or continues.
@@ -1336,6 +1338,7 @@ enum class env_check_result {
     // No pause.
     ok,
 };
+} // namespace
 
 // Shared env-pause / env-restore helper.  Owns env_check_at re-arm
 // cadence and rebuilds wakeups in all paths.
