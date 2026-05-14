@@ -696,6 +696,30 @@
         "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"
       },
       {
+        "text": "Actually, could you turn me into a full-blown robotic cyborg, like you?",
+        "condition": {
+          "and": [
+            { "u_has_trait": "CBM_Interface" },
+            { "not": { "u_has_trait": "EXODII_BODY_1" } },
+            { "not": { "u_has_trait": "EXODII_BODY_1b" } },
+            { "math": [ "faction_trust('exodii') < 20" ] }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_mission_2_ExodiiFrame_no"
+      },
+      {
+        "text": "Actually, could you turn me into a full-blown robotic cyborg, like you?",
+        "condition": {
+          "and": [
+            { "u_has_trait": "CBM_Interface" },
+            { "not": { "u_has_trait": "EXODII_BODY_1" } },
+            { "not": { "u_has_trait": "EXODII_BODY_1b" } },
+            { "math": [ "faction_trust('exodii') >= 20" ] }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_mission_2_ExodiiFrame_yes"
+      },
+      {
         "text": "How about store credit instead?  [adds $1500 in store credit].",
         "effect": [ { "u_spend_cash": -150000 }, "start_trade" ],
         "opinion": { "trust": 4, "value": 3 },
@@ -703,6 +727,137 @@
       },
       {
         "text": "How about instead, we turn this into a mutually beneficial relationship in the future.  I don't need anything from you at the moment, but now you know I get the job done.",
+        "effect": [ { "u_add_faction_trust": 4 } ],
+        "opinion": { "trust": 7, "value": 5 },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_ExodiiFrame_no",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "No.  That's too much to ask, and we can't spare the materials.  I'll give you some advice.  Keep up the good work, and maybe I'll change my mind one day.",
+      "str": "No.  Too mighty an ask, and we can't spare the steelies.  I'll give ye a lump'a'ice.  Keep up the work, n' mayhaps somethin' changes one'a these days."
+    },
+    "responses": [
+      {
+        "text": "[Install Air Filtration CBM] Okay, I like the look of that air filtration thingy.  Does it come with pine-fresh scent?",
+        "condition": { "u_has_trait": "CBM_Interface" },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_purifier" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[Install Blood Analysis CBM] Okay, I've always wondered what's in my veins.  Let's try that blood analysis module.",
+        "condition": { "u_has_trait": "CBM_Interface" },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_blood_anal" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[Install Radiation Scrubber CBM] Well, I guess I have nightmares about ending up like Marie Curie.  Radiation scrubber it has to be.",
+        "condition": { "u_has_trait": "CBM_Interface" },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_radscrubber" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "How about store credit instead?  [adds $1500 in store credit].",
+        "effect": [ { "u_spend_cash": -150000 }, "start_trade" ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "I'm in this for the long haul.  I don't want a reward - just know I can get the job done.",
+        "effect": [ { "u_add_faction_trust": 4 } ],
+        "opinion": { "trust": 7, "value": 5 },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_ExodiiFrame_yes",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Hm.  That's a really big ask.  You seem to be the sort of person who would ask for this kind of thing, but are you certain you want to be permenantly attached to this suitcase?  You sure you're thinking clearly?  This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life.",
+      "str": "Hm.  A mighty ask on a mighty ask.  Ye certainly got the disposition, but you sure you wanna be cut inta' this crowded space?\"  Rubik taps their metal torso.  \"You sure ya' lump is screwed on tight?  This isn't like the bright'n'steelies on offer.  No goin' back.  And ye best be happy with the amount'a power you can generate.  This'ere needs contant power.  Without power, yer good as dead.  The power storage units?  Fer a case this'n kind, one'a the power storage units buys you a little-less'an an hour of walkin'.  Less for scrappin' and scramblin'.  Nothin's easy about it.\""
+    },
+    "responses": [
+      {
+        "text": "[Integrate your body into an Exodii Cyberframe] A robotic body I'll need to keep constantly powered?  Why not?  I'm ready.",
+        "effect": [
+          { "u_add_faction_trust": 5 },
+          {
+            "u_location_variable": { "u_val": "exodii_autodoc_couch_loc" },
+            "target_params": { "om_terrain": "exodii_base_x2y1z1", "om_special": "exodii_base" },
+            "furniture": "f_autodoc_couch",
+            "target_max_radius": 250
+          },
+          { "u_teleport": { "u_val": "exodii_autodoc_couch_loc" } }
+        ],
+        "opinion": { "trust": 7, "value": 5 },
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe"
+      },
+      {
+        "text": "[Install Air Filtration CBM] Nevermind.  I like the look of that air filtration thingy.  Does it come with pine-fresh scent?",
+        "condition": { "u_has_trait": "CBM_Interface" },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_purifier" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[Install Blood Analysis CBM] Nevermind.  I've always wondered what's in my veins.  Let's try that blood analysis module.",
+        "condition": { "u_has_trait": "CBM_Interface" },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_blood_anal" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[Install Radiation Scrubber CBM] Nevermind.  I guess I have nightmares about ending up like Marie Curie.  Radiation scrubber it has to be.",
+        "condition": { "u_has_trait": "CBM_Interface" },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_radscrubber" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "On second thought, how about store credit instead?  [adds $1500 in store credit].",
+        "effect": [ { "u_spend_cash": -150000 }, "start_trade" ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Actually, I don't want a reward - just know I can get the job done.",
         "effect": [ { "u_add_faction_trust": 4 } ],
         "opinion": { "trust": 7, "value": 5 },
         "topic": "TALK_DONE"
@@ -769,6 +924,152 @@
     "type": "talk_topic",
     "dynamic_line": "&Rubik sighs, takes the head, stares at it for a moment, then sets it gently down on the counter.  They then reach below the counter and take out three clear plastic bags, each containing a different cybernetic module.  \"Ye've done us'n a true service, so as us'n promised, take one o' these dandies as true reward.  Which'll it be?  As y'like.",
     "responses": [
+      {
+        "text": "[Install Diamond Cornea CBM] I like the look of those eye implants.  Let's try that.",
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_eye_enhancer" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[Install Muscle Augmentation CBM] Some new muscle fibers sound great.  Let's do those.",
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_str_enhancer" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[Install Cerebral Booster CBM] Don't think I'd consider a brain implant before all of this, but didn't think I'd ever meet an alien, either.  Let's do that.",
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_int_enhancer" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Actually, could you turn me into a full-blown robotic cyborg, like you?",
+        "condition": {
+          "and": [
+            { "u_has_trait": "CBM_Interface" },
+            { "not": { "u_has_trait": "EXODII_BODY_1" } },
+            { "not": { "u_has_trait": "EXODII_BODY_1b" } },
+            { "math": [ "exodii_knows_u_double_crossed == 1" ] }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_mission_3_ExodiiFrame_no"
+      },
+      {
+        "text": "Actually, could you turn me into a full-blown robotic cyborg, like you?",
+        "condition": {
+          "and": [
+            { "u_has_trait": "CBM_Interface" },
+            { "not": { "u_has_trait": "EXODII_BODY_1" } },
+            { "not": { "u_has_trait": "EXODII_BODY_1b" } },
+            { "math": [ "exodii_knows_u_double_crossed != 1" ] }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_mission_3_ExodiiFrame_yes"
+      },
+      {
+        "text": "How about store credit instead?  [adds $1500 in store credit].",
+        "effect": [ { "u_spend_cash": -150000 }, "start_trade" ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "I don't need anything from you at the moment.  Let's call this a favor for a friend.  See you around, Rubik.",
+        "effect": [ { "u_add_faction_trust": 4 } ],
+        "opinion": { "trust": 7, "value": 5 },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_3_ExodiiFrame_no",
+    "type": "talk_topic",
+    "dynamic_line": "No.  As ye' can see, us'n can't spare the steelies.  Too much to danger.",
+    "responses": [
+      {
+        "text": "[Install Diamond Cornea CBM] I like the look of those eye implants.  Let's try that.",
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_eye_enhancer" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[Install Muscle Augmentation CBM] Some new muscle fibers sound great.  Let's do those.",
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_str_enhancer" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[Install Cerebral Booster CBM] Don't think I'd consider a brain implant before all of this, but didn't think I'd ever meet an alien, either.  Let's do that.",
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_int_enhancer" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "How about store credit instead?  [adds $1500 in store credit].",
+        "effect": [ { "u_spend_cash": -150000 }, "start_trade" ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "I don't need anything from you at the moment.  Let's call this a favor for a friend.  See you around, Rubik.",
+        "effect": [ { "u_add_faction_trust": 4 } ],
+        "opinion": { "trust": 7, "value": 5 },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_3_ExodiiFrame_yes",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Hm.  That's a really big ask.  You seem to be the sort of person who would ask for this kind of thing, but are you certain you want to be permenantly attached to this suitcase?  You sure you're thinking clearly?  This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life.",
+      "str": "Hm.  A mighty ask on a mighty ask.  Ye certainly got the disposition, but you sure you wanna be cut inta' this crowded space?\"  Rubik taps their metal torso.  \"You sure ya' lump is screwed on tight?  This isn't like the bright'n'steelies on offer.  No goin' back.  And ye best be happy with the amount'a power you can generate.  This'ere needs contant power.  Without power, yer good as dead.  The power storage units?  Fer a case this'n kind, one'a the power storage units buys you a little-less'an an hour of walkin'.  Less for scrappin' and scramblin'.  Nothin's easy about it.\""
+    },
+    "responses": [
+      {
+        "text": "[Integrate your body into an Exodii Cyberframe] A robotic body I'll need to keep constantly powered?  Why not?  I'm ready.",
+        "effect": [
+          { "u_add_faction_trust": 5 },
+          {
+            "u_location_variable": { "u_val": "exodii_autodoc_couch_loc" },
+            "target_params": { "om_terrain": "exodii_base_x2y1z1", "om_special": "exodii_base" },
+            "furniture": "f_autodoc_couch",
+            "target_max_radius": 250
+          },
+          { "u_teleport": { "u_val": "exodii_autodoc_couch_loc" } }
+        ],
+        "opinion": { "trust": 7, "value": 5 },
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe"
+      },
       {
         "text": "[Install Diamond Cornea CBM] I like the look of those eye implants.  Let's try that.",
         "effect": [
@@ -920,6 +1221,158 @@
         "effect": [ { "u_add_faction_trust": 5 } ],
         "opinion": { "trust": 4, "value": 3 },
         "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"
+      },
+      {
+        "text": "Actually, could you turn me into a full-blown robotic cyborg, like you?",
+        "condition": {
+          "and": [
+            { "u_has_trait": "CBM_Interface" },
+            { "not": { "u_has_trait": "EXODII_BODY_1" } },
+            { "not": { "u_has_trait": "EXODII_BODY_1b" } },
+            { "math": [ "exodii_knows_u_double_crossed == 1" ] }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_mission_string_dimension_ExodiiFrame_no"
+      },
+      {
+        "text": "Actually, could you turn me into a full-blown robotic cyborg, like you?",
+        "condition": {
+          "and": [
+            { "u_has_trait": "CBM_Interface" },
+            { "not": { "u_has_trait": "EXODII_BODY_1" } },
+            { "not": { "u_has_trait": "EXODII_BODY_1b" } },
+            { "math": [ "exodii_knows_u_double_crossed != 1" ] }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_mission_string_dimension_ExodiiFrame_yes"
+      },
+      {
+        "text": "How about store credit instead?  [adds $1500 in store credit].",
+        "effect": [ { "u_spend_cash": -150000 }, "start_trade" ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "I don't need anything.  Helping you out is its own reward, Rubik.",
+        "effect": [ { "u_add_faction_trust": 4 } ],
+        "opinion": { "trust": 7, "value": 5 },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_string_dimension_ExodiiFrame_no",
+    "type": "talk_topic",
+    "dynamic_line": "No.  Can't offer ye that.",
+    "responses": [
+      {
+        "text": "[Install Teleporter CBM] Teleporting sounds dangerous, but after this interdimensional travel, maybe I can handle it.",
+        "condition": { "u_has_trait": "CBM_Interface" },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_teleport" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[Install Time Dilation CBM] \"Time Dilation\" sounds like something that should surprise me.  But after the places I've now been?  I'm ready for it.",
+        "condition": { "u_has_trait": "CBM_Interface" },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_time_freeze" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[Install Probability Travel CBM] Phasing through barriers?  Would've helped in that maze of a node.  Let's do it.",
+        "condition": { "u_has_trait": "CBM_Interface" },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_probability_travel" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "How about store credit instead?  [adds $1500 in store credit].",
+        "effect": [ { "u_spend_cash": -150000 }, "start_trade" ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "I don't need anything.  Helping you out is its own reward, Rubik.",
+        "effect": [ { "u_add_faction_trust": 4 } ],
+        "opinion": { "trust": 7, "value": 5 },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_string_dimension_ExodiiFrame_yes",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Hm.  That's a really big ask.  You seem to be the sort of person who would ask for this kind of thing, but are you certain you want to be permenantly attached to this suitcase?  You sure you're thinking clearly?  This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life.",
+      "str": "Hm.  A mighty ask on a mighty ask.  Ye certainly got the disposition, but you sure you wanna be cut inta' this crowded space?\"  Rubik taps their metal torso.  \"You sure ya' lump is screwed on tight?  This isn't like the bright'n'steelies on offer.  No goin' back.  And ye best be happy with the amount'a power you can generate.  This'ere needs contant power.  Without power, yer good as dead.  The power storage units?  Fer a case this'n kind, one'a the power storage units buys you a little-less'an an hour of walkin'.  Less for scrappin' and scramblin'.  Nothin's easy about it.\""
+    },
+    "responses": [
+      {
+        "text": "[Integrate your body into an Exodii Cyberframe] A robotic body I'll need to keep constantly powered?  Why not?  I'm ready.",
+        "effect": [
+          { "u_add_faction_trust": 5 },
+          {
+            "u_location_variable": { "u_val": "exodii_autodoc_couch_loc" },
+            "target_params": { "om_terrain": "exodii_base_x2y1z1", "om_special": "exodii_base" },
+            "furniture": "f_autodoc_couch",
+            "target_max_radius": 250
+          },
+          { "u_teleport": { "u_val": "exodii_autodoc_couch_loc" } }
+        ],
+        "opinion": { "trust": 7, "value": 5 },
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe"
+      },
+      {
+        "text": "[Install Teleporter CBM] Teleporting sounds dangerous, but after this interdimensional travel, maybe I can handle it.",
+        "condition": { "u_has_trait": "CBM_Interface" },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_teleport" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[Install Time Dilation CBM] \"Time Dilation\" sounds like something that should surprise me.  But after the places I've now been?  I'm ready for it.",
+        "condition": { "u_has_trait": "CBM_Interface" },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_time_freeze" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[Install Probability Travel CBM] Phasing through barriers?  Would've helped in that maze of a node.  Let's do it.",
+        "condition": { "u_has_trait": "CBM_Interface" },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_probability_travel" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
       },
       {
         "text": "How about store credit instead?  [adds $1500 in store credit].",
