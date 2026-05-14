@@ -1405,7 +1405,7 @@ void crafting_ui_impl::draw_recipe_info_panel()
 
                         // Per-step tools + qualities
                         const requirement_data &step_req = step.requirements;
-                            if( !step_req.get_tools().empty() || !step_req.get_qualities().empty() ) {
+                        if( !step_req.get_tools().empty() || !step_req.get_qualities().empty() ) {
                             draw_requirement_tools( step_req, crafting_inv, batch_size,
                                                     tool_group_offset );
                         }
