@@ -1,0 +1,70 @@
+[
+  {
+    "type": "MONSTER_FACTION",
+    "name": "undead",
+    "base_faction": "nether_hate_humans",
+    "neutral": [ "zombie", "nether" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "zombie",
+    "copy-from": "zombie",
+    "extend": { "neutral": [ "undead" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "eldritch_being"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "very_small_predator",
+    "base_faction": "cat",
+    "by_mood": [ "small_animal", "very_small_predator" ],
+    "hate": [ "tiny_animal" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "small_predator",
+    "base_faction": "cat",
+    "by_mood": [ "small_predator", "cat" ],
+    "hate": [ "small_animal" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "predator_dino",
+    "base_faction": "animal",
+    "neutral": [ "small_animal", "fish" ],
+    "by_mood": [ "predator_dino", "animal", "zombie_aquatic" ],
+    "hate": [ "herbivore", "zombie", "human" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "utahraptor",
+    "base_faction": "predator_dino",
+    "friendly": [ "utahraptor_juvenile", "utahraptor_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "utahraptor_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "utahraptor", "utahraptor_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "utahraptor_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "utahraptor", "utahraptor_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "velociraptor",
+    "base_faction": "small_predator",
+    "friendly": [ "velociraptor_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "velociraptor_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "velociraptor" ]
+  }
+]

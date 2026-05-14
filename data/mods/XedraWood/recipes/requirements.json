@@ -1,0 +1,32 @@
+[
+  {
+    "id": "writing_standard",
+    "type": "requirement",
+    "name": "Writing",
+    "//": "Tools and components for writing.",
+    "tools": [ [ [ "survival_marker", -1 ], [ "feather", -1 ] ], [ [ "homemade_ink", 2 ] ] ]
+  },
+  {
+    "id": "magical_herbs",
+    "type": "requirement",
+    "name": "Magical herbs",
+    "components": [ [ [ "harfry_root", 1 ], [ "morningflower_leaves", 1 ], [ "corpsefire_cap", 1 ] ] ]
+  },
+  {
+    "id": "writing_formulae_apprentice_standard",
+    "type": "requirement",
+    "name": "Apprentice occult writing",
+    "//": "Tools and components for writing beginner spells.",
+    "tools": [ [ [ "survival_marker", -1 ], [ "feather", -1 ] ], [ [ "magical_ink_simple", 2 ] ] ]
+  },
+  {
+    "id": "eggs_bird",
+    "type": "requirement",
+    "extend": { "components": [ [ [ "eggs_dragon_bird_small", 1, "LIST" ] ] ] }
+  },
+  {
+    "id": "eggs_dragon_bird_small",
+    "type": "requirement",
+    "components": [ [ [ "egg_claw_runner", 1 ], [ "egg_claw_hunter", 1 ] ] ]
+  }
+]
