@@ -55,7 +55,8 @@
       "NO_BREATHE",
       "PUSH_MON",
       "UNBREAKABLE_MORALE",
-      "BULLETPROOF"
+      "BULLETPROOF",
+      "FIREPROOF"
     ],
     "armor": { "bash": -15, "cut": 15, "stab": 30, "acid": 3, "electric": 3 },
     "bleed_rate": 0,
