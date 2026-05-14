@@ -1292,7 +1292,7 @@ void crafting_ui_impl::draw_recipe_info_panel()
                                             ? *avail.inv_override : crafter->crafting_inventory();
 
             // Single step recipes
-            if ( recp.has_steps() && ( recp.steps().size() <= 1 ) ) {
+            if( recp.has_steps() && ( recp.steps().size() <= 1 ) ) {
                 const recipe_step &step = recp.steps()[0];
                 ImGui::TextColored( cataimgui::imvec4_from_color( c_white ),
                                     "%s", step.name.translated().c_str() );
