@@ -122,7 +122,7 @@
       { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_FORGE_LORD_REAGENT" },
       { "text": "What are you doing here?", "topic": "TALK_FORGE_REAGENT_DOING" },
       { "text": "When are you getting new stuff?", "topic": "TALK_FORGE_REAGENT_ASK_INTERVAL" },
-      { "text": "What goods are you looking for?", "topic": "TALK_FORGE_REAGENT_ASK_BUYING"},
+      { "text": "What goods are you looking for?", "topic": "TALK_FORGE_REAGENT_ASK_BUYING" },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
     ]
   },
