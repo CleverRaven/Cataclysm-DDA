@@ -786,11 +786,11 @@
     "type": "item_group",
     "items": [
       [ "cu_pipe", 45 ],
-      { "item": "cable", "prob": 50, "charges": [ 1, 20 ] },
+      { "item": "cable", "prob": 50, "count": [ 1, 20 ] },
       [ "pot_copper", 30 ],
       [ "pot_makeshift_copper", 15 ],
       [ "copper_pan", 15 ],
-      { "item": "copper", "prob": 40, "charges": [ 1, 20 ] },
+      { "item": "copper", "prob": 40, "count": [ 1, 20 ] },
       [ "copper_ear", 25 ],
       [ "copper_bracelet", 25 ],
       [ "copper_necklace", 25 ],

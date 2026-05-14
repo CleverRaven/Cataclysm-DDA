@@ -72,7 +72,6 @@
   {
     "id": "incendiary",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "chems",
     "name": { "str_sp": "incendiary" },
     "description": "Material from an incendiary round, useful in constructing incendiary ammunition.",
@@ -83,10 +82,7 @@
     "container": "bag_plastic",
     "material": [ "powder" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "count": 200,
-    "ammo_type": "components",
-    "effects": [ "COOKOFF" ]
+    "color": "dark_gray"
   },
   {
     "id": "mattress",
@@ -141,7 +137,6 @@
   {
     "id": "fuse",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str_sp": "fuse" },
     "description": "A piece of fuse, long enough to give you enough time to get away from most explosions.",
@@ -152,10 +147,7 @@
     "container": "bag_plastic",
     "material": [ "cotton" ],
     "symbol": ",",
-    "color": "dark_gray",
-    "count": 50,
-    "ammo_type": "components",
-    "effects": [ "COOKOFF" ]
+    "color": "dark_gray"
   },
   {
     "type": "ITEM",
@@ -177,7 +169,6 @@
   {
     "id": "sole_rubber",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "rubber sole" },
     "description": "A sole made from rubber, usually found on the bottoms of boots.  Can be used for making actual boots.",
@@ -187,8 +178,7 @@
     "price_postapoc": "10 cent",
     "material": [ "rubber" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "ammo_type": "components"
+    "color": "dark_gray"
   },
   {
     "id": "rubber_tire_chunk",

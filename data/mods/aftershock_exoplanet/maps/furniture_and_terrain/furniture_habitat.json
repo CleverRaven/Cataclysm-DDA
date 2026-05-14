@@ -253,7 +253,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 12,
       "items": [
-        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "water_faucet", "count": 1 },
         { "item": "hose", "count": [ 2, 3 ] },
         { "item": "afs_circuitry_1", "count": [ 0, 1 ] },
@@ -280,7 +280,7 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "plastic_chunk", "count": [ 1, 2 ] },
         { "item": "scrap", "count": [ 1, 2 ] },
         { "item": "lc_steel_chunk", "count": [ 0, 1 ] }
@@ -306,7 +306,7 @@
         { "item": "small_lcd_screen", "count": 2 },
         { "item": "sheet_metal_small", "count": [ 2, 3 ] },
         { "item": "afs_circuitry_1", "count": [ 1, 2 ] },
-        { "item": "cable", "charges": [ 2, 4 ] },
+        { "item": "cable", "count": [ 2, 4 ] },
         { "item": "e_scrap", "count": [ 1, 3 ] },
         { "item": "circuit", "count": [ 1, 2 ] }
       ]
@@ -323,7 +323,7 @@
         { "item": "small_lcd_screen", "count": 1, "prob": 50 },
         { "item": "sheet_metal_small", "count": [ 2, 3 ] },
         { "item": "afs_circuitry_1", "count": 1, "prob": 50 },
-        { "item": "cable", "charges": [ 0, 2 ] },
+        { "item": "cable", "count": [ 0, 2 ] },
         { "item": "e_scrap", "count": [ 0, 1 ] },
         { "item": "circuit", "count": [ 0, 1 ] }
       ]
@@ -348,7 +348,7 @@
         { "item": "small_lcd_screen", "count": 2 },
         { "item": "sheet_metal_small", "count": [ 2, 3 ] },
         { "item": "afs_circuitry_1", "count": [ 1, 2 ] },
-        { "item": "cable", "charges": [ 2, 4 ] },
+        { "item": "cable", "count": [ 2, 4 ] },
         { "item": "e_scrap", "count": [ 1, 3 ] },
         { "item": "circuit", "count": [ 1, 2 ] }
       ]
@@ -365,7 +365,7 @@
         { "item": "small_lcd_screen", "count": 1, "prob": 50 },
         { "item": "sheet_metal_small", "count": [ 2, 3 ] },
         { "item": "afs_circuitry_1", "count": 1, "prob": 50 },
-        { "item": "cable", "charges": [ 0, 2 ] },
+        { "item": "cable", "count": [ 0, 2 ] },
         { "item": "e_scrap", "count": [ 0, 1 ] },
         { "item": "circuit", "count": [ 0, 1 ] }
       ]
@@ -693,7 +693,7 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "plastic_chunk", "count": [ 1, 2 ] },
         { "item": "scrap", "count": [ 1, 2 ] },
         { "item": "mc_steel_chunk", "count": [ 0, 1 ] }
@@ -738,7 +738,7 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "plastic_chunk", "count": [ 1, 2 ] },
         { "item": "scrap", "count": [ 1, 2 ] },
         { "item": "mc_steel_chunk", "count": [ 0, 1 ] }
@@ -943,7 +943,7 @@
       "items": [
         { "item": "frame", "count": 1 },
         { "item": "sheet_metal_small", "count": [ 3, 4 ] },
-        { "item": "cable", "charges": [ 10, 20 ] },
+        { "item": "cable", "count": [ 10, 20 ] },
         { "item": "afs_circuitry_2", "count": [ 0, 15 ], "prob": 40 },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ], "prob": 1 },
         { "item": "afs_energy_storage_1", "count": [ 0, 1 ], "prob": 50 },
@@ -963,7 +963,7 @@
       "items": [
         { "item": "frame", "count": 1 },
         { "item": "sheet_metal_small", "count": [ 3, 4 ] },
-        { "item": "cable", "charges": [ 10, 20 ] },
+        { "item": "cable", "count": [ 10, 20 ] },
         { "item": "afs_circuitry_2", "count": [ 0, 15 ], "prob": 40 },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ], "prob": 1 },
         { "item": "afs_energy_storage_1", "count": [ 0, 1 ], "prob": 50 },
