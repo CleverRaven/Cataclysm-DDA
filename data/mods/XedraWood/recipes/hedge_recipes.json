@@ -310,7 +310,8 @@
               "hedge_extinguish_fire_spell",
               "hedge_raziel_amulet_protection",
               "hedge_prevent_wild_animal_attacks",
-              "hedge_chicken_sacrifice_make_rain"
+              "hedge_chicken_sacrifice_make_rain",
+              "hedge_scare_shabriri"
             ],
             "type": "spell",
             "true_eocs": [  ],

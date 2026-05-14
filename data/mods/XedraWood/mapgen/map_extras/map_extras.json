@@ -25,10 +25,10 @@
     "id": "mx_campfire_remnants",
     "type": "map_extra",
     "name": { "str": "campfire remains" },
-    "description": "The remnants of a campire, long gone to ash.",
+    "description": "The remnants of a campfire, long gone to ash.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_campfire_remnants" },
     "min_max_zlevel": [ 0, 0 ],
-    "sym": "T",
+    "sym": "X",
     "color": "light_gray",
     "autonote_visibility": "details",
     "flags": [ "CLASSIC" ]
