@@ -2051,7 +2051,7 @@
     "side": "right",
     "opposite": "tentacle_lower_front_middle_l",
     "name_multiple": "front tentacle midsections",
-    "name": "rightleft front tentacle midsection",
+    "name": "right front tentacle midsection",
     "similar_bodypart": "tentacle_default_middle_r"
   },
   {
@@ -2192,25 +2192,25 @@
     "name": "right tentacle tips"
   },
   {
-    "id": "tentacle_left_draped",
+    "id": "tentacle_draped_l",
     "type": "sub_body_part",
     "max_coverage": 100,
     "parent": "tentacle_default_l",
     "side": "left",
     "secondary": true,
-    "opposite": "tentacle_right_draped",
+    "opposite": "tentacle_draped_r",
     "name_multiple": "left tentacles (draped)",
     "name": "left tentacles (draped)",
     "locations_under": [ "tentacle_default_base_l", "tentacle_default_middle_l" ]
   },
   {
-    "id": "tentacle_right_draped",
+    "id": "tentacle_draped_r",
     "type": "sub_body_part",
     "max_coverage": 100,
     "parent": "tentacle_default_r",
     "side": "left",
     "secondary": true,
-    "opposite": "tentacle_left_draped",
+    "opposite": "tentacle_draped_l",
     "name_multiple": "right tentacles (draped)",
     "name": "right tentacles (draped)",
     "locations_under": [ "tentacle_default_base_r", "tentacle_default_middle_r" ]
