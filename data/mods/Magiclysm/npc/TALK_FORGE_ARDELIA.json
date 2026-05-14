@@ -128,7 +128,7 @@
   {
     "type": "shopkeeper_whitelist",
     "id": "FORGE_LIBRARIAN_WHITELIST",
-    "message": "<npc_name> does not want this in the library.",
+    "message": "<npcname> does not want this in the library.",
     "entries": [
       { "item": "denarius" },
       { "group": "spellcraft_books" },

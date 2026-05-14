@@ -159,7 +159,7 @@
   {
     "type": "shopkeeper_whitelist",
     "id": "FORGE_REAGENT_WHITELIST",
-    "message": "<npc_name> does not care for this.",
+    "message": "<npcname> does not care for this.",
     "entries": [
       { "item": "denarius" },
       { "group": "NC_FORGE_LORD_STORE_REAGENT" },
