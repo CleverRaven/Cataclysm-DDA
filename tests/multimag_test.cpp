@@ -71,7 +71,7 @@ static const itype_id itype_test_multimag_tool_consume( "test_multimag_tool_cons
 static const itype_id itype_test_multimag_tool_factor( "test_multimag_tool_factor" );
 static const itype_id itype_test_multimag_turret_gun( "test_multimag_turret_gun" );
 static const itype_id itype_test_multimag_vehicle_welder( "test_multimag_vehicle_welder" );
-static const itype_id itype_welding_wire_steel( "welding_wire_steel" );
+static const itype_id itype_welding_wire_steel_tests_dupe( "welding_wire_steel_tests_dupe" );
 
 static item make_loaded_glock()
 {
@@ -1169,7 +1169,7 @@ static item make_multimag_welder( int batt_charges, int oxygen_qty, int rod_qty 
                               pocket_type::MAGAZINE ).success() );
     }
     if( rod_qty > 0 ) {
-        REQUIRE( tool.put_in( item( itype_welding_wire_steel, calendar::turn, rod_qty ),
+        REQUIRE( tool.put_in( item( itype_welding_wire_steel_tests_dupe, calendar::turn, rod_qty ),
                               pocket_type::MAGAZINE ).success() );
     }
     return tool;

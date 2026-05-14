@@ -243,7 +243,7 @@
     "result": "chem_washing_soda",
     "byproduct_group": [
       { "item": "ammonia_liquid", "container-item": "null", "charges": 4 },
-      { "item": "chem_calcium_chloride", "container-item": "null", "charges": 51 }
+      { "item": "chem_calcium_chloride", "container-item": "null", "count": 51 }
     ],
     "charges": 41,
     "category": "CC_CHEM",

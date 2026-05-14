@@ -393,8 +393,8 @@
     "items": [
       { "group": "tools_general", "prob": 2 },
       { "item": "e_scrap", "prob": 15, "count": [ 0, 4 ] },
-      { "item": "copper_wire", "prob": 5, "charges": [ 0, 10 ] },
-      { "item": "solder_wire", "prob": 10, "charges": [ 0, 10 ] }
+      { "item": "copper_wire", "prob": 5, "count": [ 0, 10 ] },
+      { "item": "solder_wire", "prob": 10, "count": [ 0, 10 ] }
     ]
   },
   {

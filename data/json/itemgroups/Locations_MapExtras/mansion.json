@@ -881,7 +881,7 @@
     "items": [
       [ "shot_hull", 40 ],
       [ "sinew", 40 ],
-      { "item": "rolling_paper", "prob": 20, "charges": [ 1, 30 ] },
+      { "item": "rolling_paper", "prob": 20, "count": [ 1, 30 ] },
       { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
       [ "9mm_casing", 20 ],
       [ "38_casing", 20 ],
@@ -1170,7 +1170,7 @@
       [ "mop", 25 ],
       [ "mop_folded", 15 ],
       { "item": "ammonia_hydroxide", "prob": 24, "charges": [ 1, -1 ] },
-      { "item": "chem_washing_soda", "prob": 5, "charges": [ 1, -1 ] },
+      { "item": "chem_washing_soda", "prob": 5, "count": [ 1, -1 ] },
       [ "chem_hydrogen_peroxide", 20 ],
       [ "boots_rubber", 20 ],
       { "item": "bleach", "prob": 20, "charges": [ 1, -1 ] },

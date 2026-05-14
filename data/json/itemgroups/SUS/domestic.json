@@ -209,7 +209,7 @@
       { "item": "file", "prob": 30 },
       { "item": "string_floss", "prob": 30 },
       { "item": "comb_pocket", "prob": 30 },
-      { "item": "aluminum_foil", "prob": 30, "charges": [ 1, 4 ] },
+      { "item": "aluminum_foil", "prob": 30, "count": [ 1, 4 ] },
       { "item": "fishing_hook_basic", "prob": 25 },
       { "item": "balloon", "prob": 20, "count": [ 1, 2 ] },
       { "item": "lighter", "prob": 25, "count": [ 2, 7 ], "charges": [ 0, 12 ] },
@@ -510,7 +510,7 @@
       { "item": "methed_alcohol", "prob": 5, "charges": [ 1, -1 ] },
       { "item": "denat_alcohol", "prob": 5, "charges": [ 1, -1 ] },
       { "item": "chem_methanol", "prob": 5, "charges": [ 1, -1 ] },
-      { "item": "chem_washing_soda", "prob": 50, "charges": [ 1, -1 ] },
+      { "item": "chem_washing_soda", "prob": 50, "count": [ 1, -1 ] },
       { "item": "bleach", "prob": 75, "charges": [ 1, -1 ] },
       { "item": "ammonia_hydroxide", "prob": 65, "charges": [ 1, -1 ] }
     ]
@@ -781,7 +781,7 @@
       { "item": "comb_lice", "prob": 2 },
       { "item": "bleach", "prob": 15, "charges": [ 1, -1 ] },
       { "item": "ammonia_hydroxide", "prob": 20, "charges": [ 1, -1 ] },
-      { "item": "chem_washing_soda", "prob": 10, "charges": [ 1, -1 ] },
+      { "item": "chem_washing_soda", "prob": 10, "count": [ 1, -1 ] },
       { "item": "chem_borax", "prob": 10, "charges": [ 100, 200 ] },
       { "item": "string_floss", "count": [ 1, 2 ], "prob": 60 },
       { "group": "tampon_box_used", "prob": 10 },

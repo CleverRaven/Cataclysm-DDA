@@ -197,7 +197,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "aluminum_foil",
     "category": "spare_parts",
     "price": "6 USD 48 cent",
@@ -209,9 +208,7 @@
     "material": [ "aluminum" ],
     "volume": "10 ml",
     "weight": "135 mg",
-    "//": "Density of 2.7 g/cm3",
-    "ammo_type": "components",
-    "count": 200
+    "//": "Density of 2.7 g/cm3"
   },
   {
     "type": "ITEM",
@@ -467,7 +464,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "copper_wire",
     "category": "spare_parts",
     "price": "20 USD",
@@ -479,9 +475,7 @@
     "material": [ "copper" ],
     "//": "Calculated off of 12 AWG, at 10cm length, using http://www.mtlexs.com/technical-specifications-details/40/weight-of-copper-wire.",
     "volume": "110 ml",
-    "weight": "4747 mg",
-    "ammo_type": "components",
-    "count": 200
+    "weight": "4747 mg"
   },
   {
     "type": "ITEM",
@@ -716,7 +710,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "down_feather",
     "category": "spare_parts",
     "price": "30 USD",
@@ -728,10 +721,7 @@
     "material": [ "down_feathers" ],
     "flags": [ "NO_SALVAGE" ],
     "volume": "250 ml",
-    "weight": "10 mg",
-    "ammo_type": "components",
-    "stack_size": 100,
-    "count": 20
+    "weight": "10 mg"
   },
   {
     "type": "ITEM",
@@ -1501,7 +1491,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "lc_chain_link",
     "category": "spare_parts",
     "//": "link weighs 1/3 gram or so, make 425 per 150 gram wire to account for loss",
@@ -1513,13 +1502,10 @@
     "description": "A set of small metal rings, suitable for constructing chainmail.",
     "material": [ "lc_steel" ],
     "volume": "250 ml",
-    "weight": "320 mg",
-    "ammo_type": "components",
-    "count": 425
+    "weight": "320 mg"
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "mc_chain_link",
     "copy-from": "lc_chain_link",
     "name": { "str": "medium steel chain link" },
@@ -1527,7 +1513,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "hc_chain_link",
     "copy-from": "lc_chain_link",
     "name": { "str": "high steel chain link" },
@@ -1535,7 +1520,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "ch_chain_link",
     "copy-from": "lc_chain_link",
     "name": { "str": "hardened steel chain link" },
@@ -1543,7 +1527,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "qt_chain_link",
     "copy-from": "lc_chain_link",
     "name": { "str": "tempered steel chain link" },

@@ -200,7 +200,7 @@
     "id": "rolling_cigs",
     "entries": [
       { "item": "tobacco", "count": 20, "container-item": "null", "entry-wrapper": "bag_plastic" },
-      { "item": "rolling_paper", "charges": 20 }
+      { "item": "rolling_paper", "count": 20 }
     ]
   },
   {

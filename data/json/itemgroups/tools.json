@@ -416,8 +416,8 @@
           },
           {
             "distribution": [
-              { "item": "brazing_rod_bronze", "prob": 75, "charges": [ 500, 1500 ] },
-              { "item": "brazing_rod_alloy", "prob": 50, "charges": [ 500, 1500 ] }
+              { "item": "brazing_rod_bronze", "prob": 75, "count": [ 500, 1500 ] },
+              { "item": "brazing_rod_alloy", "prob": 50, "count": [ 500, 1500 ] }
             ]
           }
         ],
@@ -437,12 +437,12 @@
       { "item": "welding_blanket", "prob": 20, "count": [ 0, 1 ] },
       {
         "distribution": [
-          { "item": "welding_rod_steel", "prob": 20, "charges": [ 1000, 1600 ] },
-          { "item": "welding_rod_alloy", "prob": 10, "charges": [ 1000, 1600 ] },
-          { "item": "welding_wire_steel", "prob": 15, "charges": [ 1000, 1600 ] },
-          { "item": "welding_wire_alloy", "prob": 5, "charges": [ 1000, 1600 ] },
-          { "item": "brazing_rod_bronze", "prob": 7, "charges": [ 500, 1500 ] },
-          { "item": "brazing_rod_alloy", "prob": 5, "charges": [ 400, 1200 ] }
+          { "item": "welding_rod_steel", "prob": 20, "count": [ 1000, 1600 ] },
+          { "item": "welding_rod_alloy", "prob": 10, "count": [ 1000, 1600 ] },
+          { "item": "welding_wire_steel", "prob": 15, "count": [ 1000, 1600 ] },
+          { "item": "welding_wire_alloy", "prob": 5, "count": [ 1000, 1600 ] },
+          { "item": "brazing_rod_bronze", "prob": 7, "count": [ 500, 1500 ] },
+          { "item": "brazing_rod_alloy", "prob": 5, "count": [ 400, 1200 ] }
         ]
       },
       [ "clamp", 10 ],
@@ -880,12 +880,12 @@
       { "item": "welding_blanket", "prob": 10, "count": [ 0, 1 ] },
       {
         "distribution": [
-          { "item": "welding_rod_steel", "prob": 10, "charges": [ 1000, 1600 ] },
-          { "item": "welding_rod_alloy", "prob": 5, "charges": [ 1000, 1600 ] },
-          { "item": "welding_wire_steel", "prob": 20, "charges": [ 1000, 1600 ] },
-          { "item": "welding_wire_alloy", "prob": 20, "charges": [ 1000, 1600 ] },
-          { "item": "brazing_rod_bronze", "prob": 3, "charges": [ 500, 1500 ] },
-          { "item": "brazing_rod_alloy", "prob": 2, "charges": [ 400, 1200 ] }
+          { "item": "welding_rod_steel", "prob": 10, "count": [ 1000, 1600 ] },
+          { "item": "welding_rod_alloy", "prob": 5, "count": [ 1000, 1600 ] },
+          { "item": "welding_wire_steel", "prob": 20, "count": [ 1000, 1600 ] },
+          { "item": "welding_wire_alloy", "prob": 20, "count": [ 1000, 1600 ] },
+          { "item": "brazing_rod_bronze", "prob": 3, "count": [ 500, 1500 ] },
+          { "item": "brazing_rod_alloy", "prob": 2, "count": [ 400, 1200 ] }
         ]
       },
       { "item": "soldering_iron", "prob": 8 },

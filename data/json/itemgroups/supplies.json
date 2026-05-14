@@ -501,9 +501,9 @@
     "//2": "Stuff you might find in a jobsite, a hardware store, or a home workshop.",
     "items": [
       { "item": "nuts_bolts", "prob": 80, "charges": 500, "container-item": "box_small" },
-      { "item": "brazing_rod_bronze", "prob": 15, "charges": 1500 },
-      { "item": "welding_rod_steel", "prob": 20, "charges": 1500 },
-      { "item": "welding_wire_steel", "prob": 20, "charges": 1500 },
+      { "item": "brazing_rod_bronze", "prob": 15, "count": 1500 },
+      { "item": "welding_rod_steel", "prob": 20, "count": 1500 },
+      { "item": "welding_wire_steel", "prob": 20, "count": 1500 },
       { "group": "concrete_bag_any", "prob": 40 },
       { "group": "cement_bag_any", "prob": 50 },
       { "group": "sandbag_any", "prob": 50 },
@@ -639,8 +639,8 @@
         "container-item": "bag_plastic",
         "sealed": false
       },
-      { "item": "chem_baking_soda", "prob": 10, "charges": [ 1, -1 ] },
-      { "item": "chem_washing_soda", "prob": 10, "charges": [ 1, -1 ] },
+      { "item": "chem_baking_soda", "prob": 10, "count": [ 1, -1 ] },
+      { "item": "chem_washing_soda", "prob": 10, "count": [ 1, -1 ] },
       { "item": "chem_calcium_chloride", "prob": 5 },
       { "item": "chem_nitric_acid", "prob": 10, "charges": [ 1, -1 ] },
       { "item": "chem_sulphuric_acid", "prob": 10, "charges": [ 1, -1 ] },
@@ -688,7 +688,7 @@
     "items": [
       { "item": "water_clean", "prob": 90, "charges": [ 1, -1 ], "container-item": "bottle_plastic", "sealed": false },
       { "item": "cooking_oil", "prob": 100, "count": 4, "charges": [ 10, -1 ] },
-      { "item": "chem_washing_soda", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "chem_washing_soda", "prob": 100, "count": [ 1, 20 ] },
       { "item": "lamp_oil", "prob": 100, "count": 4, "charges": [ 10, -1 ] }
     ]
   },

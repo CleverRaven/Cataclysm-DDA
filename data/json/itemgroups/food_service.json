@@ -243,7 +243,7 @@
       { "prob": 50, "group": "cig_box_cigarette_1_20" },
       { "item": "matches", "prob": 45, "charges": [ 1, 20 ] },
       { "item": "ref_matches", "prob": 45, "charges": [ 1, 32 ] },
-      { "item": "rolling_paper", "prob": 10, "charges": [ 1, 30 ] },
+      { "item": "rolling_paper", "prob": 10, "count": [ 1, 30 ] },
       { "item": "bottle_glass", "prob": 70 },
       { "item": "shot_glass", "prob": 60 },
       { "item": "bucket", "prob": 5 },
@@ -337,7 +337,7 @@
     "type": "item_group",
     "items": [
       { "prob": 15, "group": "cig_box_cigarette_1_20" },
-      { "item": "rolling_paper", "prob": 7, "charges": [ 1, 30 ] },
+      { "item": "rolling_paper", "prob": 7, "count": [ 1, 30 ] },
       [ "wrapper", 35 ],
       [ "wrapper_foil", 2 ],
       [ "ceramic_plate", 40 ],
