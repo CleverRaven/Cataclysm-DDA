@@ -1327,7 +1327,7 @@ void map::build_seen_cache( const tripoint_bub_ms &origin, const int target_z, i
         int offsetDistance;
         mdarray *mocache = &out_cache;
         if( !is_camera ) {
-            offsetDistance = penalty + rl_dist( origin, mirror_pos );
+            offsetDistance = penalty + rl_dist( origin, mirror_pos ) - vpi_mirror.bonus;
         } else {
             offsetDistance = MAX_VIEW_DISTANCE - vpi_mirror.bonus * vp_mirror.hp() / vpi_mirror.durability;
             mocache = &camera_cache;

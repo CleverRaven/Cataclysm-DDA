@@ -11,6 +11,7 @@
     "description": "A small mirror, mounted outside the vehicle.  If you see the mirror, your vision is expanded as though you were standing where the mirror is.",
     "folded_volume": "500 ml",
     "item": "mirror",
+    "bonus": -50,
     "location": "structure",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "100 s", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -36,6 +37,7 @@
     "description": "A small mirror, mounted inside the vehicle.  If you see the mirror, your vision is expanded as though you were standing where the mirror is.",
     "folded_volume": "250 ml",
     "item": "mirror",
+    "bonus": -50,
     "location": "on_windshield",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "100 s", "using": [ [ "vehicle_screw", 1 ] ] },
