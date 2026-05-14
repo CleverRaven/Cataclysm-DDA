@@ -5461,10 +5461,9 @@
     "vitamin_cost": 60,
     "visibility": 8,
     "ugliness": 4,
-    "flags": [ "EYE_MEMBRANE", "SEESLEEP", "MYOPIC_IN_LIGHT" ],
     "armor": [ { "parts": "eyes", "cut": 3, "bash": 1 } ],
     "wet_protection": [ { "part": "eyes", "neutral": 1 } ],
-    "//": "Currently without the NV from URSINE_EYE"
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_frog" } ] } ]
   },
   {
     "type": "mutation",

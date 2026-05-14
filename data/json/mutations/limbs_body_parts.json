@@ -13,7 +13,8 @@
     "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 1.0 ], [ "reaction", 0.7 ] ],
     "similar_bodypart": "eyes",
     "hit_size": 0.9,
-    "hit_difficulty": 1.25
+    "hit_difficulty": 1.25,
+    "flag": [ "IGNORE_TEMP", "LIMB_UPPER" ]
   },
   {
     "type": "body_part",
@@ -56,7 +57,7 @@
     "limb_scores": [ [ "vision", 0.8 ], [ "night_vis", 3.0 ], [ "reaction", 1.25 ] ],
     "sub_parts": [ "eyes_feline_left", "eyes_feline_right" ],
     "similar_bodypart": "eyes",
-    "flags": [ "HIGH_GLARE", "HYPEROPIC", "LIMB_UPPER" ]
+    "flags": [ "IGNORE_TEMP", "HIGH_GLARE", "HYPEROPIC", "LIMB_UPPER" ]
   },
   {
     "type": "body_part",
@@ -94,6 +95,19 @@
     "sub_parts": [ "eyes_crab_left", "eyes_crab_right" ],
     "flags": [ "EYE_MEMBRANE" ],
     "limb_scores": [ [ "vision", 1.2 ], [ "night_vis", 1.0 ], [ "reaction", 0.8 ] ]
+  },
+  {
+    "type": "body_part",
+    "id": "eyes_frog",
+    "copy-from": "eyes_bulging",
+    "opposite_part": "eyes_frog",
+    "name": "eyes",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "eyes" },
+    "heading": "eyes",
+    "heading_multiple": "eyes",
+    "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 1.1 ], [ "reaction", 1.0 ] ],
+    "sub_parts": [ "eyes_frog_left", "eyes_frog_right" ],
+    "flags": [ "IGNORE_TEMP", "EYE_MEMBRANE", "SEESLEEP", "MYOPIC_IN_LIGHT", "LIMB_UPPER" ]
   },
   {
     "type": "body_part",
