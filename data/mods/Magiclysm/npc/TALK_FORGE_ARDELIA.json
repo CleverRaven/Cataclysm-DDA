@@ -27,7 +27,7 @@
     "common": false,
     "bonus_int": { "one_in": 4 },
     "bonus_per": { "one_in": 4 },
-    "shopkeeper_item_group": [ 
+    "shopkeeper_item_group": [
       { "group": "NC_FORGE_LORD_STORE_LIBRARY_SHOP", "rigid": true },
       {
         "group": "forge_lord_ardelia_loved_items",
