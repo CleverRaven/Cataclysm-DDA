@@ -1468,7 +1468,7 @@
     "components": [ [ [ "2x4", 1 ] ] ],
     "steps": [
       {
-        "name": "Sawing plank into sword shape.  Trying to convincing yourself it's a real sword",
+        "name": "Sawing plank into sword shape.  Trying to convince yourself it's a real sword",
         "time": "25 m",
         "activity_level": "LIGHT_EXERCISE",
         "qualities": [ { "id": "SAW_W", "level": 1 } ],
