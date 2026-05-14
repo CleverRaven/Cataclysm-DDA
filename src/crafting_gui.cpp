@@ -1396,12 +1396,11 @@ void crafting_ui_impl::draw_recipe_info_panel()
 
                         // Per-step tools + qualities
                         const requirement_data &step_req = step.requirements;
+                        ImGui::Unindent( step_indent );
                         if( !step_req.get_tools().empty() || !step_req.get_qualities().empty() ) {
                             draw_requirement_tools( step_req, crafting_inv, batch_size,
                                                     tool_group_offset );
                         }
-
-                        ImGui::Unindent( step_indent );
                         tool_group_offset += step_req.get_tools().size();
                     }
                 } else {
