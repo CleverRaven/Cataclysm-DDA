@@ -153,7 +153,7 @@
   {
     "id": "TALK_FORGE_REAGENT_ASK_BUYING",
     "type": "talk_topic",
-    "dynamic_line": "I am always on the lookout for weapons and ammo. I am also happy to relieve you of your treasures.",
+    "dynamic_line": "I am always on the lookout for weapons and ammo.  I am also happy to relieve you of your treasures.",
     "responses": [ { "text": "I'll keep an eye out.", "topic": "TALK_FORGE_LORD_REAGENT" } ]
   },
   {
