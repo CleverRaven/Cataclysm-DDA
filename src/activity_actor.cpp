@@ -4370,12 +4370,8 @@ std::string efile_activity_actor::efile_action_name( efile_action action_type, b
     std::vector<std::string> base_names = { _( "browse" ), _( "read" ), _( "move" ), _( "move" ), _( "copy" ), _( "copy" ), _( "wipe" ) };
     std::vector<std::string> past_names = { _( "browsed" ), _( "read" ), _( "moved" ), _( "moved" ), _( "copied" ), _( "copied" ), _( "wiped" ) };
     std::vector<std::string> extensions = { "", "", _( " files onto" ), _( " files off of" ), _( " files onto" ), _( " files off of" ), "" };
-    std::string name_output;
-    past_tense ? name_output += past_names[action_type] : name_output += base_names[action_type];
-    if( extended ) {
-        name_output += extensions[action_type];
-    }
-    return name_output;
+    const std::string name_output = ( past_tense ? past_names : base_names )[action_type];
+    return extended ? name_output + extensions[action_type] : name_output;
 }
 
 bool efile_activity_actor::efile_action_exclude_used( efile_action action_type )
