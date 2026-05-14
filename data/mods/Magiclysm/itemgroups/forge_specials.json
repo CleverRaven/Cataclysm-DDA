@@ -4,9 +4,7 @@
     "subtype": "collection",
     "id": "forge_lord_ardelia_loved_items",
     "//": "All the items the librarian will buy but won't sell back to you.",
-    "items": [
-      { "item": "beech_nuts" }
-    ]
+    "items": [ { "item": "beech_nuts" } ]
   },
   {
     "type": "item_group",
