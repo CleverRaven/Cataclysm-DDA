@@ -501,7 +501,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_done",
     "type": "talk_topic",
-    "dynamic_line": "&You awake.  Your vision is blurry, and it's as if there's something hiding at the edges of your sight that you can't shake.  You try to swat it away, only to find that your limbs don't work.  You become suddenly aware that none of your senses are truly working.  You're just staring at a great sea of nothing, through a non-existent window you can't discern the edges of.\n\nBefore you have time to panic, you come to.  Your head is swimming.  You see Rubik and Venn standing before you with a device wired to your chest.  But is it your chest?  You move your hands to feel, and all you sense is metal on metal.  You're no longer just flesh.  All you can see and feel is your new, mechanical Cyberframe.\n\nVenn detaches the wires and Rubik speaks:  \"Easy.\"",
+    "dynamic_line": "&You awaken.  Your vision is blurry, and it's as if there's something hiding at the edges of your sight that you can't shake.  You try to swat it away, only to find that your limbs don't work.  You become suddenly aware that none of your senses are truly working.  You're just staring at a great sea of nothing, through a non-existent window you can't discern the edges of.\n\nBefore you have time to panic, you come to.  Your head is swimming.  You see Rubik and Venn standing before you with a device wired to your chest.  But is it your chest?  You move your hands to feel, and all you sense is metal on metal.  You're no longer just flesh.  All you can see and feel is your new, mechanical Cyberframe.\n\nVenn detaches the wires and Rubik speaks:  \"Easy.\"",
     "responses": [ { "text": "Is it over?", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_done2" } ]
   },
   {
