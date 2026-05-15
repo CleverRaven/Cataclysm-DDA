@@ -886,8 +886,10 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
               damage_level( precise ) == rhs.damage_level( precise ) && degradation_ == rhs.degradation_ );
     bits.set( tname::segments::BURN, burnt == rhs.burnt );
     bits.set( tname::segments::ACTIVE, active == rhs.active );
-    bits.set( tname::segments::ACTIVITY_OCCUPANCY, get_var( "activity_var",
-              "" ) == rhs.get_var( "activity_var", "" ) );
+    const bool both_empty_vars = item_vars.empty() && rhs.item_vars.empty();
+    bits.set( tname::segments::ACTIVITY_OCCUPANCY,
+              both_empty_vars ||
+              get_var( "activity_var", "" ) == rhs.get_var( "activity_var", "" ) );
     bits.set( tname::segments::FILTHY, is_filthy() == rhs.is_filthy() );
     bits.set( tname::segments::WETNESS, _stacks_wetness( *this, rhs, precise ) );
     bits.set( tname::segments::WEAPON_MODS, _stacks_weapon_mods( *this, rhs ) );
@@ -909,7 +911,8 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
     bits.set( tname::segments::FAULTS_SUFFIX, faults == rhs.faults );
     bits.set( tname::segments::TECHNIQUES, techniques == rhs.techniques );
     bits.set( tname::segments::OVERHEAT, overheat_symbol() == rhs.overheat_symbol() );
-    bits.set( tname::segments::DIRT, get_var( "dirt", 0 ) == rhs.get_var( "dirt", 0 ) );
+    bits.set( tname::segments::DIRT,
+              both_empty_vars || get_var( "dirt", 0 ) == rhs.get_var( "dirt", 0 ) );
     bits.set( tname::segments::SEALED, all_pockets_sealed() == rhs.all_pockets_sealed() );
     bits.set( tname::segments::CBM_STATUS, _stacks_cbm_status( *this, rhs ) );
     bits.set( tname::segments::BROKEN, is_broken() == rhs.is_broken() );
@@ -919,7 +922,9 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
     // CAMERA_*_PHOTOS_count and EIPC_RECIPES_count are derived caches; not part of identity.
     static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location", "ethereal", "last_act_by_char_id", "activity_var", "CAMERA_EXTENDED_PHOTOS_count", "CAMERA_MONSTER_PHOTOS_count", "EIPC_RECIPES_count" };
     bits.set( tname::segments::TRAITS, template_traits == rhs.template_traits );
-    bits.set( tname::segments::VARS, map_equal_ignoring_keys( item_vars, rhs.item_vars, ignore_keys ) );
+    bits.set( tname::segments::VARS,
+              both_empty_vars ||
+              map_equal_ignoring_keys( item_vars, rhs.item_vars, ignore_keys ) );
     bits.set( tname::segments::ETHEREAL, _stacks_ethereal( *this, rhs ) );
     bits.set( tname::segments::LOCATION_HINT, _stacks_location_hint( *this, rhs ) );
     bits.set( tname::segments::LOCATION_PRECISE_CLOSEST_CITY,
@@ -1005,6 +1010,9 @@ void item::set_var( const std::string &key, diag_value value )
 
 double item::get_var( const std::string &key, double default_value ) const
 {
+    if( item_vars.empty() ) {
+        return default_value;
+    }
     if( diag_value const *ret = maybe_get_value( key ); ret ) {
         return ret->dbl();
     }
@@ -1014,6 +1022,9 @@ double item::get_var( const std::string &key, double default_value ) const
 
 std::string item::get_var( const std::string &key, std::string default_value ) const
 {
+    if( item_vars.empty() ) {
+        return default_value;
+    }
     if( diag_value const *ret = maybe_get_value( key ); ret ) {
         return ret->str();
     }
@@ -1023,6 +1034,9 @@ std::string item::get_var( const std::string &key, std::string default_value ) c
 
 tripoint_abs_ms item::get_var( const std::string &key, tripoint_abs_ms default_value ) const
 {
+    if( item_vars.empty() ) {
+        return default_value;
+    }
     if( diag_value const *ret = maybe_get_value( key ); ret ) {
         return ret->tripoint();
     }
@@ -1037,18 +1051,25 @@ void item::remove_var( const std::string &key )
 
 diag_value const &item::get_value( const std::string &name ) const
 {
+    static diag_value const null_val;
+    if( item_vars.empty() ) {
+        return null_val;
+    }
     return global_variables::_common_get_value( name, item_vars );
 
 }
 
 diag_value const *item::maybe_get_value( const std::string &name ) const
 {
+    if( item_vars.empty() ) {
+        return nullptr;
+    }
     return global_variables::_common_maybe_get_value( name, item_vars );
 }
 
 bool item::has_var( const std::string &name ) const
 {
-    return item_vars.count( name ) > 0;
+    return !item_vars.empty() && item_vars.count( name ) > 0;
 }
 
 void item::erase_var( const std::string &name )
