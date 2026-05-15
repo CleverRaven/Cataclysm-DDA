@@ -170,7 +170,7 @@
     "max_coverage": 50,
     "parent": "eyes_frog",
     "side": "right",
-    "opposite": "eyes_snail_left",
+    "opposite": "eyes_frog_left",
     "name_multiple": "eyes",
     "name": "right eye",
     "similar_bodypart": "eyes_right"
