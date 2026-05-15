@@ -165,12 +165,34 @@
     "similar_bodypart": "eyes_left"
   },
   {
+    "id": "eyes_frog_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_frog",
+    "side": "right",
+    "opposite": "eyes_snail_left",
+    "name_multiple": "eyes",
+    "name": "right eye",
+    "similar_bodypart": "eyes_right"
+  },
+  {
+    "id": "eyes_frog_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_frog",
+    "side": "left",
+    "opposite": "eyes_frog_right",
+    "name_multiple": "eyes",
+    "name": "left eye",
+    "similar_bodypart": "eyes_left"
+  },
+  {
     "id": "eyes_snail_right",
     "type": "sub_body_part",
     "max_coverage": 50,
     "parent": "eyes_snail",
     "side": "right",
-    "opposite": "eyes_snail_left",
+    "opposite": "eyes_frog_left",
     "name_multiple": "eyes",
     "name": "right eye",
     "similar_bodypart": "eyes_right"
