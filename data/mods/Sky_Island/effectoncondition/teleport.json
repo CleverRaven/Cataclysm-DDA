@@ -154,6 +154,12 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_SI_WHOLE_ROOM_TELEPORT_BLANK",
+    "//": "Blank EOC to allow us to find the statue location",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_return_OM_teleport",
     "//": "This is the EOC which actually returns you home.  It brings you home and removes all warp-related effects including warp sickness.  It heals you enough to fix broken limbs.  It also resets the awayfromhome counter to 0 so warp sickness can be tracked properly next time you're out.",
     "effect": [
@@ -166,6 +172,13 @@
         "then": [
           { "math": [ "si_bring_items_from_raid = 0" ] },
           { "u_location_variable": { "context_val": "loc" } },
+          {
+            "u_map_run_eocs": "EOC_SI_WHOLE_ROOM_TELEPORT_BLANK",
+            "range": 2,
+            "stop_at_first": true,
+            "store_coordinates_in": { "context_val": "loc" },
+            "condition": { "map_furniture_id": "f_returnportal", "loc": { "context_val": "loc" } }
+          },
           {
             "u_map_run_item_eocs": "all",
             "loc": { "context_val": "loc" },

@@ -106,7 +106,7 @@
       "sound": "thump!",
       "sound_fail": "thud!",
       "ter_set": "t_sand",
-      "items": [ { "item": "material_sand", "charges": [ 300, 600 ] } ]
+      "items": [ { "item": "material_sand", "count": [ 300, 600 ] } ]
     }
   },
   {

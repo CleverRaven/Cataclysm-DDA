@@ -28,17 +28,6 @@
     ],
     "type": "talk_topic",
     "responses": [
-      {
-        "text": "[PLAYTEST] Send me to the Labyrinthine Structure alpha test 0.1, I know it's low on content and lacking combat balance, but I still want to check it out!",
-        "effect": { "run_eocs": "EOC_LS_Teleport_to_labyrinth" },
-        "condition": { "u_has_trait": "LS_Alphatest" },
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[PLAYTEST] Tell me more about the Labyrinthine Structure alpha test.",
-        "condition": { "u_has_trait": "LS_Alphatest" },
-        "topic": "TALK_EXODII_MERCHANT_Alphatest"
-      },
       { "text": "What've you got for trade?", "effect": "start_trade", "topic": "TALK_EXODII_MERCHANT_DoneTrade" },
       {
         "text": "Can you do something for me?",
@@ -88,6 +77,16 @@
         "topic": "TALK_EXODII_MERCHANT_String_Dimension_Exodii"
       },
       {
+        "text": "Actually, I was wondering were I might get more of these CBMs.  Anything I can do to help make or find them?",
+        "condition": {
+          "and": [
+            { "u_has_trait": "CBM_Interface" },
+            { "not": { "compare_string": [ "yes", { "u_val": "rubik_told_about_labyrinth" } ] } }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro"
+      },
+      {
         "text": "You wanted to ask me some questions earlier, and I think I was rude about it.  What did you want to ask?",
         "condition": {
           "and": [
@@ -107,6 +106,21 @@
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro2a"
+      },
+      {
+        "text": "I'm ready to become a true cyborg.",
+        "condition": { "compare_string": [ "yes", { "u_val": "Rubik_promised_cyberframe" } ] },
+        "effect": [
+          { "u_lose_var": "Rubik_promised_cyberframe" },
+          {
+            "u_location_variable": { "u_val": "exodii_autodoc_couch_loc" },
+            "target_params": { "om_terrain": "exodii_base_x2y1z1", "om_special": "exodii_base" },
+            "furniture": "f_autodoc_couch",
+            "target_max_radius": 250
+          },
+          { "u_teleport": { "u_val": "exodii_autodoc_couch_loc" } }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe"
       },
       {
         "text": "Any chance I can buy some riot armor?  I need five complete sets.",

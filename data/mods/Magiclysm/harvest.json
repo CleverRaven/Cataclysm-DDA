@@ -254,7 +254,7 @@
     "id": "zombie_ravenfolk",
     "type": "harvest",
     "copy-from": "zombie_humanoid",
-    "//": "removes 66% of their featers due to most being unusable due to being from an undead corpse.",
+    "//": "removes 66% of their feathers due to most being unusable due to being from an undead corpse.",
     "delete": { "entries": [ { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ] },
     "extend": {
       "entries": [
@@ -384,6 +384,7 @@
   {
     "id": "sojourners_palm_harv",
     "type": "harvest",
+    "message": "As you harvest the flowers from the tree, it vanishes into thin air.",
     "entries": [ { "drop": "sojourners_flower", "base_num": [ 1, 5 ] } ]
   },
   {

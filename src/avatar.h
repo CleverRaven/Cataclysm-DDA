@@ -98,6 +98,7 @@ class avatar : public Character
             bool active = false;
             tripoint_abs_ms center;
             int target_zoom = 0;
+            int saved_zoom = 0;
             tripoint_abs_ms bbox_min;
             tripoint_abs_ms bbox_max;
         };

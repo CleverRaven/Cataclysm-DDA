@@ -21,17 +21,17 @@
       {
         "id": "chink in the armor",
         "name": "a narrow crack in the armor plating",
-        "coverage": 5,
-        "difficulty": { "melee": 7, "ranged": 10 },
+        "coverage": 20,
+        "difficulty": { "melee": 4, "ranged": 5 },
         "coverage_mult": { "point": 2 },
-        "armor_mult": { "all": 0.25 }
+        "armor_mult": { "all": 0.01 }
       },
       {
         "id": "chink in the armor",
         "name": "a softer spot in its armor plating",
-        "coverage": 15,
-        "difficulty": { "melee": 4, "ranged": 6 },
-        "armor_mult": { "bullet": 0.8, "cut": 0.9, "stab": 0.8, "bash": 0.6 }
+        "coverage": 40,
+        "difficulty": { "melee": 3, "ranged": 4 },
+        "armor_mult": { "bullet": 0.25, "cut": 0.5, "stab": 0.25, "bash": 0.5 }
       }
     ]
   },
@@ -176,7 +176,13 @@
         "difficulty": { "ranged": 7, "melee": 5 },
         "coverage_mult": { "broad": 0.8 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "duration": [ "1 seconds", "2 seconds" ],
+            "chance": 40,
+            "message": "The %s is blinded!",
+            "damage_required": [ 1, 25 ]
+          },
           {
             "effect": "blind",
             "permanent": true,

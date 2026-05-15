@@ -1605,11 +1605,6 @@ void options_manager::add_options_general()
     add_option_group( "general", Group( "safe_mode_opts", to_translation( "Safe mode options" ),
                                         to_translation( "Options regarding safe mode." ) ),
     [&]( const std::string & page_id ) {
-        add( "SAFEMODE", page_id, to_translation( "Safe mode" ),
-             to_translation( "If true, will hold the game and display a warning if a hostile monster/NPC is approaching." ),
-             true
-           );
-
         add( "SAFEMODEPROXIMITY", page_id, to_translation( "Safe mode proximity distance" ),
              to_translation( "If safe mode is enabled, distance to hostiles at which safe mode should show a warning.  0 = Max player view distance.  This option only has effect when no safe mode rule is specified.  Otherwise, edit the default rule in Safe mode manager instead of this value." ),
              0, MAX_VIEW_DISTANCE, 0
@@ -2703,9 +2698,17 @@ void options_manager::add_options_graphics()
             }
         }
 #   endif
+        // SDL3 drives renderer selection through SDL_HINT_RENDER_DRIVER; the
+        // saved RENDERER value is ignored at startup but the option ID is
+        // retained so configs from existing worlds still parse.
+#   if defined(USE_SDL3)
+        const options_manager::copt_hide_t renderer_hide = COPT_ALWAYS_HIDE;
+#   else
+        const options_manager::copt_hide_t renderer_hide = COPT_CURSES_HIDE;
+#   endif
         add( "RENDERER", page_id, to_translation( "Renderer" ),
              to_translation( "Set which renderer to use.  Requires restart." ), renderer_list,
-             default_renderer, COPT_CURSES_HIDE );
+             default_renderer, renderer_hide );
 #   endif
 
 #else
@@ -2723,14 +2726,22 @@ void options_manager::add_options_graphics()
              true, COPT_CURSES_HIDE
            );
 #endif
+        // FRAMEBUFFER_ACCEL only meaningful for the SDL2 software renderer
+        // path; under SDL3 the renderer is hidden and software fallback is
+        // automatic, so the option is hidden too.
+#if defined(USE_SDL3)
+        const options_manager::copt_hide_t framebuffer_accel_hide = COPT_ALWAYS_HIDE;
+#else
+        const options_manager::copt_hide_t framebuffer_accel_hide = COPT_CURSES_HIDE;
+#endif
         add( "FRAMEBUFFER_ACCEL", page_id, to_translation( "Software framebuffer acceleration" ),
              to_translation( "If true, use hardware acceleration for the framebuffer when using software rendering.  Requires restart." ),
-             false, COPT_CURSES_HIDE
+             false, framebuffer_accel_hide
            );
 
 #if defined(__ANDROID__)
         get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "SOFTWARE_RENDERING" );
-#else
+#elif !defined(USE_SDL3)
         get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "RENDERER", "software" );
 #endif
 
@@ -3332,6 +3343,8 @@ options_manager::PageItem::fmt_tooltip( const std::string &group_id,
     }
 }
 
+namespace
+{
 /** String with color */
 struct string_col {
     std::string s;
@@ -3340,6 +3353,7 @@ struct string_col {
     string_col() : col( c_black ) { }
     string_col( const std::string &s, nc_color col ) : s( s ), col( col ) { }
 };
+} // namespace
 
 std::string options_manager::show( bool ingame, const bool world_options_only, bool with_tabs )
 {
@@ -3483,8 +3497,10 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 case ItemType::GroupHeader:
                     return true;
                 case ItemType::BlankLine:
-                case ItemType::Option:
                     return groups_state[it.group];
+                case ItemType::Option:
+                    return groups_state[it.group]
+                    && !get_options().get_option( it.data ).is_hidden();
                 default:
                     cata_fatal( "invalid ItemType" );
             }
@@ -3980,7 +3996,7 @@ void options_manager::deserialize( const JsonArray &ja )
         joOptions.allow_omitted_members();
 
         // yay hardcoded list! remove after 0.J
-        std::vector<std::string> removed_options = { "DISTANCE_INITIAL_VISIBILITY", "FOV_3D_Z_RANGE",
+        std::vector<std::string> removed_options = { "DISTANCE_INITIAL_VISIBILITY", "FOV_3D_Z_RANGE", "SAFEMODE",
                                                      "INITIAL_STAT_POINTS", "INITIAL_TRAIT_POINTS", "INITIAL_SKILL_POINTS", "MAX_TRAIT_POINTS",
                                                      "SKILL_TRAINING_SPEED", "PROFICIENCY_TRAINING_SPEED", "CITY_SPACING", "CITY_SIZE"
                                                    };

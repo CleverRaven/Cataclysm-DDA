@@ -949,7 +949,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -1017,7 +1018,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -1045,7 +1047,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -1094,7 +1097,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -1132,8 +1136,7 @@
       },
       "male": { "entries": [ { "item": "boxer_briefs" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    },
-    "age_lower": 18
+    }
   },
   {
     "type": "profession",
@@ -1198,7 +1201,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
     },
-    "age_lower": 16
+    "age_lower": 16,
+    "age_upper": 30
   },
   {
     "type": "profession",
@@ -1227,7 +1231,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
     },
-    "age_lower": 16
+    "age_lower": 16,
+    "age_upper": 30
   },
   {
     "type": "profession",
@@ -1264,7 +1269,8 @@
       "male": { "entries": [ { "item": "under_armor_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
     },
-    "age_lower": 16
+    "age_lower": 16,
+    "age_upper": 30
   },
   {
     "type": "profession",
@@ -1331,7 +1337,9 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "panties" }, { "item": "sports_bra" } ] }
-    }
+    },
+    "age_lower": 23,
+    "age_upper": 30
   },
   {
     "type": "profession",
@@ -1442,7 +1450,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -1497,7 +1506,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -1549,7 +1559,8 @@
       "male": { "entries": [ { "item": "rashguard" }, { "item": "wetsuit_shorts" } ] },
       "female": { "entries": [ { "item": "bikini_top" }, { "item": "wetsuit_shorts" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -1586,7 +1597,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -1646,7 +1658,9 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_lower": 18,
+    "age_upper": 23
   },
   {
     "type": "profession",
@@ -1698,7 +1712,9 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_lower": 25,
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -1747,7 +1763,9 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_lower": 25,
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -1809,7 +1827,9 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_lower": 30,
+    "age_upper": 45
   },
   {
     "type": "profession",
@@ -1870,7 +1890,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -1930,7 +1951,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -1997,7 +2019,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -2056,7 +2079,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -2163,8 +2187,8 @@
     "name": "Medical Resident",
     "description": "Fresh out of med school, you've got little in the way of practical experience and just a handful of first-aid supplies.  You just hope it will be enough if 'physician, heal thyself' turns out to be more literal than you expected.",
     "npc_background": "BG_survival_story_MEDICAL",
-    "points": 2,
-    "skills": [ { "level": 5, "name": "firstaid" } ],
+    "points": 5,
+    "skills": [ { "level": 7, "name": "firstaid" }, { "level": 2, "name": "speech" }, { "level": 4, "name": "chemistry" } ],
     "proficiencies": [
       "prof_wound_care",
       "prof_wound_care_expert",
@@ -2172,7 +2196,9 @@
       "prof_intro_chemistry",
       "prof_physiology",
       "prof_burn_care",
-      "prof_dissect_humans"
+      "prof_dissect_humans",
+      "prof_organic_chemistry",
+      "prof_gross_anatomy"
     ],
     "traits": [ "PROF_MED" ],
     "items": {
@@ -2199,7 +2225,9 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 26,
+    "age_upper": 33
   },
   {
     "type": "profession",
@@ -2208,8 +2236,8 @@
     "requirement": "achievement_reach_hospital",
     "description": "You were a patient-facing doctor practicing general or specialized medicine.  While your bedside manner might not get you far in this new world, your medical skills will certainly help.",
     "npc_background": "BG_survival_story_MEDICAL",
-    "points": 5,
-    "skills": [ { "level": 7, "name": "firstaid" }, { "level": 3, "name": "speech" } ],
+    "points": 6,
+    "skills": [ { "level": 8, "name": "firstaid" }, { "level": 3, "name": "speech" }, { "level": 4, "name": "chemistry" } ],
     "proficiencies": [
       "prof_wound_care",
       "prof_wound_care_expert",
@@ -2217,7 +2245,9 @@
       "prof_intro_chemistry",
       "prof_physiology",
       "prof_burn_care",
-      "prof_dissect_humans"
+      "prof_dissect_humans",
+      "prof_organic_chemistry",
+      "prof_gross_anatomy"
     ],
     "traits": [ "PROF_MED" ],
     "items": {
@@ -2250,7 +2280,7 @@
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     },
-    "age_lower": 25
+    "age_lower": 30
   },
   {
     "type": "profession",
@@ -2260,9 +2290,18 @@
     "description": "You were a pharmacist working in a community pharmacy.  No simple pill-pusher, you have a plethora of knowledge of drug preparation, biochemistry, and biology.  With your trusty mortar and pestle, you hope to grind the undead to a pulp.",
     "npc_background": "BG_survival_story_MEDICAL",
     "points": 5,
-    "skills": [ { "level": 6, "name": "firstaid" }, { "level": 1, "name": "speech" } ],
-    "proficiencies": [ "prof_intro_biology", "prof_intro_chemistry", "prof_organic_chemistry", "prof_biochemistry", "prof_physiology" ],
-    "traits": [ "PROF_MED" ],
+    "skills": [ { "level": 5, "name": "firstaid" }, { "level": 1, "name": "speech" }, { "level": 5, "name": "chemistry" } ],
+    "proficiencies": [
+      "prof_wound_care",
+      "prof_intro_biology",
+      "prof_intro_chemistry",
+      "prof_organic_chemistry",
+      "prof_gross_anatomy",
+      "prof_biochemistry",
+      "prof_intro_chem_synth",
+      "prof_chem_synth",
+      "prof_pharmaceutical"
+    ],
     "items": {
       "both": {
         "items": [
@@ -2271,7 +2310,6 @@
           "socks",
           "dress_shoes",
           "coat_lab",
-          "badge_doctor",
           "goggles_chem",
           "wristwatch",
           "mortar_pestle",
@@ -2328,7 +2366,7 @@
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     },
-    "age_lower": 25
+    "age_lower": 26
   },
   {
     "type": "profession",
@@ -2533,13 +2571,14 @@
           { "group": "starter_wallet_full" },
           { "group": "charged_flashlight" },
           { "item": "lighter", "charges": 100 },
-          { "group": "knife_rambo_full", "container-item": "scabbard" },
+          { "group": "knife_rambo_full", "container-item": "sheath" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -2637,7 +2676,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -2682,7 +2722,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 30
   },
   {
     "type": "profession",
@@ -2850,7 +2891,8 @@
       { "level": 1, "name": "dodge" },
       { "level": 1, "name": "swimming" }
     ],
-    "addictions": [ { "intensity": 10, "type": "nicotine" } ]
+    "addictions": [ { "intensity": 10, "type": "nicotine" } ],
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -2902,7 +2944,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -2962,7 +3005,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -3017,7 +3061,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -3135,7 +3180,8 @@
       },
       "male": { "entries": [ { "item": "briefs" }, { "item": "citrine_gold_cufflinks" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" }, { "item": "gold_ear" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -3480,7 +3526,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -3549,16 +3596,15 @@
       { "level": 6, "name": "firstaid" },
       { "level": 4, "name": "melee" },
       { "level": 4, "name": "bashing" },
-      { "level": 4, "name": "swimming" },
+      { "level": 3, "name": "swimming" },
       { "level": 4, "name": "driving" }
     ],
     "proficiencies": [
       "prof_wound_care",
       "prof_wound_care_expert",
-      "prof_intro_biology",
-      "prof_physiology",
       "prof_burn_care",
-      "prof_dissect_humans",
+      "prof_gross_anatomy",
+      "prof_intro_biology",
       "prof_driver"
     ],
     "vehicle": "fire_engine",
@@ -3574,7 +3620,7 @@
           { "item": "fire_gauntlets" },
           { "item": "nomex_hood" },
           { "item": "firehelmet" },
-          { "item": "mask_bunker" },
+          { "item": "mask_bunker", "ammo-item": "gasfilter_med", "charges": 100 },
           { "item": "mbag" },
           { "item": "nomex_socks" },
           { "item": "water_clean" },
@@ -3811,7 +3857,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -3930,7 +3977,8 @@
       },
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -4060,7 +4108,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" }, { "item": "tank_top" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4269,7 +4318,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4350,7 +4400,8 @@
         "entries": [ { "item": "panties" }, { "item": "bra" }, { "item": "dress" }, { "item": "fanny" }, { "item": "gold_watch" } ]
       }
     },
-    "age_lower": 50
+    "age_lower": 65,
+    "age_upper": 85
   },
   {
     "type": "profession",
@@ -4463,7 +4514,8 @@
           { "item": "stockings", "variant": "stockings_black" }
         ]
       }
-    }
+    },
+    "age_lower": 18
   },
   {
     "type": "profession",
@@ -4476,9 +4528,10 @@
       { "level": 4, "name": "melee" },
       { "level": 4, "name": "bashing" },
       { "level": 4, "name": "firstaid" },
-      { "level": 3, "name": "swimming" }
+      { "level": 3, "name": "swimming" },
+      { "level": 4, "name": "driving" }
     ],
-    "proficiencies": [ "prof_burn_care" ],
+    "proficiencies": [ "prof_burn_care", "prof_wound_care" ],
     "items": {
       "both": {
         "entries": [
@@ -4489,7 +4542,7 @@
           { "item": "boots_bunker" },
           { "item": "nomex_gloves" },
           { "item": "fire_gauntlets" },
-          { "item": "mask_bunker" },
+          { "item": "mask_bunker", "ammo-item": "gasfilter_med", "charges": 100 },
           { "item": "nomex_hood" },
           { "item": "firehelmet" },
           { "item": "pocketwatch" },
@@ -4645,7 +4698,8 @@
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4660,7 +4714,8 @@
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4786,7 +4841,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4811,7 +4867,8 @@
         "entries": [ { "item": "briefs" }, { "item": "dress_shirt" }, { "item": "suit" }, { "item": "pants", "variant": "pants_black" } ]
       },
       "female": { "entries": [ { "item": "dress" }, { "item": "purse" }, { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4852,7 +4909,8 @@
           { "item": "panties" }
         ]
       }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4879,7 +4937,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4904,7 +4963,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4959,7 +5019,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4989,7 +5050,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 30
   },
   {
     "type": "profession",
@@ -5020,7 +5082,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -5046,7 +5109,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
     },
-    "missions": [ "MISSION_BLACK_BELT_GOAL" ]
+    "missions": [ "MISSION_BLACK_BELT_GOAL" ],
+    "age_lower": 18
   },
   {
     "type": "profession",
@@ -5086,7 +5150,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
     },
-    "missions": [ "MISSION_BLACK_BELT_GOAL" ]
+    "missions": [ "MISSION_BLACK_BELT_GOAL" ],
+    "age_lower": 18
   },
   {
     "type": "profession",
@@ -5154,7 +5219,9 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 18,
+    "age_upper": 25
   },
   {
     "type": "profession",
@@ -5187,7 +5254,9 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 16,
+    "age_upper": 25
   },
   {
     "type": "profession",
@@ -5376,7 +5445,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -5471,7 +5541,8 @@
       },
       "male": { "entries": [ { "item": "chestwrap_fur" }, { "item": "loincloth_fur" } ] },
       "female": { "entries": [ { "item": "bikini_top_fur" }, { "item": "hot_pants_fur" } ] }
-    }
+    },
+    "age_lower": 30
   },
   {
     "type": "profession",
@@ -5868,7 +5939,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 28
   },
   {
     "type": "profession",
@@ -5929,7 +6001,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -6093,7 +6166,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -6154,7 +6228,8 @@
         ]
       },
       "female": { "entries": [ { "item": "plastron_plastic" } ] }
-    }
+    },
+    "age_upper": 35
   },
   {
     "type": "profession",
@@ -6185,7 +6260,9 @@
       "male": { "entries": [ { "item": "boxer_shorts" }, { "item": "opal_platinum_cufflinks" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" }, { "item": "opal_platinum_earring" } ] }
     },
-    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ]
+    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ],
+    "age_lower": 35,
+    "age_upper": 70
   },
   {
     "type": "profession",
@@ -6472,7 +6549,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -6532,7 +6610,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -6600,7 +6679,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -6662,7 +6742,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -6726,7 +6807,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -6788,7 +6870,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -6834,7 +6917,9 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "boy_shorts" }, { "item": "sports_bra" } ] }
-    }
+    },
+    "age_lower": 23,
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -6884,7 +6969,8 @@
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
     },
     "flags": [ "SCEN_ONLY" ],
-    "missions": [ "MISSION_HELICOPTER_PILOT" ]
+    "missions": [ "MISSION_HELICOPTER_PILOT" ],
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -6893,9 +6979,8 @@
     "description": "You were responding to a call with your partner before you got separated.  Now all you have is your trusty ambulance, ready to transport patients through the apocalypse.",
     "npc_background": "BG_survival_story_MEDICAL",
     "points": 3,
-    "skills": [ { "level": 5, "name": "firstaid" }, { "level": 4, "name": "driving" }, { "level": 2, "name": "mechanics" } ],
-    "proficiencies": [ "prof_wound_care", "prof_intro_biology", "prof_physiology", "prof_burn_care", "prof_driver", "prof_gross_anatomy" ],
-    "traits": [ "PROF_MED" ],
+    "skills": [ { "level": 5, "name": "firstaid" }, { "level": 4, "name": "driving" } ],
+    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_burn_care", "prof_driver" ],
     "vehicle": "ambulance",
     "items": {
       "both": {
@@ -6925,17 +7010,15 @@
     "description": "You were separated from your partner while out on a call.  You managed to hang onto some medical supplies, but it's looking like the only life that needs saving now is yours.",
     "npc_background": "BG_survival_story_MEDICAL",
     "points": 3,
-    "skills": [ { "level": 6, "name": "firstaid" }, { "level": 3, "name": "driving" }, { "level": 1, "name": "mechanics" } ],
+    "skills": [ { "level": 6, "name": "firstaid" }, { "level": 4, "name": "driving" } ],
     "proficiencies": [
       "prof_wound_care",
       "prof_wound_care_expert",
-      "prof_intro_biology",
-      "prof_physiology",
       "prof_burn_care",
-      "prof_dissect_humans",
-      "prof_gross_anatomy"
+      "prof_gross_anatomy",
+      "prof_intro_biology",
+      "prof_driver"
     ],
-    "traits": [ "PROF_MED" ],
     "items": {
       "both": {
         "entries": [
@@ -6971,7 +7054,7 @@
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 5,
     "skills": [
-      { "level": 6, "name": "firstaid" },
+      { "level": 5, "name": "firstaid" },
       { "level": 4, "name": "gun" },
       { "level": 4, "name": "rifle" },
       { "level": 3, "name": "pistol" },
@@ -6986,10 +7069,7 @@
       "prof_spotting",
       "prof_wound_care",
       "prof_wound_care_expert",
-      "prof_intro_biology",
-      "prof_physiology",
       "prof_burn_care",
-      "prof_dissect_humans",
       "prof_gun_cleaning",
       "prof_knives_familiar",
       "prof_auto_rifles_familiar",
@@ -7038,7 +7118,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -7105,15 +7186,17 @@
     "name": "Hazmat Unit",
     "description": "You were deployed to autopsy one of the rioters showing feral behavior before being put down.  When they got back up, you knew this was out of your pay grade.",
     "npc_background": "BG_survival_story_WORKER_FIREFIGHTER",
-    "points": 4,
-    "skills": [ { "level": 6, "name": "firstaid" } ],
+    "points": 5,
+    "skills": [ { "level": 7, "name": "firstaid" }, { "level": 4, "name": "chemistry" } ],
     "proficiencies": [
       "prof_wound_care",
       "prof_wound_care_expert",
       "prof_intro_biology",
+      "prof_intro_chemistry",
       "prof_physiology",
       "prof_burn_care",
       "prof_dissect_humans",
+      "prof_organic_chemistry",
       "prof_gross_anatomy"
     ],
     "traits": [ "PROF_MED" ],
@@ -7134,7 +7217,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 26
   },
   {
     "type": "profession",
@@ -7251,7 +7335,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 28
   },
   {
     "type": "profession",
@@ -7538,7 +7623,8 @@
       "male": { "entries": [ { "item": "speedo" } ] },
       "female": { "entries": [ { "item": "flag_swimsuit", "variant": "generic_swimsuit" } ] }
     },
-    "proficiencies": [ "prof_athlete_basic" ]
+    "proficiencies": [ "prof_athlete_basic" ],
+    "age_upper": 30
   },
   {
     "type": "profession",
@@ -7572,7 +7658,8 @@
         "entries": [ { "item": "trunks" }, { "item": "swim_briefs" }, { "item": "rashguard", "variant": "lifeguard_rashguard_shirt" } ]
       },
       "female": { "entries": [ { "item": "flag_swimsuit", "variant": "lifeguard_swimsuit" } ] }
-    }
+    },
+    "age_lower": 18
   },
   {
     "type": "profession",
@@ -7736,7 +7823,8 @@
         ]
       }
     },
-    "missions": [ "MISSION_ASSASSINATION" ]
+    "missions": [ "MISSION_ASSASSINATION" ],
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -7776,7 +7864,8 @@
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "boy_shorts" }, { "item": "bra" } ] }
     },
-    "age_lower": 50
+    "age_lower": 60,
+    "age_upper": 80
   },
   {
     "type": "profession",
@@ -7918,7 +8007,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "panties" }, { "item": "bra" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -7973,7 +8063,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -8001,7 +8092,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
     },
-    "missions": [ "MISSION_BLACK_BELT_GOAL" ]
+    "missions": [ "MISSION_BLACK_BELT_GOAL" ],
+    "age_upper": 30
   },
   {
     "type": "profession",
@@ -8044,7 +8136,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_upper": 25
   },
   {
     "type": "profession",
@@ -8223,7 +8316,7 @@
     "type": "profession",
     "id": "mutant_patient_feline",
     "name": "Feline Mutant",
-    "description": "Considering the you always complained about Mondays, this was probably inevitable.  Too bad you can't eat lasagna to complete the fit.",
+    "description": "Considering that you always complained about Mondays, this was probably inevitable.  Too bad you can't eat lasagna to complete the fit.",
     "npc_background": "BG_survival_story_LAB_MUTANT",
     "points": 3,
     "items": {
@@ -8600,6 +8693,37 @@
       "MOUTH_TENTACLES",
       "CEPH_EYES",
       "CEPH_VISION"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_chiropteran",
+    "name": "Chiropteran Mutant",
+    "description": "When power flickered, you didn't mind the dark.  But mutants down here don't make for a great community, and you yearn to see the night-sky.",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "DEX_UP_2",
+      "FANGS",
+      "BATEARS",
+      "LEAFNOSE",
+      "SOCIAL1",
+      "LIGHTFUR",
+      "LIGHT_BONES",
+      "SOCIAL2",
+      "HEMOVORE",
+      "ARMS_BAT",
+      "TROGLO",
+      "MESOPIC",
+      "ANTIWHEAT",
+      "UGLY"
     ]
   }
 ]

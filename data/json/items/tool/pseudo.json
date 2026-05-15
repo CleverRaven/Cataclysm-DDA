@@ -64,7 +64,7 @@
     "copy-from": "fake_item",
     "symbol": "[",
     "color": "dark_gray",
-    "qualities": [ [ "OVEN", 2 ] ]
+    "qualities": [ { "id": "OVEN", "level": 2 }, { "id": "TEMPER", "level": 2, "speed": 1.1 } ]
   },
   {
     "id": "butter_churn",

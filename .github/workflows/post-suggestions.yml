@@ -1,0 +1,42 @@
+name: Post suggestions
+
+on:
+  workflow_run:
+    workflows: ["IWYU (include-what-you-use)", "Code Style Reviewer"]
+    types: [completed]
+
+jobs:
+  post-suggestions:
+    if: ${{ github.event.workflow_run.head_branch != 'master' && github.event.workflow_run.conclusion == 'failure' }}
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      with:
+        persist-credentials: false
+    - name: Download artifact
+      id: download-artifact
+      uses: dawidd6/action-download-artifact@8305c0f1062bb0d184d09ef4493ecb9288447732 # v20
+      with:
+        workflow: ${{ github.event.workflow_run.name }}
+        run_id: ${{ github.event.workflow_run.id }}
+        name: suggestions
+        skip_unpack: true
+        if_no_artifact_found: ignore
+    - name: Parse suggestions
+      id: suggestions
+      if: ${{ steps.download-artifact.outputs.found_artifact == 'true' }}
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        # Don't trust the zip, unzip only the specific files we need in the specific locations they should go
+        echo extracting pr_number
+        unzip -p suggestions.zip pr_number > pr_number.txt
+        echo extracting commit_sha
+        unzip -p suggestions.zip commit_sha > commit_sha.txt
+        echo extracting comment
+        unzip -p suggestions.zip comment.txt > comment.txt
+        echo extracting diff
+        unzip -p suggestions.zip diff.txt > diff.txt
+        pip install PyGithub
+        python build-scripts/post-diff-as-comments.py

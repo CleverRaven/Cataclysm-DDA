@@ -24,6 +24,8 @@ class tinymap;
 template<typename T> class generic_factory;
 template<typename T> struct enum_traits;
 
+enum class om_vision_level : int8_t;
+
 enum class map_extra_method : int {
     null = 0,
     map_extra_function,
@@ -37,6 +39,22 @@ struct enum_traits<map_extra_method> {
     static constexpr map_extra_method last = map_extra_method::num_map_extra_methods;
 };
 
+enum class map_extra_visibility {
+    none,
+    always,
+    vague,
+    outlines,
+    details,
+    full,
+    same_tile,
+    LAST
+};
+
+template<>
+struct enum_traits<map_extra_visibility> {
+    static constexpr map_extra_visibility last = map_extra_visibility::LAST;
+};
+
 using map_extra_pointer = bool( * )( map &, const tripoint_abs_sm & );
 
 class map_extra
@@ -46,8 +64,7 @@ class map_extra
         std::vector<std::pair<map_extra_id, mod_id>> src;
         std::string generator_id;
         map_extra_method generator_method = map_extra_method::null;
-        bool autonote = false;
-        bool see_from_afar = false;
+        map_extra_visibility visibility;
         uint32_t symbol = UTF8_getch( "X" );
         nc_color color = c_red;
 
@@ -68,6 +85,8 @@ class map_extra
         const cata::flat_set<std::string> &get_flags() const {
             return flags_;
         }
+
+        bool potentially_visible_at( om_vision_level vis ) const;
 
         // Used by generic_factory
         bool was_loaded = false;

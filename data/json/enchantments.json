@@ -340,6 +340,14 @@
     "ench_effects": [ { "effect": "quadruped_half", "intensity": 1 } ]
   },
   {
+    "id": "ench_dextrous_paws_need_practice",
+    "type": "enchantment",
+    "condition": {
+      "and": [ { "u_has_any_trait": [ "PAWS_LITTLE", "PAWS_RAT" ] }, { "math": [ "u_progress_dextrous_paws_usage < 10" ] } ]
+    },
+    "ench_effects": [ { "effect": "effect_dextrous_paws_no_practice_manipulation_penalty", "intensity": 1 } ]
+  },
+  {
     "id": "combat_exoskeleton_inactive",
     "type": "enchantment",
     "name": { "str": "Inactive exoskeleton" },
@@ -417,7 +425,8 @@
       { "value": "MOVE_COST", "multiply": -0.15 },
       { "value": "MOVECOST_OBSTACLE_MOD", "multiply": -0.5 },
       { "value": "CARRY_WEIGHT", "add": 20000 }
-    ]
+    ],
+    "encumbrance_modifier": [ { "part": "leg_l", "add": -40 }, { "part": "leg_r", "add": -40 } ]
   },
   {
     "id": "robofac_XM_ARM_on",
@@ -431,6 +440,12 @@
       { "value": "WEAPON_DISPERSION", "multiply": -0.1 },
       { "value": "THROW_STR", "multiply": 0.5 },
       { "value": "THROW_DAMAGE", "multiply": 0.25 }
+    ],
+    "encumbrance_modifier": [
+      { "part": "arm_l", "add": -40 },
+      { "part": "arm_r", "add": -40 },
+      { "part": "hand_l", "add": -40 },
+      { "part": "hand_r", "add": -40 }
     ]
   },
   {
@@ -446,6 +461,7 @@
       { "value": "WEAPON_DISPERSION", "multiply": -0.05 },
       { "value": "THROW_STR", "multiply": 0.05 },
       { "value": "THROW_DAMAGE", "multiply": 0.05 }
-    ]
+    ],
+    "encumbrance_modifier": [ { "part": "torso", "add": -40 } ]
   }
 ]

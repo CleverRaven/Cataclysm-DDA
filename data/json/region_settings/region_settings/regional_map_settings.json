@@ -981,6 +981,7 @@
       [ "mx_drugdeal", 30 ],
       [ "mx_corpses", 30 ],
       [ "mx_finalshowdown", 20 ],
+      [ "mx_dermatikvictim", 10 ],
       [ "mx_worm_sign", 20 ],
       [ "mx_toxic_waste", 10 ],
       [ "mx_portal", 10 ],
@@ -1002,7 +1003,7 @@
     "type": "map_extra_collection",
     "id": "ocean_shore",
     "chance": 1,
-    "extras": [ [ "mx_sandy_beach", 100 ] ]
+    "extras": [ [ "mx_sandy_beach", 100 ], [ "mx_tidal_flat", 5 ] ]
   },
   {
     "type": "map_extra_collection",

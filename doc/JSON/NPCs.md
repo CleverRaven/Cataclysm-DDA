@@ -752,19 +752,48 @@ Optional, if not defined, `"NONE"` is used. Otherwise one of `"NONE"`, `"LIE"`, 
 
 The `difficulty` is only required if type is not `"NONE"` or `"CONDITION"` and, for most trials, specifies the success chance in percent (it is however modified by various things like mutations).  Higher difficulties are easier to pass. `"SKILL_CHECK"` trials are unique, and use the difficulty as a flat comparison.
 
-An optional `mod` array takes any of the following modifiers and increases the difficulty by the NPC's opinion of your character or personality trait for that modifier multiplied by the value: `"ANGER"`, `"FEAR"`, `"TRUST"`, `"VALUE"`, `"AGGRESSION"`, `"ALTRUISM"`, `"BRAVERY"`, `"COLLECTOR"`. The special `"POS_FEAR"` modifier treats NPC's fear of your character below 0 as though it were 0.  The special `"TOTAL"` modifier sums all previous modifiers and then multiplies the result by its value and is used when setting the owed value.
-
 `"CONDITION"` trials take a mandatory `condition` instead of `difficulty`.  The `success` object is chosen if the `condition` is true and the `failure` is chosen otherwise.
 
 `"SKILL_CHECK"` trials check the user's level in a skill, whose ID is read from the string object `skill_required`. The `success` object is chosen if the skill level is equal to or greater than `difficulty`, and `failure` is chosen otherwise.
 
 Sample trials:
 ```jsonc
-"trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ] ] }
+"trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ], [ "u_has_trait: PSYCHOPATH", -40 ] ] }
 "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] }
 "trial": { "type": "CONDITION", "condition": { "npc_has_trait": "FARMER" } }
 "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "swimming" }
 ```
+
+#### `mod`
+`mod` is an array of modifiers to the trial's chances. Each mod is comprised of two values, the modifier and a factor. These are multiplied together to get the total change to the % chance. A modifier of -10 and a factor of 2 would produce a total mod of -20 to the chances, taking a chance of 64% down to 44%.
+
+Note that *there is no check that mod types are valid*. Invalid mod types will always count as 0(being totally ignored). Check your spelling.
+
+Valid mod types are:
+
+### `ANGER` / `FEAR` / `TRUST` / `VALUE`
+Uses the NPC's specific opinion value of the player as the modifier.
+
+### `POS_FEAR`
+The special `"POS_FEAR"` modifier treats NPC's fear of your character below 0 as though it were 0.
+
+### `AGGRESSION` / `ALTRUISM` / `BRAVERY` / `COLLECTOR`
+Uses the NPC's specific personality value as the modifier.
+
+### `MISSIONS`
+Uses the value of all previously completed missions given by that NPC as a value. Missions may define a specific value that they are 'worth'.
+
+### `U_INTIMIDATE` / `NPC_INTIMIDATE`
+U_INTIMIDATE does a C++ calculation to estimate how intimidating the player character looks.
+NPC_INTIMIDATE does the same thing to estimate the NPC's intimidation factor.
+
+### `u_has_trait: ` / `npc_has_trait: `
+u_has_trait checks if the player character has the specified trait.
+npc_has_trait checks if the NPC has the specified trait.
+Modifier is 1 if they have the trait, 0 otherwise.
+
+### `TOTAL`
+The special `"TOTAL"` modifier sums all previous modifiers and then multiplies the result by its value and is used when setting the owed value.
 
 #### `success` and `failure`
 The `success` and `failure` objects define the outcome, depending on the result of the trial.  Both objects have the same structure; the `failure` object is used if the trial fails, the `success` object is used otherwise.

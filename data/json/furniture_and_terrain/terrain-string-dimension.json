@@ -10,6 +10,39 @@
   },
   {
     "type": "terrain",
+    "id": "t_nl_sd_2d_sky",
+    "name": "flattened sky",
+    "description": "This is the sky, you think.  It is impossibly flattened into two dimensions.",
+    "symbol": " ",
+    "color": "black",
+    "flags": [ "TRANSPARENT", "WALL" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_sd_2d_sky_walkable",
+    "name": "flattened horizon",
+    "description": "You can stand here, upon the horizon.  It is impossibly flattened into two dimensions.",
+    "symbol": " ",
+    "color": "black",
+    "move_cost": 1,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_sd_2d_ground",
+    "looks_like": "t_wall_warped",
+    "name": "flattened ground",
+    "description": "This is the ground, you think.  It is impossibly flattened into two dimensions, and the patterns upon it are constantly shifting, like an image passing through a veined rock, its insides twisting upon the two dimensional projection.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND", "TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
     "id": "t_string_true_void",
     "name": "nothing",
     "description": "There's an otherworldly nothing there - a black wall at the front of your senses.",

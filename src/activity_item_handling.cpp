@@ -230,6 +230,8 @@ static item_location find_study_book( const tripoint_abs_ms &zone_pos, Character
     return item_location();
 }
 
+namespace
+{
 /** Activity-associated item */
 struct act_item {
     /// inventory item
@@ -244,6 +246,7 @@ struct act_item {
           count( count ),
           consumed_moves( consumed_moves ) {}
 };
+} // namespace
 
 namespace multi_activity_actor
 {
@@ -1050,6 +1053,42 @@ bool ignore_zone_position( Character &you, const tripoint_abs_ms &src,
            here.impassable_field_at( src_bub );
 }
 
+// vehicle::add_item and map::add_item_or_charges silently fail at the count
+// limits even when volume fits, so sort must pre-check to avoid bounce loops.
+bool dest_has_capacity( const tripoint_abs_ms &dest, const zone_type_id &ztype,
+                        const item &sample, const faction_id &fac )
+{
+    const zone_manager &mgr = zone_manager::get_manager();
+    map &here = get_map();
+    const tripoint_bub_ms dest_bub = here.get_bub( dest );
+    const bool has_veh_zone = mgr.has_vehicle( ztype, dest, fac );
+    const bool has_ter_zone = mgr.has_terrain( ztype, dest, fac );
+    if( has_veh_zone ) {
+        if( const std::optional<vpart_reference> vp_dest = here.veh_at( dest_bub ).cargo() ) {
+            if( vp_dest->items().amount_can_fit( sample ) > 0 ) {
+                return true;
+            }
+        }
+        if( !has_ter_zone ) {
+            return false;
+        }
+    }
+    return static_cast<int>( here.i_at( dest_bub ).size() ) < MAX_ITEM_IN_SQUARE &&
+           here.free_volume( dest_bub ) >= sample.volume();
+}
+
+static bool any_dest_has_capacity( const std::unordered_set<tripoint_abs_ms> &dests,
+                                   const zone_type_id &ztype, const item &sample,
+                                   const faction_id &fac )
+{
+    for( const tripoint_abs_ms &dest : dests ) {
+        if( dest_has_capacity( dest, ztype, sample, fac ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
                         unload_sort_options zone_unload_options,
                         const std::vector<item_location> &other_activity_items,
@@ -1153,8 +1192,8 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
                 }
             }
         }
-        // if item has destination
-        if( !dest_set.empty() ) {
+        if( !dest_set.empty() &&
+            any_dest_has_capacity( dest_set, dest_zone_type_id, *it, fac_id ) ) {
             return true;
         }
     }
@@ -1655,7 +1694,7 @@ _find_alt_construction( tripoint_bub_ms const &loc, construction_id const &idx,
                         std::optional<construction_id> const &part_con_idx,
                         std::function<bool( construction const & )> const &filter )
 {
-    std::vector<construction *> cons = constructions_by_filter( filter );
+    std::vector<const construction *> cons = constructions_by_filter( filter );
     for( construction const *el : cons ) {
         if( _can_construct( loc, idx, *el, part_con_idx ) ) {
             return el;
@@ -1676,7 +1715,7 @@ construction const *_find_prereq( tripoint_bub_ms const &loc, construction_id co
                                   std::optional<construction_id> const &part_con_idx, checked_cache_t &checked_cache )
 {
     construction const *con = nullptr;
-    std::vector<construction *> cons = constructions_by_filter( [&idx, &top_idx](
+    std::vector<const construction *> cons = constructions_by_filter( [&idx, &top_idx](
     construction const & it ) {
         furn_id const f = top_idx->post_is_furniture ? _get_id<furn_id>( top_idx ) : furn_id();
         ter_id const t = top_idx->post_is_furniture ? ter_id() : _get_id<ter_id>( top_idx );
@@ -2644,11 +2683,11 @@ requirement_id synthesize_requirements(
 requirement_id remove_met_requirements( requirement_id base_req_id, Character &you )
 {
 
-    requirement_data reqs = base_req_id.obj();
+    const requirement_data &reqs = base_req_id.obj();
     // Remove the requirements already met
     requirement_data::alter_tool_comp_vector tool_reqs_vector = reqs.get_tools();
     requirement_data::alter_quali_req_vector quality_reqs_vector = reqs.get_qualities();
-    requirement_data::alter_item_comp_vector component_reqs_vector = reqs.get_components();
+    const requirement_data::alter_item_comp_vector &component_reqs_vector = reqs.get_components();
     requirement_data::alter_tool_comp_vector reduced_tool_reqs_vector;
     requirement_data::alter_quali_req_vector reduced_quality_reqs_vector;
 
@@ -3316,7 +3355,7 @@ static bool chop_plank_activity( Character &you, const tripoint_bub_ms &src_loc 
         return false;
     }
     if( best_qual.type->can_have_charges() ) {
-        you.consume_charges( best_qual, best_qual.type->charges_to_use() );
+        best_qual.consume_tool_uses( 1, get_map(), you.pos_bub(), &you );
     }
     map &here = get_map();
     for( item &i : here.i_at( src_loc ) ) {
@@ -3410,7 +3449,7 @@ static bool chop_tree_activity( Character &you, const tripoint_bub_ms &src_loc )
     }
     int moves = chop_moves( you, best_qual );
     if( best_qual.type->can_have_charges() ) {
-        you.consume_charges( best_qual, best_qual.type->charges_to_use() );
+        best_qual.consume_tool_uses( 1, get_map(), you.pos_bub(), &you );
     }
     map &here = get_map();
     const ter_id &ter = here.ter( src_loc );

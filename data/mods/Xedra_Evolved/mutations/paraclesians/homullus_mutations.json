@@ -519,18 +519,10 @@
       {
         "condition": {
           "or": [
-            { "u_near_om_location": "road", "range": 3 },
-            { "u_near_om_location": "dirt_road", "range": 3 },
-            { "u_near_om_location": "subway", "range": 3 },
-            { "u_near_om_location": "FACTION_CAMP_ANY", "range": 6 },
-            { "u_near_om_location": "evac_center_18", "range": 6 },
-            { "u_near_om_location": "isolated_road_field_0", "range": 6 },
-            { "u_near_om_location": "lumbermill_0_0_ocu", "range": 6 },
-            { "u_near_om_location": "ranch_camp_41", "range": 6 },
-            { "u_near_om_location": "godco_5", "range": 6 },
-            { "u_near_om_location": "pagan_cult_enter", "range": 6 },
-            { "u_near_om_location": "smallscrapyard_ocu", "range": 4 },
-            { "u_near_om_location": "robofachq_surface_entrance", "range": 6 }
+            { "math": [ "u_homullus_is_near_faction == 1" ] },
+            { "math": [ "u_homullus_is_in_civilization == 1" ] },
+            { "u_is_on_terrain": "t_pavement" },
+            { "u_is_on_terrain": "t_pavement_y" }
           ]
         },
         "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]

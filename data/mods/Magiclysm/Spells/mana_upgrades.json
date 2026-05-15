@@ -2,7 +2,7 @@
   {
     "id": "mana_upgrade_efficiency_01",
     "type": "SPELL",
-    "name": { "str": "First Circle: Lesser Mana Efficiency." },
+    "name": { "str": "First Circle: Lesser Mana Efficiency" },
     "description": "Perform a magical ritual to increase the efficiency by which your body processes mana, granting you the Lesser Mana Efficiency trait.  The ritual must end when the sun is in the sky and you are at least one story above the ground.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
     "valid_targets": [ "self" ],
     "shape": "blast",
@@ -60,7 +60,7 @@
   {
     "id": "mana_upgrade_efficiency_02",
     "type": "SPELL",
-    "name": { "str": "Second Circle: Mana Efficiency." },
+    "name": { "str": "Second Circle: Mana Efficiency" },
     "description": "Perform a magical ritual to increase the efficiency by which your body processes mana, granting you the Mana Efficiency trait.  You must already have the Lesser Mana Efficiency trait for the spell to take full effect.  The ritual must end within one hour of noon and you are at least four stories above the ground.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
     "valid_targets": [ "self" ],
     "shape": "blast",
@@ -125,7 +125,7 @@
   {
     "id": "mana_upgrade_regeneration_01",
     "type": "SPELL",
-    "name": { "str": "First Circle: Lesser Mana Regeneration." },
+    "name": { "str": "First Circle: Lesser Mana Regeneration" },
     "description": "Perform a magical ritual to increase the speed by which your body restores its mana, granting you the Lesser Mana Regeneration trait.  The ritual must be performed while standing in a river or a stream.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
     "valid_targets": [ "self" ],
     "shape": "blast",
@@ -195,7 +195,7 @@
   {
     "id": "mana_upgrade_regeneration_02",
     "type": "SPELL",
-    "name": { "str": "Second Circle: Mana Regeneration." },
+    "name": { "str": "Second Circle: Mana Regeneration" },
     "description": "Perform a magical ritual to increase the speed by which your body restores its mana, granting you the Mana Regeneration trait.  You must already have the Lesser Mana Regeneration trait for the spell to take full effect.  The ritual must be performed while standing in a river.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
     "valid_targets": [ "self" ],
     "shape": "blast",
@@ -278,7 +278,7 @@
   {
     "id": "mana_upgrade_sensitivity_01",
     "type": "SPELL",
-    "name": { "str": "First Circle: Lesser Mana Sensitivity." },
+    "name": { "str": "First Circle: Lesser Mana Sensitivity" },
     "description": "Perform a magical ritual to increase the sensitivity that your body has to mana, granting you the Lesser Mana Sensitivity trait.  The ritual must take place in a natural location away (at least 4 OM tiles) from buildings, roads, or other evidence of civilization.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
     "valid_targets": [ "self" ],
     "shape": "blast",
@@ -346,7 +346,7 @@
   {
     "id": "mana_upgrade_sensitivity_02",
     "type": "SPELL",
-    "name": { "str": "Second Circle: Mana Sensitivity." },
+    "name": { "str": "Second Circle: Mana Sensitivity" },
     "description": "Perform a magical ritual to increase the sensitivity that your body has to mana, granting you the Mana Sensitivity trait.  You must already have the Lesser Mana Sensitivity trait for the spell to take full effect.  The ritual must take place in a natural location far away (at least 15 OM tiles) from buildings, roads, or other evidence of civilization.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
     "valid_targets": [ "self" ],
     "shape": "blast",

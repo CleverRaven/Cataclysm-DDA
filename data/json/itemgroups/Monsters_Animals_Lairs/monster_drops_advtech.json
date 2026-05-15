@@ -54,16 +54,6 @@
   },
   {
     "type": "item_group",
-    "id": "molebot",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "spiked_plate", "prob": 15 },
-      { "item": "hard_plate", "prob": 30 },
-      { "item": "robot_controls", "prob": 5 }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "turret",
     "subtype": "distribution",
     "entries": [ { "item": "9mm", "prob": 8 } ]

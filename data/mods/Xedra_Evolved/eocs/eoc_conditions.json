@@ -133,7 +133,7 @@
     "condition": { "or": [ { "one_in_chance": 2 }, { "u_has_effect": "effect_hedge_no_nightmares" } ] },
     "effect": [
       { "u_message": "You have a good dream.", "type": "neutral" },
-      { "u_message": "sweet_dreams", "snippet": true, "type": "bad" },
+      { "u_message": "sweet_dreams", "snippet": true, "type": "good" },
       { "u_add_morale": "morale_sweet_dreams", "bonus": [ 15, 40 ], "max_bonus": 40 },
       { "math": [ "dream_counter = 1" ] },
       { "u_cast_spell": { "id": "dream_mana_gain" } },
@@ -188,7 +188,7 @@
     "condition": { "or": [ { "one_in_chance": 2 }, { "u_has_effect": "effect_hedge_no_nightmares" } ] },
     "effect": [
       { "u_message": "You have a good dream.", "type": "neutral" },
-      { "u_message": "XE_SWEET_DREAMS", "snippet": true, "type": "bad" },
+      { "u_message": "XE_SWEET_DREAMS", "snippet": true, "type": "good" },
       { "u_add_morale": "morale_sweet_dreams", "bonus": [ 15, 40 ], "max_bonus": 40 },
       { "math": [ "dream_counter = 1" ] },
       { "run_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }

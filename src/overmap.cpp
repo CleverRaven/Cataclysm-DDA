@@ -34,6 +34,7 @@
 #include "map_extras.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
+#include "mapgen_post_process.h"
 #include "math_defines.h"
 #include "messages.h"
 #include "mongroup.h"
@@ -397,6 +398,15 @@ std::optional<mapgen_arguments> *overmap::mapgen_args( const tripoint_om_omt &p 
     return it->second;
 }
 
+std::vector<pp_resolved_generator> *overmap::pp_decisions( const tripoint_om_omt &p )
+{
+    auto it = pp_decisions_index.find( p );
+    if( it == pp_decisions_index.end() ) {
+        return nullptr;
+    }
+    return it->second;
+}
+
 std::string *overmap::join_used_at( const om_pos_dir &p )
 {
     auto it = joins_used.find( p );
@@ -427,9 +437,7 @@ void overmap::set_seen( const tripoint_om_omt &p, om_vision_level val, bool forc
 
     layer[p.z() + OVERMAP_DEPTH].visible[p.xy()] = val;
 
-    if( val > om_vision_level::details ) {
-        add_extra_note( p );
-    }
+    add_extra_note( p );
 }
 
 om_vision_level overmap::seen( const tripoint_om_omt &p ) const
@@ -686,26 +694,10 @@ void overmap::add_extra( const tripoint_om_omt &p, const map_extra_id &id )
     }
 }
 
-static void defer_auto_note( const tripoint_abs_omt &target )
-{
-    g->unvisited_map_extras.insert( target );
-}
-
-void overmap::add_deferred_extra_note( const tripoint_abs_omt &p )
-{
-    point_abs_om overmap_coord;
-    tripoint_om_omt omt_coord;
-    std::tie( overmap_coord, omt_coord ) = project_remain<coords::om>( p );
-    add_extra_note( omt_coord, true );
-}
-
 void overmap::add_extra_note( const tripoint_om_omt &p, bool force_add )
 {
-    if( seen( p ) < om_vision_level::details ) {
-        return;
-    }
-
-    // WTF is this doing? We just figured out the map extra's ID in overmap::add_extra(), what's with this bizarre lookup?
+    // overmap::add_extra_note is called from overmap::set_seen - to add notes for already generated,
+    // but as yet unseen, tiles.
     const std::vector<om_map_extra> &layer_extras = layer[p.z() + OVERMAP_DEPTH].extras;
     auto extrait = std::find_if( layer_extras.begin(),
     layer_extras.end(), [&p]( const om_map_extra & extra ) {
@@ -716,10 +708,15 @@ void overmap::add_extra_note( const tripoint_om_omt &p, bool force_add )
     }
     const map_extra_id &extra = extrait->id;
 
-    if( !force_add && !extra->see_from_afar ) {
-        tripoint_abs_omt target = project_combine( this->pos(), p );
-        defer_auto_note( target );
+    if( !force_add && !extra->potentially_visible_at( seen( p ) ) ) {
         return;
+    }
+
+    if( !force_add && extra->visibility == map_extra_visibility::same_tile ) {
+        tripoint_abs_omt target = project_combine( this->pos(), p );
+        if( target != get_avatar().pos_abs_omt() ) {
+            return;
+        }
     }
 
 
@@ -2100,11 +2097,14 @@ bool overmap::guess_has_lake( const point_abs_om &p, const double noise_threshol
     const om_noise::om_noise_layer_lake noise_func( origin, g->get_seed() );
 
     int lake_tiles = 0;
-    for( int i = 0; i < OMAPX; i++ ) {
+    for( int i = 0; i < OMAPX && lake_tiles < max_tile_count; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             const point_om_omt seed_point( i, j );
             if( omt_lake_noise_threshold( origin, seed_point, noise_threshold ) ) {
                 lake_tiles++;
+                if( lake_tiles >= max_tile_count ) {
+                    break;
+                }
             }
         }
     }
@@ -3073,6 +3073,46 @@ std::vector<tripoint_om_omt> overmap::place_special(
             safe_at_worldgen.emplace( location );
         }
     }
+
+    // Collect unique pp_generators referenced by any OMT of this special.
+    std::set<pp_generator_id> special_pp_gens;
+    for( const tripoint_om_omt &location : result.omts_used ) {
+        for( const pp_generator_id &gen_id : ter( location )->get_post_process_generators() ) {
+            special_pp_gens.insert( gen_id );
+        }
+    }
+    if( !special_pp_gens.empty() ) {
+        std::vector<pp_resolved_generator> decisions;
+        for( const pp_generator_id &gen_id : special_pp_gens ) {
+            const pp_generator &gen = gen_id.obj();
+            pp_resolved_generator resolved;
+            resolved.generator = gen_id;
+            std::map<sub_generator_type, uint8_t> type_counts;
+            for( const pp_sub_generator &sg : gen.sub_generators() ) {
+                const uint8_t ord = type_counts[sg.type];
+                if( sg.scope == pp_sub_generator_scope::overmap_special ) {
+                    pp_sub_decision dec;
+                    dec.type = sg.type;
+                    dec.ordinal = ord;
+                    dec.st = pp_sub_decision::status::not_evaluated;
+                    dec.seed = rng_bits();
+                    resolved.sub_decisions.push_back( dec );
+                }
+                type_counts[sg.type]++;
+            }
+            if( !resolved.sub_decisions.empty() ) {
+                decisions.push_back( std::move( resolved ) );
+            }
+        }
+        if( !decisions.empty() ) {
+            std::vector<pp_resolved_generator> *decisions_p =
+                &*pp_decision_storage.emplace( std::move( decisions ) );
+            for( const tripoint_om_omt &location : result.omts_used ) {
+                pp_decisions_index[location] = decisions_p;
+            }
+        }
+    }
+
     // Place spawns.
     const overmap_special_spawns &spawns = special.get_monster_spawns();
     if( spawns.group ) {
@@ -3134,6 +3174,11 @@ bool overmap::place_special_attempt(
                 continue;
             }
             const overmap_special_placement_constraints &constraints = special.get_constraints();
+            // Deck-draw losers are kept in the batch for chain-spawned descendants
+            // but must not be placed on this overmap.
+            if( iter->instances_placed >= constraints.occurrences.max ) {
+                continue;
+            }
             // If we haven't finished placing minimum instances of all specials,
             // skip specials that are at their minimum count already.
             if( !place_optional && iter->instances_placed >= constraints.occurrences.min ) {
@@ -3280,14 +3325,21 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
                 // Allow exactly one placement attempt on this overmap.
                 iter->instances_placed = constraints.occurrences.max - 1;
             } else {
-                iter = enabled_specials.erase( iter );
-                continue;
+                // Sentinel: max marks "deck said no for this overmap" while keeping
+                // the entry alive for chain-spawned descendants to draw fresh.
+                iter->instances_placed = constraints.occurrences.max;
             }
         }
         ++iter;
     }
-    // Bail out early if we have nothing to place.
-    if( enabled_specials.empty() ) {
+    // Bail out early if we have nothing to place.  Deck-draw losers stay in
+    // the batch (instances_placed == max) for chain-spawned descendants, so
+    // check for actual candidates rather than batch emptiness.
+    const bool any_candidates = std::any_of( enabled_specials.begin(), enabled_specials.end(),
+    []( const overmap_special_placement & p ) {
+        return p.instances_placed < p.special_details->get_constraints().occurrences.max;
+    } );
+    if( !any_candidates ) {
         return;
     }
     om_special_sectors sectors = get_sectors( OMSPEC_FREQ );

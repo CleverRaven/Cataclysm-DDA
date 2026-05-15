@@ -17,6 +17,7 @@
 #include "cata_io.h"
 #include "cata_path.h"
 #include "city.h"
+#include "colony.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -24,10 +25,12 @@
 #include "hash_utils.h"
 #include "horde_entity.h"
 #include "input.h"
+#include "item_wakeup.h"
 #include "json.h"
 #include "json_loader.h"
 #include "kill_tracker.h"
 #include "map.h"
+#include "mapgen_post_process.h"
 #include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
@@ -159,7 +162,6 @@ void game::serialize_json( std::ostream &fout )
     global_variables_instance.serialize( json );
     Messages::serialize( json );
     json.member( "unique_npcs", unique_npcs );
-    json.member( "unvisited_map_extras", unvisited_map_extras );
     json.end_object();
 }
 
@@ -283,9 +285,6 @@ void game::unserialize_impl( const JsonObject &data )
     load_map( project_combine( com, lev ), /*pump_events=*/true );
 
     safe_mode = static_cast<safe_mode_type>( tmprun );
-    if( get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF ) {
-        safe_mode = SAFE_MODE_ON;
-    }
 
     std::string linebuff;
     std::string linebuf;
@@ -319,7 +318,6 @@ void game::unserialize_impl( const JsonObject &data )
     }
     global_variables_instance.unserialize( data );
     data.read( "unique_npcs", unique_npcs );
-    data.read( "unvisited_map_extras", unvisited_map_extras );
     inp_mngr.pump_events();
     data.read( "stats_tracker", *stats_tracker_ptr );
     data.read( "achievements_tracker", *achievements_tracker_ptr );
@@ -481,6 +479,17 @@ void overmap::unserialize( const JsonObject &jsobj )
         jsobj.read( "omt_stack_arguments_map", flat_omt_stack_arguments_map, true );
         for( const std::pair<point_abs_omt, mapgen_arguments> &p : flat_omt_stack_arguments_map ) {
             omt_stack_arguments_map.emplace( p );
+        }
+    }
+    if( jsobj.has_member( "pp_decision_storage" ) ) {
+        jsobj.read( "pp_decision_storage", pp_decision_storage, true );
+    }
+    if( jsobj.has_member( "pp_decisions_index" ) ) {
+        std::vector<std::pair<tripoint_om_omt, int>> flat_index;
+        jsobj.read( "pp_decisions_index", flat_index, true );
+        for( const std::pair<tripoint_om_omt, int> &p : flat_index ) {
+            auto it = pp_decision_storage.get_iterator_from_index( p.second );
+            pp_decisions_index.emplace( p.first, &*it );
         }
     }
     std::vector<tripoint_abs_omt> camps_to_place;
@@ -1264,6 +1273,8 @@ void overmap::serialize_view( std::ostream &fout ) const
     json.end_object();
 }
 
+namespace
+{
 // Compares all fields except position and monsters
 // If any group has monsters, it is never equal to any group (because monsters are unique)
 struct mongroup_bin_eq {
@@ -1293,6 +1304,7 @@ struct mongroup_hash {
         return ret;
     }
 };
+} // namespace
 
 void overmap::save_monster_groups( JsonOut &jout ) const
 {
@@ -1565,6 +1577,22 @@ void overmap::serialize( std::ostream &fout ) const
     json.end_array();
     fout << std::endl;
 
+    json.member( "pp_decision_storage", pp_decision_storage );
+    fout << std::endl;
+    json.member( "pp_decisions_index" );
+    json.start_array();
+    for( const std::pair<const tripoint_om_omt, std::vector<pp_resolved_generator> *> &p :
+         pp_decisions_index ) {
+        json.start_array();
+        json.write( p.first );
+        auto it = pp_decision_storage.get_iterator_from_pointer( p.second );
+        int index = pp_decision_storage.get_index_from_iterator( it );
+        json.write( index );
+        json.end_array();
+    }
+    json.end_array();
+    fout << std::endl;
+
     std::vector<std::pair<om_pos_dir, std::string>> flattened_joins_used(
                 joins_used.begin(), joins_used.end() );
     json.member( "joins_used", flattened_joins_used );
@@ -1671,6 +1699,9 @@ void game::unserialize_master( const cata_path &file_name, std::istream &fin )
 
 void game::unserialize_master( const JsonValue &jv )
 {
+    // Reset state that has no clear-on-load hook of its own; otherwise a
+    // save without the field inherits the previous game's queue.
+    get_item_wakeups().clear();
     JsonObject game_json = jv;
     for( JsonMember jsin : game_json ) {
         std::string name = jsin.name();
@@ -1690,6 +1721,8 @@ void game::unserialize_master( const JsonValue &jv )
             weather_manager::unserialize_all( jsin );
         } else if( name == "timed_events" ) {
             timed_event_manager::unserialize_all( jsin );
+        } else if( name == "item_wakeups" ) {
+            get_item_wakeups().deserialize( jsin );
         } else if( name == "overmapbuffer" ) {
             overmap_buffer.global_state.deserialize( jsin );
         } else if( name == "placed_unique_specials" ) {
@@ -1891,6 +1924,9 @@ void game::serialize_master( std::ostream &fout )
 
         json.member( "timed_events" );
         timed_event_manager::serialize_all( json );
+
+        json.member( "item_wakeups" );
+        get_item_wakeups().serialize( json );
 
         json.member( "factions", *faction_manager_ptr );
         json.member( "seed", seed );

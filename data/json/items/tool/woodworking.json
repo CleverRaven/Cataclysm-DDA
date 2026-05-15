@@ -234,7 +234,11 @@
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
     "power_draw": "1200 W",
     "revert_to": "circsaw_off",
-    "qualities": [ [ "CUT", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -40 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1, "speed": 0.5 },
+      { "id": "SAW_W", "level": 2, "speed": 0.3 },
+      { "id": "BUTCHER", "level": -40 }
+    ],
     "use_action": { "target": "circsaw_off", "msg": "Your %s goes quiet.", "menu_text": "Turn off", "type": "transform" },
     "tick_action": {
       "type": "effect_on_conditions",

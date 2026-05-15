@@ -109,6 +109,10 @@
     "type": "json_flag"
   },
   {
+    "id": "ALLOWS_GASTROPOD_FOOT",
+    "type": "json_flag"
+  },
+  {
     "id": "ALLOWS_TALONS",
     "type": "json_flag"
   },
@@ -195,6 +199,11 @@
     "id": "CALORIE_BURN",
     "type": "json_flag",
     "info": "This item enables you to keep track of calorie consumption.  Includes CALORIES_INTAKE."
+  },
+  {
+    "id": "CRYOGENIC_ROT",
+    "type": "json_flag",
+    "info": "This item <info>requires specialized cryogenic preservation</info> and will <bad>spoil rapidly</bad> even at subzero temperatures."
   },
   {
     "id": "CASELESS_ROUNDS",
@@ -1028,6 +1037,11 @@
     "type": "json_flag",
     "//": "Prevents the item from making the body part count as unfriendly to water and thus causing negative morale from being wet.",
     "info": "This clothing <good>performs well</good> even when <info>soaking wet</info>.  This can feel good."
+  },
+  {
+    "id": "HIGH_GLARE",
+    "type": "json_flag",
+    "//": "Glare lasts twice as long."
   },
   {
     "id": "ITEM_BROKEN",
@@ -2872,6 +2886,14 @@
     "id": "CANNOT_GAIN_EFFECTS",
     "type": "json_flag",
     "//": "Creatures with this flag will not gain any new effects or gain extra time on their current ones."
+  },
+  {
+    "id": "NUMB",
+    "type": "json_flag"
+  },
+  {
+    "id": "PSYCHOPATH",
+    "type": "json_flag"
   },
   {
     "id": "BANK_NETWORKED",

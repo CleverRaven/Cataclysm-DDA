@@ -116,13 +116,12 @@
     "points": 1,
     "visibility": 1,
     "description": "Your eyes transform into the orbits of an unknown creature.  You now see much better in the light and dark.",
-    "//": "not actual replacement yet, because i'm afraid of how wearing stuff may interact with it",
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
     "activated_eocs": [ "EOC_STALKER_EYES_INITIATE" ],
     "enchantments": [
-      { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "stalker_eyes" } ] },
+      { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "stalker_eyes" } ] },
       { "values": [ { "value": "MAX_MANA", "multiply": -0.1 } ] }
     ]
   },
@@ -523,5 +522,25 @@
       { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "assist_arm_r" }, { "gain": "assist_arm_l" } ] },
       { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.6 } ] }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "MUTATION_COSMETIC_BUTTERFLY_WINGS",
+    "name": { "str": "Butterfly Wings Sprite Mutation", "//~": "NO_I18N" },
+    "description": { "str": "This exists only to tie a sprite to.", "//~": "NO_I18N" },
+    "points": 0,
+    "valid": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "MUTATION_NO_RIGID_TORSO_ARMOR",
+    "name": { "str": "No Rigid Torso Armor", "//~": "NO_I18N" },
+    "description": { "str": "This exists only to prevent rigid armor on the torso.", "//~": "NO_I18N" },
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "restricts_gear": [ "torso" ],
+    "allow_soft_gear": true
   }
 ]

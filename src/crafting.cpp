@@ -28,6 +28,7 @@
 #include "color.h"
 #include "coordinates.h"
 #include "craft_command.h"
+#include "crafting_enums.h"
 #include "crafting_gui.h"
 #include "creature.h"
 #include "debug.h"
@@ -37,6 +38,7 @@
 #include "enums.h"
 #include "faction.h"
 #include "flag.h"
+#include "flat_set.h" // IWYU pragma: keep
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -46,6 +48,7 @@
 #include "item.h"
 #include "item_components.h"
 #include "item_location.h"
+#include "item_uid.h"
 #include "itype.h"
 #include "iuse.h"
 #include "line.h"
@@ -70,11 +73,14 @@
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
+#include "sounds.h"
 #include "string_formatter.h"
 #include "talker.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uilist.h"
+#include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
@@ -85,6 +91,7 @@
 #include "weather.h"
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
+static const activity_id ACT_CRAFT_WAIT( "ACT_CRAFT_WAIT" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 
 static const efftype_id effect_contacts( "contacts" );
@@ -824,6 +831,27 @@ static item_location set_item_map( const tripoint_bub_ms &loc, item &newit )
 }
 
 /**
+ * Place `copies` identical instances of `exemplar` near `loc`. Emits a debugmsg
+ * if any copies cannot fit after exhausting the target tile and its overflow
+ * neighborhood, matching the bounded-failure contract of per-item set_item_map.
+ */
+static void set_item_map_copies( const tripoint_bub_ms &loc, item &exemplar, int copies )
+{
+    int remaining = copies;
+    item &first_added = get_map().add_item_or_charges( loc, exemplar, remaining, true );
+    const bool total_failure = &first_added == &null_item_reference();
+    if( total_failure ) {
+        debugmsg( "Could not place %d %s on map near (%d, %d, %d)", copies, exemplar.tname(),
+                  loc.x(), loc.y(), loc.z() );
+        return;
+    }
+    if( remaining > 0 ) {
+        debugmsg( "Could not place %d of %d %s on map near (%d, %d, %d); overflow neighborhood full",
+                  remaining, copies, exemplar.tname(), loc.x(), loc.y(), loc.z() );
+    }
+}
+
+/**
  * Set an item on the map or in a vehicle and return the new location
  */
 static item_location set_item_map_or_vehicle( const Character &p, const tripoint_bub_ms &loc,
@@ -975,7 +1003,725 @@ static item_location place_craft_or_disassembly(
     return craft_in_world;
 }
 
-void Character::start_craft( craft_command &command, const std::optional<tripoint_bub_ms> &loc )
+void fire_step_complete_distraction( const std::string &interrupt_msg,
+                                     const std::string &no_watch_msg,
+                                     const item_location &loc )
+{
+    avatar &u = get_avatar();
+    if( ( u.activity.id() == ACT_CRAFT || u.activity.id() == ACT_CRAFT_WAIT )
+        && !u.activity.targets.empty()
+        && u.activity.targets.back() == loc ) {
+        return;
+    }
+    if( !u.has_watch() && !u.has_alarm_clock() ) {
+        add_msg( m_info, no_watch_msg );
+        return;
+    }
+    if( !uistate.distraction_craft_step_complete ) {
+        add_msg( m_info, interrupt_msg );
+        return;
+    }
+    const bool interrupted =
+        g->cancel_activity_or_ignore_query( distraction_type::craft_step_complete, interrupt_msg );
+    if( !interrupted && u.activity.id().is_null() && !u.has_destination() ) {
+        add_msg( m_info, interrupt_msg );
+    }
+}
+
+inflight_alarm_choices compute_inflight_alarm_choices(
+    time_point passive_started_at, time_point live_ready_at, time_point now )
+{
+    inflight_alarm_choices result;
+    result.remaining = live_ready_at - now;
+    if( result.remaining <= 0_seconds ) {
+        return result;
+    }
+    result.finish_enabled = true;
+    result.finish_offset = live_ready_at - passive_started_at;
+    if( result.remaining > 5_minutes ) {
+        result.five_before_enabled = true;
+        result.five_before_offset = live_ready_at - passive_started_at - 5_minutes;
+    }
+    return result;
+}
+
+std::optional<std::vector<attention_plan>> show_craft_planning_modal(
+        const recipe &rec, const Character &crafter, int batch, int from_step,
+        const std::vector<attention_plan> &existing, const item *current_craft )
+{
+    const std::vector<recipe_step> &steps = rec.steps();
+    std::vector<attention_plan> plans( steps.size() );
+    for( size_t i = 0; i < std::min( existing.size(), plans.size() ); ++i ) {
+        plans[i] = existing[i];
+    }
+
+    const bool has_timepiece = crafter.has_watch() || crafter.has_alarm_clock();
+    const crafting_cost_context ctx{ crafter.book_bonuses_nearby(),
+                                     compute_tool_speeds( rec, crafter ) };
+
+    const size_t start_idx = from_step < 0 ? 0 : static_cast<size_t>( from_step );
+    for( size_t i = start_idx; i < steps.size(); ++i ) {
+        const recipe_step &step = steps[i];
+        if( step.attention != step_attention::unattended ) {
+            continue;
+        }
+
+        const bool is_inflight = current_craft != nullptr
+                                 && current_craft->get_passive_started_at() != calendar::before_time_starts
+                                 && current_craft->get_current_step() == static_cast<int>( i );
+        inflight_alarm_choices inflight;
+        time_duration step_dur;
+        if( is_inflight ) {
+            const bool paused =
+                current_craft->get_saved_ready_at() != calendar::before_time_starts;
+            const time_point live_ready_at = paused
+                                             ? current_craft->get_saved_ready_at()
+                                             : current_craft->get_ready_at();
+            // Paused deadlines slide on unpause; evaluate at pause snapshot.
+            const time_point eval_now = paused
+                                        ? current_craft->get_pause_started_at()
+                                        : calendar::turn;
+            inflight = compute_inflight_alarm_choices(
+                           current_craft->get_passive_started_at(), live_ready_at,
+                           eval_now );
+            // Past completion: overdue resolver will pick it up; skip here.
+            if( inflight.remaining <= 0_seconds ) {
+                continue;
+            }
+            step_dur = inflight.remaining;
+        } else {
+            step_dur = time_duration::from_moves(
+                           rec.step_budget_moves( crafter, i, batch, ctx,
+                                                  recipe_time_flag::ignore_proficiencies ) );
+        }
+
+        uilist menu;
+        menu.text = string_format(
+                        _( "Step: %s (%s)\nWhat do you want to do?" ),
+                        step.name.translated(),
+                        to_string_approx( step_dur ) );
+        menu.addentry( 0, true, 'w', _( "Wait for it to finish" ) );
+        menu.addentry( 1, true, 'd', _( "Do something else" ) );
+        if( has_timepiece ) {
+            menu.addentry( 2, true, 't', _( "Set a timer" ) );
+        }
+        menu.query();
+
+        if( menu.ret == UILIST_CANCEL ) {
+            return std::nullopt;
+        }
+
+        if( menu.ret == 0 ) {
+            plans[i].choice = step_choice::do_wait;
+            plans[i].alarm_offset.reset();
+        } else if( menu.ret == 1 ) {
+            plans[i].choice = step_choice::do_something;
+            plans[i].alarm_offset.reset();
+        } else if( menu.ret == 2 ) {
+            uilist alarm;
+            alarm.text = _( "Set an alarm for when?" );
+            const bool finish_enabled = is_inflight ? inflight.finish_enabled : true;
+            const bool five_before_enabled = is_inflight
+                                             ? inflight.five_before_enabled
+                                             : step_dur > 5_minutes;
+            alarm.addentry( 1, finish_enabled, '1',
+                            string_format( _( "When the step finishes (%s)" ),
+                                           to_string( step_dur ) ) );
+            alarm.addentry( 2, five_before_enabled, '2',
+                            string_format( _( "5 minutes before (%s in)" ),
+                                           to_string( step_dur - 5_minutes ) ) );
+            alarm.query();
+            if( alarm.ret == UILIST_CANCEL ) {
+                return std::nullopt;
+            }
+            plans[i].choice = step_choice::set_timer;
+            if( is_inflight ) {
+                plans[i].alarm_offset = alarm.ret == 2 ? inflight.five_before_offset
+                                        : inflight.finish_offset;
+            } else if( alarm.ret == 2 ) {
+                plans[i].alarm_offset = step_dur - 5_minutes;
+            } else {
+                plans[i].alarm_offset = step_dur;
+            }
+        }
+    }
+
+    return plans;
+}
+
+std::vector<desired_wakeup> craft_enumerate_scheduled_wakeups(
+    const item &craft, const item_location & /*loc*/ )
+{
+    std::vector<desired_wakeup> result;
+    if( !craft.is_craft() ) {
+        return result;
+    }
+    const time_point ready_at = craft.get_ready_at();
+    const time_point alarm_at = craft.get_alarm_at();
+    const time_point fail_at = craft.get_fail_at();
+    const time_point env_check_at = craft.get_env_check_at();
+    if( ready_at != calendar::before_time_starts ) {
+        result.push_back( desired_wakeup{ item_wakeup_kind::ready_check, ready_at } );
+    }
+    if( alarm_at != calendar::before_time_starts ) {
+        result.push_back( desired_wakeup{ item_wakeup_kind::alarm, alarm_at } );
+    }
+    if( fail_at != calendar::before_time_starts ) {
+        result.push_back( desired_wakeup{ item_wakeup_kind::fail_check, fail_at } );
+    }
+    if( env_check_at != calendar::before_time_starts ) {
+        result.push_back( desired_wakeup{ item_wakeup_kind::env_check, env_check_at } );
+    }
+    return result;
+}
+
+static bool step_has_env_requirements( const recipe_step &step )
+{
+    return !step.requirements.get_tools().empty()
+           || !step.requirements.get_qualities().empty();
+}
+
+static Character *resolve_crafter( const character_id &cid )
+{
+    if( !cid.is_valid() ) {
+        return nullptr;
+    }
+    avatar &u = get_avatar();
+    if( u.getID() == cid ) {
+        return &u;
+    }
+    return g->find_npc( cid );
+}
+
+static bool env_satisfied_for_step( const recipe_step &step, const item &craft,
+                                    const item_location &loc )
+{
+    if( !step_has_env_requirements( step ) ) {
+        return true;
+    }
+    map &m = get_map();
+    const tripoint_bub_ms craft_pos = m.get_bub( loc.pos_abs() );
+
+    inventory inv;
+    if( loc.where() == item_location::type::character ) {
+        Character *holder = loc.carrier();
+        if( holder != nullptr ) {
+            inv = holder->crafting_inventory( craft_pos, PICKUP_RANGE );
+        }
+    } else {
+        Character *crafter = resolve_crafter( craft.get_crafter_id() );
+        if( crafter != nullptr
+            && rl_dist( crafter->pos_bub( m ), craft_pos ) <= PICKUP_RANGE ) {
+            inv = crafter->crafting_inventory( craft_pos, PICKUP_RANGE );
+        } else {
+            inv.form_from_map( &m, craft_pos, PICKUP_RANGE, /*pl=*/nullptr );
+        }
+    }
+    return step.requirements.can_make_with_inventory(
+               inv, return_true<item>, /*batch=*/1, craft_flags::start_only );
+}
+
+static std::string compose_unattend_message( const item &craft, const recipe_step &step )
+{
+    if( !step.unattend_message.empty() ) {
+        return step.unattend_message.translated();
+    }
+    return string_format( _( "%s is ready." ), craft.get_making().result_name() );
+}
+
+static void advance_passive_step( item &craft )
+{
+    if( craft.get_passive_end_counter() > craft.item_counter ) {
+        craft.item_counter = std::min( 10000000, craft.get_passive_end_counter() );
+    }
+    craft.set_passive_started_at( calendar::before_time_starts );
+    craft.set_ready_at( calendar::before_time_starts );
+    craft.set_alarm_at( calendar::before_time_starts );
+    craft.set_fail_at( calendar::before_time_starts );
+    craft.set_pause_started_at( calendar::before_time_starts );
+    craft.set_saved_ready_at( calendar::before_time_starts );
+    craft.set_saved_alarm_at( calendar::before_time_starts );
+    craft.set_saved_fail_at( calendar::before_time_starts );
+    craft.set_env_check_at( calendar::before_time_starts );
+    craft.set_passive_start_counter( 0 );
+    craft.set_passive_end_counter( 0 );
+    craft.set_current_step( craft.get_current_step() + 1 );
+    craft.set_step_progress( 0.0 );
+}
+
+static void craft_actualize_alarm( item &craft, time_point now, const item_location &loc )
+{
+    if( craft.get_alarm_at() == calendar::before_time_starts ) {
+        return;
+    }
+    // Same-turn collision: ready_check fires next in (kind, when, uid) order
+    // and will produce its own distraction.  Suppress redundant alarm.
+    if( craft.get_ready_at() != calendar::before_time_starts
+        && now >= craft.get_ready_at() ) {
+        craft.set_alarm_at( calendar::before_time_starts );
+        get_item_wakeups().rebuild_for_item( loc );
+        return;
+    }
+    craft.set_alarm_at( calendar::before_time_starts );
+
+    const recipe &rec = craft.get_making();
+    const int step_idx = craft.get_current_step();
+    const std::string ready_msg = step_idx >= 0 && step_idx < static_cast<int>( rec.steps().size() )
+                                  ? compose_unattend_message( craft, rec.steps()[step_idx] )
+                                  : string_format( _( "%s is ready." ), rec.result_name() );
+    const std::string alarm_msg = string_format( _( "Your timer goes off: %s" ), ready_msg );
+
+    avatar &u = get_avatar();
+    sounds::sound( u.pos_bub(), 16, sounds::sound_t::alarm,
+                   _( "beep-beep-beep!" ), false, "tool", "alarm_clock" );
+    if( !u.activity.id().is_null() ) {
+        g->cancel_activity_or_ignore_query( distraction_type::noise, alarm_msg );
+    } else if( !u.has_destination() ) {
+        add_msg( m_info, alarm_msg );
+    }
+    get_item_wakeups().rebuild_for_item( loc );
+}
+
+static bool activity_targets_loc( const Character &c, const item_location &loc )
+{
+    return ( c.activity.id() == ACT_CRAFT || c.activity.id() == ACT_CRAFT_WAIT )
+           && !c.activity.targets.empty()
+           && c.activity.targets.back() == loc;
+}
+
+static void end_live_wait_for( const item_location &loc )
+{
+    avatar &u = get_avatar();
+    if( activity_targets_loc( u, loc ) ) {
+        u.activity.set_to_null();
+    }
+    for( npc &n : g->all_npcs() ) {
+        if( activity_targets_loc( n, loc ) ) {
+            n.activity.set_to_null();
+        }
+    }
+}
+
+static std::optional<tripoint_bub_ms> craft_loc_for_complete( const item_location &loc )
+{
+    if( loc.where() == item_location::type::character ) {
+        return std::nullopt;
+    }
+    return get_map().get_bub( loc.pos_abs() );
+}
+
+static void craft_actualize_fail( item &craft, time_point now,
+                                  const item_location &loc )
+{
+    if( craft.get_fail_at() == calendar::before_time_starts ) {
+        return;
+    }
+    if( now < craft.get_fail_at() ) {
+        return;
+    }
+    end_live_wait_for( loc );
+    get_item_wakeups().cancel_all( craft.uid().get_value() );
+    item_location mut_loc = loc;
+    mut_loc.remove_item();
+}
+
+static void finalize_passive_craft( item &craft, const item_location &loc )
+{
+    Character *crafter = resolve_crafter( craft.get_crafter_id() );
+    if( crafter == nullptr ) {
+        debugmsg( "crafter %d gone before terminal unattended step finalized; "
+                  "destroying craft for recipe %s",
+                  craft.get_crafter_id().get_value(),
+                  craft.get_making().ident().str() );
+        get_item_wakeups().cancel_all( craft.uid().get_value() );
+        item_location mut_loc = loc;
+        mut_loc.remove_item();
+        return;
+    }
+    end_live_wait_for( loc );
+    item craft_copy = craft;
+    const std::optional<tripoint_bub_ms> finalize_loc = craft_loc_for_complete( loc );
+    get_item_wakeups().cancel_all( craft.uid().get_value() );
+    item_location mut_loc = loc;
+    mut_loc.remove_item();
+    crafter->complete_craft( craft_copy, finalize_loc );
+}
+
+namespace
+{
+// Result of an env-check pass.
+enum class env_check_result {
+    // Pause was entered or continues.
+    paused,
+    // Pause restored; deadlines slid.  Ready-advance must recheck
+    // ready_at before continuing.
+    restored,
+    // No pause.
+    ok,
+};
+} // namespace
+
+// Shared env-pause / env-restore helper.  Owns env_check_at re-arm
+// cadence and rebuilds wakeups in all paths.
+static env_check_result craft_check_env_step( item &craft, time_point now,
+        const item_location &loc )
+{
+    const recipe &rec = craft.get_making();
+    const int step_idx = craft.get_current_step();
+    if( step_idx < 0 || step_idx >= static_cast<int>( rec.steps().size() ) ) {
+        return env_check_result::ok;
+    }
+    const recipe_step &step = rec.steps()[step_idx];
+
+    if( !env_satisfied_for_step( step, craft, loc ) ) {
+        if( craft.get_pause_started_at() == calendar::before_time_starts ) {
+            craft.set_pause_started_at( now );
+            craft.set_saved_ready_at( craft.get_ready_at() );
+            craft.set_saved_alarm_at( craft.get_alarm_at() );
+            craft.set_saved_fail_at( craft.get_fail_at() );
+            craft.set_alarm_at( calendar::before_time_starts );
+            craft.set_fail_at( calendar::before_time_starts );
+        }
+        craft.set_ready_at( now + 1_minutes );
+        // While paused, ready_at is the 1-minute polling cursor; clear
+        // env_check_at to avoid double-arming the queue.
+        craft.set_env_check_at( calendar::before_time_starts );
+        get_item_wakeups().rebuild_for_item( loc );
+        return env_check_result::paused;
+    }
+
+    if( craft.get_pause_started_at() != calendar::before_time_starts ) {
+        const time_duration paused_for = now - craft.get_pause_started_at();
+        // Restored fail_at is always in the future: pause entry is gated by
+        // the top-of-handler fail guard, so saved_fail_at > pause_started_at.
+        craft.set_ready_at( craft.get_saved_ready_at() + paused_for );
+        if( craft.get_saved_alarm_at() != calendar::before_time_starts ) {
+            craft.set_alarm_at( craft.get_saved_alarm_at() + paused_for );
+        }
+        if( craft.get_saved_fail_at() != calendar::before_time_starts ) {
+            craft.set_fail_at( craft.get_saved_fail_at() + paused_for );
+        }
+        craft.set_pause_started_at( calendar::before_time_starts );
+        craft.set_saved_ready_at( calendar::before_time_starts );
+        craft.set_saved_alarm_at( calendar::before_time_starts );
+        craft.set_saved_fail_at( calendar::before_time_starts );
+        // Already-due alarm fires inline, not one queue tick late.
+        if( craft.get_alarm_at() != calendar::before_time_starts &&
+            now >= craft.get_alarm_at() ) {
+            craft_actualize_alarm( craft, now, loc );
+        }
+        // Re-arm env_check cursor, clamped to ready_at so a near-end-of-step
+        // restore does not arm a poll past completion.
+        if( step_has_env_requirements( step ) ) {
+            const time_point next = now + 1_minutes;
+            craft.set_env_check_at( std::min( next, craft.get_ready_at() ) );
+        } else {
+            craft.set_env_check_at( calendar::before_time_starts );
+        }
+        get_item_wakeups().rebuild_for_item( loc );
+        return env_check_result::restored;
+    }
+
+    // Normal mid-step env check (no pause entered or exited).  Re-arm the
+    // cursor for the next minute; clamp to ready_at so a poll never fires
+    // after step completion.
+    if( step_has_env_requirements( step ) ) {
+        const time_point next = now + 1_minutes;
+        craft.set_env_check_at( std::min( next, craft.get_ready_at() ) );
+    } else {
+        craft.set_env_check_at( calendar::before_time_starts );
+    }
+    get_item_wakeups().rebuild_for_item( loc );
+    return env_check_result::ok;
+}
+
+static void craft_actualize_env( item &craft, time_point now, const item_location &loc )
+{
+    if( !craft.is_craft() ) {
+        return;
+    }
+    if( craft.get_passive_started_at() == calendar::before_time_starts ) {
+        // No unattended step in flight; clear the cursor and bail.
+        craft.set_env_check_at( calendar::before_time_starts );
+        get_item_wakeups().rebuild_for_item( loc );
+        return;
+    }
+    // Overdue for failure: fail_check will handle it on its tick; do not
+    // pause a craft that is past its grace period.
+    if( craft.get_fail_at() != calendar::before_time_starts &&
+        now >= craft.get_fail_at() ) {
+        return;
+    }
+    ( void ) craft_check_env_step( craft, now, loc );
+}
+
+static void craft_actualize_ready( item &craft, time_point now, const item_location &loc )
+{
+    if( craft.get_ready_at() == calendar::before_time_starts ) {
+        return;
+    }
+    if( now < craft.get_ready_at() ) {
+        return;
+    }
+    const recipe &rec = craft.get_making();
+    const int step_idx = craft.get_current_step();
+    if( step_idx < 0 || step_idx >= static_cast<int>( rec.steps().size() ) ) {
+        return;
+    }
+    const recipe_step &step = rec.steps()[step_idx];
+    // Recipe-edit migration: stale passive state on what is now an active step
+    // would otherwise advance/finalize the wrong step.  Clear and bail.
+    if( step.attention != step_attention::unattended ) {
+        craft.set_passive_started_at( calendar::before_time_starts );
+        craft.set_ready_at( calendar::before_time_starts );
+        craft.set_alarm_at( calendar::before_time_starts );
+        craft.set_fail_at( calendar::before_time_starts );
+        craft.set_pause_started_at( calendar::before_time_starts );
+        craft.set_saved_ready_at( calendar::before_time_starts );
+        craft.set_saved_alarm_at( calendar::before_time_starts );
+        craft.set_saved_fail_at( calendar::before_time_starts );
+        craft.set_env_check_at( calendar::before_time_starts );
+        craft.set_passive_start_counter( 0 );
+        craft.set_passive_end_counter( 0 );
+        get_item_wakeups().rebuild_for_item( loc );
+        return;
+    }
+
+    // Fail before ready: queue ordering dispatches ready first, but an
+    // overdue fail must short-circuit instead of advancing the step.
+    if( craft.get_fail_at() != calendar::before_time_starts &&
+        now >= craft.get_fail_at() ) {
+        craft_actualize_fail( craft, now, loc );
+        return;
+    }
+
+    const env_check_result env_result = craft_check_env_step( craft, now, loc );
+    if( env_result == env_check_result::paused ) {
+        return;
+    }
+    if( env_result == env_check_result::restored && now < craft.get_ready_at() ) {
+        return;
+    }
+
+    const std::string completion_msg = compose_unattend_message( craft, step );
+    const std::string flavor_msg = string_format(
+                                       _( "You suddenly remember that the %s may have finished %s." ),
+                                       rec.result_name(), step.name.translated() );
+    const bool was_last_step = step_idx == static_cast<int>( rec.steps().size() ) - 1;
+
+    if( was_last_step ) {
+        const bool was_on_craft = activity_targets_loc( get_avatar(), loc );
+        finalize_passive_craft( craft, loc );
+        if( !was_on_craft ) {
+            fire_step_complete_distraction( completion_msg, flavor_msg, loc );
+        }
+        return;
+    }
+    // Stamp consecutive unattended step at the just-consumed ready_at so a
+    // chain catches up without losing wall-clock between them.
+    const time_point step_end = craft.get_ready_at();
+    advance_passive_step( craft );
+    const int new_idx = craft.get_current_step();
+    bool wakeups_rebuilt = false;
+    if( new_idx < static_cast<int>( rec.steps().size() ) &&
+        rec.steps()[new_idx].attention == step_attention::unattended ) {
+        Character *next_crafter = resolve_crafter( craft.get_crafter_id() );
+        if( next_crafter != nullptr ) {
+            craft_stamp_passive_entry( craft, *next_crafter, step_end, loc );
+            wakeups_rebuilt = true;
+        }
+    }
+    if( !wakeups_rebuilt ) {
+        get_item_wakeups().rebuild_for_item( loc );
+    }
+    fire_step_complete_distraction( completion_msg, flavor_msg, loc );
+}
+
+void craft_resolve_overdue_passive( item &craft, time_point now, item_location &loc )
+{
+    if( !craft.is_craft() ) {
+        return;
+    }
+    // Each iteration either advances the step (and the ready handler chains
+    // the next unattended step inline) or terminates.  Bounded by step count.
+    const int max_iters = static_cast<int>( craft.get_making().steps().size() ) + 1;
+    item *cur = &craft;
+    for( int i = 0; i < max_iters; ++i ) {
+        if( cur->get_passive_started_at() == calendar::before_time_starts ) {
+            return;
+        }
+        if( cur->get_ready_at() == calendar::before_time_starts ) {
+            return;
+        }
+        if( now < cur->get_ready_at() ) {
+            return;
+        }
+        craft_actualize_scheduled( *cur, item_wakeup_kind::ready_check, now, loc );
+        // Terminal step finalization removes the craft via complete_craft.
+        cur = loc.get_item();
+        if( cur == nullptr ) {
+            return;
+        }
+    }
+}
+
+void craft_stamp_passive_entry( item &craft, const Character &crafter, time_point now,
+                                const item_location &loc )
+{
+    if( !craft.is_craft() ) {
+        return;
+    }
+    const recipe &rec = craft.get_making();
+    if( !rec.has_steps() ) {
+        return;
+    }
+    const int idx = craft.get_current_step();
+    if( idx < 0 || idx >= static_cast<int>( rec.steps().size() ) ) {
+        return;
+    }
+    const recipe_step &cur_step = rec.steps()[idx];
+    if( cur_step.attention != step_attention::unattended ) {
+        return;
+    }
+    const std::vector<attention_plan> &plans = craft.get_step_plans();
+    const attention_plan plan = idx < static_cast<int>( plans.size() ) ? plans[idx] :
+                                attention_plan{};
+
+    const crafting_cost_context passive_ctx{ crafter.book_bonuses_nearby(),
+            compute_tool_speeds( rec, crafter ) };
+    const int64_t step_moves = static_cast<int64_t>( rec.step_budget_moves(
+                                   crafter, idx, craft.get_making_batch_size(),
+                                   passive_ctx, recipe_time_flag::ignore_proficiencies ) );
+    // Carry step_progress as a fraction of the active (prof-aware) budget
+    // and back-date entry by that fraction of the passive budget; preserves
+    // prior work when an active step becomes unattended via recipe edit.
+    time_point entry_time = now;
+    if( craft.get_step_progress() > 0.0 ) {
+        const double active_budget = rec.step_budget_moves(
+                                         crafter, idx, craft.get_making_batch_size(), passive_ctx );
+        if( active_budget > 0.0 && step_moves > 0 ) {
+            const double fraction = std::min( 1.0,
+                                              craft.get_step_progress() / active_budget );
+            const int64_t elapsed_passive_moves = static_cast<int64_t>(
+                    fraction * static_cast<double>( step_moves ) );
+            entry_time = now - time_duration::from_moves( elapsed_passive_moves );
+        }
+    }
+    craft.set_passive_started_at( entry_time );
+    craft.set_ready_at( entry_time + time_duration::from_moves( step_moves ) );
+    if( cur_step.max_time.has_value() ) {
+        time_duration fail_dur = *cur_step.max_time;
+        if( cur_step.grace_period.has_value() ) {
+            fail_dur += *cur_step.grace_period;
+        }
+        craft.set_fail_at( entry_time + fail_dur );
+    }
+    if( plan.choice == step_choice::set_timer && plan.alarm_offset.has_value() ) {
+        craft.set_alarm_at( entry_time + *plan.alarm_offset );
+    }
+    // Periodic env-check cursor: arm only when the step actually has env
+    // requirements.  Clamp to ready_at so a short step never schedules a
+    // poll past completion.
+    if( step_has_env_requirements( cur_step ) ) {
+        const time_point next = now + 1_minutes;
+        craft.set_env_check_at( std::min( next, craft.get_ready_at() ) );
+    } else {
+        craft.set_env_check_at( calendar::before_time_starts );
+    }
+    // Counter bounds derive from prior steps' budgets (default flags) so any
+    // active-step overshoot in item_counter does not carry into this passive
+    // step.  Matches the active accumulator's batch_time(default) basis.
+    double prior_moves = 0.0;
+    double base_default = 0.0;
+    double step_default = 0.0;
+    for( size_t i = 0; i < rec.steps().size(); ++i ) {
+        const double budget = rec.step_budget_moves(
+                                  crafter, i, craft.get_making_batch_size(), passive_ctx );
+        base_default += budget;
+        if( static_cast<int>( i ) < idx ) {
+            prior_moves += budget;
+        } else if( static_cast<int>( i ) == idx ) {
+            step_default = budget;
+        }
+    }
+    // Truncate the denominator the same way batch_time() does so passive
+    // boundary identity matches the active accumulator's normalization.
+    const double base_total = std::max( 1.0,
+                                        static_cast<double>( static_cast<int64_t>( base_default ) ) );
+    const int start_counter = static_cast<int>( std::round(
+                                  prior_moves / base_total * 10000000.0 ) );
+    const int end_counter = std::min( 10000000,
+                                      static_cast<int>( std::round(
+                                              ( prior_moves + step_default ) / base_total * 10000000.0 ) ) );
+    craft.set_passive_start_counter( start_counter );
+    craft.set_passive_end_counter( end_counter );
+    get_item_wakeups().rebuild_for_item( loc );
+}
+
+void craft_apply_resume_replan( item_location &loc )
+{
+    item *craft = loc.get_item();
+    if( craft == nullptr || !craft->is_craft() ) {
+        return;
+    }
+    if( craft->get_passive_started_at() == calendar::before_time_starts ) {
+        return;
+    }
+    const recipe &rec = craft->get_making();
+    const int idx = craft->get_current_step();
+    if( idx < 0 || idx >= static_cast<int>( rec.steps().size() ) ) {
+        return;
+    }
+    if( rec.steps()[idx].attention != step_attention::unattended ) {
+        return;
+    }
+    const std::vector<attention_plan> &plans = craft->get_step_plans();
+    const attention_plan plan = idx < static_cast<int>( plans.size() ) ? plans[idx] :
+                                attention_plan{};
+    // While env-paused, alarm_at is zeroed and saved_alarm_at carries the
+    // authoritative deadline restored on unpause.  Edit whichever is live so
+    // the replan survives the restore.
+    const bool paused = craft->get_saved_ready_at() != calendar::before_time_starts;
+    if( plan.choice == step_choice::set_timer && plan.alarm_offset.has_value() ) {
+        const time_point alarm_at = craft->get_passive_started_at() + *plan.alarm_offset;
+        if( paused ) {
+            craft->set_saved_alarm_at( alarm_at );
+        } else {
+            craft->set_alarm_at( alarm_at );
+        }
+    } else {
+        craft->set_alarm_at( calendar::before_time_starts );
+        craft->set_saved_alarm_at( calendar::before_time_starts );
+    }
+    get_item_wakeups().rebuild_for_item( loc );
+}
+
+void craft_actualize_scheduled( item &craft, item_wakeup_kind kind, time_point now,
+                                const item_location &loc )
+{
+    if( !craft.is_craft() ) {
+        return;
+    }
+    switch( kind ) {
+        case item_wakeup_kind::alarm:
+            craft_actualize_alarm( craft, now, loc );
+            return;
+        case item_wakeup_kind::env_check:
+            craft_actualize_env( craft, now, loc );
+            return;
+        case item_wakeup_kind::ready_check:
+            craft_actualize_ready( craft, now, loc );
+            return;
+        case item_wakeup_kind::fail_check:
+            craft_actualize_fail( craft, now, loc );
+            return;
+        case item_wakeup_kind::last:
+            return;
+    }
+}
+
+void Character::start_craft( craft_command &command, const std::optional<tripoint_bub_ms> &loc,
+                             std::vector<attention_plan> plans )
 {
     if( command.empty() ) {
         debugmsg( "Attempted to start craft with empty command" );
@@ -989,6 +1735,13 @@ void Character::start_craft( craft_command &command, const std::optional<tripoin
     const recipe &making = craft.get_making();
     if( static_cast<int>( get_skill_level( command.get_skill_id() ) ) > making.get_skill_cap() ) {
         handle_skill_warning( command.get_skill_id(), true );
+    }
+
+    if( making.has_attention_steps() ) {
+        craft.set_crafter_id( getID() );
+    }
+    if( !plans.empty() ) {
+        craft.set_step_plans( std::move( plans ) );
     }
 
     // In case we were wearing something just consumed
@@ -1251,7 +2004,7 @@ Character::craft_roll_data Character::recipe_success_roll_data( const recipe &ma
             const float helper_skill_average = std::max( guy->get_recipe_weighted_skill_average( making ),
                                                0.0f );
             helpers_weighted_average += std::pow( helper_skill_average, 2 );
-            add_msg_if_player( m_info, _( "%s helps with crafting…" ), guy->name );
+            add_msg_if_player( m_info, _( "%s helps with crafting…" ), guy->get_name() );
         }
     }
 
@@ -1537,26 +2290,78 @@ static void spawn_items( Character &guy, std::vector<item> &results,
                          const std::optional<tripoint_bub_ms> &loc, const double relative_rot, const bool should_heat,
                          bool allow_wield = false )
 {
-    for( item &newit : results ) {
+    auto prepare = [&]( item & it ) {
         // todo: set this up recursively, who knows what kinda crafts will need it
-        if( !newit.empty() ) {
-            for( item *new_content : newit.all_items_top() ) {
+        if( !it.empty() ) {
+            for( item *new_content : it.all_items_top() ) {
                 set_temp_rot( *new_content, relative_rot, should_heat );
             }
         }
-        set_temp_rot( newit, relative_rot, should_heat );
+        set_temp_rot( it, relative_rot, should_heat );
+        it.set_owner( guy.get_faction()->id );
+    };
 
-        newit.set_owner( guy.get_faction()->id );
+    map &here = get_map();
+    for( size_t i = 0; i < results.size(); ) {
+        item &newit = results[i];
+        prepare( newit );
+
         if( newit.made_of( phase_id::LIQUID ) ) {
             liquid_handler::handle_all_or_npc_liquid( guy, newit, PICKUP_RANGE );
-        } else if( !loc && allow_wield && !guy.has_wield_conflicts( newit ) &&
-                   guy.can_wield( newit ).success() ) {
-            wield_craft( guy, newit );
-        } else if( !loc ) {
-            set_item_inventory( guy, newit );
-        } else {
-            set_item_map_or_vehicle( guy, loc.value_or( guy.pos_bub() ), newit );
+            ++i;
+            continue;
         }
+        if( !loc && allow_wield && !guy.has_wield_conflicts( newit ) &&
+            guy.can_wield( newit ).success() ) {
+            wield_craft( guy, newit );
+            ++i;
+            continue;
+        }
+        if( !loc ) {
+            set_item_inventory( guy, newit );
+            ++i;
+            continue;
+        }
+
+        // Map placement. Group consecutive identical non-charge results so a
+        // single multi-copy add_item_or_charges call handles overflow and
+        // per-tile cap once per group, instead of per-item closest_points_first
+        // fanout. Skip grouping when the target tile is a vehicle cargo part
+        // because veh add_item lacks a multi-copy entry point.
+        const tripoint_bub_ms target = loc.value_or( guy.pos_bub() );
+        const bool target_is_vehicle = here.veh_at( target ).cargo().has_value();
+        if( !target_is_vehicle && !newit.count_by_charges() ) {
+            size_t group_end = i + 1;
+            while( group_end < results.size() &&
+                   !results[group_end].made_of( phase_id::LIQUID ) &&
+                   !results[group_end].count_by_charges() &&
+                   static_cast<bool>( newit.stacks_with( results[group_end] ) ) ) {
+                prepare( results[group_end] );
+                ++group_end;
+            }
+            const int copies = static_cast<int>( group_end - i );
+            if( copies > 1 ) {
+                if( here.has_furn( target ) ) {
+                    const furn_t &workbench = here.furn( target ).obj();
+                    guy.add_msg_player_or_npc(
+                        //~ %1$s: name of item being placed, %2$s: vehicle part name
+                        pgettext( "item, furniture", "You put the %1$s on the %2$s." ),
+                        pgettext( "item, furniture", "<npcname> puts the %1$s on the %2$s." ),
+                        newit.tname( copies ), workbench.name() );
+                } else {
+                    guy.add_msg_player_or_npc(
+                        pgettext( "item", "You put the %s on the ground." ),
+                        pgettext( "item", "<npcname> puts the %s on the ground." ),
+                        newit.tname( copies ) );
+                }
+                set_item_map_copies( target, newit, copies );
+                i = group_end;
+                continue;
+            }
+        }
+
+        set_item_map_or_vehicle( guy, target, newit );
+        ++i;
     }
 }
 
@@ -3163,7 +3968,8 @@ static bool is_anyone_crafting( const item_location &itm, const Character *you =
 {
     for( const npc &guy : g->all_npcs() ) {
         if( !( you && you->getID() == guy.getID() ) &&
-            guy.activity.id() == ACT_CRAFT ) {
+            ( guy.activity.id() == ACT_CRAFT || guy.activity.id() == ACT_CRAFT_WAIT ) &&
+            !guy.activity.targets.empty() ) {
             item_location target = guy.activity.targets.back();
             if( target == itm ) {
                 return true;

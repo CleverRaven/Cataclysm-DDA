@@ -124,6 +124,8 @@ basecamp::basecamp() = default;
 
 basecamp_map::basecamp_map( const basecamp_map & ) {}
 
+// rhs is intentionally ignored; assignment resets the cached map.
+// NOLINTNEXTLINE(bugprone-unhandled-self-assignment,cert-oop54-cpp)
 basecamp_map &basecamp_map::operator=( const basecamp_map & )
 {
     map_.reset();

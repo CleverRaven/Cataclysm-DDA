@@ -1,0 +1,428 @@
+[
+  {
+    "//": "How this artifact functions: The censer is perfectly mundane, The different types of incenses it can burn effectively function as different active abilities, but they all need high resonance to trigger. Purple incense grants enough resonance to use the rest of incenses, as well as enabling other highland artifacts.",
+    "id": "highland_censer",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
+    "name": { "str": "censer" },
+    "description": "A small bronze vessel used to burn incense and other aromatic substances.  Its adorned with a variety of natural and knotwork designs.",
+    "looks_like": "oil_lamp",
+    "weight": "1720 g",
+    "volume": "1 L",
+    "price": "10 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "bronze" ],
+    "symbol": ";",
+    "color": "yellow",
+    "melee_damage": { "bash": 5 },
+    "flags": [ "MUNDANE" ],
+    "passive_effects": [ { "condition": "ALWAYS", "values": [ { "value": "ARTIFACT_RESONANCE", "add": 200 } ] } ],
+    "use_action": [
+      { "type": "effect_on_conditions", "menu_text": "Burn incense", "effect_on_conditions": [ "EOC_ARTIFACT_BURN_INCENSE" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARTIFACT_BURN_INCENSE",
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_PURPLE_INCENSE",
+          "EOC_RED_INCENSE",
+          "EOC_YELLOW_INCENSE",
+          "EOC_GREEN_INCENSE",
+          "EOC_BLACK_INCENSE",
+          "EOC_WHITE_INCENSE",
+          "EOC_BLUE_INCENSE",
+          "EOC_GOLDEN_INCENSE",
+          "EOC_NONE"
+        ],
+        "names": [
+          "Burn purple incense.",
+          "Burn red incense.",
+          "Burn yellow incense.",
+          "Burn green incense.",
+          "Burn black incense.",
+          "Burn white incense.",
+          "Burn blue incense.",
+          "Burn golden incense.",
+          "Cancel."
+        ],
+        "hide_failing": true,
+        "allow_cancel": true,
+        "title": "Use what incense?"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PURPLE_INCENSE",
+    "//": "Gives enough resonance to trigger other incense effects and to enable highland artifacts.",
+    "condition": { "u_has_item": "highland_purple_incense" },
+    "effect": [
+      { "u_message": "You swing the censer in a wide arc." },
+      { "turn_cost": "2 seconds" },
+      { "u_consume_item": "highland_purple_incense" },
+      { "u_set_field": "fd_purple_incense", "radius": 2 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_YELLOW_INCENSE",
+    "condition": { "u_has_item": "highland_yellow_incense" },
+    "//": "Causes an explosion scaling with resonance, and then cleanses other censer effects.",
+    "effect": [
+      { "u_message": "You swing the censer in a wide arc." },
+      { "turn_cost": "2 seconds" },
+      { "u_consume_item": "highland_yellow_incense" },
+      {
+        "if": { "math": [ "(u_artifact_resonance() > 2500)" ] },
+        "then": [
+          { "u_cast_spell": { "id": "AO_BOOK_SNAP", "hit_self": true } },
+          { "u_lose_effect": "purple_incense_effect" },
+          { "u_lose_effect": "red_incense_effect" },
+          { "u_lose_effect": "green_incense_effect" },
+          { "u_lose_effect": "black_incense_effect" },
+          { "u_lose_effect": "golden_incense_effect" },
+          { "u_set_field": "fd_yellow_incense", "radius": 2 }
+        ],
+        "else": [ { "u_set_field": "fd_incense", "radius": 2 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RED_INCENSE",
+    "//": "Heals you after waking up.",
+    "condition": { "u_has_item": "highland_red_incense" },
+    "effect": [
+      { "u_message": "You swing the censer in a wide arc." },
+      { "turn_cost": "2 seconds" },
+      { "u_consume_item": "highland_red_incense" },
+      {
+        "if": { "math": [ "(u_artifact_resonance() > 2500)" ] },
+        "then": [ { "u_set_field": "fd_red_incense", "radius": 2 } ],
+        "else": [ { "u_set_field": "fd_incense", "radius": 2 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GREEN_INCENSE",
+    "//": "Allows you to phase through solid objects and edits your dodging ability.",
+    "condition": { "u_has_item": "highland_green_incense" },
+    "effect": [
+      { "u_message": "You swing the censer in a wide arc." },
+      { "turn_cost": "2 seconds" },
+      { "u_consume_item": "highland_green_incense" },
+      {
+        "if": { "math": [ "(u_artifact_resonance() > 2500)" ] },
+        "then": [ { "u_set_field": "fd_green_incense", "radius": 2 } ],
+        "else": [ { "u_set_field": "fd_incense", "radius": 2 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLACK_INCENSE",
+    "//": "Causes a ring of enduring smoke that damages anything that crosses it.",
+    "condition": { "u_has_item": "highland_black_incense" },
+    "effect": [
+      { "u_message": "You swing the censer in a wide arc." },
+      { "turn_cost": "2 seconds" },
+      { "u_consume_item": "highland_black_incense" },
+      {
+        "if": { "math": [ "(u_artifact_resonance() > 2500)" ] },
+        "then": [
+          { "u_message": "The smoke coalesces into a thick, black ring." },
+          { "u_cast_spell": { "id": "spell_black_incense", "hit_self": true } },
+          { "u_transform_radius": 4, "ter_furn_transform": "remove_black_incense" }
+        ],
+        "else": [ { "u_set_field": "fd_incense", "radius": 2 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WHITE_INCENSE",
+    "//": "Causes a portal storm.  Decreases portal storm strength by 1 so it cannot be intentionally used to make them worse.",
+    "condition": { "u_has_item": "highland_white_incense" },
+    "effect": [
+      { "u_message": "You swing the censer in a wide arc." },
+      { "turn_cost": "2 seconds" },
+      { "u_consume_item": "highland_white_incense" },
+      {
+        "if": { "math": [ "(u_artifact_resonance() > 2500)" ] },
+        "then": [
+          { "run_eocs": "EOC_PORTAL_STORM_WARN_OR_CAUSE_RECURRING" },
+          { "if": { "current_dimension": "" }, "then": [ { "math": [ "ps_str = ps_base_str - 1" ] } ] },
+          { "u_set_field": "fd_incense", "radius": 2 }
+        ],
+        "else": [ { "u_set_field": "fd_incense", "radius": 2 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLUE_INCENSE",
+    "//": "Grants Invisibility scaling with resonance X/150 turns. Lingering field grants invisibility for 30 seconds.",
+    "condition": { "u_has_item": "highland_blue_incense" },
+    "effect": [
+      { "u_message": "You swing the censer in a wide arc." },
+      { "turn_cost": "2 seconds" },
+      { "u_add_effect": "invisibility", "duration": { "math": [ "(u_artifact_resonance() / 150)" ] } },
+      { "u_consume_item": "highland_blue_incense" },
+      {
+        "if": { "math": [ "(u_artifact_resonance() > 2500)" ] },
+        "then": [ { "u_set_field": "fd_blue_incense", "radius": 2 } ],
+        "else": [ { "u_set_field": "fd_incense", "radius": 2 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOLDEN_INCENSE",
+    "//": "Makes hounds of tindalos friendly while the effect lasts. ",
+    "condition": { "u_has_item": "highland_golden_incense" },
+    "effect": [
+      { "u_message": "You swing the censer in a wide arc." },
+      { "turn_cost": "2 seconds" },
+      { "u_consume_item": "highland_golden_incense" },
+      {
+        "if": { "math": [ "(u_artifact_resonance() > 2500)" ] },
+        "then": [ { "u_cast_spell": { "id": "spell_golden_incense", "hit_self": true } }, { "u_set_field": "fd_incense", "radius": 2 } ],
+        "else": [ { "u_set_field": "fd_incense", "radius": 2 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "purple_incense_effect",
+    "name": [ "Resonant" ],
+    "desc": [ "You feel strangely detached from the here and now." ],
+    "rating": "neutral",
+    "show_in_info": true,
+    "max_intensity": 1,
+    "remove_message": "Things seem to stitch back together.",
+    "enchantments": [ { "values": [ { "value": "ARTIFACT_RESONANCE", "add": 4500 }, { "value": "SPEED", "add": -10 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "red_incense_effect",
+    "name": [ "Ennervated" ],
+    "desc": [ "You feel like you have one foot in the grave." ],
+    "rating": "bad",
+    "show_in_info": true,
+    "max_intensity": 1,
+    "remove_message": "The feeling of dread fades away.",
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": -10 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "yellow_incense_effect",
+    "name": [ "Calm" ],
+    "desc": [ "Something strange is happening but you can't quite feel worried about it." ],
+    "rating": "good",
+    "show_in_info": true,
+    "max_intensity": 1,
+    "remove_message": "The feeling of calm fades away.",
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": -10 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "black_incense_effect",
+    "name": [ "Supernatural burning" ],
+    "desc": [ "Invisible flames lick at your skin." ],
+    "rating": "bad",
+    "resist_traits": [ "ACIDPROOF" ],
+    "pain_sizing": true,
+    "hurt_sizing": true,
+    "main_parts_only": true,
+    "base_mods": {
+      "per_mod": [ -2 ],
+      "dex_mod": [ -2 ],
+      "str_mod": [ -3, -1 ],
+      "speed_mod": [ -10 ],
+      "pain_min": [ 2 ],
+      "pain_chance": [ 1, 100 ],
+      "hurt_min": [ 2, 2 ],
+      "hurt_max": [ 5, 5 ],
+      "hurt_chance": [ 2, 30 ]
+    },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "green_incense_effect",
+    "name": [ "Spatial Dissociation" ],
+    "desc": [ "Distances around you don't seem to quite add up, it feels like you were walking in a dream." ],
+    "rating": "neutral",
+    "show_in_info": true,
+    "max_intensity": 1,
+    "remove_message": "Things seem to stitch back together.",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "PHASE_DISTANCE", "add": 2 },
+          { "value": "SPEED", "add": -10 },
+          { "value": "DODGE_CHANCE", "add": -25 },
+          { "value": "EVASION", "add": 10 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RED_INCENSE_HEAL",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "u_has_effect": "red_incense_effect" },
+    "effect": [
+      { "math": [ "u_hp('ALL') += 5 * (3 + rand(5))" ] },
+      { "u_message": "You feel great today." },
+      { "u_lose_effect": "red_incense_effect" }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "remove_black_incense",
+    "field": [ { "result": "fd_null", "valid_field": [ "fd_black_incense" ] } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "spell_golden_incense",
+    "name": { "str": "Golden Incense", "//~": "NO_I18N" },
+    "description": { "str": "Grants the golden incense spell in an area around target.", "//~": "NO_I18N" },
+    "valid_targets": [ "self", "ground", "hostile", "ally" ],
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "golden_incense_effect",
+    "shape": "blast",
+    "min_duration": 360000,
+    "max_duration": 360000
+  },
+  {
+    "id": "spell_black_incense",
+    "type": "SPELL",
+    "name": { "str": "Black Incense", "//~": "NO_I18N" },
+    "description": { "str": "Creates a shockwave that damages nearby enemies.", "//~": "NO_I18N" },
+    "flags": [ "RANDOM_DAMAGE", "NO_EXPLOSION_SFX", "SILENT" ],
+    "valid_targets": [ "hostile", "ground" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_aoe": 10,
+    "max_aoe": 10,
+    "field_chance": 1,
+    "field_id": "fd_black_incense",
+    "min_field_intensity": 1,
+    "max_field_intensity": 1
+  },
+  {
+    "type": "effect_type",
+    "id": "golden_incense_effect",
+    "name": [ "Golden Incense" ],
+    "desc": [ "You can't shake off the smell of the golden incense.  It feels like small daggers pressing against your senses." ],
+    "enchantments": [ { "condition": { "not": { "u_has_effect": "effect_tindalos_ignore_cancel" } }, "mutations": [ "TINDALOS_IGNORE" ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "TINDALOS_IGNORE",
+    "name": { "str": "Tindalos Ignore", "//~": "NO_I18N" },
+    "points": 0,
+    "description": { "str": "Hounds of Tindalos ignore you.", "//~": "NO_I18N" },
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "ignored_by": [ "TINDALOS" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_tindalos_ignore_cancel",
+    "//": "Hidden effect, cancels Tindalos Ignore",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REMOVE_TINDALOS_IGNORE",
+    "eoc_type": "EVENT",
+    "required_event": "monster_takes_damage",
+    "condition": "has_beta",
+    "effect": [
+      {
+        "if": { "and": [ { "u_has_species": "TINDALOS" }, { "npc_has_effect": "golden_incense_effect" } ] },
+        "then": [ { "npc_add_effect": "effect_tindalos_ignore_cancel", "duration": 45 } ]
+      }
+    ]
+  },
+  {
+    "id": "highland_purple_incense",
+    "type": "ITEM",
+    "name": { "str": "purple incense" },
+    "description": "Small shards of a crystalline substance.  It has a strange smell, mostly of ozone.",
+    "category": "other",
+    "weight": "10 g",
+    "volume": "10 ml",
+    "price": "5 USD",
+    "price_postapoc": "0 USD",
+    "material": [ "alien_resin" ],
+    "symbol": "*",
+    "color": "magenta"
+  },
+  {
+    "id": "highland_yellow_incense",
+    "type": "ITEM",
+    "copy-from": "highland_purple_incense",
+    "name": { "str": "yellow incense" },
+    "description": "Small stones of fragrant resin.  They still maintain a faint scent of citrus and pine.",
+    "color": "yellow"
+  },
+  {
+    "id": "highland_green_incense",
+    "type": "ITEM",
+    "copy-from": "highland_purple_incense",
+    "name": { "str": "green incense" },
+    "description": "Pearls of glossy green resin are mixed with small leaves and wood chips.  They have a fresh, herbal scent.",
+    "color": "green"
+  },
+  {
+    "id": "highland_black_incense",
+    "type": "ITEM",
+    "copy-from": "highland_purple_incense",
+    "name": { "str": "black incense" },
+    "description": "A very fine and smooth powder.  It smells like it has already been burnt.",
+    "color": "black"
+  },
+  {
+    "id": "highland_red_incense",
+    "type": "ITEM",
+    "name": { "str": "red incense" },
+    "copy-from": "highland_purple_incense",
+    "description": "Small branches and dried red flowers.  They have a weak acrid scent, like burnt coffee grounds.",
+    "color": "red"
+  },
+  {
+    "id": "highland_blue_incense",
+    "type": "ITEM",
+    "name": { "str": "blue incense" },
+    "copy-from": "highland_purple_incense",
+    "description": "Dead grubs float in some foul smelling blue gel.  They have an unnerving number of legs.",
+    "color": "blue"
+  },
+  {
+    "id": "highland_white_incense",
+    "type": "ITEM",
+    "copy-from": "highland_purple_incense",
+    "name": { "str": "white incense" },
+    "description": "Milk-white spiral shells of some kind of mollusk.  The dead creatures inside still have a faint salty scent.",
+    "color": "white"
+  },
+  {
+    "id": "highland_golden_incense",
+    "type": "ITEM",
+    "copy-from": "highland_purple_incense",
+    "name": { "str": "golden incense" },
+    "description": "The dried remnants of a strange flower that was parasitized by golden mold.  It has a strange chemical scent, like honey mixed with gasoline.",
+    "color": "yellow"
+  }
+]

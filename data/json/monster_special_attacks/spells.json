@@ -539,6 +539,26 @@
     "extra_effects": [ { "id": "frog_mother_hurt_self", "hit_self": true } ]
   },
   {
+    "id": "mon_juv_dermatik_wingmolt_spell",
+    "type": "SPELL",
+    "name": { "str": "Attempt to molt wings", "//~": "NO_I18N" },
+    "description": { "str": "redbull-gives you wings!", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "flags": [ "NO_LEGS", "NO_PROJECTILE" ],
+    "effect": "targeted_polymorph",
+    "effect_str": "mon_dermatik_juvenile",
+    "shape": "blast",
+    "spell_class": "NONE",
+    "base_casting_time": 50,
+    "difficulty": 0,
+    "max_level": 1,
+    "min_damage": 9999,
+    "max_damage": 9999,
+    "damage_type": "pure",
+    "min_range": 30,
+    "max_range": 30
+  },
+  {
     "type": "SPELL",
     "id": "mutant_frenzy",
     "name": { "str": "Mutant Frenzy", "//~": "NO_I18N" },

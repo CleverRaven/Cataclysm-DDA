@@ -8,6 +8,6 @@
   {
     "type": "overmap_terrain",
     "id": "lmoe_under_full",
-    "copy-from": "lmoe_under_empty"
+    "copy-from": "lmoe_under"
   }
 ]

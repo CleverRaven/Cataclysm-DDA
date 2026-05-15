@@ -35,6 +35,19 @@ ifndef CLANG
   CLANG = 0
 endif
 
+# clang 22 bug results in non-trivially supressable error about counter with -Wc2y-extensions
+# see https://github.com/llvm/llvm-project/issues/189645
+# Root Makefile may set CLANG to the compiler name (e.g. "clang++-22") rather than "1",
+# so trigger on any clang and (when detectable) restrict to clang >= 22 to match CMake.
+ifneq ($(CLANG), 0)
+  CLANG_MAJOR := $(shell $(CXX) -dM -E -x c++ /dev/null 2>/dev/null | sed -n 's/^\#define __clang_major__ //p')
+  ifeq ($(CLANG_MAJOR),)
+    DEFINES += -DCATCH_CONFIG_NO_COUNTER
+  else ifeq ($(shell test $(CLANG_MAJOR) -ge 22 && echo yes),yes)
+    DEFINES += -DCATCH_CONFIG_NO_COUNTER
+  endif
+endif
+
 ifeq ($(PCH), 1)
 PCHFLAGS += -DCATA_CATCH_PCH
 PCH_H = pch/tests-pch.hpp

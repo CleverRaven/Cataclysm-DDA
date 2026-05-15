@@ -131,6 +131,8 @@ static const tile_predicate set_up_tiles_common =
     ifchar( 'G', ter_set( ter_t_window_stained_green ) + ter_set_flat_roof_above ) ||
     fail;
 
+namespace
+{
 struct vision_test_flags {
     bool crouching = false;
     bool headlamp = false;
@@ -138,7 +140,10 @@ struct vision_test_flags {
     bool moncam = false;
     bool myopic = false;
 };
+} // namespace
 
+namespace
+{
 struct vision_test_case {
 
     std::vector<std::string> setup;
@@ -240,6 +245,7 @@ struct vision_test_case {
         }
     }
 };
+} // namespace
 
 static std::optional<units::angle> testcase_veh_dir( point const &def, vision_test_case const &t,
         map_test_case::tile &tile )

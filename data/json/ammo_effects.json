@@ -79,6 +79,11 @@
     "//": "This ammo may clog up the gun with blackpowder fouling, which will also cause rust. Hardcoded"
   },
   {
+    "id": "EXCESS_PEN",
+    "type": "ammo_effect",
+    "//": "Allows projectile to continue through when doing excess damage on hit. Hardcoded"
+  },
+  {
     "id": "HEAVY_HIT",
     "type": "ammo_effect",
     "//": "Automatically applied to any projectile, heavier than 500g, to increase it's noise (currently used only when projectile fall into water). Hardcoded"
@@ -491,5 +496,17 @@
     "id": "LIQUID",
     "type": "ammo_effect",
     "//": "This is basically a flag for liquid ammo, it is set automatically when the material of the ammo is liquid"
+  },
+  {
+    "id": "NL_DESTRUCTION_RAY",
+    "type": "ammo_effect",
+    "always_cast_spell": true,
+    "spell_data": [ { "id": "nl_destruction_ray" } ]
+  },
+  {
+    "id": "NL_PHASE_GOO",
+    "type": "ammo_effect",
+    "always_cast_spell": true,
+    "spell_data": [ { "id": "nl_phase_goo" } ]
   }
 ]

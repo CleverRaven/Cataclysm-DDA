@@ -2,6 +2,7 @@
 
 #include <imgui/imgui.h>
 
+#include "cata_utility.h"
 #include "character.h"
 #include "color.h"
 #include "creature.h"
@@ -79,8 +80,10 @@ void draw_extended_description( const std::vector<std::string> &description, cat
         if( s == "--" ) {
             ImGui::Separator();
         } else {
-            cataimgui::TextColoredParagraph( c_light_gray, s );
-            ImGui::NewLine();
+            for( const std::string &line : string_split( s, '\n' ) ) {
+                cataimgui::TextColoredParagraph( c_light_gray, line );
+                ImGui::NewLine();
+            }
         }
     }
 }

@@ -213,6 +213,17 @@
   {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
+    "id": "red_winter_wheat_stalks",
+    "name": { "str_sp": "red winter wheat stalks" },
+    "copy-from": "wheat_stalks",
+    "description": "A sheaf of freshly-cut winter wheat, now ready for drying in a stook or smoker.",
+    "//COMMENT": "This value is completely made up(by me) on the broad assumption that hardier winter crops are also less nutritious. ~10% less calories than regular wheat.",
+    "calories": 640,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dry_wheat_stalks",
     "name": { "str_sp": "dried wheat stalks" },
     "comestible_type": "FOOD",
@@ -234,6 +245,17 @@
   {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
+    "id": "dry_winter_wheat_stalks",
+    "name": { "str_sp": "dried winter wheat stalks" },
+    "copy-from": "dry_wheat_stalks",
+    "comestible_type": "FOOD",
+    "description": "A sheaf of dried winter wheat stalks.  These will require threshing before anything can be done with them.",
+    "calories": 640,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "threshed_wheat",
     "name": { "str_sp": "threshed wheat" },
     "comestible_type": "FOOD",
@@ -249,6 +271,18 @@
     "price": "25 cent",
     "price_postapoc": "20 cent",
     "volume": "252 ml",
+    "vitamins": [ [ "wheat_allergen", 1 ] ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "threshed_winter_wheat",
+    "name": { "str_sp": "threshed winter wheat" },
+    "copy-from": "threshed_wheat",
+    "comestible_type": "FOOD",
+    "//COMMENT": "Continuing the trend of hardier winter wheat having ~10% less calories.",
+    "quench": -10,
+    "calories": 610,
     "vitamins": [ [ "wheat_allergen", 1 ] ]
   },
   {
@@ -312,6 +346,41 @@
       { "GROWTH_MATURE": "30 days" },
       { "GROWTH_HARVEST": "30 days" },
       { "GROWTH_OVERGROWN": "1 hour" }
+    ],
+    "into": "flour",
+    "recipe": "flour_mill_1_15"
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
+    "id": "winter_wheat",
+    "//COMMENT": "This avoids copy-from on the base wheat item because that item is coded as a seed despite 'proper' wheat seeds existing. To keep things simple I've not mixed the roles like that.",
+    "name": { "str_sp": "winter wheat" },
+    "weight": "203 g",
+    "color": "brown",
+    "comestible_type": "FOOD",
+    "symbol": ",",
+    "//COMMENT2": "Continuing the trend of hardier winter wheat having ~10% less calories.",
+    "quench": -10,
+    "calories": 610,
+    "description": "A heap of dried wheatberries.  They're hard as gravel, but could be boiled for food or ground into flour.",
+    "price": "1 USD 20 cent",
+    "price_postapoc": "1 USD",
+    "material": [ "wheat" ],
+    "volume": "250 ml",
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 40 ], [ "wheat_allergen", 1 ] ],
+    "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
+    "flags": [
+      "EDIBLE_FROZEN",
+      "RAW",
+      "INEDIBLE",
+      "CATTLE",
+      "PLANTABLE_SEED",
+      "CUT_HARVEST",
+      "BIRD",
+      "RAT",
+      "MOUSE",
+      "NUTRIENT_OVERRIDE"
     ],
     "into": "flour",
     "recipe": "flour_mill_1_15"

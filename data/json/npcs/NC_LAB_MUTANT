@@ -22,7 +22,8 @@
       { "group": "NC_MUTANT_INSECT" },
       { "group": "NC_MUTANT_SPIDER" },
       { "group": "NC_MUTANT_BEAST" },
-      { "group": "NC_MUTANT_MEDICAL" }
+      { "group": "NC_MUTANT_MEDICAL" },
+      { "group": "NC_MUTANT_CHIROPTERAN" }
     ]
   },
   {
@@ -391,6 +392,28 @@
       { "trait": "MOUTH_TENTACLES" },
       { "trait": "CEPH_EYES" },
       { "trait": "CEPH_VISION" }
+    ]
+  },
+  {
+    "//": "This group picks out a fixed set of traits to assign based on a random mutation tree.",
+    "type": "trait_group",
+    "id": "NC_MUTANT_CHIROPTERAN",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "DEX_UP_2" },
+      { "trait": "FANGS" },
+      { "trait": "BATEARS" },
+      { "trait": "LEAFNOSE" },
+      { "trait": "SOCIAL1" },
+      { "trait": "LIGHTFUR" },
+      { "trait": "LIGHT_BONES" },
+      { "trait": "SOCIAL2" },
+      { "trait": "HEMOVORE" },
+      { "trait": "ARMS_BAT" },
+      { "trait": "TROGLO" },
+      { "trait": "MESOPIC" },
+      { "trait": "ANTIWHEAT" },
+      { "trait": "UGLY" }
     ]
   }
 ]

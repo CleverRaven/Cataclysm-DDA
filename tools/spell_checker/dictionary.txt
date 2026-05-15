@@ -417,6 +417,7 @@ Atwood
 au
 Aubrey
 Audhumla
+AudioVox
 Audrey
 AUG
 AUGs
@@ -446,6 +447,7 @@ autosaves
 autoselect
 autoshotgun
 autoshotguns
+autotune
 Autoweek
 aux
 Ava
@@ -2549,6 +2551,7 @@ goedendag
 goedendags
 Goethe
 Goldberg
+goldbrew
 Goldstein
 Golemancer
 Golemancy
@@ -3020,6 +3023,7 @@ hosomaki
 Hoss
 hotcut
 hotcuts
+hotcutting
 hotkey
 hotkeys
 hotties
@@ -3488,6 +3492,7 @@ Katherine
 Katty
 Katyusha
 Kâu
+Kaur
 Kaushîtaki
 Kavanez
 Kazakhstani
@@ -3722,6 +3727,7 @@ landshark
 Landstreicher
 Landwenn
 Lanesborough
+langets
 Lankan
 Lann
 Lanwenn
@@ -5200,6 +5206,7 @@ Pearlman
 pecorino
 pedipalps
 Pedro
+peening
 pekmez
 Pelleter
 pelmeni
@@ -5325,6 +5332,7 @@ PKers
 Plainfield
 Plainville
 planetside
+planishing
 plano
 plantkin
 plasticky
@@ -5656,6 +5664,7 @@ reliables
 reloadable
 remediated
 Remington
+remodulate
 remodulator
 Remy
 rended
@@ -6991,6 +7000,7 @@ torvosaurus
 totipotent
 Toto
 töttchen
+touchmark
 Toudig
 tourmalines
 Touz
@@ -7089,6 +7099,7 @@ TsKBEM
 TsNIITochMash
 Tsu
 tsuba
+tsuka
 tsumi
 tsundere
 tsurugi

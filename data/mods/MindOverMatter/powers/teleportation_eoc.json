@@ -42,9 +42,7 @@
     "effect": [
       { "run_eocs": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER" },
       {
-        "math": [
-          "_teleport_blink_limit = ( ( ( u_spell_level('teleport_blink') * 3500 ) + 5000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
-        ]
+        "math": [ "_teleport_blink_limit = ( ( ( u_spell_level('teleport_blink') * 3500 ) + 5000 ) * psionic_power_modifiers() )" ]
       },
       { "u_message": "Your Blink volume limit is <context_val:teleport_blink_limit>.", "type": "debug" },
       {
@@ -78,9 +76,7 @@
     "effect": [
       { "run_eocs": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER" },
       {
-        "math": [
-          "_teleport_phase_limit = ( ( ( u_spell_level('teleport_phase') * 5000 ) + 10000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
-        ]
+        "math": [ "_teleport_phase_limit = ( ( ( u_spell_level('teleport_phase') * 5000 ) + 10000 ) * psionic_power_modifiers() )" ]
       },
       { "u_message": "Your Phase volume limit is <context_val:teleport_blink_limit>.", "type": "debug" },
       {
@@ -123,11 +119,7 @@
                     "wielded_only": true,
                     "condition": {
                       "and": [
-                        {
-                          "math": [
-                            "n_volume() <= ((u_spell_level('teleport_item_apport') * 2500) + 2000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
-                          ]
-                        },
+                        { "math": [ "n_volume() <= ((u_spell_level('teleport_item_apport') * 2500) + 2000) * psionic_power_modifiers()" ] },
                         { "math": [ "n_volume() > 0" ] }
                       ]
                     }
@@ -140,11 +132,7 @@
                       {
                         "u_query_tile": "line_of_sight",
                         "target_var": { "context_val": "teleporter_item_apport_location" },
-                        "range": {
-                          "math": [
-                            "min( ( ( (u_spell_level('teleport_item_apport') * 1.25) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
-                          ]
-                        },
+                        "range": { "math": [ "min( ( ( (u_spell_level('teleport_item_apport') * 1.25) + 2) * psionic_power_modifiers() ), 80)" ] },
                         "z_level": true,
                         "message": "Select apport location."
                       },
@@ -284,9 +272,7 @@
     "effect": [
       { "run_eocs": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER" },
       {
-        "math": [
-          "_teleport_farstep_limit = ( ( ( u_spell_level('teleport_farstep') * 5000 ) + 8000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
-        ]
+        "math": [ "_teleport_farstep_limit = ( ( ( u_spell_level('teleport_farstep') * 5000 ) + 8000 ) * psionic_power_modifiers() )" ]
       },
       { "u_message": "Your Farstep volume limit is <context_val:teleport_farstep_limit>.", "type": "debug" },
       {
@@ -414,7 +400,7 @@
       {
         "if": {
           "math": [
-            "u_teleport_total_carried_volume <= ( ( ( u_spell_level('teleport_gateway') * 7500 ) + 10000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+            "u_teleport_total_carried_volume <= ( ( ( u_spell_level('teleport_gateway') * 7500 ) + 10000 ) * psionic_power_modifiers() )"
           ]
         },
         "then": [ { "math": [ "u_teleport_total_carried_volume = 1" ] } ],
@@ -1300,11 +1286,7 @@
             "wielded_only": true,
             "condition": {
               "and": [
-                {
-                  "math": [
-                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
-                  ]
-                },
+                { "math": [ "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * psionic_power_modifiers()" ] },
                 { "math": [ "n_volume() > 0" ] }
               ]
             }
@@ -1344,11 +1326,7 @@
             "wielded_only": true,
             "condition": {
               "and": [
-                {
-                  "math": [
-                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
-                  ]
-                },
+                { "math": [ "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * psionic_power_modifiers()" ] },
                 { "math": [ "n_volume() > 0" ] }
               ]
             }
@@ -1388,11 +1366,7 @@
             "wielded_only": true,
             "condition": {
               "and": [
-                {
-                  "math": [
-                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
-                  ]
-                },
+                { "math": [ "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * psionic_power_modifiers()" ] },
                 { "math": [ "n_volume() > 0" ] }
               ]
             }
@@ -1432,11 +1406,7 @@
             "wielded_only": true,
             "condition": {
               "and": [
-                {
-                  "math": [
-                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
-                  ]
-                },
+                { "math": [ "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * psionic_power_modifiers()" ] },
                 { "math": [ "n_volume() > 0" ] }
               ]
             }
@@ -1476,11 +1446,7 @@
             "wielded_only": true,
             "condition": {
               "and": [
-                {
-                  "math": [
-                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
-                  ]
-                },
+                { "math": [ "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * psionic_power_modifiers()" ] },
                 { "math": [ "n_volume() > 0" ] }
               ]
             }
@@ -1520,11 +1486,7 @@
             "wielded_only": true,
             "condition": {
               "and": [
-                {
-                  "math": [
-                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
-                  ]
-                },
+                { "math": [ "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * psionic_power_modifiers()" ] },
                 { "math": [ "n_volume() > 0" ] }
               ]
             }
@@ -1564,11 +1526,7 @@
             "wielded_only": true,
             "condition": {
               "and": [
-                {
-                  "math": [
-                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
-                  ]
-                },
+                { "math": [ "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * psionic_power_modifiers()" ] },
                 { "math": [ "n_volume() > 0" ] }
               ]
             }
@@ -1608,11 +1566,7 @@
             "wielded_only": true,
             "condition": {
               "and": [
-                {
-                  "math": [
-                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
-                  ]
-                },
+                { "math": [ "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * psionic_power_modifiers()" ] },
                 { "math": [ "n_volume() > 0" ] }
               ]
             }
@@ -1652,11 +1606,7 @@
             "wielded_only": true,
             "condition": {
               "and": [
-                {
-                  "math": [
-                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
-                  ]
-                },
+                { "math": [ "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * psionic_power_modifiers()" ] },
                 { "math": [ "n_volume() > 0" ] }
               ]
             }
@@ -1696,11 +1646,7 @@
             "wielded_only": true,
             "condition": {
               "and": [
-                {
-                  "math": [
-                    "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * scaling_factor(u_val('intelligence')) * u_nether_attunement_power_scaling"
-                  ]
-                },
+                { "math": [ "n_volume() <= ((u_spell_level('teleport_relocation') * 10000) + 10000) * psionic_power_modifiers()" ] },
                 { "math": [ "n_volume() > 0" ] }
               ]
             }
@@ -1789,7 +1735,7 @@
           { "run_eocs": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER" },
           {
             "math": [
-              "_teleport_loci_technique_limit = ( ( ( u_spell_level('teleport_loci_technique') * 5000 ) + 8000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+              "_teleport_loci_technique_limit = ( ( ( u_spell_level('teleport_loci_technique') * 5000 ) + 8000 ) * psionic_power_modifiers() )"
             ]
           },
           {

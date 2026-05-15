@@ -153,6 +153,24 @@
     ]
   },
   {
+    "id": "integrated_nl_psyshield",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "copy-from": "fake_item",
+    "name": { "str": "Cranial EMF Shielding" },
+    "description": "Your skull is coated in a microscopically thin layer of some non-newtonian fluid.  It can protect you from some types of electromagnetic fields.",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "PSYSHIELD_PARTIAL" ]
+  },
+  {
+    "id": "integrated_nl_dimensional_anchor",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "copy-from": "fake_item",
+    "name": { "str": "Dimensional Anchor" },
+    "description": "Your body has been wired with advanced technology that locks you into your native dimensionality, protecting you from unwanted teleportation and some other phase altering effects.  It is currently active and draining bionic power.",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "DIMENSIONAL_ANCHOR", "SPAWN_ACTIVE" ]
+  },
+  {
     "id": "fake_goggles",
     "copy-from": "fake_item",
     "type": "ITEM",
@@ -298,6 +316,25 @@
     "copy-from": "fake_appliance_tool",
     "charges_per_use": 25,
     "charged_qualities": [ [ "DRILL", 3 ] ]
+  },
+  {
+    "id": "power_hammer_tool",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "power hammer" },
+    "copy-from": "fake_appliance_tool",
+    "charges_per_use": 20,
+    "charged_qualities": [ { "id": "HAMMER", "level": 5, "speed": 0.33 }, { "id": "ANVIL", "level": 1, "speed": 1.0 } ],
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] }
+  },
+  {
+    "id": "steel_kiln_tool",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "tempering kiln" },
+    "copy-from": "fake_appliance_tool",
+    "charges_per_use": 25,
+    "charged_qualities": [ { "id": "TEMPER", "level": 2, "speed": 0.8 } ]
   },
   {
     "id": "glassblowers_crucible_tool",

@@ -931,7 +931,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SUMMON_STAG_BEETLE",
-    "//": "Targetted to prevent failure due to monster placement",
+    "//": "Targeted to prevent failure due to monster placement",
     "effect": [
       { "u_cast_spell": { "id": "mag_call_stag_beetle_real", "min_level": 1 }, "targeted": true },
       {

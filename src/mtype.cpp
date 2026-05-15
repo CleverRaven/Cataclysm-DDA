@@ -103,10 +103,12 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_HUMAN,
             mon_flag_ID_CARD_DESPAWN,
             mon_flag_IMMOBILE,
+            mon_flag_INFRARED_VISION,
             mon_flag_INSECTICIDEPROOF,
             mon_flag_INTERIOR_AMMO,
             mon_flag_KEENNOSE,
             mon_flag_KEEP_DISTANCE,
+            mon_flag_LOCKS_ON,
             mon_flag_LOUDMOVES,
             mon_flag_MECH_DEFENSIVE,
             mon_flag_MECH_RECON_VISION,
@@ -242,10 +244,12 @@ void set_mon_flag_ids()
     mon_flag_HUMAN = mon_flag_id( "HUMAN" );
     mon_flag_ID_CARD_DESPAWN = mon_flag_id( "ID_CARD_DESPAWN" );
     mon_flag_IMMOBILE = mon_flag_id( "IMMOBILE" );
+    mon_flag_INFRARED_VISION = mon_flag_id( "INFRARED_VISION" );
     mon_flag_INSECTICIDEPROOF = mon_flag_id( "INSECTICIDEPROOF" );
     mon_flag_INTERIOR_AMMO = mon_flag_id( "INTERIOR_AMMO" );
     mon_flag_KEENNOSE = mon_flag_id( "KEENNOSE" );
     mon_flag_KEEP_DISTANCE = mon_flag_id( "KEEP_DISTANCE" );
+    mon_flag_LOCKS_ON = mon_flag_id( "LOCKS_ON" );
     mon_flag_LOUDMOVES = mon_flag_id( "LOUDMOVES" );
     mon_flag_MECH_DEFENSIVE = mon_flag_id( "MECH_DEFENSIVE" );
     mon_flag_MECH_RECON_VISION = mon_flag_id( "MECH_RECON_VISION" );

@@ -24,12 +24,13 @@
 #include <stdexcept>
 #include <type_traits>
 #include <vector>
+#ifndef USE_SDL3
 #if defined(_MSC_VER) && defined(USE_VCPKG)
-#   include <SDL2/SDL_image.h>
 #   include <SDL2/SDL_syswm.h>
 #else
 #ifdef _WIN32
 #   include <SDL_syswm.h>
+#endif
 #endif
 #endif
 
@@ -71,6 +72,9 @@
 #include "sdl_wrappers.h"
 #include "sdl_font.h"
 #include "sdl_gamepad.h"
+#if defined(SDL_SOUND)
+#include "sound_backend.h"
+#endif
 #include "sdlsound.h"
 #include "string_formatter.h"
 #include "uistate.h"
@@ -80,9 +84,7 @@
 
 std::unique_ptr<cataimgui::client> imclient;
 
-#if defined(__linux__)
-#   include <cstdlib> // getenv()/setenv()
-#endif
+#include <cstdlib> // getenv()/setenv()
 
 #if defined(_WIN32)
 #   if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
@@ -168,13 +170,24 @@ static void ClearScreen()
     RenderClear( renderer );
 }
 
+void clear_sdl_window()
+{
+    ClearScreen();
+}
+
 static void InitSDL()
 {
+#if SDL_MAJOR_VERSION >= 3
+    int init_flags = SDL_INIT_VIDEO;
+#else
     int init_flags = SDL_INIT_VIDEO | SDL_INIT_TIMER;
+#endif
 #if defined(SDL_SOUND)
     init_flags |= SDL_INIT_AUDIO;
 #endif
+#if SDL_MAJOR_VERSION < 3
     int ret;
+#endif
 
 #if defined(SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING)
     // Requires SDL 2.0.5. Disables thread naming so that gdb works correctly
@@ -204,7 +217,7 @@ static void InitSDL()
     SDL_SetHint( SDL_HINT_APP_NAME, _( "Cataclysm: Dark Days Ahead" ) );
 #endif
 
-#if defined(__linux__)
+#if defined(__linux__) && SDL_MAJOR_VERSION < 3
     // https://bugzilla.libsdl.org/show_bug.cgi?id=3472#c5
     if( SDL_COMPILEDVERSION == SDL_VERSIONNUM( 2, 0, 5 ) ) {
         const char *xmod = getenv( "XMODIFIERS" );
@@ -214,6 +227,11 @@ static void InitSDL()
     }
 #endif
 
+#if SDL_MAJOR_VERSION >= 3
+    throwErrorIf( !SDL_Init( init_flags ), "SDL_Init failed" );
+    throwErrorIf( !TTF_Init(), "TTF_Init failed" );
+    // SDL3_image: IMG_Init removed; loading functions init on demand.
+#else
     ret = SDL_Init( init_flags );
     throwErrorIf( ret != 0, "SDL_Init failed" );
 
@@ -225,6 +243,7 @@ static void InitSDL()
     ret = IMG_Init( IMG_INIT_PNG );
     printErrorIf( ( ret & IMG_INIT_PNG ) != IMG_INIT_PNG,
                   "IMG_Init failed to initialize PNG support, tiles won't work" );
+#endif
 
     //SDL2 has no functionality for INPUT_DELAY, we would have to query it manually, which is expensive
     //SDL2 instead uses the OS's Input Delay.
@@ -250,6 +269,66 @@ static bool SetupRenderTarget()
 
     return true;
 }
+
+// NoMouseCursorChange blocks ImGui's per-frame SDL_ShowCursor, which
+// would otherwise re-show the cursor immediately after HideCursor.
+void refresh_mouse_config()
+{
+    using cata::options::mouse;
+    ImGuiIO &io = ImGui::GetIO();
+    if( !mouse.enabled ) {
+        io.ConfigFlags |= ImGuiConfigFlags_NoMouse;
+        io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+        if( IsCursorVisible() ) {
+            HideCursor();
+        }
+        return;
+    }
+
+    io.ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
+    const std::string hide_mode = get_option<std::string>( "HIDE_CURSOR" );
+    if( hide_mode == "show" ) {
+        io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
+        if( !IsCursorVisible() ) {
+            ShowCursor();
+        }
+    } else {
+        // "hide" and "hidekb" both require blocking ImGui's per-frame
+        // cursor show so the game can manage visibility directly.
+        io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+        if( hide_mode == "hide" && IsCursorVisible() ) {
+            HideCursor();
+        }
+    }
+}
+
+#if SDL_MAJOR_VERSION >= 3 && defined(_WIN32)
+// True if data/shaders contains .spv but no .dxil. Used to bias the SDL3 GPU
+// device toward Vulkan when a local Windows build skipped SDL_shadercross
+// install (which would have produced DXIL for the D3D12 backend) but
+// glslangValidator still produced SPIR-V.
+static bool only_spirv_shader_artifacts_present()
+{
+    namespace fs = std::filesystem;
+    const fs::path shaders_dir = fs::path( PATH_INFO::datadir() ) / "shaders";
+    std::error_code ec;
+    if( !fs::is_directory( shaders_dir, ec ) ) {
+        return false;
+    }
+    bool any_spv = false;
+    for( const fs::directory_entry &entry :
+         fs::directory_iterator( shaders_dir, ec ) ) {
+        const std::string ext = entry.path().extension().string();
+        if( ext == ".dxil" ) {
+            return false;
+        }
+        if( ext == ".spv" ) {
+            any_spv = true;
+        }
+    }
+    return any_spv;
+}
+#endif
 
 //Registers, creates, and shows the Window!!
 static void WinCreate()
@@ -342,6 +421,16 @@ static void WinCreate()
     throwErrorIf( pixel_format == SDL_PIXELFORMAT_UNKNOWN, "SDL_GetWindowPixelFormat failed" );
 
 #if !defined(__ANDROID__)
+#if defined(USE_SDL3)
+    // Under SDL3 the GPU renderer is the only one that supports
+    // SDL_SetGPURenderState. Drive selection through SDL_HINT_RENDER_DRIVER
+    // (comma-list with platform-appropriate fallbacks) rather than the
+    // saved RENDERER option, which predates SDL3 and may name a renderer
+    // that no longer exists. Power users can still override at the SDL
+    // layer via SDL_RENDER_DRIVER environment variable (env > SDL_SetHint).
+    bool software_renderer = false;
+    std::string renderer_name;
+#else
     bool software_renderer = get_option<std::string>( "RENDERER" ).empty();
     std::string renderer_name;
     if( software_renderer ) {
@@ -353,6 +442,7 @@ static void WinCreate()
     if( renderer_name == "direct3d" ) {
         direct3d_mode = true;
     }
+#endif
 #else
     bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" );
     std::string renderer_name = software_renderer ? "software" : "";
@@ -361,6 +451,24 @@ static void WinCreate()
 #if SDL_MAJOR_VERSION < 3
     // SDL3: batching is always on.
     SDL_SetHint( SDL_HINT_RENDER_BATCHING, get_option<bool>( "RENDER_BATCHING" ) ? "1" : "0" );
+#else
+#  if defined(_WIN32)
+    SDL_SetHint( SDL_HINT_RENDER_DRIVER, "gpu,direct3d12,direct3d11,opengl" );
+    // Bias the SDL3 GPU device toward Vulkan when the install only has
+    // SPIR-V artifacts (e.g. a local dev build that skipped SDL_shadercross
+    // install and so never produced DXIL). Vulkan consumes SPIR-V; D3D12
+    // would not load these. SDL falls through to D3D12 via the comma-list
+    // above if Vulkan is unavailable, leaving the atlas fallback intact.
+    if( !std::getenv( "SDL_GPU_DRIVER" )
+        && !SDL_GetHint( SDL_HINT_GPU_DRIVER )
+        && only_spirv_shader_artifacts_present() ) {
+        SDL_SetHint( SDL_HINT_GPU_DRIVER, "vulkan" );
+        dbg( D_INFO ) << "Only SPIR-V shader artifacts present; biasing SDL3 "
+                      "GPU device toward Vulkan.";
+    }
+#  else
+    SDL_SetHint( SDL_HINT_RENDER_DRIVER, "gpu,opengl" );
+#  endif
 #endif
     if( !software_renderer ) {
         dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
@@ -379,14 +487,34 @@ static void WinCreate()
     }
 
     if( software_renderer ) {
+#if !defined(USE_SDL3)
+        // FRAMEBUFFER_ACCEL is hidden under SDL3 (the option is the SDL2
+        // software-renderer toggle); don't consume the stored value there.
         if( get_option<bool>( "FRAMEBUFFER_ACCEL" ) ) {
             SDL_SetHint( SDL_HINT_FRAMEBUFFER_ACCELERATION, "1" );
         }
+#endif
         renderer = CreateRenderer( ::window, nullptr, true, false );
         throwErrorIf( !renderer, "Failed to initialize software renderer" );
         throwErrorIf( !SetupRenderTarget(),
                       "Failed to initialize display buffer under software rendering, unable to continue." );
     }
+
+#if SDL_MAJOR_VERSION >= 3
+    {
+        // Reset before runtime detection so renderer recreation cannot
+        // leave stale direct3d_mode set from a prior renderer choice.
+        direct3d_mode = false;
+        const SDL_PropertiesID props = SDL_GetRendererProperties( renderer.get() );
+        const char *actual_name = props != 0
+                                  ? SDL_GetStringProperty( props, SDL_PROP_RENDERER_NAME_STRING, "" )
+                                  : "";
+        dbg( D_INFO ) << "SDL renderer in use: " << ( actual_name ? actual_name : "unknown" );
+        if( actual_name && std::string( actual_name ).find( "direct3d" ) != std::string::npos ) {
+            direct3d_mode = true;
+        }
+    }
+#endif
 
     SetWindowMinimumSize( ::window.get(), fontwidth * EVEN_MINIMUM_TERM_WIDTH * scaling_factor,
                           fontheight * EVEN_MINIMUM_TERM_HEIGHT * scaling_factor );
@@ -403,14 +531,6 @@ static void WinCreate()
 #endif
 
     ClearScreen();
-
-    // Errors here are ignored, worst case: the option does not work as expected,
-    // but that won't crash
-    if( get_option<std::string>( "HIDE_CURSOR" ) != "show" && IsCursorVisible() ) {
-        HideCursor();
-    } else {
-        ShowCursor();
-    }
 
     if( get_option<bool>( "ENABLE_JOYSTICK" ) ) {
         gamepad::init();
@@ -535,6 +655,10 @@ void refresh_display()
     if( test_mode ) {
         return;
     }
+
+#if defined(SDL_SOUND)
+    sound_backend::poll();
+#endif
 
     // Select default target (the window), copy rendered buffer
     // there, present it, select the buffer as target again.
@@ -859,7 +983,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             draw_from_id_string( id, category,
                                  category == TILE_CATEGORY::OVERMAP_TERRAIN ? "overmap_terrain" : "",
                                  omp, subtile, rotation, ll, false, height_3d );
-            if( !mx.is_empty() && mx->autonote ) {
+            if( !mx.is_empty() && mx->visibility != map_extra_visibility::none ) {
                 draw_from_id_string( mx.str(), TILE_CATEGORY::MAP_EXTRA, "map_extra", omp,
                                      0, 0, ll, false );
             }
@@ -3182,7 +3306,7 @@ static void CheckMessages()
                 case CATA_RENDER_TARGETS_RESET:
                     render_target_reset = true;
                     break;
-                case SDL_KEYDOWN: {
+                case CATA_KEYDOWN: {
 #if defined(__ANDROID__)
                     // Toggle virtual keyboard with Android back button. For some reason I get double inputs, so ignore everything once it's already down.
                     if( GetKeysym( ev ).sym == SDLK_AC_BACK && ac_back_down_time == 0 ) {
@@ -3238,7 +3362,7 @@ static void CheckMessages()
                     }
                 }
                 break;
-                case SDL_KEYUP: {
+                case CATA_KEYUP: {
 #if defined(__ANDROID__)
                     // Toggle virtual keyboard with Android back button
                     if( GetKeysym( ev ).sym == SDLK_AC_BACK ) {
@@ -3273,7 +3397,7 @@ static void CheckMessages()
                     }
                 }
                 break;
-                case SDL_TEXTINPUT:
+                case CATA_TEXTINPUT:
                     if( !add_alt_code( *ev.text.text ) ) {
                         if( strlen( ev.text.text ) > 0 ) {
                             const unsigned lc = UTF8_getch( ev.text.text );
@@ -3307,7 +3431,7 @@ static void CheckMessages()
                         text_refresh = true;
                     }
                     break;
-                case SDL_TEXTEDITING: {
+                case CATA_TEXTEDITING: {
                     if( strlen( ev.edit.text ) > 0 ) {
                         const unsigned lc = UTF8_getch( ev.edit.text );
                         last_input = input_event( lc, input_event_t::keyboard_char );
@@ -3345,7 +3469,7 @@ static void CheckMessages()
                     break;
                 }
 #endif
-                case SDL_MOUSEMOTION:
+                case CATA_MOUSEMOTION:
                     if( ! mouse.enabled ) {
                         break;
                     }
@@ -3360,7 +3484,7 @@ static void CheckMessages()
                     }
                     break;
 
-                case SDL_MOUSEBUTTONDOWN:
+                case CATA_MOUSEBUTTONDOWN:
                     if( ! mouse.enabled ) {
                         break;
                     }
@@ -3380,7 +3504,7 @@ static void CheckMessages()
                     }
                     break;
 
-                case SDL_MOUSEBUTTONUP:
+                case CATA_MOUSEBUTTONUP:
                     if( ! mouse.enabled ) {
                         break;
                     }
@@ -3400,7 +3524,7 @@ static void CheckMessages()
                     }
                     break;
 
-                case SDL_MOUSEWHEEL:
+                case CATA_MOUSEWHEEL:
                     if( ! mouse.enabled ) {
                         break;
                     }
@@ -3661,7 +3785,7 @@ static void CheckMessages()
                     break;
 #endif
 
-                case SDL_QUIT:
+                case CATA_QUIT:
                     quit = true;
                     break;
                 default:
@@ -3875,12 +3999,7 @@ void catacurses::init_interface()
     init_term_size_and_scaling_factor();
 
     WinCreate();
-    using cata::options::mouse;
-    if( mouse.enabled ) {
-        ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
-    } else {
-        ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
-    }
+    refresh_mouse_config();
     dbg( D_INFO ) << "Initializing SDL Tiles context";
     fartilecontext = std::make_shared<cata_tiles>( renderer, geometry, ts_cache );
     if( use_far_tiles ) {
@@ -4400,10 +4519,16 @@ bool save_screenshot( const std::string &file_path )
 #ifdef _WIN32
 HWND getWindowHandle()
 {
+#if SDL_MAJOR_VERSION >= 3
+    return static_cast<HWND>( SDL_GetPointerProperty(
+                                  SDL_GetWindowProperties( ::window.get() ),
+                                  SDL_PROP_WINDOW_WIN32_HWND_POINTER, nullptr ) );
+#else
     SDL_SysWMinfo info;
     SDL_VERSION( &info.version );
     SDL_GetWindowWMInfo( ::window.get(), &info );
     return info.info.win.window;
+#endif
 }
 #endif
 

@@ -2750,6 +2750,8 @@ static void refresh_favorite( uilist *menu, std::vector<spell *> known_spells )
     }
 }
 
+namespace
+{
 class spellcasting_callback : public uilist_callback
 {
     private:
@@ -2833,6 +2835,7 @@ class spellcasting_callback : public uilist_callback
             }
         }
 };
+} // namespace
 
 const std::set<int> spellcasting_callback::reserved_invlets { 'I', '=', '*' };
 

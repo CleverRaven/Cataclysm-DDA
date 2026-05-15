@@ -25,6 +25,8 @@
     "shopkeeper_item_group": [ { "group": "NC_FORGE_LORD_SHOP", "rigid": true } ],
     "shopkeeper_price_rules": [ { "group": "NC_FORGE_LORD_ACCEPTED_BOOKS", "price": 2500, "fixed_adj": 0 } ],
     "worn_override": "NC_FORGE_LORD_clothes",
+    "carry_override": "EMPTY_GROUP",
+    "sells_belongings": false,
     "skills": [
       {
         "skill": "ALL",
@@ -63,7 +65,6 @@
       { "group": "enchanted_rings_common", "prob": 20 },
       { "group": "enchanted_rings_uncommon", "prob": 5 },
       { "group": "enchanted_arrows", "prob": 15, "count": [ 1, 2 ] },
-      { "group": "group_potion_fruits", "prob": 10, "count": [ 1, 4 ] },
       { "group": "enchanted_bracelets", "prob": 4 },
       { "group": "enchanted_belts", "prob": 2 },
       { "group": "items_of_elvenkind", "prob": 1 },

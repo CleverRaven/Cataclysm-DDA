@@ -7,5 +7,10 @@
       { "math": [ "faction_respect('exodii') = -100" ] },
       { "math": [ "faction_trust('exodii') = -100" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EXODII_MERCHANT_Exodize_Cyberframe_done",
+    "effect": { "open_dialogue": { "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_done" } }
   }
 ]

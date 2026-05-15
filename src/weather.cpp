@@ -64,6 +64,7 @@ static const flag_id json_flag_SUN_GLASSES( "SUN_GLASSES" );
 static const itype_id itype_water( "water" );
 
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+static const json_character_flag json_flag_HIGH_GLARE( "HIGH_GLARE" );
 static const json_character_flag json_flag_RAIN_IMMUNE( "RAIN_IMMUNE" );
 
 static const oter_type_str_id oter_type_forest( "forest" );
@@ -71,7 +72,6 @@ static const oter_type_str_id oter_type_forest_water( "forest_water" );
 
 static const ter_str_id ter_t_greenhouse_tilled( "t_greenhouse_tilled" );
 
-static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
 
 /**
@@ -132,7 +132,7 @@ void glare( const weather_type_id &w )
     //apply final glare effect
     if( dur > 0_turns && effect != nullptr ) {
         //enhance/reduce by some traits
-        if( player_character.has_trait( trait_CEPH_VISION ) ) {
+        if( player_character.has_flag( json_flag_HIGH_GLARE ) ) {
             dur = dur * 2;
         }
         // Glare in all your eyes
@@ -422,7 +422,7 @@ void wet_character( Character &target, int amount )
     target.drench( amount, drenched_parts, false );
 }
 
-void weather_sound( const translation &sound_message, const std::string &sound_effect )
+void weather_sound( const translation &sound_message, std::string_view sound_effect )
 {
     Character &player_character = get_player_character();
     map &here = get_map();
@@ -1018,6 +1018,18 @@ const weather_generator &weather_manager::get_cur_weather_gen() const
 {
     const overmap &om = g->get_cur_om();
     return om.get_settings().get_settings_weather();
+}
+
+void weather_manager::on_game_start()
+{
+    if( get_option<std::string>( "ETERNAL_WEATHER" ) != "normal" ) {
+        weather_override = static_cast<weather_type_id>
+                           ( get_option<std::string>( "ETERNAL_WEATHER" ) );
+        set_nextweather( calendar::turn );
+    } else {
+        weather_override = WEATHER_NULL;
+        set_nextweather( calendar::turn );
+    }
 }
 
 void weather_manager::update_weather()

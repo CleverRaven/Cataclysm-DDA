@@ -85,7 +85,7 @@
       "type": "transform",
       "ammo_scale": 0,
       "menu_text": "Turn off",
-      "msg": "Your %s deactivates.",
+      "msg": "You deactivate your %s.",
       "target": "afs_magellan_suit"
     },
     "extend": { "flags": [ "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
@@ -173,7 +173,7 @@
       "type": "transform",
       "ammo_scale": 0,
       "menu_text": "Turn off",
-      "msg": "Your %s deactivates.",
+      "msg": "You deactivate your %s.",
       "target": "afs_frontier_cryo"
     }
   },
@@ -249,7 +249,7 @@
       "type": "transform",
       "ammo_scale": 0,
       "menu_text": "Turn off",
-      "msg": "Your %s deactivates.",
+      "msg": "You deactivate your %s.",
       "target": "afs_combat_cryo"
     },
     "extend": { "flags": [ "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
@@ -283,7 +283,7 @@
       "type": "transform",
       "ammo_scale": 0,
       "menu_text": "Turn off",
-      "msg": "Your %s deactivates.",
+      "msg": "You deactivate your %s.",
       "target": "afs_combat_cryo_xl"
     },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
@@ -361,7 +361,7 @@
       "type": "transform",
       "ammo_scale": 0,
       "menu_text": "Turn off",
-      "msg": "Your %s deactivates.",
+      "msg": "You deactivate your %s.",
       "target": "afs_cryopod_bodyglove"
     },
     "flags": [

@@ -2,7 +2,7 @@
   {
     "type": "snippet",
     "category": "nightmares",
-    "//": "When writing nightmares, take care to (1) ensure they are generic enough that getting the same nightmare twice in a row isn't too weird, and (2) that they don't assume anything about the person having them.  If your nightmare reads like a horror story or creepypasta, it is probably going too far. In general, avoid too much description.",
+    "//1": "When writing nightmares, take care to (1) ensure they are generic enough that getting the same nightmare twice in a row isn't too weird, and (2) that they don't assume anything about the person having them.  If your nightmare reads like a horror story or creepypasta, it is probably going too far. In general, avoid too much description.",
     "//2": "It's also a good idea to try mainly to include nightmares that have something to do with the apocalyptic setting of the game, not just generic scary dreams.  Obviously, not all nightmares have to follow this rule, but the more they advance the overall setting of DDA the better.",
     "text": [
       "You awaken from a nightmare about being eaten alive while your friends applaud.",

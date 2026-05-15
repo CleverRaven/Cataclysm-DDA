@@ -670,7 +670,7 @@
     "variants": [
       {
         "id": "triple_honcho",
-        "name": { "str": "Triple Honcho" },
+        "name": { "str": "Charles Daly Triple Honcho shotgun" },
         "description": "Made by Charles Daly, this modern three-barrel shotgun had a unique balance between how much it cost and how little firepower it could release with its 18.5-inch barrels.  Luckily, you do not need to pay the full price for it anymore."
       }
     ],
@@ -734,7 +734,7 @@
     "variants": [
       {
         "id": "tavor_12",
-        "name": { "str": "Tavor TS12 shotgun" },
+        "name": { "str": "IWI Tavor TS12 shotgun" },
         "description": "A triple tube magazine fed, gas-operated bullpup shotgun of Israeli Weapon Industries make.  It is capable of loading 15 shells, all in a relatively small package.  Like many other modern IWI designs, this looks more like a sci-fi prop gun than a firearm.  An integral top rail is provided for mounting sights."
       }
     ],
@@ -772,7 +772,7 @@
     "variants": [
       {
         "id": "dp_12",
-        "name": { "str": "DP-12" },
+        "name": { "str": "DP-12 shotgun" },
         "description": "A bullpup, 12-gauge, pump-action, double-barreled mouthful of a shotgun.  Each barrel feeds from its own magazine, making the weapon actually two firearms in a single frame, and, while each barrel has its own associated trigger, the presence of a single pump to actuate both mechanisms means that it cannot be used precisely.  This, however, isn't to say that the weapon isn't fit for the service of shooting zombies at point blank ranges."
       }
     ],
@@ -983,55 +983,55 @@
     "variants": [
       {
         "id": "tar_12p",
-        "name": { "str": "Tokarev TAR 12P" },
+        "name": { "str": "Tokarev TAR 12P shotgun" },
         "weight": 327,
         "description": "Not related to the Soviet weapon designer, Tokarev, this Turkish shotgun uses an AR-12 shotgun platform to make the user comfortably hold it like a rifle and to utilize MKA 1919 magazines of different sizes."
       },
       {
         "id": "vr80",
-        "name": { "str": "VR 80" },
+        "name": { "str": "VR80 shotgun" },
         "weight": 575,
         "description": "The work of Rock Island Armory, this AR-12-style shotgun affords both the comfort of being similar to a rifle and the ability to use MKA 1919 shotgun magazines."
       },
       {
         "id": "boss25",
-        "name": { "str": "BOSS 25" },
+        "name": { "str": "BOSS 25 shotgun" },
         "weight": 299,
-        "description": "Manufactured in Turkey, this work of Farncolin Arms uses an AR-12 shotgun platform to let the user comfortably hold it like a rifle and utilize MKA 1919 magazines of different sizes."
+        "description": "Manufactured in Turkey, this work of Francolin Arms uses an AR-12 shotgun platform to let the user comfortably hold it like a rifle and utilize MKA 1919 magazines of different sizes."
       },
       {
         "id": "ar12s",
-        "name": { "str": "AR-12S" },
+        "name": { "str": "AR-12S shotgun" },
         "weight": 101,
         "description": "Created by Charles Daly, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
       },
       {
         "id": "ar12a",
-        "name": { "str": "AR-12A" },
+        "name": { "str": "AR-12A shotgun" },
         "weight": 98,
         "description": "Made by Charles Daly, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
       },
       {
         "id": "gf25",
-        "name": { "str": "GF25" },
+        "name": { "str": "GF25 shotgun" },
         "weight": 158,
         "description": "Work of GForce Arms, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
       },
       {
         "id": "mka1919",
-        "name": { "str": "MKA 1919" },
+        "name": { "str": "MKA 1919 shotgun" },
         "weight": 85,
         "description": "First of its type, this Akdal Arms MKA 1919 looks like a bulky M-4 rifle, and was a parent for numerous shotguns, that soon after got a named \"AR-12 platform\", inspired by Armalite design."
       },
       {
         "id": "krx",
-        "name": { "str": "KRX" },
+        "name": { "str": "KRX shotgun" },
         "weight": 231,
         "description": "Created by TriStar Arms, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
       },
       {
         "id": "vr60",
-        "name": { "str": "VR60" },
+        "name": { "str": "VR60 shotgun" },
         "weight": 109,
         "description": "Work of Rock Island Armory, this AR-12 style shotgun afford both the comfort of being similar to rifle, and ability to use MKA 1919 shotgun magazines."
       }
@@ -1070,13 +1070,13 @@
     "variants": [
       {
         "id": "gfy_1",
-        "name": { "str": "GFY-1" },
+        "name": { "str": "GFY-1 shotgun" },
         "weight": 101,
         "description": "A work of GForce Arms, this curious bullpup shotgun is compact, familiar to any rifleman, and can use standard MKA 1919 magazines."
       },
       {
         "id": "bp12",
-        "name": { "str": "BP-12" },
+        "name": { "str": "BP-12 shotgun" },
         "weight": 82,
         "description": "Manufactured by Century Arms, it is a compact bullpup shotgun, that accept a variety of MKA 1919 magazines."
       }
@@ -1115,7 +1115,7 @@
     "variants": [
       {
         "id": "srm_1216",
-        "name": { "str": "SRM Arms Model 1216" },
+        "name": { "str": "SRM Arms Model 1216 shotgun" },
         "description": "A delayed blowback semi-automatic shotgun feeding from detachable 16-round rotary magazines."
       }
     ],
@@ -1177,7 +1177,7 @@
     "variants": [
       {
         "id": "mossberg_590_shockwave",
-        "name": { "str": "Mossberg 590S Shockwave" },
+        "name": { "str": "Mossberg 590S Shockwave shotgun" },
         "description": "The Mossberg 590S Shockwave is legally speaking, not a shotgun.  This is in order to get around federal laws regarding sawn-off shotguns.  It is still in essence just a Mossberg 590 with the barrel and stock sawn off."
       }
     ],

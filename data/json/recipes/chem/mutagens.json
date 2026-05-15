@@ -27,10 +27,9 @@
     ],
     "components": [
       [
-        [ "tallow_tainted", 2 ],
+        [ "fat_tainted", 2 ],
         [ "meat_tainted", 3 ],
         [ "meat_tainted_human", 3 ],
-        [ "dry_meat_tainted", 3 ],
         [ "tainted_innards", 4 ],
         [ "tainted_innards_human", 4 ],
         [ "fetus", 1 ],
@@ -399,12 +398,7 @@
       { "proficiency": "prof_chem_synth" }
     ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
-    "components": [
-      [ [ "mutagen", 1 ] ],
-      [ [ "rat_sample", 1 ] ],
-      [ [ "meat_tainted", 6 ], [ "dry_meat_tainted", 6 ] ],
-      [ [ "quikclot", 2 ], [ "rat_sample", 1 ] ]
-    ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "rat_sample", 1 ] ], [ [ "meat_tainted", 6 ] ], [ [ "quikclot", 2 ], [ "rat_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -795,7 +789,7 @@
     "components": [
       [ [ "mutagen", 1 ] ],
       [ [ "cephalopod_sample", 1 ] ],
-      [ [ "meat_tainted", 6 ], [ "dry_meat_tainted", 6 ], [ "can_chowder", 1 ], [ "can_clams", 1 ] ],
+      [ [ "meat_tainted", 6 ], [ "can_chowder", 1 ], [ "can_clams", 1 ] ],
       [ [ "permanent_ink", 800 ], [ "cephalopod_sample", 1 ] ]
     ],
     "flags": [ "SECRET" ]

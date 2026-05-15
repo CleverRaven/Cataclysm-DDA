@@ -51,7 +51,7 @@ static const spell_id spell_test_spell_json( "test_spell_json" );
 static const trait_id trait_test_trait( "test_trait" );
 
 template<typename T>
-void test_serialization( const T &val, const std::string &s )
+static void test_serialization( const T &val, const std::string &s )
 {
     CAPTURE( val );
     {

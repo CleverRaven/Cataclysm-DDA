@@ -1312,11 +1312,19 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                            "<info>" + skill.name() + "</info>" );
     }
 
-    if( mod->magazine_integral() || mod->magazine_current() ) {
-        if( mod->magazine_current() && parts->test( iteminfo_parts::GUN_MAGAZINE ) ) {
-            info.emplace_back( "GUN", _( "Magazine: " ),
-                               string_format( "<stat>%s</stat>",
-                                              mod->magazine_current()->tname() ) );
+    if( mod->magazine_integral() || !mod->magazines_current().empty() ) {
+        const std::vector<const item *> loaded_mags = mod->magazines_current();
+        if( !loaded_mags.empty() && parts->test( iteminfo_parts::GUN_MAGAZINE ) ) {
+            std::string mag_names;
+            for( size_t i = 0; i < loaded_mags.size(); ++i ) {
+                if( i > 0 ) {
+                    mag_names += ", ";
+                }
+                mag_names += loaded_mags[i]->tname();
+            }
+            info.emplace_back( "GUN",
+                               n_gettext( "Magazine: ", "Magazines: ", loaded_mags.size() ),
+                               string_format( "<stat>%s</stat>", mag_names ) );
         }
         if( !mod->ammo_types().empty() && parts->test( iteminfo_parts::GUN_CAPACITY ) ) {
             for( const ammotype &at : mod->ammo_types() ) {
@@ -1976,6 +1984,8 @@ void item::pet_armor_protection_info( std::vector<iteminfo> &info,
     }
 }
 
+namespace
+{
 // simple struct used for organizing encumbrance in an ordered set
 struct armor_encumb_data {
     int encumb;
@@ -1995,10 +2005,11 @@ struct armor_encumb_data {
     }
 };
 
-static bool operator<( const armor_encumb_data &lhs, const armor_encumb_data &rhs )
+bool operator<( const armor_encumb_data &lhs, const armor_encumb_data &rhs )
 {
     return lhs.encumb < rhs.encumb;
 }
+} // namespace
 
 void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                        bool debug ) const
@@ -2728,9 +2739,18 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 
     if( !magazine_integral() ) {
-        if( magazine_current() && parts->test( iteminfo_parts::TOOL_MAGAZINE_CURRENT ) ) {
-            info.emplace_back( "TOOL", _( "Magazine: " ),
-                               string_format( "<stat>%s</stat>", magazine_current()->tname() ) );
+        const std::vector<const item *> loaded_mags = magazines_current();
+        if( !loaded_mags.empty() && parts->test( iteminfo_parts::TOOL_MAGAZINE_CURRENT ) ) {
+            std::string mag_names;
+            for( size_t i = 0; i < loaded_mags.size(); ++i ) {
+                if( i > 0 ) {
+                    mag_names += ", ";
+                }
+                mag_names += loaded_mags[i]->tname();
+            }
+            info.emplace_back( "TOOL",
+                               n_gettext( "Magazine: ", "Magazines: ", loaded_mags.size() ),
+                               string_format( "<stat>%s</stat>", mag_names ) );
         }
 
         if( parts->test( iteminfo_parts::TOOL_MAGAZINE_COMPATIBLE ) ) {
@@ -3286,10 +3306,14 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
         }
         // Tools with "charged_qualities" defined may have additional qualities when charged.
         // List them, and show whether there is enough charge to use those qualities.
-        if( !type->charged_qualities.empty() && type->charges_to_use() > 0 ) {
+        if( !type->charged_qualities.empty() && needs_charges_to_use() ) {
             // Use ammo_sufficient() with player character to include bionic/UPS power
             if( ammo_sufficient( &get_player_character() ) ) {
                 info.emplace_back( "QUALITIES", "", _( "<good>Has enough charges</good> for qualities:" ) );
+            } else if( uses_firing_requirements() ) {
+                info.emplace_back( "QUALITIES", "",
+                                   string_format( _( "<bad>Needs to be charged with: %s</bad> for qualities:" ),
+                                                  format_consumption_requirements() ) );
             } else {
                 info.emplace_back( "QUALITIES", "",
                                    string_format( _( "<bad>Needs %d or more charges</bad> for qualities:" ),
@@ -4179,16 +4203,14 @@ void item::ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query * /
         return;
     }
 
-    if( get_option<bool>( "ENABLE_ASCII_ART" ) ) {
-        ascii_art_id art = type->picture_id;
-        if( has_itype_variant() && itype_variant().art.is_valid() ) {
-            art = itype_variant().art;
-        }
-        if( art.is_valid() ) {
-            insert_separation_line( info );
-            for( const std::string &line : art->picture ) {
-                info.emplace_back( "DESCRIPTION", line, iteminfo::is_art );
-            }
+    ascii_art_id art = type->picture_id;
+    if( has_itype_variant() && itype_variant().art.is_valid() ) {
+        art = itype_variant().art;
+    }
+    if( art.is_valid() ) {
+        insert_separation_line( info );
+        for( const std::string &line : art->picture ) {
+            info.emplace_back( "DESCRIPTION", line, iteminfo::is_art );
         }
     }
 }
@@ -4315,8 +4337,11 @@ std::vector<iteminfo> item::get_info( const iteminfo_query *parts, int batch ) c
         } else if( blockname == "footer" ) {
 
             final_info( info, parts, batch, debug );
-            ascii_art_info( info, parts, batch, debug );
 
+            if( parts->test( iteminfo_parts::DESCRIPTION_ASCII_ART ) &&
+                get_option<bool>( "ENABLE_ASCII_ART" ) ) {
+                ascii_art_info( info, parts, batch, debug );
+            }
         } else {
 
             debugmsg( "Trying to show info block named %s which is not valid.", blockname );

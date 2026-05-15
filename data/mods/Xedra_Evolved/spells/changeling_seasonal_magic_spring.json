@@ -306,6 +306,45 @@
     }
   },
   {
+    "id": "changeling_spring_enchanted_butterfly_wings_spell",
+    "type": "SPELL",
+    "name": "Wings of Gossamer",
+    "description": "Summon a pair of diaphanous wings to sprout from your back.  You cannot fly with them and you cannot wear rigid armor over them, but they allow you to glide and fall from higher places without taking as much damage and slightly increase your dodging ability.",
+    "message": "",
+    "flags": [ "VERBAL", "RANDOM_DURATION", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "gramarye",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 6,
+    "components": "spell_components_changeling_dreamsparks",
+    "effect": "attack",
+    "effect_str": "effect_changeling_spring_enchanted_butterfly_wings",
+    "min_duration": {
+      "math": [
+        "( ( 44522 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 11741) + (u_skill('gramarye') * 21399) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 100520 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 16438) + (u_skill('gramarye') * 54992) ) )"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_changeling_spring_enchanted_butterfly_wings') > -1 ? 0 : max( ( 350 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 3) - (u_skill('gramarye') * 6)), 200)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_changeling_spring_enchanted_butterfly_wings') > -1 ? 0 : max( ( 350 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 4) - (u_skill('gramarye') * 10)), 150)"
+      ]
+    }
+  },
+  {
     "id": "changeling_spring_summon_smashing_plants_spell",
     "type": "SPELL",
     "name": "Gwydion's Wrath",
@@ -362,6 +401,51 @@
     "effect": "summon",
     "effect_str": "mon_spring_changeling_bashing_vine",
     "extra_effects": [  ]
+  },
+  {
+    "type": "SPELL",
+    "id": "changeling_spring_fertilize_plant_aoe_spell",
+    "name": "Blessing of Amaethon",
+    "description": "Call down a blessing on the fields around you, bringing fertility to any nearby crops.  The glamour has <color_yellow>reduced area of effect</color> if used in autumn.",
+    "flags": [ "VERBAL", "SOMATIC", "RANDOM_DAMAGE", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "valid_targets": [ "ground" ],
+    "teachable": false,
+    "skill": "gramarye",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 7,
+    "components": "spell_components_changeling_dreamsparks_2",
+    "effect": "fertilize_plant",
+    "min_damage": {
+      "math": [
+        "min( ( 20 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.5) + (u_skill('gramarye') * 1.25)), 50)"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "min( ( 20 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.5) + (u_skill('gramarye') * 1.25)), 50)"
+      ]
+    },
+    "min_aoe": {
+      "math": [
+        "min( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.2) + (u_skill('gramarye') * 0.5)), 16) * (global_what_is_the_season == 3 ? 0.6 : 1)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.2) + (u_skill('gramarye') * 0.5)), 16) * (global_what_is_the_season == 3 ? 0.6 : 1)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 850 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 7) - (u_skill('gramarye') * 13)), 500)" ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max( ( 6000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 75) - (u_skill('gramarye') * 120)), 1500)"
+      ]
+    }
   },
   {
     "id": "changeling_spring_healing_increase_while_outside_spell",
@@ -447,7 +531,7 @@
       ]
     },
     "base_casting_time": 75,
-    "targeted_monster_species": [ "FERAL", "HUMAN", "CHANGELING", "ARVORE", "HOMULLUS", "IERDE", "SALAMANDER", "SYLPH", "UNDINE" ]
+    "targeted_monster_species": [ "FERAL", "HUMAN", "RENFIELD", "CHANGELING", "ARVORE", "HOMULLUS", "IERDE", "SALAMANDER", "SYLPH", "UNDINE" ]
   },
   {
     "id": "changeling_spring_charm_control_target_extra_buffs",

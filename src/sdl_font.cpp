@@ -297,7 +297,7 @@ CachedTTFFont::CachedTTFFont(
     }
     font = OpenFontIndex( typeface.c_str(), fontsize, faceIndex );
     if( !font ) {
-        throw std::runtime_error( TTF_GetError() );
+        throw std::runtime_error( SDL_GetError() );
     }
     SetFontStyle( font, TTF_STYLE_NORMAL );
 }
@@ -311,7 +311,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
                              ? RenderUTF8_Blended( font, ch.c_str(), windowsPalette[color] )
                              : RenderUTF8_Solid( font, ch.c_str(), windowsPalette[color] );
     if( !sglyph ) {
-        dbg( D_ERROR ) << "Failed to create glyph for " << ch << ": " << TTF_GetError();
+        dbg( D_ERROR ) << "Failed to create glyph for " << ch << ": " << SDL_GetError();
         return nullptr;
     }
     const int wf = utf8_width( ch );
@@ -402,18 +402,18 @@ BitmapFont::BitmapFont(
         throw std::runtime_error( "bitmap for font is to small" );
     }
     Uint32 key = MapRGB( asciiload, 0xFF, 0, 0xFF );
-    SetColorKey( asciiload, SDL_TRUE, key );
-    std::array<SDL_Surface_Ptr, std::tuple_size<decltype( ascii )>::value> ascii_surf;
+    SetColorKey( asciiload, 1, key );
+    std::array<SDL_Surface_Ptr, std::tuple_size_v<decltype( ascii )>> ascii_surf;
     ascii_surf[0] = ConvertSurfaceFormat( asciiload, pixel_format );
     SetSurfaceRLE( ascii_surf[0], 1 );
     asciiload.reset();
 
-    for( size_t a = 1; a < std::tuple_size<decltype( ascii )>::value; ++a ) {
+    for( size_t a = 1; a < std::tuple_size_v<decltype( ascii )>; ++a ) {
         ascii_surf[a] = ConvertSurfaceFormat( ascii_surf[0], pixel_format );
         SetSurfaceRLE( ascii_surf[a], 1 );
     }
 
-    for( size_t a = 0; a < std::tuple_size<decltype( ascii )>::value - 1; ++a ) {
+    for( size_t a = 0; a < std::tuple_size_v<decltype( ascii )> - 1; ++a ) {
         throwErrorIf( LockSurface( ascii_surf[a] ) != 0, "SDL_LockSurface failed" );
         int size = ascii_surf[a]->h * ascii_surf[a]->w;
         Uint32 *pixels = static_cast<Uint32 *>( ascii_surf[a]->pixels );
@@ -428,7 +428,7 @@ BitmapFont::BitmapFont(
     tilewidth = ascii_surf[0]->w / width;
 
     //convert ascii_surf to SDL_Texture
-    for( size_t a = 0; a < std::tuple_size<decltype( ascii )>::value; ++a ) {
+    for( size_t a = 0; a < std::tuple_size_v<decltype( ascii )>; ++a ) {
         ascii[a] = CreateTextureFromSurface( renderer, ascii_surf[a] );
     }
 }

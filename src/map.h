@@ -345,7 +345,7 @@ struct tint_sprite_record {
         int x, y, w, h;
     } destination;         // screen-space destination rect at time of draw
     double angle;          // rotation angle (0, -90, 90)
-    int flip;              // SDL_RendererFlip cast to int (avoids SDL include)
+    int flip;              // CataFlipMode cast to int (avoids SDL include)
 };
 
 struct tile_render_info {
@@ -987,6 +987,8 @@ class map
         ter_id ter( const point_bub_ms &p ) const {
             return ter( tripoint_bub_ms( p, abs_sub.z() ) );
         }
+
+        void furniture_terrain_emit_fields();
 
         int get_map_damage( const tripoint_bub_ms &p ) const;
         void set_map_damage( const tripoint_bub_ms &p, int dmg );
@@ -1961,6 +1963,13 @@ class map
         void saven( const tripoint_bub_sm &grid );
         void loadn( const point_bub_sm &grid, bool update_vehicles );
         /**
+         * Walk all items currently in the bubble (map tiles + vehicle cargo,
+         * recursing into containers) and call rebuild_for_item on each.  Run
+         * after submaps come back into range so item-targeted wakeups re-arm
+         * from authoritative item state.
+         */
+        void reconcile_item_wakeups();
+        /**
          * Fast forward a submap that has just been loading into this map.
          * This is used to rot and remove rotten items, grow plants, fill funnels etc.
          */
@@ -2260,9 +2269,18 @@ class map
          */
         std::vector<tripoint_bub_ms> field_ter_locs;
         /**
+         * Holds free'd caches because we probably don't have to return the memory to the OS.
+         */
+        static std::list<std::unique_ptr<level_cache>> free_cache_pool;
+        struct level_cache_free {
+            void operator()( level_cache *cache ) {
+                free_cache_pool.emplace_back( cache );
+            }
+        };
+        /**
          * Holds caches for visibility, light, transparency and vehicles
          */
-        mutable std::array< std::unique_ptr<level_cache>, OVERMAP_LAYERS > caches;
+        mutable std::array< std::unique_ptr<level_cache, level_cache_free>, OVERMAP_LAYERS > caches;
 
         mutable std::array< std::unique_ptr<pathfinding_cache>, OVERMAP_LAYERS > pathfinding_caches;
         /**
@@ -2280,12 +2298,14 @@ class map
 
         // Note: no bounds check
         level_cache &get_cache( int zlev ) const {
-            std::unique_ptr<level_cache> &cache = caches[zlev + OVERMAP_DEPTH];
+            std::unique_ptr<level_cache, level_cache_free> &cache = caches[zlev + OVERMAP_DEPTH];
             if( !cache ) {
-                cache = std::make_unique<level_cache>();
+                cache = alloc_cache();
             }
             return *cache;
         }
+
+        static std::unique_ptr<level_cache, level_cache_free> alloc_cache();
 
         level_cache *get_cache_lazy( int zlev ) const {
             return caches[zlev + OVERMAP_DEPTH].get();

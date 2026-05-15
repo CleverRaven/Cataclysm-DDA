@@ -87,6 +87,7 @@ struct four_quadrants {
         return result;
     }
 };
+static_assert( std::is_trivially_copyable_v<four_quadrants> );
 
 // Hoisted to header and inlined so the test in tests/shadowcasting_test.cpp can use it.
 // Beer-Lambert law says attenuation is going to be equal to

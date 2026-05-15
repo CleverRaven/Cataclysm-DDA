@@ -15,7 +15,9 @@
 #include "flag.h"
 #include "item.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
+#include "pocket_type.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -82,30 +84,68 @@ bool Character::can_reload( const item &it, const item *ammo ) const
 }
 
 bool Character::list_ammo( const item_location &base, std::vector<item::reload_option> &ammo_list,
-                           bool empty ) const
+                           bool empty, bool per_well_targets ) const
 {
-    // Associate the destination with "parent"
-    // Useful for handling gun mods with magazines
-    std::vector<item_location> opts;
-    opts.emplace_back( base );
+    // pocket_index < 0 -> first-compatible-well fallback in item::reload.
+    struct opt_entry {
+        item_location loc;
+        int pocket_index;
+    };
+    std::vector<opt_entry> opts;
 
-    if( base->magazine_current() ) {
-        opts.emplace_back( base, const_cast<item *>( base->magazine_current() ) );
-    }
+    auto append_owner_options = [&opts, per_well_targets]( const item_location & owner ) {
+        opts.push_back( { owner, -1 } );
+        if( per_well_targets ) {
+            int idx = 0;
+            for( const item_pocket *p : owner->get_pockets(
+            []( const item_pocket & ) {
+            return true;
+        } ) ) {
+                if( p->is_type( pocket_type::MAGAZINE_WELL ) ) {
+                    opts.push_back( { owner, idx } );
+                    if( const item *mag = p->magazine_current() ) {
+                        opts.push_back( { item_location( owner, const_cast<item *>( mag ) ), -1 } );
+                    }
+                }
+                ++idx;
+            }
+        } else if( owner->magazine_current() ) {
+            opts.push_back( { item_location( owner, const_cast<item *>( owner->magazine_current() ) ), -1 } );
+        }
+    };
 
+    append_owner_options( base );
     for( const item *mod : base->gunmods() ) {
         item_location mod_loc( base, const_cast<item *>( mod ) );
-        opts.emplace_back( mod_loc );
-        if( mod->magazine_current() ) {
-            opts.emplace_back( mod_loc, const_cast<item *>( mod->magazine_current() ) );
-        }
+        append_owner_options( mod_loc );
     }
 
     bool ammo_match_found = false;
     int ammo_search_range = is_mounted() ? -1 : 1;
-    for( item_location &p : opts ) {
+    for( opt_entry &entry : opts ) {
+        item_location &p = entry.loc;
+        // For per-well entries, filter compatibility against that specific
+        // pocket so magazines that fit a sibling well do not leak through.
+        const item_pocket *targeted_well = nullptr;
+        if( entry.pocket_index >= 0 ) {
+            int idx = 0;
+            for( const item_pocket *pp : p->get_pockets( []( const item_pocket & ) {
+            return true;
+        } ) ) {
+                if( idx == entry.pocket_index ) {
+                    if( pp->is_type( pocket_type::MAGAZINE_WELL ) ) {
+                        targeted_well = pp;
+                    }
+                    break;
+                }
+                ++idx;
+            }
+        }
         for( item_location &ammo : find_ammo( *p, empty, ammo_search_range ) ) {
-            if( p.can_reload_with( ammo, false ) ) {
+            const bool well_accepts = targeted_well != nullptr
+                                      ? targeted_well->can_reload_with( *ammo, false )
+                                      : p.can_reload_with( ammo, false );
+            if( well_accepts ) {
                 // Record that there's a matching ammo type,
                 // even if something is preventing reloading at the moment.
                 ammo_match_found = true;
@@ -115,8 +155,11 @@ bool Character::list_ammo( const item_location &base, std::vector<item::reload_o
                 // Again, this is "are they compatible", later check handles "can we do it now".
                 ammo_match_found = p.can_reload_with( ammo, false );
             }
-            if( can_reload( *p, ammo.get_item() ) ) {
-                ammo_list.emplace_back( this, p, std::move( ammo ) );
+            const bool emit = targeted_well != nullptr
+                              ? targeted_well->can_reload_with( *ammo, true )
+                              : can_reload( *p, ammo.get_item() );
+            if( emit ) {
+                ammo_list.emplace_back( this, p, std::move( ammo ), entry.pocket_index );
             }
         }
     }
@@ -217,13 +260,14 @@ hint_rating Character::rate_action_unload( const item &it ) const
         return hint_rating::cant;
     }
 
-    if( it.magazine_current() ) {
+    if( !it.magazines_current().empty() ) {
         return hint_rating::good;
     }
 
     for( const item *e : it.gunmods() ) {
         if( ( e->is_gun() && !e->has_flag( flag_NO_UNLOAD ) &&
-              ( e->magazine_current() || e->ammo_remaining( ) > 0 || e->casings_count() > 0 ) ) ||
+              ( !e->magazines_current().empty() || e->ammo_remaining( ) > 0 ||
+                e->casings_count() > 0 ) ) ||
             ( e->has_flag( flag_BRASS_CATCHER ) && !e->is_container_empty() ) ) {
             return hint_rating::good;
         }

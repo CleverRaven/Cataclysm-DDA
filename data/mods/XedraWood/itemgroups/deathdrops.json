@@ -1,0 +1,12 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "default_skeleton_death_drops",
+    "entries": [
+      { "item": "sword_xiphos", "damage": [ 2, 4 ], "prob": 100 },
+      { "item": "skull_human", "prob": 80 },
+      { "item": "bone_human", "count": [ 10, 25 ] }
+    ]
+  }
+]

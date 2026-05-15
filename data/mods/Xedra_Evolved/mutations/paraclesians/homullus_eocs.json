@@ -27,6 +27,15 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CONDITION_CHECK_HOMULLUS_NEAR_FACTION_ON_OMT_ENTER",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": { "and": [ { "u_has_trait": "HOMULLUS" }, { "test_eoc": "EOC_CONDITION_HOMULLUS_NEAR_FACTION" } ] },
+    "effect": [ { "math": [ "u_homullus_is_near_faction = 1" ] } ],
+    "false_effect": [ { "math": [ "u_homullus_is_near_faction = 0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CONDITION_HOMULLUS_NEAR_FACTION",
     "condition": {
       "or": [

@@ -83,6 +83,8 @@ class fault
         double price_mod() const;
         // having this faults adds this much of temporary (will be removed when fault is fixed) degradation
         int degradation_mod() const;
+        // Damage applied when fault is applied.
+        int instant_damage() const;
         // int is additive (default 0), float is multiplier (default 1)
         std::vector<std::tuple<int, float, damage_type_id>> melee_damage_mod() const;
         // int is additive (default 0), float is multiplier (default 1)
@@ -115,6 +117,7 @@ class fault
         std::set<fault_id> block_faults;
         double price_modifier = 1.0;
         int degradation_mod_ = 0;
+        int instant_damage_ = 0;
         float contact_area_mod_ = 1.f;
         float rolling_resistance_mod_ = 1.f;
         int vehicle_move_penalty_mod_ = 1.f;

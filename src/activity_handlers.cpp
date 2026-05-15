@@ -298,6 +298,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
     }
 }
 
+namespace
+{
 enum class repeat_type : int {
     // INIT should be zero. In some scenarios (vehicle welder), activity value default to zero.
     INIT = 0,       // Haven't found repeat value yet.
@@ -311,20 +313,21 @@ enum class repeat_type : int {
 };
 
 using I = std::underlying_type_t<repeat_type>;
-static constexpr bool operator>=( const I &lhs, const repeat_type &rhs )
+constexpr bool operator>=( const I &lhs, const repeat_type &rhs )
 {
     return lhs >= static_cast<I>( rhs );
 }
 
-static constexpr bool operator<=( const I &lhs, const repeat_type &rhs )
+constexpr bool operator<=( const I &lhs, const repeat_type &rhs )
 {
     return lhs <= static_cast<I>( rhs );
 }
 
-static constexpr I operator-( const repeat_type &lhs, const repeat_type &rhs )
+constexpr I operator-( const repeat_type &lhs, const repeat_type &rhs )
 {
     return static_cast<I>( lhs ) - static_cast<I>( rhs );
 }
+} // namespace
 
 static repeat_type repeat_menu( const std::string &title, repeat_type last_selection,
                                 const bool can_refit )
@@ -358,6 +361,8 @@ static repeat_type repeat_menu( const std::string &title, repeat_type last_selec
 // HACK: This is a part of a hack to provide pseudo items for long repair activity
 // Note: similar hack could be used to implement all sorts of vehicle pseudo-items
 //  and possibly CBM pseudo-items too.
+namespace
+{
 struct weldrig_hack {
     std::optional<vpart_reference> part;
     item pseudo;
@@ -429,6 +434,7 @@ struct weldrig_hack {
         clean_up();
     }
 };
+} // namespace
 
 void activity_handlers::repair_item_finish( player_activity *act, Character *you )
 {
@@ -502,11 +508,10 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
         }
 
         if( attempt != repair_item_actor::AS_CANT ) {
-            if( ploc && ploc->where() == item_location::type::map ) {
-                used_tool->ammo_consume( used_tool->ammo_required(), ploc->pos_bub( here ), you );
-            } else {
-                you->consume_charges( *used_tool, used_tool->ammo_required() );
-            }
+            const tripoint_bub_ms tool_pos = ( ploc && ploc->where() == item_location::type::map )
+                                             ? ploc->pos_bub( here )
+                                             : you->pos_bub( here );
+            used_tool->consume_tool_uses( 1, here, tool_pos, you );
         }
 
         // TODO: Allow setting this in the actor
@@ -630,15 +635,16 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
             }
         }
 
+        const int per_use = used_tool->expected_cost_per_use();
         title += used_tool->is_tool() && used_tool->has_flag( flag_USES_NEARBY_AMMO )
                  ? string_format( _( "Charges: <color_light_blue>%d</color> %s (%d per use)\n" ),
                                   ammo_remaining,
                                   ammo_name,
-                                  used_tool->ammo_required() )
+                                  per_use )
                  : string_format( _( "Charges: <color_light_blue>%d/%d</color> %s (%d per use)\n" ),
                                   ammo_remaining, used_tool->ammo_capacity( current_ammo, true ),
                                   ammo_name,
-                                  used_tool->ammo_required() );
+                                  per_use );
         title += string_format( _( "Materials available: %s\n" ), string_join( material_list, ", " ) );
         title += string_format( _( "Skill used: <color_light_blue>%s (%d)</color>\n" ),
                                 actor->used_skill.obj().name(), level );

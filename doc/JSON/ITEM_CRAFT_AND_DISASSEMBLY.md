@@ -145,11 +145,17 @@ Recipes can optionally define a `"steps"` array to split the craft into named ph
 
 When `"steps"` is present, the following fields must appear per-step and must **not** appear at root level: `"time"`, `"activity_level"`, `"tools"`, `"qualities"`, `"proficiencies"`, `"batch_time_factors"`.
 
-`"using"` is also not allowed at root level for step recipes.  Step-level `"using"` is not yet supported.
+`"using"` is allowed at both root level and step level for step recipes.  Root-level `"using"` merges into whole-recipe requirements (tools, qualities, and components are all gated at craft start).  Step-level `"using"` merges into that step's requirements and also participates in tool speed resolution for that step.
 
 `"components"` remains at root level.  All other recipe fields (`"result"`, `"skill_used"`, `"difficulty"`, `"book_learn"`, `"autolearn"`, etc.) also remain at root.
 
-Step recipes cannot use `"copy-from"` or `"abstract"`.
+### Inheritance
+
+Step recipes support `"copy-from"` and `"abstract"`.
+
+- If a child recipe uses `"copy-from"` pointing to a step recipe and does **not** include a `"steps"` array, it inherits the base's steps.  The child can override root-level fields like `"difficulty"`, `"skill_used"`, `"components"`, etc.
+- If the child **does** include a `"steps"` array, its steps replace the base's.  Root-level `"using"` from the base is preserved; the child can override it by providing its own `"using"`.
+- An `"abstract"` recipe with steps serves as a template.  Concrete children inherit steps and provide their own `"components"` and `"result"`.
 
 ### Step fields
 
@@ -163,7 +169,14 @@ Each entry in the `"steps"` array is an object with these fields:
                       //             trained while the craft is in this step.
 "tools":              // (Optional)  Same format as recipe-level.
 "qualities":          // (Optional)  Same format as recipe-level.
+"using":              // (Optional)  Same format as recipe-level.  Merges into this step's requirements.
 "batch_time_factors": // (Optional)  Same format as recipe-level.
+"attention":          // (Optional)  Either "none" (default) or "unattended".  See "Unattended steps".
+"max_time":           // (Optional)  Duration.  Hard deadline for an unattended step.  Must be > "time".
+"grace_period":       // (Optional)  Duration.  Extra time past "max_time" before the craft is destroyed.
+                      //             Only allowed when "max_time" is set.
+"unattend_message":   // (Optional)  Translatable string.  Shown when an unattended step finishes
+                      //             while the player is elsewhere.  Has a generic fallback.
 ```
 
 `"components"` at step level is not allowed.
@@ -224,6 +237,46 @@ Each entry in the `"steps"` array is an object with these fields:
 - Batch savings are applied per-step and summed.
 - The current step name appears in the crafting progress message.
 - Tool speed modifiers (see `"speed"` in item quality definitions) apply per-step: a tool with `"speed": 0.5` on a quality halves the time of steps requiring that quality, without affecting other steps.
+
+### Unattended steps
+
+A step marked `"attention": "unattended"` is wall-clock time the crafter does not actively work through (rising, marinating, curing).  Starting or resuming such a recipe shows a planning modal per unattended step:
+
+- Wait: player roots under `ACT_CRAFT_WAIT`, time passes, activity flips back to active mode when the step finishes (or ends entirely if the step was the last one).
+- Do something else: activity ends, craft stays where it landed, player is free.
+- Set a timer: like "do something else" plus an alarm clock at a chosen offset.  Only offered with a watch, smartphone, or alarm-clock bionic.
+
+Choices persist across save/load.  On resume the modal asks only about the in-flight unattended step and any later unattended steps; already-completed steps are skipped.  The item name shows live percentage progress projected from counter snapshots taken at step entry, even when no actor is running.
+
+When the wall-clock deadline elapses:
+
+- Non-terminal: step advances, distraction fires with `unattend_message` (or a vague log line without a timepiece).  Suppressed if the player is already on this craft.
+- Terminal: craft auto-finalizes at the deadline, so morale, EOCs, heat, and birthday use in-game completion time.
+- `max_time + grace_period` past start: craft is destroyed.
+
+If the step's tools or qualities become unavailable, the step pauses and the deadline slides forward once the env is restored.  `crafter_id` is remembered so env-check picks up the crafter's pseudo-tools, bionics, and trait qualities when they are next to the craft.
+
+NPCs do not see the planning modal and behave as if implicitly waiting; the unattended block in the craft activity actor still drives their craft forward.
+
+Schema:
+
+- `"max_time"`, when set, must be strictly greater than `"time"`.
+- `"grace_period"` requires `"max_time"`.
+- `"attention": "supervised"` is rejected at load (reserved).
+- An unattended step cannot list charged tools yet (charge debit during wallclock pause/resume not implemented).
+
+Example:
+
+```jsonc
+{
+  "name": "Let dough rise",
+  "time": "10 m",
+  "activity_level": "NO_EXERCISE",
+  "batch_time_factors": [ 5, 4 ],
+  "attention": "unattended",
+  "unattend_message": "The dough has finished rising."
+}
+```
 
 ## Practice recipes
 

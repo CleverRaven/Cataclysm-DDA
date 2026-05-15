@@ -103,15 +103,22 @@
     "components": [ [ [ "flour", 22 ], [ "bread_flour", 5 ] ], [ [ "yeast", 1 ] ], [ [ "water_clean", 2 ] ], [ [ "sugar", 4 ] ] ],
     "steps": [
       {
-        "name": "Mix dough",
+        "name": "mixing the dough",
         "time": "5 m",
         "activity_level": "MODERATE_EXERCISE",
         "batch_time_factors": [ 25, 4 ],
         "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_bread" } ]
       },
-      { "name": "Let dough rise", "time": "10 m", "activity_level": "NO_EXERCISE", "batch_time_factors": [ 5, 4 ] },
       {
-        "name": "Bake",
+        "name": "letting the dough rise",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "batch_time_factors": [ 5, 4 ],
+        "attention": "unattended",
+        "unattend_message": "The dough has finished rising."
+      },
+      {
+        "name": "baking",
         "time": "5 m",
         "activity_level": "LIGHT_EXERCISE",
         "batch_time_factors": [ 50, 4 ],

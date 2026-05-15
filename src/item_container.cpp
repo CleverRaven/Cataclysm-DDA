@@ -111,16 +111,36 @@ void item::clear_automatic_whitelist()
 
 void item::update_modified_pockets()
 {
-    std::optional<const pocket_data *> mag_or_mag_well;
+    std::vector<const pocket_data *> mag_or_mag_wells;
     std::vector<const pocket_data *> container_pockets;
+
+    // Mods that supply magazine pockets via pocket_mods replace the base
+    // item's mag wells (e.g. battery adapter mods). Without a mag-supplying
+    // mod, the base item's wells are preserved as-is.
+    bool mod_supplies_mag_pockets = false;
+    for( const item *mod : mods() ) {
+        if( mod->type->mod ) {
+            for( const pocket_data &pocket : mod->type->mod->add_pockets ) {
+                if( pocket.type == pocket_type::MAGAZINE ||
+                    pocket.type == pocket_type::MAGAZINE_WELL ) {
+                    mod_supplies_mag_pockets = true;
+                    break;
+                }
+            }
+        }
+        if( mod_supplies_mag_pockets ) {
+            break;
+        }
+    }
 
     // Prevent cleanup of pockets belonging to the item base type
     for( const pocket_data &pocket : type->pockets ) {
         if( pocket.type == pocket_type::CONTAINER ) {
             container_pockets.push_back( &pocket );
-        } else if( pocket.type == pocket_type::MAGAZINE ||
-                   pocket.type == pocket_type::MAGAZINE_WELL ) {
-            mag_or_mag_well = &pocket;
+        } else if( !mod_supplies_mag_pockets &&
+                   ( pocket.type == pocket_type::MAGAZINE ||
+                     pocket.type == pocket_type::MAGAZINE_WELL ) ) {
+            mag_or_mag_wells.push_back( &pocket );
         }
     }
 
@@ -140,13 +160,13 @@ void item::update_modified_pockets()
                     container_pockets.push_back( &pocket );
                 } else if( pocket.type == pocket_type::MAGAZINE ||
                            pocket.type == pocket_type::MAGAZINE_WELL ) {
-                    mag_or_mag_well = &pocket;
+                    mag_or_mag_wells.push_back( &pocket );
                 }
             }
         }
     }
 
-    contents.update_modified_pockets( mag_or_mag_well, container_pockets );
+    contents.update_modified_pockets( std::move( mag_or_mag_wells ), std::move( container_pockets ) );
 }
 
 bool item::same_contents( const item &rhs ) const
@@ -165,12 +185,14 @@ int item::insert_cost( const item &it ) const
 }
 
 ret_val<void> item::put_in( const item &payload, pocket_type pk_type,
-                            const bool unseal_pockets, Character *carrier )
+                            const bool unseal_pockets, Character *carrier, const bool quiet )
 {
     ret_val<item *> result = contents.insert_item( payload, pk_type, false, unseal_pockets );
     if( !result.success() ) {
-        debugmsg( "tried to put an item (%s) count (%d) in a container (%s) that cannot contain it: %s",
-                  payload.typeId().str(), payload.count(), typeId().str(), result.str() );
+        if( !quiet ) {
+            debugmsg( "tried to put an item (%s) count (%d) in a container (%s) that cannot contain it: %s",
+                      payload.typeId().str(), payload.count(), typeId().str(), result.str() );
+        }
         return ret_val<void>::make_failure( result.str() );
     }
     if( pk_type == pocket_type::MOD ) {

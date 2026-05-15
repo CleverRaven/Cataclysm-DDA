@@ -50,7 +50,7 @@
     "id": "changeling_summer_light_fire_spell",
     "type": "SPELL",
     "name": "Quick-Kindle",
-    "description": "With a quick gesture, summon up a burst of heat sufficient to ignite flammable material.  The glamour <color_red>cannot be used</color> in winter.",
+    "description": "With a quick gesture, summon up a burst of heat sufficient to ignite flammable material.  The glamour <color_red>is much more difficult to use</color> in winter.",
     "message": "",
     "flags": [ "SOMATIC", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_summer",
@@ -278,6 +278,7 @@
         }
       ]
     },
+    "caster_condition_fail_message": "You must be outdoors during a storm to use Fist of Taranis",
     "flags": [ "LOUD", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
     "teachable": false,
     "skill": "deduction",

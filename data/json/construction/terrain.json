@@ -345,7 +345,7 @@
     "time": "300 m",
     "tools": [ [ [ "pickaxe_list", 1, "LIST" ], [ "jackhammer", 140 ], [ "elec_jackhammer", 1848 ] ] ],
     "byproducts": [ { "group": "mining_rock" } ],
-    "pre_terrain": "t_rock_floor",
+    "pre_terrain": [ "t_rock_floor", "t_rock_floor_no_roof" ],
     "post_terrain": "t_pit",
     "activity_level": "EXTRA_EXERCISE",
     "do_turn_special": "do_turn_shovel"

@@ -118,7 +118,7 @@ struct field_intensity_level {
     int monster_spawn_radius = 0;
     mongroup_id monster_spawn_group;
     float light_emitted = 0.0f;
-    light_color_rgb light_color;
+    light_color_rgb light_color{};
     float local_light_override = -1.0f;
     float translucency = 0.0f;
     int concentration = 0;
@@ -216,6 +216,7 @@ struct field_type {
         field_immunity_data immunity_data;
 
         std::set<mtype_id> immune_mtypes;
+        std::set<mtype_id> block_mtypes;
 
         int priority = 0;
         time_duration half_life = 0_turns;

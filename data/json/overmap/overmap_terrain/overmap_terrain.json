@@ -43,7 +43,8 @@
     "extras": "build",
     "mondensity": 2,
     "see_cost": "high",
-    "flags": [ "RISK_HIGH", "GENERIC_LOOT", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "RISK_HIGH", "GENERIC_LOOT" ],
+    "post_process_generators": [ "riot_damage" ]
   },
   {
     "type": "overmap_terrain",
@@ -56,7 +57,7 @@
     "abstract": "generic_city_building_roof",
     "copy-from": "generic_city_building_no_sidewalk",
     "extend": { "flags": [ "SIDEWALK" ] },
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -86,7 +87,7 @@
     "name": "garage roof",
     "sym": "O",
     "color": "white",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -952,7 +953,7 @@
     "sym": "B",
     "color": "brown",
     "extend": { "flags": [ "RISK_LOW", "SOURCE_SAFETY" ] },
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",

@@ -724,7 +724,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "sonic gun" },
-    "description": "A small, square tube with a pistol grip that can emit a sonic waves, creating cavitation and tissue damage inside living creatures.  It's pretty weak as a weapon, but using extremely high frequency sounds makes it silent for most creatures you can met.  It would be fun to listen some music using it, but alas.",
+    "description": "A small, square tube with a pistol grip that can emit a sonic waves, creating cavitation and tissue damage inside living creatures.  It's pretty weak as a weapon, but using extremely high frequency sounds makes it silent for most creatures you can meet.  It would be fun to listen some music using it, but alas.",
     "weight": "890 g",
     "volume": "658 ml",
     "longest_side": "998 mm",

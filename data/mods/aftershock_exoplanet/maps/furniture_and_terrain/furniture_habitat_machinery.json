@@ -115,6 +115,87 @@
   },
   {
     "type": "furniture",
+    "id": "f_cryo_storage_l",
+    "name": "cryogenic storage unit",
+    "looks_like": "f_console",
+    "description": "A small cabinet used to store objects for indefinite periods of time.  Maintaining cryogenic storage is expensive, so whatever is stowed inside is likely to be valuable.",
+    "symbol": "9",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 25,
+    "flags": [ "SEALED", "PLACE_ITEM", "CONTAINER", "NO_SPOIL" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_unlock_afs_cryo_storage_unit",
+          "effect": [
+            { "math": [ "_t_delay = time('20 m')" ] },
+            { "u_add_var": "hack_success_eoc", "value": "EOC_hack_cryo_storage_unit_success" },
+            {
+              "run_eocs": "EOC_start_lock_hack",
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": 8, "t_radius": 0 },
+              "alpha_talker": "avatar"
+            }
+          ]
+        }
+      ]
+    },
+    "bash": {
+      "str_min": 60,
+      "str_max": 145,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "plastic_chunk", "count": [ 20, 40 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
+        { "item": "cable", "charges": [ 70, 140 ] },
+        { "item": "RAM", "count": [ 0, 2 ] },
+        { "item": "e_scrap", "count": [ 10, 20 ] },
+        { "item": "circuit", "count": [ 2, 5 ] },
+        { "item": "amplifier", "count": [ 0, 1 ] },
+        { "item": "small_lcd_screen", "count": 1 },
+        { "item": "power_supply", "count": [ 2, 5 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cryo_storage_o",
+    "name": "unlocked cryogenic storage unit",
+    "looks_like": "f_console",
+    "description": "A small cabinet used to store objects for indefinite periods of time.  Forceful opening has interrupted the cryogenic process, so whatever is inside must be recovered quickly.",
+    "symbol": "9",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 25,
+    "flags": [ "ALARMED", "PLACE_ITEM", "CONTAINER" ],
+    "bash": {
+      "str_min": 60,
+      "str_max": 145,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "plastic_chunk", "count": [ 20, 40 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
+        { "item": "cable", "charges": [ 70, 140 ] },
+        { "item": "RAM", "count": [ 0, 2 ] },
+        { "item": "e_scrap", "count": [ 10, 20 ] },
+        { "item": "circuit", "count": [ 2, 5 ] },
+        { "item": "amplifier", "count": [ 0, 1 ] },
+        { "item": "small_lcd_screen", "count": 1 },
+        { "item": "power_supply", "count": [ 2, 5 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_ev_charger",
     "name": "automated charging station",
     "looks_like": "f_console",

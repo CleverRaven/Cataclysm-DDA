@@ -119,7 +119,6 @@ static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_masked_scent( "masked_scent" );
-static const efftype_id effect_music( "music" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_playing_instrument( "playing_instrument" );
 static const efftype_id effect_recover( "recover" );
@@ -197,26 +196,102 @@ item_location form_loc_recursive( T &loc, item &it )
 template item_location form_loc_recursive<Character>( Character &loc, item &it );
 template item_location form_loc_recursive<npc>( npc &loc, item &it );
 
-static item_location form_loc( Character &you, map *here, const tripoint_bub_ms &p, item &it )
+static std::optional<item_location> try_form_loc( Character &you, map *here,
+        const tripoint_bub_ms &p, item &it )
 {
     if( you.has_item( it ) ) {
         return form_loc_recursive( you, it );
     }
-    map_cursor mc( here, p );
-    if( mc.has_item( it ) ) {
-        return form_loc_recursive( mc, it );
-    }
-    const optional_vpart_position vp = here->veh_at( p );
-    if( vp ) {
-        vehicle_cursor vc( vp->vehicle(), vp->part_index() );
-        if( vc.has_item( it ) ) {
-            return form_loc_recursive( vc, it );
+    if( here ) {
+        map_cursor mc( here, p );
+        if( mc.has_item( it ) ) {
+            return form_loc_recursive( mc, it );
+        }
+        const optional_vpart_position vp = here->veh_at( p );
+        if( vp ) {
+            vehicle_cursor vc( vp->vehicle(), vp->part_index() );
+            if( vc.has_item( it ) ) {
+                return form_loc_recursive( vc, it );
+            }
         }
     }
+    return std::nullopt;
+}
 
+static item_location form_loc( Character &you, map *here, const tripoint_bub_ms &p, item &it )
+{
+    if( std::optional<item_location> loc = try_form_loc( you, here, p, it ) ) {
+        return *loc;
+    }
     debugmsg( "Couldn't find item %s to form item_location, forming dummy location to ensure minimum functionality",
               it.display_name() );
     return item_location( you, &it );
+}
+
+// Like parents_can_contain_recursive but with replacement semantics: an
+// in-place transform swaps `it` out, so each level credits `it`'s footprint.
+static ret_val<void> transform_fits_parent_pocket( const Character &p, const item &it,
+        const item &result, map *here, const tripoint_bub_ms &pos )
+{
+    const std::optional<item_location> loc = try_form_loc(
+                const_cast<Character &>( p ), here, pos, const_cast<item &>( it ) );
+    if( !loc || !loc->has_parent() ) {
+        return ret_val<void>::make_success();
+    }
+
+    units::mass result_weight = result.weight();
+    units::volume result_volume = result.volume();
+    units::length result_length = result.length();
+    units::mass it_weight = it.weight();
+    units::volume it_volume = it.volume();
+    units::length it_length = it.length();
+    const std::vector<const item_pocket *> innermost = loc->get_item()->get_standard_pockets();
+    const item_pocket *current_pocket = innermost.empty() ? nullptr : innermost.front();
+    const pocket_data *current_pocket_data = current_pocket ? current_pocket->get_pocket_data()
+            : nullptr;
+
+    item_location current = *loc;
+    while( current.has_parent() ) {
+        const item_pocket *parent_pocket = current.parent_pocket();
+        if( parent_pocket == nullptr ) {
+            break;
+        }
+        if( current_pocket && current_pocket->rigid() ) {
+            result_volume = 0_ml;
+            result_length = 0_mm;
+            it_volume = 0_ml;
+            it_length = 0_mm;
+        }
+        if( current_pocket_data ) {
+            result_weight = result_weight * current_pocket_data->weight_multiplier;
+            result_volume = result_volume * current_pocket_data->volume_multiplier;
+            result_length = result_length * std::cbrt( current_pocket_data->volume_multiplier );
+            it_weight = it_weight * current_pocket_data->weight_multiplier;
+            it_volume = it_volume * current_pocket_data->volume_multiplier;
+            it_length = it_length * std::cbrt( current_pocket_data->volume_multiplier );
+        }
+
+        if( result_weight - it_weight > parent_pocket->remaining_weight() ) {
+            return ret_val<void>::make_failure(
+                       _( "The %1$s would not fit in its container after transforming: item is too heavy for a parent pocket" ),
+                       result.tname() );
+        }
+        if( result_volume - it_volume > parent_pocket->remaining_volume() ) {
+            return ret_val<void>::make_failure(
+                       _( "The %1$s would not fit in its container after transforming: item is too big for a parent pocket" ),
+                       result.tname() );
+        }
+        if( result_length > parent_pocket->get_pocket_data()->max_item_length ) {
+            return ret_val<void>::make_failure(
+                       _( "The %1$s would not fit in its container after transforming: item is too long for a parent pocket" ),
+                       result.tname() );
+        }
+
+        current_pocket = parent_pocket;
+        current_pocket_data = current_pocket->get_pocket_data();
+        current = current.parent_item();
+    }
+    return ret_val<void>::make_success();
 }
 
 std::unique_ptr<iuse_actor> iuse_transform::clone() const
@@ -360,7 +435,7 @@ std::optional<int> iuse_transform::use( Character *p, item &it, map *,
 }
 
 ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
-                                       map *here, const tripoint_bub_ms & ) const
+                                       map *here, const tripoint_bub_ms &pos ) const
 {
     if( need_worn && !p.is_worn( it ) ) {
         return ret_val<void>::make_failure( _( "You need to wear the %1$s before activating it." ),
@@ -373,6 +448,16 @@ ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
     if( need_empty && !it.empty() ) {
         return ret_val<void>::make_failure( _( "You need to empty the %1$s before activating it." ),
                                             it.tname() );
+    }
+
+    if( transform.target_group.is_empty() && !transform.target.is_empty() ) {
+        const item result = transform.container.is_empty()
+                            ? item( transform.target )
+                            : item( transform.container );
+        ret_val<void> fits = transform_fits_parent_pocket( p, it, result, here, pos );
+        if( !fits.success() ) {
+            return fits;
+        }
     }
 
     if( p.is_worn( it ) ) {
@@ -809,6 +894,8 @@ void effect_data::deserialize( const JsonObject &jo )
 
 } // namespace iuse
 
+namespace
+{
 class drug_vitamin_reader : public generic_typed_reader<drug_vitamin_reader>
 {
     public:
@@ -825,6 +912,7 @@ class drug_vitamin_reader : public generic_typed_reader<drug_vitamin_reader>
             return std::pair<vitamin_id, std::pair<int, int>>( ja.get_string( 0 ), std::make_pair( lo, hi ) );
         }
 };
+} // namespace
 
 void consume_drug_iuse::load( const JsonObject &obj, const std::string & )
 {
@@ -1325,6 +1413,8 @@ std::unique_ptr<iuse_actor> reveal_map_actor::clone() const
     return std::make_unique<reveal_map_actor>( *this );
 }
 
+namespace
+{
 class omt_reveal_type_reader : public generic_typed_reader<omt_reveal_type_reader>
 {
     public:
@@ -1340,6 +1430,7 @@ class omt_reveal_type_reader : public generic_typed_reader<omt_reveal_type_reade
                                    jo.get_enum_value<ot_match_type>( "om_terrain_match_type", ot_match_type::contains ) );
         }
 };
+} // namespace
 
 void reveal_map_actor::load( const JsonObject &obj, const std::string & )
 {
@@ -2598,11 +2689,8 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it,
                        it.typeId().str() );
     }
 
-    if( !p->has_effect( effect_music ) && p->can_hear( p->pos_bub( *here ), volume ) ) {
-        // Sound code doesn't describe noises at the player position
-        if( desc != "music" ) {
-            p->add_msg_if_player( m_info, desc );
-        }
+    if( desc != "music" && p->can_hear( p->pos_bub( *here ), volume ) ) {
+        p->add_msg_if_player( m_info, desc );
     }
 
     // We already played the sounds, just handle applying effects now
@@ -4514,7 +4602,8 @@ std::optional<int> molle_detach_actor::use( Character *p, item &it,
     prompt.text = _( "Remove which accessory?" );
 
     for( size_t i = 0; i != items_attached.size(); ++i ) {
-        prompt.addentry( i, true, -1, items_attached[i]->tname() );
+        prompt.addentry( uilist_entry( i, true, -1, items_attached[i]->tname(),
+                                       c_white, items_attached[i]->color_in_inventory() ) );
     }
 
     prompt.query();
@@ -5730,7 +5819,7 @@ std::optional<int> sew_advanced_actor::use( Character *p, item &it, map *here,
 
     int index = 0;
     for( const clothing_mod_id &cm : clothing_mods ) {
-        clothing_mod obj = cm.obj();
+        const clothing_mod &obj = cm.obj();
         item temp_item = modded_copy( mod, obj.flag );
         temp_item.update_clothing_mod_val();
 

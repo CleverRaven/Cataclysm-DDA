@@ -60,6 +60,9 @@ static const itype_id itype_wrapper( "wrapper" );
 
 static const pocket_type pocket_type_container = pocket_type::CONTAINER;
 
+namespace
+{
+
 class unique_item
 {
     private:
@@ -140,6 +143,8 @@ class unique_item
             return &null_item_reference();
         }
 };
+
+} // namespace
 
 // Add the given item to auto-pickup character rules and check rules.
 static void add_autopickup_rule( const item *what, bool include )

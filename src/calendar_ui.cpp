@@ -8,7 +8,7 @@
 
 #include "color.h"
 #include "input_context.h"
-#include "output.h"
+#include "input_popup.h"
 #include "string_formatter.h"
 #include "translation.h"
 #include "uilist.h"
@@ -21,9 +21,12 @@ time_point calendar_ui::select_time_point( time_point initial_value, std::string
     int auto_value = 0 ) {
         int new_value = initial + auto_value;
         if( new_value == initial ) {
-            if( !query_int( new_value, true, msg ) ) {
+            number_input_popup<int> time_query( 0, new_value, msg );
+            int result_time = time_query.query();
+            if( new_value == result_time ) {
                 return;
             }
+            new_value = result_time;
         }
         const time_duration offset = ( new_value - initial ) * factor;
         // Arbitrary maximal value.

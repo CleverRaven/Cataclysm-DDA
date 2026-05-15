@@ -2,16 +2,23 @@
 #ifndef CATA_SRC_SDL_WRAPPERS_H
 #define CATA_SRC_SDL_WRAPPERS_H
 
-#ifndef SDL_MAIN_HANDLED
-#define SDL_MAIN_HANDLED
-#endif
 // IWYU pragma: begin_exports
-#if defined(_MSC_VER) && defined(USE_VCPKG)
+#if defined(USE_SDL3)
+#   include <SDL3/SDL.h>
+#   include <SDL3_image/SDL_image.h>
+#   include <SDL3_ttf/SDL_ttf.h>
+#elif defined(_MSC_VER) && defined(USE_VCPKG)
+#   ifndef SDL_MAIN_HANDLED
+#   define SDL_MAIN_HANDLED
+#   endif
 #   include <SDL2/SDL.h>
 #   include <SDL2/SDL_image.h>
 #   include <SDL2/SDL_ttf.h>
 #   include <SDL2/SDL_mouse.h>
 #else
+#   ifndef SDL_MAIN_HANDLED
+#   define SDL_MAIN_HANDLED
+#   endif
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #   include <SDL.h>
@@ -26,6 +33,17 @@
 #include <string>
 
 struct point;
+
+// SDL3 type renames. Use CataFlipMode at call sites.
+#if SDL_MAJOR_VERSION >= 3
+using CataFlipMode = SDL_FlipMode;
+// SDL3 renames KMOD_* -> SDL_KMOD_*
+inline constexpr SDL_Keymod KMOD_CTRL  = SDL_KMOD_CTRL;
+inline constexpr SDL_Keymod KMOD_SHIFT = SDL_KMOD_SHIFT;
+inline constexpr SDL_Keymod KMOD_ALT   = SDL_KMOD_ALT;
+#else
+using CataFlipMode = SDL_RendererFlip;
+#endif
 
 struct SDL_Renderer_deleter {
     void operator()( SDL_Renderer *const renderer ) {
@@ -50,7 +68,11 @@ using SDL_Texture_Ptr = std::unique_ptr<SDL_Texture, SDL_Texture_deleter>;
 
 struct SDL_Surface_deleter {
     void operator()( SDL_Surface *const ptr ) {
+#if SDL_MAJOR_VERSION >= 3
+        SDL_DestroySurface( ptr );
+#else
         SDL_FreeSurface( ptr );
+#endif
     }
 };
 using SDL_Surface_Ptr = std::unique_ptr<SDL_Surface, SDL_Surface_deleter>;
@@ -108,7 +130,7 @@ void SetTextureAlphaMod( const SDL_Texture_Ptr &texture, Uint8 alpha );
 void SetTextureAlphaMod( const std::shared_ptr<SDL_Texture> &texture, Uint8 alpha );
 void RenderCopyEx( const SDL_Renderer_Ptr &renderer, SDL_Texture *texture,
                    const SDL_Rect *srcrect, const SDL_Rect *dstrect,
-                   double angle, const SDL_Point *center, SDL_RendererFlip flip );
+                   double angle, const SDL_Point *center, CataFlipMode flip );
 void RenderSetClipRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect );
 void RenderGetClipRect( const SDL_Renderer_Ptr &renderer, SDL_Rect *rect );
 bool RenderIsClipEnabled( const SDL_Renderer_Ptr &renderer );
@@ -309,6 +331,29 @@ inline constexpr Uint32 CATA_FINGERUP     = SDL_EVENT_FINGER_UP;
 inline constexpr Uint32 CATA_FINGERMOTION = SDL_FINGERMOTION;
 inline constexpr Uint32 CATA_FINGERDOWN   = SDL_FINGERDOWN;
 inline constexpr Uint32 CATA_FINGERUP     = SDL_FINGERUP;
+#endif
+
+// Input and quit event renames. SDL3: SDL_KEYDOWN -> SDL_EVENT_KEY_DOWN etc.
+#if SDL_MAJOR_VERSION >= 3
+inline constexpr Uint32 CATA_KEYDOWN         = SDL_EVENT_KEY_DOWN;
+inline constexpr Uint32 CATA_KEYUP           = SDL_EVENT_KEY_UP;
+inline constexpr Uint32 CATA_TEXTINPUT       = SDL_EVENT_TEXT_INPUT;
+inline constexpr Uint32 CATA_TEXTEDITING     = SDL_EVENT_TEXT_EDITING;
+inline constexpr Uint32 CATA_MOUSEMOTION     = SDL_EVENT_MOUSE_MOTION;
+inline constexpr Uint32 CATA_MOUSEBUTTONDOWN = SDL_EVENT_MOUSE_BUTTON_DOWN;
+inline constexpr Uint32 CATA_MOUSEBUTTONUP   = SDL_EVENT_MOUSE_BUTTON_UP;
+inline constexpr Uint32 CATA_MOUSEWHEEL      = SDL_EVENT_MOUSE_WHEEL;
+inline constexpr Uint32 CATA_QUIT            = SDL_EVENT_QUIT;
+#else
+inline constexpr Uint32 CATA_KEYDOWN         = SDL_KEYDOWN;
+inline constexpr Uint32 CATA_KEYUP           = SDL_KEYUP;
+inline constexpr Uint32 CATA_TEXTINPUT       = SDL_TEXTINPUT;
+inline constexpr Uint32 CATA_TEXTEDITING     = SDL_TEXTEDITING;
+inline constexpr Uint32 CATA_MOUSEMOTION     = SDL_MOUSEMOTION;
+inline constexpr Uint32 CATA_MOUSEBUTTONDOWN = SDL_MOUSEBUTTONDOWN;
+inline constexpr Uint32 CATA_MOUSEBUTTONUP   = SDL_MOUSEBUTTONUP;
+inline constexpr Uint32 CATA_MOUSEWHEEL      = SDL_MOUSEWHEEL;
+inline constexpr Uint32 CATA_QUIT            = SDL_QUIT;
 #endif
 
 // SDL3 removes SDL_Keysym from key events: ev.key.keysym.sym -> ev.key.key,

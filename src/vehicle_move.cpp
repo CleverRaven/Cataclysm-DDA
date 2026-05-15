@@ -54,6 +54,8 @@ static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const fault_id fault_axle_broken( "fault_axle_broken" );
+static const fault_id fault_cracked_rim( "fault_cracked_rim" );
 static const fault_id fault_flat_tire_riding_on_rims( "fault_flat_tire_riding_on_rims" );
 static const fault_id fault_punctured_tires( "fault_punctured_tires" );
 
@@ -1328,6 +1330,61 @@ double vehicle::wheel_damage_chance_vs_item( const item &it, const vehicle_part 
     return chance_to_damage;
 }
 
+static void apply_tire_punctures( vehicle_part *vp_wheel, std::vector<std::string> *messages )
+{
+    if( vp_wheel->has_fault( fault_flat_tire_riding_on_rims ) ) { // Already in worst possible state.
+        return;
+    }
+
+    if( !vp_wheel->has_fault( fault_punctured_tires ) ) {
+        if( vp_wheel->fault_set( fault_punctured_tires ) ) {
+            messages->emplace_back( string_format(
+                                        _( "You hear a loud pop from below, and your vehicle suddenly start to wobble like crazy!" ) ) );
+            return;
+        }
+    } else {
+        // Already punctured, but get hit *again* --> chance to instantly set 100% flat
+        if( vp_wheel->fault_set( fault_flat_tire_riding_on_rims ) ) {
+            messages->emplace_back( string_format(
+                                        _( "With a jolt, hitting something has blown out your tire!" ) ) );
+            return;
+        }
+    }
+}
+
+static void apply_generic_wheel_fault( vehicle_part *vp_wheel, std::vector<std::string> *messages )
+{
+    if( vp_wheel->has_fault( fault_axle_broken ) ) { // Already in worst possible state.
+        return;
+    }
+
+    // 90% chance to just crack rim on 'first' failure
+    // 10% chance to go straight to broken axle on any 'first' failure
+    // Wagon wheels are notorious for this kind of critical failure.
+    if( !vp_wheel->has_fault( fault_cracked_rim ) && x_in_y( 90, 100 ) ) {
+        if( vp_wheel->fault_set( fault_cracked_rim ) ) {
+            messages->emplace_back( string_format(
+                                        _( "You hear a crunch as you run something over!" ) ) );
+            return;
+        }
+    } else {
+        if( vp_wheel->fault_set( fault_axle_broken ) ) {
+            messages->emplace_back( string_format(
+                                        _( "Your vehicle lurches as one of the wheels gives out!" ) ) );
+            return;
+        }
+    }
+}
+
+static void apply_wheel_faults( vehicle_part *vp_wheel, std::vector<std::string> *messages )
+{
+    if( vp_wheel->faults_potential().count( fault_punctured_tires ) ) { // Most wheels
+        apply_tire_punctures( vp_wheel, messages );
+    } else if( vp_wheel->faults_potential().count( fault_cracked_rim ) ) { // Wooden cart wheels
+        apply_generic_wheel_fault( vp_wheel, messages );
+    }
+}
+
 void vehicle::damage_wheel_on_item( vehicle_part *vp_wheel, const item &it,
                                     std::vector<std::string> *messages ) const
 {
@@ -1335,29 +1392,12 @@ void vehicle::damage_wheel_on_item( vehicle_part *vp_wheel, const item &it,
         return;
     }
 
-    if( vp_wheel->has_fault( fault_flat_tire_riding_on_rims ) ) { // Already in worst possible state.
-        return;
-    }
-
     const double chance_to_damage = wheel_damage_chance_vs_item( it, *vp_wheel );
 
     if( chance_to_damage > 0.0 && chance_to_damage >= rng_float( 0.0, 1.0 ) ) {
-        if( !vp_wheel->has_fault( fault_punctured_tires ) ) {
-            if( vp_wheel->fault_set( fault_punctured_tires ) ) {
-                messages->emplace_back( string_format(
-                                            _( "You hear a loud pop from below, and your vehicle suddenly start to wobble like crazy!" ) ) );
-                refresh_pivot( get_map() );
-                return;
-            }
-        } else {
-            // Already punctured, but get hit *again* --> chance to instantly set 100% flat
-            if( vp_wheel->fault_set( fault_flat_tire_riding_on_rims ) ) {
-                messages->emplace_back( string_format(
-                                            _( "With a jolt, hitting something has blown out your tire!" ) ) );
-                refresh_pivot( get_map() );
-                return;
-            }
-        }
+        apply_wheel_faults( vp_wheel, messages );
+        refresh_pivot( get_map() );
+        return;
     }
 }
 

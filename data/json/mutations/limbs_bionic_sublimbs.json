@@ -398,5 +398,201 @@
     "opposite": "foot_bionic_basic_heel_l",
     "name_multiple": "bionic heels",
     "name": "bionic right heel"
+  },
+  {
+    "id": "torso_bionic_basic_upper",
+    "type": "sub_body_part",
+    "max_coverage": 60,
+    "parent": "torso_bionic_basic",
+    "side": "both",
+    "similar_bodypart": "torso_upper",
+    "opposite": "torso_bionic_basic_lower",
+    "name_multiple": "torso",
+    "name": "bionic upper torso"
+  },
+  {
+    "id": "torso_bionic_basic_neck",
+    "max_coverage": 10,
+    "parent": "torso_bionic_basic",
+    "secondary": true,
+    "type": "sub_body_part",
+    "side": "both",
+    "similar_bodypart": "torso_neck",
+    "opposite": "sub_limb_debug",
+    "name": "bionic neck",
+    "locations_under": [ "torso_upper" ]
+  },
+  {
+    "id": "torso_bionic_basic_lower",
+    "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "torso_bionic_basic",
+    "side": "both",
+    "similar_bodypart": "torso_lower",
+    "opposite": "torso_bionic_basic_upper",
+    "name_multiple": "torso",
+    "name": "bionic lower torso"
+  },
+  {
+    "id": "torso_bionic_basic_hanging_front",
+    "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "torso_bionic_basic",
+    "secondary": true,
+    "side": "both",
+    "similar_bodypart": "torso_hanging_front",
+    "name": "bionic front torso (hang)",
+    "opposite": "torso_bionic_basic_hanging_back",
+    "name_multiple": "item hangs off you",
+    "locations_under": [ "torso_bionic_basic_upper", "torso_bionic_basic_lower" ]
+  },
+  {
+    "id": "torso_bionic_basic_hanging_back",
+    "type": "sub_body_part",
+    "max_coverage": 45,
+    "parent": "torso_bionic_basic",
+    "secondary": true,
+    "side": "both",
+    "similar_bodypart": "torso_hanging_back",
+    "name": "bionic back torso (hang)",
+    "opposite": "torso_bionic_basic_hanging_front",
+    "name_multiple": "item hangs off you",
+    "locations_under": [ "torso_bionic_basic_upper", "torso_bionic_basic_lower" ]
+  },
+  {
+    "id": "torso_bionic_basic_waist",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "torso_bionic_basic",
+    "secondary": true,
+    "side": "both",
+    "similar_bodypart": "waist",
+    "name": "bionic waist",
+    "opposite": "sub_limb_debug",
+    "locations_under": [ "leg_bionic_basic_hip_r", "leg_bionic_basic_hip_l" ]
+  },
+  {
+    "id": "head_bionic_basic_forehead",
+    "type": "sub_body_part",
+    "max_coverage": 15,
+    "parent": "head_bionic_basic",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "similar_bodypart": "head_forehead",
+    "name": "bionic forehead"
+  },
+  {
+    "id": "head_bionic_basic_crown",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "head_bionic_basic",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "similar_bodypart": "head_crown",
+    "name": "bionic crown"
+  },
+  {
+    "id": "head_bionic_basic_nape",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "head_bionic_basic",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "similar_bodypart": "head_nape",
+    "name": "bionic nape"
+  },
+  {
+    "id": "head_bionic_basic_throat",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "head_bionic_basic",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "similar_bodypart": "head_throat",
+    "name": "bionic throat"
+  },
+  {
+    "id": "head_bionic_basic_ear_r",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "head_bionic_basic",
+    "opposite": "head_ear_l",
+    "side": "right",
+    "similar_bodypart": "head_ear_r",
+    "name": "bionic r. ear",
+    "name_multiple": "bionic ears"
+  },
+  {
+    "id": "head_bionic_basic_ear_l",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "head_bionic_basic",
+    "opposite": "head_ear_r",
+    "side": "left",
+    "similar_bodypart": "head_ear_l",
+    "name": "bionic l. ear",
+    "name_multiple": "bionic ears"
+  },
+  {
+    "id": "eyes_bionic_basic_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_bionic_basic",
+    "side": "left",
+    "similar_bodypart": "eyes_left",
+    "opposite": "eyes_bionic_basic_right",
+    "name_multiple": "bionic eyes",
+    "name": "bionic l. eye"
+  },
+  {
+    "id": "eyes_bionic_basic_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_bionic_basic",
+    "side": "right",
+    "similar_bodypart": "eyes_right",
+    "opposite": "eyes_bionic_basic_left",
+    "name_multiple": "bionic eyes",
+    "name": "bionic r. eye"
+  },
+  {
+    "id": "mouth_bionic_basic_lips",
+    "type": "sub_body_part",
+    "max_coverage": 15,
+    "parent": "mouth_bionic_basic",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "similar_bodypart": "mouth_lips",
+    "name": "bionic lips"
+  },
+  {
+    "id": "mouth_bionic_basic_nose",
+    "type": "sub_body_part",
+    "max_coverage": 15,
+    "parent": "mouth_bionic_basic",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "similar_bodypart": "mouth_nose",
+    "name": "bionic nose"
+  },
+  {
+    "id": "mouth_bionic_basic_cheeks",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "mouth_bionic_basic",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "similar_bodypart": "mouth_cheeks",
+    "name": "bionic cheeks"
+  },
+  {
+    "id": "mouth_bionic_basic_chin",
+    "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "mouth_bionic_basic",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "similar_bodypart": "mouth_chin",
+    "name": "bionic chin"
   }
 ]

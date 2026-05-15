@@ -859,7 +859,8 @@
     "starting_trait": true,
     "active": true,
     "starts_active": true,
-    "vitamin_cost": 210
+    "vitamin_cost": 210,
+    "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "CEPH_VISION" ]
   },
   {
     "type": "mutation",
@@ -873,7 +874,8 @@
     "points": 4,
     "active": true,
     "starts_active": true,
-    "vitamin_cost": 190
+    "vitamin_cost": 190,
+    "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "CEPH_VISION" ]
   },
   {
     "type": "mutation",
@@ -887,7 +889,8 @@
     "points": 6,
     "active": true,
     "starts_active": true,
-    "vitamin_cost": 210
+    "vitamin_cost": 210,
+    "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "CEPH_VISION" ]
   },
   {
     "type": "mutation",
@@ -3014,7 +3017,7 @@
     "points": 0,
     "mixed_effect": true,
     "vitamin_cost": 160,
-    "flags": [ "COLDBLOOD3" ],
+    "flags": [ "COLDBLOOD3", "NO_BODY_HEAT" ],
     "enchantments": [
       {
         "values": [
@@ -3037,7 +3040,7 @@
     "mixed_effect": true,
     "purifiable": false,
     "vitamin_cost": 160,
-    "flags": [ "ECTOTHERM" ],
+    "flags": [ "ECTOTHERM", "NO_BODY_HEAT" ],
     "enchantments": [
       {
         "values": [
@@ -3888,6 +3891,7 @@
     "threshreq": [ "THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME" ],
     "points": 3,
     "vitamin_cost": 160,
+    "purifiable": false,
     "flags": [ "ACID_IMMUNE", "IRRITANT_IMMUNE" ]
   },
   {
@@ -3901,6 +3905,7 @@
     "threshreq": [ "THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME" ],
     "points": 4,
     "vitamin_cost": 160,
+    "purifiable": false,
     "flags": [ "ACIDBLOOD" ]
   },
   {
@@ -4243,7 +4248,7 @@
     "active": true,
     "starts_active": true,
     "vitamin_cost": 60,
-    "flags": [ "MYOPIC_IN_LIGHT" ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_ursine" } ] } ]
   },
   {
     "type": "mutation",
@@ -4411,9 +4416,8 @@
     "types": [ "VISION" ],
     "prereqs": [ "FEL_EYE" ],
     "points": 4,
-    "active": true,
-    "starts_active": true,
-    "vitamin_cost": 160
+    "vitamin_cost": 160,
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_feline" } ] } ]
   },
   {
     "type": "mutation",
@@ -5046,7 +5050,7 @@
     "type": "mutation",
     "id": "BIRD_EYE",
     "name": { "str": "Avian Eyes" },
-    "description": "Your vision has become particularly acute: you suspect you could pick out zombies much farther away.  Perception +4.",
+    "description": "Your vision has become particularly acute: you suspect you could pick out zombies much farther away.  Perception +2, as well as increased vision and reaction limb scores.",
     "category": [ "BIRD" ],
     "types": [ "EYES" ],
     "prereqs": [ "PER_UP_4" ],
@@ -5054,7 +5058,10 @@
     "points": 5,
     "vitamin_cost": 210,
     "visibility": 1,
-    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 4 } ] } ]
+    "enchantments": [
+      { "values": [ { "value": "PERCEPTION", "add": 2 } ] },
+      { "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_avian" } ] }
+    ]
   },
   {
     "type": "mutation",
@@ -5196,6 +5203,7 @@
     "flags": [ "SLUDGE_IMMUNE", "TOUGH_FEET" ],
     "destroys_gear": true,
     "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "allowed_items": [ "ALLOWS_GASTROPOD_FOOT" ],
     "enchantments": [
       {
         "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": 0.25 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.75 } ]
@@ -5384,13 +5392,14 @@
     "mixed_effect": true,
     "vitamin_cost": 60,
     "visibility": 8,
-    "ugliness": 4
+    "ugliness": 4,
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_bulging" } ] } ]
   },
   {
     "type": "mutation",
     "id": "EYESTALKS1",
     "name": { "str": "Intermediate Eyestalks" },
-    "description": "Your eyes barely protrude from your head on tentacles, preventing the use of any rigid eyewear.  On the plus side, you can have additional awareness, but sometimes your vision goes wonky as your brain tries to process the new angles.  Perception +1",
+    "description": "Your eyes barely protrude from your head on tentacles, preventing the use of any rigid eyewear.  On the plus side, you can have additional awareness, but sometimes your vision goes wonky as your brain tries to process the new angles.",
     "category": [ "GASTROPOD", "CRUSTACEAN" ],
     "types": [ "EYES" ],
     "changes_to": [ "EYESTALKS2", "EYESTALKS_RIGID" ],
@@ -5401,29 +5410,31 @@
     "ugliness": 5,
     "allow_soft_gear": true,
     "restricts_gear": [ "eyes" ],
-    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 1 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_snail" } ] } ]
   },
   {
     "type": "mutation",
     "id": "EYESTALKS2",
     "name": { "str": "Eyestalks" },
-    "description": "Your eyes protrude from your head on flexible tentacles, preventing the use of any eyewear.  On the plus side, you can see in two directions at once, and they automatically retract to reduce damage.  Perception +2",
+    "description": "Your eyes protrude from your head on flexible tentacles, preventing the use of any eyewear.  On the plus side, you can see in two directions at once, and they automatically retract to reduce damage.",
     "category": [ "GASTROPOD" ],
+    "threshreq": [ "THRESH_GASTROPOD" ],
     "types": [ "EYES" ],
     "points": 2,
     "mixed_effect": true,
     "vitamin_cost": 160,
     "visibility": 8,
     "ugliness": 8,
+    "purifiable": false,
     "restricts_gear": [ "eyes" ],
-    "armor": [ { "parts": "eyes", "cut": 3, "bash": 1 } ],
-    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 2 } ] } ]
+    "armor": [ { "parts": "eyes_snail_good", "cut": 3, "bash": 1 } ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_snail_good" } ] } ]
   },
   {
     "type": "mutation",
     "id": "EYESTALKS_RIGID",
     "name": { "str": "Rigid Eyestalks" },
-    "description": "You have compound eyes on rigid stalks that can fold back against your head to protect them from danger.  This gives you better all-around vision and allows you to see underwater, but interferes with eyewear.  Perception +1",
+    "description": "You have compound eyes on rigid stalks that can fold back against your head to protect them from danger.  This gives you better all-around vision and allows you to see underwater, but interferes with eyewear.  Your vision and reaction limb scores are also increased.",
     "category": [ "CRUSTACEAN" ],
     "types": [ "EYES" ],
     "points": 2,
@@ -5431,10 +5442,9 @@
     "vitamin_cost": 160,
     "visibility": 8,
     "ugliness": 8,
-    "flags": [ "EYE_MEMBRANE" ],
     "allow_soft_gear": true,
     "restricts_gear": [ "eyes" ],
-    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 1 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_crab" } ] } ]
   },
   {
     "type": "mutation",
@@ -5721,7 +5731,9 @@
     "points": 3,
     "active": true,
     "starts_active": true,
-    "vitamin_cost": 160
+    "vitamin_cost": 160,
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_ceph" } ] } ],
+    "cancels": [ "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3" ]
   },
   {
     "type": "mutation",
@@ -6956,30 +6968,30 @@
     "type": "mutation",
     "id": "ELFA_NV",
     "name": { "str": "Fey Vision" },
-    "description": "The shadows don't seem as dark now.  Activate to toggle NV-visible areas on or off.",
+    "description": "Your corneas have taken on the same weird green as your irises, and golden veins shift below the surface in a mesmerizing dance.  The shadows don't seem nearly as dark now.",
     "category": [ "ELFA" ],
     "types": [ "VISION" ],
     "prereqs": [ "ELFAEYES" ],
     "changes_to": [ "ELFA_FNV" ],
     "threshreq": [ "THRESH_ELFA" ],
     "points": 3,
-    "active": true,
-    "starts_active": true,
-    "vitamin_cost": 160
+    "vitamin_cost": 160,
+    "cancels": [ "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_fey" } ] } ]
   },
   {
     "type": "mutation",
     "id": "ELFA_FNV",
     "name": { "str": "Fey Nightsight" },
-    "description": "You have great low-light vision now, but it doesn't allow you to perform fine tasks such as crafting and reading in darkness.  Activate to toggle NV-visible areas on or off.",
+    "description": "Your corneas have taken on the same weird green as your irises, and golden veins shift below the surface in a mesmerizing dance.  You have great low-light vision now, but it doesn't allow you to perform fine tasks such as crafting and reading in darkness.",
     "category": [ "ELFA" ],
     "types": [ "VISION" ],
     "prereqs": [ "ELFA_NV" ],
     "threshreq": [ "THRESH_ELFA" ],
     "points": 5,
-    "active": true,
-    "starts_active": true,
-    "vitamin_cost": 210
+    "vitamin_cost": 210,
+    "cancels": [ "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_fey_full" } ] } ]
   },
   {
     "type": "mutation",
@@ -7305,8 +7317,7 @@
     "vitamin_cost": 160,
     "visibility": 1,
     "ugliness": 5,
-    "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ],
-    "restricts_gear": [ "leg_stub_r", "leg_stub_l" ]
+    "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ]
   },
   {
     "type": "mutation",

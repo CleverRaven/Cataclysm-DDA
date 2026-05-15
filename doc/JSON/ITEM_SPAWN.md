@@ -196,6 +196,13 @@ be specified for guns and magazines in the entries array to use a non-default am
 
 *  Use `charges` in the entries array.  A default magazine will be added for you if needed.
 
+#### Multi-well items
+
+Items with more than one `MAGAZINE_WELL` pocket follow two extra rules:
+
+* `charges` on the entry is ambiguous (no rule says how to split the count across pockets) and is rejected with a debugmsg.  The wells stay empty.
+* `ammo` and `magazine` are still single rolls per item, but the outcome is applied to every empty well.  When `magazine` rolls true, each well's default magazine is installed; when `ammo` also rolls true, each inserted magazine is filled with its own default ammo.  Wells already holding a magazine are skipped except for an empty mag, which is topped up when the `ammo` roll succeeds.
+
 ## Shortcuts
 
 This:

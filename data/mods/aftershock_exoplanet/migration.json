@@ -176,5 +176,27 @@
     "type": "MIGRATION",
     "id": "frost_human_lard",
     "replace": "frost_human_tallow"
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "Migrated to its own region in 0.J experimental",
+    "oter_ids": {
+      "afs_modular_habitat_greenhouse_control_room_1s_roof_north": "afs_modular_habitat_roof_north",
+      "afs_modular_habitat_greenhouse_control_room_1s_roof_south": "afs_modular_habitat_roof_south",
+      "afs_modular_habitat_greenhouse_control_room_1s_roof_east": "afs_modular_habitat_roof_east",
+      "afs_modular_habitat_greenhouse_control_room_1s_roof_west": "afs_modular_habitat_roof_west",
+      "afs_modular_habitat_greenhouse_roof2_north": "open_air",
+      "afs_modular_habitat_greenhouse_roof2_south": "open_air",
+      "afs_modular_habitat_greenhouse_roof2_east": "open_air",
+      "afs_modular_habitat_greenhouse_roof2_west": "open_air",
+      "afs_modular_habitat_greenhouse_roof_north": "afs_modular_habitat_roof_north",
+      "afs_modular_habitat_greenhouse_roof_south": "afs_modular_habitat_roof_south",
+      "afs_modular_habitat_greenhouse_roof_east": "afs_modular_habitat_roof_east",
+      "afs_modular_habitat_greenhouse_roof_west": "afs_modular_habitat_roof_west",
+      "afs_modular_habitat_greenhouse_control_room_1s_north": "afs_modular_habitat_greenhouse_control_ramp_north",
+      "afs_modular_habitat_greenhouse_control_room_1s_south": "afs_modular_habitat_greenhouse_control_ramp_south",
+      "afs_modular_habitat_greenhouse_control_room_1s_east": "afs_modular_habitat_greenhouse_control_ramp_east",
+      "afs_modular_habitat_greenhouse_control_room_1s_west": "afs_modular_habitat_greenhouse_control_ramp_west"
+    }
   }
 ]

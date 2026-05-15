@@ -164,6 +164,8 @@ static constexpr int MAX_GREEDY_SPEED_TPS = 10;
 static constexpr int MAX_AIR_SPEED_TPS = 16;
 static constexpr int VMIPH_PER_TPS = static_cast<int>( vehicles::vmiph_per_tile );
 
+namespace
+{
 /**
  * Data type representing a vehicle orientation, which corresponds to an angle that is
  * a multiple of TURNING_INCREMENT degrees, measured from the x axis.
@@ -201,10 +203,13 @@ struct navigation_step {
     orientation steering_dir;
     int target_speed_tps;
 };
+} // namespace
 
 /**
  * The address of a navigation node, i.e. a position and orientation on the nav map.
  */
+namespace
+{
 // NOLINTNEXTLINE(cata-xy)
 struct node_address {
     int16_t x;
@@ -217,7 +222,10 @@ struct node_address {
         return {x, y};
     }
 };
+} // namespace
 
+namespace
+{
 struct node_address_hasher {
     std::size_t operator()( const node_address &addr ) const {
         std::uint64_t val = addr.x;
@@ -238,7 +246,10 @@ struct scored_address {
         return score > other.score;
     }
 };
+} // namespace
 
+namespace
+{
 /*
  * Data structure representing a navigation node that is known to be reachable. Contains
  * information about the path to get there and enough information about the state of
@@ -282,7 +293,10 @@ struct point_queue {
         }
     }
 };
+} // namespace
 
+namespace
+{
 /**
  * Data structure that caches all the data needed in order to navigate from one
  * OMT to the next OMT along the path to destination. Main components:
@@ -376,6 +390,7 @@ enum class collision_check_result : int {
     close_obstacle,
     slow_down
 };
+} // namespace
 
 class vehicle::autodrive_controller
 {

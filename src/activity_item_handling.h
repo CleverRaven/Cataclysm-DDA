@@ -107,6 +107,8 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
                         const std::vector<item_location> &other_activity_items,
                         const zone_sorting::zone_items &items, bool *pickup_failure,
                         bool *spillable_skipped = nullptr );
+bool dest_has_capacity( const tripoint_abs_ms &dest, const zone_type_id &ztype,
+                        const item &sample, const faction_id &fac );
 bool can_unload( item *it );
 void add_item( const std::optional<vpart_reference> &vp, const tripoint_bub_ms &src_bub,
                const item &it );

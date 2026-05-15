@@ -961,7 +961,7 @@
     "default_faction": "nether",
     "looks_like": "mon_hound_tindalos",
     "bodytype": "dog",
-    "species": [ "NETHER" ],
+    "species": [ "TINDALOS", "NETHER" ],
     "volume": "30000 ml",
     "weight": "40750 g",
     "hp": 1200,
@@ -1012,7 +1012,7 @@
       "WARM",
       "BASHES",
       "ARTHROPOD_BLOOD",
-      "ALWAYS_SEES_YOU",
+      "LOCKS_ON",
       "NO_BREATHE",
       "HARDTOSHOOT"
     ],
@@ -1025,7 +1025,7 @@
     "description": "A grotesque dog-like beast, its frame is angular and emaciated and its head is like that of an abyssal fish.  When it moves, its twisted limbs duplicate, merge, disappear, and reform in dissonance, as if a hundred copies of itself were somehow forced to inhabit the same space.  Extraneous to our reality, it moves between the corners of the world, hunting those that would dare step beyond time and space.",
     "default_faction": "nether",
     "bodytype": "dog",
-    "species": [ "NETHER" ],
+    "species": [ "TINDALOS" ],
     "volume": "30000 ml",
     "weight": "40750 g",
     "hp": 300,
@@ -1088,7 +1088,7 @@
     "default_faction": "nether",
     "looks_like": "mon_hound_tindalos",
     "bodytype": "dog",
-    "species": [ "NETHER" ],
+    "species": [ "TINDALOS" ],
     "volume": "30000 ml",
     "weight": "40750 g",
     "hp": 100,
@@ -1260,7 +1260,7 @@
     "harvest": "exempt",
     "path_settings": { "max_dist": 10 },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "HIT_AND_RUN", "NO_BREATHE", "NOGIB" ],
+    "flags": [ "SEES", "INFRARED_VISION", "SMELLS", "HEARS", "WARM", "BASHES", "HIT_AND_RUN", "NO_BREATHE", "NOGIB" ],
     "armor": { "cut": 5, "bullet": 4 }
   },
   {
@@ -2426,7 +2426,7 @@
             "effect": "sectioned_filaments",
             "effect_on_conditions": [ "EOC_MORALE_SUBTRACT_100" ],
             "chance": 50,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's filaments are cut off!",
             "damage_required": [ 25, 100 ]
           }

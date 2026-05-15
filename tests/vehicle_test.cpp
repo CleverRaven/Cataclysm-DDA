@@ -167,11 +167,16 @@ TEST_CASE( "starting_bicycle_damaged_pedal", "[vehicle]" )
     here.detach_vehicle( veh_ptr );
 }
 
+namespace
+{
 struct vehicle_preset {
     itype_id vehicle_itype_id; // folding vehicle to test
     std::vector<itype_id> tool_itype_ids; // tool to grant
 };
+} // namespace
 
+namespace
+{
 struct damage_preset {
     int damage;
     int degradation;
@@ -179,6 +184,7 @@ struct damage_preset {
     int expect_degradation;
     int expect_hp;
 };
+} // namespace
 
 static void complete_activity( Character &u, const activity_actor &act )
 {
@@ -332,6 +338,8 @@ TEST_CASE( "Unfolding_vehicle_parts_and_testing_degradation", "[item][degradatio
     clear_vehicles( &get_map() );
 }
 
+namespace
+{
 struct folded_item_damage_preset {
     itype_id folded_vehicle_item;
     int item_damage_first_fold;
@@ -339,6 +347,7 @@ struct folded_item_damage_preset {
     int part_damage_second_unfold; // sum of damage over all parts
     int part_damage_third_unfold;  // sum of damage over all parts
 };
+} // namespace
 
 static void check_folded_item_to_parts_damage_transfer( const folded_item_damage_preset &preset )
 {
@@ -583,6 +592,8 @@ TEST_CASE( "power_cable_stretch_disconnect" )
     }
 }
 
+namespace
+{
 struct rack_activation {
     int racking_vehicle_index; // vehicle with the rack
     tripoint_bub_ms rack_pos;  // rack to activate
@@ -601,6 +612,7 @@ struct rack_preset {
     std::vector<rack_activation> rack_orders;   // racking orders
     std::vector<rack_activation> unrack_orders; // unracking orders
 };
+} // namespace
 
 static void rack_check( const rack_preset &preset )
 {

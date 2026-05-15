@@ -919,6 +919,9 @@ special_placement_result mutable_overmap_special_data::place(
 void mutable_overmap_special_data::load( const JsonObject &jo, bool was_loaded )
 {
     optional( jo, was_loaded, "check_for_locations", check_for_locations );
+    // this has poor copy-from/overwrite support...
+    // It pushes to check_for_locations, and so if "check_for_locations" is not specified
+    // then it will push to the old data, extending instead of overwriting.
     if( jo.has_array( "check_for_locations_area" ) ) {
         JsonArray jar = jo.get_array( "check_for_locations_area" );
         while( jar.has_more() ) {

@@ -36,6 +36,8 @@ static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
 
 static constexpr int max_iters = 100000;
 
+namespace
+{
 struct addict_effect_totals {
     int sleepiness = 0;
     int morale = 0;
@@ -67,6 +69,7 @@ struct addict_effect_totals {
         hallu += u.has_effect( effect_hallu ) ? 1 : 0;
     }
 };
+} // namespace
 
 static void clear_addictions( Character &u )
 {

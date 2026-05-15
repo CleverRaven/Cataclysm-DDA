@@ -72,7 +72,7 @@
         { "point": "furniture", "id": "f_workbench", "x": 18, "y": 18 },
         { "point": "furniture", "id": "f_workbench", "x": 18, "y": 19 },
         { "point": "furniture", "id": "f_workbench", "x": 18, "y": 20 },
-        { "point": "furniture", "id": "f_anvil", "x": 16, "y": 19 }
+        { "point": "furniture", "id": "f_camp_anvil", "x": 16, "y": 19 }
       ],
       "place_loot": [ { "item": "55gal_drum", "x": 16, "y": 20, "chance": 100 }, { "item": "30gal_drum", "x": 16, "y": 21, "chance": 100 } ]
     }

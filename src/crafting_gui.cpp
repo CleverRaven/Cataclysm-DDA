@@ -28,6 +28,7 @@
 #include "character_id.h"
 #include "color.h"
 #include "crafting.h"
+#include "crafting_enums.h"
 #include "crafting_gui_helpers.h"
 #include "display.h"
 #include "flag.h"
@@ -250,6 +251,8 @@ static input_context make_crafting_context( bool highlight_unread_recipes )
     return ctxt;
 }
 
+namespace
+{
 class recipe_result_info_cache
 {
         Character &crafter;
@@ -281,6 +284,7 @@ class recipe_result_info_cache
             return item_info_data( "", "", info, {}, scroll_pos );
         }
 };
+} // namespace
 
 std::pair<std::vector<const recipe *>, bool> recipes_from_cat( const recipe_subset
         &available_recipes, const crafting_category_id &cat, const std::string &subcat )
@@ -375,6 +379,8 @@ static bool filter_crafting_recipes( std::string &filterstring )
 // ImGui crafting UI implementation
 // ---------------------------------------------------------------------------
 
+namespace
+{
 class crafting_ui_impl : public cataimgui::window
 {
     public:
@@ -440,7 +446,6 @@ class crafting_ui_impl : public cataimgui::window
         int manual_batch = 1;
         bool show_hidden = false;
         bool is_wide = false;
-        bool steps_expanded = true;
 
         // --- Scroll state ---
         int line_item_info_popup = 0;
@@ -523,6 +528,7 @@ class crafting_ui_impl : public cataimgui::window
         void recalculate_unread();
         void invalidate_info_panels();
 };
+} // namespace
 
 // --- Constructor ---
 
@@ -1112,11 +1118,12 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 std::string plain;
                 std::string colored;
                 if( total_yield > 1 ) {
-                    //~ %1$s: success chance, %2$d: yield count, %3$s: time, %4$s: activity level
-                    const std::string fmt = _( "%1$s chance to yield %2$d in %3$s of %4$s" );
-                    plain = string_format( fmt, chance_str, total_yield, time_str, activity_str );
+                    //~ %1$s: success chance, %2$s: yield count, %3$s: time, %4$s: activity level
+                    const std::string fmt = _( "%1$s chance to yield %2$s in %3$s of %4$s" );
+                    plain = string_format( fmt, chance_str, std::to_string( total_yield ), time_str, activity_str );
                     colored = string_format( fmt,
-                                             colorize( chance_str, success_col ), total_yield,
+                                             colorize( chance_str, success_col ),
+                                             colorize( std::to_string( total_yield ), c_light_blue ),
                                              colorize( time_str, c_cyan ),
                                              colorize( activity_str, activity_col ) );
                 } else {
@@ -1134,6 +1141,16 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 }
                 cataimgui::draw_colored_text( colored, c_light_gray );
             }
+        }
+
+        // Line 4: lighting warning, if applicable
+        if( !recp.is_nested() && crafter->lighting_craft_speed_multiplier( recp ) <= 0.0f ) {
+            const std::string lighting_str = _( "Lighting conditions are too poor to craft this." );
+            float line_w = ImGui::CalcTextSize( lighting_str.c_str() ).x;
+            if( line_w < region_w ) {
+                ImGui::SetCursorPosX( ImGui::GetCursorPosX() + ( region_w - line_w ) / 2.f );
+            }
+            cataimgui::draw_colored_text( lighting_str, c_red );
         }
         ImGui::Separator();
 
@@ -1274,6 +1291,14 @@ void crafting_ui_impl::draw_recipe_info_panel()
             const inventory &crafting_inv = avail.inv_override
                                             ? *avail.inv_override : crafter->crafting_inventory();
 
+            // Single step recipes
+            if( recp.has_steps() && ( recp.steps().size() <= 1 ) ) {
+                const recipe_step &step = recp.steps().front();
+                ImGui::TextColored( cataimgui::imvec4_from_color( c_white ),
+                                    "%s", step.name.translated().c_str() );
+                ImGui::NewLine();
+            }
+
             // Components (always recipe-level)
             draw_components( recp.simple_requirements(), crafting_inv,
                              recp.get_component_filter(), batch_size );
@@ -1293,10 +1318,11 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 }
             }
 
-            if( recp.has_steps() ) {
+            // Multi step details
+            if( recp.has_steps() && ( recp.steps().size() > 1 ) ) {
                 // Step details are collapsible; collapsed shows flat merged view
                 {
-                    const char *steps_label = steps_expanded
+                    const char *steps_label = uistate.crafting_expand_steps
                                               ? _( "- steps -" ) : _( "+ steps +" );
                     float btn_w = ImGui::CalcTextSize( steps_label ).x;
                     float rgn_w = ImGui::GetContentRegionAvail().x;
@@ -1305,11 +1331,11 @@ void crafting_ui_impl::draw_recipe_info_panel()
                                               ( rgn_w - btn_w ) / 2.f );
                     }
                     if( nav_clickable( steps_label, c_cyan ) ) {
-                        steps_expanded = !steps_expanded;
+                        uistate.crafting_expand_steps = !uistate.crafting_expand_steps;
                     }
                 }
 
-                if( steps_expanded ) {
+                if( uistate.crafting_expand_steps ) {
                     int tool_group_offset = 0;
                     float step_indent = ImGui::CalcTextSize( "    " ).x;
                     float sub_indent = ImGui::CalcTextSize( "  " ).x;
@@ -1353,6 +1379,11 @@ void crafting_ui_impl::draw_recipe_info_panel()
                         ImGui::SameLine( 0, ImGui::CalcTextSize( "  " ).x );
                         ImGui::TextColored( cataimgui::imvec4_from_color( act_col ), "%s",
                                             activity.c_str() );
+                        if( step.attention == step_attention::unattended ) {
+                            ImGui::SameLine( 0, ImGui::CalcTextSize( "  " ).x );
+                            ImGui::TextColored( cataimgui::imvec4_from_color( c_yellow ),
+                                                "%s", _( "[unattended]" ) );
+                        }
 
                         ImGui::Indent( step_indent );
 
@@ -1506,7 +1537,7 @@ void crafting_ui_impl::draw_modifier_table( const recipe &recp,
                                     _( "base (per item)" ) );
             } else {
                 ImGui::TextColored( cataimgui::imvec4_from_color( c_white ), "%s",
-                                    _( "base" ) );
+                                    pgettext( "Value without modifier", "base" ) );
             }
             ImGui::TableNextColumn();
             ImGui::TextColored( cataimgui::imvec4_from_color( c_light_gray ), "%s",
@@ -2353,7 +2384,6 @@ void crafting_ui_impl::invalidate_info_panels()
         info_nav_active = false;
         rebuild_keybinding_tips();
     }
-    steps_expanded = true;
 }
 
 // --- process_action ---

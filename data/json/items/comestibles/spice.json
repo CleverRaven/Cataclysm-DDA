@@ -92,6 +92,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "salt" },
+    "display_type": "BY_WEIGHT",
     "description": "Yuck!  You surely wouldn't want to eat this.  It's good for preserving meat and cooking, though.",
     "material": [ "salt" ],
     "color": "white"

@@ -417,6 +417,12 @@ class Item_group : public Item_spawn_data
 
     protected:
         /**
+         * Sample one entry from a G_DISTRIBUTION. Returns nullptr when the
+         * distribution is empty or the pick lands on an inactive event-based
+         * entry. Requires type == G_DISTRIBUTION.
+         */
+        const Item_spawn_data *pick_distribution_entry() const;
+        /**
          * Contains the sum of the probability of all entries
          * that this group contains.
          */
@@ -425,6 +431,11 @@ class Item_group : public Item_spawn_data
          * Links to the entries in this group.
          */
         prop_list items;
+        /**
+         * Cumulative probability table, lazily built for binary-search
+         * picks; cleared when @ref items mutates.
+         */
+        mutable std::vector<int> cached_cum_prob;
 };
 
 #endif // CATA_SRC_ITEM_GROUP_H

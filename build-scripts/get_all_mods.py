@@ -98,7 +98,9 @@ for r, d, f in os.walk('data/mods'):
 
 mods_remaining = set(all_mod_dependencies)
 
-print_modlist(mods_this_time, mods_remaining)
+# Remove mods already covered by mod_interactions lists above
+for ml in mods_lists:
+    mods_remaining -= set(ml.split(','))
 
 while mods_remaining:
     for mod in mods_remaining:
@@ -109,5 +111,9 @@ while mods_remaining:
             'mods remain ({}) but none could be added'.format(mods_remaining))
     print_modlist(mods_this_time, mods_remaining)
 
-for list in sorted(mods_lists, key=len, reverse=True):
-    print(list)
+seen = set()
+for entry in sorted(mods_lists, key=len, reverse=True):
+    key = frozenset(entry.split(','))
+    if entry and key not in seen:
+        seen.add(key)
+        print(entry)

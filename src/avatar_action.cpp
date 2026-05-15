@@ -395,23 +395,12 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
                                           _( "You're too pacified to strike anything…" ) ) ) {
                 return false;
             }
-            bool safe_mode = ( get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF );
-            if( safe_mode ) {
-                // If safe mode is enabled, only allow attacking neutral creatures when it is inactive
-                if( critter.attitude_to( you ) == Creature::Attitude::NEUTRAL &&
-                    g->safe_mode != SAFE_MODE_OFF ) {
-                    const std::string msg_safe_mode = press_x( ACTION_TOGGLE_SAFEMODE );
-                    add_msg( m_warning,
-                             _( "Not attacking the %1$s -- safe mode is on!  (%2$s to turn it off)" ), critter.name(),
-                             msg_safe_mode );
-                    return false;
-                }
-            } else {
-                // If safe mode is disabled, ask for confirmation before attacking a neutral creature
-                if( critter.attitude_to( you ) == Creature::Attitude::NEUTRAL &&
-                    !query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
-                    return false;
-                }
+            if( g->safe_mode == SAFE_MODE_ON && critter.attitude_to( you ) == Creature::Attitude::NEUTRAL ) {
+                const std::string msg_safe_mode = press_x( ACTION_TOGGLE_SAFEMODE );
+                add_msg( m_warning,
+                         _( "Not attacking the %1$s -- safe mode is on!  (%2$s to turn it off)" ), critter.name(),
+                         msg_safe_mode );
+                return false;
             }
             you.melee_attack( critter, true );
             if( critter.is_hallucination() ) {
@@ -833,8 +822,10 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     } else if( !weapon->is_gun() ) {
         return;
-    } else if( weapon->has_ammo_data() &&
+    } else if( !weapon->uses_firing_requirements() && weapon->has_ammo_data() &&
                !weapon->ammo_types().count( weapon->loaded_ammo().ammo_type() ) ) {
+        // Multimag guns enforce per-pocket ammo at load time; this gate is for
+        // single-mag guns whose accepted ammo can shift via gunmod conversion.
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon->tname(), weapon->ammo_current()->nname( 1 ) );
         return;

@@ -11,8 +11,33 @@
 #include "translation.h"
 #include "type_id.h"
 
+#include <cstdint>
+
 class JsonObject;
 template <typename T> class generic_factory;
+
+// Bit positions for the flags that drive item::stacks_with.
+// Reload-safe: positions are compile-time constants, not int_ids.
+enum class hot_flag_bit : uint64_t {
+    REMOVED_STOCK = 1ULL << 0,
+    DIAMOND       = 1ULL << 1,
+    FIT           = 1ULL << 2,
+    VARSIZE       = 1ULL << 3,
+    MUSHY         = 1ULL << 4,
+    DIRTY         = 1ULL << 5,
+    HIDDEN_POISON = 1ULL << 6,
+    HIDDEN_HALLU  = 1ULL << 7,
+    IRRADIATED    = 1ULL << 8,
+    INEDIBLE      = 1ULL << 9,
+    NO_PACKED     = 1ULL << 10,
+    NO_STERILE    = 1ULL << 11,
+    USE_UPS       = 1ULL << 12,
+    LOC_CITY      = 1ULL << 13,
+    ITEM_BROKEN   = 1ULL << 14,
+};
+
+// Returns the hot bit for f, or 0 if f is not in the hot set.
+uint64_t hot_bit_for( const flag_id &f ) noexcept;
 
 extern const flag_id flag_NULL;
 extern const flag_id flag_ABLATIVE_LARGE;
@@ -92,6 +117,7 @@ extern const flag_id flag_COOKED;
 extern const flag_id flag_CORROSIVE;
 extern const flag_id flag_CORPSE;
 extern const flag_id flag_CRUTCHES;
+extern const flag_id flag_CRYOGENIC_ROT;
 extern const flag_id flag_CUSTOM_EXPLOSION;
 extern const flag_id flag_CUT_HARVEST;
 extern const flag_id flag_CUT_IMMUNE;

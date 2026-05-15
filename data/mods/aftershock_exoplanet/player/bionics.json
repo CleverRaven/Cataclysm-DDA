@@ -207,7 +207,7 @@
     "id": "afs_strength_injection",
     "type": "bionic",
     "name": { "str": "Strength Injection System" },
-    "description": "The chemical injection system and microcomputer that when activated greatly enhances your reaction times and overall speed.  Upon deactivation, the user may experience dizziness, heart palpitations and ravenous appetites.",
+    "description": "The chemical injection system and microcomputer that, when activated, provides a steroid burst, significantly enhancing strength and stamina while accelerating metabolism.  Upon deactivation, the user may experience sleepiness and feel worn down.",
     "flags": [ "BIONIC_TOGGLED" ],
     "enchantments": [
       {

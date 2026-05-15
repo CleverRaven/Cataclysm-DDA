@@ -505,6 +505,7 @@ class bodypart
 
         void add_wound( const wound &wd );
         void add_wound( wound_type_id wd );
+        bool has_wounds() const;
         bool has_wound( wound_type_id wd ) const;
         void remove_wound( wound_type_id wd );
         void update_wounds( time_duration time_passed );

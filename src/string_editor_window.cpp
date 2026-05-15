@@ -49,11 +49,14 @@ static bool is_word( const uint32_t uc )
     return uc != ' ';
 }
 
+namespace
+{
 struct folded_line {
     int cpts_start;
     int cpts_end;
     std::string str;
 };
+} // namespace
 
 // fold text without truncating spaces or parsing color tags
 class folded_text

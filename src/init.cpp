@@ -48,6 +48,7 @@
 #include "faction_camp.h"
 #include "fault.h"
 #include "field_type.h"
+#include "mapgen_post_process.h"
 #include "filesystem.h"
 #include "flag.h"
 #include "flexbuffer_json.h"
@@ -274,6 +275,7 @@ void DynamicDataLoader::initialize()
     add( "var_migration", &global_variables::load_migrations );
     add( "connect_group", &connect_group::load );
     add( "fault", &faults::load_fault );
+    add( "pp_generator", &pp_generators::load );
     add( "fault_fix", &faults::load_fix );
     add( "fault_group", &faults::load_group );
     add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
@@ -672,6 +674,7 @@ void DynamicDataLoader::unload_data()
     faction_mission::reset();
     faction_template::reset();
     faults::reset();
+    pp_generators::reset();
     field_types::reset();
     field_type_migrations::reset();
     gates::reset();
@@ -835,6 +838,7 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Event Statistics" ), &event_statistic::finalize_all },
             { _( "Event Transformations" ), &event_transformation::finalize_all },
             { _( "Faults" ), &faults::finalize },
+            { _( "Post-process generators" ), &pp_generators::finalize },
             { _( "Furniture" ), &finalize_furniture },
             { _( "Gates" ), &gates::finalize },
             { _( "Harvest Drop Types" ), &harvest_drop_type::finalize_all },
@@ -969,6 +973,7 @@ void DynamicDataLoader::check_consistency()
             { _( "Items" ), &items::check_consistency },
             { _( "Materials" ), &materials::check },
             { _( "Faults" ), &faults::check_consistency },
+            { _( "Post-process generators" ), &pp_generators::check_consistency },
             { _( "Proficiency migration" ), &proficiency_migration::check },
             { _( "Vehicle parts" ), &vehicles::parts::check },
             { _( "Vehicle part locations" ), &vpart_location::check_all },

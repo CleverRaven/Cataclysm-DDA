@@ -77,6 +77,7 @@
       "moves": 500,
       "skills": [ "electronics", "computer" ]
     },
+    "flags": [ "SINGLE_USE" ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -111,9 +112,9 @@
     "id": "broken_tripod",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken tribot" },
+    "name": { "str": "broken tripod" },
     "category": "other",
-    "description": "A broken tribot.  Now that its legs lie broken and immobile, the world seems a little less threatening.  Could be gutted for parts.",
+    "description": "A broken tripod.  Now that its legs lie broken and immobile, the world seems a little less threatening.  Could be gutted for parts.",
     "price": "10 USD",
     "material": [ "steel", "plastic" ],
     "weight": "430000 g",
@@ -173,7 +174,7 @@
     "id": "bot_sentinel_lx",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str": "inactive sentinel-lx", "str_pl": "inactive sentinels-lx" },
+    "name": { "str": "inactive Sentinel-lx", "str_pl": "inactive Sentinels-lx" },
     "description": "Crouched and dead still, this armored luxurious robot resembles an ancient knight immersed in deep prayer.  If reprogrammed and rewired successfully the robot will identify you as a friendly, and will protect you from nearby foes.",
     "weight": "40750 g",
     "volume": "30 L",
@@ -605,7 +606,7 @@
     "color": "light_green",
     "use_action": {
       "type": "place_monster",
-      "monster_id": "mon_eyebot",
+      "monster_id": "mon_afs_eyebot",
       "friendly_msg": "The eyebot hums and takes to the sky.",
       "hostile_msg": "The eyebot beeps disapprovingly and focuses its camera on your face.  Say cheese!",
       "//": "Like most surveillance tech these likely have poor security. Secure the wifi!",
@@ -633,7 +634,7 @@
     "color": "light_green",
     "use_action": {
       "type": "place_monster",
-      "monster_id": "mon_copbot",
+      "monster_id": "mon_afs_copbot",
       "friendly_msg": "The police bot rolls into action, ready to pursue criminals.",
       "hostile_msg": "A siren howls and lights flash as the police bot prepares to arrest you!",
       "//": "Wheeled and must be easy-to-use for police deployment",
@@ -661,7 +662,7 @@
     "color": "light_green",
     "use_action": {
       "type": "place_monster",
-      "monster_id": "mon_riotbot",
+      "monster_id": "mon_afs_riotbot",
       "friendly_msg": "The riot control bot rolls into action.",
       "hostile_msg": "The riot control bot gasses you and approaches with a pair of handcuffs!",
       "//": "Pretty easy but you want to be careful with the gas",

@@ -166,6 +166,9 @@ using palette_id = string_id<mapgen_palette>;
 class material_type;
 using material_id = string_id<material_type>;
 
+class pp_generator;
+using pp_generator_id = string_id<pp_generator>;
+
 struct mission_type;
 using mission_type_id = string_id<mission_type>;
 

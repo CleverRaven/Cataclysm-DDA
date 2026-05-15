@@ -31,6 +31,18 @@
   },
   {
     "type": "monstergroup",
+    "id": "GROUP_ZOMBIE_DECAYED_UPGRADE",
+    "default": "mon_zombie_rot",
+    "//": "decayed zombie upgrades",
+    "monsters": [
+      { "monster": "mon_zombie_rot", "weight": 250 },
+      { "monster": "mon_zombie_rot_grabber", "weight": 350 },
+      { "monster": "mon_zombie_rot_diseased", "weight": 200 },
+      { "monster": "mon_devourer", "weight": 150 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "id": "GROUP_ZOMBIE_DEVOURER_UPGRADE",
     "default": "mon_devourer",
     "//": "devourer zombie upgrades",

@@ -19,6 +19,8 @@ struct int_distribution_impl {
     int bhi = INT_MAX;
 };
 
+namespace
+{
 struct fixed_distribution : int_distribution_impl {
     int value;
 
@@ -112,6 +114,7 @@ struct poisson_distribution : int_distribution_impl {
         return string_format( "Poisson(%.0f)", dist.mean() );
     }
 };
+} // namespace
 
 int_distribution::int_distribution()
     : impl_( make_shared_fast<fixed_distribution>( 0 ) )

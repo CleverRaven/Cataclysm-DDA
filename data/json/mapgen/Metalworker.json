@@ -49,8 +49,8 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
-        "3": "f_machinery_heavy",
-        "1": "f_machinery_old",
+        "3": [ [ "f_machinery_heavy", 70 ], [ "f_steel_kiln", 30 ] ],
+        "1": [ [ "f_machinery_old", 80 ], [ "f_steel_kiln", 20 ] ],
         "H": "f_bench",
         "S": "f_sink",
         "#": "f_stool",

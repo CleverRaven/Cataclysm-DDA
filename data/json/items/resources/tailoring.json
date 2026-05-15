@@ -98,6 +98,19 @@
     "material": [ "kevlar" ]
   },
   {
+    "id": "tainted_kevlar",
+    "type": "ITEM",
+    "name": { "str_sp": "tainted kevlar" },
+    "description": "A disgusting fusion of rotten flesh and what appears to have been Kevlar.  It doesn't seem like you'll be able to use this.",
+    "symbol": "?",
+    "color": "dark_gray",
+    "volume": "2 ml",
+    "weight": "810 mg",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "flesh" ]
+  },
+  {
     "id": "scrap_leather",
     "copy-from": "scrap_worthless",
     "type": "ITEM",
@@ -147,6 +160,19 @@
     "volume": "2 ml",
     "price_postapoc": "8 cent",
     "material": [ "nomex" ]
+  },
+  {
+    "id": "tainted_nomex",
+    "type": "ITEM",
+    "name": { "str_sp": "tainted nomex" },
+    "description": "A disgusting fusion of rotten flesh and what appears to have been Nomex.  It doesn't seem like you'll be able to use this.",
+    "symbol": "?",
+    "color": "dark_gray",
+    "volume": "2 ml",
+    "weight": "810 mg",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "flesh" ]
   },
   {
     "id": "scrap_carpet",

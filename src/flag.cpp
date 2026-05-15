@@ -79,6 +79,7 @@ const flag_id flag_COOKED( "COOKED" );
 const flag_id flag_CORPSE( "CORPSE" );
 const flag_id flag_CORROSIVE( "CORROSIVE" );
 const flag_id flag_CRUTCHES( "CRUTCHES" );
+const flag_id flag_CRYOGENIC_ROT( "CRYOGENIC_ROT" );
 const flag_id flag_CUSTOM_EXPLOSION( "CUSTOM_EXPLOSION" );
 const flag_id flag_CUT_HARVEST( "CUT_HARVEST" );
 const flag_id flag_CUT_IMMUNE( "CUT_IMMUNE" );

@@ -10,8 +10,8 @@
       {
         "ammo_scale": 0,
         "target": "oil_lamp",
-        "msg": "The lantern is extinguished.",
-        "menu_text": "Turn off",
+        "msg": "The lamp is extinguished.",
+        "menu_text": "Extinguish",
         "type": "transform"
       },
       { "type": "firestarter", "moves": 100 }
@@ -32,7 +32,7 @@
         "ammo_scale": 0,
         "target": "oil_lamp_clay",
         "msg": "The lamp is extinguished.",
-        "menu_text": "Turn off",
+        "menu_text": "Extinguish",
         "type": "transform"
       },
       { "type": "firestarter", "moves": 100 }

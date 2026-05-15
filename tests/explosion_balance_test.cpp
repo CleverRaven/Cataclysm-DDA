@@ -41,9 +41,14 @@ static const damage_type_id damage_bullet( "bullet" );
 
 static const itype_id itype_grenade_act( "grenade_act" );
 
+namespace
+{
+
 enum class outcome_type {
     Kill, Casualty
 };
+
+} // namespace
 
 static float get_damage_vs_target( const std::string &target_id )
 {

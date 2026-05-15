@@ -690,9 +690,9 @@ void outfit::sort_armor( Character &guy )
     ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
 
     Character &player_character = get_player_character();
-    auto do_return_entry = [this, &player_character]() {
-        uistate.open_menu = [this, &player_character]() {
-            sort_armor( player_character );
+    auto do_return_entry = [this, guy_ptr = &guy]() {
+        uistate.open_menu = [this, guy_ptr]() {
+            sort_armor( *guy_ptr );
         };
     };
 

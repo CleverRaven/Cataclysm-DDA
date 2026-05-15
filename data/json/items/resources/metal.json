@@ -14,6 +14,7 @@
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
     "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
+    "faults": [ { "fault_group": "steel_pipe_short", "weight_mult": 2 } ],
     "volume": "370 ml",
     "price": "38 USD",
     "price_postapoc": "10 cent",

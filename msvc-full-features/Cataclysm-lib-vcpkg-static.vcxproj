@@ -122,7 +122,7 @@
       <PreprocessorDefinitions>_CONSOLE;SDL_SOUND;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <PreBuildEvent>
-      <Command>..\msvc-full-features\prebuild.cmd</Command>
+      <Command>..\msvc-full-features\prebuild.cmd $(_UseSDL3)</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
@@ -196,6 +196,16 @@
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="..\CDDA.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\data\shaders\*.frag">
+      <FileType>Document</FileType>
+      <Command>set "GLSLANG=vcpkg_installed\x64-windows-static\x64-windows-static\tools\glslang\glslangValidator.exe" &amp;&amp; set "SDL_SHADERCROSS=vcpkg_installed\x64-windows-static\x64-windows-static\tools\sdl3-shadercross\shadercross.exe" &amp;&amp; python ..\tools\build_shaders.py --shader %(Identity) --formats spv,dxil</Command>
+      <Outputs>%(RelativeDir)%(Filename)%(Extension).spv;%(RelativeDir)%(Filename)%(Extension).dxil</Outputs>
+      <Message />
+      <AdditionalInputs>..\tools\build_shaders.py;vcpkg_installed\x64-windows-static\x64-windows-static\tools\glslang\glslangValidator.exe;vcpkg_installed\x64-windows-static\x64-windows-static\tools\sdl3-shadercross\shadercross.exe;vcpkg_installed\x64-windows-static\x64-windows-static\tools\sdl3-shadercross\dxcompiler.dll</AdditionalInputs>
+      <ExcludedFromBuild>!$(_UseSDL3)</ExcludedFromBuild>
+    </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

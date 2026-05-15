@@ -184,6 +184,8 @@ extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bo
 
 static bool has_vehicle_control( avatar &player_character );
 
+namespace
+{
 class user_turn
 {
 
@@ -234,6 +236,7 @@ class user_turn
         }
 
 };
+} // namespace
 
 input_context game::get_player_input( std::string &action )
 {
@@ -399,6 +402,12 @@ input_context game::get_player_input( std::string &action )
             }
 
             if( pixel_minimap_option && g->w_pixel_minimap ) {
+#if defined(TILES)
+                // Mark minimap dirty so beacon colors keep cycling
+                if( tilecontext->has_blinking_minimap() ) {
+                    werase( g->w_pixel_minimap );
+                }
+#endif
                 wnoutrefresh( g->w_pixel_minimap );
             }
 
@@ -1855,7 +1864,7 @@ static void fire()
 static void open_movement_mode_menu()
 {
     avatar &player_character = get_avatar();
-    std::vector<move_mode_id> modes = move_modes_by_speed();
+    const std::vector<move_mode_id> &modes = move_modes_by_speed();
     const int cycle = 1027;
     uilist as_m;
 
@@ -2342,14 +2351,16 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
     int desired_move_mode_cost = 0;
     if( player_character.is_waiting_to_change_mode_mode() && !is_actions_move_mode ) {
         move_mode_id desired_move = player_character.get_desired_move_mode();
-        desired_move_mode_cost = player_character.move_mode_switch_cost( player_character.move_mode,
-                                 desired_move );
-        player_character.set_movement_mode( desired_move );
-        if( player_character.move_mode == desired_move ) {
-            player_character.mod_moves( -desired_move_mode_cost );
-        } else {
-            debugmsg( "Player unable to change from move_mode(%s) to desired_move_mode(%s)",
-                      player_character.move_mode.c_str(), desired_move.c_str() );
+        if( player_character.can_switch_to( desired_move ) ) {
+            desired_move_mode_cost = player_character.move_mode_switch_cost( player_character.move_mode,
+                                     desired_move );
+            player_character.set_movement_mode( desired_move );
+            if( player_character.move_mode == desired_move ) {
+                player_character.mod_moves( -desired_move_mode_cost );
+            } else {
+                debugmsg( "Player unable to change from move_mode(%s) to desired_move_mode(%s)",
+                          player_character.move_mode.c_str(), desired_move.c_str() );
+            }
         }
     }
 
@@ -3156,19 +3167,16 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_TOGGLE_THIEF_MODE:
             if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
                 player_character.set_value( "THIEF_MODE", "THIEF_HONEST" );
-                player_character.set_value( "THIEF_MODE_KEEP", "YES" );
                 //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
-                add_msg( _( "You will not pick up other peoples belongings." ) );
+                add_msg( _( "Thief mode: Always Honest - you will not pick up others' belongings." ) );
             } else if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" ) {
                 player_character.set_value( "THIEF_MODE", "THIEF_STEAL" );
-                player_character.set_value( "THIEF_MODE_KEEP", "YES" );
                 //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
-                add_msg( _( "You will pick up also those things that belong to others!" ) );
+                add_msg( _( "Thief mode: Always Steal - you will pick up others' belongings without prompting." ) );
             } else if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_STEAL" ) {
                 player_character.set_value( "THIEF_MODE", "THIEF_ASK" );
-                player_character.set_value( "THIEF_MODE_KEEP", "NO" );
                 //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
-                add_msg( _( "You will be reminded not to steal." ) );
+                add_msg( _( "Thief mode: Default - you will be prompted when picking up owned items." ) );
             } else {
                 // ERROR
                 add_msg( _( "THIEF_MODE CONTAINED BAD VALUE [ %s ]!" ),

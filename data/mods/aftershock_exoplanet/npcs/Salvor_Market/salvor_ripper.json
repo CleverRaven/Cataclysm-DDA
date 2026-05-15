@@ -1,0 +1,217 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_SALVOR_RIPPER",
+    "name": { "str": "ripper" },
+    "job_description": "A salvor who trades salvaged software and data.",
+    "common": false,
+    "traits": [ { "group": "BG_survival_story_POLICE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 2, 3 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ 1, 3 ] },
+    "worn_override": "NC_SALVOR_RIPPER_worn",
+    "carry_override": "EMPTY_GROUP",
+    "weapon_override": "EMPTY_GROUP",
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 6, 8 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "mechanics", "bonus": { "rng": [ 1, 3 ] } }
+    ],
+    "shopkeeper_item_group": [ { "group": "afs_salvor_ripper_software", "rigid": true }, { "group": "afs_salvor_ripper_computers", "rigid": true } ],
+    "shopkeeper_price_rules": [
+      { "group": "afs_augustmoon_batteries_disposable", "markup": 10 },
+      { "group": "afs_augustmoon_batteries_rechargeable", "markup": 20 },
+      { "group": "afs_salvor_ripper_software", "price": 5000 },
+      { "group": "afs_salvor_ripper_computers", "markup": 3 },
+      { "group": "generated_ruin_data", "premium": 2 }
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "salvor_ripper",
+    "name_unique": "Raxell",
+    "name_suffix": "ripper",
+    "gender": "male",
+    "age": 28,
+    "height": 182,
+    "class": "NC_SALVOR_RIPPER",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_SALVOR_RIPPER",
+    "faction": "independents"
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SALVOR_RIPPER_worn",
+    "subtype": "collection",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [ { "item": "afs_cryopod_bodyglove" }, { "item": "afs_wrist_computer" }, { "item": "spacer_cap" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_salvor_ripper_software",
+    "subtype": "collection",
+    "items": [
+      { "item": "afs_data_shard", "contents-item": "software_archiving", "variables": [ { "browsed": "true" } ] },
+      { "item": "afs_data_shard", "contents-item": "software_hacking", "variables": [ { "browsed": "true" } ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_salvor_ripper_computers",
+    "subtype": "collection",
+    "items": [
+      { "item": "laptop", "prob": 80, "charges": [ 52, 500 ], "variables": [ { "browsed": "true" } ] },
+      { "item": "electrohack", "prob": 80, "charges": [ 52, 500 ] },
+      { "item": "afs_wrist_computer", "variables": [ { "browsed": "true" } ], "charges": [ 52, 500 ], "count": 2 }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SALVOR_RIPPER",
+    "dynamic_line": "&The stall is uncharacteristically colorful, plastered with advertisements for computers and lit by the contrasting glow of blue and green neon.  Its owner lies slumped in a chair, lazily tapping away at a wrist computer.  They don't bother to look at you until its clear you are here to trade.",
+    "responses": [
+      {
+        "//": "Skips the introduction if it has already happened,",
+        "text": "[Approach the counter]",
+        "topic": "TALK_SALVOR_RIPPER_MAIN",
+        "condition": { "compare_string": [ "yes", { "npc_val": "player_has_met" } ] }
+      },
+      {
+        "text": "[Approach the counter]",
+        "trial": { "type": "CONDITION", "condition": { "math": [ "u_skill('computer') > 2" ] } },
+        "success": { "topic": "TALK_SALVOR_RIPPER_MAIN" },
+        "failure": { "topic": "TALK_SALVOR_RIPPER_INTRO_UNSKILLED" },
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "player_has_met" } ] } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SALVOR_RIPPER_INTRO_UNSKILLED",
+    "dynamic_line": "Huh?  You barely look like you know your way around a computer, let alone know what I do here.  Why don't you go bother someone else?",
+    "responses": [
+      {
+        "text": "Yeah, I was hoping to start learning here.",
+        "trial": { "type": "PERSUADE", "difficulty": 50 },
+        "success": { "topic": "TALK_SALVOR_RIPPER_PERSUADE_SUCCESS" },
+        "failure": { "topic": "TALK_SALVOR_RIPPER_FAIL" }
+      },
+      {
+        "text": "[LIE] I know a thing or two.",
+        "trial": { "type": "LIE", "difficulty": 50 },
+        "success": { "topic": "TALK_SALVOR_RIPPER_PERSUADE_SUCCESS" },
+        "failure": { "topic": "TALK_SALVOR_RIPPER_FAIL" }
+      },
+      {
+        "text": "[$400] My money spends just as well as anyone's.",
+        "trial": { "type": "PERSUADE", "difficulty": 90 },
+        "success": { "topic": "TALK_SALVOR_RIPPER_BRIBE_SUCCESS" },
+        "failure": { "topic": "TALK_SALVOR_RIPPER_FAIL" }
+      },
+      {
+        "text": "Maybe I should…",
+        "effect": { "npc_first_topic": "TALK_SALVOR_RIPPER_IGNORE" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SALVOR_RIPPER_PERSUADE_SUCCESS",
+    "dynamic_line": "&The ripper looks you up and down again.  They nod slowly, as if coming to a decision.  \"Cute, and stupid.  Alright maybe you aren't a complete write-off.  Name's Raxell, I run this salvage op.  Digital stuff, data, software, archives, that kind of thing.  I don't have time to teach you how to do it, but if you want to buy or sell some stuff, I'm open.\"",
+    "responses": [ { "text": "Wont be a problem.", "topic": "TALK_SALVOR_RIPPER_MAIN" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SALVOR_RIPPER_BRIBE_SUCCESS",
+    "dynamic_line": "Alright, alright.  You can buy stuff here, but don't expect help when you get in over your head.",
+    "speaker_effect": { "effect": [ { "math": [ "u_cash -= 400" ] }, { "math": [ "n_skill('speech') = 8" ] } ] },
+    "responses": [ { "text": "Wont be a problem.", "topic": "TALK_SALVOR_RIPPER_MAIN" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SALVOR_RIPPER_FAIL",
+    "dynamic_line": "&The ripper scoffs at you, clearly not taking you seriously.  \"Come back when you know what you're doing.\"",
+    "speaker_effect": { "effect": { "npc_first_topic": "TALK_SALVOR_RIPPER_IGNORE" } },
+    "responses": [ { "text": "I don't think I will.", "topic": "TALK_DONE" }, { "text": "Yeah.  Sure thing.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SALVOR_RIPPER_IGNORE",
+    "dynamic_line": "&The ripper is ignoring you.  They continue to tap away at their wrist computer, occasionally glancing up to make sure you're still there, but otherwise not acknowledging your presence.",
+    "responses": [
+      { "text": "…", "topic": "TALK_DONE" },
+      {
+        "text": "[Ancient Mercurial ID codes] I've found something you want.  Lets have a real talk.",
+        "topic": "TALK_SALVOR_MERCURIAL_IDENTS",
+        "condition": { "u_has_item": "ruin_data_mercurial_id" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SALVOR_MERCURIAL_IDENTS",
+    "dynamic_line": "&The ripper's eyes widen as they see the data shard you are showing them.  They snatch it out of your hand and quickly scan it with their wrist computer.  After a moment, they look up at you with a new level of respect.  \"… these are legit.  Where did you even get these?\"",
+    "responses": [
+      { "text": "You know, here and there.  I want 60K.", "topic": "TALK_SALVOR_RIPPER_MERCURIAL_IDENTS_SELL" },
+      {
+        "text": "Well I was thinking 20K and you keeping me in mind for future deals.",
+        "topic": "TALK_SALVOR_RIPPER_MERCURIAL_IDENTS_FAVOUR"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SALVOR_RIPPER_MERCURIAL_IDENTS_SELL",
+    "dynamic_line": "Done.",
+    "speaker_effect": { "effect": [ { "math": [ "u_val('cash') += 6000000" ] } ] },
+    "responses": [
+      {
+        "text": "A pleasure doing business.",
+        "effect": [ { "u_sell_item": "ruin_data_mercurial_id" } ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SALVOR_RIPPER_MERCURIAL_IDENTS_FAVOUR",
+    "speaker_effect": { "effect": [ { "math": [ "u_val('cash') += 2000000" ] } ] },
+    "dynamic_line": "For sure.  Just wait to see the things I'll cook up with these.",
+    "responses": [
+      {
+        "text": "A pleasure doing business.",
+        "effect": [ { "u_sell_item": "ruin_data_mercurial_id" } ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": [ "TALK_SALVOR_RIPPER_MAIN" ],
+    "speaker_effect": { "effect": { "npc_add_var": "player_has_met", "value": "yes" }, "sentinel": "ripper_intro_complete" },
+    "dynamic_line": "&The ripper glances up at you as you approach, eyes briefly flicking over you before returning to the screen of their wrist computer.  They don't say anything, but it's clear they are waiting for you to make the first move.",
+    "responses": [
+      { "text": "Lets trade.", "topic": "TALK_SALVOR_RIPPER_MAIN", "effect": "start_trade" },
+      {
+        "text": "[Ancient Mercurial ID codes] I've found something you want.  Lets talk about real things.",
+        "topic": "TALK_SALVOR_MERCURIAL_IDENTS",
+        "condition": { "u_has_item": "ruin_data_mercurial_id" }
+      },
+      { "text": "What is it that you do here?", "topic": "TALK_SALVOR_RIPPER_EXPLAIN" },
+      { "text": "That's all for now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SALVOR_RIPPER_EXPLAIN",
+    "dynamic_line": "&The ripper looks up at you, surprised that you would ask such a thing.  See all these brutes out here?  I try to make them realize the computers they smash for bits have useful stuff in them beyond the pretty crystals, and that they should try some data recovering and bring that to me.\"\n\n\"But they usually don't care.  Now though if you want into the buisness, I can sell you a computer and a copy of OpenVault, so you can start salvaging data yourself.  Or you can just go back to your smashing, whatever.\"",
+    "responses": [ { "text": "Interesting.", "topic": "TALK_SALVOR_RIPPER_MAIN" } ]
+  }
+]

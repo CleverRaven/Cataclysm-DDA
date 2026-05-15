@@ -44,6 +44,7 @@
       { "item": "gelatin_dessert_processed", "prob": 20 },
       { "prob": 85, "group": "eggs_in_carton" },
       { "prob": 25, "group": "bacon_bag_plastic_2" },
+      { "prob": 20, "group": "fresh_fish" },
       {
         "distribution": [ { "item": "lunchmeat", "prob": 60 }, { "item": "bologna", "prob": 40 }, { "item": "tofu", "prob": 30 } ],
         "prob": 60

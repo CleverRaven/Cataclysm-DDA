@@ -203,6 +203,9 @@ static option_overrides_t extract_option_overrides( const std::string_view optio
     return ret;
 }
 
+namespace
+{
+
 struct CataListener : Catch::TestEventListenerBase {
     using TestEventListenerBase::TestEventListenerBase;
 
@@ -308,6 +311,8 @@ struct CataListener : Catch::TestEventListenerBase {
 
 };
 
+} // namespace
+
 CATCH_REGISTER_LISTENER( CataListener )
 
 // NOLINTNEXTLINE(cata-test-filename)
@@ -317,6 +322,7 @@ TEST_CASE( "noop_test", "[.]" )
 }
 
 
+// NOLINTNEXTLINE(bugprone-exception-escape): test runner intentionally lets exceptions propagate
 int main( int argc, const char *argv[] )
 {
     cata::init_allocator();

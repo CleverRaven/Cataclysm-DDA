@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_MUTATION_H
 #define CATA_SRC_MUTATION_H
 
+#include <cstdlib>
 #include <functional>
 #include <map>
 #include <optional>
@@ -578,6 +579,14 @@ enum class mutagen_technique : int {
     injected_purifier,
     injected_smart_purifier,
     num_mutagen_techniques // last
+};
+
+struct traits_sorter {
+    bool sort_by_points = false;
+    /** @related player */
+    bool operator()( const trait_id *a, const trait_id *b ) {
+        return std::abs( ( *a )->points ) > std::abs( ( *b )->points );
+    }
 };
 
 template<>

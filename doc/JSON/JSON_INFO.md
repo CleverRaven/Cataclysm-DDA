@@ -1034,8 +1034,7 @@ reference at least one body part or sub body part.
 |---                     |---
 | `id`                   | (_mandatory_) Unique ID. Must be one continuous word, use underscores if necessary.
 | `name`                 | (_mandatory_) In-game name displayed.
-| `limb_type`            | (_mandatory_) Type of limb, as defined by `bodypart.h`. Certain functions will check only a given bodypart type for their purposes. Currently implemented types are: `head, torso, sensor, mouth, arm, hand, leg, foot, wing, tail, other`.
-| `limb_types`           | (_optional_) (Can be used instead of `limb_type`) Weighted list of limb types this body part can emulate. The weights are modifiers that determine how good this body part is at acting like the given limb type. (Ex: `[ [ "foot", 1.0 ], [ "hand", 0.15 ] ]`)
+| `limb_types`           | (_mandatory_) Type(s) of limb, as defined by `bodypart.h`. Certain functions will check only a given bodypart type for their purposes. Currently implemented types are: `head, torso, sensor, mouth, arm, hand, leg, foot, wing, tail, other`. Weighted list of limb types this body part can emulate. The weights are modifiers that determine how good this body part is at acting like the given limb type. (Ex: `[ [ "foot", 1.0 ], [ "hand", 0.15 ] ]`)
 | `secondary_types`      | (_optional_) List of secondary limb types for the bodypart, to include it in relevant calculations.
 | `accusative`           | (_mandatory_) Accusative form for this bodypart.
 | `heading`              | (_mandatory_) How it's displayed in headings.
@@ -1105,7 +1104,7 @@ reference at least one body part or sub body part.
   "opposite_part": "arm_r",
   "hit_size": 9,
   "hit_difficulty": 0.95,
-  "limb_type": "arm",
+  "limb_types": "arm",
   "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "lift", 0.5 ], [ "block", 1.0 ], [ "swim", 0.1 ] ],
   "armor": { "electric": 2, "stab": 1 },
   "side": "left",
@@ -1672,6 +1671,7 @@ Faults can be defined for more specialized damage of an item.
   "message": "%s has it's handle broken!", // Message, that would be shown when such fault is applied, unless supressed
   "fault_type": "gun_mechanical_simple", // type of a fault, code may call for a random fault in a group instead of specific fault
   "affected_by_degradation": false, // default false. If true, the item degradation value would be added to fault weight on roll
+  "instant_damage": 500,  // default 0. Instantly applies this much damage to the item when the fault is applied. (A "full health" item has 4000 "HP" currently)
   "degradation_mod": 50,  // default 0. Having this fault would add this amount of temporary degradation on the item, resulting in higher chance to trigger faults with "affected_by_degradation": true. Such degradation will be removed when fault is fixed
   "price_modifier": 0.4, // (Optional, double) Defaults to 1 if not specified. A multiplier on the price of an item when this fault is present. Values above 1.0 will increase the item's value.
   "melee_damage_mod": [ { "damage_id": "cut", "add": -5, "multiply": 0.8 } ], // (Optional) alters the melee damage of this type for item, if fault of this type is presented. `damage_id` is mandatory, `add` is 0 by default, `multiply` is 1 by default
@@ -3082,14 +3082,14 @@ A thin container for weakpoint definitions. The only unique fields for this obje
       "effects": [
         {
           "effect": "stunned",
-          "duration": [ 1, 2 ],
+          "duration": [ "1 seconds", "2 seconds" ],
           "chance": 5,
           "message": "The %s is stunned!",
           "damage_required": [ 1, 10 ]
         },
         {
           "effect": "stunned",
-          "duration": [ 1, 2 ],
+          "duration": [ "1 seconds", "2 seconds" ],
           "chance": 25,
           "message": "The %s is stunned!",
           "damage_required": [ 11, 100 ]
@@ -4451,6 +4451,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
     "decay_amount_factor": 2, // The field's rain decay amount is divided by this when processing the field, the rain decay is a function of the weather type's precipitation class: very_light = 5s, light = 15s, heavy = 45 s
     "half_life": "3 minutes", // If above 0 the field will disappear after two half-lifes on average
     "underwater_age_speedup": "25 minutes", // Increase the field's age by this time every tick if it's on a terrain with the SWIMMABLE flag
+    "block_mtypes": [ "zombie", "animal" ], // these monster types cannot move on tile with this field
     "linear_half_life": "true", // If true the half life decay is converted to a non-random, linear wait based on the defined half_life time. 
     "outdoor_age_speedup": "20 minutes", // Increase the field's age by this duration if it's on an outdoor tile
     "accelerated_decay": true, // If the field should use a more simple decay calculation, used for cosmetic fields like gibs

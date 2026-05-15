@@ -252,7 +252,8 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     // check if the armor was damaged
     item::armor_status damaged = armor.damage_armor_durability( du, pre_mitigation, bp,
                                  calculate_by_enchantment( 1,
-                                         enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE ) );
+                                         enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE ),
+                                 this );
 
     // describe what happened if the armor took damage
     if( damaged == item::armor_status::DAMAGED || damaged == item::armor_status::DESTROYED ) {
@@ -289,7 +290,8 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     // check if the armor was damaged
     item::armor_status damaged = armor.damage_armor_durability( du, pre_mitigation, bp,
                                  calculate_by_enchantment( 1,
-                                         enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE ) );
+                                         enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE ),
+                                 this );
 
     // describe what happened if the armor took damage
     if( damaged == item::armor_status::DAMAGED || damaged == item::armor_status::DESTROYED ) {
@@ -331,7 +333,8 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const sub_b
                 } else {
                     damaged = ablative_armor.damage_armor_durability( du, pre_mitigation, bp->parent,
                               calculate_by_enchantment( 1,
-                                                        enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE ) );
+                                                        enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE ),
+                              this );
                 }
 
                 if( damaged == item::armor_status::TRANSFORMED ) {

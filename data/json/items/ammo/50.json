@@ -5,7 +5,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": ".50 BMG M17 tracer" },
-    "description": "A tracer variant of the powerful .50 BMG round.  Tracer rounds help to keep the weapon they are fired from on target，though have the potential to ignite flammable surfaces on impact.",
+    "description": "A tracer variant of the powerful .50 BMG round.  Tracer rounds help to keep the weapon they are fired from on target, though have the potential to ignite flammable surfaces on impact.",
     "ascii_picture": "50_incendiary",
     "count": 10,
     "extend": { "effects": [ "INCENDIARY" ] },

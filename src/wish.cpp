@@ -26,6 +26,7 @@
 #include "debug_menu.h"
 #include "effect.h"
 #include "enums.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "imgui/imgui.h"
@@ -63,12 +64,12 @@
 #include "units.h"
 #include "value_ptr.h"
 
-class uilist_impl;
-
 static const efftype_id effect_pet( "pet" );
 
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
+namespace
+{
 class wish_mutate_callback: public uilist_callback
 {
     public:
@@ -257,6 +258,7 @@ class wish_mutate_callback: public uilist_callback
 
         ~wish_mutate_callback() override = default;
 };
+} // namespace
 
 void debug_menu::wishmutate( Character *you )
 {
@@ -345,7 +347,7 @@ void debug_menu::wishmutate( Character *you )
 
 void debug_menu::wishbionics( Character *you )
 {
-    std::vector<const itype *> cbm_items = item_controller->find( []( const itype & itm ) -> bool {
+    std::vector<const itype *> cbm_items = Item_factory::find( []( const itype & itm ) -> bool {
         return itm.can_use( "install_bionic" );
     } );
     std::sort( cbm_items.begin(), cbm_items.end(), []( const itype * a, const itype * b ) {
@@ -643,6 +645,8 @@ void debug_menu::wisheffect( Creature &p )
     } while( efmenu.ret != UILIST_CANCEL );
 }
 
+namespace
+{
 class wish_monster_callback: public uilist_callback
 {
     public:
@@ -752,6 +756,7 @@ class wish_monster_callback: public uilist_callback
 
         ~wish_monster_callback() override = default;
 };
+} // namespace
 
 static void setup_wishmonster( uilist &pick_a_monster, std::vector<const mtype *> &mtypes )
 {
@@ -900,6 +905,8 @@ static item wishitem_produce( const itype &type, std::string &flags, bool incont
     return granted;
 }
 
+namespace
+{
 class wish_item_callback: public uilist_callback
 {
     public:
@@ -1094,6 +1101,7 @@ class wish_item_callback: public uilist_callback
             cataimgui::TextKeybinding( ctxt, "QUIT",       _( "Quit" ),       false );
         }
 };
+} // namespace
 
 void debug_menu::wishitem( Character *you )
 {
@@ -1197,6 +1205,9 @@ void debug_menu::wishitem( Character *you, const tripoint_bub_ms &pos )
                 canceled = popup.canceled();
             }
             if( !canceled ) {
+                if( granted.has_flag( flag_PRESERVE_SPAWN_LOC ) ) {
+                    granted.preserve_location( you->pos_abs() );
+                }
                 did_amount_prompt = true;
                 if( you != nullptr ) {
                     if( amount > 0 ) {

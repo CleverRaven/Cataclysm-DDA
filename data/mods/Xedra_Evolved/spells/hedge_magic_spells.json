@@ -832,5 +832,26 @@
     "min_damage": 1,
     "max_damage": 1,
     "base_casting_time": 1080000
+  },
+  {
+    "id": "hedge_scare_shabriri",
+    "type": "SPELL",
+    "name": "To Repel the Light-Breaker",
+    "description": "Quickly recite a warding phrase to scare away nearby Shabriri and keep them from blinding you.",
+    "message": "\"So-and-so, son of so-and-so, your mother told you to beware of the Shabriri bariri riri iri ri in your white cup.\".",
+    "//": "This has no components but is very limited in scope.",
+    "flags": [ "VERBAL", "NO_FAIL", "NO_HANDS", "NO_LEGS" ],
+    "magic_type": "xe_hedge_magick",
+    "valid_targets": [ "self" ],
+    "difficulty": 70,
+    "spell_class": "HEDGE_MAGIC",
+    "skill": "survival",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_HEDGE_SCARE_SHABRIRI",
+    "shape": "blast",
+    "max_level": 1,
+    "min_aoe": 50,
+    "max_aoe": 50,
+    "base_casting_time": 500
   }
 ]

@@ -259,6 +259,17 @@
     "auto_needs": true
   },
   {
+    "id": "ACT_CRAFT_WAIT",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "waiting for craft step",
+    "rooted": true,
+    "based_on": "time",
+    "can_resume": false,
+    "refuel_fires": true,
+    "auto_needs": true
+  },
+  {
     "id": "ACT_DISASSEMBLE",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",

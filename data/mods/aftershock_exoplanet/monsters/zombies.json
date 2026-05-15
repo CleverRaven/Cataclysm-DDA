@@ -199,7 +199,7 @@
     "melee_skill": 6,
     "melee_dice": 2,
     "melee_dice_sides": 3,
-    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 3 } ],
     "dodge": 4,
     "vision_day": 25,
     "regenerates": 10,

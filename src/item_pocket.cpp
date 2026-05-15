@@ -103,6 +103,12 @@ std::string pocket_data::check_definition() const
             return string_format( "invalid ammotype %s", at.str() );
         }
         const itype_id &it = at->default_ammotype();
+        // Abstract ammotypes (e.g. "components", "thrown") intentionally point
+        // their default at an undefined itype; ammunition_type::check_consistency
+        // skips them and so does the per-pocket phase check.
+        if( it.is_empty() || !item::type_is_defined( it ) ) {
+            continue;
+        }
         if( it->phase == phase_id::LIQUID && !watertight ) {
             return string_format( "restricted to liquid item %s but not watertight\n",
                                   it->get_id().str() );
@@ -143,6 +149,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "material_restriction", material_restriction );
     optional( jo, was_loaded, "allowed_speedloaders", allowed_speedloaders );
     optional( jo, was_loaded, "default_magazine", default_magazine );
+    optional( jo, was_loaded, "id", pocket_id );
     optional( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "name", pocket_name );
     if( jo.has_member( "ammo_restriction" ) && ammo_restriction.empty() ) {
@@ -509,6 +516,15 @@ std::list<const item *> item_pocket::all_items_top() const
         items.push_back( &it );
     }
     return items;
+}
+
+units::ememory item_pocket::occupied_ememory() const
+{
+    units::ememory total = 0_KB;
+    for( const item &it : contents ) {
+        total += it.ememory_size();
+    }
+    return total;
 }
 
 std::list<item *> item_pocket::all_items_ptr( pocket_type pk_type )
@@ -2365,38 +2381,65 @@ units::mass item_pocket::remaining_weight() const
 
 int item_pocket::charges_per_remaining_volume( const item &it ) const
 {
-    if( it.count_by_charges() ) {
-        units::volume non_it_volume = volume_capacity();
-        int contained_charges = 0;
-        for( const item &contained : contents ) {
-            if( contained.stacks_with( it ) ) {
-                contained_charges += contained.charges;
-            } else {
-                non_it_volume -= contained.volume();
-            }
-        }
-        return it.charges_per_volume( non_it_volume, true ) - contained_charges;
-    } else {
+    if( !it.count_by_charges() ) {
         return it.charges_per_volume( remaining_volume(), true );
     }
+    // Skip contents walk when no typeId match is possible.
+    bool any_same_type = false;
+    for( const item &contained : contents ) {
+        if( contained.typeId() == it.typeId() ) {
+            any_same_type = true;
+            break;
+        }
+    }
+    if( !any_same_type ) {
+        return it.charges_per_volume( remaining_volume(), true );
+    }
+    units::volume non_it_volume = volume_capacity();
+    int contained_charges = 0;
+    for( const item &contained : contents ) {
+        if( contained.typeId() != it.typeId() ) {
+            non_it_volume -= contained.volume();
+            continue;
+        }
+        if( contained.stacks_with( it ) ) {
+            contained_charges += contained.charges;
+        } else {
+            non_it_volume -= contained.volume();
+        }
+    }
+    return it.charges_per_volume( non_it_volume, true ) - contained_charges;
 }
 
 int item_pocket::charges_per_remaining_weight( const item &it ) const
 {
-    if( it.count_by_charges() ) {
-        units::mass non_it_weight = weight_capacity();
-        int contained_charges = 0;
-        for( const item &contained : contents ) {
-            if( contained.stacks_with( it ) ) {
-                contained_charges += contained.charges;
-            } else {
-                non_it_weight -= contained.weight();
-            }
-        }
-        return it.charges_per_weight( non_it_weight, true ) - contained_charges;
-    } else {
+    if( !it.count_by_charges() ) {
         return it.charges_per_weight( remaining_weight(), true );
     }
+    bool any_same_type = false;
+    for( const item &contained : contents ) {
+        if( contained.typeId() == it.typeId() ) {
+            any_same_type = true;
+            break;
+        }
+    }
+    if( !any_same_type ) {
+        return it.charges_per_weight( remaining_weight(), true );
+    }
+    units::mass non_it_weight = weight_capacity();
+    int contained_charges = 0;
+    for( const item &contained : contents ) {
+        if( contained.typeId() != it.typeId() ) {
+            non_it_weight -= contained.weight();
+            continue;
+        }
+        if( contained.stacks_with( it ) ) {
+            contained_charges += contained.charges;
+        } else {
+            non_it_weight -= contained.weight();
+        }
+    }
+    return it.charges_per_weight( non_it_weight, true ) - contained_charges;
 }
 
 int item_pocket::best_quality( const quality_id &id ) const
@@ -2767,7 +2810,7 @@ const std::optional<std::string> &item_pocket::favorite_settings::get_preset_nam
 }
 
 template<typename T>
-std::string enumerate( cata::flat_set<T> container )
+static std::string enumerate( const cata::flat_set<T> &container )
 {
     std::vector<std::string> output;
     for( const T &id : container ) {

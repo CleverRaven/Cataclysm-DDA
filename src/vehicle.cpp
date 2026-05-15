@@ -103,6 +103,7 @@ static const damage_type_id damage_pure( "pure" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_winded( "winded" );
 
+static const fault_id fault_broken_window( "fault_broken_window" );
 static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
 static const fault_id fault_flat_tire_riding_on_rims( "fault_flat_tire_riding_on_rims" );
 static const fault_id fault_punctured_tires( "fault_punctured_tires" );
@@ -262,9 +263,11 @@ vehicle::~vehicle() = default;
 
 turret_cpu::~turret_cpu() = default;
 
+// rhs is intentionally ignored; assignment resets the cached brain.
+// NOLINTNEXTLINE(bugprone-unhandled-self-assignment,cert-oop54-cpp)
 turret_cpu &turret_cpu::operator=( const turret_cpu & )
 {
-    brain.reset();
+    brain = nullptr;
     return *this;
 }
 
@@ -612,7 +615,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
 
     // Additional 50% chance for heavy damage to disabled vehicles
     if( veh_status == 1 && one_in( 2 ) ) {
-        smash( placed_on, 0.5 );
+        damage_all_parts( 0.5 );
     }
 
     for( const int p : engines ) {
@@ -904,11 +907,11 @@ units::angle vehicle::get_angle_from_targ( const tripoint_abs_ms &targ ) const
  * (i.e., any spot with multiple frames) will be completely destroyed, as that
  * was the collision point.
  */
-void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_max,
-                     float percent_of_parts_to_affect, point_rel_ms damage_origin, float damage_size )
+void vehicle::damage_all_parts( float hp_percent_loss_min, float hp_percent_loss_max,
+                                float percent_of_parts_to_affect, point_rel_ms damage_origin,
+                                float damage_size )
 {
     for( vehicle_part &part : parts ) {
-        //Skip any parts already mashed up or removed.
         if( part.is_broken() || part.removed ) {
             continue;
         }
@@ -923,7 +926,6 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
         }
 
         if( structures_found > 1 ) {
-            //Destroy everything in the square
             for( int idx : parts_in_square ) {
                 vehicle_part &vp = parts[idx];
                 vp.ammo_unset();
@@ -938,19 +940,29 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
             double dist = damage_size == 0.0f ? 1.0f :
                           clamp( 1.0f - trig_dist( damage_origin, part.precalc[0].xy() ) /
                                  damage_size, 0.0f, 1.0f );
-            //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
+            // Drop by 10-120% of max HP (anything over 100 = broken)
             const float roll = rng_float( hp_percent_loss_min * dist, hp_percent_loss_max * dist );
             if( mod_hp( part, -part.info().durability * roll ) ) {
                 part.ammo_unset();
             }
         }
     }
+}
+
+void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_max,
+                     float percent_of_parts_to_affect, point_rel_ms damage_origin, float damage_size )
+{
+    damage_all_parts( hp_percent_loss_min, hp_percent_loss_max,
+                      percent_of_parts_to_affect, damage_origin, damage_size );
 
     std::unique_ptr<RemovePartHandler> handler_ptr;
-    // clear out any duplicated locations
     for( int p = static_cast<int>( parts.size() ) - 1; p >= 0; p-- ) {
         vehicle_part &part = parts[p];
         if( part.removed ) {
+            continue;
+        }
+        // OOB parts belong to a neighboring map; leave them alone
+        if( !m.inbounds( bub_part_pos( m, part ) ) ) {
             continue;
         }
         std::vector<int> parts_here = parts_at_relative( part.mount, true );
@@ -966,12 +978,7 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
 
             if( vpi1.id == vpi2.id ||
                 ( !vpi1.location.is_empty() && vpi1.location == vpi2.location ) ) {
-                // Deferred creation of the handler to here so it is only created when actually needed.
                 if( !handler_ptr ) {
-                    // This is a heuristic: we just assume the default handler is good enough when called
-                    // on the main game map. And assume that we run from some mapgen code if called on
-                    // another instance.
-                    // TODO: Make this capable of distinguishing between mapgen and non bubble active maps.
                     if( g && &reality_bubble() == &m ) {
                         handler_ptr = std::make_unique<DefaultRemovePartHandler>();
                     } else {
@@ -2612,7 +2619,7 @@ bool vehicle::split_vehicles( map &here,
         if( split_parts.empty() ) {
             continue;
         }
-        std::vector<point_rel_ms> split_mounts = new_mounts[ i ];
+        const std::vector<point_rel_ms> &split_mounts = new_mounts[ i ];
         did_split = true;
 
         vehicle *new_vehicle = nullptr;
@@ -3261,7 +3268,8 @@ int vehicle::next_part_to_unlock( int p, bool outside ) const
     }
     for( const int elem : parts_at_relative( parts[p].mount, true, true ) ) {
         const vehicle_part &vp = part( elem );
-        if( vp.info().has_flag( "LOCKABLE_DOOR" ) && vp.is_available() && vp.locked && !outside ) {
+        const bool accessible_lock = !outside || vp.has_fault( fault_broken_window );
+        if( vp.info().has_flag( "LOCKABLE_DOOR" ) && vp.is_available() && vp.locked && accessible_lock ) {
             return elem;
         }
     }
@@ -4078,7 +4086,7 @@ int vehicle::ground_acceleration( map &here, const bool fueled, int at_vel_in_vm
     if( !( engine_on || skidding ) ) {
         return 0;
     }
-    int target_vmiph = std::max( at_vel_in_vmi, std::max( 1000, max_velocity( here, fueled ) / 4 ) );
+    int target_vmiph = std::max( { at_vel_in_vmi, 1000, max_velocity( here, fueled ) / 4 } );
     int cmps = vmiph_to_cmps( target_vmiph );
     double weight = to_kilogram( total_mass( here ) );
     if( is_towing() ) {
@@ -4110,8 +4118,7 @@ int vehicle::water_acceleration( map &here, const bool fueled, int at_vel_in_vmi
     if( !( engine_on || skidding ) ) {
         return 0;
     }
-    int target_vmiph = std::max( at_vel_in_vmi, std::max( 1000,
-                                 max_water_velocity( here, fueled ) / 4 ) );
+    int target_vmiph = std::max( { at_vel_in_vmi, 1000, max_water_velocity( here, fueled ) / 4 } );
     int cmps = vmiph_to_cmps( target_vmiph );
     double weight = to_kilogram( total_mass( here ) );
     if( is_towing() ) {
@@ -4515,6 +4522,8 @@ static double tile_to_width( int tiles )
 
 static constexpr int minrow = -122;
 static constexpr int maxrow = 122;
+namespace
+{
 struct drag_column {
     int pro = minrow;
     int hboard = minrow;
@@ -4532,6 +4541,7 @@ struct drag_column {
     int last = maxrow;
     int lastpart = maxrow;
 };
+} // namespace
 
 double vehicle::coeff_air_drag() const
 {
@@ -4624,8 +4634,8 @@ double vehicle::coeff_air_drag() const
         c_air_drag_c += ( dc.pro > dc.hboard ) ? c_air_mod : 0;
         // not having halfboards in front of any windshields or fullboards moderately worsens
         // air drag
-        c_air_drag_c += ( std::max( std::max( dc.hboard, dc.fboard ),
-                                    dc.shield ) != dc.hboard ) ? 2 * c_air_mod : 0;
+        c_air_drag_c += ( std::max( { dc.hboard, dc.fboard, dc.shield } ) != dc.hboard ) ? 2 * c_air_mod :
+                        0;
         // not having windshields in front of seats severely worsens air drag
         c_air_drag_c += ( dc.shield < dc.seat ) ? 3 * c_air_mod : 0;
         // missing roofs and open doors severely worsen air drag
@@ -5109,7 +5119,7 @@ bool vehicle::handle_potential_theft( Character const &you, bool check_only, boo
         Character const *const elem = cr.as_character();
         return elem != nullptr && you.getID() != elem->getID() && is_owned_by( *elem ) &&
                rl_dist( elem->pos_bub( here ), you.pos_bub( here ) ) < MAX_VIEW_DISTANCE &&
-               elem->sees( here, you.pos_bub( here ) );
+               elem->sees( here, you );
     } );
     if( !has_owner() || ( witnesses.empty() && ( has_old_owner() || you.is_npc() ) ) ) {
         if( !has_owner() ||
@@ -5361,6 +5371,8 @@ void vehicle::consume_fuel( map &here, int load, bool idling )
         int base_burn = actual_staminaRegen - 3;
         base_burn = std::max( eff_load / 3, base_burn );
         //charge bionics when using muscle engine
+        // FIXME: stop initializing new items every time this runs.
+        // Can't make it static, itype can change if we quit to menu and load a different set of mods...
         const item muscle( fuel_type_muscle );
         for( const bionic_id &bid : driver->get_bionic_fueled_with_muscle() ) {
             if( driver->has_active_bionic( bid ) ) { // active power gen
@@ -6578,11 +6590,19 @@ void vehicle::place_spawn_items( map &here )
                     continue; // we destroyed the item
                 }
                 if( e.is_tool() || e.is_gun() || e.is_magazine() ) {
-                    bool spawn_ammo = rng( 0, 99 ) < spawn.with_ammo && e.ammo_remaining( ) == 0;
-                    bool spawn_mag  = rng( 0, 99 ) < spawn.with_magazine && !e.magazine_integral() &&
-                                      !e.magazine_current();
+                    const std::vector<itype_id> well_defaults = e.magazines_default();
+                    const bool is_multi_well = well_defaults.size() > 1;
+                    bool spawn_ammo = rng( 0, 99 ) < spawn.with_ammo;
+                    bool spawn_mag  = rng( 0, 99 ) < spawn.with_magazine && !e.magazine_integral();
+                    if( !is_multi_well ) {
+                        spawn_ammo = spawn_ammo && e.ammo_remaining( ) == 0;
+                        spawn_mag = spawn_mag && !e.magazine_current();
+                    }
 
-                    if( spawn_mag ) {
+                    if( is_multi_well ) {
+                        // TODO(multimag): per-well chance keys for vehicle gun-mount initial load.
+                        e.dress_magazine_wells( spawn_mag, spawn_ammo );
+                    } else if( spawn_mag ) {
                         item mag( e.magazine_default(), e.birthday() );
                         if( spawn_ammo ) {
                             mag.ammo_set( mag.ammo_default() );
@@ -8025,15 +8045,17 @@ int vehicle::break_off( map &here, vehicle_part &vp, int dmg )
 
 bool vehicle::explode_fuel( map &here, vehicle_part &vp, const damage_type_id &type )
 {
-    const itype_id &ft = vp.info().fuel_type;
-    item fuel = item( ft );
-    if( !fuel.has_explosion_data() ) {
+    const itype_id &ft = vp.fuel_current();
+    if( ft.is_null() ) {
         return false;
     }
-    const fuel_explosion_data &data = fuel.get_explosion_data();
-
     if( vp.is_broken() ) {
         leak_fuel( here, vp );
+    }
+
+    const fuel_explosion_data &data = ft->get_explosion_data();
+    if( data.is_empty() ) {
+        return false;
     }
 
     int explosion_chance = type == damage_heat ? data.explosion_chance_hot :
@@ -8045,9 +8067,10 @@ bool vehicle::explode_fuel( map &here, vehicle_part &vp, const damage_type_id &t
         explosion_handler::explosion( nullptr, bub_part_pos( here, vp ), pow, 0.7, data.fiery_explosion );
         mod_hp( vp, -vp.hp() );
         vp.ammo_unset();
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_type_id &type )
@@ -8066,10 +8089,15 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
         return break_off( here, vp, dmg );
     }
 
-    int tsh = std::min( 20, vpi.durability / 10 );
-    if( dmg < tsh && type != damage_pure ) {
+    // Parts have a minimum threshold to be damaged, durability/10.
+    int dmg_threshold = std::min( VEH_PART_DMG_REDUCTION_FROM_DURABILITY_CAP, vpi.durability / 10 );
+    if( dmg < dmg_threshold && type != damage_pure ) {
+        // Volatile fuel still has a chance to explode.
         if( type == damage_heat && vp.is_fuel_store() ) {
             explode_fuel( here, vp, type );
+        } else if( vpi.has_flag( "FRAGILE_COMPONENTS" ) && one_in( 5 ) ) {
+            // Then any damage has a chance to cause faults, even if it would be nulled out.
+            vp.base.set_random_fault_of_type( "mechanical_damage" );
         }
 
         return dmg;
@@ -8078,7 +8106,7 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
     if( !type->no_resist ) {
         dmg -= std::min<int>( dmg, vpi.damage_reduction.at( type ) );
     }
-    int dres = dmg - vp.hp();
+    int overkill_dmg = dmg - vp.hp();
     if( mod_hp( vp, -dmg ) ) {
         if( is_flyable() && !rotors.empty() && !vpi.has_flag( VPFLAG_SIMPLE_PART ) ) {
             // If we break a part, we can no longer fly the vehicle.
@@ -8141,7 +8169,7 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
         }
     }
 
-    return std::max( dres, 0 );
+    return std::max( overkill_dmg, 0 );
 }
 
 void vehicle::leak_fuel( map &here, vehicle_part &pt ) const
@@ -8562,15 +8590,18 @@ void vehicle::update_time( map &here, const time_point &update_to )
         const double area_in_mm2 = std::pow( pt.info().bonus, 2 ) * M_PI;
         const int qty = roll_remainder( funnel_charges_per_turn( area_in_mm2, accum_weather.rain_amount ) );
         int c_qty = qty + ( tank->can_reload( water_clean ) ?  tank->ammo_remaining( ) : 0 );
-        int cost_to_purify = c_qty * itype_water_purifier->charges_to_use();
 
         if( qty > 0 ) {
             const std::optional<vpart_reference> vp_purifier = vpart_position( *this, idx )
                     .part_with_tool( here, itype_water_purifier );
+            const int64_t per_use = itype_water_purifier->charges_to_use();
+            const bool can_purify_all = vp_purifier &&
+                                        fuel_left( here, itype_battery ) >=
+                                        static_cast<int64_t>( c_qty ) * per_use;
 
-            if( vp_purifier && ( fuel_left( here, itype_battery ) > cost_to_purify ) ) {
+            if( can_purify_all ) {
+                run_legacy_charge_tool_uses( here, itype_water_purifier, c_qty );
                 tank->ammo_set( itype_water_clean, c_qty );
-                discharge_battery( here, cost_to_purify );
             } else {
                 tank->ammo_set( itype_water, tank->ammo_remaining( ) + qty );
             }

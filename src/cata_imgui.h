@@ -2,6 +2,7 @@
 #include <cstddef>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <vector>
 #include <unordered_map>
 
@@ -113,6 +114,9 @@ void set_scroll( scroll &s );
 void draw_colored_text( const std::string &original_text, const nc_color &color,
                         float wrap_width = 0.0F, bool *is_selected = nullptr,
                         bool *is_focused = nullptr, bool *is_hovered = nullptr );
+#ifndef TUI
+bool clear_pending();
+#endif
 void draw_colored_text( const std::string &original_text, nc_color &color,
                         float wrap_width = 0.0F, bool *is_selected = nullptr,
                         bool *is_focused = nullptr, bool *is_hovered = nullptr );
@@ -143,7 +147,7 @@ class window
         virtual void draw();
         virtual void on_resized() {}
         bool is_bounds_changed();
-        size_t get_text_width( const std::string &text );
+        size_t get_text_width( std::string_view text );
         size_t get_text_height( const char *text );
         size_t str_width_to_pixels( size_t len );
         size_t str_height_to_pixels( size_t len );

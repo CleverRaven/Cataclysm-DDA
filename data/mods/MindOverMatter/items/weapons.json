@@ -18,7 +18,7 @@
     "use_action": {
       "need_wielding": true,
       "target": "grenade_inferno_act",
-      "msg": "You pull the pin on the grenade.",
+      "msg": "You pull the pin on the %s.",
       "target_timer": "5 seconds",
       "menu_text": "Pull pin",
       "type": "transform"
@@ -72,7 +72,7 @@
     "use_action": {
       "need_wielding": true,
       "target": "grenade_inferno_makeshift_act",
-      "msg": "You pull the pin on the grenade.",
+      "msg": "You pull the pin on the %s.",
       "target_timer": "5 seconds",
       "menu_text": "Pull pin",
       "type": "transform"
@@ -148,7 +148,7 @@
     "material": [ "steel", "plastic", "nether_crystal" ],
     "symbol": "*",
     "color": "dark_gray",
-    "use_action": { "type": "message", "message": "The %s is already active, try throwing it instead.", "name": "Push buttons" },
+    "use_action": { "type": "message", "message": "You've already activated the %s, try throwing it instead.", "name": "Push buttons" },
     "countdown_action": { "type": "cast_spell", "spell_id": "grenade_anti_psi_explosion", "no_fail": true, "level": 0 },
     "countdown_interval": "5 seconds",
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],

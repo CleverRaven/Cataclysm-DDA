@@ -146,6 +146,7 @@
     },
     "melee_damage": { "bash": 6 },
     "tool_ammo": [ "battery" ],
+    "power_draw": "600 mW",
     "passive_effects": [
       { "id": "afs_motion_sensor_wield" },
       {
@@ -231,7 +232,12 @@
       "PORTABLE_GAME",
       "E_FILE_DEVICE",
       "EBOOKSAVE",
-      { "type": "mp3", "transform": "afs_atomic_smartphone", "message": "The phone turns off.", "activate": false }
+      {
+        "type": "mp3",
+        "transform": "afs_atomic_smartphone",
+        "message": "You stop listening to music and take your earbuds out.",
+        "activate": false
+      }
     ],
     "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ] }
@@ -305,7 +311,12 @@
       "PORTABLE_GAME",
       "E_FILE_DEVICE",
       "EBOOKSAVE",
-      { "type": "mp3", "transform": "afs_wraitheon_smartphone", "message": "The phone turns off.", "activate": false }
+      {
+        "type": "mp3",
+        "transform": "afs_wraitheon_smartphone",
+        "message": "You stop listening to music and take your earbuds out.",
+        "activate": false
+      }
     ],
     "extend": { "flags": [ "TRADER_AVOID", "SPAWN_ACTIVE" ] },
     "tick_action": [ "MP3_ON" ]
@@ -448,8 +459,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "UPS_OFF",
-    "name": { "str": "UPS", "str_pl": "UPSes" },
-    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn strapped to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.  Has its own custom battery, rechargeable and with higher capacity, but not removable",
+    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn strapped to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.  Has its own custom battery, rechargeable and with higher capacity, but not removable.",
     "sided": true,
     "price": "1300 USD",
     "price_postapoc": "1300 USD",
@@ -471,8 +481,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "UPS_ON",
-    "name": { "str": "UPS", "str_pl": "UPSes" },
-    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn strapped to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.  Has its own custom battery, rechargeable and with higher capacity, but not removable",
+    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn strapped to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.  Has its own custom battery, rechargeable and with higher capacity, but not removable.",
     "sided": true,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1500 } } ],
     "flags": [ "RECHARGE", "BELTED", "NO_UNLOAD", "NO_RELOAD", "FRAGILE", "OVERSIZE", "WATERPROOF", "IS_UPS" ],
@@ -573,7 +582,7 @@
     "revert_to": "control_laptop",
     "use_action": {
       "target": "control_laptop",
-      "msg": "You stop lighting up the screen.",
+      "msg": "You turn off the screen.",
       "ammo_scale": 0,
       "menu_text": "Turn off",
       "type": "transform"
@@ -1048,7 +1057,7 @@
     "color": "light_green",
     "use_action": {
       "target": "afs_atomic_light_off",
-      "msg": "You close the nightlight's cover.",
+      "msg": "You close the lamp's cover.",
       "menu_text": "Close cover",
       "type": "transform"
     },
@@ -1063,12 +1072,7 @@
     "category": "tools",
     "name": { "str": "atomic reading light (covered)", "str_pl": "atomic reading lights (covered)" },
     "description": "A commercially produced reading light, with the gimmick of never having to replace batteries thanks to its nuclear decay powered power source.  Instead of having an on/off switch, there is instead a cover you close over it.",
-    "use_action": {
-      "target": "afs_atomic_light",
-      "msg": "You open the nightlight's cover.",
-      "menu_text": "Open cover",
-      "type": "transform"
-    },
+    "use_action": { "target": "afs_atomic_light", "msg": "You open the lamp's cover.", "menu_text": "Open cover", "type": "transform" },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "ALLOWS_REMOTE_USE" ]
   },
   {

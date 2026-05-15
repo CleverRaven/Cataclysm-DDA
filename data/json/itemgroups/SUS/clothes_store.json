@@ -75,6 +75,7 @@
             "prob": 25
           },
           { "item": "tailors_kit", "prob": 75, "charges": [ 0, -1 ] },
+          { "item": "sewing_machine", "prob": 75 },
           { "item": "electric_spinwheel", "prob": 75 }
         ]
       },

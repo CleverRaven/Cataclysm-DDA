@@ -42,6 +42,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_factory.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
@@ -1604,6 +1605,73 @@ std::string Character::weapname_mode() const
 
 std::string Character::weapname_ammo() const
 {
+    // Per-pocket summary for multimag guns. Single-well aggregation
+    // resolves ammo_capacity(NULL_ID) == 0 on an empty projectile
+    // pocket and prints "/0".
+    if( weapon.uses_firing_requirements() && weapon.is_gun() ) {
+        std::vector<std::string> parts;
+        for( const item_pocket *p : weapon.get_pockets( []( const item_pocket & ) {
+        return true;
+    } ) ) {
+            int cur = 0;
+            int max = 0;
+            if( p->is_type( pocket_type::MAGAZINE_WELL ) ) {
+                if( const item *mag = p->magazine_current() ) {
+                    cur = mag->ammo_remaining( );
+                    const itype *adata = mag->ammo_data();
+                    max = adata
+                          ? mag->ammo_capacity( adata->ammo->type )
+                          : ( !mag->ammo_default().is_null()
+                              ? mag->ammo_capacity( item_controller->find_template(
+                                                        mag->ammo_default() )->ammo->type )
+                              : 0 );
+                } else {
+                    const pocket_data *pd = p->get_pocket_data();
+                    if( pd && !pd->default_magazine.is_null() && pd->default_magazine->magazine ) {
+                        max = pd->default_magazine->magazine->capacity;
+                    }
+                }
+            } else if( p->is_type( pocket_type::MAGAZINE ) ) {
+                for( const item *e : p->all_items_top() ) {
+                    if( e->has_flag( flag_CASING ) ) {
+                        continue;
+                    }
+                    cur += e->charges > 0 ? e->charges : 1;
+                }
+                const pocket_data *pd = p->get_pocket_data();
+                if( pd != nullptr && !pd->ammo_restriction.empty() ) {
+                    max = pd->ammo_restriction.begin()->second;
+                }
+            } else {
+                continue;
+            }
+            nc_color color = c_white;
+            if( cur == 0 ) {
+                color = c_light_red;
+            } else if( max > 0 && cur < max ) {
+                const double ratio = static_cast<double>( cur ) / static_cast<double>( max );
+                if( ratio < 1.0 / 3.0 ) {
+                    color = c_red;
+                } else if( ratio < 2.0 / 3.0 ) {
+                    color = c_yellow;
+                } else {
+                    color = c_light_green;
+                }
+            }
+            parts.emplace_back( colorize( string_format( "%i/%i", cur, max ), color ) );
+        }
+        if( parts.empty() ) {
+            return std::string();
+        }
+        std::string joined;
+        for( size_t i = 0; i < parts.size(); ++i ) {
+            if( i > 0 ) {
+                joined += ", ";
+            }
+            joined += parts[i];
+        }
+        return "(" + joined + ")";
+    }
     if( weapon.is_gun() ) {
         gun_mode current_mode = weapon.gun_current_mode();
         const bool no_mode = !current_mode.target;
@@ -2347,7 +2415,10 @@ bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const 
                 break;
             }
         }
-        const bool allow_wield = !wielded_has_it && weapon.magazine_current() != &it;
+        const std::vector<item *> wielded_mags = weapon.magazines_current();
+        const bool wielded_mag_collision = std::find( wielded_mags.begin(), wielded_mags.end(),
+                                           &it ) != wielded_mags.end();
+        const bool allow_wield = !wielded_has_it && !wielded_mag_collision;
         const int prev_charges = it.charges;
         item_location ni = i_add( it, true, avoid,
                                   original_inventory_item, /*allow_drop=*/false, /*allow_wield=*/allow_wield );
@@ -2497,17 +2568,37 @@ bool Character::unload( item_location &loc, bool bypass_activity,
         }
         return true;
 
-    } else if( target->magazine_current() ) {
-        if( !this->add_or_drop_with_msg( *target->magazine_current(), true, nullptr,
-                                         target->magazine_current() ) ) {
-            return false;
+    } else if( !target->magazines_current().empty() ) {
+        // Snapshot the loaded magazine pointers up front; the vector will shift
+        // as we remove magazines from the wells.
+        std::vector<item *> mags_to_eject = target->magazines_current();
+        if( !bypass_activity && mags_to_eject.size() > 1 ) {
+            std::vector<std::string> mag_msgs;
+            mag_msgs.reserve( mags_to_eject.size() + 1 );
+            for( const item *mag : mags_to_eject ) {
+                mag_msgs.emplace_back( mag->tname() );
+            }
+            mag_msgs.emplace_back( _( "All" ) );
+            const int ret = uilist( _( "Unload which magazine?" ), mag_msgs );
+            if( ret < 0 ) {
+                return false;
+            }
+            if( ret < static_cast<int>( mags_to_eject.size() ) ) {
+                item *picked = mags_to_eject[ret];
+                mags_to_eject = { picked };
+            }
         }
-        // Eject magazine consuming half as much time as required to insert it
-        this->mod_moves( -this->item_reload_cost( *target, *target->magazine_current(), -1 ) / 2 );
+        for( item *mag : mags_to_eject ) {
+            if( !this->add_or_drop_with_msg( *mag, true, nullptr, mag ) ) {
+                return false;
+            }
+            // Eject magazine consuming half as much time as required to insert it
+            this->mod_moves( -this->item_reload_cost( *target, *mag, -1 ) / 2 );
 
-        target->remove_items_with( [&target]( const item & e ) {
-            return target->magazine_current() == &e;
-        } );
+            target->remove_items_with( [mag]( const item & e ) {
+                return &e == mag;
+            } );
+        }
 
     } else if( target->ammo_remaining( ) ) {
         int qty = target->ammo_remaining( );
@@ -2883,9 +2974,9 @@ void Character::store( item &container, item &put, bool penalties, int base_cost
         container.get_container_pockets().size() > 1 ) {
         // Bypass pocket settings (assuming the item is manually stored)
         int charges = put.count_by_charges() ? put.charges : 1;
-        container.fill_with( i_rem( &put ), charges, false, false, true );
+        container.fill_with( i_rem( &put ), charges, false, false, true, false, true, this );
     } else {
-        container.put_in( i_rem( &put ), pk_type );
+        container.put_in( i_rem( &put ), pk_type, false, this );
     }
     calc_encumbrance();
 }

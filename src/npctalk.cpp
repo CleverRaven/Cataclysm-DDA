@@ -192,9 +192,12 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 using item_menu = std::function<item_location( const item_location_filter & )>;
 using item_menu_mul = std::function<drop_locations( const item_location_filter & )>;
 
+// NOLINTNEXTLINE(misc-use-internal-linkage): extern template instantiation of non-anon-ns template
 extern template struct value_or_var<diag_value, eoc_math, string_mutator<translation>>;
 using diag_value_or_var = value_or_var<diag_value, eoc_math, string_mutator<translation>>;
 
+namespace
+{
 struct sub_effect_parser {
     using f_t = talk_effect_fun_t::func( * )( const JsonObject &, std::string_view,
                 std::string_view src );
@@ -244,7 +247,10 @@ struct sub_effect_parser {
     std::function<talk_effect_fun_t( const JsonObject &, std::string_view, std::string_view src, bool )>
     f;
 };
+} // namespace
 
+namespace
+{
 struct item_search_data {
 
     std::vector<str_or_var> id;
@@ -469,6 +475,7 @@ struct item_search_data {
         return true;
     }
 };
+} // namespace
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -517,11 +524,13 @@ static std::vector<effect_on_condition_id> load_eoc_vector( const JsonObject &jo
     return eocs;
 }
 
+namespace
+{
 struct eoc_entry {
     effect_on_condition_id id;
     std::optional<str_or_var> var;
 };
-static std::vector<eoc_entry>
+std::vector<eoc_entry>
 load_eoc_vector_id_and_var(
     const JsonObject &jo, std::string_view member, std::string_view src )
 {
@@ -549,6 +558,7 @@ load_eoc_vector_id_and_var(
     }
     return eocs_entries;
 }
+} // namespace
 
 
 /** Time (in turns) and cost (in cent) for training: */
@@ -659,6 +669,8 @@ int npc_trading::cash_to_favor( const npc &, int cash )
     return roll_remainder( scaled_mission_val );
 }
 
+namespace
+{
 enum npc_chat_menu {
     NPC_CHAT_DONE,
     NPC_CHAT_TALK,
@@ -703,6 +715,7 @@ enum npc_chat_menu {
     NPC_CHAT_ACTIVITIES_VEHICLE_REPAIR,
     NPC_CHAT_ACTIVITIES_UNASSIGN
 };
+} // namespace
 
 // given a vector of NPCs, presents a menu to allow a player to pick one.
 // everyone == true adds another entry at the end to allow selecting all listed NPCs
@@ -2218,8 +2231,10 @@ void dialogue::gen_responses( const talk_topic &the_topic )
 
 static int parse_mod( const_dialogue const &d, const std::string &attribute, const int factor )
 {
-    return d.const_actor( true )->parse_mod( attribute, factor ) +
-           d.const_actor( false )->parse_mod( attribute, factor );
+    const int alpha_mod = d.const_actor( true )->parse_mod( attribute, factor );
+    const int beta_mod = d.const_actor( false )->parse_mod( attribute, factor );
+    add_msg_debug( debugmode::DF_NPC, "Parsed %d and %d", alpha_mod, beta_mod );
+    return alpha_mod + beta_mod;
 }
 
 static int total_price( const_talker const &seller, const itype_id &item_type )
@@ -2249,7 +2264,8 @@ int talk_trial::calc_chance( const_dialogue const &d ) const
     int chance = difficulty;
     switch( type ) {
         case NUM_TALK_TRIALS:
-            dbg( D_ERROR ) << "called calc_chance with invalid talk_trial value: " << type;
+            dbg( D_ERROR ) << "called calc_chance with invalid talk_trial value: "
+                           << static_cast<unsigned int>( type );
             break;
         case TALK_TRIAL_NONE:
             chance = 100;
@@ -2278,8 +2294,13 @@ int talk_trial::calc_chance( const_dialogue const &d ) const
                       d.const_actor( true )->trial_chance_mod( "intimidate" );
             break;
     }
+    add_msg_debug( debugmode::DF_NPC, "\nBase trial chance %d", chance );
     for( const auto &this_mod : modifiers ) {
-        chance += parse_mod( d, this_mod.first, this_mod.second );
+        const int trial_mod_int = parse_mod( d, this_mod.first, this_mod.second );
+        chance += trial_mod_int;
+        // Extra spaces at start for legibility.
+        add_msg_debug( debugmode::DF_NPC, "    %s modified trial chance by %d, now %d",
+                       this_mod.first, trial_mod_int, chance );
     }
 
     return std::max( 0, std::min( 100, chance ) );
@@ -3705,6 +3726,126 @@ talk_effect_fun_t::func f_lose_bionic( const JsonObject &jo, std::string_view me
     };
 }
 
+talk_effect_fun_t::func f_pick_bodypart( const JsonObject &jo, std::string_view member,
+        std::string_view, bool is_npc )
+{
+    var_info var = read_var_info( jo.get_object( member ) );
+
+    std::optional<str_or_var> whitelist_flag;
+    optional( jo, false, "whitelist_flag", whitelist_flag );
+    std::optional<str_or_var> blacklist_flag;
+    optional( jo, false, "blacklist_flag", blacklist_flag );
+
+    std::vector<str_or_var> whitelist_type;
+    std::vector<str_or_var> blacklist_type;
+
+    if( jo.has_array( "whitelist_type" ) ) {
+        for( JsonValue jv : jo.get_array( "whitelist_type" ) ) {
+            whitelist_type.emplace_back( get_str_or_var( jv, member ) );
+        }
+    }
+
+    if( jo.has_array( "blacklist_type" ) ) {
+        for( JsonValue jv : jo.get_array( "blacklist_type" ) ) {
+            blacklist_type.emplace_back( get_str_or_var( jv, member ) );
+        }
+    }
+    std::optional<bool> wounded;
+    if( jo.has_bool( "wounded" ) ) {
+        wounded = jo.get_bool( "wounded" );
+    }
+
+    const bool pick_random = jo.get_bool( "pick_random", false );
+
+    const bool allow_cancel = jo.get_bool( "allow_cancel", false );
+
+    translation title = to_translation( "Select an option." );
+    jo.read( "title", title );
+
+    return [is_npc, var, whitelist_flag, blacklist_flag, whitelist_type,
+            blacklist_type, wounded, pick_random, allow_cancel, title]( dialogue & d ) {
+
+        std::vector<bodypart_id> final_bp;
+        for( const bodypart_id &bp_id : d.actor( is_npc )->get_all_body_parts(
+                 get_body_part_flags::only_main | get_body_part_flags::sorted ) ) {
+
+            // doesn't have bp type we want
+            for( const str_or_var &bp_type_var : whitelist_type ) {
+                const bp_type type = io::string_to_enum<bp_type>( bp_type_var.evaluate( d ) );
+                if( !bp_id->has_type( type ) ) {
+                    continue;
+                }
+            }
+
+            // has no flag we want
+            if( whitelist_flag.has_value() &&
+                !bp_id->has_flag( json_character_flag( whitelist_flag.value().evaluate( d ) ) ) ) {
+                continue;
+            }
+
+            // has type we do not want
+            for( const str_or_var &bp_type_var : blacklist_type ) {
+                const bp_type type = io::string_to_enum<bp_type>( bp_type_var.evaluate( d ) );
+                if( bp_id->has_type( type ) ) {
+                    continue;
+                }
+            }
+
+            // has flag we do not want
+            if( blacklist_flag.has_value() &&
+                bp_id->has_flag( json_character_flag( blacklist_flag.value().evaluate( d ) ) ) ) {
+                continue;
+            }
+
+            if( wounded.has_value() ) {
+                Character *you = d.actor( is_npc )->get_character();
+
+                if( wounded.value() && !you->get_part( bp_id )->has_wounds() ) {
+                    // ask for wounded bp, but bp is not wounded
+                    continue;
+                }
+
+                if( !wounded.value() && you->get_part( bp_id )->has_wounds() ) {
+                    // ask for healthy bp, but bp is wounded
+                    continue;
+                }
+
+            }
+
+            final_bp.emplace_back( bp_id );
+        }
+
+        if( final_bp.empty() ) {
+            return;
+        }
+
+        // pick_random, or list contain only 1 bodypart, or talker is not avatar
+        if( pick_random || final_bp.size() == 1 || !d.actor( is_npc )->get_character()->is_avatar() ) {
+            const bodypart_id picked_bp = random_entry( final_bp );
+            write_var_value( var.type, var.name, &d, picked_bp.id().str() );
+            return;
+        }
+
+        uilist list;
+        list.allow_cancel = allow_cancel;
+        list.title = title.translated();
+
+        for( const bodypart_id &bp : final_bp ) {
+            list.addentry( MENU_AUTOASSIGN, true, MENU_AUTOASSIGN, body_part_name( bp ) );
+        }
+
+        list.query();
+
+        if( list.ret < 0 ) {
+            return;
+        }
+
+        const bodypart_id picked_bp = final_bp[list.ret];
+        write_var_value( var.type, var.name, &d, picked_bp.id().str() );
+    };
+}
+
+
 talk_effect_fun_t::func f_add_var( const JsonObject &jo, std::string_view member,
                                    std::string_view, bool is_npc )
 {
@@ -3760,6 +3901,9 @@ void receive_item( const itype_id &item_id, int count, const itype_id &container
                    const tripoint_abs_ms &p = tripoint_abs_ms::zero, bool force_equip = false )
 {
     item new_item = item( item_id, calendar::turn );
+    if( new_item.has_flag( flag_PRESERVE_SPAWN_LOC ) ) {
+        new_item.preserve_location( p );
+    }
     for( const std::string &flag : flags ) {
         new_item.set_flag( flag_id( flag ) );
     }
@@ -3821,6 +3965,9 @@ void receive_item_group( const item_group_id &group_id, const dialogue &d, bool 
     for( item &new_item : new_items ) {
         for( const std::string &flag : flags ) {
             new_item.set_flag( flag_id( flag ) );
+        }
+        if( new_item.has_flag( flag_PRESERVE_SPAWN_LOC ) ) {
+            new_item.preserve_location( p );
         }
         if( add_talker ) {
             d.actor( false )->i_add_or_drop( new_item, force_equip );
@@ -4630,7 +4777,7 @@ talk_effect_fun_t::func f_explosion( const JsonObject &jo, std::string_view memb
 talk_effect_fun_t::func f_query_tile( const JsonObject &jo, std::string_view member,
                                       std::string_view, bool is_npc )
 {
-    std::string type = jo.get_string( member.data() );
+    std::string type = jo.get_string( member );
     var_info target_var = read_var_info( jo.get_object( "target_var" ) );
     std::string message;
     if( jo.has_member( "message" ) ) {
@@ -6091,7 +6238,8 @@ talk_effect_fun_t::func f_set_fault( const JsonObject &jo, std::string_view memb
     bool msg = jo.get_bool( "message", true );
     return [fault_var, force, msg, is_npc]( dialogue const & d ) {
         item_location &it = *d.actor( is_npc )->get_item();
-        it.get_item()->set_fault( fault_id( fault_var.evaluate( d ) ), force, msg );
+        const Character *holder = msg ? d.actor( is_npc )->get_character() : nullptr;
+        it.get_item()->set_fault( fault_id( fault_var.evaluate( d ) ), force, holder );
     };
 }
 
@@ -6103,7 +6251,8 @@ talk_effect_fun_t::func f_set_random_fault_of_type( const JsonObject &jo, std::s
     bool msg = jo.get_bool( "message", true );
     return [fault_type_var, force, msg, is_npc]( dialogue const & d ) {
         item_location &it = *d.actor( is_npc )->get_item();
-        it.get_item()->set_random_fault_of_type( fault_type_var.evaluate( d ), force, msg );
+        const Character *holder = msg ? d.actor( is_npc )->get_character() : nullptr;
+        it.get_item()->set_random_fault_of_type( fault_type_var.evaluate( d ), force, holder );
     };
 }
 
@@ -7078,7 +7227,7 @@ talk_effect_fun_t::func f_switch( const JsonObject &jo, std::string_view member,
 talk_effect_fun_t::func f_foreach( const JsonObject &jo, std::string_view member,
                                    std::string_view src )
 {
-    std::string type = jo.get_string( member.data() );
+    std::string type = jo.get_string( member );
     var_info itr = read_var_info( jo.get_object( "var" ) );
     talk_effect_t effect;
     effect.load_effect( jo, "effect", src );
@@ -7129,7 +7278,7 @@ talk_effect_fun_t::func f_foreach( const JsonObject &jo, std::string_view member
         }
 
         for( std::string_view str : list ) {
-            write_var_value( itr.type, itr.name, &d, str.data() );
+            write_var_value( itr.type, itr.name, &d, std::string{ str } );
             effect.apply( d );
         }
     };
@@ -7858,7 +8007,7 @@ talk_effect_fun_t::func f_pickup_items( const JsonObject &jo, std::string_view m
         extra_moves_per_item = jo.get_int( "extra_moves_per_item" );
     }
     if( jo.has_float( "max_volume" ) ) {
-        max_volume =  units::from_liter( jo.get_float( "max_volume" ) );
+        max_volume =  units::from_milliliter( jo.get_float( "max_volume" ) );
     }
     if( jo.has_float( "max_mass" ) ) {
         max_mass = units::from_gram( jo.has_float( "max_mass" ) );
@@ -8041,7 +8190,7 @@ talk_effect_fun_t::func f_wants_to_talk( bool is_npc )
 talk_effect_fun_t::func f_trigger_event( const JsonObject &jo, std::string_view member,
         std::string_view )
 {
-    std::string const type_str = jo.get_string( member.data() );
+    std::string const type_str = jo.get_string( member );
     JsonArray const &jargs = jo.get_array( "args" );
 
     event_type type = io::string_to_enum<event_type>( type_str );
@@ -8240,6 +8389,7 @@ parsers = {
     { "u_sell_item", jarg::member, &talk_effect_fun::f_u_sell_item },
     { "u_buy_item", jarg::member, &talk_effect_fun::f_u_buy_item },
     { "u_spawn_item", jarg::member, &talk_effect_fun::f_spawn_item },
+    { "u_pick_bodypart", "npc_pick_bodypart", jarg::member, &talk_effect_fun::f_pick_bodypart },
     { "toggle_npc_rule", jarg::member, &talk_effect_fun::f_toggle_npc_rule },
     { "set_npc_rule", jarg::member, &talk_effect_fun::f_set_npc_rule },
     { "clear_npc_rule", jarg::member, &talk_effect_fun::f_clear_npc_rule },
@@ -9136,7 +9286,7 @@ std::string npc::pick_talk_topic( const Character &/*u*/ )
     return chatbin.talk_stranger_neutral;
 }
 
-std::string const &npc::get_specified_talk_topic( std::string const &topic_id )
+std::string npc::get_specified_talk_topic( std::string const &topic_id )
 {
     static const dialogue_chatbin default_chatbin;
     std::vector<std::pair<std::string const &, std::string const &>> const talk_topics = {

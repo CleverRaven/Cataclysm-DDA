@@ -1,0 +1,67 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "occult_research_intro",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_RESEARCH",
+    "difficulty": 1,
+    "time": "2h",
+    "autolearn": true,
+    "skill_used": "deduction",
+    "using": [ [ "writing_standard", 1 ] ],
+    "components": [ [ [ "paper", 10 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_occult_exploration", "time_multiplier": 2, "skill_penalty": 1, "required": false } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "occult_research_minor",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_RESEARCH",
+    "difficulty": 2,
+    "time": "4h",
+    "autolearn": true,
+    "skill_used": "deduction",
+    "using": [ [ "writing_standard", 1 ] ],
+    "components": [ [ [ "paper", 20 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_occult_exploration", "time_multiplier": 4, "skill_penalty": 1, "required": false } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "study occult research notes",
+    "id": "study_occult_research",
+    "description": "There's more you could learn from those notes you took.  You just need to go over them again and separate the truth from the nonsense.",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_RESEARCH",
+    "difficulty": 3,
+    "time": "6 h",
+    "autolearn": true,
+    "components": [ [ [ "occult_research_minor", 1 ] ] ],
+    "skill_used": "deduction",
+    "flags": [ "BLIND_HARD" ],
+    "proficiencies": [ { "proficiency": "prof_occult_exploration", "time_multiplier": 3, "required": false } ],
+    "result_eocs": [
+      {
+        "id": "EOC_STUDY_OCCULT_RESEARCH_NOTES",
+        "condition": { "roll_contested": { "math": [ "u_skill('deduction') + rng(-2,8) + rng(-2,8)" ] }, "difficulty": 10 },
+        "effect": [
+          {
+            "u_message": "You were right, there is something here!  If you compiled a reference for all your notes, you'd have the foundation for a greater exploration of the Unseen World.",
+            "type": "good"
+          },
+          { "u_spawn_item": "used_occult_notes", "suppress_message": true },
+          { "u_learn_recipe": "magical_grimoire_apprentice" }
+        ],
+        "false_effect": [
+          {
+            "u_message": "You really thought you had something here, but it's just a dead end.  You'll have to try again with a new approach.",
+            "type": "bad"
+          },
+          { "u_spawn_item": "used_occult_notes", "suppress_message": true }
+        ]
+      }
+    ]
+  }
+]

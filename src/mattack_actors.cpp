@@ -386,6 +386,14 @@ bool mon_spellcasting_actor::call( monster &mon ) const
     spell spell_instance = spell_data.get_spell( mon );
     spell_instance.set_message( spell_data.trigger_message );
 
+    if( !spell_data.self && !allow_no_target ) {
+        Creature *tgt_creature = get_creature_tracker().creature_at( target );
+        if( tgt_creature && mon.is_underwater() && !tgt_creature->is_underwater() &&
+            get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_SWIM_UNDER, mon.pos_bub() ) ) {
+            return false;
+        }
+    }
+
     // Bail out if the target is out of range.
     if( !spell_data.self && rl_dist( mon.pos_bub(), target ) > spell_instance.range( mon ) ) {
         return false;
@@ -806,6 +814,11 @@ bool melee_actor::call( monster &z ) const
 
     Creature *target = find_target( z );
     if( target == nullptr ) {
+        return false;
+    }
+
+    if( z.is_underwater() && !target->is_underwater() &&
+        here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SWIM_UNDER, z.pos_bub() ) ) {
         return false;
     }
 
@@ -1284,7 +1297,7 @@ int gun_actor::get_max_range()  const
 {
     int max_range = 0;
     for( const auto &e : ranges ) {
-        max_range = std::max( std::max( max_range, e.first.first ), e.first.second );
+        max_range = std::max( { max_range, e.first.first, e.first.second } );
     }
 
     add_msg_debug( debugmode::DF_MATTACK, "Max range %d", max_range );
@@ -1338,6 +1351,11 @@ bool gun_actor::call( monster &z ) const
             }
             aim_at = random_entry( moving_veh_parts, tripoint_bub_ms() );
         }
+    }
+
+    if( target && z.is_underwater() && !target->is_underwater() &&
+        here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SWIM_UNDER, z.pos_bub() ) ) {
+        return false;
     }
 
     const int dist = rl_dist( z.pos_bub(), aim_at );

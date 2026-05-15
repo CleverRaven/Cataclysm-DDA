@@ -7,6 +7,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
 #include "game.h"
@@ -25,7 +26,9 @@
 
 static const itype_id itype_aspirin( "aspirin" );
 static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_backpack_hiking( "backpack_hiking" );
 static const itype_id itype_bag_plastic( "bag_plastic" );
+static const itype_id itype_halligan( "halligan" );
 static const itype_id itype_knife_combat( "knife_combat" );
 static const itype_id itype_knife_hunting( "knife_hunting" );
 static const itype_id itype_metal_tank( "metal_tank" );
@@ -419,4 +422,42 @@ TEST_CASE( "Wield_time_test", "[wield]" )
         wield_check_from_ground( guy, itype_metal_tank, 300 );
         clear_character( guy );
     }
+}
+
+// Storing the wielded weapon into a worn container via dispose_item's
+// "Store in <bag>" path must refresh inv_search_caches; otherwise cached
+// lookups miss the item.
+TEST_CASE( "unwield_to_pocket_preserves_inventory_cache",
+           "[wield][inventory_cache]" )
+{
+    clear_map_without_vision();
+    Character &they = get_avatar();
+    clear_character( they );
+
+    item backpack( itype_backpack_hiking );
+    auto iter = they.worn.wear_item( they, backpack, false, false );
+    REQUIRE( iter.has_value() );
+    item_location backpack_loc( they, & **iter );
+    REQUIRE( backpack_loc );
+
+    item halligan( itype_halligan );
+    REQUIRE( backpack_loc->can_contain( halligan ).success() );
+    REQUIRE( they.wield( halligan ) );
+    REQUIRE( they.is_armed() );
+
+    // Prime "HAS TYPE halligan" cache while wielded. The cache stores an
+    // item_location pointing into the wield slot; that reference dies once
+    // the item is moved out.
+    REQUIRE( they.cache_has_item_with( itype_halligan ) );
+
+    // Mimic the exact call dispose_item makes for "Store in <worn bag>".
+    item &wielded_ref = *they.get_wielded_item();
+    they.store( *backpack_loc, wielded_ref, false,
+                backpack_loc->insert_cost( wielded_ref ),
+                pocket_type::CONTAINER, true );
+
+    REQUIRE_FALSE( they.is_armed() );
+    REQUIRE( backpack_loc->num_item_stacks() == 1 );
+
+    CHECK( they.cache_has_item_with( itype_halligan ) );
 }

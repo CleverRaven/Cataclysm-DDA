@@ -176,7 +176,6 @@ static const trait_id trait_DEBUG_MANA( "DEBUG_MANA" );
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
-static const trait_id trait_DEBUG_PHASE_MOVEMENT( "DEBUG_PHASE_MOVEMENT" );
 static const trait_id trait_DEBUG_SPEED( "DEBUG_SPEED" );
 static const trait_id trait_DEBUG_STAMINA( "DEBUG_STAMINA" );
 static const trait_id trait_NONE( "NONE" );
@@ -537,7 +536,7 @@ class mission_debug
 // Used for quick setup
 static std::vector<trait_id> setup_traits{trait_DEBUG_BIONICS, trait_DEBUG_CLAIRVOYANCE, trait_DEBUG_CLOAK,
            trait_DEBUG_HS, trait_DEBUG_LIGHT, trait_DEBUG_LS, trait_DEBUG_MANA, trait_DEBUG_MIND_CONTROL,
-           trait_DEBUG_NODMG, trait_DEBUG_NOTEMP, trait_DEBUG_PHASE_MOVEMENT, trait_DEBUG_STAMINA, trait_DEBUG_SPEED};
+           trait_DEBUG_NODMG, trait_DEBUG_NOTEMP, trait_DEBUG_STAMINA, trait_DEBUG_SPEED};
 
 static std::string first_word( const std::string &str )
 {
@@ -2277,8 +2276,9 @@ static void character_edit_desc_menu( Character &you )
         break;
         case 2: {
             int result = you.base_age();
-            if( query_int( result, true, _( "Enter age in years.  Minimum 16, maximum 55" ) ) && result > 0 ) {
-                you.set_base_age( clamp( result, 16, 55 ) );
+            if( query_int( result, true, _( "Enter age in years.  Minimum %d, maximum %d" ), CHARACTER_AGE_MIN,
+                           CHARACTER_AGE_MAX ) && result > 0 ) {
+                you.set_base_age( clamp( result, CHARACTER_AGE_MIN, CHARACTER_AGE_MAX ) );
             }
         }
         break;
@@ -2654,7 +2654,7 @@ static void character_edit_menu()
         case D_MISSION_ADD: {
             uilist types;
             types.text = _( "Choose mission type" );
-            const auto all_missions = mission_type::get_all();
+            const auto &all_missions = mission_type::get_all();
             std::vector<const mission_type *> mts;
             for( size_t i = 0; i < all_missions.size(); i++ ) {
                 types.addentry( i, true, -1, all_missions[i].tname() );
@@ -2890,11 +2890,13 @@ static void faction_edit_menu()
          << string_format( _( "Trust: %d" ), fac->trusts_u ) << std::endl;
     data << string_format( _( "Known by you: %s" ), fac->known_by_u ? "true" : "false" ) << " | "
          << string_format( _( "Lone wolf: %s" ), fac->lone_wolf_faction ? "true" : "false" ) << std::endl;
+    data << string_format( _( "Steal mode: %s" ),
+                           fac->steal_persist ? ( *fac->steal_persist ? "thief" : "honest" ) : "ask" ) << std::endl;
 
     nmenu.text = data.str();
 
     enum {
-        D_WEALTH, D_SIZE, D_POWER, D_FOOD, D_OPINION, D_KNOWN, D_LONE
+        D_WEALTH, D_SIZE, D_POWER, D_FOOD, D_OPINION, D_KNOWN, D_LONE, D_THIEF
     };
     nmenu.addentry( D_WEALTH, true, 'w', "%s", _( "Set wealth" ) );
     nmenu.addentry( D_SIZE, true, 's', "%s", _( "Set size" ) );
@@ -2903,6 +2905,7 @@ static void faction_edit_menu()
     nmenu.addentry( D_OPINION, true, 'o', "%s", _( "Set opinions" ) );
     nmenu.addentry( D_KNOWN, true, 'k', "%s", _( "Toggle Known by you" ) );
     nmenu.addentry( D_LONE, true, 'l', "%s", _( "Toggle Lone wolf" ) );
+    nmenu.addentry( D_THIEF, true, 't', "%s", _( "Reset steal mode" ) );
 
     nmenu.query();
     int value;
@@ -2936,6 +2939,9 @@ static void faction_edit_menu()
             break;
         case D_LONE:
             fac->lone_wolf_faction = !fac->lone_wolf_faction;
+            break;
+        case D_THIEF:
+            fac->steal_persist = std::nullopt;
             break;
     }
 }
@@ -3183,7 +3189,8 @@ static void debug_menu_game_state()
             creature_names_sorted.emplace_back( it );
         }
 
-        std::stable_sort( creature_names_sorted.begin(), creature_names_sorted.end(), []( auto a, auto b ) {
+        std::stable_sort( creature_names_sorted.begin(), creature_names_sorted.end(),
+        []( const auto & a, const auto & b ) {
             return a.second > b.second;
         } );
 
@@ -3308,7 +3315,7 @@ static void display_talk_topic()
             }
             talk_topic_menu.query();
             if( talk_topic_menu.ret >= 0 && talk_topic_menu.ret < static_cast<int>( dialogue_ids.size() ) ) {
-                const std::string selected_topic = dialogue_ids[talk_topic_menu.ret];
+                const std::string &selected_topic = dialogue_ids[talk_topic_menu.ret];
                 a.talk_to( get_talker_for( selected_npc ), false, false, false, selected_topic );
             }
         }

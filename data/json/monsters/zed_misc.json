@@ -1041,5 +1041,58 @@
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "zombie_fursuits", 100 ] ] },
     "armor": { "bash": 5, "cut": 5, "bullet": 1, "electric": 1 },
     "//": "The torn fursuit offers slightly more protection."
+  },
+  {
+    "id": "mon_zombie_rot_grabber",
+    "type": "MONSTER",
+    "name": { "str": "decayed grasper" },
+    "description": "A once-dead human corpse, moving despite seeming like it could fall apart into putrescence at any moment.  It slowly crawls along the ground with an eerily-fluid motion.",
+    "copy-from": "mon_zombie_base",
+    "hp": 55,
+    "speed": 30,
+    "color": "light_green_yellow",
+    "melee_skill": 1,
+    "melee_dice_sides": 2,
+    "grab_strength": 50,
+    "vision_day": 15,
+    "fungalize_into": "mon_zombie_rot_dusted",
+    "upgrades": false,
+    "//": "No PARROT is deliberate, it's in no condition to speak",
+    "special_attacks": [
+      { "id": "bite_humanoid", "cooldown": 5 },
+      { "id": "scratch_humanoid" },
+      {
+        "id": "grab",
+        "accuracy": 4,
+        "move_cost": 25,
+        "cooldown": 2,
+        "attack_upper": false,
+        "hit_dmg_u": "%1$s winds its limbs around your %2$s!",
+        "hit_dmg_npc": "%1$s winds its limbs around <npcname>'s %2$s!"
+      }
+    ],
+    "extend": { "flags": [ "GEN_DORMANT" ] }
+  },
+  {
+    "id": "mon_zombie_rot_diseased",
+    "type": "MONSTER",
+    "name": { "str": "zombie plaguebearer" },
+    "description": "The skin of this walking corpses glistens with disturbing fluids.  Even at a distance, the smell nearly makes you gag.",
+    "copy-from": "mon_zombie_base",
+    "hp": 65,
+    "speed": 70,
+    "color": "light_green_yellow",
+    "melee_skill": 3,
+    "melee_dice_sides": 2,
+    "grab_strength": 50,
+    "attack_effs": [ { "id": "pre_flu", "duration": 432000, "chance": 2 }, { "id": "rat_bite_fever", "duration": 345600, "chance": 3 } ],
+    "fungalize_into": "mon_zombie_rot_dusted",
+    "emit_fields": [ { "emit_id": "emit_nauseating_smell", "delay": "1 s" } ],
+    "upgrades": false,
+    "special_attacks": [
+      { "id": "bite_humanoid", "cooldown": 5, "infection_chance": 95 },
+      { "id": "grab", "cooldown": 2 },
+      { "id": "scratch_humanoid" }
+    ]
   }
 ]

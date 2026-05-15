@@ -32,6 +32,8 @@ static ImGuiKey cata_key_to_imgui( int cata_key );
 
 #include "color_loader.h"
 
+namespace
+{
 struct RGBTuple {
     uint8_t Blue;
     uint8_t Green;
@@ -46,6 +48,7 @@ struct pairs {
 ImVec4 impalette[256] = {};
 std::array<RGBTuple, color_loader<RGBTuple>::COLOR_NAMES_COUNT> rgbPalette;
 std::array<pairs, 100> colorpairs;   //storage for paired colors
+} // namespace
 
 static ImVec4 compute_color( uint8_t index )
 {
@@ -89,7 +92,10 @@ ImVec4 cataimgui::imvec4_from_color( const nc_color &color )
     return impalette[palette_index];
 }
 
+namespace
+{
 std::vector<std::pair<int, ImTui::mouse_event>> imtui_events;
+} // namespace
 
 static int GetFallbackStrWidth( const char *s_begin, const char *s_end,
                                 const float scale )
@@ -201,14 +207,14 @@ void cataimgui::client::process_input( void *input )
                         break;
                 }
             }
-            imtui_events.push_back( std::pair<int, ImTui::mouse_event>( KEY_MOUSE, new_mouse_event ) );
+            imtui_events.emplace_back( KEY_MOUSE, new_mouse_event );
         } else {
             int ch = curses_input->get_first_input();
             if( ch != UNKNOWN_UNICODE ) {
                 if( ch > 127 && ch < 245 ) { // Values between 127 and 245 indicate UTF-8
                     ch = utf8_wrapper( curses_input->text ).at( 0 );
                 }
-                imtui_events.push_back( std::pair<int, ImTui::mouse_event>( ch, new_mouse_event ) );
+                imtui_events.emplace_back( ch, new_mouse_event );
             }
         }
     }
@@ -247,8 +253,15 @@ RGBTuple color_loader<RGBTuple>::from_rgb( const int r, const int g, const int b
 #include "sdltiles.h"
 #include "font_loader.h"
 #include "wcwidth.h"
+#if SDL_MAJOR_VERSION >= 3
+#include <imgui/imgui_impl_sdl3.h>
+#include <imgui/imgui_impl_sdlrenderer3.h>
+#else
 #include <imgui/imgui_impl_sdl2.h>
 #include <imgui/imgui_impl_sdlrenderer2.h>
+#endif
+
+static bool clear_screen = false;
 
 ImVec4 cataimgui::imvec4_from_color( const nc_color &color )
 {
@@ -287,8 +300,13 @@ cataimgui::client::client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Windo
     // Default cellPadding is {4, 2}. We reduce this to {3, 2}.
     ImGui::PushStyleVar( ImGuiStyleVar_CellPadding, ImVec2( 3, style.CellPadding.y ) );
 
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDL3_InitForSDLRenderer( sdl_window.get(), sdl_renderer.get() );
+    ImGui_ImplSDLRenderer3_Init( sdl_renderer.get() );
+#else
     ImGui_ImplSDL2_InitForSDLRenderer( sdl_window.get(), sdl_renderer.get() );
     ImGui_ImplSDLRenderer2_Init( sdl_renderer.get() );
+#endif
 }
 
 // this function QUEUES a character to be drawn
@@ -381,6 +399,7 @@ static void AddGlyphRangesMisc( UNUSED ImFontGlyphRangesBuilder *b )
     // NOLINTNEXTLINE(modernize-avoid-c-arrays)
     static ImWchar superscripts[] = { 0x00B9, 0x00B9, 0x00B2, 0x00B3, 0x2070, 0x208E, 0x0000 };
     b->AddRanges( &superscripts[0] );
+    b->AddChar( 0x2022 ); // bullet point, used in crafting ui
 }
 
 
@@ -464,17 +483,19 @@ void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
             load_font( io, gui_typefaces, ranges.begin(),
                        static_cast<float>( lroundf( fontheight * 1.5f ) ) );
         }
+        io.Fonts->Build();
         for( int i = 0; i < io.Fonts->Fonts.Size; i++ ) {
+            check_font( io.Fonts->Fonts[i] );
             io.Fonts->Fonts[i]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
             io.Fonts->Fonts[i]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
             io.Fonts->Fonts[i]->SetRenderFallbackCharCallback( CanRenderFallbackChar );
         }
-        io.Fonts->Build();
-        for( int i = 0; i < io.Fonts->Fonts.Size; i++ ) {
-            check_font( io.Fonts->Fonts[i] );
-        }
         ImGui::SetCurrentFont( ImGui::GetDefaultFont() );
+#if SDL_MAJOR_VERSION >= 3
+        ImGui_ImplSDLRenderer3_SetFallbackGlyphDrawCallback( [&]( const ImFontGlyphToDraw & glyph ) {
+#else
         ImGui_ImplSDLRenderer2_SetFallbackGlyphDrawCallback( [&]( const ImFontGlyphToDraw & glyph ) {
+#endif
             std::string uni_string = std::string( glyph.uni_str );
             point p( int( glyph.pos.x ), int( glyph.pos.y - 3 ) );
             unsigned char col = 0;
@@ -489,7 +510,11 @@ void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
 
 cataimgui::client::~client()
 {
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDL3_Shutdown();
+#else
     ImGui_ImplSDL2_Shutdown();
+#endif
 }
 
 #if 0 and not TUI
@@ -585,12 +610,26 @@ void cataimgui::client::new_frame()
 #if 0 and not TUI
     if( freetype_test.PreNewFrame() ) {
         // REUPLOAD FONT TEXTURE TO GPU
+#if SDL_MAJOR_VERSION >= 3
+        ImGui_ImplSDLRenderer3_DestroyDeviceObjects();
+        ImGui_ImplSDLRenderer3_CreateDeviceObjects();
+#else
         ImGui_ImplSDLRenderer2_DestroyDeviceObjects();
         ImGui_ImplSDLRenderer2_CreateDeviceObjects();
+#endif
     }
 #endif
+    if( clear_screen ) {
+        clear_screen = false;
+        clear_sdl_window();
+    }
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDLRenderer3_NewFrame();
+    ImGui_ImplSDL3_NewFrame();
+#else
     ImGui_ImplSDLRenderer2_NewFrame();
     ImGui_ImplSDL2_NewFrame();
+#endif
 
     ImGui::NewFrame();
 #if 0 and not TUI
@@ -601,12 +640,21 @@ void cataimgui::client::new_frame()
 void cataimgui::client::end_frame()
 {
     ImGui::Render();
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDLRenderer3_RenderDrawData( ImGui::GetDrawData(), sdl_renderer.get() );
+#else
     ImGui_ImplSDLRenderer2_RenderDrawData( ImGui::GetDrawData(), sdl_renderer.get() );
+#endif
     ImGuiIO &io = ImGui::GetIO();
     for( const int &code : cata_input_trail ) {
         io.AddKeyEvent( cata_key_to_imgui( code ), false );
     }
     cata_input_trail.clear();
+}
+
+bool cataimgui::clear_pending()
+{
+    return clear_screen;
 }
 
 void cataimgui::client::process_input( void *input )
@@ -616,14 +664,18 @@ void cataimgui::client::process_input( void *input )
         bool no_mouse = ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_NoMouse;
         if( no_mouse ) {
             switch( evt->type ) {
-                case SDL_MOUSEMOTION:
-                case SDL_MOUSEWHEEL:
-                case SDL_MOUSEBUTTONDOWN:
-                case SDL_MOUSEBUTTONUP:
+                case CATA_MOUSEMOTION:
+                case CATA_MOUSEWHEEL:
+                case CATA_MOUSEBUTTONDOWN:
+                case CATA_MOUSEBUTTONUP:
                     return;
             }
         }
+#if SDL_MAJOR_VERSION >= 3
+        ImGui_ImplSDL3_ProcessEvent( evt );
+#else
         ImGui_ImplSDL2_ProcessEvent( evt );
+#endif
     }
 }
 
@@ -900,6 +952,10 @@ cataimgui::window::~window()
         if( !ui_adaptor::has_imgui() ) {
             ImGui::GetIO().ClearInputKeys();
             GImGui->InputEventsQueue.resize( 0 );
+#ifdef TILES
+            // Removes leftover ImGui artifacts
+            clear_screen = true;
+#endif
         }
     }
 }
@@ -909,10 +965,10 @@ bool cataimgui::window::is_bounds_changed()
     return p_impl->is_resized;
 }
 
-size_t cataimgui::window::get_text_width( const std::string &text )
+size_t cataimgui::window::get_text_width( std::string_view text )
 {
 #ifndef TUI
-    return ImGui::CalcTextSize( text.c_str() ).x;
+    return ImGui::CalcTextSize( text.data(), text.data() + text.size() ).x;
 #else
     return utf8_width( text );
 #endif

@@ -679,7 +679,7 @@ class hacksaw_activity_actor : public activity_actor
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
-        int moves_left;
+        int moves_left = 0;
         // debugmsg causes a backtrace when fired during cata_test
         bool testing = false;  // NOLINT(cata-serialize)
     private:
@@ -1958,11 +1958,14 @@ class unload_activity_actor : public activity_actor
 
 class craft_activity_actor : public activity_actor
 {
+    public:
+        enum class mode : uint8_t { active, waiting };
     private:
         craft_activity_actor() = default;
 
         item_location craft_item;
         bool is_long;
+        mode mode_ = mode::active;
 
         float activity_override = NO_EXERCISE;
         std::optional<requirement_data> cached_continuation_requirements; // NOLINT(cata-serialize)
@@ -1979,7 +1982,8 @@ class craft_activity_actor : public activity_actor
 
         const activity_id &get_type() const override {
             static const activity_id ACT_CRAFT( "ACT_CRAFT" );
-            return ACT_CRAFT;
+            static const activity_id ACT_CRAFT_WAIT( "ACT_CRAFT_WAIT" );
+            return mode_ == mode::waiting ? ACT_CRAFT_WAIT : ACT_CRAFT;
         }
 
         void start( player_activity &act, Character &crafter ) override;
@@ -2245,6 +2249,9 @@ class reload_activity_actor : public activity_actor
         int quantity = 0;
         int seconds_per_round = 0;
         int already_loaded = 0;
+        // MAGAZINE_WELL pocket index in target_loc->contents. Negative =
+        // first-compatible-well fallback.
+        int pocket_index = -1;
         // cache ammo because reloading deletes the location
         itype_id ammo_id; // NOLINT(cata-serialize)
         item_location target_loc;
@@ -2424,7 +2431,7 @@ class insert_item_activity_actor : public activity_actor
         item_location holster;
         drop_locations items;
         contents_change_handler handler;
-        bool all_pockets_rigid;
+        bool all_pockets_rigid = false;
         bool reopen_menu;
         // allow put charge items into holster's nested pocket
         bool allow_fill_count_by_charge_item_nested;

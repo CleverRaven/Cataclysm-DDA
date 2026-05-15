@@ -828,6 +828,21 @@
   },
   {
     "type": "effect_type",
+    "id": "no_power_eyes",
+    "name": [ "Low Power" ],
+    "desc": [ "You're low on power.  Your eyes are operating in emergency mode and have limited function." ],
+    "rating": "bad",
+    "max_duration": "10 s",
+    "base_mods": { "per_mod": [ -2 ] },
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.5 },
+      { "limb_score": "night_vis", "modifier": 0.5 },
+      { "limb_score": "reaction", "modifier": 0.5 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "darkness",
     "apply_message": "Your vision flickers and goes gray!",
     "remove_message": "The world flickers back to normality.",
@@ -3132,6 +3147,24 @@
   },
   {
     "type": "effect_type",
+    "id": "lung_collapse",
+    "name": [ "Lung Collapse" ],
+    "desc": [ "Your have difficulties breathing!" ],
+    "rating": "bad",
+    "max_intensity": 2,
+    "//": "intensity 1 - one of two lungs is collapsed; intensity 2 - both lungs are collapsed",
+    "base_mods": { "hurt_amount": [ 1 ], "hurt_tick": [ 4 ] },
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "SPEED", "multiply": { "math": [ "u_effect_intensity('lung_collapse') * -0.25" ] } } ]
+      }
+    ],
+    "chance_kill": [ [ 0, 1 ], [ 1, 120 ] ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "revived_marker",
     "//COMMENT": "Hardcoded dummy effect to track a monster as revived. Applied and checked in C++ only.",
     "name": [ "Revived" ],
@@ -5025,7 +5058,7 @@
     "id": "weakened_inertia",
     "type": "effect_type",
     "name": [ "Weakened Inertia" ],
-    "desc": [ "Your body moves strangely easily, as if it weighted less." ],
+    "desc": [ "Your body moves strangely easily, as if it weighed less." ],
     "apply_message": "Your inertia itself is damaged, but the outcome seems suspiciously beneficial.",
     "remove_message": "Reality reasserts itself and your inertia returns to normal.",
     "rating": "good",
@@ -5511,40 +5544,6 @@
   },
   {
     "type": "effect_type",
-    "id": "purple_incense_effect",
-    "name": [ "Spatial Dissociation" ],
-    "desc": [
-      "You feel strangely detached from the here and now.  It's like the world had been sliced into thin layers above which you move."
-    ],
-    "rating": "neutral",
-    "show_in_info": true,
-    "max_intensity": 1,
-    "remove_message": "Things seem to stitch back together.",
-    "enchantments": [
-      {
-        "values": [
-          { "value": "ARTIFACT_RESONANCE", "add": 4500 },
-          { "value": "PHASE_DISTANCE", "add": 2 },
-          { "value": "SPEED", "add": -10 },
-          { "value": "DODGE_CHANCE", "add": -25 },
-          { "value": "EVASION", "add": 10 }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_type",
-    "id": "red_incense_effect",
-    "name": [ "Ennervated" ],
-    "desc": [ "You feel like you have one foot in the grave." ],
-    "rating": "neutral",
-    "show_in_info": true,
-    "max_intensity": 1,
-    "remove_message": "The feeling of dread fades away.",
-    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": -0.75 }, { "value": "SPEED", "add": -10 } ] } ]
-  },
-  {
-    "type": "effect_type",
     "id": "effect_hound_of_tindalos_slobber",
     "name": [ "Hound Ichor" ],
     "desc": [ "Your %s is stained with bluish ichor." ],
@@ -5648,5 +5647,97 @@
     "desc": [ "" ],
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.9 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_claw_manipulation_penalty",
+    "//": "Hidden effect, provides the limb score penalty from Claws",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "limb_score_mods": [ { "limb_score": "manip", "modifier": 0.95 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_claw_st_manipulation_penalty",
+    "//": "Hidden effect, provides the limb score penalty from Stainless Claws",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "limb_score_mods": [ { "limb_score": "manip", "modifier": 0.9 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_shorter_fingers_manipulation_penalty",
+    "//": "Hidden effect, provides the limb score penalty from Stubby Fingers",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "limb_score_mods": [ { "limb_score": "manip", "modifier": 0.95 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_insect_wings_muscle_veh_boost",
+    "//": "Hidden effect, provides the muscle vehicle boost from active insect wings",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "MUSCLE_VEH_BOOST" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dextrous_paws_no_practice_manipulation_penalty",
+    "//": "Hidden effect, provides the limb score penalty from Little or Dextrous Paws when you haven't practiced",
+    "name": [ "Clumsy Fingers" ],
+    "desc": [ "You're still getting used to these new paws.  Maybe you need some practice." ],
+    "limb_score_mods": [ { "limb_score": "manip", "modifier": 0.75 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "monster_locked_on",
+    "//": "Applied to monsters after they first establish line-of-sight to the avatar.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_duration": "2 minutes"
+  },
+  {
+    "id": "nauseating_smell",
+    "type": "effect_type",
+    "name": [ "Nauseating Stench" ],
+    "desc": [ "Something smells unbelievably foul." ],
+    "apply_message": "You are assaulted by one of the most vile smells you've ever smelled.",
+    "remove_message": "The last traces of the foul stench leave your nostrils.",
+    "rating": "bad",
+    "max_duration": 120,
+    "base_mods": {
+      "str_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "speed_mod": [ -10 ],
+      "cough_chance": [ 3 ],
+      "vomit_chance": [ 15 ],
+      "vomit_tick": [ 10 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "nl_phase_goo",
+    "name": [ "Out of phase" ],
+    "desc": [
+      "Your body is partially out of phase with reality.  You move much more slowly, but you might be able to phase through some obstacles with ease."
+    ],
+    "apply_message": "You're coated in out-of-phase goo!",
+    "remove_message": "Your body returns to its normal phase.",
+    "rating": "bad",
+    "max_intensity": 1,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": 0.75 },
+          { "value": "MOVECOST_OBSTACLE_MOD", "multiply": -1 },
+          { "value": "PHASE_DISTANCE", "add": 1 }
+        ]
+      }
+    ],
+    "show_in_info": true
   }
 ]

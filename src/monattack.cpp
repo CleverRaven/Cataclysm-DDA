@@ -123,6 +123,7 @@ static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_grown_of_fuse( "grown_of_fuse" );
 static const efftype_id effect_has_bag( "has_bag" );
+static const efftype_id effect_monster_locked_on( "monster_locked_on" );
 static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
@@ -1197,7 +1198,7 @@ bool mattack::smash( monster *z )
  */
 template <size_t N = 1>
 std::pair < std::array < tripoint_bub_ms, ( 2 * N + 1 ) * ( 2 * N + 1 ) >, size_t >
-find_empty_neighbors( const tripoint_bub_ms &origin )
+static find_empty_neighbors( const tripoint_bub_ms &origin )
 {
     constexpr int r = static_cast<int>( N );
 
@@ -1220,7 +1221,7 @@ find_empty_neighbors( const tripoint_bub_ms &origin )
  */
 template <size_t N = 1>
 std::pair < std::array < tripoint_bub_ms, ( 2 * N + 1 ) * ( 2 * N + 1 ) >, size_t >
-find_empty_neighbors( const Creature &c )
+static find_empty_neighbors( const Creature &c )
 {
     return find_empty_neighbors<N>( c.pos_bub() );
 }
@@ -1239,7 +1240,7 @@ static size_t get_random_index( const size_t size )
  * Get a size_t value in the closed interval [0, c.size() - 1]; a convenience to avoid messy casting.
  */
 template <typename Container>
-size_t get_random_index( const Container &c )
+static size_t get_random_index( const Container &c )
 {
     return get_random_index( c.size() );
 }
@@ -3857,7 +3858,12 @@ bool mattack::tindalos_teleport( monster *z )
     const int distance_to_target = rl_dist( z->pos_abs(), target->pos_abs() );
     if( distance_to_target > 5 ) {
         const tripoint_bub_ms oldpos = z->pos_bub( here );
+        const bool locked_on = z->has_effect( effect_monster_locked_on );
         for( const tripoint_bub_ms &dest : here.points_in_radius( target->pos_bub( here ), 4 ) ) {
+            // Only teleports if player has been seen and locked on
+            if( !locked_on ) {
+                continue;
+            }
             if( here.is_cornerfloor( dest ) ) {
                 if( g->is_empty( dest ) ) {
                     z->setpos( here, dest );
@@ -4396,10 +4402,13 @@ bool mattack::kamikaze( monster *z )
     return true;
 }
 
+namespace
+{
 struct grenade_helper_struct {
     std::string message;
     int chance = 1;
 };
+} // namespace
 
 // Returns 0 if this should be retired, 1 if it was successful, and -1 if something went horribly wrong
 static int grenade_helper( monster *const z, Creature *const target, const int dist,

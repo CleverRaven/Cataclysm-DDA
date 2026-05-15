@@ -170,6 +170,10 @@ class item_pocket
         std::list<item *> all_items_ptr( pocket_type pk_type );
         std::list<const item *> all_items_ptr( pocket_type pk_type ) const;
 
+        // Sum of ememory_size() across top-level contents. Only meaningful
+        // for E_FILE_STORAGE pockets, used by item::occupied_ememory().
+        units::ememory occupied_ememory() const;
+
         item &back();
         const item &back() const;
         item &front();
@@ -466,7 +470,7 @@ struct pocket_noise {
 class pocket_data
 {
     public:
-        using FlagsSetType = std::set<flag_id>;
+        using FlagsSetType = cata::flat_set<flag_id>;
 
         bool was_loaded = false;
 
@@ -567,6 +571,8 @@ class pocket_data
         cata::flat_set<itype_id> allowed_speedloaders;
         // the first in the json array for item_id_restriction when loaded
         itype_id default_magazine = itype_id::NULL_ID();
+        // Optional handle referenced by firing_requirements / consumption_per_use.
+        std::string pocket_id;
         // container's size and encumbrance does not change based on contents.
         bool rigid = false;
         // Parent item of this pocket has flag NO_UNLOAD

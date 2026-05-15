@@ -1675,6 +1675,29 @@
     "recipe": ""
   },
   {
+    "id": "seed_red_winter_wheat",
+    "copy-from": "seed_wheat",
+    "type": "ITEM",
+    "subtypes": [ "SEED", "MILLING", "COMESTIBLE" ],
+    "name": { "str_sp": "red winter wheat seeds" },
+    "description": "A pile of dry wheatberries, designated for planting.  This variety is meant to grow over winter, ready for harvest in the Spring.",
+    "plant_name": "red winter wheat",
+    "fruit": "red_winter_wheat_stalks",
+    "seeds": false,
+    "//COMMENT2": "Because of the way temperature checks currently work, this is *too generous* and lets them be planted literally whenever! Winter wheat is still supposed to be planted *before* winter, and then it survives the winter. But whatever, this is fine for the moment. It should all 'just work' if and when the temperature checks are improved.",
+    "growth_temp": "-23 C",
+    "//COMMENT3": "The 90 days between GROWTH_MATURE check is intended to allow this plant to survive winter temperatures.",
+    "growth_stages": [
+      { "GROWTH_SEED": "5 days" },
+      { "GROWTH_SEEDLING": "15 days" },
+      { "GROWTH_MATURE": "90 days" },
+      { "GROWTH_HARVEST": "10 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ],
+    "into": "null",
+    "recipe": ""
+  },
+  {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "fried_seeds",

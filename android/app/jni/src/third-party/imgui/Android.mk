@@ -12,6 +12,7 @@ LOCAL_SHARED_LIBRARIES := SDL2
 
 # Add your application source files here...
 IMGUI_SRCS := $(sort $(wildcard $(LOCAL_PATH)/third-party/imgui/*.cpp))
+IMGUI_SRCS := $(filter-out %/imgui_impl_sdl3.cpp %/imgui_impl_sdlrenderer3.cpp,$(IMGUI_SRCS))
 LOCAL_SRC_FILES := $(sort $(IMGUI_SRCS:$(LOCAL_PATH)/%=%))
 
 LOCAL_CFLAGS += -DBACKTRACE=1 -DLOCALIZE=1 -fsigned-char
