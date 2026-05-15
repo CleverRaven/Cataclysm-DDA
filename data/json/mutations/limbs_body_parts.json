@@ -14,7 +14,7 @@
     "similar_bodypart": "eyes",
     "hit_size": 0.9,
     "hit_difficulty": 1.25,
-    "flag": [ "IGNORE_TEMP", "LIMB_UPPER" ]
+    "flags": [ "IGNORE_TEMP", "LIMB_UPPER" ]
   },
   {
     "type": "body_part",
