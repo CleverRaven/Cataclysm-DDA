@@ -693,34 +693,6 @@
   },
   {
     "type": "item_group",
-    "id": "adderall_bottle_plastic_pill_prescription_1_10",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "adderall", "container-item": "null", "count": [ 1, 10 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "bfipowder_bottle_plastic_5_60",
-    "subtype": "collection",
-    "container-item": "bottle_plastic",
-    "entries": [ { "item": "bfipowder", "container-item": "null", "count": [ 5, 60 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "antiparasitic_bottle_plastic_pill_prescription_1_10",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "antiparasitic", "container-item": "null", "count": [ 1, 10 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "diazepam_bottle_plastic_pill_prescription_1_10",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "diazepam", "container-item": "null", "count": [ 1, 10 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "chem_sulphur_bottle_plastic_small_100_inf",
     "subtype": "collection",
     "container-item": "bottle_plastic_small",

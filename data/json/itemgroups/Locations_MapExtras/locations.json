@@ -2911,52 +2911,9 @@
   },
   {
     "type": "item_group",
-    "id": "tobacco_bag_plastic_20",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "tobacco", "container-item": "null", "count": 20 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "lsd_bag_zipper_1_5",
-    "subtype": "collection",
-    "container-item": "bag_zipper",
-    "entries": [ { "item": "lsd", "count": [ 1, 5 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cig_box_cigarette_0_10",
-    "subtype": "collection",
-    "container-item": "box_cigarette",
-    "entries": [ { "item": "cig", "container-item": "null", "count": [ 0, 10 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "quikclot_bag_plastic_6",
     "subtype": "collection",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "quikclot", "container-item": "null", "count": 6 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "antibiotics_bottle_plastic_pill_prescription_15",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "antibiotics", "container-item": "null", "count": 15 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "melatonin_tablet_bottle_plastic_pill_supplement_1_10",
-    "subtype": "collection",
-    "//": "Spawns 1-10 to allow for variance. Other groups were 10 full bottle and 30 full bottle, so I went with 1-10.",
-    "container-item": "bottle_plastic_pill_supplement",
-    "entries": [ { "item": "melatonin_tablet", "container-item": "null", "count": [ 1, 10 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "melatonin_tablet_bottle_plastic_pill_supplement_10",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_supplement",
-    "entries": [ { "item": "melatonin_tablet", "container-item": "null", "count": 10 } ]
   }
 ]
