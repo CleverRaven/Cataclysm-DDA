@@ -2,6 +2,31 @@
 
 #include "cata_shader.h"
 
+namespace cata_shader
+{
+
+namespace
+{
+bool g_reprobe_requested = false;
+} // namespace
+
+void request_reprobe()
+{
+    g_reprobe_requested = true;
+}
+
+bool reprobe_requested()
+{
+    return g_reprobe_requested;
+}
+
+void clear_reprobe()
+{
+    g_reprobe_requested = false;
+}
+
+} // namespace cata_shader
+
 #if SDL_MAJOR_VERSION >= 3
 
 #include <array>
@@ -456,6 +481,22 @@ bool load_and_probe( SDL_GPUDevice *device, SDL_Renderer *renderer,
 
 } // namespace
 
+void variant_pass::reset()
+{
+    flush();
+    for( size_t i = 0; i < shaders_.size(); ++i ) {
+        states_[i] = render_state{};
+        shaders_[i] = shader{};
+    }
+    for( size_t i = 0; i < memory_shaders_.size(); ++i ) {
+        memory_states_[i] = render_state{};
+        memory_shaders_[i] = shader{};
+    }
+    probe_attempted_ = false;
+    probed_ok_ = false;
+    session_disabled_ = false;
+}
+
 void variant_pass::probe()
 {
     probe_attempted_ = true;
@@ -507,6 +548,10 @@ SDL_GPURenderState *variant_pass::state_for( variant_kind v ) const
 
 bool variant_pass::try_begin( variant_kind v )
 {
+    if( reprobe_requested() ) {
+        reset();
+        clear_reprobe();
+    }
     if( session_disabled_ ) {
         // Drop any held bind so the disabled session does not leave shader
         // state on subsequent draws.
