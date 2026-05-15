@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <functional>
 #include <list>
+#include <memory>
 
 #include "colony.h"
 #include "coords_fwd.h"
