@@ -1008,7 +1008,7 @@ void item::set_var( const std::string &key, diag_value value )
     item_vars[ key ] = std::move( value );
 }
 
-double item::get_var( const std::string &key, double default_value ) const
+double item::get_var( std::string_view key, double default_value ) const
 {
     if( item_vars.empty() ) {
         return default_value;
@@ -1020,7 +1020,7 @@ double item::get_var( const std::string &key, double default_value ) const
     return default_value;
 }
 
-std::string item::get_var( const std::string &key, std::string default_value ) const
+std::string item::get_var( std::string_view key, std::string default_value ) const
 {
     if( item_vars.empty() ) {
         return default_value;
@@ -1032,7 +1032,7 @@ std::string item::get_var( const std::string &key, std::string default_value ) c
     return default_value;
 }
 
-tripoint_abs_ms item::get_var( const std::string &key, tripoint_abs_ms default_value ) const
+tripoint_abs_ms item::get_var( std::string_view key, tripoint_abs_ms default_value ) const
 {
     if( item_vars.empty() ) {
         return default_value;
@@ -1049,27 +1049,27 @@ void item::remove_var( const std::string &key )
     item_vars.erase( key );
 }
 
-diag_value const &item::get_value( const std::string &name ) const
+diag_value const &item::get_value( std::string_view name ) const
 {
     static diag_value const null_val;
     if( item_vars.empty() ) {
         return null_val;
     }
-    return global_variables::_common_get_value( name, item_vars );
+    return global_variables::_common_get_value( std::string( name ), item_vars );
 
 }
 
-diag_value const *item::maybe_get_value( const std::string &name ) const
+diag_value const *item::maybe_get_value( std::string_view name ) const
 {
     if( item_vars.empty() ) {
         return nullptr;
     }
-    return global_variables::_common_maybe_get_value( name, item_vars );
+    return global_variables::_common_maybe_get_value( std::string( name ), item_vars );
 }
 
-bool item::has_var( const std::string &name ) const
+bool item::has_var( std::string_view name ) const
 {
-    return !item_vars.empty() && item_vars.count( name ) > 0;
+    return !item_vars.empty() && item_vars.count( std::string( name ) ) > 0;
 }
 
 void item::erase_var( const std::string &name )
