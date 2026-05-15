@@ -17,6 +17,23 @@
   },
   {
     "type": "fault",
+    "id": "interior_cracks",
+    "fault_type": "crafting_defect",
+    "name": { "str": "Interior cracks" },
+    "description": "Although this weapon appears to have been constructed properly, there are voids and damage below the surface.",
+    "//COMMENT": "Later this should be a hidden fault and increase the likelihood of damage-type faults appearing.",
+    "melee_damage_mod": [ { "damage_id": "cut", "multiply": 0.9 } ]
+  },
+  {
+    "type": "fault",
+    "id": "limp_edge",
+    "fault_type": "crafting_defect",
+    "name": { "str": "Limp edge" },
+    "description": "You've made a curved sword.  Very curved.",
+    "melee_damage_mod": [ { "damage_id": "cut", "multiply": 0.1 } ]
+  },
+  {
+    "type": "fault",
     "id": "fault_blade_cracked",
     "fault_type": "mechanical_damage",
     "name": { "str": "Crack" },
