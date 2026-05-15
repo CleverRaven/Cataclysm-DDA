@@ -1903,7 +1903,7 @@ drop_locations game_menus::inv::efile_select( Character &who, item_location &use
         popup( string_format( _( "You have no files to %s." ), action_name ), PF_GET_KEY );
         return drop_locations();
     }
-    select_multiple_efiles.set_title( string_format( _( "Select files to %s" ), action_name) );
+    select_multiple_efiles.set_title( string_format( _( "Select files to %s" ), action_name ) );
     bool done = false;
     drop_locations selected_efiles;
     while( !done ) {
