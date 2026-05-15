@@ -100,5 +100,33 @@
       { "item": "rhubarb", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
       { "item": "eggplant", "prob": 5, "custom-flags": [ "IRRADIATED" ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "irradiated_lettuce_bag_plastic_5",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "lettuce", "container-item": "null", "count": 5, "custom-flags": [ "IRRADIATED" ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "irradiated_cabbage_bag_plastic_8",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "cabbage", "container-item": "null", "count": 8, "custom-flags": [ "IRRADIATED" ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "irradiated_carrot_bag_plastic_6",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "carrot", "container-item": "null", "count": 6, "custom-flags": [ "IRRADIATED" ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "irradiated_cranberries_bag_plastic_3",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "cranberries", "container-item": "null", "count": 3, "custom-flags": [ "IRRADIATED" ] } ]
   }
 ]

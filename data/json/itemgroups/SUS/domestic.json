@@ -1220,20 +1220,6 @@
   },
   {
     "type": "item_group",
-    "id": "adderall_bottle_plastic_pill_prescription_1",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "adderall", "container-item": "null" } ]
-  },
-  {
-    "type": "item_group",
-    "id": "weak_antibiotic_bottle_plastic_pill_prescription_1",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "weak_antibiotic", "container-item": "null" } ]
-  },
-  {
-    "type": "item_group",
     "id": "garlic_powder_various",
     "subtype": "distribution",
     "entries": [

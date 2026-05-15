@@ -1634,67 +1634,6 @@
   },
   {
     "type": "item_group",
-    "id": "beans_in_can",
-    "subtype": "distribution",
-    "entries": [ { "item": "can_beans", "entry-wrapper": "can_medium", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "tomatoes_in_can",
-    "subtype": "distribution",
-    "entries": [ { "item": "can_tomato", "entry-wrapper": "can_medium", "count": 4 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "pork_beans_in_can",
-    "subtype": "distribution",
-    "entries": [ { "item": "pork_beans", "entry-wrapper": "can_medium", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "chicken_in_can",
-    "subtype": "distribution",
-    "entries": [ { "item": "can_chicken", "entry-wrapper": "can_medium", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "corn_in_can",
-    "subtype": "distribution",
-    "entries": [ { "item": "can_corn", "entry-wrapper": "can_medium", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "spam_in_can",
-    "subtype": "distribution",
-    "entries": [ { "item": "can_spam", "entry-wrapper": "can_medium", "count": 6 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "pineapple_in_can",
-    "subtype": "distribution",
-    "entries": [ { "item": "can_pineapple", "entry-wrapper": "can_medium", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "coconut_milk_in_can",
-    "subtype": "distribution",
-    "entries": [ { "item": "can_coconut", "entry-wrapper": "can_medium" } ]
-  },
-  {
-    "type": "item_group",
-    "id": "chowder_in_can",
-    "subtype": "distribution",
-    "entries": [ { "item": "can_chowder", "entry-wrapper": "can_medium", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "can_herring_jar_glass_sealed_2",
-    "subtype": "collection",
-    "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "can_herring", "container-item": "null", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
     "id": "curry_powder_various",
     "subtype": "distribution",
     "entries": [
@@ -1852,84 +1791,6 @@
   },
   {
     "type": "item_group",
-    "id": "ravioli_in_can",
-    "subtype": "distribution",
-    "entries": [ { "item": "ravioli", "entry-wrapper": "can_medium", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "sourdough_bread_in_bag",
-    "subtype": "collection",
-    "entries": [ { "item": "sourdough_bread", "entry-wrapper": "bag_plastic", "count": [ 1, 14 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "sourdough_bread_in_bag_full",
-    "subtype": "collection",
-    "entries": [ { "item": "sourdough_bread", "entry-wrapper": "bag_plastic", "count": 14 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "bread_in_bag",
-    "subtype": "collection",
-    "entries": [ { "item": "bread", "entry-wrapper": "bag_plastic", "count": [ 1, 14 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "bread_in_bag_full",
-    "subtype": "collection",
-    "entries": [ { "item": "bread", "entry-wrapper": "bag_plastic", "count": 14 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "garlic_bread_in_bag",
-    "subtype": "collection",
-    "entries": [ { "item": "bread_garlic", "entry-wrapper": "bag_plastic_small", "count": [ 1, 8 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "garlic_bread_in_bag_full",
-    "subtype": "collection",
-    "entries": [ { "item": "bread_garlic", "entry-wrapper": "bag_plastic_small", "count": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "frybread_in_bag",
-    "subtype": "collection",
-    "entries": [ { "item": "frybread", "entry-wrapper": "bag_plastic_small", "count": [ 1, 8 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "frybread_in_bag_full",
-    "subtype": "collection",
-    "entries": [ { "item": "frybread", "entry-wrapper": "bag_plastic_small", "count": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cornbread_in_bag",
-    "subtype": "collection",
-    "entries": [ { "item": "cornbread", "entry-wrapper": "bag_plastic_small", "count": [ 1, 8 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cornbread_in_bag_full",
-    "subtype": "collection",
-    "entries": [ { "item": "cornbread", "entry-wrapper": "bag_plastic_small", "count": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "flatbread_in_bag",
-    "subtype": "collection",
-    "entries": [ { "item": "flatbread", "entry-wrapper": "bag_plastic_small", "count": [ 1, 8 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "flatbread_in_bag_full",
-    "subtype": "collection",
-    "entries": [ { "item": "flatbread", "entry-wrapper": "bag_plastic_small", "count": 8 } ]
-  },
-  {
-    "type": "item_group",
     "id": "crackers_box_small_full",
     "subtype": "collection",
     "container-item": "box_small",
@@ -1961,82 +1822,6 @@
     "id": "cheese_in_can",
     "subtype": "distribution",
     "entries": [ { "item": "can_cheese", "entry-wrapper": "can_food", "count": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "veggy_pickled_jar_glass_sealed_2",
-    "subtype": "collection",
-    "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "veggy_pickled", "container-item": "null", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "sauerkraut_jar_glass_sealed_2",
-    "subtype": "collection",
-    "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "sauerkraut", "container-item": "null", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "meat_pickled_jar_glass_sealed_2",
-    "subtype": "collection",
-    "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "meat_pickled", "container-item": "null", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "fish_pickled_jar_glass_sealed_2",
-    "subtype": "collection",
-    "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "fish_pickled", "container-item": "null", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "meat_canned_jar_3l_glass_sealed_12",
-    "subtype": "collection",
-    "container-item": "jar_3l_glass_sealed",
-    "entries": [ { "item": "meat_canned", "container-item": "null", "count": 12 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "veggy_canned_jar_3l_glass_sealed_12",
-    "subtype": "collection",
-    "container-item": "jar_3l_glass_sealed",
-    "entries": [ { "item": "veggy_canned", "container-item": "null", "count": 12 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "fruits_in_3l_jar",
-    "subtype": "distribution",
-    "entries": [ { "item": "apple_canned", "entry-wrapper": "jar_3l_glass_sealed", "count": 24 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "can_tomato_jar_3l_glass_sealed_24",
-    "subtype": "collection",
-    "container-item": "jar_3l_glass_sealed",
-    "entries": [ { "item": "can_tomato", "container-item": "null", "count": 24 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "fish_pickled_jar_3l_glass_sealed_12",
-    "subtype": "collection",
-    "container-item": "jar_3l_glass_sealed",
-    "entries": [ { "item": "fish_pickled", "container-item": "null", "count": 12 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "meat_pickled_jar_3l_glass_sealed_12",
-    "subtype": "collection",
-    "container-item": "jar_3l_glass_sealed",
-    "entries": [ { "item": "meat_pickled", "container-item": "null", "count": 12 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "veggy_pickled_jar_3l_glass_sealed_12",
-    "subtype": "collection",
-    "container-item": "jar_3l_glass_sealed",
-    "entries": [ { "item": "veggy_pickled", "container-item": "null", "count": 12 } ]
   },
   {
     "type": "item_group",
@@ -2072,27 +1857,6 @@
   },
   {
     "type": "item_group",
-    "id": "irradiated_lettuce_bag_plastic_5",
-    "subtype": "collection",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "lettuce", "container-item": "null", "count": 5, "custom-flags": [ "IRRADIATED" ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "irradiated_cabbage_bag_plastic_8",
-    "subtype": "collection",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "cabbage", "container-item": "null", "count": 8, "custom-flags": [ "IRRADIATED" ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "irradiated_carrot_bag_plastic_6",
-    "subtype": "collection",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "carrot", "container-item": "null", "count": 6, "custom-flags": [ "IRRADIATED" ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "frozen_dinner_box_small_2",
     "subtype": "collection",
     "container-item": "box_small",
@@ -2100,30 +1864,10 @@
   },
   {
     "type": "item_group",
-    "id": "chili_in_can",
-    "subtype": "distribution",
-    "entries": [ { "item": "chili", "entry-wrapper": "can_medium", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
     "id": "blt_wrapper_2",
     "subtype": "collection",
     "container-item": "wrapper",
     "entries": [ { "item": "blt", "container-item": "null", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "irradiated_cranberries_bag_plastic_3",
-    "subtype": "collection",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "cranberries", "container-item": "null", "count": 3, "custom-flags": [ "IRRADIATED" ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "pickle_jar_glass_sealed_2",
-    "subtype": "collection",
-    "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "pickle", "count": 2 } ]
   },
   {
     "type": "item_group",
@@ -2160,47 +1904,5 @@
         ]
       }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "clams_in_can",
-    "subtype": "distribution",
-    "entries": [ { "item": "can_clams", "entry-wrapper": "can_food", "count": 1 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "salmon_in_can",
-    "subtype": "distribution",
-    "entries": [ { "item": "can_salmon", "entry-wrapper": "can_food", "count": 1 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "tuna_in_can",
-    "subtype": "distribution",
-    "entries": [ { "item": "can_tuna", "entry-wrapper": "can_food", "count": 1 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "sardine_in_can",
-    "subtype": "distribution",
-    "entries": [ { "item": "can_sardine", "entry-wrapper": "can_food", "count": 1 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "lobster_in_can",
-    "subtype": "distribution",
-    "entries": [ { "item": "lobster_canned", "entry-wrapper": "can_food", "count": 1 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "fish_in_can",
-    "subtype": "distribution",
-    "entries": [ { "item": "fish_canned", "entry-wrapper": "can_food", "count": 1 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "fruits_in_can",
-    "subtype": "distribution",
-    "entries": [ { "item": "apple_canned", "entry-wrapper": "can_food", "count": 1 } ]
   }
 ]

@@ -2469,18 +2469,6 @@
   },
   {
     "type": "item_group",
-    "id": "brown_bread_in_bag",
-    "subtype": "collection",
-    "entries": [ { "item": "brown_bread", "entry-wrapper": "bag_plastic", "count": [ 0, 10 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "brown_bread_in_bag_full",
-    "subtype": "collection",
-    "entries": [ { "item": "brown_bread", "entry-wrapper": "bag_plastic", "count": 10 } ]
-  },
-  {
-    "type": "item_group",
     "id": "brioche_box_small_6",
     "subtype": "collection",
     "container-item": "box_small",
@@ -2844,13 +2832,6 @@
     "subtype": "collection",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "PBJ_Toast", "container-item": "null", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "offal_pickled_jar_glass_sealed_2",
-    "subtype": "collection",
-    "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "offal_pickled", "container-item": "null", "count": 2 } ]
   },
   {
     "type": "item_group",

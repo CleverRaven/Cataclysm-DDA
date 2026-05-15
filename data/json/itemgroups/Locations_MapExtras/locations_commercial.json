@@ -2130,13 +2130,6 @@
   },
   {
     "type": "item_group",
-    "id": "antifungal_bottle_plastic_pill_prescription_1_10",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "antifungal", "container-item": "null", "count": [ 1, 10 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "cattlefodder_bag_canvas_50",
     "subtype": "collection",
     "container-item": "bag_canvas",

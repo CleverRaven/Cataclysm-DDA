@@ -1066,52 +1066,10 @@
   },
   {
     "type": "item_group",
-    "id": "salsa_jar_glass_sealed_1_inf",
-    "subtype": "collection",
-    "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "salsa", "container-item": "null", "count": [ 1, -1 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "butter_wrapper_32",
     "subtype": "collection",
     "container-item": "wrapper",
     "entries": [ { "item": "butter", "container-item": "null", "count": 32 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "sauerkraut_jar_glass_sealed_1_inf",
-    "subtype": "collection",
-    "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "sauerkraut", "container-item": "null", "count": [ 1, -1 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "pickle_jar_glass_sealed_1_inf",
-    "subtype": "collection",
-    "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "pickle", "count": [ 1, -1 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "meat_pickled_jar_glass_sealed_1_inf",
-    "subtype": "collection",
-    "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "meat_pickled", "container-item": "null", "count": [ 1, -1 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "fish_pickled_jar_glass_sealed_1_inf",
-    "subtype": "collection",
-    "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "fish_pickled", "container-item": "null", "count": [ 1, -1 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "veggy_pickled_jar_glass_sealed_1_inf",
-    "subtype": "collection",
-    "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "veggy_pickled", "container-item": "null", "count": [ 1, -1 ] } ]
   },
   {
     "type": "item_group",
