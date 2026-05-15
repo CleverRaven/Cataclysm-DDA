@@ -95,35 +95,5 @@
         { "group": "GROUP_HOLLOW_ZOMBIES", "x": [ 48, 71 ], "y": [ 48, 71 ], "repeat": [ 3, 8 ], "chance": 60 }
       ]
     }
-  },
-  {
-    "type": "overmap_special",
-    "id": "hollow_village_zombed",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "hollow_village_zomb_1_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "hollow_village_zomb_2_north" },
-      { "point": [ 2, 0, 0 ], "overmap": "hollow_village_zomb_3_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "hollow_village_zomb_4_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "hollow_village_zomb_5_north" },
-      { "point": [ 2, 1, 0 ], "overmap": "hollow_village_zomb_6_north" },
-      { "point": [ 0, 2, 0 ], "overmap": "hollow_village_zomb_7_north" },
-      {
-        "point": [ 1, 2, 0 ],
-        "overmap": "hollow_village_zomb_8_north",
-        "locations": [ "forest_edge", "field", "lake_shore" ]
-      },
-      { "point": [ 2, 2, 0 ], "overmap": "hollow_village_zomb_9_north" },
-      { "point": [ 1, 1, 1 ], "overmap": "hollow_village5_roofs_north" },
-      { "point": [ 2, 1, 1 ], "overmap": "hollow_village6_roofs_north" },
-      { "point": [ 0, 2, 1 ], "overmap": "hollow_village7_roofs_north" },
-      { "point": [ 1, 2, 1 ], "overmap": "hollow_village8_roofs_north" },
-      { "point": [ 2, 2, 1 ], "overmap": "hollow_village9_roofs_north" }
-    ],
-    "locations": [ "wilderness" ],
-    "city_distance": [ 20, -5 ],
-    "city_sizes": [ 0, 13 ],
-    "occurrences": [ 40, 100 ],
-    "flags": [ "OVERMAP_UNIQUE" ],
-    "spawns": { "group": "GROUP_HOLLOW_ZOMBIES", "population": [ 15, 30 ], "radius": [ 2, 10 ] }
   }
 ]
