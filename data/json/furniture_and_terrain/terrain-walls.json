@@ -2268,6 +2268,7 @@
       "MOUNTABLE",
       "MINEABLE",
       "THIN_OBSTACLE",
+      "SHORT",
       "CLIMBABLE",
       "BURROWABLE",
       "PERMEABLE"
