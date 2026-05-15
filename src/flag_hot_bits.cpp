@@ -53,5 +53,29 @@ uint64_t hot_bit_for( const flag_id &f ) noexcept
     if( f == flag_ITEM_BROKEN ) {
         return static_cast<uint64_t>( hot_flag_bit::ITEM_BROKEN );
     }
+    if( f == flag_CORPSE ) {
+        return static_cast<uint64_t>( hot_flag_bit::CORPSE );
+    }
+    if( f == flag_NO_DROP ) {
+        return static_cast<uint64_t>( hot_flag_bit::NO_DROP );
+    }
+    if( f == flag_REDUCED_WEIGHT ) {
+        return static_cast<uint64_t>( hot_flag_bit::REDUCED_WEIGHT );
+    }
+    if( f == flag_FIELD_DRESS ) {
+        return static_cast<uint64_t>( hot_flag_bit::FIELD_DRESS );
+    }
+    if( f == flag_FIELD_DRESS_FAILED ) {
+        return static_cast<uint64_t>( hot_flag_bit::FIELD_DRESS_FAILED );
+    }
+    if( f == flag_GIBBED ) {
+        return static_cast<uint64_t>( hot_flag_bit::GIBBED );
+    }
+    if( f == flag_SKINNED ) {
+        return static_cast<uint64_t>( hot_flag_bit::SKINNED );
+    }
+    if( f == flag_QUARTERED ) {
+        return static_cast<uint64_t>( hot_flag_bit::QUARTERED );
+    }
     return 0;
 }

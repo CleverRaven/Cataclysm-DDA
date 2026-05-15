@@ -1939,8 +1939,10 @@ units::mass item::weight( bool include_contents, bool integral ) const
         return 0_gram;
     }
 
+    const uint64_t hot = combined_hot_flags();
+
     // Items that don't drop aren't really there, they're items just for ease of implementation
-    if( has_flag( flag_NO_DROP ) ) {
+    if( hot & static_cast<uint64_t>( hot_flag_bit::NO_DROP ) ) {
         return 0_gram;
     }
 
@@ -1966,7 +1968,7 @@ units::mass item::weight( bool include_contents, bool integral ) const
         ret = units::from_milligram( local_mass.dbl() );
     }
 
-    if( has_flag( flag_REDUCED_WEIGHT ) ) {
+    if( hot & static_cast<uint64_t>( hot_flag_bit::REDUCED_WEIGHT ) ) {
         ret_mul *= 0.75;
     }
 
@@ -1980,20 +1982,21 @@ units::mass item::weight( bool include_contents, bool integral ) const
     if( count_by_charges() ) {
         ret_mul *= charges;
 
-    } else if( is_corpse() ) {
-        cata_assert( corpse ); // To appease static analysis
+    } else if( ( hot & static_cast<uint64_t>( hot_flag_bit::CORPSE ) ) && corpse != nullptr ) {
         ret = corpse->weight;
         ret_mul = 1.0;
-        if( has_flag( flag_FIELD_DRESS ) || has_flag( flag_FIELD_DRESS_FAILED ) ) {
+        constexpr uint64_t field_dress_any = static_cast<uint64_t>( hot_flag_bit::FIELD_DRESS ) |
+                                             static_cast<uint64_t>( hot_flag_bit::FIELD_DRESS_FAILED );
+        if( hot & field_dress_any ) {
             ret_mul *= 0.75;
         }
-        if( has_flag( flag_GIBBED ) ) {
+        if( hot & static_cast<uint64_t>( hot_flag_bit::GIBBED ) ) {
             ret_mul *= 0.85;
         }
-        if( has_flag( flag_SKINNED ) ) {
+        if( hot & static_cast<uint64_t>( hot_flag_bit::SKINNED ) ) {
             ret_mul *= 0.85;
         }
-        if( has_flag( flag_QUARTERED ) ) {
+        if( hot & static_cast<uint64_t>( hot_flag_bit::QUARTERED ) ) {
             ret_mul *= 0.25;
         }
 
@@ -3133,7 +3136,8 @@ bool item::has_temperature() const
 
 bool item::is_corpse() const
 {
-    return corpse != nullptr && has_flag( flag_CORPSE );
+    return corpse != nullptr &&
+           ( combined_hot_flags() & static_cast<uint64_t>( hot_flag_bit::CORPSE ) ) != 0;
 }
 
 const mtype *item::get_mtype() const
