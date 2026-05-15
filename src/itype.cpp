@@ -142,6 +142,9 @@ std::string itype::count_or_volume_or_weight_prefix( unsigned int quantity ) con
             volume_per_charge = volume / stack_size;
         }
         return string_format( _( "%1$s" ), vol_to_string( volume_per_charge * quantity, true, true ) );
+    } else if( display_type == item_display_type::BY_LENGTH ) {
+        // Note: item::length() has some special cases where this might not work well!
+        return string_format( _( "%1$s" ), length_to_string( longest_side * quantity, true ) );
     }
     return std::to_string( quantity );
 }

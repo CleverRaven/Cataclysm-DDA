@@ -88,6 +88,7 @@ struct character_creator_uistate {
     bool recalc_hobbies = true;
     bool recalc_hobbies_taken = true;
     bool recalc_traits = true;
+    bool recalc_skills = true;
 
     bool no_name_entered = false;
     bool scrolled_up = false;
@@ -109,6 +110,7 @@ struct character_creator_uistate {
     void recalc_hobby_list( const avatar &u );
     void recalc_hobbies_taken_list( const avatar &u );
     void recalc_trait_list( const avatar &u );
+    void recalc_skill_list();
 
     bool hobby_conflict_check( const avatar &u );
     void reset();
@@ -142,6 +144,7 @@ class character_creator_ui
         bool handle_action( const std::string &action );
 
         std::shared_ptr<uilist> get_current_tab_uilist();
+        std::shared_ptr<uilist> get_tab_uilist( character_creator_tab tab );
         void set_current_tab_uilist( const std::shared_ptr<uilist> &new_uilist );
         input_context &get_current_tab_input();
         void set_current_tab_input( const input_context &new_input );

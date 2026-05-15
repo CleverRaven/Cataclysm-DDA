@@ -1291,6 +1291,14 @@ void crafting_ui_impl::draw_recipe_info_panel()
             const inventory &crafting_inv = avail.inv_override
                                             ? *avail.inv_override : crafter->crafting_inventory();
 
+            // Single step recipes
+            if( recp.has_steps() && ( recp.steps().size() <= 1 ) ) {
+                const recipe_step &step = recp.steps().front();
+                ImGui::TextColored( cataimgui::imvec4_from_color( c_white ),
+                                    "%s", step.name.translated().c_str() );
+                ImGui::NewLine();
+            }
+
             // Components (always recipe-level)
             draw_components( recp.simple_requirements(), crafting_inv,
                              recp.get_component_filter(), batch_size );
@@ -1310,7 +1318,8 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 }
             }
 
-            if( recp.has_steps() ) {
+            // Multi step details
+            if( recp.has_steps() && ( recp.steps().size() > 1 ) ) {
                 // Step details are collapsible; collapsed shows flat merged view
                 {
                     const char *steps_label = uistate.crafting_expand_steps

@@ -1612,6 +1612,7 @@ void spell_effect::charm_monster( const spell &sp, Creature &caster, const tripo
             continue;
         }
         sp.make_sound( potential_target, caster );
+        bool success = false;
         if( ( mon->friendly == 0 || ( mon->friendly != 0 && sp.has_flag( spell_flag::RECHARM ) ) ) &&
             mon->get_hp() <= sp.damage( caster ) ) {
             mon->unset_dest();
@@ -1620,6 +1621,13 @@ void spell_effect::charm_monster( const spell &sp, Creature &caster, const tripo
                 mon->friendly = -1;
                 mon->add_effect( effect_pet, 1_turns, true );
             }
+            success = true;
+        }
+        if( success ) {
+            add_msg_if_player_sees( potential_target, m_good, _( "You charm the %s!" ), mon->name() );
+        } else {
+            add_msg_if_player_sees( potential_target, m_bad, _( "The %s resists your charm attempt." ),
+                                    mon->name() );
         }
     }
 }

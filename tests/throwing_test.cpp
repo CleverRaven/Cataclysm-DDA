@@ -27,7 +27,7 @@
 static const itype_id itype_grenade( "grenade" );
 static const itype_id itype_javelin_iron( "javelin_iron" );
 static const itype_id itype_rock( "rock" );
-static const itype_id itype_throwing_stick( "throwing_stick" );
+static const itype_id itype_throwing_stick_with_charges( "throwing_stick_with_charges" );
 
 static const skill_id skill_throw( "throw" );
 
@@ -322,7 +322,7 @@ TEST_CASE( "time_to_throw_independent_of_number_of_projectiles", "[throwing] [ba
     Character &you = get_avatar();
     clear_avatar();
 
-    item thrown( itype_throwing_stick, calendar::turn, 10 );
+    item thrown( itype_throwing_stick_with_charges, calendar::turn, 10 );
     REQUIRE( thrown.charges > 1 );
     you.wield( thrown );
     int initial_moves = -1;

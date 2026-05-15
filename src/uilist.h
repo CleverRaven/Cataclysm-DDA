@@ -518,7 +518,6 @@ class uilist // NOLINT(cata-xy)
         int vmax = 0;
 
         bool started = false;
-        bool recalc_start = false;
         bool clicked = false;
         bool need_to_scroll = false;
 

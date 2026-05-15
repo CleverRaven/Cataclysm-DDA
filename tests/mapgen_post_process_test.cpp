@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "coordinates.h"
@@ -129,6 +130,21 @@ static pp_scan_result scan_omt( map &m, int z_level )
     return result;
 }
 
+static void clear_map_and_reset_player()
+{
+    // The ordering here is very specific.
+    // clear_avatar() moves the player to the center of the bubble.
+    // clear_overmaps will regenerate everything from the origin to the player's current position.
+    // So first we move the avatar to the origin
+    // then clear overmaps to minimize excess regeneration
+    // then reset the avatar to the middle of the bubble which is conveniently around them.
+    // Some tests leave the avatar off in the sticks which makes clear_overmaps take astoundingly long
+    get_avatar().move_to( tripoint_abs_ms::zero );
+    clear_overmaps();
+    clear_map();
+    clear_avatar();
+}
+
 // Smoke tests: exercise post-process generators through the full map::generate() pipeline
 // using a controlled test OMT with trivial mapgen (seeded RNG gives deterministic output).
 //
@@ -136,9 +152,7 @@ static pp_scan_result scan_omt( map &m, int z_level )
 
 TEST_CASE( "post_process_riot_damage_seeded_smoke", "[mapgen][post_process]" )
 {
-    clear_overmaps();
-    clear_map();
-    clear_avatar();
+    clear_map_and_reset_player();
     const tripoint_abs_omt pos( 50, 50, 0 );
     overmap_buffer.ter_set( pos, oter_test_pp_riot_building.id() );
     // Set surrounding tiles to field to avoid neighbor-dependent behavior
@@ -230,9 +244,7 @@ static std::vector<tile_state> snapshot_omt( map &m, int z_level )
 
 TEST_CASE( "post_process_non_rerun_guard", "[mapgen][post_process]" )
 {
-    clear_overmaps();
-    clear_map();
-    clear_avatar();
+    clear_map_and_reset_player();
     const tripoint_abs_omt pos( 50, 50, 0 );
     overmap_buffer.ter_set( pos, oter_test_pp_riot_building.id() );
     for( int dx = -1; dx <= 1; dx++ ) {
@@ -333,9 +345,7 @@ TEST_CASE( "post_process_riot_road_vs_building", "[mapgen][post_process][charact
     // Road mode (is_a_road=true) skips pre_burn.
     // Building mode (is_a_road=false) runs pre_burn.
     // Use a seed + day count where pre_burn fires for building mode.
-    clear_overmaps();
-    clear_map();
-    clear_avatar();
+    clear_map_and_reset_player();
     map &here = get_map();
     const tripoint_abs_omt pos = project_to<coords::omt>( here.get_abs_sub() );
 
@@ -381,9 +391,7 @@ TEST_CASE( "post_process_riot_road_vs_building", "[mapgen][post_process][charact
 
 TEST_CASE( "post_process_natural_underground_skip", "[mapgen][post_process][characterization]" )
 {
-    clear_overmaps();
-    clear_map();
-    clear_avatar();
+    clear_map_and_reset_player();
     map &here = get_map();
     const tripoint_abs_omt pos = project_to<coords::omt>( here.get_abs_sub() );
 
@@ -404,9 +412,7 @@ TEST_CASE( "post_process_natural_underground_skip", "[mapgen][post_process][char
 TEST_CASE( "post_process_stair_preservation", "[mapgen][post_process][characterization]" )
 {
     // When pre_burn fires, stairs (GOES_UP/GOES_DOWN) must survive.
-    clear_overmaps();
-    clear_map();
-    clear_avatar();
+    clear_map_and_reset_player();
     map &here = get_map();
     const tripoint_abs_omt pos = project_to<coords::omt>( here.get_abs_sub() );
 
@@ -445,9 +451,7 @@ TEST_CASE( "post_process_stair_preservation", "[mapgen][post_process][characteri
 
 TEST_CASE( "post_process_fire_decay", "[mapgen][post_process][characterization]" )
 {
-    clear_overmaps();
-    clear_map();
-    clear_avatar();
+    clear_map_and_reset_player();
     map &here = get_map();
     const tripoint_abs_omt pos = project_to<coords::omt>( here.get_abs_sub() );
 
@@ -467,9 +471,7 @@ TEST_CASE( "post_process_item_move_planter_preservation",
            "[mapgen][post_process][characterization]" )
 {
     // Seeds in SEALED+CONTAINER+PLANT furniture must not be moved by GENERATOR_move_items.
-    clear_overmaps();
-    clear_map();
-    clear_avatar();
+    clear_map_and_reset_player();
     map &here = get_map();
     const tripoint_abs_omt pos = project_to<coords::omt>( here.get_abs_sub() );
 
@@ -573,9 +575,7 @@ static void build_pre_burn_immunity_layout( map &m, int z_level )
 
 TEST_CASE( "post_process_pre_burn_material_immunity", "[mapgen][post_process]" )
 {
-    clear_overmaps();
-    clear_map();
-    clear_avatar();
+    clear_map_and_reset_player();
     map &here = get_map();
     const tripoint_abs_omt pos = project_to<coords::omt>( here.get_abs_sub() );
 
@@ -586,7 +586,8 @@ TEST_CASE( "post_process_pre_burn_material_immunity", "[mapgen][post_process]" )
     rng_set_engine_seed( 42424242 );
     pp_generator_test_pp_pre_burn_only.obj().execute( here, pos );
 
-    SECTION( "walls: flammable burn, non-flammable survive" ) {
+    {
+        INFO( "walls: flammable burn, non-flammable survive" );
         // Wood walls -> t_wall_burnt
         CHECK( here.ter( tripoint_bub_ms( 1, 1, 0 ) ) == ter_t_wall_burnt.id() );
         CHECK( here.ter( tripoint_bub_ms( 3, 1, 0 ) ) == ter_t_wall_burnt.id() );
@@ -595,14 +596,16 @@ TEST_CASE( "post_process_pre_burn_material_immunity", "[mapgen][post_process]" )
         CHECK( here.ter( tripoint_bub_ms( 7, 1, 0 ) ) == ter_t_wall_metal.id() );
     }
 
-    SECTION( "closed doors: flammable burn, non-flammable survive" ) {
+    {
+        INFO( "closed doors: flammable burn, non-flammable survive" );
         // Wood door -> t_floor_burnt (has DOOR flag + FLAMMABLE)
         CHECK( here.ter( tripoint_bub_ms( 1, 3, 0 ) ) == ter_t_floor_burnt.id() );
         // Metal door unchanged (has DOOR flag, no FLAMMABLE)
         CHECK( here.ter( tripoint_bub_ms( 3, 3, 0 ) ) == ter_t_door_metal_c.id() );
     }
 
-    SECTION( "open/locked doors: flammable burn to dirt, non-flammable survive" ) {
+    {
+        INFO( "open/locked doors: flammable burn to dirt, non-flammable survive" );
         // Open wood door -> t_dirt (no DOOR flag, flammable outdoor)
         CHECK( here.ter( tripoint_bub_ms( 1, 5, 0 ) ) == ter_t_dirt.id() );
         // Open metal door unchanged (no DOOR flag, not flammable)
@@ -613,25 +616,29 @@ TEST_CASE( "post_process_pre_burn_material_immunity", "[mapgen][post_process]" )
         CHECK( here.ter( tripoint_bub_ms( 7, 5, 0 ) ) == ter_t_dirt.id() );
     }
 
-    SECTION( "floors: flammable burn, non-flammable survive" ) {
+    {
+        INFO( "floors: flammable burn, non-flammable survive" );
         CHECK( here.ter( tripoint_bub_ms( 1, 7, 0 ) ) == ter_t_floor_burnt.id() );
         CHECK( here.ter( tripoint_bub_ms( 3, 7, 0 ) ) == ter_t_thconc_floor.id() );
     }
 
-    SECTION( "outdoor: grass to dirt, pavement and water survive" ) {
+    {
+        INFO( "outdoor: grass to dirt, pavement and water survive" );
         CHECK( here.ter( tripoint_bub_ms( 1, 9, 0 ) ) == ter_t_dirt.id() );
         CHECK( here.ter( tripoint_bub_ms( 3, 9, 0 ) ) == ter_t_pavement.id() );
         CHECK( here.ter( tripoint_bub_ms( 5, 9, 0 ) ) == ter_t_water_dp.id() );
     }
 
-    SECTION( "furniture: flammable destroyed, non-flammable survives" ) {
+    {
+        INFO( "furniture: flammable destroyed, non-flammable survives" );
         // Metal locker on concrete floor: locker survives
         CHECK( here.furn( tripoint_bub_ms( 1, 11, 0 ) ) == furn_f_locker.id() );
         // Wood table on concrete floor: table destroyed (terrain immunity != furniture immunity)
         CHECK( here.furn( tripoint_bub_ms( 3, 11, 0 ) ) == furn_str_id::NULL_ID().id() );
     }
 
-    SECTION( "items: cleared on non-water tiles, preserved in water" ) {
+    {
+        INFO( "items: cleared on non-water tiles, preserved in water" );
         // Items on concrete floor: cleared (fire chaos destroys contents)
         CHECK( here.i_at( tripoint_bub_ms( 1, 13, 0 ) ).empty() );
         // Items in water: preserved
@@ -689,9 +696,7 @@ TEST_CASE( "post_process_oter_field_dispatch", "[mapgen][post_process]" )
 {
     // test_pp_field_building has post_process_generators: ["test_pp_riot"], no flag.
     // Field-based dispatch should execute the generator.
-    clear_overmaps();
-    clear_map();
-    clear_avatar();
+    clear_map_and_reset_player();
     const tripoint_abs_omt pos( 50, 50, 0 );
     overmap_buffer.ter_set( pos, oter_test_pp_field_building.id() );
     for( int dx = -1; dx <= 1; dx++ ) {
@@ -729,9 +734,7 @@ TEST_CASE( "post_process_field_over_flag", "[mapgen][post_process]" )
     //
     // Both test OMTs share the same mapgen definition, so the RNG path
     // through map::generate() is identical for the same seed.
-    clear_overmaps();
-    clear_map();
-    clear_avatar();
+    clear_map_and_reset_player();
 
     const tripoint_abs_omt pos( 50, 50, 0 );
     calendar::turn = calendar::start_of_cataclysm + 14_days;
@@ -808,9 +811,7 @@ TEST_CASE( "post_process_real_core_inherited_riot", "[mapgen][post_process]" )
 {
     // s_pharm inherits riot_damage from generic_city_building -> generic_city_building_no_sidewalk.
     // After migration, the abstract has post_process_generators: ["riot_damage"].
-    clear_overmaps();
-    clear_map();
-    clear_avatar();
+    clear_map_and_reset_player();
     const tripoint_abs_omt pos( 50, 50, 0 );
     overmap_buffer.ter_set( pos, oter_s_pharm_north.id() );
     for( int dx = -1; dx <= 1; dx++ ) {
@@ -842,9 +843,7 @@ TEST_CASE( "post_process_real_core_exempt", "[mapgen][post_process]" )
 {
     // s_gas_rural explicitly deletes riot_damage via post_process_generators.
     // No PP should run on this OMT.
-    clear_overmaps();
-    clear_map();
-    clear_avatar();
+    clear_map_and_reset_player();
     const tripoint_abs_omt pos( 50, 50, 0 );
     overmap_buffer.ter_set( pos, oter_s_gas_rural_north.id() );
     for( int dx = -1; dx <= 1; dx++ ) {
@@ -1035,9 +1034,7 @@ TEST_CASE( "post_process_resolved_generator_empty_sub_decisions", "[mapgen][post
 // not silently noop or unconditionally apply.
 TEST_CASE( "post_process_null_decisions_falls_back_to_fresh_roll", "[mapgen][post_process]" )
 {
-    clear_overmaps();
-    clear_map();
-    clear_avatar();
+    clear_map_and_reset_player();
     map &here = get_map();
     const tripoint_abs_omt pos = project_to<coords::omt>( here.get_abs_sub() );
 
@@ -1064,9 +1061,7 @@ TEST_CASE( "post_process_null_decisions_falls_back_to_fresh_roll", "[mapgen][pos
 TEST_CASE( "post_process_pre_burn_skipped_is_noop_and_preserves_others",
            "[mapgen][post_process]" )
 {
-    clear_overmaps();
-    clear_map();
-    clear_avatar();
+    clear_map_and_reset_player();
     map &here = get_map();
     const tripoint_abs_omt pos = project_to<coords::omt>( here.get_abs_sub() );
 
@@ -1102,9 +1097,7 @@ TEST_CASE( "post_process_pre_burn_skipped_is_noop_and_preserves_others",
 TEST_CASE( "post_process_pre_burn_applied_runs_unconditionally",
            "[mapgen][post_process]" )
 {
-    clear_overmaps();
-    clear_map();
-    clear_avatar();
+    clear_map_and_reset_player();
     map &here = get_map();
     const tripoint_abs_omt pos = project_to<coords::omt>( here.get_abs_sub() );
 

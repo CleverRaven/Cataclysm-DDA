@@ -230,7 +230,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "material_gravel",
     "category": "spare_parts",
     "price": "0 cent",
@@ -243,8 +242,6 @@
     "//": "density: 1.6 g/cm3",
     "volume": "5 ml",
     "weight": "8 g",
-    "ammo_type": "components",
-    "count": 1,
     "melee_damage": { "bash": 1 }
   },
   {
@@ -284,7 +281,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "material_quicklime",
     "category": "chems",
     "price": "1 USD",
@@ -295,9 +291,7 @@
     "description": "The product of burning limestone, this white powder is a crucial ingredient in making cement.  That said, it is also extremely caustic and will cause severe burns to any tissue it comes in contact with.  This property could probably be exploited.",
     "material": [ "quicklime" ],
     "volume": "5 ml",
-    "weight": "16700 mg",
-    "ammo_type": "components",
-    "count": 1
+    "weight": "16700 mg"
   },
   {
     "type": "ITEM",
@@ -318,7 +312,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "material_sand",
     "category": "spare_parts",
     "price": "0 cent",
@@ -330,13 +323,10 @@
     "description": "A handful of New England sand.  If you had a stoked furnace, you could turn it into glass.  Otherwise, it's only good for making cement.",
     "material": [ "sand" ],
     "volume": "5 ml",
-    "weight": "8 g",
-    "ammo_type": "components",
-    "count": 1
+    "weight": "8 g"
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "material_soil",
     "category": "spare_parts",
     "price": "0 cent",
@@ -348,9 +338,7 @@
     "description": "A pile of loosely-packed, slightly damp loamy soil.  This mixture of sand, silt and clay is ideal for growing plants.",
     "material": [ "soil" ],
     "volume": "5 L",
-    "weight": "6500 g",
-    "ammo_type": "components",
-    "stack_size": 1
+    "weight": "6500 g"
   },
   {
     "type": "ITEM",
@@ -1130,7 +1118,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "material_niter",
     "category": "spare_parts",
     "price": "75 cent",
@@ -1142,7 +1129,6 @@
     "material": [ "powder_nonflam" ],
     "volume": "1250 ml",
     "weight": "790 g",
-    "ammo_type": "components",
     "melee_damage": { "bash": 1 }
   },
   {
@@ -1237,7 +1223,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "chem_black_powder",
     "category": "chems",
     "price": "20 USD",
@@ -1249,9 +1234,7 @@
     "material": [ "powder" ],
     "volume": "89 ml",
     "weight": "151 mg",
-    "ammo_type": "components",
-    "container": "bag_plastic_small",
-    "count": 1000
+    "container": "bag_plastic_small"
   },
   {
     "type": "ITEM",
@@ -1329,7 +1312,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "chem_rocket_fuel",
     "category": "chems",
     "price": "5 USD",
@@ -1341,9 +1323,7 @@
     "material": [ "powder" ],
     "volume": "250 ml",
     "weight": "70 g",
-    "ammo_type": "components",
     "container": "bag_plastic_small",
-    "count": 10,
     "melee_damage": { "bash": 1 }
   },
   {

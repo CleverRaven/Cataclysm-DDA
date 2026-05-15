@@ -352,6 +352,7 @@ enum class item_display_type {
     DEFAULT, // count, charges, etc.
     BY_WEIGHT, // e.g. "12lbs of salt"
     BY_VOLUME, // e.g. "4 liters of water"
+    BY_LENGTH, // e.g. "12ft of duct tape"
     LAST
 };
 

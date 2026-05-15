@@ -485,7 +485,7 @@ class vpart_info
         // recharging (charging speed in watts)
         // funnel (water collection area in mm^2)
         int bonus = 0;
-        light_color_rgb light_color;
+        light_color_rgb light_color{};
 
         /** cargo weight modifier (percentage) */
         int cargo_weight_modifier = 100;

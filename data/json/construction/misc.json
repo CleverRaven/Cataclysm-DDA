@@ -50,7 +50,7 @@
       { "item": "rock", "count": [ 0, 2 ] },
       { "item": "splinter", "count": [ 0, 2 ] },
       { "item": "scrap", "charges": [ 0, 2 ] },
-      { "item": "material_gravel", "charges": [ 0, 3 ] }
+      { "item": "material_gravel", "count": [ 0, 3 ] }
     ],
     "pre_terrain": "f_rubble",
     "post_terrain": "f_null",
@@ -229,7 +229,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "material_sand", "charges": [ 300, 600 ] } ],
+    "byproducts": [ { "item": "material_sand", "count": [ 300, 600 ] } ],
     "pre_terrain": "t_sand",
     "post_special": "done_extract_maybe_revert_to_dirt"
   },
@@ -241,7 +241,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "material_sand", "charges": [ 300, 600 ] } ],
+    "byproducts": [ { "item": "material_sand", "count": [ 300, 600 ] } ],
     "pre_terrain": "t_sandmound",
     "post_special": "done_extract_maybe_revert_to_dirt"
   },
@@ -253,7 +253,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "material_sand", "charges": [ 300, 600 ] } ],
+    "byproducts": [ { "item": "material_sand", "count": [ 300, 600 ] } ],
     "pre_terrain": "t_sand_underground",
     "post_special": "done_extract_maybe_revert_to_dirt"
   },

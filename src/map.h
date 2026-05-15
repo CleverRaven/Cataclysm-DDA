@@ -2269,9 +2269,18 @@ class map
          */
         std::vector<tripoint_bub_ms> field_ter_locs;
         /**
+         * Holds free'd caches because we probably don't have to return the memory to the OS.
+         */
+        static std::list<std::unique_ptr<level_cache>> free_cache_pool;
+        struct level_cache_free {
+            void operator()( level_cache *cache ) {
+                free_cache_pool.emplace_back( cache );
+            }
+        };
+        /**
          * Holds caches for visibility, light, transparency and vehicles
          */
-        mutable std::array< std::unique_ptr<level_cache>, OVERMAP_LAYERS > caches;
+        mutable std::array< std::unique_ptr<level_cache, level_cache_free>, OVERMAP_LAYERS > caches;
 
         mutable std::array< std::unique_ptr<pathfinding_cache>, OVERMAP_LAYERS > pathfinding_caches;
         /**
@@ -2289,12 +2298,14 @@ class map
 
         // Note: no bounds check
         level_cache &get_cache( int zlev ) const {
-            std::unique_ptr<level_cache> &cache = caches[zlev + OVERMAP_DEPTH];
+            std::unique_ptr<level_cache, level_cache_free> &cache = caches[zlev + OVERMAP_DEPTH];
             if( !cache ) {
-                cache = std::make_unique<level_cache>();
+                cache = alloc_cache();
             }
             return *cache;
         }
+
+        static std::unique_ptr<level_cache, level_cache_free> alloc_cache();
 
         level_cache *get_cache_lazy( int zlev ) const {
             return caches[zlev + OVERMAP_DEPTH].get();

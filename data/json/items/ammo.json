@@ -417,6 +417,7 @@
     "price": "3 cent",
     "price_postapoc": "1 cent",
     "name": { "str_sp": "duct tape" },
+    "display_type": "BY_LENGTH",
     "symbol": "=",
     "color": "light_gray",
     "description": "A roll of incredibly strong tape.  Its uses are innumerable.",

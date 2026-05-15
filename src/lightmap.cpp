@@ -74,7 +74,7 @@ std::string four_quadrants::to_string() const
 static light_color_rgb cached_twilight_color()
 {
     static time_point cached_turn = calendar::before_time_starts;
-    static light_color_rgb cached_color;
+    static light_color_rgb cached_color{};
     if( cached_turn == calendar::turn ) {
         return cached_color;
     }
@@ -759,7 +759,7 @@ void map::generate_lightmap( const int zlev )
                 if( !light_color_cache[x][y].is_colored() ) {
                     continue;
                 }
-                light_color_rgb sum;
+                light_color_rgb sum{};
                 int count = 0;
                 for( int dx = -1; dx <= 1; ++dx ) {
                     for( int dy = -1; dy <= 1; ++dy ) {
