@@ -64,7 +64,7 @@
   {
     "id": "mon_hollow_tribal",
     "type": "MONSTER",
-    "name": { "str": "hollow tribal" },
+    "name": { "str": "hollow laborer" },
     "description": "A human, or so you thought, but there's something unsettlingly wrong about them.  They look human, but they don't quite move like a human, and their eyes are as unfocused as the eyes of a corpse.",
     "default_faction": "hollow_civilian",
     "looks_like": "mon_feral_human_pipe",
