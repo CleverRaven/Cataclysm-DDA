@@ -470,7 +470,7 @@ void overmap::unserialize( const JsonObject &jsobj )
         std::vector<std::pair<tripoint_om_omt, int>> flat_index;
         jsobj.read( "mapgen_arg_index", flat_index, true );
         for( const std::pair<tripoint_om_omt, int> &p : flat_index ) {
-            auto it = mapgen_arg_storage.get_iterator_from_index( p.second );
+            auto it = cata::get_iterator_from_index( mapgen_arg_storage, p.second );
             mapgen_args_index.emplace( p.first, &*it );
         }
     }
@@ -488,7 +488,7 @@ void overmap::unserialize( const JsonObject &jsobj )
         std::vector<std::pair<tripoint_om_omt, int>> flat_index;
         jsobj.read( "pp_decisions_index", flat_index, true );
         for( const std::pair<tripoint_om_omt, int> &p : flat_index ) {
-            auto it = pp_decision_storage.get_iterator_from_index( p.second );
+            auto it = cata::get_iterator_from_index( pp_decision_storage, p.second );
             pp_decisions_index.emplace( p.first, &*it );
         }
     }
@@ -1558,8 +1558,8 @@ void overmap::serialize( std::ostream &fout ) const
          mapgen_args_index ) {
         json.start_array();
         json.write( p.first );
-        auto it = mapgen_arg_storage.get_iterator_from_pointer( p.second );
-        int index = mapgen_arg_storage.get_index_from_iterator( it );
+        auto it = mapgen_arg_storage.get_iterator( p.second );
+        int index = cata::get_index_from_iterator( mapgen_arg_storage, it );
         json.write( index );
         json.end_array();
     }
@@ -1585,8 +1585,8 @@ void overmap::serialize( std::ostream &fout ) const
          pp_decisions_index ) {
         json.start_array();
         json.write( p.first );
-        auto it = pp_decision_storage.get_iterator_from_pointer( p.second );
-        int index = pp_decision_storage.get_index_from_iterator( it );
+        auto it = pp_decision_storage.get_iterator( p.second );
+        int index = cata::get_index_from_iterator( pp_decision_storage, it );
         json.write( index );
         json.end_array();
     }

@@ -454,7 +454,7 @@ void Pickup::autopickup( const tripoint_bub_ms &p )
     }
     // which items are we grabbing?
     std::vector<item_stack::iterator> here;
-    const map_stack mapitems = local.i_at( p );
+    map_stack mapitems = local.i_at( p );
     here.reserve( mapitems.size() );
     for( item_stack::iterator it = mapitems.begin(); it != mapitems.end(); ++it ) {
         here.push_back( it );
