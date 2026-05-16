@@ -2587,11 +2587,16 @@ void crafting_ui_impl::process_action( const std::string &action_in,
             nested_toggle( current[line]->ident(), recalc, keepline );
         } else {
             const int bs = get_batch_size();
+            const recipe crafting_rec = *current[line];
             craft_confirm_result confirm = can_start_craft(
-                                               *current[line], available[line], *crafter );
+                                               crafting_rec, available[line], *crafter, bs );
             switch( confirm ) {
                 case craft_confirm_result::cannot_craft:
                     popup( _( "Crafter can't craft that!" ) );
+                    break;
+                case craft_confirm_result::too_many_results:
+                    popup( string_format( _( "Batch would create too many items (%1$d).  The limit is %2$d." ),
+                                          crafting_rec.makes_amount() * bs, MAX_ITEM_IN_SQUARE ) );
                     break;
                 case craft_confirm_result::too_dark:
                     popup( _( "Crafter can't see!" ) );
