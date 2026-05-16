@@ -1937,7 +1937,7 @@
     "id": "seal",
     "name": "Navy SEAL",
     "requirement": "achievement_reach_aircraft_carrier",
-    "description": "You were a member of the SEALs; a key component of the US Navy's special forces and a proficient combatant in both maritime and ground operations.  'The only easy day was yesterday,' and with the chain of command in ruins, you may fulfill your final mission in any way you see fit.",
+    "description": "You were a member of the SEALs; a key component of the US Navy's special forces and a proficient combatant in both maritime and ground operations.  'The only easy day was yesterday', and with the chain of command in ruins, you may fulfill your final mission in any way you see fit.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 8,
     "proficiencies": [
