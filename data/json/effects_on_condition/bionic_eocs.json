@@ -263,7 +263,7 @@
     "id": "EOC_bio_nl_hair",
     "effect": [
       {
-        "run_eoc_selector": [ "barber_hair", "barber_beard", "bio_use_hair_dye_kit" ],
+        "run_eoc_selector": [ "bio_barber_hair", "bio_barber_beard", "bio_use_hair_dye_kit" ],
         "allow_cancel": true,
         "names": [ "Hairstyle", "Facial Hair", "Hair Color" ],
         "title": "Pick an action",
@@ -273,6 +273,46 @@
           "Change the color of your hair."
         ]
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_barber_hair",
+    "effect": { "open_dialogue": { "topic": "TALK_BIO_ADJUST_YOUR_HAIR" } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "reset_all_artificial_hair_types",
+    "//": "This will reset all artificial hair types for the purposes of applying new ones.",
+    "effect": [
+      { "u_lose_trait": "artificial_hair_buzzcut" },
+      { "u_lose_trait": "artificial_hair_crewcut" },
+      { "u_lose_trait": "artificial_hair_short" },
+      { "u_lose_trait": "artificial_hair_short_no_fringe" },
+      { "u_lose_trait": "artificial_hair_short_over_eye" },
+      { "u_lose_trait": "artificial_hair_medium" },
+      { "u_lose_trait": "artificial_hair_mohawk" },
+      { "u_lose_trait": "artificial_hair_long" },
+      { "u_lose_trait": "artificial_hair_long_mohawk" },
+      { "u_lose_trait": "artificial_hair_mullet" },
+      { "u_lose_trait": "artificial_hair_long_over_eye" },
+      { "u_lose_trait": "artificial_hair_messy" },
+      { "u_lose_trait": "artificial_hair_very_long" },
+      { "u_lose_trait": "artificial_hair_extremely_long" },
+      { "u_lose_trait": "artificial_hair_body_length" },
+      { "u_lose_trait": "artificial_hair_modern" },
+      { "u_lose_trait": "artificial_hair_puff" },
+      { "u_lose_trait": "artificial_hair_beaded" },
+      { "u_lose_trait": "artificial_hair_curls" },
+      { "u_lose_trait": "artificial_hair_bun" },
+      { "u_lose_trait": "artificial_hair_punk_long" },
+      { "u_lose_trait": "artificial_hair_braid" },
+      { "u_lose_trait": "artificial_hair_detective" },
+      { "u_lose_trait": "artificial_hair_super_princess" },
+      { "u_lose_trait": "artificial_hair_twintails" },
+      { "u_lose_trait": "artificial_hair_bald" },
+      { "u_lose_trait": "artificial_hair_fro" },
+      { "u_lose_trait": "artificial_hair_ponytail" }
     ]
   },
   {
@@ -295,16 +335,16 @@
         "names": [ "Black", "Blond", "Blue", "Brown", "Gray", "Green", "Red", "Pink", "White", "Nevermind" ],
         "keys": [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" ],
         "descriptions": [
-          "Make your hair black.",
-          "Make your hair blond.",
-          "Make your hair blue.",
-          "Make your hair brown.",
-          "Make your hair gray.",
-          "Make your hair green.",
-          "Make your hair red.",
-          "Make your hair pink.",
-          "Make your hair white.",
-          "Don't do anything."
+          "Make your artificial hair black.",
+          "Make your artificial hair blond.",
+          "Make your artificial hair blue.",
+          "Make your artificial hair brown.",
+          "Make your artificial hair gray.",
+          "Make your artificial hair green.",
+          "Make your artificial hair red.",
+          "Make your artificial hair pink.",
+          "Make your artificial hair white.",
+          "Don't change anything."
         ]
       }
     ]
@@ -314,7 +354,7 @@
     "id": "bio_black_hair_dye",
     "effect": [
       { "u_message": "You adjust the color of your artificial hair." },
-      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "black" } }
+      { "run_eocs": "bio_change_hair_color", "variables": { "color_id": "black" } }
     ]
   },
   {
@@ -322,7 +362,7 @@
     "id": "bio_blond_hair_dye",
     "effect": [
       { "u_message": "You adjust the color of your artificial hair." },
-      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "blond" } }
+      { "run_eocs": "bio_change_hair_color", "variables": { "color_id": "blond" } }
     ]
   },
   {
@@ -330,7 +370,7 @@
     "id": "bio_blue_hair_dye",
     "effect": [
       { "u_message": "You adjust the color of your artificial hair." },
-      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "blue" } }
+      { "run_eocs": "bio_change_hair_color", "variables": { "color_id": "blue" } }
     ]
   },
   {
@@ -338,7 +378,7 @@
     "id": "bio_brown_hair_dye",
     "effect": [
       { "u_message": "You adjust the color of your artificial hair." },
-      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "brown" } }
+      { "run_eocs": "bio_change_hair_color", "variables": { "color_id": "brown" } }
     ]
   },
   {
@@ -346,7 +386,7 @@
     "id": "bio_gray_hair_dye",
     "effect": [
       { "u_message": "You adjust the color of your artificial hair." },
-      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "gray" } }
+      { "run_eocs": "bio_change_hair_color", "variables": { "color_id": "gray" } }
     ]
   },
   {
@@ -354,7 +394,7 @@
     "id": "bio_green_hair_dye",
     "effect": [
       { "u_message": "You adjust the color of your artificial hair." },
-      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "green" } }
+      { "run_eocs": "bio_change_hair_color", "variables": { "color_id": "green" } }
     ]
   },
   {
@@ -362,7 +402,7 @@
     "id": "bio_red_hair_dye",
     "effect": [
       { "u_message": "You adjust the color of your artificial hair." },
-      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "red" } }
+      { "run_eocs": "bio_change_hair_color", "variables": { "color_id": "red" } }
     ]
   },
   {
@@ -370,7 +410,7 @@
     "id": "bio_pink_hair_dye",
     "effect": [
       { "u_message": "You adjust the color of your artificial hair." },
-      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "pink" } }
+      { "run_eocs": "bio_change_hair_color", "variables": { "color_id": "pink" } }
     ]
   },
   {
@@ -378,7 +418,137 @@
     "id": "bio_white_hair_dye",
     "effect": [
       { "u_message": "You adjust the color of your artificial hair." },
-      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "white" } }
+      { "run_eocs": "bio_change_hair_color", "variables": { "color_id": "white" } }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_change_hair_color",
+    "global": false,
+    "condition": { "expects_vars": [ "color_id" ] },
+    "effect": [
+      {
+        "if": { "u_has_trait": "artificial_hair_buzzcut" },
+        "then": [
+          { "u_lose_trait": "artificial_hair_buzzcut" },
+          { "u_add_trait": "artificial_hair_buzzcut", "variant": { "context_val": "color_id" } }
+        ],
+        "else": {
+          "if": { "u_has_trait": "artificial_hair_crewcut" },
+          "then": [
+            { "u_lose_trait": "artificial_hair_crewcut" },
+            { "u_add_trait": "artificial_hair_crewcut", "variant": { "context_val": "color_id" } }
+          ],
+          "else": {
+            "if": { "u_has_trait": "artificial_hair_short" },
+            "then": [
+              { "u_lose_trait": "artificial_hair_short" },
+              { "u_add_trait": "artificial_hair_short", "variant": { "context_val": "color_id" } }
+            ],
+            "else": {
+              "if": { "u_has_trait": "artificial_hair_short_no_fringe" },
+              "then": [
+                { "u_lose_trait": "artificial_hair_short_no_fringe" },
+                { "u_add_trait": "artificial_hair_short_no_fringe", "variant": { "context_val": "color_id" } }
+              ],
+              "else": {
+                "if": { "u_has_trait": "artificial_hair_short_over_eye" },
+                "then": [
+                  { "u_lose_trait": "artificial_hair_short_over_eye" },
+                  { "u_add_trait": "artificial_hair_short_over_eye", "variant": { "context_val": "color_id" } }
+                ],
+                "else": {
+                  "if": { "or": [ { "u_has_trait": "artificial_hair_medium" } ] },
+                  "then": [
+                    { "u_lose_trait": "artificial_hair_medium" },
+                    { "u_add_trait": "artificial_hair_medium", "variant": { "context_val": "color_id" } }
+                  ],
+                  "else": {
+                    "if": { "u_has_trait": "artificial_hair_mohawk" },
+                    "then": [
+                      { "u_lose_trait": "artificial_hair_mohawk" },
+                      { "u_add_trait": "artificial_hair_mohawk", "variant": { "context_val": "color_id" } }
+                    ],
+                    "else": {
+                      "if": { "u_has_trait": "artificial_hair_long" },
+                      "then": [
+                        { "u_lose_trait": "artificial_hair_long" },
+                        { "u_add_trait": "artificial_hair_long", "variant": { "context_val": "color_id" } }
+                      ],
+                      "else": {
+                        "if": { "u_has_trait": "artificial_hair_long_mohawk" },
+                        "then": [
+                          { "u_lose_trait": "artificial_hair_long_mohawk" },
+                          { "u_add_trait": "artificial_hair_long_mohawk", "variant": { "context_val": "color_id" } }
+                        ],
+                        "else": {
+                          "if": { "u_has_trait": "artificial_hair_mullet" },
+                          "then": [
+                            { "u_lose_trait": "artificial_hair_mullet" },
+                            { "u_add_trait": "artificial_hair_mullet", "variant": { "context_val": "color_id" } }
+                          ],
+                          "else": {
+                            "if": { "u_has_trait": "artificial_hair_long_over_eye" },
+                            "then": [
+                              { "u_lose_trait": "artificial_hair_long_over_eye" },
+                              {
+                                "u_add_trait": "artificial_hair_long_over_eye",
+                                "variant": { "context_val": "color_id" }
+                              }
+                            ],
+                            "else": {
+                              "if": { "or": [ { "u_has_trait": "artificial_hair_messy" } ] },
+                              "then": [
+                                { "u_lose_trait": "artificial_hair_messy" },
+                                { "u_add_trait": "artificial_hair_messy", "variant": { "context_val": "color_id" } }
+                              ],
+                              "else": {
+                                "if": { "or": [ { "u_has_trait": "artificial_hair_very_long" } ] },
+                                "then": [
+                                  { "u_lose_trait": "artificial_hair_very_long" },
+                                  {
+                                    "u_add_trait": "artificial_hair_very_long",
+                                    "variant": { "context_val": "color_id" }
+                                  }
+                                ],
+                                "else": {
+                                  "if": { "or": [ { "u_has_trait": "artificial_hair_extremely_long" } ] },
+                                  "then": [
+                                    { "u_lose_trait": "artificial_hair_extremely_long" },
+                                    {
+                                      "u_add_trait": "artificial_hair_extremely_long",
+                                      "variant": { "context_val": "color_id" }
+                                    }
+                                  ],
+                                  "else": {
+                                    "if": { "or": [ { "u_has_trait": "artificial_hair_body_length" } ] },
+                                    "then": [
+                                      { "u_lose_trait": "artificial_hair_body_length" },
+                                      {
+                                        "u_add_trait": "artificial_hair_body_length",
+                                        "variant": { "context_val": "color_id" }
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bio_barber_beard",
+    "effect": { "open_dialogue": { "topic": "TALK_BIO_ADJUST_YOUR_BEARD" } }
   }
 ]
