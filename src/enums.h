@@ -74,6 +74,14 @@ struct enum_traits<bionic_ui_sort_mode> {
     static constexpr bionic_ui_sort_mode last = bionic_ui_sort_mode::nsort;
 };
 
+enum class veh_spawn_status : int {
+    DEFAULT_LIGHT_DMG = -1, // light damage (DEFAULT)
+    UNDAMAGED = 0, // Undamaged
+    DISABLED = 1, // disabled: destroyed seats, controls, tanks, tires, OR engine
+    PRISTINE = 2, // undamaged with no faults or security
+    LAST = 3
+};
+
 // default is sorting by distance
 enum class surroundings_menu_sort_flags : int {
     DEFAULT       = 0,

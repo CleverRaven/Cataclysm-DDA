@@ -1029,7 +1029,7 @@ class vehicle
         bool remote_controlled( const Character &p ) const;
 
         // initializes parts and fuel state for randomly generated vehicle and calls refresh()
-        void init_state( map &placed_on, int init_veh_fuel, int init_veh_status,
+        void init_state( map &placed_on, int init_veh_fuel, veh_spawn_status init_veh_status,
                          bool force_status = false );
 
         // damages all parts of a vehicle by a random amount

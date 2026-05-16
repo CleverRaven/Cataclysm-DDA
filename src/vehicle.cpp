@@ -331,7 +331,7 @@ bool vehicle::remote_controlled( const Character &p ) const
     return false;
 }
 
-void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status,
+void vehicle::init_state( map &placed_on, int init_veh_fuel, veh_spawn_status init_veh_status,
                           const bool force_status/* = false*/ )
 {
     // vehicle parts excluding engines in non-owned vehicles are by default turned off
@@ -354,7 +354,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
 
     if( get_option<bool>( "OVERRIDE_VEHICLE_INIT_STATE" ) ) {
         if( !force_status ) {
-            init_veh_status = get_option<int>( "VEHICLE_STATUS_AT_SPAWN" );
+            init_veh_status = static_cast<veh_spawn_status>( get_option<int>( "VEHICLE_STATUS_AT_SPAWN" ) );
         }
         init_veh_fuel = get_option<int>( "VEHICLE_FUEL_AT_SPAWN" );
     }
@@ -379,17 +379,13 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
             vp.ammo_set( fuel, max );
         }
     };
-    // veh_status is initial vehicle damage
-    // -1 = light damage (DEFAULT)
-    //  0 = undamaged
-    //  1 = disabled: destroyed seats, controls, tanks, tires, OR engine
-    //  2 = undamaged with no faults or security
-    int veh_status = -1;
-    if( init_veh_status == 0 ) {
-        veh_status = 0;
+
+    veh_spawn_status veh_status = veh_spawn_status::DEFAULT_LIGHT_DMG;
+    if( init_veh_status == veh_spawn_status::UNDAMAGED ) {
+        veh_status = veh_spawn_status::UNDAMAGED;
     }
-    if( init_veh_status == 1 ) {
-        veh_status = 1;
+    if( init_veh_status == veh_spawn_status::DISABLED ) {
+        veh_status = veh_spawn_status::DISABLED;
 
         const int rand = rng( 1, 5 );
         switch( rand ) {
@@ -423,15 +419,15 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
     // Make engine faults more likely
     destroyEngine = destroyEngine || one_in( 3 );
 
-    if( init_veh_status == 2 ) {
-        veh_status = 0;
+    if( init_veh_status == veh_spawn_status::PRISTINE ) {
+        veh_status = veh_spawn_status::UNDAMAGED;
         has_no_key = false;
         destroyAlarm = false;
         destroyEngine = false;
     }
 
     //Provide some variety to non-mint vehicles
-    if( veh_status != 0 ) {
+    if( veh_status != veh_spawn_status::UNDAMAGED ) {
         //Leave engine running in some vehicles, if the engine has not been destroyed
         //chance decays from 1 in 4 vehicles on day 0 to 1 in (day + 4) in the future.
         int current_day = std::max( to_days<int>( calendar::turn - calendar::turn_zero ), 0 );
@@ -516,7 +512,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
         }
 
         // initial vehicle damage
-        if( veh_status == 0 ) {
+        if( veh_status == veh_spawn_status::UNDAMAGED ) {
             // Completely mint condition vehicle
             set_hp( pt, vp.info().durability, false );
         } else {
@@ -560,7 +556,8 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
             }
 
             //Solar panels have 25% of being destroyed
-            if( vp.has_feature( "SOLAR_PANEL" ) && one_in( 4 ) && init_veh_status != 2 ) {
+            if( vp.has_feature( "SOLAR_PANEL" ) && one_in( 4 ) &&
+                init_veh_status != veh_spawn_status::PRISTINE ) {
                 set_hp( pt, 0, false );
             }
 
@@ -614,7 +611,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
     }
 
     // Additional 50% chance for heavy damage to disabled vehicles
-    if( veh_status == 1 && one_in( 2 ) ) {
+    if( veh_status == veh_spawn_status::DISABLED && one_in( 2 ) ) {
         damage_all_parts( 0.5 );
     }
 
