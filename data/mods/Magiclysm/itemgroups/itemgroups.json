@@ -1187,6 +1187,20 @@
     ]
   },
   {
+    "id": "enchanted_combat_items_non_wearable",
+    "//": "A distribution of magical items for combat loot.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "enchanted_wands_disposable_combat", "prob": 10 },
+      {
+        "distribution": [ { "group": "enchanted_melee_weapons_plus1", "prob": 95 }, { "group": "enchanted_melee_weapons_plus2", "prob": 5 } ],
+        "prob": 4
+      },
+      { "group": "enchanted_small_items", "prob": 1 }
+    ]
+  },
+  {
     "id": "boss_treasure_items",
     "//": "A distribution of rare magical items treasure rooms.",
     "type": "item_group",
@@ -1887,5 +1901,38 @@
     "subtype": "distribution",
     "//": "Goldbrew - rarity as single malt whiskey, dragonfire - rarity as vodka.",
     "extend": { "entries": [ { "item": "dragonfire", "prob": 20 }, { "item": "goldbrew", "prob": 2 } ] }
+  },
+  {
+    "id": "forge_of_wonders_tradeables",
+    "type": "item_group",
+    "subtype": "collection",
+    "//1": "All magical items that are accepted by the Forge of Wonders merchants.",
+    "//2": "This is a common list for things that are accepted by multiple merchants.",
+    "items": [
+      { "group": "magiclysm_joke_scrolls" },
+      { "group": "magic_CBM" },
+      { "group": "enchanted_rings_common" },
+      { "group": "enchanted_rings_uncommon" },
+      { "group": "enchanted_rings_rare" },
+      { "group": "enchanted_rings_unusual" },
+      { "group": "enchanted_combat_items" },
+      { "group": "enchanted_misc" },
+      { "group": "enchanted_masks" },
+      { "group": "enchanted_worn_items" },
+      { "group": "enchanted_bracers_greater" },
+      { "group": "enchanted_cloaks_rare" },
+      { "group": "items_of_elvenkind" },
+      { "group": "enchanted_tokens_tool" },
+      { "group": "enchanted_tokens_weapon" },
+      { "group": "enchanted_tools_plus1" },
+      { "group": "enchanted_tools_plus2" },
+      { "group": "enchanted_melee_weapons_plus1" },
+      { "group": "enchanted_melee_weapons_plus2" },
+      { "group": "enchanted_wands_greater" },
+      { "group": "enchanted_wands_lesser" },
+      { "group": "enchanted_arrows" },
+      { "group": "alchemy_monster_loot" },
+      { "item": "dragon_blood" }
+    ]
   }
 ]
