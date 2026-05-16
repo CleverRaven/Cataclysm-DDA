@@ -1372,7 +1372,7 @@ std::optional<butcher_type> butcher_submenu( const std::vector<map_stack::iterat
                                 msgFactor ) ) );
     smenu.addentry_col( static_cast<int>( butcher_type::BLEED ),
                         is_enabled( butcher_type::BLEED ),
-                        'l', _( "Bleed corpse" )
+                        'e', _( "Bleed corpse" )
                         + progress_str( butcher_type::BLEED ),
                         time_or_disabledreason( butcher_type::BLEED ),
                         wrap60( string_format( "%s  %s",
@@ -1383,7 +1383,7 @@ std::optional<butcher_type> butcher_submenu( const std::vector<map_stack::iterat
                                 msgFactor ) ) );
     smenu.addentry_col( static_cast<int>( butcher_type::QUARTER ),
                         is_enabled( butcher_type::QUARTER ),
-                        'k', _( "Quarter corpse" )
+                        'q', _( "Quarter corpse" )
                         + progress_str( butcher_type::QUARTER ),
                         time_or_disabledreason( butcher_type::QUARTER ),
                         wrap60( string_format( "%s  %s",
