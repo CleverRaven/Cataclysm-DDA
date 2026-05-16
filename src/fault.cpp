@@ -251,7 +251,7 @@ void fault::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "item_prefix", item_prefix_ );
     optional( jo, was_loaded, "item_suffix", item_suffix_ );
     optional( jo, was_loaded, "message", message_ );
-    optional( jo, was_loaded, "color", color_, "bad" )
+    optional( jo, was_loaded, "color", color_, "bad" );
     optional( jo, was_loaded, "fault_type", type_ );
     optional( jo, was_loaded, "flags", flags );
     optional( jo, was_loaded, "block_faults", block_faults );
