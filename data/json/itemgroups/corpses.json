@@ -500,12 +500,5 @@
       { "group": "scarfs_unisex", "damage": [ 1, 4 ], "prob": 20 },
       { "group": "accesories_personal_unisex", "prob": 15 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "adderall_bottle_plastic_pill_prescription_10",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "adderall", "container-item": "null", "count": 10 } ]
   }
 ]

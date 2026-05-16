@@ -891,48 +891,6 @@
   },
   {
     "type": "item_group",
-    "id": "iodine_bottle_plastic_pill_supplement_10",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_supplement",
-    "entries": [ { "item": "iodine", "container-item": "null", "count": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "prussian_blue_bottle_plastic_pill_supplement_10",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_supplement",
-    "entries": [ { "item": "prussian_blue", "container-item": "null", "count": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "antiparasitic_bottle_plastic_pill_prescription_5",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "antiparasitic", "container-item": "null", "count": 5 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "codeine_bottle_plastic_pill_painkiller_1_10",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_painkiller",
-    "entries": [ { "item": "codeine", "container-item": "null", "count": [ 1, 10 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "antibiotics_bottle_plastic_pill_prescription_1_15",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "antibiotics", "container-item": "null", "count": [ 1, 15 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "weak_antibiotic_bottle_plastic_pill_prescription_1_5",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "weak_antibiotic", "container-item": "null", "count": [ 1, 5 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "chocolate_wrapper_3",
     "subtype": "collection",
     "container-item": "wrapper",
