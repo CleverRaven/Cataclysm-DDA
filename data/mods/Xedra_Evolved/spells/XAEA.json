@@ -355,8 +355,8 @@
     "effect": "mod_moves",
     "shape": "blast",
     "damage_type": "bash",
-    "min_damage": 500,
-    "max_damage": 1500,
+    "min_damage": { "math": [ "1500 / u_speed() * 100" ] },
+    "max_damage": { "math": [ "2500 / u_speed() * 100" ] },
     "message": "The world around you silently stops.",
     "sound_description": ""
   },
