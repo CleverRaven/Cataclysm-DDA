@@ -75,6 +75,7 @@
     "id": "fault_punctured_tires",
     "type": "fault",
     "name": { "str": "Punctured tire" },
+    "fault_type": "mechanical_damage",
     "description": "Something made a hole in the tire, and it is now as flat as the ground it drives onto.",
     "price_modifier": 0.0,
     "//COMMENT": "Reduced contact area, but not 0. Making the contact area lower actually reduces the effect of low traction and high rolling resistance.",
