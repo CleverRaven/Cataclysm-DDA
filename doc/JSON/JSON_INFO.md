@@ -1665,6 +1665,7 @@ Faults can be defined for more specialized damage of an item.
   "type": "fault",
   "id": "fault_gun_chamber_spent", // unique id for the fault
   "name": { "str": "Spent casing in chamber" }, // fault name for display
+  "color": "bad" // color for displaying the fault name, accepts 'bad', 'neutral', or 'good'
   "description": "This gun currently...", // fault description
   "item_prefix": "jammed", // optional string, items with this fault will be prefixed with this
   "item_suffix": "no handle", // optional string, items with this fault will be suffixed with this. The string would be encased in parentheses, like `sword (no handle)`
