@@ -349,7 +349,7 @@
     "id": "XAEA_mod_moves",
     "type": "SPELL",
     "name": { "str": "Artifact Add Moves", "//~": "NO_I18N" },
-    "description": { "str": "Gives 5 - 15 seconds of free actions.", "//~": "NO_I18N" },
+    "description": { "str": "Gives roughly 15-25 seconds of free actions.  Inverse to current speed compared to 100.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "RANDOM_DAMAGE", "IGNORE_WALLS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "mod_moves",
