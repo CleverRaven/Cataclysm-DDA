@@ -31,7 +31,7 @@
     "damage_modifier": 10,
     "looks_like": "f_floor_lamp",
     "breaks_into": [
-      { "item": "cable", "charges": [ 1, 4 ] },
+      { "item": "cable", "count": [ 1, 4 ] },
       { "item": "steel_chunk", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
@@ -102,7 +102,7 @@
     "item": "test_extension_cable",
     "requirements": { "removal": { "time": "5 s" } },
     "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "POWER_TRANSFER" ],
-    "breaks_into": [ { "item": "cable", "charges": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
+    "breaks_into": [ { "item": "cable", "count": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
     "variants": [ { "symbols": "{", "symbols_broken": "*" } ]
   },
   {
@@ -141,7 +141,7 @@
     "item": "test_power_cord_25_loss",
     "requirements": { "removal": { "time": "5 s" } },
     "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "POWER_TRANSFER" ],
-    "breaks_into": [ { "item": "cable", "charges": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
+    "breaks_into": [ { "item": "cable", "count": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
     "variants": [ { "symbols": "{", "symbols_broken": "*" } ]
   },
   {
@@ -175,7 +175,7 @@
     "damage_modifier": 10,
     "looks_like": "f_floor_lamp",
     "breaks_into": [
-      { "item": "cable", "charges": [ 1, 4 ] },
+      { "item": "cable", "count": [ 1, 4 ] },
       { "item": "steel_chunk", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],

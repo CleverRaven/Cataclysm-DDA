@@ -2,7 +2,6 @@
   {
     "id": "buckle_steel",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "steel buckle" },
     "description": "A steel buckle, like the kind usually found on belts.",
@@ -12,13 +11,11 @@
     "price_postapoc": "10 cent",
     "material": [ "steel" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "ammo_type": "components"
+    "color": "dark_gray"
   },
   {
     "id": "button_plastic",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "button" },
     "description": "A button, usually found on clothing.",
@@ -28,8 +25,6 @@
     "price_postapoc": "10 cent",
     "symbol": "=",
     "color": "dark_gray",
-    "count": 20,
-    "ammo_type": "components",
     "variants": [
       { "id": "generic" },
       { "id": "bone", "name": { "str": "bone button" }, "weight": 0 },
@@ -42,7 +37,6 @@
     "id": "snapfastener_steel",
     "copy-from": "button_plastic",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "name": { "str": "steel snap fastener" },
     "description": "A steel snap fastener, usually found on clothing.",
     "variants": [  ]
@@ -50,7 +44,6 @@
   {
     "id": "touch_fastener",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "touch fastener" },
     "description": "A pair of cloth strips, one of which has tiny hooks and another with tiny loops.  Useful as a fastener for clothing and footwear.",
@@ -60,14 +53,12 @@
     "price_postapoc": "10 cent",
     "material": [ "cotton" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "ammo_type": "components"
+    "color": "dark_gray"
   },
   {
     "id": "zipper_long_plastic",
     "copy-from": "zipper_short_plastic",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "name": { "str": "long plastic zipper" },
     "description": "A long zipper made from plastic, usually found on clothing.",
     "proportional": { "weight": 3, "volume": 3, "price": 3 }
@@ -75,7 +66,6 @@
   {
     "id": "zipper_short_plastic",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "short plastic zipper" },
     "description": "A short zipper made from plastic, usually found on footwear or clothing pockets.",
@@ -85,7 +75,6 @@
     "price_postapoc": "10 cent",
     "material": [ "plastic", "cotton" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "ammo_type": "components"
+    "color": "dark_gray"
   }
 ]

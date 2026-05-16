@@ -447,7 +447,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "cable",
     "category": "spare_parts",
     "price": "20 USD",
@@ -459,9 +458,7 @@
     "material": [ { "type": "copper", "portion": 85 }, { "type": "plastic", "portion": 15 } ],
     "//": "Calculated off of copper wire with an extra 0.5mm of diameter and 0.66g.",
     "volume": "155 ml",
-    "weight": "5413 mg",
-    "ammo_type": "components",
-    "count": 200
+    "weight": "5413 mg"
   },
   {
     "type": "ITEM",
@@ -692,7 +689,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "feather",
     "category": "spare_parts",
     "price": "30 USD",
@@ -704,10 +700,7 @@
     "material": [ "cotton" ],
     "flags": [ "NO_SALVAGE" ],
     "volume": "250 ml",
-    "weight": "1 g",
-    "ammo_type": "components",
-    "stack_size": 100,
-    "count": 20
+    "weight": "1 g"
   },
   {
     "type": "ITEM",
@@ -766,7 +759,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "gunpowder",
     "category": "chems",
     "price": "5 USD",
@@ -780,13 +772,11 @@
     "flags": [ "TINDER" ],
     "volume": "250 ml",
     "weight": "100 mg",
-    "ammo_type": "components",
-    "count": 4540,
-    "effects": [ "COOKOFF" ]
+    "explode_in_fire": true,
+    "explosion": { "power": 42 }
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "gunpowder_shotgun",
     "copy-from": "gunpowder",
     "price": "30 USD",
@@ -796,7 +786,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "gunpowder_pistol",
     "copy-from": "gunpowder",
     "price": "30 USD",
@@ -806,7 +795,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "gunpowder_magnum_pistol",
     "copy-from": "gunpowder",
     "price": "30 USD",
@@ -816,7 +804,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "gunpowder_rifle",
     "copy-from": "gunpowder",
     "price": "30 USD",
@@ -826,7 +813,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "gunpowder_large_rifle",
     "copy-from": "gunpowder",
     "price": "30 USD",
@@ -836,7 +822,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "gunpowder_artillery",
     "copy-from": "gunpowder",
     "price": "30 USD",
@@ -846,7 +831,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "oxy_powder",
     "category": "chems",
     "price": "30 USD",
@@ -856,15 +840,14 @@
     "color": "white",
     "description": "Volatile powdered chemical oxidizer.",
     "material": [ "powder" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200,
-    "effects": [ "COOKOFF" ]
+    "explode_in_fire": true,
+    "//": "Burns rapidly but not really an explosion.",
+    "explosion": { "power": 20 }
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "lye_powder",
     "category": "chems",
     "price": "30 USD",
@@ -874,14 +857,11 @@
     "color": "white",
     "description": "Powdered caustic soda, also known as sodium hydroxide.",
     "material": [ "powder_nonflam" ],
-    "volume": "250 ml",
-    "weight": "2662 mg",
-    "ammo_type": "components",
-    "count": 200
+    "volume": "1 ml",
+    "weight": "2662 mg"
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "shotgun_primer",
     "category": "spare_parts",
     "price": "30 USD",
@@ -891,15 +871,13 @@
     "color": "dark_gray",
     "description": "A primer from a shotgun shell.",
     "material": [ "steel", "powder" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200,
-    "effects": [ "COOKOFF" ]
+    "explode_in_fire": true,
+    "explosion": { "power": 50 }
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "smpistol_primer",
     "category": "spare_parts",
     "price": "40 USD",
@@ -909,15 +887,13 @@
     "color": "dark_gray",
     "description": "A primer from a small-caliber pistol round.",
     "material": [ "steel", "powder" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200,
-    "effects": [ "COOKOFF" ]
+    "explode_in_fire": true,
+    "explosion": { "power": 50 }
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "lgpistol_primer",
     "category": "spare_parts",
     "price": "60 USD",
@@ -927,15 +903,13 @@
     "color": "dark_gray",
     "description": "A primer from a large-caliber pistol round.",
     "material": [ "steel", "powder" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200,
-    "effects": [ "COOKOFF" ]
+    "explode_in_fire": true,
+    "explosion": { "power": 50 }
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "smrifle_primer",
     "category": "spare_parts",
     "price": "60 USD",
@@ -945,15 +919,13 @@
     "color": "dark_gray",
     "description": "A primer from a small-caliber rifle round.",
     "material": [ "steel", "powder" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200,
-    "effects": [ "COOKOFF" ]
+    "explode_in_fire": true,
+    "explosion": { "power": 50 }
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "lgrifle_primer",
     "category": "spare_parts",
     "price": "80 USD",
@@ -963,15 +935,13 @@
     "color": "dark_gray",
     "description": "A primer from a large-caliber rifle round.",
     "material": [ "steel", "powder" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200,
-    "effects": [ "COOKOFF" ]
+    "explode_in_fire": true,
+    "explosion": { "power": 50 }
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "spent_shotgun_primer",
     "category": "spare_parts",
     "price": "0 USD",
@@ -981,14 +951,11 @@
     "color": "dark_gray",
     "description": "A primer from a shotgun shell.  It has been fired, and must be cleaned and reloaded to use again.",
     "material": [ "steel" ],
-    "volume": "250 ml",
-    "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200
+    "volume": "1 ml",
+    "weight": "1 g"
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "spent_smpistol_primer",
     "category": "spare_parts",
     "price": "0 USD",
@@ -998,14 +965,11 @@
     "color": "dark_gray",
     "description": "A primer from a small-caliber pistol round.  It has been fired, and must be cleaned and reloaded to use again.",
     "material": [ "steel" ],
-    "volume": "250 ml",
-    "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200
+    "volume": "1 ml",
+    "weight": "1 g"
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "spent_lgpistol_primer",
     "category": "spare_parts",
     "price": "0 USD",
@@ -1015,14 +979,11 @@
     "color": "dark_gray",
     "description": "A primer from a large-caliber pistol round.  It has been fired, and must be cleaned and reloaded to use again.",
     "material": [ "steel", "powder" ],
-    "volume": "250 ml",
-    "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200
+    "volume": "1 ml",
+    "weight": "1 g"
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "spent_smrifle_primer",
     "category": "spare_parts",
     "price": "0 USD",
@@ -1032,14 +993,11 @@
     "color": "dark_gray",
     "description": "A primer from a small-caliber rifle round.  It has been fired, and must be cleaned and reloaded to use again.",
     "material": [ "steel" ],
-    "volume": "250 ml",
-    "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200
+    "volume": "1 ml",
+    "weight": "1 g"
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "spent_lgrifle_primer",
     "category": "spare_parts",
     "price": "0 USD",
@@ -1049,14 +1007,11 @@
     "color": "dark_gray",
     "description": "A primer from a large-caliber rifle round.  It has been fired, and must be cleaned and reloaded to use again.",
     "material": [ "steel" ],
-    "volume": "250 ml",
-    "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200
+    "volume": "1 ml",
+    "weight": "1 g"
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "rubber_slug",
     "category": "spare_parts",
     "price": "10 USD",
@@ -1067,13 +1022,10 @@
     "description": "A rubber slug from a shotgun beanbag round.  You could use it to make a new beanbag round.",
     "material": [ "plastic", "rubber" ],
     "volume": "250 ml",
-    "weight": "2 g",
-    "ammo_type": "components",
-    "count": 25
+    "weight": "2 g"
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "chunk_rubber",
     "category": "spare_parts",
     "price": "75 cent",
@@ -1085,12 +1037,10 @@
     "material": [ "rubber" ],
     "volume": "250 ml",
     "weight": "38 g",
-    "ammo_type": "components",
     "flags": [ "NO_SALVAGE" ]
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "copper",
     "category": "spare_parts",
     "price": "10 USD",
@@ -1102,13 +1052,10 @@
     "material": [ "copper" ],
     "volume": "128 ml",
     "weight": "5 g",
-    "//": "200*5g / 8.63g/ml = ~115.87ml. Add 10% to take an uneven chunk into account = 127.46ml rounded upwards to 128ml.",
-    "ammo_type": "components",
-    "count": 200
+    "//": "200*5g / 8.63g/ml = ~115.87ml. Add 10% to take an uneven chunk into account = 127.46ml rounded upwards to 128ml."
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "medical_tape",
     "category": "spare_parts",
     "price": "20 USD",
@@ -1120,9 +1067,7 @@
     "material": [ "plastic" ],
     "//": "25 x 200 x 0.2 mm per unit, 5 meters roll is 25 units",
     "volume": "1 ml",
-    "weight": "1 g",
-    "ammo_type": "components",
-    "count": 1
+    "weight": "1 g"
   },
   {
     "type": "ITEM",
@@ -1439,7 +1384,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "lamellae_lc",
     "category": "spare_parts",
     "name": { "str": "mild steel lamella", "str_pl": "mild steel lamellae" },
@@ -1452,13 +1396,10 @@
     "material": [ "lc_steel" ],
     "symbol": ",",
     "color": "light_gray",
-    "ammo_type": "components",
-    "count": 18,
     "flags": [ "NO_SALVAGE" ]
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "lamellae_ch",
     "category": "spare_parts",
     "name": { "str": "hardened steel lamella", "str_pl": "hardened steel lamellae" },
@@ -1471,8 +1412,6 @@
     "material": [ "ch_steel" ],
     "symbol": ",",
     "color": "light_gray",
-    "ammo_type": "components",
-    "count": 18,
     "flags": [ "NO_SALVAGE" ]
   },
   {
