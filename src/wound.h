@@ -41,6 +41,7 @@ class wound_type
         std::string get_description() const;
         int evaluate_pain() const;
         time_duration evaluate_healing_time() const;
+        int get_limit() const;
 
 
         // what damage types can apply this wound
@@ -61,6 +62,10 @@ class wound_type
     private:
         translation name_;
         translation description_;
+
+        // how many of this specific wound character can receive
+        // 0 means any amount
+        unsigned int limit = 0;
 
         // if applied, how long it may take for it to heal
         std::pair<time_duration, time_duration> healing_time_;

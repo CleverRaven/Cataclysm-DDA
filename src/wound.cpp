@@ -24,6 +24,7 @@ void wound_type::load( const JsonObject &jo, const std::string_view & )
     mandatory( jo, was_loaded, "damage_types", damage_types );
     mandatory( jo, was_loaded, "damage_required", damage_required );
     optional( jo, was_loaded, "weight", weight, 1 );
+    optional( jo, was_loaded, "limit", limit, 0 );
 
     optional( jo, was_loaded, "whitelist_bp_with_flag", whitelist_bp_with_flag );
     optional( jo, was_loaded, "whitelist_body_part_types", whitelist_body_part_types );
@@ -283,6 +284,11 @@ int wound_type::evaluate_pain() const
 time_duration wound_type::evaluate_healing_time() const
 {
     return rng( healing_time_.first, healing_time_.second );
+}
+
+int wound_type::get_limit() const
+{
+    return limit;
 }
 
 std::string wound_type::get_name() const
