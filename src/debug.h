@@ -290,6 +290,7 @@ enum debug_filter : int {
     DF_VEHICLE_DRAG, // vehicle coeff_air_drag()
     DF_VEHICLE_MOVE, // vehicle move generic
     DF_WOUNDS, // everything related to applying wounds
+    DF_MONITOR, // debug console per-object monitor snapshots
     DF_LAST // This is always the last entry
 };
 
