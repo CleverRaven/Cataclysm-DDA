@@ -2169,7 +2169,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             for( const translation &entry : to_print ) {
                 coverage += string_format( _( " The <info>%s</info>." ), entry );
             }
-            info.emplace_back( "ARMOR", "", string_format( "  <num>%%:%s", coverage ), iteminfo::no_flags,
+            info.emplace_back( "ARMOR", "", string_format( _( "  <num>%%:%s" ), coverage ), iteminfo::no_flags,
                                entry.first );
         }
     }
@@ -2218,7 +2218,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.emplace_back( "ARMOR", when_empty_message, "",
                                    iteminfo::no_newline | iteminfo::lower_is_better, entry.first.encumb_min );
             }
-            info.emplace_back( "ARMOR", string_format( ":%s", coverage ) );
+            info.emplace_back( "ARMOR", string_format( _( ":%s" ), coverage ) );
         }
     }
 
@@ -2239,7 +2239,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             for( const translation &entry : to_print ) {
                 coverage += string_format( _( " The <info>%s</info>." ), entry );
             }
-            info.emplace_back( "ARMOR", "", string_format( "  <num>:%s", coverage ), iteminfo::no_flags,
+            info.emplace_back( "ARMOR", "", string_format( _( "  <num>:%s" ), coverage ), iteminfo::no_flags,
                                entry.first );
         }
     }
@@ -2264,7 +2264,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             for( const translation &entry : to_print ) {
                 coverage += string_format( _( " The <info>%s</info>." ), entry );
             }
-            info.emplace_back( "ARMOR", "", string_format( "  <num>%%:%s", coverage ), iteminfo::no_flags,
+            info.emplace_back( "ARMOR", "", string_format( _( "  <num>%%:%s" ), coverage ), iteminfo::no_flags,
                                entry.first );
         }
     }
