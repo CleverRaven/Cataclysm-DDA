@@ -1132,10 +1132,11 @@ static int dialogue_uilist()
 static std::optional<debug_menu_index> debug_menu_uilist()
 {
     enum {
-        D_INFO, D_GAME, D_SPAWNING, D_PLAYER, D_MONSTER, D_FACTION, D_VEHICLE, D_TELEPORT, D_MAP, D_DIALOGUE, D_QUICK_SETUP
+        D_CONSOLE, D_INFO, D_GAME, D_SPAWNING, D_PLAYER, D_MONSTER, D_FACTION, D_VEHICLE, D_TELEPORT, D_MAP, D_DIALOGUE, D_QUICK_SETUP
     };
 
     const std::vector<uilist_entry> debug_menu = {
+        { uilist_entry( D_CONSOLE,     true, 'C', _( "Console…" ) ) },
         { uilist_entry( D_INFO,        true, 'i', _( "Info…" ) ) },
         { uilist_entry( D_GAME,        true, 'g', _( "Game…" ) ) },
         { uilist_entry( D_SPAWNING,    true, 's', _( "Spawning…" ) ) },
@@ -1162,6 +1163,9 @@ static std::optional<debug_menu_index> debug_menu_uilist()
         int action;
 
         switch( group ) {
+            case D_CONSOLE:
+                debug_menu::open_console();
+                return std::nullopt;
             case D_INFO:
                 action = info_uilist();
                 break;
