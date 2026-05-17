@@ -2093,7 +2093,7 @@ class item : public visitable
             void serialize( JsonOut &jsout ) const;
         };
         bool read_extended_photos( std::vector<extended_photo_def> &extended_photos,
-                                   const std::string &var_name, bool insert_at_begin ) const;
+                                   std::string_view var_name, bool insert_at_begin ) const;
         void write_extended_photos( const std::vector<extended_photo_def> &, const std::string & );
 
         /**

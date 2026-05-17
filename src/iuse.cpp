@@ -6477,7 +6477,7 @@ static void item_save_monsters( Character &p, item &it, const std::vector<monste
 
 // throws exception
 bool item::read_extended_photos( std::vector<extended_photo_def> &extended_photos,
-                                 const std::string &var_name, bool insert_at_begin ) const
+                                 std::string_view var_name, bool insert_at_begin ) const
 {
     bool result = false;
     std::optional<JsonValue> json_opt = json_loader::from_string_opt( get_var( var_name ) );
