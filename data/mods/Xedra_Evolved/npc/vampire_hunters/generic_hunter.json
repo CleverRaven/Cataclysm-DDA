@@ -24,7 +24,7 @@
       { "trait": "RETURN_TO_START_POS" }
     ],
     "common": false,
-    "worn_override": "VAMPIRE_HUNTER_GENERIC_GUARD_worn",
+    "worn_override": "VAMPIRE_HUNTER_DEFAULT_worn",
     "weapon_override": "VAMPIRE_HUNTER_DEFAULT_CROSSBOW_wield",
     "skills": [
       { "skill": "rifle", "bonus": { "rng": [ 4, 7 ] } },
