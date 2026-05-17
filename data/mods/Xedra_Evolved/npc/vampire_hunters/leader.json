@@ -1,95 +1,425 @@
 [
   {
     "type": "npc",
-    "id": "vampire_hunter_generic_guard",
-    "name_suffix": "hunter",
-    "class": "NC_vampire_hunter_generic_guard",
-    "//": "Generic class for the guards watching the base.  Another variant will be added for those participating in raid missions.",
+    "id": "vampire_hunter_leader",
+    "name_suffix": "chief hunter",
+    "class": "NC_vampire_hunter_leader",
+    "//": "The leader of this bunch of vampire hunters.  He seeks nothing less than the total extermination of all vampires.",
+    "name_unique": "Leonard Mai",
+    "gender": "male",
     "attitude": 0,
-    "mission": 0,
-    "chat": "TALK_HUNTER_GENERIC_GUARD",
+    "mission": 3,
+    "age": 88,
+    "chat": "TALK_VAMPIRE_HUNTER_LEADER",
+    "personality": { "aggression": 10, "bravery": 10, "collector": 2, "altruism": 1 },
     "faction": "vampire_hunters"
   },
   {
     "type": "npc_class",
-    "id": "NC_vampire_hunter_generic_guard",
-    "name": { "str": "guard" },
-    "job_description": "I keep the place safe.",
-    "//": "Basic guard guarding the base.  Can't risk the important non-combattants being killed within the base.",
-    "//2": "Good at combat, but not much else.",
+    "id": "NC_vampire_hunter_leader",
+    "name": { "str": "hunters' leader" },
+    "job_description": "I lead the hunt against vampires.",
+    "//": "Good social and deduction but hasn't fought for a long time.  Their aptitude as a chief makes them not worth risking in battles.",
+    "//2": "That's also why he gets regular clothes.  If he is ever part of a fight, then something is very wrong.",
     "traits": [
       { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" },
+      { "group": "Appearance_Latin" },
+      { "trait": "IGNORE_SOUND" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
     "common": false,
-    "worn_override": "VAMPIRE_HUNTER_GENERIC_GUARD_worn",
-    "weapon_override": "VAMPIRE_HUNTER_DEFAULT_CROSSBOW_wield",
+    "bonus_str": { "rng": [ -2, 1 ] },
+    "bonus_dex": { "rng": [ 0, 1 ] },
+    "bonus_int": { "rng": [ 2, 3 ] },
+    "bonus_per": { "rng": [ 1, 2 ] },
+    "worn_override": "VAMPIRE_HUNTER_LEADER_worn",
+    "weapon_override": "VAMPIRE_HUNTER_LEADER_wield",
     "skills": [
-      { "skill": "rifle", "bonus": { "rng": [ 4, 7 ] } },
-      { "skill": "gun", "bonus": { "rng": [ 4, 7 ] } },
-      { "skill": "melee", "bonus": { "rng": [ 2, 5 ] } },
-      { "skill": "stabbing", "bonus": { "rng": [ 2, 5 ] } },
-      { "skill": "dodge", "bonus": { "rng": [ 2, 5 ] } }
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 2 }, { "sum": [ { "dice": [ 1, 4 ] }, { "constant": 1 } ] } ] } },
+      { "skill": "rifle", "bonus": { "rng": [ -1, 1 ] } },
+      { "skill": "gun", "bonus": { "rng": [ -1, 1 ] } },
+      { "skill": "melee", "bonus": { "rng": [ -1, 1 ] } },
+      { "skill": "stabbing", "bonus": { "rng": [ -1, 1 ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "deduction", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 6, 7 ] } }
     ]
   },
   {
     "type": "item_group",
-    "id": "VAMPIRE_HUNTER_DEFAULT_worn",
+    "id": "VAMPIRE_HUNTER_LEADER_worn",
     "subtype": "collection",
-    "//": "They got their gear before the end happened, so it's proper gear and not random clothing.",
-    "//2": "However, their focus at passing for mundane to hide in plain sight means that they lack kevlar vests and other hard-to-justify gear.",
-    "//3": "These hunters know that some vampires are burnt by holy symbols, so they all have one",
     "entries": [
-      {
-        "distribution": [ { "item": "vest", "prob": 20 }, { "item": "vest_jean", "prob": 20 }, { "item": "vest_leather", "prob": 20 } ],
-        "prob": 100
-      },
-      { "item": "holy_symbol_wood" },
-      {
-        "distribution": [
-          { "item": "jeans", "prob": 25 },
-          { "item": "pants", "prob": 25 },
-          { "item": "pants_leather", "prob": 25 },
-          { "item": "pants_cargo", "prob": 25 }
-        ],
-        "prob": 100
-      },
-      { "item": "longshirt" },
       { "item": "socks" },
-      { "item": "boots" },
-      { "item": "sheath", "contents-item": "knife_combat_marine" },
-      { "item": "quiver", "contents-group": "quiver_crossbow_vampire_hunter" }
+      { "item": "dress_shoes" },
+      { "item": "knit_scarf" },
+      { "item": "dentures" },
+      { "item": "holy_symbol_wood" },
+      { "item": "briefs" },
+      { "item": "dress_shirt" },
+      { "item": "pants" }
     ]
   },
   {
     "type": "item_group",
-    "id": "VAMPIRE_HUNTER_DEFAULT_CROSSBOW_wield",
+    "id": "VAMPIRE_HUNTER_LEADER_wield",
     "subtype": "collection",
-    "//": "They all have the same crossbow type as the hunter professions for the same reason.",
-    "entries": [ { "item": "compcrossbow" } ]
+    "entries": [ { "item": "cane" } ]
   },
   {
-    "id": "TALK_HUNTER_GENERIC_GUARD",
+    "id": "TALK_VAMPIRE_HUNTER_LEADER",
     "type": "talk_topic",
+    "//": "He will always refuse to talk with vampires until they get cured.",
+    "//2": "Those wanting to use the vampires' powers to kill vampires will enrage him.  He has seen that multiple times, and it always end badly for everyone but the mentors.",
+    "//3": "All hunters-now-vampires either gave up the hunt or eventually killed some hunters.  He won't allow the player to repeat that mistake.",
+    "//4": "He knows about dhampirs and he will not complain about them as they can't be cured, can't create vampires and are all unable to decide to become one.",
     "dynamic_line": [
       {
         "u_has_trait": "VAMPIRE",
-        "yes": "If you're looking for a cure, you'll find that inside.  If you're not, go away now.",
-        "no": [
-          "I'm not in charge here, you're looking for someone else…",
-          "Keep civil or I'll bring the pain.",
-          "Just on watch, move along.",
-          "Don't distract me.  I'm on watch.",
-          { "is_day": [ "Hello.  Welcome to our safe zone." ], "no": [ "Good evening.  Welcome to our safe zone." ] },
-          {
-            "u_male": [ "Sir.", "Rough out there, isn't it?" ],
-            "no": [ "Ma'am", "Ma'am, you really shouldn't be traveling out there." ]
-          }
-        ]
+        "yes": "I'm not talking with you until you're fully cured.  It's not up to discussion.",
+        "no": [ "Welcome.", "Hello.", "What are you here for?" ]
       }
     ],
-    "responses": [ { "text": "Don't mind me…", "topic": "TALK_DONE" } ]
+    "responses": [
+      {
+        "text": "What are you doing here?",
+        "topic": "TALK_VAMPIRE_HUNTER_LEADER_INTRO",
+        "condition": { "not": { "u_has_trait": "VAMPIRE" } }
+      },
+      {
+        "text": "Got any work for me?",
+        "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS",
+        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "math": [ "Vampire_Hunter_Quest_Completed < 3" ] } ] }
+      },
+      {
+        "text": "Got any work for me?",
+        "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS_ALL_DONE",
+        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "math": [ "Vampire_Hunter_Quest_Completed >= 3" ] } ] }
+      },
+      {
+        "text": "Any advice for the strigoi?",
+        "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS_STRIGOI_ADVICE",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "VAMPIRE" } },
+            { "u_has_mission": "MISSION_VAMPIRE_HUNTER_LEADER_KILL_LURKING_STRIGOI" },
+            { "not": { "compare_string": [ "yes", { "u_val": "completed_hunters_kill_lurking_strigoi" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "Any advice for the renfields?",
+        "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS_GANG_ADVICE",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "VAMPIRE" } },
+            { "u_has_mission": "MISSION_VAMPIRE_HUNTER_LEADER_KILL_RENFIELD_GANG" },
+            { "not": { "compare_string": [ "yes", { "u_val": "completed_hunters_kill_renfield_gang" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "Any advice for the big renfield?",
+        "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS_MONSTER_ADVICE",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "VAMPIRE" } },
+            { "u_has_mission": "MISSION_VAMPIRE_HUNTER_LEADER_KILL_RENFIELD_MONSTER" },
+            { "not": { "compare_string": [ "yes", { "u_val": "completed_hunters_kill_renfield_monster" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "I'm back and I killed the strigoi.",
+        "condition": {
+          "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "compare_string": [ "yes", { "u_val": "killed_strigoi_for_hunters" } ] } ]
+        },
+        "effect": [
+          { "math": [ "Vampire_Hunter_Quest_Completed++" ] },
+          { "math": [ "vampire_hunters_owed_help += 3" ] },
+          { "u_lose_var": "killed_strigoi_for_hunters" },
+          { "u_add_var": "completed_hunters_kill_lurking_strigoi", "value": "yes" }
+        ],
+        "topic": "TALK_KILL_LURKING_STRIGOI_COMPLETED"
+      },
+      {
+        "text": "I'm back and I killed the renfields.",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "VAMPIRE" } },
+            { "compare_string": [ "yes", { "u_val": "killed_renfields_for_hunters" } ] }
+          ]
+        },
+        "effect": [
+          { "math": [ "Vampire_Hunter_Quest_Completed++" ] },
+          { "math": [ "vampire_hunters_owed_help += 5" ] },
+          { "u_lose_var": "killed_renfields_for_hunters" },
+          { "u_add_var": "completed_hunters_kill_renfield_gang", "value": "yes" }
+        ],
+        "topic": "TALK_KILL_RENFIELD_GANG_COMPLETED"
+      },
+      {
+        "text": "I'm back and I killed the big renfield.",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "VAMPIRE" } },
+            { "compare_string": [ "yes", { "u_val": "killed_renfield_monster_for_hunters" } ] }
+          ]
+        },
+        "effect": [
+          { "math": [ "Vampire_Hunter_Quest_Completed++" ] },
+          { "math": [ "vampire_hunters_owed_help += 3" ] },
+          { "u_lose_var": "killed_renfield_monster_for_hunters" },
+          { "u_add_var": "completed_hunters_kill_renfield_monster", "value": "yes" }
+        ],
+        "topic": "TALK_KILL_RENFIELD_MONSTER_COMPLETED"
+      },
+      {
+        "text": "But why?",
+        "topic": "TALK_VAMPIRE_HUNTER_LEADER_WHY_NO_VAMPIRES",
+        "condition": { "u_has_trait": "VAMPIRE" }
+      },
+      { "text": "Alright, I'll do that.", "topic": "TALK_DONE", "condition": { "u_has_trait": "VAMPIRE" } },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE", "condition": { "not": { "u_has_trait": "VAMPIRE" } } }
+    ]
+  },
+  {
+    "id": "TALK_VAMPIRE_HUNTER_LEADER_INTRO",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "We're what's left of a larger group of vampire hunters, sworn to protect humanity from these monsters that wish to subjugate it.  We would seek more vampires to destroy but <hunter_reason_a>, <hunter_reason_b> and <hunter_reason_c> changed our focus towards staying alive.  We can't fight the blood drinkers if we are all dead."
+    ],
+    "responses": [
+      { "text": "What are you doing here?", "topic": "TALK_VAMPIRE_HUNTER_LEADER_INTRO" },
+      {
+        "text": "Anything I can do to help?",
+        "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS",
+        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "math": [ "Vampire_Hunter_Quest_Completed < 3" ] } ] }
+      },
+      {
+        "text": "Anything I can do to help?",
+        "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS_ALL_DONE",
+        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "math": [ "Vampire_Hunter_Quest_Completed >= 3" ] } ] }
+      },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_VAMPIRE_HUNTER_LEADER_WHY_NO_VAMPIRES",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "It has happened so many times.  A new recruit thinks they can beat fire with fire and goes past the point of no return.  When it happens, they either become another vampire or a killer of hunters.\n\nFor everyone's sake, I won't let you go down that path no matter what I must do."
+    ],
+    "responses": [
+      { "text": "Okay, I'll get cured.  <end_talking_bye>", "topic": "TALK_DONE" },
+      {
+        "text": "It won't happen to me, though.",
+        "topic": "TALK_VAMPIRE_HUNTER_LEADER_ULTIMATUM",
+        "opinion": { "trust": -1, "value": -1, "anger": 1 }
+      },
+      {
+        "text": "I won't take the cure.  There's nothing you can do about it.",
+        "topic": "TALK_DONE",
+        "effect": [ "hostile", { "run_eocs": "EOC_VAMPIRE_HUNTERS_PERMA_HOSTILE" } ],
+        "opinion": { "trust": -30, "value": -30, "anger": 30 }
+      }
+    ]
+  },
+  {
+    "id": "TALK_VAMPIRE_HUNTER_LEADER_ULTIMATUM",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "They all said that, but it happened to each of them.  I won't ask again.  If you refuse the cure, we will have no choice but to kill you."
+    ],
+    "responses": [
+      { "text": "Okay, I'll get cured.  <end_talking_bye>", "topic": "TALK_DONE" },
+      {
+        "text": "I won't take the cure.  There's nothing you can do about it.",
+        "topic": "TALK_DONE",
+        "effect": [ "hostile", { "run_eocs": "EOC_VAMPIRE_HUNTERS_PERMA_HOSTILE" } ],
+        "opinion": { "trust": -30, "value": -30, "anger": 30 }
+      }
+    ]
+  },
+  {
+    "id": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS",
+    "type": "talk_topic",
+    "dynamic_line": [ "I have a few tasks to give you.  Which one do you want to do?" ],
+    "responses": [
+      {
+        "text": "Killing the lurking strigoi.",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_VAMPIRE_HUNTER_LEADER_KILL_LURKING_STRIGOI" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "killed_strigoi_for_hunters" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "completed_hunters_kill_lurking_strigoi" } ] } }
+          ]
+        },
+        "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS",
+        "effect": [ { "assign_mission": "MISSION_VAMPIRE_HUNTER_LEADER_KILL_LURKING_STRIGOI" } ]
+      },
+      {
+        "text": "Killing the renfield gang.",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_VAMPIRE_HUNTER_LEADER_KILL_RENFIELD_GANG" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "killed_renfields_for_hunters" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "completed_hunters_kill_renfield_gang" } ] } }
+          ]
+        },
+        "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS_ACCEPTED_RENFIELD_GANG",
+        "effect": [ { "assign_mission": "MISSION_VAMPIRE_HUNTER_LEADER_KILL_RENFIELD_GANG" } ]
+      },
+      {
+        "text": "Killing the monstruous renfield.",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_VAMPIRE_HUNTER_LEADER_KILL_RENFIELD_MONSTER" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "killed_renfield_monster_for_hunters" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "completed_hunters_kill_renfield_monster" } ] } }
+          ]
+        },
+        "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS_ACCEPTED_RENFIELD_MONSTER",
+        "effect": [ { "assign_mission": "MISSION_VAMPIRE_HUNTER_LEADER_KILL_RENFIELD_MONSTER" } ]
+      },
+      { "text": "What do I get in exchange?", "topic": "TALK_VAMPIRE_HUNTER_LEADER_REWARDS" },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS_ALL_DONE",
+    "type": "talk_topic",
+    "dynamic_line": [ "I don't have any more missions for you.  Thank you for all your help." ],
+    "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS_REWARDS",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "I don't have much to offer except for a few services.  Elsa can give you leather and crossbow lessons while Blaine can spare some medical supplies and offer free medical care in exchange for your help."
+    ],
+    "responses": [
+      { "text": "I'll help you.", "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS" },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_KILL_LURKING_STRIGOI_COMPLETED",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "This vampire was a lesser one, as seen by their resistance to the sun and lack of proper lair.  One day you will attack the lairs of true vampires alongside some of our hunters, but for now we don't know where they truly hide.  For now, we can enjoy some peace of mind and you can ask Elsa and Blaine for spare things to help you like you helped us."
+    ],
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_KILL_RENFIELD_GANG_COMPLETED",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "They were close to our base, yet they did not attack it.  They were either on another mission or awaiting reinforcements before their attack.  I hope it's the former, for this base is why we did not had to risk our lives in the cities for food.  If they force us to choose between facing a raid or becoming nomads, we might never recover from it.  For now, we're alive and well thanks in no small part to you."
+    ],
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_KILL_RENFIELD_MONSTER_COMPLETED",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Renfields like that are rare and usually stay close to their masters to protect them.  If they're being sent to attack enemies, their masters are desesperate or have many of them at their service.  It doesn't bode well, but at least you're able to kill them."
+    ],
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS_STRIGOI_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Like all vampires, the best time to attack it is during the day.  This one won't burn under the sun like true vampires, but it will stop its regeneration.  The zombies will ignore it and attacking without cutting or stabbing weapons is a bad idea.  Lastly, don't get bitten or you're in risk of catching vampirism."
+    ],
+    "responses": [ { "text": "Thanks for the advice.", "topic": "TALK_NONE" }, { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS_GANG_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "They are all armed with firearms, but they have very little ammo left and cannot aim well.  The best tactic would be to lure something hostile in range so they waste their ammo on it, like one of these pink crab-like creatures or a walking plant.  If you can't, attacking them at night and making the most of their low night vision can give you an edge on them.  Just like their masters and the feral humans, they're too far gone to be targeted by zombies so don't bother luring zombies near them."
+    ],
+    "responses": [ { "text": "Thanks for the advice.", "topic": "TALK_NONE" }, { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS_MONSTER_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "This kind of renfield is massive, tough, quick, precise and can tear you apart like wet paper so never get close to it.  If I were you, I would find a decent gun with enough ammo and I would shoot it from a distance until it's dead.  Yes, this one is also far too gone to be attacked by zombies.  Only true vampires are attacked by the walking corpses."
+    ],
+    "responses": [ { "text": "Thanks for the advice.", "topic": "TALK_NONE" }, { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_VAMPIRE_HUNTER_LEADER_KILL_LURKING_STRIGOI",
+    "type": "mission_definition",
+    "name": { "str": "Kill the lurking strigoi" },
+    "goal": "MGOAL_KILL_MONSTERS",
+    "description": "Kill the strigoi that was spotted in a nearby house.",
+    "difficulty": 3,
+    "value": 5000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "house", "om_terrain_match_type": "PREFIX", "reveal_radius": 1, "min_distance": 5, "z": 0 },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_strigoi", "x": 12, "y": 12, "target": true, "random_name": "Target" } ] }
+    },
+    "end": { "opinion": { "trust": 1, "value": 1 }, "effect": { "u_add_var": "killed_strigoi_for_hunters", "value": "yes" } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false
+  },
+  {
+    "id": "MISSION_VAMPIRE_HUNTER_LEADER_KILL_RENFIELD_GANG",
+    "type": "mission_definition",
+    "name": { "str": "Kill the renfield gang" },
+    "goal": "MGOAL_KILL_MONSTERS",
+    "description": "A handful of armed renfields are roaming near the base.  Better kill them before they attack it.",
+    "difficulty": 5,
+    "value": 7500,
+    "start": {
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "min_distance": 15, "random": true, "z": 0 },
+      "update_mapgen": {
+        "place_monster": [
+          { "monster": "mon_renfield_9mm", "x": 12, "y": 12, "target": true, "random_name": "Target" },
+          { "monster": "mon_renfield_9mm", "x": 11, "y": 11, "target": true, "random_name": "Target" },
+          { "monster": "mon_renfield_9mm", "x": 13, "y": 13, "target": true, "random_name": "Target" },
+          { "monster": "mon_renfield_9mm", "x": 12, "y": 14, "target": true, "random_name": "Target" },
+          { "monster": "mon_renfield_shotgun", "x": 14, "y": 12, "target": true, "random_name": "Target" }
+        ]
+      }
+    },
+    "end": { "opinion": { "trust": 1, "value": 1 }, "effect": { "u_add_var": "killed_renfields_for_hunters", "value": "yes" } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false
+  },
+  {
+    "id": "MISSION_VAMPIRE_HUNTER_LEADER_KILL_RENFIELD_MONSTER",
+    "type": "mission_definition",
+    "name": { "str": "Kill the monstruous renfield" },
+    "goal": "MGOAL_KILL_MONSTERS",
+    "description": "A massive renfield is roaming near the base.  Better kill it before they attack the hunters.",
+    "difficulty": 5,
+    "value": 5000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "min_distance": 15, "random": true, "z": 0 },
+      "update_mapgen": {
+        "place_monster": [ { "monster": "mon_renfield_abomination", "x": 12, "y": 12, "target": true, "random_name": "Target" } ]
+      }
+    },
+    "end": {
+      "opinion": { "trust": 1, "value": 1 },
+      "effect": { "u_add_var": "killed_renfield_monster_for_hunters", "value": "yes" }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false
   }
 ]
