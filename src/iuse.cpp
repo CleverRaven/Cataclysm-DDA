@@ -5671,7 +5671,7 @@ std::optional<int> iuse::efiledevice( Character *p, item *it, const tripoint_bub
         amenu.addentry( efd_read_external, true, 'e', _( "Read files on external devices" ) );
         amenu.addentry( efd_move_onto_this, true, 'm', _( "Move files onto this device" ) );
         amenu.addentry( efd_copy_onto_this, true, 'c', _( "Copy files onto this device" ) );
-        amenu.addentry( efd_move_off_this, has_files, 'k', _( "Move files off of this device" ) );
+        amenu.addentry( efd_move_off_this, has_files, 'o', _( "Move files off of this device" ) );
         amenu.addentry( efd_copy_from_this, has_files, 'f', _( "Copy files off of this device" ) );
         amenu.addentry( efd_wipe, true, 'W', _( "Wipe files from devices" ) );
     }
