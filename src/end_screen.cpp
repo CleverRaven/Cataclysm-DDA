@@ -113,7 +113,7 @@ void end_screen_ui_impl::draw_controls()
         for( const std::string &line : art->picture ) {
             cataimgui::draw_colored_text( line );
 
-            for( std::pair<std::pair<int, int>, std::string> info : added_info ) {
+            for( const std::pair<std::pair<int, int>, std::string> &info : added_info ) {
                 if( row == info.first.second ) {
                     std::string translated_info = _( info.second );
                     parse_tags( translated_info, u, u );
