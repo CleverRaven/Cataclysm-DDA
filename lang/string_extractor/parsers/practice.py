@@ -2,6 +2,7 @@ from ..helper import get_singular_name
 from ..write_text import write_text
 from .effect import parse_effect_on_condition
 
+
 def parse_practice(json, origin):
     name = get_singular_name(json)
 
