@@ -39,6 +39,7 @@ void wishproficiency( Character *you );
 
 void debug();
 void execute_action( debug_menu_index action );
+void open_console();
 
 void export_save_archive_and_game_report();
 
