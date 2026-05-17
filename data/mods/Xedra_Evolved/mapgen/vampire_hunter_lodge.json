@@ -46,8 +46,7 @@
         { "class": "vampire_hunter_mundane", "x": 27, "y": 12 },
         { "class": "vampire_hunter_doctor", "x": 30, "y": 20 },
         { "class": "vampire_hunter_bloodthorne", "x": 37, "y": 5 }
-      ],
-      "place_nested": [ { "chunks": [ [ "lodge_pantry_15x15" ] ], "x": 8, "y": 9 } ]
+      ]
     }
   },
   {
@@ -176,12 +175,7 @@
         { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 48, 71 ] },
         { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 72, 95 ] }
       ],
-      "terrain": { "/": "t_carpet_yellow", "_": "t_carpet_green", "R": "t_carpet_green" },
-      "place_nested": [
-        { "chunks": [ [ "lodge_dungeon_6x6" ] ], "x": 2, "y": 1 },
-        { "chunks": [ [ "5x5_gym_W" ] ], "x": 24, "y": 1 },
-        { "chunks": [ [ "room_6x6_office_E" ] ], "x": 26, "y": 10 }
-      ]
+      "terrain": { "/": "t_carpet_yellow", "_": "t_carpet_green", "R": "t_carpet_green" }
     }
   }
 ]

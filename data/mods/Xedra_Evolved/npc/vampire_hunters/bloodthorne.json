@@ -32,22 +32,22 @@
       { "trait": "BLOODTHORNE_DRUID" },
       { "trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" },
       { "trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT_WHIP" },
-      { "group": "JAUNDICE_ARVORE_ALCHEMY" },
-      { "group": "GREENSTRIDE" },
+      { "trait": "JAUNDICE_ARVORE_ALCHEMY" },
+      { "trait": "GREENSTRIDE" },
       { "trait": "ARVORE_NURTURING_THE_GREEN" },
       { "trait": "ARVORE_SUMMON_WOOD_WALL" },
       { "trait": "ARVORE_COMMUNE_WITH_NATURE" },
-      { "group": "ARVORE_SUMMON_BRIARS" },
-      { "group": "ARVORE_FOREST_TELEPORT" },
+      { "trait": "ARVORE_SUMMON_BRIARS" },
+      { "trait": "ARVORE_FOREST_TELEPORT" },
       { "trait": "ARVORE_TERRAIN_BASH_SPELL" },
       { "trait": "ARVORE_VERDANT_INFUSION" },
       { "trait": "ARVORE_SUMMON_GRASS_FIELD" },
-      { "group": "ARVORE_CLIMBING_VINE_SPELL" },
-      { "group": "ARVORE_ANTI_PLANT_SPELL" },
+      { "trait": "ARVORE_CLIMBING_VINE_SPELL" },
+      { "trait": "ARVORE_ANTI_PLANT_SPELL" },
       { "trait": "ARVORE_FOREST_MAPPING" },
       { "trait": "ARVORE_WOOD_WEAPON_DAMAGE" },
       { "trait": "ARVORE_TOXIC_FLESH" },
-      { "group": "ARVORE_SUN_NUTRIENTS_AND_MANA" },
+      { "trait": "ARVORE_SUN_NUTRIENTS_AND_MANA" },
       { "trait": "ARVORE_PAIN_RESISTANCE" },
       { "trait": "ARVORE_VINE_DRAG" },
       { "trait": "ARVORE_WOOD_CLAWS" },
@@ -167,12 +167,12 @@
         "condition": {
           "and": [
             { "math": [ "human_blood_vitamin < 1" ] },
-            { "math": [ "u_hp('head') >= u_vampire_bloodthorne_maximal_cure_damage()" ] },
-            { "math": [ "u_hp('torso') >= u_vampire_bloodthorne_maximal_cure_damage()" ] },
-            { "math": [ "u_hp('arm_l') >= u_vampire_bloodthorne_maximal_cure_damage()" ] },
-            { "math": [ "u_hp('arm_r') >= u_vampire_bloodthorne_maximal_cure_damage()" ] },
-            { "math": [ "u_hp('leg_l') >= u_vampire_bloodthorne_maximal_cure_damage()" ] },
-            { "math": [ "u_hp('leg_r') >= u_vampire_bloodthorne_maximal_cure_damage()" ] }
+            { "math": [ "u_hp('head') >= u_vampire_bloodthorne_maximal_cure_damage" ] },
+            { "math": [ "u_hp('torso') >= u_vampire_bloodthorne_maximal_cure_damage" ] },
+            { "math": [ "u_hp('arm_l') >= u_vampire_bloodthorne_maximal_cure_damage" ] },
+            { "math": [ "u_hp('arm_r') >= u_vampire_bloodthorne_maximal_cure_damage" ] },
+            { "math": [ "u_hp('leg_l') >= u_vampire_bloodthorne_maximal_cure_damage" ] },
+            { "math": [ "u_hp('leg_r') >= u_vampire_bloodthorne_maximal_cure_damage" ] }
           ]
         }
       },
@@ -190,12 +190,12 @@
             { "math": [ "human_blood_vitamin < 1" ] },
             {
               "or": [
-                { "math": [ "u_hp('head') < u_vampire_bloodthorne_maximal_cure_damage()" ] },
-                { "math": [ "u_hp('torso') < u_vampire_bloodthorne_maximal_cure_damage()" ] },
-                { "math": [ "u_hp('arm_l') < u_vampire_bloodthorne_maximal_cure_damage()" ] },
-                { "math": [ "u_hp('arm_r') < u_vampire_bloodthorne_maximal_cure_damage()" ] },
-                { "math": [ "u_hp('leg_l') < u_vampire_bloodthorne_maximal_cure_damage()" ] },
-                { "math": [ "u_hp('leg_r') < u_vampire_bloodthorne_maximal_cure_damage()" ] }
+                { "math": [ "u_hp('head') < u_vampire_bloodthorne_maximal_cure_damage" ] },
+                { "math": [ "u_hp('torso') < u_vampire_bloodthorne_maximal_cure_damage" ] },
+                { "math": [ "u_hp('arm_l') < u_vampire_bloodthorne_maximal_cure_damage" ] },
+                { "math": [ "u_hp('arm_r') < u_vampire_bloodthorne_maximal_cure_damage" ] },
+                { "math": [ "u_hp('leg_l') < u_vampire_bloodthorne_maximal_cure_damage" ] },
+                { "math": [ "u_hp('leg_r') < u_vampire_bloodthorne_maximal_cure_damage" ] }
               ]
             }
           ]

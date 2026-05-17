@@ -36,7 +36,7 @@
     "worn_override": "VAMPIRE_HUNTER_LEADER_worn",
     "weapon_override": "VAMPIRE_HUNTER_LEADER_wield",
     "skills": [
-      { "skill": "ALL", "level": { "mul": [ { "one_in": 2 }, { "sum": [ { "dice": [ 1, 4 ] }, { "constant": 1 } ] } ] } },
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 1, 4 ] }, { "constant": 1 } ] } },
       { "skill": "rifle", "bonus": { "rng": [ -1, 1 ] } },
       { "skill": "gun", "bonus": { "rng": [ -1, 1 ] } },
       { "skill": "melee", "bonus": { "rng": [ -1, 1 ] } },
@@ -371,11 +371,22 @@
     "value": 5000,
     "start": {
       "assign_mission_target": { "om_terrain": "house", "om_terrain_match_type": "PREFIX", "reveal_radius": 1, "min_distance": 5, "z": 0 },
-      "update_mapgen": { "place_monster": [ { "monster": "mon_strigoi", "x": 12, "y": 12, "target": true, "random_name": "Target" } ] }
+      "update_mapgen": { "place_monster": [ { "monster": "mon_strigoi", "x": 12, "y": 12, "target": true } ] }
     },
     "end": { "opinion": { "trust": 1, "value": 1 }, "effect": { "u_add_var": "killed_strigoi_for_hunters", "value": "yes" } },
     "origins": [ "ORIGIN_SECONDARY" ],
-    "has_generic_rewards": false
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "",
+      "offer": "",
+      "accepted": "",
+      "rejected": "",
+      "advice": "",
+      "inquire": "",
+      "success": "",
+      "success_lie": "",
+      "failure": ""
+    }
   },
   {
     "id": "MISSION_VAMPIRE_HUNTER_LEADER_KILL_RENFIELD_GANG",
@@ -389,17 +400,28 @@
       "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "min_distance": 15, "random": true, "z": 0 },
       "update_mapgen": {
         "place_monster": [
-          { "monster": "mon_renfield_9mm", "x": 12, "y": 12, "target": true, "random_name": "Target" },
-          { "monster": "mon_renfield_9mm", "x": 11, "y": 11, "target": true, "random_name": "Target" },
-          { "monster": "mon_renfield_9mm", "x": 13, "y": 13, "target": true, "random_name": "Target" },
-          { "monster": "mon_renfield_9mm", "x": 12, "y": 14, "target": true, "random_name": "Target" },
-          { "monster": "mon_renfield_shotgun", "x": 14, "y": 12, "target": true, "random_name": "Target" }
+          { "monster": "mon_renfield_9mm", "x": 12, "y": 12, "target": true },
+          { "monster": "mon_renfield_9mm", "x": 11, "y": 11, "target": true },
+          { "monster": "mon_renfield_9mm", "x": 13, "y": 13, "target": true },
+          { "monster": "mon_renfield_9mm", "x": 12, "y": 14, "target": true },
+          { "monster": "mon_renfield_shotgun", "x": 14, "y": 12, "target": true }
         ]
       }
     },
     "end": { "opinion": { "trust": 1, "value": 1 }, "effect": { "u_add_var": "killed_renfields_for_hunters", "value": "yes" } },
     "origins": [ "ORIGIN_SECONDARY" ],
-    "has_generic_rewards": false
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "",
+      "offer": "",
+      "accepted": "",
+      "rejected": "",
+      "advice": "",
+      "inquire": "",
+      "success": "",
+      "success_lie": "",
+      "failure": ""
+    }
   },
   {
     "id": "MISSION_VAMPIRE_HUNTER_LEADER_KILL_RENFIELD_MONSTER",
@@ -411,15 +433,24 @@
     "value": 5000,
     "start": {
       "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "min_distance": 15, "random": true, "z": 0 },
-      "update_mapgen": {
-        "place_monster": [ { "monster": "mon_renfield_abomination", "x": 12, "y": 12, "target": true, "random_name": "Target" } ]
-      }
+      "update_mapgen": { "place_monster": [ { "monster": "mon_renfield_abomination", "x": 12, "y": 12, "target": true } ] }
     },
     "end": {
       "opinion": { "trust": 1, "value": 1 },
       "effect": { "u_add_var": "killed_renfield_monster_for_hunters", "value": "yes" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
-    "has_generic_rewards": false
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "",
+      "offer": "",
+      "accepted": "",
+      "rejected": "",
+      "advice": "",
+      "inquire": "",
+      "success": "",
+      "success_lie": "",
+      "failure": ""
+    }
   }
 ]

@@ -218,34 +218,22 @@
         }
       },
       {
-        "math": [
-          "u_hp('head') -= rng((u_vampire_bloodthorne_maximal_cure_damage() / 2), u_vampire_bloodthorne_maximal_cure_damage())"
-        ]
+        "math": [ "u_hp('head') -= rng((u_vampire_bloodthorne_maximal_cure_damage / 2), u_vampire_bloodthorne_maximal_cure_damage)" ]
       },
       {
-        "math": [
-          "u_hp('torso') -= rng((u_vampire_bloodthorne_maximal_cure_damage() / 2), u_vampire_bloodthorne_maximal_cure_damage())"
-        ]
+        "math": [ "u_hp('torso') -= rng((u_vampire_bloodthorne_maximal_cure_damage / 2), u_vampire_bloodthorne_maximal_cure_damage)" ]
       },
       {
-        "math": [
-          "u_hp('arm_l') -= rng((u_vampire_bloodthorne_maximal_cure_damage() / 2), u_vampire_bloodthorne_maximal_cure_damage())"
-        ]
+        "math": [ "u_hp('arm_l') -= rng((u_vampire_bloodthorne_maximal_cure_damage / 2), u_vampire_bloodthorne_maximal_cure_damage)" ]
       },
       {
-        "math": [
-          "u_hp('arm_r') -= rng((u_vampire_bloodthorne_maximal_cure_damage() / 2), u_vampire_bloodthorne_maximal_cure_damage())"
-        ]
+        "math": [ "u_hp('arm_r') -= rng((u_vampire_bloodthorne_maximal_cure_damage / 2), u_vampire_bloodthorne_maximal_cure_damage)" ]
       },
       {
-        "math": [
-          "u_hp('leg_l') -= rng((u_vampire_bloodthorne_maximal_cure_damage() / 2), u_vampire_bloodthorne_maximal_cure_damage())"
-        ]
+        "math": [ "u_hp('leg_l') -= rng((u_vampire_bloodthorne_maximal_cure_damage / 2), u_vampire_bloodthorne_maximal_cure_damage)" ]
       },
       {
-        "math": [
-          "u_hp('leg_r') -= rng((u_vampire_bloodthorne_maximal_cure_damage() / 2), u_vampire_bloodthorne_maximal_cure_damage())"
-        ]
+        "math": [ "u_hp('leg_r') -= rng((u_vampire_bloodthorne_maximal_cure_damage / 2), u_vampire_bloodthorne_maximal_cure_damage)" ]
       },
       { "math": [ "u_pain() += 30 + rand(30)" ] },
       { "u_lose_effect": "vampire_virus" },
