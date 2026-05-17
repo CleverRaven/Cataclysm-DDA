@@ -351,6 +351,26 @@
   },
   {
     "type": "overmap_special",
+    "id": "Vampire Hunter Lodge",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "lodge_VH_ground1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "lodge_VH_ground2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "lodge_VH_2ndfloor1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "lodge_VH_ground2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "lodge_VH_roof1_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "lodge_VH_roof2_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "lodge_VH_basement_residential1_north" },
+      { "point": [ 1, 0, -1 ], "overmap": "lodge_VH_basement_residential2_north" }
+    ],
+    "connections": [ { "point": [ -1, 0, 0 ], "terrain": "road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "field" ],
+    "city_distance": [ 30, -1 ],
+    "city_sizes": [ 0, 12 ],
+    "occurrences": [ 5, 100 ],
+    "flags": [ "CLASSIC", "MAN_MADE", "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Great Tree",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "great_tree_z0_nw_north" },

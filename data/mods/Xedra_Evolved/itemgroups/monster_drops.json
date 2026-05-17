@@ -339,6 +339,7 @@
       { "group": "wallets", "damage": [ 1, 4 ], "prob": 30 },
       { "group": "blood_containers", "prob": 30 },
       { "item": "grimy_recipe", "prob": 55 },
+      { "item": "vampire_hunter_map", "prob": 10 },
       { "item": "scrap_dreamdross", "prob": 35, "count": [ 1, 4 ] }
     ]
   },

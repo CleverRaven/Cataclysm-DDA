@@ -1,0 +1,13 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_HUNTERS_PERMA_HOSTILE",
+    "//": "Players who pass the point of non-return or declare they will never take the cure will be shot on sight by the hunters.",
+    "global": true,
+    "effect": [
+      { "math": [ "faction_like('vampire_hunters') = -100" ] },
+      { "math": [ "faction_respect('vampire_hunters') = -100" ] },
+      { "math": [ "faction_trust('vampire_hunters') = -100" ] }
+    ]
+  }
+]

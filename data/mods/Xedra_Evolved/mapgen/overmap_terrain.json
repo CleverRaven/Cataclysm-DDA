@@ -224,22 +224,27 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lodgev_ground1", "lodgev_ground2" ],
+    "id": [ "lodgev_ground1", "lodgev_ground2", "lodge_VH_ground1", "lodge_VH_ground2" ],
     "copy-from": "lodge_ground1"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lodgev_2ndfloor1", "lodgev_2ndfloor2" ],
+    "id": [ "lodgev_2ndfloor1", "lodgev_2ndfloor2", "lodge_VH_2ndfloor1", "lodge_VH_2ndfloor2" ],
     "copy-from": "lodge_2ndfloor1"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lodgev_roof1", "lodgev_roof2" ],
+    "id": [ "lodgev_roof1", "lodgev_roof2", "lodge_VH_roof1", "lodge_VH_roof2" ],
     "copy-from": "lodge_roof1"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lodgev_basement_residential1", "lodgev_basement_residential2" ],
+    "id": [
+      "lodgev_basement_residential1",
+      "lodgev_basement_residential2",
+      "lodge_VH_basement_residential1",
+      "lodge_VH_basement_residential2"
+    ],
     "copy-from": "lodge_basement_residential1"
   },
   {

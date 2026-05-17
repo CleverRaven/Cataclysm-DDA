@@ -151,5 +151,28 @@
       ]
     },
     "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_FIND_VAMPIRE_HUNTER_BASE",
+    "type": "mission_definition",
+    "name": { "str": "Find the building from the smudged map." },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "lodge_VH_ground1",
+    "difficulty": 1,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "lodge_VH_ground1", "om_special": "Vampire Hunter Lodge" } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "",
+      "offer": "",
+      "accepted": "",
+      "rejected": "",
+      "advice": "",
+      "inquire": "",
+      "success": "",
+      "success_lie": "",
+      "failure": ""
+    }
   }
 ]
