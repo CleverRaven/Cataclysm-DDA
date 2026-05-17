@@ -85,6 +85,7 @@
 #include "cursesport.h" // IWYU pragma: keep
 #include "damage.h"
 #include "debug.h"
+#include "debug_capture.h"
 #include "debug_menu.h"
 #include "dependency_tree.h"
 #include "dialogue.h"
@@ -477,12 +478,23 @@ game::game() :
     events().subscribe( &*achievements_tracker_ptr );
     events().subscribe( &*spell_events_ptr );
     events().subscribe( &*eoc_events_ptr );
+    debug_menu::debug_capture::instance().on_game_load( events() );
     world_generator = std::make_unique<worldfactory>();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
 }
 
-game::~game() = default;
+game::~game()
+{
+    // event_bus_ptr about to die; let debug_capture drop its sticky
+    // subscribe flag and release the JSONL file. Without this, a later
+    // `game` instance would never resubscribe.
+    // is_initialized guard: debug_capture's function-local static dies
+    // before `g` at process exit, so unguarded access would segfault.
+    if( debug_menu::debug_capture::is_initialized() ) {
+        debug_menu::debug_capture::instance().on_game_shutdown();
+    }
+}
 
 #if defined(TUI)
 // in ncurses_def.cpp
