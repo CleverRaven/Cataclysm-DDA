@@ -156,7 +156,7 @@
     "id": "MISSION_FIND_VAMPIRE_HUNTER_BASE",
     "type": "mission_definition",
     "name": { "str": "Find the building from the smudged map." },
-    "description": "You found a map pointing to a building on a vampire's corpse.  Going to there might not be safe, but it will surely be worth it.",
+    "description": "You found a map pointing to a building on a vampire's corpse.  Going there might not be safe, but it will surely be worth it.",
     "goal": "MGOAL_GO_TO_TYPE",
     "destination": "lodge_VH_ground1",
     "difficulty": 1,
