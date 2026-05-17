@@ -35,6 +35,9 @@
 #include "calendar.h"
 #include "calendar_ui.h"
 #include "cata_path.h"
+#if defined(TILES) && defined(USE_SDL3)
+#include "cata_shader.h"
+#endif
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -296,6 +299,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::TALK_TOPIC: return "TALK_TOPIC";
         case debug_menu::debug_menu_index::IMGUI_DEMO: return "IMGUI_DEMO";
         case debug_menu::debug_menu_index::VEHICLE_EFFECTS: return "VEHICLE_EFFECTS";
+        case debug_menu::debug_menu_index::RELOAD_GPU_SHADERS: return "RELOAD_GPU_SHADERS";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -991,6 +995,9 @@ static int info_uilist()
         { uilist_entry( debug_menu_index::GENERATE_EFFECT_LIST, true, 'L', _( "Generate effect list" ) ) },
         { uilist_entry( debug_menu_index::WRITE_CITY_LIST, true, 'C', _( "Write city list to cities.output" ) ) },
         { uilist_entry( debug_menu_index::IMGUI_DEMO, true, 'u', _( "Open ImGui demo screen" ) ) },
+#if defined(TILES) && defined(USE_SDL3)
+        { uilist_entry( debug_menu_index::RELOAD_GPU_SHADERS, true, 'P', _( "Reload GPU shaders" ) ) },
+#endif
     };
 
     return uilist( _( "Info…" ), uilist_initializer );
@@ -4613,6 +4620,13 @@ void debug()
 
         case debug_menu_index::IMGUI_DEMO:
             run_imgui_demo();
+            break;
+
+        case debug_menu_index::RELOAD_GPU_SHADERS:
+#if defined(TILES) && defined(USE_SDL3)
+            cata_shader::request_reprobe();
+            add_msg( _( "GPU shaders will reload on next frame." ) );
+#endif
             break;
 
         case debug_menu_index::TALK_TOPIC:

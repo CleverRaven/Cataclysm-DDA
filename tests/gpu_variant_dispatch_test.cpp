@@ -34,5 +34,28 @@ TEST_CASE( "compute_variant_kind_dispatch_table", "[tiles][gpu]" )
         CHECK( compute_variant_kind( lit_level::BLANK, false ) == variant_kind::NORMAL );
     }
 }
+
+TEST_CASE( "memory_preset_from_option_value_mapping", "[tiles][gpu]" )
+{
+    using cata_shader::memory_preset;
+    using cata_shader::memory_preset_from_option_value;
+
+    SECTION( "named MEMORY_MAP_MODE values map to their preset" ) {
+        CHECK( memory_preset_from_option_value( "color_pixel_darken" )
+               == memory_preset::DARKEN );
+        CHECK( memory_preset_from_option_value( "color_pixel_sepia_light" )
+               == memory_preset::SEPIA_LIGHT );
+        CHECK( memory_preset_from_option_value( "color_pixel_sepia_dark" )
+               == memory_preset::SEPIA_DARK );
+        CHECK( memory_preset_from_option_value( "color_pixel_blue_dark" )
+               == memory_preset::BLUE_DARK );
+    }
+
+    SECTION( "custom and unknown values map to nullopt" ) {
+        CHECK_FALSE( memory_preset_from_option_value( "color_pixel_custom" ).has_value() );
+        CHECK_FALSE( memory_preset_from_option_value( "" ).has_value() );
+        CHECK_FALSE( memory_preset_from_option_value( "garbage" ).has_value() );
+    }
+}
 #endif // SDL_MAJOR_VERSION >= 3
 #endif // TILES

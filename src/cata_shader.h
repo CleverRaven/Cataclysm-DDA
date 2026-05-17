@@ -6,6 +6,18 @@
 
 #include "sdl_wrappers.h"
 
+namespace cata_shader
+{
+
+// Forces the next variant_pass::try_begin to drop cached shader artifacts
+// and re-run the activation probe. Used to pick up freshly rebuilt
+// .spv/.dxil/.msl without restarting. No-op on SDL2 / non-GPU renderer.
+void request_reprobe();
+bool reprobe_requested();
+void clear_reprobe();
+
+} // namespace cata_shader
+
 // SDL_SetGPURenderState and the SDL_GPU* surface this header wraps were added
 // in SDL 3.4.0 and have no SDL2 counterpart. The class types below are
 // SDL3-only.
@@ -13,14 +25,16 @@
 
 #include <array>
 #include <memory>
+#include <optional>
 #include <string>
 
 namespace cata_shader
 {
 
 // Sprite-variant kinds for the GPU shader path. NORMAL has no shader and
-// uses the atlas directly. MEMORY has no shader either; the memory atlas
-// drives MEMORIZED draws.
+// uses the atlas directly. MEMORY dispatches by the selected memory_preset
+// (see select_memory_preset); the custom MEMORY_MAP_MODE preset has no shader
+// and falls back to the memory atlas.
 enum class variant_kind : int {
     NORMAL = 0,
     SHADOW,       // lit_level::LOW without nightvision
@@ -29,6 +43,22 @@ enum class variant_kind : int {
     MEMORY,       // lit_level::MEMORIZED
     count
 };
+
+// Memory map overlay presets that have a baked shader. Mirrors the four
+// named MEMORY_MAP_MODE values; the custom preset has no shader here and
+// falls back to the memory atlas.
+enum class memory_preset : int {
+    DARKEN = 0,
+    SEPIA_LIGHT,
+    SEPIA_DARK,
+    BLUE_DARK,
+    count
+};
+
+// Maps a MEMORY_MAP_MODE option value to its memory_preset. Returns nullopt
+// for color_pixel_custom or any unknown value.
+std::optional<memory_preset> memory_preset_from_option_value(
+    const std::string &mode );
 
 // RAII over SDL_GPUShader *. Lifetime is tied to the SDL_GPUDevice that
 // created the shader (device-scoped).
@@ -144,18 +174,26 @@ class gpu_state_scope
 // without recycling, so each variant gets its own state and the dispatch
 // is a state switch rather than a uniform mutation.
 //
+// try_begin holds the bound state across same-variant runs of sprites and
+// only calls SDL_SetGPURenderState when the variant changes. flush() at the
+// end of the frame clears the held state.
+//
 // Lifecycle:
 //   - construct with renderer (no work).
-//   - probe() lazily on first use; loads shaders, creates states for
-//     SHADOW/NIGHT/OVEREXPOSED. Either every variant succeeds or every
-//     variant is marked unavailable (single decision, no per-variant
-//     gating). NORMAL and MEMORY are never probed: neither has a shader.
-//   - try_begin(v) returns true iff v has an active shader path AND bind
-//     succeeded. Caller must call end() iff try_begin returned true.
-//   - end() returns true on clean unbind. False sets session_disabled
-//     (one-way) so subsequent try_begin returns false; recovers on
-//     restart.
-//   - destruction releases held shader/state slots.
+//   - probe() lazily on first use; loads shaders and creates states for
+//     SHADOW/NIGHT/OVEREXPOSED plus one per named memory_preset. Either
+//     every variant succeeds or every variant is marked unavailable
+//     (single decision, no per-variant gating). NORMAL has no shader.
+//   - select_memory_preset(p) picks which memory shader try_begin(MEMORY)
+//     binds. Nullopt disables the MEMORY shader path so callers fall back
+//     to the memory atlas (used for the custom MEMORY_MAP_MODE preset).
+//   - try_begin(v) returns true iff v has an active shader path AND the
+//     state is bound. NORMAL or unsupported MEMORY preset returns false and
+//     ensures no shader stays bound from a previous draw.
+//   - end() is a no-op; bind persists for the next sprite.
+//   - flush() unbinds any held state. Call once per frame after the last
+//     sprite draw so ImGui or the next-frame draws see no leaked bind.
+//   - destruction unbinds and releases held shader/state slots.
 class variant_pass
 {
     public:
@@ -176,16 +214,26 @@ class variant_pass
         bool try_begin( variant_kind v );
         bool end();
 
+        void flush();
+
+        void select_memory_preset( std::optional<memory_preset> preset );
+
     private:
         void probe();
+        void reset();
+        SDL_GPURenderState *state_for( variant_kind v ) const;
 
         SDL_Renderer *renderer_ = nullptr;
         std::array<shader, static_cast<size_t>( variant_kind::count )> shaders_;
         std::array<render_state, static_cast<size_t>( variant_kind::count )> states_;
+        std::array<shader, static_cast<size_t>( memory_preset::count )> memory_shaders_;
+        std::array<render_state, static_cast<size_t>( memory_preset::count )>
+        memory_states_;
+        std::optional<memory_preset> active_memory_preset_;
+        std::optional<variant_kind> currently_bound_;
         bool probe_attempted_ = false;
         bool probed_ok_ = false;
         bool session_disabled_ = false;
-        bool active_ = false;
 };
 
 } // namespace cata_shader
