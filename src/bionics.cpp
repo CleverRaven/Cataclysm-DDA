@@ -2351,11 +2351,11 @@ ret_val<void> Character::is_installable( const item *it, const bool by_autodoc )
                 bionics.push_back( b->name.translated() );
             }
         }
-        
-        if ( !bionics.empty() ) {
+
+        if( !bionics.empty() ) {
             return ret_val<void>::make_failure( _( "CBM conflicts with: %s." ), string_join( bionics, ", " ) );
         }
-        
+
     } else if( bid->upgraded_bionic &&
                !has_bionic( bid->upgraded_bionic ) &&
                it->is_upgrade() ) {
