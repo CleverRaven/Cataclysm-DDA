@@ -1854,7 +1854,7 @@
     "id": "mon_mole",
     "type": "MONSTER",
     "name": { "str": "mole" },
-    "description": "small, subterranean mammals. They have cylindrical bodies, velvety fur, very small, inconspicuous eyes and ears, reduced hindlimbs, and short, powerful forelimbs with large paws adapted for digging.",
+    "description": "small subterranean mammals, they have cylindrical bodies, velvety fur, very small inconspicuous eyes and ears, reduced hindlimbs and short powerful forelimbs with large paws adapted for digging.",
     "default_faction": "mole",
     "bodytype": "pig",
     "categories": [ "WILDLIFE" ],
