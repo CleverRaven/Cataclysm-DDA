@@ -2346,7 +2346,6 @@ ret_val<void> Character::is_installable( const item *it, const bool by_autodoc )
         return ret_val<void>::make_failure( _( "CBM not compatible with patient's body." ) );
     } else if( !bid->replaced_bodyparts.empty() ) {
         std::vector<std::string> conflicts;
-        
         for( const bionic_id &installed : get_bionics() ) {
             for( const bodypart_str_id &bp : bid->replaced_bodyparts ) {
                 if( installed->replaced_bodyparts.count( bp ) > 0 ) {
@@ -2357,7 +2356,8 @@ ret_val<void> Character::is_installable( const item *it, const bool by_autodoc )
         }
 
         if( !conflicts.empty() ) {
-            return ret_val<void>::make_failure( _( "CBM conflicts with: %s." ), string_join( conflicts, ", " ) );
+            return ret_val<void>::make_failure( _( "CBM conflicts with: %s." ), string_join( conflicts,
+                                                ", " ) );
         }
 
     } else if( bid->upgraded_bionic &&
