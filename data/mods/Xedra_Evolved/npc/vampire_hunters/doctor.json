@@ -65,7 +65,7 @@
     ],
     "responses": [
       {
-        "text": "I'll buy some cure. [10$]",
+        "text": "I'll buy some cure.  [10$]",
         "topic": "TALK_DONE",
         "condition": { "math": [ "vampire_hunters_owed_help < 1" ] },
         "effect": [ { "u_spend_cash": 2000, "true_eocs": "EOC_HUNTER_DOCTOR_GIVE_CURE" } ]
