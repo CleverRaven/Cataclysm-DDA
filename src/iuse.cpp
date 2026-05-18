@@ -5691,7 +5691,7 @@ std::optional<int> iuse::efiledevice( Character *p, item *it, const tripoint_bub
         amenu.addentry( efd_copy_from_this, has_files, 'f', _( "Copy files off of this device" ) );
         const int unread_map_caches = std::count_if( device_efiles.begin(),
                                       device_efiles.end(),
-                                      []( const item * efile ) {
+        []( const item * efile ) {
             return efile->typeId() == itype_efile_map && efile->get_var( "map_cache" ) != "read";
         } );
         amenu.addentry( efd_read_all_map_caches, unread_map_caches > 0, 'p',
