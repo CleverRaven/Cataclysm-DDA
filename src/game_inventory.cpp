@@ -3186,7 +3186,8 @@ class select_ammo_inventory_preset : public inventory_selector_preset
             }, _( "AMOUNT" ) );
 
             append_cell( [&you, &target]( const item_location & loc ) {
-                item::reload_option opt( &you, target, loc );
+                item::reload_option opt( &you, target, loc,
+                                         item::reload_option::POCKET_FALLBACK );
                 // propagate entry.chosen_count here somehow?
                 return std::to_string( opt.moves() );
             }, _( "MOVES" ) );

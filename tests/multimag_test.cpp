@@ -41,6 +41,11 @@
 #include "units.h"
 #include "visitable.h"
 
+static const ammotype ammo_9mm( "9mm" );
+static const ammotype ammo_battery( "battery" );
+
+static const flag_id json_flag_CASING( "CASING" );
+
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
 static const gun_mode_id gun_mode_BURST( "BURST" );
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
@@ -50,6 +55,7 @@ static const item_group_id Item_spawn_data_test_multimag_full_load( "test_multim
 static const itype_id itype_38_special( "38_special" );
 static const itype_id itype_556( "556" );
 static const itype_id itype_9mm( "9mm" );
+static const itype_id itype_9mm_casing( "9mm_casing" );
 static const itype_id itype_UPS_ON( "UPS_ON" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_battery( "battery" );
@@ -689,7 +695,7 @@ TEST_CASE( "reload_option_qty_forces_1_for_pocket_targeted_reloads",
     }
     REQUIRE( glock_idx >= 0 );
 
-    item::reload_option opt( &you, gun_loc, mag_loc );
+    item::reload_option opt( &you, gun_loc, mag_loc, item::reload_option::POCKET_FALLBACK );
     opt.pocket_index = glock_idx;
     opt.qty( 1000 );
     CHECK( opt.qty() == 1 );
@@ -1772,6 +1778,54 @@ TEST_CASE( "multimag_loaded_ammo_does_not_borrow_sibling_pocket",
     const item &loaded = gun.loaded_ammo();
     CHECK_FALSE( loaded.is_null() );
     CHECK( loaded.typeId() == itype_9mm );
+}
+
+// Casings in the integral projectile pocket must not count as loaded ammo.
+// Pins ammo_remaining()'s explicit CASING skip.
+TEST_CASE( "multimag_integral_pocket_skips_casings", "[multimag][ammo_data]" )
+{
+    item gun( itype_test_multimag_gun_integral_ammo );
+    REQUIRE( gun.uses_firing_requirements() );
+
+    item battery( itype_heavy_battery_cell );
+    battery.ammo_set( itype_battery, 100 );
+    REQUIRE( gun.put_in( battery, pocket_type::MAGAZINE_WELL ).success() );
+
+    // Casing alone in the projectile pocket: not loaded ammo.
+    gun.force_insert_item( item( itype_9mm_casing, calendar::turn,
+                                 1 ).set_flag( json_flag_CASING ),
+                           pocket_type::MAGAZINE );
+    CHECK_FALSE( gun.has_ammo() );
+    CHECK_FALSE( gun.has_ammo_data() );
+    CHECK( gun.ammo_data() == nullptr );
+    CHECK( gun.ammo_remaining() == 100 );
+
+    // Live slug alongside the casing: identity resolves to slug, count is 1.
+    REQUIRE( gun.put_in( item( itype_9mm, calendar::turn, 1 ),
+                         pocket_type::MAGAZINE ).success() );
+    CHECK( gun.has_ammo() );
+    CHECK( gun.has_ammo_data() );
+    CHECK( gun.ammo_remaining() == 101 );
+}
+
+// Per-ammotype capacity routes through the matching pocket so a
+// battery-only-loaded multimag gun still reports projectile slug capacity.
+TEST_CASE( "multimag_ammo_capacity_resolves_per_pocket", "[multimag][capacity]" )
+{
+    item gun( itype_test_multimag_gun_integral_ammo );
+    REQUIRE( gun.uses_firing_requirements() );
+
+    // Empty: still reports projectile pocket capacity for 9mm.
+    CHECK( gun.ammo_capacity( ammo_9mm ) == 1 );
+
+    item battery( itype_heavy_battery_cell );
+    battery.ammo_set( itype_battery, 100 );
+    REQUIRE( gun.put_in( battery, pocket_type::MAGAZINE_WELL ).success() );
+
+    // Battery loaded, slug pocket empty: slug capacity still from integral pocket.
+    CHECK( gun.ammo_capacity( ammo_9mm ) == 1 );
+    CHECK( gun.ammo_capacity( ammo_battery ) ==
+           battery.ammo_capacity( ammo_battery ) );
 }
 
 // Firing a multimag gun with only the power source loaded must abort cleanly

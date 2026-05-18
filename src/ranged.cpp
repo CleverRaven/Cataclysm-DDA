@@ -848,7 +848,8 @@ bool Character::handle_gun_damage( item &it )
         // Default chance is 1/10000 unless set via json, damage is proportional to caliber(see below).
         // Can be toned down with 'consume_divisor.'
 
-    } else if( it.has_flag( flag_CONSUMABLE ) && !curammo_effects.count( ammo_effect_LASER ) &&
+    } else if( it.has_flag( flag_CONSUMABLE ) && it.ammo_data() != nullptr &&
+               !curammo_effects.count( ammo_effect_LASER ) &&
                !curammo_effects.count( ammo_effect_PLASMA ) && !curammo_effects.count( ammo_effect_EMP ) ) {
         int uncork = ( ( 10 * it.ammo_data()->ammo->loudness )
                        + ( it.ammo_data()->ammo->recoil / 2 ) ) / 100;
@@ -2473,7 +2474,8 @@ int RAS_time( const Character &p, const item_location &loc )
         const item_location gun = p.get_wielded_item();
         int sta_percent = ( 100 * p.get_stamina() ) / p.get_stamina_max();
         time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
-        item::reload_option opt = item::reload_option( &p, gun, loc );
+        item::reload_option opt = item::reload_option( &p, gun, loc,
+                                  item::reload_option::POCKET_FALLBACK );
         time += opt.moves();
     }
     return time;
