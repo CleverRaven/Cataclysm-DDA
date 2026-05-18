@@ -593,5 +593,15 @@
     "type": "oter_id_migration",
     "//": "Corrected rotation in 0.J experimental",
     "oter_ids": { "hw_supports": "hw_supports_north" }
+  },
+  {
+    "type": "oter_id_migration",
+    "oter_ids": {
+      "lmoe_prepperquest": "omt_obsolete",
+      "lmoe_roof": "omt_obsolete",
+      "lmoe_zombie": "omt_obsolete",
+      "lmoe_under_empty": "lmoe_under",
+      "lmoe_zombie_under_empty": "lmoe_under"
+    }
   }
 ]
