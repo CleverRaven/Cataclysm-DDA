@@ -2261,8 +2261,17 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
         }
         
         for( const bionic &dependent : dependent_bionics ) {
+            if (!find_bionic_by_uid( dependent.get_uid() ) ) {
+                continue;
+            }
             add_msg( m_neutral, _( "%s removed with %s." ), dependent.id->name.translated(), bio_id->name.translated() );
+            get_event_bus().send<event_type::removes_cbm>( getID(), dependent.id );
             remove_bionic( dependent );
+            for( const trait_id &mid : dependent.id->give_mut_on_removal ) {
+                if( !has_trait( mid ) ) {
+                    set_mutation( mid );
+                }
+            }
             item dependent_cbm( itype_burnt_out_bionic );
             if( item::type_is_defined( dependent.id->itype() ) ) {
                 dependent_cbm = item( dependent.id->itype() );
