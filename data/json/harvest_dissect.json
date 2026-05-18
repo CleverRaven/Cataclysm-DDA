@@ -408,6 +408,18 @@
     "entries": [ { "drop": "mouse_sample_huge", "type": "mutagen_group" } ]
   },
   {
+    "id": "dissect_mole_sample_single",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "mole_sample_single", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_porcupine_sample_single",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "porcupine_sample_single", "type": "mutagen_group" } ]
+  },
+  {
     "id": "dissect_plant_sample_single",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
@@ -502,6 +514,12 @@
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
     "entries": [ { "drop": "rat_sample_huge", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_shrew_sample_single",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "shrew_sample_single", "type": "mutagen_group" } ]
   },
   {
     "id": "dissect_slime_sample_single",
