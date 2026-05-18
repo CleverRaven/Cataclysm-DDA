@@ -597,11 +597,26 @@
   {
     "type": "oter_id_migration",
     "oter_ids": {
-      "lmoe_prepperquest": "omt_obsolete",
-      "lmoe_roof": "omt_obsolete",
-      "lmoe_zombie": "omt_obsolete",
-      "lmoe_under_empty": "lmoe_under",
-      "lmoe_zombie_under_empty": "lmoe_under"
+      "lmoe_prepperquest_north": "field",
+      "lmoe_roof_north": "open_air",
+      "lmoe_zombie_north": "field",
+      "lmoe_under_empty_north": "lmoe_under",
+      "lmoe_zombie_under_empty_north": "lmoe_under",
+      "lmoe_prepperquest_east": "field",
+      "lmoe_roof_east": "open_air",
+      "lmoe_zombie_east": "field",
+      "lmoe_under_empty_east": "lmoe_under",
+      "lmoe_zombie_under_empty_east": "lmoe_under",
+      "lmoe_prepperquest_south": "field",
+      "lmoe_roof_south": "open_air",
+      "lmoe_zombie_south": "field",
+      "lmoe_under_empty_south": "lmoe_under",
+      "lmoe_zombie_under_empty_south": "lmoe_under",
+      "lmoe_prepperquest_west": "field",
+      "lmoe_roof_west": "open_air",
+      "lmoe_zombie_west": "field",
+      "lmoe_under_empty_west": "lmoe_under",
+      "lmoe_zombie_under_empty_west": "lmoe_under"
     }
   }
 ]
