@@ -57,7 +57,7 @@
           {
             "math": [ "vampire_hunters_owed_help > 0" ],
             "yes": "I can give you some cure for your vampirism.  You helped us, so I'll help you in turn.",
-            "no": "Looking to buy the cure to your vampirism?  I would give it for free if I could, but its ingredients are so hard to find now.  Phyliss can help you if you're desesperate."
+            "no": "Looking to buy the cure to your vampirism?  I would give it for free if I could, but its ingredients are so hard to find now.  Phyliss can help you if you're desperate."
           }
         ],
         "no": [ "Welcome.", "Hello.", "Hi.", "You need something?" ]
