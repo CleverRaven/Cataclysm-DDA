@@ -90,7 +90,13 @@
       {
         "text": "Got any work for me?",
         "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS",
-        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "math": [ "Vampire_Hunter_Quest_Completed < 3" ] } ] }
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "VAMPIRE" } },
+            { "math": [ "Vampire_Hunter_Quest_Completed < 3" ] },
+            { "math": [ "Vampire_Hunter_Quest_Accepted < 3" ] }
+          ]
+        }
       },
       {
         "text": "Got any work for me?",
@@ -191,7 +197,6 @@
       "We're what's left of a larger group of vampire hunters, sworn to protect humanity from these monsters that wish to subjugate it.  We would seek more vampires to destroy but <hunter_reason_a>, <hunter_reason_b> and <hunter_reason_c> changed our focus towards staying alive.  We can't fight the blood drinkers if we are all dead."
     ],
     "responses": [
-      { "text": "What are you doing here?", "topic": "TALK_VAMPIRE_HUNTER_LEADER_INTRO" },
       {
         "text": "Anything I can do to help?",
         "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS",
@@ -245,7 +250,13 @@
   {
     "id": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS",
     "type": "talk_topic",
-    "dynamic_line": [ "I have a few tasks to give you.  Which one do you want to do?" ],
+    "dynamic_line": [
+      {
+        "math": [ "Vampire_Hunter_Quest_Accepted < 3" ],
+        "yes": "I have a few tasks to give you.  Which one do you want to do?.",
+        "no": "I have no task to give you right now."
+      }
+    ],
     "responses": [
       {
         "text": "Killing the lurking strigoi.",
@@ -257,7 +268,10 @@
           ]
         },
         "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS",
-        "effect": [ { "assign_mission": "MISSION_VAMPIRE_HUNTER_LEADER_KILL_LURKING_STRIGOI" } ]
+        "effect": [
+          { "assign_mission": "MISSION_VAMPIRE_HUNTER_LEADER_KILL_LURKING_STRIGOI" },
+          { "math": [ "Vampire_Hunter_Quest_Accepted++" ] }
+        ]
       },
       {
         "text": "Killing the renfield gang.",
@@ -268,8 +282,11 @@
             { "not": { "compare_string": [ "yes", { "u_val": "completed_hunters_kill_renfield_gang" } ] } }
           ]
         },
-        "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS_ACCEPTED_RENFIELD_GANG",
-        "effect": [ { "assign_mission": "MISSION_VAMPIRE_HUNTER_LEADER_KILL_RENFIELD_GANG" } ]
+        "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS",
+        "effect": [
+          { "assign_mission": "MISSION_VAMPIRE_HUNTER_LEADER_KILL_RENFIELD_GANG" },
+          { "math": [ "Vampire_Hunter_Quest_Accepted++" ] }
+        ]
       },
       {
         "text": "Killing the monstruous renfield.",
@@ -280,8 +297,11 @@
             { "not": { "compare_string": [ "yes", { "u_val": "completed_hunters_kill_renfield_monster" } ] } }
           ]
         },
-        "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS_ACCEPTED_RENFIELD_MONSTER",
-        "effect": [ { "assign_mission": "MISSION_VAMPIRE_HUNTER_LEADER_KILL_RENFIELD_MONSTER" } ]
+        "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS",
+        "effect": [
+          { "assign_mission": "MISSION_VAMPIRE_HUNTER_LEADER_KILL_RENFIELD_MONSTER" },
+          { "math": [ "Vampire_Hunter_Quest_Accepted++" ] }
+        ]
       },
       { "text": "What do I get in exchange?", "topic": "TALK_VAMPIRE_HUNTER_LEADER_REWARDS" },
       { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
@@ -297,7 +317,7 @@
     "id": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS_REWARDS",
     "type": "talk_topic",
     "dynamic_line": [
-      "I don't have much to offer except for a few services.  Elsa can give you leather and crossbow lessons while Blaine can spare some medical supplies and offer free medical care in exchange for your help."
+      "I don't have much to offer except for a few services.  Elsa can give you leather and crossbow lessons while Blaine can spare some medical supplies and offer medical care in exchange for your help."
     ],
     "responses": [
       { "text": "I'll help you.", "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS" },
@@ -349,7 +369,7 @@
     "id": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS_GANG_ADVICE",
     "type": "talk_topic",
     "dynamic_line": [
-      "They are all armed with firearms, but they have very little ammo left and cannot aim well.  The best tactic would be to lure something hostile in range so they waste their ammo on it, like one of these pink crab-like creatures or a walking plant.  If you can't, attacking them at night and making the most of their low night vision can give you an edge on them.  Just like their masters and the feral humans, they're too far gone to be targeted by zombies so don't bother luring zombies near them."
+      "They are all armed with firearms but they have very little ammo left, cannot aim well and have no consideration for friendly fire.  The best tactic would be to lure something hostile in range so they waste their ammo on it, like one of these pink crab-like creatures or a few walking plants.  If you can't, attacking them at night and making the most of their low night vision can give you an edge on them.  Just like their masters and the feral humans, they're too far gone to be targeted by zombies so don't bother luring zombies near them."
     ],
     "responses": [ { "text": "Thanks for the advice.", "topic": "TALK_NONE" }, { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
   },
@@ -371,7 +391,7 @@
     "value": 5000,
     "start": {
       "assign_mission_target": { "om_terrain": "house", "om_terrain_match_type": "PREFIX", "reveal_radius": 1, "min_distance": 5, "z": 0 },
-      "update_mapgen": { "place_monster": [ { "monster": "mon_strigoi", "x": 12, "y": 12, "target": true } ] }
+      "update_mapgen": { "place_monster": [ { "monster": "mon_vampire_strigoi", "x": 12, "y": 12, "target": true } ] }
     },
     "end": { "opinion": { "trust": 1, "value": 1 }, "effect": { "u_add_var": "killed_strigoi_for_hunters", "value": "yes" } },
     "origins": [ "ORIGIN_SECONDARY" ],

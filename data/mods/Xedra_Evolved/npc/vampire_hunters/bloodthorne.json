@@ -127,30 +127,6 @@
     ]
   },
   {
-    "id": "TALK_HUNTER_BLOODTHORNE",
-    "type": "talk_topic",
-    "dynamic_line": [
-      {
-        "u_has_effect": "vampire_virus",
-        "yes": "You seem unwell.  Are you looking for a cure to your condition?",
-        "no": "You do not need my help right now, so I'll return to my work."
-      }
-    ],
-    "responses": [
-      {
-        "text": "I am.  Free me from this curse.",
-        "topic": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_OFFER_CURE",
-        "condition": { "u_has_effect": "vampire_virus" }
-      },
-      {
-        "text": "What kind of help?",
-        "topic": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_INTRO",
-        "condition": { "not": { "u_has_effect": "vampire_virus" } }
-      },
-      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
-    ]
-  },
-  {
     "id": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_OFFER_CURE",
     "type": "talk_topic",
     "dynamic_line": [
@@ -163,24 +139,19 @@
     "responses": [
       {
         "text": "Go ahead.",
-        "topic": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_PERFORM_CURE",
+        "topic": "TALK_DONE",
         "condition": {
           "and": [
             { "math": [ "human_blood_vitamin < 1" ] },
-            { "math": [ "u_hp('head') >= u_vampire_bloodthorne_maximal_cure_damage" ] },
-            { "math": [ "u_hp('torso') >= u_vampire_bloodthorne_maximal_cure_damage" ] },
-            { "math": [ "u_hp('arm_l') >= u_vampire_bloodthorne_maximal_cure_damage" ] },
-            { "math": [ "u_hp('arm_r') >= u_vampire_bloodthorne_maximal_cure_damage" ] },
-            { "math": [ "u_hp('leg_l') >= u_vampire_bloodthorne_maximal_cure_damage" ] },
-            { "math": [ "u_hp('leg_r') >= u_vampire_bloodthorne_maximal_cure_damage" ] }
+            { "math": [ "u_hp('head') >= vampire_bloodthorne_maximal_cure_damage()" ] },
+            { "math": [ "u_hp('torso') >= vampire_bloodthorne_maximal_cure_damage()" ] },
+            { "math": [ "u_hp('arm_l') >= vampire_bloodthorne_maximal_cure_damage()" ] },
+            { "math": [ "u_hp('arm_r') >= vampire_bloodthorne_maximal_cure_damage()" ] },
+            { "math": [ "u_hp('leg_l') >= vampire_bloodthorne_maximal_cure_damage()" ] },
+            { "math": [ "u_hp('leg_r') >= vampire_bloodthorne_maximal_cure_damage()" ] }
           ]
-        }
-      },
-      {
-        "effect": [
-          { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "30 minutes" },
-          { "run_eocs": "EOC_BLOODTHORNE_DRUID_PURGE_VAMPIRISM_IN_OTHER", "alpha_talker": "avatar" }
-        ]
+        },
+        "effect": [ { "run_eocs": "EOC_BLOODTHORNE_DRUID_PURGE_VAMPIRISM_IN_OTHER", "alpha_talker": "avatar" } ]
       },
       {
         "text": "Go ahead.",
@@ -190,12 +161,12 @@
             { "math": [ "human_blood_vitamin < 1" ] },
             {
               "or": [
-                { "math": [ "u_hp('head') < u_vampire_bloodthorne_maximal_cure_damage" ] },
-                { "math": [ "u_hp('torso') < u_vampire_bloodthorne_maximal_cure_damage" ] },
-                { "math": [ "u_hp('arm_l') < u_vampire_bloodthorne_maximal_cure_damage" ] },
-                { "math": [ "u_hp('arm_r') < u_vampire_bloodthorne_maximal_cure_damage" ] },
-                { "math": [ "u_hp('leg_l') < u_vampire_bloodthorne_maximal_cure_damage" ] },
-                { "math": [ "u_hp('leg_r') < u_vampire_bloodthorne_maximal_cure_damage" ] }
+                { "math": [ "u_hp('head') < vampire_bloodthorne_maximal_cure_damage()" ] },
+                { "math": [ "u_hp('torso') < vampire_bloodthorne_maximal_cure_damage()" ] },
+                { "math": [ "u_hp('arm_l') < vampire_bloodthorne_maximal_cure_damage()" ] },
+                { "math": [ "u_hp('arm_r') < vampire_bloodthorne_maximal_cure_damage()" ] },
+                { "math": [ "u_hp('leg_l') < vampire_bloodthorne_maximal_cure_damage()" ] },
+                { "math": [ "u_hp('leg_r') < vampire_bloodthorne_maximal_cure_damage()" ] }
               ]
             }
           ]
@@ -213,11 +184,8 @@
       { "text": "I will find another way", "topic": "TALK_DONE" },
       {
         "text": "Do it.  <color_red>This might literally kill you.</color>",
-        "topic": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_PERFORM_CURE",
-        "effect": [
-          { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "30 minutes" },
-          { "run_eocs": "EOC_BLOODTHORNE_DRUID_PURGE_VAMPIRISM_IN_OTHER", "alpha_talker": "avatar" }
-        ]
+        "topic": "TALK_DONE",
+        "effect": [ { "run_eocs": "EOC_BLOODTHORNE_DRUID_PURGE_VAMPIRISM_IN_OTHER", "alpha_talker": "avatar" } ]
       }
     ]
   },
@@ -225,7 +193,7 @@
     "id": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_PERFORM_CURE",
     "type": "talk_topic",
     "dynamic_line": [
-      "And done.  You're now free from vampirism for the time being.  Take some time to recover, and ask Blaine if you ever want to buy a less painful cure from him."
+      "\"And done\" Phyliss says.  \"You're now free from vampirism for the time being.  Take some time to recover, and ask Blaine if you ever want to buy a less painful cure from him.\""
     ],
     "responses": [ { "text": "thanks.  <end_talking_bye>", "topic": "TALK_DONE" } ]
   },

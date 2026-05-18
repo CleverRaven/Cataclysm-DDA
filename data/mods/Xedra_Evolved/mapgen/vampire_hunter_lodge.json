@@ -5,39 +5,34 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        ".%##-###-###-###-###-##-#################%......",
+        ".%##9###9###9###9###₸##9#################%......",
         ".*#c B#c B#B c#B c#  #h s#a            >#*......",
-        ".*-d B#d B#B d#B d#  #h T#^   a ZZZ OC  -*......",
+        ".*9d B#d B#B d#B d#  #h T#^   a ZZZ OC  9*......",
         ".*##=###=###=###=##  ##=##a   a ZZZ OC  #*......",
         ".*#                           a ZZZ OC  #*......",
-        ".*-                                     -*......",
+        ".*9                                     9*......",
         ".*#    YY   YY  AAAAAAAA  ata ^        >#*......",
         ".%########₸########################   ###*......",
         "ooooooooooGGGGGGG~~~~~~~~~~~~~~~~~#   #%**......",
         "ooooooooooooooooG~~~~~%############   #*........",
-        "ooooooooooooooooG~~~~~*-              #*........",
-        "ooooooooooooooooG~~~~~*#Y   c c c     -*........",
-        "ooooooooooooooooGGGGGGG+    ttttt    b-*........",
-        "ooooooooooooooooGGGGGGG+    ttttt    b-*........",
-        "oooooooooooooooo~~~~~G*#Y   c c c     -*........",
-        "oooooooooooooooo~~~~~G*-              -*........",
+        "ooooooooooooooooG~~~~~*9              #*........",
+        "ooooooooooooooooG~~~~~*#Y   c c c     9*........",
+        "ooooooooooooooooGGGGGGG=    ttttt    b9*........",
+        "ooooooooooooooooGGGGGGG=    ttttt    b9*........",
+        "oooooooooooooooo~~~~~G*#Y   c c c     9*........",
+        "oooooooooooooooo~~~~~G*9              9*........",
         "oooooooooooooooo~~~~~G*#####   ########*........",
         "oooooooooooooooo~~~~~G***#<#   #********........",
         "oooooooooooooooo%~~~~GGGG8 #   #%****...........",
         "......*###-###-###-#########   #####*...........",
         ".....0*#UU URU URU URU #12C     5 é#*...........",
-        ".....0*#R              z      C   u-*...........",
+        ".....0*#R              z      C   u9*...........",
         ".....0*#UU URU URU URU #3CC&  4CVuF#*...........",
         "......%###-###-###-##########₸######%..........."
       ],
       "palettes": [ "lodge_palette" ],
-      "terrain": { "₸": "t_door_boarded", "8": "t_door_locked" },
-      "faction_owner": [
-        { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 24, 47 ] },
-        { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 48, 71 ] },
-        { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 72, 95 ] }
-      ],
+      "terrain": { "₸": "t_door_boarded", "8": "t_door_locked", "9": "t_window_bars_domestic" },
+      "faction_owner": [ { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "place_npcs": [
         { "class": "vampire_hunter_generic_guard", "x": 20, "y": 12 },
         { "class": "vampire_hunter_generic_guard", "x": 20, "y": 12 },
@@ -81,12 +76,7 @@
         "       5---------------------------5            "
       ],
       "palettes": [ "lodge_2ndfloor_palette" ],
-      "faction_owner": [
-        { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 24, 47 ] },
-        { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 48, 71 ] },
-        { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 72, 95 ] }
-      ],
+      "faction_owner": [ { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "place_npcs": [
         { "class": "vampire_hunter_generic_guard", "x": 17, "y": 2 },
         { "class": "vampire_hunter_generic_guard", "x": 17, "y": 5 },
@@ -128,12 +118,7 @@
         "                                                "
       ],
       "palettes": [ "roof_palette" ],
-      "faction_owner": [
-        { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 24, 47 ] },
-        { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 48, 71 ] },
-        { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 72, 95 ] }
-      ],
+      "faction_owner": [ { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "furniture": { "V": "f_wind_vane" }
     }
   },
@@ -169,12 +154,7 @@
         "                                                "
       ],
       "palettes": [ "standard_domestic_basement_palette" ],
-      "faction_owner": [
-        { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 24, 47 ] },
-        { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 48, 71 ] },
-        { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 72, 95 ] }
-      ],
+      "faction_owner": [ { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "terrain": { "/": "t_carpet_yellow", "_": "t_carpet_green", "R": "t_carpet_green" }
     }
   }

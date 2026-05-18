@@ -356,7 +356,7 @@
       { "point": [ 0, 0, 0 ], "overmap": "lodge_VH_ground1_north" },
       { "point": [ 1, 0, 0 ], "overmap": "lodge_VH_ground2_north" },
       { "point": [ 0, 0, 1 ], "overmap": "lodge_VH_2ndfloor1_north" },
-      { "point": [ 1, 0, 1 ], "overmap": "lodge_VH_ground2_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "lodge_VH_2ndfloor2_north" },
       { "point": [ 0, 0, 2 ], "overmap": "lodge_VH_roof1_north" },
       { "point": [ 1, 0, 2 ], "overmap": "lodge_VH_roof2_north" },
       { "point": [ 0, 0, -1 ], "overmap": "lodge_VH_basement_residential1_north" },

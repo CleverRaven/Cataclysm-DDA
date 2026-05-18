@@ -325,12 +325,14 @@
   },
   {
     "id": "vampire_hunter_map",
-    "copy-from": "abstractmap",
     "type": "ITEM",
-    "category": "maps",
+    "category": "books",
     "name": "smudged map",
     "description": "A scrap of paper bearing crude lines all over it.  The only noteworthy location is a small building with a few arrows pointing at it.",
     "color": "brown_green",
+    "symbol": ",",
+    "weight": "3 g",
+    "volume": "10 ml",
     "use_action": {
       "type": "effect_on_conditions",
       "effect_on_conditions": [

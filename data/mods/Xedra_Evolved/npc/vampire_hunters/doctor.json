@@ -65,10 +65,10 @@
     ],
     "responses": [
       {
-        "text": "I'll buy some cure. [20$]",
-        "topic": "TALK_HUNTER_DOCTOR_GIVE_CURE",
+        "text": "I'll buy some cure. [10$]",
+        "topic": "TALK_DONE",
         "condition": { "math": [ "vampire_hunters_owed_help < 1" ] },
-        "effect": [ { "u_spend_cash": 2000 }, { "u_spawn_item": "blood_treatment", "count": 1, "container": "bottle_plastic" } ]
+        "effect": [ { "u_spend_cash": 2000, "true_eocs": "EOC_HUNTER_DOCTOR_GIVE_CURE" } ]
       },
       {
         "text": "I'd like to have some cure.",
@@ -76,20 +76,8 @@
         "condition": { "math": [ "vampire_hunters_owed_help >= 1" ] },
         "effect": [
           { "math": [ "vampire_hunters_owed_help--" ] },
-          { "u_spawn_item": "blood_treatment", "count": 1, "container": "bottle_plastic" }
+          { "u_spawn_item": "blood_treatment", "count": 3, "container": "bottle_plastic" }
         ]
-      },
-      {
-        "text": "[100$, 30m] I need you to patch me up.",
-        "topic": "TALK_HUNTER_DOCTOR_AID_DONE",
-        "effect": [ { "u_spend_cash": 10000 }, "give_aid" ],
-        "condition": { "math": [ "vampire_hunters_owed_help < 1" ] }
-      },
-      {
-        "text": "[200$, 1h] I need you to patch my friends up.",
-        "topic": "TALK_HUNTER_DOCTOR_AID_DONE",
-        "effect": [ { "u_spend_cash": 20000 }, "give_all_aid" ],
-        "condition": { "math": [ "vampire_hunters_owed_help < 2" ] }
       },
       {
         "text": "[30m] Could you patch me up?",
