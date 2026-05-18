@@ -2067,7 +2067,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         const islot_armor *armor = find_armor_data();
         if( armor != nullptr ) {
             if( armor->rigid ) {
-                std::string coverage = _( "<bold>This armor is rigid</bold>" );
+                std::string coverage = _( "<bold>This armor is rigid</bold>." );
                 info.emplace_back( "ARMOR", coverage );
             } else {
                 // only some parts are rigid
@@ -2121,7 +2121,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         const islot_armor *armor = find_armor_data();
         if( armor != nullptr ) {
             if( armor->comfortable ) {
-                std::string coverage = _( "<bold>This armor is comfortable</bold>" );
+                std::string coverage = _( "<bold>This armor is comfortable</bold>." );
                 info.emplace_back( "ARMOR", coverage );
             } else {
                 // only some parts are comfortable
@@ -3397,7 +3397,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     insert_separation_line( info );
 
     if( bid->required_bionic ) {
-        info.emplace_back( "CBM", string_format( "* This CBM requires another CBM to also be installed: %s",
+        info.emplace_back( "CBM", string_format( _( "* This CBM requires another CBM to also be installed: %s" ),
                            bid->required_bionic->name ) );
     }
     insert_separation_line( info );
@@ -3608,7 +3608,7 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
                 if( non_crit.type_damage( dio.dmg_type ) > 0 || crit.type_damage( dio.dmg_type ) > 0 ) {
                     // NOTE: Using "BASE" instead of "DESCRIPTION", so numerical formatting will work
                     // (output.cpp:format_item_info does not interpolate <num> for DESCRIPTION info)
-                    info.emplace_back( "BASE", string_format( "%s: ",
+                    info.emplace_back( "BASE", string_format( _( "%s: " ),
                                        uppercase_first_letter( dio.dmg_type->name.translated() ) ),
                                        "<num>", iteminfo::no_newline, non_crit.type_damage( dio.dmg_type ) );
                     //~ Label used in the melee damage section in the item info screen (ex: "  Critical bash: ")
