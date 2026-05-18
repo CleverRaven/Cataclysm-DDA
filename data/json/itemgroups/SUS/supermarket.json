@@ -77,39 +77,11 @@
     "entries": [ { "item": "chicken_fried", "container-item": "null", "count": 6 } ]
   },
   {
-    "id": "flour_bag_50",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "flour", "container-item": "null", "count": 50 } ]
-  },
-  {
-    "id": "bread_flour_bag_50",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "bread_flour", "container-item": "null", "count": 50 } ]
-  },
-  {
-    "id": "flour_wheat_free_bag_50",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "flour_wheat_free", "container-item": "null", "count": 50 } ]
-  },
-  {
     "id": "sugar_bag_50",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "bag_plastic",
     "entries": [ { "item": "sugar", "container-item": "null", "count": 50 } ]
-  },
-  {
-    "id": "yeast_bag_10",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "yeast", "container-item": "null", "count": 10 } ]
   },
   {
     "id": "spaghetti_raw_bag_30",
