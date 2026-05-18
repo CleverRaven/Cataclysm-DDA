@@ -1079,6 +1079,44 @@ TEST_CASE( "multimag_reload_chains_to_sibling_well",
     CHECK( mags.size() == 2 );
 }
 
+// Unload on a multimag host with both a loaded MAGAZINE_WELL and a live
+// integral MAGAZINE pocket must drain both, not only the well.
+TEST_CASE( "multimag_unload_drains_integral_and_well",
+           "[multimag][unload]" )
+{
+    clear_avatar();
+    Character &you = get_player_character();
+    you.wear_item( item( itype_backpack ) );
+
+    item gun( itype_test_multimag_gun_integral_ammo );
+    REQUIRE( gun.uses_firing_requirements() );
+
+    item battery( itype_heavy_battery_cell );
+    battery.ammo_set( itype_battery, 100 );
+    REQUIRE( gun.put_in( battery, pocket_type::MAGAZINE_WELL ).success() );
+    REQUIRE( gun.put_in( item( itype_9mm, calendar::turn, 1 ),
+                         pocket_type::MAGAZINE ).success() );
+
+    item_location gun_loc = you.i_add( gun );
+    REQUIRE( gun_loc );
+    REQUIRE_FALSE( gun_loc->magazines_current().empty() );
+
+    const bool unloaded = you.unload( gun_loc, /*bypass_activity=*/true );
+    REQUIRE( unloaded );
+
+    CHECK( gun_loc->magazines_current().empty() );
+    const item &const_gun = *gun_loc;
+    const std::vector<const item_pocket *> integral_pockets = const_gun.get_pockets(
+    []( const item_pocket & p ) {
+        return p.is_type( pocket_type::MAGAZINE );
+    } );
+    for( const item_pocket *p : integral_pockets ) {
+        for( const item *e : p->all_items_top() ) {
+            CHECK( e->has_flag( flag_CASING ) );
+        }
+    }
+}
+
 TEST_CASE( "wield_collision_sees_mags_from_every_well",
            "[multimag][wield]" )
 {

@@ -67,6 +67,7 @@
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "subbodypart.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
@@ -2437,6 +2438,25 @@ bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const 
     return true;
 }
 
+static bool has_drainable_integral_pocket( const item &target )
+{
+    if( !target.uses_firing_requirements() ) {
+        return false;
+    }
+    const std::vector<const item_pocket *> integral_pockets = target.get_pockets(
+    []( const item_pocket & p ) {
+        return p.is_type( pocket_type::MAGAZINE );
+    } );
+    for( const item_pocket *p : integral_pockets ) {
+        for( const item *e : p->all_items_top() ) {
+            if( !e->has_flag( flag_CASING ) && e->is_ammo() ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 bool Character::unload( item_location &loc, bool bypass_activity,
                         const item_location &new_container )
 {
@@ -2567,24 +2587,74 @@ bool Character::unload( item_location &loc, bool bypass_activity,
         }
         return true;
 
-    } else if( !target->magazines_current().empty() ) {
-        // Snapshot the loaded magazine pointers up front; the vector will shift
-        // as we remove magazines from the wells.
+    } else if( !target->magazines_current().empty() ||
+               has_drainable_integral_pocket( *target ) ) {
         std::vector<item *> mags_to_eject = target->magazines_current();
-        if( !bypass_activity && mags_to_eject.size() > 1 ) {
-            std::vector<std::string> mag_msgs;
-            mag_msgs.reserve( mags_to_eject.size() + 1 );
-            for( const item *mag : mags_to_eject ) {
-                mag_msgs.emplace_back( mag->tname() );
+        struct integral_source {
+            item_pocket *pocket;
+            std::string label;
+            int total_qty;
+        };
+        std::vector<integral_source> integral_sources;
+        if( target->uses_firing_requirements() ) {
+            std::vector<item_pocket *> integral_pockets = target->get_pockets(
+            []( const item_pocket & p ) {
+                return p.is_type( pocket_type::MAGAZINE );
+            } );
+            for( item_pocket *p : integral_pockets ) {
+                std::string entry_name;
+                int amount = 0;
+                for( const item *e : p->all_items_top() ) {
+                    if( e->has_flag( flag_CASING ) || !e->is_ammo() ) {
+                        continue;
+                    }
+                    amount += e->charges > 0 ? e->charges : 1;
+                    if( entry_name.empty() ) {
+                        entry_name = e->tname();
+                    }
+                }
+                if( amount == 0 ) {
+                    continue;
+                }
+                const pocket_data *pd = p->get_pocket_data();
+                std::string label = entry_name;
+                if( pd != nullptr ) {
+                    const std::string display = pd->pocket_name.translated();
+                    if( !display.empty() ) {
+                        label = string_format( "%s (%s)", entry_name, display );
+                    } else if( !pd->pocket_id.empty() ) {
+                        label = string_format( "%s (%s)", entry_name, pd->pocket_id );
+                    }
+                }
+                integral_sources.push_back( { p, label, amount } );
             }
-            mag_msgs.emplace_back( _( "All" ) );
-            const int ret = uilist( _( "Unload which magazine?" ), mag_msgs );
+        }
+        const int total_sources = static_cast<int>( mags_to_eject.size() +
+                                  integral_sources.size() );
+        if( !bypass_activity && total_sources > 1 ) {
+            std::vector<std::string> msgs_v;
+            msgs_v.reserve( total_sources + 1 );
+            for( const item *mag : mags_to_eject ) {
+                msgs_v.emplace_back( mag->tname() );
+            }
+            for( const integral_source &src : integral_sources ) {
+                msgs_v.emplace_back( src.label );
+            }
+            msgs_v.emplace_back( _( "All" ) );
+            const int ret = uilist( _( "Unload which source?" ), msgs_v );
             if( ret < 0 ) {
                 return false;
             }
-            if( ret < static_cast<int>( mags_to_eject.size() ) ) {
-                item *picked = mags_to_eject[ret];
-                mags_to_eject = { picked };
+            if( ret < total_sources ) {
+                if( ret < static_cast<int>( mags_to_eject.size() ) ) {
+                    item *picked = mags_to_eject[ret];
+                    mags_to_eject = { picked };
+                    integral_sources.clear();
+                } else {
+                    integral_source picked = integral_sources[ret - mags_to_eject.size()];
+                    integral_sources = { picked };
+                    mags_to_eject.clear();
+                }
             }
         }
         for( item *mag : mags_to_eject ) {
@@ -2597,6 +2667,37 @@ bool Character::unload( item_location &loc, bool bypass_activity,
             target->remove_items_with( [mag]( const item & e ) {
                 return &e == mag;
             } );
+        }
+        for( const integral_source &src : integral_sources ) {
+            std::vector<item *> to_remove;
+            const item *rep = nullptr;
+            for( item *e : src.pocket->all_items_top() ) {
+                if( e->has_flag( flag_CASING ) || !e->is_ammo() ) {
+                    continue;
+                }
+                item dropped = *e;
+                if( target->is_filthy() ) {
+                    dropped.set_flag( flag_FILTHY );
+                }
+                if( !this->add_or_drop_with_msg( dropped,
+                                                 dropped.count_by_charges() && dropped.charges > 1 ) ) {
+                    return false;
+                }
+                if( rep == nullptr ) {
+                    rep = e;
+                }
+                to_remove.push_back( e );
+            }
+            if( rep != nullptr ) {
+                this->mod_moves( -this->item_reload_cost( *target, *rep, src.total_qty ) / 2 );
+            }
+            for( item *e : to_remove ) {
+                src.pocket->remove_item( *e );
+            }
+            src.pocket->on_contents_changed();
+        }
+        if( !integral_sources.empty() ) {
+            target->on_contents_changed();
         }
 
     } else if( target->ammo_remaining( ) ) {
