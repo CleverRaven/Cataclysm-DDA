@@ -2506,7 +2506,18 @@
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND" ],
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "WARM", "ANIMAL", "PATH_AVOID_DANGER", "EATS", "SMALL_HIDER", "CORNERED_FIGHTER" ]
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "GOODHEARING",
+      "WARM",
+      "ANIMAL",
+      "PATH_AVOID_DANGER",
+      "EATS",
+      "SMALL_HIDER",
+      "CORNERED_FIGHTER"
+    ]
   },
   {
     "id": "mon_sheep_lamb",
