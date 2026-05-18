@@ -178,7 +178,7 @@
     "id": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_CURE_WARNING",
     "type": "talk_topic",
     "dynamic_line": [
-      "I must warn you before we start.  Your fragilized body and your potent vampirism mean that the heartvines will cause severe damage to your body.  You could die from the procedure.  Are you sure you want to do this?"
+      "I must warn you before we start.  Your weakened body and your potent vampirism mean that the heartvines will cause severe damage to your body.  You could die from the procedure.  Are you sure you want to do this?"
     ],
     "responses": [
       { "text": "I will find another way", "topic": "TALK_DONE" },
