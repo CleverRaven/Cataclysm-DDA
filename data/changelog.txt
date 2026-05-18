@@ -226,7 +226,6 @@ Allow ferals to unlock car doors.
 Direct route autodrive pathfinding
 Vehicle turrets and tools draw from multimag pockets
 Recipes can mark steps as unattended; player can wait, walk away, or set a timer
-Fields that block movement
 Getting an Exodii Cyberframe locks you out of Hub 01 content
 
 
@@ -485,14 +484,7 @@ Added the jetski map extra, a jetski abandoned on the side of the river
 Added the Final Showdown map extra, an injured survivor's last stand against a few zombies
 Overgrown labyrinths
 Labyrinth specific CBMs:  anchor; laser reader; psyshield; artificial hair; blood biofactory; antigravity jump
-Eye stalks to limbs
-Add smoked mozzarella
-Rigid Eyestalks to limbs
-New labyrinth-specific CBMs can rarely be found in level 2 labyrinths
-Bionic head and torso for Exodii full-body conversion frames
-Variant labyrinth monsters for overgrown labyrinth
 The Exodii can turn you into a full-blown cyborg
-Frog Eyes to limbs
 
 
 ## Interface:
@@ -656,14 +648,7 @@ Replace curses crafting menu with ImGui implementation
 Migrate popups in vehicle interaction menu to ImGui
 Update to ImGui 1.91.9b
 Move appliance infobox to imgui
-Display some items by volume or weight, instead of count
-Remember crafting steps panel state between sessions
-Sidebar headers for various game objects
-Support displaying items by volume/weight on more UI screens
-Character creation UI fixes for random characters
-Improve view of single-step recipes in crafting menu
-Allow some items to be displayed by length
-Hot-swap MEMORY_MAP_MODE on SDL3 GPU renderer without restart
+Display some items by volume, weight or length instead of count
 
 
 ## Mods:
@@ -1149,11 +1134,7 @@ XE Proficiency CBMs
 [Sky Island] NPCs may join raids
 [BPerks/MM/Sorc] XP mods can level up more than once at a time
 Aftershock: Add industrial habitat building.
-[MoM] Change Beastmaster message
-[Xedra Evolved] Stalker Eye spell replaces your eyes while active
-[MoM] Snippetathon, Part V
-Add XedraWood: Stone and Sorcery to the CDDA repository
-[Magiclysm] Add whitelist to Forge of Wonders merchants and remove barabolean wool items from Valzain's shop.
+Add "XedraWood: Stone and Sorcery" mod to the CDDA repository
 
 ## Balance:
 Visitors Passes and Freight Badges no longer reveal roads
@@ -1302,10 +1283,6 @@ Respect magazine_well when calculating encumbrance
 Nobody wants to cooperate with psychopaths
 Zombie corpses aren't useful
 Stepped many many weapon recipes
-Step cutting weapons
-Go through the recipes I stepped and adjust some stuff. Make power hammer a bit slower
-Zombies are attracted to moving vehicles
-Windows taking too much time to traverse makes zombie hordes too easy to kite and kill
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1846,22 +1823,6 @@ Aftershock: Plasma degrades armors
 Stop spamming player log when NPCs are hot
 Stop ref center guard EOCs from firing in alternate dimensions
 Uncomfortable limbs must exist
-Fix New England Church (which condemns mutations) not fearing the Elf mutants
-Fix multimag integral magazine display, reload, and fire bugs
-Fix fallback fonts not being rendered in ImGui
-Fix 'N helps with crafting' message not using the new name of NPCs who were renamed by player
-Block in-place transform when the result wouldn't fit the parent pocket
-four tips within tips.json
-Pause unattended crafts when tools go missing mid-step, and fix resume timer offset
-Unwielding into a worn pocket leaves the item out of inventory lookups
-Fix uncraftable machete recipe by correcting tool requirement
-Fix rabbit muzzle subpart similar parts
-Fix conflicting keybinds in butchery menu
-[DinoMod] Fix DinoZoo mission
-Artificial Hair CBM gives artificial instead of real hair, and works with hairless cyborgs
-Fix crash on shutdown
-Can fall into all nether sparkling chasms
-Fix typo in Hard Target book description
 
 
 ## Performance:
@@ -1906,10 +1867,6 @@ Shrink level_cache by 48kb to save almost 1MB of ram (or more with allocator ove
 Save map size by not serializing unnecessary item components.
 Skip lightmap rebuild on idle frames
 Speedup highway placement by caching expensive math
-`level_cache` isn't dogshit slow anymore, and other level headed wins
-Bulk inventory load and grouped craft result placement
-Partially address edge case in inventory UI performance when dealing with bags of many items
-Speed up item::weight and item_vars lookups
 
 
 ## Infrastructure:
@@ -2153,10 +2110,6 @@ clang-tidy: support LLVM 19-22 in custom plugin and helper scripts
 Fix lint findings reported by clang-tidy 21
 Bump clang-tidy CI baseline from LLVM 18 to LLVM 21
 Re-enable cata-large-stack-object check on LLVM 22
-Remove empty file
-Address LLVM 22 clang-tidy findings
-Bump clang-tidy CI baseline from LLVM 21 to LLVM 22
-Fix clang-tidy CI under LLVM 22
 SDL3 GPU shader pipeline for sprite variants
 
 
