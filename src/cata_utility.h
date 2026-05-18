@@ -651,6 +651,14 @@ std::map<K, V> map_without_keys( const std::map<K, V> &original, const std::vect
     return filtered;
 }
 
+namespace cata_detail
+{
+template<typename, typename = void>
+struct is_unordered_map : std::false_type {};
+template<typename Map>
+struct is_unordered_map<Map, std::void_t<typename Map::hasher>> : std::true_type {};
+} // namespace cata_detail
+
 template<typename Map, typename Set>
 bool map_equal_ignoring_keys( const Map &lhs, const Map &rhs, const Set &ignore_keys )
 {
@@ -661,26 +669,49 @@ bool map_equal_ignoring_keys( const Map &lhs, const Map &rhs, const Set &ignore_
         return lhs == rhs;
     }
 
-    // Lookup-based rather than parallel iteration so unordered_map (with
-    // nondeterministic bucket order) compares correctly.
-    std::size_t lhs_relevant = 0;
-    for( const auto &kv : lhs ) {
-        if( ignore_keys.count( kv.first ) ) {
-            continue;
+    if constexpr( cata_detail::is_unordered_map<Map>::value ) {
+        // Bucket order is nondeterministic in unordered maps, so walk one side and look up the other.
+        std::size_t lhs_relevant = 0;
+        for( const auto &kv : lhs ) {
+            if( ignore_keys.count( kv.first ) ) {
+                continue;
+            }
+            ++lhs_relevant;
+            const auto it = rhs.find( kv.first );
+            if( it == rhs.end() || !( it->second == kv.second ) ) {
+                return false;
+            }
         }
-        ++lhs_relevant;
-        const auto it = rhs.find( kv.first );
-        if( it == rhs.end() || !( it->second == kv.second ) ) {
-            return false;
+        std::size_t rhs_relevant = 0;
+        for( const auto &kv : rhs ) {
+            if( !ignore_keys.count( kv.first ) ) {
+                ++rhs_relevant;
+            }
+        }
+        return lhs_relevant == rhs_relevant;
+    } else {
+        // Sorted keys stay aligned after skipping ignored entries, so a merge-scan avoids per-element lookup.
+        auto li = lhs.begin();
+        auto ri = rhs.begin();
+        const auto le = lhs.end();
+        const auto re = rhs.end();
+        while( true ) {
+            while( li != le && ignore_keys.count( li->first ) ) {
+                ++li;
+            }
+            while( ri != re && ignore_keys.count( ri->first ) ) {
+                ++ri;
+            }
+            if( li == le || ri == re ) {
+                return li == le && ri == re;
+            }
+            if( !( li->first == ri->first ) || !( li->second == ri->second ) ) {
+                return false;
+            }
+            ++li;
+            ++ri;
         }
     }
-    std::size_t rhs_relevant = 0;
-    for( const auto &kv : rhs ) {
-        if( !ignore_keys.count( kv.first ) ) {
-            ++rhs_relevant;
-        }
-    }
-    return lhs_relevant == rhs_relevant;
 }
 
 int modulo( int v, int m );
