@@ -1703,10 +1703,14 @@ int item::ammo_capacity( const ammotype &ammo, bool include_linked ) const
             if( const item *mag = p->magazine_current() ) {
                 return mag->ammo_capacity( ammo );
             }
-            // Unloaded well: use default magazine's capacity for this ammotype.
-            const itype_id default_mag = p->magazine_default();
-            if( !default_mag.is_null() && default_mag->magazine ) {
-                return default_mag->magazine->capacity;
+            // Multimag hosts surface the default mag's capacity for unloaded
+            // wells so item info shows the projected per-well number. Single-
+            // well guns keep returning 0 so "is this loaded?" stays correct.
+            if( uses_firing_requirements() ) {
+                const itype_id default_mag = p->magazine_default();
+                if( !default_mag.is_null() && default_mag->magazine ) {
+                    return default_mag->magazine->capacity;
+                }
             }
         } else {
             const auto &restrictions = p->get_pocket_data()

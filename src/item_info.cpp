@@ -1399,7 +1399,17 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                 if( adata == nullptr || amount == 0 ) {
                     continue;
                 }
-                loaded_lines.emplace_back( adata->nname( amount ) );
+                std::string entry = adata->nname( amount );
+                const pocket_data *pd = p->get_pocket_data();
+                if( pd != nullptr ) {
+                    const std::string display = pd->pocket_name.translated();
+                    if( !display.empty() ) {
+                        entry = string_format( "%s: %s", display, entry );
+                    } else if( !pd->pocket_id.empty() ) {
+                        entry = string_format( "%s: %s", pd->pocket_id, entry );
+                    }
+                }
+                loaded_lines.emplace_back( entry );
             }
             if( !loaded_lines.empty() ) {
                 std::string joined;
