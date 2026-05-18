@@ -35,6 +35,7 @@
 #include "butchery_requirements.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
@@ -3086,6 +3087,8 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
         return;
     }
 
+    // Pickup::do_pickup() actively assumes the player. Calling it with anyone else is a mistake.
+    cata_assert( &who == &get_player_character() );
     // False indicates that the player canceled pickup when met with some prompt
     const bool keep_going = Pickup::do_pickup( target_items, quantities, autopickup,
                             stash_successful, info );
