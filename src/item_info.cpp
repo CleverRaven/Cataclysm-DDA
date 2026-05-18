@@ -3397,8 +3397,9 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     insert_separation_line( info );
 
     if( bid->required_bionic ) {
-        info.emplace_back( "CBM", string_format( _( "* This CBM requires another CBM to also be installed: %s" ),
-                           bid->required_bionic->name ) );
+        info.emplace_back( "CBM", string_format(
+                               _( "* This CBM requires another CBM to also be installed: %s" ),
+                               bid->required_bionic->name ) );
     }
     insert_separation_line( info );
 
