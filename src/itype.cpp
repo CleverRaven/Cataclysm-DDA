@@ -127,11 +127,6 @@ std::string itype::get_item_type_string() const
     return "misc";
 }
 
-bool itype::dont_display_count_or_charges() const
-{
-    return display_type != item_display_type::DEFAULT;
-}
-
 std::string itype::count_or_volume_or_weight_prefix( unsigned int quantity ) const
 {
     if( display_type == item_display_type::BY_WEIGHT ) {

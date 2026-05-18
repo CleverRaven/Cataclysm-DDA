@@ -1786,11 +1786,14 @@ std::string item::display_name( unsigned int quantity ) const
                     } else {
                         charges_color = c_light_green;
                     }
-                    amt = string_format( " (%s%s)", colorize( string_format( "%i/%i", amount, max_amount ),
-                                         charges_color ),
+                    amt = string_format( " (%s%s)",
+                                         colorize( string_format( "%s/%s",
+                                                   type->count_or_volume_or_weight_prefix( amount ),
+                                                   type->count_or_volume_or_weight_prefix( max_amount ) ),
+                                                   charges_color ),
                                          ammotext );
-                } else if( !type->dont_display_count_or_charges() )  {
-                    amt = string_format( " (%i%s)", amount, ammotext );
+                } else  {
+                    amt = string_format( " (%s%s)", type->count_or_volume_or_weight_prefix( amount ), ammotext );
                 }
             }
         } else if( !ammotext.empty() ) {
