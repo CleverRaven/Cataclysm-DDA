@@ -4417,7 +4417,7 @@ const std::vector<debug_action_entry> &all_actions()
         {
             debug_menu_index::CHANGE_TIME, translate_marker( "Change time" ), "time turn calendar", "Map", []()
             {
-                calendar::turn = calendar_ui::select_time_point( calendar::turn );
+                calendar::turn = calendar_ui::select_time_point( calendar::turn, _( "Select time point" ) );
             }
         },
         {
