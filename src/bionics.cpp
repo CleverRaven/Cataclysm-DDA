@@ -2144,7 +2144,6 @@ bool Character::can_uninstall_bionic( const bionic &bio, Character &installer, b
             if( installed == bio.id ) {
                 continue;
             }
-            
             for( const bodypart_str_id &bp : bio.id->replaced_bodyparts ) {
                 if( installed->occupied_bodyparts.count( bp ) > 0 ) {
                     dependent_bionics.push_back( installed->name.translated() );
@@ -2153,10 +2152,11 @@ bool Character::can_uninstall_bionic( const bionic &bio, Character &installer, b
             }
         }
     }
-    
+
     if( !dependent_bionics.empty() ) {
         if( !player_character.query_yn(
-                _( "Removing %s will also remove: %s" ), bio.id->name.translated(), string_join( dependent_bionics, ", " ) ) ) {
+                _( "Removing %s will also remove: %s" ), bio.id->name.translated(), string_join( dependent_bionics,
+                        ", " ) ) ) {
             return false;
         }
     }
@@ -2238,33 +2238,32 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
         add_msg( m_good, _( "Successfully removed %s." ), bio.id.obj().name );
         const bionic_id bio_id = bio.id;
         remove_bionic( bio );
-        
         // remove dependent bionics
         std::vector<bionic> dependent_bionics;
         for( const bionic &installed : *my_bionics ) {
             if( installed.id == bio_id ) {
                 continue;
             }
-            
+
             bool conflicts = false;
-            
+
             for( const bodypart_str_id &bp : bio_id->replaced_bodyparts ) {
                 if( installed.id->occupied_bodyparts.count( bp ) > 0 ) {
                     conflicts = true;
                     break;
                 }
             }
-            
             if( conflicts ) {
                 dependent_bionics.push_back( installed );
             }
         }
-        
+
         for( const bionic &dependent : dependent_bionics ) {
-            if (!find_bionic_by_uid( dependent.get_uid() ) ) {
+            if( !find_bionic_by_uid( dependent.get_uid() ) ) {
                 continue;
             }
-            add_msg( m_neutral, _( "%s removed with %s." ), dependent.id->name.translated(), bio_id->name.translated() );
+            add_msg( m_neutral, _( "%s removed with %s." ), dependent.id->name.translated(),
+                     bio_id->name.translated() );
             get_event_bus().send<event_type::removes_cbm>( getID(), dependent.id );
             remove_bionic( dependent );
             for( const trait_id &mid : dependent.id->give_mut_on_removal ) {
