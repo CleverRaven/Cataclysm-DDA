@@ -15,6 +15,7 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "damage.h"
+#include "enums.h"
 #include "explosion.h"
 #include "fragment_cloud.h"
 #include "game.h"
@@ -195,7 +196,7 @@ static void check_vehicle_damage( const itype_id &explosive_id, const std::strin
     tripoint_bub_ms origin( 30, 30, 0 );
 
     vehicle *target_vehicle = get_map().add_vehicle( vproto_id( vehicle_id ), origin, 0_degrees,
-                              -1, 0 );
+                              -1, veh_spawn_status::UNDAMAGED );
     std::vector<int> before_hp = get_part_hp( target_vehicle );
 
     while( get_map().veh_at( origin ) ) {

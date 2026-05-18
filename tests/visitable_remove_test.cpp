@@ -10,6 +10,7 @@
 #include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
+#include "enums.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -428,7 +429,8 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         std::vector<tripoint_bub_ms> tiles = closest_points_first( p.pos_bub(), 1 );
         tiles.erase( tiles.begin() ); // player tile
         tripoint_bub_ms veh = tripoint_bub_ms( random_entry( tiles ) );
-        REQUIRE( here.add_vehicle( vehicle_prototype_shopping_cart, veh, 0_degrees, 0, 0 ) );
+        REQUIRE( here.add_vehicle( vehicle_prototype_shopping_cart, veh, 0_degrees, 0,
+                                   veh_spawn_status::UNDAMAGED ) );
 
         REQUIRE( std::count_if( tiles.begin(), tiles.end(), [&here]( const tripoint_bub_ms & e ) {
             return static_cast<bool>( here.veh_at( e ) );

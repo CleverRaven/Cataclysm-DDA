@@ -3,6 +3,7 @@
 #include "avatar.h"
 #include "cata_catch.h"
 #include "coordinates.h"
+#include "enums.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_scale_constants.h"
@@ -43,7 +44,8 @@ void check_vehicle_still_works( vehicle &veh )
 
 vehicle *add_test_vehicle( map &m, tripoint_bub_ms loc )
 {
-    return m.add_vehicle( vehicle_prototype_shopping_cart, loc, -90_degrees, 100, 0 );
+    return m.add_vehicle( vehicle_prototype_shopping_cart, loc, -90_degrees, 100,
+                          veh_spawn_status::UNDAMAGED );
 }
 
 void remote_add_test_vehicle( map &m )
@@ -102,7 +104,8 @@ TEST_CASE( "mapgen_remove_vehicles" )
     REQUIRE( here.get_vehicles().empty() );
 
     vehicle *const veh =
-        here.add_vehicle( vehicle_prototype_motorcycle_cross, start_loc, -90_degrees, 100, 0 );
+        here.add_vehicle( vehicle_prototype_motorcycle_cross, start_loc, -90_degrees, 100,
+                          veh_spawn_status::UNDAMAGED );
     veh->set_owner( get_avatar() );
     REQUIRE( here.get_vehicles().size() == 1 );
     here.board_vehicle( start_loc, &get_avatar() );

@@ -14,6 +14,7 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "coordinates.h"
+#include "enums.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -160,7 +161,8 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     }
     character.learn_recipe( &recipe );
 
-    here.add_vehicle( vehicle_prototype_test_rv, test_origin, -90_degrees, 0, 0 );
+    here.add_vehicle( vehicle_prototype_test_rv, test_origin, -90_degrees, 0,
+                      veh_spawn_status::UNDAMAGED );
     const optional_vpart_position ovp = here.veh_at( test_origin );
     REQUIRE( ovp.has_value() );
     vehicle &veh = ovp->vehicle();
@@ -222,7 +224,8 @@ TEST_CASE( "vehicle_prepare_tool_multimag", "[vehicle][multimag]" )
 
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     REQUIRE_FALSE( here.veh_at( test_origin ).has_value() );
-    vehicle *veh = here.add_vehicle( vehicle_prototype_none, test_origin, 0_degrees, 0, 0 );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, test_origin, 0_degrees, 0,
+                                     veh_spawn_status::UNDAMAGED );
     REQUIRE( veh != nullptr );
     REQUIRE( veh->install_part( here, point_rel_ms::zero, vpart_frame ) != -1 );
     REQUIRE( veh->install_part( here, point_rel_ms::zero, vpart_small_storage_battery ) != -1 );
@@ -398,7 +401,8 @@ TEST_CASE( "vehicle_run_legacy_charge_tool_uses_water_purifier",
 
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     REQUIRE_FALSE( here.veh_at( test_origin ).has_value() );
-    vehicle *veh = here.add_vehicle( vehicle_prototype_none, test_origin, 0_degrees, 0, 0 );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, test_origin, 0_degrees, 0,
+                                     veh_spawn_status::UNDAMAGED );
     REQUIRE( veh != nullptr );
     REQUIRE( veh->install_part( here, point_rel_ms::zero, vpart_frame ) != -1 );
     REQUIRE( veh->install_part( here, point_rel_ms::zero, vpart_small_storage_battery ) != -1 );
@@ -457,7 +461,8 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
     Character &character = get_player_character();
     const item backpack( itype_backpack );
     character.wear_item( backpack );
-    here.add_vehicle( vehicle_prototype_test_rv, test_origin, -90_degrees, 0, 0 );
+    here.add_vehicle( vehicle_prototype_test_rv, test_origin, -90_degrees, 0,
+                      veh_spawn_status::UNDAMAGED );
     const optional_vpart_position ovp = here.veh_at( test_origin );
     REQUIRE( ovp.has_value() );
     vehicle &veh = ovp->vehicle();

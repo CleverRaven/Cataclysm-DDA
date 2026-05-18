@@ -14,6 +14,7 @@
 #include "character_id.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "enums.h"
 #include "flexbuffer_json.h"
 #include "item.h"
 #include "item_location.h"
@@ -719,7 +720,8 @@ TEST_CASE( "item_wakeup_resolve_on_vehicle_cargo", "[item_wakeup][resolve][vehic
     u.setpos( here, origin );
 
     const tripoint_bub_ms veh_pos( 65, 65, 0 );
-    vehicle *veh = here.add_vehicle( vehicle_prototype_bicycle, veh_pos, 0_degrees, -1, 2 );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_bicycle, veh_pos, 0_degrees, -1,
+                                     veh_spawn_status::PRISTINE );
     REQUIRE( veh != nullptr );
 
     int cargo_part_idx = -1;
@@ -761,7 +763,8 @@ TEST_CASE( "item_wakeup_resolve_vehicle_stale_part_index_uses_mount",
     u.setpos( here, origin );
 
     const tripoint_bub_ms veh_pos( 65, 65, 0 );
-    vehicle *veh = here.add_vehicle( vehicle_prototype_bicycle, veh_pos, 0_degrees, -1, 2 );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_bicycle, veh_pos, 0_degrees, -1,
+                                     veh_spawn_status::PRISTINE );
     REQUIRE( veh != nullptr );
 
     int cargo_part_idx = -1;
@@ -806,7 +809,7 @@ TEST_CASE( "item_wakeup_resolve_vehicle_moved_uses_loaded_scan",
 
     const tripoint_bub_ms initial_pos( 65, 65, 0 );
     vehicle *veh = here.add_vehicle( vehicle_prototype_bicycle, initial_pos,
-                                     0_degrees, -1, 2 );
+                                     0_degrees, -1, veh_spawn_status::PRISTINE );
     REQUIRE( veh != nullptr );
 
     int cargo_part_idx = -1;

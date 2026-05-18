@@ -2723,6 +2723,7 @@ class jmapgen_vehicle : public jmapgen_piece_with_has_vehicle_collision
             //, rotation( jsi.get_int( "rotation", 0 ) ) // unless there is a way for the json parser to
             // return a single int as a list, we have to manually check this in the constructor below
             , fuel( jsi.get_int( "fuel", -1 ) )
+            // Default -1 status is veh_spawn_status::DEFAULT_LIGHT_DMG
             , status( jsi.get_int( "status", -1 ) ) {
             if( jsi.has_array( "rotation" ) ) {
                 for( const JsonValue elt : jsi.get_array( "rotation" ) ) {
@@ -2747,7 +2748,7 @@ class jmapgen_vehicle : public jmapgen_piece_with_has_vehicle_collision
             }
             tripoint_bub_ms const dst( x.get(), y.get(), dat.zlevel() + z.get() );
             vehicle *veh = dat.m.add_vehicle( chosen_id->pick(), dst, random_entry( rotation ),
-                                              fuel, status );
+                                              fuel, static_cast<veh_spawn_status>( status ) );
             if( veh && !faction.empty() ) {
                 veh->set_owner( faction_id( faction ) );
             }
@@ -6854,7 +6855,7 @@ void map::add_spawn(
 
 vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p,
                            const units::angle &dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks,
+                           const int veh_fuel, veh_spawn_status init_veh_status, const bool merge_wrecks,
                            const bool force_status/* = false*/ )
 {
     if( !type.is_valid() ) {
@@ -6874,7 +6875,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p,
     std::tie( quotient, remainder ) = coords::project_remain<coords::sm>( p_ms );
     veh->sm_pos = abs_sub.xy() + rebase_rel( quotient );
     veh->pos = remainder;
-    veh->init_state( *this, veh_fuel, veh_status, force_status );
+    veh->init_state( *this, veh_fuel, init_veh_status, force_status );
     veh->place_spawn_items( *this );
     veh->face.init( dir );
     veh->turn_dir = dir;

@@ -16,6 +16,7 @@
 #include "character_attire.h"
 #include "contents_change_handler.h"
 #include "coordinates.h"
+#include "enums.h"
 #include "item.h"
 #include "item_location.h"
 #include "item_pocket.h"
@@ -409,7 +410,7 @@ item_location prepare_item( avatar &guy, map &here, item &it,
         }
         case container_location::vehicle: {
             vehicle *veh = here.add_vehicle( vehicle_prototype_test_cargo_space, guy.pos_bub(),
-                                             -90_degrees, 0, 0 );
+                                             -90_degrees, 0, veh_spawn_status::UNDAMAGED );
             REQUIRE( veh );
             here.board_vehicle( guy.pos_bub(), &guy );
             std::optional<vpart_reference> vp =

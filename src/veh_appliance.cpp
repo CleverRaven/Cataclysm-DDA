@@ -88,7 +88,8 @@ bool place_appliance( map &here, const tripoint_bub_ms &p, const vpart_id &vpart
 {
 
     const vpart_info &vpinfo = vpart.obj();
-    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0,
+                                     veh_spawn_status::UNDAMAGED );
 
     if( !veh ) {
         debugmsg( "error constructing appliance" );

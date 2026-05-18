@@ -32,6 +32,7 @@
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
+#include "enums.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
@@ -478,7 +479,8 @@ TEST_CASE( "npc-board-player-vehicle" )
             map &here = get_map();
             Character &pc = get_player_character();
 
-            vehicle *veh = here.add_vehicle( data.veh_prototype, data.player_pos, 0_degrees, 100, 2 );
+            vehicle *veh = here.add_vehicle( data.veh_prototype, data.player_pos, 0_degrees, 100,
+                                             veh_spawn_status::PRISTINE );
             REQUIRE( veh != nullptr );
             here.board_vehicle( data.player_pos, &pc );
             REQUIRE( pc.in_vehicle );
@@ -596,7 +598,8 @@ TEST_CASE( "npc-movement" )
             }
             // create vehicles
             if( type == 'V' || type == 'W' || type == 'M' ) {
-                vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 270_degrees, 0, 0 );
+                vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 270_degrees, 0,
+                                                 veh_spawn_status::UNDAMAGED );
                 REQUIRE( veh != nullptr );
                 veh->install_part( here, point_rel_ms::zero, vpart_frame );
                 veh->install_part( here, point_rel_ms::zero, vpart_seat );
@@ -2359,7 +2362,7 @@ TEST_CASE( "npc_find_food_vehicle_cargo", "[npc][needs]" )
 
     SECTION( "finds food in cargo-only tile (no ground items)" ) {
         vehicle *cart = here.add_vehicle( vehicle_prototype_test_shopping_cart,
-                                          adj, 0_degrees, 0, 0 );
+                                          adj, 0_degrees, 0, veh_spawn_status::UNDAMAGED );
         REQUIRE( cart != nullptr );
         const std::optional<vpart_reference> cargo = here.veh_at( adj ).cargo();
         REQUIRE( cargo.has_value() );
@@ -2375,7 +2378,7 @@ TEST_CASE( "npc_find_food_vehicle_cargo", "[npc][needs]" )
     SECTION( "adjacent cargo food consumed via address_needs (end-to-end)" ) {
         guy.set_stored_kcal( 2000 );
         vehicle *cart = here.add_vehicle( vehicle_prototype_test_shopping_cart,
-                                          adj, 0_degrees, 0, 0 );
+                                          adj, 0_degrees, 0, veh_spawn_status::UNDAMAGED );
         REQUIRE( cart != nullptr );
         const std::optional<vpart_reference> cargo = here.veh_at( adj ).cargo();
         REQUIRE( cargo.has_value() );
@@ -2392,7 +2395,8 @@ TEST_CASE( "npc_find_food_vehicle_cargo", "[npc][needs]" )
 
     SECTION( "cargo-locking blocks food discovery" ) {
         // Build from empty prototype: frame + trunk_floor (LOCKABLE_CARGO) + cargo_lock.
-        vehicle *veh = here.add_vehicle( vehicle_prototype_none, adj, 0_degrees, 0, 0 );
+        vehicle *veh = here.add_vehicle( vehicle_prototype_none, adj, 0_degrees, 0,
+                                         veh_spawn_status::UNDAMAGED );
         REQUIRE( veh != nullptr );
         const point_rel_ms origin( 0, 0 );
         veh->install_part( here, origin, vpart_frame );
@@ -2425,7 +2429,7 @@ TEST_CASE( "npc_find_clothing_vehicle_cargo", "[npc][needs]" )
 
     SECTION( "finds warm clothing in cargo-only tile" ) {
         vehicle *cart = here.add_vehicle( vehicle_prototype_test_shopping_cart,
-                                          adj, 0_degrees, 0, 0 );
+                                          adj, 0_degrees, 0, veh_spawn_status::UNDAMAGED );
         REQUIRE( cart != nullptr );
         const std::optional<vpart_reference> cargo = here.veh_at( adj ).cargo();
         REQUIRE( cargo.has_value() );
@@ -2441,7 +2445,7 @@ TEST_CASE( "npc_find_clothing_vehicle_cargo", "[npc][needs]" )
     SECTION( "adjacent cargo sweater worn via address_needs (end-to-end)" ) {
         guy.set_all_parts_temp_conv( BODYTEMP_VERY_COLD );
         vehicle *cart = here.add_vehicle( vehicle_prototype_test_shopping_cart,
-                                          adj, 0_degrees, 0, 0 );
+                                          adj, 0_degrees, 0, veh_spawn_status::UNDAMAGED );
         REQUIRE( cart != nullptr );
         const std::optional<vpart_reference> cargo = here.veh_at( adj ).cargo();
         REQUIRE( cargo.has_value() );
@@ -2453,7 +2457,8 @@ TEST_CASE( "npc_find_clothing_vehicle_cargo", "[npc][needs]" )
     }
 
     SECTION( "cargo-locking blocks clothing discovery" ) {
-        vehicle *veh = here.add_vehicle( vehicle_prototype_none, adj, 0_degrees, 0, 0 );
+        vehicle *veh = here.add_vehicle( vehicle_prototype_none, adj, 0_degrees, 0,
+                                         veh_spawn_status::UNDAMAGED );
         REQUIRE( veh != nullptr );
         const point_rel_ms origin( 0, 0 );
         veh->install_part( here, origin, vpart_frame );
@@ -2622,7 +2627,7 @@ TEST_CASE( "npc_harvest_scavenging", "[npc][needs]" )
         guy.set_stored_kcal( 2000 );
         guy.set_thirst( 0 );
         vehicle *cart = here.add_vehicle( vehicle_prototype_test_shopping_cart,
-                                          adj, 0_degrees, 0, 0 );
+                                          adj, 0_degrees, 0, veh_spawn_status::UNDAMAGED );
         REQUIRE( cart != nullptr );
         const std::optional<vpart_reference> cargo = here.veh_at( adj ).cargo();
         REQUIRE( cargo.has_value() );
@@ -4073,7 +4078,7 @@ TEST_CASE( "player_embarks_clears_follow_commitment", "[npc][behavior]" )
 
     // Player boards a vehicle.
     vehicle *veh = here.add_vehicle( vehicle_prototype_test_rv, pc.pos_bub(),
-                                     0_degrees, 100, 0 );
+                                     0_degrees, 100, veh_spawn_status::UNDAMAGED );
     REQUIRE( veh != nullptr );
     here.board_vehicle( pc.pos_bub(), &pc );
     REQUIRE( pc.in_vehicle );
@@ -4105,7 +4110,7 @@ TEST_CASE( "follower_yields_to_moving_player_vehicle", "[npc][behavior][vehicle]
     guy.clear_ai_guard_pos();
 
     vehicle *veh = here.add_vehicle( vehicle_prototype_test_rv, pc.pos_bub(),
-                                     0_degrees, 100, 0 );
+                                     0_degrees, 100, veh_spawn_status::UNDAMAGED );
     REQUIRE( veh != nullptr );
     here.board_vehicle( pc.pos_bub(), &pc );
     REQUIRE( pc.in_vehicle );

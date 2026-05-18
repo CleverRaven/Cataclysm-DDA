@@ -1093,7 +1093,7 @@ vehicle *game::place_vehicle_nearby(
                 }
             };
             vehicle *veh = target_map.add_vehicle( id, tinymap_center, random_entry( angles ),
-                                                   rng( 50, 80 ), 0, false );
+                                                   rng( 50, 80 ), veh_spawn_status::UNDAMAGED, false );
             if( veh ) {
                 const tripoint_abs_ms abs_local = target_map.get_abs( tinymap_center );
                 tripoint_abs_sm quotient;

@@ -9,6 +9,7 @@
 #include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
+#include "enums.h"
 #include "explosion.h"
 #include "item.h"
 #include "itype.h"
@@ -85,7 +86,8 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             continue;
         }
         SECTION( turret_vpi->name() ) {
-            vehicle *veh = here.add_vehicle( vehicle_prototype_test_turret_rig, veh_pos, 270_degrees, 0, 2,
+            vehicle *veh = here.add_vehicle( vehicle_prototype_test_turret_rig, veh_pos, 270_degrees, 0,
+                                             veh_spawn_status::PRISTINE,
                                              false, true );
             REQUIRE( veh );
 
@@ -180,7 +182,7 @@ TEST_CASE( "vehicle_turret_multimag", "[vehicle][turret][multimag]" )
 
     SECTION( "install + query + fire happy path" ) {
         vehicle *veh = here.add_vehicle( vehicle_prototype_test_turret_rig, veh_pos,
-                                         270_degrees, 0, 2, false, true );
+                                         270_degrees, 0, veh_spawn_status::PRISTINE, false, true );
         REQUIRE( veh );
 
         const int turr_idx = veh->install_part( here, point_rel_ms::zero,
@@ -229,7 +231,7 @@ TEST_CASE( "vehicle_turret_multimag", "[vehicle][turret][multimag]" )
 
     SECTION( "post_fire clears bound power well, leaves player ammo well intact" ) {
         vehicle *veh = here.add_vehicle( vehicle_prototype_test_turret_rig, veh_pos,
-                                         270_degrees, 0, 2, false, true );
+                                         270_degrees, 0, veh_spawn_status::PRISTINE, false, true );
         REQUIRE( veh );
         const int turr_idx = veh->install_part( here, point_rel_ms::zero,
                                                 vpart_turret_test_multimag_turret_gun );
@@ -271,7 +273,7 @@ TEST_CASE( "vehicle_turret_multimag", "[vehicle][turret][multimag]" )
 
     SECTION( "USE_UPS multimag turret leaves player UPS untouched" ) {
         vehicle *veh = here.add_vehicle( vehicle_prototype_test_turret_rig, veh_pos,
-                                         270_degrees, 0, 2, false, true );
+                                         270_degrees, 0, veh_spawn_status::PRISTINE, false, true );
         REQUIRE( veh );
         const int turr_idx = veh->install_part( here, point_rel_ms::zero,
                                                 vpart_turret_test_multimag_turret_gun_ups );
@@ -324,7 +326,7 @@ TEST_CASE( "vehicle_turret_multimag", "[vehicle][turret][multimag]" )
 
     SECTION( "tank picker skips insufficient tank in favour of sufficient sibling" ) {
         vehicle *veh = here.add_vehicle( vehicle_prototype_test_turret_rig, veh_pos,
-                                         270_degrees, 0, 2, false, true );
+                                         270_degrees, 0, veh_spawn_status::PRISTINE, false, true );
         REQUIRE( veh );
         // test_turret_rig already has a tank at (1,0); install a second frame
         // + tank at (1,1) so the picker has to choose between two siblings.
@@ -382,7 +384,7 @@ TEST_CASE( "vehicle_turret_multimag", "[vehicle][turret][multimag]" )
 
     SECTION( "BURST mode drains per_use_battery * mode.qty per shot" ) {
         vehicle *veh = here.add_vehicle( vehicle_prototype_test_turret_rig, veh_pos,
-                                         270_degrees, 0, 2, false, true );
+                                         270_degrees, 0, veh_spawn_status::PRISTINE, false, true );
         REQUIRE( veh );
         const int turr_idx = veh->install_part( here, point_rel_ms::zero,
                                                 vpart_turret_test_multimag_turret_gun );
@@ -429,7 +431,7 @@ TEST_CASE( "vehicle_turret_multimag", "[vehicle][turret][multimag]" )
 
     SECTION( "BURST stops mid-sequence when vehicle battery cannot cover next burst" ) {
         vehicle *veh = here.add_vehicle( vehicle_prototype_test_turret_rig, veh_pos,
-                                         270_degrees, 0, 2, false, true );
+                                         270_degrees, 0, veh_spawn_status::PRISTINE, false, true );
         REQUIRE( veh );
         const int turr_idx = veh->install_part( here, point_rel_ms::zero,
                                                 vpart_turret_test_multimag_turret_gun );

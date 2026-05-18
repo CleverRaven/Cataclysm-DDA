@@ -1834,7 +1834,8 @@ class map
         // @param merge_wrecks      if true and vehicle overlaps another then both turn into wrecks
         //                          if false and vehicle will overlap aborts and returns nullptr
         vehicle *add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, const units::angle &dir,
-                              int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true,
+                              int init_veh_fuel = -1, veh_spawn_status init_veh_status = veh_spawn_status::DEFAULT_LIGHT_DMG,
+                              bool merge_wrecks = true,
                               bool force_status = false );
 
         // Light/transparency
@@ -2615,7 +2616,9 @@ class tinymap : private map
             return map::veh_at( rebase_bub( p ) );
         }
         vehicle *add_vehicle( const vproto_id &type, const tripoint_omt_ms &p, const units::angle &dir,
-                              int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true,
+                              int init_veh_fuel = -1,
+                              veh_spawn_status init_veh_status = veh_spawn_status::DEFAULT_LIGHT_DMG,
+                              bool merge_wrecks = true,
                               bool force_status = false ) {
             return map::add_vehicle( type, rebase_bub( p ), dir, init_veh_fuel, init_veh_status,
                                      merge_wrecks, force_status );

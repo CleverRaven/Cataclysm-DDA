@@ -2448,7 +2448,8 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
     const itype_id pseudo_tool = furn_f_smoking_rack.obj().crafting_pseudo_item;
 
     GIVEN( "a vehicle with a liquid tank" ) {
-        vehicle *veh = here.add_vehicle( vehicle_prototype_test_rv, veh_pos, 0_degrees, 0, 0 );
+        vehicle *veh = here.add_vehicle( vehicle_prototype_test_rv, veh_pos, 0_degrees, 0,
+                                         veh_spawn_status::UNDAMAGED );
         REQUIRE( veh != nullptr );
         for( const vpart_reference &door : veh->get_avail_parts( VPFLAG_OPENABLE ) ) {
             door.part().open = true;
