@@ -119,34 +119,6 @@
     "entries": [ { "item": "spread_peanutbutter", "container-item": "null", "count": 2 } ]
   },
   {
-    "id": "pepper_bottle_plastic_small_full",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_seasoning_small",
-    "entries": [ { "item": "pepper", "container-item": "null", "count": 50 } ]
-  },
-  {
-    "id": "garlic_powder_bottle_plastic_small_full",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_seasoning_small",
-    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": 50 } ]
-  },
-  {
-    "id": "chilly_p_bottle_plastic_small_full",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_seasoning_small",
-    "entries": [ { "item": "chilly-p", "container-item": "null", "count": 50 } ]
-  },
-  {
-    "id": "thyme_bowl_plastic_full",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bowl_plastic",
-    "entries": [ { "item": "thyme", "container-item": "null", "count": 3 } ]
-  },
-  {
     "id": "mustard_powder_bottle_plastic_small_full",
     "type": "item_group",
     "subtype": "collection",
