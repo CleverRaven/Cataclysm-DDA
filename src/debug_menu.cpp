@@ -4370,7 +4370,7 @@ void debug()
             g->toggle_debug_hour_timer();
             break;
         case debug_menu_index::CHANGE_TIME:
-            calendar::turn = calendar_ui::select_time_point( calendar::turn );
+            calendar::turn = calendar_ui::select_time_point( calendar::turn, _( "Select time point" ) );
             break;
         case debug_menu_index::FORCE_TEMP:
             debug_menu_force_temperature();
