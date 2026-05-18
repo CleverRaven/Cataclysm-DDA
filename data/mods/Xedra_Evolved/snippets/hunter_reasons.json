@@ -1,0 +1,39 @@
+[
+  {
+    "type": "snippet",
+    "category": "<hunter_reason_a>",
+    "//": "They're all about why hunters can't do much against vampires currently, explaining why they're enlisting the player and sending them alone for the non-hardest missions.",
+    "//2": "The first is about new hostile beings, the second is about a modern convenience being gone and the third is related to vampires",
+    "text": [
+      "the zombies",
+      "the encroaching fungus",
+      "the walking murderous plants",
+      "the creatures from the holes in existence",
+      "the hostile changelings",
+      "the roaming bandits",
+      "the mutated animals",
+      "the giant insects"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<hunter_reason_b>",
+    "text": [
+      "the collapse of society",
+      "supplies being much harder to obtain",
+      "the electrical grid being down",
+      "having lost contact with other hunter groups",
+      "food being much harder to find"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<hunter_reason_c>",
+    "text": [
+      "most vampires being ignored by the zombies",
+      "the remaining survivors being more open to collaborating with vampires",
+      "the harder times increasing the amount of potential vampires",
+      "the vampires' brainwashed slaves seeking hunters to kill for their masters"
+    ]
+  }
+]
