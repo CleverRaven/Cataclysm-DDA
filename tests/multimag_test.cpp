@@ -19,6 +19,7 @@
 #include "coordinates.h"
 #include "debug.h"
 #include "flag.h"
+#include "flat_set.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
@@ -1024,6 +1025,58 @@ TEST_CASE( "reload_activity_actor_serializes_pocket_index",
     const std::string serialized = oss.str();
     CAPTURE( serialized );
     CHECK( serialized.find( "\"pocket_index\":0" ) != std::string::npos );
+}
+
+// Pins the auto-chain reload: finishing a multimag reload must queue the
+// next well when carrier inventory has unambiguous ammo for it.
+TEST_CASE( "multimag_reload_chains_to_sibling_well",
+           "[multimag][reload][activity]" )
+{
+    clear_avatar();
+    Character &you = get_player_character();
+    you.wear_item( item( itype_backpack ) );
+
+    item_location gun_loc = you.i_add( item( itype_test_multimag_turret_gun ) );
+    REQUIRE( gun_loc );
+    REQUIRE( gun_loc->uses_firing_requirements() );
+    REQUIRE( gun_loc->magazines_current().empty() );
+
+    item glock_mag( itype_glockmag );
+    glock_mag.put_in( item( itype_9mm, calendar::turn, 15 ), pocket_type::MAGAZINE );
+    item_location glock_loc = you.i_add( glock_mag );
+    REQUIRE( glock_loc );
+    item batt( itype_heavy_battery_cell );
+    batt.ammo_set( itype_battery, 100 );
+    you.i_add( batt );
+
+    int glock_idx = -1;
+    int idx = 0;
+    for( const item_pocket *p : gun_loc->get_pockets( []( const item_pocket & ) {
+    return true;
+} ) ) {
+        if( p->is_type( pocket_type::MAGAZINE_WELL ) ) {
+            for( const itype_id &id : p->item_type_restrictions() ) {
+                if( id == itype_glockmag ) {
+                    glock_idx = idx;
+                    break;
+                }
+            }
+            if( glock_idx >= 0 ) {
+                break;
+            }
+        }
+        ++idx;
+    }
+    REQUIRE( glock_idx >= 0 );
+
+    item::reload_option opt( &you, gun_loc, glock_loc, glock_idx );
+    you.assign_activity( reload_activity_actor( std::move( opt ) ) );
+    REQUIRE( you.activity );
+
+    process_activity( you );
+
+    const std::vector<item *> mags = gun_loc->magazines_current();
+    CHECK( mags.size() == 2 );
 }
 
 TEST_CASE( "wield_collision_sees_mags_from_every_well",

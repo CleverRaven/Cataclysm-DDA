@@ -1066,11 +1066,19 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
     if( one_in( 50 ) ) {
         add_msg_if_player_sees( *source, m_info, _( "%s shoots something." ), source->disp_name() );
     }
+    map &here = get_map();
     while( curshot != shots ) {
-        const int required = gun.ammo_required();
-        if( gun.ammo_consume( required, pos_bub(), this ) != required ) {
-            debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
-            break;
+        if( gun.uses_firing_requirements() ) {
+            if( gun.consume_one_shot( here, pos_bub( here ), this ) != 1 ) {
+                debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
+                break;
+            }
+        } else {
+            const int required = gun.ammo_required();
+            if( gun.ammo_consume( required, pos_bub(), this ) != required ) {
+                debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
+                break;
+            }
         }
 
         item *weapon = &gun;
