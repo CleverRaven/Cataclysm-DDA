@@ -328,7 +328,7 @@
     "id": "TALK_KILL_LURKING_STRIGOI_COMPLETED",
     "type": "talk_topic",
     "dynamic_line": [
-      "This vampire was a lesser one, as seen by their resistance to the sun and lack of proper lair.  One day you will attack the lairs of true vampires alongside some of our hunters, but for now we don't know where they truly hide.  For now, we can enjoy some peace of mind and you can ask Elsa and Blaine for spare things to help you like you helped us."
+      "This vampire was a lesser one, as seen by their resistance to the sun and lack of proper lair.  One day you will attack the lairs of true vampires alongside some of our hunters, but first we must find where they truly hide.  For now, we can enjoy some peace of mind and you can ask Elsa and Blaine for spare things to help you like you helped us."
     ],
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_NONE" },
