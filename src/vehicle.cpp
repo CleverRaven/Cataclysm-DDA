@@ -539,7 +539,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, veh_spawn_status in
                     set_hp( pt, 0, false );
                 } else if( destroyEngine ) {
                     do {
-                        pt.fault_set( random_entry( pt.faults_potential() ) );
+                        pt.base.set_random_fault_of_type( "engine_maintenance" );
                     } while( one_in( 3 ) );
                 }
 
