@@ -2101,7 +2101,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI",
     "type": "mission_definition",
     "name": { "str": "Circuit Safari" },
-    "description": "The intercom has asked me to <color_yellow>find and disable an Exodii worker</color>.  They gave me a Prototype Transportable Jammer to disable the senses of groups of Exodii, and recommend using the hm12 rifle and my electronics skills to disable the robot.",
+    "description": "The intercom has asked me to bring them the remains of an <color_yellow>Exodii worker</color>.  They said I can use any violent means necessary to take it down.",
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,

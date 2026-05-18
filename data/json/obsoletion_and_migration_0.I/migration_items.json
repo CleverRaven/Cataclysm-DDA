@@ -1963,11 +1963,6 @@
     "replace": "qt_wire"
   },
   {
-    "id": "chain_link",
-    "type": "MIGRATION",
-    "replace": "lc_chain_link"
-  },
-  {
     "id": "link_sheet",
     "type": "MIGRATION",
     "replace": "lc_link_sheet"

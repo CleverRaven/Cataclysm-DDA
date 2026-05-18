@@ -165,12 +165,34 @@
     "similar_bodypart": "eyes_left"
   },
   {
+    "id": "eyes_frog_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_frog",
+    "side": "right",
+    "opposite": "eyes_snail_left",
+    "name_multiple": "eyes",
+    "name": "right eye",
+    "similar_bodypart": "eyes_right"
+  },
+  {
+    "id": "eyes_frog_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_frog",
+    "side": "left",
+    "opposite": "eyes_frog_right",
+    "name_multiple": "eyes",
+    "name": "left eye",
+    "similar_bodypart": "eyes_left"
+  },
+  {
     "id": "eyes_snail_right",
     "type": "sub_body_part",
     "max_coverage": 50,
     "parent": "eyes_snail",
     "side": "right",
-    "opposite": "eyes_snail_left",
+    "opposite": "eyes_frog_left",
     "name_multiple": "eyes",
     "name": "right eye",
     "similar_bodypart": "eyes_right"
@@ -419,7 +441,7 @@
     "opposite": "sub_limb_debug",
     "side": "both",
     "name": "lips",
-    "similar_bodypart": "muzzle_lips"
+    "similar_bodypart": "mouth_lips"
   },
   {
     "id": "muzzle_rabbit_nose",
@@ -429,7 +451,7 @@
     "opposite": "sub_limb_debug",
     "side": "both",
     "name": "nostrils",
-    "similar_bodypart": "muzzle_nose"
+    "similar_bodypart": "mouth_nose"
   },
   {
     "id": "muzzle_rabbit_cheeks",
@@ -439,7 +461,7 @@
     "opposite": "sub_limb_debug",
     "side": "both",
     "name": "cheeks",
-    "similar_bodypart": "muzzle_cheeks"
+    "similar_bodypart": "mouth_cheeks"
   },
   {
     "id": "muzzle_rabbit_chin",
@@ -449,7 +471,7 @@
     "opposite": "sub_limb_debug",
     "side": "both",
     "name": "chin",
-    "similar_bodypart": "muzzle_chin"
+    "similar_bodypart": "mouth_chin"
   },
   {
     "id": "beak_nares",

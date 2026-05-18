@@ -2889,7 +2889,7 @@ bool character_creator_ui::display()
     return true;
 }
 
-void character_creator_ui_impl::draw_scenarios()
+void character_creator_ui_impl::draw_scenarios() const
 {
     const avatar &u = get_avatar();
     cc_uistate.recalc_scenario_list( u );
@@ -2914,7 +2914,7 @@ void character_creator_ui_impl::draw_scenarios()
     }
 }
 
-void character_creator_ui_impl::draw_professions()
+void character_creator_ui_impl::draw_professions() const
 {
     const avatar &u = get_avatar();
     cc_uistate.recalc_profession_list( u );

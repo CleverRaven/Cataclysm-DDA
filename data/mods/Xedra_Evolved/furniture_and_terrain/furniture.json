@@ -56,7 +56,7 @@
       "items": [
         { "item": "processor", "count": [ 1, 2 ] },
         { "item": "RAM", "count": [ 4, 8 ] },
-        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "cable", "count": [ 4, 6 ] },
         { "item": "large_lcd_screen", "count": 1 },
         { "item": "e_scrap", "count": [ 10, 16 ] },
         { "item": "circuit", "count": [ 6, 10 ] },
@@ -75,7 +75,7 @@
       "items": [
         { "item": "processor", "prob": 25 },
         { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "cable", "count": [ 1, 2 ], "prob": 50 },
         { "item": "large_lcd_screen", "prob": 25 },
         { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
         { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },

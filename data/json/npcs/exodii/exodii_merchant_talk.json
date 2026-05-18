@@ -108,6 +108,21 @@
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro2a"
       },
       {
+        "text": "I'm ready to become a true cyborg.",
+        "condition": { "compare_string": [ "yes", { "u_val": "Rubik_promised_cyberframe" } ] },
+        "effect": [
+          { "u_lose_var": "Rubik_promised_cyberframe" },
+          {
+            "u_location_variable": { "u_val": "exodii_autodoc_couch_loc" },
+            "target_params": { "om_terrain": "exodii_base_x2y1z1", "om_special": "exodii_base" },
+            "furniture": "f_autodoc_couch",
+            "target_max_radius": 250
+          },
+          { "u_teleport": { "u_val": "exodii_autodoc_couch_loc" } }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe"
+      },
+      {
         "text": "Any chance I can buy some riot armor?  I need five complete sets.",
         "condition": {
           "and": [

@@ -170,6 +170,27 @@ auto simple_point_hash = []( const point &p )
 
 } // namespace
 
+#if SDL_MAJOR_VERSION >= 3
+// Translate (lit_level, use_night_vision_tiles) to the variant_kind enum the
+// GPU shader path consumes. Mirrors the atlas-variant branch in
+// draw_sprite_at; keep them in lockstep when one moves.
+cata_shader::variant_kind compute_variant_kind( lit_level ll, bool use_nv_tiles )
+{
+    if( ll == lit_level::MEMORIZED ) {
+        return cata_shader::variant_kind::MEMORY;
+    }
+    if( use_nv_tiles ) {
+        return ll == lit_level::LOW
+               ? cata_shader::variant_kind::NIGHT
+               : cata_shader::variant_kind::OVEREXPOSED;
+    }
+    if( ll == lit_level::LOW ) {
+        return cata_shader::variant_kind::SHADOW;
+    }
+    return cata_shader::variant_kind::NORMAL;
+}
+#endif
+
 static int msgtype_to_tilecolor( const game_message_type type, const bool bOldMsg )
 {
     const int iBold = bOldMsg ? 0 : 8;
@@ -227,6 +248,10 @@ cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer, const GeometryRenderer
 {
     cata_assert( renderer );
 
+#if SDL_MAJOR_VERSION >= 3
+    m_variant_pass = std::make_unique<cata_shader::variant_pass>( renderer.get() );
+#endif
+
     tile_height = 0;
     tile_width = 0;
 
@@ -252,6 +277,13 @@ cata_tiles::~cata_tiles() = default;
 void cata_tiles::on_options_changed()
 {
     memory_map_mode = get_option <std::string>( "MEMORY_MAP_MODE" );
+
+#if SDL_MAJOR_VERSION >= 3
+    if( m_variant_pass ) {
+        m_variant_pass->select_memory_preset(
+            cata_shader::memory_preset_from_option_value( memory_map_mode ) );
+    }
+#endif
 
     pixel_minimap_settings settings;
 
@@ -356,7 +388,8 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
     // reset the overlay ordering from the previous loaded tileset
     tileset_mutation_overlay_ordering.clear();
 
-    tileset_ptr = cache.load_tileset( tileset_id, renderer, precheck, force, pump_events, terrain );
+    tileset_ptr = cache.load_tileset( tileset_id, renderer, precheck, force, pump_events, terrain,
+                                      memory_map_mode );
 
     set_draw_scale( 16 );
 
@@ -1332,6 +1365,13 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
     }
 
     RenderSetClipRect( renderer, nullptr );
+#if SDL_MAJOR_VERSION >= 3
+    // Unbind any GPU render state held across sprite batches so ImGui or the
+    // next-frame draws see a clean state.
+    if( m_variant_pass ) {
+        m_variant_pass->flush();
+    }
+#endif
 }
 
 void cata_tiles::set_draw_cache_dirty()
@@ -2419,25 +2459,44 @@ bool cata_tiles::draw_sprite_at(
     const int sprite_index = spritelist[sprite_num];
     const texture *sprite_tex = tileset_ptr->get_tile( sprite_index );
 
+    bool shader_bound = false;
+#if SDL_MAJOR_VERSION >= 3
+    // Try the GPU shader variant first. On success the main atlas drives
+    // the render and the variant transform happens per-pixel in the
+    // fragment shader. On unsupported variant (NORMAL, custom MEMORY
+    // preset, late session-disable) try_begin returns false and the
+    // fallthrough below picks the matching pre-baked variant atlas.
+    if( m_variant_pass ) {
+        const cata_shader::variant_kind v =
+            compute_variant_kind( rp.ll, rp.use_night_vision_tiles );
+        // Call try_begin for every variant including NORMAL. State-cached
+        // bind stays put across same-variant runs; NORMAL clears any prior
+        // shader state so it doesn't leak onto the next sprite.
+        shader_bound = m_variant_pass->try_begin( v );
+    }
+#endif
+
     //use night vision colors when in use
     //then use low light tile if available
-    if( rp.ll == lit_level::MEMORIZED ) {
-        if( const texture *ptr = tileset_ptr->get_memory_tile( sprite_index ) ) {
-            sprite_tex = ptr;
-        }
-    } else if( rp.use_night_vision_tiles ) {
-        if( rp.ll != lit_level::LOW ) {
-            if( const texture *ptr = tileset_ptr->get_overexposed_tile( sprite_index ) ) {
+    if( !shader_bound ) {
+        if( rp.ll == lit_level::MEMORIZED ) {
+            if( const texture *ptr = tileset_ptr->get_memory_tile( sprite_index ) ) {
                 sprite_tex = ptr;
             }
-        } else {
-            if( const texture *ptr = tileset_ptr->get_night_tile( sprite_index ) ) {
+        } else if( rp.use_night_vision_tiles ) {
+            if( rp.ll != lit_level::LOW ) {
+                if( const texture *ptr = tileset_ptr->get_overexposed_tile( sprite_index ) ) {
+                    sprite_tex = ptr;
+                }
+            } else {
+                if( const texture *ptr = tileset_ptr->get_night_tile( sprite_index ) ) {
+                    sprite_tex = ptr;
+                }
+            }
+        } else if( rp.ll == lit_level::LOW ) {
+            if( const texture *ptr = tileset_ptr->get_shadow_tile( sprite_index ) ) {
                 sprite_tex = ptr;
             }
-        }
-    } else if( rp.ll == lit_level::LOW ) {
-        if( const texture *ptr = tileset_ptr->get_shadow_tile( sprite_index ) ) {
-            sprite_tex = ptr;
         }
     }
 
@@ -2597,6 +2656,10 @@ bool cata_tiles::draw_sprite_at(
     }
 
     printErrorIf( ret != 0, "SDL_RenderCopyEx() failed" );
+#if SDL_MAJOR_VERSION >= 3
+    // variant_pass unbinds on frame-end flush; nothing to do per-sprite.
+    ( void )shader_bound;
+#endif
     // this reference passes all the way back up the call chain back to
     // cata_tiles::draw() here.draw_points_cache[z][row][col].com.height_3d
     // where we are accumulating the height of every sprite stacked up in a tile
@@ -3864,13 +3927,13 @@ bool cata_tiles::draw_item_highlight( const tripoint_bub_ms &pos, int &height_3d
 
 std::shared_ptr<const tileset> tileset_cache::load_tileset( const std::string &tileset_id,
         const SDL_Renderer_Ptr &renderer, const bool precheck, const bool force, const bool pump_events,
-        const bool terrain )
+        const bool terrain, const std::string &memory_map_mode )
 {
     const auto get_or_create_tileset = [&]() {
         const auto it = tilesets_.find( tileset_id );
         if( it == tilesets_.end() || it->second.expired() ) {
             std::shared_ptr<tileset> new_ts = std::make_shared<tileset>();
-            loader loader( *new_ts, renderer );
+            loader loader( *new_ts, renderer, memory_map_mode );
             loader.load( tileset_id, precheck, pump_events, terrain );
             tilesets_.emplace( tileset_id, new_ts );
             return new_ts;
@@ -3881,7 +3944,7 @@ std::shared_ptr<const tileset> tileset_cache::load_tileset( const std::string &t
     std::shared_ptr<tileset> ts = get_or_create_tileset();
 
     if( force || ( ts->get_tileset_id().empty() && !precheck ) ) {
-        loader loader( *ts, renderer );
+        loader loader( *ts, renderer, memory_map_mode );
         loader.load( tileset_id, precheck, pump_events, terrain );
     }
     return ts;

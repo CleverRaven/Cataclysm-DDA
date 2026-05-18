@@ -17,8 +17,8 @@
               { "item": "oxygen_cylinder", "count": [ 1, 2 ], "prob": 95 },
               {
                 "distribution": [
-                  { "item": "brazing_rod_bronze", "prob": 100, "charges": [ 1000, 2000 ] },
-                  { "item": "brazing_rod_alloy", "prob": 70, "charges": [ 500, 1500 ] }
+                  { "item": "brazing_rod_bronze", "prob": 100, "count": [ 1000, 2000 ] },
+                  { "item": "brazing_rod_alloy", "prob": 70, "count": [ 500, 1500 ] }
                 ]
               }
             ],
@@ -30,12 +30,12 @@
       { "distribution": [ { "item": "welding_mask", "prob": 70 }, { "item": "goggles_welding", "prob": 70 } ] },
       {
         "distribution": [
-          { "item": "welding_rod_steel", "prob": 90, "charges": [ 1000, 1600 ] },
-          { "item": "welding_rod_alloy", "prob": 40, "charges": [ 1000, 1600 ] },
-          { "item": "welding_wire_steel", "prob": 90, "charges": [ 1000, 1600 ] },
-          { "item": "welding_wire_alloy", "prob": 40, "charges": [ 1000, 1600 ] },
-          { "item": "brazing_rod_bronze", "prob": 80, "charges": [ 500, 1500 ] },
-          { "item": "brazing_rod_alloy", "prob": 30, "charges": [ 400, 1200 ] },
+          { "item": "welding_rod_steel", "prob": 90, "count": [ 1000, 1600 ] },
+          { "item": "welding_rod_alloy", "prob": 40, "count": [ 1000, 1600 ] },
+          { "item": "welding_wire_steel", "prob": 90, "count": [ 1000, 1600 ] },
+          { "item": "welding_wire_alloy", "prob": 40, "count": [ 1000, 1600 ] },
+          { "item": "brazing_rod_bronze", "prob": 80, "count": [ 500, 1500 ] },
+          { "item": "brazing_rod_alloy", "prob": 30, "count": [ 400, 1200 ] },
           { "item": "welding_blanket", "prob": 20, "count": [ 0, 1 ] },
           { "item": "throat_guard_cut_resistant", "prob": 10, "count": [ 0, 1 ] }
         ]

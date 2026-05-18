@@ -1058,7 +1058,7 @@
         "name": "Forge welding & cutting steel",
         "time": "30 m",
         "activity_level": "MODERATE_EXERCISE",
-        "using": [ [ "hotcut_any", -1 ] ],
+        "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
         "proficiencies": [ { "proficiency": "prof_metalworking" } ]
       },
       {

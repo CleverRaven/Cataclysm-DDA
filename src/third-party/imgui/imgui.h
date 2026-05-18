@@ -3536,7 +3536,7 @@ struct ImFont
 
     // Methods
     IMGUI_API ImFont();
-    virtual IMGUI_API ~ImFont();
+    IMGUI_API ~ImFont();
     IMGUI_API ImFontGlyph*      FindGlyph(ImWchar c);
     IMGUI_API ImFontGlyph*      FindGlyphNoFallback(ImWchar c);
     float                       GetCharAdvance(ImWchar c) const;

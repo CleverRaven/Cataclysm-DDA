@@ -3050,19 +3050,16 @@
   {
     "id": "shrapnel",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "name": { "str_sp": "shrapnel" },
     "description": "A twisted shard of jagged metal.",
     "weight": "5 g",
     "volume": "20 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "stack_size": 50,
     "material": [ "steel" ],
     "symbol": ".",
     "flags": [ "HURT_WHEN_WIELDED" ],
-    "color": "white",
-    "ammo_type": "components"
+    "color": "white"
   },
   {
     "id": "clay_pot_flower",

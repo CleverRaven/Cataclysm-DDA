@@ -37,6 +37,20 @@
 #include "weather.h"
 #include "weighted_list.h"
 
+#if SDL_MAJOR_VERSION >= 3
+#include "cata_shader.h"
+
+namespace cata_shader
+{
+class variant_pass;
+} // namespace cata_shader
+
+// Maps draw-dispatch inputs to the variant_kind enum the GPU shader path
+// consumes.
+enum class lit_level : uint8_t;
+cata_shader::variant_kind compute_variant_kind( lit_level ll, bool use_nv_tiles );
+#endif
+
 class Character;
 class memorized_tile;
 class monster;
@@ -329,7 +343,8 @@ class tileset_cache
     public:
         std::shared_ptr<const tileset> load_tileset( const std::string &tileset_id,
                 const SDL_Renderer_Ptr &renderer, bool precheck,
-                bool force, bool pump_events, bool terrain );
+                bool force, bool pump_events, bool terrain,
+                const std::string &memory_map_mode );
     private:
         class loader;
 
@@ -728,6 +743,14 @@ class cata_tiles
         const SDL_Renderer_Ptr &renderer;
         const GeometryRenderer_Ptr &geometry;
         tileset_cache &cache;
+
+#if SDL_MAJOR_VERSION >= 3
+        // GPU shader variant brackets per-sprite draws under USE_SDL3.
+        // Constructed eagerly in the cata_tiles constructor; the
+        // SDL_GPURenderState pipeline itself is lazy-probed on the first
+        // try_begin call.
+        std::unique_ptr<cata_shader::variant_pass> m_variant_pass;
+#endif
         std::shared_ptr<const tileset> tileset_ptr;
 
         // the scaled default sprite width and height. in non-isometric mode,

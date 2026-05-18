@@ -831,6 +831,27 @@ static item_location set_item_map( const tripoint_bub_ms &loc, item &newit )
 }
 
 /**
+ * Place `copies` identical instances of `exemplar` near `loc`. Emits a debugmsg
+ * if any copies cannot fit after exhausting the target tile and its overflow
+ * neighborhood, matching the bounded-failure contract of per-item set_item_map.
+ */
+static void set_item_map_copies( const tripoint_bub_ms &loc, item &exemplar, int copies )
+{
+    int remaining = copies;
+    item &first_added = get_map().add_item_or_charges( loc, exemplar, remaining, true );
+    const bool total_failure = &first_added == &null_item_reference();
+    if( total_failure ) {
+        debugmsg( "Could not place %d %s on map near (%d, %d, %d)", copies, exemplar.tname(),
+                  loc.x(), loc.y(), loc.z() );
+        return;
+    }
+    if( remaining > 0 ) {
+        debugmsg( "Could not place %d of %d %s on map near (%d, %d, %d); overflow neighborhood full",
+                  remaining, copies, exemplar.tname(), loc.x(), loc.y(), loc.z() );
+    }
+}
+
+/**
  * Set an item on the map or in a vehicle and return the new location
  */
 static item_location set_item_map_or_vehicle( const Character &p, const tripoint_bub_ms &loc,
@@ -2269,26 +2290,78 @@ static void spawn_items( Character &guy, std::vector<item> &results,
                          const std::optional<tripoint_bub_ms> &loc, const double relative_rot, const bool should_heat,
                          bool allow_wield = false )
 {
-    for( item &newit : results ) {
+    auto prepare = [&]( item & it ) {
         // todo: set this up recursively, who knows what kinda crafts will need it
-        if( !newit.empty() ) {
-            for( item *new_content : newit.all_items_top() ) {
+        if( !it.empty() ) {
+            for( item *new_content : it.all_items_top() ) {
                 set_temp_rot( *new_content, relative_rot, should_heat );
             }
         }
-        set_temp_rot( newit, relative_rot, should_heat );
+        set_temp_rot( it, relative_rot, should_heat );
+        it.set_owner( guy.get_faction()->id );
+    };
 
-        newit.set_owner( guy.get_faction()->id );
+    map &here = get_map();
+    for( size_t i = 0; i < results.size(); ) {
+        item &newit = results[i];
+        prepare( newit );
+
         if( newit.made_of( phase_id::LIQUID ) ) {
             liquid_handler::handle_all_or_npc_liquid( guy, newit, PICKUP_RANGE );
-        } else if( !loc && allow_wield && !guy.has_wield_conflicts( newit ) &&
-                   guy.can_wield( newit ).success() ) {
-            wield_craft( guy, newit );
-        } else if( !loc ) {
-            set_item_inventory( guy, newit );
-        } else {
-            set_item_map_or_vehicle( guy, loc.value_or( guy.pos_bub() ), newit );
+            ++i;
+            continue;
         }
+        if( !loc && allow_wield && !guy.has_wield_conflicts( newit ) &&
+            guy.can_wield( newit ).success() ) {
+            wield_craft( guy, newit );
+            ++i;
+            continue;
+        }
+        if( !loc ) {
+            set_item_inventory( guy, newit );
+            ++i;
+            continue;
+        }
+
+        // Map placement. Group consecutive identical non-charge results so a
+        // single multi-copy add_item_or_charges call handles overflow and
+        // per-tile cap once per group, instead of per-item closest_points_first
+        // fanout. Skip grouping when the target tile is a vehicle cargo part
+        // because veh add_item lacks a multi-copy entry point.
+        const tripoint_bub_ms target = loc.value_or( guy.pos_bub() );
+        const bool target_is_vehicle = here.veh_at( target ).cargo().has_value();
+        if( !target_is_vehicle && !newit.count_by_charges() ) {
+            size_t group_end = i + 1;
+            while( group_end < results.size() &&
+                   !results[group_end].made_of( phase_id::LIQUID ) &&
+                   !results[group_end].count_by_charges() &&
+                   static_cast<bool>( newit.stacks_with( results[group_end] ) ) ) {
+                prepare( results[group_end] );
+                ++group_end;
+            }
+            const int copies = static_cast<int>( group_end - i );
+            if( copies > 1 ) {
+                if( here.has_furn( target ) ) {
+                    const furn_t &workbench = here.furn( target ).obj();
+                    guy.add_msg_player_or_npc(
+                        //~ %1$s: name of item being placed, %2$s: vehicle part name
+                        pgettext( "item, furniture", "You put the %1$s on the %2$s." ),
+                        pgettext( "item, furniture", "<npcname> puts the %1$s on the %2$s." ),
+                        newit.tname( copies ), workbench.name() );
+                } else {
+                    guy.add_msg_player_or_npc(
+                        pgettext( "item", "You put the %s on the ground." ),
+                        pgettext( "item", "<npcname> puts the %s on the ground." ),
+                        newit.tname( copies ) );
+                }
+                set_item_map_copies( target, newit, copies );
+                i = group_end;
+                continue;
+            }
+        }
+
+        set_item_map_or_vehicle( guy, target, newit );
+        ++i;
     }
 }
 

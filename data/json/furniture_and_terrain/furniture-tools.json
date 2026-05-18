@@ -19,7 +19,7 @@
       "items": [
         { "item": "processor", "count": [ 1, 2 ] },
         { "item": "RAM", "count": [ 4, 8 ] },
-        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "cable", "count": [ 4, 6 ] },
         { "item": "large_lcd_screen", "count": 1 },
         { "item": "e_scrap", "count": [ 10, 16 ] },
         { "item": "circuit", "count": [ 6, 10 ] },
@@ -38,7 +38,7 @@
       "items": [
         { "item": "processor", "prob": 25 },
         { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "cable", "count": [ 1, 2 ], "prob": 50 },
         { "item": "large_lcd_screen", "prob": 25 },
         { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
         { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
@@ -70,7 +70,7 @@
       "items": [
         { "item": "processor", "count": [ 1, 2 ] },
         { "item": "RAM", "count": [ 4, 8 ] },
-        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "cable", "count": [ 4, 6 ] },
         { "item": "large_lcd_screen", "count": 1 },
         { "item": "e_scrap", "count": [ 10, 16 ] },
         { "item": "circuit", "count": [ 6, 10 ] },
@@ -89,7 +89,7 @@
       "items": [
         { "item": "processor", "prob": 25 },
         { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "cable", "count": [ 1, 2 ], "prob": 50 },
         { "item": "large_lcd_screen", "prob": 25 },
         { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
         { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
@@ -119,7 +119,7 @@
       "items": [
         { "item": "processor", "count": [ 1, 2 ] },
         { "item": "RAM", "count": [ 4, 8 ] },
-        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "cable", "count": [ 4, 6 ] },
         { "item": "large_lcd_screen", "count": 1 },
         { "item": "e_scrap", "count": [ 10, 16 ] },
         { "item": "circuit", "count": [ 6, 10 ] },
@@ -138,7 +138,7 @@
       "items": [
         { "item": "processor", "prob": 25 },
         { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "cable", "count": [ 1, 2 ], "prob": 50 },
         { "item": "large_lcd_screen", "prob": 25 },
         { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
         { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
@@ -1091,7 +1091,7 @@
       "str_max": 150,
       "sound_fail": "clang!",
       "items": [
-        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "cable", "count": [ 0, 4 ] },
         { "item": "scrap", "count": [ 12, 20 ] },
         { "item": "chunk_cast_iron", "count": [ 2, 4 ] },
         { "item": "lump_cast_iron", "count": [ 1, 2 ] }
@@ -1099,7 +1099,7 @@
     },
     "deconstruct": {
       "items": [
-        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "cable", "count": [ 4, 8 ] },
         { "item": "chunk_cast_iron", "count": [ 4, 6 ] },
         { "item": "lump_cast_iron", "count": [ 2, 4 ] },
         { "item": "scrap", "count": [ 12, 16 ] },

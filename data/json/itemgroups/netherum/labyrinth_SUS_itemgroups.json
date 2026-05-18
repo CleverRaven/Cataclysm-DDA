@@ -169,12 +169,12 @@
       { "item": "bone", "prob": 40, "count": [ 5, 40 ] },
       {
         "distribution": [
-          { "item": "welding_rod_steel", "prob": 30, "charges": [ 300, 900 ] },
-          { "item": "welding_rod_alloy", "prob": 20, "charges": [ 300, 900 ] },
-          { "item": "welding_wire_steel", "prob": 10, "charges": [ 300, 900 ] },
-          { "item": "welding_wire_alloy", "prob": 40, "charges": [ 300, 900 ] },
-          { "item": "brazing_rod_bronze", "prob": 80, "charges": [ 300, 900 ] },
-          { "item": "brazing_rod_alloy", "prob": 30, "charges": [ 300, 900 ] }
+          { "item": "welding_rod_steel", "prob": 30, "count": [ 300, 900 ] },
+          { "item": "welding_rod_alloy", "prob": 20, "count": [ 300, 900 ] },
+          { "item": "welding_wire_steel", "prob": 10, "count": [ 300, 900 ] },
+          { "item": "welding_wire_alloy", "prob": 40, "count": [ 300, 900 ] },
+          { "item": "brazing_rod_bronze", "prob": 80, "count": [ 300, 900 ] },
+          { "item": "brazing_rod_alloy", "prob": 30, "count": [ 300, 900 ] }
         ]
       }
     ]

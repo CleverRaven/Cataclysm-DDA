@@ -12,7 +12,7 @@
             "collection": [
               { "item": "tobacco", "count": [ 1, 20 ], "container-item": "null", "entry-wrapper": "bag_plastic" },
               {
-                "distribution": [ { "item": "rolling_paper", "prob": 70, "charges": [ 1, 30 ] }, { "item": "pipe_tobacco", "prob": 30 } ]
+                "distribution": [ { "item": "rolling_paper", "prob": 70, "count": [ 1, 30 ] }, { "item": "pipe_tobacco", "prob": 30 } ]
               }
             ],
             "prob": 20

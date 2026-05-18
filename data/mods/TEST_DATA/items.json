@@ -5973,6 +5973,34 @@
     "consumption_per_use": [ { "pocket": "well_a", "qty": 1 } ]
   },
   {
+    "type": "ammunition_type",
+    "id": "welding_wire",
+    "name": "welding_wire_for_tests_yay",
+    "default": "welding_wire_steel_tests_dupe"
+  },
+  {
+    "id": "welding_wire_steel_tests_dupe",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "category": "spare_parts",
+    "name": { "str": "welding wire" },
+    "description": "A length of 0.8 mm steel wire for MAG welding.",
+    "ascii_picture": "welding_wire_steel",
+    "weight": "2777 mg",
+    "volume": "130 ml",
+    "price": "10 USD",
+    "price_postapoc": "18 USD",
+    "material": [ "iron" ],
+    "//": "360 charges = 1kg spool of welding wire, 1 charge approximately represents 1cm of thick welding seam",
+    "symbol": "@",
+    "color": "light_red",
+    "count": 180,
+    "stack_size": 180,
+    "longest_side": "102 mm",
+    "ammo_type": "welding_wire",
+    "flags": [ "UNRECOVERABLE" ]
+  },
+  {
     "id": "test_multimag_vehicle_welder",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
@@ -5998,7 +6026,7 @@
         "airtight": true,
         "ammo_restriction": { "oxygen": 40 }
       },
-      { "id": "rod", "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "components": 40 } }
+      { "id": "rod", "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "welding_wire": 40 } }
     ],
     "consumption_per_use": [ { "pocket": "power", "qty": 5 }, { "pocket": "oxygen", "qty": 2 }, { "pocket": "rod", "qty": 1 } ]
   },

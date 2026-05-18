@@ -11,7 +11,7 @@
       { "item": "2x4", "count": [ 1, 2 ], "prob": 25 },
       { "item": "pipe", "count": [ 0, 2 ], "prob": 10 },
       { "item": "cu_pipe", "count": [ 0, 2 ], "prob": 10 },
-      { "item": "cable", "charges": [ 0, 200 ], "prob": 10 }
+      { "item": "cable", "count": [ 0, 200 ], "prob": 10 }
     ]
   },
   {
@@ -2268,6 +2268,7 @@
       "MOUNTABLE",
       "MINEABLE",
       "THIN_OBSTACLE",
+      "SHORT",
       "CLIMBABLE",
       "BURROWABLE",
       "PERMEABLE"

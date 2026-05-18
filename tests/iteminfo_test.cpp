@@ -2713,7 +2713,7 @@ TEST_CASE( "disassembly_time_and_yield", "[iteminfo][disassembly]" )
            " with <color_c_cyan>cutting of 2</color> or more and 1 tool with"
            " <color_c_cyan>screw driving of 1</color> or more and <color_c_white>might"
            " yield</color>: 2 electronic scraps, 1 copper, 1 scrap metal, and 5 copper"
-           " wire.\n" );
+           " wires.\n" );
 
     CHECK( item_info_str( metal, disassemble ) ==
            "--\n"

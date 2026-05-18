@@ -4,20 +4,26 @@ on:
   push:
     branches:
     - master
-    paths-ignore:
-    - 'data/**'
-    - 'doc/**'
-    - 'doxygen_doc/**'
-    - 'lang/**'
+    paths:
+    - '**'
+    - '!data/**'
+    - '!doc/**'
+    - '!doxygen_doc/**'
+    - '!lang/**'
+    - 'data/shaders/**'
+    - 'tools/build_shaders.py'
   pull_request:
     branches:
     - master
     types: [opened, reopened, synchronize, ready_for_review]
-    paths-ignore:
-    - 'data/**'
-    - 'doc/**'
-    - 'doxygen_doc/**'
-    - 'lang/**'
+    paths:
+    - '**'
+    - '!data/**'
+    - '!doc/**'
+    - '!doxygen_doc/**'
+    - '!lang/**'
+    - 'data/shaders/**'
+    - 'tools/build_shaders.py'
 
 concurrency:
   group: sdl3-matrix-${{ github.event.pull_request.number || github.ref_name }}
@@ -34,9 +40,95 @@ jobs:
         uses: fkirc/skip-duplicate-actions@04a1aebece824b56e6ad6a401d015479cd1c50b3 # master
         with:
           skip_after_successful_duplicate: 'false'
-          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "tools/**", "utilities/**", "data/**", "lang/**"]'
-  build:
+          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "utilities/**", "lang/**"]'
+
+  # Compile GLSL -> spv/dxil/msl once on Linux (cheap shadercross + DXC there)
+  # and share the artifacts with every platform build job. Runtime variant_pass
+  # picks the format matching its GPU backend (Vulkan/D3D12/Metal).
+  compile-shaders:
     needs: [ skip-duplicates-code ]
+    if: ${{ needs.skip-duplicates-code.outputs.should_skip_code != 'true' && github.event.pull_request.draft == false }}
+    name: Compile shaders
+    runs-on: ubuntu-24.04
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      with:
+        persist-credentials: false
+
+    - name: install glslang
+      run: |
+          sudo apt-get update
+          sudo apt-get install -y glslang-tools
+
+    - name: setup SDL3 (for shadercross link)
+      id: sdl
+      uses: libsdl-org/setup-sdl@4ebea449684c989388fe6bcea0460e300d13a5ae # main
+      with:
+        version: 3.4.4
+        cmake-generator: Ninja
+        install-linux-dependencies: true
+
+    - name: build SDL_shadercross
+      run: |
+          git clone --recursive https://github.com/libsdl-org/SDL_shadercross.git /tmp/SDL_shadercross
+          cd /tmp/SDL_shadercross
+          git checkout 6b06e55c7c5d7e7a09a8a14f76e866dcfad5ab99
+          git submodule update --init --recursive
+          cmake -P build-scripts/download-prebuilt-DirectXShaderCompiler.cmake
+          cmake -S external/SPIRV-Cross -B spirv_cross_build -GNinja \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DSPIRV_CROSS_SHARED=OFF \
+              -DSPIRV_CROSS_STATIC=ON \
+              -DSPIRV_CROSS_CLI=OFF \
+              -DSPIRV_CROSS_ENABLE_TESTS=OFF \
+              -DCMAKE_INSTALL_PREFIX=/tmp/spirv_cross_prefix
+          cmake --build spirv_cross_build
+          cmake --install spirv_cross_build
+          cmake -B build -GNinja \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_PREFIX_PATH=/tmp/spirv_cross_prefix \
+              -DDirectXShaderCompiler_ROOT=/tmp/SDL_shadercross/external/DirectXShaderCompiler-binaries \
+              -DSDLSHADERCROSS_VENDORED=OFF \
+              -DSDLSHADERCROSS_INSTALL=ON \
+              -DSDLSHADERCROSS_CLI=ON \
+              -DSDLSHADERCROSS_SHARED=OFF \
+              -DSDLSHADERCROSS_STATIC=ON \
+              -DSDLSHADERCROSS_SPIRVCROSS_SHARED=OFF
+          cmake --build build
+          sudo cmake --install build
+
+    - name: compile shaders for all backends
+      env:
+        # shadercross dynamically links against SDL3 (built by setup-sdl) and
+        # against the prebuilt DXC libdxcompiler.so under the SDL_shadercross
+        # external/ tree, neither of which is in the system loader path.
+        LD_LIBRARY_PATH: ${{ steps.sdl.outputs.prefix }}/lib:/tmp/SDL_shadercross/external/DirectXShaderCompiler-binaries/linux/lib
+      run: |
+          python3 tools/build_shaders.py \
+              --shader-dir data/shaders \
+              --formats spv,dxil,msl \
+              --stamp data/shaders/build-spv-dxil-msl.stamp
+          # Touch per-platform stamps so the Make/CMake rule on each platform
+          # job sees its expected stamp name and skips invoking build_shaders.
+          touch data/shaders/build-spv.stamp \
+                data/shaders/build-dxil.stamp \
+                data/shaders/build-msl.stamp
+
+    - name: upload shader artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: cdda-shaders
+        path: |
+          data/shaders/*.spv
+          data/shaders/*.dxil
+          data/shaders/*.msl
+          data/shaders/build-*.stamp
+        if-no-files-found: error
+        retention-days: 1
+
+  build:
+    needs: [ skip-duplicates-code, compile-shaders ]
     if: ${{ needs.skip-duplicates-code.outputs.should_skip_code != 'true' && github.event.pull_request.draft == false }}
     strategy:
       fail-fast: true
@@ -59,6 +151,20 @@ jobs:
       uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       with:
         persist-credentials: false
+
+    - name: download prebuilt shader artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: cdda-shaders
+        path: data/shaders
+
+    - name: mark shader artifacts fresh
+      shell: bash
+      run: |
+          # checkout sets .frag mtimes to "now"; bump artifact mtimes so the
+          # Make/CMake shader rule sees them as up-to-date and skips invoking
+          # build_shaders.py.
+          touch data/shaders/build-*.stamp data/shaders/*.spv data/shaders/*.dxil data/shaders/*.msl
 
     - name: install build deps (Ubuntu)
       if: matrix.platform == 'linux'

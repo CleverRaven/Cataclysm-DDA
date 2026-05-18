@@ -25,7 +25,6 @@
   {
     "id": "welding_rod_steel",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "welding rod" },
     "description": "A length of coated welding electrode - a 3 mm thick steel rod coated in a special flux.  During the welding process, the hot metal of the electrode fills the seam, jointing parts together while the flux protects the surface of the seam from atmospheric gases and rapid cooling.  Required for arc welding.",
@@ -38,16 +37,12 @@
     "//": "10 charges = 1 welding electrode, 1 charge approximately represents 1cm of the welding seam",
     "symbol": "i",
     "color": "light_red",
-    "count": 10,
-    "stack_size": 10,
     "longest_side": "350 mm",
-    "ammo_type": "components",
     "flags": [ "UNRECOVERABLE" ]
   },
   {
     "id": "welding_rod_alloy",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "aluminum welding rod" },
     "description": "A length of coated welding electrode - a 3.2 mm thick aluminum rod coated in a special protective flux.  Required for arc welding aluminum alloys.",
@@ -60,16 +55,12 @@
     "//": "10 charges = 1 welding electrode, 1 charge approximately represents 1cm of the welding seam",
     "symbol": "i",
     "color": "cyan",
-    "count": 10,
-    "stack_size": 10,
     "longest_side": "350 mm",
-    "ammo_type": "components",
     "flags": [ "UNRECOVERABLE" ]
   },
   {
     "id": "welding_wire_steel",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "welding wire" },
     "description": "A length of 0.8 mm steel wire for MAG welding.",
@@ -82,16 +73,12 @@
     "//": "360 charges = 1kg spool of welding wire, 1 charge approximately represents 1cm of thick welding seam",
     "symbol": "@",
     "color": "light_red",
-    "count": 180,
-    "stack_size": 180,
     "longest_side": "102 mm",
-    "ammo_type": "components",
     "flags": [ "UNRECOVERABLE" ]
   },
   {
     "id": "welding_wire_alloy",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "aluminum welding wire" },
     "description": "A length of 0.9 mm aluminum wire for MIG welding.",
@@ -104,16 +91,12 @@
     "//": "360 charges = 0.5kg spool of welding wire, 1 charge approximately represents 1cm of thick welding seam",
     "symbol": "@",
     "color": "cyan",
-    "count": 180,
-    "stack_size": 180,
     "longest_side": "102 mm",
-    "ammo_type": "components",
     "flags": [ "UNRECOVERABLE" ]
   },
   {
     "id": "brazing_rod_bronze",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "brazing rod" },
     "description": "A length of 3.2 mm flux-coated bronze rod, for brazing steel.",
@@ -126,16 +109,12 @@
     "//": "10 charges = 1 brazing rod, 1 charge approximately represents 1cm of thick brazing seam, since brazing should have lower joining strength - we use more material per 1cm of the seam",
     "symbol": "|",
     "color": "red",
-    "count": 10,
-    "stack_size": 10,
     "longest_side": "460 mm",
-    "ammo_type": "components",
     "flags": [ "UNRECOVERABLE" ]
   },
   {
     "id": "brazing_rod_alloy",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "aluminum brazing rod" },
     "description": "A length of 3.2 mm aluminum rod, for brazing aluminum alloys.  Also suitable for TIG welding.",
@@ -148,10 +127,7 @@
     "//": "10 charges = 1 brazing rod, 1 charge approximately represents 1cm of thick brazing seam, since brazing should have lower joining strength - we use more material per 1cm of the seam",
     "symbol": "|",
     "color": "cyan",
-    "count": 10,
-    "stack_size": 10,
     "longest_side": "460 mm",
-    "ammo_type": "components",
     "flags": [ "UNRECOVERABLE" ]
   }
 ]

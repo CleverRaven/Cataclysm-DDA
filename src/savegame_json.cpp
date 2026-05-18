@@ -2462,11 +2462,14 @@ void inventory::json_save_items( JsonOut &json ) const
 
 void inventory::json_load_items( const JsonArray &ja )
 {
+    std::vector<item> batch;
+    batch.reserve( ja.size() );
     for( JsonObject jo : ja ) {
         item tmp;
         tmp.deserialize( jo );
-        add_item( tmp, true, false );
+        batch.emplace_back( std::move( tmp ) );
     }
+    add_items_bulk( std::move( batch ), true, false );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1077,7 +1077,7 @@
       { "prob": 50, "group": "cig_box_cigarette_1_20" },
       { "item": "matches", "prob": 45, "charges": [ 1, 20 ] },
       { "item": "ref_matches", "prob": 45, "charges": [ 1, 32 ] },
-      { "item": "rolling_paper", "prob": 10, "charges": [ 1, 30 ] },
+      { "item": "rolling_paper", "prob": 10, "count": [ 1, 30 ] },
       { "item": "bottle_glass", "prob": 50 },
       { "item": "bottle_plastic", "prob": 70 },
       { "item": "can_drink", "prob": 65 },

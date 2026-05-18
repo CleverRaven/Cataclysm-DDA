@@ -21,6 +21,10 @@
 /data/*.template
 /data/cache/
 /data/mods/user-default-mods.json
+/data/shaders/*.spv
+/data/shaders/*.dxil
+/data/shaders/*.msl
+/data/shaders/build-*.stamp
 /dep/
 /doxygen_doc/html/*
 /doxygen_doc/latex/*

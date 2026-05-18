@@ -162,6 +162,32 @@ A more comprehensive alternative is:
 
     make -j2 TILES=1 SOUND=1 RELEASE=1 USE_HOME_DIR=1
 
+### SDL3 lane
+
+The SDL3 build (`SDL3=1`) needs SDL3 >= 3.4.0 plus a shader toolchain on top of the SDL2 deps.
+
+Dependencies:
+
+  * SDL3, SDL3_image, SDL3_ttf, SDL3_mixer (>= 3.4.0)
+  * `glslangValidator` from glslang (GLSL to SPIR-V)
+  * `SDL_shadercross` (SPIR-V to DXIL on Windows, MSL on macOS). Build from <https://github.com/libsdl-org/SDL_shadercross> if your distribution does not package it.
+
+Install (Debian/Ubuntu):
+
+    sudo apt-get install glslang-tools
+
+Install (macOS via Homebrew):
+
+    brew install glslang
+
+Put `shadercross` on `PATH` (or set `SDL_SHADERCROSS=/path/to/shadercross`). `BUILD_SHADER_FORMATS` picks which artifacts get built: `spv` on Linux, `msl` on macOS, `dxil` on Windows by default. Override with a comma list for a multi-platform bindist. The GPU shader path stays inert at runtime if its artifact format is missing; the game falls back to the pre-baked atlas variants.
+
+Build:
+
+    make -j2 TILES=1 SOUND=1 SDL3=1 RELEASE=1 USE_HOME_DIR=1
+
+The Windows MSVC lane uses a vcpkg overlay-port at `vcpkg/overlay-ports/sdl3/` (configured via `msvc-full-features/vcpkg-configuration.json`) to pin SDL3 >= 3.4.0 above the registry baseline.
+
 The -j2 flag means it will compile with two parallel processes. It can be omitted or changed to -j4 in a more modern processor. If there is no desire to have sound, those flags can also be omitted. The USE_HOME_DIR flag places the user files, like configurations and saves, into the home folder, making it easier for backups, and can also be omitted.
 
 # Gentoo

@@ -11,6 +11,7 @@ Wound is a type, that affects specific bodyparts. It's similar in this to effect
     "name": { "str": "scratch", "str_pl": "scratches" },
     "description": "Foobar.",
     "weight": 10, // weight of a wound, determines the chance of this specific wound to be picked when limb takes damage. Default 1
+    "limit": 2, // limits amount of wounds of this type you can get per limb
     "damage_types": [ "cut", "bash" ], // only taking these type of damage can apply wound. Mandatory
     "damage_required": [ 1, 1000 ], // smallest and highest damage that is required for this wound to be applied. Mandatory
     "pain": [ 1, 10 ], // when wound is applied, it would give character this random amount of pain rolled between this two numbers. Default 0
@@ -38,6 +39,7 @@ Wound fix is a way for wounds to be treated
     "wounds_removed": [ "scratch" ], // wounds removed when this fix is applied
     "wounds_added": [ "scratch" ], // wounds added when fix is applied
     "success_msg": "Tada.",
+    "mod_hp": 10, // if used, the HP of bodypart will be healed by this amount when wound fix is used; negative number will damage the limb instead 
     "requirements": [ [ "gun_cleaning", 1 ] ], // requirements that dictate tools and materials needed to apply this fix
     "proficiencies": [
       {

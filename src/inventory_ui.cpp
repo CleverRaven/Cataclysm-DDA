@@ -4659,11 +4659,17 @@ void inventory_multiselector::deselect_contained_items()
                     if( !selected->is_item() ) {
                         continue;
                     }
+                    bool deselected = false;
                     for( const item *item_contained : loc_container->all_items_ptr() ) {
                         for( const item_location &selected_loc : selected->locations ) {
                             if( selected_loc.get_item() == item_contained ) {
                                 set_chosen_count( *selected, 0 );
+                                deselected = true;
+                                break;
                             }
+                        }
+                        if( deselected ) {
+                            break;
                         }
                     }
                 }

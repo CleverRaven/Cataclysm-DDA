@@ -12,6 +12,7 @@
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -2062,9 +2063,9 @@ class item : public visitable
          * already used somewhere.
          */
         /*@{*/
-        double get_var( const std::string &key, double default_value ) const;
-        std::string get_var( const std::string &key, std::string default_value = {} ) const;
-        tripoint_abs_ms get_var( const std::string &key, tripoint_abs_ms default_value ) const;
+        double get_var( std::string_view key, double default_value ) const;
+        std::string get_var( std::string_view key, std::string default_value = {} ) const;
+        tripoint_abs_ms get_var( std::string_view key, tripoint_abs_ms default_value ) const;
 
         void set_var( const std::string &key, diag_value value );
         template <typename... Args>
@@ -2073,10 +2074,10 @@ class item : public visitable
         }
 
         void remove_var( const std::string &key );
-        diag_value const &get_value( const std::string &name ) const;
-        diag_value const *maybe_get_value( const std::string &name ) const;
+        diag_value const &get_value( std::string_view name ) const;
+        diag_value const *maybe_get_value( std::string_view name ) const;
         /** Whether the variable is defined at all. */
-        bool has_var( const std::string &name ) const;
+        bool has_var( std::string_view name ) const;
         /** Erase the value of the given variable. */
         void erase_var( const std::string &name );
         /** Removes all item variables. */

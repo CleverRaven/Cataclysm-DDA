@@ -2974,9 +2974,9 @@ void Character::store( item &container, item &put, bool penalties, int base_cost
         container.get_container_pockets().size() > 1 ) {
         // Bypass pocket settings (assuming the item is manually stored)
         int charges = put.count_by_charges() ? put.charges : 1;
-        container.fill_with( i_rem( &put ), charges, false, false, true );
+        container.fill_with( i_rem( &put ), charges, false, false, true, false, true, this );
     } else {
-        container.put_in( i_rem( &put ), pk_type );
+        container.put_in( i_rem( &put ), pk_type, false, this );
     }
     calc_encumbrance();
 }

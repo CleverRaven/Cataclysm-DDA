@@ -84,9 +84,7 @@
 
 std::unique_ptr<cataimgui::client> imclient;
 
-#if defined(__linux__)
-#   include <cstdlib> // getenv()/setenv()
-#endif
+#include <cstdlib> // getenv()/setenv()
 
 #if defined(_WIN32)
 #   if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
@@ -304,6 +302,34 @@ void refresh_mouse_config()
     }
 }
 
+#if SDL_MAJOR_VERSION >= 3 && defined(_WIN32)
+// True if data/shaders contains .spv but no .dxil. Used to bias the SDL3 GPU
+// device toward Vulkan when a local Windows build skipped SDL_shadercross
+// install (which would have produced DXIL for the D3D12 backend) but
+// glslangValidator still produced SPIR-V.
+static bool only_spirv_shader_artifacts_present()
+{
+    namespace fs = std::filesystem;
+    const fs::path shaders_dir = fs::path( PATH_INFO::datadir() ) / "shaders";
+    std::error_code ec;
+    if( !fs::is_directory( shaders_dir, ec ) ) {
+        return false;
+    }
+    bool any_spv = false;
+    for( const fs::directory_entry &entry :
+         fs::directory_iterator( shaders_dir, ec ) ) {
+        const std::string ext = entry.path().extension().string();
+        if( ext == ".dxil" ) {
+            return false;
+        }
+        if( ext == ".spv" ) {
+            any_spv = true;
+        }
+    }
+    return any_spv;
+}
+#endif
+
 //Registers, creates, and shows the Window!!
 static void WinCreate()
 {
@@ -395,6 +421,16 @@ static void WinCreate()
     throwErrorIf( pixel_format == SDL_PIXELFORMAT_UNKNOWN, "SDL_GetWindowPixelFormat failed" );
 
 #if !defined(__ANDROID__)
+#if defined(USE_SDL3)
+    // Under SDL3 the GPU renderer is the only one that supports
+    // SDL_SetGPURenderState. Drive selection through SDL_HINT_RENDER_DRIVER
+    // (comma-list with platform-appropriate fallbacks) rather than the
+    // saved RENDERER option, which predates SDL3 and may name a renderer
+    // that no longer exists. Power users can still override at the SDL
+    // layer via SDL_RENDER_DRIVER environment variable (env > SDL_SetHint).
+    bool software_renderer = false;
+    std::string renderer_name;
+#else
     bool software_renderer = get_option<std::string>( "RENDERER" ).empty();
     std::string renderer_name;
     if( software_renderer ) {
@@ -406,6 +442,7 @@ static void WinCreate()
     if( renderer_name == "direct3d" ) {
         direct3d_mode = true;
     }
+#endif
 #else
     bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" );
     std::string renderer_name = software_renderer ? "software" : "";
@@ -414,6 +451,24 @@ static void WinCreate()
 #if SDL_MAJOR_VERSION < 3
     // SDL3: batching is always on.
     SDL_SetHint( SDL_HINT_RENDER_BATCHING, get_option<bool>( "RENDER_BATCHING" ) ? "1" : "0" );
+#else
+#  if defined(_WIN32)
+    SDL_SetHint( SDL_HINT_RENDER_DRIVER, "gpu,direct3d12,direct3d11,opengl" );
+    // Bias the SDL3 GPU device toward Vulkan when the install only has
+    // SPIR-V artifacts (e.g. a local dev build that skipped SDL_shadercross
+    // install and so never produced DXIL). Vulkan consumes SPIR-V; D3D12
+    // would not load these. SDL falls through to D3D12 via the comma-list
+    // above if Vulkan is unavailable, leaving the atlas fallback intact.
+    if( !std::getenv( "SDL_GPU_DRIVER" )
+        && !SDL_GetHint( SDL_HINT_GPU_DRIVER )
+        && only_spirv_shader_artifacts_present() ) {
+        SDL_SetHint( SDL_HINT_GPU_DRIVER, "vulkan" );
+        dbg( D_INFO ) << "Only SPIR-V shader artifacts present; biasing SDL3 "
+                      "GPU device toward Vulkan.";
+    }
+#  else
+    SDL_SetHint( SDL_HINT_RENDER_DRIVER, "gpu,opengl" );
+#  endif
 #endif
     if( !software_renderer ) {
         dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
@@ -432,14 +487,34 @@ static void WinCreate()
     }
 
     if( software_renderer ) {
+#if !defined(USE_SDL3)
+        // FRAMEBUFFER_ACCEL is hidden under SDL3 (the option is the SDL2
+        // software-renderer toggle); don't consume the stored value there.
         if( get_option<bool>( "FRAMEBUFFER_ACCEL" ) ) {
             SDL_SetHint( SDL_HINT_FRAMEBUFFER_ACCELERATION, "1" );
         }
+#endif
         renderer = CreateRenderer( ::window, nullptr, true, false );
         throwErrorIf( !renderer, "Failed to initialize software renderer" );
         throwErrorIf( !SetupRenderTarget(),
                       "Failed to initialize display buffer under software rendering, unable to continue." );
     }
+
+#if SDL_MAJOR_VERSION >= 3
+    {
+        // Reset before runtime detection so renderer recreation cannot
+        // leave stale direct3d_mode set from a prior renderer choice.
+        direct3d_mode = false;
+        const SDL_PropertiesID props = SDL_GetRendererProperties( renderer.get() );
+        const char *actual_name = props != 0
+                                  ? SDL_GetStringProperty( props, SDL_PROP_RENDERER_NAME_STRING, "" )
+                                  : "";
+        dbg( D_INFO ) << "SDL renderer in use: " << ( actual_name ? actual_name : "unknown" );
+        if( actual_name && std::string( actual_name ).find( "direct3d" ) != std::string::npos ) {
+            direct3d_mode = true;
+        }
+    }
+#endif
 
     SetWindowMinimumSize( ::window.get(), fontwidth * EVEN_MINIMUM_TERM_WIDTH * scaling_factor,
                           fontheight * EVEN_MINIMUM_TERM_HEIGHT * scaling_factor );

@@ -29,6 +29,7 @@
     <VcpkgAdditionalInstallOptions>--clean-after-build</VcpkgAdditionalInstallOptions>
     <VcpkgAdditionalInstallOptions Condition="$(_UseSDL3)">$(VcpkgAdditionalInstallOptions) --x-feature=sdl3</VcpkgAdditionalInstallOptions>
     <VcpkgAdditionalInstallOptions Condition="!$(_UseSDL3)">$(VcpkgAdditionalInstallOptions) --x-feature=sdl2</VcpkgAdditionalInstallOptions>
+    <CustomBuildAfterTargets>VcpkgInstallManifestDependencies</CustomBuildAfterTargets>
   </PropertyGroup>
   <PropertyGroup Condition="$(_CDDA_USE_CCACHE)">
     <ClToolPath>$(CDDA_CCACHE_PATH)</ClToolPath>

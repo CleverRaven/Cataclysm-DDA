@@ -157,8 +157,8 @@ class character_creator_ui_impl : public cataimgui::window
         explicit character_creator_ui_impl( character_creator_ui *parent );
 
         void draw_top_bar( const avatar &u ) const;
-        void draw_scenarios();
-        void draw_professions();
+        void draw_scenarios() const;
+        void draw_professions() const;
         void draw_backgrounds();
         // STR, DEX, etc...
         void draw_stats();

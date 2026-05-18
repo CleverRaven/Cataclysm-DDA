@@ -31,7 +31,7 @@
       { "item": "meat_bark", "count": [ 0, 3 ], "prob": 5 },
       { "item": "ruined_chunks", "count": [ 0, 2 ], "prob": 30 },
       { "item": "mutant_bug_organs", "count": [ 0, 2 ], "prob": 30 },
-      { "item": "copper", "count": [ 0, 4 ], "prob": 20, "charges": [ 0, 20 ] },
+      { "item": "copper", "count": [ 0, 4 ], "prob": 20 },
       { "item": "gold_small", "count": [ 0, 2 ], "prob": 25, "charges": [ 0, 10 ] },
       { "item": "bismuth", "count": [ 0, 4 ], "prob": 40, "charges": [ 0, 15 ] },
       { "item": "scrap", "count": [ 0, 2 ], "prob": 35, "charges": [ 0, 1 ] },
