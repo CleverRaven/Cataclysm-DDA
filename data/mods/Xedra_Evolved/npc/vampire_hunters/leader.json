@@ -289,7 +289,7 @@
         ]
       },
       {
-        "text": "Killing the monstruous renfield.",
+        "text": "Killing the monstrous renfield.",
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_VAMPIRE_HUNTER_LEADER_KILL_RENFIELD_MONSTER" } },
@@ -350,7 +350,7 @@
     "id": "TALK_KILL_RENFIELD_MONSTER_COMPLETED",
     "type": "talk_topic",
     "dynamic_line": [
-      "Renfields like that are rare and usually stay close to their masters to protect them.  If they're being sent to attack enemies, their masters are desesperate or have many of them at their service.  It doesn't bode well, but at least you're able to kill them."
+      "Renfields like that are rare and usually stay close to their masters to protect them.  If they're being sent to attack enemies, their masters are desperate or have many of them at their service.  It doesn't bode well, but at least you're able to kill them."
     ],
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_NONE" },
@@ -446,7 +446,7 @@
   {
     "id": "MISSION_VAMPIRE_HUNTER_LEADER_KILL_RENFIELD_MONSTER",
     "type": "mission_definition",
-    "name": { "str": "Kill the monstruous renfield" },
+    "name": { "str": "Kill the monstrous renfield" },
     "goal": "MGOAL_KILL_MONSTERS",
     "description": "A massive renfield is roaming near the base.  Better kill it before they attack the hunters.",
     "difficulty": 5,
