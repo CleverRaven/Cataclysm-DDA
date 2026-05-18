@@ -9193,7 +9193,7 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
     }
 
     // Fall down to the ground - always on the last reached tile
-    if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos ) ) {
+    if( !here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos ) ) {
         // Didn't smash into a wall or a floor so only take the fall damage
         if( thru && here.is_open_air( pos ) ) {
             here.creature_on_trap( *c, false );
