@@ -1505,11 +1505,18 @@ static bool cancel_auto_move( Character &you, const std::string &text )
 
 bool game::cancel_activity_or_ignore_query( const distraction_type type, const std::string &text )
 {
+    // We might not have been drawing anything, let's "catch up" now.
+    master_override_dont_redraw = false;
+    ui_manager::redraw();
+    refresh_display();
+
     if( u.has_distant_destination() ) {
         if( cancel_auto_move( u, text ) ) {
             return true;
         } else {
             u.set_destination( u.get_auto_move_route(), player_activity( ACT_TRAVELLING ) );
+            // Back to not drawing anything!
+            master_override_dont_redraw = true;
             return false;
         }
     }
@@ -1555,6 +1562,8 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
     ui_manager::redraw();
     refresh_display();
 
+    // Back to not drawing anything!
+    master_override_dont_redraw = true;
     return false;
 }
 
@@ -1601,6 +1610,10 @@ bool game::portal_storm_query( const distraction_type type, const std::string &t
 
 bool game::cancel_activity_query( const std::string &text )
 {
+    // We might not have been drawing anything, let's "catch up" now.
+    master_override_dont_redraw = false;
+    ui_manager::redraw();
+    refresh_display();
     if( u.has_destination() ) {
         if( cancel_auto_move( u, text ) ) {
             return true;
@@ -3363,6 +3376,9 @@ bool game::has_blink_curses()
 
 void game::draw( ui_adaptor &ui )
 {
+    if( master_override_dont_redraw ) {
+        return;
+    }
     map &here = get_map();
 
     if( test_mode ) {

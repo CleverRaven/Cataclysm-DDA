@@ -189,6 +189,9 @@ void player_activity::start_or_resume( Character &who, bool resuming )
 {
     if( actor && !resuming ) {
         actor->start( *this, who );
+        if( who.is_avatar() ) {
+            g->master_override_dont_redraw = true;
+        }
     }
     if( !type.is_null() && rooted() ) {
         who.rooted_message();
