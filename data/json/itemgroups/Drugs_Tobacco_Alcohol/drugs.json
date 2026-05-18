@@ -444,6 +444,13 @@
   },
   {
     "type": "item_group",
+    "id": "adderall_bottle_plastic_pill_prescription_1",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "adderall", "container-item": "null" } ]
+  },
+  {
+    "type": "item_group",
     "id": "antibiotics_dr_group",
     "subtype": "collection",
     "container-item": "bottle_plastic_pill_prescription",
@@ -500,10 +507,24 @@
   },
   {
     "type": "item_group",
+    "id": "weak_antibiotic_bottle_plastic_pill_prescription_1",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "weak_antibiotic", "container-item": "null" } ]
+  },
+  {
+    "type": "item_group",
     "id": "antifungal_dr_group",
     "subtype": "collection",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "antifungal", "container-item": "null", "count": [ 15, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "antifungal_bottle_plastic_pill_prescription_1_10",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "antifungal", "container-item": "null", "count": [ 1, 10 ] } ]
   },
   {
     "type": "item_group",
