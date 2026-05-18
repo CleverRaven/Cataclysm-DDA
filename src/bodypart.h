@@ -503,10 +503,15 @@ class bodypart
 
         std::vector<wound> get_wounds() const;
 
+        void add_or_worsen_wound( const wound_type_id wd );
+        void add_or_worsen_wound( const wound &wd );
+
         void add_wound( const wound &wd );
         void add_wound( wound_type_id wd );
         bool has_wounds() const;
         bool has_wound( wound_type_id wd ) const;
+        wound *get_wound( const wound_type_id wd_id );
+        void remove_wound( const wound wd );
         void remove_wound( wound_type_id wd );
         void update_wounds( time_duration time_passed );
 

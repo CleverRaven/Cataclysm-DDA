@@ -18,6 +18,7 @@
 #include "json.h"
 #include "localized_comparator.h"
 #include "magic_enchantment.h"
+#include "messages.h"
 #include "pimpl.h"
 #include "rng.h"
 #include "subbodypart.h"
@@ -1090,6 +1091,56 @@ std::vector<wound> bodypart::get_wounds() const
     return wounds;
 }
 
+void bodypart::add_or_worsen_wound( const wound_type_id wd )
+{
+    wound wo = wound( wd );
+    add_or_worsen_wound( wo );
+}
+
+void bodypart::add_or_worsen_wound( const wound &wd )
+{
+    const std::vector<wound_progress> &wound_progression = wd.type->wound_progression;
+
+    // todo: move one_in( 2 ) to something more reasonable
+    // maybe checking hit_size of a limb against some new wound size property?
+    if( has_wound( wd.type ) && !wound_progression.empty() && one_in( 2 ) ) {
+        for( const wound_progress &wdp : wound_progression ) {
+            if( x_in_y( wdp.chance, 100 ) ) {
+
+                const wound *old_wound = get_wound( wd.type );
+                wound new_wound = wound( wdp.id );
+                new_wound += *old_wound;
+
+                add_msg_debug( debugmode::DF_WOUNDS,
+                               "at bodypart %s, wound %s (pain %d, duration %s) progresses to wound %s (pain %d, duration %s).",
+                               id.str(),
+                               wd.type.str(),
+                               wd.get_pain(),
+                               to_string( wd.get_healing_time(), true ),
+                               new_wound.type.str(),
+                               new_wound.get_pain(),
+                               to_string( new_wound.get_healing_time(), true )
+                             );
+
+                remove_wound( *old_wound );
+                add_wound( new_wound );
+            }
+        }
+
+    } else {
+
+        add_msg_debug( debugmode::DF_WOUNDS,
+                       "at bodypart %s, adding wound %s (pain %d, duration %s).",
+                       id.str(),
+                       wd.type.str(),
+                       wd.get_pain(),
+                       to_string( wd.get_healing_time(), true )
+                     );
+
+        add_wound( wd );
+    }
+}
+
 void bodypart::add_wound( const wound &wd )
 {
     wounds.emplace_back( wd );
@@ -1113,6 +1164,28 @@ bool bodypart::has_wound( const wound_type_id wd ) const
         }
     }
     return false;
+}
+
+wound *bodypart::get_wound( const wound_type_id wd_id )
+{
+    // picks the first one; maybe not desired?
+    auto it = std::find_if( wounds.begin(), wounds.end(), [wd_id]( wound wd ) {
+        return wd.type == wd_id;
+    } );
+
+    if( it == wounds.end() ) {
+        debugmsg( "Tried to get wound %s from bodypart %s, but none were found", wd_id.str(), id.str() );
+        return nullptr;
+    }
+    return &*it;
+}
+
+void bodypart::remove_wound( const wound wd )
+{
+    const auto it = std::find( wounds.begin(), wounds.end(), wd );
+    if( it != wounds.end() ) {
+        wounds.erase( it );
+    }
 }
 
 void bodypart::remove_wound( const wound_type_id wd )

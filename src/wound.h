@@ -14,11 +14,19 @@
 #include "translation.h"
 #include "type_id.h"
 #include "value_ptr.h"
+#include "weighted_list.h"
 
 class JsonObject;
 class JsonOut;
 
 enum class bp_type;
+
+struct wound_progress {
+    wound_type_id id;
+    int chance;
+
+    void deserialize( const JsonObject &jo );
+};
 
 class wound_type
 {
@@ -59,6 +67,9 @@ class wound_type
         std::vector<bp_type> blacklist_body_part_types;
 
         std::set<wound_fix_id> fixes;
+
+        // list of wounds this wound can lead to
+        std::vector<wound_progress> wound_progression;
     private:
         translation name_;
         translation description_;
@@ -91,6 +102,20 @@ class wound
         time_duration get_healing_time() const;
         // update the wound healing progress, if it's healed, return true
         bool update_wound( time_duration time_passed );
+
+        wound &operator+=( const wound &wd ) {
+            healing_time += wd.get_healing_time();
+            pain += wd.get_pain();
+            // reset healing progress? maybe not necessary?
+            healing_progress = 0_seconds;
+
+            return *this;
+        }
+
+        bool operator==( const wound &wd ) {
+            return type == wd.type && healing_progress == wd.healing_progress ;
+        }
+
     private:
         // how long it takes for this wound to heal. Can be adjusted by wound fix.
         time_duration healing_time;

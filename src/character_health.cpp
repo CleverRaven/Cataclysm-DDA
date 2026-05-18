@@ -2545,7 +2545,7 @@ int Character::vitamin_RDA( const vitamin_id &vitamin, int amount ) const
 void Character::apply_wound( bodypart_id bp, wound_type_id wd )
 {
     bodypart &body_bp = body.at( bp.id() );
-    body_bp.add_wound( wd );
+    body_bp.add_or_worsen_wound( wd );
     morale->on_stat_change( "perceived_pain", get_perceived_pain() );
 }
 
