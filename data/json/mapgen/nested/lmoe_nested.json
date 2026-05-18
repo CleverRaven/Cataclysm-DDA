@@ -87,7 +87,7 @@
         "))))))"
       ],
       "palettes": [ "bunker_ext" ],
-      "place_nested": [ { "chunks": [ "lmoe_exit_roof_s" ], "x": 0, "y": 0, "z": 1 } ]
+      "place_nested": [ { "chunks": [ "lmoe_exit_roof_n" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -136,7 +136,7 @@
         "))_)))"
       ],
       "palettes": [ "bunker_ext" ],
-      "place_nested": [ { "chunks": [ "lmoe_exit_roof_n" ], "x": 0, "y": 0, "z": 1 } ]
+      "place_nested": [ { "chunks": [ "lmoe_exit_roof_s" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -173,7 +173,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "lmoe_exit_w",
+    "nested_mapgen_id": "lmoe_exit_e",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
@@ -185,12 +185,12 @@
         "))))))"
       ],
       "palettes": [ "bunker_ext" ],
-      "place_nested": [ { "chunks": [ "lmoe_exit_roof_w" ], "x": 0, "y": 0, "z": 1 } ]
+      "place_nested": [ { "chunks": [ "lmoe_exit_roof_e" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "lmoe_exit_roof_w",
+    "nested_mapgen_id": "lmoe_exit_roof_e",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
@@ -235,7 +235,7 @@
       ],
       "palettes": [ "bunker_ext" ],
       "terrain": { "X": "t_door_metal_locked" },
-      "place_nested": [ { "chunks": [ "lmoe_exit_roof_s" ], "x": 0, "y": 0, "z": 1 } ]
+      "place_nested": [ { "chunks": [ "lmoe_exit_roof_n" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
