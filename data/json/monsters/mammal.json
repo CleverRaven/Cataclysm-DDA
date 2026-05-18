@@ -1865,7 +1865,7 @@
     "speed": 100,
     "material": [ "flesh" ],
     "symbol": "m",
-    "color": "light_brown",
+    "color": "brown",
     "aggression": -5,
     "morale": 40,
     "aggro_character": false,
