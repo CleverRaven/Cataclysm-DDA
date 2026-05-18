@@ -117,6 +117,10 @@ struct bionic_data {
     std::set<json_character_flag> installable_weapon_flags;
 
     /**
+     * CBMs that prevent installing this CBM
+     */
+    std::set<bionic_id> bionics_conflicts;
+    /**
      * Mutations/traits that prevent installing this CBM
      */
     std::set<trait_id> mutation_conflicts;
