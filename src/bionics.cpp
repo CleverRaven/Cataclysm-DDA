@@ -344,7 +344,7 @@ void bionic_data::load( const JsonObject &jsobj, std::string_view src )
     optional( jsobj, was_loaded, "learned_spells", learned_spells );
     optional( jsobj, was_loaded, "learned_proficiencies", proficiencies );
     optional( jsobj, was_loaded, "canceled_mutations", canceled_mutations );
-    optional( jsobj, was_loaded, "bionics_conflicts", bionics_conflicts );
+    optional( jsobj, was_loaded, "replaced_bodyparts", replaced_bodyparts );
     optional( jsobj, was_loaded, "mutation_conflicts", mutation_conflicts );
     optional( jsobj, was_loaded, "give_mut_on_removal", give_mut_on_removal );
     optional( jsobj, was_loaded, "included_bionics", included_bionics );
@@ -2344,16 +2344,20 @@ ret_val<void> Character::is_installable( const item *it, const bool by_autodoc )
     } else if( std::any_of( bid->mutation_conflicts.begin(), bid->mutation_conflicts.end(),
                             has_trait_lambda ) ) {
         return ret_val<void>::make_failure( _( "CBM not compatible with patient's body." ) );
-    } else if( !bid->bionics_conflicts.empty() ) {
-        std::vector<std::string> bionics;
-        for( const bionic_id &b : bid->bionics_conflicts ) {
-            if( has_bionic( b ) ) {
-                bionics.push_back( b->name.translated() );
+    } else if( !bid->replaced_bodyparts.empty() ) {
+        std::vector<std::string> conflicts;
+        
+        for( const bionic_id &installed : get_bionics() ) {
+            for( const bodypart_str_id &bp : bid->replaced_bodyparts ) {
+                if( installed->replaced_bodyparts.count( bp ) > 0 ) {
+                    conflicts.push_back( installed->name.translated() );
+                    break;
+                }
             }
         }
 
-        if( !bionics.empty() ) {
-            return ret_val<void>::make_failure( _( "CBM conflicts with: %s." ), string_join( bionics, ", " ) );
+        if( !conflicts.empty() ) {
+            return ret_val<void>::make_failure( _( "CBM conflicts with: %s." ), string_join( conflicts, ", " ) );
         }
 
     } else if( bid->upgraded_bionic &&

@@ -1323,12 +1323,12 @@ mod = min( max, ( limb_score / denominator ) - subtract );
 | `known_ma_styles`            | (_optional_) A list of martial art styles that are known to the wearer when the bionic is activated
 | `canceled_mutations`         | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
 | `mutation_conflicts`         | (_optional_) A list of mutations that prevent this bionic from being installed.
-| `bionics_conflicts`          | (_optional_) A list of bionics that prevent this bionic from being installed.
 | `included_bionics`           | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
 | `included`                   | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
 | `env_protec`                 | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
 | `protec`                     | (_optional_) An array of resistance values that determines the types of protection this bionic provides on the specified body parts.
 | `occupied_bodyparts`         | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
+| `replaced_bodyparts`         | (_optional_) A list of body parts completely replaced by this bionic. Accepts an array of bodyparts like occupied_bodyparts.
 | `capacity`                   | (_optional_) Amount of power storage added by this bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
 | `fuel_options`               | (_optional_) A list of materials that this bionic can use to produce bionic power.
 | `is_remote_fueled`           | (_optional_) If true this bionic allows you to plug your power banks to an external power source (solar backpack, UPS, vehicle etc) via a cable. (default: `false`)
