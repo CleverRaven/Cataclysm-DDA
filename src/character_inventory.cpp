@@ -59,7 +59,6 @@
 #include "monster.h"
 #include "morale.h"
 #include "mtype.h"
-#include "options.h"
 #include "overmapbuffer.h"
 #include "pickup.h"
 #include "pimpl.h"
@@ -579,7 +578,7 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid,
     inv->assign_empty_invlet( it, *this );
     map &here = get_map();
     for( int i = 0; i < qty; ++i ) {
-        drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
+        drop |= !can_pickWeight( it, false ) || !can_pickVolume( it );
         if( drop ) {
             retval &= !here.add_item_or_charges( pos_bub(), it ).is_null();
             if( !retval ) {
@@ -2403,7 +2402,7 @@ bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const 
     }
     if( !this->can_pickVolume( it, false, avoid ) ) {
         put_into_vehicle_or_drop( *this, item_drop_reason::too_large, { it } );
-    } else if( !this->can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+    } else if( !this->can_pickWeight( it, false ) ) {
         put_into_vehicle_or_drop( *this, item_drop_reason::too_heavy, { it } );
     } else {
         bool wielded_has_it = false;

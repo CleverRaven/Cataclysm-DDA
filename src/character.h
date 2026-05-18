@@ -2343,7 +2343,7 @@ class Character : public Creature, public visitable
                                                 &locations ) const;
         units::mass weight_capacity() const override;
 
-        /* maximum you should ever be able to pick up ( i.e. with DANGEROUS_PICKUPS enabled) */
+        /* maximum you should ever be able to pick up */
         units::mass max_pickup_capacity() const;
         // total capacity of pockets in the player's top level of inventory.
         // bags-of-holding aside, this is the max volume the character can carry without changing what they're wearing/wielding.

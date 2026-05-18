@@ -609,7 +609,7 @@ class pickup_inventory_preset : public inventory_selector_preset
                 } else if( !you.can_pickVolume_partial( *loc, false, nullptr, false, true ) &&
                            ( skip_wield_check || you.has_wield_conflicts( *loc ) ) ) {
                     return _( "Does not fit in any pocket!" );
-                } else if( !you.can_pickWeight_partial( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+                } else if( !you.can_pickWeight_partial( *loc, false ) ) {
                     return _( "Too heavy to pick up!" );
                 }
             }

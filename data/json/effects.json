@@ -698,6 +698,17 @@
   },
   {
     "type": "effect_type",
+    "id": "overburdened",
+    "name": [ "Overburdened" ],
+    "desc": [ "You strain to move with all you're carrying." ],
+    "//COMMENT": "This has no apply message because there's an existing application message in Pickup::do_pickup().",
+    "//COMMENT2": "You're carrying too much and are overburdened!",
+    "rating": "bad",
+    "show_in_info": true,
+    "flags": [ "DISABLE_FLIGHT" ]
+  },
+  {
+    "type": "effect_type",
     "id": "assisted",
     "name": [ "Assisted" ],
     "max_intensity": 1000,

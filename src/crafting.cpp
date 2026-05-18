@@ -801,7 +801,7 @@ static item_location set_item_inventory( Character &p, item &newit )
         // We might not have space for the item
         if( !p.can_pickVolume( newit ) ) { //Accounts for result_mult
             put_into_vehicle_or_drop( p, item_drop_reason::too_large, { newit } );
-        } else if( !p.can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+        } else if( !p.can_pickWeight( newit, false ) ) {
             put_into_vehicle_or_drop( p, item_drop_reason::too_heavy, { newit } );
         } else {
             ret_val = p.i_add( newit );
@@ -965,7 +965,7 @@ static item_location place_craft_or_disassembly(
                             '1', _( "Dispose of your wielded %s and start working." ), ch.get_wielded_item()->tname() );
             amenu.addentry( DROP_CRAFT, true, '2', _( "Put it down and start working." ) );
             const bool can_stash = ch.can_pickVolume( craft ) &&
-                                   ch.can_pickWeight( craft, !get_option<bool>( "DANGEROUS_PICKUPS" ) );
+                                   ch.can_pickWeight( craft, false );
             amenu.addentry( STASH, can_stash, '3', _( "Store it in your inventory." ) );
             amenu.addentry( DROP, true, '4', _( "Drop it on the ground." ) );
 
