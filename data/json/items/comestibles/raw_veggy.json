@@ -1502,5 +1502,27 @@
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 4 ], [ "iron", 2 ], [ "calcium", 2 ], [ "veggy_allergen", 1 ] ],
     "fun": -5
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "artichoke_heart",
+    "name": { "str": "artichoke heart" },
+    "comestible_type": "FOOD",
+    "weight": "100 g",
+    "volume": "120 ml",
+    "price": "150 cent",
+    "price_postapoc": "80 cent",
+    "color": "dark_gray",
+    "material": [ "veggy" ],
+    "calories": 60,
+    "spoils_in": "5 days",
+    "description": "The soft inside of a raw artichoke.",
+    "symbol": "a",
+    "looks_like": "raw_artichoke",
+    "flags": [ "RAW" ],
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 1 ], [ "calcium", 1 ], [ "veggy_allergen", 1 ] ],
+    "fun": -5
   }
 ]
