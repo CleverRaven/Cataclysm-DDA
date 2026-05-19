@@ -1760,7 +1760,7 @@
     "name": "TNT",
     "density": 1.654
   },
-    {
+  {
     "type": "material",
     "id": "styrofoam",
     "name": "Styrofoam",
