@@ -2341,6 +2341,37 @@
     "melee_damage": { "bash": 1 }
   },
   {
+    "type": "ITEM",
+    "id": "material_styrofoam_sheet",
+    "category": "spare_parts",
+    "price": "2 USD 50 cent",
+    "price_postapoc": "0 cent",
+    "name": { "str": "styrofoam sheet" },
+    "symbol": "#",
+    "color": "white",
+    "description": "Bulky, but extremely light sheet of styrofoam, designed to be used in building insulation.",
+    "material": [ "styrofoam" ],
+    "//": "1.2m x 2 cm x 36 cm",
+    "volume": "8640 ml",
+    "weight": "260 g",
+    "longest_side": "120 cm"
+  },
+  {
+    "type": "ITEM",
+    "id": "material_styrofoam_chunk",
+    "category": "spare_parts",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "name": { "str": "chunk of styrofoam", "str_pl": "chunks of styrofoam" },
+    "display_type": "BY_VOLUME",
+    "symbol": "*",
+    "color": "white",
+    "description": "A small chunk of styrofoam.",
+    "material": [ "styrofoam" ],
+    "volume": "150 ml",
+    "weight": "5 g"
+  },
+  {
     "id": "glue_weak",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],

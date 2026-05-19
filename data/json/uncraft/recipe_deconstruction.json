@@ -4979,8 +4979,16 @@
     "result": "styrofoam_cup",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "6 s",
-    "components": [ [ [ "cardboard", 2 ] ], [ [ "plastic_chunk", 2 ] ] ],
+    "time": "5 s",
+    "components": [ [ [ "material_styrofoam_chunk", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "material_styrofoam_sheet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "components": [ [ [ "material_styrofoam_chunk", 52 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
