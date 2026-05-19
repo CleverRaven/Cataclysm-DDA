@@ -6,7 +6,16 @@
       { "monster": "mon_claw_runner", "weight": 9, "cost_multiplier": 4 },
       { "monster": "mon_claw_runner", "weight": 3, "cost_multiplier": 4, "pack_size": [ 2, 5 ] },
       { "monster": "mon_claw_hunter", "weight": 3, "cost_multiplier": 30 },
-      { "monster": "mon_claw_hunter", "weight": 1, "cost_multiplier": 30, "pack_size": [ 2, 5 ] }
+      { "monster": "mon_claw_hunter", "weight": 1, "cost_multiplier": 30, "pack_size": [ 2, 5 ] },
+      {
+        "group": "GROUP_HOLLOW_TRIBAL_WARPARTY",
+        "weight": 50,
+        "cost_multiplier": 2,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "group": "GROUP_HOLLOW_TRIBAL_HUNTPARTY", "weight": 75, "conditions": [ "DAY" ] },
+      { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 25 },
+      { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 5, "pack_size": [ 2, 5 ] }
     ]
   },
   {
@@ -16,7 +25,18 @@
       { "monster": "mon_claw_runner", "weight": 15, "cost_multiplier": 4 },
       { "monster": "mon_claw_runner", "weight": 5, "cost_multiplier": 4, "pack_size": [ 2, 5 ] },
       { "monster": "mon_claw_hunter", "weight": 6, "cost_multiplier": 30 },
-      { "monster": "mon_claw_hunter", "weight": 2, "cost_multiplier": 30, "pack_size": [ 2, 5 ] }
+      { "monster": "mon_claw_hunter", "weight": 2, "cost_multiplier": 30, "pack_size": [ 2, 5 ] },
+      { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 25 },
+      { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 5, "pack_size": [ 2, 5 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_RIVER",
+    "default": "mon_null",
+    "monsters": [
+      { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 5 },
+      { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 1, "pack_size": [ 2, 5 ] }
     ]
   },
   {
