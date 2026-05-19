@@ -117,6 +117,10 @@ struct bionic_data {
     std::set<json_character_flag> installable_weapon_flags;
 
     /**
+     * Body parts that are completely replaced by this CBM
+     */
+    std::set<bodypart_str_id> replaced_bodyparts;
+    /**
      * Mutations/traits that prevent installing this CBM
      */
     std::set<trait_id> mutation_conflicts;
