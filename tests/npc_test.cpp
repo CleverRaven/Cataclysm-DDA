@@ -42,7 +42,6 @@
 #include "item_group.h"
 #include "item_location.h"
 #include "itype.h"
-#include "list.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "mapdata.h"

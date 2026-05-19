@@ -140,7 +140,6 @@ Checks: [
 
 WarningsAsErrors: '*'
 HeaderFilterRegex: '(src|test|tools).*'
-ExcludeHeaderFilterRegex: '.*src/(colony|list)\.h$'
 FormatStyle:     none
 CheckOptions:
   - key: cata-large-inline-function.MaxStatements
