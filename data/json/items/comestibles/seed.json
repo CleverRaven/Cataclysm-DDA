@@ -1932,7 +1932,7 @@
     "price": "70 cent",
     "name": { "str_sp": "eggplant seeds" },
     "description": "Some eggplant seeds.",
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "PLANTABLE_SEED" ],
     "plant_name": "eggplant",
     "fruit": "eggplant",
     "seeds": false,
