@@ -1230,6 +1230,7 @@ Chinese
 Ching
 chirality
 chirurgeon
+chirurgeons
 chirurgic
 chitinworking
 chk
