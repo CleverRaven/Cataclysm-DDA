@@ -1385,7 +1385,8 @@
     "start_name": "Stadium",
     "allowed_locs": [ "sloc_stadium" ],
     "distance_initial_visibility": 0,
-    "map_extra": "mx_corpses"
+    "map_extra": "mx_corpses",
+    "flags": [ "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -1396,7 +1397,8 @@
     "start_name": "Middle of Nowhere",
     "allowed_locs": [ "sloc_middle_of_nowhere" ],
     "reveal_locale": false,
-    "distance_initial_visibility": 0
+    "distance_initial_visibility": 0,
+    "flags": [ "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -1407,7 +1409,8 @@
     "start_name": "Underground",
     "allowed_locs": [ "sloc_sewer" ],
     "reveal_locale": false,
-    "distance_initial_visibility": 0
+    "distance_initial_visibility": 0,
+    "flags": [ "LONE_START" ]
   },
   {
     "type": "scenario",
