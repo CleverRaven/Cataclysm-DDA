@@ -1933,7 +1933,7 @@
     "name": { "str_sp": "eggplant seeds" },
     "description": "Some eggplant seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ],
-	"plant_name": "eggplant",
+    "plant_name": "eggplant",
     "fruit": "eggplant",
     "seeds": false,
     "byproducts": [ "withered" ],
