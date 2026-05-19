@@ -908,6 +908,12 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
                                        type->speed_desc );
     vStart += fold_and_print( w, point( column, vStart ), max_width, c_white, speed_desc );
 
+    // Difficulty indicator in the fourth line.
+    const std::string difficulty_str = debug_mode ?
+                                       _( "Difficulty " ) + std::to_string( type->get_total_difficulty() ) :
+                                       type->get_difficulty_description();
+    vStart += fold_and_print( w, point( column, vStart ), max_width, c_white, difficulty_str );
+
     // Monster description on following lines.
     std::vector<std::string> lines = foldstring( type->get_description(), max_width );
     int numlines = lines.size();
