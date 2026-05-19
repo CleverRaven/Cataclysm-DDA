@@ -704,7 +704,14 @@
     "connected_to": "torso",
     "opposite_part": "bionic_treads_leg",
     "limb_types": [ [ "leg", 0.8 ], [ "foot", 0.5 ] ],
-    "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "move_speed", 1.2 ], [ "swim", 0.01 ], [ "block", 0 ], [ "crawl", 0.01 ], [ "footing", 2.0 ] ],
+    "limb_scores": [
+      [ "manip", 0.1, 0.2 ],
+      [ "move_speed", 1.2 ],
+      [ "swim", 0.01 ],
+      [ "block", 0 ],
+      [ "crawl", 0.01 ],
+      [ "footing", 2.0 ]
+    ],
     "hit_size": 36,
     "hit_difficulty": 1.2,
     "side": "both",

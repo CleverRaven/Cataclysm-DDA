@@ -1897,7 +1897,10 @@
     "name": { "str": "Cyberframe 1a" },
     "description": "Your body is integrated into a bulky Exodii Cyberframe.  Your important internal organs, including much of your core skeleton and musculature, are encased in a solid metal core.  While there is clearly a head and torso, it is difficult to tell where one starts and the other ends.  It will be difficult or impossible to squeeze through tight spaces, or to wear normal-sized clothing and armor.  The frame greatly increases your physical dexterity and strength, and is highly protective, but the internal parts of your head and torso are still affected by temperature, you can still feel pain, and internal bleeding can occur with sufficient damage.",
     "cant_remove_reason": "Cyberframes cannot be removed, only swapped via specialized surgery.  Removing it would kill you.",
-    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 4 }, { "value": "DEXTERITY", "add": 4 } ] }, { "mutations": [ "EXODII_CYBERFRAME_LARGE" ] } ],
+    "enchantments": [
+      { "values": [ { "value": "STRENGTH", "add": 4 }, { "value": "DEXTERITY", "add": 4 } ] },
+      { "mutations": [ "EXODII_CYBERFRAME_LARGE" ] }
+    ],
     "protec": [
       [ "head_bionic_basic", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ],
       [ "mouth_bionic_basic", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ],
@@ -1937,13 +1940,11 @@
     "description": "In place of legs and feet you have sturdy treads.  They are in fact two side-by-size triangular mechanisms, split in the middle, and independently operated.  Your former ankles and associated anatomy are now a part of the internal servomotors, and your knees are capable of minor telescoping and bending, to facilitate lifting one tread at a time for carefully passing over obstacles, or climbing stairs or ladders.  Unlike bipedal human legs, these move faster over most terrain, but will severaly hinder travel over obstacles and through water.  They are immune to temperature and pain and don't bleed.  While they are highly resistant to damage, their external moving parts are less well protected than a standard bionic leg with similar plate thickness.  Due to their size and heft, a heavy-duty 1a-style Cyberframe is necessary for operation.",
     "required_bionic": "bio_exodii_cyberframe_1a",
     "replaced_bodyparts": [ "leg_l", "foot_l", "leg_r", "foot_r" ],
-    "enchantments": [ 
+    "enchantments": [
       { "modified_bodyparts": [ { "gain": "bionic_treads_leg" } ] },
       { "values": [ { "value": "MOVECOST_OBSTACLE_MOD", "multiply": 6 } ] }
     ],
-    "protec": [
-      [ "bionic_treads_leg", { "bash": 20, "cut": 20, "bullet": 15, "stab": 20, "acid": 30 } ]
-    ]
+    "protec": [ [ "bionic_treads_leg", { "bash": 20, "cut": 20, "bullet": 15, "stab": 20, "acid": 30 } ] ]
   },
   {
     "id": "bio_exodii_arm_bionic_basic_armored_left",
