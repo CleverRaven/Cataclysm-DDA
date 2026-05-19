@@ -1116,10 +1116,10 @@ void bodypart::add_or_worsen_wound( const wound &wd )
                                id.str(),
                                wd.type.str(),
                                wd.get_pain(),
-                               to_string( wd.get_healing_time(), true ),
+                               to_string_writable( wd.get_healing_time() ),
                                new_wound.type.str(),
                                new_wound.get_pain(),
-                               to_string( new_wound.get_healing_time(), true )
+                               to_string_writable( new_wound.get_healing_time() )
                              );
 
                 remove_wound( *old_wound );
@@ -1134,7 +1134,7 @@ void bodypart::add_or_worsen_wound( const wound &wd )
                        id.str(),
                        wd.type.str(),
                        wd.get_pain(),
-                       to_string( wd.get_healing_time(), true )
+                       to_string_writable( wd.get_healing_time() )
                      );
 
         add_wound( wd );

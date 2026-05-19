@@ -14,7 +14,6 @@
 #include "translation.h"
 #include "type_id.h"
 #include "value_ptr.h"
-#include "weighted_list.h"
 
 class JsonObject;
 class JsonOut;
