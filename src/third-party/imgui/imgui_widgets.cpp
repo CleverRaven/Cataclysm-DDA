@@ -807,13 +807,30 @@ bool ImGui::ButtonEx(const char* label, const ImVec2& size_arg, ImGuiButtonFlags
     bool pressed = ButtonBehavior(bb, id, &hovered, &held, flags);
 
     // Render
+// START CDDA PATCH #83011
+#ifdef IMTUI
+    const bool nav = ImGui::ShouldRenderNavCursor(id);
+    const ImU32 col = GetColorU32(nav ? ImGuiCol_NavCursor : (held && hovered) ? ImGuiCol_ButtonActive : hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button);
+#else
     const ImU32 col = GetColorU32((held && hovered) ? ImGuiCol_ButtonActive : hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button);
     RenderNavCursor(bb, id);
-    RenderFrame(bb.Min, bb.Max, col, true, style.FrameRounding);
+#endif
+// END CDDA PATCH #83011
+// START CDDA PATCH #65709
+    ImVec2 final_bb_max = bb.Max;
+#ifdef IMTUI
+    final_bb_max += ImVec2(0.5f, 0.0f);
+#endif
+    RenderFrame(bb.Min, final_bb_max, col, true, style.FrameRounding);
 
     if (g.LogEnabled)
         LogSetNextTextDecoration("[", "]");
-    RenderTextClipped(bb.Min + style.FramePadding, bb.Max - style.FramePadding, label, label_end, &label_size, style.ButtonTextAlign, &bb);
+    ImVec2 text_min = bb.Min;
+#ifndef IMTUI
+    text_min += style.FramePadding;
+#endif
+    RenderTextClipped(text_min, bb.Max - style.FramePadding, label, label_end, &label_size, style.ButtonTextAlign, &bb);
+// END CDDA PATCH #65709
 
     // Automatically close popups
     //if (pressed && !(flags & ImGuiButtonFlags_DontClosePopups) && (window->Flags & ImGuiWindowFlags_Popup))
