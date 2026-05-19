@@ -1954,7 +1954,7 @@
     "description": "Some artichoke seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "plant_name": "artichoke",
-    "fruit": "artichoke",
+    "fruit": "raw_artichoke",
     "seeds": false,
     "byproducts": [ "withered" ],
     "growth_stages": [
@@ -1975,7 +1975,7 @@
     "description": "Some asparagus seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "plant_name": "asparagus",
-    "fruit": "asparagus",
+    "fruit": "raw_asparagus",
     "seeds": false,
     "byproducts": [ "withered" ],
     "growth_stages": [
@@ -1995,8 +1995,8 @@
     "name": { "str_sp": "brussels sprout seeds" },
     "description": "Some brussels sprout seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "plant_name": "asparagus",
-    "fruit": "asparagus",
+    "plant_name": "brussels_sprout",
+    "fruit": "brussels_sprout",
     "seeds": false,
     "byproducts": [ "withered" ],
     "growth_stages": [
