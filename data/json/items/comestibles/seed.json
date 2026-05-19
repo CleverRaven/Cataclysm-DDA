@@ -1985,5 +1985,26 @@
       { "GROWTH_HARVEST": "10 days" },
       { "GROWTH_OVERGROWN": "10 hour" }
     ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "id": "seed_brussels_sprout",
+    "copy-from": "seed",
+    "price": "70 cent",
+    "name": { "str_sp": "brussels sprout seeds" },
+    "description": "Some brussels sprout seeds.",
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
+    "plant_name": "asparagus",
+    "fruit": "asparagus",
+    "seeds": false,
+    "byproducts": [ "withered" ],
+    "growth_stages": [
+      { "GROWTH_SEED": "20 days" },
+      { "GROWTH_SEEDLING": "20 days" },
+      { "GROWTH_MATURE": "10 days" },
+      { "GROWTH_HARVEST": "10 days" },
+      { "GROWTH_OVERGROWN": "10 hour" }
+    ]
   }
 ]

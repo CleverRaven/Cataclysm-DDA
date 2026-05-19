@@ -115,5 +115,13 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "seed_artichoke", 2 ] ], [ [ "artichoke_heart", 1 ] ] ]
+  },
+  {
+    "result": "brussels_sprout_stalk",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "brussels_sprout", 17 ] ] ]
   }
 ]

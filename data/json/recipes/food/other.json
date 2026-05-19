@@ -433,6 +433,7 @@
         [ "seed_tomato", 3 ],
         [ "seed_cotton_boll", 3 ],
         [ "seed_broccoli", 3 ],
+        [ "seed_brussels_sprout", 3 ],
         [ "seed_asparagus", 3 ],
         [ "seed_zucchini", 3 ],
         [ "seed_onion", 3 ],
