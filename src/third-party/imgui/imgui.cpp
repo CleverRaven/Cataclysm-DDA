@@ -1756,6 +1756,26 @@ void ImGuiIO::AddInputCharacterUTF16(ImWchar16 c)
     AddInputCharacter((unsigned)cp);
 }
 
+// START CDDA PATCH #72645
+void ImGuiIO::SetPreEditText(const char* str)
+{
+    if (str == NULL || str[0] == '\0')
+    {
+        ClearPreEditText();
+        return;
+    }
+    const size_t len = strlen(str);
+    PreEditText.resize((int)len + 1);
+    memcpy(PreEditText.Data, str, len);
+    PreEditText.Data[len] = '\0';
+}
+
+void ImGuiIO::ClearPreEditText()
+{
+    PreEditText.resize(0);
+}
+// END CDDA PATCH #72645
+
 void ImGuiIO::AddInputCharactersUTF8(const char* str)
 {
     if (!AppAcceptingEvents)

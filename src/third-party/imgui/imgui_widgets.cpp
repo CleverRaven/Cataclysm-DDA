@@ -5624,14 +5624,54 @@ bool ImGui::InputTextEx(const char* label, const char* hint, char* buf, int buf_
         draw_pos.x = ImMin(draw_pos.x, frame_bb.Max.x - CalcTextSize(buf_display, NULL).x - style.FramePadding.x);
     //draw_scroll.x = state->Scroll.x; // Preserve scroll when inactive?
 
+// START CDDA PATCH #72645
+    // IME composition active on this single-line input: render the buf split at
+    // state->Stb->cursor with the pre-edit string inserted and highlighted.
+    // state->Stb->cursor is a UTF-8 byte offset into buf_display in 1.92.
+    const bool ime_active = !is_multiline && g.IO.PreEditText.Size > 0
+                            && g.ActiveId == id && state != NULL && !is_displaying_hint
+                            && (text_col & IM_COL32_A_MASK)
+                            && (line_visible_n0 < line_visible_n1)
+                            && (buf_display_end - buf_display) < buf_display_max_length;
+// END CDDA PATCH #72645
+
     // Render text
-    if ((is_multiline || (buf_display_end - buf_display) < buf_display_max_length) && (text_col & IM_COL32_A_MASK) && (line_visible_n0 < line_visible_n1))
+    if (!ime_active && (is_multiline || (buf_display_end - buf_display) < buf_display_max_length) && (text_col & IM_COL32_A_MASK) && (line_visible_n0 < line_visible_n1))
         g.Font->RenderText(draw_window->DrawList, g.FontSize,
             draw_pos - draw_scroll + ImVec2(0.0f, line_visible_n0 * g.FontSize),
             text_col, clip_rect.AsVec4(),
             line_index->get_line_begin(buf_display, line_visible_n0),
             line_index->get_line_end(buf_display, line_visible_n1 - 1),
             wrap_width, ImDrawTextFlags_WrapKeepBlanks | ImDrawTextFlags_CpuFineClip);
+
+// START CDDA PATCH #72645
+    if (ime_active)
+    {
+        const int cursor_byte = ImClamp(state->Stb->cursor, 0, (int)(buf_display_end - buf_display));
+        const char* prefix_begin = buf_display;
+        const char* prefix_end = buf_display + cursor_byte;
+        const char* suffix_begin = prefix_end;
+        const char* suffix_end = buf_display_end;
+        const char* preedit_begin = g.IO.PreEditText.Data;
+        const char* preedit_end = preedit_begin + g.IO.PreEditText.Size - 1;
+        ImVec2 pos = draw_pos - draw_scroll;
+        if (prefix_begin < prefix_end)
+        {
+            g.Font->RenderText(draw_window->DrawList, g.FontSize, pos, text_col,
+                clip_rect.AsVec4(), prefix_begin, prefix_end, 0.0f, ImDrawTextFlags_None);
+            pos.x += CalcTextSize(prefix_begin, prefix_end).x;
+        }
+        const ImVec2 ime_size = CalcTextSize(preedit_begin, preedit_end);
+        const ImU32 ime_bg = GetColorU32(ImGuiCol_TextSelectedBg, 1.0f);
+        draw_window->DrawList->AddRectFilled(pos, pos + ime_size, ime_bg);
+        g.Font->RenderText(draw_window->DrawList, g.FontSize, pos, text_col,
+            clip_rect.AsVec4(), preedit_begin, preedit_end, 0.0f, ImDrawTextFlags_None);
+        pos.x += ime_size.x;
+        if (suffix_begin < suffix_end)
+            g.Font->RenderText(draw_window->DrawList, g.FontSize, pos, text_col,
+                clip_rect.AsVec4(), suffix_begin, suffix_end, 0.0f, ImDrawTextFlags_None);
+    }
+// END CDDA PATCH #72645
 
     // Render blinking cursor
     if (render_cursor)

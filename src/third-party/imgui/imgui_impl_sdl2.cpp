@@ -437,9 +437,30 @@ bool ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event)
         {
             if (ImGui_ImplSDL2_GetViewportForWindowID(event->text.windowID) == nullptr)
                 return false;
+// START CDDA PATCH #72645
+            io.ClearPreEditText();
+// END CDDA PATCH #72645
             io.AddInputCharactersUTF8(event->text.text);
             return true;
         }
+// START CDDA PATCH #72645
+        case SDL_TEXTEDITING:
+        {
+            if (ImGui_ImplSDL2_GetViewportForWindowID(event->edit.windowID) == nullptr)
+                return false;
+            io.SetPreEditText(event->edit.text);
+            return true;
+        }
+#if SDL_VERSION_ATLEAST(2,0,22)
+        case SDL_TEXTEDITING_EXT:
+        {
+            if (ImGui_ImplSDL2_GetViewportForWindowID(event->editExt.windowID) == nullptr)
+                return false;
+            io.SetPreEditText(event->editExt.text);
+            return true;
+        }
+#endif
+// END CDDA PATCH #72645
         case SDL_KEYDOWN:
         case SDL_KEYUP:
         {
@@ -469,11 +490,21 @@ bool ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event)
                 bd->MouseLastLeaveFrame = 0;
             }
             if (window_event == SDL_WINDOWEVENT_LEAVE)
+            {
                 bd->MouseLastLeaveFrame = ImGui::GetFrameCount() + 1;
+// START CDDA PATCH #72645
+                io.ClearPreEditText();
+// END CDDA PATCH #72645
+            }
             if (window_event == SDL_WINDOWEVENT_FOCUS_GAINED)
                 io.AddFocusEvent(true);
             if (window_event == SDL_WINDOWEVENT_FOCUS_LOST)
+            {
                 io.AddFocusEvent(false);
+// START CDDA PATCH #72645
+                io.ClearPreEditText();
+// END CDDA PATCH #72645
+            }
             return true;
         }
         case SDL_CONTROLLERDEVICEADDED:
