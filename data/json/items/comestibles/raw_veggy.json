@@ -1546,7 +1546,7 @@
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 4 ], [ "iron", 2 ], [ "calcium", 2 ], [ "veggy_allergen", 1 ] ],
     "fun": -5
-  },  
+  },
   {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
@@ -1590,5 +1590,5 @@
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 4 ], [ "iron", 2 ], [ "calcium", 2 ], [ "veggy_allergen", 1 ] ],
     "fun": -5
-  },
+  }
 ]
