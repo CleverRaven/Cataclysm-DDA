@@ -2416,12 +2416,16 @@ void Item_factory::check_definitions() const
             for( const std::string &id : referenced ) {
                 bool found = false;
                 bool right_type = false;
+                bool spawnable = false;
                 for( const pocket_data &p : type->pockets ) {
                     if( p.pocket_id == id ) {
                         found = true;
-                        if( p.type == pocket_type::MAGAZINE_WELL ||
-                            ( p.type == pocket_type::MAGAZINE && !p.ammo_restriction.empty() ) ) {
+                        if( p.type == pocket_type::MAGAZINE_WELL ) {
                             right_type = true;
+                            spawnable = !p.default_magazine.is_null();
+                        } else if( p.type == pocket_type::MAGAZINE && !p.ammo_restriction.empty() ) {
+                            right_type = true;
+                            spawnable = true;
                         }
                         break;
                     }
@@ -2432,6 +2436,10 @@ void Item_factory::check_definitions() const
                 } else if( !right_type ) {
                     msg += string_format(
                                "firing_requirements references pocket id \"%s\" which is neither a MAGAZINE_WELL nor a MAGAZINE with ammo_restriction\n",
+                               id );
+                } else if( !spawnable ) {
+                    msg += string_format(
+                               "firing_requirements references MAGAZINE_WELL pocket \"%s\" with no default_magazine; spawn paths cannot populate it\n",
                                id );
                 }
             }

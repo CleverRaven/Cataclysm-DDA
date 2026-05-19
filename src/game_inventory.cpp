@@ -3186,7 +3186,8 @@ class select_ammo_inventory_preset : public inventory_selector_preset
             }, _( "AMOUNT" ) );
 
             append_cell( [&you, &target]( const item_location & loc ) {
-                item::reload_option opt( &you, target, loc );
+                item::reload_option opt( &you, target, loc,
+                                         item::reload_option::POCKET_FALLBACK );
                 // propagate entry.chosen_count here somehow?
                 return std::to_string( opt.moves() );
             }, _( "MOVES" ) );
@@ -3348,10 +3349,16 @@ item::reload_option game_menus::inv::select_ammo( Character &you, const item_loc
                 return true;
             } ) ) {
                     if( idx == rt.pocket_index && p->is_type( pocket_type::MAGAZINE_WELL ) ) {
+                        const pocket_data *pd = p->get_pocket_data();
+                        const std::string display = pd ? pd->pocket_name.translated() : std::string();
                         const itype_id default_mag = p->magazine_default();
-                        well_desc = default_mag.is_null()
-                                    ? string_format( _( "magazine well %d" ), rt.ui_well_index + 1 )
-                                    : item::find_type( default_mag )->nname( 1 );
+                        if( !display.empty() ) {
+                            well_desc = display;
+                        } else if( !default_mag.is_null() ) {
+                            well_desc = item::find_type( default_mag )->nname( 1 );
+                        } else {
+                            well_desc = string_format( _( "magazine well %d" ), rt.ui_well_index + 1 );
+                        }
                         break;
                     }
                     ++idx;
@@ -3363,7 +3370,25 @@ item::reload_option game_menus::inv::select_ammo( Character &you, const item_loc
                     label = string_format( _( "%1$s (well %2$d)" ), label, n );
                 }
             } else if( rt.kind == reload_target::kind::integral_magazine ) {
-                label = string_format( _( "%s: integral magazine" ), rt.owner->tname() );
+                int idx = 0;
+                std::string mag_desc;
+                for( const item_pocket *p : rt.owner->get_pockets(
+                []( const item_pocket & ) {
+                return true;
+            } ) ) {
+                    if( idx == rt.pocket_index && p->is_type( pocket_type::MAGAZINE ) ) {
+                        const pocket_data *pd = p->get_pocket_data();
+                        const std::string display = pd ? pd->pocket_name.translated() : std::string();
+                        if( !display.empty() ) {
+                            mag_desc = display;
+                        }
+                        break;
+                    }
+                    ++idx;
+                }
+                label = mag_desc.empty()
+                        ? string_format( _( "%s: integral magazine" ), rt.owner->tname() )
+                        : string_format( _( "%s: %s" ), rt.owner->tname(), mag_desc );
             } else {
                 //~ %1$s is the gun or gunmod that holds the magazine, %2$s is the magazine's tname
                 label = string_format( _( "%1$s: top up %2$s" ), rt.owner->tname(),
