@@ -184,5 +184,47 @@
     "using": [ [ "welding_standard", 30 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "pipe", 6 ] ], [ [ "basket", 1 ] ], [ [ "pipe_fittings", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "small_gyrocopter_rotor",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 4 ],
+    "difficulty": 6,
+    "time": "14 h",
+    "proficiencies": [ 
+        { "proficiency": "prof_blacksmithing" },
+        { "proficiency": "prof_metalworking" },
+        { "proficiency": "prof_welding_basic" }
+      ],
+    "autolearn": true,
+    "using": [ 
+        [ "lc_steel_standard", 40 ],
+        [ "blacksmithing_standard", 80 ],
+        [ "metal_punch", 1 ]
+      ],
+      "qualities": [ 
+        { "id": "GLARE", "level": 1 },
+        { "id": "SCREW", "level": 1 },
+        { "id": "VISE", "level": 1 },
+        { "id": "WRENCH", "level": 2 },
+        { "id": "SAW_M", "level": 2 },
+        { "id": "GRIND", "level": 2 },
+        { "id": "HAMMER", "level": 3 },
+        { "id": "ANVIL", "level": 3 }
+      ],
+     "components": [ 
+        [ [ "nuts_bolts", 48 ] ],
+        [ [ "sheet_metal", 12 ] ],
+        [ [ "wheel_mount_medium", 1 ] ]
+      ],
+    "tools": [
+        [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+        [ [ "hotcut_any", 1, "LIST" ] ],
+        [ [ "welder", 1900 ], [ "welding_kit", 1900 ], [ "welder_crude", 3450 ], [ "integrated_welder", 1900 ], [ "oxy_torch", 750 ] ]
+      ]
   }
 ]

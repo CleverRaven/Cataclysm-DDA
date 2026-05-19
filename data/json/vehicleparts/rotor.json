@@ -52,5 +52,27 @@
     "name": { "str": "heavy-duty military Osprey rotors" },
     "//": "rotor diameter is in meters",
     "rotor_diameter": 11
+  },
+  {
+    "id": "small_gyrocopter_rotor",
+    "type": "vehicle_part",
+    "item": "small_gyrocopter_rotor",
+    "description": "A set of four rotor blades from a gyrocopter.",
+    "//": "rotor diameter is in meters",
+    "categories": [ "movement" ],
+    "location": "on_roof",
+    "color": "light_blue",
+    "flags": [ "ROTOR" ],
+    "variants": [ { "symbols": "X", "symbols_broken": "O" } ],
+    "rotor_diameter": 8,
+    "durability": 150,
+    "damage_modifier": 80,
+    "requirements": { 
+        "install": { "skills": [ [ "mechanics", 6 ] ], "time": "4 h", "using": [ [ "welding_standard", 400 ], [ "vehicle_bolt_install", 2 ] ] },
+        "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "2 h", "using": "vehicle_weld_removal" },
+        "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "1 h", "using": [ [ "repair_welding_lc_steel", 25 ] ] } 
+      },
+    "breaks_into": [ { "item": "scrap", "count": [ 8, 15 ] }, { "item": "ch_steel_chunk", "count": [ 2, 8 ] } ],
+    "damage_reduction": { "all": 22 }
   }
 ]

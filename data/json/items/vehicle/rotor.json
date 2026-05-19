@@ -28,5 +28,20 @@
     "material": [ "mc_steel" ],
     "symbol": "X",
     "color": "blue"
+  },
+  {
+    "id": "small_gyrocopter_rotor",
+    "type": "ITEM",
+    "category": "veh_parts",
+    "name": { "str": "small gyrocopter rotor", "str_pl": "sets of small gyrocopter rotor" },
+    "description": "A set of four rotor blades from a gyrocopter.",
+    "price": "180 USD",
+    "price_postapoc": "1550 USD",
+    "weight": "152500 g",
+    "volume": "152500 ml",
+    "looks_like": "xl_wind_turbine",
+    "material": [ "mc_steel" ],
+    "symbol": "X",
+    "color": "yellow"
   }
 ]
