@@ -77,6 +77,7 @@
 #include "item_contents.h"
 #include "item_group.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "item_wakeup.h"
 #include "itype.h"
 #include "iuse.h"
@@ -728,7 +729,7 @@ bool aim_activity_actor::load_RAS_weapon()
         return true;
     };
     item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, weapon,
-                              you.ammo_location ) : you.select_ammo( used_gun );
+                              you.ammo_location, item::reload_option::POCKET_FALLBACK ) : you.select_ammo( used_gun );
     if( !opt ) {
         // Menu canceled
         return false;
@@ -8061,6 +8062,49 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     already_loaded += quantity - already_loaded;
     reload_msg( who, true );
     act.set_to_null();
+
+    // Auto-chain sibling wells so the player is not prompted once per well.
+    // Inventory only - map items were not part of the player's original pick
+    // and walking them can surface debugmsgs on unrelated nearby items.
+    if( !target_loc || !target_loc->uses_firing_requirements() ) {
+        return;
+    }
+    const std::vector<item_location> candidates =
+        who.find_ammo( *target_loc, /*empty=*/false, /*radius=*/ -1 );
+    if( candidates.empty() ) {
+        return;
+    }
+    int chain_pocket = -1;
+    item_location chain_ammo;
+    int idx = 0;
+    for( const item_pocket *p : target_loc->get_pockets( []( const item_pocket & ) {
+    return true;
+} ) ) {
+        if( p->is_type( pocket_type::MAGAZINE_WELL ) && p->magazine_current() == nullptr ) {
+            item_location match;
+            for( const item_location &cand : candidates ) {
+                if( p->can_reload_with( *cand, true ) ) {
+                    if( match ) {
+                        match = item_location();
+                        break;
+                    }
+                    match = cand;
+                }
+            }
+            if( match ) {
+                chain_pocket = idx;
+                chain_ammo = match;
+                break;
+            }
+        }
+        ++idx;
+    }
+    if( !chain_ammo || chain_pocket < 0 ) {
+        return;
+    }
+    const int extra_moves = target_loc->get_var( "dirt", 0 ) > 7800 ? 2500 : 0;
+    item::reload_option chain_opt( &who, target_loc, chain_ammo, chain_pocket );
+    who.assign_activity( reload_activity_actor( std::move( chain_opt ), extra_moves ) );
 }
 
 void reload_activity_actor::canceled( player_activity &act, Character &who )

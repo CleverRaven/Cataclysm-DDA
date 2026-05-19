@@ -47,6 +47,7 @@
       [ "seed_eggplant", 60 ],
       [ "seed_artichoke", 60 ],
       [ "seed_asparagus", 60 ]
+      [ "seed_brussels_sprout", 60 ]
     ]
   },
   {
@@ -146,6 +147,7 @@
       [ "seed_horseradish", 1 ],
       [ "seed_popcorn", 1 ],
       [ "seed_mustard", 1 ],
+      [ "seed_eggplant", 1 ],
       [ "seed_oats", 1 ],
       [ "tomato", 9 ],
       [ "pumpkin", 6 ],

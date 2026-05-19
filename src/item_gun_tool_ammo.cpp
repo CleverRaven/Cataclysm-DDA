@@ -1422,6 +1422,27 @@ int item::ammo_remaining( const map &here, const std::set<ammotype> &ammo, const
         ret += mag->ammo_remaining( );
     }
 
+    // Integral MAGAZINE pockets sitting alongside wells (multimag).
+    // is_magazine() hosts are covered by the dedicated branch below.
+    if( !is_magazine() ) {
+        for( const item_pocket *p : get_pockets( []( const item_pocket & q ) {
+        return q.is_type( pocket_type::MAGAZINE );
+        } ) ) {
+            for( const item *e : p->all_items_top() ) {
+                if( e->has_flag( flag_CASING ) ) {
+                    continue;
+                }
+                if( !e->is_ammo() ) {
+                    continue;
+                }
+                if( !ammo.empty() && ammo.find( e->ammo_type() ) == ammo.end() ) {
+                    continue;
+                }
+                ret += e->charges > 0 ? e->charges : 1;
+            }
+        }
+    }
+
     // Cable connections
     if( include_linked && link_length() >= 0 && link().efficiency >= MIN_LINK_EFFICIENCY ) {
         if( link().t_veh ) {
@@ -1671,12 +1692,41 @@ int item::ammo_capacity( const ammotype &ammo, bool include_linked ) const
 {
     map &here = get_map();
 
-    const item *mag = magazine_current();
     if( include_linked && has_link_data() ) {
         return link().t_veh ? link().t_veh->connected_battery_power_level( here ).second : 0;
-    } else if( mag ) {
+    }
+
+    // Route per-ammotype lookup through the matching pocket; magazine_current()
+    // returns the first loaded mag regardless of ammotype and misreports here.
+    if( const item_pocket *p = pocket_for_ammo( ammo ) ) {
+        if( p->is_type( pocket_type::MAGAZINE_WELL ) ) {
+            if( const item *mag = p->magazine_current() ) {
+                return mag->ammo_capacity( ammo );
+            }
+            // Multimag hosts surface the default mag's capacity for unloaded
+            // wells so item info shows the projected per-well number. Single-
+            // well guns keep returning 0 so "is this loaded?" stays correct.
+            if( uses_firing_requirements() ) {
+                const itype_id default_mag = p->magazine_default();
+                if( !default_mag.is_null() && default_mag->magazine ) {
+                    return default_mag->magazine->capacity;
+                }
+            }
+        } else {
+            const auto &restrictions = p->get_pocket_data()
+                                       ? p->get_pocket_data()->ammo_restriction
+                                       : std::map<ammotype, int> {};
+            const auto it = restrictions.find( ammo );
+            if( it != restrictions.end() ) {
+                return it->second;
+            }
+        }
+    }
+
+    if( const item *mag = magazine_current() ) {
         return mag->ammo_capacity( ammo );
-    } else if( has_flag( flag_USES_BIONIC_POWER ) ) {
+    }
+    if( has_flag( flag_USES_BIONIC_POWER ) ) {
         return units::to_kilojoule( get_player_character().get_max_power_level() );
     }
 
@@ -2398,6 +2448,54 @@ const item_pocket *item::primary_ammo_pocket() const
     return wells.front();
 }
 
+const item_pocket *item::pocket_for_ammo( const ammotype &at ) const
+{
+    if( at.is_null() ) {
+        return nullptr;
+    }
+    const std::vector<const item_pocket *> wells = get_pockets(
+    []( const item_pocket & p ) {
+        return p.is_type( pocket_type::MAGAZINE_WELL ) ||
+               p.is_type( pocket_type::MAGAZINE );
+    } );
+    auto matches = [&at]( const item_pocket * p ) {
+        for( const ammotype &pt : p->ammo_types() ) {
+            if( pt == at ) {
+                return true;
+            }
+        }
+        for( const itype_id &allowed : p->item_type_restrictions() ) {
+            if( !allowed->magazine ) {
+                continue;
+            }
+            for( const ammotype &slot : allowed->magazine->type ) {
+                if( slot == at ) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
+    for( const item_pocket *p : wells ) {
+        if( !matches( p ) ) {
+            continue;
+        }
+        if( p->is_type( pocket_type::MAGAZINE_WELL ) ) {
+            if( p->magazine_current() != nullptr ) {
+                return p;
+            }
+        } else if( !p->empty() ) {
+            return p;
+        }
+    }
+    for( const item_pocket *p : wells ) {
+        if( matches( p ) ) {
+            return p;
+        }
+    }
+    return nullptr;
+}
+
 const item *item::ammo_identity_mag() const
 {
     if( uses_firing_requirements() && type && type->gun ) {
@@ -3072,10 +3170,6 @@ void item::gun_cycle_mode()
 item::reload_option::reload_option( const reload_option & ) = default;
 
 item::reload_option &item::reload_option::operator=( const reload_option & ) = default;
-
-item::reload_option::reload_option( const Character *who, const item_location &target,
-                                    const item_location &ammo ) :
-    reload_option( who, target, ammo, -1 ) {}
 
 item::reload_option::reload_option( const Character *who, const item_location &target,
                                     const item_location &ammo, int pocket_index ) :

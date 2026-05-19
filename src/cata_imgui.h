@@ -100,6 +100,11 @@ class client
 #endif
         bool auto_size_frame_active();
         bool any_window_shown();
+
+        // True if ImGui is consuming mouse input (hover / drag / popup).
+        static bool want_capture_mouse();
+        // True if an ImGui text field or shortcut has keyboard focus.
+        static bool want_capture_keyboard();
 };
 
 void point_to_imvec2( point *src, ImVec2 *dest );

@@ -277,6 +277,50 @@
   },
   {
     "type": "mapgen",
+    "nested_mapgen_id": "ls_deadend_template_rooms",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!vvvvvvvv......vvvvvvvv!",
+        "!vvvvvvvv......vvvvvvvv!",
+        "!vvvvv............vvvvv!",
+        "!vvvv...v......v...vvvv!",
+        "!vvv...vv......vv...vvv!",
+        "!vv...vvvv....vvvv...vv!",
+        "!v...vvvvvvvvvvvvvv...v!",
+        "!v...vvvvvvvvvvvvvv...v!",
+        "!v...vvvvvvvvvvvvvv...v!",
+        "!v....vvv.###.Lvvv....v!",
+        "!v........#>o.........v!",
+        "!v........###.........v!",
+        "!v........#<#.........v!",
+        "!vv.......+.+........vv!",
+        "!vvvvvvvv.###.Lvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!|vvvvvvvvvvvvvvvvvvvv|!",
+        "!||vvvvvvvvvvvvvvvvvv||!",
+        "!|||vvvvvvvvvvvvvvvv|||!",
+        "!!!!!!!!!!!!!!!!!!!!!!!!"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "terrain": {
+        ">": "t_nl_stairs_down",
+        "<": "t_nl_stairs_up_false",
+        "#": "t_nl_metal_wall",
+        "s": "t_nl_mist",
+        ".": "t_nl_metal_floor",
+        "+": "t_nl_door_c",
+        "o": "t_nl_archway"
+      },
+      "place_nested": [ { "chunks": [ [ "labyrinth_stairs_1_to_2_teleporter", 1 ] ], "x": 0, "y": 0, "z": -1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "ls_straight_2basic_rooms_offset",
     "//": "Two rooms full of general junk and monsters.  Set up for a door entry in the upper left and lower right.",
     "object": {

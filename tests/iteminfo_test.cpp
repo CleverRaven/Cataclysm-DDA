@@ -47,6 +47,7 @@ static const enchantment_id enchantment_ENCH_TEST_ALT_ARMS( "ENCH_TEST_ALT_ARMS"
 static const itype_id itype_attachable_ear_muffs( "attachable_ear_muffs" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_ballistic_vest_esapi( "ballistic_vest_esapi" );
+static const itype_id itype_battery( "battery" );
 static const itype_id itype_bio_ethanol( "bio_ethanol" );
 static const itype_id itype_bio_nostril( "bio_nostril" );
 static const itype_id itype_bio_power_storage( "bio_power_storage" );
@@ -56,6 +57,7 @@ static const itype_id itype_candle_wax( "candle_wax" );
 static const itype_id itype_dress_shirt( "dress_shirt" );
 static const itype_id itype_face_shield( "face_shield" );
 static const itype_id itype_hat_hard( "hat_hard" );
+static const itype_id itype_heavy_battery_cell( "heavy_battery_cell" );
 static const itype_id itype_icecream( "icecream" );
 static const itype_id itype_iodine( "iodine" );
 static const itype_id itype_match( "match" );
@@ -99,6 +101,7 @@ static const itype_id itype_test_jug_plastic( "test_jug_plastic" );
 static const itype_id itype_test_longshirt( "test_longshirt" );
 static const itype_id itype_test_matches( "test_matches" );
 static const itype_id itype_test_meower_armor( "test_meower_armor" );
+static const itype_id itype_test_multimag_gun_integral_ammo( "test_multimag_gun_integral_ammo" );
 static const itype_id itype_test_nuclear_carafe( "test_nuclear_carafe" );
 static const itype_id itype_test_pants_faux_fur( "test_pants_faux_fur" );
 static const itype_id itype_test_pine_nuts( "test_pine_nuts" );
@@ -1936,6 +1939,32 @@ TEST_CASE( "gun_armor_piercing_dispersion_and_other_stats", "[iteminfo][gun][mis
     //CHECK( item_info_str( glock, ammo_remain ).empty() );
     //CHECK( item_info_str( glock, ammo_upscost ).empty() );
     //CHECK( item_info_str( glock, gun_casings ).empty() );
+}
+
+// Battery-only-loaded multimag: gun_info must render without crash, report
+// the projectile pocket's true capacity, and surface the per-shot draw.
+TEST_CASE( "multimag_gun_info_with_battery_only_loaded", "[iteminfo][gun][multimag]" )
+{
+    clear_avatar();
+
+    item gun( itype_test_multimag_gun_integral_ammo );
+    REQUIRE( gun.uses_firing_requirements() );
+
+    item battery( itype_heavy_battery_cell );
+    battery.ammo_set( itype_battery, 100 );
+    REQUIRE( gun.put_in( battery, pocket_type::MAGAZINE_WELL ).success() );
+
+    const std::vector<iteminfo_parts> capacity_parts = { iteminfo_parts::GUN_CAPACITY };
+    const std::string capacity = item_info_str( gun, capacity_parts );
+    CAPTURE( capacity );
+    CHECK( capacity.find( "Capacity" ) != std::string::npos );
+    CHECK( capacity.find( ">1</color> round of " ) != std::string::npos );
+    CHECK( capacity.find( ">0</color> round" ) == std::string::npos );
+
+    const std::vector<iteminfo_parts> per_shot_parts = { iteminfo_parts::AMMO_TO_FIRE };
+    const std::string per_shot = item_info_str( gun, per_shot_parts );
+    CAPTURE( per_shot );
+    CHECK( per_shot.find( "Per-shot consumption" ) != std::string::npos );
 }
 
 // Related JSON fields:

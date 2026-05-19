@@ -611,19 +611,18 @@ class item : public visitable
                 reload_option( const reload_option & );
                 reload_option &operator=( const reload_option & );
 
-                reload_option( const Character *who, const item_location &target, const item_location &ammo );
                 reload_option( const Character *who, const item_location &target, const item_location &ammo,
                                int pocket_index );
+
+                // pocket_index sentinel: defer well choice to reload runtime.
+                static constexpr int POCKET_FALLBACK = -1;
 
                 const Character *who = nullptr;
                 item_location target;
                 item_location ammo;
                 bool is_reload_one = false;
-                // MAGAZINE_WELL pocket index in target->contents. Negative =
-                // first-compatible-well fallback.
-                // TODO(multimag): drop the default once all callers carry an
-                // explicit pocket_index.
-                int pocket_index = -1;
+                // MAGAZINE_WELL index in target->contents, or POCKET_FALLBACK.
+                int pocket_index = POCKET_FALLBACK;
 
                 int qty() const {
                     return qty_;
@@ -2877,6 +2876,11 @@ class item : public visitable
         // gun.ammo, then any such well, then any loaded well, then any well.
         // nullptr if no MAGAZINE_WELL exists.
         const item_pocket *primary_ammo_pocket() const;
+
+        // Pocket (well or integral mag) that accepts `at`. Beats
+        // magazine_current() which returns the first loaded mag regardless
+        // of ammotype.
+        const item_pocket *pocket_for_ammo( const ammotype &at ) const;
 
         // Magazine driving ammo-identity queries: primary_ammo_pocket's mag
         // for multimag guns, magazine_current otherwise.

@@ -4129,7 +4129,11 @@ void ammo_inventory_selector::set_all_entries_chosen_count()
                     }
                     ++idx;
                 }
-                if( well != nullptr && !well->magazine_default().is_null() ) {
+                const pocket_data *pd = well ? well->get_pocket_data() : nullptr;
+                const std::string display = pd ? pd->pocket_name.translated() : std::string();
+                if( !display.empty() ) {
+                    label = display;
+                } else if( well != nullptr && !well->magazine_default().is_null() ) {
                     label = string_format( _( "%s well" ), item::nname( well->magazine_default() ) );
                 } else {
                     label = _( "magazine well" );
