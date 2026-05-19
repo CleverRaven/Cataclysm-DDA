@@ -1996,7 +1996,7 @@
     "description": "Some brussels sprout seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "plant_name": "brussels_sprout",
-    "fruit": "brussels_sprout",
+    "fruit": "brussels_sprout_stalk",
     "seeds": false,
     "byproducts": [ "withered" ],
     "growth_stages": [
