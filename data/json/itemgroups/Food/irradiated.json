@@ -52,7 +52,7 @@
       [ "artichoke_heart", 50 ],
       [ "raw_asparagus", 50 ],
       [ "brussels_sprout_stalk", 50 ],
-      [ "brussels_sprout", 50 ],
+      [ "brussels_sprout", 50 ]
     ]
   },
   {
@@ -108,7 +108,7 @@
       { "item": "artichoke_heart", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
       { "item": "raw_asparagus", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
       { "item": "brussels_sprout_stalk", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
-      { "item": "brussels_sprout", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
+      { "item": "brussels_sprout", "prob": 50, "custom-flags": [ "IRRADIATED" ] }
     ]
   },
   {

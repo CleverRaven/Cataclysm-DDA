@@ -434,7 +434,7 @@
       { "item": "eggplant", "prob": 10 },
       { "item": "raw_artichoke", "prob": 10 },
       { "item": "raw_asparagus", "prob": 10 },
-      { "item": "brussels_sprout", "prob": 10 },
+      { "item": "brussels_sprout", "prob": 10 }
     ]
   },
   {

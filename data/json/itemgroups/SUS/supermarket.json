@@ -1092,7 +1092,7 @@
       { "item": "eggplant", "count": [ 1, 61 ], "prob": 1 },
       { "item": "raw_artichoke", "count": [ 1, 61 ], "prob": 1 },
       { "item": "raw_asparagus", "count": [ 1, 61 ], "prob": 1 },
-      { "item": "brussels_sprout", "count": [ 1, 61 ], "prob": 1 },
+      { "item": "brussels_sprout", "count": [ 1, 61 ], "prob": 1 }
     ]
   },
   {
@@ -1255,7 +1255,7 @@
       [ "eggplant", 1 ],
       [ "raw_artichoke", 1 ],
       [ "raw_asparagus", 1 ],
-      [ "brussels_sprout", 1 ],
+      [ "brussels_sprout", 1 ]
     ]
   },
   {
