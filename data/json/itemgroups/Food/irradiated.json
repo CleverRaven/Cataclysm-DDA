@@ -48,7 +48,8 @@
       [ "celery", 50 ],
       [ "rhubarb", 50 ],
       [ "eggplant", 50 ],
-      [ "raw_artichoke", 50 ]
+      [ "raw_artichoke", 50 ],
+      [ "raw_asparagus", 50 ]
     ]
   },
   {
@@ -100,7 +101,8 @@
       { "item": "celery", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
       { "item": "rhubarb", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
       { "item": "eggplant", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
-      { "item": "raw_artichoke", "prob": 50, "custom-flags": [ "IRRADIATED" ] }
+      { "item": "raw_artichoke", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
+      { "item": "raw_asparagus", "prob": 50, "custom-flags": [ "IRRADIATED" ] }
     ]
   },
   {

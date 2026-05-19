@@ -321,7 +321,8 @@
       { "prob": 25, "group": "seasoning_italian_various" },
       { "prob": 30, "group": "pecorino_cheese_wrapper_4" },
       { "item": "eggplant", "prob": 25 },
-      { "item": "raw_artichoke", "prob": 25 }
+      { "item": "raw_artichoke", "prob": 25 },
+      { "item": "raw_asparagus", "prob": 25 }
     ]
   },
   {
@@ -358,7 +359,8 @@
       { "item": "carrot", "prob": 3, "count": 6 },
       { "item": "bell_pepper", "prob": 7 },
       { "item": "eggplant", "prob": 7 },
-      { "item": "raw_artichoke", "prob": 7 }
+      { "item": "raw_artichoke", "prob": 7 },
+      { "item": "raw_asparagus", "prob": 7 }
     ]
   },
   {
@@ -429,7 +431,8 @@
       { "item": "garlic", "prob": 3 },
       { "prob": 10, "group": "pine_nuts_bag_plastic_4" },
       { "item": "eggplant", "prob": 10 },
-      { "item": "raw_artichoke", "prob": 10 }
+      { "item": "raw_artichoke", "prob": 10 },
+      { "item": "raw_asparagus", "prob": 10 }
     ]
   },
   {
