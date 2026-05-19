@@ -358,7 +358,7 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "ls_4way_template_chasm",
-    "weight": 500,
+    "weight": 1000,
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
