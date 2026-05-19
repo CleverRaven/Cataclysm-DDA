@@ -213,6 +213,11 @@ if (CURSES)
                 PUBLIC
                 ${CMAKE_CURRENT_SOURCE_DIR}
         )
+        target_include_directories(
+                imtui
+                PRIVATE
+                ${CMAKE_SOURCE_DIR}/src
+        )
         target_compile_options(
                 imtui
                 PRIVATE

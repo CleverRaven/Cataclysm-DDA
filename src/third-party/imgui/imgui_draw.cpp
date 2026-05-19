@@ -42,6 +42,18 @@ Index of this file:
 #include "imgui_freetype.h"
 // END CDDA PATCH #76529
 #endif
+// START CDDA PATCH #73414
+#ifdef IMTUI
+#include "wcwidth.h"
+static float ImFontIMTuiCellWidth(ImWchar cp)
+{
+    int w = mk_wcwidth((uint32_t)cp);
+    if (w < 0) w = 1;
+    if (w > 2) w = 2;
+    return (float)w;
+}
+#endif
+// END CDDA PATCH #73414
 
 #include <stdio.h>      // vsnprintf, sscanf, printf
 #include <stdint.h>     // intptr_t
@@ -5578,6 +5590,11 @@ const char* ImFontCalcWordWrapPositionEx(ImFont* font, float size, const char* t
         float char_width = (c < (unsigned int)baked->IndexAdvanceX.Size) ? baked->IndexAdvanceX.Data[c] : -1.0f;
         if (char_width < 0.0f)
             char_width = BuildLoadGlyphGetAdvanceOrFallback(baked, c);
+// START CDDA PATCH #73414
+#ifdef IMTUI
+        char_width = ImFontIMTuiCellWidth((ImWchar)c);
+#endif
+// END CDDA PATCH #73414
 
         // Classify current character
         int curr_type;
@@ -5710,6 +5727,11 @@ ImVec2 ImFontCalcTextSizeEx(ImFont* font, float size, float max_width, float wra
         if (char_width < 0.0f)
             char_width = BuildLoadGlyphGetAdvanceOrFallback(baked, c);
         char_width *= scale;
+// START CDDA PATCH #73414
+#ifdef IMTUI
+        char_width = ImFontIMTuiCellWidth((ImWchar)c) * scale;
+#endif
+// END CDDA PATCH #73414
 
         if (line_width + char_width >= max_width)
         {
@@ -5897,14 +5919,31 @@ begin:
         //if (glyph == NULL)
         //    continue;
 
+// START CDDA PATCH #73414
+#ifdef IMTUI
+        float char_width = ImFontIMTuiCellWidth((ImWchar)c) * scale;
+#else
         float char_width = glyph->AdvanceX * scale;
+#endif
+// END CDDA PATCH #73414
         if (glyph->Visible)
         {
+// START CDDA PATCH #65709
+#ifdef IMTUI
+            // Snap glyph quad to terminal cell so imtui-impl-text decodes the
+            // correct row/column.
+            float x1 = x;
+            float x2 = x + 1.0f;
+            float y1 = y - 0.5f;
+            float y2 = y - 0.5f;
+#else
             // We don't do a second finer clipping test on the Y axis as we've already skipped anything before clip_rect.y and exit once we pass clip_rect.w
             float x1 = x + glyph->X0 * scale;
             float x2 = x + glyph->X1 * scale;
             float y1 = y + glyph->Y0 * scale;
             float y2 = y + glyph->Y1 * scale;
+#endif
+// END CDDA PATCH #65709
             if (x1 <= clip_rect.z && x2 >= clip_rect.x)
             {
                 // Render a character
@@ -5952,6 +5991,12 @@ begin:
                     vtx_write[1].pos.x = x2; vtx_write[1].pos.y = y1; vtx_write[1].col = glyph_col; vtx_write[1].uv.x = u2; vtx_write[1].uv.y = v1;
                     vtx_write[2].pos.x = x2; vtx_write[2].pos.y = y2; vtx_write[2].col = glyph_col; vtx_write[2].uv.x = u2; vtx_write[2].uv.y = v2;
                     vtx_write[3].pos.x = x1; vtx_write[3].pos.y = y2; vtx_write[3].col = glyph_col; vtx_write[3].uv.x = u1; vtx_write[3].uv.y = v2;
+// START CDDA PATCH #73414
+#ifdef IMTUI
+                    vtx_write[1].col = (ImU32)c;
+                    vtx_write[2].col = (ImU32)ImFontIMTuiCellWidth((ImWchar)c);
+#endif
+// END CDDA PATCH #73414
                     idx_write[0] = (ImDrawIdx)(vtx_index); idx_write[1] = (ImDrawIdx)(vtx_index + 1); idx_write[2] = (ImDrawIdx)(vtx_index + 2);
                     idx_write[3] = (ImDrawIdx)(vtx_index); idx_write[4] = (ImDrawIdx)(vtx_index + 2); idx_write[5] = (ImDrawIdx)(vtx_index + 3);
                     vtx_write += 4;
@@ -6040,6 +6085,15 @@ void ImGui::RenderBullet(ImDrawList* draw_list, ImVec2 pos, ImU32 col)
     draw_list->AddCircleFilled(pos, font_size * 0.20f, col, (font_size < 22) ? 8 : (font_size < 40) ? 12 : 0); // Hardcode optimal/nice tessellation threshold
 }
 
+// START CDDA PATCH #65709
+#ifdef IMTUI
+void ImGui::RenderCheckMark(ImDrawList* draw_list, ImVec2 pos, ImU32 col, float sz, const char* symbol)
+{
+    float thickness = ImMax(sz / 5.0f, 1.0f);
+    pos += ImVec2(thickness * 0.25f, thickness * 0.25f);
+    draw_list->AddText(ImVec2(pos.x - 0.5f, pos.y - 0.5f), col, symbol);
+}
+#else
 void ImGui::RenderCheckMark(ImDrawList* draw_list, ImVec2 pos, ImU32 col, float sz)
 {
     float thickness = ImMax(sz / 5.0f, 1.0f);
@@ -6054,16 +6108,27 @@ void ImGui::RenderCheckMark(ImDrawList* draw_list, ImVec2 pos, ImU32 col, float 
     draw_list->PathLineTo(ImVec2(bx + third * 2.0f, by - third * 2.0f));
     draw_list->PathStroke(col, thickness);
 }
+#endif
+// END CDDA PATCH #65709
 
 // Render an arrow. 'pos' is position of the arrow tip. half_sz.x is length from base to tip. half_sz.y is length on each side.
 void ImGui::RenderArrowPointingAt(ImDrawList* draw_list, ImVec2 pos, ImVec2 half_sz, ImGuiDir direction, ImU32 col)
 {
     switch (direction)
     {
+// START CDDA PATCH #65709
+#ifdef IMTUI
+    case ImGuiDir_Left:  draw_list->AddText(ImVec2(pos.x + half_sz.x, pos.y - half_sz.y), col, "<"); return;
+    case ImGuiDir_Right: draw_list->AddText(ImVec2(pos.x + half_sz.x, pos.y - half_sz.y), col, ">"); return;
+    case ImGuiDir_Up:    draw_list->AddText(ImVec2(pos.x + half_sz.x, pos.y - half_sz.y), col, "^"); return;
+    case ImGuiDir_Down:  draw_list->AddText(ImVec2(pos.x + half_sz.x, pos.y - half_sz.y), col, "v"); return;
+#else
     case ImGuiDir_Left:  draw_list->AddTriangleFilled(ImVec2(pos.x + half_sz.x, pos.y - half_sz.y), ImVec2(pos.x + half_sz.x, pos.y + half_sz.y), pos, col); return;
     case ImGuiDir_Right: draw_list->AddTriangleFilled(ImVec2(pos.x - half_sz.x, pos.y + half_sz.y), ImVec2(pos.x - half_sz.x, pos.y - half_sz.y), pos, col); return;
     case ImGuiDir_Up:    draw_list->AddTriangleFilled(ImVec2(pos.x + half_sz.x, pos.y + half_sz.y), ImVec2(pos.x - half_sz.x, pos.y + half_sz.y), pos, col); return;
     case ImGuiDir_Down:  draw_list->AddTriangleFilled(ImVec2(pos.x - half_sz.x, pos.y - half_sz.y), ImVec2(pos.x + half_sz.x, pos.y - half_sz.y), pos, col); return;
+#endif
+// END CDDA PATCH #65709
     case ImGuiDir_None: case ImGuiDir_COUNT: break; // Fix warnings
     }
 }
