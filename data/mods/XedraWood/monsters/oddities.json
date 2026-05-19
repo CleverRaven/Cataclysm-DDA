@@ -49,7 +49,7 @@
     "id": "mon_xw_chirurgeon",
     "type": "MONSTER",
     "name": "chirurgeon",
-    "description": "A human-sized form concealed by a shroud, only darkness visible beneath the cowl of its cloak, blade-like claws protruding in place of fingers.  As it moves, you hear an occasional clicking noise from within the shoud.",
+    "description": "A human-sized form concealed by a shroud, only darkness visible beneath the cowl of its cloak, blade-like claws protruding in place of fingers.  As it moves, you hear an occasional clicking noise from within the shroud.",
     "default_faction": "chirurgeon",
     "bodytype": "human",
     "species": [ "ELDRITCH_BEING" ],

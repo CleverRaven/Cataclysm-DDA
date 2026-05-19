@@ -1229,6 +1229,7 @@ Chilmark
 Chinese
 Ching
 chirality
+chirurgeon
 chirurgic
 chitinworking
 chk
