@@ -689,5 +689,57 @@
     "mend_rate": 0,
     "ugliness_mandatory": 0,
     "stat_hp_mods": { "str_mod": 0 }
+  },
+  {
+    "id": "bionic_treads_leg",
+    "type": "body_part",
+    "name": "bionic treads",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "bionic treads" },
+    "heading": "bionic treads",
+    "heading_multiple": "bionic treads",
+    "hp_bar_ui_text": "TREADS",
+    "encumbrance_text": "Servomotors are operating at abnormal load, reducing movement speed.",
+    "encumbrance_threshold": 20,
+    "main_part": "bionic_treads_leg",
+    "connected_to": "torso",
+    "opposite_part": "bionic_treads_leg",
+    "limb_types": [ [ "leg", 0.8 ], [ "foot", 0.5 ] ],
+    "limb_scores": [
+      [ "manip", 0.1, 0.2 ],
+      [ "move_speed", 1.2 ],
+      [ "swim", 0.01 ],
+      [ "block", 0 ],
+      [ "crawl", 0.01 ],
+      [ "footing", 2.0 ]
+    ],
+    "hit_size": 36,
+    "hit_difficulty": 1.2,
+    "side": "both",
+    "hot_morale_mod": 0,
+    "cold_morale_mod": 0,
+    "fire_warmth_bonus": 0,
+    "squeamish_penalty": 0,
+    "base_hp": 150,
+    "drench_capacity": 700,
+    "flags": [ "LIMB_LOWER", "BIONIC_LIMB", "IGNORE_TEMP", "NO_LIMB_FIRST_AID", "NONSTANDARD_BLOCK" ],
+    "sub_parts": [ "bionic_treads_body", "bionic_treads_treads" ],
+    "no_power_effect": "no_power_tank_treads",
+    "smash_message": "You ram the %s with your bionic treads.",
+    "effects_on_hit": [
+      {
+        "id": "bouldering",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 5,
+        "chance": 1,
+        "chance_dmg_scaling": 1,
+        "duration": 3,
+        "max_duration": 15
+      }
+    ],
+    "power_efficiency": 1500,
+    "feels_discomfort": false,
+    "mend_rate": 0,
+    "ugliness_mandatory": 10,
+    "stat_hp_mods": { "str_mod": 0 }
   }
 ]

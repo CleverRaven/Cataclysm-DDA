@@ -594,5 +594,25 @@
     "side": "both",
     "similar_bodypart": "mouth_chin",
     "name": "bionic chin"
+  },
+  {
+    "id": "bionic_treads_body",
+    "type": "sub_body_part",
+    "max_coverage": 80,
+    "parent": "bionic_treads_leg",
+    "side": 0,
+    "opposite": "bionic_treads_treads",
+    "name_multiple": "bionic",
+    "name": "bionic treads shell"
+  },
+  {
+    "id": "bionic_treads_treads",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "bionic_treads_leg",
+    "side": 0,
+    "opposite": "bionic_treads_body",
+    "name_multiple": "bionic treads",
+    "name": "bionic treads tracks"
   }
 ]
