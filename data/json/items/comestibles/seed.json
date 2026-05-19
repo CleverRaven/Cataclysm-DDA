@@ -1953,7 +1953,7 @@
     "name": { "str_sp": "artichoke seeds" },
     "description": "Some artichoke seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-	"plant_name": "artichoke",
+    "plant_name": "artichoke",
     "fruit": "artichoke",
     "seeds": false,
     "byproducts": [ "withered" ],
