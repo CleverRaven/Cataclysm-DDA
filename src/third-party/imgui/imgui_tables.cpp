@@ -428,6 +428,10 @@ bool    ImGui::BeginTableEx(const char* name, ImGuiID id, int columns_count, ImG
         ImGuiWindowFlags child_window_flags = (g.NextWindowData.HasFlags & ImGuiNextWindowDataFlags_HasWindowFlags) ? g.NextWindowData.WindowFlags : ImGuiWindowFlags_None;
         if (flags & ImGuiTableFlags_ScrollX)
             child_window_flags |= ImGuiWindowFlags_HorizontalScrollbar;
+// START CDDA PATCH #55503
+        child_window_flags |= outer_window->Flags & ImGuiWindowFlags_NoNavInputs;
+        child_window_flags |= outer_window->Flags & ImGuiWindowFlags_NoNavFocus;
+// END CDDA PATCH #55503
         BeginChildEx(name, instance_id, outer_rect.GetSize(), child_child_flags, child_window_flags);
         table->InnerWindow = g.CurrentWindow;
         table->WorkRect = table->InnerWindow->WorkRect;
