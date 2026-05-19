@@ -45,7 +45,8 @@
       [ "seed_mustard", 10 ],
       [ "seed_hops", 20 ],
       [ "seed_eggplant", 60 ],
-      [ "seed_artichoke", 60 ]
+      [ "seed_artichoke", 60 ],
+      [ "seed_asparagus", 60 ]
     ]
   },
   {
@@ -162,7 +163,8 @@
       [ "straw_pile", 20 ],
       [ "survnote", 1 ],
       [ "eggplant", 3 ],
-      [ "raw_artichoke", 5 ]
+      [ "raw_artichoke", 5 ],
+      [ "raw_asparagus", 5 ]
     ]
   },
   {
