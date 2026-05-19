@@ -704,6 +704,16 @@ bool cataimgui::client::any_window_shown()
     return any_window_shown;
 }
 
+bool cataimgui::client::want_capture_mouse()
+{
+    return ImGui::GetCurrentContext() != nullptr && ImGui::GetIO().WantCaptureMouse;
+}
+
+bool cataimgui::client::want_capture_keyboard()
+{
+    return ImGui::GetCurrentContext() != nullptr && ImGui::GetIO().WantCaptureKeyboard;
+}
+
 static ImGuiKey cata_key_to_imgui( int cata_key )
 {
     switch( cata_key ) {

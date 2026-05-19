@@ -3475,17 +3475,25 @@ static void CheckMessages()
                     }
                     if( get_option<std::string>( "HIDE_CURSOR" ) == "show" ||
                         get_option<std::string>( "HIDE_CURSOR" ) == "hidekb" ) {
+                        // Cursor visibility must run even when ImGui owns
+                        // the mouse, otherwise hidekb keeps the cursor
+                        // hidden over ImGui windows after keyboard use.
                         if( !IsCursorVisible() ) {
                             ShowCursor();
                         }
-
-                        // Only monitor motion when cursor is visible
-                        last_input = input_event( MouseInput::Move, input_event_t::mouse );
+                        // Only feed game's mouseover/highlight pipeline when
+                        // ImGui isn't already consuming the event.
+                        if( !cataimgui::client::want_capture_mouse() ) {
+                            last_input = input_event( MouseInput::Move, input_event_t::mouse );
+                        }
                     }
                     break;
 
                 case CATA_MOUSEBUTTONDOWN:
                     if( ! mouse.enabled ) {
+                        break;
+                    }
+                    if( cataimgui::client::want_capture_mouse() ) {
                         break;
                     }
                     switch( ev.button.button ) {
@@ -3508,6 +3516,9 @@ static void CheckMessages()
                     if( ! mouse.enabled ) {
                         break;
                     }
+                    if( cataimgui::client::want_capture_mouse() ) {
+                        break;
+                    }
                     switch( ev.button.button ) {
                         case SDL_BUTTON_LEFT:
                             last_input = input_event( MouseInput::LeftButtonReleased, input_event_t::mouse );
@@ -3526,6 +3537,9 @@ static void CheckMessages()
 
                 case CATA_MOUSEWHEEL:
                     if( ! mouse.enabled ) {
+                        break;
+                    }
+                    if( cataimgui::client::want_capture_mouse() ) {
                         break;
                     }
                     if( ev.wheel.y > 0 ) {
