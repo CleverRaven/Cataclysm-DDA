@@ -1760,6 +1760,29 @@
     "name": "TNT",
     "density": 1.654
   },
+    {
+    "type": "material",
+    "id": "styrofoam",
+    "name": "Styrofoam",
+    "//": "from 0.15 up to 0.5 g/cm3; higher one are for insulation, lower one are for packaging",
+    "density": 0.15,
+    "specific_heat_liquid": 1.13,
+    "specific_heat_solid": 1.13,
+    "latent_heat": 50,
+    "chip_resist": 0,
+    "wind_resist": 99,
+    "salvaged_into": "styrofoam",
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": { "ctxt": "verb", "str": "dented" },
+    "cut_dmg_verb": "gouged",
+    "burn_data": [
+      { "fuel": 0.3, "smoke": 1, "burn": 0.25, "volume_per_turn": "200 ml" },
+      { "fuel": 0.6, "smoke": 1, "burn": 0.5, "volume_per_turn": "825 ml" },
+      { "fuel": 0.9, "smoke": 1, "burn": 0.75 }
+    ],
+    "resist": { "bash": 2, "cut": 2, "acid": 9, "heat": 1, "bullet": 1 },
+    "repair_difficulty": 3
+  },
   {
     "type": "material",
     "id": "powder",

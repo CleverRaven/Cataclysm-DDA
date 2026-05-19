@@ -990,6 +990,26 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "gelled_gasoline",
+    "id_suffix": "from_styrofoam",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "chemistry",
+    "difficulty": 3,
+    "autolearn": true,
+    "time": "20 m",
+    "charges": 500,
+    "batch_time_factors": [ 70, 5 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
+    "//": [
+      "For 100 L of styrofoam, 2 L of solvent is enough to form a sturdy, solid cake",
+      "we do not need it this dense, it has to be rather liquid, so 5 L of gasoline for 100 L of styrofoam"
+    ],
+    "components": [ [ [ "gasoline", 500 ], [ "avgas", 500 ] ], [ [ "material_styrofoam_chunk", 60 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "flamethrower_fuel",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
