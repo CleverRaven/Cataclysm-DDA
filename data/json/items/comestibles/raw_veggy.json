@@ -1487,7 +1487,7 @@
     "id": "raw_artichoke",
     "name": { "str": "raw artichoke" },
     "comestible_type": "FOOD",
-    "weight": "120 g",
+    "weight": "100 g",
     "volume": "150 ml",
     "longest_side": "25 cm",
     "price": "1 USD",
