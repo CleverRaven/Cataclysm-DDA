@@ -1723,6 +1723,20 @@
     "difficulty": 1
   },
   {
+    "id": "bio_exodii_leg_bionic_treads",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Bionic Treads (Cyberframe 1a)" },
+    "looks_like": "bio_int_enhancer",
+    "description": "Sturdy treads for replacing legs and feet on an Exodii Cyberframe.  They are in fact two side-by-size triangular mechanisms, split in the middle, and independently operated by telescoping knees, to facilitate lifting one tread at a time for carefully passing over obstacles, or climbing stairs or ladders.  One's former ankles and associated anatomy will be integrated into the servomotors. Unlike bipedal human legs, these move faster over most terrain, but will severaly hinder travel over obstacles and through water.  They are immune to temperature and pain and don't bleed.  While they are highly resistant to damage, their external moving parts are less well protected than a standard bionic leg with similar plate thickness.  Due to their size and heft, a heavy-duty 1a-style Cyberframe is necessary for operation.",
+    "price": "14 kUSD",
+    "price_postapoc": "40 USD",
+    "weight": "75000 g",
+    "volume": "75000 ml",
+    "difficulty": 1
+  },
+  {
     "id": "bio_exodii_arm_bionic_basic_armored_left",
     "copy-from": "bionic_general",
     "type": "ITEM",

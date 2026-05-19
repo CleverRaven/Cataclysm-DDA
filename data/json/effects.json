@@ -824,7 +824,7 @@
     "type": "effect_type",
     "id": "no_power_arm",
     "name": [ "Low Power" ],
-    "desc": [ "You're low on power.  Your leg is operating in emergency mode and has limited function." ],
+    "desc": [ "You're low on power.  Your arm is operating in emergency mode and has limited function." ],
     "rating": "bad",
     "max_duration": "10 s",
     "base_mods": { "dex_mod": [ -1 ], "str_mod": [ -1 ], "speed_mod": [ -5 ] },
@@ -849,6 +849,21 @@
       { "limb_score": "vision", "modifier": 0.5 },
       { "limb_score": "night_vis", "modifier": 0.5 },
       { "limb_score": "reaction", "modifier": 0.5 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "no_power_tank_treads",
+    "name": [ "Low Power (Bionic Treads)" ],
+    "desc": [ "You're low on power.  Your bionic treads are operating in emergency mode and have limited function." ],
+    "rating": "bad",
+    "max_duration": "30 s",
+    "base_mods": { "speed_mod": [ -10 ] },
+    "limb_score_mods": [
+      { "limb_score": "block", "modifier": 0.0 },
+      { "limb_score": "swim", "modifier": 0.01 },
+      { "limb_score": "move_speed", "modifier": 0.1 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },

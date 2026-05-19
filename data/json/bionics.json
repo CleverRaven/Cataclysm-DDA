@@ -1908,7 +1908,7 @@
     "id": "bio_exodii_leg_bionic_basic_armored_left",
     "type": "bionic",
     "name": { "str": "Cyberframe 1a: Bionic Left Leg" },
-    "description": "You have a bionic left leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are highly resistant to damage.  Due to their size and armored plating, a heavy-duty 1b-style Cyberframe is necessary for operation.",
+    "description": "You have a bionic left leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are highly resistant to damage.  Due to their size and armored plating, a heavy-duty 1a-style Cyberframe is necessary for operation.",
     "required_bionic": "bio_exodii_cyberframe_1a",
     "replaced_bodyparts": [ "leg_l", "foot_l" ],
     "enchantments": [ { "modified_bodyparts": [ { "gain": "leg_bionic_basic_l" }, { "gain": "foot_bionic_basic_l" } ] } ],
@@ -1921,7 +1921,7 @@
     "id": "bio_exodii_leg_bionic_basic_armored_right",
     "type": "bionic",
     "name": { "str": "Cyberframe 1a: Bionic Right Leg" },
-    "description": "You have a bionic right leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are highly resistant to damage.  Due to their size and armored plating, a heavy-duty 1b-style Cyberframe is necessary for operation.",
+    "description": "You have a bionic right leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are highly resistant to damage.  Due to their size and armored plating, a heavy-duty 1a-style Cyberframe is necessary for operation.",
     "required_bionic": "bio_exodii_cyberframe_1a",
     "replaced_bodyparts": [ "leg_r", "foot_r" ],
     "enchantments": [ { "modified_bodyparts": [ { "gain": "leg_bionic_basic_r" }, { "gain": "foot_bionic_basic_r" } ] } ],
@@ -1931,10 +1931,25 @@
     ]
   },
   {
+    "id": "bio_exodii_leg_bionic_treads",
+    "type": "bionic",
+    "name": { "str": "Cyberframe 1a: Bionic Treads" },
+    "description": "In place of legs and feet you have sturdy treads.  They are in fact two side-by-size triangular mechanisms, split in the middle, and independently operated.  Your former ankles and associated anatomy are now a part of the internal servomotors, and your knees are capable of minor telescoping and bending, to facilitate lifting one tread at a time for carefully passing over obstacles, or climbing stairs or ladders.  Unlike bipedal human legs, these move faster over most terrain, but will severaly hinder travel over obstacles and through water.  They are immune to temperature and pain and don't bleed.  While they are highly resistant to damage, their external moving parts are less well protected than a standard bionic leg with similar plate thickness.  Due to their size and heft, a heavy-duty 1a-style Cyberframe is necessary for operation.",
+    "required_bionic": "bio_exodii_cyberframe_1a",
+    "replaced_bodyparts": [ "leg_l", "foot_l", "leg_r", "foot_r" ],
+    "enchantments": [ 
+      { "modified_bodyparts": [ { "gain": "bionic_treads_leg" } ] },
+      { "values": [ { "value": "MOVECOST_OBSTACLE_MOD", "multiply": 6 } ] }
+    ],
+    "protec": [
+      [ "bionic_treads_leg", { "bash": 20, "cut": 20, "bullet": 15, "stab": 20, "acid": 30 } ]
+    ]
+  },
+  {
     "id": "bio_exodii_arm_bionic_basic_armored_left",
     "type": "bionic",
     "name": { "str": "Cyberframe 1a: Bionic Left Arm" },
-    "description": "You have a bionic left leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are highly resistant to damage.  Due to their size and armored plating, a heavy-duty 1b-style Cyberframe is necessary for operation.",
+    "description": "You have a bionic left leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are highly resistant to damage.  Due to their size and armored plating, a heavy-duty 1a-style Cyberframe is necessary for operation.",
     "required_bionic": "bio_exodii_cyberframe_1a",
     "replaced_bodyparts": [ "arm_l", "hand_l" ],
     "enchantments": [ { "modified_bodyparts": [ { "gain": "arm_bionic_basic_l" }, { "gain": "hand_bionic_basic_l" } ] } ],
@@ -1947,7 +1962,7 @@
     "id": "bio_exodii_arm_bionic_basic_armored_right",
     "type": "bionic",
     "name": { "str": "Cyberframe 1a: Bionic Right Arm" },
-    "description": "You have a bionic right leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are highly resistant to damage.  Due to their size and armored plating, a heavy-duty 1b-style Cyberframe is necessary for operation.",
+    "description": "You have a bionic right leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are highly resistant to damage.  Due to their size and armored plating, a heavy-duty 1a-style Cyberframe is necessary for operation.",
     "required_bionic": "bio_exodii_cyberframe_1a",
     "replaced_bodyparts": [ "arm_r", "hand_r" ],
     "enchantments": [ { "modified_bodyparts": [ { "gain": "arm_bionic_basic_r" }, { "gain": "hand_bionic_basic_r" } ] } ],
