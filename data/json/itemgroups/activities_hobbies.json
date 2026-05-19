@@ -292,6 +292,8 @@
       { "group": "crossbow_bolts", "prob": 5 },
       { "group": "crossbow_bolts_makeshift", "prob": 7 },
       { "item": "bbgun", "prob": 10, "charges": [ 0, 150 ] },
+      { "item": "varmint_airgun", "prob": 20 },
+      { "group": "ammo_varmint_airgun", "prob": 20 },
       [ "crossbow", 2 ],
       [ "compcrossbow", 2 ],
       [ "mag_survival", 40 ],

@@ -624,7 +624,8 @@
       [ "woven_anklet", 1 ],
       { "group": "tinware", "prob": 10 },
       { "group": "costume_all_clothing", "prob": 10 },
-      [ "cheongsam", 5 ]
+      [ "cheongsam", 5 ],
+      { "group": "ammo_varmint_airgun", "prob": 10 }
     ]
   },
   {
@@ -655,6 +656,7 @@
       [ "freeze_dried_meal", 20 ],
       [ "chocolate_military", 20 ],
       { "group": "infantry_knives", "prob": 14 },
+      { "item": "varmint_airgun", "prob": 2 },
       [ "knife_rm42", 1 ],
       [ "kukri", 2 ],
       [ "knife_KABAR", 6 ],
