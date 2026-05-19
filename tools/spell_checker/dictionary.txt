@@ -1481,6 +1481,8 @@ CXIV
 cyber
 cybercop
 cyberdog
+Cyberframe
+Cyberframes
 Cyberiad
 cyberjunkie
 cybernetically
