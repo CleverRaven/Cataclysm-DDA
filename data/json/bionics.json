@@ -1890,5 +1890,135 @@
     "act_cost": "250 kJ",
     "spell_on_activation": { "id": "bio_nl_antigravity_jump_spell" },
     "activated_close_ui": true
+  },
+  {
+    "id": "bio_exodii_cyberframe_1a",
+    "type": "bionic",
+    "name": { "str": "Cyberframe 1a" },
+    "description": "Your body is integrated into a bulky Exodii Cyberframe.  Your important internal organs, including much of your core skeleton and musculature, are encased in a solid metal core.  While there is clearly a head and torso, it is difficult to tell where one starts and the other ends.  It will be difficult or impossible to squeeze through tight spaces, or to wear normal-sized clothing and armor.  The frame greatly increases your physical dexterity and strength, and is highly protective, but the internal parts of your head and torso are still affected by temperature, you can still feel pain, and internal bleeding can occur with sufficient damage.",
+    "cant_remove_reason": "Cyberframes cannot be removed, only swapped via specialized surgery.  Removing it would kill you.",
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 4 }, { "value": "DEXTERITY", "add": 4 } ] }, { "mutations": [ "EXODII_CYBERFRAME_LARGE" ] } ],
+    "protec": [
+      [ "head_bionic_basic", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ],
+      [ "mouth_bionic_basic", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ],
+      [ "torso_bionic_basic", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ]
+    ]
+  },
+  {
+    "id": "bio_exodii_leg_bionic_basic_armored_left",
+    "type": "bionic",
+    "name": { "str": "Cyberframe 1a: Bionic Left Leg" },
+    "description": "You have a bionic left leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are highly resistant to damage.  Due to their size and armored plating, a heavy-duty 1b-style Cyberframe is necessary for operation.",
+    "required_bionic": "bio_exodii_cyberframe_1a",
+    "replaced_bodyparts": [ "leg_l", "foot_l" ],
+    "enchantments": [ { "modified_bodyparts": [ { "gain": "leg_bionic_basic_l" }, { "gain": "foot_bionic_basic_l" } ] } ],
+    "protec": [
+      [ "leg_bionic_basic_l", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ],
+      [ "foot_bionic_basic_l", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ]
+    ]
+  },
+  {
+    "id": "bio_exodii_leg_bionic_basic_armored_right",
+    "type": "bionic",
+    "name": { "str": "Cyberframe 1a: Bionic Right Leg" },
+    "description": "You have a bionic right leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are highly resistant to damage.  Due to their size and armored plating, a heavy-duty 1b-style Cyberframe is necessary for operation.",
+    "required_bionic": "bio_exodii_cyberframe_1a",
+    "replaced_bodyparts": [ "leg_r", "foot_r" ],
+    "enchantments": [ { "modified_bodyparts": [ { "gain": "leg_bionic_basic_r" }, { "gain": "foot_bionic_basic_r" } ] } ],
+    "protec": [
+      [ "leg_bionic_basic_r", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ],
+      [ "foot_bionic_basic_r", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ]
+    ]
+  },
+  {
+    "id": "bio_exodii_arm_bionic_basic_armored_left",
+    "type": "bionic",
+    "name": { "str": "Cyberframe 1a: Bionic Left Arm" },
+    "description": "You have a bionic left leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are highly resistant to damage.  Due to their size and armored plating, a heavy-duty 1b-style Cyberframe is necessary for operation.",
+    "required_bionic": "bio_exodii_cyberframe_1a",
+    "replaced_bodyparts": [ "arm_l", "hand_l" ],
+    "enchantments": [ { "modified_bodyparts": [ { "gain": "arm_bionic_basic_l" }, { "gain": "hand_bionic_basic_l" } ] } ],
+    "protec": [
+      [ "arm_bionic_basic_l", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ],
+      [ "hand_bionic_basic_l", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ]
+    ]
+  },
+  {
+    "id": "bio_exodii_arm_bionic_basic_armored_right",
+    "type": "bionic",
+    "name": { "str": "Cyberframe 1a: Bionic Right Arm" },
+    "description": "You have a bionic right leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are highly resistant to damage.  Due to their size and armored plating, a heavy-duty 1b-style Cyberframe is necessary for operation.",
+    "required_bionic": "bio_exodii_cyberframe_1a",
+    "replaced_bodyparts": [ "arm_r", "hand_r" ],
+    "enchantments": [ { "modified_bodyparts": [ { "gain": "arm_bionic_basic_r" }, { "gain": "hand_bionic_basic_r" } ] } ],
+    "protec": [
+      [ "arm_bionic_basic_l", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ],
+      [ "hand_bionic_basic_l", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ]
+    ]
+  },
+  {
+    "id": "bio_exodii_cyberframe_1b",
+    "type": "bionic",
+    "name": { "str": "Cyberframe 1b" },
+    "description": "Your body is integrated into a very human-like Exodii Cyberframe.  Your important internal organs, including much of your core skeleton and musculature, are encased in a frame that resembles a robotic human.  The frame increases your physical dexterity and strength, and is modestly protective, but the internal parts of your head and torso are still affected by temperature, you can still feel pain, and internal bleeding can occur with sufficient damage.",
+    "cant_remove_reason": "Cyberframes cannot be removed, only swapped via specialized surgery.  Removing it would kill you.",
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "DEXTERITY", "add": 4 } ] } ],
+    "protec": [
+      [ "head_bionic_basic", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ],
+      [ "mouth_bionic_basic", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ],
+      [ "torso_bionic_basic", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ]
+    ]
+  },
+  {
+    "id": "bio_exodii_leg_bionic_basic_left",
+    "type": "bionic",
+    "name": { "str": "Cyberframe 1b: Bionic Left Leg" },
+    "description": "You have a bionic left leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are modestly more sturdy.",
+    "required_bionic": "bio_exodii_cyberframe_1b",
+    "replaced_bodyparts": [ "leg_l", "foot_l" ],
+    "enchantments": [ { "modified_bodyparts": [ { "gain": "leg_bionic_basic_l" }, { "gain": "foot_bionic_basic_l" } ] } ],
+    "protec": [
+      [ "leg_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ],
+      [ "foot_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ]
+    ]
+  },
+  {
+    "id": "bio_exodii_leg_bionic_basic_right",
+    "type": "bionic",
+    "name": { "str": "Cyberframe 1b: Bionic Right Leg" },
+    "description": "You have a bionic right leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are modestly more sturdy.",
+    "required_bionic": "bio_exodii_cyberframe_1b",
+    "replaced_bodyparts": [ "leg_r", "foot_r" ],
+    "enchantments": [ { "modified_bodyparts": [ { "gain": "leg_bionic_basic_r" }, { "gain": "foot_bionic_basic_r" } ] } ],
+    "protec": [
+      [ "leg_bionic_basic_r", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ],
+      [ "foot_bionic_basic_r", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ]
+    ]
+  },
+  {
+    "id": "bio_exodii_arm_bionic_basic_left",
+    "type": "bionic",
+    "name": { "str": "Cyberframe 1b: Bionic Left Arm" },
+    "description": "You have a bionic left leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are modestly more sturdy.",
+    "required_bionic": "bio_exodii_cyberframe_1b",
+    "replaced_bodyparts": [ "arm_l", "hand_l" ],
+    "enchantments": [ { "modified_bodyparts": [ { "gain": "arm_bionic_basic_l" }, { "gain": "hand_bionic_basic_l" } ] } ],
+    "protec": [
+      [ "arm_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ],
+      [ "hand_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ]
+    ]
+  },
+  {
+    "id": "bio_exodii_arm_bionic_basic_right",
+    "type": "bionic",
+    "name": { "str": "Cyberframe 1b: Bionic Right Arm" },
+    "description": "You have a bionic right leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are modestly more sturdy.",
+    "required_bionic": "bio_exodii_cyberframe_1b",
+    "replaced_bodyparts": [ "arm_r", "hand_r" ],
+    "enchantments": [ { "modified_bodyparts": [ { "gain": "arm_bionic_basic_r" }, { "gain": "hand_bionic_basic_r" } ] } ],
+    "protec": [
+      [ "arm_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ],
+      [ "hand_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ]
+    ]
   }
 ]
