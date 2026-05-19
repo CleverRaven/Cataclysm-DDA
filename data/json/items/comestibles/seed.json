@@ -1943,5 +1943,26 @@
       { "GROWTH_HARVEST": "15 days" },
       { "GROWTH_OVERGROWN": "1 hour" }
     ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "id": "seed_artichoke",
+    "copy-from": "seed",
+    "price": "70 cent",
+    "name": { "str_sp": "artichoke seeds" },
+    "description": "Some artichoke seeds.",
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
+	"plant_name": "artichoke",
+    "fruit": "artichoke",
+    "seeds": false,
+    "byproducts": [ "withered" ],
+    "growth_stages": [
+      { "GROWTH_SEED": "20 days" },
+      { "GROWTH_SEEDLING": "20 days" },
+      { "GROWTH_MATURE": "20 days" },
+      { "GROWTH_HARVEST": "20 days" },
+      { "GROWTH_OVERGROWN": "10 hour" }
+    ]
   }
 ]

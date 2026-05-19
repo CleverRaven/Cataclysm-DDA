@@ -1248,6 +1248,7 @@
         [ "zucchini", 1 ],
         [ "zucchini_cut", 1 ],
         [ "eggplant_cut", 1 ],
+        [ "artichoke_head", 1 ],
         [ "carrot_wild", 1 ],
         [ "wild_garlic", 2 ],
         [ "spinach", 1 ],
@@ -1289,6 +1290,12 @@
     "type": "requirement",
     "//": "Any form of eggplant used in cooking",
     "components": [ [ [ "eggplant", 1 ], [ "eggplant_cut", 2 ] ] ]
+  },
+  {
+    "id": "any_artichoke",
+    "type": "requirement",
+    "//": "Any form of artichoke used in cooking",
+    "components": [ [ [ "raw_artichoke", 1 ], [ "artichoke_heart", 1 ] ] ]
   },
   {
     "id": "any_zucchini",

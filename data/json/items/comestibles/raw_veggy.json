@@ -1480,5 +1480,27 @@
     "flags": [ "FREEZERBURN", "CATTLE", "RABBIT" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "vitC", 1 ], [ "veggy_allergen", 1 ] ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "raw_artichoke",
+    "name": { "str": "raw artichoke" },
+    "comestible_type": "FOOD",
+    "weight": "120 g",
+    "volume": "150 ml",
+    "longest_side": "25 cm",
+    "price": "1 USD",
+    "price_postapoc": "50 cent",
+    "color": "dark_gray",
+    "material": [ "veggy" ],
+    "calories": 70,
+    "spoils_in": "7 days",
+    "description": "The immature flower bud of a large thistle plant. If left to grow, it blooms into a vibrant purple flower. Needs to be disassembled before being useful for cooking.",
+    "symbol": "a",
+    "flags": [ "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE", "FREEZERBURN" ],
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 2 ], [ "calcium", 2 ], [ "veggy_allergen", 1 ] ],
+    "fun": -5
   }
 ]
