@@ -1771,7 +1771,7 @@
     "latent_heat": 50,
     "chip_resist": 0,
     "wind_resist": 99,
-    "salvaged_into": "styrofoam",
+    "salvaged_into": "material_styrofoam_chunk",
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": { "ctxt": "verb", "str": "dented" },
     "cut_dmg_verb": "gouged",
