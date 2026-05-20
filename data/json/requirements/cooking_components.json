@@ -1251,7 +1251,8 @@
         [ "carrot_wild", 1 ],
         [ "wild_garlic", 2 ],
         [ "spinach", 1 ],
-        [ "japanese_knotweed_stem", 1 ]
+        [ "japanese_knotweed_stem", 1 ],
+        [ "cauliflower_head", 1 ]
       ]
     ]
   },
@@ -1313,6 +1314,12 @@
     "type": "requirement",
     "//": "Any form of chili pepper used in cooking",
     "components": [ [ [ "chili_pepper", 1 ], [ "chili_pepper_cut", 1 ], [ "rehydrated_chili", 1 ] ] ]
+  },
+  {
+    "id": "any_cauliflower",
+    "type": "requirement",
+    "//": "Any form of cauliflower used in cooking",
+    "components": [ [ [ "cauliflower", 5 ], [ "cauliflower_head", 1 ] ] ]
   },
   {
     "id": "acorns_processed_any",

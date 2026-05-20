@@ -1944,5 +1944,26 @@
       { "GROWTH_HARVEST": "15 days" },
       { "GROWTH_OVERGROWN": "1 hour" }
     ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "id": "seed_cauliflower",
+    "copy-from": "seed",
+    "price": "70 cent",
+    "name": { "str_sp": "cauliflower seeds" },
+    "description": "Some cauliflower seeds.",
+    "flags": [ "PLANTABLE_SEED" ],
+    "plant_name": "cauliflower",
+    "fruit": "cauliflower_head",
+    "seeds": false,
+    "byproducts": [ "withered" ],
+    "growth_stages": [
+      { "GROWTH_SEED": "15 days" },
+      { "GROWTH_SEEDLING": "15 days" },
+      { "GROWTH_MATURE": "15 days" },
+      { "GROWTH_HARVEST": "15 days" },
+      { "GROWTH_OVERGROWN": "10 hour" }
+    ]
   }
 ]

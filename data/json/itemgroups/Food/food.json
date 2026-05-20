@@ -320,7 +320,8 @@
       { "prob": 25, "group": "seasoning_salt_various" },
       { "prob": 25, "group": "seasoning_italian_various" },
       { "prob": 30, "group": "pecorino_cheese_wrapper_4" },
-      { "item": "eggplant", "prob": 30 }
+      { "item": "eggplant", "prob": 30 },
+      { "item": "cauliflower_head", "prob": 30 }
     ]
   },
   {
@@ -426,7 +427,8 @@
       { "item": "cholla_bud", "prob": 3 },
       { "item": "garlic", "prob": 3 },
       { "prob": 10, "group": "pine_nuts_bag_plastic_4" },
-      { "item": "eggplant", "prob": 10 }
+      { "item": "eggplant", "prob": 10 },
+      { "item": "cauliflower_head", "prob": 10 }
     ]
   },
   {

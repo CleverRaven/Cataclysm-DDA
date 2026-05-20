@@ -107,5 +107,13 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "cabbage", 13 ] ] ]
+  },
+  {
+    "result": "cauliflower_head",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cauliflower", 10 ] ] ]
   }
 ]
