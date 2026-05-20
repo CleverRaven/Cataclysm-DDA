@@ -7290,16 +7290,16 @@ void ImGui::RenderWindowDecorations(ImGuiWindow* window, const ImRect& title_bar
     }
     else
     {
+// START CDDA PATCH #65709
+#ifdef IMTUI
+        ImVec2 p_max_extra_padding = ImVec2(1, 1);
+#else
+        ImVec2 p_max_extra_padding = ImVec2(0, 0);
+#endif
+// END CDDA PATCH #65709
         // Window background
         if (!(flags & ImGuiWindowFlags_NoBackground))
         {
-// START CDDA PATCH #65709
-#ifdef IMTUI
-            ImVec2 p_max_extra_padding = ImVec2(1, 1);
-#else
-            ImVec2 p_max_extra_padding = ImVec2(0, 0);
-#endif
-// END CDDA PATCH #65709
             ImU32 bg_col = GetColorU32(GetWindowBgColorIdx(window));
             bool override_alpha = false;
             float alpha = 1.0f;
@@ -7325,7 +7325,9 @@ void ImGui::RenderWindowDecorations(ImGuiWindow* window, const ImRect& title_bar
         if (!(flags & ImGuiWindowFlags_NoTitleBar))
         {
             ImU32 title_bar_col = GetColorU32(title_bar_is_highlight ? ImGuiCol_TitleBgActive : ImGuiCol_TitleBg);
-            window->DrawList->AddRectFilled(title_bar_rect.Min, title_bar_rect.Max, title_bar_col, window_rounding, ImDrawFlags_RoundCornersTop);
+// START CDDA PATCH #65709
+            window->DrawList->AddRectFilled(title_bar_rect.Min, title_bar_rect.Max - p_max_extra_padding, title_bar_col, window_rounding, ImDrawFlags_RoundCornersTop);
+// END CDDA PATCH #65709
         }
 
         // Menu bar
@@ -7333,7 +7335,9 @@ void ImGui::RenderWindowDecorations(ImGuiWindow* window, const ImRect& title_bar
         {
             ImRect menu_bar_rect = window->MenuBarRect();
             menu_bar_rect.ClipWith(window->Rect());  // Soft clipping, in particular child window don't have minimum size covering the menu bar so this is useful for them.
-            window->DrawList->AddRectFilled(menu_bar_rect.Min, menu_bar_rect.Max, GetColorU32(ImGuiCol_MenuBarBg), (flags & ImGuiWindowFlags_NoTitleBar) ? window_rounding : 0.0f, ImDrawFlags_RoundCornersTop);
+// START CDDA PATCH #65709
+            window->DrawList->AddRectFilled(menu_bar_rect.Min, menu_bar_rect.Max - p_max_extra_padding, GetColorU32(ImGuiCol_MenuBarBg), (flags & ImGuiWindowFlags_NoTitleBar) ? window_rounding : 0.0f, ImDrawFlags_RoundCornersTop);
+// END CDDA PATCH #65709
             if (style.FrameBorderSize > 0.0f && menu_bar_rect.Max.y < window->Pos.y + window->Size.y)
                 window->DrawList->AddLineH(menu_bar_rect.Min.x + window_border_size * 0.5f, menu_bar_rect.Max.x - window_border_size * 0.5f, menu_bar_rect.Max.y, GetColorU32(ImGuiCol_Border), style.FrameBorderSize);
         }
@@ -7343,6 +7347,23 @@ void ImGui::RenderWindowDecorations(ImGuiWindow* window, const ImRect& title_bar
             Scrollbar(ImGuiAxis_X);
         if (window->ScrollbarY)
             Scrollbar(ImGuiAxis_Y);
+
+// START CDDA PATCH #65709
+#ifdef IMTUI
+        // Ascii borders
+        if (style.WindowBorderAscii) {
+            window->DrawList->AddText(ImVec2(window->Pos.x - 1, window->Pos.y + window->Size.y - 1), GetColorU32(ImGuiCol_Border), "\\");
+            window->DrawList->AddText(ImVec2(window->Pos.x + window->Size.x - 2, window->Pos.y + window->Size.y - 1), GetColorU32(ImGuiCol_Border), "/");
+            for (int i = 0; i < window->Size.x - 2; ++i) {
+                window->DrawList->AddText(ImVec2(window->Pos.x + i, window->Pos.y + window->Size.y - 1), GetColorU32(ImGuiCol_Border), "-");
+            }
+            for (int i = 1; i < window->Size.y - 1; ++i) {
+                window->DrawList->AddText(ImVec2(window->Pos.x - 1, window->Pos.y + i), GetColorU32(ImGuiCol_Border), "|");
+                window->DrawList->AddText(ImVec2(window->Pos.x + window->Size.x - 2, window->Pos.y + i), GetColorU32(ImGuiCol_Border), "|");
+            }
+        }
+#endif
+// END CDDA PATCH #65709
 
         // Render resize grips (after their input handling so we don't have a frame of latency)
         if (handle_borders_and_resize_grips && !(flags & ImGuiWindowFlags_NoResize))
@@ -7354,11 +7375,17 @@ void ImGui::RenderWindowDecorations(ImGuiWindow* window, const ImRect& title_bar
                     continue;
                 const ImGuiResizeGripDef& grip = resize_grip_def[resize_grip_n];
                 const ImVec2 corner = ImLerp(window->Pos, window->Pos + window->Size, grip.CornerPosN);
+// START CDDA PATCH #65709
+#ifdef IMTUI
+                window->DrawList->AddText(corner + grip.InnerDir * ((resize_grip_n & 1) ? ImVec2(window_border_size, resize_grip_draw_size) : ImVec2(resize_grip_draw_size, window_border_size)) - ImVec2(1.0f, 1.0f), resize_grip_col[resize_grip_n], "+");
+#else
                 const float border_inner = IM_ROUND(window_border_size * 0.5f);
                 window->DrawList->PathLineTo(corner + grip.InnerDir * ((resize_grip_n & 1) ? ImVec2(border_inner, resize_grip_draw_size) : ImVec2(resize_grip_draw_size, border_inner)));
                 window->DrawList->PathLineTo(corner + grip.InnerDir * ((resize_grip_n & 1) ? ImVec2(resize_grip_draw_size, border_inner) : ImVec2(border_inner, resize_grip_draw_size)));
                 window->DrawList->PathArcToFast(ImVec2(corner.x + grip.InnerDir.x * (window_rounding + border_inner), corner.y + grip.InnerDir.y * (window_rounding + border_inner)), window_rounding, grip.AngleMin12, grip.AngleMax12);
                 window->DrawList->PathFillConvex(col);
+#endif
+// END CDDA PATCH #65709
             }
         }
 
@@ -7446,7 +7473,13 @@ void ImGui::RenderWindowTitleBarContents(ImGuiWindow* window, const ImRect& titl
     }
 
     ImRect layout_r(title_bar_rect.Min.x + pad_l, title_bar_rect.Min.y, title_bar_rect.Max.x - pad_r, title_bar_rect.Max.y);
-    ImRect clip_r(layout_r.Min.x, layout_r.Min.y, ImMin(layout_r.Max.x + g.Style.ItemInnerSpacing.x, title_bar_rect.Max.x), layout_r.Max.y);
+// START CDDA PATCH #65709
+    float clip_r_x2 = ImMin(layout_r.Max.x + g.Style.ItemInnerSpacing.x, title_bar_rect.Max.x);
+#ifdef IMTUI
+    clip_r_x2 -= 2.1f;
+#endif
+    ImRect clip_r(layout_r.Min.x, layout_r.Min.y, clip_r_x2, layout_r.Max.y);
+// END CDDA PATCH #65709
     if (flags & ImGuiWindowFlags_UnsavedDocument)
     {
         ImVec2 marker_pos;

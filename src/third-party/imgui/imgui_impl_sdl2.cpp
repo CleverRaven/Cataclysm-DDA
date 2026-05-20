@@ -116,8 +116,18 @@
 #endif
 
 // SDL
+// START CDDA PATCH #65709
+#if defined(_MSC_VER) && defined(USE_VCPKG)
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_syswm.h>
+#else
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
 #include <SDL.h>
+#pragma GCC diagnostic pop
 #include <SDL_syswm.h>
+#endif
+// END CDDA PATCH #65709
 #include <stdio.h>              // for snprintf()
 #ifdef __APPLE__
 #include <TargetConditionals.h>

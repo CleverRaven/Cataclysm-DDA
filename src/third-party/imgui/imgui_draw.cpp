@@ -5931,7 +5931,8 @@ begin:
 // START CDDA PATCH #65709
 #ifdef IMTUI
             // Snap glyph quad to terminal cell so imtui-impl-text decodes the
-            // correct row/column.
+            // correct row/column. cpu_fine_clip is skipped under IMTUI so the
+            // degenerate y1==y2 quad does not get clipped away.
             float x1 = x;
             float x2 = x + 1.0f;
             float y1 = y - 0.5f;
@@ -5953,6 +5954,8 @@ begin:
                 float v2 = glyph->V1;
 
                 // CPU side clipping used to fit text in their frame when the frame is too small. Only does clipping for axis aligned quads.
+// START CDDA PATCH #65709
+#ifndef IMTUI
                 if (cpu_fine_clip)
                 {
                     if (x1 < clip_rect.x)
@@ -5981,6 +5984,8 @@ begin:
                         continue;
                     }
                 }
+#endif
+// END CDDA PATCH #65709
 
                 // Support for untinted glyphs
                 ImU32 glyph_col = glyph->Colored ? col_untinted : col;
@@ -6051,11 +6056,23 @@ void ImGui::RenderArrow(ImDrawList* draw_list, ImVec2 pos, ImU32 col, ImGuiDir d
 {
     const float h = draw_list->_Data->FontSize * 1.00f;
     float r = h * 0.40f * scale;
-    ImVec2 center = pos + ImVec2(h * 0.50f, h * 0.50f * scale);
+// START CDDA PATCH #65709
+    ImVec2 center = pos;
+#ifndef IMTUI
+    center += ImVec2(h * 0.50f, h * 0.50f * scale);
+#endif
+// END CDDA PATCH #65709
 
     ImVec2 a, b, c;
     switch (dir)
     {
+// START CDDA PATCH #65709
+#ifdef IMTUI
+    case ImGuiDir_Left:  draw_list->AddText(center, col, "<"); return;
+    case ImGuiDir_Right: draw_list->AddText(center, col, ">"); return;
+    case ImGuiDir_Up:    draw_list->AddText(center, col, "^"); return;
+    case ImGuiDir_Down:  draw_list->AddText(center, col, "v"); return;
+#else
     case ImGuiDir_Up:
     case ImGuiDir_Down:
         if (dir == ImGuiDir_Up) r = -r;
@@ -6074,6 +6091,8 @@ void ImGui::RenderArrow(ImDrawList* draw_list, ImVec2 pos, ImU32 col, ImGuiDir d
     case ImGuiDir_COUNT:
         IM_ASSERT(0);
         break;
+#endif
+// END CDDA PATCH #65709
     }
     draw_list->AddTriangleFilled(center + a, center + b, center + c, col);
 }
