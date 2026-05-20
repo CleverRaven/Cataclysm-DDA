@@ -227,11 +227,12 @@
           { "item": "lab_postit_psi", "prob": 15 },
           { "item": "phavian_psionic_telepathic_mental_engineering_book", "prob": 8 },
           { "group": "electronics", "prob": 40 },
-          { "group": "radio", "prob": 15 },
+          { "item": "radio", "prob": 15 },
           { "group": "textbooks", "prob": 25 },
           { "group": "feral_humans_crystal_drops_telekin", "prob": 50 },
           { "group": "feral_humans_crystal_drops_teep", "prob": 50 },
-          { "group": "collection_force_field_and_note", "prob": 2 }
+          { "group": "collection_force_field_and_note", "prob": 2 },
+          { "group": "everyday_gear_lab", "prob": 50 }
         ]
       },
       { "group": "wallets_phavian", "damage": [ 1, 4 ], "prob": 15 }
