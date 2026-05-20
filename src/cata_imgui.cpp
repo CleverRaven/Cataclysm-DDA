@@ -1043,39 +1043,34 @@ bool cataimgui::InputFloat( const char *label, float *v, float step, float step_
 
 void cataimgui::PushGuiFont()
 {
-#ifdef TILES
     ImFont *font = ImGui::GetIO().Fonts->Fonts[0];
     ImGui::PushFont( font, font->LegacySize );
-#endif
 }
 
 void cataimgui::PushMonoFont()
 {
 #ifdef TILES
     ImFont *font = ImGui::GetIO().Fonts->Fonts[1];
-    ImGui::PushFont( font, font->LegacySize );
+#else
+    ImFont *font = ImGui::GetIO().Fonts->Fonts[0];
 #endif
+    ImGui::PushFont( font, font->LegacySize );
 }
 
 void cataimgui::PushGuiFont1_5x()
 {
-#ifdef TILES
     if( ImGui::GetIO().Fonts->Fonts.Size > 2 ) {
         ImFont *font = ImGui::GetIO().Fonts->Fonts[2];
         ImGui::PushFont( font, font->LegacySize );
     } else {
-        // CJK mode: no pre-rasterized 1.5x font slot; bake 1.5x of Fonts[0] on demand.
         ImFont *font = ImGui::GetIO().Fonts->Fonts[0];
         ImGui::PushFont( font, font->LegacySize * 1.5f );
     }
-#endif
 }
 
 void cataimgui::PopGuiFont1_5x()
 {
-#ifdef TILES
     ImGui::PopFont();
-#endif
 }
 
 
