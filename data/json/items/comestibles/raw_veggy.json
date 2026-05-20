@@ -1529,7 +1529,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "raw_asparagus",
-    "name": { "str_sp'": "raw asparagus" },
+    "name": { "str_sp": "raw asparagus" },
     "comestible_type": "FOOD",
     "weight": "80 g",
     "volume": "100 ml",
