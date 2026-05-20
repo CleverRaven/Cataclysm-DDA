@@ -29,6 +29,9 @@
     "bonus_per": { "rng": [ 0, 4 ] },
     "weapon_override": "EMPTY_GROUP",
     "worn_override": "EMPTY_GROUP",
+    "shopkeeper_item_group": [ { "group": "EXODII_Bionic_Limb_Store_Tier1", "rigid": true } ],
+    "shopkeeper_consumption_rates": "basic_shop_rates",
+    "shopkeeper_blacklist": "rubik_shopkeep_blacklist",
     "skills": [
       {
         "skill": "ALL",
@@ -49,7 +52,30 @@
     "dynamic_line": "&A very human-like cyborg stands before you.  Its steel frame is perfectly clean, but tarnished and clouded as if it were constantly exposed to harsh chemical cleansers.\n\nIt stares at you, not moving.",
     "responses": [
       {
-        "text": "Hi, Venn.  Could you repair my Cyberframe?",
+        "text": "[Motion to your belongings] Can we trade?",
+        "condition": {
+          "or": [
+            { "u_has_trait": "EXODII_BODY_1" },
+            { "u_has_trait": "EXODII_BODY_1b" },
+            { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" }
+          ]
+        },
+        "effect": "start_trade",
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[Motion to the surgical bot] Can you help me with CBM surgery?",
+        "condition": {
+          "or": [
+            { "u_has_trait": "EXODII_BODY_1" },
+            { "u_has_trait": "EXODII_BODY_1b" },
+            { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" }
+          ]
+        },
+        "topic": "TALK_EXODII_VENN_Bionic_Install"
+      },
+      {
+        "text": "[Motion to your bionic limbs] Could you repair my Cyberframe?",
         "condition": {
           "or": [
             { "u_has_trait": "EXODII_BODY_1" },
@@ -86,139 +112,19 @@
   {
     "type": "talk_topic",
     "id": "TALK_EXODII_VENN_repair",
-    "dynamic_line": "&You sit on the surgical table and Venn pulls an aging CRT into view.  The spider-like surgical robot starts to greedily poke and prod you.  The monitor displays the materials required for your repairs, highlighting your needs on a low resolution blueprint of your Cyberframe.",
-    "speaker_effect": {
-      "effect": [
-        {
-          "math": [
-            "u_exodii_venn_repair_left_arm_cost = 1 + round( ( 1 - ( u_hp('arm_bionic_basic_l') / u_hp_max('arm_bionic_basic_l') ) ) * 100 )"
-          ]
-        },
-        {
-          "math": [
-            "u_exodii_venn_repair_right_arm_cost = 1 + round( ( 1 - ( u_hp('arm_bionic_basic_r') / u_hp_max('arm_bionic_basic_r') ) ) * 100 )"
-          ]
-        },
-        {
-          "math": [
-            "u_exodii_venn_repair_left_leg_cost = 1 + round( ( 1 - ( u_hp('leg_bionic_basic_l') / u_hp_max('leg_bionic_basic_l') ) ) * 100 )"
-          ]
-        },
-        {
-          "math": [
-            "u_exodii_venn_repair_right_leg_cost = 1 + round( ( 1 - ( u_hp('leg_bionic_basic_r') / u_hp_max('leg_bionic_basic_r') ) ) * 100 )"
-          ]
-        },
-        {
-          "math": [
-            "u_exodii_venn_repair_torso_cost = 1 + round( ( 1 - ( u_hp('torso_bionic_basic') / u_hp_max('torso_bionic_basic') ) ) * 100 )"
-          ]
-        },
-        {
-          "math": [
-            "u_exodii_venn_repair_head_cost = 1 + round( ( 1 - ( u_hp('head_bionic_basic') / u_hp_max('head_bionic_basic') ) ) * 100 )"
-          ]
-        }
-      ]
-    },
+    "dynamic_line": "&You sit on the surgical table and Venn pulls an aging CRT into view.  The spider-like surgical robot starts to greedily poke and prod you.  The monitor highlights your needs on a low resolution blueprint of your Cyberframe.",
     "responses": [
-      {
-        "text": "[<u_val:exodii_venn_repair_left_arm_cost> scrap metal, 1 hour] Can you repair my left arm?",
-        "topic": "TALK_DONE",
-        "condition": {
-          "and": [
-            { "u_has_items": { "item": "scrap", "count": { "u_val": "exodii_venn_repair_left_arm_cost" } } },
-            { "math": [ "u_hp('arm_bionic_basic_l') < u_hp_max('arm_bionic_basic_l')" ] }
-          ]
-        },
-        "failure_explanation": " ",
-        "effect": [
-          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "60 minutes" },
-          { "u_consume_item": "scrap", "count": { "u_val": "exodii_venn_repair_left_arm_cost" }, "popup": true },
-          { "math": [ "u_hp('arm_bionic_basic_l') = u_hp_max('arm_bionic_basic_l')" ] }
-        ]
-      },
-      {
-        "text": "[<u_val:exodii_venn_repair_right_arm_cost> scrap metal, 1 hour] Can you repair my right arm?",
-        "topic": "TALK_DONE",
-        "condition": {
-          "and": [
-            { "u_has_items": { "item": "scrap", "count": { "u_val": "exodii_venn_repair_right_arm_cost" } } },
-            { "math": [ "u_hp('arm_bionic_basic_r') < u_hp_max('arm_bionic_basic_r')" ] }
-          ]
-        },
-        "failure_explanation": " ",
-        "effect": [
-          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "60 minutes" },
-          { "u_consume_item": "scrap", "count": { "u_val": "exodii_venn_repair_right_arm_cost" }, "popup": true },
-          { "math": [ "u_hp('arm_bionic_basic_r') = u_hp_max('arm_bionic_basic_r')" ] }
-        ]
-      },
-      {
-        "text": "[<u_val:exodii_venn_repair_left_leg_cost> scrap metal, 1 hour] Can you repair my left leg?",
-        "topic": "TALK_DONE",
-        "condition": {
-          "and": [
-            { "u_has_items": { "item": "scrap", "count": { "u_val": "exodii_venn_repair_left_leg_cost" } } },
-            { "math": [ "u_hp('leg_bionic_basic_l') < u_hp_max('leg_bionic_basic_l')" ] }
-          ]
-        },
-        "failure_explanation": " ",
-        "effect": [
-          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "60 minutes" },
-          { "u_consume_item": "scrap", "count": { "u_val": "exodii_venn_repair_left_leg_cost" }, "popup": true },
-          { "math": [ "u_hp('leg_bionic_basic_l') = u_hp_max('leg_bionic_basic_l')" ] }
-        ]
-      },
-      {
-        "text": "[<u_val:exodii_venn_repair_right_leg_cost> scrap metal, 1 hour] Can you repair my right leg?",
-        "topic": "TALK_DONE",
-        "condition": {
-          "and": [
-            { "u_has_items": { "item": "scrap", "count": { "u_val": "exodii_venn_repair_right_leg_cost" } } },
-            { "math": [ "u_hp('leg_bionic_basic_r') < u_hp_max('leg_bionic_basic_r')" ] }
-          ]
-        },
-        "failure_explanation": " ",
-        "effect": [
-          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "60 minutes" },
-          { "u_consume_item": "scrap", "count": { "u_val": "exodii_venn_repair_right_leg_cost" }, "popup": true },
-          { "math": [ "u_hp('leg_bionic_basic_l') = u_hp_max('leg_bionic_basic_l')" ] }
-        ]
-      },
-      {
-        "text": "[<u_val:exodii_venn_repair_torso_cost> scrap metal, 1 hour] Can you repair my torso casing?",
-        "topic": "TALK_DONE",
-        "condition": {
-          "and": [
-            { "u_has_items": { "item": "scrap", "count": { "u_val": "exodii_venn_repair_right_leg_cost" } } },
-            { "math": [ "u_hp('torso_bionic_basic') < u_hp_max('torso_bionic_basic')" ] }
-          ]
-        },
-        "failure_explanation": " ",
-        "effect": [
-          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "60 minutes" },
-          { "u_consume_item": "scrap", "count": { "u_val": "exodii_venn_repair_torso_cost" }, "popup": true },
-          { "math": [ "u_hp('torso_bionic_basic') = u_hp_max('torso_bionic_basic')" ] }
-        ]
-      },
-      {
-        "text": "[<u_val:exodii_venn_repair_head_cost> scrap metal, 1 hour] Can you repair my head casing?",
-        "topic": "TALK_DONE",
-        "condition": {
-          "and": [
-            { "u_has_items": { "item": "scrap", "count": { "u_val": "exodii_venn_repair_head_cost" } } },
-            { "math": [ "u_hp('head_bionic_basic') < u_hp_max('head_bionic_basic')" ] }
-          ]
-        },
-        "failure_explanation": " ",
-        "effect": [
-          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "60 minutes" },
-          { "u_consume_item": "scrap", "count": { "u_val": "exodii_venn_repair_head_cost" }, "popup": true },
-          { "math": [ "u_hp('head_bionic_basic') = u_hp_max('head_bionic_basic')" ] }
-        ]
-      },
+      { "text": "[Offer to trade for the repairs]", "effect": "repair_bionic_limbs", "topic": "TALK_DONE" },
       { "text": "Actually, nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_VENN_Bionic_Install",
+    "type": "talk_topic",
+    "dynamic_line": "&You sit on the surgical table and Venn pulls an aging CRT into view.  The spider-like surgical robot starts to greedily poke and prod you.  The monitor highlights your current bionics, and available upgrades, all accompanied by text you don't understand.",
+    "responses": [
+      { "text": "[Point to a CBM on the screen to install]", "topic": "TALK_DONE", "effect": "bionic_install" },
+      { "text": "[Point to a CBM on the screen to remove]", "topic": "TALK_DONE", "effect": "bionic_remove" }
     ]
   }
 ]

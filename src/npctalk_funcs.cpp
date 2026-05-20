@@ -81,6 +81,9 @@ static const efftype_id effect_sleep( "sleep" );
 static const faction_id faction_no_faction( "no_faction" );
 static const faction_id faction_your_followers( "your_followers" );
 
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
+static const json_character_flag json_flag_PARTIAL_BIONIC_LIMB( "PARTIAL_BIONIC_LIMB" );
+
 static const mission_type_id mission_MISSION_REACH_SAFETY( "MISSION_REACH_SAFETY" );
 
 static const morale_type morale_haircut( "morale_haircut" );
@@ -778,6 +781,44 @@ void talk_function::give_all_aid( npc &p )
     }
     player_character.assign_activity( wait_npc_activity_actor( 60_minutes, p.get_name() ) );
     p.add_effect( effect_currently_busy, 240_minutes );
+}
+
+void talk_function::repair_bionic_limbs( npc &p )
+{
+    Character &player_character = get_player_character();
+
+    signed int price = 0;
+    
+    for( const bodypart_id &bp : player_character.get_all_body_parts( get_body_part_flags::only_main ) ) {
+        if( bp->has_flag( json_flag_BIONIC_LIMB ) || bp->has_flag( json_flag_PARTIAL_BIONIC_LIMB ) ) {
+            price += ( player_character.get_part_hp_max( bp ) - player_character.get_part_hp_cur( bp ) ) * 20;
+        }
+    }
+    
+    if( price == 0 ) {
+        add_msg( m_good, _( "You don't need any repairs…" ) );
+        return;
+    }
+    
+    bool const ret = npc_trading::pay_npc( p, price );
+    if( !ret ) {
+        return;
+    }
+
+    for( const bodypart_id &bp :
+         player_character.get_all_body_parts( get_body_part_flags::only_main ) ) {
+        if( bp->has_flag( json_flag_BIONIC_LIMB ) ||  bp->has_flag( json_flag_PARTIAL_BIONIC_LIMB ) ) {
+            player_character.heal( bp, player_character.get_part_hp_max( bp ) - player_character.get_part_hp_cur( bp ) );
+            if( player_character.has_effect( effect_bite, bp.id() ) ) {
+                player_character.remove_effect( effect_bite, bp );
+            }
+            if( player_character.has_effect( effect_bleed, bp.id() ) ) {
+                player_character.remove_effect( effect_bleed, bp );
+            }
+        }
+    }
+    player_character.assign_activity( wait_npc_activity_actor( 30_minutes, p.get_name() ) );
+    p.add_effect( effect_currently_busy, 120_minutes );
 }
 
 static void generic_barber( const std::string &mut_type )
