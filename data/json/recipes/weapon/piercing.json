@@ -2631,5 +2631,293 @@
       { "id": "DRILL", "level": 3 }
     ],
     "components": [ [ [ "q_staff", 1 ] ], [ [ "pipe_fittings", 1 ] ], [ [ "spike", 1 ] ], [ [ "nuts_bolts", 2 ] ] ]
+  },
+  {
+    "result": "lc_partisan",
+    "type": "recipe",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 2 ], [ "metal_punch", 1 ] ],
+    "components": [ [ [ "spear_shaft", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Preparing and forming steel for the spearhead",
+        "time": "40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ],
+        "qualities": [ { "id": "HAMMER", "level": 3 } ]
+      },
+      {
+        "name": "Forming the mounting socket using taper drift as mandrel",
+        "time": "20 m",
+        "activity_level": "BRISK_EXERCISE",
+        "tools": [ [ [ "drift", -1 ] ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Drawing out metal for blade",
+        "time": "40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Grinding and polishing",
+        "time": "30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Carving the tip of the shaft to fit the socket and securing the head",
+        "time": "30 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 } ],
+        "qualities": [ { "id": "CUT", "level": 2 } ]
+      }
+    ]
+  },
+  {
+    "result": "mc_partisan",
+    "type": "recipe",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "autolearn": false,
+    "book_learn": [ [ "textbook_weapwest", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 2 ], [ "metal_punch", 1 ] ],
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "nail", 2 ] ] ],
+    "steps": [
+      {
+        "name": "Preparing and forming steel for the spearhead",
+        "time": "1 h 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ],
+        "qualities": [ { "id": "HAMMER", "level": 3 } ]
+      },
+      {
+        "name": "Forming the mounting socket using taper drift as mandrel",
+        "time": "30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "tools": [ [ [ "drift", -1 ] ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Drawing out metal for blade",
+        "time": "1 h 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Punching hole in the socket for rivet",
+        "time": "30 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Normalizing the forged spearhead to relieve stress",
+        "time": "40 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Grinding and polishing.  Preparing nail for riveting",
+        "time": "2 h",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Preparing shaft to secure spearhead.  Riveting spearhead with nail and peening",
+        "time": "40 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 } ],
+        "tools": [ [ [ "hammer", -1 ] ] ],
+        "qualities": [ { "id": "CUT", "level": 2 }, { "id": "DRILL", "level": 2 } ]
+      }
+    ]
+  },
+  {
+    "result": "hc_partisan",
+    "type": "recipe",
+    "copy-from": "mc_partisan",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "autolearn": false,
+    "book_learn": [ [ "textbook_weapwest", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "hc_steel_standard", 2 ], [ "metal_punch", 1 ] ],
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "nail", 1 ] ] ]
+  },
+  {
+    "result": "ch_partisan",
+    "type": "recipe",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "autolearn": false,
+    "book_learn": [ [ "textbook_weapwest", 6 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 2 ], [ "metal_punch", 1 ], [ "quench", 120 ] ],
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "nail", 1 ] ] ],
+    "byproducts": [ [ "water", 120 ] ],
+    "steps": [
+      {
+        "name": "Preparing and forming steel for the spearhead",
+        "time": "1 h 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ],
+        "qualities": [ { "id": "HAMMER", "level": 3 } ]
+      },
+      {
+        "name": "Forming the mounting socket using taper drift as mandrel",
+        "time": "50 m",
+        "activity_level": "BRISK_EXERCISE",
+        "tools": [ [ [ "drift", -1 ] ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Drawing out metal for blade",
+        "time": "2 h 10 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Punching hole in the socket for rivet",
+        "time": "40 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Normalizing the spearhead",
+        "time": "40 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Rough grinding.  Preparing nail for riveting",
+        "time": "2 h 30 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Heating spearhead and carefully slack quenching.  Watching steel until desired toughness is achieved",
+        "time": "50 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_hardening" } ]
+      },
+      {
+        "name": "Final grind and polish",
+        "time": "2 h 10 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "FILE", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Carving the tip of the shaft to fit the socket and securing the head.  Riveting spearhead with nail and peening",
+        "time": "40 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 } ],
+        "tools": [ [ [ "hammer", -1 ] ] ],
+        "qualities": [ { "id": "CUT", "level": 2 }, { "id": "DRILL", "level": 2 } ]
+      }
+    ]
+  },
+  {
+    "result": "qt_partisan",
+    "type": "recipe",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 9,
+    "autolearn": false,
+    "book_learn": [ [ "textbook_weapwest", 6 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 2 ], [ "metal_punch", 1 ], [ "quench", 120 ] ],
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "cotton_patchwork", 2 ] ], [ [ "nail", 1 ] ] ],
+    "byproducts": [ [ "water", 120 ] ],
+    "steps": [
+      {
+        "name": "Preparing and forming steel for the spearhead",
+        "time": "1 h 50 m",
+        "activity_level": "BRISK_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ],
+        "qualities": [ { "id": "HAMMER", "level": 3 } ]
+      },
+      {
+        "name": "Forming the mounting socket using taper drift as mandrel",
+        "time": "50 m",
+        "activity_level": "BRISK_EXERCISE",
+        "tools": [ [ [ "drift", -1 ] ] ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Drawing out metal for blade",
+        "time": "2 h 40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
+      },
+      {
+        "name": "Punching hole in the socket for rivet.  Cutting your touchmark on the flat of the spearhead",
+        "time": "40 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Normalizing the spearhead",
+        "time": "40 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
+      },
+      {
+        "name": "Rough grinding.  Preparing nail for riveting.  Engraving blade with intricate patterns",
+        "time": "2 h 40 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Thorough hardening",
+        "time": "40 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_hardening" } ]
+      },
+      {
+        "name": "Carefully grinding off forge scale to observe temper color",
+        "time": "35 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "qualities": [ { "id": "GRIND", "level": 2 } ]
+      },
+      {
+        "name": "Tempering the spearhead to purple-bluish",
+        "time": "4 h",
+        "activity_level": "NO_EXERCISE",
+        "qualities": [ { "id": "TEMPER", "level": 1 } ],
+        "proficiencies": [ { "proficiency": "prof_tempering" } ]
+      },
+      {
+        "name": "Final grind and polish to perfection",
+        "time": "2 h 50 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "FILE", "level": 2 } ],
+        "proficiencies": [ { "proficiency": "prof_bladesmith" }, { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Carving the tip of the shaft to fit the socket and securing the head.  Riveting spearhead with nail and peening.  Making tassel",
+        "time": "40 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 } ],
+        "tools": [ [ [ "hammer", -1 ] ] ],
+        "qualities": [ { "id": "CUT", "level": 2 }, { "id": "DRILL", "level": 2 } ]
+      }
+    ]
   }
 ]

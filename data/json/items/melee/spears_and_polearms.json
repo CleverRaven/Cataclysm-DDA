@@ -348,7 +348,7 @@
     "price_postapoc": "55 USD",
     "color": "light_gray",
     "symbol": "/",
-    "material": [ "mc_steel", "wood" ],
+    "material": [ { "type": "mc_steel", "proportion": 35 }, { "type": "wood", "proportion": 65 } ],
     "techniques": [ "WBLOCK_1", "PENETRATE" ],
     "volume": "1350 ml",
     "longest_side": "180 cm",
@@ -390,7 +390,7 @@
     "looks_like": "spear_steel",
     "type": "ITEM",
     "name": { "str": "hardened steel spear" },
-    "description": "A stout wooden pole tipped with a hand-forged hardened steel spearhead.  The case-hardened and carefully slack quenched tip offers superior killing power, making this a spear fit for a medieval lord.",
+    "description": "A stout wooden pole tipped with a hand-forged hardened steel spearhead.  The carefully slack quenched tip offers superior killing power, making this a spear fit for a medieval lord.",
     "proportional": { "price": 1.1, "price_postapoc": 1.1 },
     "replace_materials": { "mc_steel": "ch_steel" },
     "relative": { "melee_damage": { "stab": 3 } }
@@ -403,8 +403,7 @@
     "name": { "str": "tempered steel spear" },
     "description": "A stout wooden pole tipped with a hand-forged tempered steel spearhead.  Masterfully tempered and quenched, the bluish steel coalesces in a needle-fine point.  The shaft has been lined with a spiraling leather riser, improving control during deadly thrusts.  The king of all weapons.",
     "proportional": { "price": 1.2, "price_postapoc": 1.2 },
-    "replace_materials": { "mc_steel": "qt_steel" },
-    "extend": { "material": [ "leather" ] },
+    "material": [ { "type": "qt_steel", "portion": 45 }, { "type": "wood", "portion": 53 }, { "type": "leather", "portion": 2 } ],
     "relative": { "melee_damage": { "stab": 5, "bash": 2 } }
   },
   {
@@ -1298,5 +1297,70 @@
     "price_postapoc": "30 USD",
     "material": [ "wood", "qt_steel" ],
     "melee_damage": { "bash": 18, "cut": 26 }
+  },
+  {
+    "id": "mc_partisan",
+    "type": "ITEM",
+    "name": { "ctxt": "weapon", "str": "medium steel partisan" },
+    "looks_like": "glaive",
+    "description": "A medieval weapon consisting of a long, thin swordlike spearhead mounted on a long wooden shaft",
+    "weight": "2300 g",
+    "volume": "2 L",
+    "longest_side": "220 cm",
+    "price": "400 USD",
+    "price_postapoc": "50 USD",
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
+    "material": [ { "type": "mc_steel", "proportion": 50 }, { "type": "wood", "proportion": 45 } ],
+    "symbol": "/",
+    "color": "brown",
+    "techniques": [ "WBLOCK_1", "WIDE", "PENETRATE" ],
+    "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
+    "flags": [ "DURABLE_MELEE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
+    "faults": [ { "fault_group": "handle_long", "weight_mult": 4 }, { "fault_group": "spearhead" } ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
+    "category": "weapons",
+    "melee_damage": { "cut": 31, "stab": 24 }
+  },
+  {
+    "id": "lc_partisan",
+    "copy-from": "mc_partisan",
+    "type": "ITEM",
+    "name": { "str": "mild steel partisan" },
+    "description": "A medieval weapon consisting of a long sword-like spearhead mounted on a long wooden shaft.  Although made of low quality steel, it is still reasonably effective, if not very durable.",
+    "proportional": { "price": 0.8, "price_postapoc": 0.8 },
+    "replace_materials": { "mc_steel": "lc_steel" },
+    "relative": { "melee_damage": { "stab": -2, "cut": -2 } },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
+  },
+  {
+    "id": "hc_partisan",
+    "copy-from": "mc_partisan",
+    "type": "ITEM",
+    "name": { "str": "high steel partisan" },
+    "description": "A medieval weapon consisting of a long sword-like spearhead mounted on a long wooden shaft.  The high steel offers superior sharpness",
+    "proportional": { "price": 1.1, "price_postapoc": 1.1 },
+    "replace_materials": { "mc_steel": "hc_steel" },
+    "relative": { "melee_damage": { "stab": 1, "cut": 1 } }
+  },
+  {
+    "id": "ch_partisan",
+    "copy-from": "mc_partisan",
+    "type": "ITEM",
+    "name": { "str": "hardened steel partisan" },
+    "description": "A medieval weapon consisting of a long sword-like spearhead mounted on a long wooden shaft.  Carefully edge quenched, the spearhead is ready to pierce and cleave through anything",
+    "proportional": { "price": 1.2, "price_postapoc": 1.2 },
+    "replace_materials": { "mc_steel": "ch_steel" },
+    "relative": { "melee_damage": { "stab": 2, "cut": 2 } }
+  },
+  {
+    "id": "qt_partisan",
+    "copy-from": "mc_partisan",
+    "type": "ITEM",
+    "name": { "str": "tempered steel partisan" },
+    "description": "A medieval weapon consisting of a long sword-like spearhead mounted on a long wooden shaft.  Masterfully quenched and tempered, the tassel attached to this versatile polearm sways gently as the blade cleaves and pierces through even the toughest foes with elegant ease",
+    "proportional": { "price": 1.3, "price_postapoc": 1.3 },
+    "material": [ { "type": "qt_steel", "portion": 55 }, { "type": "wood", "portion": 60 }, { "type": "cotton", "portion": 3 } ],
+    "relative": { "melee_damage": { "stab": 3, "cut": 4 } }
   }
 ]

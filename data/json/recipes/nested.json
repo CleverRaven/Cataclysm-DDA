@@ -5895,7 +5895,8 @@
       "spear_wood",
       "spear_wood_simple",
       "nested_pikes",
-      "crude_goedendag"
+      "crude_goedendag",
+      "nested_partisans"
     ]
   },
   {
@@ -5907,6 +5908,16 @@
     "name": "steel spears",
     "description": "Recipes related to constructing steel spears from various materials.",
     "nested_category_data": [ "spear_steel", "lc_spear_steel", "hc_spear_steel", "ch_spear_steel", "qt_spear_steel" ]
+  },
+  {
+    "id": "nested_partisans",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "partisans",
+    "description": "Recipes related to constructing partisans.",
+    "nested_category_data": [ "lc_partisan", "mc_partisan", "hc_partisan", "ch_partisan", "qt_partisan" ]
   },
   {
     "id": "nested_pikes",

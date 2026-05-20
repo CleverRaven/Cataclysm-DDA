@@ -137,7 +137,12 @@
       "hc_spear_steel": 31.95,
       "ch_spear_steel": 34.13,
       "qt_spear_steel": 38.17,
-      "art_spear": 30.7
+      "art_spear": 30.7,
+      "lc_partisan": 28.5,
+      "mc_partisan": 31.76,
+      "hc_partisan": 33.5,
+      "ch_partisan": 35.13,
+      "qt_partisan": 37.99
     }
   },
   {
