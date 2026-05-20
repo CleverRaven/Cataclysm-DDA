@@ -1561,7 +1561,7 @@
     "color": "green",
     "material": [ "veggy" ],
     "calories": 15,
-    "spoils_in": "3 weeks",
+    "spoils_in": "21 days",
     "description": "A green stalk with many brussels sprout.",
     "symbol": "b",
     "flags": [ "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE", "FREEZERBURN" ],
