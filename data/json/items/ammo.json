@@ -764,6 +764,7 @@
     "price": "5 USD",
     "price_postapoc": "20 USD",
     "name": { "str_sp": "mixed smokeless gunpowder" },
+    "display_type": "BY_WEIGHT",
     "symbol": "=",
     "color": "dark_gray",
     "description": "Firearm-quality gunpowder, mixed without concern for composition, burn rate, or shape, making it thoroughly useless for reloading ammunition.  It has been slightly ground to make its properties more uniform.",
