@@ -1496,7 +1496,7 @@
     "material": [ "veggy" ],
     "calories": 70,
     "spoils_in": "7 days",
-    "description": "The immature flower bud of a large thistle plant. If left to grow, it blooms into a vibrant purple flower. Needs to be disassembled before being useful for cooking.",
+    "description": "The immature flower bud of a large thistle plant.  If left to grow, it blooms into a vibrant purple flower.  Needs to be disassembled before being useful for cooking.",
     "symbol": "a",
     "flags": [ "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE", "FREEZERBURN" ],
     "smoking_result": "dry_veggy",
