@@ -1583,7 +1583,7 @@
     "material": [ "veggy" ],
     "calories": 5,
     "spoils_in": "5 days",
-    "description": "a small green vegetable that resembles a miniature cabbage.  It grows in clusters along a thick stalk.",
+    "description": "A small green vegetable that resembles a miniature cabbage.  It grows in clusters along a thick stalk.",
     "symbol": "b",
     "looks_like": "brussels_sprout_stalk",
     "flags": [ "RAW" ],
