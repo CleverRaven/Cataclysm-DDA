@@ -2050,12 +2050,22 @@ void ImGui::TableEndRow(ImGuiTable* table)
         // We soft/cpu clip this so all backgrounds and borders can share the same clipping rectangle
         if (bg_col0 || bg_col1)
         {
-            ImRect row_rect(table->WorkRect.Min.x, bg_y1, table->WorkRect.Max.x, bg_y2);
+// START CDDA PATCH #65709
+            float row_rect_x = table->WorkRect.Min.x;
+#ifdef IMTUI
+            row_rect_x += 1.0f;
+#endif
+            ImRect row_rect(row_rect_x, bg_y1, table->WorkRect.Max.x, bg_y2);
             row_rect.ClipWith(table->BgClipRect);
+            ImVec2 row_background_max = row_rect.Max;
+#ifdef IMTUI
+            row_background_max.y = row_rect.Min.y;
+#endif
             if (bg_col0 != 0 && row_rect.Min.y < row_rect.Max.y)
-                window->DrawList->AddRectFilled(row_rect.Min, row_rect.Max, bg_col0);
+                window->DrawList->AddRectFilled(row_rect.Min, row_background_max, bg_col0);
             if (bg_col1 != 0 && row_rect.Min.y < row_rect.Max.y)
-                window->DrawList->AddRectFilled(row_rect.Min, row_rect.Max, bg_col1);
+                window->DrawList->AddRectFilled(row_rect.Min, row_background_max, bg_col1);
+// END CDDA PATCH #65709
         }
 
         // Draw cell background color
@@ -2071,11 +2081,22 @@ void ImGui::TableEndRow(ImGuiTable* table)
                 cell_bg_rect.ClipWith(table->BgClipRect);
                 cell_bg_rect.Min.x = ImMax(cell_bg_rect.Min.x, column->ClipRect.Min.x);     // So that first column after frozen one gets clipped when scrolling
                 cell_bg_rect.Max.x = ImMin(cell_bg_rect.Max.x, column->MaxX);
+// START CDDA PATCH #65709
+#ifdef IMTUI
+                cell_bg_rect.Min.x += 1.0f;
+#endif
+                ImVec2 cell_bg_max = cell_bg_rect.Max;
+#ifdef IMTUI
+                cell_bg_max.y = cell_bg_rect.Min.y;
+#endif
                 if (cell_bg_rect.Min.y < cell_bg_rect.Max.y)
-                    window->DrawList->AddRectFilled(cell_bg_rect.Min, cell_bg_rect.Max, cell_data->BgColor);
+                    window->DrawList->AddRectFilled(cell_bg_rect.Min, cell_bg_max, cell_data->BgColor);
+// END CDDA PATCH #65709
             }
         }
 
+// START CDDA PATCH #65709
+#ifndef IMTUI
         // Draw top border
         if (top_border_col && bg_y1 >= table->BgClipRect.Min.y && bg_y1 < table->BgClipRect.Max.y)
             window->DrawList->AddLineH(table->BorderX1, table->BorderX2, bg_y1, top_border_col, border_size);
@@ -2083,6 +2104,8 @@ void ImGui::TableEndRow(ImGuiTable* table)
         // Draw bottom border at the row unfreezing mark (always strong)
         if (draw_strong_bottom_border && bg_y2 >= table->BgClipRect.Min.y && bg_y2 < table->BgClipRect.Max.y)
             window->DrawList->AddLineH(table->BorderX1, table->BorderX2, bg_y2, table->BorderColorStrong, border_size);
+#endif
+// END CDDA PATCH #65709
     }
 
     // End frozen rows (when we are past the last frozen row line, teleport cursor and alter clipping rectangle)
@@ -2859,7 +2882,14 @@ void ImGui::TableDrawBorders(ImGuiTable* table)
             else if ((table->Flags & (ImGuiTableFlags_NoBordersInBodyUntilResize | ImGuiTableFlags_NoBordersInBody)) == 0)
                 draw_y2 = draw_y2_body;
             if (draw_y2 > draw_y1)
+// START CDDA PATCH #65709
+#ifdef IMTUI
+                for (int y = (int)draw_y1; y < (int)draw_y2; ++y)
+                    inner_drawlist->AddText(ImVec2(column->MaxX - 0.1f, (float)y), TableGetColumnBorderCol(table, order_n, column_n), "|");
+#else
                 inner_drawlist->AddLineV(column->MaxX, draw_y1, draw_y2, TableGetColumnBorderCol(table, order_n, column_n), border_size);
+#endif
+// END CDDA PATCH #65709
         }
     }
 
@@ -2876,19 +2906,45 @@ void ImGui::TableDrawBorders(ImGuiTable* table)
         const ImU32 outer_col = table->BorderColorStrong;
         if ((table->Flags & ImGuiTableFlags_BordersOuter) == ImGuiTableFlags_BordersOuter)
         {
+// START CDDA PATCH #65709
+#ifdef IMTUI
+            for (int y = (int)outer_border.Min.y; y < (int)outer_border.Max.y; ++y)
+            {
+                inner_drawlist->AddText(ImVec2(outer_border.Min.x, (float)y), outer_col, "|");
+                inner_drawlist->AddText(ImVec2(outer_border.Max.x - 2.0f, (float)y), outer_col, "|");
+            }
+#else
             inner_drawlist->AddRect(outer_border.Min, outer_border.Max, outer_col, 0.0f, border_size);
+#endif
+// END CDDA PATCH #65709
         }
         else if (table->Flags & ImGuiTableFlags_BordersOuterV)
         {
+// START CDDA PATCH #65709
+#ifdef IMTUI
+            for (int y = (int)outer_border.Min.y; y < (int)outer_border.Max.y; ++y)
+            {
+                inner_drawlist->AddText(ImVec2(outer_border.Min.x, (float)y), outer_col, "|");
+                inner_drawlist->AddText(ImVec2(outer_border.Max.x - 2.0f, (float)y), outer_col, "|");
+            }
+#else
             inner_drawlist->AddLineV(outer_border.Min.x, outer_border.Min.y, outer_border.Max.y, outer_col, border_size);
             inner_drawlist->AddLineV(outer_border.Max.x, outer_border.Min.y, outer_border.Max.y, outer_col, border_size);
+#endif
+// END CDDA PATCH #65709
         }
         else if (table->Flags & ImGuiTableFlags_BordersOuterH)
         {
+// START CDDA PATCH #65709
+#ifndef IMTUI
             inner_drawlist->AddLineH(outer_border.Min.x, outer_border.Max.x, outer_border.Min.y, outer_col, border_size);
             inner_drawlist->AddLineH(outer_border.Min.x, outer_border.Max.x, outer_border.Max.y, outer_col, border_size);
+#endif
+// END CDDA PATCH #65709
         }
     }
+// START CDDA PATCH #65709
+#ifndef IMTUI
     if ((table->Flags & ImGuiTableFlags_BordersInnerH) && table->RowPosY2 < table->OuterRect.Max.y)
     {
         // Draw bottom-most row border between it is above outer border.
@@ -2896,6 +2952,8 @@ void ImGui::TableDrawBorders(ImGuiTable* table)
         if (border_y >= table->BgClipRect.Min.y && border_y < table->BgClipRect.Max.y)
             inner_drawlist->AddLineH(table->BorderX1, table->BorderX2, border_y, table->BorderColorLight, border_size);
     }
+#endif
+// END CDDA PATCH #65709
 
     inner_drawlist->PopClipRect();
 }

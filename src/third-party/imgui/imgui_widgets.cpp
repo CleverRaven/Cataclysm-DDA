@@ -796,7 +796,13 @@ bool ImGui::ButtonEx(const char* label, const ImVec2& size_arg, ImGuiButtonFlags
     ImVec2 pos = window->DC.CursorPos;
     if ((flags & ImGuiButtonFlags_AlignTextBaseLine) && style.FramePadding.y < window->DC.CurrLineTextBaseOffset) // Try to vertically align buttons that are smaller/have no padding so that text baseline matches (bit hacky, since it shouldn't be a flag)
         pos.y += window->DC.CurrLineTextBaseOffset - style.FramePadding.y;
-    ImVec2 size = CalcItemSize(size_arg, label_size.x + style.FramePadding.x * 2.0f, label_size.y + style.FramePadding.y * 2.0f);
+// START CDDA PATCH #65709
+    float size_x = label_size.x;
+#ifndef IMTUI
+    size_x += style.FramePadding.x * 2.0f;
+#endif
+    ImVec2 size = CalcItemSize(size_arg, size_x, label_size.y + style.FramePadding.y * 2.0f);
+// END CDDA PATCH #65709
 
     const ImRect bb(pos, pos + size);
     ItemSize(size, style.FramePadding.y);
@@ -948,8 +954,14 @@ bool ImGui::CloseButton(ImGuiID id, const ImVec2& pos)
     const ImVec2 cross_center = bb.GetCenter() - ImVec2(0.5f, 0.5f);
     const float cross_extent = g.FontSize * 0.5f * 0.7071f - 1.0f;
     const float cross_thickness = 1.0f * (float)(int)g.Style._MainScale; // FIXME-DPI
+// START CDDA PATCH #65709
+#ifdef IMTUI
+    window->DrawList->AddText(bb.GetCenter() + ImVec2(-2.0f, -cross_extent), cross_col, "[X]");
+#else
     window->DrawList->AddLine(cross_center + ImVec2(+cross_extent, +cross_extent), cross_center + ImVec2(-cross_extent, -cross_extent), cross_col, cross_thickness);
     window->DrawList->AddLine(cross_center + ImVec2(+cross_extent, -cross_extent), cross_center + ImVec2(-cross_extent, +cross_extent), cross_col, cross_thickness);
+#endif
+// END CDDA PATCH #65709
 
     return pressed;
 }
@@ -970,7 +982,17 @@ bool ImGui::CollapseButton(ImGuiID id, const ImVec2& pos)
     ImU32 bg_col = GetColorU32((held && hovered) ? ImGuiCol_ButtonActive : hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button);
     ImU32 text_col = GetColorU32(ImGuiCol_Text);
     if (hovered || held)
+// START CDDA PATCH #65709
+    {
+#ifdef IMTUI
+        ImVec2 hovered_center = bb.GetCenter() + ImVec2(1.0f, 0.0f);
+        float hovered_radius = 0.1f;
+        window->DrawList->AddCircleFilled(hovered_center, hovered_radius, bg_col);
+#else
         window->DrawList->AddRectFilled(bb.Min, bb.Max, bg_col);
+#endif
+    }
+// END CDDA PATCH #65709
     RenderNavCursor(bb, id, ImGuiNavRenderCursorFlags_Compact);
     RenderArrow(window->DrawList, bb.Min, text_col, window->Collapsed ? ImGuiDir_Right : ImGuiDir_Down, 1.0f);
 
@@ -998,8 +1020,15 @@ ImRect ImGui::GetWindowScrollbarRect(ImGuiWindow* window, ImGuiAxis axis)
     const float border_top = (window->Flags & ImGuiWindowFlags_MenuBar) ? IM_ROUND(g.Style.FrameBorderSize * 0.5f) : (window->Flags & ImGuiWindowFlags_NoTitleBar) ? border_size : 0;
     if (axis == ImGuiAxis_X)
         return ImRect(inner_rect.Min.x + border_size, ImMax(outer_rect.Min.y + border_size, outer_rect.Max.y - border_size - scrollbar_size), inner_rect.Max.x - border_size, outer_rect.Max.y - border_size);
-    else
-        return ImRect(ImMax(outer_rect.Min.x, outer_rect.Max.x - border_size - scrollbar_size), inner_rect.Min.y + border_top, outer_rect.Max.x - border_size, inner_rect.Max.y - border_size);
+// START CDDA PATCH #65709
+    else {
+        float final_x2 = outer_rect.Max.x;
+#ifdef IMTUI
+        final_x2 -= 0.1f;
+#endif
+        return ImRect(ImMax(outer_rect.Min.x, outer_rect.Max.x - border_size - scrollbar_size), inner_rect.Min.y + border_top, final_x2 - border_size, inner_rect.Max.y - border_size);
+    }
+// END CDDA PATCH #65709
 }
 
 void ImGui::ExtendHitBoxWhenNearViewportEdge(ImGuiWindow* window, ImRect* bb, float threshold, ImGuiAxis axis)
@@ -1307,17 +1336,36 @@ bool ImGui::Checkbox(const char* label, bool* v)
         RenderNavCursor(total_bb, id);
         ImU32 bg_col = GetColorU32((held && hovered) ? ImGuiCol_FrameBgActive : hovered ? ImGuiCol_FrameBgHovered : (mixed_value || checked) ? ImGuiCol_CheckboxSelectedBg : ImGuiCol_FrameBg);
         ImU32 check_col = GetColorU32(ImGuiCol_CheckMark);
-        RenderFrame(check_bb.Min, check_bb.Max, bg_col, true, style.FrameRounding);
+// START CDDA PATCH #65709
+        ImVec2 frame_p_max = check_bb.Max;
+#ifdef IMTUI
+        frame_p_max.x += 0.5f;
+#endif
+        RenderFrame(check_bb.Min, frame_p_max, bg_col, true, style.FrameRounding);
+// END CDDA PATCH #65709
         if (mixed_value)
         {
             // Undocumented tristate/mixed/indeterminate checkbox (#2644)
             // This may seem awkwardly designed because the aim is to make ImGuiItemFlags_MixedValue supported by all widgets (not just checkbox)
+// START CDDA PATCH #65709
+#ifdef IMTUI
+            const float pad_uniform = 0.5f;
+            RenderCheckMark(window->DrawList, check_bb.Min + ImVec2(pad_uniform, pad_uniform), check_col, square_sz - pad_uniform * 2.0f, "O");
+#else
             ImVec2 pad(ImMax(1.0f, IM_TRUNC(square_sz / 3.6f)), ImMax(1.0f, IM_TRUNC(square_sz / 3.6f)));
             window->DrawList->AddRectFilled(check_bb.Min + pad, check_bb.Max - pad, check_col, style.FrameRounding);
+#endif
+// END CDDA PATCH #65709
         }
         else if (*v)
         {
+// START CDDA PATCH #65709
+#ifdef IMTUI
+            const float pad = 0.5f;
+#else
             const float pad = ImMax(1.0f, IM_TRUNC(square_sz / 6.0f));
+#endif
+// END CDDA PATCH #65709
             RenderCheckMark(window->DrawList, check_bb.Min + ImVec2(pad, pad), check_col, square_sz - pad * 2.0f);
         }
     }
@@ -1410,12 +1458,24 @@ bool ImGui::RadioButton(const char* label, bool active)
 
     RenderNavCursor(total_bb, id);
     const int num_segment = window->DrawList->_CalcCircleAutoSegmentCount(radius);
-    window->DrawList->AddCircleFilled(center, radius, GetColorU32((held && hovered) ? ImGuiCol_FrameBgActive : hovered ? ImGuiCol_FrameBgHovered : ImGuiCol_FrameBg), num_segment);
+// START CDDA PATCH #65709
+    ImVec2 base_center = center;
+    float base_radius = radius;
+#ifdef IMTUI
+    base_center += ImVec2(+0.5f, -0.5f);
+    base_radius = 0.1f;
+#endif
+    window->DrawList->AddCircleFilled(base_center, base_radius, GetColorU32((held && hovered) ? ImGuiCol_FrameBgActive : hovered ? ImGuiCol_FrameBgHovered : ImGuiCol_FrameBg), num_segment);
     if (active)
     {
+#ifdef IMTUI
+        window->DrawList->AddText(center + ImVec2(-1.0f, -1.0f), GetColorU32(ImGuiCol_CheckMark), "x");
+#else
         const float pad = ImMax(1.0f, IM_TRUNC(square_sz / 6.0f));
         window->DrawList->AddCircleFilled(center, radius - pad, GetColorU32(ImGuiCol_CheckMark));
+#endif
     }
+// END CDDA PATCH #65709
 
     if (style.FrameBorderSize > 0.0f)
     {
@@ -1482,8 +1542,16 @@ void ImGui::ProgressBar(float fraction, const ImVec2& size_arg, const char* over
     bb.Expand(ImVec2(-style.FrameBorderSize, -style.FrameBorderSize));
     float fill_x0 = ImLerp(bb.Min.x, bb.Max.x, fill_n0);
     float fill_x1 = ImLerp(bb.Min.x, bb.Max.x, fill_n1);
+// START CDDA PATCH #65709
+#ifdef IMTUI
+    bb.Expand(ImVec2(0.0f, -0.1f));
+#endif
     if (fill_x0 < fill_x1)
         RenderRectFilledInRangeH(window->DrawList, bb, GetColorU32(ImGuiCol_PlotHistogram), fill_x0, fill_x1, style.FrameRounding);
+#ifdef IMTUI
+    bb.Expand(ImVec2(0.0f, 0.1f));
+#endif
+// END CDDA PATCH #65709
 
     // Default displaying the fraction as percentage string, but user can override it
     // Don't display text for indeterminate bars by default
@@ -1685,8 +1753,12 @@ void ImGui::SeparatorEx(ImGuiSeparatorFlags flags, float thickness)
         if (!ItemAdd(bb, 0))
             return;
 
+// START CDDA PATCH #65709
+#ifndef IMTUI
         // Draw
         window->DrawList->AddRectFilled(bb.Min, bb.Max, GetColorU32(ImGuiCol_Separator));
+#endif
+// END CDDA PATCH #65709
         if (g.LogEnabled)
             LogText(" |");
     }
@@ -1971,7 +2043,12 @@ bool ImGui::BeginCombo(const char* label, const char* preview_value, ImGuiComboF
     const ImVec2 label_size = CalcTextSize(label, label_end, false);
     const float preview_width = ((flags & ImGuiComboFlags_WidthFitPreview) && (preview_value != NULL)) ? CalcTextSize(preview_value, NULL, false).x : 0.0f;
     const float w = (flags & ImGuiComboFlags_NoPreview) ? arrow_size : ((flags & ImGuiComboFlags_WidthFitPreview) ? (arrow_size + preview_width + style.FramePadding.x * 2.0f) : CalcItemWidth());
-    const ImRect bb(window->DC.CursorPos, window->DC.CursorPos + ImVec2(w, label_size.y + style.FramePadding.y * 2.0f));
+// START CDDA PATCH #65709
+    ImRect bb(window->DC.CursorPos, window->DC.CursorPos + ImVec2(w, label_size.y + style.FramePadding.y * 2.0f));
+#ifdef IMTUI
+    bb.Min.x += 1.0f;
+#endif
+// END CDDA PATCH #65709
     const ImRect total_bb(bb.Min, bb.Max + ImVec2(label_size.x > 0.0f ? style.ItemInnerSpacing.x + label_size.x : 0.0f, 0.0f));
     ItemSize(total_bb, style.FramePadding.y);
     if (!ItemAdd(total_bb, id, &bb))
@@ -1992,16 +2069,34 @@ bool ImGui::BeginCombo(const char* label, const char* preview_value, ImGuiComboF
     const ImU32 frame_col = GetColorU32(hovered ? ImGuiCol_FrameBgHovered : ImGuiCol_FrameBg);
     const float value_x2 = ImMax(bb.Min.x, bb.Max.x - arrow_size);
     RenderNavCursor(bb, id);
+// START CDDA PATCH #65709
     if (!(flags & ImGuiComboFlags_NoPreview))
-        window->DrawList->AddRectFilled(bb.Min, ImVec2(value_x2, bb.Max.y), frame_col, style.FrameRounding, (flags & ImGuiComboFlags_NoArrowButton) ? ImDrawFlags_RoundCornersAll : ImDrawFlags_RoundCornersLeft);
+    {
+        ImVec2 preview_p_max = ImVec2(value_x2, bb.Max.y);
+#ifdef IMTUI
+        preview_p_max.x += 1.0f;
+        preview_p_max.y = bb.Min.y;
+#endif
+        window->DrawList->AddRectFilled(bb.Min, preview_p_max, frame_col, style.FrameRounding, (flags & ImGuiComboFlags_NoArrowButton) ? ImDrawFlags_RoundCornersAll : ImDrawFlags_RoundCornersLeft);
+    }
     if (!(flags & ImGuiComboFlags_NoArrowButton))
     {
         ImU32 bg_col = GetColorU32((popup_open || hovered) ? ImGuiCol_ButtonHovered : ImGuiCol_Button);
         ImU32 text_col = GetColorU32(ImGuiCol_Text);
-        window->DrawList->AddRectFilled(ImVec2(value_x2, bb.Min.y), bb.Max, bg_col, style.FrameRounding, (w <= arrow_size) ? ImDrawFlags_RoundCornersAll : ImDrawFlags_RoundCornersRight);
+        ImVec2 arrow_btn_p_min = ImVec2(value_x2, bb.Min.y);
+        ImVec2 arrow_btn_p_max = bb.Max;
+#ifdef IMTUI
+        arrow_btn_p_min.x += 1.0f;
+        arrow_btn_p_max.y = bb.Min.y;
+#endif
+        window->DrawList->AddRectFilled(arrow_btn_p_min, arrow_btn_p_max, bg_col, style.FrameRounding, (w <= arrow_size) ? ImDrawFlags_RoundCornersAll : ImDrawFlags_RoundCornersRight);
+#ifndef IMTUI
         if (value_x2 + arrow_size - style.FramePadding.x <= bb.Max.x)
             RenderArrow(window->DrawList, ImVec2(value_x2 + style.FramePadding.y, bb.Min.y + style.FramePadding.y), text_col, ImGuiDir_Down, 1.0f);
+#endif
+        (void)text_col;
     }
+// END CDDA PATCH #65709
     RenderFrameBorder(bb.Min, bb.Max, style.FrameRounding);
 
     // Custom preview
@@ -3403,7 +3498,13 @@ bool ImGui::SliderScalar(const char* label, ImGuiDataType data_type, void* p_dat
 
     // Render grab
     if (grab_bb.Max.x > grab_bb.Min.x)
+// START CDDA PATCH #65709
+#ifdef IMTUI
+        window->DrawList->AddText(grab_bb.Min + ImVec2(0.5f * (grab_bb.Max.x - grab_bb.Min.x), -2.0f), GetColorU32(g.ActiveId == id ? ImGuiCol_SliderGrabActive : ImGuiCol_SliderGrab), "I");
+#else
         window->DrawList->AddRectFilled(grab_bb.Min, grab_bb.Max, GetColorU32(g.ActiveId == id ? ImGuiCol_SliderGrabActive : ImGuiCol_SliderGrab), style.GrabRounding);
+#endif
+// END CDDA PATCH #65709
 
     // Display value using user-provided display format so user can add prefix/suffix/decorations to the value.
     char value_buf[64];
@@ -5629,6 +5730,11 @@ bool ImGui::InputTextEx(const char* label, const char* hint, char* buf, int buf_
                 rect.Min.y = draw_pos.y - draw_scroll.y + line_n * g.FontSize;
                 rect.Max.x = rect.Min.x + rect_width;
                 rect.Max.y = rect.Min.y + bg_offy_dn + g.FontSize;
+// START CDDA PATCH #65709
+#ifdef IMTUI
+                rect.Max.y = rect.Min.y + 0.1f;
+#endif
+// END CDDA PATCH #65709
                 rect.Min.y += bg_offy_up;
                 rect.ClipWith(clip_rect);
                 draw_window->DrawList->AddRectFilled(rect.Min, rect.Max, bg_color);
@@ -5697,8 +5803,15 @@ bool ImGui::InputTextEx(const char* label, const char* hint, char* buf, int buf_
         bool cursor_is_visible = (!g.IO.ConfigInputTextCursorBlink) || (state->CursorAnim <= 0.0f) || ImFmod(state->CursorAnim, 1.20f) <= 0.80f;
         ImVec2 cursor_screen_pos = ImTrunc(draw_pos + cursor_offset - draw_scroll);
         ImRect cursor_screen_rect(cursor_screen_pos.x, cursor_screen_pos.y - g.FontSize + 0.5f, cursor_screen_pos.x + 1.0f, cursor_screen_pos.y - 1.5f);
+// START CDDA PATCH #65709
+#ifdef IMTUI
+        if (cursor_is_visible)
+            draw_window->DrawList->AddLine(cursor_screen_rect.Min + ImVec2(0.6f, -0.5f), cursor_screen_rect.Min + ImVec2(0.6f, -0.5f), GetColorU32(ImGuiCol_Text));
+#else
         if (cursor_is_visible && cursor_screen_rect.Overlaps(clip_rect))
             draw_window->DrawList->AddLineV(cursor_screen_rect.Min.x, cursor_screen_rect.Min.y, cursor_screen_rect.Max.y, GetColorU32(ImGuiCol_InputTextCursor), 1.0f * (float)(int)style._MainScale); // FIXME-DPI: Cursor thickness (#7031)
+#endif
+// END CDDA PATCH #65709
 
         // Notify OS of text input position for advanced IME (-1 x offset so that Windows IME can cover our cursor. Bit of an extra nicety.)
         // This is required for some backends (SDL3) to start emitting character/text inputs.
@@ -9711,7 +9824,18 @@ bool ImGui::MenuItemEx(const char* label, const char* icon, const char* shortcut
                 PopStyleColor();
             }
             if (selected)
-                RenderCheckMark(window->DrawList, text_pos + ImVec2(offsets->OffsetMark + stretch_w + g.FontSize * 0.40f, g.FontSize * 0.134f * 0.5f), GetColorU32(ImGuiCol_Text), g.FontSize * 0.866f);
+// START CDDA PATCH #65709
+            {
+                float offset_x = offsets->OffsetMark + stretch_w + g.FontSize * 0.40f;
+#ifdef IMTUI
+                float offset_y = 1.0f;
+                offset_x -= 1.0f;
+#else
+                float offset_y = g.FontSize * 0.134f * 0.5f;
+#endif
+                RenderCheckMark(window->DrawList, text_pos + ImVec2(offset_x, offset_y), GetColorU32(ImGuiCol_Text), g.FontSize * 0.866f);
+            }
+// END CDDA PATCH #65709
         }
     }
 
@@ -9922,6 +10046,8 @@ bool    ImGui::BeginTabBarEx(ImGuiTabBar* tab_bar, const ImRect& tab_bar_bb, ImG
     // Set cursor pos in a way which only be used in the off-chance the user erroneously submits item before BeginTabItem(): items will overlap
     window->DC.CursorPos = ImVec2(tab_bar->BarRect.Min.x, tab_bar->BarRect.Max.y + tab_bar->ItemSpacingY);
 
+// START CDDA PATCH #65709
+#ifndef IMTUI
     // Draw separator
     // (it would be misleading to draw this in EndTabBar() suggesting that it may be drawn over tabs, as tab bar are appendable)
     const ImU32 col = GetColorU32((flags & ImGuiTabBarFlags_IsFocused) ? ImGuiCol_TabSelected : ImGuiCol_TabDimmedSelected);
@@ -9930,6 +10056,8 @@ bool    ImGui::BeginTabBarEx(ImGuiTabBar* tab_bar, const ImRect& tab_bar_bb, ImG
         const float y = tab_bar->BarRect.Max.y;
         window->DrawList->AddRectFilled(ImVec2(tab_bar->SeparatorMinX, y - g.Style.TabBarBorderSize), ImVec2(tab_bar->SeparatorMaxX, y), col);
     }
+#endif
+// END CDDA PATCH #65709
     return true;
 }
 
@@ -10668,6 +10796,12 @@ bool    ImGui::TabItemEx(ImGuiTabBar* tab_bar, const char* label, bool* p_open, 
     IM_ASSERT(!p_open || !(flags & ImGuiTabItemFlags_Button));
     IM_ASSERT((flags & (ImGuiTabItemFlags_Leading | ImGuiTabItemFlags_Trailing)) != (ImGuiTabItemFlags_Leading | ImGuiTabItemFlags_Trailing)); // Can't use both Leading and Trailing
 
+// START CDDA PATCH #65709
+#ifdef IMTUI
+    if (p_open == NULL)
+        flags |= ImGuiTabItemFlags_NoCloseButton;
+#endif
+// END CDDA PATCH #65709
     // Store into ImGuiTabItemFlags_NoCloseButton, also honor ImGuiTabItemFlags_NoCloseButton passed by user (although not documented)
     if (flags & ImGuiTabItemFlags_NoCloseButton)
         p_open = NULL;
@@ -10928,7 +11062,13 @@ void ImGui::TabItemBackground(ImDrawList* draw_list, const ImRect& bb, ImGuiTabI
     IM_UNUSED(flags);
     IM_ASSERT(width > 0.0f);
     const float rounding = ImMax(0.0f, ImMin((flags & ImGuiTabItemFlags_Button) ? g.Style.FrameRounding : g.Style.TabRounding, width * 0.5f - 1.0f));
+// START CDDA PATCH #65709
+#ifdef IMTUI
+    const float y1 = bb.Min.y;
+#else
     const float y1 = bb.Min.y + 1.0f;
+#endif
+// END CDDA PATCH #65709
     const float y2 = bb.Max.y - g.Style.TabBarBorderSize;
     draw_list->PathLineTo(ImVec2(bb.Min.x, y2));
     draw_list->PathArcToFast(ImVec2(bb.Min.x + rounding, y1 + rounding), rounding, 6, 9);
