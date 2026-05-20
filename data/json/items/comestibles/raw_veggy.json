@@ -1576,7 +1576,7 @@
     "name": { "str": "brussels sprout" },
     "comestible_type": "FOOD",
     "weight": "10 g",
-    "volume": "5 ml",
+    "volume": "15 ml",
     "price": "30 cent",
     "price_postapoc": "10 cent",
     "color": "green",
