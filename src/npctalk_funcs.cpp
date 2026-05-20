@@ -788,18 +788,17 @@ void talk_function::repair_bionic_limbs( npc &p )
     Character &player_character = get_player_character();
 
     signed int price = 0;
-    
-    for( const bodypart_id &bp : player_character.get_all_body_parts( get_body_part_flags::only_main ) ) {
+
+    for( const bodypart_id &bp : player_character.get_all_body_parts(
+             get_body_part_flags::only_main ) ) {
         if( bp->has_flag( json_flag_BIONIC_LIMB ) || bp->has_flag( json_flag_PARTIAL_BIONIC_LIMB ) ) {
             price += ( player_character.get_part_hp_max( bp ) - player_character.get_part_hp_cur( bp ) ) * 20;
         }
     }
-    
     if( price == 0 ) {
         add_msg( m_good, _( "You don't need any repairs…" ) );
         return;
     }
-    
     bool const ret = npc_trading::pay_npc( p, price );
     if( !ret ) {
         return;
@@ -808,7 +807,8 @@ void talk_function::repair_bionic_limbs( npc &p )
     for( const bodypart_id &bp :
          player_character.get_all_body_parts( get_body_part_flags::only_main ) ) {
         if( bp->has_flag( json_flag_BIONIC_LIMB ) ||  bp->has_flag( json_flag_PARTIAL_BIONIC_LIMB ) ) {
-            player_character.heal( bp, player_character.get_part_hp_max( bp ) - player_character.get_part_hp_cur( bp ) );
+            player_character.heal( bp, player_character.get_part_hp_max( bp ) -
+                                   player_character.get_part_hp_cur( bp ) );
             if( player_character.has_effect( effect_bite, bp.id() ) ) {
                 player_character.remove_effect( effect_bite, bp );
             }
