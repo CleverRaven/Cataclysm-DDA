@@ -28,7 +28,7 @@
     },
     "furniture": { "C": "f_counter", "r": "f_rack", "h": "f_chair", "l": "f_locker" },
     "items": {
-      "C": { "item": "radio", "chance": 80, "repeat": [ 1, 2 ] },
+      "C": { "item": "consumer_electronics", "chance": 80, "repeat": [ 1, 2 ] },
       "r": { "item": "recycle_electronic", "chance": 80, "repeat": [ 1, 2 ] },
       "l": { "item": "clothing_work_set", "chance": 80 }
     }
