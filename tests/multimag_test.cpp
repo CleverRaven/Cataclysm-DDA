@@ -68,6 +68,7 @@ static const itype_id itype_heavy_battery_cell( "heavy_battery_cell" );
 static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
 static const itype_id itype_oxygen( "oxygen" );
 static const itype_id itype_paper( "paper" );
+static const itype_id itype_robofac_gun( "robofac_gun" );
 static const itype_id itype_stanag30( "stanag30" );
 static const itype_id itype_sw_619( "sw_619" );
 static const itype_id itype_test_multimag_gun( "test_multimag_gun" );
@@ -311,6 +312,19 @@ TEST_CASE( "display_name_multi_well_per_well_counts", "[multimag][display]" )
         CHECK( name.find( variant_556 ) != std::string::npos );
         CHECK( name.find( "15/15" ) != std::string::npos );
         CHECK( name.find( "30/30" ) != std::string::npos );
+    }
+
+    SECTION( "bare HWP with null gun ammotype and no barrel mod does not crash" ) {
+        // robofac_gun is barrel-swappable: ammo_default() resolves to
+        // NULL_ID and find_template(NULL_ID)->ammo is null.
+        item gun( itype_robofac_gun );
+        REQUIRE( gun.is_gun() );
+        REQUIRE( !gun.ammo_types().empty() );
+        REQUIRE( gun.ammo_data() == nullptr );
+        std::string name;
+        name = remove_color_tags( gun.display_name() );
+        CAPTURE( name );
+        CHECK_FALSE( name.empty() );
     }
 }
 
