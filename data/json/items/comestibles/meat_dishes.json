@@ -1160,7 +1160,7 @@
       {
         "type": "FLAG",
         "condition": "STRICT_HUMANITARIANISM",
-        "name": { "str": "slice of protesting pizza", "str_pl": "slices of protestesting pizza" }
+        "name": { "str": "slice of protesting pizza", "str_pl": "slices of protesting pizza" }
       },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "miserable %s" } }
     ],
