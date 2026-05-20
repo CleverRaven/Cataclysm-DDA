@@ -273,6 +273,7 @@ static const itype_id itype_cigar_lit( "cigar_lit" );
 static const itype_id itype_cow_bell( "cow_bell" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_ecig( "ecig" );
+static const itype_id itype_efile_map( "efile_map" );
 static const itype_id itype_efile_photos( "efile_photos" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_geiger_on( "geiger_on" );
@@ -5656,23 +5657,45 @@ std::optional<int> iuse::efiledevice( Character *p, item *it, const tripoint_bub
         }
     };
 
+    auto read_all_map_caches = [&p, &used_edevice]() {
+        avatar *a = p->as_avatar();
+        if( a ) {
+            const std::vector<item *> efiles_snapshot = used_edevice->efiles();
+            for( item *efile : efiles_snapshot ) {
+                if( efile->typeId() == itype_efile_map && efile->get_var( "map_cache" ) != "read" ) {
+                    a->use( item_location( used_edevice, efile ) );
+                }
+            }
+        } else {
+            debugmsg( "NPC attempted to read e-file; not yet supported" );
+        }
+    };
+
     uilist amenu;
 
     enum {
-        efd_invalid, efd_browse, efd_read_this, efd_read_external, efd_move_off_this, efd_move_onto_this, efd_combo_bm, efd_copy_onto_this, efd_copy_from_this, efd_wipe
+        efd_invalid, efd_browse, efd_read_this, efd_read_external, efd_move_off_this, efd_move_onto_this, efd_combo_bm, efd_copy_onto_this, efd_copy_from_this, efd_wipe, efd_read_all_map_caches
     };
 
     amenu.text = _( "Select operation:" );
     amenu.addentry( efd_combo_bm, true, 'a', _( "Browse + move files from all devices" ) );
     amenu.addentry( efd_browse, true, 'b', _( "Browse devices" ) );
-    const bool has_files = !used_edevice->efiles().empty();
     if( used_edevice->is_browsed() ) {
+        const std::vector<item *> device_efiles = used_edevice->efiles();
+        const bool has_files = !device_efiles.empty();
         amenu.addentry( efd_read_this, has_files, 'r', _( "Read files on this device" ) );
         amenu.addentry( efd_read_external, true, 'e', _( "Read files on external devices" ) );
         amenu.addentry( efd_move_onto_this, true, 'm', _( "Move files onto this device" ) );
         amenu.addentry( efd_copy_onto_this, true, 'c', _( "Copy files onto this device" ) );
         amenu.addentry( efd_move_off_this, has_files, 'o', _( "Move files off of this device" ) );
         amenu.addentry( efd_copy_from_this, has_files, 'f', _( "Copy files off of this device" ) );
+        const int unread_map_caches = std::count_if( device_efiles.begin(),
+                                      device_efiles.end(),
+        []( const item * efile ) {
+            return efile->typeId() == itype_efile_map && efile->get_var( "map_cache" ) != "read";
+        } );
+        amenu.addentry( efd_read_all_map_caches, unread_map_caches > 0, 'p',
+                        string_format( _( "Process all map caches on this device (%d)" ), unread_map_caches ) );
         amenu.addentry( efd_wipe, true, 'W', _( "Wipe files from devices" ) );
     }
 
@@ -5696,6 +5719,10 @@ std::optional<int> iuse::efiledevice( Character *p, item *it, const tripoint_bub
             break;
         case efd_read_external:
             read_edevice( true );
+            return std::nullopt;
+            break;
+        case efd_read_all_map_caches:
+            read_all_map_caches();
             return std::nullopt;
             break;
         case efd_move_onto_this:

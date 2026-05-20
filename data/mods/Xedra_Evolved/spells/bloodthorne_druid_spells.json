@@ -144,7 +144,7 @@
     "magic_type": "xedra_bloodthorne_sorcery",
     "skill": "deduction",
     "spell_class": "BLOODTHORNE_SORCERY",
-    "caster_condition": {
+    "target_condition": {
       "or": [
         { "npc_has_effect": "effect_hungry_roots" },
         { "npc_is_on_terrain": "t_grass_long" },

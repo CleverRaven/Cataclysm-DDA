@@ -478,7 +478,7 @@ void item_wakeup_manager::process( time_point now )
 
 void item_wakeup_manager::clear()
 {
-    entries_.clear();
+    entries_.reset();
     by_key_.clear();
     heap_.clear();
     stats_ = stats{};

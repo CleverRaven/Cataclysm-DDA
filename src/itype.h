@@ -1679,8 +1679,6 @@ struct itype {
 
         std::string count_or_volume_or_weight_prefix( unsigned int quantity ) const;
 
-        bool dont_display_count_or_charges() const;
-
         // Returns the name of the item type in the correct language and with respect to its grammatical number,
         // based on quantity (example: item type "anvil", nname(4) would return "anvils" (as in "4 anvils").
         std::string nname( unsigned int quantity ) const;

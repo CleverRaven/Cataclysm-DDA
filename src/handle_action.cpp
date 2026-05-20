@@ -348,8 +348,7 @@ input_context game::get_player_input( std::string &action )
                 WEATHER_DRIZZLE | WEATHER_LIGHT_DRIZZLE | WEATHER_RAINY | WEATHER_RAINSTORM | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
                 WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
                 */
-                invalidate_main_ui_adaptor();
-
+                const bool had_weather_animation = !wPrint.vdrops.empty();
                 wPrint.vdrops.clear();
 
                 for( int i = 0; i < dropCount; i++ ) {
@@ -366,6 +365,9 @@ input_context game::get_player_input( std::string &action )
                         // Suppress if a critter is there
                         wPrint.vdrops.emplace_back( iRand.x, iRand.y );
                     }
+                }
+                if( had_weather_animation || !wPrint.vdrops.empty() ) {
+                    invalidate_main_ui_adaptor();
                 }
             }
             // don't bother calculating SCT if we won't show it

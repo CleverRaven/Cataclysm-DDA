@@ -222,7 +222,7 @@ std::string craft( item const &it, unsigned int /* quantity */,
         } else {
             maintext = string_format( _( "in progress %s" ), it.get_making().result_name() );
         }
-        if( it.charges > 1 && !it.type->dont_display_count_or_charges() ) {
+        if( it.charges > 1 ) {
             maintext += string_format( " (%d)", it.charges );
         }
         int effective_counter = it.item_counter;

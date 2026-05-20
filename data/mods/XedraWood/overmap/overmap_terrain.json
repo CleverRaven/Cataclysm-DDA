@@ -178,5 +178,45 @@
     "name": "cathedral of flesh sanctuary",
     "color": "red",
     "sym": "H"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "hollow_village1",
+      "hollow_village2",
+      "hollow_village3",
+      "hollow_village4",
+      "hollow_village5",
+      "hollow_village6",
+      "hollow_village7",
+      "hollow_village8",
+      "hollow_village9"
+    ],
+    "name": "small village",
+    "vision_levels": "hollow_village",
+    "sym": "v",
+    "color": "red",
+    "see_cost": "high",
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "hollow_village_zomb_1",
+      "hollow_village_zomb_2",
+      "hollow_village_zomb_3",
+      "hollow_village_zomb_4",
+      "hollow_village_zomb_5",
+      "hollow_village_zomb_6",
+      "hollow_village_zomb_7",
+      "hollow_village_zomb_8",
+      "hollow_village_zomb_9"
+    ],
+    "name": "overrun village",
+    "vision_levels": "zombie_village",
+    "sym": "v",
+    "color": "red",
+    "see_cost": "high",
+    "flags": [ "RISK_HIGH" ]
   }
 ]

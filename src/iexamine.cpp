@@ -2317,7 +2317,7 @@ void iexamine_helper::handle_harvest( Character &you, const itype_id &itemid, bo
             }
         }
     } else if( !force_drop && you.can_pickVolume( harvest, true ) &&
-               you.can_pickWeight( harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+               you.can_pickWeight( harvest, false ) ) {
         you.i_add( harvest );
         you.add_msg_if_player( _( "You harvest: %s." ), harvest.tname() );
         you.add_msg_if_npc( _( "<npcname> harvests: %s." ), harvest.tname() );

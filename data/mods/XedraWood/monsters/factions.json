@@ -17,6 +17,29 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "hollow_civilian",
+    "base_faction": "human",
+    "friendly": [ "hollow_warrior, hollow_hunter" ],
+    "by_mood": [ "player" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "hollow_warrior",
+    "base_faction": "human",
+    "friendly": [ "hollow_civilian", "hollow_hunter" ],
+    "hate": [ "zombie" ],
+    "by_mood": [ "player" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "hollow_hunter",
+    "base_faction": "human",
+    "friendly": [ "hollow_civilian, hollow_warrior" ],
+    "hate": [ "small_animal", "vermin", "zombie" ],
+    "by_mood": [ "player" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "very_small_predator",
     "base_faction": "cat",
     "by_mood": [ "small_animal", "very_small_predator" ],

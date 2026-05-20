@@ -702,6 +702,7 @@
             { "u_has_trait": "CBM_Interface" },
             { "not": { "u_has_trait": "EXODII_BODY_1" } },
             { "not": { "u_has_trait": "EXODII_BODY_1b" } },
+            { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } },
             { "math": [ "faction_trust('exodii') < 20" ] }
           ]
         },
@@ -714,6 +715,7 @@
             { "u_has_trait": "CBM_Interface" },
             { "not": { "u_has_trait": "EXODII_BODY_1" } },
             { "not": { "u_has_trait": "EXODII_BODY_1b" } },
+            { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } },
             { "math": [ "faction_trust('exodii') >= 20" ] }
           ]
         },
@@ -964,6 +966,7 @@
             { "u_has_trait": "CBM_Interface" },
             { "not": { "u_has_trait": "EXODII_BODY_1" } },
             { "not": { "u_has_trait": "EXODII_BODY_1b" } },
+            { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } },
             { "math": [ "exodii_knows_u_double_crossed == 1" ] }
           ]
         },
@@ -976,6 +979,7 @@
             { "u_has_trait": "CBM_Interface" },
             { "not": { "u_has_trait": "EXODII_BODY_1" } },
             { "not": { "u_has_trait": "EXODII_BODY_1b" } },
+            { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } },
             { "math": [ "exodii_knows_u_double_crossed != 1" ] }
           ]
         },
@@ -1229,6 +1233,7 @@
             { "u_has_trait": "CBM_Interface" },
             { "not": { "u_has_trait": "EXODII_BODY_1" } },
             { "not": { "u_has_trait": "EXODII_BODY_1b" } },
+            { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } },
             { "math": [ "exodii_knows_u_double_crossed == 1" ] }
           ]
         },
@@ -1241,6 +1246,7 @@
             { "u_has_trait": "CBM_Interface" },
             { "not": { "u_has_trait": "EXODII_BODY_1" } },
             { "not": { "u_has_trait": "EXODII_BODY_1b" } },
+            { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } },
             { "math": [ "exodii_knows_u_double_crossed != 1" ] }
           ]
         },

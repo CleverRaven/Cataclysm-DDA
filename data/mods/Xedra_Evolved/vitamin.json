@@ -14,7 +14,7 @@
     "id": "human_blood_vitamin",
     "type": "vitamin",
     "//": "Only Vampires have the ability to process this vitamin so if other characters gain any amount of this it will stick around forever and potentially give them the excess disease.",
-    "//2": "Regular vampires have a maximum of 5600 blood vitamin.  Only Vampire Anathema can obtain the capacity increase mutations.",
+    "//2": "Regular vampires have a maximum of 5600 blood vitamin.  Only Vampire Anathema can obtain the capacity increase mutations and missing excess tables.",
     "vit_type": "counter",
     "name": { "str": "Stolen Blood" },
     "excess": "blood_quenched",

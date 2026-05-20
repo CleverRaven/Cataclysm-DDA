@@ -5573,7 +5573,7 @@ void map::i_clear( const tripoint_bub_ms &p )
         set_lightmap_cache_dirty( p.z() );
     }
     current_submap->set_lum( l, 0 );
-    current_submap->get_items( l ).clear();
+    current_submap->get_items( l ).reset();
 }
 
 std::vector<item *> map::spawn_items( const tripoint_bub_ms &p, const std::vector<item> &new_items )
@@ -5935,7 +5935,7 @@ void map::make_active( item_location &loc )
         return;
     }
     cata::colony<item> &item_stack = current_submap->get_items( l );
-    cata::colony<item>::iterator iter = item_stack.get_iterator_from_pointer( target );
+    cata::colony<item>::iterator iter = item_stack.get_iterator( target );
 
     if( current_submap->active_items.add( *iter, l ) ) {
         tripoint_abs_sm const smloc( abs_sub.x() + loc.pos_bub( *this ).x() / SEEX,

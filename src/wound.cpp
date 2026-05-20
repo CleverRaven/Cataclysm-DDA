@@ -26,6 +26,7 @@ void wound_type::load( const JsonObject &jo, const std::string_view & )
     optional( jo, was_loaded, "weight", weight, 1 );
     optional( jo, was_loaded, "limit", limit, 0 );
 
+    optional( jo, was_loaded, "wound_progression", wound_progression );
     optional( jo, was_loaded, "whitelist_bp_with_flag", whitelist_bp_with_flag );
     optional( jo, was_loaded, "whitelist_body_part_types", whitelist_body_part_types );
     optional( jo, was_loaded, "blacklist_bp_with_flag", blacklist_bp_with_flag );
@@ -190,6 +191,12 @@ void wound_fix::finalize()
         const_cast<wound_type &>( *fid ).fixes.emplace( id );
     }
     requirement_data::finalize();
+}
+
+void wound_progress::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "id", id );
+    optional( jo, false, "chance", chance, numeric_bound_reader<int> {0, 100} );
 }
 
 void wound_proficiency::deserialize( const JsonObject &jo )

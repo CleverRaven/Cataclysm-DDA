@@ -465,9 +465,10 @@ cataimgui::bounds overmap_sidebar::get_bounds()
     // old-school terminal emulation, even though the overmap tiles
     // are a different size entirely.
     float width = static_cast<float>( OVERMAP_LEGEND_WIDTH ) * character_cell_width;
-    return { viewport.x - width,
+    float window_x_position = viewport.x - width;
+    return { window_x_position,
              0,
-             viewport.x,
+             viewport.x - window_x_position,
              viewport.y
            };
 }

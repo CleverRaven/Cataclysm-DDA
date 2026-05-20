@@ -6465,7 +6465,7 @@ std::optional<vehicle_stack::iterator> vehicle::add_item( map &here, vehicle_par
 bool vehicle::remove_item( vehicle_part &vp, item *it )
 {
     const cata::colony<item> &veh_items = vp.items;
-    const cata::colony<item>::const_iterator iter = veh_items.get_iterator_from_pointer( it );
+    const cata::colony<item>::const_iterator iter = veh_items.get_iterator( it );
     if( iter == veh_items.end() ) {
         return false;
     }

@@ -226,6 +226,7 @@ Allow ferals to unlock car doors.
 Direct route autodrive pathfinding
 Vehicle turrets and tools draw from multimag pockets
 Recipes can mark steps as unattended; player can wait, walk away, or set a timer
+Getting an Exodii Cyberframe locks you out of Hub 01 content
 
 
 ## Content:
@@ -483,6 +484,7 @@ Added the jetski map extra, a jetski abandoned on the side of the river
 Added the Final Showdown map extra, an injured survivor's last stand against a few zombies
 Overgrown labyrinths
 Labyrinth specific CBMs:  anchor; laser reader; psyshield; artificial hair; blood biofactory; antigravity jump
+The Exodii can turn you into a full-blown cyborg
 
 
 ## Interface:
@@ -646,6 +648,7 @@ Replace curses crafting menu with ImGui implementation
 Migrate popups in vehicle interaction menu to ImGui
 Update to ImGui 1.91.9b
 Move appliance infobox to imgui
+Display some items by volume, weight or length instead of count
 
 
 ## Mods:
@@ -1131,6 +1134,7 @@ XE Proficiency CBMs
 [Sky Island] NPCs may join raids
 [BPerks/MM/Sorc] XP mods can level up more than once at a time
 Aftershock: Add industrial habitat building.
+Add "XedraWood: Stone and Sorcery" mod to the CDDA repository
 
 ## Balance:
 Visitors Passes and Freight Badges no longer reveal roads
@@ -2106,6 +2110,7 @@ clang-tidy: support LLVM 19-22 in custom plugin and helper scripts
 Fix lint findings reported by clang-tidy 21
 Bump clang-tidy CI baseline from LLVM 18 to LLVM 21
 Re-enable cata-large-stack-object check on LLVM 22
+SDL3 GPU shader pipeline for sprite variants
 
 
 ## Build:

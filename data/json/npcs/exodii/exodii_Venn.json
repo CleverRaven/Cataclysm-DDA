@@ -50,17 +50,35 @@
     "responses": [
       {
         "text": "Hi, Venn.  Could you repair my Cyberframe?",
-        "condition": { "or": [ { "u_has_trait": "EXODII_BODY_1" }, { "u_has_trait": "EXODII_BODY_1b" } ] },
+        "condition": {
+          "or": [
+            { "u_has_trait": "EXODII_BODY_1" },
+            { "u_has_trait": "EXODII_BODY_1b" },
+            { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" }
+          ]
+        },
         "topic": "TALK_EXODII_VENN_repair"
       },
       {
         "text": "Good talk, Venn.  See you later.",
-        "condition": { "or": [ { "u_has_trait": "EXODII_BODY_1" }, { "u_has_trait": "EXODII_BODY_1b" } ] },
+        "condition": {
+          "or": [
+            { "u_has_trait": "EXODII_BODY_1" },
+            { "u_has_trait": "EXODII_BODY_1b" },
+            { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" }
+          ]
+        },
         "topic": "TALK_DONE"
       },
       {
         "text": "Well, nevermind, I guess.",
-        "condition": { "and": [ { "not": { "u_has_trait": "EXODII_BODY_1" } }, { "not": { "u_has_trait": "EXODII_BODY_1b" } } ] },
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "EXODII_BODY_1" } },
+            { "not": { "u_has_trait": "EXODII_BODY_1b" } },
+            { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } }
+          ]
+        },
         "topic": "TALK_DONE"
       }
     ]

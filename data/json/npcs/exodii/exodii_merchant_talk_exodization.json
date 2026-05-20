@@ -347,6 +347,7 @@
         "text": "Can you tell me a bit more about how Cyberframes work?",
         "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_info"
       },
+      { "text": "What about my existing bionics?", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_bionics" },
       { "text": "Tell me more about Cyberframe 1a.", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1a" },
       { "text": "Tell me more about Cyberframe 1b.", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1b" },
       {
@@ -367,6 +368,31 @@
       "str": "Peasey, truly.  You'll still be mostly mince, like ol' Rubik here.  Even much'a muscle n' bone.  Human inside.  But yer wiggles and wobs, that is yer limbs and digits, will be mostly steel.\"  Rubik motions to your eyes.  \"Yer berry pies, too.  Ye'll keep the see-ey bits, but they'll be part'a the new interface.  So, arms, legs, eyes, it'll all need power to work.  They'll work without, but tassed it isn't nice.\"  Rubik motions to your torso and head.  \"Now, yer chest n' lump, and everything in'em, will go inside the tidy bell.  Yer heart n' lungs n' all of that will keep going as it is now, no need for power.  All in all, you'll be more sturdy, n' the steel'll do the hard work for ye.  No more losin' breath on a scramble with the dead… if ye can stay powered n' in fine repair."
     },
     "responses": [
+      { "text": "What about my existing bionics?", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_bionics" },
+      { "text": "Tell me more about Cyberframe 1a.", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1a" },
+      { "text": "Tell me more about Cyberframe 1b.", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1b" },
+      {
+        "text": "So, will I be an Exodii after this?",
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_exodii_question"
+      },
+      {
+        "text": "Actually, can we wait?  I'll ask you about this again later.",
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_back_out"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_bionics",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Since we're stripping you down to flesh and bone you need to survive, we can take the time to salvage your CBMs, and keep it all intact, reinstalled in your new Cyberframe.  But your limbs and other parts will be exchangeable, like bionics.  In the future, if you take off a limb, you'll have to remove your CBMs, fix them, clean them, and reinstall them.",
+      "str": "Since ye've gotta strip down t'vital flesh n' hard scones, we'll salvage your bright'n'steelies, and repackage them in the new frame.  After, you can swap your wiggles and wobs, that is yer limbs and digits, like steelies, with a bit of effort.  If ye plan to do that, also plan to remove your implants, fix'em, clean'em, and shove'em back in."
+    },
+    "responses": [
+      {
+        "text": "Can you tell me a bit more about how Cyberframes work?",
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_info"
+      },
       { "text": "Tell me more about Cyberframe 1a.", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1a" },
       { "text": "Tell me more about Cyberframe 1b.", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1b" },
       {
@@ -391,6 +417,7 @@
         "text": "Can you tell me a bit more about how Cyberframes work?",
         "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_info"
       },
+      { "text": "What about my existing bionics?", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_bionics" },
       {
         "text": "[Integrate your body into an Exodii Cyberframe 1a] Okay, I'll take 1a, the bulky, armored frame.",
         "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1a_yes"
@@ -418,6 +445,7 @@
         "text": "Can you tell me a bit more about how Cyberframes work?",
         "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_info"
       },
+      { "text": "What about my existing bionics?", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_bionics" },
       { "text": "Tell me more about Cyberframe 1a.", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1a" },
       {
         "text": "[Integrate your body into an Exodii Cyberframe 1b] Okay, I'll take 1b, the human-like frame.",
@@ -445,6 +473,7 @@
         "text": "Can you tell me a bit more about how Cyberframes work?",
         "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_info"
       },
+      { "text": "What about my existing bionics?", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_bionics" },
       { "text": "Tell me more about Cyberframe 1a.", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1a" },
       { "text": "Tell me more about Cyberframe 1b.", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1b" },
       {
@@ -473,7 +502,12 @@
           { "u_add_effect": "narcosis", "duration": "12 hours" },
           { "u_add_effect": "sleep", "duration": "12 hours" },
           { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "12 hours" },
-          { "u_add_trait": "EXODII_BODY_1" },
+          { "u_add_trait": "EXODII_CYBERFRAME_GENERIC" },
+          { "u_add_bionic": "bio_exodii_cyberframe_1a" },
+          { "u_add_bionic": "bio_exodii_leg_bionic_basic_armored_left" },
+          { "u_add_bionic": "bio_exodii_leg_bionic_basic_armored_right" },
+          { "u_add_bionic": "bio_exodii_arm_bionic_basic_armored_left" },
+          { "u_add_bionic": "bio_exodii_arm_bionic_basic_armored_right" },
           { "run_eocs": "EOC_EXODII_MERCHANT_Exodize_Cyberframe_done", "time_in_future": "12 hours" },
           { "run_eocs": "EOC_ROBOFAC_HATES_EXODII_CYBORGS" }
         ],
@@ -492,7 +526,12 @@
           { "u_add_effect": "narcosis", "duration": "12 hours" },
           { "u_add_effect": "sleep", "duration": "12 hours" },
           { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "12 hours" },
-          { "u_add_trait": "EXODII_BODY_1b" },
+          { "u_add_trait": "EXODII_CYBERFRAME_GENERIC" },
+          { "u_add_bionic": "bio_exodii_cyberframe_1a" },
+          { "u_add_bionic": "bio_exodii_leg_bionic_basic_left" },
+          { "u_add_bionic": "bio_exodii_leg_bionic_basic_right" },
+          { "u_add_bionic": "bio_exodii_arm_bionic_basic_left" },
+          { "u_add_bionic": "bio_exodii_arm_bionic_basic_right" },
           { "run_eocs": "EOC_EXODII_MERCHANT_Exodize_Cyberframe_done", "time_in_future": "12 hours" },
           { "run_eocs": "EOC_ROBOFAC_HATES_EXODII_CYBORGS" }
         ],

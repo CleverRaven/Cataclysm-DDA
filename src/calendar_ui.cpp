@@ -11,6 +11,7 @@
 #include "input_popup.h"
 #include "string_formatter.h"
 #include "translation.h"
+#include "translations.h"
 #include "uilist.h"
 
 time_point calendar_ui::select_time_point( time_point initial_value, std::string_view title,
