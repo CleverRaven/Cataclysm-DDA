@@ -16,8 +16,8 @@
     "use_action": [
       {
         "type": "mp3",
-        "transform": "You slip in a cassette, put on headphones, and start listening to music.",
-        "message": "<ddotd_portable_music_on>.",
+        "transform": "portable_music_player_on",
+        "message": "You slip in a cassette, put on headphones, and start listening to music.",
         "activate": true
       }
     ],
