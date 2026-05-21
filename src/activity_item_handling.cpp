@@ -2565,59 +2565,6 @@ bool activity_must_be_in_zone( activity_id act_id, const tripoint_bub_ms &src_lo
           !here.partial_con_at( src_loc ) );
 }
 
-requirement_check_result fetch_requirements( Character &you, requirement_id what_we_need,
-        const activity_id &act_id,
-        activity_reason_info &act_info, const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc,
-        const std::unordered_set<tripoint_abs_ms> &src_set )
-{
-
-    map &here = get_map();
-
-    if( you.as_npc() && you.as_npc()->job.fetch_history.count( what_we_need.str() ) != 0 &&
-        you.as_npc()->job.fetch_history[what_we_need.str()] == calendar::turn ) {
-        // this may be faild fetch already. give up task for a while to avoid infinite loop.
-        you.activity = player_activity();
-        you.backlog.clear();
-        check_npc_revert( you );
-        return requirement_check_result::SKIP_LOCATION;
-    }
-    you.backlog.emplace_front( act_id );
-    you.assign_activity( ACT_FETCH_REQUIRED );
-    player_activity &act_prev = you.backlog.front();
-    act_prev.str_values.push_back( what_we_need.str() );
-    act_prev.values.push_back( static_cast<int>( act_info.reason ) );
-    // come back here after successfully fetching your stuff
-    if( act_prev.coords.empty() ) {
-        std::vector<tripoint_bub_ms> local_src_set;
-        local_src_set.reserve( src_set.size() );
-        for( const tripoint_abs_ms &elem : src_set ) {
-            local_src_set.push_back( here.get_bub( elem ) );
-        }
-        std::vector<tripoint_bub_ms> candidates;
-        for( const tripoint_bub_ms &point_elem :
-             here.points_in_radius( src_loc, PICKUP_RANGE - 1, 0 ) ) {
-            // we don't want to place the components where they could interfere with our ( or someone else's ) construction spots
-            if( ( std::find( local_src_set.begin(), local_src_set.end(),
-                             point_elem ) != local_src_set.end() ) || !here.can_put_items_ter_furn( point_elem ) ) {
-                continue;
-            }
-            candidates.push_back( point_elem );
-        }
-        if( candidates.empty() ) {
-            you.activity = player_activity();
-            you.backlog.clear();
-            check_npc_revert( you );
-            return requirement_check_result::SKIP_LOCATION_NO_LOCATION;
-        }
-        act_prev.coords.push_back(
-            here.get_abs(
-                candidates[std::max( 0, static_cast<int>( candidates.size() / 2 ) )] )
-        );
-    }
-    act_prev.placement = src;
-    return requirement_check_result::RETURN_EARLY;
-}
-
 requirement_check_result requirement_fail( Character &you, const do_activity_reason &reason,
         const activity_id &act_id, const zone_data *zone )
 {
