@@ -1508,8 +1508,8 @@
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "vitC", 3 ], [ "veggy_allergen", 1 ] ],
     "fun": -5
-   }, 
-   {
+  },
+  {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "cauliflower",
@@ -1520,41 +1520,41 @@
     "price": "30 cent",
     "price_postapoc": "20 cent",
     "fun": -3
-   },
-   {
-     "type": "ITEM",
-     "subtypes": [ "COMESTIBLE" ],
-     "id": "kale_head",
-     "name": { "str_sp": "kale head" },
-     "weight": "100 g",
-     "color": "dark_green",
-     "spoils_in": "5 days",
-     "comestible_type": "FOOD",
-     "symbol": "k",
-     "calories": 50,
-     "description": "A leafy green vegetable belonging to the cabbage family.  It is known for its dark green, curly or flat leaves and its high nutritional value.",
-     "price": "100 cent",
-     "price_postapoc": "30 cent",
-     "material": [ "veggy" ],
-     "volume": "250 ml",
-     "flags": [ "FREEZERBURN", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
-     "smoking_result": "dry_veggy",
-     "vitamins": [ [ "calcium", 3 ], [ "iron", 4 ], [ "vitC", 4 ], [ "veggy_allergen", 1 ] ],
-     "fun": -5
-    }, 
-    {
-     "type": "ITEM",
-     "subtypes": [ "COMESTIBLE" ],
-     "id": "kale",
-     "name": { "str": "kale" },
-     "copy-from": "kale_head",
-     "spoils_in": "3 days",
-     "description": "A handful of shredded kale.",
-     "price": "30 cent",
-     "price_postapoc": "20 cent",
-     "fun": -3
-    },
-    { 
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "kale_head",
+    "name": { "str_sp": "kale head" },
+    "weight": "100 g",
+    "color": "dark_green",
+    "spoils_in": "5 days",
+    "comestible_type": "FOOD",
+    "symbol": "k",
+    "calories": 50,
+    "description": "A leafy green vegetable belonging to the cabbage family.  It is known for its dark green, curly or flat leaves and its high nutritional value.",
+    "price": "100 cent",
+    "price_postapoc": "30 cent",
+    "material": [ "veggy" ],
+    "volume": "250 ml",
+    "flags": [ "FREEZERBURN", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 4 ], [ "vitC", 4 ], [ "veggy_allergen", 1 ] ],
+    "fun": -5
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "kale",
+    "name": { "str": "kale" },
+    "copy-from": "kale_head",
+    "spoils_in": "3 days",
+    "description": "A handful of shredded kale.",
+    "price": "30 cent",
+    "price_postapoc": "20 cent",
+    "fun": -3
+  },
+  {
     "id": "raw_artichoke",
     "name": { "str": "raw artichoke" },
     "comestible_type": "FOOD",
@@ -1573,8 +1573,8 @@
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 4 ], [ "iron", 2 ], [ "calcium", 2 ], [ "veggy_allergen", 1 ] ],
     "fun": -5
-   },
-   {
+  },
+  {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "artichoke_heart",
