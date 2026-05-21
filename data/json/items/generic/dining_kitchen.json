@@ -1428,7 +1428,7 @@
     "longest_side": "41 cm",
     "price": "48 USD",
     "price_postapoc": "5 cent",
-    "melee_damage": { "bash": 5 },
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "mess_tray",
