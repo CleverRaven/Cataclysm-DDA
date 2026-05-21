@@ -2732,5 +2732,20 @@
     "stat_type": "count",
     "event_transformation": "avatar_enters_LIXA",
     "description": { "str": "LIXA entered", "str_pl": "LIXAs entered" }
+  },
+  {
+    "id": "avatar_enters_lmoe",
+    "type": "event_transformation",
+    "event_transformation": "avatar_enters_oter_type",
+    "value_constraints": {
+      "oter_type_id": { "equals_any": [ "oter_type_str_id", [ "lmoe_under_north", "lmoe_under_empty_prepperquest_north", "cabin_prepper_shelternorth" ] ] }
+    }
+  },
+  {
+    "id": "num_avatar_enters_lmoe",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_enters_lmoe",
+    "description": { "str": "LMOE entered", "str_pl": "LMOEs entered" }
   }
 ]

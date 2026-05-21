@@ -678,6 +678,7 @@
       "k9_cop",
       "cop"
     ],
+    "requirement": "achievement_reach_prison",
     "distance_initial_visibility": 0,
     "flags": [ "CITY_START", "LONE_START" ]
   },
@@ -944,7 +945,6 @@
       "hitman",
       "assassin"
     ],
-    "requirement": "achievement_beat_resort",
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {

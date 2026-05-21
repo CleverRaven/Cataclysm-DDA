@@ -39,7 +39,7 @@
     "id": "achievement_kill_mutant",
     "type": "achievement",
     "name": "Paging Dr. Tucker!",
-    "description": "This is how we progress.  Human experimentation is a necessary step.  I would think a scientist should understand...",
+    "description": "Human experimentation is a necessary step.  I would think a scientist should understand...",
     "requirements": [ { "event_statistic": "num_avatar_mutant_kills", "is": ">=", "target": 1, "visible": "when_achievement_completed" } ]
   },
   {
@@ -380,7 +380,7 @@
     "id": "achievement_wear_power_armor",
     "type": "achievement",
     "name": "Impenetrable",
-    "description": "War... War never changes...",
+    "description": "AND YOU WILL REMAIN IN THIS MAN'S ARMY UNTIL YOU ARE 510 YEARS OLD, which is the number of YEARS it will take for you pay for the Mk. 2 powered combat armor YOU HAVE LOST!",
     "requirements": [
       {
         "event_statistic": "num_avatar_wears_power_armor",
@@ -406,7 +406,7 @@
     ]
   },
   {
-    "id": "achievement_wear_rm13",
+    "id": "achievement_wear_crown",
     "type": "achievement",
     "name": "King Nothing",
     "description": "...And you point your finger, but there's no one around...",
@@ -545,8 +545,8 @@
     "id": "achievement_install_25_cbms",
     "type": "achievement",
     "name": "Adeptus Mechanicus",
-    "description": "From the moment I understood the weakness of my flesh, it disgusted me. I craved the strength and certainty of steel... Your kind cling to your flesh as if it will not decay and fail you. One day the crude biomass you call a temple will wither...",
-    "requirements": [ { "event_statistic": "num_installs_cbm", "is": ">=", "target": 10 } ],
+    "description": "From the moment I understood the weakness of my flesh, it disgusted me.",
+    "requirements": [ { "event_statistic": "num_installs_cbm", "is": ">=", "target": 25 } ],
     "hidden_by": [ "achievement_install_10_cbm" ]
   },
   {
@@ -1490,8 +1490,8 @@
   {
     "id": "achievement_lvl_4_launcher",
     "type": "achievement",
-    "name": "Gunner",
-    "description": "Serious Hardware.",
+    "name": "Mehmed's Law",
+    "description": "There's always a bigger gun",
     "requirements": [
       {
         "event_statistic": "num_gains_launcher_level_4",
@@ -1504,8 +1504,8 @@
   {
     "id": "achievement_lvl_7_launcher",
     "type": "achievement",
-    "name": "Heavy Gunner",
-    "description": "Caliber makes the difference.",
+    "name": "Demoman",
+    "description": "What makes me a good demoman? If I were a bad demoman, I wouldn't be sittin' here discussin' it with you, now would I?",
     "requirements": [
       {
         "event_statistic": "num_gains_launcher_level_7",
@@ -2195,7 +2195,7 @@
     "id": "achievement_reach_resort",
     "type": "achievement",
     "name": "Don't Threaten Me With A Good Time",
-    "description": "Champagne, Cocaine, Gasoline, and zombies inbetween",
+    "description": "Champagne, cocaine, gasoline, and zombies inbetween",
     "requirements": [
       {
         "event_statistic": "last_overmap_special_avatar_entered",
@@ -2205,20 +2205,6 @@
       }
     ]
   },
-  {
-    "id": "achievement_beat_resort",
-    "type": "achievement",
-    "name": "Dance Till You're (Un)Dead",
-    "description": "It's sooner than you think",
-    "requirements": [
-      {
-        "event_statistic": "num_avatar_enters_resort_top",
-        "is": ">=",
-        "target": 1,
-        "description": "Get to the top of a resort"
-      }
-    ]
-  },  
   {
     "id": "achievement_reach_bastion_fort",
     "type": "achievement",
@@ -2275,21 +2261,6 @@
     ]
   },
   {
-    "id": "achievement_reach_military_armory",
-    "type": "achievement",
-    "name": "Guns of the Patriots",
-    "requirements": [
-      {
-        "event_statistic": "last_overmap_special_avatar_entered",
-        "is": "==",
-        "target": [  ],
-        "visible": "when_achievement_completed",
-        "description": "Break into the armory of the military base"
-      }
-    ],
-    "hidden_by": [ "achievement_reach_military_base" ]
-  },
-  {
     "id": "achievement_reach_military_helipad",
     "type": "achievement",
     "name": "Get To Da Choppa",
@@ -2334,14 +2305,13 @@
   {
     "id": "achievement_reach_school",
     "type": "achievement",
-    "name": "School's Out! For! Ever!",
-    "description": "No more teachers.",
+    "name": "School's Out Forever!",
+    "description": "No more pencils, no more books, no more teachers, dirty looks",
     "requirements": [
       {
         "event_statistic": "last_overmap_special_avatar_entered",
         "is": "==",
         "target": [ "overmap_special_id", "school" ],
-        "visible": "when_achievement_completed",
         "description": "Reach a School"
       }
     ]
@@ -2355,7 +2325,6 @@
         "event_statistic": "last_overmap_special_avatar_entered",
         "is": "==",
         "target": [ "overmap_special_id", "s_vfw" ],
-        "visible": "when_achievement_completed",
         "description": "Reach a Veterans of Foreign Wars office"
       }
     ]
@@ -2381,26 +2350,24 @@
     "description": "But the Dead won",
     "requirements": [
       {
-        "event_statistic": "num_avatar_enters_prison",
-        "is": ">=",
-        "target": 1,
-        "visible": "when_achievement_completed",
-        "description": "Reach a Prison"
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "prison" ],
+        "description": "Go to a prison"
       }
     ]
   },
   {
-    "id": "achievement_reach_airport",
+    "id": "achievement_reach_airliner",
     "type": "achievement",
     "name": "Zeds On A Plane",
     "description": "I'm tired of these motherfuckin' zombies on this motherfuckin' plane!",
     "requirements": [
       {
-        "event_statistic": "num_avatar_enters_airport",
-        "is": ">=",
-        "target": 1,
-        "visible": "when_achievement_completed",
-        "description": "Reach an Airport"
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "airliner_crashed" ],
+        "description": "Find a crashed passenger jet"
       }
     ]
   },
@@ -2561,10 +2528,9 @@
     "type": "achievement",
     "name": "I like you just the way you are",
     "//": "Silent Homestead",
-    "description": "-Fred Rogers",
     "manually_given": true,
     "requirements": [ 
-      {"description": "Understand the value of ugliness" }
+      {"description": "Learn the true value of ugliness" }
     ]
   },
   {
@@ -2596,15 +2562,6 @@
     "requirements": [  ]
   },
   {
-    "id": "achievement_tcl_win",
-    "type": "achievement",
-    "name": { "str": "Ah Sweet. Manmade Horrors Beyond My Comprehension" },
-    "//": "I haven't decided if this will be for entering the black zone or killing the MTF",
-    "manually_given": true,
-    "description": "Discover something your eyes were never meant to see...",
-    "requirements": [  ]
-  },
-  {
     "id": "achievement_vw_win",
     "type": "achievement",
     "name": { "str": "Blackest Widow" },
@@ -2624,11 +2581,11 @@
     "requirements": [  ]
   },
   {
-    "id": "achievement_true_food_person",
+    "id": "achievement_dermatik",
     "type": "achievement",
-    "name": { "str": "Walk a mile in their shoes..." },
+    "name": { "str": "It's a girl!" },
     "manually_given": true,
-    "description": "Finish a shift at Foodplace™",
+    "description": "Give live birth to a parasite",
     "requirements": [  ]
   }
 ]

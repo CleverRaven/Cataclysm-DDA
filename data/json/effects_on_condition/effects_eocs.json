@@ -109,6 +109,7 @@
             "u_message": "<global_val:NUM_LARVA> dermatik larvae bursts out of the bulge of flesh on your <global_val:IMPREGNATED_BODYPART>!",
             "type": "bad"
           },
+          { "give_achievement": "achievement_dermatik" },
           {
             "u_spawn_monster": "mon_dermatik_larva",
             "real_count": { "global_val": "NUM_LARVA" },
@@ -116,7 +117,7 @@
             "max_radius": 4
           },
           { "u_set_field": "fd_blood", "radius": 1, "intensity": 3 },
-          "u_die"
+          "u_die" 
         ],
         "else": { "math": [ "u_vitamin('mutant_toxin') += u_vitamin('dermatik_larva_size') / 3" ] }
       },
