@@ -2022,47 +2022,6 @@ bool veh_interact::do_unload( map &here )
     return true;
 }
 
-void veh_interact::do_change_shape_menu( vehicle_part &vp )
-{
-    const vpart_info &vpi = vp.info();
-    uilist smenu;
-    smenu.text = _( "Choose cosmetic variant:" );
-    int ret_code = 0;
-    int default_selection = 0;
-    std::vector<std::string> variants;
-    for( const auto& [variant_id, vv] : vpi.variants ) {
-        if( variant_id == vp.variant ) {
-            default_selection = ret_code;
-        }
-        uilist_entry entry( vv.get_label() );
-        entry.txt = entry.txt.empty() ? _( "Default" ) : entry.txt;
-        entry.retval = ret_code++;
-        entry.extratxt.left = 1;
-        entry.extratxt.sym = vv.get_symbol_curses( 0_degrees, false );
-        entry.extratxt.color = vpi.color;
-        variants.emplace_back( variant_id );
-        smenu.entries.emplace_back( entry );
-    }
-    std::sort( smenu.entries.begin(), smenu.entries.end(),
-    []( const uilist_entry & a, const uilist_entry & b ) {
-        return localized_compare( a.txt, b.txt );
-    } );
-
-    // get default selection after sorting
-    for( std::size_t i = 0; i < smenu.entries.size(); ++i ) {
-        if( smenu.entries[i].retval == default_selection ) {
-            default_selection = i;
-            break;
-        }
-    }
-
-    smenu.selected = default_selection;
-    smenu.query();
-    if( smenu.ret >= 0 ) {
-        vp.variant = variants[smenu.ret];
-    }
-}
-
 void veh_interact::do_assign_crew( map &here )
 {
     if( cant_do( here, VEHICLE_ASSIGN_CREW ) != task_reason::CAN_DO ) {

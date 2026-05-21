@@ -17,6 +17,7 @@
 #include "memory_fast.h"
 #include "options.h"
 #include "output.h"
+#include "localized_comparator.h"
 #include "player_activity.h"
 #include "point.h"
 #include "ret_val.h"
@@ -173,20 +174,8 @@ void veh_shape::change_part_shape( vpart_reference vpr ) const
             } );
         }
 
-        // An ordering of the line drawing symbols that does not result in
-        // connecting when placed adjacent to each other vertically.
         menu.sort( []( const veh_menu_item & a, const veh_menu_item & b ) {
-            const static std::map<int, int> symbol_order = {
-                { LINE_XOXO, 0 }, { LINE_OXOX, 1 }, { LINE_XOOX, 2 }, { LINE_XXOO, 3 },
-                { LINE_XXXX, 4 }, { LINE_OXXO, 5 }, { LINE_OOXX, 6 },
-            };
-            const auto a_iter = symbol_order.find( a._symbol );
-            const auto b_iter = symbol_order.find( b._symbol );
-            if( a_iter != symbol_order.end() ) {
-                return ( b_iter == symbol_order.end() ) || ( a_iter->second < b_iter->second );
-            } else {
-                return ( b_iter == symbol_order.end() ) && ( a._symbol < b._symbol );
-            }
+            return localized_compare( a._text, b._text );
         } );
     } while( menu.query() );
 
