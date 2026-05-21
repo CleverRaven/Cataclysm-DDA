@@ -134,6 +134,7 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
+#include "veh_shape.h"
 #include "veh_type.h"
 #include "veh_utils.h"
 #include "vehicle.h"
@@ -11381,7 +11382,7 @@ void vehicle_activity_actor::complete_vehicle( player_activity &act, Character &
             }
             ::vehicle_part &vp_new = veh.part( partnum );
             if( vp_new.info().variants.size() > 1 ) {
-                veh_interact::do_change_shape_menu( vp_new );
+                veh_shape( here, veh ).change_part_shape( vpart_reference( veh, partnum ) );
             }
 
             // Need map-relative coordinates to compare to output of look_around.
