@@ -519,7 +519,7 @@
           "if": { "or": [ { "u_has_trait": "BIONIC_ARM_BASIC_LEFT" }, { "u_has_trait": "BIONIC_ARM_BASIC_BOTH" } ] },
           "then": {
             "math": [
-              "u_robofac_ancilla_doc_repair_left_arm_cost = 1 + round( ( 1 - ( u_hp('arm_bionic_basic_l') / u_hp_max('arm_bionic_basic_l') ) ) * 10 )"
+              "u_robofac_ancilla_doc_repair_left_arm_cost = 1 + round( ( 1 - ( u_hp('robofac_arm_bionic_basic_l') / u_hp_max('robofac_arm_bionic_basic_l') ) ) * 10 )"
             ]
           },
           "else": { "math": [ "u_robofac_ancilla_doc_repair_left_arm_cost = 0" ] }
@@ -528,7 +528,7 @@
           "if": { "or": [ { "u_has_trait": "BIONIC_ARM_BASIC_RIGHT" }, { "u_has_trait": "BIONIC_ARM_BASIC_BOTH" } ] },
           "then": {
             "math": [
-              "u_robofac_ancilla_doc_repair_right_arm_cost = 1 + round( ( 1 - ( u_hp('arm_bionic_basic_r') / u_hp_max('arm_bionic_basic_r') ) ) * 10 )"
+              "u_robofac_ancilla_doc_repair_right_arm_cost = 1 + round( ( 1 - ( u_hp('robofac_arm_bionic_basic_r') / u_hp_max('robofac_arm_bionic_basic_r') ) ) * 10 )"
             ]
           },
           "else": { "math": [ "u_robofac_ancilla_doc_repair_right_arm_cost = 0" ] }
@@ -537,7 +537,7 @@
           "if": { "or": [ { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" }, { "u_has_trait": "BIONIC_LEG_BASIC_BOTH" } ] },
           "then": {
             "math": [
-              "u_robofac_ancilla_doc_repair_left_leg_cost = 1 + round( ( 1 - ( u_hp('leg_bionic_basic_l') / u_hp_max('leg_bionic_basic_l') ) ) * 10 )"
+              "u_robofac_ancilla_doc_repair_left_leg_cost = 1 + round( ( 1 - ( u_hp('robofac_leg_bionic_basic_l') / u_hp_max('robofac_leg_bionic_basic_l') ) ) * 10 )"
             ]
           },
           "else": { "math": [ "u_robofac_ancilla_doc_repair_left_leg_cost = 0" ] }
@@ -546,7 +546,7 @@
           "if": { "or": [ { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" }, { "u_has_trait": "BIONIC_LEG_BASIC_BOTH" } ] },
           "then": {
             "math": [
-              "u_robofac_ancilla_doc_repair_right_leg_cost = 1 + round( ( 1 - ( u_hp('leg_bionic_basic_r') / u_hp_max('leg_bionic_basic_r') ) ) * 10 )"
+              "u_robofac_ancilla_doc_repair_right_leg_cost = 1 + round( ( 1 - ( u_hp('robofac_leg_bionic_basic_r') / u_hp_max('robofac_leg_bionic_basic_r') ) ) * 10 )"
             ]
           },
           "else": { "math": [ "u_robofac_ancilla_doc_repair_right_leg_cost = 0" ] }
@@ -563,7 +563,7 @@
             {
               "u_has_items": { "item": "RobofacCoin", "count": { "u_val": "robofac_ancilla_doc_repair_left_arm_cost" } }
             },
-            { "math": [ "u_hp('arm_bionic_basic_l') < u_hp_max('arm_bionic_basic_l')" ] }
+            { "math": [ "u_hp('robofac_arm_bionic_basic_l') < u_hp_max('robofac_arm_bionic_basic_l')" ] }
           ]
         },
         "effect": [
@@ -573,7 +573,7 @@
             "count": { "u_val": "robofac_ancilla_doc_repair_left_arm_cost" },
             "popup": true
           },
-          { "math": [ "u_hp('arm_bionic_basic_l') = u_hp_max('arm_bionic_basic_l')" ] }
+          { "math": [ "u_hp('robofac_arm_bionic_basic_l') = u_hp_max('robofac_arm_bionic_basic_l')" ] }
         ]
       },
       {
@@ -585,7 +585,7 @@
             {
               "u_has_items": { "item": "RobofacCoin", "count": { "u_val": "robofac_ancilla_doc_repair_right_arm_cost" } }
             },
-            { "math": [ "u_hp('arm_bionic_basic_r') < u_hp_max('arm_bionic_basic_r')" ] }
+            { "math": [ "u_hp('robofac_arm_bionic_basic_r') < u_hp_max('robofac_arm_bionic_basic_r')" ] }
           ]
         },
         "effect": [
@@ -595,7 +595,7 @@
             "count": { "u_val": "robofac_ancilla_doc_repair_right_arm_cost" },
             "popup": true
           },
-          { "math": [ "u_hp('arm_bionic_basic_r') = u_hp_max('arm_bionic_basic_r')" ] }
+          { "math": [ "u_hp('robofac_arm_bionic_basic_r') = u_hp_max('robofac_arm_bionic_basic_r')" ] }
         ]
       },
       {
@@ -607,7 +607,7 @@
             {
               "u_has_items": { "item": "RobofacCoin", "count": { "u_val": "robofac_ancilla_doc_repair_left_leg_cost" } }
             },
-            { "math": [ "u_hp('leg_bionic_basic_l') < u_hp_max('leg_bionic_basic_l')" ] }
+            { "math": [ "u_hp('robofac_leg_bionic_basic_l') < u_hp_max('robofac_leg_bionic_basic_l')" ] }
           ]
         },
         "effect": [
@@ -617,7 +617,7 @@
             "count": { "u_val": "robofac_ancilla_doc_repair_left_leg_cost" },
             "popup": true
           },
-          { "math": [ "u_hp('leg_bionic_basic_l') = u_hp_max('leg_bionic_basic_l')" ] }
+          { "math": [ "u_hp('robofac_leg_bionic_basic_l') = u_hp_max('robofac_leg_bionic_basic_l')" ] }
         ]
       },
       {
@@ -629,7 +629,7 @@
             {
               "u_has_items": { "item": "RobofacCoin", "count": { "u_val": "robofac_ancilla_doc_repair_right_leg_cost" } }
             },
-            { "math": [ "u_hp('leg_bionic_basic_r') < u_hp_max('leg_bionic_basic_r')" ] }
+            { "math": [ "u_hp('robofac_leg_bionic_basic_r') < u_hp_max('robofac_leg_bionic_basic_r')" ] }
           ]
         },
         "effect": [
@@ -639,7 +639,7 @@
             "count": { "u_val": "robofac_ancilla_doc_repair_right_leg_cost" },
             "popup": true
           },
-          { "math": [ "u_hp('leg_bionic_basic_l') = u_hp_max('leg_bionic_basic_l')" ] }
+          { "math": [ "u_hp('robofac_leg_bionic_basic_r') = u_hp_max('robofac_leg_bionic_basic_r')" ] }
         ]
       },
       {

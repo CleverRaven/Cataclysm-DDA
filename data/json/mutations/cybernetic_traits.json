@@ -347,13 +347,28 @@
     "type": "mutation",
     "id": "BIONIC_ARM_BASIC_LEFT",
     "name": { "str": "Bionic Arm (left)" },
-    "description": "Your left arm and hand have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
+    "description": "Your left arm and hand have been replaced by advanced bionic prosthetics, controlled by an implanted neurobionic interface.  They more or less function like normal limbs, but they no longer bleed or feel discomfort, and are very modestly armored.  However, they cannot heal on their own and need power to operate.",
     "points": 0,
     "valid": false,
     "purifiable": false,
     "enchantments": [
       {
-        "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "hand_l" }, { "gain": "arm_bionic_basic_l" }, { "gain": "hand_bionic_basic_l" } ]
+        "modified_bodyparts": [
+          { "lose": "arm_l" },
+          { "lose": "hand_l" },
+          { "gain": "robofac_arm_bionic_basic_l" },
+          { "gain": "robofac_hand_bionic_basic_l" }
+        ]
+      }
+    ],
+    "armor": [
+      {
+        "parts": [ "robofac_arm_bionic_basic_l", "robofac_hand_bionic_basic_l" ],
+        "cut": 5,
+        "bash": 5,
+        "stab": 5,
+        "bullet": 2,
+        "acid": 30
       }
     ]
   },
@@ -361,13 +376,28 @@
     "type": "mutation",
     "id": "BIONIC_ARM_BASIC_RIGHT",
     "name": { "str": "Bionic Arm (right)" },
-    "description": "Your right arm and hand have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
+    "description": "Your right arm and hand have been replaced by advanced bionic prosthetics, controlled by an implanted neurobionic interface.  They more or less function like normal limbs, but they no longer bleed or feel discomfort, and are very modestly armored.  However, they cannot heal on their own and need power to operate.",
     "points": 0,
     "valid": false,
     "purifiable": false,
     "enchantments": [
       {
-        "modified_bodyparts": [ { "lose": "arm_r" }, { "lose": "hand_r" }, { "gain": "arm_bionic_basic_r" }, { "gain": "hand_bionic_basic_r" } ]
+        "modified_bodyparts": [
+          { "lose": "arm_r" },
+          { "lose": "hand_r" },
+          { "gain": "robofac_arm_bionic_basic_r" },
+          { "gain": "robofac_hand_bionic_basic_r" }
+        ]
+      }
+    ],
+    "armor": [
+      {
+        "parts": [ "robofac_arm_bionic_basic_r", "robofac_hand_bionic_basic_r" ],
+        "cut": 5,
+        "bash": 5,
+        "stab": 5,
+        "bullet": 2,
+        "acid": 30
       }
     ]
   },
@@ -375,7 +405,7 @@
     "type": "mutation",
     "id": "BIONIC_ARM_BASIC_BOTH",
     "name": { "str": "Bionic Arms" },
-    "description": "Both of your arms and hands have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
+    "description": "Both of your arms and hands have been replaced by advanced bionic prosthetics, controlled by an implanted neurobionic interface.  They more or less function like normal limbs, but they no longer bleed or feel discomfort, and are very modestly armored.  However, they cannot heal on their own and need power to operate.",
     "points": 0,
     "valid": false,
     "purifiable": false,
@@ -385,13 +415,28 @@
         "modified_bodyparts": [
           { "lose": "arm_l" },
           { "lose": "hand_l" },
-          { "gain": "arm_bionic_basic_l" },
-          { "gain": "hand_bionic_basic_l" },
+          { "gain": "robofac_arm_bionic_basic_l" },
+          { "gain": "robofac_hand_bionic_basic_l" },
           { "lose": "arm_r" },
           { "lose": "hand_r" },
-          { "gain": "arm_bionic_basic_r" },
-          { "gain": "hand_bionic_basic_r" }
+          { "gain": "robofac_arm_bionic_basic_r" },
+          { "gain": "robofac_hand_bionic_basic_r" }
         ]
+      }
+    ],
+    "armor": [
+      {
+        "parts": [
+          "robofac_arm_bionic_basic_l",
+          "robofac_hand_bionic_basic_l",
+          "robofac_arm_bionic_basic_r",
+          "robofac_hand_bionic_basic_r"
+        ],
+        "cut": 5,
+        "bash": 5,
+        "stab": 5,
+        "bullet": 2,
+        "acid": 30
       }
     ],
     "cancels": [
@@ -426,13 +471,28 @@
     "type": "mutation",
     "id": "BIONIC_LEG_BASIC_LEFT",
     "name": { "str": "Bionic Leg (left)" },
-    "description": "Your left leg and foot have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
+    "description": "Your left leg and foot have been replaced by advanced bionic prosthetics, controlled by an implanted neurobionic interface.  They more or less function like normal limbs, but they no longer bleed or feel discomfort, and are very modestly armored.  However, they cannot heal on their own and need power to operate.",
     "points": 0,
     "valid": false,
     "purifiable": false,
     "enchantments": [
       {
-        "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "foot_l" }, { "gain": "leg_bionic_basic_l" }, { "gain": "foot_bionic_basic_l" } ]
+        "modified_bodyparts": [
+          { "lose": "leg_l" },
+          { "lose": "foot_l" },
+          { "gain": "robofac_leg_bionic_basic_l" },
+          { "gain": "robofac_foot_bionic_basic_l" }
+        ]
+      }
+    ],
+    "armor": [
+      {
+        "parts": [ "robofac_leg_bionic_basic_l", "robofac_foot_bionic_basic_l" ],
+        "cut": 5,
+        "bash": 5,
+        "stab": 5,
+        "bullet": 2,
+        "acid": 30
       }
     ]
   },
@@ -440,13 +500,28 @@
     "type": "mutation",
     "id": "BIONIC_LEG_BASIC_RIGHT",
     "name": { "str": "Bionic Leg (right)" },
-    "description": "Your right leg and foot have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
+    "description": "Your right leg and foot have been replaced by advanced bionic prosthetics, controlled by an implanted neurobionic interface.  They more or less function like normal limbs, but they no longer bleed or feel discomfort, and are very modestly armored.  However, they cannot heal on their own and need power to operate.",
     "points": 0,
     "valid": false,
     "purifiable": false,
     "enchantments": [
       {
-        "modified_bodyparts": [ { "lose": "leg_r" }, { "lose": "foot_r" }, { "gain": "leg_bionic_basic_r" }, { "gain": "foot_bionic_basic_r" } ]
+        "modified_bodyparts": [
+          { "lose": "leg_r" },
+          { "lose": "foot_r" },
+          { "gain": "robofac_leg_bionic_basic_r" },
+          { "gain": "robofac_foot_bionic_basic_r" }
+        ]
+      }
+    ],
+    "armor": [
+      {
+        "parts": [ "robofac_leg_bionic_basic_r", "robofac_foot_bionic_basic_r" ],
+        "cut": 5,
+        "bash": 5,
+        "stab": 5,
+        "bullet": 2,
+        "acid": 30
       }
     ]
   },
@@ -454,23 +529,39 @@
     "type": "mutation",
     "id": "BIONIC_LEG_BASIC_BOTH",
     "name": { "str": "Bionic Legs" },
-    "description": "Both of your legs and feet have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
+    "description": "Both of your legs and feet have been replaced by advanced bionic prosthetics, controlled by an implanted neurobionic interface.  They more or less function like normal limbs, but they no longer bleed or feel discomfort, and are very modestly armored.  However, they cannot heal on their own and need power to operate.",
     "points": 0,
     "valid": false,
     "purifiable": false,
+    "flags": [ "TOUGH_FEET" ],
     "types": [ "LEGS", "FEET", "SOLES" ],
     "enchantments": [
       {
         "modified_bodyparts": [
           { "lose": "leg_l" },
           { "lose": "foot_l" },
-          { "gain": "leg_bionic_basic_l" },
-          { "gain": "foot_bionic_basic_l" },
+          { "gain": "robofac_leg_bionic_basic_l" },
+          { "gain": "robofac_foot_bionic_basic_l" },
           { "lose": "leg_r" },
           { "lose": "foot_r" },
-          { "gain": "leg_bionic_basic_r" },
-          { "gain": "foot_bionic_basic_r" }
+          { "gain": "robofac_leg_bionic_basic_r" },
+          { "gain": "robofac_foot_bionic_basic_r" }
         ]
+      }
+    ],
+    "armor": [
+      {
+        "parts": [
+          "robofac_leg_bionic_basic_l",
+          "robofac_foot_bionic_basic_l",
+          "robofac_leg_bionic_basic_r",
+          "robofac_foot_bionic_basic_r"
+        ],
+        "cut": 5,
+        "bash": 5,
+        "stab": 5,
+        "bullet": 2,
+        "acid": 30
       }
     ],
     "cancels": [
