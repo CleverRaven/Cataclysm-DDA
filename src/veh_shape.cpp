@@ -16,8 +16,6 @@
 #include "map_scale_constants.h"
 #include "memory_fast.h"
 #include "options.h"
-#include "output.h"
-#include "localized_comparator.h"
 #include "player_activity.h"
 #include "point.h"
 #include "ret_val.h"
