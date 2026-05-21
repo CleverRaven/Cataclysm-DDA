@@ -4335,6 +4335,13 @@ void Character::recalc_limb_energy_usage()
             bionic_limb_count++;
         }
     }
+    for( const bionic_id &bid : get_bionic_fueled_with_muscle() ) {
+        if( has_active_bionic( bid ) ) {
+            bionic_powercost = bionic_powercost * 50;
+        } else {
+            bionic_powercost = bionic_powercost * 5;
+        }
+    }
     arms_power_use = bionic_powercost;
     if( bionic_limb_count > 0 ) {
         arms_stam_mult = 1 - ( bionic_limb_count / total_limb_count );
@@ -4358,6 +4365,13 @@ void Character::recalc_limb_energy_usage()
         if( bp->has_flag( json_flag_BIONIC_LIMB ) ) {
             bionic_powercost += bp->power_efficiency;
             bionic_limb_count++;
+        }
+    }
+    for( const bionic_id &bid : get_bionic_fueled_with_muscle() ) {
+        if( has_active_bionic( bid ) ) {
+            bionic_powercost = bionic_powercost * 50;
+        } else {
+            bionic_powercost = bionic_powercost * 5;
         }
     }
     legs_power_use = bionic_powercost;
