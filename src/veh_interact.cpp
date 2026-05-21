@@ -946,35 +946,6 @@ void veh_interact::move_fuel_cursor( map &here, int delta )
     }
 }
 
-static void sort_uilist_entries_by_line_drawing( std::vector<uilist_entry> &shape_ui_entries )
-{
-    // An ordering of the line drawing symbols that does not result in
-    // connecting when placed adjacent to each other vertically.
-    const static std::map<int, int> symbol_order = {
-        { LINE_XOXO, 0 }, { LINE_OXOX, 1 },
-        { LINE_XOOX, 2 }, { LINE_XXOO, 3 },
-        { LINE_XXXX, 4 }, { LINE_OXXO, 5 },
-        { LINE_OOXX, 6 }
-    };
-
-    std::sort( shape_ui_entries.begin(), shape_ui_entries.end(),
-    []( const uilist_entry & a, const uilist_entry & b ) {
-        auto a_iter = symbol_order.find( a.extratxt.sym );
-        auto b_iter = symbol_order.find( b.extratxt.sym );
-        if( a_iter != symbol_order.end() ) {
-            if( b_iter != symbol_order.end() ) {
-                return a_iter->second < b_iter->second;
-            } else {
-                return true;
-            }
-        } else if( b_iter != symbol_order.end() ) {
-            return false;
-        } else {
-            return a.extratxt.sym < b.extratxt.sym;
-        }
-    } );
-}
-
 void veh_interact::do_install( map &here )
 {
     task_reason reason = cant_do( here, VEHICLE_INSTALL );
