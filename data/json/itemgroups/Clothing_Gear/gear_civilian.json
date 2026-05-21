@@ -77,10 +77,10 @@
     "//": "~10% of people carry knives on them - https://www.akti.org/wp-content/uploads/US-Knives-in-2015.pdf",
     "subtype": "distribution",
     "items": [
-      { "prob": 15, "group": "multitool" },
-      { "prob": 15, "group": "knife_swissarmy" },
-      { "prob": 10, "group": "pockknife" },
-      { "prob": 10, "group": "knife_folding" }
+      { "prob": 15, "item": "multitool" },
+      { "prob": 15, "item": "knife_swissarmy" },
+      { "prob": 10, "item": "pockknife" },
+      { "prob": 10, "item": "knife_folding" }
     ]
   },
   {
