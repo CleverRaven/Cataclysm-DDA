@@ -2092,7 +2092,7 @@
     "bash_dmg_verb": { "ctxt": "verb", "str": "dented" },
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap", 0.5 ] ],
-    "resist": { "bash": 6, "cut": 6, "acid": 7, "heat": 3, "bullet": 2 },
+    "resist": { "bash": 3, "cut": 6, "acid": 7, "heat": 3, "bullet": 2 },
     "repair_difficulty": 2
   },
   {
@@ -2115,7 +2115,7 @@
     "bash_dmg_verb": { "ctxt": "verb", "str": "dented" },
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap", 0.5 ] ],
-    "resist": { "bash": 6, "cut": 6, "acid": 7, "heat": 3, "bullet": 4.5 },
+    "resist": { "bash": 3, "cut": 6, "acid": 7, "heat": 3, "bullet": 4 },
     "repair_difficulty": 2
   },
   {
@@ -2138,7 +2138,7 @@
     "bash_dmg_verb": { "ctxt": "verb", "str": "dented" },
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap", 0.5 ] ],
-    "resist": { "bash": 7, "cut": 7, "acid": 7, "heat": 3, "bullet": 4.5 },
+    "resist": { "bash": 3.5, "cut": 7, "acid": 7, "heat": 3, "bullet": 4 },
     "repair_difficulty": 2
   },
   {
@@ -2161,7 +2161,7 @@
     "bash_dmg_verb": { "ctxt": "verb", "str": "dented" },
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap", 0.5 ] ],
-    "resist": { "bash": 10, "cut": 10, "acid": 7, "heat": 3, "bullet": 6.5 },
+    "resist": { "bash": 5, "cut": 9, "acid": 7, "heat": 3, "bullet": 5 },
     "repair_difficulty": 2
   },
   {
@@ -2184,7 +2184,7 @@
     "bash_dmg_verb": { "ctxt": "verb", "str": "dented" },
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap", 0.5 ] ],
-    "resist": { "bash": 10, "cut": 10, "acid": 7, "heat": 3, "bullet": 6.5 },
+    "resist": { "bash": 5, "cut": 10, "acid": 7, "heat": 3, "bullet": 6 },
     "repair_difficulty": 2
   },
   {
@@ -2207,7 +2207,7 @@
     "bash_dmg_verb": { "ctxt": "verb", "str": "dented" },
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap", 0.5 ] ],
-    "resist": { "bash": 11, "cut": 11, "acid": 7, "heat": 3, "bullet": 7.5 },
+    "resist": { "bash": 5.5, "cut": 11, "acid": 7, "heat": 3, "bullet": 7 },
     "repair_difficulty": 2
   },
   {
