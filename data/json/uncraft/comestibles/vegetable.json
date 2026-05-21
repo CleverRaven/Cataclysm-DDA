@@ -117,6 +117,14 @@
     "components": [ [ [ "cauliflower", 10 ] ] ]
   },
   {
+    "result": "kale_head",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cauliflower", 15 ] ] ]
+  },
+  {
     "result": "raw_artichoke",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

@@ -2025,5 +2025,26 @@
       { "GROWTH_HARVEST": "10 days" },
       { "GROWTH_OVERGROWN": "10 hour" }
     ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "id": "seed_kale",
+    "copy-from": "seed",
+    "price": "70 cent",
+    "name": { "str_sp": "kale seeds" },
+    "description": "Some kale sprout seeds.",
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
+    "plant_name": "kale",
+    "fruit": "kale_head",
+    "seeds": false,
+    "byproducts": [ "withered" ],
+    "growth_stages": [
+      { "GROWTH_SEED": "15 days" },
+      { "GROWTH_SEEDLING": "15 days" },
+      { "GROWTH_MATURE": "10 days" },
+      { "GROWTH_HARVEST": "10 days" },
+      { "GROWTH_OVERGROWN": "10 hour" }
+    ]
   }
 ]

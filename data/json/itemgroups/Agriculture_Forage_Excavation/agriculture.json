@@ -45,7 +45,8 @@
       [ "seed_mustard", 10 ],
       [ "seed_hops", 20 ],
       [ "seed_eggplant", 60 ],
-	    [ "seed_cauliflower", 60 ]
+	  [ "seed_cauliflower", 60 ],
+	  [ "seed_kale", 60 ],
       [ "seed_artichoke", 60 ],
       [ "seed_asparagus", 60 ],
       [ "seed_brussels_sprout", 60 ]
@@ -166,7 +167,8 @@
       [ "straw_pile", 20 ],
       [ "survnote", 1 ],
       [ "eggplant", 3 ],
-      [ "cauliflower_head", 3 ]
+      [ "cauliflower_head", 3 ],
+      [ "kale_head", 3 ],
       [ "raw_artichoke", 5 ],
       [ "raw_asparagus", 5 ],
       [ "brussels_sprout", 15 ]

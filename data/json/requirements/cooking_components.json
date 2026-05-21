@@ -1258,7 +1258,8 @@
         [ "brussels_sprout", 3 ],
         [ "spinach", 1 ],
         [ "japanese_knotweed_stem", 1 ],
-        [ "cauliflower_head", 1 ]
+        [ "cauliflower_head", 1 ],
+        [ "kale_head", 1 ]
       ]
     ]
   },
@@ -1344,6 +1345,12 @@
     "type": "requirement",
     "//": "Any form of cauliflower used in cooking",
     "components": [ [ [ "cauliflower", 5 ], [ "cauliflower_head", 1 ] ] ]
+  },
+  {
+    "id": "any_kale",
+    "type": "requirement",
+    "//": "Any form of kale used in cooking",
+    "components": [ [ [ "kale", 5 ], [ "kale_head", 1 ] ] ]
   },
   {
     "id": "acorns_processed_any",

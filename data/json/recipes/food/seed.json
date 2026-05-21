@@ -968,5 +968,21 @@
     "result_mult": 10,
     "copy-from": "seed_extraction_designation",
     "components": [ [ [ "brussels_sprout_stalk", 10 ] ] ]
+  },
+  {
+    "result": "seed_kale",
+    "type": "recipe",
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "kale_head", 1 ] ] ]
+  },
+  {
+    "result": "seed_kale",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "time": "5 m",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "kale_head", 10 ] ] ]
   }
 ]
