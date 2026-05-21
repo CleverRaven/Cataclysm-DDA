@@ -8003,7 +8003,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "material_high_density_polyethylene_chunk", 10 ] ] ],
+    "components": [ [ [ "material_high_density_polyethylene_chunk", 8 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
