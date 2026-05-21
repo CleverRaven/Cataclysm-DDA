@@ -956,7 +956,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         if( has_bionic_limbs ) {
             add_msg_if_player( m_bad, _( "Your torsion ratchets are straining your bionic limbs!" ) );
         }
-            add_msg_if_player( m_info, _( "Your torsion ratchet locks onto your joints." ) );
+        add_msg_if_player( m_info, _( "Your torsion ratchet locks onto your joints." ) );
     } else if( bio.id == bio_jointservo ) {
         add_msg_activate();
         add_msg_if_player( m_info, _( "You can now run faster, assisted by joint servomotors." ) );
