@@ -1,0 +1,10 @@
+[
+  {
+    "type": "mutation",
+    "id": "PSYCHIC_KNACK",
+    "copy-from": "PSYCHIC_KNACK",
+    "name": { "str": "Psychic" },
+    "description": "The school trait for knacks.  It shouldn't be visible.",
+    "player_display": true
+  }
+]
