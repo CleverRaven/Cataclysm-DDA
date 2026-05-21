@@ -7,7 +7,7 @@
     "recurrence": [ "6 days", "8 days" ],
     "condition": {
       "and": [
-        { "math": [ "n_monsters_nearby('mon_beneficial_polymorph_arion') > 0" ] },
+        { "math": [ "u_monsters_nearby('mon_beneficial_polymorph_arion') > 0" ] },
         { "u_has_trait": "DHAMPIR_BLACKEN_SOUL_ARION" }
       ]
     },
