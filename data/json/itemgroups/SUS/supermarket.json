@@ -1066,7 +1066,8 @@
       { "item": "eggplant", "count": [ 1, 61 ], "prob": 1 },
       { "item": "raw_artichoke", "count": [ 1, 61 ], "prob": 1 },
       { "item": "raw_asparagus", "count": [ 1, 61 ], "prob": 1 },
-      { "item": "brussels_sprout", "count": [ 1, 61 ], "prob": 1 }
+      { "item": "brussels_sprout", "count": [ 1, 61 ], "prob": 1 },
+      { "item": "pea_pods", "count": [ 1, 61 ], "prob": 1 }
     ]
   },
   {
@@ -1231,7 +1232,8 @@
       [ "kale_head", 1 ],
       [ "raw_artichoke", 1 ],
       [ "raw_asparagus", 1 ],
-      [ "brussels_sprout", 1 ]
+      [ "brussels_sprout", 1 ],
+      [ "pea", 40 ]
     ]
   },
   {

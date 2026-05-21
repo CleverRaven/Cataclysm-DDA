@@ -139,5 +139,14 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "brussels_sprout", 17 ] ] ]
+  },
+  {
+    "result": "pea_pods",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "pea", 8 ] ] ]
   }
+
 ]

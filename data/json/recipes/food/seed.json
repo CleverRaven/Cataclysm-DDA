@@ -984,5 +984,21 @@
     "result_mult": 10,
     "copy-from": "seed_extraction_designation",
     "components": [ [ [ "kale_head", 10 ] ] ]
+  },
+  {
+    "result": "seed_pea",
+    "type": "recipe",
+    "copy-from": "seed_extraction_base",
+    "components": [ [ [ "pea", 1 ] ] ]
+  },
+  {
+    "result": "seed_pea",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "time": "5 m",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_base",
+    "components": [ [ [ "pea", 10 ] ] ]
   }
 ]

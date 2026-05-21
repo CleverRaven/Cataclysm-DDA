@@ -49,7 +49,8 @@
       [ "seed_kale", 60 ],
       [ "seed_artichoke", 60 ],
       [ "seed_asparagus", 60 ],
-      [ "seed_brussels_sprout", 60 ]
+      [ "seed_brussels_sprout", 60 ],
+      [ "seed_pea", 60 ],
     ]
   },
   {
@@ -144,6 +145,7 @@
       [ "seed_hops", 4 ],
       [ "seed_beans", 1 ],
       [ "seed_lentils", 1 ],
+      [ "seed_pea", 1 ],
       [ "seed_chili_pepper", 1 ],
       [ "seed_garlic", 1 ],
       [ "seed_horseradish", 1 ],
@@ -151,6 +153,11 @@
       [ "seed_mustard", 1 ],
       [ "seed_eggplant", 1 ],
       [ "seed_oats", 1 ],
+      [ "seed_cauliflower", 1 ],
+      [ "seed_kale", 1 ],
+      [ "seed_artichoke", 1 ],
+      [ "seed_asparagus", 1 ],
+      [ "seed_brussels_sprout", 1 ],
       [ "tomato", 9 ],
       [ "pumpkin", 6 ],
       [ "watermelon", 2 ],
@@ -170,6 +177,7 @@
       [ "cauliflower_head", 3 ],
       [ "kale_head", 3 ],
       [ "raw_artichoke", 5 ],
+      [ "pea_pods", 5 ],
       [ "raw_asparagus", 5 ],
       [ "brussels_sprout", 15 ]
     ]

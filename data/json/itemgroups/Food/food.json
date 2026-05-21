@@ -364,7 +364,8 @@
       { "item": "raw_asparagus", "prob": 7 },
       { "item": "brussels_sprout", "prob": 7 },
       { "item": "cauliflower_head", "prob": 7 },
-      { "item": "kale_head", "prob": 7 }
+      { "item": "kale_head", "prob": 7 },
+      { "item": "pea_pods", "prob": 7 }
     ]
   },
   {
@@ -439,7 +440,8 @@
       { "item": "kale_head", "prob": 10 },
       { "item": "raw_artichoke", "prob": 10 },
       { "item": "raw_asparagus", "prob": 10 },
-      { "item": "brussels_sprout", "prob": 10 }
+      { "item": "brussels_sprout", "prob": 10 },
+      { "item": "pea_pods", "prob": 10 }
     ]
   },
   {
