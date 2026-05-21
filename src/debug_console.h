@@ -25,6 +25,7 @@
 #include "pimpl.h"
 #include "type_id.h"
 
+class Character;
 class JsonObject;
 class JsonOut;
 class character_id;
@@ -61,6 +62,14 @@ class console_tab_view
             ( void )nested;
         }
         virtual void save_state( JsonOut & ) const {}
+};
+
+// Scratch for the editable Character sections (skill bulk-set sliders and
+// proficiency filter), held per tab that renders them.
+struct character_edit_state {
+    int bulk_theory = 0;
+    int bulk_practice = 0;
+    std::string prof_filter;
 };
 
 class tab_spawn_view : public console_tab_view
@@ -110,9 +119,7 @@ class tab_player_view : public console_tab_view
         void draw_body( debug_console &host ) override;
 
     private:
-        int bulk_theory = 0;
-        int bulk_practice = 0;
-        std::string prof_filter;
+        character_edit_state char_edit;
 };
 
 class tab_eoc_view : public console_tab_view
@@ -207,6 +214,7 @@ class tab_creatures_view : public console_tab_view
         std::string creature_selected_id;
         // Filters NPC + monster lists to the loaded reality bubble.
         bool filter_within_bubble = true;
+        character_edit_state char_edit;
 };
 
 class tab_items_view : public console_tab_view
@@ -332,6 +340,14 @@ struct slider_row {
 // row sharing one label column so the tracks line up.
 void scalar_slider_table( const char *id, const std::vector<slider_row> &rows,
                           int pairs_per_row = 2 );
+
+// Editable Character sections, reusable for the avatar or any Character (NPC).
+// Monitor (+M) buttons target the given character via the char_* snapshots.
+void render_char_stats( Character &ch );
+void render_char_vitals( Character &ch );
+void render_char_metabolism( Character &ch );
+void render_char_skills( Character &ch, character_edit_state &st );
+void render_char_proficiencies( Character &ch, character_edit_state &st );
 
 // "+M" button registering a monitor with given label and snapshot.
 void add_monitor_button( const char *id, const std::string &label,

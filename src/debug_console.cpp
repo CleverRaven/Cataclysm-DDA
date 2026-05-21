@@ -2185,100 +2185,294 @@ const char *tab_player_view::label() const
     return _( "Player" );
 }
 
+void render_char_stats( Character &ch )
+{
+    framed_section( "p_stats", _( "Stats" ), [&]() {
+        scalar_slider_table( "p_stats", {
+            {
+                "STR", 1, 30, [&] { return ch.get_str_base(); }, [&]( int v )
+                {
+                    ch.set_str_base( v );
+                }
+            },
+            {
+                "DEX", 1, 30, [&] { return ch.get_dex_base(); }, [&]( int v )
+                {
+                    ch.set_dex_base( v );
+                }
+            },
+            {
+                "INT", 1, 30, [&] { return ch.get_int_base(); }, [&]( int v )
+                {
+                    ch.set_int_base( v );
+                }
+            },
+            {
+                "PER", 1, 30, [&] { return ch.get_per_base(); }, [&]( int v )
+                {
+                    ch.set_per_base( v );
+                }
+            },
+        } );
+    } );
+}
+
+void render_char_vitals( Character &ch )
+{
+    framed_section( "p_vitals", _( "Vitals" ), [&]() {
+        add_monitor_button( "vitals_mon", ch.get_name() + ":vitals",
+                            snap::char_vitals( ch.getID() ) );
+        scalar_slider_table( "p_vitals", {
+            {
+                "Hunger", -300, 600, [&] { return ch.get_hunger(); }, [&]( int v )
+                {
+                    ch.set_hunger( v );
+                }
+            },
+            {
+                "Thirst", -100, 1200, [&] { return ch.get_thirst(); }, [&]( int v )
+                {
+                    ch.set_thirst( v );
+                }
+            },
+            {
+                "Sleepiness", 0, 1500, [&] { return ch.get_sleepiness(); }, [&]( int v )
+                {
+                    ch.set_sleepiness( v );
+                }
+            },
+            {
+                "Pain", 0, 500, [&] { return ch.get_pain(); }, [&]( int v )
+                {
+                    ch.set_pain( v );
+                }
+            },
+            {
+                "Focus", 0, 200, [&] { return ch.get_focus(); }, [&]( int v )
+                {
+                    ch.set_focus( v );
+                }
+            },
+            {
+                "Painkiller", 0, 240, [&] { return ch.get_painkiller(); }, [&]( int v )
+                {
+                    ch.set_painkiller( v );
+                }
+            },
+        } );
+    } );
+}
+
+void render_char_metabolism( Character &ch )
+{
+    framed_section( "p_metab", _( "Metabolism" ), [&]() {
+        ImGui::Text( "%s", string_format(
+                         _( "Hunger: %d  Thirst: %d  kcal: %d/%d  BMI: %.1f  BMR: %d" ),
+                         ch.get_hunger(), ch.get_thirst(),
+                         ch.get_stored_kcal(), ch.get_healthy_kcal(),
+                         ch.get_bmi_fat(), ch.get_bmr() ).c_str() );
+        ImGui::SameLine();
+        add_monitor_button( "p_metab_mon", ch.get_name() + ":metabolism",
+                            snap::char_metabolism( ch.getID() ) );
+        ImGui::Text( "%s", string_format(
+                         _( "Stomach: %d/%d mL, %d kcal  |  Guts: %d/%d mL, %d kcal" ),
+                         units::to_milliliter( ch.stomach.contains() ),
+                         units::to_milliliter( ch.stomach.capacity( ch ) ),
+                         ch.stomach.get_calories(),
+                         units::to_milliliter( ch.guts.contains() ),
+                         units::to_milliliter( ch.guts.capacity( ch ) ),
+                         ch.guts.get_calories() ).c_str() );
+        ImGui::SameLine();
+        add_monitor_button( "p_gi_mon", ch.get_name() + ":gi",
+                            snap::char_gi( ch.getID() ) );
+    } );
+}
+
+void render_char_skills( Character &ch, character_edit_state &st )
+{
+    if( !ImGui::CollapsingHeader( _( "Skills##p_skills" ) ) ) {
+        return;
+    }
+    ImGui::Indent();
+    const float slider_w = 180.0f;
+    ImGui::SetNextItemWidth( slider_w );
+    ImGui::SliderInt( "Set all theory##bulk", &st.bulk_theory, 0, 10 );
+    ImGui::SameLine();
+    if( ImGui::SmallButton( _( "Apply##bulk_th" ) ) ) {
+        for( const Skill &sk : Skill::skills ) {
+            ch.set_knowledge_level( sk.ident(), st.bulk_theory );
+        }
+    }
+    if( ImGui::IsItemHovered() ) {
+        ImGui::SetTooltip( "%s",
+                           _( "Set the theory (knowledge) level of every skill to the slider value" ) );
+    }
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth( slider_w );
+    ImGui::SliderInt( "Set all practice##bulk", &st.bulk_practice, 0, 10 );
+    ImGui::SameLine();
+    if( ImGui::SmallButton( _( "Apply##bulk_pr" ) ) ) {
+        for( const Skill &sk : Skill::skills ) {
+            ch.set_skill_level( sk.ident(), st.bulk_practice );
+        }
+    }
+    if( ImGui::IsItemHovered() ) {
+        ImGui::SetTooltip( "%s",
+                           _( "Set the practice level of every skill to the slider value" ) );
+    }
+    ImGui::Separator();
+    if( ImGui::BeginTable( "p_skills_table", 4,
+                           ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders |
+                           ImGuiTableFlags_SizingStretchProp ) ) {
+        ImGui::TableSetupColumn( _( "Skill" ), ImGuiTableColumnFlags_WidthStretch );
+        // Slider cells have no intrinsic width; pin a fixed column so they
+        // don't collapse to the header.
+        ImGui::TableSetupColumn( _( "Theory" ), ImGuiTableColumnFlags_WidthFixed, 200.0f );
+        ImGui::TableSetupColumn( _( "Practice" ), ImGuiTableColumnFlags_WidthFixed, 200.0f );
+        fit_col( _( "+M" ) );
+        ImGui::TableHeadersRow();
+        for( const Skill &sk : Skill::skills ) {
+            const skill_id &sid = sk.ident();
+            ImGui::TableNextRow();
+            ImGui::TableNextColumn();
+            cataimgui::draw_colored_text( sk.name(), c_white );
+            ImGui::TableNextColumn();
+            int theory = ch.get_knowledge_level( sid );
+            ImGui::SetNextItemWidth( -1.0f );
+            if( ImGui::SliderInt( ( "##th_" + sid.str() ).c_str(), &theory, 0, 10 ) ) {
+                ch.set_knowledge_level( sid, theory );
+            }
+            ImGui::TableNextColumn();
+            int practice = static_cast<int>( ch.get_skill_level( sid ) );
+            ImGui::SetNextItemWidth( -1.0f );
+            if( ImGui::SliderInt( ( "##pr_" + sid.str() ).c_str(), &practice, 0, 10 ) ) {
+                ch.set_skill_level( sid, practice );
+            }
+            ImGui::TableNextColumn();
+            add_monitor_button(
+                ( "skill_mon_" + sid.str() ).c_str(),
+                ch.get_name() + " skill:" + sid.str(),
+                snap::char_skill( ch.getID(), sid ) );
+        }
+        ImGui::EndTable();
+    }
+    ImGui::Unindent();
+}
+
+void render_char_proficiencies( Character &ch, character_edit_state &st )
+{
+    if( !ImGui::CollapsingHeader( _( "Proficiencies##p_profs" ) ) ) {
+        return;
+    }
+    ImGui::Indent();
+    ImGui::SetNextItemWidth( 220.0f );
+    ImGui::InputTextWithHint( "##prof_filter", _( "filter" ), &st.prof_filter );
+    ImGui::SameLine();
+    if( ImGui::SmallButton( _( "Learn all##profs" ) ) ) {
+        for( const proficiency &pr : proficiency::get_all() ) {
+            if( !ch.has_proficiency( pr.prof_id() ) ) {
+                ch.add_proficiency( pr.prof_id(), true );
+            }
+        }
+    }
+    if( ImGui::IsItemHovered() ) {
+        ImGui::SetTooltip( "%s",
+                           _( "Mark every loaded proficiency as learned, bypassing prerequisite chains" ) );
+    }
+    ImGui::SameLine();
+    if( ImGui::SmallButton( _( "Forget all##profs" ) ) ) {
+        for( const proficiency_id &pid : ch.known_proficiencies() ) {
+            ch.lose_proficiency( pid, true );
+        }
+    }
+    if( ImGui::IsItemHovered() ) {
+        ImGui::SetTooltip( "%s",
+                           _( "Drop every proficiency this character currently knows" ) );
+    }
+    const std::vector<proficiency> &all_profs = proficiency::get_all();
+    std::vector<const proficiency *> filtered;
+    filtered.reserve( all_profs.size() );
+    for( const proficiency &pr : all_profs ) {
+        if( st.prof_filter.empty() ||
+            pr.name().find( st.prof_filter ) != std::string::npos ) {
+            filtered.push_back( &pr );
+        }
+    }
+    ImGui::SameLine();
+    ImGui::TextDisabled( "%d / %d", static_cast<int>( filtered.size() ),
+                         static_cast<int>( all_profs.size() ) );
+    if( ImGui::BeginTable( "p_profs_table", 4,
+                           ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg |
+                           ImGuiTableFlags_Borders | ImGuiTableFlags_SizingFixedFit |
+                           ImGuiTableFlags_NoSavedSettings,
+                           ImVec2( 0.0f, 320.0f ) ) ) {
+        const uint64_t key = lk_mix( lk_str( lk_mix( 0u, filtered.size() ),
+                                             st.prof_filter ),
+                                     static_cast<uint64_t>( ch.getID().get_value() ) );
+        setup_columns<const proficiency *>( "p_profs_table", key, {
+            { _( "Name" ), colw::stretch },
+            { _( "Known" ), colw::fit },
+            { _( "Progress" ), colw::widget, {}, 220.0f },
+            { _( "+M" ), colw::widget, {}, 40.0f },
+        }, filtered );
+        ImGui::TableSetupScrollFreeze( 0, 1 );
+        ImGui::TableHeadersRow();
+        ImGuiListClipper clipper;
+        clipper.Begin( static_cast<int>( filtered.size() ) );
+        while( clipper.Step() ) {
+            for( int i = clipper.DisplayStart; i < clipper.DisplayEnd; i++ ) {
+                const proficiency &pr = *filtered[i];
+                const proficiency_id pid = pr.prof_id();
+                ImGui::TableNextRow();
+                ImGui::TableNextColumn();
+                cataimgui::draw_colored_text( pr.name(), c_white );
+                ImGui::TableNextColumn();
+                bool known = ch.has_proficiency( pid );
+                if( ImGui::Checkbox( ( "##k_" + pid.str() ).c_str(), &known ) ) {
+                    if( known ) {
+                        ch.add_proficiency( pid, true );
+                    } else {
+                        ch.lose_proficiency( pid, true );
+                    }
+                }
+                ImGui::TableNextColumn();
+                if( known ) {
+                    ImGui::TextDisabled( "%s", _( "learned" ) );
+                } else {
+                    const int max_turns = to_turns<int>( pr.time_to_learn() );
+                    const int cur_turns = to_turns<int>(
+                                              ch.get_proficiency_practiced_time( pid ) );
+                    int pct = max_turns > 0 ? cur_turns * 100 / max_turns : 0;
+                    ImGui::SetNextItemWidth( -1.0f );
+                    if( ImGui::SliderInt( ( "##p_" + pid.str() ).c_str(),
+                                          &pct, 0, 100, "%d%%" ) ) {
+                        if( pct >= 100 ) {
+                            ch.add_proficiency( pid, true );
+                        } else {
+                            ch.set_proficiency_practiced_time(
+                                pid, pct * max_turns / 100 );
+                        }
+                    }
+                }
+                ImGui::TableNextColumn();
+                add_monitor_button(
+                    ( "prof_mon_" + pid.str() ).c_str(),
+                    ch.get_name() + " prof:" + pid.str(),
+                    snap::char_proficiency( ch.getID(), pid ) );
+            }
+        }
+        ImGui::EndTable();
+    }
+    ImGui::Unindent();
+}
+
 void tab_player_view::draw_body( debug_console &host )
 {
     avatar &you = get_avatar();
 
-    framed_section( "p_stats", _( "Stats" ), [&]() {
-        scalar_slider_table( "p_stats", {
-            {
-                "STR", 1, 30, [&] { return you.get_str_base(); }, [&]( int v )
-                {
-                    you.set_str_base( v );
-                }
-            },
-            {
-                "DEX", 1, 30, [&] { return you.get_dex_base(); }, [&]( int v )
-                {
-                    you.set_dex_base( v );
-                }
-            },
-            {
-                "INT", 1, 30, [&] { return you.get_int_base(); }, [&]( int v )
-                {
-                    you.set_int_base( v );
-                }
-            },
-            {
-                "PER", 1, 30, [&] { return you.get_per_base(); }, [&]( int v )
-                {
-                    you.set_per_base( v );
-                }
-            },
-        } );
-    } );
-
-    framed_section( "p_vitals", _( "Vitals" ), [&]() {
-        add_monitor_button( "vitals_mon", "avatar:vitals", snap::avatar_vitals() );
-        scalar_slider_table( "p_vitals", {
-            {
-                "Hunger", -300, 600, [&] { return you.get_hunger(); }, [&]( int v )
-                {
-                    you.set_hunger( v );
-                }
-            },
-            {
-                "Thirst", -100, 1200, [&] { return you.get_thirst(); }, [&]( int v )
-                {
-                    you.set_thirst( v );
-                }
-            },
-            {
-                "Sleepiness", 0, 1500, [&] { return you.get_sleepiness(); }, [&]( int v )
-                {
-                    you.set_sleepiness( v );
-                }
-            },
-            {
-                "Pain", 0, 500, [&] { return you.get_pain(); }, [&]( int v )
-                {
-                    you.set_pain( v );
-                }
-            },
-            {
-                "Focus", 0, 200, [&] { return you.get_focus(); }, [&]( int v )
-                {
-                    you.set_focus( v );
-                }
-            },
-            {
-                "Painkiller", 0, 240, [&] { return you.get_painkiller(); }, [&]( int v )
-                {
-                    you.set_painkiller( v );
-                }
-            },
-        } );
-    } );
-
-    framed_section( "p_metab", _( "Metabolism" ), [&]() {
-        ImGui::Text( "%s", string_format(
-                         _( "Hunger: %d  Thirst: %d  kcal: %d/%d  BMI: %.1f  BMR: %d" ),
-                         you.get_hunger(), you.get_thirst(),
-                         you.get_stored_kcal(), you.get_healthy_kcal(),
-                         you.get_bmi_fat(), you.get_bmr() ).c_str() );
-        ImGui::SameLine();
-        add_monitor_button( "p_metab_mon", "avatar:metabolism", snap::avatar_metabolism() );
-        ImGui::Text( "%s", string_format(
-                         _( "Stomach: %d/%d mL, %d kcal  |  Guts: %d/%d mL, %d kcal" ),
-                         units::to_milliliter( you.stomach.contains() ),
-                         units::to_milliliter( you.stomach.capacity( you ) ),
-                         you.stomach.get_calories(),
-                         units::to_milliliter( you.guts.contains() ),
-                         units::to_milliliter( you.guts.capacity( you ) ),
-                         you.guts.get_calories() ).c_str() );
-        ImGui::SameLine();
-        add_monitor_button( "p_gi_mon", "avatar:gi", snap::avatar_gi() );
-    } );
+    render_char_stats( you );
+    render_char_vitals( you );
+    render_char_metabolism( you );
 
     framed_section( "p_char", _( "Character" ), [&]() {
         host.debug_button( debug_menu_index::EDIT_PLAYER );
@@ -2292,171 +2486,8 @@ void tab_player_view::draw_body( debug_console &host )
         host.debug_button( debug_menu_index::LEARN_MA );
     } );
 
-    if( ImGui::CollapsingHeader( _( "Skills##p_skills" ) ) ) {
-        ImGui::Indent();
-        // Bulk sliders shape every skill at once before per-skill tweaks.
-        const float slider_w = 180.0f;
-        ImGui::SetNextItemWidth( slider_w );
-        ImGui::SliderInt( "Set all theory##bulk", &bulk_theory, 0, 10 );
-        ImGui::SameLine();
-        if( ImGui::SmallButton( _( "Apply##bulk_th" ) ) ) {
-            for( const Skill &sk : Skill::skills ) {
-                you.set_knowledge_level( sk.ident(), bulk_theory );
-            }
-        }
-        if( ImGui::IsItemHovered() ) {
-            ImGui::SetTooltip( "%s",
-                               _( "Set the theory (knowledge) level of every skill to the slider value" ) );
-        }
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth( slider_w );
-        ImGui::SliderInt( "Set all practice##bulk", &bulk_practice, 0, 10 );
-        ImGui::SameLine();
-        if( ImGui::SmallButton( _( "Apply##bulk_pr" ) ) ) {
-            for( const Skill &sk : Skill::skills ) {
-                you.set_skill_level( sk.ident(), bulk_practice );
-            }
-        }
-        if( ImGui::IsItemHovered() ) {
-            ImGui::SetTooltip( "%s",
-                               _( "Set the practice level of every skill to the slider value" ) );
-        }
-        ImGui::Separator();
-        if( ImGui::BeginTable( "p_skills_table", 4,
-                               ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders |
-                               ImGuiTableFlags_SizingStretchProp ) ) {
-            ImGui::TableSetupColumn( _( "Skill" ), ImGuiTableColumnFlags_WidthStretch );
-            // Slider cells have no intrinsic width; pin a fixed column so they
-            // don't collapse to the header.
-            ImGui::TableSetupColumn( _( "Theory" ), ImGuiTableColumnFlags_WidthFixed, 200.0f );
-            ImGui::TableSetupColumn( _( "Practice" ), ImGuiTableColumnFlags_WidthFixed, 200.0f );
-            fit_col( _( "+M" ) );
-            ImGui::TableHeadersRow();
-            for( const Skill &sk : Skill::skills ) {
-                const skill_id &sid = sk.ident();
-                ImGui::TableNextRow();
-                ImGui::TableNextColumn();
-                cataimgui::draw_colored_text( sk.name(), c_white );
-                ImGui::TableNextColumn();
-                int theory = you.get_knowledge_level( sid );
-                ImGui::SetNextItemWidth( -1.0f );
-                if( ImGui::SliderInt( ( "##th_" + sid.str() ).c_str(), &theory, 0, 10 ) ) {
-                    you.set_knowledge_level( sid, theory );
-                }
-                ImGui::TableNextColumn();
-                int practice = static_cast<int>( you.get_skill_level( sid ) );
-                ImGui::SetNextItemWidth( -1.0f );
-                if( ImGui::SliderInt( ( "##pr_" + sid.str() ).c_str(), &practice, 0, 10 ) ) {
-                    you.set_skill_level( sid, practice );
-                }
-                ImGui::TableNextColumn();
-                add_monitor_button(
-                    ( "skill_mon_" + sid.str() ).c_str(),
-                    "skill:" + sid.str(),
-                    snap::skill( sid ) );
-            }
-            ImGui::EndTable();
-        }
-        ImGui::Unindent();
-    }
-
-    if( ImGui::CollapsingHeader( _( "Proficiencies##p_profs" ) ) ) {
-        ImGui::Indent();
-        ImGui::SetNextItemWidth( 220.0f );
-        ImGui::InputTextWithHint( "##prof_filter", _( "filter" ), &prof_filter );
-        ImGui::SameLine();
-        if( ImGui::SmallButton( _( "Learn all##profs" ) ) ) {
-            for( const proficiency &pr : proficiency::get_all() ) {
-                if( !you.has_proficiency( pr.prof_id() ) ) {
-                    you.add_proficiency( pr.prof_id(), true );
-                }
-            }
-        }
-        if( ImGui::IsItemHovered() ) {
-            ImGui::SetTooltip( "%s",
-                               _( "Mark every loaded proficiency as learned, bypassing prerequisite chains" ) );
-        }
-        ImGui::SameLine();
-        if( ImGui::SmallButton( _( "Forget all##profs" ) ) ) {
-            for( const proficiency_id &pid : you.known_proficiencies() ) {
-                you.lose_proficiency( pid, true );
-            }
-        }
-        if( ImGui::IsItemHovered() ) {
-            ImGui::SetTooltip( "%s",
-                               _( "Drop every proficiency the avatar currently knows" ) );
-        }
-        const std::vector<proficiency> &all_profs = proficiency::get_all();
-        std::vector<const proficiency *> filtered;
-        filtered.reserve( all_profs.size() );
-        for( const proficiency &pr : all_profs ) {
-            if( prof_filter.empty() ||
-                pr.name().find( prof_filter ) != std::string::npos ) {
-                filtered.push_back( &pr );
-            }
-        }
-        ImGui::SameLine();
-        ImGui::TextDisabled( "%d / %d", static_cast<int>( filtered.size() ),
-                             static_cast<int>( all_profs.size() ) );
-        if( ImGui::BeginTable( "p_profs_table", 4,
-                               ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg |
-                               ImGuiTableFlags_Borders | ImGuiTableFlags_SizingStretchProp,
-                               ImVec2( 0.0f, 320.0f ) ) ) {
-            ImGui::TableSetupColumn( _( "Name" ), ImGuiTableColumnFlags_WidthStretch );
-            fit_col( _( "Known" ) );
-            // Slider cell; pin a fixed column width.
-            ImGui::TableSetupColumn( _( "Progress" ), ImGuiTableColumnFlags_WidthFixed, 220.0f );
-            fit_col( _( "+M" ) );
-            ImGui::TableSetupScrollFreeze( 0, 1 );
-            ImGui::TableHeadersRow();
-            ImGuiListClipper clipper;
-            clipper.Begin( static_cast<int>( filtered.size() ) );
-            while( clipper.Step() ) {
-                for( int i = clipper.DisplayStart; i < clipper.DisplayEnd; i++ ) {
-                    const proficiency &pr = *filtered[i];
-                    const proficiency_id pid = pr.prof_id();
-                    ImGui::TableNextRow();
-                    ImGui::TableNextColumn();
-                    cataimgui::draw_colored_text( pr.name(), c_white );
-                    ImGui::TableNextColumn();
-                    bool known = you.has_proficiency( pid );
-                    if( ImGui::Checkbox( ( "##k_" + pid.str() ).c_str(), &known ) ) {
-                        if( known ) {
-                            you.add_proficiency( pid, true );
-                        } else {
-                            you.lose_proficiency( pid, true );
-                        }
-                    }
-                    ImGui::TableNextColumn();
-                    if( known ) {
-                        ImGui::TextDisabled( "%s", _( "learned" ) );
-                    } else {
-                        const int max_turns = to_turns<int>( pr.time_to_learn() );
-                        const int cur_turns = to_turns<int>(
-                                                  you.get_proficiency_practiced_time( pid ) );
-                        int pct = max_turns > 0 ? cur_turns * 100 / max_turns : 0;
-                        ImGui::SetNextItemWidth( -1.0f );
-                        if( ImGui::SliderInt( ( "##p_" + pid.str() ).c_str(),
-                                              &pct, 0, 100, "%d%%" ) ) {
-                            if( pct >= 100 ) {
-                                you.add_proficiency( pid, true );
-                            } else {
-                                you.set_proficiency_practiced_time(
-                                    pid, pct * max_turns / 100 );
-                            }
-                        }
-                    }
-                    ImGui::TableNextColumn();
-                    add_monitor_button(
-                        ( "prof_mon_" + pid.str() ).c_str(),
-                        "prof:" + pid.str(),
-                        snap::proficiency_progress( pid ) );
-                }
-            }
-            ImGui::EndTable();
-        }
-        ImGui::Unindent();
-    }
+    render_char_skills( you, char_edit );
+    render_char_proficiencies( you, char_edit );
 
     framed_section( "p_recipes", _( "Recipes / items" ), [&]() {
         host.debug_button( debug_menu_index::UNLOCK_RECIPES );
@@ -2568,6 +2599,16 @@ void tab_creatures_view::draw_body( debug_console &host )
             n.get_hp(), n.get_hp_max(),
             rl_dist( apos, npos ), npos.to_string(),
             ref.to_string()
+        } );
+    }
+    if( creature_filter.empty() ||
+        you.get_name().find( creature_filter ) != std::string::npos ) {
+        rows.push_back( {
+            "you", you.get_name(), "avatar",
+            you.get_faction() ? you.get_faction()->id.str() : std::string( "?" ),
+            you.get_hp(), you.get_hp_max(),
+            0, apos.to_string(),
+            "avatar:player"
         } );
     }
     std::sort( rows.begin(), rows.end(),
@@ -2729,13 +2770,20 @@ void tab_creatures_view::draw_body( debug_console &host )
     Creature *sel = nullptr;
     monster *sel_mon = nullptr;
     npc *sel_npc = nullptr;
-    if( const std::optional<creature_ref> ref = creature_ref::parse( creature_selected_id );
-        ref.has_value() ) {
+    // Set for the avatar and NPCs (any Character); drives the shared editable
+    // sections. Stays null for monsters.
+    Character *sel_char = nullptr;
+    if( creature_selected_id == "avatar:player" ) {
+        sel = &you;
+        sel_char = &you;
+    } else if( const std::optional<creature_ref> ref = creature_ref::parse( creature_selected_id );
+               ref.has_value() ) {
         if( ref->k == creature_ref::kind::npc ) {
             for( npc &n : g->all_npcs() ) {
                 if( n.getID().get_value() == ref->npc_id ) {
                     sel = &n;
                     sel_npc = &n;
+                    sel_char = &n;
                     break;
                 }
             }
@@ -2787,41 +2835,45 @@ void tab_creatures_view::draw_body( debug_console &host )
         }
     } );
 
-    if( ImGui::Button( _( "Heal##cr" ) ) ) {
-        if( sel_mon ) {
-            sel_mon->set_hp( sel_mon->get_hp_max() );
-        } else if( sel_npc ) {
-            sel_npc->healall( 9999 );
-        }
-    }
-    if( ImGui::IsItemHovered() ) {
-        ImGui::SetTooltip( "%s",
-                           _( "Restore the selected creature to full HP" ) );
-    }
-    ImGui::SameLine();
-    if( ImGui::Button( _( "Kill##cr" ) ) ) {
-        sel->die( &here, nullptr );
-    }
-    if( ImGui::IsItemHovered() ) {
-        ImGui::SetTooltip( "%s",
-                           _( "Kill the selected creature with no killer attribution" ) );
-    }
-    ImGui::SameLine();
-    if( ImGui::Button( _( "Teleport here##cr" ) ) ) {
-        sel->setpos( here, apos );
-    }
-    if( ImGui::IsItemHovered() ) {
-        ImGui::SetTooltip( "%s",
-                           _( "Move the selected creature to the avatar's tile" ) );
-    }
-    if( sel_npc ) {
-        ImGui::SameLine();
-        if( ImGui::Button( _( "Control NPC##cr" ) ) ) {
-            host.defer_action( debug_menu_index::CONTROL_NPC );
+    // Heal/Kill/Teleport act on a non-avatar target. The avatar uses the
+    // Player tab's Health controls and must not be Kill-able from here.
+    if( sel_mon || sel_npc ) {
+        if( ImGui::Button( _( "Heal##cr" ) ) ) {
+            if( sel_mon ) {
+                sel_mon->set_hp( sel_mon->get_hp_max() );
+            } else if( sel_npc ) {
+                sel_npc->healall( 9999 );
+            }
         }
         if( ImGui::IsItemHovered() ) {
             ImGui::SetTooltip( "%s",
-                               _( "Launch the legacy Control NPC menu (this NPC may not be preselected)" ) );
+                               _( "Restore the selected creature to full HP" ) );
+        }
+        ImGui::SameLine();
+        if( ImGui::Button( _( "Kill##cr" ) ) ) {
+            sel->die( &here, nullptr );
+        }
+        if( ImGui::IsItemHovered() ) {
+            ImGui::SetTooltip( "%s",
+                               _( "Kill the selected creature with no killer attribution" ) );
+        }
+        ImGui::SameLine();
+        if( ImGui::Button( _( "Teleport here##cr" ) ) ) {
+            sel->setpos( here, apos );
+        }
+        if( ImGui::IsItemHovered() ) {
+            ImGui::SetTooltip( "%s",
+                               _( "Move the selected creature to the avatar's tile" ) );
+        }
+        if( sel_npc ) {
+            ImGui::SameLine();
+            if( ImGui::Button( _( "Control NPC##cr" ) ) ) {
+                host.defer_action( debug_menu_index::CONTROL_NPC );
+            }
+            if( ImGui::IsItemHovered() ) {
+                ImGui::SetTooltip( "%s",
+                                   _( "Launch the legacy Control NPC menu (this NPC may not be preselected)" ) );
+            }
         }
     }
 
@@ -2891,58 +2943,14 @@ void tab_creatures_view::draw_body( debug_console &host )
         }
     }
 
-    if( sel_npc && ImGui::CollapsingHeader( _( "NPC stats##cr" ) ) ) {
-        kv_panel( "cr_npc_stats", [&]() {
-            kv_row( "STR", std::to_string( sel_npc->get_str_base() ) );
-            kv_row( "DEX", std::to_string( sel_npc->get_dex_base() ) );
-            kv_row( "INT", std::to_string( sel_npc->get_int_base() ) );
-            kv_row( "PER", std::to_string( sel_npc->get_per_base() ) );
-        } );
-    }
-
-    if( sel_npc && ImGui::CollapsingHeader( _( "NPC needs##cr" ) ) ) {
-        kv_panel( "cr_npc_needs", [&]() {
-            kv_row( _( "hunger" ), std::to_string( sel_npc->get_hunger() ) );
-            kv_row( _( "thirst" ), std::to_string( sel_npc->get_thirst() ) );
-            kv_row( _( "sleepiness" ), std::to_string( sel_npc->get_sleepiness() ) );
-            kv_row( _( "pain" ), std::to_string( sel_npc->get_pain() ) );
-            kv_row( _( "focus" ), std::to_string( sel_npc->get_focus() ) );
-            kv_row( _( "painkiller" ), std::to_string( sel_npc->get_painkiller() ) );
-        } );
-    }
-
-    if( sel_npc && ImGui::CollapsingHeader( _( "NPC skills##cr" ) ) ) {
-        if( ImGui::BeginTable( "cr_npc_sk", 3,
-                               ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders |
-                               ImGuiTableFlags_SizingStretchProp ) ) {
-            ImGui::TableSetupColumn( _( "Skill" ), ImGuiTableColumnFlags_WidthStretch );
-            fit_col( _( "Theory" ) );
-            fit_col( _( "Practice" ) );
-            ImGui::TableHeadersRow();
-            for( const Skill &sk : Skill::skills ) {
-                const skill_id &sid = sk.ident();
-                ImGui::TableNextRow();
-                ImGui::TableNextColumn();
-                cataimgui::draw_colored_text( sk.name(), c_white );
-                ImGui::TableNextColumn();
-                ImGui::Text( "%d", sel_npc->get_knowledge_level( sid ) );
-                ImGui::TableNextColumn();
-                ImGui::Text( "%d", static_cast<int>(
-                                 sel_npc->get_skill_level( sid ) ) );
-            }
-            ImGui::EndTable();
-        }
-    }
-
-    if( sel_npc && ImGui::CollapsingHeader( _( "NPC proficiencies##cr" ) ) ) {
-        const std::vector<proficiency_id> known = sel_npc->known_proficiencies();
-        if( known.empty() ) {
-            ImGui::TextDisabled( "%s", _( "(none)" ) );
-        } else {
-            for( const proficiency_id &pid : known ) {
-                ImGui::BulletText( "%s", pid->name().c_str() );
-            }
-        }
+    // Avatar and NPCs share the editable Character sections; monsters are not
+    // Character and keep only their monster-specific panels.
+    if( sel_char ) {
+        render_char_stats( *sel_char );
+        render_char_vitals( *sel_char );
+        render_char_metabolism( *sel_char );
+        render_char_skills( *sel_char, char_edit );
+        render_char_proficiencies( *sel_char, char_edit );
     }
 
     if( sel_npc && ImGui::CollapsingHeader( _( "NPC inventory##cr" ) ) ) {

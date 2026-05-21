@@ -20,6 +20,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
+#include "character_id.h"
 #include "creature.h"
 #include "debug_capture.h"
 #include "dialogue.h"
@@ -409,6 +410,94 @@ std::function<std::string()> proficiency_progress( proficiency_id pid )
         const avatar &a = get_avatar();
         const bool learned = a.has_proficiency( pid );
         const time_duration prac = a.get_proficiency_practiced_time( pid );
+        const time_duration need = pid->time_to_learn();
+        const int prac_s = to_seconds<int>( prac );
+        const int need_s = to_seconds<int>( need );
+        const int pct = need_s > 0 ? ( prac_s * 100 ) / need_s : 100;
+        return string_format( "%s learned=%d practiced=%s/%s (%d%%)",
+                              pid.str(), learned ? 1 : 0,
+                              to_string( prac ), to_string( need ), pct );
+    };
+}
+
+// Re-resolve each tick by id so the snapshot survives the creature being
+// despawned or the npc list reshuffling.
+static Character *resolve_char( character_id id )
+{
+    avatar &a = get_avatar();
+    if( a.getID() == id ) {
+        return &a;
+    }
+    return g->find_npc( id );
+}
+
+std::function<std::string()> char_vitals( character_id id )
+{
+    return [id]() {
+        const Character *c = resolve_char( id );
+        if( !c ) {
+            return std::string( "(gone)" );
+        }
+        return string_format( "hp=%d hunger=%d thirst=%d sleepiness=%d sleep_dep=%d pain=%d morale=%d",
+                              c->get_hp(), c->get_hunger(), c->get_thirst(),
+                              c->get_sleepiness(), c->get_sleep_deprivation(),
+                              c->get_pain(), c->get_morale_level() );
+    };
+}
+
+std::function<std::string()> char_metabolism( character_id id )
+{
+    return [id]() {
+        const Character *c = resolve_char( id );
+        if( !c ) {
+            return std::string( "(gone)" );
+        }
+        return string_format( "hunger=%d thirst=%d kcal=%d/%d bmi=%.1f bmr=%d",
+                              c->get_hunger(), c->get_thirst(),
+                              c->get_stored_kcal(), c->get_healthy_kcal(),
+                              c->get_bmi_fat(), c->get_bmr() );
+    };
+}
+
+std::function<std::string()> char_gi( character_id id )
+{
+    return [id]() {
+        const Character *c = resolve_char( id );
+        if( !c ) {
+            return std::string( "(gone)" );
+        }
+        return string_format( "stomach=%d/%d (%d kcal) guts=%d/%d (%d kcal)",
+                              units::to_milliliter( c->stomach.contains() ),
+                              units::to_milliliter( c->stomach.capacity( *c ) ),
+                              c->stomach.get_calories(),
+                              units::to_milliliter( c->guts.contains() ),
+                              units::to_milliliter( c->guts.capacity( *c ) ),
+                              c->guts.get_calories() );
+    };
+}
+
+std::function<std::string()> char_skill( character_id id, skill_id sid )
+{
+    return [id, sid]() {
+        const Character *c = resolve_char( id );
+        if( !c ) {
+            return std::string( "(gone)" );
+        }
+        return string_format( "%s lvl=%d know=%d", sid.str(),
+                              c->get_skill_level( sid ),
+                              c->get_knowledge_level( sid ) );
+    };
+}
+
+std::function<std::string()> char_proficiency( character_id id, proficiency_id pid )
+{
+    return [id, pid]() {
+        const Character *c = resolve_char( id );
+        if( !c ) {
+            return std::string( "(gone)" );
+        }
+        const bool learned = c->has_proficiency( pid );
+        const time_duration prac = c->get_proficiency_practiced_time( pid );
         const time_duration need = pid->time_to_learn();
         const int prac_s = to_seconds<int>( prac );
         const int need_s = to_seconds<int>( need );

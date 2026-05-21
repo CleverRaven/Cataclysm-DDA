@@ -8,6 +8,8 @@
 #include "coordinates.h"
 #include "type_id.h"
 
+class character_id;
+
 namespace debug_menu::snap
 {
 
@@ -46,6 +48,13 @@ std::function<std::string()> imgui_fps();
 // closure so the snap survives mutation of any caller-side temporaries.
 std::function<std::string()> skill( skill_id sid );
 std::function<std::string()> proficiency_progress( proficiency_id pid );
+// Character-targeted variants: re-resolve the creature by id each tick, so a
+// monitor can track any avatar or NPC, not only the player.
+std::function<std::string()> char_vitals( character_id id );
+std::function<std::string()> char_metabolism( character_id id );
+std::function<std::string()> char_gi( character_id id );
+std::function<std::string()> char_skill( character_id id, skill_id sid );
+std::function<std::string()> char_proficiency( character_id id, proficiency_id pid );
 std::function<std::string()> item_charges( itype_id iid );
 std::function<std::string()> item_count( itype_id iid );
 std::function<std::string()> effect_intensity( efftype_id eid );
