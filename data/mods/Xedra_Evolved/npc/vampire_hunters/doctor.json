@@ -1,0 +1,145 @@
+[
+  {
+    "type": "npc",
+    "id": "vampire_hunter_doctor",
+    "name_suffix": "hunter",
+    "class": "NC_vampire_hunter_doctor",
+    "//": "He sells cure & some medical supplies.  Very interested by alchemical recipes and magical/high-science medical treatments.",
+    "//2": "His main goal is to break the vampires' monopoly on agelessness and perfect health to reduce the amount of new vampires.  A very hard goal to reach even before the cataclysm, but he'll try nonetheless.",
+    "name_unique": "Blaine Weiss",
+    "gender": "male",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_HUNTER_DOCTOR",
+    "personality": { "aggression": 0, "bravery": 6, "collector": 6, "altruism": 8 },
+    "faction": "vampire_hunters"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_vampire_hunter_doctor",
+    "name": { "str": "doctor" },
+    "job_description": "I tend up wounded hunters.",
+    "//": "Worked as a doctor and performed medical research but little else.  Has a crossbow mainly for self-defense.",
+    "//2": "He's also the de facto cook due to him being the best available for this task.",
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_African" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "common": false,
+    "bonus_str": { "rng": [ 1, 2 ] },
+    "bonus_dex": { "rng": [ 1, 2 ] },
+    "bonus_int": { "rng": [ 3, 4 ] },
+    "bonus_per": { "rng": [ 1, 2 ] },
+    "sells_belongings": false,
+    "shopkeeper_item_group": "hunter_doctor_sold_items",
+    "worn_override": "VAMPIRE_HUNTER_DEFAULT_worn",
+    "weapon_override": "VAMPIRE_HUNTER_DEFAULT_CROSSBOW_wield",
+    "skills": [
+      { "skill": "rifle", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 6, 7 ] } },
+      { "skill": "chemistry", "bonus": { "rng": [ 6, 7 ] } },
+      { "skill": "cooking", "bonus": { "rng": [ 6, 7 ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 0, 1 ] } },
+      { "skill": "deduction", "bonus": { "rng": [ 1, 2 ] } }
+    ]
+  },
+  {
+    "id": "TALK_HUNTER_DOCTOR",
+    "type": "talk_topic",
+    "dynamic_line": [
+      {
+        "u_has_trait": "VAMPIRE",
+        "yes": [
+          {
+            "math": [ "vampire_hunters_owed_help > 0" ],
+            "yes": "I can give you some cure for your vampirism.  You helped us, so I'll help you in turn.",
+            "no": "Looking to buy the cure to your vampirism?  I would give it for free if I could, but its ingredients are so hard to find now.  Phyliss can help you if you're desperate."
+          }
+        ],
+        "no": [ "Welcome.", "Hello.", "Hi.", "You need something?" ]
+      }
+    ],
+    "responses": [
+      {
+        "text": "I'll buy some cure.  [10$]",
+        "topic": "TALK_DONE",
+        "condition": { "math": [ "vampire_hunters_owed_help < 1" ] },
+        "effect": [ { "u_spend_cash": 2000, "true_eocs": "EOC_HUNTER_DOCTOR_GIVE_CURE" } ]
+      },
+      {
+        "text": "I'd like to have some cure.",
+        "topic": "TALK_HUNTER_DOCTOR_GIVE_CURE",
+        "condition": { "math": [ "vampire_hunters_owed_help >= 1" ] },
+        "effect": [
+          { "math": [ "vampire_hunters_owed_help--" ] },
+          { "u_spawn_item": "blood_treatment", "count": 3, "container": "bottle_plastic" }
+        ]
+      },
+      {
+        "text": "[30m] Could you patch me up?",
+        "topic": "TALK_HUNTER_DOCTOR_AID_DONE",
+        "effect": [ "give_aid", { "math": [ "vampire_hunters_owed_help--" ] } ],
+        "condition": { "math": [ "vampire_hunters_owed_help > 0" ] }
+      },
+      {
+        "text": "[1h] Could you to patch my friends up?",
+        "topic": "TALK_HUNTER_DOCTOR_AID_DONE",
+        "effect": [ "give_all_aid", { "math": [ "vampire_hunters_owed_help -= 2" ] } ],
+        "condition": { "math": [ "vampire_hunters_owed_help > 1" ] }
+      },
+      { "text": "Do you have something to trade?", "topic": "TALK_HUNTER_DOCTOR", "effect": [ "start_trade" ] },
+      {
+        "text": "Do you have some free things for me?",
+        "topic": "TALK_HUNTER_DOCTOR",
+        "condition": { "math": [ "vampire_hunters_owed_help > 0" ] },
+        "effect": [ "start_trade", { "u_spend_cash": -2000 }, { "math": [ "vampire_hunters_owed_help--" ] } ]
+      },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_HUNTER_DOCTOR_GIVE_CURE",
+    "type": "talk_topic",
+    "dynamic_line": [ "Here you go.  It should be more than enough to treat the affliction." ],
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_HUNTER_DOCTOR_AID_DONE",
+    "type": "talk_topic",
+    "dynamic_line": [ "All patched up.  Your current wounds will heal up nicely now." ],
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "hunter_doctor_sold_items",
+    "//": "Some common medical supplies they can afford to trade for more useful things.",
+    "//2": "Once the ability to give him alchemical recipes will be added, he will start selling these too.",
+    "entries": [
+      { "item": "bandages", "prob": 80, "count": [ 5, 10 ] },
+      { "item": "adhesive_bandages", "count": [ 1, 20 ], "prob": 70 },
+      { "item": "vitamins", "prob": 75, "count": [ 10, 30 ] },
+      { "item": "calcium_tablet", "prob": 75, "count": [ 15, 25 ] },
+      { "item": "aspirin", "prob": 60, "count": [ 5, 10 ] },
+      { "item": "ibuprofen", "prob": 70, "count": [ 5, 10 ] },
+      { "item": "acetaminophen", "prob": 70, "count": [ 15, 30 ] },
+      { "item": "dayquil", "prob": 70, "count": [ 5, 10 ] },
+      { "item": "nyquil", "prob": 70, "count": [ 5, 10 ] },
+      { "item": "disinfectant", "prob": 35, "count": [ 5, 20 ] },
+      { "item": "inhaler", "prob": 20, "charges": [ 10, 100 ] },
+      { "item": "antibiotics", "prob": 35, "count": [ 1, 20 ] },
+      { "item": "antifungal", "prob": 10, "count": [ 1, 20 ] },
+      { "item": "antiparasitic", "prob": 10, "count": [ 1, 20 ] }
+    ]
+  }
+]

@@ -39,7 +39,7 @@
     "price_postapoc": "10 cent",
     "use_action": {
       "type": "transform",
-      "msg": "You adjust the %s to cover your mouth.",
+      "msg": "You adjust the bandana to cover your mouth.",
       "target": "bandana",
       "menu_text": "Cover mouth"
     },
@@ -1295,26 +1295,6 @@
     ]
   },
   {
-    "id": "zucchetto",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "zucchetto" },
-    "description": "A small, crimson skullcap.  Traditionally worn by Catholic priests.",
-    "weight": "100 g",
-    "volume": "300 ml",
-    "price": "100 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "hat_cotton",
-    "color": "red",
-    "warmth": 3,
-    "material_thickness": 0.2,
-    "armor": [
-      { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] }
-    ]
-  },
-  {
     "id": "kufi",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -1710,6 +1690,14 @@
         "append": true
       }
     ]
+  },
+  {
+    "id": "golden_hat",
+    "type": "ITEM",
+    "copy-from": "wizard_hat_costume",
+    "name": "golden hat",
+    "material": [ "leather" ],
+    "description": "An incredibly tall hat made from leather covered in gold leaf.  Its crown in divided into several segments, with patterns describing the phases of the moon, the seasons and the movements of strange constellations."
   },
   {
     "id": "hijab",

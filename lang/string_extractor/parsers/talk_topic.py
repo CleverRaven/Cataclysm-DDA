@@ -1,7 +1,6 @@
 import itertools
 
 from .effect import parse_effect
-from ..helper import is_tag
 from ..write_text import write_text
 
 
@@ -78,8 +77,7 @@ def parse_dynamic_line(json, origin, comment=[]):
                 parse_dynamic_line(json[key], origin, comment=comment)
 
     elif type(json) is str:
-        if not is_tag(json):
-            write_text(json, origin, comment=comment)
+        write_text(json, origin, comment=comment)
 
 
 def parse_response(json, origin):

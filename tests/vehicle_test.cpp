@@ -40,6 +40,8 @@ static const damage_type_id damage_pure( "pure" );
 
 static const efftype_id effect_grabbed( "grabbed" );
 
+static const flag_id json_flag_PUNCTURE_VEHICLE_WHEELS( "PUNCTURE_VEHICLE_WHEELS" );
+
 static const itype_id itype_corpse_fake_TEST( "corpse_fake_TEST" );
 static const itype_id itype_corpse_fake_TEST_NODMG( "corpse_fake_TEST_NODMG" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
@@ -70,13 +72,13 @@ static const vproto_id vehicle_prototype_wheelchair( "wheelchair" );
 
 TEST_CASE( "detaching_vehicle_unboards_passengers", "[vehicle]" )
 {
-    clear_map();
+    clear_map_without_vision();
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     const tripoint_bub_ms vehicle_origin = test_origin;
     map &here = get_map();
     Character &player_character = get_player_character();
     vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_bicycle, vehicle_origin, -90_degrees, 0,
-                                         0 );
+                                         veh_spawn_status::UNDAMAGED );
     here.board_vehicle( test_origin, &player_character );
     REQUIRE( player_character.in_vehicle );
     here.detach_vehicle( veh_ptr );
@@ -92,7 +94,7 @@ TEST_CASE( "destroy_grabbed_vehicle_section", "[vehicle]" )
         player_character.setpos( here, test_origin );
         const tripoint_bub_ms vehicle_origin = test_origin + tripoint::south_east;
         vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_bicycle, vehicle_origin, -90_degrees,
-                                             0, 0 );
+                                             0, veh_spawn_status::UNDAMAGED );
         REQUIRE( veh_ptr != nullptr );
         tripoint_bub_ms grab_point = test_origin + tripoint::east;
         player_character.grab( object_type::VEHICLE, tripoint_rel_ms::east );
@@ -112,11 +114,11 @@ TEST_CASE( "destroy_grabbed_vehicle_section", "[vehicle]" )
 TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     const tripoint_bub_ms vehicle_origin = test_origin;
     vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_bicycle, vehicle_origin, 0_degrees,
-                                         0, 0 );
+                                         0, veh_spawn_status::UNDAMAGED );
     REQUIRE( veh_ptr != nullptr );
 
     const tripoint_bub_ms pos = vehicle_origin + tripoint::west;
@@ -135,13 +137,13 @@ TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
 
 TEST_CASE( "starting_bicycle_damaged_pedal", "[vehicle]" )
 {
-    clear_map();
+    clear_map_without_vision();
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     const tripoint_bub_ms vehicle_origin = test_origin;
     map &here = get_map();
     Character &player_character = get_player_character();
     vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_bicycle, vehicle_origin, -90_degrees, 0,
-                                         0 );
+                                         veh_spawn_status::UNDAMAGED );
     here.board_vehicle( test_origin, &player_character );
     REQUIRE( player_character.in_vehicle );
     REQUIRE( veh_ptr->engines.size() == 1 );
@@ -165,11 +167,16 @@ TEST_CASE( "starting_bicycle_damaged_pedal", "[vehicle]" )
     here.detach_vehicle( veh_ptr );
 }
 
+namespace
+{
 struct vehicle_preset {
     itype_id vehicle_itype_id; // folding vehicle to test
     std::vector<itype_id> tool_itype_ids; // tool to grant
 };
+} // namespace
 
+namespace
+{
 struct damage_preset {
     int damage;
     int degradation;
@@ -177,6 +184,7 @@ struct damage_preset {
     int expect_degradation;
     int expect_hp;
 };
+} // namespace
 
 static void complete_activity( Character &u, const activity_actor &act )
 {
@@ -208,7 +216,7 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     Character &u = get_player_character();
 
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     clear_vehicles( &m );
 
     u.worn.wear_item( u, item( itype_debug_backpack ), false, false );
@@ -317,7 +325,7 @@ TEST_CASE( "Unfolding_vehicle_parts_and_testing_degradation", "[item][degradatio
         {    0,    0,    0,    0, 4000 },
         { 1000, 1000, 1000, 1000, 3000 },
         { 2000, 2000, 2000, 2000, 2000 },
-        { 2500, 1500, 2500, 1500, 1500 },
+        { 2500, 1500, 2500, 1660, 1500 },
         { 3999, 3999, 3999, 3999,    1 },
     };
 
@@ -330,6 +338,8 @@ TEST_CASE( "Unfolding_vehicle_parts_and_testing_degradation", "[item][degradatio
     clear_vehicles( &get_map() );
 }
 
+namespace
+{
 struct folded_item_damage_preset {
     itype_id folded_vehicle_item;
     int item_damage_first_fold;
@@ -337,6 +347,7 @@ struct folded_item_damage_preset {
     int part_damage_second_unfold; // sum of damage over all parts
     int part_damage_third_unfold;  // sum of damage over all parts
 };
+} // namespace
 
 static void check_folded_item_to_parts_damage_transfer( const folded_item_damage_preset &preset )
 {
@@ -348,7 +359,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
     // only the part damage is pseudo-random spread, while total damage should
     // round trip well in integers
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     map &m = get_map();
     Character &u = get_player_character();
@@ -471,7 +482,7 @@ static void connect_power_line( const tripoint_bub_ms &src_pos, const tripoint_b
 
 TEST_CASE( "power_cable_stretch_disconnect" )
 {
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
     map &m = get_map();
     Character &player_character = get_player_character();
@@ -581,6 +592,8 @@ TEST_CASE( "power_cable_stretch_disconnect" )
     }
 }
 
+namespace
+{
 struct rack_activation {
     int racking_vehicle_index; // vehicle with the rack
     tripoint_bub_ms rack_pos;  // rack to activate
@@ -599,6 +612,7 @@ struct rack_preset {
     std::vector<rack_activation> rack_orders;   // racking orders
     std::vector<rack_activation> unrack_orders; // unracking orders
 };
+} // namespace
 
 static void rack_check( const rack_preset &preset )
 {
@@ -609,7 +623,7 @@ static void rack_check( const rack_preset &preset )
     Character &u = get_player_character();
 
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     clear_vehicles( &m );
 
     std::vector<vehicle *> vehs;
@@ -618,7 +632,7 @@ static void rack_check( const rack_preset &preset )
     for( size_t i = 0; i < preset.vehicles.size(); i++ ) {
         CAPTURE( preset.vehicles[i], preset.positions[i], preset.facings[i] );
         vehicle *veh_ptr = m.add_vehicle( preset.vehicles[i], preset.positions[i],
-                                          preset.facings[i], 0, 0 );
+                                          preset.facings[i], 0, veh_spawn_status::UNDAMAGED );
         REQUIRE( veh_ptr != nullptr );
         veh_ptr->refresh( );
         vehs.push_back( veh_ptr );
@@ -771,7 +785,7 @@ TEST_CASE( "Racking_and_unracking_tests", "[vehicle][bikerack]" )
 static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra_part )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     Character &player_character = get_player_character();
     // Move player somewhere safe
@@ -779,7 +793,8 @@ static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra
     player_character.setpos( here, tripoint_bub_ms::zero );
 
     const tripoint_bub_ms map_starting_point( 60, 60, 0 );
-    vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90_degrees, 100, 0, false );
+    vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90_degrees, 100,
+                                         veh_spawn_status::UNDAMAGED, false );
 
     REQUIRE( veh_ptr != nullptr );
 
@@ -823,7 +838,7 @@ TEST_CASE( "autopilot_tests", "[vehicle][autopilot]" )
 TEST_CASE( "vehicle_enchantments", "[vehicle][enchantments]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     Character &player_character = get_player_character();
     // Move player somewhere safe
@@ -831,7 +846,8 @@ TEST_CASE( "vehicle_enchantments", "[vehicle][enchantments]" )
     player_character.setpos( here, tripoint_bub_ms::zero );
 
     const tripoint_bub_ms map_starting_point( 60, 60, 0 );
-    vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_car, map_starting_point, -90_degrees, 100, 0,
+    vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_car, map_starting_point, -90_degrees, 100,
+                                         veh_spawn_status::UNDAMAGED,
                                          false );
 
     REQUIRE( veh_ptr != nullptr );
@@ -859,7 +875,7 @@ TEST_CASE( "vehicle_enchantments", "[vehicle][enchantments]" )
 TEST_CASE( "vehicle_effects", "[vehicle][effects]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     Character &player_character = get_player_character();
     // Move player somewhere safe
@@ -867,7 +883,8 @@ TEST_CASE( "vehicle_effects", "[vehicle][effects]" )
     player_character.setpos( here, tripoint_bub_ms::zero );
 
     const tripoint_bub_ms map_starting_point( 60, 60, 0 );
-    vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_car, map_starting_point, -90_degrees, 100, 0,
+    vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_car, map_starting_point, -90_degrees, 100,
+                                         veh_spawn_status::UNDAMAGED,
                                          false );
 
     REQUIRE( veh_ptr != nullptr );
@@ -903,6 +920,18 @@ static vehicle_part *setup_squish_test_return_wheel( map &here, const tripoint_b
     return vp_wheel;
 }
 
+// wrapper around wheel_damage_chance_vs_item(), but also checks
+// if item has flag needed to damage wheel (part of damage_wheel_on_item() now)
+static double wheel_damage_chance_vs_item_test( const vehicle *veh_ptr, const item &test_item,
+        const vehicle_part *vp_wheel )
+{
+    if( !test_item.has_flag( json_flag_PUNCTURE_VEHICLE_WHEELS ) ) {
+        return 0.0;
+    }
+
+    return veh_ptr->wheel_damage_chance_vs_item( test_item, *vp_wheel );
+}
+
 static void run_squish_test( const std::map<itype_id, double> &to_squish,
                              const tripoint_bub_ms &test_point, map &here,
                              vehicle *veh_ptr, vehicle_part *vp_wheel )
@@ -914,7 +943,7 @@ static void run_squish_test( const std::map<itype_id, double> &to_squish,
         here.i_clear( test_point );
         const item &test_item = here.add_item_or_charges( test_point, item( test_data.first ) );
         REQUIRE( here.i_at( test_point ).size() == 1 );
-        const double damage_chance = veh_ptr->wheel_damage_chance_vs_item( test_item, *vp_wheel );
+        const double damage_chance = wheel_damage_chance_vs_item_test( veh_ptr, test_item, vp_wheel );
         CAPTURE( test_item.typeId().c_str() );
         CAPTURE( expected_chance );
         CAPTURE( damage_chance );
@@ -924,7 +953,7 @@ static void run_squish_test( const std::map<itype_id, double> &to_squish,
 
 TEST_CASE( "vehicle_wheels_damaged_by_running_over_items", "[vehicle]" )
 {
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     const tripoint_bub_ms test_point( 60, 60, 0 );
     REQUIRE( !here.veh_at( test_point ) );
@@ -932,7 +961,7 @@ TEST_CASE( "vehicle_wheels_damaged_by_running_over_items", "[vehicle]" )
 
     SECTION( "Bicycle wheel vs variety of test items" ) {
         vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_unicycle_bike_wheel,
-                                             test_point, 0_degrees, 100, 0, false );
+                                             test_point, 0_degrees, 100, veh_spawn_status::UNDAMAGED, false );
         vehicle_part *vp_wheel = setup_squish_test_return_wheel( here, test_point, veh_ptr );
 
         const std::map<itype_id, double> test_items = {
@@ -955,7 +984,7 @@ TEST_CASE( "vehicle_wheels_damaged_by_running_over_items", "[vehicle]" )
 
     SECTION( "Normal wheel vs variety of test items" ) {
         vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_unicycle_normal_wheel,
-                                             test_point, 0_degrees, 100, 0, false );
+                                             test_point, 0_degrees, 100, veh_spawn_status::UNDAMAGED, false );
         vehicle_part *vp_wheel = setup_squish_test_return_wheel( here, test_point, veh_ptr );
 
         const std::map<itype_id, double> test_items = {
@@ -972,7 +1001,7 @@ TEST_CASE( "vehicle_wheels_damaged_by_running_over_items", "[vehicle]" )
 
     SECTION( "Armored wheel vs variety of test items" ) {
         vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_unicycle_armored_wheel,
-                                             test_point, 0_degrees, 100, 0, false );
+                                             test_point, 0_degrees, 100, veh_spawn_status::UNDAMAGED, false );
         vehicle_part *vp_wheel = setup_squish_test_return_wheel( here, test_point, veh_ptr );
 
         const std::map<itype_id, double> test_items = {

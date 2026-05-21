@@ -40,7 +40,8 @@ contributors](https://github.com/CleverRaven/Cataclysm-DDA/wiki/Guide-to-adding-
 ## The basics
 
 ### Creating a barebones mod
-A mod is created by creating a folder within Cataclysm's `data/mods` directory. The mod's properties are set by the `modinfo.json` file that is present within that folder. In order for Cataclysm to recognize the folder as a mod, it **must** have a `modinfo.json` file present within it. <!--I know this isn't strictly true. A mod will function as long as there's a JSON file with a MOD_INFO structure in it. The file doesn't need to be called "modinfo.json"-->
+Mods are placed in different places depending on whether they are part of CDDA or are third party/private ones. Included ones are found in `data/mods`, while the placement third party/private ones depends on the installation environment: They are placed either in `./mods`, i.e. within the game installation, or in `USER_DIR/mods`.
+A mod is created by creating a folder within the appropriate mod directory of Cataclysm. The mod's properties are set by the `modinfo.json` file that is present within that folder. In order for Cataclysm to recognize the folder as a mod, it **must** have a `modinfo.json` file present within it. <!--I know this isn't strictly true. A mod will function as long as there's a JSON file with a MOD_INFO structure in it. The file doesn't need to be called "modinfo.json"-->
 
 ### Modinfo.json
 The modinfo.json file is a file that contains metadata for your mod. Every mod must have a `modinfo.json` file in order for Cataclysm to find it.
@@ -384,9 +385,3 @@ In game, that appears like this:
 
 Many editors have features that let you track `{ [` and `] }` to see if they're balanced (ie, have a matching opposite); These editors will also respect escaped characters properly. [Notepad++](https://notepad-plus-plus.org/) is a popular, free editor on Windows that contains this feature.  On Linux, there are a plethora of options, and you probably already have a preferred one 🙂
 
-### That which cannot be modded
-
-Almost everything in this game can be modded. Almost. This section is intended to chart those areas not supported for modding to save time and headaches.
-
-The Names folder and contents (EN etcetera) confirmed 5/23/20
-Construction recipes. Can be worked around by adding requirements and modding those, confirmed 7/4/22

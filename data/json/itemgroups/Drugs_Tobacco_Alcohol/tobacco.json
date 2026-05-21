@@ -84,7 +84,7 @@
             "collection": [
               { "item": "tobacco", "count": [ 1, 20 ], "container-item": "null", "entry-wrapper": "bag_plastic" },
               {
-                "distribution": [ { "item": "rolling_paper", "prob": 70, "charges": [ 1, 30 ] }, { "item": "pipe_tobacco", "prob": 30 } ]
+                "distribution": [ { "item": "rolling_paper", "prob": 70, "count": [ 1, 30 ] }, { "item": "pipe_tobacco", "prob": 30 } ]
               }
             ],
             "prob": 20
@@ -105,7 +105,6 @@
     "type": "item_group",
     "id": "chaw_wrapper_1_20",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "wrapper",
     "entries": [ { "item": "chaw", "container-item": "null", "count": [ 1, 20 ] } ]
   },
@@ -113,9 +112,36 @@
     "type": "item_group",
     "id": "cig_box_cigarette_20",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "box_cigarette",
     "entries": [ { "group": "cigarettes_new" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cig_box_cigarette_1_20",
+    "subtype": "collection",
+    "container-item": "box_cigarette",
+    "entries": [ { "group": "cigarettes_opened" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cig_box_cigarette_0_10",
+    "subtype": "collection",
+    "container-item": "box_cigarette",
+    "entries": [ { "item": "cig", "container-item": "null", "count": [ 0, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tobacco_bag_plastic_20",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "tobacco", "container-item": "null", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tobacco_bag_plastic_1_20",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "tobacco", "container-item": "null", "count": [ 1, 20 ] } ]
   },
   {
     "type": "item_group",

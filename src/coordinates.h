@@ -14,7 +14,7 @@
 #include <utility>
 #include <vector>
 
-#include "cata_inline.h"
+#include "cata_compiler_support.h"
 #include "coords_fwd.h"  // IWYU pragma: export
 #include "cuboid_rectangle.h"
 #include "debug.h"

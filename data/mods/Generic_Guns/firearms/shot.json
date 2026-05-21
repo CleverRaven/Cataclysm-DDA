@@ -34,7 +34,7 @@
   },
   {
     "id": "shot_short_pump",
-    "copy-from": "remington_870_breacher",
+    "copy-from": "mossberg_590_shockwave",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": "short shotgun",

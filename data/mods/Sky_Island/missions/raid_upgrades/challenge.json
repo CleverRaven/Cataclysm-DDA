@@ -1,0 +1,79 @@
+[
+  {
+    "id": "SKYISLAND_UPGRADE_challenge_mode",
+    "type": "mission_definition",
+    "name": "Unlock: Challenge Mode",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft an Eternal Obelisk from weapons and armor.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: You will be able to enable a challenge mode for expeditions, applying a random modifier in exchange for increased rewards.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_challenge_mode",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_challenge_mode" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will be able to enable a challenge mode for expeditions, applying a random modifier in exchange for increased rewards.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "challenge_mode_available = 1" ] },
+        { "u_forget_recipe": "upgradekey_challenge_mode" },
+        {
+          "u_message": "You feel a burning sensation sweep through your body as your connection to the warpstream grows before splitting in two.  You can feel that there is another, more dangerous place that you can travel to.\n\nYou can now enable challenge mode for your expeditions.  A random modifier will be applied to the expedition in exchange for increased rewards.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_challenge_mode",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Eternal Obelisk" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Challenge Mode",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_challenge_mode",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "warptoken", 50 ] ],
+      [ [ "m107a1", 1 ], [ "m2browning", 1 ], [ "as50", 1 ] ],
+      [ [ "xedra_enviro_suit", 1 ], [ "xedra_enviro_suit_casual", 1 ] ],
+      [
+        [ "lc_chainmail_vest", 1 ],
+        [ "hc_chainmail_vest", 1 ],
+        [ "mc_chainmail_vest", 1 ],
+        [ "ch_chainmail_vest", 1 ],
+        [ "qt_chainmail_vest", 1 ]
+      ],
+      [
+        [ "lab_postit_bio", 2 ],
+        [ "lab_postit_blob", 2 ],
+        [ "lab_postit_migo", 2 ],
+        [ "lab_postit_portal", 2 ],
+        [ "lab_postit_tech", 2 ]
+      ],
+      [ [ "lab_file_bio", 2 ], [ "lab_file_portal", 2 ], [ "lab_file_psych", 2 ], [ "lab_file_sec", 2 ] ]
+    ]
+  }
+]

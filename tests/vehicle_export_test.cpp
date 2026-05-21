@@ -6,6 +6,7 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "coordinates.h"
+#include "enums.h"
 #include "flexbuffer_json.h"
 #include "json.h"
 #include "json_loader.h"
@@ -29,11 +30,11 @@ static bool operator==( const vehicle_item_spawn &l, const vehicle_item_spawn &r
 
 TEST_CASE( "export_vehicle_test" )
 {
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     // Spawn the vehicle with fuel.
     vehicle *veh_ptr = get_map().add_vehicle( vehicle_prototype_veh_export_test, tripoint_bub_ms::zero,
-                       0_degrees, -1, 0 );
+                       0_degrees, -1, veh_spawn_status::UNDAMAGED );
     REQUIRE( veh_ptr != nullptr );
 
     // To ensure the zones get placed.

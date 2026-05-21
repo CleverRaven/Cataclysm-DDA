@@ -16,7 +16,7 @@
   {
     "type": "test_data",
     "//": "Integrated weapons, bionics, etc",
-    "expected_dps": { "integrated_giant_pincer": 9.78, "integrated_vampire_fangs": 10.69 }
+    "expected_dps": { "integrated_vampire_fangs": 10.69 }
   },
   {
     "type": "test_data",
@@ -73,12 +73,15 @@
     "//": "polearms",
     "expected_dps": {
       "pike": 23.0,
+      "ch_pike": 25.67,
+      "qt_pike": 27.38,
       "makeshift_scythe_war": 24.5,
       "bill_hook": 32.4,
       "spear_dory": 28.0,
+      "naginata_machete_temp": 28.6,
       "qiang": 30.68,
       "lucern_hammer": 31.5,
-      "glaive": 33.87,
+      "glaive": 33.12,
       "naginata": 33.97,
       "poleaxe": 34.5,
       "scythe_war": 34.59,
@@ -97,6 +100,9 @@
       "cavalry_sabre": 24.2,
       "mc_cavalry_sabre": 24.233,
       "khopesh": 24.26,
+      "hc_khopesh": 26.33,
+      "ch_khopesh": 27.36,
+      "qt_khopesh": 28.3,
       "hc_wakizashi": 24.6,
       "ch_scimitar": 25.0,
       "ch_cutlass": 25.4,
@@ -124,8 +130,13 @@
       "spear_knife_proper": 24.59,
       "art_trident": 25.5,
       "spear_copper": 26.7,
+      "string_dimension_partigiana_ixwa": 28.71,
       "spear_bronze": 28.83,
       "spear_steel": 30.58,
+      "lc_spear_steel": 28.45,
+      "hc_spear_steel": 31.95,
+      "ch_spear_steel": 34.13,
+      "qt_spear_steel": 38.17,
       "art_spear": 30.7
     }
   },
@@ -147,15 +158,13 @@
     "expected_dps": {
       "arming_sword_inferior": 24.156,
       "hc_talwar": 24.6,
-      "broadsword": 24.6,
       "arming_sword": 24.6,
-      "mc_broadsword": 24.605,
+      "broadsword": 24.605,
       "mc_arming_sword": 24.648,
       "jian": 25.2,
       "mc_jian": 25.208,
       "ch_talwar": 25.3,
-      "rapier": 25.3,
-      "mc_rapier": 25.302,
+      "rapier": 25.302,
       "hc_broadsword": 25.47,
       "mc_kilij": 25.5,
       "qt_talwar": 26.1,
@@ -222,13 +231,17 @@
       "hammer_sledge": 20.0,
       "2h_club_kanabo_studded": 25.16,
       "2h_club_kanabo_spiked": 25.65,
-      "warhammer": 36.33
+      "warhammer": 35.64,
+      "lc_warhammer": 30.6,
+      "hc_warhammer": 35.95,
+      "ch_warhammer": 36.66,
+      "qt_warhammer": 37.1
     }
   },
   {
     "type": "test_data",
     "//": "flails",
-    "expected_dps": { "2h_flail_steel": 21.0, "2h_flail_wood": 20.4, "homewrecker": 13.0 }
+    "expected_dps": { "2h_flail_steel": 21.0, "2h_flail_wood": 20.4 }
   },
   {
     "type": "test_data",

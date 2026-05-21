@@ -61,7 +61,7 @@
   },
   {
     "id": "afs_raketa_shotgun",
-    "copy-from": "shotgun_base",
+    "copy-from": "gun_base_shotgun_semi",
     "looks_like": "remington_870",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -71,14 +71,11 @@
     "volume": "3064 ml",
     "longest_side": "1250 mm",
     "min_strength": 16,
-    "to_hit": -1,
     "material": [ "qt_steel", "plastic", "carbide" ],
     "symbol": "r",
     "color": "light_gray",
-    "ammo": [ "shot" ],
     "dispersion": 125,
     "durability": 7,
-    "min_cycle_recoil": 1250,
     "price": "2510 USD",
     "price_postapoc": "2510 USD",
     "modes": [ [ "DEFAULT", "single", 1 ], [ "AUTO", "2 rd.", 2 ] ],
@@ -97,7 +94,7 @@
   },
   {
     "id": "afs_drotik_shotpistol",
-    "copy-from": "pistol_revolver",
+    "copy-from": "gun_base_handgun_manual",
     "looks_like": "sw_619",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -111,10 +108,8 @@
     "min_strength": 14,
     "material": [ "qt_steel", "plastic", "carbide" ],
     "symbol": "r",
-    "color": "light_gray",
     "ammo": [ "shot" ],
     "dispersion": 350,
-    "durability": 8,
     "clip_size": 8,
     "valid_mod_locations": [ [ "grip", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
     "pocket_data": [
@@ -125,8 +120,7 @@
         "allowed_speedloaders": [ "afs_shot_speedloader8" ]
       }
     ],
-    "melee_damage": { "bash": 16 },
-    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ]
+    "melee_damage": { "bash": 16 }
   },
   {
     "id": "afs_marsec_t72_shotgun",

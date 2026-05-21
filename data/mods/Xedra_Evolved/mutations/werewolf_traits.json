@@ -3,12 +3,13 @@
     "//": "Werewolf traits should focus on hunting, fighting extradimensional threats, the moon, battle fury, shapeshifting",
     "type": "mutation",
     "id": "WEREWOLF_MANA_TRAIT",
-    "name": { "str": "Werewolf Mana", "//~": "NO_I18N" },
+    "name": { "str": "Werewolf Mana" },
     "points": 0,
-    "description": { "str": "Your mana is calculated differently because you're a werewolf.", "//~": "NO_I18N" },
+    "description": "Your mana is calculated differently because you're a werewolf.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
+    "//I18N": true,
     "player_display": false,
     "enchantments": [
       {
@@ -191,9 +192,9 @@
   {
     "type": "mutation",
     "id": "WEREWOLF_SENSE_SPIRITS_AND_ALIENS_ACTIVE",
-    "name": { "str": "Sense the Outsider Active", "//~": "NO_I18N" },
+    "name": { "str": "Sense the Outsider Active" },
     "points": 2,
-    "description": { "str": "The active trait for Sense the Outsider.  This should not be player-visible.", "//~": "NO_I18N" },
+    "description": "The active trait for Sense the Outsider.  This should not be player-visible.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -358,7 +359,7 @@
   {
     "type": "mutation",
     "id": "WEREWOLF_SILVER_CLAWS_ACTIVE",
-    "name": { "str": "Argent Claws Active", "//~": "NO_I18N" },
+    "name": { "str": "Argent Claws Active" },
     "points": 4,
     "description": "The active trait for Argent Claws.  It should not be visible.",
     "starting_trait": false,
@@ -515,12 +516,9 @@
   {
     "type": "mutation",
     "id": "WEREWOLF_PRIMAL_FORM_TRAITS",
-    "name": { "str": "Primal Form", "//~": "NO_I18N" },
+    "name": { "str": "Primal Form" },
     "points": 0,
-    "description": {
-      "str": "You are a gigantic atavistic wolf.  This provides the actual effects of primal form.  Should not be player-visible.",
-      "//~": "NO_I18N"
-    },
+    "description": "You are a gigantic atavistic wolf.  This provides the actual effects of primal form.  Should not be player-visible.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -571,7 +569,7 @@
     "id": "WEREWOLF_WALK_THROUGH_WALLS",
     "name": { "str": "Ghostwalker" },
     "points": 4,
-    "description": "While in war form, transform your claws into silver, causing them to do additional damage to creatures of the Nether.",
+    "description": "You can concentrate for a moment and turn into a spirit form that allows you to walk through walls.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,

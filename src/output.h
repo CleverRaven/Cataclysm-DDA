@@ -514,6 +514,11 @@ enum PopupFlags {
     PF_FULLSCREEN  = 1 << 3,
 };
 
+inline auto  format_as( PopupFlags pf )
+{
+    return static_cast<std::underlying_type_t<PopupFlags>>( pf );
+}
+
 PopupFlags popup_flag_from_string( const std::string &str );
 
 template<typename ...Args>
@@ -629,13 +634,11 @@ std::string trim( std::string_view s );
 // Removes trailing periods and exclamation marks.
 std::string trim_trailing_punctuations( std::string_view s );
 // Removes all punctuation except underscore.
-std::string remove_punctuations( const std::string &s );
+std::string remove_punctuations( std::string_view s );
 // Converts the string to upper case.
-std::string to_upper_case( const std::string &s );
+std::string to_upper_case( std::string_view s );
 // Converts the string to lower case.
-std::string to_lower_case( const std::string &s );
-
-std::string rewrite_vsnprintf( const char *msg );
+std::string to_lower_case( std::string_view s );
 
 // TODO: move these elsewhere
 // string manipulations.
@@ -646,8 +649,8 @@ void replace_substring( std::string &input, const std::string &substring,
 
 std::string string_replace( std::string text, const std::string &before, const std::string &after );
 std::string replace_colors( std::string text );
-std::string uppercase_first_letter( const std::string &str );
-std::string lowercase_first_letter( const std::string &str );
+std::string uppercase_first_letter( std::string_view str );
+std::string lowercase_first_letter( std::string_view str );
 size_t shortcut_print( const catacurses::window &w, const point &p, nc_color text_color,
                        nc_color shortcut_color, const std::string &fmt );
 size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_color shortcut_color,
@@ -736,6 +739,8 @@ std::string enumerate_as_string( const Container &values,
  * @param conj Choose how to separate the last elements.
  */
 template<typename FIter, typename F>
+// Iterator pair by value is idiomatic for STL-style templates.
+// NOLINTNEXTLINE(performance-unnecessary-value-param)
 std::string enumerate_as_string( FIter first, FIter last, F &&string_for,
                                  enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
@@ -795,7 +800,8 @@ std::string get_labeled_bar( double val, int width, const std::string &label,
  */
 template<typename BarIterator>
 std::string get_labeled_bar( double val, int width, const std::string &label,
-                             BarIterator begin, BarIterator end, std::function<std::string( BarIterator, int )> printer );
+                             BarIterator begin, BarIterator end,
+                             const std::function<std::string( BarIterator, int )> &printer );
 
 /**
  * @return String containing the bar. Example: "Label [************]".
@@ -1221,6 +1227,12 @@ int get_window_height();
  * delaying the update until the next time we are waiting for user input.
  */
 void refresh_display();
+
+/**
+ * Sync OS cursor and ImGui cursor-handling flags with the current
+ * ENABLE_MOUSE and HIDE_CURSOR option values. No-op in curses builds.
+ */
+void refresh_mouse_config();
 
 /**
  * Assigns a custom color to each symbol.

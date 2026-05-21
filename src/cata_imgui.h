@@ -2,6 +2,7 @@
 #include <cstddef>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <vector>
 #include <unordered_map>
 
@@ -63,6 +64,10 @@ enum class scroll : int {
     page_down
 };
 
+// smallest supported resolution, in px
+constexpr int min_screen_res_x = 640;
+constexpr int min_screen_res_y = 384;
+
 class client
 {
         std::vector<int> cata_input_trail;
@@ -95,6 +100,11 @@ class client
 #endif
         bool auto_size_frame_active();
         bool any_window_shown();
+
+        // True if ImGui is consuming mouse input (hover / drag / popup).
+        static bool want_capture_mouse();
+        // True if an ImGui text field or shortcut has keyboard focus.
+        static bool want_capture_keyboard();
 };
 
 void point_to_imvec2( point *src, ImVec2 *dest );
@@ -102,17 +112,27 @@ void imvec2_to_point( ImVec2 *src, point *dest );
 
 ImVec4 imvec4_from_color( const nc_color &color );
 
+ImU32 ImU32_from_color( const nc_color &color );
+
 void set_scroll( scroll &s );
 
 void draw_colored_text( const std::string &original_text, const nc_color &color,
                         float wrap_width = 0.0F, bool *is_selected = nullptr,
                         bool *is_focused = nullptr, bool *is_hovered = nullptr );
+#ifndef TUI
+bool clear_pending();
+#endif
 void draw_colored_text( const std::string &original_text, nc_color &color,
                         float wrap_width = 0.0F, bool *is_selected = nullptr,
                         bool *is_focused = nullptr, bool *is_hovered = nullptr );
 void draw_colored_text( const std::string &original_text,
                         float wrap_width = 0.0F, bool *is_selected = nullptr,
                         bool *is_focused = nullptr, bool *is_hovered = nullptr );
+
+// calculates how much space the text takes horizontally, in pixels, without color tags
+size_t get_string_width( std::string_view str );
+// calculates how much space the text takes vertically, in pixels, including the wrapping
+size_t get_string_height( std::string_view str, float wrap_width );
 
 class window
 {
@@ -132,7 +152,7 @@ class window
         virtual void draw();
         virtual void on_resized() {}
         bool is_bounds_changed();
-        size_t get_text_width( const std::string &text );
+        size_t get_text_width( std::string_view text );
         size_t get_text_height( const char *text );
         size_t str_width_to_pixels( size_t len );
         size_t str_height_to_pixels( size_t len );
@@ -162,9 +182,16 @@ bool InputFloat( const char *label, float *v, float step = 0.0f, float step_fast
 
 void PushGuiFont();
 void PushMonoFont();
+void PushGuiFont1_5x();
+void PopGuiFont1_5x();
 
 bool BeginRightAlign( const char *str_id );
 void EndRightAlign();
+
+// wrapper around BeginTabItem() that allows to define if tab should be selected directly,
+// instead of manually passing ImGuiTabItemFlags_SetSelected
+bool BeginTabItem( const char *label, bool is_selected, bool *p_open = nullptr,
+                   ImGuiTabItemFlags flags = 0 );
 
 // Set ImGui theme colors to those chosen by the player.
 // This loads the settings from `config/imgui_style.json` and - optionally - falls back to base colors

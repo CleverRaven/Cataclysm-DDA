@@ -43,6 +43,8 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, butcher_type a
 
 std::string butcher_progress_var( butcher_type action );
 
+std::string butcher_progress_time_var();
+
 double butcher_get_progress( const item &corpse_item, butcher_type action );
 
 butcher_type get_butcher_type( player_activity *act );

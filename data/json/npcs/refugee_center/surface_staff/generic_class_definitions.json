@@ -53,6 +53,7 @@
     "id": "NC_FREE_MERCH_GUARD",
     "name": { "str": "Guard" },
     "job_description": "I'm on a guard shift.",
+    "work_hours": [ 9, 21 ],
     "weapon_override": "NC_FREE_MERCH_GUARD_wield_phase1",
     "worn_override": "NC_FREE_MERCH_GUARD_worn_phase1",
     "traits": [
@@ -69,5 +70,13 @@
       { "skill": "stabbing", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "melee", "bonus": { "rng": [ 2, 4 ] } }
     ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_FREE_MERCH_GUARD_NIGHT",
+    "copy-from": "NC_FREE_MERCH_GUARD",
+    "name": { "str": "Night Guard" },
+    "job_description": "I'm on the night watch.",
+    "work_hours": [ 21, 9 ]
   }
 ]

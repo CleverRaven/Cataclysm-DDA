@@ -153,7 +153,7 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "category": "manuals",
-    "name": { "str": "car owner manual", "str_pl": "copies of car owner manual" },
+    "name": { "str": "car owner manual" },
     "description": "A manual detailing how to do maintenance and light repairs to a car, ranging from changing a tire to changing oil and general checks of engine health.",
     "weight": "454 g",
     "volume": "750 ml",

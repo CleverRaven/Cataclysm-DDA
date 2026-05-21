@@ -41,6 +41,8 @@ struct mmap_file::impl {
     virtual void *base() const = 0;
 };
 
+namespace
+{
 struct malloc_impl : mmap_file::impl {
     explicit malloc_impl( size_t size ) {
         if( ( base_ = malloc( size ) ) ) {
@@ -268,7 +270,7 @@ struct file_impl : mmap_file::impl {
         }
 #endif
 
-        if( !map_view() ) {
+        if( desired_size != 0 && !map_view() ) {
             return false;
         }
         return true;
@@ -289,6 +291,7 @@ struct file_impl : mmap_file::impl {
         return true;
     }
 };
+} // namespace
 
 std::unique_ptr<mmap_file> mmap_file::map_file_generic(
     const std::filesystem::path &file_path,

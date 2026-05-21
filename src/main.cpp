@@ -23,6 +23,7 @@
 #include <utility>
 #include <vector>
 #if defined(_WIN32)
+#include "cata_allocator.h"
 #include "platform_win.h"
 #else
 #include <csignal>
@@ -31,6 +32,7 @@
 #include <flatbuffers/util.h>
 
 #include "cached_options.h"
+#include "cata_allocator.h"
 #include "cata_path.h"
 #include "color.h"
 #include "compatibility.h"
@@ -76,11 +78,7 @@
 class ui_adaptor;
 
 #if defined(TILES) || defined(SDL_SOUND)
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#      include <SDL2/SDL_version.h>
-#   else
-#      include <SDL_version.h>
-#   endif
+#   include "sdl_version_wrappers.h"
 #endif
 
 #if defined(__ANDROID__)
@@ -628,6 +626,9 @@ extern "C" int SDL_main( int argc, char **argv ) {
 int main( int argc, const char *argv[] )
 {
 #endif
+
+    cata::init_allocator();
+
     ordered_static_globals();
     init_crash_handlers();
     reset_floating_point_mode();
@@ -739,19 +740,19 @@ int main( int argc, const char *argv[] )
     DebugLog( D_INFO, DC_ALL ) << "[main] C++ locale set to " << std::locale().name();
 
 #if defined(TILES) || defined(SDL_SOUND)
-    SDL_version compiled;
-    SDL_VERSION( &compiled );
-    DebugLog( D_INFO, DC_ALL ) << "SDL version used during compile is "
-                               << static_cast<int>( compiled.major ) << "."
-                               << static_cast<int>( compiled.minor ) << "."
-                               << static_cast<int>( compiled.patch );
+    {
+        const SDLVersionInfo compiled = GetCompiledSDLVersion();
+        DebugLog( D_INFO, DC_ALL ) << "SDL version used during compile is "
+                                   << compiled.major << "."
+                                   << compiled.minor << "."
+                                   << compiled.patch;
 
-    SDL_version linked;
-    SDL_GetVersion( &linked );
-    DebugLog( D_INFO, DC_ALL ) << "SDL version used during linking and in runtime is "
-                               << static_cast<int>( linked.major ) << "."
-                               << static_cast<int>( linked.minor ) << "."
-                               << static_cast<int>( linked.patch );
+        const SDLVersionInfo linked = GetLinkedSDLVersion();
+        DebugLog( D_INFO, DC_ALL ) << "SDL version used during linking and in runtime is "
+                                   << linked.major << "."
+                                   << linked.minor << "."
+                                   << linked.patch;
+    }
 #endif
 
 #if !defined(TILES)
@@ -864,7 +865,7 @@ int main( int argc, const char *argv[] )
 
         shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
         get_event_bus().send<event_type::game_begin>( getVersionString() );
-        while( !do_turn() ) {}
+        while( !g->do_turn() ) {}
     }
 
     exit_handler( -999 );

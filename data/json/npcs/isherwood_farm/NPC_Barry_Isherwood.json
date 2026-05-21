@@ -390,19 +390,19 @@
     "dynamic_line": {
       "npc_near_om_location": "barry_mi-go_scout_tower_1",
       "range": 3,
-      "yes": "Come on, let's get out of here while we still can.  I don't want to spend any longer around here then we need too.",
+      "yes": "Come on, let's get out of here while we still can.  I don't want to spend any longer around here than we need to.",
       "no": {
         "npc_near_om_location": "barry_mi-go_scout_tower_2",
         "range": 3,
-        "yes": "Come on, let's get out of here while we still can.  I don't want to spend any longer around here then we need too.",
+        "yes": "Come on, let's get out of here while we still can.  I don't want to spend any longer around here than we need to.",
         "no": {
           "npc_near_om_location": "barry_mi-go_scout_tower_3",
           "range": 3,
-          "yes": "Come on, let's get out of here while we still can.  I don't want to spend any longer around here then we need too.",
+          "yes": "Come on, let's get out of here while we still can.  I don't want to spend any longer around here than we need to.",
           "no": {
             "npc_near_om_location": "barry_mi-go_scout_tower_4",
             "range": 3,
-            "yes": "Come on, let's get out of here while we still can.  I don't want to spend any longer around here then we need too.",
+            "yes": "Come on, let's get out of here while we still can.  I don't want to spend any longer around here than we need to.",
             "no": {
               "concatenate": [
                 "*lights up as you approach, but also looks wary.  \"",

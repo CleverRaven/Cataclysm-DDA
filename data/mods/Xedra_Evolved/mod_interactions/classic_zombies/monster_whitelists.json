@@ -1,0 +1,7 @@
+[
+  {
+    "type": "MONSTER_WHITELIST",
+    "mode": "EXCLUSIVE",
+    "categories": [ "XE_CLASSIC" ]
+  }
+]

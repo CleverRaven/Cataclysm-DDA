@@ -13,7 +13,7 @@
     "insulation": 3,
     "volume": "290 L",
     "weight": "77 kg",
-    "charged_qualities": [ [ "OVEN", 2 ] ],
+    "charged_qualities": [ { "id": "OVEN", "level": 2 }, { "id": "TEMPER", "level": 1 } ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "120 L", "max_contains_weight": "200 kg" } ]
   },
   {
@@ -68,6 +68,34 @@
     "longest_side": "137 cm",
     "volume": "200 L",
     "weight": "114 kg"
+  },
+  {
+    "type": "ITEM",
+    "id": "power_hammer",
+    "looks_like": "f_drophammer",
+    "symbol": "7",
+    "description": "A self-contained pneumatic power hammer using compressed air from an integrated compressor to strike repeatedly with great force.  Used for efficiently shaping and working metal.  Needs to be placed and plugged into a power source.",
+    "color": "light_blue",
+    "name": { "str": "disconnected power hammer" },
+    "material": [ "steel" ],
+    "//": "Based off Big Blu 65 MAX & Anyang ST 25 Power Hammer",
+    "longest_side": "170 cm",
+    "volume": "1000 L",
+    "weight": "1100 kg"
+  },
+  {
+    "id": "steel_kiln",
+    "type": "ITEM",
+    "looks_like": "f_kiln",
+    "name": { "str": "disconnected tempering kiln" },
+    "description": "A very long electric kiln made for heat treating metal.  Unlike a forge, it can't get extremely hot, but its temperature is completely programmable.  Needs to be placed and plugged into a power source.",
+    "symbol": "8",
+    "color": "light_blue",
+    "weight": "110 kg",
+    "volume": "300 L",
+    "longest_side": "150 cm",
+    "material": [ "steel" ],
+    "//": "Based off of Evenheat Knife Oven - KF 49.5 Extreme Depth"
   },
   {
     "type": "ITEM",
@@ -244,6 +272,23 @@
   },
   {
     "type": "ITEM",
+    "id": "exodii_lamp",
+    "name": { "str": "disconnected scavenged utility light" },
+    "description": "Some parts of this lamp have a curved appearance as though the metal were grown in a lab, but by and large this isn't a particularly unusual looking area light.  Its bulbs will emit light if connected to power.",
+    "weight": "2500 g",
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
+    "material": [ "steel" ],
+    "volume": "2 L",
+    "longest_side": "170 cm",
+    "price": "30 USD",
+    "price_postapoc": "3 USD",
+    "symbol": "T",
+    "color": "light_gray",
+    "looks_like": "f_exodii_lamp",
+    "melee_damage": { "bash": 5 }
+  },
+  {
+    "type": "ITEM",
     "id": "standing_floodlight",
     "name": { "str": "disconnected standing floodlight" },
     "description": "A large, heavy light designed to illuminate wide areas when plugged into a power outlet.",
@@ -381,7 +426,7 @@
     "name": { "str": "disconnected glassblower's crucible" },
     "description": "An electric crucible, powered by your electric grid.  Designed for melting large quantities of glass for batch crafting and production of large items, it needs to be placed and plugged into a power source.",
     "//": "Loosely based off Jen-Ken Kiln - Crucible 1813, but homemade",
-    "weight": "50 kg",
+    "weight": "55 kg",
     "material": [ "steel", "clay" ],
     "volume": "62500 ml",
     "longest_side": "100 cm",

@@ -1091,25 +1091,6 @@
     ]
   },
   {
-    "result": "broken_molebot",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "electronics",
-    "difficulty": 3,
-    "time": "3 h",
-    "using": [ [ "welding_standard", 6 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "memory_module", 1 ] ],
-      [ [ "pathfinding_module", 1 ] ],
-      [ [ "medium_storage_battery", 1 ] ],
-      [ [ "robot_controls", 1 ] ],
-      [ [ "ch_steel_chunk", 20 ] ]
-    ]
-  },
-  {
     "result": "broken_secubot",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
@@ -1202,6 +1183,30 @@
       [ [ "power_supply", 1 ] ],
       [ [ "targeting_module", 1 ] ],
       [ [ "gun_module", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_robofac_hound",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "e_scrap", 2 ] ],
+      [ [ "spidery_legs_small", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "tazer", 2 ] ],
+      [ [ "noise_emitter_super", 1 ] ]
     ]
   },
   {
@@ -2434,6 +2439,7 @@
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "time": "1 m",
+    "morale_modifier": [ -5, "2 hours" ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "thread", 1 ] ] ]
   },
@@ -3052,7 +3058,7 @@
     "difficulty": 4,
     "time": "2 h",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "tools": [ [ [ "welder", 500 ], [ "integrated_welder", 750 ] ] ],
+    "tools": [ [ [ "welder", 500 ], [ "welding_kit", 500 ], [ "integrated_welder", 750 ] ] ],
     "components": [ [ [ "steel_plate", 10 ] ], [ [ "lc_steel_lump", 70 ] ] ]
   },
   {
@@ -4571,6 +4577,29 @@
     ]
   },
   {
+    "result": "mobile_weather_station",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "electronics",
+    "time": "1 h 30 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "cable", 8 ] ],
+      [ [ "pipe", 2 ] ],
+      [ [ "pipe_fittings", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "e_scrap", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "barometer", 1 ] ],
+      [ [ "hygrometer", 1 ] ],
+      [ [ "thermometer", 1 ] ]
+    ]
+  },
+  {
     "result": "household_washing_machine",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
@@ -4950,8 +4979,16 @@
     "result": "styrofoam_cup",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "6 s",
-    "components": [ [ [ "cardboard", 2 ] ], [ [ "plastic_chunk", 2 ] ] ],
+    "time": "5 s",
+    "components": [ [ [ "material_styrofoam_chunk", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "material_styrofoam_sheet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "components": [ [ [ "material_styrofoam_chunk", 52 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -5961,7 +5998,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "silver_small", 6 ] ] ]
+    "components": [ [ [ "silver_small", 2 ] ] ]
   },
   {
     "result": "coin_gold",
@@ -6063,8 +6100,14 @@
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "time": "2 s",
-    "components": [ [ [ "cardboard", 20 ] ] ],
+    "components": [ [ [ "cardboard", 5 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "deck_of_tarot_cards",
+    "copy-from": "deck_of_cards",
+    "type": "uncraft",
+    "components": [ [ [ "cardboard", 5 ] ] ]
   },
   {
     "result": "kevlar_shears",
@@ -6388,7 +6431,7 @@
     "skill_used": "tailor",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_denim_patchwork", 2 ] ], [ [ "button_steel", 1 ] ], [ [ "zipper_short_plastic", 1 ] ] ],
+    "components": [ [ [ "sheet_denim_patchwork", 2 ] ], [ [ "button_plastic", 1 ] ], [ [ "zipper_short_plastic", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -6408,7 +6451,7 @@
     "skill_used": "tailor",
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_denim_patchwork", 4 ] ], [ [ "button_steel", 5 ] ] ],
+    "components": [ [ [ "sheet_denim_patchwork", 4 ] ], [ [ "button_plastic", 5 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -6418,7 +6461,7 @@
     "skill_used": "tailor",
     "time": "1 m 30 s",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_denim_patchwork", 3 ] ], [ [ "button_steel", 5 ] ] ],
+    "components": [ [ [ "sheet_denim_patchwork", 3 ] ], [ [ "button_plastic", 5 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -6428,7 +6471,7 @@
     "skill_used": "tailor",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_denim_patchwork", 2 ] ], [ [ "button_steel", 5 ] ] ],
+    "components": [ [ [ "sheet_denim_patchwork", 2 ] ], [ [ "button_plastic", 5 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -7610,6 +7653,22 @@
     "time": "10 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "yarn", 40 ] ] ]
+  },
+  {
+    "result": "xlsocks_wool",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "yarn", 80 ] ] ]
+  },
+  {
+    "result": "xssocks_wool",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "yarn", 30 ] ] ]
   },
   {
     "result": "bottle_metal",

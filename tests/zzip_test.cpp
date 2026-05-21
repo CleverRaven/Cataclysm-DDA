@@ -34,8 +34,9 @@ std::string_view _view( const std::vector<std::byte> &bytes )
 std::vector<std::byte> make_bytes( size_t count )
 {
     std::vector<std::byte> bytes;
+    bytes.reserve( count );
     for( size_t i = 0; i < count; ++i ) {
-        // NOLINTNEXTLINE(cata-determinism,cert-msc30-c,cert-msc50-cpp)
+        // NOLINTNEXTLINE(cata-determinism,cert-msc30-c,cert-msc50-cpp,misc-predictable-rand)
         bytes.push_back( static_cast<std::byte>( rand() %
                          std::numeric_limits<std::underlying_type_t<std::byte>>::max() ) );
     }

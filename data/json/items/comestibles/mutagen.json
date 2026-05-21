@@ -792,6 +792,20 @@
     }
   },
   {
+    "id": "mutagen_interstice",
+    "copy-from": "mutagen_flavor",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "name": { "str_sp": "perfectly clear water" },
+    "description": "Everything about this liquid screams that it's water.  However, it's so clear that you can barely perceive it unless in motion.",
+    "looks_like": "mutagen",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the %s.",
+      "vitamins": [ [ "mutagen_interstice", 225 ], [ "mutagen", 125 ] ]
+    }
+  },
+  {
     "id": "mutagen_snail",
     "copy-from": "mutagen_flavor",
     "type": "ITEM",

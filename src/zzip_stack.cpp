@@ -112,9 +112,8 @@ std::shared_ptr<zzip_stack> zzip_stack::create_from_folder( std::filesystem::pat
     if( !assure_dir_exist( path ) ) {
         return nullptr;
     }
-    std::filesystem::path zzip_filename = path.filename();
     // Default everything to cold.
-    zzip_filename += kColdSuffix; // NOLINT(cata-u8-path)
+    std::filesystem::path zzip_filename = filename_of_temp( path, file_temp::cold );
     std::optional<zzip> z = zzip::create_from_folder( path / zzip_filename, folder, dictionary );
     if( !z ) {
         return nullptr;
@@ -132,8 +131,8 @@ std::shared_ptr<zzip_stack> zzip_stack::create_from_folder_with_files(
     if( !assure_dir_exist( path ) ) {
         return nullptr;
     }
-    std::filesystem::path zzip_filename = path.filename();
-    zzip_filename += kColdSuffix; // NOLINT(cata-u8-path)
+    // Default everything to cold.
+    std::filesystem::path zzip_filename = filename_of_temp( path, file_temp::cold );
     std::optional<zzip> z = zzip::create_from_folder_with_files( path / zzip_filename, folder, files,
                             total_file_size, dictionary );
     if( !z ) {
@@ -239,9 +238,12 @@ bool zzip_stack::compact( double bloat_factor )
     }
 
     // Finally normal compact on cold.
-    std::filesystem::path tmp_path = path_ / "cold.zzip.tmp"; // NOLINT(cata-u8-path)
+    std::filesystem::path cold_path = path_ / filename_of_temp( path_, file_temp::cold );
+    std::filesystem::path tmp_path = cold_path;
+    tmp_path.concat( ".tmp" ); // NOLINT(cata-u8-path)
     if( cold_->compact_to( tmp_path, std::max( bloat_factor / 2.0, 1.0 ) ) ) {
-        return rename_file( tmp_path, path_ / "cold.zzip" ); // NOLINT(cata-u8-path)
+        cold_.reset();
+        return rename_file( tmp_path, cold_path );
     }
     return true;
 }
@@ -309,13 +311,10 @@ zzip &zzip_stack::zzip_of_temp( zzip_stack::file_temp temp ) const
     }
 }
 
-std::optional<zzip> zzip_stack::load_temp( file_temp temp ) const
+std::filesystem::path zzip_stack::filename_of_temp( std::filesystem::path const &folder,
+        file_temp temp )
 {
-    if( temp == file_temp::unknown ) {
-        // default unknown to hot
-        temp = file_temp::hot;
-    }
-    std::filesystem::path zzip_path = path_.filename();
+    std::filesystem::path zzip_path = folder.filename();
     std::string_view file_suffix;
     switch( temp ) {
         case file_temp::cold:
@@ -331,6 +330,18 @@ std::optional<zzip> zzip_stack::load_temp( file_temp temp ) const
 
     }
     zzip_path += file_suffix; // NOLINT(cata-u8-path)
+    return zzip_path;
+}
+
+std::optional<zzip> zzip_stack::load_temp( file_temp temp ) const
+{
+    if( temp == file_temp::unknown ) {
+        // default unknown to hot
+        temp = file_temp::hot;
+    }
+
+    std::filesystem::path zzip_path = filename_of_temp( path_, temp );
+
     std::optional<zzip> z = zzip::load( path_ / zzip_path, dictionary_ );
     if( !z ) {
         return z;

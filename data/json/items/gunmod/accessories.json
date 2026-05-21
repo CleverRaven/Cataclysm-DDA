@@ -137,7 +137,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "belt clip",
-    "mod_targets": [ "rugerlcp", "kp32" ],
+    "mod_targets": [ "rugerlcp" ],
     "flags": [ "IS_ARMOR", "SKINTIGHT", "WATER_FRIENDLY" ]
   }
 ]

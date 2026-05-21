@@ -51,7 +51,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ANATHEMA_DRAWBACKS",
-    "dynamic_line": "In addition to manifesting more of the vampires' classical weaknesses, some time after beginning to consume vampires for power I started to burn away under the sun even while fully covered.\nOnly being indoors or underground protected me if I didn't block the sun with shadows.\nI did felt a passing impulse to drink more vampire blood and the first few doses made me think my mind would unravel, but that passed.  It might be that this path gives a single weakness not seen in other vampires to those far enough on it, but testing this would require creating vampires and I won't ever tolerate this.",
+    "dynamic_line": "In addition to manifesting more of the vampires' classical weaknesses, some time after beginning to consume vampires for power the sun's rays started to ignite me, as I found the hard way when a fight lasted longer than planned.\nMy powers barely did anything to block them and I had to sink below the earth to survive that day.\nI did felt a passing impulse to drink more vampire blood and the first few doses made me think my mind would unravel, but that passed.  It might be that this path gives a single weakness not seen in other vampires to those far enough on it, but testing this would require creating vampires and I won't ever tolerate this.",
     "responses": [
       { "text": "[Read about their history]", "topic": "TALK_ANATHEMA_HISTORY" },
       { "text": "[Read about their recipe]", "topic": "TALK_ANATHEMA_RECIPE" },

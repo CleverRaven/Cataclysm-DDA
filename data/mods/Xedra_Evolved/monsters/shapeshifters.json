@@ -7,7 +7,7 @@
     "description": "An almost three-meter tall wall of fur and muscle, with claws as big as your hand and teeth capable of biting a human's head clean off.  This werewolf has several scars in its fur, though you wonder at what wounds could permanently scar a werewolf.",
     "default_faction": "werewolves",
     "bodytype": "human",
-    "categories": [ "WILDLIFE" ],
+    "categories": [ "XE_CLASSIC" ],
     "species": [ "SHAPESHIFTER" ],
     "volume": "80 L",
     "weight": "120 kg",

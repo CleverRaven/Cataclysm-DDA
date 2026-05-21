@@ -166,6 +166,7 @@
       { "run_eocs": "EOC_SHIP_veh" },
       { "run_eocs": "EOC_SHIP_npc" },
       { "run_eocs": "EOC_SHIP_mon" },
+      { "run_eocs": "EOC_SHIP_zone" },
       { "run_eocs": "EOC_SHIP_TP" },
       { "run_eocs": "EOC_SHIP_CLEANUP", "time_in_future": "1s" },
       { "run_eocs": "EOC_SHIP_VER", "time_in_future": "1s" }
@@ -174,17 +175,51 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SHIP_veh",
-    "effect": [ { "u_run_vehicle_eocs": [ "EOC_SHIP_TP" ], "vehicle_range": 24 } ]
+    "effect": [
+      {
+        "u_run_vehicle_eocs": [ "EOC_SHIP_TP" ],
+        "vehicle_range": 24,
+        "z_min": { "math": [ "ship.z" ] },
+        "z_max": { "math": [ "ship.z" ] }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_SHIP_npc",
-    "effect": [ { "u_run_npc_eocs": [ "EOC_SHIP_TP" ], "npc_range": 24, "local": true } ]
+    "effect": [
+      {
+        "u_run_npc_eocs": [ "EOC_SHIP_TP" ],
+        "npc_range": 24,
+        "local": true,
+        "z_min": { "math": [ "ship.z" ] },
+        "z_max": { "math": [ "ship.z" ] }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_SHIP_mon",
-    "effect": [ { "u_run_monster_eocs": [ "EOC_SHIP_TP" ], "monster_range": 24 } ]
+    "effect": [
+      {
+        "u_run_monster_eocs": [ "EOC_SHIP_TP" ],
+        "monster_range": 24,
+        "z_min": { "math": [ "ship.z" ] },
+        "z_max": { "math": [ "ship.z" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHIP_zone",
+    "effect": [
+      {
+        "u_run_fixed_zone_eocs": [ "EOC_SHIP_TP" ],
+        "zone_range": 24,
+        "z_min": { "math": [ "ship.z" ] },
+        "z_max": { "math": [ "ship.z" ] }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",

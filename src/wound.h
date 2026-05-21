@@ -2,19 +2,30 @@
 #ifndef CATA_SRC_WOUND_H
 #define CATA_SRC_WOUND_H
 
+#include <map>
+#include <set>
 #include <string>
 #include <string_view>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
+#include "requirements.h"
 #include "translation.h"
 #include "type_id.h"
+#include "value_ptr.h"
 
 class JsonObject;
 class JsonOut;
 
 enum class bp_type;
+
+struct wound_progress {
+    wound_type_id id;
+    int chance;
+
+    void deserialize( const JsonObject &jo );
+};
 
 class wound_type
 {
@@ -24,7 +35,7 @@ class wound_type
 
         static void load_wounds( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string_view &src );
-        void reset();
+        static void reset();
         static void check_consistency();
         void check() const;
         void deserialize( const JsonObject &jo );
@@ -37,6 +48,7 @@ class wound_type
         std::string get_description() const;
         int evaluate_pain() const;
         time_duration evaluate_healing_time() const;
+        int get_limit() const;
 
 
         // what damage types can apply this wound
@@ -53,9 +65,17 @@ class wound_type
         std::vector<bp_type> whitelist_body_part_types;
         std::vector<bp_type> blacklist_body_part_types;
 
+        std::set<wound_fix_id> fixes;
+
+        // list of wounds this wound can lead to
+        std::vector<wound_progress> wound_progression;
     private:
         translation name_;
         translation description_;
+
+        // how many of this specific wound character can receive
+        // 0 means any amount
+        unsigned int limit = 0;
 
         // if applied, how long it may take for it to heal
         std::pair<time_duration, time_duration> healing_time_;
@@ -81,6 +101,20 @@ class wound
         time_duration get_healing_time() const;
         // update the wound healing progress, if it's healed, return true
         bool update_wound( time_duration time_passed );
+
+        wound &operator+=( const wound &wd ) {
+            healing_time += wd.get_healing_time();
+            pain += wd.get_pain();
+            // reset healing progress? maybe not necessary?
+            healing_progress = 0_seconds;
+
+            return *this;
+        }
+
+        bool operator==( const wound &wd ) {
+            return type == wd.type && healing_progress == wd.healing_progress ;
+        }
+
     private:
         // how long it takes for this wound to heal. Can be adjusted by wound fix.
         time_duration healing_time;
@@ -88,6 +122,51 @@ class wound
         time_duration healing_progress;
         // how much pain this specific wound provide.
         int pain;
+};
+
+struct wound_proficiency {
+    proficiency_id prof;
+    float time_save = 1.f;
+    bool is_mandatory = false;
+
+    void deserialize( const JsonObject &jo );
+};
+
+class wound_fix
+{
+    public:
+        wound_fix_id id;
+        translation name;
+        translation description;
+        translation success_msg; // message to print on applying successfully
+        time_duration time = 0_seconds;
+        // amount of hp that will be added to limb once the wound is fixes. Mainly for bionic
+        int mod_hp = 0;
+        std::map<skill_id, int> skills; // map of skill_id to required level
+        // this profs make stuff faster, TODO safer?, and may be mandatory to perform the treatment
+        std::vector<wound_proficiency> proficiencies;
+        std::set<wound_type_id> wounds_removed; // which wounds are removed on applying
+        std::set<wound_type_id> wounds_added; // which wounds are added on applying
+
+        const requirement_data &get_requirements() const;
+
+        bool was_loaded = false; // used by generic_factory
+        static void load_wound_fixes( const JsonObject &jo, const std::string &src );
+
+
+        std::string get_name() const;
+        std::string get_description() const;
+
+        void finalize();
+        void load( const JsonObject &jo, const std::string_view & );
+        void check() const;
+        static void reset();
+        static void finalize_all();
+        static void check_consistency();
+    private:
+
+        friend class wound;
+        cata::value_ptr<requirement_data> requirements = cata::make_value<requirement_data>();
 };
 
 #endif // CATA_SRC_WOUND_H

@@ -100,6 +100,8 @@ void zone_manager_ui::zones_manager_shortcuts( const catacurses::window &w_info,
     add_action_desc( "TOGGLE_ZONE_DISPLAY", pgettext( "zones manager", "Toggle zone display" ) );
     add_action_desc( "ENABLE_PERSONAL_ZONES", pgettext( "zones manager", "Enable personal" ) );
     add_action_desc( "DISABLE_PERSONAL_ZONES", pgettext( "zones manager", "Disable personal" ) );
+    add_action_desc( "ENABLE_VEHICLE_ZONES", pgettext( "zones manager", "Enable vehicle" ) );
+    add_action_desc( "DISABLE_VEHICLE_ZONES", pgettext( "zones manager", "Disable vehicle" ) );
     add_action_desc( "MOVE_ZONE_UP", pgettext( "zones manager", "Move up" ) );
     add_action_desc( "MOVE_ZONE_DOWN", pgettext( "zones manager", "Move down" ) );
     add_action_desc( "CONFIRM", pgettext( "zones manager", "Edit" ) );
@@ -226,6 +228,8 @@ void zone_manager_ui::display_zone_manager()
     ctxt.register_action( "TOGGLE_ZONE_DISPLAY" );
     ctxt.register_action( "ENABLE_PERSONAL_ZONES" );
     ctxt.register_action( "DISABLE_PERSONAL_ZONES" );
+    ctxt.register_action( "ENABLE_VEHICLE_ZONES" );
+    ctxt.register_action( "DISABLE_VEHICLE_ZONES" );
     ctxt.register_action( "SHOW_ALL_ZONES" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     if( debug_mode ) {
@@ -814,6 +818,36 @@ void zone_manager_ui::display_zone_manager()
                         continue;
                     }
                     if( zone.get_is_personal() ) {
+                        zone.set_enabled( false );
+                        zones_changed = true;
+                    }
+                }
+
+                stuff_changed = zones_changed;
+            } else if( action == "ENABLE_VEHICLE_ZONES" ) {
+                bool zones_changed = false;
+
+                for( const auto &i : zones ) {
+                    zone_data &zone = i.get();
+                    if( zone.get_enabled() ) {
+                        continue;
+                    }
+                    if( zone.get_is_vehicle() ) {
+                        zone.set_enabled( true );
+                        zones_changed = true;
+                    }
+                }
+
+                stuff_changed = zones_changed;
+            } else if( action == "DISABLE_VEHICLE_ZONES" ) {
+                bool zones_changed = false;
+
+                for( const auto &i : zones ) {
+                    zone_data &zone = i.get();
+                    if( !zone.get_enabled() ) {
+                        continue;
+                    }
+                    if( zone.get_is_vehicle() ) {
                         zone.set_enabled( false );
                         zones_changed = true;
                     }

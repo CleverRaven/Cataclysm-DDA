@@ -181,6 +181,30 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_MOM_CASCADE_STONE_POWER_BOOST",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_effect": "effect_mom_cascade_stone" },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('cost','flag_whitelist': 'PSIONIC') = -.9" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_CASCADE_STONE_CONSEQUENCES",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
+        { "u_has_effect": "effect_mom_cascade_stone" }
+      ]
+    },
+    "effect": [
+      { "if": { "math": [ "rand(1) >= 1" ] }, "then": { "math": [ "u_health() -= 1" ] } },
+      { "if": { "math": [ "rand(8) >= 7" ] }, "then": { "u_deal_damage": "biological", "amount": 1, "arpen": 999 } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_MOM_PSYCHIC_VAMPIRE_TELEPATHY",
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
@@ -210,7 +234,7 @@
         }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_perk_blood_drinking_heal_hp_check" } ]
+    "effect": [ { "run_eocs": "EOC_MOM_PSYCHIC_VAMPIRE_HEAL_HP" } ]
   },
   {
     "type": "effect_on_condition",
@@ -218,7 +242,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('casting_time', 'flag_whitelist': 'PSIONIC') = 25" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('casting_time', 'flag_whitelist': 'PSIONIC') = 4" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -282,6 +306,7 @@
           "EOC_CLAIR_REMOVE_SEE_AURAS",
           "EOC_CLAIR_REMOVE_RANGED_ENHANCE",
           "EOC_CLAIR_REMOVE_DODGE_POWER",
+          "EOC_CLAIR_REMOVE_SENSE_HOSTILE_CREATURES",
           "EOC_CLAIR_REMOVE_CRAFT_BONUS",
           "EOC_CLAIR_REMOVE_CLEAR_SIGHT",
           "EOC_CLAIR_REMOVE_GROUP_TACTICS",
@@ -327,6 +352,7 @@
           "EOC_VITAKIN_REMOVE_CONCENTRATED_HEALING",
           "EOC_VITAKIN_REMOVE_HEALTH_POWER",
           "EOC_VITAKIN_REMOVE_CURE_DISEASE",
+          "EOC_VITAKIN_REMOVE_NO_NEED_FOR_SLEEP",
           "EOC_VITAKIN_REMOVE_SUPER_HEAL",
           "EOC_VITAKIN_REMOVE_RETURN_FROM_DEATH"
         ]
@@ -376,6 +402,7 @@
           "EOC_CLAIR_REMOVE_DANGER_SENSE",
           "EOC_CLAIR_REMOVE_SEE_AURAS",
           "EOC_CLAIR_REMOVE_RANGED_ENHANCE",
+          "EOC_CLAIR_REMOVE_SENSE_HOSTILE_CREATURES",
           "EOC_CLAIR_REMOVE_DODGE_POWER",
           "EOC_CLAIR_REMOVE_CRAFT_BONUS",
           "EOC_CLAIR_REMOVE_CLEAR_SIGHT",
@@ -422,6 +449,7 @@
           "EOC_VITAKIN_REMOVE_CONCENTRATED_HEALING",
           "EOC_VITAKIN_REMOVE_HEALTH_POWER",
           "EOC_VITAKIN_REMOVE_CURE_DISEASE",
+          "EOC_VITAKIN_REMOVE_NO_NEED_FOR_SLEEP",
           "EOC_VITAKIN_REMOVE_SUPER_HEAL",
           "EOC_VITAKIN_REMOVE_RETURN_FROM_DEATH",
           "EOC_MOM_NO_EFFECT"
@@ -445,6 +473,7 @@
           "Premonition",
           "Aura Sight",
           "Marksman's Eye",
+          "Sense Hostility",
           "Combat Sense",
           "Intuitive Artisan",
           "Clarity",
@@ -491,6 +520,7 @@
           "Leukocyte Accumulation",
           "Healthy Glow",
           "Immunostimulus",
+          "Selective Autosomnia",
           "Anabolic Rejuvenation",
           "Accelerated Resuscitation",
           "cancel"
@@ -499,6 +529,12 @@
         "allow_cancel": true
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_PSYCHIC_VAMPIRE_HEAL_HP",
+    "//": "Overridden by mod_interactions/bombastic_perks when that mod is loaded",
+    "effect": [  ]
   },
   {
     "type": "effect_on_condition",
@@ -531,6 +567,7 @@
           "EOC_CLAIR_REMOVE_SEE_AURAS",
           "EOC_CLAIR_REMOVE_RANGED_ENHANCE",
           "EOC_CLAIR_REMOVE_DODGE_POWER",
+          "EOC_CLAIR_REMOVE_SENSE_HOSTILE_CREATURES",
           "EOC_CLAIR_REMOVE_CRAFT_BONUS",
           "EOC_CLAIR_REMOVE_CLEAR_SIGHT",
           "EOC_CLAIR_REMOVE_GROUP_TACTICS",
@@ -576,6 +613,7 @@
           "EOC_VITAKIN_REMOVE_CONCENTRATED_HEALING",
           "EOC_VITAKIN_REMOVE_HEALTH_POWER",
           "EOC_VITAKIN_REMOVE_CURE_DISEASE",
+          "EOC_VITAKIN_REMOVE_NO_NEED_FOR_SLEEP",
           "EOC_VITAKIN_REMOVE_SUPER_HEAL",
           "EOC_VITAKIN_REMOVE_RETURN_FROM_DEATH"
         ]

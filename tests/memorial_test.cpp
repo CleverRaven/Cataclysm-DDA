@@ -34,7 +34,8 @@ static const spell_id spell_pain_damage( "pain_damage" );
 static const trap_str_id tr_pit( "tr_pit" );
 
 template<event_type Type, typename... Args>
-void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, Args... args )
+static void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref,
+                            const Args &... args )
 {
     CAPTURE( io::enum_to_string( Type ) );
     CAPTURE( ref );
@@ -149,12 +150,6 @@ TEST_CASE( "memorials", "[memorial]" )
 
     check_memorial<event_type::crosses_mycus_threshold>(
         m, b, "Became one with the Mycus.", ch );
-
-    check_memorial<event_type::dermatik_eggs_hatch>(
-        m, b, "Dermatik eggs hatched.", ch );
-
-    check_memorial<event_type::dermatik_eggs_injected>(
-        m, b, "Injected with dermatik eggs.", ch );
 
     check_memorial<event_type::destroys_triffid_grove>(
         m, b, "Destroyed a triffid grove." );

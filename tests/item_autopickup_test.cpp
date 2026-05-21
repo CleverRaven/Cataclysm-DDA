@@ -60,6 +60,9 @@ static const itype_id itype_wrapper( "wrapper" );
 
 static const pocket_type pocket_type_container = pocket_type::CONTAINER;
 
+namespace
+{
+
 class unique_item
 {
     private:
@@ -141,6 +144,8 @@ class unique_item
         }
 };
 
+} // namespace
+
 // Add the given item to auto-pickup character rules and check rules.
 static void add_autopickup_rule( const item *what, bool include )
 {
@@ -196,7 +201,7 @@ static void expect_to_find( const item &in, const std::list<const unique_item *>
 static void clear_everything()
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     auto_pickup::player_settings &rules = get_auto_pickup();
     rules.clear_character_rules();

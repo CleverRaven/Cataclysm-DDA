@@ -1,0 +1,11 @@
+[
+  {
+    "id": "water_clean",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "DRINK",
+    "name": "clean water",
+    "copy-from": "water_clean",
+    "container": "waterskin"
+  }
+]

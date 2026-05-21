@@ -515,7 +515,7 @@
         "0": { "item": "teabag_box", "chance": 95, "repeat": [ 1, 20 ] },
         "A": { "item": "groce_ingredient", "chance": 95, "repeat": [ 1, 20 ] },
         "B": { "item": "groce_bread", "chance": 95, "repeat": [ 1, 20 ] },
-        "C": { "item": "groce_cereal", "chance": 95, "repeat": [ 1, 20 ] },
+        "C": { "item": "cereal_in_container_full", "chance": 95, "repeat": [ 1, 20 ] },
         "D": { "item": "butcher_raw_meat", "chance": 95, "repeat": [ 1, 20 ] },
         "d": { "item": "magazines", "chance": 50 },
         "1": {

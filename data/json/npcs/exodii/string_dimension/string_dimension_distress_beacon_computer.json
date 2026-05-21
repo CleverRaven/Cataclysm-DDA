@@ -1,0 +1,142 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "COMP_SD_EXODII_DISTRESS_BEACON",
+    "dynamic_line": "&You see a bulbous, black computer screen.  It would almost be mundane on Earth's early 1990s.  Next to it is a large, clear plastic toggle switch, yellowed and brittle with age.",
+    "responses": [
+      {
+        "text": "[Flip the switch]",
+        "topic": "COMP_SD_EXODII_DISTRESS_BEACON_1",
+        "condition": { "not": { "math": [ "string_dimension_flipped_switched >= 1" ] } },
+        "effect": [
+          { "math": [ "string_dimension_flipped_switched = 1" ] },
+          { "u_transform_radius": 2, "ter_furn_transform": "ter_local_sd_distress_beacon_1" }
+        ]
+      },
+      {
+        "text": "[Flip the switch]",
+        "topic": "COMP_SD_EXODII_DISTRESS_BEACON_2",
+        "condition": { "math": [ "string_dimension_flipped_switched == 1" ] },
+        "effect": [
+          { "math": [ "string_dimension_flipped_switched = 2" ] },
+          { "u_transform_radius": 2, "ter_furn_transform": "ter_local_sd_distress_beacon_2" }
+        ]
+      },
+      {
+        "text": "[Flip the switch]",
+        "topic": "COMP_SD_EXODII_DISTRESS_BEACON_3",
+        "condition": { "math": [ "string_dimension_flipped_switched == 2" ] },
+        "effect": [
+          { "math": [ "string_dimension_flipped_switched = 3" ] },
+          { "u_transform_radius": 2, "ter_furn_transform": "ter_local_sd_distress_beacon_3" },
+          { "assign_mission": "MISSION_STRING_DIMENSION_EXODII_DOME" }
+        ]
+      },
+      {
+        "text": "[Flip the switch]",
+        "topic": "COMP_SD_EXODII_DISTRESS_BEACON_4",
+        "condition": { "math": [ "string_dimension_flipped_switched == 3" ] },
+        "effect": { "u_transform_radius": 2, "ter_furn_transform": "ter_local_sd_distress_beacon_3" }
+      },
+      { "text": "[Step away]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_SD_EXODII_DISTRESS_BEACON_1",
+    "dynamic_line": "&There is an electronic whirr, following by a click and a high-pitched ringing that slowly fades.  The screen turns on and garbled text and images cover the screen.  It is either some language you do not understand, or a series of confounding errors.  Three circle dominate the top of the screen - after just a few seconds, one circle lights up orange.",
+    "responses": [ { "text": "[Step away]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_SD_EXODII_DISTRESS_BEACON_2",
+    "dynamic_line": "&There is an electronic whirr, following by a click and a high-pitched ringing that slowly fades.  The screen turns on and garbled text and images cover the screen.  It is either some language you do not understand, or a series of confounding errors.  Three circle dominate the top of the screen - after just a few seconds, two circles light up orange.",
+    "responses": [ { "text": "[Step away]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_SD_EXODII_DISTRESS_BEACON_3",
+    "dynamic_line": "&There is an electronic whirr, following by a click and a high-pitched ringing that slowly fades.  The screen turns on and garbled text and images cover the screen.  It is either some language you do not understand, or a series of confounding errors.  Three circle dominate the top of the screen - after just a few seconds, all three circles light up orange.\n\nImmediately, three similar dots appear on the garbled image, and after a few punctuated corrections, the image morphs into a highly pixelated topological map.  A fourth, blinking light appears.  You make note if its location in reference to the three terminals you've visited.",
+    "responses": [ { "text": "[Step away]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_SD_EXODII_DISTRESS_BEACON_4",
+    "dynamic_line": "&There is an electronic whirr, following by a click and a high-pitched ringing that slowly fades.  A familiar topological map forms.  You glean no new information from it.",
+    "responses": [ { "text": "[Step away]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_local_sd_distress_beacon_1",
+    "furniture": [ { "result": "f_string_dimension_distress_beacon_1", "valid_furniture": [ "f_console" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_local_sd_distress_beacon_2",
+    "furniture": [ { "result": "f_string_dimension_distress_beacon_2", "valid_furniture": [ "f_console" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_local_sd_distress_beacon_3",
+    "furniture": [ { "result": "f_string_dimension_distress_beacon_3", "valid_furniture": [ "f_console" ] } ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_string_dimension_distress_beacon_1",
+    "copy-from": "f_console_broken",
+    "name": "powered odd monitor",
+    "looks_like": "t_console_broken",
+    "description": "A bulbous monitor.  It displays a garbled image and one glowing circle.",
+    "symbol": "6",
+    "color": "light_gray"
+  },
+  {
+    "type": "furniture",
+    "id": "f_string_dimension_distress_beacon_2",
+    "copy-from": "f_console_broken",
+    "name": "powered odd monitor",
+    "looks_like": "t_console_broken",
+    "description": "A bulbous monitor.  It displays a garbled image and two glowing circles.",
+    "symbol": "6",
+    "color": "light_gray"
+  },
+  {
+    "type": "furniture",
+    "id": "f_string_dimension_distress_beacon_3",
+    "copy-from": "f_console_broken",
+    "name": "powered odd monitor",
+    "looks_like": "t_console_broken",
+    "description": "A bulbous monitor.  It displays a topological map.  There's nothing new or interesting on it.",
+    "symbol": "6",
+    "color": "light_gray"
+  },
+  {
+    "id": "MISSION_STRING_DIMENSION_EXODII_DOME",
+    "type": "mission_definition",
+    "name": { "str": "Investigate the Blinking Dot" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "string_dimension_dome_x1y2z0",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "string_dimension_dome_x1y2z0",
+        "om_special": "string_dimension_dome",
+        "reveal_radius": 0,
+        "random": false
+      }
+    },
+    "difficulty": 2,
+    "value": 0,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "-",
+      "offer": "-",
+      "accepted": "-",
+      "rejected": "-",
+      "advice": "-",
+      "inquire": "-",
+      "success": "-",
+      "success_lie": "-",
+      "failure": "-"
+    }
+  }
+]

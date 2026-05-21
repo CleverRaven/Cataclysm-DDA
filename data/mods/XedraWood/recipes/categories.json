@@ -1,0 +1,8 @@
+[
+  {
+    "type": "recipe_category",
+    "id": "CC_PRACTICE",
+    "copy-from": "CC_PRACTICE",
+    "extend": { "recipe_subcategories": [ "CSC_PRACTICE_OCCULT" ] }
+  }
+]

@@ -273,15 +273,15 @@ void memorial_logger::write_text_memorial( std::ostream &file,
 
     //Stats
     file << _( "Final Stats:" ) << eol;
-    file << indent << string_format( _( "Str %d" ), u.str_cur )
-         << indent << string_format( _( "Dex %d" ), u.dex_cur )
-         << indent << string_format( _( "Int %d" ), u.int_cur )
-         << indent << string_format( _( "Per %d" ), u.per_cur ) << eol;
+    file << indent << string_format( _( "Str %d" ), u.get_str() )
+         << indent << string_format( _( "Dex %d" ), u.get_dex() )
+         << indent << string_format( _( "Int %d" ), u.get_int() )
+         << indent << string_format( _( "Per %d" ), u.get_per() ) << eol;
     file << _( "Base Stats:" ) << eol;
-    file << indent << string_format( _( "Str %d" ), u.str_max )
-         << indent << string_format( _( "Dex %d" ), u.dex_max )
-         << indent << string_format( _( "Int %d" ), u.int_max )
-         << indent << string_format( _( "Per %d" ), u.per_max ) << eol;
+    file << indent << string_format( _( "Str %d" ), u.get_str_base() )
+         << indent << string_format( _( "Dex %d" ), u.get_dex_base() )
+         << indent << string_format( _( "Int %d" ), u.get_int_base() )
+         << indent << string_format( _( "Per %d" ), u.get_per_base() ) << eol;
     file << eol;
 
     //Last 20 messages
@@ -790,6 +790,12 @@ void memorial_logger::notify( const cata::event &e )
                  pgettext( "memorial_female", "Dug a shaft into lava." ) );
             break;
         }
+        case event_type::dimension_travel: {
+            add( pgettext( "memorial_male", "Traveled from '%s' to '%s'." ),
+                 pgettext( "memorial_female", "Traveled from '%s' to '%s'." ),
+                 e.get<std::string>( "from_dimension" ), e.get<std::string>( "to_dimension" ) );
+            break;
+        }
         case event_type::disarms_nuke: {
             add( pgettext( "memorial_male", "Disarmed a nuclear missile." ),
                  pgettext( "memorial_female", "Disarmed a nuclear missile." ) );
@@ -1003,6 +1009,11 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::opens_temple: {
             add( pgettext( "memorial_male", "Opened a strange temple." ),
                  pgettext( "memorial_female", "Opened a strange temple." ) );
+            break;
+        }
+        case event_type::phase_move: {
+            add( pgettext( "memorial_male", "Phased through an obstacle." ),
+                 pgettext( "memorial_female", "Phased through an obstacle." ) );
             break;
         }
         case event_type::player_fails_conduct: {

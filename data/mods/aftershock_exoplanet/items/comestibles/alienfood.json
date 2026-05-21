@@ -55,7 +55,7 @@
     "healthy": -1,
     "fun": -10,
     "cooks_like": "meat_cooked",
-    "vitamins": [ [ "vitC", 13 ], [ "calcium", 2 ], [ "iron", 53 ], [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "vitC", 13 ], [ "calcium", 2 ], [ "iron", 53 ], [ "mutant_toxin", 25 ], [ "human_flesh_vitamin", 1 ] ],
     "flags": [ "RAW" ],
     "smoking_result": "meat_smoked"
   },
@@ -81,7 +81,7 @@
     "description": "A shriveled gray stomach, it hasn't seen use in a very long time.",
     "weight": "72 g",
     "volume": "250 ml",
-    "vitamins": [ [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "mutant_toxin", 25 ], [ "human_flesh_vitamin", 1 ] ],
     "price_postapoc": "25 cent",
     "price": "2 USD",
     "spoils_in": "8 hours",
@@ -105,7 +105,7 @@
     "price_postapoc": "10 cent",
     "material": [ "bone" ],
     "volume": "250 ml",
-    "vitamins": [ [ "calcium", 96 ], [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
+    "vitamins": [ [ "calcium", 96 ], [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ],
     "into": "meal_bone",
     "recipe": "meal_bone_mill_1_4"
   },
@@ -127,7 +127,7 @@
     "price": "0 cent",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
+    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ],
     "parasites": 32,
     "fun": -20
   },
@@ -148,7 +148,7 @@
     "description": "A smooth light green block of cleaned and rendered human fat.  While it'll remain edible for a very long time, it won't be the most appetizing.",
     "price": "5 USD",
     "volume": "250 ml",
-    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
+    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ],
     "parasites": 32,
     "fun": -20,
     "material": [ "hflesh" ]
@@ -173,7 +173,7 @@
     "price_postapoc": "20 cent",
     "material": [ "flesh" ],
     "flags": [ "TRADER_AVOID" ],
-    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
+    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ],
     "fun": -12
   },
   {

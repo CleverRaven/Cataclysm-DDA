@@ -240,14 +240,6 @@
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
-    "id": "winchester_1887",
-    "type": "ITEM",
-    "subtypes": [ "GUN" ],
-    "copy-from": "winchester_1887",
-    "name": { "str": "bootleg lever-action shotgun" },
-    "extend": { "flags": [ "OLD_GUN" ] }
-  },
-  {
     "id": "winchester_1897",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -269,14 +261,6 @@
     "subtypes": [ "GUN" ],
     "copy-from": "m2browning",
     "name": { "str": "M2HB Browning HMG" },
-    "extend": { "flags": [ "OLD_GUN" ] }
-  },
-  {
-    "id": "shotgun_410",
-    "type": "ITEM",
-    "subtypes": [ "GUN" ],
-    "copy-from": "shotgun_410",
-    "name": { "str": "Winchester M37 .410" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {

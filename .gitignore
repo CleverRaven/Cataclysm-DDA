@@ -14,19 +14,24 @@
 /bindist/
 /build/
 /build-start-time
+/ccache/
 /cache/
 /cmake-build-debug/
 /config/
 /data/*.template
 /data/cache/
 /data/mods/user-default-mods.json
+/data/shaders/*.spv
+/data/shaders/*.dxil
+/data/shaders/*.msl
+/data/shaders/build-*.stamp
 /dep/
 /doxygen_doc/html/*
 /doxygen_doc/latex/*
 /font/
-/gfx/
+/gfx/*
 !/gfx/ASCIITileset
-!/gfx/cdda.png
+!/gfx/loading_screens
 !/gfx/Larwick_Overmap
 !/gfx/tile_config_template.json
 /graveyard/
@@ -60,6 +65,7 @@ zzip
 
 # Visual Studio files
 *.code-workspace
+!Cataclysm-DDA.code-workspace
 *.exp
 *.ilk
 *.opensdf
@@ -80,6 +86,7 @@ Directory.Build.targets
 .vscode/**
 !.vscode/settings.json
 !.vscode/extensions.json
+!.vscode/msbuild.ps1
 
 # Visual Studio project files
 /msvc-full-features/**/
@@ -165,6 +172,7 @@ __pycache__
 Cataclysm.app
 build-data/osx/AppIcon.icns
 Cataclysm.dmg
+zzip.dSYM
 
 # Jetbrains CLion
 .idea/

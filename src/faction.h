@@ -24,11 +24,6 @@
 
 enum class vitamin_type : int;
 
-namespace catacurses
-{
-class window;
-}  // namespace catacurses
-
 // TODO: Redefine?
 constexpr int MAX_FAC_NAME_SIZE = 40;
 
@@ -158,6 +153,9 @@ class faction_template
         translation desc;
         int size; // How big is our sphere of influence?
         int power; // General measure of our power
+        // Three steal states: Always, Never, Ask
+        // Always = true, Never = false, Ask = std::nullopt
+        std::optional<bool> steal_persist;
     protected:
         // Sorted list of nutrients and when they expire
         // The time_point == 0 mod 1_days, and calendar::turn_zero is non-perishable food
@@ -184,7 +182,6 @@ class faction : public faction_template
 
         void deserialize( const JsonObject &jo );
         void serialize( JsonOut &json ) const;
-        void faction_display( const catacurses::window &fac_w, int width ) const;
 
 
         std::string describe() const;

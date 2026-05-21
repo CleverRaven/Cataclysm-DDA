@@ -58,7 +58,7 @@ static void place_monster_as_entity( horde_map &test_horde, monster &mon )
  * The main things to test here are the automatic filtering based on monster attributes and
  * simple round-tripping.
  * Specifically dormant monsters, idle monsters (with no current destination) and
- * active monsters (that DO have a current destination) are handled seperately.
+ * active monsters (that DO have a current destination) are handled separately.
 */
 TEST_CASE( "horde_map_insertion_and_retrieval", "[hordes]" )
 {

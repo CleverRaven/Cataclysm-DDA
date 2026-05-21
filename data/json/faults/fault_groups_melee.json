@@ -24,6 +24,21 @@
   },
   {
     "type": "fault_group",
+    "id": "steel_pipe_short",
+    "//": "Mechanical damage of a short handle made out of steel pipe (120 cm or less)",
+    "group": [ { "fault": "fault_steel_pipe_bent", "weight": 100 }, { "fault": "fault_steel_pipe_bent_heavy", "weight": 10 } ]
+  },
+  {
+    "type": "fault_group",
+    "id": "steel_pipe_long",
+    "//": "Mechanical damage of a long handle made out of steel pipe (more than 120 cm)",
+    "group": [
+      { "fault": "fault_steel_pipe_staff_bent", "weight": 100 },
+      { "fault": "fault_steel_pipe_staff_bent_heavy", "weight": 10 }
+    ]
+  },
+  {
+    "type": "fault_group",
     "id": "blade_general",
     "//": "Mechanical damage of any blade, from a sword to a knife",
     "group": [

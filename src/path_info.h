@@ -47,6 +47,9 @@ std::string langdir();
 std::string lang_file();
 std::string soundpack_conf();
 
+// Debugging information. Saved only, not read.
+std::string external_options();
+
 std::string credits();
 std::string motd();
 std::string title( holiday current_holiday );

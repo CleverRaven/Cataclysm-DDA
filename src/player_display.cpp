@@ -659,11 +659,14 @@ static void draw_traits_info( const catacurses::window &w_info, const Character 
     wnoutrefresh( w_info );
 }
 
+namespace
+{
 struct bionic_grouping {
     const translation name;
     const translation description;
     const int installed_count;
 };
+} // namespace
 
 static void draw_bionics_tab( ui_adaptor &ui, const catacurses::window &w_bionics,
                               const Character &you, const unsigned line,
@@ -870,12 +873,15 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
     wnoutrefresh( w_skills );
 }
 
+namespace
+{
 struct speedlist_entry {
     bool is_speed;
     std::string description;
     int val;
     bool percent;
 };
+} // namespace
 
 static void draw_speed_info( const catacurses::window &w_info,
                              unsigned int line,
@@ -1146,6 +1152,7 @@ static void on_customize_character( Character &you )
         popup
         .title( _( "New name ( leave empty to reset ):" ) )
         .width( 85 )
+        .max_length( NAME_CHARACTER_LIMIT )
         .edit( filterstring );
         if( popup.confirmed() ) {
             if( filterstring.empty() ) {
@@ -1433,7 +1440,9 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         ++info_line;
         ui_info.invalidate_ui();
     } else if( action == "MEDICAL_MENU" ) {
-        you.disp_medical();
+        if( you.disp_medical() ) {
+            done = true;
+        }
     } else if( action == "SELECT_STATS_TAB" ) {
         invalidate_tab( curtab );
         curtab = player_display_tab::stats;
@@ -1579,7 +1588,7 @@ void Character::disp_info( bool customize_character )
                                            _( "The sunlight irritates you terribly.\n"
                                               "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" )
                                          );
-    } else  if( has_trait( trait_TROGLO2 ) && g->is_in_sunlight( pos_bub() ) ) {
+    } else if( has_trait( trait_TROGLO2 ) && g->is_in_sunlight( pos_bub() ) ) {
         if( incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::moderate ) {
             effect_name_and_text.emplace_back( _( "In Sunlight" ),
                                                _( "The sunlight irritates you badly.\n"
@@ -1639,7 +1648,7 @@ void Character::disp_info( bool customize_character )
     }
     const unsigned int bionics_win_size_y_max = 2 + bionicslist.size();
 
-    const std::vector<const Skill *> player_skill = Skill::get_skills_sorted_by(
+    const std::vector<const Skill *> player_skill = Skill::get_skills_for_chr_display( *this,
     [&]( const Skill & a, const Skill & b ) {
         return a.get_sort_rank() < b.get_sort_rank();
     } );

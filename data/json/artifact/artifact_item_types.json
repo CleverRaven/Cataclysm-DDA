@@ -32,7 +32,7 @@
     "category": "artifacts",
     "looks_like": "philosophy_book",
     "name": { "str": "ancient codex", "str_pl": "ancient codices" },
-    "description": "Vellum pages bound in bark.  The strange symbols within seems to have been overwritten hundreds of times.",
+    "description": "Vellum pages bound in bark.  The strange symbols within seem to have been overwritten hundreds of times.",
     "symbol": "?",
     "color": "light_blue",
     "volume": "500 ml",
@@ -41,7 +41,7 @@
       {
         "id": "uklm_si",
         "name": { "str_sp": "In Uklm-si" },
-        "description": "The text is written in english, but every word takes incredible effort to comprehend.",
+        "description": "The text is written in English, but every word takes incredible effort to comprehend.",
         "weight": 300
       },
       {
@@ -76,7 +76,7 @@
       },
       {
         "id": "faeries",
-        "name": { "str": "book of fairytales", "str_pl": "books of fairytales" },
+        "name": { "str": "book of fairy tales", "str_pl": "books of fairy tales" },
         "description": "Any glance given to this book is survived by the drone of flapping wings.",
         "weight": 300
       },

@@ -6,6 +6,9 @@
 #include "point.h"
 #include "rng.h"
 
+namespace
+{
+
 class RandomPointGenerator final :
     public Catch::Generators::IGenerator<point>
 {
@@ -55,6 +58,8 @@ class RandomTripointGenerator final :
         std::uniform_int_distribution<> z_dist;
         tripoint current_point;
 };
+
+} // namespace
 
 Catch::Generators::GeneratorWrapper<point> random_points( int low, int high )
 {

@@ -12,22 +12,22 @@ When you have extended channeling or noetic resilience active, you will gain les
 All powers scale based on your attunement vitamin. When you have no ranks, your powers are 75% as effective. At maximum attunement rank, your powers are 300% as effective. Ranks 1-12 are visible in game on the attunement sidebar widget and in the `@` screen as the `Nether Attunement [#]` effect.
 This power scaling applies to the effects of powers as a multiplier and to your attunement vitamin gain when you have any attunement ranks as mentioned above.
 
-| Attunement Rank | Multiplier | with Noetic Resilience | with Torrential Channeling |
-| :--: | :--: | :--: | :--: |
-|  00  | 0.75 | 1.05 | 1.00 |
-|  01  | 1.00 | 1.05 | 1.15 |
-|  02  | 1.04 | 1.05 | 1.30 |
-|  03  | 1.08 | 1.05 | 1.45 |
-|  04  | 1.13 | 1.05 | 1.60 |
-|  05  | 1.19 | 1.05 | 1.80 |
-|  06  | 1.26 | 1.05 | 2.00 |
-|  07  | 1.35 | 1.05 | 2.25 |
-|  08  | 1.45 | 1.05 | 2.60 |
-|  09  | 1.60 | 1.05 | 3.00 |
-|  10  | 1.80 | 1.05 | 3.50 |
-|  11  | 2.10 | 1.05 | 4.00 |
-|  12  | 3.00 | 1.05 | 4.80 |
-|  12* | 4.00 | 1.05 | 6.50 |
+| Attunement Rank | Multiplier | with Noetic Resilience | with Torrential Channeling | with Extended Channeling |
+| :--: | :--: | :--: | :--: | :--: |
+|  00  | 0.75 | 1.05 | 1.00 | 0.60 |
+|  01  | 1.00 | 1.05 | 1.15 | 0.75 |
+|  02  | 1.04 | 1.05 | 1.30 | 0.82 |
+|  03  | 1.08 | 1.05 | 1.45 | 0.90 |
+|  04  | 1.13 | 1.05 | 1.60 | 0.97 |
+|  05  | 1.19 | 1.05 | 1.80 | 1.04 |
+|  06  | 1.26 | 1.05 | 2.00 | 1.10 |
+|  07  | 1.35 | 1.05 | 2.25 | 1.18 |
+|  08  | 1.45 | 1.05 | 2.60 | 1.26 |
+|  09  | 1.60 | 1.05 | 3.00 | 1.35 |
+|  10  | 1.80 | 1.05 | 3.50 | 1.45 |
+|  11  | 2.10 | 1.05 | 4.00 | 1.60 |
+|  12  | 3.00 | 1.05 | 4.80 | 1.80 |
+|  12* | 4.00 | 1.05 | 6.50 | 2.00 |
 
 There is actually a vitamin level past attunement rank 12 where your attunement power scaling goes up to 400%. You have no visual indicator of reaching this point.
 

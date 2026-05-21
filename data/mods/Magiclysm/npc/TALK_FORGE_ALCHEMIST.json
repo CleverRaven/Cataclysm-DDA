@@ -1,0 +1,134 @@
+[
+  {
+    "type": "npc",
+    "id": "forge_lord_alchemist",
+    "//": "The Alchemist of the Forge of Wonders.",
+    "name_unique": "Alchemist",
+    "name_suffix": "Forge Lord",
+    "class": "NC_FORGE_LORD_ALCHEMIST",
+    "attitude": 0,
+    "mission": 3,
+    "gender": "male",
+    "chat": "TALK_FORGE_LORD_ALCHEMIST",
+    "faction": "forge_lords"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_FORGE_LORD_ALCHEMIST",
+    "name": { "str": "Forge Alchemist" },
+    "job_description": "I brew potions and alchemical concoctions.",
+    "traits": [ { "trait": "VAULT_DEFENDER" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "//": "This is a unique NPC who doesn't get randomly selected background traits",
+    "common": false,
+    "bonus_int": { "one_in": 4 },
+    "bonus_per": { "one_in": 4 },
+    "sells_belongings": false,
+    "shopkeeper_item_group": [ { "group": "NC_FORGE_LORD_STORE_POTION_SHOP", "rigid": true } ],
+    "shopkeeper_whitelist": "FORGE_ALCHEMIST_WHITELIST",
+    "shopkeeper_price_rules": [
+      { "item": "denarius", "price": 2500, "fixed_adj": 0 },
+      { "item": "mercury", "premium": 1 },
+      { "group": "magic_plants_common", "premium": 1, "markup": 3 },
+      { "group": "magic_plants_uncommon", "premium": 1.2, "markup": 2 },
+      { "group": "magic_plants_rare", "premium": 1.5, "markup": 1.8 },
+      { "group": "potions_common", "premium": 0.5, "markup": 3 },
+      { "group": "potions_uncommon", "premium": 0.9, "markup": 2.4 },
+      { "group": "potions_rare", "premium": 1.2, "markup": 1.5 },
+      { "group": "potions_illegal", "premium": 1.5, "markup": 3 }
+    ],
+    "worn_override": "NC_FORGE_ALCHEMIST_clothes",
+    "carry_override": "EMPTY_GROUP",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "chemistry", "bonus": { "one_in": 2 } },
+      { "skill": "unarmed", "bonus": { "one_in": 2 } },
+      { "skill": "melee", "bonus": { "one_in": 2 } },
+      { "skill": "gun", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 1, 3 ] } }
+    ],
+    "proficiencies": [ "prof_alchemy" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FORGE_ALCHEMIST_clothes",
+    "subtype": "collection",
+    "entries": [
+      { "item": "boxer_briefs", "prob": 100 },
+      { "item": "socks", "prob": 100 },
+      { "item": "tshirt", "prob": 100 },
+      { "item": "apron_plastic", "prob": 100 },
+      { "item": "boots_rubber", "prob": 100 },
+      { "item": "gloves_medical", "prob": 100 },
+      { "item": "goggles_chem", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "NC_FORGE_LORD_STORE_POTION_SHOP",
+    "items": [
+      { "group": "NC_FORGE_LORD_STORE_ALCHEMIST", "prob": 100, "count": [ 15, 24 ] },
+      { "item": "denarius", "count": [ 5, 20 ], "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "NC_FORGE_LORD_STORE_ALCHEMIST",
+    "//": "Does not sell illegal potions, but will buy them.",
+    "items": [
+      { "item": "mercury", "prob": 70, "count": [ 1, 2 ], "charges": [ 50, -1 ] },
+      { "group": "magic_plants_common", "prob": 80, "count": [ 4, 8 ] },
+      { "group": "magic_plants_uncommon", "prob": 50, "count": [ 2, 5 ] },
+      { "group": "magic_plants_rare", "prob": 20, "count": [ 1, 3 ] },
+      { "group": "potions_common", "prob": 80, "count": [ 4, 8 ] },
+      { "group": "potions_uncommon", "prob": 40, "count": [ 2, 4 ] },
+      { "group": "potions_rare", "prob": 10, "count": [ 0, 2 ] }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_ALCHEMIST",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "…then another 15 minutes for purifying.  Oh, hello.  Do you need potions?",
+      "Huh?  *mumble*  What?  Are you buying something?",
+      "I don't have a lot of time.  Did you want something or just looking around?"
+    ],
+    "responses": [
+      { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_FORGE_LORD_ALCHEMIST" },
+      { "text": "What are you doing here?", "topic": "TALK_FORGE_ALCHEMIST_DOING" },
+      { "text": "Do you have any more brewing?", "topic": "TALK_FORGE_ALCHEMIST_ASK_INTERVAL" },
+      { "text": "Well, bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_ALCHEMIST_DOING",
+    "type": "talk_topic",
+    "dynamic_line": "What does it look like I'm doing?  I brew and sell potions.  If you have some magical plants, I'll buy them from you.",
+    "responses": [ { "text": "Let's talk business, then.", "topic": "TALK_FORGE_LORD_ALCHEMIST" } ]
+  },
+  {
+    "id": "TALK_FORGE_ALCHEMIST_ASK_INTERVAL",
+    "type": "talk_topic",
+    "dynamic_line": "I'll probably brew another batch soon.  Check back on <restock_time_point>.",
+    "responses": [ { "text": "Take care.", "topic": "TALK_FORGE_LORD_ALCHEMIST" } ]
+  },
+  {
+    "type": "shopkeeper_whitelist",
+    "id": "FORGE_ALCHEMIST_WHITELIST",
+    "message": "<npcname> is only interested in alchemy.",
+    "entries": [
+      { "item": "denarius" },
+      { "group": "magic_plants_common" },
+      { "group": "magic_plants_uncommon" },
+      { "group": "magic_plants_rare" },
+      { "group": "potions_common" },
+      { "group": "potions_uncommon" },
+      { "group": "potions_rare" },
+      { "group": "potions_illegal" }
+    ]
+  }
+]

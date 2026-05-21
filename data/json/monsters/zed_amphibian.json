@@ -229,14 +229,7 @@
     "melee_dice": 2,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "dodge": 2,
-    "families": [
-      "prof_gross_anatomy",
-      "prof_intro_biology",
-      "prof_physiology",
-      "prof_wp_basic_amphibian",
-      "prof_wp_zombie",
-      "prof_electromagnetics"
-    ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian", "prof_wp_zombie" ],
     "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog", "wps_amphibian_electric" ],
     "harvest": "zombie_animal_electric",
     "luminance": 16,

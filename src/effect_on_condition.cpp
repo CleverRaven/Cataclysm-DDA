@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <iterator>
 #include <list>
 #include <memory>
 #include <unordered_map>
@@ -10,6 +11,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "cata_variant.h"
 #include "character.h"
@@ -71,8 +73,17 @@ bool string_id<effect_on_condition>::is_valid() const
     return effect_on_condition_factory.is_valid( *this );
 }
 
+static std::vector<std::pair<std::string, std::string>> pending_eoc_refs;
+
 void effect_on_conditions::check_consistency()
 {
+    for( const auto &[eoc_str, context] : pending_eoc_refs ) {
+        effect_on_condition_id eid( eoc_str );
+        if( !eid.is_valid() ) {
+            debugmsg( "EOC reference \"%s\" (loaded from %s) does not exist", eoc_str, context );
+        }
+    }
+    pending_eoc_refs.clear();
 }
 
 void effect_on_condition::load( const JsonObject &jo, std::string_view src )
@@ -120,6 +131,8 @@ effect_on_condition_id effect_on_conditions::load_inline_eoc( const JsonValue &j
         std::string_view src )
 {
     if( jv.test_string() ) {
+        std::string context = string_format( "%s (%s)", src, jv.get_root_source_path() );
+        pending_eoc_refs.emplace_back( jv.get_string(), std::move( context ) );
         return effect_on_condition_id( jv.get_string() );
     } else if( jv.test_object() ) {
         effect_on_condition inline_eoc;
@@ -232,8 +245,30 @@ void effect_on_conditions::queue_effect_on_condition( time_duration duration,
 static void process_eocs( queued_eocs &eoc_queue, std::vector<effect_on_condition_id> &eoc_vector,
                           dialogue &d )
 {
-    static std::vector<queued_eocs::storage_iter> eocs_to_queue;
-    eocs_to_queue.clear();
+    static int reentrancy_depth = 0;
+    ++reentrancy_depth;
+
+    // Have to use a typedef because astyle does not settle on the spacing for the & when inline.
+    using queue_t = std::vector<queued_eocs::storage_iter> &;
+    queue_t eocs_to_queue = []() -> queue_t {
+        static std::list<std::vector<queued_eocs::storage_iter>> cached_queues;
+        if( reentrancy_depth < 0 )
+        {
+            debugmsg( "How can we unrecurse more than we recurse?" );
+        }
+        while( cached_queues.size() < static_cast<size_t>( reentrancy_depth ) )
+        {
+            cached_queues.emplace_back();
+        }
+        auto it = cached_queues.begin();
+        std::advance( it, reentrancy_depth - 1 );
+        return *it;
+    }();
+
+    on_out_of_scope cleanup{ [&] {
+            --reentrancy_depth;
+            eocs_to_queue.clear();
+        } };
 
     while( !eoc_queue.empty() &&
            eoc_queue.top().time <= calendar::turn ) {
@@ -506,6 +541,7 @@ const std::vector<effect_on_condition> &effect_on_conditions::get_all()
 void effect_on_conditions::reset()
 {
     effect_on_condition_factory.reset();
+    pending_eoc_refs.clear();
 }
 
 void effect_on_conditions::load( const JsonObject &jo, const std::string &src )

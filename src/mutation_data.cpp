@@ -307,6 +307,7 @@ void mutation_branch::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "ugliness", ugliness, 0 );
     optional( jo, was_loaded, "starting_trait", startingtrait, false );
     optional( jo, was_loaded, "chargen_allow_npc", chargen_allow_npc, true );
+    optional( jo, was_loaded, "random_start_allowed", random_start_allowed, true );
     optional( jo, was_loaded, "mixed_effect", mixed_effect, false );
     optional( jo, was_loaded, "active", activated, false );
     optional( jo, was_loaded, "starts_active", starts_active, false );
@@ -318,6 +319,7 @@ void mutation_branch::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "thirst", thirst, false );
     optional( jo, was_loaded, "sleepiness", sleepiness, false );
     optional( jo, was_loaded, "mana", mana, false );
+    optional( jo, was_loaded, "stamina", stamina, false );
     optional( jo, was_loaded, "valid", valid, true );
     optional( jo, was_loaded, "purifiable", purifiable, true );
 
@@ -400,7 +402,7 @@ void mutation_branch::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "activation_msg", activation_msg,
               to_translation( "You activate your %s." ) );
 
-    optional( jo, was_loaded, "butchering_quality", butchering_quality, 0 );
+    optional( jo, was_loaded, "provided_qualities", provided_qualities );
 
     optional( jo, was_loaded, "allowed_category", allowed_category );
 

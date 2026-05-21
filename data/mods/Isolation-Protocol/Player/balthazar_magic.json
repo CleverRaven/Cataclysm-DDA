@@ -1,0 +1,76 @@
+[
+  {
+    "id": "spawn_blackfire_shield",
+    "type": "SPELL",
+    "name": "Spawn Blackfire Shield",
+    "description": "Creates a shield.",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "NO_FAIL", "CONCENTRATE", "SOMATIC", "PERMANENT_ALL_LEVELS", "NO_EXPLOSION_SFX" ],
+    "min_range": 0,
+    "max_range": 0,
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "iso_blackfire_shield",
+    "shape": "blast",
+    "max_level": 1
+  },
+  {
+    "id": "iso_blackfire_shield",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str": "Blackfire shell" },
+    "description": "A thin shell of altered reality periodically flickers in and out of existence in resemblance to slick globules of dark oil.  It seemingly absorbs incoming attacks, protecting you from harm.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "blue",
+    "material": [ "monolith" ],
+    "environmental_protection": 20,
+    "material_thickness": 5.0,
+    "max_energy_shield_hp": 1200,
+    "flags": [
+      "AURA",
+      "ENERGY_SHIELD",
+      "OVERSIZE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "SPAWN_ACTIVE",
+      "ALLOWS_NATURAL_ATTACKS",
+      "SEMITANGIBLE",
+      "POWERARMOR_COMPATIBLE",
+      "UNRESTRICTED"
+    ],
+    "max_worn": 1,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "iso_blackfire_blast",
+    "type": "SPELL",
+    "name": "Blackfire",
+    "description": "Whatever powers this deep red fire is more fundamental than the simple breaking of chemical bonds.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "SILENT", "IGNORE_WALLS" ],
+    "difficulty": 15,
+    "max_level": 2,
+    "effect": "attack",
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 12,
+    "damage_type": "pure",
+    "min_damage": 20000,
+    "max_damage": 20000,
+    "min_aoe": 2,
+    "aoe_increment": 48,
+    "max_aoe": 50,
+    "base_energy_cost": 1500,
+    "base_casting_time": 500
+  }
+]

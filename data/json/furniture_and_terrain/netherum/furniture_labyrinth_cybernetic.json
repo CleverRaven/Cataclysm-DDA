@@ -1,0 +1,10 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_nl_exodii_lamp",
+    "copy-from": "f_exodii_lamp",
+    "looks_like": "f_exodii_lamp",
+    "name": "strange utility light",
+    "description": "Parts of this utility light have a curved appearance, as though the metal were grown in a lab.  The round bulb emits an eerie greenish glow."
+  }
+]

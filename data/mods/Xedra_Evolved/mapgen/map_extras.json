@@ -8,7 +8,8 @@
     "sym": "I",
     "min_max_zlevel": [ 0, 0 ],
     "color": "magenta_yellow",
-    "autonote": true
+    "autonote_visibility": "same_tile",
+    "flags": [ "CLASSIC" ]
   },
   {
     "type": "mapgen",
@@ -80,7 +81,7 @@
     "min_max_zlevel": [ -2, 0 ],
     "sym": "S",
     "color": "yellow",
-    "autonote": true
+    "autonote_visibility": "same_tile"
   },
   {
     "id": "mx_goblin_spider",
@@ -91,7 +92,8 @@
     "min_max_zlevel": [ -2, 0 ],
     "sym": "S",
     "color": "yellow",
-    "autonote": true
+    "autonote_visibility": "same_tile",
+    "flags": [ "CLASSIC" ]
   },
   {
     "id": "mx_trees_map_salamander",
@@ -102,7 +104,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "E",
     "color": "green",
-    "autonote": true
+    "autonote_visibility": "same_tile"
   },
   {
     "type": "mapgen",
@@ -148,7 +150,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "E",
     "color": "green",
-    "autonote": true
+    "autonote_visibility": "same_tile"
   },
   {
     "type": "mapgen",
@@ -194,7 +196,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "E",
     "color": "green",
-    "autonote": true
+    "autonote_visibility": "same_tile"
   },
   {
     "type": "mapgen",
@@ -240,7 +242,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "E",
     "color": "green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "MAN_MADE" ]
   },
   {
@@ -308,7 +310,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "E",
     "color": "light_green",
-    "autonote": true
+    "autonote_visibility": "same_tile"
   },
   {
     "type": "mapgen",
@@ -379,7 +381,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "E",
     "color": "light_green",
-    "autonote": true
+    "autonote_visibility": "same_tile"
   },
   {
     "type": "mapgen",
@@ -451,7 +453,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "E",
     "color": "blue",
-    "autonote": true
+    "autonote_visibility": "same_tile"
   },
   {
     "type": "mapgen",
@@ -523,7 +525,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "E",
     "color": "blue",
-    "autonote": true
+    "autonote_visibility": "same_tile"
   },
   {
     "type": "mapgen",
@@ -596,7 +598,8 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "G",
     "color": "magenta",
-    "autonote": true
+    "autonote_visibility": "details",
+    "flags": [ "CLASSIC" ]
   },
   {
     "type": "mapgen",
@@ -670,7 +673,8 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "m",
     "color": "light_gray",
-    "autonote": false
+    "autonote_visibility": "none",
+    "flags": [ "CLASSIC" ]
   },
   {
     "type": "mapgen",
@@ -890,6 +894,7 @@
     "sym": "w",
     "min_max_zlevel": [ 0, 0 ],
     "color": "dark_gray_red",
-    "autonote": true
+    "autonote_visibility": "same_tile",
+    "flags": [ "CLASSIC" ]
   }
 ]

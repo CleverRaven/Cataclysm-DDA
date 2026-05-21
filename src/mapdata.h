@@ -21,6 +21,7 @@
 #include "enum_bitset.h"
 #include "game_constants.h"
 #include "iexamine.h"
+#include "lightmap.h"
 #include "requirements.h"
 #include "translation.h"
 #include "type_id.h"
@@ -103,8 +104,8 @@ struct map_fd_bash_info : map_common_bash_info {
 };
 struct map_deconstruct_skill {
     skill_id id; // Id of skill to increase on successful deconstruction
-    int min; // Minimum level to recieve xp
-    int max; // Level cap after which no xp is recieved but practise still occurs delaying rust
+    int min; // Minimum level to receive xp
+    int max; // Level cap after which no xp is received but practise still occurs delaying rust
     double multiplier; // Multiplier of the base xp given that's calced using the mean of the min and max
 };
 struct map_common_deconstruct_info {
@@ -273,6 +274,9 @@ enum class ter_furn_flag : int {
     TFLAG_SHALLOW_WATER,
     TFLAG_WATER_CUBE,
     TFLAG_CURRENT,
+    TFLAG_THIN_ICE,
+    TFLAG_THICK_ICE,
+    TFLAG_SWIM_UNDER,
     TFLAG_HARVESTED,
     TFLAG_PERMEABLE,
     TFLAG_AUTO_WALL_SYMBOL,
@@ -372,9 +376,13 @@ enum class ter_furn_flag : int {
     TFLAG_FLOATS_IN_AIR,
     TFLAG_HARVEST_REQ_CUT1,
     TFLAG_NATURAL_UNDERGROUND,
+    TFLAG_PHASE_BACK,
     TFLAG_WIRED_WALL,
     TFLAG_MON_AVOID_STRICT,
     TFLAG_REGION_PSEUDO,
+    TFLAG_ONE_DIMENSIONAL_X,
+    TFLAG_ONE_DIMENSIONAL_Y,
+    TFLAG_ONE_DIMENSIONAL_Z,
 
     NUM_TFLAG_FLAGS
 };
@@ -551,6 +559,7 @@ struct map_data_common_t {
         void examine( Character &, const tripoint_bub_ms & ) const;
 
         int light_emitted = 0;
+        light_color_rgb light_color{};
         // The amount of movement points required to pass this terrain by default.
         int movecost = 0;
         int heat_radiation = 0;
@@ -663,6 +672,8 @@ struct map_data_common_t {
                    has_flag( ter_furn_flag::TFLAG_FLAMMABLE_HARD );
         }
 
+        virtual bool is_terrain() const;
+
         virtual void load( const JsonObject &jo, const std::string & );
         virtual void check() const {};
 };
@@ -681,6 +692,17 @@ struct ter_t : map_data_common_t {
 
     std::optional<map_ter_bash_info> bash;
     std::optional<map_ter_deconstruct_info> deconstruct;
+
+    // Phase-change configuration
+    // List of terrain ids that this terrain can transform into under a phase change
+    // (e.g. ice/steam variants). One entry may be empty to indicate "itself".
+    std::vector<ter_str_id> phase_targets;
+    // Corresponding list of temperatures (interpreted as degrees Celsius in JSON)
+    // at which the terrain will pick the corresponding phase target.
+    std::vector<units::temperature> phase_temps;
+    // Method describing how to apply the phase change (string identifier)
+    // Example values: "thresholds", "closest", "gradient" etc.
+    std::string phase_method;
 
     ter_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
 
@@ -709,6 +731,7 @@ struct ter_t : map_data_common_t {
     static size_t count();
 
     bool is_null() const;
+    bool is_terrain() const override;
 
     std::vector<std::string> extended_description() const override;
     bool is_smashable() const override;
@@ -722,7 +745,7 @@ void set_furn_ids();
 void reset_furn_ter();
 
 /*
- * The terrain list contains the master list of  information and metadata for a given type of terrain.
+ * The terrain list contains the master list of information and metadata for a given type of terrain.
  */
 
 struct furn_t : map_data_common_t {

@@ -77,6 +77,7 @@ std::string enum_to_string<distraction_type>( distraction_type data )
         case distraction_type::mutation: return "mutation";
         case distraction_type::oxygen: return "oxygen";
         case distraction_type::withdrawal: return "withdrawal";
+        case distraction_type::craft_step_complete: return "craft_step_complete";
         // *INDENT-ON*
         default:
             cata_fatal( "Invalid distraction_type in enum_to_string" );
@@ -93,6 +94,7 @@ void activity_type::load( const JsonObject &jo )
     optional( jo, was_loaded, "interruptable_with_kb", interruptable_with_kb_, true );
     optional( jo, was_loaded, "can_resume", can_resume_, true );
     optional( jo, was_loaded, "multi_activity", multi_activity_, false );
+    optional( jo, was_loaded, "fetch_items_to_zone", fetch_items_to_zone_, true );
     optional( jo, was_loaded, "refuel_fires", refuel_fires, false );
     optional( jo, was_loaded, "auto_needs", auto_needs, false );
     optional( jo, was_loaded, "completion_eoc", completion_EOC );

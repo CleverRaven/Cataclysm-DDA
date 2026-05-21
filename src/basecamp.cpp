@@ -124,6 +124,8 @@ basecamp::basecamp() = default;
 
 basecamp_map::basecamp_map( const basecamp_map & ) {}
 
+// rhs is intentionally ignored; assignment resets the cached map.
+// NOLINTNEXTLINE(bugprone-unhandled-self-assignment,cert-oop54-cpp)
 basecamp_map &basecamp_map::operator=( const basecamp_map & )
 {
     map_.reset();
@@ -247,7 +249,8 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, const map
         skills = &bld_reqs.skills;
     } else {
         reqs = &making.simple_requirements();
-        base_time = making.batch_duration( get_player_character() );
+        base_time = making.batch_duration( get_player_character(),
+                                           crafting_cost_context::for_recipe( get_player_character(), making ) );
         skills = &making.required_skills;
     }
 
@@ -1060,8 +1063,11 @@ void basecamp_action_components::consume_components()
         src.emplace_back( target_map.get_bub( p ) );
     }
     for( const comp_selection<item_comp> &sel : item_selections_ ) {
-        std::list<item> empty_consumed = player_character.consume_items( target_map, sel, batch_size_,
-                                         is_crafting_component, src );
+        std::list<item> consumed = player_character.consume_items( target_map, sel, batch_size_,
+                                   is_crafting_component, src );
+        for( item &comp : consumed ) {
+            consumed_components_.add( comp );
+        }
     }
     // this may consume pseudo-resources from fake items
     for( const comp_selection<tool_comp> &sel : tool_selections_ ) {

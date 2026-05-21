@@ -9,7 +9,6 @@
       { "prob": 2, "group": "veggy_tainted_55gal_drum_3_50" },
       { "group": "toxic_waste_mx_chems", "prob": 35 },
       { "item": "55gal_drum", "prob": 50 },
-      { "item": "canister_goo", "prob": 5 },
       { "item": "slime_scrap", "prob": 10 }
     ]
   },
@@ -198,7 +197,6 @@
     "type": "item_group",
     "id": "meat_mutant_tainted_55gal_drum_3_15",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "55gal_drum",
     "entries": [ { "item": "meat_mutant_tainted", "count": [ 3, 15 ] } ]
   },
@@ -206,7 +204,6 @@
     "type": "item_group",
     "id": "veggy_tainted_55gal_drum_3_50",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "55gal_drum",
     "entries": [ { "item": "veggy_tainted", "count": [ 3, 50 ] } ]
   }

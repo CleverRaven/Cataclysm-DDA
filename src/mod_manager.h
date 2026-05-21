@@ -4,6 +4,7 @@
 
 #include <cstddef>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -203,7 +204,8 @@ class mod_ui
         void try_rem( size_t selection, std::vector<mod_id> &active_list );
         void try_shift( char direction, size_t &selection, std::vector<mod_id> &active_list );
 
-        bool confirm_mod_compatibility( const mod_id &checked_mod, const std::vector<mod_id> &active_list );
+        std::optional<mod_id> find_mod_conflict( const mod_id &checked_mod,
+                const std::vector<mod_id> &active_list );
 
         bool can_shift_up( size_t selection, const std::vector<mod_id> &active_list );
         bool can_shift_down( size_t selection, const std::vector<mod_id> &active_list );

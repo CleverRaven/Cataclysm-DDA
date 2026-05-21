@@ -5,7 +5,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_PSI",
-    "name": "[Ψ]practice: electrokinesis",
+    "name": "contemplation: electrokinesis",
     "description": "Recipes related to practicing electrokinesis.",
     "skill_used": "metaphysics",
     "nested_category_data": [
@@ -21,7 +21,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "[Ψ]spark sight",
+    "name": "contemplation: spark sight",
     "id": "practice_afs_electrokinetic_see_electric",
     "description": "Contemplate your powers and improve your ability to detect electrical creatures or robots.",
     "category": "CC_*",
@@ -46,7 +46,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "[Ψ]static touch",
+    "name": "contemplation: static touch",
     "id": "practice_afs_electrokinetic_shock_touch",
     "description": "Contemplate your powers and improve your ability to build up a charge in your hand and unleash it.",
     "category": "CC_*",
@@ -71,7 +71,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "[Ψ]electrical discharge",
+    "name": "contemplation: electrical discharge",
     "id": "practice_afs_electrokinetic_zap_enemies",
     "description": "Contemplate your powers and improve your ability to electrocute those who attack you in melee.",
     "category": "CC_*",
@@ -96,7 +96,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "[Ψ]hacking interface",
+    "name": "contemplation: hacking interface",
     "id": "practice_afs_electrokinetic_hacking_interface",
     "description": "Contemplate your powers and improve your ability to hack nearby devices with your powers.",
     "category": "CC_*",
@@ -121,7 +121,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "[Ψ]electron overflow",
+    "name": "contemplation: electron overflow",
     "id": "practice_afs_electrokinetic_personal_battery",
     "description": "Contemplate your powers and improve your ability to fuel personal electronic devices with your powers.",
     "category": "CC_*",
@@ -146,7 +146,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "[Ψ]re-energize",
+    "name": "contemplation: re-energize",
     "id": "practice_afs_electrokinetic_recharge_vehicle",
     "description": "Contemplate your powers and improve your ability to recharge large-scale batteries or connected power grids.",
     "category": "CC_*",

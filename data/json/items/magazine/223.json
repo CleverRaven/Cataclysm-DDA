@@ -602,9 +602,18 @@
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
     "//": "Values copied from a STANAG magazine.",
-    "name": { "str": "ZPAP 85 30-round magazine" },
-    "description": "A 30-round box magazine for use with the ZPAP 85 and ZPAP M90 rifles.",
+    "name": { "str": "ZPAP M90 30-round magazine" },
+    "description": "A 30-round box magazine for use with the ZPAP M90 rifles.",
     "copy-from": "stanag30"
+  },
+  {
+    "id": "zpap85mag_10rd",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "//": "Values copied from a STANAG magazine.",
+    "name": { "str": "ZPAP M90 10-round magazine" },
+    "description": "A 10-round box magazine for use with the ZPAP M90 rifles.",
+    "copy-from": "stanag10"
   },
   {
     "id": "survivor223mag",

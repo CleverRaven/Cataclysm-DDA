@@ -43,7 +43,8 @@
     "name": { "str": "speedloader chute, 4-round breaching shotgun" },
     "description": "A metal ramp that is installed near a shotgun's feeding port to index speedloader tubes.  This one is for 4-round breaching shotgun.",
     "copy-from": "arredondo_chute",
-    "mod_targets": [ "remington_870_breacher" ],
+    "mod_targets": [  ],
+    "//": "Will be fixed in future PR",
     "pocket_mods": [
       {
         "pocket_type": "MAGAZINE",

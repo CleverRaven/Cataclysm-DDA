@@ -22,20 +22,9 @@
 #include "basecamp.h"
 #include "calendar.h"
 #include "cata_assert.h"
-#include "cata_variant.h"
-#include "debug.h"
-#include "enum_conversions.h"
-#include "horde_entity.h"
-#include "input_enums.h"
-#include "mapdata.h"
-#include "mapgen_parameter.h"
-#include "mapgendata.h"
-#include "monster.h"
-#include "mtype.h"
-#include "simple_pathfinding.h"
-#include "translation.h"
-#include "cata_scope_helpers.h"
+#include "cata_imgui.h"
 #include "cata_utility.h"
+#include "cata_variant.h"
 #include "catacharset.h"
 #include "character.h"
 #include "city.h"
@@ -44,20 +33,32 @@
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "debug_menu.h"
 #include "display.h"
+#include "enum_conversions.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_ui.h"
+#include "generic_factory.h"
+#include "horde_entity.h"
+#include "horde_map.h"
+#include "imgui/imgui.h"
 #include "input_context.h"
+#include "input_enums.h"
+#include "json.h"
 #include "line.h"
 #include "localized_comparator.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
+#include "mapdata.h"
+#include "mapgen_parameter.h"
+#include "mapgendata.h"
 #include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
+#include "mtype.h"
 #include "npc.h"
 #include "omdata.h"
 #include "options.h"
@@ -69,9 +70,13 @@
 #include "point.h"
 #include "regional_settings.h"
 #include "rng.h"
+#include "sdltiles.h" // IWYU pragma: keep
+#include "simple_pathfinding.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "text.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
@@ -89,6 +94,7 @@
 #endif // TILES
 
 enum class cube_direction : int;
+class JsonObject;
 
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 
@@ -119,6 +125,369 @@ static constexpr int max_note_display_length = 45;
 static const int npm_width = 3;
 /** Note preview map height without borders. Odd number. */
 static const int npm_height = 3;
+
+//forwards to cataimgui::draw_colored_text with automatic wrapping
+void overmap_sidebar::draw_sidebar_text( const std::string_view &original_text,
+        const nc_color &color )
+{
+    cataimgui::TextColoredParagraph( color, original_text );
+    ImGui::NewLine();
+}
+
+overmap_sidebar::overmap_sidebar( overmap_ui::overmap_draw_data_t &data,
+                                  const input_context &ictxt ) :
+    cataimgui::window( _( "OVERMAP_SIDEBAR" ),
+                       ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoNav ),
+    draw_data( data ), ictxt( ictxt )
+{
+    init();
+}
+
+void overmap_sidebar::init()
+{
+}
+
+void overmap_sidebar::draw_controls()
+{
+    // This info is always shown at the top of the sidebar
+    draw_tile_info();
+    ImGui::Separator();
+    draw_settings_info();
+    ImGui::Separator();
+    draw_mission_info();
+    ImGui::Separator();
+
+    // This info can be scrolled through
+    overmap_sidebar_uistate &om_sidebar_state = uistate.overmap_sidebar_state;
+    ImGui::BeginChild( "Overmap Sidebar Scrolling Content", {0, 0}, 0, ImGuiWindowFlags_NoNav );
+    bool &quickref = om_sidebar_state.quickref_header;
+    ImGui::SetNextItemOpen( quickref );
+    quickref = ImGui::CollapsingHeader( _( "Quick Reference" ) );
+    if( quickref ) {
+        draw_quick_reference();
+    };
+    bool &layers = om_sidebar_state.layers_header;
+    ImGui::SetNextItemOpen( layers );
+    layers = ImGui::CollapsingHeader( _( "Layers" ) );
+    if( layers ) {
+        draw_layer_info();
+    }
+
+    if( debug_mode || draw_data.debug_editor ) {
+        bool &debug_info = om_sidebar_state.debug_header;
+        ImGui::SetNextItemOpen( debug_info );
+        debug_info = ImGui::CollapsingHeader( _( "Debug" ) );
+        if( debug_info ) {
+            draw_debug();
+        }
+    }
+    ImGui::EndChild();
+}
+
+void overmap_sidebar::print_hint( const std::string &action, nc_color color )
+{
+    draw_sidebar_text( string_format( _( "%s - %s" ),
+                                      ictxt.get_desc( action ), ictxt.get_action_name( action ) ), color );
+}
+
+void overmap_sidebar::draw_tile_info()
+{
+    const tripoint_abs_omt &cursor_pos = draw_data.cursor_pos;
+
+    avatar &player_character = get_avatar();
+    // Debug vision allows seeing everything
+    const bool has_debug_vision = player_character.has_trait( trait_DEBUG_NIGHTVISION );
+    om_vision_level center_vision = has_debug_vision ? om_vision_level::full :
+                                    overmap_buffer.seen( cursor_pos );
+    const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
+    // If we're debugging hordes, find the monsters we've selected
+    const int sight_points = !has_debug_vision ?
+                             player_character.overmap_modified_sight_range( g->light_level( player_character.posz() ) ) :
+                             100;
+
+    // Draw text describing the overmap tile at the cursor position.
+    if( center_vision != om_vision_level::unseen ) {
+        const oter_t &ter = overmap_buffer.ter( cursor_pos ).obj();
+        const auto sm_pos = project_to<coords::sm>( cursor_pos );
+
+        if( ter.blends_adjacent( center_vision ) ) {
+            oter_vision::blended_omt info = oter_vision::get_blended_omt_info( cursor_pos, center_vision );
+            draw_sidebar_text( info.sym, info.color );
+        } else {
+            draw_sidebar_text( ter.get_symbol( center_vision ), ter.get_color( center_vision ) );
+        }
+
+        ImGui::SameLine();
+        overmap_buffer.display_description_at( sm_pos, true );
+        if( center_vision != om_vision_level::full ) {
+            std::string vision_level_string;
+            switch( center_vision ) {
+                case om_vision_level::vague:
+                    vision_level_string = _( "You can only make out vague details of what's here." );
+                    break;
+                case om_vision_level::outlines:
+                    vision_level_string = _( "You can only make out outlines of what's here." );
+                    break;
+                case om_vision_level::details:
+                    vision_level_string = _( "You can make out some details of what's here." );
+                    break;
+                default:
+                    vision_level_string = _( "This is a bug!" );
+                    break;
+            }
+            draw_sidebar_text( vision_level_string, c_light_gray );
+        }
+    } else {
+        const oter_t &ter = oter_unexplored.obj();
+
+        draw_sidebar_text( ter.get_symbol( om_vision_level::full ) + " ",
+                           ter.get_color( om_vision_level::full ) );
+        ImGui::SameLine();
+        draw_sidebar_text( ter.get_name( om_vision_level::full ),
+                           ter.get_color( om_vision_level::full ) );
+    }
+
+    // Describe the weather conditions on the following line, if weather is visible
+    if( viewing_weather ) {
+        const bool weather_is_visible = uistate.overmap_debug_weather ||
+                                        player_character.overmap_los( cursor_pos, sight_points * 2 );
+        if( weather_is_visible ) {
+            draw_sidebar_text( _( "Weather: " ), c_white );
+            ImGui::SameLine();
+            draw_sidebar_text( overmap_ui::get_weather_at_point( cursor_pos )->name.translated(),
+                               overmap_ui::get_weather_at_point( cursor_pos )->color );
+        } else {
+            draw_sidebar_text( _( "# Weather unknown" ), c_dark_gray );
+        }
+    } else {
+        draw_sidebar_text( _( "Not viewing weather" ), c_dark_gray );
+    }
+
+    const std::string coords = display::overmap_position_text( cursor_pos );
+    draw_sidebar_text( coords, c_red );
+}
+
+void overmap_sidebar::draw_settings_info()
+{
+    print_hint( "TOGGLE_FAST_SCROLL", uistate.overmap_fast_scroll ? c_pink : c_magenta );
+    print_hint( "TOGGLE_FAST_TRAVEL", uistate.overmap_fast_travel ? c_pink : c_magenta );
+}
+
+void overmap_sidebar::draw_quick_reference()
+{
+    draw_sidebar_text( _( "Use movement keys to pan." ), c_magenta );
+    draw_sidebar_text( string_format( _( "Press %s to preview efficient route." ),
+                                      ictxt.get_desc( "CHOOSE_DESTINATION" ) ), c_magenta );
+    draw_sidebar_text( string_format( _( "Press %s to preview direct route." ),
+                                      ictxt.get_desc( "CHOOSE_DESTINATION_DIRECT" ) ), c_magenta );
+    draw_sidebar_text( _( "Press route button again to confirm." ), c_magenta );
+    print_hint( "LEVEL_UP" );
+    print_hint( "LEVEL_DOWN" );
+    print_hint( "look" );
+    print_hint( "CENTER" );
+    print_hint( "CENTER_ON_DESTINATION" );
+    print_hint( "GO_TO_DESTINATION" );
+    print_hint( "SEARCH" );
+    print_hint( "CREATE_NOTE" );
+    print_hint( "DELETE_NOTE" );
+    print_hint( "MARK_DANGER" );
+    print_hint( "LIST_NOTES" );
+    print_hint( "CREATE_POINT_OF_INTEREST" );
+    print_hint( "MISSIONS" );
+}
+
+void overmap_sidebar::draw_layer_info()
+{
+
+    const tripoint_abs_omt &cursor_pos = draw_data.cursor_pos;
+    const bool show_overlays = uistate.overmap_show_overlays || uistate.overmap_blinking;
+    const bool is_explored = overmap_buffer.is_explored( cursor_pos );
+
+    print_hint( "TOGGLE_MAP_NOTES", uistate.overmap_show_map_notes ? c_pink : c_magenta );
+    print_hint( "TOGGLE_BLINKING", uistate.overmap_blinking ? c_pink : c_magenta );
+    print_hint( "TOGGLE_OVERLAYS", show_overlays ? c_pink : c_magenta );
+    print_hint( "TOGGLE_CITY_LABELS", uistate.overmap_show_city_labels ? c_pink : c_magenta );
+    print_hint( "TOGGLE_HORDES", uistate.overmap_show_hordes ? c_pink : c_magenta );
+    print_hint( "TOGGLE_MAP_REVEALS", uistate.overmap_show_revealed_omts ? c_pink : c_magenta );
+    print_hint( "TOGGLE_EXPLORED", is_explored ? c_pink : c_magenta );
+    print_hint( "TOGGLE_FOREST_TRAILS", uistate.overmap_show_forest_trails ? c_pink : c_magenta );
+    print_hint( "TOGGLE_OVERMAP_WEATHER",
+                !get_map().is_outside( get_player_character().pos_bub() ) ? c_dark_gray :
+                uistate.overmap_visible_weather ? c_pink : c_magenta );
+}
+
+void overmap_sidebar::draw_debug()
+{
+    const tripoint_abs_omt &cursor_pos = draw_data.cursor_pos;
+    avatar &player_character = get_avatar();
+    // Debug vision allows seeing everything
+    const bool has_debug_vision = player_character.has_trait( trait_DEBUG_NIGHTVISION );
+    om_vision_level center_vision = has_debug_vision ? om_vision_level::full :
+                                    overmap_buffer.seen( cursor_pos );
+
+    if( debug_mode ) {
+        print_hint( "TOGGLE_LAND_USE_CODES", uistate.overmap_show_land_use_codes ? c_pink : c_magenta );
+    }
+    if( draw_data.debug_editor ) {
+        print_hint( "REVEAL_MAP", c_light_blue );
+        print_hint( "LONG_TELEPORT", c_light_blue );
+        print_hint( "PLACE_SPECIAL", c_light_blue );
+        print_hint( "PLACE_TERRAIN", c_light_blue );
+        print_hint( "SET_SPECIAL_ARGS", c_light_blue );
+        print_hint( "MODIFY_HORDE", c_light_blue );
+        print_hint( "PRINT_NOISE_MAPS", c_light_blue );
+    }
+
+    if( ( draw_data.debug_editor && center_vision != om_vision_level::unseen ) ||
+        draw_data.debug_info ) {
+        draw_sidebar_text( string_format( "current dimension: %s",
+                                          g->get_dimension_prefix().empty() ? "default" : g->get_dimension_prefix() ), c_white );
+        draw_sidebar_text( string_format( "abs_omt: %s", cursor_pos.to_string() ), c_white );
+        const oter_t &oter = overmap_buffer.ter( cursor_pos ).obj();
+        draw_sidebar_text( string_format( "oter: %s (rot %d)", oter.id.str(),
+                                          oter.get_rotation() ), c_white );
+        draw_sidebar_text( string_format( "oter_type: %s", oter.get_type_id().str() ), c_white );
+        // tileset ids come with a prefix that must be stripped
+        draw_sidebar_text( string_format( "tileset id: '%s'",
+                                          oter.get_tileset_id( center_vision ).substr( 3 ) ), c_white );
+        std::vector<oter_id> predecessors = overmap_buffer.predecessors( cursor_pos );
+        if( !predecessors.empty() ) {
+            draw_sidebar_text( "predecessors:", c_white );
+            for( auto pred = predecessors.rbegin(); pred != predecessors.rend(); ++pred ) {
+                draw_sidebar_text( string_format( "- %s", pred->id().str() ), c_white );
+            }
+        }
+
+        auto print_arguments = [&]( std::unordered_map<std::string, cata_variant> &map ) {
+            for( const std::pair<const std::string, cata_variant> &arg : map ) {
+                draw_sidebar_text( string_format( "%s = %s", arg.first, arg.second.get_string() ),
+                                   c_white );
+            }
+        };
+        std::optional<mapgen_arguments> *args = overmap_buffer.mapgen_args( cursor_pos );
+        if( args ) {
+            if( *args ) {
+                print_arguments( ( **args ).map );
+            } else {
+                draw_sidebar_text( "Special scoped parameter values not set yet", c_yellow );
+            }
+        }
+        std::optional<mapgen_arguments> args_omt_stack =
+            overmap_buffer.get_existing_omt_stack_arguments( cursor_pos.xy() );
+        if( args_omt_stack ) {
+            print_arguments( args_omt_stack->map );
+        }
+
+        for( cube_direction dir : all_enum_values<cube_direction>() ) {
+            if( std::string *join = overmap_buffer.join_used_at( { cursor_pos, dir } ) ) {
+                draw_sidebar_text( string_format( "join %s: %s", io::enum_to_string( dir ), *join ),
+                                   c_white );
+            }
+        }
+
+        std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> hordes =
+            overmap_buffer.hordes_at( cursor_pos );
+
+        if( !hordes.empty() ) {
+            int horde_size = 0;
+            for( std::unordered_map<tripoint_abs_ms, horde_entity> *horde : hordes ) {
+                horde_size += horde->size();
+                for( std::pair<const tripoint_abs_ms, horde_entity> &entity : *horde ) {
+                    const mtype *horde_type = entity.second.get_type();
+                    ImGui::Indent();
+                    draw_sidebar_text( string_format( "Species: %s", horde_type->nname() ), c_blue );
+                    draw_sidebar_text( string_format( "Interest: %d", entity.second.tracking_intensity ),
+                                       c_blue );
+                    draw_sidebar_text( string_format( "Target: %s",
+                                                      entity.second.destination.to_string() ), c_blue );
+                    ImGui::Unindent();
+                    //mvwprintz(wbar, desc_pos + point(0, line_number++), c_red, "x"); ???
+                }
+            }
+            draw_sidebar_text( string_format( "Horde, population: %d", horde_size ), c_white );
+        }
+    }
+}
+
+void overmap_sidebar::draw_mission_info()
+{
+    const tripoint_abs_omt &cursor_pos = draw_data.cursor_pos;
+    avatar &player_character = get_avatar();
+    const tripoint_abs_omt target = player_character.get_active_mission_target();
+    const bool has_target = !target.is_invalid();
+
+    if( has_target ) {
+        const int distance = rl_dist( cursor_pos, target );
+        std::string mission_name;
+        mission *current_mission = player_character.get_active_mission();
+
+        if( current_mission != nullptr ) {
+            mission_name = player_character.get_active_mission()->name();
+
+            draw_sidebar_text( _( "Current objective:" ), c_white );
+        } else {
+            mission_name = player_character.get_active_point_of_interest().text;
+
+            draw_sidebar_text( _( "Current Point of Interest:" ), c_white );
+        }
+        draw_sidebar_text( mission_name, c_light_blue );
+        const int above_below = target.z() - cursor_pos.z();
+        std::string msg;
+        if( above_below > 0 ) {
+            msg = _( "Above us" );
+        } else if( above_below < 0 ) {
+            msg = _( "Below us" );
+        }
+        // One OMT is 24 tiles across, at 1x1 meters each, so we can simply do number of OMTs * 24
+        units::length actual_distance = distance * 24_meter;
+        const std::string dir_arrow = direction_arrow( direction_from( cursor_pos.xy(), target.xy() ) );
+        //~Parenthesis is a real-world value for distance. Example string: "223 tiles (5.35km) ⇗"
+        const std::string distance_str = string_format( _( "%1$d tiles (%2$s) %3$s" ),
+                                         distance, length_to_string_approx( actual_distance ), dir_arrow );
+        draw_sidebar_text( string_format( _( "Distance: %s" ), distance_str ), c_white );
+        if( !msg.empty() ) {
+            draw_sidebar_text( msg, c_white );
+        }
+    } else {
+        draw_sidebar_text( _( "No mission selected." ), c_white );
+    }
+}
+
+cataimgui::bounds overmap_sidebar::get_bounds()
+{
+#ifdef TILES
+    float character_cell_width = static_cast<float>( fontwidth );
+#else
+    float character_cell_width = 1.0;
+#endif
+    ImVec2 viewport = ImGui::GetMainViewport()->WorkSize;
+    // OVERMAP_LEGEND_WIDTH is our width in character cells in the
+    // old-school terminal emulation, even though the overmap tiles
+    // are a different size entirely.
+    float width = static_cast<float>( OVERMAP_LEGEND_WIDTH ) * character_cell_width;
+    float window_x_position = viewport.x - width;
+    return { window_x_position,
+             0,
+             viewport.x - window_x_position,
+             viewport.y
+           };
+}
+
+void overmap_sidebar_uistate::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "overmap_sidebar_quickref", quickref_header );
+    json.member( "overmap_sidebar_layers", layers_header );
+    json.member( "overmap_sidebar_debug", debug_header );
+    json.end_object();
+}
+
+void overmap_sidebar_uistate::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "overmap_sidebar_quickref", quickref_header );
+    mandatory( jo, false, "overmap_sidebar_layers", layers_header );
+    mandatory( jo, false, "overmap_sidebar_debug", debug_header );
+}
 
 namespace overmap_ui
 {
@@ -369,6 +738,8 @@ static void draw_camp_labels( const catacurses::window &w, const tripoint_abs_om
     }
 }
 
+namespace
+{
 class map_notes_callback : public uilist_callback
 {
     private:
@@ -464,6 +835,7 @@ class map_notes_callback : public uilist_callback
             ui.invalidate_ui();
         }
 };
+} // namespace
 
 static point_abs_omt draw_notes( const tripoint_abs_omt &origin )
 {
@@ -582,7 +954,7 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
     const int om_half_height = om_map_height / 2;
 
     avatar &player_character = get_avatar();
-    // Target of current mission
+    // Target of current objective
     const tripoint_abs_omt target = player_character.get_active_mission_target();
     const bool has_target = !target.is_invalid();
     oter_id ccur_ter = oter_str_id::NULL_ID();
@@ -942,297 +1314,6 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
     wnoutrefresh( w );
 }
 
-static void draw_om_sidebar( ui_adaptor &ui,
-                             const catacurses::window &wbar, const input_context &inp_ctxt, const overmap_draw_data_t &data )
-{
-    const tripoint_abs_omt &orig = data.origin_pos;
-    const tripoint_abs_omt &cursor_pos = data.cursor_pos;
-
-    avatar &player_character = get_avatar();
-    // Debug vision allows seeing everything
-    const bool has_debug_vision = player_character.has_trait( trait_DEBUG_NIGHTVISION );
-    // sight_points is hoisted for speed reasons.
-    const int sight_points = !has_debug_vision ?
-                             player_character.overmap_modified_sight_range( g->light_level( player_character.posz() ) ) :
-                             100;
-    om_vision_level center_vision = has_debug_vision ? om_vision_level::full :
-                                    overmap_buffer.seen( cursor_pos );
-    const tripoint_abs_omt target = player_character.get_active_mission_target();
-    const bool has_target = !target.is_invalid();
-    const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
-
-    // If we're debugging hordes, find the monsters we've selected
-    std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> hordes;
-    if( uistate.overmap_debug_mongroup ) {
-        hordes = overmap_buffer.hordes_at( cursor_pos );
-    }
-
-    // Draw the vertical line
-    mvwvline( wbar, point::zero, c_white, LINE_XOXO, TERMY );
-
-    // Clear the legend
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwrectf( wbar, point( 1, 0 ), c_black, ' ', getmaxx( wbar ), TERMY );
-
-    // Draw text describing the overmap tile at the cursor position.
-    int lines = 1;
-    if( center_vision != om_vision_level::unseen ) {
-        if( !hordes.empty() ) {
-            const point desc_pos( 3, 6 );
-            ui.set_cursor( wbar, desc_pos );
-            int line_number = 0;
-            int horde_size = 0;
-            for( std::unordered_map<tripoint_abs_ms, horde_entity> *horde : hordes ) {
-                horde_size += horde->size();
-                // TODO: This overruns the sidebar, need to display better somehow, maybe a popup?
-#if 0
-                for( std::pair<const tripoint_abs_ms, horde_entity> &entity : *horde ) {
-                    wattron( wbar, c_blue );
-                    const mtype *horde_type = entity.second.get_type();
-                    mvwprintw( wbar, desc_pos + point( 0, line_number++ ),
-                               "  Species: %s", horde_type->nname() );
-                    mvwprintw( wbar, desc_pos + point( 0, line_number++ ),
-                               "  Interest: %d", entity.second.tracking_intensity );
-                    mvwprintw( wbar, desc_pos + point( 0, line_number++ ),
-                               "  Target: %s", entity.second.destination.to_string() );
-                    wattroff( wbar, c_blue );
-                    mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
-                               c_red, "x" );
-                }
-#endif
-            }
-            mvwprintw( wbar, desc_pos + point( 0, line_number++ ), "Horde, population: %d", horde_size );
-        } else {
-            const oter_t &ter = overmap_buffer.ter( cursor_pos ).obj();
-            const auto sm_pos = project_to<coords::sm>( cursor_pos );
-
-            if( ter.blends_adjacent( center_vision ) ) {
-                oter_vision::blended_omt info = oter_vision::get_blended_omt_info( cursor_pos, center_vision );
-                // NOLINTNEXTLINE(cata-use-named-point-constants)
-                mvwputch( wbar, point( 1, 1 ), info.color, info.sym );
-            } else {
-                // NOLINTNEXTLINE(cata-use-named-point-constants)
-                mvwputch( wbar, point( 1, 1 ), ter.get_color( center_vision ), ter.get_symbol( center_vision ) );
-            }
-
-            const point desc_pos( 3, 1 );
-            ui.set_cursor( wbar, desc_pos );
-            lines = fold_and_print( wbar, desc_pos, getmaxx( wbar ) - desc_pos.x,
-                                    c_light_gray,
-                                    overmap_buffer.get_description_at( sm_pos ) );
-            if( center_vision != om_vision_level::full ) {
-                std::string vision_level_string;
-                switch( center_vision ) {
-                    case om_vision_level::vague:
-                        vision_level_string = _( "You can only make out vague details of what's here." );
-                        break;
-                    case om_vision_level::outlines:
-                        vision_level_string = _( "You can only make out outlines of what's here." );
-                        break;
-                    case om_vision_level::details:
-                        vision_level_string = _( "You can make out some details of what's here." );
-                        break;
-                    default:
-                        vision_level_string = _( "This is a bug!" );
-                        break;
-                }
-                lines += fold_and_print( wbar, point( 3, lines + 1 ), getmaxx( wbar ) - 3, c_light_gray,
-                                         vision_level_string );
-            }
-        }
-    } else {
-        const oter_t &ter = oter_unexplored.obj();
-
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        mvwputch( wbar, point( 1, 1 ), ter.get_color( om_vision_level::full ),
-                  ter.get_symbol( om_vision_level::full ) );
-
-        const point desc_pos( 3, 1 );
-        ui.set_cursor( wbar, desc_pos );
-        lines = fold_and_print( wbar, desc_pos, getmaxx( wbar ) - desc_pos.x,
-                                ter.get_color( om_vision_level::full ), ter.get_name( om_vision_level::full ) );
-    }
-
-    // Describe the weather conditions on the following line, if weather is visible
-    if( viewing_weather ) {
-        const bool weather_is_visible = uistate.overmap_debug_weather ||
-                                        player_character.overmap_los( cursor_pos, sight_points * 2 );
-        if( weather_is_visible ) {
-            // NOLINTNEXTLINE(cata-use-named-point-constants)
-            mvwprintz( wbar, point( 3, ++lines ), get_weather_at_point( cursor_pos )->color,
-                       get_weather_at_point( cursor_pos )->name.translated() );
-        } else {
-            // NOLINTNEXTLINE(cata-use-named-point-constants)
-            mvwprintz( wbar, point( 1, ++lines ), c_dark_gray, _( "# Weather unknown" ) );
-        }
-    }
-
-    if( ( data.debug_editor && center_vision != om_vision_level::unseen ) || data.debug_info ) {
-        wattron( wbar, c_white );
-        mvwprintw( wbar, point( 1, ++lines ), "abs_omt: %s", cursor_pos.to_string() );
-        const oter_t &oter = overmap_buffer.ter( cursor_pos ).obj();
-        mvwprintw( wbar, point( 1, ++lines ), "oter: %s (rot %d)", oter.id.str(), oter.get_rotation() );
-        mvwprintw( wbar, point( 1, ++lines ), "oter_type: %s", oter.get_type_id().str() );
-        // tileset ids come with a prefix that must be stripped
-        mvwprintw( wbar, point( 1, ++lines ), "tileset id: '%s'",
-                   oter.get_tileset_id( center_vision ).substr( 3 ) );
-        std::vector<oter_id> predecessors = overmap_buffer.predecessors( cursor_pos );
-        if( !predecessors.empty() ) {
-            mvwprintw( wbar, point( 1, ++lines ), "predecessors:" );
-            for( auto pred = predecessors.rbegin(); pred != predecessors.rend(); ++pred ) {
-                mvwprintw( wbar, point( 1, ++lines ), "- %s", pred->id().str() );
-            }
-        }
-
-        auto print_arguments = [&]( std::unordered_map<std::string, cata_variant> &map ) {
-            for( const std::pair<const std::string, cata_variant> &arg : map ) {
-                mvwprintw( wbar, point( 1, ++lines ), "%s = %s", arg.first, arg.second.get_string() );
-            }
-        };
-        std::optional<mapgen_arguments> *args = overmap_buffer.mapgen_args( cursor_pos );
-        if( args ) {
-            if( *args ) {
-                print_arguments( ( **args ).map );
-            } else {
-                mvwprintw( wbar, point( 1, ++lines ), "Special scoped parameter values not set yet" );
-            }
-        }
-        std::optional<mapgen_arguments> args_omt_stack =
-            overmap_buffer.get_existing_omt_stack_arguments( cursor_pos.xy() );
-        if( args_omt_stack ) {
-            print_arguments( args_omt_stack->map );
-        }
-
-        for( cube_direction dir : all_enum_values<cube_direction>() ) {
-            if( std::string *join = overmap_buffer.join_used_at( { cursor_pos, dir } ) ) {
-                mvwprintw( wbar, point( 1, ++lines ), "join %s: %s", io::enum_to_string( dir ), *join );
-            }
-        }
-        wattroff( wbar, c_white );
-
-        wattron( wbar, c_red );
-        int monster_count = 0;
-        std::set<std::string> monster_types;
-        for( std::unordered_map<tripoint_abs_ms, horde_entity> *horde : overmap_buffer.hordes_at(
-                 cursor_pos ) ) {
-            for( std::pair<const tripoint_abs_ms, horde_entity> &entity : *horde ) {
-                monster_count++;
-                const mtype *entity_type = entity.second.get_type();
-                monster_types.insert( entity_type->nname() );
-            }
-        }
-        if( monster_count ) {
-            mvwprintw( wbar, point( 1, ++lines ), "Spotted %d entities", monster_count );
-            for( const std::string &monster_name : monster_types ) {
-                mvwprintw( wbar, point( 1, ++lines ), "Type %s", monster_name );
-            }
-        }
-        for( const mongroup *mg : overmap_buffer.monsters_at( cursor_pos ) ) {
-            mvwprintw( wbar, point( 1, ++lines ), "mongroup %s (%zu/%u), %s %s%s",
-                       mg->type.str(), mg->monsters.size(), mg->population,
-                       io::enum_to_string( mg->behaviour ),
-                       mg->dying ? "x" : "", mg->horde ? "h" : "" );
-            mvwprintw( wbar, point( 1, ++lines ), "target: %s (%d)",
-                       project_to<coords::omt>( mg->target ).to_string(), mg->interest );
-        }
-        wattroff( wbar, c_red );
-    }
-
-    wattron( wbar, c_white );
-    if( has_target ) {
-        const int distance = rl_dist( cursor_pos, target );
-        mvwprintw( wbar, point( 1, ++lines ), _( "Distance to current objective:" ) );
-        mvwprintw( wbar, point( 1, ++lines ), _( "%d tiles" ), distance );
-        // One OMT is 24 tiles across, at 1x1 meters each, so we can simply do number of OMTs * 24
-        mvwprintw( wbar, point( 1, ++lines ), _( "%s" ), length_to_string_approx( distance * 24_meter ) );
-
-        const int above_below = target.z() - orig.z();
-        std::string msg;
-        if( above_below > 0 ) {
-            msg = _( "Above us" );
-        } else if( above_below < 0 ) {
-            msg = _( "Below us" );
-        }
-        if( above_below != 0 ) {
-            mvwprintw( wbar, point( 1, ++lines ), _( "%s" ), msg );
-        }
-    }
-
-    //Show mission targets on this location
-    for( mission *&mission : player_character.get_active_missions() ) {
-        if( mission->get_target() == cursor_pos ) {
-            mvwprintw( wbar, point( 1, ++lines ), mission->name() );
-        }
-    }
-    wattroff( wbar, c_white );
-
-    const auto print_hint = [&]( const std::string & action, nc_color color = c_magenta ) {
-        lines += fold_and_print( wbar, point( 1, lines ), getmaxx( wbar ) - 1, color,
-                                 string_format( _( "%s - %s" ),  inp_ctxt.get_desc( action ), inp_ctxt.get_action_name( action ) ) );
-    };
-
-    if( data.debug_editor ) {
-        lines++;
-        print_hint( "REVEAL_MAP", c_light_blue );
-        print_hint( "LONG_TELEPORT", c_light_blue );
-        print_hint( "PLACE_SPECIAL", c_light_blue );
-        print_hint( "PLACE_TERRAIN", c_light_blue );
-        print_hint( "SET_SPECIAL_ARGS", c_light_blue );
-        print_hint( "MODIFY_HORDE", c_light_blue );
-        print_hint( "PRINT_NOISE_MAPS", c_light_blue );
-        lines--;
-    } else {
-        lines = 11;
-    }
-
-    wattron( wbar, c_magenta );
-    mvwprintw( wbar, point( 1, ++lines ), _( "Use movement keys to pan." ) );
-    mvwprintw( wbar, point( 1, ++lines ), string_format( _( "Press %s to preview route." ),
-               inp_ctxt.get_desc( "CHOOSE_DESTINATION" ) ) );
-    mvwprintw( wbar, point( 1, ++lines ), _( "Press again to confirm." ) );
-    lines += 2;
-    wattroff( wbar, c_magenta );
-
-    const bool show_overlays = uistate.overmap_show_overlays || uistate.overmap_blinking;
-    const bool is_explored = overmap_buffer.is_explored( cursor_pos );
-
-    print_hint( "LEVEL_UP" );
-    print_hint( "LEVEL_DOWN" );
-    print_hint( "look" );
-    print_hint( "CENTER" );
-    print_hint( "CENTER_ON_DESTINATION" );
-    print_hint( "GO_TO_DESTINATION" );
-    print_hint( "SEARCH" );
-    print_hint( "CREATE_NOTE" );
-    print_hint( "DELETE_NOTE" );
-    print_hint( "MARK_DANGER" );
-    print_hint( "LIST_NOTES" );
-    print_hint( "CREATE_POINT_OF_INTEREST" );
-    print_hint( "MISSIONS" );
-    print_hint( "TOGGLE_MAP_NOTES", uistate.overmap_show_map_notes ? c_pink : c_magenta );
-    print_hint( "TOGGLE_BLINKING", uistate.overmap_blinking ? c_pink : c_magenta );
-    print_hint( "TOGGLE_OVERLAYS", show_overlays ? c_pink : c_magenta );
-    if( debug_mode ) {
-        print_hint( "TOGGLE_LAND_USE_CODES", uistate.overmap_show_land_use_codes ? c_pink : c_magenta );
-    }
-    print_hint( "TOGGLE_CITY_LABELS", uistate.overmap_show_city_labels ? c_pink : c_magenta );
-    print_hint( "TOGGLE_HORDES", uistate.overmap_show_hordes ? c_pink : c_magenta );
-    print_hint( "TOGGLE_MAP_REVEALS", uistate.overmap_show_revealed_omts ? c_pink : c_magenta );
-    print_hint( "TOGGLE_EXPLORED", is_explored ? c_pink : c_magenta );
-    print_hint( "TOGGLE_FAST_SCROLL", uistate.overmap_fast_scroll ? c_pink : c_magenta );
-    print_hint( "TOGGLE_FOREST_TRAILS", uistate.overmap_show_forest_trails ? c_pink : c_magenta );
-    print_hint( "TOGGLE_FAST_TRAVEL", uistate.overmap_fast_travel ? c_pink : c_magenta );
-    print_hint( "TOGGLE_OVERMAP_WEATHER",
-                !get_map().is_outside( get_player_character().pos_bub() ) ? c_dark_gray :
-                uistate.overmap_visible_weather ? c_pink : c_magenta );
-    print_hint( "HELP_KEYBINDINGS" );
-    print_hint( "QUIT" );
-
-    const std::string coords = display::overmap_position_text( cursor_pos );
-    mvwprintz( wbar, point( 1, getmaxy( wbar ) - 1 ), c_red, coords );
-    wnoutrefresh( wbar );
-}
-
 #if defined(TILES)
 tiles_redraw_info redraw_info;
 #endif
@@ -1240,8 +1321,6 @@ tiles_redraw_info redraw_info;
 static void draw( overmap_draw_data_t &data )
 {
     cata_assert( static_cast<bool>( data.ui ) );
-    ui_adaptor *ui = data.ui.get();
-    draw_om_sidebar( *ui, g->w_omlegend, data.ictxt, data );
 #if defined( TILES )
     if( use_tiles && use_tiles_overmap ) {
         redraw_info = tiles_redraw_info { data.cursor_pos, uistate.overmap_show_overlays };
@@ -1856,7 +1935,7 @@ static void modify_horde_func( tripoint_abs_omt &curs )
 }
 
 static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt &dest,
-        bool driving )
+        bool driving, bool direct_travel = false )
 {
     if( overmap_buffer.seen( dest ) == om_vision_level::unseen ) {
         return {};
@@ -1902,6 +1981,10 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
             params.set_cost( oter_travel_cost_type::air, 8 );
         }
     }
+
+    if( direct_travel ) {
+        params = overmap_path_params::flatten_pathfinding_costs( params );
+    }
     // literal "edge" case: the vehicle may be in a different OMT than the player
     const tripoint_abs_omt start_omt_pos = driving ? player_veh->pos_abs_omt() : player_omt_pos;
     if( dest == player_omt_pos || dest == start_omt_pos ) {
@@ -1911,13 +1994,16 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
     }
 }
 
-static int overmap_zoom_level = DEFAULT_TILESET_ZOOM;
-
 static bool try_travel_to_destination( avatar &player_character, const tripoint_abs_omt curs,
                                        const tripoint_abs_omt dest, const bool driving )
 {
-    std::vector<tripoint_abs_omt> path = get_overmap_path_to( dest, driving );
+    std::vector<tripoint_abs_omt> path = player_character.omt_path;
+    // No existing path or path does not contain our destination, get a new one!
+    if( path.empty() || std::find( path.begin(), path.end(), dest ) == path.end() ) {
+        path = get_overmap_path_to( dest, driving );
+    }
 
+    // Still empty, we just don't know how to get there.
     if( path.empty() ) {
         std::string popupmsg;
         if( dest.z() == player_character.posz() ) {
@@ -1994,20 +2080,14 @@ static tripoint_abs_omt display()
     tripoint_abs_omt &orig = data.origin_pos;
     std::vector<tripoint_abs_omt> &display_path = data.display_path;
     tripoint_abs_omt &select = data.select;
-    input_context &ictxt = data.ictxt;
-
-    const int previous_zoom = g->get_zoom();
-    g->set_zoom( overmap_zoom_level );
-    on_out_of_scope reset_zoom( [&]() {
-        overmap_zoom_level = g->get_zoom();
-        g->set_zoom( previous_zoom );
-        g->mark_main_ui_adaptor_resize();
-    } );
+    input_context ictxt( "OVERMAP" );
 
     background_pane bg_pane;
 
     data.ui = std::make_shared<ui_adaptor>();
     std::shared_ptr<ui_adaptor> ui = data.ui;
+
+    overmap_sidebar om_sidebar( data, ictxt );
 
     ui->on_screen_resize( []( ui_adaptor & ui ) {
         /**
@@ -2021,8 +2101,6 @@ static tripoint_abs_omt display()
 
         to_overmap_font_dimension( OVERMAP_WINDOW_WIDTH, OVERMAP_WINDOW_HEIGHT );
 
-        g->w_omlegend = catacurses::newwin( OVERMAP_WINDOW_TERM_HEIGHT, OVERMAP_LEGEND_WIDTH,
-                                            point( OVERMAP_WINDOW_TERM_WIDTH, 0 ) );
         g->w_overmap = catacurses::newwin( OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, point::zero );
 
         ui.position_from_window( catacurses::stdscr );
@@ -2048,6 +2126,7 @@ static tripoint_abs_omt display()
     ictxt.register_action( "MOUSE_MOVE" );
     ictxt.register_action( "SELECT" );
     ictxt.register_action( "CHOOSE_DESTINATION" );
+    ictxt.register_action( "CHOOSE_DESTINATION_DIRECT" );
     ictxt.register_action( "CENTER_ON_DESTINATION" );
     ictxt.register_action( "GO_TO_DESTINATION" );
 
@@ -2071,6 +2150,9 @@ static tripoint_abs_omt display()
     ictxt.register_action( "TOGGLE_FAST_SCROLL" );
     ictxt.register_action( "TOGGLE_OVERMAP_WEATHER" );
     ictxt.register_action( "TOGGLE_FOREST_TRAILS" );
+    ictxt.register_action( "TOGGLE_FAST_TRAVEL" );
+    ictxt.register_action( "COLLAPSE_OVERMAP_SIDEBAR_HEADERS" );
+    ictxt.register_action( "EXPAND_OVERMAP_SIDEBAR_HEADERS" );
     ictxt.register_action( "TOGGLE_FAST_TRAVEL" );
     ictxt.register_action( "MISSIONS" );
 
@@ -2100,13 +2182,14 @@ static tripoint_abs_omt display()
     } );
 
     do {
+        ui->invalidate_ui();
         ui_manager::redraw();
 #if (defined TILES || defined _WIN32 || defined WINDOWS )
         int scroll_timeout = get_option<int>( "EDGE_SCROLL" );
         // If EDGE_SCROLL is disabled, it will have a value of -1.
         // blinking won't work if handle_input() is passed a negative integer.
         if( scroll_timeout < 0 ) {
-            scroll_timeout = get_option<int>( "BLINK_SPEED" );
+            scroll_timeout = 33;
         }
         action = ictxt.handle_input( scroll_timeout );
 #else
@@ -2161,7 +2244,7 @@ static tripoint_abs_omt display()
         } else if( action == "zoom_out" ) {
             g->zoom_out_overmap();
             ui->mark_resize();
-        } else  if( action == "zoom_in" ) {
+        } else if( action == "zoom_in" ) {
             g->zoom_in_overmap();
             ui->mark_resize();
         } else if( action == "CONFIRM" ) {
@@ -2221,10 +2304,11 @@ static tripoint_abs_omt display()
                 curs.x() = p.x();
                 curs.y() = p.y();
             }
-        } else if( action == "CHOOSE_DESTINATION" ) {
+        } else if( action == "CHOOSE_DESTINATION" || action == "CHOOSE_DESTINATION_DIRECT" ) {
             avatar &player_character = get_avatar();
             const bool driving = player_character.in_vehicle && player_character.controlling_vehicle;
-            std::vector<tripoint_abs_omt> path = get_overmap_path_to( curs, driving );
+            bool direct = action == "CHOOSE_DESTINATION_DIRECT";
+            std::vector<tripoint_abs_omt> path = get_overmap_path_to( curs, driving, direct );
             bool same_path_selected = false;
             if( path == player_character.omt_path ) {
                 same_path_selected = true;
@@ -2299,6 +2383,10 @@ static tripoint_abs_omt display()
             debug_menu::prompt_map_reveal( curs );
         } else if( action == "MISSIONS" ) {
             g->list_missions();
+        } else if( action == "COLLAPSE_OVERMAP_SIDEBAR_HEADERS" ) {
+            uistate.overmap_sidebar_state.set_all( false );
+        } else if( action == "EXPAND_OVERMAP_SIDEBAR_HEADERS" ) {
+            uistate.overmap_sidebar_state.set_all( true );
         }
 
         std::chrono::time_point<std::chrono::steady_clock> now = std::chrono::steady_clock::now();
@@ -2323,12 +2411,15 @@ static tripoint_abs_omt display()
 
 } // namespace overmap_ui
 
+namespace
+{
 struct blended_omt {
     oter_id id;
     std::string sym;
     nc_color color;
     std::string name;
 };
+} // namespace
 
 oter_vision::blended_omt oter_vision::get_blended_omt_info( const tripoint_abs_omt &omp,
         om_vision_level vision )
@@ -2451,6 +2542,15 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
         cur_ter = overmap_buffer.ter( omp );
     }
 
+    // TODO unify and encapsulate to a single check
+    const bool debug_horde = uistate.overmap_debug_mongroup ||
+                             player_character.has_trait( trait_DEBUG_CLAIRVOYANCE );
+    const bool can_see_horde = overmap_ui::get_and_assign_los( args.los, player_character, omp,
+                               opts.sight_points ) || debug_horde ;
+    const bool show_hordes = blink && opts.showhordes && can_see_horde;
+    const int horde_size = show_hordes ? overmap_buffer.get_horde_size( omp,
+                           horde_map_flavors::active | horde_map_flavors::idle ) : 0;
+
     if( blink && opts.show_pc && !opts.hilite_pc && omp == get_avatar().pos_abs_omt() ) {
         // Display player pos, should always be visible
         ret.second = player_character.symbol_color();
@@ -2517,14 +2617,39 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
         // Revealed map tiles
         ret.second = c_magenta;
         ret.first = "&";
-    } else if( blink && opts.showhordes &&
-               overmap_buffer.get_horde_size( omp ) >= HORDE_VISIBILITY_SIZE &&
-               args.vision > om_vision_level::details &&
-               ( overmap_ui::get_and_assign_los( args.los, player_character, omp, opts.sight_points ) ||
-                 uistate.overmap_debug_mongroup || player_character.has_trait( trait_DEBUG_CLAIRVOYANCE ) ) ) {
+    } else if( horde_size >= HORDE_VISIBILITY_SIZE ) {
         // Display Hordes only when within player line-of-sight
-        ret.second = c_green;
-        ret.first = overmap_buffer.get_horde_size( omp ) > 16 ? "Z" : "z";
+        if( horde_size < 5 ) {
+            ret.second = c_light_green;
+            ret.first = "z";
+        } else if( horde_size < 13 ) {
+            ret.second = c_light_green;
+            ret.first = "Z";
+        } else if( horde_size < 27 ) {
+            ret.second = c_green;
+            ret.first = "z";
+        } else if( horde_size < 47 ) {
+            ret.second = c_green;
+            ret.first = "Z";
+        } else if( horde_size < 73 ) {
+            ret.second = c_yellow;
+            ret.first = "z";
+        } else if( horde_size < 106 ) {
+            ret.second = c_yellow;
+            ret.first = "Z";
+        } else if( horde_size < 147 ) {
+            ret.second = c_light_red;
+            ret.first = "z";
+        } else if( horde_size < 195 ) {
+            ret.second = c_light_red;
+            ret.first = "Z";
+        } else if( horde_size < 251 ) {
+            ret.second = c_red;
+            ret.first = "z";
+        } else {
+            ret.second = c_red;
+            ret.first = "Z";
+        }
     } else if( blink && overmap_buffer.has_vehicle( omp ) ) {
         ret.second = c_cyan;
         ret.first = overmap_buffer.get_vehicle_ter_sym( omp );
@@ -2694,7 +2819,7 @@ void ui::omap::setup_cities_menu( uilist &cities_menu, std::vector<city> &cities
                                     _( "Location: <color_white>%s</color>:<color_white>%s</color>" ),
                                     c.pos_om.to_string(), c.pos.to_string() ),
                                 //~ "pop" refers to population count
-                                string_format( _( "(pop <color_white>%s</color>)" ), c.population ) );
+                                string_format( _( "(pop <color_white>%d</color>)" ), c.population ) );
             cities_menu.entries.emplace_back( entry );
         }
     }
@@ -2721,9 +2846,88 @@ std::optional<city> ui::omap::select_city( uilist &cities_menu,
     return ret_val;
 }
 
+void ui::omap::range_mark( const tripoint_abs_omt &origin, int range, bool add_notes,
+                           const std::string &message )
+{
+    std::vector<tripoint_abs_omt> note_pts;
+
+    if( trigdist ) {
+        note_pts.reserve( range * 7 ); // actual multiplier varies from 5.33 to 8, mostly 6 to 7
+        for( const tripoint_abs_omt &pos : points_on_radius_circ( origin, range ) ) {
+            note_pts.emplace_back( pos );
+        }
+    } else {
+        note_pts.reserve( range * 8 );
+        //North Limit
+        for( int x = origin.x() - range; x < origin.x() + range + 1; x++ ) {
+            note_pts.emplace_back( x, origin.y() - range, origin.z() );
+        }
+        //South
+        for( int x = origin.x() - range; x < origin.x() + range + 1; x++ ) {
+            note_pts.emplace_back( x, origin.y() + range, origin.z() );
+        }
+        //West
+        for( int y = origin.y() - range; y < origin.y() + range + 1; y++ ) {
+            note_pts.emplace_back( origin.x() - range, y, origin.z() );
+        }
+        //East
+        for( int y = origin.y() - range; y < origin.y() + range + 1; y++ ) {
+            note_pts.emplace_back( origin.x() + range, y, origin.z() );
+        }
+    }
+
+    for( tripoint_abs_omt &pt : note_pts ) {
+        if( add_notes ) {
+            if( !overmap_buffer.has_note( pt ) ) {
+                overmap_buffer.add_note( pt, message );
+            }
+        } else {
+            if( overmap_buffer.has_note( pt ) && overmap_buffer.note( pt ) == message ) {
+                overmap_buffer.delete_note( pt );
+            }
+        }
+    }
+}
+
+void ui::omap::line_mark( const tripoint_abs_omt &origin, const tripoint_abs_omt &dest,
+                          bool add_notes,
+                          const std::string &message )
+{
+    std::vector<tripoint_abs_omt> note_pts = line_to( origin, dest );
+
+    for( const tripoint_abs_omt &pt : note_pts ) {
+        if( add_notes ) {
+            if( !overmap_buffer.has_note( pt ) ) {
+                overmap_buffer.add_note( pt, message );
+            }
+        } else {
+            if( overmap_buffer.has_note( pt ) && overmap_buffer.note( pt ) == message ) {
+                overmap_buffer.delete_note( pt );
+            }
+        }
+    }
+}
+
+void ui::omap::path_mark(
+    const std::vector<tripoint_abs_omt> &note_pts, bool add_notes,
+    const std::string &message )
+{
+    for( const tripoint_abs_omt &pt : note_pts ) {
+        if( add_notes ) {
+            if( !overmap_buffer.has_note( pt ) ) {
+                overmap_buffer.add_note( pt, message );
+            }
+        } else {
+            if( overmap_buffer.has_note( pt ) && overmap_buffer.note( pt ) == message ) {
+                overmap_buffer.delete_note( pt );
+            }
+        }
+    }
+}
+
 void ui::omap::force_quit()
 {
     overmap_ui::generated_omts.clear();
-    g->overmap_data.ui.reset();
+    g->overmap_data.ui = nullptr;
     g->overmap_data.fast_traveling = false;
 }

@@ -1,0 +1,140 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "forge_lord_ardelia_loved_items",
+    "//": "All the items the librarian will buy but won't sell back to you.",
+    "items": [ { "item": "beech_nuts" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "forge_lord_pirate_treasure",
+    "//": "All the items Helen and her crew will accept as payment but won't sell back to you.",
+    "items": [
+      { "group": "gold_treasure" },
+      { "group": "silver_treasure" },
+      { "group": "platinum_treasure" },
+      { "group": "misc_treasure" },
+      { "group": "gemstones" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "silver_treasure",
+    "items": [
+      { "item": "silver_small" },
+      { "group": "cufflinks_silver" },
+      { "group": "tiaras_silver" },
+      { "group": "pendant_necklaces_silver" },
+      { "group": "earrings_silver" },
+      { "group": "rings_silver" },
+      { "group": "bracelets_silver" },
+      { "item": "silver_anklet" },
+      { "item": "silver_medal" },
+      { "item": "silver_hairpin" },
+      { "item": "silver_locket" },
+      { "item": "silver_watch" },
+      { "item": "silver_hair_beads" },
+      { "item": "silver_lip_ring_loop" },
+      { "item": "silver_lip_ring_stud" },
+      { "item": "silver_nose_ring_loop" },
+      { "item": "silver_nose_ring_stud" },
+      { "item": "silver_toe_ring" },
+      { "item": "1l_silver" },
+      { "item": "5l_silver" },
+      { "item": "10l_silver" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "gold_treasure",
+    "items": [
+      { "item": "gold_small" },
+      { "group": "cufflinks_gold" },
+      { "group": "tiaras_gold" },
+      { "group": "pendant_necklaces_gold" },
+      { "group": "earrings_gold" },
+      { "group": "rings_gold" },
+      { "group": "bracelets_gold" },
+      { "item": "gold_anklet" },
+      { "item": "gold_medal" },
+      { "item": "gold_hairpin" },
+      { "item": "gold_locket" },
+      { "item": "gold_watch" },
+      { "item": "gold_hair_beads" },
+      { "item": "gold_lip_ring_loop" },
+      { "item": "gold_lip_ring_stud" },
+      { "item": "gold_nose_ring_loop" },
+      { "item": "gold_nose_ring_stud" },
+      { "item": "gold_toe_ring" },
+      { "item": "chalice" },
+      { "item": "crown_golden_survivor" },
+      { "item": "crown_golden" },
+      { "item": "1l_gold" },
+      { "item": "5l_gold" },
+      { "item": "10l_gold" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "platinum_treasure",
+    "items": [
+      { "item": "platinum_small" },
+      { "group": "cufflinks_platinum" },
+      { "group": "tiaras_platinum" },
+      { "group": "pendant_necklaces_platinum" },
+      { "group": "earrings_platinum" },
+      { "group": "rings_platinum" },
+      { "group": "bracelets_platinum" },
+      { "item": "platinum_hairpin" },
+      { "item": "platinum_locket" },
+      { "item": "platinum_watch" },
+      { "item": "1l_platinum" },
+      { "item": "5l_platinum" },
+      { "item": "10l_platinum" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "orichalcum_and_mithril_treasure",
+    "//": "mithril ingot is explicitly not here because it's sold by Helen",
+    "items": [
+      { "item": "orichalcum_sliver" },
+      { "item": "orichalcum_lump" },
+      { "item": "orichalcum_ingot" },
+      { "item": "mithril_lump" },
+      { "item": "longsword_mithril" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "misc_treasure",
+    "items": [
+      { "group": "dental_grills" },
+      { "item": "hc_steel_facemask" },
+      { "item": "qt_steel_facemask" },
+      { "item": "lc_steel_facemask" },
+      { "item": "ring_signet" },
+      { "item": "ring_purity" },
+      { "item": "ring_engagement" },
+      { "item": "ring_wedding" },
+      { "item": "cufflinks" },
+      { "item": "cufflinks_intricate" },
+      { "item": "diamond_ring" },
+      { "item": "diamond_dental_grill" },
+      { "item": "jade_brooch" },
+      { "item": "sf_watch" },
+      { "item": "pocketwatch" },
+      { "item": "tieclip" },
+      { "item": "pearl_collar" },
+      { "item": "diamond" },
+      { "item": "holy_symbol" }
+    ]
+  }
+]

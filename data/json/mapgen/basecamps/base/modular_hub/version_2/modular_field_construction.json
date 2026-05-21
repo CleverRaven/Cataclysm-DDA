@@ -9,6 +9,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -44,6 +45,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -88,6 +90,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -123,6 +126,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -167,6 +171,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -202,6 +207,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -246,6 +252,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -280,6 +287,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -323,6 +331,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -357,6 +366,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -400,6 +410,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -444,6 +455,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -488,6 +500,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -522,6 +535,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -565,6 +579,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -599,6 +614,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -642,6 +658,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -686,6 +703,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -721,6 +739,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -765,6 +784,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -800,6 +820,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -844,6 +865,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -889,6 +911,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -924,6 +947,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -968,6 +992,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -1011,6 +1036,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -1063,6 +1089,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",
@@ -1106,6 +1133,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_2_adobe_palette",
               "fbmh_2_concrete_palette",
               "fbmh_2_log_palette",
               "fbmh_2_metal_palette",

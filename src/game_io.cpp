@@ -23,6 +23,7 @@
 #include <sstream>
 #include <string>
 #include <string_view>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -74,6 +75,9 @@
 #include "pimpl.h"
 #include "popup.h"
 #include "safemode_ui.h"
+#if defined(TILES)
+#include "sdltiles.h"
+#endif
 #include "stats_tracker.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -349,7 +353,7 @@ bool game::load( const save_t &name )
                     u.set_save_id( name.decoded_name() );
 
                     if( world_generator->active_world->has_compression_enabled() ) {
-                        std::optional<zzip> z = zzip::load( ( save_file_path + ".zzip" ).get_unrelative_path() );
+                        std::optional<zzip> z = zzip::load( ( save_file_path + zzip_suffix ).get_unrelative_path() );
                         abort = !z.has_value() ||
                         !read_from_zzip_optional( z.value(), save_file_path.get_unrelative_path().filename(),
                         [this]( std::string_view sv ) {
@@ -408,7 +412,6 @@ bool game::load( const save_t &name )
                         gamemode = std::make_unique<special_game>();
                     }
 
-                    safe_mode = get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF;
                     mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
 
                     init_autosave();
@@ -474,6 +477,15 @@ bool game::load( const save_t &name )
                     effect_on_conditions::load_existing_character( u );
                     // recalculate light level for correctly resuming crafting and disassembly
                     here.build_map_cache( here.get_abs_sub().z() );
+
+                    set_zoom( uistate.tileset_zoom );
+                    set_overmap_zoom( uistate.overmap_tileset_zoom );
+#if defined(TILES)
+                    // Ensure tileset display is synced with loaded zoom level
+                    rescale_tileset( uistate.tileset_zoom );
+                    overmap_tilecontext->set_draw_scale( uistate.overmap_tileset_zoom );
+#endif
+
                 }
             },
         }
@@ -595,7 +607,7 @@ bool game::save_player_data()
         std::stringstream save;
         serialize_json( save );
         std::filesystem::path save_path = ( playerfile + SAVE_EXTENSION +
-                                            ".zzip" ).get_unrelative_path();
+                                            zzip_suffix ).get_unrelative_path();
         std::filesystem::path tmp_path = save_path;
         tmp_path.concat( ".tmp" ); // NOLINT(cata-u8-path)
         std::optional<zzip> z = zzip::load( save_path );
@@ -684,8 +696,47 @@ bool game::save_achievements()
 
 }
 
+bool game::save_external_options_record()
+{
+    const cata_path externals = PATH_INFO::world_base_save_path() / PATH_INFO::external_options();
+    const bool saved_externals = write_to_file( externals, [&]( std::ostream & fout ) {
+        JsonOut jout( fout );
+        fout << "# This is saved for debugging purposes only.  Nothing in this file is ever read by the game."
+             << std::endl;
+
+        fout << "# This includes the values of all options, including externals, at the exact time of saving.  The purpose of this is to store a record of the game state as it existed."
+             << std::endl;
+
+        fout << "# Externals 'forced on' by mods or user edits to data/core/external_options.json would not normally be visible in the save."
+             << std::endl;
+
+        jout.start_array();
+
+        const options_manager::options_container &options = get_options().get_raw_options();
+
+        for( const auto &elem : options ) {
+            jout.start_object();
+
+            jout.member( "info", elem.second.getTooltip() );
+            jout.member( "default", elem.second.getDefaultText( false ) );
+            jout.member( "name", elem.first );
+            jout.member( "value", elem.second.getValue( true ) );
+
+            jout.end_object();
+        }
+
+        jout.end_array();
+    }, _( "external options record" ) );
+
+    return saved_externals;
+}
+
 bool game::save()
 {
+    if( save_is_dirty ) {
+        popup( _( "The game is in an unsupported state after using debug tools and cannot be saved." ) );
+        return false;
+    }
     std::chrono::seconds time_since_load =
         std::chrono::duration_cast<std::chrono::seconds>(
             std::chrono::steady_clock::now() - time_of_last_load );
@@ -695,6 +746,7 @@ bool game::save()
         if( !save_player_data() ||
             !save_achievements() ||
             !save_factions_missions_npcs() ||
+            !save_external_options_record() ||
             !save_dimension_data() ||
             !save_maps() ||
             !get_auto_pickup().save_character() ||

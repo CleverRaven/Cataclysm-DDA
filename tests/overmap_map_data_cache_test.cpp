@@ -3,6 +3,7 @@
 #include <string>
 
 #include "cata_catch.h"
+#include "catacharset.h"
 #include "coordinates.h"
 #include "overmap.h"
 #include "overmap_map_data_cache.h"
@@ -19,7 +20,7 @@ static const string_id<map_data_summary> map_data_summary_full_omt( "full_omt" )
 TEST_CASE( "default_OMT_is_passable", "[hordes][overmap][map_data]" )
 {
     std::unique_ptr<overmap> test_overmap = std::make_unique<overmap>( point_abs_om() );
-    // Pick an arbitrary OMT.
+    // Pick an arbitrary OMT.weapname_
     tripoint_om_omt arbitrary_omt{ rng( 0, 179 ), rng( 0, 179 ), 0 };
     CAPTURE( test_overmap->ter( arbitrary_omt ) );
     for( point_omt_ms omt_cursor; omt_cursor.y() < 24; ++omt_cursor.y() ) {
@@ -65,11 +66,6 @@ TEST_CASE( "check_placeholders_in_isolation", "[map_data]" )
         }
     }
 }
-
-// NOLINTNEXTLINE(cata-static-declarations)
-std::string base64_encode_bitset( const std::bitset<576> &bitset_to_encode );
-// NOLINTNEXTLINE(cata-static-declarations)
-void base64_decode_bitset( const std::string &packed_bitset, std::bitset<576> &destination_bitset );
 
 TEST_CASE( "round_trip_bitset_to_base64", "[map_data][hordes]" )
 {

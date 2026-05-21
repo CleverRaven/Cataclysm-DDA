@@ -4,11 +4,21 @@ from ..write_text import write_text
 
 
 def parse_mutation(json, origin):
+
+    if json.get("debug") or json.get("dummy"):
+        return
+
     name = get_singular_name(json)
 
-    write_text(json.get("name"), origin, comment="Mutation name")
-    write_text(json.get("description"), origin,
-               comment=f"Description of mutation '{name}'")
+    is_visible_to_player = (json.get("player_display", True) or
+                            json.get("starting_trait") or
+                            json.get("initial_ma_styles") or
+                            json.get("//I18N"))
+
+    if is_visible_to_player:
+        write_text(json.get("name"), origin, comment="Mutation name")
+        write_text(json.get("description"), origin,
+                   comment=f"Description of mutation '{name}'")
 
     attacks = json.get("attacks", [])
     if type(attacks) is dict:
@@ -48,7 +58,7 @@ def parse_mutation(json, origin):
                    comment=f"Variant name of mutation '{name}'")
         write_text(variant["description"], origin,
                    comment="Description of variant"
-                   f" '{name}' of mutation '{variant_name}'")
+                   f" '{variant_name}' of mutation '{name}'")
 
     if "transform" in json:
         target_id = json["transform"]["target"]
@@ -58,3 +68,7 @@ def parse_mutation(json, origin):
 
     for enchantment in json.get("enchantments", []):
         parse_enchant(enchantment, origin)
+
+    if "activation_msg" in json:
+        write_text(json["activation_msg"], origin,
+                   comment=f"Activation message of mutation '{name}'")

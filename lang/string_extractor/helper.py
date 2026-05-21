@@ -1,6 +1,3 @@
-import re
-
-
 def get_singular_name(name):
     if type(name) is dict:
         if name.get("str_sp"):
@@ -19,10 +16,3 @@ def get_singular_name(name):
         if len(name) > 0:
             return get_singular_name(name[0])
     return "???"
-
-
-tag_pattern = re.compile(r'^<[a-z0-9_]*>$')
-
-
-def is_tag(text):
-    return tag_pattern.match(text)

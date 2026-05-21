@@ -1,8 +1,43 @@
 [
   {
+    "type": "fault_group",
+    "id": "any_ICE_engine_maintenance",
+    "group": [
+      { "fault": "fault_engine_belt_drive", "weight": 100 },
+      { "fault": "fault_engine_filter_air", "weight": 100 },
+      { "fault": "fault_engine_filter_fuel", "weight": 100 },
+      { "fault": "fault_engine_starter", "weight": 100 }
+    ]
+  },
+  {
+    "type": "fault_group",
+    "id": "diesel_engine_maintenance",
+    "group": [ { "fault": "fault_engine_glow_plug", "weight": 100 }, { "fault": "fault_engine_pump_diesel", "weight": 100 } ]
+  },
+  {
+    "type": "fault_group",
+    "id": "gasoline_engine_maintenance",
+    "group": [ { "fault": "fault_engine_pump_fuel", "weight": 100 } ]
+  },
+  {
+    "type": "fault_group",
+    "id": "any_ICE_defect",
+    "group": [ { "fault": "fault_engine_immobiliser", "weight": 20 } ]
+  },
+  {
+    "type": "fault_group",
+    "id": "steam_engine_maintenance",
+    "group": [
+      { "fault": "fault_engine_belt_drive", "weight": 100 },
+      { "fault": "fault_engine_filter_air", "weight": 100 },
+      { "fault": "fault_engine_starter", "weight": 100 }
+    ]
+  },
+  {
     "id": "fault_engine_belt_drive",
     "type": "fault",
     "name": { "str": "Worn drive belt" },
+    "fault_type": "engine_maintenance",
     "description": "Required for operation of an attached alternator.",
     "item_prefix": "faulty",
     "price_modifier": 0.7,
@@ -12,6 +47,7 @@
     "id": "fault_engine_glow_plug",
     "type": "fault",
     "name": { "str": "Faulty glow plugs" },
+    "fault_type": "engine_maintenance",
     "description": "Help when starting an engine in low ambient temperatures.",
     "item_prefix": "faulty",
     "price_modifier": 0.7,
@@ -21,6 +57,7 @@
     "id": "fault_engine_immobiliser",
     "type": "fault",
     "name": { "str": "Active immobilizer" },
+    "//COMMENT": "This INTENTIONALLY does not have a fault_type.",
     "description": "An immobilizer device prevents starting of the vehicle without the appropriate key.",
     "item_prefix": "faulty",
     "price_modifier": 0.25,
@@ -30,6 +67,7 @@
     "id": "fault_engine_pump_diesel",
     "type": "fault",
     "name": { "str": "Faulty diesel pump" },
+    "fault_type": "engine_maintenance",
     "description": "Required to pump and pressurize diesel from a vehicle's tank.",
     "item_prefix": "faulty",
     "price_modifier": 0.7,
@@ -39,6 +77,7 @@
     "id": "fault_engine_filter_air",
     "type": "fault",
     "name": { "str": "Expired air filter" },
+    "fault_type": "engine_maintenance",
     "description": "An expired filter reduces fuel efficiency and increases smoke production.",
     "item_prefix": "faulty",
     "price_modifier": 0.9,
@@ -48,6 +87,7 @@
     "id": "fault_engine_filter_fuel",
     "type": "fault",
     "name": { "str": "Expired fuel filter" },
+    "fault_type": "engine_maintenance",
     "description": "An expired filter reduces performance and increases the chance of backfires.",
     "item_prefix": "faulty",
     "price_modifier": 0.7,
@@ -57,6 +97,7 @@
     "id": "fault_engine_pump_fuel",
     "type": "fault",
     "name": { "str": "Faulty fuel pump" },
+    "fault_type": "engine_maintenance",
     "description": "Required to pump gasoline from a vehicle's tank.",
     "item_prefix": "faulty",
     "price_modifier": 0.7,
@@ -66,9 +107,71 @@
     "id": "fault_engine_starter",
     "type": "fault",
     "name": { "str": "Faulty starter motor" },
+    "fault_type": "engine_maintenance",
     "description": "Required to initially start the engine.",
     "item_prefix": "faulty",
     "price_modifier": 0.5,
     "flags": [ "BAD_STARTER" ]
+  },
+  {
+    "id": "fault_punctured_tires",
+    "type": "fault",
+    "name": { "str": "Punctured tire" },
+    "fault_type": "mechanical_damage",
+    "description": "Something made a hole in the tire, and it is now as flat as the ground it drives onto.",
+    "price_modifier": 0.0,
+    "//COMMENT": "Reduced contact area, but not 0. Making the contact area lower actually reduces the effect of low traction and high rolling resistance.",
+    "contact_area_mod": 0.75,
+    "rolling_resistance_mod": 10.0,
+    "vehicle_move_penalty_mod": 2,
+    "item_suffix": "deflating",
+    "flags": [ "FLAT_TIRE" ]
+  },
+  {
+    "id": "fault_flat_tire_riding_on_rims",
+    "type": "fault",
+    "name": { "str": "Down to rims" },
+    "//COMMENT": "INTENTIONALLY CANNOT BE REPAIRED. It must be replaced. You aren't fixing this!",
+    "description": "This used to be an entire wheel, but now it's just rim.  Bits of shredded rubber are jutting out of the cracked rim, the result of continuing to drive with a completely flat tire.  It needs total replacement.",
+    "price_modifier": 0.0,
+    "//COMMENT2": "Reduced contact area, but not 0. The rim is now in contact. Making the contact area lower actually reduces the effect of low traction and high rolling resistance.",
+    "contact_area_mod": 0.5,
+    "rolling_resistance_mod": 30.0,
+    "vehicle_move_penalty_mod": 5,
+    "item_suffix": "rim",
+    "flags": [ "FLAT_TIRE" ]
+  },
+  {
+    "id": "fault_broken_window",
+    "type": "fault",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "broken window" },
+    "description": "Something broke through this door's window.",
+    "//COMMENT": "Hardcoded effects. Allows locked doors to be opened from the outside.",
+    "item_suffix": "broken window"
+  },
+  {
+    "id": "fault_axle_broken",
+    "type": "fault",
+    "name": { "str": "Broken axle" },
+    "//COMMENT": "INTENTIONALLY CANNOT BE REPAIRED. It must be replaced. You aren't fixing this!",
+    "description": "This primitive wheel's axle has completely snapped.  The wheel will have to be replaced entirely.",
+    "//COMMENT2": "These values are meant to instantly render the vehicle part 'destroyed'.",
+    "instant_damage": 4000,
+    "degradation_mod": 4000,
+    "price_modifier": 0.0,
+    "item_suffix": "broken axle"
+  },
+  {
+    "id": "fault_cracked_rim",
+    "type": "fault",
+    "name": { "str": "Cracked" },
+    "description": "This primitive wheel has been damaged by riding rough.",
+    "//COMMENT": "This damage causes the wheel to have worse steering until 'repaired'. The fault itself cannot be mended and will continue to impair its ability as a wheel.",
+    "instant_damage": 1000,
+    "price_modifier": 0.1,
+    "contact_area_mod": 0.7,
+    "rolling_resistance_mod": 1.5,
+    "item_suffix": "cracked"
   }
 ]

@@ -138,7 +138,7 @@ void nutrients::finalize_vitamins()
             vit.second = vit.first->units_from_mass( std::get<vitamin_units::mass>( vit.second ) );
         }
         if( std::holds_alternative<vitamin_units::mass>( vit.second ) ) {
-            debugmsg( "Error occured during vitamin finalization!" );
+            debugmsg( "Error occurred during vitamin finalization!" );
         }
     }
 

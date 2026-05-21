@@ -196,13 +196,27 @@ bionic *avatar::bionic_by_invlet( const int ch )
     return nullptr;
 }
 
+static std::string action_bound_to_key( const input_context &ctxt, char key )
+{
+    return ctxt.input_to_action( input_event( key, input_event_t::keyboard_char ) );
+}
+
 char get_free_invlet( Character &p )
 {
     if( p.is_npc() ) {
         // npcs don't need an invlet
         return ' ';
     }
+
+    input_context ctxt( "BIONICS", keyboard_mode::keychar );
+    // Register standard uilist actions that might be bound to keys
+    ctxt.register_updown();
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PREV_TAB" );
     for( const char &inv_char : bionic_chars ) {
+        if( action_bound_to_key( ctxt, inv_char ) != "ERROR" ) {
+            continue;
+        }
         if( p.as_avatar()->bionic_by_invlet( inv_char ) == nullptr ) {
             return inv_char;
         }
@@ -286,9 +300,10 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
 
     std::string desc_append = string_format(
                                   _( "[<color_yellow>%s</color>] Reassign, [<color_yellow>%s</color>] Switch tabs, "
-                                     "[<color_yellow>%s</color>] Toggle fuel saving mode, [<color_yellow>%s</color>] Toggle sprite visibility, " ),
+                                     "[<color_yellow>%s</color>] Toggle fuel saving mode, [<color_yellow>%s</color>] Toggle sprite visibility, "
+                                     "[<color_yellow>%s</color>] Toggle shutdown on empty, " ),
                                   ctxt.get_desc( "REASSIGN" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "TOGGLE_SAFE_FUEL" ),
-                                  ctxt.get_desc( "TOGGLE_SPRITE" ) );
+                                  ctxt.get_desc( "TOGGLE_SPRITE" ), ctxt.get_desc( "TOGGLE_SHUTDOWN" ) );
     desc_append += string_format( _( " [<color_yellow>%s</color>] Sort: %s" ), ctxt.get_desc( "SORT" ),
                                   sort_mode_str( uistate.bionic_sort_mode ) );
     std::string desc;
@@ -343,6 +358,9 @@ static std::string build_bionic_poweronly_string( const bionic &bio, avatar *p )
     }
     if( bio.incapacitated_time > 0_turns ) {
         properties.emplace_back( _( "(incapacitated)" ) );
+    }
+    if( !bio.auto_shutdown ) {
+        properties.emplace_back( _( "(shutdown off)" ) );
     }
     if( !bio.show_sprite ) {
         properties.emplace_back( _( "(hidden)" ) );
@@ -668,6 +686,7 @@ void avatar::power_bionics()
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "TOGGLE_SAFE_FUEL" );
+    ctxt.register_action( "TOGGLE_SHUTDOWN" );
     ctxt.register_action( "TOGGLE_SPRITE" );
     ctxt.register_action( "SORT" );
 
@@ -868,6 +887,17 @@ void avatar::power_bionics()
                     g->invalidate_main_ui_adaptor();
                 } else {
                     popup( _( "You can't toggle fuel saving mode on a non-fueled CBM." ) );
+                }
+            }
+        } else if( action == "TOGGLE_SHUTDOWN" ) {
+            sorted_bionics &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
+            if( !current_bionic_list->empty() ) {
+                tmp = bio_list[cursor];
+                if( !tmp->info().fuel_opts.empty() || tmp->info().is_remote_fueled ) {
+                    tmp->auto_shutdown = !tmp->auto_shutdown;
+                    g->invalidate_main_ui_adaptor();
+                } else {
+                    popup( _( "You can't toggle shutdown on empty mode on a non-fueled CBM." ) );
                 }
             }
         } else if( action == "TOGGLE_SPRITE" ) {

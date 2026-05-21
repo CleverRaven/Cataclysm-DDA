@@ -13,6 +13,7 @@
       { "math": [ "u_hp('leg_l') += 2" ] },
       { "math": [ "u_hp('leg_r') += 2" ] },
       { "math": [ "u_pain() -= 4" ] },
+      { "u_lose_effect": "bleed" },
       { "if": { "u_has_trait": "iso_eldritch_sorcery" }, "then": { "math": [ "u_val('mana') += 25" ] } }
     ]
   },

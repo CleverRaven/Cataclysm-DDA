@@ -682,7 +682,7 @@
     "type": "MONSTER",
     "copy-from": "mon_proxy_bigtad",
     "color": "red",
-    "description": "This tadpole's expanded size only eccentuates its other unique feature.  Its tail fin is a vibrant gradient of crimson to yellow.",
+    "description": "This tadpole's expanded size only accentuates its other unique feature.  Its tail fin is a vibrant gradient of crimson to yellow.",
     "name": { "str": "giant tadpole" },
     "upgrades": { "age_grow": 10, "into": "mon_shift_bigfrog" }
   },

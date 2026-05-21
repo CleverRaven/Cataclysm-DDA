@@ -1,0 +1,70 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Entrance_Controls",
+    "dynamic_line": "&You see a black computer screen with a flickering cursor and some text.  The cursor looks to be controlled by an old mouse that has been hard-wired to the side of terminal.  Only one option appears:\n\n<color_light_green> Labyrinth AB02123.3-4a</color>",
+    "responses": [
+      {
+        "text": "[Select \"Labyrinth AB02123.3-4a\"]",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "rubik_told_about_labyrinth" } ] } },
+        "topic": "COMP_LS_Entrance_Controls2_no"
+      },
+      {
+        "text": "[Select \"Labyrinth AB02123.3-4a\"]",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "rubik_told_about_labyrinth" } ] },
+            {
+              "or": [
+                { "not": { "math": [ "has_var(u_timer_exodii_labyrinth_cooldown)" ] } },
+                { "math": [ "time_since(u_timer_exodii_labyrinth_cooldown) >= time('5 d')" ] }
+              ]
+            }
+          ]
+        },
+        "topic": "COMP_LS_Entrance_Controls2"
+      },
+      {
+        "text": "[Select \"Labyrinth AB02123.3-4a\"]",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "rubik_told_about_labyrinth" } ] },
+            { "math": [ "has_var(u_timer_exodii_labyrinth_cooldown)" ] },
+            { "math": [ "time_since(u_timer_exodii_labyrinth_cooldown) < time('5 d')" ] }
+          ]
+        },
+        "topic": "COMP_LS_Entrance_Controls2_wait"
+      },
+      { "text": "[Step away]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Entrance_Controls2_no",
+    "dynamic_line": "& User not permitted.",
+    "responses": [ { "text": "[Step away]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Entrance_Controls2_wait",
+    "dynamic_line": "& Cycle in effect.  Wait five days from last jump.",
+    "responses": [ { "text": "[Step away]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Entrance_Controls2",
+    "dynamic_line": "& Truly?  Aye/Nay",
+    "responses": [
+      {
+        "text": "[Select \"Aye\"]",
+        "effect": [
+          { "finish_mission": "MISSION_EXODII_LABYRINTHS_INTRO", "success": true },
+          { "math": [ "u_timer_exodii_labyrinth_cooldown = time('now')" ] },
+          { "run_eocs": "EOC_LS_Teleport_to_labyrinth" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "[Select \"Nay\"]", "topic": "COMP_LS_Entrance_Controls" }
+    ]
+  }
+]

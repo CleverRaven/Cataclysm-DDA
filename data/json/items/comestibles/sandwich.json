@@ -586,7 +586,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "sandwich_pbf",
-    "name": { "str": "Fluffernutter sandwich", "str_pl": "Fluffernutter sandwiches" },
+    "name": { "str": "fluffernutter sandwich", "str_pl": "fluffernutter sandwiches" },
     "weight": "204 g",
     "color": "white",
     "spoils_in": "1 day 12 hours",

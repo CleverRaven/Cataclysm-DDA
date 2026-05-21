@@ -3,6 +3,7 @@
 #include <list>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "avatar.h"
 #include "bodypart.h"
@@ -24,6 +25,7 @@
 #include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
+#include "units.h"
 #include "value_ptr.h"
 
 static const efftype_id effect_antifungal( "antifungal" );
@@ -66,7 +68,9 @@ static const itype_id itype_atomic_coffee( "atomic_coffee" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_coffee( "coffee" );
 static const itype_id itype_diazepam( "diazepam" );
+static const itype_id itype_gasfilter_med( "gasfilter_med" );
 static const itype_id itype_inhaler( "inhaler" );
+static const itype_id itype_mask_gas( "mask_gas" );
 static const itype_id itype_oxygen( "oxygen" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_panacea( "panacea" );
@@ -78,7 +82,7 @@ static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
-static const itype_id itype_water_purifying( "water_purifying" );
+static const itype_id itype_water_purifying_active( "water_purifying_active" );
 static const itype_id itype_xanax( "xanax" );
 
 static const morale_type morale_wet( "morale_wet" );
@@ -798,7 +802,7 @@ TEST_CASE( "water_purification_tablet_activation", "[iuse][pur_tablets]" )
         iuse::purify_water( &dummy, tablet.get_item(), water_location );
 
         CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
+        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 4 );
         CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 0 );
     }
 
@@ -809,7 +813,7 @@ TEST_CASE( "water_purification_tablet_activation", "[iuse][pur_tablets]" )
         iuse::purify_water( &dummy, tablet.get_item(), water_location );
 
         CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 1 );
+        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 1 );
         CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 0 );
     }
 
@@ -820,7 +824,7 @@ TEST_CASE( "water_purification_tablet_activation", "[iuse][pur_tablets]" )
         iuse::purify_water( &dummy, tablet.get_item(), water_location );
 
         CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 5 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 0 );
+        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 0 );
         CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 1 );
     }
 
@@ -831,7 +835,7 @@ TEST_CASE( "water_purification_tablet_activation", "[iuse][pur_tablets]" )
         iuse::purify_water( &dummy, tablet.get_item(), water_location );
 
         CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 12 );
+        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 12 );
         CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 0 );
     }
 
@@ -842,7 +846,7 @@ TEST_CASE( "water_purification_tablet_activation", "[iuse][pur_tablets]" )
         iuse::purify_water( &dummy, tablet.get_item(), water_location );
 
         CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
+        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 4 );
         CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 1 );
     }
 
@@ -853,7 +857,7 @@ TEST_CASE( "water_purification_tablet_activation", "[iuse][pur_tablets]" )
         iuse::purify_water( &dummy, tablet.get_item(), water_location );
 
         CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
+        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 4 );
         CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 0 );
     }
 
@@ -864,7 +868,7 @@ TEST_CASE( "water_purification_tablet_activation", "[iuse][pur_tablets]" )
         iuse::purify_water( &dummy, tablet.get_item(), water_location );
 
         CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 5 );
+        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 5 );
         CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 0 );
     }
 
@@ -875,7 +879,7 @@ TEST_CASE( "water_purification_tablet_activation", "[iuse][pur_tablets]" )
         iuse::purify_water( &dummy, tablet.get_item(), water_location );
 
         CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 13 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 0 );
+        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 0 );
         CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 3 );
     }
 
@@ -886,7 +890,7 @@ TEST_CASE( "water_purification_tablet_activation", "[iuse][pur_tablets]" )
         iuse::purify_water( &dummy, tablet.get_item(), water_location );
 
         CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 2 );
+        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 2 );
         CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 0 );
     }
 
@@ -897,7 +901,7 @@ TEST_CASE( "water_purification_tablet_activation", "[iuse][pur_tablets]" )
         iuse::purify_water( &dummy, tablet.get_item(), water_location );
 
         CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 1 );
+        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 1 );
         CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 0 );
     }
 
@@ -909,7 +913,7 @@ TEST_CASE( "water_purification_tablet_activation", "[iuse][pur_tablets]" )
         iuse::purify_water( &dummy, tablet.get_item(), water_location );
 
         CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 3 );
+        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 3 );
         CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 1 );
     }
 
@@ -921,7 +925,7 @@ TEST_CASE( "water_purification_tablet_activation", "[iuse][pur_tablets]" )
         iuse::purify_water( &dummy, tablet.get_item(), water_location );
 
         CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 8 );
+        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 8 );
         CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 0 );
     }
 
@@ -933,7 +937,7 @@ TEST_CASE( "water_purification_tablet_activation", "[iuse][pur_tablets]" )
         iuse::purify_water( &dummy, tablet.get_item(), water_location );
 
         CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 8 );
+        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 8 );
         CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 0 );
     }
 
@@ -945,7 +949,7 @@ TEST_CASE( "water_purification_tablet_activation", "[iuse][pur_tablets]" )
         iuse::purify_water( &dummy, tablet.get_item(), water_location );
 
         CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 9 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 0 );
+        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 0 );
         CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 2 );
     }
 
@@ -967,10 +971,10 @@ TEST_CASE( "water_purification_tablet_activation", "[iuse][pur_tablets]" )
         // TODO: Figure out why the crafting inventory doesn't update to show water_purifying
         /*dummy.invalidate_crafting_inventory();
             CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 24 );
+            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 24 );
             CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 0 );*/
         // Until then, show that it works by checking the item directly:
-        CHECK( water_location.get_item()->typeId() == itype_water_purifying );
+        CHECK( water_location.get_item()->typeId() == itype_water_purifying_active );
         CHECK( water_location.get_item()->charges == 24 );
     }
 }
@@ -991,30 +995,30 @@ TEST_CASE( "water_tablet_purification_test", "[iuse][pur_tablets]" )
         iuse::purify_water( &dummy, tablet.get_item(), water_location );
 
         REQUIRE( dummy.crafting_inventory().charges_of( itype_water_clean ) == 0 );
-        REQUIRE( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
+        REQUIRE( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 4 );
 
         SECTION( "Still purifying at ten minutes" ) {
             calendar::turn += 10_minutes;
-            dummy.invoke_item( water_location.get_item() );
+            water_location.get_item()->process( get_map(), dummy.as_character(), test_origin );
 
             CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 0 );
-            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
+            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 4 );
         }
 
         SECTION( "Still purifying at thirty minutes" ) {
             calendar::turn += 30_minutes;
-            dummy.invoke_item( water_location.get_item() );
+            water_location.get_item()->process( get_map(), dummy.as_character(), test_origin );
 
             CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 0 );
-            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
+            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 4 );
         }
 
         SECTION( "Clean water at forty minutes" ) {
             calendar::turn += 40_minutes;
-            dummy.invoke_item( water_location.get_item() );
+            water_location.get_item()->process( get_map(), dummy.as_character(), test_origin );
 
             CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 4 );
-            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 0 );
+            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 0 );
         }
     }
 
@@ -1028,26 +1032,26 @@ TEST_CASE( "water_tablet_purification_test", "[iuse][pur_tablets]" )
 
         SECTION( "Still purifying ten minutes later" ) {
             calendar::turn += 10_minutes;
-            dummy.invoke_item( water_location.get_item() );
+            water_location.get_item()->process( get_map(), dummy.as_character(), test_origin );
 
             CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 0 );
-            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
+            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 4 );
         }
 
         SECTION( "Still purifying thirty minutes later" ) {
             calendar::turn += 30_minutes;
-            dummy.invoke_item( water_location.get_item() );
+            water_location.get_item()->process( get_map(), dummy.as_character(), test_origin );
 
             CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 0 );
-            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
+            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 4 );
         }
 
         SECTION( "Clean water forty minutes later" ) {
             calendar::turn += 40_minutes;
-            dummy.invoke_item( water_location.get_item() );
+            water_location.get_item()->process( get_map(), dummy.as_character(), test_origin );
 
             CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 4 );
-            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 0 );
+            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying_active ) == 0 );
         }
     }
 
@@ -1067,8 +1071,10 @@ TEST_CASE( "water_tablet_purification_test", "[iuse][pur_tablets]" )
             item_location tablet = give_tablets( dummy, 1, true );
             iuse::purify_water( &dummy, tablet.get_item(), water_location );
             calendar::turn += 40_minutes;
-            dummy.invoke_item( water_location.get_item() );
+            water_location.get_item()->process( get_map(), dummy.as_character(), test_origin );
             REQUIRE( dummy.crafting_inventory().charges_of( itype_water_clean ) == 4 );
+            // Make sure it's not frozen.
+            water_location.get_item()->set_item_temperature( 20_C );
             dummy.consume( water_location, true );
             REQUIRE( water_location.get_item()->charges == 3 );
 
@@ -1076,4 +1082,34 @@ TEST_CASE( "water_tablet_purification_test", "[iuse][pur_tablets]" )
         }
 
     }
+}
+
+// Gas mask has no charges_per_use; iuse::gasmask must drain the filter via
+// ammo_consume directly. consume_tool_uses bails out without draining when
+// charges_to_use() is zero.
+TEST_CASE( "gasmask_filter_drains_on_full_absorption", "[iuse][gasmask]" )
+{
+    avatar dummy;
+    dummy.normalize();
+    map &here = get_map();
+    const tripoint_bub_ms pos = dummy.pos_bub( here );
+
+    item mask( itype_mask_gas );
+    REQUIRE( mask.put_in( item( itype_gasfilter_med ), pocket_type::MAGAZINE_WELL ).success() );
+    const int charges_before = mask.ammo_remaining();
+    REQUIRE( charges_before > 0 );
+
+    item_location mask_loc = dummy.i_add( mask );
+    REQUIRE( dummy.wear( mask_loc, false ) );
+    item *worn_mask = dummy.worn.top_items_loc( dummy ).front().get_item();
+    REQUIRE( worn_mask != nullptr );
+    REQUIRE( dummy.is_worn( *worn_mask ) );
+
+    worn_mask->active = true;
+    worn_mask->set_var( "gas_absorbed", 60 );
+
+    iuse::gasmask( &dummy, worn_mask, pos );
+
+    CHECK( worn_mask->ammo_remaining() == charges_before - 1 );
+    CHECK( worn_mask->get_var( "gas_absorbed", -1 ) == 0 );
 }

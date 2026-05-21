@@ -167,7 +167,8 @@
           { "item": "homebooks", "chance": 75 },
           { "item": "esoteric_books", "chance": 50 },
           { "item": "deduction_books", "chance": 25 },
-          { "item": "hedge_magic_books", "chance": 25, "repeat": [ 1, 2 ] }
+          { "item": "hedge_magic_books", "chance": 25, "repeat": [ 1, 2 ] },
+          { "item": "nether_sorcery_books", "chance": 15 }
         ],
         "Ȼ": [ { "item": "SUS_bathroom_cabinet", "chance": 50 } ],
         "D": [ { "item": "nether_cabin_ritual_prep_clothes", "repeat": [ 2, 8 ] } ],
@@ -452,6 +453,24 @@
       ],
       "place_item": [ { "item": "corpse_painful", "x": 1, "y": 0, "chance": 100 } ],
       "place_items": [ { "item": "default_zombie_death_drops", "x": 1, "y": 0, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_nether_cult_basement_2x2_bathroom_overlay",
+    "//": "An overlay with an undead cultist.",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "  ",
+        "  "
+      ],
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 2, 6 ] },
+        { "field": "fd_gibs_flesh", "x": [ 0, 3 ], "y": [ 0, 3 ], "repeat": [ 2, 4 ] }
+      ],
+      "place_monster": [ { "monster": "mon_dementia", "x": 1, "y": 0, "chance": 100 } ]
     }
   },
   {

@@ -97,6 +97,7 @@ static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_overburdened( "overburdened" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_sunscreen( "sunscreen" );
@@ -300,6 +301,18 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
             }
         }
 
+        if( mut_id->stamina ) {
+            // no enough stamina
+            if( you.get_stamina() < mut_id->cost ) {
+                you.add_msg_if_player( m_warning,
+                                       _( "You don't have enough stamina to keep your %s going." ),
+                                       you.mutation_name( mut_id ) );
+                you.deactivate_mutation( mut_id );
+            } else {
+                you.mod_stamina( -mut_id->cost );
+            }
+        }
+
         // if you haven't deactivated then run the EOC
         for( const effect_on_condition_id &eoc : mut_id->processed_eocs ) {
             dialogue d( get_talker_for( you ), nullptr );
@@ -443,11 +456,18 @@ void suffer::from_addictions( Character &you )
 
 void suffer::while_awake( Character &you, const int current_stim )
 {
+    // The purpose of reapplying the effects for 2 turns is to prevent the application message from appearing every turn.
     if( you.weight_carried() > you.max_pickup_capacity() ) {
         if( you.has_effect( effect_downed ) ) {
             you.add_effect( effect_downed, 1_turns, false, 0, true );
         } else {
             you.add_effect( effect_downed, 2_turns, false, 0, true );
+        }
+    } else if( you.weight_carried() > you.weight_capacity() ) {
+        if( you.has_effect( effect_overburdened ) ) {
+            you.add_effect( effect_overburdened, 1_turns, false, 0, true );
+        } else {
+            you.add_effect( effect_overburdened, 2_turns, false, 0, true );
         }
     }
 

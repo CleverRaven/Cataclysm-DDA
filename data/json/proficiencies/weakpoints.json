@@ -308,7 +308,7 @@
     "name": { "str": "Power leech basic anatomy" },
     "description": "Your observations of the power leech anatomy is starting to pay off.  You now have a basic idea of where their more sensitive structures are located.  These creatures exhibit traits that seem to be a mix between animal and plant ones.",
     "can_learn": true,
-    "required_proficiencies": [ "prof_gross_anatomy" ],
+    "required_proficiencies": [ "prof_intro_biology" ],
     "time_to_learn": "30 m",
     "default_weakpoint_bonus": 1,
     "default_weakpoint_penalty": -2
@@ -327,36 +327,12 @@
   },
   {
     "type": "proficiency",
-    "id": "prof_wp_slime_basic",
-    "category": "prof_weakpoint",
-    "name": { "str": "Slime basic weaknesses" },
-    "description": "After having engaged slimes to a significant extent you have started to get better at exploiting weaknesses in their behavior and, for lack of better terms, \"physiology\".",
-    "can_learn": true,
-    "required_proficiencies": [ "prof_gross_anatomy" ],
-    "time_to_learn": "30 m",
-    "default_weakpoint_bonus": 1,
-    "default_weakpoint_penalty": -2
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_wp_slime_advanced",
-    "category": "prof_weakpoint",
-    "name": { "str": "Slime detailed weaknesses" },
-    "description": "You've probably reached the pinnacle of slime weakness exploitation, but it has taken an enormous amount of combat to acquire it.",
-    "can_learn": true,
-    "time_to_learn": "1 h",
-    "required_proficiencies": [ "prof_wp_slime_basic" ],
-    "default_weakpoint_bonus": 2,
-    "default_weakpoint_penalty": -2
-  },
-  {
-    "type": "proficiency",
     "id": "prof_wp_triffid_basic",
     "category": "prof_weakpoint",
     "name": { "str": "Triffid basic anatomy" },
     "description": "Study of triffids has given you insights into their anatomy that allows you to aim for some weak spots.",
     "can_learn": true,
-    "required_proficiencies": [ "prof_gross_anatomy" ],
+    "required_proficiencies": [ "prof_intro_biology" ],
     "time_to_learn": "30 m",
     "default_weakpoint_bonus": 1,
     "default_weakpoint_penalty": -2

@@ -286,7 +286,7 @@ values.  This can change the mission target's overmap terrain type away from `om
 
 
 #### Variable Object
-Can be several differnet types of thing.  See the [NPCS](NPCS.md) document, section `Variable Object` for full details.
+Can be several differnet types of thing.  See the [NPCS](NPCs.md) document, section `Variable Object` for full details.
 
 #### update_mapgen
 The `update_mapgen` object or array provides a way to modify existing overmap tiles (including the ones created by "assign_mission_target") to add mission specific monsters, NPCs, computers, or items.

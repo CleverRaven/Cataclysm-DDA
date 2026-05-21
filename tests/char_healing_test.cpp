@@ -263,6 +263,22 @@ static float bandaged_rate( const std::string &bp_name, const float rest_quality
     return dummy.healing_rate_medicine( rest_quality, bp );
 }
 
+// Treatment to other parts should not affect healing rate of this part
+static float bandaged_rate_with_extras( const std::string &bp_name,
+                                        const std::vector<std::string> &extra_bps, const float rest_quality )
+{
+    avatar dummy;
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
+    const bodypart_id &bp = bodypart_id( bp_name );
+    dummy.add_effect( effect_bandaged, 1_turns, bp );
+    for( std::string const &sid : extra_bps ) {
+        const bodypart_id &bp = bodypart_id( sid );
+        dummy.add_effect( effect_bandaged, 1_turns, bp );
+        dummy.add_effect( effect_disinfected, 1_turns, bp );
+    }
+    return dummy.healing_rate_medicine( rest_quality, bp );
+}
+
 // Return `healing_rate_medicine` for a `disinfected` body part at a given rest quality
 static float disinfected_rate( const std::string &bp_name, const float rest_quality )
 {
@@ -341,6 +357,11 @@ TEST_CASE( "healing_rate_medicine_with_bandages_and/or_disinfectant", "[heal][ba
             CHECK( bandaged_rate( "leg_l", awake_rest ) == Approx( 2.0f * hp_per_day ) );
             CHECK( bandaged_rate( "leg_r", awake_rest ) == Approx( 2.0f * hp_per_day ) );
             CHECK( bandaged_rate( "torso", awake_rest ) == Approx( 3.0f * hp_per_day ) );
+
+            SECTION( "other bodyparts are also treated" ) {
+                CHECK( bandaged_rate_with_extras( "head", { "arm_l", "arm_r", "leg_l", "leg_r", "torso" },
+                                                  awake_rest ) == Approx( 1.0f * hp_per_day ) );
+            }
         }
 
         SECTION( "asleep" ) {

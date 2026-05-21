@@ -212,9 +212,9 @@
   {
     "type": "mutation",
     "id": "PSYCHIC_KNACK",
-    "name": { "str": "Psychic Knacks", "//~": "NO_I18N" },
+    "name": { "str": "Psychic Knacks" },
     "points": 0,
-    "description": { "str": "The school trait for knacks.  It shouldn't be visible.", "//~": "NO_I18N" },
+    "description": "The school trait for knacks.  It shouldn't be visible.",
     "valid": false,
     "player_display": false,
     "starting_trait": false,
@@ -277,11 +277,11 @@
     "purifiable": false,
     "enchantments": [
       {
-        "condition": { "not": "u_has_weapon" },
+        "condition": { "and": [ { "not": "u_has_weapon" }, { "not": { "u_has_flag": "NO_PSIONICS" } } ] },
         "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "u_skill('unarmed') / 2" ] } } ]
       },
       {
-        "condition": { "not": "u_has_weapon" },
+        "condition": { "and": [ { "not": "u_has_weapon" }, { "not": { "u_has_flag": "NO_PSIONICS" } } ] },
         "melee_damage_bonus": [ { "type": "bash", "multiply": { "math": [ "u_spell_level_sum('school': 'BIOKINETIC') * 0.01" ] } } ]
       }
     ]
@@ -323,7 +323,7 @@
     "id": "PSI_EXTENDED_CHANNELING",
     "name": { "str": "Extended Channeling" },
     "points": 0,
-    "description": "You can take more time and care in channeling your powers.  It will take 25x as long to evoke them, but it will be much easier to activate them and you will be less likely to gain Nether Attunement while doing so.",
+    "description": "You can take more time and care in channeling your powers.  It will take 5x as long to evoke them, but it will be much easier to activate them and you will be less likely to gain Nether Attunement while doing so.",
     "active": true,
     "activated_is_setup": true,
     "valid": false,
@@ -334,9 +334,9 @@
   {
     "type": "mutation",
     "id": "PSI_EXTENDED_CHANNELING_active",
-    "name": { "str": "Extended Channeling Active", "//~": "NO_I18N" },
+    "name": { "str": "Extended Channeling Active" },
     "points": 0,
-    "description": { "str": "The active trait for Extended Channeling.  It's a bug if you can see it.", "//~": "NO_I18N" },
+    "description": "The active trait for Extended Channeling.  It's a bug if you can see it.",
     "valid": false,
     "player_display": false
   },
@@ -351,15 +351,26 @@
     "valid": false,
     "purifiable": false,
     "activated_eocs": [ "EOC_PSI_TORRENTIAL_CHANNELING_ON" ],
-    "deactivated_eocs": [ "EOC_PSI_TORRENTIAL_CHANNELING_ON" ]
+    "deactivated_eocs": [ "EOC_PSI_TORRENTIAL_CHANNELING_OFF" ]
   },
   {
     "type": "mutation",
     "id": "PSI_TORRENTIAL_CHANNELING_active",
-    "name": { "str": "Torrential Channeling Active", "//~": "NO_I18N" },
+    "name": { "str": "Torrential Channeling Active" },
     "points": 0,
-    "description": { "str": "The active trait for Torrential Channeling.  It's a bug if you can see it.", "//~": "NO_I18N" },
+    "description": "The active trait for Torrential Channeling.  It's a bug if you can see it.",
     "valid": false,
     "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "FIFTH_SUN_CBM_INTERFACE",
+    "name": { "str": "Tonallichicahualizmeya" },
+    "points": 0,
+    "description": "You have a matrix in your central nervous system that acts as a universal control and installation bus for compact bionic modules.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "Cybernetic" ],
+    "cancels": [ "NO_CBM_INSTALLATION" ]
   }
 ]

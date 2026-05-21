@@ -10,6 +10,8 @@
 
 class Character;
 class item;
+class JsonOut;
+class JsonValue;
 class json_talk_topic;
 class npc;
 class time_duration;
@@ -17,11 +19,16 @@ class time_duration;
 namespace talk_function
 {
 
+// anything that can be taught with training_activity_actor
+// only one of the given IDs should ever have contents
 struct teach_domain {
     skill_id skill;
     matype_id style;
     spell_id spell;
     proficiency_id prof;
+    std::string to_string() const;
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( const JsonValue &jsin );
 };
 
 void nothing( npc & );
@@ -44,6 +51,7 @@ void bionic_install( npc & );
 void bionic_install_allies( npc & );
 void bionic_remove( npc & );
 void bionic_remove_allies( npc & );
+void repair_bionic_limbs( npc & );
 void dismount( npc & );
 void find_mount( npc & );
 
@@ -60,6 +68,7 @@ void do_mopping( npc & );
 void do_read( npc & );
 void do_eread( npc & );
 void do_read_repeatedly( npc & );
+void do_study( npc & );
 void do_chop_plank( npc & );
 void do_vehicle_deconstruct( npc & );
 void do_vehicle_repair( npc & );
@@ -74,6 +83,7 @@ void assign_guard( npc & );
 void assign_camp( npc & );
 void abandon_camp( npc & );
 void stop_guard( npc & );
+void return_to_camp_duties( npc & );
 void end_conversation( npc & );
 void insult_combat( npc & );
 void reveal_stats( npc & );

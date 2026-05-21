@@ -156,6 +156,9 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "IGNORE_LEG_REQUIREMENT", VPFLAG_IGNORE_LEG_REQUIREMENT },
     { "INOPERABLE_SMALL", VPFLAG_INOPERABLE_SMALL },
     { "IGNORE_HEIGHT_REQUIREMENT", VPFLAG_IGNORE_HEIGHT_REQUIREMENT },
+    { "MWS", VPFLAG_MWS },
+    { "ADVANCED_MWS", VPFLAG_ADVANCED_MWS },
+    { "NL_BOILER", VPFLAG_NL_BOILER },
 };
 
 static std::map<vpart_id, vpart_migration> vpart_migrations;
@@ -260,6 +263,12 @@ void vpart_info::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "folded_volume", folded_volume, std::nullopt );
     optional( jo, was_loaded, "size", size, 0_ml );
     optional( jo, was_loaded, "bonus", bonus, 0 );
+    if( jo.has_array( "light_color" ) ) {
+        JsonArray jarr = jo.get_array( "light_color" );
+        light_color.r = jarr.get_int( 0 ) / 255.0f;
+        light_color.g = jarr.get_int( 1 ) / 255.0f;
+        light_color.b = jarr.get_int( 2 ) / 255.0f;
+    }
     optional( jo, was_loaded, "cargo_weight_modifier", cargo_weight_modifier, 100 );
     optional( jo, was_loaded, "categories", categories, string_reader{} );
     optional( jo, was_loaded, "flags", flags, string_reader{} );
@@ -499,8 +508,15 @@ static bool gun_uses_liquid_ammo( const itype &guntype )
             return true;
         }
     }
-    for( const pocket_data &maybe_magwell : guntype.pockets ) {
-        for( const itype_id &restricted_types : maybe_magwell.item_id_restriction ) {
+    for( const pocket_data &pkt : guntype.pockets ) {
+        if( pkt.type == pocket_type::MAGAZINE ) {
+            for( const std::pair<const ammotype, int> &res : pkt.ammo_restriction ) {
+                if( res.first->default_ammotype()->phase == phase_id::LIQUID ) {
+                    return true;
+                }
+            }
+        }
+        for( const itype_id &restricted_types : pkt.item_id_restriction ) {
             for( const pocket_data &maybe_mag : restricted_types.obj().pockets ) {
                 for( const std::pair<const ammotype, int> &res : maybe_mag.ammo_restriction ) {
                     if( res.first->default_ammotype()->phase == phase_id::LIQUID ) {
@@ -566,7 +582,7 @@ void vehicles::parts::finalize()
 {
     vpart_info_factory.finalize();
 
-    for( const itype *const item : item_controller->find( mountable_gun_filter ) ) {
+    for( const itype *const item : Item_factory::find( mountable_gun_filter ) ) {
         vpart_info new_part = *vpart_turret_generic; // copy from generic
         const itype_id item_id = item->get_id();
 
@@ -1251,6 +1267,8 @@ static std::pair<std::string, std::string> get_vpart_str_variant( const std::str
            : std::make_pair( vpid.substr( 0, loc ), vpid.substr( loc + 1 ) );
 }
 
+namespace
+{
 struct veh_proto_part_def_reader : generic_typed_reader<veh_proto_part_def_reader> {
     point_rel_ms pos;
 
@@ -1293,6 +1311,7 @@ struct veh_spawn_item_reader : generic_typed_reader<veh_spawn_item_reader> {
         return ret;
     }
 };
+} // namespace
 
 void vehicle_item_spawn::deserialize( const JsonObject &jo )
 {

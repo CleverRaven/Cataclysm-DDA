@@ -43,6 +43,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
+#include "item_location.h"
 #include "itype.h"
 #include "json.h"
 #include "map.h"
@@ -175,10 +176,13 @@ static const std::string camp_upgrade_expansion_npc_string = "_faction_upgrade_e
 static const std::string caravan_commune_center_job_assign_parameter = "Assign";
 static const std::string caravan_commune_center_job_active_parameter = "Active";
 
+namespace
+{
 struct miss_data {
     std::string serialize_id;  // Serialized string for enum
     translation action;        // Optional extended UI description of task for return.
 };
+} // namespace
 namespace io
 {
 
@@ -1424,7 +1428,7 @@ void talk_function::caravan_return( npc &p, const std::string &dest, const missi
             popup( _( "A bandit party approaches the caravan in the open!" ) );
             force_on_force( caravan_party, "caravan", bandit_party, "band", 1 );
         } else if( one_in( 3 ) ) {
-            popup( _( "A bandit party attacks the caravan while it it's camped!" ) );
+            popup( _( "A bandit party attacks the caravan while it's camped!" ) );
             force_on_force( caravan_party, "caravan", bandit_party, "band", 2 );
         } else {
             popup( _( "The caravan walks into a bandit ambush!" ) );
@@ -1436,7 +1440,7 @@ void talk_function::caravan_return( npc &p, const std::string &dest, const missi
     for( const auto &elem : caravan_party ) {
         //Scrub temporary party members and the dead
         if( elem->get_part_hp_cur( bodypart_id( "torso" ) ) == 0 && elem->has_companion_mission() ) {
-            overmap_buffer.remove_npc( comp->getID() );
+            overmap_buffer.remove_npc( elem->getID() );
             merch_amount += ( time / 600 ) * 4;
         } else if( elem->has_companion_mission() ) {
             merch_amount += ( time / 600 ) * 7;
@@ -1549,9 +1553,10 @@ npc_ptr talk_function::temp_npc( const string_id<npc_template> &type )
 void talk_function::field_plant( npc &p, const std::string &place )
 {
     Character &player_character = get_player_character();
-    std::vector<item *> seed_inv = player_character.cache_get_items_with( "is_seed", &item::is_seed,
-    []( const item & itm ) {
-        return itm.typeId() != itype_marloss_seed && itm.typeId() != itype_fungal_seeds;
+    std::vector<item_location> seed_inv = player_character.cache_get_items_with( "is_seed",
+                                          &item::is_seed,
+    []( const item_location & itm ) {
+        return itm->typeId() != itype_marloss_seed && itm->typeId() != itype_fungal_seeds;
     } );
     if( seed_inv.empty() ) {
         popup( _( "You have no seeds to plant." ) );
@@ -1563,7 +1568,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
 
     std::vector<itype_id> seed_types;
     std::vector<std::string> seed_names;
-    for( item *&seed : seed_inv ) {
+    for( item_location &seed : seed_inv ) {
         if( std::find( seed_types.begin(), seed_types.end(), seed->typeId() ) == seed_types.end() ) {
             seed_types.push_back( seed->typeId() );
             seed_names.push_back( seed->tname() );
@@ -2695,7 +2700,10 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
     for( const npc_ptr &e : available ) {
         std::string npc_desc;
         bool can_do = true;
-        if( e->mission == NPC_MISSION_GUARD_ALLY ) {
+        if( e->mission == NPC_MISSION_CAMP_RESIDENT ) {
+            //~ %1$s: npc name
+            npc_desc = string_format( pgettext( "companion", "%1$s (Camp resident)" ), e->get_name() );
+        } else if( e->mission == NPC_MISSION_GUARD_ALLY ) {
             //~ %1$s: npc name
             npc_desc = string_format( pgettext( "companion", "%1$s (Guarding)" ), e->get_name() );
         } else {

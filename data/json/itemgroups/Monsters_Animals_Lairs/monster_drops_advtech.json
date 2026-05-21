@@ -54,16 +54,6 @@
   },
   {
     "type": "item_group",
-    "id": "molebot",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "spiked_plate", "prob": 15 },
-      { "item": "hard_plate", "prob": 30 },
-      { "item": "robot_controls", "prob": 5 }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "turret",
     "subtype": "distribution",
     "entries": [ { "item": "9mm", "prob": 8 } ]
@@ -133,7 +123,7 @@
       { "item": "wood_panel", "count": 1 },
       { "item": "2x4", "count": 4 },
       { "item": "nail", "charges": [ 8, 10 ] },
-      { "item": "cable", "charges": [ 3, 4 ] }
+      { "item": "cable", "count": [ 3, 4 ] }
     ]
   }
 ]

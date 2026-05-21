@@ -298,7 +298,7 @@
     "id": "mon_test_speed_desc_base_immobile",
     "copy-from": "mon_test_speed_desc_base",
     "name": { "str_sp": "immobile monster" },
-    "flags": "IMMOBILE"
+    "flags": [ "IMMOBILE" ]
   },
   {
     "type": "MONSTER",

@@ -2,6 +2,7 @@ name: Auto request review
 
 
 on:
+  # No user data interpolation happening, safe for pull_request_target.
   pull_request_target:
     types: [opened, synchronize, ready_for_review, reopened]
 

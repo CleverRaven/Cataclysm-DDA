@@ -10,5 +10,49 @@
     "type": "requirement",
     "//": "This should contain all weak acids, based on pKa value.",
     "components": [ [ [ "chem_acetic_acid", 1 ], [ "formic_acid", 1 ] ] ]
+  },
+  {
+    "id": "any_weak_acid",
+    "type": "requirement",
+    "//": "This should contain all weak acids, based on pKa value.",
+    "components": [ [ [ "chem_acetic_acid", 1 ], [ "formic_acid", 1 ], [ "chem_citric_acid", 1 ] ] ]
+  },
+  {
+    "id": "flux",
+    "type": "requirement",
+    "//": "Borax flux for use in Cu/Fe/Ag/Au brazing, welding, and forging, such as fluxing copper, iron, gold, or silver. One unit of flux covers 10cm^2 area of joining. For brazing, ~15g per 100g of product should be used.",
+    "components": [ [ [ "chem_borax", 1 ] ] ]
+  },
+  {
+    "id": "flux_fe_forge",
+    "type": "requirement",
+    "//": "Iron/Steel forging flux. One spoonful of flux covers 50cm^2 area of joining.",
+    "components": [ [ [ "flux", 1, "LIST" ], [ "flux_ash", 1 ] ] ]
+  },
+  {
+    "id": "flux_fe_smelt",
+    "type": "requirement",
+    "//": "Iron/Steel smelting flux. ",
+    "components": [ [ [ "flux", 1, "LIST" ], [ "chem_caco3", 50 ] ] ]
+  },
+  {
+    "id": "metal_lube",
+    "type": "requirement",
+    "//": "Hi-temp lubricant for metal chains and parts, such as flatjaw tongs. makes a very thin coating. 1mL is enough to cover 1ft^2 or .1m^2 of material.",
+    "components": [ [ [ "graphite", 50 ] ] ]
+  },
+  {
+    "id": "metal_punch",
+    "type": "requirement",
+    "//": "Drifts are used for punching for some reason in CDDA. This requirement reflects that a drift is required, and so is high temp metal lubricant.",
+    "tools": [ [ [ "drift", -1 ] ] ],
+    "components": [ [ [ "metal_lube", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "bronze_punch",
+    "type": "requirement",
+    "//": "This punch recipe is for the nail punch and regular steel drift, for use on bronze items. A bronze punch/drift should be added here if ti becomes an item.",
+    "tools": [ [ [ "drift", -1 ], [ "punch_nail", -1 ] ] ],
+    "components": [ [ [ "metal_lube", 1, "LIST" ] ] ]
   }
 ]

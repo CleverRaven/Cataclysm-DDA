@@ -45,8 +45,8 @@
   {
     "type": "mutation",
     "id": "EARTHSHAPER_STONE_SLEEP",
-    "name": { "str": "Stony Sleep", "//~": "NO_I18N" },
-    "description": { "str": "You are resting in the depths of the earth.  You should never actually see this.", "//~": "NO_I18N" },
+    "name": { "str": "Stony Sleep" },
+    "description": "You are resting in the depths of the earth.  You should never actually see this.",
     "player_display": false,
     "points": 0,
     "enchantments": [
@@ -85,8 +85,8 @@
   {
     "type": "mutation",
     "id": "ANIMIST_BODY_OF_SPIRIT_APPEARANCE",
-    "name": { "str": "Body of Spirit", "//~": "NO_I18N" },
-    "description": { "str": "You're a disembodied spirit so you're all glowy and blue.  Spooky!", "//~": "NO_I18N" },
+    "name": { "str": "Body of Spirit" },
+    "description": "You're a disembodied spirit so you're all glowy and blue.  Spooky!",
     "points": 0,
     "valid": false,
     "player_display": false,

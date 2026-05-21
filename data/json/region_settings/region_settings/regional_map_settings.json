@@ -39,7 +39,7 @@
       "deep_rock"
     ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
-    "feature_flag_settings": { "blacklist": [  ], "whitelist": [  ] },
+    "feature_flag_settings": { "blacklist": [ "EXTRADIMENSIONAL" ], "whitelist": [  ] },
     "connections": {
       "intra_city_road_connection": "local_road",
       "inter_city_road_connection": "local_road",
@@ -52,7 +52,7 @@
   {
     "type": "region_settings_river",
     "id": "default",
-    "river_scale": 1.0,
+    "river_scale": 1,
     "river_frequency": 1.5,
     "river_branch_chance": 64.0,
     "river_branch_remerge_chance": 2.0,
@@ -81,17 +81,14 @@
     "ocean_start_north": 500,
     "ocean_start_east": 10,
     "ocean_start_west": 1000,
-    "ocean_start_south": 0,
+    "ocean_start_south": null,
     "sandy_beach_width": 6
   },
   {
     "type": "region_settings_highway",
     "id": "default",
-    "grid_column_seperation": 10,
-    "grid_row_seperation": 8,
     "width_of_segments": 2,
     "straightness_chance": 0.6,
-    "intersection_max_radius": 2,
     "reserved_terrain_id": "hw_reserved",
     "reserved_terrain_water_id": "hw_reserved_water",
     "segment_ramp_special": "highway_segment_ramp",
@@ -175,7 +172,6 @@
       "campsite_field_biker",
       "campsite_field_biker_destroyed",
       "cave",
-      "central_lab_entrance",
       "corpse_tentacle_surface_entry",
       "derelict_property",
       "desolatebarn",
@@ -366,6 +362,8 @@
   {
     "type": "region_settings_city",
     "id": "default",
+    "city_size": 8,
+    "city_spacing": 4,
     "shop_radius": 30,
     "shop_sigma": 50,
     "park_radius": 20,
@@ -463,7 +461,6 @@
       [ "house_29", 50 ],
       [ "house_30", 50 ],
       [ "house_31", 50 ],
-      [ "basement_hidden_lab_entrance", 50 ],
       [ "house_32", 50 ],
       [ "house_33", 50 ],
       [ "house_34", 50 ],
@@ -690,6 +687,7 @@
       [ "office_doctor_2", 200 ],
       [ "office_dentist", 200 ],
       [ "office_tower_collapsed", 250 ],
+      [ "office_warehouse_anduril", 250 ],
       [ "s_restaurant_fast", 400 ],
       [ "s_restaurant_fast_1", 400 ],
       [ "s_restaurant_fast_2", 400 ],
@@ -802,7 +800,6 @@
       [ "office_tower_2", 150 ],
       [ "office_skyscraper", 300 ],
       [ "office_tower_large", 300 ],
-      [ "office_tower_hiddenlab", 50 ],
       [ "mall", 200 ],
       [ "home_improvement_superstore_new", 150 ],
       [ "lumberyard", 75 ],
@@ -830,13 +827,32 @@
     ]
   },
   {
+    "type": "region_settings_city",
+    "id": "no_cities",
+    "city_size": 0,
+    "city_spacing": 0,
+    "shop_radius": 0,
+    "shop_sigma": 0,
+    "park_radius": 0,
+    "park_sigma": 0,
+    "houses": [  ],
+    "parks": [  ],
+    "shops": [  ]
+  },
+  {
     "type": "map_extra_collection",
     "id": "forest",
     "chance": 40,
     "extras": [
-      [ "mx_blackberry_patch", 1000 ],
+      [ "mx_blackberry_patch", 450 ],
       [ "mx_point_dead_vegetation", 500 ],
       [ "mx_point_burned_ground", 500 ],
+      [ "mx_strawberry_patch", 180 ],
+      [ "mx_blueberry_patch", 180 ],
+      [ "mx_raspberry_patch", 180 ],
+      [ "mx_huckleberry_patch", 180 ],
+      [ "mx_hobblebush_patch", 180 ],
+      [ "mx_autumn_olive_patch", 180 ],
       [ "mx_grove", 500 ],
       [ "mx_shrubbery", 500 ],
       [ "mx_spider", 200 ],
@@ -871,11 +887,17 @@
     "id": "forest_thick",
     "chance": 30,
     "extras": [
-      [ "mx_blackberry_patch", 65000 ],
+      [ "mx_blackberry_patch", 22500 ],
       [ "mx_grove", 25000 ],
       [ "mx_shrubbery", 25000 ],
       [ "mx_point_dead_vegetation", 25000 ],
       [ "mx_point_burned_ground", 25000 ],
+      [ "mx_strawberry_patch", 7500 ],
+      [ "mx_blueberry_patch", 7500 ],
+      [ "mx_raspberry_patch", 7500 ],
+      [ "mx_huckleberry_patch", 7500 ],
+      [ "mx_hobblebush_patch", 7500 ],
+      [ "mx_autumn_olive_patch", 7500 ],
       [ "mx_clearcut", 6250 ],
       [ "mx_pond", 6250 ],
       [ "mx_pond_forest", 6250 ],
@@ -896,6 +918,7 @@
       [ "mx_military", 400 ],
       [ "mx_science", 250 ],
       [ "mx_mass_grave", 250 ],
+      [ "mx_mass_grave_jabberwock", 5 ],
       [ "mx_portal", 150 ],
       [ "mx_portal_in", 150 ],
       [ "mx_exocrash_1", 50 ],
@@ -950,12 +973,15 @@
       [ "mx_pond", 150 ],
       [ "mx_nest_wasp", 50 ],
       [ "mx_mass_grave", 50 ],
+      [ "mx_mass_grave_jabberwock", 1 ],
       [ "mx_grave", 50 ],
       [ "mx_supplydrop", 4 ],
       [ "mx_Trapdoor_spider_den", 40 ],
       [ "mx_collegekids", 30 ],
       [ "mx_drugdeal", 30 ],
       [ "mx_corpses", 30 ],
+      [ "mx_finalshowdown", 20 ],
+      [ "mx_dermatikvictim", 10 ],
       [ "mx_worm_sign", 20 ],
       [ "mx_toxic_waste", 10 ],
       [ "mx_portal", 10 ],
@@ -977,7 +1003,7 @@
     "type": "map_extra_collection",
     "id": "ocean_shore",
     "chance": 1,
-    "extras": [ [ "mx_sandy_beach", 100 ] ]
+    "extras": [ [ "mx_sandy_beach", 100 ], [ "mx_tidal_flat", 5 ] ]
   },
   {
     "type": "map_extra_collection",
@@ -1015,7 +1041,7 @@
     "type": "map_extra_collection",
     "id": "road_nesw_manhole",
     "chance": 20,
-    "extras": [ [ "mx_city_trap", 1 ], [ "mx_laststand", 1 ] ]
+    "extras": [ [ "mx_laststand", 1 ] ]
   },
   {
     "type": "map_extra_collection",
@@ -1088,7 +1114,7 @@
     "type": "map_extra_collection",
     "id": "river",
     "chance": 1,
-    "extras": [ [ "mx_null", 66 ], [ "mx_riverside_boat", 1 ], [ "mx_reed", 33 ] ]
+    "extras": [ [ "mx_null", 66 ], [ "mx_riverside_boat", 1 ], [ "mx_riverside_jetski", 1 ], [ "mx_reed", 33 ] ]
   },
   {
     "type": "map_extra_collection",
@@ -1106,6 +1132,7 @@
       [ "mx_casings", 200 ],
       [ "mx_nest_wasp", 50 ],
       [ "mx_mass_grave", 50 ],
+      [ "mx_mass_grave_jabberwock", 2 ],
       [ "mx_grave", 50 ],
       [ "mx_supplydrop", 2 ],
       [ "mx_Trapdoor_spider_den", 40 ],
@@ -1168,6 +1195,7 @@
       "default_t_region_tree",
       "default_t_region_tree_shade",
       "default_t_region_tree_fruit",
+      "default_t_region_tree_fruit_wild",
       "default_t_region_tree_dead",
       "default_t_region_tree_nut",
       "default_t_region_tree_evergreen",
@@ -1230,13 +1258,14 @@
     "id": "default_t_region_shrub_forest_dense",
     "ter_id": "t_region_shrub_forest_dense",
     "replace_with_terrain": [
-      [ "t_underbrush", 30 ],
-      [ "t_shrub", 10 ],
-      [ "t_fern", 5 ],
+      [ "t_underbrush", 450 ],
+      [ "t_shrub", 150 ],
+      [ "t_fern", 75 ],
       [ "t_shrub_hobblebush", 2 ],
-      [ "t_shrub_blueberry", 2 ],
-      [ "t_shrub_raspberry", 2 ],
       [ "t_shrub_huckleberry", 2 ],
+      [ "t_shrub_raspberry", 1 ],
+      [ "t_shrub_blackberry", 1 ],
+      [ "t_shrub_blueberry", 1 ],
       [ "t_shrub_strawberry", 1 ],
       [ "t_shrub_grape", 1 ]
     ]
@@ -1246,7 +1275,7 @@
     "id": "default_t_region_shrub_forest",
     "ter_id": "t_region_shrub_forest",
     "replace_with_terrain": [
-      [ "t_region_shrub_forest_dense", 65 ],
+      [ "t_region_shrub_forest_dense", 350 ],
       [ "t_shrub_rose", 5 ],
       [ "t_shrub_blackberry", 5 ],
       [ "t_shrub_autumn_olive", 5 ]
@@ -1257,7 +1286,7 @@
     "id": "default_t_region_shrub_plains",
     "ter_id": "t_region_shrub_plains",
     "replace_with_terrain": [
-      [ "t_shrub", 10 ],
+      [ "t_shrub", 50 ],
       [ "t_shrub_blueberry", 2 ],
       [ "t_shrub_autumn_olive", 2 ],
       [ "t_shrub_blackberry", 2 ],
@@ -1322,6 +1351,8 @@
   {
     "type": "region_terrain_furniture",
     "id": "default_t_region_tree_forest_dense",
+    "//": "Tree coverage data here: https://www.fs.usda.gov/nrs/pubs/rb/rb_nrs125.pdf",
+    "//2": "Total acreage coverage data here: https://public.tableau.com/views/FIA_FiveYearReports_NE_Area_1/ForestTypeArea?:showVizHome=no",
     "ter_id": "t_region_tree_forest_dense",
     "replace_with_terrain": [
       [ "t_tree", 18 ],
@@ -1333,8 +1364,6 @@
       [ "t_tree_beech", 7 ],
       [ "t_tree_cottonwood", 4 ],
       [ "t_tree_elm", 4 ],
-      [ "t_tree_cherry", 4 ],
-      [ "t_tree_plum", 2 ],
       [ "t_tree_sassafras", 1 ],
       [ "t_region_tree_dead", 5 ],
       [ "t_region_tree_forest_other", 5 ]
@@ -1350,15 +1379,7 @@
       [ "t_tree_chestnut", 10 ],
       [ "t_tree_basswood", 10 ],
       [ "t_tree_hazelnut", 10 ],
-      [ "t_tree_crabapple", 8 ],
-      [ "t_tree_apple", 2 ],
-      [ "t_tree_coffee", 1 ],
-      [ "t_tree_apricot", 2 ],
-      [ "t_tree_peach", 1 ],
-      [ "t_tree_pear", 1 ],
-      [ "t_tree_elderberry", 10 ],
-      [ "t_tree_nannyberry", 10 ],
-      [ "t_tree_mulberry", 10 ],
+      [ "t_region_tree_fruit_wild", 20 ],
       [ "t_tree_sassafras", 2 ],
       [ "t_tree_juniper", 5 ]
     ]
@@ -1373,36 +1394,24 @@
     "type": "region_terrain_furniture",
     "id": "default_t_region_tree",
     "ter_id": "t_region_tree",
+    "//": "t_tree_hickory remains separate here from t_region_tree_nut because hickory mixed in with oak trees are some of the most common tree stands in Massachusetts forests",
     "replace_with_terrain": [
       [ "t_tree", 128 ],
       [ "t_tree_young", 128 ],
       [ "t_tree_birch", 16 ],
       [ "t_tree_elm", 16 ],
-      [ "t_tree_cottonwood", 16 ],
+      [ "t_tree_cottonwood", 8 ],
       [ "t_tree_basswood", 16 ],
       [ "t_tree_alder", 16 ],
-      [ "t_tree_pine", 32 ],
+      [ "t_tree_pine", 64 ],
       [ "t_tree_maple", 32 ],
       [ "t_tree_willow", 32 ],
-      [ "t_tree_hickory", 16 ],
-      [ "t_tree_walnut", 8 ],
-      [ "t_tree_butternut", 4 ],
-      [ "t_tree_chestnut", 8 ],
-      [ "t_tree_hazelnut", 2 ],
+      [ "t_tree_hickory", 4 ],
+      [ "t_region_tree_nut", 16 ],
+      [ "t_tree_spruce", 8 ],
       [ "t_tree_beech", 2 ],
       [ "t_tree_blackjack", 8 ],
-      [ "t_tree_coffee", 2 ],
-      [ "t_tree_crabapple", 2 ],
-      [ "t_tree_apple", 1 ],
-      [ "t_tree_apricot", 1 ],
-      [ "t_tree_cherry", 1 ],
-      [ "t_tree_juniper", 2 ],
-      [ "t_tree_peach", 1 ],
-      [ "t_tree_pear", 1 ],
-      [ "t_tree_plum", 1 ],
-      [ "t_tree_elderberry", 2 ],
-      [ "t_tree_nannyberry", 2 ],
-      [ "t_tree_mulberry", 2 ],
+      [ "t_region_tree_fruit_wild", 4 ],
       [ "t_tree_sassafras", 3 ],
       [ "t_region_tree_dead", 48 ]
     ]
@@ -1424,7 +1433,6 @@
       [ "t_tree_hickory", 16 ],
       [ "t_tree_chestnut", 8 ],
       [ "t_tree_blackjack", 8 ],
-      [ "t_tree_coffee", 2 ],
       [ "t_tree_elderberry", 2 ],
       [ "t_tree_mulberry", 2 ],
       [ "t_tree_sassafras", 3 ],
@@ -1444,6 +1452,20 @@
       [ "t_tree_peach", 2 ],
       [ "t_tree_pear", 2 ],
       [ "t_tree_plum", 2 ],
+      [ "t_tree_elderberry", 2 ],
+      [ "t_tree_nannyberry", 2 ],
+      [ "t_tree_mulberry", 2 ],
+      [ "t_tree_dead", 4 ]
+    ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_tree_fruit_wild",
+    "ter_id": "t_region_tree_fruit_wild",
+    "replace_with_terrain": [
+      [ "t_tree_young", 4 ],
+      [ "t_tree_crabapple", 2 ],
+      [ "t_tree_juniper", 2 ],
       [ "t_tree_elderberry", 2 ],
       [ "t_tree_nannyberry", 2 ],
       [ "t_tree_mulberry", 2 ],
@@ -1475,7 +1497,6 @@
       [ "t_tree_young", 4 ],
       [ "t_tree_beech", 2 ],
       [ "t_tree_hazelnut", 2 ],
-      [ "t_tree_coffee", 2 ],
       [ "t_tree_dead", 4 ]
     ]
   },
@@ -1483,7 +1504,7 @@
     "type": "region_terrain_furniture",
     "id": "default_t_region_tree_evergreen",
     "ter_id": "t_region_tree_evergreen",
-    "replace_with_terrain": [ [ "t_tree_pine", 32 ], [ "t_tree_juniper", 16 ], [ "t_tree_deadpine", 2 ] ]
+    "replace_with_terrain": [ [ "t_tree_pine", 32 ], [ "t_tree_juniper", 16 ], [ "t_tree_deadpine", 2 ], [ "t_tree_spruce", 2 ] ]
   },
   {
     "type": "region_terrain_furniture",
@@ -1637,11 +1658,11 @@
   {
     "type": "weather_generator",
     "id": "default",
-    "base_temperature": 6.5,
+    "base_temperature": 11.1,
     "base_humidity": 70.0,
     "base_pressure": 1015.0,
     "base_wind": 3.4,
     "base_wind_distrib_peaks": 80,
-    "base_wind_season_variation": 50
+    "base_wind_season_variation": 0
   }
 ]

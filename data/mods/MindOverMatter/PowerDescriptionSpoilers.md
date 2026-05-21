@@ -75,7 +75,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 <summary><h3>Hardened Skin (C)</h3></summary>
 
 *Difficulty*: 4
-*Duration*: 5 minutes and 56 seconds to 11 minutes and 33 seconds, plus 1 minute 26 seconds to to 4 minutes and 4 seconds per level.<br />
+*Duration*: 5 minutes and 56 seconds to 11 minutes and 33 seconds, plus 1 minute 26 seconds to 4 minutes and 4 seconds per level.<br />
 *Stamina Cost*: 2500, minus 125 per level to a minimum of 750<br />
 *Channeling Time*: 150 moves, minus 8.5 moves per level to a minimum of 50.<br />
 *Effects*: Increases piercing armor by 3, bashing armor by 6, and cutting armor by 4.  Also makes the psion immune to bleeding from wounds received during its duration (previous bleeding is unaffected) and reduces incoming pain by 2% per level.<br />
@@ -148,7 +148,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 45 minutes to 112 minutes and 30 seconds, plus 4 minutes 10 seconds to 8 minutes 20 seconds per level<br />
 *Stamina Cost*: 8000, minus 250 per level to a minimum of 4000<br />
 *Channeling Time*: 250 moves, minus 13 moves per level to a minimum of 50<br />
-*Effects*: Greatly increases the psion’s metabolic efficiency.  fatigue grows 25% more slowly and the basal metabolic rate is reduced by 10%.  The fatigue reduction increase by 2% per level to a maximum of 70% increase, and the reduction to metabolic rate increases by 1% per level to a maximum of 40%.  In the addition, the psion can extract more calories and vitmins from food, gain 33% more of each plus 7% per power level, to a maximum of 4x the base caloric and vitamin content.  This applies to all vitamins, including harmful ones.<br />
+*Effects*: Greatly increases the psion’s metabolic efficiency.  fatigue grows 25% more slowly and the basal metabolic rate is reduced by 10%.  The fatigue reduction increase by 2% per level to a maximum of 70% increase, and the reduction to metabolic rate increases by 1% per level to a maximum of 40%.  In the addition, the psion can extract more calories and vitamins from food, gain 33% more of each plus 7% per power level, to a maximum of 4x the base caloric and vitamin content.  This applies to all vitamins, including harmful ones.<br />
 *Prerequisites*: Temperature Adaptability 8, Adrenaline Trigger 6 *or* Physical Enhancement 12<br />
 </details>
 <details>
@@ -164,7 +164,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 - With Burst of Speed: Move 25% further plus 3% per power level.
 - With Flexibility: Dodge skill is increased by 4, plus 1 per power level.
 - With Adrenaline Trigger: Cardio multiplier increases by 15% + 1.5% per power level.
-- With Hardened Skin: The bonues from hardened skin are increased by 50% plus 4% per power level, to a maximum of double the base bonus. Also, the psion is immune to being dazed or stunned. 
+- With Hardened Skin: The bonuses from hardened skin are increased by 50% plus 4% per power level, to a maximum of double the base bonus. Also, the psion is immune to being dazed or stunned. 
 - With Hammerhand: The psion does 25% additional bash damage with unarmed attacks, plus 3% per power level, as well as an increased chance to directly pulp the corpse of your target.
 - With Enhance Mobility: The psion gains Uncanny Dodge.
 - With Heightened Reflexes: Move cost is reduced by 10% plus 2% per power level, to a maximum of 50%, and recoil reduced by 30. In addition, the psions gains 1 bonus dodge, plus 1 per 8 power levels.
@@ -294,7 +294,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: Instant or 30 minutes to 1 hour 15 minutes<br />
 *Stamina Cost*: 4500, minus 125 per level to a minimum of 2000<br />
 *Channeling Time*: 250 moves, minus 4.5 moves per level to a minimum of 100<br />
-*Effects*: Sense nearby radiation, either on the psion themselves (instant duration) or in their surrounding environment.  Radiation sense on the psion provides an idea of how much radiation they are suffering from; radiation sense on the environment reveals only its presence or absense.<br />
+*Effects*: Sense nearby radiation, either on the psion themselves (instant duration) or in their surrounding environment.  Radiation sense on the psion provides an idea of how much radiation they are suffering from; radiation sense on the environment reveals only its presence or absence.<br />
 *Prerequisites*: Special (must be studied from notes)<br />
 </details>
 <details>
@@ -331,7 +331,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Prerequisites*: Heightened Senses 8, Premonition 6, Aura Sight 5<br />
 </details>
 <details>
-<summary><h3>Clairyovance</h3></summary>
+<summary><h3>Clairvoyance</h3></summary>
 
 *Difficulty*: 5<br />
 *Target*: 2 squares plus 1.2 squares per power level to a maximum of 80 squares, with an area of effect of 1.5 squares plus 1.2 squares per power level to a maximum of 50 squares<br />
@@ -349,8 +349,8 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 2 minutes to 7 minutes and 30 seconds, plus 9 seconds to 17 seconds per level<br />
 *Stamina Cost*: 5500, minus 145 per level to a minimum of 2750<br />
 *Channeling Time*: 150 moves, minus 9 moves per level to a minimum of 70<br />
-*Effects*: Gaze a short time into the future to predict enemy movements.  Grants a 25% chance to avoid any damage from an attack plus 1.5% per power level to a maximum of a 70% chance, prevents the psion from being grabbed, and applies the HARDTOHIT flag.  It also increases your effective dodge skill by 1 per 2 power levels.<br />
-*Prerequisites*: Premonition 10 *or* Sense Hostility 5, Speed Reader 10 *or* Discern Weakness 6, Clairyovance 6<br />
+*Effects*: Gaze a short time into the future to predict enemy movements.  Grants a 25% chance to avoid damage from ranged attacks plus 1.5% per power level to a maximum of a 95% chance, prevents the psion from being grabbed, and applies the HARDTOHIT flag.  It also increases your effective dodge skill by 1 per 2 power levels and provides 1 bonus dodge +1 per five power levels.<br />
+*Prerequisites*: Premonition 10 *or* Sense Hostility 5, Speed Reader 10 *or* Discern Weakness 6, Clairvoyance 6<br />
 </details>
 <details>
 <summary><h3>Intuitive Artisan (C)</h3></summary>
@@ -382,7 +382,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: Instant<br />
 *Stamina Cost*: 9000<br />
 *Channeling Time*: 60 seconds<br />
-*Effects*: The psion gains a bird's eye (or mole's eye) view of surrouding terrain, revealing all locations within the power's radius.<br />
+*Effects*: The psion gains a bird's eye (or mole's eye) view of surrounding terrain, revealing all locations within the power's radius.<br />
 *Prerequisites*: Clairvoyance 8, Premonition 6 *or* Aura Sight 6<br />
 </details>
 <details>
@@ -865,6 +865,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Excite air molecules and unleash a flash of light, blinding nearby targets for the power's duration.<br />
 *Prerequisites*: Starting power<br />
 </details>
+<details>
 <summary><h3>Intensify Flames</h3></summary>
 
 *Difficulty*: 1<br />
@@ -1551,7 +1552,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Instant<br />
 *Stamina Cost*: 6000, minus 200 per level to a minimum of 3000<br />
 *Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75<br />
-*Effects*: Allows the psion to teleport to a locus that they are maintaining with Loci Establishment, does nothing if not maintaining a locus. Loci Technique and Loci Establishment are learned from contemplating Loci Establishment but have separate practice meditations.<br />
+*Effects*: Allows the psion to teleport to a locus that they are maintaining with Loci Establishment, does nothing if not maintaining a locus. Loci Technique and Loci Establishment are learned from contemplating Loci Establishment but have separate practice meditations.  The psion may always teleport themselves, and can carry 8L of gear, plus 5L per power level.<br />
 *Prerequisites*: Extended Stride 6, Farstep 6 (Learned with Loci Establishment)<br />
 </details>
 <details>
@@ -1778,6 +1779,17 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Channeling Time*: 250 moves, minus 8 moves per level to a minimum of 100<br />
 *Effects*: Clean the psion's blood of all foreign substances or chemicals. Applies the cureall effect, the same as from Panacea, and also remove all mutagen as well.<br />
 *Prerequisites*: Revitalizing Meditation 6, Allay Infection 8 *or* Detoxification 8<br />
+</details>
+<details>
+<summary><h3>Selective Autosomnia (C)</h3></summary>
+
+*Difficulty*: 7<br />
+*Target*: Self<br />
+*Duration*: 32 minutes and 30 seconds to 1 hour and 19 minutes and 40 seconds, plus 5 minutes and 40 seconds to 13 minutes and 10 seconds per power level<br />
+*Stamina Cost*: 9500, minus 205 per level to a minimum of 5550<br />
+*Channeling Time*: 150 moves, minus 5 moves per level to a minimum of 50<br />
+*Effects*: Selectively put parts of the psion's brain to sleep in sequence, allowing rest to occur while remaining conscious. However, concentration suffers somewhat, providing a penalty to learning focus (-15) and social skills (50% of normal).<br />
+*Prerequisites*: Wakeful Rest 10, Revitalizing Meditation 6<br />
 </details>
 <details>
 <summary><h3>Banish Illness</h3></summary>

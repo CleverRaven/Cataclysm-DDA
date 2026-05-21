@@ -449,5 +449,12 @@
       { "u_deal_damage": "pure", "amount": 100000, "bodypart": "torso" },
       { "u_message": "You touch the snail and die instantly." }
     ]
+  },
+  {
+    "id": "mon_chud",
+    "type": "MONSTER",
+    "name": { "str": "feral gamer" },
+    "description": "This person has been without their games for far too long and gone mad, joining the side of the zombies.  With years spent hidden from the sun in the gamer zone having transformed them into some kind of subterranean monster, their hygiene is somehow even worse than that of the undead.",
+    "copy-from": "mon_chud"
   }
 ]

@@ -33,10 +33,13 @@
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_iterator.h"
 #include "map_selector.h"
 #include "mapdata.h"
 #include "npc.h"
+#include "options_helpers.h"
 #include "output.h"
+#include "overmap_ui.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "player_helpers.h"
@@ -58,6 +61,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "weather_type.h"
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 
@@ -67,6 +71,7 @@ static const flag_id json_flag_ITEM_BROKEN( "ITEM_BROKEN" );
 static const flag_id json_flag_USE_UPS( "USE_UPS" );
 
 static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
+static const furn_str_id furn_f_solar_cooker( "f_solar_cooker" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_UPS_ON( "UPS_ON" );
@@ -90,6 +95,7 @@ static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_dehydrator( "dehydrator" );
 static const itype_id itype_eink_tablet_pc( "eink_tablet_pc" );
 static const itype_id itype_fake_anvil( "fake_anvil" );
+static const itype_id itype_fake_solar_cooker( "fake_solar_cooker" );
 static const itype_id itype_hacksaw( "hacksaw" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_heavy_atomic_battery_cell( "heavy_atomic_battery_cell" );
@@ -104,6 +110,7 @@ static const itype_id itype_manual_electronics( "manual_electronics" );
 static const itype_id itype_manual_tailor( "manual_tailor" );
 static const itype_id itype_meat( "meat" );
 static const itype_id itype_motor_micro( "motor_micro" );
+static const itype_id itype_oil_cooker( "oil_cooker" );
 static const itype_id itype_plastic_chunk( "plastic_chunk" );
 static const itype_id itype_pockknife( "pockknife" );
 static const itype_id itype_polycarbonate_sheet( "polycarbonate_sheet" );
@@ -121,7 +128,6 @@ static const itype_id itype_sheet_cotton( "sheet_cotton" );
 static const itype_id itype_solder_wire( "solder_wire" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_soldering_iron_portable( "soldering_iron_portable" );
-static const itype_id itype_survivor_mess_kit( "survivor_mess_kit" );
 static const itype_id itype_test_cracklins( "test_cracklins" );
 static const itype_id itype_test_gum( "test_gum" );
 static const itype_id itype_test_storage_battery( "test_storage_battery" );
@@ -131,6 +137,8 @@ static const itype_id itype_vac_mold( "vac_mold" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_faucet( "water_faucet" );
+static const itype_id itype_welder( "welder" );
+static const itype_id itype_wrench( "wrench" );
 
 static const morale_type morale_food_good( "morale_food_good" );
 
@@ -145,13 +153,14 @@ static const quality_id qual_HAMMER( "HAMMER" );
 static const quality_id qual_LEATHER_AWL( "LEATHER_AWL" );
 static const quality_id qual_SAW_M( "SAW_M" );
 static const quality_id qual_SEW( "SEW" );
+static const quality_id qual_WRENCH( "WRENCH" );
 
 static const recipe_id recipe_2byarm_guard( "2byarm_guard" );
 static const recipe_id recipe_armguard_acidchitin( "armguard_acidchitin" );
 static const recipe_id recipe_armguard_chitin( "armguard_chitin" );
 static const recipe_id recipe_armguard_larmor( "armguard_larmor" );
-static const recipe_id recipe_armguard_lightplate( "armguard_lightplate" );
 static const recipe_id recipe_armguard_metal( "armguard_metal" );
+static const recipe_id recipe_armor_hc_armguard( "armor_hc_armguard" );
 static const recipe_id recipe_balclava( "balclava" );
 static const recipe_id recipe_blanket_blanket_makeshift( "blanket_blanket_makeshift" );
 static const recipe_id recipe_brew_mead( "brew_mead" );
@@ -188,6 +197,8 @@ static const vpart_id vpart_ap_test_storage_battery( "ap_test_storage_battery" )
 static const vpart_id vpart_water_faucet( "water_faucet" );
 
 static const vproto_id vehicle_prototype_test_rv( "test_rv" );
+
+static const weather_type_id weather_cloudy( "cloudy" );
 
 TEST_CASE( "recipe_subset" )
 {
@@ -492,7 +503,7 @@ static void grant_skills_to_character( Character &you, const recipe &r, int offs
 
 static void grant_profs_to_character( Character &you, const recipe &r )
 {
-    for( const recipe_proficiency &rprof : r.proficiencies ) {
+    for( const recipe_proficiency &rprof : r.get_proficiencies() ) {
         you.add_proficiency( rprof.id, true );
     }
 }
@@ -502,7 +513,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
 {
     map &here = get_map();
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     Character &player_character = get_player_character();
@@ -622,7 +633,7 @@ TEST_CASE( "proficiency_gain_short_crafts", "[crafting][proficiency]" )
     int turns_taken = 0;
     const int max_turns = 100000;
 
-    float time_malus = rec->proficiency_time_maluses( ch );
+    float time_malus = rec->proficiency_time_maluses( ch, ch.book_bonuses_nearby() );
 
     // Proficiency progress is checked every 5% of craft progress, so up to 5% of one craft worth can be wasted depending on timing
     // Rounding effects account for another tiny bit
@@ -738,7 +749,7 @@ static void test_fail_scenario( const std::string &scen, const recipe_id &rid, i
     REQUIRE_FALSE( player_character.has_trait( trait_DEBUG_CNF ) );
     // Ensure that they either have the profs we gave them, or no profs.
     if( has_profs ) {
-        for( const recipe_proficiency &prof : rec.proficiencies ) {
+        for( const recipe_proficiency &prof : rec.get_proficiencies() ) {
             REQUIRE( player_character.has_proficiency( prof.id ) );
         }
     } else {
@@ -848,7 +859,7 @@ TEST_CASE( "UPS_modded_tools", "[crafting][ups]" )
     bool const ups_on_ground = GENERATE( true, false );
     CAPTURE( ups_on_ground );
     avatar dummy;
-    clear_map();
+    clear_map_without_vision();
     clear_character( dummy );
     tripoint_bub_ms const test_loc = dummy.pos_bub();
     dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
@@ -887,6 +898,55 @@ TEST_CASE( "UPS_modded_tools", "[crafting][ups]" )
         tinv.add_item_ref( *ups_loc );
     }
     REQUIRE( tinv.charges_of( soldering_iron->typeId() ) == ammo_count );
+}
+
+TEST_CASE( "UPS_modded_tools_dedup_one_pool_across_two_tools", "[crafting][ups]" )
+{
+    // Legacy USE_UPS dedup: two UPS-modded tools sharing one UPS must not
+    // double-count the UPS pool. inventory::charges_of is a feasibility query,
+    // not a reservation API, so the shared external pool counts once.
+    avatar dummy;
+    clear_character( dummy );
+    dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
+
+    // One UPS with N charges, carried.
+    constexpr int ups_charges = 259;
+    item_location ups_loc = dummy.i_add( item( itype_UPS_ON ) );
+    item ups_mag( ups_loc->magazine_default() );
+    ups_mag.ammo_set( ups_mag.ammo_default(), ups_charges );
+    REQUIRE( ups_loc->put_in( ups_mag, pocket_type::MAGAZINE_WELL ).success() );
+    REQUIRE( units::to_kilojoule( dummy.available_ups() ) == ups_charges );
+
+    GIVEN( "two UPS-modded soldering irons (charges_per_use 1) sharing one UPS" ) {
+        for( int i = 0; i < 2; ++i ) {
+            item_location s = dummy.i_add( item( itype_soldering_iron ) );
+            REQUIRE( s->put_in( item( itype_battery_ups ), pocket_type::MOD ).success() );
+            REQUIRE( s->has_flag( json_flag_USE_UPS ) );
+        }
+        WHEN( "querying charges_of via crafting_inventory" ) {
+            const int reported = dummy.crafting_inventory().charges_of( itype_soldering_iron );
+            THEN( "result is the shared UPS pool, not double" ) {
+                CHECK( reported == ups_charges );
+                CHECK( reported != ups_charges * 2 );
+            }
+        }
+    }
+
+    GIVEN( "two UPS-modded arc welders (charges_per_use 20) sharing one UPS" ) {
+        for( int i = 0; i < 2; ++i ) {
+            item_location w = dummy.i_add( item( itype_welder ) );
+            REQUIRE( w->put_in( item( itype_battery_ups ), pocket_type::MOD ).success() );
+            REQUIRE( w->has_flag( json_flag_USE_UPS ) );
+        }
+        WHEN( "querying charges_of via crafting_inventory" ) {
+            const int reported = dummy.crafting_inventory().charges_of( itype_welder );
+            THEN( "legacy returns raw charge count once, not per-tool sum" ) {
+                // Legacy must NOT divide by charges_per_use, must NOT add UPS per tool.
+                CHECK( reported == ups_charges );
+                CHECK( reported != ups_charges * 2 );
+            }
+        }
+    }
 }
 
 TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
@@ -1015,14 +1075,15 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
         // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
         prep_craft( recipe_water_clean, tools, true );
     }
-    SECTION( "clean_water_in_loaded_survivor_mess_kit" ) {
+    SECTION( "clean_water_in_loaded_oil_cooker" ) {
         std::vector<item> tools;
         tools.push_back( tool_with_ammo( itype_popcan_stove, 500 ) );
         item plastic_bottle( itype_bottle_plastic );
         plastic_bottle.put_in(
             item( itype_water, calendar::turn_zero, 2 ), pocket_type::CONTAINER );
         tools.push_back( plastic_bottle );
-        tools.push_back( tool_with_ammo( itype_survivor_mess_kit, 500 ) );
+        tools.emplace_back( itype_pot );
+        tools.push_back( tool_with_ammo( itype_oil_cooker, 500 ) );
 
         // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
         prep_craft( recipe_water_clean, tools, true );
@@ -1139,7 +1200,7 @@ TEST_CASE( "total_crafting_time_with_or_without_interruption", "[crafting][time]
 {
     GIVEN( "a recipe and all the required tools and materials to craft it" ) {
         recipe_id test_recipe( "razor_shaving" );
-        int expected_time_taken = test_recipe->batch_time( get_player_character(), 1, 1, 0 );
+        int expected_time_taken = test_recipe->batch_time( get_player_character(), 1, 1, 0, {} );
         int expected_turns_taken = divide_round_up( expected_time_taken, 100 );
 
         std::vector<item> tools;
@@ -1191,7 +1252,7 @@ TEST_CASE( "total_crafting_time_with_or_without_interruption", "[crafting][time]
 }
 
 static std::map<quality_id, itype_id> quality_to_tool = {{
-        { qual_CUT, itype_pockknife }, { qual_SEW, itype_sewing_kit }, { qual_LEATHER_AWL, itype_awl_bone }, { qual_ANVIL, itype_fake_anvil }, { qual_HAMMER, itype_hammer }, { qual_SAW_M, itype_hacksaw }, { qual_CHISEL, itype_chisel }, { qual_FABRIC_CUT, itype_kevlar_shears }
+        { qual_CUT, itype_pockknife }, { qual_SEW, itype_sewing_kit }, { qual_LEATHER_AWL, itype_awl_bone }, { qual_ANVIL, itype_fake_anvil }, { qual_HAMMER, itype_hammer }, { qual_SAW_M, itype_hacksaw }, { qual_CHISEL, itype_chisel }, { qual_FABRIC_CUT, itype_kevlar_shears }, { qual_WRENCH, itype_wrench }
     }
 };
 
@@ -1279,7 +1340,7 @@ static void test_skill_progression( const recipe_id &test_recipe, int expected_t
     CHECK( actual_turns_taken == expected_turns_taken );
 }
 
-TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
+TEST_CASE( "crafting_skill_gain", "[skill] [crafting] [slow]" )
 {
     SECTION( "lvl 0 -> 1" ) {
         GIVEN( "nominal morale" ) {
@@ -1360,13 +1421,13 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
     }
     SECTION( "lvl 7 -> 8" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_lightplate, 52138, 0, true );
+            test_skill_progression( recipe_armor_hc_armguard, 52138, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_lightplate, 42657, 50, true );
+            test_skill_progression( recipe_armor_hc_armguard, 42657, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_lightplate, 39079, 100, true );
+            test_skill_progression( recipe_armor_hc_armguard, 39079, 100, true );
         }
     }
     SECTION( "lvl 8 -> 9" ) {
@@ -1422,24 +1483,28 @@ TEST_CASE( "book_proficiency_mitigation", "[crafting][proficiency]" )
 {
     GIVEN( "a recipe with required proficiencies" ) {
         clear_avatar();
-        clear_map();
+        clear_map_without_vision();
         const recipe &test_recipe = *recipe_leather_belt;
 
         grant_skills_to_character( get_player_character(), test_recipe, 0 );
-        int unmitigated_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
+        const Character &ch = get_player_character();
+        crafting_cost_context ctx_no_book{ ch.book_bonuses_nearby(), {} };
+        int unmitigated_time_taken = test_recipe.batch_time( ch, 1, 1, 0, ctx_no_book );
 
         WHEN( "player has a book mitigating lack of proficiency" ) {
             std::vector<item> books;
             books.emplace_back( itype_manual_tailor );
             give_tools( books, true );
             get_player_character().invalidate_crafting_inventory();
-            int mitigated_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
+            crafting_cost_context ctx_with_book{ ch.book_bonuses_nearby(), {} };
+            int mitigated_time_taken = test_recipe.batch_time( ch, 1, 1, 0, ctx_with_book );
             THEN( "it takes less time to craft the recipe" ) {
                 CHECK( mitigated_time_taken < unmitigated_time_taken );
             }
             AND_WHEN( "player acquires missing proficiencies" ) {
                 grant_proficiencies_to_character( get_player_character(), test_recipe, true );
-                int proficient_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
+                crafting_cost_context ctx_proficient{ ch.book_bonuses_nearby(), {} };
+                int proficient_time_taken = test_recipe.batch_time( ch, 1, 1, 0, ctx_proficient );
                 THEN( "it takes even less time to craft the recipe" ) {
                     CHECK( proficient_time_taken < mitigated_time_taken );
                 }
@@ -1452,24 +1517,24 @@ TEST_CASE( "partial_proficiency_mitigation", "[crafting][proficiency]" )
 {
     GIVEN( "a recipe with required proficiencies" ) {
         clear_avatar();
-        clear_map();
+        clear_map_without_vision();
         Character &tester = get_player_character();
         const recipe &test_recipe = *recipe_leather_belt;
 
         grant_skills_to_character( tester, test_recipe, 0 );
-        int unmitigated_time_taken = test_recipe.batch_time( tester, 1, 1, 0 );
+        int unmitigated_time_taken = test_recipe.batch_time( tester, 1, 1, 0, {} );
 
         WHEN( "player acquires partial proficiency" ) {
             for( const proficiency_id &prof : test_recipe.used_proficiencies() ) {
                 tester.set_proficiency_practice( prof, tester.proficiency_training_needed( prof ) / 2 );
             }
-            int mitigated_time_taken = test_recipe.batch_time( tester, 1, 1, 0 );
+            int mitigated_time_taken = test_recipe.batch_time( tester, 1, 1, 0, {} );
             THEN( "it takes less time to craft the recipe" ) {
                 CHECK( mitigated_time_taken < unmitigated_time_taken );
             }
             AND_WHEN( "player acquires missing proficiencies" ) {
                 grant_proficiencies_to_character( tester, test_recipe, true );
-                int proficient_time_taken = test_recipe.batch_time( tester, 1, 1, 0 );
+                int proficient_time_taken = test_recipe.batch_time( tester, 1, 1, 0, {} );
                 THEN( "it takes even less time to craft the recipe" ) {
                     CHECK( proficient_time_taken < mitigated_time_taken );
                 }
@@ -1952,7 +2017,7 @@ TEST_CASE( "Unloading_non-empty_components", "[crafting]" )
 TEST_CASE( "Warn_when_using_favorited_component", "[crafting]" )
 {
     map &m = get_map();
-    clear_map();
+    clear_map_without_vision();
     item pocketknife( itype_pockknife );
 
     GIVEN( "crafting 1 makeshift funnel" ) {
@@ -2369,7 +2434,7 @@ TEST_CASE( "variant_crafting_recipes", "[crafting][slow]" )
 
 TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
 {
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
 
     clear_vehicles();
@@ -2383,7 +2448,8 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
     const itype_id pseudo_tool = furn_f_smoking_rack.obj().crafting_pseudo_item;
 
     GIVEN( "a vehicle with a liquid tank" ) {
-        vehicle *veh = here.add_vehicle( vehicle_prototype_test_rv, veh_pos, 0_degrees, 0, 0 );
+        vehicle *veh = here.add_vehicle( vehicle_prototype_test_rv, veh_pos, 0_degrees, 0,
+                                         veh_spawn_status::UNDAMAGED );
         REQUIRE( veh != nullptr );
         for( const vpart_reference &door : veh->get_avail_parts( VPFLAG_OPENABLE ) ) {
             door.part().open = true;
@@ -2471,6 +2537,77 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
                 }
             }
         }
-        clear_map();
+        clear_map_without_vision();
+    }
+    GIVEN( "a deployed solar cooker" ) {
+        REQUIRE( here.furn_set( furn1_pos, furn_f_solar_cooker ) );
+
+        WHEN( "it is a clear day with sufficient sunlight" ) {
+            scoped_weather_override weather_clear( WEATHER_CLEAR );
+            set_time( calendar::turn_zero + 12_hours );
+            REQUIRE( here.is_outside( furn1_pos ) );
+
+            THEN( "crafting inventory contains the solar cooker pseudo-tool" ) {
+                player.invalidate_crafting_inventory();
+                CHECK( player.crafting_inventory().count_item( itype_fake_solar_cooker ) == 1 );
+            }
+        }
+
+        WHEN( "it is nighttime" ) {
+            scoped_weather_override weather_clear( WEATHER_CLEAR );
+            set_time( calendar::turn_zero );
+
+            THEN( "crafting inventory does NOT contain the solar cooker pseudo-tool" ) {
+                player.invalidate_crafting_inventory();
+                CHECK( player.crafting_inventory().count_item( itype_fake_solar_cooker ) == 0 );
+            }
+        }
+
+        WHEN( "it is cloudy" ) {
+            scoped_weather_override weather_overcast( weather_cloudy );
+            set_time( calendar::turn_zero + 12_hours );
+            REQUIRE( here.is_outside( furn1_pos ) );
+
+            THEN( "crafting inventory does NOT contain the solar cooker pseudo-tool" ) {
+                player.invalidate_crafting_inventory();
+                CHECK( player.crafting_inventory().count_item( itype_fake_solar_cooker ) == 0 );
+            }
+        }
+
+        WHEN( "the tile is indoors" ) {
+            const ter_id ter_concrete_wall( "t_concrete_wall" );
+            const ter_id ter_concrete_floor( "t_thconc_floor" );
+            const ter_id ter_flat_roof( "t_flat_roof" );
+            // Build a 5x5 walled room with floor inside and roof above
+            for( const tripoint_bub_ms &pt : points_in_radius( furn1_pos, 2 ) ) {
+                if( square_dist( pt, furn1_pos ) == 2 ) {
+                    REQUIRE( here.ter_set( pt, ter_concrete_wall ) );
+                }
+            }
+            for( const tripoint_bub_ms &pt : points_in_radius( furn1_pos, 1 ) ) {
+                if( pt != furn1_pos ) {
+                    REQUIRE( here.ter_set( pt, ter_concrete_wall ) );
+                } else {
+                    REQUIRE( here.ter_set( pt, ter_concrete_floor ) );
+                }
+            }
+            for( const tripoint_bub_ms &pt : points_in_radius( furn1_pos + tripoint::above, 2 ) ) {
+                REQUIRE( here.ter_set( pt, ter_flat_roof ) );
+            }
+            // Re-place the furniture on the floor
+            REQUIRE( here.furn_set( furn1_pos, furn_f_solar_cooker ) );
+            here.set_outside_cache_dirty( furn1_pos.z() );
+            here.build_outside_cache( furn1_pos.z() );
+            REQUIRE_FALSE( here.is_outside( furn1_pos ) );
+
+            scoped_weather_override weather_clear( WEATHER_CLEAR );
+            set_time( calendar::turn_zero + 12_hours );
+
+            THEN( "crafting inventory does NOT contain the solar cooker pseudo-tool" ) {
+                player.invalidate_crafting_inventory();
+                CHECK( player.crafting_inventory().count_item( itype_fake_solar_cooker ) == 0 );
+            }
+        }
+        clear_map_without_vision();
     }
 }

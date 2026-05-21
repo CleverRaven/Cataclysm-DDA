@@ -352,7 +352,7 @@
   {
     "id": "mil_mess_kit",
     "type": "MIGRATION",
-    "replace": "survivor_mess_kit"
+    "replace": "mess_kit"
   },
   {
     "id": "5x50dart",
@@ -1963,11 +1963,6 @@
     "replace": "qt_wire"
   },
   {
-    "id": "chain_link",
-    "type": "MIGRATION",
-    "replace": "lc_chain_link"
-  },
-  {
     "id": "link_sheet",
     "type": "MIGRATION",
     "replace": "lc_link_sheet"
@@ -2180,7 +2175,7 @@
   {
     "id": "stillsuit",
     "type": "MIGRATION",
-    "replace": "h20survivor_jumpsuit"
+    "replace": "wetsuit"
   },
   {
     "id": "m1911-460",
@@ -2540,9 +2535,44 @@
   },
   {
     "type": "MIGRATION",
-    "id": "gown",
-    "replace": "dress",
-    "variant": "gown"
+    "id": "dress",
+    "replace": "long_dress"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "witch_dress_short",
+    "replace": "short_dress_sleeved",
+    "variant": "witch_black"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "witch_dress_long",
+    "replace": "long_dress_sleeved",
+    "variant": "witch_black"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "witch_dress",
+    "replace": "dress_sleeved",
+    "variant": "witch_black"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sinister_gown",
+    "replace": "gown_sleeved",
+    "variant": "sinister"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sinister_dress_short",
+    "replace": "short_dress_sleeved",
+    "variant": "sinister"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "long_dress",
+    "from_variant": "gown",
+    "replace": "gown"
   },
   {
     "type": "MIGRATION",
@@ -2746,5 +2776,46 @@
     "type": "MIGRATION",
     "id": "tail_bunny_playboy",
     "replace": "scrap_cotton"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sinister_dress",
+    "replace": "long_dress_sleeved",
+    "variant": "sinister"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "broken_molebot",
+    "replace": "pickaxe"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "schematics_molebot",
+    "replace": "textbook_electronics"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bot_molebot",
+    "replace": "pickaxe"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mc_warhammer",
+    "replace": "warhammer"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mc_mace",
+    "replace": "mace"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mc_knife_rambo",
+    "replace": "knife_rambo"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mc_knife_trench",
+    "replace": "knife_trench"
   }
 ]

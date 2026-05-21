@@ -134,9 +134,9 @@
   {
     "type": "mutation",
     "id": "MANA_LUM_FLASH_ACTIVE",
-    "name": { "str": "Mana Flares Active", "//~": "NO_I18N" },
+    "name": "Mana Flares Active",
     "points": -1,
-    "description": { "str": "Mana Flares Active", "//~": "NO_I18N" },
+    "description": "Mana Flares Active",
     "valid": false,
     "player_display": false,
     "category": [ "MANATOUCHED" ],

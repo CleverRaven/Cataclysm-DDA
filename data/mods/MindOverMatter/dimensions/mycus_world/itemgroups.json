@@ -1,0 +1,7 @@
+[
+  {
+    "type": "item_group",
+    "id": "mom_mycus_forest_items",
+    "items": [ [ "rock", 40 ], [ "rock_flaking", 5 ], [ "flint", 2 ], [ "rock_large", 5 ] ]
+  }
+]

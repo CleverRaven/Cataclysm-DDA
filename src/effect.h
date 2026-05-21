@@ -467,6 +467,22 @@ class effect
 
 };
 
+class effect_migration
+{
+    public:
+        efftype_id id_old;
+        std::optional<efftype_id> id_new;
+
+        static void load( const JsonObject &jo );
+
+        static void reset();
+
+        static void check();
+
+        /** Find the last migration entry of the given vpart_id */
+        static const effect_migration *find_migration( const efftype_id &original );
+};
+
 void load_effect_type( const JsonObject &jo, std::string_view src );
 void reset_effect_types();
 const std::map<efftype_id, effect_type> &get_effect_types();

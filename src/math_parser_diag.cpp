@@ -1,6 +1,7 @@
 #include "math_parser_diag.h"
 
 #include <algorithm>
+#include <array>
 #include <cstddef>
 #include <functional>
 #include <list>
@@ -13,6 +14,8 @@
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_variant.h"
+#include "cata_compiler_support.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
@@ -29,8 +32,10 @@
 #include "faction.h"
 #include "field.h"
 #include "game.h"
+#include "input_popup.h"
 #include "item.h"
 #include "item_location.h"
+#include "itype.h"
 #include "magic.h"
 #include "map.h"
 #include "math_parser_diag_value.h"
@@ -44,16 +49,19 @@
 #include "pimpl.h"
 #include "point.h"
 #include "proficiency.h"
+#include "stats_tracker.h"
 #include "stomach.h"
-#include "string_input_popup.h"
 #include "talker.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "weather.h"
 #include "weather_gen.h"
 #include "weather_type.h"
 #include "worldfactory.h"
+
+class event_statistic;
 
 /*
 General guidelines for writing dialogue functions
@@ -98,10 +106,12 @@ constexpr std::string_view _str_type_of()
     return "cookies";
 }
 
-template <typename T>
-T _read_from_string( std::string_view s, const std::vector<std::pair<std::string, T>> &units )
+template <typename T, size_t N>
+T _read_from_string( std::string_view s,
+                     const std::array<std::pair<std::string_view, T>, N> &units )
 {
-    auto const error = [s]( char const * suffix, size_t /* offset */ ) {
+    // TODO: LAMBDA_NORETURN_CLANG21x1 can be replaced with [[noreturn]] once we switch to C++23 on all compilers
+    auto const error = [s]( char const * suffix, size_t /* offset */ ) LAMBDA_NORETURN_CLANG21x1 {
         throw math::runtime_error( R"(Failed to convert "%s" to a %s value: %s)", s,
                                    _str_type_of<T>(), suffix );
     };
@@ -124,6 +134,18 @@ double option_eval( const_dialogue const &d, char /* scope */,
                     std::vector<diag_value> const &params, diag_kwargs const & /* kwargs */ )
 {
     return get_option<float>( params[0].str( d ), true );
+}
+
+double event_statistic_eval( const_dialogue const &d, char /* scope */,
+                             std::vector<diag_value> const &params,
+                             diag_kwargs const & /* kwargs */ )
+{
+    string_id<event_statistic> stat_id( params[0].str( d ) );
+    if( !stat_id.is_valid() ) {
+        throw math::runtime_error( R"(Unknown event_statistic "%s")", stat_id.str() );
+    }
+    cata_variant val = get_stats().value_of( stat_id );
+    return diag_value( val ).dbl( d );
 }
 
 double addiction_intensity_eval( const_dialogue const &d, char scope,
@@ -182,6 +204,59 @@ double coverage_eval( const_dialogue const &d, char scope, std::vector<diag_valu
     return d.const_actor( is_beta( scope ) )->coverage_at( bp );
 }
 
+itype_id resolve_eats_like( const itype_id &id )
+{
+    if( id->comestible && !id->comestible->eats_like.is_empty() ) {
+        return id->comestible->eats_like;
+    }
+    return id;
+}
+
+double consumption_count_eval( const_dialogue const &d, char scope,
+                               std::vector<diag_value> const &params,
+                               diag_kwargs const &kwargs )
+{
+    const Character *ch = d.const_actor( is_beta( scope ) )->get_const_character();
+    if( !ch ) {
+        throw math::runtime_error( "consumption_count() requires a character" );
+    }
+    const itype_id target_id( params[0].str( d ) );
+    const itype_id canonical = resolve_eats_like( target_id );
+    diag_value hours_val = kwargs.kwarg_or( "hours" );
+    const time_duration window = hours_val.is_empty()
+                                 ? 48_hours
+                                 : time_duration::from_hours( hours_val.dbl( d ) );
+    int count = 0;
+    for( const consumption_event &event : ch->consumption_history ) {
+        if( event.time > calendar::turn - window &&
+            resolve_eats_like( event.type_id ) == canonical ) {
+            ++count;
+        }
+    }
+    return count;
+}
+
+double consumption_count_total_eval( const_dialogue const &d, char scope,
+                                     std::vector<diag_value> const & /* params */,
+                                     diag_kwargs const &kwargs )
+{
+    const Character *ch = d.const_actor( is_beta( scope ) )->get_const_character();
+    if( !ch ) {
+        throw math::runtime_error( "consumption_count_total() requires a character" );
+    }
+    diag_value hours_val = kwargs.kwarg_or( "hours" );
+    const time_duration window = hours_val.is_empty()
+                                 ? 48_hours
+                                 : time_duration::from_hours( hours_val.dbl( d ) );
+    int count = 0;
+    for( const consumption_event &event : ch->consumption_history ) {
+        if( event.time > calendar::turn - window ) {
+            ++count;
+        }
+    }
+    return count;
+}
+
 double distance_eval( const_dialogue const &d, char /* scope */,
                       std::vector<diag_value> const &params, diag_kwargs const & /* kwargs */ )
 {
@@ -226,6 +301,15 @@ double effect_intensity_eval( const_dialogue const &d, char scope,
     effect target =
         d.const_actor( is_beta( scope ) )->get_effect( efftype_id( params[0].str( d ) ), bp );
     return target.is_null() ? -1 : target.get_intensity();
+}
+
+double limb_score_eval( const_dialogue const &d, char scope,
+                        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    const limb_score_id ls( params[0].str( d ) );
+    const bp_type bp_t = io::string_to_enum<bp_type>( kwargs.kwarg_or( "type" ).str( d ) );
+
+    return d.const_actor( is_beta( scope ) )->get_limb_score( ls, bp_t );
 }
 
 double encumbrance_eval( const_dialogue const &d, char scope, std::vector<diag_value> const &params,
@@ -593,14 +677,13 @@ double item_rad_eval( const_dialogue const &d, char scope, std::vector<diag_valu
 double num_input_eval( const_dialogue const &d, char /*scope*/,
                        std::vector<diag_value> const &params, diag_kwargs const & /* kwargs */ )
 {
-    string_input_popup popup;
     double dv = params[1].dbl( d );
     int popup_val = dv;
-    popup.title( _( "Input a value:" ) )
-    .width( 20 )
-    .description( params[0].str( d ) )
-    .edit( popup_val );
-    if( popup.canceled() ) {
+    number_input_popup<int> popup( 55, popup_val );
+    popup.set_label( _( "Input a value:" ) );
+    popup.set_description( params[0].str( d ) );
+    popup_val = popup.query();
+    if( popup.cancelled() ) {
         return dv;
     }
     return static_cast<double>( popup_val );
@@ -873,6 +956,25 @@ double moon_phase_eval( const_dialogue const & /* d */, char /* scope */,
     return static_cast<int>( get_moon_phase( calendar::turn ) );
 }
 
+double oxygen_eval( const_dialogue const &d, char scope, std::vector<diag_value> const &/*params*/,
+                    diag_kwargs const & /* kwargs */ )
+{
+    return d.const_actor( is_beta( scope ) )->get_oxygen();
+}
+
+void oxygen_ass( double val, dialogue &d, char scope, std::vector<diag_value> const &/*params*/,
+                 diag_kwargs const & /* kwargs */ )
+{
+    d.actor( is_beta( scope ) )->set_oxygen( val );
+}
+
+double oxygen_max_eval( const_dialogue const &d, char scope,
+                        std::vector<diag_value> const &/*params*/,
+                        diag_kwargs const & /* kwargs */ )
+{
+    return d.const_actor( is_beta( scope ) )->get_oxygen_max();
+}
+
 double pain_eval( const_dialogue const &d, char scope, std::vector<diag_value> const & /* params */,
                   diag_kwargs const &kwargs )
 {
@@ -886,6 +988,20 @@ double pain_eval( const_dialogue const &d, char scope, std::vector<diag_value> c
     } else {
         throw math::runtime_error( R"(Unknown type "%s" for pain())", format );
     }
+}
+
+double price_eval( const_dialogue const &d, char scope,
+                   std::vector<diag_value> const & /* params */,
+                   diag_kwargs const & /* kwargs */ )
+{
+    return d.const_actor( is_beta( scope ) )->get_price();
+}
+
+double price_postapoc_eval( const_dialogue const &d, char scope,
+                            std::vector<diag_value> const & /* params */,
+                            diag_kwargs const & /* kwargs */ )
+{
+    return d.const_actor( is_beta( scope ) )->get_price_postapoc();
 }
 
 void pain_ass( double val, dialogue &d, char scope, std::vector<diag_value> const & /* params */,
@@ -1132,8 +1248,9 @@ void spell_level_adjustment_ass( double val, dialogue &d, char scope,
 double _time_in_unit( double time, std::string_view unit )
 {
     if( !unit.empty() ) {
-        auto const iter = std::find_if( time_duration::units.cbegin(), time_duration::units.cend(),
-        [&unit]( std::pair<std::string, time_duration> const & u ) {
+        decltype( time_duration::units )::const_iterator iter = std::find_if( time_duration::units.cbegin(),
+                time_duration::units.cend(),
+        [&unit]( std::pair<std::string_view, time_duration> const & u ) {
             return u.first == unit;
         } );
 
@@ -1247,8 +1364,9 @@ double time_until_eoc_eval( const_dialogue const &d, char /* scope */,
     diag_value unit_val = kwargs.kwarg_or( "unit" );
 
     effect_on_condition_id eoc_id( params[0].str( d ) );
-    auto const &list = g->queued_global_effect_on_conditions.list;
-    auto const it = std::find_if( list.cbegin(), list.cend(), [&eoc_id]( queued_eoc const & eoc ) {
+    const std::list<queued_eoc> &list = g->queued_global_effect_on_conditions.list;
+    std::list<queued_eoc>::const_iterator it = std::find_if( list.cbegin(),
+    list.cend(), [&eoc_id]( queued_eoc const & eoc ) {
         return eoc.eoc == eoc_id;
     } );
 
@@ -1480,6 +1598,29 @@ void npc_trust_ass( double val, dialogue &d, char scope,
     d.actor( is_beta( scope ) )->set_npc_trust( val );
 }
 
+double gender_eval( const_dialogue const &d, char scope,
+                    std::vector<diag_value> const & /* params */,
+                    diag_kwargs const & /* kwargs */ )
+{
+    // This has no talker overload because it's only relevant to characters.
+    const Character *maybe_guy = d.const_actor( is_beta( scope ) )->get_const_character();
+    if( maybe_guy ) {
+        return maybe_guy->male;
+    } else {
+        return 0;
+    }
+}
+
+void gender_ass( double val, dialogue &d, char scope,
+                 std::vector<diag_value> const & /* params */, diag_kwargs const & /* kwargs */ )
+{
+    // This has no talker overload because it's only relevant to characters.
+    Character *maybe_guy_maybe_girl_soon = d.actor( is_beta( scope ) )->get_character();
+    if( maybe_guy_maybe_girl_soon ) {
+        maybe_guy_maybe_girl_soon->male = val;
+    }
+}
+
 double calories_eval( const_dialogue const &d, char scope,
                       std::vector<diag_value> const & /* params */, diag_kwargs const &kwargs )
 {
@@ -1669,15 +1810,19 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "speed", { "un", 0, move_speed_eval } },
     { "characters_nearby", { "ung", 0, characters_nearby_eval, {}, { "radius", "attitude", "location" } } },
     { "charge_count", { "un", 1, charge_count_eval } },
+    { "consumption_count", { "un", 1, consumption_count_eval, {}, { "hours" } } },
+    { "consumption_count_total", { "un", 0, consumption_count_total_eval, {}, { "hours" } } },
     { "coverage", { "un", 1, coverage_eval } },
     { "damage_level", { "un", 0, damage_level_eval } },
     { "degradation", { "un", 0, degradation_eval, degradation_ass } },
     { "distance", { "g", 2, distance_eval } },
     { "effect_intensity", { "un", 1, effect_intensity_eval, {}, { "bodypart" } } },
     { "effect_duration", { "un", 1, effect_duration_eval, {}, { "bodypart", "unit" } } },
+    { "limb_score", { "un", 1, limb_score_eval, {}, { "type" } } },
     { "health", { "un", 0, health_eval, health_ass } },
     { "encumbrance", { "un", 1, encumbrance_eval } },
     { "energy", { "g", 1, energy_eval } },
+    { "event_statistic", { "g", 1, event_statistic_eval } },
     { "faction_like", { "g", 1, faction_like_eval, faction_like_ass } },
     { "faction_respect", { "g", 1, faction_respect_eval, faction_respect_ass } },
     { "faction_trust", { "g", 1, faction_trust_eval, faction_trust_ass } },
@@ -1686,6 +1831,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "faction_power", { "g", 1, faction_power_eval, faction_power_ass } },
     { "faction_size", { "g", 1, faction_size_eval, faction_size_ass } },
     { "field_strength", { "ung", 1, field_strength_eval, {}, { "location" } } },
+    { "gender", { "un", 0, gender_eval, gender_ass } },
     { "gun_damage", { "un", 1, gun_damage_eval } },
     { "game_option", { "g", 1, option_eval } },
     { "has_flag", { "un", 1, has_flag_eval } },
@@ -1705,7 +1851,11 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "mon_groups_nearby", { "ung", -1, monster_groups_nearby_eval, {}, { "radius", "attitude", "location" } } },
     { "moon_phase", { "g", 0, moon_phase_eval } },
     { "num_input", { "g", 2, num_input_eval } },
+    { "oxygen", { "un", 0, oxygen_eval, oxygen_ass } },
+    { "oxygen_max", { "un", 0, oxygen_max_eval } },
     { "pain", { "un", 0, pain_eval, pain_ass, { "type" } } },
+    { "price", { "un", 0, price_eval } },
+    { "price_postapoc", { "un", 0, price_postapoc_eval } },
     { "school_level", { "un", 1, school_level_eval } },
     { "school_level_adjustment", { "un", 1, school_level_adjustment_eval, school_level_adjustment_ass } },
     { "spellcasting_adjustment", { "u", 1, {}, spellcasting_adjustment_ass, { "mod", "school", "spell", "flag_whitelist", "flag_blacklist" } } },

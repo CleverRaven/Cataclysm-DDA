@@ -50,7 +50,7 @@
       { "item": "rock", "count": [ 0, 2 ] },
       { "item": "splinter", "count": [ 0, 2 ] },
       { "item": "scrap", "charges": [ 0, 2 ] },
-      { "item": "material_gravel", "charges": [ 0, 3 ] }
+      { "item": "material_gravel", "count": [ 0, 3 ] }
     ],
     "pre_terrain": "f_rubble",
     "post_terrain": "f_null",
@@ -87,6 +87,28 @@
     ],
     "pre_flags": "RUBBLE",
     "pre_terrain": "f_rubble_landfill",
+    "post_terrain": "f_null",
+    "activity_level": "EXTRA_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_clear_rubble_volc",
+    "group": "clear_rubble",
+    "category": "OTHER",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "5 m",
+    "byproducts": [
+      { "item": "rock", "count": [ 0, 5 ] },
+      { "item": "rock_flaking", "count": [ 0, 2 ] },
+      { "item": "flint", "count": [ 0, 2 ] },
+      { "item": "sharp_rock", "count": [ 0, 2 ] },
+      { "item": "pebble", "charges": [ 0, 4 ] },
+      { "item": "chunk_sulfur", "count": [ 0, 2 ] },
+      { "item": "chunk_borax", "count": [ 0, 2 ] }
+    ],
+    "pre_flags": "RUBBLE",
+    "pre_terrain": "f_rubble_volc",
     "post_terrain": "f_null",
     "activity_level": "EXTRA_EXERCISE"
   },
@@ -207,7 +229,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "material_sand", "charges": [ 300, 600 ] } ],
+    "byproducts": [ { "item": "material_sand", "count": [ 300, 600 ] } ],
     "pre_terrain": "t_sand",
     "post_special": "done_extract_maybe_revert_to_dirt"
   },
@@ -219,7 +241,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "material_sand", "charges": [ 300, 600 ] } ],
+    "byproducts": [ { "item": "material_sand", "count": [ 300, 600 ] } ],
     "pre_terrain": "t_sandmound",
     "post_special": "done_extract_maybe_revert_to_dirt"
   },
@@ -231,7 +253,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "material_sand", "charges": [ 300, 600 ] } ],
+    "byproducts": [ { "item": "material_sand", "count": [ 300, 600 ] } ],
     "pre_terrain": "t_sand_underground",
     "post_special": "done_extract_maybe_revert_to_dirt"
   },

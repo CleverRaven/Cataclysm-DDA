@@ -40,6 +40,14 @@
     "components": [ [ [ "matrix_crystal_electrokin_dust", 10 ] ] ]
   },
   {
+    "result": "matrix_crystal_electrokinesis_artifact",
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "time": "45 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "GRIND", "level": 2 }, { "id": "FINE_GRIND", "level": 1 } ],
+    "components": [ [ [ "matrix_crystal_electrokin_dust", 10 ] ] ]
+  },
+  {
     "result": "matrix_crystal_photokinesis",
     "type": "uncraft",
     "activity_level": "BRISK_EXERCISE",
@@ -48,7 +56,23 @@
     "components": [ [ [ "matrix_crystal_photokin_dust", 10 ] ] ]
   },
   {
+    "result": "matrix_crystal_photokinesis_artifact",
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "time": "45 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "GRIND", "level": 2 }, { "id": "FINE_GRIND", "level": 1 } ],
+    "components": [ [ [ "matrix_crystal_photokin_dust", 10 ] ] ]
+  },
+  {
     "result": "matrix_crystal_pyrokinesis",
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "time": "45 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "GRIND", "level": 2 }, { "id": "FINE_GRIND", "level": 1 } ],
+    "components": [ [ [ "matrix_crystal_pyrokin_dust", 10 ] ] ]
+  },
+  {
+    "result": "matrix_crystal_pyrokinesis_artifact",
     "type": "uncraft",
     "activity_level": "BRISK_EXERCISE",
     "time": "45 m",
@@ -80,7 +104,23 @@
     "components": [ [ [ "matrix_crystal_teleport_dust", 10 ] ] ]
   },
   {
+    "result": "matrix_crystal_teleportation_artifact",
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "time": "45 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "GRIND", "level": 2 }, { "id": "FINE_GRIND", "level": 1 } ],
+    "components": [ [ [ "matrix_crystal_teleport_dust", 10 ] ] ]
+  },
+  {
     "result": "matrix_crystal_vitakinesis",
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "time": "45 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "GRIND", "level": 2 }, { "id": "FINE_GRIND", "level": 1 } ],
+    "components": [ [ [ "matrix_crystal_vitakin_dust", 10 ] ] ]
+  },
+  {
+    "result": "matrix_crystal_vitakinesis_artifact",
     "type": "uncraft",
     "activity_level": "BRISK_EXERCISE",
     "time": "45 m",
