@@ -191,7 +191,7 @@
     "//": "Hidden effect, part of an enchantment",
     "name": [ "" ],
     "desc": [ "" ],
-    "vitamins": [ { "vitamin": "vitamin_psionic_drain", "rate": [ [ 2, 6 ] ], "tick": [ "20 s" ] } ]
+    "vitamins": [ { "vitamin": "vitamin_psionic_drain", "rate": [ [ 1, 5 ] ], "tick": [ "20 s" ] } ]
   },
   {
     "type": "effect_type",
