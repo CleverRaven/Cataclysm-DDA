@@ -1089,7 +1089,10 @@
       { "item": "tomato", "count": [ 1, 113 ], "prob": 1 },
       { "item": "zucchini", "count": [ 1, 94 ], "prob": 1 },
       { "item": "bell_pepper", "count": [ 1, 76 ], "prob": 1 },
-      { "item": "eggplant", "count": [ 1, 33 ], "prob": 1 }
+      { "item": "eggplant", "count": [ 1, 61 ], "prob": 1 },
+      { "item": "raw_artichoke", "count": [ 1, 61 ], "prob": 1 },
+      { "item": "raw_asparagus", "count": [ 1, 61 ], "prob": 1 },
+      { "item": "brussels_sprout", "count": [ 1, 61 ], "prob": 1 }
     ]
   },
   {
@@ -1249,7 +1252,10 @@
       [ "tomato", 1 ],
       [ "zucchini", 1 ],
       [ "bell_pepper", 1 ],
-      [ "eggplant", 1 ]
+      [ "eggplant", 1 ],
+      [ "raw_artichoke", 1 ],
+      [ "raw_asparagus", 1 ],
+      [ "brussels_sprout", 1 ]
     ]
   },
   {
