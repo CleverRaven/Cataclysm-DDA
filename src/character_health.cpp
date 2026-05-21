@@ -173,6 +173,7 @@ static const json_character_flag json_flag_NO_RADIATION( "NO_RADIATION" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
 static const json_character_flag json_flag_NUMB( "NUMB" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
+static const json_character_flag json_flag_PARTIAL_BIONIC_LIMB( "PARTIAL_BIONIC_LIMB" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const json_character_flag json_flag_SPIRITUAL( "SPIRITUAL" );
@@ -2819,7 +2820,7 @@ void Character::heal_bp( bodypart_id bp, int dam )
 
 void Character::heal( const bodypart_id &healed, int dam )
 {
-    if( !is_limb_broken( healed ) && ( dam != 0 || healed->has_flag( json_flag_ALWAYS_HEAL ) ) ) {
+    if( ( !is_limb_broken( healed ) || healed->has_flag( json_flag_BIONIC_LIMB ) || healed->has_flag( json_flag_PARTIAL_BIONIC_LIMB ) ) && ( dam != 0 || healed->has_flag( json_flag_ALWAYS_HEAL ) ) ) {
         add_msg_debug( debugmode::DF_CHAR_HEALTH, "Base healing of %s = %d", body_part_name( healed ),
                        dam );
         if( healed->has_flag( json_flag_HEAL_OVERRIDE ) ) {

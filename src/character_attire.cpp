@@ -60,6 +60,8 @@ static const flag_id json_flag_MUTATED_ANATOMY_ONLY( "MUTATED_ANATOMY_ONLY" );
 static const flag_id json_flag_ONE_PER_LAYER( "ONE_PER_LAYER" );
 static const flag_id json_flag_SHAPESHIFTED_ARMOR( "SHAPESHIFTED_ARMOR" );
 
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
+
 static const material_id material_acidchitin( "acidchitin" );
 static const material_id material_bone( "bone" );
 static const material_id material_chitin( "chitin" );
@@ -182,7 +184,7 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
             if( !it.covers( bp ) ) {
                 continue;
             }
-            if( is_limb_broken( bp ) && !worn_with_flag( flag_SPLINT, bp ) ) {
+            if( is_limb_broken( bp ) && !worn_with_flag( flag_SPLINT, bp ) && !bp->has_flag( json_flag_BIONIC_LIMB ) ) {
                 need_splint = true;
                 break;
             }
