@@ -108,6 +108,34 @@
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro2a"
       },
       {
+        "text": "So, now that I'm a cyborg, could I get a full bionic body like yours?",
+        "condition": {
+          "and": [
+            { "u_has_trait": "CBM_Interface" },
+            { "not": { "compare_string": [ "yes", { "u_val": "Rubik_promised_cyberframe" } ] } },
+            { "not": { "u_has_trait": "EXODII_BODY_1" } },
+            { "not": { "u_has_trait": "EXODII_BODY_1b" } },
+            { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } },
+            { "math": [ "faction_trust('exodii') < 40" ] }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_Cyberframe_trust_no"
+      },
+      {
+        "text": "So, I'm ready for the next step.  How do I get a full bionic body like yours?",
+        "condition": {
+          "and": [
+            { "u_has_trait": "CBM_Interface" },
+            { "not": { "compare_string": [ "yes", { "u_val": "Rubik_promised_cyberframe" } ] } },
+            { "not": { "u_has_trait": "EXODII_BODY_1" } },
+            { "not": { "u_has_trait": "EXODII_BODY_1b" } },
+            { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } },
+            { "math": [ "faction_trust('exodii') >= 40" ] }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_Cyberframe_trust_yes"
+      },
+      {
         "text": "I'm ready to become a true cyborg.",
         "condition": { "compare_string": [ "yes", { "u_val": "Rubik_promised_cyberframe" } ] },
         "effect": [

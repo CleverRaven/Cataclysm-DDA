@@ -326,6 +326,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NO_LIMB_FIRST_AID``` This bodypart cannot be bandaged or disinfected.
 - ```NON_FLESH_LIMB``` The bodypart is immune to a number of effects like poisoning or infection.
 - ```NONSTANDARD_BLOCK``` This limb is different enough that martial arts' arm/leg blocks aren't applicable - blocking with this limb is unlocked by reaching the MA's `nonstandard_block` level, unless the limb also has `ALWAYS_BLOCK`.  Either block flag is **required** for non-arm / non-leg limbs to be eligible to block.
+- ```PARTIAL_BIONIC_LIMB``` This limb is at least in part mechanical.
 - ```WINGS_2``` You can slow your fall, effectively reducing the height of falls by 2 levels, and ignore pit-like traps if two instances of the flag are present.
 - ```WING_ARMS``` Counts as a wing for `Character::can_fly` if two instances of the flag are present.
 

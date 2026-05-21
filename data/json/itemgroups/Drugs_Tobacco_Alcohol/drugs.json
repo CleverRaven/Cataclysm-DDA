@@ -726,6 +726,13 @@
   },
   {
     "type": "item_group",
+    "id": "tums_bottle_plastic_small_1_20",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_small",
+    "entries": [ { "item": "tums", "container-item": "null", "count": [ 1, 20 ] } ]
+  },
+  {
+    "type": "item_group",
     "id": "morphine_bottle_plastic_pill_prescription_4",
     "subtype": "collection",
     "container-item": "bottle_plastic_pill_prescription",

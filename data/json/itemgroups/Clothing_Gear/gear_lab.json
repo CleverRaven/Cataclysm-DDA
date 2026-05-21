@@ -1,0 +1,23 @@
+[
+  {
+    "type": "item_group",
+    "id": "everyday_gear_lab",
+    "subtype": "collection",
+    "items": [
+      { "item": "joint", "prob": 7 },
+      { "item": "matches", "prob": 20, "charges": [ 0, 20 ] },
+      { "item": "ref_matches", "prob": 20, "charges": [ 0, 32 ] },
+      { "group": "tobacco_products", "prob": 20 },
+      { "item": "permanent_marker", "prob": 25, "charges": [ 0, -1 ] },
+      { "group": "chewing_gum_used", "prob": 30 },
+      { "group": "chewing_gum_used_caff", "prob": 5 },
+      { "item": "multitool", "prob": 5 },
+      { "group": "chewing_gum_used_caff", "prob": 5 },
+      { "item": "pocketwatch", "prob": 3 },
+      { "item": "pockknife", "prob": 15 },
+      { "item": "knife_folding", "prob": 15 },
+      { "item": "knife_swissarmy", "prob": 10 },
+      { "item": "inhaler", "prob": 5, "charges": [ 10, 100 ] }
+    ]
+  }
+]

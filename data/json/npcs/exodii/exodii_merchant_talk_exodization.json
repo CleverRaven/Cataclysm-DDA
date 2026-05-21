@@ -336,6 +336,67 @@
     ]
   },
   {
+    "id": "TALK_EXODII_MERCHANT_Cyberframe_trust_no",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Not today.  That's too much to ask, and we can't spare the materials.  But, I'll give you some advice.  Keep up the working and trading, and maybe I'll change my mind one day.",
+      "str": "Not today.  Too mighty an ask, and we can't spare the steelies.  But, I'll give ye a lump'a'ice.  Keep up work'n'trade, n' mayhaps somethin' changes one'a these days."
+    },
+    "responses": [
+      {
+        "text": "I'm just really eager to shed this fleshy prison.  You sure there's nothing we can do?",
+        "topic": "TALK_EXODII_MERCHANT_Cyberframe_trust_no_weirdo",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "decisions_blobpsychosis_u_too_eager_cyborg_body" } ] } },
+        "effect": [
+          { "u_add_var": "decisions_blobpsychosis_u_too_eager_cyborg_body", "value": "yes" },
+          { "math": [ "u_counter_exodii_exodii_psychosis_judgment += 2" ] },
+          { "u_add_faction_trust": -2 }
+        ]
+      },
+      { "text": "I guess I'll ask again another time.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "I guess I'll ask again another time.  <end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Cyberframe_trust_no_weirdo",
+    "//": "Rubik is skeptical of you if you are over-eager to get dissected down to your guts.",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "No, I don't think so.  Not today.",
+      "str": "&Rubik is quiet for a long moment, and is clearly sizing you up.  \"No, methinks not today.\""
+    },
+    "responses": [
+      { "text": "Well, I guess I'll ask again another time.  <end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Cyberframe_trust_yes",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Hm.  That's a really big ask.  You seem to be the sort of person who would ask for this kind of thing, but are you certain you want to be permanently attached to this suitcase?  You sure you're thinking clearly?  This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life.",
+      "str": "Hm.  A mighty ask on a mighty ask.  Ye certainly got the disposition, but you sure you wanna be cut inta' this crowded space?\"  Rubik taps their metal torso.  \"You sure ya' lump is screwed on tight?  This isn't like the bright'n'steelies on offer.  No goin' back.  And ye best be happy with the amount'a power you can generate.  This'ere needs contant power.  Without power, yer good as dead.  The power storage units?  Fer a case this'n kind, one'a the power storage units buys you a little-less'an an hour of walkin'.  Less for scrappin' and scramblin'.  Nothin's easy about it.\""
+    },
+    "responses": [
+      {
+        "text": "[Integrate your body into an Exodii Cyberframe] A robotic body I'll need to keep constantly powered?  Why not?  I'm ready.",
+        "effect": [
+          { "u_add_faction_trust": 5 },
+          {
+            "u_location_variable": { "u_val": "exodii_autodoc_couch_loc" },
+            "target_params": { "om_terrain": "exodii_base_x2y1z1", "om_special": "exodii_base" },
+            "furniture": "f_autodoc_couch",
+            "target_max_radius": 250
+          },
+          { "u_teleport": { "u_val": "exodii_autodoc_couch_loc" } }
+        ],
+        "opinion": { "trust": 7, "value": 5 },
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe"
+      },
+      { "text": "I changed my mind.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "I changed my mind.  <end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
     "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe",
     "type": "talk_topic",
     "dynamic_line": {
@@ -527,7 +588,7 @@
           { "u_add_effect": "sleep", "duration": "12 hours" },
           { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "12 hours" },
           { "u_add_trait": "EXODII_CYBERFRAME_GENERIC" },
-          { "u_add_bionic": "bio_exodii_cyberframe_1a" },
+          { "u_add_bionic": "bio_exodii_cyberframe_1b" },
           { "u_add_bionic": "bio_exodii_leg_bionic_basic_left" },
           { "u_add_bionic": "bio_exodii_leg_bionic_basic_right" },
           { "u_add_bionic": "bio_exodii_arm_bionic_basic_left" },

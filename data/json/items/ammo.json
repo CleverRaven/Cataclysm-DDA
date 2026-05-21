@@ -759,6 +759,8 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "ammo_type": "components",
     "id": "gunpowder",
     "category": "chems",
     "price": "5 USD",
@@ -772,6 +774,7 @@
     "flags": [ "TINDER" ],
     "volume": "250 ml",
     "weight": "100 mg",
+    "count": 4540,
     "explode_in_fire": true,
     "explosion": { "power": 42 }
   },

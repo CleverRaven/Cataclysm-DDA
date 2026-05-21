@@ -970,6 +970,7 @@ Effect | Description
 `basecamp_mission` | The NPC will offer you a list of missions for your allied NPCs, depending on the local basecamp.
 `bionic_install` | The NPC installs a bionic from your character's inventory onto your character, using very high skill, and charging you according to the operation's difficulty.
 `bionic_remove` | The NPC removes a bionic from your character, using very high skill, and charging you according to the operation's difficulty.
+`repair_bionic_limbs` | The NPC repairs all bionic and partially bionic limbs, charging you at a rate of 20x the number of HP required to fully heal.
 `npc_class_change: `string or [variable object](#variable-object) | Change the NPC's class to the new value.
 `npc_faction_change: `string or [variable object](#variable-object) | Change the NPC's faction membership to the new value.
 `u_faction_rep: `int or [variable object](#variable-object) | Increases your reputation with the NPC's current faction, or decreases it if the value is negative.

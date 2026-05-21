@@ -909,9 +909,9 @@
     "result": "seed_cauliflower",
     "type": "recipe",
     "copy-from": "seed_extraction_base",
-    "components": [ [ [ "raw_bottle_gourd", 3 ] ] ]
+    "components": [ [ [ "cauliflower_head", 1 ] ] ]
   },
-  {
+   {
     "result": "seed_cauliflower",
     "type": "recipe",
     "id_suffix": "bulk",
@@ -919,6 +919,54 @@
     "time": "5 m",
     "result_mult": 10,
     "copy-from": "seed_extraction_base",
-    "components": [ [ [ "raw_bottle_gourd", 30 ] ] ]
+    "components": [ [ [ "cauliflower_head", 10 ] ] ]
+  },
+  {
+    "result": "seed_artichoke",
+    "type": "recipe",
+    "copy-from": "seed_extraction_cutting",
+    "components": [ [ [ "raw_artichoke", 1 ] ] ]
+  },
+  {
+    "result": "seed_artichoke",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "time": "5 m",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_cutting",
+    "components": [ [ [ "raw_artichoke", 10 ] ] ]
+  },
+  {
+    "result": "seed_asparagus",
+    "type": "recipe",
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "raw_asparagus", 1 ] ] ]
+  },
+  {
+    "result": "seed_asparagus",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "time": "5 m",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "raw_asparagus", 10 ] ] ]
+  },
+  {
+    "result": "seed_brussels_sprout",
+    "type": "recipe",
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "brussels_sprout_stalk", 1 ] ] ]
+  },
+  {
+    "result": "seed_brussels_sprout",
+    "type": "recipe",
+    "id_suffix": "bulk",
+    "name": "bulk %s",
+    "time": "5 m",
+    "result_mult": 10,
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "brussels_sprout_stalk", 10 ] ] ]
   }
 ]
