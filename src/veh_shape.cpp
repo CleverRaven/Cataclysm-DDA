@@ -156,7 +156,6 @@ void veh_shape::change_part_shape( vpart_reference vpr ) const
         .skip_locked_check()
         .skip_theft_check()
         .location( veh.bub_part_pos( here, part ).raw() )
-        .select( part.variant == vvid )
         .desc( _( "Confirm to save or exit to revert" ) )
         .symbol( vv.get_symbol_curses( 0_degrees, false ) )
         .symbol_color( vpi.color )
