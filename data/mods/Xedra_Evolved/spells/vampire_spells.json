@@ -124,6 +124,86 @@
     "difficulty": 0
   },
   {
+    "id": "vampire_spider_jump_spell",
+    "type": "SPELL",
+    "name": "Spider's Leap",
+    "description": "Jump forward several meters, with your strength boosting how far this jump can reach.  \n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
+    "message": "Blood dissolves within your legs as you leap forward.",
+    "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
+    "caster_condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "caster_condition_fail_message": "You do not have enough stolen blood.",
+    "effect": "dash",
+    "shape": "cone",
+    "damage_type": "bash",
+    "valid_targets": [ "ground" ],
+    "min_range": { "math": [ "(u_val('strength') * 0.3) + 1" ] },
+    "max_range": { "math": [ "(u_val('strength') * 0.3) + 1" ] },
+    "flags": [ "SILENT", "NO_HANDS", "NO_FAIL", "NO_EXPLOSION_SFX" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "base_energy_cost": 50,
+    "base_casting_time": 100,
+    "difficulty": 2
+  },
+  {
+    "id": "vampire_earth_to_earth_teleport_spell",
+    "type": "SPELL",
+    "name": "Earthen Step",
+    "description": "Sink into the earth and emerge from it somewhere nearby.  \n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
+    "message": "",
+    "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
+    "caster_condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "caster_condition_fail_message": "You do not have enough stolen blood.",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VAMPIRE_EARTH_TELEPORT_CHECK",
+    "shape": "blast",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_FAIL", "NO_EXPLOSION_SFX" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "//": "Earthen slumber costs no blood as it only provide shelter from the day.  This is a teleport-like ability, so it needs a cost.",
+    "base_energy_cost": 250,
+    "base_casting_time": 150,
+    "difficulty": 2
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_EARTH_TELEPORT_CHECK",
+    "effect": [
+      {
+        "if": { "u_is_on_terrain_with_flag": "DIGGABLE" },
+        "then": [
+          {
+            "u_query_tile": "line_of_sight",
+            "target_var": { "context_val": "vampire_earth_teleport_location" },
+            "range": {
+              "math": [
+                "min((1 + (vampire_total_tier_one_traits_plus_potency() * 0.1) + (vampire_total_tier_two_traits() * 0.2) + (vampire_total_tier_three_traits() * 0.3) + (vampire_total_tier_four_traits_plus_potence() * 0.4) + (vampire_total_tier_five_traits_plus_cauldron() * 0.5)), 25)"
+              ]
+            },
+            "z_level": false,
+            "message": "Select nearby earth to emerge from."
+          },
+          {
+            "if": { "math": [ "has_var(vampire_earth_teleport_location)" ] },
+            "then": {
+              "if": { "map_terrain_with_flag": "DIGGABLE", "loc": { "context_val": "vampire_earth_teleport_location" } },
+              "then": [
+                { "u_teleport": { "context_val": "vampire_earth_teleport_location" }, "force": true },
+                { "u_message": "You sink into the earth and re-emerge nearby.", "type": "neutral" }
+              ],
+              "else": { "u_message": "You must select a patch of earth to transport to." }
+            },
+            "else": { "u_message": "Canceled" }
+          }
+        ],
+        "else": { "u_message": "You must stand on the earth to use this blood art.", "type": "bad" }
+      }
+    ]
+  },
+  {
     "id": "vampire_commune_with_night_spell",
     "type": "SPELL",
     "name": "Learn from the Children of the Night",

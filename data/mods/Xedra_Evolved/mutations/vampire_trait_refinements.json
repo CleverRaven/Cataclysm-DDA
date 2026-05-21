@@ -87,5 +87,30 @@
     "player_display": true,
     "name": { "str": "Incarnadine Relentlessness" },
     "description": "You gain a temporary stackable cardio boost when using Unholy Endurance."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WALK_ON_WALLS_REFINEMENT_JUMP",
+    "points": 3,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": true,
+    "name": { "str": "Spider's leap" },
+    "description": "Your gravity has been reduced further, increasing your carry capacity by 10% and granting you the ability to leap over a distance based on your strength.",
+    "spells_learned": [ [ "vampire_spider_jump_spell", 1 ] ],
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_EARTH_SLUMBER_REFINEMENT_TELEPORT",
+    "points": 3,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": true,
+    "name": { "str": "Earthen Step" },
+    "description": "You can sink into the earth to emerge from it somewhere else nearby.",
+    "spells_learned": [ [ "vampire_earth_to_earth_teleport_spell", 1 ] ]
   }
 ]
