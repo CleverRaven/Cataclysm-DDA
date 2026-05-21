@@ -1966,6 +1966,7 @@
     ]
   },
   {
+    "type": "ITEM",
     "id": "seed_artichoke",
     "copy-from": "seed",
     "price": "70 cent",
