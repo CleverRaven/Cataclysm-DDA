@@ -187,11 +187,11 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_mom_incense_nether_attunement",
+    "id": "effect_mom_incense_nether_attunement_minor",
     "//": "Hidden effect, part of an enchantment",
     "name": [ "" ],
     "desc": [ "" ],
-    "vitamins": [ { "vitamin": "vitamin_psionic_drain", "rate": [ [ 1, 5 ] ], "tick": [ "20 s" ] } ]
+    "vitamins": [ { "vitamin": "vitamin_psionic_drain", "rate": [ [ 1, 5 ] ], "tick": [ "30 s" ] } ]
   },
   {
     "type": "effect_type",

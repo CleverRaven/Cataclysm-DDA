@@ -17,7 +17,7 @@
         "PSYCHIC_KNACK"
       ]
     },
-    "ench_effects": [ { "effect": "effect_mom_incense_nether_attunement", "intensity": 1 } ]
+    "ench_effects": [ { "effect": "effect_mom_incense_nether_attunement_minor", "intensity": 1 } ]
   },
   {
     "id": "ench_mom_incense_nether_attunement_major",
