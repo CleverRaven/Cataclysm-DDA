@@ -7995,7 +7995,7 @@
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "material_high_density_polyethylene_chunk", 15 ] ] ],
-    "flags": [ "BLIND_EASY" ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "jug_plastic_1892ml",
@@ -8004,7 +8004,7 @@
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "material_high_density_polyethylene_chunk", 10 ] ] ],
-    "flags": [ "BLIND_EASY" ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "jug_plastic_glue",
@@ -8013,7 +8013,7 @@
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "material_high_density_polyethylene_chunk", 15 ] ] ],
-    "flags": [ "BLIND_EASY" ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "plastic_cutting_board",
@@ -8022,7 +8022,6 @@
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 3 } ],
     "components": [ [ [ "material_high_density_polyethylene_chunk", 25 ] ] ],
-    "flags": [ "BLIND_EASY" ],
+    "flags": [ "BLIND_EASY" ]
   }
-  
 ]
