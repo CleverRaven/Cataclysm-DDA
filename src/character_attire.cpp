@@ -184,7 +184,8 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
             if( !it.covers( bp ) ) {
                 continue;
             }
-            if( is_limb_broken( bp ) && !worn_with_flag( flag_SPLINT, bp ) && !bp->has_flag( json_flag_BIONIC_LIMB ) ) {
+            if( is_limb_broken( bp ) && !worn_with_flag( flag_SPLINT, bp ) &&
+                !bp->has_flag( json_flag_BIONIC_LIMB ) ) {
                 need_splint = true;
                 break;
             }
