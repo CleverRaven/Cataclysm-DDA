@@ -1717,6 +1717,5 @@
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ], [ "vitC", 3 ], [ "veggy_allergen", 1 ] ],
     "fun": -5
-  },
-  
+  }
 ]
