@@ -12,6 +12,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "input_enums.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "map_scale_constants.h"
 #include "memory_fast.h"
@@ -168,7 +169,7 @@ void veh_shape::change_part_shape( vpart_reference vpr ) const
         } );
     }
 
-    menu.sort( []( const veh_menu_item & a, const veh_menu_item & b ) {
+    menu.sort( []( const veh_menu_item & a, const veh_menu_item & b ) -> int {
         return localized_compare( a._text, b._text );
     } );
     menu.query();
