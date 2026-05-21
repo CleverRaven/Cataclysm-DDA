@@ -52,7 +52,7 @@
   {
     "id": "wild_asparagus_harv",
     "type": "harvest",
-    "entries": [ { "drop": "asparagus_wild" } ]
+    "entries": [ { "drop": "raw_asparagus" } ]
   },
   {
     "id": "beehive_harv",
