@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <map>
 #include <memory>
-#include <utility>
 
 #include "avatar.h"
 #include "cata_scope_helpers.h"
