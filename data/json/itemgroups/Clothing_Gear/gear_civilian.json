@@ -125,7 +125,7 @@
       { "group": "civilian_usb_drives", "prob": 5 },
       { "item": "mp3", "prob": 2, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 10, "charges": [ 0, 100 ] },
-      { "group": "chewing_gum_used", "prob": 25 },
+      { "group": "chewing_gum_any", "prob": 25 },
       { "group": "ammo_pocket_batteries", "prob": 5 },
       { "item": "wrapper", "prob": 15 },
       { "item": "wrapper_foil", "prob": 5 },

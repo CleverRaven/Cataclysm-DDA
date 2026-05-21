@@ -1681,6 +1681,19 @@
     "items": [ { "item": "caff_gum", "count": [ 0, 12 ] } ]
   },
   {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "chewing_gum_any",
+    "items": [
+      { "group": "chewing_gum_full", "prob": 10 },
+      { "group": "chewing_gum_full_caff", "prob": 1 },
+      { "group": "chewing_gum_full_nic", "prob": 1 },
+      { "group": "chewing_gum_used", "prob": 30 },
+      { "group": "chewing_gum_used_caff", "prob": 2 },
+      { "group": "chewing_gum_used_nic", "prob": 2 }
+    ]
+  },
+  {
     "id": "any_milk_standard",
     "type": "item_group",
     "subtype": "distribution",
