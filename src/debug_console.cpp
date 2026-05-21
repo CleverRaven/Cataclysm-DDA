@@ -155,7 +155,6 @@ const std::vector<tab_descriptor> &tab_registry()
         r.push_back( { "map",       [] { return std::make_unique<tab_map_view>(); },       { "Map", "Overlays" } } );
         r.push_back( { "data",      [] { return std::make_unique<tab_data_view>(); },      { "Data" } } );
         r.push_back( { "vehicle",   [] { return std::make_unique<tab_vehicle_view>(); },   { "Vehicle" } } );
-        r.push_back( { "setup",     [] { return std::make_unique<tab_setup_view>(); },     { "Setup" } } );
         r.push_back( { "game",      [] { return std::make_unique<tab_game_view>(); },      { "Game" } } );
         r.push_back( { "eoc",       [] { return std::make_unique<tab_eoc_view>(); },       {} } );
         r.push_back( { "creatures", [] { return std::make_unique<tab_creatures_view>(); }, {} } );
@@ -218,6 +217,137 @@ void kv_panel( const char *id, const std::function<void()> &body )
         ImGui::TableSetupColumn( "v" );
         body();
         ImGui::EndTable();
+    }
+}
+
+// Per-column sizing policy for the managed (clipped) tables. Widths are
+// measured by us, not by ImGui, so a row clipper can never starve the
+// measurement and column widths stay stable frame to frame.
+enum class colw { fit, widget, stretch };
+
+template<typename Row>
+struct colspec {
+    const char *header;
+    colw policy = colw::fit;
+    // fit: produces the display string measured per row.
+    std::function<std::string( const Row & )> text = {};
+    float px = 0.0f;          // widget: width; fit: minimum floor
+    float weight = 1.0f;      // stretch: weight
+    float max_frac = 0.0f;    // fit: cap as fraction of table width (0 = none)
+    ImGuiTableColumnFlags flags = 0;
+};
+
+struct colw_cache {
+    uint64_t key = 0;
+    bool valid = false;
+    std::vector<float> widths;   // natural (uncapped, unfloored) measured widths
+};
+
+std::unordered_map<std::string, colw_cache> &colw_caches()
+{
+    static std::unordered_map<std::string, colw_cache> m;
+    return m;
+}
+
+// Natural width of one fit column over rows [first,last): header (plus a sort
+// arrow allowance for sortable, non-NoSort columns) and the widest cell, padded.
+template<typename Row>
+float measure_fit( const colspec<Row> &s, const std::vector<Row> &rows,
+                   size_t first, size_t last, bool sortable )
+{
+    float w = ImGui::CalcTextSize( s.header ).x;
+    if( sortable && !( s.flags & ImGuiTableColumnFlags_NoSort ) ) {
+        w += ImGui::GetFontSize();
+    }
+    if( s.text ) {
+        for( size_t r = first; r < last; r++ ) {
+            w = std::max( w, ImGui::CalcTextSize( s.text( rows[r] ).c_str() ).x );
+        }
+    }
+    return w + ImGui::GetStyle().CellPadding.x * 2.0f + 6.0f;
+}
+
+// Emit TableSetupColumn for every column with an explicit width. fit columns
+// cache a natural width measured against `key` (recomputed only when the
+// row-set key changes, so widths do not drift or jitter on scroll), then
+// grow_columns sticky-grows it for visible values. The px floor and max_frac
+// cap are applied here each frame so a window resize re-caps without a rebuild.
+// All managed columns are NoResize so the width passed each frame is honored
+// (ImGui treats init width as init-only for resizable columns). Call right
+// after BeginTable, before headers and rows.
+template<typename Row>
+void setup_columns( const char *cache_id, uint64_t key,
+                    const std::vector<colspec<Row>> &specs,
+                    const std::vector<Row> &rows, bool sortable = false )
+{
+    colw_cache &c = colw_caches()[cache_id];
+    if( !c.valid || c.key != key ) {
+        c.widths.assign( specs.size(), 0.0f );
+        // Bounded initial measure; rows past the cap are picked up by
+        // grow_columns once scrolled into view.
+        const size_t n = std::min<size_t>( rows.size(), 4096 );
+        for( size_t i = 0; i < specs.size(); i++ ) {
+            if( specs[i].policy == colw::fit ) {
+                c.widths[i] = measure_fit( specs[i], rows, 0, n, sortable );
+            }
+        }
+        c.key = key;
+        c.valid = true;
+    }
+    const float avail = ImGui::GetContentRegionAvail().x;
+    for( size_t i = 0; i < specs.size(); i++ ) {
+        const colspec<Row> &s = specs[i];
+        const ImGuiTableColumnFlags extra = ImGuiTableColumnFlags_NoResize | s.flags;
+        if( s.policy == colw::stretch ) {
+            ImGui::TableSetupColumn( s.header,
+                                     ImGuiTableColumnFlags_WidthStretch | extra, s.weight );
+            continue;
+        }
+        float w = s.policy == colw::widget ? s.px : std::max( c.widths[i], s.px );
+        if( s.policy == colw::fit && s.max_frac > 0.0f && avail > 0.0f ) {
+            w = std::min( w, s.max_frac * avail );
+        }
+        ImGui::TableSetupColumn( s.header, ImGuiTableColumnFlags_WidthFixed | extra, w );
+    }
+}
+
+// Sticky-grow visible fit columns. Call inside the clipper loop with the
+// visible [first,last) range; cached widths only grow and apply next frame.
+template<typename Row>
+void grow_columns( const char *cache_id, const std::vector<colspec<Row>> &specs,
+                   const std::vector<Row> &rows, int first, int last, bool sortable = false )
+{
+    auto it = colw_caches().find( cache_id );
+    if( it == colw_caches().end() || !it->second.valid ) {
+        return;
+    }
+    colw_cache &c = it->second;
+    const size_t lo = static_cast<size_t>( std::max( 0, first ) );
+    const size_t hi = std::min<size_t>( static_cast<size_t>( std::max( 0, last ) ), rows.size() );
+    for( size_t i = 0; i < specs.size() && i < c.widths.size(); i++ ) {
+        if( specs[i].policy == colw::fit && specs[i].text ) {
+            c.widths[i] = std::max( c.widths[i], measure_fit( specs[i], rows, lo, hi, sortable ) );
+        }
+    }
+}
+
+// Cheap combiner for building a table layout key from row-set identity.
+uint64_t lk_mix( uint64_t h, uint64_t v )
+{
+    return h ^ ( v + 0x9e3779b97f4a7c15ULL + ( h << 6 ) + ( h >> 2 ) );
+}
+uint64_t lk_str( uint64_t h, const std::string &s )
+{
+    return lk_mix( h, std::hash<std::string> {}( s ) );
+}
+
+// Show `full` as a hover tooltip when it is too wide for `cell_w` (the column
+// content width, captured right after TableNextColumn). Call immediately after
+// submitting the cell's text widget so IsItemHovered refers to it.
+void clip_tooltip( const std::string &full, float cell_w )
+{
+    if( ImGui::IsItemHovered() && ImGui::CalcTextSize( full.c_str() ).x > cell_w ) {
+        ImGui::SetTooltip( "%s", full.c_str() );
     }
 }
 
@@ -615,6 +745,18 @@ void debug_console::execute()
         save_persisted_state();
     } };
 
+    // Suspend ImGui keyboard nav while the console is open so TAB drives only
+    // the input_context tab switch instead of also cycling widget focus.
+    ImGuiIO &io = ImGui::GetIO();
+    const bool had_kbd_nav = io.ConfigFlags & ImGuiConfigFlags_NavEnableKeyboard;
+    io.ConfigFlags &= ~ImGuiConfigFlags_NavEnableKeyboard;
+    on_out_of_scope restore_kbd_nav{ [&io, had_kbd_nav]()
+    {
+        if( had_kbd_nav ) {
+            io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+        }
+    } };
+
     while( is_open ) {
         // Force a full viewport repaint each frame: otherwise ImGui tooltips
         // smear the tiles layer and play/step state never updates live.
@@ -626,6 +768,12 @@ void debug_console::execute()
         if( !pending.empty() ) {
             deferred_op op = pending.front();
             pending.pop();
+            // Action/EOC may open a blocking sub-UI; hide the console behind it.
+            suspend_draw_ = true;
+            on_out_of_scope restore_draw{ [this]()
+            {
+                suspend_draw_ = false;
+            } };
             std::visit( [&]( auto &&payload ) {
                 using T = std::decay_t<decltype( payload )>;
                 if constexpr( std::is_same_v<T, deferred_action> ) {
@@ -647,6 +795,12 @@ void debug_console::execute()
         if( eval_pending ) {
             eval_pending = false;
             pending_eval_ok = true;
+            // eval can raise a debugmsg popup; hide the console behind it.
+            suspend_draw_ = true;
+            on_out_of_scope restore_draw{ [this]()
+            {
+                suspend_draw_ = false;
+            } };
             try {
                 math_exp m;
                 if( m.parse( pending_eval_expr, false ) ) {
@@ -692,9 +846,12 @@ void debug_console::execute()
             action = ctxt.handle_input( 5 );
         }
 
-        // Swallow keybinds while an ImGui text field has focus so typed keys
-        // ('q', '.', etc.) don't fire QUIT/WAIT/tab-switch from under the user.
-        if( cataimgui::client::want_capture_keyboard() ) {
+        // Only swallow keybinds while typing / dragging / in a popup, so plain
+        // TAB still reaches the input_context tab switch.
+        const bool imgui_owns_keys = io.WantTextInput || ImGui::IsAnyItemActive() ||
+                                     ImGui::IsPopupOpen( nullptr,
+                                             ImGuiPopupFlags_AnyPopupId | ImGuiPopupFlags_AnyPopupLevel );
+        if( imgui_owns_keys ) {
             continue;
         }
 
@@ -787,6 +944,17 @@ void debug_console::draw_tab_views()
             ImGui::EndTabItem();
         }
     }
+}
+
+void debug_console::draw()
+{
+    // Skip the whole base draw() (not just draw_controls) so ImGui::Begin is
+    // never called and the window isn't drawn over a blocking sub-UI.
+    if( suspend_draw_ ) {
+        button_action.clear();
+        return;
+    }
+    cataimgui::window::draw();
 }
 
 void debug_console::draw_controls()
@@ -1347,25 +1515,6 @@ void open_console()
 }
 
 
-const char *tab_setup_view::label() const
-{
-    return _( "Setup" );
-}
-
-void tab_setup_view::draw_body( debug_console &host )
-{
-    framed_section( "su_quick", _( "Quick setup" ), [&]() {
-        host.debug_button( debug_menu_index::QUICK_SETUP );
-        ImGui::SameLine();
-        host.debug_button( debug_menu_index::QUICK_SETUP_FLAG_DIRTY );
-        ImGui::SameLine();
-        host.debug_button( debug_menu_index::TOGGLE_SETUP_MUTATION );
-
-        host.debug_button( debug_menu_index::NORMALIZE_BODY_STAT );
-    } );
-}
-
-
 const char *tab_spawn_view::label() const
 {
     return _( "Spawn" );
@@ -1414,6 +1563,16 @@ void tab_game_view::draw_body( debug_console &host )
         host.debug_button( debug_menu_index::ENABLE_ACHIEVEMENTS );
         ImGui::SameLine();
         host.debug_button( debug_menu_index::UNLOCK_ALL );
+    } );
+
+    framed_section( "g_quick", _( "Quick setup" ), [&]() {
+        host.debug_button( debug_menu_index::QUICK_SETUP );
+        ImGui::SameLine();
+        host.debug_button( debug_menu_index::QUICK_SETUP_FLAG_DIRTY );
+        ImGui::SameLine();
+        host.debug_button( debug_menu_index::TOGGLE_SETUP_MUTATION );
+        ImGui::SameLine();
+        host.debug_button( debug_menu_index::NORMALIZE_BODY_STAT );
     } );
 
     framed_section( "g_save", _( "Save / load" ), [&]() {
@@ -1689,13 +1848,13 @@ void tab_vehicle_view::draw_body( debug_console &host )
                                ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg |
                                ImGuiTableFlags_Borders | ImGuiTableFlags_SizingStretchProp,
                                ImVec2( 0.0f, fit_table_height( visible, 280.0f ) ) ) ) {
-            ImGui::TableSetupColumn( _( "#" ), ImGuiTableColumnFlags_WidthFixed, 40.0f );
-            ImGui::TableSetupColumn( _( "Mount" ), ImGuiTableColumnFlags_WidthFixed, 70.0f );
+            fit_col( _( "#" ) );
+            fit_col( _( "Mount" ) );
             ImGui::TableSetupColumn( _( "Name" ) );
-            ImGui::TableSetupColumn( _( "Status" ), ImGuiTableColumnFlags_WidthFixed, 70.0f );
-            ImGui::TableSetupColumn( _( "Broken" ), ImGuiTableColumnFlags_WidthFixed, 55.0f );
-            ImGui::TableSetupColumn( _( "On" ), ImGuiTableColumnFlags_WidthFixed, 40.0f );
-            ImGui::TableSetupColumn( _( "Fuel" ), ImGuiTableColumnFlags_WidthFixed, 110.0f );
+            fit_col( _( "Status" ) );
+            fit_col( _( "Broken" ) );
+            fit_col( _( "On" ) );
+            fit_col( _( "Fuel" ) );
             ImGui::TableSetupScrollFreeze( 0, 1 );
             ImGui::TableHeadersRow();
             for( const vpart_reference &vp : parts ) {
@@ -2031,56 +2190,94 @@ void tab_player_view::draw_body( debug_console &host )
     avatar &you = get_avatar();
 
     framed_section( "p_stats", _( "Stats" ), [&]() {
-        stat_slider( "STR##stat", 1, 30, [&] { return you.get_str_base(); },
-        [&]( int v ) {
-            you.set_str_base( v );
-        } );
-        ImGui::SameLine();
-        stat_slider( "DEX##stat", 1, 30, [&] { return you.get_dex_base(); },
-        [&]( int v ) {
-            you.set_dex_base( v );
-        } );
-        stat_slider( "INT##stat", 1, 30, [&] { return you.get_int_base(); },
-        [&]( int v ) {
-            you.set_int_base( v );
-        } );
-        ImGui::SameLine();
-        stat_slider( "PER##stat", 1, 30, [&] { return you.get_per_base(); },
-        [&]( int v ) {
-            you.set_per_base( v );
+        scalar_slider_table( "p_stats", {
+            {
+                "STR", 1, 30, [&] { return you.get_str_base(); }, [&]( int v )
+                {
+                    you.set_str_base( v );
+                }
+            },
+            {
+                "DEX", 1, 30, [&] { return you.get_dex_base(); }, [&]( int v )
+                {
+                    you.set_dex_base( v );
+                }
+            },
+            {
+                "INT", 1, 30, [&] { return you.get_int_base(); }, [&]( int v )
+                {
+                    you.set_int_base( v );
+                }
+            },
+            {
+                "PER", 1, 30, [&] { return you.get_per_base(); }, [&]( int v )
+                {
+                    you.set_per_base( v );
+                }
+            },
         } );
     } );
 
     framed_section( "p_vitals", _( "Vitals" ), [&]() {
         add_monitor_button( "vitals_mon", "avatar:vitals", snap::avatar_vitals() );
-        const float w = 220.0f;
-        stat_slider( "Hunger##v", -300, 600, [&] { return you.get_hunger(); },
-        [&]( int v ) {
-            you.set_hunger( v );
-        }, w );
+        scalar_slider_table( "p_vitals", {
+            {
+                "Hunger", -300, 600, [&] { return you.get_hunger(); }, [&]( int v )
+                {
+                    you.set_hunger( v );
+                }
+            },
+            {
+                "Thirst", -100, 1200, [&] { return you.get_thirst(); }, [&]( int v )
+                {
+                    you.set_thirst( v );
+                }
+            },
+            {
+                "Sleepiness", 0, 1500, [&] { return you.get_sleepiness(); }, [&]( int v )
+                {
+                    you.set_sleepiness( v );
+                }
+            },
+            {
+                "Pain", 0, 500, [&] { return you.get_pain(); }, [&]( int v )
+                {
+                    you.set_pain( v );
+                }
+            },
+            {
+                "Focus", 0, 200, [&] { return you.get_focus(); }, [&]( int v )
+                {
+                    you.set_focus( v );
+                }
+            },
+            {
+                "Painkiller", 0, 240, [&] { return you.get_painkiller(); }, [&]( int v )
+                {
+                    you.set_painkiller( v );
+                }
+            },
+        } );
+    } );
+
+    framed_section( "p_metab", _( "Metabolism" ), [&]() {
+        ImGui::Text( "%s", string_format(
+                         _( "Hunger: %d  Thirst: %d  kcal: %d/%d  BMI: %.1f  BMR: %d" ),
+                         you.get_hunger(), you.get_thirst(),
+                         you.get_stored_kcal(), you.get_healthy_kcal(),
+                         you.get_bmi_fat(), you.get_bmr() ).c_str() );
         ImGui::SameLine();
-        stat_slider( "Thirst##v", -100, 1200, [&] { return you.get_thirst(); },
-        [&]( int v ) {
-            you.set_thirst( v );
-        }, w );
-        stat_slider( "Sleepiness##v", 0, 1500, [&] { return you.get_sleepiness(); },
-        [&]( int v ) {
-            you.set_sleepiness( v );
-        }, w );
+        add_monitor_button( "p_metab_mon", "avatar:metabolism", snap::avatar_metabolism() );
+        ImGui::Text( "%s", string_format(
+                         _( "Stomach: %d/%d mL, %d kcal  |  Guts: %d/%d mL, %d kcal" ),
+                         units::to_milliliter( you.stomach.contains() ),
+                         units::to_milliliter( you.stomach.capacity( you ) ),
+                         you.stomach.get_calories(),
+                         units::to_milliliter( you.guts.contains() ),
+                         units::to_milliliter( you.guts.capacity( you ) ),
+                         you.guts.get_calories() ).c_str() );
         ImGui::SameLine();
-        stat_slider( "Pain##v", 0, 500, [&] { return you.get_pain(); },
-        [&]( int v ) {
-            you.set_pain( v );
-        }, w );
-        stat_slider( "Focus##v", 0, 200, [&] { return you.get_focus(); },
-        [&]( int v ) {
-            you.set_focus( v );
-        }, w );
-        ImGui::SameLine();
-        stat_slider( "Painkiller##v", 0, 240, [&] { return you.get_painkiller(); },
-        [&]( int v ) {
-            you.set_painkiller( v );
-        }, w );
+        add_monitor_button( "p_gi_mon", "avatar:gi", snap::avatar_gi() );
     } );
 
     framed_section( "p_char", _( "Character" ), [&]() {
@@ -2129,9 +2326,11 @@ void tab_player_view::draw_body( debug_console &host )
                                ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders |
                                ImGuiTableFlags_SizingStretchProp ) ) {
             ImGui::TableSetupColumn( _( "Skill" ), ImGuiTableColumnFlags_WidthStretch );
+            // Slider cells have no intrinsic width; pin a fixed column so they
+            // don't collapse to the header.
             ImGui::TableSetupColumn( _( "Theory" ), ImGuiTableColumnFlags_WidthFixed, 200.0f );
             ImGui::TableSetupColumn( _( "Practice" ), ImGuiTableColumnFlags_WidthFixed, 200.0f );
-            ImGui::TableSetupColumn( _( "+M" ), ImGuiTableColumnFlags_WidthFixed, 40.0f );
+            fit_col( _( "+M" ) );
             ImGui::TableHeadersRow();
             for( const Skill &sk : Skill::skills ) {
                 const skill_id &sid = sk.ident();
@@ -2204,9 +2403,10 @@ void tab_player_view::draw_body( debug_console &host )
                                ImGuiTableFlags_Borders | ImGuiTableFlags_SizingStretchProp,
                                ImVec2( 0.0f, 320.0f ) ) ) {
             ImGui::TableSetupColumn( _( "Name" ), ImGuiTableColumnFlags_WidthStretch );
-            ImGui::TableSetupColumn( _( "Known" ), ImGuiTableColumnFlags_WidthFixed, 60.0f );
+            fit_col( _( "Known" ) );
+            // Slider cell; pin a fixed column width.
             ImGui::TableSetupColumn( _( "Progress" ), ImGuiTableColumnFlags_WidthFixed, 220.0f );
-            ImGui::TableSetupColumn( _( "+M" ), ImGuiTableColumnFlags_WidthFixed, 40.0f );
+            fit_col( _( "+M" ) );
             ImGui::TableSetupScrollFreeze( 0, 1 );
             ImGui::TableHeadersRow();
             ImGuiListClipper clipper;
@@ -2447,24 +2647,45 @@ void tab_creatures_view::draw_body( debug_console &host )
 
     if( ImGui::BeginTable( "creatures_table", 8,
                            ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg |
-                           ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable |
-                           ImGuiTableFlags_SizingStretchProp,
+                           ImGuiTableFlags_Borders | ImGuiTableFlags_SizingFixedFit |
+                           ImGuiTableFlags_NoSavedSettings,
                            ImVec2( 0.0f, fit_table_height(
                                        static_cast<int>( rows.size() ),
                                        std::max( table_h, 120.0f ) ) ) ) ) {
-        ImGui::TableSetupColumn( _( "Kind" ), ImGuiTableColumnFlags_WidthFixed, 50.0f );
-        ImGui::TableSetupColumn( _( "Name" ) );
-        ImGui::TableSetupColumn( _( "Type" ) );
-        ImGui::TableSetupColumn( _( "Faction" ), ImGuiTableColumnFlags_WidthFixed, 100.0f );
-        ImGui::TableSetupColumn( _( "HP" ), ImGuiTableColumnFlags_WidthFixed, 80.0f );
-        ImGui::TableSetupColumn( _( "Dist" ), ImGuiTableColumnFlags_WidthFixed, 50.0f );
-        ImGui::TableSetupColumn( _( "Pos" ) );
-        ImGui::TableSetupColumn( _( "+M" ), ImGuiTableColumnFlags_WidthFixed, 40.0f );
+        const uint64_t key = lk_str( lk_mix( filter_within_bubble ? 1u : 0u,
+                                             rows.size() ), creature_filter );
+        const std::vector<colspec<row_data>> specs = {
+            {
+                _( "Kind" ), colw::fit, []( const row_data & r )
+                {
+                    return r.kind;
+                }
+            },
+            { _( "Name" ), colw::stretch },
+            { _( "Type" ), colw::fit, []( const row_data & r ) { return r.type_id; }, 0.0f, 1.0f, 0.25f },
+            { _( "Faction" ), colw::fit, []( const row_data & r ) { return r.faction; }, 0.0f, 1.0f, 0.2f },
+            {
+                _( "HP" ), colw::fit, []( const row_data & r )
+                {
+                    return string_format( "%d/%d", r.hp, r.hp_max );
+                }
+            },
+            {
+                _( "Dist" ), colw::fit, []( const row_data & r )
+                {
+                    return std::to_string( r.dist );
+                }
+            },
+            { _( "Pos" ), colw::fit, []( const row_data & r ) { return r.pos; }, 0.0f, 1.0f, 0.25f },
+            { _( "+M" ), colw::widget, {}, 40.0f },
+        };
+        setup_columns<row_data>( "creatures_table", key, specs, rows );
         ImGui::TableSetupScrollFreeze( 0, 1 );
         ImGui::TableHeadersRow();
         ImGuiListClipper clipper;
         clipper.Begin( static_cast<int>( rows.size() ) );
         while( clipper.Step() ) {
+            grow_columns<row_data>( "creatures_table", specs, rows, clipper.DisplayStart, clipper.DisplayEnd );
             for( int i = clipper.DisplayStart; i < clipper.DisplayEnd; i++ ) {
                 const row_data &r = rows[i];
                 ImGui::TableNextRow();
@@ -2619,10 +2840,8 @@ void tab_creatures_view::draw_body( debug_console &host )
                                       ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders |
                                       ImGuiTableFlags_SizingStretchProp ) ) {
             ImGui::TableSetupColumn( _( "Effect" ), ImGuiTableColumnFlags_WidthStretch );
-            ImGui::TableSetupColumn( _( "Intensity" ),
-                                     ImGuiTableColumnFlags_WidthFixed, 80.0f );
-            ImGui::TableSetupColumn( _( "Bodypart" ),
-                                     ImGuiTableColumnFlags_WidthFixed, 140.0f );
+            fit_col( _( "Intensity" ) );
+            fit_col( _( "Bodypart" ) );
             ImGui::TableHeadersRow();
             for( const effect &e : effs ) {
                 ImGui::TableNextRow();
@@ -2697,10 +2916,8 @@ void tab_creatures_view::draw_body( debug_console &host )
                                ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders |
                                ImGuiTableFlags_SizingStretchProp ) ) {
             ImGui::TableSetupColumn( _( "Skill" ), ImGuiTableColumnFlags_WidthStretch );
-            ImGui::TableSetupColumn( _( "Theory" ),
-                                     ImGuiTableColumnFlags_WidthFixed, 60.0f );
-            ImGui::TableSetupColumn( _( "Practice" ),
-                                     ImGuiTableColumnFlags_WidthFixed, 60.0f );
+            fit_col( _( "Theory" ) );
+            fit_col( _( "Practice" ) );
             ImGui::TableHeadersRow();
             for( const Skill &sk : Skill::skills ) {
                 const skill_id &sid = sk.ident();
@@ -2884,11 +3101,14 @@ void tab_items_view::draw_body( debug_console &host )
                                sources[cur_src_idx].label.c_str() ) ) {
             for( int i = 0; i < static_cast<int>( sources.size() ); i++ ) {
                 const bool sel = i == cur_src_idx;
+                // Same-named sources (e.g. two NPCs) would collide; scope by index.
+                ImGui::PushID( i );
                 if( ImGui::Selectable( sources[i].label.c_str(), sel ) ) {
                     items_source = sources[i].key;
                     selected.reset();
                     reverted_from_source.reset();
                 }
+                ImGui::PopID();
             }
             ImGui::EndCombo();
         }
@@ -3111,26 +3331,62 @@ void tab_items_view::draw_body( debug_console &host )
 
     if( ImGui::BeginTable( "items_table", 10,
                            ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg |
-                           ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable |
-                           ImGuiTableFlags_SizingStretchProp,
+                           ImGuiTableFlags_Borders | ImGuiTableFlags_SizingFixedFit |
+                           ImGuiTableFlags_NoSavedSettings,
                            ImVec2( 0.0f, fit_table_height(
                                        static_cast<int>( rows.size() ),
                                        std::max( table_h, 120.0f ) ) ) ) ) {
-        ImGui::TableSetupColumn( _( "Name" ) );
-        ImGui::TableSetupColumn( _( "Type" ) );
-        ImGui::TableSetupColumn( _( "Cat" ), ImGuiTableColumnFlags_WidthFixed, 70.0f );
-        ImGui::TableSetupColumn( _( "Where" ), ImGuiTableColumnFlags_WidthFixed, 100.0f );
-        ImGui::TableSetupColumn( _( "n" ), ImGuiTableColumnFlags_WidthFixed, 30.0f );
-        ImGui::TableSetupColumn( _( "Chg" ), ImGuiTableColumnFlags_WidthFixed, 40.0f );
-        ImGui::TableSetupColumn( _( "Dmg" ), ImGuiTableColumnFlags_WidthFixed, 40.0f );
-        ImGui::TableSetupColumn( _( "Wt(g)" ), ImGuiTableColumnFlags_WidthFixed, 60.0f );
-        ImGui::TableSetupColumn( _( "Vol(mL)" ), ImGuiTableColumnFlags_WidthFixed, 70.0f );
-        ImGui::TableSetupColumn( _( "+M" ), ImGuiTableColumnFlags_WidthFixed, 40.0f );
+        const uint64_t key = lk_str( lk_str( lk_mix( 0u, rows.size() ),
+                                             items_source ), item_filter );
+        const std::vector<colspec<item_row>> specs = {
+            { _( "Name" ), colw::stretch },
+            { _( "Type" ), colw::fit, []( const item_row & r ) { return r.type_id; }, 0.0f, 1.0f, 0.25f },
+            {
+                _( "Cat" ), colw::fit, []( const item_row & r )
+                {
+                    return r.category;
+                }
+            },
+            { _( "Where" ), colw::fit, []( const item_row & r ) { return r.location; }, 0.0f, 1.0f, 0.25f },
+            {
+                _( "n" ), colw::fit, []( const item_row & r )
+                {
+                    return std::to_string( r.count );
+                }
+            },
+            {
+                _( "Chg" ), colw::fit, []( const item_row & r )
+                {
+                    return r.charges >= 0 ? std::to_string( r.charges ) : std::string( "-" );
+                }
+            },
+            {
+                _( "Dmg" ), colw::fit, []( const item_row & r )
+                {
+                    return r.damage > 0 ? std::to_string( r.damage ) : std::string( "0" );
+                }
+            },
+            {
+                _( "Wt(g)" ), colw::fit, []( const item_row & r )
+                {
+                    return std::to_string( r.weight_g );
+                }
+            },
+            {
+                _( "Vol(mL)" ), colw::fit, []( const item_row & r )
+                {
+                    return std::to_string( r.volume_ml );
+                }
+            },
+            { _( "+M" ), colw::widget, {}, 40.0f },
+        };
+        setup_columns<item_row>( "items_table", key, specs, rows );
         ImGui::TableSetupScrollFreeze( 0, 1 );
         ImGui::TableHeadersRow();
         ImGuiListClipper clipper;
         clipper.Begin( static_cast<int>( rows.size() ) );
         while( clipper.Step() ) {
+            grow_columns<item_row>( "items_table", specs, rows, clipper.DisplayStart, clipper.DisplayEnd );
             for( int i = clipper.DisplayStart; i < clipper.DisplayEnd; i++ ) {
                 const item_row &r = rows[i];
                 ImGui::TableNextRow();
@@ -3518,21 +3774,43 @@ void tab_eoc_view::draw_eoc_browser( debug_console &host )
 
     if( ImGui::BeginTable( "eocs", 7,
                            ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg |
-                           ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable |
-                           ImGuiTableFlags_SizingStretchProp |
+                           ImGuiTableFlags_Borders | ImGuiTableFlags_SizingFixedFit |
+                           ImGuiTableFlags_NoSavedSettings |
                            ImGuiTableFlags_Sortable | ImGuiTableFlags_SortMulti,
                            ImVec2( 0.0f, fit_table_height(
                                        static_cast<int>( filtered.size() ),
                                        std::max( table_h, 120.0f ) ) ) ) ) {
-        ImGui::TableSetupColumn( _( "ID" ), ImGuiTableColumnFlags_DefaultSort );
-        ImGui::TableSetupColumn( _( "Type" ), ImGuiTableColumnFlags_WidthFixed, 90.0f );
-        ImGui::TableSetupColumn( _( "Src mod" ) );
-        ImGui::TableSetupColumn( _( "Status" ), ImGuiTableColumnFlags_WidthFixed, 70.0f );
-        ImGui::TableSetupColumn( _( "Next fire" ) );
-        ImGui::TableSetupColumn( _( "Run" ), ImGuiTableColumnFlags_WidthFixed |
-                                 ImGuiTableColumnFlags_NoSort, 40.0f );
-        ImGui::TableSetupColumn( _( "Mon" ), ImGuiTableColumnFlags_WidthFixed |
-                                 ImGuiTableColumnFlags_NoSort, 40.0f );
+        const uint64_t key = lk_str( lk_str( lk_mix( 0u, filtered.size() ),
+                                             eoc_filter ),
+                                     std::to_string( eoc_type_filter ) );
+        const std::vector<colspec<int>> specs = {
+            { _( "ID" ), colw::stretch, {}, 0.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_DefaultSort },
+            {
+                _( "Type" ), colw::fit, [&]( const int &i )
+                {
+                    return std::string( eoc_type_name( all_eocs[i].type ) );
+                }
+            },
+            { _( "Src mod" ), colw::fit, [&]( const int &i ) { return all_eocs[i].src.empty() ? std::string() : all_eocs[i].src.front().second.str(); }, 0.0f, 1.0f, 0.25f },
+            {
+                _( "Status" ), colw::fit, [&]( const int &i )
+                {
+                    const std::string &id = all_eocs[i].id.str();
+                    return queued_ids.count( id ) ? std::string( "queued" ) : inactive_ids.count(
+                        id ) ? std::string( "inactive" ) : std::string( "loaded" );
+                }
+            },
+            {
+                _( "Next fire" ), colw::fit, [&]( const int &i )
+                {
+                    const auto it = queued_times.find( all_eocs[i].id.str() );
+                    return it != queued_times.end() ? to_string( it->second - calendar::turn ) : std::string();
+                }
+            },
+            { _( "Run" ), colw::widget, {}, 50.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_NoSort },
+            { _( "Mon" ), colw::widget, {}, 50.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_NoSort },
+        };
+        setup_columns<int>( "eocs", key, specs, filtered, true );
         ImGui::TableSetupScrollFreeze( 0, 1 );
         ImGui::TableHeadersRow();
 
@@ -3593,6 +3871,7 @@ void tab_eoc_view::draw_eoc_browser( debug_console &host )
         ImGuiListClipper clipper;
         clipper.Begin( static_cast<int>( filtered.size() ) );
         while( clipper.Step() ) {
+            grow_columns<int>( "eocs", specs, filtered, clipper.DisplayStart, clipper.DisplayEnd, true );
             for( int row = clipper.DisplayStart; row < clipper.DisplayEnd; row++ ) {
                 const effect_on_condition &eoc = all_eocs[filtered[row]];
                 const std::string &id_str = eoc.id.str();
@@ -3948,26 +4227,12 @@ static void draw_var_table( const char *table_id,
 
     if( ImGui::BeginTable( table_id, n_cols,
                            ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg |
-                           ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable |
-                           ImGuiTableFlags_SizingStretchProp |
+                           ImGuiTableFlags_Borders | ImGuiTableFlags_SizingFixedFit |
+                           ImGuiTableFlags_NoSavedSettings |
                            ImGuiTableFlags_Sortable,
                            ImVec2( 0.0f, fit_table_height( filtered_count, height ) ) ) ) {
-        ImGui::TableSetupColumn( _( "Key" ), ImGuiTableColumnFlags_DefaultSort );
-        ImGui::TableSetupColumn( _( "Type" ), ImGuiTableColumnFlags_WidthFixed, 50.0f );
-        ImGui::TableSetupColumn( _( "Value" ) );
-        ImGui::TableSetupColumn( _( "As Duration" ),
-                                 ImGuiTableColumnFlags_NoSort );
-        ImGui::TableSetupColumn( _( "As Timepoint" ),
-                                 ImGuiTableColumnFlags_NoSort );
-        if( can_monitor ) {
-            ImGui::TableSetupColumn( _( "Mon" ),
-                                     ImGuiTableColumnFlags_WidthFixed |
-                                     ImGuiTableColumnFlags_NoSort, 40.0f );
-        }
-        ImGui::TableSetupScrollFreeze( 0, 1 );
-        ImGui::TableHeadersRow();
-
-        std::vector<const std::pair<const std::string, diag_value> *> rows;
+        using var_row = const std::pair<const std::string, diag_value> *;
+        std::vector<var_row> rows;
         rows.reserve( vars.size() );
         for( const auto &kv : vars ) {
             if( !filter.empty() && kv.first.find( filter ) == std::string::npos ) {
@@ -3975,6 +4240,41 @@ static void draw_var_table( const char *table_id,
             }
             rows.push_back( &kv );
         }
+
+        std::vector<colspec<var_row>> specs = {
+            { _( "Key" ), colw::stretch, {}, 0.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_DefaultSort },
+            {
+                _( "Type" ), colw::fit, []( const var_row & r )
+                {
+                    const diag_value &v = r->second;
+                    return std::string( v.is_dbl() ? "dbl" : v.is_str() ? "str" :
+                                        v.is_array() ? "arr" : v.is_tripoint() ? "pos" : "?" );
+                }
+            },
+            { _( "Value" ), colw::fit, []( const var_row & r ) { return r->second.to_string( true ); }, 0.0f, 1.0f, 0.25f },
+            {
+                _( "As Duration" ), colw::fit, []( const var_row & r )
+                {
+                    return r->second.is_dbl() ? to_string( time_duration::from_turns( r->second.dbl() ) ) :
+                    std::string();
+                }, 0.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_NoSort
+            },
+            {
+                _( "As Timepoint" ), colw::fit, []( const var_row & r )
+                {
+                    return r->second.is_dbl() ? to_string( calendar::turn_zero + time_duration::from_turns(
+                            r->second.dbl() ) ) : std::string();
+                }, 0.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_NoSort
+            },
+        };
+        if( can_monitor ) {
+            specs.push_back( { _( "Mon" ), colw::widget, {}, 40.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_NoSort } );
+        }
+        const uint64_t key = lk_mix( lk_str( lk_mix( 0u, rows.size() ), filter ),
+                                     can_monitor ? 1u : 0u );
+        setup_columns<var_row>( table_id, key, specs, rows, true );
+        ImGui::TableSetupScrollFreeze( 0, 1 );
+        ImGui::TableHeadersRow();
 
         if( ImGuiTableSortSpecs *sort_specs = ImGui::TableGetSortSpecs() ) {
             if( sort_specs->SpecsCount > 0 ) {
@@ -4013,6 +4313,7 @@ static void draw_var_table( const char *table_id,
             }
         }
 
+        grow_columns<var_row>( table_id, specs, rows, 0, static_cast<int>( rows.size() ), true );
         int row_id = 0;
         for( const auto *row : rows ) {
             const std::string &key = row->first;
@@ -4255,30 +4556,6 @@ void tab_data_view::draw_game_state_panel()
         }
     }
 
-    ImGui::Text( "%s", string_format(
-                     _( "Hunger: %d  Thirst: %d  kcal: %d/%d  BMI: %.1f  BMR: %d" ),
-                     player_character.get_hunger(),
-                     player_character.get_thirst(),
-                     player_character.get_stored_kcal(),
-                     player_character.get_healthy_kcal(),
-                     player_character.get_bmi_fat(),
-                     player_character.get_bmr()
-                 ).c_str() );
-    ImGui::SameLine();
-    add_monitor_button( "gs_metab_mon", "avatar:metabolism",
-                        snap::avatar_metabolism() );
-    ImGui::Text( "%s", string_format(
-                     _( "Stomach: %d/%d mL, %d kcal  |  Guts: %d/%d mL, %d kcal" ),
-                     units::to_milliliter( player_character.stomach.contains() ),
-                     units::to_milliliter( player_character.stomach.capacity( player_character ) ),
-                     player_character.stomach.get_calories(),
-                     units::to_milliliter( player_character.guts.contains() ),
-                     units::to_milliliter( player_character.guts.capacity( player_character ) ),
-                     player_character.guts.get_calories()
-                 ).c_str() );
-    ImGui::SameLine();
-    add_monitor_button( "gs_gi_mon", "avatar:gi", snap::avatar_gi() );
-
     {
         int npc_count = 0;
         std::vector<std::pair<std::string, std::string>> npc_info;
@@ -4471,16 +4748,35 @@ void tab_data_view::draw_timed_events_table()
 
     if( ImGui::BeginTable( "timed_events", 5,
                            ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg |
-                           ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable |
-                           ImGuiTableFlags_SizingStretchProp |
+                           ImGuiTableFlags_Borders | ImGuiTableFlags_SizingFixedFit |
+                           ImGuiTableFlags_NoSavedSettings |
                            ImGuiTableFlags_Sortable,
                            ImVec2( 0.0f, fit_table_height(
                                        static_cast<int>( rows.size() ), 240.0f ) ) ) ) {
-        ImGui::TableSetupColumn( _( "When" ), ImGuiTableColumnFlags_DefaultSort );
-        ImGui::TableSetupColumn( _( "Type" ), ImGuiTableColumnFlags_WidthFixed, 110.0f );
-        ImGui::TableSetupColumn( _( "Key" ) );
-        ImGui::TableSetupColumn( _( "Strength" ), ImGuiTableColumnFlags_WidthFixed, 60.0f );
-        ImGui::TableSetupColumn( _( "Faction" ), ImGuiTableColumnFlags_WidthFixed, 60.0f );
+        const uint64_t key = lk_str( lk_mix( 0u, rows.size() ), timed_events.filter );
+        const std::vector<colspec<const timed_event *>> specs = {
+            { _( "When" ), colw::fit, []( const timed_event *const & te ) { return to_string( te->when ); }, 0.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_DefaultSort },
+            {
+                _( "Type" ), colw::fit, []( const timed_event *const & te )
+                {
+                    return std::string( timed_event_type_name( te->type ) );
+                }
+            },
+            { _( "Key" ), colw::stretch },
+            {
+                _( "Strength" ), colw::fit, []( const timed_event *const & te )
+                {
+                    return std::to_string( te->strength );
+                }
+            },
+            {
+                _( "Faction" ), colw::fit, []( const timed_event *const & te )
+                {
+                    return std::to_string( te->faction_id );
+                }
+            },
+        };
+        setup_columns<const timed_event *>( "timed_events", key, specs, rows, true );
         ImGui::TableSetupScrollFreeze( 0, 1 );
         ImGui::TableHeadersRow();
 
@@ -4522,6 +4818,8 @@ void tab_data_view::draw_timed_events_table()
             }
         }
 
+        grow_columns<const timed_event *>( "timed_events", specs, rows, 0, static_cast<int>( rows.size() ),
+                                           true );
         int row_id = 0;
         for( const timed_event *te : rows ) {
             ImGui::TableNextRow();
@@ -4666,21 +4964,49 @@ void tab_data_view::draw_item_wakeups_table()
 
     if( ImGui::BeginTable( "item_wakeups", 5,
                            ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg |
-                           ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable |
-                           ImGuiTableFlags_SizingStretchProp,
+                           ImGuiTableFlags_Borders | ImGuiTableFlags_SizingFixedFit |
+                           ImGuiTableFlags_NoSavedSettings,
                            ImVec2( 0.0f, fit_table_height(
                                        static_cast<int>( filtered.size() ), 240.0f ) ) ) ) {
-        ImGui::TableSetupColumn( _( "When" ) );
-        ImGui::TableSetupColumn( _( "In" ), ImGuiTableColumnFlags_WidthFixed, 80.0f );
-        ImGui::TableSetupColumn( _( "UID" ), ImGuiTableColumnFlags_WidthFixed, 90.0f );
-        ImGui::TableSetupColumn( _( "Kind" ), ImGuiTableColumnFlags_WidthFixed, 100.0f );
-        ImGui::TableSetupColumn( _( "Where" ) );
+        const uint64_t key = lk_mix( lk_str( lk_mix( 0u, filtered.size() ),
+                                             item_wakeups.filter ),
+                                     static_cast<uint64_t>( item_wakeups.kind_filter ) );
+        const std::vector<colspec<const scheduled_wakeup_info *>> specs = {
+            {
+                _( "When" ), colw::fit, []( const scheduled_wakeup_info *const & w )
+                {
+                    return to_string( w->when );
+                }
+            },
+            {
+                _( "In" ), colw::fit, []( const scheduled_wakeup_info *const & w )
+                {
+                    return to_string( w->when - calendar::turn );
+                }
+            },
+            {
+                _( "UID" ), colw::fit, []( const scheduled_wakeup_info *const & w )
+                {
+                    return std::to_string( w->uid );
+                }
+            },
+            {
+                _( "Kind" ), colw::fit, [&]( const scheduled_wakeup_info *const & w )
+                {
+                    return std::string( kind_name( w->kind ) );
+                }
+            },
+            { _( "Where" ), colw::stretch },
+        };
+        setup_columns<const scheduled_wakeup_info *>( "item_wakeups", key, specs, filtered );
         ImGui::TableSetupScrollFreeze( 0, 1 );
         ImGui::TableHeadersRow();
 
         ImGuiListClipper clipper;
         clipper.Begin( static_cast<int>( filtered.size() ) );
         while( clipper.Step() ) {
+            grow_columns<const scheduled_wakeup_info *>( "item_wakeups", specs, filtered, clipper.DisplayStart,
+                    clipper.DisplayEnd );
             for( int i = clipper.DisplayStart; i < clipper.DisplayEnd; i++ ) {
                 const scheduled_wakeup_info &w = *filtered[i];
                 ImGui::TableNextRow();
@@ -4754,23 +5080,46 @@ void tab_data_view::draw_faction_browser()
         rows.emplace_back( fid, &fac );
     }
 
+    using faction_pair = std::pair<faction_id, const faction *>;
     if( ImGui::BeginTable( "factions", 8,
                            ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg |
-                           ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable |
-                           ImGuiTableFlags_SizingStretchProp |
+                           ImGuiTableFlags_Borders | ImGuiTableFlags_SizingFixedFit |
+                           ImGuiTableFlags_NoSavedSettings |
                            ImGuiTableFlags_Sortable,
                            ImVec2( 0.0f, fit_table_height(
                                        static_cast<int>( rows.size() ), 240.0f ) ) ) ) {
-        ImGui::TableSetupColumn( _( "ID" ), ImGuiTableColumnFlags_DefaultSort );
-        ImGui::TableSetupColumn( _( "Name" ) );
-        ImGui::TableSetupColumn( _( "Likes" ), ImGuiTableColumnFlags_WidthFixed, 45.0f );
-        ImGui::TableSetupColumn( _( "Respect" ), ImGuiTableColumnFlags_WidthFixed, 55.0f );
-        ImGui::TableSetupColumn( _( "Trust" ), ImGuiTableColumnFlags_WidthFixed, 45.0f );
-        ImGui::TableSetupColumn( _( "Size" ), ImGuiTableColumnFlags_WidthFixed, 40.0f );
-        ImGui::TableSetupColumn( _( "Food" ), ImGuiTableColumnFlags_NoSort );
-        ImGui::TableSetupColumn( _( "+M" ),
-                                 ImGuiTableColumnFlags_WidthFixed |
-                                 ImGuiTableColumnFlags_NoSort, 40.0f );
+        const uint64_t key = lk_str( lk_mix( 0u, rows.size() ), faction_browser.filter );
+        const std::vector<colspec<faction_pair>> specs = {
+            { _( "ID" ), colw::fit, []( const faction_pair & r ) { return r.first.str(); }, 0.0f, 1.0f, 0.25f, ImGuiTableColumnFlags_DefaultSort },
+            { _( "Name" ), colw::stretch },
+            {
+                _( "Likes" ), colw::fit, []( const faction_pair & r )
+                {
+                    return std::to_string( r.second->likes_u );
+                }
+            },
+            {
+                _( "Respect" ), colw::fit, []( const faction_pair & r )
+                {
+                    return std::to_string( r.second->respects_u );
+                }
+            },
+            {
+                _( "Trust" ), colw::fit, []( const faction_pair & r )
+                {
+                    return std::to_string( r.second->trusts_u );
+                }
+            },
+            {
+                _( "Size" ), colw::fit, []( const faction_pair & r )
+                {
+                    return std::to_string( r.second->size );
+                }
+            },
+            { _( "Food" ), colw::fit, []( const faction_pair & r ) { return r.second->food_supply_text(); }, 0.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_NoSort },
+            { _( "+M" ), colw::widget, {}, 40.0f, 1.0f, 0.0f, ImGuiTableColumnFlags_NoSort },
+        };
+        setup_columns<faction_pair>( "factions", key, specs, rows, true );
         ImGui::TableSetupScrollFreeze( 0, 1 );
         ImGui::TableHeadersRow();
 
@@ -4814,6 +5163,7 @@ void tab_data_view::draw_faction_browser()
             }
         }
 
+        grow_columns<faction_pair>( "factions", specs, rows, 0, static_cast<int>( rows.size() ), true );
         int row_id = 0;
         for( const auto &[fid, fac_ptr] : rows ) {
             const faction &fac = *fac_ptr;
@@ -4950,7 +5300,10 @@ void tab_trace_view::draw_body( debug_console &host )
     debug_capture &cap = debug_capture::instance();
     capture_settings &s = cap.settings();
 
-    framed_section( "trace_capture", _( "Capture" ), [&]() {
+    // Collapsed by default so the entries feed below gets most of the height.
+    if( ImGui::CollapsingHeader( _( "Capture##trace" ) ) ) {
+        ImGui::PushID( "trace_capture" );
+        ImGui::Indent();
         ImGui::Checkbox( _( "Capture" ), &s.main_enabled );
         if( ImGui::IsItemHovered() ) {
             ImGui::SetTooltip( "%s",
@@ -5125,7 +5478,9 @@ void tab_trace_view::draw_body( debug_console &host )
         if( ImGui::CollapsingHeader( mon_header.c_str() ) ) {
             draw_monitors_body();
         }
-    } );
+        ImGui::Unindent();
+        ImGui::PopID();
+    }
 
     framed_section( "trace_view", _( "View" ), [&]() {
         ImGui::Checkbox( _( "Log" ), &trace_show_log );
@@ -5319,18 +5674,37 @@ void tab_trace_view::draw_body( debug_console &host )
 
     if( ImGui::BeginTable( "trace_feed", 4,
                            ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg |
-                           ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable |
-                           ImGuiTableFlags_SizingStretchProp,
+                           ImGuiTableFlags_Borders | ImGuiTableFlags_SizingFixedFit |
+                           ImGuiTableFlags_NoSavedSettings,
                            ImVec2( 0.0f, ImGui::GetContentRegionAvail().y ) ) ) {
-        ImGui::TableSetupColumn( _( "Turn" ), ImGuiTableColumnFlags_WidthFixed, 60.0f );
-        ImGui::TableSetupColumn( _( "Src" ), ImGuiTableColumnFlags_WidthFixed, 50.0f );
-        ImGui::TableSetupColumn( _( "Label" ), ImGuiTableColumnFlags_WidthFixed, 140.0f );
-        ImGui::TableSetupColumn( _( "Detail" ) );
+        uint64_t key = lk_mix( now_gen, rows.size() );
+        key = lk_mix( key, now_mask );
+        key = lk_mix( key, eoc_visible ? 1u : 0u );
+        key = lk_mix( key, log_category_mask.to_ullong() );
+        key = lk_str( key, trace_filter );
+        const std::vector<colspec<trace_row>> specs = {
+            {
+                _( "Turn" ), colw::fit, []( const trace_row & r )
+                {
+                    return std::to_string( r.turn );
+                }
+            },
+            {
+                _( "Src" ), colw::fit, []( const trace_row & r )
+                {
+                    return std::string( source_names[r.source] );
+                }
+            },
+            { _( "Label" ), colw::fit, []( const trace_row & r ) { return r.label; }, 0.0f, 1.0f, 0.25f },
+            { _( "Detail" ), colw::stretch },
+        };
+        setup_columns<trace_row>( "trace_feed", key, specs, rows );
         ImGui::TableSetupScrollFreeze( 0, 1 );
         ImGui::TableHeadersRow();
         ImGuiListClipper clipper;
         clipper.Begin( static_cast<int>( rows.size() ) );
         while( clipper.Step() ) {
+            grow_columns<trace_row>( "trace_feed", specs, rows, clipper.DisplayStart, clipper.DisplayEnd );
             for( int i = clipper.DisplayStart; i < clipper.DisplayEnd; i++ ) {
                 const trace_row &r = rows[i];
                 ImGui::TableNextRow();
@@ -5340,11 +5714,13 @@ void tab_trace_view::draw_body( debug_console &host )
                 ImGui::TextColored( source_colors[r.source], "%s",
                                     source_names[r.source] );
                 ImGui::TableNextColumn();
+                const float label_cw = ImGui::GetContentRegionAvail().x;
                 if( r.source == 0 && r.log_cat >= 0 ) {
                     ImGui::TextColored( category_color( r.log_cat ), "%s", r.label.c_str() );
                 } else {
                     ImGui::TextUnformatted( r.label.c_str() );
                 }
+                clip_tooltip( r.label, label_cw );
                 ImGui::TableNextColumn();
                 cataimgui::draw_colored_text( r.body, c_white );
             }
@@ -5425,12 +5801,12 @@ void tab_trace_view::draw_monitors_body()
                                   ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders |
                                   ImGuiTableFlags_Resizable |
                                   ImGuiTableFlags_SizingStretchProp ) ) {
-        ImGui::TableSetupColumn( _( "On" ), ImGuiTableColumnFlags_WidthFixed, 30.0f );
+        fit_col( _( "On" ) );
         ImGui::TableSetupColumn( _( "Label" ) );
-        ImGui::TableSetupColumn( _( "Mode" ), ImGuiTableColumnFlags_WidthFixed, 90.0f );
+        fit_col( _( "Mode" ) );
         ImGui::TableSetupColumn( _( "Last snapshot" ) );
-        ImGui::TableSetupColumn( _( "Snap" ), ImGuiTableColumnFlags_WidthFixed, 50.0f );
-        ImGui::TableSetupColumn( _( "Remove" ), ImGuiTableColumnFlags_WidthFixed, 60.0f );
+        fit_col( _( "Snap" ) );
+        fit_col( _( "Remove" ) );
         ImGui::TableHeadersRow();
         int remove_id = -1;
         int snap_id = -1;
@@ -5513,6 +5889,54 @@ float fit_table_height( int n_rows, float cap_h )
                             + row_h * static_cast<float>( std::max( 1, n_rows ) )
                             + 4.0f;
     return std::min( content_h, cap_h );
+}
+
+void fit_col( const char *label, ImGuiTableColumnFlags extra_flags )
+{
+    // init width 0 => ImGui auto-sizes the fixed column to the wider of its
+    // header and its submitted (visible, under a clipper) cells.
+    ImGui::TableSetupColumn( label, ImGuiTableColumnFlags_WidthFixed | extra_flags, 0.0f );
+}
+
+void scalar_slider_table( const char *id, const std::vector<slider_row> &rows,
+                          int pairs_per_row )
+{
+    if( rows.empty() || pairs_per_row < 1 ) {
+        return;
+    }
+    // Shared label-column width so all slider tracks start at the same x.
+    float label_w = 0.0f;
+    for( const slider_row &r : rows ) {
+        label_w = std::max( label_w, ImGui::CalcTextSize( r.label.c_str() ).x );
+    }
+    label_w += 8.0f;
+    ImGui::PushID( id );
+    if( ImGui::BeginTable( "scalar_sliders", pairs_per_row * 2,
+                           ImGuiTableFlags_SizingStretchProp ) ) {
+        for( int p = 0; p < pairs_per_row; p++ ) {
+            ImGui::TableSetupColumn( "l", ImGuiTableColumnFlags_WidthFixed, label_w );
+            ImGui::TableSetupColumn( "s", ImGuiTableColumnFlags_WidthStretch );
+        }
+        for( size_t i = 0; i < rows.size(); i++ ) {
+            if( i % static_cast<size_t>( pairs_per_row ) == 0 ) {
+                ImGui::TableNextRow();
+            }
+            const slider_row &r = rows[i];
+            ImGui::TableNextColumn();
+            ImGui::AlignTextToFramePadding();
+            ImGui::TextUnformatted( r.label.c_str() );
+            ImGui::TableNextColumn();
+            int v = r.get();
+            ImGui::PushID( static_cast<int>( i ) );
+            ImGui::SetNextItemWidth( -1.0f );
+            if( ImGui::SliderInt( "##v", &v, r.lo, r.hi ) ) {
+                r.set( v );
+            }
+            ImGui::PopID();
+        }
+        ImGui::EndTable();
+    }
+    ImGui::PopID();
 }
 
 void add_monitor_button( const char *id, const std::string &label,

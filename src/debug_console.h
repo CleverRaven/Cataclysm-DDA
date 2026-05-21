@@ -63,13 +63,6 @@ class console_tab_view
         virtual void save_state( JsonOut & ) const {}
 };
 
-class tab_setup_view : public console_tab_view
-{
-    public:
-        const char *label() const override;
-        void draw_body( debug_console &host ) override;
-};
-
 class tab_spawn_view : public console_tab_view
 {
     public:
@@ -323,6 +316,23 @@ inline void stat_slider( const char *label, int lo, int hi,
 // +4 cushion accounts for borders/cell padding so the last row isn't clipped.
 float fit_table_height( int n_rows, float cap_h );
 
+// Auto-sized column: width tracks the wider of its header text and its visible
+// cells, so neither clips. Use for columns with a visible header.
+void fit_col( const char *label, ImGuiTableColumnFlags extra_flags = 0 );
+
+struct slider_row {
+    std::string label;
+    int lo;
+    int hi;
+    std::function<int()> get;
+    std::function<void( int )> set;
+};
+
+// Aligned grid of scalar int sliders: `pairs_per_row` label+slider pairs per
+// row sharing one label column so the tracks line up.
+void scalar_slider_table( const char *id, const std::vector<slider_row> &rows,
+                          int pairs_per_row = 2 );
+
 // "+M" button registering a monitor with given label and snapshot.
 void add_monitor_button( const char *id, const std::string &label,
                          std::function<std::string()> snap,
@@ -411,6 +421,7 @@ class debug_console : public cataimgui::window
 
     protected:
         void draw_controls() override;
+        void draw() override;
         cataimgui::bounds get_bounds() override;
 
     private:
@@ -449,6 +460,10 @@ class debug_console : public cataimgui::window
 
         // Cross-tab visibility flag (see {get,set}_eoc_trace_visible).
         bool trace_show_eoc = true;
+
+        // While set, draw() skips the window so it isn't drawn over a blocking
+        // sub-UI launched from execute().
+        bool suspend_draw_ = false;
 
         // Eval-loop transit buffers (see request_eval / consume_eval_result).
         bool eval_pending = false;
