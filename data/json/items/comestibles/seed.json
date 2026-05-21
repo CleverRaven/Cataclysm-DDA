@@ -1963,9 +1963,9 @@
       { "GROWTH_SEEDLING": "15 days" },
       { "GROWTH_MATURE": "15 days" },
       { "GROWTH_HARVEST": "15 days" }
-     ]
-   },
-   {
+    ]
+  },
+  {
     "id": "seed_artichoke",
     "copy-from": "seed",
     "price": "70 cent",

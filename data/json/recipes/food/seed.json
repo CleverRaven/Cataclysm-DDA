@@ -911,7 +911,7 @@
     "copy-from": "seed_extraction_base",
     "components": [ [ [ "cauliflower_head", 1 ] ] ]
   },
-   {
+  {
     "result": "seed_cauliflower",
     "type": "recipe",
     "id_suffix": "bulk",
