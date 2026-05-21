@@ -284,5 +284,41 @@
     "required_event": "character_loses_effect",
     "condition": { "compare_string": [ "effect_mom_cascade_stone", { "context_val": "effect" } ] },
     "effect": [ { "u_lose_trait": "PSI_TORRENTIAL_CHANNELING_active" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_DIMENSIONAL_ANCHOR_WILL_CANCEL_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": { "compare_string": [ "effect_psi_dimensionally_anchored", { "context_val": "trait" } ] },
+    "effect": [
+      { "u_add_effect": "effect_mom_dimensionally_anchored_eventually_cancel_concentration", "duration": 100 },
+      { "run_eocs": "EOC_MOM_DIMENSIONAL_ANCHOR_WILL_CANCEL_POWERS_ESCALATING_CHECKER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_DIMENSIONAL_ANCHOR_WILL_CANCEL_POWERS_ESCALATING_CHECKER",
+    "condition": {
+      "and": [
+        { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" },
+        { "u_has_effect": "effect_mom_dimensionally_anchored_eventually_cancel_concentration" }
+      ]
+    },
+    "effect": [
+      {
+        "if": {
+          "x_in_y_chance": {
+            "x": { "math": [ "u_effect_intensity('effect_mom_dimensionally_anchored_eventually_cancel_concentration')" ] },
+            "y": 100
+          }
+        },
+        "then": [
+          { "u_lose_effect": "effect_mom_dimensionally_anchored_eventually_cancel_concentration" },
+          { "run_eocs": "EOC_END_PSI_POWERS" }
+        ],
+        "else": [ { "run_eocs": "EOC_MOM_DIMENSIONAL_ANCHOR_WILL_CANCEL_POWERS_ESCALATING_CHECKER", "time_in_future": 1 } ]
+      }
+    ]
   }
 ]
