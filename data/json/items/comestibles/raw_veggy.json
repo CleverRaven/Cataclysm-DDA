@@ -1550,7 +1550,7 @@
     "name": { "str": "kale" },
     "copy-from": "kale_head",
     "weight": "25 g",
-	"spoils_in": "3 days",
+    "spoils_in": "3 days",
     "description": "A handful of shredded kale.",
     "price": "30 cent",
     "price_postapoc": "20 cent",
