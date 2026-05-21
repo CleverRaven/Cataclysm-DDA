@@ -1452,7 +1452,7 @@
     "id": "bio_torsionratchet",
     "type": "bionic",
     "name": { "str": "Joint Torsion Ratchet" },
-    "description": "Your joints have been surgically equipped with torsion ratchets that slowly generate power when you move.  Whilst this is toggled, moving will require more effort, though more power will be generated.",
+    "description": "Your joints have been surgically equipped with torsion ratchets that slowly generate power when you move, even when turned off.  Whilst this is toggled on, moving will require more effort, but more power will be generated.  This system is actively detrimental to fully mechanical limbs; the additional joint resistance it relies on causes a net loss of bionic power.",
     "occupied_bodyparts": [ [ "arm_l", 8 ], [ "arm_r", 8 ], [ "leg_l", 12 ], [ "leg_r", 12 ] ],
     "fuel_options": [ "muscle" ],
     "fuel_efficiency": 0.125,

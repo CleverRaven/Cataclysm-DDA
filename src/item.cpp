@@ -1629,10 +1629,14 @@ std::string item::display_name( unsigned int quantity ) const
                     if( mag != nullptr ) {
                         well_amount = mag->ammo_remaining();
                         const itype *adata = mag->ammo_data();
-                        well_max = adata
-                                   ? mag->ammo_capacity( adata->ammo->type )
-                                   : mag->ammo_capacity( item_controller->find_template(
-                                                             mag->ammo_default() )->ammo->type );
+                        if( adata ) {
+                            well_max = mag->ammo_capacity( adata->ammo->type );
+                        } else if( !mag->ammo_default().is_null() ) {
+                            const itype *tmpl = item_controller->find_template( mag->ammo_default() );
+                            if( tmpl && tmpl->ammo ) {
+                                well_max = mag->ammo_capacity( tmpl->ammo->type );
+                            }
+                        }
                         ammo_for_name = adata;
                         ammo_id_for_name = mag->ammo_current();
                         if( ammo_id_for_name.is_null() ) {
@@ -1731,9 +1735,11 @@ std::string item::display_name( unsigned int quantity ) const
             const itype *adata = mag->ammo_data();
             if( adata ) {
                 max_amount = mag->ammo_capacity( adata->ammo->type );
-            } else {
-                max_amount = mag->ammo_capacity( item_controller->find_template(
-                                                     mag->ammo_default() )->ammo->type );
+            } else if( !mag->ammo_default().is_null() ) {
+                const itype *tmpl = item_controller->find_template( mag->ammo_default() );
+                if( tmpl && tmpl->ammo ) {
+                    max_amount = mag->ammo_capacity( tmpl->ammo->type );
+                }
             }
         }
     } else if( is_tool() && has_flag( flag_USES_NEARBY_AMMO ) ) {
@@ -1746,8 +1752,13 @@ std::string item::display_name( unsigned int quantity ) const
         const itype *adata = ammo_data();
         if( adata ) {
             max_amount = ammo_capacity( adata->ammo->type );
-        } else {
-            max_amount = ammo_capacity( item_controller->find_template( ammo_default() )->ammo->type );
+        } else if( !ammo_default().is_null() ) {
+            // Barrel-swappable guns ("ammo": [ "NULL" ]) resolve to a
+            // template with a null ammo slot.
+            const itype *tmpl = item_controller->find_template( ammo_default() );
+            if( tmpl && tmpl->ammo ) {
+                max_amount = ammo_capacity( tmpl->ammo->type );
+            }
         }
         show_amt = !has_flag( flag_RELOAD_AND_SHOOT );
     } else if( count_by_charges() && !has_infinite_charges() ) {

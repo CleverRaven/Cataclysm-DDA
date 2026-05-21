@@ -789,7 +789,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "pie_veggy",
-    "name": { "str": "vegetable pie" },
+    "name": { "str": "slice of vegetable pie", "str_pl": "slices of vegetable pie" },
     "weight": "240 g",
     "color": "brown",
     "spoils_in": "3 days",

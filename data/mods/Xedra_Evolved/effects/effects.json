@@ -3877,8 +3877,8 @@
     "max_intensity": 5,
     "apply_message": "You want to sink your fangs in someone's neck and drink their blood.",
     "miss_messages": [ [ "Your thirst distract you.", 1 ] ],
-    "base_mods": { "sleep_chance": [ -1003 ], "sleep_min": [ 15000 ], "sleep_max": [ 21000 ] },
-    "scaling_mods": { "per_mod": [ -0.5 ], "dex_mod": [ -0.5 ], "int_mod": [ -0.75 ], "sleep_chance": [ 501 ] },
+    "base_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ], "int_mod": [ -1.5 ] },
+    "scaling_mods": { "per_mod": [ -0.5 ], "dex_mod": [ -0.5 ], "int_mod": [ -0.75 ] },
     "limb_score_mods": [
       { "limb_score": "manip", "modifier": 1.0, "scaling": -0.1 },
       { "limb_score": "block", "modifier": 1.0, "scaling": -0.1 },

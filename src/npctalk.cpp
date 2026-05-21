@@ -8520,6 +8520,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( bionic_install_allies ),
             WRAP( bionic_remove ),
             WRAP( bionic_remove_allies ),
+            WRAP( repair_bionic_limbs ),
             WRAP( drop_items_in_place ),
             WRAP( follow ),
             WRAP( follow_only ),

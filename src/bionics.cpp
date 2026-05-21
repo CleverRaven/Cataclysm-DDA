@@ -139,6 +139,7 @@ static const itype_id itype_water_clean( "water_clean" );
 static const json_character_flag json_flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
 static const json_character_flag json_flag_BIONIC_FAULTY( "BIONIC_FAULTY" );
 static const json_character_flag json_flag_BIONIC_GUN( "BIONIC_GUN" );
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_BIONIC_POWER_SOURCE( "BIONIC_POWER_SOURCE" );
 static const json_character_flag json_flag_BIONIC_REMOVABLE( "BIONIC_REMOVABLE" );
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
@@ -946,7 +947,16 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         conduct_blood_analysis();
     } else if( bio.id == bio_torsionratchet ) {
         add_msg_activate();
-        add_msg_if_player( m_info, _( "Your torsion ratchet locks onto your joints." ) );
+        bool has_bionic_limbs = false;
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            if( bp->has_flag( json_flag_BIONIC_LIMB ) ) {
+                has_bionic_limbs = true;
+            }
+        }
+        add_msg_if_player( m_info, _( "Your torsion ratchets lock onto your joints." ) );
+        if( has_bionic_limbs ) {
+            add_msg_if_player( m_bad, _( "Your torsion ratchets are straining your bionic limbs!" ) );
+        }
     } else if( bio.id == bio_jointservo ) {
         add_msg_activate();
         add_msg_if_player( m_info, _( "You can now run faster, assisted by joint servomotors." ) );

@@ -1192,7 +1192,8 @@
         [ "spinach", 1 ],
         [ "sea_lettuce", 1 ],
         [ "bladderwrack", 1 ],
-        [ "kelp_sugar", 1 ]
+        [ "kelp_sugar", 1 ],
+        [ "brussels_sprout", 1 ]
       ]
     ]
   },
@@ -1248,8 +1249,12 @@
         [ "zucchini", 1 ],
         [ "zucchini_cut", 1 ],
         [ "eggplant_cut", 1 ],
+        [ "raw_artichoke", 1 ],
+        [ "artichoke_heart", 1 ],
+        [ "raw_asparagus", 1 ],
         [ "carrot_wild", 1 ],
         [ "wild_garlic", 2 ],
+        [ "brussels_sprout", 3 ],
         [ "spinach", 1 ],
         [ "japanese_knotweed_stem", 1 ]
       ]
@@ -1289,6 +1294,24 @@
     "type": "requirement",
     "//": "Any form of eggplant used in cooking",
     "components": [ [ [ "eggplant", 1 ], [ "eggplant_cut", 2 ] ] ]
+  },
+  {
+    "id": "any_artichoke",
+    "type": "requirement",
+    "//": "Any form of artichoke used in cooking",
+    "components": [ [ [ "raw_artichoke", 1 ], [ "artichoke_heart", 1 ] ] ]
+  },
+  {
+    "id": "any_asparagus",
+    "type": "requirement",
+    "//": "Any form of asparagus used in cooking",
+    "components": [ [ [ "raw_asparagus", 1 ] ] ]
+  },
+  {
+    "id": "any_brussels_sprout",
+    "type": "requirement",
+    "//": "Any form of brussels sprout used in cooking",
+    "components": [ [ [ "brussels_sprout", 3 ] ] ]
   },
   {
     "id": "any_zucchini",

@@ -519,7 +519,7 @@
       "torso_bionic_basic_hanging_back",
       "torso_bionic_basic_waist"
     ],
-    "flags": [ "NO_LIMB_FIRST_AID" ],
+    "flags": [ "NO_LIMB_FIRST_AID", "PARTIAL_BIONIC_LIMB" ],
     "feels_discomfort": false,
     "mend_rate": 0,
     "ugliness_mandatory": 0,
@@ -611,7 +611,7 @@
       }
     ],
     "similar_bodypart": "head",
-    "flags": [ "LIMB_UPPER", "NO_LIMB_FIRST_AID" ],
+    "flags": [ "LIMB_UPPER", "NO_LIMB_FIRST_AID", "PARTIAL_BIONIC_LIMB" ],
     "feels_discomfort": false,
     "mend_rate": 0,
     "ugliness_mandatory": 0,
