@@ -553,6 +553,13 @@
   {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
+    "id": "asparagus_wild",
+    "name": { "str": "wild asparagus" },
+    "copy-from": "raw_asparagus"
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "dogbane",
     "name": { "str_sp": "dogbane" },
     "description": "A stalk of dogbane.  It has very fibrous stems and is mildly poisonous.",
