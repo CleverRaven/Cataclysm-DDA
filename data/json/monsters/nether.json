@@ -106,8 +106,9 @@
   },
   {
     "id": "mon_blank_avatar_copy",
+    "copy-from": "mon_blank",
     "type": "MONSTER",
-    "name": { "str": "blank body", "str_pl": "blank bodies" },
+    "name": { "str": "blank body?", "str_pl": "blank bodies?" },
     "description": "This was some form of unnatural changeling creature, but now it's you.  It looks like you.  It moves like you.  It even smiles like you.",
     "extend": { "flags": [ "COPY_AVATAR_LOOK" ] }
   },
