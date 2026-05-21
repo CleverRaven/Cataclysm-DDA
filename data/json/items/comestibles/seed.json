@@ -1967,6 +1967,7 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
     "id": "seed_artichoke",
     "copy-from": "seed",
     "price": "70 cent",
