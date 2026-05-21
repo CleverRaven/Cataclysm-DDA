@@ -1220,71 +1220,9 @@
   },
   {
     "type": "item_group",
-    "id": "garlic_powder_various",
-    "subtype": "distribution",
-    "entries": [
-      { "prob": 18, "group": "garlic_powder_bottle_plastic_small" },
-      { "prob": 18, "group": "garlic_powder_bottle_glass_small" },
-      { "prob": 2, "group": "garlic_powder_bottle_plastic" },
-      { "prob": 2, "group": "garlic_powder_bottle_glass" },
-      { "prob": 4, "group": "garlic_powder_bag_plastic" },
-      { "prob": 1, "group": "garlic_powder_bag_paper" }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "garlic_powder_bottle_plastic_small",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_seasoning_small",
-    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 50 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "garlic_powder_bottle_glass_small",
-    "subtype": "collection",
-    "container-item": "bottle_glass_seasoning_small",
-    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 50 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "garlic_powder_bottle_plastic",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_seasoning",
-    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 100 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "garlic_powder_bottle_glass",
-    "subtype": "collection",
-    "container-item": "bottle_glass_seasoning",
-    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 100 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "baking_soda_box",
     "subtype": "collection",
     "container-item": "box_small",
     "entries": [ { "item": "chem_baking_soda", "container-item": "null", "count": [ 1, 2 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "garlic_powder_bag_plastic",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 100 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "garlic_powder_bag_paper",
-    "subtype": "collection",
-    "container-item": "bag_paper_powder",
-    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 25, 500 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "tums_bottle_plastic_small_1_20",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "tums", "container-item": "null", "count": [ 1, 20 ] } ]
   }
 ]
