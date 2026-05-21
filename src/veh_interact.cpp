@@ -2043,7 +2043,10 @@ void veh_interact::do_change_shape_menu( vehicle_part &vp )
         variants.emplace_back( variant_id );
         smenu.entries.emplace_back( entry );
     }
-    sort_uilist_entries_by_line_drawing( smenu.entries );
+    std::sort( smenu.entries.begin(), smenu.entries.end(),
+    []( const uilist_entry & a, const uilist_entry & b ) {
+        return localized_compare( a.txt, b.txt );
+    } );
 
     // get default selection after sorting
     for( std::size_t i = 0; i < smenu.entries.size(); ++i ) {
