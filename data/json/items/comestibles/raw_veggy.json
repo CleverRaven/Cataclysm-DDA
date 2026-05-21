@@ -1527,7 +1527,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "id": "kale_head",
     "name": { "str_sp": "kale head" },
-    "weight": "100 g",
+    "weight": "150 g",
     "color": "dark_green",
     "spoils_in": "5 days",
     "comestible_type": "FOOD",
