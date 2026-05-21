@@ -1168,7 +1168,7 @@
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Joint Torsion Ratchet CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A set of torsion ratchets that replace the user's joints to slowly generate power when they move.  These can be toggled to generate more power, but movement will require more effort.",
+    "description": "A set of torsion ratchets that replace the user's joints to slowly generate power when they move.  These can be toggled to generate more power, but movement will require more effort.  This system is actively detrimental to fully mechanical limbs; the additional joint resistance it relies on causes a net loss of bionic power.",
     "price": "3 kUSD 800 USD",
     "price_postapoc": "20 USD",
     "weight": "1000 g",
