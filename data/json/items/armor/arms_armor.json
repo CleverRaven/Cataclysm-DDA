@@ -1510,6 +1510,7 @@
     "price": "600 USD",
     "price_postapoc": "120 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "light_gray",
@@ -1537,7 +1538,7 @@
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_r", "arm_elbow_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
+        "specifically_covers": [ "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
         "coverage": 100
       }
     ],
