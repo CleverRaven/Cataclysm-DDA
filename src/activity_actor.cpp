@@ -5378,7 +5378,7 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
         req_fail_reason = requirement_failure_reasons();
         const requirement_check_result req_res = check_requirements( you, act_info, src, src_bub, src_set,
                 check_only );
-        if( req_res == requirement_check_result::RETURN_EARLY ) {
+        if( req_res == requirement_check_result::RETURN_EARLY || !you.activity ) {
             // Fetch dispatched -- prune so we don't re-trigger it.
             if( use_cache ) {
                 cache.sources.erase( src );
@@ -5612,6 +5612,8 @@ requirement_check_result multi_zone_activity_actor::fetch_requirements( Characte
         candidates.push_back( point_elem );
     }
     if( candidates.empty() ) {
+        add_msg_if_player_sees( you,
+                                _( "Failed to find a non-zoned suitably empty tile to drop fetched items within range of work activity." ) );
         you.activity = player_activity();
         you.backlog.clear();
         multi_activity_actor::check_npc_revert( you );
