@@ -1555,6 +1555,7 @@
     "fun": -3
   },
   {
+    "type": "ITEM",
     "id": "raw_artichoke",
     "name": { "str": "raw artichoke" },
     "comestible_type": "FOOD",
@@ -1597,6 +1598,7 @@
     "fun": -5
   },
   {
+    "type": "ITEM",
     "id": "raw_asparagus",
     "name": { "str_sp": "raw asparagus" },
     "comestible_type": "FOOD",
