@@ -184,5 +184,21 @@
     "//": "Hidden effect, used as a tracker",
     "name": [ "" ],
     "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_incense_nether_attunement",
+    "//": "Hidden effect, part of an enchantment",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "vitamins": [ { "vitamin": "vitamin_psionic_drain", "rate": [ [ 2, 6 ] ], "tick": [ "20 s" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mom_incense_nether_attunement_major",
+    "//": "Hidden effect, part of an enchantment",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "vitamins": [ { "vitamin": "vitamin_psionic_drain", "rate": [ [ 3, 6 ] ], "tick": [ "5 s" ] } ]
   }
 ]
