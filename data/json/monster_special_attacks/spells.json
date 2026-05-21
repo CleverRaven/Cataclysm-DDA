@@ -1352,6 +1352,49 @@
   },
   {
     "type": "SPELL",
+    "id": "blank_body_avatar_copy",
+    "name": { "str": "Blank Body Player Copy Check", "//~": "NO_I18N" },
+    "description": {
+      "str": "Blank body checks and might copy the player.  Needs to be the avatar to apply COPY_AVATAR_LOOK",
+      "//~": "NO_I18N"
+    },
+    "flags": [ "NO_PROJECTILE", "SILENT", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BLANK_BODY_AVATAR_COPY",
+    "valid_targets": [ "self", "hostile", "ally" ],
+    "base_casting_time": 200,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "shape": "blast"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLANK_BODY_AVATAR_COPY",
+    "condition": "has_alpha",
+    "effect": [
+      {
+        "if": { "and": [ "u_is_avatar", { "x_in_y_chance": { "x": 1, "y": 100 } } ] },
+        "then": [ { "id": "blank_body_avatar_copy_polymorph", "hit_self": true } ]
+      }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "blank_body_avatar_copy_polymorph",
+    "name": { "str": "Blank Body Player Copy", "//~": "NO_I18N" },
+    "description": { "str": "Blank body copies the player", "//~": "NO_I18N" },
+    "message": "",
+    "flags": [ "NO_PROJECTILE", "SILENT", "NO_EXPLOSION_SFX" ],
+    "effect": "targeted_polymorph",
+    "effect_str": "mon_blank_avatar_copy",
+    "valid_targets": [ "self" ],
+    "min_damage": 10000,
+    "max_damage": 10000,
+    "base_casting_time": 200,
+    "shape": "blast"
+  },
+  {
+    "type": "SPELL",
     "id": "veiled_butterfly_irradiate",
     "name": { "str": "Irradiate Player", "//~": "NO_I18N" },
     "description": { "str": "Adds minor radiation to player.", "//~": "NO_I18N" },
