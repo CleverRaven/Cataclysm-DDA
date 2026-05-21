@@ -734,7 +734,11 @@
     "id": "avatar_wears_power_armor",
     "type": "event_transformation",
     "event_transformation": "avatar_wears_item",
-    "value_constraints":  { "itype": { "equals_any": [ "itype_id", [ "combat_exoskeleton_heavy", "combat_exoskeleton_light", "combat_exoskeleton_medium" ] ] } },
+    "value_constraints": {
+      "itype": {
+        "equals_any": [ "itype_id", [ "combat_exoskeleton_heavy", "combat_exoskeleton_light", "combat_exoskeleton_medium" ] ]
+      }
+    },
     "drop_fields": [ "itype" ]
   },
   {
@@ -2738,7 +2742,9 @@
     "type": "event_transformation",
     "event_transformation": "avatar_enters_oter_type",
     "value_constraints": {
-      "oter_type_id": { "equals_any": [ "oter_type_str_id", [ "lmoe_under_north", "lmoe_under_empty_prepperquest_north", "cabin_prepper_shelternorth" ] ] }
+      "oter_type_id": {
+        "equals_any": [ "oter_type_str_id", [ "lmoe_under_north", "lmoe_under_empty_prepperquest_north", "cabin_prepper_shelternorth" ] ]
+      }
     }
   },
   {

@@ -34,7 +34,7 @@
     "type": "achievement",
     "name": "Disassemble Number Five!",
     "requirements": [ { "event_statistic": "num_avatar_robot_kills", "is": ">=", "target": 1, "visible": "when_achievement_completed" } ]
-  },  
+  },
   {
     "id": "achievement_kill_mutant",
     "type": "achievement",
@@ -48,7 +48,12 @@
     "name": "Psycho Killer",
     "time_constraint": { "since": "game_start", "is": "<=", "target": "30 days" },
     "description": "Qu'est-ce que c'est",
-    "requirements": [ { "event_statistic": "num_avatar_character_kills", "is": ">=", "target": 3 }, { "description": "Kill 3 NPCs within 30 days of game start, loosely meeting the legal definition of a serial killer." } ]
+    "requirements": [
+      { "event_statistic": "num_avatar_character_kills", "is": ">=", "target": 3 },
+      {
+        "description": "Kill 3 NPCs within 30 days of game start, loosely meeting the legal definition of a serial killer."
+      }
+    ]
   },
   {
     "id": "achievement_kill_in_first_minute",
@@ -216,7 +221,7 @@
     "name": "Head of the Charles",
     "//": "Prestigious rowing race held in Boston",
     "requirements": [ { "event_statistic": "num_moves_boat_ctrl_direct", "is": ">=", "target": 4800 } ]
-  }, 
+  },
   {
     "id": "achievement_vehicle_distance_boat_spanlad",
     "type": "achievement",
@@ -2133,7 +2138,7 @@
         "description": "Reach an Island Prison"
       }
     ]
-  },    
+  },
   {
     "id": "achievement_reach_police_hq",
     "type": "achievement",
@@ -2147,7 +2152,7 @@
         "description": "Reach a large Police Department"
       }
     ]
-  },  
+  },
   {
     "id": "achievement_reach_mi-Go_encampment",
     "type": "achievement",
@@ -2190,7 +2195,7 @@
         "description": "Reach an LMOE shelter"
       }
     ]
-  },  
+  },
   {
     "id": "achievement_reach_resort",
     "type": "achievement",
@@ -2315,7 +2320,7 @@
         "description": "Reach a School"
       }
     ]
-  },  
+  },
   {
     "id": "achievement_reach_vetaff",
     "type": "achievement",
@@ -2342,7 +2347,7 @@
         "description": "Reach a Hospital"
       }
     ]
-  },  
+  },
   {
     "id": "achievement_reach_prison",
     "type": "achievement",
@@ -2522,16 +2527,14 @@
         "description": "Reach a research lab"
       }
     ]
-  },  
+  },
   {
     "id": "achievement_black_glass",
     "type": "achievement",
     "name": "I like you just the way you are",
     "//": "Silent Homestead",
     "manually_given": true,
-    "requirements": [ 
-      {"description": "Learn the true value of ugliness" }
-    ]
+    "requirements": [ { "description": "Learn the true value of ugliness" } ]
   },
   {
     "id": "achievement_reach_highlands",
@@ -2571,7 +2574,6 @@
     "requirements": [  ]
   },
   {
-
     "id": "achievement_nem_scen_win",
     "type": "achievement",
     "name": { "str": "And stay down!" },

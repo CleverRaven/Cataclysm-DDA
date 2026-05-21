@@ -802,7 +802,7 @@
     "type": "profession",
     "id": "sheltered_militia",
     "name": "Sheltered Militia",
-    "requirement": [ "achievement_survive_28_days","achievement_reach_lmoe" ],
+    "requirement": [ "achievement_survive_28_days", "achievement_reach_lmoe" ],
     "description": "At the start of the Cataclysm, you hunkered down in a bomb shelter with your collection of guns.  You've spent the past months eating canned food and practicing your aim.  Now it is winter - time to face the world above.",
     "npc_background": "BG_survival_story_ECCENTRIC",
     "points": 4,
@@ -3872,7 +3872,7 @@
     "proficiencies": [ "prof_great_axes_familiar", "prof_great_axes_pro", "prof_hand_axes_familiar", "prof_hand_axes_pro" ],
     "skills": [
       { "level": 3, "name": "melee" },
-      { "level": 3, "name": "bashing" },  
+      { "level": 3, "name": "bashing" },
       { "level": 3, "name": "cutting" },
       { "level": 2, "name": "swimming" }
     ],
