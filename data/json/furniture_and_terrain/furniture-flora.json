@@ -68,7 +68,7 @@
     "description": "A perennial plant cultivated for its young edible shoots, commonly called spears.  When raw and growing naturally, the plant has a distinctive appearance that changes through its life cycle.",
     "move_cost_mod": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "SHRUB" ],
-	"color": "green",
+    "color": "green",
     "harvest_by_season": [ { "seasons": [ "winter", "spring", "summer" ], "id": "wild_asparagus_harv" } ]
   },
   {
