@@ -64,12 +64,17 @@
     "type": "furniture",
     "id": "f_asparagus_wild",
     "name": "wild asparagus",
-    "copy_from": "f_carrot_wild",
     "description": "A perennial plant cultivated for its young edible shoots, commonly called spears.  When raw and growing naturally, the plant has a distinctive appearance that changes through its life cycle.",
-    "move_cost_mod": 2,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "SHRUB" ],
+    "symbol": "f",
     "color": "green",
-    "harvest_by_season": [ { "seasons": [ "winter", "spring", "summer" ], "id": "wild_asparagus_harv" } ]
+    "looks_like": "t_shrub",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "SHRUB" ],
+    "examine_action": "harvest_furn_nectar",
+	"color": "green",
+    "harvest_by_season": [ { "seasons": [ "winter", "spring", "summer" ], "id": "wild_asparagus_harv" } ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
     "type": "furniture",
