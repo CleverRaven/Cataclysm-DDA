@@ -120,7 +120,7 @@
       { "item": "brussels_sprout_stalk", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
       { "item": "brussels_sprout", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
       { "item": "pea_pods", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
-      { "item": "pea", "prob": 5, "custom-flags": [ "IRRADIATED" ] }
+      { "item": "pea", "prob": 50, "custom-flags": [ "IRRADIATED" ] }
     ]
   },
   {
