@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cstdint>
 #include <optional>
 #include <sstream>
@@ -10,6 +11,7 @@
 #include "cata_catch.h"
 #include "character_id.h"
 #include "coordinates.h"
+#include "craft_command.h"
 #include "crafting.h"
 #include "crafting_enums.h"
 #include "flexbuffer_json.h"
@@ -31,16 +33,26 @@
 #include "type_id.h"
 
 static const itype_id itype_2x4( "2x4" );
+static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_microwave( "microwave" );
+static const itype_id itype_soldering_iron_portable( "soldering_iron_portable" );
 
+static const recipe_id recipe_cudgel_test_charged_fast_stepless(
+    "cudgel_test_charged_fast_stepless" );
 static const recipe_id recipe_cudgel_test_consecutive_unattended(
     "cudgel_test_consecutive_unattended" );
 static const recipe_id recipe_cudgel_test_first_step_unattended(
     "cudgel_test_first_step_unattended" );
 static const recipe_id recipe_cudgel_test_only_unattended(
     "cudgel_test_only_unattended" );
+static const recipe_id recipe_cudgel_test_root_unattended(
+    "cudgel_test_root_unattended" );
 static const recipe_id recipe_cudgel_test_steps_basic(
     "cudgel_test_steps_basic" );
+static const recipe_id recipe_cudgel_test_steps_charged(
+    "cudgel_test_steps_charged" );
+static const recipe_id recipe_cudgel_test_steps_two_tools(
+    "cudgel_test_steps_two_tools" );
 static const recipe_id recipe_cudgel_test_timeout_recipe(
     "cudgel_test_timeout_recipe" );
 static const recipe_id recipe_cudgel_test_unattended_simple(
@@ -314,6 +326,387 @@ TEST_CASE( "craft_data_persists_attention_runtime_fields",
     CHECK( restored.get_saved_alarm_at() == calendar::turn + 8_minutes );
     CHECK( restored.get_saved_fail_at() == calendar::turn + 26_minutes );
     CHECK( restored.get_crafter_id() == character_id( 42 ) );
+}
+
+TEST_CASE( "craft_data_persists_step_tool_allocs", "[craft][attention][persist]" )
+{
+    // Round-trip a single allocation directly, so this covers serialization
+    // independent of the load-time recipe-shape validation (exercised by the
+    // craft_data_validates_* cases).
+    step_tool_alloc alloc;
+    alloc.sel.use_from = usage_from::player;
+    alloc.sel.comp.type = itype_soldering_iron_portable;
+    alloc.sel.comp.count = 8;
+    alloc.step_count_units = 8;
+    alloc.consumed_buckets = 5;
+    alloc.root_derived = true;
+
+    std::ostringstream ss;
+    JsonOut jsout( ss );
+    alloc.serialize( jsout );
+
+    step_tool_alloc restored;
+    restored.deserialize( json_loader::from_string( ss.str() ).get_object() );
+
+    CHECK( restored.sel.use_from == usage_from::player );
+    CHECK( restored.sel.comp.type == itype_soldering_iron_portable );
+    CHECK( restored.sel.comp.count == 8 );
+    CHECK( restored.step_count_units == 8 );
+    CHECK( restored.consumed_buckets == 5 );
+    CHECK( restored.root_derived );
+}
+
+TEST_CASE( "craft_data_resets_stale_step_tool_allocs_on_size_mismatch",
+           "[craft][attention][persist][migration]" )
+{
+    item ingredient( itype_2x4, calendar::turn );
+    item_components comps;
+    comps.add( ingredient );
+    item built( &recipe_cudgel_test_unattended_simple.obj(), 1, comps,
+                std::vector<item_comp> {} );
+    REQUIRE( built.is_craft() );
+    REQUIRE( built.get_making().steps().size() == 2 );
+
+    // A save whose allocation rows do not match the recipe's step count (a
+    // legacy flat save deserializes to zero rows the same way).
+    step_tool_alloc alloc;
+    alloc.sel.use_from = usage_from::player;
+    alloc.sel.comp.type = itype_soldering_iron_portable;
+    alloc.sel.comp.count = 8;
+    alloc.step_count_units = 8;
+    alloc.consumed_buckets = 3;
+    built.set_step_tool_allocs( { { alloc } } );
+    built.set_tools_to_continue( true );
+
+    std::ostringstream ss;
+    JsonOut jsout( ss );
+    built.serialize( jsout );
+
+    item restored;
+    restored.deserialize( json_loader::from_string( ss.str() ).get_object() );
+
+    REQUIRE( restored.is_craft() );
+    REQUIRE( restored.get_making().steps().size() == 2 );
+    CHECK( restored.get_step_tool_allocs().empty() );
+    CHECK_FALSE( restored.has_tools_to_continue() );
+}
+
+TEST_CASE( "craft_data_resets_step_tool_allocs_on_tool_shape_change",
+           "[craft][attention][persist][migration]" )
+{
+    item ingredient( itype_2x4, calendar::turn );
+    item_components comps;
+    comps.add( ingredient );
+    item built( &recipe_cudgel_test_unattended_simple.obj(), 1, comps,
+                std::vector<item_comp> {} );
+    REQUIRE( built.is_craft() );
+    REQUIRE( built.get_making().steps().size() == 2 );
+
+    // Right row count, but the allocation references a tool the recipe's steps
+    // no longer list (a tool-group edit that preserved the step count).
+    step_tool_alloc alloc;
+    alloc.sel.use_from = usage_from::player;
+    alloc.sel.comp.type = itype_soldering_iron_portable;
+    alloc.sel.comp.count = 8;
+    alloc.step_count_units = 8;
+    built.set_step_tool_allocs( { {}, { alloc } } );
+    built.set_tools_to_continue( true );
+
+    std::ostringstream ss;
+    JsonOut jsout( ss );
+    built.serialize( jsout );
+
+    item restored;
+    restored.deserialize( json_loader::from_string( ss.str() ).get_object() );
+
+    REQUIRE( restored.is_craft() );
+    REQUIRE( restored.get_making().steps().size() == 2 );
+    CHECK( restored.get_step_tool_allocs().empty() );
+    CHECK_FALSE( restored.has_tools_to_continue() );
+}
+
+TEST_CASE( "craft_data_validates_step_tool_alloc_shape_on_load",
+           "[craft][attention][persist][migration]" )
+{
+    REQUIRE( recipe_cudgel_test_steps_charged.obj().steps().size() == 3 );
+
+    const auto round_trip = []( const std::vector<std::vector<step_tool_alloc>> &allocs ) -> item {
+        item ingredient( itype_2x4, calendar::turn );
+        item_components comps;
+        comps.add( ingredient );
+        item built( &recipe_cudgel_test_steps_charged.obj(), 1, comps,
+        std::vector<item_comp> {} );
+        built.set_step_tool_allocs( allocs );
+        built.set_tools_to_continue( true );
+        std::ostringstream ss;
+        JsonOut jsout( ss );
+        built.serialize( jsout );
+        item restored;
+        restored.deserialize( json_loader::from_string( ss.str() ).get_object() );
+        return restored;
+    };
+
+    step_tool_alloc good;
+    good.sel.use_from = usage_from::both;
+    good.sel.comp.type = itype_soldering_iron_portable;
+    good.sel.comp.count = 40;
+    good.step_count_units = 40;
+    good.consumed_buckets = 4;
+
+    GIVEN( "allocations matching the recipe's tool groups" ) {
+        item restored = round_trip( { {}, { good }, {} } );
+        REQUIRE( restored.is_craft() );
+
+        THEN( "they are preserved on load" ) {
+            REQUIRE( restored.get_step_tool_allocs().size() == 3 );
+            REQUIRE_FALSE( restored.get_step_tool_allocs()[1].empty() );
+            CHECK( restored.get_step_tool_allocs()[1][0].consumed_buckets == 4 );
+            CHECK( restored.has_tools_to_continue() );
+        }
+    }
+
+    GIVEN( "an allocation whose count no longer matches the tool group" ) {
+        step_tool_alloc stale = good;
+        stale.sel.comp.count = 99;
+        item restored = round_trip( { {}, { stale }, {} } );
+        REQUIRE( restored.is_craft() );
+
+        THEN( "the allocations are dropped for a rebuild" ) {
+            CHECK( restored.get_step_tool_allocs().empty() );
+            CHECK_FALSE( restored.has_tools_to_continue() );
+        }
+    }
+
+    GIVEN( "an allocation with an out-of-range consumed bucket count" ) {
+        step_tool_alloc corrupt = good;
+        corrupt.consumed_buckets = 99;
+        item restored = round_trip( { {}, { corrupt }, {} } );
+        REQUIRE( restored.is_craft() );
+
+        THEN( "the allocations are dropped for a rebuild" ) {
+            CHECK( restored.get_step_tool_allocs().empty() );
+            CHECK_FALSE( restored.has_tools_to_continue() );
+        }
+    }
+
+    GIVEN( "an allocation whose units disagree with its selected count" ) {
+        step_tool_alloc inconsistent = good;
+        inconsistent.step_count_units = 7;
+        item restored = round_trip( { {}, { inconsistent }, {} } );
+        REQUIRE( restored.is_craft() );
+
+        THEN( "the allocations are dropped for a rebuild" ) {
+            CHECK( restored.get_step_tool_allocs().empty() );
+            CHECK_FALSE( restored.has_tools_to_continue() );
+        }
+    }
+
+    GIVEN( "a charged allocation with no usable source" ) {
+        step_tool_alloc sourceless = good;
+        sourceless.sel.use_from = usage_from::none;
+        item restored = round_trip( { {}, { sourceless }, {} } );
+        REQUIRE( restored.is_craft() );
+
+        THEN( "the allocations are dropped for a rebuild" ) {
+            CHECK( restored.get_step_tool_allocs().empty() );
+            CHECK_FALSE( restored.has_tools_to_continue() );
+        }
+    }
+}
+
+TEST_CASE( "craft_data_validates_stepless_step_tool_allocs_on_load",
+           "[craft][attention][persist][migration]" )
+{
+    const recipe &rec = recipe_cudgel_test_charged_fast_stepless.obj();
+    REQUIRE_FALSE( rec.has_steps() );
+    REQUIRE( rec.simple_requirements().get_tools().size() == 1 );
+    const tool_comp tool = rec.simple_requirements().get_tools()[0].front();
+
+    const auto round_trip = [&rec]( const std::vector<std::vector<step_tool_alloc>> &allocs ) -> item {
+        item ingredient( itype_2x4, calendar::turn );
+        item_components comps;
+        comps.add( ingredient );
+        item built( &rec, 1, comps, std::vector<item_comp> {} );
+        built.set_step_tool_allocs( allocs );
+        built.set_tools_to_continue( true );
+        std::ostringstream ss;
+        JsonOut jsout( ss );
+        built.serialize( jsout );
+        item restored;
+        restored.deserialize( json_loader::from_string( ss.str() ).get_object() );
+        return restored;
+    };
+
+    const auto alloc_for = [&tool]( int count, int consumed ) -> step_tool_alloc {
+        step_tool_alloc a;
+        a.sel.use_from = usage_from::both;
+        a.sel.comp.type = tool.type;
+        a.sel.comp.count = count;
+        a.step_count_units = std::max( 0, count );
+        a.consumed_buckets = consumed;
+        return a;
+    };
+
+    GIVEN( "a stepless allocation matching the recipe tool" ) {
+        item restored = round_trip( { { alloc_for( tool.count, 4 ) } } );
+        REQUIRE( restored.is_craft() );
+        THEN( "it is preserved" ) {
+            REQUIRE( restored.get_step_tool_allocs().size() == 1 );
+            REQUIRE( restored.get_step_tool_allocs()[0].size() == 1 );
+            CHECK( restored.get_step_tool_allocs()[0][0].consumed_buckets == 4 );
+            CHECK( restored.has_tools_to_continue() );
+        }
+    }
+
+    GIVEN( "a stepless charged allocation with no usable source" ) {
+        step_tool_alloc sourceless = alloc_for( tool.count, 4 );
+        sourceless.sel.use_from = usage_from::none;
+        item restored = round_trip( { { sourceless } } );
+        REQUIRE( restored.is_craft() );
+        THEN( "the unsourced allocation is dropped for a rebuild" ) {
+            CHECK( restored.get_step_tool_allocs().empty() );
+            CHECK_FALSE( restored.has_tools_to_continue() );
+        }
+    }
+
+    GIVEN( "a stepless allocation whose count the recipe no longer offers" ) {
+        item restored = round_trip( { { alloc_for( tool.count + 1, 4 ) } } );
+        REQUIRE( restored.is_craft() );
+        THEN( "the stale allocation is dropped for a rebuild" ) {
+            CHECK( restored.get_step_tool_allocs().empty() );
+            CHECK_FALSE( restored.has_tools_to_continue() );
+        }
+    }
+
+    GIVEN( "more allocations than the recipe has tool groups" ) {
+        item restored = round_trip( { { alloc_for( tool.count, 4 ), alloc_for( tool.count, 4 ) } } );
+        REQUIRE( restored.is_craft() );
+        THEN( "the mismatched shape is dropped for a rebuild" ) {
+            CHECK( restored.get_step_tool_allocs().empty() );
+            CHECK_FALSE( restored.has_tools_to_continue() );
+        }
+    }
+
+    GIVEN( "no allocations when the recipe needs a tool" ) {
+        item restored = round_trip( {} );
+        REQUIRE( restored.is_craft() );
+        THEN( "the unmetered shape is dropped for a rebuild" ) {
+            CHECK( restored.get_step_tool_allocs().empty() );
+            CHECK_FALSE( restored.has_tools_to_continue() );
+        }
+    }
+}
+
+TEST_CASE( "craft_data_resets_step_tool_allocs_on_group_reorder",
+           "[craft][attention][persist][migration]" )
+{
+    REQUIRE( recipe_cudgel_test_steps_two_tools.obj().steps().size() == 1 );
+
+    const auto round_trip = []( const std::vector<std::vector<step_tool_alloc>> &allocs ) -> item {
+        item ingredient( itype_2x4, calendar::turn );
+        item_components comps;
+        comps.add( ingredient );
+        item built( &recipe_cudgel_test_steps_two_tools.obj(), 1, comps,
+        std::vector<item_comp> {} );
+        built.set_step_tool_allocs( allocs );
+        built.set_tools_to_continue( true );
+        std::ostringstream ss;
+        JsonOut jsout( ss );
+        built.serialize( jsout );
+        item restored;
+        restored.deserialize( json_loader::from_string( ss.str() ).get_object() );
+        return restored;
+    };
+
+    const auto presence = []( const itype_id & type ) -> step_tool_alloc {
+        step_tool_alloc a;
+        a.sel.use_from = usage_from::map;
+        a.sel.comp.type = type;
+        a.sel.comp.count = -1;
+        return a;
+    };
+
+    GIVEN( "allocations lined up with the step's tool groups in order" ) {
+        item restored = round_trip( { { presence( itype_soldering_iron_portable ), presence( itype_hammer ) } } );
+        REQUIRE( restored.is_craft() );
+
+        THEN( "they are preserved" ) {
+            REQUIRE( restored.get_step_tool_allocs().size() == 1 );
+            CHECK( restored.get_step_tool_allocs()[0].size() == 2 );
+            CHECK( restored.has_tools_to_continue() );
+        }
+    }
+
+    GIVEN( "a duplicate that no longer fits the second group positionally" ) {
+        item restored = round_trip( { { presence( itype_soldering_iron_portable ), presence( itype_soldering_iron_portable ) } } );
+        REQUIRE( restored.is_craft() );
+
+        THEN( "the stale shape is dropped" ) {
+            CHECK( restored.get_step_tool_allocs().empty() );
+            CHECK_FALSE( restored.has_tools_to_continue() );
+        }
+    }
+}
+
+TEST_CASE( "craft_data_root_alloc_shape_follows_active_steps",
+           "[craft][attention][persist][migration]" )
+{
+    const recipe &rec = recipe_cudgel_test_root_unattended.obj();
+    REQUIRE( rec.steps().size() == 2 );
+    REQUIRE( rec.steps()[0].attention != step_attention::unattended );
+    REQUIRE( rec.steps()[1].attention == step_attention::unattended );
+    const std::vector<std::vector<tool_comp>> &root_groups =
+            rec.root_requirements().get_tools();
+    REQUIRE( root_groups.size() == 1 );
+    REQUIRE_FALSE( root_groups[0].empty() );
+    const tool_comp root_tool = root_groups[0].front();
+
+    const auto round_trip = [&rec]( const std::vector<std::vector<step_tool_alloc>> &allocs ) -> item {
+        item ingredient( itype_2x4, calendar::turn );
+        item_components comps;
+        comps.add( ingredient );
+        item built( &rec, 1, comps, std::vector<item_comp> {} );
+        built.set_step_tool_allocs( allocs );
+        built.set_tools_to_continue( true );
+        std::ostringstream ss;
+        JsonOut jsout( ss );
+        built.serialize( jsout );
+        item restored;
+        restored.deserialize( json_loader::from_string( ss.str() ).get_object() );
+        return restored;
+    };
+
+    const auto root_alloc = [&root_tool]() -> step_tool_alloc {
+        step_tool_alloc a;
+        a.sel.use_from = usage_from::both;
+        a.sel.comp.type = root_tool.type;
+        a.sel.comp.count = root_tool.count;
+        a.step_count_units = std::max( root_tool.count, 1 );
+        a.root_derived = true;
+        return a;
+    };
+
+    GIVEN( "a root allocation on the active step and none on the unattended step" ) {
+        item restored = round_trip( { { root_alloc() }, {} } );
+        REQUIRE( restored.is_craft() );
+
+        THEN( "it is preserved" ) {
+            REQUIRE( restored.get_step_tool_allocs().size() == 2 );
+            CHECK( restored.get_step_tool_allocs()[0].size() == 1 );
+            CHECK( restored.get_step_tool_allocs()[1].empty() );
+            CHECK( restored.has_tools_to_continue() );
+        }
+    }
+
+    GIVEN( "a root allocation on the unattended step" ) {
+        item restored = round_trip( { { root_alloc() }, { root_alloc() } } );
+        REQUIRE( restored.is_craft() );
+
+        THEN( "the stale shape is dropped" ) {
+            CHECK( restored.get_step_tool_allocs().empty() );
+            CHECK_FALSE( restored.has_tools_to_continue() );
+        }
+    }
 }
 
 TEST_CASE( "craft_data_default_step_plan_serializes_minimally",
