@@ -260,6 +260,7 @@
         "********************####"
       ],
       "palettes": [ "restaurant_palette" ],
+      "terrain": { "§": "t_floor" },
       "place_nested": [
         { "chunks": [ "3x3_foodplace_stairwell" ], "x": 20, "y": 21, "neighbors": { "above": "s_restaurant_foodplace_roof" } },
         { "chunks": [ "13x13_checkered_floor" ], "x": 7, "y": 18 },
