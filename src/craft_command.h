@@ -72,7 +72,7 @@ struct step_tool_alloc {
 
 /**
 *   Builds per-step tool allocations for a step recipe: each step's own tools
-*   plus recipe-root tools distributed across the active steps pro-rata by each
+*   plus recipe-root tools distributed across the timed steps pro-rata by each
 *   step's move budget.  Sets cancelled when the crafter cancels a tool prompt so
 *   the caller can abort instead of silently dropping that tool group.
 *   When reselect_step >= 0 (resume), only that step's own tools are reselected

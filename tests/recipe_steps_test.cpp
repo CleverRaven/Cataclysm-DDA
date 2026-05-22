@@ -173,10 +173,9 @@ TEST_CASE( "step_recipe_root_requirements_separate_from_step_tools", "[recipe][s
         }
     }
 
-    // Root charged tools are metered only across active (attended, timed) steps,
-    // so a recipe carrying them must have an active step to debit them against.
-    // These cases need inline finalize: a charged all-unattended recipe cannot
-    // live in TEST_DATA without erroring at load.
+    // Root charged tools are metered across all timed steps, attended or
+    // unattended, so finalize accepts them regardless of which tiers the recipe
+    // uses.  Inline finalize keeps these probe recipes out of loaded TEST_DATA.
     const auto finalize_msg = []( const std::string & steps_json ) -> std::string {
         recipe r;
         JsonObject jo = json_loader::from_string( string_format(
@@ -193,12 +192,12 @@ TEST_CASE( "step_recipe_root_requirements_separate_from_step_tools", "[recipe][s
         } );
     };
 
-    GIVEN( "a charged root tool but no active step" ) {
+    GIVEN( "a charged root tool and only unattended steps" ) {
         const std::string msg = finalize_msg(
                                     R"({ "name": "Cure", "time": "10 m", "attention": "unattended", "activity_level": "NO_EXERCISE" },)"
                                     R"({ "name": "Dry", "time": "10 m", "attention": "unattended", "activity_level": "NO_EXERCISE" })" );
-        THEN( "finalize rejects it" ) {
-            CHECK( msg.find( "active step" ) != std::string::npos );
+        THEN( "finalize accepts it" ) {
+            CHECK( msg.empty() );
         }
     }
 

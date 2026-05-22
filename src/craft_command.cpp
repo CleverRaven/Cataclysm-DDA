@@ -536,29 +536,26 @@ std::vector<std::vector<step_tool_alloc>> select_step_tool_allocs(
     }
 
     // Recipe-root tools belong to the whole craft.  Distribute their charges
-    // across the active steps pro-rata by each step's move budget (so per-step
+    // across all timed steps pro-rata by each step's move budget (so per-step
     // time, proficiency, and tool-speed modifiers are reflected); the last
-    // active step takes the rounding remainder so the shares sum exactly.
-    // Unattended steps are excluded from the active-step distribution.
+    // weighted step takes the rounding remainder so the shares sum exactly.
     const std::vector<std::vector<tool_comp>> &root_groups = rec.root_requirements().get_tools();
     if( root_groups.empty() ) {
         return allocs;
     }
     const crafting_cost_context ctx = crafting_cost_context::for_recipe( crafter, rec );
-    std::vector<int64_t> active_budget( steps.size(), 0 );
-    int64_t total_active = 0;
-    int last_active = -1;
+    std::vector<int64_t> step_budget( steps.size(), 0 );
+    int64_t total_budget = 0;
+    int last_weighted = -1;
     for( size_t i = 0; i < steps.size(); ++i ) {
-        if( steps[i].attention != step_attention::unattended ) {
-            active_budget[i] = std::max<int64_t>(
-                                   static_cast<int64_t>( rec.step_budget_moves( crafter, i, batch, ctx ) ), 0 );
-            total_active += active_budget[i];
-            if( active_budget[i] > 0 ) {
-                last_active = static_cast<int>( i );
-            }
+        step_budget[i] = std::max<int64_t>(
+                             static_cast<int64_t>( rec.step_budget_moves( crafter, i, batch, ctx ) ), 0 );
+        total_budget += step_budget[i];
+        if( step_budget[i] > 0 ) {
+            last_weighted = static_cast<int>( i );
         }
     }
-    if( total_active <= 0 ) {
+    if( total_budget <= 0 ) {
         return allocs;
     }
     for( const std::vector<tool_comp> &group : root_groups ) {
@@ -570,12 +567,12 @@ std::vector<std::vector<step_tool_alloc>> select_step_tool_allocs(
         const int total_units = std::max( 0, ts.comp.count ) * std::max( batch, 1 );
         int assigned = 0;
         for( size_t i = 0; i < steps.size(); ++i ) {
-            if( active_budget[i] <= 0 ) {
+            if( step_budget[i] <= 0 ) {
                 continue;
             }
-            const int share = static_cast<int>( i ) == last_active
+            const int share = static_cast<int>( i ) == last_weighted
                               ? total_units - assigned
-                              : static_cast<int>( total_units * active_budget[i] / total_active );
+                              : static_cast<int>( total_units * step_budget[i] / total_budget );
             assigned += share;
             step_tool_alloc alloc;
             alloc.sel = ts;

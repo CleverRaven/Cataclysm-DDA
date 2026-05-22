@@ -1181,6 +1181,22 @@ static bool step_has_env_requirements( const recipe_step &step )
            || !step.requirements.get_qualities().empty();
 }
 
+// True when the step owns a charged allocation (step tool or root-derived share)
+// that needs draining even if the step has no step-level env requirement.
+static bool step_has_charged_alloc( const item &craft, int idx )
+{
+    const std::vector<std::vector<step_tool_alloc>> &allocs = craft.get_step_tool_allocs();
+    if( idx < 0 || idx >= static_cast<int>( allocs.size() ) ) {
+        return false;
+    }
+    for( const step_tool_alloc &a : allocs[idx] ) {
+        if( a.step_count_units > 0 ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 static Character *resolve_crafter( const character_id &cid )
 {
     if( !cid.is_valid() ) {
@@ -1193,32 +1209,77 @@ static Character *resolve_crafter( const character_id &cid )
     return g->find_npc( cid );
 }
 
-static bool env_satisfied_for_step( const recipe_step &step, const item &craft,
-                                    const item_location &loc )
+namespace
 {
-    if( !step_has_env_requirements( step ) ) {
+// Where a step's tools and charges are sourced.  origin is the craft tile;
+// present_char is the holder (held craft) or the crafter when standing within
+// radius (map craft), else null when only the map at the craft is reachable.
+struct step_source_context {
+    tripoint_bub_ms origin;
+    int radius = PICKUP_RANGE;
+    Character *present_char = nullptr;
+};
+} // namespace
+
+static step_source_context resolve_step_source( const item &craft, const item_location &loc )
+{
+    map &m = get_map();
+    step_source_context src;
+    src.origin = m.get_bub( loc.pos_abs() );
+    src.radius = PICKUP_RANGE;
+    if( loc.where() == item_location::type::character ) {
+        src.present_char = loc.carrier();
+    } else {
+        Character *crafter = resolve_crafter( craft.get_crafter_id() );
+        if( crafter != nullptr && rl_dist( crafter->pos_bub( m ), src.origin ) <= src.radius ) {
+            src.present_char = crafter;
+        }
+    }
+    return src;
+}
+
+// The character whose charges back a passive debit: the holder of a held craft,
+// otherwise the recorded crafter.
+static Character *resolve_consume_crafter( const item &craft, const item_location &loc )
+{
+    if( loc.where() == item_location::type::character ) {
+        return loc.carrier();
+    }
+    return resolve_crafter( craft.get_crafter_id() );
+}
+
+// The unattended gate verifies only qualities; the passive debit enforces the
+// chosen tool option and its remaining charges, so checking tools here too would
+// pause on a generic-OR match or a start-only reduced charge the debit still covers.
+static bool env_qualities_satisfied_for_step( const recipe_step &step, const item &craft,
+        const item_location &loc )
+{
+    const requirement_data::alter_quali_req_vector &quals = step.requirements.get_qualities();
+    if( quals.empty() ) {
         return true;
     }
     map &m = get_map();
-    const tripoint_bub_ms craft_pos = m.get_bub( loc.pos_abs() );
+    const step_source_context src = resolve_step_source( craft, loc );
 
     inventory inv;
-    if( loc.where() == item_location::type::character ) {
-        Character *holder = loc.carrier();
-        if( holder != nullptr ) {
-            inv = holder->crafting_inventory( craft_pos, PICKUP_RANGE );
-        }
+    if( src.present_char != nullptr ) {
+        inv = src.present_char->crafting_inventory( src.origin, src.radius );
     } else {
-        Character *crafter = resolve_crafter( craft.get_crafter_id() );
-        if( crafter != nullptr
-            && rl_dist( crafter->pos_bub( m ), craft_pos ) <= PICKUP_RANGE ) {
-            inv = crafter->crafting_inventory( craft_pos, PICKUP_RANGE );
-        } else {
-            inv.form_from_map( &m, craft_pos, PICKUP_RANGE, /*pl=*/nullptr );
+        inv.form_from_map( &m, src.origin, src.radius, /*pl=*/nullptr );
+    }
+    for( const std::vector<quality_requirement> &group : quals ) {
+        bool group_ok = false;
+        for( const quality_requirement &q : group ) {
+            if( q.has( inv, return_true<item> ) ) {
+                group_ok = true;
+                break;
+            }
+        }
+        if( !group_ok ) {
+            return false;
         }
     }
-    return step.requirements.can_make_with_inventory(
-               inv, return_true<item>, /*batch=*/1, craft_flags::start_only );
+    return true;
 }
 
 static std::string compose_unattend_message( const item &craft, const recipe_step &step )
@@ -1361,6 +1422,23 @@ enum class env_check_result {
 };
 } // namespace
 
+// Park the in-flight deadlines and turn ready_at into a 1-minute polling cursor
+// so a paused step keeps re-checking until its requirements return.
+static void craft_enter_env_pause( item &craft, time_point now, const item_location &loc )
+{
+    if( craft.get_pause_started_at() == calendar::before_time_starts ) {
+        craft.set_pause_started_at( now );
+        craft.set_saved_ready_at( craft.get_ready_at() );
+        craft.set_saved_alarm_at( craft.get_alarm_at() );
+        craft.set_saved_fail_at( craft.get_fail_at() );
+        craft.set_alarm_at( calendar::before_time_starts );
+        craft.set_fail_at( calendar::before_time_starts );
+    }
+    craft.set_ready_at( now + 1_minutes );
+    craft.set_env_check_at( calendar::before_time_starts );
+    get_item_wakeups().rebuild_for_item( loc );
+}
+
 // Shared env-pause / env-restore helper.  Owns env_check_at re-arm
 // cadence and rebuilds wakeups in all paths.
 static env_check_result craft_check_env_step( item &craft, time_point now,
@@ -1373,20 +1451,8 @@ static env_check_result craft_check_env_step( item &craft, time_point now,
     }
     const recipe_step &step = rec.steps()[step_idx];
 
-    if( !env_satisfied_for_step( step, craft, loc ) ) {
-        if( craft.get_pause_started_at() == calendar::before_time_starts ) {
-            craft.set_pause_started_at( now );
-            craft.set_saved_ready_at( craft.get_ready_at() );
-            craft.set_saved_alarm_at( craft.get_alarm_at() );
-            craft.set_saved_fail_at( craft.get_fail_at() );
-            craft.set_alarm_at( calendar::before_time_starts );
-            craft.set_fail_at( calendar::before_time_starts );
-        }
-        craft.set_ready_at( now + 1_minutes );
-        // While paused, ready_at is the 1-minute polling cursor; clear
-        // env_check_at to avoid double-arming the queue.
-        craft.set_env_check_at( calendar::before_time_starts );
-        get_item_wakeups().rebuild_for_item( loc );
+    if( !env_qualities_satisfied_for_step( step, craft, loc ) ) {
+        craft_enter_env_pause( craft, now, loc );
         return env_check_result::paused;
     }
 
@@ -1400,6 +1466,12 @@ static env_check_result craft_check_env_step( item &craft, time_point now,
         }
         if( craft.get_saved_fail_at() != calendar::before_time_starts ) {
             craft.set_fail_at( craft.get_saved_fail_at() + paused_for );
+        }
+        // Slide the step entry with the deadline so paused wall-clock is not
+        // counted as progress when the passive debit derives its fraction from
+        // now - passive_started_at over the (slid) step duration.
+        if( craft.get_passive_started_at() != calendar::before_time_starts ) {
+            craft.set_passive_started_at( craft.get_passive_started_at() + paused_for );
         }
         craft.set_pause_started_at( calendar::before_time_starts );
         craft.set_saved_ready_at( calendar::before_time_starts );
@@ -1425,7 +1497,7 @@ static env_check_result craft_check_env_step( item &craft, time_point now,
     // Normal mid-step env check (no pause entered or exited).  Re-arm the
     // cursor for the next minute; clamp to ready_at so a poll never fires
     // after step completion.
-    if( step_has_env_requirements( step ) ) {
+    if( step_has_env_requirements( step ) || step_has_charged_alloc( craft, step_idx ) ) {
         const time_point next = now + 1_minutes;
         craft.set_env_check_at( std::min( next, craft.get_ready_at() ) );
     } else {
@@ -1452,7 +1524,16 @@ static void craft_actualize_env( item &craft, time_point now, const item_locatio
         now >= craft.get_fail_at() ) {
         return;
     }
-    ( void ) craft_check_env_step( craft, now, loc );
+    if( craft_check_env_step( craft, now, loc ) == env_check_result::paused ) {
+        return;
+    }
+    // Drain the step's charged tools to match wall-clock progress; a shortfall
+    // pauses the step until the tools are recharged.
+    if( Character *consumer = resolve_consume_crafter( craft, loc ) ) {
+        if( !consumer->craft_consume_passive_step_tools( craft, now, loc ) ) {
+            craft_enter_env_pause( craft, now, loc );
+        }
+    }
 }
 
 static void craft_actualize_ready( item &craft, time_point now, const item_location &loc )
@@ -1499,6 +1580,18 @@ static void craft_actualize_ready( item &craft, time_point now, const item_locat
     if( env_result == env_check_result::paused ) {
         return;
     }
+
+    // Drain the step's charged tools to current progress (the full allocation at
+    // completion); a shortfall re-pauses.  Runs before the restored-but-not-ready
+    // return below, since craft_check_env_step only restores on qualities: a pause
+    // for missing charges must not clear while the charges are still short.
+    if( Character *consumer = resolve_consume_crafter( craft, loc ) ) {
+        if( !consumer->craft_consume_passive_step_tools( craft, now, loc ) ) {
+            craft_enter_env_pause( craft, now, loc );
+            return;
+        }
+    }
+
     if( env_result == env_check_result::restored && now < craft.get_ready_at() ) {
         return;
     }
@@ -1619,10 +1712,10 @@ void craft_stamp_passive_entry( item &craft, const Character &crafter, time_poin
     if( plan.choice == step_choice::set_timer && plan.alarm_offset.has_value() ) {
         craft.set_alarm_at( entry_time + *plan.alarm_offset );
     }
-    // Periodic env-check cursor: arm only when the step actually has env
-    // requirements.  Clamp to ready_at so a short step never schedules a
-    // poll past completion.
-    if( step_has_env_requirements( cur_step ) ) {
+    // Periodic env-check cursor: arm when the step has env requirements or any
+    // charged allocation to drain.  Clamp to ready_at so a short step never
+    // schedules a poll past completion.
+    if( step_has_env_requirements( cur_step ) || step_has_charged_alloc( craft, idx ) ) {
         const time_point next = now + 1_minutes;
         craft.set_env_check_at( std::min( next, craft.get_ready_at() ) );
     } else {
@@ -1655,6 +1748,13 @@ void craft_stamp_passive_entry( item &craft, const Character &crafter, time_poin
                                               ( prior_moves + step_default ) / base_total * 10000000.0 ) ) );
     craft.set_passive_start_counter( start_counter );
     craft.set_passive_end_counter( end_counter );
+    // Drain the entry (bucket 0) charges now so a passive step pays its entry
+    // debit like an active one.  A shortfall pauses the step.
+    if( Character *consumer = resolve_consume_crafter( craft, loc ) ) {
+        if( !consumer->craft_consume_passive_step_tools( craft, now, loc ) ) {
+            craft_enter_env_pause( craft, now, loc );
+        }
+    }
     get_item_wakeups().rebuild_for_item( loc );
 }
 
@@ -3391,61 +3491,34 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
     return true;
 }
 
-bool Character::craft_consume_step_tools( item &craft )
+// Charges (count units) consumed through `count` 5% buckets.  Front-loads the
+// remainder at bucket 0 and caps at the step total.
+static int step_bucket_cumulative( int total, int count )
 {
-    if( has_trait( trait_DEBUG_HS ) ) {
-        return true;
+    if( count <= 0 ) {
+        return 0;
     }
-    const recipe &rec = craft.get_making();
+    return std::min( total, total % 20 + count * ( total / 20 ) );
+}
+
+// 5% bucket count (0..20) a step should reach at progress fraction `f`.  Bucket
+// 0 (entry) fires at fraction 0; the final 5% is never charged.
+static int step_buckets_for_fraction( double f )
+{
+    if( f <= 0.0 ) {
+        return 1;
+    }
+    return std::min( 20, 1 + std::min( static_cast<int>( std::floor( f * 20.0 ) ), 19 ) );
+}
+
+bool Character::consume_step_tool_targets( item &craft, const std::vector<int> &targets,
+        int active_step, const tripoint_bub_ms &origin, int radius, bool pin_to_map )
+{
     std::vector<std::vector<step_tool_alloc>> allocs = craft.get_step_tool_allocs();
-    // A stepless recipe meters as a single implicit step whose progress is the
-    // whole-recipe item_counter.
-    const int n_steps = rec.has_steps() ? static_cast<int>( rec.steps().size() ) : 1;
-    const int batch = craft.get_making_batch_size();
-    const int cur_step = craft.get_current_step();
-    const double cur_progress = craft.get_step_progress();
-    const bool craft_done = craft.item_counter >= 10000000;
-    const crafting_cost_context ctx = crafting_cost_context::for_recipe( *this, rec );
-
-    // 5% bucket count (0..20) a step's allocations should reach given progress.
-    // Bucket 0 (entry) fires at fraction 0; the final 5% is never charged.
-    const auto buckets_for_fraction = []( double f ) -> int {
-        if( f <= 0.0 )
-        {
-            return 1;
-        }
-        return std::min( 20, 1 + std::min( static_cast<int>( std::floor( f * 20.0 ) ), 19 ) );
-    };
-    const auto target_buckets = [&]( int step_idx ) -> int {
-        if( !rec.has_steps() )
-        {
-            return craft_done ? 20 : buckets_for_fraction(
-                static_cast<double>( craft.item_counter ) / 10000000.0 );
-        }
-        if( step_idx > cur_step )
-        {
-            return 0;
-        }
-        if( step_idx < cur_step || craft_done )
-        {
-            return 20;
-        }
-        const double budget = rec.step_budget_moves( *this, step_idx, batch, ctx );
-        return buckets_for_fraction( budget > 0.0 ? cur_progress / budget : 1.0 );
-    };
-
-    // Charges (count units) consumed through `count` buckets.  Front-loads the
-    // remainder at bucket 0 and caps at the step total.
-    const auto cumulative = []( int total, int count ) -> int {
-        if( count <= 0 )
-        {
-            return 0;
-        }
-        return std::min( total, total % 20 + count * ( total / 20 ) );
-    };
 
     struct pending_debit {
         comp_selection<tool_comp> sel;
+        usage_from eff_use = usage_from::none;
         int units = 0;
         int step_idx = 0;
         int alloc_idx = 0;
@@ -3459,17 +3532,17 @@ bool Character::craft_consume_step_tools( item &craft )
         int alloc_idx = 0;
         int new_count = 0;
     };
-    const int active_step = rec.has_steps() ? cur_step : 0;
     std::vector<pending_debit> debits;
     std::vector<pending_presence> presence;
-    for( int s = 0; s < n_steps && s < static_cast<int>( allocs.size() ); ++s ) {
-        const int tgt = target_buckets( s );
+    for( int s = 0; s < static_cast<int>( allocs.size() ) &&
+         s < static_cast<int>( targets.size() ); ++s ) {
+        const int tgt = targets[s];
         for( int a = 0; a < static_cast<int>( allocs[s].size() ); ++a ) {
             step_tool_alloc &alloc = allocs[s][a];
             if( alloc.sel.comp.count <= 0 ) {
-                // A non-charged tool's buckets fill before the step is ready, so
-                // re-check the in-progress step's tool even once full, or the step
-                // could finish using a tool that was removed.
+                // step_buckets_for_fraction reaches 20 before the step is ready,
+                // so a tool removed after its last bucket must still be re-checked
+                // here or the final true-up would finish using a tool that is gone.
                 if( s == active_step ? tgt > 0 : tgt > alloc.consumed_buckets ) {
                     presence.push_back( { alloc.sel.comp.type, s, a, tgt } );
                 }
@@ -3482,13 +3555,20 @@ bool Character::craft_consume_step_tools( item &craft )
                 alloc.consumed_buckets = tgt;
                 continue;
             }
-            const int units = cumulative( alloc.step_count_units, tgt ) -
-                              cumulative( alloc.step_count_units, alloc.consumed_buckets );
+            const int units = step_bucket_cumulative( alloc.step_count_units, tgt ) -
+                              step_bucket_cumulative( alloc.step_count_units, alloc.consumed_buckets );
             if( units <= 0 ) {
                 alloc.consumed_buckets = tgt;
                 continue;
             }
-            debits.push_back( { alloc.sel, units, s, a, tgt } );
+            // Pin player- and both-sourced charges to the map when the crafter
+            // cannot reach the craft, so the preflight and the debit both hit the
+            // charges sitting at the craft rather than an absent crafter's pack.
+            usage_from eff = alloc.sel.use_from;
+            if( pin_to_map && ( eff == usage_from::both || eff == usage_from::player ) ) {
+                eff = usage_from::map;
+            }
+            debits.push_back( { alloc.sel, eff, units, s, a, tgt } );
         }
     }
 
@@ -3500,13 +3580,13 @@ bool Character::craft_consume_step_tools( item &craft )
     // Aggregate the required charges per tool type, then preflight, so shared
     // pools cannot pass per-alloc yet fail in total.
     inventory map_inv;
-    map_inv.form_from_map( pos_bub(), PICKUP_RANGE, this );
+    map_inv.form_from_map( origin, radius, this );
     std::map<itype_id, int> need_player;
     std::map<itype_id, int> need_map;
     std::map<itype_id, int> need_both;
     for( const pending_debit &d : debits ) {
         const int qty = d.units * item::find_type( d.sel.comp.type )->charge_factor();
-        switch( d.sel.use_from ) {
+        switch( d.eff_use ) {
             case usage_from::player:
                 need_player[d.sel.comp.type] += qty;
                 break;
@@ -3538,7 +3618,11 @@ bool Character::craft_consume_step_tools( item &craft )
     };
     bool presence_short = false;
     for( const pending_presence &p : presence ) {
-        if( !crafting_inventory().has_tools( p.type, 1 ) ) {
+        // Source the presence check the same way charges are: from the craft tile
+        // when the crafter is out of reach, otherwise from the crafter.
+        const bool present = pin_to_map ? map_inv.has_tools( p.type, 1 )
+                             : crafting_inventory().has_tools( p.type, 1 );
+        if( !present ) {
             add_msg_player_or_npc(
                 _( "You no longer have the %s and can't continue crafting." ),
                 _( "<npcname> no longer has the %s and can't continue crafting." ),
@@ -3553,10 +3637,12 @@ bool Character::craft_consume_step_tools( item &craft )
         return false;
     }
 
+    map &m = get_map();
     for( const pending_debit &d : debits ) {
         comp_selection<tool_comp> to_consume = d.sel;
+        to_consume.use_from = d.eff_use;
         to_consume.comp.count = d.units;
-        consume_tools( to_consume, 1 );
+        consume_tools( m, to_consume, 1, origin, radius );
         allocs[d.step_idx][d.alloc_idx].consumed_buckets = d.new_count;
     }
     for( const pending_presence &p : presence ) {
@@ -3564,6 +3650,83 @@ bool Character::craft_consume_step_tools( item &craft )
     }
     craft.set_step_tool_allocs( allocs );
     return true;
+}
+
+bool Character::craft_consume_step_tools( item &craft )
+{
+    if( has_trait( trait_DEBUG_HS ) ) {
+        return true;
+    }
+    const recipe &rec = craft.get_making();
+    // A stepless recipe meters as a single implicit step whose progress is the
+    // whole-recipe item_counter.
+    const int n_steps = rec.has_steps() ? static_cast<int>( rec.steps().size() ) : 1;
+    const int batch = craft.get_making_batch_size();
+    const int cur_step = craft.get_current_step();
+    const double cur_progress = craft.get_step_progress();
+    const bool craft_done = craft.item_counter >= 10000000;
+    const crafting_cost_context ctx = crafting_cost_context::for_recipe( *this, rec );
+
+    std::vector<int> targets( n_steps, 0 );
+    for( int s = 0; s < n_steps; ++s ) {
+        if( !rec.has_steps() ) {
+            targets[s] = craft_done ? 20 : step_buckets_for_fraction(
+                             static_cast<double>( craft.item_counter ) / 10000000.0 );
+        } else if( s > cur_step ) {
+            targets[s] = 0;
+        } else if( s < cur_step || craft_done ) {
+            targets[s] = 20;
+        } else {
+            const double budget = rec.step_budget_moves( *this, s, batch, ctx );
+            targets[s] = step_buckets_for_fraction( budget > 0.0 ? cur_progress / budget : 1.0 );
+        }
+    }
+    return consume_step_tool_targets( craft, targets, rec.has_steps() ? cur_step : 0,
+                                      pos_bub(), PICKUP_RANGE, /*pin_to_map=*/false );
+}
+
+bool Character::craft_consume_passive_step_tools( item &craft, time_point now,
+        const item_location &loc )
+{
+    if( has_trait( trait_DEBUG_HS ) ) {
+        return true;
+    }
+    const recipe &rec = craft.get_making();
+    if( !rec.has_steps() ) {
+        return true;
+    }
+    const time_point start = craft.get_passive_started_at();
+    if( start == calendar::before_time_starts ) {
+        return true;
+    }
+    // During an env pause ready_at is a polling cursor; the real deadline parks
+    // in saved_ready_at.
+    time_point ready = craft.get_ready_at();
+    if( craft.get_pause_started_at() != calendar::before_time_starts &&
+        craft.get_saved_ready_at() != calendar::before_time_starts ) {
+        ready = craft.get_saved_ready_at();
+    }
+    const bool step_done = now >= ready;
+    double f = 1.0;
+    if( ready > start ) {
+        f = std::clamp( to_turns<double>( now - start ) / to_turns<double>( ready - start ), 0.0, 1.0 );
+    }
+
+    const int n_steps = static_cast<int>( rec.steps().size() );
+    const int cur_step = craft.get_current_step();
+    std::vector<int> targets( n_steps, 0 );
+    for( int s = 0; s < n_steps; ++s ) {
+        if( s > cur_step ) {
+            targets[s] = 0;
+        } else if( s < cur_step ) {
+            targets[s] = 20;
+        } else {
+            targets[s] = step_done ? 20 : step_buckets_for_fraction( f );
+        }
+    }
+    const step_source_context src = resolve_step_source( craft, loc );
+    return consume_step_tool_targets( craft, targets, cur_step, src.origin, src.radius,
+                                      /*pin_to_map=*/src.present_char == nullptr );
 }
 
 void Character::consume_tools( const comp_selection<tool_comp> &tool, int batch )

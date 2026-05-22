@@ -2917,10 +2917,10 @@ static bool alloc_source_valid( const step_tool_alloc &a )
 
 // True when saved allocations still line up with the recipe: one step-owned
 // allocation per step tool group, then one root-derived allocation per root
-// group on each active (attended, timed) step, each matching a tool type and
-// count its group still offers.  A tool-group edit that breaks this shape fails.
-// Also rejects corrupt counters and units that disagree with the selected count,
-// so consumption never runs off an inconsistent allocation.
+// group on each timed step, each matching a tool type and count its group still
+// offers.  Also rejects corrupt counters and units that disagree with the
+// selected count, so a recipe edit or stale save forces a rebuild instead of
+// metering off an inconsistent allocation.
 static bool step_tool_allocs_fit_recipe(
     const recipe &making, int batch, const std::vector<std::vector<step_tool_alloc>> &allocs )
 {
@@ -2930,6 +2930,10 @@ static bool step_tool_allocs_fit_recipe(
     const int batch_mult = std::max( batch, 1 );
     const std::vector<std::vector<tool_comp>> &root_groups =
             making.root_requirements().get_tools();
+    int64_t total_time = 0;
+    for( const recipe_step &step : making.steps() ) {
+        total_time += std::max<int64_t>( step.time, 0 );
+    }
     // Root shares are crafter-dependent per step but always sum to the tool's
     // whole-craft total; check that invariant rather than the per-step split.
     std::vector<int> root_unit_sum( root_groups.size(), 0 );
@@ -2938,8 +2942,7 @@ static bool step_tool_allocs_fit_recipe(
         const recipe_step &step = making.steps()[s];
         const std::vector<std::vector<tool_comp>> &step_groups =
                 step.requirements.get_tools();
-        const bool step_active =
-            step.attention != step_attention::unattended && step.time > 0;
+        const bool step_timed = total_time > 0 && step.time > 0;
         std::vector<const step_tool_alloc *> owned;
         std::vector<const step_tool_alloc *> root;
         for( const step_tool_alloc &a : allocs[s] ) {
@@ -2950,7 +2953,7 @@ static bool step_tool_allocs_fit_recipe(
             ( a.root_derived ? root : owned ).push_back( &a );
         }
         if( owned.size() != step_groups.size() ||
-            root.size() != ( step_active ? root_groups.size() : 0u ) ) {
+            root.size() != ( step_timed ? root_groups.size() : 0u ) ) {
             return false;
         }
         for( size_t i = 0; i < owned.size(); ++i ) {
@@ -3018,6 +3021,7 @@ void item::craft_data::deserialize( const JsonObject &obj )
     }
     current_step = obj.get_int( "current_step", 0 );
     step_progress = obj.get_float( "step_progress", 0.0 );
+    bool allocs_cleared = false;
     // Validate step index against the recipe's actual step count.
     if( making && making->has_steps() ) {
         int max_step = static_cast<int>( making->steps().size() ) - 1;
@@ -3027,6 +3031,7 @@ void item::craft_data::deserialize( const JsonObject &obj )
         if( !step_tool_allocs_fit_recipe( *making, batch_size, step_tool_allocs ) ) {
             step_tool_allocs.clear();
             tools_to_continue = false;
+            allocs_cleared = true;
         }
     } else if( making ) {
         current_step = 0;
@@ -3079,6 +3084,7 @@ void item::craft_data::deserialize( const JsonObject &obj )
         if( !stepless_ok ) {
             step_tool_allocs.clear();
             tools_to_continue = false;
+            allocs_cleared = true;
         }
     } else {
         current_step = 0;
@@ -3133,6 +3139,12 @@ void item::craft_data::deserialize( const JsonObject &obj )
     // Recipe-edit migration: drop stale passive runtime on shape mismatch.
     bool stale = false;
     if( making && !disassembly ) {
+        // Scrubbed allocs leave nothing to meter; drop the passive runtime too so
+        // an in-flight unattended step freezes for rebuild instead of finishing
+        // unmetered on load.
+        if( allocs_cleared ) {
+            stale = true;
+        }
         if( !step_plans.empty() && making->has_steps() &&
             step_plans.size() != making->steps().size() ) {
             stale = true;

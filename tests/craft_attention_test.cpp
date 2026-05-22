@@ -55,6 +55,10 @@ static const recipe_id recipe_cudgel_test_steps_two_tools(
     "cudgel_test_steps_two_tools" );
 static const recipe_id recipe_cudgel_test_timeout_recipe(
     "cudgel_test_timeout_recipe" );
+static const recipe_id recipe_cudgel_test_unattended_charged(
+    "cudgel_test_unattended_charged" );
+static const recipe_id recipe_cudgel_test_unattended_charged_big(
+    "cudgel_test_unattended_charged_big" );
 static const recipe_id recipe_cudgel_test_unattended_simple(
     "cudgel_test_unattended_simple" );
 static const recipe_id recipe_cudgel_test_unattended_with_qual(
@@ -411,6 +415,10 @@ TEST_CASE( "craft_data_resets_step_tool_allocs_on_tool_shape_change",
     alloc.step_count_units = 8;
     built.set_step_tool_allocs( { {}, { alloc } } );
     built.set_tools_to_continue( true );
+    // Mid-flight on the unattended step, with live passive timers.
+    built.set_current_step( 1 );
+    built.set_passive_started_at( calendar::turn );
+    built.set_ready_at( calendar::turn + 10_minutes );
 
     std::ostringstream ss;
     JsonOut jsout( ss );
@@ -423,6 +431,10 @@ TEST_CASE( "craft_data_resets_step_tool_allocs_on_tool_shape_change",
     REQUIRE( restored.get_making().steps().size() == 2 );
     CHECK( restored.get_step_tool_allocs().empty() );
     CHECK_FALSE( restored.has_tools_to_continue() );
+    // Scrubbing the allocs also drops the passive timers, so the step cannot
+    // finish unmetered on load.
+    CHECK( restored.get_passive_started_at() == calendar::before_time_starts );
+    CHECK( restored.get_ready_at() == calendar::before_time_starts );
 }
 
 TEST_CASE( "craft_data_validates_step_tool_alloc_shape_on_load",
@@ -648,7 +660,7 @@ TEST_CASE( "craft_data_resets_step_tool_allocs_on_group_reorder",
     }
 }
 
-TEST_CASE( "craft_data_root_alloc_shape_follows_active_steps",
+TEST_CASE( "craft_data_root_alloc_shape_follows_timed_steps",
            "[craft][attention][persist][migration]" )
 {
     const recipe &rec = recipe_cudgel_test_root_unattended.obj();
@@ -676,30 +688,32 @@ TEST_CASE( "craft_data_root_alloc_shape_follows_active_steps",
         return restored;
     };
 
-    const auto root_alloc = [&root_tool]() -> step_tool_alloc {
+    const auto root_alloc = [&root_tool]( int units ) -> step_tool_alloc {
         step_tool_alloc a;
         a.sel.use_from = usage_from::both;
         a.sel.comp.type = root_tool.type;
         a.sel.comp.count = root_tool.count;
-        a.step_count_units = std::max( root_tool.count, 1 );
+        a.step_count_units = units;
         a.root_derived = true;
         return a;
     };
 
-    GIVEN( "a root allocation on the active step and none on the unattended step" ) {
-        item restored = round_trip( { { root_alloc() }, {} } );
+    GIVEN( "a root allocation on every timed step" ) {
+        // Per-step shares must sum to the tool's whole-craft total.
+        const int half = root_tool.count / 2;
+        item restored = round_trip( { { root_alloc( root_tool.count - half ) }, { root_alloc( half ) } } );
         REQUIRE( restored.is_craft() );
 
         THEN( "it is preserved" ) {
             REQUIRE( restored.get_step_tool_allocs().size() == 2 );
             CHECK( restored.get_step_tool_allocs()[0].size() == 1 );
-            CHECK( restored.get_step_tool_allocs()[1].empty() );
+            CHECK( restored.get_step_tool_allocs()[1].size() == 1 );
             CHECK( restored.has_tools_to_continue() );
         }
     }
 
-    GIVEN( "a root allocation on the unattended step" ) {
-        item restored = round_trip( { { root_alloc() }, { root_alloc() } } );
+    GIVEN( "a root allocation missing from a timed step" ) {
+        item restored = round_trip( { { root_alloc( root_tool.count ) }, {} } );
         REQUIRE( restored.is_craft() );
 
         THEN( "the stale shape is dropped" ) {
@@ -840,6 +854,431 @@ TEST_CASE( "craft_apply_resume_replan_targets_correct_alarm_slot",
 
         CHECK( on_map.get_alarm_at() == calendar::before_time_starts );
         CHECK( on_map.get_saved_alarm_at() == calendar::before_time_starts );
+    }
+}
+
+TEST_CASE( "craft_unattended_charged_tool_debits_at_step_completion",
+           "[craft][attention][charge]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    u.setpos( here, origin );
+
+    item iron = tool_with_ammo( itype_soldering_iron_portable, 50 );
+    REQUIRE( iron.ammo_remaining() == 50 );
+    u.i_add( iron );
+    u.invalidate_crafting_inventory();
+
+    item ingredient( itype_2x4, calendar::turn );
+    item placed( &recipe_cudgel_test_unattended_charged.obj(), 1, ingredient );
+    item &on_map = here.add_item( origin, placed );
+    REQUIRE( on_map.is_craft() );
+
+    // Position at the unattended Cure step (idx 1) carrying its charged tool.
+    on_map.set_current_step( 1 );
+    on_map.set_passive_started_at( calendar::turn );
+    on_map.set_ready_at( calendar::turn + 10_minutes );
+    on_map.set_crafter_id( u.getID() );
+
+    step_tool_alloc alloc;
+    alloc.sel.use_from = usage_from::both;
+    alloc.sel.comp.type = itype_soldering_iron_portable;
+    alloc.sel.comp.count = 20;
+    alloc.step_count_units = 20;
+    on_map.set_step_tool_allocs( { {}, { alloc } } );
+
+    item_location loc( map_cursor( here.get_abs( origin ) ), &on_map );
+    REQUIRE( u.craft_consume_passive_step_tools( on_map, calendar::turn + 10_minutes, loc ) );
+
+    u.invalidate_crafting_inventory();
+    CHECK( get_remaining_charges( itype_soldering_iron_portable ) == 30 );
+    REQUIRE( on_map.get_step_tool_allocs().size() == 2 );
+    REQUIRE_FALSE( on_map.get_step_tool_allocs()[1].empty() );
+    CHECK( on_map.get_step_tool_allocs()[1][0].consumed_buckets == 20 );
+}
+
+TEST_CASE( "craft_unattended_charged_tool_drains_per_tick_and_pauses",
+           "[craft][attention][charge]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    u.setpos( here, origin );
+
+    item ingredient( itype_2x4, calendar::turn );
+    item placed( &recipe_cudgel_test_unattended_charged.obj(), 1, ingredient );
+    item &on_map = here.add_item( origin, placed );
+    on_map.set_current_step( 1 );
+    on_map.set_passive_started_at( calendar::turn );
+    on_map.set_ready_at( calendar::turn + 10_minutes );
+    on_map.set_crafter_id( u.getID() );
+
+    step_tool_alloc alloc;
+    alloc.sel.use_from = usage_from::both;
+    alloc.sel.comp.type = itype_soldering_iron_portable;
+    alloc.sel.comp.count = 20;
+    alloc.step_count_units = 20;
+    on_map.set_step_tool_allocs( { {}, { alloc } } );
+    item_location loc( map_cursor( here.get_abs( origin ) ), &on_map );
+    get_item_wakeups().rebuild_for_item( loc );
+
+    GIVEN( "the crafter carries enough charges for the whole step" ) {
+        u.i_add( tool_with_ammo( itype_soldering_iron_portable, 50 ) );
+        u.invalidate_crafting_inventory();
+
+        WHEN( "an env tick fires halfway through the step" ) {
+            craft_actualize_scheduled( on_map, item_wakeup_kind::env_check,
+                                       calendar::turn + 5_minutes, loc );
+            u.invalidate_crafting_inventory();
+
+            THEN( "the buckets so far are drained and the step keeps running" ) {
+                CHECK( get_remaining_charges( itype_soldering_iron_portable ) == 39 );
+                CHECK( on_map.get_pause_started_at() == calendar::before_time_starts );
+            }
+        }
+    }
+
+    GIVEN( "the step's charged tool is not present" ) {
+        u.invalidate_crafting_inventory();
+
+        WHEN( "an env tick fires mid-step" ) {
+            craft_actualize_scheduled( on_map, item_wakeup_kind::env_check,
+                                       calendar::turn + 5_minutes, loc );
+
+            THEN( "the step pauses with its real deadline parked" ) {
+                CHECK( on_map.get_pause_started_at() != calendar::before_time_starts );
+                CHECK( on_map.get_ready_at() == calendar::turn + 6_minutes );
+                CHECK( on_map.get_saved_ready_at() == calendar::turn + 10_minutes );
+            }
+
+            AND_WHEN( "the tool returns and the polling tick fires" ) {
+                u.i_add( tool_with_ammo( itype_soldering_iron_portable, 50 ) );
+                u.invalidate_crafting_inventory();
+                craft_actualize_scheduled( on_map, item_wakeup_kind::env_check,
+                                           calendar::turn + 6_minutes, loc );
+
+                THEN( "the step unpauses and slides its deadline forward" ) {
+                    CHECK( on_map.get_pause_started_at() == calendar::before_time_starts );
+                    CHECK( on_map.get_ready_at() == calendar::turn + 11_minutes );
+                    // Entry slides with the deadline so the paused minute is not
+                    // counted as progress by the passive debit fraction.
+                    CHECK( on_map.get_passive_started_at() == calendar::turn + 1_minutes );
+                }
+            }
+
+            AND_WHEN( "a ready-check poll fires while the tool is still absent" ) {
+                craft_actualize_scheduled( on_map, item_wakeup_kind::ready_check,
+                                           calendar::turn + 6_minutes, loc );
+
+                THEN( "the step stays paused instead of resuming on the quality gate" ) {
+                    CHECK( on_map.get_pause_started_at() != calendar::before_time_starts );
+                    CHECK( on_map.get_current_step() == 1 );
+                }
+            }
+        }
+    }
+}
+
+TEST_CASE( "craft_unattended_charged_tool_offset_crafter_uses_map_source",
+           "[craft][attention][charge]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms craft_pos( 75, 75, 0 );
+    // Crafter stands well outside PICKUP_RANGE of the workbench craft.
+    u.setpos( here, tripoint_bub_ms( 60, 60, 0 ) );
+
+    // The charged tool sits on the map at the craft, not in the crafter's pack.
+    item &map_iron = here.add_item( craft_pos, tool_with_ammo( itype_soldering_iron_portable, 50 ) );
+    REQUIRE( map_iron.ammo_remaining() == 50 );
+
+    item ingredient( itype_2x4, calendar::turn );
+    item placed( &recipe_cudgel_test_unattended_charged.obj(), 1, ingredient );
+    item &on_map = here.add_item( craft_pos, placed );
+    REQUIRE( on_map.is_craft() );
+    on_map.set_current_step( 1 );
+    on_map.set_passive_started_at( calendar::turn );
+    on_map.set_ready_at( calendar::turn + 10_minutes );
+    on_map.set_crafter_id( u.getID() );
+
+    step_tool_alloc alloc;
+    alloc.sel.use_from = usage_from::map;
+    alloc.sel.comp.type = itype_soldering_iron_portable;
+    alloc.sel.comp.count = 20;
+    alloc.step_count_units = 20;
+    on_map.set_step_tool_allocs( { {}, { alloc } } );
+
+    item_location loc( map_cursor( here.get_abs( craft_pos ) ), &on_map );
+
+    REQUIRE( u.craft_consume_passive_step_tools( on_map, calendar::turn + 10_minutes, loc ) );
+
+    CHECK( map_iron.ammo_remaining() == 30 );
+    REQUIRE( on_map.get_step_tool_allocs().size() == 2 );
+    REQUIRE_FALSE( on_map.get_step_tool_allocs()[1].empty() );
+    CHECK( on_map.get_step_tool_allocs()[1][0].consumed_buckets == 20 );
+}
+
+TEST_CASE( "recipe_unattended_charged_tool_finalizes_without_reject",
+           "[craft][attention][charge][schema]" )
+{
+    const recipe &r = recipe_cudgel_test_unattended_charged.obj();
+    REQUIRE( r.has_steps() );
+    const recipe_step &cure = r.steps().back();
+    REQUIRE( cure.attention == step_attention::unattended );
+
+    bool has_charged_tool = false;
+    for( const std::vector<tool_comp> &group : cure.requirements.get_tools() ) {
+        for( const tool_comp &tc : group ) {
+            if( tc.type == itype_soldering_iron_portable && tc.count > 0 ) {
+                has_charged_tool = true;
+            }
+        }
+    }
+    CHECK( has_charged_tool );
+}
+
+TEST_CASE( "craft_unattended_or_group_uses_noncharged_alternative_free",
+           "[craft][attention][charge]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    u.setpos( here, origin );
+    u.i_add( tool_with_ammo( itype_soldering_iron_portable, 50 ) );
+    u.invalidate_crafting_inventory();
+
+    item ingredient( itype_2x4, calendar::turn );
+    item placed( &recipe_cudgel_test_unattended_charged.obj(), 1, ingredient );
+    item &on_map = here.add_item( origin, placed );
+    on_map.set_current_step( 1 );
+    on_map.set_passive_started_at( calendar::turn );
+    on_map.set_ready_at( calendar::turn + 10_minutes );
+    on_map.set_crafter_id( u.getID() );
+    item_location loc( map_cursor( here.get_abs( origin ) ), &on_map );
+
+    GIVEN( "the pinned selection is a non-charged OR alternative" ) {
+        step_tool_alloc alloc;
+        alloc.sel.use_from = usage_from::none;
+        alloc.sel.comp.type = itype_soldering_iron_portable;
+        alloc.sel.comp.count = -1;
+        alloc.step_count_units = 0;
+        on_map.set_step_tool_allocs( { {}, { alloc } } );
+
+        WHEN( "the step completes" ) {
+            REQUIRE( u.craft_consume_passive_step_tools(
+                         on_map, calendar::turn + 10_minutes, loc ) );
+            u.invalidate_crafting_inventory();
+
+            THEN( "no charges are drained but the step still trues up" ) {
+                CHECK( get_remaining_charges( itype_soldering_iron_portable ) == 50 );
+                CHECK( on_map.get_step_tool_allocs()[1][0].consumed_buckets == 20 );
+            }
+        }
+    }
+
+    GIVEN( "the pinned selection is the charged OR alternative" ) {
+        step_tool_alloc alloc;
+        alloc.sel.use_from = usage_from::both;
+        alloc.sel.comp.type = itype_soldering_iron_portable;
+        alloc.sel.comp.count = 20;
+        alloc.step_count_units = 20;
+        on_map.set_step_tool_allocs( { {}, { alloc } } );
+
+        WHEN( "the step completes" ) {
+            REQUIRE( u.craft_consume_passive_step_tools(
+                         on_map, calendar::turn + 10_minutes, loc ) );
+            u.invalidate_crafting_inventory();
+
+            THEN( "the full charged amount is drained" ) {
+                CHECK( get_remaining_charges( itype_soldering_iron_portable ) == 30 );
+            }
+        }
+    }
+}
+
+TEST_CASE( "craft_unattended_charged_tools_shared_pool_no_partial_debit",
+           "[craft][attention][charge]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    u.setpos( here, origin );
+    // Enough charges to satisfy one allocation but not both together.
+    u.i_add( tool_with_ammo( itype_soldering_iron_portable, 30 ) );
+    u.invalidate_crafting_inventory();
+
+    item ingredient( itype_2x4, calendar::turn );
+    item placed( &recipe_cudgel_test_unattended_charged.obj(), 1, ingredient );
+    item &on_map = here.add_item( origin, placed );
+    on_map.set_current_step( 1 );
+    on_map.set_passive_started_at( calendar::turn );
+    on_map.set_ready_at( calendar::turn + 10_minutes );
+    on_map.set_crafter_id( u.getID() );
+
+    step_tool_alloc alloc;
+    alloc.sel.use_from = usage_from::both;
+    alloc.sel.comp.type = itype_soldering_iron_portable;
+    alloc.sel.comp.count = 20;
+    alloc.step_count_units = 20;
+    on_map.set_step_tool_allocs( { {}, { alloc, alloc } } );
+
+    item_location loc( map_cursor( here.get_abs( origin ) ), &on_map );
+
+    REQUIRE_FALSE( u.craft_consume_passive_step_tools(
+                       on_map, calendar::turn + 10_minutes, loc ) );
+
+    u.invalidate_crafting_inventory();
+    CHECK( get_remaining_charges( itype_soldering_iron_portable ) == 30 );
+    REQUIRE( on_map.get_step_tool_allocs()[1].size() == 2 );
+    CHECK( on_map.get_step_tool_allocs()[1][0].consumed_buckets == 0 );
+    CHECK( on_map.get_step_tool_allocs()[1][1].consumed_buckets == 0 );
+}
+
+TEST_CASE( "craft_unattended_charged_tool_completion_pauses_on_partial_charges",
+           "[craft][attention][charge]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    u.setpos( here, origin );
+    // 25 charges clears the start-only gate for a 40-charge step but cannot
+    // cover the full completion debit.
+    u.i_add( tool_with_ammo( itype_soldering_iron_portable, 25 ) );
+    u.invalidate_crafting_inventory();
+
+    item ingredient( itype_2x4, calendar::turn );
+    item placed( &recipe_cudgel_test_unattended_charged_big.obj(), 1, ingredient );
+    item &on_map = here.add_item( origin, placed );
+    on_map.set_current_step( 1 );
+    on_map.set_passive_started_at( calendar::turn );
+    on_map.set_ready_at( calendar::turn + 10_minutes );
+    on_map.set_crafter_id( u.getID() );
+    on_map.set_step_plans( std::vector<attention_plan>( 2 ) );
+
+    step_tool_alloc alloc;
+    alloc.sel.use_from = usage_from::both;
+    alloc.sel.comp.type = itype_soldering_iron_portable;
+    alloc.sel.comp.count = 40;
+    alloc.step_count_units = 40;
+    on_map.set_step_tool_allocs( { {}, { alloc } } );
+
+    item_location loc( map_cursor( here.get_abs( origin ) ), &on_map );
+
+    craft_actualize_scheduled( on_map, item_wakeup_kind::ready_check,
+                               calendar::turn + 10_minutes, loc );
+
+    REQUIRE( loc.get_item() != nullptr );
+    CHECK( on_map.get_current_step() == 1 );
+    CHECK( on_map.get_pause_started_at() == calendar::turn + 10_minutes );
+    CHECK( on_map.get_saved_ready_at() == calendar::turn + 10_minutes );
+}
+
+TEST_CASE( "craft_unattended_charged_tool_overdue_load_pauses_when_drained",
+           "[craft][attention][charge][overdue]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    u.setpos( here, origin );
+    // No charged tool present anywhere.
+
+    item ingredient( itype_2x4, calendar::turn );
+    item placed( &recipe_cudgel_test_unattended_charged.obj(), 1, ingredient );
+    item &on_map = here.add_item( origin, placed );
+    on_map.set_current_step( 1 );
+    on_map.set_passive_started_at( calendar::turn );
+    on_map.set_ready_at( calendar::turn + 10_minutes );
+    on_map.set_crafter_id( u.getID() );
+    on_map.set_step_plans( std::vector<attention_plan>( 2 ) );
+
+    step_tool_alloc alloc;
+    alloc.sel.use_from = usage_from::both;
+    alloc.sel.comp.type = itype_soldering_iron_portable;
+    alloc.sel.comp.count = 20;
+    alloc.step_count_units = 20;
+    on_map.set_step_tool_allocs( { {}, { alloc } } );
+
+    item_location loc( map_cursor( here.get_abs( origin ) ), &on_map );
+
+    craft_resolve_overdue_passive( on_map, calendar::turn + 20_minutes, loc );
+
+    REQUIRE( loc.get_item() != nullptr );
+    CHECK( on_map.get_current_step() == 1 );
+    CHECK( on_map.get_pause_started_at() != calendar::before_time_starts );
+}
+
+TEST_CASE( "craft_unattended_noncharged_tool_offset_crafter_uses_map_source",
+           "[craft][attention][charge]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms craft_pos( 75, 75, 0 );
+    u.setpos( here, tripoint_bub_ms( 60, 60, 0 ) );
+
+    item ingredient( itype_2x4, calendar::turn );
+    item placed( &recipe_cudgel_test_unattended_charged.obj(), 1, ingredient );
+    item &on_map = here.add_item( craft_pos, placed );
+    on_map.set_current_step( 1 );
+    on_map.set_passive_started_at( calendar::turn );
+    on_map.set_ready_at( calendar::turn + 10_minutes );
+    on_map.set_crafter_id( u.getID() );
+
+    step_tool_alloc alloc;
+    alloc.sel.use_from = usage_from::map;
+    alloc.sel.comp.type = itype_soldering_iron_portable;
+    alloc.sel.comp.count = -1;
+    alloc.step_count_units = 0;
+    on_map.set_step_tool_allocs( { {}, { alloc } } );
+    item_location loc( map_cursor( here.get_abs( craft_pos ) ), &on_map );
+
+    GIVEN( "the non-charged tool sits on the map at the craft" ) {
+        here.add_item( craft_pos, item( itype_soldering_iron_portable, calendar::turn ) );
+
+        THEN( "the step trues up without pausing" ) {
+            CHECK( u.craft_consume_passive_step_tools( on_map, calendar::turn + 10_minutes, loc ) );
+            CHECK( on_map.get_step_tool_allocs()[1][0].consumed_buckets == 20 );
+        }
+    }
+
+    GIVEN( "the non-charged tool is absent from the craft and the crafter" ) {
+        THEN( "the step consume fails instead of running free" ) {
+            CHECK_FALSE( u.craft_consume_passive_step_tools(
+                             on_map, calendar::turn + 10_minutes, loc ) );
+        }
+    }
+
+    GIVEN( "the tool is removed after its last bucket but before completion" ) {
+        item &tool = here.add_item( craft_pos, item( itype_soldering_iron_portable, calendar::turn ) );
+        // A near-end tick reaches bucket 20 while the tool is still present.
+        REQUIRE( u.craft_consume_passive_step_tools(
+                     on_map, calendar::turn + 9_minutes + 30_seconds, loc ) );
+        REQUIRE( on_map.get_step_tool_allocs()[1][0].consumed_buckets == 20 );
+
+        WHEN( "the tool is gone at the completion true-up" ) {
+            here.i_rem( craft_pos, &tool );
+
+            THEN( "completion re-checks presence and the step does not finish free" ) {
+                CHECK_FALSE( u.craft_consume_passive_step_tools(
+                                 on_map, calendar::turn + 10_minutes, loc ) );
+            }
+        }
     }
 }
 
@@ -1140,6 +1579,89 @@ TEST_CASE( "craft_stamp_skips_env_check_when_step_has_no_env_requirements",
                  item_wakeup_kind::env_check ) );
 }
 
+TEST_CASE( "craft_stamp_arms_env_check_and_debits_entry_for_charged_alloc",
+           "[craft][attention][charge][env_check]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    u.setpos( here, origin );
+    u.i_add( tool_with_ammo( itype_soldering_iron_portable, 50 ) );
+    u.invalidate_crafting_inventory();
+
+    item ingredient( itype_2x4, calendar::turn );
+    item placed( &recipe_cudgel_test_unattended_simple.obj(), 1, ingredient );
+    item &on_map = here.add_item( origin, placed );
+    REQUIRE( on_map.is_craft() );
+    on_map.set_current_step( 1 );
+    on_map.set_crafter_id( u.getID() );
+    on_map.set_step_plans( std::vector<attention_plan>( 2 ) );
+
+    // A charged (root-derived) allocation on a step with no step-level env
+    // requirements still needs metering.
+    step_tool_alloc alloc;
+    alloc.sel.use_from = usage_from::both;
+    alloc.sel.comp.type = itype_soldering_iron_portable;
+    alloc.sel.comp.count = 20;
+    alloc.step_count_units = 20;
+    alloc.root_derived = true;
+    on_map.set_step_tool_allocs( { {}, { alloc } } );
+
+    item_location loc( map_cursor( here.get_abs( origin ) ), &on_map );
+    craft_stamp_passive_entry( on_map, u, calendar::turn, loc );
+
+    REQUIRE( on_map.get_passive_started_at() == calendar::turn );
+    CHECK( on_map.get_env_check_at() != calendar::before_time_starts );
+    CHECK( get_item_wakeups().is_scheduled( on_map.uid().get_value(),
+                                            item_wakeup_kind::env_check ) );
+    u.invalidate_crafting_inventory();
+    CHECK( on_map.get_step_tool_allocs()[1][0].consumed_buckets >= 1 );
+    CHECK( get_remaining_charges( itype_soldering_iron_portable ) < 50 );
+}
+
+TEST_CASE( "craft_env_check_rearms_for_charged_only_step",
+           "[craft][attention][charge][env_check]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    u.setpos( here, origin );
+    u.i_add( tool_with_ammo( itype_soldering_iron_portable, 50 ) );
+    u.invalidate_crafting_inventory();
+
+    item ingredient( itype_2x4, calendar::turn );
+    item placed( &recipe_cudgel_test_unattended_simple.obj(), 1, ingredient );
+    item &on_map = here.add_item( origin, placed );
+    on_map.set_current_step( 1 );
+    on_map.set_passive_started_at( calendar::turn );
+    on_map.set_ready_at( calendar::turn + 10_minutes );
+    on_map.set_crafter_id( u.getID() );
+
+    step_tool_alloc alloc;
+    alloc.sel.use_from = usage_from::both;
+    alloc.sel.comp.type = itype_soldering_iron_portable;
+    alloc.sel.comp.count = 20;
+    alloc.step_count_units = 20;
+    alloc.root_derived = true;
+    on_map.set_step_tool_allocs( { {}, { alloc } } );
+    item_location loc( map_cursor( here.get_abs( origin ) ), &on_map );
+
+    // A mid-step env tick on a step with only a charged allocation (no
+    // step-level env requirement) must keep polling so the drain continues.
+    craft_actualize_scheduled( on_map, item_wakeup_kind::env_check,
+                               calendar::turn + 5_minutes, loc );
+    u.invalidate_crafting_inventory();
+
+    CHECK( on_map.get_pause_started_at() == calendar::before_time_starts );
+    CHECK( on_map.get_env_check_at() != calendar::before_time_starts );
+    CHECK( get_item_wakeups().is_scheduled( on_map.uid().get_value(),
+                                            item_wakeup_kind::env_check ) );
+}
+
 TEST_CASE( "craft_env_check_dispatch_pauses_when_quality_missing",
            "[craft][attention][env_check]" )
 {
@@ -1149,7 +1671,7 @@ TEST_CASE( "craft_env_check_dispatch_pauses_when_quality_missing",
     map &here = get_map();
     const tripoint_bub_ms origin( 60, 60, 0 );
     u.setpos( here, origin );
-    // No OVEN tool: env_satisfied_for_step returns false.
+    // No OVEN quality present: the quality gate fails and the step pauses.
 
     item ingredient( itype_2x4, calendar::turn );
     item placed( &recipe_cudgel_test_unattended_with_qual.obj(), 1, ingredient );

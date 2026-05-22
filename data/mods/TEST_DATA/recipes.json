@@ -488,6 +488,48 @@
   {
     "type": "recipe",
     "result": "cudgel",
+    "id_suffix": "test_unattended_charged",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      { "name": "Shape", "time": "5 m", "activity_level": "MODERATE_EXERCISE" },
+      {
+        "name": "Cure",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "tools": [ [ [ "soldering_iron_portable", 20 ] ] ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_unattended_charged_big",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      { "name": "Shape", "time": "5 m", "activity_level": "MODERATE_EXERCISE" },
+      {
+        "name": "Cure",
+        "time": "10 m",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "tools": [ [ [ "soldering_iron_portable", 40 ] ] ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
     "id_suffix": "test_root_charged",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
