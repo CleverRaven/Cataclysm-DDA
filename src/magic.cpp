@@ -1242,7 +1242,7 @@ std::string spell::name() const
 std::string spell::message() const
 {
     if( has_flag( "HIDDEN" ) ) {
-    return {};
+        return {};
     }
     if( !alt_message.empty() ) {
         return SNIPPET.expand( alt_message.translated() );
