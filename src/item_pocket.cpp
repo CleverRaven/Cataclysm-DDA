@@ -977,11 +977,10 @@ void item_pocket::set_item_defaults()
     for( item &contained_item : contents ) {
         /* for guns and other items defined to have a magazine but don't use "ammo" */
         if( contained_item.is_magazine() ) {
-            contained_item.ammo_set(
-                contained_item.ammo_default(),
-                contained_item.ammo_capacity( item_controller->find_template(
-                                                  contained_item.ammo_default() )->ammo->type ) / 2
-            );
+            if( const std::optional<ammotype> at = item::ammotype_of( contained_item.ammo_default() ) ) {
+                contained_item.ammo_set( contained_item.ammo_default(),
+                                         contained_item.ammo_capacity( *at ) / 2 );
+            }
         } else { //Contents are batteries or food
             contained_item.charges =
                 item::find_type( contained_item.typeId() )->charges_default();

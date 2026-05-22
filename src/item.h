@@ -3094,6 +3094,9 @@ class item : public visitable
          * Returns the item type of the given identifier. Never returns null.
          */
         static const itype *find_type( const itype_id &type );
+        // Ammotype of id's ammo slot, or nullopt when it has none. Null-safe for
+        // NULL-ammo guns and pocket-defined magazines.
+        static std::optional<ammotype> ammotype_of( const itype_id &id );
         /**
          * Whether the item is counted by charges, this is a static wrapper
          * around @ref count_by_charges, that does not need an items instance.

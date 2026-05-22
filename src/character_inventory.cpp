@@ -42,7 +42,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
-#include "item_factory.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
@@ -1619,12 +1618,11 @@ std::string Character::weapname_ammo() const
                 if( const item *mag = p->magazine_current() ) {
                     cur = mag->ammo_remaining( );
                     const itype *adata = mag->ammo_data();
-                    max = adata
-                          ? mag->ammo_capacity( adata->ammo->type )
-                          : ( !mag->ammo_default().is_null()
-                              ? mag->ammo_capacity( item_controller->find_template(
-                                                        mag->ammo_default() )->ammo->type )
-                              : 0 );
+                    if( adata ) {
+                        max = mag->ammo_capacity( adata->ammo->type );
+                    } else if( const std::optional<ammotype> at = item::ammotype_of( mag->ammo_default() ) ) {
+                        max = mag->ammo_capacity( *at );
+                    }
                 } else {
                     const pocket_data *pd = p->get_pocket_data();
                     if( pd && !pd->default_magazine.is_null() && pd->default_magazine->magazine ) {
