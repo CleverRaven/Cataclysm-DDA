@@ -714,7 +714,7 @@
     "description": "A fluffy down feather from a bird.  Useful for making cozy bedclothes.",
     "material": [ "down_feathers" ],
     "flags": [ "NO_SALVAGE" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "10 mg"
   },
   {
