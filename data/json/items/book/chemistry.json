@@ -668,7 +668,7 @@
     "volume": "2 L",
     "price": "15 USD",
     "price_postapoc": "25 USD",
-    "material": [ "paper" ],
+    "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "light_cyan",
     "required_level": 3,
