@@ -5436,6 +5436,12 @@
   },
   {
     "type": "effect_type",
+    "id": "a_turncoat_to_the_end",
+    "name": [ "Turncoat or fool?" ],
+    "//": "Used to display the special end screen if you died on the Hub 01 surgical table."
+  },
+  {
+    "type": "effect_type",
     "//": "Horrible hack to apply vision flag. Set in C++ basecamp::start_crafting()",
     "id": "HACK_camp_vision_for_npc",
     "name": [ "" ],

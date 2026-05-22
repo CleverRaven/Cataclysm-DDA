@@ -138,7 +138,8 @@
             { "math": [ "hub01_promised_cbm_reward == 1" ] },
             { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } },
             { "not": { "u_has_trait": "Hub01_CBM_Interface" } },
-            { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } }
+            { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } },
+            { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } }
           ]
         }
       },
@@ -150,7 +151,8 @@
             { "math": [ "hub01_promised_cbm_reward == 1" ] },
             { "not": { "u_has_trait": "Hub01_CBM_Interface" } },
             { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } },
-            { "u_has_trait": "CBM_Interface" }
+            { "u_has_trait": "CBM_Interface" },
+            { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } }
           ]
         }
       },
@@ -158,12 +160,18 @@
       {
         "text": "Could you help me with some bionics?",
         "topic": "TALK_ANCILLA_DOCTOR_BIONICS",
-        "condition": { "u_has_trait": "Hub01_CBM_Interface" }
+        "condition": { "or": [ { "u_has_trait": "Hub01_CBM_Interface" }, { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } ] }
       },
       {
         "text": "So… believe it or not, I've swapped my bionic interfaces.  Let's say I wanted you to swap them again, in favor of a new Hub 01 interface.  What's that gonna cost me?",
         "topic": "TALK_ANCILLA_DOCTOR_SWAP_INTERFACE_AGAIN",
-        "condition": { "and": [ { "u_has_trait": "CBM_Interface_brain_lesion" }, { "u_has_trait": "CBM_Interface" } ] }
+        "condition": {
+          "and": [
+            { "u_has_trait": "CBM_Interface_brain_lesion" },
+            { "u_has_trait": "CBM_Interface" },
+            { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } }
+          ]
+        }
       },
       {
         "text": "I HAVE A MINOR BRAIN LESION AND NO CBM INTERFACE, WHICH SHOULDN'T BE POSSIBLE!  [IF YOU SEE THIS OPTION IN A NORMAL GAME PLEASE FILE A BUG REPORT]",
@@ -195,7 +203,11 @@
         "text": "What?!  Seriously?  Cybernetics?  Tell me more!",
         "topic": "TALK_ANCILLA_DOCTOR_CYBERNETICS_INFO",
         "condition": {
-          "and": [ { "not": { "u_has_trait": "Hub01_CBM_Interface" } }, { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } } ]
+          "and": [
+            { "not": { "u_has_trait": "Hub01_CBM_Interface" } },
+            { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } },
+            { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } }
+          ]
         }
       },
       {
@@ -206,7 +218,8 @@
             { "math": [ "hub01_promised_cbm_reward == 1" ] },
             { "not": { "u_has_trait": "Hub01_CBM_Interface" } },
             { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } },
-            { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } }
+            { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } },
+            { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } }
           ]
         }
       },
@@ -217,7 +230,8 @@
           "and": [
             { "math": [ "hub01_promised_cbm_reward == 1" ] },
             { "u_has_trait": "CBM_Interface" },
-            { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } }
+            { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } },
+            { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } }
           ]
         }
       },
@@ -447,7 +461,8 @@
             { "math": [ "robofac_exodii_cbm_knowledge >= 20" ] },
             {
               "not": { "compare_string": [ "yes", { "u_val": "dialogue_ancilla_doctor_u_learned_about_bionic_limbs" } ] }
-            }
+            },
+            { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } }
           ]
         },
         "effect": { "u_add_var": "dialogue_ancilla_doctor_u_learned_about_bionic_limbs", "value": "yes" }
@@ -461,7 +476,8 @@
             { "compare_string": [ "yes", { "u_val": "dialogue_ancilla_doctor_u_learned_about_bionic_limbs" } ] },
             {
               "not": { "compare_string": [ "yes", { "u_val": "dialogue_ancilla_doctor_u_asked_about_swapping_limbs" } ] }
-            }
+            },
+            { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } }
           ]
         },
         "effect": { "u_add_var": "dialogue_ancilla_doctor_u_asked_about_swapping_limbs", "value": "yes" }
@@ -473,7 +489,8 @@
           "and": [
             { "math": [ "robofac_exodii_cbm_knowledge >= 20" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_ancilla_doctor_u_learned_about_bionic_limbs" } ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_ancilla_doctor_u_asked_about_swapping_limbs" } ] }
+            { "compare_string": [ "yes", { "u_val": "dialogue_ancilla_doctor_u_asked_about_swapping_limbs" } ] },
+            { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } }
           ]
         }
       },
@@ -481,7 +498,9 @@
         "text": "I was wondering if you could install a cybernetic implant…",
         "topic": "TALK_DONE",
         "effect": "bionic_install",
-        "condition": { "not": { "npc_has_effect": "currently_busy" } }
+        "condition": {
+          "and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } } ]
+        }
       },
       {
         "text": "I was wondering if you could install a cybernetic implant in my friend here…",
@@ -493,7 +512,9 @@
         "text": "I need help removing an implant…",
         "topic": "TALK_DONE",
         "effect": "bionic_remove",
-        "condition": { "not": { "npc_has_effect": "currently_busy" } }
+        "condition": {
+          "and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } } ]
+        }
       },
       {
         "text": "I need help removing an implant from one of my friends…",
@@ -502,9 +523,14 @@
         "condition": { "not": { "npc_has_effect": "currently_busy" } }
       },
       {
-        "text": "I need one of my cybernetics repaired…",
+        "text": "I need my cybernetics repaired…",
         "topic": "TALK_ANCILLA_DOCTOR_BIONICS_REPAIR",
         "condition": { "not": { "npc_has_effect": "currently_busy" } }
+      },
+      {
+        "text": "Wow, you've got a proper setup here.  Impressive.  I'm not sure if it'll be compatable with my interface, but think you could help modify my bionic implants?",
+        "topic": "TALK_ANCILLA_DOCTOR_BOTCHED_EXODII_SURGERY_1",
+        "condition": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" }
       },
       { "text": "<end_talking_nevermind>", "topic": "TALK_ANCILLA_DOCTOR" }
     ]
@@ -513,134 +539,22 @@
     "type": "talk_topic",
     "id": "TALK_ANCILLA_DOCTOR_BIONICS_REPAIR",
     "dynamic_line": "What do you need?  Repairing cybernetics isn't cheap, but I guess it's cheaper than replacing them.  Make sure you unload anything or remove any mods you want to keep.\"  The Doc then gently pats the automated surgical suite.  \"Doc Junior here will tear up anything you leave in during the repair.",
-    "speaker_effect": {
-      "effect": [
-        {
-          "if": { "or": [ { "u_has_trait": "BIONIC_ARM_BASIC_LEFT" }, { "u_has_trait": "BIONIC_ARM_BASIC_BOTH" } ] },
-          "then": {
-            "math": [
-              "u_robofac_ancilla_doc_repair_left_arm_cost = 1 + round( ( 1 - ( u_hp('robofac_arm_bionic_basic_l') / u_hp_max('robofac_arm_bionic_basic_l') ) ) * 10 )"
-            ]
-          },
-          "else": { "math": [ "u_robofac_ancilla_doc_repair_left_arm_cost = 0" ] }
-        },
-        {
-          "if": { "or": [ { "u_has_trait": "BIONIC_ARM_BASIC_RIGHT" }, { "u_has_trait": "BIONIC_ARM_BASIC_BOTH" } ] },
-          "then": {
-            "math": [
-              "u_robofac_ancilla_doc_repair_right_arm_cost = 1 + round( ( 1 - ( u_hp('robofac_arm_bionic_basic_r') / u_hp_max('robofac_arm_bionic_basic_r') ) ) * 10 )"
-            ]
-          },
-          "else": { "math": [ "u_robofac_ancilla_doc_repair_right_arm_cost = 0" ] }
-        },
-        {
-          "if": { "or": [ { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" }, { "u_has_trait": "BIONIC_LEG_BASIC_BOTH" } ] },
-          "then": {
-            "math": [
-              "u_robofac_ancilla_doc_repair_left_leg_cost = 1 + round( ( 1 - ( u_hp('robofac_leg_bionic_basic_l') / u_hp_max('robofac_leg_bionic_basic_l') ) ) * 10 )"
-            ]
-          },
-          "else": { "math": [ "u_robofac_ancilla_doc_repair_left_leg_cost = 0" ] }
-        },
-        {
-          "if": { "or": [ { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" }, { "u_has_trait": "BIONIC_LEG_BASIC_BOTH" } ] },
-          "then": {
-            "math": [
-              "u_robofac_ancilla_doc_repair_right_leg_cost = 1 + round( ( 1 - ( u_hp('robofac_leg_bionic_basic_r') / u_hp_max('robofac_leg_bionic_basic_r') ) ) * 10 )"
-            ]
-          },
-          "else": { "math": [ "u_robofac_ancilla_doc_repair_right_leg_cost = 0" ] }
-        }
-      ]
-    },
     "responses": [
       {
-        "text": "[<u_val:robofac_ancilla_doc_repair_left_arm_cost> HGC, 1 hour] Can you repair my bionic left arm?",
-        "topic": "TALK_DONE",
+        "text": "Can you repair damage to my bionic limbs?",
+        "effect": "repair_bionic_limbs",
         "condition": {
-          "and": [
-            { "or": [ { "u_has_trait": "BIONIC_ARM_BASIC_LEFT" }, { "u_has_trait": "BIONIC_ARM_BASIC_BOTH" } ] },
-            {
-              "u_has_items": { "item": "RobofacCoin", "count": { "u_val": "robofac_ancilla_doc_repair_left_arm_cost" } }
-            },
-            { "math": [ "u_hp('robofac_arm_bionic_basic_l') < u_hp_max('robofac_arm_bionic_basic_l')" ] }
+          "or": [
+            { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" },
+            { "u_has_trait": "BIONIC_ARM_BASIC_BOTH" },
+            { "u_has_trait": "BIONIC_LEG_BASIC_BOTH" },
+            { "u_has_trait": "BIONIC_ARM_BASIC_LEFT" },
+            { "u_has_trait": "BIONIC_ARM_BASIC_RIGHT" },
+            { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" },
+            { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" }
           ]
         },
-        "effect": [
-          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "60 minutes" },
-          {
-            "u_consume_item": "RobofacCoin",
-            "count": { "u_val": "robofac_ancilla_doc_repair_left_arm_cost" },
-            "popup": true
-          },
-          { "math": [ "u_hp('robofac_arm_bionic_basic_l') = u_hp_max('robofac_arm_bionic_basic_l')" ] }
-        ]
-      },
-      {
-        "text": "[<u_val:robofac_ancilla_doc_repair_right_arm_cost> HGC, 1 hour] Can you repair my bionic right arm?",
-        "topic": "TALK_DONE",
-        "condition": {
-          "and": [
-            { "or": [ { "u_has_trait": "BIONIC_ARM_BASIC_RIGHT" }, { "u_has_trait": "BIONIC_ARM_BASIC_BOTH" } ] },
-            {
-              "u_has_items": { "item": "RobofacCoin", "count": { "u_val": "robofac_ancilla_doc_repair_right_arm_cost" } }
-            },
-            { "math": [ "u_hp('robofac_arm_bionic_basic_r') < u_hp_max('robofac_arm_bionic_basic_r')" ] }
-          ]
-        },
-        "effect": [
-          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "60 minutes" },
-          {
-            "u_consume_item": "RobofacCoin",
-            "count": { "u_val": "robofac_ancilla_doc_repair_right_arm_cost" },
-            "popup": true
-          },
-          { "math": [ "u_hp('robofac_arm_bionic_basic_r') = u_hp_max('robofac_arm_bionic_basic_r')" ] }
-        ]
-      },
-      {
-        "text": "[<u_val:robofac_ancilla_doc_repair_left_leg_cost> HGC, 1 hour] Can you repair my bionic left leg?",
-        "topic": "TALK_DONE",
-        "condition": {
-          "and": [
-            { "or": [ { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" }, { "u_has_trait": "BIONIC_LEG_BASIC_BOTH" } ] },
-            {
-              "u_has_items": { "item": "RobofacCoin", "count": { "u_val": "robofac_ancilla_doc_repair_left_leg_cost" } }
-            },
-            { "math": [ "u_hp('robofac_leg_bionic_basic_l') < u_hp_max('robofac_leg_bionic_basic_l')" ] }
-          ]
-        },
-        "effect": [
-          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "60 minutes" },
-          {
-            "u_consume_item": "RobofacCoin",
-            "count": { "u_val": "robofac_ancilla_doc_repair_left_leg_cost" },
-            "popup": true
-          },
-          { "math": [ "u_hp('robofac_leg_bionic_basic_l') = u_hp_max('robofac_leg_bionic_basic_l')" ] }
-        ]
-      },
-      {
-        "text": "[<u_val:robofac_ancilla_doc_repair_right_leg_cost> HGC, 1 hour] Can you repair my bionic right leg?",
-        "topic": "TALK_DONE",
-        "condition": {
-          "and": [
-            { "or": [ { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" }, { "u_has_trait": "BIONIC_LEG_BASIC_BOTH" } ] },
-            {
-              "u_has_items": { "item": "RobofacCoin", "count": { "u_val": "robofac_ancilla_doc_repair_right_leg_cost" } }
-            },
-            { "math": [ "u_hp('robofac_leg_bionic_basic_r') < u_hp_max('robofac_leg_bionic_basic_r')" ] }
-          ]
-        },
-        "effect": [
-          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "60 minutes" },
-          {
-            "u_consume_item": "RobofacCoin",
-            "count": { "u_val": "robofac_ancilla_doc_repair_right_leg_cost" },
-            "popup": true
-          },
-          { "math": [ "u_hp('robofac_leg_bionic_basic_r') = u_hp_max('robofac_leg_bionic_basic_r')" ] }
-        ]
+        "topic": "TALK_DONE"
       },
       {
         "text": "[10 HGC, 2 hours] Can you repair my XM-ARM cybernetic?",
@@ -898,5 +812,63 @@
       },
       { "text": "Actually, maybe another time.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ANCILLA_DOCTOR_BOTCHED_EXODII_SURGERY_1",
+    "dynamic_line": "You're fuckin' right it's a proper setup, but damn, I could say the same about you!  Look at ya'!\"  The Doc walks over to the spider-like surgical robot, and pats the soft, cushioned examination table.  He wipes his brow with his sleeve and gulps.  \"Right.  Hop up here, and let's plug into your interface there, and see what we're working with.  I suspect we'll have to swap it out.\"  The Doc then starts to unclasp a set of wrist and ankle ties attached to the exam table.\n\n\"Hope this is alright.  We'll tie down your limbs.  Never worked on… well… someone like you, before.  Guess I haven't worked on that many people in any case.  No worries.  I can do it.  Just don't want you, uh, bugging out and hurting yourself, got it?",
+    "responses": [
+      { "text": "[Hop up on the exam table] No problem.", "topic": "TALK_ANCILLA_DOCTOR_BOTCHED_EXODII_SURGERY_2" },
+      { "text": "Actually… maybe some other time.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ANCILLA_DOCTOR_BOTCHED_EXODII_SURGERY_2",
+    "dynamic_line": "&You lay down on the exam table and lean back.  The spider-like surgical robot that, at first, appeared familiar to you, now feels alien, jerking in its movement, greedily grasping at your ports, plates, and wires.  You hear a bone saw start to loudly whirr, as the Doc goes through various tests.\n\n<color_light_red>You have a bad feeling about this.</color>",
+    "responses": [
+      {
+        "text": "<color_red>[Against your better judgment, let Doc Stevens restrain you on the the Hub 01 automated surgical suite]</color>",
+        "topic": "TALK_ANCILLA_DOCTOR_BOTCHED_EXODII_SURGERY_3"
+      },
+      {
+        "text": "[Hop off the exam table] Actually… maybe some other time.  I have some things to do.",
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ANCILLA_DOCTOR_BOTCHED_EXODII_SURGERY_3",
+    "dynamic_line": "&Doc Stevens ties down your limbs, and gives you a firm nod.  Then he wipes his brow, again.  And then again with the other sleeve.  The bone saw quickens until it is spinning with a deafening sound.  Its biting teeth cut the air with a harsh whistle.  \"Hoowee, it's hot today.  Alright, give me just a second to boot up the twilight juice, yeah?  Stay still!\".\n\n<color_red>You have a VERY bad feeling about this.</color>",
+    "responses": [
+      {
+        "text": "<color_red>[Against your better judgment, give Doc Stevens permission to put you to sleep, here, strapped down beneath a spinning bone saw]</color>",
+        "topic": "TALK_ANCILLA_DOCTOR_BOTCHED_EXODII_SURGERY_4",
+        "effect": { "give_achievement": "achievement_exodii_hub_autodoc_death" }
+      },
+      {
+        "text": "Actually, hold on, Doc.  Can you take these things off me?  I'm not ready.",
+        "topic": "TALK_ANCILLA_DOCTOR_BOTCHED_EXODII_SURGERY_GOOD_CALL"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ANCILLA_DOCTOR_BOTCHED_EXODII_SURGERY_4",
+    "dynamic_line": "&It all goes black.",
+    "responses": [
+      {
+        "text": "…",
+        "effect": [ { "u_add_effect": "a_turncoat_to_the_end", "duration": "PERMANENT" }, "u_die" ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ANCILLA_DOCTOR_BOTCHED_EXODII_SURGERY_GOOD_CALL",
+    "dynamic_line": "Doc Stevens hesitate for an uncomfortable moment.  The saw slows down.  Then he nods and unclasps you.  You are free to go.",
+    "responses": [ { "text": "Thanks, Doc.  See you some other time.", "topic": "TALK_DONE" } ]
   }
 ]
