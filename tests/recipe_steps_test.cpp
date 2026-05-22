@@ -14,6 +14,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "coordinates.h"
+#include "craft_command.h"
 #include "debug.h"
 #include "flexbuffer_json.h"
 #include "inventory.h"
@@ -33,6 +34,7 @@
 #include "recipe.h"
 #include "requirements.h"
 #include "ret_val.h"
+#include "string_formatter.h"
 #include "translation.h"
 #include "type_id.h"
 
@@ -2300,4 +2302,60 @@ TEST_CASE( "tool_speed_negative_rejected", "[recipe][steps][tool_speed]" )
         "symbol": "x", "color": "white",
         "qualities": [ { "id": "CUT", "level": 1, "speed": -1 } ]
     })" );
+}
+
+TEST_CASE( "step_recipe_root_tool_distributed_by_step_budget", "[recipe][steps][crafting]" )
+{
+    // Root tool charges split across active steps by move budget, not raw time,
+    // so a per-step proficiency malus shifts more of the root tool onto the
+    // slower step even when the steps share the same nominal duration.
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    u.set_skill_level( skill_fabrication, 10 );
+    // Has the Finish proficiency but not the Shape one, so only Shape is slowed.
+    u.add_proficiency( proficiency_prof_test_step_b, true );
+    u.i_add( tool_with_ammo( itype_soldering_iron_portable, 500 ) );
+    u.i_add( item( itype_2x4 ) );
+    u.invalidate_crafting_inventory();
+
+    recipe r;
+    JsonObject jo = json_loader::from_string( R"({
+        "type": "recipe", "result": "cudgel", "id_suffix": "test_root_charged_profs",
+        "category": "CC_WEAPON", "subcategory": "CSC_WEAPON_BASHING",
+        "skill_used": "fabrication", "difficulty": 1,
+        "using": [ [ "soldering_standard", 10 ] ], "components": [[ [ "2x4", 1 ] ]],
+        "steps": [
+            { "name": "Shape", "time": "10 m", "activity_level": "MODERATE_EXERCISE",
+              "proficiencies": [ { "proficiency": "prof_test_step_a" } ] },
+            { "name": "Finish", "time": "10 m", "activity_level": "NO_EXERCISE",
+              "proficiencies": [ { "proficiency": "prof_test_step_b" } ] }
+        ]
+    })" );
+    jo.allow_omitted_members();
+    r.load( jo, "dda" );
+    r.finalize();
+
+    inventory map_inv;
+    bool cancelled = false;
+    const std::vector<std::vector<step_tool_alloc>> allocs =
+                select_step_tool_allocs( u, r, 1, map_inv, cancelled );
+    REQUIRE_FALSE( cancelled );
+    REQUIRE( allocs.size() == 2 );
+
+    const auto root_units = [&]( size_t step ) -> int {
+        for( const step_tool_alloc &a : allocs[step] )
+        {
+            if( a.root_derived ) {
+                return a.step_count_units;
+            }
+        }
+        return -1;
+    };
+    const int shape = root_units( 0 );
+    const int finish = root_units( 1 );
+    REQUIRE( shape > 0 );
+    REQUIRE( finish > 0 );
+    // Raw time alone would split the root tool evenly; the Shape malus tips it.
+    CHECK( shape > finish );
 }

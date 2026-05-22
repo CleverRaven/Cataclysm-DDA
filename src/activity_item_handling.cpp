@@ -2425,9 +2425,28 @@ activity_reason_info multi_craft_activity_actor::multi_activity_can_do( Characte
             const recipe &r = to_craft->get_making();
             std::vector<std::vector<item_comp>> item_comp_vector =
                                                  to_craft->get_continue_reqs().get_components();
-            std::vector<std::vector<quality_requirement>> quality_comp_vector =
-                        r.simple_requirements().get_qualities();
-            std::vector<std::vector<tool_comp>> tool_comp_vector = r.simple_requirements().get_tools();
+            std::vector<std::vector<quality_requirement>> quality_comp_vector;
+            std::vector<std::vector<tool_comp>> tool_comp_vector;
+            if( r.has_steps() ) {
+                // Step recipes consume tools per step; gate continuation on the
+                // current step's tools and qualities plus the recipe-root tools,
+                // not the whole recipe, so a later step's tool cannot block the
+                // current one.
+                const int n_steps = static_cast<int>( r.steps().size() );
+                const int cur = std::clamp( to_craft->get_current_step(), 0, n_steps - 1 );
+                const recipe_step &step = r.steps()[cur];
+                const requirement_data &root = r.root_requirements();
+                quality_comp_vector = step.requirements.get_qualities();
+                const std::vector<std::vector<quality_requirement>> &root_quals = root.get_qualities();
+                quality_comp_vector.insert( quality_comp_vector.end(), root_quals.begin(),
+                                            root_quals.end() );
+                tool_comp_vector = step.requirements.get_tools();
+                const std::vector<std::vector<tool_comp>> &root_tools = root.get_tools();
+                tool_comp_vector.insert( tool_comp_vector.end(), root_tools.begin(), root_tools.end() );
+            } else {
+                quality_comp_vector = r.simple_requirements().get_qualities();
+                tool_comp_vector = r.simple_requirements().get_tools();
+            }
             requirement_data req = requirement_data( tool_comp_vector, quality_comp_vector, item_comp_vector );
             if( req.can_make_with_inventory( inv, is_crafting_component ) ) {
                 return activity_reason_info::ok( do_activity_reason::NEEDS_CRAFT );
