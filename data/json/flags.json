@@ -1173,7 +1173,7 @@
     "//": "Spellcasting never fails for this spell"
   },
   {
-    "id": "HIDDEN",
+    "id": "HIDDEN_SPELL",
     "type": "json_flag",
     "//": "Spellcasting never shows any messages for this spell"
   },
