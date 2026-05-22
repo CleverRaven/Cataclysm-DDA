@@ -11,7 +11,16 @@
           { "group": "smoker_cigarette", "prob": 66 },
           { "group": "smoker_e_cigarette", "prob": 42 },
           { "group": "smoker_smokeless_tobacco", "prob": 10 },
-          { "group": "pocket_cigar", "prob": 27 }
+          {
+            "collection": [
+              { "item": "cigar", "count": [ 0, 2 ] },
+              {
+                "distribution": [ { "item": "cigar_cutter", "prob": 50 }, { "item": "cigar_punch", "prob": 50 } ],
+                "prob": 50
+              }
+            ],
+            "prob": 27
+          }
         ]
       },
       { "group": "everyday_lighter", "prob": 80 }
@@ -22,10 +31,10 @@
     "id": "everyday_lighter",
     "subtype": "distribution",
     "items": [
-      { "item": "lighter", "prob": 2, "charges": [ 0, -1 ] },
-      { "item": "small_lighter", "prob": 2, "charges": [ 0, -1 ] },
-      { "item": "ref_lighter", "prob": 2, "charges": [ 0, -1 ] },
-      { "item": "ref_lighter_butane", "prob": 2, "charges": [ 0, -1 ] },
+      { "item": "lighter", "prob": 2 },
+      { "item": "small_lighter", "prob": 2 },
+      { "item": "ref_lighter", "prob": 2 },
+      { "item": "ref_lighter_butane", "prob": 2 },
       { "item": "matches", "prob": 1, "charges": [ 0, 20 ] },
       { "item": "ref_matches", "prob": 1, "charges": [ 0, 32 ] }
     ]
@@ -54,9 +63,7 @@
     "//1": "Ratio of disposable and reusable ecigs loosely aqcuired from https://pmc.ncbi.nlm.nih.gov/articles/PMC8493914/",
     "subtype": "collection",
     "items": [
-      {
-        "distribution": [ { "item": "ecig", "prob": 31, "charges": [ 0, -1 ] }, { "item": "advanced_ecig", "prob": 102, "charges": [ 0, -1 ] } ]
-      },
+      { "distribution": [ { "item": "ecig", "prob": 31 }, { "item": "advanced_ecig", "prob": 102, "charges": [ 0, -1 ] } ] },
       { "group": "nicotine_liquid_bottle_part", "prob": 80, "count": [ 1, 2 ] }
     ]
   },
