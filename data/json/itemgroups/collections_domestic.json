@@ -1320,28 +1320,6 @@
   },
   {
     "type": "item_group",
-    "id": "milk_powder_various",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "milk_powder", "entry-wrapper": "bottle_plastic_seasoning", "count": [ 0, 8 ], "prob": 2 },
-      { "item": "milk_powder", "entry-wrapper": "bottle_glass_seasoning", "count": [ 0, 8 ], "prob": 2 },
-      { "item": "milk_powder", "entry-wrapper": "bag_plastic_small", "count": [ 0, 8 ], "prob": 4 },
-      { "item": "milk_powder", "entry-wrapper": "bag_paper_powder", "count": [ 0, 40 ], "prob": 2 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "milk_powder_various_full",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "milk_powder", "entry-wrapper": "bottle_plastic_seasoning", "count": 8, "prob": 2 },
-      { "item": "milk_powder", "entry-wrapper": "bottle_glass_seasoning", "count": 8, "prob": 2 },
-      { "item": "milk_powder", "entry-wrapper": "bag_plastic_small", "count": 8, "prob": 4 },
-      { "item": "milk_powder", "entry-wrapper": "bag_paper_powder", "count": 40, "prob": 2 }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "cocoa_powder_various",
     "subtype": "distribution",
     "entries": [ { "prob": 4, "group": "cocoa_powder_bag_plastic" }, { "prob": 2, "group": "cocoa_powder_bag_paper" } ]
@@ -1544,24 +1522,6 @@
     "subtype": "collection",
     "container-item": "wrapper",
     "entries": [ { "item": "butter", "container-item": "null", "count": [ 1, 32 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "eggs_in_carton",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "egg_bird_unfert", "entry-wrapper": "carton_egg", "count": [ 1, 12 ] },
-      { "item": "egg_bird_unfert", "entry-wrapper": "carton_egg_6", "count": [ 1, 6 ] }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "eggs_in_carton_full",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "egg_bird_unfert", "entry-wrapper": "carton_egg", "count": 12 },
-      { "item": "egg_bird_unfert", "entry-wrapper": "carton_egg_6", "count": 6 }
-    ]
   },
   {
     "type": "item_group",

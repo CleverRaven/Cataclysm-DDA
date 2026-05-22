@@ -445,74 +445,6 @@
     ]
   },
   {
-    "id": "any_soda",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [
-      [ "cola", 60 ],
-      [ "colamdew", 55 ],
-      [ "creamsoda", 50 ],
-      [ "lemonlime", 50 ],
-      [ "orangesoda", 50 ],
-      [ "rootbeer", 45 ],
-      [ "crispycran", 40 ],
-      [ "purple_drink", 35 ],
-      [ "zerocola", 35 ],
-      [ "zeroorange", 35 ],
-      [ "zerotropical", 35 ],
-      [ "zeromdew", 35 ],
-      [ "foodplace_zero_drink", 10 ],
-      [ "choc_drink", 25 ],
-      [ "sparkling", 20 ],
-      [ "sparkling_peach", 20 ],
-      [ "sparkling_pomegranate", 20 ]
-    ]
-  },
-  {
-    "id": "soda_in_container_full",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [
-      { "group": "any_soda", "container-item": "bottle_twoliter" },
-      { "group": "any_soda", "container-item": "bottle_plastic" },
-      { "group": "any_soda", "container-item": "bottle_plastic_355ml" },
-      { "group": "any_soda", "container-item": "can_drink" },
-      { "group": "any_soda", "container-item": "can_aluminum_250ml" }
-    ]
-  },
-  {
-    "id": "soda_in_container",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [
-      { "group": "any_soda", "container-item": "bottle_twoliter", "charges": [ 1, -1 ] },
-      { "group": "any_soda", "container-item": "bottle_plastic", "charges": [ 1, -1 ] },
-      { "group": "any_soda", "container-item": "bottle_plastic_355ml", "charges": [ 1, -1 ] },
-      { "group": "any_soda", "container-item": "can_drink", "charges": [ 1, -1 ] },
-      { "group": "any_soda", "container-item": "can_aluminum_250ml", "charges": [ 1, -1 ] }
-    ]
-  },
-  {
-    "id": "soda_in_small_container_full",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [
-      { "group": "any_soda", "container-item": "bottle_plastic_355ml" },
-      { "group": "any_soda", "container-item": "can_drink" },
-      { "group": "any_soda", "container-item": "can_aluminum_250ml" }
-    ]
-  },
-  {
-    "id": "soda_in_small_container",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [
-      { "group": "any_soda", "container-item": "bottle_plastic_355ml", "charges": [ 1, -1 ] },
-      { "group": "any_soda", "container-item": "can_drink", "charges": [ 1, -1 ] },
-      { "group": "any_soda", "container-item": "can_aluminum_250ml", "charges": [ 1, -1 ] }
-    ]
-  },
-  {
     "type": "item_group",
     "id": "candy_chocolate",
     "subtype": "distribution",
@@ -944,19 +876,6 @@
   },
   {
     "type": "item_group",
-    "id": "teabag_box",
-    "subtype": "distribution",
-    "entries": [
-      { "prob": 20, "group": "tea_bag_box_tea_1_10" },
-      { "prob": 10, "group": "tea_fruit_bag_box_tea_1_10" },
-      { "prob": 10, "group": "tea_green_bag_box_tea_1_10" },
-      { "prob": 10, "group": "tea_bag_chamomile_box_tea_1_10" },
-      { "prob": 5, "group": "herbal_tea_bag_box_tea_1_10" },
-      { "prob": 5, "group": "tea_bag_dandelion_box_tea_1_10" }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "soup_box",
     "subtype": "distribution",
     "entries": [ { "group": "soup_packet", "prob": 50, "container-item": "box_small", "charges": [ 1, 8 ] } ]
@@ -968,26 +887,6 @@
     "entries": [
       { "prob": 50, "group": "soup_instant_chicken_noodle_powder_bag_paper_powder_1" },
       { "prob": 50, "group": "soup_instant_vegetable_powder_bag_paper_powder_1" }
-    ]
-  },
-  {
-    "id": "any_wild_egg",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "egg_crow", "prob": 20 },
-      { "item": "egg_sparrow", "prob": 20 },
-      { "item": "egg_bluejay", "prob": 10 },
-      { "item": "egg_cardinal", "prob": 5 },
-      { "item": "egg_raven", "prob": 5 },
-      { "item": "egg_robin", "prob": 5 },
-      { "item": "egg_duck", "prob": 2 },
-      { "item": "egg_goose_canadian", "prob": 1 },
-      { "item": "egg_coot", "prob": 1 },
-      { "item": "egg_grebe", "prob": 1 },
-      { "item": "egg_hummingbird", "prob": 1 },
-      { "item": "egg_turkey", "prob": 1 },
-      { "item": "egg_grouse", "prob": 1 }
     ]
   },
   {
@@ -1151,138 +1050,6 @@
     "subtype": "collection",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "chem_agar", "container-item": "null", "count": 50 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "pelmeni_can_medium_2",
-    "subtype": "collection",
-    "container-item": "can_medium",
-    "entries": [ { "item": "pelmeni", "container-item": "null", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "canned_liver_can_food_4",
-    "subtype": "collection",
-    "container-item": "can_food",
-    "entries": [ { "item": "canned_liver", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "can_beans_can_food_big_12",
-    "subtype": "collection",
-    "container-item": "can_food_big",
-    "entries": [ { "item": "can_beans", "container-item": "null", "count": 12 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "can_tomato_can_food_big_24",
-    "subtype": "collection",
-    "container-item": "can_food_big",
-    "entries": [ { "item": "can_tomato", "container-item": "null", "count": 24 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "can_pineapple_can_food_big_12",
-    "subtype": "collection",
-    "container-item": "can_food_big",
-    "entries": [ { "item": "can_pineapple", "container-item": "null", "count": 12 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "can_corn_can_food_big_6",
-    "subtype": "collection",
-    "container-item": "can_food_big",
-    "entries": [ { "item": "can_corn", "container-item": "null", "count": 6 } ]
-  },
-  {
-    "id": "ground_coffee_small",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "coffee_raw", "count": [ 1, 30 ] },
-      { "item": "coffee_raw_kentucky", "count": [ 1, 30 ] },
-      { "item": "roasted_coffee_bean", "count": [ 1, 30 ] }
-    ]
-  },
-  {
-    "id": "ground_coffee_small_full",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "coffee_raw", "count": 30 },
-      { "item": "coffee_raw_kentucky", "count": 30 },
-      { "item": "roasted_coffee_bean", "count": 30 }
-    ]
-  },
-  {
-    "id": "ground_coffee_big",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "coffee_raw", "count": [ 1, 60 ] },
-      { "item": "coffee_raw_kentucky", "count": [ 1, 60 ] },
-      { "item": "roasted_coffee_bean", "count": [ 1, 60 ] }
-    ]
-  },
-  {
-    "id": "ground_coffee_big_full",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "coffee_raw", "count": 60 },
-      { "item": "coffee_raw_kentucky", "count": 60 },
-      { "item": "roasted_coffee_bean", "count": 60 }
-    ]
-  },
-  {
-    "id": "raw_coffee_in_container",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      {
-        "distribution": [
-          { "item": "instant_coffee", "count": [ 1, 40 ], "entry-wrapper": "bottle_glass_seasoning" },
-          { "item": "instant_coffee", "count": [ 1, 40 ], "entry-wrapper": "can_medium" }
-        ]
-      },
-      {
-        "distribution": [
-          { "group": "ground_coffee_small", "entry-wrapper": "can_food_big" },
-          { "group": "ground_coffee_small", "entry-wrapper": "bag_plastic" }
-        ]
-      },
-      {
-        "distribution": [
-          { "group": "ground_coffee_big", "entry-wrapper": "can_food_big" },
-          { "group": "ground_coffee_big", "entry-wrapper": "bag_plastic" }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "raw_coffee_in_container_full",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      {
-        "distribution": [
-          { "item": "instant_coffee", "count": 40, "entry-wrapper": "bottle_glass_seasoning" },
-          { "item": "instant_coffee", "count": 40, "entry-wrapper": "can_medium" }
-        ]
-      },
-      {
-        "distribution": [
-          { "group": "ground_coffee_small_full", "entry-wrapper": "can_food_big" },
-          { "group": "ground_coffee_small_full", "entry-wrapper": "bag_plastic" }
-        ]
-      },
-      {
-        "distribution": [
-          { "group": "ground_coffee_big_full", "entry-wrapper": "can_food_big" },
-          { "group": "ground_coffee_big_full", "entry-wrapper": "bag_plastic" }
-        ]
-      }
-    ]
   },
   {
     "type": "item_group",
@@ -1489,48 +1256,6 @@
   },
   {
     "type": "item_group",
-    "id": "tea_bag_box_tea_1_10",
-    "subtype": "collection",
-    "container-item": "box_tea",
-    "entries": [ { "item": "tea_bag", "container-item": "null", "count": [ 1, 10 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "tea_fruit_bag_box_tea_1_10",
-    "subtype": "collection",
-    "container-item": "box_tea",
-    "entries": [ { "item": "tea_fruit_bag", "container-item": "null", "count": [ 1, 10 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "tea_green_bag_box_tea_1_10",
-    "subtype": "collection",
-    "container-item": "box_tea",
-    "entries": [ { "item": "tea_green_bag", "container-item": "null", "count": [ 1, 10 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "tea_bag_chamomile_box_tea_1_10",
-    "subtype": "collection",
-    "container-item": "box_tea",
-    "entries": [ { "item": "tea_bag_chamomile", "container-item": "null", "count": [ 1, 10 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "herbal_tea_bag_box_tea_1_10",
-    "subtype": "collection",
-    "container-item": "box_tea",
-    "entries": [ { "item": "herbal_tea_bag", "container-item": "null", "count": [ 1, 10 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "tea_bag_dandelion_box_tea_1_10",
-    "subtype": "collection",
-    "container-item": "box_tea",
-    "entries": [ { "item": "tea_bag_dandelion", "container-item": "null", "count": [ 1, 10 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "soup_instant_chicken_noodle_powder_bag_paper_powder_1",
     "subtype": "collection",
     "container-item": "bag_paper_powder",
@@ -1606,12 +1331,6 @@
       { "item": "chips", "variant": "mixed", "entry-wrapper": "bag_chips_medium", "count": 2, "prob": 5 },
       { "item": "chips", "variant": "mixed", "entry-wrapper": "bag_chips_large", "count": 3, "prob": 5 }
     ]
-  },
-  {
-    "id": "kvass_bottle",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [ { "item": "kvass", "container-item": "bottle_plastic" } ]
   },
   {
     "type": "item_group",
@@ -1707,52 +1426,6 @@
       { "group": "chewing_gum_used_caff", "prob": 2 },
       { "group": "chewing_gum_used_nic", "prob": 2 }
     ]
-  },
-  {
-    "id": "any_milk_standard",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [ [ "milk", 20 ], [ "milk_UHT", 80 ] ]
-  },
-  {
-    "id": "any_milk_lactosefree",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [ [ "soy_milk", 33 ], [ "almond_milk", 33 ], [ "oat_milk", 11 ], [ "hazelnut_milk", 11 ], [ "walnut_milk", 11 ] ]
-  },
-  {
-    "id": "any_milk",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [ { "group": "any_milk_standard", "prob": 71 }, { "group": "any_milk_lactosefree", "prob": 5 } ]
-  },
-  {
-    "id": "milk_in_container_full",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [
-      { "group": "any_milk", "container-item": "jug_plastic" },
-      { "group": "any_milk", "container-item": "jug_plastic_1892ml" },
-      { "group": "any_milk", "container-item": "carton_sealed" },
-      { "group": "any_milk", "container-item": "carton_946ml" }
-    ]
-  },
-  {
-    "id": "milk_in_container",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [
-      { "group": "any_milk", "container-item": "jug_plastic", "charges": [ 1, -1 ] },
-      { "group": "any_milk", "container-item": "jug_plastic_1892ml", "charges": [ 1, -1 ] },
-      { "group": "any_milk", "container-item": "carton_sealed", "charges": [ 1, -1 ] },
-      { "group": "any_milk", "container-item": "carton_946ml", "charges": [ 1, -1 ] }
-    ]
-  },
-  {
-    "id": "milk_in_big_container_full",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [ { "group": "any_milk", "container-item": "jug_plastic" } ]
   },
   {
     "id": "beer_in_six_pack_rings",

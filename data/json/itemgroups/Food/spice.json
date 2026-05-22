@@ -117,6 +117,13 @@
     "entries": [ { "item": "sugar", "container-item": "null", "count": [ 10, 80 ] } ]
   },
   {
+    "id": "sugar_bag_50",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": 50 } ]
+  },
+  {
     "type": "item_group",
     "id": "sugar_bag_paper",
     "subtype": "collection",

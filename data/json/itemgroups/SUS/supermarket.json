@@ -1,47 +1,5 @@
 [
   {
-    "id": "tea_bag_box_10",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "box_tea",
-    "entries": [ { "item": "tea_bag", "container-item": "null", "count": 10 } ]
-  },
-  {
-    "id": "tea_green_bag_box_10",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "box_tea",
-    "entries": [ { "item": "tea_green_bag", "container-item": "null", "count": 10 } ]
-  },
-  {
-    "id": "tea_fruit_bag_box_10",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "box_tea",
-    "entries": [ { "item": "tea_fruit_bag", "container-item": "null", "count": 10 } ]
-  },
-  {
-    "id": "herbal_tea_bag_box_10",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "box_tea",
-    "entries": [ { "item": "herbal_tea_bag", "container-item": "null", "count": 10 } ]
-  },
-  {
-    "id": "tea_bag_dandelion_box_10",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "box_tea",
-    "entries": [ { "item": "tea_bag_dandelion", "container-item": "null", "count": 10 } ]
-  },
-  {
-    "id": "tea_bag_chamomile_box_10",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "box_tea",
-    "entries": [ { "item": "tea_bag_chamomile", "container-item": "null", "count": 10 } ]
-  },
-  {
     "id": "milk_cream_bottle_2",
     "type": "item_group",
     "subtype": "collection",
@@ -75,13 +33,6 @@
     "subtype": "collection",
     "container-item": "box_small",
     "entries": [ { "item": "chicken_fried", "container-item": "null", "count": 6 } ]
-  },
-  {
-    "id": "sugar_bag_50",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "sugar", "container-item": "null", "count": 50 } ]
   },
   {
     "id": "spaghetti_raw_bag_30",
