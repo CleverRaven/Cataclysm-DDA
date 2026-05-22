@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <cstdlib>
 #include <iterator>
-#include <memory>
 #include <optional>
 #include <set>
 #include <stdexcept>
@@ -27,7 +26,6 @@
 #include "iexamine.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_factory.h"
 #include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
@@ -48,7 +46,6 @@
 #include "type_id.h"
 #include "uilist.h"
 #include "units.h"
-#include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -602,10 +599,10 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
             ammo_name = _( "bionic power" );
 
         } else {
-            if( used_tool->ammo_current().is_null() ) {
-                current_ammo = item_controller->find_template( used_tool->ammo_default() )->ammo->type;
-            } else {
-                current_ammo = item_controller->find_template( used_tool->ammo_current() )->ammo->type;
+            const itype_id ammo_id = used_tool->ammo_current().is_null()
+                                     ? used_tool->ammo_default() : used_tool->ammo_current();
+            if( const std::optional<ammotype> at = item::ammotype_of( ammo_id ) ) {
+                current_ammo = *at;
             }
             ammo_name = item::nname( used_tool->ammo_current() );
         }

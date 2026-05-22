@@ -6,7 +6,14 @@
     "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "clothing",
     "name": { "str": "5-point anchor" },
-    "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "mutations": [ "ANCHORCROWN_NOSPELL" ] } ]
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "ench_effects": [ { "effect": "effect_psi_dimensionally_anchored", "intensity": 1 } ]
+      }
+    ],
+    "extend": { "flags": [ "MUNDANE" ] }
   },
   {
     "id": "dimensional_anchor_on",
@@ -15,6 +22,41 @@
     "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "category": "clothing",
     "name": { "str": "5-point anchor (on)", "str_pl": "5-point anchors (on)" },
-    "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "mutations": [ "ANCHORCROWN_NOSPELL" ] } ]
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "ench_effects": [ { "effect": "effect_psi_dimensionally_anchored", "intensity": 1 } ]
+      }
+    ],
+    "extend": { "flags": [ "MUNDANE" ] }
+  },
+  {
+    "id": "robofac_armor_anchor",
+    "copy-from": "robofac_armor_anchor",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "ench_effects": [ { "effect": "effect_psi_dimensionally_anchored", "intensity": 1 } ]
+      }
+    ],
+    "extend": { "flags": [ "MUNDANE" ] }
+  },
+  {
+    "id": "robofac_armor_anchor_on",
+    "copy-from": "robofac_armor_anchor_on",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "ench_effects": [ { "effect": "effect_psi_dimensionally_anchored", "intensity": 1 } ]
+      }
+    ],
+    "extend": { "flags": [ "MUNDANE" ] }
   }
 ]

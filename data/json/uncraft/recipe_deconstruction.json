@@ -7987,5 +7987,41 @@
     "time": "4 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "meat_tainted", 6 ] ], [ [ "bone_tainted", 3 ] ], [ [ "sinew", 2 ] ] ]
+  },
+  {
+    "result": "jug_plastic",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "material_high_density_polyethylene_chunk", 15 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "jug_plastic_1892ml",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "material_high_density_polyethylene_chunk", 8 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "jug_plastic_glue",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "material_high_density_polyethylene_chunk", 15 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "plastic_cutting_board",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 3 } ],
+    "components": [ [ [ "material_high_density_polyethylene_chunk", 25 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]

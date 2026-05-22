@@ -1767,8 +1767,8 @@ std::string item::display_name( unsigned int quantity ) const
         const itype *adata = ammo_data();
         if( adata ) {
             max_amount = ammo_capacity( adata->ammo->type );
-        } else if( !ammo_default().is_null() ) {
-            max_amount = ammo_capacity( item_controller->find_template( ammo_default() )->ammo->type );
+        } else if( const std::optional<ammotype> at = ammotype_of( ammo_default() ) ) {
+            max_amount = ammo_capacity( *at );
         }
     } else if( is_vehicle_battery() ) {
         show_amt = true;
@@ -5069,6 +5069,18 @@ bool item::type_is_defined( const itype_id &id )
 const itype *item::find_type( const itype_id &type )
 {
     return item_controller->find_template( type );
+}
+
+std::optional<ammotype> item::ammotype_of( const itype_id &id )
+{
+    if( id.is_null() ) {
+        return std::nullopt;
+    }
+    const itype *t = find_type( id );
+    if( t == nullptr || !t->ammo ) {
+        return std::nullopt;
+    }
+    return t->ammo->type;
 }
 
 bool item::has_label() const

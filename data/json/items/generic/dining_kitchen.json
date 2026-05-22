@@ -1411,6 +1411,26 @@
     "//": "Based on https://www.amazon.com/dp/B00063QBL8"
   },
   {
+    "id": "plastic_cutting_board",
+    "type": "ITEM",
+    "category": "other",
+    "ascii_picture": "cutting_board",
+    "name": { "str": "plastic cutting board" },
+    "description": "A large, flat piece of plastic for chopping vegetables on without ruining your knife or your countertop.",
+    "weight": "250 g",
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
+    "color": "white",
+    "symbol": "/",
+    "material": [ "high_density_polyethylene" ],
+    "techniques": [ "WBLOCK_2" ],
+    "flags": [ "DURABLE_MELEE" ],
+    "volume": "500 ml",
+    "longest_side": "41 cm",
+    "price": "48 USD",
+    "price_postapoc": "5 cent",
+    "melee_damage": { "bash": 5 }
+  },
+  {
     "id": "mess_tray",
     "name": { "str": "meal tray" },
     "description": "A stainless steel tray used for serving food in cafeterias, mess halls, or similar places.",

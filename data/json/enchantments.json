@@ -463,5 +463,19 @@
       { "value": "THROW_DAMAGE", "multiply": 0.05 }
     ],
     "encumbrance_modifier": [ { "part": "torso", "add": -40 } ]
+  },
+  {
+    "//": "This is overwritten in MoM",
+    "id": "ench_mom_incense_nether_attunement",
+    "type": "enchantment",
+    "has": "HELD",
+    "condition": "ALWAYS"
+  },
+  {
+    "//": "This is overwritten in MoM",
+    "id": "ench_mom_incense_nether_attunement_major",
+    "type": "enchantment",
+    "has": "HELD",
+    "condition": "ALWAYS"
   }
 ]

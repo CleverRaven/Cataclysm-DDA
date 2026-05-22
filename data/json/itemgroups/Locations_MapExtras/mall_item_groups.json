@@ -260,7 +260,8 @@
       [ "curling_iron", 40 ],
       [ "comb_pocket", 10 ],
       [ "hairbrush", 10 ],
-      [ "mirror", 35 ]
+      [ "mirror", 35 ],
+      { "item": "makeup_kit", "prob": 30 }
     ]
   },
   {
