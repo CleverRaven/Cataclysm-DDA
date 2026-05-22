@@ -305,6 +305,14 @@ cata_path PATH_INFO::keybindings()
 {
     return datadir_path_value / "raw" / "keybindings.json";
 }
+cata_path PATH_INFO::keybindings_base()
+{
+    return datadir_path_value / "raw" / "keybindings" / "base.json";
+}
+cata_path PATH_INFO::keybindings_profile( const std::string &profile )
+{
+    return datadir_path_value / "raw" / "keybindings" / "profiles" / ( profile + ".json" );
+}
 cata_path PATH_INFO::keybindings_vehicle()
 {
     return datadir_path_value / "raw" / "keybindings" / "vehicle.json";

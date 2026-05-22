@@ -23,6 +23,7 @@
 #include "input_context.h" // IWYU pragma: keep
 #include "json.h"
 #include "json_loader.h"
+#include "options.h"
 #include "path_info.h"
 #include "sdltiles.h" // IWYU pragma: keep
 #include "string_formatter.h"
@@ -168,7 +169,15 @@ void input_manager::init()
     reset_timeout();
 
     try {
-        load( PATH_INFO::keybindings(), false );
+        const std::string profile = get_options().has_option( "KEYBINDING_PROFILE" )
+                                    ? get_option<std::string>( "KEYBINDING_PROFILE" )
+                                    : std::string( "legacy" );
+        if( profile == "legacy" ) {
+            load( PATH_INFO::keybindings(), false );
+        } else {
+            load( PATH_INFO::keybindings_base(), false );
+            load( PATH_INFO::keybindings_profile( profile ), false );
+        }
     } catch( const JsonError &err ) {
         throw std::runtime_error( err.what() );
     }

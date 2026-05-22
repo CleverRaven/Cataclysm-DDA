@@ -2000,6 +2000,20 @@ void options_manager::add_options_interface()
 
     add_empty_line();
 
+    add( "KEYBINDING_PROFILE", "interface",
+         to_translation( "Keybinding profile" ),
+         to_translation( "Selects which set of default keybindings is loaded.  "
+                         "'Legacy' preserves the historical bindings.  "
+                         "Additional profiles are designed in discussion #59678 "
+                         "and are added incrementally — only profiles whose JSON "
+                         "is shipped with the game will work.  "
+                         "User customizations are preserved across profile changes.  "
+                         "Restart the game to apply." ),
+    { { "legacy", to_translation( "Legacy" ) } },
+    "legacy" );
+
+    add_empty_line();
+
     add( "DIAG_MOVE_WITH_MODIFIERS_MODE", "interface",
          to_translation( "Diagonal movement with cursor keys and modifiers" ),
          /*

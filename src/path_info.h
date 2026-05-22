@@ -72,6 +72,8 @@ cata_path gfxdir();
 cata_path graveyarddir_path();
 cata_path jsondir();
 cata_path keybindings();
+cata_path keybindings_base();
+cata_path keybindings_profile( const std::string &profile );
 cata_path keybindings_vehicle();
 cata_path langdir_path();
 cata_path lastworld();
