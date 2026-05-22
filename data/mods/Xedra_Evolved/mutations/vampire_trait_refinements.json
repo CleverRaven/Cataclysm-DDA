@@ -90,27 +90,27 @@
   },
   {
     "type": "mutation",
-    "id": "VAMPIRE_WALK_ON_WALLS_REFINEMENT_JUMP",
+    "id": "VAMPIRE_WALK_ON_WALLS_REFINEMENT_LOW_GRAVITY",
     "points": 3,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "player_display": true,
-    "name": { "str": "Spider's leap" },
-    "description": "Your gravity has been reduced further, increasing your carry capacity by 10% and granting you the ability to leap over a distance based on your strength.",
-    "spells_learned": [ [ "vampire_spider_jump_spell", 1 ] ],
-    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.1 } ] } ]
+    "name": { "str": "Light as a Spider's Thread" },
+    "description": "Your gravity has been reduced further, increasing your carry capacity by 25% and granting you the ability to glide down from heights.",
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.25 } ] } ],
+    "flags": [ "GLIDE" ]
   },
   {
     "type": "mutation",
-    "id": "VAMPIRE_EARTH_SLUMBER_REFINEMENT_TELEPORT",
+    "id": "VAMPIRE_EARTH_SLUMBER_REFINEMENT_CREATE_PITS",
     "points": 3,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "player_display": true,
-    "name": { "str": "Earthen Step" },
-    "description": "You can sink into the earth to emerge from it somewhere else nearby.",
-    "spells_learned": [ [ "vampire_earth_to_earth_teleport_spell", 1 ] ]
+    "name": { "str": "Earthen Grave" },
+    "description": "You can part the earth aroung you to create large holes to trap your foes into.",
+    "spells_learned": [ [ "vampire_create_pits", 1 ] ]
   }
 ]
