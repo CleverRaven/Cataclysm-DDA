@@ -185,7 +185,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::SPAWN_GROUP: return "SPAWN_GROUP";
         case spell_flag::IGNITE_FLAMMABLE: return "IGNITE_FLAMMABLE";
         case spell_flag::NO_FAIL: return "NO_FAIL";
-        case spell_flag::HIDDEN: return "HIDDEN";
+        case spell_flag::HIDDEN_SPELL: return "HIDDEN_SPELL";
         case spell_flag::WONDER: return "WONDER";
         case spell_flag::EXTRA_EFFECTS_FIRST: return "EXTRA_EFFECTS_FIRST";
         case spell_flag::MUST_HAVE_CLASS_TO_LEARN: return "MUST_HAVE_CLASS_TO_LEARN";
@@ -1241,7 +1241,7 @@ std::string spell::name() const
 
 std::string spell::message() const
 {
-    if( has_flag( "HIDDEN" ) ) {
+    if( has_flag( "HIDDEN_SPELL" ) ) {
         return {};
     }
     if( !alt_message.empty() ) {
