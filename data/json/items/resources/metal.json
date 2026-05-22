@@ -584,7 +584,7 @@
     "weight": "27000 g",
     "volume": "10 L",
     "price": "74 USD",
-    "price_postapoc": "1 USD 50 cent",
+    "price_postapoc": "2 USD",
     "material": [ "aluminum" ],
     "symbol": "=",
     "color": "light_gray"
@@ -598,7 +598,7 @@
     "weight": "8730 g",
     "volume": "1 L",
     "price": "1 kUSD 145 USD 48 cent",
-    "price_postapoc": "11 USD 45 cent",
+    "price_postapoc": "5 cent",
     "material": [ "brass" ],
     "symbol": "=",
     "color": "yellow"
@@ -612,7 +612,7 @@
     "weight": "43650 g",
     "volume": "5 L",
     "price": "5 kUSD 727 USD 40 cent",
-    "price_postapoc": "57 USD 27 cent",
+    "price_postapoc": "25 cent",
     "material": [ "brass" ],
     "symbol": "=",
     "color": "yellow"
@@ -626,7 +626,7 @@
     "weight": "87300 g",
     "volume": "10 L",
     "price": "11 kUSD 454 USD 75 cent",
-    "price_postapoc": "114 USD 55 cent",
+    "price_postapoc": "50 cent",
     "material": [ "brass" ],
     "symbol": "=",
     "color": "yellow"
@@ -640,7 +640,7 @@
     "weight": "7690 g",
     "volume": "1 L",
     "price": "1 kUSD 300 USD 39 cent",
-    "price_postapoc": "13 USD",
+    "price_postapoc": "5 cent",
     "material": [ "bronze" ],
     "symbol": "=",
     "color": "yellow"
@@ -654,7 +654,7 @@
     "weight": "38450 g",
     "volume": "5 L",
     "price": "6 kUSD 501 USD 95 cent",
-    "price_postapoc": "65 USD",
+    "price_postapoc": "25 cent",
     "material": [ "bronze" ],
     "symbol": "=",
     "color": "yellow"
@@ -668,7 +668,7 @@
     "weight": "88 kg",
     "volume": "10 L",
     "price": "13 kUSD 4 USD",
-    "price_postapoc": "130 USD",
+    "price_postapoc": "50 cent",
     "material": [ "bronze" ],
     "symbol": "=",
     "color": "yellow"
@@ -682,7 +682,7 @@
     "weight": "8960 g",
     "volume": "1 L",
     "price": "23 USD 15 cent",
-    "price_postapoc": "23 cent",
+    "price_postapoc": "20 cent",
     "material": [ "copper" ],
     "symbol": "=",
     "color": "brown"
@@ -696,7 +696,7 @@
     "weight": "44800 g",
     "volume": "5 L",
     "price": "115 USD 75 cent",
-    "price_postapoc": "1 USD 16 cent",
+    "price_postapoc": "1 USD",
     "material": [ "copper" ],
     "symbol": "=",
     "color": "brown"
@@ -710,7 +710,7 @@
     "weight": "89600 g",
     "volume": "10 L",
     "price": "231 USD 50 cent",
-    "price_postapoc": "2 USD 30 cent",
+    "price_postapoc": "2 USD",
     "material": [ "copper" ],
     "symbol": "=",
     "color": "brown"
@@ -724,7 +724,7 @@
     "weight": "72650 g",
     "volume": "10 L",
     "price": "1 kUSD 879 USD 10 cent",
-    "price_postapoc": "29 USD",
+    "price_postapoc": "20 cent",
     "material": [ "tin" ],
     "symbol": "=",
     "color": "light_gray"
@@ -738,7 +738,7 @@
     "weight": "36325 g",
     "volume": "5 L",
     "price": "939 USD 55 cent",
-    "price_postapoc": "14 USD 50 cent",
+    "price_postapoc": "10 cent",
     "material": [ "tin" ],
     "symbol": "=",
     "color": "light_gray"
@@ -752,7 +752,7 @@
     "weight": "7265 g",
     "volume": "1 L",
     "price": "187 USD 91 cent",
-    "price_postapoc": "2 USD 90 cent",
+    "price_postapoc": "2 cent",
     "material": [ "tin" ],
     "symbol": "=",
     "color": "light_gray"
@@ -766,7 +766,7 @@
     "weight": "71 kg",
     "volume": "10 L",
     "price": "231 USD 50 cent",
-    "price_postapoc": "2 USD 30 cent",
+    "price_postapoc": "20 cent",
     "material": [ "zinc" ],
     "symbol": "=",
     "color": "white"
@@ -780,7 +780,7 @@
     "weight": "35500 g",
     "volume": "5 L",
     "price": "115 USD 75 cent",
-    "price_postapoc": "1 USD 16 cent",
+    "price_postapoc": "10 cent",
     "material": [ "zinc" ],
     "symbol": "=",
     "color": "white"
@@ -794,8 +794,7 @@
     "weight": "7100 g",
     "volume": "1 L",
     "price": "23 USD 15 cent",
-    "//": "A slight loss on rounding down",
-    "price_postapoc": "23 cent",
+    "price_postapoc": "2 cent",
     "material": [ "zinc" ],
     "symbol": "=",
     "color": "white"
@@ -809,7 +808,8 @@
     "weight": "19320 g",
     "volume": "1 L",
     "price": "1237 kUSD 59 USD 60 cent",
-    "price_postapoc": "386 USD 40 cent",
+    "//COMMENT": "Novelty item, absolutely useless. Same amount of novelty for a 1L gold bar or 10L gold bar, so same price.",
+    "price_postapoc": "1 USD",
     "material": [ "gold" ],
     "symbol": "=",
     "color": "yellow"
@@ -823,7 +823,7 @@
     "weight": "96600 g",
     "volume": "5 L",
     "price": "6185 kUSD 298 USD",
-    "price_postapoc": "1 kUSD 932 USD",
+    "price_postapoc": "1 USD",
     "material": [ "gold" ],
     "symbol": "=",
     "color": "yellow"
@@ -837,7 +837,7 @@
     "weight": "193200 g",
     "volume": "10 L",
     "price": "12370 kUSD 596 USD",
-    "price_postapoc": "3 kUSD 864 USD",
+    "price_postapoc": "1 USD",
     "material": [ "gold" ],
     "symbol": "=",
     "color": "yellow"
@@ -879,7 +879,7 @@
     "weight": "11342 g",
     "volume": "1 L",
     "price": "22 USD 69 cent",
-    "price_postapoc": "45 USD 37 cent",
+    "price_postapoc": "20 cent",
     "material": [ "lead" ],
     "symbol": "=",
     "color": "light_gray"
@@ -893,7 +893,7 @@
     "weight": "56710 g",
     "volume": "5 L",
     "price": "113 USD 45 cent",
-    "price_postapoc": "226 USD 85 cent",
+    "price_postapoc": "1 USD",
     "material": [ "lead" ],
     "symbol": "=",
     "color": "light_gray"
@@ -907,7 +907,7 @@
     "weight": "113400 g",
     "volume": "10 L",
     "price": "226 USD 90 cent",
-    "price_postapoc": "453 USD 70 cent",
+    "price_postapoc": "2 USD",
     "material": [ "lead" ],
     "symbol": "=",
     "color": "light_gray"
@@ -921,7 +921,8 @@
     "weight": "21450 g",
     "volume": "1 L",
     "price": "682 kUSD 324 USD 50 cent",
-    "price_postapoc": "1 kUSD 72 USD 50 cent",
+    "//COMMENT": "Novelty item, absolutely useless. Same amount of novelty for a 1L gold bar or 10L gold bar, so same price.",
+    "price_postapoc": "1 USD",
     "material": [ "platinum" ],
     "symbol": "=",
     "color": "light_gray"
@@ -935,7 +936,8 @@
     "weight": "107250 g",
     "volume": "5 L",
     "price": "3411 kUSD 622 USD 50 cent",
-    "price_postapoc": "5 kUSD 362 USD 50 cent",
+    "//COMMENT": "Novelty item, absolutely useless. Same amount of novelty for a 1L gold bar or 10L gold bar, so same price.",
+    "price_postapoc": "1 USD",
     "material": [ "platinum" ],
     "symbol": "=",
     "color": "light_gray"
@@ -949,7 +951,8 @@
     "weight": "214500 g",
     "volume": "10 L",
     "price": "6823 kUSD 245 USD",
-    "price_postapoc": "10 kUSD 725 USD",
+    "//COMMENT": "Novelty item, absolutely useless. Same amount of novelty for a 1L gold bar or 10L gold bar, so same price.",
+    "price_postapoc": "1 USD",
     "material": [ "platinum" ],
     "symbol": "=",
     "color": "light_gray"
@@ -963,7 +966,8 @@
     "weight": "10490 g",
     "volume": "1 L",
     "price": "7 kUSD 867 USD 50 cent",
-    "price_postapoc": "104 USD 90 cent",
+    "//COMMENT": "Novelty item, absolutely useless. Same amount of novelty for a 1L gold bar or 10L gold bar, so same price.",
+    "price_postapoc": "1 USD",
     "material": [ "silver" ],
     "symbol": "=",
     "color": "light_gray"
@@ -977,7 +981,8 @@
     "weight": "52450 g",
     "volume": "5 L",
     "price": "39 kUSD 337 USD 50 cent",
-    "price_postapoc": "524 USD 50 cent",
+    "//COMMENT": "Novelty item, absolutely useless. Same amount of novelty for a 1L gold bar or 10L gold bar, so same price.",
+    "price_postapoc": "1 USD",
     "material": [ "silver" ],
     "symbol": "=",
     "color": "light_gray"
@@ -991,7 +996,8 @@
     "weight": "104900 g",
     "volume": "10 L",
     "price": "78 kUSD 675 USD",
-    "price_postapoc": "1 kUSD 49 USD",
+    "//COMMENT": "Novelty item, absolutely useless. Same amount of novelty for a 1L gold bar or 10L gold bar, so same price.",
+    "price_postapoc": "1 USD",
     "material": [ "silver" ],
     "symbol": "=",
     "color": "light_gray"
@@ -1046,7 +1052,6 @@
     "copy-from": "5l_steel",
     "name": { "str": "5 L mild steel ingot" },
     "price": "220 USD",
-    "price_postapoc": "2 USD 20 cent",
     "material": [ "lc_steel" ]
   },
   {
@@ -1055,7 +1060,6 @@
     "copy-from": "10l_steel",
     "name": { "str": "10 L mild steel ingot" },
     "price": "440 USD",
-    "price_postapoc": "4 USD 40 cent",
     "material": [ "lc_steel" ]
   },
   {
@@ -1064,7 +1068,6 @@
     "copy-from": "5l_steel",
     "name": { "str": "5 L medium steel ingot" },
     "price": "240 USD",
-    "price_postapoc": "2 USD 40 cent",
     "material": [ "mc_steel" ]
   },
   {
@@ -1073,7 +1076,6 @@
     "copy-from": "10l_steel",
     "name": { "str": "10 L medium steel ingot" },
     "price": "480 USD",
-    "price_postapoc": "4 USD 80 cent",
     "material": [ "mc_steel" ]
   },
   {
@@ -1082,7 +1084,6 @@
     "copy-from": "5l_steel",
     "name": { "str": "5 L high steel ingot" },
     "price": "260 USD",
-    "price_postapoc": "2 USD 60 cent",
     "material": [ "hc_steel" ]
   },
   {
@@ -1091,7 +1092,6 @@
     "copy-from": "10l_steel",
     "name": { "str": "10 L high steel ingot" },
     "price": "520 USD",
-    "price_postapoc": "5 USD 20 cent",
     "material": [ "hc_steel" ]
   },
   {
