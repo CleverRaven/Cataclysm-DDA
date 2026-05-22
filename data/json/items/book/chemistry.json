@@ -664,7 +664,7 @@
     "category": "manuals",
     "name": { "str": "Pyrolysis 101", "str_pl": "copies of Pyrolysis 101" },
     "description": "A colorful textbook that proclaims to teach one the use of pyrolysis in organic chemistry.",
-    "weight": "1200 g",
+    "weight": "500 g",
     "volume": "2 L",
     "price": "15 USD",
     "price_postapoc": "25 USD",
