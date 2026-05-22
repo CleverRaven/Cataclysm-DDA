@@ -45,6 +45,7 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_cudgel( "cudgel" );
 static const itype_id itype_heavy_battery_cell( "heavy_battery_cell" );
 static const itype_id itype_knife_hunting( "knife_hunting" );
+static const itype_id itype_soldering_iron_portable( "soldering_iron_portable" );
 static const itype_id itype_test_charged_fast_cutter( "test_charged_fast_cutter" );
 static const itype_id itype_test_fast_cutter( "test_fast_cutter" );
 static const itype_id itype_test_slow_cutter( "test_slow_cutter" );
@@ -57,7 +58,9 @@ static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT( "CUT" );
 
 static const recipe_id recipe_cudgel_simple( "cudgel_simple" );
+static const recipe_id recipe_cudgel_test_root_charged( "cudgel_test_root_charged" );
 static const recipe_id recipe_cudgel_test_steps_basic( "cudgel_test_steps_basic" );
+static const recipe_id recipe_cudgel_test_steps_charged( "cudgel_test_steps_charged" );
 static const recipe_id recipe_cudgel_test_steps_required_prof(
     "cudgel_test_steps_required_prof" );
 static const recipe_id recipe_cudgel_test_steps_shared_prof(
@@ -129,6 +132,82 @@ TEST_CASE( "step_recipe_tools_merged", "[recipe][steps]" )
         }
     }
     CHECK( has_cut );
+}
+
+static bool reqs_have_tool( const requirement_data &reqs, const itype_id &tool )
+{
+    for( const std::vector<tool_comp> &group : reqs.get_tools() ) {
+        for( const tool_comp &t : group ) {
+            if( t.type == tool ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+TEST_CASE( "step_recipe_root_requirements_separate_from_step_tools", "[recipe][steps]" )
+{
+    GIVEN( "a step recipe with a charged tool only on a step" ) {
+        const recipe &r = recipe_cudgel_test_steps_charged.obj();
+        THEN( "the root requirements hold no tools" ) {
+            CHECK_FALSE( reqs_have_tool( r.root_requirements(), itype_soldering_iron_portable ) );
+        }
+        THEN( "the owning step still lists the charged tool" ) {
+            REQUIRE( r.steps().size() == 3 );
+            CHECK( reqs_have_tool( r.steps()[1].requirements, itype_soldering_iron_portable ) );
+        }
+    }
+
+    GIVEN( "a step recipe with a charged tool at the recipe root" ) {
+        const recipe &r = recipe_cudgel_test_root_charged.obj();
+        THEN( "the root requirements hold the charged tool" ) {
+            CHECK( reqs_have_tool( r.root_requirements(), itype_soldering_iron_portable ) );
+        }
+        THEN( "no step lists the charged tool" ) {
+            for( const recipe_step &s : r.steps() ) {
+                CHECK_FALSE( reqs_have_tool( s.requirements, itype_soldering_iron_portable ) );
+            }
+        }
+    }
+
+    // Root charged tools are metered only across active (attended, timed) steps,
+    // so a recipe carrying them must have an active step to debit them against.
+    // These cases need inline finalize: a charged all-unattended recipe cannot
+    // live in TEST_DATA without erroring at load.
+    const auto finalize_msg = []( const std::string & steps_json ) -> std::string {
+        recipe r;
+        JsonObject jo = json_loader::from_string( string_format(
+                    R"({ "type": "recipe", "result": "cudgel", "id_suffix": "test_charged_root",
+                                "category": "CC_WEAPON", "subcategory": "CSC_WEAPON_BASHING",
+                                "skill_used": "fabrication", "difficulty": 1,
+                                "using": [ [ "soldering_standard", 1 ] ], "components": [[ [ "2x4", 1 ] ]],
+                                "steps": [ %s ] })", steps_json ) );
+        jo.allow_omitted_members();
+        r.load( jo, "dda" );
+        return capture_debugmsg_during( [&]()
+        {
+            r.finalize();
+        } );
+    };
+
+    GIVEN( "a charged root tool but no active step" ) {
+        const std::string msg = finalize_msg(
+                                    R"({ "name": "Cure", "time": "10 m", "attention": "unattended", "activity_level": "NO_EXERCISE" },)"
+                                    R"({ "name": "Dry", "time": "10 m", "attention": "unattended", "activity_level": "NO_EXERCISE" })" );
+        THEN( "finalize rejects it" ) {
+            CHECK( msg.find( "active step" ) != std::string::npos );
+        }
+    }
+
+    GIVEN( "a charged root tool and an active step" ) {
+        const std::string msg = finalize_msg(
+                                    R"({ "name": "Shape", "time": "10 m", "activity_level": "MODERATE_EXERCISE" },)"
+                                    R"({ "name": "Dry", "time": "10 m", "attention": "unattended", "activity_level": "NO_EXERCISE" })" );
+        THEN( "finalize accepts it" ) {
+            CHECK( msg.empty() );
+        }
+    }
 }
 
 TEST_CASE( "step_recipe_deduped_requirements_craftable", "[recipe][steps]" )

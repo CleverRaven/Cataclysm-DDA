@@ -843,6 +843,10 @@ void recipe::finalize()
         reqs_external.clear();
         reqs_internal.clear();
 
+        // Snapshot the root-only requirements so root tools stay attributable
+        // after per-step requirements merge into requirements_ below.
+        root_requirements_ = requirements_;
+
         for( recipe_step &step : steps_ ) {
             // Resolve each step's external (using) + inline requirements
             step.requirements = std::accumulate(
@@ -869,6 +873,27 @@ void recipe::finalize()
             requirements_ = requirements_ + step.requirements;
             step.reqs_external.clear();
             step.reqs_internal.clear();
+        }
+
+        // Root charged tools are distributed only across active (attended,
+        // timed) steps, so a recipe with charged root tools but no active step
+        // has nowhere to meter them and is rejected.
+        bool has_active_step = false;
+        for( const recipe_step &step : steps_ ) {
+            if( step.attention != step_attention::unattended && step.time > 0 ) {
+                has_active_step = true;
+                break;
+            }
+        }
+        if( !has_active_step ) {
+            for( const std::vector<tool_comp> &tool_group : root_requirements_.get_tools() ) {
+                for( const tool_comp &t : tool_group ) {
+                    if( t.by_charges() ) {
+                        debugmsg( "recipe %s has charged root tools but no active step to meter them yet",
+                                  ident().str() );
+                    }
+                }
+            }
         }
 
         deduped_requirements_ = deduped_requirement_data( requirements_, ident() );
