@@ -142,6 +142,58 @@ std::string action_ident( action_id act )
             return "LEVEL_DOWN";
         case ACTION_MOVE_UP:
             return "LEVEL_UP";
+        case ACTION_SNEAK_FORTH:
+            return "SNEAK_UP";
+        case ACTION_SNEAK_FORTH_RIGHT:
+            return "SNEAK_RIGHTUP";
+        case ACTION_SNEAK_RIGHT:
+            return "SNEAK_RIGHT";
+        case ACTION_SNEAK_BACK_RIGHT:
+            return "SNEAK_RIGHTDOWN";
+        case ACTION_SNEAK_BACK:
+            return "SNEAK_DOWN";
+        case ACTION_SNEAK_BACK_LEFT:
+            return "SNEAK_LEFTDOWN";
+        case ACTION_SNEAK_LEFT:
+            return "SNEAK_LEFT";
+        case ACTION_SNEAK_FORTH_LEFT:
+            return "SNEAK_LEFTUP";
+        case ACTION_RUN_FORTH:
+            return "RUN_UP";
+        case ACTION_RUN_FORTH_RIGHT:
+            return "RUN_RIGHTUP";
+        case ACTION_RUN_RIGHT:
+            return "RUN_RIGHT";
+        case ACTION_RUN_BACK_RIGHT:
+            return "RUN_RIGHTDOWN";
+        case ACTION_RUN_BACK:
+            return "RUN_DOWN";
+        case ACTION_RUN_BACK_LEFT:
+            return "RUN_LEFTDOWN";
+        case ACTION_RUN_LEFT:
+            return "RUN_LEFT";
+        case ACTION_RUN_FORTH_LEFT:
+            return "RUN_LEFTUP";
+        case ACTION_PEEK_FORTH:
+            return "PEEK_UP";
+        case ACTION_PEEK_FORTH_RIGHT:
+            return "PEEK_RIGHTUP";
+        case ACTION_PEEK_RIGHT:
+            return "PEEK_RIGHT";
+        case ACTION_PEEK_BACK_RIGHT:
+            return "PEEK_RIGHTDOWN";
+        case ACTION_PEEK_BACK:
+            return "PEEK_DOWN";
+        case ACTION_PEEK_BACK_LEFT:
+            return "PEEK_LEFTDOWN";
+        case ACTION_PEEK_LEFT:
+            return "PEEK_LEFT";
+        case ACTION_PEEK_FORTH_LEFT:
+            return "PEEK_LEFTUP";
+        case ACTION_PEEK_UP_LEVEL:
+            return "PEEK_LEVEL_UP";
+        case ACTION_PEEK_DOWN_LEVEL:
+            return "PEEK_LEVEL_DOWN";
         case ACTION_CENTER:
             return "center";
         case ACTION_SHIFT_N:

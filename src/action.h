@@ -59,6 +59,58 @@ enum action_id : int {
     ACTION_MOVE_DOWN,
     /** Ascend a staircase */
     ACTION_MOVE_UP,
+    /** Sneak (force crouch for this step) towards top of screen */
+    ACTION_SNEAK_FORTH,
+    /** Sneak towards top-right of screen */
+    ACTION_SNEAK_FORTH_RIGHT,
+    /** Sneak right */
+    ACTION_SNEAK_RIGHT,
+    /** Sneak towards bottom-right of screen */
+    ACTION_SNEAK_BACK_RIGHT,
+    /** Sneak towards bottom of screen */
+    ACTION_SNEAK_BACK,
+    /** Sneak towards bottom-left of screen */
+    ACTION_SNEAK_BACK_LEFT,
+    /** Sneak left */
+    ACTION_SNEAK_LEFT,
+    /** Sneak towards top-left of screen */
+    ACTION_SNEAK_FORTH_LEFT,
+    /** Run (force run for this step) towards top of screen */
+    ACTION_RUN_FORTH,
+    /** Run towards top-right of screen */
+    ACTION_RUN_FORTH_RIGHT,
+    /** Run right */
+    ACTION_RUN_RIGHT,
+    /** Run towards bottom-right of screen */
+    ACTION_RUN_BACK_RIGHT,
+    /** Run towards bottom of screen */
+    ACTION_RUN_BACK,
+    /** Run towards bottom-left of screen */
+    ACTION_RUN_BACK_LEFT,
+    /** Run left */
+    ACTION_RUN_LEFT,
+    /** Run towards top-left of screen */
+    ACTION_RUN_FORTH_LEFT,
+    /** Peek towards top of screen */
+    ACTION_PEEK_FORTH,
+    /** Peek towards top-right of screen */
+    ACTION_PEEK_FORTH_RIGHT,
+    /** Peek right */
+    ACTION_PEEK_RIGHT,
+    /** Peek towards bottom-right of screen */
+    ACTION_PEEK_BACK_RIGHT,
+    /** Peek towards bottom of screen */
+    ACTION_PEEK_BACK,
+    /** Peek towards bottom-left of screen */
+    ACTION_PEEK_BACK_LEFT,
+    /** Peek left */
+    ACTION_PEEK_LEFT,
+    /** Peek towards top-left of screen */
+    ACTION_PEEK_FORTH_LEFT,
+    /** Peek up a staircase */
+    ACTION_PEEK_UP_LEVEL,
+    /** Peek down a staircase */
+    ACTION_PEEK_DOWN_LEVEL,
     /** Cycle run/walk/crouch mode */
     ACTION_CYCLE_MOVE,
     /** Cycle run/walk/crouch mode in opposite direction */
