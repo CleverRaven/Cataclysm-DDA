@@ -110,7 +110,7 @@
     "valid": false,
     "player_display": true,
     "name": { "str": "Earthen Grave" },
-    "description": "You can part the earth aroung you to create holes to trap your foes into.",
+    "description": "You can part the earth near you to create holes for your foes to fall into.",
     "spells_learned": [ [ "vampire_create_pits", 1 ] ]
   }
 ]
