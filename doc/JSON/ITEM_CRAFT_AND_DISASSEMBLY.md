@@ -237,6 +237,7 @@ Each entry in the `"steps"` array is an object with these fields:
 - Batch savings are applied per-step and summed.
 - The current step name appears in the crafting progress message.
 - Tool speed modifiers (see `"speed"` in item quality definitions) apply per-step: a tool with `"speed": 0.5` on a quality halves the time of steps requiring that quality, without affecting other steps.
+- Tool charges are consumed per-step, in proportion to that step's progress, so a charged tool listed on one step drains only while that step runs.  Recipe-root tools (root `"using"`/`"tools"`) are spread across the steps by each step's share of the total time.
 
 ### Unattended steps
 
@@ -254,7 +255,7 @@ When the wall-clock deadline elapses:
 - Terminal: craft auto-finalizes at the deadline, so morale, EOCs, heat, and birthday use in-game completion time.
 - `max_time + grace_period` past start: craft is destroyed.
 
-If the step's tools or qualities become unavailable, the step pauses and the deadline slides forward once the env is restored.  `crafter_id` is remembered so env-check picks up the crafter's pseudo-tools, bionics, and trait qualities when they are next to the craft.
+If the step's tools or qualities become unavailable, or a charged tool runs short on charges, the step pauses and the deadline slides forward once the requirement is restored.  `crafter_id` is remembered so env-check picks up the crafter's pseudo-tools, bionics, and trait qualities when they are next to the craft.
 
 NPCs do not see the planning modal and behave as if implicitly waiting; the unattended block in the craft activity actor still drives their craft forward.
 
@@ -263,7 +264,7 @@ Schema:
 - `"max_time"`, when set, must be strictly greater than `"time"`.
 - `"grace_period"` requires `"max_time"`.
 - `"attention": "supervised"` is rejected at load (reserved).
-- An unattended step cannot list charged tools yet (charge debit during wallclock pause/resume not implemented).
+- An unattended step may list charged tools.  Their charges are drained over the step's wall-clock progress (fully spent by completion), drawn from the crafter when next to the craft or from the craft's own tile otherwise; running short pauses the step until charges return.
 
 Example:
 

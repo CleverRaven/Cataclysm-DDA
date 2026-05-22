@@ -1662,6 +1662,50 @@ TEST_CASE( "craft_env_check_rearms_for_charged_only_step",
                                             item_wakeup_kind::env_check ) );
 }
 
+TEST_CASE( "craft_env_check_restore_rearms_for_charged_only_step",
+           "[craft][attention][charge][env_check]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    u.setpos( here, origin );
+    u.i_add( tool_with_ammo( itype_soldering_iron_portable, 50 ) );
+    u.invalidate_crafting_inventory();
+
+    item ingredient( itype_2x4, calendar::turn );
+    item placed( &recipe_cudgel_test_unattended_simple.obj(), 1, ingredient );
+    item &on_map = here.add_item( origin, placed );
+    on_map.set_current_step( 1 );
+    on_map.set_crafter_id( u.getID() );
+
+    step_tool_alloc alloc;
+    alloc.sel.use_from = usage_from::both;
+    alloc.sel.comp.type = itype_soldering_iron_portable;
+    alloc.sel.comp.count = 20;
+    alloc.step_count_units = 20;
+    alloc.root_derived = true;
+    on_map.set_step_tool_allocs( { {}, { alloc } } );
+
+    // Installed pause state, as if a prior shortfall paused the step.
+    const time_point t0 = calendar::turn;
+    on_map.set_passive_started_at( t0 - 2_minutes );
+    on_map.set_ready_at( t0 + 1_minutes );
+    on_map.set_saved_ready_at( t0 + 8_minutes );
+    on_map.set_pause_started_at( t0 - 1_minutes );
+
+    item_location loc( map_cursor( here.get_abs( origin ) ), &on_map );
+
+    // Restoring from pause on a charged-only step must keep polling.
+    craft_actualize_scheduled( on_map, item_wakeup_kind::env_check, t0, loc );
+
+    CHECK( on_map.get_pause_started_at() == calendar::before_time_starts );
+    CHECK( on_map.get_env_check_at() != calendar::before_time_starts );
+    CHECK( get_item_wakeups().is_scheduled( on_map.uid().get_value(),
+                                            item_wakeup_kind::env_check ) );
+}
+
 TEST_CASE( "craft_env_check_dispatch_pauses_when_quality_missing",
            "[craft][attention][env_check]" )
 {

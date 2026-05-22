@@ -1484,7 +1484,7 @@ static env_check_result craft_check_env_step( item &craft, time_point now,
         }
         // Re-arm env_check cursor, clamped to ready_at so a near-end-of-step
         // restore does not arm a poll past completion.
-        if( step_has_env_requirements( step ) ) {
+        if( step_has_env_requirements( step ) || step_has_charged_alloc( craft, step_idx ) ) {
             const time_point next = now + 1_minutes;
             craft.set_env_check_at( std::min( next, craft.get_ready_at() ) );
         } else {
