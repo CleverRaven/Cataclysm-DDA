@@ -1145,8 +1145,9 @@ std::vector<item> recipe::create_result( bool set_components, bool is_food,
 
     // If the recipe has a `FULL_MAGAZINE` flag, fill it with ammo
     if( newit.is_magazine() && has_flag( flag_FULL_MAGAZINE ) ) {
-        newit.ammo_set( newit.ammo_default(),
-                        newit.ammo_capacity( item::find_type( newit.ammo_default() )->ammo->type ) );
+        if( const std::optional<ammotype> at = item::ammotype_of( newit.ammo_default() ) ) {
+            newit.ammo_set( newit.ammo_default(), newit.ammo_capacity( *at ) );
+        }
     }
 
     // if the first component has compatible pockets, try to preserve the contents
