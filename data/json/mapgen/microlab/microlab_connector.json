@@ -39,27 +39,27 @@
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
-        "##|                  |##",
+        "##|                 §|##",
         "##|^                 |##",
         "##|^ hhhh  YY   hhhh |##",
         "##|^                 |##",
         "##|^ hhhh       hhhh |##",
         "##|^                 |##",
-        "##|^          |^^^^^^|##",
+        "##|^         §|^^^^^^|##",
         "##||(((((|    ||||||||##",
         "###|l h  ( YY |#########",
         "###|l    ( YY |#########",
-        "###|l    (    |#########",
+        "###|l §  (    |#########",
         "###||2||||    |#########",
         "###|     |    |#########",
         "###|   hd|G55||#########",
-        "###|  ddd|   ^|#########",
+        "###|§ ddd|   ^|#########",
         "###||5(((|   ^|||||||###",
         "###|B          VV ^^|###",
         "###|B      YY      ?|###",
         "###|B dddd YY    t ?|###",
         "###|B d hd         ?|###",
-        "###|B          t? ^^|###",
+        "###|B  §       t?§^^|###",
         "###||||||||  ||||||||###",
         "##########|22|##########",
         "##########|  |##########"
@@ -73,7 +73,8 @@
       "items": {
         "l": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
         "t": { "item": "magazines", "chance": 90 }
-      }
+      },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -90,19 +91,19 @@
         "########        ########",
         "########        ########",
         "###|||||        ########",
-        "###|l h  (    |#########",
+        "###|l h  (   §|#########",
         "###|l    ( YY |#########",
-        "###|l    ( YY |#########",
+        "###|l §  ( YY |#########",
         "###||2||||    |#########",
         "###|     |    |#########",
         "###|   hd|G55||#########",
-        "###|  ddd|   ^|#########",
+        "###|§ ddd|   ^|#########",
         "###||5(((|   ^|||||||###",
         "###|B          VV ^^|###",
         "###|B      YY      ?|###",
         "###|B dddd YY    t ?|###",
         "###|B d hd         ?|###",
-        "###|B          t? ^^|###",
+        "###|B  §       t?§^^|###",
         "###||||||||  ||||||||###",
         "##########|22|##########",
         "##########|  |##########"
@@ -117,7 +118,8 @@
       "items": {
         "l": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
         "t": { "item": "magazines", "chance": 90 }
-      }
+      },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -147,25 +149,25 @@
         "|||||||||||  |||||||||||",
         " cc  c    |  |^BBB|     ",
         " cc  c   c|  |   h|r i  ",
-        "         c|  |  dd|r c  ",
+        "         c| §|  dd|r c  ",
         " FFFFccccc|  |   h|r c  ",
         "|||||||||||YY|[===||    ",
-        " FF c|^???^       V| c  ",
+        " FF c|^???^  §    V| c  ",
         "    c|?           V| c  ",
         "    c|? tt         | i  ",
         "    c|             |    ",
         "|5||||    dddd     |==2|",
-        "    Y2    d hd     2Y   ",
+        "  § Y2    d hd     2Y  §",
         "    Y2    ^^^^     2Y   ",
         "|2||||    ||||    ^|((2|",
         "    r|            ^|    ",
-        "cc  r|n^^^        ^|^   ",
+        "cc  r|n^^^§       ^|^   ",
         "cc hc||||||YY|[====| h  ",
         "    c|FFFF|  | h ^B|6tt ",
         "|||||||22||22|dd  B|||||",
         "          |  |h  nB|FFF ",
         "   c6  6c |  |||||||    ",
-        "   cc  cc |  |6h        ",
+        "   cc  cc |§ |6h        ",
         "   cc  cc 2  |c  ccccc  ",
         "          |  |          "
       ],
@@ -180,7 +182,8 @@
       "items": {
         "l": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
         "t": { "item": "magazines", "chance": 90 }
-      }
+      },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -194,24 +197,24 @@
         "  ((2|    |  2    2  i  ",
         "  (  | cci|  2    2  c  ",
         "  (@@|    |  ||||||  c  ",
-        "|||||| cci|  |rrrr|     ",
+        "|||||| cci| §|rrrr|     ",
         " F|F (    |  |    2  c  ",
         " F|F ( cci|  ||||||  c  ",
         " F|F 2    |  |rrrr|  i  ",
         "  |F |rrrr|  |    2     ",
         "|5|||||||||22|||||||||||",
-        "    2      YY      5TYY ",
-        "    2      YY      5 YY ",
+        "    2      YY §    5TYY ",
+        "  § 2      YY      5 YY ",
         "|2||||^???    yyyyy|(((|",
         "    r|t       y    5 dd|",
         "cc  r|V tt    yyyyy| hl|",
         "cc hc|t       y    |||||",
-        "    c|^???    yyyyy|###|",
+        "    c|^???§   yyyyy|###|",
         "|||||||||||  ^|((22|||#|",
         " rrcc| hd^=  ^|eeeeee|#|",
         "    c| dd =  ^|eeeeee|#|",
         " c6 6|B   =  ^|EeeeeE|#|",
-        " cc r|B   [  ^|eeeeee|#|",
+        " cc r|B  §[  ^|eeeeee|#|",
         "     |    |22|||||||||||"
       ],
       "place_nested": [
@@ -226,7 +229,8 @@
         "l": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
         "t": { "item": "magazines", "chance": 90 }
       },
-      "monster": { "T": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } } }
+      "monster": { "T": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } } },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -237,27 +241,27 @@
       "rows": [
         "     |    |  |cccc|     ",
         "     |=[==|  ||||||     ",
-        "  ((2|    |  2 Y  2  i  ",
+        "  ((2|   §|  2 Y  2  i  ",
         "  (  | cci|  2 Y  2  c  ",
-        " 6|@@||||||||||||||  c  ",
+        " 6|@@||||||||||||||§ c  ",
         "||||||pppppppppppp|     ",
         " F|%       YY    p|  c  ",
         " F|%  ppppppppS  p|  c  ",
         " F|%             S|  i  ",
         "  |%    |||  ||   |     ",
-        "|5|||===|||44||   |||22|",
+        "|5|||===|||44||  §|||22|",
         "   ^|www|wwwww|    2 YY ",
         "   ^|www|wwwww|%   2 YY ",
         "||4||===|wwwww%%   |||||",
         " |      |w<www|    |###|",
         "c|l     |||||||    |###|",
         "c|l l             6|||||",
-        " |l l        %Spppppppp|",
+        " |l l §      %Spppppppp|",
         "||||||||||||||||||||||#|",
         " rrcc| hd^=^^=      ^|#|",
         "    c| dd =  = Y  dh |#|",
         " c6 6|B   =  = Y hd 6|#|",
-        " cc r|B   [  [      ^|#|",
+        " cc r|B   [  [    § ^|#|",
         "     ||||||  |||||||||||"
       ],
       "place_nested": [
@@ -269,7 +273,8 @@
       "palettes": [ "microlab" ],
       "terrain": { "p": "t_sewage_pipe", "w": "t_water_pool_shallow", "S": "t_sewage_pump" },
       "furniture": { "%": "f_machinery_heavy" },
-      "items": { "l": { "item": "sewage_plant", "chance": 75 } }
+      "items": { "l": { "item": "sewage_plant", "chance": 75 } },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

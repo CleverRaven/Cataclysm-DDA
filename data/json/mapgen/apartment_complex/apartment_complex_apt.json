@@ -35,7 +35,8 @@
         { "chunks": [ "apt_complex_corner_a" ], "x": 0, "y": 0 },
         { "chunks": [ "apt_complex_corner_b" ], "x": 0, "y": 0 },
         { "chunks": [ "fire_extinguisher" ], "x": 23, "y": 1 }
-      ]
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
