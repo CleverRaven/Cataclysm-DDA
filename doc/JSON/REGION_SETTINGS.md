@@ -31,7 +31,7 @@ see their info later in this document.
 | `forest_composition`     | `region_settings_forest_mapgen`     | Defines flora (and "stuff") that cover the `forest` terrain types.    |
 | `forest_trails`          | `region_settings_forest_trail`      | Defines the overmap and local structure of forest trails. `null` to disable. |
 | `highways`               | `region_settings_highway`           | Defines parameters for generating highways in the region. `null` to disable. |
-| `cities`                 | `region_settings_city`              | Defines the structural compositions of cities. `null` to disable city generation. |
+| `cities`                 | `region_settings_city`              | Defines the structural compositions of cities. `"no_cities"` to disable city generation. |
 | `map_extras`             | `region_settings_map_extras`        | Defines the map extra groups referenced by overmap terrains.          |
 | `terrain_furniture`      | `region_settings_terrain_furniture` | Defines the resolution of regional terrain/furniture to actual types. |
 | `weather`                | `weather_generator`                 | Defines the base weather attributes for the region.                   |
@@ -368,7 +368,7 @@ The **overmap_connection_settings** section defines the `overmap_connection_id`s
 | `inter_city_road_connection` | overmap_connection id used between cities. Should include locations for the intra city terrains.   |
 | `trail_connection`           | overmap_connection id used for forest trails.                                                      |
 | `sewer_connection`           | overmap_connection id used for sewer connections.                                                  |
-| `subway_connection`          | overmap_connection id used for for both z-2 and z-4 subway connections.                            |
+| `subway_connection`          | overmap_connection id used for both z-2 and z-4 subway connections.                            |
 | `rail_connection`            | overmap_connection id used for rail connections. ( Unused in vanilla as of 0.H )                   |
 
 ### Example
@@ -388,15 +388,14 @@ The **overmap_connection_settings** section defines the `overmap_connection_id`s
 The **overmap_highway_settings** section defines the attributes used in generating highways
 on the overmap including the specials containing the maps used.
 
+Basic overmap settings can be found in external options.
+
 ### Fields
 
 |               Identifier          |                              Description                               
 | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `grid_column_seperation`          | The distance between north-south highways in overmaps, with the whole overmap gap being `grid_column_seperation` - 1.                                                                                                                        |
-| `grid_row_seperation`             | The distance between east-west highways in overmaps, with the whole overmap gap being `grid_row_seperation` - 1.                                                                                                                             |
 | `width_of_segments`               | The width of the segments defined below in `om_terrain`s. Used to tell the C++ what width the segments provided are, not to change the width placed.                                                                                         |
 | `straightness_chance`             | For one overmap, the chance for a highway's end points to (mostly) line up.                                                                                                                                                                  |
-| `intersection_max_radius`         | The maximum number of overmaps that an intersection can deviate from its gridded position. Cannot be greater than or equal to row / 2 or column / 2, may cause bugs for > row / 4, column / 4.                                               |
 | `reserved_terrain_id`             | The `om_terrain` used to reserve land and air for highways before their actual `om_terrain` placement.                                                                                                                                       |
 | `reserved_terrain_water_id`       | The `om_terrain` used to reserve water for highways before their actual `om_terrain` placement.                                                                                                                                              |
 | `four_way_intersections`          | An object with a list of specials and their respective weights to place at four way highway intersections. The [0,0,0] point should be the NW corner of the intersection formed before placement.                                            |
@@ -417,8 +416,8 @@ on the overmap including the specials containing the maps used.
 
 ```json
     "overmap_highway_settings": {
-      "grid_column_seperation": 1,
-      "grid_row_seperation": 1,
+      "grid_column_separation": 1,
+      "grid_row_separation": 1,
       "width_of_segments": 2,
       "reserved_terrain_id": "highway_reserved",
       "reserved_terrain_water_id": "highway_reserved_water",
@@ -445,14 +444,17 @@ relative placements of various classes of buildings.
 
 ### Fields
 
-|       Identifier        |                            Description                             |
-| ----------------------- | ------------------------------------------------------------------ |
-| `name_snippet`          | Snippet used to generate city names. Default is `<city_name>`.     |
-| `shop_radius`           | Radial frequency of shop placement. Smaller number = more shops.   |
-| `park_radius`           | Radial frequency of park placement. Smaller number = more parks.   |
-| `houses`                | Weighted list of overmap terrains and specials used for houses.    |
-| `parks`                 | Weighted list of overmap terrains and specials used for parks.     |
-| `shops`                 | Weighted list of overmap terrains and specials used for shops.     |
+|       Identifier       |                            Description                                        |
+| ---------------------- | ----------------------------------------------------------------------------- |
+| `name_snippet`         | Snippet used to generate city names. Default is `<city_name>`.                |
+| `shop_radius`          | Radial frequency of shop placement. Smaller number = more shops.              |
+| `park_radius`          | Radial frequency of park placement. Smaller number = more parks.              |
+| `houses`               | Weighted list of overmap terrains and specials used for houses.               |
+| `parks`                | Weighted list of overmap terrains and specials used for parks.                |
+| `shops`                | Weighted list of overmap terrains and specials used for shops.                |
+| `city_size`            | Required Setting. Size of cities. Larger number = bigger cities. 0 = no cities. Range: 0 - 16   |
+| `city_spacing`         | Space between cities. Larger number = more space between cities. Range: 0 - 8 |
+| `is_megacity`          | Special flag to trigger special map generation. Generates a megacity.         |
 
 ### Placing shops, parks, and houses
 
@@ -467,6 +469,9 @@ place the shop or park are based on the formula `rng( 0, 99 ) > X_radius * dista
 {
     "type": "region_settings_city",
     "id": "default",
+    "is_megacity": false,
+    "city_size": 8,
+    "city_spacing": 4,
     "shop_radius": 30,
     "shop_sigma": 50,
     "park_radius": 20,
@@ -557,10 +562,10 @@ See above.
 | ------------------------------ | --------------------------------------------------------------------- |
 | `base_temperature`             | Base temperature for the region in degrees Celsius.                   |
 | `base_humidity`                | Base humidity for the region in relative humidity %                   |
-| `base_pressure`                | Base pressure for the region in millibars.                            |
+| `base_pressure`                | Base pressure for the region in millibars.  Increasing it decreases the wind strength |
 | `base_wind`                    | Base wind for the region in mph units. Roughly the yearly average.    |
 | `base_wind_distrib_peaks`      | How high the wind peaks can go. Higher values produce windier days.   |
-| `base_wind_season_variation`   | How the wind varies with season. Lower values produce more variation  |
+| `base_wind_season_variation`   | How the wind varies with season. Increases wind speed in the summer, decreases wind speed in the winter. Larger values amplify effects, negative values reverse effects.  |
 | `weather_black_list`           | Ids of weather types not allowed in this region.                      |
 | `weather_white_list`           | Ids of the only weather types allowed in this region.                 |
 
@@ -601,3 +606,18 @@ This is currently used to provide a mechanism for whitelisting and blacklisting 
 	}
 }
 ```
+
+### Extending and deleting feature flags from default region
+
+```jsonc
+  {
+    "type": "region_settings",
+    "id": "default",
+    "copy-from": "default",
+    "feature_flag_settings": { "extend": { "blacklist": [ "HIGHLANDS" ] }, "delete": { "whitelist" : [ "CLASSIC" ]} }
+  }
+```
+
+### The EXTRADIMENSIONAL flag
+
+At the moment, the EXTRADIMENSIONAL flag is used to prevent locations from spawning in the default dimension.  An additional flag (for example, `HIGHLANDS`) can be then whitelisted to allow extradimensional locations to spawn in the appropriate dinmension. 

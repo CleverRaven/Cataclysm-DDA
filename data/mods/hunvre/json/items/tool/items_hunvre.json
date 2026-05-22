@@ -1,0 +1,37 @@
+[
+  {
+    "id": "smart_phone_hunvre",
+    "copy-from": "smart_phone",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "helminth smartphone" },
+    "description": "This otherwise regular smartphone allows you to interact with the ship using sets of preprogrammed functions.",
+    "use_action": [
+      "E_FILE_DEVICE",
+      "EBOOKSAVE",
+      "CAMERA",
+      {
+        "type": "mp3",
+        "transform": "smartphone_music",
+        "message": "You put in the earbuds and start listening to music.",
+        "activate": true
+      },
+      "CALORIES_INTAKE_TRACKER",
+      "PORTABLE_GAME",
+      {
+        "target": "smart_phone_flashlight",
+        "msg": "You activate the flashlight app.",
+        "menu_text": "Turn on flashlight",
+        "need_charges": 1,
+        "need_charges_msg": "The batteries are dead.",
+        "type": "transform"
+      },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" },
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Switch the lights",
+        "effect_on_conditions": [ "eoc_switch_lights" ]
+      }
+    ]
+  }
+]

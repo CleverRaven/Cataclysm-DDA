@@ -47,6 +47,7 @@
 #include "magic_ter_furn_transform.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "mapdata.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
@@ -77,14 +78,19 @@ class translation;
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_teleglow( "teleglow" );
 
+static const flag_id json_flag_FERTILIZER( "FERTILIZER" );
 static const flag_id json_flag_FIT( "FIT" );
+
+static const itype_id itype_fertilizer( "fertilizer" );
 
 static const json_character_flag
 json_flag_BLOCK_SUPERNATURAL_HEALING( "BLOCK_SUPERNATURAL_HEALING" );
+static const json_character_flag json_flag_NUMB( "NUMB" );
 static const json_character_flag json_flag_PRED1( "PRED1" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
+static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 
 static const morale_type morale_killed_monster( "morale_killed_monster" );
 
@@ -97,11 +103,11 @@ static const mtype_id mon_generator( "mon_generator" );
 static const species_id species_HALLUCINATION( "HALLUCINATION" );
 static const species_id species_SLIME( "SLIME" );
 
-static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 
 namespace spell_detail
+{
+namespace
 {
 struct line_iterable {
     const std::vector<point_rel_ms> &delta_line;
@@ -131,6 +137,7 @@ struct line_iterable {
         index = 0;
     }
 };
+} // namespace
 // Orientation of point C relative to line AB
 static int side_of( const point_rel_ms &a, const point_rel_ms &b, const point_rel_ms &c )
 {
@@ -522,13 +529,28 @@ static void add_effect_to_target( const tripoint_bub_ms &target, const spell &sp
     }
 }
 
+
+// Used for TOUCH_REQUIRED spells to check if the caster hits
+static bool touch_required_hit( Creature &caster,
+                                Creature &target )
+{
+    return caster.hit_roll() > target.dodge_roll();
+}
+
 static void damage_targets( const spell &sp, Creature &caster,
                             const std::set<tripoint_bub_ms> &targets )
 {
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint_bub_ms &target : targets ) {
+
         if( !sp.is_valid_target( caster, target ) ) {
+            continue;
+        }
+        Creature *const cr = creatures.creature_at<Creature>( target );
+
+        if( sp.has_flag( spell_flag::TOUCH_REQUIRED ) && cr && !touch_required_hit( caster, *cr ) ) {
+            caster.add_msg_if_player( m_bad, _( "Your target avoids your attempt to touch them!" ) );
             continue;
         }
         sp.make_sound( target, caster );
@@ -541,7 +563,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                 player_character.fulfill_pyromania_sees( here, target );
             }
         }
-        Creature *const cr = creatures.creature_at<Creature>( target );
+
         if( !cr ) {
             continue;
         }
@@ -1380,7 +1402,7 @@ void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
         return;
     }
     if( vehicle *veh = here.add_vehicle( sp.summon_vehicle_id(), target, -90_degrees,
-                                         100, 2, false, true ) ) {
+                                         100, veh_spawn_status::PRISTINE, false, true ) ) {
         veh->unlock();
         veh->magic = true;
         if( !sp.has_flag( spell_flag::PERMANENT ) ) {
@@ -1406,6 +1428,53 @@ void spell_effect::recharge_vehicle( const spell &sp, Creature &caster,
         veh.charge_battery( here, sp.damage( caster ), false );
     } else {
         veh.discharge_battery( here, -sp.damage( caster ), false );
+    }
+}
+
+void spell_effect::fertilize_plant( const spell &sp, Creature &caster,
+                                    const tripoint_bub_ms &target )
+{
+
+    std::set<tripoint_bub_ms> area = spell_effect_area( sp, target, caster );
+    ::map &here = get_map();
+    for( const tripoint_bub_ms &tile : area ) {
+
+        if( !here.has_flag_furn( ter_furn_flag::TFLAG_PLANT, tile ) ) {
+            continue;
+        }
+        // Can't use item_stack::only_item() since there might be fertilizer
+        map_stack items = here.i_at( tile );
+        map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
+            return it.has_flag( json_flag_FERTILIZER );
+        }
+                                                     );
+        if( fertilizer != items.end() ) {
+            continue;
+        }
+        // Reduce the amount of time it takes until the next stage of the plant by
+        // the spell's damage (1% per damage point) relative to season length
+        const time_duration fertilizerEpoch = calendar::season_length() * ( static_cast<float>( sp.damage(
+                caster ) ) / 100.0f );
+
+        const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
+            return it.is_seed();
+        } );
+
+        if( seed == items.end() ) {
+            debugmsg( "Missing seed for plant at %s", target.to_string() );
+            here.i_clear( target );
+            here.furn_set( target, furn_str_id::NULL_ID() );
+            return;
+        }
+
+        seed->set_birthday( seed->birthday() - fertilizerEpoch );
+        // The plant furniture has the NOITEM token which prevents adding items on that square,
+        // spawned items are moved to an adjacent field instead, but the fertilizer token
+        // must be on the square of the plant, therefore this hack:
+        const furn_id &old_furn = here.furn( tile );
+        here.furn_set( tile, furn_str_id::NULL_ID() );
+        here.spawn_item( tile, itype_fertilizer, 1, 1, calendar::turn );
+        here.furn_set( tile, old_furn );
     }
 }
 
@@ -1543,6 +1612,7 @@ void spell_effect::charm_monster( const spell &sp, Creature &caster, const tripo
             continue;
         }
         sp.make_sound( potential_target, caster );
+        bool success = false;
         if( ( mon->friendly == 0 || ( mon->friendly != 0 && sp.has_flag( spell_flag::RECHARM ) ) ) &&
             mon->get_hp() <= sp.damage( caster ) ) {
             mon->unset_dest();
@@ -1551,6 +1621,13 @@ void spell_effect::charm_monster( const spell &sp, Creature &caster, const tripo
                 mon->friendly = -1;
                 mon->add_effect( effect_pet, 1_turns, true );
             }
+            success = true;
+        }
+        if( success ) {
+            add_msg_if_player_sees( potential_target, m_good, _( "You charm the %s!" ), mon->name() );
+        } else {
+            add_msg_if_player_sees( potential_target, m_bad, _( "The %s resists your charm attempt." ),
+                                    mon->name() );
         }
     }
 }
@@ -1652,7 +1729,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint_bub_
         guilt_thresholds[max_kills] = _( "You feel uneasy about killing %s." );
 
         Character &guy = *guilt_target;
-        if( guy.has_trait( trait_NUMB ) || guy.has_trait( trait_PSYCHOPATH ) ||
+        if( guy.has_flag( json_flag_NUMB ) || guy.has_flag( json_flag_PSYCHOPATH ) ||
             guy.has_flag( json_flag_PRED3 ) || guy.has_flag( json_flag_PRED4 ) ) {
             // specially immune.
             return;

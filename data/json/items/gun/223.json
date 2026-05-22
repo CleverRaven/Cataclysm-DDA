@@ -61,19 +61,19 @@
     "variants": [
       {
         "id": "modular_h&k416a5",
-        "name": { "str": "H&K416 A5 rifle" },
-        "description": "Designed to replace the M4A1, the Heckler and Koch 416A5 features most of the former's strengths, while being considerably more durable."
+        "name": { "str": "H&K HK416 A5 rifle" },
+        "description": "Designed to replace the M4A1, the Heckler and Koch 416 A5 features most of the former's strengths, while being considerably more durable."
       },
       {
         "id": "modular_m27iar",
         "name": { "str": "M27 IAR carbine" },
-        "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
+        "description": "A HK416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
         "ascii_picture": "m27_iar"
       },
       {
         "id": "modular_m38dmr",
         "name": { "str": "M38 DMR rifle" },
-        "description": "The M38 Designated Marksman Rifle is an M27 IAR, itself derived from a H&K416, selected for accuracy, and outfitted with a variable power scope and a QDSS suppressor."
+        "description": "The M38 Designated Marksman Rifle is an M27 IAR, itself derived from a HK416, selected for accuracy, and outfitted with a variable power scope and a QDSS suppressor."
       }
     ],
     "to_hit": -1,
@@ -81,7 +81,6 @@
     "ammo": [ "NULL" ],
     "dispersion": 180,
     "min_cycle_recoil": 1350,
-    "default_mods": [ "retool_ar15_223rem" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 1 ], [ "stock", 1 ] ],
     "flags": [ "NO_TURRET" ]
@@ -489,7 +488,7 @@
     "variants": [
       {
         "id": "zpapm90",
-        "name": { "str": "ZPAP M90" },
+        "name": { "str": "Zastava ZPAP M90" },
         "description": "A Serbian-made AK pattern rifle made by Zastava in 5.56x45mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts."
       }
     ],

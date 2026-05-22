@@ -232,7 +232,7 @@
     "autolearn": false,
     "flags": [ "SECRET" ],
     "tools": [  ],
-    "components": [ [ [ "barley", 1 ], [ "starch", 1 ], [ "wheat", 1 ] ] ]
+    "components": [ [ [ "barley", 1 ], [ "starch", 1 ], [ "wheat", 1 ], [ "winter_wheat", 1 ] ] ]
   },
   {
     "type": "recipe",

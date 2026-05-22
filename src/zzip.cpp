@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <chrono>
 #include <cstring>
 #include <exception>
 #include <iosfwd>
@@ -9,6 +10,7 @@
 #include <optional>
 #include <string>
 #include <system_error>
+#include <thread>
 #include <tuple>
 #include <unordered_map>
 #include <unordered_set>
@@ -354,6 +356,17 @@ std::optional<zzip> zzip::load( std::filesystem::path const &path,
                                 std::filesystem::path const &dictionary_path )
 {
     std::shared_ptr<mmap_file> file = mmap_file::map_writeable_file( path );
+    int retries = 0;
+
+    while( !file && ++retries < 3 ) {
+        // It's the caller's responsibility to ensure this is a writeable path, but maybe
+        // OneDrive or antivirus is interfering. Wait a couple time slices to see if it resolves.
+        std::this_thread::sleep_for( std::chrono::milliseconds( 32 ) );
+        file = mmap_file::map_writeable_file( path );
+    }
+    if( !file ) {
+        return {};
+    }
 
     return load( std::move( file ), dictionary_path );
 }
@@ -755,6 +768,9 @@ bool zzip::update_footer( JsonObject const &original_footer,
     flexbuffers::Builder builder;
     size_t root_start = builder.StartMap();
     size_t total_content_size = 0;
+    // The k*Key constants are constexpr string_views built from string literals, so
+    // their underlying buffer is null-terminated and safe for the const char* APIs.
+    // NOLINTBEGIN(bugprone-suspicious-stringview-data-usage)
     {
         size_t entries_start = builder.StartMap( kEntriesKey.data() );
         // NOLINTNEXTLINE(cata-almost-never-auto)
@@ -770,7 +786,7 @@ bool zzip::update_footer( JsonObject const &original_footer,
                 processed_files.insert( new_filename );
             }
         }
-        for( JsonMember entry : original_footer.get_object( kEntriesKey.data() ) ) {
+        for( JsonMember entry : original_footer.get_object( kEntriesKey ) ) {
             std::string old_filename = entry.name();
             if( !processed_files.count( old_filename ) ) {
                 size_t entry_map = builder.StartMap( old_filename.c_str() );
@@ -792,6 +808,7 @@ bool zzip::update_footer( JsonObject const &original_footer,
         builder.UInt( kMetaTotalContentSizeKey.data(), total_content_size );
         builder.EndMap( meta_start );
     }
+    // NOLINTEND(bugprone-suspicious-stringview-data-usage)
     builder.EndMap( root_start );
     builder.Finish();
     auto buf = builder.GetBuffer();
@@ -1166,13 +1183,15 @@ bool zzip::compact_to( std::filesystem::path const &dest, double bloat_factor )
     return compact_to( std::move( compacted_file ) );
 }
 
-bool zzip::compact_to( std::shared_ptr<mmap_file> dest ) const
+bool zzip::compact_to( std::shared_ptr<mmap_file> const &dest ) const
 {
-    std::optional<zzip> new_zip = zzip::load( std::move( dest ) );
+    std::optional<zzip> new_zip = zzip::load( dest );
     if( !new_zip ) {
         return false;
     }
-    return new_zip->copy_files( get_entries(), *this, /* shrink_to_fit = */ true );
+    bool success = new_zip->copy_files( get_entries(), *this, /* shrink_to_fit = */ true );
+    dest->flush();
+    return success;
 }
 
 bool zzip::clear()

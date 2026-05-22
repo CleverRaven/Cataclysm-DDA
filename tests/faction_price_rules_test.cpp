@@ -103,7 +103,7 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
     }
 
     WHEN( "item is main currency (implicit price rule)" ) {
-        guy.int_max = 1000;
+        guy.set_int_base( 1000 );
         guy.set_skill_level( skill_speech, 10 );
         item const fmcnote( itype_FMCNote );
         REQUIRE( npc_trading::adjusted_price( &fmcnote, 1, get_avatar(), guy ) ==
@@ -114,7 +114,7 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
 
     item const pants_fur( itype_test_pants_fur );
     WHEN( "item is secondary currency (fixed_adj=0)" ) {
-        get_avatar().int_max = 1000;
+        get_avatar().set_int_base( 1000 );
         get_avatar().set_skill_level( skill_speech, 10 );
         REQUIRE( npc_trading::adjusted_price( &pants_fur, 1, get_avatar(), guy ) ==
                  units::to_cent( pants_fur.type->price_post ) );

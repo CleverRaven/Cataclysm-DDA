@@ -20,7 +20,7 @@ static const string_id<map_data_summary> map_data_summary_full_omt( "full_omt" )
 TEST_CASE( "default_OMT_is_passable", "[hordes][overmap][map_data]" )
 {
     std::unique_ptr<overmap> test_overmap = std::make_unique<overmap>( point_abs_om() );
-    // Pick an arbitrary OMT.
+    // Pick an arbitrary OMT.weapname_
     tripoint_om_omt arbitrary_omt{ rng( 0, 179 ), rng( 0, 179 ), 0 };
     CAPTURE( test_overmap->ter( arbitrary_omt ) );
     for( point_omt_ms omt_cursor; omt_cursor.y() < 24; ++omt_cursor.y() ) {

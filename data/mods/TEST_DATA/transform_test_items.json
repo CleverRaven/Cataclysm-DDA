@@ -1,0 +1,94 @@
+[
+  {
+    "id": "test_transform_baton",
+    "type": "ITEM",
+    "category": "weapons",
+    "name": { "str": "test telescoping baton" },
+    "description": "Test baton, collapsed.",
+    "weight": "600 g",
+    "volume": "140 ml",
+    "longest_side": "24 cm",
+    "symbol": "/",
+    "color": "dark_gray",
+    "material": [ "steel" ],
+    "use_action": { "menu_text": "Expand", "type": "transform", "target": "test_transform_baton_long", "msg": "snap" },
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "test_transform_baton_long",
+    "type": "ITEM",
+    "copy-from": "test_transform_baton",
+    "name": { "str": "test telescoping baton (extended)" },
+    "description": "Test baton, extended.",
+    "volume": "260 ml",
+    "longest_side": "60 cm",
+    "use_action": { "menu_text": "Collapse", "type": "transform", "target": "test_transform_baton", "msg": "snap" },
+    "melee_damage": { "bash": 10 }
+  },
+  {
+    "id": "test_transform_timed_baton",
+    "type": "ITEM",
+    "category": "weapons",
+    "name": { "str": "test timed baton" },
+    "description": "Test baton that transforms via countdown_action.",
+    "weight": "600 g",
+    "volume": "140 ml",
+    "longest_side": "24 cm",
+    "symbol": "/",
+    "color": "dark_gray",
+    "material": [ "steel" ],
+    "countdown_action": { "type": "transform", "target": "test_transform_baton_long" },
+    "countdown_interval": "1 seconds",
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "test_transform_short_vest",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "test short-pocket vest" },
+    "description": "Test vest with one short pocket.",
+    "weight": "1000 g",
+    "volume": "1000 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm"
+      }
+    ],
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "test_transform_long_pack",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "test long-pocket pack" },
+    "description": "Test pack with one large pocket.",
+    "weight": "2000 g",
+    "volume": "14000 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "50 kg",
+        "max_item_length": "70 cm"
+      }
+    ],
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ] } ]
+  }
+]

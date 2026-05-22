@@ -742,7 +742,7 @@
         "max_contains_volume": "500 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
-        "sealed_data": { "spoil_multiplier": 0.5 },
+        "sealed_data": { "spoil_multiplier": 0.0 },
         "moves": 400
       }
     ],
@@ -1552,7 +1552,7 @@
     "type": "ITEM",
     "category": "container",
     "//": "Roughly based on https://www.amazon.ca/Boxes-Fast-BF14442FOL-Corrugated-Cardboard/dp/B077BZHDYF",
-    "name": { "str": "longarm cardboard box", "str_pl": "longarm cardboard cardboard boxes" },
+    "name": { "str": "longarm cardboard box", "str_pl": "longarm cardboard boxes" },
     "looks_like": "box_small",
     "description": "An elongated cardboard box, meant to contain a longarm such as a shotgun or rifle.",
     "ascii_picture": "box_oversize",
@@ -2103,7 +2103,7 @@
     "category": "container",
     "name": { "str": "egg carton" },
     "looks_like": "box_small",
-    "description": "A cardboard container with 12 individual cavities for storing eggs.",
+    "description": "A cardboard container with individual cavities for storing eggs.",
     "ascii_picture": "carton_egg",
     "weight": "28 g",
     "volume": "620 ml",
@@ -2119,6 +2119,23 @@
         "rigid": true,
         "max_contains_volume": "600 ml",
         "max_contains_weight": "1 kg",
+        "max_item_length": "45 mm"
+      }
+    ]
+  },
+  {
+    "id": "carton_egg_6",
+    "copy-from": "carton_egg",
+    "proportional": { "longest_side": 0.5, "volume": 0.5, "weight": 0.5 },
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "small egg carton" },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "500 g",
         "max_item_length": "45 mm"
       }
     ]
@@ -2266,11 +2283,11 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "insulation": 10,
         "max_contains_volume": "1 L",
         "max_contains_weight": "4 kg"
       }
     ],
-    "insulation": 10,
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
@@ -2709,7 +2726,7 @@
     "category": "container",
     "name": { "str": "3 L glass jar" },
     "looks_like": "jar_glass_sealed",
-    "description": "A three-liter glass jar with a metal screw top lid, used for canning.  Preserves its contents from rot until opened.",
+    "description": "A three-liter glass jar with a metal screw top lid, used for canning.  Preserves its contents from rot until opened (assuming it was sterile before sealing).",
     "ascii_picture": "jar_3l_glass_sealed",
     "weight": "953 g",
     "volume": "3530 ml",
@@ -3530,6 +3547,25 @@
     "melee_damage": { "bash": 8 }
   },
   {
+    "id": "wooden_barrel_rotten",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "rotten barrel" },
+    "looks_like": "wooden_barrel",
+    "description": "Traditionally made of white oak; these vessels are known for delivering delicious whiskey to the future.  It has a capacity of 100 liters, or would if it weren't so rotten that it can't possibly contain anything",
+    "ascii_picture": "wooden_barrel",
+    "weight": "42408 g",
+    "volume": "110 L",
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
+    "material": [ "wood" ],
+    "symbol": ")",
+    "color": "brown",
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
     "id": "wrapper",
     "type": "ITEM",
     "category": "container",
@@ -3631,11 +3667,11 @@
     "looks_like": "cup_plastic",
     "description": "A cheap, disposable cup with a plastic lid and straw.",
     "ascii_picture": "styrofoam_cup",
-    "weight": "50 g",
-    "volume": "501 ml",
-    "price": "0 cent",
+    "weight": "7 g",
+    "volume": "650 ml",
+    "price": "55 cent",
     "price_postapoc": "0 cent",
-    "material": [ "plastic" ],
+    "material": [ "styrofoam" ],
     "symbol": ")",
     "color": "white",
     "pocket_data": [
@@ -3806,7 +3842,7 @@
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
-    "use_action": { "menu_text": "open", "type": "transform", "target": "condom", "msg": "You rip open the wrapped condom." },
+    "use_action": { "menu_text": "Open", "type": "transform", "target": "condom", "msg": "You rip open the wrapped condom." },
     "flags": [ "BANK_NOTE_SHAPED" ]
   },
   {
@@ -5028,7 +5064,7 @@
     "price": "15 USD",
     "price_postapoc": "50 cent",
     "material": [ "wood" ],
-    "looks_like": "clay_canister",
+    "looks_like": "ceramic_mug",
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
@@ -5058,7 +5094,7 @@
     "price": "30 USD",
     "price_postapoc": "50 cent",
     "material": [ "steel" ],
-    "looks_like": "clay_canister",
+    "looks_like": "ceramic_mug",
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -5342,5 +5378,22 @@
         "moves": 400
       }
     ]
+  },
+  {
+    "id": "six_pack_rings",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str_sp": "six-pack rings" },
+    "description": "A set of plastic rings meant to hold aluminum cans.",
+    "symbol": "8",
+    "color": "light_cyan",
+    "price_postapoc": "1 cent",
+    "material": [ "plastic" ],
+    "weight": "1 g",
+    "volume": "1 ml",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "10 kg", "transparent": true }
+    ],
+    "flags": [ "NO_RELOAD" ]
   }
 ]

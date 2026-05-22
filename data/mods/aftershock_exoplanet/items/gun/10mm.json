@@ -71,7 +71,7 @@
     "longest_side": "205 mm",
     "price": "1750 USD",
     "material": [ "steel", "superalloy" ],
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "DOUBLE", "2rd burst", 2 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "DOUBLE", "2 rd.", 2 ] ],
     "ammo": [ "afs_10mm" ],
     "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "dispersion": 320,
@@ -134,7 +134,7 @@
       }
     ],
     "min_cycle_recoil": 570,
-    "modes": [ [ "DEFAULT", "2rd.  burst", 2 ] ],
+    "modes": [ [ "DEFAULT", "2 rd.", 2 ] ],
     "pocket_data": [
       {
         "magazine_well": "103 ml",

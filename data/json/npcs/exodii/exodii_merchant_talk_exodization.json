@@ -6,6 +6,7 @@
     "responses": [
       {
         "text": "[Install CBM Interface] Let's do it.",
+        "condition": { "not": { "or": [ { "u_has_flag": "NO_CBM_INSTALLATION" }, { "u_has_trait": "CBM_Interface" } ] } },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "2 hours" },
           { "u_add_effect": "sleep", "duration": "2 hours" },
@@ -73,7 +74,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_ExodizeTranslate",
     "type": "talk_topic",
-    "dynamic_line": "Hmm.\n\n*Rubik's voice becomes mechanical and distant for a moment, as if a computer takes over speaking.*\n\nIn exchange for the guarantee that you will use these gifts to combat the Great Enemy, this Exodii Node is willing to provide you with a bionic module command plexus, a power supply, and all the necessary infrastructure to obtain further upgrades with standardized CBMs - compact bionic modules.  We will require only a token fee for this service.  We will provide further upgrades as purchased.  Your personal improvement serves our mutual benefit.\n\n*Rubik's voice takes over again.*\n\nClear as a draught?",
+    "dynamic_line": "Hmm.\n\n*Rubik's voice becomes mechanical and distant for a moment, as if a computer takes over speaking.*\n\nIn exchange for the guarantee that you will use these gifts to combat the Great Enemy, this Exodii Node is willing to provide you with a bionic module command plexus, a power supply, and all the necessary infrastructure to obtain further upgrades with standardized CBMs - compact bionic modules.  We will require only a token fee, or an act of service, to earn this package.  We will provide further upgrades as purchased.  Your personal improvement serves our mutual benefit.\n\n*Rubik's voice takes over again.*\n\nClear as a draught?",
     "responses": [
       {
         "text": "If I just keep on killing zombies, you'll help turn me into a cyborg?  Why are we still yarkin', then?  Sign me the heck up.",
@@ -150,25 +151,12 @@
     "id": "TALK_EXODII_MERCHANT_ExodizeMe1",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Great, great, great!  Ha!  We'll fire up the old meat grinder.  Your job is to bring us a bit of good tea.  Not literally 'tea' of course.  That's my Anglic street slang.  I mean the stuff that puts you to sleep for surgery.  The Great Grey says your word for it is 'anesthetic'.  You bring us a thousand units of anesthetic, we'll fix you up with a wire and everything.",
-      "str": "Fine an' fine, an' fine an' fine!  Ha!  Us'll rubber up the ol' gristle mill.  Yer tassed wi' bringin' us a nip o' good tea.  Not 'tea', o'course.  I'm yarkin dockside Anglic here.  Us means the stuff what puts y'to sleep f'r a chirurgery.  The Great Grey says y'r assert for it is 'anus fetick'.  You bring us a thousand unit of 'anus fetick', us'll fix'n ye up with a wire an' a tiff."
+      "//~": "Great, great, great!  Ha!  We'll fire up the old meat grinder.  Maybe you do a job for us, we do a job for you?  Or we could trade, maybe if you bring us a bit of good tea.  Not literally 'tea' of course.  That's my Anglic street slang.  I mean the stuff that puts you to sleep for surgery.  The Great Grey says your word for it is 'anesthetic'.  You bring us a thousand units of anesthetic, we'll fix you up with a wire and everything.",
+      "str": "Fine an' fine, an' fine an' fine!  Ha!  Us'll rubber up the ol' gristle mill.  Mayhap a tit-for-tat, aye?  Or a trade, aye, mayhap wi' bringin' us a nip o' good tea.  Not 'tea', o'course.  I'm yarkin dockside Anglic here.  Us means the stuff what puts y'to sleep f'r a chirurgery.  The Great Grey says y'r assert for it is 'anus fetick'.  You bring us a thousand unit of 'anus fetick', us'll fix'n ye up with a wire an' a tiff."
     },
     "responses": [
       {
-        "text": "One thousand units of, uh, anesthetic, coming up.  <done_conversation_section>",
-        "condition": {
-          "not": {
-            "or": [
-              { "u_has_mission": "RUBIK_ANUS_FETICK" },
-              { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] }
-            ]
-          }
-        },
-        "effect": { "assign_mission": "RUBIK_ANUS_FETICK" },
-        "topic": "TALK_EXODII_MERCHANT_Talk"
-      },
-      {
-        "text": "One thousand units of, uh, anesthetic, coming up.  I'd better start looking.",
+        "text": "So I could bring you one thousand units of, uh, anesthetic?  And you'll give me this \"upgrade?\"  Sure, coming right up.  I'd better start looking.",
         "condition": {
           "not": {
             "or": [
@@ -181,14 +169,8 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Something's weird, I shouldn't have ever reached this dialogue option.  I'd better go file a bug report.",
-        "condition": {
-          "or": [
-            { "u_has_mission": "RUBIK_ANUS_FETICK" },
-            { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] }
-          ]
-        },
-        "topic": "TALK_DONE"
+        "text": "Could I do something else, maybe some kind of job, to earn this \"upgrade?\"",
+        "topic": "TALK_EXODII_MERCHANT_Jobs"
       }
     ]
   },
@@ -202,17 +184,89 @@
     "responses": [
       {
         "text": "[Install CBM Interface] All right.  Let's do this.",
+        "condition": {
+          "or": [
+            { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } },
+            { "not": { "u_has_trait": "Hub01_CBM_Interface" } }
+          ]
+        },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "2 hours" },
           { "u_add_effect": "sleep", "duration": "2 hours" },
           { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
           { "u_add_bionic": "bio_power_storage" },
           { "u_add_bionic": "bio_cable" },
-          { "u_add_trait": "CBM_Interface" }
+          { "u_add_trait": "CBM_Interface" },
+          { "u_add_var": "Rubik_exodized_u", "value": "yes" }
         ],
         "topic": "TALK_EXODII_MERCHANT_Exodized"
       },
-      { "text": "Hold on.  I need to rethink it again.", "topic": "TALK_DONE" }
+      {
+        "text": "[Install Power Storage Mk. II CBM] I guess since I'm already a cyborg, I could use some more power.",
+        "condition": { "u_has_trait": "CBM_Interface" },
+        "effect": [
+          { "u_add_faction_trust": 2 },
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_power_storage_mkII" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Actually, Rubik.  This feels strange to say, but I already have a bionic interface.  The scientists from that bunker, Hub 01, installed it.  What I really want is for you to remove it, and replace it with your interface.",
+        "condition": { "and": [ { "u_has_trait": "Hub01_CBM_Interface" }, { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } } ] },
+        "topic": "TALK_EXODII_MERCHANT_Remove_Hub01_CBM_interface_1"
+      },
+      {
+        "text": "How about store credit instead?  [adds $400 in store credit].",
+        "condition": { "u_has_trait": "CBM_Interface" },
+        "effect": [ { "u_spend_cash": -40000 }, { "u_add_faction_trust": 2 }, "start_trade" ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Consider it a favor, Rubik.",
+        "condition": { "u_has_trait": "CBM_Interface" },
+        "effect": [ { "u_add_faction_trust": 4 } ],
+        "opinion": { "trust": 7, "value": 5 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Hold on.  I need to rethink it again.",
+        "condition": { "not": { "u_has_trait": "CBM_Interface" } },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Remove_Hub01_CBM_interface_1",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "&Rubik stares at you for a very long moment, rubs their chin, and scratches at a bit of metal on their head.  \"Right, well that explains where our missing warehouses and robots went.  You came clean, and Rubik appreciates that.  Yeah, we can remove it, but not without risk.  Might leave you with a little less brain than before, I'm afraid.  But despite your honesty, we can't trade with you or let you stick around if you refuse, now.  So we can take it out, and you might be a bit duller, or you can keep it, and I'll give you a ten minute head start before the stompys come after you.  Sorry that it has to be this way.\"",
+      "str": "&Rubik stares at you for a very long moment, rubs their chin, and scratches at a bit of metal on their head.  \"Rightly then, that tells where the missin' shinies n' stompers went.  Ye came clean, an' ol' Rubik prizes that.  Aye.  We can take it out.  But not wi'out risk.  Might leave ye wi' a mite less wits than afore, I'm afeared.  Yet for all yet honesty, we can't trade wi' ye nor let ye tarry if ye refuse, now.  So we take it out, an' ye may be the duller for it.  Or ye keep it, an' I'll grant ye' ten minutes' head start afore the stompers come huntin'.  Sorry.  Must be so.\""
+    },
+    "responses": [
+      {
+        "text": "[Replace Hub 01 CBM interface with Exodii CBM interface; -1 Intelligence, -1 Dexterity]  I think it's worth the risk, especially so we can keep working together.  Get this thing out of me.",
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "2 hours" },
+          { "u_add_effect": "sleep", "duration": "2 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
+          { "u_lose_trait": "Hub01_CBM_Interface" },
+          { "u_add_trait": "CBM_Interface" },
+          { "u_add_trait": "CBM_Interface_brain_lesion" },
+          { "u_add_bionic": "bio_power_storage" },
+          { "u_add_bionic": "bio_cable" },
+          { "u_add_var": "Rubik_exodized_u", "value": "yes" }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_Exodized_Alt"
+      },
+      {
+        "text": "Sorry, Rubik, but that doesn't sound worth it.  Thanks for the head start.  Guess I better go, before the Exodii start shooting.",
+        "topic": "TALK_DONE",
+        "effect": { "run_eocs": "EOC_EXODII_HATES_YOU", "time_in_future": [ "500 seconds", "700 seconds" ] }
+      }
     ]
   },
   {
@@ -248,6 +302,23 @@
     ]
   },
   {
+    "id": "TALK_EXODII_MERCHANT_Exodized_Alt",
+    "type": "talk_topic",
+    "dynamic_line": "*makes a stiff, bowing gesture and leads you out of the shop and down a stone pathway towards one of the larger buildings in the compound.  A thick steel door slides aside to reveal a gloomy, rust-dusted corridor.  At the end of the corridor is a clean appearing surgical suite, not too different from any other surgical suite aside from the dim lighting and the surgeon itself.  At the head of the surgical table is a contraption reminiscent of an upside-down spider, its multiple glistening medical limbs curling gently in eager anticipation of your approach.  You have little time to question your choices before you feel a sharp pinch in your left shoulder, and the world drifts away.\n\nYou awaken on a comfortable bed, your chest and throat sore but otherwise well.  As the haze of anesthesia fades, you notice several tiny, sore wounds on your chest and arms.  A humanoid cyborg, not Rubik, notices that you are awake and wordlessly gestures you to follow, leading you back to Rubik's store.\n\n\"Ah, an' you're with the stars 'n lights again, an I'm ken.  'Tis grand.  Those wee CBMs will do ye little an fine, but they are a start.  Now us'n can sell you all you like, an' help with install, should ye wish.\"",
+    "speaker_effect": { "effect": { "mapgen_update": "tier1_CBM_shop_update", "om_terrain": "exodii_base_x0y2z1" } },
+    "responses": [
+      {
+        "text": "Feels good to get that Hub 01 tech out of my head, but I don't really feel much different.  So I'm a cyborg like you, now?",
+        "topic": "TALK_EXODII_MERCHANT_Exodized2"
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      {
+        "text": "<end_talking_leave>  Thanks for swapping out my brain implants.  <end_talking_bye>",
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
     "id": "TALK_EXODII_MERCHANT_Exodized2",
     "type": "talk_topic",
     "dynamic_line": {
@@ -263,5 +334,296 @@
       { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Cyberframe_trust_no",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Not today.  That's too much to ask, and we can't spare the materials.  But, I'll give you some advice.  Keep up the working and trading, and maybe I'll change my mind one day.",
+      "str": "Not today.  Too mighty an ask, and we can't spare the steelies.  But, I'll give ye a lump'a'ice.  Keep up work'n'trade, n' mayhaps somethin' changes one'a these days."
+    },
+    "responses": [
+      {
+        "text": "I'm just really eager to shed this fleshy prison.  You sure there's nothing we can do?",
+        "topic": "TALK_EXODII_MERCHANT_Cyberframe_trust_no_weirdo",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "decisions_blobpsychosis_u_too_eager_cyborg_body" } ] } },
+        "effect": [
+          { "u_add_var": "decisions_blobpsychosis_u_too_eager_cyborg_body", "value": "yes" },
+          { "math": [ "u_counter_exodii_exodii_psychosis_judgment += 2" ] },
+          { "u_add_faction_trust": -2 }
+        ]
+      },
+      { "text": "I guess I'll ask again another time.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "I guess I'll ask again another time.  <end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Cyberframe_trust_no_weirdo",
+    "//": "Rubik is skeptical of you if you are over-eager to get dissected down to your guts.",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "No, I don't think so.  Not today.",
+      "str": "&Rubik is quiet for a long moment, and is clearly sizing you up.  \"No, methinks not today.\""
+    },
+    "responses": [
+      { "text": "Well, I guess I'll ask again another time.  <end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Cyberframe_trust_yes",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Hm.  That's a really big ask.  You seem to be the sort of person who would ask for this kind of thing, but are you certain you want to be permanently attached to this suitcase?  You sure you're thinking clearly?  This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life.",
+      "str": "Hm.  A mighty ask on a mighty ask.  Ye certainly got the disposition, but you sure you wanna be cut inta' this crowded space?\"  Rubik taps their metal torso.  \"You sure ya' lump is screwed on tight?  This isn't like the bright'n'steelies on offer.  No goin' back.  And ye best be happy with the amount'a power you can generate.  This'ere needs contant power.  Without power, yer good as dead.  The power storage units?  Fer a case this'n kind, one'a the power storage units buys you a little-less'an an hour of walkin'.  Less for scrappin' and scramblin'.  Nothin's easy about it.\""
+    },
+    "responses": [
+      {
+        "text": "[Integrate your body into an Exodii Cyberframe] A robotic body I'll need to keep constantly powered?  Why not?  I'm ready.",
+        "effect": [
+          { "u_add_faction_trust": 5 },
+          {
+            "u_location_variable": { "u_val": "exodii_autodoc_couch_loc" },
+            "target_params": { "om_terrain": "exodii_base_x2y1z1", "om_special": "exodii_base" },
+            "furniture": "f_autodoc_couch",
+            "target_max_radius": 250
+          },
+          { "u_teleport": { "u_val": "exodii_autodoc_couch_loc" } }
+        ],
+        "opinion": { "trust": 7, "value": 5 },
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe"
+      },
+      { "text": "I changed my mind.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "I changed my mind.  <end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Rubik makes a stiff, bowing gesture and leads you out of the shop and down a stone pathway towards a familiar building - the gloomy surgical suite.  Rubik greets the humanoid cyborg that operates the suite, then stares a long moment in wordless communication.  The cyborg brings out a bulbous CRT monitor with a wired mechanical clicker, which they hand to you.  Rubik's joints hiss as they crouch to view the screen with you.  \"This Exodii is named Venn.  You've met before.  Venn and the Autodoc will do some serious work on you.  They'll take out all of your important organs and stick them in a Cyberframe, like these.  It'l take a long time.  We can offer you one of two basic Cyberframes.  If your mind is set on doing this, you can pick.\"  Rubik gestures to the glowing terminal.  Displayed is an outline of what looks like a human.  Beside it are two other outlines.  The first, which Rubik calls \"one-aye,\" looks a lot like Rubik himself.  It towers over the human shape, and can only be called humanoid.  Its center mass is a thick, squat shape, with the head and torso hard to distinguish from one another.  The second, which Rubik calls \"one-bay,\" looks slender, traced by hard, mechanical lines, but is nevertheless distinctly human-like.",
+      "str": "&Rubik makes a stiff, bowing gesture and leads you out of the shop and down a stone pathway towards a familiar building - the gloomy surgical suite.  Rubik greets the humanoid cyborg that operates the suite, then stares a long moment in wordless communication.  The cyborg brings out a bulbous CRT monitor with a wired mechanical clicker, which they hand to you.  Rubik's joints hiss as they crouch to view the screen with you.\n\n\"This'ere Exodii monicked Venn.  Ye've met'afore.  Venn'n'the'robot here'll do you somethin' fierce.  They'll carve out all yer important meat bits, and stick'em in a Cyberframe, like this'n.  It'll take time.  Lots'o'time.  We've the means for two basic frames.  If yer lump is set, ye can pick.\"\n\nRubik gestures to the glowing terminal.  Displayed is an outline of what looks like a human.  Beside it are two other outlines.  The first, which Rubik calls \"one-aye,\" looks a lot like Rubik himself.  It towers over the human shape, and can only be called humanoid.  Its center mass is a thick, squat shape, with the head and torso hard to distinguish from one another.  The second, which Rubik calls \"one-bay,\" looks slender, traced by hard, mechanical lines, but is nevertheless distinctly human-like."
+    },
+    "responses": [
+      {
+        "text": "Can you tell me a bit more about how Cyberframes work?",
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_info"
+      },
+      { "text": "What about my existing bionics?", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_bionics" },
+      { "text": "Tell me more about Cyberframe 1a.", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1a" },
+      { "text": "Tell me more about Cyberframe 1b.", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1b" },
+      {
+        "text": "So, will I be an Exodii after this?",
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_exodii_question"
+      },
+      {
+        "text": "Actually, can we wait?  I'll ask you about this again later.",
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_back_out"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_info",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Simple, really.  You'll still be human on the inside.  Most of your meat will be there.  Even a lot of your muscle and bone.  But your arms and legs will mostly be robotic.  Your eyes, too.  You'll keep the inside parts, but they'll be part of the armored interface.  They'll all need power to work properly.  It'll all still work a bit without it, but it's not pleasent.  Your torso and head, and everything in them, will be integrated into the shell itself.  Your body will keep everything going as it is now, so no need for power there.  You'll be more sturdy, and the machines will do most of the hard work for you, so no more worrying about getting out of breath while running from the dead.  But that's only if you keep it powered and in good repair.",
+      "str": "Peasey, truly.  You'll still be mostly mince, like ol' Rubik here.  Even much'a muscle n' bone.  Human inside.  But yer wiggles and wobs, that is yer limbs and digits, will be mostly steel.\"  Rubik motions to your eyes.  \"Yer berry pies, too.  Ye'll keep the see-ey bits, but they'll be part'a the new interface.  So, arms, legs, eyes, it'll all need power to work.  They'll work without, but tassed it isn't nice.\"  Rubik motions to your torso and head.  \"Now, yer chest n' lump, and everything in'em, will go inside the tidy bell.  Yer heart n' lungs n' all of that will keep going as it is now, no need for power.  All in all, you'll be more sturdy, n' the steel'll do the hard work for ye.  No more losin' breath on a scramble with the dead… if ye can stay powered n' in fine repair."
+    },
+    "responses": [
+      { "text": "What about my existing bionics?", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_bionics" },
+      { "text": "Tell me more about Cyberframe 1a.", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1a" },
+      { "text": "Tell me more about Cyberframe 1b.", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1b" },
+      {
+        "text": "So, will I be an Exodii after this?",
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_exodii_question"
+      },
+      {
+        "text": "Actually, can we wait?  I'll ask you about this again later.",
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_back_out"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_bionics",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Since we're stripping you down to flesh and bone you need to survive, we can take the time to salvage your CBMs, and keep it all intact, reinstalled in your new Cyberframe.  But your limbs and other parts will be exchangeable, like bionics.  In the future, if you take off a limb, you'll have to remove your CBMs, fix them, clean them, and reinstall them.",
+      "str": "Since ye've gotta strip down t'vital flesh n' hard scones, we'll salvage your bright'n'steelies, and repackage them in the new frame.  After, you can swap your wiggles and wobs, that is yer limbs and digits, like steelies, with a bit of effort.  If ye plan to do that, also plan to remove your implants, fix'em, clean'em, and shove'em back in."
+    },
+    "responses": [
+      {
+        "text": "Can you tell me a bit more about how Cyberframes work?",
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_info"
+      },
+      { "text": "Tell me more about Cyberframe 1a.", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1a" },
+      { "text": "Tell me more about Cyberframe 1b.", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1b" },
+      {
+        "text": "So, will I be an Exodii after this?",
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_exodii_question"
+      },
+      {
+        "text": "Actually, can we wait?  I'll ask you about this again later.",
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_back_out"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1a",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Rubik flicks a heavy plastic switch and the terminal whirs.  The image changes to a more detailed blueprint of the bulky, humanoid frame.  \"Aye, so this one's a lot like mine.  Real popular among this Exodii node.  It's heavy duty, but as you can see, it's a little less human-like than maybe you're comfortable with.  It's a good, sturdy design, that will keep you safe.  But you'll have to get used to going without most clothing and armor.  The body just isn't made for them.  This is my suggestion.\"",
+      "str": "&Rubik flicks a heavy plastic switch and the terminal whirs.  The image changes to a more detailed blueprint of the bulky, humanoid frame.  \"Aye, so this'n like thisn's, ol' Rubik's I mean.  Popular with us'n.  It's heavy n' tough.  Keep yer mince meat safe.  But if ye' wanna be real human, yer out of luck, as ye'll have to get used to goin' without cloth n' steel gear.  The frame just isn't made for them.  Won't fit.  But who needs'em?  Not me.  My lump'a'ice is ta' seal yourself up in this one.\""
+    },
+    "responses": [
+      {
+        "text": "Can you tell me a bit more about how Cyberframes work?",
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_info"
+      },
+      { "text": "What about my existing bionics?", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_bionics" },
+      {
+        "text": "[Integrate your body into an Exodii Cyberframe 1a] Okay, I'll take 1a, the bulky, armored frame.",
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1a_yes"
+      },
+      { "text": "Tell me more about Cyberframe 1b.", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1b" },
+      {
+        "text": "So, will I be an Exodii after this?",
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_exodii_question"
+      },
+      {
+        "text": "Actually, can we wait?  I'll ask you about this again later.",
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_back_out"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1b",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Rubik flicks a heavy plastic switch and the terminal whirs.  The image changes to a more detailed blueprint of the human-like frame.  It's very familiar, and has all of the body parts one expects to find, albeit made of plates and metal joints.  \"This one's for the nostalgic, I suppose, like Venn here.  You'll still have a human shape, and can still do and wear all your human things.  Downside is it can't be plated as well, so it's a bit more vulnerable by itself.\"",
+      "str": "&Rubik flicks a heavy plastic switch and the terminal whirs.  The image changes to a more detailed blueprint of the human-like frame.  It's very familiar, and has all of the body parts one expects to find, albeit made of plates and metal joints.  \"This'n for those'n can't help'a look back, like Venn, aye?  You'll still have the shape'o'yerself, and ye'd still wear yer human things.  But can't be plated like this'n's and keep'at shape, so it's more tattarrattat, less thunk, should somethin' come and smash ya' up.  That is to say, yer less tough.\""
+    },
+    "responses": [
+      {
+        "text": "Can you tell me a bit more about how Cyberframes work?",
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_info"
+      },
+      { "text": "What about my existing bionics?", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_bionics" },
+      { "text": "Tell me more about Cyberframe 1a.", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1a" },
+      {
+        "text": "[Integrate your body into an Exodii Cyberframe 1b] Okay, I'll take 1b, the human-like frame.",
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1b_yes"
+      },
+      {
+        "text": "So, will I be an Exodii after this?",
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_exodii_question"
+      },
+      {
+        "text": "Actually, can we wait?  I'll ask you about this again later.",
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_back_out"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_exodii_question",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "No.  You'll be wearing an Exodii-suit, but nobody is Exodii until they jump with the Exodii, and that remains to be seen.",
+      "str": "No.  Ye'll have the Exodii-suit, but nobody Exodii until there's a scrabble and jump to otherlands or otherworlds.  Who'at'll be remains to be."
+    },
+    "responses": [
+      {
+        "text": "Can you tell me a bit more about how Cyberframes work?",
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_info"
+      },
+      { "text": "What about my existing bionics?", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_bionics" },
+      { "text": "Tell me more about Cyberframe 1a.", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1a" },
+      { "text": "Tell me more about Cyberframe 1b.", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1b" },
+      {
+        "text": "Actually, can we wait?  I'll ask you about this again later.",
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_back_out"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_back_out",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Yes, of course.  I'll go back to the shop.  Find me if you reconsider.",
+      "str": "&Rubik lets out a mechanical chuckle.  \"Aye, 'course.  Escolt this'n out if ya' reconsider.\"\n\nWith that, Rubik gets up and leaves, offering a backward wave on his way out."
+    },
+    "responses": [ { "text": "…", "effect": { "u_add_var": "Rubik_promised_cyberframe", "value": "yes" }, "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1a_yes",
+    "type": "talk_topic",
+    "dynamic_line": "&Rubik stares at Venn, and after a long silence, they offer each other a stiff bow.  Rubik places a hand upon your shoulder.  It's a familiar, warm gesture.  A stark juxtaposition to the chill of their metal hand.  You lay back upon the table, and you hear a mechanical whirr as the spider-like surgical robot starts to greedily tap away at your extremities.  You barely have a moment to consider your actions before it all goes black…",
+    "responses": [
+      {
+        "text": "…",
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "12 hours" },
+          { "u_add_effect": "sleep", "duration": "12 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "12 hours" },
+          { "u_add_trait": "EXODII_CYBERFRAME_GENERIC" },
+          { "u_add_bionic": "bio_exodii_cyberframe_1a" },
+          { "u_add_bionic": "bio_exodii_leg_bionic_basic_armored_left" },
+          { "u_add_bionic": "bio_exodii_leg_bionic_basic_armored_right" },
+          { "u_add_bionic": "bio_exodii_arm_bionic_basic_armored_left" },
+          { "u_add_bionic": "bio_exodii_arm_bionic_basic_armored_right" },
+          { "run_eocs": "EOC_EXODII_MERCHANT_Exodize_Cyberframe_done", "time_in_future": "12 hours" },
+          { "run_eocs": "EOC_ROBOFAC_HATES_EXODII_CYBORGS" }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1b_yes",
+    "type": "talk_topic",
+    "dynamic_line": "&Rubik stares at Venn, and after a long silence, they offer each other a stiff bow.  Rubik places a hand upon your shoulder.  It's a familiar, warm gesture.  A stark juxtaposition to the chill of their metal hand.  You lay back upon the table, and you hear a mechanical whirr as the spider-like surgical robot starts to greedily tap away at your extremities.  You barely have a moment to consider your actions before it all goes black…",
+    "responses": [
+      {
+        "text": "…",
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "12 hours" },
+          { "u_add_effect": "sleep", "duration": "12 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "12 hours" },
+          { "u_add_trait": "EXODII_CYBERFRAME_GENERIC" },
+          { "u_add_bionic": "bio_exodii_cyberframe_1b" },
+          { "u_add_bionic": "bio_exodii_leg_bionic_basic_left" },
+          { "u_add_bionic": "bio_exodii_leg_bionic_basic_right" },
+          { "u_add_bionic": "bio_exodii_arm_bionic_basic_left" },
+          { "u_add_bionic": "bio_exodii_arm_bionic_basic_right" },
+          { "run_eocs": "EOC_EXODII_MERCHANT_Exodize_Cyberframe_done", "time_in_future": "12 hours" },
+          { "run_eocs": "EOC_ROBOFAC_HATES_EXODII_CYBORGS" }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_done",
+    "type": "talk_topic",
+    "dynamic_line": "&You awaken.  Your vision is blurry, and it's as if there's something hiding at the edges of your sight that you can't shake.  You try to swat it away, only to find that your limbs don't work.  You become suddenly aware that none of your senses are truly working.  You're just staring at a great sea of nothing, through a non-existent window you can't discern the edges of.\n\nBefore you have time to panic, you come to.  Your head is swimming.  You see Rubik and Venn standing before you with a device wired to your chest.  But is it your chest?  You move your hands to feel, and all you sense is metal on metal.  You're no longer just flesh.  All you can see and feel is your new, mechanical Cyberframe.\n\nVenn detaches the wires and Rubik speaks:  \"Easy.\"",
+    "responses": [ { "text": "Is it over?", "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_done2" } ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_done2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Yes, it's done.  Don't waste time thinking about what's different.  You're still there, just inside a tough steel case.  It won't be easy to adapt, but keep a stiff upper lip - or be brave - as you might say. Try to keep everyting intact, but if you get any damage, come back here.  Venn'll do repairs in exchange for materials.",
+      "str": "Aye, done'n'done.  Don' tarry on what's left.  Yer still there, just tougher'n steelies, now.  Time fer the stiff upper lip, as might be y'assert.\"  Rubik chuckles.  \"Anyhow, try'ta keep'er intact, but Ven'll keep ya' fixed up fer trade.  Got it?"
+    },
+    "responses": [
+      {
+        "text": "I guess so.  I'll come talk to Venn if I need repairs.  Guess I'll be seeing you around, Rubik.",
+        "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_done3"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_done3",
+    "type": "talk_topic",
+    "dynamic_line": "&Rubik offers you a shallow bow, then lumbers down the dusty hallway, leaving you alone in the surgical suite with Venn and your new bionic body.",
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   }
 ]

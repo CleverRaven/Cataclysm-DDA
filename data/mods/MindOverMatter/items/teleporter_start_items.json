@@ -249,7 +249,6 @@
         "type": "transform",
         "msg": "You flip the switch and activate the helmet's functions.",
         "target": "mom_fifth_sun_eagle_tac_helmet_on",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The switch clicks but nothing happens.",
         "need_worn": true,
@@ -288,7 +287,17 @@
       }
     ],
     "extend": {
-      "flags": [ "FIX_FARSIGHT", "FIX_NEARSIGHT", "GAS_PROOF", "PARTIAL_DEAF", "PSYSHIELD_PARTIAL", "SUN_GLASSES", "ZOOM", "WATCH" ]
+      "flags": [
+        "FIX_FARSIGHT",
+        "FIX_NEARSIGHT",
+        "GAS_PROOF",
+        "PARTIAL_DEAF",
+        "PSYSHIELD_PARTIAL",
+        "SUN_GLASSES",
+        "ZOOM",
+        "WATCH",
+        "SPAWN_ACTIVE"
+      ]
     }
   },
   {
@@ -345,7 +354,6 @@
         "type": "transform",
         "msg": "You flip the switch and activate the ehēcatepantli barrier.",
         "target": "mom_fifth_sun_standard_body_armor_on",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The switch clicks but nothing happens.",
         "need_worn": true,
@@ -366,7 +374,8 @@
           { "type": "bash", "add": -8 },
           { "type": "stab", "add": -20 },
           { "type": "cut", "add": -15 },
-          { "type": "bullet", "add": -40 }
+          { "type": "bullet", "add": -40 },
+          { "type": "electric", "add": -4 }
         ]
       }
     ],
@@ -390,7 +399,7 @@
         "type": "transform"
       }
     ],
-    "extend": { "flags": [ "NO_TAKEOFF" ] }
+    "extend": { "flags": [ "NO_TAKEOFF", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "mom_fifth_sun_standard_body_armor_non_fifth_sun",
@@ -404,7 +413,6 @@
         "type": "transform",
         "msg": "You flip the switch.",
         "target": "mom_fifth_sun_standard_body_armor_non_fifth_sun_on",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "The switch clicks but nothing happens.",
         "need_worn": true,
@@ -448,7 +456,7 @@
         "type": "transform"
       }
     ],
-    "extend": { "flags": [ "NO_TAKEOFF" ] }
+    "extend": { "flags": [ "NO_TAKEOFF", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "itzcuauhtli_cape",
@@ -605,6 +613,9 @@
     "sided": true,
     "price": "500000 USD",
     "price_postapoc": "50 USD",
+    "etransfer_rate": "1 GB",
+    "e_port": "laptop",
+    "charges_per_use": 1,
     "material": [ { "type": "nether_crystal", "portion": 5 }, { "type": "plastic", "portion": 95 } ],
     "flags": [
       "WATCH",

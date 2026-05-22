@@ -1,0 +1,34 @@
+[
+  {
+    "type": "snippet",
+    "category": "<city_name_hunvre>",
+    "text": [
+      { "text": "Sector A-<number><number><number>" },
+      { "text": "Sector B-<number><number><number>" },
+      { "text": "Sector C-<number><number><number>" },
+      { "text": "Sector D-<number><number><number>" },
+      { "text": "Sector E-<number><number><number>" },
+      { "text": "Sector F-<number><number><number>" },
+      { "text": "Sector G-<number><number><number>" },
+      { "text": "Sector H-<number><number><number>" },
+      { "text": "Sector I-<number><number><number>" },
+      { "text": "Sector J-<number><number><number>" },
+      { "text": "Sector K-<number><number><number>" },
+      { "text": "Sector L-<number><number><number>" },
+      { "text": "Sector M-<number><number><number>" },
+      { "text": "Sector N-<number><number><number>" },
+      { "text": "Sector O-<number><number><number>" },
+      { "text": "Sector P-<number><number><number>" },
+      { "text": "Sector Q-<number><number><number>" },
+      { "text": "Sector R-<number><number><number>" },
+      { "text": "Sector S-<number><number><number>" },
+      { "text": "Sector T-<number><number><number>" },
+      { "text": "Sector U-<number><number><number>" },
+      { "text": "Sector V-<number><number><number>" },
+      { "text": "Sector W-<number><number><number>" },
+      { "text": "Sector X-<number><number><number>" },
+      { "text": "Sector Y-<number><number><number>" },
+      { "text": "Sector Z-<number><number><number>" }
+    ]
+  }
+]

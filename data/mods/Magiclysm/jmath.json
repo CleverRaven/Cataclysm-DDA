@@ -3,7 +3,7 @@
     "type": "jmath_function",
     "id": "magiclysm_standard_spell_failure_equation",
     "num_args": 0,
-    "return": "0.6 + (u_effect_intensity('effect_magiclysm_spellcasting_aid_item_wielded') > 0 ? -0.3 : 0) + (u_val('intelligence') * -0.03) + (u_spell_level(_spell_id) * -0.02) + clamp( ( (u_pain() / 100) + ( (u_pain() > 4) ? (u_spell_level(_spell_id) * -0.04) : 0) ), 0, 1) + magiclysm_spell_failure_spellcraft_adjustments()"
+    "return": "0.6 + (u_effect_intensity('effect_magiclysm_spellcasting_aid_item_wielded') > 0 ? -0.3 : 0) + (u_val('intelligence') * -0.03) + (u_spell_level(_spell_id) * -0.02) + clamp( ( (u_pain('type': 'perceived') / 100) + ( (u_pain('type': 'perceived') > 4) ? (u_spell_level(_spell_id) * -0.04) : 0) ), 0, 1) + magiclysm_spell_failure_spellcraft_adjustments()"
   },
   {
     "type": "jmath_function",
@@ -106,6 +106,18 @@
     "id": "magiclysm_spell_failure_transformation_proficiency_adjustments",
     "num_args": 0,
     "return": "(u_has_proficiency('prof_magic_transformation_beginner') ? -0.1 : 0) + (u_has_proficiency('prof_magic_transformation_apprentice') ? -0.15 : 0) + (u_has_proficiency('prof_magic_transformation_master') ? -0.2 : 0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "magiclysm_spell_failure_transformation_proficiency_adjustments_damage",
+    "num_args": 0,
+    "return": "1 + (u_has_proficiency('prof_magic_transformation_beginner') ? 0.1 : 0) + (u_has_proficiency('prof_magic_transformation_apprentice') ? 0.15 : 0) + (u_has_proficiency('prof_magic_transformation_master') ? 0.2 : 0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "magiclysm_spell_failure_transformation_proficiency_adjustments_damage_npc",
+    "num_args": 0,
+    "return": "1 + (n_has_proficiency('prof_magic_transformation_beginner') ? 0.1 : 0) + (n_has_proficiency('prof_magic_transformation_apprentice') ? 0.15 : 0) + (n_has_proficiency('prof_magic_transformation_master') ? 0.2 : 0)"
   },
   {
     "type": "jmath_function",

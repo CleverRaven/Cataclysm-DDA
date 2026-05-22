@@ -333,7 +333,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "mutant_tiny",
     "biosignature": { "biosig_item": "shed_snakeskin", "biosig_timer": 180 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL", "INFRARED_VISION" ]
   },
   {
     "id": "mon_rattlesnake_giant",
@@ -380,7 +380,7 @@
     "upgrades": { "half_life": 320, "into": "mon_rattlesnake_mega" },
     "biosignature": { "biosig_item": "shed_snakeskin_giant", "biosig_timer": 180 },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL", "INFRARED_VISION" ],
     "armor": { "bash": 2, "cut": 4, "bullet": 3, "electric": 1 }
   },
   {
@@ -434,7 +434,7 @@
     "//babies2": "Deathrattle is heavily mutated, so a short gestation period and all-year large clutch birth are plausible",
     "zombify_into": "mon_meat_cocoon_large",
     "biosignature": { "biosig_item": "shed_snakeskin_scales", "biosig_timer": 180 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL", "PUSH_MON" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL", "PUSH_MON", "INFRARED_VISION" ],
     "armor": { "bash": 6, "cut": 8, "bullet": 6, "electric": 3, "acid": 6 }
   },
   {
@@ -682,7 +682,7 @@
     "type": "MONSTER",
     "copy-from": "mon_proxy_bigtad",
     "color": "red",
-    "description": "This tadpole's expanded size only eccentuates its other unique feature.  Its tail fin is a vibrant gradient of crimson to yellow.",
+    "description": "This tadpole's expanded size only accentuates its other unique feature.  Its tail fin is a vibrant gradient of crimson to yellow.",
     "name": { "str": "giant tadpole" },
     "upgrades": { "age_grow": 10, "into": "mon_shift_bigfrog" }
   },

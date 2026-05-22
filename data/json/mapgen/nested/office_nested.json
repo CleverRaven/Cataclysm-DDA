@@ -20,7 +20,8 @@
         "   h    h   h ",
         "dddx  dddx xdd"
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -44,7 +45,8 @@
         " h * h *   * f",
         "         h   f"
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -68,7 +70,8 @@
         " dxd* dxd* dxd",
         "  h *  h *  h "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -92,7 +95,8 @@
         "dh d*dhhd*d hd",
         "x  x*x  x*x  x"
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -116,7 +120,8 @@
         "  h *  h *  h ",
         "dddx*dddx*dddx"
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -140,7 +145,8 @@
         "  *   * h *   ",
         "    h       h "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -164,7 +170,8 @@
         "dxd *dxd *dxd ",
         "  h * h  * h  "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -188,7 +195,8 @@
         "  h * h  * h  ",
         "xddd*xddd*xddd"
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -212,7 +220,8 @@
         "dh d*dh d*d hd",
         "x  x*x  x*x  x"
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -236,7 +245,8 @@
         " h    h    h  ",
         "ddx xddd  xddd"
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -260,7 +270,8 @@
         "              ",
         "              "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -284,7 +295,8 @@
         "              ",
         "              "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -308,7 +320,8 @@
         "              ",
         "              "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -332,7 +345,8 @@
         "              ",
         "              "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -356,7 +370,8 @@
         "              ",
         "              "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -380,7 +395,8 @@
         "              ",
         "              "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -404,7 +420,8 @@
         "              ",
         "              "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -428,7 +445,8 @@
         "              ",
         "              "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -452,7 +470,8 @@
         "              ",
         "              "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -476,7 +495,8 @@
         "              ",
         "              "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -620,7 +640,8 @@
         "     "
       ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 1, 4 ], "y": [ 1, 2 ] } ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -635,7 +656,8 @@
         " bttb",
         "     "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -650,7 +672,8 @@
         "M n ?",
         "     "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -666,7 +689,8 @@
         "     "
       ],
       "palettes": [ "office_palette" ],
-      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 1, 3 ], "y": [ 1, 3 ], "repeat": [ 1, 2 ] } ]
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 1, 3 ], "y": [ 1, 3 ], "repeat": [ 1, 2 ] } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -681,7 +705,8 @@
         " h   ",
         "dddx "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -696,7 +721,8 @@
         "d h  ",
         "dddx^"
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -711,7 +737,8 @@
         "? n ?",
         "?   ?"
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -726,7 +753,8 @@
         "c h  ",
         "  fff"
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -741,7 +769,8 @@
         "*dh d",
         "*x  x"
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -756,7 +785,8 @@
         "? n ?",
         "?   ?"
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -771,7 +801,8 @@
         "     ",
         "     "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -786,7 +817,8 @@
         "     ",
         "     "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -801,7 +833,8 @@
         "     ",
         "     "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -816,7 +849,8 @@
         "     ",
         "     "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -831,7 +865,8 @@
         "     ",
         "     "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -846,7 +881,8 @@
         "     ",
         "     "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -861,7 +897,8 @@
         "     ",
         "     "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -876,7 +913,8 @@
         "     ",
         "     "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -891,7 +929,8 @@
         "     ",
         "     "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -906,7 +945,8 @@
         "     ",
         "     "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -921,7 +961,8 @@
         "     ",
         "     "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -936,7 +977,8 @@
         "     ",
         "     "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -1162,7 +1204,8 @@
         "  V     ",
         "   ^ ***"
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -1180,7 +1223,8 @@
         "        ",
         "        "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -1198,7 +1242,8 @@
         "  V *   ",
         "      ^^"
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -1216,7 +1261,8 @@
         "     V  ",
         "   ff   "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -1234,7 +1280,8 @@
         "        ",
         " Y  a   "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -1252,7 +1299,8 @@
         "     V  ",
         "ff  Y   "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -1270,7 +1318,8 @@
         "     V  ",
         "fff Y   "
       ],
-      "palettes": [ "office_palette" ]
+      "palettes": [ "office_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   }
 ]

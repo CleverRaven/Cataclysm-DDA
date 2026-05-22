@@ -92,6 +92,7 @@ static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rock( "rock" );
 
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
+static const json_character_flag json_flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
 
 static const material_id material_iflesh( "iflesh" );
 static const material_id material_veggy( "veggy" );
@@ -116,7 +117,7 @@ using namespace map_field_processing;
 void map::create_burnproducts( const tripoint_bub_ms &p, const item &fuel,
                                const units::mass &burned_mass )
 {
-    const std::map<material_id, int> all_mats = fuel.made_of();
+    const std::map<material_id, int> &all_mats = fuel.made_of();
     if( all_mats.empty() ) {
         return;
     }
@@ -365,6 +366,24 @@ void map::spread_gas( field_entry &cur, const tripoint_bub_ms &p, int percent_sp
         maptile up_tile = maptile_at_internal( up );
         if( gas_can_spread_to( cur, up_tile ) && valid_move( p, up, true, true ) ) {
             gas_spread_to( cur, up_tile, up );
+        }
+    }
+}
+
+void map::furniture_terrain_emit_fields()
+{
+    if( calendar::once_every( 10_seconds ) ) {
+        for( const tripoint_bub_ms &elem : get_furn_field_locations() ) {
+            const furn_t &furn_to_emit = *furn( elem );
+            for( const emit_id &e : furn_to_emit.emissions ) {
+                emit_field( elem, e );
+            }
+        }
+        for( const tripoint_bub_ms &elem : get_ter_field_locations() ) {
+            const ter_t &ter_to_emit = *ter( elem );
+            for( const emit_id &e : ter_to_emit.emissions ) {
+                emit_field( elem, e );
+            }
         }
     }
 }
@@ -760,8 +779,8 @@ static void field_processor_fd_electricity( const tripoint_bub_ms &p, field_entr
     }
 }
 
-static void field_processor_monster_spawn( const tripoint_bub_ms &p, field_entry &cur,
-        field_proc_data &pd )
+void field_processor_monster_spawn( const tripoint_bub_ms &p, field_entry &cur,
+                                    field_proc_data &pd )
 {
     const field_intensity_level &int_level = cur.get_intensity_level();
     int monster_spawn_chance = int_level.monster_spawn_chance;
@@ -1098,7 +1117,7 @@ void field_processor_fd_fire( const tripoint_bub_ms &p, field_entry &cur, field_
                 maptile dst_tile = here.maptile_at_internal( dst );
                 field_entry *fire_there = dst_tile.find_field( fd_fire );
                 if( !fire_there ) {
-                    here.add_field( dst, fd_fire, 1, 0_turns, false );
+                    here.add_field( dst, fd_fire, 1, 0_turns, true, cur.get_effect_source() );
                     cur.mod_field_intensity( -1 );
                 } else {
                     // Don't fuel raging fires or they'll burn forever
@@ -1273,7 +1292,7 @@ void field_processor_fd_fire( const tripoint_bub_ms &p, field_entry &cur, field_
             if( nearfire != nullptr ) {
                 nearfire->mod_field_age( -2_turns );
             } else {
-                here.add_field( dst_p, fd_fire, 1, 0_turns, false );
+                here.add_field( dst_p, fd_fire, 1, 0_turns, true, cur.get_effect_source() );
             }
             // Fueling fires above doesn't cost fuel
         }
@@ -1327,7 +1346,7 @@ void field_processor_fd_fire( const tripoint_bub_ms &p, field_entry &cur, field_
                 ) ) {
                 // Nearby open flammable ground? Set it on fire.
                 // Make the new fire quite weak, so that it doesn't start jumping around instantly
-                if( here.add_field( dst_p, fd_fire, 1, 2_minutes, false ) ) {
+                if( here.add_field( dst_p, fd_fire, 1, 2_minutes, true, cur.get_effect_source() ) ) {
                     // Consume a bit of our fuel
                     cur.set_field_age( cur.get_field_age() + 1_minutes );
                 }
@@ -1387,7 +1406,7 @@ void field_processor_fd_fire( const tripoint_bub_ms &p, field_entry &cur, field_
                 ) ) {
                 // Nearby open flammable ground? Set it on fire.
                 // Make the new fire quite weak, so that it doesn't start jumping around instantly
-                if( here.add_field( dst_p, fd_fire, 1, 2_minutes, false ) ) {
+                if( here.add_field( dst_p, fd_fire, 1, 2_minutes, true, cur.get_effect_source() ) ) {
                     // Consume a bit of our fuel
                     cur.set_field_age( cur.get_field_age() + 1_minutes );
                 }
@@ -1528,7 +1547,8 @@ void map::player_in_field( Character &you )
         }
         if( ft == fd_fire ) {
             // Heatsink or suit prevents ALL fire damage.
-            if( !you.has_flag( json_flag_HEATSINK ) && !you.is_wearing( itype_rm13_armor_on ) ) {
+            if( !you.has_flag( json_flag_HEATSINK ) && !you.has_flag( json_flag_HEAT_IMMUNE ) &&
+                !you.is_wearing( itype_rm13_armor_on ) ) {
 
                 // To modify power of a field based on... whatever is relevant for the effect.
                 int adjusted_intensity = cur.get_field_intensity();
@@ -1539,6 +1559,14 @@ void map::player_in_field( Character &you )
                     } else {
                         adjusted_intensity -= 1;
                     }
+                }
+
+                // After adjusting intensity, check if the fire is powerful enough to actually hurt us
+                if( cur.get_field_intensity() == 1 ) {
+                    continue; // Small piddly fire cannot hurt anything
+                }
+                if( cur.get_field_intensity() == 2 && !one_in( 10 ) ) {
+                    continue; // Active fire can barely hurt anything walking through, 10% chance
                 }
 
                 if( adjusted_intensity >= 1 ) {
@@ -1600,7 +1628,7 @@ void map::player_in_field( Character &you )
 
                     int total_damage = 0;
                     for( const bodypart_id &part_burned : parts_burned ) {
-                        const dealt_damage_instance dealt = you.deal_damage( nullptr, part_burned,
+                        const dealt_damage_instance dealt = you.deal_damage( cur.get_causer(), part_burned,
                                                             damage_instance( damage_heat, rng( burn_min, burn_max ) ) );
                         total_damage += dealt.type_damage( damage_heat );
                     }
@@ -1755,25 +1783,67 @@ void map::player_in_field( Character &you )
     }
 }
 
-void map::creature_in_field( Creature &critter )
+void map::maybe_apply_field_effect( const std::vector<field_effect> &vfe, Creature &critter ) const
 {
+
     bool in_vehicle = false;
     bool inside_vehicle = false;
+
+    if( const optional_vpart_position vp = veh_at( critter.pos_bub() ) ; vp.has_value() ) {
+        in_vehicle = true;
+        if( vp->is_inside() ) {
+            inside_vehicle = true;
+        }
+    }
+
+    for( const field_effect &fe : vfe ) {
+        if( in_vehicle && fe.immune_in_vehicle ) {
+            continue;
+        }
+        if( inside_vehicle && fe.immune_inside_vehicle ) {
+            continue;
+        }
+        if( !inside_vehicle && fe.immune_outside_vehicle ) {
+            continue;
+        }
+        if( in_vehicle && !one_in( fe.chance_in_vehicle ) ) {
+            continue;
+        }
+        if( inside_vehicle && !one_in( fe.chance_inside_vehicle ) ) {
+            continue;
+        }
+        if( !inside_vehicle && !one_in( fe.chance_outside_vehicle ) ) {
+            continue;
+        }
+
+        const effect field_fx = fe.get_effect();
+        if( critter.is_immune_effect( field_fx.get_id() ) ||
+            critter.check_immunity_data( fe.immunity_data ) ) {
+            continue;
+        }
+        bool effect_added = false;
+        if( fe.is_environmental ) {
+            effect_added = critter.add_env_effect( fe.id, fe.bp.id(), fe.intensity,  fe.get_duration() );
+        } else {
+            effect_added = true;
+            critter.add_effect( field_fx.get_id(), field_fx.get_duration(), field_fx.get_bp(),
+                                field_fx.is_permanent(), field_fx.get_intensity() );
+        }
+        if( effect_added ) {
+            critter.add_msg_player_or_npc( fe.env_message_type, fe.get_message(), fe.get_message_npc() );
+        }
+
+    }
+
+}
+
+void map::creature_in_field( Creature &critter )
+{
     if( critter.is_monster() ) {
         monster_in_field( *static_cast<monster *>( &critter ) );
     } else {
         Character *you = critter.as_character();
         if( you ) {
-            in_vehicle = you->in_vehicle;
-            // If we are in a vehicle figure out if we are inside (reduces effects usually)
-            // and what part of the vehicle we need to deal with.
-            if( in_vehicle ) {
-                if( const optional_vpart_position vp = veh_at( you->pos_bub() ) ) {
-                    if( vp->is_inside() ) {
-                        inside_vehicle = true;
-                    }
-                }
-            }
             player_in_field( *you );
         }
     }
@@ -1786,45 +1856,12 @@ void map::creature_in_field( Creature &critter )
         }
         const field_type_id cur_field_id = cur_field_entry.get_field_type();
 
-        for( const field_effect &fe : cur_field_entry.get_intensity_level().field_effects ) {
-            if( in_vehicle && fe.immune_in_vehicle ) {
-                continue;
-            }
-            if( inside_vehicle && fe.immune_inside_vehicle ) {
-                continue;
-            }
-            if( !inside_vehicle && fe.immune_outside_vehicle ) {
-                continue;
-            }
-            if( in_vehicle && !one_in( fe.chance_in_vehicle ) ) {
-                continue;
-            }
-            if( inside_vehicle && !one_in( fe.chance_inside_vehicle ) ) {
-                continue;
-            }
-            if( !inside_vehicle && !one_in( fe.chance_outside_vehicle ) ) {
-                continue;
-            }
+        if( !critter.is_immune_field( cur_field_id ) ) {
+            maybe_apply_field_effect( cur_field_entry.get_intensity_level().field_effects, critter );
+        }
 
-            const effect field_fx = fe.get_effect();
-            if( critter.is_immune_field( cur_field_id ) || critter.is_immune_effect( field_fx.get_id() ) ||
-                critter.check_immunity_data( fe.immunity_data ) ) {
-                continue;
-            }
-            bool effect_added = false;
-            if( fe.is_environmental ) {
-                effect_added = critter.add_env_effect( fe.id, fe.bp.id(), fe.intensity,  fe.get_duration() );
-            } else {
-                effect_added = true;
-                critter.add_effect( field_fx.get_id(), field_fx.get_duration(), field_fx.get_bp(),
-                                    field_fx.is_permanent(), field_fx.get_intensity() );
-            }
-            if( effect_added ) {
-                critter.add_msg_player_or_npc( fe.env_message_type, fe.get_message(), fe.get_message_npc() );
-            }
-            if( cur_field_id->decrease_intensity_on_contact ) {
-                mod_field_intensity( critter.pos_bub(), cur_field_id, -1 );
-            }
+        if( cur_field_id->decrease_intensity_on_contact ) {
+            mod_field_intensity( critter.pos_bub(), cur_field_id, -1 );
         }
     }
 }
@@ -1841,7 +1878,6 @@ void map::monster_in_field( monster &z )
     }
     field &curfield = get_field( get_bub( z.pos_abs() ) );
 
-    int dam = 0;
     // Iterate through all field effects on this tile.
     // Do not remove the field with remove_field, instead set it's intensity to 0. It will be removed
     // later by the field processing, which will also adjust field_count accordingly.
@@ -1850,6 +1886,10 @@ void map::monster_in_field( monster &z )
         if( !cur.is_field_alive() ) {
             continue;
         }
+
+        // How much damage does this field do?
+        // Resets on every iteration through the list, otherwise the damage stacks.
+        int dam = 0;
         const field_type_id cur_field_type = cur.get_field_type();
         if( cur_field_type == fd_acid ) {
             if( !z.flies() ) {
@@ -1873,8 +1913,19 @@ void map::monster_in_field( monster &z )
         if( cur_field_type == fd_fire ) {
             // TODO: MATERIALS Use fire resistance
             if( z.has_flag( mon_flag_FIREPROOF ) || z.has_flag( mon_flag_FIREY ) ) {
-                return;
+                continue; // Fireproof monsters aren't affected by fire
             }
+            if( has_flag_ter_or_furn( ter_furn_flag::TFLAG_FIRE_CONTAINER, get_bub( z.pos_abs() ) ) ) {
+                continue; // Fire is contained and not really part of the walkable space. (e.g. a torch on the wall, fire inside a bucket brazier)
+            }
+            if( cur.get_field_intensity() == 1 ) {
+                continue; // Small piddly fire cannot hurt anything
+            }
+
+            if( cur.get_field_intensity() == 2 && !one_in( 10 ) ) {
+                continue; // Active fire can barely hurt anything walking through, 10% chance
+            }
+
             // TODO: Replace the section below with proper json values
             if( z.made_of_any( Creature::cmat_flesh ) ) {
                 dam += 3;
@@ -1882,35 +1933,33 @@ void map::monster_in_field( monster &z )
             if( z.made_of( material_veggy ) ) {
                 dam += 12;
             }
-            if( z.made_of( phase_id::LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
+            if( z.made_of_any( Creature::cmat_flammable ) ) {
                 dam += 20;
             }
             if( z.made_of_any( Creature::cmat_flameres ) ) {
-                dam += -20;
+                dam -= 20;
             }
             if( z.flies() ) {
                 dam -= 15;
             }
-            dam -= z.get_armor_type( damage_heat, bodypart_id( "torso" ) );
+            // FIXME: Hardcoded damage type!
+            // Put the associated damage type into the field type's json definition
+            dam -= z.get_armor_type( damage_heat, z.get_random_body_part_of_type( bp_type::torso ) );
 
-            if( cur.get_field_intensity() == 1 ) {
-                dam += rng( 2, 6 );
-            } else if( cur.get_field_intensity() == 2 ) {
-                dam += rng( 6, 12 );
-                if( !z.flies() ) {
-                    z.mod_moves( -to_moves<int>( 1_seconds ) * 0.2 );
-                    if( dam > 0 ) {
-                        z.add_effect( effect_onfire, 1_turns * rng( dam / 2, dam * 2 ) );
-                    }
+            dam += rng( cur.get_field_intensity(), cur.get_field_intensity() * 2 );
+            const bool affected_by_fire = !z.flies() || one_in( 3 );
+            if( dam > 0 && affected_by_fire ) {
+                z.mod_moves( -to_moves<int>( 1_seconds ) * 0.4 );
+                // dam/100 % chance to set onfire effect
+                if( x_in_y( dam, 100 ) ) {
+                    // This effect is hilariously, stupidly lethal, representing the creature being entirely engulfed in a self-perpetuating conflagration.
+                    // So it should not be very frequent.
+                    z.add_effect( effect_onfire, 1_turns * rng( dam / 2, dam * 2 ) );
                 }
-            } else if( cur.get_field_intensity() == 3 ) {
-                dam += rng( 10, 20 );
-                if( !z.flies() || one_in( 3 ) ) {
-                    z.mod_moves( -to_moves<int>( 1_seconds ) * 0.4 );
-                    if( dam > 0 ) {
-                        z.add_effect( effect_onfire, 1_turns * rng( dam / 2, dam * 2 ) );
-                    }
-                }
+
+                // Remove some lifetime from the fire, to simulate the monster trampling it and spreading/destroying some of the fuel.
+                // Prevents one fire from killing an infinite amount of zombies.
+                cur.mod_field_age( 1_minutes * dam );
             }
         }
         if( cur_field_type == fd_smoke ) {
@@ -2070,11 +2119,12 @@ void map::monster_in_field( monster &z )
                 dam += rng( 4, 7 * intensity );
             }
         }
-    }
 
-    if( dam > 0 ) {
-        z.apply_damage( nullptr, bodypart_id( "torso" ), dam, true );
-        z.check_dead_state( this );
+        // Finally, apply damage
+        if( dam > 0 ) {
+            z.apply_damage( cur.get_causer(), z.get_random_body_part_of_type( bp_type::torso ), dam, true );
+            z.check_dead_state( this );
+        }
     }
 }
 

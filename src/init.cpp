@@ -48,6 +48,7 @@
 #include "faction_camp.h"
 #include "fault.h"
 #include "field_type.h"
+#include "mapgen_post_process.h"
 #include "filesystem.h"
 #include "flag.h"
 #include "flexbuffer_json.h"
@@ -274,6 +275,7 @@ void DynamicDataLoader::initialize()
     add( "var_migration", &global_variables::load_migrations );
     add( "connect_group", &connect_group::load );
     add( "fault", &faults::load_fault );
+    add( "pp_generator", &pp_generators::load );
     add( "fault_fix", &faults::load_fix );
     add( "fault_group", &faults::load_group );
     add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
@@ -320,6 +322,7 @@ void DynamicDataLoader::initialize()
     add( "scenario", &scenario::load_scenario );
     add( "SCENARIO_BLACKLIST", &scen_blacklist::load_scen_blacklist );
     add( "shopkeeper_blacklist", &shopkeeper_blacklist::load_blacklist );
+    add( "shopkeeper_whitelist", &shopkeeper_whitelist::load_whitelist );
     add( "shopkeeper_consumption_rates", &shopkeeper_cons_rates::load_rate );
     add( "enchantment", &enchantment::load_enchantment );
     add( "hit_range", &Creature::load_hit_range );
@@ -501,6 +504,7 @@ void DynamicDataLoader::initialize()
     add( "damage_type", &damage_type::load_damage_types );
     add( "damage_info_order", &damage_info_order::load_damage_info_orders );
     add( "wound", &wound_type::load_wounds );
+    add( "wound_fix", &wound_fix::load_wound_fixes );
     add( "mod_migration", &mod_migrations::load );
     add( "faction_mission", &faction_mission::load_faction_missions );
 #if defined(TILES)
@@ -670,6 +674,7 @@ void DynamicDataLoader::unload_data()
     faction_mission::reset();
     faction_template::reset();
     faults::reset();
+    pp_generators::reset();
     field_types::reset();
     field_type_migrations::reset();
     gates::reset();
@@ -754,6 +759,7 @@ void DynamicDataLoader::unload_data()
     scent_type::reset();
     score::reset();
     shopkeeper_blacklist::reset();
+    shopkeeper_whitelist::reset();
     shopkeeper_cons_rates::reset();
     Skill::reset();
     SNIPPET.clear_snippets();
@@ -775,6 +781,8 @@ void DynamicDataLoader::unload_data()
     vpart_category::reset();
     vpart_location::reset();
     vpart_migration::reset();
+    wound_type::reset();
+    wound_fix::reset();
     weakpoints::reset();
     weather_generator::reset();
     weather_types::reset();
@@ -830,6 +838,7 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Event Statistics" ), &event_statistic::finalize_all },
             { _( "Event Transformations" ), &event_transformation::finalize_all },
             { _( "Faults" ), &faults::finalize },
+            { _( "Post-process generators" ), &pp_generators::finalize },
             { _( "Furniture" ), &finalize_furniture },
             { _( "Gates" ), &gates::finalize },
             { _( "Harvest Drop Types" ), &harvest_drop_type::finalize_all },
@@ -903,6 +912,7 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Scent Types" ), &scent_type::finalize_all },
             { _( "Scores" ), &score::finalize_all },
             { _( "Shopkeeper Blacklists" ), &shopkeeper_blacklist::finalize_all },
+            { _( "Shopkeeper Whitelists" ), &shopkeeper_whitelist::finalize_all },
             { _( "Shopkeeper Consumption Rates" ), &shopkeeper_cons_rates::finalize_all },
             { _( "Terrain" ), &finalize_terrain },
             { _( "Terrain/Furniture Transforms" ), &ter_furn_transform::finalize_all },
@@ -915,6 +925,7 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Weakpoint Families" ), &weakpoints::finalize_all },
             { _( "Weapon Categories" ), &weapon_category::finalize_all },
             { _( "Wounds" ), &wound_type::finalize_all },
+            { _( "Wound Fixes" ), &wound_fix::finalize_all },
             { _( "Zone Types" ), &zone_type::finalize_all },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
@@ -962,6 +973,7 @@ void DynamicDataLoader::check_consistency()
             { _( "Items" ), &items::check_consistency },
             { _( "Materials" ), &materials::check },
             { _( "Faults" ), &faults::check_consistency },
+            { _( "Post-process generators" ), &pp_generators::check_consistency },
             { _( "Proficiency migration" ), &proficiency_migration::check },
             { _( "Vehicle parts" ), &vehicles::parts::check },
             { _( "Vehicle part locations" ), &vpart_location::check_all },
@@ -1027,7 +1039,10 @@ void DynamicDataLoader::check_consistency()
             { _( "Factions" ), &faction_template::check_consistency },
             { _( "Damage types" ), &damage_type::check },
             { _( "Wounds" ), &wound_type::check_consistency },
-            { _( "Faction missions" ), &faction_mission::check_consistency }
+            { _( "Wound fixes" ), &wound_fix::check_consistency },
+            { _( "Faction missions" ), &faction_mission::check_consistency },
+            { _( "Relic Procedural Generations" ), &relic_procgen_data::check_consistency },
+            { _( "Skills" ), &Skill::check_consistency }
         }
     };
 

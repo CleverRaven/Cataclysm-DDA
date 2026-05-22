@@ -22,9 +22,20 @@
     "common": false,
     "bonus_int": { "rng": [ 20, 25 ] },
     "bonus_per": { "rng": [ 20, 25 ] },
-    "shopkeeper_item_group": [ { "group": "NC_FORGE_LORD_SHOP", "rigid": true } ],
+    "shopkeeper_item_group": [
+      { "group": "NC_FORGE_LORD_SHOP", "rigid": true },
+      {
+        "group": "NC_FORGE_LORD_ACCEPTED_BOOKS",
+        "condition": { "math": [ "1 == 0" ] },
+        "strict": true,
+        "refusal": "<npc_name> will never give you their stories."
+      }
+    ],
     "shopkeeper_price_rules": [ { "group": "NC_FORGE_LORD_ACCEPTED_BOOKS", "price": 2500, "fixed_adj": 0 } ],
+    "shopkeeper_whitelist": "NC_FORGE_LORD_WHITELIST",
     "worn_override": "NC_FORGE_LORD_clothes",
+    "carry_override": "EMPTY_GROUP",
+    "sells_belongings": false,
     "skills": [
       {
         "skill": "ALL",
@@ -53,7 +64,7 @@
     "subtype": "collection",
     "id": "NC_FORGE_LORD_STORE",
     "items": [
-      { "group": "enchanted_combat_items", "count": [ 3, 8 ], "prob": 40 },
+      { "group": "enchanted_combat_items_non_wearable", "count": [ 3, 8 ], "prob": 40 },
       { "group": "enchanted_misc", "count": [ 1, 3 ], "prob": 50 },
       { "group": "enchanted_rings_unusual", "count": [ 1, 2 ], "prob": 20 },
       { "group": "enchanted_rings_rare", "count": [ 1, 2 ], "prob": 30 },
@@ -63,11 +74,9 @@
       { "group": "enchanted_rings_common", "prob": 20 },
       { "group": "enchanted_rings_uncommon", "prob": 5 },
       { "group": "enchanted_arrows", "prob": 15, "count": [ 1, 2 ] },
-      { "group": "group_potion_fruits", "prob": 10, "count": [ 1, 4 ] },
       { "group": "enchanted_bracelets", "prob": 4 },
       { "group": "enchanted_belts", "prob": 2 },
       { "group": "items_of_elvenkind", "prob": 1 },
-      { "group": "parabolan_armor", "prob": 15 },
       { "group": "spellbook_loot_1", "prob": 35, "count": [ 1, 3 ] },
       { "group": "group_forge_warp_items", "prob": 30 }
     ]
@@ -104,7 +113,11 @@
       { "item": "book_fict_soft_scifi_zamwe", "prob": 100 },
       { "item": "book_fict_soft_scifi_cybrd", "prob": 100 },
       { "item": "book_fict_soft_scifi_brave", "prob": 100 },
-      { "item": "book_fict_soft_scifi_f451", "prob": 100 }
+      { "item": "book_fict_soft_scifi_f451", "prob": 100 },
+      { "item": "book_anthology_htloop", "prob": 1 },
+      { "item": "book_anthology_an", "prob": 1 },
+      { "item": "book_anthology_sunvault", "prob": 1 },
+      { "item": "book_anthology_moataatgb", "prob": 1 }
     ]
   },
   {
@@ -155,5 +168,16 @@
     "type": "talk_topic",
     "dynamic_line": "My minions are busy putting the final touches on a few exciting projects, check back on <restock_time_point> and see what's new.",
     "responses": [ { "text": "May your hammers be accurate.", "topic": "TALK_FORGE_LORD" } ]
+  },
+  {
+    "type": "shopkeeper_whitelist",
+    "id": "NC_FORGE_LORD_WHITELIST",
+    "message": "<npcname> is thoroughly uninterested in this.",
+    "entries": [
+      { "item": "denarius" },
+      { "group": "NC_FORGE_LORD_SHOP" },
+      { "group": "NC_FORGE_LORD_ACCEPTED_BOOKS" },
+      { "item": "forge_of_wonders_tradeables" }
+    ]
   }
 ]

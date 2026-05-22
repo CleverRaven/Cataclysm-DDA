@@ -1,0 +1,10 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "riverside_jetski",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_vehicles": [ { "vehicle": "jetskis", "x": 12, "y": 1, "rotation": 90, "status": -1 } ]
+    }
+  }
+]

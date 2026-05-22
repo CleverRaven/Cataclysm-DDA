@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.1.32104.313
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11312.210 d18.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{04F55049-F0DE-4AE6-9D10-3DB97DFF2E2F}"
 	ProjectSection(SolutionItems) = preProject
@@ -31,6 +31,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zstd", "zstd.vcxproj", "{F49F14C6-B046-41C7-B707-03366F4B1578}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zzip", "zzip.vcxproj", "{1232212E-8B83-40E9-B502-F25DBC4DB6CF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fmt", "fmt.vcxproj", "{F2098959-AAD9-4210-A64C-FC4A09A45556}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -352,6 +354,42 @@ Global
 		{1232212E-8B83-40E9-B502-F25DBC4DB6CF}.Release-NoTiles|x64.Build.0 = Release|x64
 		{1232212E-8B83-40E9-B502-F25DBC4DB6CF}.Release-NoTiles|x86.ActiveCfg = Release|Win32
 		{1232212E-8B83-40E9-B502-F25DBC4DB6CF}.Release-NoTiles|x86.Build.0 = Release|Win32
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Debug|ARM64EC.ActiveCfg = Debug|ARM64EC
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Debug|ARM64EC.Build.0 = Debug|ARM64EC
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Debug|x64.ActiveCfg = Debug|x64
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Debug|x64.Build.0 = Debug|x64
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Debug|x86.ActiveCfg = Debug|Win32
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Debug|x86.Build.0 = Debug|Win32
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Debug-NoTiles|ARM64EC.ActiveCfg = Debug|ARM64EC
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Debug-NoTiles|ARM64EC.Build.0 = Debug|ARM64EC
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Debug-NoTiles|x64.ActiveCfg = Debug|x64
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Debug-NoTiles|x64.Build.0 = Debug|x64
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Debug-NoTiles|x86.ActiveCfg = Debug|Win32
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Debug-NoTiles|x86.Build.0 = Debug|Win32
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Quick|ARM64EC.ActiveCfg = Release|ARM64EC
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Quick|ARM64EC.Build.0 = Release|ARM64EC
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Quick|x64.ActiveCfg = Release|x64
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Quick|x64.Build.0 = Release|x64
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Quick|x86.ActiveCfg = Debug|Win32
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Quick|x86.Build.0 = Debug|Win32
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Quick-NoTiles|ARM64EC.ActiveCfg = Release|ARM64EC
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Quick-NoTiles|ARM64EC.Build.0 = Release|ARM64EC
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Quick-NoTiles|x64.ActiveCfg = Release|x64
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Quick-NoTiles|x64.Build.0 = Release|x64
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Quick-NoTiles|x86.ActiveCfg = Release|Win32
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Quick-NoTiles|x86.Build.0 = Release|Win32
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Release|ARM64EC.ActiveCfg = Release|ARM64EC
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Release|ARM64EC.Build.0 = Release|ARM64EC
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Release|x64.ActiveCfg = Release|x64
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Release|x64.Build.0 = Release|x64
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Release|x86.ActiveCfg = Release|Win32
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Release|x86.Build.0 = Release|Win32
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Release-NoTiles|ARM64EC.ActiveCfg = Release|ARM64EC
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Release-NoTiles|ARM64EC.Build.0 = Release|ARM64EC
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Release-NoTiles|x64.ActiveCfg = Release|x64
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Release-NoTiles|x64.Build.0 = Release|x64
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Release-NoTiles|x86.ActiveCfg = Release|Win32
+		{F2098959-AAD9-4210-A64C-FC4A09A45556}.Release-NoTiles|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

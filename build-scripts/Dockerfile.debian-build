@@ -64,7 +64,7 @@ WORKDIR /home/cdda
 COPY --chown=cdda:cdda . .
 
 # we build in build dirs rather than at the repo root
-# TODO: move build dirs to a directory ABOVE the source so we can Docker mount in the source dir for 'live' builds of code you're hacking on on the host
+# TODO: move build dirs to a directory ABOVE the source so we can Docker mount in the source dir for 'live' builds of code you're hacking on the host
 RUN mkdir cmake-build-debug cmake-build-debug-tiles
 
 WORKDIR /home/cdda/cmake-build-debug

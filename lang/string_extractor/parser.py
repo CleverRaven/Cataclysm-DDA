@@ -66,8 +66,10 @@ from .parsers.mutation_category import parse_mutation_category
 from .parsers.overmap_land_use_code import parse_overmap_land_use_code
 from .parsers.overmap_special import parse_overmap_special
 from .parsers.practice import parse_practice
+from .parsers.requirement import parse_requirement
 from .parsers.scenario import parse_scenario
 from .parsers.shop_blacklist import parse_shopkeeper_blacklist
+from .parsers.shop_whitelist import parse_shopkeeper_whitelist
 from .parsers.skill import parse_skill
 from .parsers.skill_display_type import parse_skill_display_type
 from .parsers.speech import parse_speech
@@ -204,8 +206,10 @@ parsers = {
     "overmap_terrain": parse_overmap_terrain,
     "palette": parse_palette,
     "playlist": dummy_parser,
+    "pp_generator": dummy_parser,
     "practice": parse_practice,
     "profession": parse_profession,
+    "profession_blacklist": dummy_parser,
     "profession_group": dummy_parser,
     "profession_item_substitutions": dummy_parser,
     "proficiency": parse_proficiency,
@@ -232,13 +236,14 @@ parsers = {
     "forest_biome_mapgen": dummy_parser,
     "map_extra_collection": dummy_parser,
     "relic_procgen_data": dummy_parser,
-    "requirement": dummy_parser,
+    "requirement": parse_requirement,
     "rotatable_symbol": dummy_parser,
     "scenario": parse_scenario,
     "scenario_blacklist": dummy_parser,
     "scent_type": dummy_parser,
     "score": dummy_parser,
     "shopkeeper_blacklist": parse_shopkeeper_blacklist,
+    "shopkeeper_whitelist": parse_shopkeeper_whitelist,
     "shopkeeper_consumption_rates": dummy_parser,
     "skill": parse_skill,
     "skill_boost": dummy_parser,

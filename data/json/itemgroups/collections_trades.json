@@ -71,6 +71,7 @@
       [ "goggles_welding", 50 ],
       [ "welding_book", 10 ],
       [ "welding_mask", 30 ],
+      [ "welding_papr_helmet", 10 ],
       [ "throat_guard_cut_resistant", 8 ],
       [ "jerrycan", 10 ],
       [ "jerrycan_big", 10 ],

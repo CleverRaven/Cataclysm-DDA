@@ -333,6 +333,14 @@ class submap
         std::unique_ptr<maptile_soa> m;
         ter_id uniform_ter = t_null;
         int temperature_mod = 0; // delta in F
+        // Tracks original terrain for tiles transformed by phase logic
+        std::map<point_sm_ms, ter_id> original_terrain;
+
+    public:
+        bool has_original_ter( const point_sm_ms &p ) const;
+        ter_id get_original_ter( const point_sm_ms &p ) const;
+        void set_original_ter( const point_sm_ms &p, const ter_id &t );
+        void clear_original_ter( const point_sm_ms &p );
 
         static constexpr size_t elements = SEEX * SEEY;
 };

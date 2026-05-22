@@ -1,8 +1,10 @@
 #include <algorithm>
 #include <array>
+#include <climits>
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <optional>
 #include <string>
 #include <unordered_set>
 #include <utility>
@@ -370,28 +372,28 @@ void overmap::place_lakes( const std::vector<const overmap *> &neighbor_overmaps
 float overmap::calculate_ocean_gradient( const point_om_omt &p, const point_abs_om this_om )
 {
     const region_settings_ocean &settings_ocean = settings->get_settings_ocean();
-    const int northern_ocean = settings_ocean.ocean_start_north;
-    const int eastern_ocean = settings_ocean.ocean_start_east;
-    const int western_ocean = settings_ocean.ocean_start_west;
-    const int southern_ocean = settings_ocean.ocean_start_south;
+    const int northern_ocean = settings_ocean.ocean_start_north.value_or( INT_MAX );
+    const int eastern_ocean = settings_ocean.ocean_start_east.value_or( INT_MAX );
+    const int western_ocean = settings_ocean.ocean_start_west.value_or( INT_MAX );
+    const int southern_ocean = settings_ocean.ocean_start_south.value_or( INT_MAX );
 
     float ocean_adjust_N = 0.0f;
     float ocean_adjust_E = 0.0f;
     float ocean_adjust_W = 0.0f;
     float ocean_adjust_S = 0.0f;
-    if( northern_ocean > 0 && this_om.y() <= northern_ocean * -1 ) {
+    if( this_om.y() <= northern_ocean * -1 ) {
         ocean_adjust_N = 0.0005f * static_cast<float>( OMAPY - p.y()
                          + std::abs( ( this_om.y() + northern_ocean ) * OMAPY ) );
     }
-    if( eastern_ocean > 0 && this_om.x() >= eastern_ocean ) {
+    if( this_om.x() >= eastern_ocean ) {
         ocean_adjust_E = 0.0005f * static_cast<float>( p.x() + ( this_om.x() - eastern_ocean )
                          * OMAPX );
     }
-    if( western_ocean > 0 && this_om.x() <= western_ocean * -1 ) {
+    if( this_om.x() <= western_ocean * -1 ) {
         ocean_adjust_W = 0.0005f * static_cast<float>( OMAPX - p.x()
                          + std::abs( ( this_om.x() + western_ocean ) * OMAPX ) );
     }
-    if( southern_ocean > 0 && this_om.y() >= southern_ocean ) {
+    if( this_om.y() >= southern_ocean ) {
         ocean_adjust_S = 0.0005f * static_cast<float>( p.y() + ( this_om.y() - southern_ocean ) * OMAPY );
     }
     return std::max( { ocean_adjust_N, ocean_adjust_E, ocean_adjust_W, ocean_adjust_S } );
@@ -400,18 +402,17 @@ float overmap::calculate_ocean_gradient( const point_om_omt &p, const point_abs_
 void overmap::place_oceans( const std::vector<const overmap *> &neighbor_overmaps )
 {
     const region_settings_ocean &settings_ocean = settings->get_settings_ocean();
-    const int northern_ocean = settings_ocean.ocean_start_north;
-    const int eastern_ocean = settings_ocean.ocean_start_east;
-    const int western_ocean = settings_ocean.ocean_start_west;
-    const int southern_ocean = settings_ocean.ocean_start_south;
     const int ocean_depth = settings_ocean.ocean_depth;
+    const bool oceans_disabled = !settings_ocean.ocean_start_north.has_value() &&
+                                 !settings_ocean.ocean_start_east.has_value() &&
+                                 !settings_ocean.ocean_start_west.has_value() && !settings_ocean.ocean_start_south.has_value();
 
     const om_noise::om_noise_layer_ocean f( global_base_point(), g->get_seed() );
     const point_abs_om this_om = pos();
 
     const auto is_ocean = [&]( const point_om_omt & p ) {
         // credit to ehughsbaird for thinking up this inbounds solution to infinite flood fill lag.
-        if( northern_ocean == 0 && eastern_ocean == 0 && western_ocean == 0 && southern_ocean == 0 ) {
+        if( oceans_disabled ) {
             // you know you could just turn oceans off in global_settings.json right?
             return false;
         }

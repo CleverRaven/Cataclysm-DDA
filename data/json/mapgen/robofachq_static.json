@@ -191,7 +191,7 @@
         ",,,,,,,,,,,,,,,,,|$,,,(B  [   |?ñt  Y||eeee||yyyyyyyyyyyyyy___________|||,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,|$,,,(hdh=   |^     ||Eeee||9  y  8 y  99|___________|||,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,|$,,||||||[[||  a   ||||||||99 y 88 y 999|55555555555|||,,,,,,,,,,,,,,,,,,,,,,,",
-        ",,,,,,,,,,,,,,,,,|$,,,(  h h  ||||||+||||||Q|||||||||||||||MMMMMMMMMMM|||,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,|$,,,(  h h  ||||||+||||||||||||||||||||||MMMMMMMMMMM|||,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,|$,,,(  6dd  2 7|; Y||||||||||||||||||||||mmmmmmmmmmm|||,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,|$,,,(B h  ^^|77|i  |,,,,,,,,,,,,,,,,,,|||||||||||||||||||,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,|||u|||||||||||||||||,,,,,,,,,,,,,,,,,,|||||||||||||||||,|,,,,,,,,,,,,,,,,,,,,,",
@@ -253,8 +253,7 @@
         "i": { "item": "cleaning", "chance": 50 },
         "B": [ { "item": "textbooks", "chance": 50 }, { "item": "manuals", "chance": 50 } ],
         "7": { "item": "SUS_office_filing_cabinet", "chance": 100, "repeat": [ 10, 30 ] }
-      },
-      "npcs": { "Q": { "class": "robofac_intercom" } }
+      }
     }
   },
   {
@@ -436,9 +435,9 @@
         "#|iii    |====[[||=====|===[=|===[|[==||==[=||2||2|||[=======||  |||=====||||||2|||2||||########",
         "#|||||||||      ^|  hd^|^   H|    |    |^   |f ff f|  d  dh dh|  |Y      Y^|;2Y  |  Y2;|########",
         "#########|dd     [   dh|h   t|h h |    | d  |f ff f|  dh d  d |  2  hhhhh ^|||  |||  |||########",
-        "#########| h     [  hh |6dd H|ddd |6dd |hd  |f ff f| Y       Y|  2  ttttt ^|;2Y i|i Y2;|########",
+        "#########| V     [  hh |6dd H|ddd |6dd |hd  |f ff f| Y       Y|  2  ttttt ^|;2Y i|i Y2;|########",
         "#########|dd   dd|Y    |h  YB|Yh  |Yhd |^  Y|f    f|  d  d  dh|  |  hhh h ^|||  i|i  |||########",
-        "#########|Yh    h|BBBB^|^^BBB|A6^^|    |BBBB|ffffff|  dh d  d |^^|Y   h  Y^|;2Y i|i Y2;|########",
+        "#########| X    S|BBBB^|^^BBB|A6^^|    |BBBB|ffffff|  dh d  d |^^|Y   h  Y^|;2Y i|i Y2;|########",
         "#########|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||########",
         "################################################################################################"
       ],
@@ -462,7 +461,10 @@
         "H": "f_armchair",
         "L": "f_locker",
         "f": "f_filing_cabinet",
-        "A": "f_indoor_flagpole"
+        "A": "f_indoor_flagpole",
+        "S": "f_chair",
+        "V": "f_chair",
+        "X": "f_chair"
       },
       "item": { "A": { "item": "american_flag" } },
       "items": {
@@ -492,7 +494,13 @@
         ]
       },
       "monster": { "T": { "monster": "mon_robofac_laserturret_mk1" } },
-      "npcs": { "G": { "class": "hub_security" }, "Q": { "class": "hub_security_head" } },
+      "npcs": {
+        "G": { "class": "hub_security" },
+        "Q": { "class": "hub_security_head" },
+        "S": { "class": "robofac_intercom_supply" },
+        "V": { "class": "robofac_intercom_day" },
+        "X": { "class": "robofac_intercom_night" }
+      },
       "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 80 ] } }
     }
   },

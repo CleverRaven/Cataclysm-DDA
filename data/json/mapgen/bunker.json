@@ -167,7 +167,7 @@
           { "item": "grenade_can_pa120_grenades_full", "chance": 10 }
         ],
         "U": { "item": "SUS_janitors_closet", "chance": 100 },
-        "L": { "item": "milspec_arsenal_group_only_ammo", "chance": 100 },
+        "L": { "item": "milspec_arsenal_group_only_ammo", "chance": 100, "repeat": [ 2, 4 ] },
         "G": { "item": "arsenal_armor_collection", "chance": 100 },
         "E": { "item": "guns_rifle_milspec", "chance": 100 }
       },

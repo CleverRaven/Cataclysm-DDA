@@ -351,7 +351,7 @@ bool is_day( const time_point &p )
     return sun_altitude( p ) >= sunrise_angle;
 }
 
-static bool is_twilight( const time_point &p )
+bool is_twilight( const time_point &p )
 {
     units::angle altitude = sun_altitude( p );
     return altitude >= civil_dawn && altitude <= sunrise_angle;
@@ -369,7 +369,7 @@ bool is_dawn( const time_point &p )
     return now < 12_hours && is_twilight( p );
 }
 
-static float moon_light_at( const time_point &p )
+float moon_light_at( const time_point &p )
 {
     int current_phase = static_cast<int>( get_moon_phase( p ) );
     if( current_phase > static_cast<int>( MOON_PHASE_MAX ) / 2 ) {
@@ -789,7 +789,8 @@ bool x_in_y( const time_duration &a, const time_duration &b )
     return ::x_in_y( to_turns<int>( a ), to_turns<int>( b ) );
 }
 
-const std::vector<std::pair<std::string, time_duration>> time_duration::units = { {
+constexpr const std::array<std::pair<std::string_view, time_duration>, 15> time_duration::units
+= { {
         { "turns", 1_turns },
         { "turn", 1_turns },
         { "t", 1_turns },

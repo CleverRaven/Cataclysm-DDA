@@ -425,7 +425,7 @@ I have a separate roof document at: [JSON_ROOF_MAPGEN.md](JSON_ROOF_MAPGEN.md).
 
 #### Setting overmap spawns using regional_map_settings.json
 
-[data/json/regional_map_settings.json](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/data/json/regional_map_settings.json)
+[data/json/region_settings/region_settings/regional_map_settings.json](/data/json/region_settings/region_settings/regional_map_settings.json)
 
 1. For city buildings and houses you'll scroll down to the `"city":` flag.
 2. Find your appropriate subtag, `"houses"` or `"shops"` usually.

@@ -277,6 +277,50 @@
   },
   {
     "type": "mapgen",
+    "nested_mapgen_id": "ls_deadend_template_rooms",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!vvvvvvvv......vvvvvvvv!",
+        "!vvvvvvvv......vvvvvvvv!",
+        "!vvvvv............vvvvv!",
+        "!vvvv...v......v...vvvv!",
+        "!vvv...vv......vv...vvv!",
+        "!vv...vvvv....vvvv...vv!",
+        "!v...vvvvvvvvvvvvvv...v!",
+        "!v...vvvvvvvvvvvvvv...v!",
+        "!v...vvvvvvvvvvvvvv...v!",
+        "!v....vvv.###.Lvvv....v!",
+        "!v........#>o.........v!",
+        "!v........###.........v!",
+        "!v........#<#.........v!",
+        "!vv.......+.+........vv!",
+        "!vvvvvvvv.###.Lvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!|vvvvvvvvvvvvvvvvvvvv|!",
+        "!||vvvvvvvvvvvvvvvvvv||!",
+        "!|||vvvvvvvvvvvvvvvv|||!",
+        "!!!!!!!!!!!!!!!!!!!!!!!!"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "terrain": {
+        ">": "t_nl_stairs_down",
+        "<": "t_nl_stairs_up_false",
+        "#": "t_nl_metal_wall",
+        "s": "t_nl_mist",
+        ".": "t_nl_metal_floor",
+        "+": "t_nl_door_c",
+        "o": "t_nl_archway"
+      },
+      "place_nested": [ { "chunks": [ [ "labyrinth_stairs_1_to_2_teleporter", 1 ] ], "x": 0, "y": 0, "z": -1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "ls_straight_2basic_rooms_offset",
     "//": "Two rooms full of general junk and monsters.  Set up for a door entry in the upper left and lower right.",
     "object": {
@@ -305,16 +349,75 @@
         "U_ßß_U          U____U",
         "UUṪṪUU          UUU_UU"
       ],
-      "palettes": [
-        "labyrinthine_base_palette",
-        {
-          "distribution": [
-            "labyrinthine_item_palette_utility_tier0",
-            "labyrinthine_item_palette_dining_tier0",
-            "labyrinthine_item_palette_bunk_room_tier0"
-          ]
-        }
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ],
+      "monsters": { "1": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_straight_2basic_rooms_offset",
+    "//": "Two rooms full of general junk and monsters.  Set up for a door entry in the upper left and lower right.",
+    "object": {
+      "mapgensize": [ 22, 22 ],
+      "rows": [
+        "c____L          L1111L",
+        "cUU___          c__cCc",
+        "c_____          ______",
+        "cUU___          cCc__c",
+        "c_____          ______",
+        "cUU___          c__cCc",
+        "||||F|          ______",
+        "UUUU_l          cCc__c",
+        "L____l          |||++|",
+        "U____l          L_____",
+        "UUUU_l          ßß__ßß",
+        "||||F|          ṪṪ__ṪṪ",
+        "cc___c          |||_ßß",
+        "ccC¢Cc          __|+||",
+        "Cc¢¢¢¢          _____ß",
+        "CCC¢¢¢          ßṪ___L",
+        "||||F|          ßṪ___ß",
+        "U____L          |||+||",
+        "U_((_U          LUU_UU",
+        "U_((_U          U____U",
+        "U_ßß_U          U____U",
+        "UUṪṪUU          UUU_UU"
       ],
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_dining_tier0" ],
+      "monsters": { "1": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_straight_2basic_rooms_offset",
+    "//": "Two rooms full of general junk and monsters.  Set up for a door entry in the upper left and lower right.",
+    "object": {
+      "mapgensize": [ 22, 22 ],
+      "rows": [
+        "c____L          L1111L",
+        "cUU___          c__cCc",
+        "c_____          ______",
+        "cUU___          cCc__c",
+        "c_____          ______",
+        "cUU___          c__cCc",
+        "||||F|          ______",
+        "UUUU_l          cCc__c",
+        "L____l          |||++|",
+        "U____l          L_____",
+        "UUUU_l          ßß__ßß",
+        "||||F|          ṪṪ__ṪṪ",
+        "cc___c          |||_ßß",
+        "ccC¢Cc          __|+||",
+        "Cc¢¢¢¢          _____ß",
+        "CCC¢¢¢          ßṪ___L",
+        "||||F|          ßṪ___ß",
+        "U____L          |||+||",
+        "U_((_U          LUU_UU",
+        "U_((_U          U____U",
+        "U_ßß_U          U____U",
+        "UUṪṪUU          UUU_UU"
+      ],
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_bunk_room_tier0" ],
       "monsters": { "1": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
     }
   },
@@ -395,6 +498,40 @@
   },
   {
     "type": "mapgen",
+    "nested_mapgen_id": "ls_straight_2basic_rooms_anydoor",
+    "//": "Two rooms full of general junk and monsters.  Set up so that any of the middle edge tiles can be an entrance.",
+    "object": {
+      "mapgensize": [ 22, 22 ],
+      "rows": [
+        "1L((L_          _L((L1",
+        "1_____          _____1",
+        "_ßßßß_          _ßßßß_",
+        "_ṪṪṪṪ_          _ṪṪṪṪ_",
+        "_ßßßß_          _ßßßß_",
+        "1_____          _____1",
+        "1_____          _____1",
+        "_ßßßß_          _ßßßß_",
+        "_ṪṪṪṪ_          _ṪṪṪṪ_",
+        "_ßßßß_          _ßßßß_",
+        "1_____          _____1",
+        "1_____          _____1",
+        "_ßßßß_          _ßßßß_",
+        "_ṪṪṪṪ_          _ṪṪṪṪ_",
+        "_ßßßß_          _ßßßß_",
+        "1_____          _____1",
+        "1_____          _____1",
+        "_ßßßß_          _ßßßß_",
+        "_ṪṪṪṪ_          _ṪṪṪṪ_",
+        "_ßßßß_          _ßßßß_",
+        "1_____          _____1",
+        "1L((L_          _L((L1"
+      ],
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ],
+      "monsters": { "1": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "ls_cornersquarerooms_22x22_rooms",
     "//": "Two rooms full of general junk and monsters.  Set up so that any of the middle edge tiles can be an entrance.",
     "object": {
@@ -428,6 +565,38 @@
   },
   {
     "type": "mapgen",
+    "nested_mapgen_id": "ls_cornersquarerooms_22x22_rooms",
+    "object": {
+      "mapgensize": [ 22, 22 ],
+      "rows": [
+        "________________ ßßlßß",
+        "________________ __l__",
+        "_L(ṪṪƤṪ__ṪƥṪṪṪ(_ __l__",
+        "________________ __l__",
+        "________________ _____",
+        "_(ṪṪƥṪṪ_ƤṪṪṪṪ(L_+____L",
+        "________________      ",
+        "________________      ",
+        "_L(ṪƤṪṪ__ṪṪƥṪṪ(_      ",
+        "________________      ",
+        "________________      ",
+        "_(ṪṪṪṪƥ__ṪṪƤṪ(L_      ",
+        "________________      ",
+        "________________      ",
+        "_L(ṪṪṪƤṪ_ṪṪṪƥṪ(_      ",
+        "________________      ",
+        "     +    ++     LUUUU",
+        "______          ϟ(___U",
+        "_UU__U          U____U",
+        "_UU__U         +_____U",
+        "_UU__U         +_____U",
+        "_____L          UUßṪßU"
+      ],
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ]
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "ls_teesquarerooms_22x22_rooms",
     "//": "Two rooms full of general junk and monsters.  Set up so that any of the middle edge tiles can be an entrance.",
     "object": {
@@ -457,6 +626,38 @@
         "_____L          L((((("
       ],
       "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_dining_tier0" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_teesquarerooms_22x22_rooms",
+    "object": {
+      "mapgensize": [ 22, 22 ],
+      "rows": [
+        "ϟ_________ϟ(ϟ________ϟ",
+        "_ßṪß__ßṪß_____ßṪß_ßṪß_",
+        "_ßṪß__ßṪß_____ßṪß_ßṪß_",
+        "_ßṪß__ßṪß_____ßṪß_ßṪß_",
+        "______________________",
+        "L__UUcCccCccCccCcUU__L",
+        "                      ",
+        "                      ",
+        "                      ",
+        "                      ",
+        "                      ",
+        "                      ",
+        "                      ",
+        "                      ",
+        "                      ",
+        "                      ",
+        "L_____          _____L",
+        "______          ______",
+        "__UU__          A____E",
+        "__UU__          Ṫ____M",
+        "__UU__          Ṫ____E",
+        "_____L          L((((("
+      ],
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ]
     }
   },
   {
@@ -523,6 +724,36 @@
   },
   {
     "type": "mapgen",
+    "nested_mapgen_id": "ls_bubblecell_5x5_room_Wentry",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "|||||",
+        "|W__ ",
+        "l___ ",
+        "|UUU ",
+        "|||||"
+      ],
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_bubblecell_5x5_room_Wentry",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "|||||",
+        "|WUU ",
+        "l___ ",
+        "|ULU ",
+        "|||||"
+      ],
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ]
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "ls_bubblecell_6x6_room_Eentry",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -581,6 +812,36 @@
         "|||||"
       ],
       "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_bunk_room_tier0" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_bubblecell_5x5_room_Eentry",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "|||||",
+        "  _W|",
+        " ___l",
+        " UUU|",
+        "|||||"
+      ],
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_bubblecell_5x5_room_Eentry",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "|||||",
+        "  LW|",
+        " ___l",
+        " UUU|",
+        "|||||"
+      ],
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ]
     }
   }
 ]

@@ -6,7 +6,6 @@
     "extend": {
       "items": [
         [ "bio_microgen", 5 ],
-        [ "bn_bio_solar", 10 ],
         [ "afs_bio_missiles", 10 ],
         [ "afs_bio_linguistic_coprocessor", 10 ],
         [ "afs_bio_dopamine_stimulators", 10 ],
@@ -24,14 +23,7 @@
     "id": "bionics_common",
     "type": "item_group",
     "copy-from": "bionics_common",
-    "extend": {
-      "items": [
-        [ "bn_bio_solar", 10 ],
-        [ "afs_bio_linguistic_coprocessor", 8 ],
-        [ "afs_bio_beavy_batteries", 20 ],
-        [ "bio_shield_weak", 25 ]
-      ]
-    }
+    "extend": { "items": [ [ "afs_bio_linguistic_coprocessor", 8 ], [ "afs_bio_beavy_batteries", 20 ], [ "bio_shield_weak", 25 ] ] }
   },
   {
     "id": "bionics_reaver",
@@ -152,7 +144,6 @@
       [ "bio_syringe", 2 ],
       [ "bio_jointservo", 10 ],
       [ "bio_soporific", 2 ],
-      [ "bn_bio_solar", 5 ],
       [ "bio_microgen", 2 ]
     ]
   },
@@ -161,7 +152,6 @@
     "type": "item_group",
     "items": [
       [ "bio_microgen", 3 ],
-      [ "bn_bio_solar", 15 ],
       [ "afs_bio_missiles", 10 ],
       [ "afs_bio_melee_counteraction", 10 ],
       [ "afs_bio_monowhip", 10 ],
@@ -180,7 +170,6 @@
     "copy-from": "nanofab_recipes",
     "extend": {
       "items": [
-        [ "bn_bio_solar", 15 ],
         [ "afs_bio_missiles", 10 ],
         [ "afs_bio_melee_counteraction", 10 ],
         [ "afs_bio_melee_optimization_unit", 10 ],

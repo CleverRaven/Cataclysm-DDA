@@ -2,7 +2,6 @@
   {
     "id": "bolas",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "weapons",
     "name": { "str": "bolas", "str_pl": "bolases" },
     "description": "Some ropes with weights, designed to tangle the legs of a target when thrown, usually at an animal.  Used by the Gauchos of Argentina.",
@@ -13,7 +12,6 @@
     "material": [ "cotton", "stone" ],
     "symbol": ";",
     "color": "blue",
-    "ammo_type": "thrown",
     "flags": [ "NOGIB", "TANGLE", "PRIMITIVE_RANGED_WEAPON" ]
   },
   {
@@ -49,7 +47,6 @@
   {
     "id": "net",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "weapons",
     "name": { "str": "net" },
     "description": "A mesh of string and weights, traditionally used to catch fish and to entangle opponents in combat.",
@@ -60,7 +57,6 @@
     "material": [ "cotton", "stone" ],
     "symbol": "H",
     "color": "white",
-    "ammo_type": "thrown",
     "flags": [ "NOGIB", "TANGLE", "PRIMITIVE_RANGED_WEAPON" ]
   },
   {
@@ -142,7 +138,6 @@
   {
     "id": "throwing_stick",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "weapons",
     "name": { "str": "throwing stick" },
     "description": "A stick carved into a shape suitable for throwing at a target.  It's not a boomerang, so don't expect it to return to your hand.",
@@ -153,7 +148,6 @@
     "material": [ "wood" ],
     "symbol": ";",
     "color": "brown",
-    "ammo_type": "thrown",
     "thrown_damage": [ { "damage_type": "bash", "amount": 2 }, { "damage_type": "stab", "amount": 6 } ],
     "flags": [ "NOGIB" ],
     "melee_damage": { "bash": 2, "stab": 7 }

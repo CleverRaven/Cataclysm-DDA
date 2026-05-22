@@ -98,7 +98,7 @@
       { "x": 1, "y": -1, "parts": [ "headlight", "roof" ] },
       { "x": 1, "y": -2, "parts": [ "frame#vertical_left", "windshield#nw", "roof" ] },
       { "x": 1, "y": 0, "parts": [ "frame#vertical", "windshield#horizontal_front" ] },
-      { "x": 1, "y": 0, "parts": [ "diesel_engine_i6", "roof", "alternator_truck" ] },
+      { "x": 1, "y": 0, "parts": [ "diesel_engine_inline4", "roof", "alternator_truck" ] },
       { "x": 1, "y": 0, "parts": [ "battery_car" ] },
       { "x": 1, "y": 1, "parts": [ "frame#vertical", "windshield#horizontal_front" ] },
       { "x": 1, "y": 1, "parts": [ "headlight", "roof" ] },

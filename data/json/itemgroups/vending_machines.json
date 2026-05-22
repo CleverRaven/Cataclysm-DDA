@@ -71,16 +71,7 @@
       [ "lemonade", 50 ],
       [ "energy_drink", 55 ],
       [ "energy_drink_atomic", 4 ],
-      { "group": "soda_in_small_container", "prob": 70 },
-      { "item": "cola", "prob": 70, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "rootbeer", "prob": 20, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "tonic_water", "prob": 5, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "creamsoda", "prob": 60, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "lemonlime", "prob": 60, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "orangesoda", "prob": 5, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "colamdew", "prob": 60, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "rootbeer", "prob": 65, "container-item": "bottle_plastic", "sealed": false },
-      [ "purple_drink", 45 ],
+      { "group": "soda_in_small_container", "prob": 450 },
       [ "herbal_tea", 30 ],
       [ "V8", 15 ]
     ]

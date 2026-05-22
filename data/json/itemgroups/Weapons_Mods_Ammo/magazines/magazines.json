@@ -4,19 +4,19 @@
     "id": "mags_milspec",
     "//": "Current military specification magazines.",
     "items": [
-      [ "m107a1mag", 5 ],
-      [ "tac50mag", 1 ],
-      [ "ai_338mag", 1 ],
-      [ "ai_338mag_10", 1 ],
-      [ "m2010mag", 15 ],
-      [ "scarhmag", 20 ],
-      [ "stanag30", 100 ],
-      [ "stanag30ranger", 10 ],
-      [ "hk417mag_20rd", 20 ],
-      [ "m14mag", 5 ],
-      [ "belt223", 20 ],
-      [ "p320mag_17rd_9x19mm", 30 ],
-      [ "p226mag_15rd_9x19mm", 1 ]
+      { "item": "m107a1mag", "prob": 5 },
+      { "item": "tac50mag", "prob": 1 },
+      { "item": "ai_338mag", "prob": 1 },
+      { "item": "ai_338mag_10", "prob": 1 },
+      { "item": "m2010mag", "prob": 15 },
+      { "item": "scarhmag", "prob": 20 },
+      { "item": "stanag30", "prob": 100 },
+      { "item": "stanag30ranger", "prob": 10 },
+      { "item": "hk417mag_20rd", "prob": 20 },
+      { "item": "m14mag", "prob": 5 },
+      { "item": "belt223", "prob": 20, "charges": [ 1, 200 ] },
+      { "item": "p320mag_17rd_9x19mm", "prob": 30 },
+      { "item": "p226mag_15rd_9x19mm", "prob": 1 }
     ]
   },
   {

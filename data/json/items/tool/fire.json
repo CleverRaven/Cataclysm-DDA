@@ -88,6 +88,7 @@
   {
     "id": "lighter",
     "type": "ITEM",
+    "ascii_picture": "lighter",
     "subtypes": [ "TOOL" ],
     "name": { "str": "lighter" },
     "description": "A disposable plastic lighter, capable of creating a small flame with the flick of a finger.  Allows you to use various drugs like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire.",
@@ -179,6 +180,7 @@
     "symbol": ",",
     "color": "blue",
     "charges_per_use": 1,
+    "qualities": [ [ "STRIKING_SURFACE", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "holster": true, "ammo_restriction": { "match": 20 } } ],
     "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
     "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
@@ -221,6 +223,7 @@
     "symbol": ",",
     "color": "blue",
     "charges_per_use": 1,
+    "qualities": [ [ "STRIKING_SURFACE", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "holster": true, "ammo_restriction": { "match": 32 } } ],
     "//COMMENT": "Open flame or effectively so. ~5 seconds to transfer flame assuming optimal conditions, a minute at worst.",
     "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
@@ -254,7 +257,6 @@
       {
         "target": "ref_lighter_on",
         "msg": "You flick the lighter.",
-        "active": true,
         "need_charges": 1,
         "need_charges_msg": "Nothing happens.",
         "menu_text": "Light up",
@@ -296,7 +298,6 @@
       {
         "target": "ref_lighter",
         "msg": "You extinguish the lighter.",
-        "active": false,
         "menu_text": "Extinguish",
         "type": "transform"
       }
@@ -342,10 +343,9 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 50 } } ],
     "use_action": {
       "target": "tinderbox_on",
+      "menu_text": { "str": "Light", "ctxt": "verb" },
       "msg": "You light the tinder.",
-      "active": true,
       "need_fire": 1,
-      "need_fire_msg": "You need a lighter or fire to light this.",
       "need_charges": 1,
       "need_charges_msg": "The ember carrier is out of tinder.",
       "type": "transform"
@@ -371,13 +371,7 @@
     "//COMMENT": "~30 seconds to get the tinder out and spreading under optimal conditions.",
     "use_action": [
       { "type": "firestarter", "moves": 3000, "moves_slow": 30000 },
-      {
-        "target": "tinderbox",
-        "msg": "The ember is extinguished.",
-        "active": false,
-        "menu_text": "Extinguish",
-        "type": "transform"
-      }
+      { "target": "tinderbox", "msg": "The ember is extinguished.", "menu_text": "Extinguish", "type": "transform" }
     ],
     "flags": [ "FIRESTARTER", "SPAWN_ACTIVE" ],
     "tool_ammo": [ "tinder" ]
@@ -411,6 +405,7 @@
   {
     "id": "small_lighter",
     "type": "ITEM",
+    "ascii_picture": "small_lighter",
     "subtypes": [ "TOOL" ],
     "name": { "str": "mini lighter" },
     "description": "A miniature disposable plastic lighter, capable of creating a small flame with the flick of a finger.  Allows you to use various drugs, like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire.",

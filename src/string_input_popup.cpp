@@ -22,6 +22,7 @@
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
+#include "sdltiles.h"
 #endif
 
 #if defined(__ANDROID__)
@@ -333,7 +334,8 @@ void string_input_popup::query( const bool loop, const bool draw_only )
 }
 
 template<typename T>
-std::optional<T> query_int_impl( string_input_popup &p, const bool loop, const bool draw_only )
+static std::optional<T> query_int_impl( string_input_popup &p, const bool loop,
+                                        const bool draw_only )
 {
     do {
         const std::string &queried_string = p.query_string( loop, draw_only );
@@ -488,7 +490,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         } else if( action == "TEXT.QUIT" ) {
 #if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                StopTextInput();
+                StopTextInput( get_sdl_window() );
             }
 #endif
             _text.clear();
@@ -561,11 +563,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
                 if( action == "TEXT.PASTE" ) {
 #if defined(TILES)
                     if( edit.empty() ) {
-                        char *const clip = SDL_GetClipboardText();
-                        if( clip ) {
-                            entered = clip;
-                            SDL_free( clip );
-                        }
+                        entered = GetClipboardText();
                     }
 #endif
                 } else if( action == "TEXT.INPUT_FROM_FILE" ) {
@@ -701,7 +699,6 @@ string_input_params string_input_params::parse_string_input_params( const JsonOb
     optional( jo, false, "title", p.title );
     optional( jo, false, "description", p.description );
     optional( jo, false, "default_text", p.default_text );
-    optional( jo, false, "width", p.width, 20 );
     optional( jo, false, "identifier", p.identifier );
     return p;
 }

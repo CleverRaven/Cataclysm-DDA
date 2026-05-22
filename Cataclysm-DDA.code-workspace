@@ -1,0 +1,92 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "tasks": {
+        "version": "2.0.0",
+        "tasks": [
+            {
+                "label": "MSBuild: Debug|x64",
+                "type": "shell",
+                "command": "${workspaceFolder}\\.vscode\\msbuild.ps1",
+                "args": ["-SolutionPath", "${workspaceFolder}\\msvc-full-features\\Cataclysm-vcpkg-static.sln", "-Configuration", "Debug"],
+                "group": "build",
+                "problemMatcher": "$msCompile"
+            },
+            {
+                "label": "MSBuild: Debug|x86",
+                "type": "shell",
+                "command": "${workspaceFolder}\\.vscode\\msbuild.ps1",
+                "args": ["-SolutionPath", "${workspaceFolder}\\msvc-full-features\\Cataclysm-vcpkg-static.sln", "-Configuration", "Debug", "-Platform", "x86"],
+                "group": "build",
+                "problemMatcher": "$msCompile"
+            },
+            {
+                "label": "MSBuild: Quick|x64",
+                "type": "shell",
+                "command": "${workspaceFolder}\\.vscode\\msbuild.ps1",
+                "args": ["-SolutionPath", "${workspaceFolder}\\msvc-full-features\\Cataclysm-vcpkg-static.sln", "-Configuration", "Quick"],
+                "group": "build",
+                "problemMatcher": "$msCompile"
+            },
+            {
+                "label": "MSBuild: Quick|x86",
+                "type": "shell",
+                "command": "${workspaceFolder}\\.vscode\\msbuild.ps1",
+                "args": ["-SolutionPath", "${workspaceFolder}\\msvc-full-features\\Cataclysm-vcpkg-static.sln", "-Configuration", "Quick", "-Platform", "x86"],
+                "group": "build",
+                "problemMatcher": "$msCompile"
+            },
+            {
+                "label": "MSBuild: Release|x64",
+                "type": "shell",
+                "command": "${workspaceFolder}\\.vscode\\msbuild.ps1",
+                "args": ["-SolutionPath", "${workspaceFolder}\\msvc-full-features\\Cataclysm-vcpkg-static.sln", "-Configuration", "Release"],
+                "group": "build",
+                "problemMatcher": "$msCompile"
+            },
+            {
+                "label": "MSBuild: Release|x86",
+                "type": "shell",
+                "command": "${workspaceFolder}\\.vscode\\msbuild.ps1",
+                "args": ["-SolutionPath", "${workspaceFolder}\\msvc-full-features\\Cataclysm-vcpkg-static.sln", "-Configuration", "Release", "-Platform", "x86"],
+                "group": "build",
+                "problemMatcher": "$msCompile"
+            },
+            {
+                "label": "MSBuild: Debug-NoTiles|x64",
+                "type": "shell",
+                "command": "${workspaceFolder}\\.vscode\\msbuild.ps1",
+                "args": ["-SolutionPath", "${workspaceFolder}\\msvc-full-features\\Cataclysm-vcpkg-static.sln", "-Configuration", "Debug-NoTiles"],
+                "group": "build",
+                "problemMatcher": "$msCompile"
+            },
+            {
+                "label": "MSBuild: Debug-NoTiles|x86",
+                "type": "shell",
+                "command": "${workspaceFolder}\\.vscode\\msbuild.ps1",
+                "args": ["-SolutionPath", "${workspaceFolder}\\msvc-full-features\\Cataclysm-vcpkg-static.sln", "-Configuration", "Debug-NoTiles", "-Platform", "x86"],
+                "group": "build",
+                "problemMatcher": "$msCompile"
+            },
+            {
+                "label": "MSBuild: Release-NoTiles|x64",
+                "type": "shell",
+                "command": "${workspaceFolder}\\.vscode\\msbuild.ps1",
+                "args": ["-SolutionPath", "${workspaceFolder}\\msvc-full-features\\Cataclysm-vcpkg-static.sln", "-Configuration", "Release-NoTiles"],
+                "group": "build",
+                "problemMatcher": "$msCompile"
+            },
+            {
+                "label": "MSBuild: Release-NoTiles|x86",
+                "type": "shell",
+                "command": "${workspaceFolder}\\.vscode\\msbuild.ps1",
+                "args": ["-SolutionPath", "${workspaceFolder}\\msvc-full-features\\Cataclysm-vcpkg-static.sln", "-Configuration", "Release-NoTiles", "-Platform", "x86"],
+                "group": "build",
+                "problemMatcher": "$msCompile"
+            }
+        ]
+    }
+}

@@ -164,6 +164,8 @@ static constexpr int MAX_GREEDY_SPEED_TPS = 10;
 static constexpr int MAX_AIR_SPEED_TPS = 16;
 static constexpr int VMIPH_PER_TPS = static_cast<int>( vehicles::vmiph_per_tile );
 
+namespace
+{
 /**
  * Data type representing a vehicle orientation, which corresponds to an angle that is
  * a multiple of TURNING_INCREMENT degrees, measured from the x axis.
@@ -201,10 +203,13 @@ struct navigation_step {
     orientation steering_dir;
     int target_speed_tps;
 };
+} // namespace
 
 /**
  * The address of a navigation node, i.e. a position and orientation on the nav map.
  */
+namespace
+{
 // NOLINTNEXTLINE(cata-xy)
 struct node_address {
     int16_t x;
@@ -217,7 +222,10 @@ struct node_address {
         return {x, y};
     }
 };
+} // namespace
 
+namespace
+{
 struct node_address_hasher {
     std::size_t operator()( const node_address &addr ) const {
         std::uint64_t val = addr.x;
@@ -238,7 +246,10 @@ struct scored_address {
         return score > other.score;
     }
 };
+} // namespace
 
+namespace
+{
 /*
  * Data structure representing a navigation node that is known to be reachable. Contains
  * information about the path to get there and enough information about the state of
@@ -282,7 +293,10 @@ struct point_queue {
         }
     }
 };
+} // namespace
 
+namespace
+{
 /**
  * Data structure that caches all the data needed in order to navigate from one
  * OMT to the next OMT along the path to destination. Main components:
@@ -376,6 +390,7 @@ enum class collision_check_result : int {
     close_obstacle,
     slow_down
 };
+} // namespace
 
 class vehicle::autodrive_controller
 {
@@ -1442,12 +1457,18 @@ autodrive_result vehicle::do_autodrive( map &here, Character &driver )
     const tripoint_abs_ms veh_pos = pos_abs();
     const tripoint_abs_omt veh_omt = project_to<coords::omt>( veh_pos );
     std::vector<tripoint_abs_omt> &omt_path = driver.omt_path;
+    // following code finds the last overmap path tile matched to the vehicle coordinates
+    // usually it's just the last in the path vector, but we may skip it is we drive fast and cross the tile in a corner
     const auto veh_on_path = std::find_if( omt_path.rbegin(),
     omt_path.rend(), [xy = veh_omt.xy()]( const auto & path ) {
         return path.xy() == xy;
     } );
     if( veh_on_path != omt_path.rend() ) {
         omt_path.erase( ( veh_on_path + 1 ).base(), omt_path.end() );
+        // it removes XY duplicates spanned across mupltiple Z levels
+        while( !omt_path.empty() && veh_omt.xy() == omt_path.back().xy() ) {
+            omt_path.pop_back();
+        }
     }
     if( omt_path.empty() ) {
         stop_autodriving( false );

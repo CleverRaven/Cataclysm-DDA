@@ -180,6 +180,12 @@
   },
   {
     "type": "dream",
+    "messages": [ "You dream you are sleeping.  How odd?", "You sleep so well.  You must have been tired." ],
+    "category": "INTERSTICE",
+    "strength": 1
+  },
+  {
+    "type": "dream",
     "messages": [
       "You have a strange dream about crabs.",
       "Your dreams give you a strange shelled feeling.",
@@ -428,6 +434,12 @@
   },
   {
     "type": "dream",
+    "messages": [ "You dream you fly across a field of stars.", "You dream of multicolor, strange, distant places." ],
+    "category": "INTERSTICE",
+    "strength": 2
+  },
+  {
+    "type": "dream",
     "messages": [
       "You are terrified by a dream of becoming a lizard hybrid.",
       "You have a disturbingly lifelike dream of living as a lizard."
@@ -661,6 +673,15 @@
       "Your vivid dream of living as a crustacean frightens you."
     ],
     "category": "CRUSTACEAN",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "The contours of some unknown knowledge tickles at your mind.  It hurts.",
+      "You have a vivid nightmare of a mirror image of yourself, blank, screaming silence."
+    ],
+    "category": "INTERSTICE",
     "strength": 3
   },
   {
@@ -916,6 +937,12 @@
       "The seething masses attempt to wall non-Mycus away from the Marloss.  We will adapt and defeat them."
     ],
     "category": "MYCUS",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [ "Sleeping is tiresome.", "Existence is tiresome.", "You bask in your forbidden knowledge." ],
+    "category": "INTERSTICE",
     "strength": 4
   }
 ]

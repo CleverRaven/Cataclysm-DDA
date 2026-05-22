@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <exception>
 #include <iterator>
+#include <list>
 #include <memory>
 #include <optional>
 #include <set>
@@ -36,6 +37,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "sdl_gamepad.h"
 
 enum class kb_menu_status {
     remove, reset, add, add_global, execute, show, filter
@@ -52,6 +54,7 @@ class keybindings_ui : public cataimgui::window
         const nc_color h_unbound_key = h_light_red;
         input_context *ctxt;
     public:
+        cataimgui::scroll keybinds_scroll = cataimgui::scroll::none;
         // current status: adding/removing/reseting/executing/showing keybindings
         kb_menu_status status = kb_menu_status::show, last_status = kb_menu_status::execute;
 
@@ -77,6 +80,8 @@ class keybindings_ui : public cataimgui::window
 
 static const std::string default_context_id( "default" );
 
+namespace
+{
 template <class T1, class T2>
 struct ContainsPredicate {
     const T1 &container;
@@ -88,6 +93,7 @@ struct ContainsPredicate {
         return std::find( container.begin(), container.end(), c ) != container.end();
     }
 };
+} // namespace
 
 bool input_context::action_uses_input( const std::string &action_id,
                                        const input_event &event ) const
@@ -154,9 +160,43 @@ const std::string &input_context::input_to_action( const input_event &inp ) cons
     return CATA_ERROR;
 }
 
-#if defined(__ANDROID__)
-std::list<input_context *> input_context::input_context_stack;
+input_context *input_context_stack_impl::reap()
+{
+    input_context *ret = nullptr;
+    while( !stack.empty() ) {
+        std::shared_ptr<input_context_handle> handle = stack.back().lock();
+        if( handle ) {
+            ret = handle->cxtx;
+            break;
+        }
+        stack.pop_back();
+    }
+    return ret;
+}
 
+input_context *input_context_stack_impl::back()
+{
+    return reap();
+}
+
+void input_context_stack_impl::pop()
+{
+    if( reap() ) {
+        stack.pop_back();
+    }
+}
+
+void input_context_stack_impl::push( std::shared_ptr<input_context_handle> const &context )
+{
+    reap();
+    stack.push_back( context );
+}
+
+#if defined(__ANDROID__) || defined(TILES)
+input_context_stack_impl input_context::input_context_stack;
+#endif
+
+#if defined(__ANDROID__)
 void input_context::register_manual_key( manual_key mk )
 {
     // Prevent duplicates
@@ -367,7 +407,7 @@ std::string input_context::get_desc(
 {
     if( action_descriptor == "ANY_INPUT" ) {
         //~ keybinding description for anykey
-        return string_format( separate_fmt, pgettext( "keybinding", "any" ), text );
+        return string_format( separate_fmt.translated(), pgettext( "keybinding", "any" ), text );
     }
 
     const auto &events = inp_mngr.get_input_for_action( action_descriptor, category );
@@ -383,7 +423,7 @@ std::string input_context::get_desc(
                     const std::string key = utf32_to_utf8( ch );
                     const int pos = ci_find_substr( text, key );
                     if( pos >= 0 ) {
-                        return string_format( inline_fmt, text.substr( 0, pos ),
+                        return string_format( inline_fmt.translated(), text.substr( 0, pos ),
                                               key, text.substr( pos + key.size() ) );
                     }
                 }
@@ -393,9 +433,10 @@ std::string input_context::get_desc(
 
     if( na ) {
         //~ keybinding description for unbound or non-applicable keys
-        return string_format( separate_fmt, pgettext( "keybinding", "n/a" ), text );
+        return string_format( separate_fmt.translated(), pgettext( "keybinding", "n/a" ), text );
     } else {
-        return string_format( separate_fmt, get_desc( action_descriptor, 1, evt_filter ), text );
+        return string_format( separate_fmt.translated(), get_desc( action_descriptor, 1, evt_filter ),
+                              text );
     }
 }
 
@@ -629,9 +670,19 @@ keybindings_ui::keybindings_ui( bool permit_execute_action,
 {
     this->ctxt = parent;
 
-    legend.push_back( colorize( _( "Unbound keys" ), unbound_key ) );
-    legend.push_back( colorize( _( "Keybinding active only on this screen" ), local_key ) );
-    legend.push_back( colorize( _( "Keybinding active globally" ), global_key ) );
+    // FIXME? These categories aren't translated. It's still useful to display them, even if the viewer can't understand them.
+    if( parent->category == "DEFAULTMODE" ) {
+        legend.emplace_back( _( "Currently showing keys for the main game." ) );
+    } else {
+        legend.push_back( string_format( _( "Currently showing keys ONLY for the last opened window: %s!" ),
+                                         parent->category ) );
+    }
+
+    legend.push_back( colorize( _( "Unbound keys are colored like this." ), unbound_key ) );
+    legend.push_back( colorize( _( "Keybinding active only on this screen are colored like this." ),
+                                local_key ) );
+    legend.push_back( colorize( _( "Keybinding active globally are colored like this." ),
+                                global_key ) );
     legend.push_back( colorize( _( "* User customized" ), global_key ) );
     if( permit_execute_action ) {
         legend.push_back( string_format(
@@ -690,7 +741,6 @@ void keybindings_ui::draw_controls()
         ImGui::SetNextWindowFocus();
     }
     if( ImGui::BeginTable( "KB_KEYS", 4, ImGuiTableFlags_ScrollY ) ) {
-
         float one_char_width = ImGui::CalcTextSize( "M" ).x;
         ImGui::TableSetupColumn( "##invlet",
                                  ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoSort, one_char_width );
@@ -702,6 +752,7 @@ void keybindings_ui::draw_controls()
         ImGui::TableSetupColumn( "Assigned Key(s)",
                                  ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoSort, keys_col_width );
         float row_height = ImGui::GetTextLineHeightWithSpacing();
+        cataimgui::set_scroll( keybinds_scroll );
         ImGuiListClipper clipper;
         clipper.Begin( filtered_registered_actions.size(), row_height );
         while( clipper.Step() ) {
@@ -929,7 +980,9 @@ bool input_context::action_add( const std::string &name, const std::string &acti
         return false;
     }
 
-    if( !resolve_conflicts( { new_event }, action_id ) ) {
+    std::vector<input_event> new_events;
+    new_events.push_back( new_event );
+    if( !resolve_conflicts( new_events, action_id ) ) {
         return false;
     }
 
@@ -965,6 +1018,8 @@ action_id input_context::display_menu( bool permit_execute_action )
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "TEXT.INPUT_FROM_FILE" );
+    ctxt.register_action( "UILIST.UP" );
+    ctxt.register_action( "UILIST.DOWN" );
     if( permit_execute_action ) {
         ctxt.register_action( "EXECUTE" );
     }
@@ -975,9 +1030,7 @@ action_id input_context::display_menu( bool permit_execute_action )
         // avoiding inception!
         ctxt.register_action( "HELP_KEYBINDINGS" );
     }
-#if defined(WIN32) || defined(TILES)
     ctxt.set_timeout( 50 );
-#endif
 
     // has the user changed something?
     bool changed = false;
@@ -1056,8 +1109,18 @@ action_id input_context::display_menu( bool permit_execute_action )
             if( !kb_menu.filtered_registered_actions.empty() ) {
                 kb_menu.status = kb_menu_status::execute;
             }
-        } else if( action == "PAGE_UP" || action == "PAGE_DOWN" || action == "HOME" || action == "END" ) {
-            continue; // do nothing - on tiles version for some reason this counts as pressing various alphabet keys
+        } else if( action == "PAGE_UP" ) {
+            kb_menu.keybinds_scroll = cataimgui::scroll::page_up;
+        } else if( action == "PAGE_DOWN" ) {
+            kb_menu.keybinds_scroll = cataimgui::scroll::page_down;
+        } else if( action == "HOME" ) {
+            kb_menu.keybinds_scroll = cataimgui::scroll::begin;
+        } else if( action == "END" ) {
+            kb_menu.keybinds_scroll = cataimgui::scroll::end;
+        } else if( action == "UILIST.UP" ) {
+            kb_menu.keybinds_scroll = cataimgui::scroll::line_up;
+        } else if( action == "UILIST.DOWN" ) {
+            kb_menu.keybinds_scroll = cataimgui::scroll::line_down;
         } else if( action == "TEXT.CLEAR" ) {
             kb_menu.clear_filter();
             kb_menu.filtered_registered_actions = filter_strings_by_phrase( org_registered_actions,
@@ -1141,11 +1204,6 @@ input_event input_context::get_raw_input()
 
 #if defined(TUI)
 // Also specify that we don't have a gamepad plugged in.
-bool gamepad_available()
-{
-    return false;
-}
-
 std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses::window
         &capture_win, const point &offset, const bool center_cursor ) const
 {
@@ -1343,7 +1401,11 @@ bool input_context::is_event_type_enabled( const input_event_t type ) const
         case input_event_t::keyboard_code:
             return input_manager::actual_keyboard_mode( preferred_keyboard_mode ) == keyboard_mode::keycode;
         case input_event_t::gamepad:
-            return gamepad_available();
+#if defined(TILES)
+            return gamepad::is_active();
+#else
+            return false;
+#endif
         case input_event_t::mouse:
             return true;
     }

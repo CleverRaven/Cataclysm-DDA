@@ -54,6 +54,18 @@
     "effect": [ { "npc_add_effect": "perk_hit_marker", "duration": "2 seconds" } ]
   },
   {
+    "id": "EOC_PERK_ON_MOVEMENT",
+    "//": "These are all the EOCs that trigger on movement.",
+    "type": "effect_on_condition",
+    "effect": [ { "run_eocs": [ "EOC_PERK_MOMENTUM_UPDATE", "EOC_PERK_POISE_MOUNTAIN_MOVE" ] } ]
+  },
+  {
+    "id": "EOC_PERK_ON_MOVEMENT_AUTOMATIC",
+    "//": "These are aditionally triggered only automatic movements, ex: Flowing dodge's retreat.",
+    "type": "effect_on_condition",
+    "effect": [ { "run_eocs": [ "EOC_PERK_POISE_FOOTWORK" ] } ]
+  },
+  {
     "id": "EOC_EXECUTION_EXTA_EFFECTS",
     "type": "effect_on_condition",
     "effect": [
@@ -84,12 +96,11 @@
     "type": "effect_on_condition",
     "effect": [
       { "run_eocs": "EOC_PERK_TRY_STEP_CLOSER", "condition": { "math": [ "u_done_step_closer != 1" ] }, "iterations": 20 },
-      { "run_eocs": "EOC_PERK_MOMENTUM_UPDATE" },
       { "math": [ "u_done_step_closer = 0" ] }
     ]
   },
   {
-    "id": "EOC_PERK_DODGE_RETREAT_MANUAL",
+    "id": "EOC_PERK_DODGE_RETREAT",
     "type": "effect_on_condition",
     "condition": { "and": [ { "u_has_flag": "MELEE_PERK_MOVING_DODGE" } ] },
     "effect": [
@@ -144,7 +155,10 @@
             "id": "_VALID_STEP_CLOSER",
             "condition": { "math": [ "distance(_original_pos, _attempt ) > 1" ] },
             "effect": [ { "u_teleport": { "context_val": "original_pos" } } ],
-            "false_effect": [ { "math": [ "u_done_step_closer = 1" ] } ]
+            "false_effect": [
+              { "run_eocs": [ "EOC_PERK_ON_MOVEMENT", "EOC_PERK_ON_MOVEMENT_AUTOMATIC" ] },
+              { "math": [ "u_done_step_closer = 1" ] }
+            ]
           }
         ]
       }
@@ -162,7 +176,7 @@
           {
             "id": "_VALID_RETREAT",
             "condition": { "math": [ "u_monsters_nearby('radius': 1) == 0" ] },
-            "effect": [ { "run_eocs": [ "EOC_PERK_MOMENTUM_UPDATE" ] } ],
+            "effect": [ { "run_eocs": [ "EOC_PERK_ON_MOVEMENT", "EOC_PERK_ON_MOVEMENT_AUTOMATIC" ] } ],
             "false_effect": [ { "u_teleport": { "context_val": "original_pos" } } ]
           }
         ]

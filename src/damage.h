@@ -170,6 +170,9 @@ struct damage_instance {
     // calculates damage taking barrel length into consideration for the amount
     damage_instance di_considering_length( units::length barrel_length ) const;
 
+    // returns true if any of damage units contain barrel damage
+    bool has_damage_by_barrel() const;
+
     std::vector<damage_unit>::iterator begin();
     std::vector<damage_unit>::const_iterator begin() const;
     std::vector<damage_unit>::iterator end();
@@ -212,6 +215,7 @@ class damage_over_time_data
 
 struct dealt_damage_instance {
     std::map<damage_type_id, int> dealt_dams;
+    // todo: make a map or vector
     bodypart_id bp_hit;
     std::string wp_hit;
 
@@ -219,6 +223,7 @@ struct dealt_damage_instance {
     void set_damage( const damage_type_id &dt, int amount );
     int type_damage( const damage_type_id &dt ) const;
     int total_damage() const;
+    dealt_damage_instance &operator+=( const dealt_damage_instance &rhs );
 };
 
 struct resistances {

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "hollow_one_bow",
+    "looks_like": "longbow",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "symbol": "(",
+    "color": "yellow",
+    "name": { "str": "hollow short bow" },
+    "description": "The bows carried by the hollow one hunters.",
+    "material": [ "wood" ],
+    "flags": [
+      "FIRE_TWOHAND",
+      "RELOAD_AND_SHOOT",
+      "PRIMITIVE_RANGED_WEAPON",
+      "BELTED",
+      "WATER_FRIENDLY",
+      "SHEATH_BOW",
+      "WATERPROOF_GUN",
+      "NEVER_JAMS"
+    ],
+    "ammo_effects": [ "NEVER_MISFIRES" ],
+    "skill": "archery",
+    "min_strength": 8,
+    "ammo": [ "arrow" ],
+    "weight": "340 g",
+    "volume": "1500 ml",
+    "longest_side": "132 cm",
+    "reload_noise_volume": 3,
+    "loudness": 6,
+    "ranged_damage": { "damage_type": "stab", "amount": 4 },
+    "range": 10,
+    "dispersion": 1000,
+    "sight_dispersion": 3000,
+    "durability": 6,
+    "clip_size": 1,
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "arrow rest", 1 ] ],
+    "reload": 50,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "melee_damage": { "bash": 6 }
+  }
+]

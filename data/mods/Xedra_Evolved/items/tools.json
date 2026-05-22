@@ -227,7 +227,6 @@
     "volume": "5000ml",
     "price": "20 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -5,
     "material": [ "stone" ],
     "looks_like": "glass_tube_small",
     "symbol": "N",

@@ -9,6 +9,7 @@
 #include <string>
 #include <tuple>
 #include <unordered_set>
+#include <vector>
 
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"

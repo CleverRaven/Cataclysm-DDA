@@ -1,0 +1,27 @@
+[
+  {
+    "type": "faction",
+    "id": "sky_island_traders",
+    "name": "The Merchants",
+    "likes_u": 30,
+    "respects_u": 30,
+    "known_by_u": false,
+    "mon_faction": "sky_island_traders",
+    "size": 5,
+    "power": 5,
+    "fac_food_supply": [ [ 0, { "calories": 2700000000, "vitamins": { "iron": 86400, "calcium": 86400, "vitC": 86400 } } ] ],
+    "wealth": 75000000,
+    "relations": {
+      "no_faction": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      }
+    },
+    "description": "A group of traders following the inscrutable whims of whatever powers are behind this island."
+  }
+]

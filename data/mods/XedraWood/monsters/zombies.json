@@ -1,0 +1,190 @@
+[
+  {
+    "id": "mon_zombie",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_INNAWOOD_UPGRADE" },
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_crawler",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_crawler",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_CRAWLER_INNAWOOD_UPGRADE" },
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_rot",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_rot",
+    "upgrades": { "half_life": 43, "into": "mon_devourer" },
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_tough",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_tough",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_INNAWOOD_UPGRADE" },
+    "death_drops": "hollow_warrior_death_drops"
+  },
+  {
+    "id": "mon_devourer",
+    "type": "MONSTER",
+    "copy-from": "mon_devourer",
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_acidic",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_acidic",
+    "upgrades": { "half_life": 30, "into": "mon_zombie_spitter" },
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_spitter",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_spitter",
+    "upgrades": { "half_life": 42, "into": "mon_zombie_corrosive" },
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_corrosive",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_corrosive",
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_gasbag",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_gasbag",
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_crawler_pupa_decoy",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_crawler_pupa_decoy",
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_crawler_pupa",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_crawler_pupa",
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_grabber",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_grabber",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_GRAB_INNAWOOD" },
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_grappler",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_grappler",
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_hollow",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_hollow",
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_hulk",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_hulk",
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_hunter",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_hunter",
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_mancroc",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_mancroc",
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_regenerating",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_regenerating",
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_biter",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_biter",
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_predator",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_predator",
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_screecher",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_screecher",
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_shady",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_shady",
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_shrieker",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_shrieker",
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_smoker",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_smoker",
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_smoker_brute",
+    "type": "MONSTER",
+    "copy-from": "mon_smoker_brute",
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_winged",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_winged",
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_zombie_brute_winged",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_brute_winged",
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_skeleton",
+    "type": "MONSTER",
+    "copy-from": "mon_skeleton",
+    "upgrades": { "half_life": 32, "into_group": "GROUP_SKELETON_UPGRADE_INNAWOOD" },
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_skeleton_brute",
+    "type": "MONSTER",
+    "copy-from": "mon_skeleton_brute",
+    "death_drops": "hollow_one_death_drops_zombie"
+  },
+  {
+    "id": "mon_skeleton_hulk",
+    "type": "MONSTER",
+    "copy-from": "mon_skeleton_hulk",
+    "death_drops": "hollow_one_death_drops_zombie"
+  }
+]

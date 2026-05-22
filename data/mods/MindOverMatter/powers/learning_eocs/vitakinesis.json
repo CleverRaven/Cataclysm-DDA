@@ -384,6 +384,45 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_NO_NEED_FOR_SLEEP",
+    "recurrence": [
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "VITAKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
+            {
+              "and": [
+                { "math": [ "u_spell_level('vita_sleeping_trance') >= 10" ] },
+                { "math": [ "u_spell_level('vita_healing_trance') >= 6" ] }
+              ]
+            }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('vita_no_need_for_sleep') <= 0" ] },
+        { "not": { "u_know_recipe": "practice_vita_no_need_for_sleep" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_no_need_for_sleep') >= 1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
+      { "u_learn_recipe": "practice_vita_no_need_for_sleep" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could put parts of your brain to sleep while leaving the rest of it awake, allowing you to remain conscious while sitting gaining the benefits of rest, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VITAKIN_LEARNING_BANISH_ILLNESS",
     "recurrence": [
       { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },

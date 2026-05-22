@@ -79,7 +79,7 @@ enum monster_horde_attraction {
 
 class monster : public Creature
 {
-        friend class editmap;
+        friend class editmap_ui;
     public:
         monster();
         explicit monster( const mtype_id &id );
@@ -115,7 +115,6 @@ class monster : public Creature
         void try_reproduce();
         void try_biosignature();
         void refill_udders();
-        void digest_food();
         void spawn( const tripoint_bub_ms &p );
         void spawn( const tripoint_abs_ms &loc );
         std::vector<material_id> get_absorb_material() const;
@@ -344,7 +343,9 @@ class monster : public Creature
          * bash the designated target.  **/
         std::map<damage_type_id, int> group_bash_skill( const tripoint_bub_ms &target );
 
-        void stumble();
+        void stumble_base( bool is_voluntary );
+        void stumble_voluntary();
+        void stumble_involuntary();
         void knock_back_to( const tripoint_bub_ms &to ) override;
 
         // Combat
@@ -473,7 +474,7 @@ class monster : public Creature
         void reset_stats() override;
 
         void die( map *here, Creature *killer ) override; //this is the die from Creature, it calls kill_mo
-        void drop_items_on_death( map *here, item *corpse );
+        void drop_items_on_death( map *here, item *corpse ) const;
         void spawn_dissectables_on_death( item *corpse ) const; //spawn dissectable CBMs into CORPSE pocket
         //spawn monster's inventory without killing it
         void generate_inventory( bool disableDrops = true );
@@ -559,16 +560,6 @@ class monster : public Creature
         int amount_eaten = 0;
         void recheck_fed_status();
     public:
-        void set_amount_eaten( int new_amount );
-        void mod_amount_eaten( int amount_to_add );
-        int get_amount_eaten() const;
-        // Truncates to integer for ease of use
-        int get_stomach_fullness_percent() const;
-        // Whether the monster has eaten enough to reproduce/make milk/get by normally
-        bool has_eaten_enough() const;
-        // Whether their stomach is completely full or more
-        // TODO: Find out why can we even exceed stomach size??
-        bool has_fully_eaten() const;
         // Our faction (species, for most monsters)
         mfaction_id faction;
         // If we're related to a mission
@@ -651,7 +642,6 @@ class monster : public Creature
         bool biosignatures = false;
         std::optional<time_point> biosig_timer;
         time_point udder_timer;
-        time_point stomach_timer;
         monster_horde_attraction horde_attraction = MHA_NULL;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint_bub_ms> path;
@@ -688,6 +678,8 @@ class monster : public Creature
         void load( const JsonObject &data, const tripoint_abs_sm &submap_loc );
 
         void on_move( const tripoint_abs_ms &old_pos ) override;
+        void on_effect_int_change( const efftype_id &eid, int intensity,
+                                   const bodypart_id &bp ) override;
         /** Processes monster-specific effects of an effect. */
         void process_one_effect( effect &it, bool is_new ) override;
 };

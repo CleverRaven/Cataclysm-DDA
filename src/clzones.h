@@ -135,6 +135,7 @@ class plot_options : public zone_options, public mark_option
     private:
         itype_id mark;
         itype_id seed;
+        itype_id fertilizer;
 
         enum query_seed_result {
             canceled,
@@ -143,6 +144,7 @@ class plot_options : public zone_options, public mark_option
         };
 
         query_seed_result query_seed();
+        bool query_fertilizer();
 
     public:
         std::string get_mark() const override {
@@ -150,6 +152,9 @@ class plot_options : public zone_options, public mark_option
         }
         itype_id get_seed() const {
             return seed;
+        }
+        itype_id get_fertilizer() const {
+            return fertilizer;
         }
 
         bool has_options() const override {
@@ -349,6 +354,39 @@ class unload_options : public zone_options, public mark_option
         void deserialize( const JsonObject &jo_zone ) override;
 };
 
+class study_zone_options : public zone_options
+{
+    private:
+        // skill preferences. Key is NPC name, value is set of skills.
+        std::map<std::string, std::set<skill_id>> npc_skill_preferences;
+
+        enum query_study_result {
+            canceled,
+            successful,
+            changed,
+        };
+
+        query_study_result query_study_skills();
+
+    public:
+        // get skill preferences for a specific NPC, return nullptr if NPC should read all books.
+        const std::set<skill_id> *get_skill_preferences( const std::string &npc_name ) const;
+
+        bool has_options() const override {
+            return true;
+        }
+
+        bool query_at_creation() override;
+        bool query() override;
+
+        std::string get_zone_name_suggestion() const override;
+
+        std::vector<std::pair<std::string, std::string>> get_descriptions() const override;
+
+        void serialize( JsonOut &json ) const override;
+        void deserialize( const JsonObject &jo_zone ) override;
+};
+
 /**
  * These are zones the player can designate.
  */
@@ -400,6 +438,7 @@ class zone_data
             faction = _faction;
             invert = _invert;
             enabled = _enabled;
+            temporarily_disabled = false;
             is_vehicle = false;
             is_displayed = _is_displayed;
 
@@ -627,11 +666,16 @@ class zone_manager
         void cache_vzones( map *pmap = nullptr );
         bool has( const zone_type_id &type, const tripoint_abs_ms &where,
                   const faction_id &fac = your_fac ) const;
+        bool has_terrain( const zone_type_id &type, const tripoint_abs_ms &where,
+                          const faction_id &fac = your_fac ) const;
+        bool has_vehicle( const zone_type_id &type, const tripoint_abs_ms &where,
+                          const faction_id &fac = your_fac ) const;
         bool has_near( const zone_type_id &type, const tripoint_abs_ms &where,
                        int range = MAX_DISTANCE, const faction_id &fac = your_fac ) const;
         bool has_loot_dest_near( const tripoint_abs_ms &where ) const;
         bool custom_loot_has( const tripoint_abs_ms &where, const item *it,
-                              const zone_type_id &ztype, const faction_id &fac = your_fac ) const;
+                              const zone_type_id &ztype, const faction_id &fac = your_fac,
+                              std::optional<bool> from_vehicle = std::nullopt ) const;
         std::vector<zone_data const *> get_near_zones( const zone_type_id &type,
                 const tripoint_abs_ms &where, int range,
                 const faction_id &fac = your_fac ) const;
@@ -665,6 +709,10 @@ class zone_manager
         std::vector<ref_const_zone_data> get_zones( const faction_id &fac = your_fac ) const;
 
         bool has_personal_zones() const;
+        // Returns true if at least one enabled non-personal zone of the
+        // given type and faction contains the point.
+        bool has_nonpersonal( const zone_type_id &type, const tripoint_abs_ms &where,
+                              const faction_id &fac = your_fac ) const;
 
         bool save_zones( std::string const &suffix = {} );
         bool save_world_zones( std::string const &suffix = {} );

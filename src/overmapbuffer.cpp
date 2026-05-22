@@ -3,12 +3,14 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
+#include <filesystem>
 #include <iterator>
 #include <limits>
 #include <map>
 #include <optional>
 #include <string>
 #include <tuple>
+#include <type_traits>
 
 #include "basecamp.h"
 #include "calendar.h"
@@ -22,10 +24,12 @@
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "filesystem.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "horde_entity.h"
 #include "horde_map.h"
 #include "imgui/imgui.h"
+#include "json.h"
 #include "line.h"
 #include "map.h"
 #include "mapgendata.h"
@@ -43,13 +47,13 @@
 #include "overmap_types.h"
 #include "path_info.h"
 #include "point.h"
-#include "regional_settings.h"
 #include "rng.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
 #include "text.h"
 #include "translations.h"
 #include "vehicle.h"
+#include "worldfactory.h"
 
 static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" );
 static const oter_type_str_id oter_type_bridgehead_ramp( "bridgehead_ramp" );
@@ -251,6 +255,7 @@ void overmapbuffer::save()
 void overmapbuffer::reset()
 {
     overmaps.clear();
+    global_state.highway_intersections.clear();
     last_requested_overmap = nullptr;
 }
 
@@ -266,8 +271,8 @@ void overmap_global_state::clear()
 {
     placed_unique_specials.clear();
     unique_special_count.clear();
+    unique_special_decks.clear();
     highway_intersections.clear();
-    highway_global_offset = point_abs_om::invalid;
     overmap_count = 0;
     major_river_count = 0;
 }
@@ -318,6 +323,12 @@ void overmapbuffer::add_extra( const tripoint_abs_omt &p, const map_extra_id &id
     om_loc.om->add_extra( om_loc.local, id );
 }
 
+void overmapbuffer::add_extra_note( const tripoint_abs_omt &p, const bool force_add )
+{
+    overmap_with_local_coords om_loc = get_om_global( p );
+    om_loc.om->add_extra_note( om_loc.local, force_add );
+}
+
 void overmapbuffer::delete_extra( const tripoint_abs_omt &p )
 {
     if( has_extra( p ) ) {
@@ -340,8 +351,23 @@ overmap *overmapbuffer::get_existing( const point_abs_om &p )
         // checked in a previous call of this function).
         return nullptr;
     }
-    assure_dir_exist( PATH_INFO::current_dimension_save_path() );
-    if( file_exist( terrain_filename( p ) ) ) {
+
+    cata_path path;
+
+    const std::string terfilename = overmapbuffer::terrain_filename( p );
+    const std::filesystem::path terfilename_path = std::filesystem::u8path( terfilename );
+
+    if( world_generator->active_world->has_compression_enabled() ) {
+        assure_dir_exist( PATH_INFO::current_dimension_save_path() / zzip_overmap_directory );
+        path = PATH_INFO::current_dimension_save_path() / zzip_overmap_directory / terfilename_path
+               +
+               zzip_suffix;
+    } else {
+        assure_dir_exist( PATH_INFO::current_dimension_save_path() );
+        path = PATH_INFO::current_dimension_save_path() / terfilename_path;
+    }
+
+    if( file_exist( path ) ) {
         // File exists, load it normally (the get function
         // indirectly call overmap::open to do so).
         return &get( p );
@@ -495,11 +521,11 @@ bool overmapbuffer::has_horde( const tripoint_abs_omt &p )
     return false;
 }
 
-int overmapbuffer::get_horde_size( const tripoint_abs_omt &p )
+int overmapbuffer::get_horde_size( const tripoint_abs_omt &p, int filter )
 {
     int horde_size = 0;
     std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> hordes = overmap_buffer.hordes_at(
-                p );
+                p, filter );
     for( std::unordered_map<tripoint_abs_ms, horde_entity> *horde_group : hordes ) {
         horde_size += horde_group->size();
     }
@@ -901,6 +927,12 @@ std::optional<mapgen_arguments> *overmapbuffer::mapgen_args( const tripoint_abs_
     return om_loc.om->mapgen_args( om_loc.local );
 }
 
+std::vector<pp_resolved_generator> *overmapbuffer::pp_decisions( const tripoint_abs_omt &p )
+{
+    const overmap_with_local_coords om_loc = get_om_global( p );
+    return om_loc.om->pp_decisions( om_loc.local );
+}
+
 std::string *overmapbuffer::join_used_at( const std::pair<tripoint_abs_omt, cube_direction> &p )
 {
     const overmap_with_local_coords om_loc = get_om_global( p.first );
@@ -969,6 +1001,7 @@ overmap_path_params overmap_path_params::for_player()
     ret.set_cost( oter_travel_cost_type::road, 24 );
     ret.set_cost( oter_travel_cost_type::dirt_road, 24 );
     ret.set_cost( oter_travel_cost_type::field, 36 );
+    ret.set_cost( oter_travel_cost_type::crop_field, 54 );
     ret.set_cost( oter_travel_cost_type::trail, 43 );
     ret.set_cost( oter_travel_cost_type::shore, 48 );
     ret.set_cost( oter_travel_cost_type::forest, 72 );
@@ -999,6 +1032,8 @@ overmap_path_params overmap_path_params::for_land_vehicle( float offroad_coeff, 
     ret.set_cost( oter_travel_cost_type::road, 8 ); // limited by vehicle autodrive speed
     const int field_cost = can_offroad ? std::lround( 12 / std::min( 1.0f, offroad_coeff ) ) : -1;
     ret.set_cost( oter_travel_cost_type::field, field_cost );
+    ret.set_cost( oter_travel_cost_type::crop_field,
+                  can_offroad ? std::lround( 36 / std::min( 1.0f, offroad_coeff ) ) : -1 );
     ret.set_cost( oter_travel_cost_type::dirt_road, field_cost );
     ret.set_cost( oter_travel_cost_type::trail,
                   ( can_offroad && tiny ) ? field_cost + 8 : -1 );
@@ -1025,6 +1060,33 @@ overmap_path_params overmap_path_params::for_aircraft()
     overmap_path_params ret;
     ret.set_cost( oter_travel_cost_type::air, 8 ); // limited by vehicle autodrive speed
     ret.allow_diagonal = false;
+    return ret;
+}
+
+// For the for-loop in the below function.
+using enum_traits_int = std::underlying_type_t<oter_travel_cost_type>;
+static constexpr enum_traits_int max = static_cast<enum_traits_int>
+                                       ( enum_traits<oter_travel_cost_type>::last );
+overmap_path_params overmap_path_params::flatten_pathfinding_costs( overmap_path_params orig )
+{
+    overmap_path_params ret = std::move( orig );
+
+    for( enum_traits_int i = 0; i < max; ++i ) {
+        // In order to make a more direct path we take the logarithm (base 2) of the existing travel cost.
+        // This allows the pathfinding to consider most passable terrains as 'close enough', while still
+        // avoiding any really bad routes, and never pathing into impassable terrains.
+
+        oter_travel_cost_type checked = static_cast<oter_travel_cost_type>( i );
+
+        if( ret.travel_cost_per_type.find( checked ) == ret.travel_cost_per_type.end() ) {
+            continue; // Value doesn't already exist in the map, skip.
+        }
+        if( ret.travel_cost_per_type[checked] < 1 ) {
+            continue; // Impassable, skip.
+        }
+        ret.travel_cost_per_type[checked] = log2( ret.travel_cost_per_type[checked] );
+    }
+
     return ret;
 }
 
@@ -1069,7 +1131,7 @@ pf::simple_path<tripoint_abs_omt> overmapbuffer::get_travel_path(
 
     constexpr int radius = 4 * OMAPX; // radius of search in OMTs = 4 overmaps
     const pf::simple_path<tripoint_abs_omt> &path = pf::find_overmap_path( src, dest, radius, estimate,
-            g->display_om_pathfinding_progress, std::nullopt, params.allow_diagonal );
+            game::display_om_pathfinding_progress, std::nullopt, params.allow_diagonal );
     return path;
 }
 
@@ -1776,62 +1838,63 @@ city_reference overmapbuffer::closest_known_city( const tripoint_abs_sm &center 
     return city_reference::invalid;
 }
 
-interhighway_node overmapbuffer::get_overmap_highway_intersection_point(
-    const point_abs_om &p )
+void overmap_feature_grid::clear()
 {
-    return global_state.highway_intersections[p.to_string_writable()];
+    grid_origin = point_abs_om::invalid;
+    feature_grid.clear();
 }
 
-void overmapbuffer::set_overmap_highway_intersection_point( const point_abs_om &p,
-        const interhighway_node &intersection )
+void overmap_feature_grid::set_grid_origin( const point_abs_om &p )
 {
-    global_state.highway_intersections[p.to_string_writable()] = intersection;
+    grid_origin = p;
 }
 
-
-void overmapbuffer::set_highway_global_offset()
+point_abs_om overmap_feature_grid::get_grid_origin() const
 {
-    //this only happens exactly once, upon generation of the first overmap
-    //TODO: there should be an intersection around the avatar's start location, not 0,0
-    global_state.highway_global_offset = point_abs_om();
+    return grid_origin;
 }
 
-point_abs_om overmapbuffer::get_highway_global_offset() const
+std::vector<overmap_feature_grid_node>
+overmap_feature_grid::find_grid_adjacent_features( const point_abs_om &generated_om_pos )
 {
-    return global_state.highway_global_offset;
-}
-
-std::vector<interhighway_node>
-overmapbuffer::find_highway_adjacent_intersections( const point_abs_om &generated_om_pos )
-{
-    const region_settings_highway &highway_settings = get_default_settings(
-                generated_om_pos ).get_settings_highway();
-    const int c_seperation = highway_settings.grid_column_seperation;
-    const int r_seperation = highway_settings.grid_row_seperation;
+    const int c_separation = column_separation;
+    const int r_separation = row_separation;
 
     //generate adjacent intersection points
-    std::vector<interhighway_node> adjacent_intersections;
+    std::vector<overmap_feature_grid_node> adjacent_features;
     for( const point &cardinal : four_adjacent_offsets ) {
-        const point_abs_om p( generated_om_pos.x() + cardinal.x * c_seperation,
-                              generated_om_pos.y() + cardinal.y * r_seperation );
-        if( !highway_intersection_exists( p ) ) {
-            generate_highway_intersection_point( p );
+        const point_abs_om p( generated_om_pos.x() + cardinal.x * c_separation,
+                              generated_om_pos.y() + cardinal.y * r_separation );
+        if( !feature_point_exists( p ) ) {
+            generate_feature_point( p );
         }
-        adjacent_intersections.emplace_back( overmap_buffer.get_overmap_highway_intersection_point( p ) );
+        adjacent_features.emplace_back( get_feature_point( p ) );
     }
 
     //store adjacencies in calling intersection point
-    interhighway_node this_intersection =
-        overmap_buffer.get_overmap_highway_intersection_point( generated_om_pos );
+    overmap_feature_grid_node this_feature = get_feature_point( generated_om_pos );
     const int adjacencies = four_adjacent_offsets.size();
     for( int i = 0; i < adjacencies; i++ ) {
-        if( this_intersection.adjacent_intersections[i].is_invalid() ) {
-            this_intersection.adjacent_intersections[i] = adjacent_intersections[i].grid_pos;
+        if( this_feature.get_adjacent_pos( i ).is_invalid() ) {
+            this_feature.set_adjacent_pos( adjacent_features[i].get_grid_pos(), i );
         }
     }
-    overmap_buffer.set_overmap_highway_intersection_point( generated_om_pos, this_intersection );
+    set_feature_point( generated_om_pos, this_feature );
 
-    return adjacent_intersections;
+    return adjacent_features;
+}
+
+void overmap_feature_grid::serialize( JsonOut &out ) const
+{
+    out.start_object();
+    out.member( "overmap_highway_offset", grid_origin );
+    out.member( "overmap_highway_intersections", feature_grid );
+    out.end_object();
+}
+void overmap_feature_grid::deserialize( const JsonObject &obj )
+{
+    obj.read( "overmap_highway_offset", grid_origin );
+    obj.read( "overmap_highway_intersections", feature_grid );
 }
 
 int overmapbuffer::get_unique_special_count( const overmap_special_id &id )
@@ -1854,55 +1917,80 @@ void overmapbuffer::inc_major_river_count()
     global_state.major_river_count++;
 }
 
-bool overmapbuffer::highway_intersection_exists( const point_abs_om &intersection_om ) const
+unique_special_deck_state &overmapbuffer::get_deck_state(
+    const overmap_special_id &id, int successes, int deck_size )
 {
-    return global_state.highway_intersections.find( intersection_om.to_string_writable() ) !=
-           global_state.highway_intersections.end();
+    auto [it, inserted] = global_state.unique_special_decks.try_emplace( id );
+    unique_special_deck_state &deck = it->second;
+    // Reset if: new entry, constraints changed (mod update), or saved
+    // state has invalid invariants (corrupt save, manual edit, etc.).
+    if( inserted || deck.successes != successes || deck.deck_size != deck_size ||
+        deck.cards_remain <= 0 || deck.successes_remain > deck.cards_remain ||
+        deck.successes_remain > successes || deck.to_place < 0 ) {
+        deck.successes = successes;
+        deck.deck_size = deck_size;
+        deck.successes_remain = successes;
+        deck.cards_remain = deck_size;
+        if( inserted ) {
+            deck.to_place = 0;
+        }
+        // On constraint change, keep to_place -- those draws already happened.
+    }
+    return deck;
 }
 
-void overmapbuffer::generate_highway_intersection_point( const point_abs_om &generated_om_pos )
+void overmapbuffer::consume_deck_placement( const overmap_special_id &id )
 {
-    const region_settings_highway &highway_settings = get_default_settings(
-                generated_om_pos ).get_settings_highway();
-    const int intersection_max_radius = highway_settings.intersection_max_radius;
-    if( !highway_intersection_exists( generated_om_pos ) ) {
-        interhighway_node new_intersection( generated_om_pos );
-        new_intersection.generate_offset( intersection_max_radius );
-        add_msg_debug( debugmode::DF_HIGHWAY, "Generated intersection at overmap %s.",
-                       new_intersection.offset_pos.to_string_writable() );
-        global_state.highway_intersections.insert( { generated_om_pos.to_string_writable(), new_intersection } );
+    auto it = global_state.unique_special_decks.find( id );
+    if( it != global_state.unique_special_decks.end() && it->second.to_place > 0 ) {
+        it->second.to_place--;
     }
 }
 
-std::vector<point_abs_om> overmapbuffer::find_highway_intersection_bounds( const point_abs_om
+bool overmap_feature_grid::feature_point_exists( const point_abs_om &intersection_om ) const
+{
+    return feature_grid.find( intersection_om.to_string_writable() ) !=
+           feature_grid.end();
+}
+
+void overmap_feature_grid::generate_feature_point( const point_abs_om &generated_om_pos )
+{
+    if( !feature_point_exists( generated_om_pos ) ) {
+        overmap_feature_grid_node new_intersection( generated_om_pos );
+        generate_offset( new_intersection );
+        add_msg_debug( debugmode::DF_HIGHWAY, "Generated intersection at overmap %s.",
+                       new_intersection.get_offset_pos().to_string_writable() );
+        feature_grid.insert( { generated_om_pos.to_string_writable(), new_intersection } );
+    }
+}
+
+std::vector<point_abs_om> overmap_feature_grid::find_feature_point_bounds( const point_abs_om
         & generated_om_pos )
 {
-    const region_settings_highway &highway_settings = get_default_settings(
-                generated_om_pos ).get_settings_highway();
-    const int c_seperation = highway_settings.grid_column_seperation;
-    const int r_seperation = highway_settings.grid_row_seperation;
+    const int c_separation = column_separation;
+    const int r_separation = row_separation;
 
-    const point_abs_om center = global_state.highway_global_offset;
+    const point_abs_om center = grid_origin;
     const point_rel_om diff = generated_om_pos - center;
 
-    const double col_diff = diff.x() / static_cast<double>( c_seperation );
-    const double row_diff = diff.y() / static_cast<double>( r_seperation );
+    const double col_diff = diff.x() / static_cast<double>( c_separation );
+    const double row_diff = diff.y() / static_cast<double>( r_separation );
     const int colsign = std::copysign( 1.0, col_diff );
     const int rowsign = std::copysign( 1.0, row_diff );
-    const bool col_aligned = diff.x() % c_seperation == 0;
-    const bool row_aligned = diff.y() % r_seperation == 0;
+    const bool col_aligned = diff.x() % c_separation == 0;
+    const bool row_aligned = diff.y() % r_separation == 0;
     const int col = static_cast<int>( col_diff ) + ( colsign == -1 && !col_aligned ? -1 : 0 );
     const int row = static_cast<int>( row_diff ) + ( rowsign == -1 && !row_aligned ? -1 : 0 );
 
-    point_abs_om top_left( center.x() + col * c_seperation, center.y() + row * r_seperation );
-    std::vector<point_abs_om> bounds = { top_left + point_rel_om( c_seperation, r_seperation ),
-                                         top_left + point_rel_om( 0, r_seperation ),
-                                         top_left + point_rel_om( c_seperation, 0 ),
+    point_abs_om top_left( center.x() + col * c_separation, center.y() + row * r_separation );
+    std::vector<point_abs_om> bounds = { top_left + point_rel_om( c_separation, r_separation ),
+                                         top_left + point_rel_om( 0, r_separation ),
+                                         top_left + point_rel_om( c_separation, 0 ),
                                          top_left
                                        };
     for( const point_abs_om &p : bounds ) {
-        if( !highway_intersection_exists( p ) ) {
-            generate_highway_intersection_point( p );
+        if( !feature_point_exists( p ) ) {
+            generate_feature_point( p );
         }
     }
     return bounds;
@@ -2064,29 +2152,47 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal
         return;
     }
     map &here = get_map();
+
+    struct queued_node {
+        tripoint_abs_ms pos;
+        horde_map::node_type node;
+    };
+    std::vector<queued_node> to_spawn;
     for( std::unordered_map<tripoint_abs_ms, horde_entity> *monster_tree : monster_bucket ) {
-        for( std::pair<const tripoint_abs_ms, horde_entity> &monster_entry : *monster_tree ) {
-            const tripoint_bub_ms local = here.get_bub( monster_entry.first );
-            // The monster position must be local to the main map when added to the game
-            if( !spawn_nonlocal ) {
-                cata_assert( here.inbounds( local ) );
-            }
-            // TODO: This needs to verify that the monster can be placed, otherwise it will fail with a debugmsg in creature_tracker::add()
-            monster *placed = nullptr;
-            if( monster_entry.second.monster_data ) {
-                placed = g->place_critter_around( make_shared_fast<monster>
-                                                  ( *monster_entry.second.monster_data ),
-                                                  local, 1, true );
-                // TODO: make sure entity data such as destination is synched
-            } else {
-                placed = g->place_critter_around( monster_entry.second.type_id->id, local, 1 );
-            }
-            if( placed ) {
-                placed->on_load();
-            }
+        for( auto it = monster_tree->begin(); it != monster_tree->end(); ) {
+            auto cur = it++;
+            tripoint_abs_ms pos = cur->first;
+            to_spawn.push_back( queued_node{ pos, monster_tree->extract( cur ) } );
         }
     }
     om.hordes.clear_chunk( current_submap_loc );
+
+    // Deterministic order, preserving bucket sequence as tie-break.
+    std::stable_sort( to_spawn.begin(), to_spawn.end(),
+    []( const queued_node & a, const queued_node & b ) {
+        return a.pos < b.pos;
+    } );
+
+    for( queued_node &entry : to_spawn ) {
+        const tripoint_bub_ms local = here.get_bub( entry.pos );
+        if( !spawn_nonlocal ) {
+            cata_assert( here.inbounds( local ) );
+        }
+        monster *placed = nullptr;
+        if( entry.node.mapped().monster_data ) {
+            placed = g->place_critter_around( make_shared_fast<monster>(
+                                                  *entry.node.mapped().monster_data ),
+                                              local, 1, true );
+            // TODO: make sure entity data such as destination is synched
+        } else {
+            placed = g->place_critter_around( entry.node.mapped().type_id->id, local, 1 );
+        }
+        if( placed ) {
+            placed->on_load();
+        } else {
+            om.hordes.insert( std::move( entry.node ) );
+        }
+    }
 }
 
 void overmapbuffer::spawn_mongroup( const tripoint_abs_sm &p, const mongroup_id &type, int count )
@@ -2122,15 +2228,14 @@ horde_entity *overmapbuffer::entity_at( const tripoint_abs_ms &p )
 }
 
 std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> overmapbuffer::hordes_at(
-    const tripoint_abs_omt &p )
+    const tripoint_abs_omt &p, int filter )
 {
     point_abs_om omp;
     tripoint_om_omt omt;
     std::tie( omp, omt ) = project_remain<coords::om>( p );
     overmap &om = get( omp );
-    return om.hordes_at( omt );
+    return om.hordes_at( omt, filter );
 }
-
 
 horde_entity &overmapbuffer::spawn_monster( const tripoint_abs_ms &p, mtype_id id )
 {
@@ -2278,7 +2383,7 @@ bool overmapbuffer::place_special( const overmap_special_id &special_id,
         specials.push_back( &special );
         overmap_special_batch batch( om->pos(), specials );
 
-        // Filter the sectors to those which are in in range of our center point, so
+        // Filter the sectors to those which are in range of our center point, so
         // that we don't end up creating specials in areas that are outside of our radius,
         // since the whole point is to create a special that is within the parameters.
         std::vector<point_om_omt> sector_points_in_range;

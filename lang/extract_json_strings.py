@@ -56,7 +56,13 @@ obsolete_paths = [os.path.normpath(i) for i in options.obsolete_paths] \
 def extract_all_from_dir(json_dir):
     """Extract strings from every json file in the specified directory,
     recursing into any subdirectories."""
-    allfiles = sorted(os.listdir(json_dir))
+
+    if not os.path.exists(json_dir):
+        print(f">> No such directory: '{json_dir}'")
+        print(">> Consider removing it from 'lang/update_pot.sh'")
+        return
+
+    allfiles = sorted(os.listdir(json_dir), key=str.lower)
     dirs = []
     skiplist = [os.path.normpath(".gitkeep")]
     for f in allfiles:

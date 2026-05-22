@@ -1,0 +1,256 @@
+[
+  {
+    "type": "item_group",
+    "id": "clams_in_can",
+    "subtype": "distribution",
+    "entries": [ { "item": "can_clams", "entry-wrapper": "can_food", "count": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "salmon_in_can",
+    "subtype": "distribution",
+    "entries": [ { "item": "can_salmon", "entry-wrapper": "can_food", "count": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tuna_in_can",
+    "subtype": "distribution",
+    "entries": [ { "item": "can_tuna", "entry-wrapper": "can_food", "count": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sardine_in_can",
+    "subtype": "distribution",
+    "entries": [ { "item": "can_sardine", "entry-wrapper": "can_food", "count": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "lobster_in_can",
+    "subtype": "distribution",
+    "entries": [ { "item": "lobster_canned", "entry-wrapper": "can_food", "count": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "fish_in_can",
+    "subtype": "distribution",
+    "entries": [ { "item": "fish_canned", "entry-wrapper": "can_food", "count": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "fruits_in_can",
+    "subtype": "distribution",
+    "entries": [ { "item": "apple_canned", "entry-wrapper": "can_food", "count": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chili_in_can",
+    "subtype": "distribution",
+    "entries": [ { "item": "chili", "entry-wrapper": "can_medium", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "beans_in_can",
+    "subtype": "distribution",
+    "entries": [ { "item": "can_beans", "entry-wrapper": "can_medium", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tomatoes_in_can",
+    "subtype": "distribution",
+    "entries": [ { "item": "can_tomato", "entry-wrapper": "can_medium", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pork_beans_in_can",
+    "subtype": "distribution",
+    "entries": [ { "item": "pork_beans", "entry-wrapper": "can_medium", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chicken_in_can",
+    "subtype": "distribution",
+    "entries": [ { "item": "can_chicken", "entry-wrapper": "can_medium", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "corn_in_can",
+    "subtype": "distribution",
+    "entries": [ { "item": "can_corn", "entry-wrapper": "can_medium", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "spam_in_can",
+    "subtype": "distribution",
+    "entries": [ { "item": "can_spam", "entry-wrapper": "can_medium", "count": 6 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pineapple_in_can",
+    "subtype": "distribution",
+    "entries": [ { "item": "can_pineapple", "entry-wrapper": "can_medium", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "coconut_milk_in_can",
+    "subtype": "distribution",
+    "entries": [ { "item": "can_coconut", "entry-wrapper": "can_medium" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chowder_in_can",
+    "subtype": "distribution",
+    "entries": [ { "item": "can_chowder", "entry-wrapper": "can_medium", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ravioli_in_can",
+    "subtype": "distribution",
+    "entries": [ { "item": "ravioli", "entry-wrapper": "can_medium", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "salsa_jar_glass_sealed_1_inf",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "salsa", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "veggy_pickled_jar_glass_sealed_1_inf",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "veggy_pickled", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "veggy_pickled_jar_glass_sealed_2",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "veggy_pickled", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sauerkraut_jar_glass_sealed_1_inf",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "sauerkraut", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sauerkraut_jar_glass_sealed_2",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "sauerkraut", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "meat_pickled_jar_glass_sealed_1_inf",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "meat_pickled", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "meat_pickled_jar_glass_sealed_2",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "meat_pickled", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "offal_pickled_jar_glass_sealed_2",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "offal_pickled", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "fish_pickled_jar_glass_sealed_1_inf",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "fish_pickled", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "fish_pickled_jar_glass_sealed_2",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "fish_pickled", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "can_herring_jar_glass_sealed_2",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "can_herring", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pickle_jar_glass_sealed_1_inf",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "pickle", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pickle_jar_glass_sealed_2",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "pickle", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "meat_canned_jar_3l_glass_sealed_12",
+    "subtype": "collection",
+    "container-item": "jar_3l_glass_sealed",
+    "entries": [ { "item": "meat_canned", "container-item": "null", "count": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "confit_meat_jar_3l_glass_sealed_12",
+    "subtype": "collection",
+    "container-item": "jar_3l_glass_sealed",
+    "entries": [ { "item": "confit_meat", "container-item": "null", "count": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "veggy_canned_jar_3l_glass_sealed_12",
+    "subtype": "collection",
+    "container-item": "jar_3l_glass_sealed",
+    "entries": [ { "item": "veggy_canned", "container-item": "null", "count": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "fruits_in_3l_jar",
+    "subtype": "distribution",
+    "entries": [ { "item": "apple_canned", "entry-wrapper": "jar_3l_glass_sealed", "count": 24 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "can_tomato_jar_3l_glass_sealed_24",
+    "subtype": "collection",
+    "container-item": "jar_3l_glass_sealed",
+    "entries": [ { "item": "can_tomato", "container-item": "null", "count": 24 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "fish_pickled_jar_3l_glass_sealed_12",
+    "subtype": "collection",
+    "container-item": "jar_3l_glass_sealed",
+    "entries": [ { "item": "fish_pickled", "container-item": "null", "count": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "meat_pickled_jar_3l_glass_sealed_12",
+    "subtype": "collection",
+    "container-item": "jar_3l_glass_sealed",
+    "entries": [ { "item": "meat_pickled", "container-item": "null", "count": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "veggy_pickled_jar_3l_glass_sealed_12",
+    "subtype": "collection",
+    "container-item": "jar_3l_glass_sealed",
+    "entries": [ { "item": "veggy_pickled", "container-item": "null", "count": 12 } ]
+  }
+]

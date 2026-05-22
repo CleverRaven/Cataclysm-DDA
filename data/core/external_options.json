@@ -137,7 +137,7 @@
     "name": "WOUND_CHANCE",
     "//": "Probability to get a wound from taking damage.  0.25 means 25% to get a wound.",
     "stype": "float",
-    "value": 0.25
+    "value": 1.0
   },
   {
     "type": "EXTERNAL_OPTION",
@@ -487,7 +487,7 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "ETERNAL_SEASON",
-    "//": "If true, keep the initial season for ever.",
+    "//": "If true, keep the initial season forever.",
     "stub": true,
     "stype": "bool",
     "value": false
@@ -499,5 +499,26 @@
     "stub": true,
     "stype": "string_input",
     "value": "normal"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "HIGHWAY_GRID_ROW_SEPARATION",
+    "//": "The distance between east-west highways in overmaps, with the whole overmap gap being `grid_row_separation` - 1.",
+    "stype": "int",
+    "value": 8
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "HIGHWAY_GRID_COLUMN_SEPARATION",
+    "//": "The distance between north-south highways in overmaps, with the whole overmap gap being `grid_column_separation` - 1.",
+    "stype": "int",
+    "value": 10
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "HIGHWAY_GRID_VARIANCE",
+    "//": "The maximum number of overmaps that an intersection can deviate from its gridded position. Cannot be greater than or equal to row / 2 or column / 2, may cause bugs for > row / 4, column / 4.",
+    "stype": "int",
+    "value": 2
   }
 ]

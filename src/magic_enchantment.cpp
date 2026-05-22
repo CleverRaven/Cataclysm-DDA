@@ -27,6 +27,8 @@
 #include "units.h"
 #include "vehicle.h"
 
+static const bodypart_str_id body_part_all( "all" );
+
 namespace io
 {
     // *INDENT-OFF*
@@ -96,9 +98,11 @@ namespace io
             case enchant_vals::mod::MELEE_DAMAGE: return "MELEE_DAMAGE";
             case enchant_vals::mod::MELEE_RANGE_MODIFIER: return "MELEE_RANGE_MODIFIER";
             case enchant_vals::mod::MELEE_TO_HIT: return "MELEE_TO_HIT";
+            case enchant_vals::mod::SMASH_BONUS: return "SMASH_BONUS";
             case enchant_vals::mod::RANGED_DAMAGE: return "RANGED_DAMAGE";
 			case enchant_vals::mod::RANGED_ARMOR_PENETRATION: return "RANGED_ARMOR_PENETRATION";
             case enchant_vals::mod::DODGE_CHANCE: return "DODGE_CHANCE";
+            case enchant_vals::mod::FREE_DODGES: return "FREE_DODGES";
             case enchant_vals::mod::BONUS_BLOCK: return "BONUS_BLOCK";
             case enchant_vals::mod::BONUS_DODGE: return "BONUS_DODGE";
             case enchant_vals::mod::ATTACK_NOISE: return "ATTACK_NOISE";
@@ -199,9 +203,9 @@ bool string_id<enchantment>::is_valid() const
 }
 
 template<typename TKey>
-void load_add_and_multiply_dbl_or_var( const JsonObject &jo, std::string_view array_key,
-                                       const std::string &type_key, std::map<TKey, dbl_or_var> &add_map,
-                                       std::map<TKey, dbl_or_var> &mult_map )
+static void load_add_and_multiply_dbl_or_var( const JsonObject &jo, std::string_view array_key,
+        const std::string &type_key, std::map<TKey, dbl_or_var> &add_map,
+        std::map<TKey, dbl_or_var> &mult_map )
 {
     if( jo.has_array( array_key ) ) {
         for( const JsonObject value_obj : jo.get_array( array_key ) ) {
@@ -235,8 +239,8 @@ double enchant_cache::get_value( const TKey &value, const std::map<TKey, double>
 }
 
 template<typename TKey>
-void load_add_and_multiply( const JsonObject &jo, std::string_view array_key,
-                            const std::string &type_key, std::map<TKey, double> &add_map, std::map<TKey, double> &mult_map )
+static void load_add_and_multiply( const JsonObject &jo, std::string_view array_key,
+                                   const std::string &type_key, std::map<TKey, double> &add_map, std::map<TKey, double> &mult_map )
 {
     if( jo.has_array( array_key ) ) {
         for( const JsonObject value_obj : jo.get_array( array_key ) ) {
@@ -422,6 +426,7 @@ bool enchantment::is_monster_relevant() const
         if( pair_values.first == enchant_vals::mod::ARMOR_ALL ||
             pair_values.first == enchant_vals::mod::REGEN_HP ||
             pair_values.first == enchant_vals::mod::VISION_RANGE ||
+            pair_values.first == enchant_vals::mod::RANGE_DODGE ||
             pair_values.first == enchant_vals::mod::SPEED ||
             pair_values.first == enchant_vals::mod::LUMINATION ||
             pair_values.first == enchant_vals::mod::TOTAL_WEIGHT ) {
@@ -435,6 +440,7 @@ bool enchantment::is_monster_relevant() const
         if( pair_values.first == enchant_vals::mod::ARMOR_ALL ||
             pair_values.first == enchant_vals::mod::REGEN_HP ||
             pair_values.first == enchant_vals::mod::VISION_RANGE ||
+            pair_values.first == enchant_vals::mod::RANGE_DODGE ||
             pair_values.first == enchant_vals::mod::SPEED ||
             pair_values.first == enchant_vals::mod::LUMINATION ||
             pair_values.first == enchant_vals::mod::TOTAL_WEIGHT ) {
@@ -629,7 +635,7 @@ void enchant_cache::load( const JsonObject &jo, std::string_view,
             try {
                 const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
                                                 ( value_obj.get_string( "value" ) );
-                const int add = value_obj.get_int( "add", 0 );
+                const double add = value_obj.get_float( "add", 0 );
                 if( add != 0 ) {
                     values_add.emplace( value, add );
                 }
@@ -1051,7 +1057,7 @@ void enchant_cache::set_has( enchantment::has value )
     active_conditions.first = value;
 }
 
-void enchant_cache::add_value_add( enchant_vals::mod value, int add_value )
+void enchant_cache::add_value_add( enchant_vals::mod value, float add_value )
 {
     values_add[value] = add_value;
 }
@@ -1157,7 +1163,8 @@ double enchant_cache::get_skill_value_add( const skill_id &value ) const
 
 int enchant_cache::get_encumbrance_add( const bodypart_str_id &value ) const
 {
-    return get_value<bodypart_str_id>( value, encumbrance_values_add );
+    return get_value<bodypart_str_id>( value,
+                                       encumbrance_values_add ) + get_value<bodypart_str_id>( body_part_all, encumbrance_values_add );
 }
 
 int enchant_cache::get_damage_add( const damage_type_id &value ) const
@@ -1187,7 +1194,9 @@ double enchant_cache::get_skill_value_multiply( const skill_id &value ) const
 
 double enchant_cache::get_encumbrance_multiply( const bodypart_str_id &value ) const
 {
-    return get_value<bodypart_str_id>( value, encumbrance_values_multiply );
+    return get_value<bodypart_str_id>( value,
+                                       encumbrance_values_multiply ) + get_value<bodypart_str_id>( body_part_all,
+                                               encumbrance_values_multiply );
 }
 
 double enchant_cache::get_damage_multiply( const damage_type_id &value ) const
@@ -1392,6 +1401,9 @@ void enchant_cache::activate_passive( Character &guy ) const
     guy.mod_num_blocks_bonus( modify_value( enchant_vals::mod::BONUS_BLOCK,
                                             guy.get_num_blocks_base() ) - guy.get_num_blocks_base() );
 
+    guy.mod_free_dodges( modify_value( enchant_vals::mod::FREE_DODGES,
+                                       guy.get_num_free_dodges() ) - guy.get_num_free_dodges() );
+
     if( emitter ) {
         get_map().emit_field( guy.pos_bub(), *emitter );
     }
@@ -1451,7 +1463,7 @@ void enchant_cache::cast_enchantment_spell( Creature &caster, const Creature *ta
                                       sp.npc_trigger_message,
                                       caster.get_name() );
         sp.get_spell( caster, sp.level ).cast_all_effects( caster, caster.pos_bub() );
-    } else  if( target != nullptr ) {
+    } else if( target != nullptr ) {
         const Creature &trg_crtr = *target;
         const spell &spell_lvl = sp.get_spell( caster, sp.level );
         if( !spell_lvl.is_valid_target( caster, trg_crtr.pos_bub() ) ||

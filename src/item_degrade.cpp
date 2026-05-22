@@ -6,6 +6,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstddef>
 #include <cstdint>
 #include <functional>
 #include <iterator>
@@ -24,6 +25,7 @@
 #include "bodypart.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "character.h"
 #include "color.h"
 #include "coordinates.h"
 #include "damage.h"
@@ -40,6 +42,7 @@
 #include "item_contents.h"
 #include "item_factory.h"
 #include "item_pocket.h"
+#include "item_transformation.h"
 #include "itype.h"
 #include "map.h"
 #include "material.h"
@@ -60,7 +63,6 @@
 static const item_category_id item_category_drugs( "drugs" );
 static const item_category_id item_category_food( "food" );
 
-class Character;
 class JsonObject;
 
 namespace item_internal
@@ -86,6 +88,8 @@ static bool goes_bad_cache_is_for( const item *i )
     return goes_bad_temp_cache_for == i;
 }
 
+namespace
+{
 struct scoped_goes_bad_cache {
     explicit scoped_goes_bad_cache( item *i ) {
         goes_bad_cache_set( i );
@@ -94,6 +98,7 @@ struct scoped_goes_bad_cache {
         goes_bad_cache_unset();
     }
 };
+} // namespace
 } // namespace item_internal
 
 static const item *get_most_rotten_component( const item &craft )
@@ -205,6 +210,12 @@ int item::damage_level( bool precise ) const
     return precise ? damage_ : type->damage_level( damage_ );
 }
 
+bool item::activation_success() const
+{
+    // Should be itype::damage_max_ - 1, but for some reason it's private.
+    return rng( 0, 3999 ) - damage_ >= 0;
+}
+
 float item::damage_adjusted_melee_weapon_damage( float value, const damage_type_id &dt ) const
 {
     if( type->count_by_charges() ) {
@@ -255,6 +266,13 @@ float item::damage_adjusted_armor_resist( float value, const damage_type_id &dmg
 
 void item::set_damage( int qty )
 {
+    const int target_damage = std::clamp( qty, degradation_, max_damage() );
+    const int delta = target_damage - damage_;
+    mod_damage( delta );
+}
+
+void item::force_set_damage( int qty )
+{
     damage_ = std::clamp( qty, degradation_, max_damage() );
 }
 
@@ -265,7 +283,8 @@ void item::set_degradation( int qty )
     } else {
         degradation_ = 0;
     }
-    set_damage( damage_ );
+    // maybe should use set_damage() instead, but we trust damage is set before the degradation
+    force_set_damage( damage_ );
 }
 
 std::string item::degradation_symbol() const
@@ -343,7 +362,7 @@ bool item::can_have_fault( const fault_id &f_id )
     return true;
 }
 
-bool item::set_fault( const fault_id &f_id, bool force, bool message )
+bool item::set_fault( const fault_id &f_id, bool force, const Character *holder )
 {
     if( !force && !can_have_fault( f_id ) ) {
         return false;
@@ -355,18 +374,23 @@ bool item::set_fault( const fault_id &f_id, bool force, bool message )
         remove_fault( f_blocked );
     }
 
-    if( message ) {
-        add_msg( m_bad, f_id.obj().message() );
+    if( holder != nullptr && holder->is_avatar() && holder->has_item( *this ) ) {
+        const std::string raw = f_id.obj().message();
+        if( !raw.empty() ) {
+            holder->add_msg_if_player( m_bad, string_format( raw, tname() ) );
+        }
     }
 
     faults.insert( f_id );
+    mod_damage( f_id->instant_damage(), holder );
     return true;
 }
 
-void item::set_random_fault_of_type( const std::string &fault_type, bool force, bool message )
+void item::set_random_fault_of_type( const std::string &fault_type, bool force,
+                                     const Character *holder )
 {
     if( force ) {
-        set_fault( random_entry( faults::all_of_type( fault_type ) ), true, message );
+        set_fault( random_entry( faults::all_of_type( fault_type ) ), true, holder );
         return;
     }
 
@@ -379,14 +403,16 @@ void item::set_random_fault_of_type( const std::string &fault_type, bool force, 
     }
 
     if( !faults_by_type.empty() ) {
-        set_fault( *faults_by_type.pick(), force, message );
+        set_fault( *faults_by_type.pick(), force, holder );
     }
 
 }
 
-void item::remove_fault( const fault_id &fault_id )
+bool item::remove_fault( const fault_id &fault_id )
 {
+    size_t count = faults.size();
     faults.erase( fault_id );
+    return count != faults.size();
 }
 
 void item::remove_single_fault_of_type( const std::string &fault_type )
@@ -459,12 +485,21 @@ void item::set_rot( time_duration val )
 void item::randomize_rot()
 {
     if( is_comestible() && get_comestible()->spoils > 0_turns ) {
+        const time_duration age_from_zero = calendar::turn - calendar::start_of_cataclysm;
+        const time_duration cap = get_shelf_life() * 2;
+        time_duration base_rot = std::min( age_from_zero, cap );
         const double x_input = rng_float( 0.0, 1.0 );
         const double k_rot = ( 1.0 - x_input ) / ( 1.0 + 2.0 * x_input );
-        set_rot( get_shelf_life() * k_rot );
+        time_duration extra = get_shelf_life() * 0.25 * k_rot;
+        set_rot( std::min( base_rot + extra, cap ) );
+        // Applied historical rot up to now, future rot calculations should
+        // continue from the current turn (unless this is a processing result).
+        if( !has_flag( flag_PROCESSING_RESULT ) ) {
+            last_temp_check = calendar::turn;
+        }
     }
 
-    for( item_pocket *pocket : contents.get_all_contained_pockets() ) {
+    for( item_pocket *pocket : contents.get_container_pockets() ) {
         if( pocket->spoil_multiplier() > 0.0f ) {
             for( item *subitem : pocket->all_items_top() ) {
                 subitem->randomize_rot();
@@ -527,6 +562,10 @@ float item::calc_hourly_rotpoints_at_temp( const units::temperature &temp ) cons
     const units::temperature dropoff = units::from_fahrenheit( 38 ); // F, ~3 C
     const float max_rot_temp = 105; // F, ~41 C, Maximum rotting rate is at this temperature
 
+    // Cryogenic rot is much simpler, rot simply idicates how many turns the item might survive outside of cryogenic storage, so they rot as if temperature was 65F.
+    if( has_flag( flag_CRYOGENIC_ROT ) && temp > units::from_fahrenheit( -320 ) ) {
+        return 3600.f;
+    }
     if( temp <= temperatures::freezing ) {
         return 0.f;
     } else if( temp < dropoff ) {
@@ -604,7 +643,7 @@ bool item::process_decay_in_air( map &here, Character *carrier, const tripoint_b
         time_duration new_air_exposure = time_duration::from_seconds( item_counter ) + time_delta *
                                          rng_normal( 0.9, 1.1 ) * environment_multiplier;
         if( new_air_exposure >= time_duration::from_hours( max_air_exposure_hours ) ) {
-            convert( *type->revert_to, carrier );
+            type->transform_into.value().transform( carrier, *this, true );
             return true;
         }
         item_counter = to_seconds<int>( new_air_exposure );
@@ -815,7 +854,7 @@ static int get_degrade_amount( const item &it, int dmgNow_, int dmgPrev )
     return std::max( facNow_ - facPrev, 0 ) * max_dmg / degrade_increments;
 }
 
-bool item::mod_damage( int qty )
+bool item::mod_damage( int qty, const Character *holder )
 {
     if( has_flag( flag_UNBREAKABLE ) ) {
         return false;
@@ -826,7 +865,7 @@ bool item::mod_damage( int qty )
     } else {
         const int dmg_before = damage_;
         const bool destroy = ( damage_ + qty ) > max_damage();
-        set_damage( damage_ + qty );
+        force_set_damage( damage_ + qty );
 
         if( qty > 0 && !destroy ) { // apply automatic degradation
             set_degradation( degradation_ + get_degrade_amount( *this, damage_, dmg_before ) );
@@ -834,16 +873,18 @@ bool item::mod_damage( int qty )
 
         // TODO: think about better way to telling the game what faults should be applied when
         if( qty > 0 ) {
-            set_random_fault_of_type( "mechanical_damage" );
+            for( int i = 0; i <= qty; i += itype::damage_scale ) {
+                set_random_fault_of_type( "mechanical_damage", false, holder );
+            }
         }
 
         return destroy;
     }
 }
 
-bool item::inc_damage()
+bool item::inc_damage( const Character *holder )
 {
-    return mod_damage( itype::damage_scale );
+    return mod_damage( itype::damage_scale, holder );
 }
 
 int item::repairable_levels() const
@@ -857,7 +898,8 @@ int item::repairable_levels() const
 
 item::armor_status item::damage_armor_durability( damage_unit &du, damage_unit &premitigated,
         const bodypart_id &bp,
-        double enchant_multiplier )
+        double enchant_multiplier,
+        const Character *holder )
 {
     //Energy shields aren't damaged by attacks but do get their health variable reduced.  They are also only
     //damaged by the damage types they actually protect against.
@@ -869,7 +911,7 @@ item::armor_status item::damage_armor_durability( damage_unit &du, damage_unit &
             return armor_status::UNDAMAGED;
         } else {
             //Shields deliberately ignore the enchantment multiplier, as the health mechanic wouldn't make sense otherwise.
-            mod_damage( itype::damage_scale * 6 );
+            mod_damage( itype::damage_scale * 6, holder );
             return armor_status::DESTROYED;
         }
     }
@@ -913,7 +955,7 @@ item::armor_status item::damage_armor_durability( damage_unit &du, damage_unit &
     if( has_flag( flag_STURDY ) && premitigated.amount < armors_own_resist ) {
         return armor_status::UNDAMAGED;
     } else if( x_in_y( damage_chance, 1.0 ) ) {
-        return mod_damage( itype::damage_scale * enchant_multiplier ) ? armor_status::DESTROYED :
+        return mod_damage( itype::damage_scale * enchant_multiplier, holder ) ? armor_status::DESTROYED :
                armor_status::DAMAGED;
     }
     return armor_status::UNDAMAGED;
@@ -1035,14 +1077,23 @@ bool item::can_repair_with( const material_id &mat_ident ) const
 
 bool item::is_broken() const
 {
-    return has_flag( flag_ITEM_BROKEN ) || has_fault_flag( std::string( "ITEM_BROKEN" ) );
+    constexpr uint64_t bit = static_cast<uint64_t>( hot_flag_bit::ITEM_BROKEN );
+    if( combined_hot_flags() & bit ) {
+        return true;
+    }
+    return has_fault_flag( std::string( "ITEM_BROKEN" ) );
 }
 
 bool item::is_broken_on_active() const
 {
-    return has_flag( flag_ITEM_BROKEN ) ||
-           has_fault_flag( std::string( "ITEM_BROKEN" ) ) ||
-           ( wetness && has_flag( flag_WATER_BREAK_ACTIVE ) );
+    constexpr uint64_t bit = static_cast<uint64_t>( hot_flag_bit::ITEM_BROKEN );
+    if( combined_hot_flags() & bit ) {
+        return true;
+    }
+    if( has_fault_flag( std::string( "ITEM_BROKEN" ) ) ) {
+        return true;
+    }
+    return wetness && has_flag( flag_WATER_BREAK_ACTIVE );
 }
 
 std::set<fault_id> item::faults_potential() const
@@ -1285,7 +1336,7 @@ bool item::process_temperature_rot( float insulation, const tripoint_bub_ms &pos
     item_internal::scoped_goes_bad_cache _cache( this );
     const bool process_rot = goes_bad() && spoil_modifier != 0;
     const bool decays_in_air = !watertight_container && has_flag( flag_DECAYS_IN_AIR ) &&
-                               type->revert_to;
+                               type->transform_into;
     int64_t max_air_exposure_hours = decays_in_air ? get_property_int64_t( "max_air_exposure_hours" ) :
                                      0;
 

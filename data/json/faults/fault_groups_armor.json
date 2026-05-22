@@ -23,5 +23,15 @@
     "type": "fault_group",
     "id": "plate_qt",
     "group": [ { "fault": "fault_armor_qt_dented", "weight": 100 }, { "fault": "fault_armor_qt_punctured", "weight": 5 } ]
+  },
+  {
+    "type": "fault_group",
+    "id": "fabric_cotton",
+    "group": [ { "fault": "fault_cotton_torn", "weight": 100 }, { "fault": "fault_cotton_hole", "weight": 75 } ]
+  },
+  {
+    "type": "fault_group",
+    "id": "fabric_denim",
+    "group": [ { "fault": "fault_denim_torn", "weight": 100 }, { "fault": "fault_denim_hole", "weight": 75 } ]
   }
 ]

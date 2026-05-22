@@ -276,6 +276,8 @@ static creature_size volume_to_size( const units::volume &vol )
     return creature_size::huge;
 }
 
+namespace
+{
 struct monster_adjustment {
     species_id species;
     std::string stat;
@@ -285,6 +287,7 @@ struct monster_adjustment {
     std::string special;
     void apply( mtype &mon ) const;
 };
+} // namespace
 
 void monster_adjustment::apply( mtype &mon ) const
 {
@@ -531,6 +534,12 @@ mtype MonsterGenerator::generate_fake_pseudo_dormant_monster( const mtype &mon )
     fake_mon.zombify_into = mon.id;
     // looks like "corpse" + original mon
     fake_mon.looks_like = "corpse_" + mon.id.str();
+    // disable upgrades - pseudo-dormant monsters exist briefly and must not
+    // change type before they fire their dormant trap setup attack
+    fake_mon.upgrades = false;
+    // just in case, clear the upgrade targets too
+    fake_mon.upgrade_into = mtype_id::NULL_ID();
+    fake_mon.upgrade_group = mongroup_id::NULL_ID();
     // set the hp to 5
     fake_mon.hp = 5;
     // set the speed to 1
@@ -548,7 +557,7 @@ mtype MonsterGenerator::generate_fake_pseudo_dormant_monster( const mtype &mon )
     }
     // add the special attack.
     // first make a new mon_spellcasting_actor actor
-    std::unique_ptr<mon_spellcasting_actor> new_actor( new mon_spellcasting_actor() );
+    std::unique_ptr<mon_spellcasting_actor> new_actor = std::make_unique<mon_spellcasting_actor>();
     new_actor->allow_no_target = true;
     new_actor->cooldown = 1;
     new_actor->spell_data.id = spell_pseudo_dormant_trap_setup;
@@ -699,6 +708,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "RIOTBOT", mattack::riotbot );
     add_hardcoded_attack( "DOOT", mattack::doot );
     add_hardcoded_attack( "ZOMBIE_FUSE", mattack::zombie_fuse );
+    add_hardcoded_attack( "EAT_CLONE", mattack::eat_clone );
 }
 
 void MonsterGenerator::init_defense()
@@ -890,11 +900,11 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "speed", speed, numeric_bound_reader<int> {0}, 0 );
     optional( jo, was_loaded, "aggression", agro, numeric_bound_reader<int> {-100, 100}, 0 );
     optional( jo, was_loaded, "morale", morale, 0 );
-    optional( jo, was_loaded, "stomach_size", stomach_size, 0 );
 
     optional( jo, was_loaded, "tracking_distance", tracking_distance, numeric_bound_reader<int> {3},
               8 );
 
+    //In its 1920 Manual of Horse Management, The U.S. Cavalry suggested a horse should not be asked to carry more than 20% of its body weight. This assumed a combined weight of rider, saddle, bridle, and other equipment.
     optional( jo, was_loaded, "mountable_weight_ratio", mountable_weight_ratio, 0.2f );
 
     optional( jo, was_loaded, "attack_cost", attack_cost, numeric_bound_reader<int> {0}, 100 );
@@ -1249,6 +1259,8 @@ mtype_id MonsterGenerator::get_valid_hallucination() const
     return random_entry( hallucination_monsters );
 }
 
+namespace
+{
 class mattack_hardcoded_wrapper : public mattack_actor
 {
     private:
@@ -1268,6 +1280,7 @@ class mattack_hardcoded_wrapper : public mattack_actor
 
         void load_internal( const JsonObject &, const std::string & ) override {}
 };
+} // namespace
 
 mtype_special_attack::mtype_special_attack( const mattack_id &id, const mon_action_attack f )
     : mtype_special_attack( std::make_unique<mattack_hardcoded_wrapper>( id, f ) ) {}
@@ -1327,6 +1340,10 @@ mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
         new_attack = std::make_unique<gun_actor>();
     } else if( attack_type == "spell" ) {
         new_attack = std::make_unique<mon_spellcasting_actor>();
+    } else if( attack_type == "polymorph_special" ) {
+        new_attack = std::make_unique<polymorph_special>();
+    } else if( attack_type == "eoc" ) {
+        new_attack = std::make_unique<mon_eoc_actor>();
     } else if( attack_type == "invalid" ) {
         new_attack = std::make_unique<invalid_mattack_actor>();
     } else {

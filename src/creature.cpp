@@ -109,6 +109,7 @@ static const efftype_id effect_eff_monster_immune_to_telepathy( "eff_monster_imm
 static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
 static const efftype_id effect_knockdown( "knockdown" );
 static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_monster_locked_on( "monster_locked_on" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_onfire( "onfire" );
@@ -348,6 +349,7 @@ void Creature::reset_bonuses()
 {
     num_blocks = 1;
     num_dodges = 1;
+    num_free_dodges = 0;
     num_blocks_bonus = 0;
     num_dodges_bonus = 0;
 
@@ -416,7 +418,8 @@ bool Creature::is_likely_underwater( const map &here ) const
 {
     return is_underwater() ||
            ( has_flag( mon_flag_AQUATIC ) &&
-             here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub( here ) ) );
+             ( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub( here ) ) ||
+               here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, pos_bub( here ) ) ) );
 }
 
 bool Creature::hallucination_die( map *here, Creature *killer )
@@ -505,12 +508,6 @@ bool Creature::sees( const map &here, const Creature &critter ) const
         return true;
     }
 
-    bool char_has_mindshield = ch && ch->has_flag( json_flag_TEEPSHIELD );
-    bool has_eff_flag_seer_protection = critter.has_effect( effect_eff_monster_immune_to_telepathy ) ||
-                                        critter.has_flag( mon_flag_TEEP_IMMUNE );
-    bool seen_by_mindseers = critter.has_mind() && !char_has_mindshield &&
-                             !has_eff_flag_seer_protection;
-
     if( std::abs( posz() - critter.posz() ) > fov_3d_z_range ) {
         return false;
     }
@@ -520,8 +517,8 @@ bool Creature::sees( const map &here, const Creature &critter ) const
         return false;
     }
 
-    if( critter.has_flag( mon_flag_ALWAYS_VISIBLE ) || ( has_flag( mon_flag_ALWAYS_SEES_YOU ) &&
-            critter.is_avatar() ) ) {
+    if( critter.has_flag( mon_flag_ALWAYS_VISIBLE ) || ( ( has_flag( mon_flag_ALWAYS_SEES_YOU ) ||
+            has_effect( effect_monster_locked_on ) ) && critter.is_avatar() ) ) {
         return true;
     }
 
@@ -530,12 +527,20 @@ bool Creature::sees( const map &here, const Creature &critter ) const
         return target_range <= std::max( m->type->vision_day, m->type->vision_night );
     }
 
-    if( this->has_flag( mon_flag_MIND_SEEING ) && seen_by_mindseers ) {
-        int mindsight_bonus_range = ( has_effect( effect_eff_mind_seeing_bonus_5 ) * 5 ) + ( has_effect(
-                                        effect_eff_mind_seeing_bonus_10 ) * 10 ) + ( has_effect( effect_eff_mind_seeing_bonus_20 ) * 20 )
-                                    + ( has_effect( effect_eff_mind_seeing_bonus_30 ) * 30 );
-        int mindsight_vision = 5 + mindsight_bonus_range;
-        return target_range <= mindsight_vision;
+    if( this->has_flag( mon_flag_MIND_SEEING ) ) {
+        bool char_has_mindshield = ch && ch->has_flag( json_flag_TEEPSHIELD );
+        bool has_eff_flag_seer_protection = critter.has_effect( effect_eff_monster_immune_to_telepathy ) ||
+                                            critter.has_flag( mon_flag_TEEP_IMMUNE );
+        bool seen_by_mindseers = critter.has_mind() && !char_has_mindshield &&
+                                 !has_eff_flag_seer_protection;
+
+        if( seen_by_mindseers ) {
+            int mindsight_bonus_range = ( has_effect( effect_eff_mind_seeing_bonus_5 ) * 5 ) + ( has_effect(
+                                            effect_eff_mind_seeing_bonus_10 ) * 10 ) + ( has_effect( effect_eff_mind_seeing_bonus_20 ) * 20 )
+                                        + ( has_effect( effect_eff_mind_seeing_bonus_30 ) * 30 );
+            int mindsight_vision = 5 + mindsight_bonus_range;
+            return target_range <= mindsight_vision;
+        }
     }
 
     if( critter.is_hallucination() && !is_avatar() ) {
@@ -564,10 +569,23 @@ bool Creature::sees( const map &here, const Creature &critter ) const
         return false;
     }
 
+    // Creatures with infrared vision check here after invisibility
+    if( this->has_flag( mon_flag_INFRARED_VISION ) && critter.is_warm() ) {
+        const monster *m = this->as_monster();
+        return target_range <= std::max( m->type->vision_day, m->type->vision_night );
+    }
+
     // This check is ridiculously expensive so defer it to after everything else.
     auto visible = []( const Character * ch ) {
         return ch == nullptr || !ch->is_invisible();
     };
+
+    // Creatures underwater beneath a solid surface (walkway, ice) are hidden
+    // from non-underwater observers. Underwater observers can still see each other.
+    if( !is_likely_underwater( here ) && critter.is_underwater() &&
+        here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, critter_pos ) ) {
+        return false;
+    }
 
     // Can always see adjacent monsters on the same level.
     // We also bypass lighting for vertically adjacent monsters, but still check for floors.
@@ -825,7 +843,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         bool maybe_boo = false;
         if( angle_iff ) {
             units::angle tangle = coord_to_angle( pos_abs(), m->pos_abs() );
-            units::angle diff = units::fabs( u_angle - tangle );
+            units::angle diff = units::abs( u_angle - tangle );
             // Player is in the angle and not too far behind the target
             if( ( diff + iff_hangle > 360_degrees || diff < iff_hangle ) &&
                 ( dist * 3 / 2 + 6 > pldist ) ) {
@@ -1155,7 +1173,11 @@ struct projectile_attack_results {
     std::string wp_hit;
     bool is_crit = false;
     bool is_headshot = false;
-    const weakpoint *wp;
+    // TODO: select_body_part_projectile_attack only sets wp for monster targets; the
+    // non-monster path leaves it null, so deal_projectile_attack must guard the deref.
+    // Long-term: change deal_damage to take const weakpoint* (or std::optional) so the
+    // missing weakpoint is explicit at the API boundary.
+    const weakpoint *wp = nullptr;
 
     explicit projectile_attack_results( const projectile &proj ) {
         max_damage = proj.impact.total_damage();
@@ -1361,8 +1383,8 @@ void Creature::deal_projectile_attack( map *here, Creature *source, dealt_projec
 
     viewer &player_view = get_player_view();
     Character *guy = as_character();
-    if( guy ) {
-        double range_dodge_chance = guy->enchantment_cache->modify_value( enchant_vals::mod::RANGE_DODGE,
+    if( !magic ) {
+        double range_dodge_chance = enchantment_cache->modify_value( enchant_vals::mod::RANGE_DODGE,
                                     1.0f ) - 1.0f;
         if( x_in_y( range_dodge_chance, 1.0f ) ) {
             on_try_dodge();
@@ -1431,7 +1453,10 @@ void Creature::deal_projectile_attack( map *here, Creature *source, dealt_projec
         }
     }
 
-    dealt_dam = deal_damage( source, hit_selection.bp_hit, impact, wp_attack_copy, *hit_selection.wp );
+    // TODO: see note on projectile_attack_results::wp; this fallback hides the API gap.
+    static const weakpoint default_weakpoint;
+    dealt_dam = deal_damage( source, hit_selection.bp_hit, impact, wp_attack_copy,
+                             hit_selection.wp ? *hit_selection.wp : default_weakpoint );
     // Force damage instance to match the selected body point
     dealt_dam.bp_hit = hit_selection.bp_hit;
     // Retrieve the selected weakpoint from the damage instance.
@@ -1850,9 +1875,10 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
 
     if( !found ) {
         // If we don't already have it then add a new one
-
         // Now we can make the new effect for application
-        effect e( effect_source( source ), &type, dur, bp.id(), permanent, intensity, calendar::turn );
+
+        time_duration duration = permanent ? std::max( dur, 1_seconds ) : dur;
+        effect e( effect_source( source ), &type, duration, bp.id(), permanent, intensity, calendar::turn );
 
         ( *effects )[eff_id][bp] = e;
         if( Character *ch = as_character() ) {
@@ -2316,6 +2342,11 @@ int Creature::get_num_blocks() const
 int Creature::get_num_dodges() const
 {
     return num_dodges + num_dodges_bonus;
+}
+
+int Creature::get_num_free_dodges() const
+{
+    return num_free_dodges;
 }
 
 int Creature::get_num_blocks_bonus() const
@@ -2867,7 +2898,7 @@ static void sort_body_parts( std::vector<bodypart_id> &bps, const Creature *c )
         pending.pop();
         result.push_back( next );
 
-        const cata::flat_set<bodypart_id> children_set = parts_connected_to.at( next );
+        const cata::flat_set<bodypart_id> &children_set = parts_connected_to.at( next );
         std::vector<bodypart_id> children( children_set.begin(), children_set.end() );
         std::sort( children.begin(), children.end(), compare_children );
         for( const bodypart_id &child : children ) {

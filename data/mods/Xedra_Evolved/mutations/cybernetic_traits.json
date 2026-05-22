@@ -11,5 +11,20 @@
     "types": [ "Cybernetic" ],
     "anger_relations": [ [ "CYBORG", 95 ] ],
     "cancels": [ "NO_CBM_INSTALLATION" ]
+  },
+  {
+    "type": "mutation_type",
+    "id": "Cybernetic_expansion_data"
+  },
+  {
+    "type": "mutation",
+    "id": "XE_DATA_SHUNT2",
+    "name": { "str": "Data Shunt, expansion" },
+    "points": 0,
+    "description": "This is an expansion to your Neurobionic Interface.  It adds ports that can accept data cores which provide instantaneous proficiency knowledge.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "Cybernetic_expansion_data" ],
+    "bionic_slot_bonuses": { "data_shunt": 2 }
   }
 ]

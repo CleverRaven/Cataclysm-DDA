@@ -59,7 +59,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 15, 100 ],
-    "flags": [ "GLOBALLY_UNIQUE", "LAKE", "MAN_MADE" ]
+    "flags": [ "GLOBALLY_UNIQUE", "LAKE", "MAN_MADE", "CLASSIC" ]
   },
   {
     "type": "overmap_special",
@@ -164,7 +164,7 @@
       { "point": [ 1, 1, -1 ], "overmap": "cathedralv_b_SE_north" }
     ],
     "spawns": { "group": "GROUP_VAMPIRE_CATHEDRAL", "population": [ 10, 30 ], "radius": [ 1, 8 ] },
-    "flags": [ "OVERMAP_UNIQUE", "MAN_MADE" ]
+    "flags": [ "OVERMAP_UNIQUE", "MAN_MADE", "CLASSIC" ]
   },
   {
     "type": "overmap_special",
@@ -307,7 +307,17 @@
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 5, 100 ],
-    "flags": [ "GLOBALLY_UNIQUE", "MAN_MADE" ]
+    "flags": [ "GLOBALLY_UNIQUE", "MAN_MADE", "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "dark cave",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "cave" }, { "point": [ 0, 0, -1 ], "overmap": "cave_greed_and_hunger" } ],
+    "locations": [ "forest" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 5, 100 ],
+    "flags": [ "GLOBALLY_UNIQUE", "MAN_MADE", "CLASSIC" ]
   },
   {
     "type": "overmap_special",
@@ -317,7 +327,7 @@
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 5, 100 ],
-    "flags": [ "GLOBALLY_UNIQUE" ]
+    "flags": [ "GLOBALLY_UNIQUE", "CLASSIC" ]
   },
   {
     "type": "overmap_special",
@@ -338,6 +348,26 @@
     "city_sizes": [ 0, 12 ],
     "occurrences": [ 5, 100 ],
     "flags": [ "CLASSIC", "MAN_MADE", "OVERMAP_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Vampire Hunter Lodge",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "lodge_VH_ground1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "lodge_VH_ground2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "lodge_VH_2ndfloor1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "lodge_VH_2ndfloor2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "lodge_VH_roof1_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "lodge_VH_roof2_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "lodge_VH_basement_residential1_north" },
+      { "point": [ 1, 0, -1 ], "overmap": "lodge_VH_basement_residential2_north" }
+    ],
+    "connections": [ { "point": [ -1, 0, 0 ], "terrain": "road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "field" ],
+    "city_distance": [ 30, -1 ],
+    "city_sizes": [ 0, 12 ],
+    "occurrences": [ 5, 100 ],
+    "flags": [ "CLASSIC", "MAN_MADE", "GLOBALLY_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -456,7 +486,7 @@
     "city_distance": [ 40, -1 ],
     "city_sizes": [ 0, 0 ],
     "occurrences": [ 66, 100 ],
-    "flags": [ "CLASSIC", "OVERMAP_UNIQUE" ],
+    "flags": [ "OVERMAP_UNIQUE" ],
     "spawns": { "group": "GROUP_GENIUS_ARVORE", "population": [ 150, 500 ], "radius": [ 5, 30 ] }
   },
   {
@@ -492,7 +522,7 @@
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 20, 100 ],
-    "flags": [ "GLOBALLY_UNIQUE", "MAN_MADE" ]
+    "flags": [ "GLOBALLY_UNIQUE", "MAN_MADE", "CLASSIC" ]
   },
   {
     "type": "overmap_special",
@@ -506,6 +536,6 @@
     "locations": [ "forest" ],
     "city_distance": [ 25, -1 ],
     "occurrences": [ 15, 100 ],
-    "flags": [ "WILDERNESS", "GLOBALLY_UNIQUE", "MAN_MADE" ]
+    "flags": [ "WILDERNESS", "GLOBALLY_UNIQUE", "MAN_MADE", "CLASSIC" ]
   }
 ]

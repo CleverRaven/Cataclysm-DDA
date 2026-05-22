@@ -12,7 +12,7 @@
             "collection": [
               { "item": "tobacco", "count": [ 1, 20 ], "container-item": "null", "entry-wrapper": "bag_plastic" },
               {
-                "distribution": [ { "item": "rolling_paper", "prob": 70, "charges": [ 1, 30 ] }, { "item": "pipe_tobacco", "prob": 30 } ]
+                "distribution": [ { "item": "rolling_paper", "prob": 70, "count": [ 1, 30 ] }, { "item": "pipe_tobacco", "prob": 30 } ]
               }
             ],
             "prob": 20
@@ -169,7 +169,7 @@
     "//": "~50L of loamy soil, sand, clay, and rocks from digging in generic dirt",
     "items": [
       { "item": "material_soil", "count": [ 8, 12 ] },
-      { "item": "material_sand", "charges": [ 1, 10 ], "prob": 5 },
+      { "item": "material_sand", "count": [ 1, 10 ], "prob": 5 },
       { "item": "clay_lump", "count": [ 1, 4 ], "prob": 5 },
       { "item": "rock", "count": [ 1, 4 ], "prob": 10 },
       { "item": "rock_flaking", "count": [ 1, 4 ], "prob": 2 },
@@ -420,5 +420,11 @@
       },
       { "item": "condom", "prob": 10 }
     ]
+  },
+  {
+    "id": "decks_of_cards",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "deck_of_cards", 10 ], [ "deck_of_tarot_cards", 1 ] ]
   }
 ]

@@ -339,6 +339,12 @@
     "extend": { "flags": [ "TEEP_IMMUNE", "TELEKIN_IMMUNE" ], "armor": { "psi_photokinetic_damage": -80 } }
   },
   {
+    "id": "mon_lieutenant_shadow",
+    "copy-from": "mon_lieutenant_shadow",
+    "type": "MONSTER",
+    "extend": { "armor": { "psi_photokinetic_damage": -80 } }
+  },
+  {
     "id": "mon_thing",
     "copy-from": "mon_thing",
     "type": "MONSTER",
@@ -631,5 +637,47 @@
     "copy-from": "mon_cow",
     "type": "MONSTER",
     "reproduction": { "baby_type": { "baby_monster_group": "GROUP_REPRODUCTION_COW_MUTANT_BABIES" }, "baby_count": 1, "baby_timer": 343 }
+  },
+  {
+    "id": "mon_eigenspectre_1",
+    "copy-from": "mon_eigenspectre_1",
+    "type": "MONSTER",
+    "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL" ],
+    "extend": { "flags": [ "TELEKIN_IMMUNE" ] }
+  },
+  {
+    "id": "mon_eigenspectre_2",
+    "copy-from": "mon_eigenspectre_2",
+    "type": "MONSTER",
+    "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL" ],
+    "extend": { "flags": [ "PHOTOKIN_MONSTER_IMMUNE", "TELEKIN_IMMUNE" ] }
+  },
+  {
+    "id": "mon_eigenspectre_3",
+    "copy-from": "mon_eigenspectre_3",
+    "type": "MONSTER",
+    "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL" ],
+    "extend": { "flags": [ "TELEKIN_IMMUNE" ] }
+  },
+  {
+    "id": "mon_eigenspectre_3_echo",
+    "copy-from": "mon_eigenspectre_3_echo",
+    "type": "MONSTER",
+    "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL" ],
+    "extend": { "flags": [ "TELEKIN_IMMUNE" ] }
+  },
+  {
+    "id": "mon_eigenspectre_4",
+    "copy-from": "mon_eigenspectre_4",
+    "type": "MONSTER",
+    "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL" ],
+    "extend": { "flags": [ "TELEKIN_IMMUNE" ] }
+  },
+  {
+    "id": "mon_living_vector",
+    "copy-from": "mon_living_vector",
+    "type": "MONSTER",
+    "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL" ],
+    "extend": { "flags": [ "TELEKIN_IMMUNE" ] }
   }
 ]

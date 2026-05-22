@@ -370,8 +370,8 @@ void region_settings::reset()
 }
 
 template<typename T>
-void read_and_set_or_throw( const JsonObject &jo, const std::string &member, T &target,
-                            bool required )
+static void read_and_set_or_throw( const JsonObject &jo, const std::string &member, T &target,
+                                   bool required )
 {
     T tmp;
     if( !jo.read( member, tmp ) ) {
@@ -431,8 +431,9 @@ void region_settings_forest_trail::load( const JsonObject &jo, std::string_view 
 
 void region_settings_feature_flag::deserialize( const JsonObject &jo )
 {
-    optional( jo, was_loaded, "blacklist", blacklist );
-    optional( jo, was_loaded, "whitelist", whitelist );
+    optional( jo, was_loaded, "blacklist", blacklist, string_reader{} );
+    optional( jo, was_loaded, "whitelist", whitelist, string_reader{} );
+    was_loaded = true;
 }
 
 void region_settings_forest::load( const JsonObject &jo, std::string_view )
@@ -524,9 +525,6 @@ void region_settings_ocean::load( const JsonObject &jo, std::string_view )
 
 void region_settings_highway::load( const JsonObject &jo, std::string_view )
 {
-    optional( jo, was_loaded, "grid_column_seperation", grid_column_seperation );
-    optional( jo, was_loaded, "grid_row_seperation", grid_row_seperation );
-    optional( jo, was_loaded, "intersection_max_radius", intersection_max_radius );
     optional( jo, was_loaded, "width_of_segments", width_of_segments );
     optional( jo, was_loaded, "straightness_chance", straightness_chance );
     optional( jo, was_loaded, "reserved_terrain_id", reserved_terrain_id );
@@ -572,6 +570,9 @@ void region_terrain_furniture::load( const JsonObject &jo, std::string_view )
 
 void region_settings_city::load( const JsonObject &jo, std::string_view )
 {
+    optional( jo, was_loaded, "is_megacity", is_megacity );
+    mandatory( jo, was_loaded, "city_size", city_size );
+    optional( jo, was_loaded, "city_spacing", city_spacing );
     optional( jo, was_loaded, "shop_radius", shop_radius );
     optional( jo, was_loaded, "shop_sigma", shop_sigma );
     optional( jo, was_loaded, "park_radius", park_radius );
@@ -614,7 +615,7 @@ void region_settings::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "forest_trails", forest_trail );
 
     optional( jo, was_loaded, "map_extras", region_extras );
-    optional( jo, was_loaded, "cities", city_spec );
+    mandatory( jo, was_loaded, "cities", city_spec );
     optional( jo, was_loaded, "weather", weather );
     optional( jo, was_loaded, "feature_flag_settings", overmap_feature_flag );
     optional( jo, was_loaded, "forests", overmap_forest );
@@ -794,6 +795,16 @@ void region_settings_forest_trail::finalize()
 
 void region_settings_city::finalize()
 {
+    if( city_size > 16 || city_size < 0 ) {
+        debugmsg( "region_settings_city(%s) city_size(%d) is outside the bounds of 0 to 16", id.c_str(),
+                  city_size );
+        city_size = std::clamp( city_size, 0, 16 );
+    }
+    if( city_spacing > 8 || city_spacing < 0 ) {
+        debugmsg( "region_settings_city(%s) city_spacing(%d) is outside the bounds of 0 to 8", id.c_str(),
+                  city_spacing );
+        city_size = std::clamp( city_spacing, 0, 8 );
+    }
     houses.finalize();
     shops.finalize();
     parks.finalize();

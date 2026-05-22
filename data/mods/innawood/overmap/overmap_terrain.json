@@ -37,5 +37,40 @@
     "looks_like": "empty_rock",
     "see_cost": "opaque",
     "travel_cost_type": "basement"
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_ravine",
+    "name": "ravine",
+    "sym": "V",
+    "color": "light_gray",
+    "see_cost": "full_high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "ravine_2way",
+      "ravine_3way",
+      "ravine_edge",
+      "ravine_corner",
+      "ravine_2way_bottom",
+      "ravine_3way_bottom",
+      "ravine_edge_bottom",
+      "ravine_corner_bottom"
+    ],
+    "copy-from": "generic_ravine"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "ravine_2way_ground", "ravine_3way_ground", "ravine_edge_ground", "ravine_corner_ground" ],
+    "copy-from": "generic_ravine",
+    "see_cost": "all_clear",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ravine_bottom_forest",
+    "name": "ravine floor",
+    "copy-from": "forest"
   }
 ]

@@ -16,6 +16,7 @@
 #include "creature.h"
 #include "current_map.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "field_type.h"
 #include "flexbuffer_json.h"
@@ -143,6 +144,40 @@ void start_location::load( const JsonObject &jo, const std::string_view )
 
 void start_location::check() const
 {
+    if( _locations.empty() ) {
+        debugmsg( "start_location %s has no terrain defined", id.c_str() );
+    }
+    for( const omt_types_parameters &loc : _locations ) {
+        if( loc.omt.empty() ) {
+            debugmsg( "start_location %s has empty om_terrain string", id.c_str() );
+            continue;
+        }
+        if( loc.omt_type == ot_match_type::exact &&
+            !oter_str_id( loc.omt ).is_valid() ) {
+            debugmsg( "start_location %s references invalid exact om_terrain \"%s\"",
+                      id.c_str(), loc.omt );
+        } else if( loc.omt_type == ot_match_type::type &&
+                   !oter_type_str_id( loc.omt ).is_valid() ) {
+            debugmsg( "start_location %s references invalid om_terrain type \"%s\"",
+                      id.c_str(), loc.omt );
+        } else if( loc.omt_type == ot_match_type::subtype ||
+                   loc.omt_type == ot_match_type::prefix ||
+                   loc.omt_type == ot_match_type::contains ) {
+            bool found = false;
+            for( const oter_t &ter : overmap_terrains::get_all() ) {
+                if( is_ot_match( loc.omt, ter.id.id(), loc.omt_type ) ) {
+                    found = true;
+                    break;
+                }
+            }
+            if( !found ) {
+                debugmsg( "start_location %s om_terrain \"%s\" (match_type %s) "
+                          "matches no loaded overmap terrain",
+                          id.c_str(), loc.omt,
+                          io::enum_to_string( loc.omt_type ) );
+            }
+        }
+    }
 }
 
 void start_location::finalize()

@@ -103,7 +103,7 @@
       "place_vehicles": [
         { "vehicle": "VETS", "x": 7, "y": 2, "chance": 20, "rotation": 1 },
         { "vehicle": "VETS", "x": 15, "y": 2, "chance": 20, "rotation": 1 },
-        { "vehicle": "VETS", "x": 23, "y": 2, "chance": 20, "rotation": 1 }
+        { "vehicle": "VETS", "x": 20, "y": 2, "chance": 20, "rotation": 1 }
       ]
     }
   },

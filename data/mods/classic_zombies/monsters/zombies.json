@@ -3,7 +3,10 @@
     "id": "mon_zombie",
     "type": "MONSTER",
     "copy-from": "mon_zombie",
+    "description": "A human body, skin a sickly grayish color, moving with a slow shuffling motion.",
+    "delete": { "flags": [ "UNBREAKABLE_MORALE", "WARM" ] },
     "extend": {
+      "flags": [ "CLUMSY_ATTACKS" ],
       "special_attacks": [
         {
           "type": "monster_attack",
@@ -77,5 +80,48 @@
         }
       ]
     }
+  },
+  {
+    "id": "mon_zombie_cunning",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie",
+    "name": { "str": "zombie" },
+    "looks_like": "mon_zombie",
+    "description": "A human body, skin a sickly grayish color, moving with a slow shuffling motion.  It occasionally looks at its surroundings with more focus than its peers; could it be remembering something?",
+    "upgrades": false,
+    "categories": [ "CLASSIC" ],
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
+    "extend": { "flags": [ "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "PATH_AVOID_FALL" ] },
+    "delete": { "flags": [ "CLUMSY_ATTACKS" ] }
+  },
+  {
+    "id": "mon_zombie_fat",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_fat",
+    "delete": { "flags": [ "UNBREAKABLE_MORALE", "WARM" ] }
+  },
+  {
+    "id": "mon_zombie_soldier",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_soldier",
+    "delete": { "flags": [ "UNBREAKABLE_MORALE", "WARM" ] }
+  },
+  {
+    "id": "mon_zombie_cop",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_cop",
+    "delete": { "flags": [ "UNBREAKABLE_MORALE", "WARM" ] }
+  },
+  {
+    "id": "mon_zombie_crawler",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_crawler",
+    "delete": { "flags": [ "UNBREAKABLE_MORALE", "WARM" ] }
+  },
+  {
+    "id": "mon_zombie_child",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_child",
+    "delete": { "flags": [ "UNBREAKABLE_MORALE", "WARM" ] }
   }
 ]

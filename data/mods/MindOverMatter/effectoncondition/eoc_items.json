@@ -246,6 +246,26 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_EXODII_NEURAL_STUNGUN",
+    "condition": "has_beta",
+    "effect": [
+      {
+        "if": {
+          "and": [
+            { "or": [ "npc_is_character", { "npc_has_flag": "HUMAN" }, { "npc_has_flag": "HAS_MIND" } ] },
+            {
+              "not": {
+                "or": [ { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" }, { "npc_has_flag": "TEEPSHIELD" }, { "npc_has_flag": "TEEP_IMMUNE" } ]
+              }
+            }
+          ]
+        },
+        "then": [ { "npc_add_effect": "psi_stunned", "duration": { "math": [ "rng(15,60)" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_MOM_ABJURATION_STONE_EFFECTS",
     "effect": { "u_cast_spell": { "id": "mom_abjuration_stone_effects" } }
   },

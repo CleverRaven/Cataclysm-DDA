@@ -2,11 +2,11 @@
   {
     "type": "mutation",
     "id": "VAULT_DEFENDER",
-    "name": { "str": "Vault Defender", "//~": "NO_I18N" },
+    "name": "Vault Defender",
     "points": 99,
     "valid": false,
     "player_display": false,
-    "description": { "str": "To cast bug killing spells.", "//~": "NO_I18N" },
+    "description": "To cast bug killing spells.",
     "debug": false,
     "enchantments": [
       {
@@ -41,11 +41,11 @@
   {
     "type": "mutation",
     "id": "LIBRARY_DEFENDER",
-    "name": { "str": "library defender", "//~": "NO_I18N" },
+    "name": "library defender",
     "points": 99,
     "valid": false,
     "player_display": false,
-    "description": { "str": "To cast bug killing spells.", "//~": "NO_I18N" },
+    "description": "To cast bug killing spells.",
     "debug": false,
     "enchantments": [
       {

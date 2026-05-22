@@ -251,7 +251,7 @@ When defining the JSON mapgen for such terrain, you must define several
 instances, for each type of connection that might exist.  Each gets a suffix
 added to the `overmap_terrain` id.  The suffixes are: `_end`, `_straight`,
 `_curved`, `_tee`, `_four_way`.  For an example, see the definitions for `ants`
-in [`ants.json`](../data/json/mapgen/bugs/ants.json).
+in [`ants.json`](/data/json/mapgen/bugs/ants.json).
 
 ### Define mapgen "weight"
 
@@ -457,6 +457,7 @@ Currently the defined flags are as follows:
 - Clearing flags for layered mapgens: see [dedicated section below](#clearing-flags-for-layered-mapgens)
 - `NO_UNDERLYING_ROTATE` The map won't be rotated even if the underlying tile is.
 - `AVOID_CREATURES` If a creature is present, terrain, furniture and traps won't be placed.
+- `SKIP_ON_OPEN_AIR` Furniture placement is skipped silently when the target tile is open air. Useful for mapgens (e.g. map extras) that may run above ground level where many tiles are open air.
 
 ### Clearing flags for layered mapgens
 Some mapgens are intended to be layered on top of existing terrain.  This can be update mapgen,
@@ -464,7 +465,7 @@ nested mapgen, or regular mapgen with a predecessor.  When the mapgen changes an
 the tile may already contain preexisting furniture, traps and items.  The following flags provide
 a mechanism for specifying the behaviour to follow in such situations.  It is an error if existing
 furniture, traps or items are encountered but no behaviour has been given. Note that flags do NOT
-affect magens on creation of a new overmap when the Z level offset is negative (i.e. something placed
+affect mapgens on creation of a new overmap when the Z level offset is negative (i.e. something placed
 at a lower Z level than the overmap level being generated) and no error reports are generated. This
 is a technical limitation, not a desired feature.
 
@@ -1324,7 +1325,7 @@ Each such key should have an associated JSON object with the following fields:
 
 | Field   | Description
 | ------- | -----------
-| type    | (mandatory, string) a `cata_variant` type listed in [cata_variant.h](../src/cata_variant.h#L37-L84).  Dictates the type of value the parameter has.
+| type    | (mandatory, string) a `cata_variant` type listed in [cata_variant.h](/src/cata_variant.h#L37-L84).  Dictates the type of value the parameter has.
 | default | (mandatory, mapgen value) can currently only be a distribution array that contains either possible values that will all have equal weight or arrays of pairs of possible values and their associated weights
 | scope   | (optional, string, defaults to `"overmap_special"`) the scope at which the chosen value will stay the same. Possible values are `"overmap_special"`, `"omt"`, `"nest"` or `"omt_stack"` which is the same for an omt and all omts vertical to it. There's no enforcement that nest scoped parameters have to be used inside of nested mapgen to allow them to be used in reusable palettes.
 
@@ -1455,7 +1456,7 @@ Here we define a parameter with key "variant" that picks a nest which is used to
 ```
 
 ### Common parameters
-There are various reusable parameters in palettes at [common_parameters.json](../data/json/mapgen_palettes/common_parameters.json) and as part of the domestic palettes in [house_general_palette.json](../data/json/mapgen_palettes/house_general_palette.json)
+There are various reusable parameters in palettes at [common_parameters.json](/data/json/mapgen_palettes/common_parameters.json) and as part of the domestic palettes in [house_general_palette.json](/data/json/mapgen_palettes/house_general_palette.json)
 which are all overmap_special scoped and can be used without need to specify mapgen values of your own by using the symbols provided while also allowing you to use the values where needed.
 For example this map uses the symbols found in the `"standard_domestic_palette"` and `"standard_domestic_lino_kitchen"` palettes which allows it to have random but consistent exterior and interior walls as well as kitchen flooring but also defines an
 additional furniture symbol using the value set by linoleum_color_kitchen for the terrain under it.
@@ -1655,19 +1656,19 @@ Map extras can be used to place environmental objects and structures that can he
   "min_max_zlevel": [ 0, 0 ],
   "sym": "M",
   "color": "red",
-  "autonote": true,
+  "autonote_visibility": "details",
   "flags": [ "MAN_MADE" ]
 }
 ```
 
-| Field          | Description
-| ---            | ---
-| generator      | (_optional_) An object defining how and what this extra should spawn.
-| min_max_zlevel | (_optional_) A pair of integers defining the minimum and maximum zlevel in which this extra can spawn. Defaults to none (can spawn at any zlevel).
-| sym            | (_optional_) The symbol to use when marking this extra on the overmap. Defaults to no symbol.
-| color          | (_optional_) The color of the symbol identifying this extra on the overmap. Defaults to white.
-| autonote       | (_optional_) Whether to automatically mark this extra on the overmap. Defaults to false.
-| flags          | (_optional_) List of flags that identify this extra. These flags can be listed in `overmap_feature_flag_settings` to blacklist or whitelist map extras.
+| Field               | Description
+| ---                 | ---
+| generator           | (_optional_) An object defining how and what this extra should spawn.
+| min_max_zlevel      | (_optional_) A pair of integers defining the minimum and maximum zlevel in which this extra can spawn. Defaults to none (can spawn at any zlevel).
+| sym                 | (_optional_) The symbol to use when marking this extra on the overmap. Defaults to no symbol.
+| color               | (_optional_) The color of the symbol identifying this extra on the overmap. Defaults to white.
+| autonote_visibility | (_optional_) When to automatically mark this extra on the overmap. Defaults to "none", never marking it on the overmap. Other options listed below.
+| flags               | (_optional_) List of flags that identify this extra. These flags can be listed in `overmap_feature_flag_settings` to blacklist or whitelist map extras.
 
 The `generator` can use one of 3 methods:
 
@@ -1676,6 +1677,18 @@ The `generator` can use one of 3 methods:
 | `map_extra_function` | The `generator_id` points to a builtin function to generate the extra. See the `builtin_functions` function map in map_extras.cpp for the current list.
 | `mapgen`             | The `generator_id` points to a `om_terrain` string within a `mapgen` definition.
 | `update_mapgen`      | The `generator_id` points to a `update_mapgen_id` string within a `mapgen` definition.
+
+The `autonote_visibility` has 7 options:
+
+| Name          | Description
+| ------------- | ---
+| `"none"`      | Never shown.
+| `"always"`    | Shown as soon as it is generated.
+| `"vague"`     | Shown once the player's vision of the tile meets the corresponding vision level.
+| `"outlines"`  | Shown once the player's vision of the tile meets the corresponding vision level.
+| `"details"`   | Shown once the player's vision of the tile meets the corresponding vision level.
+| `"full"`      | Shown once the player's vision of the tile meets the corresponding vision level.
+| `"same_tile"` | Shown once the player enters the same overmap.
 
 ### Example: mx_science
 

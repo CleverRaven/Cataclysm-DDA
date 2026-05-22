@@ -1197,19 +1197,9 @@
     "//": "1-3 rifles weighted towards 1 rifle",
     "subtype": "collection",
     "entries": [
-      { "item": "modular_m27_assault_rifle", "variant": "modular_h&k416a5", "contents-item": "holo_sight" },
-      {
-        "item": "modular_m27_assault_rifle",
-        "variant": "modular_h&k416a5",
-        "contents-item": "holo_sight",
-        "prob": 50
-      },
-      {
-        "item": "modular_m27_assault_rifle",
-        "variant": "modular_h&k416a5",
-        "contents-item": "holo_sight",
-        "prob": 25
-      }
+      { "group": "h&k416a5_default_or_short", "contents-item": "holo_sight" },
+      { "group": "h&k416a5_default_or_short", "contents-item": "holo_sight", "prob": 50 },
+      { "group": "h&k416a5_default_or_short", "contents-item": "holo_sight", "prob": 25 }
     ]
   },
   {
@@ -1827,7 +1817,8 @@
       { "item": "remington_870_express", "prob": 35 },
       { "item": "mossberg_590", "prob": 23 },
       { "item": "mossberg_930", "prob": 8 },
-      { "item": "m1014", "prob": 2 },
+      { "item": "m1014", "prob": 1 },
+      { "item": "benelli_m4", "prob": 1 },
       { "item": "mossberg_590_shockwave", "prob": 2 }
     ]
   },

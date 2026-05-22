@@ -376,7 +376,7 @@
         "is": ">=",
         "target": 1,
         "visible": "when_achievement_completed",
-        "description": "Enter a lab finale room"
+        "description": "Enter a distorted lab"
       }
     ]
   },
@@ -2346,6 +2346,14 @@
       "//NOLINT(cata-text-style)": "the spaces imitate the formatting of the original poem",
       "str": "Along the shore the cloud waves break,\nThe twin suns sink beneath the lake,\nThe shadows lengthen\n                       In Carcosa."
     },
+    "requirements": [  ]
+  },
+  {
+    "id": "achievement_reach_string_dimension",
+    "type": "achievement",
+    "name": "String Theory",
+    "manually_given": true,
+    "description": "Reach the dimension of sundered spacetime, and live to tell the tale.",
     "requirements": [  ]
   },
   {

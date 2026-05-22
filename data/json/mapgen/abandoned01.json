@@ -50,7 +50,7 @@
     "id": "cabin_suicide_legs",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "jeans", 35 ], [ "pants", 40 ], [ "pants_cargo", 20 ], [ "pants_survivor", 5 ] ]
+    "items": [ [ "jeans", 35 ], [ "pants", 40 ], [ "pants_cargo", 20 ] ]
   },
   {
     "id": "cabin_suicide_shoes",

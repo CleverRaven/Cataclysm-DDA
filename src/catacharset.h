@@ -54,11 +54,6 @@ std::string base64_encode_bitset( const std::bitset<576> &bitset_to_encode );
 void base64_decode_bitset( std::string_view packed_bitset,
                            std::bitset<576> &destination_bitset );
 
-std::wstring utf8_to_wstr( const std::string &str );
-std::string wstr_to_utf8( const std::wstring &wstr );
-
-std::string wstr_to_native( const std::wstring &wstr );
-
 std::string utf32_to_utf8( std::u32string_view str );
 std::u32string utf8_to_utf32( std::string_view str );
 

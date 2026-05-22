@@ -13,5 +13,15 @@
     "id": "p320mag_21rd_9x19mm",
     "type": "MIGRATION",
     "replace": "bhp9mag_15rd"
+  },
+  {
+    "id": "protein_bar_evac",
+    "type": "MIGRATION",
+    "replace": "protein_bar_zero"
+  },
+  {
+    "id": "mp3",
+    "type": "MIGRATION",
+    "replace": "portable_music_player"
   }
 ]

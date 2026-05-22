@@ -1,0 +1,328 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_NONE_ENKINDLING",
+    "effect": [ { "u_message": "You feel the pressure of the tincture against your skin, but nothing happens.", "type": "neutral" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_GEIST_ENKINDLING",
+    "effect": [
+      {
+        "u_message": "You feel the pressure of the tincture against your skin and a warmth slowly spreads through your body.",
+        "type": "mixed"
+      },
+      { "math": [ "_tincture_duration = 7200 + rand(10800)" ] },
+      { "u_add_effect": "effect_afs_esper_tincture_geist", "duration": { "math": [ "_tincture_duration" ] } },
+      { "u_spawn_item": "afs_espertech_gain_esper_powers_used", "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_SPARK_ENKINDLING",
+    "effect": [
+      {
+        "u_message": "You feel the pressure of the tincture against your skin and a warmth slowly spreads through your body.",
+        "type": "mixed"
+      },
+      { "math": [ "_tincture_duration = 7200 + rand(10800)" ] },
+      { "u_add_effect": "effect_afs_esper_tincture_spark", "duration": { "math": [ "_tincture_duration" ] } },
+      { "u_spawn_item": "afs_espertech_gain_esper_powers_used", "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_SYBIL_ENKINDLING",
+    "effect": [
+      {
+        "u_message": "You feel the pressure of the tincture against your skin and a warmth slowly spreads through your body.",
+        "type": "mixed"
+      },
+      { "math": [ "_tincture_duration = 7200 + rand(10800)" ] },
+      { "u_add_effect": "effect_afs_esper_tincture_sybil", "duration": { "math": [ "_tincture_duration" ] } },
+      { "u_spawn_item": "afs_espertech_gain_esper_powers_used", "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_WHISPER_ENKINDLING",
+    "effect": [
+      {
+        "u_message": "You feel the pressure of the tincture against your skin and a warmth slowly spreads through your body.",
+        "type": "mixed"
+      },
+      { "math": [ "_tincture_duration = 7200 + rand(10800)" ] },
+      { "u_add_effect": "effect_afs_esper_tincture_whisper", "duration": { "math": [ "_tincture_duration" ] } },
+      { "u_spawn_item": "afs_espertech_gain_esper_powers_used", "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ENKINDLING_TINCTURE_FAILURE_MESSAGE",
+    "effect": { "u_message": "The effects of the enkindling tincture fade, but you don't feel any different.", "type": "mixed" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_MESSAGE",
+    "effect": [
+      {
+        "u_message": "The effects of the enkindling tincture fade, and then you feel a tingling through your entire body.",
+        "type": "mixed"
+      },
+      { "give_achievement": "achievement_psion" },
+      "u_cancel_activity"
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_GEIST_ENKINDLING_RESULTS",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "and": [ { "compare_string": [ "effect_afs_esper_tincture_geist", { "context_val": "effect" } ] } ] },
+    "effect": [
+      {
+        "if": { "u_has_any_trait": [ "ESPER", "CANNOT_GAIN_PSIONICS" ] },
+        "then": [ { "run_eocs": "EOC_AFS_ENKINDLING_TINCTURE_FAILURE_MESSAGE" } ],
+        "else": [
+          {
+            "if": {
+              "u_has_any_trait": [
+                "AFS_PHYSICAL_CAPABILITY_GENEMOD",
+                "AFS_MENTAL_CAPABILITY_GENEMOD",
+                "AFS_HEALTH_CAPABILITY_GENEMOD",
+                "AFS_RECOVERY_CAPABILITY_GENEMOD",
+                "AFS_BEAUTY_GENEMOD"
+              ]
+            },
+            "then": {
+              "if": { "x_in_y_chance": { "x": 1, "y": 200 } },
+              "then": [ { "run_eocs": [ "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_MESSAGE", "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_GEIST" ] } ],
+              "else": { "run_eocs": "EOC_AFS_ENKINDLING_TINCTURE_FAILURE_MESSAGE" }
+            },
+            "else": [
+              { "math": [ "_random_enkindling_value = rng(5,15)" ] },
+              {
+                "if": {
+                  "or": [
+                    { "u_has_trait": "ESPER_ADVANCEMENT_OKAY" },
+                    {
+                      "and": [
+                        { "not": { "u_has_trait": "ESPER_ADVANCEMENT_OKAY" } },
+                        { "x_in_y_chance": { "x": { "math": [ "_random_enkindling_value" ] }, "y": 100 } }
+                      ]
+                    }
+                  ]
+                },
+                "then": [ { "run_eocs": [ "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_MESSAGE", "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_GEIST" ] } ],
+                "else": { "run_eocs": "EOC_AFS_ENKINDLING_TINCTURE_FAILURE_MESSAGE" }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_GEIST",
+    "effect": [
+      { "u_add_trait": "ESPER" },
+      {
+        "if": { "not": { "u_has_any_trait": [ "ESPER_ADVANCEMENT_OKAY", "ESPER_STARTER_ADVANCEMENT_OKAY" ] } },
+        "then": [ { "u_add_trait": "ESPER_STARTER_ADVANCEMENT_OKAY" } ]
+      },
+      { "u_add_trait": "AFS_TELEKINETIC" },
+      { "math": [ "u_spell_level('afs_telekinetic_move_item') = 1" ] },
+      { "u_learn_recipe": "practice_afs_telekinetic_move_items" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_SPARK_ENKINDLING_RESULTS",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "and": [ { "compare_string": [ "effect_afs_esper_tincture_spark", { "context_val": "effect" } ] } ] },
+    "effect": [
+      {
+        "if": { "u_has_any_trait": [ "ESPER", "CANNOT_GAIN_PSIONICS" ] },
+        "then": [ { "run_eocs": "EOC_AFS_ENKINDLING_TINCTURE_FAILURE_MESSAGE" } ],
+        "else": [
+          {
+            "if": {
+              "u_has_any_trait": [
+                "AFS_PHYSICAL_CAPABILITY_GENEMOD",
+                "AFS_MENTAL_CAPABILITY_GENEMOD",
+                "AFS_HEALTH_CAPABILITY_GENEMOD",
+                "AFS_RECOVERY_CAPABILITY_GENEMOD",
+                "AFS_BEAUTY_GENEMOD"
+              ]
+            },
+            "then": {
+              "if": { "x_in_y_chance": { "x": 1, "y": 200 } },
+              "then": [ { "run_eocs": [ "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_MESSAGE", "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_SPARK" ] } ],
+              "else": { "run_eocs": "EOC_AFS_ENKINDLING_TINCTURE_FAILURE_MESSAGE" }
+            },
+            "else": [
+              { "math": [ "_random_enkindling_value = rng(5,15)" ] },
+              {
+                "if": {
+                  "or": [
+                    { "u_has_trait": "ESPER_ADVANCEMENT_OKAY" },
+                    {
+                      "and": [
+                        { "not": { "u_has_trait": "ESPER_ADVANCEMENT_OKAY" } },
+                        { "x_in_y_chance": { "x": { "math": [ "_random_enkindling_value" ] }, "y": 100 } }
+                      ]
+                    }
+                  ]
+                },
+                "then": [ { "run_eocs": [ "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_MESSAGE", "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_SPARK" ] } ],
+                "else": { "run_eocs": "EOC_AFS_ENKINDLING_TINCTURE_FAILURE_MESSAGE" }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_SPARK",
+    "effect": [
+      { "u_add_trait": "ESPER" },
+      {
+        "if": { "not": { "u_has_any_trait": [ "ESPER_ADVANCEMENT_OKAY", "ESPER_STARTER_ADVANCEMENT_OKAY" ] } },
+        "then": [ { "u_add_trait": "ESPER_STARTER_ADVANCEMENT_OKAY" } ]
+      },
+      { "u_add_trait": "AFS_ELECTROKINETIC" },
+      { "math": [ "u_spell_level('afs_electrokinetic_see_electric') = 1" ] },
+      { "u_learn_recipe": "practice_afs_electrokinetic_see_electric" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_SYBIL_ENKINDLING_RESULTS",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "and": [ { "compare_string": [ "effect_afs_esper_tincture_sybil", { "context_val": "effect" } ] } ] },
+    "effect": [
+      {
+        "if": { "u_has_any_trait": [ "ESPER", "CANNOT_GAIN_PSIONICS" ] },
+        "then": [ { "run_eocs": "EOC_AFS_ENKINDLING_TINCTURE_FAILURE_MESSAGE" } ],
+        "else": [
+          {
+            "if": {
+              "u_has_any_trait": [
+                "AFS_PHYSICAL_CAPABILITY_GENEMOD",
+                "AFS_MENTAL_CAPABILITY_GENEMOD",
+                "AFS_HEALTH_CAPABILITY_GENEMOD",
+                "AFS_RECOVERY_CAPABILITY_GENEMOD",
+                "AFS_BEAUTY_GENEMOD"
+              ]
+            },
+            "then": {
+              "if": { "x_in_y_chance": { "x": 1, "y": 200 } },
+              "then": [ { "run_eocs": [ "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_MESSAGE", "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_SYBIL" ] } ],
+              "else": { "run_eocs": "EOC_AFS_ENKINDLING_TINCTURE_FAILURE_MESSAGE" }
+            },
+            "else": [
+              { "math": [ "_random_enkindling_value = rng(5,15)" ] },
+              {
+                "if": {
+                  "or": [
+                    { "u_has_trait": "ESPER_ADVANCEMENT_OKAY" },
+                    {
+                      "and": [
+                        { "not": { "u_has_trait": "ESPER_ADVANCEMENT_OKAY" } },
+                        { "x_in_y_chance": { "x": { "math": [ "_random_enkindling_value" ] }, "y": 100 } }
+                      ]
+                    }
+                  ]
+                },
+                "then": [ { "run_eocs": [ "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_MESSAGE", "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_SYBIL" ] } ],
+                "else": { "run_eocs": "EOC_AFS_ENKINDLING_TINCTURE_FAILURE_MESSAGE" }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_SYBIL",
+    "effect": [
+      { "u_add_trait": "ESPER" },
+      {
+        "if": { "not": { "u_has_any_trait": [ "ESPER_ADVANCEMENT_OKAY", "ESPER_STARTER_ADVANCEMENT_OKAY" ] } },
+        "then": [ { "u_add_trait": "ESPER_STARTER_ADVANCEMENT_OKAY" } ]
+      },
+      { "u_add_trait": "AFS_PRECOG" },
+      { "math": [ "u_spell_level('afs_precog_danger_sense') = 1" ] },
+      { "u_learn_recipe": "practice_afs_precog_danger_sense" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_WHISPER_ENKINDLING_RESULTS",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "and": [ { "compare_string": [ "effect_afs_esper_tincture_whisper", { "context_val": "effect" } ] } ] },
+    "effect": [
+      {
+        "if": { "u_has_any_trait": [ "ESPER", "CANNOT_GAIN_PSIONICS" ] },
+        "then": [ { "run_eocs": "EOC_AFS_ENKINDLING_TINCTURE_FAILURE_MESSAGE" } ],
+        "else": [
+          {
+            "if": {
+              "u_has_any_trait": [
+                "AFS_PHYSICAL_CAPABILITY_GENEMOD",
+                "AFS_MENTAL_CAPABILITY_GENEMOD",
+                "AFS_HEALTH_CAPABILITY_GENEMOD",
+                "AFS_RECOVERY_CAPABILITY_GENEMOD",
+                "AFS_BEAUTY_GENEMOD"
+              ]
+            },
+            "then": {
+              "if": { "x_in_y_chance": { "x": 1, "y": 200 } },
+              "then": [ { "run_eocs": [ "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_MESSAGE", "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_WHISPER" ] } ],
+              "else": { "run_eocs": "EOC_AFS_ENKINDLING_TINCTURE_FAILURE_MESSAGE" }
+            },
+            "else": [
+              { "math": [ "_random_enkindling_value = rng(5,15)" ] },
+              {
+                "if": {
+                  "or": [
+                    { "u_has_trait": "ESPER_ADVANCEMENT_OKAY" },
+                    {
+                      "and": [
+                        { "not": { "u_has_trait": "ESPER_ADVANCEMENT_OKAY" } },
+                        { "x_in_y_chance": { "x": { "math": [ "_random_enkindling_value" ] }, "y": 100 } }
+                      ]
+                    }
+                  ]
+                },
+                "then": [ { "run_eocs": [ "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_MESSAGE", "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_WHISPER" ] } ],
+                "else": { "run_eocs": "EOC_AFS_ENKINDLING_TINCTURE_FAILURE_MESSAGE" }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ENKINDLING_TINCTURE_SUCCESS_WHISPER",
+    "effect": [
+      { "u_add_trait": "ESPER" },
+      {
+        "if": { "not": { "u_has_any_trait": [ "ESPER_ADVANCEMENT_OKAY", "ESPER_STARTER_ADVANCEMENT_OKAY" ] } },
+        "then": [ { "u_add_trait": "ESPER_STARTER_ADVANCEMENT_OKAY" } ]
+      },
+      { "u_add_trait": "AFS_TELEPATH" },
+      { "math": [ "u_spell_level('afs_telepathic_shield') = 1" ] },
+      { "u_learn_recipe": "practice_afs_telepathic_shield" }
+    ]
+  }
+]

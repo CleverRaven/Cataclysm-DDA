@@ -177,7 +177,6 @@
     "volume": "600 ml",
     "weight": "450 g",
     "color": "dark_gray",
-    "stomach_size": 30,
     "special_attacks": [ [ "EAT_CARRION", 40 ], [ "EAT_FOOD", 120 ] ],
     "reproduction": { "baby_type": { "baby_egg": "egg_crow" }, "baby_count": 4, "baby_timer": 18 },
     "extend": { "flags": [ "EATS" ] }
@@ -193,7 +192,6 @@
     "harvest": "bird_small",
     "hp": 4,
     "color": "dark_gray",
-    "stomach_size": 50,
     "special_attacks": [ [ "EAT_CARRION", 40 ], [ "EAT_FOOD", 120 ] ],
     "reproduction": { "baby_type": { "baby_egg": "egg_raven" }, "baby_count": 5, "baby_timer": 18 },
     "extend": { "flags": [ "EATS" ] }
@@ -530,7 +528,6 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "melee_skill": 2,
     "dodge": 1,
-    "stomach_size": 200,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_flying", "prof_wp_basic_bird" ],
     "weakpoint_sets": [ "wps_bird_body" ],
     "harvest": "mutant_bird",
@@ -564,7 +561,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "vision_night": 4,
-    "stomach_size": 800,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_bird" ],
     "weakpoint_sets": [ "wps_bird_body" ],
     "harvest": "mutant_bird_flightless",

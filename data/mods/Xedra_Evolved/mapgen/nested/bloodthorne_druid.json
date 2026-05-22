@@ -118,7 +118,7 @@
       "items": {
         "R": [
           { "item": "veggy_pickled_jar_3l_glass_sealed_12", "chance": 15, "repeat": [ 1, 2 ] },
-          { "item": "apple_canned_jar_3l_glass_sealed_24", "chance": 15 },
+          { "item": "fruits_in_3l_jar", "chance": 15 },
           { "item": "fish_pickled_jar_3l_glass_sealed_12", "chance": 15, "repeat": [ 1, 2 ] },
           { "item": "meat_pickled_jar_3l_glass_sealed_12", "chance": 15 },
           { "item": "veggy_canned_jar_3l_glass_sealed_12", "chance": 15, "repeat": [ 1, 2 ] },

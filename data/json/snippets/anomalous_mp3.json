@@ -1,0 +1,54 @@
+[
+  {
+    "type": "snippet",
+    "category": "<mp3_reverberation_locator_cooldown>",
+    "text": [
+      "You hear static noise.",
+      "You hear distant bird chirping.",
+      "You hear a windy forest.",
+      "You feel an overwhelming presence, stirring in its sleep."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<mp3_reverberation_locator_almost_there>",
+    "text": [ "Its song is indescribably beautiful.", "Its song is painting the world in vibrant colors." ]
+  },
+  {
+    "type": "snippet",
+    "category": "<mp3_reverberation_locator_close>",
+    "text": [ "Its song is energetic.", "Its song is joyful." ]
+  },
+  {
+    "type": "snippet",
+    "category": "<mp3_reverberation_locator_distant>",
+    "text": [ "You hear faint music somewhere on your body." ]
+  },
+  {
+    "type": "snippet",
+    "category": "mp3_reverberation_listener_radiosphere",
+    "text": [
+      "You hear the structure buckle under the wind.",
+      "You hear faint music you never heard before.",
+      "You see a news broadcast, you can't understand what any of it means.",
+      "You receive a signal, you..",
+      "You hear someone observing you from the abyss below.",
+      "You hear a faint radio transmission.",
+      "Your cotton wings are..",
+      "You hear muffled bird chirping."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "mp3_reverberation_listener_cabins",
+    "text": [
+      "You hear wood creaking.",
+      "You hear stronger wind, somewhere.",
+      "You briefly see a thunder strike, it's muffled and it's not there.",
+      "You hear faint digging sounds.",
+      "You can briefly smell old books.",
+      "You feel the warmth of a lit up fireplace.",
+      "You hear dripping water."
+    ]
+  }
+]

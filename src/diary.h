@@ -166,6 +166,8 @@ class diary
         diary_page *get_page_ptr( int offset = 0, bool allow_summary = true );
         /*returns the text of opened page*/
         std::string get_page_text();
+        /*return the text or the selected description if in summary*/
+        std::string get_desc_or_page_text( int desc );
         /*returns text for head of page*/
         std::string get_head_text( bool is_summary = false );
         /*helper functions for *_changes below, adds to change_list with headers, pluralization, etc*/

@@ -186,7 +186,7 @@
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
     "name": { "str": "7.62mm 30-round conversion magazine" },
-    "description": " Engineered to allow the tapered 7.62x39mm cartridge to reliably cycle into the chamber of an appropriately converted firearm and possessing a dramatic curve that looks laughably goofy, this 30-round steel box magazine is compatible with AR-15-style rifles.",
+    "description": "Engineered to allow the tapered 7.62x39mm cartridge to reliably cycle into the chamber of an appropriately converted firearm and possessing a dramatic curve that looks laughably goofy, this 30-round steel box magazine is compatible with AR-15-style rifles.",
     "weight": "326 g",
     "volume": "379 ml",
     "price": "30 USD",

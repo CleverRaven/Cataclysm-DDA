@@ -652,5 +652,16 @@
       }
     },
     "damage_reduction": { "all": 70 }
+  },
+  {
+    "id": "xedra_genset",
+    "copy-from": "engine_1cyl_large",
+    "type": "vehicle_part",
+    "item": "xedra_genset",
+    "fuel_options": [ "gasoline", "diesel", "lamp_oil", "jp8", "motor_oil", "avgas", "biodiesel" ],
+    "m2c": 25,
+    "energy_consumption": "100000 W",
+    "description": "A spartan, prototype engine-generator made to burn all fuels.",
+    "noise_factor": 1
   }
 ]

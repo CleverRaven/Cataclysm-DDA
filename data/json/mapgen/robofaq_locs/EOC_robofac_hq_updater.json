@@ -67,10 +67,62 @@
               "u_location_variable": { "global_val": "ancilla_autodoc_loc" },
               "target_params": { "om_terrain": "robofachq_subcc_a1" }
             },
-            { "math": [ "ancilla_autodoc_placed = 1" ] }
+            { "math": [ "ancilla_autodoc_placed = 1" ] },
+            { "math": [ "ancilla_autodoc_placed_when = time('now')" ] }
+          ]
+        },
+        {
+          "id": "EOC_ROBOFAC_HQ_PLACE_ANCILLA_BIONIC_GARAGE",
+          "condition": {
+            "and": [
+              { "math": [ "ancilla_autodoc_placed == 1" ] },
+              { "math": [ "ancilla_bionic_garage_placed != 1" ] },
+              { "math": [ "time_since('cataclysm', 'unit':'days') >= 87" ] }
+            ]
+          },
+          "effect": [
+            { "mapgen_update": "robofachq_ancilla_bionic_garage", "om_terrain": "robofachq_surface_car_entrance" },
+            {
+              "u_location_variable": { "global_val": "ancilla_bionic_garage_loc" },
+              "target_params": { "om_terrain": "robofachq_surface_car_entrance" }
+            },
+            { "math": [ "ancilla_bionic_garage_placed = 1" ] }
           ]
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ROBOFAC_HQ_FORCE_PLACE_ANCILLA_AUTODOC",
+    "condition": { "math": [ "ancilla_autodoc_placed != 1" ] },
+    "effect": [
+      { "mapgen_update": "robofachq_ancilla_bar_autodoc", "om_terrain": "robofachq_subcc_a1" },
+      {
+        "u_location_variable": { "global_val": "ancilla_autodoc_loc" },
+        "target_params": { "om_terrain": "robofachq_subcc_a1" }
+      },
+      { "math": [ "ancilla_autodoc_placed = 1" ] },
+      { "run_eocs": "EOC_ROBOFAC_HQ_FORCE_PLACE_ANCILLA_BIONIC_GARAGE", "time_in_future": "7 days" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ROBOFAC_HQ_FORCE_PLACE_ANCILLA_BIONIC_GARAGE",
+    "condition": { "current_dimension": "" },
+    "effect": [
+      {
+        "if": { "math": [ "ancilla_autodoc_placed != 1" ] },
+        "then": [
+          { "mapgen_update": "robofachq_ancilla_bionic_garage", "om_terrain": "robofachq_surface_car_entrance" },
+          {
+            "u_location_variable": { "global_val": "ancilla_bionic_garage_loc" },
+            "target_params": { "om_terrain": "robofachq_surface_car_entrance" }
+          },
+          { "math": [ "ancilla_bionic_garage_placed = 1" ] }
+        ]
+      }
+    ],
+    "false_effect": { "run_eocs": "EOC_ROBOFAC_HQ_FORCE_PLACE_ANCILLA_BIONIC_GARAGE", "time_in_future": "2 days" }
   }
 ]

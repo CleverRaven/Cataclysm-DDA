@@ -115,6 +115,7 @@
     "color": "red",
     "flags": [ "TRADER_AVOID" ],
     "material": [ "wood" ],
+    "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 6000, "qualities_needed": { "STRIKING_SURFACE": 1 } },
     "ammo_type": "match"
   },
   {
@@ -167,7 +168,8 @@
     "subtypes": [ "TOOL" ],
     "id": "betavoltaic",
     "category": "spare_parts",
-    "price": "100 USD",
+    "price": "407 USD 11 cents",
+    "price_postapoc": "2 USD",
     "name": { "str": "betavoltaic cell" },
     "symbol": "=",
     "color": "green",
@@ -195,7 +197,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "aluminum_foil",
     "category": "spare_parts",
     "price": "6 USD 48 cent",
@@ -207,9 +208,7 @@
     "material": [ "aluminum" ],
     "volume": "10 ml",
     "weight": "135 mg",
-    "//": "Density of 2.7 g/cm3",
-    "ammo_type": "components",
-    "count": 200
+    "//": "Density of 2.7 g/cm3"
   },
   {
     "type": "ITEM",
@@ -307,6 +306,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "id": "soap",
+    "ascii_picture": "soap",
     "category": "chems",
     "price": "3 USD",
     "price_postapoc": "1 USD",
@@ -414,6 +414,7 @@
     "price": "3 cent",
     "price_postapoc": "1 cent",
     "name": { "str_sp": "duct tape" },
+    "display_type": "BY_LENGTH",
     "symbol": "=",
     "color": "light_gray",
     "description": "A roll of incredibly strong tape.  Its uses are innumerable.",
@@ -446,7 +447,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "cable",
     "category": "spare_parts",
     "price": "20 USD",
@@ -458,13 +458,10 @@
     "material": [ { "type": "copper", "portion": 85 }, { "type": "plastic", "portion": 15 } ],
     "//": "Calculated off of copper wire with an extra 0.5mm of diameter and 0.66g.",
     "volume": "155 ml",
-    "weight": "5413 mg",
-    "ammo_type": "components",
-    "count": 200
+    "weight": "5413 mg"
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "copper_wire",
     "category": "spare_parts",
     "price": "20 USD",
@@ -476,9 +473,7 @@
     "material": [ "copper" ],
     "//": "Calculated off of 12 AWG, at 10cm length, using http://www.mtlexs.com/technical-specifications-details/40/weight-of-copper-wire.",
     "volume": "110 ml",
-    "weight": "4747 mg",
-    "ammo_type": "components",
-    "count": 200
+    "weight": "4747 mg"
   },
   {
     "type": "ITEM",
@@ -497,7 +492,7 @@
     "weight": "20 g",
     "ammo_type": "plutonium",
     "count": 5,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF" ]
   },
   {
     "type": "ITEM",
@@ -517,7 +512,7 @@
     "weight": "38 g",
     "ammo_type": "uranium",
     "count": 1,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF" ]
   },
   {
     "type": "ITEM",
@@ -577,7 +572,7 @@
     "loudness": 0,
     "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "recovery_chance": 99,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
+    "effects": [ "NON_FOULING" ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 7 },
     "thrown_damage": { "damage_type": "bash", "amount": 7 }
@@ -600,7 +595,7 @@
     "dispersion": 14,
     "loudness": 0,
     "recovery_chance": 90,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [ "NON_FOULING" ]
   },
   {
     "type": "ITEM",
@@ -622,8 +617,7 @@
     "dispersion": 12,
     "loudness": 0,
     "count": 40,
-    "recovery_chance": 50,
-    "effects": [ "NEVER_MISFIRES" ]
+    "recovery_chance": 50
   },
   {
     "type": "ITEM",
@@ -645,8 +639,7 @@
     "dispersion": 12,
     "loudness": 0,
     "count": 20,
-    "recovery_chance": 10,
-    "effects": [ "NEVER_MISFIRES" ]
+    "recovery_chance": 10
   },
   {
     "type": "ITEM",
@@ -670,7 +663,7 @@
     "loudness": 0,
     "count": 50,
     "recovery_chance": 95,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [ "NON_FOULING" ]
   },
   {
     "type": "ITEM",
@@ -692,11 +685,10 @@
     "count": 500,
     "stack_size": 200,
     "loudness": 9,
-    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [ "NOGIB", "NON_FOULING" ]
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "feather",
     "category": "spare_parts",
     "price": "30 USD",
@@ -708,14 +700,10 @@
     "material": [ "cotton" ],
     "flags": [ "NO_SALVAGE" ],
     "volume": "250 ml",
-    "weight": "1 g",
-    "ammo_type": "components",
-    "stack_size": 100,
-    "count": 20
+    "weight": "1 g"
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "down_feather",
     "category": "spare_parts",
     "price": "30 USD",
@@ -724,13 +712,10 @@
     "symbol": "=",
     "color": "brown",
     "description": "A fluffy down feather from a bird.  Useful for making cozy bedclothes.",
-    "material": [ "cotton" ],
+    "material": [ "down_feathers" ],
     "flags": [ "NO_SALVAGE" ],
     "volume": "250 ml",
-    "weight": "1 g",
-    "ammo_type": "components",
-    "stack_size": 100,
-    "count": 20
+    "weight": "10 mg"
   },
   {
     "type": "ITEM",
@@ -775,11 +760,13 @@
   {
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
+    "ammo_type": "components",
     "id": "gunpowder",
     "category": "chems",
     "price": "5 USD",
     "price_postapoc": "20 USD",
     "name": { "str_sp": "mixed smokeless gunpowder" },
+    "display_type": "BY_WEIGHT",
     "symbol": "=",
     "color": "dark_gray",
     "description": "Firearm-quality gunpowder, mixed without concern for composition, burn rate, or shape, making it thoroughly useless for reloading ammunition.  It has been slightly ground to make its properties more uniform.",
@@ -788,13 +775,12 @@
     "flags": [ "TINDER" ],
     "volume": "250 ml",
     "weight": "100 mg",
-    "ammo_type": "components",
     "count": 4540,
-    "effects": [ "COOKOFF" ]
+    "explode_in_fire": true,
+    "explosion": { "power": 42 }
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "gunpowder_shotgun",
     "copy-from": "gunpowder",
     "price": "30 USD",
@@ -804,7 +790,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "gunpowder_pistol",
     "copy-from": "gunpowder",
     "price": "30 USD",
@@ -814,7 +799,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "gunpowder_magnum_pistol",
     "copy-from": "gunpowder",
     "price": "30 USD",
@@ -824,7 +808,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "gunpowder_rifle",
     "copy-from": "gunpowder",
     "price": "30 USD",
@@ -834,7 +817,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "gunpowder_large_rifle",
     "copy-from": "gunpowder",
     "price": "30 USD",
@@ -844,7 +826,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "gunpowder_artillery",
     "copy-from": "gunpowder",
     "price": "30 USD",
@@ -854,7 +835,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "oxy_powder",
     "category": "chems",
     "price": "30 USD",
@@ -864,15 +844,14 @@
     "color": "white",
     "description": "Volatile powdered chemical oxidizer.",
     "material": [ "powder" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200,
-    "effects": [ "COOKOFF" ]
+    "explode_in_fire": true,
+    "//": "Burns rapidly but not really an explosion.",
+    "explosion": { "power": 20 }
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "lye_powder",
     "category": "chems",
     "price": "30 USD",
@@ -882,14 +861,11 @@
     "color": "white",
     "description": "Powdered caustic soda, also known as sodium hydroxide.",
     "material": [ "powder_nonflam" ],
-    "volume": "250 ml",
-    "weight": "2662 mg",
-    "ammo_type": "components",
-    "count": 200
+    "volume": "1 ml",
+    "weight": "2662 mg"
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "shotgun_primer",
     "category": "spare_parts",
     "price": "30 USD",
@@ -899,15 +875,13 @@
     "color": "dark_gray",
     "description": "A primer from a shotgun shell.",
     "material": [ "steel", "powder" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200,
-    "effects": [ "COOKOFF" ]
+    "explode_in_fire": true,
+    "explosion": { "power": 50 }
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "smpistol_primer",
     "category": "spare_parts",
     "price": "40 USD",
@@ -917,15 +891,13 @@
     "color": "dark_gray",
     "description": "A primer from a small-caliber pistol round.",
     "material": [ "steel", "powder" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200,
-    "effects": [ "COOKOFF" ]
+    "explode_in_fire": true,
+    "explosion": { "power": 50 }
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "lgpistol_primer",
     "category": "spare_parts",
     "price": "60 USD",
@@ -935,15 +907,13 @@
     "color": "dark_gray",
     "description": "A primer from a large-caliber pistol round.",
     "material": [ "steel", "powder" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200,
-    "effects": [ "COOKOFF" ]
+    "explode_in_fire": true,
+    "explosion": { "power": 50 }
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "smrifle_primer",
     "category": "spare_parts",
     "price": "60 USD",
@@ -953,15 +923,13 @@
     "color": "dark_gray",
     "description": "A primer from a small-caliber rifle round.",
     "material": [ "steel", "powder" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200,
-    "effects": [ "COOKOFF" ]
+    "explode_in_fire": true,
+    "explosion": { "power": 50 }
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "lgrifle_primer",
     "category": "spare_parts",
     "price": "80 USD",
@@ -971,15 +939,13 @@
     "color": "dark_gray",
     "description": "A primer from a large-caliber rifle round.",
     "material": [ "steel", "powder" ],
-    "volume": "250 ml",
+    "volume": "1 ml",
     "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200,
-    "effects": [ "COOKOFF" ]
+    "explode_in_fire": true,
+    "explosion": { "power": 50 }
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "spent_shotgun_primer",
     "category": "spare_parts",
     "price": "0 USD",
@@ -989,14 +955,11 @@
     "color": "dark_gray",
     "description": "A primer from a shotgun shell.  It has been fired, and must be cleaned and reloaded to use again.",
     "material": [ "steel" ],
-    "volume": "250 ml",
-    "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200
+    "volume": "1 ml",
+    "weight": "1 g"
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "spent_smpistol_primer",
     "category": "spare_parts",
     "price": "0 USD",
@@ -1006,14 +969,11 @@
     "color": "dark_gray",
     "description": "A primer from a small-caliber pistol round.  It has been fired, and must be cleaned and reloaded to use again.",
     "material": [ "steel" ],
-    "volume": "250 ml",
-    "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200
+    "volume": "1 ml",
+    "weight": "1 g"
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "spent_lgpistol_primer",
     "category": "spare_parts",
     "price": "0 USD",
@@ -1023,14 +983,11 @@
     "color": "dark_gray",
     "description": "A primer from a large-caliber pistol round.  It has been fired, and must be cleaned and reloaded to use again.",
     "material": [ "steel", "powder" ],
-    "volume": "250 ml",
-    "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200
+    "volume": "1 ml",
+    "weight": "1 g"
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "spent_smrifle_primer",
     "category": "spare_parts",
     "price": "0 USD",
@@ -1040,14 +997,11 @@
     "color": "dark_gray",
     "description": "A primer from a small-caliber rifle round.  It has been fired, and must be cleaned and reloaded to use again.",
     "material": [ "steel" ],
-    "volume": "250 ml",
-    "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200
+    "volume": "1 ml",
+    "weight": "1 g"
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "spent_lgrifle_primer",
     "category": "spare_parts",
     "price": "0 USD",
@@ -1057,14 +1011,11 @@
     "color": "dark_gray",
     "description": "A primer from a large-caliber rifle round.  It has been fired, and must be cleaned and reloaded to use again.",
     "material": [ "steel" ],
-    "volume": "250 ml",
-    "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200
+    "volume": "1 ml",
+    "weight": "1 g"
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "rubber_slug",
     "category": "spare_parts",
     "price": "10 USD",
@@ -1075,13 +1026,10 @@
     "description": "A rubber slug from a shotgun beanbag round.  You could use it to make a new beanbag round.",
     "material": [ "plastic", "rubber" ],
     "volume": "250 ml",
-    "weight": "2 g",
-    "ammo_type": "components",
-    "count": 25
+    "weight": "2 g"
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "chunk_rubber",
     "category": "spare_parts",
     "price": "75 cent",
@@ -1093,12 +1041,10 @@
     "material": [ "rubber" ],
     "volume": "250 ml",
     "weight": "38 g",
-    "ammo_type": "components",
     "flags": [ "NO_SALVAGE" ]
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "copper",
     "category": "spare_parts",
     "price": "10 USD",
@@ -1110,13 +1056,10 @@
     "material": [ "copper" ],
     "volume": "128 ml",
     "weight": "5 g",
-    "//": "200*5g / 8.63g/ml = ~115.87ml. Add 10% to take an uneven chunk into account = 127.46ml rounded upwards to 128ml.",
-    "ammo_type": "components",
-    "count": 200
+    "//": "200*5g / 8.63g/ml = ~115.87ml. Add 10% to take an uneven chunk into account = 127.46ml rounded upwards to 128ml."
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "medical_tape",
     "category": "spare_parts",
     "price": "20 USD",
@@ -1128,9 +1071,7 @@
     "material": [ "plastic" ],
     "//": "25 x 200 x 0.2 mm per unit, 5 meters roll is 25 units",
     "volume": "1 ml",
-    "weight": "1 g",
-    "ammo_type": "components",
-    "count": 1
+    "weight": "1 g"
   },
   {
     "type": "ITEM",
@@ -1144,6 +1085,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "name": { "str_sp": "charcoal" },
+    "display_type": "BY_WEIGHT",
     "symbol": "=",
     "color": "dark_gray",
     "description": "A flammable carbon-based material produced by slowly burning wood.  Utilized in recipes requiring a pure, hot flame.  Can also be used in filters to remove contaminants from air and water.",
@@ -1181,6 +1123,7 @@
     "price": "5 cent",
     "price_postapoc": "20 cent",
     "name": { "str_sp": "coal" },
+    "display_type": "BY_WEIGHT",
     "symbol": "=",
     "color": "dark_gray",
     "description": "Flammable black chunks of carbon-based material, commonly used for cooking and heating.",
@@ -1445,7 +1388,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "lamellae_lc",
     "category": "spare_parts",
     "name": { "str": "mild steel lamella", "str_pl": "mild steel lamellae" },
@@ -1458,13 +1400,10 @@
     "material": [ "lc_steel" ],
     "symbol": ",",
     "color": "light_gray",
-    "ammo_type": "components",
-    "count": 18,
     "flags": [ "NO_SALVAGE" ]
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "lamellae_ch",
     "category": "spare_parts",
     "name": { "str": "hardened steel lamella", "str_pl": "hardened steel lamellae" },
@@ -1477,8 +1416,6 @@
     "material": [ "ch_steel" ],
     "symbol": ",",
     "color": "light_gray",
-    "ammo_type": "components",
-    "count": 18,
     "flags": [ "NO_SALVAGE" ]
   },
   {
@@ -1500,7 +1437,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "lc_chain_link",
     "category": "spare_parts",
     "//": "link weighs 1/3 gram or so, make 425 per 150 gram wire to account for loss",
@@ -1512,13 +1448,10 @@
     "description": "A set of small metal rings, suitable for constructing chainmail.",
     "material": [ "lc_steel" ],
     "volume": "250 ml",
-    "weight": "320 mg",
-    "ammo_type": "components",
-    "count": 425
+    "weight": "320 mg"
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "mc_chain_link",
     "copy-from": "lc_chain_link",
     "name": { "str": "medium steel chain link" },
@@ -1526,7 +1459,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "hc_chain_link",
     "copy-from": "lc_chain_link",
     "name": { "str": "high steel chain link" },
@@ -1534,7 +1466,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "ch_chain_link",
     "copy-from": "lc_chain_link",
     "name": { "str": "hardened steel chain link" },
@@ -1542,7 +1473,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "qt_chain_link",
     "copy-from": "lc_chain_link",
     "name": { "str": "tempered steel chain link" },
@@ -1619,7 +1549,6 @@
     "color": "brown",
     "count": 50,
     "ammo_type": "tinder",
-    "effects": [ "NEVER_MISFIRES" ],
     "melee_damage": { "bash": 1 }
   },
   {
@@ -1643,7 +1572,6 @@
     "loudness": 0,
     "count": 7,
     "recovery_chance": 80,
-    "effects": [ "NEVER_MISFIRES" ],
     "use_action": [ "RPGDIE" ]
   },
   {
@@ -1667,7 +1595,6 @@
     "loudness": 0,
     "count": 7,
     "recovery_chance": 90,
-    "effects": [ "NEVER_MISFIRES" ],
     "use_action": [ "RPGDIE" ]
   },
   {
@@ -1794,7 +1721,7 @@
     "count": 500,
     "stack_size": 200,
     "loudness": 9,
-    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [ "NOGIB", "NON_FOULING" ]
   },
   {
     "type": "ITEM",
@@ -1816,6 +1743,6 @@
     "count": 500,
     "stack_size": 200,
     "loudness": 9,
-    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [ "NOGIB", "NON_FOULING" ]
   }
 ]

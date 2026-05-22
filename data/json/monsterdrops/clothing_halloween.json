@@ -1477,7 +1477,7 @@
       {
         "collection": [
           { "group": "scarfs_unisex", "prob": 10, "damage": [ 1, 4 ] },
-          { "item": "glasses_safety", "prob": 95, "damage": [ 1, 4 ] },
+          { "item": "goggles_chem", "prob": 95, "damage": [ 1, 4 ] },
           { "item": "coat_lab", "damage": [ 1, 4 ] },
           { "item": "gloves_rubber", "prob": 75, "damage": [ 1, 4 ] },
           { "item": "apron_plastic", "prob": 45, "damage": [ 1, 4 ] },

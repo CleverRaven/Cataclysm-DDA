@@ -127,7 +127,7 @@
       { "item": "radiocontrol", "prob": 5, "charges": [ 0, 100 ] },
       [ "RPG_die", 1 ],
       [ "metal_RPG_die", 1 ],
-      [ "deck_of_cards", 1 ]
+      { "group": "decks_of_cards", "prob": 1 }
     ]
   },
   {
@@ -386,7 +386,6 @@
     "type": "item_group",
     "id": "licorice_bag_plastic_1_4",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "licorice", "container-item": "null", "count": [ 1, 4 ] } ]
   }

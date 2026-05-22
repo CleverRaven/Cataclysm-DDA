@@ -160,19 +160,75 @@
     "id": "oxy_powder_bottle_part",
     "type": "item_group",
     "container-item": "bottle_plastic_small",
-    "items": [ { "item": "oxy_powder", "charges": [ 30, -1 ] } ]
+    "items": [ { "item": "oxy_powder", "count": [ 30, -1 ] } ]
   },
   {
     "id": "lye_powder_bottle_part",
     "type": "item_group",
     "container-item": "bottle_plastic_small",
-    "items": [ { "item": "lye_powder", "charges": [ 30, -1 ] } ]
+    "items": [ { "item": "lye_powder", "count": [ 30, -1 ] } ]
   },
   {
     "id": "charcoal_bag_part",
     "type": "item_group",
     "container-item": "bag_paper_charcoal",
     "items": [ { "item": "charcoal", "charges": [ 200, 5000 ] } ]
+  },
+  {
+    "id": "nail_box_1lb_full",
+    "type": "item_group",
+    "container-item": "box_small",
+    "on_overflow": "spill",
+    "items": [ { "item": "nail", "count": 23 } ]
+  },
+  {
+    "id": "nail_box_1lb",
+    "type": "item_group",
+    "container-item": "box_small",
+    "on_overflow": "spill",
+    "items": [ { "item": "nail", "charges": [ 7, 23 ] } ]
+  },
+  {
+    "id": "nail_box_5lb_full",
+    "type": "item_group",
+    "container-item": "box_small",
+    "on_overflow": "spill",
+    "items": [ { "item": "nail", "count": 115 } ]
+  },
+  {
+    "id": "nail_box_5lb",
+    "type": "item_group",
+    "container-item": "box_small",
+    "on_overflow": "spill",
+    "items": [ { "item": "nail", "charges": [ 35, 115 ] } ]
+  },
+  {
+    "id": "nail_box_10lb_full",
+    "type": "item_group",
+    "container-item": "box_small",
+    "on_overflow": "spill",
+    "items": [ { "item": "nail", "count": 230 } ]
+  },
+  {
+    "id": "nail_box_10lb",
+    "type": "item_group",
+    "container-item": "box_small",
+    "on_overflow": "spill",
+    "items": [ { "item": "nail", "charges": [ 69, 230 ] } ]
+  },
+  {
+    "id": "nail_box_15lb_full",
+    "type": "item_group",
+    "container-item": "box_small",
+    "on_overflow": "spill",
+    "items": [ { "item": "nail", "count": 345 } ]
+  },
+  {
+    "id": "nail_box_15lb",
+    "type": "item_group",
+    "container-item": "box_small",
+    "on_overflow": "spill",
+    "items": [ { "item": "nail", "charges": [ 103, 345 ] } ]
   },
   {
     "id": "nicotine_liquid_bottle_part",
@@ -207,6 +263,11 @@
     "items": [ [ "r_carpet", 45 ], [ "g_carpet", 45 ], [ "y_carpet", 45 ], [ "p_carpet", 45 ] ]
   },
   {
+    "id": "styrofoam_sheet_pack",
+    "type": "item_group",
+    "items": [ [ "material_styrofoam_sheet", 6 ] ]
+  },
+  {
     "type": "item_group",
     "id": "hardware_bulk",
     "//": "large quantities of common building supplies.",
@@ -224,11 +285,12 @@
       { "item": "rock", "prob": 70, "count": [ 10, 20 ] },
       { "item": "coal_lump", "prob": 20, "count": [ 10, 200 ] },
       { "item": "material_cement", "prob": 100, "charges": 500, "container-item": "bag_canvas" },
-      { "item": "material_sand", "prob": 100, "charges": 500, "container-item": "bag_canvas" },
+      { "item": "material_sand", "prob": 100, "count": 500, "container-item": "bag_canvas" },
       { "group": "sandbag", "prob": 80 },
-      { "item": "material_gravel", "prob": 100, "charges": 500, "container-item": "bag_canvas" },
+      { "item": "material_gravel", "prob": 100, "count": 500, "container-item": "bag_canvas" },
       [ "material_shrd_limestone", 70 ],
       { "group": "fertilizer_commercial_bag_canvas_60", "prob": 100 },
+      { "group": "styrofoam_sheet_pack", "prob": 30, "count": [ 1, 4 ] },
       { "group": "quicklime_bag", "prob": 70 },
       { "group": "concrete_bag", "count": [ 3, 7 ], "prob": 100 },
       { "group": "cement_bag", "count": [ 1, 3 ], "prob": 100 },
@@ -241,10 +303,18 @@
       { "item": "rebar", "prob": 40, "count": [ 5, 10 ] },
       { "item": "brick", "prob": 40, "count": [ 5, 10 ] },
       { "item": "pipe", "prob": 40, "count": [ 5, 10 ] },
+      { "item": "pipe_cpvc", "prob": 60, "count": [ 20, 40 ] },
       { "item": "lc_wire", "prob": 40, "count": [ 5, 10 ] },
       { "item": "screen_mesh", "prob": 40, "count": [ 5, 10 ] },
       { "item": "spike", "prob": 40, "count": [ 5, 10 ] },
-      { "item": "nail", "prob": 60, "count": [ 5, 20 ] },
+      { "group": "nail_box_1lb_full", "prob": 95, "count": [ 12, 24 ] },
+      { "group": "nail_box_5lb_full", "prob": 80, "count": [ 1, 10 ] },
+      { "group": "nail_box_10lb_full", "prob": 75, "count": [ 1, 10 ] },
+      { "group": "nail_box_15lb_full", "prob": 70, "count": [ 1, 10 ] },
+      { "group": "nail_box_1lb", "prob": 95, "count": [ 6, 24 ] },
+      { "group": "nail_box_5lb", "prob": 90, "count": [ 1, 10 ] },
+      { "group": "nail_box_10lb", "prob": 85, "count": [ 1, 10 ] },
+      { "group": "nail_box_15lb", "prob": 80, "count": [ 1, 10 ] },
       { "item": "hinge", "prob": 60, "count": [ 5, 10 ] },
       { "item": "tempered_glass_sheet", "prob": 30, "count": [ 5, 20 ] },
       { "item": "rigid_plastic_sheet", "prob": 30, "count": [ 5, 20 ] }
@@ -255,7 +325,7 @@
     "type": "item_group",
     "//": "Common plumbing supplies. These are more likely to be found on jobsites and work spaces, rather than store shelves. Use bulk for store shelves.",
     "items": [
-      [ "pipe", 200 ],
+      { "item": "pipe_cpvc", "prob": 60, "count": [ 1, 2 ] },
       { "item": "cu_pipe", "prob": 200, "count": [ 1, 2 ] },
       { "item": "hose", "prob": 200, "count": [ 1, 2 ] },
       { "item": "solder_wire", "prob": 100, "count": [ 1, 2 ] },
@@ -292,7 +362,7 @@
     "items": [
       { "group": "supplies_plumbing", "prob": 100, "count": [ 1, 2 ] },
       { "item": "cu_pipe", "prob": 100, "count": [ 1, 10 ] },
-      { "item": "pipe", "prob": 100, "count": [ 1, 10 ] },
+      { "item": "pipe_cpvc", "prob": 100, "count": [ 150, 400 ] },
       { "item": "hose", "prob": 100, "count": [ 1, 10 ] },
       { "item": "water_faucet", "prob": 30, "count": [ 1, 5 ] },
       { "item": "solder_wire", "prob": 50, "count": [ 2, 6 ] },
@@ -300,7 +370,7 @@
       { "item": "metal_tank_little", "prob": 50, "count": [ 1, 2 ] },
       [ "metal_tank", 10 ],
       [ "jerrycan", 10 ],
-      [ "glue_weak", 50 ],
+      { "group": "glue_weak_domestic_full", "prob": 40 },
       [ "pump_complex", 10 ],
       [ "well_pump", 10 ],
       { "item": "scrap_copper", "prob": 15, "count": [ 1, 12 ] },
@@ -328,8 +398,15 @@
           { "item": "wood_panel", "prob": 300, "count": [ 15, 40 ] },
           { "item": "log", "prob": 200, "count": [ 5, 10 ] },
           { "item": "stick_long", "prob": 100, "count": [ 10, 20 ] },
-          { "item": "stick", "prob": 50, "count": [ 5, 10 ] },
-          { "item": "nail", "prob": 100, "count": [ 5, 20 ] }
+          { "group": "nail_box_1lb_full", "prob": 90, "count": [ 10, 20 ] },
+          { "group": "nail_box_5lb_full", "prob": 85, "count": [ 2, 6 ] },
+          { "group": "nail_box_10lb_full", "prob": 80, "count": [ 1, 6 ] },
+          { "group": "nail_box_15lb_full", "prob": 75, "count": [ 1, 4 ] },
+          { "group": "nail_box_1lb", "prob": 95, "count": [ 6, 20 ] },
+          { "group": "nail_box_5lb", "prob": 90, "count": [ 2, 6 ] },
+          { "group": "nail_box_10lb", "prob": 85, "count": [ 1, 6 ] },
+          { "group": "nail_box_15lb", "prob": 80, "count": [ 1, 4 ] },
+          { "item": "stick", "prob": 50, "count": [ 5, 10 ] }
         ],
         "prob": 100
       },
@@ -358,7 +435,14 @@
           { "item": "wood_panel", "prob": 30, "count": [ 2, 3 ] },
           { "item": "stick_long", "prob": 30, "count": [ 5, 10 ] },
           { "item": "stick", "prob": 50, "count": [ 1, 7 ] },
-          { "item": "nail", "prob": 100, "count": [ 5, 20 ] }
+          { "group": "nail_box_1lb_full", "prob": 100, "count": [ 6, 24 ] },
+          { "group": "nail_box_5lb_full", "prob": 95, "count": [ 1, 10 ] },
+          { "group": "nail_box_10lb_full", "prob": 95, "count": [ 1, 10 ] },
+          { "group": "nail_box_15lb_full", "prob": 90, "count": [ 1, 10 ] },
+          { "group": "nail_box_1lb", "prob": 100, "count": [ 1, 24 ] },
+          { "group": "nail_box_5lb", "prob": 95, "count": [ 1, 10 ] },
+          { "group": "nail_box_10lb", "prob": 95, "count": [ 1, 10 ] },
+          { "group": "nail_box_15lb", "prob": 90, "count": [ 1, 10 ] }
         ],
         "prob": 100
       },
@@ -423,9 +507,9 @@
     "//2": "Stuff you might find in a jobsite, a hardware store, or a home workshop.",
     "items": [
       { "item": "nuts_bolts", "prob": 80, "charges": 500, "container-item": "box_small" },
-      { "item": "brazing_rod_bronze", "prob": 15, "charges": 1500 },
-      { "item": "welding_rod_steel", "prob": 20, "charges": 1500 },
-      { "item": "welding_wire_steel", "prob": 20, "charges": 1500 },
+      { "item": "brazing_rod_bronze", "prob": 15, "count": 1500 },
+      { "item": "welding_rod_steel", "prob": 20, "count": 1500 },
+      { "item": "welding_wire_steel", "prob": 20, "count": 1500 },
       { "group": "concrete_bag_any", "prob": 40 },
       { "group": "cement_bag_any", "prob": 50 },
       { "group": "sandbag_any", "prob": 50 },
@@ -443,7 +527,7 @@
       [ "solder_wire", 20 ],
       { "group": "glue_weak_professional_full", "prob": 15 },
       { "group": "glue_strong_professional_full", "prob": 15 },
-      [ "glue_weak", 25 ],
+      { "group": "glue_weak_domestic_full", "prob": 25 },
       [ "magnet", 10 ],
       [ "chain", 20 ],
       [ "rope_6", 4 ],
@@ -459,7 +543,14 @@
       { "item": "pipe", "prob": 20, "count": [ 5, 10 ] },
       { "item": "polycarbonate_sheet", "prob": 10, "count": [ 1, 3 ] },
       [ "vac_mold", 3 ],
-      { "item": "nail", "prob": 60, "count": [ 2, 4 ] },
+      { "group": "nail_box_1lb_full", "prob": 90, "count": [ 1, 12 ] },
+      { "group": "nail_box_5lb_full", "prob": 80, "count": [ 1, 3 ] },
+      { "group": "nail_box_10lb_full", "prob": 75, "count": [ 1, 3 ] },
+      { "group": "nail_box_15lb_full", "prob": 70, "count": [ 1, 3 ] },
+      { "group": "nail_box_1lb", "prob": 95, "count": [ 1, 12 ] },
+      { "group": "nail_box_5lb", "prob": 90, "count": [ 1, 3 ] },
+      { "group": "nail_box_10lb", "prob": 85, "count": [ 1, 3 ] },
+      { "group": "nail_box_15lb", "prob": 80, "count": [ 1, 2 ] },
       [ "hose", 15 ],
       [ "string_36", 40 ],
       { "item": "22_blank", "prob": 30, "count": [ 1, 4 ] },
@@ -496,6 +587,7 @@
       { "group": "ammo_heavy_batteries_full", "prob": 25 },
       [ "solar_cell", 5 ],
       { "group": "fertilizer_commercial_bag_canvas_60", "prob": 30 },
+      { "group": "styrofoam_sheet_pack", "prob": 15 },
       [ "chem_sulphuric_acid", 30 ],
       [ "chem_muriatic_acid", 35 ],
       [ "peephole", 25 ],
@@ -554,8 +646,8 @@
         "container-item": "bag_plastic",
         "sealed": false
       },
-      { "item": "chem_baking_soda", "prob": 10, "charges": [ 1, -1 ] },
-      { "item": "chem_washing_soda", "prob": 10, "charges": [ 1, -1 ] },
+      { "item": "chem_baking_soda", "prob": 10, "count": [ 1, -1 ] },
+      { "item": "chem_washing_soda", "prob": 10, "count": [ 1, -1 ] },
       { "item": "chem_calcium_chloride", "prob": 5 },
       { "item": "chem_nitric_acid", "prob": 10, "charges": [ 1, -1 ] },
       { "item": "chem_sulphuric_acid", "prob": 10, "charges": [ 1, -1 ] },
@@ -603,7 +695,7 @@
     "items": [
       { "item": "water_clean", "prob": 90, "charges": [ 1, -1 ], "container-item": "bottle_plastic", "sealed": false },
       { "item": "cooking_oil", "prob": 100, "count": 4, "charges": [ 10, -1 ] },
-      { "item": "chem_washing_soda", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "chem_washing_soda", "prob": 100, "count": [ 1, 20 ] },
       { "item": "lamp_oil", "prob": 100, "count": 4, "charges": [ 10, -1 ] }
     ]
   },
@@ -752,7 +844,7 @@
       { "item": "polycarbonate_sheet", "prob": 4, "count": [ 1, 3 ] },
       { "item": "seatbelt", "prob": 10, "count": [ 3, 10 ] },
       { "item": "five-point_harness", "prob": 3, "count": [ 2, 4 ] },
-      { "item": "glue_weak", "prob": 15, "count": [ 3, 9 ] },
+      { "group": "glue_weak_professional_full", "prob": 15, "count": [ 3, 9 ] },
       [ "vac_mold", 1 ],
       [ "wheel_wide", 10 ],
       [ "wheel_bicycle", 10 ],
@@ -801,6 +893,7 @@
       [ "v8_combustion", 10 ],
       [ "veh_tools_workshop", 1 ],
       [ "welder", 1 ],
+      [ "welding_papr_helmet", 1 ],
       { "item": "soldering_iron", "prob": 1 },
       { "item": "soldering_iron_portable", "prob": 1, "charges": [ 0, 50 ] },
       [ "veh_tools_kitchen", 1 ],
@@ -837,7 +930,8 @@
       [ "filter_air", 60 ],
       [ "filter_liquid", 60 ],
       [ "glowplug", 10 ],
-      [ "glue_weak", 25 ],
+      { "item": "blister_pack", "contents-item": "tire_repair_kit", "prob": 100, "count": [ 0, 8 ] },
+      { "group": "glue_weak_professional_full", "prob": 20 },
       [ "motor_small", 20 ],
       [ "pump_complex", 10 ],
       [ "well_pump", 50 ]
@@ -969,7 +1063,6 @@
     "type": "item_group",
     "id": "chem_peptone_broth_bottle_plastic_small_1_inf",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "chem_peptone_broth", "container-item": "null", "count": [ 1, -1 ] } ]
   },
@@ -977,7 +1070,6 @@
     "type": "item_group",
     "id": "chem_agar_bottle_plastic_small_1_inf",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "chem_agar", "container-item": "null", "count": [ 1, -1 ] } ]
   },
@@ -985,7 +1077,6 @@
     "type": "item_group",
     "id": "chem_acrylamide_bottle_glass_1_inf",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_glass",
     "entries": [ { "item": "chem_acrylamide", "container-item": "null", "count": [ 1, -1 ] } ]
   },

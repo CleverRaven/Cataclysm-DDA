@@ -72,5 +72,10 @@
       { "monster": "mon_zombie_fungus_acidic", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_zombie_dog_fungus", "weight": 50, "cost_multiplier": 0 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_FUNGI_QUEEN",
+    "monsters": [ { "monster": "mon_fungaloid_queen", "weight": 1000, "cost_multiplier": 0 } ]
   }
 ]

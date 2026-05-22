@@ -55,6 +55,9 @@ constexpr int VEHICLE_HANDLING_PENALTY = 80;
 // Amount by which to charge an item for each unit of plutonium cell.
 constexpr int PLUTONIUM_CHARGES = 500;
 
+// "Natural" damage nullification for durable veh parts, even if no damage reduction is defined
+constexpr int VEH_PART_DMG_REDUCTION_FROM_DURABILITY_CAP = 20;
+
 // Temperature constants.
 namespace temperatures
 {
@@ -83,13 +86,12 @@ constexpr units::temperature boiling = units::from_celsius( 100 ); // 100 Celsiu
 // Slowest speed at which a gun can be aimed.
 constexpr int MAX_AIM_COST = 10;
 
+// Minimum (effective) level for a skill.
+constexpr int MIN_SKILL = 0;
 // Maximum (effective) level for a skill.
 constexpr int MAX_SKILL = 10;
 
-// Maximum (effective) level for a stat.
-constexpr int MAX_STAT = 14;
-
-// Accuracy levels which a shots tangent must be below.
+// Accuracy levels which a shot's tangent must be below.
 constexpr double accuracy_headshot = 0.1;
 constexpr double accuracy_critical = 0.2;
 constexpr double accuracy_goodhit  = 0.5;
@@ -109,7 +111,7 @@ constexpr int BIO_CQB_LEVEL = 5;
 // Minimum size of a horde to show up on the minimap.
 constexpr int HORDE_VISIBILITY_SIZE = 3;
 
-// How often a NPC can move one tile on the overmap
+// How often an NPC can move one tile on the overmap
 constexpr time_duration time_between_npc_OM_moves = 5_minutes;
 
 /**

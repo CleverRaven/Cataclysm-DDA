@@ -638,7 +638,7 @@
       { "group": "modular_m4a1", "prob": 50 },
       [ "m14ebr", 35 ],
       [ "m249", 20 ],
-      [ "modular_m27_assault_rifle", 50 ],
+      { "group": "h&k416a5_any", "prob": 50 },
       [ "M24", 35 ]
     ]
   },

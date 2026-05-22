@@ -544,16 +544,8 @@
     "melee_damage": { "stab": 21 }
   },
   {
-    "id": "knife_rambo",
-    "copy-from": "mc_knife_rambo",
-    "type": "ITEM",
-    "name": { "str": "survival knife", "str_pl": "survival knives" },
-    "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.",
-    "replace_materials": { "mc_steel": "steel" }
-  },
-  {
     "id": "lc_knife_rambo",
-    "copy-from": "mc_knife_rambo",
+    "copy-from": "knife_rambo",
     "looks_like": "knife_rambo",
     "type": "ITEM",
     "name": { "str": "mild steel survival knife", "str_pl": "mild steel survival knives" },
@@ -565,13 +557,12 @@
     "relative": { "melee_damage": { "stab": -1 } }
   },
   {
-    "id": "mc_knife_rambo",
-    "looks_like": "knife_rambo",
+    "id": "knife_rambo",
     "type": "ITEM",
     "category": "weapons",
     "name": { "str": "medium steel survival knife", "str_pl": "medium steel survival knives" },
     "//": "This isn't really supposed to be a very good knife, or a very good saw.  It's more for looking scary.",
-    "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.  Made of medium steel, this is about as good as store bought.",
+    "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.",
     "weight": "422 g",
     "volume": "344 ml",
     "longest_side": "36 cm",
@@ -584,7 +575,7 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "BUTCHER", 7 ] ],
-    "flags": [ "SHEATH_SWORD", "COLLAPSE_CONTENTS", "DURABLE_MELEE", "CONDUCTIVE" ],
+    "flags": [ "SHEATH_KNIFE", "COLLAPSE_CONTENTS", "DURABLE_MELEE", "CONDUCTIVE" ],
     "weapon_category": [ "KNIVES" ],
     "pocket_data": [
       {
@@ -602,7 +593,7 @@
   },
   {
     "id": "hc_knife_rambo",
-    "copy-from": "mc_knife_rambo",
+    "copy-from": "knife_rambo",
     "looks_like": "knife_rambo",
     "type": "ITEM",
     "name": { "str": "high steel survival knife", "str_pl": "high steel survival knives" },
@@ -613,7 +604,7 @@
   },
   {
     "id": "ch_knife_rambo",
-    "copy-from": "mc_knife_rambo",
+    "copy-from": "knife_rambo",
     "looks_like": "knife_rambo",
     "type": "ITEM",
     "name": { "str": "hardened steel survival knife", "str_pl": "hardened steel survival knives" },
@@ -624,7 +615,7 @@
   },
   {
     "id": "qt_knife_rambo",
-    "copy-from": "mc_knife_rambo",
+    "copy-from": "knife_rambo",
     "looks_like": "knife_rambo",
     "type": "ITEM",
     "name": { "str": "tempered steel survival knife", "str_pl": "tempered steel survival knives" },
@@ -680,17 +671,8 @@
     "weapon_category": [ "SHIVS" ]
   },
   {
-    "id": "knife_trench",
-    "copy-from": "mc_knife_trench",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "trench knife", "str_pl": "trench knives" },
-    "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.",
-    "replace_materials": { "mc_steel": "steel" }
-  },
-  {
     "id": "lc_knife_trench",
-    "copy-from": "mc_knife_trench",
+    "copy-from": "knife_trench",
     "looks_like": "knife_trench",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
@@ -703,11 +685,10 @@
     "relative": { "melee_damage": { "stab": -2 } }
   },
   {
-    "id": "mc_knife_trench",
+    "id": "knife_trench",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "weapons",
-    "looks_like": "knife_trench",
     "name": { "str": "medium steel trench knife", "str_pl": "medium steel trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.  This one is made of medium steel and is about shop quality.",
     "weight": "530 g",
@@ -729,7 +710,7 @@
   },
   {
     "id": "hc_knife_trench",
-    "copy-from": "mc_knife_trench",
+    "copy-from": "knife_trench",
     "looks_like": "knife_trench",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
@@ -741,7 +722,7 @@
   },
   {
     "id": "ch_knife_trench",
-    "copy-from": "mc_knife_trench",
+    "copy-from": "knife_trench",
     "looks_like": "knife_trench",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
@@ -753,7 +734,7 @@
   },
   {
     "id": "qt_knife_trench",
-    "copy-from": "mc_knife_trench",
+    "copy-from": "knife_trench",
     "looks_like": "knife_trench",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
@@ -797,7 +778,7 @@
     "volume": "82 ml",
     "longest_side": "15 cm",
     "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "good" },
-    "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK", "PUNCTURE_VEHICLE_WHEELS" ],
     "weapon_category": [ "SHIVS" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -18 ] ],
     "melee_damage": { "cut": 6 }
@@ -885,8 +866,8 @@
     "price": "28 USD",
     "price_postapoc": "15 USD",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
-    "material": [ { "type": "wood", "portion": 0.85 }, { "type": "steel", "portion": 80 } ],
-    "repairs_with": [ "steel" ],
+    "material": [ { "type": "wood", "portion": 0.85 }, { "type": "mc_steel", "portion": 80 } ],
+    "repairs_with": [ "mc_steel" ],
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SWORD" ],
@@ -921,7 +902,7 @@
     ],
     "extend": { "techniques": [ "RAPID" ] },
     "looks_like": "machete",
-    "replace_materials": { "steel": "qt_steel", "wood": "kevlar" },
+    "replace_materials": { "mc_steel": "qt_steel", "wood": "kevlar" },
     "proportional": { "price_postapoc": 1.15, "price": 1.15 },
     "relative": { "melee_damage": { "cut": 7 }, "qualities": [ [ "BUTCHER", 4 ] ], "price_postapoc": "20 USD" }
   },
@@ -1076,18 +1057,8 @@
     "extend": { "flags": [ "FRAGILE_MELEE" ] }
   },
   {
-    "id": "kukri",
-    "copy-from": "mc_kukri",
-    "looks_like": "kukri",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "kukri" },
-    "description": "This versatile implement is a modern take on a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, it can be used as both a tool and a weapon.",
-    "replace_materials": { "mc_steel": "steel", "wood": "plastic" }
-  },
-  {
     "id": "lc_kukri",
-    "copy-from": "mc_kukri",
+    "copy-from": "kukri",
     "looks_like": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
@@ -1100,7 +1071,7 @@
     "relative": { "melee_damage": { "cut": -1 } }
   },
   {
-    "id": "mc_kukri",
+    "id": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "weapons",
@@ -1126,7 +1097,7 @@
   },
   {
     "id": "hc_kukri",
-    "copy-from": "mc_kukri",
+    "copy-from": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "high steel kukri" },
@@ -1137,7 +1108,7 @@
   },
   {
     "id": "ch_kukri",
-    "copy-from": "mc_kukri",
+    "copy-from": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel kukri" },
@@ -1148,7 +1119,7 @@
   },
   {
     "id": "qt_kukri",
-    "copy-from": "mc_kukri",
+    "copy-from": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel kukri" },
@@ -1699,12 +1670,12 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "weapons",
-    "name": { "str": "khopesh", "str_pl": "khopeshes" },
+    "name": { "str": "bronze khopesh", "str_pl": "bronze khopeshes" },
     "description": "This ancient bronze weapon features a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to hack through the light armor common to the region.",
     "variants": [
       {
         "id": "default",
-        "name": { "str": "khopesh", "str_pl": "khopeshes" },
+        "name": { "str": "bronze khopesh", "str_pl": "bronze khopeshes" },
         "description": "This ancient bronze weapon features a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to hack through the light armor common to the region.",
         "weight": 1
       },
@@ -1730,6 +1701,132 @@
     "weapon_category": [ "SHORT_SWORDS" ],
     "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
     "melee_damage": { "bash": 9, "cut": 27 }
+  },
+  {
+    "id": "khopesh_inferior",
+    "looks_like": "khopesh",
+    "copy-from": "khopesh",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "bronze khopesh", "str_pl": "bronze khopeshes" },
+    "description": "This ancient bronze weapon features a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to hack through the light armor common to the region.  The sword is quite worn, and bent at an odd angle.",
+    "proportional": { "melee_damage": { "bash": 1.9, "cut": 0.33 }, "price_postapoc": 0.1, "price": 0.1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
+  },
+  {
+    "id": "khopesh_fake",
+    "looks_like": "khopesh",
+    "copy-from": "khopesh",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "bronze khopesh", "str_pl": "bronze khopeshes" },
+    "description": "A cheap, yellow-colored replica of an ancient bronze weapon with a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to hack through the light armor common to the region..  The sword is quite worn, and bent at an odd angle.",
+    "proportional": { "melee_damage": { "cut": 0 }, "price_postapoc": 0.1, "price": 0.1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "replace_materials": { "bronze": "aluminum" }
+  },
+  {
+    "id": "mc_khopesh",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "weapons",
+    "name": { "str": "medium steel khopesh", "str_pl": "medium steel khopeshes" },
+    "description": "This ancient weapon features a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to hack through the light armor common to the region.\n\nMade with medium steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
+    "weight": "670 g",
+    "volume": "1750 ml",
+    "longest_side": "50 cm",
+    "price": "999 USD",
+    "price_postapoc": "50 USD",
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
+    "material": [ { "type": "leather", "portion": 1.1 }, { "type": "mc_steel", "portion": 112 } ],
+    "repairs_with": [ "mc_steel" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "techniques": [ "WBLOCK_2", "DEF_DISARM" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "SHORT_SWORDS" ],
+    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
+    "melee_damage": { "bash": 9, "cut": 28 }
+  },
+  {
+    "id": "iron_khopesh",
+    "copy-from": "mc_khopesh",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "khopesh", "str_pl": "khopeshes" },
+    "description": "This ancient weapon features a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to hack through the light armor common to the region.",
+    "replace_materials": { "mc_steel": "steel" }
+  },
+  {
+    "id": "iron_khopesh_inferior",
+    "copy-from": "mc_khopesh",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "khopesh", "str_pl": "khopeshes" },
+    "description": "This ancient weapon features a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to hack through the light armor common to the region.  The sword is quite worn, and bent at an odd angle.",
+    "replace_materials": { "mc_steel": "budget_steel" },
+    "proportional": { "melee_damage": { "bash": 1.8, "cut": 0.36 }, "price": 0.1, "price_postapoc": 0.1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
+  },
+  {
+    "id": "iron_khopesh_fake",
+    "copy-from": "mc_khopesh",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "khopesh", "str_pl": "khopeshes" },
+    "description": "A cheap replica of an ancient weapon with a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to hack through the light armor common to the region..  The sword is quite worn, and bent at an odd angle.",
+    "proportional": { "melee_damage": { "bash": 1, "cut": 0 }, "price_postapoc": 0.1, "price": 0.1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "replace_materials": { "mc_steel": "aluminum" }
+  },
+  {
+    "id": "lc_khopesh",
+    "copy-from": "mc_khopesh",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "mild steel khopesh", "str_pl": "mild steel khopeshes" },
+    "description": "This ancient weapon features a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to hack through the light armor common to the region.\n\nMade with mild steel and lacking a proper grip, this is better than the sticks you swung around as a kid, but you know you can do better.",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "good" },
+    "replace_materials": { "mc_steel": "lc_steel", "leather": "lc_steel" },
+    "proportional": { "price_postapoc": 0.75, "price": 0.75 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
+    "relative": { "melee_damage": { "cut": -1 }, "qualities": [ [ "BUTCHER", -1 ] ] }
+  },
+  {
+    "id": "hc_khopesh",
+    "copy-from": "mc_khopesh",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "high steel khopesh", "str_pl": "high steel khopeshes" },
+    "description": "This ancient weapon features a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to hack through the light armor common to the region.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
+    "replace_materials": { "mc_steel": "hc_steel" },
+    "proportional": { "price_postapoc": 1.05, "price": 1.05 },
+    "relative": { "melee_damage": { "cut": 1 }, "qualities": [ [ "BUTCHER", 1 ] ] }
+  },
+  {
+    "id": "ch_khopesh",
+    "copy-from": "mc_khopesh",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "hardened steel khopesh", "str_pl": "hardened steel khopeshes" },
+    "description": "This ancient weapon features a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to hack through the light armor common to the region.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
+    "replace_materials": { "mc_steel": "ch_steel", "leather": "kevlar" },
+    "proportional": { "price_postapoc": 1.1, "price": 1.1 },
+    "relative": { "melee_damage": { "cut": 2 }, "qualities": [ [ "BUTCHER", 2 ] ] }
+  },
+  {
+    "id": "qt_khopesh",
+    "copy-from": "mc_khopesh",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "tempered steel khopesh", "str_pl": "tempered steel khopeshes" },
+    "description": "This ancient weapon features a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to hack through the light armor common to the region.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
+    "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },
+    "proportional": { "price_postapoc": 1.15, "price": 1.15 },
+    "relative": { "melee_damage": { "cut": 3 }, "qualities": [ [ "BUTCHER", 3 ] ] }
   },
   {
     "id": "dao",
@@ -2446,17 +2543,8 @@
     "melee_damage": { "bash": 2, "stab": 25 }
   },
   {
-    "id": "broadsword",
-    "copy-from": "mc_broadsword",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "broadsword" },
-    "description": "An Early Modern sword that saw use in the 16th, 17th, and 18th centuries.  Called 'broad' to contrast with the slimmer rapiers.",
-    "replace_materials": { "mc_steel": "steel" }
-  },
-  {
     "id": "lc_broadsword",
-    "copy-from": "mc_broadsword",
+    "copy-from": "broadsword",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "mild steel broadsword" },
@@ -2468,7 +2556,7 @@
     "relative": { "melee_damage": { "cut": -4 }, "qualities": [ [ "BUTCHER", -1 ] ] }
   },
   {
-    "id": "mc_broadsword",
+    "id": "broadsword",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "weapons",
@@ -2494,7 +2582,7 @@
   },
   {
     "id": "hc_broadsword",
-    "copy-from": "mc_broadsword",
+    "copy-from": "broadsword",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "high steel broadsword" },
@@ -2505,7 +2593,7 @@
   },
   {
     "id": "ch_broadsword",
-    "copy-from": "mc_broadsword",
+    "copy-from": "broadsword",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel broadsword" },
@@ -2516,7 +2604,7 @@
   },
   {
     "id": "qt_broadsword",
-    "copy-from": "mc_broadsword",
+    "copy-from": "broadsword",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel broadsword" },
@@ -2527,7 +2615,7 @@
   },
   {
     "id": "broadsword_inferior",
-    "copy-from": "mc_broadsword",
+    "copy-from": "broadsword",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "broadsword" },
@@ -2538,7 +2626,7 @@
   },
   {
     "id": "broadsword_fake",
-    "copy-from": "mc_broadsword",
+    "copy-from": "broadsword",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "broadsword" },
@@ -2549,17 +2637,8 @@
     "extend": { "flags": [ "FRAGILE_MELEE" ] }
   },
   {
-    "id": "rapier",
-    "copy-from": "mc_rapier",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "rapier" },
-    "description": "A thin sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.",
-    "replace_materials": { "mc_steel": "steel" }
-  },
-  {
     "id": "lc_rapier",
-    "copy-from": "mc_rapier",
+    "copy-from": "rapier",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "mild steel rapier" },
@@ -2571,7 +2650,7 @@
     "relative": { "melee_damage": { "stab": -4 }, "qualities": [ [ "BUTCHER", -1 ] ] }
   },
   {
-    "id": "mc_rapier",
+    "id": "rapier",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "weapons",
@@ -2597,7 +2676,7 @@
   },
   {
     "id": "hc_rapier",
-    "copy-from": "mc_rapier",
+    "copy-from": "rapier",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "high steel rapier" },
@@ -2608,7 +2687,7 @@
   },
   {
     "id": "ch_rapier",
-    "copy-from": "mc_rapier",
+    "copy-from": "rapier",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel rapier" },
@@ -2619,7 +2698,7 @@
   },
   {
     "id": "qt_rapier",
-    "copy-from": "mc_rapier",
+    "copy-from": "rapier",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel rapier" },
@@ -2630,7 +2709,7 @@
   },
   {
     "id": "rapier_fake",
-    "copy-from": "mc_rapier",
+    "copy-from": "rapier",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "rapier" },
@@ -2747,7 +2826,7 @@
   {
     "id": "jade_nagamaki",
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
+    "subtypes": [ "TOOL", "ARTIFACT" ],
     "copy-from": "qt_katana",
     "name": { "str_sp": "jade nagamaki" },
     "description": "A master smith painstakingly flaked its flowing blade from meteoric sea-green stone.  The hilt's cordage is speckled by gold flakes from the tumultuous waters where the blade was whet, and the chosen tsuba depicts an all-devouring snake.",
@@ -2759,6 +2838,7 @@
     "flags": [ "SPEAR", "REACH_ATTACK", "UNBREAKABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_1", "WIDE", "SPIN" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
+    "passive_effects": [ { "has": "WIELD", "values": [ { "value": "MELEE_STAMINA_CONSUMPTION", "multiply": -0.67 } ] } ],
     "melee_damage": { "bash": 10, "cut": 32 }
   },
   {

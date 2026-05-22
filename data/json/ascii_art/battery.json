@@ -22,19 +22,19 @@
     "type": "ascii_art",
     "id": "medium_battery_cell",
     "picture": [
-      "<color_red>,<color_dark_gray>/]===.",
-      "|<color_yellow>< M ></color>|",
-      "'─────'"
+      "<color_c_light_blue>┌<color_light_gray>▬</color>┐",
+      "<color_c_light_blue>├<color_white>M</color>┤",
+      "<color_c_light_blue>│ │",
+      "<color_c_light_blue>└─┘"
     ]
   },
   {
     "type": "ascii_art",
     "id": "heavy_battery_cell",
     "picture": [
-      "   <color_yellow>_<color_dark_gray>_</color>_____",
-      " ,'<color_dark_gray>,└─────┤</color>",
-      "|<color_dark_gray>_|_<color_yellow>H</color>____,~<color_light_gray>:</color>",
-      "└──────────┘"
+      "<color_red>,<color_dark_gray>/]===.",
+      "|<color_yellow>< T ></color>|",
+      "'─────'"
     ]
   },
   {
@@ -43,7 +43,7 @@
     "picture": [
       "   <color_yellow>_<color_dark_gray>_</color>_______",
       " ,'<color_dark_gray>,└───────┤</color>",
-      "|<color_dark_gray>_|_<color_yellow>H+</color>_____,~<color_light_gray>:</color>",
+      "|<color_dark_gray>_|_<color_yellow>T+</color>_____,~<color_light_gray>:</color>",
       "└────────────┘"
     ]
   },

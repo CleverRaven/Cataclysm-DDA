@@ -90,7 +90,7 @@
     "color": "dark_gray",
     "looks_like": "charcoal",
     "//": "Density of graphite: 2.2g/cm3.  NOTE: Weight for 1/300 mol.  Weights are given for ONE UNIT.  Volume is for all units. This graphite volume accounts for packing density of powder. ",
-    "//pencil": "used high ratios of graphite so that pencils could still work normally. 100 units is about 3 grams, which is a full pencil. Since it will be a lubricant as well, it's fine to be in small ammounts.",
+    "//pencil": "used high ratios of graphite so that pencils could still work normally. 100 units is about 3 grams, which is a full pencil. Since it will be a lubricant as well, it's fine to be in small amounts.",
     "flags": [ "TRADER_AVOID" ],
     "ammo_type": "graphite",
     "container": "bottle_plastic_small",
@@ -230,7 +230,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "material_gravel",
     "category": "spare_parts",
     "price": "0 cent",
@@ -243,8 +242,6 @@
     "//": "density: 1.6 g/cm3",
     "volume": "5 ml",
     "weight": "8 g",
-    "ammo_type": "components",
-    "count": 1,
     "melee_damage": { "bash": 1 }
   },
   {
@@ -284,7 +281,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "material_quicklime",
     "category": "chems",
     "price": "1 USD",
@@ -295,9 +291,7 @@
     "description": "The product of burning limestone, this white powder is a crucial ingredient in making cement.  That said, it is also extremely caustic and will cause severe burns to any tissue it comes in contact with.  This property could probably be exploited.",
     "material": [ "quicklime" ],
     "volume": "5 ml",
-    "weight": "16700 mg",
-    "ammo_type": "components",
-    "count": 1
+    "weight": "16700 mg"
   },
   {
     "type": "ITEM",
@@ -318,37 +312,33 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "material_sand",
     "category": "spare_parts",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "name": { "str_sp": "sand", "ctxt": "material" },
+    "display_type": "BY_VOLUME",
     "symbol": "=",
     "color": "dark_gray",
     "description": "A handful of New England sand.  If you had a stoked furnace, you could turn it into glass.  Otherwise, it's only good for making cement.",
     "material": [ "sand" ],
     "volume": "5 ml",
-    "weight": "8 g",
-    "ammo_type": "components",
-    "count": 1
+    "weight": "8 g"
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "material_soil",
     "category": "spare_parts",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "name": { "str_sp": "soil" },
+    "display_type": "BY_VOLUME",
     "symbol": "=",
     "color": "brown",
     "description": "A pile of loosely-packed, slightly damp loamy soil.  This mixture of sand, silt and clay is ideal for growing plants.",
     "material": [ "soil" ],
     "volume": "5 L",
-    "weight": "6500 g",
-    "ammo_type": "components",
-    "stack_size": 1
+    "weight": "6500 g"
   },
   {
     "type": "ITEM",
@@ -1128,7 +1118,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "material_niter",
     "category": "spare_parts",
     "price": "75 cent",
@@ -1140,7 +1129,6 @@
     "material": [ "powder_nonflam" ],
     "volume": "1250 ml",
     "weight": "790 g",
-    "ammo_type": "components",
     "melee_damage": { "bash": 1 }
   },
   {
@@ -1235,7 +1223,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "chem_black_powder",
     "category": "chems",
     "price": "20 USD",
@@ -1247,9 +1234,7 @@
     "material": [ "powder" ],
     "volume": "89 ml",
     "weight": "151 mg",
-    "ammo_type": "components",
-    "container": "bag_plastic_small",
-    "count": 1000
+    "container": "bag_plastic_small"
   },
   {
     "type": "ITEM",
@@ -1327,7 +1312,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "id": "chem_rocket_fuel",
     "category": "chems",
     "price": "5 USD",
@@ -1339,9 +1323,7 @@
     "material": [ "powder" ],
     "volume": "250 ml",
     "weight": "70 g",
-    "ammo_type": "components",
     "container": "bag_plastic_small",
-    "count": 10,
     "melee_damage": { "bash": 1 }
   },
   {
@@ -2270,7 +2252,7 @@
     "description": "A thick gray paste used as a sealant in many construction projects.",
     "weight": "2480 mg",
     "volume": "100 ml",
-    "//": "density: 0.76–4.20 g/cm3 according to google, I'm going with the middle ground",
+    "//": "density: 0.76–4.20 g/cm3 according to Google, I'm going with the middle ground",
     "price": "9 USD 36 cent",
     "price_postapoc": "4 USD",
     "ammo_type": "components",
@@ -2359,6 +2341,37 @@
     "melee_damage": { "bash": 1 }
   },
   {
+    "type": "ITEM",
+    "id": "material_styrofoam_sheet",
+    "category": "spare_parts",
+    "price": "2 USD 50 cent",
+    "price_postapoc": "0 cent",
+    "name": { "str": "styrofoam sheet" },
+    "symbol": "#",
+    "color": "white",
+    "description": "Bulky, but extremely light sheet of styrofoam, designed to be used in building insulation.",
+    "material": [ "styrofoam" ],
+    "//": "1.2m x 2 cm x 36 cm",
+    "volume": "8640 ml",
+    "weight": "260 g",
+    "longest_side": "120 cm"
+  },
+  {
+    "type": "ITEM",
+    "id": "material_styrofoam_chunk",
+    "category": "spare_parts",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "name": { "str": "chunk of styrofoam", "str_pl": "chunks of styrofoam" },
+    "display_type": "BY_VOLUME",
+    "symbol": "*",
+    "color": "white",
+    "description": "A small chunk of styrofoam.",
+    "material": [ "styrofoam" ],
+    "volume": "150 ml",
+    "weight": "5 g"
+  },
+  {
     "id": "glue_weak",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
@@ -2386,7 +2399,8 @@
     "//": "Represents all glues that can withstand >1800 psi of tensile strength, such as cyanoacrylate, polyurethane and epoxy.",
     "//1": "1 charge of strong glue should cover an area of 5mm^2",
     "name": { "str_sp": "strong glue" },
-    "description": "A strong adhesive to use for structural repairs or other high stress applications.  You can't sniff it.",
-    "price_postapoc": "10 cents"
+    "description": "A strong adhesive to use for structural repairs or other high stress applications.  You can't sniff it, but you can use it to close up wounds in a pinch.",
+    "price_postapoc": "10 cents",
+    "use_action": { "type": "heal", "bandages_power": 1, "bleed": 4, "move_cost": 1000 }
   }
 ]

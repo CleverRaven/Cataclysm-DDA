@@ -115,7 +115,8 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 "artifact": <object>
 "event": <string>
 "snippets": <string>
-"faults": <object>
+"faults": <array>
+"variables": <global_variables:impl_t> (either string and string, or string and double)
 ```
 
 `contents` is added as contents of the created item.  It is not checked if they can be put into the item.  This allows water, that contains a book, that contains a steel frame, that contains a corpse.
@@ -152,7 +153,13 @@ Current possible values are:
   `chance`: chance to apply any of the faults. Default is 100, always apply
 For example:
 ```json
-  { "group": "nested_ar10", "prob": 89, "faults": { "id": [ "fault_stovepipe" ], "chance": 50 } },
+  { "group": "nested_ar10", "prob": 89, "faults": [ { "id": [ "fault_stovepipe" ], "chance": 50 } ] },
+```
+
+`variables`: Variables can be loaded into item at itemgroup level, if necessary:
+For example:
+```json
+  { "group": "used_usb_drives", "prob": 60, "variables": [ { "browsed": "true" } ] },
 ```
 
 `artifact`: This object determines that the item or group that is spawned by this entry will become an artifact. Here is an example:
@@ -188,6 +195,13 @@ be specified for guns and magazines in the entries array to use a non-default am
   If any item groups are referenced from your item group, then their ammo/magazine chances are ignored, and yours are used instead.
 
 *  Use `charges` in the entries array.  A default magazine will be added for you if needed.
+
+#### Multi-well items
+
+Items with more than one `MAGAZINE_WELL` pocket follow two extra rules:
+
+* `charges` on the entry is ambiguous (no rule says how to split the count across pockets) and is rejected with a debugmsg.  The wells stay empty.
+* `ammo` and `magazine` are still single rolls per item, but the outcome is applied to every empty well.  When `magazine` rolls true, each well's default magazine is installed; when `ammo` also rolls true, each inserted magazine is filled with its own default ammo.  Wells already holding a magazine are skipped except for an empty mag, which is topped up when the `ammo` roll succeeds.
 
 ## Shortcuts
 
@@ -278,7 +292,7 @@ Mods can add entries to item groups by specifying a group with the same id that 
 
 In some places one can define an item group directly instead of giving the id of a group.  One cannot refer to that group elsewhere - it has no visible id (it has an unspecific/random id internally).  This is most useful when the group is very specific to the place it is used and won't ever appear anywhere else.
 
-As an example: monster death drops (`death_drops` entry in the `MONSTER` object, see [MONSTERS.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/MONSTERS.md) can do this.  If the monster is very specific (e.g. a special robot, a unique endgame monster), the item spawned upon its death won't (in that form) appear in any other group.
+As an example: monster death drops (`death_drops` entry in the `MONSTER` object, see [MONSTERS.md](MONSTERS.md) can do this.  If the monster is very specific (e.g. a special robot, a unique endgame monster), the item spawned upon its death won't (in that form) appear in any other group.
 
 Therefore, this snippet:
 

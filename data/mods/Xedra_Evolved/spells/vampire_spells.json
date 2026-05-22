@@ -82,8 +82,8 @@
     "magic_type": "xe_vampire_blood_powers",
     "effect": "recover_energy",
     "effect_str": "STAMINA",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
-    "condition_fail_message": "You do not have enough stolen blood.",
+    "caster_condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "caster_condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
     "valid_targets": [ "self" ],
     "min_damage": {
@@ -113,7 +113,7 @@
     "magic_type": "xe_vampire_blood_powers",
     "effect": "attack",
     "effect_str": "effect_vampire_stamina_for_blood_cardio_bonus",
-    "condition": { "u_has_trait": "VAMPIRE_CARDIO_BONUS_REFINEMENT_STAMINAFORBLOOD" },
+    "caster_condition": { "u_has_trait": "VAMPIRE_CARDIO_BONUS_REFINEMENT_STAMINAFORBLOOD" },
     "shape": "blast",
     "valid_targets": [ "self" ],
     "min_duration": 60000,
@@ -133,8 +133,8 @@
     "magic_type": "xe_vampire_blood_powers",
     "effect": "effect_on_condition",
     "effect_str": "EOC_COMMUNE_NIGHT_MAP",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
-    "condition_fail_message": "You do not have enough stolen blood.",
+    "caster_condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "caster_condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
     "valid_targets": [ "self" ],
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
@@ -154,8 +154,8 @@
     "magic_type": "xe_vampire_blood_powers",
     "effect": "recover_energy",
     "effect_str": "MANA",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
-    "condition_fail_message": "You do not have enough stolen blood.",
+    "caster_condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "caster_condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
     "valid_targets": [ "self" ],
     "min_damage": {
@@ -186,8 +186,8 @@
     "valid_targets": [ "self" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_BLOODHEAL_activated",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
-    "condition_fail_message": "You do not have enough stolen blood.",
+    "caster_condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "caster_condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
     "skill": "deduction",
@@ -206,8 +206,8 @@
     "magic_type": "xe_vampire_blood_powers",
     "effect": "effect_on_condition",
     "effect_str": "EOC_VAMPIRE_FEAR_GAZE_activated",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
-    "condition_fail_message": "You do not have enough stolen blood.",
+    "caster_condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "caster_condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
     "valid_targets": [ "ally", "hostile" ],
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL", "NO_PROJECTILE" ],
@@ -215,12 +215,12 @@
     "spell_class": "VAMPIRE_BLOOD_ARTS",
     "min_range": {
       "math": [
-        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)), 12)"
       ]
     },
     "max_range": {
       "math": [
-        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)), 12)"
       ]
     },
     "base_energy_cost": 150,
@@ -252,19 +252,19 @@
     "valid_targets": [ "ally", "hostile" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_HYPNOTIC_GAZE_activated",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
-    "condition_fail_message": "You do not have enough stolen blood.",
+    "caster_condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "caster_condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL", "NO_PROJECTILE" ],
     "difficulty": 3,
     "min_range": {
       "math": [
-        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)), 12)"
       ]
     },
     "max_range": {
       "math": [
-        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)), 12)"
       ]
     },
     "base_energy_cost": 150,
@@ -293,8 +293,8 @@
     "magic_type": "xe_vampire_blood_powers",
     "valid_targets": [ "hostile" ],
     "effect": "charm_monster",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
-    "condition_fail_message": "You do not have enough stolen blood.",
+    "caster_condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "caster_condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL", "RECHARM", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
     "skill": "deduction",
@@ -322,12 +322,12 @@
     },
     "min_range": {
       "math": [
-        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)), 12)"
       ]
     },
     "max_range": {
       "math": [
-        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)), 12)"
       ]
     },
     "base_energy_cost": 500,
@@ -352,6 +352,50 @@
     "base_energy_cost": 0,
     "base_casting_time": 150,
     "difficulty": 2
+  },
+  {
+    "id": "vampire_summon_shadows",
+    "type": "SPELL",
+    "name": { "str": "The Shadows that Crawl" },
+    "description": "Your control over darkness has progressed to the point that you can animate patches of it as living shadows to attack your enemies.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
+    "message": "The darkness takes on tangible form.",
+    "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
+    "effect": "summon",
+    "effect_str": "mon_shadow_summon",
+    "caster_condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "caster_condition_fail_message": "You do not have enough stolen blood.",
+    "shape": "blast",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_PROJECTILE" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "min_damage": {
+      "math": [
+        "min( ( (1 + (vampire_total_tier_one_traits()  * 0.075) + (vampire_total_tier_two_traits() * 0.12) + (vampire_total_tier_three_traits() * 0.25) + ( vampire_total_tier_four_traits_plus_potence() * 0.5 ) ) * 0.75), 10)"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "min( ( (1 + (vampire_total_tier_one_traits()  * 0.075) + (vampire_total_tier_two_traits() * 0.12) + (vampire_total_tier_three_traits() * 0.25) + ( vampire_total_tier_four_traits_plus_potence() * 0.5 ) ) * 1.25), 10)"
+      ]
+    },
+    "min_duration": {
+      "math": [
+        "(18000 + (vampire_total_tier_one_traits()  * 2500) + (vampire_total_tier_two_traits() * 3600) + (vampire_total_tier_three_traits() * 4900) + ( vampire_total_tier_four_traits_plus_potence() * 7700) ) * 0.75"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "(18000 + (vampire_total_tier_one_traits()  * 2500) + (vampire_total_tier_two_traits() * 3600) + (vampire_total_tier_three_traits() * 4900) + ( vampire_total_tier_four_traits_plus_potence() * 7700) ) * 1.25"
+      ]
+    },
+    "min_range": 20,
+    "max_range": 20,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "base_energy_cost": 400,
+    "base_casting_time": 250
   },
   {
     "id": "vampire_torpor",
@@ -385,38 +429,38 @@
     "spell_class": "VAMPIRE_BLOOD_ARTS",
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL", "RANDOM_DURATION" ],
     "effect": "charm_monster",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
-    "condition_fail_message": "You do not have enough stolen blood.",
+    "caster_condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "caster_condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
     "difficulty": 8,
     "min_damage": {
       "math": [
-        "(20 + (vampire_total_tier_one_traits()  * 4) + (vampire_total_tier_two_traits() * 10) + (vampire_total_tier_three_traits() * 16) + (vampire_total_tier_four_traits() * 30)) * 0.75"
+        "(20 + (vampire_total_tier_one_traits()  * 4) + (vampire_total_tier_two_traits() * 10) + (vampire_total_tier_three_traits() * 16) + (vampire_total_tier_four_traits_plus_potence() * 30)) * 0.75"
       ]
     },
     "max_damage": {
       "math": [
-        "(20 + (vampire_total_tier_one_traits()  * 4) + (vampire_total_tier_two_traits() * 10) + (vampire_total_tier_three_traits() * 16) + (vampire_total_tier_four_traits() * 30)) * 1.25"
+        "(20 + (vampire_total_tier_one_traits()  * 4) + (vampire_total_tier_two_traits() * 10) + (vampire_total_tier_three_traits() * 16) + (vampire_total_tier_four_traits_plus_potence() * 30)) * 1.25"
       ]
     },
     "min_duration": {
       "math": [
-        "(2500 + (vampire_total_tier_one_traits()  * 400) + (vampire_total_tier_two_traits() * 800) + (vampire_total_tier_three_traits() * 1150) + (vampire_total_tier_four_traits() * 2050)) * 0.75"
+        "(2500 + (vampire_total_tier_one_traits()  * 400) + (vampire_total_tier_two_traits() * 800) + (vampire_total_tier_three_traits() * 1150) + (vampire_total_tier_four_traits_plus_potence() * 2050)) * 0.75"
       ]
     },
     "max_duration": {
       "math": [
-        "(2500 + (vampire_total_tier_one_traits()  * 400) + (vampire_total_tier_two_traits() * 800) + (vampire_total_tier_three_traits() * 1150) + (vampire_total_tier_four_traits() * 2050)) * 1.25"
+        "(2500 + (vampire_total_tier_one_traits()  * 400) + (vampire_total_tier_two_traits() * 800) + (vampire_total_tier_three_traits() * 1150) + (vampire_total_tier_four_traits_plus_potence() * 2050)) * 1.25"
       ]
     },
     "min_range": {
       "math": [
-        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)), 12)"
       ]
     },
     "max_range": {
       "math": [
-        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)), 12)"
       ]
     },
     "base_energy_cost": 700,
@@ -452,8 +496,8 @@
     "valid_targets": [ "self" ],
     "effect": "spawn_item",
     "effect_str": "vampire_blood_ball",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
-    "condition_fail_message": "You do not have enough stolen blood.",
+    "caster_condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "caster_condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
     "base_casting_time": 75,
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
@@ -477,8 +521,8 @@
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_VAMPIRE_INVISIBLE_IN_DARK",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
-    "condition_fail_message": "You do not have enough stolen blood.",
+    "caster_condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "caster_condition_fail_message": "You do not have enough stolen blood.",
     "shape": "blast",
     "base_energy_cost": 300,
     "base_casting_time": 50,
@@ -500,5 +544,102 @@
     "effect_str": "EOC_MENTOR_VANISH",
     "shape": "blast",
     "difficulty": 0
+  },
+  {
+    "id": "dhampir_horse_familiar_spell",
+    "type": "SPELL",
+    "name": "Blacken the soul of Arion",
+    "description": "Transform your horse into a steed worthy of the mightiest hunter.  Unfortunately it will require blood weekly or else it will either die or become a monster.  Theoretically a vampire could do this, but it never seems to be a priority for them.",
+    "valid_targets": [ "ally" ],
+    "flags": [ "TRANSFORMATION_SPELL", "NO_LEGS", "NO_PROJECTILE" ],
+    "effect": "targeted_polymorph",
+    "effect_str": "mon_beneficial_polymorph_arion",
+    "targeted_monster_ids": [ "mon_horse" ],
+    "shape": "blast",
+    "skill": "deduction",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "magic_type": "xe_vampire_blood_powers",
+    "base_casting_time": 150,
+    "base_energy_cost": 150,
+    "difficulty": 5,
+    "max_level": 1,
+    "min_damage": 20,
+    "max_damage": 20,
+    "damage_type": "pure",
+    "min_range": 6,
+    "max_range": 6
+  },
+  {
+    "id": "blood_cost_familiar",
+    "type": "SPELL",
+    "name": "Blacken the soul of Arion",
+    "description": "Transform your horse into a steed worthy of the mightiest hunter.  Unfortunately it will require blood weekly or else it will either die or become a monster.  Theoretically a vampire could do this, but it never seems to be a priority for them.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "magic_type": "xe_vampire_blood_powers",
+    "flags": [ "NO_LEGS", "NO_FAIL" ],
+    "max_level": 1,
+    "difficulty": 5,
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ATTEMPT_HORSE_FAMILIAR",
+    "shape": "blast",
+    "energy_source": "VITAMIN",
+    "base_energy_cost": 0,
+    "base_casting_time": { "math": [ "spell_time(u_val('time: 10 m'))" ] },
+    "final_casting_time": { "math": [ "spell_time(u_val('time: 10 m'))" ] },
+    "learn_spells": { "spell_feed_arion": 1 }
+  },
+  {
+    "id": "spell_feed_arion",
+    "type": "SPELL",
+    "name": "Blacken the soul of Arion",
+    "description": "Transform your horse into a steed worthy of the mightiest hunter.  Unfortunately it will require blood weekly or else it will either die or become a monster.  Theoretically a vampire could do this, but it never seems to be a priority for them.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "magic_type": "xe_vampire_blood_powers",
+    "flags": [ "NO_LEGS", "NO_FAIL" ],
+    "max_level": 1,
+    "difficulty": 1,
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_FEED_HORSE_FAMILIAR",
+    "shape": "blast",
+    "energy_source": "VITAMIN",
+    "base_energy_cost": 0,
+    "base_casting_time": { "math": [ "spell_time(u_val('time: 10 m'))" ] },
+    "final_casting_time": { "math": [ "spell_time(u_val('time: 10 m'))" ] }
+  },
+  {
+    "id": "dhampir_horse_blood_hungry_polymorph_spell",
+    "type": "SPELL",
+    "name": "Hungry for your blood",
+    "description": "Transforms your dhampir horse to a blood-hungry monster.",
+    "valid_targets": [ "ally" ],
+    "flags": [ "TRANSFORMATION_SPELL", "NO_LEGS", "NO_PROJECTILE" ],
+    "effect": "targeted_polymorph",
+    "effect_str": "mon_negative_polymorph_arion",
+    "targeted_monster_ids": [ "mon_beneficial_polymorph_arion" ],
+    "shape": "blast",
+    "skill": "deduction",
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "magic_type": "xe_vampire_blood_powers",
+    "base_casting_time": 150,
+    "base_energy_cost": 150,
+    "difficulty": 5,
+    "max_level": 20,
+    "min_damage": 20,
+    "max_damage": 40,
+    "damage_increment": 2,
+    "damage_type": "pure",
+    "min_range": 60,
+    "max_range": 60,
+    "range_increment": 1.5
   }
 ]

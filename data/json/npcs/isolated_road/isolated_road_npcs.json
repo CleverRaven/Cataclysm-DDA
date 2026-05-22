@@ -34,7 +34,7 @@
     "shopkeeper_consumption_rates": "basic_shop_rates",
     "worn_override": "CODY_MILLER_worn",
     "carry_override": "CODY_MILLER_carry",
-    "weapon_override": "CODY_MILLER_weild",
+    "weapon_override": "CODY_MILLER_wield",
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
       { "skill": "speech", "bonus": { "rng": [ 2, 3 ] } },
@@ -80,7 +80,7 @@
     "shopkeeper_consumption_rates": "basic_shop_rates",
     "worn_override": "JAY_RUCKERS_worn",
     "carry_override": "JAY_RUCKERS_carry",
-    "weapon_override": "JAY_RUCKERS_weild",
+    "weapon_override": "JAY_RUCKERS_wield",
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
       { "skill": "speech", "bonus": { "rng": [ 2, 3 ] } },

@@ -1,4 +1,5 @@
 #include <cstddef>
+#include <functional>
 #include <memory>
 #include <string>
 #include <vector>
@@ -8,6 +9,7 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "debug.h"
 #include "coordinates.h"
 #include "item.h"
 #include "item_location.h"
@@ -262,7 +264,7 @@ TEST_CASE( "player_morale_kills_hostile_bandit", "[player_morale]" )
 TEST_CASE( "player_morale_ranged_kill_of_unaware_hostile_bandit", "[player_morale]" )
 {
     map &here = get_map();
-
+    clear_map();
     clear_avatar();
     avatar &player = get_avatar();
     // Set the time to midnight to ensure the bandit doesn't notice the player.
@@ -674,5 +676,114 @@ TEST_CASE( "player_morale_stacking", "[player_morale]" )
 
             CHECK( m.get_level() == 10 );
         }
+    }
+}
+
+// Regression test for GitHub #85895: check_and_recover_morale was replacing
+// the entire morale object when it found a permanent-point inconsistency,
+// which destroyed all temporary morale (food, music, etc.).
+TEST_CASE( "check_and_recover_morale_preserves_temporary_morale", "[player_morale]" )
+{
+    clear_avatar();
+    avatar &dummy = get_avatar();
+    player_morale &m = *dummy.morale;
+
+    SECTION( "temporary morale survives when permanent point is inconsistent" ) {
+        // Add temporary morale
+        m.add( morale_food_good, 20, 40, 20_turns, 10_turns );
+        REQUIRE( m.has( morale_food_good ) == 20 );
+
+        // Inject a stale permanent point that the character should not have.
+        // The avatar has no constrained mutations, so test_morale will
+        // compute constrained = 0 and detect an inconsistency.
+        m.set_permanent( morale_perm_constrained, -5 );
+        REQUIRE( m.has( morale_perm_constrained ) == -5 );
+
+        // The inconsistency triggers a debugmsg; capture it so the test
+        // framework does not treat it as a failure.
+        std::string dmsg = capture_debugmsg_during( [&dummy]() {
+            dummy.check_and_recover_morale();
+        } );
+        CHECK_THAT( dmsg, Catch::Contains( "is inconsistent" ) );
+
+        // Recovery should fix the permanent point...
+        CHECK( m.has( morale_perm_constrained ) == 0 );
+        // ...without destroying the temporary morale
+        CHECK( m.has( morale_food_good ) == 20 );
+    }
+
+    SECTION( "multiple temporary bonuses survive recovery" ) {
+        m.add( morale_food_good, 15, 30, 20_turns, 10_turns );
+        m.add( morale_book, 8, 16, 30_turns, 15_turns );
+        REQUIRE( m.has( morale_food_good ) == 15 );
+        REQUIRE( m.has( morale_book ) == 8 );
+
+        // Inject inconsistency
+        m.set_permanent( morale_perm_constrained, -3 );
+
+        std::string dmsg = capture_debugmsg_during( [&dummy]() {
+            dummy.check_and_recover_morale();
+        } );
+        CHECK_THAT( dmsg, Catch::Contains( "is inconsistent" ) );
+
+        CHECK( m.has( morale_food_good ) == 15 );
+        CHECK( m.has( morale_book ) == 8 );
+        CHECK( m.has( morale_perm_constrained ) == 0 );
+    }
+}
+
+// Regression test for the save-load root cause: player_morale's mutation
+// tracking is not initialized during load, so update_constrained_penalty()
+// and update_masochist_bonus() compute wrong values when triggered.
+TEST_CASE( "morale_mutation_state_after_load_like_sequence", "[player_morale]" )
+{
+    clear_avatar();
+    avatar &dummy = get_avatar();
+    player_morale &m = *dummy.morale;
+
+    SECTION( "constrained penalty without mutation activation" ) {
+        dummy.toggle_trait( trait_FLOWERS );
+        REQUIRE( dummy.has_trait( trait_FLOWERS ) );
+
+        // First verify correct behavior when properly set up
+        const item hat( itype_tinfoil_hat, calendar::turn_zero );
+        m.on_mutation_gain( trait_FLOWERS );
+        m.on_item_wear( hat );
+        REQUIRE( m.has( morale_perm_constrained ) == -10 );
+
+        // Now simulate what save-load does: clear morale and rebuild
+        // WITHOUT activating mutations (the bug)
+        dummy.clear_morale();
+        // Only replay item wear (as savegame_json.cpp:918 does)
+        m.on_item_wear( hat );
+        // Without mutation activation, constrained penalty is wrong
+        CHECK( m.has( morale_perm_constrained ) == 0 );
+
+        // After activating mutations (the fix), penalty is correct
+        m.on_mutation_gain( trait_FLOWERS );
+        CHECK( m.has( morale_perm_constrained ) == -10 );
+    }
+
+    SECTION( "temporary morale preserved through recovery after load fix" ) {
+        dummy.toggle_trait( trait_FLOWERS );
+
+        // Wear the hat through the Character so check_and_recover_morale
+        // will see it when rebuilding test_morale from worn items.
+        dummy.wear_item( item( itype_tinfoil_hat ) );
+
+        // Activate mutations in morale (simulates the fix in savegame_json)
+        for( const trait_id &mut : dummy.get_functioning_mutations() ) {
+            m.on_mutation_gain( mut );
+        }
+
+        // Add temporary morale
+        m.add( morale_food_good, 20, 40, 20_turns, 10_turns );
+        REQUIRE( m.has( morale_food_good ) == 20 );
+        REQUIRE( m.has( morale_perm_constrained ) == -10 );
+
+        // check_and_recover should find consistency -- no wipe
+        dummy.check_and_recover_morale();
+        CHECK( m.has( morale_food_good ) == 20 );
+        CHECK( m.has( morale_perm_constrained ) == -10 );
     }
 }

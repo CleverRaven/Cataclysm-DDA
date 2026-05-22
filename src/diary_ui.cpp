@@ -226,7 +226,8 @@ void diary::show_diary_ui( diary *c_diary )
 
         print_list_scrollable( &w_changes, c_diary->get_change_list(), &selected[window_mode::CHANGE_WIN],
                                currwin == window_mode::CHANGE_WIN, false, report_color_error::yes );
-        print_list_scrollable( &w_text, c_diary->get_page_text(), &selected[window_mode::TEXT_WIN],
+        print_list_scrollable( &w_text, c_diary->get_desc_or_page_text( selected[window_mode::CHANGE_WIN] ),
+                               &selected[window_mode::TEXT_WIN],
                                currwin == window_mode::TEXT_WIN, false, report_color_error::no );
 
         trim_and_print( w_head, point::south_east, getmaxx( w_head ) - 2, c_white,
@@ -311,8 +312,10 @@ void diary::show_diary_ui( diary *c_diary )
         draw_border( w_info );
         center_print( w_info, 0, c_light_gray, string_format( _( "Info" ) ) );
         if( currwin == window_mode::CHANGE_WIN || currwin == window_mode::TEXT_WIN ) {
-            fold_and_print( w_info, point::south_east, getmaxx( w_info ) - 2, c_white,
-                            c_diary->get_desc_map()[ selected[window_mode::CHANGE_WIN] ] );
+            if( !c_diary->get_page_ptr()->is_summary() ) {
+                fold_and_print( w_info, point::south_east, getmaxx( w_info ) - 2, c_white,
+                                c_diary->get_desc_map()[ selected[window_mode::CHANGE_WIN] ] );
+            }
         }
 
         wnoutrefresh( w_info );
@@ -341,7 +344,10 @@ void diary::show_diary_ui( diary *c_diary )
         } else if( navigate_ui_list( action, selected[currwin], 10,
                                      currwin == window_mode::PAGE_WIN ? c_diary->pages.size()
                                      : currwin == window_mode::CHANGE_WIN ? c_diary->change_list.size()
-                                     : text_to_list_scrollable( w_text, c_diary->get_page_text(), false ).size(), true ) ) {
+                                     : text_to_list_scrollable( w_text,
+                                             c_diary->get_desc_or_page_text( selected[window_mode::CHANGE_WIN] ),
+                                             false ).size(),
+                                     true ) ) {
             // size in navigate_ui_list above is redundant with print_list_scrollable's wrapping effect during redraw
             if( currwin == window_mode::PAGE_WIN ) {
                 selected[window_mode::CHANGE_WIN] = 0;

@@ -29,10 +29,13 @@
 
 static void no_op( const achievement *, bool ) {}
 
+namespace
+{
 class too_old_memorial_file_error : std::runtime_error
 {
         using runtime_error::runtime_error;
 };
+} // namespace
 
 past_game_info::past_game_info( const JsonObject &jo )
 {
