@@ -7,15 +7,15 @@
       "rows": [
         "  s _______         ss  ",
         " #-#=======##WWWWW##++# ",
-        " #.M_______#.4...π.|..# ",
+        " #.M_______#§4...π.|..# ",
         " #.._______#..........# ",
         " #.._______#.n.n.n.n..# ",
         " #.._______#.n.n.n.n..# ",
-        " #.._______#..........# ",
+        " #§._______#..........# ",
         " #-|_______#.πππ.kkk..# ",
         " $ss_______#......cC..# ",
         " $ss_______#|WWWWW||..# ",
-        " $ss_______#.......|..# ",
+        " $ss_______#§......|..# ",
         " $ss_______#R.3....+..# ",
         " $ss_______#B......|..# ",
         " $ss_______#R......|<<# ",
@@ -26,7 +26,7 @@
         " $sssssssssw.........N# ",
         " $sss1sssss+.........*# ",
         " $sTssssssDw..........# ",
-        " $ssssssssD#......%.Sb#^",
+        " $ssssssssD#.....§%.Sb#^",
         " $$$$$$$$$$############ ",
         "                        "
       ],
@@ -73,7 +73,8 @@
         "1": { "chunks": [ [ "null", 30 ], [ "3x3_woodcrafts_crates", 70 ] ] },
         "2": { "chunks": [ [ "null", 70 ], [ "3x3_woodcrafts_crates", 30 ] ] },
         "3": { "chunks": [ [ "null", 10 ], [ "4x4_woodcrafts_table_vertical", 60 ], [ "4x4_woodcrafts_table_horizontal", 30 ] ] },
-        "4": { "chunks": [ [ "4x4_woodcrafts_display_nocanoe", 70 ], [ "1x1_woodcrafts_display_canoe", 30 ] ] }
+        "4": { "chunks": [ [ "4x4_woodcrafts_display_nocanoe", 70 ], [ "1x1_woodcrafts_display_canoe", 30 ] ] },
+        "§": { "chunks": [ "fire_extinguisher" ] }
       },
       "items": {
         "π": { "item": "woodcrafts", "chance": 85, "repeat": [ 1, 10 ] },

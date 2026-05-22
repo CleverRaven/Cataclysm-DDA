@@ -239,7 +239,7 @@
         "____,____,____,____,____",
         "____,____,____,____,____",
         "##GGGGGG###++###GGGGGG##",
-        "#                      #",
+        "#§                    §#",
         "C  BB   BB    BB   BB  C",
         "W  TT   TT    TT   TT  W",
         "W  TT   TT    TT   TT  W",
@@ -254,7 +254,7 @@
         "#P~+  ||||||||||||||| $#",
         "#|||  |(FcSSccOOcc{{|  #",
         "#P~+  |.............+  #",
-        "#S~|  |&&cccRRccc...|  #",
+        "#S~|§ |&&cccRRccc...| §#",
         "##################C##D|#",
         "*******4dd**********D ^#",
         "********************####"
@@ -281,7 +281,8 @@
           "neighbors": { "above": "s_restaurant_foodplace_roof" }
         }
       ],
-      "place_items": [ { "item": "SUS_trash_floor", "x": [ 0, 17 ], "y": [ 22, 23 ], "chance": 20, "repeat": [ 1, 2 ] } ]
+      "place_items": [ { "item": "SUS_trash_floor", "x": [ 0, 17 ], "y": [ 22, 23 ], "chance": 20, "repeat": [ 1, 2 ] } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -531,7 +532,7 @@
         "ssssssssssssssssssssssss",
         "ssssssssssssssssssssssss",
         "ssss###############sssss",
-        "____#&wlw(|.......#sssss",
+        "____#&wlw(|......§#sssss",
         "____DwlwlF|A...22^gsssss",
         "____#lwlwc|.......+sssss",
         "____#clwlS|A......+sssss",
@@ -546,7 +547,7 @@
         "_####||+|||......T'ss ss",
         "_#Sl+............BCss ss",
         "_#ll|.............#ss ss",
-        "_#Pl|.............#s 6 s",
+        "_#Pl|§............#s 6 s",
         "_####BTB..BTB..BTB#ss ss",
         "___4#C'C##C'C##C'C#sssss",
         "sssbbbbbbbbbbbbbbbbsssss",
@@ -631,7 +632,8 @@
         { "monster": "GROUP_ROACH", "x": [ 7, 19 ], "y": 19, "chance": 20 }
       ],
       "place_nested": [ { "chunks": [ [ "NPC_pizzaiolo_spawn", 5 ], [ "null", 85 ] ], "x": 7, "y": 5 } ],
-      "place_zones": [ { "type": "NPC_INVESTIGATE_ONLY", "faction": "no_faction", "x": [ 5, 9 ], "y": [ 3, 14 ] } ]
+      "place_zones": [ { "type": "NPC_INVESTIGATE_ONLY", "faction": "no_faction", "x": [ 5, 9 ], "y": [ 3, 14 ] } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

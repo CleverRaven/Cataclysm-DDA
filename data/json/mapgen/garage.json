@@ -11,7 +11,7 @@
         "     EEEEEE    EEEEEE   ",
         "    eEEEEEE   eEEEEEE,,,",
         " ####======####======##,",
-        " #S.eMGMMGM...eMGMMGM.#,",
+        " #S§eMGMMGM...eMGMMGM§#,",
         " #S..MGMMGM....MGMMGM.#,",
         " #c..MGMMGM....MGMMGM.#,",
         " #c..MGMMGM....MGMMGM.#,",
@@ -23,7 +23,7 @@
         " #ts|c...........HLLLL#,",
         " #|+|p...........Hbbbb#,",
         "4#...............$....+,",
-        " #^W|............Hhbbb#,",
+        " #^W|§...........Hhbbb#,",
         " #xx|cccccSScccccH6LLL#,",
         " #####::::##::::#######,",
         "                  ,U<U,,",
@@ -78,7 +78,8 @@
         { "vehicle": "garage", "x": [ 8, 8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
         { "vehicle": "garage", "x": [ 18, 18 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 }
       ],
-      "place_monsters": [ { "monster": "GROUP_FERROUS", "x": [ 5, 20 ], "y": [ 7, 15 ], "chance": 10 } ]
+      "place_monsters": [ { "monster": "GROUP_FERROUS", "x": [ 5, 20 ], "y": [ 7, 15 ], "chance": 10 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -244,7 +245,7 @@
         "    EEEEEE      XXX     ",
         "   eEEEEEEXXXXXXXXXXXXXX",
         " ###======#####HHOHH###X",
-        " #.eMGMMGM..|y.......y#X",
+        " #.eMGMMGM.§|y.......y#X",
         " #..MGMMGM..|b........#X",
         " :..MGMMGM..:b..||ddd|#X",
         " :..MGMMGM..:b..|f.h.y#X",
@@ -253,12 +254,12 @@
         " #..MMMMMM..||+||f6ddd#X",
         " #m.........|&.s||||||#X",
         " #|||....||||||||LLLLL#X",
-        " #..............|bbbbb#X",
+        " #.............§|bbbbb#X",
         " #WWWW..WWWW|...+.....#X",
         " #c........c||||||||+|#X",
         " #c.xx..xx.p|xx.+T|<..OX",
         " #l.xx..xx.c|x..|######X",
-        " #w.........O..xx#4UUXXX",
+        " #w.........O.§xx#4UUXXX",
         " #ScccccccwS######UXXXXX",
         " ############WWWWWWWWWWW",
         "                        "
@@ -318,7 +319,8 @@
         "&": { "item": "SUS_toilet", "chance": 50 },
         "T": { "item": "cleaning", "chance": 70, "repeat": [ 1, 6 ] }
       },
-      "place_vehicles": [ { "vehicle": "garage", "x": [ 8, 8 ], "y": [ 9, 10 ], "chance": 95, "rotation": 90 } ]
+      "place_vehicles": [ { "vehicle": "garage", "x": [ 8, 8 ], "y": [ 9, 10 ], "chance": 95, "rotation": 90 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

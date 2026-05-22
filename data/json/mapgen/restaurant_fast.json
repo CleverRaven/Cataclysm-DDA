@@ -11,14 +11,14 @@
         ",__,__%HTHssssHTH%__,__,",
         ",__,__%ssssssssss%_,,,_,",
         ",__,__##---++---##__,__,",
-        ",_____#.HH....HH.-_____,",
+        ",_____#§HH....HH.-_____,",
         ",_____-.TT....TT.-_____,",
         ",_____-.TT....TT.-_____,",
         ",_____-.HH....HH.#_____,",
         ",_____#..........-_____,",
         ",,,,,,#g.........+_____,",
         ",_____#ccxcxcc|..-_____,",
-        ",_____ow=w=w=w+..#_____,",
+        ",_____ow=w=w=w+.§#_____,",
         ",_____#(wccOwc|t|#_____,",
         ",_____#l=w=w=S|=S#_____,",
         ",_____##eechwx|P##_____,",
@@ -101,7 +101,8 @@
         { "monster": "mon_zombie_fat", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 80 },
         { "group": "GROUP_PLAGUE_ROACH", "x": [ 7, 13 ], "y": [ 13, 16 ], "chance": 33, "repeat": [ 1, 2 ] },
         { "group": "GROUP_ROACH", "x": [ 7, 13 ], "y": [ 13, 16 ], "chance": 33, "repeat": [ 1, 2 ] }
-      ]
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -160,7 +161,7 @@
       "rows": [
         "____,,,,,%ssssssssssssss",
         "_________%ss#---++++---#",
-        "_________%ss-.HH.....hh#",
+        "_________%ss-.HH....§hh#",
         "_________%ss-.TT.....Th#",
         "____,,,,,%ss-.HH.....Th#",
         "_________%ss-........hh#",
@@ -176,7 +177,7 @@
         "########xo###hTT..|||||#",
         "#ewwwwwwwwwC......|SwtP#",
         "#ewrrwcScwwx......tww||#",
-        "#ewrrw|||wwC..|FFF|SwtP#",
+        "#ewrrw|||wwC.§|FFF|SwtP#",
         "#(wffw|l|w##############",
         "#(wwww|ltwDss4dd!       ",
         "###########sssdd!       ",
@@ -245,7 +246,8 @@
         { "monster": "mon_zombie_fat", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 80, "repeat": [ 1, 4 ] },
         { "group": "GROUP_PLAGUE_ROACH", "x": [ 2, 10 ], "y": [ 16, 20 ], "chance": 33, "repeat": [ 1, 2 ] },
         { "group": "GROUP_ROACH", "x": [ 2, 10 ], "y": [ 16, 20 ], "chance": 33, "repeat": [ 1, 2 ] }
-      ]
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
