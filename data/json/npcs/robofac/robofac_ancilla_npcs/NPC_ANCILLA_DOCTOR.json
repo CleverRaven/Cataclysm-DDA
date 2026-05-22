@@ -528,7 +528,7 @@
         "condition": { "not": { "npc_has_effect": "currently_busy" } }
       },
       {
-        "text": "Wow, you've got a proper setup here.  Impressive.  I'm not sure if it'll be compatable with my interface, but think you could help modify my bionic implants?",
+        "text": "Wow, you've got a proper setup here.  Impressive.  I'm not sure if it'll be compatible with my interface, but think you could help modify my bionic implants?",
         "topic": "TALK_ANCILLA_DOCTOR_BOTCHED_EXODII_SURGERY_1",
         "condition": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" }
       },

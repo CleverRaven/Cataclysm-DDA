@@ -89,10 +89,7 @@
             { "math": [ "ancilla_bionic_garage_placed = 1" ] },
             {
               "if": {
-                "and": [
-                  { "not": { "math": [ "u_hub01_completed_missions >= 1" ] } },
-                  { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } 
-                ]
+                "and": [ { "not": { "math": [ "u_hub01_completed_missions >= 1" ] } }, { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } ]
               },
               "then": [
                 { "mapgen_update": "remove_robofac_intercom", "om_terrain": "robofachq_surface_entrance" },
@@ -143,10 +140,7 @@
           { "math": [ "ancilla_bionic_garage_placed = 1" ] },
           {
             "if": {
-              "and": [
-                { "not": { "math": [ "u_hub01_completed_missions >= 1" ] } },
-                { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } 
-              ]
+              "and": [ { "not": { "math": [ "u_hub01_completed_missions >= 1" ] } }, { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } ]
             },
             "then": [
               { "mapgen_update": "remove_robofac_intercom", "om_terrain": "robofachq_surface_entrance" },
