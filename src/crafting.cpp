@@ -19,6 +19,7 @@
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "avatar.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
@@ -1049,6 +1050,11 @@ std::optional<std::vector<attention_plan>> show_craft_planning_modal(
         const recipe &rec, const Character &crafter, int batch, int from_step,
         const std::vector<attention_plan> &existing, const item *current_craft )
 {
+    // Headless contexts (tests) cannot open the planning uilist; behave like an
+    // NPC with implicit-wait plans instead of blocking on UI.
+    if( test_mode ) {
+        return std::vector<attention_plan> {};
+    }
     const std::vector<recipe_step> &steps = rec.steps();
     std::vector<attention_plan> plans( steps.size() );
     for( size_t i = 0; i < std::min( existing.size(), plans.size() ); ++i ) {

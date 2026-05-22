@@ -21,6 +21,7 @@
 #include "character_attire.h"
 #include "coordinates.h"
 #include "craft_command.h"
+#include "crafting.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
@@ -2751,6 +2752,15 @@ TEST_CASE( "recipes_inherit_rot_of_components_properly", "[crafting][rot]" )
 
             THEN( "it should have 1 percent of its shelf life left" ) {
                 item_location dehydrated_meat = player_character.get_wielded_item();
+
+                // Dehydrating runs unattended, so the active loop parks the craft
+                // on wall-clock; resolve it past its deadline to finish it.
+                if( dehydrated_meat && dehydrated_meat->is_craft() ) {
+                    const time_point ready = dehydrated_meat->get_ready_at();
+                    REQUIRE( ready != calendar::before_time_starts );
+                    craft_resolve_overdue_passive( *dehydrated_meat, ready, dehydrated_meat );
+                    dehydrated_meat = player_character.get_wielded_item();
+                }
 
                 REQUIRE( dehydrated_meat->type->get_id() == recipe_dry_meat->result() );
 
