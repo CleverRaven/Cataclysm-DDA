@@ -127,7 +127,7 @@
     "id": "vampire_create_pits",
     "type": "SPELL",
     "name": "Earthen Grave",
-    "description": "Part the earth to create pits for your foes to fall into.  \n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
+    "description": "Part the earth to create pits for your foes to fall into.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
     "//": "This spell is mechanically similar to the Ierde's Pit-making spell, with the difference that the vampire does a far more controlled and contained effect by repurposing the Earthen Slumber blood art.",
     "teachable": false,
     "magic_type": "xe_vampire_blood_powers",
