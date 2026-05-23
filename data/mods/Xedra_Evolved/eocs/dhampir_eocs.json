@@ -2,8 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_FEEDING_THE_BLACK_HORSE",
-    "eoc_type": "EVENT",
-    "required_event": "character_wakes_up",
+"eoc_type": "RECURRING",
     "recurrence": [ "6 days", "8 days" ],
     "condition": {
       "and": [
