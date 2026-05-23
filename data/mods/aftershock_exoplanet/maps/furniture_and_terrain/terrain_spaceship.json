@@ -506,6 +506,20 @@
   },
   {
     "type": "terrain",
+    "id": "t_ship_floor_heated_low_light",
+    "name": "starship corridor",
+    "description": "Large metal plates with access panels to the conduits hiding beneath.",
+    "looks_like": "t_metal_floor",
+    "light_emitted": 1,
+    "symbol": ".",
+    "color": "light_cyan",
+    "move_cost": 2,
+    "roof": "t_metal_roof",
+    "flags": [ "TRANSPARENT", "INDOORS", "SUPPORTS_ROOF", "FLAT", "ROAD" ],
+    "emissions": [ "afs_emit_AC" ]
+  },
+  {
+    "type": "terrain",
     "id": "t_ship_bay_heated",
     "name": "starship loading bay",
     "description": "A great slab of carbide, printed as a single piece.  It could withstand centuries of abuse, and indeed it has done so.",
