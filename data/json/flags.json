@@ -1173,6 +1173,11 @@
     "//": "Spellcasting never fails for this spell"
   },
   {
+    "id": "HIDDEN_SPELL",
+    "type": "json_flag",
+    "//": "Spellcasting never shows any messages for this spell"
+  },
+  {
     "id": "IGNORE_WALLS",
     "type": "json_flag",
     "//": "This makes the spell's Area of Effect ignore walls."
