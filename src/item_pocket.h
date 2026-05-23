@@ -216,6 +216,14 @@ class item_pocket
         // combined volume of contained items
         units::volume contents_volume() const;
         units::volume remaining_volume() const;
+
+        // While bulk-fill is active, contents_volume()/contains_weight() return
+        // a running total updated on each insertion rather than re-summing all
+        // contents, turning an O(n^2) fill into O(n). Only correct while nothing
+        // else mutates the contents between the paired calls (e.g. filling one
+        // fresh container); end_bulk_fill() drops the totals.
+        void begin_bulk_fill();
+        void end_bulk_fill();
         // how many more of @it can this pocket hold?
         int remaining_capacity_for_item( const item &it ) const;
         // the amount of space this pocket can hold before it starts expanding
@@ -430,6 +438,9 @@ class item_pocket
         // the items inside the pocket
         std::list<item> contents;
         bool _sealed = false;
+        // Running totals tracked only between begin_bulk_fill()/end_bulk_fill().
+        std::optional<units::volume> bulk_fill_volume; // NOLINT(cata-serialize)
+        std::optional<units::mass> bulk_fill_weight; // NOLINT(cata-serialize)
         // list of sub body parts that can't currently support rigid ablative armor
         std::set<sub_bodypart_id> no_rigid;
 
