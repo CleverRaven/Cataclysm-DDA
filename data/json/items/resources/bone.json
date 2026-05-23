@@ -214,8 +214,8 @@
   {
     "type": "ITEM",
     "abstract": "skull_large_abstract",
-    "subtypes": [ "MILLING", "COMESTIBLE" ],
-    "delete": { "flags": [ "RAW", "INEDIBLE", "NO_TEMP", "LUPINE" ] },
+    "subtypes": [ "COMESTIBLE" ],
+    "delete": { "flags": [ "LUPINE" ] },
     "name": { "str": "abstract large skull", "//~": "NO_I18N" },
     "description": { "str": "This is a dummy item.  If you see it something went wrong.", "//~": "NO_I18N" },
     "copy-from": "skull_abstract",
@@ -488,6 +488,7 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "skull_bovine",
     "name": { "str": "cow skull" },
     "description": "The skull of a bovine, likely a domestic cow, with the horns still attached.",
@@ -498,6 +499,7 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "skull_equine",
     "name": { "str": "horse skull" },
     "description": "The skull of a horse.  Given the circumstances you can be pretty sure it was a domestic horse.",
@@ -534,6 +536,7 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "skull_moose",
     "name": { "str": "moose skull" },
     "description": "The skull of a moose, unmistakable thanks to the antler shape.",
@@ -546,6 +549,7 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "skull_moose_tusked",
     "name": { "str": "tusked moose skull" },
     "description": "The skull of a moose, unmistakable thanks to the antler shape and… tusks?  Okay, maybe this did not belong to a normal moose after all.",
