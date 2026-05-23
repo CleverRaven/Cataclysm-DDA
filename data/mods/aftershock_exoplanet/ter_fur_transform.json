@@ -52,6 +52,16 @@
   },
   {
     "type": "ter_furn_transform",
+    "id": "your_ship_dim_lights",
+    "terrain": [ { "result": "t_ship_floor_heated_low_light", "valid_terrain": [ "t_ship_floor_heated" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "your_ship_lights_on",
+    "terrain": [ { "result": "t_ship_floor_heated", "valid_terrain": [ "t_ship_floor_heated_low_light" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
     "id": "your_ship_stairs_up",
     "terrain": [ { "result": "t_ship_stairs_down_retracted", "valid_terrain": [ "t_ship_stairs_down" ] } ]
   },
