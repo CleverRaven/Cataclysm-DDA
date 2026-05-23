@@ -444,7 +444,8 @@
     "name": { "str": "dambreaker skull" },
     "description": "A skull of an abnormally large mutant beaver.",
     "copy-from": "skull_beaver",
-    "proportional": { "volume": 2.5, "weight": 2.5, "longest_side": 1.75, "vitamins": [ [ "calcium", 2.5 ] ], "calories": 2.5 },
+    "vitamins": [ [ "calcium", "4200 mg" ], [ "meat_allergen", 1 ] ],
+    "proportional": { "volume": 2.5, "weight": 2.5, "longest_side": 1.75, "calories": 2.5 },
     "into": "meal_bone",
     "recipe": "meal_bone_mill_1_4"
   },
