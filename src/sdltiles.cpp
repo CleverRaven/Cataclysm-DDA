@@ -3320,7 +3320,12 @@ static void CheckMessages()
                         HideCursor();
                     }
                     keyboard_mode mode = keyboard_mode::keychar;
-#if !defined(__ANDROID__) && !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)
+#if defined(__ANDROID__)
+                    if( !IsTextInputActive( ::window.get() ) &&
+                        get_option<bool>( "ANDROID_KEYCODE_MODE" ) ) {
+                        mode = keyboard_mode::keycode;
+                    }
+#elif !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)
                     if( !IsTextInputActive( ::window.get() ) ) {
                         mode = keyboard_mode::keycode;
                     }
@@ -3378,7 +3383,12 @@ static void CheckMessages()
                     }
 #endif
                     keyboard_mode mode = keyboard_mode::keychar;
-#if !defined(__ANDROID__) && !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)
+#if defined(__ANDROID__)
+                    if( !IsTextInputActive( ::window.get() ) &&
+                        get_option<bool>( "ANDROID_KEYCODE_MODE" ) ) {
+                        mode = keyboard_mode::keycode;
+                    }
+#elif !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)
                     if( !IsTextInputActive( ::window.get() ) ) {
                         mode = keyboard_mode::keycode;
                     }

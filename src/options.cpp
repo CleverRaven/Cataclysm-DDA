@@ -2964,6 +2964,12 @@ void options_manager::add_options_android()
              to_translation( "If true, when the virtual keyboard is visible, scale the screen to prevent overlapping.  Useful for text entry so you can see what you're typing." ),
              true
            );
+
+        add( "ANDROID_KEYCODE_MODE", page_id,
+             to_translation( "Keycode-mode input (hardware-keyboard modifiers)" ),
+             to_translation( "If true, on Android the input system uses keycode events outside of text input, allowing Ctrl/Shift/Alt modifiers from a hardware keyboard to be captured by keybindings.  Off by default; enable only if you have a hardware keyboard and want to use modifier-prefixed bindings such as those in the default-numpad and default-laptop profiles.  Requires restart." ),
+             false
+           );
     } );
 
     add_empty_line();
