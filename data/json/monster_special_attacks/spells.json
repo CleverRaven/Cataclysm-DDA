@@ -1384,7 +1384,7 @@
     "name": { "str": "Blank Body Player Copy", "//~": "NO_I18N" },
     "description": { "str": "Blank body copies the player", "//~": "NO_I18N" },
     "message": "The blank body's flesh suddenly begins to flow like wax, warping and changing, and when it's done it's…you.",
-    "flags": [ "NO_PROJECTILE", "SILENT", "NO_EXPLOSION_SFX" ],
+    "flags": [ "NO_PROJECTILE", "SILENT", "NO_EXPLOSION_SFX", "HIDDEN_SPELL ],
     "effect": "targeted_polymorph",
     "effect_str": "mon_blank_avatar_copy",
     "valid_targets": [ "self" ],
