@@ -106,13 +106,7 @@
     "type": "requirement",
     "//": "Any kind of non-poisonous bones, human or not. Includes non-poisonous human-size skulls.",
     "components": [
-      [
-        [ "bone", 1 ],
-        [ "bone_human", 1 ],
-        [ "bone_demihuman", 1 ],
-        [ "skull_humanlike", 1, "LIST" ],
-        [ "skull_human", 1 ]
-      ]
+      [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_demihuman", 1 ], [ "skull_humanlike", 1, "LIST" ], [ "skull_human", 1 ] ]
     ]
   },
   {
