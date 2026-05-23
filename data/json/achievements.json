@@ -2363,5 +2363,13 @@
     "manually_given": true,
     "description": "Defeat a being from a higher dimension, and free the damned souls trapped inside",
     "requirements": [  ]
+  },
+  {
+    "id": "achievement_exodii_hub_autodoc_death",
+    "type": "achievement",
+    "name": { "str": "Vespertilio Perfidus" },
+    "manually_given": true,
+    "description": "He that is neither one thing nor the other has no friends.",
+    "requirements": [  ]
   }
 ]
