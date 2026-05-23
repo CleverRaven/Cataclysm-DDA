@@ -608,7 +608,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "food_processor", 20 ] ] ],
-    "components": [ [ [ "bone_edible", 1, "LIST", [ "skull_humanlike", 1, "LIST" ], [ "skull_medium", 1, "LIST" ] ] ] ],
+    "components": [ [ [ "bone_edible", 1, "LIST" ], [ "skull_humanlike", 1, "LIST" ], [ "skull_medium", 1, "LIST" ] ] ],
     "charges": 4
   },
   {

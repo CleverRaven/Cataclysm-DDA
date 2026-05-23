@@ -214,7 +214,7 @@
   {
     "type": "ITEM",
     "abstract": "skull_large_abstract",
-    "subtypes": [ "COMESTIBLE" ],
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "delete": { "flags": [ "LUPINE" ] },
     "name": { "str": "abstract large skull", "//~": "NO_I18N" },
     "description": { "str": "This is a dummy item.  If you see it something went wrong.", "//~": "NO_I18N" },
@@ -226,7 +226,9 @@
     "//2": "59 calories per 100g. 600mg of bioavailable calcium per 100g, on average.",
     "vitamins": [ [ "calcium", "60 g" ], [ "meat_allergen", 1 ] ],
     "calories": 5900,
-    "price_postapoc": "1 USD"
+    "price_postapoc": "1 USD",
+    "into": "null",
+	"recipe": ""
   },
   {
     "type": "ITEM",
@@ -562,6 +564,7 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "skull_llama",
     "name": { "str": "llama skull" },
     "description": "The skull of a llama.",

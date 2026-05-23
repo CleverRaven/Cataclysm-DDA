@@ -111,8 +111,7 @@
         [ "bone_human", 1 ],
         [ "bone_demihuman", 1 ],
         [ "skull_humanlike", 1, "LIST" ],
-        [ "skull_human", 1 ],
-        [ "skull_demihuman", 1 ]
+        [ "skull_human", 1 ]
       ]
     ]
   },
