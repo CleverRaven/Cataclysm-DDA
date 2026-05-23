@@ -647,6 +647,46 @@ point_rel_ms get_delta_from_movement_action( const action_id act, const iso_rota
     }
 }
 
+action_id base_movement_action( const action_id act )
+{
+    switch( act ) {
+        case ACTION_SNEAK_FORTH:
+        case ACTION_RUN_FORTH:
+        case ACTION_PEEK_FORTH:
+            return ACTION_MOVE_FORTH;
+        case ACTION_SNEAK_FORTH_RIGHT:
+        case ACTION_RUN_FORTH_RIGHT:
+        case ACTION_PEEK_FORTH_RIGHT:
+            return ACTION_MOVE_FORTH_RIGHT;
+        case ACTION_SNEAK_RIGHT:
+        case ACTION_RUN_RIGHT:
+        case ACTION_PEEK_RIGHT:
+            return ACTION_MOVE_RIGHT;
+        case ACTION_SNEAK_BACK_RIGHT:
+        case ACTION_RUN_BACK_RIGHT:
+        case ACTION_PEEK_BACK_RIGHT:
+            return ACTION_MOVE_BACK_RIGHT;
+        case ACTION_SNEAK_BACK:
+        case ACTION_RUN_BACK:
+        case ACTION_PEEK_BACK:
+            return ACTION_MOVE_BACK;
+        case ACTION_SNEAK_BACK_LEFT:
+        case ACTION_RUN_BACK_LEFT:
+        case ACTION_PEEK_BACK_LEFT:
+            return ACTION_MOVE_BACK_LEFT;
+        case ACTION_SNEAK_LEFT:
+        case ACTION_RUN_LEFT:
+        case ACTION_PEEK_LEFT:
+            return ACTION_MOVE_LEFT;
+        case ACTION_SNEAK_FORTH_LEFT:
+        case ACTION_RUN_FORTH_LEFT:
+        case ACTION_PEEK_FORTH_LEFT:
+            return ACTION_MOVE_FORTH_LEFT;
+        default:
+            return act;
+    }
+}
+
 std::optional<input_event> hotkey_for_action( const action_id action,
         const int maximum_modifier_count, const bool restrict_to_printable )
 {

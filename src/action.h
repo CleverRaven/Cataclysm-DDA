@@ -651,6 +651,14 @@ action_id get_movement_action_from_delta( const tripoint_rel_ms &d, iso_rotate r
 point_rel_ms get_delta_from_movement_action( action_id act, iso_rotate rot );
 
 /**
+ * Returns the corresponding ACTION_MOVE_* for a directional sneak/run/peek
+ * action.  Returns the input unchanged for non-directional or
+ * non-sneak/run/peek actions.  Used to share the movement direction logic
+ * between the modifier-prefixed actions and the plain ones.
+ */
+action_id base_movement_action( action_id act );
+
+/**
  * Show the action menu
  *
  * Prompts the user with the action menu, and returns any action requested by user input at

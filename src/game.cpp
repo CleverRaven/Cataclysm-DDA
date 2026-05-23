@@ -5734,24 +5734,35 @@ void game::peek()
     if( !p ) {
         return;
     }
-    tripoint_bub_ms new_pos = u.pos_bub() + *p;
     if( p->z() != 0 ) {
-        // Character might peek to a different submap; ensures return location is accurate.
-        const tripoint_abs_ms old_loc = u.pos_abs();
-        vertical_move( p->z(), false, true );
-
-        if( old_loc != u.pos_abs() ) {
-            new_pos = u.pos_bub();
-            u.move_to( old_loc );
-            here.vertical_shift( old_loc.z() );
-        } else {
-            return;
-        }
+        peek_z_level( p->z() );
+        return;
     }
-
+    const tripoint_bub_ms new_pos = u.pos_bub() + *p;
     if( here.impassable( new_pos ) ) {
         return;
     }
+
+    peek( new_pos );
+}
+
+void game::peek_z_level( const int dz )
+{
+    if( dz == 0 ) {
+        return;
+    }
+    map &here = get_map();
+    // Character might peek to a different submap; snapshot the return location.
+    const tripoint_abs_ms old_loc = u.pos_abs();
+    vertical_move( dz, false, true );
+
+    if( old_loc == u.pos_abs() ) {
+        // vertical_move bailed (no stairs / blocked); nothing to peek at.
+        return;
+    }
+    const tripoint_bub_ms new_pos = u.pos_bub();
+    u.move_to( old_loc );
+    here.vertical_shift( old_loc.z() );
 
     peek( new_pos );
 }

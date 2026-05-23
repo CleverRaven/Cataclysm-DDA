@@ -707,6 +707,7 @@ class game
 
         void peek();
         void peek( const tripoint_bub_ms &p );
+        void peek_z_level( int dz );
         std::optional<tripoint_bub_ms> look_debug();
 
         bool check_zone( const zone_type_id &type, const tripoint_bub_ms &where ) const;

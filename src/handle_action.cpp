@@ -119,6 +119,9 @@ character_modifier_move_mode_move_cost_mod( "move_mode_move_cost_mod" );
 
 static const damage_type_id damage_cut( "cut" );
 
+static const move_mode_id move_mode_crouch( "crouch" );
+static const move_mode_id move_mode_run( "run" );
+
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_laserlocked( "laserlocked" );
@@ -2549,6 +2552,56 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     }
                 }
             }
+            break;
+        case ACTION_SNEAK_FORTH:
+        case ACTION_SNEAK_FORTH_RIGHT:
+        case ACTION_SNEAK_RIGHT:
+        case ACTION_SNEAK_BACK_RIGHT:
+        case ACTION_SNEAK_BACK:
+        case ACTION_SNEAK_BACK_LEFT:
+        case ACTION_SNEAK_LEFT:
+        case ACTION_SNEAK_FORTH_LEFT:
+        case ACTION_RUN_FORTH:
+        case ACTION_RUN_FORTH_RIGHT:
+        case ACTION_RUN_RIGHT:
+        case ACTION_RUN_BACK_RIGHT:
+        case ACTION_RUN_BACK:
+        case ACTION_RUN_BACK_LEFT:
+        case ACTION_RUN_LEFT:
+        case ACTION_RUN_FORTH_LEFT: {
+            const bool is_sneak = act >= ACTION_SNEAK_FORTH && act <= ACTION_SNEAK_FORTH_LEFT;
+            const move_mode_id prev_mode = player_character.current_movement_mode();
+            player_character.set_movement_mode( is_sneak ? move_mode_crouch : move_mode_run );
+            const point_rel_ms d = get_delta_from_movement_action(
+                                       base_movement_action( act ), iso_rotate::yes );
+            avatar_action::move( player_character, here, tripoint_rel_ms( d, 0 ) );
+            player_character.set_movement_mode( prev_mode );
+            break;
+        }
+        case ACTION_PEEK_FORTH:
+        case ACTION_PEEK_FORTH_RIGHT:
+        case ACTION_PEEK_RIGHT:
+        case ACTION_PEEK_BACK_RIGHT:
+        case ACTION_PEEK_BACK:
+        case ACTION_PEEK_BACK_LEFT:
+        case ACTION_PEEK_LEFT:
+        case ACTION_PEEK_FORTH_LEFT: {
+            const point_rel_ms d = get_delta_from_movement_action(
+                                       base_movement_action( act ), iso_rotate::yes );
+            if( d != point_rel_ms::zero ) {
+                const tripoint_bub_ms target = player_character.pos_bub() +
+                                               tripoint_rel_ms( d, 0 );
+                if( !here.impassable( target ) ) {
+                    peek( target );
+                }
+            }
+            break;
+        }
+        case ACTION_PEEK_UP_LEVEL:
+            peek_z_level( 1 );
+            break;
+        case ACTION_PEEK_DOWN_LEVEL:
+            peek_z_level( -1 );
             break;
         case ACTION_MOVE_DOWN: {
             if( player_character.is_mounted() ) {
