@@ -1193,7 +1193,9 @@
         [ "sea_lettuce", 1 ],
         [ "bladderwrack", 1 ],
         [ "kelp_sugar", 1 ],
-        [ "brussels_sprout", 1 ]
+        [ "brussels_sprout", 1 ],
+        [ "kale", 1 ],
+        [ "cauliflower", 1 ]
       ]
     ]
   },
@@ -1256,7 +1258,10 @@
         [ "wild_garlic", 2 ],
         [ "brussels_sprout", 3 ],
         [ "spinach", 1 ],
-        [ "japanese_knotweed_stem", 1 ]
+        [ "japanese_knotweed_stem", 1 ],
+        [ "cauliflower_head", 1 ],
+        [ "kale_head", 1 ],
+        [ "pea_pods", 1 ]
       ]
     ]
   },
@@ -1314,6 +1319,12 @@
     "components": [ [ [ "brussels_sprout", 3 ] ] ]
   },
   {
+    "id": "any_pea",
+    "type": "requirement",
+    "//": "Any form of pea sprout used in cooking",
+    "components": [ [ [ "pea_pods", 1 ], [ "pea", 5 ] ] ]
+  },
+  {
     "id": "any_zucchini",
     "type": "requirement",
     "//": "Any form of zucchini used in cooking",
@@ -1336,6 +1347,18 @@
     "type": "requirement",
     "//": "Any form of chili pepper used in cooking",
     "components": [ [ [ "chili_pepper", 1 ], [ "chili_pepper_cut", 1 ], [ "rehydrated_chili", 1 ] ] ]
+  },
+  {
+    "id": "any_cauliflower",
+    "type": "requirement",
+    "//": "Any form of cauliflower used in cooking",
+    "components": [ [ [ "cauliflower", 5 ], [ "cauliflower_head", 1 ] ] ]
+  },
+  {
+    "id": "any_kale",
+    "type": "requirement",
+    "//": "Any form of kale used in cooking",
+    "components": [ [ [ "kale", 5 ], [ "kale_head", 1 ] ] ]
   },
   {
     "id": "acorns_processed_any",
