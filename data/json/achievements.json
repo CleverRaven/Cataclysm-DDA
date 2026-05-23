@@ -36,6 +36,26 @@
     "requirements": [ { "event_statistic": "num_avatar_robot_kills", "is": ">=", "target": 1, "visible": "when_achievement_completed" } ]
   },
   {
+    "id": "achievement_kill_mutant",
+    "type": "achievement",
+    "name": "Paging Dr. Tucker!",
+    "description": "Human experimentation is a necessary step.  I would think a scientist should understand...",
+    "requirements": [ { "event_statistic": "num_avatar_mutant_kills", "is": ">=", "target": 1, "visible": "when_achievement_completed" } ]
+  },
+  {
+    "id": "achievement_kill_npc",
+    "type": "achievement",
+    "name": "Psycho Killer",
+    "time_constraint": { "since": "game_start", "is": "<=", "target": "30 days" },
+    "description": "Qu'est-ce que c'est",
+    "requirements": [
+      { "event_statistic": "num_avatar_character_kills", "is": ">=", "target": 3 },
+      {
+        "description": "Kill 3 NPCs within 30 days of game start, loosely meeting the legal definition of a serial killer."
+      }
+    ]
+  },
+  {
     "id": "achievement_kill_in_first_minute",
     "type": "achievement",
     "name": "Rude awakening",
@@ -203,12 +223,21 @@
     "requirements": [ { "event_statistic": "num_moves_boat_ctrl_direct", "is": ">=", "target": 4800 } ]
   },
   {
+    "id": "achievement_vehicle_distance_boat_spanlad",
+    "type": "achievement",
+    "name": "From Ushant to Scilly",
+    "description": "It's 35 leagues",
+    "//": "Lyric from sea shanty 'Spanish Ladies', actual distance is approx 33 leagues, or 184km ",
+    "requirements": [ { "event_statistic": "num_moves_boat_ctrl_direct", "is": ">=", "target": 184000 } ],
+    "hidden_by": [ "achievement_vehicle_distance_boat_hocr" ]
+  },
+  {
     "id": "achievement_vehicle_distance_boat_mayflower",
     "type": "achievement",
     "name": "Plymouth to Plymouth",
     "//": "Approx distance sailed by the Pilgrims",
     "requirements": [ { "event_statistic": "num_moves_boat_onboard", "is": ">=", "target": 5200000 } ],
-    "hidden_by": [ "achievement_vehicle_distance_boat_hocr" ]
+    "hidden_by": [ "achievement_vehicle_distance_boat_spanlad" ]
   },
   {
     "id": "achievement_vehicle_distance_boat_circumnavigate",
@@ -344,9 +373,9 @@
     "name": "Freeman's favorite",
     "requirements": [
       {
-        "event_statistic": "num_avatar_wields_crowbar",
-        "is": ">=",
-        "target": 1,
+        "event_statistic": "avatar_last_item_wielded",
+        "is": "==",
+        "target": [ "itype_id", "crowbar" ],
         "visible": "when_achievement_completed",
         "description": "Wield a crowbar"
       }
@@ -356,13 +385,42 @@
     "id": "achievement_wear_power_armor",
     "type": "achievement",
     "name": "Impenetrable",
+    "description": "AND YOU WILL REMAIN IN THIS MAN'S ARMY UNTIL YOU ARE 510 YEARS OLD, which is the number of YEARS it will take for you pay for the Mk. 2 powered combat armor YOU HAVE LOST!",
     "requirements": [
       {
-        "event_statistic": "num_avatar_wears_power_armor_heavy",
+        "event_statistic": "num_avatar_wears_power_armor",
         "is": ">=",
         "target": 1,
         "visible": "when_achievement_completed",
-        "description": "Wear a tank suit"
+        "description": "Wear military-grade power armor"
+      }
+    ]
+  },
+  {
+    "id": "achievement_wear_rm13",
+    "type": "achievement",
+    "name": "Military-industrial complex?  No, it's quite simple",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_item_worn",
+        "is": "==",
+        "target": [ "itype_id", "rm_13" ],
+        "visible": "when_achievement_completed",
+        "description": "Wear RM13 combat armor"
+      }
+    ]
+  },
+  {
+    "id": "achievement_wear_crown",
+    "type": "achievement",
+    "name": "King Nothing",
+    "description": "...And you point your finger, but there's no one around...",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_item_worn",
+        "is": "==",
+        "target": [ "itype_id", "crown_golden_survivor" ],
+        "description": "Forge a crown of gold, and place it atop your head"
       }
     ]
   },
@@ -487,6 +545,14 @@
     "description": "By most mechanical and dirty hand.  I shall have such revenges on you… both.  The things I will do, what they are, yet I know not.  But they will be the terrors of the earth.",
     "requirements": [ { "event_statistic": "num_installs_cbm", "is": ">=", "target": 10 } ],
     "hidden_by": [ "achievement_install_1_cbm" ]
+  },
+  {
+    "id": "achievement_install_25_cbms",
+    "type": "achievement",
+    "name": "Adeptus Mechanicus",
+    "description": "From the moment I understood the weakness of my flesh, it disgusted me.",
+    "requirements": [ { "event_statistic": "num_installs_cbm", "is": ">=", "target": 25 } ],
+    "hidden_by": [ "achievement_install_10_cbm" ]
   },
   {
     "id": "achievement_crosses_mutation_threshold",
@@ -1429,8 +1495,8 @@
   {
     "id": "achievement_lvl_4_launcher",
     "type": "achievement",
-    "name": "Gunner",
-    "description": "Serious Hardware.",
+    "name": "Mehmed's Law",
+    "description": "There's always a bigger gun",
     "requirements": [
       {
         "event_statistic": "num_gains_launcher_level_4",
@@ -1443,8 +1509,8 @@
   {
     "id": "achievement_lvl_7_launcher",
     "type": "achievement",
-    "name": "Heavy Gunner",
-    "description": "Caliber makes the difference.",
+    "name": "Demoman",
+    "description": "What makes me a good demoman? If I were a bad demoman, I wouldn't be sittin' here discussin' it with you, now would I?",
     "requirements": [
       {
         "event_statistic": "num_gains_launcher_level_7",
@@ -2074,6 +2140,20 @@
     ]
   },
   {
+    "id": "achievement_reach_police_hq",
+    "type": "achievement",
+    "name": "ZPD's Dead and Dullest",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "police_dept" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a large Police Department"
+      }
+    ]
+  },
+  {
     "id": "achievement_reach_mi-Go_encampment",
     "type": "achievement",
     "name": "The Whisperer in Darkness",
@@ -2102,6 +2182,35 @@
     ]
   },
   {
+    "id": "achievement_reach_lmoe",
+    "type": "achievement",
+    "name": "Last Man on Earth (except for all the other ones)",
+    "description": "It's statistically impossible",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_enters_lmoe",
+        "is": ">=",
+        "target": 1,
+        "visible": "when_achievement_completed",
+        "description": "Reach an LMOE shelter"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_resort",
+    "type": "achievement",
+    "name": "Don't Threaten Me With A Good Time",
+    "description": "Champagne, cocaine, gasoline, and zombies inbetween",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "private_resort" ],
+        "description": "Reach a Private Resort"
+      }
+    ]
+  },
+  {
     "id": "achievement_reach_bastion_fort",
     "type": "achievement",
     "name": "What a Larp!",
@@ -2125,21 +2234,48 @@
         "is": "==",
         "target": [ "overmap_special_id", "mil_base" ],
         "visible": "when_achievement_completed",
-        "description": "Reach a Military Base"
+        "description": "Reach the Military Base"
       }
     ]
   },
   {
     "id": "achievement_reach_military_bunker",
     "type": "achievement",
-    "name": "Zombie Forces",
+    "name": "Z-COM",
     "requirements": [
       {
         "event_statistic": "last_overmap_special_avatar_entered",
         "is": "==",
         "target": [ "overmap_special_id", "military_bunker_1" ],
-        "visible": "when_achievement_completed",
         "description": "Reach a Military Bunker"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_military_outpost",
+    "type": "achievement",
+    "name": "They've captured point Zulu!",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "military_outpost" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a Military Outpost"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_military_helipad",
+    "type": "achievement",
+    "name": "Get To Da Choppa",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "military_helipad" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a Military Helipad"
       }
     ]
   },
@@ -2172,6 +2308,33 @@
     ]
   },
   {
+    "id": "achievement_reach_school",
+    "type": "achievement",
+    "name": "School's Out Forever!",
+    "description": "No more pencils, no more books, no more teachers, dirty looks",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "school" ],
+        "description": "Reach a School"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_vetaff",
+    "type": "achievement",
+    "name": "Your Zombification is not service related",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "s_vfw" ],
+        "description": "Reach a Veterans of Foreign Wars office"
+      }
+    ]
+  },
+  {
     "id": "achievement_reach_hospital",
     "type": "achievement",
     "name": "The Doctor is out!",
@@ -2182,6 +2345,34 @@
         "target": 1,
         "visible": "when_achievement_completed",
         "description": "Reach a Hospital"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_prison",
+    "type": "achievement",
+    "name": "I fought the Law",
+    "description": "But the Dead won",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "prison" ],
+        "description": "Go to a prison"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_airliner",
+    "type": "achievement",
+    "name": "Zeds On A Plane",
+    "description": "I'm tired of these motherfuckin' zombies on this motherfuckin' plane!",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "airliner_crashed" ],
+        "description": "Find a crashed passenger jet"
       }
     ]
   },
@@ -2338,6 +2529,14 @@
     ]
   },
   {
+    "id": "achievement_black_glass",
+    "type": "achievement",
+    "name": "I like you just the way you are",
+    "//": "Silent Homestead",
+    "manually_given": true,
+    "requirements": [ { "description": "Learn the true value of ugliness" } ]
+  },
+  {
     "id": "achievement_reach_highlands",
     "type": "achievement",
     "name": "Things betwixt",
@@ -2360,8 +2559,35 @@
     "id": "achievement_LIXA_finale",
     "type": "achievement",
     "name": { "str": "Trigintaduonion" },
+    "//": "LIXA Finale",
     "manually_given": true,
     "description": "Defeat a being from a higher dimension, and free the damned souls trapped inside",
+    "requirements": [  ]
+  },
+  {
+    "id": "achievement_vw_win",
+    "type": "achievement",
+    "name": { "str": "Blackest Widow" },
+    "//": "Void Weaver Killed",
+    "manually_given": true,
+    "description": "Kill the biggest spider",
+    "requirements": [  ]
+  },
+  {
+    "id": "achievement_nem_scen_win",
+    "type": "achievement",
+    "name": { "str": "And stay down!" },
+    "//": "Killed Relentless Hulk",
+    "manually_given": true,
+    "description": "Killed your pursuer (Scenario specific)",
+    "requirements": [  ]
+  },
+  {
+    "id": "achievement_dermatik",
+    "type": "achievement",
+    "name": { "str": "It's a girl!" },
+    "manually_given": true,
+    "description": "Give live birth to a parasite",
     "requirements": [  ]
   }
 ]
