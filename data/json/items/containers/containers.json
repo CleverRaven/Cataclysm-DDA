@@ -5425,7 +5425,7 @@
     "type": "ITEM",
     "category": "container",
     "name": { "str": "welding rod tube" },
-    "description": "A long, clear plastic canister with a threaded cap. It is designed to hold heavy stacks of welding and brazing rods.",
+    "description": "A long, clear plastic canister with a threaded cap.  It is designed to hold heavy stacks of welding and brazing rods.",
     "weight": "250 g",
     "volume": "4000 ml",
     "material": [ "plastic" ],
