@@ -77,6 +77,7 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "bone_demihuman",
     "copy-from": "bone",
     "name": { "str": "demihuman bone" },
@@ -213,7 +214,8 @@
   {
     "type": "ITEM",
     "abstract": "skull_large_abstract",
-    "delete": { "subtypes": [ "MILLING", "COMESTIBLE" ], "flags": [ "RAW", "INEDIBLE", "NO_TEMP", "LUPINE" ] },
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
+    "delete": { "flags": [ "RAW", "INEDIBLE", "NO_TEMP", "LUPINE" ] },
     "name": { "str": "abstract large skull", "//~": "NO_I18N" },
     "description": { "str": "This is a dummy item.  If you see it something went wrong.", "//~": "NO_I18N" },
     "copy-from": "skull_abstract",
@@ -259,7 +261,7 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "MILLING" ],
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "skull_canis_small",
     "name": { "str": "tiny canine skull" },
     "description": "The skull of a tiny canine, likely a Chihuahua or another similarly sized dog breed.",
@@ -271,7 +273,7 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "MILLING" ],
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "skull_canis_medium",
     "name": { "str": "small canine skull" },
     "description": "The skull of a small canine, likely a small dog breed.",
@@ -283,6 +285,7 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "skull_canis",
     "name": { "str": "large canine skull" },
     "description": "The skull of a wolf or a dog.  Essential material for building an articulated wolf skeleton.",
@@ -293,6 +296,7 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "skull_canis_triclopean",
     "name": { "str": "triclopean canine skull" },
     "description": "The skull of a what looks like a dog, although it has an extra eye socket.",
@@ -300,7 +304,7 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "MILLING" ],
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "skull_feline_small",
     "name": { "str": "small feline skull" },
     "description": "The skull of a small feline, likely a house cat.",
@@ -312,7 +316,7 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "MILLING" ],
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "skull_feline_medium",
     "name": { "str": "medium feline skull" },
     "description": "The skull of a medium-sized feline, likely a bobcat.",
@@ -324,6 +328,7 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "skull_cougar",
     "name": { "str": "cougar skull" },
     "description": "The skull of a cougar.",
@@ -335,7 +340,7 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "MILLING" ],
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "skull_raccoon",
     "name": { "str": "raccoon skull" },
     "description": "The skull of a raccoon.",
@@ -347,6 +352,7 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "skull_bear",
     "name": { "str": "bear skull" },
     "description": "The skull of a bear.",
@@ -358,7 +364,7 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "MILLING" ],
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "skull_opossum",
     "name": { "str": "opossum skull" },
     "description": "The skull of an opossum.",
@@ -370,7 +376,7 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "MILLING" ],
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "skull_skunk",
     "name": { "str": "skunk skull" },
     "description": "The skull of a skunk.",
@@ -397,7 +403,7 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "MILLING" ],
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "skull_rabbit",
     "name": { "str": "rabbit skull" },
     "description": "The skull of a rabbit or a hare.",
@@ -409,6 +415,7 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "skull_beaver",
     "name": { "str": "beaver skull" },
     "description": "The skull of a beaver.",
@@ -420,6 +427,7 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "skull_beaver_huge",
     "name": { "str": "dambreaker skull" },
     "description": "A skull of an abnormally large mutant beaver.",
@@ -430,6 +438,7 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "skull_pig",
     "name": { "str": "pig skull" },
     "description": "The skull of a pig, either a domestic or a wild one.",
@@ -441,6 +450,7 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "skull_sheep",
     "name": { "str": "sheep skull" },
     "description": "The skull of a domestic sheep.",
@@ -451,6 +461,7 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "skull_goat",
     "name": { "str": "goat skull" },
     "description": "The skull of a goat with the horns still attached.",
@@ -482,6 +493,7 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "skull_cervine",
     "name": { "str": "deer skull" },
     "description": "The skull of a cervine, either a deer or a reindeer, with the antlers still attached.",
@@ -493,6 +505,7 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "MILLING", "COMESTIBLE" ],
     "id": "skull_cervine_spideer",
     "name": { "str": "deer skull" },
     "description": "The skull of a cervine, with the antlers still attached…  But why does it have eight eye sockets?",
