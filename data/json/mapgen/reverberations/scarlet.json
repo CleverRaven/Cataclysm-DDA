@@ -30,7 +30,7 @@
         "                        ",
         "                        "
       ],
-      "nested": { "1": { "chunks": [ [ "null", 80 ], [ "scarlet_island_reverberation", 20 ] ] } },
+      "nested": { "1": { "chunks": [ [ "null", 95 ], [ "scarlet_island_reverberation", 5 ] ] } },
       "terrain": { " ": [ [ "t_water_sh", 399 ], [ "t_scarlet_light", 1 ] ] }
     }
   },
