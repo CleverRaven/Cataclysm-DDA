@@ -228,5 +228,17 @@
     "see_cost": "high",
     "vision_levels": "underground_dirt",
     "travel_cost_type": "basement"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "scarlet_sea_reverberation" ],
+    "flags": [ "NO_ROTATE" ],
+    "vision_levels": "open_land",
+    "land_use_code": "open_land",
+    "name": "scarlet sea",
+    "sym": "#",
+    "travel_cost_type": "field",
+    "color": "red",
+    "see_cost": "all_clear"
   }
 ]
