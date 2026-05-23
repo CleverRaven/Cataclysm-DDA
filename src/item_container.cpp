@@ -342,6 +342,16 @@ std::vector<item_pocket *> item::get_container_and_mod_pockets()
     return contents.get_container_and_mod_pockets();
 }
 
+void item::begin_bulk_fill()
+{
+    contents.begin_bulk_fill();
+}
+
+void item::end_bulk_fill()
+{
+    contents.end_bulk_fill();
+}
+
 item_pocket *item::contained_where( const item &contained )
 {
     return contents.contained_where( contained );

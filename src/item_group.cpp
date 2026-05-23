@@ -136,6 +136,11 @@ static void put_into_container(
         ctr.set_itype_variant( *container_variant );
     }
     Item_spawn_data::ItemList excess;
+    // ctr is a fresh, isolated container; nothing else touches its contents
+    // during this loop, so its pockets can track volume/weight incrementally
+    // and avoid re-walking all prior contents on every insertion (O(n^2) when
+    // a group spawns many items into one container, e.g. container depots).
+    ctr.begin_bulk_fill();
     for( auto it = items.end() - num_items; it != items.end(); ++it ) {
         // quiet=true: caller handles failure via the overflow path below.
         const pocket_type pk_type = guess_pocket_for( ctr, *it );
@@ -165,6 +170,7 @@ static void put_into_container(
                 break;
         }
     }
+    ctr.end_bulk_fill();
     ctr.add_automatic_whitelist();
     if( sealed ) {
         ctr.seal();
