@@ -15,7 +15,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "afs_7.50mm" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -4 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 175,
     "durability": 9,
     "min_strength": 16,
@@ -37,12 +37,22 @@
     ],
     "pocket_data": [
       {
+        "id": "ammo",
         "pocket_type": "MAGAZINE",
         "holster": true,
         "ammo_restriction": { "afs_7.50mm": 9 },
         "allowed_speedloaders": [ "afs_marsect72_speedloader9" ]
+      },
+      {
+        "id": "power",
+        "pocket_type": "MAGAZINE_WELL",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "magazine_well": "75 ml",
+        "item_restriction": [ "afs_compact_cartridge" ]
       }
     ],
+    "firing_requirements": { "DEFAULT": [ { "pocket": "ammo", "qty": 1 }, { "pocket": "power", "qty": 5 } ] },
     "built_in_mods": [ "afs_marsec_t72_shotgun" ]
   },
   {
