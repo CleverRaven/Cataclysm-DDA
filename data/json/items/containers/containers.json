@@ -5395,5 +5395,53 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "10 kg", "transparent": true }
     ],
     "flags": [ "NO_RELOAD" ]
+  },
+  {
+    "id": "spool_welding",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "wire spool" },
+    "description": "A large plastic spool designed to hold welding wire or solder.",
+    "weight": "200 g",
+    "volume": "700 ml",
+    "material": [ "plastic" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "moves": 800,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "max_contains_volume": "3000 ml",
+        "max_contains_weight": "5 kg",
+        "item_restriction": [ "welding_wire_steel", "welding_wire_alloy", "solder_wire" ],
+        "transparent": false
+      }
+    ],
+    "flags": [ "TARDIS" ]
+  },
+  {
+    "id": "tube_welding_rod",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "welding rod tube" },
+    "description": "A long, clear plastic canister with a threaded cap. It is designed to hold heavy stacks of welding and brazing rods.",
+    "weight": "250 g",
+    "volume": "4000 ml",
+    "material": [ "plastic" ],
+    "symbol": "|",
+    "color": "light_cyan",
+    "longest_side": "48 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "4000 ml",
+        "max_contains_weight": "10 kg",
+        "max_item_length": "47 cm",
+        "item_restriction": [ "brazing_rod_bronze", "brazing_rod_alloy", "welding_rod_steel", "welding_rod_alloy" ],
+        "transparent": true
+      }
+    ],
+    "flags": [ "TARDIS" ]
   }
 ]
