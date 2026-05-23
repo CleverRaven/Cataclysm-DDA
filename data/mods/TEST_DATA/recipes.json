@@ -401,6 +401,125 @@
   {
     "type": "recipe",
     "result": "cudgel",
+    "id_suffix": "test_steps_charged",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      { "name": "Shape", "time": "10 m", "activity_level": "MODERATE_EXERCISE" },
+      {
+        "name": "Solder",
+        "time": "10 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "tools": [ [ [ "soldering_iron_portable", 40 ] ] ]
+      },
+      { "name": "Finish", "time": "10 m", "activity_level": "NO_EXERCISE" }
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_steps_dual_charged",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Solder",
+        "time": "10 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "tools": [ [ [ "soldering_iron_portable", 10 ] ], [ [ "soldering_iron_portable", 10 ] ] ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_steps_two_tools",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Work",
+        "time": "10 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "tools": [ [ [ "soldering_iron_portable", -1 ] ], [ [ "hammer", -1 ] ] ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_charged_fast",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      { "name": "Zap", "time": "1 s", "activity_level": "NO_EXERCISE", "tools": [ [ [ "soldering_iron_portable", 30 ] ] ] }
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_charged_fast_stepless",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "time": "1 s",
+    "activity_level": "NO_EXERCISE",
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "tools": [ [ [ "soldering_iron_portable", 30 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_root_charged",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "steps": [
+      { "name": "Shape", "time": "10 m", "activity_level": "MODERATE_EXERCISE" },
+      { "name": "Finish", "time": "10 m", "activity_level": "NO_EXERCISE" }
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_root_unattended",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "steps": [
+      { "name": "Shape", "time": "10 m", "activity_level": "MODERATE_EXERCISE" },
+      { "name": "Cure", "time": "10 m", "activity_level": "NO_EXERCISE", "attention": "unattended" }
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
     "id_suffix": "test_steps_shared_prof",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",

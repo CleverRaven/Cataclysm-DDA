@@ -2837,7 +2837,7 @@ void item::craft_data::serialize( JsonOut &jsout ) const
     jsout.member( "next_failure_point", next_failure_point );
     jsout.member( "tools_to_continue", tools_to_continue );
     jsout.member( "batch_size", batch_size );
-    jsout.member( "cached_tool_selections", cached_tool_selections );
+    jsout.member( "step_tool_allocs", step_tool_allocs );
     jsout.member( "current_step", current_step );
     jsout.member( "step_progress", step_progress );
     if( !step_plans.empty() ) {
@@ -2892,6 +2892,89 @@ void item::craft_data::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
+static bool tool_in_group( const std::vector<tool_comp> &group,
+                           const step_tool_alloc &a )
+{
+    for( const tool_comp &tc : group ) {
+        if( tc.type == a.sel.comp.type && tc.count == a.sel.comp.count ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// A charged allocation must draw from a real source; a none/cancel source would
+// let consumption mark its buckets without debiting any charge.  Non-charged
+// presence tools (count <= 0) may legitimately be usage_from::none.
+static bool alloc_source_valid( const step_tool_alloc &a )
+{
+    if( a.sel.comp.count <= 0 ) {
+        return true;
+    }
+    return a.sel.use_from == usage_from::player || a.sel.use_from == usage_from::map ||
+           a.sel.use_from == usage_from::both;
+}
+
+// True when saved allocations still line up with the recipe: one step-owned
+// allocation per step tool group, then one root-derived allocation per root
+// group on each active (attended, timed) step, each matching a tool type and
+// count its group still offers.  A tool-group edit that breaks this shape fails.
+// Also rejects corrupt counters and units that disagree with the selected count,
+// so consumption never runs off an inconsistent allocation.
+static bool step_tool_allocs_fit_recipe(
+    const recipe &making, int batch, const std::vector<std::vector<step_tool_alloc>> &allocs )
+{
+    if( allocs.size() != making.steps().size() ) {
+        return false;
+    }
+    const int batch_mult = std::max( batch, 1 );
+    const std::vector<std::vector<tool_comp>> &root_groups =
+            making.root_requirements().get_tools();
+    // Root shares are crafter-dependent per step but always sum to the tool's
+    // whole-craft total; check that invariant rather than the per-step split.
+    std::vector<int> root_unit_sum( root_groups.size(), 0 );
+    std::vector<int> root_unit_expected( root_groups.size(), -1 );
+    for( size_t s = 0; s < allocs.size(); ++s ) {
+        const recipe_step &step = making.steps()[s];
+        const std::vector<std::vector<tool_comp>> &step_groups =
+                step.requirements.get_tools();
+        const bool step_active =
+            step.attention != step_attention::unattended && step.time > 0;
+        std::vector<const step_tool_alloc *> owned;
+        std::vector<const step_tool_alloc *> root;
+        for( const step_tool_alloc &a : allocs[s] ) {
+            if( a.consumed_buckets < 0 || a.consumed_buckets > 20 || a.step_count_units < 0 ||
+                !alloc_source_valid( a ) ) {
+                return false;
+            }
+            ( a.root_derived ? root : owned ).push_back( &a );
+        }
+        if( owned.size() != step_groups.size() ||
+            root.size() != ( step_active ? root_groups.size() : 0u ) ) {
+            return false;
+        }
+        for( size_t i = 0; i < owned.size(); ++i ) {
+            if( !tool_in_group( step_groups[i], *owned[i] ) ||
+                owned[i]->step_count_units != std::max( 0, owned[i]->sel.comp.count ) * batch_mult ) {
+                return false;
+            }
+        }
+        for( size_t j = 0; j < root.size(); ++j ) {
+            if( !tool_in_group( root_groups[j], *root[j] ) ) {
+                return false;
+            }
+            root_unit_sum[j] += root[j]->step_count_units;
+            root_unit_expected[j] = std::max( 0, root[j]->sel.comp.count ) * batch_mult;
+        }
+    }
+    for( size_t j = 0; j < root_groups.size(); ++j ) {
+        if( root_unit_expected[j] >= 0 && root_unit_sum[j] != root_unit_expected[j] ) {
+            return false;
+        }
+    }
+    return true;
+}
+
 void item::craft_data::deserialize( const JsonObject &obj )
 {
     obj.allow_omitted_members();
@@ -2912,13 +2995,91 @@ void item::craft_data::deserialize( const JsonObject &obj )
     next_failure_point = obj.get_int( "next_failure_point", -1 );
     tools_to_continue = obj.get_bool( "tools_to_continue", false );
     batch_size = obj.get_int( "batch_size", -1 );
-    obj.read( "cached_tool_selections", cached_tool_selections );
+    if( obj.has_member( "step_tool_allocs" ) ) {
+        obj.read( "step_tool_allocs", step_tool_allocs );
+    } else if( making && !making->has_steps() ) {
+        // A stepless save carries a single flat whole-recipe selection list;
+        // migrate it into the one implicit step.  Step recipes instead rebuild
+        // per-step on resume (handled by the shape check below).
+        std::vector<comp_selection<tool_comp>> legacy;
+        obj.read( "cached_tool_selections", legacy );
+        step_tool_allocs.clear();
+        if( !legacy.empty() ) {
+            std::vector<step_tool_alloc> step0;
+            step0.reserve( legacy.size() );
+            for( const comp_selection<tool_comp> &sel : legacy ) {
+                step_tool_alloc alloc;
+                alloc.sel = sel;
+                alloc.step_count_units = std::max( 0, sel.comp.count ) * std::max( batch_size, 1 );
+                step0.push_back( alloc );
+            }
+            step_tool_allocs.push_back( std::move( step0 ) );
+        }
+    }
     current_step = obj.get_int( "current_step", 0 );
     step_progress = obj.get_float( "step_progress", 0.0 );
     // Validate step index against the recipe's actual step count.
     if( making && making->has_steps() ) {
         int max_step = static_cast<int>( making->steps().size() ) - 1;
         current_step = std::clamp( current_step, 0, max_step );
+        // A legacy or recipe-edited save whose allocations no longer fit the
+        // recipe is dropped and rebuilt per-step on resume.
+        if( !step_tool_allocs_fit_recipe( *making, batch_size, step_tool_allocs ) ) {
+            step_tool_allocs.clear();
+            tools_to_continue = false;
+        }
+    } else if( making ) {
+        current_step = 0;
+        step_progress = 0.0;
+        // A stepless craft carries a single implicit-step allocation; drop it on
+        // a corrupt counter, units that disagree with the selected count, or a
+        // tool shape that no longer covers the recipe's tool groups, so a resume
+        // rebuilds it rather than metering off stale data and skipping a group.
+        bool stepless_ok = step_tool_allocs.size() <= 1;
+        if( stepless_ok ) {
+            const int batch_mult = std::max( batch_size, 1 );
+            const std::vector<std::vector<tool_comp>> &tool_groups =
+                    making->simple_requirements().get_tools();
+            // An empty list means no implicit-step row; treat it as a zero-length
+            // row so the bijection below rejects it when the recipe has tools.
+            const std::vector<step_tool_alloc> empty_row;
+            const std::vector<step_tool_alloc> &step0 =
+                step_tool_allocs.empty() ? empty_row : step_tool_allocs[0];
+            for( const step_tool_alloc &a : step0 ) {
+                if( a.consumed_buckets < 0 || a.consumed_buckets > 20 ||
+                    a.step_count_units != std::max( 0, a.sel.comp.count ) * batch_mult ||
+                    !alloc_source_valid( a ) ) {
+                    stepless_ok = false;
+                    break;
+                }
+            }
+            // Require one allocation per tool group, each matching a distinct
+            // group, so a stale shape cannot leave a group unmetered.
+            if( stepless_ok && step0.size() != tool_groups.size() ) {
+                stepless_ok = false;
+            }
+            if( stepless_ok ) {
+                std::vector<bool> alloc_used( step0.size(), false );
+                for( const std::vector<tool_comp> &grp : tool_groups ) {
+                    bool matched = false;
+                    for( size_t k = 0; k < step0.size(); ++k ) {
+                        if( !alloc_used[k] && tool_in_group( grp, step0[k] ) ) {
+                            alloc_used[k] = true;
+                            matched = true;
+                            break;
+                        }
+                    }
+                    if( !matched ) {
+                        stepless_ok = false;
+                        break;
+                    }
+                }
+            }
+        }
+        if( !stepless_ok ) {
+            step_tool_allocs.clear();
+            tools_to_continue = false;
+        }
     } else {
         current_step = 0;
         step_progress = 0.0;
