@@ -10,7 +10,7 @@
         "       bbb=bbb======    ",
         "  #######b=bggGGGGGGgg  ",
         "  #F+++c#b=bgy......yg  ",
-        "  #.....#b=bg.''''''.g  ",
+        "  #....§#b=bg.''''''.g  ",
         "  #V...S#b=bg.''''''.g  ",
         "  #v...S#b=bg.''''''.g  ",
         "  #..SSS#b=bg.''''''.g  ",
@@ -21,11 +21,11 @@
         "  #.|á_t#b=bg.''''''.g  ",
         "  #.D__s#b=bgy......yg  ",
         "  #.||||#gGg#|||..|||#  ",
-        "  #...............D.L#  ",
+        "  #§..............D.L#  ",
         "  #||D|.|dddd|||D||.L#  ",
         "  #ff.|.|h.h.|ch.h|.L#  ",
         "  #h.h|.D....|.ddd|.L#  ",
-        "  #ddd|.|fycf|..hd|cL#  ",
+        "  #ddd|.|fycf|§.hd|cL#  ",
         "  ####|.|#############  ",
         "     gy<yg       CC4    ",
         "     #ggg#              "
@@ -83,6 +83,7 @@
         { "item": "SUS_fridge_breakroom", "chance": 70, "repeat": [ 1, 3 ], "x": 3, "y": 4 }
       ],
       "place_item": [ { "item": "microwave", "x": 4, "y": 4, "chance": 1 }, { "item": "coffeemaker", "x": 5, "y": 4, "chance": 1 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } },
       "toilets": { "t": {  } }
     }
   },

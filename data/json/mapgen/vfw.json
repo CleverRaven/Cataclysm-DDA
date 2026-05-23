@@ -15,7 +15,7 @@
         "yyyyyyyyyyyyyyyy   22   ",
         "3pppppppppppppp    22  3",
         "3##11##11##11##    22  3",
-        "3#I....F..É..A#   222  3",
+        "3#I..§.F..É..A#   222  3",
         "31I...FHF.....+222222  3",
         "31I....F......+22222   3",
         "3#I.......I...#        3",
@@ -25,7 +25,7 @@
         "3#B............FC..O#  3",
         "3#.....F...F...FC..e1  3",
         "3#+||.FHF.FHF..FC..D1  3",
-        "3#d;|..F...F.......U#  3",
+        "3#d;|..F.§.F.......U#  3",
         "3#############+######  3",
         "3           522ZZ      3",
         "333333333333333333333333"
@@ -86,7 +86,8 @@
       "item": { "X": { "item": "american_flag" } },
       "toilets": { ";": {  } },
       "place_loot": [ { "item": "television", "x": 13, "y": [ 14, 15 ] }, { "item": "american_flag", "x": 9, "y": 20 } ],
-      "vehicles": { "Á": { "vehicle": "parking_garage", "chance": 20, "rotation": 90 }, "É": { "vehicle": "wheelchair", "chance": 50 } }
+      "vehicles": { "Á": { "vehicle": "parking_garage", "chance": 20, "rotation": 90 }, "É": { "vehicle": "wheelchair", "chance": 50 } },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
