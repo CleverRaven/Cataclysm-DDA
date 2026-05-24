@@ -8866,6 +8866,10 @@ std::optional<int> iuse::craft( Character *p, item *it, const tripoint_bub_ms & 
         return std::nullopt;
     }
     it = craft_loc.get_item();
+    if( it->is_awaiting_collection() ) {
+        craft_collect_finalized( craft_loc );
+        return 0;
+    }
     const recipe &rec = it->get_making();
     std::optional<std::vector<attention_plan>> chosen;
     if( rec.has_remaining_attention_steps( it->get_current_step() ) && p->is_avatar() ) {
