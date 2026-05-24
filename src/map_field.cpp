@@ -2300,6 +2300,10 @@ std::vector<FieldProcessorPtr> map_field_processing::processors_for_type( const 
     }
     if( ft.id == fd_fire ) {
         processors.push_back( &field_processor_fd_fire );
+        // Removes fungal terrain and "kills it".
+        // The non-flammability of fungal terrain makes fire not spread.
+        // But fire acting as a fungicide still "clears it", as far as you can spread the fire.
+        processors.push_back( &field_processor_fd_fungicidal_gas );
     }
     if( ft.id == fd_fungal_haze ) {
         processors.push_back( &field_processor_fd_fungal_haze );
