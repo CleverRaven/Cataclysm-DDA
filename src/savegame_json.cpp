@@ -889,17 +889,17 @@ void Character::load( const JsonObject &data )
         cached_mutations.emplace( add.first, add.second );
         on_mutation_gain( add.first );
     }
-    // We need to ensure that cached_mutations contains no invalid mutations before we do this
-    // As every time we add a mutation, we rebuild the enchantment cache, causing errors if
-    // we have invalid mutations.
-    recalculate_enchantment_cache();
-    recalculate_size();
 
     data.read( "my_bionics", *my_bionics );
     my_bionics->erase( std::remove_if( my_bionics->begin(), my_bionics->end(),
     []( const bionic & it ) {
         return it.id.is_null(); // remove obsoleted bionics
     } ), my_bionics->end() );
+    // We need to ensure that cached_mutations contains no invalid mutations before we do this
+    // As every time we add a mutation, we rebuild the enchantment cache, causing errors if
+    // we have invalid mutations.
+    recalculate_enchantment_cache();
+    recalculate_size();
 
     data.read( "known_monsters", known_monsters );
 
