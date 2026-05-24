@@ -1816,7 +1816,7 @@
     "using": [ [ "forging_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "scrap", 6 ] ] ],
-    "byproduct_group": [ { "item": "slag", "charges": 5 } ]
+    "byproduct_group": [ { "item": "slag", "count": 5 } ]
   },
   {
     "result": "budget_steel_lump",
@@ -1833,7 +1833,7 @@
     "using": [ [ "forging_standard", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "scrap", 24 ] ] ],
-    "byproduct_group": [ { "item": "slag", "charges": 20 } ]
+    "byproduct_group": [ { "item": "slag", "count": 20 } ]
   },
   {
     "result": "budget_steel_lump",

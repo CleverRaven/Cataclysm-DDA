@@ -156,7 +156,7 @@
     "time": "5 m",
     "byproducts": [
       { "item": "scrap", "charges": [ 0, 6 ] },
-      { "item": "slag", "charges": [ 0, 3 ] },
+      { "item": "slag", "count": [ 0, 3 ] },
       { "item": "scrap_tin", "count": [ 0, 1 ] },
       { "item": "scrap_aluminum", "count": [ 0, 1 ] },
       { "item": "scrap_copper", "count": [ 0, 1 ] }
