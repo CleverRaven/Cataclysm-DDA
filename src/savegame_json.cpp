@@ -895,7 +895,6 @@ void Character::load( const JsonObject &data )
     []( const bionic & it ) {
         return it.id.is_null(); // remove obsoleted bionics
     } ), my_bionics->end() );
-    
     // We need to ensure that cached_mutations contains no invalid mutations before we do this
     // As every time we add a mutation, we rebuild the enchantment cache, causing errors if
     // we have invalid mutations.
