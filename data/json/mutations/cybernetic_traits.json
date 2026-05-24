@@ -54,7 +54,7 @@
   {
     "type": "mutation",
     "id": "EXODII_CYBERFRAME_GENERIC",
-    "flags": [ "Exodii_Body", "TOUGH_FEET", "LARGE" ],
+    "flags": [ "Exodii_Body", "TOUGH_FEET" ],
     "name": { "str": "Exodii-style cyborg" },
     "points": 0,
     "visibility": 10,
