@@ -2009,7 +2009,9 @@ void options_manager::add_options_interface()
                          "is shipped with the game will work.  "
                          "User customizations are preserved across profile changes.  "
                          "Restart the game to apply." ),
-    { { "legacy", to_translation( "Legacy" ) } },
+    { { "legacy", to_translation( "Legacy" ) },
+        { "default-numpad", to_translation( "Default (numpad keyboard)" ) },
+        { "default-laptop", to_translation( "Default (laptop / no numpad)" ) } },
     "legacy" );
 
     add_empty_line();
