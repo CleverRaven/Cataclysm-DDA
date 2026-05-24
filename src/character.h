@@ -3847,6 +3847,19 @@ class Character : public Creature, public visitable
         /** Advance per-step tool consumption so each step's allocations match its
          *  current progress.  Returns false (consuming nothing) if charges are short. */
         bool craft_consume_step_tools( item &craft );
+        /** Advance the active unattended step's tool consumption to match its
+         *  wall-clock progress.  Returns false (consuming nothing) if charges are short. */
+        bool craft_consume_passive_step_tools( item &craft, time_point now, const item_location &loc );
+        /** Consume each step's tool allocations up to its 5% bucket target.
+         *  active_step is the in-progress step, whose non-charged selected tools are
+         *  re-checked for presence every call (even once their buckets are full) so a
+         *  tool removed before completion cannot finish the step.  When pin_to_map is
+         *  set, usage_from::player and usage_from::both allocations draw from the map
+         *  at origin instead of the crafter.  Returns false (consuming nothing) on a
+         *  shortfall. */
+        bool consume_step_tool_targets( item &craft, const std::vector<int> &targets,
+                                        int active_step, const tripoint_bub_ms &origin, int radius,
+                                        bool pin_to_map );
         void consume_tools( const comp_selection<tool_comp> &tool, int batch );
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
                             const tripoint_bub_ms &origin = tripoint_bub_ms::zero, int radius = PICKUP_RANGE,
