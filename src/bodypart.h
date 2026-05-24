@@ -501,7 +501,8 @@ class bodypart
                               int override_wounds = -1 ) const;
         float get_limb_score_max( const limb_score_id &score ) const;
 
-        std::vector<wound> get_wounds() const;
+        const std::vector<wound> &get_wounds() const;
+        std::vector<wound> &get_wounds();
 
         void add_or_worsen_wound( wound_type_id wd );
         void add_or_worsen_wound( const wound &wd );
@@ -513,6 +514,7 @@ class bodypart
         wound *get_wound( wound_type_id wd_id );
         void remove_wound( wound wd );
         void remove_wound( wound_type_id wd );
+        void remove_all_wounds_of_type( wound_type_id wd );
         void update_wounds( time_duration time_passed );
 
         int get_hp_cur() const;

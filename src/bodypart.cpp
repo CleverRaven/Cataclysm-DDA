@@ -1086,7 +1086,12 @@ float bodypart::get_limb_score_max( const limb_score_id &score ) const
     return id->get_limb_score_max( score );
 }
 
-std::vector<wound> bodypart::get_wounds() const
+const std::vector<wound> &bodypart::get_wounds() const
+{
+    return wounds;
+}
+
+std::vector<wound> &bodypart::get_wounds()
 {
     return wounds;
 }
@@ -1196,6 +1201,13 @@ void bodypart::remove_wound( const wound_type_id wd )
     if( it != wounds.end() ) {
         wounds.erase( it );
     }
+}
+
+void bodypart::remove_all_wounds_of_type( const wound_type_id wd )
+{
+    wounds.erase( std::remove_if( wounds.begin(), wounds.end(), [wd]( const wound & existing_wound ) {
+        return existing_wound.type == wd;
+    } ), wounds.end() );
 }
 
 void bodypart::update_wounds( time_duration time_passed )
