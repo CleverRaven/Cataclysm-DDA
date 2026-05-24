@@ -2125,13 +2125,6 @@
   },
   {
     "type": "item_group",
-    "id": "egg_bird_unfert_carton_egg_10",
-    "subtype": "collection",
-    "container-item": "carton_egg",
-    "entries": [ { "item": "egg_bird_unfert", "count": 10 } ]
-  },
-  {
-    "type": "item_group",
     "id": "cattlefodder_bag_canvas_50",
     "subtype": "collection",
     "container-item": "bag_canvas",

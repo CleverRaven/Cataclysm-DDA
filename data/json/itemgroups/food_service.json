@@ -1578,71 +1578,6 @@
   },
   {
     "type": "item_group",
-    "id": "tea_raw_bag_plastic_33",
-    "subtype": "collection",
-    "//": "100 g of tea",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "tea_raw", "container-item": "null", "count": [ 2, 33 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "tea_green_raw_bag_plastic_33",
-    "subtype": "collection",
-    "//": "100 g of tea",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "tea_green_raw", "container-item": "null", "count": [ 2, 33 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "bee_balm_jar_3l_glass_sealed_1_12",
-    "subtype": "collection",
-    "container-item": "jar_3l_glass_sealed",
-    "entries": [ { "item": "bee_balm", "count": [ 1, 12 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "raw_burdock_jar_3l_glass_sealed_1_inf",
-    "subtype": "collection",
-    "container-item": "jar_3l_glass_sealed",
-    "entries": [ { "item": "raw_burdock", "count": [ 1, -1 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "tea_raw_jar_glass_sealed_10_40",
-    "subtype": "collection",
-    "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "tea_raw", "container-item": "null", "count": [ 10, 40 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "tea_green_raw_jar_glass_sealed_10_40",
-    "subtype": "collection",
-    "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "tea_green_raw", "container-item": "null", "count": [ 10, 40 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "wild_herbs_jar_glass_sealed_20_inf",
-    "subtype": "collection",
-    "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "wild_herbs", "count": [ 20, -1 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "raw_dandelion_jar_glass_sealed_1_inf",
-    "subtype": "collection",
-    "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "raw_dandelion", "count": [ 1, -1 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "milk_powder_jar_glass_sealed_1_8",
-    "subtype": "collection",
-    "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "milk_powder", "container-item": "null", "count": [ 1, 8 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "fried_mozzarella_sticks_bag_plastic_4",
     "subtype": "collection",
     "container-item": "bag_plastic_small",
@@ -1696,13 +1631,6 @@
     "subtype": "collection",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "choco_coffee_beans", "container-item": "null", "count": 5 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "coffee_raw_bag_plastic_20",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "coffee_raw", "container-item": "null", "count": 20 } ]
   },
   {
     "type": "item_group",
@@ -1807,13 +1735,6 @@
   },
   {
     "type": "item_group",
-    "id": "egg_bird_unfert_carton_egg_6_12",
-    "subtype": "collection",
-    "container-item": "carton_egg",
-    "entries": [ { "item": "egg_bird_unfert", "count": [ 6, 12 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "butter_wrapper_8",
     "subtype": "collection",
     "container-item": "wrapper",
@@ -1909,13 +1830,6 @@
     "subtype": "collection",
     "container-item": "jar_glass_sealed",
     "entries": [ { "item": "peanutbutter", "container-item": "null", "count": -1 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "jam_fruit_jar_sealed",
-    "subtype": "collection",
-    "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "jam_fruit", "container-item": "null", "count": -1 } ]
   },
   {
     "type": "item_group",
