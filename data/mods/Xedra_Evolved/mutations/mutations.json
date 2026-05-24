@@ -390,6 +390,20 @@
   },
   {
     "type": "mutation",
+    "id": "DHAMPIR_BLACKEN_SOUL_ARION",
+    "name": { "str": "Blacken the Soul of Arion" },
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You've gained the ability to create and mold a horse into a beast worthy of carrying you across the wastelands.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "spells_learned": [ [ "dhampir_horse_familiar_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "DHAMPIR_WEAKNESS_SUN_SENSITIVITY",
     "name": { "str": "Weakness: Sun Sensitivity" },
     "points": -2,
