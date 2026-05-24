@@ -556,63 +556,6 @@
         },
         "topic": "TALK_DONE"
       },
-      {
-        "text": "[10 HGC, 2 hours] Can you repair my XM-ARM cybernetic?",
-        "topic": "TALK_DONE",
-        "condition": {
-          "and": [
-            { "not": { "npc_has_effect": "currently_busy" } },
-            { "u_has_items": { "item": "RobofacCoin", "count": 10 } },
-            { "u_has_bionics": "bio_robofac_xmarm" }
-          ]
-        },
-        "effect": [
-          { "u_add_effect": "narcosis", "duration": "2 hours" },
-          { "u_add_effect": "sleep", "duration": "2 hours" },
-          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
-          { "u_lose_bionic": "bio_robofac_xmarm" },
-          { "u_add_bionic": "bio_robofac_xmarm" },
-          { "u_consume_item": "RobofacCoin", "count": 10, "popup": true }
-        ]
-      },
-      {
-        "text": "[10 HGC, 2 hours] Can you repair my XM-LEG cybernetic?",
-        "topic": "TALK_DONE",
-        "condition": {
-          "and": [
-            { "not": { "npc_has_effect": "currently_busy" } },
-            { "u_has_items": { "item": "RobofacCoin", "count": 10 } },
-            { "u_has_bionics": "bio_robofac_xmleg" }
-          ]
-        },
-        "effect": [
-          { "u_add_effect": "narcosis", "duration": "2 hours" },
-          { "u_add_effect": "sleep", "duration": "2 hours" },
-          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
-          { "u_lose_bionic": "bio_robofac_xmleg" },
-          { "u_add_bionic": "bio_robofac_xmleg" },
-          { "u_consume_item": "RobofacCoin", "count": 10, "popup": true }
-        ]
-      },
-      {
-        "text": "[10 HGC, 2 hours] Can you repair my XM-BACK cybernetic?",
-        "topic": "TALK_DONE",
-        "condition": {
-          "and": [
-            { "not": { "npc_has_effect": "currently_busy" } },
-            { "u_has_items": { "item": "RobofacCoin", "count": 10 } },
-            { "u_has_bionics": "bio_robofac_xmback" }
-          ]
-        },
-        "effect": [
-          { "u_add_effect": "narcosis", "duration": "2 hours" },
-          { "u_add_effect": "sleep", "duration": "2 hours" },
-          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
-          { "u_lose_bionic": "bio_robofac_xmback" },
-          { "u_add_bionic": "bio_robofac_xmback" },
-          { "u_consume_item": "RobofacCoin", "count": 10, "popup": true }
-        ]
-      },
       { "text": "Actually, can you help me with something else?", "topic": "TALK_ANCILLA_DOCTOR_BIONICS" }
     ]
   },
