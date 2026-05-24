@@ -122,7 +122,7 @@ static void validate_profile( const std::vector<profile_entry> &entries,
 
 } // namespace
 
-TEST_CASE( "default-numpad profile structure", "[keybinding_profile]" )
+TEST_CASE( "default-numpad_profile_structure", "[keybinding_profile]" )
 {
     const std::vector<profile_entry> entries =
         parse_profile( PATH_INFO::keybindings_profile( "default-numpad" ) );
@@ -130,7 +130,7 @@ TEST_CASE( "default-numpad profile structure", "[keybinding_profile]" )
     validate_profile( entries, "default-numpad" );
 }
 
-TEST_CASE( "default-laptop profile structure", "[keybinding_profile]" )
+TEST_CASE( "default-laptop_profile_structure", "[keybinding_profile]" )
 {
     const std::vector<profile_entry> entries =
         parse_profile( PATH_INFO::keybindings_profile( "default-laptop" ) );
@@ -138,7 +138,7 @@ TEST_CASE( "default-laptop profile structure", "[keybinding_profile]" )
     validate_profile( entries, "default-laptop" );
 }
 
-TEST_CASE( "keybindings base layer parses", "[keybinding_profile]" )
+TEST_CASE( "keybindings_base_layer_parses", "[keybinding_profile]" )
 {
     // base.json must always exist and be a valid (possibly empty) array of
     // keybinding entries.
