@@ -2372,21 +2372,6 @@
     "weight": "5 g"
   },
   {
-    "type": "ITEM",
-    "id": "material_high_density_polyethylene_chunk",
-    "category": "spare_parts",
-    "price": "0 cent",
-    "price_postapoc": "0 cent",
-    "name": { "str": "chunk of high density polyethylene", "str_pl": "chunks of high density polyethylene" },
-    "display_type": "BY_VOLUME",
-    "symbol": "*",
-    "color": "white",
-    "description": "A small chunk of high density polyethylene.",
-    "material": [ "high_density_polyethylene" ],
-    "volume": "150 ml",
-    "weight": "10 g"
-  },
-  {
     "id": "glue_weak",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],

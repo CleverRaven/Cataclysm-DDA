@@ -105,7 +105,6 @@
       { "item": "knife_cleaver", "variant": "knife_meat_cleaver", "prob": 10 },
       { "item": "knife_cleaver", "variant": "knife_vegetable_cleaver", "prob": 10 },
       [ "cutting_board", 20 ],
-      [ "plastic_cutting_board", 20 ],
       [ "bottle_opener", 15 ],
       [ "mortar_pestle", 10 ]
     ]
