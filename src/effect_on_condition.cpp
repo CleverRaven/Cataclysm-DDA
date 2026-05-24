@@ -351,9 +351,10 @@ void effect_on_conditions::process_reactivate()
 bool effect_on_condition::activate( dialogue &d, bool require_callstack_check ) const
 {
     const bool tracing = debug_menu::debug_capture::is_eoc_tracing();
-    const std::chrono::steady_clock::time_point trace_start = tracing
-            ? std::chrono::steady_clock::now()
-            : std::chrono::steady_clock::time_point{};
+    std::chrono::steady_clock::time_point trace_start;
+    if( tracing ) {
+        trace_start = std::chrono::steady_clock::now();
+    }
     bool retval = false;
     if( require_callstack_check ) {
         d.amend_callstack( "EOC: " + id.str() );

@@ -1,8 +1,10 @@
 #include <chrono>
+#include <cstdint>
 #include <cstdio>
 #include <deque>
 #include <fstream>
 #include <functional>
+#include <initializer_list>
 #include <set>
 #include <string>
 #include <vector>
@@ -106,20 +108,106 @@ TEST_CASE( "capture_jsonl_byte_counter_rebase_on_existing_file", "[debug_capture
         }
     }
     debug_menu::debug_capture &cap = debug_menu::debug_capture::instance();
-    cap.settings().jsonl.path = path;
-    cap.settings().jsonl.rotate_mib = 100; // far above test size, won't rotate
-    cap.settings().jsonl.enabled = true;
-    cap.settings().jsonl.sources = { "log" };
+    cap.settings().trace_file.path = path;
+    cap.settings().trace_file.rotate_mib = 100; // far above test size, won't rotate
+    cap.settings().trace_file.enabled = true;
+    cap.settings().trace_file.sources = { "log" };
     cap.settings().add_msg_debug_capture = true;
     cap.push_debug_log( debugmode::DF_GAME, "trigger open" );
-    cap.flush_jsonl();
+    cap.flush_trace_file();
     // Verify file size grew vs placeholder size (counter was rebased; new
     // line appended).
     std::ifstream f( path, std::ios::ate );
     const auto sz = f.tellg();
     CHECK( sz > 100 );
-    cap.settings().jsonl.enabled = false;
+    cap.settings().trace_file.enabled = false;
     cap.on_game_shutdown();
     const int rm_rc = std::remove( path.c_str() );
     ( void )rm_rc;
+}
+
+TEST_CASE( "capture_json_escape_produces_valid_json", "[debug_capture]" )
+{
+    // Control chars and non-ASCII become \uXXXX, so the result is a valid JSON
+    // string body once wrapped in quotes.
+    SECTION( "non-ASCII is \\u-escaped, not emitted raw" ) {
+        // U+00E9 (e-acute) in UTF-8 is 0xC3 0xA9; EscapeString emits uppercase hex.
+        const std::string in = "caf\xC3\xA9";
+        const std::string out = debug_menu::capture_json_escape( in );
+        CHECK( out == "caf\\u00E9" );
+    }
+    SECTION( "embedded control char between text" ) {
+        std::string in = "a";
+        in += '\x1f';
+        in += "b";
+        CHECK( debug_menu::capture_json_escape( in ) == "a\\u001Fb" );
+    }
+    SECTION( "empty string" ) {
+        CHECK( debug_menu::capture_json_escape( "" ).empty() );
+    }
+}
+
+TEST_CASE( "capture_resize_feed_generation", "[debug_capture]" )
+{
+    debug_menu::debug_capture &cap = debug_menu::debug_capture::instance();
+    cap.clear_logs();
+    cap.resize_log_ring( 100 );
+    cap.settings().add_msg_debug_capture = true;
+    for( int i = 0; i < 10; i++ ) {
+        cap.push_debug_log( debugmode::DF_GAME, "m" );
+    }
+    SECTION( "growing / keeping size leaves generation unchanged" ) {
+        const uint64_t gen = cap.feed_generation();
+        cap.resize_log_ring( 100 ); // same
+        CHECK( cap.feed_generation() == gen );
+        cap.resize_log_ring( 500 ); // grow, 10 entries kept
+        CHECK( cap.feed_generation() == gen );
+    }
+    SECTION( "shrinking below the entry count bumps generation" ) {
+        const uint64_t gen = cap.feed_generation();
+        cap.resize_log_ring( 4 ); // drops 6 entries
+        CHECK( cap.feed_generation() > gen );
+        CHECK( cap.logs().size() == 4 );
+    }
+    cap.resize_log_ring( 2000 );
+    cap.clear_logs();
+}
+
+TEST_CASE( "capture_trace_file_rotation", "[debug_capture]" )
+{
+    const std::string base = "test_trace_rotate.jsonl";
+    const std::string r1 = base + ".1";
+    const std::string r2 = base + ".2";
+    const std::string r2_tmp = r2 + ".tmp";
+    for( const std::string &p : {
+             base, r1, r2, r2_tmp
+         } ) {
+        const int rc = std::remove( p.c_str() );
+        ( void )rc;
+    }
+    debug_menu::debug_capture &cap = debug_menu::debug_capture::instance();
+    cap.settings().trace_file.path = base;
+    cap.settings().trace_file.rotate_mib = 0; // rotate on the first append
+    cap.settings().trace_file.enabled = true;
+    cap.settings().trace_file.format = debug_menu::capture_format::jsonl;
+    cap.settings().trace_file.sources = { "log" };
+    cap.settings().add_msg_debug_capture = true;
+    // First append opens the file; with rotate_mib 0 the next append rotates.
+    cap.push_debug_log( debugmode::DF_GAME, "first" );
+    cap.push_debug_log( debugmode::DF_GAME, "second" );
+    cap.flush_trace_file();
+    // base rolled to .1; no stray .tmp left behind.
+    std::ifstream rolled( r1 );
+    CHECK( rolled.good() );
+    std::ifstream tmp( r2_tmp );
+    CHECK_FALSE( tmp.good() );
+    cap.settings().trace_file.enabled = false;
+    cap.settings().trace_file.rotate_mib = 50;
+    cap.on_game_shutdown();
+    for( const std::string &p : {
+             base, r1, r2, r2_tmp
+         } ) {
+        const int rc = std::remove( p.c_str() );
+        ( void )rc;
+    }
 }

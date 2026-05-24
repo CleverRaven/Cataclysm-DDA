@@ -32,9 +32,9 @@ namespace debug_menu
 {
 
 struct debug_log_entry {
+    int turn_num;
     debugmode::debug_filter category;
     std::string text;
-    int turn_num;
 };
 
 struct event_log_entry {
@@ -44,11 +44,13 @@ struct event_log_entry {
 };
 
 struct eoc_trace_entry {
-    int turn_num;
+    // Field order packs the 8/4/4/1-byte members after the string to minimize
+    // padding.
     std::string eoc_id;
-    bool success;
     int64_t us;
+    int turn_num;
     int depth;
+    bool success;
 };
 
 // JSON-escape a string for safe inclusion as a JSON string body (no surrounding quotes).
@@ -77,13 +79,18 @@ enum class capture_format : int {
     csv = 1,
 };
 
-struct jsonl_settings {
+struct trace_file_settings {
     bool enabled = false;
     bool auto_flush = true;
     capture_format format = capture_format::jsonl;
     std::string path = "config/debug_trace.jsonl";
     size_t rotate_mib = 50;
     std::set<std::string> sources = { "events", "eoc", "monitors", "log" };
+
+    // Whether this source should currently be written to the trace file.
+    bool wants( const std::string &src ) const {
+        return enabled && sources.count( src ) != 0;
+    }
 };
 
 struct capture_settings {
@@ -98,7 +105,7 @@ struct capture_settings {
     bool event_bus_capture = false;
     bool eoc_trace_capture = false;
 
-    jsonl_settings jsonl;
+    trace_file_settings trace_file;
 };
 
 class debug_capture
@@ -112,7 +119,7 @@ class debug_capture
 
         void on_game_load( ::event_bus &bus );
         void on_game_shutdown();
-        void flush_jsonl();
+        void flush_trace_file();
 
         int add_monitor( std::string label, std::function<std::string()> snap,
                          monitor_mode mode );

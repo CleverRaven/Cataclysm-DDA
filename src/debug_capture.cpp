@@ -7,6 +7,8 @@
 #include <string_view>
 #include <utility>
 
+#include <flatbuffers/util.h>
+
 #include "calendar.h"
 #include "cata_variant.h"
 #include "debug.h"
@@ -31,52 +33,24 @@ class event_capture_sub : public event_subscriber
         void notify( const cata::event &e ) override;
 };
 
-std::string json_escape( std::string_view s )
+// Escape a string into a complete JSON string literal, including the
+// surrounding double quotes. natural_utf8=false so control characters and
+// non-ASCII bytes become \uXXXX (valid JSON) rather than being emitted raw.
+std::string json_quoted( std::string_view s )
 {
     std::string out;
-    out.reserve( s.size() + 2 );
-    for( char c : s ) {
-        switch( c ) {
-            case '"':
-                out += "\\\"";
-                break;
-            case '\\':
-                out += "\\\\";
-                break;
-            case '\b':
-                out += "\\b";
-                break;
-            case '\f':
-                out += "\\f";
-                break;
-            case '\n':
-                out += "\\n";
-                break;
-            case '\r':
-                out += "\\r";
-                break;
-            case '\t':
-                out += "\\t";
-                break;
-            default:
-                if( static_cast<unsigned char>( c ) < 0x20 ) {
-                    static constexpr char hex[] = "0123456789abcdef";
-                    const unsigned char uc = static_cast<unsigned char>( c );
-                    out += R"(\u00)";
-                    out += hex[( uc >> 4 ) & 0xF ];
-                    out += hex[ uc & 0xF ];
-                } else {
-                    out += c;
-                }
-        }
-    }
+    flatbuffers::EscapeString( s.data(), s.size(), &out,
+                               /*allow_non_utf8=*/true, /*natural_utf8=*/false );
     return out;
 }
 } // namespace
 
 std::string capture_json_escape( std::string_view s )
 {
-    return json_escape( s );
+    // Same escaping as json_quoted, minus the surrounding quotes it always
+    // adds; callers that need a bare body supply their own quoting.
+    const std::string quoted = json_quoted( s );
+    return quoted.substr( 1, quoted.size() - 2 );
 }
 
 struct debug_capture::impl {
@@ -88,10 +62,10 @@ struct debug_capture::impl {
     event_capture_sub event_sub;
     bool event_sub_attached = false;
 
-    std::ofstream jsonl_file;
-    size_t jsonl_bytes = 0;
+    std::ofstream trace_file_stream;
+    size_t trace_file_bytes = 0;
     int lines_since_flush = 0;
-    static constexpr int jsonl_flush_batch = 64;
+    static constexpr int trace_file_flush_batch = 64;
 
     std::vector<monitor_entry> monitors;
     int next_monitor_id = 1;
@@ -100,9 +74,9 @@ struct debug_capture::impl {
     uint64_t feed_gen = 0;
 
     void trim_to_max();
-    void append_jsonl( const std::string &source, const std::string &json_payload );
-    void ensure_jsonl_open();
-    void rotate_jsonl_if_needed();
+    void append_trace_file( const std::string &source, const std::string &json_payload );
+    void ensure_trace_file_open();
+    void rotate_trace_file_if_needed();
 };
 
 void debug_capture::impl::trim_to_max()
@@ -134,100 +108,108 @@ static std::string csv_escape( std::string_view s )
     return out;
 }
 
-void debug_capture::impl::ensure_jsonl_open()
+void debug_capture::impl::ensure_trace_file_open()
 {
-    if( jsonl_file.is_open() || !settings.jsonl.enabled ) {
+    if( trace_file_stream.is_open() || !settings.trace_file.enabled ) {
         return;
     }
-    jsonl_file.open( settings.jsonl.path, std::ios::app | std::ios::out );
-    if( jsonl_file.is_open() ) {
+    trace_file_stream.open( settings.trace_file.path, std::ios::app | std::ios::out );
+    if( trace_file_stream.is_open() ) {
         // Rebase byte counter to existing file size so rotation triggers
         // correctly when appending to a prior session's log.
-        jsonl_file.seekp( 0, std::ios::end );
-        const auto pos = jsonl_file.tellp();
-        jsonl_bytes = pos > 0 ? static_cast<size_t>( pos ) : 0;
+        trace_file_stream.seekp( 0, std::ios::end );
+        const auto pos = trace_file_stream.tellp();
+        trace_file_bytes = pos > 0 ? static_cast<size_t>( pos ) : 0;
         lines_since_flush = 0;
-        if( settings.jsonl.format == capture_format::csv && jsonl_bytes == 0 ) {
+        if( settings.trace_file.format == capture_format::csv && trace_file_bytes == 0 ) {
             const std::string header = "turn,src,data\n";
-            jsonl_file.write( header.data(), header.size() );
-            jsonl_bytes += header.size();
+            trace_file_stream.write( header.data(), header.size() );
+            trace_file_bytes += header.size();
         }
     }
 }
 
-void debug_capture::impl::rotate_jsonl_if_needed()
+void debug_capture::impl::rotate_trace_file_if_needed()
 {
-    if( jsonl_bytes < settings.jsonl.rotate_mib * 1024 * 1024 ) {
+    if( trace_file_bytes < settings.trace_file.rotate_mib * 1024 * 1024 ) {
         return;
     }
-    jsonl_file.close();
-    const std::string &base = settings.jsonl.path;
+    trace_file_stream.close();
+    const std::string &base = settings.trace_file.path;
     const std::string r1 = base + ".1";
     const std::string r2 = base + ".2";
+    const std::string r2_tmp = r2 + ".tmp";
     // Errors here are recoverable (rotation just skipped this turn); we still
-    // reopen the base file fresh.
-    const int rm_rc = std::remove( r2.c_str() );
+    // reopen the base file fresh. Move the stale .2 aside with a rename rather
+    // than deleting it before the .1 -> .2 rename: on Windows a delete can
+    // leave the file briefly locked, which would make that rename fail.
+    const int rn0_rc = std::rename( r2.c_str(), r2_tmp.c_str() );
     const int rn1_rc = std::rename( r1.c_str(), r2.c_str() );
     const int rn2_rc = std::rename( base.c_str(), r1.c_str() );
-    ( void )rm_rc;
+    const int rm_rc = std::remove( r2_tmp.c_str() );
+    ( void )rn0_rc;
     ( void )rn1_rc;
     ( void )rn2_rc;
-    jsonl_file.open( base, std::ios::out | std::ios::trunc );
-    jsonl_bytes = 0;
+    ( void )rm_rc;
+    trace_file_stream.open( base, std::ios::out | std::ios::trunc );
+    trace_file_bytes = 0;
     lines_since_flush = 0;
-    if( jsonl_file.is_open() && settings.jsonl.format == capture_format::csv ) {
+    if( trace_file_stream.is_open() && settings.trace_file.format == capture_format::csv ) {
         const std::string header = "turn,src,data\n";
-        jsonl_file.write( header.data(), header.size() );
-        jsonl_bytes += header.size();
+        trace_file_stream.write( header.data(), header.size() );
+        trace_file_bytes += header.size();
     }
 }
 
-void debug_capture::impl::append_jsonl( const std::string &source,
-                                        const std::string &json_payload )
+void debug_capture::impl::append_trace_file( const std::string &source,
+        const std::string &json_payload )
 {
-    if( !settings.jsonl.enabled ) {
+    if( !settings.trace_file.wants( source ) ) {
         return;
     }
-    if( !settings.jsonl.sources.count( source ) ) {
+    ensure_trace_file_open();
+    if( !trace_file_stream.is_open() ) {
         return;
     }
-    ensure_jsonl_open();
-    if( !jsonl_file.is_open() ) {
-        return;
-    }
-    rotate_jsonl_if_needed();
+    rotate_trace_file_if_needed();
     const int turn = to_turns<int>( calendar::turn - calendar::turn_zero );
     std::string line;
-    if( settings.jsonl.format == capture_format::csv ) {
+    if( settings.trace_file.format == capture_format::csv ) {
         line = std::to_string( turn ) + "," +
                csv_escape( source ) + "," +
                csv_escape( json_payload ) + "\n";
     } else {
         line = R"({"turn":)" + std::to_string( turn ) +
-               R"(,"src":")" + json_escape( source ) +
-               R"(","data":)" + json_payload + "}\n";
+               R"(,"src":)" + json_quoted( source ) +
+               R"(,"data":)" + json_payload + "}\n";
     }
-    jsonl_file.write( line.data(), line.size() );
-    jsonl_bytes += line.size();
-    if( settings.jsonl.auto_flush
-        && ++lines_since_flush >= jsonl_flush_batch ) {
-        jsonl_file.flush();
+    trace_file_stream.write( line.data(), line.size() );
+    trace_file_bytes += line.size();
+    if( settings.trace_file.auto_flush
+        && ++lines_since_flush >= trace_file_flush_batch ) {
+        trace_file_stream.flush();
         lines_since_flush = 0;
     }
 }
 
-void debug_capture::flush_jsonl()
+void debug_capture::flush_trace_file()
 {
-    if( p->jsonl_file.is_open() ) {
-        p->jsonl_file.flush();
+    if( p->trace_file_stream.is_open() ) {
+        p->trace_file_stream.flush();
         p->lines_since_flush = 0;
     }
 }
 
 debug_capture &debug_capture::instance()
 {
-    static debug_capture inst;
-    return inst;
+    // Deliberately leaked, process-lifetime singleton. A function-local static
+    // would run its destructor during the atexit chain, racing ~game and other
+    // static destructors that may still touch capture (e.g. a log from another
+    // static dtor). Leaking sidesteps the teardown-order hazard entirely; the
+    // OS reclaims at exit, and buffered output is flushed by on_game_shutdown()
+    // and the auto-flush batch.
+    static debug_capture *const inst = new debug_capture();
+    return *inst;
 }
 
 bool debug_capture::is_initialized()
@@ -240,17 +222,9 @@ debug_capture::debug_capture() : p( std::make_unique<impl>() )
     g_initialized.store( true, std::memory_order_release );
 }
 
-debug_capture::~debug_capture()
-{
-    // Mark uninitialized first so any code racing this dtor (e.g. ~game later
-    // in the atexit chain, log_debug_msg from another static-dtor) skips the
-    // singleton instead of touching destroyed state.
-    g_initialized.store( false, std::memory_order_release );
-    if( p && p->jsonl_file.is_open() ) {
-        p->jsonl_file.flush();
-        p->jsonl_file.close();
-    }
-}
+// Defined out-of-line so unique_ptr<impl> sees a complete impl. The instance()
+// singleton is leaked, so this is never invoked at runtime.
+debug_capture::~debug_capture() = default;
 
 capture_settings &debug_capture::settings()
 {
@@ -274,9 +248,9 @@ void debug_capture::on_game_shutdown()
 {
     // event_subscriber dtor auto-unsubscribes from its bus when bus still exists.
     p->event_sub_attached = false;
-    if( p->jsonl_file.is_open() ) {
-        p->jsonl_file.flush();
-        p->jsonl_file.close();
+    if( p->trace_file_stream.is_open() ) {
+        p->trace_file_stream.flush();
+        p->trace_file_stream.close();
         p->lines_since_flush = 0;
     }
 }
@@ -287,21 +261,17 @@ void debug_capture::push_debug_log( debugmode::debug_filter type, const std::str
         return;
     }
     const bool ring_on = p->settings.add_msg_debug_capture;
-    const bool jsonl_on = p->settings.jsonl.enabled
-                          && p->settings.jsonl.sources.count( "log" );
-    if( !ring_on && !jsonl_on ) {
-        return;
-    }
+    const bool file_on = p->settings.trace_file.wants( "log" );
     if( ring_on ) {
         const int turn = to_turns<int>( calendar::turn - calendar::turn_zero );
-        p->log_ring.push_back( { type, msg, turn } );
+        p->log_ring.push_back( { turn, type, msg } );
         p->trim_to_max();
         ++p->feed_gen;
     }
-    if( jsonl_on ) {
-        std::string payload = R"({"category":")" + debugmode::filter_name( type ) +
-                              R"(","text":")" + json_escape( msg ) + R"("})";
-        p->append_jsonl( "log", payload );
+    if( file_on ) {
+        const std::string payload = R"({"category":)" + json_quoted( debugmode::filter_name( type ) ) +
+                                    R"(,"text":)" + json_quoted( msg ) + "}";
+        p->append_trace_file( "log", payload );
     }
 }
 
@@ -311,9 +281,9 @@ void debug_capture::push_event( const cata::event &e )
         return;
     }
     const bool ring_on = p->settings.event_bus_capture;
-    const bool jsonl_on = p->settings.jsonl.enabled
-                          && p->settings.jsonl.sources.count( "events" );
-    if( !ring_on && !jsonl_on ) {
+    const bool file_on = p->settings.trace_file.wants( "events" );
+    // Skip building the field string when no sink will consume it.
+    if( !ring_on && !file_on ) {
         return;
     }
     std::string oneline;
@@ -329,10 +299,10 @@ void debug_capture::push_event( const cata::event &e )
         p->trim_to_max();
         ++p->feed_gen;
     }
-    if( jsonl_on ) {
-        std::string payload = R"({"type":)" + std::to_string( static_cast<int>( e.type() ) ) +
-                              R"(,"fields":")" + json_escape( oneline ) + R"("})";
-        p->append_jsonl( "events", payload );
+    if( file_on ) {
+        const std::string payload = R"({"type":)" + std::to_string( static_cast<int>( e.type() ) ) +
+                                    R"(,"fields":)" + json_quoted( oneline ) + "}";
+        p->append_trace_file( "events", payload );
     }
 }
 
@@ -343,24 +313,20 @@ void debug_capture::push_eoc_trace( const std::string &eoc_id, bool success,
         return;
     }
     const bool ring_on = p->settings.eoc_trace_capture;
-    const bool jsonl_on = p->settings.jsonl.enabled
-                          && p->settings.jsonl.sources.count( "eoc" );
-    if( !ring_on && !jsonl_on ) {
-        return;
-    }
+    const bool file_on = p->settings.trace_file.wants( "eoc" );
     if( ring_on ) {
         const int turn = to_turns<int>( calendar::turn - calendar::turn_zero );
-        p->eoc_trace_ring.push_back( { turn, eoc_id, success,
-                                       static_cast<int64_t>( us.count() ), depth } );
+        p->eoc_trace_ring.push_back( { eoc_id, static_cast<int64_t>( us.count() ),
+                                       turn, depth, success } );
         p->trim_to_max();
         ++p->feed_gen;
     }
-    if( jsonl_on ) {
-        std::string payload = R"({"id":")" + json_escape( eoc_id ) + R"(","ok":)" +
-                              ( success ? "true" : "false" ) +
-                              R"(,"us":)" + std::to_string( us.count() ) +
-                              R"(,"depth":)" + std::to_string( depth ) + "}";
-        p->append_jsonl( "eoc", payload );
+    if( file_on ) {
+        const std::string payload = R"({"id":)" + json_quoted( eoc_id ) + R"(,"ok":)" +
+                                    ( success ? "true" : "false" ) +
+                                    R"(,"us":)" + std::to_string( us.count() ) +
+                                    R"(,"depth":)" + std::to_string( depth ) + "}";
+        p->append_trace_file( "eoc", payload );
     }
 }
 
@@ -399,23 +365,34 @@ void debug_capture::clear_eoc_traces()
 
 void debug_capture::resize_log_ring( size_t n )
 {
+    const size_t before = p->log_ring.size();
     p->settings.log_ring_size = n;
     p->trim_to_max();
-    ++p->feed_gen;
+    // Only bump the feed generation when entries were actually dropped; a grow
+    // or no-op resize leaves content unchanged.
+    if( p->log_ring.size() != before ) {
+        ++p->feed_gen;
+    }
 }
 
 void debug_capture::resize_event_ring( size_t n )
 {
+    const size_t before = p->event_ring.size();
     p->settings.event_ring_size = n;
     p->trim_to_max();
-    ++p->feed_gen;
+    if( p->event_ring.size() != before ) {
+        ++p->feed_gen;
+    }
 }
 
 void debug_capture::resize_eoc_trace_ring( size_t n )
 {
+    const size_t before = p->eoc_trace_ring.size();
     p->settings.eoc_trace_ring_size = n;
     p->trim_to_max();
-    ++p->feed_gen;
+    if( p->eoc_trace_ring.size() != before ) {
+        ++p->feed_gen;
+    }
 }
 
 uint64_t debug_capture::feed_generation() const noexcept
@@ -540,16 +517,18 @@ void debug_capture::save_settings( JsonOut &jo ) const
     jo.member( "log_ring_size", cs.log_ring_size );
     jo.member( "event_ring_size", cs.event_ring_size );
     jo.member( "eoc_trace_ring_size", cs.eoc_trace_ring_size );
+    // On-disk key is "jsonl" (not trace_file) for back-compat with existing
+    // config files.
     jo.member( "jsonl" );
     jo.start_object();
-    jo.member( "enabled", cs.jsonl.enabled );
-    jo.member( "auto_flush", cs.jsonl.auto_flush );
-    jo.member( "format", static_cast<int>( cs.jsonl.format ) );
-    jo.member( "path", cs.jsonl.path );
-    jo.member( "rotate_mib", cs.jsonl.rotate_mib );
+    jo.member( "enabled", cs.trace_file.enabled );
+    jo.member( "auto_flush", cs.trace_file.auto_flush );
+    jo.member( "format", static_cast<int>( cs.trace_file.format ) );
+    jo.member( "path", cs.trace_file.path );
+    jo.member( "rotate_mib", cs.trace_file.rotate_mib );
     jo.member( "sources" );
     jo.start_array();
-    for( const std::string &s : cs.jsonl.sources ) {
+    for( const std::string &s : cs.trace_file.sources ) {
         jo.write( s );
     }
     jo.end_array();
@@ -573,24 +552,25 @@ void debug_capture::load_settings( const JsonObject &jo )
     if( jo.read( "eoc_trace_ring_size", ring ) ) {
         resize_eoc_trace_ring( static_cast<size_t>( ring ) );
     }
+    // On-disk key is "jsonl" for back-compat (see save_settings).
     if( jo.has_object( "jsonl" ) ) {
         const JsonObject jl = jo.get_object( "jsonl" );
         jl.allow_omitted_members();
-        jl.read( "enabled", cs.jsonl.enabled );
-        jl.read( "auto_flush", cs.jsonl.auto_flush );
-        int fmt_int = static_cast<int>( cs.jsonl.format );
+        jl.read( "enabled", cs.trace_file.enabled );
+        jl.read( "auto_flush", cs.trace_file.auto_flush );
+        int fmt_int = static_cast<int>( cs.trace_file.format );
         if( jl.read( "format", fmt_int ) ) {
-            cs.jsonl.format = fmt_int == 1 ? capture_format::csv : capture_format::jsonl;
+            cs.trace_file.format = fmt_int == 1 ? capture_format::csv : capture_format::jsonl;
         }
-        jl.read( "path", cs.jsonl.path );
-        uint64_t rotate = cs.jsonl.rotate_mib;
+        jl.read( "path", cs.trace_file.path );
+        uint64_t rotate = cs.trace_file.rotate_mib;
         if( jl.read( "rotate_mib", rotate ) ) {
-            cs.jsonl.rotate_mib = static_cast<size_t>( rotate );
+            cs.trace_file.rotate_mib = static_cast<size_t>( rotate );
         }
         if( jl.has_array( "sources" ) ) {
-            cs.jsonl.sources.clear();
+            cs.trace_file.sources.clear();
             for( const JsonValue &s : jl.get_array( "sources" ) ) {
-                cs.jsonl.sources.insert( s.get_string() );
+                cs.trace_file.sources.insert( s.get_string() );
             }
         }
     }
