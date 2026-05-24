@@ -17,6 +17,10 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "chirurgeon"
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "hollow_civilian",
     "base_faction": "human",
     "friendly": [ "hollow_warrior, hollow_hunter" ],
