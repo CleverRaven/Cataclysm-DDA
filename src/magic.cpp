@@ -3333,7 +3333,7 @@ spell &known_magic::select_spell( Character &guy )
             spell_menu_height
         };
 
-    spell_menu.title = _( "Choose a Spell" );
+    spell_menu.title = _( "Choose a Supernatural Power" );
     spell_menu.input_category = "SPELL_MENU";
     spell_menu.additional_actions.emplace_back( "CHOOSE_INVLET", translation() );
     spell_menu.additional_actions.emplace_back( "CAST_IGNORE", translation() );
