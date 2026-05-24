@@ -709,6 +709,18 @@
   },
   {
     "type": "recipe",
+    "result": "water_clean",
+    "id_suffix": "test_unattended_liquid",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 0,
+    "autolearn": true,
+    "components": [ [ [ "water", 1 ] ] ],
+    "steps": [ { "name": "Boil", "time": "10 m", "activity_level": "NO_EXERCISE", "attention": "unattended" } ]
+  },
+  {
+    "type": "recipe",
     "result": "cudgel",
     "id_suffix": "test_unattended_with_qual",
     "category": "CC_WEAPON",

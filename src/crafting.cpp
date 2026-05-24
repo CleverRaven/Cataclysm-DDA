@@ -1377,6 +1377,38 @@ static std::optional<tripoint_bub_ms> craft_loc_for_complete( const item_locatio
     return get_map().get_bub( loc.pos_abs() );
 }
 
+// Checks the main result and byproducts.
+static bool recipe_result_is_liquid( const recipe &rec )
+{
+    if( item::find_type( rec.result() )->phase == phase_id::LIQUID ) {
+        return true;
+    }
+    for( const std::pair<const itype_id, int> &bp : rec.get_byproducts() ) {
+        if( item::find_type( bp.first )->phase == phase_id::LIQUID ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Clear passive timing and wakeups so nothing re-arms the step; the craft holds
+// at full progress until the player collects it via an explicit continue/activate.
+static void park_craft_for_collection( item &craft )
+{
+    craft.set_awaiting_collection( true );
+    craft.item_counter = 10000000;
+    craft.set_passive_started_at( calendar::before_time_starts );
+    craft.set_ready_at( calendar::before_time_starts );
+    craft.set_alarm_at( calendar::before_time_starts );
+    craft.set_fail_at( calendar::before_time_starts );
+    craft.set_pause_started_at( calendar::before_time_starts );
+    craft.set_saved_ready_at( calendar::before_time_starts );
+    craft.set_saved_alarm_at( calendar::before_time_starts );
+    craft.set_saved_fail_at( calendar::before_time_starts );
+    craft.set_env_check_at( calendar::before_time_starts );
+    get_item_wakeups().cancel_all( craft.uid().get_value() );
+}
+
 static void craft_actualize_fail( item &craft, time_point now,
                                   const item_location &loc )
 {
@@ -1610,6 +1642,17 @@ static void craft_actualize_ready( item &craft, time_point now, const item_locat
 
     if( was_last_step ) {
         const bool was_on_craft = activity_targets_loc( get_avatar(), loc );
+        // A liquid result has no non-interactive home: auto-finalizing pops a pour
+        // prompt while the player is away.  Park for explicit collection.  NPCs
+        // finalize silently (handle_npc_liquid).
+        const bool crafter_is_avatar = craft.get_crafter_id() == get_avatar().getID();
+        if( crafter_is_avatar && recipe_result_is_liquid( rec ) ) {
+            park_craft_for_collection( craft );
+            if( !was_on_craft ) {
+                fire_step_complete_distraction( completion_msg, flavor_msg, loc );
+            }
+            return;
+        }
         finalize_passive_craft( craft, loc );
         if( !was_on_craft ) {
             fire_step_complete_distraction( completion_msg, flavor_msg, loc );
@@ -1662,6 +1705,16 @@ void craft_resolve_overdue_passive( item &craft, time_point now, item_location &
             return;
         }
     }
+}
+
+void craft_collect_finalized( item_location &loc )
+{
+    item *craft = loc.get_item();
+    if( craft == nullptr || !craft->is_craft() || !craft->is_awaiting_collection() ) {
+        return;
+    }
+    craft->set_awaiting_collection( false );
+    finalize_passive_craft( *craft, loc );
 }
 
 void craft_stamp_passive_entry( item &craft, const Character &crafter, time_point now,

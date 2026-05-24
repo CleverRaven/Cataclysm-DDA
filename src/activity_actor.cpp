@@ -6320,6 +6320,13 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     if( rec.has_steps() ) {
         const recipe_step &cur_step = rec.steps()[craft.get_current_step()];
         if( cur_step.attention == step_attention::unattended ) {
+            // Parked awaiting collection: stop the actor instead of re-stamping a
+            // fresh passive entry.  The player collects via an explicit activate.
+            if( craft.is_awaiting_collection() ) {
+                act.set_to_null();
+                crafter.set_moves( 0 );
+                return;
+            }
             const std::vector<attention_plan> &plans = craft.get_step_plans();
             const int idx = craft.get_current_step();
             const attention_plan plan = idx < static_cast<int>( plans.size() ) ? plans[idx] :

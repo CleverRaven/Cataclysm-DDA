@@ -3285,6 +3285,9 @@ class item : public visitable
         int get_passive_end_counter() const;
         void set_passive_end_counter( int c );
 
+        bool is_awaiting_collection() const;
+        void set_awaiting_collection( bool v );
+
         std::vector<enchant_cache> get_proc_enchantments() const;
         std::vector<enchantment> get_defined_enchantments() const;
         // calculates the enchantment value as if this item were wielded.
@@ -3589,6 +3592,10 @@ class item : public visitable
                 // projects linearly between them without mutation.
                 int passive_start_counter = 0;
                 int passive_end_counter = 0;
+
+                // Terminal unattended liquid step finished; held at full progress
+                // until the player explicitly collects (pours) it.
+                bool awaiting_collection = false;
 
                 // Original crafter (for env-check fallback when craft is on
                 // map/vehicle and the crafter is no longer on top of it).

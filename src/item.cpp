@@ -5417,6 +5417,17 @@ void item::set_passive_end_counter( int c )
     craft_data_->passive_end_counter = c;
 }
 
+bool item::is_awaiting_collection() const
+{
+    return craft_data_ && craft_data_->awaiting_collection;
+}
+
+void item::set_awaiting_collection( bool v )
+{
+    cata_assert( craft_data_ );
+    craft_data_->awaiting_collection = v;
+}
+
 const cata::value_ptr<islot_comestible> &item::get_comestible() const
 {
     if( is_craft() && !craft_data_->disassembly ) {

@@ -2889,6 +2889,9 @@ void item::craft_data::serialize( JsonOut &jsout ) const
     if( passive_end_counter != 0 ) {
         jsout.member( "passive_end_counter", passive_end_counter );
     }
+    if( awaiting_collection ) {
+        jsout.member( "awaiting_collection", awaiting_collection );
+    }
     jsout.end_object();
 }
 
@@ -3136,6 +3139,7 @@ void item::craft_data::deserialize( const JsonObject &obj )
     }
     passive_start_counter = obj.get_int( "passive_start_counter", 0 );
     passive_end_counter = obj.get_int( "passive_end_counter", 0 );
+    awaiting_collection = obj.get_bool( "awaiting_collection", false );
     // Recipe-edit migration: drop stale passive runtime on shape mismatch.
     bool stale = false;
     if( making && !disassembly ) {
