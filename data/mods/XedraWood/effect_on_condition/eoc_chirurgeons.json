@@ -19,7 +19,7 @@
           {
             "if": { "and": [ { "u_at_om_location": "forest" }, { "x_in_y_chance": { "x": 1, "y": 250000 } } ] },
             "then": [
-              { "u_message": "Shadows suddenly move around you under the boughs of the trees.", "type": "bad" },
+              { "u_message": "Shadows suddenly move around you under the boughs of the trees.", "popup": true },
               {
                 "u_spawn_monster": "mon_xw_chirurgeon",
                 "real_count": { "math": [ "rand(2) + 3" ] },
@@ -33,7 +33,7 @@
           {
             "if": { "and": [ { "u_at_om_location": "forest_thick" }, { "x_in_y_chance": { "x": 1, "y": 75000 } } ] },
             "then": [
-              { "u_message": "Shadows suddenly move around you under the boughs of the trees.", "type": "bad" },
+              { "u_message": "Shadows suddenly move around you under the boughs of the trees.", "popup": true },
               {
                 "u_spawn_monster": "mon_xw_chirurgeon",
                 "real_count": { "math": [ "rand(2) + 3" ] },
