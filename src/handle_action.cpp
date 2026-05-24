@@ -59,6 +59,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "level_cache.h"
+#include "live_view.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "magic_type.h"
@@ -404,13 +405,19 @@ input_context game::get_player_input( std::string &action )
             }
 
             if( pixel_minimap_option && g->w_pixel_minimap ) {
+                if( liveview.is_enabled() ) {
+                    // Mouse View overlaps the minimap; a direct wnoutrefresh
+                    // ignores ui_adaptor z-order and paints over it.
+                    invalidate_main_ui_adaptor();
+                } else {
 #if defined(TILES)
-                // Mark minimap dirty so beacon colors keep cycling
-                if( tilecontext->has_blinking_minimap() ) {
-                    werase( g->w_pixel_minimap );
-                }
+                    // Mark minimap dirty so beacon colors keep cycling
+                    if( tilecontext->has_blinking_minimap() ) {
+                        werase( g->w_pixel_minimap );
+                    }
 #endif
-                wnoutrefresh( g->w_pixel_minimap );
+                    wnoutrefresh( g->w_pixel_minimap );
+                }
             }
 
             std::unique_ptr<static_popup> deathcam_msg_popup;
