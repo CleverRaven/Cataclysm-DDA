@@ -92,8 +92,26 @@
     "harvest": "demihuman",
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "special_attacks": [ [ "SHRIEK", 10 ] ],
+    "special_attacks": [
+      [ "SHRIEK", 10 ],
+      {
+        "type": "spell",
+        "cooldown": 50,
+        "spell_data": { "id": "blank_body_avatar_copy", "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": ""
+      }
+    ],
     "flags": [ "SMELLS", "HEARS", "HAS_MIND", "WARM", "ANIMAL", "PATH_AVOID_DANGER", "SUNDEATH", "NO_BREATHE", "HUMAN" ]
+  },
+  {
+    "id": "mon_blank_avatar_copy",
+    "copy-from": "mon_blank",
+    "type": "MONSTER",
+    "name": { "str": "blank body?", "str_pl": "blank bodies?" },
+    "description": "This was some form of unnatural changeling creature, but now it's you.  It looks like you.  It moves like you.  It even smiles like you.",
+    "extend": { "flags": [ "COPY_AVATAR_LOOK" ] },
+    "special_attacks": [ [ "SHRIEK", 10 ] ]
   },
   {
     "id": "mon_blood_sacrifice",
