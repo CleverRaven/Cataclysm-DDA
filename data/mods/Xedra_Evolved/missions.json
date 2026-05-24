@@ -11,6 +11,17 @@
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {
+    "id": "MISSION_WYLD_CANDY",
+    "type": "mission_definition",
+    "name": { "str": "Track down where this strange candy with it's strange effects comes from." },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "wyld_candy_factory",
+    "difficulty": 1,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "wyld_candy_factory", "om_special": "wyld_candy_factory" } },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
     "id": "MISSION_KILL_DREAM_DRAINER",
     "type": "mission_definition",
     "name": { "str": "Kill that mosquito" },
