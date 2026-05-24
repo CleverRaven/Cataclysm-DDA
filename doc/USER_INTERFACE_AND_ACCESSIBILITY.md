@@ -239,3 +239,44 @@ The recommended layout in SCREEN_READER_MODE is the following:
 That is:
 1. Add the currently-selected list entry to the detail pane at the side, and
 2. Disable display of the list of options.
+
+## Keybinding profiles and modifier keys
+
+The `KEYBINDING_PROFILE` interface option selects which set of default
+keybindings is loaded at startup.  Today three values ship: `legacy`
+(historical bindings, default), `default-numpad` (105-key keyboard with
+numpad), and `default-laptop` (no numpad, arrow keys plus `qezc` for
+diagonals).  User customizations made through the in-game keybindings UI
+are preserved across profile changes; only unmodified bindings shift.
+
+The `default-numpad` and `default-laptop` profiles use `Ctrl+key` for
+"sneak in direction", `Shift+key` for "run in direction", and `Alt+key`
+for "peek in direction" across all eight movement directions.  This relies
+on the input layer being able to *capture* modifier state alongside the
+key code.  That capture is platform-dependent:
+
+| Platform / context | Modifier capture | Effect on the modifier-prefixed bindings |
+| ------------------ | ---------------- | ---------------------------------------- |
+| Desktop tiles, gameplay | yes (keycode mode) | works |
+| Desktop tiles, text-input field | no (keychar mode) | n/a — text input contexts do not use these bindings |
+| ncurses build | no | modifier-prefixed bindings silently inert |
+| Android, default | no | modifier-prefixed bindings silently inert |
+| Android with `ANDROID_KEYCODE_MODE` enabled and a hardware keyboard | yes | works |
+| iOS | no | modifier-prefixed bindings silently inert |
+
+Practical guidance:
+- On ncurses or Android without a hardware keyboard, prefer the `legacy`
+  profile or a future `vi` / `android` profile.  The directional
+  sneak/run/peek shortcuts will not function on these platforms.  The
+  modeless `toggle_crouch`, `toggle_run`, and interactive `peek` actions
+  remain available as fallbacks.
+- On Android with a hardware keyboard attached, enable
+  `ANDROID_KEYCODE_MODE` (Options → Android keyboard) and restart the
+  game to gain modifier capture during gameplay.  Text-input fields fall
+  back to keychar mode automatically so on-screen-keyboard typing is
+  unaffected.
+- Profile content (which key drives which action) lives in
+  `data/raw/keybindings/profiles/<profile>.json`.  Mods and forks can
+  ship additional profiles by adding a JSON file there and extending the
+  `KEYBINDING_PROFILE` option enum in `src/options.cpp`.
+
