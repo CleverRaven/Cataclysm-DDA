@@ -3741,13 +3741,13 @@ talk_effect_fun_t::func f_pick_bodypart( const JsonObject &jo, std::string_view 
 
     if( jo.has_array( "whitelist_type" ) ) {
         for( JsonValue jv : jo.get_array( "whitelist_type" ) ) {
-            whitelist_type.emplace_back( get_str_or_var( jv, member ) );
+            whitelist_type.emplace_back( get_str_or_var( jv, "whitelist_type" ) );
         }
     }
 
     if( jo.has_array( "blacklist_type" ) ) {
         for( JsonValue jv : jo.get_array( "blacklist_type" ) ) {
-            blacklist_type.emplace_back( get_str_or_var( jv, member ) );
+            blacklist_type.emplace_back( get_str_or_var( jv, "blacklist_type" ) );
         }
     }
     std::optional<bool> wounded;
@@ -3845,6 +3845,56 @@ talk_effect_fun_t::func f_pick_bodypart( const JsonObject &jo, std::string_view 
     };
 }
 
+talk_effect_fun_t::func f_add_wound( const JsonObject &jo, std::string_view member,
+                                     std::string_view, bool is_npc )
+{
+    str_or_var bodypart_var;
+    mandatory( jo, false, member, bodypart_var );
+
+    str_or_var wound_to_be_added_var;
+    optional( jo, false, "wound_id", wound_to_be_added_var );
+
+    return [is_npc, bodypart_var, wound_to_be_added_var]( dialogue & d ) {
+
+        bodypart *bp =
+            d.actor( is_npc )->get_character()->get_part( bodypart_id( bodypart_var.evaluate( d ) ) );
+
+        wound_type_id wound_to_be_added = wound_type_id( wound_to_be_added_var.evaluate( d ) );
+
+        bp->add_or_worsen_wound( wound_to_be_added );
+    };
+}
+
+talk_effect_fun_t::func f_remove_wound( const JsonObject &jo, std::string_view member,
+                                        std::string_view, bool is_npc )
+{
+    str_or_var bodypart_var;
+    mandatory( jo, false, member, bodypart_var );
+
+    std::vector<str_or_var> wound_to_be_removed_var;
+    if( jo.has_array( "wound_id" ) ) {
+        for( JsonValue jv : jo.get_array( "wound_id" ) ) {
+            wound_to_be_removed_var.emplace_back( get_str_or_var( jv, member ) );
+        }
+    }
+
+    return [is_npc, bodypart_var, wound_to_be_removed_var]( dialogue & d ) {
+
+        bodypart *bp =
+            d.actor( is_npc )->get_character()->get_part( bodypart_id( bodypart_var.evaluate( d ) ) );
+
+        std::vector<wound_type_id> wound_to_be_removed;
+        wound_to_be_removed.reserve( wound_to_be_removed_var.size() );
+        for( const str_or_var &v : wound_to_be_removed_var ) {
+            wound_to_be_removed.emplace_back( v.evaluate( d ) );
+        }
+
+        for( const wound_type_id &wd_id : wound_to_be_removed ) {
+            bp->remove_all_wounds_of_type( wd_id );
+        }
+
+    };
+}
 
 talk_effect_fun_t::func f_add_var( const JsonObject &jo, std::string_view member,
                                    std::string_view, bool is_npc )
@@ -8390,6 +8440,8 @@ parsers = {
     { "u_buy_item", jarg::member, &talk_effect_fun::f_u_buy_item },
     { "u_spawn_item", jarg::member, &talk_effect_fun::f_spawn_item },
     { "u_pick_bodypart", "npc_pick_bodypart", jarg::member, &talk_effect_fun::f_pick_bodypart },
+    { "u_add_wound", "npc_add_wound", jarg::member, &talk_effect_fun::f_add_wound },
+    { "u_remove_wound", "npc_remove_wound", jarg::member, &talk_effect_fun::f_remove_wound },
     { "toggle_npc_rule", jarg::member, &talk_effect_fun::f_toggle_npc_rule },
     { "set_npc_rule", jarg::member, &talk_effect_fun::f_set_npc_rule },
     { "clear_npc_rule", jarg::member, &talk_effect_fun::f_clear_npc_rule },
