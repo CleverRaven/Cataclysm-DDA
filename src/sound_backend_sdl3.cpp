@@ -12,6 +12,7 @@
 #include <mutex>
 #include <ostream>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "debug.h"
@@ -205,12 +206,18 @@ void shutdown()
     }
     g_reserved_tracks.fill( nullptr );
 
+    // Snapshot under the lock, destroy outside it: calling MIX_* while
+    // holding g_oneshots_mutex deadlocks against the mixer thread.
+    std::vector<MIX_Track *> to_destroy;
     {
         std::lock_guard<std::mutex> lock( g_oneshots_mutex );
         for( const oneshot_entry &o : g_oneshots ) {
-            MIX_DestroyTrack( o.track );
+            to_destroy.push_back( o.track );
         }
         g_oneshots.clear();
+    }
+    for( MIX_Track *t : to_destroy ) {
+        MIX_DestroyTrack( t );
     }
 
     if( g_music_track != nullptr ) {
@@ -456,11 +463,17 @@ float reserved_track_frequency_ratio( sfx::channel slot )
 }
 float last_oneshot_frequency_ratio()
 {
-    std::lock_guard<std::mutex> lock( g_oneshots_mutex );
-    if( g_oneshots.empty() ) {
-        return 0.0f;
+    // Read the track under the lock, query the mixer outside it: calling
+    // MIX_* while holding g_oneshots_mutex deadlocks against the mixer thread.
+    MIX_Track *track = nullptr;
+    {
+        std::lock_guard<std::mutex> lock( g_oneshots_mutex );
+        if( g_oneshots.empty() ) {
+            return 0.0f;
+        }
+        track = g_oneshots.back().track;
     }
-    return MIX_GetTrackFrequencyRatio( g_oneshots.back().track );
+    return MIX_GetTrackFrequencyRatio( track );
 }
 sfx_audio *make_synthetic_sfx_audio()
 {
@@ -531,18 +544,28 @@ void poll()
             MIX_SetTrackFrequencyRatio( t, ( 1.0f / g_reserved_base_pitch[i] ) * slow );
         }
     }
-    std::lock_guard<std::mutex> lock( g_oneshots_mutex );
-    // Reap stopped one-shots: destroy tracks the stopped callback
-    // flagged, then drop them from the vector. Running one-shots
-    // get their frequency ratio refreshed below.
-    for( auto it = g_oneshots.begin(); it != g_oneshots.end(); ) {
-        if( it->stopped ) {
-            MIX_DestroyTrack( it->track );
-            it = g_oneshots.erase( it );
-        } else {
-            MIX_SetTrackFrequencyRatio( it->track, ( 1.0f / it->base_pitch ) * slow );
-            ++it;
+    // oneshot_stopped_cb locks g_oneshots_mutex from the mixer thread while
+    // the mixer holds its own lock, so calling MIX_* under our lock is a
+    // lock-order inversion that deadlocks. Snapshot here, touch mixer below.
+    std::vector<MIX_Track *> to_destroy;
+    std::vector<std::pair<MIX_Track *, float>> to_retune;
+    {
+        std::lock_guard<std::mutex> lock( g_oneshots_mutex );
+        for( auto it = g_oneshots.begin(); it != g_oneshots.end(); ) {
+            if( it->stopped ) {
+                to_destroy.push_back( it->track );
+                it = g_oneshots.erase( it );
+            } else {
+                to_retune.emplace_back( it->track, ( 1.0f / it->base_pitch ) * slow );
+                ++it;
+            }
         }
+    }
+    for( MIX_Track *t : to_destroy ) {
+        MIX_DestroyTrack( t );
+    }
+    for( const std::pair<MIX_Track *, float> &r : to_retune ) {
+        MIX_SetTrackFrequencyRatio( r.first, r.second );
     }
 }
 
