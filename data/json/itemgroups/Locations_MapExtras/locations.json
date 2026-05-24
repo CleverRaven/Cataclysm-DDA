@@ -2857,12 +2857,12 @@
       { "item": "welding_blanket", "prob": 10, "count": [ 0, 1 ] },
       {
         "distribution": [
-          { "item": "welding_rod_steel", "prob": 30, "count": [ 1000, 1600 ] },
-          { "item": "welding_rod_alloy", "prob": 20, "count": [ 1000, 1600 ] },
-          { "item": "welding_wire_steel", "prob": 20, "count": [ 1000, 1600 ] },
-          { "item": "welding_wire_alloy", "prob": 15, "count": [ 1000, 1600 ] },
-          { "item": "brazing_rod_bronze", "prob": 10, "count": [ 500, 1500 ] },
-          { "item": "brazing_rod_alloy", "prob": 5, "count": [ 400, 1200 ] }
+          { "item": "welding_rod_steel", "prob": 30, "count": [ 1000, 1600 ], "entry-wrapper": "tube_welding_rod" },
+          { "item": "welding_rod_alloy", "prob": 20, "count": [ 1000, 1600 ], "entry-wrapper": "tube_welding_rod" },
+          { "item": "welding_wire_steel", "prob": 20, "count": [ 1000, 1600 ], "entry-wrapper": "spool_welding" },
+          { "item": "welding_wire_alloy", "prob": 15, "count": [ 1000, 1600 ], "entry-wrapper": "spool_welding" },
+          { "item": "brazing_rod_bronze", "prob": 10, "count": [ 500, 1500 ], "entry-wrapper": "tube_welding_rod" },
+          { "item": "brazing_rod_alloy", "prob": 5, "count": [ 400, 1200 ], "entry-wrapper": "tube_welding_rod" }
         ]
       }
     ]
