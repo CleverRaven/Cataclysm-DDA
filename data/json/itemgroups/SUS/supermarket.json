@@ -7,32 +7,11 @@
     "entries": [ { "item": "milk_cream", "container-item": "null", "count": 2 } ]
   },
   {
-    "id": "veggy_salad_bowl_2",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bowl_plastic",
-    "entries": [ { "item": "veggy_salad", "container-item": "null", "count": 2 } ]
-  },
-  {
-    "id": "sushi_veggyroll_bowl_2",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "bowl_plastic",
-    "entries": [ { "item": "sushi_veggyroll", "container-item": "null", "count": 2 } ]
-  },
-  {
     "id": "onion_rings_box_6",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "box_small",
     "entries": [ { "item": "onion_rings", "container-item": "null", "count": 6 } ]
-  },
-  {
-    "id": "chicken_fried_box_6",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "box_small",
-    "entries": [ { "item": "chicken_fried", "container-item": "null", "count": 6 } ]
   },
   {
     "id": "spaghetti_raw_bag_30",

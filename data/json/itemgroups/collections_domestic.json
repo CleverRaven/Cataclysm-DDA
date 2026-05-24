@@ -1406,13 +1406,6 @@
   },
   {
     "type": "item_group",
-    "id": "fchicken_box_small_4",
-    "subtype": "collection",
-    "container-item": "box_small",
-    "entries": [ { "item": "fchicken", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "type": "item_group",
     "id": "bologna_bag_plastic_10",
     "subtype": "collection",
     "container-item": "bowl_plastic",
@@ -1445,41 +1438,6 @@
     "subtype": "collection",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "lemonade_powder", "container-item": "null", "count": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "pizza_veggy_box_small_4",
-    "subtype": "collection",
-    "container-item": "box_small",
-    "entries": [ { "item": "pizza_veggy", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "pizza_meat_box_small_4",
-    "subtype": "collection",
-    "container-item": "box_small",
-    "entries": [ { "item": "pizza_meat", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "pizza_cheese_box_small_4",
-    "subtype": "collection",
-    "container-item": "box_small",
-    "entries": [ { "item": "pizza_cheese", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "hotdogs_frozen_bag_plastic_10",
-    "subtype": "collection",
-    "container-item": "bowl_plastic",
-    "entries": [ { "item": "hotdogs_frozen", "container-item": "null", "count": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "corndogs_frozen_bag_plastic_2",
-    "subtype": "collection",
-    "container-item": "bowl_plastic",
-    "entries": [ { "item": "corndogs_frozen", "container-item": "null", "count": 2 } ]
   },
   {
     "type": "item_group",
@@ -1521,27 +1479,6 @@
     "subtype": "collection",
     "container-item": "wrapper",
     "entries": [ { "item": "butter", "container-item": "null", "count": [ 1, 32 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "sandwich_t_wrapper_2",
-    "subtype": "collection",
-    "container-item": "wrapper",
-    "entries": [ { "item": "sandwich_t", "container-item": "null", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "frozen_dinner_box_small_2",
-    "subtype": "collection",
-    "container-item": "box_small",
-    "entries": [ { "item": "frozen_dinner", "container-item": "null", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "blt_wrapper_2",
-    "subtype": "collection",
-    "container-item": "wrapper",
-    "entries": [ { "item": "blt", "container-item": "null", "count": 2 } ]
   },
   {
     "type": "item_group",

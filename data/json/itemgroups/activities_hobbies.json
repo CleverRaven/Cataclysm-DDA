@@ -719,19 +719,5 @@
       "battleship",
       "clue"
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "quikclot_bag_plastic_1_6",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "quikclot", "container-item": "null", "count": [ 1, 6 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "pur_tablets_bottle_plastic_small_1_50",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "pur_tablets", "count": [ 1, 50 ] } ]
   }
 ]

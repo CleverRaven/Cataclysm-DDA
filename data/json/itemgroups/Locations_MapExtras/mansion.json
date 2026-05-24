@@ -1680,12 +1680,5 @@
       { "item": "heavy_flashlight", "prob": 15, "charges": [ 0, 300 ] },
       [ "candlestick", 5 ]
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "vitamins_bottle_plastic_pill_supplement_1_10",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_supplement",
-    "entries": [ { "item": "vitamins", "container-item": "null", "count": [ 1, 10 ] } ]
   }
 ]

@@ -2908,12 +2908,5 @@
       },
       { "item": "slippers", "prob": 50 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "quikclot_bag_plastic_6",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "quikclot", "container-item": "null", "count": 6 } ]
   }
 ]

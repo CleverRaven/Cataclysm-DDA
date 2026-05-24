@@ -103,6 +103,13 @@
   },
   {
     "type": "item_group",
+    "id": "chaw_wrapper_20",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "chaw", "container-item": "null", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
     "id": "chaw_wrapper_1_20",
     "subtype": "collection",
     "container-item": "wrapper",
@@ -128,6 +135,13 @@
     "subtype": "collection",
     "container-item": "box_cigarette",
     "entries": [ { "item": "cig", "container-item": "null", "count": [ 0, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cig_box_cigarette_1_5",
+    "subtype": "collection",
+    "container-item": "box_cigarette",
+    "entries": [ { "item": "cig", "container-item": "null", "count": [ 1, 5 ] } ]
   },
   {
     "type": "item_group",

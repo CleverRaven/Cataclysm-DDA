@@ -1024,6 +1024,13 @@
   },
   {
     "type": "item_group",
+    "id": "pur_tablets_bottle_plastic_small_1_50",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_small",
+    "entries": [ { "item": "pur_tablets", "count": [ 1, 50 ] } ]
+  },
+  {
+    "type": "item_group",
     "id": "pur_tablets_bottle_plastic_small_0_50",
     "subtype": "collection",
     "container-item": "bottle_plastic_small",
@@ -1031,24 +1038,10 @@
   },
   {
     "type": "item_group",
-    "id": "quikclot_bag_plastic_5",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "quikclot", "container-item": "null", "count": 5 } ]
-  },
-  {
-    "type": "item_group",
     "id": "pur_tablets_bottle_plastic_small_0_9",
     "subtype": "collection",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "pur_tablets", "count": [ 0, 9 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "quikclot_bag_plastic_0_5",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "quikclot", "container-item": "null", "count": [ 0, 5 ] } ]
   },
   {
     "type": "item_group",

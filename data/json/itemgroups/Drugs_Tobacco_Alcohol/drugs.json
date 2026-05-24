@@ -698,6 +698,20 @@
   },
   {
     "type": "item_group",
+    "id": "vitamins_bottle_plastic_pill_supplement_1_10",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_supplement",
+    "entries": [ { "item": "vitamins", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "caffeine_bottle_plastic_pill_supplement_10",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_supplement",
+    "entries": [ { "item": "caffeine", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
     "id": "caffeine_bottle_plastic_pill_supplement_1_10",
     "subtype": "collection",
     "container-item": "bottle_plastic_pill_supplement",
