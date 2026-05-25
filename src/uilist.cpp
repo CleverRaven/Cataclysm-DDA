@@ -107,7 +107,7 @@ void uilist_impl::draw_controls()
 
                 ImGuiListClipper clipper;
                 clipper.Begin( parent.fentries.size(), entry_height );
-                clipper.IncludeRangeByIndices( parent.fselected, parent.fselected + 1 );
+                clipper.IncludeItemsByIndex( parent.fselected, parent.fselected + 1 );
                 while( clipper.Step() ) {
                     // It would be natural to make the entries into buttons, or
                     // combos, or other pre-built ui elements. For now I am mostly
@@ -125,7 +125,7 @@ void uilist_impl::draw_controls()
                             parent.need_to_scroll = false;
                         }
                         ImGuiSelectableFlags flags = ImGuiSelectableFlags_SpanAllColumns |
-                                                     ImGuiSelectableFlags_AllowItemOverlap;
+                                                     ImGuiSelectableFlags_AllowOverlap;
                         if( !entry.enabled ) {
                             flags |= ImGuiSelectableFlags_Disabled;
                         }

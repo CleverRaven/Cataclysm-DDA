@@ -71,9 +71,6 @@ constexpr int min_screen_res_y = 384;
 class client
 {
         std::vector<int> cata_input_trail;
-#ifndef TUI
-        std::unordered_map<uint32_t, unsigned char> sdlColorsToCata;
-#endif
     public:
 #ifdef TUI
         client();

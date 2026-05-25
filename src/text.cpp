@@ -223,7 +223,8 @@ static void TextEx( std::string_view str, float wrap_width, uint32_t color )
 
     do {
         float widthRemaining = ImGui::CalcWrapWidthForPos( ImGui::GetCursorScreenPos(), wrap_width );
-        const char *drawEnd = Font->CalcWordWrapPositionA( 1.0f, textStart, textEnd, widthRemaining );
+        const char *drawEnd = Font->CalcWordWrapPosition( ImGui::GetFontSize(), textStart, textEnd,
+                              widthRemaining );
         if( textStart == drawEnd ) {
             ImGui::NewLine();
             // NewLine assumes that we are done with one item and are
@@ -232,7 +233,7 @@ static void TextEx( std::string_view str, float wrap_width, uint32_t color )
             // a paragraph, undo just that small extra spacing.
             window->DC.CursorPos.y -= ImGui::GetStyle().ItemSpacing.y;
             widthRemaining = ImGui::CalcWrapWidthForPos( ImGui::GetCursorScreenPos(), wrap_width );
-            drawEnd = Font->CalcWordWrapPositionA( 1.0f, textStart, textEnd, widthRemaining );
+            drawEnd = Font->CalcWordWrapPosition( ImGui::GetFontSize(), textStart, textEnd, widthRemaining );
         } else if( drawEnd > textStart && drawEnd < textEnd
                    && !ImCharIsBlankA( *( drawEnd - 1 ) ) && !ImCharIsBlankA( *drawEnd ) ) {
             // Word was cut because it exceeds widthRemaining, but it
