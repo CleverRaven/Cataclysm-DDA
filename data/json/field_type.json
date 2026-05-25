@@ -2509,5 +2509,13 @@
     "priority": 8,
     "half_life": "30 seconds",
     "phase": "gas"
+  },
+  {
+    "id": "fd_air_conditioner_radiosphere",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "warm air", "sym": "&", "convection_temperature_mod": 40 } ],
+    "priority": -1,
+    "display_field": false,
+    "phase": "gas"
   }
 ]
