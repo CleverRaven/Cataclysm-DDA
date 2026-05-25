@@ -1796,12 +1796,24 @@ void ImGui::SeparatorEx(ImGuiSeparatorFlags flags, float thickness)
         // In order to handle scaling we need to scale separator thickness and it would not makes sense to have a disparity depending on height.
         ////float thickness_for_layout = (thickness == 1.0f) ? 0.0f : thickness; // FIXME: See 1.70/1.71 Separator() change: makes legacy 1-px separator not affect layout yet. Should change.
         const ImRect bb(ImVec2(x1, window->DC.CursorPos.y), ImVec2(x2, window->DC.CursorPos.y + thickness));
-        ItemSize(ImVec2(0.0f, thickness));
+// START CDDA PATCH #65709
+#ifdef IMTUI
+        // Legacy thin-separator behavior: a 1px separator takes no layout space.
+        const float thickness_for_layout = (thickness == 1.0f) ? 0.0f : thickness;
+#else
+        const float thickness_for_layout = thickness;
+#endif
+        ItemSize(ImVec2(0.0f, thickness_for_layout));
+// END CDDA PATCH #65709
 
         if (ItemAdd(bb, 0))
         {
+// START CDDA PATCH #65709
+#ifndef IMTUI
             // Draw
             window->DrawList->AddRectFilled(bb.Min, bb.Max, GetColorU32(ImGuiCol_Separator));
+#endif
+// END CDDA PATCH #65709
             if (g.LogEnabled)
                 LogRenderedText(&bb.Min, "--------------------------------\n");
 
