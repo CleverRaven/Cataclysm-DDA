@@ -1237,8 +1237,8 @@ TEST_CASE( "armor_rigidity", "[iteminfo][armor][coverage]" )
 
     CHECK( item_info_str( super_tank_top, { iteminfo_parts::ARMOR_RIGIDITY } ) ==
            "--\n"
-           "<color_c_white>This armor is rigid</color>\n"
-           "<color_c_white>This armor is comfortable</color>\n" );
+           "<color_c_white>This armor is rigid</color>.\n"
+           "<color_c_white>This armor is comfortable</color>.\n" );
 }
 
 // Related JSON fields:
