@@ -5,10 +5,10 @@
     "base_temperature": 4.5,
     "base_humidity": 70.0,
     "base_pressure": 1015.0,
-    "base_wind": 2.0,
+    "base_wind": 10.0,
     "base_wind_distrib_peaks": 80,
     "base_wind_season_variation": 0,
-    "weather_white_list": [ "clear", "cloudy", "light_drizzle", "rain", "mist", "fog" ]
+    "weather_white_list": [ "rainstorm_reverberation" ]
   },
   {
     "type": "region_settings",
