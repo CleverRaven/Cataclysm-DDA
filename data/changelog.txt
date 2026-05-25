@@ -227,6 +227,13 @@ Direct route autodrive pathfinding
 Vehicle turrets and tools draw from multimag pockets
 Recipes can mark steps as unattended; player can wait, walk away, or set a timer
 Getting an Exodii Cyberframe locks you out of Hub 01 content
+CBMs can define replaced bodyparts, and removing a bionic limb removes CBMs in that limb
+Exodii cyborgs can install and uninstall bionic limbs at autodocs/etc
+Exodii surgeon can sell, install, uninstall, and repair bionic limbs
+Bionic limbs cannot be mended with splints, but can be repaired from 0
+More nuanced Hub 01-Exodii full cyborg aggression
+Charged tools can be used on unattended crafting steps
+Unattended liquid crafts wait for you to pour them
 
 
 ## Content:
@@ -485,6 +492,15 @@ Added the Final Showdown map extra, an injured survivor's last stand against a f
 Overgrown labyrinths
 Labyrinth specific CBMs:  anchor; laser reader; psyshield; artificial hair; blood biofactory; antigravity jump
 The Exodii can turn you into a full-blown cyborg
+Introduction of three new small mammals
+Styrofoam
+10 more rooms for labyrinth level 1
+If the Exodii trust you enough they'll give you a Cyberframe
+Add new vegetables
+Cash register impulse buy item group
+Adding High Density Polyethylene
+Added fire extinguishers to many locations
+Add new vegetables
 
 
 ## Interface:
@@ -649,6 +665,11 @@ Migrate popups in vehicle interaction menu to ImGui
 Update to ImGui 1.91.9b
 Move appliance infobox to imgui
 Display some items by volume, weight or length instead of count
+Add bulk reading map caches to electronic device menu
+Updated Tainted Bone description to reflect it is not kilnable
+Show monster difficulty rating in the look panel
+Update vehicle shape menu
+Supernatural Power menu says `Choose a Supernatural Power` 
 
 
 ## Mods:
@@ -1135,6 +1156,19 @@ XE Proficiency CBMs
 [BPerks/MM/Sorc] XP mods can level up more than once at a time
 Aftershock: Add industrial habitat building.
 Add "XedraWood: Stone and Sorcery" mod to the CDDA repository
+[XE] Add the vampire hunter faction and its base
+XE: Horse Familiar for Dhampir
+[XedraWood] Add the hollow villages to the mod
+[XE] Edit the living-drinker vampire weakness
+Aftershock: Slightly nerf Veles robots.
+[MoM: Psychic Scream] Make the Psychic trait visible
+[Sky Island] Keep exit room mission markers
+[MoM] Dimensional Anchors will eventually cancel your concentration powers
+[MoM] Using censer from the Highlands raises your Nether Attunement
+[XE] Two new blood art refinements
+Aftershock: Railguns use power cartridges instead of requiring an UPS
+Aftershock: Add light switches to the vanishing arc.
+`Blank body` can copy your appearance
 
 ## Balance:
 Visitors Passes and Freight Badges no longer reveal roads
@@ -1283,6 +1317,12 @@ Respect magazine_well when calculating encumbrance
 Nobody wants to cooperate with psychopaths
 Zombie corpses aren't useful
 Stepped many many weapon recipes
+Fewer enemies roaming the halls of level 1 labyrinth
+now eggplant seed is flagged and inserted in the farming seed item group
+Joint Torsion Ratchet CBM doesn't allow for perpetual motion cyborgs
+Mail is too strong. Plate, too weak
+Nerf Hub 01 bionic limb performance, buff protection
+Psychopaths cannot continue as a follower on death.
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1823,6 +1863,25 @@ Aftershock: Plasma degrades armors
 Stop spamming player log when NPCs are hot
 Stop ref center guard EOCs from firing in alternate dimensions
 Uncomfortable limbs must exist
+Fix conflicting keybind in electronic device menu
+[Xedra Evolved] Fix Verdant Scourge conditions
+ASCII: Fix idle detection in asciinema
+Spawn military weapons at the Return to Sender convoy ambush site
+Fix multimag gun info crash and per-pocket capacity misreads
+Stop game from reacting to clicks aimed at ImGui windows
+Spawn military weapons at the Return to Sender convoy ambush site
+Descriptions of the items smoked meat, smoked fish, smoked lobster and smoked mollusk
+Fix crash when opening inventory with bare barrel-swappable gun
+Clarified that each cake, pie, and pizza item is just a slice, and not the whole thing.
+multi-activity fetch segfault fix
+Fix crash spawning items with a null default ammo or magazine slot
+Minimap no longer draws over the Mouse View UI
+Remove the LARGE flag from EXODII_CYBERFRAME_GENERIC
+Fix SDL3 sound freeze when many sound effects play at once
+Recalculate enchantment cache after loading bionics in Character::load()
+Items that are decharged aren't strew out everywhere
+Jumbo Treefrog Description
+Scarves cover beaks and muzzles
 
 
 ## Performance:
@@ -1867,6 +1926,7 @@ Shrink level_cache by 48kb to save almost 1MB of ram (or more with allocator ove
 Save map size by not serializing unnecessary item components.
 Skip lightmap rebuild on idle frames
 Speedup highway placement by caching expensive math
+Speed up spawning item groups into containers
 
 
 ## Infrastructure:
@@ -2111,6 +2171,10 @@ Fix lint findings reported by clang-tidy 21
 Bump clang-tidy CI baseline from LLVM 18 to LLVM 21
 Re-enable cata-large-stack-object check on LLVM 22
 SDL3 GPU shader pipeline for sprite variants
+Vendor plf colony/list verbatim under src/third-party
+Upgrade vendored plf_colony and plf_list to latest upstream
+Ignore root dotfiles by default in .gitignore
+Consume crafting tools per recipe step
 
 
 ## Build:
