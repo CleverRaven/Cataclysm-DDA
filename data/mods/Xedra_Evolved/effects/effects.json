@@ -2991,6 +2991,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_temporary_psychopath",
+    "name": [ "Arbiter Mundi" ],
+    "desc": [ "Yours is the right to rule." ],
+    "rating": "mixed",
+    "flags": [ "PSYCHOPATH" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_noble_movement_buffs_ally",
     "name": [ "Deeds of Lughnasadh" ],
     "desc": [ "You would have definitely won the contests." ],
