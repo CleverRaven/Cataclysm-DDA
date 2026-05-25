@@ -1,6 +1,7 @@
 #include "effect_on_condition.h"
 
 #include <algorithm>
+#include <chrono>
 #include <cstddef>
 #include <iterator>
 #include <list>
@@ -19,6 +20,7 @@
 #include "condition.h"
 #include "creature.h"
 #include "debug.h"
+#include "debug_capture.h"
 #include "event.h"
 #include "flexbuffer_json.h"
 #include "game.h"
@@ -348,6 +350,11 @@ void effect_on_conditions::process_reactivate()
 
 bool effect_on_condition::activate( dialogue &d, bool require_callstack_check ) const
 {
+    const bool tracing = debug_menu::debug_capture::is_eoc_tracing();
+    std::chrono::steady_clock::time_point trace_start;
+    if( tracing ) {
+        trace_start = std::chrono::steady_clock::now();
+    }
     bool retval = false;
     if( require_callstack_check ) {
         d.amend_callstack( "EOC: " + id.str() );
@@ -377,6 +384,16 @@ bool effect_on_condition::activate( dialogue &d, bool require_callstack_check ) 
                 false_effect.apply( d_npc );
             }
         }
+    }
+    if( tracing ) {
+        // Read callstack depth at trace time regardless of require_callstack_check
+        // (recursive EOC fires pass false but we still want depth > 0).
+        const int trace_depth = static_cast<int>( d.get_callstack().size() );
+        debug_menu::debug_capture::instance().push_eoc_trace(
+            id.str(), retval,
+            std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::steady_clock::now() - trace_start ),
+            trace_depth );
     }
     return retval;
 }
