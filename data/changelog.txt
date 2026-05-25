@@ -227,6 +227,12 @@ Direct route autodrive pathfinding
 Vehicle turrets and tools draw from multimag pockets
 Recipes can mark steps as unattended; player can wait, walk away, or set a timer
 Getting an Exodii Cyberframe locks you out of Hub 01 content
+CBMs can define replaced bodyparts, and removing a bionic limb removes CBMs in that limb
+Exodii can install and uninstall bionic limbs 
+Bionic limbs cannot be mended with splints, but can be repaired from 0
+More nuanced Hub 01-Exodii full cyborg aggression
+Charged tools can be used on unattended crafting steps
+Unattended liquid crafts wait for you to pour them
 
 
 ## Content:
@@ -485,6 +491,7 @@ Added the Final Showdown map extra, an injured survivor's last stand against a f
 Overgrown labyrinths
 Labyrinth specific CBMs:  anchor; laser reader; psyshield; artificial hair; blood biofactory; antigravity jump
 The Exodii can turn you into a full-blown cyborg
+If the Exodii trust you enough they'll give you a Cyberframe
 
 
 ## Interface:
@@ -1283,6 +1290,7 @@ Respect magazine_well when calculating encumbrance
 Nobody wants to cooperate with psychopaths
 Zombie corpses aren't useful
 Stepped many many weapon recipes
+Joint Torsion Ratchet CBM doesn't allow for perpetual motion cyborgs
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1867,6 +1875,7 @@ Shrink level_cache by 48kb to save almost 1MB of ram (or more with allocator ove
 Save map size by not serializing unnecessary item components.
 Skip lightmap rebuild on idle frames
 Speedup highway placement by caching expensive math
+Speed up spawning item groups into containers
 
 
 ## Infrastructure:
@@ -2111,6 +2120,10 @@ Fix lint findings reported by clang-tidy 21
 Bump clang-tidy CI baseline from LLVM 18 to LLVM 21
 Re-enable cata-large-stack-object check on LLVM 22
 SDL3 GPU shader pipeline for sprite variants
+Vendor plf colony/list verbatim under src/third-party
+Upgrade vendored plf_colony and plf_list to latest upstream
+Ignore root dotfiles by default in .gitignore
+Consume crafting tools per recipe step
 
 
 ## Build:
