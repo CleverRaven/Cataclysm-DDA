@@ -106,10 +106,24 @@
   },
   {
     "type": "item_group",
+    "id": "sandwich_deluxe_wrapper_2",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "sandwich_deluxe", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
     "id": "sandwich_reuben_wrapper_1_inf",
     "subtype": "collection",
     "container-item": "wrapper",
     "entries": [ { "item": "sandwich_reuben", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sandwich_reuben_wrapper_2",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "sandwich_reuben", "container-item": "null", "count": 2 } ]
   },
   {
     "type": "item_group",

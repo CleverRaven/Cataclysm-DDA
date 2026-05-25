@@ -132,12 +132,5 @@
     "subtype": "collection",
     "container-item": "lanyard",
     "items": [ { "item": "id_science_security_yellow", "prob": 100 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "protein_powder_bottle_plastic_small_9",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "protein_powder", "container-item": "null", "count": 9 } ]
   }
 ]

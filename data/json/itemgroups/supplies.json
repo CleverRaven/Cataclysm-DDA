@@ -1075,6 +1075,34 @@
   },
   {
     "type": "item_group",
+    "id": "chem_agar_bottle_plastic_small_50",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_small",
+    "entries": [ { "item": "chem_agar", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chem_sulphur_bottle_plastic_small_100_inf",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_small",
+    "entries": [ { "item": "chem_sulphur", "container-item": "null", "charges": [ 100, 1500 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chem_citric_acid_bottle_glass_100_inf",
+    "subtype": "collection",
+    "container-item": "bottle_glass",
+    "entries": [ { "item": "chem_citric_acid", "container-item": "null", "count": [ 100, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chem_citric_acid_bottle_glass_50",
+    "subtype": "collection",
+    "container-item": "bottle_glass",
+    "entries": [ { "item": "chem_citric_acid", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
     "id": "chem_acrylamide_bottle_glass_1_inf",
     "subtype": "collection",
     "container-item": "bottle_glass",

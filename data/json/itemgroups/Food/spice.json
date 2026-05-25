@@ -154,6 +154,13 @@
   },
   {
     "type": "item_group",
+    "id": "artificial_sweetener_box_small_71",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "artificial_sweetener", "container-item": "null", "count": 71 } ]
+  },
+  {
+    "type": "item_group",
     "id": "salt_various",
     "subtype": "distribution",
     "entries": [
@@ -993,6 +1000,13 @@
     "subtype": "collection",
     "container-item": "bag_paper_powder",
     "entries": [ { "item": "cinnamon", "container-item": "null", "count": [ 25, 500 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sprinkles_bottle_plastic_small_62",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_small",
+    "entries": [ { "item": "sprinkles", "container-item": "null", "count": 62 } ]
   },
   {
     "id": "thyme_bowl_plastic_full",
