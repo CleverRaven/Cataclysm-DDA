@@ -4365,6 +4365,12 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_follower_summoned_dross",
+    "name": "Recently created dreamdross",
+    "desc": "This person has recently produced dreamdross.  It will take some time before they produce an usable amount of dross again."
+  },
+  {
+    "type": "effect_type",
     "id": "march_baron",
     "name": [ "March Baron" ],
     "//": "Used to target a slightly different winning screen upon exiting the mortal realms as a Lord in Boann's court."

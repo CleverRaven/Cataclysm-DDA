@@ -1,0 +1,146 @@
+[
+  {
+    "id": [ "TALK_FRIEND", "TALK_FRIEND_Liam", "TALK_FRIEND_Luo" ],
+    "//": "Based on their respective abilities, dreamers produce more dross than dreamwalkers.",
+    "//2": "This is why they gain experience for the spell and for deduction, like player dreamers.",
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "responses": [
+      {
+        "text": "[Ask them to produce dreamdross]",
+        "topic": "TALK_PRODUCE_DREAMDROSS",
+        "//": "Based on the dreamer spell.  That's why it costs mana and has no cooldown.",
+        "condition": { "and": [ { "npc_has_trait": "DREAMER" }, { "math": [ "n_val('mana') >= 1000" ] } ] },
+        "effect": [
+          {
+            "if": { "npc_is_wearing": "dream_attuning_necklace" },
+            "then": [
+              { "u_spawn_item": "scrap_dreamdross", "count": { "math": [ "3.5 + (0.5 * n_spell_level('create_dream_dross'))" ] } },
+              { "math": [ "n_val('mana') -= 1000" ] },
+              { "math": [ "n_skill_exp('deduction', 'format': 'raw') += 250 * game_option('SKILL_TRAINING_SPEED')" ] },
+              {
+                "math": [
+                  "n_spell_exp('create_dream_dross')",
+                  "+=",
+                  "(spell_exp_for_level('create_dream_dross', n_spell_level('create_dream_dross')+1) - spell_exp_for_level('create_dream_dross', n_spell_level('create_dream_dross')))/spell_train_factor(200)"
+                ]
+              }
+            ],
+            "else": [
+              { "u_spawn_item": "scrap_dreamdross", "count": { "math": [ "1 + (0.5 * n_spell_level('create_dream_dross'))" ] } },
+              { "math": [ "n_val('mana') -= 1000" ] },
+              { "math": [ "n_skill_exp('deduction', 'format': 'raw') += 250 * game_option('SKILL_TRAINING_SPEED')" ] },
+              {
+                "math": [
+                  "n_spell_exp('create_dream_dross')",
+                  "+=",
+                  "(spell_exp_for_level('create_dream_dross', n_spell_level('create_dream_dross')+1) - spell_exp_for_level('create_dream_dross', n_spell_level('create_dream_dross')))/spell_train_factor(200)"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "text": "[Ask them to produce dreamdross]",
+        "topic": "TALK_PRODUCE_DREAMDROSS",
+        "//": "Based on 1/5 odds of post-thresh to passively make 1 to 4 dross.  Pre-thresh have 1/10 odds.",
+        "condition": {
+          "and": [
+            { "or": [ { "npc_has_trait": "HOMULLUS_DREAMWALKER" }, { "npc_has_trait": "CHANGELING_NOBLE_DREAMWALKER" } ] },
+            { "not": { "npc_has_effect": "effect_follower_summoned_dross" } }
+          ]
+        },
+        "effect": [
+          { "u_spawn_item": "scrap_dreamdross", "count": [ 1, 4 ] },
+          {
+            "if": { "or": [ { "npc_has_trait": "THRESH_HOMULLUS" }, { "npc_has_trait": "THRESH_FAIR_FOLK_NOBLE" } ] },
+            "then": [ { "npc_add_effect": "effect_follower_summoned_dross", "duration": "5 days" } ],
+            "else": [ { "npc_add_effect": "effect_follower_summoned_dross", "duration": "10 days" } ]
+          }
+        ]
+      },
+      {
+        "text": "[Ask them to produce dreamdross]",
+        "topic": "TALK_CANNOT_PRODUCE_DREAMDROSS_MANA",
+        "condition": { "and": [ { "or": [ { "npc_has_trait": "DREAMER" } ] }, { "math": [ "n_val('mana') < 1000" ] } ] }
+      },
+      {
+        "text": "[Ask them to produce dreamdross]",
+        "topic": "TALK_CANNOT_PRODUCE_DREAMDROSS_TIME",
+        "condition": {
+          "and": [
+            { "or": [ { "npc_has_trait": "HOMULLUS_DREAMWALKER" }, { "npc_has_trait": "CHANGELING_NOBLE_DREAMWALKER" } ] },
+            { "npc_has_effect": "effect_follower_summoned_dross" }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "TALK_PRODUCE_DREAMDROSS",
+    "type": "talk_topic",
+    "dynamic_line": "Here's some dreamdross as you asked.",
+    "responses": [
+      {
+        "text": "[Ask them to produce more dreamdross]",
+        "topic": "TALK_PRODUCE_DREAMDROSS",
+        "condition": { "and": [ { "npc_has_trait": "DREAMER" }, { "math": [ "n_val('mana') >= 1000" ] } ] },
+        "effect": [
+          {
+            "if": { "npc_is_wearing": "dream_attuning_necklace" },
+            "then": [
+              { "u_spawn_item": "scrap_dreamdross", "count": { "math": [ "3.5 + (0.5 * n_spell_level('create_dream_dross'))" ] } },
+              { "math": [ "n_val('mana') -= 1000" ] },
+              { "math": [ "n_skill_exp('deduction', 'format': 'raw') += 250 * game_option('SKILL_TRAINING_SPEED')" ] },
+              {
+                "math": [
+                  "n_spell_exp('create_dream_dross')",
+                  "+=",
+                  "(spell_exp_for_level('create_dream_dross', n_spell_level('create_dream_dross')+1) - spell_exp_for_level('create_dream_dross', n_spell_level('create_dream_dross')))/spell_train_factor(200)"
+                ]
+              }
+            ],
+            "else": [
+              { "u_spawn_item": "scrap_dreamdross", "count": { "math": [ "1 + (0.5 * n_spell_level('create_dream_dross'))" ] } },
+              { "math": [ "n_val('mana') -= 1000" ] },
+              { "math": [ "n_skill_exp('deduction', 'format': 'raw') += 250 * game_option('SKILL_TRAINING_SPEED')" ] },
+              {
+                "math": [
+                  "n_spell_exp('create_dream_dross')",
+                  "+=",
+                  "(spell_exp_for_level('create_dream_dross', n_spell_level('create_dream_dross')+1) - spell_exp_for_level('create_dream_dross', n_spell_level('create_dream_dross')))/spell_train_factor(200)"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "text": "[Ask them to produce more dreamdross]",
+        "topic": "TALK_CANNOT_PRODUCE_DREAMDROSS_MANA",
+        "condition": { "and": [ { "npc_has_trait": "DREAMER" }, { "math": [ "n_val('mana') < 1000" ] } ] }
+      },
+      { "text": "Thanks.  Can we talk about something else?", "topic": "TALK_NONE" },
+      { "text": "Thanks.  See you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_CANNOT_PRODUCE_DREAMDROSS_MANA",
+    "type": "talk_topic",
+    "dynamic_line": "I can't do that right now.  I need time to recover my mana.",
+    "responses": [
+      { "text": "Got it.  Can we talk about something else?", "topic": "TALK_NONE" },
+      { "text": "Got it.  See you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_CANNOT_PRODUCE_DREAMDROSS_TIME",
+    "type": "talk_topic",
+    "dynamic_line": "I can't do that right now.  I need time to gather more dreamdross.",
+    "responses": [
+      { "text": "Got it.  Can we talk about something else?", "topic": "TALK_NONE" },
+      { "text": "Got it.  See you later.", "topic": "TALK_DONE" }
+    ]
+  }
+]
