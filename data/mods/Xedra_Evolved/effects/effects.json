@@ -4366,8 +4366,10 @@
   {
     "type": "effect_type",
     "id": "effect_follower_summoned_dross",
-    "name": "Recently created dreamdross",
-    "desc": "This person has recently produced dreamdross.  It will take some time before they produce an usable amount of dross again."
+    "name": [ "Recently created dreamdross" ],
+    "desc": [
+      "This person has recently gave you dreamdross.  It will take some time before they gather an usable amount of dross again."
+    ]
   },
   {
     "type": "effect_type",
