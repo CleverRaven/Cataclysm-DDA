@@ -2095,7 +2095,18 @@
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r", "paw_broad_fingers_l", "paw_broad_fingers_r", "paw_fingers_l", "paw_fingers_r", "paw_rat_fingers_l", "paw_rat_fingers_r", "paw_little_fingers_l", "paw_little_fingers_r" ],
+        "specifically_covers": [
+          "hand_fingers_l",
+          "hand_fingers_r",
+          "paw_broad_fingers_l",
+          "paw_broad_fingers_r",
+          "paw_fingers_l",
+          "paw_fingers_r",
+          "paw_rat_fingers_l",
+          "paw_rat_fingers_r",
+          "paw_little_fingers_l",
+          "paw_little_fingers_r"
+        ],
         "coverage": 20,
         "encumbrance": 3
       }
