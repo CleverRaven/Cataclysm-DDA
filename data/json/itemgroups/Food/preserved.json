@@ -49,6 +49,13 @@
   },
   {
     "type": "item_group",
+    "id": "chili_can_medium_1_inf",
+    "subtype": "collection",
+    "container-item": "can_medium",
+    "entries": [ { "item": "chili", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
     "id": "beans_in_can",
     "subtype": "distribution",
     "entries": [ { "item": "can_beans", "entry-wrapper": "can_medium", "count": 2 } ]

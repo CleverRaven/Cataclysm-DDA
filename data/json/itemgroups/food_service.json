@@ -1578,41 +1578,6 @@
   },
   {
     "type": "item_group",
-    "id": "fried_mozzarella_sticks_bag_plastic_4",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "fried_mozzarella_sticks", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "hotdogs_cooked_wrapper_1_inf",
-    "subtype": "collection",
-    "container-item": "wrapper",
-    "entries": [ { "item": "hotdogs_cooked", "container-item": "null", "count": [ 1, -1 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "hotdogs_newyork_wrapper_1_inf",
-    "subtype": "collection",
-    "container-item": "wrapper",
-    "entries": [ { "item": "hotdogs_newyork", "container-item": "null", "count": [ 1, -1 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "crab_cakes_box_small_1_inf",
-    "subtype": "collection",
-    "container-item": "box_small",
-    "entries": [ { "item": "crab_cakes", "container-item": "null", "count": [ 1, -1 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "stuffed_clams_box_small_1_inf",
-    "subtype": "collection",
-    "container-item": "box_small",
-    "entries": [ { "item": "stuffed_clams", "container-item": "null", "count": [ 1, -1 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "potato_bag_plastic_1",
     "subtype": "collection",
     "container-item": "bag_canvas",
@@ -1631,13 +1596,6 @@
     "subtype": "collection",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "choco_coffee_beans", "container-item": "null", "count": 5 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "toast_bag_plastic_2",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "toast", "container-item": "null", "count": 2 } ]
   },
   {
     "type": "item_group",
@@ -1760,41 +1718,6 @@
     "subtype": "collection",
     "container-item": "bowl_plastic",
     "entries": [ { "item": "carrot", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "chilidogs_wrapper_2",
-    "subtype": "collection",
-    "container-item": "wrapper",
-    "entries": [ { "item": "chilidogs", "container-item": "null", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "corndogs_cooked_wrapper_2",
-    "subtype": "collection",
-    "container-item": "wrapper",
-    "entries": [ { "item": "corndogs_cooked", "container-item": "null", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "pie_box_small_8",
-    "subtype": "collection",
-    "container-item": "box_small",
-    "entries": [ { "item": "pie", "container-item": "null", "count": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "pie_meat_box_small_8",
-    "subtype": "collection",
-    "container-item": "box_small",
-    "entries": [ { "item": "pie_meat", "container-item": "null", "count": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "PBJ_Toast_bag_plastic_2",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "PBJ_Toast", "container-item": "null", "count": 2 } ]
   },
   {
     "type": "item_group",

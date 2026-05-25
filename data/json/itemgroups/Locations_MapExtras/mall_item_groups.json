@@ -263,12 +263,5 @@
       [ "mirror", 35 ],
       { "item": "makeup_kit", "prob": 30 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "chaw_wrapper_20",
-    "subtype": "collection",
-    "container-item": "wrapper",
-    "entries": [ { "item": "chaw", "container-item": "null", "count": 20 } ]
   }
 ]

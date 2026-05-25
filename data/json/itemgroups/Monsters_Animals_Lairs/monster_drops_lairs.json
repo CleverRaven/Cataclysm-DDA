@@ -236,12 +236,5 @@
       { "group": "mon_zombie_kevlar_death_drops", "damage": [ 2, 4 ], "prob": 15 },
       { "group": "mon_zombie_military_pilot_death_drops", "damage": [ 2, 4 ], "prob": 5 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "caffeine_bottle_plastic_pill_supplement_10",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_supplement",
-    "entries": [ { "item": "caffeine", "container-item": "null", "count": 10 } ]
   }
 ]
