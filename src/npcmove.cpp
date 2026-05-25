@@ -4408,6 +4408,11 @@ void npc::find_item()
             cache_tile();
             continue;
         }
+        // Only allow allies to take items from your vehicle
+        if( !is_player_ally() && vp->vehicle().is_owned_by( get_player_character() ) ) {
+            cache_tile();
+            continue;
+        }
         const std::optional<vpart_reference> cargo = vp.cargo();
         static const std::string locked_string( "LOCKED" );
         // TODO: Let player know what parts are safe from NPC thieves
