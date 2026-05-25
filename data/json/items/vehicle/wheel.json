@@ -380,7 +380,11 @@
     "color": "dark_gray",
     "diameter": 17,
     "width": 9,
-    "faults": [ { "fault": "fault_punctured_tires" }, { "fault": "fault_flat_tire_riding_on_rims" } ],
+    "faults": [
+      { "fault": "fault_punctured_tires" },
+      { "fault": "fault_flat_tire_riding_on_rims" },
+      { "fault": "fault_tire_treads" }
+    ],
     "melee_damage": { "bash": 12 }
   },
   {
@@ -401,7 +405,11 @@
     "color": "dark_gray",
     "diameter": 16,
     "width": 11,
-    "faults": [ { "fault": "fault_punctured_tires" }, { "fault": "fault_flat_tire_riding_on_rims" } ],
+    "faults": [
+      { "fault": "fault_punctured_tires" },
+      { "fault": "fault_flat_tire_riding_on_rims" },
+      { "fault": "fault_tire_treads" }
+    ],
     "melee_damage": { "bash": 14 }
   },
   {
@@ -422,7 +430,11 @@
     "color": "green",
     "diameter": 32,
     "width": 20,
-    "faults": [ { "fault": "fault_punctured_tires" }, { "fault": "fault_flat_tire_riding_on_rims" } ],
+    "faults": [
+      { "fault": "fault_punctured_tires" },
+      { "fault": "fault_flat_tire_riding_on_rims" },
+      { "fault": "fault_tire_treads" }
+    ],
     "melee_damage": { "bash": 17 }
   },
   {
@@ -443,7 +455,11 @@
     "color": "dark_gray",
     "diameter": 8,
     "width": 3,
-    "faults": [ { "fault": "fault_punctured_tires" }, { "fault": "fault_flat_tire_riding_on_rims" } ],
+    "faults": [
+      { "fault": "fault_punctured_tires" },
+      { "fault": "fault_flat_tire_riding_on_rims" },
+      { "fault": "fault_tire_treads" }
+    ],
     "melee_damage": { "bash": 5 }
   },
   {
@@ -464,7 +480,11 @@
     "color": "dark_gray",
     "diameter": 27,
     "width": 3,
-    "faults": [ { "fault": "fault_punctured_tires" }, { "fault": "fault_flat_tire_riding_on_rims" } ],
+    "faults": [
+      { "fault": "fault_punctured_tires" },
+      { "fault": "fault_flat_tire_riding_on_rims" },
+      { "fault": "fault_tire_treads" }
+    ],
     "melee_damage": { "bash": 3 }
   },
   {
@@ -608,7 +628,11 @@
     "color": "dark_gray",
     "diameter": 16,
     "width": 4,
-    "faults": [ { "fault": "fault_punctured_tires" }, { "fault": "fault_flat_tire_riding_on_rims" } ],
+    "faults": [
+      { "fault": "fault_punctured_tires" },
+      { "fault": "fault_flat_tire_riding_on_rims" },
+      { "fault": "fault_tire_treads" }
+    ],
     "melee_damage": { "bash": 5 }
   },
   {
@@ -734,7 +758,11 @@
     "color": "dark_gray",
     "diameter": 20,
     "width": 2,
-    "faults": [ { "fault": "fault_punctured_tires" }, { "fault": "fault_flat_tire_riding_on_rims" } ],
+    "faults": [
+      { "fault": "fault_punctured_tires" },
+      { "fault": "fault_flat_tire_riding_on_rims" },
+      { "fault": "fault_tire_treads" }
+    ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -755,7 +783,11 @@
     "color": "dark_gray",
     "diameter": 24,
     "width": 14,
-    "faults": [ { "fault": "fault_punctured_tires" }, { "fault": "fault_flat_tire_riding_on_rims" } ],
+    "faults": [
+      { "fault": "fault_punctured_tires" },
+      { "fault": "fault_flat_tire_riding_on_rims" },
+      { "fault": "fault_tire_treads" }
+    ],
     "melee_damage": { "bash": 17 }
   },
   {

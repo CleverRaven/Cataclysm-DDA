@@ -2158,7 +2158,7 @@ class item : public visitable
         * `holder`, see set_fault. Pass nullptr (default) for silent application.
         */
         void set_random_fault_of_type( const std::string &fault_type, bool force = false,
-                                       const Character *holder = nullptr );
+                                       const Character *holder = nullptr, const std::string &severity_flag = "" );
 
         /** Removes the fault from the item, if such is presented. Returns true if a fault was removed */
         bool remove_fault( const fault_id &fault_id );

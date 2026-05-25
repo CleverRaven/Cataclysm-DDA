@@ -107,6 +107,7 @@ static const fault_id fault_broken_window( "fault_broken_window" );
 static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
 static const fault_id fault_flat_tire_riding_on_rims( "fault_flat_tire_riding_on_rims" );
 static const fault_id fault_punctured_tires( "fault_punctured_tires" );
+static const fault_id fault_tire_treads( "fault_tire_treads" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_battery( "battery" );
@@ -5234,6 +5235,9 @@ float vehicle::steering_effectiveness( map &here ) const
         // TODO: Wheel faults modify steering in a json way, and not this hardcoded check
         if( vp.get_base().has_fault( fault_punctured_tires ) ) {
             part_steer_capacity *= 0.5f;
+        }
+        if (vp.get_base().has_fault( fault_tire_treads ) ) {
+            part_steer_capacity *= 0.9f;
         }
         if( vp.get_base().has_fault( fault_flat_tire_riding_on_rims ) ) {
             part_steer_capacity *= 0.1f;

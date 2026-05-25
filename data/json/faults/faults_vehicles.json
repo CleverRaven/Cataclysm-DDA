@@ -114,6 +114,18 @@
     "flags": [ "BAD_STARTER" ]
   },
   {
+    "id": "fault_tire_treads",
+    "type": "fault",
+    "name": { "str": "Worn tire treads" },
+    "fault_type": "mechanical_damage",
+    "description": "The treads on this tire are worn down. This cannot be repaired, and affects handling slightly",
+    "price_modifier": 0.0,
+    "contact_area_mod": 0.55,
+    "rolling_resistance_mod": 1.1,
+    "item_suffix": "worn",
+    "flags": [ "MINOR_FAULT" ]
+  },
+  {
     "id": "fault_punctured_tires",
     "type": "fault",
     "name": { "str": "Punctured tire" },

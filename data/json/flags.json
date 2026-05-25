@@ -5,6 +5,11 @@
     "info": "This is not intended to be visible during normal gameplay.  <bad>Please file a bug report</bad> unless you are seeing this in the debug menu."
   },
   {
+    "id": "MINOR_FAULT",
+    "type": "json_flag",
+    "info": "Denotes a minor fault in an item, that is not as obtrusive as a major fault (e.g. a worn tire (minor) vs a punctured tire, a chipped edge vs a crack)."
+  },
+  {
     "id": "SWIM_UNDER",
     "type": "json_flag",
     "info": "Terrain with this flag is treated as having water beneath a covering (e.g. ice); entities may be considered under water for swimming and related mechanics."
