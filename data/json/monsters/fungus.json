@@ -111,7 +111,7 @@
     "weight": "200 kg",
     "hp": 20,
     "speed": 100,
-    "material": [ "veggy" ],
+    "material": [ "stone" ],
     "symbol": "T",
     "color": "dark_gray",
     "aggression": 100,
