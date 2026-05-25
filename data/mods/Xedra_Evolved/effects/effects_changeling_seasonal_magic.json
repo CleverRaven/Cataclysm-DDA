@@ -597,7 +597,7 @@
     "id": "effect_changeling_winter_neutralize_morale",
     "name": [ "Frozen Heart" ],
     "desc": [ "All emotions are frozen out." ],
-    "enchantments": [ { "ench_effects": [ { "effect": "effect_changeling_temporary_psychopath", "intensity": 1 } ] } ]
+    "flags": [ "NUMB", "PSYCHOPATH" ]
   },
   {
     "type": "effect_type",

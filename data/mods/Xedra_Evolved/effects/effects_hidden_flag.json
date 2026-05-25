@@ -70,14 +70,5 @@
     "desc": [ "" ],
     "rating": "good",
     "flags": [ "BLOCK_HUGE_ATTACKS" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_changeling_temporary_psychopath",
-    "//": "Hidden effect, used temporarily",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "rating": "good",
-    "flags": [ "PSYCHOPATH" ]
   }
 ]
