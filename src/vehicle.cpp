@@ -5236,7 +5236,7 @@ float vehicle::steering_effectiveness( map &here ) const
         if( vp.get_base().has_fault( fault_punctured_tires ) ) {
             part_steer_capacity *= 0.5f;
         }
-        if (vp.get_base().has_fault( fault_tire_treads ) ) {
+        if( vp.get_base().has_fault( fault_tire_treads ) ) {
             part_steer_capacity *= 0.9f;
         }
         if( vp.get_base().has_fault( fault_flat_tire_riding_on_rims ) ) {
