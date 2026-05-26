@@ -60,7 +60,7 @@
   <PropertyGroup Label="Vcpkg">
     <VcpkgEnabled>true</VcpkgEnabled>
     <VcpkgEnableManifest>true</VcpkgEnableManifest>
-    <VcpkgManifestInstall>false</VcpkgManifestInstall>
+    <VcpkgManifestInstall>true</VcpkgManifestInstall>
     <VcpkgUseStatic>true</VcpkgUseStatic>
     <VcpkgAutoLink>true</VcpkgAutoLink>
     <VcpkgTriplet Condition="'$(Platform)'=='Win32'">x86-windows-static</VcpkgTriplet>
