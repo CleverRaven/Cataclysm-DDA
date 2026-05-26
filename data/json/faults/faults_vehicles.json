@@ -118,7 +118,7 @@
     "type": "fault",
     "name": { "str": "Worn tire treads" },
     "fault_type": "mechanical_damage",
-    "description": "The treads on this tire are worn down. This cannot be repaired, and affects handling slightly",
+    "description": "The treads on this tire are worn down.  This cannot be repaired, and affects handling slightly",
     "price_modifier": 0.0,
     "contact_area_mod": 0.55,
     "rolling_resistance_mod": 1.1,
