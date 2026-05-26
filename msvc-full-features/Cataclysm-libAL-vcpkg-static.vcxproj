@@ -52,13 +52,10 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}</ProjectGuid>
+    <ProjectGuid>{AD10F767-9A9B-43F9-9482-88981CDC95F5}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>CataclysmTest</RootNamespace>
+    <RootNamespace>CataclysmLibAL</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <VcpkgTriplet Condition="'$(Platform)'=='Win32'">x86-windows-static</VcpkgTriplet>
-    <VcpkgTriplet Condition="'$(Platform)'=='x64'">x64-windows-static</VcpkgTriplet>
-    <VcpkgTriplet Condition="'$(Platform)'=='ARM64EC'">x64-windows-static</VcpkgTriplet>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg">
     <VcpkgEnabled>true</VcpkgEnabled>
@@ -66,14 +63,15 @@
     <VcpkgManifestInstall>false</VcpkgManifestInstall>
     <VcpkgUseStatic>true</VcpkgUseStatic>
     <VcpkgAutoLink>true</VcpkgAutoLink>
-    <VcpkgUserTriplet Condition="'$(Platform)'=='Win32'">x86-windows-static</VcpkgUserTriplet>
-    <VcpkgUserTriplet Condition="'$(Platform)'=='x64'">x64-windows-static</VcpkgUserTriplet>
-    <VcpkgUserTriplet Condition="'$(Platform)'=='ARM64EC'">x64-windows-static</VcpkgUserTriplet>
+    <VcpkgTriplet Condition="'$(Platform)'=='Win32'">x86-windows-static</VcpkgTriplet>
+    <VcpkgTriplet Condition="'$(Platform)'=='x64'">x64-windows-static</VcpkgTriplet>
+    <VcpkgTriplet Condition="'$(Platform)'=='ARM64EC'">x64-windows-static</VcpkgTriplet>
+    <VcpkgHostTriplet>$(VcpkgTriplet)</VcpkgHostTriplet>
     <VcpkgConfiguration>$(Configuration)</VcpkgConfiguration>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset>$(DefaultPlatformToolset)</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -105,9 +103,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <LocalDebuggerWorkingDirectory>$(ProjectDir)..</LocalDebuggerWorkingDirectory>
-    <OutDir>$(ProjectDir)..\</OutDir>
-    <TargetExt>.exe</TargetExt>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <LinkIncremental>true</LinkIncremental>
@@ -123,18 +119,13 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <PreprocessorDefinitions>_CONSOLE;SDL_SOUND;SDL_MAIN_HANDLED;CATCH_CONFIG_ENABLE_BENCHMARKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CONSOLE;SDL_SOUND;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>legacy_stdio_float_rounding.obj;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <PreprocessorDefinitions>_DEBUG;TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -142,7 +133,6 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -152,7 +142,6 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
-      <PreprocessorDefinitions>TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -179,21 +168,24 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\tests\*.h" />
-    <ClInclude Include="..\src\messages.h" />
+    <ClCompile Include="..\src\cata_allocator_c.c">
+      <ForcedIncludeFiles />
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\src\a*.cpp;..\src\b*.cpp;..\src\c*.cpp;..\src\d*.cpp;..\src\e*.cpp;..\src\f*.cpp;..\src\g*.cpp;..\src\h*.cpp;..\src\i*.cpp;..\src\j*.cpp;..\src\k*.cpp;..\src\l*.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\tests\*.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\msvc-full-features\Cataclysm-libMZ-vcpkg-static.vcxproj">
-      <Project>{0009bb11-11ad-4c14-a5fc-d882a942c00b}</Project>
+    <ProjectReference Include="flatbuffers.vcxproj">
+      <Project>{8a533a64-435d-4d4f-9ff0-1e97aace9374}</Project>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
-    <ProjectReference Include="..\msvc-full-features\Cataclysm-libAL-vcpkg-static.vcxproj">
-      <Project>{ad10f767-9a9b-43f9-9482-88981cdc95f5}</Project>
+    <ProjectReference Include="fmt.vcxproj">
+      <Project>{f2098959-aad9-4210-a64c-fc4a09a45556}</Project>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
-    <ProjectReference Include="ImGui-lib-vcpkg-static.vcxproj">
-      <Project>{0c0b2bea-311f-473c-9652-87923ef639e3}</Project>
+    <ProjectReference Include="zstd.vcxproj">
+      <Project>{f49f14c6-b046-41c7-b707-03366f4b1578}</Project>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
