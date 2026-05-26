@@ -150,7 +150,7 @@ static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 
 static const std::string flag_APPLIANCE( "APPLIANCE" );
 static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
-static const std::string flag_FLAT_TIRE("FLAT_TIRE");
+static const std::string flag_FLAT_TIRE( "FLAT_TIRE" );
 static const std::string flag_WIRING( "WIRING" );
 
 //~ Name for an array of electronic power grid appliances, like batteries and solar panels
