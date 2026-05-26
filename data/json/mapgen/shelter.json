@@ -88,8 +88,7 @@
         "    #####:##+#:#####4   "
       ],
       "palettes": [ "shelter" ],
-      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 17 ], "y": [ 10, 15 ] } ],
-      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 17 ], "y": [ 10, 15 ] } ]
     }
   },
   {
@@ -194,8 +193,7 @@
         "    #####:##+#:#####    "
       ],
       "palettes": [ "shelter" ],
-      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 17 ], "y": [ 13, 15 ] } ],
-      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 17 ], "y": [ 13, 15 ] } ]
     }
   },
   {
@@ -351,8 +349,7 @@
         "            ##:#+#:##   "
       ],
       "palettes": [ "shelter" ],
-      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 17 ], "y": [ 11, 13 ] } ],
-      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 7, 17 ], "y": [ 11, 13 ] } ]
     }
   },
   {
