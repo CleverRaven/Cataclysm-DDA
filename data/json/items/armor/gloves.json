@@ -37,7 +37,7 @@
     "material_thickness": 3,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 70, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 70, "coverage": 100, "covers": [ "hand_l", "hand_r", "paw_default_l", "paw_default_r" ] } ]
   },
   {
     "id": "chainmail_junk_hands",
@@ -58,7 +58,7 @@
     "armor": [
       {
         "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "hand_l", "hand_r" ],
+        "covers": [ "hand_l", "hand_r", "paw_default_l", "paw_default_r" ],
         "coverage": 100,
         "encumbrance": 14
       }
@@ -83,7 +83,7 @@
     "armor": [
       {
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "hand_l", "hand_r" ],
+        "covers": [ "hand_l", "hand_r", "paw_default_l", "paw_default_r" ],
         "coverage": 100,
         "encumbrance": 14
       }
@@ -262,8 +262,17 @@
         ],
         "encumbrance": 12,
         "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ]
+        "covers": [ "hand_l", "hand_r", "paw_default_l", "paw_default_r" ],
+        "specifically_covers": [
+          "hand_back_l",
+          "hand_back_r",
+          "hand_wrist_l",
+          "hand_wrist_r",
+          "paw_default_back_l",
+          "paw_default_back_r",
+          "paw_default_wrist_l",
+          "paw_default_wrist_r"
+        ]
       },
       {
         "material": [
@@ -271,14 +280,14 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 }
         ],
         "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+        "covers": [ "hand_l", "hand_r", "paw_default_l", "paw_default_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r", "paw_default_fingers_l", "paw_default_fingers_r" ]
       },
       {
         "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 } ],
         "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_palm_r", "hand_palm_l" ]
+        "covers": [ "hand_l", "hand_r", "paw_default_l", "paw_default_r" ],
+        "specifically_covers": [ "hand_palm_r", "hand_palm_l", "hand_palm_l", "hand_palm_r" ]
       }
     ]
   },
@@ -412,20 +421,29 @@
       {
         "encumbrance": 4,
         "coverage": 75,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+        "covers": [ "hand_l", "hand_r", "paw_default_l", "paw_default_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r", "paw_default_wrist_l", "paw_default_wrist_r" ]
       },
       {
         "encumbrance": 4,
         "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_palm_l", "hand_palm_r", "hand_back_l", "hand_back_r" ]
+        "covers": [ "hand_l", "hand_r", "paw_default_l", "paw_default_r" ],
+        "specifically_covers": [
+          "hand_palm_l",
+          "hand_palm_r",
+          "hand_back_l",
+          "hand_back_r",
+          "paw_default_palm_l",
+          "paw_default_palm_r",
+          "paw_default_back_l",
+          "paw_default_back_r"
+        ]
       },
       {
         "encumbrance": 0,
         "coverage": 50,
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+        "covers": [ "hand_l", "hand_r", "paw_default_l", "paw_default_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r", "paw_default_fingers_l", "paw_default_fingers_r" ]
       }
     ],
     "melee_damage": { "bash": 2 }
@@ -598,7 +616,7 @@
     "color": "brown",
     "warmth": 70,
     "material_thickness": 3,
-    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "hand_l", "hand_r", "paw_default_l", "paw_default_r" ] } ]
   },
   {
     "id": "xl_gloves_fur",
@@ -635,7 +653,7 @@
     "color": "brown",
     "warmth": 55,
     "material_thickness": 3,
-    "armor": [ { "encumbrance": 30, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 95, "covers": [ "hand_l", "hand_r", "paw_default_l", "paw_default_r" ] } ]
   },
   {
     "id": "xl_gloves_faux_fur",
@@ -699,7 +717,7 @@
     "material_thickness": 0.5,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "WATERPROOF" ],
-    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "hand_l", "hand_r", "paw_default_l", "paw_default_r" ] } ]
   },
   {
     "id": "xl_gloves_leather",
@@ -787,7 +805,7 @@
     "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "hand_l", "hand_r", "paw_default_l", "paw_default_r" ] } ]
   },
   {
     "id": "xl_gloves_light",
@@ -825,7 +843,7 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "hand_l", "hand_r", "paw_default_l", "paw_default_r" ] } ]
   },
   {
     "id": "xl_gloves_liner",
@@ -1163,7 +1181,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "coverage": 80, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "coverage": 80, "covers": [ "hand_l", "hand_r", "paw_default_l", "paw_default_r" ] } ]
   },
   {
     "id": "gloves_wraps_fur",
@@ -1182,7 +1200,7 @@
     "warmth": 20,
     "material_thickness": 2,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 5, "coverage": 80, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 80, "covers": [ "hand_l", "hand_r", "paw_default_l", "paw_default_r" ] } ]
   },
   {
     "id": "gloves_wraps_leather",
@@ -1201,7 +1219,7 @@
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 5, "coverage": 80, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 80, "covers": [ "hand_l", "hand_r", "paw_default_l", "paw_default_r" ] } ]
   },
   {
     "id": "gloves_wraps_wool",
@@ -1220,7 +1238,7 @@
     "warmth": 15,
     "material_thickness": 2,
     "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 2, "coverage": 80, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 80, "covers": [ "hand_l", "hand_r", "paw_default_l", "paw_default_r" ] } ]
   },
   {
     "id": "long_glove_white",
@@ -1267,7 +1285,7 @@
     "warmth": 70,
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "OUTER" ],
-    "armor": [ { "encumbrance": 80, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 80, "coverage": 100, "covers": [ "hand_l", "hand_r", "paw_default_l", "paw_default_r" ] } ]
   },
   {
     "id": "nomex_gloves",
