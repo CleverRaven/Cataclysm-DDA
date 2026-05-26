@@ -237,6 +237,7 @@ RGBTuple color_loader<RGBTuple>::from_rgb( const int r, const int g, const int b
 #include "sdl_utils.h"
 #include "sdl_font.h"
 #include "sdltiles.h"
+#include "sdl_wrappers.h"
 #include "font_loader.h"
 #if SDL_MAJOR_VERSION >= 3
 #include <imgui/imgui_impl_sdl3.h>
@@ -495,6 +496,22 @@ void cataimgui::client::new_frame()
     ImGui_ImplSDL2_NewFrame();
 #endif
 
+    // The game and ImGui both draw into display_buffer, whose size can differ from
+    // the window: SCALING_FACTOR shrinks the buffer on desktop, and on Android the
+    // buffer stays terminal-sized behind a fullscreen window. The SDL backend sets
+    // io.DisplaySize to the window size, which mis-centers and oversizes ImGui
+    // windows, so use the render target's output size instead.
+    {
+        ImGuiIO &io = ImGui::GetIO();
+        int target_w = 0;
+        int target_h = 0;
+        GetRendererOutputSize( sdl_renderer, &target_w, &target_h );
+        if( target_w > 0 && target_h > 0 ) {
+            io.DisplaySize = ImVec2( static_cast<float>( target_w ), static_cast<float>( target_h ) );
+            io.DisplayFramebufferScale = ImVec2( 1.0f, 1.0f );
+        }
+    }
+
     ImGui::NewFrame();
 #if 0 and not TUI
     freetype_test.ShowFontsOptionsWindow();
@@ -538,7 +555,35 @@ void cataimgui::client::process_input( void *input )
 #if SDL_MAJOR_VERSION >= 3
         ImGui_ImplSDL3_ProcessEvent( evt );
 #else
-        ImGui_ImplSDL2_ProcessEvent( evt );
+        // ImGui lays out windows in render-target (display_buffer) coordinates (see
+        // new_frame), but SDL mouse events arrive in window coordinates. Scale mouse
+        // positions into buffer space so they line up; SDL3 handles this in
+        // ConvertEventCoordinates().
+        int buf_w = 0;
+        int buf_h = 0;
+        int win_w = 0;
+        int win_h = 0;
+        GetRendererOutputSize( sdl_renderer, &buf_w, &buf_h );
+        GetWindowSize( sdl_window.get(), &win_w, &win_h );
+        if( win_w > 0 && win_h > 0 && ( buf_w != win_w || buf_h != win_h ) ) {
+            SDL_Event scaled = *evt;
+            const float sx = static_cast<float>( buf_w ) / win_w;
+            const float sy = static_cast<float>( buf_h ) / win_h;
+            switch( evt->type ) {
+                case CATA_MOUSEMOTION:
+                    scaled.motion.x = static_cast<Sint32>( evt->motion.x * sx );
+                    scaled.motion.y = static_cast<Sint32>( evt->motion.y * sy );
+                    break;
+                case CATA_MOUSEBUTTONDOWN:
+                case CATA_MOUSEBUTTONUP:
+                    scaled.button.x = static_cast<Sint32>( evt->button.x * sx );
+                    scaled.button.y = static_cast<Sint32>( evt->button.y * sy );
+                    break;
+            }
+            ImGui_ImplSDL2_ProcessEvent( &scaled );
+        } else {
+            ImGui_ImplSDL2_ProcessEvent( evt );
+        }
 #endif
     }
 }
