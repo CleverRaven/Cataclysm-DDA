@@ -746,6 +746,45 @@
     "sub_parts": [ "insect_tarsomere_r", "insect_segment_r", "insect_terminus_r" ]
   },
   {
+    "id": "paw_default_l",
+    "//": "Used as a default for similar_bodypart to work for armor.",
+    "type": "body_part",
+    "name": "default paw",
+    "name_multiple": "default left paws",
+    "heading": "default paw",
+    "heading_multiple": "paws",
+    "encumbrance_text": "Your default paw feels heavy",
+    "hit_size": 1,
+    "drench_capacity": 4,
+    "main_part": "paw_default_l",
+    "hit_difficulty": 0.8,
+    "limb_types": "hand",
+    "opposite_part": "paw_default_r",
+    "connected_to": "arm_l",
+    "side": "left",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "default paw" },
+    "hp_bar_ui_text": "TST PAW",
+    "base_hp": 20,
+    "limb_scores": [ [ "balance", 0.0 ] ],
+    "sub_parts": [ "paw_default_wrist_l", "paw_default_palm_l", "paw_default_back_l", "paw_default_fingers_l" ]
+  },
+  {
+    "id": "paw_default_r",
+    "copy-from": "paw_default_l",
+    "type": "body_part",
+    "name": "default paw",
+    "name_multiple": "paws",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "left paw" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "paws" },
+    "heading": "r. paw",
+    "heading_multiple": "paws",
+    "encumbrance_text": "Manual tasks are slowed.",
+    "main_part": "arm_r",
+    "opposite_part": "paw_default_l",
+    "side": "right",
+    "sub_parts": [ "paw_default_wrist_r", "paw_default_palm_r", "paw_default_back_r", "paw_default_fingers_r" ]
+  },
+  {
     "id": "paw_broad_l",
     "type": "body_part",
     "name": "left paw",
@@ -775,7 +814,8 @@
     "sub_parts": [ "paw_broad_wrist_l", "paw_broad_palm_l", "paw_broad_back_l", "paw_broad_fingers_l" ],
     "bmi_encumbrance_threshold": 18,
     "bmi_encumbrance_scalar": 0.2,
-    "unarmed_damage": [ { "damage_type": "bash", "amount": 4 } ]
+    "unarmed_damage": [ { "damage_type": "bash", "amount": 4 } ],
+    "similar_bodypart": "paw_default_l"
   },
   {
     "id": "paw_broad_r",
@@ -791,7 +831,8 @@
     "main_part": "arm_r",
     "opposite_part": "paw_broad_l",
     "side": "right",
-    "sub_parts": [ "paw_broad_wrist_r", "paw_broad_palm_r", "paw_broad_back_r", "paw_broad_fingers_r" ]
+    "sub_parts": [ "paw_broad_wrist_r", "paw_broad_palm_r", "paw_broad_back_r", "paw_broad_fingers_r" ],
+    "similar_bodypart": "paw_default_r"
   },
   {
     "id": "paw_l",
@@ -822,7 +863,8 @@
     "bionic_slots": 4,
     "sub_parts": [ "paw_wrist_l", "paw_palm_l", "paw_back_l", "paw_fingers_l" ],
     "bmi_encumbrance_threshold": 19,
-    "bmi_encumbrance_scalar": 0.17
+    "bmi_encumbrance_scalar": 0.17,
+    "similar_bodypart": "paw_default_l"
   },
   {
     "id": "paw_r",
@@ -838,7 +880,8 @@
     "main_part": "arm_r",
     "opposite_part": "paw_l",
     "side": "right",
-    "sub_parts": [ "paw_wrist_r", "paw_palm_r", "paw_back_r", "paw_fingers_r" ]
+    "sub_parts": [ "paw_wrist_r", "paw_palm_r", "paw_back_r", "paw_fingers_r" ],
+    "similar_bodypart": "paw_default_r"
   },
   {
     "id": "paw_rat_l",
@@ -868,7 +911,8 @@
     "bionic_slots": 4,
     "sub_parts": [ "paw_rat_wrist_l", "paw_rat_palm_l", "paw_rat_back_l", "paw_rat_fingers_l" ],
     "bmi_encumbrance_threshold": 20,
-    "bmi_encumbrance_scalar": 0.15
+    "bmi_encumbrance_scalar": 0.15,
+    "similar_bodypart": "paw_default_l"
   },
   {
     "id": "paw_rat_r",
@@ -884,7 +928,8 @@
     "main_part": "arm_r",
     "opposite_part": "paw_rat_l",
     "side": "right",
-    "sub_parts": [ "paw_rat_wrist_r", "paw_rat_palm_r", "paw_rat_back_r", "paw_rat_fingers_r" ]
+    "sub_parts": [ "paw_rat_wrist_r", "paw_rat_palm_r", "paw_rat_back_r", "paw_rat_fingers_r" ],
+    "similar_bodypart": "paw_default_r"
   },
   {
     "id": "paw_little_l",
@@ -915,7 +960,8 @@
     "sub_parts": [ "paw_little_wrist_l", "paw_little_palm_l", "paw_little_back_l", "paw_little_fingers_l" ],
     "bmi_encumbrance_threshold": 20,
     "bmi_encumbrance_scalar": 0.15,
-    "unarmed_damage": [ { "damage_type": "bash", "amount": -1 } ]
+    "unarmed_damage": [ { "damage_type": "bash", "amount": -1 } ],
+    "similar_bodypart": "paw_default_l"
   },
   {
     "id": "paw_little_r",
@@ -931,7 +977,8 @@
     "main_part": "arm_r",
     "opposite_part": "paw_little_l",
     "side": "right",
-    "sub_parts": [ "paw_little_wrist_r", "paw_little_palm_r", "paw_little_back_r", "paw_little_fingers_r" ]
+    "sub_parts": [ "paw_little_wrist_r", "paw_little_palm_r", "paw_little_back_r", "paw_little_fingers_r" ],
+    "similar_bodypart": "paw_default_r"
   },
   {
     "id": "vine_limb_upper_r",

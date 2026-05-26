@@ -2092,8 +2092,8 @@
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "covers": [ "hand_l", "hand_r", "paw_default_l", "paw_default_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r", "paw_default_fingers_l", "paw_default_fingers_r" ],
         "coverage": 10,
         "encumbrance": 1
       }
@@ -2119,8 +2119,8 @@
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "covers": [ "hand_l", "hand_r", "paw_default_l", "paw_default_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r", "paw_default_fingers_l", "paw_default_fingers_r" ],
         "coverage": 20,
         "encumbrance": 3
       }
@@ -2146,8 +2146,8 @@
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "covers": [ "hand_l", "hand_r", "paw_default_l", "paw_default_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r", "paw_default_fingers_l", "paw_default_fingers_r" ],
         "coverage": 40,
         "encumbrance": 5
       }
