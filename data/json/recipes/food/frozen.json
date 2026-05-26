@@ -279,6 +279,7 @@
   },
   {
     "result": "icecream",
+    "charges": 2,
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
@@ -315,6 +316,7 @@
   },
   {
     "result": "icecream_choc",
+    "charges": 2,
     "type": "recipe",
     "copy-from": "icecream",
     "book_learn": [ [ "dairy_book", 2 ] ],
@@ -347,6 +349,7 @@
   },
   {
     "result": "icecream",
+    "charges": 2,
     "id_suffix": "from_bags",
     "//": "in real life, you can use some plastic bags with the correct materials and shake up to make ice cream!",
     "type": "recipe",
@@ -385,6 +388,7 @@
   },
   {
     "result": "icecream_choc",
+    "charges": 2,
     "id_suffix": "from_bags",
     "//": "in real life, you can use some plastic bags with the correct materials and shake up to make ice cream!",
     "copy-from": "icecream_from_bags",
@@ -421,6 +425,7 @@
   {
     "//": "On the other hand, why make base ice cream with candy, then add even more candy?",
     "result": "icecream_candy",
+    "charges": 2,
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
@@ -450,6 +455,7 @@
   },
   {
     "result": "icecream_fruit",
+    "charges": 2,
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
@@ -461,6 +467,7 @@
   },
   {
     "result": "icecream_custard",
+    "charges": 2,
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
@@ -499,6 +506,7 @@
   },
   {
     "result": "icecream_yogurt",
+    "charges": 2,
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
@@ -513,6 +521,7 @@
   },
   {
     "result": "icecream_sorbet",
+    "charges": 2,
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
@@ -530,6 +539,7 @@
   },
   {
     "result": "icecream_gelato",
+    "charges": 2,
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",

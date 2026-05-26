@@ -62,6 +62,7 @@
     "result": "glue_strong",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "charges": 100,
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
     "skill_used": "chemistry",

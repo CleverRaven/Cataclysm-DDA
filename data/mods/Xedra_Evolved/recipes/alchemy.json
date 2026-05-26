@@ -64,6 +64,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "sixdust",
+    "charges": 100,
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ALCHEMY",
     "skill_used": "deduction",

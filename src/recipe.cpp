@@ -899,6 +899,16 @@ void recipe::finalize()
         }
     }
 
+    // Uncrafts always specify charges, so skip.
+    const bool is_uncraft = is_reversible();
+    // The item is blacklisted (e.g. ammo in generic guns)
+    const bool item_exists = result().is_valid();
+    if( !is_uncraft && item_exists && result()->count_by_charges() &&
+        !charges && result()->charges_default() > 1 && !obsolete ) {
+        debugmsg( "Recipe %s creates an item with charges but does not specify quantity.  Default charges is %i.",
+                  id.str(), result()->charges_default() );
+    }
+
     std::set<proficiency_id> required;
     std::set<proficiency_id> used;
     // For step recipes, proficiencies is empty; validation done in finalize_step_proficiencies
@@ -1114,7 +1124,7 @@ static void set_new_comps( item &newit, int amount, item_components *used, bool 
 std::vector<item> recipe::create_result( bool set_components, bool is_food,
         item_components *used ) const
 {
-    item newit( result_, calendar::turn, item::default_charges_tag{} );
+    item newit( result_, calendar::turn );
 
     if( !variant().empty() ) {
         newit.set_itype_variant( variant() );
@@ -1153,7 +1163,7 @@ std::vector<item> recipe::create_result( bool set_components, bool is_food,
         }
     }
 
-    int amount = charges ? *charges : newit.count();
+    int amount = charges ? *charges : 1;
 
     bool is_cooked = hot_result() || removes_raw();
     if( set_components ) {
