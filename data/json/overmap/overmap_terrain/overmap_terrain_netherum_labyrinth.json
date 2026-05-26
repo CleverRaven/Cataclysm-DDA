@@ -13,7 +13,6 @@
     "type": "overmap_terrain",
     "name": "bosky labyrinth",
     "id": "labyrinth_overgrown_hall",
-    "sym": "_",
     "color": "light_green",
     "see_cost": "high",
     "travel_cost_type": "impassable",
@@ -30,7 +29,7 @@
   },
   {
     "type": "overmap_terrain",
-    "name": "terminal",
+    "name": "root",
     "id": "labyrinth_overgrown_entrance",
     "sym": "O",
     "color": "light_red",
