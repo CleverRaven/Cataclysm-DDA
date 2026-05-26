@@ -5,7 +5,7 @@
     "name": { "str": "hawker" },
     "job_description": "A vendor selling street food.",
     "common": false,
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [ { "group": "NPC_starting_traits" }, { "trait": "RETURN_TO_START_POS" }, { "group": "Appearance_demographics" } ],
     "bonus_str": { "rng": [ 2, 3 ] },
     "bonus_dex": { "rng": [ 0, 2 ] },
     "bonus_int": { "rng": [ -2, 0 ] },
