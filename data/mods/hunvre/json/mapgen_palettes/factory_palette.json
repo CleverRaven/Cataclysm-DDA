@@ -1,0 +1,35 @@
+[
+  {
+    "type": "palette",
+    "id": "factory",
+    "terrain": {
+      ":": "t_grate",
+      "i": "t_metal_railing",
+      "/": "t_door_metal_locked",
+      "+": "t_door_c",
+      "[": "t_wall_glass",
+      ">": "t_stairs_down",
+      "<": "t_stairs_up",
+      "-": "t_thconc_y",
+      "=": "t_door_metal_locked",
+      "a": "t_wall_metal_shipping_container",
+      "b": "t_metal_floor",
+      "T": "t_chainfence",
+      "y": "t_concrete_ramp_down_high",
+      "Y": "t_concrete_ramp_down_low",
+      "z": "t_concrete_ramp_up_high",
+      "Z": "t_concrete_ramp_up_low",
+      "*": "t_railroad_track",
+      ".": "t_railroad_rubble",
+      "_": "t_sidewalk",
+      "#": "t_concrete_wall",
+      "0": "t_open_air"
+    }
+  },
+  {
+    "type": "palette",
+    "id": "machines",
+    "terrain": { "3": "t_thconc_y" },
+    "furniture": { "0": "f_barstool", "1": "f_machinery_heavy", "2": "f_machinery_heavy" }
+  }
+]
