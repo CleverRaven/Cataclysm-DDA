@@ -690,6 +690,86 @@
     "opposite": "hand_fingers_l"
   },
   {
+    "id": "paw_default_wrist_l",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "paw_default_l",
+    "side": "left",
+    "opposite": "paw_default_wrist_r",
+    "name_multiple": "wrists",
+    "name": "left wrist"
+  },
+  {
+    "id": "paw_default_palm_l",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "paw_default_l",
+    "side": "left",
+    "opposite": "paw_default_palm_r",
+    "name_multiple": "palms",
+    "name": "left palm"
+  },
+  {
+    "id": "paw_default_back_l",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "paw_default_l",
+    "side": "left",
+    "opposite": "paw_default_back_r",
+    "name_multiple": "back of paws",
+    "name": "left back of paw"
+  },
+  {
+    "id": "paw_default_fingers_l",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "paw_default_l",
+    "side": "left",
+    "opposite": "paw_default_fingers_r",
+    "name_multiple": "fingers",
+    "name": "left fingers"
+  },
+  {
+    "id": "paw_default_wrist_r",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "paw_default_r",
+    "side": "right",
+    "opposite": "paw_default_wrist_l",
+    "name_multiple": "wrists",
+    "name": "right wrist"
+  },
+  {
+    "id": "paw_default_palm_r",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "paw_default_r",
+    "side": "right",
+    "opposite": "paw_default_palm_l",
+    "name_multiple": "palms",
+    "name": "right palm"
+  },
+  {
+    "id": "paw_default_back_r",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "paw_default_r",
+    "side": "right",
+    "opposite": "paw_default_back_l",
+    "name_multiple": "back of paws",
+    "name": "right back of paw"
+  },
+  {
+    "id": "paw_default_fingers_r",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "paw_default_r",
+    "side": "right",
+    "opposite": "paw_default_fingers_l",
+    "name_multiple": "fingers",
+    "name": "right fingers"
+  },
+  {
     "id": "paw_broad_wrist_l",
     "type": "sub_body_part",
     "max_coverage": 10,
@@ -697,7 +777,8 @@
     "side": "left",
     "opposite": "paw_broad_wrist_r",
     "name_multiple": "wrists",
-    "name": "left wrist"
+    "name": "left wrist",
+    "similar_bodypart": "paw_default_wrist_l"
   },
   {
     "id": "paw_broad_palm_l",
@@ -707,7 +788,8 @@
     "side": "left",
     "opposite": "paw_broad_palm_r",
     "name_multiple": "palms",
-    "name": "left palm"
+    "name": "left palm",
+    "similar_bodypart": "paw_default_palm_l"
   },
   {
     "id": "paw_broad_back_l",
@@ -717,7 +799,8 @@
     "side": "left",
     "opposite": "paw_broad_back_r",
     "name_multiple": "back of paws",
-    "name": "left back of paw"
+    "name": "left back of paw",
+    "similar_bodypart": "paw_default_back_l"
   },
   {
     "id": "paw_broad_fingers_l",
@@ -727,7 +810,8 @@
     "side": "left",
     "opposite": "paw_broad_fingers_r",
     "name_multiple": "fingers",
-    "name": "left fingers"
+    "name": "left fingers",
+    "similar_bodypart": "paw_default_fingers_l"
   },
   {
     "id": "paw_broad_wrist_r",
@@ -737,7 +821,8 @@
     "side": "right",
     "opposite": "paw_broad_wrist_l",
     "name_multiple": "wrists",
-    "name": "right wrist"
+    "name": "right wrist",
+    "similar_bodypart": "paw_default_wrist_r"
   },
   {
     "id": "paw_broad_palm_r",
@@ -747,7 +832,8 @@
     "side": "right",
     "opposite": "paw_broad_palm_l",
     "name_multiple": "palms",
-    "name": "right palm"
+    "name": "right palm",
+    "similar_bodypart": "paw_default_palm_r"
   },
   {
     "id": "paw_broad_back_r",
@@ -757,7 +843,8 @@
     "side": "right",
     "opposite": "paw_broad_back_l",
     "name_multiple": "back of paws",
-    "name": "right back of paw"
+    "name": "right back of paw",
+    "similar_bodypart": "paw_default_back_r"
   },
   {
     "id": "paw_broad_fingers_r",
@@ -767,7 +854,8 @@
     "side": "right",
     "opposite": "paw_broad_fingers_l",
     "name_multiple": "fingers",
-    "name": "right fingers"
+    "name": "right fingers",
+    "similar_bodypart": "paw_default_fingers_r"
   },
   {
     "id": "paw_wrist_l",
