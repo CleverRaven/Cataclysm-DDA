@@ -380,14 +380,25 @@ bool item::set_fault( const fault_id &f_id, bool force, const Character *holder 
             holder->add_msg_if_player( m_bad, string_format( raw, tname() ) );
         }
     }
+    if (has_fault(f_id) && !f_id->progression().empty() ) {
+        for (const fault_progress& fp : f_id->progression() ) {
+            if (x_in_y(fp.chance, 100)) {
 
+                remove_fault(f_id);
+
+                return set_fault(fp.id, force, holder);
+            }
+        }
+
+        return true;
+    }
     faults.insert( f_id );
     mod_damage( f_id->instant_damage(), holder );
     return true;
 }
 
 void item::set_random_fault_of_type( const std::string &fault_type, bool force,
-                                     const Character *holder, const std::string &fault_severity )
+                                     const Character *holder)
 {
     if( force ) {
         set_fault( random_entry( faults::all_of_type( fault_type ) ), true, holder );
@@ -397,9 +408,7 @@ void item::set_random_fault_of_type( const std::string &fault_type, bool force,
     weighted_int_list<fault_id> faults_by_type;
     for( const std::pair<fault_id, int> &f : type->faults ) {
         if( f.first.obj().type() == fault_type && can_have_fault( f.first ) ) {
-            if( fault_severity.empty() || f.first->has_flag( fault_severity ) ) {
                 faults_by_type.add( f.first, f.second );
-            }
         }
 
     }
@@ -876,13 +885,7 @@ bool item::mod_damage( int qty, const Character *holder )
         // TODO: think about better way to telling the game what faults should be applied when
         if( qty > 0 ) {
             for( int i = 0; i <= qty; i += itype::damage_scale ) {
-                if( damage_level() <= 2 && ( damage_level() != 0 ) ) { // only minor faults for || and |/
-                    set_random_fault_of_type( "mechanical_damage", false, holder, "MINOR_FAULT" );
-                }
-                //pulls from everything
-                else {
                     set_random_fault_of_type( "mechanical_damage", false, holder );
-                }
             }
         }
 

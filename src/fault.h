@@ -38,6 +38,12 @@ const fault_id &random_of_type( const std::string &type );
 const fault_id &random_of_type_item_has( const item &it, const std::string &type );
 } // namespace faults
 
+struct fault_progress {
+    fault_id id;
+    int chance = 0;
+    void deserialize(const JsonObject& jo);
+}; //faults get worse
+
 class fault_fix
 {
     public:
@@ -97,6 +103,7 @@ class fault
         int vehicle_move_penalty_mod() const;
         bool has_flag( const std::string &flag ) const;
         const std::set<fault_id> &get_block_faults() const;
+        const std::vector<fault_progress>& progression() const;
 
         const std::set<fault_fix_id> &get_fixes() const;
     private:
@@ -127,6 +134,7 @@ class fault
         float encumbrance_mod_mult_ = 1.f;
         // todo add tool_quality_mod_; axe with no handle won't axe
         bool affected_by_degradation_ = false;
+        std::vector<fault_progress> fault_progress_;
 
 };
 

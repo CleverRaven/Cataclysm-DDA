@@ -258,6 +258,7 @@ void fault::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "contact_area_mod", contact_area_mod_, 1.f );
     optional( jo, was_loaded, "rolling_resistance_mod", rolling_resistance_mod_, 1.f );
     optional( jo, was_loaded, "vehicle_move_penalty_mod", vehicle_move_penalty_mod_, 0 );
+    optional(jo, was_loaded, "fault_progression", fault_progress_);
 
     if( jo.has_array( "melee_damage_mod" ) ) {
         for( JsonObject jo_f : jo.get_array( "melee_damage_mod" ) ) {
@@ -277,6 +278,13 @@ void fault::load( const JsonObject &jo, std::string_view )
         }
     }
 }
+
+void fault_progress::deserialize(const JsonObject& jo)
+{
+    mandatory(jo, false, "id", id);
+    optional(jo, false, "chance", chance, numeric_bound_reader<int> {0, 100});
+}
+
 
 void fault::check() const
 {

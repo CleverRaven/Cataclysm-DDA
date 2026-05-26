@@ -34,6 +34,28 @@
     ]
   },
   {
+    "type": "fault_group",
+    "id": "tire_defects",
+    "group": [
+      {
+        "fault": "fault_tire_treads",
+        "weight": 50
+      },
+      {
+        "fault": "fault_punctured_tires",
+        "weight": 30
+      },
+      {
+        "fault": "fault_flat_tire_riding_on_rims",
+        "weight": 20
+      },
+      {
+        "fault": "fault_tire_treads_bald",
+        "weight": 0
+      }
+    ]
+  },
+  {
     "id": "fault_engine_belt_drive",
     "type": "fault",
     "name": { "str": "Worn drive belt" },
@@ -123,7 +145,34 @@
     "contact_area_mod": 0.55,
     "rolling_resistance_mod": 1.1,
     "item_suffix": "worn",
-    "flags": [ "MINOR_FAULT" ]
+    "fault_progression": [
+      {
+       "id": "fault_tire_treads_bald", 
+       "chance": 100
+      }
+    ]
+    },
+  {
+    "id": "fault_tire_treads_bald",
+    "type": "fault",
+    "name": { "str": "Bald Treads" },
+    "item_suffix": "bald",
+    "block_faults": [ "fault_tire_treads" ],
+    "fault_progression": [
+      {
+        "id": "fault_tire_treads_ultrabald",
+        "chance": 100
+      }
+    ],
+    "description": "debugging."
+  },
+  {
+    "id": "fault_tire_treads_ultrabald",
+    "type": "fault",
+    "name": { "str": "Ultrabald Treads" },
+    "item_suffix": "ultrabald",
+    "block_faults": [ "fault_tire_treads", "fault_tire_treads_bald" ],
+    "description": "debugging"
   },
   {
     "id": "fault_punctured_tires",

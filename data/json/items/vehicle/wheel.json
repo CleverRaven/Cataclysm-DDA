@@ -383,7 +383,9 @@
     "faults": [
       { "fault": "fault_punctured_tires" },
       { "fault": "fault_flat_tire_riding_on_rims" },
-      { "fault": "fault_tire_treads" }
+      { "fault": "fault_tire_treads" },
+      { "fault": "fault_tire_treads_bald" },
+      { "fault": "fault_tire_treads_ultrabald" }
     ],
     "melee_damage": { "bash": 12 }
   },
