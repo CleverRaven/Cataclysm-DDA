@@ -32,6 +32,7 @@
         "menu_text": "Switch the lights",
         "effect_on_conditions": [ "eoc_switch_lights" ]
       }
-    ]
+    ],
+    "flags": [ "CONTRABAND" ]
   }
 ]
