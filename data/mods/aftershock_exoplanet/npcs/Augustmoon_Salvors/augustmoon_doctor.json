@@ -15,7 +15,7 @@
     "id": "NC_MERCURIAL_DOCTOR",
     "name": { "str": "Mercurial Medical Agent" },
     "job_description": "I try to keep this gang in one piece.  It's a full time job.",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [ { "group": "NPC_starting_traits" }, { "trait": "RETURN_TO_START_POS" }, { "group": "Appearance_demographics" } ],
     "common": false,
     "bonus_int": { "rng": [ 5, 7 ] },
     "worn_override": "NC_AUGUSTMOON_DOCTOR_worn",

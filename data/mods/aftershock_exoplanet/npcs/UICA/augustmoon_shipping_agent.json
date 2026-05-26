@@ -14,7 +14,7 @@
     "id": "NC_AUGUSTMOON_shipping_chief",
     "name": { "str": "Portmaster" },
     "job_description": "I manage incoming and outgoing ships and shuttlecraft.",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [ { "group": "NPC_starting_traits" }, { "trait": "RETURN_TO_START_POS" }, { "group": "Appearance_demographics" } ],
     "common": false,
     "bonus_int": { "rng": [ 5, 7 ] },
     "worn_override": "NC_UICA_PORT_CREW_worn",
