@@ -1,0 +1,56 @@
+[
+  {
+    "om_terrain": "scarlet_sea_reverberation",
+    "type": "mapgen",
+    "object": {
+      "fill_ter": "t_water_sh",
+      "rows": [
+        "       1                ",
+        " 1              1       ",
+        "                        ",
+        "     1                  ",
+        "                        ",
+        "              1         ",
+        "                        ",
+        "                        ",
+        "1      1                ",
+        "                        ",
+        "                 1      ",
+        "         1              ",
+        "                        ",
+        "                        ",
+        " 1                      ",
+        "              1         ",
+        "                        ",
+        "      1          1      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "nested": { "1": { "chunks": [ [ "null", 95 ], [ "scarlet_island_reverberation", 5 ] ] } },
+      "terrain": { " ": [ [ "t_water_sh", 399 ], [ "t_scarlet_light", 1 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "scarlet_island_reverberation",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  ...  ",
+        " ..... ",
+        "...#...",
+        "..###..",
+        "...#...",
+        " ..... ",
+        "  ...  "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "#": "t_sand", ".": [ [ "t_sand", 60 ], [ "t_water_sh", 40 ] ] }
+    }
+  }
+]

@@ -83,5 +83,25 @@
     "light_emitted": 5,
     "light_color": [ 150, 75, 0 ],
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_scarlet_light",
+    "copy-from": "t_utility_light",
+    "name": "scarlet light",
+    "roof": "t_null",
+    "color": "red",
+    "light_color": [ 110, 0, 0 ],
+    "light_emitted": 30,
+    "description": "Red lamp on rods protruding from the ground. Hard to directly look at without eye protection.",
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_water_sh",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
+    }
   }
 ]
