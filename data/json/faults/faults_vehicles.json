@@ -37,9 +37,9 @@
     "type": "fault_group",
     "id": "tire_defects",
     "group": [
-      { "fault": "fault_tire_treads", "weight": 70 },
+      { "fault": "fault_tire_treads", "weight": 75 },
       { "fault": "fault_punctured_tires", "weight": 20 },
-      { "fault": "fault_flat_tire_riding_on_rims", "weight": 10 }
+      { "fault": "fault_flat_tire_riding_on_rims", "weight": 5 }
     ]
   },
   {
