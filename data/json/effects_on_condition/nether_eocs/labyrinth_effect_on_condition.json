@@ -104,7 +104,7 @@
         "then": { "u_message": "Zwoink.", "popup": true },
         "else": [
           {
-            "u_message": "As you place your hand in the depression, the scarlet light slowly fades in a dizzying pinch of your senses.  Then the world itself folds inward - pop.\n\nYou hear three soft chimes, and find yourself standing in a metal ring.  The air around you is clean, and where the obleisk once stood is now a tall, bulbous computer screen, slightly too tall to comfortably look at without craning your neck.  It's certainly more home-like than the place you just came from, but alien in its own right.  Text starts to populate the screen.",
+            "u_message": "As you place your hand in the depression, the scarlet light slowly fades in a dizzying pinch of your senses.  Then the world itself folds inward - pop.\n\nYou hear three soft chimes, and find yourself standing in a metal ring.  The air around you is clean, and where the obelisk once stood is now a tall, bulbous computer screen, slightly too tall to comfortably look at without craning your neck.  It's certainly more home-like than the place you just came from, but alien in its own right.  Text starts to populate the screen.",
             "popup": true
           },
           { "u_add_var": "traveled_to_labyrinth_safehouse", "value": "yes" },

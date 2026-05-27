@@ -143,7 +143,7 @@
     "type": "terrain",
     "id": "t_sand_scarlet",
     "name": "scarlet glass",
-    "description": "What first appears to be scarlet-tinged sand is in fact dark, volcanic glass, covered in small pits and erroded curves, giving it a flowing appearance.  Gentle flecks of red and yellow minerals dot its exterior.",
+    "description": "What first appears to be scarlet-tinged sand is in fact dark, volcanic glass, covered in small pits and eroded curves, giving it a flowing appearance.  Gentle flecks of red and yellow minerals dot its exterior.",
     "symbol": ".",
     "color": "yellow",
     "looks_like": "t_sand",

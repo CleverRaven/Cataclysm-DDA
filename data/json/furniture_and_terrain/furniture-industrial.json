@@ -125,7 +125,7 @@
     "id": "f_xedra_mobile_weather_station",
     "name": "mobile antenna",
     "symbol": "T",
-    "description": "A mix of mundane and otherworldly devicesdeployed from the top of a sleek black case.  It is equipped with a built-in analysis computer, a small thermal printer, and a rechargeable battery.  The case itself is outfitted with back straps and a telescoping stand, which has been deployed.  \"X.E.D.R.A.\" and \"HE weather station\" are engraved on the case.",
+    "description": "A mix of mundane and otherworldly devices deployed from the top of a sleek black case.  It is equipped with a built-in analysis computer, a small thermal printer, and a rechargeable battery.  The case itself is outfitted with back straps and a telescoping stand.  \"X.E.D.R.A.\" and \"HE weather station\" are engraved on the case.",
     "color": "dark_gray",
     "move_cost_mod": 1,
     "coverage": 10,
