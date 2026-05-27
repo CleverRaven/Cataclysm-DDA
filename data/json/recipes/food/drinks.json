@@ -1,18 +1,25 @@
 [
   {
     "type": "recipe",
-    "activity_level": "NO_EXERCISE",
     "result": "water_clean",
     "charges": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "time": "5 m",
     "autolearn": true,
-    "batch_time_factors": [ 20, 1 ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "//": "1u of water_boiling_heat takes 5 m minimum, heat at full power",
-    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
+    "steps": [
+      {
+        "name": "Boiling",
+        "time": "5 m",
+        "//": "1u of water_boiling_heat takes 5 m minimum, heat at full power",
+        "activity_level": "NO_EXERCISE",
+        "qualities": [ { "id": "BOIL", "level": 1 } ],
+        "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
+        "batch_time_factors": [ 20, 1 ],
+        "attention": "unattended",
+        "max_time": "30 m"
+      }
+    ],
     "components": [ [ [ "water", 1 ] ] ]
   },
   {
