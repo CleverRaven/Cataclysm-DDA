@@ -1144,7 +1144,6 @@
     "//": "no bones or organs, copied from meatslug but may be expanded",
     "type": "harvest",
     "entries": [
-      { "drop": "blood_insect", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mollusk", "type": "flesh", "mass_ratio": 0.4 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "fat", "type": "offal", "mass_ratio": 0.1 }
@@ -1155,7 +1154,6 @@
     "//": "no bones or organs, copied from mutant meatslug but may be expanded",
     "type": "harvest",
     "entries": [
-      { "drop": "blood_insect", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.4 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "mutant_fat", "type": "offal", "mass_ratio": 0.1 }
