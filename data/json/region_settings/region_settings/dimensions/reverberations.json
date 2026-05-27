@@ -77,9 +77,10 @@
     "terrain_furniture": "default",
     "weather": "scarlet_weather",
     "place_roads": false,
-    "place_specials": false,
+    "place_specials": true,
     "neighbor_connections": false,
     "default_oter": [
+      "open_air",
       "open_air",
       "open_air",
       "open_air",
@@ -99,10 +100,10 @@
       "solid_earth",
       "solid_earth",
       "solid_earth",
-      "solid_earth",
       "solid_earth"
     ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
+    "feature_flag_settings": { "blacklist": [  ], "whitelist": [ "SCARLET_SEA" ] },
     "connections": {
       "intra_city_road_connection": "local_road",
       "inter_city_road_connection": "local_road",
@@ -232,7 +233,7 @@
     "summer_humidity_manual_mod": 0,
     "autumn_humidity_manual_mod": 0,
     "winter_humidity_manual_mod": 0,
-    "weather_black_list": [ "flurries", "snowing", "snowstorm", "light_drizzle", "sunny", "drizzle", "rain", "rainstorm", "thunder", "lightning" ]
+    "weather_white_list": [ "scarlet_day" ]
   },
   {
     "type": "weather_generator",
