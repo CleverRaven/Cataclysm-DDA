@@ -10,7 +10,7 @@
       { "point": [ 0, 0, -4 ], "overmap": "temple_underground_4_north" },
       { "point": [ 0, 0, -5 ], "overmap": "temple_finale_north" }
     ],
-    "locations": [ "forest" ],
+    "locations": [ "forest", "ravine_bottom" ],
     "occurrences": [ 10, 100 ],
     "flags": [ "WILDERNESS", "OVERMAP_UNIQUE" ]
   },
@@ -30,7 +30,7 @@
       { "point": [ 0, 0, 0 ], "overmap": "spider_pit_north" },
       { "point": [ 0, 0, -1 ], "overmap": "spider_pit_under_north" }
     ],
-    "locations": [ "forest" ],
+    "locations": [ "forest", "ravine_bottom" ],
     "occurrences": [ 33, 100 ],
     "rotate": false,
     "flags": [ "WILDERNESS", "OVERMAP_UNIQUE" ]
@@ -54,7 +54,7 @@
       { "point": [ 0, 0, 0 ], "overmap": "cave_innawood" },
       { "point": [ 0, 0, -1 ], "overmap": "cave_underground_innawood" }
     ],
-    "locations": [ "forest" ],
+    "locations": [ "forest", "ravine_bottom" ],
     "occurrences": [ 0, 5 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
@@ -66,7 +66,7 @@
       { "point": [ 0, 0, -1 ], "overmap": "cave_rat_underground_innawood" },
       { "point": [ 0, 0, -2 ], "overmap": "cave_rat_innawood" }
     ],
-    "locations": [ "forest" ],
+    "locations": [ "forest", "ravine_bottom" ],
     "occurrences": [ 10, 100 ],
     "flags": [ "WILDERNESS", "OVERMAP_UNIQUE" ]
   },
@@ -74,7 +74,7 @@
     "type": "overmap_special",
     "id": "Pond",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pond_field_north" } ],
-    "locations": [ "field" ],
+    "locations": [ "field", "ravine_bottom" ],
     "occurrences": [ 0, 5 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
@@ -82,7 +82,7 @@
     "type": "overmap_special",
     "id": "Hot Springs",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "hot_springs_north" } ],
-    "locations": [ "field" ],
+    "locations": [ "field", "ravine_bottom" ],
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
