@@ -149,7 +149,7 @@
     "rolling_resistance_mod": 30.0,
     "vehicle_move_penalty_mod": 5,
     "block_faults": [ "fault_tire_treads", "fault_punctured_tires" ],
-    "//COMMENT3": "No rubber left to be worn/punctured. Thus blocks those faults",
+    "//COMMENT3": "No rubber left to be worn/punctured. This blocks those faults",
     "item_suffix": "rim",
     "flags": [ "FLAT_TIRE" ]
   },
