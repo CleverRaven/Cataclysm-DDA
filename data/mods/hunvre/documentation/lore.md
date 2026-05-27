@@ -20,7 +20,7 @@ The events of the mod take place after enough time for the people living there t
 
 ## The cataclysm
 
-The Midas being limited in resources needs to periodically travel through or near sources of materials. The catalyst for the events of the mod is the decision to go through an apparently innocuous cloud of gas to harvest.
+The Midas being limited in resources needs to periodically travel through or near sources of materials. The catalyst for the events of the mod is the decision to go through a deceptively innocuous cloud of gas to harvest.
 
 The "gas" is in fact the 3 dimensional part of a 4 dimensional structure or entity that as soon as it made contact with the Midas started infiltrating it. For the sake of convenience it'll be called the Dreamer here but it doesn't have to be what people in the setting call the phenomenon.
 
