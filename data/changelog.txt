@@ -24,7 +24,94 @@ ASCII art for hundreds of items.
 Cities can have damage from the Cataclysm riots.
 
 ## Statistics:
+7642 files changed, 1035565 insertions(+), 501329 deletions(-)
+13,412  commits
+486 authors
+242 new authors
 
+New game entities (core): 
+Items: 
+     articles of clothing,  books,  comestibles,  tools,
+     guns and gun related items,  ammunition variants,  misc items
+Mapgen: 
+     item spawn groups,  monster spawn groups, 88 map metadata,
+     city buildings,  vehicle spawn groups,  overmap locations,  overmap terrains
+Player Traits: 
+     proficiencies,  practice actions,  professions,  effect types,  mutations
+     start locations,  body parts,  starting scenarios,  fighting techniques
+     activity types,  morale types,  vitamins,  dreams,  bionics,  mutation types,
+     character stat modifiers,  proficiency categories,  mutation categories
+UI and Sidebar: 
+     nested categories,  ascii art,  widgets,  construction groups,
+     item ctegories,  recipe groups
+Crafting: 
+     construction activitiess,  crafting requirements,  uncraft recipes
+NPCs and Interactions: 
+     conversation topics,  npc definitions,  npc classes,  missions,  factions
+Achievements: 
+     achievements,  conducts,  event metadata entries,  score trackers
+Map Traits: 
+     furnitures,  terrains,  field types,  traps,  weather types
+Monsters: 
+     monster definitions,  harvest entries,  monster attacks,  monster barks
+     weakpoint sets,  monster factions,  monster species,  body graphs
+Item Traits: 
+     ammunition types,  ammunition effects,  materials,  tool qualities,  gun faults
+Vehicles: 
+     vehicle definitions,  vehicle parts
+Magic: 
+     spells,  enchantments
+Misc: 
+     effect on condition entries,  text snippets,  json flags,  loot zones
+
+New game entities (mods): 
+Player Traits: 
+     mutations,  effect types,  bionics,  professions,  proficiencies.
+     start locations,  body parts,  mutation categories,  mutation types.
+     practice actions,  starting scenarios,  morale types,
+     skills,  addiction types,  scent types
+
+Items: 
+     tools,  misc items,  articles of clothing,
+     guns and gun related items,  comestibles,  books,  ammunition variants
+
+Mapgen: 
+     mapgen entries,  item spawn groups,  monster spawn groups,
+     map extra definitions,  city buildings,  overmap locations,
+     overmap special definitions
+
+Magic: 
+     spells,  enchantments
+
+Crafting: 
+     crafting recipes,  disassembly recipes,
+     crafting requirements,  constrution activities
+
+Monsters: 
+     monster definitons,  monster barks,  species,  monster factions.
+     harvest entries,  monster attacks,  weakpoint sets
+
+NPCs and Interactions: 
+     conversation topics,  missions,  npc definitions,  npc classes
+
+Map Traits: 
+     terrain types,  furniture types,  field types,  emission definitions
+
+UI and Sidebar: 
+     construction groups,  nested categories,  sidebar widgets,  trait groups.
+     proficiency categories,  recipe categories,  overlay order specifications
+
+Item Traits: 
+     ammunition types,  materials,  tool qualities,  relic definitions,  ammo effects
+
+Vehicles: 
+     vehicles
+
+Achievements: 
+     achievements
+
+Misc: 
+     effect on condition entries,  json flags,  text snippets
 
 ## Features:
 Toggle to highlight areas revealed by using map items
