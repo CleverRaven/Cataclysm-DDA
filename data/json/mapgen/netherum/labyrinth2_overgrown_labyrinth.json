@@ -54,6 +54,55 @@
       "fill_ter": "t_nl_metal_floor",
       "rows": [
         "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvv###    #vvvvvvvvv",
+        "vvvvvvv#<o    #vvvvvvvvv",
+        "vvvvvvv###....#vvvvvvvvv",
+        "vvvvvvvvv#....#vvvvvvvvv",
+        "vvvvvvvvv#....#vvvvvvvvv",
+        "##########....##########",
+        "      ............      ",
+        "      ............      ",
+        "      ............      ",
+        "      ............      ",
+        "##########....##########",
+        "vvvvvvvvv#....#vvvvvvvvv",
+        "vvvvvvvvv#....#vvvvvvvvv",
+        "vvvvvvvvv#....#vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv",
+        "vvvvvvvvv#    #vvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "computers": {
+        "Ç": { "name": "AltarOS Console", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "COMP_LS_Exit_Controls_Temp_overgrown" ] }
+      },
+      "terrain": { "<": "t_nl_stairs_up", "o": "t_nl_archway" },
+      "place_nested": [
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_sw" ], "x": 0, "y": 15 },
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_ne" ], "x": 15, "y": 0 },
+        { "chunks": [ "labyrinth_overgrown_9x9_cave_se" ], "x": 15, "y": 15 },
+        { "chunks": [ [ "null", 80 ], [ "labyrinth_9x9_grass_transition", 20 ] ], "x": 4, "y": 0 },
+        { "chunks": [ [ "null", 80 ], [ "labyrinth_9x9_grass_transition", 20 ] ], "x": 10, "y": 0 },
+        { "chunks": [ [ "null", 80 ], [ "labyrinth_9x9_grass_transition", 20 ] ], "x": 4, "y": 15 },
+        { "chunks": [ [ "null", 80 ], [ "labyrinth_9x9_grass_transition", 20 ] ], "x": 10, "y": 15 },
+        { "chunks": [ [ "labyrinth_stairs_2_to_1_teleporter", 1 ] ], "x": 6, "y": 3, "z": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "labyrinth_overgrown_entrance" ],
+    "object": {
+      "fill_ter": "t_nl_metal_floor",
+      "rows": [
+        "vvvvvvvvv#    #vvvvvvvvv",
         "vvvvvvvvv#   %#vvvvvvvvv",
         "vvvvvvvvv#    #vvvvvvvvv",
         "vvvvvvvvv# %  #vvvvvvvvv",
