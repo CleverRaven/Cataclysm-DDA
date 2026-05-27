@@ -704,7 +704,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
         "coverage": 100,
-        "encumbrance": 10,
+        "encumbrance": 9,
         "cover_vitals": 85
       },
       {
