@@ -43,6 +43,27 @@
   },
   {
     "type": "item_group",
+    "id": "currywurst_wrapper_2",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "currywurst", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bacon_bag_plastic_2",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "bacon", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bologna_bag_plastic_10",
+    "subtype": "collection",
+    "container-item": "bowl_plastic",
+    "entries": [ { "item": "bologna", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
     "id": "crab_cakes_box_small_1_inf",
     "subtype": "collection",
     "container-item": "box_small",
@@ -118,6 +139,28 @@
   },
   {
     "type": "item_group",
+    "id": "pemmican_bag_small",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "pemmican", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "soup_box",
+    "subtype": "distribution",
+    "entries": [ { "group": "soup_packet", "prob": 50, "container-item": "box_small", "charges": [ 1, 8 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "soup_packet",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 50, "group": "soup_instant_chicken_noodle_powder_bag_paper_powder_1" },
+      { "prob": 50, "group": "soup_instant_vegetable_powder_bag_paper_powder_1" }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "soup_instant_chicken_noodle_powder_bag_paper_powder_1",
     "subtype": "collection",
     "container-item": "bag_paper_powder",
@@ -158,6 +201,13 @@
     "subtype": "collection",
     "container-item": "jar_glass_sealed",
     "entries": [ { "item": "peanutbutter", "container-item": "null", "count": -1 } ]
+  },
+  {
+    "id": "spread_peanutbutter_2",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "can_food",
+    "entries": [ { "item": "spread_peanutbutter", "container-item": "null", "count": 2 } ]
   },
   {
     "id": "chicken_fried_box_6",

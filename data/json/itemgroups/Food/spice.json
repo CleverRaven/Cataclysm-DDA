@@ -1,6 +1,43 @@
 [
   {
     "type": "item_group",
+    "id": "condiments",
+    "ammo": 75,
+    "magazine": 100,
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 50, "group": "yeast_various" },
+      { "prob": 40, "group": "sugar_various" },
+      { "prob": 10, "group": "artificial_sweetener_box_small_71" },
+      { "prob": 5, "group": "sprinkles_bottle_plastic_small_62" },
+      { "prob": 40, "group": "salt_various" },
+      { "prob": 30, "group": "pepper_various" },
+      { "prob": 15, "group": "cinnamon_various" },
+      { "prob": 25, "group": "seasoning_italian_various" },
+      { "prob": 25, "group": "seasoning_salt_various" },
+      { "item": "cookbook_italian", "prob": 25 },
+      { "item": "cookbook_daintydishes", "prob": 20 },
+      { "item": "cookbook_liverforkids", "prob": 12 },
+      { "item": "sweets_book", "prob": 6 },
+      { "item": "family_cookbook", "prob": 6 },
+      { "item": "brewing_cookbook", "prob": 4 },
+      { "group": "ketchup_sealed_rng", "prob": 35 },
+      { "group": "mustard_sealed_rng", "prob": 35 },
+      { "group": "barbecue_sauce_sealed_rng", "prob": 25 },
+      { "group": "honey_mustard_sealed_rng", "prob": 20 },
+      { "item": "soysauce", "charges": [ 1, -1 ], "prob": 25 },
+      { "item": "hot_sauce", "charges": [ 1, -1 ], "prob": 25 },
+      { "item": "horseradish", "charges": [ 1, -1 ], "prob": 15 },
+      { "item": "spread_peanutbutter", "count": [ 1, -1 ], "prob": 10 },
+      { "item": "marshmallow_fluff", "charges": [ 1, -1 ], "prob": 10 },
+      { "item": "honey_bottled", "charges": [ 1, -1 ], "prob": 35 },
+      { "prob": 35, "item": "honey_glassed", "count": [ 1, -1 ] },
+      { "prob": 15, "group": "oyster_crackers_plastic_bag_vac_8" },
+      { "group": "instant_gravy", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "sugar_various",
     "subtype": "distribution",
     "entries": [
@@ -1014,5 +1051,48 @@
     "subtype": "collection",
     "container-item": "bowl_plastic",
     "entries": [ { "item": "thyme", "container-item": "null", "count": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ketchup_sealed_rng",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "ketchup", "prob": 6, "charges": [ 1, -1 ] },
+      { "item": "ketchup", "prob": 1, "charges": 32, "container-item": "condiment_bottle_sealed" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "honey_mustard_sealed_rng",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "honey_mustard", "prob": 6, "charges": [ 1, -1 ] },
+      { "item": "honey_mustard", "prob": 1, "charges": 32, "container-item": "condiment_bottle_sealed" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "barbecue_sauce_sealed_rng",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "barbecue_sauce", "prob": 6, "charges": [ 1, -1 ] },
+      { "item": "barbecue_sauce", "prob": 1, "charges": 32, "container-item": "condiment_bottle_sealed" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mustard_sealed_rng",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mustard", "prob": 6, "charges": [ 1, -1 ] },
+      { "item": "mustard", "prob": 1, "charges": 96, "container-item": "condiment_bottle_sealed" }
+    ]
+  },
+  {
+    "id": "mustard_powder_bottle_plastic_small_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "mustard_powder", "container-item": "null", "count": 50 } ]
   }
 ]
