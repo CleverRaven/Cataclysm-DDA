@@ -1,0 +1,267 @@
+[
+  {
+    "type": "item_group",
+    "id": "cookies_box_snack_4",
+    "subtype": "collection",
+    "container-item": "box_snack",
+    "entries": [ { "item": "cookies", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "oyster_crackers_plastic_bag_vac_1_inf",
+    "subtype": "collection",
+    "container-item": "plastic_bag_vac",
+    "entries": [ { "item": "oyster_crackers", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "brioche_box_small_6",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "brioche", "container-item": "null", "count": 6 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "onion_rings_box_small_1_inf",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "onion_rings", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "choco_coffee_beans_bag_plastic_5",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "choco_coffee_beans", "container-item": "null", "count": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "fruit_leather_bag_plastic_full",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "fruit_leather", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "dry_lentils_bag_plastic_full",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "dry_lentils", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "candy_bag_plastic_3",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "candy", "container-item": "null", "count": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "candy2_bag_plastic_3",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "candy2", "container-item": "null", "count": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "candy3_bag_plastic_3",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "candy3", "container-item": "null", "count": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "candy4_bag_plastic_3",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "candy4", "container-item": "null", "count": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cow_candy_bag_plastic_3",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "cow_candy", "container-item": "null", "count": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "maltballs_box_snack_4",
+    "subtype": "collection",
+    "container-item": "box_snack",
+    "entries": [ { "item": "maltballs", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "mintpatties_bag_plastic_3",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "mintpatties", "container-item": "null", "count": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "candycigarette_box_cigarette_3",
+    "subtype": "collection",
+    "container-item": "box_cigarette",
+    "entries": [ { "item": "candycigarette", "container-item": "null", "count": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "maple_candy_bag_plastic_2",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "maple_candy", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "candy_bracelet_bag_plastic_3",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "candy_bracelet", "container-item": "null", "count": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "candy_coated_peanuts_box_snack_2",
+    "subtype": "collection",
+    "container-item": "box_snack",
+    "entries": [ { "item": "candy_coated_peanuts", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "licorice_bag_plastic_1_4",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "licorice", "container-item": "null", "count": [ 1, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pretzels_bag_plastic_3",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "pretzels", "container-item": "null", "count": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "porkstick_bag_plastic_4",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "porkstick", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chocpretzels_bag_plastic_3",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "chocpretzels", "container-item": "null", "count": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "popcorn_bag_plastic_4",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "popcorn", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "popcorn2_bag_plastic_4",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "popcorn2", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "popcorn3_bag_plastic_4",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "popcorn3", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cracklins_bag_plastic_4",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "cracklins", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pine_nuts_bag_plastic_4",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "pine_nuts", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "granola_bag_plastic_4",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "granola", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "protein_bar_any_box_12",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "protein_bar_milk_box_12", "prob": 40 },
+      { "group": "protein_bar_peanut_box_12", "prob": 40 },
+      { "group": "protein_bar_zero_box_12", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "protein_bar_any_box_12_opened",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "protein_bar_milk_box_12_opened", "prob": 40 },
+      { "group": "protein_bar_peanut_box_12_opened", "prob": 40 },
+      { "group": "protein_bar_zero_box_12_opened", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "protein_bar_box_small",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "protein_bar_evac", "count": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "protein_bar_zero_box_12",
+    "subtype": "collection",
+    "container-item": "box_snack",
+    "entries": [ { "item": "protein_bar_zero", "count": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "protein_bar_zero_box_12_opened",
+    "subtype": "collection",
+    "container-item": "box_snack",
+    "entries": [ { "item": "protein_bar_zero", "count": [ 1, 12 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "protein_bar_peanut_box_12",
+    "subtype": "collection",
+    "container-item": "box_snack",
+    "entries": [ { "item": "protein_bar_peanut", "count": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "protein_bar_peanut_box_12_opened",
+    "subtype": "collection",
+    "container-item": "box_snack",
+    "entries": [ { "item": "protein_bar_peanut", "count": [ 1, 12 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "protein_bar_milk_box_12",
+    "subtype": "collection",
+    "container-item": "box_snack",
+    "entries": [ { "item": "protein_bar_milk", "count": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "protein_bar_milk_box_12_opened",
+    "subtype": "collection",
+    "container-item": "box_snack",
+    "entries": [ { "item": "protein_bar_milk", "count": [ 1, 12 ] } ]
+  }
+]

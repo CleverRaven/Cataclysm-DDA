@@ -410,12 +410,5 @@
       [ "wallet_travel", 10 ],
       { "item": "teargas_sprayer", "prob": 5, "charges": 10 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "licorice_bag_plastic_1_4",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "licorice", "container-item": "null", "count": [ 1, 4 ] } ]
   }
 ]
