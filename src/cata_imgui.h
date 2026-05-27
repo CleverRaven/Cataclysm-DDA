@@ -155,6 +155,7 @@ class window
         size_t str_height_to_pixels( size_t len );
         std::string get_filter();
         void clear_filter();
+        void defocus_filter();
         void mark_resized();
 
     protected:

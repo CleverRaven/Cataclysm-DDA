@@ -1078,6 +1078,13 @@ void cataimgui::window::clear_filter()
     }
 }
 
+void cataimgui::window::defocus_filter()
+{
+    if( filter_impl && filter_impl->id != 0 && GImGui->ActiveId == filter_impl->id ) {
+        ImGui::ClearActiveID();
+    }
+}
+
 bool cataimgui::InputFloat( const char *label, float *v, float step, float step_fast,
                             const char *format, ImGuiInputTextFlags flags )
 {
