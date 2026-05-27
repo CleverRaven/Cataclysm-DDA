@@ -1181,6 +1181,17 @@
     ]
   },
   {
+    "id": "mutant_mollusk_acid",
+    "//": "no bones or organs, copied from mutant meatslug but may be expanded",
+    "type": "harvest",
+    "entries": [
+      { "drop": "blood_acid_insect", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.4 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "mutant_fat", "type": "offal", "mass_ratio": 0.1 }
+    ]
+  },
+  {
     "id": "bird_tiny",
     "type": "harvest",
     "entries": [
