@@ -24,7 +24,7 @@ The Midas being limited in resources needs to periodically travel through or nea
 
 The "gas" is in fact the 3 dimensional part of a 4 dimensional structure or entity that as soon as it made contact with the Midas started infiltrating it. For the sake of convenience it'll be called the Dreamer here but it doesn't have to be what people in the setting call the phenomenon.
 
-The Dreamer seeks to interact with human brains, and from the moment the ship started going through it the people aboard started having vivid hallucinations among other symptoms, culminating in a condition where people going to sleep under the influence of it enter a catatonic state before slowly "disappearing" (they in fact shift in the fourth dimension).
+The Dreamer seeks to interact with human brains, and from the moment the ship started going through it the people aboard started having vivid hallucinations among other symptoms, culminating in a condition where people going to sleep under the influence of it enter a catatonic state before slowly "disappearing" (they in fact shift into the fourth dimension).
 
 Almost immediately after the first disappearances euzhvils started appearing within the Midas.
 
