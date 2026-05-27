@@ -182,7 +182,7 @@
       "target": "afs_motion_sensor",
       "msg": "The %s screen flashes briefly before fading out."
     },
-    "extend": { "flags": [ "SPAWN_ACTIVE", "MOTION_SENSOR" ] }
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] }
   },
   {
     "id": "afs_welding_paste",
