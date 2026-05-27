@@ -1570,7 +1570,8 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r", "leg_knee_l", "leg_knee_r" ],
         "coverage": 100,
-        "cover_vitals": 85
+        "cover_vitals": 85,
+        "encumbrance": 8
       },
       {
         "material": [
@@ -1699,7 +1700,8 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r", "leg_knee_l", "leg_knee_r" ],
         "coverage": 100,
-        "cover_vitals": 90
+        "cover_vitals": 90,
+        "encumbrance": 12
       },
       {
         "material": [
@@ -1827,7 +1829,8 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_knee_l", "leg_knee_r", "leg_upper_l", "leg_upper_r" ],
         "cover_vitals": 95,
-        "coverage": 96
+        "coverage": 100,
+        "encumbrance": 15
       },
       {
         "material": [
