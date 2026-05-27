@@ -54,7 +54,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{0009BB11-11AD-4C14-A5FC-D882A942C00B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>CataclysmLib</RootNamespace>
+    <RootNamespace>CataclysmLibMZ</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg">
@@ -174,11 +174,7 @@
     <ClInclude Include="..\src\*.h" Exclude="..\src\messages.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\cata_allocator_c.c">
-      <ForcedIncludeFiles />
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\src\*.cpp" Exclude="..\src\main.cpp;..\src\messages.cpp" />
+    <ClCompile Include="..\src\*.cpp" Exclude="..\src\main.cpp;..\src\messages.cpp;..\src\a*.cpp;..\src\b*.cpp;..\src\c*.cpp;..\src\d*.cpp;..\src\e*.cpp;..\src\f*.cpp;..\src\g*.cpp;..\src\h*.cpp;..\src\i*.cpp;..\src\j*.cpp;..\src\k*.cpp;..\src\l*.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="flatbuffers.vcxproj">
