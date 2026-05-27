@@ -16,7 +16,7 @@ The underside of the wheel hosts the majority of the people living on the ship, 
 
 ## Chronological context
 
-The events of the mod take place after enough time for the people living there to have any experience of earth beyond archives depictions of it.
+The events of the mod take place after enough time for the people living there to have any experience of earth beyond archived depictions of it.
 
 ## The cataclysm
 
