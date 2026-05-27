@@ -1,0 +1,7 @@
+[
+  {
+    "type": "overmap_location",
+    "id": "ravine_bottom",
+    "terrains": [ "ravine_bottom_forest" ]
+  }
+]
