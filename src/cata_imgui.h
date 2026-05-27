@@ -159,6 +159,7 @@ class window
 
     protected:
         bool force_to_back = false;
+        bool hide_ui = false;
         bool is_open;
         std::string id;
         int window_flags;
@@ -166,6 +167,7 @@ class window
         virtual bounds get_bounds();
         virtual void draw_controls() = 0;
         void draw_filter( const input_context &ctxt, bool filtering_active );
+        void hide_if_hidden() const;
 };
 
 #ifdef TUI
