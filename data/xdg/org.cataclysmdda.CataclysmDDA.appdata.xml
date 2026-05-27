@@ -87,6 +87,14 @@
     <name>Kevin Granade and Contributors</name>
   </developer>
   <releases>
+    <release version="0.I Ito" date="TODO">
+      <description>
+        <p>
+          TODO
+        </p>
+      </description>
+      <url type="details">https://raw.githubusercontent.com/CleverRaven/Cataclysm-DDA/refs/heads/0.I-branch/data/changelog.txt</url>
+    </release>
     <release version="0.H" date="2024-07-22">
       <description>
         <p>
