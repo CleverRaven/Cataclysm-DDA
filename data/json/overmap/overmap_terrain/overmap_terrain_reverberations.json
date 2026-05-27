@@ -241,6 +241,11 @@
     "see_cost": "all_clear"
   },
   {
+    "type": "overmap_location",
+    "id": "scarlet_sea_reverberation",
+    "terrains": [ "scarlet_sea_reverberation" ]
+  },
+  {
     "type": "overmap_terrain",
     "id": [ "scarlet_scrap_metal_spire" ],
     "flags": [ "NO_ROTATE" ],

@@ -1162,5 +1162,31 @@
       { "u_teleport": { "context_val": "player_teleport_loc" }, "fail_message": "Nope!", "force": true },
       { "clear_dimension": "netherum_labyrinth2" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_to_scarlet_portal",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
+    "effect": [
+      { "u_add_var": "stuck_in_labyrinth", "value": "yes" },
+      { "u_add_var": "player_location_temp_labyrinth_return_dimension", "value": "netherum_labyrinth2" },
+      {
+        "u_travel_to_dimension": "scarlet",
+        "npc_travel_radius": 0,
+        "region_type": "scarlet",
+        "npc_travel_filter": "none",
+        "fail_message": "You feel a prickle at the edge of your senses.",
+        "success_message": "You experience brief vertigo."
+      },
+      {
+        "u_location_variable": { "context_val": "scarlet_archway" },
+        "target_params": { "om_terrain": "scarlet_scrap_metal_spire", "om_special": "scarlet_scrap_metal_spire" },
+        "terrain": "t_nl_archway",
+        "target_max_radius": 100
+      },
+      { "u_teleport": { "context_val": "scarlet_archway" } },
+      { "clear_dimension": "netherum_labyrinth2" }
+    ],
+    "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
   }
 ]

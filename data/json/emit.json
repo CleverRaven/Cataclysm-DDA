@@ -487,5 +487,12 @@
     "field": "fd_scarlet_sea_wave",
     "intensity": 3,
     "qty": 4
+  },
+  {
+    "id": "emit_scarlet_sea_gas",
+    "type": "emit",
+    "field": "fd_scarlet_sea_gas",
+    "intensity": 3,
+    "qty": 4
   }
 ]

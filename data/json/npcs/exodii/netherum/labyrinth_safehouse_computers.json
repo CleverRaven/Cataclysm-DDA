@@ -100,7 +100,7 @@
         "topic": "COMP_labyrinthine_safehouse_computer_stuck_in_labyrinth_help"
       },
       {
-        "text": "<color_red>Activate exit protocol:</color><color_light_red> Scarlet Sea °º¤ø,¸¸,ø¤º°`°º¤ø,¸",
+        "text": "<color_red>Activate exit protocol: Scarlet Sea",
         "condition": { "and": [ { "compare_string": [ "yes", { "u_val": "traveled_scarlet_to_labyrinth" } ] } ] },
         "effect": { "run_eocs": "EOC_LS_scarlet_Exit_labyrinth" },
         "topic": "TALK_DONE"
