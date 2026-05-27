@@ -36,5 +36,43 @@
     "type": "terrain",
     "name": "airlock controls",
     "description": "Airlock controls."
+  },
+  {
+    "id": "t_contraband_scanner",
+    "type": "terrain",
+    "name": "contraband scanner",
+    "description": "An advanced device capable of scanning objects passing through it for contraband, often compared to the metal detectors of old.  This one is still functioning and might trigger an alarm.",
+    "symbol": "M",
+    "color": "light_blue",
+    "trap": "tr_contraband_scanner",
+    "max_volume": "800 L",
+    "move_cost": 2,
+    "flags": [ "INDOORS", "PERMEABLE", "THIN_OBSTACLE", "TRANSPARENT" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 55,
+      "ter_set": "t_concrete_light",
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 1, 6 ] },
+        { "item": "plastic_chunk", "count": [ 4, 8 ] },
+        { "item": "cable", "count": [ 2, 6 ] },
+        { "item": "e_scrap", "count": [ 8, 12 ] }
+      ]
+    }
+  },
+  {
+    "id": "t_central_elevator",
+    "copy-from": "t_elevator",
+    "type": "terrain",
+    "name": "central elevator"
+  },
+  {
+    "id": "t_central_elevator_closed",
+    "copy-from": "t_elevator",
+    "type": "terrain",
+    "name": "closed central elevator hatch",
+    "delete": { "flags": [ "ELEVATOR" ] }
   }
 ]

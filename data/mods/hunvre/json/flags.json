@@ -1,0 +1,7 @@
+[
+  {
+    "id": "CONTRABAND",
+    "type": "json_flag",
+    "info": "Items with this flag are treated as contraband by the contraband scanner."
+  }
+]
