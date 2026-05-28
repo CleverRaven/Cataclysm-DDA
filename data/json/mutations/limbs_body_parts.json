@@ -17,7 +17,7 @@
     "main_part": "head_dragonfly",
     "connected_to": "head_dragonfly",
     "opposite_part": "head_dragonfly",
-    "limb_scores": [ [ "reaction", 0.9 ] ],
+    "limb_scores": [ [ "reaction", 0.9 ], [ "balance", 0.4 ] ],
     "encumbrance_threshold": 0,
     "encumbrance_limit": 75,
     "base_hp": 50,
