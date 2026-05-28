@@ -224,7 +224,7 @@
         "                        ",
         "                  #**   ",
         "                   .*** ",
-        "                  +...* ",
+        "                  +.H&* ",
         "                   .### ",
         "                  ###   ",
         "                        ",
@@ -247,7 +247,8 @@
       ],
       "flags": [ "NO_UNDERLYING_ROTATE", "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "labyrinthine_safehouse_palette" ],
-      "terrain": { "A": "t_nl_obelisk_mission_autodoc" }
+      "terrain": { "H": "t_nl_metal_floor", "&": "t_nl_metal_floor" },
+      "furniture": { "H": "f_nl_autodoc_couch", "&": "f_nl_autodoc" }
     }
   },
   {
@@ -259,7 +260,7 @@
         "                   *    ",
         "                  |**   ",
         "                  |.*** ",
-        "                  +...* ",
+        "                  +.H&* ",
         "                   .### ",
         "                  ###   ",
         "                        ",
@@ -282,7 +283,8 @@
       ],
       "flags": [ "NO_UNDERLYING_ROTATE", "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "labyrinthine_safehouse_palette" ],
-      "terrain": { "A": "t_nl_obelisk_mission_autodoc" }
+      "terrain": { "H": "t_nl_metal_floor", "&": "t_nl_metal_floor" },
+      "furniture": { "H": "f_nl_autodoc_couch", "&": "f_nl_autodoc" }
     }
   },
   {

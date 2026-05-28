@@ -1080,7 +1080,7 @@
         "if": {
           "and": [
             { "math": [ "has_var(u_safehouse_living_space_1_deposited_bandage)" ] },
-            { "math": [ "has_var(u_safehouse_living_space_1_deposited_methanol)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_disinfectant)" ] },
             { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_robo_surg_app)" ] },
             { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_surg_int_unit)" ] }
           ]
@@ -1097,16 +1097,16 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_LS_SAFEHOUSE_AUTODOC_OBELISK_METHANOL",
-    "condition": { "and": [ { "u_has_items": { "item": "chem_methanol", "count": 40 } }, { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_methanol)" ] } } ] },
+    "id": "EOC_LS_SAFEHOUSE_AUTODOC_OBELISK_DISINFECTANT",
+    "condition": { "and": [ { "u_has_items": { "item": "disinfectant", "count": 40 } }, { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_disinfectant)" ] } } ] },
     "effect": [
-      { "u_consume_item": "chem_methanol", "count": 40 },
-      { "u_add_var": "safehouse_living_space_1_deposited_methanol", "value": "yes" },
+      { "u_consume_item": "disinfectant", "count": 40 },
+      { "u_add_var": "safehouse_living_space_1_deposited_disinfectant", "value": "yes" },
       {
         "if": {
           "and": [
             { "math": [ "has_var(u_safehouse_living_space_1_deposited_bandage)" ] },
-            { "math": [ "has_var(u_safehouse_living_space_1_deposited_methanol)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_disinfectant)" ] },
             { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_robo_surg_app)" ] },
             { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_surg_int_unit)" ] }
           ]
@@ -1132,7 +1132,7 @@
         "if": {
           "and": [
             { "math": [ "has_var(u_safehouse_living_space_1_deposited_bandage)" ] },
-            { "math": [ "has_var(u_safehouse_living_space_1_deposited_methanol)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_disinfectant)" ] },
             { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_robo_surg_app)" ] },
             { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_surg_int_unit)" ] }
           ]
@@ -1158,7 +1158,7 @@
         "if": {
           "and": [
             { "math": [ "has_var(u_safehouse_living_space_1_deposited_bandage)" ] },
-            { "math": [ "has_var(u_safehouse_living_space_1_deposited_methanol)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_disinfectant)" ] },
             { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_robo_surg_app)" ] },
             { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_surg_int_unit)" ] }
           ]
