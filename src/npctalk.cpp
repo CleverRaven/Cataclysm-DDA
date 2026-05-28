@@ -5909,17 +5909,15 @@ int mortar_ammo_count( const npc &gunner, const itype_id &ammo_id )
 std::optional<itype_id> stored_selected_mortar_ammo( const npc &gunner )
 {
     const diag_value selected = gunner.get_value( "mortar_selected_ammo" );
-    const itype_id ammo_id( selected.str() );
-    if( !ammo_id.is_valid() ) {
+    if( selected.is_empty() ) {
         return std::nullopt;
     }
-    return ammo_id;
-}
-
-std::optional<itype_id> selected_mortar_ammo( const npc &gunner )
-{
-    const std::optional<itype_id> ammo_id = stored_selected_mortar_ammo( gunner );
-    if( !ammo_id || mortar_ammo_count( gunner, *ammo_id ) <= 0 ) {
+    const std::string selected_ammo = selected.str();
+    if( selected_ammo.empty() ) {
+        return std::nullopt;
+    }
+    const itype_id ammo_id( selected_ammo );
+    if( !ammo_id.is_valid() ) {
         return std::nullopt;
     }
     return ammo_id;
@@ -5938,7 +5936,10 @@ std::vector<std::string> mortar_ammo_types( const npc &gunner )
         return result;
     }
     for( const diag_value &ammo_type : stored_types.array() ) {
-        result.emplace_back( ammo_type.str() );
+        const std::string ammo_id = ammo_type.str();
+        if( !ammo_id.empty() ) {
+            result.emplace_back( ammo_id );
+        }
     }
     return result;
 }
@@ -6082,6 +6083,7 @@ int take_back_mortar_rounds( npc &gunner, const mortar_type &mortar )
     }
 
     const itype_id ammo_id = ammo_types[menu.ret];
+    const std::optional<itype_id> selected = stored_selected_mortar_ammo( gunner );
     const int count = mortar_ammo_count( gunner, ammo_id );
     if( count <= 0 ) {
         return 0;
@@ -6090,8 +6092,7 @@ int take_back_mortar_rounds( npc &gunner, const mortar_type &mortar )
     item returned( ammo_id, calendar::turn, count );
     you.i_add_or_drop( returned );
     set_mortar_ammo_count( gunner, ammo_id, 0 );
-    if( const std::optional<itype_id> selected = selected_mortar_ammo( gunner );
-        selected && *selected == ammo_id ) {
+    if( selected && *selected == ammo_id ) {
         gunner.remove_value( "mortar_selected_ammo" );
     }
     return count;
@@ -6217,7 +6218,11 @@ std::optional<assigned_mortar> get_assigned_mortar( const npc &gunner )
     if( assignment.is_empty() ) {
         return std::nullopt;
     }
-    const mortar_type_id mortar_id( assignment.str() );
+    const std::string mortar_type = assignment.str();
+    if( mortar_type.empty() ) {
+        return std::nullopt;
+    }
+    const mortar_type_id mortar_id( mortar_type );
     const diag_value assignment_pos = gunner.get_value( "mortar_assignment_pos" );
     if( !mortar_id.is_valid() || assignment_pos.is_empty() ) {
         return std::nullopt;
@@ -6649,7 +6654,7 @@ void select_mortar_ammo_impl( npc &gunner )
         return;
     }
 
-    const std::optional<itype_id> selected = selected_mortar_ammo( gunner );
+    const std::optional<itype_id> selected = stored_selected_mortar_ammo( gunner );
     uilist menu;
     menu.text = _( "Select mortar ammunition." );
     for( size_t i = 0; i < ammo_types.size(); ++i ) {

@@ -33,6 +33,7 @@
 #include "memorial_logger.h"
 #include "messages.h"
 #include "monster.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
 #include "text_snippets.h"

@@ -43,7 +43,6 @@
 #include "point.h"
 #include "ret_val.h"
 #include "rng.h"
-#include "skill.h"
 #include "string_formatter.h"
 #include "talker.h"
 #include "timed_event.h"
