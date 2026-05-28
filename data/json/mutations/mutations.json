@@ -5974,14 +5974,15 @@
     "type": "mutation",
     "id": "COMPOUND_EYES",
     "name": { "str": "Compound Eyes" },
-    "description": "Your eyes are compound, like those of an insect.  This increases your Perception by 2 whenever you aren't wearing eyewear.",
+    "description": "Your eyes are compound, like those of an insect.  This increases your reaction time, but your fine detailed vision isn't as acute.",
     "category": [ "INSECT" ],
     "types": [ "EYES" ],
     "prereqs": [ "EYEBULGE" ],
     "points": 2,
     "vitamin_cost": 160,
     "visibility": 9,
-    "ugliness": 5
+    "ugliness": 5,
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_compound" } ] } ]
   },
   {
     "type": "mutation",
