@@ -5982,7 +5982,14 @@
     "vitamin_cost": 160,
     "visibility": 9,
     "ugliness": 5,
-    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_compound" } ] } ]
+    "restricts_gear": [ "eyes" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "BONUS_DODGE", "add": 1 } ],
+        "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_compound" } ]
+      }
+    ]
   },
   {
     "type": "mutation",
