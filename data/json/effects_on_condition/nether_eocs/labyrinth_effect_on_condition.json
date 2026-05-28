@@ -500,8 +500,17 @@
     "type": "effect_on_condition",
     "id": "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE",
     "effect": [
-      { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
-      { "mapgen_update": "labyrinth_safehouse_utility_space", "target_var": { "global_val": "LS_SAFEHOUSE_1" } },
+      {
+        "if": { "math": [ "nl_autodoc_placed == 1" ] },
+        "then": [
+          { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
+          { "mapgen_update": "labyrinth_safehouse_utility_space_if_autodoc_first", "target_var": { "global_val": "LS_SAFEHOUSE_1" } }
+        ],
+        "else":[
+          { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
+          { "mapgen_update": "labyrinth_safehouse_utility_space", "target_var": { "global_val": "LS_SAFEHOUSE_1" } }
+        ]
+      },
       { "math": [ "nl_utility_space_placed = 1" ] }
     ]
   },
@@ -515,6 +524,36 @@
         "target_var": { "global_val": "LS_SAFEHOUSE_1" }
       },
       { "math": [ "nl_utility_space_obelisk_placed = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_UPDATE_AUTODOC_OBELISK",
+    "effect": [
+      { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
+      {
+        "mapgen_update": "labyrinth_safehouse_autodoc_obelisk",
+        "target_var": { "global_val": "LS_SAFEHOUSE_1" }
+      },
+      { "math": [ "nl_autodoc_obelisk_placed = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_UPDATE_AUTODOC",
+    "effect": [
+      {
+        "if": { "math": [ "nl_utility_space_placed == 1" ] },
+        "then": [
+          { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
+          { "mapgen_update": "labyrinth_safehouse_autodoc_if_utility_first", "target_var": { "global_val": "LS_SAFEHOUSE_1" } }
+        ],
+        "else":[
+          { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
+          { "mapgen_update": "labyrinth_safehouse_autodoc", "target_var": { "global_val": "LS_SAFEHOUSE_1" } }
+        ]
+      },
+      { "math": [ "nl_autodoc_placed = 1" ] }
     ]
   },
   {
@@ -1026,6 +1065,110 @@
             "popup": true
           },
           { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_LIVING_SPACE_1" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_AUTODOC_OBELISK_BANDAGE",
+    "condition": { "and": [ { "u_has_item": "bandages" }, { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_bandage)" ] } } ] },
+    "effect": [
+      { "u_consume_item": "bandages" },
+      { "u_add_var": "safehouse_living_space_1_deposited_bandage", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_bandage)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_methanol)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_robo_surg_app)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_surg_int_unit)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize themselves into an opening.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_AUTODOC" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_AUTODOC_OBELISK_METHANOL",
+    "condition": { "and": [ { "u_has_items": { "item": "chem_methanol", "count": 40 } }, { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_methanol)" ] } } ] },
+    "effect": [
+      { "u_consume_item": "chem_methanol", "count": 40 },
+      { "u_add_var": "safehouse_living_space_1_deposited_methanol", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_bandage)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_methanol)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_robo_surg_app)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_surg_int_unit)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize themselves into an opening.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_AUTODOC" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_AUTODOC_OBELISK_ROBOTIC_SURGICAL_APPARATUS",
+    "condition": { "and": [ { "u_has_item": "nl_robo_surg_app" }, { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_robo_surg_app)" ] } } ] },
+    "effect": [
+      { "u_consume_item": "nl_robo_surg_app" },
+      { "u_add_var": "safehouse_living_space_1_deposited_nl_robo_surg_app", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_bandage)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_methanol)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_robo_surg_app)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_surg_int_unit)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize themselves into an opening.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_AUTODOC" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_AUTODOC_OBELISK_SURGICAL_INTELLIGENCE_UNIT",
+    "condition": { "and": [ { "u_has_item": "nl_surg_int_unit" }, { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_surg_int_unit)" ] } } ] },
+    "effect": [
+      { "u_consume_item": "nl_surg_int_unit" },
+      { "u_add_var": "safehouse_living_space_1_deposited_nl_surg_int_unit", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_bandage)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_methanol)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_robo_surg_app)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_surg_int_unit)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize themselves into an opening.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_AUTODOC" ] }
         ]
       }
     ]

@@ -1528,6 +1528,54 @@
     ]
   },
   {
+    "result": "broken_nl_surgicalbot_1_1",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "2 h 30 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "nl_surg_int_unit", 1 ] ],
+      [ [ "nl_robo_surg_app", 1 ] ],
+      [ [ "android_chassis", 1 ] ],
+      [ [ "android_arms", 4 ] ],
+      [ [ "medium_storage_battery", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_nl_surgicalbot_assist",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "2 h 30 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "nl_surg_int_unit", 1 ] ],
+      [ [ "nl_robo_surg_app", 1 ] ],
+      [ [ "android_chassis", 1 ] ],
+      [ [ "android_arms", 4 ] ],
+      [ [ "medium_storage_battery", 1 ] ]
+    ]
+  },
+  {
+    "result": "bot_nl_surgicalbot",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "2 h 30 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "nl_surg_int_unit", 1 ] ],
+      [ [ "nl_robo_surg_app", 1 ] ],
+      [ [ "android_chassis", 1 ] ],
+      [ [ "android_arms", 4 ] ],
+      [ [ "medium_storage_battery", 1 ] ]
+    ]
+  },
+  {
     "result": "broken_grocerybot",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
