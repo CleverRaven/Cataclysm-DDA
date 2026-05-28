@@ -94,7 +94,7 @@
     "color": "red",
     "light_color": [ 110, 0, 0 ],
     "light_emitted": 30,
-    "description": "Red lamp on rods protruding from the ground. Hard to directly look at without eye protection.",
+    "description": "A red lamp on rods protruding from the ground.  Hard to directly look at without eye protection.",
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_water_sh_scarlet",
