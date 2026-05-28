@@ -334,7 +334,7 @@
   {
     "type": "terrain",
     "id": "t_nl_archway",
-    "name": "mysterious open door",
+    "name": "mysterious archway",
     "looks_like": "t_nl_door_o",
     "description": "A heavy metal archway, etched with alien symbols.",
     "symbol": "/",
@@ -343,6 +343,20 @@
     "coverage": 20,
     "roof": "t_nl_roof",
     "flags": [ "CONNECT_WITH_WALL", "SUPPORTS_ROOF", "TRANSPARENT", "FLAT", "ROAD" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_archway_scarlet",
+    "name": "mysterious archway",
+    "looks_like": "t_nl_door_o",
+    "description": "A heavy metal archway, etched with alien symbols.",
+    "symbol": "/",
+    "color": "blue",
+    "move_cost": 2,
+    "coverage": 20,
+    "roof": "t_nl_roof",
+    "flags": [ "CONNECT_WITH_WALL", "SUPPORTS_ROOF", "TRANSPARENT", "FLAT", "ROAD" ],
+    "emissions": [ "emit_scarlet_sea_gas" ]
   },
   {
     "type": "terrain",

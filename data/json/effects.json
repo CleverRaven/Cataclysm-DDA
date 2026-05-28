@@ -5772,5 +5772,34 @@
       }
     ],
     "show_in_info": true
+  },
+  {
+    "id": "effect_scarlet_atmopshere",
+    "type": "effect_type",
+    "//": "A nitrogen-rich atmosphere with trace amounts of Bromine, Phosgene, and Nitrogen dioxide.  Insidious killer.",
+    "name": [ "Scarlet Atmosphere" ],
+    "desc": [ "You've been breathing in an alien atmosphere.  Breathing is difficult." ],
+    "remove_message": "Your head clears.",
+    "rating": "bad",
+    "blood_analysis_description": "Trace: HNO3, HNO2, HBr, HBrO",
+    "max_intensity": 125,
+    "max_effective_intensity": 100,
+    "max_duration": 18000,
+    "int_dur_factor": 144,
+    "dur_add_perc": 500,
+    "harmful_cough": true,
+    "base_mods": {
+      "stamina_amount": [ -200 ],
+      "stamina_min": [ -100 ],
+      "stamina_chance": [ 10 ],
+      "health_min": [ -1 ],
+      "health_chance": [ 300 ],
+      "cough_chance": [ 150 ],
+      "hurt_min": [ 1 ],
+      "hurt_chance": [ 450 ]
+    },
+    "scaling_mods": { "stamina_min": [ -1 ], "stamina_amount": [ -2 ], "stamina_chance": [ 0 ], "hurt_min": [ 0.0125 ] },
+    "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.8 }, { "limb_score": "reaction", "modifier": 0.8 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   }
 ]
