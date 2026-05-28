@@ -72,5 +72,17 @@
     "id": "ravine_bottom_forest",
     "name": "ravine floor",
     "copy-from": "forest"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pond_ravine_bottom",
+    "name": "pond",
+    "copy-from": "pond_field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hot_springs_ravine_bottom",
+    "name": "hot spring",
+    "copy-from": "hot_springs"
   }
 ]
