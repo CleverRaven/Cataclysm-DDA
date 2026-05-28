@@ -30,7 +30,7 @@
     "color": "dark_gray",
     "name": { "str": "broken surgical bonebot" },
     "category": "other",
-    "description": "A broken surgical bonebot. Could be gutted for parts.",
+    "description": "A broken surgical bonebot.  Could be gutted for parts.",
     "price": "0 USD",
     "price_postapoc": "0 USD",
     "material": [ "cyber_bone" ],
