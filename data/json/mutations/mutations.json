@@ -5508,7 +5508,7 @@
     "type": "mutation",
     "id": "LONG_TONGUE2",
     "name": { "str": "Whipping Tongue" },
-    "description": "You've developed an extremely long and mobile tongue.  You may use it to attack your enemies and pull them towards you.",
+    "description": "You've developed an extremely long and mobile tongue.  You may use it to pull your enemies towards you.",
     "category": [ "BATRACHIAN" ],
     "types": [ "TONGUE" ],
     "threshreq": [ "THRESH_BATRACHIAN" ],
@@ -5516,15 +5516,7 @@
     "points": 3,
     "active": true,
     "vitamin_cost": 160,
-    "visibility": 1,
-    "attacks": {
-      "attack_text_u": "You swipe %s with your tongue!",
-      "attack_text_npc": "%1$s swipes %2$s with their tongue!",
-      "body_part": "mouth",
-      "chance": 15,
-      "base_damage": { "damage_type": "bash", "amount": 15 },
-      "strength_damage": { "damage_type": "bash", "amount": 2 }
-    }
+    "visibility": 1
   },
   {
     "type": "mutation",
