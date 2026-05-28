@@ -15,8 +15,8 @@
     "use_action": {
       "type": "place_monster",
       "monster_id": "mon_nl_surgicalbot_assist",
-      "friendly_msg": "The boneborg slowly rises to its full height, each movement accompanied by the sound of snapping sinew.",
-      "hostile_msg": "The boneborg slowly rises to its full height, each movement accompanied by the sound of snapping sinew.",
+      "friendly_msg": "The bonebot slowly rises to its full height, each movement accompanied by the sound of snapping sinew.",
+      "hostile_msg": "The bonebot slowly rises to its full height, each movement accompanied by the sound of snapping sinew.",
       "difficulty": 9,
       "moves": 150,
       "skills": [ "electronics", "computer" ]
