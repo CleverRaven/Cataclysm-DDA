@@ -738,6 +738,7 @@ void keybindings_ui::draw_controls()
     ImGui::Separator();
 
     if( last_status != status && status == kb_menu_status::show ) {
+        defocus_filter();
         ImGui::SetNextWindowFocus();
     }
     if( ImGui::BeginTable( "KB_KEYS", 4, ImGuiTableFlags_ScrollY ) ) {
@@ -1080,10 +1081,8 @@ action_id input_context::display_menu( bool permit_execute_action )
             if( action == "QUIT" ) {
                 kb_menu.clear_filter();
                 kb_menu.status = kb_menu_status::show;
-                kb_menu.defocus_filter();
             } else if( action == "TEXT.CONFIRM" ) {
                 kb_menu.status = kb_menu_status::show;
-                kb_menu.defocus_filter();
             }
         } else if( action == "ADD_LOCAL"
                    || raw_input_char == fallback_keys.at( fallback_action::add_local ) ) {
