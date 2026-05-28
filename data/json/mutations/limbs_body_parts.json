@@ -165,8 +165,7 @@
     "hit_size": 7,
     "ugliness": 8,
     "drench_capacity": 5,
-    "drying_chance": 60,
-    "drying_increment": 3,
+    "drying_rate": 0.4,
     "limb_scores": [ [ "vision", 0.65 ], [ "night_vis", 0.8 ], [ "reaction", 1.0 ] ],
     "sub_parts": [ "eyes_compound_left", "eyes_compound_right" ],
     "flags": [ "IGNORE_TEMP", "SEESLEEP", "LIMB_UPPER" ]
