@@ -2473,12 +2473,6 @@
     "warmth": 0,
     "environmental_protection": 16,
     "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL" ],
-    "armor": [
-      {
-        "covers": [ "mouth" ],
-        "coverage": 100,
-        "encumbrance": 0
-      }
-    ]
+    "armor": [ { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 0 } ]
   }
 ]
