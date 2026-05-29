@@ -515,7 +515,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_nl_metal_wall_edge",
+    "id": "t_nl_metal_wall_border",
     "name": "metallic wall",
     "copy-from": "t_nl_metal_wall",
     "description": "A durable wall of ordinary looking sheet metal, at first.  Staring closer, the welds and joins seem to form strange fractal patterns.",
