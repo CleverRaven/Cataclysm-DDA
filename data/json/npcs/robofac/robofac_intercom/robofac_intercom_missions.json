@@ -1843,7 +1843,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_MWS_1",
     "type": "mission_definition",
     "name": { "str": "Weather Permitting" },
-    "description": "Assemble and <color_yellow>activate the 1-hour recording subroutine</color> on a <color_yellow>a mobile weather station</color> during an <color_yellow>early</color>, <color_yellow>distant</color>, or <color_yellow>close portal storm</color>.  After 1 hour the station will print some sort of <color_yellow>strange weather datasheet</color> to return to Hub 01.",
+    "description": "Assemble and <color_yellow>activate the 1-hour recording subroutine</color> on a <color_yellow>mobile weather station</color> during an <color_yellow>early</color>, <color_yellow>distant</color>, or <color_yellow>close portal storm</color>.  After 1 hour the station will print some sort of <color_yellow>strange weather datasheet</color> to return to Hub 01.",
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,
