@@ -11,11 +11,11 @@
 #include "coordinates.h"
 #include "cursesdef.h"
 #include "input_context.h"
+#include "input_popup.h"
 #include "output.h"
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "ui_helpers.h"
 #include "ui_manager.h"
@@ -38,11 +38,9 @@ void minesweeper_game::new_level()
                 iVal = iMin;
             }
 
-            string_input_popup()
-            .title( sType )
-            .width( 5 )
-            .description( desc )
-            .edit( iVal );
+            number_input_popup<int> popup( 0, iVal, sType );
+            popup.set_description( desc );
+            iVal = popup.query();
         } while( iVal < iMin || iVal > iMax );
     };
 
