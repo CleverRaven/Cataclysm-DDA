@@ -18,6 +18,7 @@
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_lazy.h"
 #include "character_id.h"
 #include "compatibility.h"
 #include "coordinates.h"
@@ -28,6 +29,7 @@
 #include "global_vars.h"
 #include "math_parser_diag_value.h"
 #include "pimpl.h"
+#include "safe_reference.h"
 #include "string_formatter.h"
 #include "translation.h"
 #include "type_id.h"
@@ -807,6 +809,7 @@ class Creature : public viewer
 
         /** The creature's position in absolute coordinates */
         tripoint_abs_ms location;
+        lazy<safe_reference_anchor> anchor;
     protected:
         // Sets the creature's position without any side-effects.
         void set_pos_bub_only( const map &here, const tripoint_bub_ms &p );
@@ -814,6 +817,7 @@ class Creature : public viewer
     public:
         // Sets the creature's position without any side-effects.
         void set_pos_abs_only( const tripoint_abs_ms &loc );
+        safe_reference<Creature> get_safe_reference();
     protected:
         // Invoked when the creature's position changes.
         virtual void on_move( const tripoint_abs_ms &old_pos );
