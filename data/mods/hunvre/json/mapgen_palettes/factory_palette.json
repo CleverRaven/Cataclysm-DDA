@@ -14,6 +14,8 @@
       "=": "t_door_metal_locked",
       "a": "t_wall_metal_shipping_container",
       "b": "t_metal_floor",
+      "C": "t_elevator_control_no_roof",
+      "D": "t_support_l",
       "T": "t_chainfence",
       "y": "t_concrete_ramp_down_high",
       "Y": "t_concrete_ramp_down_low",
@@ -23,8 +25,25 @@
       ".": "t_railroad_rubble",
       "_": "t_sidewalk",
       "#": "t_concrete_wall",
+      "^": "t_carpet_red",
       "0": "t_open_air"
-    }
+    },
+    "furniture": {
+      "c": "f_bench",
+      "d": "f_locker",
+      "e": "f_sink",
+      "f": "f_counter",
+      "g": "f_counter_gate_c",
+      "h": "f_armchair",
+      "k": "f_coffee_table",
+      "l": "f_table"
+    },
+    "toilets": { "x": {  } },
+    "vehicles": {
+      "Ú": { "chance": 80, "vehicle": "forklift_diesel", "rotation": 90 },
+      "Ù": { "chance": 80, "vehicle": "forklift", "rotation": 270 }
+    },
+    "items": { "E": [ { "item": "SUS_trash_floor", "chance": 25, "repeat": 2 } ] }
   },
   {
     "type": "palette",
