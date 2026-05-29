@@ -83,5 +83,66 @@
     "item": "nl_safehouse_boiler",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "nl_safehouse_boiler" },
     "bash": { "str_min": 14, "str_max": 30, "sound": "metal screeching!", "sound_fail": "clang!" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_nl_autodoc",
+    "name": "twitchy medical robot",
+    "symbol": "&",
+    "description": "A lanky set of robotic limbs armed with surgical devices and construction tools.  The arms protrude from a barrel-like base, mounted upon small casters.  Even when idle, it moves like an insect grooming its antennae.  The scalpel is stropped against another arm.  The over-articulated grasper picks at the other tools.  The circular saw silently rotates, as if it were itself scanning the surroundings.  Embedded in the side of the device is a bulbous computer terminal, displaying several options, from standard medical services to advanced bionic surgery.",
+    "color": "light_cyan",
+    "move_cost_mod": -1,
+    "coverage": 35,
+    "required_str": 2,
+    "flags": [ "TRANSPARENT", "AUTODOC", "CONTAINER", "NO_PICKUP_ON_EXAMINE" ],
+    "examine_action": "autodoc",
+    "surgery_skill_multiplier": 1.0,
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "processor", "prob": 25 },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_nl_autodoc_couch",
+    "name": "operation table",
+    "symbol": "H",
+    "description": "A hard metal table on wheels, with several auxiliary medical devices of unknown origin.  Several screens dangle from the edge, black in their idle state, but with several burned-in lines, as if it had seen continuous service for many years.",
+    "bgcolor": "light_gray",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "comfort": 1,
+    "floor_bedding_warmth": 500,
+    "required_str": 2,
+    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "MOUNTABLE", "AUTODOC_COUCH" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "sheet_metal", "count": [ 2, 5 ] },
+        { "item": "pipe", "count": [ 3, 8 ] },
+        { "item": "sheet_metal_small", "count": [ 1, 2 ] },
+        { "item": "pipe_fittings", "count": [ 3, 4 ] },
+        { "item": "e_scrap", "count": [ 3, 4 ] }
+      ],
+      "destroyed_field": [ "fd_mechanical_fluid", 1 ]
+    }
   }
 ]

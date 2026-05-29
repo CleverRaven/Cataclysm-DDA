@@ -158,6 +158,11 @@
         "topic": "COMP_labyrinthine_safehouse_missions_boiler"
       },
       {
+        "text": "[Update BIONIC POWER available]",
+        "condition": { "and": [ { "math": [ "nl_autodoc_obelisk_placed != 1" ] }, { "math": [ "nl_boiler_placed == 1" ] } ] },
+        "topic": "COMP_labyrinthine_safehouse_missions_autodoc"
+      },
+      {
         "text": "[Update HUMAN DESIRES: STORAGE available]",
         "condition": { "and": [ { "math": [ "nl_utility_space_obelisk_placed != 1" ] }, { "math": [ "nl_boiler_placed == 1" ] } ] },
         "topic": "COMP_labyrinthine_safehouse_missions_utility_space"
@@ -199,6 +204,25 @@
         "text": "Yes.",
         "effect": [
           { "run_eocs": "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE_OBELISK" },
+          {
+            "u_message": "The ground shakes for a moment, then you hear a distant, mechanical grinding.",
+            "popup": true
+          }
+        ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "No.", "topic": "COMP_labyrinthine_safehouse_computer" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_labyrinthine_safehouse_missions_autodoc",
+    "dynamic_line": "&<color_light_green> @User > update -BIONICPOWER\n\n .  .  .  .  .  .  %100\n\n Update to BIONIC PIWER available from AltarOS remote.  New dependencies required.  Download new system obelisk?  Y/N",
+    "responses": [
+      {
+        "text": "Yes.",
+        "effect": [
+          { "run_eocs": "EOC_LS_SAFEHOUSE_UPDATE_AUTODOC_OBELISK" },
           {
             "u_message": "The ground shakes for a moment, then you hear a distant, mechanical grinding.",
             "popup": true
