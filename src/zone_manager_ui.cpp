@@ -12,6 +12,7 @@
 #include "game.h"
 #include "line.h"
 #include "input_context.h"
+#include "input_popup.h"
 #include "map.h"
 #include "options.h"
 #include "output.h"
@@ -19,7 +20,6 @@
 #include "panels.h"
 #include "popup.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "uilist.h"
 #include "ui_manager.h"
@@ -620,11 +620,10 @@ void zone_manager_ui::display_zone_manager()
         } else if( action == "CHANGE_FACTION" ) {
             ui.invalidate_ui();
             std::string facname = zones_faction.str();
-            string_input_popup()
-            .description( _( "Show zones for faction:" ) )
-            .width( 55 )
-            .max_length( 256 )
-            .edit( facname );
+            string_input_popup_imgui popup( 55, facname );
+            popup.set_description( _( "Show zones for faction:" ) );
+            popup.set_max_input_length( 256 );
+            facname = popup.query();
             zones_faction = faction_id( facname );
             zones = get_zones();
         } else if( action == "QUIT" ) {
