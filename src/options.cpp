@@ -33,7 +33,6 @@
 #include "sdlsound.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "system_locale.h"
 #include "translations.h"
 #include "try_parse_integer.h"
@@ -972,11 +971,11 @@ void options_manager::cOpt::setNext()
 
     } else if( sType == "string_input" ) {
         int iMenuTextLength = utf8_width( sMenuText.translated() );
-        string_input_popup()
-        .width( iMaxLength > 80 ? 80 : iMaxLength < iMenuTextLength ? iMenuTextLength : iMaxLength + 1 )
-        .title( sMenuText.translated() )
-        .max_length( iMaxLength )
-        .edit( sSet );
+        string_input_popup_imgui popup(
+            iMaxLength > 80 ? 80 : iMaxLength < iMenuTextLength ? iMenuTextLength : iMaxLength + 1,
+            sSet, sMenuText.translated() );
+        popup.set_max_input_length( iMaxLength );
+        sSet = popup.query();
 
     } else if( sType == "bool" ) {
         bSet = !bSet;

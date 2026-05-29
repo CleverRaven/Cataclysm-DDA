@@ -195,7 +195,6 @@
 #include "start_location.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "surroundings_menu.h"
 #include "talker.h"
 #include "text_snippets.h"
