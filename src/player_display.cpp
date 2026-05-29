@@ -35,6 +35,7 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "input_context.h"
+#include "input_popup.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -48,7 +49,6 @@
 #include "skill.h"
 #include "skill_ui.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
@@ -1148,13 +1148,10 @@ static void on_customize_character( Character &you )
         popup( _( "Gender set to %s." ), you.male ? _( "Male" ) : _( "Female" ) );
     } else if( cmenu.ret == 2 ) {
         std::string filterstring = you.play_name.value_or( std::string() );
-        string_input_popup popup;
-        popup
-        .title( _( "New name ( leave empty to reset ):" ) )
-        .width( 85 )
-        .max_length( NAME_CHARACTER_LIMIT )
-        .edit( filterstring );
-        if( popup.confirmed() ) {
+        string_input_popup_imgui popup( 85, filterstring, _( "New name ( leave empty to reset ):" ) );
+        popup.set_max_input_length( NAME_CHARACTER_LIMIT );
+        filterstring = popup.query();
+        if( !popup.cancelled() ) {
             if( filterstring.empty() ) {
                 you.play_name.reset();
             } else {
@@ -1413,14 +1410,9 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
                 break;
         }
     } else if( action == "CHANGE_PROFESSION_NAME" ) {
-        string_input_popup popup;
-        popup.title( _( "Profession Name: " ) )
-        .width( 25 )
-        .text( "" )
-        .max_length( 25 )
-        .query();
-
-        you.custom_profession = popup.text();
+        string_input_popup_imgui popup( 25, "", _( "Profession Name: " ) );
+        popup.set_max_input_length( 25 );
+        you.custom_profession = popup.query();
         ui_tip.invalidate_ui();
     } else if( action == "VIEW_PROFICIENCIES" ) {
         show_proficiencies_window( you );
