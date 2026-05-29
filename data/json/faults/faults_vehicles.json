@@ -34,6 +34,15 @@
     ]
   },
   {
+    "type": "fault_group",
+    "id": "tire_defects",
+    "group": [
+      { "fault": "fault_tire_treads", "weight": 75 },
+      { "fault": "fault_punctured_tires", "weight": 20 },
+      { "fault": "fault_flat_tire_riding_on_rims", "weight": 5 }
+    ]
+  },
+  {
     "id": "fault_engine_belt_drive",
     "type": "fault",
     "name": { "str": "Worn drive belt" },
@@ -132,14 +141,28 @@
     "type": "fault",
     "name": { "str": "Down to rims" },
     "//COMMENT": "INTENTIONALLY CANNOT BE REPAIRED. It must be replaced. You aren't fixing this!",
+    "fault_type": "mechanical_damage",
     "description": "This used to be an entire wheel, but now it's just rim.  Bits of shredded rubber are jutting out of the cracked rim, the result of continuing to drive with a completely flat tire.  It needs total replacement.",
     "price_modifier": 0.0,
     "//COMMENT2": "Reduced contact area, but not 0. The rim is now in contact. Making the contact area lower actually reduces the effect of low traction and high rolling resistance.",
     "contact_area_mod": 0.5,
     "rolling_resistance_mod": 30.0,
     "vehicle_move_penalty_mod": 5,
+    "block_faults": [ "fault_tire_treads", "fault_punctured_tires" ],
+    "//COMMENT3": "No rubber left to be worn/punctured. This blocks those faults",
     "item_suffix": "rim",
     "flags": [ "FLAT_TIRE" ]
+  },
+  {
+    "id": "fault_tire_treads",
+    "type": "fault",
+    "name": { "str": "Worn tire treads" },
+    "fault_type": "mechanical_damage",
+    "description": "The treads on this tire are worn down.  This cannot be repaired, and affects handling slightly.",
+    "price_modifier": 0.0,
+    "contact_area_mod": 0.85,
+    "rolling_resistance_mod": 1.05,
+    "item_suffix": "worn"
   },
   {
     "id": "fault_broken_window",

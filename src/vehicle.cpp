@@ -107,6 +107,7 @@ static const fault_id fault_broken_window( "fault_broken_window" );
 static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
 static const fault_id fault_flat_tire_riding_on_rims( "fault_flat_tire_riding_on_rims" );
 static const fault_id fault_punctured_tires( "fault_punctured_tires" );
+static const fault_id fault_tire_treads( "fault_tire_treads" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_battery( "battery" );
@@ -4434,7 +4435,7 @@ void vehicle::noise_and_smoke( map &here, int load, time_duration time )
 
 void vehicle::check_flats_do_rim_damage_or_sounds( map &here )
 {
-    if( wheelcache.empty() || velocity <= 0 ) {
+    if( wheelcache.empty() || velocity == 0 ) {
         return; // No wheels or (somehow) not moving
     }
 
@@ -5237,6 +5238,9 @@ float vehicle::steering_effectiveness( map &here ) const
         }
         if( vp.get_base().has_fault( fault_flat_tire_riding_on_rims ) ) {
             part_steer_capacity *= 0.1f;
+        }
+        if( vp.get_base().has_fault( fault_tire_treads ) ) {
+            part_steer_capacity *= 0.9f;
         }
         if( !vp.is_available() ) {
             part_steer_capacity = 0.0f;
