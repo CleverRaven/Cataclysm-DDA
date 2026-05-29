@@ -36,7 +36,10 @@
       "g": "f_counter_gate_c",
       "h": "f_armchair",
       "k": "f_coffee_table",
-      "l": "f_table"
+      "l": "f_table",
+      "m": "f_table",
+      "n": "f_filing_cabinet",
+      "o": "f_sofa"
     },
     "toilets": { "x": {  } },
     "vehicles": {
