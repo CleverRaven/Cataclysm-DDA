@@ -14,6 +14,7 @@
 #include "avatar_action.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_id.h"
 #include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
@@ -34,6 +35,7 @@
 #include "memorial_logger.h"
 #include "messages.h"
 #include "monster.h"
+#include "npc.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
@@ -101,6 +103,7 @@ static constexpr int mortar_report_mode_none = 0;
 static constexpr int mortar_report_mode_radio = 1;
 static constexpr int mortar_report_mode_shout = 2;
 static constexpr int mortar_report_lost_offset = 10;
+static constexpr int mortar_feedback_multiplier_scale = 1000000;
 
 static int mortar_impact_report_mode( const int strength )
 {
@@ -113,6 +116,47 @@ static int mortar_impact_report_mode( const int strength )
 static bool mortar_impact_shot_lost( const int strength )
 {
     return strength >= mortar_report_lost_offset;
+}
+
+static std::optional<std::pair<double, double>> parse_mortar_feedback_key(
+    const std::string_view key )
+{
+    const std::vector<std::string> parts = string_split( key, ',' );
+    if( parts.size() != 2 ) {
+        return std::nullopt;
+    }
+
+    ret_val<int> accuracy = try_parse_integer<int>( parts[0], false );
+    ret_val<int> location = try_parse_integer<int>( parts[1], false );
+    if( !accuracy.success() || !location.success() ) {
+        return std::nullopt;
+    }
+    return std::pair<double, double>(
+               clamp<double>( accuracy.value(), 0, mortar_feedback_multiplier_scale ) /
+               mortar_feedback_multiplier_scale,
+               clamp<double>( location.value(), 0, mortar_feedback_multiplier_scale ) /
+               mortar_feedback_multiplier_scale );
+}
+
+static std::optional<tripoint_abs_ms> mortar_gunner_target( const npc &gunner )
+{
+    const diag_value target = gunner.get_value( "mortar_target" );
+    if( target.is_empty() || !target.is_tripoint() ) {
+        return std::nullopt;
+    }
+    return target.tripoint();
+}
+
+static void set_mortar_last_spot_observed( npc &gunner, const bool observed )
+{
+    gunner.set_value( "mortar_last_spot_observed", observed ? 1 : 0 );
+}
+
+static double get_mortar_gunner_value( const npc &gunner, const std::string &key,
+                                       const double fallback )
+{
+    const diag_value value = gunner.get_value( key );
+    return value.is_dbl() ? value.dbl() : fallback;
 }
 
 static void add_mortar_impact_report( const int report_mode, const std::string &recipient,
@@ -428,6 +472,54 @@ void timed_event::actualize()
                                           string_format( _( "Splash %1$s, about %2$d tiles %3$s of target." ),
                                                   cue, miss_distance, miss_direction ) );
             }
+        }
+        break;
+
+        case timed_event_type::MORTAR_SPOTTING_FEEDBACK: {
+            npc *gunner = g->find_npc( character_id( faction_id ) );
+            if( gunner == nullptr ) {
+                add_msg_debug( debugmode::DF_NPC,
+                               "Mortar spotting feedback ignored: gunner id %d no longer exists.",
+                               faction_id );
+                break;
+            }
+            const std::optional<tripoint_abs_ms> current_target = mortar_gunner_target( *gunner );
+            if( !current_target || *current_target != map_square ) {
+                add_msg_debug( debugmode::DF_NPC,
+                               "Mortar spotting feedback for %s ignored: current target no longer matches.",
+                               gunner->disp_name() );
+                break;
+            }
+
+            const bool correction_reported = strength > 0;
+            set_mortar_last_spot_observed( *gunner, correction_reported );
+            if( !correction_reported ) {
+                add_msg_debug( debugmode::DF_NPC,
+                               "Mortar spotting feedback for %s: no correction reported.",
+                               gunner->disp_name() );
+                break;
+            }
+
+            const std::optional<std::pair<double, double>> multipliers =
+                parse_mortar_feedback_key( key );
+            if( !multipliers ) {
+                debugmsg( "Invalid mortar spotting feedback key: %s", key );
+                break;
+            }
+
+            const double old_accuracy = get_mortar_gunner_value( *gunner,
+                                        "mortar_current_accuracy_multiplier", 1.0 );
+            const double old_location = get_mortar_gunner_value( *gunner,
+                                        "mortar_location_error", 1.0 );
+            const double new_accuracy = std::max( 1.0, old_accuracy * multipliers->first );
+            const double new_location = std::max( 1.0, old_location * multipliers->second );
+            gunner->set_value( "mortar_current_accuracy_multiplier", new_accuracy );
+            gunner->set_value( "mortar_location_error", new_location );
+            add_msg_debug( debugmode::DF_NPC,
+                           "Mortar spotting feedback for %s: accuracy multiplier %.2f -> %.2f, "
+                           "location error %.2f -> %.2f.",
+                           gunner->disp_name(), old_accuracy, new_accuracy, old_location,
+                           new_location );
         }
         break;
 
