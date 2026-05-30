@@ -6,6 +6,7 @@
 #include <string>
 
 #include "calendar.h"
+#include "character_id.h"
 #include "coordinates.h"
 #include "explosion.h"
 #include "point.h"
@@ -60,6 +61,14 @@ struct timed_event {
     std::string key;
     /** Optional secondary location used by event-specific logic. */
     tripoint_abs_ms target = tripoint_abs_ms::invalid;
+    /** Optional character used by event-specific logic. */
+    character_id character;
+    /** Mortar spotting correction state, fixed when the shot is ordered. */
+    double mortar_feedback_accuracy_multiplier = 1.0;
+    double mortar_feedback_location_multiplier = 1.0;
+    /** Mortar field payload state, fixed when the shot is ordered. */
+    int mortar_field_radius = 0;
+    int mortar_field_age_seconds = 0;
     /** specifically for EXPLOSION event */
     explosion_data expl_data;
 
@@ -113,6 +122,12 @@ class timed_event_manager
                   const std::string &key = "" );
         void add( timed_event_type type, const time_point &when, const tripoint_abs_ms &where,
                   explosion_data expl_data );
+        void add_mortar_feedback( const time_point &when, character_id gunner_id,
+                                  const tripoint_abs_ms &target, bool correction_reported,
+                                  double accuracy_multiplier, double location_multiplier );
+        void add_mortar_field( const time_point &when, const tripoint_abs_ms &where,
+                               int intensity, const std::string &field_type,
+                               int radius, int age_seconds = 0 );
         /// @returns Whether at least one element of the given type is queued.
         bool queued( timed_event_type type ) const;
         /// @returns One of the queued events of the given type, or `nullptr`

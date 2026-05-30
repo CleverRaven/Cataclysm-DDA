@@ -50,27 +50,17 @@ class mortar_type
         time_duration npc_fire_message_delay() const;
         time_duration npc_impact_delay() const;
         time_duration npc_impact_message_delay() const;
-        double baseline_cep() const;
 
         double minimum_range_error( int distance ) const;
         double minimum_deflection_error( int distance ) const;
         mortar_error minimum_error( int distance ) const;
         int minimum_target_distance( int target_distance, double ballistic_multiplier ) const;
-        double minimum_cep( int launcher_skill ) const;
         double repeat_cep_multiplier( int launcher_skill ) const;
-        double player_cep( double aim_deviation, int distance, int launcher_skill ) const;
-        tripoint_abs_ms apply_dispersion( const tripoint_abs_ms &target,
-                                          const tripoint_abs_ms &axis_from,
-                                          const tripoint_abs_ms &axis_to,
-                                          double cep, int launcher_skill,
-                                          double *minor_cep = nullptr ) const;
         tripoint_abs_ms apply_dispersion( const tripoint_abs_ms &target,
                                           const tripoint_abs_ms &axis_from,
                                           const tripoint_abs_ms &axis_to,
                                           const mortar_error &error,
                                           double *deflection_error = nullptr ) const;
-        tripoint_abs_ms apply_circular_error( const tripoint_abs_ms &target,
-                                              double cep ) const;
         tripoint_abs_ms apply_location_error( const tripoint_abs_ms &target,
                                               const tripoint_abs_ms &axis_from,
                                               const tripoint_abs_ms &axis_to,
@@ -98,18 +88,8 @@ class mortar_type
         time_duration npc_fire_message_delay_ = 0_seconds;
         time_duration npc_impact_delay_ = 0_seconds;
         time_duration npc_impact_message_delay_ = 0_seconds;
-        double cep_baseline_ = 100.0;
-        double cep_min_base_ = 20.0;
-        double cep_min_skill_scale_ = 1.0;
-        double cep_min_floor_ = 5.0;
-        double axis_ratio_baseline_ = 4.0;
-        double axis_ratio_final_base_ = 2.5;
-        double axis_ratio_skill_scale_ = 0.1;
-        double axis_ratio_floor_ = 1.2;
         double range_error_ratio_ = 0.015;
         double deflection_error_mils_ = 2.0;
-
-        double axis_ratio( double cep, int launcher_skill ) const;
 };
 
 #endif // CATA_SRC_MORTAR_H
