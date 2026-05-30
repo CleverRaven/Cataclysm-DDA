@@ -76,7 +76,7 @@ Items:
      90 guns and gun related items, 183 comestibles, 181 books, 76 ammunition variants
 
 Mapgen: 
-     227 mapgen entries, 851 item spawn groups, -1 monster spawn groups,
+     227 mapgen entries, 851 item spawn groups,
      37 map extra definitions, 53 city buildings, 6 overmap locations,
      55 overmap special definitions
 
