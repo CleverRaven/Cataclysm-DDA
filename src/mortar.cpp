@@ -9,8 +9,8 @@
 #include "cata_utility.h"
 #include "debug.h"
 #include "generic_factory.h"
-#include "game_constants.h"
 #include "item.h"
+#include "map_scale_constants.h"
 #include "point.h"
 #include "rng.h"
 
@@ -383,7 +383,7 @@ bool mortar_type::point_in_probable_impact_area( const tripoint_abs_ms &target,
 {
     const auto [ux, uy] = axis_unit( axis_from, axis_to );
     const mortar_error projected_location_error = project_location_error(
-            axis_from, axis_to, location_axis_from, location_axis_to, location_error );
+                axis_from, axis_to, location_axis_from, location_axis_to, location_error );
 
     const double dx = point.x() - target.x();
     const double dy = point.y() - target.y();
