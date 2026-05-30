@@ -80,6 +80,7 @@ static constexpr double mortar_binocular_reference_multiplier = 1.5;
 static constexpr double mortar_laser_rangefinder_sensor_multiplier = 1.8;
 static constexpr double mortar_laser_rangefinder_axis_multiplier = 0.5;
 static constexpr int mortar_laser_rangefinder_range = 2000;
+static constexpr float mortar_he_explosion_power_threshold = 100.0f;
 static constexpr double mortar_danger_area_scale = 1.5;
 
 bool mortar_item_has_fire_control( const item &it )
@@ -140,6 +141,19 @@ double mortar_fixed_accuracy_multiplier( const Character &who, const tripoint_ab
            ( character_has_mortar_tactical_data_system( who, mortar_pos ) ? 1.0 :
              mortar_no_tactical_data_error_multiplier ) *
            mortar_weather_error_multiplier;
+}
+
+bool mortar_round_has_high_explosive_payload( const item &round )
+{
+    if( !round.ammo_data() ) {
+        return false;
+    }
+    for( const ammo_effect_str_id &ammo_eff : round.ammo_data()->ammo->ammo_effects ) {
+        if( ammo_eff.obj().aoe_explosion_data.power >= mortar_he_explosion_power_threshold ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool mortar_has_zoom_optic( const Character &spotter )
@@ -615,11 +629,17 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
         const double raw_total_multiplier = skill_multiplier * fixed_multiplier;
         const double total_multiplier = mortar_type::effective_ballistic_multiplier(
                                             raw_total_multiplier );
-        const int minimum_target_distance = mortar->minimum_target_distance( distance,
-                                            total_multiplier );
+        const bool round_is_he = mortar_round_has_high_explosive_payload( *loc.get_item() );
+        const int minimum_target_distance = round_is_he ?
+                                            mortar->minimum_target_distance( distance, total_multiplier ) :
+                                            MAX_VIEW_DISTANCE;
         if( distance <= minimum_target_distance ) {
-            add_msg( _( "Target is too close to the mortar; minimum safe range is %d tiles." ),
-                     minimum_target_distance );
+            if( round_is_he ) {
+                add_msg( _( "Target is too close to the mortar; minimum safe range is %d tiles." ),
+                         minimum_target_distance );
+            } else {
+                add_msg( _( "Target is too close to the mortar." ) );
+            }
             return;
         }
 
@@ -629,7 +649,7 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
         const mortar_error minimum_error = mortar->minimum_error( distance );
         const mortar_error ballistic_error{ minimum_error.range * total_multiplier,
                                             minimum_error.deflection * total_multiplier };
-        if( !confirm_player_mortar_probable_impact_area( *mortar, designated_target_abs_ms,
+        if( round_is_he && !confirm_player_mortar_probable_impact_area( *mortar, designated_target_abs_ms,
                 mortar_abs, ballistic_error, you.pos_abs(), designated_target_abs_ms, location_error,
                 you ) ) {
             return;
@@ -644,10 +664,11 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
                        "Player mortar fire: distance %d, minimum range %.2f, minimum deflection %.2f, "
                        "skill multiplier %.2f, fixed multiplier %.2f, raw total multiplier %.2f, "
                        "effective total multiplier %.2f, minimum target distance %d, location error %.2f:%.2f, "
-                       "rangefinder %d, aimpoint offset %d:%d, impact offset %d:%d.",
+                       "HE %d, rangefinder %d, aimpoint offset %d:%d, impact offset %d:%d.",
                        distance, minimum_error.range, minimum_error.deflection, skill_multiplier,
                        fixed_multiplier, raw_total_multiplier, total_multiplier, minimum_target_distance,
                        location_error.range, location_error.deflection,
+                       round_is_he ? 1 : 0,
                        mortar_uses_laser_rangefinder( you, designated_target_abs_ms ) ? 1 : 0,
                        aimpoint_abs_ms.x() - designated_target_abs_ms.x(),
                        aimpoint_abs_ms.y() - designated_target_abs_ms.y(),
