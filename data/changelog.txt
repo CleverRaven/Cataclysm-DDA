@@ -42,27 +42,27 @@ Player Traits:
      5 activity types, 7 morale types, 14 vitamins, 4 dreams, 4 bionics, 2 mutation types,
      2 character stat modifiers, 1 proficiency category, 1 mutation category
 UI and Sidebar: 
-     nested categories,  ascii art,  widgets,  construction groups,
-     item ctegories,  recipe groups
+     40 nested categories, 173 ascii art, 346 widgets, 37 construction groups,
+     2 item categories
 Crafting: 
-     construction activitiess,  crafting requirements,  uncraft recipes
+     4 construction activities, 48 crafting requirements, 137 uncraft recipes
 NPCs and Interactions: 
-     conversation topics,  npc definitions,  npc classes,  missions,  factions
+     376 conversation topics, 12 npc definitions, 3 npc classes, 3 missions, 1 faction
 Achievements: 
-     achievements,  conducts,  event metadata entries,  score trackers
+     12 achievements, 1 event metadata entry
 Map Traits: 
-     furnitures,  terrains,  field types,  traps,  weather types
+     62 furnitures, 119 terrains, 72 field types, 35 traps, 1 weather type
 Monsters: 
-     monster definitions,  harvest entries,  monster attacks,  monster barks
-     weakpoint sets,  monster factions,  monster species,  body graphs
+     159 monster definitions, 32 harvest entries, 9 monster attacks, 93 monster barks
+     4 weakpoint sets, 36 monster factions, 2 monster species
 Item Traits: 
-     ammunition types,  ammunition effects,  materials,  tool qualities,  gun faults
+     13 ammunition types, 8 ammunition effects, 17 materials, 4 tool qualities, 36 gun faults
 Vehicles: 
-     vehicle definitions,  vehicle parts
+     2 vehicle definitions, 58 vehicle parts
 Magic: 
-     spells,  enchantments
+     52 spells, 17 enchantments
 Misc: 
-     effect on condition entries,  text snippets,  json flags,  loot zones
+     231 effect on condition entries, 93 text snippets, 74 json flags, 14 loot zones
 
 New game entities (mods): 
 Player Traits: 
