@@ -176,17 +176,18 @@ static const efftype_id effect_under_operation( "under_operation" );
 
 static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
 static const flag_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
-static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 
 static const itype_id fuel_type_animal( "animal" );
+static const itype_id itype_60mm_shell_m720a1( "60mm_shell_m720a1" );
+static const itype_id itype_60mm_shell_m721( "60mm_shell_m721" );
+static const itype_id itype_60mm_shell_m768( "60mm_shell_m768" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
-static const itype_id itype_60mm_shell_m720a1( "60mm_shell_m720a1" );
-static const itype_id itype_60mm_shell_m768( "60mm_shell_m768" );
-static const itype_id itype_60mm_shell_m721( "60mm_shell_m721" );
 static const itype_id itype_laser_rangefinder( "laser_rangefinder" );
 static const itype_id itype_mortar_fire_control_tablet( "mortar_fire_control_tablet" );
 static const itype_id itype_software_mortar_fire_control( "software_mortar_fire_control" );
+
+static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 
 static const proficiency_id proficiency_prof_mortar_operation( "prof_mortar_operation" );
 
@@ -5920,7 +5921,7 @@ std::optional<itype_id> stored_selected_mortar_ammo( const npc &gunner )
     if( selected.is_empty() ) {
         return std::nullopt;
     }
-    const std::string selected_ammo = selected.str();
+    const std::string &selected_ammo = selected.str();
     if( selected_ammo.empty() ) {
         return std::nullopt;
     }
@@ -5944,7 +5945,7 @@ std::vector<std::string> mortar_ammo_types( const npc &gunner )
         return result;
     }
     for( const diag_value &ammo_type : stored_types.array() ) {
-        const std::string ammo_id = ammo_type.str();
+        const std::string &ammo_id = ammo_type.str();
         if( !ammo_id.empty() ) {
             result.emplace_back( ammo_id );
         }
@@ -6226,7 +6227,7 @@ std::optional<assigned_mortar> get_assigned_mortar( const npc &gunner )
     if( assignment.is_empty() ) {
         return std::nullopt;
     }
-    const std::string mortar_type = assignment.str();
+    const std::string &mortar_type = assignment.str();
     if( mortar_type.empty() ) {
         return std::nullopt;
     }
@@ -6273,20 +6274,20 @@ void set_mortar_last_target( npc &gunner, const tripoint_abs_ms &target )
     gunner.set_value( "mortar_target", target );
 }
 
-static constexpr double mortar_weather_error_multiplier = 3.0;
-static constexpr double mortar_no_tactical_data_error_multiplier = 3.0;
-static constexpr double mortar_no_proficiency_error_multiplier = 4.0;
-static constexpr double mortar_binocular_reference_multiplier = 1.5;
-static constexpr double mortar_laser_rangefinder_sensor_multiplier = 1.8;
-static constexpr double mortar_laser_rangefinder_axis_multiplier = 0.5;
-static constexpr double mortar_laser_rangefinder_repeat_location_multiplier = 0.35;
-static constexpr int mortar_laser_rangefinder_range = 2000;
-static constexpr float mortar_he_explosion_power_threshold = 100.0f;
-static constexpr int mortar_report_mode_none = 0;
-static constexpr int mortar_report_mode_radio = 1;
-static constexpr int mortar_report_mode_shout = 2;
-static constexpr int mortar_report_lost_offset = 10;
-static constexpr double mortar_danger_area_scale = 1.5;
+constexpr double mortar_weather_error_multiplier = 3.0;
+constexpr double mortar_no_tactical_data_error_multiplier = 3.0;
+constexpr double mortar_no_proficiency_error_multiplier = 4.0;
+constexpr double mortar_binocular_reference_multiplier = 1.5;
+constexpr double mortar_laser_rangefinder_sensor_multiplier = 1.8;
+constexpr double mortar_laser_rangefinder_axis_multiplier = 0.5;
+constexpr double mortar_laser_rangefinder_repeat_location_multiplier = 0.35;
+constexpr int mortar_laser_rangefinder_range = 2000;
+constexpr float mortar_he_explosion_power_threshold = 100.0f;
+constexpr int mortar_report_mode_none = 0;
+constexpr int mortar_report_mode_radio = 1;
+constexpr int mortar_report_mode_shout = 2;
+constexpr int mortar_report_lost_offset = 10;
+constexpr double mortar_danger_area_scale = 1.5;
 
 bool has_charged_radio( const Character &who )
 {
