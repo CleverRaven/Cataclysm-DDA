@@ -1384,7 +1384,7 @@
       },
       {
         "u_location_variable": { "u_val": "earth_jaunt_loc" },
-        "target_params": { "om_terrain": "field", "min_distance": 0, "search_range": 2000, "random": true }
+        "target_params": { "om_terrain": "field", "min_distance": 0, "search_range": 1000, "random": true }
       },
       { "u_teleport": { "u_val": "earth_jaunt_loc" }, "force": true },
       { "u_add_trait": "NL_MUTE" },
@@ -1407,7 +1407,7 @@
       },
       {
         "u_location_variable": { "u_val": "earth_jaunt_loc" },
-        "target_params": { "om_terrain": "field", "min_distance": 0, "search_range": 2000, "random": true }
+        "target_params": { "om_terrain": "field", "min_distance": 0, "search_range": 1000, "random": true }
       },
       { "u_teleport": { "u_val": "earth_jaunt_loc" }, "force": true },
       { "u_add_trait": "NL_MUTE" },
@@ -1430,7 +1430,7 @@
       },
       {
         "u_location_variable": { "u_val": "earth_jaunt_loc" },
-        "target_params": { "om_terrain": "field", "min_distance": 0, "search_range": 2000, "random": true }
+        "target_params": { "om_terrain": "field", "min_distance": 0, "search_range": 1000, "random": true }
       },
       { "u_teleport": { "u_val": "earth_jaunt_loc" }, "force": true },
       { "u_add_trait": "NL_MUTE" },

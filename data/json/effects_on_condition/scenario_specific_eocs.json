@@ -391,14 +391,15 @@
         { "u_has_bionics": "bio_nl_collar" },
         { "not": { "current_dimension": "netherum_labyrinth" } },
         { "not": { "current_dimension": "netherum_labyrinth2" } },
-        { "not": { "current_dimension": "netherum_labyrinth_safehouse" } }
+        { "not": { "current_dimension": "netherum_labyrinth_safehouse" } },
+        { "not": { "current_dimension": "scarlet" } }
       ]
     },
     "effect": [
       { "u_lose_bionic": "bio_nl_collar" },
       { "u_add_bionic": "bio_nl_collar_deactivated" },
       {
-        "u_message": "You feel very far away from AltarOS and the labyrinthine structures.  Freedom feels within reach.",
+        "u_message": "You feel very far away from AltarOS and the labyrinthine structures it inhabits.  Freedom feels within reach.",
         "popup": true
       }
     ]

@@ -81,10 +81,22 @@
         "condition": {
           "and": [
             { "u_has_trait": "CBM_Interface" },
-            { "not": { "compare_string": [ "yes", { "u_val": "rubik_told_about_labyrinth" } ] } }
+            { "not": { "compare_string": [ "yes", { "u_val": "rubik_told_about_labyrinth" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "scenario_trapped_in_labyrinth" } ] } }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro"
+      },
+      {
+        "text": "So you know about AltarOS, or at least where it's from.  Do you have a way to get back there?",
+        "condition": {
+          "and": [
+            { "u_has_trait": "NL_CBM_Interface" },
+            { "not": { "compare_string": [ "yes", { "u_val": "rubik_told_about_labyrinth" } ] } },
+            { "compare_string": [ "yes", { "u_val": "scenario_trapped_in_labyrinth" } ] }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro_NL_interface"
       },
       {
         "text": "You wanted to ask me some questions earlier, and I think I was rude about it.  What did you want to ask?",
@@ -111,7 +123,7 @@
         "text": "So, now that I'm a cyborg, could I get a full bionic body like yours?",
         "condition": {
           "and": [
-            { "u_has_trait": "CBM_Interface" },
+            { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "Rubik_promised_cyberframe" } ] } },
             { "not": { "u_has_trait": "EXODII_BODY_1" } },
             { "not": { "u_has_trait": "EXODII_BODY_1b" } },
@@ -125,7 +137,7 @@
         "text": "So, I'm ready for the next step.  How do I get a full bionic body like yours?",
         "condition": {
           "and": [
-            { "u_has_trait": "CBM_Interface" },
+            { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "Rubik_promised_cyberframe" } ] } },
             { "not": { "u_has_trait": "EXODII_BODY_1" } },
             { "not": { "u_has_trait": "EXODII_BODY_1b" } },
@@ -249,7 +261,23 @@
             { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
             { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
             { "not": { "u_has_bionics": "bio_robofac_xmback" } },
-            { "not": { "u_has_bionics": "bio_robofac_xmlens" } }
+            { "not": { "u_has_bionics": "bio_robofac_xmlens" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "scenario_trapped_in_labyrinth" } ] } }
+          ]
+        },
+        "effect": { "u_add_var": "general_meeting_u_met_Rubik", "value": "yes" }
+      },
+      {
+        "text": "This all looks vaguely familiar to me.  Who are you?  What is this place?",
+        "topic": "TALK_EXODII_MERCHANT_New_NL_Interface",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] } },
+            { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmback" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmlens" } },
+            { "compare_string": [ "yes", { "u_val": "scenario_trapped_in_labyrinth" } ] }
           ]
         },
         "effect": { "u_add_var": "general_meeting_u_met_Rubik", "value": "yes" }
@@ -403,6 +431,29 @@
     "responses": [ { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" } ]
   },
   {
+    "id": "TALK_EXODII_MERCHANT_New_NL_Interface",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "We call ourselves the Exodii, eh?  And other things, but that's good.  This is our home, such as it is.  I'm called Rubik, and I've been assigned to trade with you.  Are you looking to trade?  We're always looking for scrap, metal and more.",
+      "str": "Us call us the Exodii, eh?  An' other things, but that'n's good.  This're our home, such as it.  This'n's monicked as Rubik, and tassed with a trade an'.  You lookin' to trade?  Us'n's alay for the scrap, metal an' more as it be."
+    },
+    "responses": [
+      {
+        "text": "This is gonna sound strange, and I'm not an \"Exodii\", but I think I may be a bit like you.  [Tell Rubik about your experience with AltarOS]",
+        "topic": "TALK_EXODII_MERCHANT_New_NL_Interface2"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_New_NL_Interface2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Now that's a story.  Sometimes, we find places we call \"labyrinths.\"  Stairs down to other worlds.  We keep track of them.  And, one is nearby, spotted by a novice Exodii, themselves.  That'd be the one you were trapped in, I believe.  So, I guess we're related, by circumstance, at least.  You're welcome here, and I'll remember and tell your story.",
+      "str": "&The towering cyborg listens intently, bowing its entire torso now and again, in a sort of understanding nod.  Unseen speakers emit a whistle, like a human impressed, tinged with only the faintest amount of static.  \"S'a tale, no doubt.  At times, we happen by places this'n might call \"labyrinths.\"   Apples an' pears down to otherlands, in their own right.  The Exodii keeps the reckonin'.  An there's one \"nearby\", so t'speak, spotted by a green Exodii 'emself.  That's the one, this'n takes it.  So we've got accord.  We're kin by circumstance has it, aye?  Yer welcome here, n' this'n will remember n' yark the tale.\""
+    },
+    "responses": [ { "text": "Now, with that out of the way…", "topic": "TALK_EXODII_MERCHANT_Talk" } ]
+  },
+  {
     "id": "TALK_EXODII_MERCHANT_DoneTrade",
     "type": "talk_topic",
     "dynamic_line": [
@@ -537,6 +588,7 @@
           "and": [
             { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] },
             { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "u_has_trait": "NL_CBM_Interface" } },
             { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } },
             { "not": { "compare_string": [ "yes", { "u_val": "Rubik_exodized_u" } ] } }
           ]
@@ -555,6 +607,7 @@
                   { "u_has_mission": "RUBIK_ANUS_FETICK" },
                   { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] },
                   { "not": { "u_has_trait": "CBM_Interface" } },
+                  { "not": { "u_has_trait": "NL_CBM_Interface" } },
                   { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } }
                 ]
               }
@@ -570,7 +623,9 @@
       {
         "text": "Can you help me with CBM surgery?",
         "topic": "TALK_EXODII_MERCHANT_Bionic_Install",
-        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "Hub01_CBM_Interface" } ] }
+        "condition": {
+          "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" }, { "u_has_trait": "Hub01_CBM_Interface" } ]
+        }
       },
       {
         "text": "Can you turn me into a cyborg RIGHT NOW?  I'm a developer for this game, you know.",
@@ -594,7 +649,7 @@
         "text": "Are there any materials the Exodii need?",
         "condition": {
           "and": [
-            { "u_has_trait": "CBM_Interface" },
+            { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
             { "not": { "u_has_mission": "RUBIK_ANUS_FETICK" } },
             { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] } }
           ]
@@ -1115,7 +1170,8 @@
             "or": [
               { "u_has_mission": "RUBIK_ANUS_FETICK" },
               { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] },
-              { "u_has_trait": "CBM_Interface" }
+              { "u_has_trait": "CBM_Interface" },
+              { "u_has_trait": "NL_CBM_Interface" }
             ]
           }
         },
@@ -1149,7 +1205,8 @@
                 "or": [
                   { "u_has_mission": "RUBIK_ANUS_FETICK" },
                   { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] },
-                  { "u_has_trait": "CBM_Interface" }
+                  { "u_has_trait": "CBM_Interface" },
+                  { "u_has_trait": "NL_CBM_Interface" }
                 ]
               }
             }
@@ -1346,7 +1403,7 @@
           "and": [
             { "not": { "u_has_mission": "EXODII_MISSION_CHOP_SHOP" } },
             { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_exodii_mission_chop_shop" } ] } },
-            { "u_has_trait": "CBM_Interface" },
+            { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
             { "math": [ "warehouse_was_found == 1" ] },
             { "math": [ "exodii_knows_hub01 == 1" ] }
           ]
@@ -1719,7 +1776,8 @@
             "or": [
               { "u_has_mission": "RUBIK_ANUS_FETICK" },
               { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] },
-              { "u_has_trait": "CBM_Interface" }
+              { "u_has_trait": "CBM_Interface" },
+              { "u_has_trait": "NL_CBM_Interface" }
             ]
           }
         }
@@ -1792,13 +1850,13 @@
     "responses": [
       {
         "text": "I've got some stuff I'd like to install.",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "topic": "TALK_DONE",
         "effect": "bionic_install"
       },
       {
         "text": "Would you be able to take out one of my implants?",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "topic": "TALK_DONE",
         "effect": "bionic_remove"
       },
