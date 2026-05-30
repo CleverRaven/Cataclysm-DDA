@@ -6919,9 +6919,9 @@ std::optional<mortar_fire_for_effect_readiness> mortar_fire_for_effect_readiness
     const double minimum_range_error = mortar.type->minimum_range_error( target_distance );
     const double range_threshold = minimum_range_error +
                                    std::max( 1.0, minimum_range_error *
-                                             mortar_fire_for_effect_minimum_error_slack );
+                                           mortar_fire_for_effect_minimum_error_slack );
     return mortar_fire_for_effect_readiness{ mortar_current_report_error( gunner, mortar, spotter, *target ),
-                                             range_threshold };
+            range_threshold };
 }
 
 std::optional<mortar_creeping_solution> mortar_current_creeping_solution( npc &gunner,
@@ -7139,7 +7139,8 @@ std::optional<int> select_mortar_fire_for_effect_round_count( const npc &gunner,
     return menu.ret;
 }
 
-void queue_mortar_fire_order( const npc &gunner, const tripoint_abs_ms &target, const int round_count,
+void queue_mortar_fire_order( const npc &gunner, const tripoint_abs_ms &target,
+                              const int round_count,
                               const time_point &when )
 {
     get_timed_events().add_mortar_queued_fire( when, gunner.getID(), target, round_count );
@@ -7149,7 +7150,8 @@ void queue_mortar_fire_order( const npc &gunner, const tripoint_abs_ms &target, 
                    to_turns<int>( when - calendar::turn ) );
 }
 
-void request_mortar_fire_impl( npc &gunner, const bool repeat_target, const int requested_rounds = 1,
+void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
+                               const int requested_rounds = 1,
                                const std::optional<tripoint_abs_ms> &forced_target = std::nullopt,
                                const bool from_queue = false )
 {
@@ -7670,7 +7672,7 @@ void request_mortar_fire_for_effect_impl( npc &gunner )
     }
 
     const std::optional<int> round_count = select_mortar_fire_for_effect_round_count( gunner,
-            *mortar, get_avatar() );
+                                           *mortar, get_avatar() );
     if( !round_count ) {
         return;
     }
