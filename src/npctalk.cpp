@@ -6793,10 +6793,10 @@ mortar_creeping_solution mortar_creeping_adjustment( const tripoint_abs_ms &mort
     const double range_error = std::max( 1.0, error.range );
     const double deflection_error = std::max( 1.0, error.deflection );
     const double denominator = std::hypot( range_component / range_error,
-                                          deflection_component / deflection_error );
+                                           deflection_component / deflection_error );
     const double offset_distance = denominator > 0.0 ? offset_multiplier / denominator : 0.0;
     const tripoint_abs_ms center( target.x() + static_cast<int>( std::round( offset_ux *
-                                   offset_distance ) ),
+                                  offset_distance ) ),
                                   target.y() + static_cast<int>( std::round( offset_uy *
                                           offset_distance ) ),
                                   target.z() );
@@ -7266,7 +7266,7 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
         const std::string offset_heading_text = string_format( "%03d",
                                                 creeping_solution->offset_heading );
         const std::string offset_multiplier_text = string_format( "%.1f",
-                                                   creeping_solution->offset_multiplier );
+                creeping_solution->offset_multiplier );
         if( creeping_solution->danger_close ) {
             add_msg( _( "%1$s reports Creeping Adjustment offset heading %2$s degrees, %3$sx probable-error offset.  Danger close to your position." ),
                      gunner.disp_name(), offset_heading_text, offset_multiplier_text );
