@@ -6281,6 +6281,7 @@ static constexpr double mortar_laser_rangefinder_sensor_multiplier = 1.8;
 static constexpr double mortar_laser_rangefinder_axis_multiplier = 0.5;
 static constexpr double mortar_laser_rangefinder_repeat_location_multiplier = 0.35;
 static constexpr int mortar_laser_rangefinder_range = 2000;
+static constexpr float mortar_he_explosion_power_threshold = 100.0f;
 static constexpr int mortar_report_mode_none = 0;
 static constexpr int mortar_report_mode_radio = 1;
 static constexpr int mortar_report_mode_shout = 2;
@@ -6390,6 +6391,19 @@ bool mortar_last_spot_observed( const npc &gunner )
 void set_mortar_last_spot_observed( npc &gunner, const bool observed )
 {
     gunner.set_value( "mortar_last_spot_observed", observed ? 1 : 0 );
+}
+
+bool mortar_round_has_high_explosive_payload( const item &round )
+{
+    if( !round.ammo_data() ) {
+        return false;
+    }
+    for( const ammo_effect_str_id &ammo_eff : round.ammo_data()->ammo->ammo_effects ) {
+        if( ammo_eff.obj().aoe_explosion_data.power >= mortar_he_explosion_power_threshold ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool mortar_has_charged_laser_rangefinder( const Character &spotter )
@@ -6607,6 +6621,17 @@ bool confirm_mortar_probable_impact_area( const mortar_type &mortar,
     return query_yn(
                _( "%1$s may be inside the probable impact area for this mortar mission.  Fire anyway?" ),
                enumerate_as_string( endangered ) );
+}
+
+mortar_error mortar_combined_report_error( const mortar_type &mortar,
+        const tripoint_abs_ms &mortar_pos, const tripoint_abs_ms &target,
+        const mortar_error &ballistic_error, const tripoint_abs_ms &location_axis_from,
+        const tripoint_abs_ms &location_axis_to, const mortar_location_error &location_error )
+{
+    const mortar_error projected_location_error = mortar.project_location_error(
+            mortar_pos, target, location_axis_from, location_axis_to, location_error );
+    return mortar_error{ ballistic_error.range + projected_location_error.range,
+                         ballistic_error.deflection + projected_location_error.deflection };
 }
 
 int mortar_heading_degrees( const tripoint_abs_ms &from, const tripoint_abs_ms &to )
@@ -6887,21 +6912,6 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
     const double fixed_multiplier = mortar_fixed_accuracy_multiplier( gunner, mortar_abs );
     const double raw_total_multiplier = accuracy_multiplier * fixed_multiplier;
     const double total_multiplier = mortar_type::effective_ballistic_multiplier( raw_total_multiplier );
-    const int minimum_target_distance = mortar_data.minimum_target_distance( target_distance,
-                                        total_multiplier );
-    if( target_distance <= minimum_target_distance ) {
-        add_msg( _( "Target is too close to the mortar; minimum safe range is %d tiles." ),
-                 minimum_target_distance );
-        return;
-    }
-
-    const mortar_error minimum_error = mortar_data.minimum_error( target_distance );
-    const mortar_error ballistic_error{ minimum_error.range * total_multiplier,
-                                        minimum_error.deflection * total_multiplier };
-    if( !confirm_mortar_probable_impact_area( mortar_data, *target_abs_ms, mortar_abs,
-            ballistic_error, location_axis_from, location_axis_to, location_error, you, gunner ) ) {
-        return;
-    }
 
     std::optional<item> round = take_mortar_round( gunner, mortar_data );
     if( !round ) {
@@ -6916,6 +6926,29 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
     }
     if( !round->ammo_data() ) {
         add_msg( _( "%s cannot identify that mortar round." ), gunner.disp_name() );
+        add_mortar_ammo( gunner, *round, 1 );
+        return;
+    }
+    const bool round_is_he = mortar_round_has_high_explosive_payload( *round );
+    const int minimum_target_distance = round_is_he ?
+                                        mortar_data.minimum_target_distance( target_distance, total_multiplier ) :
+                                        MAX_VIEW_DISTANCE;
+    if( target_distance <= minimum_target_distance ) {
+        if( round_is_he ) {
+            add_msg( _( "Target is too close to the mortar; minimum safe range is %d tiles." ),
+                     minimum_target_distance );
+        } else {
+            add_msg( _( "Target is too close to the mortar." ) );
+        }
+        add_mortar_ammo( gunner, *round, 1 );
+        return;
+    }
+
+    const mortar_error minimum_error = mortar_data.minimum_error( target_distance );
+    const mortar_error ballistic_error{ minimum_error.range * total_multiplier,
+                                        minimum_error.deflection * total_multiplier };
+    if( round_is_he && !confirm_mortar_probable_impact_area( mortar_data, *target_abs_ms, mortar_abs,
+            ballistic_error, location_axis_from, location_axis_to, location_error, you, gunner ) ) {
         add_mortar_ammo( gunner, *round, 1 );
         return;
     }
@@ -6937,10 +6970,11 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
                    "Mortar fire from %s: distance %d, minimum range %.2f, minimum deflection %.2f, "
                    "skill multiplier %.2f, fixed multiplier %.2f, raw total multiplier %.2f, "
                    "effective total multiplier %.2f, minimum target distance %d, location error %.2f:%.2f, "
-                   "rangefinder %d, aimpoint offset %d:%d, impact offset %d:%d.",
+                   "HE %d, rangefinder %d, aimpoint offset %d:%d, impact offset %d:%d.",
                    gunner.disp_name(), target_distance, minimum_error.range, minimum_error.deflection,
                    accuracy_multiplier, fixed_multiplier, raw_total_multiplier, total_multiplier,
                    minimum_target_distance, location_error.range, location_error.deflection,
+                   round_is_he ? 1 : 0,
                    mortar_uses_laser_rangefinder( you, *target_abs_ms ) ? 1 : 0,
                    aimpoint_abs_ms.x() - target_abs_ms->x(), aimpoint_abs_ms.y() - target_abs_ms->y(),
                    impact_abs_ms.x() - target_abs_ms->x(), impact_abs_ms.y() - target_abs_ms->y() );
@@ -7001,19 +7035,18 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
     const std::string heading_text = string_format( "%03d", heading );
     const int shot_seconds = to_seconds<int>( mortar_data.npc_fire_message_delay() );
     const int splash_seconds = to_seconds<int>( mortar_data.npc_impact_delay() );
-    const int reported_location_error = static_cast<int>( std::round( std::max(
-                                            location_error.range, location_error.deflection ) ) );
+    const mortar_error reported_error = mortar_combined_report_error( mortar_data, mortar_abs,
+                                        *target_abs_ms, ballistic_error, location_axis_from,
+                                        location_axis_to, location_error );
     if( launcher_skill >= 5 ) {
-        add_msg( _( "You give the fire mission.  %1$s reads back: \"Grid accepted.  OT direction %2$s; probable ballistic error %3$d by %4$d tiles, location error about %5$d by %6$d tiles.  Shot in %7$d, splash in %8$d.\"" ),
-                 gunner.disp_name(), heading_text, static_cast<int>( std::round( ballistic_error.range ) ),
-                 static_cast<int>( std::round( ballistic_error.deflection ) ),
-                 static_cast<int>( std::round( location_error.range ) ),
-                 static_cast<int>( std::round( location_error.deflection ) ), shot_seconds,
+        add_msg( _( "You give the fire mission.  %1$s reads back: \"Grid accepted.  OT direction %2$s; probable range/normal-to-range error %3$d by %4$d tiles.  Shot in %5$d, splash in %6$d.\"" ),
+                 gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
+                 static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
                  splash_seconds );
     } else {
-        add_msg( _( "You give the fire mission.  %1$s reports expected heading %2$s degrees, probable range error about %3$d tiles, and target location error about %4$d tiles.  Shot expected in %5$d seconds; impact in %6$d seconds." ),
-                 gunner.disp_name(), heading_text, static_cast<int>( std::round( ballistic_error.range ) ),
-                 reported_location_error, shot_seconds, splash_seconds );
+        add_msg( _( "You give the fire mission.  %1$s reports expected heading %2$s degrees and probable range/normal-to-range error about %3$d by %4$d tiles.  Shot expected in %5$d seconds; impact in %6$d seconds." ),
+                 gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
+                 static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds, splash_seconds );
     }
 }
 
