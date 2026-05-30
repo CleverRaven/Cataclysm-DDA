@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+#include "character_id.h"
+#include "coordinates.h"
 #include "type_id.h"
 
 class Character;
@@ -156,5 +158,11 @@ std::vector<std::string> get_all_talk_topic_ids();
 std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
                                    const std::string &prompt,
                                    const std::function<bool( const Character * )> &exclude_func );
+
+namespace talk_effect_fun
+{
+void add_mortar_adjustment_downtime( npc &gunner );
+void fire_queued_mortar( npc &gunner, const tripoint_abs_ms &target, int round_count );
+} // namespace talk_effect_fun
 
 #endif // CATA_SRC_NPCTALK_H

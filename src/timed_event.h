@@ -40,6 +40,7 @@ enum class timed_event_type : int {
     MORTAR_IMPACT_MESSAGE,
     MORTAR_FIELD,
     MORTAR_SPOTTING_FEEDBACK,
+    MORTAR_QUEUED_FIRE,
     NUM_TIMED_EVENT_TYPES
 };
 
@@ -125,6 +126,8 @@ class timed_event_manager
         void add_mortar_feedback( const time_point &when, character_id gunner_id,
                                   const tripoint_abs_ms &target, bool correction_reported,
                                   double accuracy_multiplier, double location_multiplier );
+        void add_mortar_queued_fire( const time_point &when, character_id gunner_id,
+                                     const tripoint_abs_ms &target, int round_count );
         void add_mortar_field( const time_point &when, const tripoint_abs_ms &where,
                                int intensity, const std::string &field_type,
                                int radius, int age_seconds = 0 );
