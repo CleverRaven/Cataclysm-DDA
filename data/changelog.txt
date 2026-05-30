@@ -72,7 +72,7 @@ Player Traits:
      5 skills, 0 addiction types, 1 scent type
 
 Items: 
-     483 tools, ? misc items, 245 articles of clothing and armor,
+     483 tools, 245 articles of clothing and armor,
      90 guns and gun related items, 183 comestibles, 181 books, 76 ammunition variants
 
 Mapgen: 
