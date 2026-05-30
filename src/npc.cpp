@@ -4003,6 +4003,9 @@ int npc::clear_mortar_support( const bool notify )
     remove_value( "mortar_assignment_pos" );
     remove_value( "mortar_target" );
     remove_value( "mortar_current_cep" );
+    remove_value( "mortar_current_accuracy_multiplier" );
+    remove_value( "mortar_location_error" );
+    remove_value( "mortar_last_spot_observed" );
     remove_value( "mortar_selected_ammo" );
     remove_value( "mortar_ammo_types" );
 

@@ -24,6 +24,20 @@
     "type": "item_group",
     "id": "milspec_arsenal_60mm_gun&mags",
     "subtype": "collection",
-    "items": [ { "item": "mortar_m224", "prob": 80 } ]
+    "items": [ { "group": "milspec_arsenal_60mm_mortar_with_support", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_60mm_mortar_with_support",
+    "subtype": "collection",
+    "items": [
+      { "item": "mortar_m224" },
+      {
+        "item": "mortar_fire_control_tablet",
+        "prob": 30,
+        "charges": 200,
+        "contents-item": "software_mortar_fire_control"
+      }
+    ]
   }
 ]

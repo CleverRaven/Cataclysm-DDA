@@ -20,6 +20,35 @@ generic_factory<mortar_type> mortar_type_factory( "mortar_type" );
 
 std::unordered_map<furn_str_id, const mortar_type *> mortar_by_furniture;
 
+static constexpr double circular_cep_sigma_factor = 1.1774;
+static constexpr double one_dimensional_probable_error_sigma_factor = 0.67448975;
+
+tripoint_abs_ms apply_axis_dispersion( const tripoint_abs_ms &target,
+                                       const tripoint_abs_ms &axis_from,
+                                       const tripoint_abs_ms &axis_to,
+                                       const double major_sigma,
+                                       const double minor_sigma )
+{
+    double ux = axis_to.x() - axis_from.x();
+    double uy = axis_to.y() - axis_from.y();
+    const double axis_length = std::hypot( ux, uy );
+    if( axis_length > 0.0 ) {
+        ux /= axis_length;
+        uy /= axis_length;
+    } else {
+        ux = 1.0;
+        uy = 0.0;
+    }
+
+    const double major_offset = normal_roll( 0.0, major_sigma );
+    const double minor_offset = normal_roll( 0.0, minor_sigma );
+    const double dx = major_offset * ux - minor_offset * uy;
+    const double dy = major_offset * uy + minor_offset * ux;
+    return tripoint_abs_ms( target.x() + static_cast<int>( std::round( dx ) ),
+                            target.y() + static_cast<int>( std::round( dy ) ),
+                            target.z() );
+}
+
 } // namespace
 
 template<>
@@ -96,7 +125,8 @@ void mortar_type::check_consistency()
             debugmsg( "Mortar type %s has invalid range %d.", mortar.id.c_str(), mortar.range_ );
         }
         if( mortar.cep_baseline_ <= 0.0 || mortar.cep_min_floor_ <= 0.0 ||
-            mortar.cep_min_base_ <= 0.0 ) {
+            mortar.cep_min_base_ <= 0.0 || mortar.range_error_ratio_ <= 0.0 ||
+            mortar.deflection_error_mils_ <= 0.0 ) {
             debugmsg( "Mortar type %s has invalid CEP values.", mortar.id.c_str() );
         }
     }
@@ -149,6 +179,8 @@ void mortar_type::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "axis_ratio_skill_scale", axis_ratio_skill_scale_,
               non_negative_double, 0.1 );
     optional( jo, was_loaded, "axis_ratio_floor", axis_ratio_floor_, positive_double, 1.2 );
+    optional( jo, was_loaded, "range_error_ratio", range_error_ratio_, positive_double, 0.015 );
+    optional( jo, was_loaded, "deflection_error_mils", deflection_error_mils_, positive_double, 2.0 );
     was_loaded = true;
 }
 
@@ -190,6 +222,21 @@ time_duration mortar_type::npc_impact_message_delay() const
 double mortar_type::baseline_cep() const
 {
     return cep_baseline_;
+}
+
+double mortar_type::minimum_range_error( const int distance ) const
+{
+    return std::max( 1.0, distance * range_error_ratio_ );
+}
+
+double mortar_type::minimum_deflection_error( const int distance ) const
+{
+    return std::max( 1.0, distance * deflection_error_mils_ / 1000.0 );
+}
+
+mortar_error mortar_type::minimum_error( const int distance ) const
+{
+    return mortar_error{ minimum_range_error( distance ), minimum_deflection_error( distance ) };
 }
 
 double mortar_type::minimum_cep( const int launcher_skill ) const
@@ -235,26 +282,27 @@ tripoint_abs_ms mortar_type::apply_dispersion( const tripoint_abs_ms &target,
     if( minor_cep != nullptr ) {
         *minor_cep = minor;
     }
+    return apply_axis_dispersion( target, axis_from, axis_to, cep / circular_cep_sigma_factor,
+                                  minor / circular_cep_sigma_factor );
+}
 
-    double ux = axis_to.x() - axis_from.x();
-    double uy = axis_to.y() - axis_from.y();
-    const double axis_length = std::hypot( ux, uy );
-    if( axis_length > 0.0 ) {
-        ux /= axis_length;
-        uy /= axis_length;
-    } else {
-        ux = 1.0;
-        uy = 0.0;
+tripoint_abs_ms mortar_type::apply_dispersion( const tripoint_abs_ms &target,
+        const tripoint_abs_ms &axis_from, const tripoint_abs_ms &axis_to,
+        const mortar_error &error, double *deflection_error ) const
+{
+    if( deflection_error != nullptr ) {
+        *deflection_error = error.deflection;
     }
+    return apply_axis_dispersion( target, axis_from, axis_to,
+                                  error.range / one_dimensional_probable_error_sigma_factor,
+                                  error.deflection / one_dimensional_probable_error_sigma_factor );
+}
 
-    // For a normal distribution, 50% of results fall inside about 1.177 sigma.
-    const double major_sigma = cep / 1.1774;
-    const double minor_sigma = minor / 1.1774;
-    const double major_offset = normal_roll( 0.0, major_sigma );
-    const double minor_offset = normal_roll( 0.0, minor_sigma );
-    const double dx = major_offset * ux - minor_offset * uy;
-    const double dy = major_offset * uy + minor_offset * ux;
-    return tripoint_abs_ms( target.x() + static_cast<int>( std::round( dx ) ),
-                            target.y() + static_cast<int>( std::round( dy ) ),
+tripoint_abs_ms mortar_type::apply_circular_error( const tripoint_abs_ms &target,
+        const double cep ) const
+{
+    const double sigma = cep / circular_cep_sigma_factor;
+    return tripoint_abs_ms( target.x() + static_cast<int>( std::round( normal_roll( 0.0, sigma ) ) ),
+                            target.y() + static_cast<int>( std::round( normal_roll( 0.0, sigma ) ) ),
                             target.z() );
 }

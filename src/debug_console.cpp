@@ -4087,6 +4087,12 @@ const char *timed_event_type_name( timed_event_type t )
             return "override_place";
         case timed_event_type::EXPLOSION:
             return "explosion";
+        case timed_event_type::MORTAR_FIRE_MESSAGE:
+            return "mortar_fire_message";
+        case timed_event_type::MORTAR_IMPACT_MESSAGE:
+            return "mortar_impact_message";
+        case timed_event_type::MORTAR_FIELD:
+            return "mortar_field";
         case timed_event_type::NUM_TIMED_EVENT_TYPES:
             break;
     }

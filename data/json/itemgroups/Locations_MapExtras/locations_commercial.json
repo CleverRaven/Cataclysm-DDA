@@ -693,6 +693,7 @@
       [ "manual_pistol", 4 ],
       [ "manual_smg", 3 ],
       [ "manual_launcher", 2 ],
+      [ "manual_mortar", 1 ],
       [ "manual_fabrication", 12 ],
       [ "mag_melee", 20 ],
       [ "cot", 40 ],
