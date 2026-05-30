@@ -33,7 +33,6 @@
           " : max(60, 190 / u_skill('launcher'))"
         ]
       },
-      "aim_deviation": { "math": [ "max(0.02, 0.1 / u_skill('launcher'))" ] },
       "effect_on_conditions": [
         {
           "id": "EOC_60MM_SHOT",
@@ -60,14 +59,6 @@
     "npc_impact_delay": "40 seconds",
     "npc_impact_message_delay": "41 seconds",
     "range_error_ratio": 0.015,
-    "deflection_error_mils": 2.0,
-    "cep_baseline": 100.0,
-    "cep_min_base": 20.0,
-    "cep_min_skill_scale": 1.0,
-    "cep_min_floor": 5.0,
-    "axis_ratio_baseline": 4.0,
-    "axis_ratio_final_base": 2.5,
-    "axis_ratio_skill_scale": 0.1,
-    "axis_ratio_floor": 1.2
+    "deflection_error_mils": 2.0
   }
 ]

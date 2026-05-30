@@ -62,6 +62,27 @@ tripoint_abs_ms apply_axis_dispersion( const tripoint_abs_ms &target,
                             target.z() );
 }
 
+tripoint_abs_ms clamp_to_max_range( const tripoint_abs_ms &origin,
+                                    const tripoint_abs_ms &impact,
+                                    const int max_range )
+{
+    const int dx = impact.x() - origin.x();
+    const int dy = impact.y() - origin.y();
+    const double distance = std::hypot( dx, dy );
+    if( distance <= max_range || distance == 0.0 ) {
+        return impact;
+    }
+
+    const double scale = max_range / distance;
+    const auto scale_coord = [scale]( const int delta ) {
+        const int magnitude = static_cast<int>( std::floor( std::abs( delta ) * scale ) );
+        return delta < 0 ? -magnitude : magnitude;
+    };
+    return tripoint_abs_ms( origin.x() + scale_coord( dx ),
+                            origin.y() + scale_coord( dy ),
+                            impact.z() );
+}
+
 } // namespace
 
 template<>
@@ -137,9 +158,7 @@ void mortar_type::check_consistency()
         if( mortar.range_ <= 0 ) {
             debugmsg( "Mortar type %s has invalid range %d.", mortar.id.c_str(), mortar.range_ );
         }
-        if( mortar.cep_baseline_ <= 0.0 || mortar.cep_min_floor_ <= 0.0 ||
-            mortar.cep_min_base_ <= 0.0 || mortar.range_error_ratio_ <= 0.0 ||
-            mortar.deflection_error_mils_ <= 0.0 ) {
+        if( mortar.range_error_ratio_ <= 0.0 || mortar.deflection_error_mils_ <= 0.0 ) {
             debugmsg( "Mortar type %s has invalid CEP values.", mortar.id.c_str() );
         }
     }
@@ -196,7 +215,6 @@ void mortar_type::load( const JsonObject &jo, std::string_view )
 {
     const numeric_bound_reader<int> positive_int{ 1 };
     const numeric_bound_reader<double> positive_double{ std::numeric_limits<double>::min() };
-    const numeric_bound_reader<double> non_negative_double{ 0.0 };
 
     mandatory( jo, was_loaded, "furniture", furniture_ );
     mandatory( jo, was_loaded, "ammo", ammo_ );
@@ -206,15 +224,6 @@ void mortar_type::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "npc_impact_delay", npc_impact_delay_, 0_seconds );
     optional( jo, was_loaded, "npc_impact_message_delay", npc_impact_message_delay_,
               npc_impact_delay_ );
-    optional( jo, was_loaded, "cep_baseline", cep_baseline_, positive_double, 100.0 );
-    optional( jo, was_loaded, "cep_min_base", cep_min_base_, positive_double, 20.0 );
-    optional( jo, was_loaded, "cep_min_skill_scale", cep_min_skill_scale_, non_negative_double, 1.0 );
-    optional( jo, was_loaded, "cep_min_floor", cep_min_floor_, positive_double, 5.0 );
-    optional( jo, was_loaded, "axis_ratio_baseline", axis_ratio_baseline_, positive_double, 4.0 );
-    optional( jo, was_loaded, "axis_ratio_final_base", axis_ratio_final_base_, positive_double, 2.5 );
-    optional( jo, was_loaded, "axis_ratio_skill_scale", axis_ratio_skill_scale_,
-              non_negative_double, 0.1 );
-    optional( jo, was_loaded, "axis_ratio_floor", axis_ratio_floor_, positive_double, 1.2 );
     optional( jo, was_loaded, "range_error_ratio", range_error_ratio_, positive_double, 0.015 );
     optional( jo, was_loaded, "deflection_error_mils", deflection_error_mils_, positive_double, 2.0 );
     was_loaded = true;
@@ -255,11 +264,6 @@ time_duration mortar_type::npc_impact_message_delay() const
     return npc_impact_message_delay_;
 }
 
-double mortar_type::baseline_cep() const
-{
-    return cep_baseline_;
-}
-
 double mortar_type::minimum_range_error( const int distance ) const
 {
     return std::max( 1.0, distance * range_error_ratio_ );
@@ -282,11 +286,6 @@ int mortar_type::minimum_target_distance( const int target_distance,
     return std::min( 1000, MAX_VIEW_DISTANCE + static_cast<int>( std::ceil( range_error * 2.0 ) ) );
 }
 
-double mortar_type::minimum_cep( const int launcher_skill ) const
-{
-    return std::max( cep_min_floor_, cep_min_base_ - launcher_skill * cep_min_skill_scale_ );
-}
-
 double mortar_type::repeat_cep_multiplier( const int launcher_skill ) const
 {
     const double skill = clamp<double>( launcher_skill, 1.0, 10.0 );
@@ -299,36 +298,6 @@ double mortar_type::repeat_cep_multiplier( const int launcher_skill ) const
     return 0.5 - ( skill - 5.0 ) * ( 0.2 / 5.0 );
 }
 
-double mortar_type::player_cep( const double aim_deviation, const int distance,
-                                const int launcher_skill ) const
-{
-    return clamp( aim_deviation * distance, minimum_cep( launcher_skill ), baseline_cep() );
-}
-
-double mortar_type::axis_ratio( const double cep, const int launcher_skill ) const
-{
-    const double minimum = minimum_cep( launcher_skill );
-    const double final_ratio = std::max( axis_ratio_floor_,
-                                         axis_ratio_final_base_ - launcher_skill *
-                                         axis_ratio_skill_scale_ );
-    const double span = std::max( 1.0, baseline_cep() - minimum );
-    const double progress = clamp( ( cep - minimum ) / span, 0.0, 1.0 );
-    return final_ratio + ( axis_ratio_baseline_ - final_ratio ) * progress;
-}
-
-tripoint_abs_ms mortar_type::apply_dispersion( const tripoint_abs_ms &target,
-        const tripoint_abs_ms &axis_from, const tripoint_abs_ms &axis_to, const double cep,
-        const int launcher_skill, double *minor_cep ) const
-{
-    const double ratio = axis_ratio( cep, launcher_skill );
-    const double minor = cep / ratio;
-    if( minor_cep != nullptr ) {
-        *minor_cep = minor;
-    }
-    return apply_axis_dispersion( target, axis_from, axis_to, cep / circular_cep_sigma_factor,
-                                  minor / circular_cep_sigma_factor );
-}
-
 tripoint_abs_ms mortar_type::apply_dispersion( const tripoint_abs_ms &target,
         const tripoint_abs_ms &axis_from, const tripoint_abs_ms &axis_to,
         const mortar_error &error, double *deflection_error ) const
@@ -336,18 +305,11 @@ tripoint_abs_ms mortar_type::apply_dispersion( const tripoint_abs_ms &target,
     if( deflection_error != nullptr ) {
         *deflection_error = error.deflection;
     }
-    return apply_axis_dispersion( target, axis_from, axis_to,
-                                  error.range / one_dimensional_probable_error_sigma_factor,
-                                  error.deflection / one_dimensional_probable_error_sigma_factor );
-}
-
-tripoint_abs_ms mortar_type::apply_circular_error( const tripoint_abs_ms &target,
-        const double cep ) const
-{
-    const double sigma = cep / circular_cep_sigma_factor;
-    return tripoint_abs_ms( target.x() + static_cast<int>( std::round( normal_roll( 0.0, sigma ) ) ),
-                            target.y() + static_cast<int>( std::round( normal_roll( 0.0, sigma ) ) ),
-                            target.z() );
+    const tripoint_abs_ms impact = apply_axis_dispersion(
+                                       target, axis_from, axis_to,
+                                       error.range / one_dimensional_probable_error_sigma_factor,
+                                       error.deflection / one_dimensional_probable_error_sigma_factor );
+    return clamp_to_max_range( axis_from, impact, range_ );
 }
 
 tripoint_abs_ms mortar_type::apply_location_error( const tripoint_abs_ms &target,

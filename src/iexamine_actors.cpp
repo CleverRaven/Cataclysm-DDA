@@ -45,7 +45,6 @@
 #include "point.h"
 #include "ret_val.h"
 #include "rng.h"
-#include "string_formatter.h"
 #include "talker.h"
 #include "timed_event.h"
 #include "translations.h"
@@ -686,8 +685,9 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
     const time_point impact_time = calendar::turn + impact_delay + aim_dur;
     if( loc->typeId() == itype_60mm_shell_m721 ) {
         const int illumination_duration = rng( 40, 60 );
-        get_timed_events().add( timed_event_type::MORTAR_FIELD, impact_time, -1, target_abs_ms, 1,
-                                "fd_mortar_illumination", string_format( "0,%d", illumination_duration ) );
+        get_timed_events().add_mortar_field( impact_time, target_abs_ms, 1,
+                                             "fd_mortar_illumination", 0,
+                                             illumination_duration );
     }
     for( ammo_effect_str_id ammo_eff : loc.get_item()->ammo_data()->ammo->ammo_effects ) {
         const ammo_effect &effect = ammo_eff.obj();
@@ -697,9 +697,9 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
         }
         for( const aoe_field_effect &aoe : effect.aoe_field_types ) {
             if( x_in_y( aoe.chance, 100 ) ) {
-                get_timed_events().add( timed_event_type::MORTAR_FIELD, impact_time, -1, target_abs_ms,
-                                        rng( aoe.intensity_min, aoe.intensity_max ), aoe.field_type.str(),
-                                        std::to_string( aoe.radius ) );
+                get_timed_events().add_mortar_field( impact_time, target_abs_ms,
+                                                     rng( aoe.intensity_min, aoe.intensity_max ),
+                                                     aoe.field_type.str(), aoe.radius );
             }
         }
 
@@ -729,7 +729,6 @@ void mortar_examine_actor::load( const JsonObject &jo, const std::string &src )
     optional( jo, false, "condition_fail_msg", condition_fail_msg,
               to_translation( "You can't use this mortar." ) );
 
-    optional( jo, false, "aim_deviation", aim_deviation, 0.0f );
     optional( jo, false, "aim_duration", aim_duration, 0_seconds );
     optional( jo, false, "flight_time", flight_time, 0_seconds );
 

@@ -6236,10 +6236,10 @@ std::optional<assigned_mortar> get_assigned_mortar( const npc &gunner )
     if( !mortar_id.is_valid() || assignment_pos.is_empty() ) {
         return std::nullopt;
     }
+    const tripoint_abs_ms pos = assignment_pos.tripoint();
     if( !assignment_pos.is_tripoint() ) {
         return std::nullopt;
     }
-    const tripoint_abs_ms pos = assignment_pos.tripoint();
     return assigned_mortar{
         pos,
         &mortar_id.obj()
@@ -6252,10 +6252,11 @@ std::optional<tripoint_abs_ms> get_mortar_last_target( const npc &gunner )
     if( target.is_empty() ) {
         return std::nullopt;
     }
+    const tripoint_abs_ms mortar_target = target.tripoint();
     if( !target.is_tripoint() ) {
         return std::nullopt;
     }
-    return target.tripoint();
+    return mortar_target;
 }
 
 std::string mortar_fire_event_key( const npc &gunner )
@@ -6288,7 +6289,6 @@ constexpr int mortar_report_mode_radio = 1;
 constexpr int mortar_report_mode_shout = 2;
 constexpr int mortar_report_lost_offset = 10;
 constexpr double mortar_danger_area_scale = 1.5;
-constexpr int mortar_feedback_multiplier_scale = 1000000;
 
 bool has_charged_radio( const Character &who )
 {
@@ -6497,19 +6497,6 @@ double mortar_repeat_accuracy_multiplier( const mortar_type &mortar, const Chara
                                     mortar_perception_spotting_factor( spotter.get_per() ) *
                                     mortar_spotter_sensor_multiplier( spotter, target ), 0.0, 0.95 );
     return 1.0 - reduction;
-}
-
-int mortar_feedback_multiplier_token( const double multiplier )
-{
-    return static_cast<int>( std::round( clamp( multiplier, 0.0, 1.0 ) *
-                                        mortar_feedback_multiplier_scale ) );
-}
-
-std::string mortar_spotting_feedback_key( const double accuracy_multiplier,
-        const double location_multiplier )
-{
-    return string_format( "%d,%d", mortar_feedback_multiplier_token( accuracy_multiplier ),
-                          mortar_feedback_multiplier_token( location_multiplier ) );
 }
 
 double mortar_base_location_error( const Character &spotter, const tripoint_abs_ms &target )
@@ -6876,8 +6863,8 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
                 return;
             }
             target_abs_ms = project_to<coords::ms>( target_omt );
-            target_abs_ms->x() += 12;
-            target_abs_ms->y() += 12;
+            target_abs_ms->x() += SEEX;
+            target_abs_ms->y() += SEEY;
             target_abs_ms->z() = overmap_buffer.highest_omt_point( target_omt );
         }
     }
@@ -6994,9 +6981,9 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
     bool scheduled = false;
     if( round->typeId() == itype_60mm_shell_m721 ) {
         const int illumination_duration = rng( 40, 60 );
-        get_timed_events().add( timed_event_type::MORTAR_FIELD, impact_time, -1,
-                                impact_abs_ms, 1, "fd_mortar_illumination",
-                                string_format( "0,%d", illumination_duration ) );
+        get_timed_events().add_mortar_field( impact_time, impact_abs_ms, 1,
+                                             "fd_mortar_illumination", 0,
+                                             illumination_duration );
         scheduled = true;
     }
     for( const ammo_effect_str_id &ammo_eff : round->ammo_data()->ammo->ammo_effects ) {
@@ -7010,9 +6997,9 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
         }
         for( const aoe_field_effect &aoe : effect.aoe_field_types ) {
             if( x_in_y( aoe.chance, 100 ) ) {
-                get_timed_events().add( timed_event_type::MORTAR_FIELD, impact_time, -1,
-                                        impact_abs_ms, rng( aoe.intensity_min, aoe.intensity_max ),
-                                        aoe.field_type.str(), std::to_string( aoe.radius ) );
+                get_timed_events().add_mortar_field( impact_time, impact_abs_ms,
+                                                     rng( aoe.intensity_min, aoe.intensity_max ),
+                                                     aoe.field_type.str(), aoe.radius );
                 scheduled = true;
             }
         }
@@ -7029,12 +7016,10 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
     get_timed_events().add( timed_event_type::MORTAR_IMPACT_MESSAGE,
                             calendar::turn + mortar_data.npc_impact_message_delay(), -1,
                             impact_abs_ms, impact_message_strength, gunner.disp_name(), *target_abs_ms );
-    get_timed_events().add( timed_event_type::MORTAR_SPOTTING_FEEDBACK,
-                            calendar::turn + mortar_data.npc_impact_message_delay(),
-                            gunner.getID().get_value(), *target_abs_ms,
-                            correction_reported ? 1 : 0, "",
-                            mortar_spotting_feedback_key( feedback_accuracy_multiplier,
-                                    feedback_location_multiplier ) );
+    get_timed_events().add_mortar_feedback( calendar::turn + mortar_data.npc_impact_message_delay(),
+                                            gunner.getID(), *target_abs_ms, correction_reported,
+                                            feedback_accuracy_multiplier,
+                                            feedback_location_multiplier );
     set_mortar_last_target( gunner, *target_abs_ms );
     if( !repeat_target ) {
         set_mortar_accuracy_multiplier( gunner, accuracy_multiplier );

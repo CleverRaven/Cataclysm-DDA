@@ -1,8 +1,11 @@
+#include <cmath>
+
 #include "cata_catch.h"
 #include "coordinates.h"
 #include "map_scale_constants.h"
 #include "mortar.h"
 #include "point.h"
+#include "rng.h"
 #include "type_id.h"
 
 static const mortar_type_id mortar_m224( "m224" );
@@ -52,4 +55,21 @@ TEST_CASE( "mortar_location_error_projects_onto_ballistic_axes", "[mortar]" )
                 tripoint_abs_ms( 0, -100, 0 ), target, location_error );
     CHECK( projected.range == Approx( 100.0 ) );
     CHECK( projected.deflection == Approx( 50.0 ) );
+}
+
+TEST_CASE( "mortar_dispersion_does_not_exceed_maximum_range", "[mortar]" )
+{
+    rng_set_engine_seed( 1 );
+    const mortar_type &mortar = mortar_m224.obj();
+    const tripoint_abs_ms mortar_pos( 0, 0, 0 );
+    const tripoint_abs_ms target( mortar.range(), 0, 0 );
+    const mortar_error extreme_error{ 100000.0, 100000.0 };
+
+    for( int i = 0; i < 100; ++i ) {
+        const tripoint_abs_ms impact = mortar.apply_dispersion( target, mortar_pos, target,
+                                        extreme_error );
+        const double distance = std::hypot( impact.x() - mortar_pos.x(),
+                                           impact.y() - mortar_pos.y() );
+        CHECK( distance <= mortar.range() );
+    }
 }

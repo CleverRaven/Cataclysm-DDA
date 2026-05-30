@@ -16,6 +16,7 @@
 #include "basecamp.h"
 #include "cata_io.h"
 #include "cata_path.h"
+#include "character_id.h"
 #include "city.h"
 #include "colony.h"
 #include "coordinates.h"
@@ -1870,6 +1871,11 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
         std::string string_id;
         std::string key;
         tripoint_abs_ms target = tripoint_abs_ms::invalid;
+        character_id character;
+        double mortar_feedback_accuracy_multiplier = 1.0;
+        double mortar_feedback_location_multiplier = 1.0;
+        int mortar_field_radius = 0;
+        int mortar_field_age_seconds = 0;
         explosion_data expl_data;
         submap revert;
         jo.read( "faction", faction_id );
@@ -1881,6 +1887,11 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
         jo.read( "when", when );
         jo.read( "key", key );
         jo.read( "target", target, false );
+        jo.read( "character", character, false );
+        jo.read( "mortar_feedback_accuracy_multiplier", mortar_feedback_accuracy_multiplier, false );
+        jo.read( "mortar_feedback_location_multiplier", mortar_feedback_location_multiplier, false );
+        jo.read( "mortar_field_radius", mortar_field_radius, false );
+        jo.read( "mortar_field_age_seconds", mortar_field_age_seconds, false );
         if( jo.has_object( "explosion" ) ) {
             expl_data.deserialize( jo.get_object( "explosion" ) );
         }
@@ -1912,6 +1923,11 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
         timed_event event( static_cast<timed_event_type>( type ), when, faction_id, map_square,
                            strength, string_id, std::move( revert ), key );
         event.target = target;
+        event.character = character;
+        event.mortar_feedback_accuracy_multiplier = mortar_feedback_accuracy_multiplier;
+        event.mortar_feedback_location_multiplier = mortar_feedback_location_multiplier;
+        event.mortar_field_radius = mortar_field_radius;
+        event.mortar_field_age_seconds = mortar_field_age_seconds;
         event.expl_data = expl_data;
         get_timed_events().events.emplace_back( std::move( event ) );
     }
@@ -2009,6 +2025,19 @@ void timed_event_manager::serialize_all( JsonOut &jsout )
         jsout.member( "key", elem.key );
         if( !elem.target.is_invalid() ) {
             jsout.member( "target", elem.target );
+        }
+        if( elem.character.is_valid() ) {
+            jsout.member( "character", elem.character );
+        }
+        if( elem.type == timed_event_type::MORTAR_SPOTTING_FEEDBACK ) {
+            jsout.member( "mortar_feedback_accuracy_multiplier",
+                          elem.mortar_feedback_accuracy_multiplier );
+            jsout.member( "mortar_feedback_location_multiplier",
+                          elem.mortar_feedback_location_multiplier );
+        }
+        if( elem.type == timed_event_type::MORTAR_FIELD ) {
+            jsout.member( "mortar_field_radius", elem.mortar_field_radius );
+            jsout.member( "mortar_field_age_seconds", elem.mortar_field_age_seconds );
         }
         if( elem.expl_data.power > 0.0f ) {
             jsout.member( "explosion" );
