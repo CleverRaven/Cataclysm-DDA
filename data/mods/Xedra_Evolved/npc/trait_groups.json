@@ -74,7 +74,7 @@
     "type": "trait_group",
     "id": "trait_group_complete_vampire",
     "subtype": "collection",
-    "//": "Contains every vampire trait.  Intended for vampires that both reached tier 5 and survived decades.  For now there won't be non-complete vampires above tier 3 due to the very low odds of finding one that went through the process to reach tier 4 but has yet to become a complete vampire.",
+    "//": "Contains every vampire trait & refinement.  Intended for vampires that both reached tier 5 and survived decades, like the mentors.  For now there won't be non-complete vampires above tier 3 due to the very low odds of finding one that went through the process to reach tier 4 but has yet to become a complete vampire.",
     "traits": [
       { "trait": "VAMPIRE", "prob": 100 },
       { "trait": "VAMPIRE2", "prob": 100 },
@@ -122,7 +122,17 @@
       { "trait": "VAMPIRE_SHADOW_FORM", "prob": 100 },
       { "trait": "VAMPIRE_LAST_BREATH_MIST", "prob": 100 },
       { "trait": "VAMPIRE_IRON_MIND", "prob": 100 },
-      { "trait": "VAMPIRE_BLIND_THE_SUN", "prob": 100 }
+      { "trait": "VAMPIRE_BLIND_THE_SUN", "prob": 100 },
+      { "trait": "VAMPIRIC_STRENGTH_REFINEMENT_SMASHING_TILES", "prob": 100 },
+      { "trait": "BLOODHASTE_REFINEMENT_WATER_RUN", "prob": 100 },
+      { "trait": "VAMPIRIC_RESILIENCE_REFINEMENT_INVINCIBILITY", "prob": 100 },
+      { "trait": "VAMPIRE_HEIGHTENED_SENSES_REFINEMENT_SEE_INVISIBLE", "prob": 100 },
+      { "trait": "VAMPIRE_TORPOR_REFINEMENT_FEIGN_DEATH", "prob": 100 },
+      { "trait": "VAMPIRE_BLOOD_TEMPORARY_BOOST_REFINEMENT_MIND_BOOST", "prob": 100 },
+      { "trait": "VAMPIRE_BAT_FORM_REFINEMENT_SWARM", "prob": 100 },
+      { "trait": "VAMPIRE_CARDIO_BONUS_REFINEMENT_STAMINAFORBLOOD", "prob": 100 },
+      { "trait": "VAMPIRE_WALK_ON_WALLS_REFINEMENT_LOW_GRAVITY", "prob": 100 },
+      { "trait": "VAMPIRE_EARTH_SLUMBER_REFINEMENT_CREATE_PITS", "prob": 100 }
     ]
   }
 ]
