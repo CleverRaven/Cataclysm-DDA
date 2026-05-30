@@ -67,9 +67,9 @@ TEST_CASE( "mortar_dispersion_does_not_exceed_maximum_range", "[mortar]" )
 
     for( int i = 0; i < 100; ++i ) {
         const tripoint_abs_ms impact = mortar.apply_dispersion( target, mortar_pos, target,
-                                        extreme_error );
+                                       extreme_error );
         const double distance = std::hypot( impact.x() - mortar_pos.x(),
-                                           impact.y() - mortar_pos.y() );
+                                            impact.y() - mortar_pos.y() );
         CHECK( distance <= mortar.range() );
     }
 }
