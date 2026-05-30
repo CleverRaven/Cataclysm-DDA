@@ -1,7 +1,9 @@
 #include "cata_catch.h"
-
-#include "game_constants.h"
+#include "coordinates.h"
+#include "map_scale_constants.h"
 #include "mortar.h"
+#include "point.h"
+#include "type_id.h"
 
 static const mortar_type_id mortar_type_m224( "m224" );
 
