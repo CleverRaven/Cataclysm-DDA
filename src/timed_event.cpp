@@ -35,6 +35,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "npc.h"
+#include "npctalk.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
@@ -93,14 +94,14 @@ static bool mortar_impact_shot_lost( const int strength )
 
 static std::optional<tripoint_abs_ms> mortar_gunner_target( const npc &gunner )
 {
-    const diag_value target = gunner.get_value( "mortar_target" );
+    const diag_value &target = gunner.get_value( "mortar_target" );
     if( target.is_empty() ) {
         return std::nullopt;
     }
-    const tripoint_abs_ms mortar_target = target.tripoint();
     if( !target.is_tripoint() ) {
         return std::nullopt;
     }
+    const tripoint_abs_ms mortar_target = target.tripoint();
     return mortar_target;
 }
 
@@ -112,7 +113,7 @@ static void set_mortar_last_spot_observed( npc &gunner, const bool observed )
 static double get_mortar_gunner_value( const npc &gunner, const std::string &key,
                                        const double fallback )
 {
-    const diag_value value = gunner.get_value( key );
+    const diag_value &value = gunner.get_value( key );
     return value.is_dbl() ? value.dbl() : fallback;
 }
 
@@ -469,11 +470,24 @@ void timed_event::actualize()
             const double new_location = std::max( 1.0, old_location * location_multiplier );
             gunner->set_value( "mortar_current_accuracy_multiplier", new_accuracy );
             gunner->set_value( "mortar_location_error", new_location );
+            talk_effect_fun::add_mortar_adjustment_downtime( *gunner );
             add_msg_debug( debugmode::DF_NPC,
                            "Mortar spotting feedback for %s: accuracy multiplier %.2f -> %.2f, "
                            "location error %.2f -> %.2f.",
                            gunner->disp_name(), old_accuracy, new_accuracy, old_location,
                            new_location );
+        }
+        break;
+
+        case timed_event_type::MORTAR_QUEUED_FIRE: {
+            npc *gunner = character.is_valid() ? g->find_npc( character ) : nullptr;
+            if( gunner == nullptr ) {
+                add_msg_debug( debugmode::DF_NPC,
+                               "Queued mortar fire ignored: gunner id %d no longer exists.",
+                               character.get_value() );
+                break;
+            }
+            talk_effect_fun::fire_queued_mortar( *gunner, map_square, std::max( 1, strength ) );
         }
         break;
 
@@ -662,6 +676,15 @@ void timed_event_manager::add_mortar_feedback( const time_point &when,
     event.character = gunner_id;
     event.mortar_feedback_accuracy_multiplier = clamp( accuracy_multiplier, 0.0, 1.0 );
     event.mortar_feedback_location_multiplier = clamp( location_multiplier, 0.0, 1.0 );
+}
+
+void timed_event_manager::add_mortar_queued_fire( const time_point &when,
+        const character_id gunner_id, const tripoint_abs_ms &target, const int round_count )
+{
+    events.emplace_back( timed_event_type::MORTAR_QUEUED_FIRE, when, -1, target,
+                         std::max( 1, round_count ), "" );
+    timed_event &event = events.back();
+    event.character = gunner_id;
 }
 
 void timed_event_manager::add_mortar_field( const time_point &when,

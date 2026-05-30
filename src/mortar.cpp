@@ -66,9 +66,8 @@ tripoint_abs_ms clamp_to_max_range( const tripoint_abs_ms &origin,
                                     const tripoint_abs_ms &impact,
                                     const int max_range )
 {
-    const int dx = impact.x() - origin.x();
-    const int dy = impact.y() - origin.y();
-    const double distance = std::hypot( dx, dy );
+    const point d( impact.x() - origin.x(), impact.y() - origin.y() );
+    const double distance = std::hypot( d.x, d.y );
     if( distance <= max_range || distance == 0.0 ) {
         return impact;
     }
@@ -78,8 +77,8 @@ tripoint_abs_ms clamp_to_max_range( const tripoint_abs_ms &origin,
         const int magnitude = static_cast<int>( std::floor( std::abs( delta ) * scale ) );
         return delta < 0 ? -magnitude : magnitude;
     };
-    return tripoint_abs_ms( origin.x() + scale_coord( dx ),
-                            origin.y() + scale_coord( dy ),
+    return tripoint_abs_ms( origin.x() + scale_coord( d.x ),
+                            origin.y() + scale_coord( d.y ),
                             impact.z() );
 }
 

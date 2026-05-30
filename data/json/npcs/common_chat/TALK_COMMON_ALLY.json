@@ -92,6 +92,12 @@
         "effect": "request_mortar_repeat_fire"
       },
       {
+        "text": "Fire for effect.",
+        "condition": { "and": [ { "math": [ "has_var(n_mortar_assignment)" ] }, { "math": [ "has_var(n_mortar_target)" ] } ] },
+        "topic": "TALK_DONE",
+        "effect": "request_mortar_fire_for_effect"
+      },
+      {
         "text": "Switch mortar adjustment tactic.",
         "condition": { "math": [ "has_var(n_mortar_assignment)" ] },
         "topic": "TALK_DONE",
