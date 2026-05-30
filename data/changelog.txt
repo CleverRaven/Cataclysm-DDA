@@ -31,16 +31,16 @@ Cities can have damage from the Cataclysm riots.
 
 New game entities (core): 
 Items: 
-     articles of clothing,  books,  comestibles,  tools,
-     guns and gun related items,  ammunition variants,  misc items
+     156 articles of clothing and armor, 31 books, 123 comestibles, 254 tools,
+     50 guns and gun related items, 14 ammunition variants,  misc items
 Mapgen: 
-     item spawn groups,  monster spawn groups, 88 map metadata,
-     city buildings,  vehicle spawn groups,  overmap locations,  overmap terrains
+     1119 item spawn groups, -48 monster spawn groups, ? map metadata,
+     6 city buildings, 1 vehicle spawn group, 7 overmap locations, 91 overmap terrains
 Player Traits: 
-     proficiencies,  practice actions,  professions,  effect types,  mutations
-     start locations,  body parts,  starting scenarios,  fighting techniques
-     activity types,  morale types,  vitamins,  dreams,  bionics,  mutation types,
-     character stat modifiers,  proficiency categories,  mutation categories
+     12 proficiencies, 13 practice actions, 15 professions, 47 effect types, 70 mutations
+     2 start locations, 0 body parts, 6 starting scenarios, 10 fighting techniques
+     5 activity types, 7 morale types, 14 vitamins, 4 dreams, 4 bionics, 2 mutation types,
+     2 character stat modifiers, 1 proficiency category, 1 mutation category
 UI and Sidebar: 
      nested categories,  ascii art,  widgets,  construction groups,
      item ctegories,  recipe groups
@@ -66,52 +66,52 @@ Misc:
 
 New game entities (mods): 
 Player Traits: 
-     mutations,  effect types,  bionics,  professions,  proficiencies.
-     start locations,  body parts,  mutation categories,  mutation types.
-     practice actions,  starting scenarios,  morale types,
-     skills,  addiction types,  scent types
+     897 mutations, 537 effect types, 46 bionics, 143 professions, 41 proficiencies.
+     11 start locations, 35 body parts, 9 mutation categories, 8 mutation types.
+     1 practice actions, 25 starting scenarios, 11 morale types,
+     5 skills, 0 addiction types, 1 scent type
 
 Items: 
-     tools,  misc items,  articles of clothing,
-     guns and gun related items,  comestibles,  books,  ammunition variants
+     483 tools, ? misc items, 245 articles of clothing and armor,
+     90 guns and gun related items, 183 comestibles, 181 books, 76 ammunition variants
 
 Mapgen: 
-     mapgen entries,  item spawn groups,  monster spawn groups,
-     map extra definitions,  city buildings,  overmap locations,
-     overmap special definitions
+     227 mapgen entries, 851 item spawn groups, -1 monster spawn groups,
+     37 map extra definitions, 53 city buildings, 6 overmap locations,
+     55 overmap special definitions
 
 Magic: 
-     spells,  enchantments
+     746 spells, 69 enchantments
 
 Crafting: 
-     crafting recipes,  disassembly recipes,
-     crafting requirements,  constrution activities
+     443 crafting recipes, 59 disassembly recipes,
+     141 crafting requirements, 9 constrution activities
 
 Monsters: 
-     monster definitons,  monster barks,  species,  monster factions.
-     harvest entries,  monster attacks,  weakpoint sets
+     727 monster definitons, 80 monster barks, 19 species, 30 monster factions.
+     81 harvest entries, 16 monster attacks, 10 weakpoint sets
 
 NPCs and Interactions: 
-     conversation topics,  missions,  npc definitions,  npc classes
+     462 conversation topics, 122 missions, 47 npc definitions, 64 npc classes
 
 Map Traits: 
-     terrain types,  furniture types,  field types,  emission definitions
+     197 terrain types, 194 furniture types, 31 field types, 8 weather types
 
 UI and Sidebar: 
-     construction groups,  nested categories,  sidebar widgets,  trait groups.
-     proficiency categories,  recipe categories,  overlay order specifications
+     9 construction groups, 9 nested categories, 57 sidebar widgets, 178 trait groups.
+     6 proficiency categories, 3 recipe categories, 1 overlay order specifications
 
 Item Traits: 
-     ammunition types,  materials,  tool qualities,  relic definitions,  ammo effects
+     27 ammunition types, 31 materials, 3 tool qualities, 3 relic definitions, 19 ammo effects
 
 Vehicles: 
-     vehicles
+     16 vehicles
 
 Achievements: 
-     achievements
+     49 achievements
 
 Misc: 
-     effect on condition entries,  json flags,  text snippets
+     2423 effect on condition entries, 38 json flags, 56 text snippets
 
 ## Features:
 Toggle to highlight areas revealed by using map items
