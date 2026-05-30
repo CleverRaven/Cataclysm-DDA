@@ -32,7 +32,7 @@ Cities can have damage from the Cataclysm riots.
 New game entities (core): 
 Items: 
      156 articles of clothing and armor, 31 books, 123 comestibles, 254 tools,
-     50 guns and gun related items, 14 ammunition variants,  misc items
+     50 guns and gun related items, 14 ammunition variants
 Mapgen: 
      1119 item spawn groups, -48 monster spawn groups,
      6 city buildings, 1 vehicle spawn group, 7 overmap locations, 91 overmap terrains
