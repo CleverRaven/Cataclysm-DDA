@@ -3691,7 +3691,7 @@
     "type": "mutation",
     "id": "NL_MUTE",
     "name": { "str": "Mute (Dimensional Jaunt)" },
-    "description": "Something is rendering you incapable of human speech.",
+    "description": "Something is rendering you incapable of speech.",
     "points": 0,
     "valid": false,
     "purifiable": false,
