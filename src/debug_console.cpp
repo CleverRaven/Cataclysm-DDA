@@ -4093,6 +4093,8 @@ const char *timed_event_type_name( timed_event_type t )
             return "mortar_impact_message";
         case timed_event_type::MORTAR_FIELD:
             return "mortar_field";
+        case timed_event_type::MORTAR_SPOTTING_FEEDBACK:
+            return "mortar_spotting_feedback";
         case timed_event_type::NUM_TIMED_EVENT_TYPES:
             break;
     }

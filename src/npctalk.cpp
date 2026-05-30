@@ -6288,6 +6288,7 @@ constexpr int mortar_report_mode_radio = 1;
 constexpr int mortar_report_mode_shout = 2;
 constexpr int mortar_report_lost_offset = 10;
 constexpr double mortar_danger_area_scale = 1.5;
+constexpr int mortar_feedback_multiplier_scale = 1000000;
 
 bool has_charged_radio( const Character &who )
 {
@@ -6381,12 +6382,6 @@ double mortar_fixed_accuracy_multiplier( const npc &gunner, const tripoint_abs_m
 double mortar_ammo_change_accuracy_penalty( const npc &gunner )
 {
     return std::max( 0.0, 15.0 - gunner.get_skill_level( skill_launcher ) ) / 20.0;
-}
-
-bool mortar_last_spot_observed( const npc &gunner )
-{
-    const diag_value value = gunner.get_value( "mortar_last_spot_observed" );
-    return value.is_empty() || ( value.is_dbl() && value.dbl() > 0.5 );
 }
 
 void set_mortar_last_spot_observed( npc &gunner, const bool observed )
@@ -6502,6 +6497,19 @@ double mortar_repeat_accuracy_multiplier( const mortar_type &mortar, const Chara
                                     mortar_perception_spotting_factor( spotter.get_per() ) *
                                     mortar_spotter_sensor_multiplier( spotter, target ), 0.0, 0.95 );
     return 1.0 - reduction;
+}
+
+int mortar_feedback_multiplier_token( const double multiplier )
+{
+    return static_cast<int>( std::round( clamp( multiplier, 0.0, 1.0 ) *
+                                        mortar_feedback_multiplier_scale ) );
+}
+
+std::string mortar_spotting_feedback_key( const double accuracy_multiplier,
+        const double location_multiplier )
+{
+    return string_format( "%d,%d", mortar_feedback_multiplier_token( accuracy_multiplier ),
+                          mortar_feedback_multiplier_token( location_multiplier ) );
 }
 
 double mortar_base_location_error( const Character &spotter, const tripoint_abs_ms &target )
@@ -6884,17 +6892,7 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
     double location_error_cep = get_mortar_location_error( gunner, you, *target_abs_ms );
     const tripoint_abs_ms location_axis_from = you.pos_abs();
     tripoint_abs_ms location_axis_to = *target_abs_ms;
-    const bool previous_spot_observed = mortar_last_spot_observed( gunner );
-    if( repeat_target ) {
-        if( previous_spot_observed ) {
-            const double repeat_multiplier = mortar_repeat_accuracy_multiplier( mortar_data, you,
-                                             launcher_skill, *target_abs_ms );
-            accuracy_multiplier = std::max( 1.0, accuracy_multiplier * repeat_multiplier );
-            const double location_reduction = mortar_uses_laser_rangefinder( you, *target_abs_ms ) ?
-                                              mortar_laser_rangefinder_repeat_location_multiplier : 0.5;
-            location_error_cep = std::max( 1.0, location_error_cep * location_reduction );
-        }
-    } else {
+    if( !repeat_target ) {
         accuracy_multiplier = mortar_type::skill_accuracy_multiplier( launcher_skill );
         const double base_location_error = mortar_base_location_error( you, *target_abs_ms );
         if( previous_target ) {
@@ -6966,6 +6964,10 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
     const bool correction_reported = shot_observed && report_mode != mortar_report_mode_none;
     const int impact_message_strength = report_mode +
                                         ( shot_observed ? 0 : mortar_report_lost_offset );
+    const double feedback_accuracy_multiplier = mortar_repeat_accuracy_multiplier( mortar_data, you,
+                                                launcher_skill, *target_abs_ms );
+    const double feedback_location_multiplier = mortar_uses_laser_rangefinder( you, *target_abs_ms ) ?
+                                                mortar_laser_rangefinder_repeat_location_multiplier : 0.5;
 
     add_msg_debug( debugmode::DF_NPC,
                    "Mortar fire from %s: distance %d, minimum range %.2f, minimum deflection %.2f, "
@@ -6981,11 +6983,12 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
                    impact_abs_ms.x() - target_abs_ms->x(), impact_abs_ms.y() - target_abs_ms->y() );
     add_msg_debug( debugmode::DF_NPC,
                    "Mortar spotting for %s: perception %d, sensor multiplier %.2f, lost chance %.2f%%, "
-                   "roll %d, observed %d, correction reported %d.",
+                   "roll %d, observed %d, correction reported %d, feedback multiplier %.2f:%.2f.",
                    gunner.disp_name(), you.get_per(),
                    mortar_spotter_sensor_multiplier( you, impact_abs_ms ),
                    shot_lost_chance * 100.0, shot_lost_roll, shot_observed ? 1 : 0,
-                   correction_reported ? 1 : 0 );
+                   correction_reported ? 1 : 0, feedback_accuracy_multiplier,
+                   feedback_location_multiplier );
 
     const time_point impact_time = calendar::turn + mortar_data.npc_impact_delay();
     bool scheduled = false;
@@ -7026,10 +7029,18 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
     get_timed_events().add( timed_event_type::MORTAR_IMPACT_MESSAGE,
                             calendar::turn + mortar_data.npc_impact_message_delay(), -1,
                             impact_abs_ms, impact_message_strength, gunner.disp_name(), *target_abs_ms );
+    get_timed_events().add( timed_event_type::MORTAR_SPOTTING_FEEDBACK,
+                            calendar::turn + mortar_data.npc_impact_message_delay(),
+                            gunner.getID().get_value(), *target_abs_ms,
+                            correction_reported ? 1 : 0, "",
+                            mortar_spotting_feedback_key( feedback_accuracy_multiplier,
+                                    feedback_location_multiplier ) );
     set_mortar_last_target( gunner, *target_abs_ms );
-    set_mortar_accuracy_multiplier( gunner, accuracy_multiplier );
-    set_mortar_location_error( gunner, location_error_cep );
-    set_mortar_last_spot_observed( gunner, correction_reported );
+    if( !repeat_target ) {
+        set_mortar_accuracy_multiplier( gunner, accuracy_multiplier );
+        set_mortar_location_error( gunner, location_error_cep );
+        set_mortar_last_spot_observed( gunner, false );
+    }
     practice_mortar_shot( gunner );
 
     const int heading = mortar_heading_degrees( gunner.pos_abs(), you.pos_abs() );

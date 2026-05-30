@@ -38,6 +38,7 @@ enum class timed_event_type : int {
     MORTAR_FIRE_MESSAGE,
     MORTAR_IMPACT_MESSAGE,
     MORTAR_FIELD,
+    MORTAR_SPOTTING_FEEDBACK,
     NUM_TIMED_EVENT_TYPES
 };
 
