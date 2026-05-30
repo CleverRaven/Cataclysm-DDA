@@ -129,7 +129,7 @@
       { "group": "milspec_arsenal_40x53_gun&mags", "count": [ 1, 2 ], "prob": 50 },
       { "group": "milspec_arsenal_66_gun&mags", "count": [ 1, 2 ], "prob": 30 },
       { "group": "milspec_arsenal_84x246_gun&mags", "count": [ 1, 2 ], "prob": 192 },
-      { "item": "mortar_m224", "prob": 30 },
+      { "group": "milspec_arsenal_60mm_mortar_with_support", "prob": 30 },
       { "group": "milspec_arsenal_atgm_gun", "count": [ 1, 2 ], "prob": 10 }
     ]
   },

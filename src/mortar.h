@@ -13,6 +13,11 @@
 class JsonObject;
 class item;
 
+struct mortar_error {
+    double range = 0.0;
+    double deflection = 0.0;
+};
+
 class mortar_type
 {
         friend class DynamicDataLoader;
@@ -39,6 +44,9 @@ class mortar_type
         time_duration npc_impact_message_delay() const;
         double baseline_cep() const;
 
+        double minimum_range_error( int distance ) const;
+        double minimum_deflection_error( int distance ) const;
+        mortar_error minimum_error( int distance ) const;
         double minimum_cep( int launcher_skill ) const;
         double repeat_cep_multiplier( int launcher_skill ) const;
         double player_cep( double aim_deviation, int distance, int launcher_skill ) const;
@@ -47,6 +55,13 @@ class mortar_type
                                           const tripoint_abs_ms &axis_to,
                                           double cep, int launcher_skill,
                                           double *minor_cep = nullptr ) const;
+        tripoint_abs_ms apply_dispersion( const tripoint_abs_ms &target,
+                                          const tripoint_abs_ms &axis_from,
+                                          const tripoint_abs_ms &axis_to,
+                                          const mortar_error &error,
+                                          double *deflection_error = nullptr ) const;
+        tripoint_abs_ms apply_circular_error( const tripoint_abs_ms &target,
+                                              double cep ) const;
 
     private:
         furn_str_id furniture_;
@@ -64,6 +79,8 @@ class mortar_type
         double axis_ratio_final_base_ = 2.5;
         double axis_ratio_skill_scale_ = 0.1;
         double axis_ratio_floor_ = 1.2;
+        double range_error_ratio_ = 0.015;
+        double deflection_error_mils_ = 2.0;
 
         double axis_ratio( double cep, int launcher_skill ) const;
 };

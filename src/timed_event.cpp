@@ -36,6 +36,7 @@
 #include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
+#include "string_formatter.h"
 #include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
@@ -93,6 +94,36 @@ static std::optional<std::pair<int, int>> parse_mortar_field_key( const std::str
         return std::nullopt;
     }
     return std::pair<int, int>( radius.value(), age_seconds.value() );
+}
+
+static constexpr int mortar_report_mode_none = 0;
+static constexpr int mortar_report_mode_radio = 1;
+static constexpr int mortar_report_mode_shout = 2;
+static constexpr int mortar_report_lost_offset = 10;
+
+static int mortar_impact_report_mode( const int strength )
+{
+    if( strength < 0 ) {
+        return mortar_report_mode_radio;
+    }
+    return strength % mortar_report_lost_offset;
+}
+
+static bool mortar_impact_shot_lost( const int strength )
+{
+    return strength >= mortar_report_lost_offset;
+}
+
+static void add_mortar_impact_report( const int report_mode, const std::string &recipient,
+                                      const std::string &report )
+{
+    if( report_mode == mortar_report_mode_radio ) {
+        add_msg( m_info, _( "You radio back to %1$s: \"%2$s\"" ), recipient, report );
+    } else if( report_mode == mortar_report_mode_shout ) {
+        add_msg( m_info, _( "You shout back to %1$s: \"%2$s\"" ), recipient, report );
+    } else {
+        add_msg( m_info, _( "You have no way to report to %1$s: \"%2$s\"" ), recipient, report );
+    }
 }
 
 static void apply_mortar_field( map &target_map, const tripoint_abs_ms &center_abs,
@@ -368,21 +399,33 @@ void timed_event::actualize()
                                     player_distance > MAX_VIEW_DISTANCE ? _( "heard in the distance" ) :
                                     _( "observed" );
             const std::string recipient = string_id.empty() ? _( "the mortar team" ) : string_id;
+            const int report_mode = mortar_impact_report_mode( strength );
+            if( mortar_impact_shot_lost( strength ) ) {
+                if( report_mode == mortar_report_mode_none ) {
+                    add_msg( m_info,
+                             _( "The mortar round is not localized, and you have no way to report a correction to %s." ),
+                             recipient );
+                } else {
+                    add_mortar_impact_report( report_mode, recipient, _( "Shot Lost." ) );
+                }
+                break;
+            }
             if( target.is_invalid() ) {
-                add_msg( m_info, _( "You radio back to %1$s: \"Splash %2$s.\"" ), recipient, cue );
+                add_mortar_impact_report( report_mode, recipient,
+                                          string_format( _( "Splash %s." ), cue ) );
                 break;
             }
 
             const point d( map_square.x() - target.x(), map_square.y() - target.y() );
             const int miss_distance = round_to_nearest_10( std::hypot( d.x, d.y ) );
             if( miss_distance == 0 ) {
-                add_msg( m_info, _( "You radio back to %1$s: \"Splash %2$s, on target.\"" ),
-                         recipient, cue );
+                add_mortar_impact_report( report_mode, recipient,
+                                          string_format( _( "Splash %s, on target." ), cue ) );
             } else {
                 const std::string miss_direction = direction_name( direction_from( point::zero, d ) );
-                add_msg( m_info,
-                         _( "You radio back to %1$s: \"Splash %2$s, about %3$d tiles %4$s of target.\"" ),
-                         recipient, cue, miss_distance, miss_direction );
+                add_mortar_impact_report( report_mode, recipient,
+                                          string_format( _( "Splash %1$s, about %2$d tiles %3$s of target." ),
+                                                  cue, miss_distance, miss_direction ) );
             }
         }
         break;
