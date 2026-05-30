@@ -644,7 +644,7 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
 
         const double location_error_cep = mortar_base_location_error( you, designated_target_abs_ms );
         const mortar_location_error location_error = mortar_make_location_error(
-                you, designated_target_abs_ms, location_error_cep );
+                    you, designated_target_abs_ms, location_error_cep );
         const mortar_error minimum_error = mortar->minimum_error( distance );
         const mortar_error ballistic_error{ minimum_error.range * total_multiplier,
                                             minimum_error.deflection * total_multiplier };

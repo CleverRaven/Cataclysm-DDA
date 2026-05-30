@@ -6629,7 +6629,7 @@ mortar_error mortar_combined_report_error( const mortar_type &mortar,
         const tripoint_abs_ms &location_axis_to, const mortar_location_error &location_error )
 {
     const mortar_error projected_location_error = mortar.project_location_error(
-            mortar_pos, target, location_axis_from, location_axis_to, location_error );
+                mortar_pos, target, location_axis_from, location_axis_to, location_error );
     return mortar_error{ ballistic_error.range + projected_location_error.range,
                          ballistic_error.deflection + projected_location_error.deflection };
 }
@@ -6908,7 +6908,7 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
         }
     }
     const mortar_location_error location_error = mortar_make_location_error(
-            you, *target_abs_ms, location_error_cep );
+                you, *target_abs_ms, location_error_cep );
     const double fixed_multiplier = mortar_fixed_accuracy_multiplier( gunner, mortar_abs );
     const double raw_total_multiplier = accuracy_multiplier * fixed_multiplier;
     const double total_multiplier = mortar_type::effective_ballistic_multiplier( raw_total_multiplier );
