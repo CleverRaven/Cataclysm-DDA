@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 
-#include "character_id.h"
 #include "coordinates.h"
 #include "type_id.h"
 
