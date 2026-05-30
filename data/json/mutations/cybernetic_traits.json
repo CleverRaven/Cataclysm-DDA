@@ -20,6 +20,17 @@
   },
   {
     "type": "mutation",
+    "id": "NL_CBM_Interface",
+    "name": { "str": "AltarOS Neurobionic Interface" },
+    "points": 0,
+    "description": "You have a matrix in your central nervous system that acts as a universal control and installation bus for compact bionic modules.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "Cybernetic" ],
+    "cancels": [ "NO_CBM_INSTALLATION" ]
+  },
+  {
+    "type": "mutation",
     "id": "Hub01_CBM_Interface",
     "name": { "str": "Hub 01 Neurobionic Interface" },
     "points": 0,
