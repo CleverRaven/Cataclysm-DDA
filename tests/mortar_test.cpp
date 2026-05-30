@@ -5,11 +5,11 @@
 #include "point.h"
 #include "type_id.h"
 
-static const mortar_type_id mortar_type_m224( "m224" );
+static const mortar_type_id mortar_m224( "m224" );
 
 TEST_CASE( "mortar_minimum_range_and_deflection_error", "[mortar]" )
 {
-    const mortar_type &mortar = mortar_type_m224.obj();
+    const mortar_type &mortar = mortar_m224.obj();
 
     mortar_error error = mortar.minimum_error( 1000 );
     CHECK( error.range == Approx( 15.0 ) );
@@ -29,7 +29,7 @@ TEST_CASE( "mortar_ballistic_multiplier_caps", "[mortar]" )
 
 TEST_CASE( "mortar_minimum_target_distance_scales_with_range_error", "[mortar]" )
 {
-    const mortar_type &mortar = mortar_type_m224.obj();
+    const mortar_type &mortar = mortar_m224.obj();
 
     CHECK( mortar.minimum_target_distance( 1000, 3.0 ) ==
            MAX_VIEW_DISTANCE + 90 );
@@ -38,7 +38,7 @@ TEST_CASE( "mortar_minimum_target_distance_scales_with_range_error", "[mortar]" 
 
 TEST_CASE( "mortar_location_error_projects_onto_ballistic_axes", "[mortar]" )
 {
-    const mortar_type &mortar = mortar_type_m224.obj();
+    const mortar_type &mortar = mortar_m224.obj();
     const tripoint_abs_ms target( 0, 0, 0 );
     const tripoint_abs_ms mortar_pos( -100, 0, 0 );
     const mortar_location_error location_error{ 50.0, 100.0 };

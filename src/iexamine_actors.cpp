@@ -55,12 +55,12 @@
 
 static const activity_id ACT_MORTAR_AIMING( "ACT_MORTAR_AIMING" );
 
-static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
-
 static const itype_id itype_60mm_shell_m721( "60mm_shell_m721" );
 static const itype_id itype_laser_rangefinder( "laser_rangefinder" );
 static const itype_id itype_mortar_fire_control_tablet( "mortar_fire_control_tablet" );
 static const itype_id itype_software_mortar_fire_control( "software_mortar_fire_control" );
+
+static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 
 static const proficiency_id proficiency_prof_mortar_operation( "prof_mortar_operation" );
 
@@ -72,15 +72,15 @@ static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
 namespace
 {
 
-static constexpr double mortar_weather_error_multiplier = 3.0;
-static constexpr double mortar_no_tactical_data_error_multiplier = 3.0;
-static constexpr double mortar_no_proficiency_error_multiplier = 4.0;
-static constexpr double mortar_binocular_reference_multiplier = 1.5;
-static constexpr double mortar_laser_rangefinder_sensor_multiplier = 1.8;
-static constexpr double mortar_laser_rangefinder_axis_multiplier = 0.5;
-static constexpr int mortar_laser_rangefinder_range = 2000;
-static constexpr float mortar_he_explosion_power_threshold = 100.0f;
-static constexpr double mortar_danger_area_scale = 1.5;
+constexpr double mortar_weather_error_multiplier = 3.0;
+constexpr double mortar_no_tactical_data_error_multiplier = 3.0;
+constexpr double mortar_no_proficiency_error_multiplier = 4.0;
+constexpr double mortar_binocular_reference_multiplier = 1.5;
+constexpr double mortar_laser_rangefinder_sensor_multiplier = 1.8;
+constexpr double mortar_laser_rangefinder_axis_multiplier = 0.5;
+constexpr int mortar_laser_rangefinder_range = 2000;
+constexpr float mortar_he_explosion_power_threshold = 100.0f;
+constexpr double mortar_danger_area_scale = 1.5;
 
 bool mortar_item_has_fire_control( const item &it )
 {

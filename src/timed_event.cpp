@@ -6,6 +6,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
@@ -73,7 +74,7 @@ static int round_to_nearest_10( const double value )
     return static_cast<int>( std::round( value / 10.0 ) ) * 10;
 }
 
-static std::optional<std::pair<int, int>> parse_mortar_field_key( const std::string &key )
+static std::optional<std::pair<int, int>> parse_mortar_field_key( const std::string_view key )
 {
     const std::vector<std::string> parts = string_split( key, ',' );
     if( parts.empty() || parts.size() > 2 ) {

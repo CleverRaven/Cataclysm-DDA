@@ -21,13 +21,13 @@ generic_factory<mortar_type> mortar_type_factory( "mortar_type" );
 
 std::unordered_map<furn_str_id, const mortar_type *> mortar_by_furniture;
 
-static constexpr double circular_cep_sigma_factor = 1.1774;
-static constexpr double one_dimensional_probable_error_sigma_factor = 0.67448975;
-static constexpr int mortar_minimum_launcher_skill = 4;
-static constexpr double mortar_min_skill_error_multiplier = 3.0;
-static constexpr double mortar_multiplier_soft_cap_threshold = 10.0;
-static constexpr double mortar_multiplier_hard_cap = 70.0;
-static constexpr double mortar_multiplier_above_soft_cap_scale = 0.5;
+constexpr double circular_cep_sigma_factor = 1.1774;
+constexpr double one_dimensional_probable_error_sigma_factor = 0.67448975;
+constexpr int mortar_minimum_launcher_skill = 4;
+constexpr double mortar_min_skill_error_multiplier = 3.0;
+constexpr double mortar_multiplier_soft_cap_threshold = 10.0;
+constexpr double mortar_multiplier_hard_cap = 70.0;
+constexpr double mortar_multiplier_above_soft_cap_scale = 0.5;
 
 std::pair<double, double> axis_unit( const tripoint_abs_ms &axis_from,
                                      const tripoint_abs_ms &axis_to )
