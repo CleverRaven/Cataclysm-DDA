@@ -184,6 +184,7 @@ static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 static const itype_id itype_60mm_shell_m720a1( "60mm_shell_m720a1" );
 static const itype_id itype_60mm_shell_m768( "60mm_shell_m768" );
 static const itype_id itype_60mm_shell_m721( "60mm_shell_m721" );
+static const itype_id itype_laser_rangefinder( "laser_rangefinder" );
 static const itype_id itype_mortar_fire_control_tablet( "mortar_fire_control_tablet" );
 static const itype_id itype_software_mortar_fire_control( "software_mortar_fire_control" );
 
@@ -6272,16 +6273,19 @@ void set_mortar_last_target( npc &gunner, const tripoint_abs_ms &target )
     gunner.set_value( "mortar_target", target );
 }
 
-static constexpr int mortar_minimum_launcher_skill = 4;
 static constexpr double mortar_weather_error_multiplier = 3.0;
 static constexpr double mortar_no_tactical_data_error_multiplier = 3.0;
 static constexpr double mortar_no_proficiency_error_multiplier = 4.0;
-static constexpr double mortar_min_skill_error_multiplier = 3.0;
 static constexpr double mortar_binocular_reference_multiplier = 1.5;
+static constexpr double mortar_laser_rangefinder_sensor_multiplier = 1.8;
+static constexpr double mortar_laser_rangefinder_axis_multiplier = 0.5;
+static constexpr double mortar_laser_rangefinder_repeat_location_multiplier = 0.35;
+static constexpr int mortar_laser_rangefinder_range = 2000;
 static constexpr int mortar_report_mode_none = 0;
 static constexpr int mortar_report_mode_radio = 1;
 static constexpr int mortar_report_mode_shout = 2;
 static constexpr int mortar_report_lost_offset = 10;
+static constexpr double mortar_danger_area_scale = 1.5;
 
 bool has_charged_radio( const Character &who )
 {
@@ -6340,13 +6344,6 @@ bool mortar_has_tactical_data_system( const npc &gunner, const tripoint_abs_ms &
     return false;
 }
 
-double mortar_skill_accuracy_multiplier( const int launcher_skill )
-{
-    const double skill = clamp<double>( launcher_skill, mortar_minimum_launcher_skill, 10.0 );
-    return 1.0 + ( 10.0 - skill ) *
-           ( ( mortar_min_skill_error_multiplier - 1.0 ) / ( 10.0 - mortar_minimum_launcher_skill ) );
-}
-
 double mortar_proficiency_accuracy_multiplier( const Character &gunner )
 {
     if( gunner.has_proficiency( proficiency_prof_mortar_operation ) ) {
@@ -6361,7 +6358,7 @@ double get_mortar_accuracy_multiplier( const npc &gunner )
 {
     const diag_value value = gunner.get_value( "mortar_current_accuracy_multiplier" );
     if( value.is_empty() || !value.is_dbl() ) {
-        return mortar_skill_accuracy_multiplier( gunner.get_skill_level( skill_launcher ) );
+        return mortar_type::skill_accuracy_multiplier( gunner.get_skill_level( skill_launcher ) );
     }
     return std::max( 1.0, value.dbl() );
 }
@@ -6395,6 +6392,20 @@ void set_mortar_last_spot_observed( npc &gunner, const bool observed )
     gunner.set_value( "mortar_last_spot_observed", observed ? 1 : 0 );
 }
 
+bool mortar_has_charged_laser_rangefinder( const Character &spotter )
+{
+    return spotter.cache_has_item_with( itype_laser_rangefinder,
+    [&spotter]( const item & it ) {
+        return it.ammo_sufficient( &spotter );
+    } );
+}
+
+bool mortar_uses_laser_rangefinder( const Character &spotter, const tripoint_abs_ms &target )
+{
+    return rl_dist( spotter.pos_abs(), target ) <= mortar_laser_rangefinder_range &&
+           mortar_has_charged_laser_rangefinder( spotter );
+}
+
 bool mortar_has_zoom_optic( const Character &spotter )
 {
     if( spotter.cache_has_item_with( flag_ZOOM ) ) {
@@ -6419,10 +6430,13 @@ double mortar_soft_cap_sensor_multiplier( const double multiplier )
     return 4.0 + ( multiplier - 4.0 ) / ( 1.0 + multiplier - 4.0 );
 }
 
-double mortar_spotter_sensor_multiplier( const Character &spotter )
+double mortar_spotter_sensor_multiplier( const Character &spotter,
+        const std::optional<tripoint_abs_ms> &target = std::nullopt )
 {
     double multiplier = 1.0;
-    if( mortar_has_zoom_optic( spotter ) ) {
+    if( target && mortar_uses_laser_rangefinder( spotter, *target ) ) {
+        multiplier *= mortar_laser_rangefinder_sensor_multiplier;
+    } else if( mortar_has_zoom_optic( spotter ) ) {
         multiplier *= mortar_binocular_reference_multiplier;
     }
     if( spotter.has_flag( json_flag_ENHANCED_VISION ) ) {
@@ -6466,16 +6480,16 @@ double mortar_perception_spotting_factor( const int perception )
 }
 
 double mortar_repeat_accuracy_multiplier( const mortar_type &mortar, const Character &spotter,
-        const int launcher_skill )
+        const int launcher_skill, const tripoint_abs_ms &target )
 {
     const double base_reduction = 1.0 - mortar.repeat_cep_multiplier( launcher_skill );
     const double reduction = clamp( base_reduction *
                                     mortar_perception_spotting_factor( spotter.get_per() ) *
-                                    mortar_spotter_sensor_multiplier( spotter ), 0.0, 0.95 );
+                                    mortar_spotter_sensor_multiplier( spotter, target ), 0.0, 0.95 );
     return 1.0 - reduction;
 }
 
-double mortar_base_location_error( const Character &spotter )
+double mortar_base_location_error( const Character &spotter, const tripoint_abs_ms &target )
 {
     const double perception = clamp<double>( spotter.get_per(), 1.0, 10.0 );
     double base = 0.0;
@@ -6485,14 +6499,56 @@ double mortar_base_location_error( const Character &spotter )
         base = 250.0 - ( perception - 5.0 ) * ( 100.0 / 5.0 );
     }
     return std::max( 1.0, base * mortar_binocular_reference_multiplier /
-                     mortar_spotter_sensor_multiplier( spotter ) );
+                     mortar_spotter_sensor_multiplier( spotter, target ) );
 }
 
-double get_mortar_location_error( const npc &gunner, const Character &spotter )
+mortar_location_error mortar_make_location_error( const Character &spotter,
+        const tripoint_abs_ms &target, const double cep )
+{
+    mortar_location_error error{ cep, cep };
+    if( mortar_uses_laser_rangefinder( spotter, target ) ) {
+        error.range *= mortar_laser_rangefinder_axis_multiplier;
+    }
+    return error;
+}
+
+tripoint_abs_ms mortar_average_spotter_axis( const tripoint_abs_ms &spotter_pos,
+        const tripoint_abs_ms &old_target, const tripoint_abs_ms &new_target )
+{
+    double old_x = old_target.x() - spotter_pos.x();
+    double old_y = old_target.y() - spotter_pos.y();
+    const double old_length = std::hypot( old_x, old_y );
+    double new_x = new_target.x() - spotter_pos.x();
+    double new_y = new_target.y() - spotter_pos.y();
+    const double new_length = std::hypot( new_x, new_y );
+    if( old_length > 0.0 ) {
+        old_x /= old_length;
+        old_y /= old_length;
+    }
+    if( new_length > 0.0 ) {
+        new_x /= new_length;
+        new_y /= new_length;
+    }
+
+    double ux = old_x + new_x;
+    double uy = old_y + new_y;
+    const double average_length = std::hypot( ux, uy );
+    if( average_length <= 0.0 ) {
+        return new_target;
+    }
+    ux /= average_length;
+    uy /= average_length;
+    return tripoint_abs_ms( spotter_pos.x() + static_cast<int>( std::round( ux * 1000.0 ) ),
+                            spotter_pos.y() + static_cast<int>( std::round( uy * 1000.0 ) ),
+                            new_target.z() );
+}
+
+double get_mortar_location_error( const npc &gunner, const Character &spotter,
+                                  const tripoint_abs_ms &target )
 {
     const diag_value value = gunner.get_value( "mortar_location_error" );
     if( value.is_empty() || !value.is_dbl() ) {
-        return mortar_base_location_error( spotter );
+        return mortar_base_location_error( spotter, target );
     }
     return std::max( 1.0, value.dbl() );
 }
@@ -6523,8 +6579,34 @@ double mortar_shot_lost_chance( const Character &spotter, const tripoint_abs_ms 
         chance = 0.10 - ( perception - 5.0 ) * ( 0.07 / 5.0 );
     }
     chance += 0.10 * rl_dist( spotter.pos_abs(), impact ) / 1000.0;
-    chance /= mortar_spotter_sensor_multiplier( spotter );
+    chance /= mortar_spotter_sensor_multiplier( spotter, impact );
     return clamp( chance, 0.0, 0.95 );
+}
+
+bool confirm_mortar_probable_impact_area( const mortar_type &mortar,
+        const tripoint_abs_ms &target, const tripoint_abs_ms &mortar_pos,
+        const mortar_error &ballistic_error, const tripoint_abs_ms &location_axis_from,
+        const tripoint_abs_ms &location_axis_to, const mortar_location_error &location_error,
+        const Character &spotter, const npc &gunner )
+{
+    std::vector<std::string> endangered;
+    if( mortar.point_in_probable_impact_area( target, mortar_pos, target, ballistic_error,
+            location_axis_from, location_axis_to, location_error, spotter.pos_abs(),
+            mortar_danger_area_scale ) ) {
+        endangered.emplace_back( _( "you" ) );
+    }
+    if( mortar.point_in_probable_impact_area( target, mortar_pos, target, ballistic_error,
+            location_axis_from, location_axis_to, location_error, gunner.pos_abs(),
+            mortar_danger_area_scale ) ) {
+        endangered.emplace_back( gunner.disp_name() );
+    }
+    if( endangered.empty() ) {
+        return true;
+    }
+
+    return query_yn(
+               _( "%1$s may be inside the probable impact area for this mortar mission.  Fire anyway?" ),
+               enumerate_as_string( endangered ) );
 }
 
 int mortar_heading_degrees( const tripoint_abs_ms &from, const tripoint_abs_ms &to )
@@ -6552,9 +6634,9 @@ void assign_mortar_support_impl( npc &gunner )
         add_msg( _( "%s is not willing to operate a mortar for you." ), gunner.disp_name() );
         return;
     }
-    if( gunner.get_skill_level( skill_launcher ) < mortar_minimum_launcher_skill ) {
+    if( gunner.get_skill_level( skill_launcher ) < mortar_type::minimum_launcher_skill() ) {
         add_msg( _( "%1$s needs launcher skill %2$d to operate the mortar." ),
-                 gunner.disp_name(), mortar_minimum_launcher_skill );
+                 gunner.disp_name(), mortar_type::minimum_launcher_skill() );
         return;
     }
 
@@ -6578,9 +6660,9 @@ void assign_mortar_support_impl( npc &gunner )
     gunner.set_value( "mortar_assignment_pos", mortar_abs );
     gunner.remove_value( "mortar_target" );
     gunner.remove_value( "mortar_current_cep" );
+    gunner.remove_value( "mortar_location_error" );
     set_mortar_accuracy_multiplier( gunner,
-                                    mortar_skill_accuracy_multiplier( gunner.get_skill_level( skill_launcher ) ) );
-    set_mortar_location_error( gunner, mortar_base_location_error( get_avatar() ) );
+                                    mortar_type::skill_accuracy_multiplier( gunner.get_skill_level( skill_launcher ) ) );
     set_mortar_last_spot_observed( gunner, true );
     gunner.assign_activity( man_mortar_activity_actor( mortar_abs, mortar->type->id ) );
     g->add_npc_follower( gunner.getID() );
@@ -6719,9 +6801,9 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
     std::optional<tripoint_abs_ms> target_abs_ms;
     const std::optional<tripoint_abs_ms> previous_target = get_mortar_last_target( gunner );
     const int launcher_skill = gunner.get_skill_level( skill_launcher );
-    if( launcher_skill < mortar_minimum_launcher_skill ) {
+    if( launcher_skill < mortar_type::minimum_launcher_skill() ) {
         add_msg( _( "%1$s needs launcher skill %2$d to operate the mortar." ),
-                 gunner.disp_name(), mortar_minimum_launcher_skill );
+                 gunner.disp_name(), mortar_type::minimum_launcher_skill() );
         return;
     }
 
@@ -6766,37 +6848,60 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
         }
     }
 
-    if( rl_dist( mortar_abs, *target_abs_ms ) > max_range_ms ) {
+    const int target_distance = rl_dist( mortar_abs, *target_abs_ms );
+    if( target_distance > max_range_ms ) {
         add_msg( _( "Target is outside the mortar's fire mission range." ) );
-        return;
-    }
-    if( rl_dist( mortar_abs, *target_abs_ms ) <= MAX_VIEW_DISTANCE ) {
-        add_msg( _( "Target is too close to the mortar." ) );
         return;
     }
 
     double accuracy_multiplier = get_mortar_accuracy_multiplier( gunner );
-    double location_error = get_mortar_location_error( gunner, you );
+    double location_error_cep = get_mortar_location_error( gunner, you, *target_abs_ms );
+    const tripoint_abs_ms location_axis_from = you.pos_abs();
+    tripoint_abs_ms location_axis_to = *target_abs_ms;
     const bool previous_spot_observed = mortar_last_spot_observed( gunner );
     if( repeat_target ) {
         if( previous_spot_observed ) {
-            accuracy_multiplier = std::max( 1.0, accuracy_multiplier *
-                                            mortar_repeat_accuracy_multiplier( mortar_data, you, launcher_skill ) );
-            location_error = std::max( 1.0, location_error * 0.5 );
+            const double repeat_multiplier = mortar_repeat_accuracy_multiplier( mortar_data, you,
+                                             launcher_skill, *target_abs_ms );
+            accuracy_multiplier = std::max( 1.0, accuracy_multiplier * repeat_multiplier );
+            const double location_reduction = mortar_uses_laser_rangefinder( you, *target_abs_ms ) ?
+                                              mortar_laser_rangefinder_repeat_location_multiplier : 0.5;
+            location_error_cep = std::max( 1.0, location_error_cep * location_reduction );
         }
     } else {
-        accuracy_multiplier = mortar_skill_accuracy_multiplier( launcher_skill );
-        const double base_location_error = mortar_base_location_error( you );
+        accuracy_multiplier = mortar_type::skill_accuracy_multiplier( launcher_skill );
+        const double base_location_error = mortar_base_location_error( you, *target_abs_ms );
         if( previous_target ) {
             const double retarget_increase = rl_dist( *previous_target, *target_abs_ms ) *
                                              mortar_near_retarget_location_error_rate( you.get_per() );
-            location_error = std::min( base_location_error, location_error + retarget_increase );
+            location_error_cep = std::min( base_location_error,
+                                           location_error_cep + retarget_increase );
+            location_axis_to = mortar_average_spotter_axis( location_axis_from, *previous_target,
+                               *target_abs_ms );
         } else {
-            location_error = base_location_error;
+            location_error_cep = base_location_error;
         }
     }
+    const mortar_location_error location_error = mortar_make_location_error(
+            you, *target_abs_ms, location_error_cep );
     const double fixed_multiplier = mortar_fixed_accuracy_multiplier( gunner, mortar_abs );
-    const double total_multiplier = accuracy_multiplier * fixed_multiplier;
+    const double raw_total_multiplier = accuracy_multiplier * fixed_multiplier;
+    const double total_multiplier = mortar_type::effective_ballistic_multiplier( raw_total_multiplier );
+    const int minimum_target_distance = mortar_data.minimum_target_distance( target_distance,
+                                        total_multiplier );
+    if( target_distance <= minimum_target_distance ) {
+        add_msg( _( "Target is too close to the mortar; minimum safe range is %d tiles." ),
+                 minimum_target_distance );
+        return;
+    }
+
+    const mortar_error minimum_error = mortar_data.minimum_error( target_distance );
+    const mortar_error ballistic_error{ minimum_error.range * total_multiplier,
+                                        minimum_error.deflection * total_multiplier };
+    if( !confirm_mortar_probable_impact_area( mortar_data, *target_abs_ms, mortar_abs,
+            ballistic_error, location_axis_from, location_axis_to, location_error, you, gunner ) ) {
+        return;
+    }
 
     std::optional<item> round = take_mortar_round( gunner, mortar_data );
     if( !round ) {
@@ -6815,12 +6920,8 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
         return;
     }
 
-    const int target_distance = rl_dist( mortar_abs, *target_abs_ms );
-    const mortar_error minimum_error = mortar_data.minimum_error( target_distance );
-    const mortar_error ballistic_error{ minimum_error.range * total_multiplier,
-                                        minimum_error.deflection * total_multiplier };
-    const tripoint_abs_ms aimpoint_abs_ms = mortar_data.apply_circular_error( *target_abs_ms,
-                                            location_error );
+    const tripoint_abs_ms aimpoint_abs_ms = mortar_data.apply_location_error( *target_abs_ms,
+                                            location_axis_from, location_axis_to, location_error );
     const tripoint_abs_ms impact_abs_ms = mortar_data.apply_dispersion( aimpoint_abs_ms, mortar_abs,
                                           *target_abs_ms, ballistic_error );
 
@@ -6834,16 +6935,20 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
 
     add_msg_debug( debugmode::DF_NPC,
                    "Mortar fire from %s: distance %d, minimum range %.2f, minimum deflection %.2f, "
-                   "skill multiplier %.2f, fixed multiplier %.2f, total multiplier %.2f, "
-                   "location error %.2f, aimpoint offset %d:%d, impact offset %d:%d.",
+                   "skill multiplier %.2f, fixed multiplier %.2f, raw total multiplier %.2f, "
+                   "effective total multiplier %.2f, minimum target distance %d, location error %.2f:%.2f, "
+                   "rangefinder %d, aimpoint offset %d:%d, impact offset %d:%d.",
                    gunner.disp_name(), target_distance, minimum_error.range, minimum_error.deflection,
-                   accuracy_multiplier, fixed_multiplier, total_multiplier, location_error,
+                   accuracy_multiplier, fixed_multiplier, raw_total_multiplier, total_multiplier,
+                   minimum_target_distance, location_error.range, location_error.deflection,
+                   mortar_uses_laser_rangefinder( you, *target_abs_ms ) ? 1 : 0,
                    aimpoint_abs_ms.x() - target_abs_ms->x(), aimpoint_abs_ms.y() - target_abs_ms->y(),
                    impact_abs_ms.x() - target_abs_ms->x(), impact_abs_ms.y() - target_abs_ms->y() );
     add_msg_debug( debugmode::DF_NPC,
                    "Mortar spotting for %s: perception %d, sensor multiplier %.2f, lost chance %.2f%%, "
                    "roll %d, observed %d, correction reported %d.",
-                   gunner.disp_name(), you.get_per(), mortar_spotter_sensor_multiplier( you ),
+                   gunner.disp_name(), you.get_per(),
+                   mortar_spotter_sensor_multiplier( you, impact_abs_ms ),
                    shot_lost_chance * 100.0, shot_lost_roll, shot_observed ? 1 : 0,
                    correction_reported ? 1 : 0 );
 
@@ -6888,7 +6993,7 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
                             impact_abs_ms, impact_message_strength, gunner.disp_name(), *target_abs_ms );
     set_mortar_last_target( gunner, *target_abs_ms );
     set_mortar_accuracy_multiplier( gunner, accuracy_multiplier );
-    set_mortar_location_error( gunner, location_error );
+    set_mortar_location_error( gunner, location_error_cep );
     set_mortar_last_spot_observed( gunner, correction_reported );
     practice_mortar_shot( gunner );
 
@@ -6896,15 +7001,19 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
     const std::string heading_text = string_format( "%03d", heading );
     const int shot_seconds = to_seconds<int>( mortar_data.npc_fire_message_delay() );
     const int splash_seconds = to_seconds<int>( mortar_data.npc_impact_delay() );
+    const int reported_location_error = static_cast<int>( std::round( std::max(
+                                            location_error.range, location_error.deflection ) ) );
     if( launcher_skill >= 5 ) {
-        add_msg( _( "You give the fire mission.  %1$s reads back: \"Grid accepted.  OT direction %2$s; probable ballistic error %3$d by %4$d tiles, location error about %5$d.  Shot in %6$d, splash in %7$d.\"" ),
+        add_msg( _( "You give the fire mission.  %1$s reads back: \"Grid accepted.  OT direction %2$s; probable ballistic error %3$d by %4$d tiles, location error about %5$d by %6$d tiles.  Shot in %7$d, splash in %8$d.\"" ),
                  gunner.disp_name(), heading_text, static_cast<int>( std::round( ballistic_error.range ) ),
                  static_cast<int>( std::round( ballistic_error.deflection ) ),
-                 static_cast<int>( std::round( location_error ) ), shot_seconds, splash_seconds );
+                 static_cast<int>( std::round( location_error.range ) ),
+                 static_cast<int>( std::round( location_error.deflection ) ), shot_seconds,
+                 splash_seconds );
     } else {
         add_msg( _( "You give the fire mission.  %1$s reports expected heading %2$s degrees, probable range error about %3$d tiles, and target location error about %4$d tiles.  Shot expected in %5$d seconds; impact in %6$d seconds." ),
                  gunner.disp_name(), heading_text, static_cast<int>( std::round( ballistic_error.range ) ),
-                 static_cast<int>( std::round( location_error ) ), shot_seconds, splash_seconds );
+                 reported_location_error, shot_seconds, splash_seconds );
     }
 }
 

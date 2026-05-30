@@ -676,6 +676,7 @@
       { "group": "large_duffelbags", "prob": 10 },
       [ "backpack_tactical_large", 10 ],
       [ "binoculars", 20 ],
+      { "item": "laser_rangefinder", "prob": 4, "charges": [ 0, 100 ] },
       { "group": "crossbow_bolts", "prob": 7 },
       [ "crossbow", 2 ],
       { "group": "book_gunmags", "prob": 70 },

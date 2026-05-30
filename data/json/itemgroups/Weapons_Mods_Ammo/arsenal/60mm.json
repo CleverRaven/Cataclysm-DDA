@@ -37,7 +37,8 @@
         "prob": 30,
         "charges": 200,
         "contents-item": "software_mortar_fire_control"
-      }
+      },
+      { "item": "laser_rangefinder", "prob": 30, "charges": [ 0, 100 ] }
     ]
   }
 ]

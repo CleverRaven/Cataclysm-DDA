@@ -455,6 +455,7 @@
       { "group": "gasmask_bag_full", "prob": 20 },
       { "group": "military_papr_kit", "prob": 5 },
       { "item": "two_way_radio", "prob": 60, "charges": [ 0, 100 ] },
+      { "item": "laser_rangefinder", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "balthazar_radio", "prob": 1 },
       { "group": "infantry_knives", "prob": 80 }
     ]
@@ -471,6 +472,7 @@
       { "group": "gasmask_bag_full", "prob": 20 },
       { "group": "military_papr_kit", "prob": 5 },
       { "item": "two_way_radio", "prob": 60, "charges": [ 0, 100 ] },
+      { "item": "laser_rangefinder", "prob": 5, "charges": [ 0, 100 ] },
       { "group": "infantry_knives", "prob": 100 }
     ]
   },
@@ -583,6 +585,7 @@
       { "item": "mil_flight_suit", "prob": 30 },
       { "group": "military_papr_kit", "prob": 15 },
       { "group": "molle_papr_kit", "prob": 15 },
+      { "item": "laser_rangefinder", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "combo_cover", "prob": 20 },
       { "item": "pants_army", "prob": 70 },
       { "item": "combat_shirt", "prob": 35 },

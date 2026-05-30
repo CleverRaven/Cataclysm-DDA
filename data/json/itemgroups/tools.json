@@ -235,6 +235,7 @@
     "//": "Gear that hunters take on hunting trips.",
     "items": [
       [ "binoculars", 15 ],
+      { "item": "laser_rangefinder", "prob": 3, "charges": [ 0, 100 ] },
       [ "canteen", 25 ],
       [ "e_tool", 20 ],
       { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
@@ -669,6 +670,7 @@
     "//": "Practical, small and light-weight tools for survival excluding camping gear.",
     "items": [
       [ "binoculars", 30 ],
+      { "item": "laser_rangefinder", "prob": 2, "charges": [ 0, 100 ] },
       [ "canteen", 15 ],
       [ "e_tool", 10 ],
       [ "flaregun", 20 ],
