@@ -1372,53 +1372,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_LS_earth_jaunt_1",
-    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
-    "effect": [
-      {
-        "u_travel_to_dimension": "",
-        "npc_travel_radius": 0,
-        "npc_travel_filter": "none",
-        "fail_message": "You feel a prickle at the edge of your senses.",
-        "success_message": "Your surroundings warp and fold into the recesses of the world you know.  For now."
-      },
-      {
-        "u_location_variable": { "u_val": "earth_jaunt_loc" },
-        "target_params": { "om_terrain": "field", "min_distance": 0, "search_range": 1000, "random": true }
-      },
-      { "u_teleport": { "u_val": "earth_jaunt_loc" }, "force": true },
-      { "u_add_trait": "NL_MUTE" },
-      { "run_eocs": "EOC_LS_earth_jaunt_extraction", "time_in_future": "2 hours" },
-      { "u_message": "Zworunk", "popup": true }
-    ],
-    "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_LS_earth_jaunt_2",
-    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
-    "effect": [
-      {
-        "u_travel_to_dimension": "",
-        "npc_travel_radius": 0,
-        "npc_travel_filter": "none",
-        "fail_message": "You feel a prickle at the edge of your senses.",
-        "success_message": "Your surroundings warp and fold into the recesses of the world you know.  For now."
-      },
-      {
-        "u_location_variable": { "u_val": "earth_jaunt_loc" },
-        "target_params": { "om_terrain": "field", "min_distance": 0, "search_range": 1000, "random": true }
-      },
-      { "u_teleport": { "u_val": "earth_jaunt_loc" }, "force": true },
-      { "u_add_trait": "NL_MUTE" },
-      { "run_eocs": "EOC_LS_earth_jaunt_extraction", "time_in_future": "3 hours" },
-      { "u_message": "Zworunk", "popup": true }
-    ],
-    "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_LS_earth_jaunt_3",
+    "id": "EOC_LS_earth_jaunt_4hours",
     "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
     "effect": [
       {

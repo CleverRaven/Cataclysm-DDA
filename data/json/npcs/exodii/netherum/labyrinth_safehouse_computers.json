@@ -327,7 +327,6 @@
     "dynamic_line": [
       "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR002\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and recalibrate to their own reality.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.",
       "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR002\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and recalibrate to their own reality.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.",
-      "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR002\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and recalibrate to their own reality.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  ᵃˢˢʰᵒˡᵉ",
       "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR002\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and recalibrate to their own reality.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  ᵗʳᵉᵃᵈ ᶜᵃʳᵉᶠᵘˡˡʸ",
       "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR002\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and recalibrate to their own reality.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  maybe"
     ],
@@ -352,14 +351,15 @@
     "responses": [
       { "text": "Help.", "topic": "COMP_labyrinthine_safehouse_earth_jaunt_help" },
       {
+        "text": "[Prick yourself with the needle]",
+        "condition": { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
+        "topic": "COMP_labyrinthine_safehouse_earth_jaunt2",
+        "effect": [ { "math": [ "u_vitamin('blood') -= 500" ] } ]
+      },
+      {
         "text": "ERROR - USER DIMENSIONALLY ANCHORED.",
         "condition": { "not": { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" } },
         "topic": "COMP_labyrinthine_safehouse_computer"
-      },
-      {
-        "text": "[Prick yourself with the needle]",
-        "condition": { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
-        "topic": "COMP_labyrinthine_safehouse_earth_jaunt_select_tax"
       },
       { "text": "Return.", "topic": "TALK_DONE" }
     ]
@@ -379,49 +379,25 @@
       "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time has elapsed.\n   The user will return to the home away from home.  ᵍᵉᵗ ᵒᵇʲᵉᶜᵗˢ ᶠᵒʳ ᵘˢ\n   Repeated visits will reattune the user to their own reality.  ᵍʳᵃᵇ ʷʰᵃᵗ ʸᵒᵘ ᶜᵃⁿ\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible."
     ],
     "responses": [
-      { "text": "[Prick yourself with the needle]", "topic": "COMP_labyrinthine_safehouse_earth_jaunt_select_tax" },
+      {
+        "text": "[Prick yourself with the needle]",
+        "condition": { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
+        "topic": "COMP_labyrinthine_safehouse_earth_jaunt2",
+        "effect": [ { "math": [ "u_vitamin('blood') -= 500" ] } ]
+      },
+      {
+        "text": "ERROR - USER DIMENSIONALLY ANCHORED.",
+        "condition": { "not": { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" } },
+        "topic": "COMP_labyrinthine_safehouse_computer"
+      },
       { "text": "Return.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "COMP_labyrinthine_safehouse_earth_jaunt_select_tax",
-    "dynamic_line": "&The device clamps you down.\n\n\n<color_light_green> Select length of recalibration jaunt to EARTH.\n\n @User > _</color>",
-    "responses": [
-      {
-        "text": "2 hours.",
-        "topic": "COMP_labyrinthine_safehouse_earth_jaunt_select_tax_1",
-        "effect": [ { "math": [ "u_vitamin('blood') -= 250" ] } ]
-      },
-      {
-        "text": "3 hours.",
-        "topic": "COMP_labyrinthine_safehouse_earth_jaunt_select_tax_2",
-        "effect": [ { "math": [ "u_vitamin('blood') -= 500" ] } ]
-      },
-      {
-        "text": "4 hours.",
-        "topic": "COMP_labyrinthine_safehouse_earth_jaunt_select_tax_3",
-        "effect": [ { "math": [ "u_vitamin('blood') -= 750" ] } ]
-      }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "COMP_labyrinthine_safehouse_earth_jaunt_select_tax_1",
-    "dynamic_line": "&There is a pinch, then a wet, mechanical hiss, as the needle draws a tiny amount of blood.  Your vision blurs.",
-    "responses": [ { "text": "…", "topic": "TALK_DONE", "effect": { "run_eocs": "EOC_LS_earth_jaunt_1" } } ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "COMP_labyrinthine_safehouse_earth_jaunt_select_tax_2",
-    "dynamic_line": "&There is a pinch, then a wet, mechanical hiss, as the needle draws a bit of blood.  Your vision blurs.",
-    "responses": [ { "text": "…", "topic": "TALK_DONE", "effect": { "run_eocs": "EOC_LS_earth_jaunt_2" } } ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "COMP_labyrinthine_safehouse_earth_jaunt_select_tax_3",
+    "id": "COMP_labyrinthine_safehouse_earth_jaunt2",
     "dynamic_line": "&There is a pinch, then a wet, mechanical hiss, as the needle draws a lot of blood.  Your vision blurs.",
-    "responses": [ { "text": "…", "topic": "TALK_DONE", "effect": { "run_eocs": "EOC_LS_earth_jaunt_3" } } ]
+    "responses": [ { "text": "…", "topic": "TALK_DONE", "effect": { "run_eocs": "EOC_LS_earth_jaunt_4hours" } } ]
   },
   {
     "type": "talk_topic",
