@@ -879,6 +879,14 @@ cataimgui::window::~window()
     }
 }
 
+void cataimgui::window::hide_if_hidden() const
+{
+    if( hide_ui ) {
+        ImGuiWindow *w = ImGui::GetCurrentWindowRead();
+        ImGui::SetWindowHiddenAndSkipItemsForCurrentFrame( w );
+    }
+}
+
 bool cataimgui::window::is_bounds_changed()
 {
     return p_impl->is_resized;
