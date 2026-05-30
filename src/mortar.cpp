@@ -9,6 +9,7 @@
 #include "cata_utility.h"
 #include "debug.h"
 #include "generic_factory.h"
+#include "game_constants.h"
 #include "item.h"
 #include "point.h"
 #include "rng.h"
@@ -22,12 +23,14 @@ std::unordered_map<furn_str_id, const mortar_type *> mortar_by_furniture;
 
 static constexpr double circular_cep_sigma_factor = 1.1774;
 static constexpr double one_dimensional_probable_error_sigma_factor = 0.67448975;
+static constexpr int mortar_minimum_launcher_skill = 4;
+static constexpr double mortar_min_skill_error_multiplier = 3.0;
+static constexpr double mortar_multiplier_soft_cap_threshold = 10.0;
+static constexpr double mortar_multiplier_hard_cap = 70.0;
+static constexpr double mortar_multiplier_above_soft_cap_scale = 0.5;
 
-tripoint_abs_ms apply_axis_dispersion( const tripoint_abs_ms &target,
-                                       const tripoint_abs_ms &axis_from,
-                                       const tripoint_abs_ms &axis_to,
-                                       const double major_sigma,
-                                       const double minor_sigma )
+std::pair<double, double> axis_unit( const tripoint_abs_ms &axis_from,
+                                     const tripoint_abs_ms &axis_to )
 {
     double ux = axis_to.x() - axis_from.x();
     double uy = axis_to.y() - axis_from.y();
@@ -39,6 +42,16 @@ tripoint_abs_ms apply_axis_dispersion( const tripoint_abs_ms &target,
         ux = 1.0;
         uy = 0.0;
     }
+    return { ux, uy };
+}
+
+tripoint_abs_ms apply_axis_dispersion( const tripoint_abs_ms &target,
+                                       const tripoint_abs_ms &axis_from,
+                                       const tripoint_abs_ms &axis_to,
+                                       const double major_sigma,
+                                       const double minor_sigma )
+{
+    const auto [ux, uy] = axis_unit( axis_from, axis_to );
 
     const double major_offset = normal_roll( 0.0, major_sigma );
     const double minor_offset = normal_roll( 0.0, minor_sigma );
@@ -156,6 +169,29 @@ bool mortar_type::is_mortar_round( const item &it )
     } );
 }
 
+int mortar_type::minimum_launcher_skill()
+{
+    return mortar_minimum_launcher_skill;
+}
+
+double mortar_type::skill_accuracy_multiplier( const int launcher_skill )
+{
+    const double skill = clamp<double>( launcher_skill, mortar_minimum_launcher_skill, 10.0 );
+    return 1.0 + ( 10.0 - skill ) *
+           ( ( mortar_min_skill_error_multiplier - 1.0 ) / ( 10.0 - mortar_minimum_launcher_skill ) );
+}
+
+double mortar_type::effective_ballistic_multiplier( const double raw_multiplier )
+{
+    if( raw_multiplier <= mortar_multiplier_soft_cap_threshold ) {
+        return std::max( 1.0, raw_multiplier );
+    }
+    return std::min( mortar_multiplier_hard_cap,
+                     mortar_multiplier_soft_cap_threshold +
+                     ( raw_multiplier - mortar_multiplier_soft_cap_threshold ) *
+                     mortar_multiplier_above_soft_cap_scale );
+}
+
 void mortar_type::load( const JsonObject &jo, std::string_view )
 {
     const numeric_bound_reader<int> positive_int{ 1 };
@@ -239,6 +275,13 @@ mortar_error mortar_type::minimum_error( const int distance ) const
     return mortar_error{ minimum_range_error( distance ), minimum_deflection_error( distance ) };
 }
 
+int mortar_type::minimum_target_distance( const int target_distance,
+        const double ballistic_multiplier ) const
+{
+    const double range_error = minimum_range_error( target_distance ) * ballistic_multiplier;
+    return std::min( 1000, MAX_VIEW_DISTANCE + static_cast<int>( std::ceil( range_error * 2.0 ) ) );
+}
+
 double mortar_type::minimum_cep( const int launcher_skill ) const
 {
     return std::max( cep_min_floor_, cep_min_base_ - launcher_skill * cep_min_skill_scale_ );
@@ -305,4 +348,52 @@ tripoint_abs_ms mortar_type::apply_circular_error( const tripoint_abs_ms &target
     return tripoint_abs_ms( target.x() + static_cast<int>( std::round( normal_roll( 0.0, sigma ) ) ),
                             target.y() + static_cast<int>( std::round( normal_roll( 0.0, sigma ) ) ),
                             target.z() );
+}
+
+tripoint_abs_ms mortar_type::apply_location_error( const tripoint_abs_ms &target,
+        const tripoint_abs_ms &axis_from, const tripoint_abs_ms &axis_to,
+        const mortar_location_error &error ) const
+{
+    return apply_axis_dispersion( target, axis_from, axis_to,
+                                  error.range / circular_cep_sigma_factor,
+                                  error.deflection / circular_cep_sigma_factor );
+}
+
+mortar_error mortar_type::project_location_error( const tripoint_abs_ms &axis_from,
+        const tripoint_abs_ms &axis_to, const tripoint_abs_ms &location_axis_from,
+        const tripoint_abs_ms &location_axis_to,
+        const mortar_location_error &location_error ) const
+{
+    const auto [ux, uy] = axis_unit( axis_from, axis_to );
+    const auto [loc_ux, loc_uy] = axis_unit( location_axis_from, location_axis_to );
+    const double cos_angle = std::abs( ux * loc_ux + uy * loc_uy );
+    const double sin_angle = std::abs( -ux * loc_uy + uy * loc_ux );
+
+    return mortar_error{
+        std::hypot( location_error.range * cos_angle, location_error.deflection * sin_angle ),
+        std::hypot( location_error.range * sin_angle, location_error.deflection * cos_angle )
+    };
+}
+
+bool mortar_type::point_in_probable_impact_area( const tripoint_abs_ms &target,
+        const tripoint_abs_ms &axis_from, const tripoint_abs_ms &axis_to,
+        const mortar_error &error, const tripoint_abs_ms &location_axis_from,
+        const tripoint_abs_ms &location_axis_to, const mortar_location_error &location_error,
+        const tripoint_abs_ms &point, const double scale ) const
+{
+    const auto [ux, uy] = axis_unit( axis_from, axis_to );
+    const mortar_error projected_location_error = project_location_error(
+            axis_from, axis_to, location_axis_from, location_axis_to, location_error );
+
+    const double dx = point.x() - target.x();
+    const double dy = point.y() - target.y();
+    const double range_offset = dx * ux + dy * uy;
+    const double deflection_offset = -dx * uy + dy * ux;
+    const double range_radius = std::max( 1.0,
+                                          ( error.range + projected_location_error.range ) * scale );
+    const double deflection_radius = std::max(
+                                         1.0, ( error.deflection + projected_location_error.deflection ) * scale );
+    const double normalized_range = range_offset / range_radius;
+    const double normalized_deflection = deflection_offset / deflection_radius;
+    return normalized_range * normalized_range + normalized_deflection * normalized_deflection <= 1.0;
 }

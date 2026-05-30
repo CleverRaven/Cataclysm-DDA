@@ -1,6 +1,7 @@
 #include "iexamine_actors.h"
 
 #include <algorithm>
+#include <bitset>
 #include <cstddef>
 #include <memory>
 #include <string>
@@ -10,6 +11,7 @@
 
 #include "ammo_effect.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "coordinates.h"
 #include "condition.h"
@@ -20,6 +22,7 @@
 #include "effect_on_condition.h"
 #include "explosion.h"
 #include "flexbuffer_json.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -53,11 +56,208 @@
 
 static const activity_id ACT_MORTAR_AIMING( "ACT_MORTAR_AIMING" );
 
+static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
+
 static const itype_id itype_60mm_shell_m721( "60mm_shell_m721" );
+static const itype_id itype_laser_rangefinder( "laser_rangefinder" );
+static const itype_id itype_mortar_fire_control_tablet( "mortar_fire_control_tablet" );
+static const itype_id itype_software_mortar_fire_control( "software_mortar_fire_control" );
+
+static const proficiency_id proficiency_prof_mortar_operation( "prof_mortar_operation" );
+
 static const skill_id skill_launcher( "launcher" );
 
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
+
+namespace
+{
+
+static constexpr double mortar_weather_error_multiplier = 3.0;
+static constexpr double mortar_no_tactical_data_error_multiplier = 3.0;
+static constexpr double mortar_no_proficiency_error_multiplier = 4.0;
+static constexpr double mortar_binocular_reference_multiplier = 1.5;
+static constexpr double mortar_laser_rangefinder_sensor_multiplier = 1.8;
+static constexpr double mortar_laser_rangefinder_axis_multiplier = 0.5;
+static constexpr int mortar_laser_rangefinder_range = 2000;
+static constexpr double mortar_danger_area_scale = 1.5;
+
+bool mortar_item_has_fire_control( const item &it )
+{
+    if( it.typeId() == itype_mortar_fire_control_tablet ||
+        it.typeId() == itype_software_mortar_fire_control ) {
+        return true;
+    }
+    if( it.is_estorage() ) {
+        for( const item *software : it.softwares() ) {
+            if( software->typeId() == itype_software_mortar_fire_control ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool character_has_mortar_tactical_data_system( const Character &who,
+        const tripoint_abs_ms &mortar_pos )
+{
+    if( who.cache_has_item_with( itype_mortar_fire_control_tablet ) ||
+        who.has_software( itype_software_mortar_fire_control ) ) {
+        return true;
+    }
+
+    map &here = get_map();
+    const tripoint_bub_ms mortar_bub = here.get_bub( mortar_pos );
+    if( !here.inbounds( mortar_bub ) ) {
+        return false;
+    }
+    for( const tripoint_bub_ms &pos : points_in_radius( mortar_bub, 1 ) ) {
+        if( !here.inbounds( pos ) ) {
+            continue;
+        }
+        for( const item &it : here.i_at( pos ) ) {
+            if( mortar_item_has_fire_control( it ) ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+double mortar_proficiency_accuracy_multiplier( const Character &who )
+{
+    if( who.has_proficiency( proficiency_prof_mortar_operation ) ) {
+        return 1.0;
+    }
+    const double practiced = clamp<double>( who.get_proficiency_practice(
+            proficiency_prof_mortar_operation ), 0.0, 1.0 );
+    return 1.0 + ( mortar_no_proficiency_error_multiplier - 1.0 ) * ( 1.0 - practiced );
+}
+
+double mortar_fixed_accuracy_multiplier( const Character &who, const tripoint_abs_ms &mortar_pos )
+{
+    return mortar_proficiency_accuracy_multiplier( who ) *
+           ( character_has_mortar_tactical_data_system( who, mortar_pos ) ? 1.0 :
+             mortar_no_tactical_data_error_multiplier ) *
+           mortar_weather_error_multiplier;
+}
+
+bool mortar_has_zoom_optic( const Character &spotter )
+{
+    if( spotter.cache_has_item_with( flag_ZOOM ) ) {
+        return true;
+    }
+    const auto gun_has_zoom_mod = []( const item & gun ) {
+        for( const item *mod : gun.gunmods() ) {
+            if( mod->has_flag( flag_ZOOM ) ) {
+                return true;
+            }
+        }
+        return false;
+    };
+    return spotter.cache_has_item_with( "mortar scoped gun", &item::is_gun, gun_has_zoom_mod );
+}
+
+bool mortar_has_charged_laser_rangefinder( const Character &spotter )
+{
+    return spotter.cache_has_item_with( itype_laser_rangefinder,
+    [&spotter]( const item & it ) {
+        return it.ammo_sufficient( &spotter );
+    } );
+}
+
+bool mortar_uses_laser_rangefinder( const Character &spotter, const tripoint_abs_ms &target )
+{
+    return rl_dist( spotter.pos_abs(), target ) <= mortar_laser_rangefinder_range &&
+           mortar_has_charged_laser_rangefinder( spotter );
+}
+
+double mortar_soft_cap_sensor_multiplier( const double multiplier )
+{
+    if( multiplier <= 4.0 ) {
+        return multiplier;
+    }
+    return 4.0 + ( multiplier - 4.0 ) / ( 1.0 + multiplier - 4.0 );
+}
+
+double mortar_spotter_sensor_multiplier( const Character &spotter,
+        const tripoint_abs_ms &target )
+{
+    double multiplier = 1.0;
+    if( mortar_uses_laser_rangefinder( spotter, target ) ) {
+        multiplier *= mortar_laser_rangefinder_sensor_multiplier;
+    } else if( mortar_has_zoom_optic( spotter ) ) {
+        multiplier *= mortar_binocular_reference_multiplier;
+    }
+    if( spotter.has_flag( json_flag_ENHANCED_VISION ) ) {
+        multiplier *= 1.4;
+    }
+
+    const std::bitset<NUM_VISION_MODES> &vision_modes = spotter.get_vision_modes();
+    if( vision_modes[VISION_CLAIRVOYANCE_SUPER] ) {
+        multiplier *= 1.8;
+    } else if( vision_modes[VISION_CLAIRVOYANCE_PLUS] ) {
+        multiplier *= 1.5;
+    } else if( vision_modes[VISION_CLAIRVOYANCE] ) {
+        multiplier *= 1.3;
+    }
+    if( vision_modes[NV_GOGGLES] ) {
+        multiplier *= 1.25;
+    } else if( vision_modes[NIGHTVISION_3] ) {
+        multiplier *= 1.3;
+    } else if( vision_modes[NIGHTVISION_2] ) {
+        multiplier *= 1.2;
+    } else if( vision_modes[NIGHTVISION_1] ) {
+        multiplier *= 1.1;
+    }
+    if( vision_modes[IR_VISION] ) {
+        multiplier *= 1.2;
+    }
+
+    multiplier *= clamp<double>( spotter.hearing_ability(), 0.25, 1.8 );
+    return mortar_soft_cap_sensor_multiplier( multiplier );
+}
+
+double mortar_base_location_error( const Character &spotter, const tripoint_abs_ms &target )
+{
+    const double perception = clamp<double>( spotter.get_per(), 1.0, 10.0 );
+    double base = 0.0;
+    if( perception <= 5.0 ) {
+        base = 500.0 - ( perception - 1.0 ) * ( 250.0 / 4.0 );
+    } else {
+        base = 250.0 - ( perception - 5.0 ) * ( 100.0 / 5.0 );
+    }
+    return std::max( 1.0, base * mortar_binocular_reference_multiplier /
+                     mortar_spotter_sensor_multiplier( spotter, target ) );
+}
+
+mortar_location_error mortar_make_location_error( const Character &spotter,
+        const tripoint_abs_ms &target, const double cep )
+{
+    mortar_location_error error{ cep, cep };
+    if( mortar_uses_laser_rangefinder( spotter, target ) ) {
+        error.range *= mortar_laser_rangefinder_axis_multiplier;
+    }
+    return error;
+}
+
+bool confirm_player_mortar_probable_impact_area( const mortar_type &mortar,
+        const tripoint_abs_ms &target, const tripoint_abs_ms &mortar_pos,
+        const mortar_error &ballistic_error, const tripoint_abs_ms &location_axis_from,
+        const tripoint_abs_ms &location_axis_to, const mortar_location_error &location_error,
+        const Character &gunner )
+{
+    if( !mortar.point_in_probable_impact_area( target, mortar_pos, target, ballistic_error,
+            location_axis_from, location_axis_to, location_error, gunner.pos_abs(),
+            mortar_danger_area_scale ) ) {
+        return true;
+    }
+
+    return query_yn(
+               _( "You may be inside the probable impact area for this mortar mission.  Fire anyway?" ) );
+}
+
+} // namespace
 
 void appliance_convert_examine_actor::load( const JsonObject &jo, const std::string & )
 {
@@ -398,18 +598,9 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
         return;
     }
 
-    if( rl_dist( you.pos_abs_omt(), target ) <=
-        std::ceil( static_cast<float>( MAX_VIEW_DISTANCE ) / ( 2 * SEEX ) ) ) {
-        add_msg( _( "Target is too close." ) );
-        return;
-    }
-    time_duration aim_dur = aim_duration.evaluate( d );
-    you.assign_activity( ACT_MORTAR_AIMING, to_moves<int>( aim_dur ) );
-
     tripoint_abs_ms target_abs_ms = project_to<coords::ms>( target );
 
-    // Aim at the center of OMT, then apply indirect-fire dispersion comparable
-    // to NPC-guided mortar fire for the same launcher skill.
+    // Aim at the center of OMT, then apply indirect-fire dispersion.
     target_abs_ms.x() += SEEX;
     target_abs_ms.y() += SEEY;
     // we can have edge cases with it if, for example, we target radio tower (high building, but with small profile)
@@ -417,11 +608,58 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
     const int launcher_skill = you.get_skill_level( skill_launcher );
     const tripoint_abs_ms mortar_abs = here.get_abs( examp );
     if( mortar != nullptr ) {
-        const int distance = rl_dist( mortar_abs, target_abs_ms );
-        const double cep = mortar->player_cep( aim_deviation.evaluate( d ), distance, launcher_skill );
-        target_abs_ms = mortar->apply_dispersion( target_abs_ms, mortar_abs, target_abs_ms, cep,
-                        launcher_skill );
+        const tripoint_abs_ms designated_target_abs_ms = target_abs_ms;
+        const int distance = rl_dist( mortar_abs, designated_target_abs_ms );
+        const double skill_multiplier = mortar_type::skill_accuracy_multiplier( launcher_skill );
+        const double fixed_multiplier = mortar_fixed_accuracy_multiplier( you, mortar_abs );
+        const double raw_total_multiplier = skill_multiplier * fixed_multiplier;
+        const double total_multiplier = mortar_type::effective_ballistic_multiplier(
+                                            raw_total_multiplier );
+        const int minimum_target_distance = mortar->minimum_target_distance( distance,
+                                            total_multiplier );
+        if( distance <= minimum_target_distance ) {
+            add_msg( _( "Target is too close to the mortar; minimum safe range is %d tiles." ),
+                     minimum_target_distance );
+            return;
+        }
+
+        const double location_error_cep = mortar_base_location_error( you, designated_target_abs_ms );
+        const mortar_location_error location_error = mortar_make_location_error(
+                you, designated_target_abs_ms, location_error_cep );
+        const mortar_error minimum_error = mortar->minimum_error( distance );
+        const mortar_error ballistic_error{ minimum_error.range * total_multiplier,
+                                            minimum_error.deflection * total_multiplier };
+        if( !confirm_player_mortar_probable_impact_area( *mortar, designated_target_abs_ms,
+                mortar_abs, ballistic_error, you.pos_abs(), designated_target_abs_ms, location_error,
+                you ) ) {
+            return;
+        }
+
+        const tripoint_abs_ms aimpoint_abs_ms = mortar->apply_location_error( designated_target_abs_ms,
+                                                you.pos_abs(), designated_target_abs_ms, location_error );
+        target_abs_ms = mortar->apply_dispersion( aimpoint_abs_ms, mortar_abs,
+                        designated_target_abs_ms,
+                        ballistic_error );
+        add_msg_debug( debugmode::DF_EXPLOSION,
+                       "Player mortar fire: distance %d, minimum range %.2f, minimum deflection %.2f, "
+                       "skill multiplier %.2f, fixed multiplier %.2f, raw total multiplier %.2f, "
+                       "effective total multiplier %.2f, minimum target distance %d, location error %.2f:%.2f, "
+                       "rangefinder %d, aimpoint offset %d:%d, impact offset %d:%d.",
+                       distance, minimum_error.range, minimum_error.deflection, skill_multiplier,
+                       fixed_multiplier, raw_total_multiplier, total_multiplier, minimum_target_distance,
+                       location_error.range, location_error.deflection,
+                       mortar_uses_laser_rangefinder( you, designated_target_abs_ms ) ? 1 : 0,
+                       aimpoint_abs_ms.x() - designated_target_abs_ms.x(),
+                       aimpoint_abs_ms.y() - designated_target_abs_ms.y(),
+                       target_abs_ms.x() - designated_target_abs_ms.x(),
+                       target_abs_ms.y() - designated_target_abs_ms.y() );
+    } else if( rl_dist( mortar_abs, target_abs_ms ) <= MAX_VIEW_DISTANCE ) {
+        add_msg( _( "Target is too close." ) );
+        return;
     }
+
+    time_duration aim_dur = aim_duration.evaluate( d );
+    you.assign_activity( ACT_MORTAR_AIMING, to_moves<int>( aim_dur ) );
 
     const time_duration impact_delay = mortar != nullptr ? mortar->player_flight_time() :
                                        flight_time.evaluate( d );
