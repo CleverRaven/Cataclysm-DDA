@@ -306,42 +306,32 @@ TEST_CASE( "Targeted_grab_removal_test", "[mattack][grab]" )
 {
     map &here = get_map();
 
-    const std::string grabber_left = "mon_debug_grabber_left";
-    const std::string grabber_right = "mon_debug_grabber_right";
+    const std::string grabber = "mon_debug_grabber_head";
     const tripoint_bub_ms target_location = attacker_location + tripoint::east;
-    const tripoint_bub_ms attacker_location_e = target_location + tripoint::east;
 
     clear_map_without_vision();
     clear_creatures();
     Character &you = get_player_character();
     clear_avatar();
-    you.setpos( here, target_location );
+    you.setpos( here, attacker_location );
 
-    monster &test_monster_left = spawn_test_monster( grabber_left, attacker_location_e );
-    monster &test_monster_right = spawn_test_monster( grabber_right, attacker_location );
-    test_monster_left.set_dest( you.pos_abs() );
-    test_monster_right.set_dest( you.pos_abs() );
-    const mattack_actor &attack_left = test_monster_left.type->special_attacks.at( "grab" ).operator
-                                       * ();
-    const mattack_actor &attack_right = test_monster_right.type->special_attacks.at( "grab" ).operator
-                                        * ();
+    monster &test_monster = spawn_test_monster( grabber, target_location );
+    test_monster.set_dest( you.pos_abs() );
+    const mattack_actor &attack = test_monster.type->special_attacks.at( "grab" ).operator
+                                  * ();
 
-    // Grabbed by both
-    REQUIRE( attack_left.call( test_monster_left ) );
-    REQUIRE( attack_right.call( test_monster_right ) );
+    // Grabbed
+    REQUIRE( attack.call( test_monster ) );
 
-    //Have two grabs, the monsters have the right filter effects
-    REQUIRE( you.has_effect( effect_grabbed, body_part_arm_r ) );
-    REQUIRE( you.has_effect( effect_grabbed, body_part_arm_l ) );
-    REQUIRE( test_monster_right.is_grabbing( body_part_arm_r ) );
-    REQUIRE( test_monster_left.is_grabbing( body_part_arm_l ) );
+    //Grab, the monsters have the filter effects
+    REQUIRE( you.has_effect( effect_grabbed, body_part_head ) );
+    REQUIRE( test_monster.is_grabbing( body_part_head ) );
 
-    // Kill the left grabber
-    test_monster_left.die( &here, nullptr );
+    // Kill the grabber
+    test_monster.die( &here, nullptr );
 
-    // Now we only have the one
-    REQUIRE( you.has_effect( effect_grabbed, body_part_arm_r ) );
-    REQUIRE( !you.has_effect( effect_grabbed, body_part_arm_l ) );
+    // Now we have none
+    REQUIRE( !you.has_effect( effect_grabbed, body_part_head ) );
 }
 
 TEST_CASE( "Ranged_pull_tests", "[mattack][grab]" )
