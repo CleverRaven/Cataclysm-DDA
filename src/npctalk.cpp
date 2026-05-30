@@ -212,6 +212,7 @@ static void assign_mortar_support( npc &gunner );
 static void report_mortar_support( npc &gunner );
 static void request_mortar_fire( npc &gunner, bool repeat_target );
 static void select_mortar_ammo( npc &gunner );
+static void toggle_mortar_adjustment( npc &gunner );
 } // namespace talk_effect_fun
 
 using item_menu = std::function<item_location( const item_location_filter & )>;
@@ -727,6 +728,7 @@ enum npc_chat_menu {
     NPC_CHAT_MORTAR_SUPPORT_REPEAT_FIRE,
     NPC_CHAT_MORTAR_SUPPORT_SELECT_AMMO,
     NPC_CHAT_MORTAR_SUPPORT_REPORT_AMMO,
+    NPC_CHAT_MORTAR_SUPPORT_TOGGLE_ADJUSTMENT,
     NPC_CHAT_ACTIVITIES,
     NPC_CHAT_ACTIVITIES_MOVE_LOOT,
     NPC_CHAT_ACTIVITIES_BUTCHERY,
@@ -1043,6 +1045,8 @@ static int npc_mortar_support_menu()
                     _( "Fire a mortar round at a target" ) );
     nmenu.addentry( NPC_CHAT_MORTAR_SUPPORT_REPEAT_FIRE, true, 'r',
                     _( "Repeat the last mortar fire mission" ) );
+    nmenu.addentry( NPC_CHAT_MORTAR_SUPPORT_TOGGLE_ADJUSTMENT, true, 'j',
+                    _( "Switch mortar adjustment tactic" ) );
     nmenu.addentry( NPC_CHAT_MORTAR_SUPPORT_SELECT_AMMO, true, 's',
                     _( "Select mortar ammunition" ) );
     nmenu.addentry( NPC_CHAT_MORTAR_SUPPORT_REPORT_AMMO, true, 'a',
@@ -1520,6 +1524,9 @@ void game::chat( const std::optional<tripoint_bub_ms> &p )
                     break;
                 case NPC_CHAT_MORTAR_SUPPORT_REPEAT_FIRE:
                     talk_effect_fun::request_mortar_fire( gunner, true );
+                    break;
+                case NPC_CHAT_MORTAR_SUPPORT_TOGGLE_ADJUSTMENT:
+                    talk_effect_fun::toggle_mortar_adjustment( gunner );
                     break;
                 case NPC_CHAT_MORTAR_SUPPORT_SELECT_AMMO:
                     talk_effect_fun::select_mortar_ammo( gunner );
@@ -6275,6 +6282,41 @@ void set_mortar_last_target( npc &gunner, const tripoint_abs_ms &target )
     gunner.set_value( "mortar_target", target );
 }
 
+enum class mortar_adjustment_tactic : int {
+    bracketing,
+    creeping
+};
+
+std::string mortar_adjustment_tactic_name( const mortar_adjustment_tactic tactic )
+{
+    switch( tactic ) {
+        case mortar_adjustment_tactic::creeping:
+            return _( "Creeping Adjustment" );
+        case mortar_adjustment_tactic::bracketing:
+            return _( "Bracketing Adjustment" );
+    }
+    return _( "Bracketing Adjustment" );
+}
+
+mortar_adjustment_tactic get_mortar_adjustment_tactic( const npc &gunner )
+{
+    const diag_value value = gunner.get_value( "mortar_adjustment_tactic" );
+    if( value.is_empty() ) {
+        return mortar_adjustment_tactic::bracketing;
+    }
+    return value.str() == "creeping" ? mortar_adjustment_tactic::creeping :
+           mortar_adjustment_tactic::bracketing;
+}
+
+void set_mortar_adjustment_tactic( npc &gunner, const mortar_adjustment_tactic tactic )
+{
+    if( tactic == mortar_adjustment_tactic::creeping ) {
+        gunner.set_value( "mortar_adjustment_tactic", "creeping" );
+    } else {
+        gunner.remove_value( "mortar_adjustment_tactic" );
+    }
+}
+
 constexpr double mortar_weather_error_multiplier = 3.0;
 constexpr double mortar_no_tactical_data_error_multiplier = 3.0;
 constexpr double mortar_no_proficiency_error_multiplier = 4.0;
@@ -6360,10 +6402,14 @@ double mortar_proficiency_accuracy_multiplier( const Character &gunner )
 double get_mortar_accuracy_multiplier( const npc &gunner )
 {
     const diag_value value = gunner.get_value( "mortar_current_accuracy_multiplier" );
-    if( value.is_empty() || !value.is_dbl() ) {
+    if( value.is_empty() ) {
         return mortar_type::skill_accuracy_multiplier( gunner.get_skill_level( skill_launcher ) );
     }
-    return std::max( 1.0, value.dbl() );
+    const double multiplier = value.dbl();
+    if( !value.is_dbl() ) {
+        return mortar_type::skill_accuracy_multiplier( gunner.get_skill_level( skill_launcher ) );
+    }
+    return std::max( 1.0, multiplier );
 }
 
 void set_mortar_accuracy_multiplier( npc &gunner, const double multiplier )
@@ -6557,10 +6603,14 @@ double get_mortar_location_error( const npc &gunner, const Character &spotter,
                                   const tripoint_abs_ms &target )
 {
     const diag_value value = gunner.get_value( "mortar_location_error" );
-    if( value.is_empty() || !value.is_dbl() ) {
+    if( value.is_empty() ) {
         return mortar_base_location_error( spotter, target );
     }
-    return std::max( 1.0, value.dbl() );
+    const double error = value.dbl();
+    if( !value.is_dbl() ) {
+        return mortar_base_location_error( spotter, target );
+    }
+    return std::max( 1.0, error );
 }
 
 void set_mortar_location_error( npc &gunner, const double error )
@@ -6642,6 +6692,152 @@ int mortar_heading_degrees( const tripoint_abs_ms &from, const tripoint_abs_ms &
     return degrees;
 }
 
+std::pair<double, double> mortar_axis_unit( const tripoint_abs_ms &axis_from,
+        const tripoint_abs_ms &axis_to )
+{
+    double ux = axis_to.x() - axis_from.x();
+    double uy = axis_to.y() - axis_from.y();
+    const double length = std::hypot( ux, uy );
+    if( length <= 0.0 ) {
+        return { 1.0, 0.0 };
+    }
+    return { ux / length, uy / length };
+}
+
+double mortar_elliptic_distance( const tripoint_abs_ms &axis_from,
+                                 const tripoint_abs_ms &axis_to,
+                                 const tripoint_abs_ms &center,
+                                 const tripoint_abs_ms &point,
+                                 const mortar_error &error )
+{
+    const auto [ux, uy] = mortar_axis_unit( axis_from, axis_to );
+    const double dx = point.x() - center.x();
+    const double dy = point.y() - center.y();
+    const double range_offset = dx * ux + dy * uy;
+    const double deflection_offset = -dx * uy + dy * ux;
+    const double range_error = std::max( 1.0, error.range );
+    const double deflection_error = std::max( 1.0, error.deflection );
+    return std::hypot( range_offset / range_error, deflection_offset / deflection_error );
+}
+
+tripoint_abs_ms mortar_make_creeping_axis_to( const tripoint_abs_ms &target,
+        const tripoint_abs_ms &spotter_pos, const tripoint_abs_ms &mortar_pos )
+{
+    double dx = target.x() - spotter_pos.x();
+    double dy = target.y() - spotter_pos.y();
+    double length = std::hypot( dx, dy );
+    if( length <= 0.0 ) {
+        dx = target.x() - mortar_pos.x();
+        dy = target.y() - mortar_pos.y();
+        length = std::hypot( dx, dy );
+    }
+    if( length <= 0.0 ) {
+        dx = 1.0;
+        dy = 0.0;
+        length = 1.0;
+    }
+    dx /= length;
+    dy /= length;
+    return tripoint_abs_ms( target.x() + static_cast<int>( std::round( dx * 1000.0 ) ),
+                            target.y() + static_cast<int>( std::round( dy * 1000.0 ) ),
+                            target.z() );
+}
+
+void set_mortar_creeping_axis_to( npc &gunner, const tripoint_abs_ms &target,
+                                  const tripoint_abs_ms &spotter_pos,
+                                  const tripoint_abs_ms &mortar_pos )
+{
+    gunner.set_value( "mortar_creeping_axis_to",
+                      mortar_make_creeping_axis_to( target, spotter_pos, mortar_pos ) );
+}
+
+void store_mortar_creeping_axis_to( npc &gunner, const tripoint_abs_ms &axis_to )
+{
+    gunner.set_value( "mortar_creeping_axis_to", axis_to );
+}
+
+std::optional<tripoint_abs_ms> get_mortar_creeping_axis_to( const npc &gunner )
+{
+    const diag_value value = gunner.get_value( "mortar_creeping_axis_to" );
+    if( value.is_empty() ) {
+        return std::nullopt;
+    }
+    const tripoint_abs_ms axis_to = value.tripoint();
+    if( !value.is_tripoint() ) {
+        return std::nullopt;
+    }
+    return axis_to;
+}
+
+struct mortar_creeping_solution {
+    tripoint_abs_ms center;
+    int offset_heading = 0;
+    bool danger_close = false;
+    double offset_multiplier = 1.0;
+};
+
+mortar_creeping_solution mortar_creeping_adjustment( const tripoint_abs_ms &mortar_pos,
+        const tripoint_abs_ms &target, const tripoint_abs_ms &axis_to,
+        const tripoint_abs_ms &spotter_pos, const mortar_error &error )
+{
+    const double player_error_distance = mortar_elliptic_distance( mortar_pos, target, target,
+                                         spotter_pos, error );
+    const bool danger_close = player_error_distance <= 2.0;
+    const double offset_multiplier = danger_close ? ( player_error_distance > 1.0 ? 1.5 : 2.0 ) :
+                                     1.0;
+
+    const auto [offset_ux, offset_uy] = mortar_axis_unit( target, axis_to );
+    const auto [range_ux, range_uy] = mortar_axis_unit( mortar_pos, target );
+    const double range_component = offset_ux * range_ux + offset_uy * range_uy;
+    const double deflection_component = -offset_ux * range_uy + offset_uy * range_ux;
+    const double range_error = std::max( 1.0, error.range );
+    const double deflection_error = std::max( 1.0, error.deflection );
+    const double denominator = std::hypot( range_component / range_error,
+                                          deflection_component / deflection_error );
+    const double offset_distance = denominator > 0.0 ? offset_multiplier / denominator : 0.0;
+    const tripoint_abs_ms center( target.x() + static_cast<int>( std::round( offset_ux *
+                                   offset_distance ) ),
+                                  target.y() + static_cast<int>( std::round( offset_uy *
+                                          offset_distance ) ),
+                                  target.z() );
+    return mortar_creeping_solution{ center, mortar_heading_degrees( target, center ),
+                                     danger_close, offset_multiplier };
+}
+
+std::optional<mortar_creeping_solution> mortar_current_creeping_solution( npc &gunner,
+        const assigned_mortar &mortar, const Character &spotter )
+{
+    const std::optional<tripoint_abs_ms> target = get_mortar_last_target( gunner );
+    if( !target ) {
+        return std::nullopt;
+    }
+    std::optional<tripoint_abs_ms> axis_to = get_mortar_creeping_axis_to( gunner );
+    if( !axis_to ) {
+        set_mortar_creeping_axis_to( gunner, *target, spotter.pos_abs(), mortar.pos );
+        axis_to = get_mortar_creeping_axis_to( gunner );
+    }
+    if( !axis_to ) {
+        return std::nullopt;
+    }
+
+    const int target_distance = rl_dist( mortar.pos, *target );
+    const double accuracy_multiplier = get_mortar_accuracy_multiplier( gunner );
+    const double location_error_cep = get_mortar_location_error( gunner, spotter, *target );
+    const mortar_location_error location_error = mortar_make_location_error( spotter, *target,
+            location_error_cep );
+    const double fixed_multiplier = mortar_fixed_accuracy_multiplier( gunner, mortar.pos );
+    const double total_multiplier = mortar_type::effective_ballistic_multiplier(
+                                        accuracy_multiplier * fixed_multiplier );
+    const mortar_error minimum_error = mortar.type->minimum_error( target_distance );
+    const mortar_error ballistic_error{ minimum_error.range * total_multiplier,
+                                        minimum_error.deflection * total_multiplier };
+    const mortar_error reported_error = mortar_combined_report_error( *mortar.type, mortar.pos,
+                                        *target, ballistic_error, spotter.pos_abs(), *target,
+                                        location_error );
+    return mortar_creeping_adjustment( mortar.pos, *target, *axis_to, spotter.pos_abs(),
+                                       reported_error );
+}
+
 void practice_mortar_shot( npc &gunner )
 {
     SkillLevel &launcher = gunner.get_skill_level_object( skill_launcher );
@@ -6682,6 +6878,8 @@ void assign_mortar_support_impl( npc &gunner )
     gunner.remove_value( "mortar_target" );
     gunner.remove_value( "mortar_current_cep" );
     gunner.remove_value( "mortar_location_error" );
+    gunner.remove_value( "mortar_adjustment_tactic" );
+    gunner.remove_value( "mortar_creeping_axis_to" );
     set_mortar_accuracy_multiplier( gunner,
                                     mortar_type::skill_accuracy_multiplier( gunner.get_skill_level( skill_launcher ) ) );
     set_mortar_last_spot_observed( gunner, true );
@@ -6929,20 +7127,38 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
         add_mortar_ammo( gunner, *round, 1 );
         return;
     }
+    const std::optional<tripoint_abs_ms> stored_creeping_axis_to =
+        get_mortar_creeping_axis_to( gunner );
+    const tripoint_abs_ms selected_creeping_axis_to = ( repeat_target && stored_creeping_axis_to ) ?
+            *stored_creeping_axis_to :
+            mortar_make_creeping_axis_to( *target_abs_ms, you.pos_abs(), mortar_abs );
 
     const mortar_error minimum_error = mortar_data.minimum_error( target_distance );
     const mortar_error ballistic_error{ minimum_error.range * total_multiplier,
                                         minimum_error.deflection * total_multiplier };
-    if( round_is_he && !confirm_mortar_probable_impact_area( mortar_data, *target_abs_ms, mortar_abs,
+
+    tripoint_abs_ms fire_center_abs_ms = *target_abs_ms;
+    std::optional<mortar_creeping_solution> creeping_solution;
+    if( get_mortar_adjustment_tactic( gunner ) == mortar_adjustment_tactic::creeping ) {
+        const mortar_error creeping_error = mortar_combined_report_error( mortar_data, mortar_abs,
+                                            *target_abs_ms, ballistic_error, location_axis_from,
+                                            location_axis_to, location_error );
+        creeping_solution = mortar_creeping_adjustment( mortar_abs, *target_abs_ms,
+                            selected_creeping_axis_to, you.pos_abs(), creeping_error );
+        fire_center_abs_ms = creeping_solution->center;
+    }
+
+    if( round_is_he && !confirm_mortar_probable_impact_area( mortar_data, fire_center_abs_ms,
+            mortar_abs,
             ballistic_error, location_axis_from, location_axis_to, location_error, you, gunner ) ) {
         add_mortar_ammo( gunner, *round, 1 );
         return;
     }
 
-    const tripoint_abs_ms aimpoint_abs_ms = mortar_data.apply_location_error( *target_abs_ms,
+    const tripoint_abs_ms aimpoint_abs_ms = mortar_data.apply_location_error( fire_center_abs_ms,
                                             location_axis_from, location_axis_to, location_error );
     const tripoint_abs_ms impact_abs_ms = mortar_data.apply_dispersion( aimpoint_abs_ms, mortar_abs,
-                                          *target_abs_ms, ballistic_error );
+                                          fire_center_abs_ms, ballistic_error );
 
     const int report_mode = mortar_report_mode( you, gunner );
     const double shot_lost_chance = mortar_shot_lost_chance( you, impact_abs_ms );
@@ -6952,9 +7168,9 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
     const int impact_message_strength = report_mode +
                                         ( shot_observed ? 0 : mortar_report_lost_offset );
     const double feedback_accuracy_multiplier = mortar_repeat_accuracy_multiplier( mortar_data, you,
-                                                launcher_skill, *target_abs_ms );
+            launcher_skill, *target_abs_ms );
     const double feedback_location_multiplier = mortar_uses_laser_rangefinder( you, *target_abs_ms ) ?
-                                                mortar_laser_rangefinder_repeat_location_multiplier : 0.5;
+            mortar_laser_rangefinder_repeat_location_multiplier : 0.5;
 
     add_msg_debug( debugmode::DF_NPC,
                    "Mortar fire from %s: distance %d, minimum range %.2f, minimum deflection %.2f, "
@@ -6968,6 +7184,16 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
                    mortar_uses_laser_rangefinder( you, *target_abs_ms ) ? 1 : 0,
                    aimpoint_abs_ms.x() - target_abs_ms->x(), aimpoint_abs_ms.y() - target_abs_ms->y(),
                    impact_abs_ms.x() - target_abs_ms->x(), impact_abs_ms.y() - target_abs_ms->y() );
+    if( creeping_solution ) {
+        add_msg_debug( debugmode::DF_NPC,
+                       "Mortar creeping adjustment for %s: center offset %d:%d, heading %03d, "
+                       "danger close %d, offset multiplier %.2f.",
+                       gunner.disp_name(), fire_center_abs_ms.x() - target_abs_ms->x(),
+                       fire_center_abs_ms.y() - target_abs_ms->y(),
+                       creeping_solution->offset_heading,
+                       creeping_solution->danger_close ? 1 : 0,
+                       creeping_solution->offset_multiplier );
+    }
     add_msg_debug( debugmode::DF_NPC,
                    "Mortar spotting for %s: perception %d, sensor multiplier %.2f, lost chance %.2f%%, "
                    "roll %d, observed %d, correction reported %d, feedback multiplier %.2f:%.2f.",
@@ -7020,6 +7246,7 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
                                             gunner.getID(), *target_abs_ms, correction_reported,
                                             feedback_accuracy_multiplier,
                                             feedback_location_multiplier );
+    store_mortar_creeping_axis_to( gunner, selected_creeping_axis_to );
     set_mortar_last_target( gunner, *target_abs_ms );
     if( !repeat_target ) {
         set_mortar_accuracy_multiplier( gunner, accuracy_multiplier );
@@ -7035,6 +7262,19 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target )
     const mortar_error reported_error = mortar_combined_report_error( mortar_data, mortar_abs,
                                         *target_abs_ms, ballistic_error, location_axis_from,
                                         location_axis_to, location_error );
+    if( creeping_solution ) {
+        const std::string offset_heading_text = string_format( "%03d",
+                                                creeping_solution->offset_heading );
+        const std::string offset_multiplier_text = string_format( "%.1f",
+                                                   creeping_solution->offset_multiplier );
+        if( creeping_solution->danger_close ) {
+            add_msg( _( "%1$s reports Creeping Adjustment offset heading %2$s degrees, %3$sx probable-error offset.  Danger close to your position." ),
+                     gunner.disp_name(), offset_heading_text, offset_multiplier_text );
+        } else {
+            add_msg( _( "%1$s reports Creeping Adjustment offset heading %2$s degrees, %3$sx probable-error offset." ),
+                     gunner.disp_name(), offset_heading_text, offset_multiplier_text );
+        }
+    }
     if( launcher_skill >= 5 ) {
         add_msg( _( "You give the fire mission.  %1$s reads back: \"Grid accepted.  OT direction %2$s; probable range/normal-to-range error %3$d by %4$d tiles.  Shot in %5$d, splash in %6$d.\"" ),
                  gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
@@ -7060,12 +7300,55 @@ void report_mortar_support_impl( npc &gunner )
     if( total_ammo <= 0 ) {
         add_msg( _( "%1$s reports that they have no %2$s ready." ),
                  gunner.disp_name(), mortar_ammo_name( *mortar->type ) );
+    } else {
+        add_msg( _( "%1$s reports %2$d %3$s ready: %4$s." ),
+                 gunner.disp_name(), total_ammo, mortar_ammo_name( *mortar->type ),
+                 mortar_ammo_summary( gunner, *mortar->type ) );
+    }
+    add_msg( _( "%1$s reports current adjustment tactic: %2$s." ), gunner.disp_name(),
+             mortar_adjustment_tactic_name( get_mortar_adjustment_tactic( gunner ) ) );
+}
+
+void toggle_mortar_adjustment_impl( npc &gunner )
+{
+    const std::optional<assigned_mortar> mortar = get_assigned_mortar( gunner );
+    if( !mortar ) {
+        add_msg( _( "%s has not been assigned to a mortar." ), gunner.disp_name() );
         return;
     }
 
-    add_msg( _( "%1$s reports %2$d %3$s ready: %4$s." ),
-             gunner.disp_name(), total_ammo, mortar_ammo_name( *mortar->type ),
-             mortar_ammo_summary( gunner, *mortar->type ) );
+    avatar &you = get_avatar();
+    const mortar_adjustment_tactic current = get_mortar_adjustment_tactic( gunner );
+    const mortar_adjustment_tactic next = current == mortar_adjustment_tactic::creeping ?
+                                          mortar_adjustment_tactic::bracketing :
+                                          mortar_adjustment_tactic::creeping;
+    set_mortar_adjustment_tactic( gunner, next );
+
+    if( next == mortar_adjustment_tactic::bracketing ) {
+        add_msg( _( "%1$s switches to %2$s." ), gunner.disp_name(),
+                 mortar_adjustment_tactic_name( next ) );
+        return;
+    }
+
+    const std::optional<mortar_creeping_solution> solution = mortar_current_creeping_solution(
+                gunner, *mortar, you );
+    if( !solution ) {
+        add_msg( _( "%1$s switches to %2$s.  Creeping offset heading will be set when you order a target." ),
+                 gunner.disp_name(), mortar_adjustment_tactic_name( next ) );
+        return;
+    }
+
+    const std::string offset_heading_text = string_format( "%03d", solution->offset_heading );
+    const std::string offset_multiplier_text = string_format( "%.1f", solution->offset_multiplier );
+    if( solution->danger_close ) {
+        add_msg( _( "%1$s switches to %2$s.  Current offset heading is %3$s degrees, %4$sx probable-error offset.  Danger close to your position." ),
+                 gunner.disp_name(), mortar_adjustment_tactic_name( next ), offset_heading_text,
+                 offset_multiplier_text );
+    } else {
+        add_msg( _( "%1$s switches to %2$s.  Current offset heading is %3$s degrees, %4$sx probable-error offset." ),
+                 gunner.disp_name(), mortar_adjustment_tactic_name( next ), offset_heading_text,
+                 offset_multiplier_text );
+    }
 }
 
 void select_mortar_ammo_impl( npc &gunner )
@@ -7132,6 +7415,19 @@ talk_effect_fun_t::func f_request_mortar_repeat_fire()
             return;
         }
         request_mortar_fire_impl( *gunner, true );
+    };
+}
+
+talk_effect_fun_t::func f_toggle_mortar_adjustment()
+{
+    return []( dialogue const & d ) {
+        npc *gunner = d.actor( true )->get_npc();
+        if( gunner == nullptr ) {
+            debugmsg( "Trying to toggle mortar adjustment, but beta talker is not an NPC.  %s",
+                      d.get_callstack() );
+            return;
+        }
+        toggle_mortar_adjustment_impl( *gunner );
     };
 }
 
@@ -9661,6 +9957,11 @@ static void select_mortar_ammo( npc &gunner )
     select_mortar_ammo_impl( gunner );
 }
 
+static void toggle_mortar_adjustment( npc &gunner )
+{
+    toggle_mortar_adjustment_impl( gunner );
+}
+
 } // namespace talk_effect_fun
 
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun,
@@ -10100,6 +10401,10 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
     }
     if( effect_id == "request_mortar_repeat_fire" ) {
         set_effect( talk_effect_fun_t( talk_effect_fun::f_request_mortar_repeat_fire() ) );
+        return;
+    }
+    if( effect_id == "toggle_mortar_adjustment" ) {
+        set_effect( talk_effect_fun_t( talk_effect_fun::f_toggle_mortar_adjustment() ) );
         return;
     }
     if( effect_id == "report_mortar_support" ) {

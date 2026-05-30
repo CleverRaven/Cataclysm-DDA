@@ -92,6 +92,12 @@
         "effect": "request_mortar_repeat_fire"
       },
       {
+        "text": "Switch mortar adjustment tactic.",
+        "condition": { "math": [ "has_var(n_mortar_assignment)" ] },
+        "topic": "TALK_DONE",
+        "effect": "toggle_mortar_adjustment"
+      },
+      {
         "text": "Select mortar ammunition.",
         "condition": { "math": [ "has_var(n_mortar_assignment)" ] },
         "topic": "TALK_DONE",
