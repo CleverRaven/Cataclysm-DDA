@@ -69,13 +69,6 @@
   },
   {
     "type": "item_group",
-    "id": "milk_powder_jar_glass_sealed_1_8",
-    "subtype": "collection",
-    "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "milk_powder", "container-item": "null", "count": [ 1, 8 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "butter_wrapper_8",
     "subtype": "collection",
     "container-item": "wrapper",
@@ -115,13 +108,6 @@
     "subtype": "collection",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "cheese", "container-item": "null", "count": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cheese_bag_plastic_4_8",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "cheese", "container-item": "null", "count": [ 4, 8 ] } ]
   },
   {
     "type": "item_group",

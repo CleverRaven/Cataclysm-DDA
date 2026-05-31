@@ -138,7 +138,7 @@
       { "prob": 30, "group": "tea_green_raw_jar_glass_sealed_10_40" },
       { "prob": 50, "group": "wild_herbs_jar_glass_sealed_20_inf" },
       { "prob": 10, "group": "raw_dandelion_jar_glass_sealed_1_inf" },
-      { "prob": 30, "group": "milk_powder_jar_glass_sealed_1_8" },
+      { "prob": 30, "group": "milk_powder_various" },
       { "prob": 20, "group": "cinnamon_jar_glass_sealed_1_inf" },
       { "prob": 40, "group": "sugar_jar_glass_sealed_10_140" }
     ]
