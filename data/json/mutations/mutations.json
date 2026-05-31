@@ -164,7 +164,7 @@
     "type": "mutation",
     "id": "INTERSTICE_AURA",
     "name": { "str": "Penumbral Interstitium" },
-    "description": "Your cells operate under different rules.  While you still need to breath, you are otherwise extremely resistant to the thermal and chemical insults of the so-called universe.",
+    "description": "Your cells operate under different rules.  While you still need to breathe, you are otherwise extremely resistant to the thermal and chemical insults of the so-called universe.",
     "category": [ "INTERSTICE" ],
     "prereqs": [ "INTERSTICE_RESISTCHILL_RESISTWARM_2" ],
     "threshreq": [ "THRESH_INTERSTICE" ],

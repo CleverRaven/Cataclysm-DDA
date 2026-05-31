@@ -70,7 +70,7 @@
     "type": "ITEM",
     "id": "motor_tiny",
     "name": { "str": "tiny electric motor" },
-    "description": "A tiny electric motor just the right size for providing a gentle boost for a bicycle, or similarly light vehicles",
+    "description": "A tiny electric motor just the right size for providing a gentle boost for a bicycle, or similarly light vehicles.",
     "weight": "2500 g",
     "color": "light_cyan",
     "symbol": ",",

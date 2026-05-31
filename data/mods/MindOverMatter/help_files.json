@@ -26,7 +26,7 @@
       "6) Telekinesis: Moving objects without touching them.  Master telekinetics can throw objects or people through the air, walk on water, create a barrier that inhibits fast-moving attacks, carry an object next to them without touching it, fly, or even cause small earthquakes.",
       "7) Telepathy: Perception and manipulation of others' thoughts.  Master telepaths can read minds, influence others' moods to calm them down, tame even normally-untameable animals, stun and damage enemies with mental feedback, erase their perceptions from their targets' minds, and even take control of their enemies and make them fight for the psion.",
       "8) Teleportation: Movement without crossing the intervening distance.  Master teleporters can increase the relative distances around their enemies to slow their movements, reduce the relative distances around themselves to make melee attacks from several meters away, teleport through walls or from the first floor to the roof, walk through walls, travel long distances to places they have previously been, and open temporary rifts into the Nether.",
-      "9) Vitakinesis: Control of health and vitality, such as bloodflow, susceptibility to disease, healing speed, and need for sleep.  Master vitakinesis can slow or staunch bloodflow, increase the recovery rate of either a particular location or of their whole body, meditate instead of sleep, purge themselves of toxins or diseases, disrupt the bodily functions of their enemies, and heal grievous wounds in minutes."
+      "9) Vitakinesis: Control of health and vitality, such as bloodflow, susceptibility to disease, healing speed, and need for sleep.  Master vitakinesists can slow or staunch bloodflow, increase the recovery rate of their whole body or a particular part of it, meditate instead of sleep, purge themselves of toxins or diseases, disrupt the bodily functions of their enemies, and heal grievous wounds in minutes."
     ]
   },
   {
@@ -97,7 +97,7 @@
       "Psychic knacks are meant to represent the kind of psychics that often show up in horror literature, who are born with a certain set of powers and might get better at them but rarely laterally branch out.  They are meant to represent characters with one or a small number of tricks they can use to their advantage.  In exchange, psychic knacks are one-half the Difficulty that the full psionic power is, making them both easier to use and less subject to Nether Attunement.",
       "Each knack is self contained.  A knack for Chameleoflage allows the psychic to blend into their surroundings, and a knack for Mind Sense allows the psychic to locate nearby minds, and *that's it*.  They are not a full photokinetic or telepath and they will not gain any new powers.  What's more, something about knacks seems to interfere with matrix and portal awakenings.  The more knacks a character has, the harder awakening as a psion will be.  However, if you do awaken, any appropriate knacks are converted over into powers in your path (if applicable) and you become eligible for learning new powers.",
       "Not every path has knacks available, and not every power can be taken as a knack.  Knacks can only be taken during character creation.  If you take a knack, you cannot start as a Latent Psion.",
-      "If you want to play the game where knacks are the only powers, use the Psychic Scream modmod, found in the Rebalance mods tab."
+      "If you want to play the game where knacks are the only powers, use the Psychic Scream submod, found in the Rebalance mods tab."
     ]
   }
 ]

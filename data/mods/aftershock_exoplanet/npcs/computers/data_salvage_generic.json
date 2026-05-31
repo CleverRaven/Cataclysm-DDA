@@ -86,7 +86,7 @@
       {
         "truefalsetext": {
           "true": "Copy the archived data.",
-          "false": "There archive contains no new information.",
+          "false": "This archive contains no new information.",
           "condition": { "math": [ "computer_salvageable == 1" ] }
         },
         "effect": [

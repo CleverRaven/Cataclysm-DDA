@@ -853,7 +853,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str_sp": "skunk tail" },
+    "name": { "str": "skunk tail" },
     "description": "Thick black and white striped tail.",
     "weight": "300 g",
     "volume": "300 ml",
