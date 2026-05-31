@@ -115,6 +115,11 @@ void scenario::load( const JsonObject &jo, std::string_view )
 
     optional( jo, was_loaded, "eoc", _eoc, auto_flags_reader<effect_on_condition_id> {} );
 
+    if( jo.has_array( "origin_offset" ) ) {
+        const std::vector offset = jo.get_int_array( "origin_offset" );
+        origin_offset = point_rel_om( offset[0], offset[1] );
+    }
+
     if( !was_loaded ) {
 
         int _start_of_cataclysm_hour = 0;
@@ -741,6 +746,10 @@ bool scenario::has_map_extra() const
 const map_extra_id &scenario::get_map_extra() const
 {
     return _map_extra;
+}
+const point_rel_om &scenario::get_origin_offset() const
+{
+    return origin_offset;
 }
 const std::vector<mission_type_id> &scenario::missions() const
 {

@@ -1047,10 +1047,16 @@ void avatar::initialize( character_type type )
         starting_pets.push_back( elem );
     }
 
-    if( get_scenario()->vehicle() != vproto_id::NULL_ID() ) {
-        starting_vehicle = get_scenario()->vehicle();
+    const scenario *scen = get_scenario();
+    if( scen->vehicle() != vproto_id::NULL_ID() ) {
+        starting_vehicle = scen->vehicle();
     } else {
         starting_vehicle = prof->vehicle();
+    }
+
+    const point_rel_om &offset = scen->get_origin_offset();
+    if( offset != point_rel_om::zero ) {
+        world_origin = world_origin.value_or( point_abs_om() ) + offset;
     }
 
     prof->learn_spells( *this );
