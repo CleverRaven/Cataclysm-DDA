@@ -4,7 +4,8 @@
     "id": "GROUP_Labyrinth_Room",
     "//": "Monsters in rooms in a Labyrinth.  Filler.",
     "monsters": [
-      { "monster": "mon_fleshborg_1_1", "weight": 800 },
+      { "monster": "mon_fleshborg_1_1", "weight": 600 },
+      { "monster": "mon_fleshborg_launcher_1_1", "weight": 300 },
       { "monster": "mon_fleshborg_1_1", "weight": 100, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_fleshborg_1_1", "weight": 50, "cost_multiplier": 20, "pack_size": [ 4, 6 ] },
       { "monster": "mon_fleshborg_1_2", "weight": 50, "cost_multiplier": 20 },
@@ -17,7 +18,8 @@
     "id": "GROUP_Labyrinth_Hallmonitors",
     "//": "Monsters walking the catwalks in a Labyrinth.  Filler.",
     "monsters": [
-      { "monster": "mon_fleshborg_1_1", "weight": 850 },
+      { "monster": "mon_fleshborg_1_1", "weight": 600 },
+      { "monster": "mon_fleshborg_launcher_1_1", "weight": 300 },
       { "monster": "mon_stiltwalker_1_1", "weight": 100 },
       { "monster": "mon_fleshborg_1_1", "weight": 100, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_flying_polyp", "weight": 2, "cost_multiplier": 0 },
