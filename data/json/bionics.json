@@ -1996,5 +1996,20 @@
       [ "arm_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ],
       [ "hand_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ]
     ]
+  },
+  {
+    "id": "bio_nl_collar",
+    "type": "bionic",
+    "name": { "str": "Mysterious collar implant" },
+    "description": "You can feel something implanted in the nape of your neck, but you're not sure what it is.  The whole thing makes you feel a little stiff.",
+    "cant_remove_reason": "You know there's an implant there, but it doesn't show up on the scanners?",
+    "encumbrance": [ [ "head", 1 ] ]
+  },
+  {
+    "id": "bio_nl_collar_deactivated",
+    "type": "bionic",
+    "name": { "str": "Mysterious collar implant" },
+    "description": "You can feel something implanted in the nape of your neck, but you're not sure what it is.  The whole thing makes you feel a little stiff.",
+    "encumbrance": [ [ "head", 1 ] ]
   }
 ]
