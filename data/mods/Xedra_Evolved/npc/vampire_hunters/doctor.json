@@ -34,19 +34,7 @@
     "bonus_int": { "rng": [ 3, 4 ] },
     "bonus_per": { "rng": [ 1, 2 ] },
     "sells_belongings": false,
-    "shopkeeper_item_group": [
-      { "group": "hunter_doctor_sold_items", "rigid": true },
-      {
-        "group": "hunter_doctor_aspirin",
-        "rigid": true,
-        "condition": { "compare_string": [ "yes", { "npc_val": "shared_with_hunter_doctor_aspirin" } ] }
-      },
-      {
-        "group": "hunter_doctor_rage_drink",
-        "rigid": true,
-        "condition": { "compare_string": [ "yes", { "npc_val": "shared_with_hunter_doctor_rage_drink" } ] }
-      }
-    ],
+    "shopkeeper_item_group": [ { "group": "hunter_doctor_sold_items", "rigid": true } ],
     "shopkeeper_consumption_rates": "basic_shop_rates",
     "worn_override": "VAMPIRE_HUNTER_DEFAULT_worn",
     "weapon_override": "VAMPIRE_HUNTER_DEFAULT_CROSSBOW_wield",
@@ -286,8 +274,9 @@
   {
     "id": "TALK_HUNTER_DOCTOR_SHARE_ASPIRIN",
     "type": "talk_topic",
+    "//": "When hidding currently unavailable items will be added, sharing the aspirin and rage drink recipes will add the resulting items to his stock.  For now he has them in stock but won't let you buy them.",
     "dynamic_line": [
-      "[Blaine copies the recipe on a paper sheet]  These painkillers will surely prove useful when someone will get injured.  For the time being, I can start selling them once I'm done with the first batch.  Thanks."
+      "[Blaine copies the recipe on a paper sheet]  These painkillers will surely prove useful when someone will get injured.  Thanks."
     ],
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_NONE" },
@@ -298,7 +287,7 @@
     "id": "TALK_HUNTER_DOCTOR_SHARE_RAGE_DRINK",
     "type": "talk_topic",
     "dynamic_line": [
-      "[Blaine copies the recipe on a paper sheet]  This concoction should result in cardiac arrest, but if it doesn't it will give a boost to our hunters when needed.  I will also have some on stock soon once I'm done with the first batch and it proves safe to use."
+      "[Blaine copies the recipe on a paper sheet]  This concoction should result in cardiac arrest, but if it doesn't it will give a boost to our hunters when needed.  Thanks."
     ],
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_NONE" },
