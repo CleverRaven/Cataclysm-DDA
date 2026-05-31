@@ -35,7 +35,7 @@
     "id": "buildkey_base1",
     "type": "ITEM",
     "category": "spare_parts",
-    "name": { "str": "Mouth of the Island" },
+    "name": { "str_sp": "Mouth of the Island" },
     "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Bunker Entrance",
     "volume": "25000 ml",
     "weight": "15000 g",

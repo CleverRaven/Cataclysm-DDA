@@ -2057,7 +2057,7 @@
     "category": "seeds",
     "name": { "str_sp": "pea seeds" },
     "container": "null",
-    "description": "fresh peas, ready for planting.",
+    "description": "Some fresh peas, ready for planting.",
     "extend": { "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ] },
     "plant_name": "pea",
     "fruit": "pea_pods",

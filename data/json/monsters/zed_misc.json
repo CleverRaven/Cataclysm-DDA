@@ -1077,7 +1077,7 @@
     "id": "mon_zombie_rot_diseased",
     "type": "MONSTER",
     "name": { "str": "zombie plaguebearer" },
-    "description": "The skin of this walking corpses glistens with disturbing fluids.  Even at a distance, the smell nearly makes you gag.",
+    "description": "The skin of this walking corpse glistens with disturbing fluids.  Even at a distance, the smell nearly makes you gag.",
     "copy-from": "mon_zombie_base",
     "hp": 65,
     "speed": 70,

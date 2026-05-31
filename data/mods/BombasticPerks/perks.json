@@ -737,7 +737,7 @@
   {
     "type": "mutation",
     "id": "perk_safety_net",
-    "name": { "str": "Safety net" },
+    "name": { "str": "Safety Net" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -757,7 +757,7 @@
   {
     "type": "mutation",
     "id": "perk_long_shot",
-    "name": { "str": "Long shot" },
+    "name": { "str": "Long Shot" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -917,7 +917,7 @@
   {
     "type": "mutation",
     "id": "perk_crafty_hands",
-    "name": { "str": "Crafty hands" },
+    "name": { "str": "Crafty Hands" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -978,7 +978,7 @@
   {
     "type": "mutation",
     "id": "perk_jugg",
-    "name": { "str": "Iron arm" },
+    "name": { "str": "Iron Arm" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -993,7 +993,7 @@
   {
     "type": "mutation",
     "id": "perk_skeleton",
-    "name": { "str": "Skin and bones" },
+    "name": { "str": "Skin and Bones" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -1054,7 +1054,7 @@
   {
     "type": "mutation",
     "id": "perk_dice_addition_damage",
-    "name": { "str": "Damage dice" },
+    "name": { "str": "Damage Dice" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -1230,7 +1230,7 @@
   {
     "type": "mutation",
     "id": "perk_dream_armor",
-    "name": { "str": "Armor of dreams" },
+    "name": { "str": "Armor of Dreams" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -1240,7 +1240,7 @@
   {
     "type": "mutation",
     "id": "perk_redrage",
-    "name": { "str": "Red rage" },
+    "name": { "str": "Red Rage" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -1255,7 +1255,7 @@
   {
     "type": "mutation",
     "id": "perk_peer_pressure",
-    "name": { "str": "Peer pressure" },
+    "name": { "str": "Peer Pressure" },
     "points": 0,
     "purifiable": false,
     "valid": false,
@@ -1362,7 +1362,7 @@
   {
     "type": "mutation",
     "id": "perk_flawless_memory",
-    "name": { "str": "Flawless memory" },
+    "name": { "str": "Flawless Memory" },
     "points": 0,
     "purifiable": false,
     "valid": false,

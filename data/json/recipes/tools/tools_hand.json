@@ -2117,7 +2117,7 @@
         "proficiencies": [ { "proficiency": "prof_welding_basic" } ]
       },
       {
-        "name": "Grinding  grooves for the heating elements",
+        "name": "Grinding grooves for the heating elements",
         "time": "1 h",
         "qualities": [ { "id": "GRIND", "level": 2 } ],
         "activity_level": "BRISK_EXERCISE"

@@ -418,7 +418,7 @@ void iexamine::genemill( Character &you, const tripoint_bub_ms & )
 
 
     if( genetech.empty() ) {
-        popup( _( "You aren't carrying have any genetic treatments." ) );
+        popup( _( "You aren't carrying any genetic treatments." ) );
         return;
     }
     std::map<int, item_location> item_map;

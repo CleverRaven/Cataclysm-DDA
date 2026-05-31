@@ -1132,7 +1132,7 @@
     "id": "flask_illumination",
     "type": "effect_type",
     "name": [ "Illuminatio" ],
-    "desc": [ "Your body emit a lot of light around." ],
+    "desc": [ "Your body emits a lot of light around you." ],
     "apply_message": "Your skin glow like an old lantern.  You feel no discomfort for some reason.",
     "remove_message": "Your skin turn back to normal state.",
     "rating": "good",

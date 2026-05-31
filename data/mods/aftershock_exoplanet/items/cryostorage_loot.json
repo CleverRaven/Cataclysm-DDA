@@ -33,7 +33,7 @@
     "id": "afs_cryo_goop",
     "copy-from": "cryo_storage_loot",
     "color": "red",
-    "name": { "str": "luminous fluid" },
+    "name": { "str_sp": "luminous fluid" },
     "description": "Strange, glowing goop?  Someone will pay for this, probably.",
     "price": "200 USD"
   },
