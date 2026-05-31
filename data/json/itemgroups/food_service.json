@@ -814,7 +814,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "prob": 65, "group": "egg_bird_unfert_carton_egg_6_12" },
+      { "prob": 65, "group": "eggs_in_carton" },
       { "group": "milk_in_container_full", "prob": 80 },
       { "item": "milk_raw", "charges": -1, "prob": 5 },
       { "group": "groce_dairyfake", "prob": 40 },
@@ -1498,8 +1498,8 @@
       { "group": "milk_in_big_container_full", "prob": 40, "count": [ 2, 4 ] },
       { "group": "butter_wrapper_8", "prob": 50, "count": [ 2, 4 ] },
       { "group": "butter_wrapper_8", "prob": 40, "count": [ 2, 5 ] },
-      { "group": "egg_bird_unfert_carton_egg_6_12", "prob": 50, "count": [ 1, 2 ] },
-      { "group": "egg_bird_unfert_carton_egg_6_12", "prob": 40, "count": [ 1, 3 ] }
+      { "group": "eggs_in_carton", "prob": 50, "count": [ 1, 2 ] },
+      { "group": "eggs_in_carton", "prob": 40, "count": [ 1, 3 ] }
     ]
   }
 ]
