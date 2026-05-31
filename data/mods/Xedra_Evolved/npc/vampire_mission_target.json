@@ -23,7 +23,7 @@
       { "group": "BG_survival_story_UNIVERSAL" },
       { "group": "NPC_starting_traits" },
       { "group": "Random_vampire_reason" },
-      { "u_add_trait": "VAMPIRE_BLOOD_ARTS" },
+      { "trait": "VAMPIRE_BLOOD_ARTS" },
       { "trait": "VAMPIRE" },
       { "trait": "VAMPIRE2" },
       { "trait": "VAMPIRE3" },
@@ -128,7 +128,7 @@
     },
     "responses": [
       {
-        "text": "Being a vampire is not great.  It's in fact the complete opposite of that.",
+        "text": "Being a vampire is not great.  It's something you don't want to become.",
         "trial": { "type": "PERSUADE", "difficulty": 10 },
         "condition": { "npc_has_trait": "VAMPIRE_REASON_DELUDED" },
         "success": { "topic": "TALK_VAMPIRE_MISSION_TARGET_CURE_CONVINCED" },
@@ -149,7 +149,7 @@
       },
       {
         "text": "[Give them the cure]",
-        "topic": "TALK_VAMPIRE_MISSION_TARGET_CURED",
+        "topic": "TALK_DONE",
         "condition": { "npc_has_trait": "VAMPIRE_REASON_UNWILLING" },
         "effect": [
           { "u_sell_item": "blood_treatment", "count": 1 },

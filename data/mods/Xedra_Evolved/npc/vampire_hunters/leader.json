@@ -111,8 +111,10 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "VAMPIRE" } },
-            { "math": [ "Vampire_Hunter_Quest_Completed = 3" ] },
-            { "math": [ "Vampire_Hunter_Quest_Accepted = 3" ] }
+            { "not": { "u_has_mission": "MISSION_VAMPIRE_HUNTER_LEADER_CURE_OR_KILL_TARGET" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "completed_hunters_kill_or_cure_target" } ] } },
+            { "math": [ "Vampire_Hunter_Quest_Completed == 3" ] },
+            { "math": [ "Vampire_Hunter_Quest_Accepted == 3" ] }
           ]
         }
       },
@@ -212,10 +214,12 @@
       },
       {
         "text": "I'm back and I killed the target.",
+        "//": "The vanish makes the target count as killed, so a check is required.  You can't kill them after giving them the cure anyway.",
         "condition": {
           "and": [
             { "not": { "u_has_trait": "VAMPIRE" } },
-            { "compare_string": [ "yes", { "u_val": "completed_hunter_kill_target" } ] }
+            { "compare_string": [ "yes", { "u_val": "completed_hunter_kill_target" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "completed_hunter_cure_target" } ] } }
           ]
         },
         "effect": [
@@ -279,8 +283,10 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "VAMPIRE" } },
-            { "math": [ "Vampire_Hunter_Quest_Completed = 3" ] },
-            { "math": [ "Vampire_Hunter_Quest_Accepted = 3" ] }
+            { "not": { "u_has_mission": "MISSION_VAMPIRE_HUNTER_LEADER_CURE_OR_KILL_TARGET" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "completed_hunters_kill_or_cure_target" } ] } },
+            { "math": [ "Vampire_Hunter_Quest_Completed == 3" ] },
+            { "math": [ "Vampire_Hunter_Quest_Accepted == 3" ] }
           ]
         }
       },
@@ -385,7 +391,7 @@
           { "math": [ "Vampire_Hunter_Quest_Accepted++" ] }
         ]
       },
-      { "text": "What do I get in exchange?", "topic": "TALK_VAMPIRE_HUNTER_LEADER_REWARDS" },
+      { "text": "What do I get in exchange?", "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS_REWARDS" },
       { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
@@ -396,12 +402,6 @@
     "responses": [
       {
         "text": "I will see if they want to be cured.",
-        "condition": {
-          "and": [
-            { "not": { "u_has_mission": "MISSION_VAMPIRE_HUNTER_LEADER_CURE_OR_KILL_TARGET" } },
-            { "not": { "compare_string": [ "yes", { "u_val": "completed_hunters_kill_renfield_monster" } ] } }
-          ]
-        },
         "topic": "TALK_DONE",
         "effect": [
           { "assign_mission": "MISSION_VAMPIRE_HUNTER_LEADER_CURE_OR_KILL_TARGET" },
@@ -619,7 +619,7 @@
     "value": 5000,
     "start": {
       "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "min_distance": 15, "random": true, "z": 0 },
-      "update_mapgen": { "place_npcs": [ { "class": "NC_XE_VAMPIRE_MISSION_TARGET", "x": [ 1, 22 ], "y": [ 1, 22 ], "target": true } ] }
+      "update_mapgen": { "place_npcs": [ { "class": "xe_vampire_mission_target", "x": [ 1, 22 ], "y": [ 1, 22 ], "target": true } ] }
     },
     "end": { "opinion": { "trust": 1, "value": 1 }, "effect": { "u_add_var": "completed_hunter_kill_target", "value": "yes" } },
     "origins": [ "ORIGIN_SECONDARY" ],

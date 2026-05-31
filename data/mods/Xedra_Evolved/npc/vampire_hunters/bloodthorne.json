@@ -371,10 +371,10 @@
                 ]
               }
             ]
-          },
-          { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+          }
         ]
-      }
+      },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   }
 ]

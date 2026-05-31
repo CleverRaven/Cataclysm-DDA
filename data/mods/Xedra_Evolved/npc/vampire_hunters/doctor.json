@@ -95,6 +95,62 @@
         ]
       },
       {
+        "text": "[Show him your notes on aspirin improvement]",
+        "topic": "TALK_HUNTER_DOCTOR_SHARE_ASPIRIN",
+        "condition": {
+          "and": [
+            { "u_has_item": "alchemy_recipe_extra_str_aspirin" },
+            { "not": { "compare_string": [ "yes", { "u_val": "shared_with_hunter_doctor_aspirin" } ] } }
+          ]
+        },
+        "effect": [
+          { "u_add_var": "shared_with_hunter_doctor_aspirin", "value": "yes" },
+          { "math": [ "vampire_hunters_owed_help += 3" ] }
+        ]
+      },
+      {
+        "text": "[Show him your notes on overcharged energy drinks]",
+        "topic": "TALK_HUNTER_DOCTOR_SHARE_RAGE_DRINK",
+        "condition": {
+          "and": [
+            { "u_has_item": "alchemy_recipe_blackout_rage_drink" },
+            { "not": { "compare_string": [ "yes", { "u_val": "shared_with_hunter_doctor_rage_drink" } ] } }
+          ]
+        },
+        "effect": [
+          { "u_add_var": "shared_with_hunter_doctor_rage_drink", "value": "yes" },
+          { "math": [ "vampire_hunters_owed_help += 3" ] }
+        ]
+      },
+      {
+        "text": "[Show him your notes on precognition-inducing hallucinogens]",
+        "topic": "TALK_HUNTER_DOCTOR_SHARE_LSD",
+        "condition": {
+          "and": [
+            { "u_has_item": "alchemy_recipe_prophets_lsd" },
+            { "not": { "compare_string": [ "yes", { "u_val": "shared_with_hunter_doctor_prophets_lsd" } ] } }
+          ]
+        },
+        "effect": [
+          { "u_add_var": "shared_with_hunter_doctor_prophets_lsd", "value": "yes" },
+          { "math": [ "vampire_hunters_owed_help += 3" ] }
+        ]
+      },
+      {
+        "text": "[Show him your notes on the elixir of life]",
+        "topic": "TALK_HUNTER_DOCTOR_SHARE_LIFE_ELIXIR",
+        "condition": {
+          "and": [
+            { "u_has_item": "alchemy_recipe_life_extension_potion" },
+            { "not": { "compare_string": [ "yes", { "u_val": "shared_with_hunter_doctor_life_extension_potion" } ] } }
+          ]
+        },
+        "effect": [
+          { "u_add_var": "shared_with_hunter_doctor_life_extension_potion", "value": "yes" },
+          { "math": [ "vampire_hunters_owed_help += 3" ] }
+        ]
+      },
+      {
         "text": "I'll buy some cure.  [10$]",
         "topic": "TALK_DONE",
         "condition": { "math": [ "vampire_hunters_owed_help < 1" ] },
