@@ -38,7 +38,8 @@
         "charges": 200,
         "contents-item": "software_mortar_fire_control"
       },
-      { "item": "laser_rangefinder", "prob": 30, "charges": [ 0, 100 ] }
+      { "item": "laser_rangefinder", "prob": 30, "charges": [ 0, 100 ] },
+      { "item": "eplrs_net_control_station", "prob": 40, "charges": [ 8, 56 ] }
     ]
   }
 ]
