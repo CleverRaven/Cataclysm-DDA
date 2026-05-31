@@ -1331,7 +1331,7 @@
         { "item": "scrap", "count": [ 4, 16 ] },
         { "item": "lc_steel_chunk", "count": [ 1, 6 ] },
         { "item": "cobalt_60", "count": [ 1, 5 ] },
-        { "item": "lead", "charges": [ 12, 18 ] }
+        { "item": "lead", "count": [ 12, 18 ] }
       ]
     },
     "deconstruct": {

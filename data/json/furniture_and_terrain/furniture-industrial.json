@@ -98,7 +98,7 @@
         { "item": "scrap", "count": [ 4, 16 ] },
         { "item": "lc_steel_chunk", "count": [ 1, 6 ] },
         { "item": "plutonium", "count": [ 0, 3 ] },
-        { "item": "lead", "charges": [ 12, 18 ] }
+        { "item": "lead", "count": [ 12, 18 ] }
       ]
     },
     "deconstruct": { "items": [ { "item": "compact_ASRG_containment", "count": 1 } ] }
@@ -566,7 +566,7 @@
         { "item": "uranium", "count": [ 10, 50 ] },
         { "item": "uran_cell", "charges": [ 10, 150 ] },
         { "item": "plutonium", "count": [ 0, 20 ] },
-        { "item": "lead", "charges": [ 12, 18 ] }
+        { "item": "lead", "count": [ 12, 18 ] }
       ]
     }
   },

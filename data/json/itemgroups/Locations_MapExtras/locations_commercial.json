@@ -2088,7 +2088,7 @@
   {
     "id": "farm_supply_quicklime_and_saltpetre",
     "type": "item_group",
-    "items": [ { "group": "quicklime_bag", "prob": 85 }, { "item": "chem_saltpetre", "prob": 15, "charges": [ 10, 50 ] } ]
+    "items": [ { "group": "quicklime_bag", "prob": 85 }, { "item": "chem_saltpetre", "prob": 15, "count": [ 10, 50 ] } ]
   },
   {
     "id": "farm_supply_animal_feed",

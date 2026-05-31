@@ -69,7 +69,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "60 m",
     "using": [ [ "wall_floor_glass_removal_standard", 1 ] ],
-    "byproducts": [ { "item": "spike", "count": [ 3, 6 ] }, { "item": "scrap", "charges": [ 6, 8 ] } ],
+    "byproducts": [ { "item": "spike", "count": [ 3, 6 ] }, { "item": "scrap", "count": [ 6, 8 ] } ],
     "pre_terrain": "t_m_frame",
     "post_terrain": "t_floor"
   },

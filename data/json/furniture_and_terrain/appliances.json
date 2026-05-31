@@ -905,11 +905,11 @@
     "description": "A car battery wired into a static power grid.",
     "item": "battery_car",
     "breaks_into": [
-      { "item": "lead", "charges": [ 1680, 2380 ] },
+      { "item": "lead", "count": [ 1680, 2380 ] },
       { "item": "chem_sulphuric_acid", "count": [ 5, 8 ], "container-item": "null" },
       { "item": "plastic_chunk", "count": [ 14, 20 ] },
-      { "item": "scrap", "charges": [ 2, 3 ] },
-      { "item": "shredded_rubber", "charges": [ 10, 14 ] }
+      { "item": "scrap", "count": [ 2, 3 ] },
+      { "item": "shredded_rubber", "count": [ 10, 14 ] }
     ],
     "durability": 120,
     "requirements": { "removal": { "time": "6 m" } },
@@ -926,11 +926,11 @@
     "description": "A motorbike battery wired into a static power grid.",
     "item": "battery_motorbike",
     "breaks_into": [
-      { "item": "lead", "charges": [ 252, 357 ] },
+      { "item": "lead", "count": [ 252, 357 ] },
       { "item": "chem_sulphuric_acid", "count": [ 0, 1 ], "container-item": "null" },
       { "item": "plastic_chunk", "count": [ 2, 3 ] },
-      { "item": "scrap", "charges": [ 0, 1 ] },
-      { "item": "shredded_rubber", "charges": [ 1, 2 ] }
+      { "item": "scrap", "count": [ 0, 1 ] },
+      { "item": "shredded_rubber", "count": [ 1, 2 ] }
     ],
     "durability": 100,
     "requirements": { "removal": { "time": "6 m" } },
@@ -947,11 +947,11 @@
     "description": "A small motorbike battery wired into a static power grid.",
     "item": "battery_motorbike_small",
     "breaks_into": [
-      { "item": "lead", "charges": [ 126, 178 ] },
+      { "item": "lead", "count": [ 126, 178 ] },
       { "item": "chem_sulphuric_acid", "count": [ 0, 1 ], "container-item": "null" },
       { "item": "plastic_chunk" },
-      { "item": "scrap", "charges": [ 0, 1 ] },
-      { "item": "shredded_rubber", "charges": [ 0, 1 ] }
+      { "item": "scrap", "count": [ 0, 1 ] },
+      { "item": "shredded_rubber", "count": [ 0, 1 ] }
     ],
     "durability": 30,
     "requirements": { "removal": { "time": "6 m" } },
@@ -1071,7 +1071,7 @@
       { "item": "scrap", "count": [ 4, 16 ] },
       { "item": "mc_steel_chunk", "count": [ 1, 6 ] },
       { "item": "plutonium", "count": [ 0, 2 ] },
-      { "item": "lead", "charges": [ 12, 18 ] }
+      { "item": "lead", "count": [ 12, 18 ] }
     ],
     "damage_reduction": { "all": 60 },
     "variants": [ { "symbols": "0", "symbols_broken": "#" } ]

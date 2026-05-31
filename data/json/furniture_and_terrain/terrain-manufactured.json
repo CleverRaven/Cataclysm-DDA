@@ -1127,7 +1127,7 @@
         { "item": "plastic_chunk", "count": [ 4, 8 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "lead", "charges": [ 1, 2 ] },
+        { "item": "lead", "count": [ 1, 2 ] },
         { "item": "ceramic_shard", "count": [ 2, 6 ] }
       ]
     }
@@ -1154,7 +1154,7 @@
       "items": [
         { "item": "scrap", "count": [ 10, 12 ] },
         { "item": "mc_steel_chunk", "count": [ 4, 6 ] },
-        { "item": "lead", "charges": [ 2, 8 ] },
+        { "item": "lead", "count": [ 2, 8 ] },
         { "item": "cable", "count": [ 20, 60 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "ceramic_shard", "count": [ 2, 6 ] }
@@ -1165,7 +1165,7 @@
       "items": [
         { "item": "scrap", "count": [ 12, 16 ] },
         { "item": "mc_steel_chunk", "count": [ 4, 6 ] },
-        { "item": "lead", "charges": [ 4, 16 ] },
+        { "item": "lead", "count": [ 4, 16 ] },
         { "item": "cable", "count": [ 60, 120 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "ceramic_shard", "count": [ 4, 12 ] }
@@ -1194,7 +1194,7 @@
       "items": [
         { "item": "scrap", "count": [ 10, 12 ] },
         { "item": "mc_steel_chunk", "count": [ 4, 6 ] },
-        { "item": "lead", "charges": [ 8, 16 ] },
+        { "item": "lead", "count": [ 8, 16 ] },
         { "item": "cable", "count": [ 1, 20 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "ceramic_shard", "count": [ 2, 6 ] }
@@ -1205,7 +1205,7 @@
       "items": [
         { "item": "scrap", "count": [ 12, 16 ] },
         { "item": "mc_steel_chunk", "count": [ 4, 6 ] },
-        { "item": "lead", "charges": [ 12, 32 ] },
+        { "item": "lead", "count": [ 12, 32 ] },
         { "item": "cable", "count": [ 20, 40 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "ceramic_shard", "count": [ 4, 12 ] }

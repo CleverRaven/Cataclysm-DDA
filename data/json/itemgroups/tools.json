@@ -11,7 +11,7 @@
       [ "swage", 60 ],
       [ "drift", 70 ],
       { "item": "graphite", "prob": 70, "count": [ 1, 250 ] },
-      { "item": "chem_borax", "prob": 90, "charges": [ 0, 500 ] },
+      { "item": "chem_borax", "prob": 90, "count": [ 0, 500 ] },
       [ "metal_file", 90 ],
       [ "hotcut", 90 ],
       [ "metalworking_tongs", 90 ],
