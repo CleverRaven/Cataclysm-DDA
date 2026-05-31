@@ -1,8 +1,8 @@
 #include "mortar.h"
 
-#include <stdlib.h>
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
 #include <limits>
 #include <unordered_map>
 #include <utility>
