@@ -46,10 +46,9 @@ class mortar_type
         const furn_str_id &furniture() const;
         const ammotype &ammo() const;
         int range() const;
-        time_duration player_flight_time() const;
+        time_duration player_flight_time( int distance ) const;
         time_duration npc_fire_message_delay() const;
-        time_duration npc_impact_delay() const;
-        time_duration npc_impact_message_delay() const;
+        time_duration npc_flight_time( int distance ) const;
 
         double minimum_range_error( int distance ) const;
         double minimum_deflection_error( int distance ) const;
@@ -84,10 +83,7 @@ class mortar_type
         furn_str_id furniture_;
         ammotype ammo_;
         int range_ = 0;
-        time_duration player_flight_time_ = 0_seconds;
         time_duration npc_fire_message_delay_ = 0_seconds;
-        time_duration npc_impact_delay_ = 0_seconds;
-        time_duration npc_impact_message_delay_ = 0_seconds;
         double range_error_ratio_ = 0.015;
         double deflection_error_mils_ = 2.0;
 };

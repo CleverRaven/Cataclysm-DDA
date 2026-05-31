@@ -54,10 +54,7 @@
     "furniture": "f_m224_mortar",
     "ammo": "mortar_60mm",
     "range": 3500,
-    "player_flight_time": "15 seconds",
     "npc_fire_message_delay": "10 seconds",
-    "npc_impact_delay": "40 seconds",
-    "npc_impact_message_delay": "41 seconds",
     "range_error_ratio": 0.015,
     "deflection_error_mils": 2.0
   }
