@@ -624,7 +624,7 @@
     "subtype": "distribution",
     "id": "chewing_gum_full_nic",
     "container-item": { "item": "blister_pack_small", "variant": "blister_pack_gum" },
-    "items": [ { "item": "caff_gum", "count": 12 } ]
+    "items": [ { "item": "nic_gum", "count": 12 } ]
   },
   {
     "type": "item_group",
