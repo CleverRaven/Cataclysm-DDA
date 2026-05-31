@@ -64,11 +64,6 @@ if (localProperties.getProperty('abi_x86_64') != null) {
     abi_x86_64 = localProperties.getProperty("abi_x86_64").toBoolean()
 }
 
-def deps = getProperty("deps")
-if (localProperties.getProperty('deps') != null) {
-    deps = localProperties.getProperty("deps")
-}
-
 def override_version = getProperty("override_version")
 if (localProperties.getProperty('override_version') != null) {
     override_version = localProperties.getProperty("override_version")
@@ -94,11 +89,6 @@ if (localProperties.getProperty('override_targetSdkVersion') != null) {
     override_targetSdkVersion = localProperties.getProperty("override_targetSdkVersion").toInteger()
 }
 
-def override_ndkBuildAppPlatform = getProperty("override_ndkBuildAppPlatform")
-if (localProperties.getProperty('override_ndkBuildAppPlatform') != null) {
-    override_ndkBuildAppPlatform = localProperties.getProperty("override_ndkBuildAppPlatform")
-}
-
 def override_ndkVersion = getProperty("override_ndkVersion")
 if (localProperties.getProperty('override_ndkVersion') != null) {
     override_ndkVersion = localProperties.getProperty('override_ndkVersion')
@@ -113,13 +103,11 @@ if (localProperties.getProperty('override_versionCode') != null) {
 
 println("Using [              njobs]: $njobs")
 println("Using [           localize]: $localize")
-println("Using [               deps]: $deps")
 println("Using [   override_version]: $override_version")
 println("Using [version_header_path]: $version_header_path")
 println("Using [  compileSdkVersion]: $override_compileSdkVersion")
 println("Using [      minSdkVersion]: $override_minSdkVersion")
 println("Using [   targetSdkVersion]: $override_targetSdkVersion")
-println("Using [ndkBuildAppPlatform]: $override_ndkBuildAppPlatform")
 println("Using [         ndkVersion]: $override_ndkVersion")
 println("Using [        versionCode]: $override_versionCode")
 println("Using [         abi_arm_32]: $abi_arm_32")
@@ -130,9 +118,12 @@ println("Using [         abi_x86_64]: $abi_x86_64")
 if (!abi_arm_32 && !abi_arm_64 && !abi_x86_32 && !abi_x86_64) {
     throw new GradleException("All supported ABI properties are set to false!")
 }
-if (!file(deps).exists()) {
-    throw new GradleException("Dependencies file does not exist:" + deps)
-}
+
+def enabledAbis = []
+if (abi_arm_64) enabledAbis << 'arm64-v8a'
+if (abi_arm_32) enabledAbis << 'armeabi-v7a'
+if (abi_x86_64) enabledAbis << 'x86_64'
+if (abi_x86_32) enabledAbis << 'x86'
 
 if (!override_version.isEmpty()) {
     if (version_header_path.isEmpty()) {
@@ -146,12 +137,55 @@ def projectRoot = './../..'
 def assetsDir = 'src/main/assets'
 def assetsDirWindows = 'src/main/assetsWinHost'
 
-task unzipDeps(type: Copy) {
-    println("Using dependencies file: $deps")
-    def zipFile = new File("$deps")
-    def outputDir = new File('.')
-    from zipTree(zipFile)
-    into outputDir
+def sdl3Aars = [
+    [name: 'SDL3',        version: '3.4.8', repo: 'SDL',
+     zipSha256: 'c4c23cec585cb99ea626625dc06b421933dd78733b3841628d86be1c13ab16c6'],
+    [name: 'SDL3_image',  version: '3.4.4', repo: 'SDL_image',
+     zipSha256: 'a0d1e27d4529c2bbc3e4ac72d2e6c0dd474b32cfe2586d22c4228a34224d1f57'],
+    [name: 'SDL3_ttf',    version: '3.2.2', repo: 'SDL_ttf',
+     zipSha256: '48e534daf88eec5c7f0c95fa6ca0e8a5f38f5fc7276824573131cebc403ee14c'],
+    [name: 'SDL3_mixer',  version: '3.2.2', repo: 'SDL_mixer',
+     zipSha256: 'bc9684da3d36eb6df7c5f645493dcdaa847822b8613aefadc889e1f8614427f3'],
+]
+
+task fetchSdl3Aars {
+    description 'Download upstream SDL3 Android AARs, verify SHA256, extract into app/libs.'
+    def libsDir = file('libs')
+    inputs.property('sdl3Aars', sdl3Aars.collect { "${it.name}-${it.version}-${it.zipSha256}" })
+    outputs.dir libsDir
+    doLast {
+        libsDir.mkdirs()
+        def cacheDir = new File(project.buildDir, 'sdl3-aar-cache')
+        cacheDir.mkdirs()
+        sdl3Aars.each { entry ->
+            def aarFile = new File(libsDir, "${entry.name}-${entry.version}.aar")
+            if (aarFile.exists()) {
+                return
+            }
+            def zipName = "${entry.name}-devel-${entry.version}-android.zip"
+            def zipFile = new File(cacheDir, zipName)
+            if (!zipFile.exists()) {
+                def url = "https://github.com/libsdl-org/${entry.repo}/releases/download/release-${entry.version}/${zipName}"
+                println("Downloading ${url}")
+                new URL(url).withInputStream { input ->
+                    zipFile.withOutputStream { output -> output << input }
+                }
+            }
+            def md = java.security.MessageDigest.getInstance('SHA-256')
+            zipFile.eachByte(8192) { buf, len -> md.update(buf, 0, len) }
+            def actualSha = md.digest().collect { String.format('%02x', it) }.join('')
+            if (actualSha != entry.zipSha256) {
+                throw new GradleException("SHA256 mismatch for ${zipName}: expected ${entry.zipSha256}, got ${actualSha}")
+            }
+            copy {
+                from zipTree(zipFile)
+                include "**/${entry.name}-${entry.version}.aar"
+                into libsDir
+                eachFile { it.path = it.name }
+                includeEmptyDirs = false
+            }
+        }
+    }
 }
 
 task makeLocalization(type: Exec) {
@@ -239,7 +273,7 @@ task createWindowsJunctionLinks() {
     }
 }
 
-preBuild.dependsOn unzipDeps
+preBuild.dependsOn fetchSdl3Aars
 preBuild.dependsOn makeLocalization
 preBuild.dependsOn generateVersionHeader
 preBuild.dependsOn createWindowsJunctionLinks
@@ -250,6 +284,14 @@ android {
     compileSdkVersion override_compileSdkVersion
     ndkVersion override_ndkVersion
 
+    buildFeatures {
+        prefab true
+    }
+
+    base {
+        archivesName = "cataclysmdda-" + new File("$version_header_path").text.split('\"')[1]
+    }
+
     defaultConfig {
         minSdkVersion override_minSdkVersion
         targetSdkVersion override_targetSdkVersion
@@ -257,7 +299,6 @@ android {
         versionName new File("$version_header_path").text.split('\"')[1]
         if (buildAsApplication) {
             applicationId "com.cleverraven.cataclysmdda"
-            setProperty("archivesBaseName", "cataclysmdda-" + versionName)
         }
         resValue "string", "app_name", "Cataclysm DDA"
 
@@ -287,8 +328,15 @@ android {
         }
 
         externalNativeBuild {
-            ndkBuild {
-                arguments "APP_PLATFORM=$override_ndkBuildAppPlatform", "-j$njobs"
+            cmake {
+                abiFilters(*enabledAbis as String[])
+                arguments "-DANDROID_STL=c++_shared",
+                          "-DANDROID_ARM_NEON=TRUE",
+                          "-DCMAKE_JOB_POOLS=compile=$njobs;link=2",
+                          "-DCMAKE_JOB_POOL_COMPILE=compile",
+                          "-DCMAKE_JOB_POOL_LINK=link",
+                          "-DCMAKE_CXX_COMPILER_LAUNCHER=ccache",
+                          "-DCMAKE_C_COMPILER_LAUNCHER=ccache"
             }
         }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -342,8 +390,10 @@ android {
                 signingConfig signingConfigs.release
             }
             externalNativeBuild {
-                ndkBuild {
+                cmake {
+                    arguments "-DCMAKE_BUILD_TYPE=Release"
                     cFlags "-DNDEBUG", "-DRELEASE", "-Os", "-g"
+                    cppFlags "-DNDEBUG", "-DRELEASE", "-Os", "-g"
                 }
             }
             ndk {
@@ -358,8 +408,10 @@ android {
                 signingConfig signingConfigs.debug
             }
             externalNativeBuild {
-                ndkBuild {
+                cmake {
+                    arguments "-DCMAKE_BUILD_TYPE=Debug"
                     cFlags "-g"
+                    cppFlags "-g"
                 }
             }
             ndk {
@@ -368,15 +420,12 @@ android {
         }
     }
     if (!project.hasProperty('EXCLUDE_NATIVE_LIBS')) {
-        sourceSets.main {
-            jniLibs.srcDir 'libs'
-        }
         externalNativeBuild {
-            ndkBuild {
-                path 'jni/Android.mk'
+            cmake {
+                path 'jni/CMakeLists.txt'
+                version '3.22.1'
             }
         }
-
     }
     lintOptions {
         abortOnError false
@@ -419,4 +468,9 @@ sourceSets {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
+    implementation files(
+        'libs/SDL3-3.4.8.aar',
+        'libs/SDL3_image-3.4.4.aar',
+        'libs/SDL3_ttf-3.2.2.aar',
+        'libs/SDL3_mixer-3.2.2.aar')
 }

@@ -1063,12 +1063,5 @@
         "prob": 25
       }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "butter_wrapper_32",
-    "subtype": "collection",
-    "container-item": "wrapper",
-    "entries": [ { "item": "butter", "container-item": "null", "count": 32 } ]
   }
 ]

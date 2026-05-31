@@ -417,7 +417,7 @@
       "items": [
         { "item": "splinter", "count": [ 2, 8 ] },
         { "item": "scrap", "count": [ 3, 10 ] },
-        { "item": "nuts_bolts", "charges": [ 5, 20 ] },
+        { "item": "nuts_bolts", "count": [ 5, 20 ] },
         { "item": "mtorch_everburning", "count": [ 1, 4 ] }
       ],
       "hit_field": [ "fd_dust", 2 ],

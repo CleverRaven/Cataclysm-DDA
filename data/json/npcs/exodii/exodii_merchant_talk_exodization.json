@@ -6,7 +6,11 @@
     "responses": [
       {
         "text": "[Install CBM Interface] Let's do it.",
-        "condition": { "not": { "or": [ { "u_has_flag": "NO_CBM_INSTALLATION" }, { "u_has_trait": "CBM_Interface" } ] } },
+        "condition": {
+          "not": {
+            "or": [ { "u_has_flag": "NO_CBM_INSTALLATION" }, { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ]
+          }
+        },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "2 hours" },
           { "u_add_effect": "sleep", "duration": "2 hours" },
@@ -188,7 +192,8 @@
           "or": [
             { "not": { "u_has_trait": "CBM_Interface" } },
             { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } },
-            { "not": { "u_has_trait": "Hub01_CBM_Interface" } }
+            { "not": { "u_has_trait": "Hub01_CBM_Interface" } },
+            { "not": { "u_has_trait": "NL_CBM_Interface" } }
           ]
         },
         "effect": [
@@ -204,7 +209,7 @@
       },
       {
         "text": "[Install Power Storage Mk. II CBM] I guess since I'm already a cyborg, I could use some more power.",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [
           { "u_add_faction_trust": 2 },
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
@@ -221,20 +226,20 @@
       },
       {
         "text": "How about store credit instead?  [adds $400 in store credit].",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [ { "u_spend_cash": -40000 }, { "u_add_faction_trust": 2 }, "start_trade" ],
         "topic": "TALK_DONE"
       },
       {
         "text": "Consider it a favor, Rubik.",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [ { "u_add_faction_trust": 4 } ],
         "opinion": { "trust": 7, "value": 5 },
         "topic": "TALK_DONE"
       },
       {
         "text": "Hold on.  I need to rethink it again.",
-        "condition": { "not": { "u_has_trait": "CBM_Interface" } },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "topic": "TALK_DONE"
       }
     ]

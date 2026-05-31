@@ -398,7 +398,7 @@
     "deconstruct": {
       "items": [
         { "item": "heavy_punching_bag_sack", "count": 1 },
-        { "item": "nuts_bolts", "charges": 4 },
+        { "item": "nuts_bolts", "count": 4 },
         { "item": "chain", "count": 4 },
         { "item": "blanket", "count": 6 },
         { "item": "material_sand", "count": 4000 }

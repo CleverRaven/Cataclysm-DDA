@@ -10,7 +10,7 @@
       [ "crucible", 30 ],
       [ "swage", 60 ],
       [ "drift", 70 ],
-      { "item": "graphite", "prob": 70, "charges": [ 50, 12500 ] },
+      { "item": "graphite", "prob": 70, "count": [ 1, 250 ] },
       { "item": "chem_borax", "prob": 90, "charges": [ 0, 500 ] },
       [ "metal_file", 90 ],
       [ "hotcut", 90 ],
@@ -67,7 +67,7 @@
       { "item": "cordless_impact_wrench", "prob": 20, "charges": [ 0, 500 ] },
       [ "metal_smoother", 90 ],
       { "item": "jackhammer", "prob": 40, "charges": [ 0, 1200 ] },
-      { "item": "graphite", "prob": 10, "charges": [ 50, 12500 ] },
+      { "item": "graphite", "prob": 10, "count": [ 1, 250 ] },
       { "group": "tools_toolbox", "prob": 20 },
       { "group": "tools_workshop", "prob": 5 },
       [ "recharge_station", 10 ],
@@ -127,7 +127,7 @@
       [ "multitool", 10 ],
       [ "recharge_station", 10 ],
       [ "hand_crank_charger", 25 ],
-      { "item": "graphite", "prob": 10, "charges": [ 50, 12500 ] },
+      { "item": "graphite", "prob": 10, "count": [ 1, 250 ] },
       [ "metal_file", 10 ],
       [ "clamp", 10 ],
       [ "sandpaper", 80 ],
@@ -152,7 +152,7 @@
       [ "hand_pump", 1 ],
       [ "funnel", 50 ],
       [ "metal_file", 40 ],
-      { "item": "graphite", "prob": 50, "charges": [ 50, 12500 ] },
+      { "item": "graphite", "prob": 50, "count": [ 1, 250 ] },
       { "item": "tape_measure", "prob": 70 },
       [ "sandpaper", 65 ]
     ]
@@ -179,7 +179,7 @@
       [ "hacksaw", 30 ],
       [ "saw", 65 ],
       { "item": "bow_saw", "prob": 40 },
-      { "item": "graphite", "prob": 30, "charges": [ 50, 12500 ] },
+      { "item": "graphite", "prob": 30, "count": [ 1, 250 ] },
       [ "pin_reamer", 18 ],
       [ "clamp", 30 ],
       [ "boxcutter", 20 ],
@@ -340,7 +340,7 @@
       { "item": "reciprocating_saw", "prob": 50, "charges": [ 0, 500 ] },
       { "item": "cordless_drill", "prob": 100, "charges": [ 0, 500 ] },
       [ "pin_reamer", 30 ],
-      { "item": "graphite", "prob": 30, "charges": [ 50, 12500 ] },
+      { "item": "graphite", "prob": 30, "count": [ 1, 250 ] },
       [ "clamp", 10 ],
       [ "sandpaper", 90 ],
       [ "bench_vise", 15 ]
@@ -416,8 +416,8 @@
           },
           {
             "distribution": [
-              { "item": "brazing_rod_bronze", "prob": 75, "count": [ 500, 1500 ] },
-              { "item": "brazing_rod_alloy", "prob": 50, "count": [ 500, 1500 ] }
+              { "item": "brazing_rod_bronze", "prob": 75, "count": [ 500, 1500 ], "entry-wrapper": "tube_welding_rod" },
+              { "item": "brazing_rod_alloy", "prob": 50, "count": [ 500, 1500 ], "entry-wrapper": "tube_welding_rod" }
             ]
           }
         ],
@@ -450,7 +450,7 @@
       [ "welding_papr_helmet", 40 ],
       { "group": "papr_kit", "prob": 20 },
       [ "thread_cutting_set", 40 ],
-      { "item": "graphite", "prob": 40, "charges": [ 50, 12500 ] }
+      { "item": "graphite", "prob": 40, "count": [ 1, 250 ] }
     ]
   },
   {
@@ -462,7 +462,7 @@
       { "item": "jack", "prob": 100 },
       { "item": "lug_wrench", "prob": 80 },
       { "item": "jack_small", "prob": 80 },
-      { "item": "graphite", "prob": 50, "charges": [ 50, 12500 ] },
+      { "item": "graphite", "prob": 50, "count": [ 1, 250 ] },
       { "item": "compressor", "prob": 40 },
       { "group": "tools_toolbox", "prob": 80 },
       { "group": "tools_workshop", "prob": 70 },
@@ -865,7 +865,7 @@
       { "item": "plut_cell", "prob": 4, "charges": [ 1, 5 ] },
       { "group": "glue_weak_domestic", "prob": 15 },
       { "group": "glue_strong_domestic", "prob": 15 },
-      { "item": "graphite", "prob": 30, "charges": [ 50, 12500 ] },
+      { "item": "graphite", "prob": 30, "count": [ 1, 250 ] },
       [ "pliers", 10 ],
       [ "tin_snips", 10 ],
       { "item": "matches", "prob": 10, "charges": [ 1, 20 ] },

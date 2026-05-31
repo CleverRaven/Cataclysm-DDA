@@ -249,6 +249,23 @@
     "flags": [ "IGNORE_TEMP", "LIMB_UPPER" ]
   },
   {
+    "type": "body_part",
+    "id": "eyes_compound",
+    "name": "compound eyes",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "compound eyes" },
+    "heading": "eyes",
+    "heading_multiple": "eyes",
+    "copy-from": "eyes",
+    "opposite_part": "eyes_compound",
+    "hit_size": 7,
+    "ugliness": 8,
+    "drench_capacity": 5,
+    "drying_rate": 0.4,
+    "limb_scores": [ [ "vision", 0.65 ], [ "night_vis", 0.8 ], [ "reaction", 1.0 ] ],
+    "sub_parts": [ "eyes_compound_left", "eyes_compound_right" ],
+    "flags": [ "IGNORE_TEMP", "SEESLEEP", "LIMB_UPPER" ]
+  },
+  {
     "id": "muzzle",
     "//": "Used as a default for similar_bodypart to work for armor.",
     "type": "body_part",

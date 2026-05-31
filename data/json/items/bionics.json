@@ -1835,5 +1835,33 @@
     "weight": "25000 g",
     "volume": "25000 ml",
     "difficulty": 1
+  },
+  {
+    "id": "bio_nl_collar",
+    "copy-from": "bionic_general_faulty",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "material": [ "nanotubes", "cyber_bone" ],
+    "name": { "str": "Cyberbone Collar CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A subdermal bone-like implant fit for the nape of the neck, with a mysterious nanotube sheet that ensheaths the throat.",
+    "price": "0 kUSD",
+    "price_postapoc": "0 USD",
+    "weight": "100 g",
+    "difficulty": 1
+  },
+  {
+    "id": "bio_nl_collar_deactivated",
+    "copy-from": "bionic_general_faulty",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "material": [ "nanotubes", "cyber_bone" ],
+    "name": { "str": "Cyberbone Collar CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A subdermal bone-like implant fit for the nape of the neck, with a mysterious nanotube sheet that ensheaths the throat.",
+    "price": "0 kUSD",
+    "price_postapoc": "0 USD",
+    "weight": "100 g",
+    "difficulty": 1
   }
 ]

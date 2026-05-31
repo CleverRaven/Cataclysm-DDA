@@ -401,4 +401,35 @@ inline bool operator!=( const SDL_Rect &lhs, const SDL_Rect &rhs )
 
 /**@}*/
 
+// SDL2 SDL_AndroidGet* renamed to SDL_GetAndroid* in SDL3. Returns kept raw
+// (void* / const char*) so <jni.h> doesn't leak into this header.
+#if defined(__ANDROID__)
+inline void *GetAndroidJNIEnv()
+{
+#if SDL_MAJOR_VERSION >= 3
+    return SDL_GetAndroidJNIEnv();
+#else
+    return SDL_AndroidGetJNIEnv();
+#endif
+}
+
+inline void *GetAndroidActivity()
+{
+#if SDL_MAJOR_VERSION >= 3
+    return SDL_GetAndroidActivity();
+#else
+    return SDL_AndroidGetActivity();
+#endif
+}
+
+inline const char *GetAndroidExternalStoragePath()
+{
+#if SDL_MAJOR_VERSION >= 3
+    return SDL_GetAndroidExternalStoragePath();
+#else
+    return SDL_AndroidGetExternalStoragePath();
+#endif
+}
+#endif // __ANDROID__
+
 #endif // CATA_SRC_SDL_WRAPPERS_H

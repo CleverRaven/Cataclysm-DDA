@@ -813,7 +813,7 @@
       [ "spring", 150 ],
       [ "pastaextruder", 75 ],
       { "item": "nail", "prob": 300, "charges": [ 1, 15 ] },
-      { "item": "nuts_bolts", "prob": 60, "charges": [ 5, 30 ] },
+      { "item": "nuts_bolts", "prob": 60, "count": [ 5, 30 ] },
       [ "well_pump", 50 ],
       [ "manhole_cover", 20 ],
       [ "hairpin", 120 ],
@@ -1011,7 +1011,7 @@
       { "item": "towel", "prob": 40 },
       { "item": "scorecard", "prob": 10 },
       { "item": "golf_club", "prob": 75 },
-      { "item": "pencil", "prob": 20, "charges": [ 0, 100 ] }
+      { "item": "pencil", "prob": 20 }
     ]
   },
   {
