@@ -1454,6 +1454,46 @@ TEST_CASE( "craft_step_consume_requires_selected_noncharged_tool",
             CHECK_FALSE( u.craft_consume_step_tools( craft ) );
         }
     }
+
+    GIVEN( "the tool is removed within a bucket that has already been credited" ) {
+        // Presence is sampled on bucket boundaries (matching charge-debit
+        // semantics), so a tool removed mid-bucket is tolerated until the
+        // next bucket boundary aborts the step.
+        const recipe &rec = craft.get_making();
+        const double budget = rec.step_budget_moves( u, 0, 1, {} );
+        REQUIRE( budget > 0.0 );
+        allocs[0][0].consumed_buckets = 5;
+        craft.set_step_tool_allocs( allocs );
+        craft.set_current_step( 0 );
+        // Place progress comfortably inside bucket 5 (fraction ~0.22) so the
+        // step's target is also 5: no boundary to cross this turn.
+        craft.set_step_progress( budget * 0.22 );
+        craft.item_counter = 2200000;
+        u.invalidate_crafting_inventory();
+
+        THEN( "the mid-bucket call does not abort" ) {
+            CHECK( u.craft_consume_step_tools( craft ) );
+            CHECK( craft.get_step_tool_allocs()[0][0].consumed_buckets == 5 );
+        }
+    }
+
+    GIVEN( "the tool is gone when progress crosses into the next bucket" ) {
+        const recipe &rec = craft.get_making();
+        const double budget = rec.step_budget_moves( u, 0, 1, {} );
+        REQUIRE( budget > 0.0 );
+        allocs[0][0].consumed_buckets = 5;
+        craft.set_step_tool_allocs( allocs );
+        craft.set_current_step( 0 );
+        // Fraction ~0.30 puts the target at bucket 6, one past consumed_buckets.
+        craft.set_step_progress( budget * 0.30 );
+        craft.item_counter = 3000000;
+        u.invalidate_crafting_inventory();
+
+        THEN( "the boundary crossing re-checks presence and aborts" ) {
+            CHECK_FALSE( u.craft_consume_step_tools( craft ) );
+            CHECK( craft.get_step_tool_allocs()[0][0].consumed_buckets == 5 );
+        }
+    }
 }
 
 TEST_CASE( "tool_use", "[crafting][tool]" )

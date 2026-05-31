@@ -3599,10 +3599,13 @@ bool Character::consume_step_tool_targets( item &craft, const std::vector<int> &
         for( int a = 0; a < static_cast<int>( allocs[s].size() ); ++a ) {
             step_tool_alloc &alloc = allocs[s][a];
             if( alloc.sel.comp.count <= 0 ) {
-                // step_buckets_for_fraction reaches 20 before the step is ready,
-                // so a tool removed after its last bucket must still be re-checked
-                // here or the final true-up would finish using a tool that is gone.
-                if( s == active_step ? tgt > 0 : tgt > alloc.consumed_buckets ) {
+                // Re-check non-charged tool presence on bucket transitions, and
+                // also during the active step's final 5% drift (buckets full but
+                // step not yet complete) so a tool removed in that window cannot
+                // finish the step.  Skipping the mid-bucket case avoids
+                // rebuilding nearby-item inventory each tick.
+                const bool active_drift = s == active_step && alloc.consumed_buckets >= 20;
+                if( tgt > alloc.consumed_buckets || active_drift ) {
                     presence.push_back( { alloc.sel.comp.type, s, a, tgt } );
                 }
                 continue;
@@ -3638,8 +3641,6 @@ bool Character::consume_step_tool_targets( item &craft, const std::vector<int> &
 
     // Aggregate the required charges per tool type, then preflight, so shared
     // pools cannot pass per-alloc yet fail in total.
-    inventory map_inv;
-    map_inv.form_from_map( origin, radius, this );
     std::map<itype_id, int> need_player;
     std::map<itype_id, int> need_map;
     std::map<itype_id, int> need_both;
@@ -3659,11 +3660,23 @@ bool Character::consume_step_tool_targets( item &craft, const std::vector<int> &
                 break;
         }
     }
+    // form_from_map is expensive in dense areas; defer it until a map-sourced
+    // check actually needs it.  Active crafts with player-held tools never hit
+    // need_map and pin_to_map=false, so the inventory is never built.
+    std::optional<inventory> map_inv;
+    const auto get_map_inv = [&]() -> const inventory & {
+        if( !map_inv )
+        {
+            map_inv.emplace();
+            map_inv->form_from_map( origin, radius, this );
+        }
+        return *map_inv;
+    };
     const auto shortfall = [&]( const std::map<itype_id, int> &need, int which ) -> bool {
         for( const std::pair<const itype_id, int> &n : need )
         {
             bool ok = which == 0 ? has_charges( n.first, n.second )
-            : which == 1 ? map_inv.has_charges( n.first, n.second )
+            : which == 1 ? get_map_inv().has_charges( n.first, n.second )
             : crafting_inventory().has_charges( n.first, n.second );
             if( !ok ) {
                 add_msg_player_or_npc(
@@ -3679,7 +3692,7 @@ bool Character::consume_step_tool_targets( item &craft, const std::vector<int> &
     for( const pending_presence &p : presence ) {
         // Source the presence check the same way charges are: from the craft tile
         // when the crafter is out of reach, otherwise from the crafter.
-        const bool present = pin_to_map ? map_inv.has_tools( p.type, 1 )
+        const bool present = pin_to_map ? get_map_inv().has_tools( p.type, 1 )
                              : crafting_inventory().has_tools( p.type, 1 );
         if( !present ) {
             add_msg_player_or_npc(
