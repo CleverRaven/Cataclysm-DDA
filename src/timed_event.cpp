@@ -29,6 +29,7 @@
 #include "mapbuffer.h"
 #include "mapgen_functions.h"
 #include "mapgendata.h"
+#include "math_parser_diag_value.h"
 #include "mdarray.h"
 #include "memorial_logger.h"
 #include "messages.h"
