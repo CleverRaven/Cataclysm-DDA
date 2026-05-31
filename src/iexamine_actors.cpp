@@ -681,7 +681,8 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
     time_duration aim_dur = aim_duration.evaluate( d );
     you.assign_activity( ACT_MORTAR_AIMING, to_moves<int>( aim_dur ) );
 
-    const time_duration impact_delay = mortar != nullptr ? mortar->player_flight_time( target_distance ) :
+    const time_duration impact_delay = mortar != nullptr ? mortar->player_flight_time(
+                                           target_distance ) :
                                        flight_time.evaluate( d );
     const time_point impact_time = calendar::turn + impact_delay + aim_dur;
     if( loc->typeId() == itype_60mm_shell_m721 ) {
