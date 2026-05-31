@@ -233,7 +233,7 @@
     "//": "Should include pancake mixes. TODO fix.",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "cocoa_powder", 1 ], [ "cocoa_powder_milk", 1 ] ]
+    "items": [ { "group": "cocoa_powder_various_full" }, { "group": "milk_cocoa_powder_various_full" } ]
   },
   {
     "id": "SUS_shelf_commercial_breakfast_mixes",
