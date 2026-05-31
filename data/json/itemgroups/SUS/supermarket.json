@@ -627,7 +627,7 @@
       { "item": "stapler", "prob": 1 },
       { "item": "office_holepunch", "prob": 1 },
       { "item": "scissors", "prob": 1 },
-      { "group": "writing_utensils", "count": [ 40, 100 ], "prob": 80, "charges": [ 80, 100 ] }
+      { "group": "writing_utensils", "count": [ 40, 100 ], "prob": 80 }
     ]
   },
   {
