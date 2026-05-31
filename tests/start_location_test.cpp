@@ -1,12 +1,12 @@
-#include <functional>
-#include <memory>
 #include <string>
+#include <utility>
 
 #include "cata_catch.h"
-#include "game.h"
+#include "coordinates.h"
+#include "point.h"
 #include "scenario.h"
 #include "start_location.h"
-#include "string_id.h"
+#include "type_id.h"
 
 static const string_id<scenario> scenario_beach_day( "beach_day" );
 static const start_location_id start_location_ocean_shore( "sloc_ocean_shore" );
