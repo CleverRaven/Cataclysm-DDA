@@ -181,6 +181,7 @@ static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_60mm_shell_m720a1( "60mm_shell_m720a1" );
 static const itype_id itype_60mm_shell_m721( "60mm_shell_m721" );
 static const itype_id itype_60mm_shell_m768( "60mm_shell_m768" );
+static const itype_id itype_eplrs_net_control_station( "eplrs_net_control_station" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 static const itype_id itype_laser_rangefinder( "laser_rangefinder" );
@@ -6368,7 +6369,9 @@ constexpr double mortar_binocular_reference_multiplier = 1.5;
 constexpr double mortar_laser_rangefinder_sensor_multiplier = 1.8;
 constexpr double mortar_laser_rangefinder_axis_multiplier = 0.5;
 constexpr double mortar_laser_rangefinder_repeat_location_multiplier = 0.35;
+constexpr double mortar_eplrs_location_multiplier = 0.3;
 constexpr int mortar_laser_rangefinder_range = 2000;
+constexpr int mortar_eplrs_charges_per_use = 2;
 constexpr float mortar_he_explosion_power_threshold = 100.0f;
 constexpr double mortar_fire_for_effect_minimum_error_slack = 0.05;
 constexpr double mortar_no_wait_feedback_reduction_scale = 0.5;
@@ -6381,6 +6384,42 @@ constexpr double mortar_danger_area_scale = 1.5;
 bool has_charged_radio( const Character &who )
 {
     return who.cache_has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
+}
+
+std::vector<item_location> mortar_charged_eplrs_units( Character &who )
+{
+    return who.cache_get_items_with( itype_eplrs_net_control_station,
+    [&who]( const item_location & loc ) {
+        return loc->ammo_sufficient( &who );
+    } );
+}
+
+bool mortar_has_charged_eplrs( Character &who )
+{
+    return !mortar_charged_eplrs_units( who ).empty();
+}
+
+bool mortar_uses_eplrs_net( Character &spotter, Character &gunner )
+{
+    return mortar_has_charged_eplrs( spotter ) && mortar_has_charged_eplrs( gunner );
+}
+
+bool mortar_consume_eplrs_charge( Character &who )
+{
+    std::vector<item_location> units = mortar_charged_eplrs_units( who );
+    if( units.empty() ) {
+        return false;
+    }
+    units.front()->ammo_consume( mortar_eplrs_charges_per_use, who.pos_bub(), &who );
+    return true;
+}
+
+bool mortar_consume_eplrs_net_charges( Character &spotter, Character &gunner )
+{
+    if( !mortar_uses_eplrs_net( spotter, gunner ) ) {
+        return false;
+    }
+    return mortar_consume_eplrs_charge( spotter ) && mortar_consume_eplrs_charge( gunner );
 }
 
 int mortar_report_mode( const Character &spotter, const npc &gunner )
@@ -7251,6 +7290,8 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
         return;
     }
 
+    const bool laser_rangefinder_used = mortar_uses_laser_rangefinder( you, *target_abs_ms );
+    const bool eplrs_net_available = mortar_uses_eplrs_net( you, gunner );
     double accuracy_multiplier = get_mortar_accuracy_multiplier( gunner );
     double location_error_cep = get_mortar_location_error( gunner, you, *target_abs_ms );
     const tripoint_abs_ms location_axis_from = you.pos_abs();
@@ -7268,6 +7309,9 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
                                *target_abs_ms );
         } else {
             location_error_cep = base_location_error;
+        }
+        if( eplrs_net_available ) {
+            location_error_cep *= mortar_eplrs_location_multiplier;
         }
     }
     const mortar_location_error location_error = mortar_make_location_error(
@@ -7369,6 +7413,10 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
         return_mortar_rounds( gunner, rounds );
         return;
     }
+    bool eplrs_net_used = eplrs_net_available;
+    if( eplrs_net_used && !mortar_consume_eplrs_net_charges( you, gunner ) ) {
+        eplrs_net_used = false;
+    }
 
     const int report_mode = mortar_report_mode( you, gunner );
     const bool existing_feedback_pending = mortar_spotting_feedback_pending( gunner,
@@ -7376,9 +7424,9 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
     const double base_feedback_accuracy_multiplier = mortar_repeat_accuracy_multiplier( mortar_data,
             you,
             launcher_skill, *target_abs_ms );
-    const double base_feedback_location_multiplier = mortar_uses_laser_rangefinder( you,
-            *target_abs_ms ) ?
-            mortar_laser_rangefinder_repeat_location_multiplier : 0.5;
+    const double base_feedback_location_multiplier =
+        ( laser_rangefinder_used ? mortar_laser_rangefinder_repeat_location_multiplier : 0.5 ) *
+        ( eplrs_net_used ? mortar_eplrs_location_multiplier : 1.0 );
 
     const time_duration fire_delay = mortar_data.npc_fire_message_delay();
     const time_duration fire_for_effect_interval = mortar_fire_for_effect_shot_interval(
@@ -7409,7 +7457,7 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
                        "minimum deflection %.2f, skill multiplier %.2f, fixed multiplier %.2f, "
                        "raw total multiplier %.2f, effective total multiplier %.2f, "
                        "minimum target distance %d, location error %.2f:%.2f, HE %d, "
-                       "rangefinder %d, no-wait adjustment %d, aimpoint offset %d:%d, "
+                       "rangefinder %d, EPLRS %d, no-wait adjustment %d, aimpoint offset %d:%d, "
                        "impact offset %d:%d.",
                        gunner.disp_name(), static_cast<int>( i + 1 ),
                        static_cast<int>( rounds.size() ), target_distance, minimum_error.range,
@@ -7417,7 +7465,8 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
                        raw_total_multiplier, total_multiplier, minimum_target_distance,
                        location_error.range, location_error.deflection,
                        mortar_round_has_high_explosive_payload( current_round ) ? 1 : 0,
-                       mortar_uses_laser_rangefinder( you, *target_abs_ms ) ? 1 : 0,
+                       laser_rangefinder_used ? 1 : 0,
+                       eplrs_net_used ? 1 : 0,
                        no_wait_adjustment ? 1 : 0,
                        aimpoint_abs_ms.x() - target_abs_ms->x(),
                        aimpoint_abs_ms.y() - target_abs_ms->y(),
@@ -7533,14 +7582,49 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
         }
     }
     if( launcher_skill >= 5 ) {
-        add_msg( _( "You give the fire mission.  %1$s reads back: \"Grid accepted.  OT direction %2$s; probable range/normal-to-range error %3$d by %4$d tiles.  Shot in %5$d, splash in %6$d.\"" ),
-                 gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
-                 static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
-                 splash_seconds );
+        if( eplrs_net_used && laser_rangefinder_used ) {
+            add_msg( _( "You give the fire mission.  %1$s reads back: \"Grid accepted; EPLRS net and laser rangefinder linked.  OT direction %2$s; probable range/normal-to-range error %3$d by %4$d tiles.  Shot in %5$d, splash in %6$d.\"" ),
+                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
+                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
+                     splash_seconds );
+        } else if( eplrs_net_used ) {
+            add_msg( _( "You give the fire mission.  %1$s reads back: \"Grid accepted; EPLRS net linked.  OT direction %2$s; probable range/normal-to-range error %3$d by %4$d tiles.  Shot in %5$d, splash in %6$d.\"" ),
+                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
+                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
+                     splash_seconds );
+        } else if( laser_rangefinder_used ) {
+            add_msg( _( "You give the fire mission.  %1$s reads back: \"Grid accepted; laser rangefinder linked.  OT direction %2$s; probable range/normal-to-range error %3$d by %4$d tiles.  Shot in %5$d, splash in %6$d.\"" ),
+                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
+                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
+                     splash_seconds );
+        } else {
+            add_msg( _( "You give the fire mission.  %1$s reads back: \"Grid accepted.  OT direction %2$s; probable range/normal-to-range error %3$d by %4$d tiles.  Shot in %5$d, splash in %6$d.\"" ),
+                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
+                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
+                     splash_seconds );
+        }
     } else {
-        add_msg( _( "You give the fire mission.  %1$s reports expected heading %2$s degrees and probable range/normal-to-range error about %3$d by %4$d tiles.  Shot expected in %5$d seconds; impact in %6$d seconds." ),
-                 gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
-                 static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds, splash_seconds );
+        if( eplrs_net_used && laser_rangefinder_used ) {
+            add_msg( _( "You give the fire mission.  %1$s reports EPLRS net and laser rangefinder linked, expected heading %2$s degrees, and probable range/normal-to-range error about %3$d by %4$d tiles.  Shot expected in %5$d seconds; impact in %6$d seconds." ),
+                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
+                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
+                     splash_seconds );
+        } else if( eplrs_net_used ) {
+            add_msg( _( "You give the fire mission.  %1$s reports EPLRS net linked, expected heading %2$s degrees, and probable range/normal-to-range error about %3$d by %4$d tiles.  Shot expected in %5$d seconds; impact in %6$d seconds." ),
+                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
+                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
+                     splash_seconds );
+        } else if( laser_rangefinder_used ) {
+            add_msg( _( "You give the fire mission.  %1$s reports laser rangefinder linked, expected heading %2$s degrees, and probable range/normal-to-range error about %3$d by %4$d tiles.  Shot expected in %5$d seconds; impact in %6$d seconds." ),
+                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
+                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
+                     splash_seconds );
+        } else {
+            add_msg( _( "You give the fire mission.  %1$s reports expected heading %2$s degrees and probable range/normal-to-range error about %3$d by %4$d tiles.  Shot expected in %5$d seconds; impact in %6$d seconds." ),
+                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
+                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
+                     splash_seconds );
+        }
     }
 }
 

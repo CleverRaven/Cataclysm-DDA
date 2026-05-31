@@ -20,6 +20,7 @@
       { "item": "binoculars" },
       { "item": "laser_rangefinder", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "two_way_radio", "count": 2 },
+      { "item": "eplrs_net_control_station", "prob": 20, "charges": [ 0, 56 ] },
       { "item": "flashlight" },
       { "item": "light_battery_cell", "count": [ 1, 3 ] },
       { "item": "mask_gas" },
