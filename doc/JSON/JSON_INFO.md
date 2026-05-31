@@ -4118,7 +4118,7 @@ A list of starting location ids (see start_locations.json) that can be chosen wh
 ## `origin_offset`
 (optional, pair of int)
 
-The number of OM (see [`POINTS_COORDINATES.md`](/doc/c++/POINTS_COORDINATES.md) for more information on OM) on the east - west and south - north axex to offset the origin of the search for the starting location.
+The number of OM (see [`POINTS_COORDINATES.md`](/doc/c++/POINTS_COORDINATES.md) for more information on OM) on the east - west and south - north axes to offset the origin of the search for the starting location.
 The first axis points east, the second axis points south.
 
 Example:
