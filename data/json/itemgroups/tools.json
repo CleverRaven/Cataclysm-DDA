@@ -495,7 +495,7 @@
       { "item": "whistle_multitool", "prob": 70 },
       { "item": "glowstick", "charges": 1400, "prob": 60 },
       { "item": "handflare", "count": [ 0, 4 ], "charges": 300 },
-      { "group": "pur_tablets_bottle_plastic_small_0_50" },
+      { "group": "pur_tablets_bottle_plastic_small_1_50" },
       { "item": "pocket_survival", "prob": 40 }
     ]
   },
@@ -1028,13 +1028,6 @@
     "subtype": "collection",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "pur_tablets", "count": [ 1, 50 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "pur_tablets_bottle_plastic_small_0_50",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "pur_tablets", "count": [ 0, 50 ] } ]
   },
   {
     "type": "item_group",

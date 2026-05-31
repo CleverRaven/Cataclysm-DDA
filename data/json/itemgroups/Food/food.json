@@ -239,7 +239,7 @@
       { "item": "chili_pepper", "count": [ 0, 9 ] },
       { "item": "lettuce", "count": [ 0, 30 ] },
       { "item": "tomato", "count": [ 0, 3 ] },
-      { "count": [ 0, 3 ], "group": "cheese_bag_plastic_4_8" }
+      { "count": [ 0, 3 ], "group": "cheese_bag_plastic" }
     ]
   },
   {
