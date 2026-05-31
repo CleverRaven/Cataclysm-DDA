@@ -144,14 +144,14 @@
         }
       },
       {
-        "text": "I'm <u_name>.  I was told to see you about replacing my Exodii interface with the updated Hub 01 interface.",
+        "text": "I'm <u_name>.  I was told to see you about replacing my CBM interface with the updated Hub 01 interface.",
         "topic": "TALK_ANCILLA_DOCTOR_INSTALL_INTERFACE_REWARD_B",
         "condition": {
           "and": [
             { "math": [ "hub01_promised_cbm_reward == 1" ] },
             { "not": { "u_has_trait": "Hub01_CBM_Interface" } },
             { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } },
-            { "u_has_trait": "CBM_Interface" },
+            { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
             { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } }
           ]
         }
@@ -224,12 +224,12 @@
         }
       },
       {
-        "text": "Actually, I'm <u_name>.  I was told to see you about replacing my Exodii interface with the updated Hub 01 interface.",
+        "text": "Actually, I'm <u_name>.  I was told to see you about replacing my CBM interface with the updated Hub 01 interface.",
         "topic": "TALK_ANCILLA_DOCTOR_INSTALL_INTERFACE_REWARD_B",
         "condition": {
           "and": [
             { "math": [ "hub01_promised_cbm_reward == 1" ] },
-            { "u_has_trait": "CBM_Interface" },
+            { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
             { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } },
             { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } }
           ]
@@ -256,12 +256,12 @@
         }
       },
       {
-        "text": "Actually, I'm <u_name>.  I was told to see you about replacing my Exodii interface with the updated Hub 01 interface.",
+        "text": "Actually, I'm <u_name>.  I was told to see you about replacing my CBM interface with the updated Hub 01 interface.",
         "topic": "TALK_ANCILLA_DOCTOR_INSTALL_INTERFACE_REWARD_B",
         "condition": {
           "and": [
             { "math": [ "hub01_promised_cbm_reward == 1" ] },
-            { "u_has_trait": "CBM_Interface" },
+            { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
             { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } }
           ]
         }
@@ -273,9 +273,10 @@
         },
         "effect": [
           {
-            "if": { "u_has_trait": "CBM_Interface" },
+            "if": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
             "then": [
               { "u_lose_trait": "CBM_Interface" },
+              { "u_lose_trait": "NL_CBM_Interface" },
               { "u_add_trait": "CBM_Interface_brain_lesion" },
               { "math": [ "hub01_found_u_exodii_interface = 1" ] },
               { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
@@ -305,9 +306,10 @@
         "text": "[Install Hub 01 CBM interface]  Turn me into a cyborg?  For free?  Let's do it.",
         "effect": [
           {
-            "if": { "u_has_trait": "CBM_Interface" },
+            "if": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
             "then": [
               { "u_lose_trait": "CBM_Interface" },
+              { "u_lose_trait": "NL_CBM_Interface" },
               { "u_add_trait": "CBM_Interface_brain_lesion" },
               { "math": [ "hub01_found_u_exodii_interface = 1" ] },
               { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
@@ -333,7 +335,7 @@
     "dynamic_line": "Right, they told me about you.  I guess you know the drill and how these things work.  I'll use the machine to take out that hostile Exodii tech, install the upgraded Hub 01 unit, and top you up with some extra power, a battery compartment, and a commlink, if you don't have those already.  The new interface is backwards compatible with the Exodii bionics, so no worries there.  I've been given 10 HGC to pay YOU for the Exodii interface scrap.  Remember, the Hub keeping your old interface is a condition for the surgery, and that old thing would've given you cancer, anyway.  So, good riddance, yeah?  You ready?\"",
     "responses": [
       {
-        "text": "[Exchange your Exodii CBM interface for the Hub 01 CBM interface and 10 HGC]  Let's do it.",
+        "text": "[Exchange your current CBM interface for the Hub 01 CBM interface and 10 HGC]  Let's do it.",
         "effect": [
           { "math": [ "hub01_found_u_exodii_interface = 1" ] },
           { "math": [ "robofac_exodii_cbm_knowledge += 1" ] },
@@ -341,6 +343,7 @@
           { "u_add_effect": "sleep", "duration": "2 hours" },
           { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
           { "u_lose_trait": "CBM_Interface" },
+          { "u_lose_trait": "NL_CBM_Interface" },
           { "u_add_trait": "Hub01_CBM_Interface" },
           { "u_add_trait": "CBM_Interface_brain_lesion" },
           { "u_add_bionic": "bio_power_storage" },

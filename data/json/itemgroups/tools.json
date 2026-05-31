@@ -416,8 +416,8 @@
           },
           {
             "distribution": [
-              { "item": "brazing_rod_bronze", "prob": 75, "count": [ 500, 1500 ] },
-              { "item": "brazing_rod_alloy", "prob": 50, "count": [ 500, 1500 ] }
+              { "item": "brazing_rod_bronze", "prob": 75, "count": [ 500, 1500 ], "entry-wrapper": "tube_welding_rod" },
+              { "item": "brazing_rod_alloy", "prob": 50, "count": [ 500, 1500 ], "entry-wrapper": "tube_welding_rod" }
             ]
           }
         ],

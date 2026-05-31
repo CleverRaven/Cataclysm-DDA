@@ -136,5 +136,23 @@
       "str": "Fer me?  Well, twisting halls of steel, like this place, or that.  But there's another place.  A mite like a rub-a-dub house ol' Rubik scarce remembers, if it ever were.  Warm.  Wood.  Fire.  The ol' Temple for the soul, if there's any yet left.  Yet I tarry not there, trust it not a hair.  In fact, these days, I jus' don't go.  Got other things to do, like run this skip n' hop."
     },
     "responses": [ { "text": "I'm not sure that clears it up, but thanks Rubik, I'll be careful.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro_NL_interface",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Getting there is tricky, but easier than moving a castle.  They're less expensive and dangerous than a whole jump, which itself is curious.  Downstairs is a metal ring with a terminal - I wrote the messages, so you'll understand it.  We'll consider you a volunteer who wants to scout the place out.  It's good for both of us.  You're free to use it.  Keep in mind that the teleporter needs to recharge for 5 days between jumps.  I'd give you a word of caution, but you probably know the place well enough.",
+      "str": "Gettin' there a mite tricky, but not so tangled as jumpin' this whole castle.  They're less dear to go to an' fro, so t'speak, which is odd itself, I s'pose.\n\nDown below, ye'll find a ring o' metal, wi' a terminal us'n has just set up.  Ol' Rubik set the words by hand, in preparation, so ye should ken it well enough.  Ye'll be a free - a volunteer to escolt it.  Good for you, good for we - more metal for you, and sell extras to we, aye?  Ye're free to go an' make use of it.  Keep mind 'at once you jump, the ring'll need a full five day rest afore it'll take ye again.\n\nI'd give ye a word o' threat, but I think ye'ken it already."
+    },
+    "responses": [
+      {
+        "text": "So there's a terminal downstairs?  I can just stand on the metal ring and use the terminal, but only once every five days or so?  Sounds too easy.  Sure, thanks Rubik.",
+        "effect": [
+          { "u_add_var": "rubik_told_about_labyrinth", "value": "yes" },
+          { "assign_mission": "MISSION_EXODII_LABYRINTHS_INTRO" }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
   }
 ]

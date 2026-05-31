@@ -41,6 +41,16 @@
     ]
   },
   {
+    "id": "afs_ipav_patch_kit",
+    "type": "ITEM",
+    "copy-from": "syringe",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "IPAV patch kit" },
+    "description": "A small applicator used to mend IPAV armor.  Official UICA doctrine dictates that IPAV armor is rated to survive a single combat encounter, and this kit is only to be used in emergency situations where resupply is not possible.  It contains a single dose of high density polymer gel that can be applied to damaged plates for temporary repair.",
+    "price": "400 USD",
+    "price_postapoc": "400 USD"
+  },
+  {
     "id": "g_shovel",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],

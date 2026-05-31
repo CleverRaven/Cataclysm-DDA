@@ -139,7 +139,7 @@
     "side": "left",
     "opposite": "eyes_avian_right",
     "name_multiple": "eyes",
-    "name": "right eye",
+    "name": "left eye",
     "similar_bodypart": "eyes_left"
   },
   {
@@ -236,6 +236,26 @@
     "opposite": "eyes_crab_left",
     "name_multiple": "eyestalks",
     "name": "right eyestalk"
+  },
+  {
+    "id": "eyes_compound_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_compound",
+    "side": "left",
+    "opposite": "eyes_compound_right",
+    "name_multiple": "eyes",
+    "name": "left eye"
+  },
+  {
+    "id": "eyes_compound_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_compound",
+    "side": "right",
+    "opposite": "eyes_compound_left",
+    "name_multiple": "eyes",
+    "name": "right eye"
   },
   {
     "id": "muzzle_lips",

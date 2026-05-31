@@ -467,5 +467,25 @@
     "sound_category": "rainstorm",
     "condition": { "current_dimension": "radiosphere" },
     "priority": 5
+  },
+  {
+    "id": "scarlet_day",
+    "type": "weather_type",
+    "name": "Scarlet Day",
+    "color": "light_gray",
+    "map_color": "dark_gray_white",
+    "sym": "~",
+    "sun_sym": "⛅",
+    "ranged_penalty": 0,
+    "sight_penalty": 1.0,
+    "light_modifier": -100,
+    "sun_multiplier": 0.01,
+    "sound_attn": 0,
+    "dangerous": false,
+    "precip": "none",
+    "rains": false,
+    "sound_category": "cloudy",
+    "priority": 1,
+    "condition": { "current_dimension": "scarlet" }
   }
 ]
