@@ -218,7 +218,7 @@
       { "item": "coin_nickel", "prob": 20, "count": [ 1, 8 ] },
       { "item": "button_plastic", "prob": 40, "count": [ 4, 12 ] },
       { "item": "bearing", "prob": 15, "charges": [ 1, 3 ] },
-      { "prob": 15, "group": "adderall_bottle_plastic_pill_prescription_1" },
+      { "prob": 15, "group": "adderall_bottle_plastic_pill_prescription_1_10" },
       { "item": "lighter", "prob": 10, "charges": [ 0, 90 ] },
       { "item": "zipper_short_plastic", "prob": 10 },
       { "item": "bracelet_friendship", "prob": 10 },
