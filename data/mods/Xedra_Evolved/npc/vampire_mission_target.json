@@ -169,7 +169,7 @@
   {
     "id": "TALK_VAMPIRE_MISSION_TARGET_POWER_HUNGRY_ATTACK",
     "type": "talk_topic",
-    "dynamic_line": "Insuficiently servile.  No matter, there are more servants elsewhere.",
+    "dynamic_line": "Insufficiently servile.  No matter, there are more servants elsewhere.",
     "responses": [ { "text": "…", "topic": "TALK_DONE", "effect": "hostile" } ]
   },
   {

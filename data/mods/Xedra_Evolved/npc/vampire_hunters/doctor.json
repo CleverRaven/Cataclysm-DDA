@@ -298,7 +298,7 @@
     "id": "TALK_HUNTER_DOCTOR_SHARE_LSD",
     "type": "talk_topic",
     "dynamic_line": [
-      "[Blaine copies the recipe on a paper sheet]  What a complex ingredient list.  This would be hard to produce before <the_cataclysm>, but now it's beyond reasonnable with the resources I got here.  Thanks anyway for sharing the recipe."
+      "[Blaine copies the recipe on a paper sheet]  What a complex ingredient list.  This would be hard to produce before <the_cataclysm>, but now it's beyond reasonable with the resources I got here.  Thanks anyway for sharing the recipe."
     ],
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_NONE" },
@@ -309,7 +309,7 @@
     "id": "TALK_HUNTER_DOCTOR_SHARE_LIFE_ELIXIR",
     "type": "talk_topic",
     "dynamic_line": [
-      "[Blaine copies the recipe on a paper sheet]  If it is true, the only ingredient I lack is elder ginseng.  Could you please bring me some?  This would be a favour I won't forget soon."
+      "[Blaine copies the recipe on a paper sheet]  If it is true, the only ingredient I lack is elder ginseng.  Could you please bring me some?  This would be a favor I won't forget soon."
     ],
     "responses": [
       {
@@ -332,7 +332,7 @@
     "id": "TALK_HUNTER_DOCTOR_FIND_GINSENG_REFUSE",
     "type": "talk_topic",
     "dynamic_line": [
-      "I get it.  Who wants to search for a needle of a plant in a state-wide haysack for little personal gain?  However, If you somehow find this elder ginseng I'll gladly buy it."
+      "I get it.  Who wants to search for a needle of a plant in a state-wide haystack for little personal gain?  However, If you somehow find this elder ginseng I'll gladly buy it."
     ],
     "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
   },

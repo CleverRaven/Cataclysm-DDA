@@ -235,7 +235,7 @@
     "id": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_NEED_SAMPLES",
     "type": "talk_topic",
     "dynamic_line": [
-      "Their very essence, torn from their corpses and transfered into our bodies.  They can sense that, and it is why they try to kill all Bloodthorne druids on sight.  As long as you don't ingest their essence they won't hate you for killing their brethren, so you're perfect to gather these samples for our mutual gain."
+      "Their very essence, torn from their corpses and transferred into our bodies.  They can sense that, and it is why they try to kill all Bloodthorne druids on sight.  As long as you don't ingest their essence they won't hate you for killing their brethren, so you're perfect to gather these samples for our mutual gain."
     ],
     "responses": [
       {
@@ -262,7 +262,7 @@
             "no": [
               {
                 "math": [ "sold_arvore_sample_to_bloodthorne_hunter < 6" ],
-                "yes": "I'll have to offer less help per sample, as I can't keep giving favours away for so little.",
+                "yes": "I'll have to offer less help per sample, as I can't keep giving favors away for so little.",
                 "no": "The more samples, the better.  I'll need as many as possible so I may make more Bloodthorne druids someday."
               }
             ]
