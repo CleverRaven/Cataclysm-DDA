@@ -1,6 +1,8 @@
 #include <cmath>
 #include <tuple>
+#include <vector>
 
+#include "calendar.h"
 #include "cata_catch.h"
 #include "coordinates.h"
 #include "map_scale_constants.h"

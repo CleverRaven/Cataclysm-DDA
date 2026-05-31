@@ -7381,7 +7381,8 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
             mortar_laser_rangefinder_repeat_location_multiplier : 0.5;
 
     const time_duration fire_delay = mortar_data.npc_fire_message_delay();
-    const time_duration fire_for_effect_interval = mortar_fire_for_effect_shot_interval( launcher_skill );
+    const time_duration fire_for_effect_interval = mortar_fire_for_effect_shot_interval(
+                launcher_skill );
     bool any_scheduled = false;
     int scheduled_rounds = 0;
     std::optional<time_duration> first_flight_time;
