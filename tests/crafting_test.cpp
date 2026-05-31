@@ -175,6 +175,7 @@ recipe_cudgel_test_charged_fast_stepless( "cudgel_test_charged_fast_stepless" );
 static const recipe_id recipe_cudgel_test_steps_basic( "cudgel_test_steps_basic" );
 static const recipe_id recipe_cudgel_test_steps_charged( "cudgel_test_steps_charged" );
 static const recipe_id recipe_cudgel_test_steps_dual_charged( "cudgel_test_steps_dual_charged" );
+static const recipe_id recipe_cudgel_test_steps_two_tools( "cudgel_test_steps_two_tools" );
 static const recipe_id recipe_dry_meat( "dry_meat" );
 static const recipe_id recipe_fishing_hook_basic( "fishing_hook_basic" );
 static const recipe_id recipe_helmet_kabuto( "helmet_kabuto" );
@@ -1398,6 +1399,68 @@ TEST_CASE( "craft_step_charge_shortfall_rewinds_turn_progress",
     CHECK( u.get_moves() == 100 );
 }
 
+TEST_CASE( "craft_terminal_verifier_cancels_on_missing_noncharged_tool",
+           "[crafting][charge][steps]" )
+{
+    std::vector<item> tools;
+    tools.emplace_back( itype_2x4 );
+    tools.emplace_back( itype_soldering_iron_portable );
+    tools.emplace_back( itype_hammer );
+    prep_craft( recipe_cudgel_test_steps_two_tools, tools, true );
+    setup_test_craft( recipe_cudgel_test_steps_two_tools );
+
+    avatar &u = get_avatar();
+
+    // Drive into the final 5% drift window so every bucket has already been
+    // credited with both tools present.
+    int guard = 0;
+    while( u.activity.id() == ACT_CRAFT ) {
+        item_location craft = u.get_wielded_item();
+        REQUIRE( craft );
+        REQUIRE( craft->is_craft() );
+        if( craft->item_counter >= 9500000 ) {
+            break;
+        }
+        REQUIRE( ++guard < 100000 );
+        u.set_moves( 100 );
+        u.activity.do_turn( u );
+    }
+    REQUIRE( u.activity.id() == ACT_CRAFT );
+    {
+        item_location craft = u.get_wielded_item();
+        REQUIRE( craft );
+        REQUIRE( craft->is_craft() );
+        const std::vector<std::vector<step_tool_alloc>> &allocs = craft->get_step_tool_allocs();
+        REQUIRE( allocs.size() == 1 );
+        REQUIRE( allocs[0].size() == 2 );
+        for( const step_tool_alloc &a : allocs[0] ) {
+            REQUIRE( a.consumed_buckets == 20 );
+        }
+        craft->set_tools_to_continue( true );
+    }
+
+    // Remove the hammer in the drift window; the terminal sweep at completion
+    // must reject the craft even though every bucket has already been credited.
+    for( item *it : u.items_with( []( const item & i ) {
+    return i.typeId() == itype_hammer;
+    } ) ) {
+        u.i_rem( it );
+    }
+    u.invalidate_crafting_inventory();
+
+    while( u.activity.id() == ACT_CRAFT ) {
+        REQUIRE( ++guard < 100000 );
+        u.set_moves( 100 );
+        u.activity.do_turn( u );
+    }
+
+    item_location after = u.get_wielded_item();
+    REQUIRE( after );
+    REQUIRE( after->is_craft() );
+    CHECK( after->item_counter < 10000000 );
+    CHECK_FALSE( after->has_tools_to_continue() );
+}
+
 TEST_CASE( "craft_step_consume_requires_selected_noncharged_tool",
            "[crafting][charge][steps]" )
 {
@@ -1444,14 +1507,18 @@ TEST_CASE( "craft_step_consume_requires_selected_noncharged_tool",
 
     GIVEN( "the tool's buckets are full but the craft is not done" ) {
         // Buckets filled earlier with the tool present, then it was removed
-        // before completion; the active step must re-check, not free-finish.
+        // before completion; the step-completion verifier must catch the
+        // absence so the step does not finish on a missing tool.
         allocs[0][0].consumed_buckets = 20;
         craft.set_step_tool_allocs( allocs );
         craft.item_counter = 0;
+        craft.set_tools_to_continue( true );
         u.invalidate_crafting_inventory();
 
-        THEN( "the active step re-checks presence and fails" ) {
-            CHECK_FALSE( u.craft_consume_step_tools( craft ) );
+        THEN( "the verifier fails and clears tools_to_continue" ) {
+            CHECK_FALSE( u.verify_step_tools( craft, 0, u.pos_bub(), PICKUP_RANGE,
+                                              /*pin_to_map=*/false ) );
+            CHECK_FALSE( craft.has_tools_to_continue() );
         }
     }
 

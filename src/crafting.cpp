@@ -1619,11 +1619,22 @@ static void craft_actualize_ready( item &craft, time_point now, const item_locat
         return;
     }
 
+    // Verify before debit so a rejected closure does not burn charges first.
+    Character *consumer = resolve_consume_crafter( craft, loc );
+    if( consumer != nullptr ) {
+        const step_source_context src = resolve_step_source( craft, loc );
+        if( !consumer->verify_step_tools( craft, step_idx, src.origin, src.radius,
+                                          /*pin_to_map=*/src.present_char == nullptr ) ) {
+            craft_enter_env_pause( craft, now, loc );
+            return;
+        }
+    }
+
     // Drain the step's charged tools to current progress (the full allocation at
     // completion); a shortfall re-pauses.  Runs before the restored-but-not-ready
     // return below, since craft_check_env_step only restores on qualities: a pause
     // for missing charges must not clear while the charges are still short.
-    if( Character *consumer = resolve_consume_crafter( craft, loc ) ) {
+    if( consumer != nullptr ) {
         if( !consumer->craft_consume_passive_step_tools( craft, now, loc ) ) {
             craft_enter_env_pause( craft, now, loc );
             return;
@@ -3571,7 +3582,7 @@ static int step_buckets_for_fraction( double f )
 }
 
 bool Character::consume_step_tool_targets( item &craft, const std::vector<int> &targets,
-        int active_step, const tripoint_bub_ms &origin, int radius, bool pin_to_map )
+        const tripoint_bub_ms &origin, int radius, bool pin_to_map )
 {
     std::vector<std::vector<step_tool_alloc>> allocs = craft.get_step_tool_allocs();
 
@@ -3599,13 +3610,10 @@ bool Character::consume_step_tool_targets( item &craft, const std::vector<int> &
         for( int a = 0; a < static_cast<int>( allocs[s].size() ); ++a ) {
             step_tool_alloc &alloc = allocs[s][a];
             if( alloc.sel.comp.count <= 0 ) {
-                // Re-check non-charged tool presence on bucket transitions, and
-                // also during the active step's final 5% drift (buckets full but
-                // step not yet complete) so a tool removed in that window cannot
-                // finish the step.  Skipping the mid-bucket case avoids
-                // rebuilding nearby-item inventory each tick.
-                const bool active_drift = s == active_step && alloc.consumed_buckets >= 20;
-                if( tgt > alloc.consumed_buckets || active_drift ) {
+                // Re-check non-charged tool presence on bucket transitions only;
+                // verify_step_tools sweeps the step at completion to catch a
+                // tool removed within the final bucket.
+                if( tgt > alloc.consumed_buckets ) {
                     presence.push_back( { alloc.sel.comp.type, s, a, tgt } );
                 }
                 continue;
@@ -3724,6 +3732,44 @@ bool Character::consume_step_tool_targets( item &craft, const std::vector<int> &
     return true;
 }
 
+bool Character::verify_step_tools( item &craft, int step_idx,
+                                   const tripoint_bub_ms &origin, int radius, bool pin_to_map )
+{
+    if( has_trait( trait_DEBUG_HS ) ) {
+        return true;
+    }
+    const std::vector<std::vector<step_tool_alloc>> &allocs = craft.get_step_tool_allocs();
+    if( step_idx < 0 || step_idx >= static_cast<int>( allocs.size() ) ) {
+        return true;
+    }
+    std::optional<inventory> map_inv;
+    const auto get_map_inv = [&]() -> const inventory & {
+        if( !map_inv )
+        {
+            map_inv.emplace();
+            map_inv->form_from_map( origin, radius, this );
+        }
+        return *map_inv;
+    };
+    for( const step_tool_alloc &alloc : allocs[step_idx] ) {
+        if( alloc.sel.comp.count > 0 ) {
+            continue;
+        }
+        const bool present = pin_to_map ? get_map_inv().has_tools( alloc.sel.comp.type, 1 )
+                             : crafting_inventory().has_tools( alloc.sel.comp.type, 1 );
+        if( !present ) {
+            add_msg_player_or_npc(
+                _( "You no longer have the %s and can't continue crafting." ),
+                _( "<npcname> no longer has the %s and can't continue crafting." ),
+                item::nname( alloc.sel.comp.type ) );
+            // Resume must reselect; otherwise an OR alternative is unreachable.
+            craft.set_tools_to_continue( false );
+            return false;
+        }
+    }
+    return true;
+}
+
 bool Character::craft_consume_step_tools( item &craft )
 {
     if( has_trait( trait_DEBUG_HS ) ) {
@@ -3753,7 +3799,7 @@ bool Character::craft_consume_step_tools( item &craft )
             targets[s] = step_buckets_for_fraction( budget > 0.0 ? cur_progress / budget : 1.0 );
         }
     }
-    return consume_step_tool_targets( craft, targets, rec.has_steps() ? cur_step : 0,
+    return consume_step_tool_targets( craft, targets,
                                       pos_bub(), PICKUP_RANGE, /*pin_to_map=*/false );
 }
 
@@ -3797,7 +3843,7 @@ bool Character::craft_consume_passive_step_tools( item &craft, time_point now,
         }
     }
     const step_source_context src = resolve_step_source( craft, loc );
-    return consume_step_tool_targets( craft, targets, cur_step, src.origin, src.radius,
+    return consume_step_tool_targets( craft, targets, src.origin, src.radius,
                                       /*pin_to_map=*/src.present_char == nullptr );
 }
 
