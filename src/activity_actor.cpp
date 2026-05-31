@@ -11391,6 +11391,7 @@ void vehicle_activity_actor::complete_vehicle( player_activity &act, Character &
                 break;
             }
             ::vehicle_part &vp_new = veh.part( partnum );
+            here.add_vehicle_to_cache( &veh );
             if( vp_new.info().variants.size() > 1 ) {
                 veh_shape( here, veh ).change_part_shape( vpart_reference( veh, partnum ) );
             }

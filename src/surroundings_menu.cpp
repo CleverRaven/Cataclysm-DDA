@@ -754,10 +754,7 @@ cataimgui::bounds surroundings_menu::get_bounds()
 
 void surroundings_menu::draw_controls()
 {
-    if( hide_ui ) {
-        ImGuiWindow *w = ImGui::GetCurrentWindowRead();
-        ImGui::SetWindowHiddenAndSkipItemsForCurrentFrame( w );
-    }
+    hide_if_hidden();
     if( ImGui::BeginTabBar( "surroundings tabs" ) ) {
         draw_item_tab();
         draw_monster_tab();

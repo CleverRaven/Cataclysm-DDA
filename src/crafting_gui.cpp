@@ -613,6 +613,7 @@ cataimgui::bounds crafting_ui_impl::get_bounds()
 
 void crafting_ui_impl::draw_controls()
 {
+    hide_if_hidden();
     // Debug: set to true to show borders around all child regions and table cells
     static constexpr bool debug_layout = false;
     if( debug_layout ) {
@@ -2786,8 +2787,10 @@ void crafting_ui_impl::process_action( const std::string &action_in,
             recalc_unread = highlight_unread;
         }
     } else if( action == "COMPARE" && selection_ok( current, line, false ) ) {
+        hide_ui = true;
         const item recipe_result = get_recipe_result_item( *current[line], *crafter );
         compare_recipe_with_item( recipe_result, *crafter );
+        hide_ui = false;
     } else if( action == "PRIORITIZE_MISSING_COMPONENTS" && selection_ok( current, line, false ) ) {
         uistate.read_recipes.insert( current[line]->ident() );
         recalc_unread = highlight_unread;

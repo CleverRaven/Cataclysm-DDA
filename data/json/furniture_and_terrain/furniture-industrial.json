@@ -122,6 +122,21 @@
   },
   {
     "type": "furniture",
+    "id": "f_xedra_mobile_weather_station",
+    "name": "mobile antenna",
+    "symbol": "T",
+    "description": "A mix of mundane and otherworldly devices deployed from the top of a sleek black case.  It is equipped with a built-in analysis computer, a small thermal printer, and a rechargeable battery.  The case itself is outfitted with back straps and a telescoping stand.  \"X.E.D.R.A.\" and \"HE weather station\" are engraved on the case.",
+    "color": "dark_gray",
+    "move_cost_mod": 1,
+    "coverage": 10,
+    "required_str": 2,
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "item": "xedra_mobile_weather_station",
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "xedra_mobile_weather_station" },
+    "bash": { "str_min": 6, "str_max": 30, "sound": "metal screeching!", "sound_fail": "clang!" }
+  },
+  {
+    "type": "furniture",
     "id": "f_machinery_light",
     "name": "light machinery",
     "looks_like": "t_machinery_light",

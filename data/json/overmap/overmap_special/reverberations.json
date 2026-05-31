@@ -146,5 +146,23 @@
     "city_distance": [ 0, -1 ],
     "occurrences": [ 50, 100 ],
     "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE", "INNER_CABINS_REVERBERATION", "EXTRADIMENSIONAL" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "scarlet_sea_xedra_hew",
+    "locations": [ "scarlet_sea_reverberation" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "scarlet_sea_xedra_hew_north" } ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 80, 100 ],
+    "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE", "SCARLET_SEA", "EXTRADIMENSIONAL" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "scarlet_scrap_metal_spire",
+    "locations": [ "scarlet_sea_reverberation" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "scarlet_scrap_metal_spire" } ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 95, 100 ],
+    "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE", "SCARLET_SEA", "EXTRADIMENSIONAL" ]
   }
 ]

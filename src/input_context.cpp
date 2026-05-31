@@ -738,6 +738,7 @@ void keybindings_ui::draw_controls()
     ImGui::Separator();
 
     if( last_status != status && status == kb_menu_status::show ) {
+        defocus_filter();
         ImGui::SetNextWindowFocus();
     }
     if( ImGui::BeginTable( "KB_KEYS", 4, ImGuiTableFlags_ScrollY ) ) {
