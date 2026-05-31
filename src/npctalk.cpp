@@ -6480,6 +6480,14 @@ time_duration mortar_adjustment_downtime( const npc &gunner, const tripoint_abs_
     return time_duration::from_seconds( static_cast<int>( std::ceil( seconds ) ) );
 }
 
+time_duration mortar_fire_for_effect_shot_interval( const int launcher_skill )
+{
+    const double skill = clamp<double>( launcher_skill, mortar_type::minimum_launcher_skill(), 10.0 );
+    const double skill_fraction = ( skill - mortar_type::minimum_launcher_skill() ) /
+                                  ( 10.0 - mortar_type::minimum_launcher_skill() );
+    return time_duration::from_seconds( static_cast<int>( std::round( 8.0 - 4.0 * skill_fraction ) ) );
+}
+
 double mortar_ammo_change_accuracy_penalty( const npc &gunner )
 {
     return std::max( 0.0, 15.0 - gunner.get_skill_level( skill_launcher ) ) / 20.0;
@@ -7373,8 +7381,10 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
             mortar_laser_rangefinder_repeat_location_multiplier : 0.5;
 
     const time_duration fire_delay = mortar_data.npc_fire_message_delay();
+    const time_duration fire_for_effect_interval = mortar_fire_for_effect_shot_interval( launcher_skill );
     bool any_scheduled = false;
     int scheduled_rounds = 0;
+    std::optional<time_duration> first_flight_time;
     for( size_t i = 0; i < rounds.size(); ++i ) {
         const item &current_round = rounds[i];
         const tripoint_abs_ms aimpoint_abs_ms = mortar_data.apply_location_error( fire_center_abs_ms,
@@ -7423,13 +7433,11 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
                        correction_reported ? 1 : 0, feedback_accuracy_multiplier,
                        feedback_location_multiplier );
 
-        const time_duration fire_offset = fire_delay * static_cast<int>( i );
+        const time_duration fire_offset = fire_for_effect_interval * static_cast<int>( i );
         const time_point fire_time = calendar::turn + fire_delay + fire_offset;
-        const time_point impact_time = calendar::turn + mortar_data.npc_impact_delay() +
-                                       fire_offset;
-        const time_point impact_message_time = calendar::turn +
-                                               mortar_data.npc_impact_message_delay() +
-                                               fire_offset;
+        const time_duration flight_time = mortar_data.npc_flight_time( target_distance );
+        const time_point impact_time = fire_time + flight_time;
+        const time_point impact_message_time = impact_time + 1_seconds;
         bool scheduled = false;
         if( current_round.typeId() == itype_60mm_shell_m721 ) {
             const int illumination_duration = rng( 40, 60 );
@@ -7460,6 +7468,9 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
             add_msg( _( "That round has no mortar impact payload." ) );
             add_mortar_ammo( gunner, current_round, 1 );
             continue;
+        }
+        if( !first_flight_time ) {
+            first_flight_time = flight_time;
         }
 
         get_timed_events().add( timed_event_type::MORTAR_FIRE_MESSAGE, fire_time, -1,
@@ -7503,7 +7514,7 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
     const int heading = mortar_heading_degrees( gunner.pos_abs(), you.pos_abs() );
     const std::string heading_text = string_format( "%03d", heading );
     const int shot_seconds = to_seconds<int>( mortar_data.npc_fire_message_delay() );
-    const int splash_seconds = to_seconds<int>( mortar_data.npc_impact_delay() );
+    const int splash_seconds = shot_seconds + to_seconds<int>( *first_flight_time );
     const mortar_error reported_error = mortar_combined_report_error( mortar_data, mortar_abs,
                                         *target_abs_ms, ballistic_error, location_axis_from,
                                         location_axis_to, location_error );

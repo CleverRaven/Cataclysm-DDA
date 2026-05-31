@@ -30,6 +30,49 @@ constexpr double mortar_multiplier_soft_cap_threshold = 10.0;
 constexpr double mortar_multiplier_hard_cap = 70.0;
 constexpr double mortar_multiplier_above_soft_cap_scale = 0.5;
 
+int interpolate_flight_seconds( const int distance, const int lower_distance,
+                                const int lower_seconds, const int upper_distance,
+                                const int upper_seconds )
+{
+    const double range_fraction = static_cast<double>( distance - lower_distance ) /
+                                  ( upper_distance - lower_distance );
+    return static_cast<int>( std::round( lower_seconds +
+                                         ( upper_seconds - lower_seconds ) * range_fraction ) );
+}
+
+std::pair<int, int> mortar_60mm_flight_time_bounds( const int distance )
+{
+    const int clamped_distance = std::max( 0, distance );
+    if( clamped_distance <= 500 ) {
+        return { 10, 20 };
+    }
+    if( clamped_distance <= 1000 ) {
+        return {
+            interpolate_flight_seconds( clamped_distance, 500, 10, 1000, 15 ),
+            interpolate_flight_seconds( clamped_distance, 500, 20, 1000, 25 )
+        };
+    }
+    if( clamped_distance <= 2000 ) {
+        return {
+            interpolate_flight_seconds( clamped_distance, 1000, 15, 2000, 25 ),
+            interpolate_flight_seconds( clamped_distance, 1000, 25, 2000, 40 )
+        };
+    }
+    if( clamped_distance <= 3000 ) {
+        return {
+            interpolate_flight_seconds( clamped_distance, 2000, 25, 3000, 35 ),
+            interpolate_flight_seconds( clamped_distance, 2000, 40, 3000, 50 )
+        };
+    }
+    return { 35, 50 };
+}
+
+time_duration mortar_60mm_flight_time( const int distance )
+{
+    const std::pair<int, int> bounds = mortar_60mm_flight_time_bounds( distance );
+    return time_duration::from_seconds( rng( bounds.first, bounds.second ) );
+}
+
 std::pair<double, double> axis_unit( const tripoint_abs_ms &axis_from,
                                      const tripoint_abs_ms &axis_to )
 {
@@ -219,11 +262,7 @@ void mortar_type::load( const JsonObject &jo, std::string_view )
     mandatory( jo, was_loaded, "furniture", furniture_ );
     mandatory( jo, was_loaded, "ammo", ammo_ );
     mandatory( jo, was_loaded, "range", range_, positive_int );
-    optional( jo, was_loaded, "player_flight_time", player_flight_time_, 0_seconds );
-    optional( jo, was_loaded, "npc_fire_message_delay", npc_fire_message_delay_, 0_seconds );
-    optional( jo, was_loaded, "npc_impact_delay", npc_impact_delay_, 0_seconds );
-    optional( jo, was_loaded, "npc_impact_message_delay", npc_impact_message_delay_,
-              npc_impact_delay_ );
+    mandatory( jo, was_loaded, "npc_fire_message_delay", npc_fire_message_delay_ );
     optional( jo, was_loaded, "range_error_ratio", range_error_ratio_, positive_double, 0.015 );
     optional( jo, was_loaded, "deflection_error_mils", deflection_error_mils_, positive_double, 2.0 );
     was_loaded = true;
@@ -244,9 +283,9 @@ int mortar_type::range() const
     return range_;
 }
 
-time_duration mortar_type::player_flight_time() const
+time_duration mortar_type::player_flight_time( const int distance ) const
 {
-    return player_flight_time_;
+    return mortar_60mm_flight_time( distance );
 }
 
 time_duration mortar_type::npc_fire_message_delay() const
@@ -254,14 +293,9 @@ time_duration mortar_type::npc_fire_message_delay() const
     return npc_fire_message_delay_;
 }
 
-time_duration mortar_type::npc_impact_delay() const
+time_duration mortar_type::npc_flight_time( const int distance ) const
 {
-    return npc_impact_delay_;
-}
-
-time_duration mortar_type::npc_impact_message_delay() const
-{
-    return npc_impact_message_delay_;
+    return mortar_60mm_flight_time( distance );
 }
 
 double mortar_type::minimum_range_error( const int distance ) const

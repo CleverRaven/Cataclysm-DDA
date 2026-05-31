@@ -619,9 +619,10 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
     target_abs_ms.z() = overmap_buffer.highest_omt_point( project_to<coords::omt>( target_abs_ms ) );
     const int launcher_skill = you.get_skill_level( skill_launcher );
     const tripoint_abs_ms mortar_abs = here.get_abs( examp );
+    const int target_distance = rl_dist( mortar_abs, target_abs_ms );
     if( mortar != nullptr ) {
         const tripoint_abs_ms designated_target_abs_ms = target_abs_ms;
-        const int distance = rl_dist( mortar_abs, designated_target_abs_ms );
+        const int distance = target_distance;
         const double skill_multiplier = mortar_type::skill_accuracy_multiplier( launcher_skill );
         const double fixed_multiplier = mortar_fixed_accuracy_multiplier( you, mortar_abs );
         const double raw_total_multiplier = skill_multiplier * fixed_multiplier;
@@ -672,7 +673,7 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
                        aimpoint_abs_ms.y() - designated_target_abs_ms.y(),
                        target_abs_ms.x() - designated_target_abs_ms.x(),
                        target_abs_ms.y() - designated_target_abs_ms.y() );
-    } else if( rl_dist( mortar_abs, target_abs_ms ) <= MAX_VIEW_DISTANCE ) {
+    } else if( target_distance <= MAX_VIEW_DISTANCE ) {
         add_msg( _( "Target is too close." ) );
         return;
     }
@@ -680,7 +681,7 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
     time_duration aim_dur = aim_duration.evaluate( d );
     you.assign_activity( ACT_MORTAR_AIMING, to_moves<int>( aim_dur ) );
 
-    const time_duration impact_delay = mortar != nullptr ? mortar->player_flight_time() :
+    const time_duration impact_delay = mortar != nullptr ? mortar->player_flight_time( target_distance ) :
                                        flight_time.evaluate( d );
     const time_point impact_time = calendar::turn + impact_delay + aim_dur;
     if( loc->typeId() == itype_60mm_shell_m721 ) {

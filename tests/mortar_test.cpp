@@ -1,4 +1,5 @@
 #include <cmath>
+#include <tuple>
 
 #include "cata_catch.h"
 #include "coordinates.h"
@@ -28,6 +29,35 @@ TEST_CASE( "mortar_ballistic_multiplier_caps", "[mortar]" )
     CHECK( mortar_type::effective_ballistic_multiplier( 9.0 ) == Approx( 9.0 ) );
     CHECK( mortar_type::effective_ballistic_multiplier( 12.0 ) == Approx( 11.0 ) );
     CHECK( mortar_type::effective_ballistic_multiplier( 130.0 ) == Approx( 70.0 ) );
+}
+
+TEST_CASE( "mortar_60mm_flight_time_scales_with_distance", "[mortar]" )
+{
+    rng_set_engine_seed( 1 );
+    const mortar_type &mortar = mortar_m224.obj();
+
+    const std::vector<std::tuple<int, int, int>> expected_bounds = {
+        { 500, 10, 20 },
+        { 1000, 15, 25 },
+        { 2000, 25, 40 },
+        { 3000, 35, 50 },
+        { 3500, 35, 50 },
+    };
+
+    for( const std::tuple<int, int, int> &bounds : expected_bounds ) {
+        const int distance = std::get<0>( bounds );
+        const int minimum_seconds = std::get<1>( bounds );
+        const int maximum_seconds = std::get<2>( bounds );
+        for( int i = 0; i < 20; ++i ) {
+            const int player_seconds = to_seconds<int>( mortar.player_flight_time( distance ) );
+            CHECK( player_seconds >= minimum_seconds );
+            CHECK( player_seconds <= maximum_seconds );
+
+            const int npc_seconds = to_seconds<int>( mortar.npc_flight_time( distance ) );
+            CHECK( npc_seconds >= minimum_seconds );
+            CHECK( npc_seconds <= maximum_seconds );
+        }
+    }
 }
 
 TEST_CASE( "mortar_minimum_target_distance_scales_with_range_error", "[mortar]" )
