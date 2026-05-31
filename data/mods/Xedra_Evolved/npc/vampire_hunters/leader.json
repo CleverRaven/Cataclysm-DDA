@@ -81,6 +81,13 @@
         "no": [ "Welcome.", "Hello.", "What are you here for?" ]
       }
     ],
+    "speaker_effect": [
+      {
+        "//": "If you gave Blaine the elder ginseng, he will pass the potion to Leonard for him to use.",
+        "condition": { "compare_string": [ "yes", { "u_val": "gave_hunter_doctor_elder_ginseng" } ] },
+        "effect": [ { "npc_add_trait": "EXTEND_LIFE" } ]
+      }
+    ],
     "responses": [
       {
         "text": "What are you doing here?",
