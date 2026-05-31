@@ -148,36 +148,24 @@
     "type": "item_group",
     "id": "soup_box",
     "subtype": "distribution",
-    "entries": [ { "group": "soup_packet", "prob": 50, "container-item": "box_small", "charges": [ 1, 8 ] } ]
+    "container-item": "box_small",
+    "entries": [ { "group": "soup_packet", "count": [ 1, 8 ] } ]
   },
   {
     "type": "item_group",
     "id": "soup_packet",
     "subtype": "distribution",
+    "container-item": "bag_paper_powder",
     "entries": [
-      { "prob": 50, "group": "soup_instant_chicken_noodle_powder_bag_paper_powder_1" },
-      { "prob": 50, "group": "soup_instant_vegetable_powder_bag_paper_powder_1" }
+      { "item": "soup_instant_chicken_noodle_powder", "container-item": "null" },
+      { "item": "soup_instant_vegetable_powder", "container-item": "null" }
     ]
   },
   {
     "type": "item_group",
-    "id": "soup_instant_chicken_noodle_powder_bag_paper_powder_1",
-    "subtype": "collection",
-    "container-item": "bag_paper_powder",
-    "entries": [ { "item": "soup_instant_chicken_noodle_powder", "container-item": "null", "count": [ 1, 1 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "soup_instant_vegetable_powder_bag_paper_powder_1",
-    "subtype": "collection",
-    "container-item": "bag_paper_powder",
-    "entries": [ { "item": "soup_instant_vegetable_powder", "container-item": "null", "count": [ 1, 1 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "instant_gravy",
-    "subtype": "collection",
-    "entries": [ { "group": "instant_gravy_tub", "prob": 5 }, { "group": "instant_gravy_packets", "count": [ 1, 12 ], "prob": 60 } ]
+    "subtype": "distribution",
+    "entries": [ { "group": "instant_gravy_tub", "prob": 1 }, { "group": "instant_gravy_packets", "count": [ 1, 12 ], "prob": 8 } ]
   },
   {
     "type": "item_group",
@@ -186,14 +174,14 @@
     "//1": "Odd serving count as I really didn't feel like adding a specific gravy powder container",
     "subtype": "distribution",
     "container-item": "plastic_bucket",
-    "entries": [ { "item": "gravy_mix", "count": 850, "prob": 50 }, { "item": "vegan_gravy_mix", "count": 850, "prob": 50 } ]
+    "entries": [ { "item": "gravy_mix", "count": 850, "prob": 1 }, { "item": "vegan_gravy_mix", "count": 850, "prob": 7 } ]
   },
   {
     "type": "item_group",
     "id": "instant_gravy_packets",
     "subtype": "distribution",
     "container-item": "bag_paper_powder",
-    "entries": [ { "item": "gravy_mix", "count": 8, "prob": 90 }, { "item": "vegan_gravy_mix", "count": 8, "prob": 10 } ]
+    "entries": [ { "item": "gravy_mix", "count": 8, "prob": 1 }, { "item": "vegan_gravy_mix", "count": 8, "prob": 7 } ]
   },
   {
     "type": "item_group",
