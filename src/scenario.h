@@ -11,6 +11,7 @@
 
 #include "calendar.h"
 #include "coordinates.h"
+#include "point.h"
 #include "ret_val.h"
 #include "translation.h"
 #include "type_id.h"
