@@ -248,7 +248,7 @@
     "type": "SPELL",
     "name": "[Ψ]Beastmaster",
     "description": "Take control of an animal's mind, forcing it to obey you.  This power will not work on insects, spiders, or similar beings.",
-    "message": "You take control of the animal's mind!",
+    "message": "You reach out to the animal's mind and twist.",
     "teachable": false,
     "valid_targets": [ "hostile" ],
     "spell_class": "TELEPATH",

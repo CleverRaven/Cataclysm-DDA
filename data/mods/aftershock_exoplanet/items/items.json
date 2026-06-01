@@ -110,7 +110,8 @@
     "copy-from": "nuclear_waste",
     "type": "ITEM",
     "name": { "str": "nuclear fuel pellet" },
-    "description": "A small pellet of fissile material.  Handle carefully."
+    "description": "A small pellet of fissile material.  Useful for powering up things, or for blowing them up.",
+    "price": "1 kUSD"
   },
   {
     "id": "hazardous_waste_drum",
@@ -166,6 +167,27 @@
     "color": "light_cyan",
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "bash": 9 }
+  },
+  {
+    "id": "afs_doping_agent",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "category": "spare_parts",
+    "name": { "str": "electrical doping agent" },
+    "description": "One part of ubiquitous superconductor insulation-protection sheathing, this viscuous goop is otherwise unremarkable.  A label with defunct digital link and printed text claims conductivity losses are reduced by an order of magnitude over competitors, and that the protection resists everything from lunar vacuum to stray laser fire.  The much smaller disclaimer clarifies that the claims only apply to industrial lasers, and that the manufacturer is not responsible for accidents resulting from misapplication outside of the approved specfications sheet  That spec sheet must be on the digital link, but even without it this is a valuable ingredient for reproducing pre-Discontinuity technology.",
+    "weight": "90 g",
+    "volume": "80 ml",
+    "price": "75 USD",
+    "price_postapoc": "75 USD",
+    "count": 4,
+    "stack_size": 4,
+    "material": [ "water" ],
+    "container": "can_food",
+    "phase": "liquid",
+    "looks_like": "silver_small",
+    "symbol": "o",
+    "color": "light_gray",
+    "ammo_type": "components"
   },
   {
     "id": "afs_titanium_small",
@@ -251,7 +273,7 @@
   {
     "type": "ITEM",
     "id": "afs_enzime_replicator",
-    "name": { "str_sp": "enzime biofactory" },
+    "name": { "str_sp": "enzyme biofactory" },
     "description": "A complex Mercurial manufactured bacterial biome that partially replicates human biochemistry.  Output volume is small, so this device is mostly used for medical research and tailor-made medical solutions.  Rarely seen in the frontier.",
     "symbol": "o",
     "color": "yellow",

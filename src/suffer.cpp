@@ -97,6 +97,7 @@ static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_overburdened( "overburdened" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_sunscreen( "sunscreen" );
@@ -455,11 +456,18 @@ void suffer::from_addictions( Character &you )
 
 void suffer::while_awake( Character &you, const int current_stim )
 {
+    // The purpose of reapplying the effects for 2 turns is to prevent the application message from appearing every turn.
     if( you.weight_carried() > you.max_pickup_capacity() ) {
         if( you.has_effect( effect_downed ) ) {
             you.add_effect( effect_downed, 1_turns, false, 0, true );
         } else {
             you.add_effect( effect_downed, 2_turns, false, 0, true );
+        }
+    } else if( you.weight_carried() > you.weight_capacity() ) {
+        if( you.has_effect( effect_overburdened ) ) {
+            you.add_effect( effect_overburdened, 1_turns, false, 0, true );
+        } else {
+            you.add_effect( effect_overburdened, 2_turns, false, 0, true );
         }
     }
 

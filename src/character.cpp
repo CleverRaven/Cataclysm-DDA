@@ -4022,11 +4022,14 @@ std::string Character::age_string( time_point when ) const
     return string_format( unformatted, age( when ) );
 }
 
+namespace
+{
 struct HeightLimits {
     int min_height = 0;
     int base_height = 0;
     int max_height = 0;
 };
+} // namespace
 
 /** Min and max heights in cm for each size category */
 static const std::map<creature_size, HeightLimits> size_category_height_limits {
@@ -4332,6 +4335,13 @@ void Character::recalc_limb_energy_usage()
             bionic_limb_count++;
         }
     }
+    for( const bionic_id &bid : get_bionic_fueled_with_muscle() ) {
+        if( has_active_bionic( bid ) ) {
+            bionic_powercost = bionic_powercost * 50;
+        } else {
+            bionic_powercost = bionic_powercost * 5;
+        }
+    }
     arms_power_use = bionic_powercost;
     if( bionic_limb_count > 0 ) {
         arms_stam_mult = 1 - ( bionic_limb_count / total_limb_count );
@@ -4355,6 +4365,13 @@ void Character::recalc_limb_energy_usage()
         if( bp->has_flag( json_flag_BIONIC_LIMB ) ) {
             bionic_powercost += bp->power_efficiency;
             bionic_limb_count++;
+        }
+    }
+    for( const bionic_id &bid : get_bionic_fueled_with_muscle() ) {
+        if( has_active_bionic( bid ) ) {
+            bionic_powercost = bionic_powercost * 50;
+        } else {
+            bionic_powercost = bionic_powercost * 5;
         }
     }
     legs_power_use = bionic_powercost;
@@ -7898,7 +7915,7 @@ bool Character::can_fly()
         return true;
     }
     // TODO: Remove grandfathering traits in after Limb Stuff
-    if( has_flag( json_flag_WINGS_2 ) || count_flag( json_flag_WING_ARMS ) >= 2 ) {
+    if( count_flag( json_flag_WINGS_2 ) >= 2 || count_flag( json_flag_WING_ARMS ) >= 2 ) {
 
         if( 100 * weight_carried() / weight_capacity() > 50 ) {
             return false;

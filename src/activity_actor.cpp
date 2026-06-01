@@ -35,6 +35,7 @@
 #include "butchery_requirements.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
@@ -45,6 +46,7 @@
 #include "coordinates.h"
 #include "craft_command.h"
 #include "crafting.h"
+#include "crafting_enums.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -75,6 +77,8 @@
 #include "item_contents.h"
 #include "item_group.h"
 #include "item_location.h"
+#include "item_pocket.h"
+#include "item_wakeup.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -130,6 +134,7 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
+#include "veh_shape.h"
 #include "veh_type.h"
 #include "veh_utils.h"
 #include "vehicle.h"
@@ -161,6 +166,7 @@ static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CONSUME( "ACT_CONSUME" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
+static const activity_id ACT_CRAFT_WAIT( "ACT_CRAFT_WAIT" );
 static const activity_id ACT_DISABLE( "ACT_DISABLE" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
@@ -724,7 +730,7 @@ bool aim_activity_actor::load_RAS_weapon()
         return true;
     };
     item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, weapon,
-                              you.ammo_location ) : you.select_ammo( used_gun );
+                              you.ammo_location, item::reload_option::POCKET_FALLBACK ) : you.select_ammo( used_gun );
     if( !opt ) {
         // Menu canceled
         return false;
@@ -971,6 +977,8 @@ void hacking_activity_actor::start( player_activity &act, Character & )
     act.moves_left = to_moves<int>( 5_minutes );
 }
 
+namespace
+{
 enum class hack_result : int {
     UNABLE,
     FAIL,
@@ -984,6 +992,7 @@ enum class hack_type : int {
     GAS,
     NONE
 };
+} // namespace
 
 static int hack_level( const Character &who, item_location &tool )
 {
@@ -1524,7 +1533,7 @@ std::unique_ptr<activity_actor> hacksaw_activity_actor::deserialize( JsonValue &
     data.read( "type", actor.type );
     data.read( "veh_pos", actor.veh_pos );
     data.read( "moves_left", actor.moves_left );
-    return actor.clone();
+    return std::make_unique<hacksaw_activity_actor>( actor );
 }
 
 static std::string enumerate_ints_to_string( const std::vector<int> &vec )
@@ -3080,6 +3089,8 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
         return;
     }
 
+    // Pickup::do_pickup() actively assumes the player. Calling it with anyone else is a mistake.
+    cata_assert( &who == &get_player_character() );
     // False indicates that the player canceled pickup when met with some prompt
     const bool keep_going = Pickup::do_pickup( target_items, quantities, autopickup,
                             stash_successful, info );
@@ -4364,12 +4375,8 @@ std::string efile_activity_actor::efile_action_name( efile_action action_type, b
     std::vector<std::string> base_names = { _( "browse" ), _( "read" ), _( "move" ), _( "move" ), _( "copy" ), _( "copy" ), _( "wipe" ) };
     std::vector<std::string> past_names = { _( "browsed" ), _( "read" ), _( "moved" ), _( "moved" ), _( "copied" ), _( "copied" ), _( "wiped" ) };
     std::vector<std::string> extensions = { "", "", _( " files onto" ), _( " files off of" ), _( " files onto" ), _( " files off of" ), "" };
-    std::string name_output;
-    past_tense ? name_output += past_names[action_type] : name_output += base_names[action_type];
-    if( extended ) {
-        name_output += extensions[action_type];
-    }
-    return name_output;
+    const std::string name_output = ( past_tense ? past_names : base_names )[action_type];
+    return extended ? name_output + extensions[action_type] : name_output;
 }
 
 bool efile_activity_actor::efile_action_exclude_used( efile_action action_type )
@@ -5368,7 +5375,7 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
         req_fail_reason = requirement_failure_reasons();
         const requirement_check_result req_res = check_requirements( you, act_info, src, src_bub, src_set,
                 check_only );
-        if( req_res == requirement_check_result::RETURN_EARLY ) {
+        if( req_res == requirement_check_result::RETURN_EARLY || !you.activity ) {
             // Fetch dispatched -- prune so we don't re-trigger it.
             if( use_cache ) {
                 cache.sources.erase( src );
@@ -5602,6 +5609,8 @@ requirement_check_result multi_zone_activity_actor::fetch_requirements( Characte
         candidates.push_back( point_elem );
     }
     if( candidates.empty() ) {
+        add_msg_if_player_sees( you,
+                                _( "Failed to find a non-zoned suitably empty tile to drop fetched items within range of work activity." ) );
         you.activity = player_activity();
         you.backlog.clear();
         multi_activity_actor::check_npc_revert( you );
@@ -6278,6 +6287,91 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         }
     }
 
+    // Mode is derived from craft state every turn so wakeup handlers that
+    // advance current_step do not need to reach into the live actor.
+    auto derive_mode = [&]() -> mode {
+        if( !rec.has_steps() )
+        {
+            return mode::active;
+        }
+        const recipe_step &s = rec.steps()[craft.get_current_step()];
+        if( s.attention != step_attention::unattended )
+        {
+            return mode::active;
+        }
+        if( craft.get_passive_started_at() == calendar::before_time_starts )
+        {
+            return mode::active;
+        }
+        const std::vector<attention_plan> &plans = craft.get_step_plans();
+        const int idx = craft.get_current_step();
+        if( idx >= static_cast<int>( plans.size() ) )
+        {
+            return mode::waiting;
+        }
+        return plans[idx].choice == step_choice::do_wait ? mode::waiting : mode::active;
+    };
+    mode_ = derive_mode();
+
+    if( rec.has_steps() ) {
+        const recipe_step &cur_step = rec.steps()[craft.get_current_step()];
+        if( cur_step.attention == step_attention::unattended ) {
+            // Parked awaiting collection: stop the actor instead of re-stamping a
+            // fresh passive entry.  The player collects via an explicit activate.
+            if( craft.is_awaiting_collection() ) {
+                act.set_to_null();
+                crafter.set_moves( 0 );
+                return;
+            }
+            const std::vector<attention_plan> &plans = craft.get_step_plans();
+            const int idx = craft.get_current_step();
+            const attention_plan plan = idx < static_cast<int>( plans.size() ) ? plans[idx] :
+                                        attention_plan{};
+
+            // Past-due wakeup (off-bubble drop or same-turn race): advance inline.
+            if( craft.get_passive_started_at() != calendar::before_time_starts &&
+                craft.get_ready_at() != calendar::before_time_starts &&
+                calendar::turn >= craft.get_ready_at() ) {
+                craft_actualize_scheduled( craft, item_wakeup_kind::ready_check,
+                                           calendar::turn, craft_item );
+                return;
+            }
+
+            if( craft.get_passive_started_at() == calendar::before_time_starts ) {
+                craft_stamp_passive_entry( craft, crafter, calendar::turn, craft_item );
+                mode_ = derive_mode();
+                // Back-dated entry can leave alarm and/or ready already due.
+                // Alarm runs first; the alarm handler elides itself if ready
+                // also fires same turn.
+                if( craft.get_alarm_at() != calendar::before_time_starts &&
+                    calendar::turn >= craft.get_alarm_at() ) {
+                    craft_actualize_scheduled( craft, item_wakeup_kind::alarm,
+                                               calendar::turn, craft_item );
+                }
+                if( craft.get_ready_at() != calendar::before_time_starts &&
+                    calendar::turn >= craft.get_ready_at() ) {
+                    craft_actualize_scheduled( craft, item_wakeup_kind::ready_check,
+                                               calendar::turn, craft_item );
+                    return;
+                }
+            }
+
+            if( plan.choice == step_choice::do_wait ) {
+                // Per-turn env check fast-path.  do_something / set_timer
+                // rely on the periodic env_check wakeup at 1-minute cadence
+                // since no actor runs for those modes.
+                craft_actualize_scheduled( craft, item_wakeup_kind::env_check,
+                                           calendar::turn, craft_item );
+                crafter.set_moves( 0 );
+                return;
+            }
+            // do_something / set_timer: end activity without backlog.
+            act.set_to_null();
+            crafter.set_moves( 0 );
+            return;
+        }
+    }
+
     if( !use_cached_workbench_multiplier ) {
         cached_workbench_multiplier = crafter.workbench_crafting_speed_multiplier( craft, location );
         use_cached_workbench_multiplier = true;
@@ -6315,6 +6409,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     // item_counter represents the percent progress relative to the base batch time
     // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6732000 )
     const int old_counter = craft.item_counter;
+    const int old_moves = crafter.get_moves();
 
     // Delta progress in moves adjusted for current crafting speed /
     //crafter.exertion_adjusted_move_multiplier( exertion_level() )
@@ -6332,7 +6427,11 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     craft.item_counter = std::min( craft.item_counter, 10000000 );
 
     // Step transitions: accumulate work and advance through step boundaries.
+    int old_step = 0;
+    double old_step_progress = 0.0;
     if( rec.has_steps() ) {
+        old_step = craft.get_current_step();
+        old_step_progress = craft.get_step_progress();
         craft.mod_step_progress( delta_progress );
         const int last_step_idx = static_cast<int>( rec.steps().size() ) - 1;
         while( craft.get_current_step() < last_step_idx ) {
@@ -6345,6 +6444,20 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
             craft.set_step_progress( craft.get_step_progress() - budget );
             craft.set_current_step( craft.get_current_step() + 1 );
         }
+    }
+    // Consume tools to match progress: per recipe step, or the whole recipe as a
+    // single implicit step for stepless recipes.  A charge shortfall rewinds this
+    // turn's step and counter state before any skill gain.
+    if( !crafter.craft_consume_step_tools( craft ) ) {
+        if( rec.has_steps() ) {
+            craft.set_current_step( old_step );
+            craft.set_step_progress( old_step_progress );
+        }
+        craft.item_counter = old_counter;
+        crafter.set_moves( old_moves );
+        craft.erase_var( "crafter" );
+        crafter.cancel_activity();
+        return;
     }
 
     // This nominal craft time is also how many practice ticks to perform
@@ -6371,20 +6484,6 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         use_cached_workbench_multiplier = false;
     }
 
-    // Unlike skill, tools are consumed once at the start and should not be consumed at the end
-    if( craft.item_counter >= 10000000 ) {
-        --five_percent_steps;
-    }
-
-    if( five_percent_steps > 0 ) {
-        if( !crafter.craft_consume_tools( craft, five_percent_steps, false ) ) {
-            // So we don't skip over any tool comsuption
-            craft.item_counter -= craft.item_counter % 500000 + 1;
-            craft.erase_var( "crafter" );
-            crafter.cancel_activity();
-            return;
-        }
-    }
 
     // if item_counter has reached 100% or more
     if( craft.item_counter >= 10000000 ) {
@@ -6493,6 +6592,9 @@ void craft_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "craft_loc", craft_item );
     jsout.member( "long", is_long );
     jsout.member( "activity_override", activity_override );
+    if( mode_ == mode::waiting ) {
+        jsout.member( "mode", "waiting" );
+    }
 
     jsout.end_object();
 }
@@ -6506,6 +6608,10 @@ std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonValue &js
     data.read( "craft_loc", actor.craft_item );
     data.read( "long", actor.is_long );
     data.read( "activity_override", actor.activity_override );
+    std::string mode_str;
+    if( data.read( "mode", mode_str ) && mode_str == "waiting" ) {
+        actor.mode_ = mode::waiting;
+    }
 
     return actor.clone();
 }
@@ -6762,7 +6868,7 @@ static void debug_drop_list( const std::vector<drop_or_stash_item_info> &items )
 
     std::string res( "Items ordered to drop:\n" );
     for( const drop_or_stash_item_info &it : items ) {
-        item_location loc = it.loc();
+        const item_location &loc = it.loc();
         if( !loc ) {
             // some items could have been destroyed by e.g. monster attack
             continue;
@@ -7820,6 +7926,12 @@ void reload_activity_actor::start( player_activity &act, Character &/*who*/ )
 
 void reload_activity_actor::reload_msg( Character &who, bool finished )
 {
+    // Item may have been dropped from inventory between turns (e.g. pocket
+    // overflow after the reload increased its size); the location is then
+    // stale and dereferencing it would crash.
+    if( !target_loc ) {
+        return;
+    }
     item &reloadable = *target_loc;
     const std::string reloadable_name = reloadable.tname();
 
@@ -7961,6 +8073,49 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     already_loaded += quantity - already_loaded;
     reload_msg( who, true );
     act.set_to_null();
+
+    // Auto-chain sibling wells so the player is not prompted once per well.
+    // Inventory only - map items were not part of the player's original pick
+    // and walking them can surface debugmsgs on unrelated nearby items.
+    if( !target_loc || !target_loc->uses_firing_requirements() ) {
+        return;
+    }
+    const std::vector<item_location> candidates =
+        who.find_ammo( *target_loc, /*empty=*/false, /*radius=*/ -1 );
+    if( candidates.empty() ) {
+        return;
+    }
+    int chain_pocket = -1;
+    item_location chain_ammo;
+    int idx = 0;
+    for( const item_pocket *p : target_loc->get_pockets( []( const item_pocket & ) {
+    return true;
+} ) ) {
+        if( p->is_type( pocket_type::MAGAZINE_WELL ) && p->magazine_current() == nullptr ) {
+            item_location match;
+            for( const item_location &cand : candidates ) {
+                if( p->can_reload_with( *cand, true ) ) {
+                    if( match ) {
+                        match = item_location();
+                        break;
+                    }
+                    match = cand;
+                }
+            }
+            if( match ) {
+                chain_pocket = idx;
+                chain_ammo = match;
+                break;
+            }
+        }
+        ++idx;
+    }
+    if( !chain_ammo || chain_pocket < 0 ) {
+        return;
+    }
+    const int extra_moves = target_loc->get_var( "dirt", 0 ) > 7800 ? 2500 : 0;
+    item::reload_option chain_opt( &who, target_loc, chain_ammo, chain_pocket );
+    who.assign_activity( reload_activity_actor( std::move( chain_opt ), extra_moves ) );
 }
 
 void reload_activity_actor::canceled( player_activity &act, Character &who )
@@ -8893,6 +9048,8 @@ void outfit_swap_actor::finish( player_activity &act, Character &who )
             //Due to the eoc triggered who.takeoff, the item may become invalid.
             continue;
         }
+        // Copy is intentional: who.takeoff below may invalidate worn_item.
+        // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
         item outfit_component( *worn_item );
         std::size_t old_it_list_size = it_list.size();
         if( who.takeoff( worn_item, &it_list ) && it_list.size() > old_it_list_size ) {
@@ -11234,8 +11391,9 @@ void vehicle_activity_actor::complete_vehicle( player_activity &act, Character &
                 break;
             }
             ::vehicle_part &vp_new = veh.part( partnum );
+            here.add_vehicle_to_cache( &veh );
             if( vp_new.info().variants.size() > 1 ) {
-                veh_interact::do_change_shape_menu( vp_new );
+                veh_shape( here, veh ).change_part_shape( vpart_reference( veh, partnum ) );
             }
 
             // Need map-relative coordinates to compare to output of look_around.
@@ -11685,7 +11843,8 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
         return false;
     }
     map &here = get_map();
-    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p.pos_bub(), 0_degrees, 0, 0, false );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p.pos_bub(), 0_degrees, 0,
+                                     veh_spawn_status::UNDAMAGED, false );
     if( veh == nullptr ) {
         p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname() );
         return false;
@@ -14735,6 +14894,7 @@ deserialize_functions = {
     { ACT_CONSUME, &consume_activity_actor::deserialize },
     { ACT_CRACKING, &safecracking_activity_actor::deserialize },
     { ACT_CRAFT, &craft_activity_actor::deserialize },
+    { ACT_CRAFT_WAIT, &craft_activity_actor::deserialize },
     { ACT_DISABLE, &disable_activity_actor::deserialize },
     { ACT_DISASSEMBLE, &disassemble_activity_actor::deserialize },
     { ACT_DISMEMBER, &butchery_activity_actor::deserialize },

@@ -1396,8 +1396,8 @@
           {
             "effect_id": "red_incense_effect",
             "intensity": 1,
-            "min_duration": "2 minutes",
-            "max_duration": "2 minutes",
+            "min_duration": "24 hours",
+            "max_duration": "24 hours",
             "is_environmental": false
           }
         ]
@@ -1428,6 +1428,113 @@
     "accelerated_decay": true,
     "display_field": true,
     "looks_like": "fd_cigsmoke"
+  },
+  {
+    "id": "fd_green_incense",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "swirl of green incense",
+        "translucency": 5,
+        "color": "green",
+        "effects": [
+          {
+            "effect_id": "green_incense_effect",
+            "intensity": 1,
+            "min_duration": "30 seconds",
+            "max_duration": "30 seconds",
+            "is_environmental": false
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 250,
+    "outdoor_age_speedup": "6 minutes",
+    "dirty_transparency_cache": true,
+    "priority": 8,
+    "half_life": "35 minutes",
+    "phase": "gas",
+    "accelerated_decay": true,
+    "display_field": true,
+    "looks_like": "fd_cigsmoke"
+  },
+  {
+    "id": "fd_incense",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "swirl of incense", "translucency": 5, "color": "yellow" } ],
+    "decay_amount_factor": 5,
+    "percent_spread": 250,
+    "outdoor_age_speedup": "6 minutes",
+    "dirty_transparency_cache": true,
+    "priority": 8,
+    "half_life": "35 minutes",
+    "phase": "gas",
+    "accelerated_decay": true,
+    "display_field": true,
+    "looks_like": "fd_cigsmoke"
+  },
+  {
+    "id": "fd_blue_incense",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "swirl of blue incense",
+        "translucency": 5,
+        "color": "blue",
+        "effects": [
+          {
+            "effect_id": "invisibility",
+            "intensity": 1,
+            "min_duration": "30 seconds",
+            "max_duration": "30 seconds",
+            "is_environmental": false
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 250,
+    "outdoor_age_speedup": "6 minutes",
+    "dirty_transparency_cache": true,
+    "priority": 8,
+    "half_life": "35 minutes",
+    "phase": "gas",
+    "accelerated_decay": true,
+    "display_field": true,
+    "looks_like": "fd_cigsmoke"
+  },
+  {
+    "id": "fd_black_incense",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "dense caustic gas",
+        "color": "dark_gray",
+        "translucency": 20,
+        "transparent": false,
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "black_incense_effect",
+            "body_part": "torso",
+            "intensity": 1,
+            "min_duration": "10 seconds",
+            "max_duration": "10 seconds",
+            "immune_inside_vehicle": true,
+            "message": "You feel the caustic gas burn through your skin.",
+            "message_type": "bad"
+          }
+        ]
+      }
+    ],
+    "looks_like": "fd_smoke",
+    "dirty_transparency_cache": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "torso", 15 ], [ "mouth", 15 ], [ "sensor", 15 ] ] },
+    "priority": 2,
+    "half_life": "5 minutes",
+    "phase": "solid",
+    "display_field": true
   },
   {
     "id": "fd_weedsmoke",
@@ -2402,5 +2509,147 @@
     "priority": 8,
     "half_life": "30 seconds",
     "phase": "gas"
+  },
+  {
+    "id": "fd_air_conditioner_radiosphere",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "warm air", "sym": "&", "convection_temperature_mod": 40 } ],
+    "priority": -1,
+    "display_field": false,
+    "phase": "gas"
+  },
+  {
+    "id": "fd_scarlet_atmosphere",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "scarlet atmosphere",
+        "effects": [
+          {
+            "effect_id": "effect_scarlet_atmopshere",
+            "intensity": 1,
+            "min_duration": "1s",
+            "max_duration": "1s",
+            "is_environmental": false
+          }
+        ]
+      }
+    ],
+    "decrease_intensity_on_contact": false,
+    "indestructible": true,
+    "priority": -1,
+    "display_field": false,
+    "phase": "gas",
+    "gas_absorption_factor": "80m",
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] }
+  },
+  {
+    "id": "fd_scarlet_sea_wave",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "breaking ripple",
+        "color": "light_red",
+        "sym": "~",
+        "dangerous": false,
+        "transparent": true,
+        "concentration": 1
+      },
+      {
+        "name": "breaking wave",
+        "color": "light_red",
+        "dangerous": false,
+        "transparent": true,
+        "concentration": 2,
+        "scent_neutralization": 1
+      },
+      {
+        "name": "breaking redcap",
+        "color": "light_red",
+        "dangerous": false,
+        "transparent": true,
+        "concentration": 3,
+        "scent_neutralization": 5
+      }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 1,
+    "dirty_transparency_cache": true,
+    "outdoor_age_speedup": "0 turns",
+    "priority": 8,
+    "half_life": "1 minutes",
+    "phase": "gas",
+    "accelerated_decay": true,
+    "display_items": false,
+    "display_field": true
+  },
+  {
+    "id": "fd_scarlet_sea_gas",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "scarlet haze",
+        "color": "light_red",
+        "light_emitted": 160,
+        "light_color": [ 110, 0, 0 ],
+        "effects": [
+          {
+            "effect_id": "effect_scarlet_atmopshere",
+            "intensity": 1,
+            "min_duration": "1s",
+            "max_duration": "1s",
+            "is_environmental": false,
+            "message": "The air here irritates your lungs!",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "scarlet smoke",
+        "color": "light_red",
+        "light_emitted": 160,
+        "light_color": [ 110, 0, 0 ],
+        "effects": [
+          {
+            "effect_id": "effect_scarlet_atmopshere",
+            "intensity": 2,
+            "min_duration": "1s",
+            "max_duration": "1s",
+            "is_environmental": false,
+            "message": "The air here irritates your lungs!",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "scarlet smog",
+        "color": "light_red",
+        "light_emitted": 160,
+        "light_color": [ 110, 0, 0 ],
+        "effects": [
+          {
+            "effect_id": "effect_scarlet_atmopshere",
+            "intensity": 3,
+            "min_duration": "1s",
+            "max_duration": "1s",
+            "is_environmental": false,
+            "message": "The air here irritates your lungs!",
+            "message_type": "bad"
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 20,
+    "dirty_transparency_cache": true,
+    "outdoor_age_speedup": "0 turns",
+    "priority": 8,
+    "half_life": "1 minutes",
+    "phase": "gas",
+    "accelerated_decay": true,
+    "display_items": false,
+    "display_field": false,
+    "gas_absorption_factor": "80m",
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] }
   }
 ]

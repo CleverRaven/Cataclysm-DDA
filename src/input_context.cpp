@@ -80,6 +80,8 @@ class keybindings_ui : public cataimgui::window
 
 static const std::string default_context_id( "default" );
 
+namespace
+{
 template <class T1, class T2>
 struct ContainsPredicate {
     const T1 &container;
@@ -91,6 +93,7 @@ struct ContainsPredicate {
         return std::find( container.begin(), container.end(), c ) != container.end();
     }
 };
+} // namespace
 
 bool input_context::action_uses_input( const std::string &action_id,
                                        const input_event &event ) const
@@ -667,9 +670,19 @@ keybindings_ui::keybindings_ui( bool permit_execute_action,
 {
     this->ctxt = parent;
 
-    legend.push_back( colorize( _( "Unbound keys" ), unbound_key ) );
-    legend.push_back( colorize( _( "Keybinding active only on this screen" ), local_key ) );
-    legend.push_back( colorize( _( "Keybinding active globally" ), global_key ) );
+    // FIXME? These categories aren't translated. It's still useful to display them, even if the viewer can't understand them.
+    if( parent->category == "DEFAULTMODE" ) {
+        legend.emplace_back( _( "Currently showing keys for the main game." ) );
+    } else {
+        legend.push_back( string_format( _( "Currently showing keys ONLY for the last opened window: %s!" ),
+                                         parent->category ) );
+    }
+
+    legend.push_back( colorize( _( "Unbound keys are colored like this." ), unbound_key ) );
+    legend.push_back( colorize( _( "Keybinding active only on this screen are colored like this." ),
+                                local_key ) );
+    legend.push_back( colorize( _( "Keybinding active globally are colored like this." ),
+                                global_key ) );
     legend.push_back( colorize( _( "* User customized" ), global_key ) );
     if( permit_execute_action ) {
         legend.push_back( string_format(
@@ -725,6 +738,7 @@ void keybindings_ui::draw_controls()
     ImGui::Separator();
 
     if( last_status != status && status == kb_menu_status::show ) {
+        defocus_filter();
         ImGui::SetNextWindowFocus();
     }
     if( ImGui::BeginTable( "KB_KEYS", 4, ImGuiTableFlags_ScrollY ) ) {

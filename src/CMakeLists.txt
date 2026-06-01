@@ -223,6 +223,46 @@ if (TILES)
         target_link_libraries(cataclysm-tiles-common PUBLIC ${ZLIB_LIBRARIES})
     endif()
 
+    if (USE_SDL3)
+        # Compile GLSL shaders to per-backend artifacts (.spv / .dxil / .msl)
+        # for the GPU shader path. Pattern mirrors lang/CMakeLists.txt locale
+        # build. Default the format set to the local GPU backend so that
+        # builds without shadercross succeed (variant_pass goes inert at
+        # runtime if the expected artifact format is missing). Override
+        # CATA_SHADER_FORMATS when shipping a multi-platform bindist.
+        set(_SHADERS_DIR ${CMAKE_SOURCE_DIR}/data/shaders)
+        if (NOT DEFINED CATA_SHADER_FORMATS)
+            if (APPLE)
+                set(CATA_SHADER_FORMATS "msl")
+            elseif (WIN32)
+                set(CATA_SHADER_FORMATS "dxil")
+            else()
+                set(CATA_SHADER_FORMATS "spv")
+            endif()
+        endif()
+        # Stamp filename encodes the format set so switching CATA_SHADER_FORMATS
+        # invalidates the stamp and triggers a rebuild. Hyphen-separated to
+        # avoid commas in filenames; matches the Makefile and MSVC prebuild.
+        string(REPLACE "," "-" _SHADER_STAMP_TAG "${CATA_SHADER_FORMATS}")
+        set(_SHADERS_STAMP ${_SHADERS_DIR}/build-${_SHADER_STAMP_TAG}.stamp)
+        file(GLOB _SHADER_SOURCES "${_SHADERS_DIR}/*.frag" "${_SHADERS_DIR}/*.vert")
+        find_package(Python3 COMPONENTS Interpreter REQUIRED)
+        add_custom_command(
+                OUTPUT ${_SHADERS_STAMP}
+                COMMAND ${Python3_EXECUTABLE}
+                    ${CMAKE_SOURCE_DIR}/tools/build_shaders.py
+                    --shader-dir ${_SHADERS_DIR}
+                    --formats ${CATA_SHADER_FORMATS}
+                    --stamp ${_SHADERS_STAMP}
+                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                DEPENDS ${_SHADER_SOURCES}
+                        ${CMAKE_SOURCE_DIR}/tools/build_shaders.py
+                COMMENT "Compiling shader artifacts (${CATA_SHADER_FORMATS})"
+        )
+        add_custom_target(compile_shaders ALL DEPENDS ${_SHADERS_STAMP})
+        add_dependencies(cataclysm-tiles-common compile_shaders)
+    endif()
+
 endif ()
 
 # Build curses version if requested

@@ -19,6 +19,8 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui_manager.h"
+namespace
+{
 enum class mutation_menu_mode {
     activating,
     examining,
@@ -30,6 +32,7 @@ enum class mutation_tab_mode {
     passive,
     none
 };
+} // namespace
 // '!' and '=' are uses as default bindings in the menu
 static const invlet_wrapper
 mutation_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}" );

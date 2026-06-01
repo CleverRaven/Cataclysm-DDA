@@ -50,7 +50,9 @@ namespace
 generic_factory<profession> all_profs( "profession" );
 } // namespace
 
-static class json_item_substitution
+namespace
+{
+class json_item_substitution
 {
     public:
         void reset();
@@ -81,6 +83,7 @@ static class json_item_substitution
         std::vector<item> get_bonus_items( const std::vector<trait_id> &traits ) const;
         std::vector<item> get_substitution( const item &it, const std::vector<trait_id> &traits ) const;
 } item_substitutions;
+} // namespace
 
 /** @relates string_id */
 template<>
@@ -166,6 +169,8 @@ void profession::finalize_all()
     all_profs.finalize();
 }
 
+namespace
+{
 class skilllevel_reader : public generic_typed_reader<skilllevel_reader>
 {
     public:
@@ -181,7 +186,10 @@ class skilllevel_reader : public generic_typed_reader<skilllevel_reader>
             } );
         }
 };
+} // namespace
 
+namespace
+{
 class addiction_reader : public generic_typed_reader<addiction_reader>
 {
     public:
@@ -219,6 +227,7 @@ class item_reader : public generic_typed_reader<item_reader>
             } );
         }
 };
+} // namespace
 
 void profession::load( const JsonObject &jo, std::string_view )
 {

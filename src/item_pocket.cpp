@@ -103,6 +103,12 @@ std::string pocket_data::check_definition() const
             return string_format( "invalid ammotype %s", at.str() );
         }
         const itype_id &it = at->default_ammotype();
+        // Abstract ammotypes (e.g. "components", "thrown") intentionally point
+        // their default at an undefined itype; ammunition_type::check_consistency
+        // skips them and so does the per-pocket phase check.
+        if( it.is_empty() || !item::type_is_defined( it ) ) {
+            continue;
+        }
         if( it->phase == phase_id::LIQUID && !watertight ) {
             return string_format( "restricted to liquid item %s but not watertight\n",
                                   it->get_id().str() );
@@ -971,11 +977,10 @@ void item_pocket::set_item_defaults()
     for( item &contained_item : contents ) {
         /* for guns and other items defined to have a magazine but don't use "ammo" */
         if( contained_item.is_magazine() ) {
-            contained_item.ammo_set(
-                contained_item.ammo_default(),
-                contained_item.ammo_capacity( item_controller->find_template(
-                                                  contained_item.ammo_default() )->ammo->type ) / 2
-            );
+            if( const std::optional<ammotype> at = item::ammotype_of( contained_item.ammo_default() ) ) {
+                contained_item.ammo_set( contained_item.ammo_default(),
+                                         contained_item.ammo_capacity( *at ) / 2 );
+            }
         } else { //Contents are batteries or food
             contained_item.charges =
                 item::find_type( contained_item.typeId() )->charges_default();
@@ -2172,12 +2177,20 @@ void item_pocket::add( const item &it, item **ret )
     } else {
         *ret = restack( &contents.back() );
     }
+    if( bulk_fill_volume ) {
+        *bulk_fill_volume += it.volume();
+        *bulk_fill_weight += it.weight();
+    }
 }
 
 void item_pocket::add( const item &it, const int copies, std::vector<item *> &added )
 {
     for( auto iter = contents.insert( contents.end(), copies, it ); iter != contents.end(); iter++ ) {
         added.push_back( &*iter );
+    }
+    if( bulk_fill_volume ) {
+        *bulk_fill_volume += it.volume() * copies;
+        *bulk_fill_weight += it.weight() * copies;
     }
 }
 
@@ -2263,6 +2276,12 @@ ret_val<item *> item_pocket::insert_item( const item &it,
     }
     if( restack_charges ) {
         inserted = restack( inserted );
+    }
+    if( bulk_fill_volume ) {
+        // restack conserves total volume/weight, so the inserted item's own
+        // contribution is the delta regardless of any merge.
+        *bulk_fill_volume += it.volume();
+        *bulk_fill_weight += it.weight();
     }
     return ret_val<item *>::make_success( inserted );
 }
@@ -2352,6 +2371,9 @@ units::length item_pocket::min_containable_length() const
 
 units::volume item_pocket::contents_volume() const
 {
+    if( bulk_fill_volume ) {
+        return *bulk_fill_volume;
+    }
     units::volume vol = 0_ml;
     for( const item &it : contents ) {
         vol += it.volume();
@@ -2361,11 +2383,26 @@ units::volume item_pocket::contents_volume() const
 
 units::mass item_pocket::contains_weight() const
 {
+    if( bulk_fill_weight ) {
+        return *bulk_fill_weight;
+    }
     units::mass weight = 0_gram;
     for( const item &it : contents ) {
         weight += it.weight();
     }
     return weight;
+}
+
+void item_pocket::begin_bulk_fill()
+{
+    bulk_fill_volume = contents_volume();
+    bulk_fill_weight = contains_weight();
+}
+
+void item_pocket::end_bulk_fill()
+{
+    bulk_fill_volume.reset();
+    bulk_fill_weight.reset();
 }
 
 units::mass item_pocket::remaining_weight() const
@@ -2378,25 +2415,13 @@ int item_pocket::charges_per_remaining_volume( const item &it ) const
     if( !it.count_by_charges() ) {
         return it.charges_per_volume( remaining_volume(), true );
     }
-    // Skip contents walk when no typeId match is possible.
-    bool any_same_type = false;
-    for( const item &contained : contents ) {
-        if( contained.typeId() == it.typeId() ) {
-            any_same_type = true;
-            break;
-        }
-    }
-    if( !any_same_type ) {
-        return it.charges_per_volume( remaining_volume(), true );
-    }
+    // Single pass: subtract the volume of every item that doesn't stack with
+    // `it`, and tally charges of those that do. When nothing stacks this
+    // reduces to volume_capacity() - contents_volume() == remaining_volume().
     units::volume non_it_volume = volume_capacity();
     int contained_charges = 0;
     for( const item &contained : contents ) {
-        if( contained.typeId() != it.typeId() ) {
-            non_it_volume -= contained.volume();
-            continue;
-        }
-        if( contained.stacks_with( it ) ) {
+        if( contained.typeId() == it.typeId() && contained.stacks_with( it ) ) {
             contained_charges += contained.charges;
         } else {
             non_it_volume -= contained.volume();
@@ -2410,24 +2435,13 @@ int item_pocket::charges_per_remaining_weight( const item &it ) const
     if( !it.count_by_charges() ) {
         return it.charges_per_weight( remaining_weight(), true );
     }
-    bool any_same_type = false;
-    for( const item &contained : contents ) {
-        if( contained.typeId() == it.typeId() ) {
-            any_same_type = true;
-            break;
-        }
-    }
-    if( !any_same_type ) {
-        return it.charges_per_weight( remaining_weight(), true );
-    }
+    // Single pass: subtract the weight of every item that doesn't stack with
+    // `it`, and tally charges of those that do. When nothing stacks this
+    // reduces to weight_capacity() - contains_weight() == remaining_weight().
     units::mass non_it_weight = weight_capacity();
     int contained_charges = 0;
     for( const item &contained : contents ) {
-        if( contained.typeId() != it.typeId() ) {
-            non_it_weight -= contained.weight();
-            continue;
-        }
-        if( contained.stacks_with( it ) ) {
+        if( contained.typeId() == it.typeId() && contained.stacks_with( it ) ) {
             contained_charges += contained.charges;
         } else {
             non_it_weight -= contained.weight();
@@ -2804,7 +2818,7 @@ const std::optional<std::string> &item_pocket::favorite_settings::get_preset_nam
 }
 
 template<typename T>
-std::string enumerate( cata::flat_set<T> container )
+static std::string enumerate( const cata::flat_set<T> &container )
 {
     std::vector<std::string> output;
     for( const T &id : container ) {

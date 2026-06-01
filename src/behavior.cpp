@@ -124,14 +124,14 @@ void tree::add( const node_t *new_node )
 
 // Now for the generic_factory definition
 
+namespace
+{
 // This struct only exists to hold node data until finalization.
 struct node_data {
     string_id<node_t> id;
     std::vector<std::string> children;
 };
 
-namespace
-{
 generic_factory<behavior::node_t> behavior_factory( "behavior" );
 std::list<node_data> temp_node_data;
 } // namespace

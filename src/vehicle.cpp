@@ -107,6 +107,7 @@ static const fault_id fault_broken_window( "fault_broken_window" );
 static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
 static const fault_id fault_flat_tire_riding_on_rims( "fault_flat_tire_riding_on_rims" );
 static const fault_id fault_punctured_tires( "fault_punctured_tires" );
+static const fault_id fault_tire_treads( "fault_tire_treads" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_battery( "battery" );
@@ -263,9 +264,11 @@ vehicle::~vehicle() = default;
 
 turret_cpu::~turret_cpu() = default;
 
+// rhs is intentionally ignored; assignment resets the cached brain.
+// NOLINTNEXTLINE(bugprone-unhandled-self-assignment,cert-oop54-cpp)
 turret_cpu &turret_cpu::operator=( const turret_cpu & )
 {
-    brain.reset();
+    brain = nullptr;
     return *this;
 }
 
@@ -329,7 +332,7 @@ bool vehicle::remote_controlled( const Character &p ) const
     return false;
 }
 
-void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status,
+void vehicle::init_state( map &placed_on, int init_veh_fuel, veh_spawn_status init_veh_status,
                           const bool force_status/* = false*/ )
 {
     // vehicle parts excluding engines in non-owned vehicles are by default turned off
@@ -352,7 +355,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
 
     if( get_option<bool>( "OVERRIDE_VEHICLE_INIT_STATE" ) ) {
         if( !force_status ) {
-            init_veh_status = get_option<int>( "VEHICLE_STATUS_AT_SPAWN" );
+            init_veh_status = static_cast<veh_spawn_status>( get_option<int>( "VEHICLE_STATUS_AT_SPAWN" ) );
         }
         init_veh_fuel = get_option<int>( "VEHICLE_FUEL_AT_SPAWN" );
     }
@@ -377,17 +380,13 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
             vp.ammo_set( fuel, max );
         }
     };
-    // veh_status is initial vehicle damage
-    // -1 = light damage (DEFAULT)
-    //  0 = undamaged
-    //  1 = disabled: destroyed seats, controls, tanks, tires, OR engine
-    //  2 = undamaged with no faults or security
-    int veh_status = -1;
-    if( init_veh_status == 0 ) {
-        veh_status = 0;
+
+    veh_spawn_status veh_status = veh_spawn_status::DEFAULT_LIGHT_DMG;
+    if( init_veh_status == veh_spawn_status::UNDAMAGED ) {
+        veh_status = veh_spawn_status::UNDAMAGED;
     }
-    if( init_veh_status == 1 ) {
-        veh_status = 1;
+    if( init_veh_status == veh_spawn_status::DISABLED ) {
+        veh_status = veh_spawn_status::DISABLED;
 
         const int rand = rng( 1, 5 );
         switch( rand ) {
@@ -421,15 +420,15 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
     // Make engine faults more likely
     destroyEngine = destroyEngine || one_in( 3 );
 
-    if( init_veh_status == 2 ) {
-        veh_status = 0;
+    if( init_veh_status == veh_spawn_status::PRISTINE ) {
+        veh_status = veh_spawn_status::UNDAMAGED;
         has_no_key = false;
         destroyAlarm = false;
         destroyEngine = false;
     }
 
     //Provide some variety to non-mint vehicles
-    if( veh_status != 0 ) {
+    if( veh_status != veh_spawn_status::UNDAMAGED ) {
         //Leave engine running in some vehicles, if the engine has not been destroyed
         //chance decays from 1 in 4 vehicles on day 0 to 1 in (day + 4) in the future.
         int current_day = std::max( to_days<int>( calendar::turn - calendar::turn_zero ), 0 );
@@ -514,7 +513,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
         }
 
         // initial vehicle damage
-        if( veh_status == 0 ) {
+        if( veh_status == veh_spawn_status::UNDAMAGED ) {
             // Completely mint condition vehicle
             set_hp( pt, vp.info().durability, false );
         } else {
@@ -541,7 +540,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
                     set_hp( pt, 0, false );
                 } else if( destroyEngine ) {
                     do {
-                        pt.fault_set( random_entry( pt.faults_potential() ) );
+                        pt.base.set_random_fault_of_type( "engine_maintenance" );
                     } while( one_in( 3 ) );
                 }
 
@@ -558,7 +557,8 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
             }
 
             //Solar panels have 25% of being destroyed
-            if( vp.has_feature( "SOLAR_PANEL" ) && one_in( 4 ) && init_veh_status != 2 ) {
+            if( vp.has_feature( "SOLAR_PANEL" ) && one_in( 4 ) &&
+                init_veh_status != veh_spawn_status::PRISTINE ) {
                 set_hp( pt, 0, false );
             }
 
@@ -612,7 +612,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
     }
 
     // Additional 50% chance for heavy damage to disabled vehicles
-    if( veh_status == 1 && one_in( 2 ) ) {
+    if( veh_status == veh_spawn_status::DISABLED && one_in( 2 ) ) {
         damage_all_parts( 0.5 );
     }
 
@@ -2617,7 +2617,7 @@ bool vehicle::split_vehicles( map &here,
         if( split_parts.empty() ) {
             continue;
         }
-        std::vector<point_rel_ms> split_mounts = new_mounts[ i ];
+        const std::vector<point_rel_ms> &split_mounts = new_mounts[ i ];
         did_split = true;
 
         vehicle *new_vehicle = nullptr;
@@ -4084,7 +4084,7 @@ int vehicle::ground_acceleration( map &here, const bool fueled, int at_vel_in_vm
     if( !( engine_on || skidding ) ) {
         return 0;
     }
-    int target_vmiph = std::max( at_vel_in_vmi, std::max( 1000, max_velocity( here, fueled ) / 4 ) );
+    int target_vmiph = std::max( { at_vel_in_vmi, 1000, max_velocity( here, fueled ) / 4 } );
     int cmps = vmiph_to_cmps( target_vmiph );
     double weight = to_kilogram( total_mass( here ) );
     if( is_towing() ) {
@@ -4116,8 +4116,7 @@ int vehicle::water_acceleration( map &here, const bool fueled, int at_vel_in_vmi
     if( !( engine_on || skidding ) ) {
         return 0;
     }
-    int target_vmiph = std::max( at_vel_in_vmi, std::max( 1000,
-                                 max_water_velocity( here, fueled ) / 4 ) );
+    int target_vmiph = std::max( { at_vel_in_vmi, 1000, max_water_velocity( here, fueled ) / 4 } );
     int cmps = vmiph_to_cmps( target_vmiph );
     double weight = to_kilogram( total_mass( here ) );
     if( is_towing() ) {
@@ -4436,7 +4435,7 @@ void vehicle::noise_and_smoke( map &here, int load, time_duration time )
 
 void vehicle::check_flats_do_rim_damage_or_sounds( map &here )
 {
-    if( wheelcache.empty() || velocity <= 0 ) {
+    if( wheelcache.empty() || velocity == 0 ) {
         return; // No wheels or (somehow) not moving
     }
 
@@ -4521,6 +4520,8 @@ static double tile_to_width( int tiles )
 
 static constexpr int minrow = -122;
 static constexpr int maxrow = 122;
+namespace
+{
 struct drag_column {
     int pro = minrow;
     int hboard = minrow;
@@ -4538,6 +4539,7 @@ struct drag_column {
     int last = maxrow;
     int lastpart = maxrow;
 };
+} // namespace
 
 double vehicle::coeff_air_drag() const
 {
@@ -4630,8 +4632,8 @@ double vehicle::coeff_air_drag() const
         c_air_drag_c += ( dc.pro > dc.hboard ) ? c_air_mod : 0;
         // not having halfboards in front of any windshields or fullboards moderately worsens
         // air drag
-        c_air_drag_c += ( std::max( std::max( dc.hboard, dc.fboard ),
-                                    dc.shield ) != dc.hboard ) ? 2 * c_air_mod : 0;
+        c_air_drag_c += ( std::max( { dc.hboard, dc.fboard, dc.shield } ) != dc.hboard ) ? 2 * c_air_mod :
+                        0;
         // not having windshields in front of seats severely worsens air drag
         c_air_drag_c += ( dc.shield < dc.seat ) ? 3 * c_air_mod : 0;
         // missing roofs and open doors severely worsen air drag
@@ -5236,6 +5238,9 @@ float vehicle::steering_effectiveness( map &here ) const
         }
         if( vp.get_base().has_fault( fault_flat_tire_riding_on_rims ) ) {
             part_steer_capacity *= 0.1f;
+        }
+        if( vp.get_base().has_fault( fault_tire_treads ) ) {
+            part_steer_capacity *= 0.9f;
         }
         if( !vp.is_available() ) {
             part_steer_capacity = 0.0f;
@@ -6464,7 +6469,7 @@ std::optional<vehicle_stack::iterator> vehicle::add_item( map &here, vehicle_par
 bool vehicle::remove_item( vehicle_part &vp, item *it )
 {
     const cata::colony<item> &veh_items = vp.items;
-    const cata::colony<item>::const_iterator iter = veh_items.get_iterator_from_pointer( it );
+    const cata::colony<item>::const_iterator iter = veh_items.get_iterator( it );
     if( iter == veh_items.end() ) {
         return false;
     }
@@ -8586,15 +8591,18 @@ void vehicle::update_time( map &here, const time_point &update_to )
         const double area_in_mm2 = std::pow( pt.info().bonus, 2 ) * M_PI;
         const int qty = roll_remainder( funnel_charges_per_turn( area_in_mm2, accum_weather.rain_amount ) );
         int c_qty = qty + ( tank->can_reload( water_clean ) ?  tank->ammo_remaining( ) : 0 );
-        int cost_to_purify = c_qty * itype_water_purifier->charges_to_use();
 
         if( qty > 0 ) {
             const std::optional<vpart_reference> vp_purifier = vpart_position( *this, idx )
                     .part_with_tool( here, itype_water_purifier );
+            const int64_t per_use = itype_water_purifier->charges_to_use();
+            const bool can_purify_all = vp_purifier &&
+                                        fuel_left( here, itype_battery ) >=
+                                        static_cast<int64_t>( c_qty ) * per_use;
 
-            if( vp_purifier && ( fuel_left( here, itype_battery ) > cost_to_purify ) ) {
+            if( can_purify_all ) {
+                run_legacy_charge_tool_uses( here, itype_water_purifier, c_qty );
                 tank->ammo_set( itype_water_clean, c_qty );
-                discharge_battery( here, cost_to_purify );
             } else {
                 tank->ammo_set( itype_water, tank->ammo_remaining( ) + qty );
             }

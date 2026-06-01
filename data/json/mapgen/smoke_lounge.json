@@ -32,7 +32,7 @@
       "rows": [
         "            111sss111   ",
         " ###--------###sss##### ",
-        " #M..........{|TTT|^.w# ",
+        " #M§.........{|TTT|^.w# ",
         " #M..........{|TTT|.gw# ",
         " #{..wwwwww..{|+|+|.gw# ",
         " #{...........Y...|.gw# ",
@@ -45,7 +45,7 @@
         " #b.......{.{.........# ",
         " #|||||...{.{........M# ",
         " #b..^|..............S# ",
-        " #btt................^# ",
+        " #btt...............§^# ",
         " #btt.......w||||D||||# ",
         " #btt.......w|lg|.D__&# ",
         " #b...|Y.{{.w|l.|.|__R# ",
@@ -88,7 +88,8 @@
       "vendingmachines": { "M": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "sealed_item": { "1": { "item": { "item": "seed_tobacco" }, "furniture": "f_planter_harvest" } },
       "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
-      "toilets": { "&": {  } }
+      "toilets": { "&": {  } },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     },
     "om_terrain": "smoke_lounge",
     "type": "mapgen"
@@ -181,7 +182,7 @@
         " #{....|..........+___# ",
         " #{....c...{{{{{{{||||# ",
         " #{...Cc..........|II^# ",
-        " #{....c..........|C..# ",
+        " #{....c.........§|C..# ",
         " #c..C.c...{{{{{{{||+|# ",
         " #c....c..............# ",
         " #c....|..............# ",
@@ -193,7 +194,7 @@
         " #.....+...........w.H# ",
         " #C....|..HHH......w.H# ",
         " #wwC..|...........w.H# ",
-        " #ww..^|^..Y....^|...H# ",
+        " #ww..^|^..Y....^|§..H# ",
         " ###########|+|######## ",
         "           #l..#4aassss ",
         "           #l..+sssssss ",
@@ -232,7 +233,8 @@
       "vendingmachines": { "M": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "sealed_item": { "1": { "item": { "item": "seed_tobacco" }, "furniture": "f_planter_harvest" } },
       "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
-      "toilets": { "&": {  } }
+      "toilets": { "&": {  } },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     },
     "om_terrain": "smoke_lounge_1",
     "type": "mapgen"

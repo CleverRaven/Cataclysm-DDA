@@ -233,14 +233,6 @@ bool recipe::has_flag( const std::string &flag_name ) const
     return flags.count( flag_name );
 }
 
-struct time_duration_as_moves_reader : public generic_typed_reader<time_duration_as_moves_reader> {
-    int64_t get_next( const JsonValue &jv ) const {
-        time_duration ret;
-        jv.read( ret );
-        return to_moves<int64_t>( ret );
-    }
-};
-
 void recipe::load( const JsonObject &jo, const std::string_view src )
 {
     abstract = jo.has_string( "abstract" );
@@ -666,6 +658,37 @@ void recipe_step::load( const JsonObject &jo, const std::string &recipe_name, in
                                       + std::to_string( step_index ) );
     requirement_data::load_requirement( jo, step_req_id, false, false );
     reqs_internal.emplace_back( step_req_id, 1 );
+
+    if( jo.has_member( "attention" ) ) {
+        const std::string s = jo.get_string( "attention" );
+        if( s == "none" ) {
+            attention = step_attention::none;
+        } else if( s == "unattended" ) {
+            attention = step_attention::unattended;
+        } else if( s == "supervised" ) {
+            jo.throw_error( "supervised attention not yet supported" );
+        } else {
+            jo.throw_error( "invalid value for \"attention\": " + s );
+        }
+    }
+
+    if( jo.has_member( "max_time" ) ) {
+        time_duration d;
+        mandatory( jo, false, "max_time", d );
+        if( d <= time_duration::from_moves( time ) ) {
+            jo.throw_error( "max_time must exceed step time" );
+        }
+        max_time = d;
+    }
+    if( jo.has_member( "grace_period" ) ) {
+        if( !max_time.has_value() ) {
+            jo.throw_error( "grace_period requires max_time" );
+        }
+        time_duration d;
+        mandatory( jo, false, "grace_period", d );
+        grace_period = d;
+    }
+    optional( jo, false, "unattend_message", unattend_message );
 }
 
 static cata::value_ptr<parameterized_build_reqs> calculate_all_blueprint_reqs(
@@ -820,6 +843,10 @@ void recipe::finalize()
         reqs_external.clear();
         reqs_internal.clear();
 
+        // Snapshot the root-only requirements so root tools stay attributable
+        // after per-step requirements merge into requirements_ below.
+        root_requirements_ = requirements_;
+
         for( recipe_step &step : steps_ ) {
             // Resolve each step's external (using) + inline requirements
             step.requirements = std::accumulate(
@@ -870,6 +897,16 @@ void recipe::finalize()
         if( item::find_type( result_ )->default_container_variant.has_value() ) {
             container_variant = item::find_type( result_ )->default_container_variant.value();
         }
+    }
+
+    // Uncrafts always specify charges, so skip.
+    const bool is_uncraft = is_reversible();
+    // The item is blacklisted (e.g. ammo in generic guns)
+    const bool item_exists = result().is_valid();
+    if( !is_uncraft && item_exists && result()->count_by_charges() &&
+        !charges && result()->charges_default() > 1 && !obsolete ) {
+        debugmsg( "Recipe %s creates an item with charges but does not specify quantity.  Default charges is %i.",
+                  id.str(), result()->charges_default() );
     }
 
     std::set<proficiency_id> required;
@@ -1087,7 +1124,7 @@ static void set_new_comps( item &newit, int amount, item_components *used, bool 
 std::vector<item> recipe::create_result( bool set_components, bool is_food,
         item_components *used ) const
 {
-    item newit( result_, calendar::turn, item::default_charges_tag{} );
+    item newit( result_, calendar::turn );
 
     if( !variant().empty() ) {
         newit.set_itype_variant( variant() );
@@ -1108,8 +1145,9 @@ std::vector<item> recipe::create_result( bool set_components, bool is_food,
 
     // If the recipe has a `FULL_MAGAZINE` flag, fill it with ammo
     if( newit.is_magazine() && has_flag( flag_FULL_MAGAZINE ) ) {
-        newit.ammo_set( newit.ammo_default(),
-                        newit.ammo_capacity( item::find_type( newit.ammo_default() )->ammo->type ) );
+        if( const std::optional<ammotype> at = item::ammotype_of( newit.ammo_default() ) ) {
+            newit.ammo_set( newit.ammo_default(), newit.ammo_capacity( *at ) );
+        }
     }
 
     // if the first component has compatible pockets, try to preserve the contents
@@ -1125,7 +1163,7 @@ std::vector<item> recipe::create_result( bool set_components, bool is_food,
         }
     }
 
-    int amount = charges ? *charges : newit.count();
+    int amount = charges ? *charges : 1;
 
     bool is_cooked = hot_result() || removes_raw();
     if( set_components ) {
@@ -1302,12 +1340,15 @@ std::string recipe::required_proficiencies_string( const Character *c ) const
     return required;
 }
 
+namespace
+{
 struct prof_penalty {
     proficiency_id id;
     float time_mult;
     float skill_penalty;
     bool mitigated = false;
 };
+} // namespace
 
 static std::string profstring( const prof_penalty &prof,
                                std::string &color,
@@ -1458,11 +1499,15 @@ float recipe::proficiency_time_maluses_for_step(
 }
 
 double recipe::step_budget_moves( const Character &guy, size_t step_idx, int batch,
-                                  const crafting_cost_context &ctx ) const
+                                  const crafting_cost_context &ctx,
+                                  recipe_time_flag flags ) const
 {
     cata_assert( step_idx < steps_.size() );
     const recipe_step &s = steps_[step_idx];
-    double t = s.time * proficiency_time_maluses_for_step( guy, s, ctx.books );
+    double t = s.time;
+    if( ( flags & recipe_time_flag::ignore_proficiencies ) != recipe_time_flag::ignore_proficiencies ) {
+        t *= proficiency_time_maluses_for_step( guy, s, ctx.books );
+    }
     if( step_idx < ctx.tool_speeds.size() ) {
         t *= ctx.tool_speeds[step_idx];
     }
@@ -1874,6 +1919,29 @@ void recipe::apply_positive_morale_mods( Character &guy ) const
 bool recipe::npc_can_craft( std::string & ) const
 {
     return true;
+}
+
+bool recipe::has_attention_steps() const
+{
+    for( const recipe_step &s : steps_ ) {
+        if( s.attention != step_attention::none ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool recipe::has_remaining_attention_steps( int from_step ) const
+{
+    if( from_step < 0 ) {
+        from_step = 0;
+    }
+    for( int i = from_step; i < static_cast<int>( steps_.size() ); ++i ) {
+        if( steps_[i].attention != step_attention::none ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool recipe::is_practice() const

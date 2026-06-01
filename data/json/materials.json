@@ -312,6 +312,16 @@
   },
   {
     "type": "material",
+    "id": "cyber_wood",
+    "name": "Wood-like material",
+    "copy-from": "wood",
+    "//": "A netherum copy of wood that has been confused with metal and stone, and is something in between",
+    "density": 5,
+    "resist": { "bash": 7, "cut": 13, "acid": 12, "heat": 2, "bullet": 4 },
+    "repair_difficulty": 9
+  },
+  {
+    "type": "material",
     "id": "brass",
     "name": "Brass",
     "//": "Density value assumes median bronze alloy weight",
@@ -1752,6 +1762,29 @@
   },
   {
     "type": "material",
+    "id": "styrofoam",
+    "name": "Styrofoam",
+    "//": "from 0.15 up to 0.5 g/cm3; higher one are for insulation, lower one are for packaging",
+    "density": 0.15,
+    "specific_heat_liquid": 1.13,
+    "specific_heat_solid": 1.13,
+    "latent_heat": 50,
+    "chip_resist": 0,
+    "wind_resist": 99,
+    "salvaged_into": "material_styrofoam_chunk",
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": { "ctxt": "verb", "str": "dented" },
+    "cut_dmg_verb": "gouged",
+    "burn_data": [
+      { "fuel": 0.3, "smoke": 1, "burn": 0.25, "volume_per_turn": "200 ml" },
+      { "fuel": 0.6, "smoke": 1, "burn": 0.5, "volume_per_turn": "825 ml" },
+      { "fuel": 0.9, "smoke": 1, "burn": 0.75 }
+    ],
+    "resist": { "bash": 2, "cut": 2, "acid": 9, "heat": 1, "bullet": 1 },
+    "repair_difficulty": 3
+  },
+  {
+    "type": "material",
     "id": "powder",
     "name": "Powder",
     "density": 1,
@@ -2059,7 +2092,7 @@
     "bash_dmg_verb": { "ctxt": "verb", "str": "dented" },
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap", 0.5 ] ],
-    "resist": { "bash": 6, "cut": 6, "acid": 7, "heat": 3, "bullet": 2 },
+    "resist": { "bash": 3, "cut": 6, "acid": 7, "heat": 3, "bullet": 2 },
     "repair_difficulty": 2
   },
   {
@@ -2082,7 +2115,7 @@
     "bash_dmg_verb": { "ctxt": "verb", "str": "dented" },
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap", 0.5 ] ],
-    "resist": { "bash": 6, "cut": 6, "acid": 7, "heat": 3, "bullet": 4.5 },
+    "resist": { "bash": 3, "cut": 6, "acid": 7, "heat": 3, "bullet": 4 },
     "repair_difficulty": 2
   },
   {
@@ -2105,7 +2138,7 @@
     "bash_dmg_verb": { "ctxt": "verb", "str": "dented" },
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap", 0.5 ] ],
-    "resist": { "bash": 7, "cut": 7, "acid": 7, "heat": 3, "bullet": 4.5 },
+    "resist": { "bash": 3.5, "cut": 7, "acid": 7, "heat": 3, "bullet": 4 },
     "repair_difficulty": 2
   },
   {
@@ -2128,7 +2161,7 @@
     "bash_dmg_verb": { "ctxt": "verb", "str": "dented" },
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap", 0.5 ] ],
-    "resist": { "bash": 10, "cut": 10, "acid": 7, "heat": 3, "bullet": 6.5 },
+    "resist": { "bash": 5, "cut": 9, "acid": 7, "heat": 3, "bullet": 5 },
     "repair_difficulty": 2
   },
   {
@@ -2151,7 +2184,7 @@
     "bash_dmg_verb": { "ctxt": "verb", "str": "dented" },
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap", 0.5 ] ],
-    "resist": { "bash": 10, "cut": 10, "acid": 7, "heat": 3, "bullet": 6.5 },
+    "resist": { "bash": 5, "cut": 10, "acid": 7, "heat": 3, "bullet": 6 },
     "repair_difficulty": 2
   },
   {
@@ -2174,7 +2207,7 @@
     "bash_dmg_verb": { "ctxt": "verb", "str": "dented" },
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap", 0.5 ] ],
-    "resist": { "bash": 11, "cut": 11, "acid": 7, "heat": 3, "bullet": 7.5 },
+    "resist": { "bash": 5.5, "cut": 11, "acid": 7, "heat": 3, "bullet": 7 },
     "repair_difficulty": 2
   },
   {

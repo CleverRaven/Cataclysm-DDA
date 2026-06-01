@@ -417,7 +417,7 @@
     "id": "robofac_XM_LEG_on",
     "type": "enchantment",
     "name": { "str": "Active XM-LEG" },
-    "description": "Your active leg cybernetics are helping you move quicker and easier over flat ground and obstacles, and are increasing your carry weight.",
+    "description": "Your active wearable leg cybernetics are helping you move quicker and easier over flat ground and obstacles, and are increasing the amount of weight you can carry.",
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [
@@ -425,14 +425,13 @@
       { "value": "MOVE_COST", "multiply": -0.15 },
       { "value": "MOVECOST_OBSTACLE_MOD", "multiply": -0.5 },
       { "value": "CARRY_WEIGHT", "add": 20000 }
-    ],
-    "encumbrance_modifier": [ { "part": "leg_l", "add": -40 }, { "part": "leg_r", "add": -40 } ]
+    ]
   },
   {
     "id": "robofac_XM_ARM_on",
     "type": "enchantment",
     "name": { "str": "Active XM-ARM" },
-    "description": "Your active arm cybernetics are improving your weapon handling and throwing ability.",
+    "description": "Your active wearable arm cybernetics are improving your weapon handling and throwing ability.",
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [
@@ -440,19 +439,13 @@
       { "value": "WEAPON_DISPERSION", "multiply": -0.1 },
       { "value": "THROW_STR", "multiply": 0.5 },
       { "value": "THROW_DAMAGE", "multiply": 0.25 }
-    ],
-    "encumbrance_modifier": [
-      { "part": "arm_l", "add": -40 },
-      { "part": "arm_r", "add": -40 },
-      { "part": "hand_l", "add": -40 },
-      { "part": "hand_r", "add": -40 }
     ]
   },
   {
     "id": "robofac_XM_BACK_on",
     "type": "enchantment",
     "name": { "str": "Active XM-BACK" },
-    "description": "Your active torso cybernetics are <color_white>slightly</color> increasing your carry weight and improving your ability to throw and absorb recoil.",
+    "description": "Your active wearable torso cybernetics are <color_white>slightly</color> increasing your carry weight and improving your ability to throw and absorb recoil.",
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [
@@ -461,7 +454,20 @@
       { "value": "WEAPON_DISPERSION", "multiply": -0.05 },
       { "value": "THROW_STR", "multiply": 0.05 },
       { "value": "THROW_DAMAGE", "multiply": 0.05 }
-    ],
-    "encumbrance_modifier": [ { "part": "torso", "add": -40 } ]
+    ]
+  },
+  {
+    "//": "This is overwritten in MoM",
+    "id": "ench_mom_incense_nether_attunement",
+    "type": "enchantment",
+    "has": "HELD",
+    "condition": "ALWAYS"
+  },
+  {
+    "//": "This is overwritten in MoM",
+    "id": "ench_mom_incense_nether_attunement_major",
+    "type": "enchantment",
+    "has": "HELD",
+    "condition": "ALWAYS"
   }
 ]

@@ -88,6 +88,8 @@ static bool goes_bad_cache_is_for( const item *i )
     return goes_bad_temp_cache_for == i;
 }
 
+namespace
+{
 struct scoped_goes_bad_cache {
     explicit scoped_goes_bad_cache( item *i ) {
         goes_bad_cache_set( i );
@@ -96,6 +98,7 @@ struct scoped_goes_bad_cache {
         goes_bad_cache_unset();
     }
 };
+} // namespace
 } // namespace item_internal
 
 static const item *get_most_rotten_component( const item &craft )

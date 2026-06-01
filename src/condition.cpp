@@ -2123,7 +2123,7 @@ conditional_t::func f_is_rotten()
 
 template<class T>
 static std::function<T( const_dialogue const & )> get_get_str_( const JsonObject &jo,
-        std::function<T( const std::string & )> ret_func )
+        const std::function<T( const std::string & )> &ret_func )
 {
     if( !jo.has_string( "mutator" ) ) {
         return nullptr;
@@ -2172,7 +2172,7 @@ static std::function<T( const_dialogue const & )> get_get_str_( const JsonObject
 
 template<class T>
 static std::function<T( const_dialogue const & )> get_get_translation_( const JsonObject &jo,
-        std::function<T( const translation & )> ret_func )
+        const std::function<T( const translation & )> &ret_func )
 {
     // straight translation - used by diag_value_or_var
     if( jo.get_bool( "i18n", false ) && jo.has_string( "str" ) ) {

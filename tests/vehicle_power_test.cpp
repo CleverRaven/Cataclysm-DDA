@@ -127,7 +127,8 @@ TEST_CASE( "power_loss_to_cables", "[vehicle][power]" )
     std::vector<vpart_reference> batteries;
     for( const tripoint_bub_ms &p : placements ) {
         REQUIRE( !here.veh_at( p ).has_value() );
-        vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
+        vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0,
+                                         veh_spawn_status::UNDAMAGED );
         REQUIRE( veh != nullptr );
         const int frame_part_idx = veh->install_part( here, point_rel_ms::zero, vpart_frame );
         REQUIRE( frame_part_idx != -1 );
@@ -179,7 +180,7 @@ TEST_CASE( "Solar_power", "[vehicle][power]" )
 
     const tripoint_bub_ms solar_origin{ 5, 5, 0 };
     vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_solar_panel_test, solar_origin, 0_degrees, 0,
-                                         0 );
+                                         veh_spawn_status::UNDAMAGED );
     REQUIRE( veh_ptr != nullptr );
     REQUIRE_FALSE( veh_ptr->solar_panels.empty() );
     scoped_weather_override clear_weather( WEATHER_CLEAR );
@@ -225,7 +226,7 @@ TEST_CASE( "Solar_power", "[vehicle][power]" )
         const tripoint_bub_ms solar_origin_2{ 10, 10, 0 };
         vehicle *veh_2_ptr = here.add_vehicle( vehicle_prototype_solar_panel_test, solar_origin_2,
                                                0_degrees, 0,
-                                               0 );
+                                               veh_spawn_status::UNDAMAGED );
         REQUIRE( veh_ptr != nullptr );
         REQUIRE( veh_2_ptr != nullptr );
 
@@ -258,7 +259,7 @@ TEST_CASE( "Daily_solar_power", "[vehicle][power]" )
 
     const tripoint_bub_ms solar_origin{ 5, 5, 0 };
     vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_solar_panel_test, solar_origin, 0_degrees, 0,
-                                         0 );
+                                         veh_spawn_status::UNDAMAGED );
     REQUIRE( veh_ptr != nullptr );
     scoped_weather_override clear_weather( WEATHER_CLEAR );
 
@@ -321,7 +322,8 @@ TEST_CASE( "maximum_reverse_velocity", "[vehicle][power][reverse]" )
 
     GIVEN( "a scooter with combustion engine and charged battery" ) {
         const tripoint_bub_ms origin{ 10, 0, 0 };
-        vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_scooter_test, origin, 0_degrees, 0, 0 );
+        vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_scooter_test, origin, 0_degrees, 0,
+                                             veh_spawn_status::UNDAMAGED );
         REQUIRE( veh_ptr != nullptr );
         veh_ptr->charge_battery( here, 450 );
         REQUIRE( veh_ptr->fuel_left( here, fuel_type_battery ) == 450 );
@@ -347,7 +349,7 @@ TEST_CASE( "maximum_reverse_velocity", "[vehicle][power][reverse]" )
     GIVEN( "a scooter with an electric motor and charged battery" ) {
         const tripoint_bub_ms origin{ 15, 0, 0 };
         vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_scooter_electric_test, origin,
-                                             0_degrees, 0, 0 );
+                                             0_degrees, 0, veh_spawn_status::UNDAMAGED );
         REQUIRE( veh_ptr != nullptr );
         veh_ptr->charge_battery( here, 5000 );
         REQUIRE( veh_ptr->fuel_left( here, fuel_type_battery ) == 5000 );
@@ -557,7 +559,8 @@ TEST_CASE( "non_appliance_vehicle_not_auto_recovered", "[vehicle][power][grid]" 
 
     // build a regular (non-appliance) vehicle with a frame, battery, and a consumer part
     const tripoint_bub_ms veh_pos( HALF_MAPSIZE_X + 2, HALF_MAPSIZE_Y + 2, 0 );
-    vehicle *veh = here.add_vehicle( vehicle_prototype_none, veh_pos, 0_degrees, 0, 0 );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, veh_pos, 0_degrees, 0,
+                                     veh_spawn_status::UNDAMAGED );
     REQUIRE( veh != nullptr );
     const int frame_idx = veh->install_part( here, point_rel_ms::zero, vpart_frame );
     REQUIRE( frame_idx != -1 );
@@ -722,7 +725,7 @@ TEST_CASE( "off_map_solar_catchup_generates_energy", "[vehicle][power][grid]" )
 
     const tripoint_bub_ms solar_origin{ 5, 5, 0 };
     vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_solar_panel_test, solar_origin,
-                                         0_degrees, 0, 0 );
+                                         0_degrees, 0, veh_spawn_status::UNDAMAGED );
     REQUIRE( veh_ptr != nullptr );
     REQUIRE_FALSE( veh_ptr->solar_panels.empty() );
     scoped_weather_override clear_weather( WEATHER_CLEAR );
@@ -759,7 +762,7 @@ TEST_CASE( "off_map_solar_catchup_generates_energy", "[vehicle][power][grid]" )
         clear_vehicles();
         build_test_map( ter_id( "t_thconc_floor" ) );
         vehicle *indoor_veh = here.add_vehicle( vehicle_prototype_solar_panel_test,
-                                                solar_origin, 0_degrees, 0, 0 );
+                                                solar_origin, 0_degrees, 0, veh_spawn_status::UNDAMAGED );
         REQUIRE( indoor_veh != nullptr );
         REQUIRE_FALSE( indoor_veh->solar_panels.empty() );
 
@@ -781,7 +784,7 @@ TEST_CASE( "off_map_catchup_prevents_double_charge", "[vehicle][power][grid]" )
 
     const tripoint_bub_ms solar_origin{ 5, 5, 0 };
     vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_solar_panel_test, solar_origin,
-                                         0_degrees, 0, 0 );
+                                         0_degrees, 0, veh_spawn_status::UNDAMAGED );
     REQUIRE( veh_ptr != nullptr );
     scoped_weather_override clear_weather( WEATHER_CLEAR );
 
@@ -811,7 +814,7 @@ TEST_CASE( "off_map_catchup_skips_short_intervals", "[vehicle][power][grid]" )
 
     const tripoint_bub_ms solar_origin{ 5, 5, 0 };
     vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_solar_panel_test, solar_origin,
-                                         0_degrees, 0, 0 );
+                                         0_degrees, 0, veh_spawn_status::UNDAMAGED );
     REQUIRE( veh_ptr != nullptr );
     scoped_weather_override clear_weather( WEATHER_CLEAR );
 
@@ -1081,7 +1084,7 @@ TEST_CASE( "power_network_rated_values_populated", "[vehicle][power][grid]" )
 
     const tripoint_bub_ms solar_origin{ 5, 5, 0 };
     vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_solar_panel_test, solar_origin,
-                                         0_degrees, 0, 0 );
+                                         0_degrees, 0, veh_spawn_status::UNDAMAGED );
     REQUIRE( veh_ptr != nullptr );
     REQUIRE_FALSE( veh_ptr->solar_panels.empty() );
 
@@ -1185,7 +1188,7 @@ TEST_CASE( "off_map_solar_charges_remote_battery_through_cable", "[vehicle][powe
         time_point future = calendar::turn;
         vehicle *fresh_solar = here.add_vehicle( vehicle_prototype_solar_panel_test,
                                tripoint_bub_ms( HALF_MAPSIZE_X + 10, HALF_MAPSIZE_Y + 10, 0 ),
-                               0_degrees, 0, 0 );
+                               0_degrees, 0, veh_spawn_status::UNDAMAGED );
         REQUIRE( fresh_solar != nullptr );
         fresh_solar->update_time( here, calendar::turn - 30_minutes );
         int raw_energy = fresh_solar->catchup_off_map_renewables( future );
@@ -1212,7 +1215,7 @@ TEST_CASE( "off_map_wind_turbine_catchup", "[vehicle][power][grid]" )
 
     const tripoint_bub_ms origin{ 5, 5, 0 };
     vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_wind_turbine_test, origin,
-                                         0_degrees, 0, 0 );
+                                         0_degrees, 0, veh_spawn_status::UNDAMAGED );
     REQUIRE( veh_ptr != nullptr );
     REQUIRE_FALSE( veh_ptr->wind_turbines.empty() );
 
@@ -1241,7 +1244,7 @@ TEST_CASE( "off_map_water_wheel_catchup", "[vehicle][power][grid]" )
 
     const tripoint_bub_ms origin{ 5, 5, 0 };
     vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_water_wheel_test, origin,
-                                         0_degrees, 0, 0 );
+                                         0_degrees, 0, veh_spawn_status::UNDAMAGED );
     REQUIRE( veh_ptr != nullptr );
     REQUIRE_FALSE( veh_ptr->water_wheels.empty() );
 

@@ -18,7 +18,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-vcpkg-static", "C
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-test-vcpkg-static", "Cataclysm-test-vcpkg-static.vcxproj", "{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-lib-vcpkg-static", "Cataclysm-lib-vcpkg-static.vcxproj", "{0009BB11-11AD-4C14-A5FC-D882A942C00B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-libMZ-vcpkg-static", "Cataclysm-libMZ-vcpkg-static.vcxproj", "{0009BB11-11AD-4C14-A5FC-D882A942C00B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-libAL-vcpkg-static", "Cataclysm-libAL-vcpkg-static.vcxproj", "{AD10F767-9A9B-43F9-9482-88981CDC95F5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JsonFormatter-vcpkg-static", "JsonFormatter-vcpkg-static.vcxproj", "{35D74C75-FC4A-442F-AF44-43BC9D845BAF}"
 EndProject
@@ -158,6 +160,42 @@ Global
 		{0009BB11-11AD-4C14-A5FC-D882A942C00B}.Release-NoTiles|x64.Build.0 = Release-NoTiles|x64
 		{0009BB11-11AD-4C14-A5FC-D882A942C00B}.Release-NoTiles|x86.ActiveCfg = Release-NoTiles|Win32
 		{0009BB11-11AD-4C14-A5FC-D882A942C00B}.Release-NoTiles|x86.Build.0 = Release-NoTiles|Win32
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Debug|ARM64EC.ActiveCfg = Debug|ARM64EC
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Debug|ARM64EC.Build.0 = Debug|ARM64EC
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Debug|x64.ActiveCfg = Debug|x64
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Debug|x64.Build.0 = Debug|x64
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Debug|x86.ActiveCfg = Debug|Win32
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Debug|x86.Build.0 = Debug|Win32
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Debug-NoTiles|ARM64EC.ActiveCfg = Debug-NoTiles|ARM64EC
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Debug-NoTiles|ARM64EC.Build.0 = Debug-NoTiles|ARM64EC
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Debug-NoTiles|x64.ActiveCfg = Debug-NoTiles|x64
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Debug-NoTiles|x64.Build.0 = Debug-NoTiles|x64
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Debug-NoTiles|x86.ActiveCfg = Debug-NoTiles|Win32
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Debug-NoTiles|x86.Build.0 = Debug-NoTiles|Win32
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Quick|ARM64EC.ActiveCfg = Release|ARM64EC
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Quick|ARM64EC.Build.0 = Release|ARM64EC
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Quick|x64.ActiveCfg = Release|x64
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Quick|x64.Build.0 = Release|x64
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Quick|x86.ActiveCfg = Release|Win32
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Quick|x86.Build.0 = Release|Win32
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Quick-NoTiles|ARM64EC.ActiveCfg = Release-NoTiles|ARM64EC
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Quick-NoTiles|ARM64EC.Build.0 = Release-NoTiles|ARM64EC
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Quick-NoTiles|x64.ActiveCfg = Release-NoTiles|x64
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Quick-NoTiles|x64.Build.0 = Release-NoTiles|x64
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Quick-NoTiles|x86.ActiveCfg = Release-NoTiles|Win32
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Quick-NoTiles|x86.Build.0 = Release-NoTiles|Win32
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Release|ARM64EC.ActiveCfg = Release|ARM64EC
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Release|ARM64EC.Build.0 = Release|ARM64EC
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Release|x64.ActiveCfg = Release|x64
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Release|x64.Build.0 = Release|x64
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Release|x86.ActiveCfg = Release|Win32
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Release|x86.Build.0 = Release|Win32
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Release-NoTiles|ARM64EC.ActiveCfg = Release-NoTiles|ARM64EC
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Release-NoTiles|ARM64EC.Build.0 = Release-NoTiles|ARM64EC
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Release-NoTiles|x64.ActiveCfg = Release-NoTiles|x64
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Release-NoTiles|x64.Build.0 = Release-NoTiles|x64
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Release-NoTiles|x86.ActiveCfg = Release-NoTiles|Win32
+		{AD10F767-9A9B-43F9-9482-88981CDC95F5}.Release-NoTiles|x86.Build.0 = Release-NoTiles|Win32
 		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Debug|ARM64EC.ActiveCfg = Debug|x64
 		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Debug|x64.ActiveCfg = Debug|x64
 		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Debug|x64.Build.0 = Debug|x64

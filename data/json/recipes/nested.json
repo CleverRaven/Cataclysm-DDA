@@ -3309,7 +3309,8 @@
       "gelled_gasoline_from_lye_alcohol_tallow_substitute",
       "gelled_gasoline_from_alcohol_soap",
       "gelled_gasoline_from_wax",
-      "gelled_gasoline_from_blood"
+      "gelled_gasoline_from_blood",
+      "gelled_gasoline_from_styrofoam"
     ]
   },
   {
@@ -3786,7 +3787,7 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "broadswords",
     "description": "Recipes for making broadswords.",
-    "nested_category_data": [ "lc_broadsword", "mc_broadsword", "hc_broadsword", "ch_broadsword", "qt_broadsword" ]
+    "nested_category_data": [ "lc_broadsword", "broadsword", "hc_broadsword", "ch_broadsword", "qt_broadsword" ]
   },
   {
     "id": "nested_cavalry_sabre",
@@ -3886,7 +3887,7 @@
     "subcategory": "CSC_WEAPON_PIERCING",
     "name": "rapiers",
     "description": "Recipes for making rapiers.",
-    "nested_category_data": [ "lc_rapier", "mc_rapier", "hc_rapier", "ch_rapier", "qt_rapier" ]
+    "nested_category_data": [ "lc_rapier", "rapier", "hc_rapier", "ch_rapier", "qt_rapier" ]
   },
   {
     "id": "nested_scimitar",
@@ -3926,7 +3927,7 @@
     "subcategory": "CSC_WEAPON_PIERCING",
     "name": "survival knives",
     "description": "Recipes for making survival knives.",
-    "nested_category_data": [ "lc_knife_rambo", "mc_knife_rambo", "hc_knife_rambo", "ch_knife_rambo", "qt_knife_rambo" ]
+    "nested_category_data": [ "lc_knife_rambo", "knife_rambo", "hc_knife_rambo", "ch_knife_rambo", "qt_knife_rambo" ]
   },
   {
     "id": "nested_trench",
@@ -3936,7 +3937,7 @@
     "subcategory": "CSC_WEAPON_PIERCING",
     "name": "trench knives",
     "description": "Recipes for making trench knives.",
-    "nested_category_data": [ "lc_knife_trench", "mc_knife_trench", "hc_knife_trench", "ch_knife_trench", "qt_knife_trench" ]
+    "nested_category_data": [ "lc_knife_trench", "knife_trench", "hc_knife_trench", "ch_knife_trench", "qt_knife_trench" ]
   },
   {
     "id": "nested_kukri",
@@ -3946,7 +3947,7 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "kukris",
     "description": "Recipes for making kukris.",
-    "nested_category_data": [ "kukri", "lc_kukri", "mc_kukri", "hc_kukri", "ch_kukri", "qt_kukri" ]
+    "nested_category_data": [ "kukri", "lc_kukri", "hc_kukri", "ch_kukri", "qt_kukri" ]
   },
   {
     "id": "nested_wakizashi",

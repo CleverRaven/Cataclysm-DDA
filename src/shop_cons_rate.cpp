@@ -165,6 +165,8 @@ icg_entry icg_entry_reader::get_next( JsonValue &jv )
     return ret;
 }
 
+namespace
+{
 class shopkeeper_cons_rates_reader : public generic_typed_reader<shopkeeper_cons_rates_reader>
 {
     public:
@@ -175,6 +177,7 @@ class shopkeeper_cons_rates_reader : public generic_typed_reader<shopkeeper_cons
             return ret;
         }
 };
+} // namespace
 
 bool shopkeeper_cons_rate_entry::operator==( shopkeeper_cons_rate_entry const &rhs ) const
 {

@@ -305,6 +305,7 @@
         [ "cheese_rehydrated", 1 ],
         [ "cottage_cheese", 1 ],
         [ "mozzarella_cheese", 1 ],
+        [ "mozzarella_cheese_smoked", 1 ],
         [ "mascarpone", 1 ],
         [ "pecorino_cheese", 1 ]
       ]
@@ -1191,7 +1192,10 @@
         [ "spinach", 1 ],
         [ "sea_lettuce", 1 ],
         [ "bladderwrack", 1 ],
-        [ "kelp_sugar", 1 ]
+        [ "kelp_sugar", 1 ],
+        [ "brussels_sprout", 1 ],
+        [ "kale", 1 ],
+        [ "cauliflower", 1 ]
       ]
     ]
   },
@@ -1247,10 +1251,17 @@
         [ "zucchini", 1 ],
         [ "zucchini_cut", 1 ],
         [ "eggplant_cut", 1 ],
+        [ "raw_artichoke", 1 ],
+        [ "artichoke_heart", 1 ],
+        [ "raw_asparagus", 1 ],
         [ "carrot_wild", 1 ],
         [ "wild_garlic", 2 ],
+        [ "brussels_sprout", 3 ],
         [ "spinach", 1 ],
-        [ "japanese_knotweed_stem", 1 ]
+        [ "japanese_knotweed_stem", 1 ],
+        [ "cauliflower_head", 1 ],
+        [ "kale_head", 1 ],
+        [ "pea_pods", 1 ]
       ]
     ]
   },
@@ -1290,6 +1301,30 @@
     "components": [ [ [ "eggplant", 1 ], [ "eggplant_cut", 2 ] ] ]
   },
   {
+    "id": "any_artichoke",
+    "type": "requirement",
+    "//": "Any form of artichoke used in cooking",
+    "components": [ [ [ "raw_artichoke", 1 ], [ "artichoke_heart", 1 ] ] ]
+  },
+  {
+    "id": "any_asparagus",
+    "type": "requirement",
+    "//": "Any form of asparagus used in cooking",
+    "components": [ [ [ "raw_asparagus", 1 ] ] ]
+  },
+  {
+    "id": "any_brussels_sprout",
+    "type": "requirement",
+    "//": "Any form of brussels sprout used in cooking",
+    "components": [ [ [ "brussels_sprout", 3 ] ] ]
+  },
+  {
+    "id": "any_pea",
+    "type": "requirement",
+    "//": "Any form of pea sprout used in cooking",
+    "components": [ [ [ "pea_pods", 1 ], [ "pea", 5 ] ] ]
+  },
+  {
     "id": "any_zucchini",
     "type": "requirement",
     "//": "Any form of zucchini used in cooking",
@@ -1312,6 +1347,18 @@
     "type": "requirement",
     "//": "Any form of chili pepper used in cooking",
     "components": [ [ [ "chili_pepper", 1 ], [ "chili_pepper_cut", 1 ], [ "rehydrated_chili", 1 ] ] ]
+  },
+  {
+    "id": "any_cauliflower",
+    "type": "requirement",
+    "//": "Any form of cauliflower used in cooking",
+    "components": [ [ [ "cauliflower", 5 ], [ "cauliflower_head", 1 ] ] ]
+  },
+  {
+    "id": "any_kale",
+    "type": "requirement",
+    "//": "Any form of kale used in cooking",
+    "components": [ [ [ "kale", 5 ], [ "kale_head", 1 ] ] ]
   },
   {
     "id": "acorns_processed_any",

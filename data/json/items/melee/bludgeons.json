@@ -1978,7 +1978,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "price": "160 USD",
     "qualities": [ [ "HAMMER", 1 ] ],
-    "melee_damage": { "bash": 22, "stab": 23 }
+    "melee_damage": { "bash": 23, "stab": 22 }
   },
   {
     "id": "warhammer_fake",
@@ -2029,7 +2029,7 @@
     "description": "A medieval hammer with a spike on one end, made for battle.  Its odd shape and balance make it an excellent weapon, but an ineffective tool.  This one is custom-made with high steel and is a solid, dependable weapon.",
     "proportional": { "price_postapoc": 1.05, "price": 1.05 },
     "replace_materials": { "mc_steel": "hc_steel" },
-    "relative": { "melee_damage": { "stab": 1 } }
+    "relative": { "melee_damage": { "bash": 1 } }
   },
   {
     "id": "ch_warhammer",
@@ -2039,7 +2039,7 @@
     "description": "A medieval hammer with a spike on one end, made for battle.  Its odd shape and balance make it an excellent weapon, but an ineffective tool.  This one is custom-made with hardened steel and can pulverize bones.",
     "proportional": { "price_postapoc": 1.1, "price": 1.1 },
     "replace_materials": { "mc_steel": "ch_steel" },
-    "relative": { "melee_damage": { "stab": 2 } }
+    "relative": { "melee_damage": { "bash": 2 } }
   },
   {
     "id": "qt_warhammer",
@@ -2048,8 +2048,8 @@
     "name": { "str": "tempered steel war hammer" },
     "description": "A medieval hammer with a spike on one end, made for battle.  Its odd shape and balance make it an excellent weapon, but an ineffective tool.  This one is custom-made with tempered steel and will crack skulls like watermelons.",
     "proportional": { "price_postapoc": 1.15, "price": 1.15 },
-    "replace_materials": { "mc_steel": "ch_steel" },
-    "relative": { "melee_damage": { "stab": 3 } }
+    "replace_materials": { "mc_steel": "qt_steel" },
+    "relative": { "melee_damage": { "bash": 3 } }
   },
   {
     "id": "exodii_prybar",

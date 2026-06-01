@@ -1,8 +1,52 @@
 [
   {
+    "type": "fault_group",
+    "id": "any_ICE_engine_maintenance",
+    "group": [
+      { "fault": "fault_engine_belt_drive", "weight": 100 },
+      { "fault": "fault_engine_filter_air", "weight": 100 },
+      { "fault": "fault_engine_filter_fuel", "weight": 100 },
+      { "fault": "fault_engine_starter", "weight": 100 }
+    ]
+  },
+  {
+    "type": "fault_group",
+    "id": "diesel_engine_maintenance",
+    "group": [ { "fault": "fault_engine_glow_plug", "weight": 100 }, { "fault": "fault_engine_pump_diesel", "weight": 100 } ]
+  },
+  {
+    "type": "fault_group",
+    "id": "gasoline_engine_maintenance",
+    "group": [ { "fault": "fault_engine_pump_fuel", "weight": 100 } ]
+  },
+  {
+    "type": "fault_group",
+    "id": "any_ICE_defect",
+    "group": [ { "fault": "fault_engine_immobiliser", "weight": 20 } ]
+  },
+  {
+    "type": "fault_group",
+    "id": "steam_engine_maintenance",
+    "group": [
+      { "fault": "fault_engine_belt_drive", "weight": 100 },
+      { "fault": "fault_engine_filter_air", "weight": 100 },
+      { "fault": "fault_engine_starter", "weight": 100 }
+    ]
+  },
+  {
+    "type": "fault_group",
+    "id": "tire_defects",
+    "group": [
+      { "fault": "fault_tire_treads", "weight": 75 },
+      { "fault": "fault_punctured_tires", "weight": 20 },
+      { "fault": "fault_flat_tire_riding_on_rims", "weight": 5 }
+    ]
+  },
+  {
     "id": "fault_engine_belt_drive",
     "type": "fault",
     "name": { "str": "Worn drive belt" },
+    "fault_type": "engine_maintenance",
     "description": "Required for operation of an attached alternator.",
     "item_prefix": "faulty",
     "price_modifier": 0.7,
@@ -12,6 +56,7 @@
     "id": "fault_engine_glow_plug",
     "type": "fault",
     "name": { "str": "Faulty glow plugs" },
+    "fault_type": "engine_maintenance",
     "description": "Help when starting an engine in low ambient temperatures.",
     "item_prefix": "faulty",
     "price_modifier": 0.7,
@@ -21,6 +66,7 @@
     "id": "fault_engine_immobiliser",
     "type": "fault",
     "name": { "str": "Active immobilizer" },
+    "//COMMENT": "This INTENTIONALLY does not have a fault_type.",
     "description": "An immobilizer device prevents starting of the vehicle without the appropriate key.",
     "item_prefix": "faulty",
     "price_modifier": 0.25,
@@ -30,6 +76,7 @@
     "id": "fault_engine_pump_diesel",
     "type": "fault",
     "name": { "str": "Faulty diesel pump" },
+    "fault_type": "engine_maintenance",
     "description": "Required to pump and pressurize diesel from a vehicle's tank.",
     "item_prefix": "faulty",
     "price_modifier": 0.7,
@@ -39,6 +86,7 @@
     "id": "fault_engine_filter_air",
     "type": "fault",
     "name": { "str": "Expired air filter" },
+    "fault_type": "engine_maintenance",
     "description": "An expired filter reduces fuel efficiency and increases smoke production.",
     "item_prefix": "faulty",
     "price_modifier": 0.9,
@@ -48,6 +96,7 @@
     "id": "fault_engine_filter_fuel",
     "type": "fault",
     "name": { "str": "Expired fuel filter" },
+    "fault_type": "engine_maintenance",
     "description": "An expired filter reduces performance and increases the chance of backfires.",
     "item_prefix": "faulty",
     "price_modifier": 0.7,
@@ -57,6 +106,7 @@
     "id": "fault_engine_pump_fuel",
     "type": "fault",
     "name": { "str": "Faulty fuel pump" },
+    "fault_type": "engine_maintenance",
     "description": "Required to pump gasoline from a vehicle's tank.",
     "item_prefix": "faulty",
     "price_modifier": 0.7,
@@ -66,6 +116,7 @@
     "id": "fault_engine_starter",
     "type": "fault",
     "name": { "str": "Faulty starter motor" },
+    "fault_type": "engine_maintenance",
     "description": "Required to initially start the engine.",
     "item_prefix": "faulty",
     "price_modifier": 0.5,
@@ -75,6 +126,7 @@
     "id": "fault_punctured_tires",
     "type": "fault",
     "name": { "str": "Punctured tire" },
+    "fault_type": "mechanical_damage",
     "description": "Something made a hole in the tire, and it is now as flat as the ground it drives onto.",
     "price_modifier": 0.0,
     "//COMMENT": "Reduced contact area, but not 0. Making the contact area lower actually reduces the effect of low traction and high rolling resistance.",
@@ -89,14 +141,28 @@
     "type": "fault",
     "name": { "str": "Down to rims" },
     "//COMMENT": "INTENTIONALLY CANNOT BE REPAIRED. It must be replaced. You aren't fixing this!",
+    "fault_type": "mechanical_damage",
     "description": "This used to be an entire wheel, but now it's just rim.  Bits of shredded rubber are jutting out of the cracked rim, the result of continuing to drive with a completely flat tire.  It needs total replacement.",
     "price_modifier": 0.0,
     "//COMMENT2": "Reduced contact area, but not 0. The rim is now in contact. Making the contact area lower actually reduces the effect of low traction and high rolling resistance.",
     "contact_area_mod": 0.5,
     "rolling_resistance_mod": 30.0,
     "vehicle_move_penalty_mod": 5,
+    "block_faults": [ "fault_tire_treads", "fault_punctured_tires" ],
+    "//COMMENT3": "No rubber left to be worn/punctured. This blocks those faults",
     "item_suffix": "rim",
     "flags": [ "FLAT_TIRE" ]
+  },
+  {
+    "id": "fault_tire_treads",
+    "type": "fault",
+    "name": { "str": "Worn tire treads" },
+    "fault_type": "mechanical_damage",
+    "description": "The treads on this tire are worn down.  This cannot be repaired, and affects handling slightly.",
+    "price_modifier": 0.0,
+    "contact_area_mod": 0.85,
+    "rolling_resistance_mod": 1.05,
+    "item_suffix": "worn"
   },
   {
     "id": "fault_broken_window",

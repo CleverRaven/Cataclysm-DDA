@@ -1041,6 +1041,9 @@ struct reload_target {
     enum class kind {
         well,
         loaded_mag,
+        // Integral MAGAZINE on a multimag host: target is the host item,
+        // pocket_index points at the MAGAZINE pocket for direct deposit.
+        integral_magazine,
     };
 
     item_location target;

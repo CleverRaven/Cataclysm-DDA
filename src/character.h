@@ -99,6 +99,7 @@ enum action_id : int;
 enum class recipe_filter_flags : int;
 enum class steed_type : int;
 enum npc_attitude : int;
+struct attention_plan;
 struct bionic;
 struct construction;
 struct dealt_projectile_attack;
@@ -124,7 +125,7 @@ const int CHARACTER_STAT_MIN = 4;
 const int CHARACTER_STAT_MAX = 20;
 
 const int CHARACTER_AGE_MIN = 16;
-const int CHARACTER_AGE_MAX = 55;
+const int CHARACTER_AGE_MAX = 100;
 
 const int NAME_CHARACTER_LIMIT = 50;
 
@@ -1282,6 +1283,9 @@ class Character : public Creature, public visitable
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
         void apply_damage( Creature *source, bodypart_id hurt, int dam,
                            bool bypass_med = false ) override;
+        // checks if amount of specific wounds on bodypart is not higher than `limit`
+        // return false if more than limit
+        bool is_within_wound_limit_for_bp( bodypart_id bp, wound_type_id wound_id ) const;
         void apply_random_wound( bodypart_id bp, const damage_instance &d );
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
         dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
@@ -2342,7 +2346,7 @@ class Character : public Creature, public visitable
                                                 &locations ) const;
         units::mass weight_capacity() const override;
 
-        /* maximum you should ever be able to pick up ( i.e. with DANGEROUS_PICKUPS enabled) */
+        /* maximum you should ever be able to pick up */
         units::mass max_pickup_capacity() const;
         // total capacity of pockets in the player's top level of inventory.
         // bags-of-holding aside, this is the max volume the character can carry without changing what they're wearing/wielding.
@@ -2533,6 +2537,7 @@ class Character : public Creature, public visitable
 
         //sets all skills to 0 so that they're guaranteed to be in the map
         void zero_all_skills();
+        void set_all_skills( int lvl );
         float get_skill_level( const skill_id &ident ) const;
         float get_skill_level( const skill_id &ident, const item &context ) const;
         int get_knowledge_level( const skill_id &ident ) const;
@@ -3736,7 +3741,8 @@ class Character : public Creature, public visitable
         void make_all_craft( const recipe_id &id, int batch_size,
                              const std::optional<tripoint_bub_ms> &loc );
         /** consume components and create an active, in progress craft containing them */
-        void start_craft( craft_command &command, const std::optional<tripoint_bub_ms> &loc );
+        void start_craft( craft_command &command, const std::optional<tripoint_bub_ms> &loc,
+                          std::vector<attention_plan> plans = {} );
 
         struct craft_roll_data {
             float center;
@@ -3838,6 +3844,22 @@ class Character : public Creature, public visitable
         } );
         /** Consume tools for the next multiplier * 5% progress of the craft */
         bool craft_consume_tools( item &craft, int multiplier, bool start_craft );
+        /** Advance per-step tool consumption so each step's allocations match its
+         *  current progress.  Returns false (consuming nothing) if charges are short. */
+        bool craft_consume_step_tools( item &craft );
+        /** Advance the active unattended step's tool consumption to match its
+         *  wall-clock progress.  Returns false (consuming nothing) if charges are short. */
+        bool craft_consume_passive_step_tools( item &craft, time_point now, const item_location &loc );
+        /** Consume each step's tool allocations up to its 5% bucket target.
+         *  active_step is the in-progress step, whose non-charged selected tools are
+         *  re-checked for presence every call (even once their buckets are full) so a
+         *  tool removed before completion cannot finish the step.  When pin_to_map is
+         *  set, usage_from::player and usage_from::both allocations draw from the map
+         *  at origin instead of the crafter.  Returns false (consuming nothing) on a
+         *  shortfall. */
+        bool consume_step_tool_targets( item &craft, const std::vector<int> &targets,
+                                        int active_step, const tripoint_bub_ms &origin, int radius,
+                                        bool pin_to_map );
         void consume_tools( const comp_selection<tool_comp> &tool, int batch );
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
                             const tripoint_bub_ms &origin = tripoint_bub_ms::zero, int radius = PICKUP_RANGE,

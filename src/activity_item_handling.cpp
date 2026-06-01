@@ -230,6 +230,8 @@ static item_location find_study_book( const tripoint_abs_ms &zone_pos, Character
     return item_location();
 }
 
+namespace
+{
 /** Activity-associated item */
 struct act_item {
     /// inventory item
@@ -244,6 +246,7 @@ struct act_item {
           count( count ),
           consumed_moves( consumed_moves ) {}
 };
+} // namespace
 
 namespace multi_activity_actor
 {
@@ -331,7 +334,7 @@ static std::vector<item_location> try_to_put_into_vehicle( Character &c, item_dr
             //~ %1$s is item name, %2$s is vehicle name, %3$s is vehicle part name
             add_msg( m_mixed, _( "Unable to fit %1$s in the %2$s's %3$s." ), it.tname(), veh.name, part_name );
             // Retain item in inventory if overflow not too large/heavy or wield if possible otherwise drop on the ground
-            if( c.can_pickVolume( it ) && c.can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+            if( c.can_pickVolume( it ) && c.can_pickWeight( it, false ) ) {
                 result.push_back( c.i_add( it ) );
             } else if( !c.has_wield_conflicts( it ) && c.can_wield( it ).success() ) {
                 c.wield( it );
@@ -1691,7 +1694,7 @@ _find_alt_construction( tripoint_bub_ms const &loc, construction_id const &idx,
                         std::optional<construction_id> const &part_con_idx,
                         std::function<bool( construction const & )> const &filter )
 {
-    std::vector<construction *> cons = constructions_by_filter( filter );
+    std::vector<const construction *> cons = constructions_by_filter( filter );
     for( construction const *el : cons ) {
         if( _can_construct( loc, idx, *el, part_con_idx ) ) {
             return el;
@@ -1712,7 +1715,7 @@ construction const *_find_prereq( tripoint_bub_ms const &loc, construction_id co
                                   std::optional<construction_id> const &part_con_idx, checked_cache_t &checked_cache )
 {
     construction const *con = nullptr;
-    std::vector<construction *> cons = constructions_by_filter( [&idx, &top_idx](
+    std::vector<const construction *> cons = constructions_by_filter( [&idx, &top_idx](
     construction const & it ) {
         furn_id const f = top_idx->post_is_furniture ? _get_id<furn_id>( top_idx ) : furn_id();
         ter_id const t = top_idx->post_is_furniture ? ter_id() : _get_id<ter_id>( top_idx );
@@ -2422,9 +2425,28 @@ activity_reason_info multi_craft_activity_actor::multi_activity_can_do( Characte
             const recipe &r = to_craft->get_making();
             std::vector<std::vector<item_comp>> item_comp_vector =
                                                  to_craft->get_continue_reqs().get_components();
-            std::vector<std::vector<quality_requirement>> quality_comp_vector =
-                        r.simple_requirements().get_qualities();
-            std::vector<std::vector<tool_comp>> tool_comp_vector = r.simple_requirements().get_tools();
+            std::vector<std::vector<quality_requirement>> quality_comp_vector;
+            std::vector<std::vector<tool_comp>> tool_comp_vector;
+            if( r.has_steps() ) {
+                // Step recipes consume tools per step; gate continuation on the
+                // current step's tools and qualities plus the recipe-root tools,
+                // not the whole recipe, so a later step's tool cannot block the
+                // current one.
+                const int n_steps = static_cast<int>( r.steps().size() );
+                const int cur = std::clamp( to_craft->get_current_step(), 0, n_steps - 1 );
+                const recipe_step &step = r.steps()[cur];
+                const requirement_data &root = r.root_requirements();
+                quality_comp_vector = step.requirements.get_qualities();
+                const std::vector<std::vector<quality_requirement>> &root_quals = root.get_qualities();
+                quality_comp_vector.insert( quality_comp_vector.end(), root_quals.begin(),
+                                            root_quals.end() );
+                tool_comp_vector = step.requirements.get_tools();
+                const std::vector<std::vector<tool_comp>> &root_tools = root.get_tools();
+                tool_comp_vector.insert( tool_comp_vector.end(), root_tools.begin(), root_tools.end() );
+            } else {
+                quality_comp_vector = r.simple_requirements().get_qualities();
+                tool_comp_vector = r.simple_requirements().get_tools();
+            }
             requirement_data req = requirement_data( tool_comp_vector, quality_comp_vector, item_comp_vector );
             if( req.can_make_with_inventory( inv, is_crafting_component ) ) {
                 return activity_reason_info::ok( do_activity_reason::NEEDS_CRAFT );
@@ -2562,59 +2584,6 @@ bool activity_must_be_in_zone( activity_id act_id, const tripoint_bub_ms &src_lo
           !here.partial_con_at( src_loc ) );
 }
 
-requirement_check_result fetch_requirements( Character &you, requirement_id what_we_need,
-        const activity_id &act_id,
-        activity_reason_info &act_info, const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc,
-        const std::unordered_set<tripoint_abs_ms> &src_set )
-{
-
-    map &here = get_map();
-
-    if( you.as_npc() && you.as_npc()->job.fetch_history.count( what_we_need.str() ) != 0 &&
-        you.as_npc()->job.fetch_history[what_we_need.str()] == calendar::turn ) {
-        // this may be faild fetch already. give up task for a while to avoid infinite loop.
-        you.activity = player_activity();
-        you.backlog.clear();
-        check_npc_revert( you );
-        return requirement_check_result::SKIP_LOCATION;
-    }
-    you.backlog.emplace_front( act_id );
-    you.assign_activity( ACT_FETCH_REQUIRED );
-    player_activity &act_prev = you.backlog.front();
-    act_prev.str_values.push_back( what_we_need.str() );
-    act_prev.values.push_back( static_cast<int>( act_info.reason ) );
-    // come back here after successfully fetching your stuff
-    if( act_prev.coords.empty() ) {
-        std::vector<tripoint_bub_ms> local_src_set;
-        local_src_set.reserve( src_set.size() );
-        for( const tripoint_abs_ms &elem : src_set ) {
-            local_src_set.push_back( here.get_bub( elem ) );
-        }
-        std::vector<tripoint_bub_ms> candidates;
-        for( const tripoint_bub_ms &point_elem :
-             here.points_in_radius( src_loc, PICKUP_RANGE - 1, 0 ) ) {
-            // we don't want to place the components where they could interfere with our ( or someone else's ) construction spots
-            if( ( std::find( local_src_set.begin(), local_src_set.end(),
-                             point_elem ) != local_src_set.end() ) || !here.can_put_items_ter_furn( point_elem ) ) {
-                continue;
-            }
-            candidates.push_back( point_elem );
-        }
-        if( candidates.empty() ) {
-            you.activity = player_activity();
-            you.backlog.clear();
-            check_npc_revert( you );
-            return requirement_check_result::SKIP_LOCATION_NO_LOCATION;
-        }
-        act_prev.coords.push_back(
-            here.get_abs(
-                candidates[std::max( 0, static_cast<int>( candidates.size() / 2 ) )] )
-        );
-    }
-    act_prev.placement = src;
-    return requirement_check_result::RETURN_EARLY;
-}
-
 requirement_check_result requirement_fail( Character &you, const do_activity_reason &reason,
         const activity_id &act_id, const zone_data *zone )
 {
@@ -2680,11 +2649,11 @@ requirement_id synthesize_requirements(
 requirement_id remove_met_requirements( requirement_id base_req_id, Character &you )
 {
 
-    requirement_data reqs = base_req_id.obj();
+    const requirement_data &reqs = base_req_id.obj();
     // Remove the requirements already met
     requirement_data::alter_tool_comp_vector tool_reqs_vector = reqs.get_tools();
     requirement_data::alter_quali_req_vector quality_reqs_vector = reqs.get_qualities();
-    requirement_data::alter_item_comp_vector component_reqs_vector = reqs.get_components();
+    const requirement_data::alter_item_comp_vector &component_reqs_vector = reqs.get_components();
     requirement_data::alter_tool_comp_vector reduced_tool_reqs_vector;
     requirement_data::alter_quali_req_vector reduced_quality_reqs_vector;
 

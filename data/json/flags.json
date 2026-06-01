@@ -109,6 +109,10 @@
     "type": "json_flag"
   },
   {
+    "id": "ALLOWS_GASTROPOD_FOOT",
+    "type": "json_flag"
+  },
+  {
     "id": "ALLOWS_TALONS",
     "type": "json_flag"
   },
@@ -989,6 +993,11 @@
     "inherit": false
   },
   {
+    "id": "FAULT_ON_COMPLETION",
+    "//COMMENT": "Hardcoded application/removal.",
+    "type": "json_flag"
+  },
+  {
     "id": "SUN_GLASSES",
     "type": "json_flag",
     "//": "Prevents glaring when in sunlight.",
@@ -1167,6 +1176,11 @@
     "id": "NO_FAIL",
     "type": "json_flag",
     "//": "Spellcasting never fails for this spell"
+  },
+  {
+    "id": "HIDDEN_SPELL",
+    "type": "json_flag",
+    "//": "Spellcasting never shows any messages for this spell"
   },
   {
     "id": "IGNORE_WALLS",
@@ -3032,6 +3046,21 @@
     "type": "json_flag",
     "//": "Terrain / Furniture flag",
     "//2": "This terrain will phase back to its original terrain when no longer modified."
+  },
+  {
+    "id": "ROBOFAC_ARM",
+    "type": "json_flag",
+    "info": "This item is a Hub 01 ARM exoskeleton.  It requires an implanted XM-ARM interface to function."
+  },
+  {
+    "id": "ROBOFAC_LEG",
+    "type": "json_flag",
+    "info": "This item is a Hub 01 LEG exoskeleton.  It requires an implanted XM-LEG interface to function."
+  },
+  {
+    "id": "ROBOFAC_BACK",
+    "type": "json_flag",
+    "info": "This item is a Hub 01 BACK exoskeleton.  It requires an implanted XM-LEG interface and it must be worn with ARM and LEG exoskeletons to function."
   },
   {
     "id": "ROBOFAC_LENS_ACCESSORY",

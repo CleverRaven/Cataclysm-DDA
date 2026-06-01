@@ -2448,7 +2448,7 @@
       },
       {
         "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 5 } ],
-        "covers": [ "eyes" ],
+        "covers": [ "eyes", "eyes_compound" ],
         "coverage": 100,
         "encumbrance": 25
       }
@@ -2565,7 +2565,7 @@
           { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 5 },
           { "type": "lc_steel", "covered_by_mat": 15, "thickness": 1 }
         ],
-        "covers": [ "eyes" ],
+        "covers": [ "eyes", "eyes_compound" ],
         "layers": [ "SKINTIGHT", "NORMAL" ],
         "rigid_layer_only": true,
         "coverage": 100,
@@ -2683,13 +2683,13 @@
     "armor": [
       {
         "material": [ { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 } ],
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "beak", "muzzle", "insect_proboscis" ],
         "coverage": 100,
         "encumbrance": 35
       },
       {
         "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 5 } ],
-        "covers": [ "eyes" ],
+        "covers": [ "eyes", "eyes_compound" ],
         "layers": [ "SKINTIGHT", "NORMAL" ],
         "rigid_layer_only": true,
         "coverage": 100,

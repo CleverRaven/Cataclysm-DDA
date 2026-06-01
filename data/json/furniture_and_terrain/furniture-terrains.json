@@ -1153,7 +1153,7 @@
         { "item": "scrap", "count": [ 3, 12 ] },
         { "item": "amplifier", "count": [ 1, 3 ] },
         { "item": "light_bulb", "count": [ 0, 3 ] },
-        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "plastic_chunk", "count": [ 2, 4 ] }
       ]
     }
@@ -1181,7 +1181,7 @@
         { "item": "amplifier", "count": [ 1, 3 ] },
         { "item": "light_bulb", "count": [ 1, 3 ] },
         { "item": "plastic_chunk", "count": [ 1, 3 ] },
-        { "item": "cable", "charges": [ 1, 3 ] },
+        { "item": "cable", "count": [ 1, 3 ] },
         { "item": "scrap", "count": [ 3, 12 ] }
       ]
     }
@@ -1279,7 +1279,7 @@
         { "item": "stick_long", "count": [ 3, 10 ] },
         { "item": "splinter", "count": [ 10, 20 ] },
         { "item": "lc_steel_chunk", "count": [ 2, 4 ] },
-        { "item": "cable", "charges": [ 0, 1 ] },
+        { "item": "cable", "count": [ 0, 1 ] },
         { "item": "scrap", "count": [ 3, 5 ] }
       ],
       "hit_field": [ "fd_dust", 2 ],

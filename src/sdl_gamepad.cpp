@@ -94,6 +94,8 @@ static int triggers_threshold = 16000;
 static int sticks_threshold = 16000;
 static int error_margin = 2000;
 
+namespace
+{
 struct task_t {
     // Millisecond timestamp from GetTicks(), not raw event timestamps.
     // SDL3 event timestamps are nanoseconds (Uint64); using GetTicks() keeps
@@ -104,6 +106,7 @@ struct task_t {
     int state;
     input_event_t type;
 };
+} // namespace
 
 static constexpr int max_tasks           = max_buttons + max_sticks + max_triggers + 1;
 static constexpr int sticks_task_index   = max_buttons;

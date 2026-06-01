@@ -292,6 +292,7 @@ void field_type::load( const JsonObject &jo, std::string_view )
     field_types::load_immunity( jid, immunity_data );
 
     optional( jo, was_loaded, "immune_mtypes", immune_mtypes );
+    optional( jo, was_loaded, "block_mtypes", block_mtypes );
     optional( jo, was_loaded, "underwater_age_speedup", underwater_age_speedup, 0_turns );
     optional( jo, was_loaded, "outdoor_age_speedup", outdoor_age_speedup, 0_turns );
     optional( jo, was_loaded, "decay_amount_factor", decay_amount_factor, 0 );
@@ -355,6 +356,12 @@ void field_type::finalize()
     for( const mtype_id &m_id : immune_mtypes ) {
         if( !m_id.is_valid() ) {
             debugmsg( "Invalid mtype_id %s in immune_mtypes for field %s.", m_id.c_str(), id.c_str() );
+        }
+    }
+
+    for( const mtype_id &m_id : block_mtypes ) {
+        if( !m_id.is_valid() ) {
+            debugmsg( "Invalid mtype_id %s in block_mtypes for field %s.", m_id.c_str(), id.c_str() );
         }
     }
 

@@ -327,11 +327,14 @@ int talker_npc_const::value( const item &it ) const
     return me_npc->value( it );
 }
 
+namespace
+{
 enum consumption_result {
     REFUSED = 0,
     CONSUMED_SOME, // Consumption didn't fail, but don't delete the item
     CONSUMED_ALL   // Consumption succeeded, delete the item
 };
+} // namespace
 
 // Returns true if we destroyed the item through consumption
 // does not try to consume contents

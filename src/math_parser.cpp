@@ -1053,6 +1053,9 @@ math_exp::math_exp( math_exp const &other ) :
           std::make_unique<math_exp_impl>() ) {}
 math_exp &math_exp::operator=( math_exp const &other )
 {
+    if( this == &other ) {
+        return *this;
+    }
     impl = other.impl ? std::make_unique<math_exp_impl>( *other.impl ) :
            std::make_unique<math_exp_impl>();
     return *this;

@@ -2,7 +2,7 @@
   {
     "type": "npc",
     "id": "old_guard_red",
-    "name_unique": "Red",
+    "name_unique": { "ctxt": "NPC Name", "str": "Red" },
     "class": "NC_SOLDIER",
     "attitude": 0,
     "mission": 3,

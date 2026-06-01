@@ -30,11 +30,11 @@
     "type": "item_group",
     "id": "cigarettes_new",
     "items": [
-      { "item": "cig", "variant": "cig_basic", "prob": 40, "count": [ 20, 20 ], "container-item": "null" },
-      { "item": "cig", "variant": "cig_light", "prob": 25, "count": [ 20, 20 ], "container-item": "null" },
-      { "item": "cig", "variant": "cig_menthol", "prob": 25, "count": [ 20, 20 ], "container-item": "null" },
-      { "item": "cig", "variant": "cig_gold", "prob": 7, "count": [ 20, 20 ], "container-item": "null" },
-      { "item": "cig", "variant": "cig_little_cigar", "prob": 3, "count": [ 20, 20 ], "container-item": "null" }
+      { "item": "cig", "variant": "cig_basic", "prob": 40, "count": 20, "container-item": "null" },
+      { "item": "cig", "variant": "cig_light", "prob": 25, "count": 20, "container-item": "null" },
+      { "item": "cig", "variant": "cig_menthol", "prob": 25, "count": 20, "container-item": "null" },
+      { "item": "cig", "variant": "cig_gold", "prob": 7, "count": 20, "container-item": "null" },
+      { "item": "cig", "variant": "cig_little_cigar", "prob": 3, "count": 20, "container-item": "null" }
     ]
   },
   {
@@ -84,7 +84,7 @@
             "collection": [
               { "item": "tobacco", "count": [ 1, 20 ], "container-item": "null", "entry-wrapper": "bag_plastic" },
               {
-                "distribution": [ { "item": "rolling_paper", "prob": 70, "charges": [ 1, 30 ] }, { "item": "pipe_tobacco", "prob": 30 } ]
+                "distribution": [ { "item": "rolling_paper", "prob": 70, "count": [ 1, 30 ] }, { "item": "pipe_tobacco", "prob": 30 } ]
               }
             ],
             "prob": 20
@@ -103,6 +103,13 @@
   },
   {
     "type": "item_group",
+    "id": "chaw_wrapper_20",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "chaw", "container-item": "null", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
     "id": "chaw_wrapper_1_20",
     "subtype": "collection",
     "container-item": "wrapper",
@@ -114,6 +121,27 @@
     "subtype": "collection",
     "container-item": "box_cigarette",
     "entries": [ { "group": "cigarettes_new" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cig_box_cigarette_1_20",
+    "subtype": "collection",
+    "container-item": "box_cigarette",
+    "entries": [ { "group": "cigarettes_opened" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tobacco_bag_plastic_20",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "tobacco", "container-item": "null", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tobacco_bag_plastic_1_20",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "tobacco", "container-item": "null", "count": [ 1, 20 ] } ]
   },
   {
     "type": "item_group",

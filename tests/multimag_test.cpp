@@ -10,22 +10,28 @@
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "avatar_action.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_attire.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "flag.h"
+#include "flat_set.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
 #include "item_pocket.h"
+#include "inventory.h"
 #include "inventory_ui.h"
 #include "iteminfo_query.h"
 #include "itype.h"
 #include "json.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "messages.h"
 #include "options_helpers.h"
 #include "output.h"
 #include "player_helpers.h"
@@ -33,7 +39,13 @@
 #include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
+#include "units.h"
 #include "visitable.h"
+
+static const ammotype ammo_9mm( "9mm" );
+static const ammotype ammo_battery( "battery" );
+
+static const flag_id json_flag_CASING( "CASING" );
 
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
 static const gun_mode_id gun_mode_BURST( "BURST" );
@@ -44,6 +56,8 @@ static const item_group_id Item_spawn_data_test_multimag_full_load( "test_multim
 static const itype_id itype_38_special( "38_special" );
 static const itype_id itype_556( "556" );
 static const itype_id itype_9mm( "9mm" );
+static const itype_id itype_9mm_casing( "9mm_casing" );
+static const itype_id itype_UPS_ON( "UPS_ON" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_book_binder( "book_binder" );
@@ -52,14 +66,20 @@ static const itype_id itype_glock_19( "glock_19" );
 static const itype_id itype_glockmag( "glockmag" );
 static const itype_id itype_heavy_battery_cell( "heavy_battery_cell" );
 static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
+static const itype_id itype_oxygen( "oxygen" );
 static const itype_id itype_paper( "paper" );
+static const itype_id itype_robofac_gun( "robofac_gun" );
 static const itype_id itype_stanag30( "stanag30" );
 static const itype_id itype_sw_619( "sw_619" );
 static const itype_id itype_test_multimag_gun( "test_multimag_gun" );
 static const itype_id itype_test_multimag_gun_consume( "test_multimag_gun_consume" );
+static const itype_id itype_test_multimag_gun_integral_ammo( "test_multimag_gun_integral_ammo" );
 static const itype_id itype_test_multimag_gun_same_type( "test_multimag_gun_same_type" );
 static const itype_id itype_test_multimag_tool_consume( "test_multimag_tool_consume" );
 static const itype_id itype_test_multimag_tool_factor( "test_multimag_tool_factor" );
+static const itype_id itype_test_multimag_turret_gun( "test_multimag_turret_gun" );
+static const itype_id itype_test_multimag_vehicle_welder( "test_multimag_vehicle_welder" );
+static const itype_id itype_welding_wire_steel_tests_dupe( "welding_wire_steel_tests_dupe" );
 
 static item make_loaded_glock()
 {
@@ -292,6 +312,19 @@ TEST_CASE( "display_name_multi_well_per_well_counts", "[multimag][display]" )
         CHECK( name.find( variant_556 ) != std::string::npos );
         CHECK( name.find( "15/15" ) != std::string::npos );
         CHECK( name.find( "30/30" ) != std::string::npos );
+    }
+
+    SECTION( "bare HWP with null gun ammotype and no barrel mod does not crash" ) {
+        // robofac_gun is barrel-swappable: ammo_default() resolves to
+        // NULL_ID and find_template(NULL_ID)->ammo is null.
+        item gun( itype_robofac_gun );
+        REQUIRE( gun.is_gun() );
+        REQUIRE( !gun.ammo_types().empty() );
+        REQUIRE( gun.ammo_data() == nullptr );
+        std::string name;
+        name = remove_color_tags( gun.display_name() );
+        CAPTURE( name );
+        CHECK_FALSE( name.empty() );
     }
 }
 
@@ -677,7 +710,7 @@ TEST_CASE( "reload_option_qty_forces_1_for_pocket_targeted_reloads",
     }
     REQUIRE( glock_idx >= 0 );
 
-    item::reload_option opt( &you, gun_loc, mag_loc );
+    item::reload_option opt( &you, gun_loc, mag_loc, item::reload_option::POCKET_FALLBACK );
     opt.pocket_index = glock_idx;
     opt.qty( 1000 );
     CHECK( opt.qty() == 1 );
@@ -1008,6 +1041,96 @@ TEST_CASE( "reload_activity_actor_serializes_pocket_index",
     CHECK( serialized.find( "\"pocket_index\":0" ) != std::string::npos );
 }
 
+// Pins the auto-chain reload: finishing a multimag reload must queue the
+// next well when carrier inventory has unambiguous ammo for it.
+TEST_CASE( "multimag_reload_chains_to_sibling_well",
+           "[multimag][reload][activity]" )
+{
+    clear_avatar();
+    Character &you = get_player_character();
+    you.wear_item( item( itype_backpack ) );
+
+    item_location gun_loc = you.i_add( item( itype_test_multimag_turret_gun ) );
+    REQUIRE( gun_loc );
+    REQUIRE( gun_loc->uses_firing_requirements() );
+    REQUIRE( gun_loc->magazines_current().empty() );
+
+    item glock_mag( itype_glockmag );
+    glock_mag.put_in( item( itype_9mm, calendar::turn, 15 ), pocket_type::MAGAZINE );
+    item_location glock_loc = you.i_add( glock_mag );
+    REQUIRE( glock_loc );
+    item batt( itype_heavy_battery_cell );
+    batt.ammo_set( itype_battery, 100 );
+    you.i_add( batt );
+
+    int glock_idx = -1;
+    int idx = 0;
+    for( const item_pocket *p : gun_loc->get_pockets( []( const item_pocket & ) {
+    return true;
+} ) ) {
+        if( p->is_type( pocket_type::MAGAZINE_WELL ) ) {
+            for( const itype_id &id : p->item_type_restrictions() ) {
+                if( id == itype_glockmag ) {
+                    glock_idx = idx;
+                    break;
+                }
+            }
+            if( glock_idx >= 0 ) {
+                break;
+            }
+        }
+        ++idx;
+    }
+    REQUIRE( glock_idx >= 0 );
+
+    item::reload_option opt( &you, gun_loc, glock_loc, glock_idx );
+    you.assign_activity( reload_activity_actor( std::move( opt ) ) );
+    REQUIRE( you.activity );
+
+    process_activity( you );
+
+    const std::vector<item *> mags = gun_loc->magazines_current();
+    CHECK( mags.size() == 2 );
+}
+
+// Unload on a multimag host with both a loaded MAGAZINE_WELL and a live
+// integral MAGAZINE pocket must drain both, not only the well.
+TEST_CASE( "multimag_unload_drains_integral_and_well",
+           "[multimag][unload]" )
+{
+    clear_avatar();
+    Character &you = get_player_character();
+    you.wear_item( item( itype_backpack ) );
+
+    item gun( itype_test_multimag_gun_integral_ammo );
+    REQUIRE( gun.uses_firing_requirements() );
+
+    item battery( itype_heavy_battery_cell );
+    battery.ammo_set( itype_battery, 100 );
+    REQUIRE( gun.put_in( battery, pocket_type::MAGAZINE_WELL ).success() );
+    REQUIRE( gun.put_in( item( itype_9mm, calendar::turn, 1 ),
+                         pocket_type::MAGAZINE ).success() );
+
+    item_location gun_loc = you.i_add( gun );
+    REQUIRE( gun_loc );
+    REQUIRE_FALSE( gun_loc->magazines_current().empty() );
+
+    const bool unloaded = you.unload( gun_loc, /*bypass_activity=*/true );
+    REQUIRE( unloaded );
+
+    CHECK( gun_loc->magazines_current().empty() );
+    const item &const_gun = *gun_loc;
+    const std::vector<const item_pocket *> integral_pockets = const_gun.get_pockets(
+    []( const item_pocket & p ) {
+        return p.is_type( pocket_type::MAGAZINE );
+    } );
+    for( const item_pocket *p : integral_pockets ) {
+        for( const item *e : p->all_items_top() ) {
+            CHECK( e->has_flag( flag_CASING ) );
+        }
+    }
+}
+
 TEST_CASE( "wield_collision_sees_mags_from_every_well",
            "[multimag][wield]" )
 {
@@ -1143,6 +1266,26 @@ static item make_multimag_consume_tool( int well_a_charges = 12, int well_b_char
     return tool;
 }
 
+// Multimag USE_UPS welder fixture. power well = battery (heavy_battery_cell mag),
+// oxygen and rod are direct MAGAZINE pockets with ammo_restriction.
+// per_use: power=5, oxygen=2, rod=1.
+static item make_multimag_welder( int batt_charges, int oxygen_qty, int rod_qty )
+{
+    item tool( itype_test_multimag_vehicle_welder );
+    item batt_mag( itype_heavy_battery_cell );
+    batt_mag.put_in( item( itype_battery, calendar::turn, batt_charges ), pocket_type::MAGAZINE );
+    REQUIRE( tool.put_in( batt_mag, pocket_type::MAGAZINE_WELL ).success() );
+    if( oxygen_qty > 0 ) {
+        REQUIRE( tool.put_in( item( itype_oxygen, calendar::turn, oxygen_qty ),
+                              pocket_type::MAGAZINE ).success() );
+    }
+    if( rod_qty > 0 ) {
+        REQUIRE( tool.put_in( item( itype_welding_wire_steel_tests_dupe, calendar::turn, rod_qty ),
+                              pocket_type::MAGAZINE ).success() );
+    }
+    return tool;
+}
+
 TEST_CASE( "multimag_predicates",
            "[multimag][consume]" )
 {
@@ -1252,6 +1395,19 @@ TEST_CASE( "consume_shots_and_consume_tool_uses_drain_per_pocket",
         CHECK( tool.ammo_remaining_in_pocket( "well_a" ) == 10 );
         CHECK( tool.ammo_remaining_in_pocket( "well_b" ) == 0 );
     }
+
+    SECTION( "direct MAGAZINE oxygen pocket drains alongside MAGAZINE_WELL battery" ) {
+        // Welder per_use: power=5, oxygen=2, rod=1. Single use drains all three.
+        item welder = make_multimag_welder( 100, 20, 5 );
+        REQUIRE( welder.ammo_remaining_in_pocket( "power" ) == 100 );
+        REQUIRE( welder.ammo_remaining_in_pocket( "oxygen" ) == 20 );
+        REQUIRE( welder.ammo_remaining_in_pocket( "rod" ) == 5 );
+        const int got = welder.consume_tool_uses( 1, here, pos, nullptr );
+        CHECK( got == 1 );
+        CHECK( welder.ammo_remaining_in_pocket( "power" ) == 95 );
+        CHECK( welder.ammo_remaining_in_pocket( "oxygen" ) == 18 );
+        CHECK( welder.ammo_remaining_in_pocket( "rod" ) == 4 );
+    }
 }
 
 TEST_CASE( "shots_remaining_mode_aware",
@@ -1328,14 +1484,18 @@ TEST_CASE( "expected_cost_per_use_sums_effective_qty",
     CHECK( legacy.expected_cost_per_use() == 1 );
 }
 
-TEST_CASE( "vehicle_turret_filter_rejects_multimag_guns",
-           "[multimag][consume]" )
+TEST_CASE( "vehicle_turret_filter_multimag_per_gun_opt_out", "[multimag][consume]" )
 {
-    item gun( itype_test_multimag_gun_consume );
-    REQUIRE( gun.uses_firing_requirements() );
-    // The filter (mountable_gun_filter in veh_type.cpp) is static-private; we
-    // only check the predicate it gates on here. Vehicle install integration
-    // is verified indirectly when no multimag gun appears in turret JSON.
+    SECTION( "NO_TURRET multimag gun keeps the per-gun opt-out" ) {
+        item gun( itype_test_multimag_gun_consume );
+        REQUIRE( gun.uses_firing_requirements() );
+        REQUIRE( gun.has_flag( flag_NO_TURRET ) );
+    }
+    SECTION( "multimag gun without NO_TURRET passes the filter" ) {
+        item gun( itype_test_multimag_turret_gun );
+        REQUIRE( gun.uses_firing_requirements() );
+        REQUIRE_FALSE( gun.has_flag( flag_NO_TURRET ) );
+    }
 }
 
 TEST_CASE( "Character_consume_charges_hard_guards_multimag_tools",
@@ -1496,14 +1656,71 @@ TEST_CASE( "charges_of_for_multimag_tool_reports_local_uses",
 {
     clear_avatar();
     Character &chr = get_avatar();
-    // Tool with well_a=12, well_b=30: floor(12/2)=6, 30/1=30 -> 6 uses local.
-    item tool = make_multimag_consume_tool( 12, 30 );
-    item_location loc = chr.i_add( tool );
-    REQUIRE( loc );
 
-    // Inventory aggregation should report the multimag tool's local uses.
-    const int reported = chr.charges_of( itype_test_multimag_tool_consume );
-    CHECK( reported == 6 );
+    SECTION( "no external pool: local-only count" ) {
+        // Tool with well_a=12, well_b=30: floor(12/2)=6, 30/1=30 -> 6 uses local.
+        item tool = make_multimag_consume_tool( 12, 30 );
+        item_location loc = chr.i_add( tool );
+        REQUIRE( loc );
+
+        const int reported = chr.charges_of( itype_test_multimag_tool_consume );
+        CHECK( reported == 6 );
+    }
+
+    SECTION( "routes external UPS pool when item has USE_UPS + battery pocket" ) {
+        // UPS=100 covers 5 uses at per_use=5; oxygen/rod cap at 5.
+        chr.worn.wear_item( chr, item( itype_backpack ), false, false );
+        item_location welder = chr.i_add( make_multimag_welder( 0, 10, 5 ) );
+        REQUIRE( welder );
+
+        item ups( itype_UPS_ON );
+        item ups_mag( ups.magazine_default() );
+        ups_mag.ammo_set( ups_mag.ammo_default(), 100 );
+        REQUIRE( ups.put_in( ups_mag, pocket_type::MAGAZINE_WELL ).success() );
+        chr.i_add( ups );
+        REQUIRE( units::to_kilojoule( chr.available_ups() ) == 100 );
+
+        const int reported = chr.charges_of( itype_test_multimag_vehicle_welder );
+        CHECK( reported == 5 );
+    }
+
+    SECTION( "routes external UPS pool from ground via crafting_inventory" ) {
+        // Ground UPS is not in Character::available_ups(); only the visitable
+        // (crafting_inventory) sees it. apply_external_pools_multimag must
+        // query main, not the character, so a multimag tool reaches it.
+        clear_map();
+        chr.worn.wear_item( chr, item( itype_backpack ), false, false );
+        item_location welder = chr.i_add( make_multimag_welder( 0, 10, 5 ) );
+        REQUIRE( welder );
+        REQUIRE( units::to_kilojoule( chr.available_ups() ) == 0 );
+
+        item ups( itype_UPS_ON );
+        item ups_mag( ups.magazine_default() );
+        ups_mag.ammo_set( ups_mag.ammo_default(), 100 );
+        REQUIRE( ups.put_in( ups_mag, pocket_type::MAGAZINE_WELL ).success() );
+        get_map().add_item_or_charges( chr.pos_bub(), ups );
+
+        const int reported = chr.crafting_inventory().charges_of(
+                                 itype_test_multimag_vehicle_welder );
+        CHECK( reported == 5 );
+    }
+
+    SECTION( "inventory dedup: two multimag USE_UPS welders share one UPS" ) {
+        // Without dedup both tools claim UPS=10 (3+3=6); shared gives 3+1=4.
+        chr.worn.wear_item( chr, item( itype_backpack ), false, false );
+        REQUIRE( chr.i_add( make_multimag_welder( 5, 6, 3 ) ) );
+        REQUIRE( chr.i_add( make_multimag_welder( 5, 6, 3 ) ) );
+
+        item ups( itype_UPS_ON );
+        item ups_mag( ups.magazine_default() );
+        ups_mag.ammo_set( ups_mag.ammo_default(), 10 );
+        REQUIRE( ups.put_in( ups_mag, pocket_type::MAGAZINE_WELL ).success() );
+        chr.i_add( ups );
+        REQUIRE( units::to_kilojoule( chr.available_ups() ) == 10 );
+
+        const int reported = chr.charges_of( itype_test_multimag_vehicle_welder );
+        CHECK( reported == 4 );
+    }
 }
 
 TEST_CASE( "item_action_comparator_ranks_legacy_below_multimag_by_cost",
@@ -1556,4 +1773,279 @@ TEST_CASE( "ammo_consume_on_item_without_charges_per_use_drains_raw_count",
     const int consumed = legacy.ammo_consume( 4, pos, nullptr );
     CHECK( consumed == 4 );
     CHECK( legacy.ammo_remaining() == 11 );
+}
+
+// Multimag gun with integral MAGAZINE ammo pocket trips the single-mag
+// "incompatible ammunition" gate in fire_wielded_weapon: loaded_ammo()
+// recurses into a bare round and returns null_item_reference, so its
+// ammo_type() never matches gun.ammo. Pocket restrictions already enforce
+// per-pocket ammo at load time, so the gate must skip multimag guns.
+TEST_CASE( "multimag_fire_skips_incompatible_ammo_gate", "[multimag][fire]" )
+{
+    clear_map();
+    avatar &dummy = get_avatar();
+    dummy.set_body();
+    dummy.clear_worn();
+    dummy.remove_weapon();
+
+    item gun( itype_test_multimag_gun_integral_ammo );
+    REQUIRE( gun.uses_firing_requirements() );
+    REQUIRE( gun.put_in( item( itype_9mm, calendar::turn, 1 ),
+                         pocket_type::MAGAZINE ).success() );
+    item battery( itype_heavy_battery_cell );
+    battery.ammo_set( itype_battery, 100 );
+    REQUIRE( gun.put_in( battery, pocket_type::MAGAZINE_WELL ).success() );
+
+    dummy.set_wielded_item( gun );
+    REQUIRE( dummy.get_wielded_item() );
+
+    Messages::clear_messages();
+    avatar_action::fire_wielded_weapon( dummy );
+
+    for( const auto &msg : Messages::recent_messages( 0 ) ) {
+        INFO( "message: " << msg.second );
+        CHECK( msg.second.find( "incompatible ammunition" ) == std::string::npos );
+    }
+}
+
+// Multimag gun with integral MAGAZINE + battery MAGAZINE_WELL: render one
+// segment per pocket. Aggregate forms like "1501/1500" are wrong.
+TEST_CASE( "display_name_integral_magazine_per_pocket_segments", "[multimag][display]" )
+{
+    item gun( itype_test_multimag_gun_integral_ammo );
+    REQUIRE( gun.uses_firing_requirements() );
+
+    SECTION( "slug only" ) {
+        REQUIRE( gun.put_in( item( itype_9mm, calendar::turn, 1 ),
+                             pocket_type::MAGAZINE ).success() );
+        const std::string name = remove_color_tags( gun.display_name() );
+        INFO( name );
+        // Slug pocket loaded; battery pocket renders as "0/<cap>".
+        CHECK( name.find( "1/1" ) != std::string::npos );
+        // Per-pocket renderer must not print "1/0" - that is the aggregate
+        // path applying slug count against an empty battery capacity.
+        CHECK( name.find( "1/0" ) == std::string::npos );
+    }
+
+    SECTION( "slug + battery does not aggregate" ) {
+        REQUIRE( gun.put_in( item( itype_9mm, calendar::turn, 1 ),
+                             pocket_type::MAGAZINE ).success() );
+        item battery( itype_heavy_battery_cell );
+        battery.ammo_set( itype_battery, 100 );
+        REQUIRE( gun.put_in( battery, pocket_type::MAGAZINE_WELL ).success() );
+
+        const std::string name = remove_color_tags( gun.display_name() );
+        INFO( name );
+        // Slug pocket shows 1/1, battery pocket shows 100/<cap>. The
+        // aggregate "101/<cap>" or "1/100" forms must never appear.
+        CHECK( name.find( "1/1" ) != std::string::npos );
+        CHECK( name.find( "100/" ) != std::string::npos );
+    }
+
+    SECTION( "battery only does not borrow slug count" ) {
+        item battery( itype_heavy_battery_cell );
+        battery.ammo_set( itype_battery, 50 );
+        REQUIRE( gun.put_in( battery, pocket_type::MAGAZINE_WELL ).success() );
+        const std::string name = remove_color_tags( gun.display_name() );
+        INFO( name );
+        CHECK( name.find( "0/1" ) != std::string::npos );
+        CHECK( name.find( "50/" ) != std::string::npos );
+    }
+}
+
+// Ammo identity accessors must not fall back to a non-projectile pocket on
+// a multimag gun. Battery-only must report no ammo so downstream callers
+// (sounds, projectile, event bus) do not borrow the battery itype.
+TEST_CASE( "multimag_loaded_ammo_does_not_borrow_sibling_pocket",
+           "[multimag][ammo_data]" )
+{
+    item gun( itype_test_multimag_gun_integral_ammo );
+    REQUIRE( gun.uses_firing_requirements() );
+
+    item battery( itype_heavy_battery_cell );
+    battery.ammo_set( itype_battery, 100 );
+    REQUIRE( gun.put_in( battery, pocket_type::MAGAZINE_WELL ).success() );
+
+    CHECK_FALSE( gun.has_ammo() );
+    CHECK_FALSE( gun.has_ammo_data() );
+    CHECK( gun.ammo_data() == nullptr );
+    CHECK( gun.loaded_ammo().is_null() );
+    CHECK( gun.ammo_current() == itype_id::NULL_ID() );
+
+    // After loading the slug pocket, identity is anchored to the projectile
+    // and loaded_ammo() must resolve to the slug, not null.
+    REQUIRE( gun.put_in( item( itype_9mm, calendar::turn, 1 ),
+                         pocket_type::MAGAZINE ).success() );
+    CHECK( gun.has_ammo() );
+    CHECK( gun.has_ammo_data() );
+    REQUIRE( gun.ammo_data() != nullptr );
+    CHECK( gun.ammo_current() == itype_9mm );
+    const item &loaded = gun.loaded_ammo();
+    CHECK_FALSE( loaded.is_null() );
+    CHECK( loaded.typeId() == itype_9mm );
+}
+
+// Casings in the integral projectile pocket must not count as loaded ammo.
+// Pins ammo_remaining()'s explicit CASING skip.
+TEST_CASE( "multimag_integral_pocket_skips_casings", "[multimag][ammo_data]" )
+{
+    item gun( itype_test_multimag_gun_integral_ammo );
+    REQUIRE( gun.uses_firing_requirements() );
+
+    item battery( itype_heavy_battery_cell );
+    battery.ammo_set( itype_battery, 100 );
+    REQUIRE( gun.put_in( battery, pocket_type::MAGAZINE_WELL ).success() );
+
+    // Casing alone in the projectile pocket: not loaded ammo.
+    gun.force_insert_item( item( itype_9mm_casing, calendar::turn,
+                                 1 ).set_flag( json_flag_CASING ),
+                           pocket_type::MAGAZINE );
+    CHECK_FALSE( gun.has_ammo() );
+    CHECK_FALSE( gun.has_ammo_data() );
+    CHECK( gun.ammo_data() == nullptr );
+    CHECK( gun.ammo_remaining() == 100 );
+
+    // Live slug alongside the casing: identity resolves to slug, count is 1.
+    REQUIRE( gun.put_in( item( itype_9mm, calendar::turn, 1 ),
+                         pocket_type::MAGAZINE ).success() );
+    CHECK( gun.has_ammo() );
+    CHECK( gun.has_ammo_data() );
+    CHECK( gun.ammo_remaining() == 101 );
+}
+
+// Per-ammotype capacity routes through the matching pocket so a
+// battery-only-loaded multimag gun still reports projectile slug capacity.
+TEST_CASE( "multimag_ammo_capacity_resolves_per_pocket", "[multimag][capacity]" )
+{
+    item gun( itype_test_multimag_gun_integral_ammo );
+    REQUIRE( gun.uses_firing_requirements() );
+
+    // Empty: still reports projectile pocket capacity for 9mm.
+    CHECK( gun.ammo_capacity( ammo_9mm ) == 1 );
+
+    item battery( itype_heavy_battery_cell );
+    battery.ammo_set( itype_battery, 100 );
+    REQUIRE( gun.put_in( battery, pocket_type::MAGAZINE_WELL ).success() );
+
+    // Battery loaded, slug pocket empty: slug capacity still from integral pocket.
+    CHECK( gun.ammo_capacity( ammo_9mm ) == 1 );
+    CHECK( gun.ammo_capacity( ammo_battery ) ==
+           battery.ammo_capacity( ammo_battery ) );
+}
+
+// Firing a multimag gun with only the power source loaded must abort cleanly
+// (shots_remaining = 0) without emitting "invalid recipe id" or ammo-shortage
+// debugmsgs anywhere in the fire path.
+TEST_CASE( "multimag_fire_without_projectile_does_not_crash", "[multimag][fire]" )
+{
+    clear_map();
+    avatar &dummy = get_avatar();
+    dummy.set_body();
+    dummy.clear_worn();
+    dummy.remove_weapon();
+    dummy.setpos( get_map(), tripoint_bub_ms( point_bub_ms::zero, 0 ) );
+
+    item gun( itype_test_multimag_gun_integral_ammo );
+    item battery( itype_heavy_battery_cell );
+    battery.ammo_set( itype_battery, 100 );
+    REQUIRE( gun.put_in( battery, pocket_type::MAGAZINE_WELL ).success() );
+
+    dummy.set_wielded_item( gun );
+    REQUIRE( dummy.get_wielded_item() );
+
+    map &here = get_map();
+    const tripoint_bub_ms target = dummy.pos_bub( here ) + point( 5, 0 );
+    const std::string dmsg = capture_debugmsg_during( [&]() {
+        dummy.fire_gun( here, target, 1, *dummy.get_wielded_item() );
+    } );
+    INFO( "debugmsg: " << dmsg );
+    CHECK( dmsg.find( "invalid recipe id" ) == std::string::npos );
+    CHECK( dmsg.find( "Unexpected shortage of ammo" ) == std::string::npos );
+}
+
+// Reload menu must surface integral MAGAZINE as its own target on a multimag
+// gun; otherwise loose ammo has no reachable destination.
+TEST_CASE( "multimag_reload_targets_include_integral_pocket", "[multimag][reload]" )
+{
+    clear_avatar();
+    avatar &dummy = get_avatar();
+    item &gun = *dummy.i_add( item( itype_test_multimag_gun_integral_ammo ) );
+    item_location gun_loc( dummy, &gun );
+
+    const std::vector<reload_target> targets = get_possible_reload_targets( gun_loc );
+    bool saw_integral = false;
+    bool saw_well = false;
+    for( const reload_target &rt : targets ) {
+        if( rt.kind == reload_target::kind::integral_magazine ) {
+            saw_integral = true;
+        }
+        if( rt.kind == reload_target::kind::well ) {
+            saw_well = true;
+        }
+    }
+    CHECK( saw_integral );
+    CHECK( saw_well );
+
+    // Loose slug must be accepted by *some* reload_target.
+    item slug( itype_9mm, calendar::turn, 1 );
+    item_location slug_loc( dummy, &slug );
+    const reload_target *match = find_matching_reload_target( targets, slug_loc );
+    REQUIRE( match != nullptr );
+    CHECK( match->kind == reload_target::kind::integral_magazine );
+}
+
+// Targeted reload into an integral MAGAZINE pocket must deposit ammo there
+// without disturbing loaded sibling magazines.
+TEST_CASE( "multimag_item_reload_into_integral_magazine_pocket", "[multimag][reload]" )
+{
+    clear_avatar();
+    avatar &dummy = get_avatar();
+
+    item gun( itype_test_multimag_gun_integral_ammo );
+    item battery( itype_heavy_battery_cell );
+    battery.ammo_set( itype_battery, 80 );
+    REQUIRE( gun.put_in( battery, pocket_type::MAGAZINE_WELL ).success() );
+
+    item_location held_loc = dummy.i_add( gun );
+    item_location slug_loc = dummy.i_add( item( itype_9mm, calendar::turn, 1 ) );
+    REQUIRE( held_loc );
+    REQUIRE( slug_loc );
+    item &held_gun = *held_loc;
+
+    int slug_pocket_index = -1;
+    int idx = 0;
+    for( const item_pocket *p : held_gun.get_pockets( []( const item_pocket & ) {
+    return true;
+} ) ) {
+        if( p->is_type( pocket_type::MAGAZINE ) ) {
+            slug_pocket_index = idx;
+            break;
+        }
+        ++idx;
+    }
+    REQUIRE( slug_pocket_index >= 0 );
+
+    const bool reloaded = held_gun.reload( dummy, slug_loc, 1, slug_pocket_index );
+    CHECK( reloaded );
+
+    // Slug pocket loaded.
+    int slug_count = 0;
+    int battery_count = 0;
+    for( const item_pocket *p : held_gun.get_pockets( []( const item_pocket & ) {
+    return true;
+} ) ) {
+        if( p->is_type( pocket_type::MAGAZINE ) ) {
+            for( const item *e : p->all_items_top() ) {
+                slug_count += e->charges > 0 ? e->charges : 1;
+            }
+        } else if( p->is_type( pocket_type::MAGAZINE_WELL ) ) {
+            const item *m = p->magazine_current();
+            if( m ) {
+                battery_count = m->ammo_remaining();
+            }
+        }
+    }
+    CHECK( slug_count == 1 );
+    // Battery pocket undisturbed.
+    CHECK( battery_count == 80 );
 }

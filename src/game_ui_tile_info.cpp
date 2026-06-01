@@ -332,6 +332,13 @@ void game::print_fields_info( const tripoint_bub_ms &lp, const catacurses::windo
     map &here = get_map();
 
     const field &tmpfield = here.field_at( lp );
+    int size = std::distance( tmpfield.begin(), tmpfield.end() );
+    if( size == 0 ) {
+        return;
+    }
+
+    // Header.
+    mvwprintz( w_look, point( column, ++line ), c_light_blue, _( "-----FIELDS-----" ) );
     for( const auto &fld : tmpfield ) {
         const field_entry &cur = fld.second;
         if( fld.first.obj().has_fire && ( here.has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER, lp ) ||
@@ -345,10 +352,8 @@ void game::print_fields_info( const tripoint_bub_ms &lp, const catacurses::windo
         }
     }
 
-    int size = std::distance( tmpfield.begin(), tmpfield.end() );
-    if( size > 0 ) {
-        mvwprintz( w_look, point( column, ++line ), c_white, "\n" );
-    }
+    // Padding for whatever comes afterwards. Not sure why it needs to be in this function!
+    mvwprintz( w_look, point( column, ++line ), c_white, "\n" );
 }
 
 void game::print_trap_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
@@ -358,12 +363,19 @@ void game::print_trap_info( const tripoint_bub_ms &lp, const catacurses::window 
     map &here = get_map();
 
     const trap &tr = here.tr_at( lp );
-    if( tr.can_see( lp, u ) ) {
-        std::string tr_name = tr.name();
-        mvwprintz( w_look, point( column, ++line ), tr.color, tr_name );
+    if( tr.is_null() ) {
+        return; // Nothing here!
     }
 
-    ++line;
+    if( tr.can_see( lp, u ) ) {
+        // Header. Only printed if we actually know there's a trap there. ;)
+        mvwprintz( w_look, point( column, ++line ), c_light_blue, _( "-----TRAP-----" ) );
+
+        mvwprintz( w_look, point( column, ++line ), tr.color, tr.name() );
+
+        // Padding for whatever comes afterwards. Not sure why it needs to be in this function!
+        ++line;
+    }
 }
 
 void game::print_part_con_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
@@ -402,9 +414,12 @@ void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurse
 {
     if( veh ) {
         // Print the name of the vehicle.
-        mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Vehicle: " ) );
-        mvwprintz( w_look, point( column + utf8_width( _( "Vehicle: " ) ), line ), c_white, "%s",
-                   veh->name );
+        if( veh->is_appliance() ) {
+            mvwprintz( w_look, point( column, ++line ), c_light_blue, _( "-----APPLIANCE-----" ) );
+        } else {
+            mvwprintz( w_look, point( column, ++line ), c_light_blue, _( "-----VEHICLE-----" ) );
+        }
+        mvwprintz( w_look, point( column, ++line ), c_white, "%s", veh->name );
         // Then the list of parts on that tile.
         line = veh->print_part_list( w_look, ++line, last_line, getmaxx( w_look ), veh_part );
     }
@@ -438,6 +453,7 @@ void game::print_items_info( const tripoint_bub_ms &lp, const catacurses::window
         return;
     } else {
         std::map<std::string, std::pair<int, nc_color>> item_names;
+        // This should probably use a map_entity_stack!
         for( const item &it : here.i_at( lp ) ) {
             add_visible_items_recursive( item_names, it );
         }

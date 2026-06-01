@@ -69,6 +69,7 @@ struct availability {
 enum class craft_confirm_result {
     ok,
     cannot_craft,
+    too_many_results,
     too_dark
 };
 
@@ -77,7 +78,8 @@ enum class craft_confirm_result {
 craft_confirm_result can_start_craft(
     const recipe &rec,
     const availability &avail,
-    const Character &crafter );
+    const Character &crafter,
+    int batch_size = 1 );
 
 // Recipe sort comparator for the crafting menu recipe list.
 // Comparison order:

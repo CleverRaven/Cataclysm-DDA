@@ -11,6 +11,7 @@
 #include "character.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "enums.h"
 #include "flexbuffer_json.h"
 #include "inventory.h"
 #include "item.h"
@@ -447,7 +448,8 @@ TEST_CASE( "item_location_on_vehicle_base_item", "[item][item_location][item_uid
 
     // Place a simple vehicle
     tripoint_bub_ms veh_pos( 60, 60, 0 );
-    vehicle *veh = m.add_vehicle( vehicle_prototype_bicycle, veh_pos, 0_degrees, -1, 100 );
+    vehicle *veh = m.add_vehicle( vehicle_prototype_bicycle, veh_pos, 0_degrees, -1,
+                                  veh_spawn_status::PRISTINE );
     REQUIRE( veh != nullptr );
 
     // Get a vehicle part and create item_location for its base item
@@ -485,7 +487,8 @@ TEST_CASE( "item_location_on_vehicle_cargo_survives_removal",
     // Place a vehicle with cargo -- use a car which has trunk/cargo
     // Status 0 = fully intact (no random damage that could break the cargo part)
     tripoint_bub_ms veh_pos( 60, 60, 0 );
-    vehicle *veh = m.add_vehicle( vehicle_prototype_car, veh_pos, 0_degrees, 0, 0 );
+    vehicle *veh = m.add_vehicle( vehicle_prototype_car, veh_pos, 0_degrees, 0,
+                                  veh_spawn_status::UNDAMAGED );
     REQUIRE( veh != nullptr );
 
     // Find the largest cargo part (trunk)
@@ -566,7 +569,8 @@ TEST_CASE( "expired_vehicle_cargo_item_location_serializes_as_nowhere",
     clear_vehicles();
 
     tripoint_bub_ms veh_pos( 60, 60, 0 );
-    vehicle *veh = m.add_vehicle( vehicle_prototype_car, veh_pos, 0_degrees, 0, 0 );
+    vehicle *veh = m.add_vehicle( vehicle_prototype_car, veh_pos, 0_degrees, 0,
+                                  veh_spawn_status::UNDAMAGED );
     REQUIRE( veh != nullptr );
 
     // Find the largest cargo part

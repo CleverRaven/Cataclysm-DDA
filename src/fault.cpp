@@ -163,6 +163,11 @@ std::string fault::message() const
     return message_.translated();
 }
 
+std::string fault::color() const
+{
+    return color_;
+}
+
 double fault::price_mod() const
 {
     return price_modifier;
@@ -246,6 +251,7 @@ void fault::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "item_prefix", item_prefix_ );
     optional( jo, was_loaded, "item_suffix", item_suffix_ );
     optional( jo, was_loaded, "message", message_ );
+    optional( jo, was_loaded, "color", color_, "bad" );
     optional( jo, was_loaded, "fault_type", type_ );
     optional( jo, was_loaded, "flags", flags );
     optional( jo, was_loaded, "block_faults", block_faults );
@@ -345,7 +351,7 @@ void fault_fix::finalize()
     for( const fault_id &fid : faults_removed ) {
         const_cast<fault &>( *fid ).fixes.emplace( id );
     }
-    requirements->finalize();
+    requirement_data::finalize();
 }
 
 void fault_fix::check() const

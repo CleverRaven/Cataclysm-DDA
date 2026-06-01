@@ -84,9 +84,7 @@
 
 std::unique_ptr<cataimgui::client> imclient;
 
-#if defined(__linux__)
-#   include <cstdlib> // getenv()/setenv()
-#endif
+#include <cstdlib> // getenv()/setenv()
 
 #if defined(_WIN32)
 #   if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
@@ -304,6 +302,34 @@ void refresh_mouse_config()
     }
 }
 
+#if SDL_MAJOR_VERSION >= 3 && defined(_WIN32)
+// True if data/shaders contains .spv but no .dxil. Used to bias the SDL3 GPU
+// device toward Vulkan when a local Windows build skipped SDL_shadercross
+// install (which would have produced DXIL for the D3D12 backend) but
+// glslangValidator still produced SPIR-V.
+static bool only_spirv_shader_artifacts_present()
+{
+    namespace fs = std::filesystem;
+    const fs::path shaders_dir = fs::path( PATH_INFO::datadir() ) / "shaders";
+    std::error_code ec;
+    if( !fs::is_directory( shaders_dir, ec ) ) {
+        return false;
+    }
+    bool any_spv = false;
+    for( const fs::directory_entry &entry :
+         fs::directory_iterator( shaders_dir, ec ) ) {
+        const std::string ext = entry.path().extension().string();
+        if( ext == ".dxil" ) {
+            return false;
+        }
+        if( ext == ".spv" ) {
+            any_spv = true;
+        }
+    }
+    return any_spv;
+}
+#endif
+
 //Registers, creates, and shows the Window!!
 static void WinCreate()
 {
@@ -395,6 +421,16 @@ static void WinCreate()
     throwErrorIf( pixel_format == SDL_PIXELFORMAT_UNKNOWN, "SDL_GetWindowPixelFormat failed" );
 
 #if !defined(__ANDROID__)
+#if defined(USE_SDL3)
+    // Under SDL3 the GPU renderer is the only one that supports
+    // SDL_SetGPURenderState. Drive selection through SDL_HINT_RENDER_DRIVER
+    // (comma-list with platform-appropriate fallbacks) rather than the
+    // saved RENDERER option, which predates SDL3 and may name a renderer
+    // that no longer exists. Power users can still override at the SDL
+    // layer via SDL_RENDER_DRIVER environment variable (env > SDL_SetHint).
+    bool software_renderer = false;
+    std::string renderer_name;
+#else
     bool software_renderer = get_option<std::string>( "RENDERER" ).empty();
     std::string renderer_name;
     if( software_renderer ) {
@@ -406,6 +442,7 @@ static void WinCreate()
     if( renderer_name == "direct3d" ) {
         direct3d_mode = true;
     }
+#endif
 #else
     bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" );
     std::string renderer_name = software_renderer ? "software" : "";
@@ -414,6 +451,24 @@ static void WinCreate()
 #if SDL_MAJOR_VERSION < 3
     // SDL3: batching is always on.
     SDL_SetHint( SDL_HINT_RENDER_BATCHING, get_option<bool>( "RENDER_BATCHING" ) ? "1" : "0" );
+#else
+#  if defined(_WIN32)
+    SDL_SetHint( SDL_HINT_RENDER_DRIVER, "gpu,direct3d12,direct3d11,opengl" );
+    // Bias the SDL3 GPU device toward Vulkan when the install only has
+    // SPIR-V artifacts (e.g. a local dev build that skipped SDL_shadercross
+    // install and so never produced DXIL). Vulkan consumes SPIR-V; D3D12
+    // would not load these. SDL falls through to D3D12 via the comma-list
+    // above if Vulkan is unavailable, leaving the atlas fallback intact.
+    if( !std::getenv( "SDL_GPU_DRIVER" )
+        && !SDL_GetHint( SDL_HINT_GPU_DRIVER )
+        && only_spirv_shader_artifacts_present() ) {
+        SDL_SetHint( SDL_HINT_GPU_DRIVER, "vulkan" );
+        dbg( D_INFO ) << "Only SPIR-V shader artifacts present; biasing SDL3 "
+                      "GPU device toward Vulkan.";
+    }
+#  else
+    SDL_SetHint( SDL_HINT_RENDER_DRIVER, "gpu,opengl" );
+#  endif
 #endif
     if( !software_renderer ) {
         dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
@@ -432,14 +487,34 @@ static void WinCreate()
     }
 
     if( software_renderer ) {
+#if !defined(USE_SDL3)
+        // FRAMEBUFFER_ACCEL is hidden under SDL3 (the option is the SDL2
+        // software-renderer toggle); don't consume the stored value there.
         if( get_option<bool>( "FRAMEBUFFER_ACCEL" ) ) {
             SDL_SetHint( SDL_HINT_FRAMEBUFFER_ACCELERATION, "1" );
         }
+#endif
         renderer = CreateRenderer( ::window, nullptr, true, false );
         throwErrorIf( !renderer, "Failed to initialize software renderer" );
         throwErrorIf( !SetupRenderTarget(),
                       "Failed to initialize display buffer under software rendering, unable to continue." );
     }
+
+#if SDL_MAJOR_VERSION >= 3
+    {
+        // Reset before runtime detection so renderer recreation cannot
+        // leave stale direct3d_mode set from a prior renderer choice.
+        direct3d_mode = false;
+        const SDL_PropertiesID props = SDL_GetRendererProperties( renderer.get() );
+        const char *actual_name = props != 0
+                                  ? SDL_GetStringProperty( props, SDL_PROP_RENDERER_NAME_STRING, "" )
+                                  : "";
+        dbg( D_INFO ) << "SDL renderer in use: " << ( actual_name ? actual_name : "unknown" );
+        if( actual_name && std::string( actual_name ).find( "direct3d" ) != std::string::npos ) {
+            direct3d_mode = true;
+        }
+    }
+#endif
 
     SetWindowMinimumSize( ::window.get(), fontwidth * EVEN_MINIMUM_TERM_WIDTH * scaling_factor,
                           fontheight * EVEN_MINIMUM_TERM_HEIGHT * scaling_factor );
@@ -1979,6 +2054,42 @@ uint32_t finger_repeat_delay = 500;
 // should we make sure the sdl surface is visible? set to true whenever the SDL window is shown.
 static bool needs_sdl_surface_visibility_refresh = true;
 
+// SDL_FingerID is an opaque per-touch ID, not a 0-based index, so map raw
+// IDs to local slots 0/1/2 here.
+static constexpr int CATA_MAX_FINGERS = 3;
+static constexpr SDL_FingerID INVALID_FINGER_ID = -1;
+static SDL_FingerID finger_id_slots[CATA_MAX_FINGERS] = {
+    INVALID_FINGER_ID, INVALID_FINGER_ID, INVALID_FINGER_ID
+};
+
+static int finger_slot_for( SDL_FingerID id, bool create_if_missing )
+{
+    for( int i = 0; i < CATA_MAX_FINGERS; ++i ) {
+        if( finger_id_slots[i] == id ) {
+            return i;
+        }
+    }
+    if( create_if_missing ) {
+        for( int i = 0; i < CATA_MAX_FINGERS; ++i ) {
+            if( finger_id_slots[i] == INVALID_FINGER_ID ) {
+                finger_id_slots[i] = id;
+                return i;
+            }
+        }
+    }
+    return -1;
+}
+
+static void finger_slot_clear( SDL_FingerID id )
+{
+    for( int i = 0; i < CATA_MAX_FINGERS; ++i ) {
+        if( finger_id_slots[i] == id ) {
+            finger_id_slots[i] = INVALID_FINGER_ID;
+            return;
+        }
+    }
+}
+
 // Quick shortcuts container: maps the touch input context category (std::string) to a std::list of input_events.
 using quick_shortcuts_t = std::list<input_event>;
 std::map<std::string, quick_shortcuts_t> quick_shortcuts_map;
@@ -2000,8 +2111,8 @@ std::string get_quick_shortcut_name( const std::string &category )
 
 float android_get_display_density()
 {
-    JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-    jobject activity = ( jobject )SDL_AndroidGetActivity();
+    JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
+    jobject activity = ( jobject )GetAndroidActivity();
     jclass clazz( env->GetObjectClass( activity ) );
     jmethodID method_id = env->GetMethodID( clazz, "getDisplayDensity", "()F" );
     jfloat ans = env->CallFloatMethod( activity, method_id );
@@ -2758,8 +2869,8 @@ void handle_finger_input( uint32_t ticks )
 
 bool android_is_hardware_keyboard_available()
 {
-    JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-    jobject activity = ( jobject )SDL_AndroidGetActivity();
+    JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
+    jobject activity = ( jobject )GetAndroidActivity();
     jclass clazz( env->GetObjectClass( activity ) );
     jmethodID method_id = env->GetMethodID( clazz, "isHardwareKeyboardAvailable", "()Z" );
     jboolean ans = env->CallBooleanMethod( activity, method_id );
@@ -2772,8 +2883,8 @@ void android_vibrate()
 {
     int vibration_ms = get_option<int>( "ANDROID_VIBRATION" );
     if( vibration_ms > 0 && !android_is_hardware_keyboard_available() ) {
-        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-        jobject activity = ( jobject )SDL_AndroidGetActivity();
+        JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
+        jobject activity = ( jobject )GetAndroidActivity();
         jclass clazz( env->GetObjectClass( activity ) );
         jmethodID method_id = env->GetMethodID( clazz, "vibrate", "(I)V" );
         env->CallVoidMethod( activity, method_id, vibration_ms );
@@ -2849,8 +2960,8 @@ static void CheckMessages()
         needs_sdl_surface_visibility_refresh = false;
 
         // Call Java show_sdl_surface()
-        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-        jobject activity = ( jobject )SDL_AndroidGetActivity();
+        JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
+        jobject activity = ( jobject )GetAndroidActivity();
         jclass clazz( env->GetObjectClass( activity ) );
         jmethodID method_id = env->GetMethodID( clazz, "show_sdl_surface", "()V" );
         env->CallVoidMethod( activity, method_id );
@@ -3073,8 +3184,8 @@ static void CheckMessages()
 
                 // Display an Android toast message
                 {
-                    JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-                    jobject activity = ( jobject )SDL_AndroidGetActivity();
+                    JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
+                    jobject activity = ( jobject )GetAndroidActivity();
                     jclass clazz( env->GetObjectClass( activity ) );
                     jstring toast_message = env->NewStringUTF( quick_shortcuts_enabled ? "Shortcuts visible" :
                                             "Shortcuts hidden" );
@@ -3105,6 +3216,7 @@ static void CheckMessages()
                         is_three_finger_touch = false;
                         finger_down_time = 0;
                         finger_repeat_time = 0;
+                        finger_slot_clear( GetFingerID( ev ) );
                         // let the next call decide if needupdate should be true
                         break;
                     }
@@ -3400,17 +3512,25 @@ static void CheckMessages()
                     }
                     if( get_option<std::string>( "HIDE_CURSOR" ) == "show" ||
                         get_option<std::string>( "HIDE_CURSOR" ) == "hidekb" ) {
+                        // Cursor visibility must run even when ImGui owns
+                        // the mouse, otherwise hidekb keeps the cursor
+                        // hidden over ImGui windows after keyboard use.
                         if( !IsCursorVisible() ) {
                             ShowCursor();
                         }
-
-                        // Only monitor motion when cursor is visible
-                        last_input = input_event( MouseInput::Move, input_event_t::mouse );
+                        // Only feed game's mouseover/highlight pipeline when
+                        // ImGui isn't already consuming the event.
+                        if( !cataimgui::client::want_capture_mouse() ) {
+                            last_input = input_event( MouseInput::Move, input_event_t::mouse );
+                        }
                     }
                     break;
 
                 case CATA_MOUSEBUTTONDOWN:
                     if( ! mouse.enabled ) {
+                        break;
+                    }
+                    if( cataimgui::client::want_capture_mouse() ) {
                         break;
                     }
                     switch( ev.button.button ) {
@@ -3433,6 +3553,9 @@ static void CheckMessages()
                     if( ! mouse.enabled ) {
                         break;
                     }
+                    if( cataimgui::client::want_capture_mouse() ) {
+                        break;
+                    }
                     switch( ev.button.button ) {
                         case SDL_BUTTON_LEFT:
                             last_input = input_event( MouseInput::LeftButtonReleased, input_event_t::mouse );
@@ -3453,6 +3576,9 @@ static void CheckMessages()
                     if( ! mouse.enabled ) {
                         break;
                     }
+                    if( cataimgui::client::want_capture_mouse() ) {
+                        break;
+                    }
                     if( ev.wheel.y > 0 ) {
                         last_input = input_event( MouseInput::ScrollWheelUp, input_event_t::mouse );
                     } else if( ev.wheel.y < 0 ) {
@@ -3461,8 +3587,9 @@ static void CheckMessages()
                     break;
 
 #if defined(__ANDROID__)
-                case CATA_FINGERMOTION:
-                    if( GetFingerID( ev ) == 0 ) {
+                case CATA_FINGERMOTION: {
+                    const int slot = finger_slot_for( GetFingerID( ev ), false );
+                    if( slot == 0 ) {
                         if( !is_quick_shortcut_touch ) {
                             update_finger_repeat_delay();
                         }
@@ -3486,16 +3613,17 @@ static void CheckMessages()
                             }
                         }
 
-                    } else if( GetFingerID( ev ) == 1 ) {
+                    } else if( slot == 1 ) {
                         second_finger_curr_x = GetFingerX( ev, WindowWidth );
                         second_finger_curr_y = GetFingerY( ev, WindowHeight );
-                    } else if( GetFingerID( ev ) == 2 ) {
+                    } else if( slot == 2 ) {
                         third_finger_curr_x = GetFingerX( ev, WindowWidth );
                         third_finger_curr_y = GetFingerY( ev, WindowHeight );
                     }
                     break;
+                }
                 case CATA_FINGERDOWN:
-                    if( GetFingerID( ev ) == 0 ) {
+                    if( finger_slot_for( GetFingerID( ev ), true ) == 0 ) {
                         finger_down_x = finger_curr_x = GetFingerX( ev, WindowWidth );
                         finger_down_y = finger_curr_y = GetFingerY( ev, WindowHeight );
                         finger_down_time = ticks;
@@ -3506,13 +3634,13 @@ static void CheckMessages()
                         }
                         ui_manager::redraw_invalidated();
                         needupdate = true; // ensure virtual joystick and quick shortcuts redraw as we interact
-                    } else if( GetFingerID( ev ) == 1 ) {
+                    } else if( finger_slot_for( GetFingerID( ev ), true ) == 1 ) {
                         if( !is_quick_shortcut_touch ) {
                             second_finger_down_x = second_finger_curr_x = GetFingerX( ev, WindowWidth );
                             second_finger_down_y = second_finger_curr_y = GetFingerY( ev, WindowHeight );
                             is_two_finger_touch = true;
                         }
-                    } else if( GetFingerID( ev ) == 2 ) {
+                    } else if( finger_slot_for( GetFingerID( ev ), true ) == 2 ) {
                         if( !is_quick_shortcut_touch ) {
                             third_finger_down_x = third_finger_curr_x = GetFingerX( ev, WindowWidth );
                             third_finger_down_y = third_finger_curr_y = GetFingerY( ev, WindowHeight );
@@ -3521,8 +3649,9 @@ static void CheckMessages()
                         }
                     }
                     break;
-                case CATA_FINGERUP:
-                    if( GetFingerID( ev ) == 0 ) {
+                case CATA_FINGERUP: {
+                    const int slot = finger_slot_for( GetFingerID( ev ), false );
+                    if( slot == 0 ) {
                         finger_curr_x = GetFingerX( ev, WindowWidth );
                         finger_curr_y = GetFingerY( ev, WindowHeight );
                         if( is_quick_shortcut_touch ) {
@@ -3637,8 +3766,8 @@ static void CheckMessages()
 
                                         // Display an Android toast message
                                         {
-                                            JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-                                            jobject activity = ( jobject )SDL_AndroidGetActivity();
+                                            JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
+                                            jobject activity = ( jobject )GetAndroidActivity();
                                             jclass clazz( env->GetObjectClass( activity ) );
                                             jstring toast_message = env->NewStringUTF( quick_shortcuts_enabled ? "Shortcuts visible" :
                                                                     "Shortcuts hidden" );
@@ -3691,14 +3820,14 @@ static void CheckMessages()
                         needupdate = true; // ensure virtual joystick and quick shortcuts are updated properly
                         ui_manager::redraw_invalidated();
                         refresh_display(); // as above, but actually redraw it now as well
-                    } else if( GetFingerID( ev ) == 1 ) {
+                    } else if( slot == 1 ) {
                         if( is_two_finger_touch ) {
                             // on second finger release, just remember the x/y position so we can calculate delta once first finger is done
                             // is_two_finger_touch will be reset when first finger lifts (see above)
                             second_finger_curr_x = GetFingerX( ev, WindowWidth );
                             second_finger_curr_y = GetFingerY( ev, WindowHeight );
                         }
-                    } else if( GetFingerID( ev ) == 2 ) {
+                    } else if( slot == 2 ) {
                         if( is_three_finger_touch ) {
                             // on third finger release, just remember the x/y position so we can calculate delta once first finger is done
                             // is_three_finger_touch will be reset when first finger lifts (see above)
@@ -3706,8 +3835,10 @@ static void CheckMessages()
                             third_finger_curr_y = GetFingerY( ev, WindowHeight );
                         }
                     }
+                    finger_slot_clear( GetFingerID( ev ) );
 
                     break;
+                }
 #endif
 
                 case CATA_QUIT:

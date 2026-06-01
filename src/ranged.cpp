@@ -212,6 +212,8 @@ static int RAS_time( const Character &p, const item_location &loc );
 static void cycle_action( item &weap, const itype_id &ammo, map *here, const tripoint_bub_ms &pos );
 static void make_gun_sound_effect( const Character &p, bool burst, item *weapon );
 
+namespace
+{
 class target_ui
 {
     public:
@@ -472,6 +474,7 @@ class target_ui
         // `harmful` is `false` if using a non-damaging spell
         void on_target_accepted( bool harmful ) const;
 };
+} // namespace
 
 target_handler::trajectory target_handler::mode_select_only( avatar &you, int range )
 {
@@ -845,7 +848,8 @@ bool Character::handle_gun_damage( item &it )
         // Default chance is 1/10000 unless set via json, damage is proportional to caliber(see below).
         // Can be toned down with 'consume_divisor.'
 
-    } else if( it.has_flag( flag_CONSUMABLE ) && !curammo_effects.count( ammo_effect_LASER ) &&
+    } else if( it.has_flag( flag_CONSUMABLE ) && it.ammo_data() != nullptr &&
+               !curammo_effects.count( ammo_effect_LASER ) &&
                !curammo_effects.count( ammo_effect_PLASMA ) && !curammo_effects.count( ammo_effect_EMP ) ) {
         int uncork = ( ( 10 * it.ammo_data()->ammo->loudness )
                        + ( it.ammo_data()->ammo->recoil / 2 ) ) / 100;
@@ -1062,11 +1066,19 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
     if( one_in( 50 ) ) {
         add_msg_if_player_sees( *source, m_info, _( "%s shoots something." ), source->disp_name() );
     }
+    map &here = get_map();
     while( curshot != shots ) {
-        const int required = gun.ammo_required();
-        if( gun.ammo_consume( required, pos_bub(), this ) != required ) {
-            debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
-            break;
+        if( gun.uses_firing_requirements() ) {
+            if( gun.consume_one_shot( here, pos_bub( here ), this ) != 1 ) {
+                debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
+                break;
+            }
+        } else {
+            const int required = gun.ammo_required();
+            if( gun.ammo_consume( required, pos_bub(), this ) != required ) {
+                debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
+                break;
+            }
         }
 
         item *weapon = &gun;
@@ -1119,6 +1131,11 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
         const int ammo_left = ammo ? ammo.get_item()->count() : gun.ammo_remaining( );
         shots = std::min( shots, ammo_left / gun.ammo_required() );
     }
+    // Multimag vehicle turrets: also cap by per-pocket feasibility so the
+    // firing loop never overruns a vehicle-loaded battery pocket mid-burst.
+    if( gun.has_flag( flag_VEHICLE ) && gun.uses_firing_requirements() ) {
+        shots = std::min( shots, gun.shots_remaining( here, nullptr ) );
+    }
 
     if( shots <= 0 ) {
         debugmsg( "Attempted to fire zero or negative shots using %s", gun.tname() );
@@ -1158,6 +1175,11 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
     int curshot = 0;
     int hits = 0; // total shots on target
     int delay = 0; // delayed recoil that has yet to be applied
+    // Snapshot the gun slot. The wielded item can stop being a gun
+    // mid-loop (recoil-induced unwield, fire transforms), and the
+    // post-shot hurt_part / skill-practice blocks still need to read
+    // it for the shots that already fired.
+    const islot_gun *const original_gun = gun.is_gun() ? gun.type->gun.get() : nullptr;
     while( curshot != shots ) {
         // Special handling for weapons where we supply the ammo separately (i.e. ammo is populated)
         // instead of it being loaded into the weapon, reload right before firing.
@@ -1274,14 +1296,11 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
         }
 
         if( gun.uses_firing_requirements() ) {
-            // Turret install is filtered out at mountable_gun_filter; this
-            // catches debug-spawn or save-state pairings that bypass it.
-            if( gun.has_flag( flag_VEHICLE ) ) {
-                debugmsg( "TODO(multimag): turret + firing_requirements not "
-                          "supported, B2 reconciliation pending (%s)", gun.tname() );
-                break;
-            }
-            if( gun.consume_one_shot( here, pos_bub( here ), this ) != 1 ) {
+            // Vehicle turret passes nullptr carrier so multimag_drain skips
+            // player UPS/bionic. Vehicle is billed via drain_back_multimag
+            // in turret_data::post_fire.
+            Character *drain_carrier = gun.has_flag( flag_VEHICLE ) ? nullptr : this;
+            if( gun.consume_one_shot( here, pos_bub( here ), drain_carrier ) != 1 ) {
                 debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname() );
                 break;
             }
@@ -1314,18 +1333,23 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
     // Use different amounts of time depending on the type of gun and our skill
     mod_moves( -attack_moves );
 
-    const islot_gun &firing = *gun.type->gun;
-    for( const std::pair<const bodypart_str_id, int> &hurt_part : firing.hurt_part_when_fired ) {
-        apply_damage( nullptr, bodypart_id( hurt_part.first ), hurt_part.second );
-        add_msg_player_or_npc( _( "Your %s is hurt by the recoil!" ),
-                               _( "<npcname>'s %s is hurt by the recoil!" ),
-                               body_part_name_accusative( bodypart_id( hurt_part.first ) ) );
+    const islot_gun *firing = original_gun;
+    if( !firing && gun.is_gun() ) {
+        firing = gun.type->gun.get();
+    }
+    if( firing != nullptr ) {
+        for( const std::pair<const bodypart_str_id, int> &hurt_part : firing->hurt_part_when_fired ) {
+            apply_damage( nullptr, bodypart_id( hurt_part.first ), hurt_part.second );
+            add_msg_player_or_npc( _( "Your %s is hurt by the recoil!" ),
+                                   _( "<npcname>'s %s is hurt by the recoil!" ),
+                                   body_part_name_accusative( bodypart_id( hurt_part.first ) ) );
+        }
     }
 
     // Preventing using a trapped creature as an infinite training dummy.
-    if( times_shot_target < 100 ) {
+    if( times_shot_target < 100 && curshot > 0 ) {
         // Practice the base gun skill proportionally to number of hits, but always by one.
-        if( !gun.has_flag( flag_WONT_TRAIN_MARKSMANSHIP ) ) {
+        if( firing != nullptr && !gun.has_flag( flag_WONT_TRAIN_MARKSMANSHIP ) ) {
             practice( skill_gun, ( hits + 1 ) * 5 );
         }
         // launchers train weapon skill for both hits and misses.
@@ -1851,12 +1875,15 @@ static void do_aim( Character &you, const item &relevant, const Target_attribute
     }
 }
 
+namespace
+{
 struct confidence_rating {
     double aim_level;
     char symbol;
     std::string color;
     std::string label;
 };
+} // namespace
 
 static int print_steadiness( const catacurses::window &w, int line_number, double steadiness )
 {
@@ -1943,6 +1970,8 @@ Target_attributes::Target_attributes( int rng, double target_size, float light_t
 * struct used to hold the information on entire aim_type prediction;
 * all the properties and odds for every 'confidence' outcome
 */
+namespace
+{
 struct aim_type_prediction {
     struct aim_confidence {
         std::string label;
@@ -1968,6 +1997,7 @@ struct recoil_prediction {
     double recoil;
     int moves;
 };
+} // namespace
 
 /*
 * This method tries to estimate the amount of moves required to reach
@@ -2452,7 +2482,8 @@ int RAS_time( const Character &p, const item_location &loc )
         const item_location gun = p.get_wielded_item();
         int sta_percent = ( 100 * p.get_stamina() ) / p.get_stamina_max();
         time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
-        item::reload_option opt = item::reload_option( &p, gun, loc );
+        item::reload_option opt = item::reload_option( &p, gun, loc,
+                                  item::reload_option::POCKET_FALLBACK );
         time += opt.moves();
     }
     return time;
@@ -4326,7 +4357,33 @@ void target_ui::panel_gun_info( int &text_y )
     nc_color clr = c_light_gray;
     print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
 
-    if( status == Status::OutOfAmmo ) {
+    if( mode == TargetMode::TurretManual && turret &&
+        relevant->uses_firing_requirements() ) {
+        // Show panel even when not ready, so player sees which pocket is short.
+        if( status == Status::OutOfAmmo ) {
+            mvwprintz( w_target, point( 1, text_y++ ), c_red, _( "OUT OF AMMO" ) );
+        }
+        const std::vector<multimag_display_pocket> dps = turret->multimag_display_state();
+        for( const multimag_display_pocket &dp : dps ) {
+            const itype *ad = dp.ammo_itype.is_null() ? nullptr : item::find_type( dp.ammo_itype );
+            const std::string ammo_name = ad ? ad->nname( std::max( dp.effective_qty, 1 ) ) :
+                                          dp.pocket_id;
+            const nc_color ammo_clr = ad ? ad->color : c_light_gray;
+            const bool short_of_one_use = dp.effective_qty < dp.per_use_qty;
+            nc_color row_clr = short_of_one_use ? c_red : clr;
+            std::string ammo_str;
+            if( dp.vehicle_bound ) {
+                ammo_str = string_format( _( "%s: %s (vehicle %d, need %d)" ),
+                                          dp.pocket_id, colorize( ammo_name, ammo_clr ),
+                                          dp.effective_qty, dp.per_use_qty );
+            } else {
+                ammo_str = string_format( _( "%s: %s (%d, need %d)" ),
+                                          dp.pocket_id, colorize( ammo_name, ammo_clr ),
+                                          dp.effective_qty, dp.per_use_qty );
+            }
+            print_colored_text( w_target, point( 1, text_y++ ), row_clr, row_clr, ammo_str );
+        }
+    } else if( status == Status::OutOfAmmo ) {
         mvwprintz( w_target, point( 1, text_y++ ), c_red, _( "OUT OF AMMO" ) );
     } else if( ammo ) {
         bool is_favorite = relevant->is_ammo_container() && relevant->first_ammo().is_favorite;

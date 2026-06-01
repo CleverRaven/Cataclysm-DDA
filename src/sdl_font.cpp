@@ -403,17 +403,17 @@ BitmapFont::BitmapFont(
     }
     Uint32 key = MapRGB( asciiload, 0xFF, 0, 0xFF );
     SetColorKey( asciiload, 1, key );
-    std::array<SDL_Surface_Ptr, std::tuple_size<decltype( ascii )>::value> ascii_surf;
+    std::array<SDL_Surface_Ptr, std::tuple_size_v<decltype( ascii )>> ascii_surf;
     ascii_surf[0] = ConvertSurfaceFormat( asciiload, pixel_format );
     SetSurfaceRLE( ascii_surf[0], 1 );
     asciiload.reset();
 
-    for( size_t a = 1; a < std::tuple_size<decltype( ascii )>::value; ++a ) {
+    for( size_t a = 1; a < std::tuple_size_v<decltype( ascii )>; ++a ) {
         ascii_surf[a] = ConvertSurfaceFormat( ascii_surf[0], pixel_format );
         SetSurfaceRLE( ascii_surf[a], 1 );
     }
 
-    for( size_t a = 0; a < std::tuple_size<decltype( ascii )>::value - 1; ++a ) {
+    for( size_t a = 0; a < std::tuple_size_v<decltype( ascii )> - 1; ++a ) {
         throwErrorIf( LockSurface( ascii_surf[a] ) != 0, "SDL_LockSurface failed" );
         int size = ascii_surf[a]->h * ascii_surf[a]->w;
         Uint32 *pixels = static_cast<Uint32 *>( ascii_surf[a]->pixels );
@@ -428,7 +428,7 @@ BitmapFont::BitmapFont(
     tilewidth = ascii_surf[0]->w / width;
 
     //convert ascii_surf to SDL_Texture
-    for( size_t a = 0; a < std::tuple_size<decltype( ascii )>::value; ++a ) {
+    for( size_t a = 0; a < std::tuple_size_v<decltype( ascii )>; ++a ) {
         ascii[a] = CreateTextureFromSurface( renderer, ascii_surf[a] );
     }
 }

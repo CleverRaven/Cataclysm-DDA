@@ -4,6 +4,7 @@
 
 #include <optional>
 #include <string>
+#include <string_view>
 
 #include "calendar.h"
 #include "catacharset.h"
@@ -193,7 +194,7 @@ float incident_moonlight( const weather_type_id &wtype,
 float incident_sun_irradiance( const weather_type_id &wtype,
                                const time_point &t = calendar::turn );
 
-void weather_sound( const translation &sound_message, const std::string &sound_effect );
+void weather_sound( const translation &sound_message, std::string_view sound_effect );
 
 struct omt_snow_state {
     double depth_mm = 0;
@@ -204,6 +205,8 @@ class weather_manager
 {
     public:
         weather_manager();
+        // sets weather_override
+        void on_game_start();
         const weather_generator &get_cur_weather_gen() const;
         // Updates the temperature and weather patten
         void update_weather();

@@ -50,8 +50,7 @@ jobs:
 
     - run: sudo apt-get install astyle
 
-    - run: make astyle-fast
-    - run: make style-all-json-parallel
+    - run: make -k astyle-fast style-all-json-parallel; git diff --quiet
 
     - name: Create pr comment artifacts
       if: ${{ failure() }}

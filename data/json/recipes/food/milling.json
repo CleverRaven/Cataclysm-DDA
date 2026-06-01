@@ -577,7 +577,7 @@
     "autolearn": false,
     "flags": [ "SECRET" ],
     "tools": [  ],
-    "components": [ [ [ "bone_edible", 1, "LIST" ] ] ]
+    "components": [ [ [ "bone_edible", 1, "LIST" ], [ "skull_humanlike", 1, "LIST" ], [ "skull_medium", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -592,7 +592,7 @@
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "rock_quern", -1 ] ] ],
-    "components": [ [ [ "bone_edible", 1, "LIST" ] ] ],
+    "components": [ [ [ "bone_edible", 1, "LIST" ], [ "skull_humanlike", 1, "LIST" ], [ "skull_medium", 1, "LIST" ] ] ],
     "charges": 4
   },
   {
@@ -608,7 +608,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "food_processor", 20 ] ] ],
-    "components": [ [ [ "bone_edible", 1, "LIST" ] ] ],
+    "components": [ [ [ "bone_edible", 1, "LIST" ], [ "skull_humanlike", 1, "LIST" ], [ "skull_medium", 1, "LIST" ] ] ],
     "charges": 4
   },
   {
@@ -626,7 +626,7 @@
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
     "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
-    "components": [ [ [ "bone_edible", 1, "LIST" ] ] ],
+    "components": [ [ [ "bone_edible", 1, "LIST" ], [ "skull_humanlike", 1, "LIST" ], [ "skull_medium", 1, "LIST" ] ] ],
     "charges": 4
   },
   {
@@ -663,7 +663,7 @@
     "autolearn": false,
     "flags": [ "SECRET" ],
     "tools": [  ],
-    "components": [ [ [ "skull_small", 2, "LIST" ] ] ]
+    "components": [ [ [ "skull_tiny", 2, "LIST" ] ] ]
   },
   {
     "//": "For use by mills, so the only entries used are the charges and components.",
@@ -681,7 +681,7 @@
     "autolearn": false,
     "flags": [ "SECRET" ],
     "tools": [  ],
-    "components": [ [ [ "skull_medium", 1, "LIST" ] ] ]
+    "components": [ [ [ "skull_small", 1, "LIST" ] ] ]
   },
   {
     "//": "For use by mills, so the only entries used are the charges and components.",
@@ -699,7 +699,7 @@
     "autolearn": false,
     "flags": [ "SECRET" ],
     "tools": [  ],
-    "components": [ [ [ "bone_tainted", 1 ] ] ]
+    "components": [ [ [ "bone_tainted", 1 ], [ "skull_human_tainted", 1 ] ] ]
   },
   {
     "//": "For use by mills, so the only entries used are the charges and components.",
@@ -732,7 +732,7 @@
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "rock_quern", -1 ] ] ],
-    "components": [ [ [ "bone_tainted", 1 ], [ "skewer_bone", 25 ] ] ],
+    "components": [ [ [ "bone_tainted", 1 ], [ "skewer_bone", 25 ], [ "skull_human_tainted", 1 ] ] ],
     "charges": 4
   },
   {
@@ -748,7 +748,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "food_processor", 20 ] ] ],
-    "components": [ [ [ "bone_tainted", 1 ], [ "skewer_bone", 25 ] ] ],
+    "components": [ [ [ "bone_tainted", 1 ], [ "skewer_bone", 25 ], [ "skull_human_tainted", 1 ] ] ],
     "charges": 4
   },
   {
@@ -766,7 +766,7 @@
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
     "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
-    "components": [ [ [ "bone_tainted", 1 ], [ "skewer_bone", 25 ] ] ],
+    "components": [ [ [ "bone_tainted", 1 ], [ "skewer_bone", 25 ], [ "skull_human_tainted", 1 ] ] ],
     "charges": 4
   },
   {

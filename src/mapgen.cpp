@@ -411,6 +411,8 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
     set_abs_sub( p_sm_base );
 }
 
+namespace
+{
 class spawn_data_ammo_reader : public generic_typed_reader<spawn_data_ammo_reader>
 {
     public:
@@ -436,6 +438,7 @@ class spawn_data_patrol_reader : public generic_typed_reader<spawn_data_patrol_r
             return point_rel_ms( ptx.get(), pty.get() );
         }
 };
+} // namespace
 
 void spawn_data::deserialize( const JsonObject &jo )
 {
@@ -475,6 +478,8 @@ void mapgen_function_builtin::generate( mapgendata &mgd )
 ///// mapgen_function class.
 ///// all sorts of ways to apply our hellish reality to a grid-o-squares
 
+namespace
+{
 class mapgen_basic_container
 {
     private:
@@ -662,6 +667,7 @@ class mapgen_factory
                                                    string_format( "map special %s", key ) );
         }
 };
+} // namespace
 
 static mapgen_factory oter_mapgen;
 
@@ -1888,6 +1894,8 @@ ret_val<void> jmapgen_piece_with_has_vehicle_collision::has_vehicle_collision(
 }
 
 
+namespace
+{
 /**
  * This is a generic mapgen piece, the template parameter PieceType should be another specific
  * type of jmapgen_piece. This class contains a vector of those objects and will chose one of
@@ -2542,6 +2550,7 @@ class jmapgen_monster_group : public jmapgen_piece
             id.check( oter_name, parameters );
         }
 };
+} // namespace
 /**
  * Place spawn points for a specific monster.
  * "monster": id of the monster. or "group": id of the monster group.
@@ -2689,6 +2698,8 @@ class jmapgen_monster : public jmapgen_piece
         }
 };
 
+namespace
+{
 /**
  * Place a vehicle.
  * "vehicle": id of the vehicle.
@@ -2712,6 +2723,7 @@ class jmapgen_vehicle : public jmapgen_piece_with_has_vehicle_collision
             //, rotation( jsi.get_int( "rotation", 0 ) ) // unless there is a way for the json parser to
             // return a single int as a list, we have to manually check this in the constructor below
             , fuel( jsi.get_int( "fuel", -1 ) )
+            // Default -1 status is veh_spawn_status::DEFAULT_LIGHT_DMG
             , status( jsi.get_int( "status", -1 ) ) {
             if( jsi.has_array( "rotation" ) ) {
                 for( const JsonValue elt : jsi.get_array( "rotation" ) ) {
@@ -2736,7 +2748,7 @@ class jmapgen_vehicle : public jmapgen_piece_with_has_vehicle_collision
             }
             tripoint_bub_ms const dst( x.get(), y.get(), dat.zlevel() + z.get() );
             vehicle *veh = dat.m.add_vehicle( chosen_id->pick(), dst, random_entry( rotation ),
-                                              fuel, status );
+                                              fuel, static_cast<veh_spawn_status>( status ) );
             if( veh && !faction.empty() ) {
                 veh->set_owner( faction_id( faction ) );
             }
@@ -3954,6 +3966,7 @@ class jmapgen_nested : public jmapgen_piece
             return ret_val<void>::make_success();
         }
 };
+} // namespace
 
 jmapgen_objects::jmapgen_objects( const tripoint_rel_ms &offset, const point_rel_ms &mapsize,
                                   const point_rel_ms &tot_size )
@@ -4030,8 +4043,9 @@ void jmapgen_objects::load_objects( const JsonObject &jsi, const std::string &me
 }
 
 template<typename PieceType>
-void load_place_mapings( const JsonObject &jobj, mapgen_palette::placing_map::mapped_type &vect,
-                         const std::string &context )
+static void load_place_mapings( const JsonObject &jobj,
+                                mapgen_palette::placing_map::mapped_type &vect,
+                                const std::string &context )
 {
     vect.push_back( make_shared_fast<PieceType>( jobj, context ) );
 }
@@ -4045,8 +4059,9 @@ an overload below.
 The mapgen piece is loaded from the member of the json object named key.
 */
 template<typename PieceType>
-void load_place_mapings( const JsonValue &value, mapgen_palette::placing_map::mapped_type &vect,
-                         const std::string &context )
+static void load_place_mapings( const JsonValue &value,
+                                mapgen_palette::placing_map::mapped_type &vect,
+                                const std::string &context )
 {
     if( value.test_object() ) {
         load_place_mapings<PieceType>( value.get_object(), vect, context );
@@ -4061,7 +4076,7 @@ void load_place_mapings( const JsonValue &value, mapgen_palette::placing_map::ma
 This function allows loading the mapgen pieces from a single string, *or* a json object.
 */
 template<typename PieceType>
-void load_place_mapings_string(
+static void load_place_mapings_string(
     const JsonValue &value, mapgen_palette::placing_map::mapped_type &vect,
     const std::string &context )
 {
@@ -4093,7 +4108,7 @@ instance of jmapgen_alternatively which will chose the mapgen piece to apply to 
 Use this with terrain or traps or other things that can not be applied twice to the same place.
 */
 template<typename PieceType>
-void load_place_mapings_alternatively(
+static void load_place_mapings_alternatively(
     const JsonValue &value, mapgen_palette::placing_map::mapped_type &vect,
     const std::string &context )
 {
@@ -4586,6 +4601,8 @@ void update_mapgen_function_json::finalize_parameters()
     finalize_parameters_common();
 }
 
+namespace
+{
 struct phase_comparator {
     mapgen_phase get_phase( mapgen_phase p ) const {
         return p;
@@ -4605,6 +4622,7 @@ struct phase_comparator {
         return get_phase( l ) < get_phase( r );
     }
 };
+} // namespace
 
 static const phase_comparator compare_phases{};
 
@@ -6256,7 +6274,7 @@ static ret_val<void> apply_mapgen_in_phases(
     }
     cata_assert( setmap_point == setmap_points.end() );
 
-    resolve_regional_terrain_and_furniture( md );
+    resolve_regional_terrain_and_furniture( md, offset.z() );
 
     return ret_val<void>::make_success();
 }
@@ -6837,7 +6855,7 @@ void map::add_spawn(
 
 vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p,
                            const units::angle &dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks,
+                           const int veh_fuel, veh_spawn_status init_veh_status, const bool merge_wrecks,
                            const bool force_status/* = false*/ )
 {
     if( !type.is_valid() ) {
@@ -6857,7 +6875,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p,
     std::tie( quotient, remainder ) = coords::project_remain<coords::sm>( p_ms );
     veh->sm_pos = abs_sub.xy() + rebase_rel( quotient );
     veh->pos = remainder;
-    veh->init_state( *this, veh_fuel, veh_status, force_status );
+    veh->init_state( *this, veh_fuel, init_veh_status, force_status );
     veh->place_spawn_items( *this );
     veh->face.init( dir );
     veh->turn_dir = dir;
@@ -7606,6 +7624,8 @@ ret_val<void> update_mapgen_function_json::update_map(
     return u;
 }
 
+namespace
+{
 class rotation_guard
 {
     public:
@@ -7629,6 +7649,7 @@ class rotation_guard
         const mapgendata &md;
         const int rotation;
 };
+} // namespace
 
 ret_val<void> update_mapgen_function_json::update_map( const mapgendata &md,
         const tripoint_rel_ms &offset,

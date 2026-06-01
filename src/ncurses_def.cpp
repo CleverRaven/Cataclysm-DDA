@@ -72,7 +72,7 @@ int get_window_height()
 catacurses::window catacurses::newwin( const int nlines, const int ncols, const point &begin )
 {
     // TODO: check for errors
-    const auto w = ::newwin( nlines, ncols, begin.y, begin.x );
+    ::WINDOW *const w = ::newwin( nlines, ncols, begin.y, begin.x );
     return catacurses::window( std::shared_ptr<void>( w, []( void *const w ) {
         ::curses_check_result( ::delwin( static_cast<::WINDOW *>( w ) ), OK, "delwin" );
     } ) );
@@ -83,7 +83,7 @@ void catacurses::wnoutrefresh( const window &win )
     if( !win ) {
         return;
     }
-    return curses_check_result( ::wnoutrefresh( win.get<::WINDOW>() ), OK, "wnoutrefresh" );
+    curses_check_result( ::wnoutrefresh( win.get<::WINDOW>() ), OK, "wnoutrefresh" );
 }
 
 void catacurses::wrefresh( const window &win )
@@ -91,7 +91,7 @@ void catacurses::wrefresh( const window &win )
     if( !win ) {
         return;
     }
-    return curses_check_result( ::wrefresh( win.get<::WINDOW>() ), OK, "wrefresh" );
+    curses_check_result( ::wrefresh( win.get<::WINDOW>() ), OK, "wrefresh" );
 }
 
 void catacurses::werase( const window &win )
@@ -99,7 +99,7 @@ void catacurses::werase( const window &win )
     if( !win ) {
         return;
     }
-    return curses_check_result( ::werase( win.get<::WINDOW>() ), OK, "werase" );
+    curses_check_result( ::werase( win.get<::WINDOW>() ), OK, "werase" );
 }
 
 int catacurses::getmaxx( const window &win )
@@ -155,7 +155,7 @@ void catacurses::wattroff( const window &win, const nc_color attrs )
     if( !win ) {
         return;
     }
-    return curses_check_result( ::wattroff( win.get<::WINDOW>(), attrs.to_int() ), OK, "wattroff" );
+    curses_check_result( ::wattroff( win.get<::WINDOW>(), attrs.to_int() ), OK, "wattroff" );
 }
 
 void catacurses::wattron( const window &win, const nc_color &attrs )
@@ -163,7 +163,7 @@ void catacurses::wattron( const window &win, const nc_color &attrs )
     if( !win ) {
         return;
     }
-    return curses_check_result( ::wattron( win.get<::WINDOW>(), attrs.to_int() ), OK, "wattron" );
+    curses_check_result( ::wattron( win.get<::WINDOW>(), attrs.to_int() ), OK, "wattron" );
 }
 
 void catacurses::wmove( const window &win, const point &p )
@@ -171,7 +171,7 @@ void catacurses::wmove( const window &win, const point &p )
     if( !win ) {
         return;
     }
-    return curses_check_result( ::wmove( win.get<::WINDOW>(), p.y, p.x ), OK, "wmove" );
+    curses_check_result( ::wmove( win.get<::WINDOW>(), p.y, p.x ), OK, "wmove" );
 }
 
 void catacurses::mvwprintw( const window &win, const point &p, const std::string &text )
@@ -179,8 +179,8 @@ void catacurses::mvwprintw( const window &win, const point &p, const std::string
     if( !win ) {
         return;
     }
-    return curses_check_result( ::mvwprintw( win.get<::WINDOW>(), p.y, p.x, "%s", text.c_str() ),
-                                OK, "mvwprintw" );
+    curses_check_result( ::mvwprintw( win.get<::WINDOW>(), p.y, p.x, "%s", text.c_str() ),
+                         OK, "mvwprintw" );
 }
 
 void catacurses::wprintw( const window &win, const std::string &text )
@@ -188,13 +188,13 @@ void catacurses::wprintw( const window &win, const std::string &text )
     if( !win ) {
         return;
     }
-    return curses_check_result( ::wprintw( win.get<::WINDOW>(), "%s", text.c_str() ),
-                                OK, "wprintw" );
+    curses_check_result( ::wprintw( win.get<::WINDOW>(), "%s", text.c_str() ),
+                         OK, "wprintw" );
 }
 
 void catacurses::refresh()
 {
-    return curses_check_result( ::refresh(), OK, "refresh" );
+    curses_check_result( ::refresh(), OK, "refresh" );
 }
 
 void refresh_display()
@@ -211,23 +211,23 @@ void refresh_mouse_config()
 
 void catacurses::doupdate()
 {
-    return curses_check_result( ::doupdate(), OK, "doupdate" );
+    curses_check_result( ::doupdate(), OK, "doupdate" );
 }
 
 void catacurses::clear()
 {
-    return curses_check_result( ::clear(), OK, "clear" );
+    curses_check_result( ::clear(), OK, "clear" );
 }
 
 void catacurses::erase()
 {
-    return curses_check_result( ::erase(), OK, "erase" );
+    curses_check_result( ::erase(), OK, "erase" );
 }
 
 void catacurses::endwin()
 {
     ui_manager::reset();
-    return curses_check_result( ::endwin(), OK, "endwin" );
+    curses_check_result( ::endwin(), OK, "endwin" );
 }
 
 void catacurses::wborder( const window &win, const chtype ls, const chtype rs, const chtype ts,
@@ -236,8 +236,8 @@ void catacurses::wborder( const window &win, const chtype ls, const chtype rs, c
     if( !win ) {
         return;
     }
-    return curses_check_result( ::wborder( win.get<::WINDOW>(), ls, rs, ts, bs, tl, tr, bl, br ), OK,
-                                "wborder" );
+    curses_check_result( ::wborder( win.get<::WINDOW>(), ls, rs, ts, bs, tl, tr, bl, br ), OK,
+                         "wborder" );
 }
 
 void catacurses::mvwhline( const window &win, const point &p, const chtype ch, const int n )
@@ -245,8 +245,8 @@ void catacurses::mvwhline( const window &win, const point &p, const chtype ch, c
     if( !win ) {
         return;
     }
-    return curses_check_result( ::mvwhline( win.get<::WINDOW>(), p.y, p.x, ch, n ), OK,
-                                "mvwhline" );
+    curses_check_result( ::mvwhline( win.get<::WINDOW>(), p.y, p.x, ch, n ), OK,
+                         "mvwhline" );
 }
 
 void catacurses::mvwvline( const window &win, const point &p, const chtype ch, const int n )
@@ -254,8 +254,8 @@ void catacurses::mvwvline( const window &win, const point &p, const chtype ch, c
     if( !win ) {
         return;
     }
-    return curses_check_result( ::mvwvline( win.get<::WINDOW>(), p.y, p.x, ch, n ), OK,
-                                "mvwvline" );
+    curses_check_result( ::mvwvline( win.get<::WINDOW>(), p.y, p.x, ch, n ), OK,
+                         "mvwvline" );
 }
 
 void catacurses::mvwaddch( const window &win, const point &p, const chtype ch )
@@ -263,7 +263,7 @@ void catacurses::mvwaddch( const window &win, const point &p, const chtype ch )
     if( !win ) {
         return;
     }
-    return curses_check_result( ::mvwaddch( win.get<::WINDOW>(), p.y, p.x, ch ), OK, "mvwaddch" );
+    curses_check_result( ::mvwaddch( win.get<::WINDOW>(), p.y, p.x, ch ), OK, "mvwaddch" );
 }
 
 void catacurses::waddch( const window &win, const chtype ch )
@@ -271,7 +271,7 @@ void catacurses::waddch( const window &win, const chtype ch )
     if( !win ) {
         return;
     }
-    return curses_check_result( ::waddch( win.get<::WINDOW>(), ch ), OK, "waddch" );
+    curses_check_result( ::waddch( win.get<::WINDOW>(), ch ), OK, "waddch" );
 }
 
 void catacurses::wredrawln( const window &win, const int beg_line, const int num_lines )
@@ -279,8 +279,8 @@ void catacurses::wredrawln( const window &win, const int beg_line, const int num
     if( !win ) {
         return;
     }
-    return curses_check_result( ::wredrawln( win.get<::WINDOW>(), beg_line, num_lines ), OK,
-                                "wredrawln" );
+    curses_check_result( ::wredrawln( win.get<::WINDOW>(), beg_line, num_lines ), OK,
+                         "wredrawln" );
 }
 
 void catacurses::wclear( const window &win )
@@ -288,12 +288,12 @@ void catacurses::wclear( const window &win )
     if( !win ) {
         return;
     }
-    return curses_check_result( ::wclear( win.get<::WINDOW>() ), OK, "wclear" );
+    curses_check_result( ::wclear( win.get<::WINDOW>() ), OK, "wclear" );
 }
 
 void catacurses::curs_set( const int visibility )
 {
-    return curses_check_result( ::curs_set( visibility ), OK, "curs_set" );
+    curses_check_result( ::curs_set( visibility ), OK, "curs_set" );
 }
 
 // As long as these assertions hold, we can just case base_color into short and
@@ -320,8 +320,8 @@ void catacurses::init_pair( const short pair, const base_color f, const base_col
     if( imclient ) {
         imclient->upload_color_pair( pair, static_cast<int>( f ), static_cast<int>( b ) );
     }
-    return curses_check_result( ::init_pair( pair, static_cast<short>( f ), static_cast<short>( b ) ),
-                                OK, "init_pair" );
+    curses_check_result( ::init_pair( pair, static_cast<short>( f ), static_cast<short>( b ) ),
+                         OK, "init_pair" );
 }
 
 catacurses::window catacurses::stdscr;
@@ -332,9 +332,8 @@ catacurses::window catacurses::newscr;
 void catacurses::resizeterm()
 {
 #if !defined(USE_PDCURSES)
-    const int new_x = ::getmaxx( stdscr.get<::WINDOW>() );
-    const int new_y = ::getmaxy( stdscr.get<::WINDOW>() );
-    if( ::is_term_resized( new_x, new_y ) )
+    const point new_size( ::getmaxx( stdscr.get<::WINDOW>() ), ::getmaxy( stdscr.get<::WINDOW>() ) );
+    if( ::is_term_resized( new_size.x, new_size.y ) )
 #endif
     {
         game_ui::init_ui();
@@ -570,8 +569,8 @@ bool nc_color::is_blink() const
     return attribute_value & A_BLINK;
 }
 
-void ensure_term_size(); // NOLINT(cata-static-declarations)
-void check_encoding(); // NOLINT(cata-static-declarations)
+void ensure_term_size(); // NOLINT(cata-static-declarations,misc-use-internal-linkage)
+void check_encoding(); // NOLINT(cata-static-declarations,misc-use-internal-linkage)
 
 void ensure_term_size()
 {
@@ -621,8 +620,8 @@ void check_encoding()
         int key = ERR;
         do {
             const char *unicode_error_msg =
-                _( "You don't seem to have a valid Unicode locale. You may see some weird "
-                   "characters (e.g. empty boxes or question marks). You have been warned." );
+                _( "You don't seem to have a valid Unicode locale.  You may see some weird "
+                   "characters (e.g. empty boxes or question marks).  You have been warned." );
             catacurses::erase();
             const int maxx = getmaxx( catacurses::stdscr );
             fold_and_print( catacurses::stdscr, point::zero, maxx, c_white, unicode_error_msg );
@@ -633,6 +632,7 @@ void check_encoding()
     }
 }
 
+// NOLINTNEXTLINE(cata-use-string_view): signature mirrors sdltiles/wincurse impls
 void set_title( const std::string & )
 {
     // curses does not seem to have a portable way of setting the window title.

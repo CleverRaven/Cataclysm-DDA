@@ -2984,6 +2984,9 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     // because it's a border as well; so we have lines 6 through 11.
     // w is also 53 characters wide - 2 characters for border = 51 characters for us
 
+    // Header.
+    mvwprintz( w, point( column, line++ ), c_light_blue, _( "-----CHARACTER-----" ) );
+
     // Print health bar and NPC name on the first line.
     std::pair<std::string, nc_color> bar = get_hp_bar( hp_percentage(), 100 );
     mvwprintz( w, point( column, line ), bar.second, bar.first );

@@ -64,11 +64,14 @@ static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 
 template <typename T> struct enum_traits;
 
+namespace
+{
 enum class medical_tab_mode {
     TAB_LIMBS,
     TAB_SUMMARY,
     last
 };
+} // namespace
 
 template<>
 struct enum_traits<medical_tab_mode> {
@@ -76,6 +79,8 @@ struct enum_traits<medical_tab_mode> {
     static constexpr medical_tab_mode first = medical_tab_mode::TAB_LIMBS;
 };
 
+namespace
+{
 class medical_ui : public cataimgui::window
 {
     public:
@@ -124,6 +129,7 @@ class medical_ui : public cataimgui::window
             return ImGui::GetWindowSize().x / 2;
         }
 };
+} // namespace
 
 bool Character::disp_medical()
 {
@@ -696,12 +702,15 @@ void medical_ui::draw_controls()
     }
 }
 
+namespace
+{
 struct healing_option {
     wound_type_id wd;
     wound_fix_id fix;
     bool doable;
     time_duration time_to_apply;
 };
+} // namespace
 
 bool Character::pick_wound_fix( const bodypart_id &bp_id )
 {

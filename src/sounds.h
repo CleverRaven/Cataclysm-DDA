@@ -4,6 +4,7 @@
 
 #include <optional>
 #include <string> // IWYU pragma: keep
+#include <string_view>
 #include <utility>
 #include <vector>
 
@@ -136,39 +137,40 @@ enum class channel : int {
 
 //Group Assignments:
 enum class group : int {
-    weather = 1,    //SFX related to weather
+    none = 0,       //unassigned slot
+    weather,        //SFX related to weather
     time_of_day,    //SFX related to time of day
     context_themes, //SFX related to context themes
-    low_stamina         //SFX related to low_stamina
+    low_stamina    //SFX related to low_stamina
 };
 
 void load_sound_effects( const JsonObject &jsobj );
 void load_sound_effect_preload( const JsonObject &jsobj );
 void load_playlist( const JsonObject &jsobj );
-void play_variant_sound( const std::string &id, const std::string &variant, int volume,
+void play_variant_sound( std::string_view id, std::string_view variant, int volume,
                          units::angle angle, double pitch_min = -1.0, double pitch_max = -1.0 );
-void play_variant_sound( const std::string &id, const std::string &variant,
-                         const std::string &season, const std::optional<bool> &is_indoors,
+void play_variant_sound( std::string_view id, std::string_view variant,
+                         std::string_view season, const std::optional<bool> &is_indoors,
                          const std::optional<bool> &is_night, int volume, units::angle angle,
                          double pitch_min = -1.0, double pitch_max = -1.0 );
-void play_variant_sound( const std::string &id, const std::string &variant, int volume );
-void play_variant_sound( const std::string &id, const std::string &variant,
-                         const std::string &season, const std::optional<bool> &is_indoors,
+void play_variant_sound( std::string_view id, std::string_view variant, int volume );
+void play_variant_sound( std::string_view id, std::string_view variant,
+                         std::string_view season, const std::optional<bool> &is_indoors,
                          const std::optional<bool> &is_night, int volume );
-void play_ambient_variant_sound( const std::string &id, const std::string &variant, int volume,
+void play_ambient_variant_sound( std::string_view id, std::string_view variant, int volume,
                                  channel channel, int fade_in_duration, double pitch = -1.0, int loops = -1 );
-void play_ambient_variant_sound( const std::string &id, const std::string &variant,
-                                 const std::string &season, const std::optional<bool> &is_indoors,
+void play_ambient_variant_sound( std::string_view id, std::string_view variant,
+                                 std::string_view season, const std::optional<bool> &is_indoors,
                                  const std::optional<bool> &is_night, int volume,
                                  channel channel, int fade_in_duration, double pitch = -1.0, int loops = -1 );
-void play_activity_sound( const std::string &id, const std::string &variant, int volume );
-void play_activity_sound( const std::string &id, const std::string &variant,
-                          const std::string &season, int volume );
+void play_activity_sound( std::string_view id, std::string_view variant, int volume );
+void play_activity_sound( std::string_view id, std::string_view variant,
+                          std::string_view season, int volume );
 void end_activity_sounds();
 void generate_gun_sound( const Character &source_arg, const item &firing );
 void generate_melee_sound( const item &weapon, const tripoint_bub_ms &source,
                            const tripoint_bub_ms &target, bool hit,
-                           bool targ_mon = false, const std::string &material = "flesh" );
+                           bool targ_mon = false, std::string_view material = "flesh" );
 void do_hearing_loss( int turns = -1 );
 void remove_hearing_loss();
 void do_projectile_hit( const Creature &target );
@@ -182,13 +184,13 @@ void do_vehicle_exterior_engine_sfx();
 void fade_audio_group( group group, int duration );
 void fade_audio_channel( channel channel, int duration );
 bool is_channel_playing( channel channel );
-bool has_variant_sound( const std::string &id, const std::string &variant );
-bool has_variant_sound( const std::string &id, const std::string &variant,
-                        const std::string &season, const std::optional<bool> &is_indoors,
+bool has_variant_sound( std::string_view id, std::string_view variant );
+bool has_variant_sound( std::string_view id, std::string_view variant,
+                        std::string_view season, const std::optional<bool> &is_indoors,
                         const std::optional<bool> &is_night );
-bool has_exact_variant_sound( const std::string &id, const std::string &variant );
-bool has_exact_variant_sound( const std::string &id, const std::string &variant,
-                              const std::string &season, const std::optional<bool> &is_indoors,
+bool has_exact_variant_sound( std::string_view id, std::string_view variant );
+bool has_exact_variant_sound( std::string_view id, std::string_view variant,
+                              std::string_view season, const std::optional<bool> &is_indoors,
                               const std::optional<bool> &is_night );
 void stop_sound_effect_fade( channel channel, int duration );
 void stop_sound_effect_timed( channel channel, int time );
@@ -196,7 +198,7 @@ int set_channel_volume( channel channel, int volume );
 void do_player_death_hurt( const Character &target, bool death );
 void do_low_stamina_sfx();
 // @param obst should be string id of obstacle terrain or vehicle part
-void do_obstacle( const std::string &obst = "" );
+void do_obstacle( std::string_view obst = "" );
 } // namespace sfx
 
 #endif // CATA_SRC_SOUNDS_H

@@ -371,6 +371,8 @@ std::vector<uilist_entry> veh_menu::get_uilist_entries() const
     return entries;
 }
 
+namespace
+{
 class veh_menu_cb : public uilist_callback
 {
     public:
@@ -420,6 +422,7 @@ class veh_menu_cb : public uilist_callback
             }
         }
 };
+} // namespace
 
 bool veh_menu::query()
 {

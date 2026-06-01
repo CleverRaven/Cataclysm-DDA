@@ -24,7 +24,9 @@ void wound_type::load( const JsonObject &jo, const std::string_view & )
     mandatory( jo, was_loaded, "damage_types", damage_types );
     mandatory( jo, was_loaded, "damage_required", damage_required );
     optional( jo, was_loaded, "weight", weight, 1 );
+    optional( jo, was_loaded, "limit", limit, 0 );
 
+    optional( jo, was_loaded, "wound_progression", wound_progression );
     optional( jo, was_loaded, "whitelist_bp_with_flag", whitelist_bp_with_flag );
     optional( jo, was_loaded, "whitelist_body_part_types", whitelist_body_part_types );
     optional( jo, was_loaded, "blacklist_bp_with_flag", blacklist_bp_with_flag );
@@ -188,7 +190,13 @@ void wound_fix::finalize()
     for( const wound_type_id &fid : wounds_removed ) {
         const_cast<wound_type &>( *fid ).fixes.emplace( id );
     }
-    requirements->finalize();
+    requirement_data::finalize();
+}
+
+void wound_progress::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "id", id );
+    optional( jo, false, "chance", chance, numeric_bound_reader<int> {0, 100} );
 }
 
 void wound_proficiency::deserialize( const JsonObject &jo )
@@ -283,6 +291,11 @@ int wound_type::evaluate_pain() const
 time_duration wound_type::evaluate_healing_time() const
 {
     return rng( healing_time_.first, healing_time_.second );
+}
+
+int wound_type::get_limit() const
+{
+    return limit;
 }
 
 std::string wound_type::get_name() const

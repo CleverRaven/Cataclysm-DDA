@@ -55,6 +55,7 @@
 #include "construction.h"
 #include "coordinates.h"
 #include "craft_command.h"
+#include "crafting_enums.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
@@ -888,17 +889,17 @@ void Character::load( const JsonObject &data )
         cached_mutations.emplace( add.first, add.second );
         on_mutation_gain( add.first );
     }
-    // We need to ensure that cached_mutations contains no invalid mutations before we do this
-    // As every time we add a mutation, we rebuild the enchantment cache, causing errors if
-    // we have invalid mutations.
-    recalculate_enchantment_cache();
-    recalculate_size();
 
     data.read( "my_bionics", *my_bionics );
     my_bionics->erase( std::remove_if( my_bionics->begin(), my_bionics->end(),
     []( const bionic & it ) {
         return it.id.is_null(); // remove obsoleted bionics
     } ), my_bionics->end() );
+    // We need to ensure that cached_mutations contains no invalid mutations before we do this
+    // As every time we add a mutation, we rebuild the enchantment cache, causing errors if
+    // we have invalid mutations.
+    recalculate_enchantment_cache();
+    recalculate_size();
 
     data.read( "known_monsters", known_monsters );
 
@@ -2461,11 +2462,14 @@ void inventory::json_save_items( JsonOut &json ) const
 
 void inventory::json_load_items( const JsonArray &ja )
 {
+    std::vector<item> batch;
+    batch.reserve( ja.size() );
     for( JsonObject jo : ja ) {
         item tmp;
         tmp.deserialize( jo );
-        add_item( tmp, true, false );
+        batch.emplace_back( std::move( tmp ) );
     }
+    add_items_bulk( std::move( batch ), true, false );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2800,6 +2804,30 @@ void time_duration::deserialize( const JsonValue &jsin )
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// item.h
 
+static const char *step_choice_to_string( step_choice c )
+{
+    switch( c ) {
+        case step_choice::do_wait:
+            return "do_wait";
+        case step_choice::do_something:
+            return "do_something";
+        case step_choice::set_timer:
+            return "set_timer";
+    }
+    return "do_wait";
+}
+
+static step_choice step_choice_from_string( const std::string &s )
+{
+    if( s == "do_something" ) {
+        return step_choice::do_something;
+    }
+    if( s == "set_timer" ) {
+        return step_choice::set_timer;
+    }
+    return step_choice::do_wait;
+}
+
 void item::craft_data::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
@@ -2809,10 +2837,148 @@ void item::craft_data::serialize( JsonOut &jsout ) const
     jsout.member( "next_failure_point", next_failure_point );
     jsout.member( "tools_to_continue", tools_to_continue );
     jsout.member( "batch_size", batch_size );
-    jsout.member( "cached_tool_selections", cached_tool_selections );
+    jsout.member( "step_tool_allocs", step_tool_allocs );
     jsout.member( "current_step", current_step );
     jsout.member( "step_progress", step_progress );
+    if( !step_plans.empty() ) {
+        jsout.member( "step_plans" );
+        jsout.start_array();
+        for( const attention_plan &p : step_plans ) {
+            jsout.start_object();
+            jsout.member( "choice", step_choice_to_string( p.choice ) );
+            if( p.alarm_offset.has_value() ) {
+                jsout.member( "alarm_offset", *p.alarm_offset );
+            }
+            jsout.end_object();
+        }
+        jsout.end_array();
+    }
+    if( passive_started_at != calendar::before_time_starts ) {
+        jsout.member( "passive_started_at", passive_started_at );
+    }
+    if( ready_at != calendar::before_time_starts ) {
+        jsout.member( "ready_at", ready_at );
+    }
+    if( alarm_at != calendar::before_time_starts ) {
+        jsout.member( "alarm_at", alarm_at );
+    }
+    if( fail_at != calendar::before_time_starts ) {
+        jsout.member( "fail_at", fail_at );
+    }
+    if( pause_started_at != calendar::before_time_starts ) {
+        jsout.member( "pause_started_at", pause_started_at );
+    }
+    if( saved_ready_at != calendar::before_time_starts ) {
+        jsout.member( "saved_ready_at", saved_ready_at );
+    }
+    if( saved_alarm_at != calendar::before_time_starts ) {
+        jsout.member( "saved_alarm_at", saved_alarm_at );
+    }
+    if( saved_fail_at != calendar::before_time_starts ) {
+        jsout.member( "saved_fail_at", saved_fail_at );
+    }
+    if( env_check_at != calendar::before_time_starts ) {
+        jsout.member( "env_check_at", env_check_at );
+    }
+    if( crafter_id.is_valid() ) {
+        jsout.member( "crafter_id", crafter_id );
+    }
+    if( passive_start_counter != 0 ) {
+        jsout.member( "passive_start_counter", passive_start_counter );
+    }
+    if( passive_end_counter != 0 ) {
+        jsout.member( "passive_end_counter", passive_end_counter );
+    }
+    if( awaiting_collection ) {
+        jsout.member( "awaiting_collection", awaiting_collection );
+    }
     jsout.end_object();
+}
+
+static bool tool_in_group( const std::vector<tool_comp> &group,
+                           const step_tool_alloc &a )
+{
+    for( const tool_comp &tc : group ) {
+        if( tc.type == a.sel.comp.type && tc.count == a.sel.comp.count ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// A charged allocation must draw from a real source; a none/cancel source would
+// let consumption mark its buckets without debiting any charge.  Non-charged
+// presence tools (count <= 0) may legitimately be usage_from::none.
+static bool alloc_source_valid( const step_tool_alloc &a )
+{
+    if( a.sel.comp.count <= 0 ) {
+        return true;
+    }
+    return a.sel.use_from == usage_from::player || a.sel.use_from == usage_from::map ||
+           a.sel.use_from == usage_from::both;
+}
+
+// True when saved allocations still line up with the recipe: one step-owned
+// allocation per step tool group, then one root-derived allocation per root
+// group on each timed step, each matching a tool type and count its group still
+// offers.  Also rejects corrupt counters and units that disagree with the
+// selected count, so a recipe edit or stale save forces a rebuild instead of
+// metering off an inconsistent allocation.
+static bool step_tool_allocs_fit_recipe(
+    const recipe &making, int batch, const std::vector<std::vector<step_tool_alloc>> &allocs )
+{
+    if( allocs.size() != making.steps().size() ) {
+        return false;
+    }
+    const int batch_mult = std::max( batch, 1 );
+    const std::vector<std::vector<tool_comp>> &root_groups =
+            making.root_requirements().get_tools();
+    int64_t total_time = 0;
+    for( const recipe_step &step : making.steps() ) {
+        total_time += std::max<int64_t>( step.time, 0 );
+    }
+    // Root shares are crafter-dependent per step but always sum to the tool's
+    // whole-craft total; check that invariant rather than the per-step split.
+    std::vector<int> root_unit_sum( root_groups.size(), 0 );
+    std::vector<int> root_unit_expected( root_groups.size(), -1 );
+    for( size_t s = 0; s < allocs.size(); ++s ) {
+        const recipe_step &step = making.steps()[s];
+        const std::vector<std::vector<tool_comp>> &step_groups =
+                step.requirements.get_tools();
+        const bool step_timed = total_time > 0 && step.time > 0;
+        std::vector<const step_tool_alloc *> owned;
+        std::vector<const step_tool_alloc *> root;
+        for( const step_tool_alloc &a : allocs[s] ) {
+            if( a.consumed_buckets < 0 || a.consumed_buckets > 20 || a.step_count_units < 0 ||
+                !alloc_source_valid( a ) ) {
+                return false;
+            }
+            ( a.root_derived ? root : owned ).push_back( &a );
+        }
+        if( owned.size() != step_groups.size() ||
+            root.size() != ( step_timed ? root_groups.size() : 0u ) ) {
+            return false;
+        }
+        for( size_t i = 0; i < owned.size(); ++i ) {
+            if( !tool_in_group( step_groups[i], *owned[i] ) ||
+                owned[i]->step_count_units != std::max( 0, owned[i]->sel.comp.count ) * batch_mult ) {
+                return false;
+            }
+        }
+        for( size_t j = 0; j < root.size(); ++j ) {
+            if( !tool_in_group( root_groups[j], *root[j] ) ) {
+                return false;
+            }
+            root_unit_sum[j] += root[j]->step_count_units;
+            root_unit_expected[j] = std::max( 0, root[j]->sel.comp.count ) * batch_mult;
+        }
+    }
+    for( size_t j = 0; j < root_groups.size(); ++j ) {
+        if( root_unit_expected[j] >= 0 && root_unit_sum[j] != root_unit_expected[j] ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 void item::craft_data::deserialize( const JsonObject &obj )
@@ -2835,16 +3001,182 @@ void item::craft_data::deserialize( const JsonObject &obj )
     next_failure_point = obj.get_int( "next_failure_point", -1 );
     tools_to_continue = obj.get_bool( "tools_to_continue", false );
     batch_size = obj.get_int( "batch_size", -1 );
-    obj.read( "cached_tool_selections", cached_tool_selections );
+    if( obj.has_member( "step_tool_allocs" ) ) {
+        obj.read( "step_tool_allocs", step_tool_allocs );
+    } else if( making && !making->has_steps() ) {
+        // A stepless save carries a single flat whole-recipe selection list;
+        // migrate it into the one implicit step.  Step recipes instead rebuild
+        // per-step on resume (handled by the shape check below).
+        std::vector<comp_selection<tool_comp>> legacy;
+        obj.read( "cached_tool_selections", legacy );
+        step_tool_allocs.clear();
+        if( !legacy.empty() ) {
+            std::vector<step_tool_alloc> step0;
+            step0.reserve( legacy.size() );
+            for( const comp_selection<tool_comp> &sel : legacy ) {
+                step_tool_alloc alloc;
+                alloc.sel = sel;
+                alloc.step_count_units = std::max( 0, sel.comp.count ) * std::max( batch_size, 1 );
+                step0.push_back( alloc );
+            }
+            step_tool_allocs.push_back( std::move( step0 ) );
+        }
+    }
     current_step = obj.get_int( "current_step", 0 );
     step_progress = obj.get_float( "step_progress", 0.0 );
+    bool allocs_cleared = false;
     // Validate step index against the recipe's actual step count.
     if( making && making->has_steps() ) {
         int max_step = static_cast<int>( making->steps().size() ) - 1;
         current_step = std::clamp( current_step, 0, max_step );
+        // A legacy or recipe-edited save whose allocations no longer fit the
+        // recipe is dropped and rebuilt per-step on resume.
+        if( !step_tool_allocs_fit_recipe( *making, batch_size, step_tool_allocs ) ) {
+            step_tool_allocs.clear();
+            tools_to_continue = false;
+            allocs_cleared = true;
+        }
+    } else if( making ) {
+        current_step = 0;
+        step_progress = 0.0;
+        // A stepless craft carries a single implicit-step allocation; drop it on
+        // a corrupt counter, units that disagree with the selected count, or a
+        // tool shape that no longer covers the recipe's tool groups, so a resume
+        // rebuilds it rather than metering off stale data and skipping a group.
+        bool stepless_ok = step_tool_allocs.size() <= 1;
+        if( stepless_ok ) {
+            const int batch_mult = std::max( batch_size, 1 );
+            const std::vector<std::vector<tool_comp>> &tool_groups =
+                    making->simple_requirements().get_tools();
+            // An empty list means no implicit-step row; treat it as a zero-length
+            // row so the bijection below rejects it when the recipe has tools.
+            const std::vector<step_tool_alloc> empty_row;
+            const std::vector<step_tool_alloc> &step0 =
+                step_tool_allocs.empty() ? empty_row : step_tool_allocs[0];
+            for( const step_tool_alloc &a : step0 ) {
+                if( a.consumed_buckets < 0 || a.consumed_buckets > 20 ||
+                    a.step_count_units != std::max( 0, a.sel.comp.count ) * batch_mult ||
+                    !alloc_source_valid( a ) ) {
+                    stepless_ok = false;
+                    break;
+                }
+            }
+            // Require one allocation per tool group, each matching a distinct
+            // group, so a stale shape cannot leave a group unmetered.
+            if( stepless_ok && step0.size() != tool_groups.size() ) {
+                stepless_ok = false;
+            }
+            if( stepless_ok ) {
+                std::vector<bool> alloc_used( step0.size(), false );
+                for( const std::vector<tool_comp> &grp : tool_groups ) {
+                    bool matched = false;
+                    for( size_t k = 0; k < step0.size(); ++k ) {
+                        if( !alloc_used[k] && tool_in_group( grp, step0[k] ) ) {
+                            alloc_used[k] = true;
+                            matched = true;
+                            break;
+                        }
+                    }
+                    if( !matched ) {
+                        stepless_ok = false;
+                        break;
+                    }
+                }
+            }
+        }
+        if( !stepless_ok ) {
+            step_tool_allocs.clear();
+            tools_to_continue = false;
+            allocs_cleared = true;
+        }
     } else {
         current_step = 0;
         step_progress = 0.0;
+    }
+    step_plans.clear();
+    if( obj.has_array( "step_plans" ) ) {
+        for( JsonObject row : obj.get_array( "step_plans" ) ) {
+            row.allow_omitted_members();
+            attention_plan p;
+            p.choice = step_choice_from_string( row.get_string( "choice", "do_wait" ) );
+            if( row.has_member( "alarm_offset" ) ) {
+                time_duration d;
+                row.read( "alarm_offset", d );
+                p.alarm_offset = d;
+            }
+            step_plans.push_back( p );
+        }
+    }
+    if( obj.has_member( "passive_started_at" ) ) {
+        obj.read( "passive_started_at", passive_started_at );
+    }
+    if( obj.has_member( "ready_at" ) ) {
+        obj.read( "ready_at", ready_at );
+    }
+    if( obj.has_member( "alarm_at" ) ) {
+        obj.read( "alarm_at", alarm_at );
+    }
+    if( obj.has_member( "fail_at" ) ) {
+        obj.read( "fail_at", fail_at );
+    }
+    if( obj.has_member( "pause_started_at" ) ) {
+        obj.read( "pause_started_at", pause_started_at );
+    }
+    if( obj.has_member( "saved_ready_at" ) ) {
+        obj.read( "saved_ready_at", saved_ready_at );
+    }
+    if( obj.has_member( "saved_alarm_at" ) ) {
+        obj.read( "saved_alarm_at", saved_alarm_at );
+    }
+    if( obj.has_member( "saved_fail_at" ) ) {
+        obj.read( "saved_fail_at", saved_fail_at );
+    }
+    if( obj.has_member( "env_check_at" ) ) {
+        obj.read( "env_check_at", env_check_at );
+    }
+    if( obj.has_member( "crafter_id" ) ) {
+        obj.read( "crafter_id", crafter_id );
+    }
+    passive_start_counter = obj.get_int( "passive_start_counter", 0 );
+    passive_end_counter = obj.get_int( "passive_end_counter", 0 );
+    awaiting_collection = obj.get_bool( "awaiting_collection", false );
+    // Recipe-edit migration: drop stale passive runtime on shape mismatch.
+    bool stale = false;
+    if( making && !disassembly ) {
+        // Scrubbed allocs leave nothing to meter; drop the passive runtime too so
+        // an in-flight unattended step freezes for rebuild instead of finishing
+        // unmetered on load.
+        if( allocs_cleared ) {
+            stale = true;
+        }
+        if( !step_plans.empty() && making->has_steps() &&
+            step_plans.size() != making->steps().size() ) {
+            stale = true;
+        }
+        if( !stale && passive_started_at != calendar::before_time_starts ) {
+            const bool no_steps = !making->has_steps();
+            const bool current_step_attended = making->has_steps()
+                                               && current_step >= 0
+                                               && current_step < static_cast<int>( making->steps().size() )
+                                               && making->steps()[current_step].attention != step_attention::unattended;
+            if( no_steps || current_step_attended ) {
+                stale = true;
+            }
+        }
+    }
+    if( stale ) {
+        step_plans.clear();
+        passive_started_at = calendar::before_time_starts;
+        ready_at = calendar::before_time_starts;
+        alarm_at = calendar::before_time_starts;
+        fail_at = calendar::before_time_starts;
+        pause_started_at = calendar::before_time_starts;
+        saved_ready_at = calendar::before_time_starts;
+        saved_alarm_at = calendar::before_time_starts;
+        saved_fail_at = calendar::before_time_starts;
+        env_check_at = calendar::before_time_starts;
+        passive_start_counter = 0;
+        passive_end_counter = 0;
     }
 }
 

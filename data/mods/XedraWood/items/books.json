@@ -1,0 +1,23 @@
+[
+  {
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "id": "magical_grimoire_apprentice",
+    "name": { "str": "apprentice's grimoire", "str_pl": "copies of apprentice's grimoire" },
+    "description": "A compilation of your elementary magical observations.  This would be extremely useful as a reference material.",
+    "weight": "920 g",
+    "volume": "750 ml",
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "light_gray",
+    "qualities": [ [ "MAGICAL_RESEARCH", 1 ] ],
+    "read_skill": "deduction",
+    "required_level": 3,
+    "max_level": 4,
+    "intelligence": 11,
+    "time": "60 m",
+    "read_fun": -2
+  }
+]

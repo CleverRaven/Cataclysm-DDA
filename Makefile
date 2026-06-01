@@ -777,6 +777,22 @@ ifeq ($(SDL3), 1)
   SDL = 1
   TILES = 1
   DEFINES += -DUSE_SDL3
+  # SDL_SetGPURenderState and SDL_GetGPURendererDevice were added in SDL 3.4.0.
+  # macOS FRAMEWORK builds resolve SDL3 via Apple framework lookup rather than
+  # pkg-config, so skip the version check there; non-framework macOS still
+  # uses pkg-config and gets the check.
+  SDL3_DO_VERSION_CHECK := 1
+  ifeq ($(NATIVE),osx)
+    ifdef FRAMEWORK
+      SDL3_DO_VERSION_CHECK :=
+    endif
+  endif
+  ifeq ($(SDL3_DO_VERSION_CHECK),1)
+    SDL3_VERSION_OK := $(shell $(PKG_CONFIG) --atleast-version=3.4.0 sdl3 && echo ok)
+    ifneq ($(SDL3_VERSION_OK),ok)
+      $(error SDL3 >= 3.4.0 required for the GPU shader path; install or build a newer SDL3 (see doc/c++/COMPILING.md SDL3 section))
+    endif
+  endif
 endif
 
 ifeq ($(SDL), 1)
@@ -1067,7 +1083,6 @@ CLANG_TIDY_PLUGIN_HEADERS := \
   $(wildcard tools/clang-tidy-plugin/*.h tools/clang-tidy-plugin/*/*.h)
 # Using sort here because it has the side-effect of deduplicating the list
 ASTYLE_SOURCES := $(sort \
-  src/cldr/imgui-glyph-ranges.cpp \
   $(SOURCES) \
   $(C_SOURCES) \
   $(HEADERS) \
@@ -1117,6 +1132,33 @@ endif
 ifdef LANGUAGES
   export LOCALE_DIR
   L10N = localization
+endif
+
+ifeq ($(SDL3), 1)
+  SHADERS_DIR := data/shaders
+  SHADERS_SRC := $(wildcard $(SHADERS_DIR)/*.frag $(SHADERS_DIR)/*.vert)
+  # Default the shader format set to whatever the local GPU backend can
+  # consume: Vulkan on Linux (SPIR-V), Metal on macOS (MSL), D3D12 on
+  # Windows (DXIL). MSL and DXIL require shadercross; if it is missing the
+  # build errors out at the shader compile step rather than shipping
+  # artifacts the runtime variant_pass cannot load. Override
+  # BUILD_SHADER_FORMATS to add more formats when shipping a multi-platform
+  # bindist.
+  ifeq ($(NATIVE),osx)
+    BUILD_SHADER_FORMATS ?= msl
+  else ifeq ($(NATIVE),win64)
+    BUILD_SHADER_FORMATS ?= dxil
+  else ifeq ($(NATIVE),win32)
+    BUILD_SHADER_FORMATS ?= dxil
+  else
+    BUILD_SHADER_FORMATS ?= spv
+  endif
+  # Stamp filename encodes the format set so switching BUILD_SHADER_FORMATS
+  # invalidates the stamp and forces a rebuild. Hyphen-separated to avoid
+  # commas in filenames; matches the CMake and MSVC prebuild stamp names.
+  # Old stamps from different combos remain harmless; the clean rule wipes them.
+  comma := ,
+  SHADERS_STAMP := $(SHADERS_DIR)/build-$(subst $(comma),-,$(BUILD_SHADER_FORMATS)).stamp
 endif
 
 ifeq ($(TARGETSYSTEM), LINUX)
@@ -1171,10 +1213,15 @@ endif
 
 LDFLAGS += -lz
 
-all: version prefix $(CHECKS) $(TARGET) $(L10N) $(TESTSTARGET) $(ZZIP_BIN)
+all: version prefix $(CHECKS) $(TARGET) $(L10N) $(TESTSTARGET) $(ZZIP_BIN) $(SHADERS_STAMP)
 	@
 
-$(TARGET): $(OBJS)
+ifeq ($(SDL3), 1)
+$(SHADERS_STAMP): $(SHADERS_SRC) tools/build_shaders.py
+	python3 tools/build_shaders.py --shader-dir $(SHADERS_DIR) --formats $(BUILD_SHADER_FORMATS) --stamp $@
+endif
+
+$(TARGET): $(OBJS) $(SHADERS_STAMP)
 	+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
 ifeq ($(RELEASE), 1)
   ifndef DEBUG_SYMBOLS
@@ -1287,6 +1334,7 @@ clean: clean-tests clean-lang
 	rm -f $(TEST_MO)
 	rm -rf zzip.dSYM
 	rm -f zzip zzip.* zstd.a
+	rm -f data/shaders/*.spv data/shaders/*.dxil data/shaders/*.msl data/shaders/build-*.stamp
 
 distclean:
 	rm -rf *$(BINDIST_DIR)
@@ -1327,6 +1375,9 @@ endif
 ifeq ($(SOUND), 1)
 	cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)
 endif
+ifeq ($(SDL3), 1)
+	cp -R --no-preserve=ownership data/shaders $(DATA_PREFIX)
+endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
                    LICENSE.txt LICENSE-OFL-Terminus-Font.txt -t $(DATA_PREFIX)
 ifdef LANGUAGES
@@ -1361,6 +1412,9 @@ endif
 ifeq ($(SOUND), 1)
 	cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)
 endif
+ifeq ($(SDL3), 1)
+	cp -R --no-preserve=ownership data/shaders $(DATA_PREFIX)
+endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
                    LICENSE.txt LICENSE-OFL-Terminus-Font.txt -t $(DATA_PREFIX)
 ifdef LANGUAGES
@@ -1388,9 +1442,9 @@ build-data/osx/AppIcon.icns: build-data/osx/AppIcon.iconset
 	iconutil -c icns $<
 
 ifdef OSXCROSS
-app: appclean version $(APPTARGET) $(ZZIP_BIN)
+app: appclean version $(APPTARGET) $(ZZIP_BIN) $(SHADERS_STAMP)
 else
-app: appclean version build-data/osx/AppIcon.icns $(APPTARGET) $(ZZIP_BIN)
+app: appclean version build-data/osx/AppIcon.icns $(APPTARGET) $(ZZIP_BIN) $(SHADERS_STAMP)
 endif
 	mkdir -p $(APPTARGETDIR)/Contents
 	cp build-data/osx/Info.plist $(APPTARGETDIR)/Contents/
@@ -1419,6 +1473,9 @@ endif
 ifeq ($(SOUND), 1)
 	cp -R data/sound $(APPDATADIR)
 endif  # ifeq ($(SOUND), 1)
+ifeq ($(SDL3), 1)
+	cp -R data/shaders $(APPDATADIR)
+endif  # ifeq ($(SDL3), 1)
 	cp -R gfx $(APPRESOURCESDIR)/
 ifdef FRAMEWORK
 ifeq ($(SDL3), 1)
@@ -1458,7 +1515,7 @@ endif
 
 endif  # ifeq ($(NATIVE), osx)
 
-$(BINDIST): distclean version $(TARGET) $(ZZIP_BIN) $(L10N) $(BINDIST_EXTRAS) $(BINDIST_LOCALE)
+$(BINDIST): distclean version $(TARGET) $(ZZIP_BIN) $(L10N) $(BINDIST_EXTRAS) $(BINDIST_LOCALE) $(SHADERS_STAMP)
 	mkdir -p $(BINDIST_DIR)
 	cp -R $(TARGET) $(ZZIP_BIN) $(BINDIST_EXTRAS) $(BINDIST_DIR)
 	$(foreach lib,$(INSTALL_EXTRAS),install --strip $(lib) $(BINDIST_DIR);)

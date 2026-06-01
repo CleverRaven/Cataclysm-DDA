@@ -44,7 +44,12 @@
         "coverage_mult": { "melee": 0 },
         "armor_mult": { "all": 2 },
         "effects": [
-          { "effect": "downed", "duration": [ 5, 10 ], "message": "The %s stumbles.", "damage_required": [ 1, 2 ] },
+          {
+            "effect": "downed",
+            "duration": [ "5 seconds", "10 seconds" ],
+            "message": "The %s stumbles.",
+            "damage_required": [ 1, 2 ]
+          },
           {
             "effect": "effect_robot_immobilized",
             "permanent": true,
@@ -63,7 +68,13 @@
         "coverage_mult": { "melee": 2 },
         "armor_mult": { "all": 0.1 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 1 ] },
+          {
+            "effect": "blind",
+            "duration": [ "1 seconds", "2 seconds" ],
+            "chance": 40,
+            "message": "The %s is blinded!",
+            "damage_required": [ 1, 1 ]
+          },
           {
             "effect": "blind",
             "permanent": true,
@@ -161,7 +172,7 @@
         "armor_mult": { "all": 1.5 },
         "coverage_mult": { "melee": 0.15 },
         "difficulty": { "melee": 5, "ranged": 8 },
-        "condition": { "not": { "npc_has_any_effect": [ "maimed_armor", "afs_android_crawling" ] } },
+        "condition": { "not": { "npc_has_any_effect": [ "maimed_armor", "afs_android_crawling", "downed" ] } },
         "coverage": 30,
         "effects": [
           {
@@ -199,7 +210,13 @@
         "coverage": 10,
         "condition": { "not": { "npc_has_any_effect": [ "afs_android_crawling" ] } },
         "effects": [
-          { "effect": "downed", "chance": 30, "message": "The %s is knocked down!", "damage_required": [ 1, 3 ] },
+          {
+            "effect": "downed",
+            "chance": 30,
+            "message": "The %s is knocked down!",
+            "damage_required": [ 1, 3 ],
+            "duration": [ "2 seconds", "3 seconds" ]
+          },
           {
             "effect": "afs_android_crawling",
             "permanent": true,
@@ -269,7 +286,7 @@
         "coverage": 60,
         "crit_mult": { "all": 2 },
         "damage_mult": { "all": 3 },
-        "condition": { "npc_has_any_effect": [ "afs_android_crawling" ] },
+        "condition": { "npc_has_any_effect": [ "afs_android_crawling", "downed" ] },
         "armor_mult": { "all": 0.2 }
       }
     ]
@@ -304,7 +321,13 @@
         "condition": { "not": { "npc_has_any_effect": [ "blind", "afs_ai_defensive" ] } },
         "armor_mult": { "all": 0.1 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 1 ] },
+          {
+            "effect": "blind",
+            "duration": [ "1 seconds", "2 seconds" ],
+            "chance": 40,
+            "message": "The %s is blinded!",
+            "damage_required": [ 1, 1 ]
+          },
           {
             "effect": "blind",
             "permanent": true,

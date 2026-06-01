@@ -22,6 +22,8 @@
 #include "cursesdef.h"
 #endif // TILES
 
+namespace
+{
 struct ui_state {
     ui_adaptor *ui;
     background_pane *bg;
@@ -46,6 +48,7 @@ struct ui_state {
     std::string context;
     std::string step;
 };
+} // namespace
 
 static ui_state *gLUI = nullptr;
 
@@ -96,15 +99,15 @@ static void redraw()
     ImGui::PopStyleVar();
 
 #else
-    int x = ( TERMX - static_cast<int>( gLUI->splash_width ) ) / 2;
-    int y = 0;
+    point cursor( ( TERMX - static_cast<int>( gLUI->splash_width ) ) / 2, 0 );
     nc_color white = c_white;
     for( const std::string &line : gLUI->splash ) {
         if( !line.empty() && line[0] == '#' ) {
             continue;
         }
-        print_colored_text( catacurses::stdscr, point( x, y++ ), white,
+        print_colored_text( catacurses::stdscr, cursor, white,
                             white, line );
+        cursor.y++;
     }
     mvwprintz( catacurses::stdscr, point( 0, TERMY - 1 ), c_black, gLUI->blanks );
     center_print( catacurses::stdscr, TERMY - 1, c_white, string_format( "%s %s",

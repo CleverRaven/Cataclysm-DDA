@@ -107,6 +107,8 @@ static const trait_id trait_PACIFIST( "PACIFIST" );
 
 namespace spell_detail
 {
+namespace
+{
 struct line_iterable {
     const std::vector<point_rel_ms> &delta_line;
     point_rel_ms cur_origin;
@@ -135,6 +137,7 @@ struct line_iterable {
         index = 0;
     }
 };
+} // namespace
 // Orientation of point C relative to line AB
 static int side_of( const point_rel_ms &a, const point_rel_ms &b, const point_rel_ms &c )
 {
@@ -748,8 +751,10 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
         return;
     }
 
-    add_msg_if_player_sees( victim, _( "The %s transforms into a %s." ),
-                            victim.type->nname(), new_id->nname() );
+    if( !sp.message().empty() ) {
+        add_msg_if_player_sees( victim, sp.message(),
+                                victim.type->nname(), new_id->nname() );
+    }
     victim.poly( new_id );
 
     if( sp.has_flag( spell_flag::FRIENDLY_POLY ) ) {
@@ -1399,7 +1404,7 @@ void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
         return;
     }
     if( vehicle *veh = here.add_vehicle( sp.summon_vehicle_id(), target, -90_degrees,
-                                         100, 2, false, true ) ) {
+                                         100, veh_spawn_status::PRISTINE, false, true ) ) {
         veh->unlock();
         veh->magic = true;
         if( !sp.has_flag( spell_flag::PERMANENT ) ) {
@@ -1609,6 +1614,7 @@ void spell_effect::charm_monster( const spell &sp, Creature &caster, const tripo
             continue;
         }
         sp.make_sound( potential_target, caster );
+        bool success = false;
         if( ( mon->friendly == 0 || ( mon->friendly != 0 && sp.has_flag( spell_flag::RECHARM ) ) ) &&
             mon->get_hp() <= sp.damage( caster ) ) {
             mon->unset_dest();
@@ -1617,6 +1623,13 @@ void spell_effect::charm_monster( const spell &sp, Creature &caster, const tripo
                 mon->friendly = -1;
                 mon->add_effect( effect_pet, 1_turns, true );
             }
+            success = true;
+        }
+        if( success ) {
+            add_msg_if_player_sees( potential_target, m_good, _( "You charm the %s!" ), mon->name() );
+        } else {
+            add_msg_if_player_sees( potential_target, m_bad, _( "The %s resists your charm attempt." ),
+                                    mon->name() );
         }
     }
 }

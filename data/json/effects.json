@@ -698,6 +698,17 @@
   },
   {
     "type": "effect_type",
+    "id": "overburdened",
+    "name": [ "Overburdened" ],
+    "desc": [ "You strain to move with all you're carrying." ],
+    "//COMMENT": "This has no apply message because there's an existing application message in Pickup::do_pickup().",
+    "//COMMENT2": "You're carrying too much and are overburdened!",
+    "rating": "bad",
+    "show_in_info": true,
+    "flags": [ "DISABLE_FLIGHT" ]
+  },
+  {
+    "type": "effect_type",
     "id": "assisted",
     "name": [ "Assisted" ],
     "max_intensity": 1000,
@@ -813,7 +824,7 @@
     "type": "effect_type",
     "id": "no_power_arm",
     "name": [ "Low Power" ],
-    "desc": [ "You're low on power.  Your leg is operating in emergency mode and has limited function." ],
+    "desc": [ "You're low on power.  Your arm is operating in emergency mode and has limited function." ],
     "rating": "bad",
     "max_duration": "10 s",
     "base_mods": { "dex_mod": [ -1 ], "str_mod": [ -1 ], "speed_mod": [ -5 ] },
@@ -823,6 +834,36 @@
       { "limb_score": "swim", "modifier": 0.5 },
       { "limb_score": "manip", "modifier": 0.5 },
       { "limb_score": "grip", "modifier": 0.5 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "no_power_eyes",
+    "name": [ "Low Power" ],
+    "desc": [ "You're low on power.  Your eyes are operating in emergency mode and have limited function." ],
+    "rating": "bad",
+    "max_duration": "10 s",
+    "base_mods": { "per_mod": [ -2 ] },
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.5 },
+      { "limb_score": "night_vis", "modifier": 0.5 },
+      { "limb_score": "reaction", "modifier": 0.5 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "no_power_tank_treads",
+    "name": [ "Low Power (Bionic Treads)" ],
+    "desc": [ "You're low on power.  Your bionic treads are operating in emergency mode and have limited function." ],
+    "rating": "bad",
+    "max_duration": "30 s",
+    "base_mods": { "speed_mod": [ -10 ] },
+    "limb_score_mods": [
+      { "limb_score": "block", "modifier": 0.0 },
+      { "limb_score": "swim", "modifier": 0.01 },
+      { "limb_score": "move_speed", "modifier": 0.1 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
@@ -4516,6 +4557,7 @@
     "id": "mending",
     "name": [ "Started Recovery", "Recovering", "Mostly Recovered" ],
     "desc": [ "This damaged limb is slowly regaining its functions." ],
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "//": "Duration is 10 days, but the actual time taken is probabilistic.",
     "max_duration": "10 d",
     "int_dur_factor": "60 h",
@@ -4526,7 +4568,7 @@
     "type": "effect_type",
     "id": "disabled",
     "name": [ { "ctxt": "physically", "str": "Disabled" } ],
-    "desc": [ "This limb is damaged beyond use and may require a splint to recover." ],
+    "desc": [ "This limb is damaged beyond use and may require a splint or some other intervention to recover." ],
     "//": "This sounds weird. We need <bp_affected> tag or something",
     "apply_message": "Your limb breaks!",
     "remove_message": "The broken limb has mended.",
@@ -5043,7 +5085,7 @@
     "id": "weakened_inertia",
     "type": "effect_type",
     "name": [ "Weakened Inertia" ],
-    "desc": [ "Your body moves strangely easily, as if it weighted less." ],
+    "desc": [ "Your body moves strangely easily, as if it weighed less." ],
     "apply_message": "Your inertia itself is damaged, but the outcome seems suspiciously beneficial.",
     "remove_message": "Reality reasserts itself and your inertia returns to normal.",
     "rating": "good",
@@ -5394,6 +5436,12 @@
   },
   {
     "type": "effect_type",
+    "id": "a_turncoat_to_the_end",
+    "name": [ "Turncoat or fool?" ],
+    "//": "Used to display the special end screen if you died on the Hub 01 surgical table."
+  },
+  {
+    "type": "effect_type",
     "//": "Horrible hack to apply vision flag. Set in C++ basecamp::start_crafting()",
     "id": "HACK_camp_vision_for_npc",
     "name": [ "" ],
@@ -5526,40 +5574,6 @@
     "desc": [ "You are not entirely present in baseline reality." ],
     "rating": "good",
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "RANGE_DODGE", "add": 0.66 } ] } ]
-  },
-  {
-    "type": "effect_type",
-    "id": "purple_incense_effect",
-    "name": [ "Spatial Dissociation" ],
-    "desc": [
-      "You feel strangely detached from the here and now.  It's like the world had been sliced into thin layers above which you move."
-    ],
-    "rating": "neutral",
-    "show_in_info": true,
-    "max_intensity": 1,
-    "remove_message": "Things seem to stitch back together.",
-    "enchantments": [
-      {
-        "values": [
-          { "value": "ARTIFACT_RESONANCE", "add": 4500 },
-          { "value": "PHASE_DISTANCE", "add": 2 },
-          { "value": "SPEED", "add": -10 },
-          { "value": "DODGE_CHANCE", "add": -25 },
-          { "value": "EVASION", "add": 10 }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_type",
-    "id": "red_incense_effect",
-    "name": [ "Ennervated" ],
-    "desc": [ "You feel like you have one foot in the grave." ],
-    "rating": "neutral",
-    "show_in_info": true,
-    "max_intensity": 1,
-    "remove_message": "The feeling of dread fades away.",
-    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": -0.75 }, { "value": "SPEED", "add": -10 } ] } ]
   },
   {
     "type": "effect_type",
@@ -5696,6 +5710,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_insect_wings_muscle_veh_boost",
+    "//": "Hidden effect, provides the muscle vehicle boost from active insect wings",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "MUSCLE_VEH_BOOST" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_dextrous_paws_no_practice_manipulation_penalty",
     "//": "Hidden effect, provides the limb score penalty from Little or Dextrous Paws when you haven't practiced",
     "name": [ "Clumsy Fingers" ],
@@ -5750,5 +5772,34 @@
       }
     ],
     "show_in_info": true
+  },
+  {
+    "id": "effect_scarlet_atmopshere",
+    "type": "effect_type",
+    "//": "A nitrogen-rich atmosphere with trace amounts of Bromine, Phosgene, and Nitrogen dioxide.  Insidious killer.",
+    "name": [ "Scarlet Atmosphere" ],
+    "desc": [ "You've been breathing in an alien atmosphere.  Breathing is difficult." ],
+    "remove_message": "Your head clears.",
+    "rating": "bad",
+    "blood_analysis_description": "Trace: HNO3, HNO2, HBr, HBrO",
+    "max_intensity": 125,
+    "max_effective_intensity": 100,
+    "max_duration": 18000,
+    "int_dur_factor": 144,
+    "dur_add_perc": 500,
+    "harmful_cough": true,
+    "base_mods": {
+      "stamina_amount": [ -200 ],
+      "stamina_min": [ -100 ],
+      "stamina_chance": [ 10 ],
+      "health_min": [ -1 ],
+      "health_chance": [ 300 ],
+      "cough_chance": [ 150 ],
+      "hurt_min": [ 1 ],
+      "hurt_chance": [ 450 ]
+    },
+    "scaling_mods": { "stamina_min": [ -1 ], "stamina_amount": [ -2 ], "stamina_chance": [ 0 ], "hurt_min": [ 0.0125 ] },
+    "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.8 }, { "limb_score": "reaction", "modifier": 0.8 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   }
 ]

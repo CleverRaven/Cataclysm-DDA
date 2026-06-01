@@ -139,6 +139,7 @@ static const itype_id itype_water_clean( "water_clean" );
 static const json_character_flag json_flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
 static const json_character_flag json_flag_BIONIC_FAULTY( "BIONIC_FAULTY" );
 static const json_character_flag json_flag_BIONIC_GUN( "BIONIC_GUN" );
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_BIONIC_POWER_SOURCE( "BIONIC_POWER_SOURCE" );
 static const json_character_flag json_flag_BIONIC_REMOVABLE( "BIONIC_REMOVABLE" );
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
@@ -344,6 +345,7 @@ void bionic_data::load( const JsonObject &jsobj, std::string_view src )
     optional( jsobj, was_loaded, "learned_spells", learned_spells );
     optional( jsobj, was_loaded, "learned_proficiencies", proficiencies );
     optional( jsobj, was_loaded, "canceled_mutations", canceled_mutations );
+    optional( jsobj, was_loaded, "replaced_bodyparts", replaced_bodyparts );
     optional( jsobj, was_loaded, "mutation_conflicts", mutation_conflicts );
     optional( jsobj, was_loaded, "give_mut_on_removal", give_mut_on_removal );
     optional( jsobj, was_loaded, "included_bionics", included_bionics );
@@ -945,7 +947,16 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         conduct_blood_analysis();
     } else if( bio.id == bio_torsionratchet ) {
         add_msg_activate();
-        add_msg_if_player( m_info, _( "Your torsion ratchet locks onto your joints." ) );
+        bool has_bionic_limbs = false;
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            if( bp->has_flag( json_flag_BIONIC_LIMB ) ) {
+                has_bionic_limbs = true;
+            }
+        }
+        add_msg_if_player( m_info, _( "Your torsion ratchets lock onto your joints." ) );
+        if( has_bionic_limbs ) {
+            add_msg_if_player( m_bad, _( "Your torsion ratchets are straining your bionic limbs!" ) );
+        }
     } else if( bio.id == bio_jointservo ) {
         add_msg_activate();
         add_msg_if_player( m_info, _( "You can now run faster, assisted by joint servomotors." ) );
@@ -2136,6 +2147,30 @@ bool Character::can_uninstall_bionic( const bionic &bio, Character &installer, b
         return false;
     }
 
+    // warn a player that removing a limb removes CBMs that touch that limb
+    std::vector<std::string> dependent_bionics;
+    if( !bio.id->replaced_bodyparts.empty() ) {
+        for( const bionic_id &installed : get_bionics() ) {
+            if( installed == bio.id ) {
+                continue;
+            }
+            for( const bodypart_str_id &bp : bio.id->replaced_bodyparts ) {
+                if( installed->occupied_bodyparts.count( bp ) > 0 ) {
+                    dependent_bionics.push_back( installed->name.translated() );
+                    break;
+                }
+            }
+        }
+    }
+
+    if( !dependent_bionics.empty() ) {
+        if( !player_character.query_yn(
+                _( "Removing %s will also remove: %s" ), bio.id->name.translated(), string_join( dependent_bionics,
+                        ", " ) ) ) {
+            return false;
+        }
+    }
+
     // removal of bionics adds +2 difficulty over installation
     int chance_of_success = bionic_success_chance( autodoc, skill_level, difficulty + 2,
                             installer );
@@ -2213,6 +2248,49 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
         add_msg( m_good, _( "Successfully removed %s." ), bio.id.obj().name );
         const bionic_id bio_id = bio.id;
         remove_bionic( bio );
+        // remove dependent bionics
+        std::vector<bionic> dependent_bionics;
+        for( const bionic &installed : *my_bionics ) {
+            if( installed.id == bio_id ) {
+                continue;
+            }
+
+            bool conflicts = false;
+
+            for( const bodypart_str_id &bp : bio_id->replaced_bodyparts ) {
+                if( installed.id->occupied_bodyparts.count( bp ) > 0 ) {
+                    conflicts = true;
+                    break;
+                }
+            }
+            if( conflicts ) {
+                dependent_bionics.push_back( installed );
+            }
+        }
+
+        for( const bionic &dependent : dependent_bionics ) {
+            if( !find_bionic_by_uid( dependent.get_uid() ) ) {
+                continue;
+            }
+            add_msg( m_neutral, _( "%s removed with %s." ), dependent.id->name.translated(),
+                     bio_id->name.translated() );
+            get_event_bus().send<event_type::removes_cbm>( getID(), dependent.id );
+            remove_bionic( dependent );
+            for( const trait_id &mid : dependent.id->give_mut_on_removal ) {
+                if( !has_trait( mid ) ) {
+                    set_mutation( mid );
+                }
+            }
+            item dependent_cbm( itype_burnt_out_bionic );
+            if( item::type_is_defined( dependent.id->itype() ) ) {
+                dependent_cbm = item( dependent.id->itype() );
+            }
+            dependent_cbm.set_flag( flag_FILTHY );
+            dependent_cbm.set_flag( flag_NO_STERILE );
+            dependent_cbm.set_flag( flag_NO_PACKED );
+            dependent_cbm.set_fault( fault_bionic_salvaged );
+            here.add_item( pos_bub(), dependent_cbm );
+        }
 
         // give us any muts it's supposed to (silently) if removed
         for( const trait_id &mid : bio_id->give_mut_on_removal ) {
@@ -2357,6 +2435,23 @@ ret_val<void> Character::is_installable( const item *it, const bool by_autodoc )
     return has_bionic( b );
     } ) ) {
         return ret_val<void>::make_failure( _( "Superior version installed." ) );
+    }
+
+    if( !bid->replaced_bodyparts.empty() ) {
+        std::vector<std::string> conflicts;
+        for( const bionic_id &installed : get_bionics() ) {
+            for( const bodypart_str_id &bp : bid->replaced_bodyparts ) {
+                if( installed->replaced_bodyparts.count( bp ) > 0 ) {
+                    conflicts.push_back( installed->name.translated() );
+                    break;
+                }
+            }
+        }
+
+        if( !conflicts.empty() ) {
+            return ret_val<void>::make_failure( _( "CBM conflicts with: %s." ), string_join( conflicts,
+                                                ", " ) );
+        }
     }
 
     return ret_val<void>::make_success( std::string() );

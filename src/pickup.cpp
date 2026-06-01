@@ -69,6 +69,8 @@ static void show_pickup_message( const PickupMap &mapPickup )
     }
 }
 
+namespace
+{
 struct pickup_count {
     bool pick = false;
     //count is 0 if the whole stack is being picked up, nonzero otherwise.
@@ -82,6 +84,7 @@ enum pickup_answer : int {
     STASH,
     NUM_ANSWERS
 };
+} // namespace
 
 static pickup_answer handle_problematic_pickup( const item &it, const std::string &explain )
 {
@@ -451,7 +454,7 @@ void Pickup::autopickup( const tripoint_bub_ms &p )
     }
     // which items are we grabbing?
     std::vector<item_stack::iterator> here;
-    const map_stack mapitems = local.i_at( p );
+    map_stack mapitems = local.i_at( p );
     here.reserve( mapitems.size() );
     for( item_stack::iterator it = mapitems.begin(); it != mapitems.end(); ++it ) {
         here.push_back( it );

@@ -132,6 +132,132 @@
     "similar_bodypart": "eyes_right"
   },
   {
+    "id": "eyes_avian_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_avian",
+    "side": "left",
+    "opposite": "eyes_avian_right",
+    "name_multiple": "eyes",
+    "name": "left eye",
+    "similar_bodypart": "eyes_left"
+  },
+  {
+    "id": "eyes_avian_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_avian",
+    "side": "right",
+    "opposite": "eyes_avian_left",
+    "name_multiple": "eyes",
+    "name": "right eye",
+    "similar_bodypart": "eyes_right"
+  },
+  {
+    "id": "eyes_snail_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_snail",
+    "side": "left",
+    "opposite": "eyes_snail_right",
+    "name_multiple": "eyes",
+    "name": "left eye",
+    "similar_bodypart": "eyes_left"
+  },
+  {
+    "id": "eyes_frog_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_frog",
+    "side": "right",
+    "opposite": "eyes_snail_left",
+    "name_multiple": "eyes",
+    "name": "right eye",
+    "similar_bodypart": "eyes_right"
+  },
+  {
+    "id": "eyes_frog_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_frog",
+    "side": "left",
+    "opposite": "eyes_frog_right",
+    "name_multiple": "eyes",
+    "name": "left eye",
+    "similar_bodypart": "eyes_left"
+  },
+  {
+    "id": "eyes_snail_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_snail",
+    "side": "right",
+    "opposite": "eyes_frog_left",
+    "name_multiple": "eyes",
+    "name": "right eye",
+    "similar_bodypart": "eyes_right"
+  },
+  {
+    "id": "eyes_snail_good_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_snail_good",
+    "side": "left",
+    "opposite": "eyes_snail_good_right",
+    "name_multiple": "eyestalks",
+    "name": "left eyestalk"
+  },
+  {
+    "id": "eyes_snail_good_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_snail_good",
+    "side": "right",
+    "opposite": "eyes_snail_good_left",
+    "name_multiple": "eyestalks",
+    "name": "right eyestalk"
+  },
+  {
+    "id": "eyes_crab_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_crab",
+    "side": "left",
+    "opposite": "eyes_crab_right",
+    "name_multiple": "eyestalks",
+    "name": "left eyestalk"
+  },
+  {
+    "id": "eyes_crab_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_crab",
+    "side": "right",
+    "opposite": "eyes_crab_left",
+    "name_multiple": "eyestalks",
+    "name": "right eyestalk"
+  },
+  {
+    "id": "eyes_compound_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_compound",
+    "side": "left",
+    "opposite": "eyes_compound_right",
+    "name_multiple": "eyes",
+    "name": "left eye"
+  },
+  {
+    "id": "eyes_compound_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_compound",
+    "side": "right",
+    "opposite": "eyes_compound_left",
+    "name_multiple": "eyes",
+    "name": "right eye"
+  },
+  {
     "id": "muzzle_lips",
     "type": "sub_body_part",
     "max_coverage": 25,
@@ -335,7 +461,7 @@
     "opposite": "sub_limb_debug",
     "side": "both",
     "name": "lips",
-    "similar_bodypart": "muzzle_lips"
+    "similar_bodypart": "mouth_lips"
   },
   {
     "id": "muzzle_rabbit_nose",
@@ -345,7 +471,7 @@
     "opposite": "sub_limb_debug",
     "side": "both",
     "name": "nostrils",
-    "similar_bodypart": "muzzle_nose"
+    "similar_bodypart": "mouth_nose"
   },
   {
     "id": "muzzle_rabbit_cheeks",
@@ -355,7 +481,7 @@
     "opposite": "sub_limb_debug",
     "side": "both",
     "name": "cheeks",
-    "similar_bodypart": "muzzle_cheeks"
+    "similar_bodypart": "mouth_cheeks"
   },
   {
     "id": "muzzle_rabbit_chin",
@@ -365,7 +491,7 @@
     "opposite": "sub_limb_debug",
     "side": "both",
     "name": "chin",
-    "similar_bodypart": "muzzle_chin"
+    "similar_bodypart": "mouth_chin"
   },
   {
     "id": "beak_nares",
@@ -534,7 +660,7 @@
     "parent": "insect_proboscis",
     "opposite": "sub_limb_debug",
     "side": "both",
-    "name": "base"
+    "name": { "ctxt": "sub_bodypart_name", "str": "base" }
   },
   {
     "id": "insect_proboscis_labium",
@@ -584,6 +710,86 @@
     "opposite": "hand_fingers_l"
   },
   {
+    "id": "paw_default_wrist_l",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "paw_default_l",
+    "side": "left",
+    "opposite": "paw_default_wrist_r",
+    "name_multiple": "wrists",
+    "name": "left wrist"
+  },
+  {
+    "id": "paw_default_palm_l",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "paw_default_l",
+    "side": "left",
+    "opposite": "paw_default_palm_r",
+    "name_multiple": "palms",
+    "name": "left palm"
+  },
+  {
+    "id": "paw_default_back_l",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "paw_default_l",
+    "side": "left",
+    "opposite": "paw_default_back_r",
+    "name_multiple": "back of paws",
+    "name": "left back of paw"
+  },
+  {
+    "id": "paw_default_fingers_l",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "paw_default_l",
+    "side": "left",
+    "opposite": "paw_default_fingers_r",
+    "name_multiple": "fingers",
+    "name": "left fingers"
+  },
+  {
+    "id": "paw_default_wrist_r",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "paw_default_r",
+    "side": "right",
+    "opposite": "paw_default_wrist_l",
+    "name_multiple": "wrists",
+    "name": "right wrist"
+  },
+  {
+    "id": "paw_default_palm_r",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "paw_default_r",
+    "side": "right",
+    "opposite": "paw_default_palm_l",
+    "name_multiple": "palms",
+    "name": "right palm"
+  },
+  {
+    "id": "paw_default_back_r",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "paw_default_r",
+    "side": "right",
+    "opposite": "paw_default_back_l",
+    "name_multiple": "back of paws",
+    "name": "right back of paw"
+  },
+  {
+    "id": "paw_default_fingers_r",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "paw_default_r",
+    "side": "right",
+    "opposite": "paw_default_fingers_l",
+    "name_multiple": "fingers",
+    "name": "right fingers"
+  },
+  {
     "id": "paw_broad_wrist_l",
     "type": "sub_body_part",
     "max_coverage": 10,
@@ -591,7 +797,8 @@
     "side": "left",
     "opposite": "paw_broad_wrist_r",
     "name_multiple": "wrists",
-    "name": "left wrist"
+    "name": "left wrist",
+    "similar_bodypart": "paw_default_wrist_l"
   },
   {
     "id": "paw_broad_palm_l",
@@ -601,7 +808,8 @@
     "side": "left",
     "opposite": "paw_broad_palm_r",
     "name_multiple": "palms",
-    "name": "left palm"
+    "name": "left palm",
+    "similar_bodypart": "paw_default_palm_l"
   },
   {
     "id": "paw_broad_back_l",
@@ -611,7 +819,8 @@
     "side": "left",
     "opposite": "paw_broad_back_r",
     "name_multiple": "back of paws",
-    "name": "left back of paw"
+    "name": "left back of paw",
+    "similar_bodypart": "paw_default_back_l"
   },
   {
     "id": "paw_broad_fingers_l",
@@ -621,7 +830,8 @@
     "side": "left",
     "opposite": "paw_broad_fingers_r",
     "name_multiple": "fingers",
-    "name": "left fingers"
+    "name": "left fingers",
+    "similar_bodypart": "paw_default_fingers_l"
   },
   {
     "id": "paw_broad_wrist_r",
@@ -631,7 +841,8 @@
     "side": "right",
     "opposite": "paw_broad_wrist_l",
     "name_multiple": "wrists",
-    "name": "right wrist"
+    "name": "right wrist",
+    "similar_bodypart": "paw_default_wrist_r"
   },
   {
     "id": "paw_broad_palm_r",
@@ -641,7 +852,8 @@
     "side": "right",
     "opposite": "paw_broad_palm_l",
     "name_multiple": "palms",
-    "name": "right palm"
+    "name": "right palm",
+    "similar_bodypart": "paw_default_palm_r"
   },
   {
     "id": "paw_broad_back_r",
@@ -651,7 +863,8 @@
     "side": "right",
     "opposite": "paw_broad_back_l",
     "name_multiple": "back of paws",
-    "name": "right back of paw"
+    "name": "right back of paw",
+    "similar_bodypart": "paw_default_back_r"
   },
   {
     "id": "paw_broad_fingers_r",
@@ -661,7 +874,8 @@
     "side": "right",
     "opposite": "paw_broad_fingers_l",
     "name_multiple": "fingers",
-    "name": "right fingers"
+    "name": "right fingers",
+    "similar_bodypart": "paw_default_fingers_r"
   },
   {
     "id": "paw_wrist_l",
@@ -671,7 +885,8 @@
     "side": "left",
     "opposite": "paw_wrist_r",
     "name_multiple": "wrists",
-    "name": "left wrist"
+    "name": "left wrist",
+    "similar_bodypart": "paw_default_wrist_l"
   },
   {
     "id": "paw_palm_l",
@@ -681,7 +896,8 @@
     "side": "left",
     "opposite": "paw_palm_r",
     "name_multiple": "palms",
-    "name": "left palm"
+    "name": "left palm",
+    "similar_bodypart": "paw_default_palm_l"
   },
   {
     "id": "paw_back_l",
@@ -691,7 +907,8 @@
     "side": "left",
     "opposite": "paw_back_r",
     "name_multiple": "back of paws",
-    "name": "left back of paw"
+    "name": "left back of paw",
+    "similar_bodypart": "paw_default_back_l"
   },
   {
     "id": "paw_fingers_l",
@@ -701,7 +918,8 @@
     "side": "left",
     "opposite": "paw_fingers_r",
     "name_multiple": "fingers",
-    "name": "left fingers"
+    "name": "left fingers",
+    "similar_bodypart": "paw_default_fingers_l"
   },
   {
     "id": "paw_wrist_r",
@@ -711,7 +929,8 @@
     "side": "right",
     "opposite": "paw_wrist_l",
     "name_multiple": "wrists",
-    "name": "right wrist"
+    "name": "right wrist",
+    "similar_bodypart": "paw_default_wrist_r"
   },
   {
     "id": "paw_palm_r",
@@ -721,7 +940,8 @@
     "side": "right",
     "opposite": "paw_palm_l",
     "name_multiple": "palms",
-    "name": "right palm"
+    "name": "right palm",
+    "similar_bodypart": "paw_default_palm_r"
   },
   {
     "id": "paw_back_r",
@@ -731,7 +951,8 @@
     "side": "right",
     "opposite": "paw_back_l",
     "name_multiple": "back of paws",
-    "name": "right back of paw"
+    "name": "right back of paw",
+    "similar_bodypart": "paw_default_back_r"
   },
   {
     "id": "paw_fingers_r",
@@ -741,7 +962,8 @@
     "side": "right",
     "opposite": "paw_fingers_l",
     "name_multiple": "fingers",
-    "name": "right fingers"
+    "name": "right fingers",
+    "similar_bodypart": "paw_default_fingers_r"
   },
   {
     "id": "paw_rat_wrist_l",
@@ -751,7 +973,8 @@
     "side": "left",
     "opposite": "paw_rat_wrist_r",
     "name_multiple": "wrists",
-    "name": "left wrist"
+    "name": "left wrist",
+    "similar_bodypart": "paw_default_wrist_l"
   },
   {
     "id": "paw_rat_palm_l",
@@ -761,7 +984,8 @@
     "side": "left",
     "opposite": "paw_rat_palm_r",
     "name_multiple": "palms",
-    "name": "left palm"
+    "name": "left palm",
+    "similar_bodypart": "paw_default_palm_l"
   },
   {
     "id": "paw_rat_back_l",
@@ -771,7 +995,8 @@
     "side": "left",
     "opposite": "paw_rat_back_r",
     "name_multiple": "back of paws",
-    "name": "left back of paw"
+    "name": "left back of paw",
+    "similar_bodypart": "paw_default_back_l"
   },
   {
     "id": "paw_rat_fingers_l",
@@ -781,7 +1006,8 @@
     "side": "left",
     "opposite": "paw_rat_fingers_r",
     "name_multiple": "fingers",
-    "name": "left fingers"
+    "name": "left fingers",
+    "similar_bodypart": "paw_default_fingers_l"
   },
   {
     "id": "paw_rat_wrist_r",
@@ -791,7 +1017,8 @@
     "side": "right",
     "opposite": "paw_rat_wrist_l",
     "name_multiple": "wrists",
-    "name": "right wrist"
+    "name": "right wrist",
+    "similar_bodypart": "paw_default_wrist_r"
   },
   {
     "id": "paw_rat_palm_r",
@@ -801,7 +1028,8 @@
     "side": "right",
     "opposite": "paw_rat_palm_l",
     "name_multiple": "palms",
-    "name": "right palm"
+    "name": "right palm",
+    "similar_bodypart": "paw_default_palm_r"
   },
   {
     "id": "paw_rat_back_r",
@@ -811,7 +1039,8 @@
     "side": "right",
     "opposite": "paw_rat_back_l",
     "name_multiple": "back of paws",
-    "name": "right back of paw"
+    "name": "right back of paw",
+    "similar_bodypart": "paw_default_back_r"
   },
   {
     "id": "paw_rat_fingers_r",
@@ -821,7 +1050,8 @@
     "side": "right",
     "opposite": "paw_rat_fingers_l",
     "name_multiple": "fingers",
-    "name": "right fingers"
+    "name": "right fingers",
+    "similar_bodypart": "paw_default_fingers_r"
   },
   {
     "id": "paw_little_wrist_l",
@@ -831,7 +1061,8 @@
     "side": "left",
     "opposite": "paw_little_wrist_r",
     "name_multiple": "wrists",
-    "name": "left wrist"
+    "name": "left wrist",
+    "similar_bodypart": "paw_default_wrist_l"
   },
   {
     "id": "paw_little_palm_l",
@@ -841,7 +1072,8 @@
     "side": "left",
     "opposite": "paw_little_palm_r",
     "name_multiple": "palms",
-    "name": "left palm"
+    "name": "left palm",
+    "similar_bodypart": "paw_default_palm_l"
   },
   {
     "id": "paw_little_back_l",
@@ -851,7 +1083,8 @@
     "side": "left",
     "opposite": "paw_little_back_r",
     "name_multiple": "back of paws",
-    "name": "left back of paw"
+    "name": "left back of paw",
+    "similar_bodypart": "paw_default_back_l"
   },
   {
     "id": "paw_little_fingers_l",
@@ -861,7 +1094,8 @@
     "side": "left",
     "opposite": "paw_little_fingers_r",
     "name_multiple": "fingers",
-    "name": "left fingers"
+    "name": "left fingers",
+    "similar_bodypart": "paw_default_fingers_l"
   },
   {
     "id": "paw_little_wrist_r",
@@ -871,7 +1105,8 @@
     "side": "right",
     "opposite": "paw_little_wrist_l",
     "name_multiple": "wrists",
-    "name": "right wrist"
+    "name": "right wrist",
+    "similar_bodypart": "paw_default_wrist_r"
   },
   {
     "id": "paw_little_palm_r",
@@ -881,7 +1116,8 @@
     "side": "right",
     "opposite": "paw_little_palm_l",
     "name_multiple": "palms",
-    "name": "right palm"
+    "name": "right palm",
+    "similar_bodypart": "paw_default_palm_r"
   },
   {
     "id": "paw_little_back_r",
@@ -891,7 +1127,8 @@
     "side": "right",
     "opposite": "paw_little_back_l",
     "name_multiple": "back of paws",
-    "name": "right back of paw"
+    "name": "right back of paw",
+    "similar_bodypart": "paw_default_back_r"
   },
   {
     "id": "paw_little_fingers_r",
@@ -901,7 +1138,8 @@
     "side": "right",
     "opposite": "paw_little_fingers_l",
     "name_multiple": "fingers",
-    "name": "right fingers"
+    "name": "right fingers",
+    "similar_bodypart": "paw_default_fingers_r"
   },
   {
     "type": "sub_body_part",
@@ -1538,6 +1776,118 @@
     "max_coverage": 40
   },
   {
+    "type": "sub_body_part",
+    "id": "wing_insect_costal_margin_l",
+    "parent": "wing_insect_l",
+    "name": "left forewing",
+    "name_multiple": "forewings",
+    "side": "left",
+    "opposite": "wing_insect_costal_margin_r",
+    "max_coverage": 40
+  },
+  {
+    "type": "sub_body_part",
+    "id": "wing_insect_posterior_margin_l",
+    "parent": "wing_insect_l",
+    "name": "left hindwing",
+    "name_multiple": "hindwings",
+    "side": "left",
+    "opposite": "wing_insect_posterior_margin_r",
+    "max_coverage": 40
+  },
+  {
+    "type": "sub_body_part",
+    "id": "wing_insect_apex_l",
+    "parent": "wing_insect_l",
+    "name": "left wingtip",
+    "name_multiple": "wingtips",
+    "side": "left",
+    "opposite": "wing_insect_apex_r",
+    "max_coverage": 20
+  },
+  {
+    "type": "sub_body_part",
+    "id": "wing_insect_costal_margin_r",
+    "parent": "wing_insect_r",
+    "name": "right forewing",
+    "name_multiple": "forewings",
+    "side": "right",
+    "opposite": "wing_insect_costal_margin_l",
+    "max_coverage": 40
+  },
+  {
+    "type": "sub_body_part",
+    "id": "wing_insect_posterior_margin_r",
+    "parent": "wing_insect_r",
+    "name": "right hindwing",
+    "name_multiple": "hindwings",
+    "side": "right",
+    "opposite": "wing_insect_posterior_margin_l",
+    "max_coverage": 40
+  },
+  {
+    "type": "sub_body_part",
+    "id": "wing_insect_apex_r",
+    "parent": "wing_insect_r",
+    "name": "right wingtip",
+    "name_multiple": "wingtips",
+    "side": "right",
+    "opposite": "wing_insect_apex_l",
+    "max_coverage": 20
+  },
+  {
+    "id": "leg_hip_gastropod_l",
+    "type": "sub_body_part",
+    "max_coverage": 5,
+    "parent": "gastropod_foot",
+    "side": "left",
+    "opposite": "leg_hip_gastropod_r",
+    "name_multiple": "hips",
+    "name": "left hip"
+  },
+  {
+    "id": "leg_hip_gastropod_r",
+    "type": "sub_body_part",
+    "max_coverage": 5,
+    "parent": "gastropod_foot",
+    "side": "right",
+    "opposite": "leg_hip_gastropod_l",
+    "name_multiple": "hips",
+    "name": "left hip"
+  },
+  {
+    "id": "leg_gastropod_draped",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "gastropod_foot",
+    "side": "both",
+    "secondary": true,
+    "opposite": "leg_gastropod_draped",
+    "name_multiple": "legs (draped)",
+    "name": "leg (draped)",
+    "locations_under": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r", "leg_upper_gastropod" ]
+  },
+  {
+    "id": "leg_upper_gastropod",
+    "type": "sub_body_part",
+    "max_coverage": 45,
+    "parent": "gastropod_foot",
+    "side": "both",
+    "opposite": "leg_upper_gastropod",
+    "name_multiple": "upper feet",
+    "name": "upper foot"
+  },
+  {
+    "id": "leg_lower_gastropod",
+    "type": "sub_body_part",
+    "max_coverage": 45,
+    "parent": "gastropod_foot",
+    "side": "both",
+    "opposite": "leg_lower_gastropod",
+    "name_multiple": "lower feet",
+    "name": "lower foot"
+  },
+  {
     "id": "leg_crab_basis_fl",
     "type": "sub_body_part",
     "max_coverage": 5,
@@ -1998,6 +2348,36 @@
     "name": "right heel"
   },
   {
+    "id": "tail_default_base",
+    "type": "sub_body_part",
+    "name": "default tail base",
+    "name_multiple": "default bases",
+    "max_coverage": 10,
+    "parent": "tail",
+    "side": "both",
+    "opposite": "tail_default_tip"
+  },
+  {
+    "id": "tail_default_center",
+    "type": "sub_body_part",
+    "name": "default tail center",
+    "name_multiple": "default tail centers",
+    "max_coverage": 60,
+    "parent": "tail",
+    "side": "both",
+    "opposite": "tail_default_center"
+  },
+  {
+    "id": "tail_default_tip",
+    "type": "sub_body_part",
+    "name": "default tail tip",
+    "name_multiple": "default tail tips",
+    "max_coverage": 30,
+    "parent": "tail",
+    "side": "both",
+    "opposite": "tail_default_base"
+  },
+  {
     "id": "tail_long_base",
     "type": "sub_body_part",
     "name": "long tail base",
@@ -2005,7 +2385,8 @@
     "max_coverage": 10,
     "parent": "tail_long",
     "side": "both",
-    "opposite": "tail_long_tip"
+    "opposite": "tail_long_tip",
+    "similar_bodypart": "tail_default_base"
   },
   {
     "id": "tail_long_center",
@@ -2015,7 +2396,8 @@
     "max_coverage": 60,
     "parent": "tail_long",
     "side": "both",
-    "opposite": "tail_long_center"
+    "opposite": "tail_long_center",
+    "similar_bodypart": "tail_default_center"
   },
   {
     "id": "tail_long_tip",
@@ -2025,7 +2407,8 @@
     "max_coverage": 30,
     "parent": "tail_long",
     "side": "both",
-    "opposite": "tail_long_base"
+    "opposite": "tail_long_base",
+    "similar_bodypart": "tail_default_tip"
   },
   {
     "id": "tail_fluffy_base",
@@ -2035,7 +2418,8 @@
     "max_coverage": 10,
     "parent": "tail_fluffy",
     "side": "both",
-    "opposite": "tail_fluffy_tip"
+    "opposite": "tail_fluffy_tip",
+    "similar_bodypart": "tail_default_base"
   },
   {
     "id": "tail_fluffy_center",
@@ -2045,7 +2429,8 @@
     "max_coverage": 60,
     "parent": "tail_fluffy",
     "side": "both",
-    "opposite": "tail_fluffy_center"
+    "opposite": "tail_fluffy_center",
+    "similar_bodypart": "tail_default_center"
   },
   {
     "id": "tail_fluffy_tip",
@@ -2055,7 +2440,8 @@
     "max_coverage": 30,
     "parent": "tail_fluffy",
     "side": "both",
-    "opposite": "tail_fluffy_base"
+    "opposite": "tail_fluffy_base",
+    "similar_bodypart": "tail_default_tip"
   },
   {
     "id": "tail_thick_base",
@@ -2065,7 +2451,8 @@
     "max_coverage": 10,
     "parent": "tail_thick",
     "side": "both",
-    "opposite": "tail_thick_tip"
+    "opposite": "tail_thick_tip",
+    "similar_bodypart": "tail_default_base"
   },
   {
     "id": "tail_thick_center",
@@ -2075,7 +2462,8 @@
     "max_coverage": 60,
     "parent": "tail_thick",
     "side": "both",
-    "opposite": "tail_thick_center"
+    "opposite": "tail_thick_center",
+    "similar_bodypart": "tail_default_center"
   },
   {
     "id": "tail_thick_tip",
@@ -2085,7 +2473,8 @@
     "max_coverage": 30,
     "parent": "tail_thick",
     "side": "both",
-    "opposite": "tail_thick_base"
+    "opposite": "tail_thick_base",
+    "similar_bodypart": "tail_default_tip"
   },
   {
     "id": "tail_scorpion_base",
@@ -2125,7 +2514,8 @@
     "max_coverage": 10,
     "parent": "tail_club",
     "side": 0,
-    "opposite": "tail_club_club"
+    "opposite": "tail_club_club",
+    "similar_bodypart": "tail_default_base"
   },
   {
     "id": "tail_club_center",
@@ -2135,7 +2525,8 @@
     "max_coverage": 60,
     "parent": "tail_club",
     "side": 0,
-    "opposite": "tail_club_center"
+    "opposite": "tail_club_center",
+    "similar_bodypart": "tail_default_center"
   },
   {
     "id": "tail_club_club",
@@ -2145,7 +2536,8 @@
     "max_coverage": 30,
     "parent": "tail_club",
     "side": 0,
-    "opposite": "tail_club_base"
+    "opposite": "tail_club_base",
+    "similar_bodypart": "tail_default_tip"
   },
   {
     "id": "tail_bovine_base",
@@ -2155,7 +2547,8 @@
     "max_coverage": 10,
     "parent": "tail_bovine",
     "side": 0,
-    "opposite": "tail_bovine_tip"
+    "opposite": "tail_bovine_tip",
+    "similar_bodypart": "tail_default_base"
   },
   {
     "id": "tail_bovine_center",
@@ -2165,7 +2558,8 @@
     "max_coverage": 60,
     "parent": "tail_bovine",
     "side": 0,
-    "opposite": "tail_bovine_center"
+    "opposite": "tail_bovine_center",
+    "similar_bodypart": "tail_default_center"
   },
   {
     "id": "tail_bovine_tip",
@@ -2175,7 +2569,8 @@
     "max_coverage": 30,
     "parent": "tail_bovine",
     "side": 0,
-    "opposite": "tail_bovine_base"
+    "opposite": "tail_bovine_base",
+    "similar_bodypart": "tail_default_tip"
   },
   {
     "id": "tail_raptor_base",
@@ -2247,7 +2642,8 @@
     "max_coverage": 10,
     "parent": "tail_rat",
     "side": "both",
-    "opposite": "tail_rat_tip"
+    "opposite": "tail_rat_tip",
+    "similar_bodypart": "tail_default_base"
   },
   {
     "id": "tail_rat_center",
@@ -2257,7 +2653,8 @@
     "max_coverage": 60,
     "parent": "tail_rat",
     "side": "both",
-    "opposite": "tail_rat_center"
+    "opposite": "tail_rat_center",
+    "similar_bodypart": "tail_default_center"
   },
   {
     "id": "tail_rat_tip",
@@ -2267,6 +2664,7 @@
     "max_coverage": 30,
     "parent": "tail_rat",
     "side": "both",
-    "opposite": "tail_rat_base"
+    "opposite": "tail_rat_base",
+    "similar_bodypart": "tail_default_tip"
   }
 ]

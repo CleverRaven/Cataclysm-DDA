@@ -612,6 +612,27 @@ struct vehicle_part {
         }
 };
 
+// Per-pocket source binding from prepare_multimag_pockets, consumed by
+// drain_back_multimag to bill the same vehicle store for one fire cycle.
+struct multimag_pocket_state {
+    enum class source_kind { BATTERY, TANK };
+    int initial_qty = 0;
+    source_kind kind = source_kind::BATTERY;
+    int vpart_index = -1;
+};
+
+// Per-pocket readiness summary for aim UI display of a multimag turret.
+// `effective_qty` is the count after prep would load vehicle-backed pockets;
+// `local_qty` is what the gun already holds without any vehicle help.
+struct multimag_display_pocket {
+    std::string pocket_id;
+    itype_id ammo_itype;
+    int local_qty = 0;
+    int effective_qty = 0;
+    int per_use_qty = 0;
+    bool vehicle_bound = false;
+};
+
 class turret_data
 {
         friend vehicle;
@@ -693,6 +714,8 @@ class turret_data
         bool can_reload() const;
         bool can_unload() const;
 
+        std::vector<multimag_display_pocket> multimag_display_state() const;
+
         enum class status : int {
             invalid,
             no_ammo,
@@ -706,6 +729,10 @@ class turret_data
         turret_data( vehicle *veh, vehicle_part *part )
             : veh( veh ), part( part ) {}
         double cached_recoil = 0;
+        // Vehicle source bindings populated by prepare_fire for multimag
+        // turrets and consumed by post_fire to bill the same store. Lifetime
+        // is one fire() call; not serialized.
+        std::map<std::string, multimag_pocket_state> mm_bindings_;
 
     protected:
         vehicle *veh = nullptr;
@@ -870,6 +897,11 @@ class vehicle
         bool do_environmental_effects( map &here ) const;
 
         // Vehicle fuel indicator (by fuel)
+        // Returns a string for appliance info box.
+        std::string print_fuel_indicator( map &here, const itype_id &fuel_type,
+                                          std::map<itype_id, units::energy> fuel_usages );
+
+        // Vehicle fuel indicator (by fuel)
         // TODO: Figure out what coordinate system "point" is in and type it.
         void print_fuel_indicator( map &here, const catacurses::window &w, const point &p,
                                    const itype_id &fuel_type,
@@ -997,7 +1029,7 @@ class vehicle
         bool remote_controlled( const Character &p ) const;
 
         // initializes parts and fuel state for randomly generated vehicle and calls refresh()
-        void init_state( map &placed_on, int init_veh_fuel, int init_veh_status,
+        void init_state( map &placed_on, int init_veh_fuel, veh_spawn_status init_veh_status,
                          bool force_status = false );
 
         // damages all parts of a vehicle by a random amount
@@ -1462,6 +1494,10 @@ class vehicle
 
         // Get all printable fuel types
         std::vector<itype_id> get_printable_fuel_types( map &here ) const;
+
+        // Vehicle fuel indicators (all of them)
+        // Returns a string for appliance info box.
+        std::string print_fuel_indicators( map &here, int start_index = 0 );
 
         // Vehicle fuel indicators (all of them)
         // TODO: Figure out what coordinate system this uses and convert to it.
@@ -1949,6 +1985,33 @@ class vehicle
         * @return a pair of tool's first ammo type and the amount of it available from tanks / batteries
         */
         std::pair<const itype_id &, int> tool_ammo_available( map &here, const itype_id &tool_type ) const;
+
+        // Multimag pseudo-tool support.
+        // Populates every consumption-schema pocket of a multimag tool from
+        // vehicle batteries or tanks and returns per-pocket source bindings
+        // keyed by pocket id. drain_back_multimag must consume the returned
+        // map verbatim to keep prep and drain billing the same store.
+        // Pockets that already hold any content at call time are skipped:
+        // player-loaded pockets keep their ammo and stay unbound. Tank source
+        // picker prefers `preferred_primary` when set and the vehicle holds it.
+        static std::map<std::string, multimag_pocket_state> prepare_multimag_pockets(
+            vehicle &veh, map &here, item &tool, const gun_mode_id &mode,
+            const itype_id &preferred_primary = itype_id::NULL_ID() );
+        // Backwards-compatible wrapper for pseudo-tool callers that build a
+        // fresh tool every prep cycle and never need mode or ammo preference.
+        static std::map<std::string, multimag_pocket_state> prepare_multimag_pockets(
+            vehicle &veh, map &here, item &tool );
+        static void drain_back_multimag( vehicle &veh, map &here, const item &tool,
+                                         const std::map<std::string, multimag_pocket_state> &bindings );
+
+        // Run N uses of a legacy charge-driven tool (no implicit pocket) from
+        // the vehicle's battery network. Returns uses actually performed.
+        // Routes the drain through item::consume_tool_uses so the per-use
+        // scalar lives only in the tool's itype, not at vehicle call sites.
+        // TODO(multimag): retire once every legacy charges_per_use tool with
+        // a vehicle-direct-drain caller migrates to firing_requirements.
+        int run_legacy_charge_tool_uses( map &here, const itype_id &tool_type, int uses );
+
         /**
         * @return pseudo- and attached tools available from this vehicle part,
         * marked with PSEUDO flags, pseudo_magazine_mod and pseudo_magazine attached, magazines filled
@@ -2251,6 +2314,7 @@ class vehicle
         void use_washing_machine( map &here, int p );
         void use_dishwasher( map &here, int p );
         void use_mws( map &here, int p );
+        void use_nl_boiler( map &here, int p );
         void use_monster_capture( int part, map *here, const tripoint_bub_ms &pos );
         void use_tiedown_furniture( int part, map *here, const tripoint_bub_ms & );
         void use_harness( int part, map *here, const tripoint_bub_ms &pos );

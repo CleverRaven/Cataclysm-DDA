@@ -50,6 +50,11 @@
     "entries": [ { "drop": "carrot_wild" } ]
   },
   {
+    "id": "wild_asparagus_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "raw_asparagus" } ]
+  },
+  {
     "id": "beehive_harv",
     "type": "harvest",
     "message": "You carefully crack open the hive structure and drain the liquid.",
@@ -1176,6 +1181,17 @@
     ]
   },
   {
+    "id": "mutant_mollusk_acid",
+    "//": "no bones or organs, copied from mutant meatslug but may be expanded",
+    "type": "harvest",
+    "entries": [
+      { "drop": "blood_acid_insect", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.4 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "mutant_fat", "type": "offal", "mass_ratio": 0.1 }
+    ]
+  },
+  {
     "id": "bird_tiny",
     "type": "harvest",
     "entries": [
@@ -2249,6 +2265,24 @@
     "extend": { "entries": [ { "drop": "skull_rodent", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ] }
   },
   {
+    "id": "shrew_with_skull",
+    "type": "harvest",
+    "copy-from": "mammal_tiny",
+    "extend": { "entries": [ { "drop": "skull_rodent", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ] }
+  },
+  {
+    "id": "mole_with_skull",
+    "type": "harvest",
+    "copy-from": "mammal_tiny",
+    "extend": { "entries": [ { "drop": "skull_rodent", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ] }
+  },
+  {
+    "id": "porcupine_with_skull",
+    "type": "harvest",
+    "copy-from": "mammal_small_leather",
+    "extend": { "entries": [ { "drop": "skull_rodent", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ] }
+  },
+  {
     "id": "dog_small_with_skull",
     "type": "harvest",
     "copy-from": "mammal_tiny",
@@ -2480,5 +2514,10 @@
     "//": "Frog legs, but the rest of the frog is mostly inedible",
     "type": "harvest",
     "entries": [ { "drop": "froglegs", "type": "flesh", "scale_num": [ 1, 1 ], "max": 1 } ]
+  },
+  {
+    "id": "nl_shrub_glowberries_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "nl_shrub_glowberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
   }
 ]

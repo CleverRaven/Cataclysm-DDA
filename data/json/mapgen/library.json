@@ -11,7 +11,7 @@
         "..pp----pp#%dy|L[[| dd#.",
         "..pp----pp#dh |  [| h%#.",
         ".#:::**:::#||+|+|||+||#.",
-        ".#[h      %           o.",
+        ".#[h      %          §o.",
         ".#[h      ccc%ccc%ccc #.",
         ".#[h                  #.",
         ".#||||||              #.",
@@ -26,12 +26,13 @@
         ".o     +  U  OW  QQ  M#.",
         ".#+|+|+|  U  TI  QQ  Q#.",
         ".# | | |  U  TI  QQ  Q#.",
-        ".#t|t|t|             [#.",
+        ".#t|t|t|§            [#.",
         ".########o##o###o###o##.",
         ".....4..................",
         "........................"
       ],
-      "palettes": [ "standard_building_shared_palette", "library_palette" ]
+      "palettes": [ "standard_building_shared_palette", "library_palette" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -47,7 +48,7 @@
         "..pp----pp#%dy|L[[| dd#.",
         "..pp----pp#dh |  [| h%#.",
         ".#:::**:::#||+|+|||+||#.",
-        ".#[h      %           o.",
+        ".#[h      %          §o.",
         ".#[h      ccc%ccc%ccc #.",
         ".#[h                  #.",
         ".#||||||              #.",
@@ -62,13 +63,14 @@
         ".o     +  U  OW  QQ  M#.",
         ".#+|+|+|  U  TI  QQ  Q#.",
         ".# | | |  U  TI  QQ  Q#.",
-        ".#t|t|t|             [#.",
+        ".#t|t|t|§            [#.",
         ".########o##o###o###o##.",
         ".....4..................",
         "........................"
       ],
       "palettes": [ "standard_building_shared_palette", "standard_building_vandalized_palette", "vandalized_library_palette" ],
-      "place_rubble": [ { "x": [ 4, 21 ], "y": [ 5, 21 ], "repeat": [ 30, 100 ] } ]
+      "place_rubble": [ { "x": [ 4, 21 ], "y": [ 5, 21 ], "repeat": [ 30, 100 ] } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

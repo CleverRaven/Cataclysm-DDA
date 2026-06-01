@@ -659,11 +659,14 @@ static void draw_traits_info( const catacurses::window &w_info, const Character 
     wnoutrefresh( w_info );
 }
 
+namespace
+{
 struct bionic_grouping {
     const translation name;
     const translation description;
     const int installed_count;
 };
+} // namespace
 
 static void draw_bionics_tab( ui_adaptor &ui, const catacurses::window &w_bionics,
                               const Character &you, const unsigned line,
@@ -870,12 +873,15 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
     wnoutrefresh( w_skills );
 }
 
+namespace
+{
 struct speedlist_entry {
     bool is_speed;
     std::string description;
     int val;
     bool percent;
 };
+} // namespace
 
 static void draw_speed_info( const catacurses::window &w_info,
                              unsigned int line,

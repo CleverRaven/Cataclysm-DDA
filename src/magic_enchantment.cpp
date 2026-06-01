@@ -203,9 +203,9 @@ bool string_id<enchantment>::is_valid() const
 }
 
 template<typename TKey>
-void load_add_and_multiply_dbl_or_var( const JsonObject &jo, std::string_view array_key,
-                                       const std::string &type_key, std::map<TKey, dbl_or_var> &add_map,
-                                       std::map<TKey, dbl_or_var> &mult_map )
+static void load_add_and_multiply_dbl_or_var( const JsonObject &jo, std::string_view array_key,
+        const std::string &type_key, std::map<TKey, dbl_or_var> &add_map,
+        std::map<TKey, dbl_or_var> &mult_map )
 {
     if( jo.has_array( array_key ) ) {
         for( const JsonObject value_obj : jo.get_array( array_key ) ) {
@@ -239,8 +239,8 @@ double enchant_cache::get_value( const TKey &value, const std::map<TKey, double>
 }
 
 template<typename TKey>
-void load_add_and_multiply( const JsonObject &jo, std::string_view array_key,
-                            const std::string &type_key, std::map<TKey, double> &add_map, std::map<TKey, double> &mult_map )
+static void load_add_and_multiply( const JsonObject &jo, std::string_view array_key,
+                                   const std::string &type_key, std::map<TKey, double> &add_map, std::map<TKey, double> &mult_map )
 {
     if( jo.has_array( array_key ) ) {
         for( const JsonObject value_obj : jo.get_array( array_key ) ) {

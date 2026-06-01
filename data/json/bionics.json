@@ -1452,7 +1452,7 @@
     "id": "bio_torsionratchet",
     "type": "bionic",
     "name": { "str": "Joint Torsion Ratchet" },
-    "description": "Your joints have been surgically equipped with torsion ratchets that slowly generate power when you move.  Whilst this is toggled, moving will require more effort, though more power will be generated.",
+    "description": "Your joints have been surgically equipped with torsion ratchets that slowly generate power when you move, even when turned off.  Whilst this is toggled on, moving will require more effort, but more power will be generated.  This system is actively detrimental to fully mechanical limbs; the additional joint resistance it relies on causes a net loss of bionic power.",
     "occupied_bodyparts": [ [ "arm_l", 8 ], [ "arm_r", 8 ], [ "leg_l", 12 ], [ "leg_r", 12 ] ],
     "fuel_options": [ "muscle" ],
     "fuel_efficiency": 0.125,
@@ -1678,76 +1678,36 @@
   {
     "id": "bio_robofac_xmleg",
     "type": "bionic",
-    "name": { "str": "Hub 01 XM-LEG" },
-    "description": "An advanced exoskeleton implanted into your flesh and bone.  When powered by swappable battery packs, you can move 15% faster, traverse obstacles with 50% higher efficiency, and carry 30kg of extra weight.  Activate the integrated item to toggle power.",
+    "name": { "str": "Hub 01 XM-LEG Interface" },
+    "description": "Your legs house chip-free electronics that allow your neurobionic interface to communicate with Hub 01 Lower Extremity Gaitframes.",
     "occupied_bodyparts": [ [ "leg_l", 2 ], [ "leg_r", 2 ] ],
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "mutation_conflicts": [
-      "AMORPHOUS",
-      "BENDY2",
-      "BENDY3",
-      "HUGE",
-      "HUGE_OK",
-      "SMALL2",
-      "SMALL_OK",
-      "LEG_TENTACLES",
-      "LEG_TENT_BRACE",
-      "GASTROPOD_FOOT",
-      "GASTROPOD_BALANCE",
-      "INSECT_RESERVOIR",
-      "BIONIC_LEG_BASIC_LEFT",
-      "BIONIC_LEG_BASIC_RIGHT",
-      "BIONIC_LEG_BASIC_BOTH"
-    ],
-    "passive_pseudo_items": [ "integrated_bio_robofac_xmleg" ]
+    "mutation_conflicts": [ "AMORPHOUS", "HUGE", "HUGE_OK", "SMALL2", "SMALL_OK" ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
     "id": "bio_robofac_xmarm",
     "type": "bionic",
-    "name": { "str": "Hub 01 XM-ARM" },
-    "description": "An advanced exoskeleton implanted into your flesh and bone.  When powered, your arms are exceptionally stable, reducing firearm recoil by 30% and shot dispersion by 10%.  Moreover, you have better control over thrown objects, allowing you to throw objects 50% further and 25% harder.  Activate the integrated item to toggle power.",
+    "name": { "str": "Hub 01 XM-ARM Interface" },
+    "description": "Your arms and hands houses chip-free electronics that allow your neurobionic interface to communicate with Hub 01 Arm Reinforcement Motionframes.",
     "occupied_bodyparts": [ [ "arm_l", 2 ], [ "arm_r", 2 ], [ "hand_l", 2 ], [ "hand_r", 2 ] ],
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "mutation_conflicts": [
-      "AMORPHOUS",
-      "BENDY2",
-      "BENDY3",
-      "WINGS_BIRD",
-      "HUGE",
-      "HUGE_OK",
-      "SMALL2",
-      "SMALL_OK",
-      "WINGS_BAT",
-      "INSECT_ARMS",
-      "INSECT_ARMS_OK",
-      "ARACHNID_ARMS",
-      "ARACHNID_ARMS_OK",
-      "ARM_TENTACLES",
-      "ARM_TENTACLES_4",
-      "ARM_TENTACLES_8",
-      "CLAWS_TENTACLE",
-      "BIONIC_ARM_BASIC_LEFT",
-      "BIONIC_ARM_BASIC_RIGHT",
-      "BIONIC_ARM_BASIC_BOTH"
-    ],
-    "passive_pseudo_items": [ "integrated_bio_robofac_xmarm" ]
+    "mutation_conflicts": [ "AMORPHOUS", "HUGE", "HUGE_OK", "SMALL2", "SMALL_OK" ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
     "id": "bio_robofac_xmback",
     "type": "bionic",
-    "name": { "str": "Hub 01 XM-BACK" },
-    "description": "An advanced exoskeleton implanted into your flesh and bone.  When powered, your frame is exceptionally stable, increasing carry weight by 35% and modestly improving absorbed recoil and throwing ability.  Activate the integrated item to toggle power.",
+    "name": { "str": "Hub 01 XM-BACK Interface" },
+    "description": "Your shoulders and back house chip-free electronics that allow your neurobionic interface to communicate with Hub 01 Biomechanical Assisted Carrying Kinetoframes.",
     "occupied_bodyparts": [ [ "torso", 2 ] ],
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "mutation_conflicts": [ "AMORPHOUS", "HUGE", "HUGE_OK", "SMALL2", "SMALL_OK", "INSECT_RESERVOIR" ],
-    "passive_pseudo_items": [ "integrated_bio_robofac_xmback" ]
+    "mutation_conflicts": [ "AMORPHOUS", "HUGE", "HUGE_OK", "SMALL2", "SMALL_OK" ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
     "id": "bio_robofac_xmlens",
     "type": "bionic",
-    "name": { "str": "Hub 01 XM-LENS" },
-    "description": "Your scalp skin houses chip-free electronics which allow your neurobionic interface to communicate with compatible LENS gear.",
-    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "name": { "str": "Hub 01 XM-LENS Interface" },
+    "description": "Your scalp houses chip-free electronics that allow your neurobionic interface to communicate with compatible Hub 01 Low-latency ExoNeural Sensory headgear.",
+    "occupied_bodyparts": [ [ "head", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [ "AMORPHOUS", "HUGE", "HUGE_OK", "SMALL2", "SMALL_OK" ],
     "canceled_mutations": [
@@ -1780,5 +1740,276 @@
       "hair_very_long",
       "natural_hair_growth"
     ]
+  },
+  {
+    "id": "bio_nl_dimensional_anchor",
+    "//": "Only found in netherum labyrinth",
+    "type": "bionic",
+    "name": { "str": "Dimensional Anchor" },
+    "description": "Your body has been wired with advanced technology that locks you into your native dimensionality, protecting you from unwanted teleportation and some other phase altering effects.",
+    "occupied_bodyparts": [ [ "torso", 16 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 4 ], [ "leg_r", 4 ] ],
+    "act_cost": "50 J",
+    "react_cost": "50 J",
+    "time": "1 s",
+    "flags": [ "USES_BIONIC_POWER", "BIONIC_TOGGLED" ],
+    "activated_eocs": [ "EOC_bio_nl_dimensional_anchor" ],
+    "deactivated_eocs": [ "EOC_bio_nl_dimensional_anchor_removal" ]
+  },
+  {
+    "id": "bio_nl_laser_reader",
+    "//": "Only found in netherum labyrinth",
+    "type": "bionic",
+    "name": { "str": "Laser-Assisted Reading Device" },
+    "description": "Who needs a reading lamp when you don't need your eyes?  Your head has a short-distance laser scanner implant, allowing you to upload digital images of books straight into your brains optic lobe and language centers.  When active, you read slightly faster, and can read in the dark.",
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "active_flags": [ "READ_IN_DARKNESS" ],
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "READING_SPEED_MULTIPLIER", "multiply": -0.1 } ] } ],
+    "act_cost": "1 J",
+    "react_cost": "1 J",
+    "time": "1 s"
+  },
+  {
+    "id": "bio_nl_psyshield",
+    "//": "Only found in netherum labyrinth",
+    "type": "bionic",
+    "name": { "str": "Cranial EMF Shielding" },
+    "description": "Your skull is coated in a microscopically thin layer of some non-newtonian fluid.  It can protect you from some types of electromagnetic fields.  Is it useful?  Maybe.  It slightly encumbers the head.",
+    "encumbrance": [ [ "head", 1 ] ],
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "passive_pseudo_items": [ "integrated_nl_psyshield" ]
+  },
+  {
+    "id": "bio_nl_hair",
+    "//": "Only found in netherum labyrinth",
+    "type": "bionic",
+    "name": { "str": "Artificial Hair" },
+    "description": "Your hair follicles have been replaced with mechanical sphincters that control the extrusion and retraction of advanced nanotube hair technology.  Activate this to change the style or color of your artificial hair.",
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "act_cost": "1 J",
+    "activated_eocs": [ "EOC_bio_nl_hair" ],
+    "canceled_mutations": [
+      "hair_beaded",
+      "hair_body_length",
+      "hair_braid",
+      "hair_bun",
+      "hair_buzzcut",
+      "hair_crewcut",
+      "hair_curls",
+      "hair_detective",
+      "hair_extremely_long",
+      "hair_fro",
+      "hair_long",
+      "hair_long_mohawk",
+      "hair_long_over_eye",
+      "hair_medium",
+      "hair_messy",
+      "hair_modern",
+      "hair_mohawk",
+      "hair_mullet",
+      "hair_ponytail",
+      "hair_puff",
+      "hair_punk_long",
+      "hair_short",
+      "hair_short_no_fringe",
+      "hair_short_over_eye",
+      "hair_super_princess",
+      "hair_twintails",
+      "hair_very_long",
+      "natural_hair_growth",
+      "natural_beard_growth",
+      "natural_hair_color_black",
+      "natural_hair_color_blond",
+      "natural_hair_color_brown",
+      "natural_hair_color_gray",
+      "natural_hair_color_red",
+      "natural_hair_color_white"
+    ]
+  },
+  {
+    "id": "bio_nl_blood_factory",
+    "//": "Only found in netherum labyrinth",
+    "type": "bionic",
+    "name": { "str": "Bone Marrow Bio-Factory" },
+    "description": "Your bone marrow is now home to several specialized nanorobots.  Activating them will increase blood cell production at the cost of stored calories and bionic energy.",
+    "occupied_bodyparts": [ [ "torso", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 1 ], [ "leg_r", 1 ] ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "BIONIC_SLEEP_FRIENDLY", "BIONIC_SHOCKPROOF" ],
+    "act_cost": "40 J",
+    "react_cost": "40 J",
+    "time": "1 s",
+    "processed_eocs": [ "EOC_bio_nl_blood_factory" ]
+  },
+  {
+    "id": "bio_nl_antigravity_jump",
+    "type": "bionic",
+    "name": { "str": "Antigravity Leap Assist" },
+    "description": "Your legs have been implanted with an antigravity device.  While it doesn't allow you to float or fly, it does allow you to make superhuman long jumps.",
+    "occupied_bodyparts": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "act_cost": "250 kJ",
+    "spell_on_activation": { "id": "bio_nl_antigravity_jump_spell" },
+    "activated_close_ui": true
+  },
+  {
+    "id": "bio_exodii_cyberframe_1a",
+    "type": "bionic",
+    "name": { "str": "Cyberframe 1a" },
+    "description": "Your body is integrated into a bulky Exodii Cyberframe.  Your important internal organs, including much of your core skeleton and musculature, are encased in a solid metal core.  While there is clearly a head and torso, it is difficult to tell where one starts and the other ends.  It will be difficult or impossible to squeeze through tight spaces, or to wear normal-sized clothing and armor.  The frame greatly increases your physical dexterity and strength, and is highly protective, but the internal parts of your head and torso are still affected by temperature, you can still feel pain, and internal bleeding can occur with sufficient damage.",
+    "cant_remove_reason": "Cyberframes cannot be removed, only swapped via specialized surgery.  Removing it would kill you.",
+    "enchantments": [
+      { "values": [ { "value": "STRENGTH", "add": 4 }, { "value": "DEXTERITY", "add": 4 } ] },
+      { "mutations": [ "EXODII_CYBERFRAME_LARGE" ] }
+    ],
+    "protec": [
+      [ "head_bionic_basic", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ],
+      [ "mouth_bionic_basic", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ],
+      [ "torso_bionic_basic", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ]
+    ]
+  },
+  {
+    "id": "bio_exodii_leg_bionic_basic_armored_left",
+    "type": "bionic",
+    "name": { "str": "Cyberframe 1a: Bionic Left Leg" },
+    "description": "You have a bionic left leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are highly resistant to damage.  Due to their size and armored plating, a heavy-duty 1a-style Cyberframe is necessary for operation.",
+    "required_bionic": "bio_exodii_cyberframe_1a",
+    "replaced_bodyparts": [ "leg_l", "foot_l" ],
+    "enchantments": [ { "modified_bodyparts": [ { "gain": "leg_bionic_basic_l" }, { "gain": "foot_bionic_basic_l" } ] } ],
+    "protec": [
+      [ "leg_bionic_basic_l", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ],
+      [ "foot_bionic_basic_l", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ]
+    ]
+  },
+  {
+    "id": "bio_exodii_leg_bionic_basic_armored_right",
+    "type": "bionic",
+    "name": { "str": "Cyberframe 1a: Bionic Right Leg" },
+    "description": "You have a bionic right leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are highly resistant to damage.  Due to their size and armored plating, a heavy-duty 1a-style Cyberframe is necessary for operation.",
+    "required_bionic": "bio_exodii_cyberframe_1a",
+    "replaced_bodyparts": [ "leg_r", "foot_r" ],
+    "enchantments": [ { "modified_bodyparts": [ { "gain": "leg_bionic_basic_r" }, { "gain": "foot_bionic_basic_r" } ] } ],
+    "protec": [
+      [ "leg_bionic_basic_r", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ],
+      [ "foot_bionic_basic_r", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ]
+    ]
+  },
+  {
+    "id": "bio_exodii_leg_bionic_treads",
+    "type": "bionic",
+    "name": { "str": "Cyberframe 1a: Bionic Treads" },
+    "description": "In place of legs and feet you have sturdy treads.  They are in fact two side-by-size triangular mechanisms, split in the middle, and independently operated.  Your former ankles and associated anatomy are now a part of the internal servomotors, and your knees are capable of minor telescoping and bending, to facilitate lifting one tread at a time for carefully passing over obstacles, or climbing stairs or ladders.  Unlike bipedal human legs, these move faster over most terrain, but will severely hinder travel over obstacles and through water.  They are immune to temperature and pain and don't bleed.  While they are highly resistant to damage, their external moving parts are less well protected than a standard bionic leg with similar plate thickness.  Due to their size and heft, a heavy-duty 1a-style Cyberframe is necessary for operation.",
+    "required_bionic": "bio_exodii_cyberframe_1a",
+    "replaced_bodyparts": [ "leg_l", "foot_l", "leg_r", "foot_r" ],
+    "enchantments": [
+      { "modified_bodyparts": [ { "gain": "bionic_treads_leg" } ] },
+      { "values": [ { "value": "MOVECOST_OBSTACLE_MOD", "multiply": 6 } ] }
+    ],
+    "protec": [ [ "bionic_treads_leg", { "bash": 20, "cut": 20, "bullet": 15, "stab": 20, "acid": 30 } ] ]
+  },
+  {
+    "id": "bio_exodii_arm_bionic_basic_armored_left",
+    "type": "bionic",
+    "name": { "str": "Cyberframe 1a: Bionic Left Arm" },
+    "description": "You have a bionic left leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are highly resistant to damage.  Due to their size and armored plating, a heavy-duty 1a-style Cyberframe is necessary for operation.",
+    "required_bionic": "bio_exodii_cyberframe_1a",
+    "replaced_bodyparts": [ "arm_l", "hand_l" ],
+    "enchantments": [ { "modified_bodyparts": [ { "gain": "arm_bionic_basic_l" }, { "gain": "hand_bionic_basic_l" } ] } ],
+    "protec": [
+      [ "arm_bionic_basic_l", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ],
+      [ "hand_bionic_basic_l", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ]
+    ]
+  },
+  {
+    "id": "bio_exodii_arm_bionic_basic_armored_right",
+    "type": "bionic",
+    "name": { "str": "Cyberframe 1a: Bionic Right Arm" },
+    "description": "You have a bionic right leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are highly resistant to damage.  Due to their size and armored plating, a heavy-duty 1a-style Cyberframe is necessary for operation.",
+    "required_bionic": "bio_exodii_cyberframe_1a",
+    "replaced_bodyparts": [ "arm_r", "hand_r" ],
+    "enchantments": [ { "modified_bodyparts": [ { "gain": "arm_bionic_basic_r" }, { "gain": "hand_bionic_basic_r" } ] } ],
+    "protec": [
+      [ "arm_bionic_basic_l", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ],
+      [ "hand_bionic_basic_l", { "bash": 30, "cut": 30, "bullet": 25, "stab": 30, "acid": 30 } ]
+    ]
+  },
+  {
+    "id": "bio_exodii_cyberframe_1b",
+    "type": "bionic",
+    "name": { "str": "Cyberframe 1b" },
+    "description": "Your body is integrated into a very human-like Exodii Cyberframe.  Your important internal organs, including much of your core skeleton and musculature, are encased in a frame that resembles a robotic human.  The frame increases your physical dexterity and strength, and is modestly protective, but the internal parts of your head and torso are still affected by temperature, you can still feel pain, and internal bleeding can occur with sufficient damage.",
+    "cant_remove_reason": "Cyberframes cannot be removed, only swapped via specialized surgery.  Removing it would kill you.",
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "DEXTERITY", "add": 4 } ] } ],
+    "protec": [
+      [ "head_bionic_basic", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ],
+      [ "mouth_bionic_basic", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ],
+      [ "torso_bionic_basic", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ]
+    ]
+  },
+  {
+    "id": "bio_exodii_leg_bionic_basic_left",
+    "type": "bionic",
+    "name": { "str": "Cyberframe 1b: Bionic Left Leg" },
+    "description": "You have a bionic left leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are modestly more sturdy.",
+    "required_bionic": "bio_exodii_cyberframe_1b",
+    "replaced_bodyparts": [ "leg_l", "foot_l" ],
+    "enchantments": [ { "modified_bodyparts": [ { "gain": "leg_bionic_basic_l" }, { "gain": "foot_bionic_basic_l" } ] } ],
+    "protec": [
+      [ "leg_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ],
+      [ "foot_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ]
+    ]
+  },
+  {
+    "id": "bio_exodii_leg_bionic_basic_right",
+    "type": "bionic",
+    "name": { "str": "Cyberframe 1b: Bionic Right Leg" },
+    "description": "You have a bionic right leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are modestly more sturdy.",
+    "required_bionic": "bio_exodii_cyberframe_1b",
+    "replaced_bodyparts": [ "leg_r", "foot_r" ],
+    "enchantments": [ { "modified_bodyparts": [ { "gain": "leg_bionic_basic_r" }, { "gain": "foot_bionic_basic_r" } ] } ],
+    "protec": [
+      [ "leg_bionic_basic_r", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ],
+      [ "foot_bionic_basic_r", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ]
+    ]
+  },
+  {
+    "id": "bio_exodii_arm_bionic_basic_left",
+    "type": "bionic",
+    "name": { "str": "Cyberframe 1b: Bionic Left Arm" },
+    "description": "You have a bionic left leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are modestly more sturdy.",
+    "required_bionic": "bio_exodii_cyberframe_1b",
+    "replaced_bodyparts": [ "arm_l", "hand_l" ],
+    "enchantments": [ { "modified_bodyparts": [ { "gain": "arm_bionic_basic_l" }, { "gain": "hand_bionic_basic_l" } ] } ],
+    "protec": [
+      [ "arm_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ],
+      [ "hand_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ]
+    ]
+  },
+  {
+    "id": "bio_exodii_arm_bionic_basic_right",
+    "type": "bionic",
+    "name": { "str": "Cyberframe 1b: Bionic Right Arm" },
+    "description": "You have a bionic right leg and foot fit for an Exodii Cyberframe.  These bionics mimic the dynamics of normal human limbs, but are immune to temperature and pain, don't bleed, and are modestly more sturdy.",
+    "required_bionic": "bio_exodii_cyberframe_1b",
+    "replaced_bodyparts": [ "arm_r", "hand_r" ],
+    "enchantments": [ { "modified_bodyparts": [ { "gain": "arm_bionic_basic_r" }, { "gain": "hand_bionic_basic_r" } ] } ],
+    "protec": [
+      [ "arm_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ],
+      [ "hand_bionic_basic_l", { "bash": 5, "cut": 5, "bullet": 2, "stab": 5, "acid": 30 } ]
+    ]
+  },
+  {
+    "id": "bio_nl_collar",
+    "type": "bionic",
+    "name": { "str": "Mysterious collar implant" },
+    "description": "You can feel something implanted in the nape of your neck, but you're not sure what it is.  The whole thing makes you feel a little stiff.",
+    "cant_remove_reason": "You know there's an implant there, but it doesn't show up on the scanners?",
+    "encumbrance": [ [ "head", 1 ] ]
+  },
+  {
+    "id": "bio_nl_collar_deactivated",
+    "type": "bionic",
+    "name": { "str": "Mysterious collar implant" },
+    "description": "You can feel something implanted in the nape of your neck, but you're not sure what it is.  The whole thing makes you feel a little stiff.",
+    "encumbrance": [ [ "head", 1 ] ]
   }
 ]

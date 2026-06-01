@@ -104,8 +104,10 @@
   {
     "id": "bone_edible",
     "type": "requirement",
-    "//": "Any kind of non-poisonous bones, human or not.",
-    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_demihuman", 1 ] ] ]
+    "//": "Any kind of non-poisonous bones, human or not. Includes non-poisonous human-size skulls.",
+    "components": [
+      [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_demihuman", 1 ], [ "skull_humanlike", 1, "LIST" ], [ "skull_human", 1 ] ]
+    ]
   },
   {
     "id": "bone_sturdy",
@@ -117,7 +119,7 @@
     "id": "bone_any",
     "type": "requirement",
     "//": "Any kind of bones.  May possibly be poisonous to eat, or fragile.",
-    "components": [ [ [ "bone_sturdy", 1, "LIST" ], [ "bone_tainted", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ], [ "bone_tainted", 1 ], [ "skull_human_tainted", 1 ] ] ]
   },
   {
     "id": "bone_meal_any",
@@ -126,16 +128,75 @@
     "components": [ [ [ "meal_bone", 1 ], [ "meal_bone_tainted", 1 ] ] ]
   },
   {
+    "id": "skull_any",
+    "type": "requirement",
+    "//": "Any non-poisonous skull, human or not.",
+    "components": [
+      [
+        [ "skull_tiny", 1, "LIST" ],
+        [ "skull_small", 1, "LIST" ],
+        [ "skull_medium", 1, "LIST" ],
+        [ "skull_large", 1, "LIST" ],
+        [ "skull_humanlike", 1, "LIST" ],
+        [ "skull_human", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "skull_tiny",
+    "type": "requirement",
+    "//": "Tiny skulls",
+    "components": [ [ [ "skull_canis_small", 1 ], [ "skull_feline_small", 1 ], [ "skull_opossum", 1 ] ] ]
+  },
+  {
     "id": "skull_small",
     "type": "requirement",
     "//": "Small skulls",
-    "components": [ [ [ "skull_feline_small", 1 ], [ "skull_canis_small", 1 ], [ "skull_opossum", 1 ], [ "skull_skunk", 1 ] ] ]
+    "components": [
+      [
+        [ "skull_canis_medium", 1 ],
+        [ "skull_feline_medium", 1 ],
+        [ "skull_raccoon", 1 ],
+        [ "skull_skunk", 1 ],
+        [ "skull_rabbit", 1 ]
+      ]
+    ]
   },
   {
     "id": "skull_medium",
     "type": "requirement",
     "//": "Medium skulls",
-    "components": [ [ [ "skull_feline_medium", 1 ], [ "skull_canis_medium", 1 ], [ "skull_raccoon", 1 ], [ "skull_rabbit", 1 ] ] ]
+    "components": [
+      [
+        [ "skull_canis", 1 ],
+        [ "skull_canis_triclopean", 1 ],
+        [ "skull_cougar", 1 ],
+        [ "skull_beaver", 1 ],
+        [ "skull_beaver_huge", 1 ],
+        [ "skull_sheep", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "skull_humanlike",
+    "type": "requirement",
+    "//": "Skulls similar in size to a human skull, but not human or demi-human",
+    "components": [
+      [
+        [ "skull_bear", 1 ],
+        [ "skull_pig", 1 ],
+        [ "skull_goat", 1 ],
+        [ "skull_cervine", 1 ],
+        [ "skull_cervine_spideer", 1 ],
+        [ "skull_llama", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "skull_large",
+    "type": "requirement",
+    "//": "Skulls that belong to megafauna and large livestock",
+    "components": [ [ [ "skull_bovine", 1 ], [ "skull_equine", 1 ], [ "skull_moose", 1 ], [ "skull_moose_tusked", 1 ] ] ]
   },
   {
     "id": "copper_scrap_equivalent",

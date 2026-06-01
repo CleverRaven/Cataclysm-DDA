@@ -33,6 +33,8 @@ static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_jeans( "jeans" );
 static const itype_id itype_tshirt( "tshirt" );
 
+namespace
+{
 enum inventory_location {
     GROUND,
     INVENTORY,
@@ -55,6 +57,7 @@ enum test_action {
     REMOVE_1ST_ADD_1ST,
     TEST_ACTION_NUM,
 };
+} // namespace
 
 static void set_id( item &it, const std::string &id )
 {

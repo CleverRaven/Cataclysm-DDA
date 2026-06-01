@@ -79,6 +79,8 @@ void weather_generator::finalize_all()
 {
     weather_generator_factory.finalize();
 }
+namespace
+{
 struct weather_gen_common {
     double x = 0;
     double y = 0;
@@ -87,6 +89,7 @@ struct weather_gen_common {
     unsigned modSEED = 0u;
     season_type season = season_type::SPRING;
 };
+} // namespace
 
 static weather_gen_common get_common_data( const tripoint_abs_ms &location,
         const time_point &real_t,

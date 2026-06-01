@@ -92,6 +92,9 @@ static const itype_id itype_test_shot_00_fire_damage( "test_shot_00_fire_damage"
 
 using firing_statistics = statistics<bool>;
 
+namespace
+{
+
 class Threshold
 {
     public:
@@ -109,8 +112,10 @@ class Threshold
         double _chance;
 };
 
+} // namespace
+
 template < class T >
-std::ostream &operator <<( std::ostream &os, const std::vector<T> &v )
+static std::ostream &operator <<( std::ostream &os, const std::vector<T> &v )
 {
     os << "[";
     for( typename std::vector<T>::const_iterator ii = v.begin(); ii != v.end(); ++ii ) {
@@ -694,8 +699,8 @@ TEST_CASE( "shot_custom_damage_type", "[gun]" "[slow]" )
 static constexpr float fudge_factor = 0.025;
 
 template<typename T, typename W>
-std::map<T, float> hit_distribution( const targeting_graph<T, W> &graph,
-                                     std::optional<float> guess = std::nullopt, int iters = 100000 )
+static std::map<T, float> hit_distribution( const targeting_graph<T, W> &graph,
+        std::optional<float> guess = std::nullopt, int iters = 100000 )
 {
     std::map<T, float> hits;
     for( int i = 0; i < iters; ++i ) {

@@ -17,7 +17,7 @@
     "material_thickness": 1,
     "environmental_protection": 2,
     "flags": [ "OVERSIZE", "HOOD", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 20, "coverage": 70, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 70, "covers": [ "mouth", "beak", "muzzle" ] } ]
   },
   {
     "id": "headscarf",
@@ -147,7 +147,7 @@
     "warmth": 20,
     "environmental_protection": 1,
     "material_thickness": 0.3,
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "beak", "muzzle" ] } ]
   },
   {
     "id": "long_patchwork_scarf_loose",
@@ -174,7 +174,7 @@
     "warmth": 10,
     "environmental_protection": 1,
     "material_thickness": 0.3,
-    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth", "beak", "muzzle" ] } ]
   },
   {
     "id": "long_patchwork_scarf_headwrap",
@@ -285,7 +285,7 @@
     "warmth": 20,
     "environmental_protection": 2,
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "beak", "muzzle" ] } ]
   },
   {
     "id": "long_knit_scarf_loose",
@@ -312,7 +312,7 @@
     "warmth": 10,
     "environmental_protection": 1,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth", "beak", "muzzle" ] } ]
   },
   {
     "id": "long_knit_scarf_headwrap",
@@ -423,7 +423,7 @@
     "warmth": 45,
     "environmental_protection": 2,
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "beak", "muzzle" ] } ]
   },
   {
     "id": "scarf_long_loose",
@@ -450,7 +450,7 @@
     "warmth": 20,
     "environmental_protection": 1,
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth", "beak", "muzzle" ] } ]
   },
   {
     "id": "scarf_long_headwrap",
@@ -561,7 +561,7 @@
     "warmth": 65,
     "environmental_protection": 2,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "mouth", "beak", "muzzle" ] } ]
   },
   {
     "id": "scarf_fur_long_loose",
@@ -588,7 +588,7 @@
     "warmth": 30,
     "environmental_protection": 1,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 10, "coverage": 45, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 45, "covers": [ "mouth", "beak", "muzzle" ] } ]
   },
   {
     "id": "scarf_fur_long_headwrap",
@@ -700,7 +700,7 @@
     "warmth": 50,
     "environmental_protection": 2,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "mouth", "beak", "muzzle" ] } ]
   },
   {
     "id": "scarf_faux_fur_long_loose",
@@ -728,7 +728,7 @@
     "warmth": 25,
     "environmental_protection": 1,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 10, "coverage": 45, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 45, "covers": [ "mouth", "beak", "muzzle" ] } ]
   },
   {
     "id": "scarf_faux_fur_long_headwrap",

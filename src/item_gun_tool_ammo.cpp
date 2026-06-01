@@ -495,11 +495,14 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
     return total_damage * to_moves<double>( 1_seconds ) / total_moves;
 }
 
+namespace
+{
 struct dps_comp_data {
     mtype_id mon_id;
     bool display;
     bool evaluate;
 };
+} // namespace
 
 static const std::vector<std::pair<translation, dps_comp_data>> dps_comp_monsters = {
     { to_translation( "Best" ), { pseudo_debug_mon, true, false } },
@@ -810,9 +813,11 @@ std::pair<int, int> item::reach_range( const Character &guy ) const
                 continue;
             }
             if( m.second.melee() ) {
-                res = std::max( res, std::max( 1,
-                                               static_cast<int>( guy.calculate_by_enchantment( m.second.qty + reach_attack_add,
-                                                       enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) ) );
+                res = std::max( {
+                    res, 1,
+                    static_cast<int>( guy.calculate_by_enchantment( m.second.qty + reach_attack_add,
+                                      enchant_vals::mod::MELEE_RANGE_MODIFIER ) )
+                } );
             }
         }
     }
@@ -1417,6 +1422,27 @@ int item::ammo_remaining( const map &here, const std::set<ammotype> &ammo, const
         ret += mag->ammo_remaining( );
     }
 
+    // Integral MAGAZINE pockets sitting alongside wells (multimag).
+    // is_magazine() hosts are covered by the dedicated branch below.
+    if( !is_magazine() ) {
+        for( const item_pocket *p : get_pockets( []( const item_pocket & q ) {
+        return q.is_type( pocket_type::MAGAZINE );
+        } ) ) {
+            for( const item *e : p->all_items_top() ) {
+                if( e->has_flag( flag_CASING ) ) {
+                    continue;
+                }
+                if( !e->is_ammo() ) {
+                    continue;
+                }
+                if( !ammo.empty() && ammo.find( e->ammo_type() ) == ammo.end() ) {
+                    continue;
+                }
+                ret += e->charges > 0 ? e->charges : 1;
+            }
+        }
+    }
+
     // Cable connections
     if( include_linked && link_length() >= 0 && link().efficiency >= MIN_LINK_EFFICIENCY ) {
         if( link().t_veh ) {
@@ -1666,12 +1692,41 @@ int item::ammo_capacity( const ammotype &ammo, bool include_linked ) const
 {
     map &here = get_map();
 
-    const item *mag = magazine_current();
     if( include_linked && has_link_data() ) {
         return link().t_veh ? link().t_veh->connected_battery_power_level( here ).second : 0;
-    } else if( mag ) {
+    }
+
+    // Route per-ammotype lookup through the matching pocket; magazine_current()
+    // returns the first loaded mag regardless of ammotype and misreports here.
+    if( const item_pocket *p = pocket_for_ammo( ammo ) ) {
+        if( p->is_type( pocket_type::MAGAZINE_WELL ) ) {
+            if( const item *mag = p->magazine_current() ) {
+                return mag->ammo_capacity( ammo );
+            }
+            // Multimag hosts surface the default mag's capacity for unloaded
+            // wells so item info shows the projected per-well number. Single-
+            // well guns keep returning 0 so "is this loaded?" stays correct.
+            if( uses_firing_requirements() ) {
+                const itype_id default_mag = p->magazine_default();
+                if( !default_mag.is_null() && default_mag->magazine ) {
+                    return default_mag->magazine->capacity;
+                }
+            }
+        } else {
+            const auto &restrictions = p->get_pocket_data()
+                                       ? p->get_pocket_data()->ammo_restriction
+                                       : std::map<ammotype, int> {};
+            const auto it = restrictions.find( ammo );
+            if( it != restrictions.end() ) {
+                return it->second;
+            }
+        }
+    }
+
+    if( const item *mag = magazine_current() ) {
         return mag->ammo_capacity( ammo );
-    } else if( has_flag( flag_USES_BIONIC_POWER ) ) {
+    }
+    if( has_flag( flag_USES_BIONIC_POWER ) ) {
         return units::to_kilojoule( get_player_character().get_max_power_level() );
     }
 
@@ -1907,6 +1962,11 @@ bool item::has_ammo() const
     if( mag ) {
         return mag->has_ammo();
     }
+    // Multimag gun identity is anchored to the projectile pocket; never
+    // borrow sibling-pocket ammo (e.g. battery wells) when it is empty.
+    if( uses_firing_requirements() && is_gun() ) {
+        return false;
+    }
 
     if( is_ammo() ) {
         return true;
@@ -1932,6 +1992,9 @@ bool item::has_ammo_data() const
     if( mag ) {
         return mag->has_ammo_data();
     }
+    if( uses_firing_requirements() && is_gun() ) {
+        return false;
+    }
 
     if( is_ammo() ) {
         return true;
@@ -1956,6 +2019,9 @@ const itype *item::ammo_data() const
     const item *mag = ammo_identity_mag();
     if( mag ) {
         return mag->ammo_data();
+    }
+    if( uses_firing_requirements() && is_gun() ) {
+        return nullptr;
     }
 
     if( is_ammo() ) {
@@ -1994,7 +2060,15 @@ const item &item::loaded_ammo() const
 {
     const item *mag = ammo_identity_mag();
     if( mag ) {
+        // Integral MAGAZINE primary returns the bare ammo item itself, not
+        // a containing magazine; recursing on bare ammo lands at null.
+        if( mag->is_ammo() ) {
+            return *mag;
+        }
         return mag->loaded_ammo();
+    }
+    if( uses_firing_requirements() && is_gun() ) {
+        return null_item_reference();
     }
 
     if( is_magazine() ) {
@@ -2281,8 +2355,14 @@ int item::ammo_remaining_in_pocket( const std::string &id ) const
         return mag ? mag->ammo_remaining( ) : 0;
     }
     if( p->is_type( pocket_type::MAGAZINE ) ) {
+        // Exclude spent casings - cycle_action force-inserts them into
+        // the integral pocket after a shot, and they shouldn't count as
+        // loaded ammo for feasibility / display.
         int total = 0;
         for( const item *e : p->all_items_top() ) {
+            if( e->has_flag( flag_CASING ) ) {
+                continue;
+            }
             total += e->charges;
         }
         return total;
@@ -2368,6 +2448,54 @@ const item_pocket *item::primary_ammo_pocket() const
     return wells.front();
 }
 
+const item_pocket *item::pocket_for_ammo( const ammotype &at ) const
+{
+    if( at.is_null() ) {
+        return nullptr;
+    }
+    const std::vector<const item_pocket *> wells = get_pockets(
+    []( const item_pocket & p ) {
+        return p.is_type( pocket_type::MAGAZINE_WELL ) ||
+               p.is_type( pocket_type::MAGAZINE );
+    } );
+    auto matches = [&at]( const item_pocket * p ) {
+        for( const ammotype &pt : p->ammo_types() ) {
+            if( pt == at ) {
+                return true;
+            }
+        }
+        for( const itype_id &allowed : p->item_type_restrictions() ) {
+            if( !allowed->magazine ) {
+                continue;
+            }
+            for( const ammotype &slot : allowed->magazine->type ) {
+                if( slot == at ) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
+    for( const item_pocket *p : wells ) {
+        if( !matches( p ) ) {
+            continue;
+        }
+        if( p->is_type( pocket_type::MAGAZINE_WELL ) ) {
+            if( p->magazine_current() != nullptr ) {
+                return p;
+            }
+        } else if( !p->empty() ) {
+            return p;
+        }
+    }
+    for( const item_pocket *p : wells ) {
+        if( matches( p ) ) {
+            return p;
+        }
+    }
+    return nullptr;
+}
+
 const item *item::ammo_identity_mag() const
 {
     if( uses_firing_requirements() && type && type->gun ) {
@@ -2379,8 +2507,14 @@ const item *item::ammo_identity_mag() const
             return p->magazine_current();
         }
         // Integral MAGAZINE pocket: the ammo itself drives identity.
-        const std::list<const item *> contents_top = p->all_items_top();
-        return contents_top.empty() ? nullptr : contents_top.front();
+        // cycle_action leaves spent casings in the pocket; skip them.
+        for( const item *e : p->all_items_top() ) {
+            if( e->has_flag( flag_CASING ) ) {
+                continue;
+            }
+            return e;
+        }
+        return nullptr;
     }
     return magazine_current();
 }
@@ -2458,9 +2592,15 @@ static std::string format_entry_name( const item &host, const pocket_consumption
         if( !display.empty() ) {
             return display;
         }
-        if( !pd->default_magazine.is_null() && pd->default_magazine->magazine ) {
+        // is_null compares to NULL_ID ("null"); the generic optional()
+        // JSON loader resets string_id fields to default-constructed
+        // empty string when the JSON field is absent, which slips past
+        // is_null. Treat empty the same as null so we don't deref a
+        // missing itype.
+        if( !pd->default_magazine.is_null() && !pd->default_magazine.is_empty() &&
+            pd->default_magazine->magazine ) {
             const itype_id &default_ammo = pd->default_magazine->magazine->default_ammo;
-            if( !default_ammo.is_null() && default_ammo->ammo ) {
+            if( !default_ammo.is_null() && !default_ammo.is_empty() && default_ammo->ammo ) {
                 return default_ammo->nname( qty );
             }
         }
@@ -2595,10 +2735,26 @@ int item::tool_uses_remaining_local() const
     return feasible_uses( *this, *entries, INT_MAX, /*external_pool=*/0 );
 }
 
+int item::feasible_tool_uses( int external_pool ) const
+{
+    if( !uses_firing_requirements() ) {
+        return 0;
+    }
+    const std::vector<pocket_consumption_entry> *entries =
+        type->firing_requirements.for_mode( gun_mode_DEFAULT );
+    if( entries == nullptr || entries->empty() ) {
+        return 0;
+    }
+    return feasible_uses( *this, *entries, INT_MAX, std::max( 0, external_pool ) );
+}
+
 namespace
 {
 // Multimag drain in cable -> local -> UPS -> bionic order; applies
 // external deltas exactly once. Returns shots / uses actually consumed.
+// TODO(multimag): cable-before-local order can misallocate when 2+ battery
+// pockets share cable and have mixed local stocks. Drain local first per
+// pocket, then bill external for the residual.
 int multimag_drain( item &host, const std::vector<pocket_consumption_entry> &entries,
                     int requested, map &here, const tripoint_bub_ms &pos,
                     Character *carrier )
@@ -3016,10 +3172,6 @@ item::reload_option::reload_option( const reload_option & ) = default;
 item::reload_option &item::reload_option::operator=( const reload_option & ) = default;
 
 item::reload_option::reload_option( const Character *who, const item_location &target,
-                                    const item_location &ammo ) :
-    reload_option( who, target, ammo, -1 ) {}
-
-item::reload_option::reload_option( const Character *who, const item_location &target,
                                     const item_location &ammo, int pocket_index ) :
     who( who ), target( target ), ammo( ammo ), pocket_index( pocket_index )
 {
@@ -3045,10 +3197,23 @@ int item::reload_option::moves() const
 
 void item::reload_option::qty( int val )
 {
-    // Pocket-targeted reloads swap exactly one magazine.
+    item_pocket *integral_pocket = nullptr;
     if( pocket_index >= 0 ) {
-        qty_ = 1;
-        return;
+        // MAGAZINE_WELL targeted reload swaps one magazine. Integral
+        // MAGAZINE targeted reload loads loose ammo and follows the
+        // general capacity math below, scoped to that pocket so sibling
+        // wells do not poison the count on multimag hosts.
+        const std::vector<item_pocket *> pockets = target->get_pockets(
+        []( const item_pocket & ) {
+            return true;
+        } );
+        if( pocket_index < static_cast<int>( pockets.size() ) &&
+            pockets[pocket_index]->is_type( pocket_type::MAGAZINE ) ) {
+            integral_pocket = pockets[pocket_index];
+        } else {
+            qty_ = 1;
+            return;
+        }
     }
 
     bool ammo_in_container = ammo->is_ammo_container();
@@ -3065,9 +3230,16 @@ void item::reload_option::qty( int val )
 
     // Checking ammo capacity implicitly limits guns with removable magazines to capacity 0.
     // This gets rounded up to 1 later.
-    int remaining_capacity = target->is_watertight_container() ?
+    int remaining_capacity;
+    if( integral_pocket != nullptr ) {
+        remaining_capacity = ammo_obj.is_ammo()
+                             ? integral_pocket->remaining_ammo_capacity( ammo_obj.ammo_type() )
+                             : 0;
+    } else {
+        remaining_capacity = target->is_watertight_container() ?
                              target->get_remaining_capacity_for_liquid( ammo_obj, true ) :
                              target->remaining_ammo_capacity();
+    }
     if( ammo_obj.type->ammo ) {
         if( ammo_obj.ammo_type() == ammo_plutonium ) {
             remaining_capacity = remaining_capacity / PLUTONIUM_CHARGES +
@@ -3123,7 +3295,7 @@ bool item::reload( Character &u, item_location ammo, int qty, int pocket_index )
         return false;
     }
 
-    // Swap the magazine in the targeted MAGAZINE_WELL only; other wells untouched.
+    // Targeted reload: MAGAZINE_WELL swap, or loose ammo into integral MAGAZINE.
     if( pocket_index >= 0 ) {
         std::vector<item_pocket *> all_pockets = get_pockets(
         []( const item_pocket & ) {
@@ -3134,10 +3306,18 @@ bool item::reload( Character &u, item_location ammo, int qty, int pocket_index )
             return false;
         }
         item_pocket *target_pocket = all_pockets[pocket_index];
-        if( !target_pocket->is_type( pocket_type::MAGAZINE_WELL ) ) {
-            debugmsg( "reload: pocket_index %d on %s is not a MAGAZINE_WELL",
+        const bool integral_magazine = target_pocket->is_type( pocket_type::MAGAZINE );
+        if( !target_pocket->is_type( pocket_type::MAGAZINE_WELL ) && !integral_magazine ) {
+            debugmsg( "reload: pocket_index %d on %s is not a MAGAZINE_WELL or MAGAZINE",
                       pocket_index, tname() );
             return false;
+        }
+        if( integral_magazine ) {
+            // Eject casings before the compatibility gate; a spent shell
+            // fills the pocket and would make can_reload_with refuse.
+            casings_handle( [&u]( item & e ) {
+                return u.i_add_or_drop( e );
+            } );
         }
         if( !target_pocket->can_reload_with( *ammo.get_item(), true ) ) {
             return false;
@@ -3146,6 +3326,32 @@ bool item::reload( Character &u, item_location ammo, int qty, int pocket_index )
         const bool ammo_from_map = !ammo.held_by( u );
         if( ammo->has_flag( flag_SPEEDLOADER ) || ammo->has_flag( flag_SPEEDLOADER_CLIP ) ) {
             ammo = item_location( ammo, &ammo->first_ammo() );
+        }
+
+        if( integral_magazine ) {
+            const ammotype loose_type = ammo->ammo_type();
+            const int limit = target_pocket->remaining_ammo_capacity( loose_type );
+            if( limit <= 0 ) {
+                return false;
+            }
+            const int take = std::min( { qty, ammo->charges, limit } );
+            if( take <= 0 ) {
+                return false;
+            }
+            item item_copy( *ammo );
+            item_copy.charges = take;
+            ret_val<item *> ins = target_pocket->insert_item( item_copy );
+            if( !ins.success() ) {
+                return false;
+            }
+            ammo->charges -= take;
+            if( ammo->charges == 0 ) {
+                ammo.remove_item();
+            }
+            if( ammo_from_map ) {
+                u.invalidate_weight_carried_cache();
+            }
+            return true;
         }
 
         item magazine_removed;

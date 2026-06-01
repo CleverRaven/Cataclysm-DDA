@@ -158,15 +158,13 @@
     "expected_dps": {
       "arming_sword_inferior": 24.156,
       "hc_talwar": 24.6,
-      "broadsword": 24.6,
       "arming_sword": 24.6,
-      "mc_broadsword": 24.605,
+      "broadsword": 24.605,
       "mc_arming_sword": 24.648,
       "jian": 25.2,
       "mc_jian": 25.208,
       "ch_talwar": 25.3,
-      "rapier": 25.3,
-      "mc_rapier": 25.302,
+      "rapier": 25.302,
       "hc_broadsword": 25.47,
       "mc_kilij": 25.5,
       "qt_talwar": 26.1,
@@ -233,11 +231,11 @@
       "hammer_sledge": 20.0,
       "2h_club_kanabo_studded": 25.16,
       "2h_club_kanabo_spiked": 25.65,
-      "warhammer": 36.33,
+      "warhammer": 35.64,
       "lc_warhammer": 30.6,
-      "hc_warhammer": 37.39,
-      "ch_warhammer": 38.5,
-      "qt_warhammer": 39.44
+      "hc_warhammer": 35.95,
+      "ch_warhammer": 36.66,
+      "qt_warhammer": 37.1
     }
   },
   {

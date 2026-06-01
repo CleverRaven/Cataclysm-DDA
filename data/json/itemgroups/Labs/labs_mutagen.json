@@ -132,47 +132,5 @@
     "subtype": "collection",
     "container-item": "lanyard",
     "items": [ { "item": "id_science_security_yellow", "prob": 100 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "protein_powder_bottle_plastic_small_9",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "protein_powder", "container-item": "null", "count": 9 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "heroin_bag_zipper_4",
-    "subtype": "collection",
-    "container-item": "bag_zipper",
-    "entries": [ { "item": "heroin", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "tramadol_bottle_plastic_pill_prescription_10",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "tramadol", "container-item": "null", "count": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "thorazine_bottle_plastic_pill_prescription_10",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "thorazine", "container-item": "null", "count": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "pills_sleep_bottle_plastic_pill_prescription_10",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "pills_sleep", "container-item": "null", "count": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "vitamins_bottle_plastic_pill_supplement_20",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_supplement",
-    "entries": [ { "item": "vitamins", "container-item": "null", "count": 20 } ]
   }
 ]

@@ -176,10 +176,13 @@ static const std::string camp_upgrade_expansion_npc_string = "_faction_upgrade_e
 static const std::string caravan_commune_center_job_assign_parameter = "Assign";
 static const std::string caravan_commune_center_job_active_parameter = "Active";
 
+namespace
+{
 struct miss_data {
     std::string serialize_id;  // Serialized string for enum
     translation action;        // Optional extended UI description of task for return.
 };
+} // namespace
 namespace io
 {
 

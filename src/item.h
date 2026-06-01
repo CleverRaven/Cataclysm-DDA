@@ -12,6 +12,7 @@
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -19,8 +20,10 @@
 #include "calendar.h"
 #include "cata_lazy.h"
 #include "cata_utility.h"
+#include "character_id.h"
 #include "coordinates.h"
 #include "craft_command.h"
+#include "crafting_enums.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "global_vars.h"
@@ -47,6 +50,8 @@ class Character;
 class Creature;
 class JsonObject;
 class JsonOut;
+struct desired_wakeup;
+enum class item_wakeup_kind : uint8_t;
 class book_proficiency_bonuses;
 class enchant_cache;
 class enchantment;
@@ -223,7 +228,8 @@ class item : public visitable
         item( const itype *type, time_point turn, solitary_tag );
 
         /** For constructing in-progress crafts */
-        item( const recipe *rec, int qty, item_components items, std::vector<item_comp> selections );
+        item( const recipe *rec, int qty, item_components items, std::vector<item_comp> selections,
+              bool should_add_faults = false );
 
         /** For constructing in-progress disassemblies */
         item( const recipe *rec, int qty, item &component );
@@ -606,19 +612,18 @@ class item : public visitable
                 reload_option( const reload_option & );
                 reload_option &operator=( const reload_option & );
 
-                reload_option( const Character *who, const item_location &target, const item_location &ammo );
                 reload_option( const Character *who, const item_location &target, const item_location &ammo,
                                int pocket_index );
+
+                // pocket_index sentinel: defer well choice to reload runtime.
+                static constexpr int POCKET_FALLBACK = -1;
 
                 const Character *who = nullptr;
                 item_location target;
                 item_location ammo;
                 bool is_reload_one = false;
-                // MAGAZINE_WELL pocket index in target->contents. Negative =
-                // first-compatible-well fallback.
-                // TODO(multimag): drop the default once all callers carry an
-                // explicit pocket_index.
-                int pocket_index = -1;
+                // MAGAZINE_WELL index in target->contents, or POCKET_FALLBACK.
+                int pocket_index = POCKET_FALLBACK;
 
                 int qty() const {
                     return qty_;
@@ -1583,6 +1588,14 @@ class item : public visitable
         bool leak( map &here, Character *carrier, const tripoint_bub_ms &pos,
                    item_pocket *pocke = nullptr );
 
+        // Producer for the wakeup scheduler.  Default empty.  `loc` lets
+        // producers vary their wakeups by where the item lives.
+        std::vector<desired_wakeup> enumerate_scheduled_wakeups( const item_location &loc ) const;
+
+        // Idempotent: receiving (kind, now) twice must not corrupt state.
+        void actualize_scheduled( item_wakeup_kind kind, time_point now,
+                                  const item_location &loc );
+
         struct link_data {
             /// State of the link's source connection, the end usually represented by the device/cable item itself. @ref link_state.
             link_state source = link_state::no_link;
@@ -2050,9 +2063,9 @@ class item : public visitable
          * already used somewhere.
          */
         /*@{*/
-        double get_var( const std::string &key, double default_value ) const;
-        std::string get_var( const std::string &key, std::string default_value = {} ) const;
-        tripoint_abs_ms get_var( const std::string &key, tripoint_abs_ms default_value ) const;
+        double get_var( std::string_view key, double default_value ) const;
+        std::string get_var( std::string_view key, std::string default_value = {} ) const;
+        tripoint_abs_ms get_var( std::string_view key, tripoint_abs_ms default_value ) const;
 
         void set_var( const std::string &key, diag_value value );
         template <typename... Args>
@@ -2061,10 +2074,10 @@ class item : public visitable
         }
 
         void remove_var( const std::string &key );
-        diag_value const &get_value( const std::string &name ) const;
-        diag_value const *maybe_get_value( const std::string &name ) const;
+        diag_value const &get_value( std::string_view name ) const;
+        diag_value const *maybe_get_value( std::string_view name ) const;
         /** Whether the variable is defined at all. */
-        bool has_var( const std::string &name ) const;
+        bool has_var( std::string_view name ) const;
         /** Erase the value of the given variable. */
         void erase_var( const std::string &name );
         /** Removes all item variables. */
@@ -2080,7 +2093,7 @@ class item : public visitable
             void serialize( JsonOut &jsout ) const;
         };
         bool read_extended_photos( std::vector<extended_photo_def> &extended_photos,
-                                   const std::string &var_name, bool insert_at_begin ) const;
+                                   std::string_view var_name, bool insert_at_begin ) const;
         void write_extended_photos( const std::vector<extended_photo_def> &, const std::string & );
 
         /**
@@ -2865,6 +2878,11 @@ class item : public visitable
         // nullptr if no MAGAZINE_WELL exists.
         const item_pocket *primary_ammo_pocket() const;
 
+        // Pocket (well or integral mag) that accepts `at`. Beats
+        // magazine_current() which returns the first loaded mag regardless
+        // of ammotype.
+        const item_pocket *pocket_for_ammo( const ammotype &at ) const;
+
         // Magazine driving ammo-identity queries: primary_ammo_pocket's mag
         // for multimag guns, magazine_current otherwise.
         const item *ammo_identity_mag() const;
@@ -2890,6 +2908,11 @@ class item : public visitable
         // sum the same UPS/bionic/cable once per matching item.
         int tool_uses_remaining( map &here, const Character *carrier ) const;
         int tool_uses_remaining_local() const;
+
+        // Multimag uses given an arbitrary external (cable / UPS / bionic)
+        // budget. Used by inventory aggregation to greedily allocate a shared
+        // pool across multiple matching tools.
+        int feasible_tool_uses( int external_pool ) const;
 
         int available_cable_charges( map &here ) const;
         int available_ups_charges( const Character *carrier ) const;
@@ -3072,6 +3095,9 @@ class item : public visitable
          * Returns the item type of the given identifier. Never returns null.
          */
         static const itype *find_type( const itype_id &type );
+        // Ammotype of id's ammo slot, or nullopt when it has none. Null-safe for
+        // NULL-ammo guns and pocket-defined magazines.
+        static std::optional<ammotype> ammotype_of( const itype_id &id );
         /**
          * Whether the item is counted by charges, this is a static wrapper
          * around @ref count_by_charges, that does not need an items instance.
@@ -3215,8 +3241,10 @@ class item : public visitable
 
         void set_tools_to_continue( bool value );
         bool has_tools_to_continue() const;
-        void set_cached_tool_selections( const std::vector<comp_selection<tool_comp>> &selections );
-        const std::vector<comp_selection<tool_comp>> &get_cached_tool_selections() const;
+        // Per-step tool allocations, indexed by recipe step (single entry for
+        // stepless recipes).
+        void set_step_tool_allocs( const std::vector<std::vector<step_tool_alloc>> &allocs );
+        const std::vector<std::vector<step_tool_alloc>> &get_step_tool_allocs() const;
 
         // Step iteration state for step recipes.
         // get_current_step clamps to valid range as a defensive measure.
@@ -3225,6 +3253,41 @@ class item : public visitable
         double get_step_progress() const;
         void set_step_progress( double progress );
         void mod_step_progress( double delta );
+
+        // Per-step plan from the craft planning modal.
+        const std::vector<attention_plan> &get_step_plans() const;
+        void set_step_plans( std::vector<attention_plan> plans );
+
+        // Calendar tracking for the active passive step.
+        time_point get_passive_started_at() const;
+        void set_passive_started_at( time_point t );
+        time_point get_ready_at() const;
+        void set_ready_at( time_point t );
+        time_point get_alarm_at() const;
+        void set_alarm_at( time_point t );
+        time_point get_fail_at() const;
+        void set_fail_at( time_point t );
+        time_point get_pause_started_at() const;
+        void set_pause_started_at( time_point t );
+        time_point get_saved_ready_at() const;
+        void set_saved_ready_at( time_point t );
+        time_point get_saved_alarm_at() const;
+        void set_saved_alarm_at( time_point t );
+        time_point get_saved_fail_at() const;
+        void set_saved_fail_at( time_point t );
+        time_point get_env_check_at() const;
+        void set_env_check_at( time_point t );
+
+        character_id get_crafter_id() const;
+        void set_crafter_id( character_id id );
+
+        int get_passive_start_counter() const;
+        void set_passive_start_counter( int c );
+        int get_passive_end_counter() const;
+        void set_passive_end_counter( int c );
+
+        bool is_awaiting_collection() const;
+        void set_awaiting_collection( bool v );
 
         std::vector<enchant_cache> get_proc_enchantments() const;
         std::vector<enchantment> get_defined_enchantments() const;
@@ -3312,6 +3375,9 @@ class item : public visitable
         std::list<const item *> all_ablative_armor() const;
 
         void clear_items();
+        /** Engage bulk-fill mode on this container's pockets. See item_pocket::begin_bulk_fill. */
+        void begin_bulk_fill();
+        void end_bulk_fill();
         bool empty() const;
         /** Check if contents is empty. Checking only CONTAINER pockets. */
         bool empty_container() const;
@@ -3492,7 +3558,7 @@ class item : public visitable
                 // If the crafter has insufficient tools to continue to the next 5% progress step
                 bool tools_to_continue = false;
                 int batch_size = -1;
-                std::vector<comp_selection<tool_comp>> cached_tool_selections;
+                std::vector<std::vector<step_tool_alloc>> step_tool_allocs;
                 std::optional<units::mass> cached_weight; // NOLINT(cata-serialize)
                 std::optional<units::volume> cached_volume; // NOLINT(cata-serialize)
 
@@ -3500,6 +3566,41 @@ class item : public visitable
                 // Authoritative: advanced by tracking consumed work against step budgets.
                 int current_step = 0;
                 double step_progress = 0.0; // base-speed moves consumed within current step
+
+                // Per-step plan from the planning modal.  Aligned with recipe steps_.
+                std::vector<attention_plan> step_plans;
+
+                // Calendar tracking for the active passive step.
+                // before_time_starts when no passive step is in flight.
+                time_point passive_started_at = calendar::before_time_starts;
+                time_point ready_at  = calendar::before_time_starts;
+                time_point alarm_at  = calendar::before_time_starts;
+                time_point fail_at   = calendar::before_time_starts;
+                // While paused, ready_at is the polling cursor; saved_* park
+                // the originals for restoration on unpause (slid by paused
+                // duration).  Without saving ready_at too, multiple pause
+                // polls would mutate it and lose the original deadline.
+                time_point pause_started_at = calendar::before_time_starts;
+                time_point saved_ready_at = calendar::before_time_starts;
+                time_point saved_alarm_at = calendar::before_time_starts;
+                time_point saved_fail_at  = calendar::before_time_starts;
+                // Periodic env-check cursor while step is live, has env
+                // reqs, and is not env-paused.  before_time_starts otherwise
+                // (during pause, ready_at is the 1-minute polling cursor).
+                time_point env_check_at = calendar::before_time_starts;
+
+                // Counter bounds snapshotted at passive-step entry; item_tname
+                // projects linearly between them without mutation.
+                int passive_start_counter = 0;
+                int passive_end_counter = 0;
+
+                // Terminal unattended liquid step finished; held at full progress
+                // until the player explicitly collects (pours) it.
+                bool awaiting_collection = false;
+
+                // Original crafter (for env-check fallback when craft is on
+                // map/vehicle and the crafter is no longer on top of it).
+                character_id crafter_id;
 
                 // if this is an in progress disassembly as opposed to craft
                 bool disassembly = false;

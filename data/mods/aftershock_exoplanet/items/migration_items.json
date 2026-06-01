@@ -49,5 +49,10 @@
     "id": "5x50_100_mag",
     "type": "MIGRATION",
     "replace": "afs_5x50_100_mag"
+  },
+  {
+    "id": "bot_laserturret_x-ray",
+    "type": "MIGRATION",
+    "replace": "bot_laserturret_xray"
   }
 ]

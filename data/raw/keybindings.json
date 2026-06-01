@@ -1558,6 +1558,16 @@
   },
   {
     "type": "keybinding",
+    "id": "CHOOSE_DESTINATION_DIRECT",
+    "name": "Choose destination (direct path)",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "T" },
+      { "input_method": "keyboard_code", "key": "T", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "L_RADIAL_S" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "GO_TO_DESTINATION",
     "name": "Go to destination",
     "bindings": [ { "input_method": "keyboard_any", "key": "g" }, { "input_method": "gamepad", "key": "L_RADIAL_NE" } ]

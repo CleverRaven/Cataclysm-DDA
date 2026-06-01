@@ -28,6 +28,7 @@
 #include "character_id.h"
 #include "color.h"
 #include "crafting.h"
+#include "crafting_enums.h"
 #include "crafting_gui_helpers.h"
 #include "display.h"
 #include "flag.h"
@@ -250,6 +251,8 @@ static input_context make_crafting_context( bool highlight_unread_recipes )
     return ctxt;
 }
 
+namespace
+{
 class recipe_result_info_cache
 {
         Character &crafter;
@@ -281,6 +284,7 @@ class recipe_result_info_cache
             return item_info_data( "", "", info, {}, scroll_pos );
         }
 };
+} // namespace
 
 std::pair<std::vector<const recipe *>, bool> recipes_from_cat( const recipe_subset
         &available_recipes, const crafting_category_id &cat, const std::string &subcat )
@@ -375,6 +379,8 @@ static bool filter_crafting_recipes( std::string &filterstring )
 // ImGui crafting UI implementation
 // ---------------------------------------------------------------------------
 
+namespace
+{
 class crafting_ui_impl : public cataimgui::window
 {
     public:
@@ -440,7 +446,6 @@ class crafting_ui_impl : public cataimgui::window
         int manual_batch = 1;
         bool show_hidden = false;
         bool is_wide = false;
-        bool steps_expanded = true;
 
         // --- Scroll state ---
         int line_item_info_popup = 0;
@@ -523,6 +528,7 @@ class crafting_ui_impl : public cataimgui::window
         void recalculate_unread();
         void invalidate_info_panels();
 };
+} // namespace
 
 // --- Constructor ---
 
@@ -607,6 +613,7 @@ cataimgui::bounds crafting_ui_impl::get_bounds()
 
 void crafting_ui_impl::draw_controls()
 {
+    hide_if_hidden();
     // Debug: set to true to show borders around all child regions and table cells
     static constexpr bool debug_layout = false;
     if( debug_layout ) {
@@ -1114,10 +1121,11 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 if( total_yield > 1 ) {
                     //~ %1$s: success chance, %2$s: yield count, %3$s: time, %4$s: activity level
                     const std::string fmt = _( "%1$s chance to yield %2$s in %3$s of %4$s" );
-                    plain = string_format( fmt, chance_str, std::to_string( total_yield ), time_str, activity_str );
+                    const std::string yield_as_string = recp.result()->count_or_volume_or_weight_prefix( total_yield );
+                    plain = string_format( fmt, chance_str, yield_as_string, time_str, activity_str );
                     colored = string_format( fmt,
                                              colorize( chance_str, success_col ),
-                                             colorize( std::to_string( total_yield ), c_light_blue ),
+                                             colorize( yield_as_string, c_light_blue ),
                                              colorize( time_str, c_cyan ),
                                              colorize( activity_str, activity_col ) );
                 } else {
@@ -1285,6 +1293,14 @@ void crafting_ui_impl::draw_recipe_info_panel()
             const inventory &crafting_inv = avail.inv_override
                                             ? *avail.inv_override : crafter->crafting_inventory();
 
+            // Single step recipes
+            if( recp.has_steps() && ( recp.steps().size() <= 1 ) ) {
+                const recipe_step &step = recp.steps().front();
+                ImGui::TextColored( cataimgui::imvec4_from_color( c_white ),
+                                    "%s", step.name.translated().c_str() );
+                ImGui::NewLine();
+            }
+
             // Components (always recipe-level)
             draw_components( recp.simple_requirements(), crafting_inv,
                              recp.get_component_filter(), batch_size );
@@ -1304,10 +1320,11 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 }
             }
 
-            if( recp.has_steps() ) {
+            // Multi step details
+            if( recp.has_steps() && ( recp.steps().size() > 1 ) ) {
                 // Step details are collapsible; collapsed shows flat merged view
                 {
-                    const char *steps_label = steps_expanded
+                    const char *steps_label = uistate.crafting_expand_steps
                                               ? _( "- steps -" ) : _( "+ steps +" );
                     float btn_w = ImGui::CalcTextSize( steps_label ).x;
                     float rgn_w = ImGui::GetContentRegionAvail().x;
@@ -1316,11 +1333,11 @@ void crafting_ui_impl::draw_recipe_info_panel()
                                               ( rgn_w - btn_w ) / 2.f );
                     }
                     if( nav_clickable( steps_label, c_cyan ) ) {
-                        steps_expanded = !steps_expanded;
+                        uistate.crafting_expand_steps = !uistate.crafting_expand_steps;
                     }
                 }
 
-                if( steps_expanded ) {
+                if( uistate.crafting_expand_steps ) {
                     int tool_group_offset = 0;
                     float step_indent = ImGui::CalcTextSize( "    " ).x;
                     float sub_indent = ImGui::CalcTextSize( "  " ).x;
@@ -1364,6 +1381,11 @@ void crafting_ui_impl::draw_recipe_info_panel()
                         ImGui::SameLine( 0, ImGui::CalcTextSize( "  " ).x );
                         ImGui::TextColored( cataimgui::imvec4_from_color( act_col ), "%s",
                                             activity.c_str() );
+                        if( step.attention == step_attention::unattended ) {
+                            ImGui::SameLine( 0, ImGui::CalcTextSize( "  " ).x );
+                            ImGui::TextColored( cataimgui::imvec4_from_color( c_yellow ),
+                                                "%s", _( "[unattended]" ) );
+                        }
 
                         ImGui::Indent( step_indent );
 
@@ -1517,7 +1539,7 @@ void crafting_ui_impl::draw_modifier_table( const recipe &recp,
                                     _( "base (per item)" ) );
             } else {
                 ImGui::TextColored( cataimgui::imvec4_from_color( c_white ), "%s",
-                                    _( "base" ) );
+                                    pgettext( "Value without modifier", "base" ) );
             }
             ImGui::TableNextColumn();
             ImGui::TextColored( cataimgui::imvec4_from_color( c_light_gray ), "%s",
@@ -2364,7 +2386,6 @@ void crafting_ui_impl::invalidate_info_panels()
         info_nav_active = false;
         rebuild_keybinding_tips();
     }
-    steps_expanded = true;
 }
 
 // --- process_action ---
@@ -2568,11 +2589,16 @@ void crafting_ui_impl::process_action( const std::string &action_in,
             nested_toggle( current[line]->ident(), recalc, keepline );
         } else {
             const int bs = get_batch_size();
+            const recipe crafting_rec = *current[line];
             craft_confirm_result confirm = can_start_craft(
-                                               *current[line], available[line], *crafter );
+                                               crafting_rec, available[line], *crafter, bs );
             switch( confirm ) {
                 case craft_confirm_result::cannot_craft:
                     popup( _( "Crafter can't craft that!" ) );
+                    break;
+                case craft_confirm_result::too_many_results:
+                    popup( string_format( _( "Batch would create too many items (%1$d).  The limit is %2$d." ),
+                                          crafting_rec.makes_amount() * bs, MAX_ITEM_IN_SQUARE ) );
                     break;
                 case craft_confirm_result::too_dark:
                     popup( _( "Crafter can't see!" ) );
@@ -2761,8 +2787,10 @@ void crafting_ui_impl::process_action( const std::string &action_in,
             recalc_unread = highlight_unread;
         }
     } else if( action == "COMPARE" && selection_ok( current, line, false ) ) {
+        hide_ui = true;
         const item recipe_result = get_recipe_result_item( *current[line], *crafter );
         compare_recipe_with_item( recipe_result, *crafter );
+        hide_ui = false;
     } else if( action == "PRIORITIZE_MISSING_COMPONENTS" && selection_ok( current, line, false ) ) {
         uistate.read_recipes.insert( current[line]->ident() );
         recalc_unread = highlight_unread;

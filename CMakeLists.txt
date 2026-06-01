@@ -285,11 +285,13 @@ find_package(ZLIB REQUIRED)
 # Check for build types and libraries
 if (TILES AND USE_SDL3)
     message(STATUS "Searching for SDL3 library --")
-    find_package(SDL3 CONFIG)
+    # SDL_SetGPURenderState and SDL_GetGPURendererDevice were added in SDL 3.4.0;
+    # the GPU shader path requires that floor.
+    find_package(SDL3 3.4.0 CONFIG)
     if (NOT (SDL3_FOUND OR TARGET SDL3::SDL3 OR TARGET SDL3::SDL3-static))
         message(FATAL_ERROR
-                "USE_SDL3=ON requires SDL3 to be installed. \
-                 Install the SDL3 development libraries, \
+                "USE_SDL3=ON requires SDL3 >= 3.4.0 to be installed. \
+                 Install or build a newer SDL3 development library, \
                  or set USE_SDL3=OFF to build against SDL2.")
     endif ()
 

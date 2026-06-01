@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "weight": 1000,
+    "weight": 500,
     "nested_mapgen_id": "labyrinth2_backdrop",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -37,7 +37,7 @@
   },
   {
     "type": "mapgen",
-    "weight": 1000,
+    "weight": 250,
     "nested_mapgen_id": "labyrinth2_backdrop",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -73,7 +73,7 @@
   },
   {
     "type": "mapgen",
-    "weight": 1000,
+    "weight": 250,
     "nested_mapgen_id": "labyrinth2_backdrop",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -109,7 +109,7 @@
   },
   {
     "type": "mapgen",
-    "weight": 1000,
+    "weight": 500,
     "nested_mapgen_id": "labyrinth2_backdrop",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -145,7 +145,7 @@
   },
   {
     "type": "mapgen",
-    "weight": 1000,
+    "weight": 500,
     "nested_mapgen_id": "labyrinth2_backdrop",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -181,7 +181,7 @@
   },
   {
     "type": "mapgen",
-    "weight": 1000,
+    "weight": 500,
     "nested_mapgen_id": "labyrinth2_backdrop",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -210,6 +210,222 @@
         "#   #  #####    #    #  ",
         "=               ######  ",
         "#                       "
+      ],
+      "palettes": [ "labyrinth2_backdrop_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "weight": 750,
+    "nested_mapgen_id": "labyrinth2_backdrop",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "####=#=####++####=#=####",
+        "#         #             ",
+        "#         #             ",
+        "######    #  ########   ",
+        "=    #    #         #   ",
+        "#    #              #   ",
+        "=    #             #####",
+        "#    #  ########   #    ",
+        "#    #             #    ",
+        "#    #      #      #    ",
+        "#    #      #      #### ",
+        "+    #      ####        ",
+        "+    #      #           ",
+        "#           #           ",
+        "#           #           ",
+        "# #######   ########=###",
+        "=               #       ",
+        "#               =       ",
+        "=        #      #       ",
+        "#        #      ####=###",
+        "#        #      #       ",
+        "####=#####              ",
+        "#        #              ",
+        "#        #              "
+      ],
+      "palettes": [ "labyrinth2_backdrop_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "weight": 750,
+    "nested_mapgen_id": "labyrinth2_backdrop",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "####=#=####++####=#=####",
+        "#               #   #   ",
+        "#               #   #   ",
+        "##=####         #   #   ",
+        "=     #         ##=##   ",
+        "#     ######            ",
+        "=     #                 ",
+        "# #####                 ",
+        "#     ################  ",
+        "#     #                 ",
+        "#     =                 ",
+        "+     #####=###         ",
+        "+        #    #         ",
+        "#        #    ##########",
+        "#        #    #         ",
+        "#  ###=###    =         ",
+        "=  #     #    #         ",
+        "#  #     #    #         ",
+        "=  #     #    ########  ",
+        "#  #     #           #  ",
+        "#  #     #           #  ",
+        "####     ##########  #  ",
+        "#        #           #  ",
+        "#                    #  "
+      ],
+      "palettes": [ "labyrinth2_backdrop_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "weight": 750,
+    "nested_mapgen_id": "labyrinth2_backdrop",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "####=##=###++###=##=####",
+        "#  #    # #  #   #  #   ",
+        "#  #    # #  #   #  #   ",
+        "##=#    #=#  #   #  =   ",
+        "=         #  #   #  #   ",
+        "#         #  =   =  #   ",
+        "#         #  #   #  ##=#",
+        "=         #  #   #      ",
+        "#####+#####  #   #      ",
+        "#         #  #   #      ",
+        "#         =  #######+###",
+        "+         #             ",
+        "+         #             ",
+        "#####+#####  ###########",
+        "#            #          ",
+        "#            +          ",
+        "=            #          ",
+        "###########=############",
+        "#                       ",
+        "=                       ",
+        "#                       ",
+        "#####=#####  ######=####",
+        "#         #  #          ",
+        "#         #  #          "
+      ],
+      "palettes": [ "labyrinth2_backdrop_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "weight": 1000,
+    "nested_mapgen_id": "labyrinth2_backdrop",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "####=#=####++####=#=####",
+        "#         #  #  #    #  ",
+        "#         #  #  #    #  ",
+        "########=##  #  =    #  ",
+        "=         #  #  #    #  ",
+        "#         #  #  #### #  ",
+        "=         #  #  #    #  ",
+        "##=########  #  #    =  ",
+        "#         #  #  #    #  ",
+        "#         #  #  #    #  ",
+        "#####+#####  ######+####",
+        "+                       ",
+        "+                       ",
+        "#####+#####  ######+####",
+        "#         #  #   #   #  ",
+        "#         #  #   #   #  ",
+        "##=########  #   #   =  ",
+        "=         #  #   #   #  ",
+        "#         #  #   #   #  ",
+        "=         #  #   #   #  ",
+        "#######=###  #   #   #  ",
+        "#         #  #   =   #  ",
+        "#         #  #   #   #  ",
+        "#         #  #   #   #  "
+      ],
+      "palettes": [ "labyrinth2_backdrop_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "weight": 1000,
+    "nested_mapgen_id": "labyrinth2_backdrop",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "####=##=###++###=##=####",
+        "#       #      #        ",
+        "#       #      #        ",
+        "#       #      =   ##=##",
+        "=  ######      #   #    ",
+        "#       #      ##=##    ",
+        "#       =      #        ",
+        "=       #      #        ",
+        "####+####      #####+###",
+        "#                       ",
+        "#                       ",
+        "+                       ",
+        "+                       ",
+        "#                       ",
+        "#                       ",
+        "####+####      #####+###",
+        "=    #  #      #     #  ",
+        "#    =  #      #     #  ",
+        "##=# #  =      #     =  ",
+        "=  ###=##      #     #  ",
+        "#       #      =     #  ",
+        "##      #      ###=###  ",
+        "#       #      #        ",
+        "#       #      #        "
+      ],
+      "palettes": [ "labyrinth2_backdrop_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "weight": 1000,
+    "nested_mapgen_id": "labyrinth2_backdrop",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "####=##=###++###=##=####",
+        "#       #      #        ",
+        "#       #      #        ",
+        "#       #      =        ",
+        "=       #      #        ",
+        "#       #      #        ",
+        "#       =      #        ",
+        "=       #      #        ",
+        "####+####      #####+###",
+        "#                       ",
+        "#                       ",
+        "+                       ",
+        "+                       ",
+        "#                       ",
+        "#                       ",
+        "####+####      #####+###",
+        "=       #      #        ",
+        "#       #      #        ",
+        "#       =      #        ",
+        "=       #      #        ",
+        "#       #      =        ",
+        "##      #      #        ",
+        "#       #      #        ",
+        "#       #      #        "
       ],
       "palettes": [ "labyrinth2_backdrop_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]

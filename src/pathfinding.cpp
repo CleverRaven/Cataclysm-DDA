@@ -44,6 +44,8 @@ static constexpr int flat_index( const point_bub_ms &p )
     return ( p.x() * MAPSIZE_Y ) + p.y();
 }
 
+namespace
+{
 // Flattened 2D array representing a single z-level worth of pathfinding data
 struct path_data_layer {
     // Closed/open is accessed way more often than all other values here
@@ -78,6 +80,7 @@ struct pathfinder {
         for( int i = minz; i <= maxz; ++i ) {
             std::unique_ptr< path_data_layer > &ptr = path_data[i + OVERMAP_DEPTH];
             if( ptr != nullptr ) {
+                // NOLINTNEXTLINE(readability-ambiguous-smartptr-reset-call) calls path_data_layer::reset
                 path_data[i + OVERMAP_DEPTH]->reset();
             }
         }
@@ -124,6 +127,7 @@ struct pathfinder {
         layer.closed[index] = false;
     }
 };
+} // namespace
 
 static pathfinder pf;
 

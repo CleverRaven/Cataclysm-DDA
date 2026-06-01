@@ -1952,6 +1952,7 @@
     "remove_message": "The air cools down.",
     "max_duration": "2 seconds",
     "max_intensity": 12,
+    "immune_flags": [ "FIREY", "HEAT_IMMUNE" ],
     "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 3 ], "hurt_chance": [ 2 ] },
     "scaling_mods": { "hurt_min": [ 0.2 ], "hurt_max": [ 0.4 ] }
   },

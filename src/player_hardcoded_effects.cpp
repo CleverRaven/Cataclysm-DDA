@@ -487,6 +487,8 @@ static void eff_fun_hallu( Character &u, effect &it )
     }
 }
 
+namespace
+{
 struct temperature_effect {
     int str_pen;
     int dex_pen;
@@ -521,6 +523,7 @@ struct temperature_effect {
         }
     }
 };
+} // namespace
 
 static void eff_fun_cold( Character &u, effect &it )
 {

@@ -1,0 +1,44 @@
+[
+  {
+    "id": "dino_med_feather_pred",
+    "//": "drops large stomach and medium skull",
+    "type": "harvest",
+    "copy-from": "mammal_large_leather",
+    "delete": {
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 }
+      ]
+    },
+    "extend": {
+      "entries": [
+        { "drop": "skull_dino_pred_med", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
+        { "drop": "large_bone", "type": "bone", "mass_ratio": 0.1 },
+        { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
+        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+      ]
+    }
+  },
+  {
+    "id": "dino_pred_feather_leather",
+    "//": "drops regular stomach and small skull",
+    "type": "harvest",
+    "copy-from": "mammal_leather",
+    "delete": {
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 }
+      ]
+    },
+    "extend": {
+      "entries": [
+        { "drop": "skull_dino_pred_small", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.1 },
+        { "drop": "large_bone", "type": "bone", "mass_ratio": 0.05 },
+        { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
+        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+      ]
+    }
+  }
+]

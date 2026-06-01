@@ -1,0 +1,1098 @@
+[
+  {
+    "type": "item_group",
+    "id": "condiments",
+    "ammo": 75,
+    "magazine": 100,
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 50, "group": "yeast_various" },
+      { "prob": 40, "group": "sugar_various" },
+      { "prob": 10, "group": "artificial_sweetener_box_small_71" },
+      { "prob": 5, "group": "sprinkles_bottle_plastic_small_62" },
+      { "prob": 40, "group": "salt_various" },
+      { "prob": 30, "group": "pepper_various" },
+      { "prob": 15, "group": "cinnamon_various" },
+      { "prob": 25, "group": "seasoning_italian_various" },
+      { "prob": 25, "group": "seasoning_salt_various" },
+      { "item": "cookbook_italian", "prob": 25 },
+      { "item": "cookbook_daintydishes", "prob": 20 },
+      { "item": "cookbook_liverforkids", "prob": 12 },
+      { "item": "sweets_book", "prob": 6 },
+      { "item": "family_cookbook", "prob": 6 },
+      { "item": "brewing_cookbook", "prob": 4 },
+      { "group": "ketchup_sealed_rng", "prob": 35 },
+      { "group": "mustard_sealed_rng", "prob": 35 },
+      { "group": "barbecue_sauce_sealed_rng", "prob": 25 },
+      { "group": "honey_mustard_sealed_rng", "prob": 20 },
+      { "item": "soysauce", "charges": [ 1, -1 ], "prob": 25 },
+      { "item": "hot_sauce", "charges": [ 1, -1 ], "prob": 25 },
+      { "item": "horseradish", "charges": [ 1, -1 ], "prob": 15 },
+      { "item": "spread_peanutbutter", "count": [ 1, -1 ], "prob": 10 },
+      { "item": "marshmallow_fluff", "charges": [ 1, -1 ], "prob": 10 },
+      { "item": "honey_bottled", "charges": [ 1, -1 ], "prob": 35 },
+      { "prob": 35, "item": "honey_glassed", "count": [ 1, -1 ] },
+      { "prob": 15, "group": "oyster_crackers_plastic_bag_vac_8" },
+      { "group": "instant_gravy", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_various",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 18, "group": "sugar_bottle_plastic_small" },
+      { "prob": 18, "group": "sugar_bottle_glass_small" },
+      { "prob": 2, "group": "sugar_bottle_plastic" },
+      { "prob": 2, "group": "sugar_pound" },
+      { "prob": 2, "group": "sugar_bottle_glass" },
+      { "prob": 4, "group": "sugar_bag_plastic" },
+      { "prob": 1, "group": "sugar_bag_paper" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_various_full",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 10, "group": "sugar_bottle_plastic_small_full" },
+      { "prob": 10, "group": "sugar_bottle_glass_small_full" },
+      { "prob": 4, "group": "sugar_bottle_plastic_full" },
+      { "prob": 4, "group": "sugar_bottle_glass_full" },
+      { "prob": 1, "group": "sugar_bag_paper_full" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_bulk",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 20, "group": "sugar_bottle_plastic" },
+      { "prob": 20, "group": "sugar_bottle_glass" },
+      { "prob": 5, "group": "sugar_bag_plastic" },
+      { "prob": 42, "group": "sugar_bag_paper" },
+      { "prob": 16, "group": "sugar_bag_paper_bulk" },
+      { "prob": 2, "group": "sugar_bag_paper_50lb" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_jar_glass_sealed_10_140",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "on_overflow": "spill",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": [ 10, 140 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_bottle_plastic_small_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": 40 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_bottle_glass_small_full",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning_small",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": 40 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_bottle_plastic_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_bottle_glass_full",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_bag_paper_full",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": 400 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_bottle_plastic_small",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": [ 5, 40 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_bottle_glass_small",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning_small",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": [ 5, 40 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_bottle_plastic",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": [ 10, 80 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_bottle_glass",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": [ 10, 80 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_bag_plastic",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": [ 10, 80 ] } ]
+  },
+  {
+    "id": "sugar_bag_50",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_bag_paper",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": [ 25, 400 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_bag_paper_bulk",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder_bulk",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": [ 30, 1600 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_pound",
+    "subtype": "collection",
+    "//": "one pound of sugar in a paper bag.",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": 71 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_bag_paper_50lb",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder_50lb",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": [ 121, 4700 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "artificial_sweetener_box_small_71",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "artificial_sweetener", "container-item": "null", "count": 71 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "salt_various",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 18, "group": "salt_bottle_plastic_small" },
+      { "prob": 18, "group": "salt_bottle_glass_small" },
+      { "prob": 2, "group": "salt_bottle_plastic" },
+      { "prob": 2, "group": "salt_bottle_glass" },
+      { "prob": 4, "group": "salt_bag_plastic" },
+      { "prob": 1, "group": "salt_bag_paper" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "salt_various_full",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 10, "group": "salt_bottle_plastic_small_full" },
+      { "prob": 10, "group": "salt_bottle_glass_small_full" },
+      { "prob": 4, "group": "salt_bottle_plastic_full" },
+      { "prob": 4, "group": "salt_bottle_glass_full" },
+      { "prob": 1, "group": "salt_bag_paper_full" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "salt_bulk",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 20, "group": "salt_bottle_plastic" },
+      { "prob": 20, "group": "salt_bottle_glass" },
+      { "prob": 5, "group": "salt_bag_plastic" },
+      { "prob": 17, "group": "salt_bag_paper" },
+      { "prob": 9, "group": "salt_bag_paper_bulk" },
+      { "prob": 3, "group": "salt_bag_paper_50lb" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "salt_bottle_plastic_small_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "salt", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "salt_bottle_glass_small_full",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning_small",
+    "entries": [ { "item": "salt", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "salt_bottle_plastic_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "salt", "container-item": "null", "count": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "salt_bottle_glass_full",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "salt", "container-item": "null", "count": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "salt_bag_paper_full",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "salt", "container-item": "null", "count": 500 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "salt_bottle_plastic_small",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "salt", "container-item": "null", "count": [ 10, 50 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "salt_bottle_glass_small",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning_small",
+    "entries": [ { "item": "salt", "container-item": "null", "count": [ 10, 50 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "salt_bottle_plastic",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "salt", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "salt_bottle_glass",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "salt", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "salt_bag_plastic",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "salt", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "salt_bag_paper",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "salt", "container-item": "null", "count": [ 25, 500 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "salt_bag_paper_bulk",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder_bulk",
+    "entries": [ { "item": "salt", "container-item": "null", "count": [ 25, 2000 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "salt_bag_paper_50lb",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder_50lb",
+    "entries": [ { "item": "salt", "container-item": "null", "count": [ 125, 6480 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_salt_various",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 18, "group": "seasoning_salt_bottle_plastic_small" },
+      { "prob": 18, "group": "seasoning_salt_bottle_glass_small" },
+      { "prob": 6, "group": "seasoning_salt_bottle_plastic" },
+      { "prob": 6, "group": "seasoning_salt_bottle_glass" },
+      { "prob": 2, "group": "seasoning_salt_bag_plastic" },
+      { "prob": 2, "group": "seasoning_salt_bag_paper" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_salt_various_full",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 10, "group": "seasoning_salt_bottle_plastic_small_full" },
+      { "prob": 10, "group": "seasoning_salt_bottle_glass_small_full" },
+      { "prob": 4, "group": "seasoning_salt_bottle_plastic_full" },
+      { "prob": 4, "group": "seasoning_salt_bottle_glass_full" },
+      { "prob": 1, "group": "seasoning_salt_bag_plastic_full" },
+      { "prob": 1, "group": "seasoning_salt_bag_paper_full" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_salt_bulk",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 20, "group": "seasoning_salt_bottle_plastic" },
+      { "prob": 20, "group": "seasoning_salt_bottle_glass" },
+      { "prob": 5, "group": "seasoning_salt_bag_plastic" },
+      { "prob": 10, "group": "seasoning_salt_bag_paper" },
+      { "prob": 1, "group": "seasoning_salt_bag_paper_bulk" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_salt_bottle_plastic_small_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "seasoning_salt", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_salt_bottle_glass_small_full",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning_small",
+    "entries": [ { "item": "seasoning_salt", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_salt_bottle_plastic_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "seasoning_salt", "container-item": "null", "count": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_salt_bottle_glass_full",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "seasoning_salt", "container-item": "null", "count": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_salt_bag_plastic_full",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "seasoning_salt", "container-item": "null", "count": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_salt_bag_paper_full",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "seasoning_salt", "container-item": "null", "count": 500 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_salt_bottle_plastic_small",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "seasoning_salt", "container-item": "null", "count": [ 10, 50 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_salt_bottle_glass_small",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning_small",
+    "entries": [ { "item": "seasoning_salt", "container-item": "null", "count": [ 10, 50 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_salt_bottle_plastic",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "seasoning_salt", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_salt_bottle_glass",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "seasoning_salt", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_salt_bag_plastic",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "seasoning_salt", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_salt_bag_paper",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "seasoning_salt", "container-item": "null", "count": [ 20, 500 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_salt_bag_paper_bulk",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder_bulk",
+    "entries": [ { "item": "seasoning_salt", "container-item": "null", "count": [ 30, 2000 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_italian_various",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 18, "group": "seasoning_italian_bottle_plastic_small" },
+      { "prob": 18, "group": "seasoning_italian_bottle_glass_small" },
+      { "prob": 6, "group": "seasoning_italian_bottle_plastic" },
+      { "prob": 6, "group": "seasoning_italian_bottle_glass" },
+      { "prob": 2, "group": "seasoning_italian_bag_plastic" },
+      { "prob": 2, "group": "seasoning_italian_bag_paper" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_italian_various_full",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 10, "group": "seasoning_italian_bottle_plastic_small_full" },
+      { "prob": 10, "group": "seasoning_italian_bottle_glass_small_full" },
+      { "prob": 4, "group": "seasoning_italian_bottle_plastic_full" },
+      { "prob": 4, "group": "seasoning_italian_bottle_glass_full" },
+      { "prob": 2, "group": "seasoning_italian_bag_paper_full" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_italian_bulk",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 20, "group": "seasoning_italian_bottle_plastic" },
+      { "prob": 20, "group": "seasoning_italian_bottle_glass" },
+      { "prob": 5, "group": "seasoning_italian_bag_plastic" },
+      { "prob": 10, "group": "seasoning_italian_bag_paper" },
+      { "prob": 1, "group": "seasoning_italian_bag_paper_bulk" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_italian_bottle_plastic_small_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "seasoning_italian", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_italian_bottle_glass_small_full",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning_small",
+    "entries": [ { "item": "seasoning_italian", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_italian_bottle_plastic_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "seasoning_italian", "container-item": "null", "count": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_italian_bottle_glass_full",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "seasoning_italian", "container-item": "null", "count": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_italian_bag_paper_full",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "seasoning_italian", "container-item": "null", "count": 500 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_italian_bottle_plastic_small",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "seasoning_italian", "container-item": "null", "count": [ 10, 50 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_italian_bottle_glass_small",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning_small",
+    "entries": [ { "item": "seasoning_italian", "container-item": "null", "count": [ 10, 50 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_italian_bottle_plastic",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "seasoning_italian", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_italian_bottle_glass",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "seasoning_italian", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_italian_bag_plastic",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "seasoning_italian", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_italian_bag_paper",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "seasoning_italian", "container-item": "null", "count": [ 20, 500 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_italian_bag_paper_bulk",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder_bulk",
+    "entries": [ { "item": "seasoning_italian", "container-item": "null", "count": [ 30, 2000 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "curry_powder_various",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 18, "group": "curry_powder_bottle_plastic_small" },
+      { "prob": 18, "group": "curry_powder_bottle_glass_small" },
+      { "prob": 2, "group": "curry_powder_bottle_plastic" },
+      { "prob": 2, "group": "curry_powder_bottle_glass" },
+      { "prob": 4, "group": "curry_powder_bag_plastic" },
+      { "prob": 1, "group": "curry_powder_bag_paper" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "curry_powder_various_full",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 10, "group": "curry_powder_bottle_plastic_small_full" },
+      { "prob": 10, "group": "curry_powder_bottle_glass_small_full" },
+      { "prob": 4, "group": "curry_powder_bottle_plastic_full" },
+      { "prob": 4, "group": "curry_powder_bottle_glass_full" },
+      { "prob": 1, "group": "curry_powder_bag_paper_full" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "curry_powder_bottle_plastic_small_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "curry_powder", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "curry_powder_bottle_glass_small_full",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning_small",
+    "entries": [ { "item": "curry_powder", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "curry_powder_bottle_plastic_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "curry_powder", "container-item": "null", "count": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "curry_powder_bottle_glass_full",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "curry_powder", "container-item": "null", "count": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "curry_powder_bag_paper_full",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "curry_powder", "container-item": "null", "count": 500 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "curry_powder_bottle_plastic_small",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "curry_powder", "container-item": "null", "count": [ 10, 50 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "curry_powder_bottle_glass_small",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning_small",
+    "entries": [ { "item": "curry_powder", "container-item": "null", "count": [ 10, 50 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "curry_powder_bottle_plastic",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "curry_powder", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "curry_powder_bottle_glass",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "curry_powder", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "curry_powder_bag_plastic",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "curry_powder", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "curry_powder_bag_paper",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "curry_powder", "container-item": "null", "count": [ 25, 500 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pepper_various",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 18, "group": "pepper_bottle_plastic_small" },
+      { "prob": 18, "group": "pepper_bottle_glass_small" },
+      { "prob": 6, "group": "pepper_bottle_plastic" },
+      { "prob": 6, "group": "pepper_bottle_glass" },
+      { "prob": 2, "group": "pepper_bag_plastic" },
+      { "prob": 2, "group": "pepper_bag_paper" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pepper_various_full",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 10, "group": "pepper_bottle_plastic_small_full" },
+      { "prob": 10, "group": "pepper_bottle_glass_small_full" },
+      { "prob": 4, "group": "pepper_bottle_plastic_full" },
+      { "prob": 4, "group": "pepper_bottle_glass_full" },
+      { "prob": 1, "group": "pepper_bag_paper_full" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pepper_bulk",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 20, "group": "pepper_bottle_plastic" },
+      { "prob": 20, "group": "pepper_bottle_glass" },
+      { "prob": 5, "group": "pepper_bag_plastic" },
+      { "prob": 10, "group": "pepper_bag_paper" },
+      { "prob": 2, "group": "pepper_bag_paper_bulk" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pepper_bottle_plastic_small_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "pepper", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pepper_bottle_glass_small_full",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning_small",
+    "entries": [ { "item": "pepper", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pepper_bottle_plastic_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "pepper", "container-item": "null", "count": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pepper_bottle_glass_full",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "pepper", "container-item": "null", "count": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pepper_bag_paper_full",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "pepper", "container-item": "null", "count": 500 } ]
+  },
+  {
+    "id": "pepper_bottle_plastic_small_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "pepper", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pepper_bottle_plastic_small",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "pepper", "container-item": "null", "count": [ 10, 50 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pepper_bottle_glass_small",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning_small",
+    "entries": [ { "item": "pepper", "container-item": "null", "count": [ 10, 50 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pepper_bottle_plastic",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "pepper", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pepper_bottle_glass",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "pepper", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pepper_bag_plastic",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "pepper", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pepper_bag_paper",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "pepper", "container-item": "null", "count": [ 20, 500 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pepper_bag_paper_bulk",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder_bulk",
+    "entries": [ { "item": "pepper", "container-item": "null", "count": [ 30, 2000 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chilly-p_various",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 18, "group": "chilly-p_bottle_plastic_small" },
+      { "prob": 18, "group": "chilly-p_bottle_glass_small" },
+      { "prob": 2, "group": "chilly-p_bottle_plastic" },
+      { "prob": 2, "group": "chilly-p_bottle_glass" },
+      { "prob": 4, "group": "chilly-p_bag_plastic" },
+      { "prob": 1, "group": "chilly-p_bag_paper" }
+    ]
+  },
+  {
+    "id": "chilly_p_bottle_plastic_small_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "chilly-p", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chilly-p_bottle_plastic_small",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "chilly-p", "container-item": "null", "count": [ 10, 50 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chilly-p_bottle_glass_small",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning_small",
+    "entries": [ { "item": "chilly-p", "container-item": "null", "count": [ 10, 50 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chilly-p_bottle_plastic",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "chilly-p", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chilly-p_bottle_glass",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "chilly-p", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chilly-p_bag_plastic",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "chilly-p", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chilly-p_bag_paper",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "chilly-p", "container-item": "null", "count": [ 25, 500 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "garlic_powder_various",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 18, "group": "garlic_powder_bottle_plastic_small" },
+      { "prob": 18, "group": "garlic_powder_bottle_glass_small" },
+      { "prob": 2, "group": "garlic_powder_bottle_plastic" },
+      { "prob": 2, "group": "garlic_powder_bottle_glass" },
+      { "prob": 4, "group": "garlic_powder_bag_plastic" },
+      { "prob": 1, "group": "garlic_powder_bag_paper" }
+    ]
+  },
+  {
+    "id": "garlic_powder_bottle_plastic_small_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "garlic_powder_bottle_plastic_small",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 50 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "garlic_powder_bottle_glass_small",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning_small",
+    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 50 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "garlic_powder_bottle_plastic",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "garlic_powder_bottle_glass",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "garlic_powder_bag_plastic",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "garlic_powder_bag_paper",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 25, 500 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cinnamon_various",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 18, "group": "cinnamon_bottle_plastic_small" },
+      { "prob": 18, "group": "cinnamon_bottle_glass_small" },
+      { "prob": 2, "group": "cinnamon_bottle_plastic" },
+      { "prob": 2, "group": "cinnamon_bottle_glass" },
+      { "prob": 4, "group": "cinnamon_bag_plastic" },
+      { "prob": 1, "group": "cinnamon_bag_paper" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "cinnamon_various_full",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 10, "group": "cinnamon_bottle_plastic_small_full" },
+      { "prob": 10, "group": "cinnamon_bottle_glass_small_full" },
+      { "prob": 4, "group": "cinnamon_bottle_plastic_full" },
+      { "prob": 4, "group": "cinnamon_bottle_glass_full" },
+      { "prob": 1, "group": "cinnamon_bag_paper_full" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "cinnamon_jar_glass_sealed_1_inf",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "cinnamon", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cinnamon_bottle_plastic_small_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "cinnamon", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cinnamon_bottle_glass_small_full",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning_small",
+    "entries": [ { "item": "cinnamon", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cinnamon_bottle_plastic_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "cinnamon", "container-item": "null", "count": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cinnamon_bottle_glass_full",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "cinnamon", "container-item": "null", "count": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cinnamon_bag_paper_full",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "cinnamon", "container-item": "null", "count": 500 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cinnamon_bottle_plastic_small",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "cinnamon", "container-item": "null", "count": [ 10, 50 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cinnamon_bottle_glass_small",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning_small",
+    "entries": [ { "item": "cinnamon", "container-item": "null", "count": [ 10, 50 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cinnamon_bottle_plastic",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "cinnamon", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cinnamon_bottle_glass",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "cinnamon", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cinnamon_bag_plastic",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "cinnamon", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cinnamon_bag_paper",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "cinnamon", "container-item": "null", "count": [ 25, 500 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sprinkles_bottle_plastic_small_62",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_small",
+    "entries": [ { "item": "sprinkles", "container-item": "null", "count": 62 } ]
+  },
+  {
+    "id": "thyme_bowl_plastic_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bowl_plastic",
+    "entries": [ { "item": "thyme", "container-item": "null", "count": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ketchup_sealed_rng",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "ketchup", "prob": 6, "charges": [ 1, -1 ] },
+      { "item": "ketchup", "prob": 1, "charges": 32, "container-item": "condiment_bottle_sealed" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "honey_mustard_sealed_rng",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "honey_mustard", "prob": 6, "charges": [ 1, -1 ] },
+      { "item": "honey_mustard", "prob": 1, "charges": 32, "container-item": "condiment_bottle_sealed" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "barbecue_sauce_sealed_rng",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "barbecue_sauce", "prob": 6, "charges": [ 1, -1 ] },
+      { "item": "barbecue_sauce", "prob": 1, "charges": 32, "container-item": "condiment_bottle_sealed" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mustard_sealed_rng",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mustard", "prob": 6, "charges": [ 1, -1 ] },
+      { "item": "mustard", "prob": 1, "charges": 96, "container-item": "condiment_bottle_sealed" }
+    ]
+  },
+  {
+    "id": "mustard_powder_bottle_plastic_small_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "mustard_powder", "container-item": "null", "count": 50 } ]
+  }
+]

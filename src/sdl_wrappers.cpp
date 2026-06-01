@@ -1281,11 +1281,28 @@ SDL_Renderer_Ptr CreateRenderer( const SDL_Window_Ptr &window, const char *drive
     } else if( driver_name && driver_name[0] != '\0' ) {
         name = driver_name;
     }
-    SDL_Renderer_Ptr result( SDL_CreateRenderer( window.get(), name ) );
-    if( result && vsync && !software ) {
-        SDL_SetRenderVSync( result.get(), 1 );
+    // Use the properties-based create path so the GPU renderer learns we can
+    // supply SPIR-V/DXIL/MSL shaders to SDL_GPURenderState; without these
+    // SDL.renderer.create.gpu.shaders_* booleans, custom GPURenderState may
+    // not wire its texture pipeline correctly even though SDL_GetGPURendererDevice
+    // returns a non-null device.
+    SDL_PropertiesID props = SDL_CreateProperties();
+    if( props == 0 ) {
+        printErrorIf( true, "SDL_CreateProperties failed" );
+        return SDL_Renderer_Ptr();
     }
-    printErrorIf( !result, "SDL_CreateRenderer failed" );
+    SDL_SetPointerProperty( props, SDL_PROP_RENDERER_CREATE_WINDOW_POINTER, window.get() );
+    if( name ) {
+        SDL_SetStringProperty( props, SDL_PROP_RENDERER_CREATE_NAME_STRING, name );
+    }
+    SDL_SetNumberProperty( props, SDL_PROP_RENDERER_CREATE_PRESENT_VSYNC_NUMBER,
+                           ( vsync && !software ) ? 1 : 0 );
+    SDL_SetBooleanProperty( props, SDL_PROP_RENDERER_CREATE_GPU_SHADERS_SPIRV_BOOLEAN, true );
+    SDL_SetBooleanProperty( props, SDL_PROP_RENDERER_CREATE_GPU_SHADERS_DXIL_BOOLEAN, true );
+    SDL_SetBooleanProperty( props, SDL_PROP_RENDERER_CREATE_GPU_SHADERS_MSL_BOOLEAN, true );
+    SDL_Renderer_Ptr result( SDL_CreateRendererWithProperties( props ) );
+    SDL_DestroyProperties( props );
+    printErrorIf( !result, "SDL_CreateRendererWithProperties failed" );
     return result;
 #else
     int driver_index = -1;

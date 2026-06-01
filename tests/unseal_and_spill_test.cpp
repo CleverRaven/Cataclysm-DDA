@@ -16,6 +16,7 @@
 #include "character_attire.h"
 #include "contents_change_handler.h"
 #include "coordinates.h"
+#include "enums.h"
 #include "item.h"
 #include "item_location.h"
 #include "item_pocket.h"
@@ -56,7 +57,7 @@ class enum_tuple
 
         template<int ind>
         void increment() {
-            using enum_t = typename std::tuple_element<ind, tuple_type>::type;
+            using enum_t = std::tuple_element_t<ind, tuple_type>;
             enum_t &val = std::get<ind>( enums );
             if( val != enum_t::end ) {
                 val = static_cast<enum_t>( static_cast<int>( val ) + 1 );
@@ -81,7 +82,7 @@ class enum_tuple
 
         enum_tuple operator++() {
             // *INDENT-OFF*
-            increment<std::tuple_size<tuple_type>::value - 1>();
+            increment<std::tuple_size_v<tuple_type> - 1>();
             // *INDENT-ON*
             return *this;
         }
@@ -409,7 +410,7 @@ item_location prepare_item( avatar &guy, map &here, item &it,
         }
         case container_location::vehicle: {
             vehicle *veh = here.add_vehicle( vehicle_prototype_test_cargo_space, guy.pos_bub(),
-                                             -90_degrees, 0, 0 );
+                                             -90_degrees, 0, veh_spawn_status::UNDAMAGED );
             REQUIRE( veh );
             here.board_vehicle( guy.pos_bub(), &guy );
             std::optional<vpart_reference> vp =

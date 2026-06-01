@@ -408,7 +408,7 @@ float player_activity::exertion_level() const
 }
 
 template <typename T>
-bool containers_equal( const T &left, const T &right )
+static bool containers_equal( const T &left, const T &right )
 {
     if( left.size() != right.size() ) {
         return false;

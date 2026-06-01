@@ -185,6 +185,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::SPAWN_GROUP: return "SPAWN_GROUP";
         case spell_flag::IGNITE_FLAMMABLE: return "IGNITE_FLAMMABLE";
         case spell_flag::NO_FAIL: return "NO_FAIL";
+        case spell_flag::HIDDEN_SPELL: return "HIDDEN_SPELL";
         case spell_flag::WONDER: return "WONDER";
         case spell_flag::EXTRA_EFFECTS_FIRST: return "EXTRA_EFFECTS_FIRST";
         case spell_flag::MUST_HAVE_CLASS_TO_LEARN: return "MUST_HAVE_CLASS_TO_LEARN";
@@ -1240,6 +1241,9 @@ std::string spell::name() const
 
 std::string spell::message() const
 {
+    if( has_flag( "HIDDEN_SPELL" ) ) {
+        return {};
+    }
     if( !alt_message.empty() ) {
         return SNIPPET.expand( alt_message.translated() );
     }
@@ -2750,6 +2754,8 @@ static void refresh_favorite( uilist *menu, std::vector<spell *> known_spells )
     }
 }
 
+namespace
+{
 class spellcasting_callback : public uilist_callback
 {
     private:
@@ -2833,6 +2839,7 @@ class spellcasting_callback : public uilist_callback
             }
         }
 };
+} // namespace
 
 const std::set<int> spellcasting_callback::reserved_invlets { 'I', '=', '*' };
 
@@ -3326,7 +3333,7 @@ spell &known_magic::select_spell( Character &guy )
             spell_menu_height
         };
 
-    spell_menu.title = _( "Choose a Spell" );
+    spell_menu.title = _( "Choose a Supernatural Power" );
     spell_menu.input_category = "SPELL_MENU";
     spell_menu.additional_actions.emplace_back( "CHOOSE_INVLET", translation() );
     spell_menu.additional_actions.emplace_back( "CAST_IGNORE", translation() );

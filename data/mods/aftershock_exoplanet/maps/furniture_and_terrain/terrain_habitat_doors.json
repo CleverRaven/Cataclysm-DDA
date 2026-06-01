@@ -5,7 +5,7 @@
     "name": "closed metal door",
     "description": "A galvanized steel door, forged to withstand punishment and impede anyone or anything.  This one is secured with an electronic lock.",
     "symbol": "+",
-    "looks_like": "t_door_metal_c",
+    "looks_like": "t_door_metal_elocked",
     "color": "cyan",
     "move_cost": 0,
     "coverage": 95,

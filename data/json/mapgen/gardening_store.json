@@ -11,18 +11,18 @@
         ".p.p,____,____,____,.p.p",
         ".ppp,____,____,____,.ppp",
         "..|--OOOO--++--OOOO--|..",
-        "..|  y@@y      y@@y  |..",
+        "..|  y@@y §    y@@y  |..",
         "..|                  |..",
         "..|#$##  ttt ttt ttt |..",
         "..|r  #              |..",
         "..|r A#  ttt ttt ttt O..",
         "..|   #              O..",
         "..|*---|  r rr rr r  O..",
-        "..| |& |  r rr rr r  O..",
+        "..| |& |§ r rr rr r  O..",
         "..| |s *  r rr rr r  |..",
         ".U|*---|             |..",
         ".<| h  *  tttt  yyyyy|..",
-        ".U|IIIS|        yyyyy|..",
+        ".U|IIIS|§       yyyyy|..",
         "..|------O-++-O------|..",
         "..%ZZZZZ........bbbb%4..",
         "..^.................^...",
@@ -92,7 +92,8 @@
         "t": { "item": "farming_seeds", "chance": 80, "repeat": [ 4, 16 ] },
         "&": { "item": "SUS_toilet", "chance": 50 }
       },
-      "place_loot": [ { "group": "cash_register_random", "x": 6, "y": [ 9, 11 ] } ]
+      "place_loot": [ { "group": "cash_register_random", "x": 6, "y": [ 9, 11 ] } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

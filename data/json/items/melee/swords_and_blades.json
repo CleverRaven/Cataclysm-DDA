@@ -544,16 +544,8 @@
     "melee_damage": { "stab": 21 }
   },
   {
-    "id": "knife_rambo",
-    "copy-from": "mc_knife_rambo",
-    "type": "ITEM",
-    "name": { "str": "survival knife", "str_pl": "survival knives" },
-    "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.",
-    "replace_materials": { "mc_steel": "steel" }
-  },
-  {
     "id": "lc_knife_rambo",
-    "copy-from": "mc_knife_rambo",
+    "copy-from": "knife_rambo",
     "looks_like": "knife_rambo",
     "type": "ITEM",
     "name": { "str": "mild steel survival knife", "str_pl": "mild steel survival knives" },
@@ -565,13 +557,12 @@
     "relative": { "melee_damage": { "stab": -1 } }
   },
   {
-    "id": "mc_knife_rambo",
-    "looks_like": "knife_rambo",
+    "id": "knife_rambo",
     "type": "ITEM",
     "category": "weapons",
     "name": { "str": "medium steel survival knife", "str_pl": "medium steel survival knives" },
     "//": "This isn't really supposed to be a very good knife, or a very good saw.  It's more for looking scary.",
-    "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.  Made of medium steel, this is about as good as store bought.",
+    "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.",
     "weight": "422 g",
     "volume": "344 ml",
     "longest_side": "36 cm",
@@ -602,7 +593,7 @@
   },
   {
     "id": "hc_knife_rambo",
-    "copy-from": "mc_knife_rambo",
+    "copy-from": "knife_rambo",
     "looks_like": "knife_rambo",
     "type": "ITEM",
     "name": { "str": "high steel survival knife", "str_pl": "high steel survival knives" },
@@ -613,7 +604,7 @@
   },
   {
     "id": "ch_knife_rambo",
-    "copy-from": "mc_knife_rambo",
+    "copy-from": "knife_rambo",
     "looks_like": "knife_rambo",
     "type": "ITEM",
     "name": { "str": "hardened steel survival knife", "str_pl": "hardened steel survival knives" },
@@ -624,7 +615,7 @@
   },
   {
     "id": "qt_knife_rambo",
-    "copy-from": "mc_knife_rambo",
+    "copy-from": "knife_rambo",
     "looks_like": "knife_rambo",
     "type": "ITEM",
     "name": { "str": "tempered steel survival knife", "str_pl": "tempered steel survival knives" },
@@ -680,17 +671,8 @@
     "weapon_category": [ "SHIVS" ]
   },
   {
-    "id": "knife_trench",
-    "copy-from": "mc_knife_trench",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "trench knife", "str_pl": "trench knives" },
-    "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.",
-    "replace_materials": { "mc_steel": "steel" }
-  },
-  {
     "id": "lc_knife_trench",
-    "copy-from": "mc_knife_trench",
+    "copy-from": "knife_trench",
     "looks_like": "knife_trench",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
@@ -703,11 +685,10 @@
     "relative": { "melee_damage": { "stab": -2 } }
   },
   {
-    "id": "mc_knife_trench",
+    "id": "knife_trench",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "weapons",
-    "looks_like": "knife_trench",
     "name": { "str": "medium steel trench knife", "str_pl": "medium steel trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking.  This one is made of medium steel and is about shop quality.",
     "weight": "530 g",
@@ -729,7 +710,7 @@
   },
   {
     "id": "hc_knife_trench",
-    "copy-from": "mc_knife_trench",
+    "copy-from": "knife_trench",
     "looks_like": "knife_trench",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
@@ -741,7 +722,7 @@
   },
   {
     "id": "ch_knife_trench",
-    "copy-from": "mc_knife_trench",
+    "copy-from": "knife_trench",
     "looks_like": "knife_trench",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
@@ -753,7 +734,7 @@
   },
   {
     "id": "qt_knife_trench",
-    "copy-from": "mc_knife_trench",
+    "copy-from": "knife_trench",
     "looks_like": "knife_trench",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
@@ -1076,18 +1057,8 @@
     "extend": { "flags": [ "FRAGILE_MELEE" ] }
   },
   {
-    "id": "kukri",
-    "copy-from": "mc_kukri",
-    "looks_like": "kukri",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "kukri" },
-    "description": "This versatile implement is a modern take on a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly-curved edge, it can be used as both a tool and a weapon.",
-    "replace_materials": { "mc_steel": "steel", "wood": "plastic" }
-  },
-  {
     "id": "lc_kukri",
-    "copy-from": "mc_kukri",
+    "copy-from": "kukri",
     "looks_like": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
@@ -1100,7 +1071,7 @@
     "relative": { "melee_damage": { "cut": -1 } }
   },
   {
-    "id": "mc_kukri",
+    "id": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "weapons",
@@ -1126,7 +1097,7 @@
   },
   {
     "id": "hc_kukri",
-    "copy-from": "mc_kukri",
+    "copy-from": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "high steel kukri" },
@@ -1137,7 +1108,7 @@
   },
   {
     "id": "ch_kukri",
-    "copy-from": "mc_kukri",
+    "copy-from": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel kukri" },
@@ -1148,7 +1119,7 @@
   },
   {
     "id": "qt_kukri",
-    "copy-from": "mc_kukri",
+    "copy-from": "kukri",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel kukri" },
@@ -2572,17 +2543,8 @@
     "melee_damage": { "bash": 2, "stab": 25 }
   },
   {
-    "id": "broadsword",
-    "copy-from": "mc_broadsword",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "broadsword" },
-    "description": "An Early Modern sword that saw use in the 16th, 17th, and 18th centuries.  Called 'broad' to contrast with the slimmer rapiers.",
-    "replace_materials": { "mc_steel": "steel" }
-  },
-  {
     "id": "lc_broadsword",
-    "copy-from": "mc_broadsword",
+    "copy-from": "broadsword",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "mild steel broadsword" },
@@ -2594,7 +2556,7 @@
     "relative": { "melee_damage": { "cut": -4 }, "qualities": [ [ "BUTCHER", -1 ] ] }
   },
   {
-    "id": "mc_broadsword",
+    "id": "broadsword",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "weapons",
@@ -2620,7 +2582,7 @@
   },
   {
     "id": "hc_broadsword",
-    "copy-from": "mc_broadsword",
+    "copy-from": "broadsword",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "high steel broadsword" },
@@ -2631,7 +2593,7 @@
   },
   {
     "id": "ch_broadsword",
-    "copy-from": "mc_broadsword",
+    "copy-from": "broadsword",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel broadsword" },
@@ -2642,7 +2604,7 @@
   },
   {
     "id": "qt_broadsword",
-    "copy-from": "mc_broadsword",
+    "copy-from": "broadsword",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel broadsword" },
@@ -2653,7 +2615,7 @@
   },
   {
     "id": "broadsword_inferior",
-    "copy-from": "mc_broadsword",
+    "copy-from": "broadsword",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "broadsword" },
@@ -2664,7 +2626,7 @@
   },
   {
     "id": "broadsword_fake",
-    "copy-from": "mc_broadsword",
+    "copy-from": "broadsword",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "broadsword" },
@@ -2675,17 +2637,8 @@
     "extend": { "flags": [ "FRAGILE_MELEE" ] }
   },
   {
-    "id": "rapier",
-    "copy-from": "mc_rapier",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "rapier" },
-    "description": "A thin sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.",
-    "replace_materials": { "mc_steel": "steel" }
-  },
-  {
     "id": "lc_rapier",
-    "copy-from": "mc_rapier",
+    "copy-from": "rapier",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "mild steel rapier" },
@@ -2697,7 +2650,7 @@
     "relative": { "melee_damage": { "stab": -4 }, "qualities": [ [ "BUTCHER", -1 ] ] }
   },
   {
-    "id": "mc_rapier",
+    "id": "rapier",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "weapons",
@@ -2723,7 +2676,7 @@
   },
   {
     "id": "hc_rapier",
-    "copy-from": "mc_rapier",
+    "copy-from": "rapier",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "high steel rapier" },
@@ -2734,7 +2687,7 @@
   },
   {
     "id": "ch_rapier",
-    "copy-from": "mc_rapier",
+    "copy-from": "rapier",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "hardened steel rapier" },
@@ -2745,7 +2698,7 @@
   },
   {
     "id": "qt_rapier",
-    "copy-from": "mc_rapier",
+    "copy-from": "rapier",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "tempered steel rapier" },
@@ -2756,7 +2709,7 @@
   },
   {
     "id": "rapier_fake",
-    "copy-from": "mc_rapier",
+    "copy-from": "rapier",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "rapier" },
@@ -2811,7 +2764,11 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "weapon_category": [ "LONG_SWORDS" ],
-    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
+    "faults": [
+      { "fault_group": "handle_short" },
+      { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "bladed_weapon_craft_failures" }
+    ],
     "melee_damage": { "bash": 5, "cut": 33 }
   },
   {

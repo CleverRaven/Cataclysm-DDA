@@ -1198,7 +1198,7 @@ bool mattack::smash( monster *z )
  */
 template <size_t N = 1>
 std::pair < std::array < tripoint_bub_ms, ( 2 * N + 1 ) * ( 2 * N + 1 ) >, size_t >
-find_empty_neighbors( const tripoint_bub_ms &origin )
+static find_empty_neighbors( const tripoint_bub_ms &origin )
 {
     constexpr int r = static_cast<int>( N );
 
@@ -1221,7 +1221,7 @@ find_empty_neighbors( const tripoint_bub_ms &origin )
  */
 template <size_t N = 1>
 std::pair < std::array < tripoint_bub_ms, ( 2 * N + 1 ) * ( 2 * N + 1 ) >, size_t >
-find_empty_neighbors( const Creature &c )
+static find_empty_neighbors( const Creature &c )
 {
     return find_empty_neighbors<N>( c.pos_bub() );
 }
@@ -1240,7 +1240,7 @@ static size_t get_random_index( const size_t size )
  * Get a size_t value in the closed interval [0, c.size() - 1]; a convenience to avoid messy casting.
  */
 template <typename Container>
-size_t get_random_index( const Container &c )
+static size_t get_random_index( const Container &c )
 {
     return get_random_index( c.size() );
 }
@@ -4402,10 +4402,13 @@ bool mattack::kamikaze( monster *z )
     return true;
 }
 
+namespace
+{
 struct grenade_helper_struct {
     std::string message;
     int chance = 1;
 };
+} // namespace
 
 // Returns 0 if this should be retired, 1 if it was successful, and -1 if something went horribly wrong
 static int grenade_helper( monster *const z, Creature *const target, const int dist,

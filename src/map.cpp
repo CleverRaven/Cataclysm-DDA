@@ -56,6 +56,7 @@
 #include "item_factory.h"
 #include "item_group.h"
 #include "item_location.h"
+#include "item_wakeup.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -338,6 +339,21 @@ map::~map()
 map &map::operator=( map && ) = default;
 
 static submap null_submap;
+
+std::list<std::unique_ptr<level_cache>> map::free_cache_pool;
+
+std::unique_ptr<level_cache, map::level_cache_free> map::alloc_cache()
+{
+    std::unique_ptr<level_cache, level_cache_free> cache;
+    if( !free_cache_pool.empty() ) {
+        cache.reset( free_cache_pool.front().release() );
+        free_cache_pool.pop_front();
+        cache->clear();
+    } else {
+        cache.reset( new level_cache{} );
+    }
+    return cache;
+}
 
 void map::set_transparency_cache_dirty( const int zlev )
 {
@@ -762,7 +778,12 @@ void map::resolve_off_map_grid_generation()
     power_network_manager &pnm = g->power_networks();
     pnm.begin_rebuild();
 
-    for( vehicle *veh : in_bubble ) {
+    std::vector<vehicle *> ordered_in_bubble( in_bubble.begin(), in_bubble.end() );
+    std::sort( ordered_in_bubble.begin(), ordered_in_bubble.end(),
+    []( const vehicle * a, const vehicle * b ) {
+        return a->pos_abs() < b->pos_abs();
+    } );
+    for( vehicle *veh : ordered_in_bubble ) {
         if( resolved.count( veh ) ) {
             continue;
         }
@@ -924,7 +945,12 @@ void map::vehmove()
             veh->get_connected_vehicles( *this, connected_vehs );
         }
     }
-    for( vehicle *connected_veh : connected_vehs ) {
+    std::vector<vehicle *> ordered_connected( connected_vehs.begin(), connected_vehs.end() );
+    std::sort( ordered_connected.begin(), ordered_connected.end(),
+    []( const vehicle * a, const vehicle * b ) {
+        return a->pos_abs() < b->pos_abs();
+    } );
+    for( vehicle *connected_veh : ordered_connected ) {
         vehs.emplace( connected_veh, false ); // add with 'false' if does not exist (off map)
     }
     for( const std::pair<vehicle *const, bool> &veh_pair : vehs ) {
@@ -4677,6 +4703,8 @@ bash_params map::bash( const tripoint_bub_ms &p, const int str,
                        bool silent, bool destroy, bool bash_floor,
                        const vehicle *bashing_vehicle, bool repair_missing_ground )
 {
+    // Temporary map is bound to a const reference for the call duration; bash returns by value.
+    // NOLINTNEXTLINE(clang-analyzer-core.StackAddressEscape)
     return bash( p, {{{damage_bash, str}}}, silent, destroy, bash_floor, bashing_vehicle,
     repair_missing_ground );
 }
@@ -5545,7 +5573,7 @@ void map::i_clear( const tripoint_bub_ms &p )
         set_lightmap_cache_dirty( p.z() );
     }
     current_submap->set_lum( l, 0 );
-    current_submap->get_items( l ).clear();
+    current_submap->get_items( l ).reset();
 }
 
 std::vector<item *> map::spawn_items( const tripoint_bub_ms &p, const std::vector<item> &new_items )
@@ -5907,7 +5935,7 @@ void map::make_active( item_location &loc )
         return;
     }
     cata::colony<item> &item_stack = current_submap->get_items( l );
-    cata::colony<item>::iterator iter = item_stack.get_iterator_from_pointer( target );
+    cata::colony<item>::iterator iter = item_stack.get_iterator( target );
 
     if( current_submap->active_items.add( *iter, l ) ) {
         tripoint_abs_sm const smloc( abs_sub.x() + loc.pos_bub( *this ).x() / SEEX,
@@ -6569,8 +6597,8 @@ bool map::only_liquid_in_liquidcont( const tripoint_bub_ms &p )
 }
 
 template <typename Stack>
-std::list<item> use_amount_stack( Stack stack, const itype_id &type, int &quantity,
-                                  const std::function<bool( const item & )> &filter )
+static std::list<item> use_amount_stack( Stack stack, const itype_id &type, int &quantity,
+        const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
@@ -8627,6 +8655,82 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle,
             }
         }
     }
+
+    reconcile_item_wakeups();
+}
+
+void map::reconcile_item_wakeups()
+{
+    item_wakeup_manager &wakeups = get_item_wakeups();
+    auto reconcile_recursive = [&wakeups]( auto & self, item_location loc ) -> void {
+        if( !loc )
+        {
+            return;
+        }
+        item *outer = loc.get_item();
+        if( outer == nullptr )
+        {
+            return;
+        }
+        wakeups.rebuild_for_item( loc );
+        for( item *child : outer->all_items_top() )
+        {
+            item_location child_loc( loc, child );
+            self( self, child_loc );
+        }
+    };
+
+    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+            const int zmin = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
+            const int zmax = zlevels ? OVERMAP_HEIGHT : abs_sub.z();
+            for( int gridz = zmin; gridz <= zmax; gridz++ ) {
+                const tripoint_rel_sm grid( gridx, gridy, gridz );
+                submap *const sm = get_submap_at_grid( grid );
+                if( sm == nullptr ) {
+                    continue;
+                }
+                for( int sx = 0; sx < SEEX; ++sx ) {
+                    for( int sy = 0; sy < SEEY; ++sy ) {
+                        for( item &it : sm->get_items( { sx, sy } ) ) {
+                            const tripoint_bub_ms p( sx + gridx * SEEX,
+                                                     sy + gridy * SEEY, gridz );
+                            const tripoint_abs_ms abs = get_abs( p );
+                            item_location loc( map_cursor( abs ), &it );
+                            reconcile_recursive( reconcile_recursive, loc );
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    for( wrapped_vehicle &wv : get_vehicles() ) {
+        if( wv.v == nullptr ) {
+            continue;
+        }
+        for( const vpart_reference &vpr : wv.v->get_all_parts() ) {
+            vehicle_part &vp = wv.v->part( vpr.part_index() );
+            for( item &it : wv.v->get_items( vp ) ) {
+                vehicle_cursor vc( *wv.v, vpr.part_index() );
+                item_location loc( vc, &it );
+                reconcile_recursive( reconcile_recursive, loc );
+            }
+        }
+    }
+
+    auto walk_character = [&wakeups]( Character & c ) {
+        // all_items_loc() is already recursive; rebuild per location directly.
+        for( item_location &loc : c.all_items_loc() ) {
+            if( loc && loc.get_item() != nullptr ) {
+                wakeups.rebuild_for_item( loc );
+            }
+        }
+    };
+    walk_character( get_avatar() );
+    for( npc &n : g->all_npcs() ) {
+        walk_character( n );
+    }
 }
 
 void map::shift_traps( const point_rel_sm &shift )
@@ -8818,6 +8922,9 @@ void map::shift( const point_rel_sm &sp )
     for( tripoint_rel_sm loaded_grid : loaded_grids ) {
         actualize( loaded_grid );
     }
+    if( !loaded_grids.empty() ) {
+        reconcile_item_wakeups();
+    }
 }
 
 void map::vertical_shift( const int newz )
@@ -8927,8 +9034,8 @@ void map::loadn( const point_bub_sm &grid, bool update_vehicles )
 
     // It might be possible to just check the (0, 0) submap as we should never have
     // a case where only one submap is missing from an OMT level.
-    for( int gridx = 0; gridx <= 1; gridx++ ) {
-        for( int gridy = 0; gridy <= 1; gridy++ ) {
+    for( int gridx = 0; !map_incomplete && gridx <= 1; gridx++ ) {
+        for( int gridy = 0; !map_incomplete && gridy <= 1; gridy++ ) {
             for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
                 const tripoint grid_pos( gridx, gridy, gridz );
                 if( !MAPBUFFER.submap_exists( grid_sm_base.xy() + grid_pos ) ) {
@@ -10111,7 +10218,7 @@ int map::determine_wall_corner( const tripoint_bub_ms &p ) const
 
         case 8 | 0 | 1 | 4:
             return LINE_XOXX;
-        case 0 | 0 | 1 | 4:
+        case 0 | 0 | 1 | 4: // NOLINT(misc-redundant-expression)
             return LINE_OOXX;
 
         case 8 | 2 | 0 | 4:
@@ -10120,7 +10227,7 @@ int map::determine_wall_corner( const tripoint_bub_ms &p ) const
             return LINE_OXOX;
         case 8 | 0 | 0 | 4: // NOLINT(misc-redundant-expression)
             return LINE_XOOX;
-        case 0 | 0 | 0 | 4:
+        case 0 | 0 | 0 | 4: // NOLINT(misc-redundant-expression)
             return LINE_OXOX; // LINE_OOOX would be better
 
         case 8 | 2 | 1 | 0:
@@ -10129,7 +10236,7 @@ int map::determine_wall_corner( const tripoint_bub_ms &p ) const
             return LINE_OXXO;
         case 8 | 0 | 1 | 0: // NOLINT(bugprone-branch-clone,misc-redundant-expression)
             return LINE_XOXO;
-        case 0 | 0 | 1 | 0:
+        case 0 | 0 | 1 | 0: // NOLINT(misc-redundant-expression)
             return LINE_XOXO; // LINE_OOXO would be better
         case 8 | 2 | 0 | 0: // NOLINT(misc-redundant-expression)
             return LINE_XXOO;
@@ -10138,7 +10245,7 @@ int map::determine_wall_corner( const tripoint_bub_ms &p ) const
         case 8 | 0 | 0 | 0: // NOLINT(misc-redundant-expression)
             return LINE_XOXO; // LINE_XOOO would be better
 
-        case 0 | 0 | 0 | 0:
+        case 0 | 0 | 0 | 0: // NOLINT(misc-redundant-expression)
             return ter( p ).obj().symbol(); // technically just a column
 
         default:
@@ -11310,9 +11417,9 @@ std::list<Creature *> map::get_creatures_in_radius_circ( const tripoint_bub_ms &
 level_cache &map::access_cache( int zlev )
 {
     if( zlev >= -OVERMAP_DEPTH && zlev <= OVERMAP_HEIGHT ) {
-        std::unique_ptr<level_cache> &cache = caches[zlev + OVERMAP_DEPTH];
+        std::unique_ptr<level_cache, level_cache_free> &cache = caches[zlev + OVERMAP_DEPTH];
         if( !cache ) {
-            cache = std::make_unique<level_cache>();
+            cache = alloc_cache();
         }
         return *cache;
     }
@@ -11324,9 +11431,9 @@ level_cache &map::access_cache( int zlev )
 const level_cache &map::access_cache( int zlev ) const
 {
     if( zlev >= -OVERMAP_DEPTH && zlev <= OVERMAP_HEIGHT ) {
-        std::unique_ptr<level_cache> &cache = caches[zlev + OVERMAP_DEPTH];
+        std::unique_ptr<level_cache, level_cache_free> &cache = caches[zlev + OVERMAP_DEPTH];
         if( !cache ) {
-            cache = std::make_unique<level_cache>();
+            cache = alloc_cache();
         }
         return *cache;
     }

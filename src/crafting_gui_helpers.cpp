@@ -198,10 +198,14 @@ bool availability::check_can_craft_nested( Character &_crafter, const recipe &r 
 craft_confirm_result can_start_craft(
     const recipe &rec,
     const availability &avail,
-    const Character &crafter )
+    const Character &crafter,
+    int batch_size )
 {
     if( !avail.can_craft || !avail.crafter_has_primary_skill ) {
         return craft_confirm_result::cannot_craft;
+    }
+    if( rec.makes_amount() * batch_size > MAX_ITEM_IN_SQUARE ) {
+        return craft_confirm_result::too_many_results;
     }
     if( crafter.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
         return craft_confirm_result::too_dark;
