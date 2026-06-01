@@ -43,9 +43,9 @@
 
 static const ammotype ammo_9mm( "9mm" );
 static const ammotype ammo_battery( "battery" );
-static const ammotype ammo_test_graphite( "test_graphite" );
 static const ammotype ammo_lamp_oil( "lamp_oil" );
 static const ammotype ammo_oxygen( "oxygen" );
+static const ammotype ammo_test_graphite( "test_graphite" );
 static const ammotype ammo_water( "water" );
 
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
