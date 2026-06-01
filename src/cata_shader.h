@@ -214,7 +214,10 @@ class variant_pass
         bool try_begin( variant_kind v );
         bool end();
 
-        void flush();
+        // Returns false on SDL_SetGPURenderState(NULL) failure; pass
+        // stays flagged bound so callers can refuse to cross a
+        // render-target boundary.
+        bool flush();
 
         void select_memory_preset( std::optional<memory_preset> preset );
 
@@ -234,6 +237,39 @@ class variant_pass
         bool probe_attempted_ = false;
         bool probed_ok_ = false;
         bool session_disabled_ = false;
+};
+
+// RAII guard for SDL_SetRenderTarget. Flushes variant_pass before
+// switching targets - SDL3 has been observed to crash inside
+// SDL_SetRenderTarget when variant GPU state is bound across the
+// transition. Pass nullptr if no variant_pass is involved.
+// Caller checks is_valid() before drawing and restore() before
+// continuing on the prior target.
+class render_target_scope
+{
+    public:
+        render_target_scope( SDL_Renderer *renderer, SDL_Texture *target,
+                             variant_pass *vp );
+        ~render_target_scope();
+
+        render_target_scope( const render_target_scope & ) = delete;
+        render_target_scope &operator=( const render_target_scope & ) = delete;
+        render_target_scope( render_target_scope && ) = delete;
+        render_target_scope &operator=( render_target_scope && ) = delete;
+
+        bool is_valid() const {
+            return valid_;
+        }
+
+        // Returns false if the scope is invalid or SDL_SetRenderTarget
+        // fails; failure leaves restored_ unset so the destructor retries.
+        bool restore();
+
+    private:
+        SDL_Renderer *renderer_ = nullptr;
+        SDL_Texture *prior_target_ = nullptr;
+        bool valid_ = false;
+        bool restored_ = false;
 };
 
 } // namespace cata_shader
