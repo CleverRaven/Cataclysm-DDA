@@ -1763,8 +1763,8 @@
     "type": "mutation",
     "id": "HOARDER",
     "name": { "str": "Hoarder" },
-    "description": "You don't feel right unless you're carrying as much as you can.  You suffer morale penalties for carrying less than maximum volume (weight is ignored).  Xanax can help control this anxiety.",
-    "points": -4,
+    "description": "You don't feel right unless you're carrying a bunch of stuff.  You want to always have the right tool for every occasion, whether that's a knife, a gas mask, fresh water, a crowbar, or jelly babies.  If you can't be well stocked, then even carrying junk helps keep the horrible thoughts quiet.  Xanax can help control this anxiety.",
+    "points": -2,
     "starting_trait": true,
     "valid": false
   },
