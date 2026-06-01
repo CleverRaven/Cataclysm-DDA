@@ -725,6 +725,32 @@
   },
   {
     "type": "mutation",
+    "id": "perk_artifact_resonance_exploitation",
+    "name": { "str": "Resonating Empowerment" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Your frequent handling of artifacts has allowed you to redirect some of the otherworldly power they carry.  When suffering from resonance effects, you gain a variety of minor bonuses such as resistance to fire, electricity, or cold, increased dodge, or increased stamina regen.",
+    "enchantments": [
+      {
+        "condition": { "math": [ "u_artifact_resonance() > 2000" ] },
+        "incoming_damage_mod": [
+          { "type": "heat", "add": { "math": [ "rand(8) + 2" ] } },
+          { "type": "electric", "add": { "math": [ "rand(8) + 2" ] } },
+          { "type": "cold", "add": { "math": [ "rand(8) + 2" ] } }
+        ],
+        "values": [
+          { "value": "BONUS_DODGE", "add": { "math": [ "rand(1)" ] } },
+          { "value": "REGEN_STAMINA", "multiply": { "math": [ "rng(0.1,0.3)" ] } },
+          { "value": "FORCEFIELD", "multiply": { "math": [ "rng(0,0.1)" ] } },
+          { "value": "MOVE_COST", "multiply": { "math": [ "rng(-0.05,0)" ] } },
+          { "value": "PAIN", "multiply": { "math": [ "rng(-0.15,0)" ] } }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_frakenstein",
     "name": { "str": "Playing God" },
     "points": 0,
