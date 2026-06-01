@@ -13,8 +13,7 @@
     "name": "gigantic compound eye (crown)",
     "parent": "head_dragonfly",
     "max_coverage": 20,
-    "side": "both",
-    "similar_bodypart": "head_crown"
+    "side": "both"
   },
   {
     "id": "head_dragonfly_nape",
@@ -42,8 +41,7 @@
     "parent": "head_dragonfly",
     "max_coverage": 10,
     "side": "left",
-    "opposite": "head_dragonfly_ear_r",
-    "similar_bodypart": "head_ear_l"
+    "opposite": "head_dragonfly_ear_r"
   },
   {
     "id": "head_dragonfly_ear_r",
@@ -53,8 +51,7 @@
     "parent": "head_dragonfly",
     "max_coverage": 10,
     "side": "right",
-    "opposite": "head_dragonfly_ear_l",
-    "similar_bodypart": "head_ear_r"
+    "opposite": "head_dragonfly_ear_l"
   },
   {
     "id": "eyes_bulging_l",
