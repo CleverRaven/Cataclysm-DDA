@@ -92,6 +92,17 @@
         "max_duration": 12
       }
     ],
+    "//": "encumbrance per weight increased 10% over human head",
+    "encumbrance_per_weight": [
+      { "weight": "1 mg", "encumbrance": 1 },
+      { "weight": "300 g", "encumbrance": 4 },
+      { "weight": "800 g", "encumbrance": 9 },
+      { "weight": "1300 g", "encumbrance": 22 },
+      { "weight": "1600 g", "encumbrance": 33 },
+      { "weight": "2200 g", "encumbrance": 55 },
+      { "weight": "5600 g", "encumbrance": 88 },
+      { "weight": "10000 g", "encumbrance": 176 }
+    ],
     "flags": [ "SEESLEEP", "LIMB_UPPER" ]
   },
   {
