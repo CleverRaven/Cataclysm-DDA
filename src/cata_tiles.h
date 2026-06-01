@@ -387,9 +387,10 @@ class tileset
                 season_type season ) const;
 };
 
-// Hash of color-filter configuration that affects pre-baked texture variants.
-// Currently covers MEMORY_RGB_{DARK,BRIGHT}_{R,G,B} and MEMORY_GAMMA when
-// MEMORY_MAP_MODE is "color_pixel_custom"; zero otherwise.
+// Hashes the options baked into tileset textures so changing any of them
+// invalidates the cache key and forces a reupload. Always folds in
+// SCALING_MODE; adds MEMORY_RGB_{DARK,BRIGHT}_{R,G,B} and MEMORY_GAMMA under
+// the "color_pixel_custom" memory map mode.
 uint64_t compute_tileset_filter_fingerprint( const std::string &memory_map_mode );
 
 struct tileset_cache_key {

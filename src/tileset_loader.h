@@ -112,8 +112,8 @@ class tileset_cache::loader
 
         // Upload every descriptor and regenerate the default highlight when
         // active. Builds candidate vectors and swaps them into ts on full
-        // success; ts is unchanged on failure. The two generation arguments
-        // are reserved for bundle-generation tracking.
+        // success; ts is unchanged on failure. Stamps the upload generations
+        // onto the bundle so a later cache lookup can spot a stale upload.
         static void upload_atlases( tileset &ts, const SDL_Renderer_Ptr &renderer,
                                     const std::string &memory_map_mode,
                                     const std::vector<atlas_replay_descriptor> &descriptors,
