@@ -1829,6 +1829,14 @@
   },
   {
     "type": "material",
+    "id": "dense_powder_nonflam",
+    "copy-from": "powder_nonflam",
+    "name": "Powder",
+    "//COMMENT": "Nonflammable implementation of dense_powder",
+    "density": 10
+  },
+  {
+    "type": "material",
     "id": "salt",
     "name": "Salt",
     "density": 2.16,

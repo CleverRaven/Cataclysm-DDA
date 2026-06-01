@@ -10,7 +10,7 @@
     "volume": "1 ml",
     "price": "10 cents",
     "price_postapoc": "1 USD",
-    "material": [ "powder_nonflam" ],
+    "material": [ "dense_powder_nonflam" ],
     "symbol": "=",
     "color": "dark_gray"
   },
@@ -25,7 +25,7 @@
     "volume": "1 ml",
     "price": "10 cents",
     "price_postapoc": "50 cent",
-    "material": [ "powder_nonflam" ],
+    "material": [ "dense_powder_nonflam" ],
     "symbol": "=",
     "color": "dark_gray"
   },
@@ -40,7 +40,7 @@
     "color": "white",
     "description": "A handful of white, odorless, strongly hygroscopic powder with an extremely salty taste.  Often used as a de-icing agent or as dessicant.",
     "container": "bag_canvas",
-    "material": [ "powder_nonflam" ],
+    "material": [ "dense_powder_nonflam" ],
     "volume": "1 ml",
     "weight": "2150 mg"
   },
@@ -55,7 +55,7 @@
     "color": "white",
     "description": "A handful of white, odorless, hygroscopic powder.  Often used as a cleansing agent and for glass manufacturing, among other things.  Also known as sodium carbonate or soda ash.",
     "container": "box_small",
-    "material": [ "powder_nonflam" ],
+    "material": [ "dense_powder_nonflam" ],
     "volume": "1 ml",
     "weight": "2540 mg"
   },
@@ -70,7 +70,7 @@
     "color": "white",
     "description": "A handful of white, odorless powder with a slightly salty alkaline taste.  Often used in baking as a leavening agent, and has many other niche uses.  Also known as sodium bicarbonate.",
     "container": "box_small",
-    "material": [ "powder_nonflam" ],
+    "material": [ "dense_powder_nonflam" ],
     "volume": "1 ml",
     "weight": "2200 mg"
   },
