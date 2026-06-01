@@ -211,6 +211,20 @@ class layer_context_sprites
         std::string append_suffix;
 };
 
+// Inputs needed to re-upload one atlas after renderer recreate or
+// device-texture reset. image_path_u8 is a UTF-8 byte sequence so the
+// descriptor avoids a cata_path dependency.
+struct atlas_replay_descriptor {
+    std::string image_path_u8;
+    int color_key_r = -1;
+    int color_key_g = -1;
+    int color_key_b = -1;
+    int sprite_width = 0;
+    int sprite_height = 0;
+    int atlas_offset = 0;
+    int expected_tilecount = 0;
+};
+
 class tileset
 {
     private:
@@ -242,6 +256,12 @@ class tileset
         std::vector<texture> overexposed_tile_values;
         std::vector<texture> memory_tile_values;
         std::vector<texture> silhouette_tile_values;
+
+        // Descriptors recorded during JSON parsing; replayed by upload_atlases.
+        std::vector<atlas_replay_descriptor> atlas_descriptors;
+        // Sprite index of the synthetic highlight overlay, or nullopt when
+        // the tileset defines its own ITEM_HIGHLIGHT.
+        std::optional<int> default_item_highlight_index;
 
         std::unordered_set<std::string> duplicate_ids;
 
@@ -314,6 +334,19 @@ class tileset
 
         const std::unordered_set<std::string> &get_duplicate_ids() const {
             return duplicate_ids;
+        }
+
+        const std::vector<atlas_replay_descriptor> &get_atlas_descriptors() const {
+            return atlas_descriptors;
+        }
+        void append_atlas_descriptor( atlas_replay_descriptor desc ) {
+            atlas_descriptors.push_back( std::move( desc ) );
+        }
+        std::optional<int> get_default_item_highlight_index() const {
+            return default_item_highlight_index;
+        }
+        void set_default_item_highlight_index( std::optional<int> idx ) {
+            default_item_highlight_index = idx;
         }
 
         tile_type &create_tile_type( const std::string &id, tile_type &&new_tile_type );
