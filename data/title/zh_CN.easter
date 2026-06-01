@@ -47,10 +47,10 @@
 #<color_light_cyan> \<color_light_red>.-.<color_light_cyan>')  
 #<color_light_cyan>/ <color_light_red>`-'<color_light_cyan> \
 #<color_light_cyan> `-'`"`
-#<color_light_cyan>  _ _  
-#<color_light_cyan> ( ` )
-#<color_light_cyan>(_ <color_yellow>o<color_light_cyan> _)
-#<color_light_cyan> (_,_)
+#<color_blue>  _ _  
+#<color_blue> ( ` )
+#<color_blue>(_ <color_yellow>o<color_blue> _)
+#<color_blue> (_,_)
 #<color_red>    _
 #<color_red> (`' )
 #<color_red>(_ <color_yellow>o<color_red> _)
