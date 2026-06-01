@@ -2318,6 +2318,28 @@
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_soothing_the_savage_beast" } },
+        "text": "Gain [<trait_name:perk_soothing_the_savage_beast>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_soothing_the_savage_beast>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_soothing_the_savage_beast>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_soothing_the_savage_beast", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires social 4 and survival 8",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "math": [ "u_skill('speech') >= 4" ] }, { "math": [ "u_skill('survival') >= 8" ] } ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_dexterous_speed" } },
         "text": "Gain [<trait_name:perk_dexterous_speed>]",
         "effect": [

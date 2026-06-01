@@ -1572,5 +1572,16 @@
     "points": 0,
     "purifiable": false,
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "perk_soothing_the_savage_beast",
+    "name": { "str": "Soothing the Savage Beast" },
+    "description": "Disney princesses stand back!  You have learned the secret tongues of bird and beast, or at least, you can howl or chirp in such a way that they consider it an offer of friendship.  Activate this perk to charm any nearby mammals, birds, amphibians, reptiles, or fish (not insects or spiders).",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_eocs": [ "EOC_BOMBASTIC_PERKS_SOOTHING_THE_SAVAGE_BEAST" ]
   }
 ]
