@@ -903,7 +903,7 @@
       "items": [
         { "item": "frame", "count": 1 },
         { "item": "sheet_metal_small", "count": [ 3, 4 ] },
-        { "item": "lead", "charges": [ 10, 20 ] },
+        { "item": "lead", "count": [ 10, 20 ] },
         { "item": "afs_circuitry_2", "count": [ 1, 2 ], "prob": 40 },
         { "item": "afs_energy_storage_1", "count": [ 1, 2 ], "prob": 50 },
         { "item": "afs_energy_storage_2", "count": [ 1, 2 ], "prob": 50 },
@@ -919,7 +919,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "sheet_metal_small", "count": [ 6, 9 ] },
-        { "item": "lead", "charges": [ 10, 20 ] },
+        { "item": "lead", "count": [ 10, 20 ] },
         { "item": "afs_energy_storage_1", "count": [ 1, 2 ], "prob": 50 },
         { "item": "afs_heat_2_salvage", "count": [ 0, 3 ], "prob": 12 },
         { "item": "e_scrap", "count": [ 2, 16 ] },
