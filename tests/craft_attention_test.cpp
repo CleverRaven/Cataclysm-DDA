@@ -15,6 +15,7 @@
 #include "crafting.h"
 #include "crafting_enums.h"
 #include "flexbuffer_json.h"
+#include "game_constants.h"
 #include "item.h"
 #include "item_components.h"
 #include "item_location.h"
@@ -1276,10 +1277,32 @@ TEST_CASE( "craft_unattended_noncharged_tool_offset_crafter_uses_map_source",
 
         WHEN( "the tool is gone at the completion true-up" ) {
             here.i_rem( craft_pos, &tool );
+            on_map.set_tools_to_continue( true );
 
-            THEN( "completion re-checks presence and the step does not finish free" ) {
-                CHECK_FALSE( u.craft_consume_passive_step_tools(
-                                 on_map, calendar::turn + 10_minutes, loc ) );
+            THEN( "the verifier fails and clears tools_to_continue" ) {
+                CHECK_FALSE( u.verify_step_tools( on_map, 1, craft_pos, PICKUP_RANGE,
+                                                  /*pin_to_map=*/true ) );
+                CHECK_FALSE( on_map.has_tools_to_continue() );
+            }
+        }
+    }
+
+    GIVEN( "ready dispatch fires with the non-charged tool missing" ) {
+        on_map.set_step_plans( std::vector<attention_plan>( 2 ) );
+        on_map.set_tools_to_continue( true );
+        std::vector<std::vector<step_tool_alloc>> drift_allocs = on_map.get_step_tool_allocs();
+        drift_allocs[1][0].consumed_buckets = 20;
+        on_map.set_step_tool_allocs( drift_allocs );
+
+        WHEN( "craft_actualize_scheduled runs the ready_check handler" ) {
+            craft_actualize_scheduled( on_map, item_wakeup_kind::ready_check,
+                                       calendar::turn + 10_minutes, loc );
+
+            THEN( "the step pauses without closing and tools_to_continue clears" ) {
+                REQUIRE( loc.get_item() != nullptr );
+                CHECK( on_map.get_current_step() == 1 );
+                CHECK( on_map.get_pause_started_at() == calendar::turn + 10_minutes );
+                CHECK_FALSE( on_map.has_tools_to_continue() );
             }
         }
     }
