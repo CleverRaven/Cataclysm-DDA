@@ -6502,12 +6502,13 @@ void set_mortar_accuracy_multiplier( npc &gunner, const double multiplier )
     gunner.set_value( "mortar_current_accuracy_multiplier", std::max( 1.0, multiplier ) );
 }
 
-double mortar_fixed_accuracy_multiplier( const npc &gunner, const tripoint_abs_ms &mortar_pos )
+double mortar_fixed_accuracy_multiplier( const npc &gunner, const tripoint_abs_ms &mortar_pos,
+        const bool first_shot )
 {
     return mortar_proficiency_accuracy_multiplier( gunner ) *
            ( mortar_has_tactical_data_system( gunner, mortar_pos ) ? 1.0 :
              mortar_no_tactical_data_error_multiplier ) *
-           mortar_weather_error_multiplier;
+           ( first_shot ? mortar_weather_error_multiplier : 1.0 );
 }
 
 time_duration mortar_adjustment_downtime( const npc &gunner, const tripoint_abs_ms &mortar_pos )
@@ -6940,7 +6941,7 @@ mortar_error mortar_current_report_error( const npc &gunner, const assigned_mort
     const double location_error_cep = get_mortar_location_error( gunner, spotter, target );
     const mortar_location_error location_error = mortar_make_location_error( spotter, target,
             location_error_cep );
-    const double fixed_multiplier = mortar_fixed_accuracy_multiplier( gunner, mortar.pos );
+    const double fixed_multiplier = mortar_fixed_accuracy_multiplier( gunner, mortar.pos, false );
     const double total_multiplier = mortar_type::effective_ballistic_multiplier(
                                         accuracy_multiplier * fixed_multiplier );
     const mortar_error minimum_error = mortar.type->minimum_error( target_distance );
@@ -7316,7 +7317,8 @@ void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
     }
     const mortar_location_error location_error = mortar_make_location_error(
                 you, *target_abs_ms, location_error_cep );
-    const double fixed_multiplier = mortar_fixed_accuracy_multiplier( gunner, mortar_abs );
+    const double fixed_multiplier = mortar_fixed_accuracy_multiplier( gunner, mortar_abs,
+                                    !repeat_mission );
     const double raw_total_multiplier = accuracy_multiplier * fixed_multiplier;
     const double total_multiplier = mortar_type::effective_ballistic_multiplier( raw_total_multiplier );
 
