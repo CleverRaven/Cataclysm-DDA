@@ -330,13 +330,24 @@ android {
         externalNativeBuild {
             cmake {
                 abiFilters(*enabledAbis as String[])
-                arguments "-DANDROID_STL=c++_shared",
-                          "-DANDROID_ARM_NEON=TRUE",
-                          "-DCMAKE_JOB_POOLS=compile=$njobs;link=2",
-                          "-DCMAKE_JOB_POOL_COMPILE=compile",
-                          "-DCMAKE_JOB_POOL_LINK=link",
-                          "-DCMAKE_CXX_COMPILER_LAUNCHER=ccache",
-                          "-DCMAKE_C_COMPILER_LAUNCHER=ccache"
+                def cmakeArgs = ["-DANDROID_STL=c++_shared",
+                                 "-DANDROID_ARM_NEON=TRUE",
+                                 "-DCMAKE_JOB_POOLS=compile=$njobs;link=2",
+                                 "-DCMAKE_JOB_POOL_COMPILE=compile",
+                                 "-DCMAKE_JOB_POOL_LINK=link"]
+                def pathEnv = System.getenv("PATH") ?: ""
+                def ccacheNames = System.getProperty("os.name")
+                    .toLowerCase().contains("win") ? ["ccache.exe", "ccache"]
+                                                   : ["ccache"]
+                def ccacheOnPath = pathEnv
+                    .tokenize(File.pathSeparator)
+                    .any { dir -> ccacheNames.any {
+                            name -> new File(dir, name).canExecute() } }
+                if (ccacheOnPath) {
+                    cmakeArgs += ["-DCMAKE_CXX_COMPILER_LAUNCHER=ccache",
+                                  "-DCMAKE_C_COMPILER_LAUNCHER=ccache"]
+                }
+                arguments(*cmakeArgs as String[])
             }
         }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
