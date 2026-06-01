@@ -414,6 +414,17 @@
     }
   },
   {
+    "id": "TALK_EXODII_MERCHANT_String_Dimension_Exodii",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Ahh, mayhaps ye've found another node - kin o' us'n Exodii.  Tell ol' Rubik:  what'd ye escolt there?  Exodii alive?  Trade?  Stompers?  Manufactory?",
+        "\"\n\n[TRANSLATE:] \"",
+        "Ah, you found another node - another community of Exodii. Tell me what you saw?"
+      ]
+    }
+  },
+  {
     "id": "TALK_EXODII_MERCHANT_Jobs",
     "type": "talk_topic",
     "dynamic_line": {
@@ -685,6 +696,28 @@
         "If'n you're full an' plenty, this'n's happy to make the call, for a shiny farthing.",
         "\"\n\n[TRANSLATE:] \"",
         "If you've got what I need, I'm happy to call ahead and make the arrangements, for a fee."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Found_Hub01_CBM_interface",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "&Rubik pulls out a glowing, green terminal while a surgical robot rolls in to do standard pre-surgical checks.  \"Rightly then, let us'n see what can do 'ye for.\"  Then the surgical robot starts to beep loudly and blurts out words you don't understand in a mechanical voice.  Rubik stares at it a moment, then stares at you.  \"Well now.  Seems to this'n ye've had yer interface swapped.  I'll hear no excuses.  We've had some tech an' stompers gone missin', an' word aroun' says a certain bunker offerin' stolen steelies.  Ye've two minutes to traipse out o'here.  Ken it.\"",
+        "\"\n\n[TRANSLATE:] \"",
+        "&Rubik pulls out a glowing, green terminal while a surgical robot rolls in to do standard pre-surgical checks.  \"Right, let's see what we can do for you.\"  Then the surgical robot starts to beep loudly and blurts out words you don't understand in a mechanical voice.  Rubik stares at it a moment, then stares at you.  \"Well, well, well.  Looks like you got your interface swapped out.  I won't hear any excuses.  We've had some tech and some workers go missing, and we've heard from a few trade partners that a certain bunker is offering stolen cybernetics.  You've got two minutes to get out of here.  Got it?\""
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Hates_Hub_Cyborgs",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Shinies an' stompers missin', an' escoltin' a bunker offerin' stolen steelies.  Thine steelies.  Ne.  Ye ain't tassed from around here.  Ye've two minutes to traipse out o'here.  Ken it.",
+        "\"\n\n[TRANSLATE:] \"",
+        "We've had some tech and some workers go missing, and we've heard from a few trade partners that a certain bunker is offering stolen cybernetics.  Your bionics.  You didn't get them from around here.  You've got two minutes to get out of here.  You are not welcome here.  Got it?"
       ]
     }
   }
