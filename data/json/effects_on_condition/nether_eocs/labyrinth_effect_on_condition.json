@@ -1028,7 +1028,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LS_SAFEHOUSE_LIVING_SPACE_1_WIRE",
-    "condition": { "and": [ { "u_has_item": "lc_wire" }, { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_wire)" ] } } ] },
+    "condition": {
+      "and": [ { "u_has_item": "lc_wire" }, { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_wire)" ] } } ]
+    },
     "effect": [
       { "u_consume_item": "lc_wire" },
       { "u_add_var": "safehouse_living_space_1_deposited_wire", "value": "yes" },
