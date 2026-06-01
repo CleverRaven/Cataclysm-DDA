@@ -1147,7 +1147,7 @@
     "id": "NO_CBM_INSTALLATION",
     "name": { "str": "Oversensitive System" },
     "description": "While it doesn't cause you any problems in daily life, your immune system and body chemistry are overly sensitive to foreign implants.  You cannot have any CBMs installed.",
-    "cancels": [ "CBM_Interface", "Hub01_CBM_Interface" ],
+    "cancels": [ "CBM_Interface", "Hub01_CBM_Interface", "NL_CBM_Interface" ],
     "points": -8,
     "player_display": true,
     "starting_trait": true,
@@ -3685,6 +3685,16 @@
     "description": "Trait that makes it impossible to say anything.",
     "points": 0,
     "valid": false,
+    "flags": [ "MUTE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "NL_MUTE",
+    "name": { "str": "Mute (Dimensional Jaunt)" },
+    "description": "Something is rendering you incapable of speech.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
     "flags": [ "MUTE" ]
   },
   {

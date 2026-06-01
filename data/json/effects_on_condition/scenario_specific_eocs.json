@@ -378,5 +378,69 @@
       },
       { "u_message": "The air shudders with a foreboding presence.  They know where you are." }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_trapped_in_labyrinth_recurring",
+    "//": "The NL_MUTE condition verifies this doesn't occur while on an Earth jaunt.",
+    "recurrence": "12 hours",
+    "condition": {
+      "and": [
+        { "compare_string": [ "yes", { "u_val": "scenario_trapped_in_labyrinth" } ] },
+        { "not": { "u_has_trait": "NL_MUTE" } },
+        { "u_has_bionics": "bio_nl_collar" },
+        { "not": { "current_dimension": "netherum_labyrinth" } },
+        { "not": { "current_dimension": "netherum_labyrinth2" } },
+        { "not": { "current_dimension": "netherum_labyrinth_safehouse" } },
+        { "not": { "current_dimension": "scarlet" } }
+      ]
+    },
+    "effect": [
+      { "u_lose_bionic": "bio_nl_collar" },
+      { "u_add_bionic": "bio_nl_collar_deactivated" },
+      {
+        "u_message": "You feel very far away from AltarOS and the labyrinthine structures it inhabits.  Freedom feels within reach.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_trapped_in_labyrinth",
+    "effect": [
+      { "u_add_var": "scenario_trapped_in_labyrinth", "value": "yes" },
+      {
+        "u_travel_to_dimension": "scarlet",
+        "npc_travel_radius": 0,
+        "region_type": "scarlet",
+        "npc_travel_filter": "none",
+        "fail_message": "You feel a prickle at the edge of your senses.",
+        "success_message": "Your surroundings warp and fold into the recesses of another world."
+      },
+      { "assign_mission": "MISSION_FIND_LABYRINTH_SPIRE" },
+      {
+        "u_location_variable": { "context_val": "anchor_in_scarlet" },
+        "target_params": { "om_terrain": "scarlet_sea_reverberation", "z": 0, "min_distance": 0, "search_range": 5, "random": true },
+        "terrain": "t_sand_scarlet",
+        "target_max_radius": 20,
+        "min_radius": 0,
+        "max_radius": 0
+      },
+      { "u_teleport": { "context_val": "anchor_in_scarlet" } },
+      {
+        "u_location_variable": { "u_val": "scarlet_scrap_metal_spire_loc" },
+        "target_params": { "om_terrain": "scarlet_scrap_metal_spire", "om_special": "scarlet_scrap_metal_spire" }
+      },
+      { "u_teleport": { "u_val": "scarlet_scrap_metal_spire_loc" }, "force": true },
+      {
+        "u_location_variable": { "u_val": "scenario_trapped_in_labyrinth_start_location" },
+        "target_params": { "om_terrain": "scarlet_sea_reverberation", "min_distance": 10, "search_range": 15, "random": true }
+      },
+      { "u_teleport": { "u_val": "scenario_trapped_in_labyrinth_start_location" }, "force": true },
+      {
+        "u_message": "During the worst of the portal storms you found yourself exposed, and existence as you knew it folded in upon itself.  It's hard to know how long you were floating through a clawing nothingness.  But you've now come to your senses… somewhere else.\n\nAll around you is a shallow sea, expanding endlessly under a harsh air and a scarlet sky.\n\nAfter regaining your footing, you notice something in the distance: a tall, jagged spire, and a green light atop it.\n\nCould this be your salvation?",
+        "popup": true
+      }
+    ]
   }
 ]

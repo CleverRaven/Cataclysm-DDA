@@ -233,7 +233,7 @@
     "//": "Should include pancake mixes. TODO fix.",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "cocoa_powder", 1 ], [ "cocoa_powder_milk", 1 ] ]
+    "items": [ { "group": "cocoa_powder_various_full" }, { "group": "milk_cocoa_powder_various_full" } ]
   },
   {
     "id": "SUS_shelf_commercial_breakfast_mixes",
@@ -627,7 +627,7 @@
       { "item": "stapler", "prob": 1 },
       { "item": "office_holepunch", "prob": 1 },
       { "item": "scissors", "prob": 1 },
-      { "group": "writing_utensils", "count": [ 40, 100 ], "prob": 80, "charges": [ 80, 100 ] }
+      { "group": "writing_utensils", "count": [ 40, 100 ], "prob": 80 }
     ]
   },
   {
@@ -1110,10 +1110,14 @@
   },
   {
     "id": "SUS_commercial_chewing_gum",
-    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "//": "A few packs in a box by the checkout",
     "type": "item_group",
-    "subtype": "distribution",
-    "entries": [ { "item": "gum", "count": [ 0, 60 ], "prob": 1 } ]
+    "subtype": "collection",
+    "entries": [
+      { "group": "chewing_gum_full", "count": [ 1, 15 ], "entry-wrapper": "box_snack" },
+      { "group": "chewing_gum_full_caff", "count": [ 1, 10 ], "prob": 50, "entry-wrapper": "box_snack" },
+      { "group": "chewing_gum_full_nic", "count": [ 1, 10 ], "prob": 50, "entry-wrapper": "box_snack" }
+    ]
   },
   {
     "id": "cardboards",

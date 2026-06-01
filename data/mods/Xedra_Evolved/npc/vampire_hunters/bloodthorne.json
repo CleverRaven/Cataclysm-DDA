@@ -109,7 +109,13 @@
       {
         "u_has_effect": "vampire_virus",
         "yes": "You seem unwell.  Are you looking for a cure to your condition?",
-        "no": "You do not need my help right now, so I'll return to my work."
+        "no": [
+          {
+            "u_has_item": "arvore_sample",
+            "yes": "I see you brought some arvore samples.  Can I have them?  I'll tell Elsa and Blaine to reward you if you do.",
+            "no": "You do not need my help right now, so I'll return to my work."
+          }
+        ]
       }
     ],
     "responses": [
@@ -119,9 +125,14 @@
         "condition": { "u_has_effect": "vampire_virus" }
       },
       {
-        "text": "What kind of help?",
+        "text": "How can you help me?",
         "topic": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_INTRO",
         "condition": { "not": { "u_has_effect": "vampire_virus" } }
+      },
+      {
+        "text": "Sure!  How many do you want?",
+        "topic": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_SELL_SAMPLES",
+        "condition": { "u_has_item": "arvore_sample" }
       },
       { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
@@ -215,6 +226,155 @@
     "dynamic_line": [
       "That's how Bloodthorne druids call the plant inside them.  It empowers us through the essence of nature spirits so we may kill the blood-drinkers.  Before you ask, I can't help you become one.  I wasn't taught how to do this before I lost contact with other Bloodthorne druids."
     ],
-    "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "What do you mean by \"essence\"?", "topic": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_NEED_SAMPLES" },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_NEED_SAMPLES",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Their very essence, torn from their corpses and transferred into our bodies.  They can sense that, and it is why they try to kill all Bloodthorne druids on sight.  As long as you don't ingest their essence they won't hate you for killing their brethren, so you're perfect to gather these samples for our mutual gain."
+    ],
+    "responses": [
+      {
+        "text": "I have some.  Do you want them?",
+        "topic": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_SELL_SAMPLES",
+        "condition": { "u_has_item": "arvore_sample" }
+      },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_SELL_SAMPLES",
+    "type": "talk_topic",
+    "//": "She offers more help at first, but reduces her reward with each new sample bought up to a minimal gain.  This is to counterbalance the need of getting you on board with killing nature spirits and the faction's limited resources to spare.",
+    "//2": "1 Help for the first sample, 1 Help for 2 subsequent samples until a total of 5 has been bought by her, 1 Help for 3 samples onwards.",
+    "dynamic_line": [
+      {
+        "math": [ "sold_arvore_sample_to_bloodthorne_hunter == 0" ],
+        "yes": "I'll take as many as you offer.",
+        "no": [
+          {
+            "math": [ "sold_arvore_sample_to_bloodthorne_hunter == 1" ],
+            "yes": "You started hunting nature spirits?  Good!  Don't feel bad about them.  If they won't use their powers against the bloodsuckers, we will take these powers for ourselves to fight this war.",
+            "no": [
+              {
+                "math": [ "sold_arvore_sample_to_bloodthorne_hunter < 6" ],
+                "yes": "I'll have to offer less help per sample, as I can't keep giving favors away for so little.",
+                "no": "The more samples, the better.  I'll need as many as possible so I may make more Bloodthorne druids someday."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "responses": [
+      {
+        "text": "[Sell her 1 arvore sample]",
+        "topic": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_SELL_SAMPLES",
+        "condition": { "u_has_item": "arvore_sample" },
+        "effect": [
+          { "u_sell_item": "arvore_sample", "count": 1 },
+          { "math": [ "sold_arvore_sample_to_bloodthorne_hunter++" ] },
+          {
+            "switch": { "math": [ "sold_arvore_sample_to_bloodthorne_hunter" ] },
+            "cases": [
+              { "case": 1, "effect": { "math": [ "vampire_hunters_owed_help++" ] } },
+              {
+                "case": 2,
+                "effect": {
+                  "if": { "math": [ "owed_help_from_bloodthorne_transaction > 1" ] },
+                  "then": [ { "math": [ "vampire_hunters_owed_help++" ] }, { "math": [ "owed_help_from_bloodthorne_transaction -= 2" ] } ],
+                  "else": [ { "math": [ "owed_help_from_bloodthorne_transaction++" ] } ]
+                }
+              },
+              {
+                "case": 6,
+                "effect": {
+                  "if": { "math": [ "owed_help_from_bloodthorne_transaction > 2" ] },
+                  "then": [ { "math": [ "vampire_hunters_owed_help++" ] }, { "math": [ "owed_help_from_bloodthorne_transaction -= 3" ] } ],
+                  "else": [ { "math": [ "owed_help_from_bloodthorne_transaction++" ] } ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "text": "[Sell her 5 arvore samples]",
+        "topic": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_SELL_SAMPLES",
+        "condition": { "u_has_items": { "item": "arvore_sample", "count": 5 } },
+        "effect": [
+          { "u_sell_item": "arvore_sample", "count": 5 },
+          { "math": [ "sold_arvore_sample_to_bloodthorne_hunter += 5" ] },
+          {
+            "switch": { "math": [ "sold_arvore_sample_to_bloodthorne_hunter" ] },
+            "cases": [
+              { "case": 5, "effect": { "math": [ "vampire_hunters_owed_help += 3" ] } },
+              {
+                "case": 6,
+                "effect": [ { "math": [ "vampire_hunters_owed_help += 2" ] }, { "math": [ "owed_help_from_bloodthorne_transaction++" ] } ]
+              },
+              {
+                "case": 7,
+                "effect": [ { "math": [ "vampire_hunters_owed_help += 2" ] }, { "math": [ "owed_help_from_bloodthorne_transaction += 2" ] } ]
+              },
+              { "case": 8, "effect": [ { "math": [ "vampire_hunters_owed_help += 2" ] } ] },
+              {
+                "case": 9,
+                "effect": [ { "math": [ "vampire_hunters_owed_help += 1" ] }, { "math": [ "owed_help_from_bloodthorne_transaction += 2" ] } ]
+              },
+              {
+                "case": 10,
+                "effect": [
+                  {
+                    "if": { "math": [ "owed_help_from_bloodthorne_transaction > 0" ] },
+                    "then": [ { "math": [ "vampire_hunters_owed_help += 2" ] }, { "math": [ "owed_help_from_bloodthorne_transaction--" ] } ],
+                    "else": [ { "math": [ "vampire_hunters_owed_help++" ] }, { "math": [ "owed_help_from_bloodthorne_transaction += 2" ] } ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "text": "[Sell her 10 arvore samples]",
+        "topic": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_SELL_SAMPLES",
+        "condition": { "u_has_items": { "item": "arvore_sample", "count": 10 } },
+        "//": "Rounding results in cases 12 to 14 being the same reward-wise.",
+        "effect": [
+          { "u_sell_item": "arvore_sample", "count": 10 },
+          { "math": [ "sold_arvore_sample_to_bloodthorne_hunter += 10" ] },
+          {
+            "switch": { "math": [ "sold_arvore_sample_to_bloodthorne_hunter" ] },
+            "cases": [
+              {
+                "case": 10,
+                "effect": [ { "math": [ "vampire_hunters_owed_help += 4" ] }, { "math": [ "owed_help_from_bloodthorne_transaction += 2" ] } ]
+              },
+              { "case": 11, "effect": { "math": [ "vampire_hunters_owed_help += 4" ] } },
+              {
+                "case": 12,
+                "effect": [ { "math": [ "vampire_hunters_owed_help += 3" ] }, { "math": [ "owed_help_from_bloodthorne_transaction += 2" ] } ]
+              },
+              {
+                "case": 15,
+                "effect": [
+                  {
+                    "if": { "math": [ "owed_help_from_bloodthorne_transaction > 1" ] },
+                    "then": [ { "math": [ "vampire_hunters_owed_help += 4" ] }, { "math": [ "owed_help_from_bloodthorne_transaction -= 2" ] } ],
+                    "else": [ { "math": [ "vampire_hunters_owed_help += 3" ] }, { "math": [ "owed_help_from_bloodthorne_transaction++" ] } ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
   }
 ]

@@ -2764,7 +2764,11 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "weapon_category": [ "LONG_SWORDS" ],
-    "faults": [ { "fault_group": "handle_short" }, { "fault_group": "blade_general", "weight_mult": 5 } ],
+    "faults": [
+      { "fault_group": "handle_short" },
+      { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "bladed_weapon_craft_failures" }
+    ],
     "melee_damage": { "bash": 5, "cut": 33 }
   },
   {

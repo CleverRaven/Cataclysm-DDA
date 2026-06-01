@@ -993,6 +993,11 @@
     "inherit": false
   },
   {
+    "id": "FAULT_ON_COMPLETION",
+    "//COMMENT": "Hardcoded application/removal.",
+    "type": "json_flag"
+  },
+  {
     "id": "SUN_GLASSES",
     "type": "json_flag",
     "//": "Prevents glaring when in sunlight.",

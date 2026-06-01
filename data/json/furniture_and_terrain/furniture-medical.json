@@ -1037,7 +1037,7 @@
         { "item": "glass_shard", "count": [ 4, 8 ] },
         { "item": "lightstrip", "count": 2 },
         { "item": "pipe", "count": 1 },
-        { "item": "nuts_bolts", "charges": [ 2, 4 ] },
+        { "item": "nuts_bolts", "count": [ 2, 4 ] },
         { "item": "leather", "count": [ 2, 8 ] }
       ]
     },

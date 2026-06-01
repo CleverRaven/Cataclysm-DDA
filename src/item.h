@@ -228,7 +228,8 @@ class item : public visitable
         item( const itype *type, time_point turn, solitary_tag );
 
         /** For constructing in-progress crafts */
-        item( const recipe *rec, int qty, item_components items, std::vector<item_comp> selections );
+        item( const recipe *rec, int qty, item_components items, std::vector<item_comp> selections,
+              bool should_add_faults = false );
 
         /** For constructing in-progress disassemblies */
         item( const recipe *rec, int qty, item &component );

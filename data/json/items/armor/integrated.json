@@ -2201,8 +2201,8 @@
     "armor": [
       {
         "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3.2 } ],
-        "covers": [ "mouth" ],
-        "specifically_covers": [ "mouth_lips" ],
+        "covers": [ "mouth", "muzzle" ],
+        "specifically_covers": [ "mouth_lips", "muzzle_lips" ],
         "coverage": 100,
         "encumbrance": 0
       }
@@ -2229,8 +2229,8 @@
     "armor": [
       {
         "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3.2 } ],
-        "covers": [ "mouth" ],
-        "specifically_covers": [ "mouth_lips" ],
+        "covers": [ "mouth", "muzzle" ],
+        "specifically_covers": [ "mouth_lips", "muzzle_lips" ],
         "coverage": 100,
         "encumbrance": 0
       }
@@ -2257,8 +2257,8 @@
     "armor": [
       {
         "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3.2 } ],
-        "covers": [ "mouth" ],
-        "specifically_covers": [ "mouth_lips" ],
+        "covers": [ "mouth", "muzzle" ],
+        "specifically_covers": [ "mouth_lips", "muzzle_lips" ],
         "coverage": 100,
         "encumbrance": 0
       }
@@ -2286,8 +2286,8 @@
     "armor": [
       {
         "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3.2 } ],
-        "covers": [ "mouth" ],
-        "specifically_covers": [ "mouth_lips" ],
+        "covers": [ "mouth", "muzzle" ],
+        "specifically_covers": [ "mouth_lips", "muzzle_lips" ],
         "coverage": 100,
         "encumbrance": 0
       }

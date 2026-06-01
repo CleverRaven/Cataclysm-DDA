@@ -813,7 +813,7 @@
       [ "spring", 150 ],
       [ "pastaextruder", 75 ],
       { "item": "nail", "prob": 300, "charges": [ 1, 15 ] },
-      { "item": "nuts_bolts", "prob": 60, "charges": [ 5, 30 ] },
+      { "item": "nuts_bolts", "prob": 60, "count": [ 5, 30 ] },
       [ "well_pump", 50 ],
       [ "manhole_cover", 20 ],
       [ "hairpin", 120 ],
@@ -1011,7 +1011,7 @@
       { "item": "towel", "prob": 40 },
       { "item": "scorecard", "prob": 10 },
       { "item": "golf_club", "prob": 75 },
-      { "item": "pencil", "prob": 20, "charges": [ 0, 100 ] }
+      { "item": "pencil", "prob": 20 }
     ]
   },
   {
@@ -1668,7 +1668,7 @@
       { "item": "gartersheath1", "prob": 10 },
       { "item": "gartersheath2", "prob": 5 },
       { "item": "tazer", "prob": 1, "charges": [ 0, 100 ] },
-      { "prob": 30, "group": "cig_box_cigarette_0_10" },
+      { "prob": 30, "group": "cig_box_cigarette_1_20" },
       { "item": "rope_6", "prob": 5 },
       { "item": "rope_30", "prob": 2 },
       { "group": "duct_tape_roll_part", "prob": 10 },
@@ -2442,7 +2442,7 @@
       [ "con_milk", 20 ],
       [ "milk_evap", 15 ],
       { "group": "milk_in_container", "prob": 10 },
-      { "prob": 20, "group": "melatonin_tablet_bottle_plastic_pill_supplement_1_10" },
+      { "prob": 20, "group": "melatonin_tablet_bottle_plastic_pill_supplement_1_30" },
       [ "can_spam", 30 ],
       { "group": "tuna_in_can", "prob": 35 },
       { "group": "clams_in_can", "prob": 25 },

@@ -1631,7 +1631,7 @@
       { "item": "scrap", "charges": [ 6, 15 ] },
       { "item": "cable", "count": [ 90, 180 ] },
       { "item": "nail", "charges": [ 21, 35 ] },
-      { "item": "nuts_bolts", "charges": [ 3, 6 ] }
+      { "item": "nuts_bolts", "count": [ 3, 6 ] }
     ],
     "damage_reduction": { "all": 15, "stab": 6, "cut": 8 },
     "variants": [ { "symbols": "*", "symbols_broken": "x" } ]
@@ -1661,7 +1661,7 @@
       { "item": "scrap", "charges": [ 20, 35 ] },
       { "item": "cable", "count": [ 225, 400 ] },
       { "item": "nail", "charges": [ 80, 130 ] },
-      { "item": "nuts_bolts", "charges": [ 5, 12 ] }
+      { "item": "nuts_bolts", "count": [ 5, 12 ] }
     ],
     "damage_reduction": { "all": 16, "stab": 6, "cut": 8 },
     "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
@@ -1765,7 +1765,7 @@
       { "item": "splinter", "count": [ 25, 50 ] },
       { "item": "cable", "count": [ 300, 500 ] },
       { "item": "nail", "charges": [ 8, 15 ] },
-      { "item": "nuts_bolts", "charges": [ 4, 7 ] }
+      { "item": "nuts_bolts", "count": [ 4, 7 ] }
     ],
     "damage_reduction": { "all": 9 },
     "variants": [ { "symbols": "Y", "symbols_broken": "X" } ]
