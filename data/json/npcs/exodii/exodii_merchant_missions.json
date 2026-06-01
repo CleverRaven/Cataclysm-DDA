@@ -926,7 +926,10 @@
   {
     "id": "TALK_EXODII_MERCHANT_mission_3_complete",
     "type": "talk_topic",
-    "dynamic_line": "&Rubik sighs, takes the head, stares at it for a moment, then sets it gently down on the counter.  They then reach below the counter and take out three clear plastic bags, each containing a different cybernetic module.  \"Ye've done us'n a true service, so as us'n promised, take one o' these dandies as true reward.  Which'll it be?  As y'like.",
+    "dynamic_line": {
+      "//~": "You've done us a real service.  As promised, you can take one of these bionics as reward.  What would you like?",
+      "str": "&Rubik sighs, takes the head, stares at it for a moment, then sets it gently down on the counter.  They then reach below the counter and take out three clear plastic bags, each containing a different cybernetic module.  \"Ye've done us'n a true service, so as us'n promised, take one o' these dandies as true reward.  Which'll it be?  As y'like."
+    },
     "responses": [
       {
         "text": "[Install Diamond Cornea CBM] I like the look of those eye implants.  Let's try that.",
@@ -1004,7 +1007,10 @@
   {
     "id": "TALK_EXODII_MERCHANT_mission_3_ExodiiFrame_no",
     "type": "talk_topic",
-    "dynamic_line": "No.  As ye' can see, us'n can't spare the steelies.  Too much to danger.",
+    "dynamic_line": {
+      "//~": "No.  As you can probably see, we can't spare the parts.  Too much risk these days.",
+      "str": "No.  As ye' can see, us'n can't spare the steelies.  Too much to danger."
+    },
     "responses": [
       {
         "text": "[Install Diamond Cornea CBM] I like the look of those eye implants.  Let's try that.",
