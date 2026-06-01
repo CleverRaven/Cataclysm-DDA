@@ -92,7 +92,7 @@
         "max_duration": 12
       }
     ],
-    "//": "encumbrance per weight increased 10% over human head",
+    "//2": "encumbrance per weight increased 10% over human head",
     "encumbrance_per_weight": [
       { "weight": "1 mg", "encumbrance": 1 },
       { "weight": "300 g", "encumbrance": 4 },
