@@ -975,8 +975,8 @@ void tileset_cache::loader::load_tile_spritelists( const JsonObject &entry,
 void tileset_cache::loader::upload_atlases( tileset &ts, const SDL_Renderer_Ptr &renderer,
         const std::string &memory_map_mode,
         const std::vector<atlas_replay_descriptor> &descriptors,
-        uint64_t /*renderer_instance_generation*/,
-        uint64_t /*gpu_textures_generation*/,
+        const uint64_t renderer_instance_generation,
+        const uint64_t gpu_textures_generation,
         const bool pump_events )
 {
     int total = 0;
@@ -1028,6 +1028,8 @@ void tileset_cache::loader::upload_atlases( tileset &ts, const SDL_Renderer_Ptr 
     ts.overexposed_tile_values = std::move( cand_overexposed );
     ts.memory_tile_values = std::move( cand_memory );
     ts.silhouette_tile_values = std::move( cand_silhouette );
+
+    ts.set_upload_generations( renderer_instance_generation, gpu_textures_generation );
 }
 
 void tileset_cache::loader::upload_one_atlas( const atlas_replay_descriptor &desc,
