@@ -283,6 +283,8 @@
     "speed": 250,
     "harvest": "large_bird_flightless_zombie",
     "extend": { "flags": [ "STUMBLES", "NO_BREATHE", "REVIVES" ] },
+    "delete": { "flags": [ "PET_MOUNTABLE", "PET_WONT_FOLLOW", "CANPLAY" ] },
+    "petfood": {  },
     "special_attacks": [
       { "id": "impale", "cooldown": 5, "move_cost": 375 },
       { "id": "mutant_hoof", "cooldown": 6, "dodgeable": true, "move_cost": 350 }
