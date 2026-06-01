@@ -210,7 +210,7 @@
     "name": { "str": "carbon fiber hunting arrow" },
     "symbol": "=",
     "color": "green",
-    "description": "A fletched carbon fiber arrow shaft with an expanding broadhead tip.",
+    "description": "A fletched carbon fiber arrow shaft with an expanding broadhead tip.  Deals impressive damage to targets.",
     "material": [ { "type": "kevlar_rigid", "portion": 81 }, { "type": "steel", "portion": 19 } ],
     "delete": { "flags": [ "NONCONDUCTIVE" ] },
     "copy-from": "arrow_field_point_fletched",

@@ -92,8 +92,26 @@
     "harvest": "demihuman",
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "special_attacks": [ [ "SHRIEK", 10 ] ],
+    "special_attacks": [
+      [ "SHRIEK", 10 ],
+      {
+        "type": "spell",
+        "cooldown": 50,
+        "spell_data": { "id": "blank_body_avatar_copy", "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": ""
+      }
+    ],
     "flags": [ "SMELLS", "HEARS", "HAS_MIND", "WARM", "ANIMAL", "PATH_AVOID_DANGER", "SUNDEATH", "NO_BREATHE", "HUMAN" ]
+  },
+  {
+    "id": "mon_blank_avatar_copy",
+    "copy-from": "mon_blank",
+    "type": "MONSTER",
+    "name": { "str": "blank body?", "str_pl": "blank bodies?" },
+    "description": "This was some form of unnatural changeling creature, but now it's you.  It looks like you.  It moves like you.  It even smiles like you.",
+    "extend": { "flags": [ "COPY_AVATAR_LOOK" ] },
+    "special_attacks": [ [ "SHRIEK", 10 ] ]
   },
   {
     "id": "mon_blood_sacrifice",
@@ -961,7 +979,7 @@
     "default_faction": "nether",
     "looks_like": "mon_hound_tindalos",
     "bodytype": "dog",
-    "species": [ "NETHER" ],
+    "species": [ "TINDALOS", "NETHER" ],
     "volume": "30000 ml",
     "weight": "40750 g",
     "hp": 1200,
@@ -1025,7 +1043,7 @@
     "description": "A grotesque dog-like beast, its frame is angular and emaciated and its head is like that of an abyssal fish.  When it moves, its twisted limbs duplicate, merge, disappear, and reform in dissonance, as if a hundred copies of itself were somehow forced to inhabit the same space.  Extraneous to our reality, it moves between the corners of the world, hunting those that would dare step beyond time and space.",
     "default_faction": "nether",
     "bodytype": "dog",
-    "species": [ "NETHER" ],
+    "species": [ "TINDALOS" ],
     "volume": "30000 ml",
     "weight": "40750 g",
     "hp": 300,
@@ -1088,7 +1106,7 @@
     "default_faction": "nether",
     "looks_like": "mon_hound_tindalos",
     "bodytype": "dog",
-    "species": [ "NETHER" ],
+    "species": [ "TINDALOS" ],
     "volume": "30000 ml",
     "weight": "40750 g",
     "hp": 100,
@@ -2426,7 +2444,7 @@
             "effect": "sectioned_filaments",
             "effect_on_conditions": [ "EOC_MORALE_SUBTRACT_100" ],
             "chance": 50,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's filaments are cut off!",
             "damage_required": [ 25, 100 ]
           }

@@ -40,14 +40,14 @@
           {
             "effect": "maimed_leg",
             "chance": 10,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's leg falls limp!",
             "damage_required": [ 1, 10 ]
           },
           {
             "effect": "maimed_leg",
             "chance": 25,
-            "duration": [ 15, 50 ],
+            "duration": [ "15 seconds", "50 seconds" ],
             "message": "The %s's leg falls limp!",
             "damage_required": [ 11, 30 ]
           },
@@ -88,14 +88,14 @@
         "effects": [
           {
             "effect": "stunned",
-            "duration": [ 1, 3 ],
+            "duration": [ "1 seconds", "3 seconds" ],
             "chance": 25,
             "message": "The %s is stunned!",
             "damage_required": [ 0, 20 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 6 ],
+            "duration": [ "1 seconds", "6 seconds" ],
             "chance": 50,
             "message": "The %s is stunned!",
             "damage_required": [ 21, 100 ]
@@ -116,7 +116,7 @@
           { "effect": "stunned", "duration": 1, "chance": 5, "message": "The %s is stunned!", "damage_required": [ 30, 50 ] },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 33,
             "message": "The %s is stunned!",
             "damage_required": [ 51, 100 ]
@@ -152,14 +152,14 @@
           {
             "effect": "maimed_mandible",
             "chance": 25,
-            "duration": [ 1, 10 ],
+            "duration": [ "1 seconds", "10 seconds" ],
             "message": "The %s's mandibles are maimed!",
             "damage_required": [ 1, 20 ]
           },
           {
             "effect": "maimed_mandible",
             "chance": 50,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's mandibles are maimed!",
             "damage_required": [ 21, 40 ]
           },
@@ -197,14 +197,14 @@
         "effects": [
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 25,
             "message": "The %s is stunned!",
             "damage_required": [ 0, 20 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 3 ],
+            "duration": [ "1 seconds", "3 seconds" ],
             "chance": 50,
             "message": "The %s is stunned!",
             "damage_required": [ 21, 100 ]
@@ -223,14 +223,14 @@
           {
             "effect": "maimed_mandible",
             "chance": 25,
-            "duration": [ 1, 10 ],
+            "duration": [ "1 seconds", "10 seconds" ],
             "message": "The %s's mandibles are maimed!",
             "damage_required": [ 1, 15 ]
           },
           {
             "effect": "maimed_mandible",
             "chance": 50,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's mandibles are maimed!",
             "damage_required": [ 16, 30 ]
           },
@@ -262,7 +262,14 @@
         "id": "abdomen",
         "name": "the abdomen",
         "coverage": 30,
-        "effects": [ { "effect": "maimed_stinger", "chance": 100, "duration": [ 5, 30 ], "message": "The %s retracts its stinger!" } ]
+        "effects": [
+          {
+            "effect": "maimed_stinger",
+            "chance": 100,
+            "duration": [ "5 seconds", "30 seconds" ],
+            "message": "The %s retracts its stinger!"
+          }
+        ]
       },
       {
         "id": "stinger",
@@ -296,7 +303,7 @@
           },
           {
             "effect": "maimed_wings",
-            "duration": [ 5, 10 ],
+            "duration": [ "5 seconds", "10 seconds" ],
             "chance": 5,
             "message": "The %s's wings flutter uselessly",
             "damage_required": [ 21, 100 ]
@@ -415,14 +422,14 @@
           {
             "effect": "maimed_leg",
             "chance": 10,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's leg falls limp!",
             "damage_required": [ 1, 10 ]
           },
           {
             "effect": "maimed_leg",
             "chance": 25,
-            "duration": [ 15, 50 ],
+            "duration": [ "15 seconds", "50 seconds" ],
             "message": "The %s's leg falls limp!",
             "damage_required": [ 11, 30 ]
           },
@@ -465,14 +472,14 @@
           {
             "effect": "maimed_mandible",
             "chance": 25,
-            "duration": [ 1, 10 ],
+            "duration": [ "1 seconds", "10 seconds" ],
             "message": "The %s's mandibles are maimed!",
             "damage_required": [ 1, 20 ]
           },
           {
             "effect": "maimed_mandible",
             "chance": 50,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's mandibles are maimed!",
             "damage_required": [ 21, 40 ]
           },

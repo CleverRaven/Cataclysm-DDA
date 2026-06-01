@@ -1,0 +1,254 @@
+[
+  {
+    "type": "item_group",
+    "id": "teabag_box",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 20, "group": "tea_bag_box_tea_1_10" },
+      { "prob": 10, "group": "tea_fruit_bag_box_tea_1_10" },
+      { "prob": 10, "group": "tea_green_bag_box_tea_1_10" },
+      { "prob": 10, "group": "tea_bag_chamomile_box_tea_1_10" },
+      { "prob": 5, "group": "herbal_tea_bag_box_tea_1_10" },
+      { "prob": 5, "group": "tea_bag_dandelion_box_tea_1_10" }
+    ]
+  },
+  {
+    "id": "tea_bag_box_10",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "tea_bag", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tea_bag_box_tea_1_10",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "tea_bag", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "id": "tea_green_bag_box_10",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "tea_green_bag", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tea_green_bag_box_tea_1_10",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "tea_green_bag", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "id": "tea_fruit_bag_box_10",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "tea_fruit_bag", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tea_fruit_bag_box_tea_1_10",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "tea_fruit_bag", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "id": "herbal_tea_bag_box_10",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "herbal_tea_bag", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "herbal_tea_bag_box_tea_1_10",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "herbal_tea_bag", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "id": "tea_bag_dandelion_box_10",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "tea_bag_dandelion", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tea_bag_dandelion_box_tea_1_10",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "tea_bag_dandelion", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "id": "tea_bag_chamomile_box_10",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "tea_bag_chamomile", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tea_bag_chamomile_box_tea_1_10",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "tea_bag_chamomile", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tea_raw_bag_plastic_33",
+    "subtype": "collection",
+    "//": "100 g of tea",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "tea_raw", "container-item": "null", "count": [ 2, 33 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tea_green_raw_bag_plastic_33",
+    "subtype": "collection",
+    "//": "100 g of tea",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "tea_green_raw", "container-item": "null", "count": [ 2, 33 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tea_raw_jar_glass_sealed_10_40",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "tea_raw", "container-item": "null", "count": [ 10, 40 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tea_green_raw_jar_glass_sealed_10_40",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "tea_green_raw", "container-item": "null", "count": [ 10, 40 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "coffee_raw_bag_plastic_20",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "coffee_raw", "container-item": "null", "count": 20 } ]
+  },
+  {
+    "id": "raw_coffee_in_container",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "instant_coffee", "count": [ 1, 40 ], "entry-wrapper": "bottle_glass_seasoning" },
+          { "item": "instant_coffee", "count": [ 1, 40 ], "entry-wrapper": "can_medium" }
+        ]
+      },
+      {
+        "distribution": [
+          { "group": "ground_coffee_small", "entry-wrapper": "can_food_big" },
+          { "group": "ground_coffee_small", "entry-wrapper": "bag_plastic" }
+        ]
+      },
+      {
+        "distribution": [
+          { "group": "ground_coffee_big", "entry-wrapper": "can_food_big" },
+          { "group": "ground_coffee_big", "entry-wrapper": "bag_plastic" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "raw_coffee_in_container_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "instant_coffee", "count": 40, "entry-wrapper": "bottle_glass_seasoning" },
+          { "item": "instant_coffee", "count": 40, "entry-wrapper": "can_medium" }
+        ]
+      },
+      {
+        "distribution": [
+          { "group": "ground_coffee_small_full", "entry-wrapper": "can_food_big" },
+          { "group": "ground_coffee_small_full", "entry-wrapper": "bag_plastic" }
+        ]
+      },
+      {
+        "distribution": [
+          { "group": "ground_coffee_big_full", "entry-wrapper": "can_food_big" },
+          { "group": "ground_coffee_big_full", "entry-wrapper": "bag_plastic" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ground_coffee_small",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "coffee_raw", "count": [ 1, 30 ] },
+      { "item": "coffee_raw_kentucky", "count": [ 1, 30 ] },
+      { "item": "roasted_coffee_bean", "count": [ 1, 30 ] }
+    ]
+  },
+  {
+    "id": "ground_coffee_small_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "coffee_raw", "count": 30 },
+      { "item": "coffee_raw_kentucky", "count": 30 },
+      { "item": "roasted_coffee_bean", "count": 30 }
+    ]
+  },
+  {
+    "id": "ground_coffee_big",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "coffee_raw", "count": [ 1, 60 ] },
+      { "item": "coffee_raw_kentucky", "count": [ 1, 60 ] },
+      { "item": "roasted_coffee_bean", "count": [ 1, 60 ] }
+    ]
+  },
+  {
+    "id": "ground_coffee_big_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "coffee_raw", "count": 60 },
+      { "item": "coffee_raw_kentucky", "count": 60 },
+      { "item": "roasted_coffee_bean", "count": 60 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bee_balm_jar_3l_glass_sealed_1_12",
+    "subtype": "collection",
+    "container-item": "jar_3l_glass_sealed",
+    "entries": [ { "item": "bee_balm", "count": [ 1, 12 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "raw_burdock_jar_3l_glass_sealed_1_inf",
+    "subtype": "collection",
+    "container-item": "jar_3l_glass_sealed",
+    "entries": [ { "item": "raw_burdock", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "wild_herbs_jar_glass_sealed_20_inf",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "wild_herbs", "count": [ 20, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "raw_dandelion_jar_glass_sealed_1_inf",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "raw_dandelion", "count": [ 1, -1 ] } ]
+  }
+]

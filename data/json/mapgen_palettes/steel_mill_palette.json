@@ -48,6 +48,7 @@
       "c": "f_console_broken",
       "m": [ [ "f_machinery_light", 80 ], [ "f_mill_vertical", 10 ], [ "f_heavy_lathe", 10 ] ],
       "M": "f_machinery_heavy",
+      "?": [ "f_power_hammer" ],
       "E": "f_machinery_electronic",
       "g": [
         [ "f_generator_broken", 25 ],

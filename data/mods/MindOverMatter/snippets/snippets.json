@@ -76,12 +76,34 @@
       },
       {
         "id": "note_psi_9",
-        "text": "\"I always knew there was something off about that office building on main.  I'm not going to check it out because downtown is overrun but I saw weird lights from the top floor two lights running.  Something's still happening up there.\""
+        "text": "\"I always knew there was something off about that office building on main.  I'm not going to check it out because downtown is overrun but I saw weird lights from the top floor two nights running.  Something's still happening up there.\""
       },
       {
         "id": "note_psi_10",
         "text": "\"Met some girl living out in the wilds west of town.  She snuck up perfectly behind me and held me at gunpoint until she was sure I wouldn't try to steal from her.  Once we had that cleared up, told me to skip north and avoid 90 because some assholes had set up a roadblock.  I asked her how she knew where I was going and she said, \"It was revealed to me in a dream.\"  I should have listened to her.\""
       }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_notes",
+    "text": [
+      "The probe brought in some crystalline samples from subplane 039XE and they've already created quite a stir.  Dr. Liu and Dr. Richardson swore that it was glowing and the other researchers that they called in to look said the same, but when they ran it through a spectrometer it didn't pick anything up.  And then when they looked at footage taken in the lab, it was just a rock.  Dr. Liu has been up all night trying to figure out what's going on.",
+      "The 039XE samples are even weirder than we thought.  Dr. Richardson was running an XRF on the sample and when moving it, she picked it up and had, quote, \"a vision\".  We can verify based on security camera records that she placed the sample down and told Dr. Miller that an experiment was in progress and he would need to wait a moment before Dr. Miller even touched the intercom to request entry to the room.  When she realized what had happened, Dr. Richardson cancelled the experiment.  There's quite a buzz around here.",
+      "Further testing with the 039XE samples has revealed one seems to counteract gravity to a minor extent (hard to tell how much without dropping it off a skyscraper) and one heats the air around anyone holding it an average of 3.87° C.  Based on testing it only seems to work when actually in proximity to someone; we tried putting that last one in the refrigerator and it did nothing.  We submitted a report for another dive to get more samples.",
+      "The dive is still on the schedule but a probe from subplane 083XE brought back similar samples.  That's enough for Dr. Liu to take action.  He's submitted a proposal to assign a specific XEDRA division to studying these.",
+      "The crystals have been dubbed XE323 in accordance with standard material naming protocols but everyone is taking after Dr. Liu and calling them \"matrix crystals\".",
+      "We got another batch of XE323 from a completely different subplane.  These things are more common than we expected.",
+      "Review of probe footage shows that matrix crystals tend to be found among larger crystalline formations.  Once manned dives resume we'll need to check those crystals out in person.",
+      "I feel crazy even writing this but we had a major discovery today.  One of our technicians was conducting an experiment with XE323 when she suddenly grabbed her head and yelled, alerting both the supervising researcher and nearby security.  She waved them off and then the security guard fell to the ground; later review of the footage indicated that the guard fell at the exact moment the technician waved.  We put it all in the report but the upshot is that she's a telekinetic now.\n\nShe has psychic powers.  This is not a joke.  What is happening.",
+      "Obviously we've been running experiments with L61, as we've designated her, and her abilities aren't as strong as they seem to have been in those moments after the incident.  She can't knock full-grown humans off their feet anymore but she can pick up a pencil and hold it steady, in the air, in complete defiance of gravity and everything we thought we understood about physics and, frankly, how the universe works at all.  Portals at least have rules they follow, but what is this?",
+      "Dr. Liu told us that following recent developments they've authorized the formation of XEDRA-23 to study XE323 and turned over all samples of XE323 to it.",
+      "In order to make our reports sound less like we're just staring at goats, we've been instructed to designate all phenomena resulting from the matrix crystals with the label \"Netherum mathematics.\"  That makes L61 our first \"mathematician.\"  Maybe they won't suddenly cut our funding if we obfuscate things that way.",
+      "We have a second mathematician, this time as a result of deliberate experimentation.  We went through two dozen possible volunteers with no results other than severe headaches and time in the infirmary (apparently that first anomaly was very lucky) before we found someone who could make the matrix crystal work.  Now M81 demonstrates control over heat and fire; under controlled lab conditions he was able to increase the heat of a fire by 27.3° C simply by looking at it.  What else can these crystals do?",
+      "We're running L61 and M81 ragged with all the experiments we've been doing with them but attempts to increase the pool of candidates mostly end in failure and head pain.  We need some more systematic way of growing our number of mathematicians that's not just throwing people at the crystals and seeing if it works.",
+      "Finally after dozens of failures, we have a third mathematician.  Y51 seems capable of sensing and generating electrical signals; he's been able to tell if a circuit is complete or not despite being in a pitch-black room with no external clues to the circuit's state.  I don't need to explain how consequential this ability is if he can develop it in some way; Y51 is definitely our golden boy right now.",
+      "For some reason Dr. Liu has taken to referring to XEDRA-23 as \"Project PHAVIAN\".  I don't think it's an acronym but I have no idea what it means, and by this point, everyone is using it and I'm too afraid to ask about it.",
+      "XEDRA-40 is planning to resume manned immersion dives in the next month and we've seconded L61 to the dive team.  We need to see what effects being in a subprime plane have on the mathematics."
     ]
   },
   {
@@ -101,6 +123,10 @@
       {
         "id": "lab_file_portal_psi_1",
         "text": "Manned immersion dives to sub-planes with the PHAVIAN designation are to be overseen by at least one mathematician from Project COLD BELOW.  Immersion personnel must obey all instructions given by the mathematician, including collection of anomalous samples or aborting an in-progress dive."
+      },
+      {
+        "id": "lab_file_portal_psi_2",
+        "text": "All samples of XE323, whether found in a PHAVIAN-designate sub-plane are not, are to immediately be turned over to XEDRA-23 on cessation of dive."
       }
     ]
   },

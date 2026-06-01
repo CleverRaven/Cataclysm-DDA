@@ -52,7 +52,8 @@
       { "math": [ "labsunlocked = 0" ] },
       { "math": [ "goingtolabs = 0" ] },
       { "math": [ "skyisland_build_base = 0" ] },
-      { "math": [ "skyisland_build_bigroom = 0" ] }
+      { "math": [ "skyisland_build_bigroom = 0" ] },
+      { "math": [ "skyisland_warped_harness_upgrade = 0" ] }
     ]
   },
   {

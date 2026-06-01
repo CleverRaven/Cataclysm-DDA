@@ -341,14 +341,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "lmoe_prepperquest",
-    "copy-from": "lmoe_prepperquest",
-    "name": "LMOE shelter",
-    "sym": "L",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "lmoe_under",
     "copy-from": "lmoe_under",
     "name": "LMOE shelter",
@@ -357,32 +349,8 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "lmoe_under_empty",
-    "copy-from": "lmoe_under_empty",
-    "name": "LMOE shelter",
-    "sym": "L",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "lmoe_under_empty_prepperquest",
     "copy-from": "lmoe_under_empty_prepperquest",
-    "name": "LMOE shelter",
-    "sym": "L",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lmoe_zombie",
-    "copy-from": "lmoe_zombie",
-    "name": "LMOE shelter",
-    "sym": "L",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lmoe_zombie_under_empty",
-    "copy-from": "lmoe_zombie_under_empty",
     "name": "LMOE shelter",
     "sym": "L",
     "color": "red"

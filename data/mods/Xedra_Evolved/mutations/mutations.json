@@ -390,6 +390,20 @@
   },
   {
     "type": "mutation",
+    "id": "DHAMPIR_BLACKEN_SOUL_ARION",
+    "name": { "str": "Blacken the Soul of Arion" },
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You've gained the ability to create and mold a horse into a beast worthy of carrying you across the wastelands.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "spells_learned": [ [ "dhampir_horse_familiar_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "DHAMPIR_WEAKNESS_SUN_SENSITIVITY",
     "name": { "str": "Weakness: Sun Sensitivity" },
     "points": -2,
@@ -514,8 +528,8 @@
     "description": "The vampires are right about one thing; they are better than humans, and your vampire blood makes you better as well.",
     "purifiable": false,
     "valid": false,
-    "enchantments": [ { "mutations": [ "PSYCHOPATH" ] } ],
-    "social_modifiers": { "persuade": -25, "lie": -15 }
+    "social_modifiers": { "persuade": -25, "lie": -15 },
+    "flags": [ "PSYCHOPATH" ]
   },
   {
     "type": "mutation",

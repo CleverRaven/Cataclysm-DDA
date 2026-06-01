@@ -22,6 +22,8 @@
 #include "cursesdef.h"
 #endif // TILES
 
+namespace
+{
 struct ui_state {
     ui_adaptor *ui;
     background_pane *bg;
@@ -46,6 +48,7 @@ struct ui_state {
     std::string context;
     std::string step;
 };
+} // namespace
 
 static ui_state *gLUI = nullptr;
 
@@ -53,7 +56,8 @@ static void redraw()
 {
 #ifdef TILES
     ImGui::SetNextWindowSize( ImGui::GetMainViewport()->Size );
-    ImGui::SetNextWindowPos( {-1, -1}, ImGuiCond_Always );
+    ImGui::SetNextWindowPos( {0, 0}, ImGuiCond_Always );
+    ImGui::PushStyleVar( ImGuiStyleVar_WindowBorderSize, 0.0f );
     if( ImGui::Begin( "Loading…", nullptr,
                       ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
                       ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings ) ) {
@@ -92,17 +96,18 @@ static void redraw()
         cataimgui::draw_colored_text( loading_msg, ImGui::GetContentRegionAvail().x );
     }
     ImGui::End();
+    ImGui::PopStyleVar();
 
 #else
-    int x = ( TERMX - static_cast<int>( gLUI->splash_width ) ) / 2;
-    int y = 0;
+    point cursor( ( TERMX - static_cast<int>( gLUI->splash_width ) ) / 2, 0 );
     nc_color white = c_white;
     for( const std::string &line : gLUI->splash ) {
         if( !line.empty() && line[0] == '#' ) {
             continue;
         }
-        print_colored_text( catacurses::stdscr, point( x, y++ ), white,
+        print_colored_text( catacurses::stdscr, cursor, white,
                             white, line );
+        cursor.y++;
     }
     mvwprintz( catacurses::stdscr, point( 0, TERMY - 1 ), c_black, gLUI->blanks );
     center_print( catacurses::stdscr, TERMY - 1, c_white, string_format( "%s %s",
@@ -230,7 +235,8 @@ void loading_ui::done()
 {
     if( gLUI != nullptr ) {
 #ifdef TILES
-        gLUI->chosen_load_img = cata_path();
+        // Need to manually clear the screen due to using direct ImGui calls
+        clear_sdl_window();
 #endif
         delete gLUI->ui;
         delete gLUI->bg;

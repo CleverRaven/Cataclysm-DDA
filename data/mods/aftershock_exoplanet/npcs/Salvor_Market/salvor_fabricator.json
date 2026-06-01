@@ -5,7 +5,12 @@
     "name": { "str": "salvor fabricator" },
     "job_description": "Salvor Fabricator",
     "common": false,
-    "traits": [ { "group": "BG_survival_story_POLICE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "BG_survival_story_POLICE" },
+      { "trait": "RETURN_TO_START_POS" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
     "bonus_str": { "rng": [ 2, 3 ] },
     "bonus_dex": { "rng": [ 0, 2 ] },
     "bonus_int": { "rng": [ -2, 0 ] },

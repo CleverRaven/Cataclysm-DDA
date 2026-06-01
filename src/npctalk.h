@@ -51,6 +51,7 @@ void bionic_install( npc & );
 void bionic_install_allies( npc & );
 void bionic_remove( npc & );
 void bionic_remove_allies( npc & );
+void repair_bionic_limbs( npc & );
 void dismount( npc & );
 void find_mount( npc & );
 

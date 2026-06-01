@@ -70,7 +70,7 @@
     "description": "A remote-controlled toy car.  It is turned on and draining its batteries just like a real electric car!  Use a remote control to drive it around.",
     "turns_per_charge": 12,
     "revert_to": "radio_car",
-    "use_action": { "type": "transform", "target": "radio_car", "msg": "You turned off your RC car.", "menu_text": "Turn off" },
+    "use_action": { "type": "transform", "target": "radio_car", "msg": "You turn off the %s.", "menu_text": "Turn off" },
     "tick_action": [
       {
         "type": "sound",

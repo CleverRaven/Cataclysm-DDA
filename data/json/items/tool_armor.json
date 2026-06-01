@@ -569,7 +569,12 @@
       "CALORIES_INTAKE_TRACKER",
       "FITNESS_CHECK",
       "PORTABLE_GAME",
-      { "type": "mp3", "transform": "smart_watch", "message": "The smart watch turns off.", "activate": false }
+      {
+        "type": "mp3",
+        "transform": "smart_watch",
+        "message": "You stop listening to music and take your earbuds out.",
+        "activate": false
+      }
     ],
     "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID" ] }
@@ -632,7 +637,12 @@
       "CALORIES_INTAKE_TRACKER",
       "FITNESS_CHECK",
       "PORTABLE_GAME",
-      { "type": "mp3", "transform": "smart_watch_adv", "message": "The smart watch turns off.", "activate": false },
+      {
+        "type": "mp3",
+        "transform": "smart_watch_adv",
+        "message": "You stop listening to music and take your earbuds out.",
+        "activate": false
+      },
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
     "tick_action": [ "MP3_ON" ],
@@ -1021,7 +1031,7 @@
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
-      "msg": "You turn the headlamp on.",
+      "msg": "You turn on the %s.",
       "target": "wearable_light_on",
       "need_charges": 1,
       "need_charges_msg": "The batteries are dead."
@@ -1095,7 +1105,7 @@
       "ammo_scale": 0,
       "type": "transform",
       "menu_text": "Turn off",
-      "msg": "The %s flicks off.",
+      "msg": "You turn off the %s.",
       "target": "wearable_light"
     }
   },
@@ -1114,7 +1124,7 @@
       "ammo_scale": 0,
       "type": "transform",
       "menu_text": "Turn off",
-      "msg": "The %s flicks off.",
+      "msg": "You turn off the %s.",
       "target": "wearable_big_light"
     }
   },
@@ -1137,7 +1147,7 @@
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
-      "msg": "You turn the headlamp on.",
+      "msg": "You turn on the %s.",
       "target": "wearable_big_light_on",
       "need_charges": 1,
       "need_charges_msg": "The batteries are dead."
@@ -2438,7 +2448,7 @@
       },
       {
         "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 5 } ],
-        "covers": [ "eyes" ],
+        "covers": [ "eyes", "eyes_compound" ],
         "coverage": 100,
         "encumbrance": 25
       }
@@ -2555,7 +2565,7 @@
           { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 5 },
           { "type": "lc_steel", "covered_by_mat": 15, "thickness": 1 }
         ],
-        "covers": [ "eyes" ],
+        "covers": [ "eyes", "eyes_compound" ],
         "layers": [ "SKINTIGHT", "NORMAL" ],
         "rigid_layer_only": true,
         "coverage": 100,
@@ -2673,13 +2683,13 @@
     "armor": [
       {
         "material": [ { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 } ],
-        "covers": [ "mouth" ],
+        "covers": [ "mouth", "beak", "muzzle", "insect_proboscis" ],
         "coverage": 100,
         "encumbrance": 35
       },
       {
         "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 5 } ],
-        "covers": [ "eyes" ],
+        "covers": [ "eyes", "eyes_compound" ],
         "layers": [ "SKINTIGHT", "NORMAL" ],
         "rigid_layer_only": true,
         "coverage": 100,
@@ -3333,7 +3343,7 @@
     "use_action": {
       "menu_text": "Turn off",
       "type": "transform",
-      "msg": "You turn the %s off.",
+      "msg": "You turn off the %s.",
       "target": "basic_papr_belt_off",
       "ammo_scale": 0
     },
@@ -3429,7 +3439,7 @@
     "use_action": {
       "menu_text": "Turn off",
       "type": "transform",
-      "msg": "You turn the %s off.",
+      "msg": "You turn off the %s.",
       "target": "military_papr_blower_off",
       "ammo_scale": 0
     },
@@ -3525,7 +3535,7 @@
     "use_action": {
       "menu_text": "Turn off",
       "type": "transform",
-      "msg": "You turn the %s off.",
+      "msg": "You turn off the %s.",
       "target": "molle_papr_blower_off",
       "ammo_scale": 0
     },
@@ -4244,7 +4254,7 @@
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
-      "msg": "You turn the earmuffs on.",
+      "msg": "You turn on the %s.",
       "target": "powered_earmuffs_on",
       "need_charges": 1,
       "need_charges_msg": "The batteries are dead."
@@ -4286,7 +4296,7 @@
       "ammo_scale": 0,
       "type": "transform",
       "menu_text": "Turn off",
-      "msg": "The %s flicks off.",
+      "msg": "You turn off the %s.",
       "target": "powered_earmuffs"
     },
     "warmth": 5,
@@ -4320,7 +4330,7 @@
     "volume": "200 ml",
     "use_action": {
       "type": "transform",
-      "msg": "You turn the earplugs on.",
+      "msg": "You turn on the %s.",
       "target": "powered_earplugs_on",
       "need_charges": 1,
       "need_charges_msg": "The batteries are dead."
@@ -4346,7 +4356,7 @@
       "ammo_scale": 0,
       "type": "transform",
       "menu_text": "Turn off",
-      "msg": "The %s flicks off.",
+      "msg": "You turn off the %s.",
       "target": "powered_earplugs"
     }
   },
@@ -4811,7 +4821,7 @@
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
-      "msg": "You turn the flight helmet on.",
+      "msg": "You turn on the %s.",
       "target": "flight_helmet_on",
       "need_charges": 1,
       "need_charges_msg": "The batteries are dead."
@@ -4854,7 +4864,7 @@
       "type": "transform",
       "ammo_scale": 0,
       "menu_text": "Turn off",
-      "msg": "The %s flicks off.",
+      "msg": "You turn off the %s.",
       "target": "flight_helmet"
     },
     "tool_ammo": "battery"

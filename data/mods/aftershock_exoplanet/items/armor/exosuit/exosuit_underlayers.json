@@ -72,7 +72,7 @@
       "type": "transform",
       "ammo_scale": 0,
       "menu_text": "Turn off",
-      "msg": "Your %s deactivates.",
+      "msg": "You deactivate your %s.",
       "target": "afs_exo_standard_underlayer"
     },
     "extend": { "flags": [ "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
@@ -150,7 +150,7 @@
       "type": "transform",
       "ammo_scale": 0,
       "menu_text": "Turn off",
-      "msg": "Your %s deactivates.",
+      "msg": "You deactivate your %s.",
       "target": "afs_exo_combat_underlayer"
     },
     "extend": { "flags": [ "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
@@ -230,7 +230,7 @@
       "type": "transform",
       "ammo_scale": 0,
       "menu_text": "Turn off",
-      "msg": "Your %s deactivates.",
+      "msg": "You deactivate your %s.",
       "target": "afs_exo_eva_underlayer"
     },
     "extend": { "flags": [ "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
@@ -310,7 +310,7 @@
       "type": "transform",
       "ammo_scale": 0,
       "menu_text": "Turn off",
-      "msg": "Your %s deactivates.",
+      "msg": "You deactivate your %s.",
       "target": "afs_exo_hazard_underlayer"
     },
     "extend": { "flags": [ "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }

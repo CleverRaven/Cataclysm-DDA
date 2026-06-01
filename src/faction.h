@@ -153,6 +153,9 @@ class faction_template
         translation desc;
         int size; // How big is our sphere of influence?
         int power; // General measure of our power
+        // Three steal states: Always, Never, Ask
+        // Always = true, Never = false, Ask = std::nullopt
+        std::optional<bool> steal_persist;
     protected:
         // Sorted list of nutrients and when they expire
         // The time_point == 0 mod 1_days, and calendar::turn_zero is non-perishable food

@@ -137,7 +137,7 @@
     "description": "A lifeless pile of clay of what once a golem.  Could be smashed for clay.",
     "price": "0 USD",
     "material": [ "clay" ],
-    "weight": "300 kg",
+    "weight": "328740 g",
     "volume": "200 L",
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   }

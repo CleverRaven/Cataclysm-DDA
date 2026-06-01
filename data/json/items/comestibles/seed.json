@@ -1932,6 +1932,7 @@
     "price": "70 cent",
     "name": { "str_sp": "eggplant seeds" },
     "description": "Some eggplant seeds.",
+    "flags": [ "PLANTABLE_SEED" ],
     "plant_name": "eggplant",
     "fruit": "eggplant",
     "seeds": false,
@@ -1942,6 +1943,131 @@
       { "GROWTH_MATURE": "15 days" },
       { "GROWTH_HARVEST": "15 days" },
       { "GROWTH_OVERGROWN": "1 hour" }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "id": "seed_cauliflower",
+    "copy-from": "seed",
+    "price": "70 cent",
+    "name": { "str_sp": "cauliflower seeds" },
+    "description": "Some cauliflower seeds.",
+    "flags": [ "PLANTABLE_SEED" ],
+    "plant_name": "cauliflower",
+    "fruit": "cauliflower_head",
+    "seeds": false,
+    "byproducts": [ "withered" ],
+    "growth_stages": [
+      { "GROWTH_SEED": "15 days" },
+      { "GROWTH_SEEDLING": "15 days" },
+      { "GROWTH_MATURE": "15 days" },
+      { "GROWTH_HARVEST": "15 days" }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "id": "seed_artichoke",
+    "copy-from": "seed",
+    "price": "70 cent",
+    "name": { "str_sp": "artichoke seeds" },
+    "description": "Some artichoke seeds.",
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
+    "plant_name": "artichoke",
+    "fruit": "raw_artichoke",
+    "seeds": false,
+    "byproducts": [ "withered" ],
+    "growth_stages": [
+      { "GROWTH_SEED": "20 days" },
+      { "GROWTH_SEEDLING": "20 days" },
+      { "GROWTH_MATURE": "20 days" },
+      { "GROWTH_HARVEST": "20 days" },
+      { "GROWTH_OVERGROWN": "10 hour" }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "id": "seed_asparagus",
+    "copy-from": "seed",
+    "price": "70 cent",
+    "name": { "str_sp": "asparagus seeds" },
+    "description": "Some asparagus seeds.",
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
+    "plant_name": "asparagus",
+    "fruit": "raw_asparagus",
+    "seeds": false,
+    "byproducts": [ "withered" ],
+    "growth_stages": [
+      { "GROWTH_SEED": "30 days" },
+      { "GROWTH_SEEDLING": "30 days" },
+      { "GROWTH_MATURE": "20 days" },
+      { "GROWTH_HARVEST": "10 days" },
+      { "GROWTH_OVERGROWN": "10 hour" }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "id": "seed_brussels_sprout",
+    "copy-from": "seed",
+    "price": "70 cent",
+    "name": { "str_sp": "brussels sprout seeds" },
+    "description": "Some brussels sprout seeds.",
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
+    "plant_name": "brussels_sprout",
+    "fruit": "brussels_sprout_stalk",
+    "seeds": false,
+    "byproducts": [ "withered" ],
+    "growth_stages": [
+      { "GROWTH_SEED": "20 days" },
+      { "GROWTH_SEEDLING": "20 days" },
+      { "GROWTH_MATURE": "10 days" },
+      { "GROWTH_HARVEST": "10 days" },
+      { "GROWTH_OVERGROWN": "10 hour" }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "id": "seed_kale",
+    "copy-from": "seed",
+    "price": "70 cent",
+    "name": { "str_sp": "kale seeds" },
+    "description": "Some kale sprout seeds.",
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
+    "plant_name": "kale",
+    "fruit": "kale_head",
+    "seeds": false,
+    "byproducts": [ "withered" ],
+    "growth_stages": [
+      { "GROWTH_SEED": "15 days" },
+      { "GROWTH_SEEDLING": "15 days" },
+      { "GROWTH_MATURE": "10 days" },
+      { "GROWTH_HARVEST": "10 days" },
+      { "GROWTH_OVERGROWN": "10 hour" }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "id": "seed_pea",
+    "copy-from": "pea",
+    "category": "seeds",
+    "name": { "str_sp": "pea seeds" },
+    "container": "null",
+    "description": "fresh peas, ready for planting.",
+    "extend": { "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ] },
+    "plant_name": "pea",
+    "fruit": "pea_pods",
+    "seeds": false,
+    "growth_stages": [
+      { "GROWTH_SEED": "20 days" },
+      { "GROWTH_SEEDLING": "20 days" },
+      { "GROWTH_MATURE": "20 days" },
+      { "GROWTH_HARVEST": "20 days" },
+      { "GROWTH_OVERGROWN": "10 hour" }
     ]
   }
 ]

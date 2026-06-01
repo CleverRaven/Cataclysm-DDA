@@ -75,7 +75,7 @@
     "hit_difficulty": 1.1,
     "is_limb": true,
     "is_vital": false,
-    "limb_type": "wing",
+    "limb_types": "wing",
     "base_hp": 45,
     "health_limit": 10,
     "mend_rate": 5,
@@ -104,7 +104,7 @@
     "hp_bar_ui_text": "R WING",
     "main_part": "wing_gossamer_r",
     "opposite_part": "wing_gossamer_l",
-    "limb_type": "wing",
+    "limb_types": "wing",
     "limb_scores": [ [ "reaction", 0.1 ] ],
     "side": "right",
     "sub_parts": [ "wing_gossamer_basal_r", "wing_gossamer_forewing_r", "wing_gossamer_hindwing_r" ]

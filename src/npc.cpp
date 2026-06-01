@@ -613,8 +613,7 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     male = one_in( 2 );
     pick_name();
     randomize_height();
-    // Normally 16-55, but potential violence towards *underage* NPCs is a more problematic than towards adults.
-    set_base_age( rng( 18, 55 ) );
+    set_base_age( rng( NPC_RAND_AGE_MIN, NPC_RAND_AGE_MAX ) );
     int str_base = dice( 4, 3 );
     int dex_base = dice( 4, 3 );
     int int_base = dice( 4, 3 );
@@ -1004,16 +1003,28 @@ void starting_inv_ammo( npc &who, std::list<item> &res, int multiplier )
     item ammo = item();
     ammo_quantity = rng( 1, 2 ) * multiplier;
     if( weapon && weapon->is_gun() ) {
-        if( !weapon->magazine_default().is_null() ) {
-            ammo = item( weapon->magazine_default() );
-            ammo.ammo_set( ammo.ammo_default() );
+        const std::vector<itype_id> well_defaults = weapon->magazines_default();
+        std::vector<itype_id> non_null_defaults;
+        for( const itype_id &mag_id : well_defaults ) {
+            if( !mag_id.is_null() ) {
+                non_null_defaults.push_back( mag_id );
+            }
+        }
+        if( !non_null_defaults.empty() ) {
+            // One filled mag per well, cycling until count met or no carry space.
+            for( int i = 0; i < ammo_quantity; ++i ) {
+                ammo = item( non_null_defaults[i % non_null_defaults.size()] );
+                ammo.ammo_set( ammo.ammo_default() );
+                if( !who.can_stash( ammo ) ) {
+                    break;
+                }
+                res.push_back( ammo );
+            }
         } else if( !weapon->ammo_default().is_null() ) {
             ammo = item( weapon->ammo_default() );
-        } else {
-            return;
-        }
-        while( ammo_quantity-- != 0 && who.can_stash( ammo ) ) {
-            res.push_back( ammo );
+            while( ammo_quantity-- != 0 && who.can_stash( ammo ) ) {
+                res.push_back( ammo );
+            }
         }
     }
 }
@@ -1312,7 +1323,18 @@ void npc::starting_weapon( const npc_class_id &type )
     item_location weapon = get_wielded_item();
     if( weapon ) {
         if( weapon->is_gun() ) {
-            if( !weapon->magazine_default().is_null() ) {
+            const std::vector<itype_id> well_defaults = weapon->magazines_default();
+            const bool is_multi_well = well_defaults.size() > 1;
+            bool any_well_default = false;
+            for( const itype_id &mag_id : well_defaults ) {
+                if( !mag_id.is_null() ) {
+                    any_well_default = true;
+                    break;
+                }
+            }
+            if( is_multi_well && any_well_default ) {
+                weapon->dress_magazine_wells( /*insert_default_mag=*/true, /*fill_with_default_ammo=*/true );
+            } else if( !weapon->magazine_default().is_null() ) {
                 weapon->ammo_set( weapon->magazine_default()->magazine->default_ammo );
             } else if( !weapon->ammo_default().is_null() ) {
                 weapon->ammo_set( weapon->ammo_default() );
@@ -2039,7 +2061,7 @@ int npc::indoor_voice() const
     const int distance_to_player = rl_dist( pos_abs(), player.pos_abs() );
     if( is_following() || is_ally( player ) ) {
         wanted_volume = distance_to_player;
-    } else if( is_enemy() && sees( here, player.pos_bub( here ) ) ) {
+    } else if( is_enemy() && sees( here, player ) ) {
         // Battle cry! Bandits have no concept of indoor voice, even when not threatened.
         wanted_volume = max_volume;
     }
@@ -2691,12 +2713,9 @@ bool npc::is_walking_with() const
     return attitude == NPCATT_FOLLOW || attitude == NPCATT_LEAD || attitude == NPCATT_WAIT;
 }
 
-bool npc::should_follow_close() const
+bool npc::can_follow_player_now() const
 {
     if( !is_following() ) {
-        return false;
-    }
-    if( !rules.has_flag( ally_rule::follow_close ) ) {
         return false;
     }
     if( has_flag( json_flag_CANNOT_MOVE ) ) {
@@ -2710,6 +2729,11 @@ bool npc::should_follow_close() const
         return false;
     }
     return true;
+}
+
+int npc::desired_follow_radius() const
+{
+    return rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
 }
 
 bool npc::is_obeying( const Character &p ) const
@@ -2959,6 +2983,9 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     // is a blank line. w is 13 characters tall, and we can't use the last one
     // because it's a border as well; so we have lines 6 through 11.
     // w is also 53 characters wide - 2 characters for border = 51 characters for us
+
+    // Header.
+    mvwprintz( w, point( column, line++ ), c_light_blue, _( "-----CHARACTER-----" ) );
 
     // Print health bar and NPC name on the first line.
     std::pair<std::string, nc_color> bar = get_hp_bar( hp_percentage(), 100 );

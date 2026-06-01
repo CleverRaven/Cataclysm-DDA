@@ -75,6 +75,7 @@ ui_adaptor::ui_adaptor( ui_adaptor::debug_message_ui ) : is_imgui( false ),
     ui_stack.emplace_back( *this );
 }
 
+// NOLINTNEXTLINE(bugprone-exception-escape): cata_assert may throw on failed invariant by design
 ui_adaptor::~ui_adaptor()
 {
     if( is_shutting_down ) {

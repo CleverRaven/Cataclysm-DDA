@@ -160,17 +160,41 @@
   {
     "type": "effect_on_condition",
     "id": "barber_hair",
-    "effect": { "open_dialogue": { "topic": "TALK_CUT_YOUR_HAIR" } }
+    "condition": {
+      "and": [
+        { "not": { "u_has_trait": "EXODII_BODY_1" } },
+        { "not": { "u_has_trait": "EXODII_BODY_1b" } },
+        { "not": { "u_has_bionics": "bio_robofac_xmlens" } }
+      ]
+    },
+    "effect": { "open_dialogue": { "topic": "TALK_CUT_YOUR_HAIR" } },
+    "false_effect": { "u_message": "You don't have any hair to style!" }
   },
   {
     "type": "effect_on_condition",
     "id": "barber_beard",
-    "effect": { "open_dialogue": { "topic": "TALK_CUT_YOUR_BEARD" } }
+    "condition": {
+      "and": [
+        { "not": { "u_has_trait": "EXODII_BODY_1" } },
+        { "not": { "u_has_trait": "EXODII_BODY_1b" } },
+        { "not": { "u_has_bionics": "bio_robofac_xmlens" } }
+      ]
+    },
+    "effect": { "open_dialogue": { "topic": "TALK_CUT_YOUR_BEARD" } },
+    "false_effect": { "u_message": "You don't have any hair to style!" }
   },
   {
     "type": "effect_on_condition",
     "id": "barber_hair_and_beard",
-    "effect": { "open_dialogue": { "topic": "TALK_CUT_HAIR_OR_BEARD" } }
+    "condition": {
+      "and": [
+        { "not": { "u_has_trait": "EXODII_BODY_1" } },
+        { "not": { "u_has_trait": "EXODII_BODY_1b" } },
+        { "not": { "u_has_bionics": "bio_robofac_xmlens" } }
+      ]
+    },
+    "effect": { "open_dialogue": { "topic": "TALK_CUT_HAIR_OR_BEARD" } },
+    "false_effect": { "u_message": "You don't have any hair to style!" }
   },
   {
     "type": "effect_on_condition",

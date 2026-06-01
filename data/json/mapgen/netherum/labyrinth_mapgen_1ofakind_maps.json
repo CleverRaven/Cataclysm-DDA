@@ -30,7 +30,7 @@
         "vvvvvvvvv      vvvvvvvvv",
         "vvvvvvvvv      vvvvvvvvv"
       ],
-      "palettes": [ "labyrinthine_base_palette" ],
+      "palettes": [ "labyrinthine_base_palette_no_enemies" ],
       "nested": {
         "1": { "chunks": [ "ls_12x12hall4way_basic" ] },
         "2": { "chunks": [ "ls_ew_6x6hall_basic" ] },
@@ -70,7 +70,7 @@
         "vvvvvvvvv      vvvvvvvvv",
         "vvvvvvvvv      vvvvvvvvv"
       ],
-      "palettes": [ "labyrinthine_base_palette" ],
+      "palettes": [ "labyrinthine_base_palette_no_enemies" ],
       "nested": {
         "1": { "chunks": [ "ls_12x12hall4way_basic" ] },
         "2": { "chunks": [ "ls_ew_6x6hall_basic" ] },

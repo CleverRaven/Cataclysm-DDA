@@ -5,7 +5,6 @@
 #include <cstddef>
 #include <functional>
 #include <list>
-#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -172,10 +171,14 @@ class item_contents
         std::vector<item *> efiles();
         std::vector<const item *> efiles() const;
 
+        // Sum of ememory_size() across all efiles. Avoids the heap-allocated
+        // intermediate containers that efiles() builds, on the stacking hot path.
+        units::ememory occupied_ememory() const;
+
         std::vector<item *> cables();
         std::vector<const item *> cables() const;
 
-        void update_modified_pockets( const std::optional<const pocket_data *> &mag_or_mag_well,
+        void update_modified_pockets( std::vector<const pocket_data *> mag_or_mag_wells,
                                       std::vector<const pocket_data *> container_pockets );
         // all magazines compatible with any pockets.
         // this only checks MAGAZINE_WELL
@@ -185,6 +188,11 @@ class item_contents
          * Return NULL_ID if no pockets are a MAGAZINE_WELL.
          */
         itype_id magazine_default() const;
+        /**
+         * Default magazine of every directly-owned MAGAZINE_WELL pocket.
+         * Does NOT walk into MOD pockets; use item::magazines_default() for that.
+         */
+        std::vector<itype_id> magazines_default() const;
         /**
          * This function is to aid migration to using nested containers.
          * The call sites of this function need to be updated to search the
@@ -354,6 +362,9 @@ class item_contents
         /** Spill items that don't fit in the container. */
         void overflow( map &here, const tripoint_bub_ms &pos, const item_location &loc );
         void clear_items();
+        /** Engage bulk-fill mode on all pockets. See item_pocket::begin_bulk_fill. */
+        void begin_bulk_fill();
+        void end_bulk_fill();
         /** Clear all items from magazine type pockets. */
         void clear_magazines();
         void clear_pockets_if( const std::function<bool( item_pocket const & )> &filter );
@@ -373,6 +384,11 @@ class item_contents
         /** Return the amount of ammo consumed. */
         int ammo_consume( int qty, const tripoint_bub_ms &pos, float fuel_efficiency = -1.0 );
         int ammo_consume( int qty, map *here, const tripoint_bub_ms &pos, float fuel_efficiency = -1.0 );
+        /** Drain `qty` ammo charges from the pocket whose `pocket_data.id`
+         *  matches `id`. MAGAZINE_WELL: drains the contained magazine's ammo.
+         *  MAGAZINE: drains directly. Returns charges actually consumed. */
+        int ammo_consume_in_pocket( const std::string &id, int qty, map *here,
+                                    const tripoint_bub_ms &pos );
         item *magazine_current();
         const item *magazine_current() const;
         std::vector<item *> magazines_current();

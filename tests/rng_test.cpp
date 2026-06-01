@@ -54,11 +54,11 @@ static void check_x_in_y( double x, double y )
 TEST_CASE( "x_in_y_distribution", "[rng]" )
 {
     float y_increment = 0.01f;
-    // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter,cert-flp30-c)
+    // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter,cert-flp30-c,bugprone-float-loop-counter)
     for( float y = 0.1f; y < 500.0f; y += y_increment ) {
         y_increment *= 1.1f;
         float x_increment = 0.1f;
-        // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter,cert-flp30-c)
+        // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter,cert-flp30-c,bugprone-float-loop-counter)
         for( float x = 0.1f; x < y; x += x_increment ) {
             check_x_in_y( x, y );
             x_increment *= 1.1f;

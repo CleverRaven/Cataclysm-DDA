@@ -25,6 +25,7 @@
 #include "hash_utils.h"
 #include "horde_entity.h"
 #include "input.h"
+#include "item_wakeup.h"
 #include "json.h"
 #include "json_loader.h"
 #include "kill_tracker.h"
@@ -469,7 +470,7 @@ void overmap::unserialize( const JsonObject &jsobj )
         std::vector<std::pair<tripoint_om_omt, int>> flat_index;
         jsobj.read( "mapgen_arg_index", flat_index, true );
         for( const std::pair<tripoint_om_omt, int> &p : flat_index ) {
-            auto it = mapgen_arg_storage.get_iterator_from_index( p.second );
+            auto it = cata::get_iterator_from_index( mapgen_arg_storage, p.second );
             mapgen_args_index.emplace( p.first, &*it );
         }
     }
@@ -487,7 +488,7 @@ void overmap::unserialize( const JsonObject &jsobj )
         std::vector<std::pair<tripoint_om_omt, int>> flat_index;
         jsobj.read( "pp_decisions_index", flat_index, true );
         for( const std::pair<tripoint_om_omt, int> &p : flat_index ) {
-            auto it = pp_decision_storage.get_iterator_from_index( p.second );
+            auto it = cata::get_iterator_from_index( pp_decision_storage, p.second );
             pp_decisions_index.emplace( p.first, &*it );
         }
     }
@@ -1272,6 +1273,8 @@ void overmap::serialize_view( std::ostream &fout ) const
     json.end_object();
 }
 
+namespace
+{
 // Compares all fields except position and monsters
 // If any group has monsters, it is never equal to any group (because monsters are unique)
 struct mongroup_bin_eq {
@@ -1301,6 +1304,7 @@ struct mongroup_hash {
         return ret;
     }
 };
+} // namespace
 
 void overmap::save_monster_groups( JsonOut &jout ) const
 {
@@ -1554,8 +1558,8 @@ void overmap::serialize( std::ostream &fout ) const
          mapgen_args_index ) {
         json.start_array();
         json.write( p.first );
-        auto it = mapgen_arg_storage.get_iterator_from_pointer( p.second );
-        int index = mapgen_arg_storage.get_index_from_iterator( it );
+        auto it = mapgen_arg_storage.get_iterator( p.second );
+        int index = cata::get_index_from_iterator( mapgen_arg_storage, it );
         json.write( index );
         json.end_array();
     }
@@ -1581,8 +1585,8 @@ void overmap::serialize( std::ostream &fout ) const
          pp_decisions_index ) {
         json.start_array();
         json.write( p.first );
-        auto it = pp_decision_storage.get_iterator_from_pointer( p.second );
-        int index = pp_decision_storage.get_index_from_iterator( it );
+        auto it = pp_decision_storage.get_iterator( p.second );
+        int index = cata::get_index_from_iterator( pp_decision_storage, it );
         json.write( index );
         json.end_array();
     }
@@ -1695,6 +1699,9 @@ void game::unserialize_master( const cata_path &file_name, std::istream &fin )
 
 void game::unserialize_master( const JsonValue &jv )
 {
+    // Reset state that has no clear-on-load hook of its own; otherwise a
+    // save without the field inherits the previous game's queue.
+    get_item_wakeups().clear();
     JsonObject game_json = jv;
     for( JsonMember jsin : game_json ) {
         std::string name = jsin.name();
@@ -1714,6 +1721,8 @@ void game::unserialize_master( const JsonValue &jv )
             weather_manager::unserialize_all( jsin );
         } else if( name == "timed_events" ) {
             timed_event_manager::unserialize_all( jsin );
+        } else if( name == "item_wakeups" ) {
+            get_item_wakeups().deserialize( jsin );
         } else if( name == "overmapbuffer" ) {
             overmap_buffer.global_state.deserialize( jsin );
         } else if( name == "placed_unique_specials" ) {
@@ -1915,6 +1924,9 @@ void game::serialize_master( std::ostream &fout )
 
         json.member( "timed_events" );
         timed_event_manager::serialize_all( json );
+
+        json.member( "item_wakeups" );
+        get_item_wakeups().serialize( json );
 
         json.member( "factions", *faction_manager_ptr );
         json.member( "seed", seed );

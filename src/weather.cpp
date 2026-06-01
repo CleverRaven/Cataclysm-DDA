@@ -422,7 +422,7 @@ void wet_character( Character &target, int amount )
     target.drench( amount, drenched_parts, false );
 }
 
-void weather_sound( const translation &sound_message, const std::string &sound_effect )
+void weather_sound( const translation &sound_message, std::string_view sound_effect )
 {
     Character &player_character = get_player_character();
     map &here = get_map();
@@ -1018,6 +1018,18 @@ const weather_generator &weather_manager::get_cur_weather_gen() const
 {
     const overmap &om = g->get_cur_om();
     return om.get_settings().get_settings_weather();
+}
+
+void weather_manager::on_game_start()
+{
+    if( get_option<std::string>( "ETERNAL_WEATHER" ) != "normal" ) {
+        weather_override = static_cast<weather_type_id>
+                           ( get_option<std::string>( "ETERNAL_WEATHER" ) );
+        set_nextweather( calendar::turn );
+    } else {
+        weather_override = WEATHER_NULL;
+        set_nextweather( calendar::turn );
+    }
 }
 
 void weather_manager::update_weather()

@@ -739,6 +739,8 @@ std::string enumerate_as_string( const Container &values,
  * @param conj Choose how to separate the last elements.
  */
 template<typename FIter, typename F>
+// Iterator pair by value is idiomatic for STL-style templates.
+// NOLINTNEXTLINE(performance-unnecessary-value-param)
 std::string enumerate_as_string( FIter first, FIter last, F &&string_for,
                                  enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
@@ -798,7 +800,8 @@ std::string get_labeled_bar( double val, int width, const std::string &label,
  */
 template<typename BarIterator>
 std::string get_labeled_bar( double val, int width, const std::string &label,
-                             BarIterator begin, BarIterator end, std::function<std::string( BarIterator, int )> printer );
+                             BarIterator begin, BarIterator end,
+                             const std::function<std::string( BarIterator, int )> &printer );
 
 /**
  * @return String containing the bar. Example: "Label [************]".
@@ -1224,6 +1227,12 @@ int get_window_height();
  * delaying the update until the next time we are waiting for user input.
  */
 void refresh_display();
+
+/**
+ * Sync OS cursor and ImGui cursor-handling flags with the current
+ * ENABLE_MOUSE and HIDE_CURSOR option values. No-op in curses builds.
+ */
+void refresh_mouse_config();
 
 /**
  * Assigns a custom color to each symbol.

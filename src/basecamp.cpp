@@ -124,6 +124,8 @@ basecamp::basecamp() = default;
 
 basecamp_map::basecamp_map( const basecamp_map & ) {}
 
+// rhs is intentionally ignored; assignment resets the cached map.
+// NOLINTNEXTLINE(bugprone-unhandled-self-assignment,cert-oop54-cpp)
 basecamp_map &basecamp_map::operator=( const basecamp_map & )
 {
     map_.reset();
@@ -1006,6 +1008,13 @@ basecamp_action_components::basecamp_action_components(
 
 bool basecamp_action_components::choose_components()
 {
+    // Basecamp crafting selects and consumes tools whole-recipe; the per-step
+    // tool model is not wired through this path, so step recipes are excluded
+    // here rather than risk mis-metering their tools.
+    if( making_.has_steps() ) {
+        debugmsg( "step recipe %s cannot be crafted at a basecamp yet", making_.ident().str() );
+        return false;
+    }
     const auto filter = is_crafting_component;
     avatar &player_character = get_avatar();
     const requirement_data *req;

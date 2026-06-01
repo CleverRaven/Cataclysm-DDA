@@ -81,7 +81,7 @@ static bool can_contact( const Character &alpha, const Character &beta )
     const map &here = get_map();
 
     const bool too_far_omt = rl_dist( alpha.pos_abs_omt(), beta.pos_abs_omt() ) > 3;
-    const bool see_each_other = alpha.sees( here, beta.pos_bub( here ) );
+    const bool see_each_other = alpha.sees( here, beta );
     return !too_far_omt || see_each_other ;
 }
 

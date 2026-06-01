@@ -11,6 +11,7 @@
 #include "item_category.h"
 #include "item_search.h"
 #include "item_tname.h"
+#include "itype.h"
 #include "line.h"
 #include "localized_comparator.h"
 #include "mapdata.h"
@@ -78,7 +79,8 @@ void map_entity_stack<item>::make_name_cache()
 
     const int count = get_selected_count();
     if( count > 1 ) {
-        text += string_format( "%d ", count );
+        text += string_format( "%s ",
+                               get_selected_entity()->type->count_or_volume_or_weight_prefix( count ) );
     }
     text += get_selected_entity()->display_name( count );
 

@@ -322,5 +322,31 @@
     "volume": "50 ml",
     "flags": [ "TRADER_AVOID" ],
     "copy-from": "file"
+  },
+  {
+    "id": "vampire_hunter_map",
+    "type": "ITEM",
+    "category": "books",
+    "name": "smudged map",
+    "description": "A scrap of paper bearing crude lines all over it.  The only noteworthy location is a small building with a few arrows pointing at it.",
+    "color": "brown_green",
+    "symbol": ",",
+    "weight": "3 g",
+    "volume": "10 ml",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_VAMPIRE_MAP_ALREADY_KNOWN",
+          "condition": { "u_has_mission": "MISSION_FIND_VAMPIRE_HUNTER_BASE" },
+          "effect": [ { "u_message": "There's nothing more to be learned from that map.", "popup": true } ]
+        },
+        {
+          "id": "EOC_VAMPIRE_MAP_LEARN",
+          "condition": { "not": { "u_has_mission": "MISSION_FIND_VAMPIRE_HUNTER_BASE" } },
+          "effect": [ { "assign_mission": "MISSION_FIND_VAMPIRE_HUNTER_BASE" } ]
+        }
+      ]
+    }
   }
 ]

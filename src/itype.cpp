@@ -15,8 +15,10 @@
 #include "material.h"
 #include "recipe.h"
 #include "ret_val.h"
+#include "string_formatter.h"
 #include "subbodypart.h"
 #include "translations.h"
+#include "units_utility.h"
 
 static const flag_id json_flag_CAN_HAVE_CHARGES( "CAN_HAVE_CHARGES" );
 
@@ -84,6 +86,27 @@ std::string enum_to_string<itype_variant_kind>( itype_variant_kind data )
 }
 } // namespace io
 
+const material_type &itype::get_base_material() const
+{
+    const material_type *m = &material_id::NULL_ID().obj();
+    int portion = 0;
+    for( const std::pair<const material_id, int> &mat : materials ) {
+        if( mat.second > portion ) {
+            portion = mat.second;
+            m = &mat.first.obj();
+        }
+    }
+    // Material portions all equal / not specified. Select first material.
+    if( portion == 1 ) {
+        return *default_mat;
+    }
+    return *m;
+}
+
+struct fuel_explosion_data itype::get_explosion_data() const {
+    return get_base_material().get_fuel_data().explosion_data;
+}
+
 std::string itype::get_item_type_string() const
 {
     if( tool ) {
@@ -102,6 +125,23 @@ std::string itype::get_item_type_string() const
         return "AMMO";
     }
     return "misc";
+}
+
+std::string itype::count_or_volume_or_weight_prefix( unsigned int quantity ) const
+{
+    if( display_type == item_display_type::BY_WEIGHT ) {
+        return string_format( _( "%1$s" ), weight_to_string( weight * quantity, true, true ) );
+    } else if( display_type == item_display_type::BY_VOLUME ) {
+        units::volume volume_per_charge = volume;
+        if( count_by_charges() && stack_size > 0 ) {
+            volume_per_charge = volume / stack_size;
+        }
+        return string_format( _( "%1$s" ), vol_to_string( volume_per_charge * quantity, true, true ) );
+    } else if( display_type == item_display_type::BY_LENGTH ) {
+        // Note: item::length() has some special cases where this might not work well!
+        return string_format( _( "%1$s" ), length_to_string( longest_side * quantity, true ) );
+    }
+    return std::to_string( quantity );
 }
 
 std::string itype::nname( unsigned int quantity ) const

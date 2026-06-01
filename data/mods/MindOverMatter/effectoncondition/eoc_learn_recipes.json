@@ -1324,16 +1324,48 @@
         "then": { "u_learn_recipe": "practice_telekinetic_wave_knack" }
       },
       {
-        "if": { "math": [ "u_spell_level('telekinetic_wave_knack') >= 1" ] },
-        "then": { "u_learn_recipe": "practice_telekinetic_shield_knack" }
+        "if": { "math": [ "u_spell_level('telepathic_shield_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telepathic_shield_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telepathic_mind_sense_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telepathic_mind_sense_knack" }
       },
       {
         "if": { "math": [ "u_spell_level('telepathic_blast_knack') >= 1" ] },
         "then": { "u_learn_recipe": "practice_telepathic_blast_knack" }
       },
       {
+        "if": { "math": [ "u_spell_level('telepathic_mesmerize_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telepathic_mesmerize_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telepathic_animal_mind_control_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telepathic_animal_mind_control_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telepathic_invisibility_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telepathic_invisibility_knack" }
+      },
+      {
         "if": { "math": [ "u_spell_level('telepathic_blast_radius_knack') >= 1" ] },
         "then": { "u_learn_recipe": "practice_telepathic_blast_radius_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('vita_health_power_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_vita_health_power_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('vita_concentrated_healing_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_vita_concentrated_healing_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('vita_remove_poison_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_vita_remove_poison_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('vita_cure_disease_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_vita_cure_disease_knack" }
       },
       {
         "if": { "math": [ "u_spell_level('vita_banish_illness_knack') >= 1" ] },

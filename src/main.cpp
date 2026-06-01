@@ -82,11 +82,9 @@ class ui_adaptor;
 #endif
 
 #if defined(__ANDROID__)
-#include <SDL_filesystem.h>
-#include <SDL_keyboard.h>
-#include <SDL_system.h>
 #include <android/log.h>
 #include <unistd.h>
+#include "sdl_wrappers.h" // for GetAndroidExternalStoragePath(), SDL_main
 
 // Taken from: https://codelab.wordpress.com/2014/11/03/how-to-use-standard-output-streams-for-logging-in-android-apps/
 // Force Android standard output to adb logcat output
@@ -664,7 +662,7 @@ int main( int argc, const char *argv[] )
 
     // On Android first launch, we copy all data files from the APK into the app's writeable folder so std::io stuff works.
     // Use the external storage so it's publicly modifiable data (so users can mess with installed data, save games etc.)
-    std::string external_storage_path( SDL_AndroidGetExternalStoragePath() );
+    std::string external_storage_path( GetAndroidExternalStoragePath() );
 
     PATH_INFO::init_base_path( external_storage_path );
 #else
@@ -865,7 +863,7 @@ int main( int argc, const char *argv[] )
 
         shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
         get_event_bus().send<event_type::game_begin>( getVersionString() );
-        while( !do_turn() ) {}
+        while( !g->do_turn() ) {}
     }
 
     exit_handler( -999 );

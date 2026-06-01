@@ -579,11 +579,19 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "hw_fb_supports", "hw_supports" ],
+    "id": [ "hw_fb_supports" ],
     "copy-from": "generic_highway",
     "color": "blue",
     "travel_cost_type": "water",
     "extend": { "flags": [ "RIVER", "LAKE", "REQUIRES_PREDECESSOR", "NO_ROTATE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "hw_supports" ],
+    "copy-from": "generic_highway",
+    "color": "blue",
+    "travel_cost_type": "water",
+    "extend": { "flags": [ "RIVER", "LAKE", "REQUIRES_PREDECESSOR" ] }
   },
   {
     "type": "overmap_terrain",

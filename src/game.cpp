@@ -26,6 +26,7 @@
 #include <set>
 #include <sstream>
 #include <string>
+#include <string_view>
 #include <tuple>
 #include <type_traits>
 #include <unordered_map>
@@ -84,6 +85,7 @@
 #include "cursesport.h" // IWYU pragma: keep
 #include "damage.h"
 #include "debug.h"
+#include "debug_capture.h"
 #include "debug_menu.h"
 #include "dependency_tree.h"
 #include "dialogue.h"
@@ -128,6 +130,7 @@
 #include "item_pocket.h"
 #include "item_search.h"
 #include "item_stack.h"
+#include "item_wakeup.h"
 #include "iteminfo_query.h"
 #include "itype.h"
 #include "iuse.h"
@@ -475,12 +478,23 @@ game::game() :
     events().subscribe( &*achievements_tracker_ptr );
     events().subscribe( &*spell_events_ptr );
     events().subscribe( &*eoc_events_ptr );
+    debug_menu::debug_capture::instance().on_game_load( events() );
     world_generator = std::make_unique<worldfactory>();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
 }
 
-game::~game() = default;
+game::~game()
+{
+    // event_bus_ptr about to die; let debug_capture drop its sticky
+    // subscribe flag and release the JSONL file. Without this, a later
+    // `game` instance would never resubscribe.
+    // is_initialized guard: debug_capture's function-local static dies
+    // before `g` at process exit, so unguarded access would segfault.
+    if( debug_menu::debug_capture::is_initialized() ) {
+        debug_menu::debug_capture::instance().on_game_shutdown();
+    }
+}
 
 #if defined(TUI)
 // in ncurses_def.cpp
@@ -1091,7 +1105,7 @@ vehicle *game::place_vehicle_nearby(
                 }
             };
             vehicle *veh = target_map.add_vehicle( id, tinymap_center, random_entry( angles ),
-                                                   rng( 50, 80 ), 0, false );
+                                                   rng( 50, 80 ), veh_spawn_status::UNDAMAGED, false );
             if( veh ) {
                 const tripoint_abs_ms abs_local = target_map.get_abs( tinymap_center );
                 tripoint_abs_sm quotient;
@@ -1233,7 +1247,7 @@ void game::on_witness_theft( const item &target )
     std::vector<npc *> witnesses;
     for( npc &elem : g->all_npcs() ) {
         if( rl_dist( elem.pos_bub(), p.pos_bub() ) < MAX_VIEW_DISTANCE &&
-            elem.sees( here, p.pos_bub( here ) ) &&
+            elem.sees( here, p ) &&
             target.is_owned_by( elem ) ) {
             witnesses.push_back( &elem );
         }
@@ -2250,7 +2264,13 @@ int game::inventory_item_menu( item_location locThisItem,
                     if( locThisItem.get_item()->type->has_use() &&
                         !locThisItem.get_item()->item_has_uses_recursive( true ) ) { // NOLINT(bugprone-branch-clone)
                         // Item has uses and none of its contents (if any) has uses.
+#if defined(TILES)
+                        action_menu.set_hide( true );
+#endif
                         avatar_action::use_item( u, locThisItem );
+#if defined(TILES)
+                        action_menu.set_hide( false );
+#endif
                     } else if( locThisItem.get_item()->item_has_uses_recursive() ) {
                         game::item_action_menu( locThisItem );
                     } else if( locThisItem.get_item()->has_relic_activation() &&
@@ -3024,6 +3044,8 @@ void game::display_faction_epilogues()
     }
 }
 
+namespace
+{
 struct npc_dist_to_player {
     const tripoint_abs_omt ppos{};
     npc_dist_to_player() : ppos( get_player_character().pos_abs_omt() ) { }
@@ -3036,6 +3058,7 @@ struct npc_dist_to_player {
                square_dist( ppos.xy(), bpos.xy() );
     }
 };
+} // namespace
 
 void game::disp_NPCs()
 {
@@ -3569,7 +3592,7 @@ float game::natural_light_level( const int zlev ) const
         return LIGHT_AMBIENT_MINIMAL;
     }
 
-    if( latest_lightlevels[zlev] > -std::numeric_limits<float>::max() ) {
+    if( latest_lightlevels[zlev] > std::numeric_limits<float>::lowest() ) {
         // Already found the light level for now?
         return latest_lightlevels[zlev];
     }
@@ -3628,7 +3651,7 @@ unsigned char game::light_level( const int zlev ) const
 void game::reset_light_level()
 {
     for( float &lev : latest_lightlevels ) {
-        lev = -std::numeric_limits<float>::max();
+        lev = std::numeric_limits<float>::lowest();
     }
 }
 
@@ -6493,9 +6516,9 @@ int game::get_user_action_counter() const
 }
 
 #if defined(TILES)
-bool game::take_screenshot( const std::string &path ) const
+bool game::take_screenshot( std::string_view path ) const
 {
-    return save_screenshot( path );
+    return save_screenshot( std::string( path ) );
 }
 
 bool game::take_screenshot() const
@@ -6522,7 +6545,7 @@ bool game::take_screenshot() const
     }
 }
 #else
-bool game::take_screenshot( const std::string &/*path*/ ) const
+bool game::take_screenshot( std::string_view /*path*/ ) const
 {
     return false;
 }
@@ -6995,6 +7018,9 @@ void game::butcher( const std::optional<tripoint_bub_ms> &p )
 static item::reload_option favorite_ammo_or_select( avatar &u, item_location &loc, bool empty,
         bool prompt )
 {
+    // TODO(multimag): favorite-ammo fast path uses list_ammo() with the
+    // legacy first-compatible-well fallback. A second well that accepts the
+    // same ammo type is not offered without an explicit menu step.
     if( u.ammo_location ) {
         std::vector<item::reload_option> ammo_list;
         if( u.list_ammo( loc, ammo_list, false ) ) {
@@ -7033,6 +7059,9 @@ void game::reload( item_location &loc, bool prompt, bool empty )
 
     switch( u.rate_action_reload( *loc ) ) {
         case hint_rating::iffy:
+            // TODO(multimag): remaining_ammo_capacity() is a first-loaded-mag
+            // fallback; multi-well items will report "already fully loaded"
+            // when only the first well is full.
             if( ( loc->is_ammo_container() || loc->is_magazine() ) && loc->ammo_remaining( ) > 0 &&
                 loc->remaining_ammo_capacity() == 0 ) {
                 add_msg( m_info, _( "The %s is already fully loaded!" ), loc->tname() );
@@ -7094,6 +7123,8 @@ void game::reload( item_location &loc, bool prompt, bool empty )
 }
 
 
+namespace
+{
 class reload_selector_preset : public inventory_selector_preset
 {
     public:
@@ -7107,6 +7138,7 @@ class reload_selector_preset : public inventory_selector_preset
     private:
         const Character &you;
 };
+} // namespace
 
 // Reload something.
 void game::reload_item()
@@ -7172,6 +7204,8 @@ void game::reload_weapon( bool try_everything )
             return a->is_gun();
         }
         // Finally sort by speed to reload.
+        // TODO(multimag): aggregate remaining_ammo_capacity() falls back to
+        // the first MAGAZINE_WELL; multi-well items rank by first-well only.
         return ( a->get_reload_time() * a->remaining_ammo_capacity() ) <
                ( b->get_reload_time() * b->remaining_ammo_capacity() );
     } );
@@ -7671,6 +7705,13 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
             }
             u.mounted_creature->shove_vehicle( dest_loc + diff.xy(),
                                                dest_loc );
+        } else if( vp_there && vp_there->vehicle().part_has_lock( vp_there->part_index() ) ) {
+            // Automatically try to open locked door. Prints appropriate messages to log, etc.
+            if( doors::can_unlock_door( here, u, dest_loc ) ) {
+                doors::unlock_door( here, u, dest_loc );
+            } else {
+                iexamine::locked_object( u, dest_loc );
+            }
         }
         return false;
     }
@@ -8932,6 +8973,8 @@ void game::on_move_effects()
 {
     // TODO: Move this to a character method
     if( !u.is_mounted() ) {
+        // FIXME: stop initializing new items every time this runs.
+        // Can't make it static, itype can change if we quit to menu and load a different set of mods...
         const item muscle( fuel_type_muscle );
         for( const bionic_id &bid : u.get_bionic_fueled_with_muscle() ) {
             if( u.has_active_bionic( bid ) ) {// active power gen
@@ -8976,6 +9019,7 @@ void game::on_options_changed()
 #if defined(TILES)
     tilecontext->on_options_changed();
 #endif
+    refresh_mouse_config();
 }
 
 void game::water_affect_items( Character &ch ) const
@@ -9167,7 +9211,7 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
     }
 
     // Fall down to the ground - always on the last reached tile
-    if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos ) ) {
+    if( !here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos ) ) {
         // Didn't smash into a wall or a floor so only take the fall damage
         if( thru && here.is_open_air( pos ) ) {
             here.creature_on_trap( *c, false );
@@ -11541,6 +11585,11 @@ stats_tracker &get_stats()
 timed_event_manager &get_timed_events()
 {
     return g->timed_events;
+}
+
+item_wakeup_manager &get_item_wakeups()
+{
+    return *g->item_wakeup_manager_ptr;
 }
 
 weather_manager &get_weather()

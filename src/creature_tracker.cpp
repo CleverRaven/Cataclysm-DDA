@@ -24,6 +24,8 @@
 #include "submap.h"  // IWYU pragma: keep
 #include "type_id.h"
 
+class Character;
+
 static const efftype_id effect_ridden( "ridden" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
@@ -318,13 +320,14 @@ T *creature_tracker::creature_at( const tripoint_abs_ms &p, bool allow_hallucina
         // otherwise, keep looking for the rider.
         // creature_at<creature> or creature_at() with no template will still default to returning monster first,
         // which is ok for the occasions where that happens.
-        if( !mon_ptr->has_effect( effect_ridden ) || ( std::is_same<T, monster>::value ||
-                std::is_same<T, Creature>::value || std::is_same<T, const monster>::value ||
-                std::is_same<T, const Creature>::value ) ) {
+        if( !mon_ptr->has_effect( effect_ridden ) || ( std::is_same_v<T, monster> ||
+                std::is_same_v<T, Creature> || std::is_same_v<T, const monster> ||
+                std::is_same_v<T, const Creature> ) ) {
             return dynamic_cast<T *>( mon_ptr.get() );
         }
     }
-    if( !std::is_same<T, npc>::value && !std::is_same<T, const npc>::value ) {
+    constexpr bool is_npc = std::is_same_v<T, npc> || std::is_same_v<T, const npc>;
+    if( !is_npc ) {
         avatar &you = get_avatar();
         if( p == you.pos_abs() ) {
             return dynamic_cast<T *>( &you );

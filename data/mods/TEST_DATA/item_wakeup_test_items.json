@@ -1,0 +1,28 @@
+[
+  {
+    "id": "test_wakeup_dummy",
+    "type": "ITEM",
+    "subtypes": [ "GENERIC" ],
+    "category": "spare_parts",
+    "name": { "str": "wakeup test dummy" },
+    "description": "A test item used by the item-wakeup test suite.  Tests register a C++ handler against this id.",
+    "material": [ "test_material" ],
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "*",
+    "color": "white"
+  },
+  {
+    "id": "test_wakeup_no_handler",
+    "type": "ITEM",
+    "subtypes": [ "GENERIC" ],
+    "category": "spare_parts",
+    "name": { "str": "wakeup test (no handler)" },
+    "description": "A test item with no registered wakeup handler.  Used to exercise the dispatcher's no-op path.",
+    "material": [ "test_material" ],
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "*",
+    "color": "white"
+  }
+]

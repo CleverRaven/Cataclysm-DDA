@@ -1,9 +1,12 @@
 name: "Pull Request Labeler"
 on:
+  # Permissions are manually scoped down so safe to use pull_request_target.
   - pull_request_target
 
+# Copied from https://github.com/fuxingloh/multi-labeler/blob/480c3b47408260ebbd086108d9fe79db99a3310e/README.md?plain=1#L58-L64
 permissions:
-  contents: read
+  contents: read # the config file
+  pull-requests: write # for labeling pull requests (on: pull_request_target or on: pull_request)
 
 jobs:
   triage:
@@ -12,8 +15,6 @@ jobs:
       pull-requests: write  # for actions/labeler to add labels to PRs
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/labeler@ac9175f8a1f3625fd0d4fb234536d26811351594 # v4
+      - uses: fuxingloh/multi-labeler@bcd50af464202999e57f556b4aefcf05a34abf85 # v5.0.0
         with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          # I don't want no bot removing stuff for me
-          sync-labels: ""
+          github-token: ${{ secrets.GITHUB_TOKEN }}

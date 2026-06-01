@@ -78,7 +78,7 @@ Crafting recipes are defined as a JSON object with the following fields:
 "container": "jar_glass_sealed", //The resulting item will be contained by the item set here, overrides default container.
 "container_variant": "jar_glass_sealed_strawberry_picture", //The container specified above will spawn as the specified variant, overrides the normal weighted behavior.
 "batch_time_factors": ..., // See below for details
-"charges": 2,                // Number of resulting items/charges per craft. Uses default charges if not set. If a container is set, this is the amount that gets put inside it, capped by container capacity.
+"charges": 2,                // (Optional, default 1) Number of resulting items/charges per craft. If a container is set, this is the amount that gets put inside it, capped by container capacity.
 "result_mult": 2,            // Multiplier for resulting items. Also multiplies container items.
 "flags": [                   // A set of strings describing boolean features of the recipe
   "BLIND_EASY",
@@ -171,6 +171,12 @@ Each entry in the `"steps"` array is an object with these fields:
 "qualities":          // (Optional)  Same format as recipe-level.
 "using":              // (Optional)  Same format as recipe-level.  Merges into this step's requirements.
 "batch_time_factors": // (Optional)  Same format as recipe-level.
+"attention":          // (Optional)  Either "none" (default) or "unattended".  See "Unattended steps".
+"max_time":           // (Optional)  Duration.  Hard deadline for an unattended step.  Must be > "time".
+"grace_period":       // (Optional)  Duration.  Extra time past "max_time" before the craft is destroyed.
+                      //             Only allowed when "max_time" is set.
+"unattend_message":   // (Optional)  Translatable string.  Shown when an unattended step finishes
+                      //             while the player is elsewhere.  Has a generic fallback.
 ```
 
 `"components"` at step level is not allowed.
@@ -231,6 +237,47 @@ Each entry in the `"steps"` array is an object with these fields:
 - Batch savings are applied per-step and summed.
 - The current step name appears in the crafting progress message.
 - Tool speed modifiers (see `"speed"` in item quality definitions) apply per-step: a tool with `"speed": 0.5` on a quality halves the time of steps requiring that quality, without affecting other steps.
+- Tool charges are consumed per-step, in proportion to that step's progress, so a charged tool listed on one step drains only while that step runs.  Recipe-root tools (root `"using"`/`"tools"`) are spread across the steps by each step's share of the total time.
+
+### Unattended steps
+
+A step marked `"attention": "unattended"` is wall-clock time the crafter does not actively work through (rising, marinating, curing).  Starting or resuming such a recipe shows a planning modal per unattended step:
+
+- Wait: player roots under `ACT_CRAFT_WAIT`, time passes, activity flips back to active mode when the step finishes (or ends entirely if the step was the last one).
+- Do something else: activity ends, craft stays where it landed, player is free.
+- Set a timer: like "do something else" plus an alarm clock at a chosen offset.  Only offered with a watch, smartphone, or alarm-clock bionic.
+
+Choices persist across save/load.  On resume the modal asks only about the in-flight unattended step and any later unattended steps; already-completed steps are skipped.  The item name shows live percentage progress projected from counter snapshots taken at step entry, even when no actor is running.
+
+When the wall-clock deadline elapses:
+
+- Non-terminal: step advances, distraction fires with `unattend_message` (or a vague log line without a timepiece).  Suppressed if the player is already on this craft.
+- Terminal: craft auto-finalizes at the deadline, so morale, EOCs, heat, and birthday use in-game completion time.
+- `max_time + grace_period` past start: craft is destroyed.
+
+If the step's tools or qualities become unavailable, or a charged tool runs short on charges, the step pauses and the deadline slides forward once the requirement is restored.  `crafter_id` is remembered so env-check picks up the crafter's pseudo-tools, bionics, and trait qualities when they are next to the craft.
+
+NPCs do not see the planning modal and behave as if implicitly waiting; the unattended block in the craft activity actor still drives their craft forward.
+
+Schema:
+
+- `"max_time"`, when set, must be strictly greater than `"time"`.
+- `"grace_period"` requires `"max_time"`.
+- `"attention": "supervised"` is rejected at load (reserved).
+- An unattended step may list charged tools.  Their charges are drained over the step's wall-clock progress (fully spent by completion), drawn from the crafter when next to the craft or from the craft's own tile otherwise; running short pauses the step until charges return.
+
+Example:
+
+```jsonc
+{
+  "name": "Let dough rise",
+  "time": "10 m",
+  "activity_level": "NO_EXERCISE",
+  "batch_time_factors": [ 5, 4 ],
+  "attention": "unattended",
+  "unattend_message": "The dough has finished rising."
+}
+```
 
 ## Practice recipes
 

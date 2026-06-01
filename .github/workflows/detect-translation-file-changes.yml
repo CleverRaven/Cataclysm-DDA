@@ -2,6 +2,9 @@ name: Detect translation file changes
 
 
 on:
+  # Does not interpolate i.e. ${{ }} user controlled text into script.
+  # Does not checkout and run user controlled code.
+  # Safe to use pull_request_target.
   pull_request_target:
     paths:
       - lang/po/*.po

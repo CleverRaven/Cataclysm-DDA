@@ -6,7 +6,7 @@
       "fill_ter": "t_floor",
       "rows": [
         "Ŧ-.###################'~",
-        "Ŧ-.#    | |     '''''*''",
+        "Ŧ-.#    | |     '''''*'§",
         "Ŧ-.o    | +     '''''#*#",
         "Ŧ-.#    |||     ''''##''",
         "Ŧ-.##|+||       #####'''",
@@ -31,7 +31,12 @@
         "ŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦ"
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex_ground" ],
-      "place_nested": [ { "chunks": [ "apt_complex_corner_a" ], "x": 0, "y": 0 }, { "chunks": [ "apt_complex_corner_b" ], "x": 0, "y": 0 } ]
+      "place_nested": [
+        { "chunks": [ "apt_complex_corner_a" ], "x": 0, "y": 0 },
+        { "chunks": [ "apt_complex_corner_b" ], "x": 0, "y": 0 },
+        { "chunks": [ "fire_extinguisher" ], "x": 23, "y": 1 }
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -66,7 +71,11 @@
         "........................"
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex" ],
-      "place_nested": [ { "chunks": [ "apt_complex_corner_a" ], "x": 0, "y": 0 }, { "chunks": [ "apt_complex_corner_b" ], "x": 0, "y": 0 } ]
+      "place_nested": [
+        { "chunks": [ "apt_complex_corner_a" ], "x": 0, "y": 0 },
+        { "chunks": [ "apt_complex_corner_b" ], "x": 0, "y": 0 },
+        { "chunks": [ "fire_extinguisher" ], "x": 23, "y": 1 }
+      ]
     }
   },
   {
@@ -103,7 +112,8 @@
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex_ground" ],
       "place_nested": [
         { "chunks": [ "apt_complex_corner_inner_a" ], "x": 0, "y": 0 },
-        { "chunks": [ "apt_complex_corner_inner_b" ], "x": 0, "y": 0 }
+        { "chunks": [ "apt_complex_corner_inner_b" ], "x": 0, "y": 0 },
+        { "chunks": [ "fire_extinguisher" ], "x": 23, "y": 2 }
       ]
     }
   },
@@ -141,7 +151,8 @@
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex" ],
       "place_nested": [
         { "chunks": [ "apt_complex_corner_inner_a" ], "x": 0, "y": 0 },
-        { "chunks": [ "apt_complex_corner_inner_b" ], "x": 0, "y": 0 }
+        { "chunks": [ "apt_complex_corner_inner_b" ], "x": 0, "y": 0 },
+        { "chunks": [ "fire_extinguisher" ], "x": 23, "y": 2 }
       ]
     }
   },
@@ -179,7 +190,8 @@
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex_ground" ],
       "place_nested": [
         { "chunks": [ "apt_complex_straight_a" ], "x": 0, "y": 0 },
-        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 }
+        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 },
+        { "chunks": [ "fire_extinguisher" ], "x": 16, "y": 1 }
       ]
     }
   },
@@ -217,7 +229,8 @@
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex" ],
       "place_nested": [
         { "chunks": [ "apt_complex_straight_a" ], "x": 0, "y": 0 },
-        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 }
+        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 },
+        { "chunks": [ "fire_extinguisher" ], "x": 16, "y": 1 }
       ]
     }
   },
@@ -255,7 +268,8 @@
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex_ground" ],
       "place_nested": [
         { "chunks": [ "apt_complex_straight_a" ], "x": 0, "y": 0 },
-        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 }
+        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 },
+        { "chunks": [ "fire_extinguisher" ], "x": 16, "y": 1 }
       ]
     }
   },
@@ -293,7 +307,8 @@
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex" ],
       "place_nested": [
         { "chunks": [ "apt_complex_straight_a" ], "x": 0, "y": 0 },
-        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 }
+        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 },
+        { "chunks": [ "fire_extinguisher" ], "x": 16, "y": 1 }
       ]
     }
   },
@@ -331,7 +346,8 @@
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex" ],
       "place_nested": [
         { "chunks": [ "apt_complex_straight_a" ], "x": 0, "y": 0 },
-        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 }
+        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 },
+        { "chunks": [ "fire_extinguisher" ], "x": 16, "y": 1 }
       ]
     }
   }

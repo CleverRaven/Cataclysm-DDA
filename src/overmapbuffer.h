@@ -69,6 +69,7 @@ struct overmap_path_params {
     static overmap_path_params for_land_vehicle( float offroad_coeff, bool tiny, bool amphibious );
     static overmap_path_params for_watercraft();
     static overmap_path_params for_aircraft();
+    static overmap_path_params flatten_pathfinding_costs( overmap_path_params orig );
 };
 
 struct radio_tower_reference {

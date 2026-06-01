@@ -40,6 +40,11 @@
 #include "ui_manager.h"
 #include "worldfactory.h"
 
+#if defined(__ANDROID__)
+#include <jni.h>
+#include "sdl_wrappers.h" // for GetAndroidJNIEnv(), GetAndroidActivity()
+#endif
+
 #if defined(TILES)
 #include "cata_tiles.h"
 #endif // TILES
@@ -1401,8 +1406,8 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
 #if defined(__ANDROID__)
 bool android_get_default_setting( const char *settings_name, bool default_value )
 {
-    JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-    jobject activity = ( jobject )SDL_AndroidGetActivity();
+    JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
+    jobject activity = ( jobject )GetAndroidActivity();
     jclass clazz( env->GetObjectClass( activity ) );
     jmethodID method_id = env->GetMethodID( clazz, "getDefaultSetting", "(Ljava/lang/String;Z)Z" );
     jboolean ans = env->CallBooleanMethod( activity, method_id, env->NewStringUTF( settings_name ),
@@ -1577,11 +1582,6 @@ void options_manager::add_options_general()
     add_option_group( "general", Group( "player_safe_opts", to_translation( "Player safety options" ),
                                         to_translation( "Options regarding player safety." ) ),
     [&]( const std::string & page_id ) {
-        add( "DANGEROUS_PICKUPS", page_id, to_translation( "Dangerous pickups" ),
-             to_translation( "If true, will allow player to pick new items, even if it causes them to exceed the weight limit." ),
-             false
-           );
-
         add( "DANGEROUS_TERRAIN_WARNING_PROMPT", page_id,
              to_translation( "Dangerous terrain warning prompt" ),
              to_translation( "Always: You will be prompted to move onto dangerous tiles.  Running: You will only be able to move onto dangerous tiles while running and will be prompted.  Crouching: You will only be able to move onto a dangerous tile while crouching and will be prompted.  Never:  You will not be able to move onto a dangerous tile unless running and will not be warned or prompted." ),
@@ -2525,7 +2525,7 @@ void options_manager::add_options_graphics()
            );
 
         add( "MEMORY_MAP_MODE", page_id, to_translation( "Memory map overlay preset" ),
-        to_translation( "Specify the overlay in which the memory map is drawn.  Requires restart.  For custom overlay, define RGB values for dark and bright colors as well as gamma." ), {
+        to_translation( "Specify the overlay in which the memory map is drawn.  The custom overlay needs a restart to take effect; for it, define RGB values for dark and bright colors as well as gamma." ), {
             { "color_pixel_darken", to_translation( "Darkened" ) },
             { "color_pixel_sepia_light", to_translation( "Sepia" ) },
             { "color_pixel_sepia_dark", to_translation( "Sepia Dark" ) },
@@ -2698,9 +2698,17 @@ void options_manager::add_options_graphics()
             }
         }
 #   endif
+        // SDL3 drives renderer selection through SDL_HINT_RENDER_DRIVER; the
+        // saved RENDERER value is ignored at startup but the option ID is
+        // retained so configs from existing worlds still parse.
+#   if defined(USE_SDL3)
+        const options_manager::copt_hide_t renderer_hide = COPT_ALWAYS_HIDE;
+#   else
+        const options_manager::copt_hide_t renderer_hide = COPT_CURSES_HIDE;
+#   endif
         add( "RENDERER", page_id, to_translation( "Renderer" ),
              to_translation( "Set which renderer to use.  Requires restart." ), renderer_list,
-             default_renderer, COPT_CURSES_HIDE );
+             default_renderer, renderer_hide );
 #   endif
 
 #else
@@ -2718,14 +2726,22 @@ void options_manager::add_options_graphics()
              true, COPT_CURSES_HIDE
            );
 #endif
+        // FRAMEBUFFER_ACCEL only meaningful for the SDL2 software renderer
+        // path; under SDL3 the renderer is hidden and software fallback is
+        // automatic, so the option is hidden too.
+#if defined(USE_SDL3)
+        const options_manager::copt_hide_t framebuffer_accel_hide = COPT_ALWAYS_HIDE;
+#else
+        const options_manager::copt_hide_t framebuffer_accel_hide = COPT_CURSES_HIDE;
+#endif
         add( "FRAMEBUFFER_ACCEL", page_id, to_translation( "Software framebuffer acceleration" ),
              to_translation( "If true, use hardware acceleration for the framebuffer when using software rendering.  Requires restart." ),
-             false, COPT_CURSES_HIDE
+             false, framebuffer_accel_hide
            );
 
 #if defined(__ANDROID__)
         get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "SOFTWARE_RENDERING" );
-#else
+#elif !defined(USE_SDL3)
         get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "RENDERER", "software" );
 #endif
 
@@ -3327,6 +3343,8 @@ options_manager::PageItem::fmt_tooltip( const std::string &group_id,
     }
 }
 
+namespace
+{
 /** String with color */
 struct string_col {
     std::string s;
@@ -3335,6 +3353,7 @@ struct string_col {
     string_col() : col( c_black ) { }
     string_col( const std::string &s, nc_color col ) : s( s ), col( col ) { }
 };
+} // namespace
 
 std::string options_manager::show( bool ingame, const bool world_options_only, bool with_tabs )
 {
@@ -3478,8 +3497,10 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 case ItemType::GroupHeader:
                     return true;
                 case ItemType::BlankLine:
-                case ItemType::Option:
                     return groups_state[it.group];
+                case ItemType::Option:
+                    return groups_state[it.group]
+                    && !get_options().get_option( it.data ).is_hidden();
                 default:
                     cata_fatal( "invalid ItemType" );
             }

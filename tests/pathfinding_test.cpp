@@ -62,7 +62,7 @@ static vehicle *setup_grabbed_cart( avatar &dummy, map &here,
 
     const tripoint_bub_ms cart_pos = player_pos + grab_dir;
     vehicle *cart = here.add_vehicle( vehicle_prototype_test_shopping_cart,
-                                      cart_pos, 0_degrees, 0, 0 );
+                                      cart_pos, 0_degrees, 0, veh_spawn_status::UNDAMAGED );
     REQUIRE( cart != nullptr );
     cart->set_owner( dummy );
     dummy.grab( object_type::VEHICLE, grab_dir );

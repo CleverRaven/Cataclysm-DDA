@@ -1,0 +1,9 @@
+[
+  {
+    "type": "ITEM",
+    "id": "teeth_macuahuitl",
+    "name": { "str": "teeth-bladed macuahuitl" },
+    "copy-from": "teeth_macuahuitl",
+    "melee_damage": { "bash": 16, "cut": 30 }
+  }
+]

@@ -591,13 +591,12 @@
     "volume": "1 L",
     "price": "68 USD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "neoprene", "nylon", "rubber" ],
     "symbol": "[",
     "looks_like": "boots_rubber",
     "color": "dark_gray",
     "warmth": 30,
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT", "TOUGH_FEET", "SOFT" ],
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF" ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -659,8 +658,6 @@
     "weight": "160 g",
     "warmth": 50,
     "environmental_protection": 12,
-    "extend": { "flags": [ "NORMAL" ] },
-    "delete": { "flags": [ "TOUGH_FEET", "SOFT" ] },
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],

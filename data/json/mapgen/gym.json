@@ -14,7 +14,7 @@
         ".......,8 C   r8,.......",
         "..,,,,,,8      8,,,,,,..",
         "..#55555#      #55555#..",
-        "..#                  #..",
+        "..#     §            #..",
         "..# ! ! c      c @ @ #..",
         "..#     c      c     #..",
         "..# ! ! c      c @ @ #..",
@@ -22,7 +22,7 @@
         "..# ! ! c      c @ @ #..",
         "..#                  #..",
         "..#+|    VVVVVV    |+#..",
-        "..#&|  B        B  |&#..",
+        "..#&|  B     §  B  |&#..",
         "..#||+||||||+|||||+||#..",
         "..#cc cc||cc cc|*= =*#..",
         "..#     ||     ||| ||#..",
@@ -65,7 +65,10 @@
         "r": { "item": "snacks", "chance": 20, "repeat": [ 2, 4 ] },
         "&": { "item": "SUS_toilet", "chance": 50 }
       },
-      "nested": { "U": { "chunks": [ [ "roof_6x6_garden_1", 50 ], [ "roof_6x6_garden_2", 50 ] ] } },
+      "nested": {
+        "U": { "chunks": [ [ "roof_6x6_garden_1", 50 ], [ "roof_6x6_garden_2", 50 ] ] },
+        "§": { "chunks": [ "fire_extinguisher" ] }
+      },
       "place_monster": [ { "group": "GROUP_SEARCH_FITNESS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 75, "repeat": [ 3, 8 ] } ],
       "place_loot": [ { "group": "cash_register_random", "x": 10, "y": [ 4, 6 ] } ]
     }

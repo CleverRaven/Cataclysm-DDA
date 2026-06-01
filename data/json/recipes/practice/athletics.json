@@ -85,5 +85,19 @@
     "flags": [ "BLIND_EASY" ],
     "book_learn": [ [ "manual_swimming", 3 ] ],
     "tools": [ [ "pseudo_exercise_machine", "pseudo_ergometer_mechanical" ] ]
+  },
+  {
+    "type": "practice",
+    "id": "prac_dextrous_paws",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_ATHLETICS",
+    "name": "practice your new fingers",
+    "description": "You've kept your fingers and thumbs but they're a bit different now.  You'll need practice to use them properly.",
+    "skill_used": "swimming",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 0, "skill_limit": 1 },
+    "result_eocs": [ "EOC_DEXTROUS_PAWS_RESULTS" ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]

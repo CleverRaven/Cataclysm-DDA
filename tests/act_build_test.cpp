@@ -112,7 +112,7 @@ construction get_construction( std::string const &name )
 {
     std::vector<construction> const &cnstr = get_constructions();
     auto const build = std::find_if( cnstr.begin(), cnstr.end(), [&name]( const construction & it ) {
-        return it.str_id == construction_str_id( name );
+        return it.id == construction_str_id( name );
     } );
     return *build;
 }

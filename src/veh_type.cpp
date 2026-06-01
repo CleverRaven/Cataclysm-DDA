@@ -158,6 +158,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "IGNORE_HEIGHT_REQUIREMENT", VPFLAG_IGNORE_HEIGHT_REQUIREMENT },
     { "MWS", VPFLAG_MWS },
     { "ADVANCED_MWS", VPFLAG_ADVANCED_MWS },
+    { "NL_BOILER", VPFLAG_NL_BOILER },
 };
 
 static std::map<vpart_id, vpart_migration> vpart_migrations;
@@ -507,8 +508,15 @@ static bool gun_uses_liquid_ammo( const itype &guntype )
             return true;
         }
     }
-    for( const pocket_data &maybe_magwell : guntype.pockets ) {
-        for( const itype_id &restricted_types : maybe_magwell.item_id_restriction ) {
+    for( const pocket_data &pkt : guntype.pockets ) {
+        if( pkt.type == pocket_type::MAGAZINE ) {
+            for( const std::pair<const ammotype, int> &res : pkt.ammo_restriction ) {
+                if( res.first->default_ammotype()->phase == phase_id::LIQUID ) {
+                    return true;
+                }
+            }
+        }
+        for( const itype_id &restricted_types : pkt.item_id_restriction ) {
             for( const pocket_data &maybe_mag : restricted_types.obj().pockets ) {
                 for( const std::pair<const ammotype, int> &res : maybe_mag.ammo_restriction ) {
                     if( res.first->default_ammotype()->phase == phase_id::LIQUID ) {
@@ -574,7 +582,7 @@ void vehicles::parts::finalize()
 {
     vpart_info_factory.finalize();
 
-    for( const itype *const item : item_controller->find( mountable_gun_filter ) ) {
+    for( const itype *const item : Item_factory::find( mountable_gun_filter ) ) {
         vpart_info new_part = *vpart_turret_generic; // copy from generic
         const itype_id item_id = item->get_id();
 
@@ -1259,6 +1267,8 @@ static std::pair<std::string, std::string> get_vpart_str_variant( const std::str
            : std::make_pair( vpid.substr( 0, loc ), vpid.substr( loc + 1 ) );
 }
 
+namespace
+{
 struct veh_proto_part_def_reader : generic_typed_reader<veh_proto_part_def_reader> {
     point_rel_ms pos;
 
@@ -1301,6 +1311,7 @@ struct veh_spawn_item_reader : generic_typed_reader<veh_spawn_item_reader> {
         return ret;
     }
 };
+} // namespace
 
 void vehicle_item_spawn::deserialize( const JsonObject &jo )
 {

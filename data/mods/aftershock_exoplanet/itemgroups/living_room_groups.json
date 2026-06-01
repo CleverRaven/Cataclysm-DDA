@@ -1,0 +1,18 @@
+[
+  {
+    "type": "item_group",
+    "id": "afs_messy_sofa",
+    "items": [
+      { "group": "soda_in_small_container", "prob": 560 },
+      { "group": "writing_utensils", "prob": 20 },
+      [ "bag_plastic", 20 ],
+      [ "emer_blanket", 20 ],
+      [ "water_clean", 90 ],
+      [ "wrapper_foil", 20 ],
+      [ "cup_foil", 1 ],
+      [ "teddy_bear", 7 ],
+      [ "blanket", 20 ],
+      [ "pillow", 20 ]
+    ]
+  }
+]

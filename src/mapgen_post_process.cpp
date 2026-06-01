@@ -146,9 +146,6 @@ void pp_sub_generator::load( const JsonObject &jo )
 
 void pp_generator::check() const
 {
-    if( sub_generators_.empty() ) {
-        debugmsg( "pp_generator '%s' has no sub_generators", id.str() );
-    }
     for( const pp_sub_generator &sg : sub_generators_ ) {
         sg.check( id.str() );
     }
@@ -279,6 +276,8 @@ void pp_sub_generator::check( const std::string &ctx ) const
     }
 }
 
+namespace
+{
 enum class blood_trail_direction : int {
     first = 1,
     NORTH = 1,
@@ -287,6 +286,7 @@ enum class blood_trail_direction : int {
     WEST = 4,
     last = 4
 };
+} // namespace
 
 static tripoint_bub_ms get_point_from_direction( int direction,
         const tripoint_bub_ms &current_tile )

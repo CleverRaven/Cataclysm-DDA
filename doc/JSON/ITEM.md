@@ -109,6 +109,7 @@ These fields can be read by any ITEM regardless of subtypes:
     "condition": "leather",       // The condition to check for.
     "name": { "str": "pair of leather socks", "str_pl": "pairs of leather socks" } // Name field, same rules as above.
 } ],
+"display_type": "BY_WEIGHT",      // (Optional) Whether this item should be displayed by weight or volume instead of count. Valid entries are `DEFAULT`(no need to put anything), `BY_LENGTH`, `BY_VOLUME`, and `BY_WEIGHT`.
 "container": "null",             // What container (if any) this item should spawn within
 "repairs_like": "scarf",          // If this item does not have recipe, what item to look for a recipe for when repairing it.
 "color": "blue",                 // Color of the item symbol.
@@ -751,6 +752,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
         "volume": 8,                        // How loud the noise would be
         "chance": 60                        // Chance to generate a noise per move, from 0 to 100
       }, 
+    "id": "battery",                          // Optional handle referenced by `firing_requirements` / `consumption_per_use` on the parent item; only required on pockets that get referenced. Validated unique per item at load time.
     "default_magazine": "medium_battery_cell",       // Define the default magazine this item would have when spawned. Can be overwritten by item group
     "ammo_restriction": { "44": 5, "9mm": 10, }, // Restrict pocket to a given ammunition_type(s) and respective counts. The container will only hold one ammunition_type at a time but can hold multiple different items in that type. This field is mutually exclusive with "min_item_volume", "max_item_volume", "max_contains_volume", "max_contains_weight", "max_item_length", "min_item_length", "extra_encumbrance", "volume_encumber_modifier", "ripoff" and "activity_noise".
     "flag_restriction": [ "FLAG1", "FLAG2" ],        // Items can only be placed into this pocket if they have a flag that matches one of these flags.
@@ -859,6 +861,10 @@ Guns can be defined like this:
   [ "FOOBAR", "Volley", 2, "VOLLEY" ] // Fourth value is an optional flags. Possible flags are:
   [ "FOOBAR2", "alternative_notation", 3, [ "VOLLEY" ] ] // VOLLEY - all rounds shot by this mode would shoot at once, 
 ],                                                       // in that the recoil would be applied not after each shot, but only in the end
+"firing_requirements": {          // Optional. Multimag per-shot consumption keyed by gun mode. Mutually exclusive with non-zero `energy_drain` and non-default `ammo_to_fire`. Each entry references a `pocket_data.id` on a MAGAZINE_WELL pocket. Every base mode listed in `modes` must have an explicit entry; gunmod-added modes (via `mode_modifier`) inherit DEFAULT cost at runtime. `qty` must be >= 1.
+  "DEFAULT": [ { "pocket": "ammo", "qty": 1 }, { "pocket": "battery", "qty": 5 } ],
+  "BURST":   [ { "pocket": "ammo", "qty": 3 }, { "pocket": "battery", "qty": 15 } ]
+},
 "reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
 "reload_noise": "Ping!",   // Sound, that would be produced, when the gun is reloaded; seems to not work
 "reload_noise_volume": 4,  // how loud the reloading is
@@ -971,6 +977,8 @@ Gun mods can be defined like this:
 "initial_charges": 75,     // Charges when spawned
 "max_charges": 75,         // Maximum charges tool can hold
 "power_draw": "50 mW",     // Energy consumption per second
+"consumption_per_use": [ { "pocket": "oxygen", "qty": 2 }, { "pocket": "fuel", "qty": 1 } ], // Optional. Multimag per-activation consumption. Each entry references a `pocket_data.id` on a MAGAZINE_WELL pocket; `qty` must be >= 1. Mutually exclusive with `charges_per_use` and `power_draw` on the same item. Active tools drain once per turn by default, or once per `turns_per_charge` turns if set.
+"legacy_charges_per_use_factor": 5, // Optional, default 1. Set on multimag tools converted from a legacy `charges_per_use=N` (N>1) so existing recipes that pass raw charge counts get translated to uses (uses = qty / factor). Non-divisible requests trigger a debugmsg and consume nothing.
 "revert_to": "torch_done", // Transforms into item when charges are expended. Intended to be replaced by transform_into, which it's mutually exclusive with
 "transform_into": {        // Extended transformation info. To replace "revert_to", with which it's mutually exclusive. Optional.
   "target": "torch_done",  // Item to transform into.

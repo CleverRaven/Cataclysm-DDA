@@ -21,7 +21,7 @@ jobs:
     - name: check for relevant file changes
       id: changed-files
       if: ${{ github.event_name == 'pull_request' }}
-      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+      uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
       with:
         script: |
           const response = await github.paginate(github.rest.pulls.listFiles,
@@ -43,6 +43,8 @@ jobs:
 
   iwyu:
     needs: check-changes
+    outputs:
+      has_errors: ${{ steps.run_iwyu.outputs.has_errors }}
     if: ${{ needs.check-changes.outputs.should_run == 'true' }}
     runs-on: ubuntu-24.04
     env:
@@ -83,7 +85,7 @@ jobs:
         echo "IWYU_BIN_DIR=${PWD}/iwyu-build/bin">> "$GITHUB_OUTPUT"
     - name: determine changed files
       if: ${{ github.event_name == 'pull_request' }}
-      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+      uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
       with:
         script: |
           var fs = require('fs');
@@ -118,25 +120,62 @@ jobs:
         make includes -j4 --silent TILES=${TILES:-0} SOUND=${SOUND:-0} LOCALIZE=${LOCALIZE:-0}
     - uses: ammaraskar/gcc-problem-matcher@0f9c86f9e693db67dacf53986e1674de5f2e5f28 # master
     - name: run IWYU
+      id: run_iwyu
       working-directory: Cataclysm-DDA
       env:
         IWYU_SRC_DIR: ${{ steps.build-iwyu.outputs.IWYU_SRC_DIR }}
         IWYU_BIN_DIR: ${{ steps.build-iwyu.outputs.IWYU_BIN_DIR }}
       run: |
+        set +e
         PATH="${PATH}:${IWYU_BIN_DIR}:${IWYU_SRC_DIR}"
         python build-scripts/ci-iwyu-run.py
+        exit_code=$?
+        echo "has_errors=$exit_code" >> $GITHUB_OUTPUT
+        exit $exit_code
+    - name: Create pr comment artifacts
+      if: ${{ failure() && github.event_name == 'pull_request' && steps.run_iwyu.outputs.has_errors != 0 }}
+      working-directory: Cataclysm-DDA
+      run: |
+        set +e
+        cat files_changed | while read f; do
+          git add $f
+        done
+        git checkout .
+        git reset
+        git diff --exit-code
+        if [ $? -ne 0 ]; then
+          mkdir -p ../suggestions
+          git diff -U1 > ../suggestions/diff.txt
+          echo ${{ github.event.pull_request.number }} > ../suggestions/pr_number
+          echo ${{ github.event.pull_request.head.sha }} > ../suggestions/commit_sha
+          echo '[Include What You Use](https://github.com/CleverRaven/Cataclysm-DDA/blob/main/doc/c%2B%2B/DEVELOPER_TOOLING.md#include-what-you-use)' > ../suggestions/comment.txt
+        fi
+        exit 0 # Always 'succeed' this step to reduce job noise.
+    - name: Upload pr comment artifacts
+      if: ${{ failure() && github.event_name == 'pull_request' && steps.run_iwyu.outputs.has_errors != 0 }}
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      with:
+        name: suggestions
+        path: suggestions/
+
 
   iwyu-result:
-    if: ${{ always() }}
-    needs: [iwyu]
+    if: ${{ !cancelled() && needs.iwyu.result != 'failure' }}
+    needs: iwyu
     runs-on: ubuntu-latest
     steps:
     - name: require successful IWYU
+      env:
+        JOB_RESULT: ${{ needs.iwyu.result }}
+        JOB_ERRORS: ${{ needs.iwyu.outputs.has_errors }}
       run: |
-        result="${{ needs.iwyu.result }}"
-        if [ "$result" = "success" ] || [ "$result" = "skipped" ]; then
-          echo "IWYU result: $result"
+        if [[ "$JOB_RESULT" == "skipped" ]]; then
+          echo "IWYU result: skipped"
           exit 0
         fi
-        echo "IWYU failed with result: $result"
+        if [[ "$JOB_RESULT" == "success" && "$JOB_ERRORS" == "0" ]]; then
+          echo "IWYU result: success"
+          exit 0
+        fi
+        echo "IWYU failed with result: $JOB_RESULT"
         exit 1

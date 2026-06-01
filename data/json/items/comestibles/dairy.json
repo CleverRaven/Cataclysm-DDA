@@ -340,7 +340,24 @@
     "primary_material": "cheese",
     "volume": "250 ml",
     "fun": 1,
+    "smoking_result": "mozzarella_cheese_smoked",
     "vitamins": [ [ "calcium", 13 ], [ "milk_allergen", 1 ] ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "mozzarella_cheese_smoked",
+    "name": { "str_sp": "smoked mozzarella cheese" },
+    "copy-from": "mozzarella_cheese",
+    "weight": "30 g",
+    "color": "brown",
+    "spoils_in": "18 days",
+    "container": "bag_plastic_small",
+    "calories": 85,
+    "quench": -1,
+    "description": "Smoked mozzarella cheese.  Has a longer shelf life than fresh mozzarella and a more savory taste.",
+    "price": "5 USD",
+    "price_postapoc": "65 cent"
   },
   {
     "type": "ITEM",

@@ -14,16 +14,16 @@
         "=#OOOOOOOOOOOOOOO##+###=",
         "=#HtHHtHHtHHtHHtHlblbY#=",
         "=#HtHHtHHtHHtHHtHblblb#=",
-        "=#blblblblblblblblblbY#=",
+        "=#§lblblblblblblblblbY#=",
         "=#UbUbUbUbUbUbUbUblblb#=",
-        "=#ccccccccccccccccclbl#=",
+        "=#ccccccccccccccccclb§#=",
         "=#lblblblblblblblbcblb#=",
         "=#blblblblblblblblblbl#=",
         "=#lbccccffGGGGcccclblb#=",
         "=#bl||||||||||||||||+|#=",
         "=#lbcccfffff((cc|00|lS#=",
         "=#blblblblblblbl+l2|ll#=",
-        "=#lblblblblblblb|00|lT#=",
+        "=#lblblblblb§blb|00|lT#=",
         "=######################=",
         "==4=====================",
         "........................",
@@ -65,7 +65,8 @@
         { "item": "diner_back", "x": [ 4, 16 ], "y": [ 16, 16 ], "chance": 95, "repeat": [ 1, 8 ] },
         { "item": "coat_rack", "x": [ 17, 18 ], "y": 18, "chance": 95, "repeat": [ 1, 4 ] },
         { "item": "cash_register_random", "x": 5, "y": 14, "chance": 100 }
-      ]
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

@@ -59,8 +59,8 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR", "ARTIFACT" ],
     "copy-from": "jedi_cloak",
-    "name": { "str": "sentinel-lx cloak" },
-    "description": "The vantablack cloak of sentinel-lx hangs around ones shoulders as a solid, unnatural shadow.  Made from woven graphene, it's lightweight and resistant, but cannot be repaired.",
+    "name": { "str": "Sentinel-lx cloak" },
+    "description": "The vantablack cloak of Sentinel-lx hangs around ones shoulders as a solid, unnatural shadow.  Made from woven graphene, it's lightweight and resistant, but cannot be repaired.",
     "price": "15 kUSD",
     "material": [ "graphene_weave" ],
     "symbol": "[",
@@ -146,7 +146,7 @@
     "color": "light_gray",
     "material_thickness": 3,
     "use_action": [ "SOLARPACK" ],
-    "flags": [ "FRAGILE", "OUTER", "SOLARPACK" ],
+    "flags": [ "FRAGILE", "BELTED", "OVERSIZE", "SOLARPACK" ],
     "max_worn": 1,
     "armor": [ { "encumbrance": 12, "coverage": 40, "covers": [ "torso" ] } ],
     "melee_damage": { "bash": 10 }
@@ -155,20 +155,15 @@
     "id": "q_solarpack_on",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
-    "repairs_like": "q_solarpack",
+    "copy-from": "q_solarpack",
     "name": { "str": "quantum solar backpack (unfolded)", "str_pl": "quantum solar backpacks (unfolded)" },
     "description": "Unfolded array of portable quantum solar panels ready to push some power into an active cable charger system.",
-    "weight": "7500 g",
     "volume": "15 L",
-    "price": "15 kUSD",
-    "material": [ "glass", "steel" ],
-    "symbol": "[",
     "color": "blue",
     "material_thickness": 1,
     "use_action": [ "SOLARPACK_OFF" ],
     "solar_efficiency": 0.3,
-    "flags": [ "FRAGILE", "OUTER", "SOLARPACK_ON" ],
-    "max_worn": 1,
+    "flags": [ "FRAGILE", "BELTED", "OVERSIZE", "SOLARPACK_ON" ],
     "armor": [ { "encumbrance": 20, "coverage": 40, "covers": [ "torso" ] } ],
     "melee_damage": { "bash": 4 }
   },
@@ -176,50 +171,58 @@
     "id": "xlboots_combat",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "category": "armor",
-    "name": { "str": "pair of combat boots", "str_pl": "pairs of combat boots" },
-    "description": "Modern oversized reinforced tactical combat boots.  Very durable.",
+    "copy-from": "boots_combat",
     "weight": "1460 g",
     "volume": "5 L",
-    "price": "70 USD",
     "price_postapoc": "140 USD",
-    "to_hit": -1,
-    "material": [ "kevlar", "leather" ],
-    "symbol": "[",
-    "looks_like": "boots",
-    "color": "dark_gray",
-    "warmth": 25,
-    "material_thickness": 5,
-    "environmental_protection": 2,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY", "PREFIX_XL" ],
-    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
-    "melee_damage": { "bash": 1 }
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.5 }
+        ],
+        "encumbrance": 12,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
+        ],
+        "coverage": 100
+      }
+    ],
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xlgloves_tactical",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "category": "armor",
-    "name": { "str": "pair of tactical gloves", "str_pl": "pairs of tactical gloves" },
-    "description": "A pair of oversized reinforced Kevlar tactical gloves.  Commonly used by police and military units.",
+    "copy-from": "gloves_tactical",
     "weight": "1 kg",
     "volume": "750 ml",
-    "price": "52 USD",
-    "material": [ "kevlar", "leather" ],
-    "symbol": "[",
-    "looks_like": "fire_gauntlets",
-    "color": "dark_gray",
-    "warmth": 20,
     "material_thickness": 5,
-    "flags": [ "OVERSIZE", "VARSIZE", "STURDY", "PREFIX_XL" ],
-    "armor": [ { "encumbrance": 13, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "tripaw_xlgloves_tactical",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str": "pair of Killophant gloves", "str_pl": "pairs of Killophant gloves" },
+    "name": { "str_sp": "Killophant gloves (pair)" },
     "description": "A pair of reinforced Kevlar tactical gloves, specifically designed to accommodate three-fingered Killophants.  Thinner than regular oversized tactical gloves.",
     "weight": "320 g",
     "volume": "750 ml",
@@ -234,49 +237,12 @@
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
-    "id": "xlleather_belt",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "leather belt" },
-    "description": "An XL leather belt.  Useful for making your pair of pants fit if you need really big pants.",
-    "weight": "150 g",
-    "volume": "350 ml",
-    "copy-from": "leather_belt",
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
-  },
-  {
-    "id": "xlpolice_belt",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "police duty belt" },
-    "description": "An XL black leather belt used by extremely large uplifted police officers.  It has several pouches and a holder for a baton.",
-    "weight": "450 g",
-    "volume": "2500 ml",
-    "copy-from": "police_belt",
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
-  },
-  {
     "id": "xltac_fullhelmet",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "category": "armor",
-    "name": { "str": "tactical full helmet" },
-    "description": "An all-encompassing massive black helmet that covers your entire face and neck, providing excellent protection from all sorts of damage.",
-    "weight": "1324 g",
-    "volume": "2 L",
     "copy-from": "tac_fullhelmet",
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "OVERSIZE", "PREFIX_XL" ]
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "id": "xllegpouch_large",
-    "name": { "str": "leg ammo pouch", "str_pl": "leg ammo pouches" },
-    "description": "An XL fabric ammo pouch that can be strapped to your leg; capable of holding two magazines close at hand.",
-    "weight": "120 g",
-    "volume": "250 ml",
-    "copy-from": "legpouch_large",
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PREFIX_XL" ]
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25, "price_postapoc": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "wetsuit_cecalia",
@@ -408,11 +374,8 @@
     "id": "xl_nanomesh_vest",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "nanomesh vest" },
-    "price": "260 USD",
-    "price_postapoc": "260 USD",
     "copy-from": "nanomesh_vest",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "price_postapoc": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
@@ -455,19 +418,16 @@
     "id": "xl_carbide_cuirass",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "vacuum cast cuirass", "str_pl": "vacuum cast cuirasses" },
     "copy-from": "carbide_cuirass",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER", "PREFIX_XL" ]
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25, "price_postapoc": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_carbide_cuirass",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "carbide_cuirass",
-    "material_thickness": 1,
-    "name": { "str": "vacuum cast cuirass", "str_pl": "vacuum cast cuirasses" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5, "price_postapoc": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   }
 ]

@@ -187,7 +187,7 @@
         { "item": "circuit", "count": 1 },
         { "item": "2x4", "count": 4 },
         { "item": "nail", "charges": [ 10, 12 ] },
-        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "cable", "count": [ 10, 15 ] },
         { "item": "power_supply", "prob": 50 },
         { "item": "RAM", "count": 1 },
         { "item": "pipe", "count": 2 },
@@ -206,7 +206,7 @@
         { "item": "scrap", "count": [ 0, 4 ] },
         { "item": "2x4", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 4, 8 ] },
-        { "item": "cable", "charges": [ 4, 10 ] },
+        { "item": "cable", "count": [ 4, 10 ] },
         { "item": "circuit", "prob": 50 },
         { "item": "power_supply", "prob": 50 },
         { "item": "RAM", "prob": 50 },
@@ -398,10 +398,10 @@
     "deconstruct": {
       "items": [
         { "item": "heavy_punching_bag_sack", "count": 1 },
-        { "item": "nuts_bolts", "charges": 4 },
+        { "item": "nuts_bolts", "count": 4 },
         { "item": "chain", "count": 4 },
         { "item": "blanket", "count": 6 },
-        { "item": "material_sand", "charges": 4000 }
+        { "item": "material_sand", "count": 4000 }
       ]
     },
     "bash": {
@@ -413,7 +413,7 @@
         { "item": "chain", "count": [ 1, 3 ] },
         { "item": "leather", "count": [ 16, 32 ] },
         { "item": "tanned_hide", "count": [ 0, 4 ] },
-        { "item": "material_sand", "charges": 4000 },
+        { "item": "material_sand", "count": 4000 },
         { "item": "sheet_cotton", "count": [ 4, 8 ] },
         { "item": "cotton_patchwork", "count": [ 2, 4 ] }
       ]
@@ -464,7 +464,7 @@
         { "item": "wood_panel", "count": 1 },
         { "item": "2x4", "count": 4 },
         { "item": "nail", "charges": [ 8, 10 ] },
-        { "item": "cable", "charges": [ 3, 4 ] }
+        { "item": "cable", "count": [ 3, 4 ] }
       ]
     },
     "bash": {
@@ -477,7 +477,7 @@
         { "item": "scrap", "count": [ 0, 3 ] },
         { "item": "2x4", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 2, 6 ] },
-        { "item": "cable", "charges": [ 1, 3 ] },
+        { "item": "cable", "count": [ 1, 3 ] },
         { "item": "e_scrap", "prob": 25 },
         { "item": "plastic_chunk", "count": [ 0, 1 ] }
       ],

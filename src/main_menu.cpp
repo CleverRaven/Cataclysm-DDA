@@ -65,6 +65,8 @@
 static const mod_id MOD_INFORMATION_dda( "dda" );
 static const mod_id MOD_INFORMATION_dda_tutorial( "dda_tutorial" );
 
+namespace
+{
 enum class main_menu_opts : int {
     MOTD = 0,
     NEWCHAR,
@@ -77,6 +79,7 @@ enum class main_menu_opts : int {
     QUIT,
     NUM_MENU_OPTS,
 };
+} // namespace
 
 std::string main_menu::queued_world_to_load;
 std::string main_menu::queued_save_id_to_load;

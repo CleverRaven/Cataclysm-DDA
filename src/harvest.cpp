@@ -163,6 +163,8 @@ bool harvest_entry::operator==( const harvest_entry &rhs ) const
     return drop == rhs.drop;
 }
 
+namespace
+{
 class harvest_entry_reader : public generic_typed_reader<harvest_entry_reader>
 {
     public:
@@ -181,6 +183,7 @@ class harvest_entry_reader : public generic_typed_reader<harvest_entry_reader>
             return ret;
         }
 };
+} // namespace
 
 void harvest_list::finalize()
 {

@@ -173,6 +173,7 @@ static const json_character_flag json_flag_NO_RADIATION( "NO_RADIATION" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
 static const json_character_flag json_flag_NUMB( "NUMB" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
+static const json_character_flag json_flag_PARTIAL_BIONIC_LIMB( "PARTIAL_BIONIC_LIMB" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const json_character_flag json_flag_SPIRITUAL( "SPIRITUAL" );
@@ -241,6 +242,7 @@ std::string enum_to_string<blood_type>( blood_type data )
         case blood_type::blood_A: return "A";
         case blood_type::blood_B: return "B";
         case blood_type::blood_AB: return "AB";
+        case blood_type::blood_acid: return "Acid";
             // *INDENT-ON*
         case blood_type::num_bt:
             break;
@@ -2544,7 +2546,7 @@ int Character::vitamin_RDA( const vitamin_id &vitamin, int amount ) const
 void Character::apply_wound( bodypart_id bp, wound_type_id wd )
 {
     bodypart &body_bp = body.at( bp.id() );
-    body_bp.add_wound( wd );
+    body_bp.add_or_worsen_wound( wd );
     morale->on_stat_change( "perceived_pain", get_perceived_pain() );
 }
 
@@ -2625,6 +2627,21 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
     }
 }
 
+bool Character::is_within_wound_limit_for_bp( const bodypart_id bp, wound_type_id wound_id ) const
+{
+    if( wound_id->get_limit() == 0 ) {
+        return true;
+    }
+
+    const std::vector present_wounds = get_part( bp )->get_wounds();
+    const int amount = std::count_if( present_wounds.begin(),
+    present_wounds.end(), [wound_id]( wound wd ) {
+        return wd.type == wound_id;
+    } );
+
+    return amount < wound_id->get_limit();
+}
+
 void Character::apply_random_wound( bodypart_id bp, const damage_instance &d )
 {
     if( x_in_y( 1.0f - get_option<float>( "WOUND_CHANCE" ), 1.0f ) ) {
@@ -2632,14 +2649,16 @@ void Character::apply_random_wound( bodypart_id bp, const damage_instance &d )
     }
 
     weighted_int_list<wound_type_id> possible_wounds;
-    for( const std::pair<bp_wounds, int> &wd : bp->potential_wounds ) {
+    for( const auto &[potential_wound, wound_weight] : bp->potential_wounds ) {
         for( const damage_unit &du : d.damage_units ) {
-            const bool damage_within_limits = du.amount >= wd.first.damage_required.first &&
-                                              du.amount <= wd.first.damage_required.second;
-            const bool damage_type_matches = std::find( wd.first.damage_type.begin(),
-                                             wd.first.damage_type.end(), du.type ) != wd.first.damage_type.end();
-            if( damage_within_limits && damage_type_matches ) {
-                possible_wounds.add( wd.first.id, wd.second );
+            const bool damage_within_limits = du.amount >= potential_wound.damage_required.first &&
+                                              du.amount <= potential_wound.damage_required.second;
+            const bool damage_type_matches = std::find( potential_wound.damage_type.begin(),
+                                             potential_wound.damage_type.end(), du.type ) != potential_wound.damage_type.end();
+            const bool iwwlfb = is_within_wound_limit_for_bp( bp, potential_wound.id );
+
+            if( damage_within_limits && damage_type_matches && iwwlfb ) {
+                possible_wounds.add( potential_wound.id, wound_weight );
             }
         }
     }
@@ -2801,7 +2820,9 @@ void Character::heal_bp( bodypart_id bp, int dam )
 
 void Character::heal( const bodypart_id &healed, int dam )
 {
-    if( !is_limb_broken( healed ) && ( dam != 0 || healed->has_flag( json_flag_ALWAYS_HEAL ) ) ) {
+    if( ( !is_limb_broken( healed ) || healed->has_flag( json_flag_BIONIC_LIMB ) ||
+          healed->has_flag( json_flag_PARTIAL_BIONIC_LIMB ) ) && ( dam != 0 ||
+                  healed->has_flag( json_flag_ALWAYS_HEAL ) ) ) {
         add_msg_debug( debugmode::DF_CHAR_HEALTH, "Base healing of %s = %d", body_part_name( healed ),
                        dam );
         if( healed->has_flag( json_flag_HEAL_OVERRIDE ) ) {

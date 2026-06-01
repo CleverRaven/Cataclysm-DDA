@@ -18,6 +18,7 @@
 #include "json.h"
 #include "localized_comparator.h"
 #include "magic_enchantment.h"
+#include "messages.h"
 #include "pimpl.h"
 #include "rng.h"
 #include "subbodypart.h"
@@ -295,6 +296,8 @@ const std::vector<body_part_type> &body_part_type::get_all()
     return body_part_factory.get_all();
 }
 
+namespace
+{
 class encumbrance_per_weight_reader : public generic_typed_reader<encumbrance_per_weight_reader>
 {
     public:
@@ -309,6 +312,36 @@ class encumbrance_per_weight_reader : public generic_typed_reader<encumbrance_pe
             return ret;
         }
 };
+
+// similar to weighted_string_id_reader, but different enough to not really work
+struct limb_type_reader : generic_typed_reader<limb_type_reader> {
+    bp_type &primary; // there's a separate variable tracking the "primary" limb type
+    mutable std::pair<bp_type, float> max = { bp_type::num_types, 0.f }; // track max to set primary
+    float default_weight;
+
+    limb_type_reader( bp_type &primary_, const float def ) : primary( primary_ ),
+        default_weight( def ) {}
+
+    std::pair<bp_type, float> get_next( const JsonValue &jv ) const {
+        std::pair<bp_type, float> ret{ bp_type::num_types, default_weight };
+        if( jv.test_array() ) { // [ [ "head", 0.5 ], [ "arm", 0.3 ] ]
+            JsonArray ja = jv.get_array();
+            ja.read( 0, ret.first );
+            ja.read( 1, ret.second );
+        } else if( jv.test_string() ) { // "head" or [ "head", "arm" ]
+            jv.read( ret.first );
+        } else {
+            jv.throw_error( "Invalid format for limb type" );
+        }
+        // update primary to the highest weight
+        if( max.first == bp_type::num_types || max.second < ret.second ) {
+            max = ret;
+            primary = ret.first;
+        }
+        return ret;
+    }
+};
+} // namespace
 
 void body_part_type::load( const JsonObject &jo, std::string_view )
 {
@@ -350,46 +383,8 @@ void body_part_type::load( const JsonObject &jo, std::string_view )
 
     optional( jo, was_loaded, "is_limb", is_limb, false );
     optional( jo, was_loaded, "is_vital", is_vital, false );
-    if( jo.has_array( "limb_types" ) ) {
-        limbtypes.clear();
-        bp_type first_type = bp_type::num_types;
-        bool set_first_type = true;
-        for( JsonValue jval : jo.get_array( "limb_types" ) ) {
-            float weight = 1.0f;
-            bp_type limb_type;
-            if( jval.test_array() ) {
-                JsonArray jarr = jval.get_array();
-                limb_type = io::string_to_enum<bp_type>( jarr.get_string( 0 ) );
-                weight = jarr.get_float( 1 );
-                set_first_type = false;
-            } else {
-                limb_type = io::string_to_enum<bp_type>( jval.get_string() );
-            }
-            limbtypes.emplace( limb_type, weight );
-            if( first_type == bp_type::num_types ) {
-                first_type = limb_type;
-            }
-        }
-        // set cached primary type if no weights specified
-        if( set_first_type ) {
-            _primary_limb_type = first_type;
-        }
-    } else {
-        limbtypes.clear();
-        bp_type limb_type = {};
-        mandatory( jo, was_loaded, "limb_type", limb_type );
-        limbtypes.emplace( limb_type, 1.0f );
-    }
 
-    if( _primary_limb_type == bp_type::num_types ) {
-        float high = 0.f;
-        for( auto &bp_type : limbtypes ) {
-            if( high < bp_type.second ) {
-                high = bp_type.second;
-                _primary_limb_type = bp_type.first;
-            }
-        }
-    }
+    mandatory( jo, was_loaded, "limb_types", limbtypes, limb_type_reader{ _primary_limb_type, 1.0f } );
 
     // tokens are actually legacy code that should be on their way out.
     if( !was_loaded ) {
@@ -1091,9 +1086,64 @@ float bodypart::get_limb_score_max( const limb_score_id &score ) const
     return id->get_limb_score_max( score );
 }
 
-std::vector<wound> bodypart::get_wounds() const
+const std::vector<wound> &bodypart::get_wounds() const
 {
     return wounds;
+}
+
+std::vector<wound> &bodypart::get_wounds()
+{
+    return wounds;
+}
+
+void bodypart::add_or_worsen_wound( const wound_type_id wd )
+{
+    wound wo = wound( wd );
+    add_or_worsen_wound( wo );
+}
+
+void bodypart::add_or_worsen_wound( const wound &wd )
+{
+    const std::vector<wound_progress> &wound_progression = wd.type->wound_progression;
+
+    // todo: move one_in( 2 ) to something more reasonable
+    // maybe checking hit_size of a limb against some new wound size property?
+    if( has_wound( wd.type ) && !wound_progression.empty() && one_in( 2 ) ) {
+        for( const wound_progress &wdp : wound_progression ) {
+            if( x_in_y( wdp.chance, 100 ) ) {
+
+                const wound *old_wound = get_wound( wd.type );
+                wound new_wound = wound( wdp.id );
+                new_wound += *old_wound;
+
+                add_msg_debug( debugmode::DF_WOUNDS,
+                               "at bodypart %s, wound %s (pain %d, duration %s) progresses to wound %s (pain %d, duration %s).",
+                               id.str(),
+                               wd.type.str(),
+                               wd.get_pain(),
+                               to_string_writable( wd.get_healing_time() ),
+                               new_wound.type.str(),
+                               new_wound.get_pain(),
+                               to_string_writable( new_wound.get_healing_time() )
+                             );
+
+                remove_wound( *old_wound );
+                add_wound( new_wound );
+            }
+        }
+
+    } else {
+
+        add_msg_debug( debugmode::DF_WOUNDS,
+                       "at bodypart %s, adding wound %s (pain %d, duration %s).",
+                       id.str(),
+                       wd.type.str(),
+                       wd.get_pain(),
+                       to_string_writable( wd.get_healing_time() )
+                     );
+
+        add_wound( wd );
+    }
 }
 
 void bodypart::add_wound( const wound &wd )
@@ -1121,6 +1171,28 @@ bool bodypart::has_wound( const wound_type_id wd ) const
     return false;
 }
 
+wound *bodypart::get_wound( const wound_type_id wd_id )
+{
+    // picks the first one; maybe not desired?
+    auto it = std::find_if( wounds.begin(), wounds.end(), [wd_id]( wound wd ) {
+        return wd.type == wd_id;
+    } );
+
+    if( it == wounds.end() ) {
+        debugmsg( "Tried to get wound %s from bodypart %s, but none were found", wd_id.str(), id.str() );
+        return nullptr;
+    }
+    return &*it;
+}
+
+void bodypart::remove_wound( const wound wd )
+{
+    const auto it = std::find( wounds.begin(), wounds.end(), wd );
+    if( it != wounds.end() ) {
+        wounds.erase( it );
+    }
+}
+
 void bodypart::remove_wound( const wound_type_id wd )
 {
     const auto it = std::find_if( wounds.begin(), wounds.end(), [wd]( const wound & existing_wound ) {
@@ -1129,6 +1201,13 @@ void bodypart::remove_wound( const wound_type_id wd )
     if( it != wounds.end() ) {
         wounds.erase( it );
     }
+}
+
+void bodypart::remove_all_wounds_of_type( const wound_type_id wd )
+{
+    wounds.erase( std::remove_if( wounds.begin(), wounds.end(), [wd]( const wound & existing_wound ) {
+        return existing_wound.type == wd;
+    } ), wounds.end() );
 }
 
 void bodypart::update_wounds( time_duration time_passed )

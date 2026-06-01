@@ -1,0 +1,19 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_small_room",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#+##",
+        "#..#",
+        "#..#",
+        "####"
+      ],
+      "palettes": [ "labyrinth2_backdrop_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [ { "chunks": [ [ "null", 1 ], [ "ls_2x2_furniture", 1 ] ], "x": 1, "y": 1 } ]
+    }
+  }
+]

@@ -2,6 +2,7 @@
 #include <cstddef>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <vector>
 #include <unordered_map>
 
@@ -70,9 +71,6 @@ constexpr int min_screen_res_y = 384;
 class client
 {
         std::vector<int> cata_input_trail;
-#ifndef TUI
-        std::unordered_map<uint32_t, unsigned char> sdlColorsToCata;
-#endif
     public:
 #ifdef TUI
         client();
@@ -99,6 +97,11 @@ class client
 #endif
         bool auto_size_frame_active();
         bool any_window_shown();
+
+        // True if ImGui is consuming mouse input (hover / drag / popup).
+        static bool want_capture_mouse();
+        // True if an ImGui text field or shortcut has keyboard focus.
+        static bool want_capture_keyboard();
 };
 
 void point_to_imvec2( point *src, ImVec2 *dest );
@@ -113,6 +116,9 @@ void set_scroll( scroll &s );
 void draw_colored_text( const std::string &original_text, const nc_color &color,
                         float wrap_width = 0.0F, bool *is_selected = nullptr,
                         bool *is_focused = nullptr, bool *is_hovered = nullptr );
+#ifndef TUI
+bool clear_pending();
+#endif
 void draw_colored_text( const std::string &original_text, nc_color &color,
                         float wrap_width = 0.0F, bool *is_selected = nullptr,
                         bool *is_focused = nullptr, bool *is_hovered = nullptr );
@@ -143,16 +149,18 @@ class window
         virtual void draw();
         virtual void on_resized() {}
         bool is_bounds_changed();
-        size_t get_text_width( const std::string &text );
+        size_t get_text_width( std::string_view text );
         size_t get_text_height( const char *text );
         size_t str_width_to_pixels( size_t len );
         size_t str_height_to_pixels( size_t len );
         std::string get_filter();
         void clear_filter();
+        void defocus_filter();
         void mark_resized();
 
     protected:
         bool force_to_back = false;
+        bool hide_ui = false;
         bool is_open;
         std::string id;
         int window_flags;
@@ -160,6 +168,7 @@ class window
         virtual bounds get_bounds();
         virtual void draw_controls() = 0;
         void draw_filter( const input_context &ctxt, bool filtering_active );
+        void hide_if_hidden() const;
 };
 
 #ifdef TUI

@@ -521,6 +521,8 @@ static bool msg_type_from_name( game_message_type &type, const std::string &name
 
 namespace Messages
 {
+namespace
+{
 // NOLINTNEXTLINE(cata-xy)
 class dialog
 {
@@ -586,6 +588,7 @@ class dialog
 
         bool first_init = true;
 };
+} // namespace
 } // namespace Messages
 
 Messages::dialog::dialog()

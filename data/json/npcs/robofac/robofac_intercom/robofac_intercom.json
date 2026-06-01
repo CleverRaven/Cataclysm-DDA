@@ -101,6 +101,17 @@
         "refusal": "You're not yet qualified to buy this"
       },
       {
+        "group": "NC_ROBOFAC_INTERCOM_XM_EXOSKELETONS",
+        "rigid": true,
+        "strict": true,
+        "condition": {
+          "and": [
+            { "math": [ "ancilla_autodoc_placed == 1" ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_3" } ] }
+          ]
+        }
+      },
+      {
         "group": "NC_ROBOFAC_INTERCOM_LENS",
         "rigid": true,
         "strict": true,
@@ -233,6 +244,16 @@
   },
   {
     "type": "item_group",
+    "id": "NC_ROBOFAC_INTERCOM_XM_EXOSKELETONS",
+    "subtype": "collection",
+    "entries": [
+      { "item": "integrated_bio_robofac_xmleg", "prob": 70, "count": [ 1, 2 ] },
+      { "item": "integrated_bio_robofac_xmarm", "prob": 70, "count": [ 1, 2 ] },
+      { "item": "integrated_bio_robofac_xmback", "prob": 70, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "NC_ROBOFAC_INTERCOM_LENS",
     "subtype": "collection",
     "entries": [
@@ -303,6 +324,17 @@
         "text": "[Identify yourself before the intercom.]",
         "condition": {
           "and": [
+            {
+              "or": [
+                { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } },
+                {
+                  "and": [
+                    { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" },
+                    { "compare_string": [ "yes", { "u_val": "robofac_knows_about_u_cyberframe" } ] }
+                  ]
+                }
+              ]
+            },
             { "not": { "math": [ "hub01_intercom_locked == 1" ] } },
             {
               "or": [
@@ -327,6 +359,31 @@
             }
           ]
         }
+      },
+      {
+        "text": "[Identify yourself before the intercom.]",
+        "condition": {
+          "and": [
+            {
+              "and": [
+                { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" },
+                { "not": { "compare_string": [ "yes", { "u_val": "robofac_knows_about_u_cyberframe" } ] } }
+              ]
+            },
+            { "not": { "math": [ "hub01_intercom_locked == 1" ] } },
+            {
+              "or": [
+                { "compare_string": [ "yes", { "global_val": "hub01_intercom_trade_unlocked" } ] },
+                { "compare_string": [ "yes", { "npc_val": "dialogue_intercom_npc_intercom_trade" } ] }
+              ]
+            }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_LEARNS_U_CYBORG",
+        "effect": [
+          { "u_add_var": "robofac_knows_about_u_cyberframe", "value": "yes" },
+          { "u_add_effect": "robofac_surveillance", "duration": "30 days" }
+        ]
       },
       {
         "text": "[Press the button.]",
@@ -831,10 +888,19 @@
     },
     "speaker_effect": { "effect": { "u_add_var": "dialogue_intercom_u_met_robofac_intercom", "value": "yes" }, "sentinel": "met_intercom" },
     "responses": [
-      { "text": "…Hello?", "topic": "TALK_ROBOFAC_INTERCOM_INTRO" },
-      { "text": "Um, can anyone hear me?", "topic": "TALK_ROBOFAC_INTERCOM_INTRO" },
+      {
+        "text": "…Hello?",
+        "condition": { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } },
+        "topic": "TALK_ROBOFAC_INTERCOM_INTRO"
+      },
+      {
+        "text": "Um, can anyone hear me?",
+        "condition": { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } },
+        "topic": "TALK_ROBOFAC_INTERCOM_INTRO"
+      },
       {
         "text": "[Tap the camera lens.]  Look, I know someone's listening.  What is this place?",
+        "condition": { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } },
         "topic": "TALK_ROBOFAC_INTERCOM_INTRO_1"
       },
       {
@@ -846,7 +912,8 @@
               "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_free_merchants_hub_delivery_1" } ] }
             },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_u_started_robofac_hdd_trade" } ] } },
-            { "u_has_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" }
+            { "u_has_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" },
+            { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_1"
@@ -860,7 +927,8 @@
               "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_free_merchants_hub_delivery_1" } ] }
             },
             { "compare_string": [ "yes", { "u_val": "dialogue_intercom_u_started_robofac_hdd_trade" } ] },
-            { "u_has_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" }
+            { "u_has_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" },
+            { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_1"
@@ -870,12 +938,28 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_1" } ] } },
-            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_free_merchants_hub_delivery_1" } ] }
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_free_merchants_hub_delivery_1" } ] },
+            { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } }
           ]
         },
         "trial": { "type": "LIE", "difficulty": 1 },
         "success": { "topic": "TALK_ROBOFAC_INTERCOM_INTRO_2" },
         "failure": { "topic": "TALK_ROBOFAC_INTERCOM_INTRO_2" }
+      },
+      {
+        "text": "…Hello?",
+        "condition": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" },
+        "topic": "TALK_ROBOFAC_INTERCOM_CYBORG_INTRO_1"
+      },
+      {
+        "text": "Um, can anyone hear me?",
+        "condition": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" },
+        "topic": "TALK_ROBOFAC_INTERCOM_CYBORG_INTRO_1"
+      },
+      {
+        "text": "[Tap the camera lens.]  Look, I know someone's listening.  What is this place?",
+        "condition": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" },
+        "topic": "TALK_ROBOFAC_INTERCOM_CYBORG_INTRO_1"
       },
       { "text": "[Leave.]", "topic": "TALK_DONE" }
     ]
@@ -930,7 +1014,48 @@
     ]
   },
   {
+    "id": [ "TALK_ROBOFAC_INTERCOM_CYBORG_INTRO_1", "TALK_ROBOFAC_INTERCOM_INTRO_CYBORG_SILENCE" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "'Saluton' and 'Ĉu vi povas kompreni min?' are Esperanto, and should stay Esperanto, unless being this line is being translated into Esperanto, of course.",
+      "str": "&The intercom hisses.  You hear a series of beeps, then a THUNK as if someone were touching a microphone.  Muffled voices argue in the background.  A brief moment of clarity allows you to hear \"-o that didn't work.\"  After a moment, a voice of indeterminate sex speaks flatly.  \"Saluton.  Greetings.  Ĉu vi povas kompreni min?  Or do you speak English, by chance?\""
+    },
+    "responses": [
+      {
+        "text": "Wait, what?",
+        "topic": "TALK_ROBOFAC_INTERCOM_CYBORG_INTRO_2",
+        "effect": [ { "math": [ "u_talked_to_hub = 1" ] } ]
+      },
+      {
+        "text": "You do realize that the front door is just open?",
+        "topic": "TALK_ROBOFAC_INTERCOM_CYBORG_INTRO_2",
+        "effect": [ { "math": [ "u_talked_to_hub = 1" ] } ]
+      },
+      {
+        "text": "It's the apocalypse out here!  Please just let me in!",
+        "topic": "TALK_ROBOFAC_INTERCOM_CYBORG_INTRO_2",
+        "effect": [ { "math": [ "u_talked_to_hub = 1" ] } ]
+      },
+      {
+        "text": "I'm just looking for valuables.  Maybe we can trade?",
+        "topic": "TALK_ROBOFAC_INTERCOM_CYBORG_INTRO_2",
+        "effect": [ { "math": [ "u_talked_to_hub = 1" ] } ]
+      },
+      {
+        "text": "Look, there must be something we can work out.",
+        "topic": "TALK_ROBOFAC_INTERCOM_CYBORG_INTRO_2",
+        "effect": [ { "math": [ "u_talked_to_hub = 1" ] } ]
+      },
+      { "text": "[Leave.]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
     "id": "TALK_ROBOFAC_INTERCOM_INTRO_SILENCE",
+    "type": "talk_topic",
+    "dynamic_line": "&The intercom is silent."
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_INTRO_CYBORG_SILENCE",
     "type": "talk_topic",
     "dynamic_line": "&The intercom is silent."
   },
@@ -941,6 +1066,110 @@
     "responses": [
       { "text": "I'm listening.", "topic": "MISSION_ROBOFAC_INTERCOM_1_OFFER" },
       { "text": "Risk my neck for the privilege of trading with you?  Maybe another time.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_CYBORG_INTRO_2",
+    "type": "talk_topic",
+    "dynamic_line": "You hear a short, muffled conversation from the other end.  There's a brief pause.  \"English it is.  We believe we could gain some mutual benefit by talking and trading.  We would like to extend you trading access.  But we need something in return.  We would like to know more about your nature.  And we have a task.  It is dangerous, but from the look of you, you'll know exactly how to handle it.\"",
+    "responses": [
+      {
+        "text": "I'm listening.",
+        "topic": "TALK_ROBOFAC_INTERCOM_CYBORG_INTRO_3",
+        "effect": [
+          { "u_add_effect": "robofac_surveillance", "duration": "90 days" },
+          { "u_add_var": "robofac_knows_about_u_cyberframe", "value": "yes" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_CYBORG_INTRO_3",
+    "type": "talk_topic",
+    "dynamic_line": "&\"Did someone send you?  Are you… human?  Our scann- I mean, our camera feed suggests you are some sort of cybernetic being?\"\n\nYou detect a slight elevation in their voice, with a start you realize they are nervous.",
+    "responses": [
+      {
+        "text": "Yeah, I'm human.  I was turned into a cyborg by beings called Exodii.",
+        "topic": "TALK_ROBOFAC_INTERCOM_CYBORG_INTRO_4"
+      },
+      {
+        "text": "This was some kind of government experiment before everything happened.  I don't fully understand it myself.",
+        "topic": "TALK_ROBOFAC_INTERCOM_CYBORG_INTRO_5",
+        "trial": { "type": "LIE", "difficulty": 90 },
+        "failure": { "effect": { "u_add_faction_trust": -3 } }
+      },
+      {
+        "text": "Honestly, I have no idea how all of this happened.",
+        "topic": "TALK_ROBOFAC_INTERCOM_CYBORG_INTRO_5",
+        "trial": { "type": "LIE", "difficulty": 30 },
+        "failure": { "effect": { "u_add_faction_trust": -3 } }
+      },
+      {
+        "text": "I'm an alien robot!  But, I come in peace.",
+        "topic": "TALK_ROBOFAC_INTERCOM_CYBORG_INTRO_5",
+        "trial": { "type": "LIE", "difficulty": 15 },
+        "failure": { "effect": { "u_add_faction_trust": -3 } }
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_CYBORG_INTRO_4",
+    "type": "talk_topic",
+    "dynamic_line": "Exodii?  What can you tell us about them?",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_give_robofac_exodii_info", "value": "yes" },
+        { "u_add_var": "u_informed_robofac_of_exodii", "value": "yes" },
+        { "math": [ "hub01_knows_exodii = 1" ] }
+      ]
+    },
+    "responses": [
+      {
+        "text": "I mean, just look at me!  They're cyborgs from another dimension.  They turn humans and maybe other beings into cyborgs, and jump from here to there, dodging cataclysms like ours.",
+        "topic": "TALK_ROBOFAC_INTERCOM_CYBORG_INTRO_5",
+        "effect": [ { "u_add_faction_trust": 1 }, { "math": [ "robofac_exodii_cbm_knowledge += 1" ] } ]
+      },
+      {
+        "text": "They are a race of inter-dimensional beings.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.",
+        "topic": "TALK_ROBOFAC_INTERCOM_CYBORG_INTRO_5",
+        "effect": [ { "u_add_faction_trust": 2 }, { "math": [ "robofac_exodii_cbm_knowledge += 1" ] } ]
+      },
+      {
+        "text": "They are a race of inter-dimensional beings that use a mix of futuristic and ancient technology, the latter being mostly due to their last landing place being an ancient battlefield of some sort.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  While their choice for personal defense was more along the lines of ancient gear like spears and swords.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.",
+        "topic": "TALK_ROBOFAC_INTERCOM_CYBORG_INTRO_5",
+        "condition": { "compare_string": [ "yes", { "u_val": "u_talk_exodii_about_medieval_stock" } ] },
+        "effect": [ { "u_add_faction_trust": 3 }, { "math": [ "robofac_exodii_cbm_knowledge += 1" ] } ]
+      },
+      {
+        "text": "They are a race of inter-dimensional beings.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
+        "topic": "TALK_ROBOFAC_INTERCOM_CYBORG_INTRO_5",
+        "condition": { "compare_string": [ "yes", { "u_val": "u_know_exodii_purpose2" } ] },
+        "effect": [ { "u_add_faction_trust": 4 }, { "math": [ "robofac_exodii_cbm_knowledge += 1" ] } ]
+      },
+      {
+        "text": "They are a race of inter-dimensional beings that use a mix of futuristic and ancient technology the latter being mostly due to their last landing place being an ancient battlefield of some sort.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  However their choice for personal defense was more along the lines of ancient gear like spears and swords.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
+        "topic": "TALK_ROBOFAC_INTERCOM_CYBORG_INTRO_5",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "u_know_exodii_purpose2" } ] },
+            { "compare_string": [ "yes", { "u_val": "u_talk_exodii_about_medieval_stock" } ] }
+          ]
+        },
+        "effect": [ { "u_add_faction_trust": 5 }, { "math": [ "robofac_exodii_cbm_knowledge += 1" ] } ]
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_CYBORG_INTRO_5",
+    "type": "talk_topic",
+    "dynamic_line": "Interesting, interesting, interesting.  Hm.  I'll note that information.  Now, about that dangerous task.",
+    "responses": [
+      { "text": "I'm listening.", "topic": "MISSION_ROBOFAC_INTERCOM_1_OFFER" },
+      {
+        "text": "Risk my neck for the privilege of trading with you?  Maybe another time.",
+        "topic": "TALK_DONE",
+        "effect": { "u_add_effect": "robofac_surveillance", "duration": "90 days" }
+      }
     ]
   },
   {
@@ -1096,7 +1325,7 @@
     "dynamic_line": "For your services rendered we can either offer you some riot gear armor or the USP 9x19mm pistol with compatible magazines.",
     "responses": [
       {
-        "text": "Sounds equitable to me be back with that information in a jiff",
+        "text": "Sounds equitable to me.  Be back with that information in a jiff.",
         "topic": "TALK_DONE",
         "condition": {
           "and": [
@@ -1140,9 +1369,123 @@
     ]
   },
   {
+    "id": "TALK_ROBOFAC_INTERCOM_LEARNS_U_CYBORG",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "hub01_knows_exodii == 1" ],
+      "yes": "&The intercom flicks on slower than usual.  \"You sound like <u_name>.  But you look like an Exodii.  What's happened, exactly?\"",
+      "no": "&The intercom flicks on slower than usual.  \"You sound like <u_name>.  But you look like some sort of cyborg.  What's happened, exactly?\""
+    },
+    "responses": [
+      {
+        "text": "I volunteered for this.  A group of cyborgs called the Exodii sold me everything I needed to get these cool mechanical bits.",
+        "condition": { "math": [ "hub01_knows_exodii != 1" ] },
+        "effect": { "u_add_effect": "robofac_surveillance", "duration": "30 days" },
+        "topic": "TALK_ROBOFAC_INTERCOM_LEARNS_U_CYBORG_EXODII_INFO"
+      },
+      {
+        "text": "I volunteered for the Exodii to give me these implants.  Gotta do what you gotta do to survive, no?",
+        "condition": { "math": [ "hub01_knows_exodii == 1" ] },
+        "effect": { "u_add_effect": "robofac_surveillance", "duration": "14 days" },
+        "topic": "TALK_ROBOFAC_INTERCOM_LEARNS_U_CYBORG_2"
+      },
+      {
+        "text": "I volunteered for the Exodii to give me these implants, but don't worry, there's still a red white and blue American in this shell, ready to serve science and humanity.",
+        "condition": { "math": [ "hub01_knows_exodii == 1" ] },
+        "effect": { "u_add_effect": "robofac_surveillance", "duration": "14 days" },
+        "topic": "TALK_ROBOFAC_INTERCOM_LEARNS_U_CYBORG_2"
+      },
+      {
+        "text": "Those crazed cyborgs did this against my will!  But I managed to escape, and it's still me, in here.",
+        "condition": { "math": [ "hub01_knows_exodii == 1" ] },
+        "trial": { "type": "LIE", "difficulty": 30 },
+        "success": {
+          "effect": { "u_add_effect": "robofac_surveillance", "duration": "14 days" },
+          "topic": "TALK_ROBOFAC_INTERCOM_LEARNS_U_CYBORG_2"
+        },
+        "failure": {
+          "effect": [ { "u_add_faction_trust": -10 }, { "u_add_effect": "robofac_surveillance", "duration": "30 days" } ],
+          "topic": "TALK_ROBOFAC_INTERCOM_LEARNS_U_CYBORG_2"
+        }
+      },
+      {
+        "text": "Not much to say, because I'm not sure.  I just woke up like this.  Crazy stuff, isn't it?",
+        "trial": { "type": "LIE", "difficulty": 15 },
+        "success": {
+          "effect": { "u_add_effect": "robofac_surveillance", "duration": "14 days" },
+          "topic": "TALK_ROBOFAC_INTERCOM_LEARNS_U_CYBORG_2"
+        },
+        "failure": {
+          "effect": [ { "u_add_faction_trust": -10 }, { "u_add_effect": "robofac_surveillance", "duration": "30 days" } ],
+          "topic": "TALK_ROBOFAC_INTERCOM_LEARNS_U_CYBORG_2"
+        }
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_LEARNS_U_CYBORG_EXODII_INFO",
+    "type": "talk_topic",
+    "dynamic_line": "Exodii?  What can you tell us about them?",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_give_robofac_exodii_info", "value": "yes" },
+        { "u_add_var": "u_informed_robofac_of_exodii", "value": "yes" },
+        { "math": [ "hub01_knows_exodii = 1" ] }
+      ]
+    },
+    "responses": [
+      {
+        "text": "I mean, just look at me!  They're cyborgs from another dimension, or dimensions, really.  They turn humans and maybe other beings into cyborgs, and jump from here to there, dodging cataclysms like ours.",
+        "topic": "TALK_ROBOFAC_INTERCOM_LEARNS_U_CYBORG_2",
+        "effect": [ { "u_add_faction_trust": 1 }, { "math": [ "robofac_exodii_cbm_knowledge += 1" ] } ]
+      },
+      {
+        "text": "They are a race of inter-dimensional beings.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.",
+        "topic": "TALK_ROBOFAC_INTERCOM_LEARNS_U_CYBORG_2",
+        "effect": [ { "u_add_faction_trust": 2 }, { "math": [ "robofac_exodii_cbm_knowledge += 1" ] } ]
+      },
+      {
+        "text": "They are a race of inter-dimensional beings that use a mix of futuristic and ancient technology, the latter being mostly due to their last landing place being an ancient battlefield of some sort.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  While their choice for personal defense was more along the lines of ancient gear like spears and swords.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.",
+        "topic": "TALK_ROBOFAC_INTERCOM_LEARNS_U_CYBORG_2",
+        "condition": { "compare_string": [ "yes", { "u_val": "u_talk_exodii_about_medieval_stock" } ] },
+        "effect": [ { "u_add_faction_trust": 3 }, { "math": [ "robofac_exodii_cbm_knowledge += 1" ] } ]
+      },
+      {
+        "text": "They are a race of inter-dimensional beings.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
+        "topic": "TALK_ROBOFAC_INTERCOM_LEARNS_U_CYBORG_2",
+        "condition": { "compare_string": [ "yes", { "u_val": "u_know_exodii_purpose2" } ] },
+        "effect": [ { "u_add_faction_trust": 4 }, { "math": [ "robofac_exodii_cbm_knowledge += 1" ] } ]
+      },
+      {
+        "text": "They are a race of inter-dimensional beings that use a mix of futuristic and ancient technology the latter being mostly due to their last landing place being an ancient battlefield of some sort.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  However their choice for personal defense was more along the lines of ancient gear like spears and swords.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
+        "topic": "TALK_ROBOFAC_INTERCOM_LEARNS_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "u_know_exodii_purpose2" } ] },
+            { "compare_string": [ "yes", { "u_val": "u_talk_exodii_about_medieval_stock" } ] }
+          ]
+        },
+        "effect": [ { "u_add_faction_trust": 5 }, { "math": [ "robofac_exodii_cbm_knowledge += 1" ] } ]
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_LEARNS_U_CYBORG_2",
+    "type": "talk_topic",
+    "dynamic_line": "Curious.  Very curious.  We'll be interested to follow your… let us say, progress, with these Exodii.  We are glad you still seem so human.",
+    "responses": [
+      { "text": "So about those services…", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "Right… maybe we'll talk again sometime soon.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
     "id": "TALK_ROBOFAC_INTERCOM_INTRO_3",
     "type": "talk_topic",
-    "dynamic_line": "Ah its you.  Mind giving your fellow American information regarding possible terrorist cyborgs?",
+    "dynamic_line": {
+      "u_has_trait": "EXODII_CYBERFRAME_GENERIC",
+      "no": "Ah, it's you.  Mind giving your fellow American information regarding possible terrorist cyborgs?",
+      "yes": "Ah, yes, our cybernetic visitor.  Would you be willing to tell us more about the cyborgs that did this to you?"
+    },
     "responses": [
       {
         "text": "You know what?  I've changed my mind.  I'll do your dirty work.  Give me some time to chat up these folks.",
@@ -1156,6 +1499,12 @@
       },
       {
         "text": "Please… I stopped being an American the moment the government left us to fend for ourselves.",
+        "condition": { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Maybe some other time…",
+        "condition": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" },
         "topic": "TALK_DONE"
       },
       {
@@ -1758,9 +2107,13 @@
     },
     "responses": [
       {
-        "text": "Actually, I'm familiar with these cybernetics.  I already have an interface installed by the Exodii.",
+        "text": "Actually, I'm familiar with these cybernetics.  I already have one.",
         "condition": {
-          "and": [ { "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('14 d')" ] }, { "u_has_trait": "CBM_Interface" } ]
+          "and": [
+            { "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('14 d')" ] },
+            { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
+            { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } }
+          ]
         },
         "effect": [
           { "u_lose_var": "dialogue_hub_u_waiting_on_autodoc" },
@@ -1770,11 +2123,27 @@
         "topic": "TALK_EXODI_INTERCOM_AUTODOC_B_EXODII_INTERFACE"
       },
       {
+        "text": "Ah, well, I guess this could be useful for me, being a cyborg myself.  I'll go check it out.",
+        "condition": {
+          "and": [
+            { "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('14 d')" ] },
+            { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" }
+          ]
+        },
+        "effect": [
+          { "u_lose_var": "dialogue_hub_u_waiting_on_autodoc" },
+          { "u_lose_var": "timer_hub_waiting_on_autodoc" },
+          { "math": [ "hub01_promised_cbm_reward = 1" ] }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
         "text": "Cybernetics?  What do you mean by that?",
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('14 d')" ] },
-            { "not": { "u_has_trait": "CBM_Interface" } }
+            { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "u_has_trait": "NL_CBM_Interface" } }
           ]
         },
         "effect": [

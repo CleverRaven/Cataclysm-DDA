@@ -59,7 +59,7 @@ void npc_class::reset_npc_classes()
 
 // Copies the value under the key "ALL" to all unassigned skills
 template <typename T>
-void apply_all_to_unassigned( T &skills )
+static void apply_all_to_unassigned( T &skills )
 {
     auto iter = std::find_if( skills.begin(), skills.end(),
     []( decltype( *begin( skills ) ) &pr ) {

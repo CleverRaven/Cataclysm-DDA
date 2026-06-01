@@ -981,6 +981,7 @@
       [ "mx_drugdeal", 30 ],
       [ "mx_corpses", 30 ],
       [ "mx_finalshowdown", 20 ],
+      [ "mx_dermatikvictim", 10 ],
       [ "mx_worm_sign", 20 ],
       [ "mx_toxic_waste", 10 ],
       [ "mx_portal", 10 ],
@@ -1002,7 +1003,7 @@
     "type": "map_extra_collection",
     "id": "ocean_shore",
     "chance": 1,
-    "extras": [ [ "mx_sandy_beach", 100 ] ]
+    "extras": [ [ "mx_sandy_beach", 100 ], [ "mx_tidal_flat", 5 ] ]
   },
   {
     "type": "map_extra_collection",
@@ -1549,6 +1550,7 @@
       [ "f_burdock", 400 ],
       [ "f_chamomile", 300 ],
       [ "f_carrot_wild", 300 ],
+      [ "f_asparagus_wild", 300 ],
       [ "f_salsify", 300 ],
       [ "f_datura", 300 ],
       [ "f_japanese_knotweed", 300 ],
@@ -1568,6 +1570,7 @@
       [ "f_flower_spurge", 400 ],
       [ "f_chamomile", 400 ],
       [ "f_carrot_wild", 300 ],
+      [ "f_asparagus_wild", 300 ],
       [ "f_salsify", 300 ],
       [ "f_datura", 300 ],
       [ "f_thistle", 300 ],
@@ -1599,6 +1602,7 @@
       [ "f_chamomile", 500 ],
       [ "f_japanese_knotweed", 300 ],
       [ "f_carrot_wild", 300 ],
+      [ "f_asparagus_wild", 300 ],
       [ "f_salsify", 300 ],
       [ "f_dahlia", 200 ],
       [ "f_mutpoppy", 100 ],

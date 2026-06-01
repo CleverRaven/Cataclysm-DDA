@@ -2097,11 +2097,14 @@ bool overmap::guess_has_lake( const point_abs_om &p, const double noise_threshol
     const om_noise::om_noise_layer_lake noise_func( origin, g->get_seed() );
 
     int lake_tiles = 0;
-    for( int i = 0; i < OMAPX; i++ ) {
+    for( int i = 0; i < OMAPX && lake_tiles < max_tile_count; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             const point_om_omt seed_point( i, j );
             if( omt_lake_noise_threshold( origin, seed_point, noise_threshold ) ) {
                 lake_tiles++;
+                if( lake_tiles >= max_tile_count ) {
+                    break;
+                }
             }
         }
     }

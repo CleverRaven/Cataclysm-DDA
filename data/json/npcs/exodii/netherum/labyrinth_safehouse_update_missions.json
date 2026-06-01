@@ -75,5 +75,27 @@
         "v": "t_nl_chasm_no_trap"
       }
     }
+  },
+  {
+    "id": "MISSION_nl_water_cooler",
+    "type": "mission_definition",
+    "name": { "str": "Find the Water Source" },
+    "description": "I've been tasked with finding some sort of water source, but it is hidden in this place.  Find and <color_yellow>\"feed\"</color> it to take the technology back to the safehouse.",
+    "goal": "MGOAL_NULL",
+    "difficulty": 5,
+    "value": 0,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
   }
 ]

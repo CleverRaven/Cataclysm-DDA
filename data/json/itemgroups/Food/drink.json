@@ -1,0 +1,76 @@
+[
+  {
+    "id": "any_soda",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "cola", 60 ],
+      [ "colamdew", 55 ],
+      [ "creamsoda", 50 ],
+      [ "lemonlime", 50 ],
+      [ "orangesoda", 50 ],
+      [ "rootbeer", 45 ],
+      [ "crispycran", 40 ],
+      [ "purple_drink", 35 ],
+      [ "zerocola", 35 ],
+      [ "zeroorange", 35 ],
+      [ "zerotropical", 35 ],
+      [ "zeromdew", 35 ],
+      [ "foodplace_zero_drink", 10 ],
+      [ "choc_drink", 25 ],
+      [ "sparkling", 20 ],
+      [ "sparkling_peach", 20 ],
+      [ "sparkling_pomegranate", 20 ]
+    ]
+  },
+  {
+    "id": "soda_in_container_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "any_soda", "container-item": "bottle_twoliter" },
+      { "group": "any_soda", "container-item": "bottle_plastic" },
+      { "group": "any_soda", "container-item": "bottle_plastic_355ml" },
+      { "group": "any_soda", "container-item": "can_drink" },
+      { "group": "any_soda", "container-item": "can_aluminum_250ml" }
+    ]
+  },
+  {
+    "id": "soda_in_container",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "any_soda", "container-item": "bottle_twoliter", "charges": [ 1, -1 ] },
+      { "group": "any_soda", "container-item": "bottle_plastic", "charges": [ 1, -1 ] },
+      { "group": "any_soda", "container-item": "bottle_plastic_355ml", "charges": [ 1, -1 ] },
+      { "group": "any_soda", "container-item": "can_drink", "charges": [ 1, -1 ] },
+      { "group": "any_soda", "container-item": "can_aluminum_250ml", "charges": [ 1, -1 ] }
+    ]
+  },
+  {
+    "id": "soda_in_small_container_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "any_soda", "container-item": "bottle_plastic_355ml" },
+      { "group": "any_soda", "container-item": "can_drink" },
+      { "group": "any_soda", "container-item": "can_aluminum_250ml" }
+    ]
+  },
+  {
+    "id": "soda_in_small_container",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "any_soda", "container-item": "bottle_plastic_355ml", "charges": [ 1, -1 ] },
+      { "group": "any_soda", "container-item": "can_drink", "charges": [ 1, -1 ] },
+      { "group": "any_soda", "container-item": "can_aluminum_250ml", "charges": [ 1, -1 ] }
+    ]
+  },
+  {
+    "id": "kvass_bottle",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "kvass", "container-item": "bottle_plastic" } ]
+  }
+]

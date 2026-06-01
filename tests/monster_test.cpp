@@ -98,6 +98,9 @@ static int moves_to_destination( const std::string &monster_type,
     return 100000;
 }
 
+namespace
+{
+
 struct track {
     char participant;
     int moves;
@@ -105,7 +108,7 @@ struct track {
     tripoint location;
 };
 
-static std::ostream &operator<<( std::ostream &os, track const &value )
+std::ostream &operator<<( std::ostream &os, track const &value )
 {
     os << value.participant <<
        " l:" << value.location <<
@@ -114,13 +117,15 @@ static std::ostream &operator<<( std::ostream &os, track const &value )
     return os;
 }
 
-static std::ostream &operator<<( std::ostream &os, const std::vector<track> &vec )
+std::ostream &operator<<( std::ostream &os, const std::vector<track> &vec )
 {
     for( const track &track_instance : vec ) {
         os << track_instance << " ";
     }
     return os;
 }
+
+} // namespace
 
 /**
  * Simulate a player running from the monster, checking if it can catch up.

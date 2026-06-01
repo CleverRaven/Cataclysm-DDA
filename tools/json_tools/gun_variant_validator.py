@@ -71,6 +71,7 @@ GUNS_BLACKLIST = {
     "khuunaofaai",
     "exodii_plasma_fan",
     "exodii_plasma_projectile",
+    "nl_chem_thrower",
 }
 AMMO_BLACKLIST = {
     "arrow",

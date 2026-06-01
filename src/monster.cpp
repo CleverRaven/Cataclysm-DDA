@@ -860,6 +860,11 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     const int max_width = getmaxx( w ) - column - 1;
     std::ostringstream oss;
 
+    // This header specifically refers to them as a somewhat-misleading "Creatures" instead of "Monsters".
+    // This is because many of our "Monster" objects do not represent things that are pejorative monsters.
+    // Therefore the header is intentionally *neutral* on the language.
+    mvwprintz( w, point( column, vStart++ ), c_light_blue, _( "-----CREATURE-----" ) );
+
     oss << get_tag_from_color( c_white ) << get_origin( type->src ) << "</color>" << "\n";
 
     if( debug_mode ) {
@@ -887,7 +892,13 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         mvwprintz( w, point( column, vStart++ ), att.second, att.first );
     }
 
-    // Awareness indicator in the third line.
+    // Difficulty indicator in the third line.
+    const std::string difficulty_str = debug_mode ?
+                                       _( "Difficulty " ) + std::to_string( type->get_total_difficulty() ) :
+                                       type->get_difficulty_description();
+    vStart += fold_and_print( w, point( column, vStart ), max_width, c_white, difficulty_str );
+
+    // Awareness indicator in the fourth line.
     std::string senses_str = sees_player ? _( "Can see to your current location" ) :
                              _( "Can't see to your current location" );
 
@@ -1647,7 +1658,23 @@ bool monster::is_fleeing( Character &u ) const
         return false;
     }
     monster_attitude att = attitude( &u );
-    return att == MATT_FLEE || ( att == MATT_FOLLOW && rl_dist( pos_bub(), u.pos_bub() ) <= 4 );
+    if( att == MATT_FLEE ) {
+        return true;
+    }
+    if( att != MATT_FOLLOW ) {
+        return false;
+    }
+    // Scale vertical separation for fliers (one z is roughly four meters).
+    constexpr int FLIER_Z_PENALTY = 4;
+    int effective;
+    if( flies() ) {
+        const int xy = rl_dist( pos_bub().xy(), u.pos_bub().xy() );
+        const int z_diff = std::abs( pos_abs().z() - u.pos_abs().z() );
+        effective = xy + z_diff * FLIER_Z_PENALTY;
+    } else {
+        effective = rl_dist( pos_bub(), u.pos_bub() );
+    }
+    return effective <= 4;
 }
 
 Creature::Attitude monster::attitude_to( const Creature &other ) const
@@ -3189,8 +3216,10 @@ void monster::die( map *here, Creature *nkiller )
         }
     }
 
-    if( death_drops && !no_extra_death_drops ) {
-        drop_items_on_death( here, corpse.get_item() );
+    if( death_drops ) {
+        if( !no_extra_death_drops ) {
+            drop_items_on_death( here, corpse.get_item() );
+        }
         spawn_dissectables_on_death( corpse.get_item() );
     }
     if( death_drops && !is_hallucination() ) {
@@ -3466,8 +3495,6 @@ void monster::process_one_effect( effect &it, bool is_new )
         effect_cache[VISION_IMPAIRED] = true;
     } else if( ( id == effect_bleed || id == effect_dripping_mechanical_fluid ) &&
                x_in_y( it.get_intensity(), it.get_max_intensity() ) ) {
-        // this is for balance only
-        it.mod_duration( -rng( 1_turns, it.get_int_dur_factor() / 2 ) );
         bleed( here );
         if( id == effect_bleed ) {
             // monsters are simplified so they just take damage from bleeding
@@ -4079,7 +4106,22 @@ void monster::hear_sound( const tripoint_bub_ms &source, const int vol, const in
         // TODO: make the destination scale with the sound and handle
         // the case when (x,y) is the same by picking a random direction
         tripoint_abs_ms away = pos_abs() + ( pos_abs() - target );
-        away.z() = posz();
+        // Aloft fliers descend, grounded fliers take off; non-fliers stay at
+        // current z. Mirror in monster::plan.
+        int chosen_z = posz();
+        if( flies() ) {
+            map &here = get_map();
+            const tripoint_bub_ms here_bub = pos_bub();
+            const bool grounded = here.has_floor_or_water( here_bub );
+            if( !grounded &&
+                here.valid_move( here_bub, here_bub + tripoint::below, false, true ) ) {
+                chosen_z = posz() - 1;
+            } else if( grounded &&
+                       here.valid_move( here_bub, here_bub + tripoint::above, false, true ) ) {
+                chosen_z = posz() + 1;
+            }
+        }
+        away.z() = chosen_z;
         wander_to( away, wander_turns );
     }
 }

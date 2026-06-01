@@ -445,6 +445,30 @@
     "dur_add_perc": 25
   },
   {
+    "id": "arion_blood_drank",
+    "type": "effect_type",
+    "name": [ "Drank blood" ],
+    "desc": [ "The hungry Arion has drunk blood and is now visibly regenerating." ],
+    "rating": "good",
+    "show_in_info": true
+  },
+  {
+    "id": "effect_feed_the_black_horse",
+    "type": "effect_type",
+    "name": [ "Feed Arion" ],
+    "desc": [ "It's time to feed Arion.  If you do not there will be consequences." ],
+    "rating": "bad",
+    "show_in_info": true
+  },
+  {
+    "id": "effect_fed_the_black_horse",
+    "type": "effect_type",
+    "name": [ "Fed Arion" ],
+    "desc": [ "You have fed Arion and it shall not devolve for a while." ],
+    "rating": "good",
+    "show_in_info": true
+  },
+  {
     "type": "effect_type",
     "id": "vampire_virus",
     "name": [ "Wan", "Reddened Eyes", "Bloodthirst" ],
@@ -2967,6 +2991,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_temporary_psychopath",
+    "name": [ "Arbiter Mundi" ],
+    "desc": [ "Yours is the right to rule." ],
+    "rating": "mixed",
+    "flags": [ "PSYCHOPATH" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_noble_movement_buffs_ally",
     "name": [ "Deeds of Lughnasadh" ],
     "desc": [ "You would have definitely won the contests." ],
@@ -3853,8 +3885,8 @@
     "max_intensity": 5,
     "apply_message": "You want to sink your fangs in someone's neck and drink their blood.",
     "miss_messages": [ [ "Your thirst distract you.", 1 ] ],
-    "base_mods": { "sleep_chance": [ -1003 ], "sleep_min": [ 15000 ], "sleep_max": [ 21000 ] },
-    "scaling_mods": { "per_mod": [ -0.5 ], "dex_mod": [ -0.5 ], "int_mod": [ -0.75 ], "sleep_chance": [ 501 ] },
+    "base_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ], "int_mod": [ -1.5 ] },
+    "scaling_mods": { "per_mod": [ -0.5 ], "dex_mod": [ -0.5 ], "int_mod": [ -0.75 ] },
     "limb_score_mods": [
       { "limb_score": "manip", "modifier": 1.0, "scaling": -0.1 },
       { "limb_score": "block", "modifier": 1.0, "scaling": -0.1 },
@@ -4338,6 +4370,14 @@
     "id": "effect_xe_werewolf_summon_shadow_pack_limiter",
     "name": [ "Summoned the Shadow Pack" ],
     "desc": [ "You called on the aid of ancestral werewolves and must wait before seeking their aid again." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_follower_summoned_dross",
+    "name": [ "Recently created dreamdross" ],
+    "desc": [
+      "This person has recently gave you dreamdross.  It will take some time before they gather an usable amount of dross again."
+    ]
   },
   {
     "type": "effect_type",

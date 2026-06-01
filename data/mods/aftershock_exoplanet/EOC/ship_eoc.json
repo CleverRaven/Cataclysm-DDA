@@ -97,6 +97,25 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_SHIP_LIGHTS",
+    "effect": [
+      {
+        "if": { "math": [ "your_ship_lights_dim == 1" ] },
+        "then": [
+          { "u_transform_radius": 40, "ter_furn_transform": "your_ship_lights_on" },
+          { "u_message": "The ship's lights brighten." },
+          { "math": [ "your_ship_lights_dim = 0" ] }
+        ],
+        "else": [
+          { "u_transform_radius": 40, "ter_furn_transform": "your_ship_dim_lights" },
+          { "u_message": "The ship's lights dim to a low glow." },
+          { "math": [ "your_ship_lights_dim = 1" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SHIP_AUTO_CONTROL",
     "effect": [
       { "turn_cost": "4 s" },

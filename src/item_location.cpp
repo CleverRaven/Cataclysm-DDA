@@ -10,6 +10,7 @@
 #include <optional>
 #include <ostream>
 #include <string>
+#include <variant>
 #include <vector>
 
 #include "character.h"
@@ -24,12 +25,15 @@
 #include "item.h"
 #include "item_pocket.h"
 #include "item_uid.h"
+#include "item_wakeup.h"
 #include "itype.h"
 #include "json.h"
 #include "line.h"
 #include "magic_enchantment.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "map_selector.h"
+#include "npc.h"
 #include "pimpl.h"
 #include "point.h"
 #include "ret_val.h"
@@ -45,6 +49,7 @@
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 
 // Legacy: positional index lookup, used only for serializing idx (kept for old-save compat
 // from before #85905) and vehicle base items. Once legacy save support is dropped, this can
@@ -1402,4 +1407,154 @@ int item_location::get_quality( const std::string &quality, bool strict_boiling 
     const item_location tool = *this;
     quality_id qualityid( quality );
     return tool->get_quality_nonrecursive( qualityid, strict_boiling );
+}
+
+// Hint-driven uid resolution with bounded fallback.  No world-wide scan.
+// Returns invalid for items in monster stomachs, portals, or off-bubble.
+item_location find_item_by_uid( int64_t uid, const item_locator_hint &hint )
+{
+    if( uid <= 0 ) {
+        return item_location::nowhere;
+    }
+
+    map &here = get_map();
+
+    auto try_character = [uid]( Character * c ) -> item_location {
+        if( c == nullptr )
+        {
+            return item_location::nowhere;
+        }
+        item *found = retrieve_by_uid( *c, uid );
+        if( found == nullptr )
+        {
+            return item_location::nowhere;
+        }
+        return item_location( *c, found );
+    };
+
+    // Off-bubble would wrap a pointer into a temporary tinymap; gate to
+    // in-bounds.  Owners must call rebuild_for_item once back in range.
+    auto try_map_at = [uid, &here]( const tripoint_abs_ms & abs ) -> item_location {
+        if( !here.inbounds( here.get_bub( abs ) ) )
+        {
+            return item_location::nowhere;
+        }
+        map_cursor mc( abs );
+        item *found = retrieve_by_uid( mc, uid );
+        if( found == nullptr )
+        {
+            return item_location::nowhere;
+        }
+        return item_location( mc, found );
+    };
+
+    switch( hint.where ) {
+        case item_locator_hint::place::character: {
+            const character_id *cid = std::get_if<character_id>( &hint.location );
+            if( cid != nullptr && cid->is_valid() ) {
+                Character &u = get_player_character();
+                if( u.getID() == *cid ) {
+                    item_location loc = try_character( &u );
+                    if( loc ) {
+                        return loc;
+                    }
+                }
+                npc *n = g->find_npc( *cid );
+                if( n != nullptr ) {
+                    item_location loc = try_character( n );
+                    if( loc ) {
+                        return loc;
+                    }
+                }
+            }
+            break;
+        }
+        case item_locator_hint::place::map: {
+            const tripoint_abs_ms *p = std::get_if<tripoint_abs_ms>( &hint.location );
+            if( p != nullptr ) {
+                item_location loc = try_map_at( *p );
+                if( loc ) {
+                    return loc;
+                }
+            }
+            break;
+        }
+        case item_locator_hint::place::vehicle: {
+            const vehicle_hint *vh = std::get_if<vehicle_hint>( &hint.location );
+            if( vh != nullptr && here.inbounds( here.get_bub( vh->cargo_square ) ) ) {
+                const optional_vpart_position vp = here.veh_at( vh->cargo_square );
+                if( vp ) {
+                    vehicle &veh = vp->vehicle();
+                    // Try in order: stored part_index (if in range), then
+                    // mount_offset lookup, then the cargo-square part.
+                    std::vector<int> candidates;
+                    if( vh->part_index >= 0 && vh->part_index < veh.part_count() ) {
+                        candidates.push_back( vh->part_index );
+                    }
+                    const std::vector<int> at_mount = veh.parts_at_relative(
+                                                          vh->mount_offset, true, false );
+                    for( int p : at_mount ) {
+                        if( p != vh->part_index ) {
+                            candidates.push_back( p );
+                        }
+                    }
+                    const int square_part = static_cast<int>( vp->part_index() );
+                    if( std::find( candidates.begin(), candidates.end(),
+                                   square_part ) == candidates.end() ) {
+                        candidates.push_back( square_part );
+                    }
+                    for( int part : candidates ) {
+                        if( part < 0 || part >= veh.part_count() ) {
+                            continue;
+                        }
+                        vehicle_cursor vc( veh, part );
+                        item *found = retrieve_by_uid( vc, uid );
+                        if( found != nullptr ) {
+                            return item_location( vc, found );
+                        }
+                    }
+                }
+            }
+            break;
+        }
+        case item_locator_hint::place::unknown:
+            break;
+    }
+
+    // Bounded fallback: avatar + nearby NPCs + loaded vehicles + map tiles.
+    // No world-wide scan.
+    item_location loc = try_character( &get_player_character() );
+    if( loc ) {
+        return loc;
+    }
+    for( npc &n : g->all_npcs() ) {
+        item_location l2 = try_character( &n );
+        if( l2 ) {
+            return l2;
+        }
+    }
+    for( const wrapped_vehicle &wv : here.get_vehicles() ) {
+        if( wv.v == nullptr ) {
+            continue;
+        }
+        for( const vpart_reference &vpr : wv.v->get_all_parts() ) {
+            vehicle_cursor vc( *wv.v, vpr.part_index() );
+            item *found = retrieve_by_uid( vc, uid );
+            if( found != nullptr ) {
+                return item_location( vc, found );
+            }
+        }
+    }
+    for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
+        if( !here.has_items( p ) ) {
+            continue;
+        }
+        map_cursor mc( here.get_abs( p ) );
+        item *found = retrieve_by_uid( mc, uid );
+        if( found != nullptr ) {
+            return item_location( mc, found );
+        }
+    }
+
+    return item_location::nowhere;
 }

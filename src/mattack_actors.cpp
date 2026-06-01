@@ -1297,7 +1297,7 @@ int gun_actor::get_max_range()  const
 {
     int max_range = 0;
     for( const auto &e : ranges ) {
-        max_range = std::max( std::max( max_range, e.first.first ), e.first.second );
+        max_range = std::max( { max_range, e.first.first, e.first.second } );
     }
 
     add_msg_debug( debugmode::DF_MATTACK, "Max range %d", max_range );

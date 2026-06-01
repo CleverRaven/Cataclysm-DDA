@@ -50,7 +50,6 @@
   {
     "id": "10l_plastic",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "10 L plastic block" },
     "description": "A ten-liter block of solid plastic.",
@@ -60,13 +59,11 @@
     "price_postapoc": "2 USD 30 cent",
     "material": [ "plastic" ],
     "symbol": "=",
-    "color": "light_blue",
-    "ammo_type": "components"
+    "color": "light_blue"
   },
   {
     "id": "5l_plastic",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "5 L plastic block" },
     "description": "A five-liter block of solid plastic.",
@@ -76,8 +73,7 @@
     "price_postapoc": "1 USD 16 cent",
     "material": [ "plastic" ],
     "symbol": "=",
-    "color": "light_blue",
-    "ammo_type": "components"
+    "color": "light_blue"
   },
   {
     "id": "plastic_chunk",

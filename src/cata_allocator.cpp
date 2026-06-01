@@ -26,7 +26,9 @@
 
 #if defined(TILES) || defined(SDL_SOUND)
 #define SDL_SET_MEMORY_FUNCTIONS
-#if defined(_MSC_VER) && defined(USE_VCPKG)
+#if defined(USE_SDL3)
+#include <SDL3/SDL_stdinc.h>
+#elif defined(_MSC_VER) && defined(USE_VCPKG)
 #include <SDL2/SDL_stdinc.h>
 #else
 #include <SDL_stdinc.h>

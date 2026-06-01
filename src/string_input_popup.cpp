@@ -334,7 +334,8 @@ void string_input_popup::query( const bool loop, const bool draw_only )
 }
 
 template<typename T>
-std::optional<T> query_int_impl( string_input_popup &p, const bool loop, const bool draw_only )
+static std::optional<T> query_int_impl( string_input_popup &p, const bool loop,
+                                        const bool draw_only )
 {
     do {
         const std::string &queried_string = p.query_string( loop, draw_only );

@@ -61,12 +61,17 @@ static void advance_turn( Character &guy )
     calendar::turn += 1_turns;
 }
 
+namespace
+{
+
 struct enchant_test {
     int dex_before;
     int lie_before;
     int persuade_before;
     int intimidate_before;
 };
+
+} // namespace
 
 static void test_generic_ench( avatar &p, enchant_test enc_test )
 {

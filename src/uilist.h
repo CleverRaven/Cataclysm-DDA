@@ -429,6 +429,16 @@ class uilist // NOLINT(cata-xy)
 
         void reset();
 
+#if defined(TILES)
+        void set_hide( bool val );
+        /**
+         * Used to hide ImGui menu under old menu.
+         *
+         * FIXME: Remove after complete ImGui migration.
+         */
+        void hide_if_hidden();
+#endif
+
         shared_ptr_fast<uilist_impl> create_or_get_ui();
         // NOLINTNEXTLINE(google-explicit-constructor)
         operator int() const;
@@ -518,7 +528,6 @@ class uilist // NOLINT(cata-xy)
         int vmax = 0;
 
         bool started = false;
-        bool recalc_start = false;
         bool clicked = false;
         bool need_to_scroll = false;
 
@@ -543,6 +552,9 @@ class uilist // NOLINT(cata-xy)
 
 class uilist_impl : public cataimgui::window
 {
+#if defined(TILES)
+        friend class uilist;
+#endif
         uilist &parent;
     public:
         explicit uilist_impl( uilist &parent ) : cataimgui::window( "UILIST",

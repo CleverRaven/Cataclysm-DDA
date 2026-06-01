@@ -50,11 +50,15 @@
     "id": "TALK_ROBOFAC_SCIENTIST_GARAGE",
     "dynamic_line": {
       "u_has_faction_trust": 10,
-      "yes": "Good to see you.  What can I do for you?",
+      "yes": "Ah, it's you.  Good to see you.  What can I do for you?  Here to collect on the bounty?",
       "no": {
         "compare_string": [ "yes", { "u_val": "dialogue_robofac_scientist_garage_first_meet" } ],
         "yes": "Got something for me?",
-        "no": "Ah, good, another independent contractor, right?  I take it you've heard about the bounty?"
+        "no": {
+          "u_has_trait": "EXODII_CYBERFRAME_GENERIC",
+          "no": "Ah, good, another independent contractor, right?  I take it you've heard about the bounty?",
+          "yes": "Oh, my.  Look at you.  As they promised, you are quite the machine.  On the side of humanity, too, I hear.  I take it you're here for the bounty?"
+        }
       }
     },
     "responses": [

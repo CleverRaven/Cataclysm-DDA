@@ -3667,11 +3667,11 @@
     "looks_like": "cup_plastic",
     "description": "A cheap, disposable cup with a plastic lid and straw.",
     "ascii_picture": "styrofoam_cup",
-    "weight": "50 g",
-    "volume": "501 ml",
-    "price": "0 cent",
+    "weight": "7 g",
+    "volume": "650 ml",
+    "price": "55 cent",
     "price_postapoc": "0 cent",
-    "material": [ "plastic" ],
+    "material": [ "styrofoam" ],
     "symbol": ")",
     "color": "white",
     "pocket_data": [
@@ -5395,5 +5395,51 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "10 kg", "transparent": true }
     ],
     "flags": [ "NO_RELOAD" ]
+  },
+  {
+    "id": "spool_welding",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "wire spool" },
+    "description": "A large plastic spool designed to hold welding wire or solder.",
+    "weight": "400 g",
+    "volume": "1600 ml",
+    "material": [ "plastic" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "max_contains_volume": "3000 ml",
+        "max_contains_weight": "6 kg",
+        "item_restriction": [ "welding_wire_steel", "welding_wire_alloy", "solder_wire" ],
+        "transparent": false,
+        "moves": 800,
+        "volume_multiplier": 0.3
+      }
+    ]
+  },
+  {
+    "id": "tube_welding_rod",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "welding rod tube" },
+    "description": "A long, clear plastic canister with a threaded cap.  It is designed to hold heavy stacks of welding and brazing rods.",
+    "weight": "250 g",
+    "volume": "4200 ml",
+    "material": [ "plastic" ],
+    "symbol": "|",
+    "color": "light_cyan",
+    "longest_side": "48 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "4000 ml",
+        "max_contains_weight": "12 kg",
+        "max_item_length": "47 cm",
+        "rigid": true
+      }
+    ]
   }
 ]

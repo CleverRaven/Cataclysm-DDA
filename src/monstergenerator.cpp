@@ -276,6 +276,8 @@ static creature_size volume_to_size( const units::volume &vol )
     return creature_size::huge;
 }
 
+namespace
+{
 struct monster_adjustment {
     species_id species;
     std::string stat;
@@ -285,6 +287,7 @@ struct monster_adjustment {
     std::string special;
     void apply( mtype &mon ) const;
 };
+} // namespace
 
 void monster_adjustment::apply( mtype &mon ) const
 {
@@ -554,7 +557,7 @@ mtype MonsterGenerator::generate_fake_pseudo_dormant_monster( const mtype &mon )
     }
     // add the special attack.
     // first make a new mon_spellcasting_actor actor
-    std::unique_ptr<mon_spellcasting_actor> new_actor( new mon_spellcasting_actor() );
+    std::unique_ptr<mon_spellcasting_actor> new_actor = std::make_unique<mon_spellcasting_actor>();
     new_actor->allow_no_target = true;
     new_actor->cooldown = 1;
     new_actor->spell_data.id = spell_pseudo_dormant_trap_setup;
@@ -1256,6 +1259,8 @@ mtype_id MonsterGenerator::get_valid_hallucination() const
     return random_entry( hallucination_monsters );
 }
 
+namespace
+{
 class mattack_hardcoded_wrapper : public mattack_actor
 {
     private:
@@ -1275,6 +1280,7 @@ class mattack_hardcoded_wrapper : public mattack_actor
 
         void load_internal( const JsonObject &, const std::string & ) override {}
 };
+} // namespace
 
 mtype_special_attack::mtype_special_attack( const mattack_id &id, const mon_action_attack f )
     : mtype_special_attack( std::make_unique<mattack_hardcoded_wrapper>( id, f ) ) {}

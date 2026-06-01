@@ -174,7 +174,7 @@
               { "item": "bag_plastic", "prob": 5 },
               { "item": "bowl_plastic", "prob": 5 },
               { "item": "ammonia_hydroxide", "charges": [ 1, -1 ], "prob": 15 },
-              { "item": "chem_washing_soda", "charges": [ 1, -1 ], "prob": 10 },
+              { "item": "chem_washing_soda", "count": [ 1, -1 ], "prob": 10 },
               { "item": "bag_garbage", "count": [ 1, 25 ], "container-item": "box_small", "prob": 35 }
             ],
             "prob": 15
@@ -275,7 +275,7 @@
       { "item": "evac_pamphlet", "prob": 15 },
       { "group": "games_basic", "prob": 15, "count": [ 1, 2 ] },
       { "item": "paper", "prob": 20, "count": [ 1, 3 ] },
-      { "item": "pencil", "prob": 20, "count": [ 1, 5 ], "charges": [ 1, 100 ] }
+      { "item": "pencil", "prob": 20, "count": [ 1, 5 ] }
     ]
   },
   {
@@ -289,7 +289,7 @@
       { "item": "evac_pamphlet", "prob": 15 },
       { "group": "games_basic", "prob": 8 },
       { "item": "paper", "prob": 10, "count": [ 1, 2 ] },
-      { "item": "pencil", "prob": 10, "count": [ 1, 2 ], "charges": [ 1, 100 ] }
+      { "item": "pencil", "prob": 10, "count": [ 1, 2 ] }
     ]
   },
   {

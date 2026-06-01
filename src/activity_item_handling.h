@@ -107,6 +107,8 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
                         const std::vector<item_location> &other_activity_items,
                         const zone_sorting::zone_items &items, bool *pickup_failure,
                         bool *spillable_skipped = nullptr );
+bool dest_has_capacity( const tripoint_abs_ms &dest, const zone_type_id &ztype,
+                        const item &sample, const faction_id &fac );
 bool can_unload( item *it );
 void add_item( const std::optional<vpart_reference> &vp, const tripoint_bub_ms &src_bub,
                const item &it );
@@ -177,11 +179,6 @@ bool activity_reason_quit( do_activity_reason reason );
 // the activity (reason) requires picking up tools
 bool activity_reason_picks_up_tools( do_activity_reason reason );
 void check_npc_revert( Character &you );
-// assigns fetch activity to find requirements
-requirement_check_result fetch_requirements( Character &you, requirement_id what_we_need,
-        const activity_id &act_id,
-        activity_reason_info &act_info, const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc,
-        const std::unordered_set<tripoint_abs_ms> &src_set );
 // converts invalid do_activity_reason into failed requirement_check_result
 requirement_check_result requirement_fail( Character &you, const do_activity_reason &reason,
         const activity_id &act_id, const zone_data *zone );

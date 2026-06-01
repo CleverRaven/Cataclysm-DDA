@@ -148,7 +148,7 @@ class watcher_set
 
         template<typename Class, typename... FnArgs, typename... Args>
         void send_to_all( void ( Class::*mem_fn )( FnArgs... ), Args &&... args ) const {
-            static_assert( std::is_base_of<Class, Watcher>::value,
+            static_assert( std::is_base_of_v<Class, Watcher>,
                            "Watcher must be derived from Class" );
             // Sending an event to a watcher can cause it to be erased, so we
             // need to always ensure we have the next iterator prepared in

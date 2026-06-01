@@ -394,6 +394,8 @@ class highway_intersection_grid : public overmap_feature_grid
         // cannot be placed in constructor because options are loaded after overmapbuffer
         void set_options();
         void generate_offset( overmap_feature_grid_node &node ) override;
+    private:
+        std::unordered_map<point_abs_om, bool> om_has_lake_cache;
 };
 
 /*

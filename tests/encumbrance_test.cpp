@@ -83,6 +83,8 @@ static void test_encumbrance(
     test_encumbrance_items( clothing, body_part, expected_encumbrance );
 }
 
+namespace
+{
 struct add_trait {
     explicit add_trait( const std::string &t ) : trait( t ) {}
     explicit add_trait( const trait_id &t ) : trait( t ) {}
@@ -93,6 +95,7 @@ struct add_trait {
 
     trait_id trait;
 };
+} // namespace
 
 static constexpr int postman_shirt_e = 0;
 static constexpr int longshirt_e = 3;

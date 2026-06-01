@@ -46,10 +46,13 @@ static const std::string COSMETICS_SIGNAGE( "SIGNAGE" );
 // Handle GCC warning: 'warning: returning reference to temporary'
 static const std::string STRING_EMPTY;
 
+namespace
+{
 struct cosmetic_find_result {
     bool result = false;
     int ndx = 0;
 };
+} // namespace
 static cosmetic_find_result make_result( bool b, int ndx )
 {
     cosmetic_find_result result;

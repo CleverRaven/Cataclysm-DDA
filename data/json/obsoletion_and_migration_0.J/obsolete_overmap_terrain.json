@@ -588,5 +588,35 @@
       "central_lab_shaft_west": "empty_rock",
       "central_lab_entrance_west": "forest"
     }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "Corrected rotation in 0.J experimental",
+    "oter_ids": { "hw_supports": "hw_supports_north" }
+  },
+  {
+    "type": "oter_id_migration",
+    "oter_ids": {
+      "lmoe_prepperquest_north": "field",
+      "lmoe_roof_north": "open_air",
+      "lmoe_zombie_north": "field",
+      "lmoe_under_empty_north": "lmoe_under_north",
+      "lmoe_zombie_under_empty_north": "lmoe_under_north",
+      "lmoe_prepperquest_east": "field",
+      "lmoe_roof_east": "open_air",
+      "lmoe_zombie_east": "field",
+      "lmoe_under_empty_east": "lmoe_under_east",
+      "lmoe_zombie_under_empty_east": "lmoe_under_east",
+      "lmoe_prepperquest_south": "field",
+      "lmoe_roof_south": "open_air",
+      "lmoe_zombie_south": "field",
+      "lmoe_under_empty_south": "lmoe_under_south",
+      "lmoe_zombie_under_empty_south": "lmoe_under_south",
+      "lmoe_prepperquest_west": "field",
+      "lmoe_roof_west": "open_air",
+      "lmoe_zombie_west": "field",
+      "lmoe_under_empty_west": "lmoe_under_west",
+      "lmoe_zombie_under_empty_west": "lmoe_under_west"
+    }
   }
 ]

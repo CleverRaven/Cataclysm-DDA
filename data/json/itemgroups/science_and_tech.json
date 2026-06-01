@@ -10,8 +10,8 @@
       { "item": "water_clean", "prob": 90, "charges": [ 1, -1 ], "container-item": "bottle_plastic", "sealed": false },
       { "item": "bleach", "prob": 20, "charges": [ 1, -1 ] },
       { "item": "ammonia_liquid", "prob": 50, "charges": [ 6, -1 ] },
-      { "item": "chem_washing_soda", "prob": 15, "charges": [ 1, -1 ] },
-      { "item": "chem_baking_soda", "prob": 5, "charges": [ 1, -1 ] },
+      { "item": "chem_washing_soda", "prob": 15, "count": [ 1, -1 ] },
+      { "item": "chem_baking_soda", "prob": 5, "count": [ 1, -1 ] },
       [ "mutagen", 8 ],
       [ "mutagen_chelator", 7 ],
       [ "purifier", 5 ],
@@ -128,8 +128,8 @@
       { "item": "water_clean", "prob": 90, "charges": [ 1, -1 ], "container-item": "bottle_plastic", "sealed": false },
       { "item": "bleach", "prob": 20, "charges": [ 1, -1 ] },
       { "item": "ammonia_liquid", "prob": 50, "charges": [ 6, -1 ] },
-      { "item": "chem_washing_soda", "prob": 15, "charges": [ 1, -1 ] },
-      { "item": "chem_baking_soda", "prob": 5, "charges": [ 1, -1 ] },
+      { "item": "chem_washing_soda", "prob": 15, "count": [ 1, -1 ] },
+      { "item": "chem_baking_soda", "prob": 5, "count": [ 1, -1 ] },
       { "prob": 5, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
       { "prob": 5, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
       { "item": "chem_ethanol", "prob": 10, "charges": [ 250, -1 ] },
@@ -256,8 +256,8 @@
       { "item": "salt_water", "prob": 20, "charges": [ 1, -1 ] },
       { "item": "bleach", "prob": 20, "charges": [ 1, -1 ] },
       { "item": "ammonia_liquid", "prob": 50, "charges": [ 6, -1 ] },
-      { "item": "chem_washing_soda", "prob": 20, "charges": [ 1, -1 ] },
-      { "item": "chem_baking_soda", "prob": 5, "charges": [ 1, -1 ] },
+      { "item": "chem_washing_soda", "prob": 20, "count": [ 1, -1 ] },
+      { "item": "chem_baking_soda", "prob": 5, "count": [ 1, -1 ] },
       { "item": "chem_calcium_chloride", "prob": 5 },
       [ "panacea", 8 ],
       { "group": "glue_weak_domestic", "prob": 15 },
@@ -690,48 +690,6 @@
       [ "beaker", 10 ],
       [ "test_tube", 10 ]
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "adderall_bottle_plastic_pill_prescription_1_10",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "adderall", "container-item": "null", "count": [ 1, 10 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "bfipowder_bottle_plastic_5_60",
-    "subtype": "collection",
-    "container-item": "bottle_plastic",
-    "entries": [ { "item": "bfipowder", "container-item": "null", "count": [ 5, 60 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "antiparasitic_bottle_plastic_pill_prescription_1_10",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "antiparasitic", "container-item": "null", "count": [ 1, 10 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "diazepam_bottle_plastic_pill_prescription_1_10",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "diazepam", "container-item": "null", "count": [ 1, 10 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "chem_sulphur_bottle_plastic_small_100_inf",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "chem_sulphur", "container-item": "null", "charges": [ 100, 1500 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "chem_citric_acid_bottle_glass_100_inf",
-    "subtype": "collection",
-    "container-item": "bottle_glass",
-    "entries": [ { "item": "chem_citric_acid", "container-item": "null", "count": [ 100, -1 ] } ]
   },
   {
     "type": "item_group",

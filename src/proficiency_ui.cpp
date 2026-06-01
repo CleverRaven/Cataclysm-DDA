@@ -48,6 +48,8 @@
 
 using display_prof_deps = std::pair<display_proficiency, std::vector<proficiency_id>>;
 
+namespace
+{
 struct prof_window {
     input_context ctxt;
     weak_ptr_fast<ui_adaptor> ui;
@@ -83,6 +85,7 @@ struct prof_window {
     void draw_details();
     void run( std::optional<proficiency_id> default_selection = std::nullopt );
 };
+} // namespace
 
 std::vector<display_prof_deps *> &prof_window::get_current_set()
 {

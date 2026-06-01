@@ -6,5 +6,15 @@
   {
     "type": "proficiency_migration",
     "from": "prof_wp_slime_advanced"
+  },
+  {
+    "type": "proficiency_migration",
+    "from": "prof_case_hardening",
+    "to": "prof_hardening"
+  },
+  {
+    "type": "proficiency_migration",
+    "from": "prof_quenching",
+    "to": "prof_tempering"
   }
 ]

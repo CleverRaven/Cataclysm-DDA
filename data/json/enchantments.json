@@ -340,6 +340,14 @@
     "ench_effects": [ { "effect": "quadruped_half", "intensity": 1 } ]
   },
   {
+    "id": "ench_dextrous_paws_need_practice",
+    "type": "enchantment",
+    "condition": {
+      "and": [ { "u_has_any_trait": [ "PAWS_LITTLE", "PAWS_RAT" ] }, { "math": [ "u_progress_dextrous_paws_usage < 10" ] } ]
+    },
+    "ench_effects": [ { "effect": "effect_dextrous_paws_no_practice_manipulation_penalty", "intensity": 1 } ]
+  },
+  {
     "id": "combat_exoskeleton_inactive",
     "type": "enchantment",
     "name": { "str": "Inactive exoskeleton" },
@@ -409,7 +417,7 @@
     "id": "robofac_XM_LEG_on",
     "type": "enchantment",
     "name": { "str": "Active XM-LEG" },
-    "description": "Your active leg cybernetics are helping you move quicker and easier over flat ground and obstacles, and are increasing your carry weight.",
+    "description": "Your active wearable leg cybernetics are helping you move quicker and easier over flat ground and obstacles, and are increasing the amount of weight you can carry.",
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [
@@ -423,7 +431,7 @@
     "id": "robofac_XM_ARM_on",
     "type": "enchantment",
     "name": { "str": "Active XM-ARM" },
-    "description": "Your active arm cybernetics are improving your weapon handling and throwing ability.",
+    "description": "Your active wearable arm cybernetics are improving your weapon handling and throwing ability.",
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [
@@ -437,7 +445,7 @@
     "id": "robofac_XM_BACK_on",
     "type": "enchantment",
     "name": { "str": "Active XM-BACK" },
-    "description": "Your active torso cybernetics are <color_white>slightly</color> increasing your carry weight and improving your ability to throw and absorb recoil.",
+    "description": "Your active wearable torso cybernetics are <color_white>slightly</color> increasing your carry weight and improving your ability to throw and absorb recoil.",
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [
@@ -447,5 +455,19 @@
       { "value": "THROW_STR", "multiply": 0.05 },
       { "value": "THROW_DAMAGE", "multiply": 0.05 }
     ]
+  },
+  {
+    "//": "This is overwritten in MoM",
+    "id": "ench_mom_incense_nether_attunement",
+    "type": "enchantment",
+    "has": "HELD",
+    "condition": "ALWAYS"
+  },
+  {
+    "//": "This is overwritten in MoM",
+    "id": "ench_mom_incense_nether_attunement_major",
+    "type": "enchantment",
+    "has": "HELD",
+    "condition": "ALWAYS"
   }
 ]

@@ -46,7 +46,7 @@
 
 #if defined(__ANDROID__)
 #include <jni.h>
-#include <SDL_keyboard.h>
+#include "sdl_wrappers.h" // for GetAndroidJNIEnv(), GetAndroidActivity()
 #endif
 
 // Display data
@@ -844,8 +844,8 @@ bool query_yn( const std::string &text )
 {
 #if defined(__ANDROID__)
     if( get_option<bool>( "ANDROID_NATIVE_UI" ) ) {
-        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-        jobject activity = ( jobject )SDL_AndroidGetActivity();
+        JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
+        jobject activity = ( jobject )GetAndroidActivity();
         jclass clazz( env->GetObjectClass( activity ) );
         jmethodID get_nativeui_method_id = env->GetMethodID( clazz, "getNativeUI",
                                            "()Lcom/cleverraven/cataclysmdda/NativeUI;" );
@@ -957,8 +957,8 @@ int popup( const std::string &text, PopupFlags flags )
 {
 #if defined(__ANDROID__)
     if( get_option<bool>( "ANDROID_NATIVE_UI" ) && flags == PF_NONE ) {
-        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-        jobject activity = ( jobject )SDL_AndroidGetActivity();
+        JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
+        jobject activity = ( jobject )GetAndroidActivity();
         jclass clazz( env->GetObjectClass( activity ) );
         jmethodID get_nativeui_method_id = env->GetMethodID( clazz, "getNativeUI",
                                            "()Lcom/cleverraven/cataclysmdda/NativeUI;" );
@@ -1592,7 +1592,7 @@ static std::string trim( std::string_view s, Predicate pred )
 }
 
 template<typename Prep>
-std::string trim_trailing( std::string_view s, Prep prep )
+static std::string trim_trailing( std::string_view s, Prep prep )
 {
     return std::string( s.begin(), std::find_if_not(
     s.rbegin(), s.rend(), [&prep]( int c ) {
@@ -2751,11 +2751,12 @@ using RatingVector = std::vector<std::tuple<double, char, std::string>>;
 template std::string get_labeled_bar<RatingVector::iterator>( const double val, const int width,
         const std::string &label,
         RatingVector::iterator begin, RatingVector::iterator end,
-        std::function<std::string( RatingVector::iterator, int )> printer );
+        const std::function<std::string( RatingVector::iterator, int )> &printer );
 
 template<typename BarIterator>
 std::string get_labeled_bar( const double val, const int width, const std::string &label,
-                             BarIterator begin, BarIterator end, std::function<std::string( BarIterator, int )> printer )
+                             BarIterator begin, BarIterator end,
+                             const std::function<std::string( BarIterator, int )> &printer )
 {
     std::string result;
 

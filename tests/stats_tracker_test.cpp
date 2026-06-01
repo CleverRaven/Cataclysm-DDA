@@ -404,12 +404,17 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
     }
 }
 
+namespace
+{
+
 struct watch_stat : stat_watcher {
     void new_value( const cata_variant &v, stats_tracker & ) override {
         value = v;
     }
     cata_variant value;
 };
+
+} // namespace
 
 TEST_CASE( "stats_tracker_watchers", "[stats]" )
 {
@@ -916,6 +921,9 @@ TEST_CASE( "stats_tracker_in_game", "[stats]" )
     CHECK( get_stats().get_events( e.type() ).count( e.data() ) == 1 );
 }
 
+namespace
+{
+
 struct stats_test_subscriber : public event_subscriber {
     using event_subscriber::notify;
     void notify( const cata::event &e ) override {
@@ -927,6 +935,8 @@ struct stats_test_subscriber : public event_subscriber {
 
     std::vector<cata::event> events;
 };
+
+} // namespace
 
 TEST_CASE( "achievements_tracker_in_game", "[stats]" )
 {

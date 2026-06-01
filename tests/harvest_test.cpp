@@ -178,7 +178,7 @@ TEST_CASE( "butchery_sub_gram_harvest_items", "[harvest]" )
     for( const tripoint_bub_ms &p : closest_points_first( bird_loc, 0, 3 ) ) {
         for( const item &it : here.i_at( p ) ) {
             if( it.typeId() == itype_down_feather ) {
-                total_down_feathers += it.charges;
+                total_down_feathers += it.count();
             }
         }
     }

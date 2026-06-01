@@ -192,9 +192,12 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 using item_menu = std::function<item_location( const item_location_filter & )>;
 using item_menu_mul = std::function<drop_locations( const item_location_filter & )>;
 
+// NOLINTNEXTLINE(misc-use-internal-linkage): extern template instantiation of non-anon-ns template
 extern template struct value_or_var<diag_value, eoc_math, string_mutator<translation>>;
 using diag_value_or_var = value_or_var<diag_value, eoc_math, string_mutator<translation>>;
 
+namespace
+{
 struct sub_effect_parser {
     using f_t = talk_effect_fun_t::func( * )( const JsonObject &, std::string_view,
                 std::string_view src );
@@ -244,7 +247,10 @@ struct sub_effect_parser {
     std::function<talk_effect_fun_t( const JsonObject &, std::string_view, std::string_view src, bool )>
     f;
 };
+} // namespace
 
+namespace
+{
 struct item_search_data {
 
     std::vector<str_or_var> id;
@@ -469,6 +475,7 @@ struct item_search_data {
         return true;
     }
 };
+} // namespace
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -517,11 +524,13 @@ static std::vector<effect_on_condition_id> load_eoc_vector( const JsonObject &jo
     return eocs;
 }
 
+namespace
+{
 struct eoc_entry {
     effect_on_condition_id id;
     std::optional<str_or_var> var;
 };
-static std::vector<eoc_entry>
+std::vector<eoc_entry>
 load_eoc_vector_id_and_var(
     const JsonObject &jo, std::string_view member, std::string_view src )
 {
@@ -549,6 +558,7 @@ load_eoc_vector_id_and_var(
     }
     return eocs_entries;
 }
+} // namespace
 
 
 /** Time (in turns) and cost (in cent) for training: */
@@ -659,6 +669,8 @@ int npc_trading::cash_to_favor( const npc &, int cash )
     return roll_remainder( scaled_mission_val );
 }
 
+namespace
+{
 enum npc_chat_menu {
     NPC_CHAT_DONE,
     NPC_CHAT_TALK,
@@ -703,6 +715,7 @@ enum npc_chat_menu {
     NPC_CHAT_ACTIVITIES_VEHICLE_REPAIR,
     NPC_CHAT_ACTIVITIES_UNASSIGN
 };
+} // namespace
 
 // given a vector of NPCs, presents a menu to allow a player to pick one.
 // everyone == true adds another entry at the end to allow selecting all listed NPCs
@@ -2251,7 +2264,8 @@ int talk_trial::calc_chance( const_dialogue const &d ) const
     int chance = difficulty;
     switch( type ) {
         case NUM_TALK_TRIALS:
-            dbg( D_ERROR ) << "called calc_chance with invalid talk_trial value: " << type;
+            dbg( D_ERROR ) << "called calc_chance with invalid talk_trial value: "
+                           << static_cast<unsigned int>( type );
             break;
         case TALK_TRIAL_NONE:
             chance = 100;
@@ -3727,13 +3741,13 @@ talk_effect_fun_t::func f_pick_bodypart( const JsonObject &jo, std::string_view 
 
     if( jo.has_array( "whitelist_type" ) ) {
         for( JsonValue jv : jo.get_array( "whitelist_type" ) ) {
-            whitelist_type.emplace_back( get_str_or_var( jv, member ) );
+            whitelist_type.emplace_back( get_str_or_var( jv, "whitelist_type" ) );
         }
     }
 
     if( jo.has_array( "blacklist_type" ) ) {
         for( JsonValue jv : jo.get_array( "blacklist_type" ) ) {
-            blacklist_type.emplace_back( get_str_or_var( jv, member ) );
+            blacklist_type.emplace_back( get_str_or_var( jv, "blacklist_type" ) );
         }
     }
     std::optional<bool> wounded;
@@ -3831,6 +3845,56 @@ talk_effect_fun_t::func f_pick_bodypart( const JsonObject &jo, std::string_view 
     };
 }
 
+talk_effect_fun_t::func f_add_wound( const JsonObject &jo, std::string_view member,
+                                     std::string_view, bool is_npc )
+{
+    str_or_var bodypart_var;
+    mandatory( jo, false, member, bodypart_var );
+
+    str_or_var wound_to_be_added_var;
+    optional( jo, false, "wound_id", wound_to_be_added_var );
+
+    return [is_npc, bodypart_var, wound_to_be_added_var]( dialogue & d ) {
+
+        bodypart *bp =
+            d.actor( is_npc )->get_character()->get_part( bodypart_id( bodypart_var.evaluate( d ) ) );
+
+        wound_type_id wound_to_be_added = wound_type_id( wound_to_be_added_var.evaluate( d ) );
+
+        bp->add_or_worsen_wound( wound_to_be_added );
+    };
+}
+
+talk_effect_fun_t::func f_remove_wound( const JsonObject &jo, std::string_view member,
+                                        std::string_view, bool is_npc )
+{
+    str_or_var bodypart_var;
+    mandatory( jo, false, member, bodypart_var );
+
+    std::vector<str_or_var> wound_to_be_removed_var;
+    if( jo.has_array( "wound_id" ) ) {
+        for( JsonValue jv : jo.get_array( "wound_id" ) ) {
+            wound_to_be_removed_var.emplace_back( get_str_or_var( jv, member ) );
+        }
+    }
+
+    return [is_npc, bodypart_var, wound_to_be_removed_var]( dialogue & d ) {
+
+        bodypart *bp =
+            d.actor( is_npc )->get_character()->get_part( bodypart_id( bodypart_var.evaluate( d ) ) );
+
+        std::vector<wound_type_id> wound_to_be_removed;
+        wound_to_be_removed.reserve( wound_to_be_removed_var.size() );
+        for( const str_or_var &v : wound_to_be_removed_var ) {
+            wound_to_be_removed.emplace_back( v.evaluate( d ) );
+        }
+
+        for( const wound_type_id &wd_id : wound_to_be_removed ) {
+            bp->remove_all_wounds_of_type( wd_id );
+        }
+
+    };
+}
 
 talk_effect_fun_t::func f_add_var( const JsonObject &jo, std::string_view member,
                                    std::string_view, bool is_npc )
@@ -4763,7 +4827,7 @@ talk_effect_fun_t::func f_explosion( const JsonObject &jo, std::string_view memb
 talk_effect_fun_t::func f_query_tile( const JsonObject &jo, std::string_view member,
                                       std::string_view, bool is_npc )
 {
-    std::string type = jo.get_string( member.data() );
+    std::string type = jo.get_string( member );
     var_info target_var = read_var_info( jo.get_object( "target_var" ) );
     std::string message;
     if( jo.has_member( "message" ) ) {
@@ -6224,7 +6288,8 @@ talk_effect_fun_t::func f_set_fault( const JsonObject &jo, std::string_view memb
     bool msg = jo.get_bool( "message", true );
     return [fault_var, force, msg, is_npc]( dialogue const & d ) {
         item_location &it = *d.actor( is_npc )->get_item();
-        it.get_item()->set_fault( fault_id( fault_var.evaluate( d ) ), force, msg );
+        const Character *holder = msg ? d.actor( is_npc )->get_character() : nullptr;
+        it.get_item()->set_fault( fault_id( fault_var.evaluate( d ) ), force, holder );
     };
 }
 
@@ -6236,7 +6301,8 @@ talk_effect_fun_t::func f_set_random_fault_of_type( const JsonObject &jo, std::s
     bool msg = jo.get_bool( "message", true );
     return [fault_type_var, force, msg, is_npc]( dialogue const & d ) {
         item_location &it = *d.actor( is_npc )->get_item();
-        it.get_item()->set_random_fault_of_type( fault_type_var.evaluate( d ), force, msg );
+        const Character *holder = msg ? d.actor( is_npc )->get_character() : nullptr;
+        it.get_item()->set_random_fault_of_type( fault_type_var.evaluate( d ), force, holder );
     };
 }
 
@@ -7211,7 +7277,7 @@ talk_effect_fun_t::func f_switch( const JsonObject &jo, std::string_view member,
 talk_effect_fun_t::func f_foreach( const JsonObject &jo, std::string_view member,
                                    std::string_view src )
 {
-    std::string type = jo.get_string( member.data() );
+    std::string type = jo.get_string( member );
     var_info itr = read_var_info( jo.get_object( "var" ) );
     talk_effect_t effect;
     effect.load_effect( jo, "effect", src );
@@ -7262,7 +7328,7 @@ talk_effect_fun_t::func f_foreach( const JsonObject &jo, std::string_view member
         }
 
         for( std::string_view str : list ) {
-            write_var_value( itr.type, itr.name, &d, str.data() );
+            write_var_value( itr.type, itr.name, &d, std::string{ str } );
             effect.apply( d );
         }
     };
@@ -8174,7 +8240,7 @@ talk_effect_fun_t::func f_wants_to_talk( bool is_npc )
 talk_effect_fun_t::func f_trigger_event( const JsonObject &jo, std::string_view member,
         std::string_view )
 {
-    std::string const type_str = jo.get_string( member.data() );
+    std::string const type_str = jo.get_string( member );
     JsonArray const &jargs = jo.get_array( "args" );
 
     event_type type = io::string_to_enum<event_type>( type_str );
@@ -8374,6 +8440,8 @@ parsers = {
     { "u_buy_item", jarg::member, &talk_effect_fun::f_u_buy_item },
     { "u_spawn_item", jarg::member, &talk_effect_fun::f_spawn_item },
     { "u_pick_bodypart", "npc_pick_bodypart", jarg::member, &talk_effect_fun::f_pick_bodypart },
+    { "u_add_wound", "npc_add_wound", jarg::member, &talk_effect_fun::f_add_wound },
+    { "u_remove_wound", "npc_remove_wound", jarg::member, &talk_effect_fun::f_remove_wound },
     { "toggle_npc_rule", jarg::member, &talk_effect_fun::f_toggle_npc_rule },
     { "set_npc_rule", jarg::member, &talk_effect_fun::f_set_npc_rule },
     { "clear_npc_rule", jarg::member, &talk_effect_fun::f_clear_npc_rule },
@@ -8504,6 +8572,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( bionic_install_allies ),
             WRAP( bionic_remove ),
             WRAP( bionic_remove_allies ),
+            WRAP( repair_bionic_limbs ),
             WRAP( drop_items_in_place ),
             WRAP( follow ),
             WRAP( follow_only ),
@@ -9270,7 +9339,7 @@ std::string npc::pick_talk_topic( const Character &/*u*/ )
     return chatbin.talk_stranger_neutral;
 }
 
-std::string const &npc::get_specified_talk_topic( std::string const &topic_id )
+std::string npc::get_specified_talk_topic( std::string const &topic_id )
 {
     static const dialogue_chatbin default_chatbin;
     std::vector<std::pair<std::string const &, std::string const &>> const talk_topics = {

@@ -1034,8 +1034,7 @@ reference at least one body part or sub body part.
 |---                     |---
 | `id`                   | (_mandatory_) Unique ID. Must be one continuous word, use underscores if necessary.
 | `name`                 | (_mandatory_) In-game name displayed.
-| `limb_type`            | (_mandatory_) Type of limb, as defined by `bodypart.h`. Certain functions will check only a given bodypart type for their purposes. Currently implemented types are: `head, torso, sensor, mouth, arm, hand, leg, foot, wing, tail, other`.
-| `limb_types`           | (_optional_) (Can be used instead of `limb_type`) Weighted list of limb types this body part can emulate. The weights are modifiers that determine how good this body part is at acting like the given limb type. (Ex: `[ [ "foot", 1.0 ], [ "hand", 0.15 ] ]`)
+| `limb_types`           | (_mandatory_) Type(s) of limb, as defined by `bodypart.h`. Certain functions will check only a given bodypart type for their purposes. Currently implemented types are: `head, torso, sensor, mouth, arm, hand, leg, foot, wing, tail, other`. Weighted list of limb types this body part can emulate. The weights are modifiers that determine how good this body part is at acting like the given limb type. (Ex: `[ [ "foot", 1.0 ], [ "hand", 0.15 ] ]`)
 | `secondary_types`      | (_optional_) List of secondary limb types for the bodypart, to include it in relevant calculations.
 | `accusative`           | (_mandatory_) Accusative form for this bodypart.
 | `heading`              | (_mandatory_) How it's displayed in headings.
@@ -1105,7 +1104,7 @@ reference at least one body part or sub body part.
   "opposite_part": "arm_r",
   "hit_size": 9,
   "hit_difficulty": 0.95,
-  "limb_type": "arm",
+  "limb_types": "arm",
   "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "lift", 0.5 ], [ "block", 1.0 ], [ "swim", 0.1 ] ],
   "armor": { "electric": 2, "stab": 1 },
   "side": "left",
@@ -1329,6 +1328,7 @@ mod = min( max, ( limb_score / denominator ) - subtract );
 | `env_protec`                 | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
 | `protec`                     | (_optional_) An array of resistance values that determines the types of protection this bionic provides on the specified body parts.
 | `occupied_bodyparts`         | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
+| `replaced_bodyparts`         | (_optional_) A list of body parts completely replaced by this bionic. Accepts an array of bodypart ids.  When removing a bionic, any dependent bionic with an occupied_bodyparts entry matching a replaced_bodyparts entry will also be removed.
 | `capacity`                   | (_optional_) Amount of power storage added by this bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
 | `fuel_options`               | (_optional_) A list of materials that this bionic can use to produce bionic power.
 | `is_remote_fueled`           | (_optional_) If true this bionic allows you to plug your power banks to an external power source (solar backpack, UPS, vehicle etc) via a cable. (default: `false`)
@@ -1666,6 +1666,7 @@ Faults can be defined for more specialized damage of an item.
   "type": "fault",
   "id": "fault_gun_chamber_spent", // unique id for the fault
   "name": { "str": "Spent casing in chamber" }, // fault name for display
+  "color": "bad" // color for displaying the fault name, accepts 'bad' (red), 'neutral' (yellow), or 'good' (green)
   "description": "This gun currently...", // fault description
   "item_prefix": "jammed", // optional string, items with this fault will be prefixed with this
   "item_suffix": "no handle", // optional string, items with this fault will be suffixed with this. The string would be encased in parentheses, like `sword (no handle)`
@@ -3083,14 +3084,14 @@ A thin container for weakpoint definitions. The only unique fields for this obje
       "effects": [
         {
           "effect": "stunned",
-          "duration": [ 1, 2 ],
+          "duration": [ "1 seconds", "2 seconds" ],
           "chance": 5,
           "message": "The %s is stunned!",
           "damage_required": [ 1, 10 ]
         },
         {
           "effect": "stunned",
-          "duration": [ 1, 2 ],
+          "duration": [ "1 seconds", "2 seconds" ],
           "chance": 25,
           "message": "The %s is stunned!",
           "damage_required": [ 11, 100 ]
@@ -4452,6 +4453,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
     "decay_amount_factor": 2, // The field's rain decay amount is divided by this when processing the field, the rain decay is a function of the weather type's precipitation class: very_light = 5s, light = 15s, heavy = 45 s
     "half_life": "3 minutes", // If above 0 the field will disappear after two half-lifes on average
     "underwater_age_speedup": "25 minutes", // Increase the field's age by this time every tick if it's on a terrain with the SWIMMABLE flag
+    "block_mtypes": [ "zombie", "animal" ], // these monster types cannot move on tile with this field
     "linear_half_life": "true", // If true the half life decay is converted to a non-random, linear wait based on the defined half_life time. 
     "outdoor_age_speedup": "20 minutes", // Increase the field's age by this duration if it's on an outdoor tile
     "accelerated_decay": true, // If the field should use a more simple decay calculation, used for cosmetic fields like gibs

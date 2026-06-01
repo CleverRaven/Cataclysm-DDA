@@ -245,11 +245,14 @@ static const std::string cook_recipe_group_string = "COOK";
 static const std::string farm_recipe_group_string = "FARM";
 static const std::string smith_recipe_group_string = "SMITH";
 
+namespace
+{
 struct mass_volume {
     units::mass wgt = 0_gram;
     units::volume vol = 0_ml;
     int count = 0;
 };
+} // namespace
 
 namespace base_camps
 {

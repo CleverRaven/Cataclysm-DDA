@@ -988,6 +988,8 @@ class map
             return ter( tripoint_bub_ms( p, abs_sub.z() ) );
         }
 
+        void furniture_terrain_emit_fields();
+
         int get_map_damage( const tripoint_bub_ms &p ) const;
         void set_map_damage( const tripoint_bub_ms &p, int dmg );
 
@@ -1832,7 +1834,8 @@ class map
         // @param merge_wrecks      if true and vehicle overlaps another then both turn into wrecks
         //                          if false and vehicle will overlap aborts and returns nullptr
         vehicle *add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, const units::angle &dir,
-                              int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true,
+                              int init_veh_fuel = -1, veh_spawn_status init_veh_status = veh_spawn_status::DEFAULT_LIGHT_DMG,
+                              bool merge_wrecks = true,
                               bool force_status = false );
 
         // Light/transparency
@@ -1960,6 +1963,13 @@ class map
     protected:
         void saven( const tripoint_bub_sm &grid );
         void loadn( const point_bub_sm &grid, bool update_vehicles );
+        /**
+         * Walk all items currently in the bubble (map tiles + vehicle cargo,
+         * recursing into containers) and call rebuild_for_item on each.  Run
+         * after submaps come back into range so item-targeted wakeups re-arm
+         * from authoritative item state.
+         */
+        void reconcile_item_wakeups();
         /**
          * Fast forward a submap that has just been loading into this map.
          * This is used to rot and remove rotten items, grow plants, fill funnels etc.
@@ -2260,9 +2270,18 @@ class map
          */
         std::vector<tripoint_bub_ms> field_ter_locs;
         /**
+         * Holds free'd caches because we probably don't have to return the memory to the OS.
+         */
+        static std::list<std::unique_ptr<level_cache>> free_cache_pool;
+        struct level_cache_free {
+            void operator()( level_cache *cache ) {
+                free_cache_pool.emplace_back( cache );
+            }
+        };
+        /**
          * Holds caches for visibility, light, transparency and vehicles
          */
-        mutable std::array< std::unique_ptr<level_cache>, OVERMAP_LAYERS > caches;
+        mutable std::array< std::unique_ptr<level_cache, level_cache_free>, OVERMAP_LAYERS > caches;
 
         mutable std::array< std::unique_ptr<pathfinding_cache>, OVERMAP_LAYERS > pathfinding_caches;
         /**
@@ -2280,12 +2299,14 @@ class map
 
         // Note: no bounds check
         level_cache &get_cache( int zlev ) const {
-            std::unique_ptr<level_cache> &cache = caches[zlev + OVERMAP_DEPTH];
+            std::unique_ptr<level_cache, level_cache_free> &cache = caches[zlev + OVERMAP_DEPTH];
             if( !cache ) {
-                cache = std::make_unique<level_cache>();
+                cache = alloc_cache();
             }
             return *cache;
         }
+
+        static std::unique_ptr<level_cache, level_cache_free> alloc_cache();
 
         level_cache *get_cache_lazy( int zlev ) const {
             return caches[zlev + OVERMAP_DEPTH].get();
@@ -2595,7 +2616,9 @@ class tinymap : private map
             return map::veh_at( rebase_bub( p ) );
         }
         vehicle *add_vehicle( const vproto_id &type, const tripoint_omt_ms &p, const units::angle &dir,
-                              int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true,
+                              int init_veh_fuel = -1,
+                              veh_spawn_status init_veh_status = veh_spawn_status::DEFAULT_LIGHT_DMG,
+                              bool merge_wrecks = true,
                               bool force_status = false ) {
             return map::add_vehicle( type, rebase_bub( p ), dir, init_veh_fuel, init_veh_status,
                                      merge_wrecks, force_status );
