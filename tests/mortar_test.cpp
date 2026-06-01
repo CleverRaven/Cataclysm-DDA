@@ -1,7 +1,9 @@
 #include <cmath>
 #include <tuple>
 #include <vector>
+#include <vector>
 
+#include "calendar.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "coordinates.h"
