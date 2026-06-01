@@ -38,7 +38,13 @@
     "dynamic_line": [
       "Good an' fine, then.",
       "Have it as ye'll see.",
-      { "concatenate": [ "For a card an' a wink, eh?", "\"\n\n[TRANSLATE:] \"", "That was a good exchange." ] }
+      {
+        "concatenate": [
+          "For a card an' a wink, eh?",
+          "\"\n\n[TRANSLATE:] \"",
+          "That was a good exchange."
+        ]
+      }
     ]
   },
   {
@@ -100,7 +106,12 @@
     "id": "TALK_EXODII_MERCHANT_Talk",
     "type": "talk_topic",
     "dynamic_line": {
-      "compare_string": [ "yes", { "u_val": "dialogue_started_rubik_intro" } ],
+      "compare_string": [
+        "yes",
+        {
+          "u_val": "dialogue_started_rubik_intro"
+        }
+      ],
       "yes": {
         "concatenate": [
           "Sure as you c'n try.  Us're not the greatest yarker, nor do it all for gratis, kennit.",
@@ -109,7 +120,11 @@
         ]
       },
       "no": {
-        "concatenate": [ "Oy, c'n I bark you summat first?", "\"\n\n[TRANSLATE:] \"", "Hey, can I ask you something first?" ]
+        "concatenate": [
+          "Oy, c'n I bark you summat first?",
+          "\"\n\n[TRANSLATE:] \"",
+          "Hey, can I ask you something first?"
+        ]
       }
     }
   },
@@ -139,7 +154,11 @@
     "id": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue_Complete",
     "type": "talk_topic",
     "dynamic_line": {
-      "concatenate": [ "Gimme spek, 'n  fetch 'em 'ere.", "\"\n\n[TRANSLATE:] \"", "Give me a second, and I'll bring them here." ]
+      "concatenate": [
+        "Gimme spek, 'n  fetch 'em 'ere.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Give me a second, and I'll bring them here."
+      ]
     }
   },
   {
@@ -289,7 +308,11 @@
     "id": "TALK_EXODII_MERCHANT_Talk_IntroBenzete3",
     "type": "talk_topic",
     "dynamic_line": {
-      "concatenate": [ "Sure an' that's a fine enough word, an I'm ken.", "\"\n\n[TRANSLATE:] \"", "Sure, that word is fine, I think." ]
+      "concatenate": [
+        "Sure an' that's a fine enough word, an I'm ken.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Sure, that word is fine, I think."
+      ]
     }
   },
   {

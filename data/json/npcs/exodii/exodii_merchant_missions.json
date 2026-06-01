@@ -253,7 +253,7 @@
     "id": "TALK_EXODII_MERCHANT_mission_1_pay_skeptic",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "I didn't know you'd be such a hard bargain!  Tell ya what, when you come back, I'll let you in on some of these fancy knick-kacks.",
+      "//~": "I didn't know you'd be such a hard bargain!  Tell ya what, when you come back, I'll let you in on some of these fancy knick-knacks.",
       "str": "Rightly a trig barter, an I'm ken.  By ol' Rubik's word, on your saintly march home, for you'll have the pick of the bright and steelies roun' ol' Rubik's shop, choice o' your own finely.  What say?"
     },
     "responses": [
@@ -799,7 +799,7 @@
     "id": "TALK_EXODII_MERCHANT_mission_2_ExodiiFrame_yes",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Hm.  That's a really big ask.  You seem to be the sort of person who would ask for this kind of thing, but are you certain you want to be permenantly attached to this suitcase?  You sure you're thinking clearly?  This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life.",
+      "//~": "Hm.  That's a really big ask.  You seem to be the sort of person who would ask for this kind of thing, but are you certain you want to be permanently attached to this suitcase?  You sure you're thinking clearly?  This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life.",
       "str": "Hm.  A mighty ask on a mighty ask.  Ye certainly got the disposition, but you sure you wanna be cut inta' this crowded space?\"  Rubik taps their metal torso.  \"You sure ya' lump is screwed on tight?  This isn't like the bright'n'steelies on offer.  No goin' back.  And ye best be happy with the amount'a power you can generate.  This'ere needs contant power.  Without power, yer good as dead.  The power storage units?  Fer a case this'n kind, one'a the power storage units buys you a little-less'an an hour of walkin'.  Less for scrappin' and scramblin'.  Nothin's easy about it.\""
     },
     "responses": [
@@ -1063,7 +1063,7 @@
     "id": "TALK_EXODII_MERCHANT_mission_3_ExodiiFrame_yes",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Hm.  That's a really big ask.  You seem to be the sort of person who would ask for this kind of thing, but are you certain you want to be permenantly attached to this suitcase?  You sure you're thinking clearly?  This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life.",
+      "//~": "Hm.  That's a really big ask.  You seem to be the sort of person who would ask for this kind of thing, but are you certain you want to be permanently attached to this suitcase?  You sure you're thinking clearly?  This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life.",
       "str": "Hm.  A mighty ask on a mighty ask.  Ye certainly got the disposition, but you sure you wanna be cut inta' this crowded space?\"  Rubik taps their metal torso.  \"You sure ya' lump is screwed on tight?  This isn't like the bright'n'steelies on offer.  No goin' back.  And ye best be happy with the amount'a power you can generate.  This'ere needs contant power.  Without power, yer good as dead.  The power storage units?  Fer a case this'n kind, one'a the power storage units buys you a little-less'an an hour of walkin'.  Less for scrappin' and scramblin'.  Nothin's easy about it.\""
     },
     "responses": [
@@ -1334,7 +1334,7 @@
     "id": "TALK_EXODII_MERCHANT_mission_string_dimension_ExodiiFrame_yes",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Hm.  That's a really big ask.  You seem to be the sort of person who would ask for this kind of thing, but are you certain you want to be permenantly attached to this suitcase?  You sure you're thinking clearly?  This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life.",
+      "//~": "Hm.  That's a really big ask.  You seem to be the sort of person who would ask for this kind of thing, but are you certain you want to be permanently attached to this suitcase?  You sure you're thinking clearly?  This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life.",
       "str": "Hm.  A mighty ask on a mighty ask.  Ye certainly got the disposition, but you sure you wanna be cut inta' this crowded space?\"  Rubik taps their metal torso.  \"You sure ya' lump is screwed on tight?  This isn't like the bright'n'steelies on offer.  No goin' back.  And ye best be happy with the amount'a power you can generate.  This'ere needs contant power.  Without power, yer good as dead.  The power storage units?  Fer a case this'n kind, one'a the power storage units buys you a little-less'an an hour of walkin'.  Less for scrappin' and scramblin'.  Nothin's easy about it.\""
     },
     "responses": [
