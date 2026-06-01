@@ -492,13 +492,8 @@ Overgrown labyrinths
 Labyrinth specific CBMs:  anchor; laser reader; psyshield; artificial hair; blood biofactory; antigravity jump
 The Exodii can turn you into a full-blown cyborg
 If the Exodii trust you enough they'll give you a Cyberframe
-radiosphere's constant rain storm
-Add default paws, set claws to link to default paws, add glove coverage for paws
 Dimension: the Scarlet Sea
-Labyrinth safehouse: Autodoc upgrade
-Compound Eyes is now a bodypart
 Challenge - Labyrinth Bound
-Fleshborgs come in ranged & melee varieties
 
 
 ## Interface:
@@ -663,7 +658,6 @@ Migrate popups in vehicle interaction menu to ImGui
 Update to ImGui 1.91.9b
 Move appliance infobox to imgui
 Display some items by volume, weight or length instead of count
-Add ImGui debug console with tabbed interface
 
 
 ## Mods:
@@ -1150,12 +1144,6 @@ XE Proficiency CBMs
 [BPerks/MM/Sorc] XP mods can level up more than once at a time
 Aftershock: Add industrial habitat building.
 Add "XedraWood: Stone and Sorcery" mod to the CDDA repository
-[XedraWood] Add chirurgeon monster encounter
-[XE] Implement asking others for dreamdross.
-Move Changeling `PSYCHOPATH`-granting traits to flags
-[Hunvre] Add big elevator buildings
-Aftershock: Carbide amor faults.
-[XedraWood] Remove everything unnecessary to water redefinition
 
 ## Balance:
 Visitors Passes and Freight Badges no longer reveal roads
@@ -1305,12 +1293,6 @@ Nobody wants to cooperate with psychopaths
 Zombie corpses aren't useful
 Stepped many many weapon recipes
 Joint Torsion Ratchet CBM doesn't allow for perpetual motion cyborgs
-Cleaned up various bone items for consistency and added missing ingredients to recipes
-Plate armor coverages tweaked
-Fungal terrain doesn't spread fire
-Add encumbrances I missed!
-Frog tongue no longer has a whip attack
-Adds one new tire fault. Fixes bugs related to deflating tires
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1851,18 +1833,6 @@ Aftershock: Plasma degrades armors
 Stop spamming player log when NPCs are hot
 Stop ref center guard EOCs from firing in alternate dimensions
 Uncomfortable limbs must exist
-Fix freeze from zero-volume sounds in monster sound clustering
-Fix separators bleeding color into the next line in curses menus
-Fix ImGui windows rendering off-screen under display scaling and on Android
-Decharging caused Smokes to carry much less stock
-Fix the ~50 turret room from the labyrinth
-Fix Innawood Paraclesian hobbies
-Fix vehicle shape preview not working when installing adjacent to a frame
-Some more fixes for character creator ui
-Fix heap-buffer-overflow when explosion source dies before deferred flush
-Fix search field not losing focus in keybinds menu
-Compare menu shown under crafting menu
-Fangs cover your muzzle
 
 
 ## Performance:
@@ -2156,9 +2126,6 @@ Vendor plf colony/list verbatim under src/third-party
 Upgrade vendored plf_colony and plf_list to latest upstream
 Ignore root dotfiles by default in .gitignore
 Consume crafting tools per recipe step
-Ring-buffered capture for debug messages, events, and EOC fires
-Update vendored ImGui from 1.91.9b to 1.92.8
-Support multiple colors for faults
 
 
 ## Build:
@@ -2196,7 +2163,6 @@ Cache vcpkg installed packages in MSVC CI
 Build instruction and files for Visual Studio Code
 Demote GCC 16 -Wsfinae-incomplete to warning
 Fix SDL3 release artifacts for Linux, macOS, Windows
-Split the MSVC static library into two projects
 Migrate Android to SDL3 via CMake + prefab AAR; drop SDL2 customs; bump buildkit
 
 
