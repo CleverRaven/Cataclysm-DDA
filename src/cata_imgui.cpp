@@ -879,6 +879,14 @@ cataimgui::window::~window()
     }
 }
 
+void cataimgui::window::hide_if_hidden() const
+{
+    if( hide_ui ) {
+        ImGuiWindow *w = ImGui::GetCurrentWindowRead();
+        ImGui::SetWindowHiddenAndSkipItemsForCurrentFrame( w );
+    }
+}
+
 bool cataimgui::window::is_bounds_changed()
 {
     return p_impl->is_resized;
@@ -1075,6 +1083,13 @@ void cataimgui::window::clear_filter()
             input_state->ClearText();
             filter_impl->text.clear();
         }
+    }
+}
+
+void cataimgui::window::defocus_filter()
+{
+    if( filter_impl && filter_impl->id != 0 && GImGui->ActiveId == filter_impl->id ) {
+        ImGui::ClearActiveID();
     }
 }
 

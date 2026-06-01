@@ -155,10 +155,12 @@ class window
         size_t str_height_to_pixels( size_t len );
         std::string get_filter();
         void clear_filter();
+        void defocus_filter();
         void mark_resized();
 
     protected:
         bool force_to_back = false;
+        bool hide_ui = false;
         bool is_open;
         std::string id;
         int window_flags;
@@ -166,6 +168,7 @@ class window
         virtual bounds get_bounds();
         virtual void draw_controls() = 0;
         void draw_filter( const input_context &ctxt, bool filtering_active );
+        void hide_if_hidden() const;
 };
 
 #ifdef TUI

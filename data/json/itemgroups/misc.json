@@ -335,7 +335,7 @@
     "entries": [
       { "group": "pens", "prob": 90 },
       { "group": "pens", "prob": 30 },
-      { "item": "pencil", "prob": 30, "charges": [ 0, 100 ] },
+      { "item": "pencil", "prob": 30 },
       { "item": "scissors_child", "prob": 50 },
       { "item": "eraser", "prob": 50 },
       { "item": "sharpener", "prob": 50 },

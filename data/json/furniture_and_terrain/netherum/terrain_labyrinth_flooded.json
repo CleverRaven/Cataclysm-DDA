@@ -63,7 +63,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_nl_sewage_pipe_edge",
+    "id": "t_nl_sewage_pipe_border",
     "name": "high gauge pipe",
     "description": "A massive section of high gauge pipe.  Every few meters the pipe-fittings holding it together rotate in jittry motion.",
     "symbol": "1",

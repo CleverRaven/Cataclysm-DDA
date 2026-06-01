@@ -60,6 +60,61 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "welding_rod_steel_split",
+    "subtype": "collection",
+    "entries": [
+      { "item": "welding_rod_steel", "count": [ 750, 4000 ], "entry-wrapper": "tube_welding_rod" },
+      { "item": "welding_rod_steel", "count": [ 250, 2000 ], "entry-wrapper": "tube_welding_rod" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "welding_rod_alloy_split",
+    "subtype": "collection",
+    "entries": [
+      { "item": "welding_rod_alloy", "count": [ 750, 4000 ], "entry-wrapper": "tube_welding_rod" },
+      { "item": "welding_rod_alloy", "count": [ 250, 2000 ], "entry-wrapper": "tube_welding_rod" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "welding_wire_steel_split",
+    "subtype": "collection",
+    "entries": [
+      { "item": "welding_wire_steel", "count": [ 333, 2000 ], "entry-wrapper": "spool_welding" },
+      { "item": "welding_wire_steel", "count": [ 333, 2000 ], "entry-wrapper": "spool_welding" },
+      { "item": "welding_wire_steel", "count": [ 333, 2000 ], "entry-wrapper": "spool_welding" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "welding_wire_alloy_split",
+    "subtype": "collection",
+    "entries": [
+      { "item": "welding_wire_alloy", "count": [ 500, 3000 ], "entry-wrapper": "spool_welding" },
+      { "item": "welding_wire_alloy", "count": [ 500, 3000 ], "entry-wrapper": "spool_welding" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "brazing_rod_bronze_split",
+    "subtype": "collection",
+    "entries": [
+      { "item": "brazing_rod_bronze", "count": [ 250, 2000 ], "entry-wrapper": "tube_welding_rod" },
+      { "item": "brazing_rod_bronze", "count": [ 250, 2000 ], "entry-wrapper": "tube_welding_rod" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "brazing_rod_alloy_split",
+    "subtype": "collection",
+    "entries": [
+      { "item": "brazing_rod_alloy", "count": [ 250, 2000 ], "entry-wrapper": "tube_welding_rod" },
+      { "item": "brazing_rod_alloy", "count": [ 250, 2000 ], "entry-wrapper": "tube_welding_rod" }
+    ]
+  },
+  {
     "//": "A collection of welding consumables for both steel and aluminum.",
     "type": "item_group",
     "id": "FREE_MERCHANTS_Shop_Parts_Mechanics",
@@ -67,16 +122,16 @@
     "items": [
       {
         "distribution": [
-          { "item": "welding_rod_steel", "prob": 65, "count": [ 1000, 6000 ] },
-          { "item": "welding_wire_steel", "prob": 45, "count": [ 1000, 6000 ] },
-          { "item": "brazing_rod_bronze", "prob": 25, "count": [ 500, 4000 ] }
+          { "group": "welding_rod_steel_split", "prob": 65 },
+          { "group": "welding_wire_steel_split", "prob": 45 },
+          { "group": "brazing_rod_bronze_split", "prob": 25 }
         ]
       },
       {
         "distribution": [
-          { "item": "welding_rod_alloy", "prob": 35, "count": [ 1000, 6000 ] },
-          { "item": "welding_wire_alloy", "prob": 15, "count": [ 1000, 6000 ] },
-          { "item": "brazing_rod_alloy", "prob": 10, "count": [ 500, 4000 ] }
+          { "group": "welding_rod_alloy_split", "prob": 35 },
+          { "group": "welding_wire_alloy_split", "prob": 15 },
+          { "group": "brazing_rod_alloy_split", "prob": 10 }
         ]
       }
     ]

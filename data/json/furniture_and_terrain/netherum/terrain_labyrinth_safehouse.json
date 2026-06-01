@@ -99,5 +99,48 @@
         }
       ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_obelisk_mission_autodoc",
+    "name": "Metal stele",
+    "description": "A floor to ceiling, shining column.  A massive face with a gaping jaw is cast upon it.  Inside the mouth are several pre-fabricated slots.",
+    "symbol": "A",
+    "color": "green",
+    "coverage": 70,
+    "move_cost": -1,
+    "flags": [ "NOITEM", "NO_SCENT", "BLOCK_WIND" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_LS_SAFEHOUSE_AUTODOC_OBELISK",
+          "effect": [
+            {
+              "run_eoc_selector": [
+                "EOC_LS_SAFEHOUSE_AUTODOC_OBELISK_BANDAGE",
+                "EOC_LS_SAFEHOUSE_AUTODOC_OBELISK_DISINFECTANT",
+                "EOC_LS_SAFEHOUSE_AUTODOC_OBELISK_ROBOTIC_SURGICAL_APPARATUS",
+                "EOC_LS_SAFEHOUSE_AUTODOC_OBELISK_SURGICAL_INTELLIGENCE_UNIT"
+              ],
+              "allow_cancel": true,
+              "names": [
+                "Insert a <color_white>bandage</color>.",
+                "Pour in <color_white>40 units of antiseptic</color>.",
+                "Insert a <color_yellow>robotic surgical apparatus</color>?",
+                "Insert a <color_yellow>surgical intelligence unit</color>?"
+              ],
+              "title": "You see before you a floor to ceiling, shining column.\n\nA massive face with a gaping jaw is cast upon it.\n\nInside the mouth are several pre-fabricated slots.\n\nThe slots are clearly labeled:",
+              "descriptions": [
+                "Looks like a standard bandage will fit, if rolled neatly.",
+                "Looks like a it would hold about 40 units of antiseptic.",
+                "You don't know what a robotic surgical apparatus looks like, but maybe you can find one in the labyrinthine structures?",
+                "You don't know what a surgical intelligence unit looks like, but maybe you can find one in the labyrinthine structures?"
+              ]
+            }
+          ]
+        }
+      ]
+    }
   }
 ]

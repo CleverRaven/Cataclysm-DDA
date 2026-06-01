@@ -55,12 +55,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "nuts_bolts",
-    "name": "nuts and bolts",
-    "default": "nuts_bolts"
-  },
-  {
-    "type": "ammunition_type",
     "id": "barb",
     "name": "barb",
     "default": "barb_paralysis"
@@ -863,12 +857,6 @@
     "id": "cannon",
     "name": "cannon ball",
     "default": "cannon_shot"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "graphite",
-    "name": "graphite",
-    "default": "graphite"
   },
   {
     "type": "ammunition_type",

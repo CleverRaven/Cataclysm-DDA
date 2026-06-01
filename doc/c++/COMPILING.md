@@ -398,85 +398,90 @@ Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable
 
 ## Cross-compile to Android from Linux
 
-The Android build uses [Gradle](https://gradle.org/) to compile the java and native C++ code, and is based heavily off SDL's [Android project template](https://hg.libsdl.org/SDL/file/f1084c419f33/android-project). See the official SDL documentation [README-android.md](https://hg.libsdl.org/SDL/file/f1084c419f33/docs/README-android.md) for further information.
+The Android build uses [Gradle](https://gradle.org/) to drive [CMake](https://cmake.org/) over the same `src/*.cpp` tree the desktop build uses, with SDL3 + satellites pulled from the upstream [Android prefab AARs](https://wiki.libsdl.org/SDL3/README-android).
 
-The Gradle project lives in the repository under `android/`. You can build it via the command line or open it in [Android Studio](https://developer.android.com/studio/). For simplicity, it only builds the SDL version with all features enabled, including tiles, sound and localization.
+The Gradle project lives under `android/`. Build it from the command line or open it in [Android Studio](https://developer.android.com/studio/). Only the SDL3 tiles + sound + localization configuration is supported.
 
 ### Dependencies
 
-  * Java JDK 11
-  * SDL2 (tested with 2.0.8, though a custom fork is recommended with project-specific bugfixes)
-  * SDL2_ttf (tested with 2.0.14)
-  * SDL2_mixer (tested with 2.0.2)
-  * SDL2_image (tested with 2.0.3)
-
-The Gradle build process automatically installs dependencies from [deps.zip](/android/app/deps.zip).
+  * Java JDK 17 (Temurin or another distribution)
+  * Android SDK with platform 35 and command-line tools
+  * Android NDK 28.1.13356709 (r28b) - bundled 16 KB page-size alignment is required for Play under targetSdk 35
+  * AGP 8.7 and Gradle 8.9 (Gradle wrapper auto-downloads)
+  * SDL3 Android AARs (auto-downloaded with SHA256 pinning by the `fetchSdl3Aars` Gradle task):
+    * SDL3 3.4.8
+    * SDL3_image 3.4.4
+    * SDL3_ttf 3.2.2
+    * SDL3_mixer 3.2.2
 
 ### Setup
 
-Install Linux dependencies. For a desktop Ubuntu installation:
+Install build dependencies. For a desktop Ubuntu installation:
 
-    sudo apt-get install openjdk-11-jdk-headless
+    sudo apt-get install openjdk-17-jdk-headless gettext ccache
 
-Install Android SDK and NDK:
-
-```bash
-wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
-unzip sdk-tools-linux-4333796.zip -d ~/android-sdk
-rm sdk-tools-linux-4333796.zip
-~/android-sdk/tools/bin/sdkmanager --update
-~/android-sdk/tools/bin/sdkmanager "tools" "platform-tools" "ndk-bundle"
-~/android-sdk/tools/bin/sdkmanager --licenses
-```
-
-Export Android environment variables (you can add these to the end of `~/.bashrc`):
+Install the Android SDK and NDK via `sdkmanager`:
 
 ```bash
-export ANDROID_SDK_ROOT=~/android-sdk
-export ANDROID_HOME=~/android-sdk
-export ANDROID_NDK_ROOT=~/android-sdk/ndk-bundle
-export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
-export PATH=$PATH:$ANDROID_SDK_ROOT/tools
-export PATH=$PATH:$ANDROID_NDK_ROOT
+sdkmanager "platform-tools" "platforms;android-35" "ndk;28.1.13356709"
 ```
 
-You can also use these additional variables if you want to use `ccache` to speed up subsequent builds:
+Export environment variables (add to `~/.bashrc` if useful):
 
 ```bash
-export USE_CCACHE=1
-export NDK_CCACHE=/usr/local/bin/ccache
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/platform-tools
 ```
 
-**Note:** Path to `ccache` can be different on your system.
+`ccache` is wired through `-DCMAKE_CXX_COMPILER_LAUNCHER=ccache` in `android/app/build.gradle`. Install it and the build picks it up automatically.
 
 ### Android device setup
 
-Enable [Developer options on your Android device](https://developer.android.com/studio/debug/dev-options). Connect your device to your PC via USB cable and run:
+Enable [Developer options on your Android device](https://developer.android.com/studio/debug/dev-options). Plug in over USB, accept the RSA prompt:
 
 ```bash
 adb devices
-adb connect <devicename>
 ```
 
 ### Building
 
-To build an APK, use the Gradle wrapper command line tool (gradlew). The Android Studio documentation provides a good summary of how to [build your app from the command line](https://developer.android.com/studio/build/building-cmdline).
+From the `android/` subdirectory:
 
-To build a debug APK, from the `android/` subfolder of the repository run:
+```bash
+./gradlew assembleExperimentalDebug
+```
 
-    ./gradlew assembleDebug
+Output APK lands in `android/app/build/outputs/apk/experimental/debug/`.
 
-This creates a debug APK in `./android/app/build/outputs/apk/` ready to be installed on your device.
+To deploy directly to a connected device:
 
-To build a debug APK and immediately deploy to your connected device over adb run:
+```bash
+./gradlew installExperimentalDebug
+```
 
-    ./gradlew installDebug
+For an in-place update over an existing on-device install (preserves saves under `/sdcard/Android/data/com.cleverraven.cataclysmdda/files`), use the matching `installStableRelease`/`installExperimentalRelease` task whose keystore signature matches the on-device build.
 
-To build a signed release APK (ie. one that can be installed on a device), [build an unsigned release APK and sign it manually](https://developer.android.com/studio/publish/app-signing#signing-manually).
+To produce a Play Store-style AAB:
+
+```bash
+./gradlew bundleExperimentalRelease
+```
+
+Sign-off with `bundletool build-apks --bundle .../app.aab --output app.apks --connected-device` then `bundletool install-apks --apks app.apks --connected-device` to test the actual split-config delivery path.
 
 ### Additional notes
 
-The app stores data files on the device in `/sdcard/Android/data/com.cleverraven/cataclysmdda/files`. The data is backwards compatible with the desktop version.
+The app stores data files on the device in `/sdcard/Android/data/com.cleverraven.cataclysmdda/files`. Saves are backwards compatible with the desktop version.
+
+To override Gradle defaults locally without editing `gradle.properties`, drop a `local.properties` file in `android/`:
+
+```
+j=10
+abi_arm_32=false
+```
+
+ABI selection (`abi_arm_64`, `abi_arm_32`, `abi_x86_64`, `abi_x86_32`) flows through both the APK splits and the CMake `abiFilters`, so disabling an ABI also skips its native build.
 
 # Mac OS X
 

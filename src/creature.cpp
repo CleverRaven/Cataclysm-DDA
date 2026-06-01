@@ -202,6 +202,11 @@ Creature &Creature::operator=( Creature && ) noexcept = default;
 
 Creature::~Creature() = default;
 
+safe_reference<Creature> Creature::get_safe_reference()
+{
+    return anchor->reference_to( this );
+}
+
 tripoint_bub_ms Creature::pos_bub() const
 {
     return get_map().get_bub( location );

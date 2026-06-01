@@ -310,6 +310,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "u_has_trait": "NL_CBM_Interface" } },
             { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } },
             { "not": { "compare_string": [ "yes", { "u_val": "Rubik_exodized_u" } ] } }
           ]
@@ -648,7 +649,7 @@
     "responses": [
       {
         "text": "[Install Air Filtration CBM] I like the look of that air filtration thingy.  Does it come with pine-fresh scent?",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
@@ -660,7 +661,7 @@
       },
       {
         "text": "[Install Blood Analysis CBM] I've always wondered what's in my veins.  Let's try that blood analysis module.",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
@@ -672,7 +673,7 @@
       },
       {
         "text": "[Install Radiation Scrubber CBM] I have nightmares about ending up like Marie Curie.  Radiation scrubber it has to be.",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
@@ -687,6 +688,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "u_has_trait": "NL_CBM_Interface" } },
             { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } },
             { "not": { "compare_string": [ "yes", { "u_val": "Rubik_exodized_u" } ] } }
           ]
@@ -699,7 +701,7 @@
         "text": "Actually, could you turn me into a full-blown robotic cyborg, like you?",
         "condition": {
           "and": [
-            { "u_has_trait": "CBM_Interface" },
+            { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
             { "not": { "u_has_trait": "EXODII_BODY_1" } },
             { "not": { "u_has_trait": "EXODII_BODY_1b" } },
             { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } },
@@ -712,7 +714,7 @@
         "text": "Actually, could you turn me into a full-blown robotic cyborg, like you?",
         "condition": {
           "and": [
-            { "u_has_trait": "CBM_Interface" },
+            { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
             { "not": { "u_has_trait": "EXODII_BODY_1" } },
             { "not": { "u_has_trait": "EXODII_BODY_1b" } },
             { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } },
@@ -745,7 +747,7 @@
     "responses": [
       {
         "text": "[Install Air Filtration CBM] Okay, I like the look of that air filtration thingy.  Does it come with pine-fresh scent?",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
@@ -757,7 +759,7 @@
       },
       {
         "text": "[Install Blood Analysis CBM] Okay, I've always wondered what's in my veins.  Let's try that blood analysis module.",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
@@ -769,7 +771,7 @@
       },
       {
         "text": "[Install Radiation Scrubber CBM] Well, I guess I have nightmares about ending up like Marie Curie.  Radiation scrubber it has to be.",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
@@ -818,7 +820,7 @@
       },
       {
         "text": "[Install Air Filtration CBM] Nevermind.  I like the look of that air filtration thingy.  Does it come with pine-fresh scent?",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
@@ -830,7 +832,7 @@
       },
       {
         "text": "[Install Blood Analysis CBM] Nevermind.  I've always wondered what's in my veins.  Let's try that blood analysis module.",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
@@ -842,7 +844,7 @@
       },
       {
         "text": "[Install Radiation Scrubber CBM] Nevermind.  I guess I have nightmares about ending up like Marie Curie.  Radiation scrubber it has to be.",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
@@ -963,7 +965,7 @@
         "text": "Actually, could you turn me into a full-blown robotic cyborg, like you?",
         "condition": {
           "and": [
-            { "u_has_trait": "CBM_Interface" },
+            { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
             { "not": { "u_has_trait": "EXODII_BODY_1" } },
             { "not": { "u_has_trait": "EXODII_BODY_1b" } },
             { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } },
@@ -976,7 +978,7 @@
         "text": "Actually, could you turn me into a full-blown robotic cyborg, like you?",
         "condition": {
           "and": [
-            { "u_has_trait": "CBM_Interface" },
+            { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
             { "not": { "u_has_trait": "EXODII_BODY_1" } },
             { "not": { "u_has_trait": "EXODII_BODY_1b" } },
             { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } },
@@ -1179,7 +1181,7 @@
     "responses": [
       {
         "text": "[Install Teleporter CBM] Teleporting sounds dangerous, but after this interdimensional travel, maybe I can handle it.",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
@@ -1191,7 +1193,7 @@
       },
       {
         "text": "[Install Time Dilation CBM] \"Time Dilation\" sounds like something that should surprise me.  But after the places I've now been?  I'm ready for it.",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
@@ -1203,7 +1205,7 @@
       },
       {
         "text": "[Install Probability Travel CBM] Phasing through barriers?  Would've helped in that maze of a node.  Let's do it.",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
@@ -1218,6 +1220,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "u_has_trait": "NL_CBM_Interface" } },
             { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } },
             { "not": { "compare_string": [ "yes", { "u_val": "Rubik_exodized_u" } ] } }
           ]
@@ -1230,7 +1233,7 @@
         "text": "Actually, could you turn me into a full-blown robotic cyborg, like you?",
         "condition": {
           "and": [
-            { "u_has_trait": "CBM_Interface" },
+            { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
             { "not": { "u_has_trait": "EXODII_BODY_1" } },
             { "not": { "u_has_trait": "EXODII_BODY_1b" } },
             { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } },
@@ -1243,7 +1246,7 @@
         "text": "Actually, could you turn me into a full-blown robotic cyborg, like you?",
         "condition": {
           "and": [
-            { "u_has_trait": "CBM_Interface" },
+            { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
             { "not": { "u_has_trait": "EXODII_BODY_1" } },
             { "not": { "u_has_trait": "EXODII_BODY_1b" } },
             { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } },
@@ -1273,7 +1276,7 @@
     "responses": [
       {
         "text": "[Install Teleporter CBM] Teleporting sounds dangerous, but after this interdimensional travel, maybe I can handle it.",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
@@ -1285,7 +1288,7 @@
       },
       {
         "text": "[Install Time Dilation CBM] \"Time Dilation\" sounds like something that should surprise me.  But after the places I've now been?  I'm ready for it.",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
@@ -1297,7 +1300,7 @@
       },
       {
         "text": "[Install Probability Travel CBM] Phasing through barriers?  Would've helped in that maze of a node.  Let's do it.",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
@@ -1346,7 +1349,7 @@
       },
       {
         "text": "[Install Teleporter CBM] Teleporting sounds dangerous, but after this interdimensional travel, maybe I can handle it.",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
@@ -1358,7 +1361,7 @@
       },
       {
         "text": "[Install Time Dilation CBM] \"Time Dilation\" sounds like something that should surprise me.  But after the places I've now been?  I'm ready for it.",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
@@ -1370,7 +1373,7 @@
       },
       {
         "text": "[Install Probability Travel CBM] Phasing through barriers?  Would've helped in that maze of a node.  Let's do it.",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },

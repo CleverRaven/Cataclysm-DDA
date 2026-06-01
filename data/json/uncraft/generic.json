@@ -394,7 +394,7 @@
       [ [ "scrap", 7 ] ],
       [ [ "copper", 13 ] ],
       [ [ "aluminum_foil", 400 ] ],
-      [ [ "graphite", 4900 ] ],
+      [ [ "graphite", 98 ] ],
       [ [ "waste_electrolyte_slurry", 1 ] ]
     ]
   }

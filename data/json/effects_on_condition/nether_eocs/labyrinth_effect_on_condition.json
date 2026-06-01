@@ -78,6 +78,62 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_LS_scarlet_Teleport_to_labyrinth",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
+    "effect": [
+      { "u_location_variable": { "u_val": "player_location_scarlet_before_labyrinth" } },
+      { "u_add_var": "traveled_scarlet_to_labyrinth", "value": "yes" },
+      {
+        "u_travel_to_dimension": "netherum_labyrinth_safehouse",
+        "npc_travel_radius": 0,
+        "region_type": "netherum_labyrinth_safehouse",
+        "npc_travel_filter": "none"
+      },
+      {
+        "if": { "not": { "math": [ "has_var(u_safehouse_floor_portal_enclosure)" ] } },
+        "then": {
+          "u_location_variable": { "u_val": "safehouse_floor_portal_enclosure" },
+          "target_params": { "om_terrain": "labyrinth_safehouse", "om_special": "labyrinth_safehouse" },
+          "furniture": "f_exodii_floor_portal_enclosure",
+          "target_max_radius": 250
+        }
+      },
+      { "u_teleport": { "u_val": "safehouse_floor_portal_enclosure" } },
+      {
+        "if": { "compare_string": [ "yes", { "u_val": "traveled_to_labyrinth_safehouse" } ] },
+        "then": { "u_message": "Zwoink.", "popup": true },
+        "else": [
+          {
+            "if": { "compare_string": [ "yes", { "u_val": "scenario_trapped_in_labyrinth" } ] },
+            "then": [
+              {
+                "u_message": "As you place your hand in the depression,the scarlet light fades in a dizzying pinch of your senses.  Then the world itself folds inward - pop - your senses go black, as if you've entered a deep sleep.\n\nYou awake to three soft chimes and a stiff neck.  You find yourself standing in a metal ring.  The air around you is clean, and where the obelisk once stood is now a tall, bulbous computer screen, slightly too tall to comfortably look at without craning your neck.  It's certainly more home-like than the place you just came from, but alien in its own right.  Text starts to populate the screen.",
+                "popup": true
+              },
+              { "u_add_var": "traveled_to_labyrinth_safehouse", "value": "yes" },
+              { "u_add_bionic": "bio_nl_collar" },
+              { "u_add_trait": "NL_CBM_Interface" },
+              { "finish_mission": "MISSION_FIND_LABYRINTH_SPIRE", "success": true },
+              {
+                "open_dialogue": { "topic": "COMP_labyrinthine_safehouse_computer_meeting_scenario_trapped_in_labyrinth" }
+              }
+            ],
+            "else": [
+              {
+                "u_message": "As you place your hand in the depression the scarlet light fades in a dizzying pinch of your senses.  Then the world itself folds inward - pop.\n\nYou hear three soft chimes, and find yourself standing in a metal ring.  The air around you is clean, and where the obelisk once stood is now a tall, bulbous computer screen, slightly too tall to comfortably look at without craning your neck.  It's certainly more home-like than the place you just came from, but alien in its own right.  Text starts to populate the screen.",
+                "popup": true
+              },
+              { "u_add_var": "traveled_to_labyrinth_safehouse", "value": "yes" },
+              { "open_dialogue": { "topic": "COMP_labyrinthine_safehouse_computer_meeting" } }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_LS_SAFEHOUSE_Teleport_to_labyrinth",
     "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
     "effect": [
@@ -176,6 +232,25 @@
       { "u_teleport": { "u_val": "player_location_string_dimension_before_labyrinth" }, "force": true },
       { "u_message": "Zworunk", "popup": true },
       { "custom_light_level": 125, "length": "9999 days", "key": "string_dimension_lights_on" },
+      { "clear_dimension": "netherum_labyrinth" }
+    ],
+    "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_scarlet_Exit_labyrinth",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
+    "effect": [
+      {
+        "u_travel_to_dimension": "scarlet",
+        "npc_travel_radius": 0,
+        "region_type": "scarlet",
+        "npc_travel_filter": "none",
+        "fail_message": "You feel a prickle at the edge of your senses.",
+        "success_message": "Your surroundings warp and fold into the recesses of another world."
+      },
+      { "u_teleport": { "u_val": "player_location_scarlet_before_labyrinth" }, "force": true },
+      { "u_message": "Pop", "popup": true },
       { "clear_dimension": "netherum_labyrinth" }
     ],
     "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
@@ -500,8 +575,20 @@
     "type": "effect_on_condition",
     "id": "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE",
     "effect": [
-      { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
-      { "mapgen_update": "labyrinth_safehouse_utility_space", "target_var": { "global_val": "LS_SAFEHOUSE_1" } },
+      {
+        "if": { "math": [ "nl_autodoc_placed == 1" ] },
+        "then": [
+          { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
+          {
+            "mapgen_update": "labyrinth_safehouse_utility_space_if_autodoc_first",
+            "target_var": { "global_val": "LS_SAFEHOUSE_1" }
+          }
+        ],
+        "else": [
+          { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
+          { "mapgen_update": "labyrinth_safehouse_utility_space", "target_var": { "global_val": "LS_SAFEHOUSE_1" } }
+        ]
+      },
       { "math": [ "nl_utility_space_placed = 1" ] }
     ]
   },
@@ -515,6 +602,36 @@
         "target_var": { "global_val": "LS_SAFEHOUSE_1" }
       },
       { "math": [ "nl_utility_space_obelisk_placed = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_UPDATE_AUTODOC_OBELISK",
+    "effect": [
+      { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
+      { "mapgen_update": "labyrinth_safehouse_autodoc_obelisk", "target_var": { "global_val": "LS_SAFEHOUSE_1" } },
+      { "math": [ "nl_autodoc_obelisk_placed = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_UPDATE_AUTODOC",
+    "effect": [
+      {
+        "if": { "math": [ "nl_utility_space_placed == 1" ] },
+        "then": [
+          { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
+          {
+            "mapgen_update": "labyrinth_safehouse_autodoc_if_utility_first",
+            "target_var": { "global_val": "LS_SAFEHOUSE_1" }
+          }
+        ],
+        "else": [
+          { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
+          { "mapgen_update": "labyrinth_safehouse_autodoc", "target_var": { "global_val": "LS_SAFEHOUSE_1" } }
+        ]
+      },
+      { "math": [ "nl_autodoc_placed = 1" ] }
     ]
   },
   {
@@ -1032,6 +1149,127 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_AUTODOC_OBELISK_BANDAGE",
+    "condition": {
+      "and": [ { "u_has_item": "bandages" }, { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_bandage)" ] } } ]
+    },
+    "effect": [
+      { "u_consume_item": "bandages" },
+      { "u_add_var": "safehouse_living_space_1_deposited_bandage", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_bandage)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_disinfectant)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_robo_surg_app)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_surg_int_unit)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize themselves into an opening.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_AUTODOC" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_AUTODOC_OBELISK_DISINFECTANT",
+    "condition": {
+      "and": [
+        { "u_has_items": { "item": "disinfectant", "count": 40 } },
+        { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_disinfectant)" ] } }
+      ]
+    },
+    "effect": [
+      { "u_consume_item": "disinfectant", "count": 40 },
+      { "u_add_var": "safehouse_living_space_1_deposited_disinfectant", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_bandage)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_disinfectant)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_robo_surg_app)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_surg_int_unit)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize themselves into an opening.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_AUTODOC" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_AUTODOC_OBELISK_ROBOTIC_SURGICAL_APPARATUS",
+    "condition": {
+      "and": [
+        { "u_has_item": "nl_robo_surg_app" },
+        { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_robo_surg_app)" ] } }
+      ]
+    },
+    "effect": [
+      { "u_consume_item": "nl_robo_surg_app" },
+      { "u_add_var": "safehouse_living_space_1_deposited_nl_robo_surg_app", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_bandage)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_disinfectant)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_robo_surg_app)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_surg_int_unit)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize themselves into an opening.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_AUTODOC" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SAFEHOUSE_AUTODOC_OBELISK_SURGICAL_INTELLIGENCE_UNIT",
+    "condition": {
+      "and": [
+        { "u_has_item": "nl_surg_int_unit" },
+        { "not": { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_surg_int_unit)" ] } }
+      ]
+    },
+    "effect": [
+      { "u_consume_item": "nl_surg_int_unit" },
+      { "u_add_var": "safehouse_living_space_1_deposited_nl_surg_int_unit", "value": "yes" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_bandage)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_disinfectant)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_robo_surg_app)" ] },
+            { "math": [ "has_var(u_safehouse_living_space_1_deposited_nl_surg_int_unit)" ] }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "The jaw on the stele snaps shut and suddenly dissolves into fractal patterns, which quickly reorganize themselves into an opening.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_AUTODOC" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_NL_PEEK_DOWN_CHASM",
     "effect": [
       {
@@ -1104,6 +1342,113 @@
       },
       { "u_teleport": { "context_val": "player_teleport_loc" }, "fail_message": "Nope!", "force": true },
       { "clear_dimension": "netherum_labyrinth2" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_to_scarlet_portal",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
+    "effect": [
+      { "u_add_var": "stuck_in_labyrinth", "value": "yes" },
+      { "u_add_var": "player_location_temp_labyrinth_return_dimension", "value": "netherum_labyrinth2" },
+      {
+        "u_travel_to_dimension": "scarlet",
+        "npc_travel_radius": 0,
+        "region_type": "scarlet",
+        "npc_travel_filter": "none",
+        "fail_message": "You feel a prickle at the edge of your senses.",
+        "success_message": "You experience brief vertigo."
+      },
+      {
+        "u_location_variable": { "context_val": "scarlet_archway" },
+        "target_params": { "om_terrain": "scarlet_scrap_metal_spire", "om_special": "scarlet_scrap_metal_spire" },
+        "terrain": "t_nl_archway",
+        "target_max_radius": 100
+      },
+      { "u_teleport": { "context_val": "scarlet_archway" } },
+      { "clear_dimension": "netherum_labyrinth2" }
+    ],
+    "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_earth_jaunt_4hours",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
+    "effect": [
+      {
+        "u_travel_to_dimension": "",
+        "npc_travel_radius": 0,
+        "npc_travel_filter": "none",
+        "fail_message": "You feel a prickle at the edge of your senses.",
+        "success_message": "Your surroundings warp and fold into the recesses of the world you know.  For now."
+      },
+      {
+        "u_location_variable": { "u_val": "earth_jaunt_loc" },
+        "target_params": { "om_terrain": "field", "min_distance": 0, "search_range": 1000, "random": true }
+      },
+      { "u_teleport": { "u_val": "earth_jaunt_loc" }, "force": true },
+      { "u_add_trait": "NL_MUTE" },
+      { "run_eocs": "EOC_LS_earth_jaunt_extraction", "time_in_future": "4 hours" },
+      { "u_message": "Zworunk", "popup": true }
+    ],
+    "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_earth_jaunt_extraction",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" } ] },
+    "effect": [
+      {
+        "if": { "current_dimension": "" },
+        "then": [
+          {
+            "u_travel_to_dimension": "netherum_labyrinth_safehouse",
+            "npc_travel_radius": 0,
+            "region_type": "netherum_labyrinth_safehouse",
+            "npc_travel_filter": "none"
+          },
+          { "u_teleport": { "u_val": "safehouse_floor_portal_enclosure" } },
+          { "u_lose_trait": "NL_MUTE" },
+          { "math": [ "scenario_trapped_in_labyrinth_anchor_counter = 0" ] },
+          { "u_message": "There is a tightening in your throat as the world folds in around you.", "popup": true }
+        ],
+        "else": [
+          { "u_lose_trait": "NL_MUTE" },
+          { "u_lose_bionic": "bio_nl_collar" },
+          { "u_add_bionic": "bio_nl_collar_deactivated" },
+          {
+            "u_message": "Your body tenses in expectation of the tightening in your throat, but it doesn't come.  Your voice has returned, and you feel a bit lighter.",
+            "popup": true
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "if": { "not": { "math": [ "scenario_trapped_in_labyrinth_anchor_counter >= 1440" ] } },
+        "then": [
+          { "math": [ "scenario_trapped_in_labyrinth_anchor_counter += 1" ] },
+          {
+            "if": { "one_in_chance": 2000 },
+            "then": { "u_message": "You feel mentally and physically liberated under the effects of the anchor." }
+          },
+          { "if": { "one_in_chance": 2000 }, "then": { "u_message": "Your neck feels less stiff." } },
+          {
+            "if": { "one_in_chance": 2000 },
+            "then": { "u_message": "You feel a tickle at the edge of your senses." }
+          },
+          { "run_eocs": "EOC_LS_earth_jaunt_extraction", "time_in_future": "1 minute" }
+        ],
+        "else": [
+          { "u_lose_trait": "NL_MUTE" },
+          { "u_lose_bionic": "bio_nl_collar" },
+          { "u_add_bionic": "bio_nl_collar_deactivated" },
+          {
+            "u_message": "You suddenly feel a sharp pinch in the nape of your neck.  Your voice has returned and you once again feel at home.",
+            "popup": true
+          }
+        ]
+      }
     ]
   }
 ]

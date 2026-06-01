@@ -294,7 +294,7 @@
       { "group": "quicklime_bag", "prob": 70 },
       { "group": "concrete_bag", "count": [ 3, 7 ], "prob": 100 },
       { "group": "cement_bag", "count": [ 1, 3 ], "prob": 100 },
-      { "item": "nuts_bolts", "prob": 60, "charges": [ 250, 500 ], "container-item": "box_small" },
+      { "item": "nuts_bolts", "prob": 60, "count": [ 250, 400 ], "entry-wrapper": "box_small" },
       { "item": "rope_6", "prob": 10 },
       { "item": "sheet_metal", "prob": 10 },
       { "item": "sheet_metal_small", "prob": 10 },
@@ -446,7 +446,7 @@
         ],
         "prob": 100
       },
-      { "item": "pencil", "prob": 20, "charges": [ 0, 100 ] },
+      { "item": "pencil", "prob": 20 },
       [ "rigid_plastic_sheet", 5 ],
       [ "plastic_sheet", 5 ],
       [ "pine_bough", 3 ]
@@ -506,7 +506,7 @@
     "//": "General purpose supplies for building / blue collar work.",
     "//2": "Stuff you might find in a jobsite, a hardware store, or a home workshop.",
     "items": [
-      { "item": "nuts_bolts", "prob": 80, "charges": 500, "container-item": "box_small" },
+      { "item": "nuts_bolts", "prob": 80, "count": 400, "entry-wrapper": "box_small" },
       { "item": "brazing_rod_bronze", "prob": 15, "count": 1500, "entry-wrapper": "tube_welding_rod" },
       { "item": "welding_rod_steel", "prob": 20, "count": 1500, "entry-wrapper": "tube_welding_rod" },
       { "item": "welding_wire_steel", "prob": 20, "count": 1500, "entry-wrapper": "spool_welding" },
@@ -832,7 +832,7 @@
         ],
         "prob": 35
       },
-      { "item": "nuts_bolts", "prob": 80, "charges": 500, "container-item": "box_small" },
+      { "item": "nuts_bolts", "prob": 80, "count": 400, "entry-wrapper": "box_small" },
       [ "jumper_cable", 15 ],
       [ "jumper_cable_heavy", 5 ],
       [ "stereo", 25 ],
@@ -1034,8 +1034,8 @@
     "type": "item_group",
     "items": [
       { "item": "permanent_marker", "prob": 8, "charges": [ 0, 500 ] },
-      { "item": "pencil", "prob": 28, "charges": [ 0, 100 ] },
-      { "group": "pens", "prob": 64 }
+      { "item": "pencil", "prob": 28 },
+      { "group": "pens", "prob": 64, "charges": [ 80, 100 ] }
     ]
   },
   {

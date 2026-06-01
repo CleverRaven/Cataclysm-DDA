@@ -2107,11 +2107,11 @@
     },
     "responses": [
       {
-        "text": "Actually, I'm familiar with these cybernetics.  I already have an interface installed by the Exodii.",
+        "text": "Actually, I'm familiar with these cybernetics.  I already have one.",
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('14 d')" ] },
-            { "u_has_trait": "CBM_Interface" },
+            { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
             { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } }
           ]
         },
@@ -2142,7 +2142,8 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('14 d')" ] },
-            { "not": { "u_has_trait": "CBM_Interface" } }
+            { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "u_has_trait": "NL_CBM_Interface" } }
           ]
         },
         "effect": [
