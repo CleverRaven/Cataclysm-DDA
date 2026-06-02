@@ -424,6 +424,18 @@ struct renderer_recovery_test_support {
     static bool replay_quarantine_empty();
     // Whether the most recently armed phase fault has fired since arming.
     static bool phase_fault_fired();
+
+    // Set the scaling factor and resize the hidden fixture window, then notify
+    // the coordinator. The deferred resize applies on the next drain.
+    static void set_scaling_and_resize_window( int scaling, int window_w, int window_h );
+    // Current display_buffer texture dimensions, for asserting a resize rebuild.
+    static void current_display_buffer_dims( int &w, int &h );
+    // The logical window size, font/scaling metrics, and minimum terminal size
+    // the resize applied, so a test can derive the expected terminal-sized
+    // buffer from the actual (possibly clamped) window.
+    static void current_window_metrics( int &window_w, int &window_h, int &font_w,
+                                        int &font_h, int &scaling, int &min_term_w,
+                                        int &min_term_h );
 };
 
 // RAII wrapper around setup/teardown for use as a Catch2 fixture local.

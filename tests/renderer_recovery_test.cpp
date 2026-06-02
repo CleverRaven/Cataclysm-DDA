@@ -1,5 +1,6 @@
 #if defined(TILES)
 
+#include <algorithm>
 #include <cstdint>
 #include <initializer_list>
 #include <memory>
@@ -575,6 +576,52 @@ TEST_CASE( "renderer_coordinator_resize_failure_persists_retry", "[tiles][render
     // The next drain retries the resize and clears the embargo.
     renderer_coordinator.drain_pending();
     CHECK( renderer_coordinator.is_render_allowed() );
+}
+
+TEST_CASE( "renderer_coordinator_deferred_scaled_resize_rebuilds_buffer",
+           "[tiles][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    // Odd window dimensions at scaling > 1: the display buffer must follow the
+    // terminal-sized dims (floor(window / font / scaling) cells times font), not
+    // the raw window-over-scaling pixels.
+    renderer_recovery_test_support::set_scaling_and_resize_window( 2, 802, 602 );
+    REQUIRE_FALSE( renderer_coordinator.is_render_allowed() );
+
+    renderer_coordinator.drain_pending();
+    CHECK( renderer_coordinator.is_render_allowed() );
+
+    int win_w = 0;
+    int win_h = 0;
+    int font_w = 0;
+    int font_h = 0;
+    int scaling = 0;
+    int min_term_w = 0;
+    int min_term_h = 0;
+    renderer_recovery_test_support::current_window_metrics( win_w, win_h, font_w, font_h, scaling,
+            min_term_w, min_term_h );
+    int buf_w = 0;
+    int buf_h = 0;
+    renderer_recovery_test_support::current_display_buffer_dims( buf_w, buf_h );
+    CAPTURE( win_w, win_h, font_w, font_h, scaling, min_term_w, min_term_h, buf_w, buf_h );
+    REQUIRE( scaling == 2 );
+    REQUIRE( font_w > 0 );
+    REQUIRE( font_h > 0 );
+    // Buffer follows the terminal-sized dims: floor(window / font / scaling)
+    // cells (clamped to the minimum terminal size) times the font.
+    const int term_w = std::max( win_w / font_w / scaling, min_term_w );
+    const int term_h = std::max( win_h / font_h / scaling, min_term_h );
+    CHECK( buf_w == term_w * font_w );
+    CHECK( buf_h == term_h * font_h );
+    // At least one axis must exercise the genuine scaled rounding (not min-clamped)
+    // so the buffer differs from the raw window-over-scaling pixels.
+    const bool height_scaled = win_h / font_h / scaling > min_term_h;
+    REQUIRE( height_scaled );
+    CHECK( buf_h != win_h / scaling );
 }
 
 TEST_CASE( "renderer_coordinator_replay_pause_quarantines_then_retries",

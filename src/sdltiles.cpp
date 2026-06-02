@@ -312,6 +312,8 @@ static void refresh_drawable_dims()
     DrawableHeight = drawable.y;
 }
 
+static bool apply_resize_layout( int w, int h );
+
 static bool SetupRenderTarget()
 {
     SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
@@ -526,6 +528,23 @@ static int SDLCALL renderer_event_watch( void *userdata, SDL_Event *event )
         case CATA_APP_DIDENTERBACKGROUND:
             // No severity: recovery cannot run while paused. Foreground re-queues.
             coord->notify_lifecycle( lifecycle_state::paused );
+            break;
+#endif
+#if SDL_MAJOR_VERSION >= 3
+        case CATA_WINDOWEVENT_RESIZED:
+        case CATA_WINDOWEVENT_PIXEL_SIZE_CHANGED:
+            if( event->window.windowID == renderer_watch_window_id ) {
+                coord->notify_resize();
+            }
+            break;
+#else
+        case SDL_WINDOWEVENT:
+            // SDL2 delivers resize as a window sub-event under one umbrella type.
+            if( event->window.windowID == renderer_watch_window_id
+                && ( event->window.event == CATA_WINDOWEVENT_RESIZED
+                     || event->window.event == CATA_WINDOWEVENT_PIXEL_SIZE_CHANGED ) ) {
+                coord->notify_resize();
+            }
             break;
 #endif
         default:
@@ -2164,6 +2183,9 @@ bool renderer_recovery_test_support::setup_software_renderer()
         teardown_software_renderer();
         return false;
     }
+    // Seed the drawable track from the hidden fixture window before tests consume
+    // it; production seeds it in WinCreate.
+    refresh_drawable_dims();
     renderer_coordinator.seed_renderer_policy( {} );
     renderer_coordinator.finish_bootstrap();
     return true;
@@ -2289,6 +2311,31 @@ bool renderer_recovery_test_support::phase_fault_fired()
     return renderer_coordinator.test_phase_fault_fired_;
 }
 
+void renderer_recovery_test_support::set_scaling_and_resize_window( const int scaling,
+        const int window_w, const int window_h )
+{
+    scaling_factor = scaling;
+    SetWindowSize( ::window.get(), window_w, window_h );
+    renderer_coordinator.notify_resize();
+}
+
+void renderer_recovery_test_support::current_display_buffer_dims( int &w, int &h )
+{
+    get_display_buffer_dims( &w, &h );
+}
+
+void renderer_recovery_test_support::current_window_metrics( int &window_w, int &window_h,
+        int &font_w, int &font_h, int &scaling, int &min_term_w, int &min_term_h )
+{
+    window_w = WindowWidth;
+    window_h = WindowHeight;
+    font_w = fontwidth;
+    font_h = fontheight;
+    scaling = scaling_factor;
+    min_term_w = EVEN_MINIMUM_TERM_WIDTH;
+    min_term_h = EVEN_MINIMUM_TERM_HEIGHT;
+}
+
 bool renderer_resource_coordinator::apply_resize_only( const uint32_t serviced_resize_epoch )
 {
     // The planner cleared current_claimed_ when it issued this resize, so a
@@ -2296,42 +2343,57 @@ bool renderer_resource_coordinator::apply_resize_only( const uint32_t serviced_r
     if( check_pause_abort() ) {
         return false;
     }
+    // Refresh the logical, drawable, and desktop terminal tracks from the live
+    // window before deciding whether the display buffer needs recreation.
+    int logical_w = 0;
+    int logical_h = 0;
+    GetWindowSize( ::window.get(), &logical_w, &logical_h );
+    const bool terminal_relaid = apply_resize_layout( logical_w, logical_h );
     const point want = compute_display_buffer_dims();
-    if( display_buffer && want.x == display_buffer_w_ && want.y == display_buffer_h_ ) {
-        // DPI-only or letterbox-only change: the display buffer keeps its
-        // size, so no target recreate and no generation bump.
-        planner_.acknowledge_resize( serviced_resize_epoch );
-        return true;
-    }
-    const bind_result r = permanent_render_target_bind( renderer, nullptr,
-                          shared_variant_pass_or_null() );
-    if( r == bind_result::failed_in_switch ) {
-        // Undefined renderer state -- escalate to a full device-loss rebuild
-        // at the next drain rather than recreating against it.
-        request_recovery( renderer_recovery_severity::device_lost );
-        return false;
-    }
-    if( check_pause_abort() ) {
-        return false;
-    }
-    display_buffer.reset();
-    if( check_pause_abort() ) {
-        return false;
-    }
-    if( !SetupRenderTarget() ) {
-        if( display_buffer_scope_recovery_pending() ) {
+    const bool buffer_changed = !display_buffer || want.x != display_buffer_w_
+                                || want.y != display_buffer_h_;
+    if( buffer_changed ) {
+        const bind_result r = permanent_render_target_bind( renderer, nullptr,
+                              shared_variant_pass_or_null() );
+        if( r == bind_result::failed_in_switch ) {
+            // Undefined renderer state -- escalate to a full device-loss rebuild
+            // at the next drain rather than recreating against it.
             request_recovery( renderer_recovery_severity::device_lost );
+            return false;
         }
-        return false;
+        if( check_pause_abort() ) {
+            return false;
+        }
+        display_buffer.reset();
+        if( check_pause_abort() ) {
+            return false;
+        }
+        if( !SetupRenderTarget() ) {
+            if( display_buffer_scope_recovery_pending() ) {
+                request_recovery( renderer_recovery_severity::device_lost );
+            }
+            return false;
+        }
+        record_display_buffer_dims();
+        ++renderer_resource_generation_;
+        display_buffer_scope_clear_recovery_required();
     }
-    record_display_buffer_dims();
-    ++renderer_resource_generation_;
-    display_buffer_scope_clear_recovery_required();
-    // Acknowledge the serviced epoch before the blank so the post-success
+    // Acknowledge the serviced epoch before any blank so the post-success
     // predicate sees no phantom pending resize. A newer resize arriving during
     // setup keeps a higher pending epoch and is serviced on the next drain.
     planner_.acknowledge_resize( serviced_resize_epoch );
-    run_post_success_full_invalidation();
+    if( terminal_relaid && !test_mode ) {
+        // Desktop terminal layout changed: rebuild the game UI windows and mark
+        // every adaptor for resize. Skipped under the test harness, which has no
+        // game or menu UI to lay out.
+        game_ui::init_ui();
+        ui_manager::screen_resized();
+    }
+    // The drawable can change with the buffer kept (DPI-only), so re-arm present.
+    needupdate = true;
+    if( buffer_changed ) {
+        run_post_success_full_invalidation();
+    }
     return true;
 }
 
@@ -3877,41 +3939,39 @@ static input_event sdl_keysym_to_keycode_evt( const CataKeysym &keysym )
     return evt;
 }
 
-// Apply a new logical window size: update the window and drawable tracks and the
-// terminal-derived layout. Shared by the synchronous resize entry points and the
-// deferred coordinator resize so the layout math has a single owner.
-static void apply_resize_layout( int w, int h )
+// Refresh the window and drawable tracks from a new logical size, and on desktop
+// the terminal-derived layout. Returns whether the terminal layout was recomputed
+// (false on android, which keeps a window-independent terminal across rotation).
+static bool apply_resize_layout( int w, int h )
 {
+    const bool logical_changed = w != WindowWidth || h != WindowHeight;
     WindowWidth = w;
     WindowHeight = h;
     refresh_drawable_dims();
-    // A minimal window size is set during initialization, but some platforms ignore
-    // the minimum size so we clamp the terminal size here for extra safety.
-    TERMINAL_WIDTH = std::max( WindowWidth / fontwidth / scaling_factor, EVEN_MINIMUM_TERM_WIDTH );
-    TERMINAL_HEIGHT = std::max( WindowHeight / fontheight / scaling_factor, EVEN_MINIMUM_TERM_HEIGHT );
-    need_invalidate_framebuffers = true;
-    catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point::zero );
-}
-
-bool handle_resize( int w, int h )
-{
-    if( w == WindowWidth && h == WindowHeight ) {
-        return false;
+#if defined(__ANDROID__)
+    ( void )logical_changed;
+    return false;
+#else
+    if( logical_changed ) {
+        // A minimal window size is set during initialization, but some platforms
+        // ignore the minimum size so we clamp the terminal size here for safety.
+        TERMINAL_WIDTH = std::max( WindowWidth / fontwidth / scaling_factor, EVEN_MINIMUM_TERM_WIDTH );
+        TERMINAL_HEIGHT = std::max( WindowHeight / fontheight / scaling_factor, EVEN_MINIMUM_TERM_HEIGHT );
+        need_invalidate_framebuffers = true;
+        catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point::zero );
     }
-    apply_resize_layout( w, h );
-    throwErrorIf( !SetupRenderTarget(), "SetupRenderTarget failed" );
-    game_ui::init_ui();
-    ui_manager::screen_resized();
-    return true;
+    return logical_changed;
+#endif
 }
 
 void resize_term( const int cell_w, const int cell_h )
 {
-    int w = cell_w * fontwidth * scaling_factor;
-    int h = cell_h * fontheight * scaling_factor;
+    const int w = cell_w * fontwidth * scaling_factor;
+    const int h = cell_h * fontheight * scaling_factor;
     SetWindowSize( window.get(), w, h );
-    GetWindowSize( window.get(), &w, &h );
-    handle_resize( w, h );
+    // The resize is async: the coordinator applies it on the next drain, driven
+    // by this hint and the resulting watched resize event.
+    renderer_coordinator.notify_resize();
 }
 
 void toggle_fullscreen_window()
@@ -3941,10 +4001,8 @@ void toggle_fullscreen_window()
             return;
         }
     }
-    int nw = 0;
-    int nh = 0;
-    GetWindowSize( window.get(), &nw, &nh );
-    handle_resize( nw, nh );
+    // Apply the new size on the next drain, driven by the watched resize event.
+    renderer_coordinator.notify_resize();
     fullscreen = !fullscreen;
 }
 
@@ -5180,7 +5238,6 @@ static void CheckMessages()
 
     last_input = input_event();
 
-    std::optional<point> resize_dims;
     using cata::options::mouse;
 
     int imgui_buf_w = 0;
@@ -5213,17 +5270,8 @@ static void CheckMessages()
                         g->quicksave();
                     }
                     break;
-                // SDL sends a window resize event whenever the screen rotates orientation.
-                // SDL3: SIZE_CHANGED removed; RESIZED covers the same case.
-                case CATA_WINDOWEVENT_RESIZED:
-                    WindowWidth = ev.window.data1;
-                    WindowHeight = ev.window.data2;
-                    SDL_Delay( 500 );
-                    SDL_GetWindowSurface( window.get() );
-                    ui_manager::redraw_invalidated();
-                    refresh_display();
-                    needupdate = true;
-                    break;
+                    // Window resize (including android screen rotation) is handled by
+                    // the event watch, which bumps the resize epoch for the next drain.
 #else
                 case CATA_WINDOWEVENT_FOCUS_LOST:
                     window_focus = false;
@@ -5263,19 +5311,13 @@ static void CheckMessages()
                     ui_manager::redraw_invalidated();
                     break;
 #endif
-                case CATA_WINDOWEVENT_RESTORED:
 #if defined(__ANDROID__)
+                case CATA_WINDOWEVENT_RESTORED:
                     needs_sdl_surface_visibility_refresh = true;
                     if( android_is_hardware_keyboard_available() ) {
                         focus_aware_stop_text_input();
                         focus_aware_start_text_input();
                     }
-#endif
-                    break;
-#if !defined(__ANDROID__)
-                // Non-Android resize: store dimensions for deferred handling
-                case CATA_WINDOWEVENT_RESIZED:
-                    resize_dims = point( ev.window.data1, ev.window.data2 );
                     break;
 #endif
                 default:
@@ -5797,10 +5839,6 @@ static void CheckMessages()
         if( text_refresh && !is_repeat ) {
             break;
         }
-    }
-    if( resize_dims.has_value() ) {
-        restore_on_out_of_scope prev_last_input( last_input );
-        needupdate = handle_resize( resize_dims.value().x, resize_dims.value().y );
     }
     if( needupdate ) {
         try_sdl_update();
