@@ -1,11 +1,11 @@
 #include <cmath>
+#include <optional>
 #include <tuple>
 #include <vector>
 
 #include "calendar.h"
 #include "cata_catch.h"
 #include "coordinates.h"
-#include "line.h"
 #include "map_scale_constants.h"
 #include "mortar.h"
 #include "point.h"
@@ -123,7 +123,7 @@ TEST_CASE( "mortar_fire_center_is_clamped_to_valid_fire_range", "[mortar]" )
     };
     for( const tripoint_abs_ms &center : too_close_centers ) {
         const tripoint_abs_ms clamped = mortar.clamp_fire_center_to_range( mortar_pos, center,
-                                            target, minimum_target_distance );
+                                        target, minimum_target_distance );
         CHECK( rl_dist( mortar_pos, clamped ) > minimum_target_distance );
         CHECK( rl_dist( mortar_pos, clamped ) <= mortar.range() );
     }
@@ -136,7 +136,7 @@ TEST_CASE( "mortar_fire_center_is_clamped_to_valid_fire_range", "[mortar]" )
     };
     for( const tripoint_abs_ms &center : too_far_centers ) {
         const tripoint_abs_ms clamped = mortar.clamp_fire_center_to_range( mortar_pos, center,
-                                            target, minimum_target_distance );
+                                        target, minimum_target_distance );
         CHECK( rl_dist( mortar_pos, clamped ) > minimum_target_distance );
         CHECK( rl_dist( mortar_pos, clamped ) <= mortar.range() );
     }
@@ -152,7 +152,7 @@ TEST_CASE( "mortar_fire_center_clamp_preserves_fallback_axis_for_zero_vector",
     const int minimum_target_distance = 100;
 
     const tripoint_abs_ms clamped = mortar.clamp_fire_center_to_range( mortar_pos,
-                                      fire_center, fallback_axis_to, minimum_target_distance );
+                                    fire_center, fallback_axis_to, minimum_target_distance );
     CHECK( clamped.x() == mortar_pos.x() );
     CHECK( clamped.y() > minimum_target_distance );
     CHECK( rl_dist( mortar_pos, clamped ) <= mortar.range() );
@@ -172,17 +172,15 @@ TEST_CASE( "mortar_creeping_axis_points_away_from_spotter", "[mortar]" )
     };
     for( const tripoint_abs_ms &spotter : spotters ) {
         const tripoint_abs_ms axis_to = mortar_make_creeping_axis_to( target, spotter,
-                                         mortar_pos );
-        const int spotter_to_target_x = target.x() - spotter.x();
-        const int spotter_to_target_y = target.y() - spotter.y();
-        const int target_to_axis_x = axis_to.x() - target.x();
-        const int target_to_axis_y = axis_to.y() - target.y();
-        CHECK( spotter_to_target_x * target_to_axis_x +
-               spotter_to_target_y * target_to_axis_y > 0 );
+                                        mortar_pos );
+        const point spotter_to_target( target.x() - spotter.x(), target.y() - spotter.y() );
+        const point target_to_axis( axis_to.x() - target.x(), axis_to.y() - target.y() );
+        CHECK( spotter_to_target.x * target_to_axis.x +
+               spotter_to_target.y * target_to_axis.y > 0 );
     }
 
     const tripoint_abs_ms fallback_axis = mortar_make_creeping_axis_to( target, target,
-                                           mortar_pos );
+                                          mortar_pos );
     CHECK( fallback_axis.x() > target.x() );
     CHECK( fallback_axis.y() > target.y() );
 }
@@ -199,15 +197,14 @@ TEST_CASE( "mortar_creeping_adjustment_offsets_away_from_spotter_geometry", "[mo
 
     for( const auto &[mortar_pos, target, spotter] : cases ) {
         const tripoint_abs_ms axis_to = mortar_make_creeping_axis_to( target, spotter,
-                                         mortar_pos );
+                                        mortar_pos );
         const mortar_creeping_solution solution = mortar_creeping_adjustment( mortar_pos,
                 target, axis_to, spotter, error );
-        const int spotter_to_target_x = target.x() - spotter.x();
-        const int spotter_to_target_y = target.y() - spotter.y();
-        const int target_to_center_x = solution.center.x() - target.x();
-        const int target_to_center_y = solution.center.y() - target.y();
-        CHECK( spotter_to_target_x * target_to_center_x +
-               spotter_to_target_y * target_to_center_y > 0 );
+        const point spotter_to_target( target.x() - spotter.x(), target.y() - spotter.y() );
+        const point target_to_center( solution.center.x() - target.x(),
+                                      solution.center.y() - target.y() );
+        CHECK( spotter_to_target.x * target_to_center.x +
+               spotter_to_target.y * target_to_center.y > 0 );
     }
 }
 
@@ -221,8 +218,8 @@ TEST_CASE( "mortar_fire_solution_without_creeping_uses_target_center", "[mortar]
     const mortar_location_error location_error{ 0.0, 0.0 };
 
     const mortar_fire_solution solution = mortar.make_fire_solution( mortar_pos, target,
-                                         spotter_pos, creeping_axis_to, spotter_pos, target,
-                                         location_error, 1.0, true, false );
+                                          spotter_pos, creeping_axis_to, spotter_pos, target,
+                                          location_error, 1.0, true, false );
 
     CHECK( solution.target_distance == 1000 );
     CHECK( solution.minimum_target_distance ==
@@ -247,8 +244,8 @@ TEST_CASE( "mortar_fire_solution_clamps_creeping_center_to_valid_range", "[morta
     const mortar_location_error location_error{ 0.0, 0.0 };
 
     const mortar_fire_solution solution = mortar.make_fire_solution( mortar_pos, target,
-                                         spotter_pos, creeping_axis_to, spotter_pos, target,
-                                         location_error, 1.0, true, true );
+                                          spotter_pos, creeping_axis_to, spotter_pos, target,
+                                          location_error, 1.0, true, true );
 
     REQUIRE( solution.creeping_solution );
     CHECK( solution.creeping_solution->range_limited );
