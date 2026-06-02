@@ -11,6 +11,7 @@
 #include "debug.h"
 #include "generic_factory.h"
 #include "item.h"
+#include "line.h"
 #include "map_scale_constants.h"
 #include "point.h"
 #include "rng.h"
@@ -124,6 +125,22 @@ tripoint_abs_ms clamp_to_max_range( const tripoint_abs_ms &origin,
     return tripoint_abs_ms( origin.x() + scale_coord( d.x ),
                             origin.y() + scale_coord( d.y ),
                             impact.z() );
+}
+
+double mortar_elliptic_distance( const tripoint_abs_ms &axis_from,
+                                 const tripoint_abs_ms &axis_to,
+                                 const tripoint_abs_ms &center,
+                                 const tripoint_abs_ms &point,
+                                 const mortar_error &error )
+{
+    const auto [ux, uy] = axis_unit( axis_from, axis_to );
+    const double dx = point.x() - center.x();
+    const double dy = point.y() - center.y();
+    const double range_offset = dx * ux + dy * uy;
+    const double deflection_offset = -dx * uy + dy * ux;
+    const double range_error = std::max( 1.0, error.range );
+    const double deflection_error = std::max( 1.0, error.deflection );
+    return std::hypot( range_offset / range_error, deflection_offset / deflection_error );
 }
 
 } // namespace
@@ -254,6 +271,69 @@ double mortar_type::effective_ballistic_multiplier( const double raw_multiplier 
                      mortar_multiplier_above_soft_cap_scale );
 }
 
+int mortar_heading_degrees( const tripoint_abs_ms &from, const tripoint_abs_ms &to )
+{
+    static constexpr double pi = 3.14159265358979323846;
+    const double dx = to.x() - from.x();
+    const double dy = to.y() - from.y();
+    int degrees = static_cast<int>( std::round( std::atan2( dx, -dy ) * 180.0 / pi ) );
+    if( degrees < 0 ) {
+        degrees += 360;
+    }
+    return degrees;
+}
+
+tripoint_abs_ms mortar_make_creeping_axis_to( const tripoint_abs_ms &target,
+        const tripoint_abs_ms &spotter_pos, const tripoint_abs_ms &mortar_pos )
+{
+    double dx = target.x() - spotter_pos.x();
+    double dy = target.y() - spotter_pos.y();
+    double length = std::hypot( dx, dy );
+    if( length <= 0.0 ) {
+        dx = target.x() - mortar_pos.x();
+        dy = target.y() - mortar_pos.y();
+        length = std::hypot( dx, dy );
+    }
+    if( length <= 0.0 ) {
+        dx = 1.0;
+        dy = 0.0;
+        length = 1.0;
+    }
+    dx /= length;
+    dy /= length;
+    return tripoint_abs_ms( target.x() + static_cast<int>( std::round( dx * 1000.0 ) ),
+                            target.y() + static_cast<int>( std::round( dy * 1000.0 ) ),
+                            target.z() );
+}
+
+mortar_creeping_solution mortar_creeping_adjustment( const tripoint_abs_ms &mortar_pos,
+        const tripoint_abs_ms &target, const tripoint_abs_ms &axis_to,
+        const tripoint_abs_ms &spotter_pos, const mortar_error &error )
+{
+    const double player_error_distance = mortar_elliptic_distance( mortar_pos, target, target,
+                                         spotter_pos, error );
+    const bool danger_close = player_error_distance <= 2.0;
+    const double offset_multiplier = danger_close ? ( player_error_distance > 1.0 ? 1.5 : 2.0 ) :
+                                     1.0;
+
+    const auto [offset_ux, offset_uy] = axis_unit( target, axis_to );
+    const auto [range_ux, range_uy] = axis_unit( mortar_pos, target );
+    const double range_component = offset_ux * range_ux + offset_uy * range_uy;
+    const double deflection_component = -offset_ux * range_uy + offset_uy * range_ux;
+    const double range_error = std::max( 1.0, error.range );
+    const double deflection_error = std::max( 1.0, error.deflection );
+    const double denominator = std::hypot( range_component / range_error,
+                                           deflection_component / deflection_error );
+    const double offset_distance = denominator > 0.0 ? offset_multiplier / denominator : 0.0;
+    const tripoint_abs_ms center( target.x() + static_cast<int>( std::round( offset_ux *
+                                  offset_distance ) ),
+                                  target.y() + static_cast<int>( std::round( offset_uy *
+                                          offset_distance ) ),
+                                  target.z() );
+    return mortar_creeping_solution{ center, mortar_heading_degrees( target, center ),
+                                     danger_close, offset_multiplier };
+}
+
 void mortar_type::load( const JsonObject &jo, std::string_view )
 {
     const numeric_bound_reader<int> positive_int{ 1 };
@@ -318,6 +398,112 @@ int mortar_type::minimum_target_distance( const int target_distance,
 {
     const double range_error = minimum_range_error( target_distance ) * ballistic_multiplier;
     return std::min( 1000, MAX_VIEW_DISTANCE + static_cast<int>( std::ceil( range_error * 2.0 ) ) );
+}
+
+mortar_error mortar_type::combined_error( const tripoint_abs_ms &mortar_pos,
+        const tripoint_abs_ms &target, const mortar_error &ballistic_error,
+        const tripoint_abs_ms &location_axis_from,
+        const tripoint_abs_ms &location_axis_to,
+        const mortar_location_error &location_error ) const
+{
+    const mortar_error projected_location_error = project_location_error(
+                mortar_pos, target, location_axis_from, location_axis_to, location_error );
+    return mortar_error{ ballistic_error.range + projected_location_error.range,
+                         ballistic_error.deflection + projected_location_error.deflection };
+}
+
+mortar_fire_solution mortar_type::make_fire_solution( const tripoint_abs_ms &mortar_pos,
+        const tripoint_abs_ms &target, const tripoint_abs_ms &spotter_pos,
+        const tripoint_abs_ms &creeping_axis_to,
+        const tripoint_abs_ms &location_axis_from,
+        const tripoint_abs_ms &location_axis_to,
+        const mortar_location_error &location_error, const double total_multiplier,
+        const bool round_is_high_explosive, const bool use_creeping_adjustment ) const
+{
+    mortar_fire_solution result;
+    result.target_distance = rl_dist( mortar_pos, target );
+    result.minimum_target_distance = round_is_high_explosive ?
+                                     minimum_target_distance( result.target_distance, total_multiplier ) :
+                                     MAX_VIEW_DISTANCE;
+    result.minimum_error = minimum_error( result.target_distance );
+    result.ballistic_error = mortar_error{ result.minimum_error.range * total_multiplier,
+                                           result.minimum_error.deflection * total_multiplier };
+    result.reported_error = combined_error( mortar_pos, target, result.ballistic_error,
+                                            location_axis_from, location_axis_to,
+                                            location_error );
+    result.fire_center = target;
+    if( use_creeping_adjustment ) {
+        result.creeping_solution = mortar_creeping_adjustment( mortar_pos, target,
+                                   creeping_axis_to, spotter_pos, result.reported_error );
+        const tripoint_abs_ms unclamped_fire_center = result.creeping_solution->center;
+        result.fire_center = clamp_fire_center_to_range( mortar_pos, unclamped_fire_center,
+                             target, result.minimum_target_distance );
+        if( result.fire_center != unclamped_fire_center ) {
+            result.creeping_solution->center = result.fire_center;
+            result.creeping_solution->offset_heading = mortar_heading_degrees( target,
+                    result.fire_center );
+            result.creeping_solution->range_limited = true;
+        }
+    }
+    return result;
+}
+
+tripoint_abs_ms mortar_type::clamp_fire_center_to_range( const tripoint_abs_ms &mortar_pos,
+        const tripoint_abs_ms &fire_center, const tripoint_abs_ms &fallback_axis_to,
+        const int minimum_target_distance ) const
+{
+    const int current_distance = rl_dist( mortar_pos, fire_center );
+    if( current_distance > minimum_target_distance && current_distance <= range_ ) {
+        return fire_center;
+    }
+
+    const int minimum_valid_distance = std::min( range_,
+                                       std::max( 0, minimum_target_distance + 1 ) );
+    const int desired_distance = clamp( current_distance, minimum_valid_distance, range_ );
+    int dx = fire_center.x() - mortar_pos.x();
+    int dy = fire_center.y() - mortar_pos.y();
+    int scale_distance = current_distance;
+    if( dx == 0 && dy == 0 ) {
+        dx = fallback_axis_to.x() - mortar_pos.x();
+        dy = fallback_axis_to.y() - mortar_pos.y();
+        scale_distance = rl_dist( mortar_pos, fallback_axis_to );
+    }
+
+    const auto project_to_distance = [&]( const int distance ) {
+        if( dx == 0 && dy == 0 ) {
+            return tripoint_abs_ms( mortar_pos.x() + distance, mortar_pos.y(), fire_center.z() );
+        }
+        const double scale = static_cast<double>( distance ) / std::max( 1, scale_distance );
+        return tripoint_abs_ms( mortar_pos.x() + static_cast<int>( std::round( dx * scale ) ),
+                                mortar_pos.y() + static_cast<int>( std::round( dy * scale ) ),
+                                fire_center.z() );
+    };
+
+    const auto valid_distance = [&]( const tripoint_abs_ms & candidate ) {
+        const int distance = rl_dist( mortar_pos, candidate );
+        return distance > minimum_target_distance && distance <= range_;
+    };
+
+    tripoint_abs_ms clamped = project_to_distance( desired_distance );
+    if( valid_distance( clamped ) ) {
+        return clamped;
+    }
+    if( current_distance <= minimum_target_distance ) {
+        for( int distance = desired_distance + 1; distance <= range_; ++distance ) {
+            const tripoint_abs_ms candidate = project_to_distance( distance );
+            if( valid_distance( candidate ) ) {
+                return candidate;
+            }
+        }
+    } else {
+        for( int distance = desired_distance - 1; distance >= minimum_valid_distance; --distance ) {
+            const tripoint_abs_ms candidate = project_to_distance( distance );
+            if( valid_distance( candidate ) ) {
+                return candidate;
+            }
+        }
+    }
+    return clamped;
 }
 
 double mortar_type::repeat_cep_multiplier( const int launcher_skill ) const
