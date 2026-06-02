@@ -1139,6 +1139,6 @@
     "copy-from": "f_highlands_dead_exodii",
     "examine_action": {
       "type": "effect_on_condition",
-      "effect_on_conditions": [ { "id": "EOC_DEAD_EXODII_FINISHED", "effect": [ { "u_message": "Memento Mori." } ] } ]
+      "effect_on_conditions": [ { "id": "EOC_DEAD_EXODII_FINISHED", "effect": [ { "u_message": "Memento Mori." } ] } ] }
   }
 ]
