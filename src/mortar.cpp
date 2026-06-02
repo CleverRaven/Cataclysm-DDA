@@ -459,22 +459,21 @@ tripoint_abs_ms mortar_type::clamp_fire_center_to_range( const tripoint_abs_ms &
     const int minimum_valid_distance = std::min( range_,
                                        std::max( 0, minimum_target_distance + 1 ) );
     const int desired_distance = clamp( current_distance, minimum_valid_distance, range_ );
-    int dx = fire_center.x() - mortar_pos.x();
-    int dy = fire_center.y() - mortar_pos.y();
+    point d( fire_center.x() - mortar_pos.x(), fire_center.y() - mortar_pos.y() );
     int scale_distance = current_distance;
-    if( dx == 0 && dy == 0 ) {
-        dx = fallback_axis_to.x() - mortar_pos.x();
-        dy = fallback_axis_to.y() - mortar_pos.y();
+    if( d.x == 0 && d.y == 0 ) {
+        d.x = fallback_axis_to.x() - mortar_pos.x();
+        d.y = fallback_axis_to.y() - mortar_pos.y();
         scale_distance = rl_dist( mortar_pos, fallback_axis_to );
     }
 
     const auto project_to_distance = [&]( const int distance ) {
-        if( dx == 0 && dy == 0 ) {
+        if( d.x == 0 && d.y == 0 ) {
             return tripoint_abs_ms( mortar_pos.x() + distance, mortar_pos.y(), fire_center.z() );
         }
         const double scale = static_cast<double>( distance ) / std::max( 1, scale_distance );
-        return tripoint_abs_ms( mortar_pos.x() + static_cast<int>( std::round( dx * scale ) ),
-                                mortar_pos.y() + static_cast<int>( std::round( dy * scale ) ),
+        return tripoint_abs_ms( mortar_pos.x() + static_cast<int>( std::round( d.x * scale ) ),
+                                mortar_pos.y() + static_cast<int>( std::round( d.y * scale ) ),
                                 fire_center.z() );
     };
 
