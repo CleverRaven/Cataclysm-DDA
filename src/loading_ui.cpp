@@ -235,6 +235,7 @@ void loading_ui::show( const std::string &context, const std::string &step )
         return;
     }
     update_state( context, step );
+    drain_renderer_recovery();
     ui_manager::redraw();
     refresh_display();
     inp_mngr.pump_events();

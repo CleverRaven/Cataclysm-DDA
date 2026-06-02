@@ -281,7 +281,9 @@ gpu_handle_graveyard &setup_target_quarantine()
 // scaling_factor, independent of backing-store pixels.
 static point compute_display_buffer_dims()
 {
-    return point{ WindowWidth / scaling_factor, WindowHeight / scaling_factor };
+    // On desktop this matches the window over scaling up to a sub-cell remainder;
+    // on android TERMINAL is window-independent, the only correct buffer size.
+    return point{ TERMINAL_WIDTH * fontwidth, TERMINAL_HEIGHT * fontheight };
 }
 
 // Backing-store pixel dimensions of the window, tracked independently of the
@@ -479,7 +481,16 @@ static int SDLCALL renderer_event_watch( void *userdata, SDL_Event *event )
 #if SDL_MAJOR_VERSION >= 3
             if( event->render.windowID == renderer_watch_window_id )
 #endif
+            {
+#if defined(__ANDROID__)
+                // SDL emits this only after the preserved EGL context fails to
+                // restore and it allocates a replacement context, leaving the
+                // GLES backend bound to a stale context. Recreate the renderer.
+                coord->request_recovery( renderer_recovery_severity::device_lost );
+#else
                 coord->request_recovery( renderer_recovery_severity::device_reset );
+#endif
+            }
             break;
 #if SDL_MAJOR_VERSION >= 3
         case CATA_RENDER_DEVICE_LOST:
@@ -502,13 +513,6 @@ static int SDLCALL renderer_event_watch( void *userdata, SDL_Event *event )
             break;
 #endif
         default:
-            if( IsWindowEvent( *event ) && event->window.windowID == renderer_watch_window_id ) {
-                const Uint32 sub = GetWindowEventID( *event );
-                if( sub == CATA_WINDOWEVENT_RESIZED
-                    || sub == CATA_WINDOWEVENT_PIXEL_SIZE_CHANGED ) {
-                    coord->notify_resize();
-                }
-            }
             break;
     }
 #if SDL_MAJOR_VERSION >= 3
@@ -1958,6 +1962,17 @@ void renderer_resource_coordinator::finish_bootstrap()
     planner_.finish_bootstrap();
 }
 
+void renderer_resource_coordinator::begin_atlas_upload()
+{
+    ++atlas_upload_depth_;
+}
+
+void renderer_resource_coordinator::end_atlas_upload()
+{
+    cata_assert( atlas_upload_depth_ > 0 );
+    --atlas_upload_depth_;
+}
+
 // Whether this fixture initialized the video subsystem (so teardown must quit
 // it) and the SDL_VIDEODRIVER value to restore afterwards.
 static bool test_fixture_acquired_video = false;
@@ -2026,6 +2041,7 @@ void renderer_recovery_test_support::reset_coordinator()
         }
     }
     c.planner_.reset();
+    c.atlas_upload_depth_ = 0;
     c.renderer_resource_generation_ = 0;
     c.renderer_instance_generation_ = 0;
     c.gpu_textures_generation_ = 0;
@@ -2284,10 +2300,12 @@ void renderer_resource_coordinator::attempt_serviced_seq_cas( const uint64_t ser
 
 void renderer_resource_coordinator::drain_pending()
 {
-    // Refuse drains until the cold-start upload finishes (finish_bootstrap),
-    // and guard against re-entry while a drain is already running.
+    // Refuse drains before base UI init (bootstrapping), while an atlas upload
+    // owns unpublished candidate textures, and against re-entry while a drain
+    // is already running.
     if( planner_.state() == renderer_recovery_state::bootstrapping
-        || planner_.state() == renderer_recovery_state::recovering ) {
+        || planner_.state() == renderer_recovery_state::recovering
+        || atlas_upload_depth_ > 0 ) {
         return;
     }
     // Thin driver: the planner names the next side effect, the coordinator runs
@@ -5096,7 +5114,6 @@ static void CheckMessages()
     last_input = input_event();
 
     std::optional<point> resize_dims;
-    bool render_target_reset = false;
     using cata::options::mouse;
 
     int imgui_buf_w = 0;
@@ -5199,9 +5216,6 @@ static void CheckMessages()
             }
         } else {
             switch( ev.type ) {
-                case CATA_RENDER_TARGETS_RESET:
-                    render_target_reset = true;
-                    break;
                 case CATA_KEYDOWN: {
 #if defined(__ANDROID__)
                     // Toggle virtual keyboard with Android back button. For some reason I get double inputs, so ignore everything once it's already down.
@@ -5717,24 +5731,9 @@ static void CheckMessages()
             break;
         }
     }
-    bool resized = false;
     if( resize_dims.has_value() ) {
         restore_on_out_of_scope prev_last_input( last_input );
-        needupdate = resized = handle_resize( resize_dims.value().x, resize_dims.value().y );
-    }
-    // resizing already reinitializes the render target
-    if( !resized && render_target_reset ) {
-        throwErrorIf( !SetupRenderTarget(), "SetupRenderTarget failed" );
-        needupdate = true;
-        restore_on_out_of_scope prev_last_input( last_input );
-        // FIXME: SDL_RENDER_TARGETS_RESET only seems to be fired after the first redraw
-        // when restoring the window after system sleep, rather than immediately
-        // on focus gain. This seems to mess up the first redraw and
-        // causes black screen that lasts ~0.5 seconds before the screen
-        // contents are redrawn in the following code.
-        ui_manager::invalidate( rectangle<point>( point::zero, point( WindowWidth, WindowHeight ) ),
-                                false );
-        ui_manager::redraw_invalidated();
+        needupdate = handle_resize( resize_dims.value().x, resize_dims.value().y );
     }
     if( needupdate ) {
         try_sdl_update();
@@ -5990,14 +5989,16 @@ void catacurses::init_interface()
     preview_terminal_width = TERMINAL_WIDTH * fontwidth;
     preview_terminal_height = TERMINAL_HEIGHT * fontheight;
 #endif
+    // Base UI is up: allow recovery (see finish_bootstrap) and service any inbox
+    // work queued during startup.
+    renderer_coordinator.finish_bootstrap();
+    drain_renderer_recovery();
 }
 
 // This is supposed to be called from init.cpp, and only from there.
 void load_tileset()
 {
     if( !tilecontext || !use_tiles ) {
-        // No atlas upload to gate; the coordinator may allow drains.
-        renderer_coordinator.finish_bootstrap();
         return;
     }
     closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
@@ -6017,9 +6018,6 @@ void load_tileset()
                                            /*pump_events=*/true, /*terrain=*/true );
         overmap_tilecontext->do_tile_loading_report();
     }
-
-    // The real cold-start atlas upload is complete; allow drains and rendering.
-    renderer_coordinator.finish_bootstrap();
 }
 
 //Ends the terminal, destroy everything
@@ -6076,8 +6074,10 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
         throw std::runtime_error( "input_manager::get_input_event called in test mode" );
     }
 
-    // Service pending renderer recovery before the pre-poll draw path, which
-    // targets the display buffer.
+    // Pump so a just-queued reset reaches the inbox via the event watch, then
+    // drain before the pre-poll draw path. Pumping does not consume input; the
+    // CheckMessages poll below still reads it.
+    SDL_PumpEvents();
     drain_renderer_recovery();
 
 #if !defined(__ANDROID__) && !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)

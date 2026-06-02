@@ -419,15 +419,27 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
     // reset the overlay ordering from the previous loaded tileset
     tileset_mutation_overlay_ordering.clear();
 
-    tileset_ptr = cache.load_tileset( tileset_id, renderer, precheck, force, pump_events, terrain,
-                                      memory_map_mode, gens.instance, gens.textures );
+    {
+        // Gate drains across parse + upload + finalize so recovery cannot rebuild
+        // under an unpublished candidate (see atlas_upload_scope). A precheck does
+        // no GPU upload, so it is not gated.
+        atlas_upload_scope upload_guard( !precheck );
+        tileset_ptr = cache.load_tileset( tileset_id, renderer, precheck, force, pump_events, terrain,
+                                          memory_map_mode, gens.instance, gens.textures );
 
-    set_draw_scale( 16 );
+        set_draw_scale( 16 );
 
-    // Precalculate fog transparency
-    // On isometric tilesets, fog intensity scales with zlevel_height in tile_config.json
-    fog_alpha = is_isometric() ? std::min( std::max( int( 255.0f - 255.0f * pow( 155.0f / 255.0f,
-                                           zlevel_height / 100.0f ) ), 40 ), 150 ) : 100;
+        // Precalculate fog transparency
+        // On isometric tilesets, fog intensity scales with zlevel_height in tile_config.json
+        fog_alpha = is_isometric() ? std::min( std::max( int( 255.0f - 255.0f * pow( 155.0f / 255.0f,
+                                               zlevel_height / 100.0f ) ), 40 ), 150 ) : 100;
+    }
+    if( !precheck ) {
+        // Service recovery queued during the upload, now that the candidate is
+        // published. An exception unwind skips this, leaving recovery for the next
+        // outer boundary.
+        drain_renderer_recovery();
+    }
 }
 
 void cata_tiles::reinit()
