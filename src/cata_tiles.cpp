@@ -4038,6 +4038,22 @@ bool cata_tiles::draw_item_highlight( const tripoint_bub_ms &pos, int &height_3d
                                 lit_level::LIT, false, height_3d );
 }
 
+std::shared_ptr<tileset> tileset_cache::find_fresh_cached( const tileset_cache_key &key,
+        const uint64_t current_renderer_instance_gen, const uint64_t current_gpu_textures_gen ) const
+{
+    const auto it = tilesets_.find( key );
+    if( it == tilesets_.end() ) {
+        return nullptr;
+    }
+    std::shared_ptr<tileset> cached = it->second.lock();
+    if( cached
+        && cached->get_renderer_instance_generation_at_upload() == current_renderer_instance_gen
+        && cached->get_gpu_textures_generation_at_upload() == current_gpu_textures_gen ) {
+        return cached;
+    }
+    return nullptr;
+}
+
 std::shared_ptr<const tileset> tileset_cache::load_tileset( const std::string &tileset_id,
         const SDL_Renderer_Ptr &renderer, const bool precheck, const bool force, const bool pump_events,
         const bool terrain, const std::string &memory_map_mode,
@@ -4048,14 +4064,9 @@ std::shared_ptr<const tileset> tileset_cache::load_tileset( const std::string &t
     };
 
     const auto get_or_create_tileset = [&]() {
-        const auto it = tilesets_.find( key );
-        if( it != tilesets_.end() ) {
-            std::shared_ptr<tileset> cached = it->second.lock();
-            if( cached
-                && cached->get_renderer_instance_generation_at_upload() == current_renderer_instance_gen
-                && cached->get_gpu_textures_generation_at_upload() == current_gpu_textures_gen ) {
-                return cached;
-            }
+        if( std::shared_ptr<tileset> fresh = find_fresh_cached( key, current_renderer_instance_gen,
+                                             current_gpu_textures_gen ) ) {
+            return fresh;
         }
         std::shared_ptr<tileset> new_ts = std::make_shared<tileset>();
         loader loader( *new_ts, renderer, memory_map_mode );
