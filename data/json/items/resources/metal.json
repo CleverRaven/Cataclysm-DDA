@@ -411,7 +411,7 @@
     "color": "light_gray",
     "description": "A small spool of solder, useful for electronics crafting.",
     "material": [ "steel" ],
-    "volume": "50 ml",
+    "volume": "1 ml",
     "weight": "2 g",
     "//": "Density ~ 8g/cm³ ~ 2000kg/250ml @ stack 1000 = 2g/unit",
     "flags": [ "UNRECOVERABLE" ]
