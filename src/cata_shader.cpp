@@ -350,7 +350,10 @@ variant_pass::variant_pass( SDL_Renderer *renderer )
 
 variant_pass::~variant_pass()
 {
-    flush();
+    const bool flushed = flush();
+    // On flush failure the handles may still be referenced; abandon rather
+    // than have RAII teardown call SDL on a still-bound resource.
+    clear_state_arrays( !flushed );
 }
 
 namespace
@@ -524,19 +527,40 @@ load_outcome load_and_probe( SDL_GPUDevice *device, SDL_Renderer *renderer,
 
 void variant_pass::reset()
 {
-    flush();
-    for( size_t i = 0; i < shaders_.size(); ++i ) {
-        states_[i] = render_state{};
-        shaders_[i] = shader{};
-    }
-    for( size_t i = 0; i < memory_shaders_.size(); ++i ) {
-        memory_states_[i] = render_state{};
-        memory_shaders_[i] = shader{};
-    }
+    const bool flushed = flush();
+    clear_state_arrays( !flushed );
     probe_attempted_ = false;
     probed_ok_ = false;
-    session_disabled_ = false;
-    unbind_required_ = false;
+    // On flush failure leave session_disabled_ set so callers refuse the
+    // boundary; the rebuild driving reset() decides when to clear it.
+    if( flushed ) {
+        session_disabled_ = false;
+        unbind_required_ = false;
+    }
+}
+
+void variant_pass::clear_state_arrays( bool abandon_handles )
+{
+    if( abandon_handles ) {
+        for( shader &s : shaders_ ) {
+            s.abandon();
+        }
+        for( render_state &s : states_ ) {
+            s.abandon();
+        }
+        for( shader &s : memory_shaders_ ) {
+            s.abandon();
+        }
+        for( render_state &s : memory_states_ ) {
+            s.abandon();
+        }
+    }
+    // Render states reference their fragment shader; clear states before
+    // shaders so SDL does not see a dangling reference on the clean path.
+    states_ = {};
+    memory_states_ = {};
+    shaders_ = {};
+    memory_shaders_ = {};
 }
 
 void variant_pass::probe()
@@ -600,30 +624,42 @@ SDL_GPURenderState *variant_pass::state_for( variant_kind v ) const
     return states_[static_cast<size_t>( v )].get();
 }
 
-bool variant_pass::try_begin( variant_kind v )
+variant_pass::begin_result variant_pass::try_begin( variant_kind v )
 {
+    if( abandoned_pending_rebind_ ) {
+        // Embargo raised: refuse without calling SDL until rebind.
+        return begin_result::abort_frame;
+    }
     if( reprobe_requested() ) {
         reset();
         clear_reprobe();
     }
     if( session_disabled_ ) {
         // Drop any held bind so the disabled session does not leave shader
-        // state on subsequent draws.
-        flush();
-        return false;
+        // state on subsequent draws. If flush fails the renderer is undefined
+        // -- signal abort.
+        if( !flush() ) {
+            return begin_result::abort_frame;
+        }
+        return begin_result::use_atlas;
     }
     if( !probe_attempted_ ) {
         probe();
+        if( unbind_required_ ) {
+            // probe() observed a boundary-loss probe failure and latched
+            // unbind_required_. Renderer state is undefined.
+            return begin_result::abort_frame;
+        }
     }
     if( !probed_ok_ ) {
-        return false;
+        return begin_result::use_atlas;
     }
     SDL_GPURenderState *target = state_for( v );
     SDL_GPURenderState *current = currently_bound_
                                   ? state_for( *currently_bound_ )
                                   : nullptr;
     if( target == current ) {
-        return target != nullptr;
+        return target != nullptr ? begin_result::bound : begin_result::use_atlas;
     }
     if( !SDL_SetGPURenderState( renderer_, target ) ) {
         DebugLog( D_ERROR, DC_ALL )
@@ -634,7 +670,7 @@ bool variant_pass::try_begin( variant_kind v )
         // currently_bound_ so operator== rejects the boundary, and force the
         // next flush() to call null-state even if currently_bound_ was empty.
         unbind_required_ = true;
-        return false;
+        return begin_result::abort_frame;
     }
     if( target ) {
         currently_bound_ = v;
@@ -642,7 +678,7 @@ bool variant_pass::try_begin( variant_kind v )
         currently_bound_.reset();
     }
     unbind_required_ = false;
-    return target != nullptr;
+    return target != nullptr ? begin_result::bound : begin_result::use_atlas;
 }
 
 bool variant_pass::end()
@@ -652,6 +688,10 @@ bool variant_pass::end()
 
 bool variant_pass::flush()
 {
+    if( abandoned_pending_rebind_ ) {
+        // Embargo raised: refuse without SDL. false signals the boundary loss.
+        return false;
+    }
     if( !currently_bound_ && !unbind_required_ ) {
         return true;
     }
@@ -672,57 +712,56 @@ void variant_pass::select_memory_preset( std::optional<memory_preset> preset )
     active_memory_preset_ = preset;
 }
 
-render_target_scope::render_target_scope( SDL_Renderer *renderer, SDL_Texture *target,
-        variant_pass *vp )
-    : renderer_( renderer )
+void variant_pass::release_gpu_resources()
 {
-    if( !renderer_ ) {
+    if( abandoned_pending_rebind_ ) {
+        // Embargo already raised; nothing to do until rebind.
         return;
     }
-    prior_target_ = SDL_GetRenderTarget( renderer_ );
-    if( vp && !vp->flush() ) {
-        return;
+    // flush() returns false on an undefined bind; abandon the handles in that
+    // case rather than let their destructors touch a still-referenced resource.
+    bool flushed = true;
+    if( currently_bound_ || unbind_required_ ) {
+        flushed = flush();
     }
-    if( !SDL_SetRenderTarget( renderer_, target ) ) {
-        DebugLog( D_ERROR, DC_ALL )
-                << "cata_shader::render_target_scope: SDL_SetRenderTarget failed: "
-                << SDL_GetError();
-        return;
+    clear_state_arrays( !flushed );
+    currently_bound_.reset();
+    probe_attempted_ = false;
+    probed_ok_ = false;
+    // active_memory_preset_ is logical config, not a GPU handle; keep it.
+    if( flushed ) {
+        unbind_required_ = false;
+        session_disabled_ = false;
+    } else {
+        // Abandoned: raise the embargo so later calls refuse SDL (see header).
+        abandoned_pending_rebind_ = true;
     }
-    valid_ = true;
 }
 
-bool render_target_scope::restore()
+void variant_pass::force_abandon_gpu_resources()
 {
-    if( restored_ ) {
-        return true;
-    }
-    if( !renderer_ || !valid_ ) {
-        return false;
-    }
-    if( !SDL_SetRenderTarget( renderer_, prior_target_ ) ) {
-        DebugLog( D_ERROR, DC_ALL )
-                << "cata_shader::render_target_scope::restore: SDL_SetRenderTarget failed: "
-                << SDL_GetError();
-        return false;
-    }
-    restored_ = true;
-    return true;
+    clear_state_arrays( true );
+    currently_bound_.reset();
+    probe_attempted_ = false;
+    probed_ok_ = false;
+    session_disabled_ = true;
+    unbind_required_ = false;
+    abandoned_pending_rebind_ = true;
 }
 
-render_target_scope::~render_target_scope()
+void variant_pass::rebind_renderer( SDL_Renderer *renderer )
 {
-    if( restored_ || !valid_ ) {
-        return;
-    }
-    // Fallback for early exit. Mark restored regardless to avoid
-    // retry loops; double failure means the invariant is lost.
-    restored_ = true;
-    if( !SDL_SetRenderTarget( renderer_, prior_target_ ) ) {
-        DebugLog( D_ERROR, DC_ALL )
-                << "cata_shader::~render_target_scope: SDL_SetRenderTarget failed: "
-                << SDL_GetError();
-    }
+    // Do NOT call release_gpu_resources() here: its flush() would touch
+    // renderer_, already destroyed on a LOST recovery. Callers release against
+    // the OLD renderer first, so the arrays are already empty by now.
+    clear_state_arrays( true );
+    currently_bound_.reset();
+    unbind_required_ = false;
+    probe_attempted_ = false;
+    probed_ok_ = false;
+    session_disabled_ = false;
+    abandoned_pending_rebind_ = false;
+    renderer_ = renderer;
 }
 
 } // namespace cata_shader

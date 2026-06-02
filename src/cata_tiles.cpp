@@ -248,10 +248,6 @@ cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer, const GeometryRenderer
 {
     cata_assert( renderer );
 
-#if SDL_MAJOR_VERSION >= 3
-    m_variant_pass = std::make_unique<cata_shader::variant_pass>( renderer.get() );
-#endif
-
     tile_height = 0;
     tile_width = 0;
 
@@ -279,8 +275,8 @@ void cata_tiles::on_options_changed()
     memory_map_mode = get_option <std::string>( "MEMORY_MAP_MODE" );
 
 #if SDL_MAJOR_VERSION >= 3
-    if( m_variant_pass ) {
-        m_variant_pass->select_memory_preset(
+    if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
+        vp->select_memory_preset(
             cata_shader::memory_preset_from_option_value( memory_map_mode ) );
     }
 #endif
@@ -1132,7 +1128,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                         {
                             scoped_render_target mask_scope( renderer, tint_mask_tex.get()
 #if SDL_MAJOR_VERSION >= 3
-                                                             , m_variant_pass.get()
+                                                             , get_shared_variant_pass()
 #endif
                                                            );
                             if( !mask_scope.is_valid() ) {
@@ -1458,11 +1454,13 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
     // Unbind any GPU render state held across sprite batches so ImGui or the
     // next-frame draws see clean state. On flush failure the bind boundary
     // forbids a target switch: abort the unbind, latch recovery, and throw.
-    if( m_variant_pass && !m_variant_pass->flush() ) {
-        draw_scope.abort_unbind();
-        display_buffer_scope_signal_recovery_required();
-        throw std::runtime_error(
-            "cata_tiles::draw: variant_pass flush failed at end of frame; renderer in undefined state" );
+    if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
+        if( !vp->flush() ) {
+            draw_scope.abort_unbind();
+            display_buffer_scope_signal_recovery_required();
+            throw std::runtime_error(
+                "cata_tiles::draw: variant_pass flush failed at end of frame; renderer in undefined state" );
+        }
     }
 #endif
 }
@@ -2557,15 +2555,18 @@ bool cata_tiles::draw_sprite_at(
     // Try the GPU shader variant first. On success the main atlas drives
     // the render and the variant transform happens per-pixel in the
     // fragment shader. On unsupported variant (NORMAL, custom MEMORY
-    // preset, late session-disable) try_begin returns false and the
-    // fallthrough below picks the matching pre-baked variant atlas.
-    if( m_variant_pass ) {
+    // preset, clean session-disable) try_begin reports use_atlas; abort_frame
+    // means undefined shader state -- latch recovery and throw.
+    if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
         const cata_shader::variant_kind v =
             compute_variant_kind( rp.ll, rp.use_night_vision_tiles );
-        // Call try_begin for every variant including NORMAL. State-cached
-        // bind stays put across same-variant runs; NORMAL clears any prior
-        // shader state so it doesn't leak onto the next sprite.
-        shader_bound = m_variant_pass->try_begin( v );
+        const cata_shader::variant_pass::begin_result br = vp->try_begin( v );
+        if( br == cata_shader::variant_pass::begin_result::abort_frame ) {
+            display_buffer_scope_signal_recovery_required();
+            throw std::runtime_error(
+                "cata_tiles::draw_sprite_at: variant_pass left renderer in undefined shader-state bind" );
+        }
+        shader_bound = ( br == cata_shader::variant_pass::begin_result::bound );
     }
 #endif
 

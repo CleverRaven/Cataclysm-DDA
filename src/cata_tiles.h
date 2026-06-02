@@ -830,11 +830,8 @@ class cata_tiles
         tileset_cache &cache;
 
 #if SDL_MAJOR_VERSION >= 3
-        // GPU shader variant brackets per-sprite draws under USE_SDL3.
-        // Constructed eagerly in the cata_tiles constructor; the
-        // SDL_GPURenderState pipeline itself is lazy-probed on the first
-        // try_begin call.
-        std::unique_ptr<cata_shader::variant_pass> m_variant_pass;
+        // Variant pass is process-lifetime, owned alongside the renderer.
+        // Consumers reach it via get_shared_variant_pass in sdltiles.h.
 #endif
         std::shared_ptr<const tileset> tileset_ptr;
 
