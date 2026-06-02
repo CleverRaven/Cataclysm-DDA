@@ -172,6 +172,10 @@ static void ClearScreen()
 
 void clear_sdl_window()
 {
+    display_buffer_draw_scope draw_scope;
+    if( display_buffer_scope_is_invalid() ) {
+        return;
+    }
     ClearScreen();
 }
 
@@ -253,20 +257,58 @@ static void InitSDL()
     }
 }
 
+namespace
+{
+// Disposal slot for staged display_buffer textures left bound after a failed
+// unbind. Destroying them would invalidate the active target; the gate keeps a
+// later SDL_DestroyRenderer (which frees them) from racing the dtor.
+gpu_handle_graveyard &setup_target_quarantine()
+{
+    static gpu_handle_graveyard q;
+    return q;
+}
+} // namespace
+
 static bool SetupRenderTarget()
 {
     SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
-    display_buffer = CreateTexture( renderer, SDL_PIXELFORMAT_ARGB8888,
-                                    SDL_TEXTUREACCESS_TARGET, WindowWidth / scaling_factor,
-                                    WindowHeight / scaling_factor );
-    if( printErrorIf( !display_buffer, "Failed to create window buffer" ) ) {
+    // Stage into a local so a failed bind leaves the previous display_buffer
+    // intact rather than orphaning a still-referenced target.
+    SDL_Texture_Ptr staged = CreateTexture( renderer, SDL_PIXELFORMAT_ARGB8888,
+                                            SDL_TEXTUREACCESS_TARGET, WindowWidth / scaling_factor,
+                                            WindowHeight / scaling_factor );
+    if( printErrorIf( !staged, "Failed to create window buffer" ) ) {
         return false;
     }
-    if( !SetRenderTarget( renderer, display_buffer ) ) {
-        return false;
+    {
+        const bind_result r = permanent_render_target_bind( renderer, staged.get() );
+        if( r == bind_result::failed_in_switch ) {
+            // Boundary undefined: quarantine staged so its dtor cannot race the
+            // active target. The previous display_buffer is untouched.
+            setup_target_quarantine().add( staged.release() );
+            return false;
+        }
+        if( r != bind_result::ok ) {
+            // Refused before binding; staged was never bound, drop it.
+            return false;
+        }
     }
     ClearScreen();
-
+    {
+        const bind_result r = permanent_render_target_bind( renderer, nullptr );
+        if( r == bind_result::failed_in_switch ) {
+            // Detach failed: staged is still the active target, so quarantine
+            // rather than destroy.
+            setup_target_quarantine().add( staged.release() );
+            return false;
+        }
+        if( r != bind_result::ok ) {
+            // Refused: staged is still bound, quarantine so the next bind wins.
+            setup_target_quarantine().add( staged.release() );
+            return false;
+        }
+    }
+    display_buffer = std::move( staged );
     return true;
 }
 
@@ -483,6 +525,9 @@ static void WinCreate()
             software_renderer = true;
             display_buffer.reset();
             renderer.reset();
+            // The poisoned accelerated renderer is destroyed; clear the latch
+            // SetupRenderTarget raised so the software fallback is not pre-refused.
+            display_buffer_scope_clear_recovery_required();
         }
     }
 
@@ -656,13 +701,31 @@ void refresh_display()
         return;
     }
 
+    if( display_buffer_scope_recovery_pending() ) {
+        // An earlier target switch latched recovery; skip the whole present so
+        // nothing runs against the undefined renderer until the rebuild clears it.
+        return;
+    }
+
 #if defined(SDL_SOUND)
     sound_backend::poll();
 #endif
 
-    // Select default target (the window), copy rendered buffer
-    // there, present it, select the buffer as target again.
-    SetRenderTarget( renderer, nullptr );
+    // Present from the window target. The buffer stays unbound; draw paths
+    // re-bind it next frame. Go through the pass-aware helper so variant_pass
+    // can flush before the switch.
+    {
+        const bind_result r = permanent_render_target_bind( renderer, nullptr );
+        if( r == bind_result::failed_in_switch ) {
+            // Helper already latched; signal again defensively and skip present.
+            display_buffer_scope_signal_recovery_required();
+            return;
+        }
+        if( r != bind_result::ok ) {
+            // Refused; skip this frame.
+            return;
+        }
+    }
     ClearScreen();
 #if defined(__ANDROID__)
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth,
@@ -681,7 +744,6 @@ void refresh_display()
 #endif
     draw_gamepad_radial_menu();
     RenderPresent( renderer );
-    SetRenderTarget( renderer, display_buffer );
 }
 
 // only update if the set interval has elapsed
@@ -695,14 +757,237 @@ static void try_sdl_update()
     }
 }
 
-//for resetting the render target after updating texture caches in cata_tiles.cpp
-void set_displaybuffer_rendertarget()
+void get_display_buffer_dims( int *w, int *h )
 {
-    SetRenderTarget( renderer, display_buffer );
+    int buf_w = 0;
+    int buf_h = 0;
+    if( display_buffer ) {
+#if SDL_MAJOR_VERSION >= 3
+        SDL_PropertiesID props = SDL_GetTextureProperties( display_buffer.get() );
+        if( props ) {
+            buf_w = static_cast<int>( SDL_GetNumberProperty( props,
+                                      SDL_PROP_TEXTURE_WIDTH_NUMBER, 0 ) );
+            buf_h = static_cast<int>( SDL_GetNumberProperty( props,
+                                      SDL_PROP_TEXTURE_HEIGHT_NUMBER, 0 ) );
+        }
+#else
+        SDL_QueryTexture( display_buffer.get(), nullptr, nullptr, &buf_w, &buf_h );
+#endif
+    }
+    if( w ) {
+        *w = buf_w;
+    }
+    if( h ) {
+        *h = buf_h;
+    }
+}
+
+SDL_Point window_to_display_buffer_coords( SDL_Point window_pt )
+{
+    if( !window ) {
+        return window_pt;
+    }
+    int buf_w = 0;
+    int buf_h = 0;
+    get_display_buffer_dims( &buf_w, &buf_h );
+    if( buf_w <= 0 || buf_h <= 0 ) {
+        return window_pt;
+    }
+#if defined(__ANDROID__)
+    // Invert get_android_render_rect's letterbox: translate to letterbox-local,
+    // then scale to buffer dims. Outside-letterbox values are left unclamped so
+    // callers can detect touches outside the playfield.
+    const SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth,
+                             TERMINAL_HEIGHT * fontheight );
+    if( dstrect.w <= 0 || dstrect.h <= 0 ) {
+        return window_pt;
+    }
+    return SDL_Point{
+        static_cast<int>( static_cast<int64_t>( window_pt.x - dstrect.x ) * buf_w / dstrect.w ),
+        static_cast<int>( static_cast<int64_t>( window_pt.y - dstrect.y ) * buf_h / dstrect.h )
+    };
+#else
+    int win_w = 0;
+    int win_h = 0;
+    GetWindowSize( window.get(), &win_w, &win_h );
+    if( win_w <= 0 || win_h <= 0 ) {
+        return window_pt;
+    }
+    return SDL_Point{
+        static_cast<int>( static_cast<int64_t>( window_pt.x ) * buf_w / win_w ),
+        static_cast<int>( static_cast<int64_t>( window_pt.y ) * buf_h / win_h )
+    };
+#endif
+}
+
+void convert_event_to_display_buffer_coords( SDL_Event *event )
+{
+    if( !event ) {
+        return;
+    }
+    switch( event->type ) {
+        case CATA_MOUSEMOTION: {
+#if SDL_MAJOR_VERSION >= 3
+            SDL_Point pt { static_cast<int>( event->motion.x ), static_cast<int>( event->motion.y ) };
+            const SDL_Point conv = window_to_display_buffer_coords( pt );
+            event->motion.x = static_cast<float>( conv.x );
+            event->motion.y = static_cast<float>( conv.y );
+#else
+            SDL_Point pt { event->motion.x, event->motion.y };
+            const SDL_Point conv = window_to_display_buffer_coords( pt );
+            event->motion.x = conv.x;
+            event->motion.y = conv.y;
+#endif
+            break;
+        }
+        case CATA_MOUSEBUTTONDOWN:
+        case CATA_MOUSEBUTTONUP: {
+#if SDL_MAJOR_VERSION >= 3
+            SDL_Point pt { static_cast<int>( event->button.x ), static_cast<int>( event->button.y ) };
+            const SDL_Point conv = window_to_display_buffer_coords( pt );
+            event->button.x = static_cast<float>( conv.x );
+            event->button.y = static_cast<float>( conv.y );
+#else
+            SDL_Point pt { event->button.x, event->button.y };
+            const SDL_Point conv = window_to_display_buffer_coords( pt );
+            event->button.x = conv.x;
+            event->button.y = conv.y;
+#endif
+            break;
+        }
+        case CATA_MOUSEWHEEL: {
+#if SDL_MAJOR_VERSION >= 3
+            SDL_Point pt { static_cast<int>( event->wheel.mouse_x ), static_cast<int>( event->wheel.mouse_y ) };
+            const SDL_Point conv = window_to_display_buffer_coords( pt );
+            event->wheel.mouse_x = static_cast<float>( conv.x );
+            event->wheel.mouse_y = static_cast<float>( conv.y );
+#endif
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+namespace
+{
+// Draw-scope state. depth counts nested scopes. aborted lets an inner
+// abort_unbind() inhibit the outermost dtor's detach (honoring the shader bind
+// boundary). invalid is set when the outermost bind fails; per-scope.
+// recovery_required is the sticky boundary latch: a failed target switch left
+// SDL state undefined, held until the coordinator clears it on rebuild.
+int display_buffer_scope_depth = 0;
+bool display_buffer_scope_aborted = false;
+bool display_buffer_scope_invalid = false;
+bool display_buffer_scope_recovery_required = false;
+} // namespace
+
+bool display_buffer_scope_is_invalid()
+{
+    return display_buffer_scope_invalid;
+}
+
+bool display_buffer_scope_recovery_pending()
+{
+    return display_buffer_scope_recovery_required;
+}
+
+void display_buffer_scope_signal_recovery_required()
+{
+    display_buffer_scope_recovery_required = true;
+    display_buffer_scope_invalid = true;
+}
+
+// sdl_wrappers cannot include sdltiles.h, so it raises and reads the same latch
+// through these renderer_boundary_* names; they forward to the canonical
+// display_buffer_scope_* accessors rather than duplicating the body.
+bool renderer_boundary_recovery_pending()
+{
+    return display_buffer_scope_recovery_pending();
+}
+
+void renderer_boundary_signal_recovery_required()
+{
+    display_buffer_scope_signal_recovery_required();
+}
+
+void display_buffer_scope_clear_recovery_required()
+{
+    display_buffer_scope_recovery_required = false;
+}
+
+display_buffer_draw_scope::display_buffer_draw_scope()
+{
+    if( display_buffer_scope_depth++ != 0 ) {
+        // Inner scopes inherit the outer scope's validity. No bind work.
+        return;
+    }
+    outermost_ = true;
+    display_buffer_scope_aborted = false;
+    // Carry recovery_required across scopes -- it is sticky until the
+    // coordinator clears it. invalid is per-scope; reset here.
+    display_buffer_scope_invalid = display_buffer_scope_recovery_required;
+    if( !renderer || !display_buffer ) {
+        display_buffer_scope_invalid = true;
+        return;
+    }
+    if( display_buffer_scope_recovery_required ) {
+        // Boundary previously lost; refuse the bind until coordinator
+        // rebuilds the renderer.
+        return;
+    }
+    const bind_result r = permanent_render_target_bind( renderer, display_buffer.get() );
+    if( r == bind_result::failed_in_switch ) {
+        // Boundary undefined: latch recovery so this and later scopes refuse.
+        display_buffer_scope_recovery_required = true;
+        display_buffer_scope_invalid = true;
+        return;
+    }
+    if( r != bind_result::ok ) {
+        // Refused, boundary intact: skip the draw but do not latch recovery.
+        display_buffer_scope_invalid = true;
+        return;
+    }
+    active_ = true;
+}
+
+void display_buffer_draw_scope::abort_unbind()
+{
+    display_buffer_scope_aborted = true;
+}
+
+display_buffer_draw_scope::~display_buffer_draw_scope()
+{
+    --display_buffer_scope_depth;
+    if( !outermost_ ) {
+        return;
+    }
+    // Outermost: clear the per-scope invalid flag on exit so the next
+    // scope starts fresh. recovery_required is sticky and must NOT be
+    // cleared here; the coordinator clears it on a successful rebuild.
+    const bool was_active = active_;
+    const bool was_aborted = display_buffer_scope_aborted;
+    display_buffer_scope_invalid = display_buffer_scope_recovery_required;
+    if( !was_active || was_aborted || !renderer
+        || display_buffer_scope_recovery_required ) {
+        // Skip detach when the bind never succeeded, an inner scope aborted
+        // (shader bind boundary), the renderer is null, or recovery is latched
+        // -- another switch on the undefined renderer would deepen corruption.
+        return;
+    }
+    if( permanent_render_target_bind( renderer, nullptr )
+        == bind_result::failed_in_switch ) {
+        // Boundary undefined: latch so later scopes refuse until rebuild.
+        display_buffer_scope_recovery_required = true;
+    }
 }
 
 void clear_window_area( const catacurses::window &win_ )
 {
+    display_buffer_draw_scope draw_scope;
+    if( display_buffer_scope_is_invalid() ) {
+        return;
+    }
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     geometry->rect( renderer, point( win->pos.x * fontwidth, win->pos.y * fontheight ),
                     win->width * fontwidth, win->height * fontheight, color_as_sdl( catacurses::black ) );
@@ -873,7 +1158,8 @@ static point draw_string( Font &font,
 
 void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_omt, bool blink )
 {
-    if( !g ) {
+    display_buffer_draw_scope draw_scope;
+    if( display_buffer_scope_is_invalid() || !g ) {
         return;
     }
 
@@ -1370,10 +1656,14 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
     RenderSetClipRect( renderer, nullptr );
 #if SDL_MAJOR_VERSION >= 3
-    // Flush so GPU shader state from sprite draws is not left bound across a
-    // following ImGui pass or target switch.
-    if( m_variant_pass ) {
-        m_variant_pass->flush();
+    // Flush failure means the shader bind boundary forbids a target switch:
+    // abort the scope's unbind, latch recovery, and throw to unwind
+    // curses_drawwindow instead of drawing terrain overlays on a dead renderer.
+    if( m_variant_pass && !m_variant_pass->flush() ) {
+        draw_scope.abort_unbind();
+        display_buffer_scope_signal_recovery_required();
+        throw std::runtime_error(
+            "cata_tiles::draw_om: variant_pass flush failed at end of frame; renderer in undefined state" );
     }
 #endif
 }
@@ -1505,6 +1795,10 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w )
 
 void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 {
+    display_buffer_draw_scope draw_scope;
+    if( display_buffer_scope_is_invalid() ) {
+        return;
+    }
     if( scaling_factor > 1 ) {
         RenderSetLogicalSize( renderer, WindowWidth / scaling_factor,
                               WindowHeight / scaling_factor );
@@ -3260,11 +3554,16 @@ static void CheckMessages()
     bool render_target_reset = false;
     using cata::options::mouse;
 
+    int imgui_buf_w = 0;
+    int imgui_buf_h = 0;
+    get_display_buffer_dims( &imgui_buf_w, &imgui_buf_h );
     while( SDL_PollEvent( &ev ) ) {
-        // SDL3: converts event coordinates from window space to render-logical space.
-        // SDL2: no-op (logical size auto-scales events).
-        ConvertEventCoordinates( renderer, &ev );
-        imclient->process_input( &ev );
+        // Build a display_buffer-coord copy for ImGui and gameplay
+        // consumers. The raw `ev` stays in window coordinates so android
+        // shortcut and joystick hit-tests see the same domain SDL emitted.
+        SDL_Event ev_display = ev;
+        convert_event_to_display_buffer_coords( &ev_display );
+        imclient->process_input( &ev_display, imgui_buf_w, imgui_buf_h );
 
         // Window events: SDL3 flattens the SDL_WINDOWEVENT+subtype to top-level events.
         // IsWindowEvent/GetWindowEventID normalize across versions.
@@ -4274,7 +4573,16 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
         CheckMessages();
     }
 
-    GetMouseState( &last_input.mouse_pos.x, &last_input.mouse_pos.y );
+    // Sample the raw mouse position (window coords) and convert into
+    // display_buffer coords so canonical gameplay picking matches the
+    // domain ImGui and tile draws use.
+    {
+        point raw;
+        GetMouseState( &raw.x, &raw.y );
+        const SDL_Point buf_pt = window_to_display_buffer_coords( SDL_Point{ raw.x, raw.y } );
+        last_input.mouse_pos.x = buf_pt.x;
+        last_input.mouse_pos.y = buf_pt.y;
+    }
     if( last_input.type == input_event_t::keyboard_char ) {
         previously_pressed_key = last_input.get_first_input();
 #if defined(__ANDROID__)
@@ -4554,6 +4862,12 @@ bool catacurses::supports_256_colors()
 */
 bool save_screenshot( const std::string &file_path )
 {
+    // Capture from the terminal-sized buffer so the screenshot matches the
+    // in-game presentation rather than the raw window output.
+    display_buffer_draw_scope draw_scope;
+    if( display_buffer_scope_is_invalid() ) {
+        return false;
+    }
     // Note: the viewport is returned by SDL and we don't have to manage its lifetime.
     SDL_Rect viewport;
 

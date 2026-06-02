@@ -366,11 +366,36 @@ void ui_adaptor::redraw_invalidated( )
     if( test_mode || ui_stack.empty() ) {
         return;
     }
+#if defined(TILES)
+    display_buffer_draw_scope draw_scope;
+    if( display_buffer_scope_is_invalid() ) {
+        // Bind failed; skip the redraw. Invalidation is preserved for retry.
+        return;
+    }
+    int buf_w = 0;
+    int buf_h = 0;
+    get_display_buffer_dims( &buf_w, &buf_h );
+#endif
     // This boolean is needed when a debug error is thrown inside redraw_invalidated
     if( !imgui_frame_started ) {
+#if defined(TILES)
+        imclient->new_frame( buf_w, buf_h );
+#else
         imclient->new_frame();
+#endif
     }
     imgui_frame_started = true;
+
+    // On abnormal exit (exception unwinding a draw callback) close the frame
+    // without rendering so the next NewFrame() does not assert. No-op on the
+    // normal path: end_frame()/abort_frame() clear imgui_frame_started first.
+    on_out_of_scope imgui_frame_balance( [] {
+        if( imgui_frame_started )
+        {
+            imclient->abort_frame();
+            imgui_frame_started = false;
+        }
+    } );
 
     restore_on_out_of_scope prev_redraw_in_progress( redraw_in_progress );
     restore_on_out_of_scope prev_restart_redrawing( restart_redrawing );
@@ -476,6 +501,18 @@ void ui_adaptor::redraw_invalidated( )
     emscripten_sleep( 1 );
 #endif
 
+#if defined(TILES)
+    if( display_buffer_scope_recovery_pending() ) {
+        // An inner draw latched recovery mid-frame: abort the frame instead of
+        // painting the drawlist onto the undefined target. The coordinator
+        // rebuilds before the next ui pass.
+        if( imgui_frame_started ) {
+            imclient->abort_frame();
+        }
+        imgui_frame_started = false;
+        return;
+    }
+#endif
     imclient->end_frame();
     imgui_frame_started = false;
 
