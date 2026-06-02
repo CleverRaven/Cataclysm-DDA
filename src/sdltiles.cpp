@@ -454,6 +454,70 @@ static void rebuild_geometry_strategy( bool software_renderer )
 #endif
 }
 
+// The renderer event watch may run off the main thread (SDL calls watches on the
+// thread that pushes the event), so it writes only the coordinator's atomic
+// inbox; the main thread drains at outer boundaries. Render and window events are
+// filtered to the game window; mobile lifecycle events carry no window id.
+static Uint32 renderer_watch_window_id = 0;
+
+#if SDL_MAJOR_VERSION >= 3
+static bool SDLCALL renderer_event_watch( void *userdata, SDL_Event *event )
+#else
+static int SDLCALL renderer_event_watch( void *userdata, SDL_Event *event )
+#endif
+{
+    renderer_resource_coordinator *coord =
+        static_cast<renderer_resource_coordinator *>( userdata );
+    switch( event->type ) {
+        case CATA_RENDER_TARGETS_RESET:
+#if SDL_MAJOR_VERSION >= 3
+            if( event->render.windowID == renderer_watch_window_id )
+#endif
+                coord->request_recovery( renderer_recovery_severity::targets_reset );
+            break;
+        case CATA_RENDER_DEVICE_RESET:
+#if SDL_MAJOR_VERSION >= 3
+            if( event->render.windowID == renderer_watch_window_id )
+#endif
+                coord->request_recovery( renderer_recovery_severity::device_reset );
+            break;
+#if SDL_MAJOR_VERSION >= 3
+        case CATA_RENDER_DEVICE_LOST:
+            if( event->render.windowID == renderer_watch_window_id ) {
+                coord->request_recovery( renderer_recovery_severity::device_lost );
+            }
+            break;
+#endif
+#if defined(__ANDROID__)
+        case CATA_APP_DIDENTERFOREGROUND:
+            // Severity is a hint; the lifecycle epoch is the durable signal that
+            // forces a device-reset-equivalent rebuild on the next drain.
+            coord->request_recovery( renderer_recovery_severity::device_reset );
+            coord->notify_lifecycle( lifecycle_state::resumed_pending_rebuild );
+            break;
+        case CATA_APP_WILLENTERBACKGROUND:
+        case CATA_APP_DIDENTERBACKGROUND:
+            // No severity: recovery cannot run while paused. Foreground re-queues.
+            coord->notify_lifecycle( lifecycle_state::paused );
+            break;
+#endif
+        default:
+            if( IsWindowEvent( *event ) && event->window.windowID == renderer_watch_window_id ) {
+                const Uint32 sub = GetWindowEventID( *event );
+                if( sub == CATA_WINDOWEVENT_RESIZED
+                    || sub == CATA_WINDOWEVENT_PIXEL_SIZE_CHANGED ) {
+                    coord->notify_resize();
+                }
+            }
+            break;
+    }
+#if SDL_MAJOR_VERSION >= 3
+    return true;
+#else
+    return 0;
+#endif
+}
+
 //Registers, creates, and shows the Window!!
 static void WinCreate()
 {
@@ -661,10 +725,28 @@ static void WinCreate()
     imclient = std::make_unique<cataimgui::client>( renderer, window, geometry );
 
     renderer_coordinator.seed_renderer_policy( renderer_name );
+
+    // Register before the cold-start tileset upload so a reset or mobile
+    // lifecycle event during bootstrap is not lost.
+    renderer_watch_window_id = SDL_GetWindowID( ::window.get() );
+#if SDL_MAJOR_VERSION >= 3
+    if( !SDL_AddEventWatch( renderer_event_watch, &renderer_coordinator ) ) {
+        DebugLog( D_ERROR, DC_ALL ) << "Failed to register renderer event watch: " << SDL_GetError();
+    }
+#else
+    SDL_AddEventWatch( renderer_event_watch, &renderer_coordinator );
+#endif
 }
 
 static void WinDestroy()
 {
+    // Unregister before SDL teardown. The remove does not join an in-flight
+    // callback, but the process-lifetime coordinator outlives it.
+#if SDL_MAJOR_VERSION >= 3
+    SDL_RemoveEventWatch( renderer_event_watch, &renderer_coordinator );
+#else
+    SDL_DelEventWatch( renderer_event_watch, &renderer_coordinator );
+#endif
 #if defined(__ANDROID__)
     touch_joystick.reset();
 #endif
