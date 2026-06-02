@@ -492,6 +492,8 @@ Overgrown labyrinths
 Labyrinth specific CBMs:  anchor; laser reader; psyshield; artificial hair; blood biofactory; antigravity jump
 The Exodii can turn you into a full-blown cyborg
 If the Exodii trust you enough they'll give you a Cyberframe
+Dimension: the Scarlet Sea
+Challenge - Labyrinth Bound
 
 
 ## Interface:
@@ -2161,6 +2163,7 @@ Cache vcpkg installed packages in MSVC CI
 Build instruction and files for Visual Studio Code
 Demote GCC 16 -Wsfinae-incomplete to warning
 Fix SDL3 release artifacts for Linux, macOS, Windows
+Migrate Android to SDL3 via CMake + prefab AAR; drop SDL2 customs; bump buildkit
 
 
 ## I18N and A11Y:
