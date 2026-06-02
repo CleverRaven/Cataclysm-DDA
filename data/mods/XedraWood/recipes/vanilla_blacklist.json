@@ -16,6 +16,11 @@
   },
   {
     "type": "recipe",
+    "result": "dehydrator",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "microcentrifuge",
     "obsolete": true
   },
