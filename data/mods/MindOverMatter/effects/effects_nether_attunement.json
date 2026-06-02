@@ -53,7 +53,6 @@
     "show_intensity": false,
     "max_intensity": 10,
     "max_duration": "21 days",
-    "dur_add_perc": 25,
     "int_dur_factor": "3 days"
   },
   {
