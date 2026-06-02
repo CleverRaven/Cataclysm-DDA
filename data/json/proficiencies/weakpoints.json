@@ -62,7 +62,7 @@
     "name": { "str": "Synthetic Armors" },
     "description": "Understanding of man-made armors and ways to exploit them.  You're able to find openings in certain kinds of body armor.",
     "can_learn": true,
-    "time_to_learn": "6 h",
+    "time_to_learn": "30 m",
     "default_weakpoint_bonus": 4,
     "default_weakpoint_penalty": -4
   },
@@ -95,7 +95,7 @@
     "name": { "str": "Amphibian Biology" },
     "description": "Basic familiarity with various types of frogs and salamanders.",
     "can_learn": true,
-    "time_to_learn": "8 h",
+    "time_to_learn": "30 m",
     "required_proficiencies": [ "prof_gross_anatomy" ],
     "default_weakpoint_bonus": 1,
     "default_weakpoint_penalty": 0
