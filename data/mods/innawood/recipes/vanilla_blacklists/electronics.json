@@ -31,11 +31,6 @@
   },
   {
     "type": "recipe",
-    "result": "dehydrator",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "two_way_radio",
     "obsolete": true
   },
@@ -66,32 +61,12 @@
   },
   {
     "type": "recipe",
-    "result": "coffeemaker",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "electronics_controls",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "food_processor",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "microcentrifuge",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "ground_solar_panel_v2",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "reading_light",
+    "result": "UPS_OFF",
     "obsolete": true
   },
   {
