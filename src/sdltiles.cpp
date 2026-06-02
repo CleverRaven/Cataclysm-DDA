@@ -1350,6 +1350,10 @@ void renderer_resource_coordinator::run_post_success_full_invalidation()
         }
     }
     ui_manager::invalidate_all_ui_adaptors();
+    // Force every curses window to re-emit in full on its next refresh, then
+    // request a present so the rebuilt buffer reaches the screen.
+    cata_cursesport::bump_curses_render_epoch();
+    needupdate = true;
 }
 
 recipe_result renderer_resource_coordinator::recipe_targets_reset()
@@ -2750,7 +2754,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 #endif
 }
 
-static bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offset )
+static bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offset,
+                         const bool force_full = false )
 {
     if( scaling_factor > 1 ) {
         const point buffer_dims = compute_display_buffer_dims();
@@ -2765,7 +2770,9 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
     const bool option_use_draw_ascii_lines_routine = get_option<bool>( "USE_DRAW_ASCII_LINES_ROUTINE" );
     bool update = false;
     for( int j = 0; j < win->height; j++ ) {
-        if( !win->line[j].touched ) {
+        // force_full redraws every line after a renderer rebuild, ignoring the
+        // per-line touched skip.
+        if( !force_full && !win->line[j].touched ) {
             continue;
         }
 
@@ -2867,12 +2874,14 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
     return update;
 }
 
-static bool draw_window( Font_Ptr &font, const catacurses::window &w )
+static bool draw_window( Font_Ptr &font, const catacurses::window &w,
+                         const bool force_full = false )
 {
     cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
     // Use global font sizes here to make this independent of the
     // font used for this window.
-    return draw_window( font, w, point( win->pos.x * ::fontwidth, win->pos.y * ::fontheight ) );
+    return draw_window( font, w, point( win->pos.x * ::fontwidth, win->pos.y * ::fontheight ),
+                        force_full );
 }
 
 void cata_cursesport::curses_drawwindow( const catacurses::window &w )
@@ -2886,6 +2895,8 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         RenderSetLogicalSize( renderer, buffer_dims.x, buffer_dims.y );
     }
     WINDOW *const win = w.get<WINDOW>();
+    // Stale against the render epoch after a renderer rebuild: redraw in full.
+    const bool force_full = win->last_render_epoch != curses_render_epoch;
     bool update = false;
     if( g && w == g->w_terrain && use_tiles ) {
         // color blocks overlay; drawn on top of tiles and on top of overlay strings (if any).
@@ -2991,19 +3002,19 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                             color_as_sdl( catacurses::black ) );
         }
         // Special font for the terrain window
-        update = draw_window( map_font, w );
+        update = draw_window( map_font, w, force_full );
     } else if( g && w == g->w_overmap && use_tiles && use_tiles_overmap ) {
         overmap_tilecontext->draw_om( win->pos, overmap_ui::redraw_info.center,
                                       overmap_ui::redraw_info.blink );
         update = true;
     } else if( g && w == g->w_overmap && overmap_font ) {
         // Special font for the terrain window
-        update = draw_window( overmap_font, w );
+        update = draw_window( overmap_font, w, force_full );
     } else if( g && w == g->w_pixel_minimap && pixel_minimap_option ) {
         // ensure the space the minimap covers is "dirtied".
         // this is necessary when it's the only part of the sidebar being drawn
         // TODO: Figure out how to properly make the minimap code do whatever it is this does
-        draw_window( font, w );
+        draw_window( font, w, force_full );
 
         // Make sure the entire minimap window is black before drawing.
         clear_window_area( w );
@@ -3015,11 +3026,18 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 
     } else {
         // Either not using tiles (tilecontext) or not the w_terrain window.
-        update = draw_window( font, w );
+        update = draw_window( font, w, force_full );
     }
     if( update ) {
         needupdate = true;
     }
+    // Single ack point at the common exit covers every draw branch. Leave the
+    // window stale if the inbox embargoed the frame mid-draw so the next
+    // foreground draw replays it in full instead of acking a partial paint.
+    if( renderer_coordinator.should_abort_frame() ) {
+        return;
+    }
+    win->last_render_epoch = curses_render_epoch;
 }
 
 static int alt_buffer = 0;
