@@ -11,6 +11,7 @@ class window;
 
 #if defined(TILES)
 
+#include <cstdint>
 #include <memory>
 #include <string>
 
@@ -118,6 +119,11 @@ void display_buffer_scope_clear_recovery_required();
 // failure. Thin accessor so shared redraw paths skip the GPU paint without the
 // coordinator header. Callers below reference this set rather than re-listing it.
 bool renderer_should_abort_frame();
+
+// Monotonic count of completed renderer-resource rebuilds. Saved alongside any
+// retained renderer state (e.g. a clip rect) so a later restore can detect that
+// a recovery rebuilt the renderer in between and skip the now-stale restore.
+uint64_t renderer_resource_generation();
 
 // Nestable RAII guard: binds display_buffer on entry, restores the idle null
 // target on exit. Only the outermost switches; nested scopes are no-ops. On a

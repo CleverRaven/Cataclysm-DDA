@@ -62,6 +62,7 @@
 #include "input_context.h"
 #include "json.h"
 #include "line.h"
+#include "loading_ui.h"
 #include "map.h"
 #include "map_extras.h"
 #include "mapbuffer.h"
@@ -1013,6 +1014,11 @@ bool renderer_should_abort_frame()
     return renderer_coordinator.should_abort_frame();
 }
 
+uint64_t renderer_resource_generation()
+{
+    return renderer_coordinator.resource_generation();
+}
+
 void get_display_buffer_dims( int *w, int *h )
 {
     int buf_w = 0;
@@ -1646,6 +1652,7 @@ recipe_result renderer_resource_coordinator::recipe_device_reset()
         return { recipe_outcome::failure };
     }
 #endif
+    loading_ui::release_gpu_resources();
     display_buffer.reset();
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
@@ -1843,6 +1850,7 @@ recipe_result renderer_resource_coordinator::recipe_device_lost()
         return { recipe_outcome::failure };
     }
 #endif
+    loading_ui::release_gpu_resources();
     display_buffer.reset();
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };

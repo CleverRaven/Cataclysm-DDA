@@ -445,10 +445,9 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
 void cata_tiles::reinit()
 {
     set_draw_scale( 16 );
-    // Wrap so the clear lands on display_buffer rather than the null idle
-    // target.
+    // Wrap so the clear lands on display_buffer rather than the null idle target.
     display_buffer_draw_scope draw_scope;
-    if( display_buffer_scope_is_invalid() ) {
+    if( !draw_scope.should_draw() ) {
         return;
     }
     RenderClear( renderer );

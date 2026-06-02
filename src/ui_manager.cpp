@@ -29,6 +29,9 @@ static bool showing_debug_message = false;
 static bool restart_redrawing = false;
 #if defined( TILES )
 static std::optional<SDL_Rect> prev_clip_rect;
+// renderer_resource_generation() sampled when prev_clip_rect was saved, so the
+// restore can be skipped if a recovery rebuilt the renderer in between.
+static uint64_t prev_clip_rect_generation = 0;
 #endif
 static ui_stack_t ui_stack;
 
@@ -63,13 +66,21 @@ ui_adaptor::ui_adaptor( ui_adaptor::debug_message_ui ) : is_imgui( false ),
     // alone does not prevent the graphics from becoming borked in other ways,
     // but `ui_manager` will redo the entire redrawing as soon as the redraw
     // callback returns.
-    const SDL_Renderer_Ptr &renderer = get_sdl_renderer();
-    if( RenderIsClipEnabled( renderer ) ) {
-        prev_clip_rect = SDL_Rect();
-        RenderGetClipRect( renderer, &prev_clip_rect.value() );
-        RenderSetClipRect( renderer, nullptr );
-    } else {
+    if( renderer_should_abort_frame() ) {
+        // A recovery/pause/resize is queued; the renderer is about to be rebuilt.
+        // Skip the clip-rect query and reset, and clear any saved rect so the
+        // destructor does not restore a stale one onto the rebuilt renderer.
         prev_clip_rect = std::nullopt;
+    } else {
+        const SDL_Renderer_Ptr &renderer = get_sdl_renderer();
+        if( RenderIsClipEnabled( renderer ) ) {
+            prev_clip_rect = SDL_Rect();
+            RenderGetClipRect( renderer, &prev_clip_rect.value() );
+            RenderSetClipRect( renderer, nullptr );
+            prev_clip_rect_generation = renderer_resource_generation();
+        } else {
+            prev_clip_rect = std::nullopt;
+        }
     }
 #endif
     ui_stack.emplace_back( *this );
@@ -85,8 +96,11 @@ ui_adaptor::~ui_adaptor()
         cata_assert( showing_debug_message );
         showing_debug_message = false;
 #if defined( TILES )
-        // See ui_adaptor( debug_message_ui )
-        if( prev_clip_rect.has_value() ) {
+        // See ui_adaptor( debug_message_ui ). Skip the restore when a recovery is
+        // queued now, or when one rebuilt the renderer since the rect was saved:
+        // the saved rect belongs to the pre-rebuild renderer.
+        if( prev_clip_rect.has_value() && !renderer_should_abort_frame()
+            && renderer_resource_generation() == prev_clip_rect_generation ) {
             const SDL_Renderer_Ptr &renderer = get_sdl_renderer();
             RenderSetClipRect( renderer, &prev_clip_rect.value() );
         }
