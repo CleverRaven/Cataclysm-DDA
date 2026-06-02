@@ -275,6 +275,8 @@
     "move_cost": -1,
     "coverage": 100,
     "roof": "t_nl_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "CONNECT_WITH_WALL", "BLOCK_WIND", "SUPPORTS_ROOF", "LOCKED", "REDUCE_SCENT", "BARRICADABLE_DOOR", "DOOR" ],
     "prying": {
       "result": "t_nl_door_o",
@@ -304,6 +306,8 @@
     "move_cost": -1,
     "coverage": 100,
     "roof": "t_nl_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "CONNECT_WITH_WALL", "BLOCK_WIND", "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_DOOR", "DOOR" ],
     "open": "t_nl_door_o"
   },
@@ -318,6 +322,8 @@
     "move_cost": 2,
     "coverage": 20,
     "roof": "t_nl_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "CONNECT_WITH_WALL",
       "BLOCK_WIND",
@@ -342,6 +348,8 @@
     "move_cost": 2,
     "coverage": 20,
     "roof": "t_nl_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "CONNECT_WITH_WALL", "SUPPORTS_ROOF", "TRANSPARENT", "FLAT", "ROAD" ]
   },
   {
@@ -355,6 +363,8 @@
     "move_cost": 2,
     "coverage": 20,
     "roof": "t_nl_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "CONNECT_WITH_WALL", "SUPPORTS_ROOF", "TRANSPARENT", "FLAT", "ROAD" ],
     "emissions": [ "emit_scarlet_sea_gas" ]
   },
