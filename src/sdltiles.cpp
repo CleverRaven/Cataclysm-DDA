@@ -154,6 +154,10 @@ static SDL_Texture_Ptr touch_joystick;
 #endif
 static int WindowWidth;        //Width of the actual window, not the curses window
 static int WindowHeight;       //Height of the actual window, not the curses window
+// Backing-store pixel dimensions of the window, tracked apart from the logical
+// window size so a resize can tell a DPI-only change from a layout change.
+static int DrawableWidth;
+static int DrawableHeight;
 // input from various input sources. Each input source sets the type and
 // the actual input value (key pressed, mouse button clicked, ...)
 // This value is finally returned by input_manager::get_input_event.
@@ -292,12 +296,20 @@ static point compute_display_buffer_dims()
 
 // Backing-store pixel dimensions of the window, tracked independently of the
 // logical size so a DPI-only change leaves the display buffer alone.
-[[maybe_unused]] static point compute_drawable_dims()
+static point compute_drawable_dims()
 {
     int pw = 0;
     int ph = 0;
     GetWindowSizeInPixels( ::window.get(), &pw, &ph );
     return point{ pw, ph };
+}
+
+// Refresh the cached drawable-pixel track from the current window.
+static void refresh_drawable_dims()
+{
+    const point drawable = compute_drawable_dims();
+    DrawableWidth = drawable.x;
+    DrawableHeight = drawable.y;
 }
 
 static bool SetupRenderTarget()
@@ -700,6 +712,9 @@ static void WinCreate()
     }
 
     detect_renderer_backend();
+
+    // Seed the drawable track from the created window (see DrawableWidth).
+    refresh_drawable_dims();
 
     SetWindowMinimumSize( ::window.get(), fontwidth * EVEN_MINIMUM_TERM_WIDTH * scaling_factor,
                           fontheight * EVEN_MINIMUM_TERM_HEIGHT * scaling_factor );
@@ -2020,6 +2035,8 @@ static struct {
     int scaling_factor;
     int window_width;
     int window_height;
+    int drawable_width;
+    int drawable_height;
     Uint32 pixel_format;
     bool direct3d_mode;
     bool needupdate;
@@ -2115,8 +2132,8 @@ bool renderer_recovery_test_support::setup_software_renderer()
 
     test_fixture_saved = {
         TERMINAL_WIDTH, TERMINAL_HEIGHT, fontwidth, fontheight, scaling_factor,
-        WindowWidth, WindowHeight, pixel_format, direct3d_mode, needupdate,
-        cata_cursesport::curses_render_epoch
+        WindowWidth, WindowHeight, DrawableWidth, DrawableHeight, pixel_format, direct3d_mode,
+        needupdate, cata_cursesport::curses_render_epoch
     };
 
     TERMINAL_WIDTH = 8;
@@ -2178,6 +2195,8 @@ void renderer_recovery_test_support::teardown_software_renderer()
     scaling_factor = test_fixture_saved.scaling_factor;
     WindowWidth = test_fixture_saved.window_width;
     WindowHeight = test_fixture_saved.window_height;
+    DrawableWidth = test_fixture_saved.drawable_width;
+    DrawableHeight = test_fixture_saved.drawable_height;
     pixel_format = test_fixture_saved.pixel_format;
     direct3d_mode = test_fixture_saved.direct3d_mode;
     needupdate = test_fixture_saved.needupdate;
@@ -3858,19 +3877,28 @@ static input_event sdl_keysym_to_keycode_evt( const CataKeysym &keysym )
     return evt;
 }
 
-bool handle_resize( int w, int h )
+// Apply a new logical window size: update the window and drawable tracks and the
+// terminal-derived layout. Shared by the synchronous resize entry points and the
+// deferred coordinator resize so the layout math has a single owner.
+static void apply_resize_layout( int w, int h )
 {
-    if( w == WindowWidth && h == WindowHeight ) {
-        return false;
-    }
     WindowWidth = w;
     WindowHeight = h;
+    refresh_drawable_dims();
     // A minimal window size is set during initialization, but some platforms ignore
     // the minimum size so we clamp the terminal size here for extra safety.
     TERMINAL_WIDTH = std::max( WindowWidth / fontwidth / scaling_factor, EVEN_MINIMUM_TERM_WIDTH );
     TERMINAL_HEIGHT = std::max( WindowHeight / fontheight / scaling_factor, EVEN_MINIMUM_TERM_HEIGHT );
     need_invalidate_framebuffers = true;
     catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point::zero );
+}
+
+bool handle_resize( int w, int h )
+{
+    if( w == WindowWidth && h == WindowHeight ) {
+        return false;
+    }
+    apply_resize_layout( w, h );
     throwErrorIf( !SetupRenderTarget(), "SetupRenderTarget failed" );
     game_ui::init_ui();
     ui_manager::screen_resized();
