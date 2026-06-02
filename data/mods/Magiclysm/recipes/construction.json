@@ -7,7 +7,13 @@
     "required_skills": [ [ "fabrication", 6 ], [ "spellcraft", 6 ] ],
     "time": "360 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "CHISEL", "level": 2 } ] ],
-    "components": [ [ [ "mithril_ingot", 4 ] ], [ [ "crystallized_mana", 100 ] ], [ [ "mana_dust", 50 ] ], [ [ "flask_teleport", 1 ] ] ],
+    "components": [
+      [ [ "mithril_ingot", 4 ] ],
+      [ [ "crystallized_mana", 100 ] ],
+      [ [ "mana_dust", 50 ] ],
+      [ [ "flask_teleport", 1 ] ],
+      [ [ "textbook_mithril", 1 ] ]
+    ],
     "pre_special": "check_empty",
     "post_terrain": "f_magiclysm_translocator_gate"
   },
@@ -24,7 +30,8 @@
       [ [ "mana_pearl", 2 ] ],
       [ [ "crystallized_mana", 250 ] ],
       [ [ "mana_dust", 100 ] ],
-      [ [ "flask_teleport", 2 ] ]
+      [ [ "flask_teleport", 2 ] ],
+      [ [ "textbook_mithril", 1 ] ]
     ],
     "pre_special": "check_empty",
     "post_terrain": "f_magiclysm_greater_translocator_gate"
