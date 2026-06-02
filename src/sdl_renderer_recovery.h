@@ -436,6 +436,19 @@ struct renderer_recovery_test_support {
     static void current_window_metrics( int &window_w, int &window_h, int &font_w,
                                         int &font_h, int &scaling, int &min_term_w,
                                         int &min_term_h );
+    // Current backing-store (drawable) pixel dimensions.
+    static void current_drawable_dims( int &w, int &h );
+    // Inject divergent drawable pixels and notify a resize, standing in for a
+    // DPI change the headless backend cannot produce. Cleared at teardown.
+    static void override_drawable_pixels( int w, int h );
+    // Set and read the present-needed flag, for asserting the resize fast path
+    // re-arms presentation.
+    static void set_needupdate( bool armed );
+    static bool needupdate_armed();
+    // Open an outermost draw scope, inject a paused lifecycle epoch while it is
+    // on the stack, then close it. Reports whether the display buffer was bound
+    // inside the scope and whether the target returned to NULL after it.
+    static void pause_during_draw_scope( bool &bound_during, bool &null_after );
 };
 
 // RAII wrapper around setup/teardown for use as a Catch2 fixture local.

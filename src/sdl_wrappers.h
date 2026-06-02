@@ -323,6 +323,9 @@ bool RenderReadPixels( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect,
                        Uint32 format, void *pixels, int pitch );
 // SDL3: renamed to SDL_GetCurrentRenderOutputSize.
 void GetRendererOutputSize( const SDL_Renderer_Ptr &renderer, int *w, int *h );
+// The texture currently bound as the renderer's target, or NULL for the
+// default window target.
+SDL_Texture *GetRenderTarget( const SDL_Renderer_Ptr &renderer );
 
 // SDL3: SDL_GetTicks returns Uint64. Wrapper keeps uint32_t for source compat.
 uint32_t GetTicks();

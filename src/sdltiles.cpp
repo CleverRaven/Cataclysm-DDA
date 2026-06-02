@@ -304,9 +304,20 @@ static point compute_drawable_dims()
     return point{ pw, ph };
 }
 
+// Test-only injected drawable pixels. The headless dummy backend reports backing
+// pixels equal to the logical window, so a DPI-only change cannot be produced
+// through SDL; a non-negative override stands in. Inert at the -1 default.
+static int test_drawable_override_w = -1;
+static int test_drawable_override_h = -1;
+
 // Refresh the cached drawable-pixel track from the current window.
 static void refresh_drawable_dims()
 {
+    if( test_drawable_override_w >= 0 && test_drawable_override_h >= 0 ) {
+        DrawableWidth = test_drawable_override_w;
+        DrawableHeight = test_drawable_override_h;
+        return;
+    }
     const point drawable = compute_drawable_dims();
     DrawableWidth = drawable.x;
     DrawableHeight = drawable.y;
@@ -2222,6 +2233,8 @@ void renderer_recovery_test_support::teardown_software_renderer()
     pixel_format = test_fixture_saved.pixel_format;
     direct3d_mode = test_fixture_saved.direct3d_mode;
     needupdate = test_fixture_saved.needupdate;
+    test_drawable_override_w = -1;
+    test_drawable_override_h = -1;
     cata_cursesport::curses_render_epoch = test_fixture_saved.curses_render_epoch;
 
     if( test_fixture_acquired_video ) {
@@ -2334,6 +2347,44 @@ void renderer_recovery_test_support::current_window_metrics( int &window_w, int 
     scaling = scaling_factor;
     min_term_w = EVEN_MINIMUM_TERM_WIDTH;
     min_term_h = EVEN_MINIMUM_TERM_HEIGHT;
+}
+
+void renderer_recovery_test_support::current_drawable_dims( int &w, int &h )
+{
+    w = DrawableWidth;
+    h = DrawableHeight;
+}
+
+void renderer_recovery_test_support::override_drawable_pixels( const int w, const int h )
+{
+    test_drawable_override_w = w;
+    test_drawable_override_h = h;
+    renderer_coordinator.notify_resize();
+}
+
+void renderer_recovery_test_support::set_needupdate( const bool armed )
+{
+    needupdate = armed;
+}
+
+bool renderer_recovery_test_support::needupdate_armed()
+{
+    return needupdate;
+}
+
+void renderer_recovery_test_support::pause_during_draw_scope( bool &bound_during,
+        bool &null_after )
+{
+    {
+        display_buffer_draw_scope scope;
+        bound_during = !display_buffer_scope_is_invalid()
+                       && GetRenderTarget( renderer ) == display_buffer.get();
+        // The pause lands while the scope is still on the stack; the dtor must
+        // still unbind to NULL because it consults only the recovery latch, not
+        // the lifecycle epoch.
+        renderer_coordinator.notify_lifecycle( lifecycle_state::paused );
+    }
+    null_after = GetRenderTarget( renderer ) == nullptr;
 }
 
 bool renderer_resource_coordinator::apply_resize_only( const uint32_t serviced_resize_epoch )
