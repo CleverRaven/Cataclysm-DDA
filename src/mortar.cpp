@@ -11,7 +11,6 @@
 #include "debug.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "line.h"
 #include "map_scale_constants.h"
 #include "point.h"
 #include "rng.h"
