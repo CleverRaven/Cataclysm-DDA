@@ -26,6 +26,31 @@
   },
   {
     "type": "recipe",
+    "result": "omnicamera_reinforced",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "amplifier",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "noise_emitter",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "standing_directed_floodlight",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "wall_light",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "battery_ups",
     "obsolete": true
   },

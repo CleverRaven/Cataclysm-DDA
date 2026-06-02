@@ -58,5 +58,90 @@
     "type": "recipe",
     "result": "nylon",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bookplate",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "armor_cardboard",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "improvised_armguard_tire",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "legguard_tire",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_legguard_tire",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_legguard_tire",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "armguard_tire",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_armguard_tire",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_armguard_tire",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helmet_army",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helmet_army_stripped",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helmet_motor_modified",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "carpet_cuirass",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "carpet_greaves",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "carpet_bracers",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "carpet_legguards",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "carpet_armguards",
+    "obsolete": true
   }
 ]
