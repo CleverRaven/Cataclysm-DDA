@@ -1482,6 +1482,11 @@ bool cata_tiles::has_blinking_minimap() const
     return minimap->has_blinking_beacons();
 }
 
+void cata_tiles::reset_minimap()
+{
+    minimap->reset();
+}
+
 point cata_tiles::get_window_base_tile_counts(
     const point &size, const point &tile_size, const bool iso )
 {
