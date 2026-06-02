@@ -275,14 +275,32 @@ gpu_handle_graveyard &setup_target_quarantine()
 }
 } // namespace
 
+// Terminal-sized intermediate buffer dimensions: logical window size over
+// scaling_factor, independent of backing-store pixels.
+static point compute_display_buffer_dims()
+{
+    return point{ WindowWidth / scaling_factor, WindowHeight / scaling_factor };
+}
+
+// Backing-store pixel dimensions of the window, tracked independently of the
+// logical size so a DPI-only change leaves the display buffer alone.
+[[maybe_unused]] static point compute_drawable_dims()
+{
+    int pw = 0;
+    int ph = 0;
+    GetWindowSizeInPixels( ::window.get(), &pw, &ph );
+    return point{ pw, ph };
+}
+
 static bool SetupRenderTarget()
 {
     SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
     // Stage into a local so a failed bind leaves the previous display_buffer
     // intact rather than orphaning a still-referenced target.
+    const point buffer_dims = compute_display_buffer_dims();
     SDL_Texture_Ptr staged = CreateTexture( renderer, SDL_PIXELFORMAT_ARGB8888,
-                                            SDL_TEXTUREACCESS_TARGET, WindowWidth / scaling_factor,
-                                            WindowHeight / scaling_factor );
+                                            SDL_TEXTUREACCESS_TARGET, buffer_dims.x,
+                                            buffer_dims.y );
     if( printErrorIf( !staged, "Failed to create window buffer" ) ) {
         return false;
     }
@@ -382,6 +400,57 @@ static bool only_spirv_shader_artifacts_present()
     return any_spv;
 }
 #endif
+
+// Create an SDL renderer for the window with no render target. software picks
+// the software backend (renderer_name ignored), else accelerated. Null on
+// failure. Deferring the target lets recreation rebind variant_pass first.
+static SDL_Renderer_Ptr create_game_renderer( const std::string &renderer_name, bool software )
+{
+    if( software ) {
+        return CreateRenderer( ::window, nullptr, true, false );
+    }
+    return CreateRenderer( ::window, renderer_name.c_str(), false, true );
+}
+
+// Derive renderer-dependent backend state from the live renderer. Re-run
+// after any renderer (re)creation so a replacement cannot inherit a stale
+// direct3d_mode from the prior renderer choice.
+static void detect_renderer_backend()
+{
+#if SDL_MAJOR_VERSION >= 3
+    direct3d_mode = false;
+    const SDL_PropertiesID props = SDL_GetRendererProperties( renderer.get() );
+    const char *actual_name = props != 0
+                              ? SDL_GetStringProperty( props, SDL_PROP_RENDERER_NAME_STRING, "" )
+                              : "";
+    dbg( D_INFO ) << "SDL renderer in use: " << ( actual_name ? actual_name : "unknown" );
+    if( actual_name && std::string( actual_name ).find( "direct3d" ) != std::string::npos ) {
+        direct3d_mode = true;
+    }
+#endif
+}
+
+// Pick the geometry renderer matching the live renderer's capabilities:
+// color-modulated textures need an accelerated renderer, software falls
+// back to plain RenderFillRect.
+static void rebuild_geometry_strategy( bool software_renderer )
+{
+    DebugLog( D_INFO, DC_ALL ) << "USE_COLOR_MODULATED_TEXTURES is set to " <<
+                               get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" );
+#if SDL_MAJOR_VERSION >= 3
+    ( void )software_renderer;
+    // SDL3 batches RenderFillRect efficiently and the modulated texture path
+    // blends differently from a plain fill (it breaks the per-frame clear), so
+    // the saved option value is ignored and the default renderer is always used.
+    geometry = std::make_unique<DefaultGeometryRenderer>();
+#else
+    if( get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" ) && !software_renderer ) {
+        geometry = std::make_unique<ColorModulatedGeometryRenderer>( renderer );
+    } else {
+        geometry = std::make_unique<DefaultGeometryRenderer>();
+    }
+#endif
+}
 
 //Registers, creates, and shows the Window!!
 static void WinCreate()
@@ -526,7 +595,7 @@ static void WinCreate()
     if( !software_renderer ) {
         dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
 
-        renderer = CreateRenderer( ::window, renderer_name.c_str(), false, true );
+        renderer = create_game_renderer( renderer_name, false );
         if( printErrorIf( !renderer,
                           "Failed to initialize accelerated renderer, falling back to software rendering" ) ) {
             software_renderer = true;
@@ -550,27 +619,13 @@ static void WinCreate()
             SDL_SetHint( SDL_HINT_FRAMEBUFFER_ACCELERATION, "1" );
         }
 #endif
-        renderer = CreateRenderer( ::window, nullptr, true, false );
+        renderer = create_game_renderer( {}, true );
         throwErrorIf( !renderer, "Failed to initialize software renderer" );
         throwErrorIf( !SetupRenderTarget(),
                       "Failed to initialize display buffer under software rendering, unable to continue." );
     }
 
-#if SDL_MAJOR_VERSION >= 3
-    {
-        // Reset before runtime detection so renderer recreation cannot
-        // leave stale direct3d_mode set from a prior renderer choice.
-        direct3d_mode = false;
-        const SDL_PropertiesID props = SDL_GetRendererProperties( renderer.get() );
-        const char *actual_name = props != 0
-                                  ? SDL_GetStringProperty( props, SDL_PROP_RENDERER_NAME_STRING, "" )
-                                  : "";
-        dbg( D_INFO ) << "SDL renderer in use: " << ( actual_name ? actual_name : "unknown" );
-        if( actual_name && std::string( actual_name ).find( "direct3d" ) != std::string::npos ) {
-            direct3d_mode = true;
-        }
-    }
-#endif
+    detect_renderer_backend();
 
     SetWindowMinimumSize( ::window.get(), fontwidth * EVEN_MINIMUM_TERM_WIDTH * scaling_factor,
                           fontheight * EVEN_MINIMUM_TERM_HEIGHT * scaling_factor );
@@ -595,21 +650,7 @@ static void WinCreate()
     // Set up audio mixer.
     init_sound();
 
-    DebugLog( D_INFO, DC_ALL ) << "USE_COLOR_MODULATED_TEXTURES is set to " <<
-                               get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" );
-    //initialize the alternate rectangle texture for replacing SDL_RenderFillRect
-#if SDL_MAJOR_VERSION >= 3
-    // SDL3 batches RenderFillRect efficiently and the modulated texture path
-    // blends differently from a plain fill (it breaks the per-frame clear), so
-    // the saved option value is ignored and the default renderer is always used.
-    geometry = std::make_unique<DefaultGeometryRenderer>();
-#else
-    if( get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" ) && !software_renderer ) {
-        geometry = std::make_unique<ColorModulatedGeometryRenderer>( renderer );
-    } else {
-        geometry = std::make_unique<DefaultGeometryRenderer>();
-    }
-#endif
+    rebuild_geometry_strategy( software_renderer );
 
 #if SDL_MAJOR_VERSION >= 3
     shared_variant_pass = std::make_unique<cata_shader::variant_pass>( renderer.get() );
@@ -1739,8 +1780,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 static bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offset )
 {
     if( scaling_factor > 1 ) {
-        RenderSetLogicalSize( renderer, WindowWidth / scaling_factor,
-                              WindowHeight / scaling_factor );
+        const point buffer_dims = compute_display_buffer_dims();
+        RenderSetLogicalSize( renderer, buffer_dims.x, buffer_dims.y );
     }
 
     cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
@@ -1868,8 +1909,8 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         return;
     }
     if( scaling_factor > 1 ) {
-        RenderSetLogicalSize( renderer, WindowWidth / scaling_factor,
-                              WindowHeight / scaling_factor );
+        const point buffer_dims = compute_display_buffer_dims();
+        RenderSetLogicalSize( renderer, buffer_dims.x, buffer_dims.y );
     }
     WINDOW *const win = w.get<WINDOW>();
     bool update = false;
