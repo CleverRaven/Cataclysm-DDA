@@ -1102,7 +1102,7 @@
     "max_volume": "1000 L",
     "flags": [ "CONTAINER", "PLACE_ITEM", "NO_SIGHT", "HIDE_PLACE", "BLOCKSDOOR", "MOUNTABLE", "SMALL_HIDE" ]
   },
-    {
+  {
     "type": "furniture",
     "id": "f_highlands_dead_exodii",
     "name": "remains of a cyborg",
@@ -1139,6 +1139,7 @@
     "copy-from": "f_highlands_dead_exodii",
     "examine_action": {
       "type": "effect_on_condition",
-      "effect_on_conditions": [ { "id": "EOC_DEAD_EXODII_FINISHED", "effect": [ { "u_message": "Memento Mori." } ] } ] }
+      "effect_on_conditions": [ { "id": "EOC_DEAD_EXODII_FINISHED", "effect": [ { "u_message": "Memento Mori." } ] } ]
+    }
   }
 ]
