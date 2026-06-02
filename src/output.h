@@ -1229,6 +1229,13 @@ int get_window_height();
 void refresh_display();
 
 /**
+ * Service pending renderer-resource recovery at an outer loop boundary. No-op in
+ * curses; in SDL drains the coordinator so a target reset, device loss, or mobile
+ * foreground rebuilds before the next draw.
+ */
+void drain_renderer_recovery();
+
+/**
  * Sync OS cursor and ImGui cursor-handling flags with the current
  * ENABLE_MOUSE and HIDE_CURSOR option values. No-op in curses builds.
  */

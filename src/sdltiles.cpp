@@ -994,6 +994,11 @@ static void try_sdl_update()
     }
 }
 
+void drain_renderer_recovery()
+{
+    renderer_coordinator.drain_pending();
+}
+
 void get_display_buffer_dims( int *w, int *h )
 {
     int buf_w = 0;
@@ -4778,6 +4783,8 @@ static void CheckMessages()
     bool text_refresh = false;
     bool is_repeat = false;
 
+    drain_renderer_recovery();
+
 #if defined(__ANDROID__)
     static uint32_t last_seen_visible_frame_seq = 0;
     const uint32_t cur_visible_frame_seq = visible_frame_inbox.even_sequence();
@@ -6068,6 +6075,10 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
         // input should be skipped in caller's code
         throw std::runtime_error( "input_manager::get_input_event called in test mode" );
     }
+
+    // Service pending renderer recovery before the pre-poll draw path, which
+    // targets the display buffer.
+    drain_renderer_recovery();
 
 #if !defined(__ANDROID__) && !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)
     if( actual_keyboard_mode( preferred_keyboard_mode ) == keyboard_mode::keychar ) {
