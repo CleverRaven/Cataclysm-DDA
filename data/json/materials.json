@@ -1806,6 +1806,14 @@
   },
   {
     "type": "material",
+    "id": "dense_powder",
+    "copy-from": "powder",
+    "name": "Powder",
+    "//COMMENT": "Representing everything from military explosives to metal filings, this very high density is so that the tests will stop whining.",
+    "density": 10
+  },
+  {
+    "type": "material",
     "id": "powder_nonflam",
     "name": "Powder",
     "density": 1,

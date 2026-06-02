@@ -2371,5 +2371,13 @@
     "manually_given": true,
     "description": "He that is neither one thing nor the other has no friends.",
     "requirements": [  ]
+  },
+  {
+    "id": "achievement_reach_labyrinth",
+    "type": "achievement",
+    "name": { "str": "You don't by any chance know the way through this labyrinth, do you?" },
+    "manually_given": true,
+    "description": "Enter a netherum labyrinth.",
+    "requirements": [  ]
   }
 ]

@@ -1079,42 +1079,72 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                             return;
                         }
                         ensure_tint_mask_texture( batch_union.w, batch_union.h );
+                        if( !tint_mask_tex ) {
+                            batch_tiles.clear();
+                            batch_sum_area = 0;
+                            return;
+                        }
 
-                        // Save and remove clip rect -- the mask texture has its own
-                        // coordinate space unrelated to the display viewport.
+                        // Save display-buffer clip so Phase 2 can restore it.
                         if( !clip_saved ) {
                             RenderGetClipRect( renderer, &saved_clip );
                             clip_saved = true;
                         }
-                        RenderSetClipRect( renderer, nullptr );
 
                         // Phase 1: build the silhouette mask.
-                        SetRenderTarget( renderer, tint_mask_tex );
-                        SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
-                        SetRenderDrawColor( renderer, 0, 0, 0, 0 );
-                        const SDL_Rect clear_rect = { 0, 0, batch_union.w, batch_union.h };
-                        RenderFillRect( renderer, &clear_rect );
-
-                        for( const tile_render_info *bp : batch_tiles ) {
-                            for( const tint_sprite_record &rec : bp->com.tint_sprites ) {
-                                const texture *sil = tileset_ptr->get_silhouette_tile( rec.sprite_index );
-                                if( !sil ) {
-                                    continue;
-                                }
-                                // Translate to mask-local coordinates.
-                                SDL_Rect mask_dest = {
-                                    rec.destination.x - batch_union.x,
-                                    rec.destination.y - batch_union.y,
-                                    rec.destination.w,
-                                    rec.destination.h
-                                };
-                                sil->render_copy_ex( renderer, &mask_dest, rec.angle, nullptr,
-                                                     static_cast<CataFlipMode>( rec.flip ) );
+                        {
+#if SDL_MAJOR_VERSION >= 3
+                            cata_shader::render_target_scope mask_scope(
+                                renderer.get(), tint_mask_tex.get(), m_variant_pass.get() );
+                            if( !mask_scope.is_valid() ) {
+                                // variant_pass may have failed to unbind; later
+                                // target switches would cross with shader bound.
+                                batch_tiles.clear();
+                                batch_sum_area = 0;
+                                throw std::runtime_error(
+                                    "cata_tiles::flush_tint_batch: render_target_scope construction failed" );
                             }
+#else
+                            SetRenderTarget( renderer, tint_mask_tex );
+#endif
+                            // Clip is per-target; clear defensively for reused mask.
+                            RenderSetClipRect( renderer, nullptr );
+                            SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
+                            SetRenderDrawColor( renderer, 0, 0, 0, 0 );
+                            const SDL_Rect clear_rect = { 0, 0, batch_union.w, batch_union.h };
+                            RenderFillRect( renderer, &clear_rect );
+
+                            for( const tile_render_info *bp : batch_tiles ) {
+                                for( const tint_sprite_record &rec : bp->com.tint_sprites ) {
+                                    const texture *sil = tileset_ptr->get_silhouette_tile( rec.sprite_index );
+                                    if( !sil ) {
+                                        continue;
+                                    }
+                                    // Translate to mask-local coordinates.
+                                    SDL_Rect mask_dest = {
+                                        rec.destination.x - batch_union.x,
+                                        rec.destination.y - batch_union.y,
+                                        rec.destination.w,
+                                        rec.destination.h
+                                    };
+                                    sil->render_copy_ex( renderer, &mask_dest, rec.angle, nullptr,
+                                                         static_cast<CataFlipMode>( rec.flip ) );
+                                }
+                            }
+#if SDL_MAJOR_VERSION >= 3
+                            if( !mask_scope.restore() ) {
+                                // Subsequent draws would land in the mask.
+                                batch_tiles.clear();
+                                batch_sum_area = 0;
+                                throw std::runtime_error(
+                                    "cata_tiles::flush_tint_batch: failed to restore display_buffer render target" );
+                            }
+#else
+                            set_displaybuffer_rendertarget();
+#endif
                         }
 
                         // Phase 2: composite the mask to the display buffer.
-                        set_displaybuffer_rendertarget();
                         RenderSetClipRect( renderer, &saved_clip );
 
                         const SDL_Rect comp_src = { 0, 0, batch_union.w, batch_union.h };

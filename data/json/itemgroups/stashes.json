@@ -654,12 +654,5 @@
     "subtype": "collection",
     "container-item": "bag_zipper_gallon",
     "entries": [ { "item": "hardtack", "count": 64 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cookies_box_snack_1_4",
-    "subtype": "collection",
-    "container-item": "box_snack",
-    "entries": [ { "item": "cookies", "container-item": "null", "count": [ 1, 4 ] } ]
   }
 ]

@@ -2264,7 +2264,13 @@ int game::inventory_item_menu( item_location locThisItem,
                     if( locThisItem.get_item()->type->has_use() &&
                         !locThisItem.get_item()->item_has_uses_recursive( true ) ) { // NOLINT(bugprone-branch-clone)
                         // Item has uses and none of its contents (if any) has uses.
+#if defined(TILES)
+                        action_menu.set_hide( true );
+#endif
                         avatar_action::use_item( u, locThisItem );
+#if defined(TILES)
+                        action_menu.set_hide( false );
+#endif
                     } else if( locThisItem.get_item()->item_has_uses_recursive() ) {
                         game::item_action_menu( locThisItem );
                     } else if( locThisItem.get_item()->has_relic_activation() &&

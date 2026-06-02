@@ -1,6 +1,34 @@
 [
   {
     "type": "item_group",
+    "id": "pasta_ingredients",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "groce_pasta", "prob": 200 },
+      { "prob": 25, "group": "ravioli_in_can" },
+      { "item": "sauce_red", "prob": 20 },
+      { "item": "sauce_pesto", "prob": 15 },
+      { "prob": 14, "group": "bread_in_bag" },
+      { "prob": 14, "group": "bread_wheat_free_bag_plastic_14" },
+      { "prob": 7, "group": "cornbread_in_bag" },
+      { "prob": 7, "group": "flatbread_in_bag" },
+      { "prob": 20, "item": "crackers", "count": -1 },
+      { "prob": 15, "group": "oyster_crackers_plastic_bag_vac_8" },
+      { "prob": 20, "item": "grahmcrackers", "count": -1 },
+      { "prob": 20, "item": "marshmallow", "count": -1 },
+      { "prob": 12, "group": "biscuit_box_small_10" },
+      { "prob": 2, "item": "hardtack", "container-item": "box_small", "count": -1 },
+      { "prob": 25, "group": "seasoning_salt_various" },
+      { "prob": 25, "group": "seasoning_italian_various" },
+      { "prob": 30, "group": "pecorino_cheese_wrapper_4" },
+      { "item": "cauliflower_head", "prob": 25 },
+      { "item": "eggplant", "prob": 25 },
+      { "item": "raw_artichoke", "prob": 25 },
+      { "item": "raw_asparagus", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "box_spaghetti_1lb",
     "subtype": "collection",
     "container-item": "box_snack",
@@ -29,6 +57,27 @@
       { "item": "macaroni_raw", "container-item": "null", "count": 6 },
       { "item": "cheese_powder", "container-item": "null", "count": 6 }
     ]
+  },
+  {
+    "id": "spaghetti_raw_bag_30",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "spaghetti_raw", "container-item": "null", "count": 30 } ]
+  },
+  {
+    "id": "lasagne_raw_bag_30",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "lasagne_raw", "container-item": "null", "count": 30 } ]
+  },
+  {
+    "id": "noodles_fast_bag_5",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "noodles_fast", "container-item": "null", "count": 5 } ]
   },
   {
     "type": "item_group",
@@ -105,6 +154,117 @@
   },
   {
     "type": "item_group",
+    "id": "cocoa_powder_various",
+    "subtype": "distribution",
+    "entries": [ { "prob": 4, "group": "cocoa_powder_bag_plastic" }, { "prob": 2, "group": "cocoa_powder_bag_paper" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cocoa_powder_various_full",
+    "subtype": "distribution",
+    "entries": [ { "prob": 2, "group": "cocoa_powder_bag_paper_full" }, { "prob": 1, "group": "cocoa_powder_bag_plastic_full" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cocoa_powder_bag_paper_full",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "cocoa_powder", "container-item": "null", "count": 40 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cocoa_powder_bag_plastic_full",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "cocoa_powder", "container-item": "null", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cocoa_powder_bag_plastic",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "cocoa_powder", "container-item": "null", "count": [ 2, 8 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cocoa_powder_bag_paper",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "cocoa_powder", "container-item": "null", "count": [ 5, 40 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "milk_cocoa_powder_various",
+    "subtype": "distribution",
+    "entries": [ { "prob": 4, "group": "milk_cocoa_powder_bag_plastic" }, { "prob": 2, "group": "milk_cocoa_powder_bag_paper" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "milk_cocoa_powder_various_full",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 2, "group": "milk_cocoa_powder_bag_paper_full" },
+      { "prob": 1, "group": "milk_cocoa_powder_bag_plastic_full" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milk_cocoa_powder_bag_paper_full",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "cocoa_powder_milk", "container-item": "null", "count": 40 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "milk_cocoa_powder_bag_plastic_full",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "cocoa_powder_milk", "container-item": "null", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "milk_cocoa_powder_bag_plastic",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "cocoa_powder_milk", "container-item": "null", "count": [ 2, 8 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "milk_cocoa_powder_bag_paper",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "cocoa_powder_milk", "container-item": "null", "count": [ 5, 40 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "powder_eggs_bottle_plastic_small_16",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_small",
+    "entries": [ { "item": "powder_eggs", "container-item": "null", "count": 16 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "lemonade_powder_bottle_plastic_small_10",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_small",
+    "entries": [ { "item": "lemonade_powder", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "gelatin_powder_bag_plastic_full",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "gelatin_powder", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "yogurt_starter_culture_bag_plastic_4",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "yogurt_starter_culture", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
     "id": "vegetable_oil_bottle",
     "subtype": "distribution",
     "items": [
@@ -125,19 +285,5 @@
     "id": "oil_bottle_empty",
     "subtype": "distribution",
     "items": [ { "item": "bottle_plastic" }, { "item": "bottle_folding" }, { "item": "bottle_twoliter" }, { "item": "jug_plastic" } ]
-  },
-  {
-    "type": "item_group",
-    "id": "butter_wrapper_8",
-    "subtype": "collection",
-    "container-item": "wrapper",
-    "entries": [ { "item": "butter", "container-item": "null", "count": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "butter_wrapper_8_64",
-    "subtype": "collection",
-    "container-item": "wrapper",
-    "entries": [ { "item": "butter", "container-item": "null", "count": [ 8, 64 ] } ]
   }
 ]

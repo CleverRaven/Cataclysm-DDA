@@ -69,7 +69,7 @@
       "items": [
         { "item": "rock", "count": [ 10, 22 ] },
         { "item": "sharp_rock", "count": [ 3, 7 ] },
-        { "item": "material_limestone", "charges": [ 2, 5 ], "prob": 30 },
+        { "item": "material_limestone", "count": [ 2, 5 ], "prob": 30 },
         { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 },
         { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 1 },
         { "item": "material_zincite", "count": [ 0, 5 ], "prob": 2 },
@@ -417,7 +417,7 @@
       "items": [
         { "item": "splinter", "count": [ 2, 8 ] },
         { "item": "scrap", "count": [ 3, 10 ] },
-        { "item": "nuts_bolts", "charges": [ 5, 20 ] },
+        { "item": "nuts_bolts", "count": [ 5, 20 ] },
         { "item": "mtorch_everburning", "count": [ 1, 4 ] }
       ],
       "hit_field": [ "fd_dust", 2 ],
@@ -525,7 +525,7 @@
       "items": [
         { "item": "rock", "count": [ 10, 22 ] },
         { "item": "sharp_rock", "count": [ 3, 7 ] },
-        { "item": "material_limestone", "charges": [ 2, 5 ], "prob": 30 },
+        { "item": "material_limestone", "count": [ 2, 5 ], "prob": 30 },
         { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 },
         { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 1 },
         { "item": "material_zincite", "count": [ 0, 5 ], "prob": 2 }

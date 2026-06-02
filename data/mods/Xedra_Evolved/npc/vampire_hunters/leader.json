@@ -81,6 +81,13 @@
         "no": [ "Welcome.", "Hello.", "What are you here for?" ]
       }
     ],
+    "speaker_effect": [
+      {
+        "//": "If you gave Blaine the elder ginseng, he will pass the potion to Leonard for him to use.",
+        "condition": { "compare_string": [ "yes", { "u_val": "gave_hunter_doctor_elder_ginseng" } ] },
+        "effect": [ { "npc_add_trait": "EXTEND_LIFE" } ]
+      }
+    ],
     "responses": [
       {
         "text": "What are you doing here?",
@@ -100,8 +107,21 @@
       },
       {
         "text": "Got any work for me?",
+        "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSION_CURE_OR_KILL",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "VAMPIRE" } },
+            { "not": { "u_has_mission": "MISSION_VAMPIRE_HUNTER_LEADER_CURE_OR_KILL_TARGET" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "completed_hunters_kill_or_cure_target" } ] } },
+            { "math": [ "Vampire_Hunter_Quest_Completed == 3" ] },
+            { "math": [ "Vampire_Hunter_Quest_Accepted == 3" ] }
+          ]
+        }
+      },
+      {
+        "text": "Got any work for me?",
         "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS_ALL_DONE",
-        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "math": [ "Vampire_Hunter_Quest_Completed >= 3" ] } ] }
+        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "math": [ "Vampire_Hunter_Quest_Completed >= 4" ] } ] }
       },
       {
         "text": "Any advice for the strigoi?",
@@ -133,6 +153,17 @@
             { "not": { "u_has_trait": "VAMPIRE" } },
             { "u_has_mission": "MISSION_VAMPIRE_HUNTER_LEADER_KILL_RENFIELD_MONSTER" },
             { "not": { "compare_string": [ "yes", { "u_val": "completed_hunters_kill_renfield_monster" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "Any advice for the vampire I must try to cure?",
+        "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS_KILL_OR_CURE_ADVICE",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "VAMPIRE" } },
+            { "u_has_mission": "MISSION_VAMPIRE_HUNTER_LEADER_CURE_OR_KILL_TARGET" },
+            { "not": { "compare_string": [ "yes", { "u_val": "completed_hunters_kill_or_cure_target" } ] } }
           ]
         }
       },
@@ -182,6 +213,44 @@
         "topic": "TALK_KILL_RENFIELD_MONSTER_COMPLETED"
       },
       {
+        "text": "I'm back and I killed the target.",
+        "//": "The vanish makes the target count as killed, so a check is required.  You can't kill them after giving them the cure anyway.",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "VAMPIRE" } },
+            { "compare_string": [ "yes", { "u_val": "completed_hunter_kill_target" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "completed_hunter_cure_target" } ] } }
+          ]
+        },
+        "effect": [
+          { "math": [ "Vampire_Hunter_Quest_Completed++" ] },
+          { "math": [ "vampire_hunters_owed_help += 6" ] },
+          { "u_lose_var": "completed_hunter_kill_target" },
+          { "u_lose_var": "completed_hunter_cure_target" },
+          { "finish_mission": "MISSION_VAMPIRE_HUNTER_LEADER_CURE_OR_KILL_TARGET", "success": true },
+          { "u_add_var": "completed_hunters_kill_or_cure_target", "value": "yes" }
+        ],
+        "topic": "TALK_KILL_OR_CURE_COMPLETED_KILL"
+      },
+      {
+        "text": "I'm back and I cured the target.",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "VAMPIRE" } },
+            { "compare_string": [ "yes", { "u_val": "completed_hunter_cure_target" } ] }
+          ]
+        },
+        "effect": [
+          { "math": [ "Vampire_Hunter_Quest_Completed++" ] },
+          { "math": [ "vampire_hunters_owed_help += 7" ] },
+          { "u_lose_var": "completed_hunter_kill_target" },
+          { "u_lose_var": "completed_hunter_cure_target" },
+          { "finish_mission": "MISSION_VAMPIRE_HUNTER_LEADER_CURE_OR_KILL_TARGET", "success": true },
+          { "u_add_var": "completed_hunters_kill_or_cure_target", "value": "yes" }
+        ],
+        "topic": "TALK_KILL_OR_CURE_COMPLETED_CURE"
+      },
+      {
         "text": "But why?",
         "topic": "TALK_VAMPIRE_HUNTER_LEADER_WHY_NO_VAMPIRES",
         "condition": { "u_has_trait": "VAMPIRE" }
@@ -200,12 +269,31 @@
       {
         "text": "Anything I can do to help?",
         "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS",
-        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "math": [ "Vampire_Hunter_Quest_Completed < 3" ] } ] }
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "VAMPIRE" } },
+            { "math": [ "Vampire_Hunter_Quest_Completed < 3" ] },
+            { "math": [ "Vampire_Hunter_Quest_Accepted < 3" ] }
+          ]
+        }
+      },
+      {
+        "text": "Anything I can do to help?",
+        "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSION_CURE_OR_KILL",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "VAMPIRE" } },
+            { "not": { "u_has_mission": "MISSION_VAMPIRE_HUNTER_LEADER_CURE_OR_KILL_TARGET" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "completed_hunters_kill_or_cure_target" } ] } },
+            { "math": [ "Vampire_Hunter_Quest_Completed == 3" ] },
+            { "math": [ "Vampire_Hunter_Quest_Accepted == 3" ] }
+          ]
+        }
       },
       {
         "text": "Anything I can do to help?",
         "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS_ALL_DONE",
-        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "math": [ "Vampire_Hunter_Quest_Completed >= 3" ] } ] }
+        "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "math": [ "Vampire_Hunter_Quest_Completed >= 4" ] } ] }
       },
       { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
@@ -303,7 +391,24 @@
           { "math": [ "Vampire_Hunter_Quest_Accepted++" ] }
         ]
       },
-      { "text": "What do I get in exchange?", "topic": "TALK_VAMPIRE_HUNTER_LEADER_REWARDS" },
+      { "text": "What do I get in exchange?", "topic": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS_REWARDS" },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_VAMPIRE_HUNTER_LEADER_MISSION_CURE_OR_KILL",
+    "type": "talk_topic",
+    "dynamic_line": "We saw a nearby vampire walk under the sun recently.  Don't worry, they did not burn under the sun thanks to their umbrella.  It means they can be cured, should they accept to.  I will give you a dose of cure and you will go talk to them.  I'd prefer if you cured them from vampirism, but kill them if they refuse to take it.",
+    "responses": [
+      {
+        "text": "I will see if they want to be cured.",
+        "topic": "TALK_DONE",
+        "effect": [
+          { "assign_mission": "MISSION_VAMPIRE_HUNTER_LEADER_CURE_OR_KILL_TARGET" },
+          { "math": [ "Vampire_Hunter_Quest_Accepted++" ] },
+          { "u_spawn_item": "blood_treatment", "count": 1, "container": "bottle_plastic" }
+        ]
+      },
       { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
@@ -358,6 +463,28 @@
     ]
   },
   {
+    "id": "TALK_KILL_OR_CURE_COMPLETED_KILL",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Unfortunate, but necessary.  Some don't want to be cured.  Even if we could forcefully administer it, they would go and get infected again.  Thank you for killing a future monster."
+    ],
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_KILL_OR_CURE_COMPLETED_CURE",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "How fortunate that some of them are only regular people with an illness they want cured.  This is why we first try to cure: as long as they do not cross the point of no return with the horrible actions it requires, they are innocent until proven otherwise.  Thank you for saving an innocent from this plague."
+    ],
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
     "id": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS_STRIGOI_ADVICE",
     "type": "talk_topic",
     "dynamic_line": [
@@ -378,6 +505,14 @@
     "type": "talk_topic",
     "dynamic_line": [
       "This kind of renfield is massive, tough, quick, precise and can tear you apart like wet paper so never get close to it.  If I were you, I would find a decent gun with enough ammo and I would shoot it from a distance until it's dead.  Yes, this one is also far too gone to be attacked by zombies.  Only true vampires are attacked by the walking corpses."
+    ],
+    "responses": [ { "text": "Thanks for the advice.", "topic": "TALK_NONE" }, { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_VAMPIRE_HUNTER_LEADER_MISSIONS_KILL_OR_CURE_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "We know little about them, but we noticed they lack super-speed and hypnotic eyes.  If they had, I wouldn't send you on your own against them.  Approach during the day, so combat will result in them slowly burning under the sun or attacking you with an umbrella.  Unlike the previous missions, this one can be completed by luring the undead hordes at the target so they kill each other.  However, try to speak with them first to see if they want to be cured."
     ],
     "responses": [ { "text": "Thanks for the advice.", "topic": "TALK_NONE" }, { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
   },
@@ -459,6 +594,34 @@
       "opinion": { "trust": 1, "value": 1 },
       "effect": { "u_add_var": "killed_renfield_monster_for_hunters", "value": "yes" }
     },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "",
+      "offer": "",
+      "accepted": "",
+      "rejected": "",
+      "advice": "",
+      "inquire": "",
+      "success": "",
+      "success_lie": "",
+      "failure": ""
+    }
+  },
+  {
+    "id": "MISSION_VAMPIRE_HUNTER_LEADER_CURE_OR_KILL_TARGET",
+    "type": "mission_definition",
+    "name": { "str": "Cure or kill the vampire" },
+    "//": "It is an assassination mission so the game can spawn and point to the target.  Killing them is not always required.",
+    "goal": "MGOAL_ASSASSINATE",
+    "description": "A recently-made vampire has been spotted nearby.  The better move is to cure them, but if they refuse you have to kill them.",
+    "difficulty": 5,
+    "value": 5000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "min_distance": 15, "random": true, "z": 0 },
+      "update_mapgen": { "place_npcs": [ { "class": "xe_vampire_mission_target", "x": [ 1, 22 ], "y": [ 1, 22 ], "target": true } ] }
+    },
+    "end": { "opinion": { "trust": 1, "value": 1 }, "effect": { "u_add_var": "completed_hunter_kill_target", "value": "yes" } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {

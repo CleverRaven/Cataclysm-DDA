@@ -34,7 +34,8 @@
     "bonus_int": { "rng": [ 3, 4 ] },
     "bonus_per": { "rng": [ 1, 2 ] },
     "sells_belongings": false,
-    "shopkeeper_item_group": "hunter_doctor_sold_items",
+    "shopkeeper_item_group": [ { "group": "hunter_doctor_sold_items", "rigid": true } ],
+    "shopkeeper_consumption_rates": "basic_shop_rates",
     "worn_override": "VAMPIRE_HUNTER_DEFAULT_worn",
     "weapon_override": "VAMPIRE_HUNTER_DEFAULT_CROSSBOW_wield",
     "skills": [
@@ -65,6 +66,79 @@
     ],
     "responses": [
       {
+        "text": "I have the ginseng you asked for.",
+        "topic": "TALK_HUNTER_DOCTOR_FIND_GINSENG_COMPLETE",
+        "condition": {
+          "and": [
+            { "u_has_item": "xe_elder_ginseng" },
+            { "compare_string": [ "yes", { "u_val": "shared_with_hunter_doctor_life_extension_potion" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "gave_hunter_doctor_elder_ginseng" } ] } }
+          ]
+        },
+        "effect": [
+          { "u_sell_item": "xe_elder_ginseng", "count": 1 },
+          { "u_add_var": "gave_hunter_doctor_elder_ginseng", "value": "yes" },
+          { "finish_mission": "MISSION_VAMPIRE_HUNTER_DOCTOR_FIND_GINSENG", "success": true },
+          { "math": [ "vampire_hunters_owed_help += 10" ] }
+        ]
+      },
+      {
+        "text": "[Show him your notes on aspirin improvement]",
+        "topic": "TALK_HUNTER_DOCTOR_SHARE_ASPIRIN",
+        "condition": {
+          "and": [
+            { "u_has_item": "alchemy_recipe_extra_str_aspirin" },
+            { "not": { "compare_string": [ "yes", { "u_val": "shared_with_hunter_doctor_aspirin" } ] } }
+          ]
+        },
+        "effect": [
+          { "u_add_var": "shared_with_hunter_doctor_aspirin", "value": "yes" },
+          { "math": [ "vampire_hunters_owed_help += 3" ] }
+        ]
+      },
+      {
+        "text": "[Show him your notes on overcharged energy drinks]",
+        "topic": "TALK_HUNTER_DOCTOR_SHARE_RAGE_DRINK",
+        "condition": {
+          "and": [
+            { "u_has_item": "alchemy_recipe_blackout_rage_drink" },
+            { "not": { "compare_string": [ "yes", { "u_val": "shared_with_hunter_doctor_rage_drink" } ] } }
+          ]
+        },
+        "effect": [
+          { "u_add_var": "shared_with_hunter_doctor_rage_drink", "value": "yes" },
+          { "math": [ "vampire_hunters_owed_help += 3" ] }
+        ]
+      },
+      {
+        "text": "[Show him your notes on precognition-inducing hallucinogens]",
+        "topic": "TALK_HUNTER_DOCTOR_SHARE_LSD",
+        "condition": {
+          "and": [
+            { "u_has_item": "alchemy_recipe_prophets_lsd" },
+            { "not": { "compare_string": [ "yes", { "u_val": "shared_with_hunter_doctor_prophets_lsd" } ] } }
+          ]
+        },
+        "effect": [
+          { "u_add_var": "shared_with_hunter_doctor_prophets_lsd", "value": "yes" },
+          { "math": [ "vampire_hunters_owed_help += 3" ] }
+        ]
+      },
+      {
+        "text": "[Show him your notes on the elixir of life]",
+        "topic": "TALK_HUNTER_DOCTOR_SHARE_LIFE_ELIXIR",
+        "condition": {
+          "and": [
+            { "u_has_item": "alchemy_recipe_life_extension_potion" },
+            { "not": { "compare_string": [ "yes", { "u_val": "shared_with_hunter_doctor_life_extension_potion" } ] } }
+          ]
+        },
+        "effect": [
+          { "u_add_var": "shared_with_hunter_doctor_life_extension_potion", "value": "yes" },
+          { "math": [ "vampire_hunters_owed_help += 3" ] }
+        ]
+      },
+      {
         "text": "I'll buy some cure.  [10$]",
         "topic": "TALK_DONE",
         "condition": { "math": [ "vampire_hunters_owed_help < 1" ] },
@@ -91,6 +165,7 @@
         "effect": [ "give_all_aid", { "math": [ "vampire_hunters_owed_help -= 2" ] } ],
         "condition": { "math": [ "vampire_hunters_owed_help > 1" ] }
       },
+      { "text": "What's your role here?", "topic": "TALK_HUNTER_DOCTOR_INTRO" },
       { "text": "Do you have something to trade?", "topic": "TALK_HUNTER_DOCTOR", "effect": [ "start_trade" ] },
       {
         "text": "Do you have some free things for me?",
@@ -120,11 +195,160 @@
     ]
   },
   {
+    "id": "TALK_HUNTER_DOCTOR_INTRO",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Normally I would tend to the wounded and do medical research, but with our relative safety and limited free time I mostly sell medical supplies these days.  I'm also the cook because nobody else here is good at cooking.  I would be surprised if one of them prepared an edible lung confit, let alone one that tastes good."
+    ],
+    "//": "The first two are relatively easy to produce and will be added to his trading inventory on seeing the notes.",
+    "//2": "The third has a too complex recipe to be plausible to produce, so he'll just note the recipe, increase Owed Help and thanks the player.",
+    "//3": "The fourth has a very rare component, but it will assign a mission to find it.  Once it is brought back, the player will have a big Owed Help reward.",
+    "responses": [
+      {
+        "text": "[Show him your notes on aspirin improvement]",
+        "topic": "TALK_HUNTER_DOCTOR_SHARE_ASPIRIN",
+        "condition": {
+          "and": [
+            { "u_has_item": "alchemy_recipe_extra_str_aspirin" },
+            { "not": { "compare_string": [ "yes", { "u_val": "shared_with_hunter_doctor_aspirin" } ] } }
+          ]
+        },
+        "effect": [
+          { "u_add_var": "shared_with_hunter_doctor_aspirin", "value": "yes" },
+          { "math": [ "vampire_hunters_owed_help += 3" ] }
+        ]
+      },
+      {
+        "text": "[Show him your notes on overcharged energy drinks]",
+        "topic": "TALK_HUNTER_DOCTOR_SHARE_RAGE_DRINK",
+        "condition": {
+          "and": [
+            { "u_has_item": "alchemy_recipe_blackout_rage_drink" },
+            { "not": { "compare_string": [ "yes", { "u_val": "shared_with_hunter_doctor_rage_drink" } ] } }
+          ]
+        },
+        "effect": [
+          { "u_add_var": "shared_with_hunter_doctor_rage_drink", "value": "yes" },
+          { "math": [ "vampire_hunters_owed_help += 3" ] }
+        ]
+      },
+      {
+        "text": "[Show him your notes on precognition-inducing hallucinogens]",
+        "topic": "TALK_HUNTER_DOCTOR_SHARE_LSD",
+        "condition": {
+          "and": [
+            { "u_has_item": "alchemy_recipe_prophets_lsd" },
+            { "not": { "compare_string": [ "yes", { "u_val": "shared_with_hunter_doctor_prophets_lsd" } ] } }
+          ]
+        },
+        "effect": [
+          { "u_add_var": "shared_with_hunter_doctor_prophets_lsd", "value": "yes" },
+          { "math": [ "vampire_hunters_owed_help += 3" ] }
+        ]
+      },
+      {
+        "text": "[Show him your notes on the elixir of life]",
+        "topic": "TALK_HUNTER_DOCTOR_SHARE_LIFE_ELIXIR",
+        "condition": {
+          "and": [
+            { "u_has_item": "alchemy_recipe_life_extension_potion" },
+            { "not": { "compare_string": [ "yes", { "u_val": "shared_with_hunter_doctor_life_extension_potion" } ] } }
+          ]
+        },
+        "effect": [
+          { "u_add_var": "shared_with_hunter_doctor_life_extension_potion", "value": "yes" },
+          { "math": [ "vampire_hunters_owed_help += 3" ] }
+        ]
+      },
+      { "text": "I'll buy some supplies.", "topic": "TALK_HUNTER_DOCTOR", "effect": [ "start_trade" ] },
+      {
+        "text": "Could you give me some supplies?",
+        "topic": "TALK_HUNTER_DOCTOR",
+        "condition": { "math": [ "vampire_hunters_owed_help > 0" ] },
+        "effect": [ "start_trade", { "u_spend_cash": -2000 }, { "math": [ "vampire_hunters_owed_help--" ] } ]
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_HUNTER_DOCTOR_SHARE_ASPIRIN",
+    "type": "talk_topic",
+    "//": "When hidding currently unavailable items will be added, sharing the aspirin and rage drink recipes will add the resulting items to his stock.  For now he has them in stock but won't let you buy them.",
+    "dynamic_line": [
+      "[Blaine copies the recipe on a paper sheet]  These painkillers will surely prove useful when someone will get injured.  Thanks."
+    ],
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_HUNTER_DOCTOR_SHARE_RAGE_DRINK",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "[Blaine copies the recipe on a paper sheet]  This concoction should result in cardiac arrest, but if it doesn't it will give a boost to our hunters when needed.  Thanks."
+    ],
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_HUNTER_DOCTOR_SHARE_LSD",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "[Blaine copies the recipe on a paper sheet]  What a complex ingredient list.  This would be hard to produce before <the_cataclysm>, but now it's beyond reasonable with the resources I got here.  Thanks anyway for sharing the recipe."
+    ],
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_HUNTER_DOCTOR_SHARE_LIFE_ELIXIR",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "[Blaine copies the recipe on a paper sheet]  If it is true, the only ingredient I lack is elder ginseng.  Could you please bring me some?  This would be a favor I won't forget soon."
+    ],
+    "responses": [
+      {
+        "text": "I'll find some.",
+        "topic": "TALK_HUNTER_DOCTOR_FIND_GINSENG_ACCEPT",
+        "effect": [ { "assign_mission": "MISSION_VAMPIRE_HUNTER_DOCTOR_FIND_GINSENG" } ]
+      },
+      { "text": "I'm not interested in doing that.", "topic": "TALK_HUNTER_DOCTOR_FIND_GINSENG_REFUSE" }
+    ]
+  },
+  {
+    "id": "TALK_HUNTER_DOCTOR_FIND_GINSENG_ACCEPT",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Splendid!  With it, we will be one step closer of breaking the vampires' monopoly on agelessness!  Bring it here, and I'll prepare it for Leonard.  This rejuvenation will be very beneficial to his health and ability to flee this place alongside us if vampires or something else wreck it down."
+    ],
+    "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_HUNTER_DOCTOR_FIND_GINSENG_REFUSE",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "I get it.  Who wants to search for a needle of a plant in a state-wide haystack for little personal gain?  However, If you somehow find this elder ginseng I'll gladly buy it."
+    ],
+    "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_HUNTER_DOCTOR_FIND_GINSENG_COMPLETE",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Thanks so much for this ginseng!  With it, I'll take less than an hour to make the potion.  We do not have more demand for elder ginseng for now, but I again thank you for this service."
+    ],
+    "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
+  },
+  {
     "type": "item_group",
     "subtype": "collection",
     "id": "hunter_doctor_sold_items",
     "//": "Some common medical supplies they can afford to trade for more useful things.",
-    "//2": "Once the ability to give him alchemical recipes will be added, he will start selling these too.",
     "entries": [
       { "item": "bandages", "prob": 80, "count": [ 5, 10 ] },
       { "item": "adhesive_bandages", "count": [ 1, 20 ], "prob": 70 },
@@ -141,5 +365,40 @@
       { "item": "antifungal", "prob": 10, "count": [ 1, 20 ] },
       { "item": "antiparasitic", "prob": 10, "count": [ 1, 20 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "hunter_doctor_aspirin",
+    "entries": [ { "item": "extra_str_aspirin", "prob": 80, "count": [ 5, 20 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "hunter_doctor_rage_drink",
+    "entries": [ { "item": "blackout_rage_drink", "prob": 75, "count": [ 3, 9 ] } ]
+  },
+  {
+    "id": "MISSION_VAMPIRE_HUNTER_DOCTOR_FIND_GINSENG",
+    "type": "mission_definition",
+    "name": { "str": "Find some elder ginseng for Blaine" },
+    "goal": "MGOAL_CONDITION",
+    "description": "Blaine needs elder ginseng for the life extension potion and has asked you to bring some to him.",
+    "difficulty": 7,
+    "value": 50000,
+    "end": { "opinion": { "trust": 1, "value": 1 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "",
+      "offer": "",
+      "accepted": "",
+      "rejected": "",
+      "advice": "",
+      "inquire": "",
+      "success": "",
+      "success_lie": "",
+      "failure": ""
+    }
   }
 ]

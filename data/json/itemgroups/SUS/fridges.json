@@ -256,7 +256,7 @@
       { "item": "yoghurt", "prob": 20 },
       { "prob": 30, "group": "butter_wrapper_32" },
       { "item": "pudding", "prob": 10 },
-      { "prob": 55, "group": "egg_bird_unfert_carton_egg_1_2" },
+      { "prob": 55, "group": "eggs_in_carton_empty" },
       { "prob": 65, "group": "bacon_bag_plastic_2" },
       {
         "distribution": [
@@ -436,7 +436,6 @@
       { "prob": 20, "group": "butter_wrapper_32" },
       { "item": "pudding", "prob": 20 },
       { "item": "gelatin_dessert_processed", "prob": 10 },
-      { "item": "egg_bird_unfert", "prob": 20, "count": [ 1, 12 ] },
       { "prob": 20, "group": "eggs_in_carton" },
       { "prob": 25, "group": "bacon_bag_plastic_2" },
       {
@@ -1063,12 +1062,5 @@
         "prob": 25
       }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "butter_wrapper_32",
-    "subtype": "collection",
-    "container-item": "wrapper",
-    "entries": [ { "item": "butter", "container-item": "null", "count": 32 } ]
   }
 ]

@@ -30,11 +30,11 @@
     "type": "item_group",
     "id": "cigarettes_new",
     "items": [
-      { "item": "cig", "variant": "cig_basic", "prob": 40, "count": [ 20, 20 ], "container-item": "null" },
-      { "item": "cig", "variant": "cig_light", "prob": 25, "count": [ 20, 20 ], "container-item": "null" },
-      { "item": "cig", "variant": "cig_menthol", "prob": 25, "count": [ 20, 20 ], "container-item": "null" },
-      { "item": "cig", "variant": "cig_gold", "prob": 7, "count": [ 20, 20 ], "container-item": "null" },
-      { "item": "cig", "variant": "cig_little_cigar", "prob": 3, "count": [ 20, 20 ], "container-item": "null" }
+      { "item": "cig", "variant": "cig_basic", "prob": 40, "count": 20, "container-item": "null" },
+      { "item": "cig", "variant": "cig_light", "prob": 25, "count": 20, "container-item": "null" },
+      { "item": "cig", "variant": "cig_menthol", "prob": 25, "count": 20, "container-item": "null" },
+      { "item": "cig", "variant": "cig_gold", "prob": 7, "count": 20, "container-item": "null" },
+      { "item": "cig", "variant": "cig_little_cigar", "prob": 3, "count": 20, "container-item": "null" }
     ]
   },
   {
@@ -128,20 +128,6 @@
     "subtype": "collection",
     "container-item": "box_cigarette",
     "entries": [ { "group": "cigarettes_opened" } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cig_box_cigarette_0_10",
-    "subtype": "collection",
-    "container-item": "box_cigarette",
-    "entries": [ { "item": "cig", "container-item": "null", "count": [ 0, 10 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cig_box_cigarette_1_5",
-    "subtype": "collection",
-    "container-item": "box_cigarette",
-    "entries": [ { "item": "cig", "container-item": "null", "count": [ 1, 5 ] } ]
   },
   {
     "type": "item_group",

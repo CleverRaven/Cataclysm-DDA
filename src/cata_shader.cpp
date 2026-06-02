@@ -592,23 +592,78 @@ bool variant_pass::end()
     return true;
 }
 
-void variant_pass::flush()
+bool variant_pass::flush()
 {
     if( !currently_bound_ ) {
-        return;
+        return true;
     }
-    currently_bound_.reset();
     if( !SDL_SetGPURenderState( renderer_, nullptr ) ) {
         DebugLog( D_ERROR, DC_ALL )
                 << "cata_shader::variant_pass: SDL_SetGPURenderState(NULL) failed: "
                 << SDL_GetError();
         session_disabled_ = true;
+        return false;
     }
+    currently_bound_.reset();
+    return true;
 }
 
 void variant_pass::select_memory_preset( std::optional<memory_preset> preset )
 {
     active_memory_preset_ = preset;
+}
+
+render_target_scope::render_target_scope( SDL_Renderer *renderer, SDL_Texture *target,
+        variant_pass *vp )
+    : renderer_( renderer )
+{
+    if( !renderer_ ) {
+        return;
+    }
+    prior_target_ = SDL_GetRenderTarget( renderer_ );
+    if( vp && !vp->flush() ) {
+        return;
+    }
+    if( !SDL_SetRenderTarget( renderer_, target ) ) {
+        DebugLog( D_ERROR, DC_ALL )
+                << "cata_shader::render_target_scope: SDL_SetRenderTarget failed: "
+                << SDL_GetError();
+        return;
+    }
+    valid_ = true;
+}
+
+bool render_target_scope::restore()
+{
+    if( restored_ ) {
+        return true;
+    }
+    if( !renderer_ || !valid_ ) {
+        return false;
+    }
+    if( !SDL_SetRenderTarget( renderer_, prior_target_ ) ) {
+        DebugLog( D_ERROR, DC_ALL )
+                << "cata_shader::render_target_scope::restore: SDL_SetRenderTarget failed: "
+                << SDL_GetError();
+        return false;
+    }
+    restored_ = true;
+    return true;
+}
+
+render_target_scope::~render_target_scope()
+{
+    if( restored_ || !valid_ ) {
+        return;
+    }
+    // Fallback for early exit. Mark restored regardless to avoid
+    // retry loops; double failure means the invariant is lost.
+    restored_ = true;
+    if( !SDL_SetRenderTarget( renderer_, prior_target_ ) ) {
+        DebugLog( D_ERROR, DC_ALL )
+                << "cata_shader::~render_target_scope: SDL_SetRenderTarget failed: "
+                << SDL_GetError();
+    }
 }
 
 } // namespace cata_shader

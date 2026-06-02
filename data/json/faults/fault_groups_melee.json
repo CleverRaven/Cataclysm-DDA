@@ -39,6 +39,11 @@
   },
   {
     "type": "fault_group",
+    "id": "bladed_weapon_craft_failures",
+    "group": [ { "fault": "interior_cracks", "weight": 100 }, { "fault": "limp_edge", "weight": 1 } ]
+  },
+  {
+    "type": "fault_group",
     "id": "blade_general",
     "//": "Mechanical damage of any blade, from a sword to a knife",
     "group": [

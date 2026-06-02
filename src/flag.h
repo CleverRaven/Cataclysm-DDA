@@ -170,6 +170,7 @@ extern const flag_id flag_EXO_TORSO_PLATE;
 extern const flag_id flag_EXO_UNDERLAYER;
 extern const flag_id flag_FAKE_MILL;
 extern const flag_id flag_FAKE_SMOKE;
+extern const flag_id flag_FAULT_ON_COMPLETION;
 extern const flag_id flag_FELINE;
 extern const flag_id flag_FERTILIZER;
 extern const flag_id flag_FIELD_DRESS;

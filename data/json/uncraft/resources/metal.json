@@ -193,7 +193,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "30 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "gold_small", 3670 ] ] ]
+    "components": [ [ [ "gold_small", 1000 ] ] ]
   },
   {
     "result": "10l_platinum",
@@ -217,7 +217,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "30 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "platinum_small", 4075 ] ] ]
+    "components": [ [ [ "platinum_small", 1000 ] ] ]
   },
   {
     "result": "exodii_ingot_zinc",
@@ -249,7 +249,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "zinc_metal", 3780 ] ] ]
+    "components": [ [ [ "zinc_metal", 1000 ] ] ]
   },
   {
     "result": "exodii_ingot_lc_steel",

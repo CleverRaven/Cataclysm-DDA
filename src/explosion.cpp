@@ -541,6 +541,13 @@ bool explosion_processing_active()
     return process_explosions_in_progress;
 }
 
+queued_explosion::queued_explosion( const Creature *source, const tripoint_abs_ms &pos,
+                                    const explosion_data &data )
+    : source( source ? const_cast<Creature *>( source )->get_safe_reference()
+              : safe_reference<Creature>() )
+    , pos( pos )
+    , data( data ) {}
+
 void explosion( const Creature *source, const tripoint_bub_ms &p, const explosion_data &ex )
 {
     _explosions.emplace_back( source, get_map().get_abs( p ), ex );
@@ -1015,10 +1022,10 @@ void process_explosions()
             m.spawn_monsters( true, true );
             g->load_npcs( &m );
             process_explosions_in_progress = false;
-            _make_explosion( &m, ex.source, m.get_bub( ex.pos ), ex.data );
+            _make_explosion( &m, ex.source.get(), m.get_bub( ex.pos ), ex.data );
             m.process_falling();
         } else {
-            _make_explosion( bubble_map, ex.source, bubble_map->get_bub( ex.pos ), ex.data );
+            _make_explosion( bubble_map, ex.source.get(), bubble_map->get_bub( ex.pos ), ex.data );
         }
     }
 }

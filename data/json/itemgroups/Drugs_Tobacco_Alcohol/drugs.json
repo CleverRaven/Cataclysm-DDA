@@ -444,13 +444,6 @@
   },
   {
     "type": "item_group",
-    "id": "adderall_bottle_plastic_pill_prescription_1",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "adderall", "container-item": "null" } ]
-  },
-  {
-    "type": "item_group",
     "id": "antibiotics_dr_group",
     "subtype": "collection",
     "container-item": "bottle_plastic_pill_prescription",
@@ -528,13 +521,6 @@
   },
   {
     "type": "item_group",
-    "id": "antifungal_bottle_plastic_pill_prescription_0_10",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "antifungal", "container-item": "null", "count": [ 0, 10 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "antifungal_bottle_plastic_pill_prescription_1_5",
     "subtype": "collection",
     "container-item": "bottle_plastic_pill_prescription",
@@ -556,13 +542,6 @@
   },
   {
     "type": "item_group",
-    "id": "antiparasitic_bottle_plastic_pill_prescription_0_10",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "antiparasitic", "container-item": "null", "count": [ 0, 10 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "antiparasitic_bottle_plastic_pill_prescription_5",
     "subtype": "collection",
     "container-item": "bottle_plastic_pill_prescription",
@@ -581,13 +560,6 @@
     "subtype": "collection",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "diazepam", "container-item": "null", "count": [ 1, 10 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "diazepam_bottle_plastic_pill_prescription_0_10",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "diazepam", "container-item": "null", "count": [ 0, 10 ] } ]
   },
   {
     "type": "item_group",
@@ -814,13 +786,6 @@
     "subtype": "collection",
     "container-item": "bottle_plastic_pill_supplement",
     "entries": [ { "item": "melatonin_tablet", "container-item": "null", "count": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "melatonin_tablet_bottle_plastic_pill_supplement_1_10",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_supplement",
-    "entries": [ { "item": "melatonin_tablet", "container-item": "null", "count": [ 1, 10 ] } ]
   },
   {
     "type": "item_group",

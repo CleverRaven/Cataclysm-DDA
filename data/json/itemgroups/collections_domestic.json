@@ -202,7 +202,7 @@
       { "item": "chem_calcium_chloride", "prob": 2 },
       { "item": "chem_washing_soda", "prob": 20, "count": [ 1, -1 ] },
       { "item": "chem_baking_soda", "prob": 20, "count": [ 1, -1 ] },
-      { "item": "chunk_borax", "prob": 10, "charges": [ 1, -1 ] },
+      { "item": "chunk_borax", "prob": 10, "count": [ 1, -1 ] },
       { "item": "ammonia_hydroxide", "prob": 24, "charges": [ 1, -1 ] },
       { "prob": 2, "group": "yeast_bag_plastic" },
       { "prob": 1, "group": "yogurt_starter_culture_bag_plastic_4" },
@@ -235,10 +235,10 @@
       { "item": "tin", "prob": 15 },
       { "item": "lamp_oil", "prob": 12 },
       { "item": "chem_hydrogen_peroxide", "prob": 15 },
-      { "item": "chem_carbide", "prob": 10, "charges": [ 100, -1 ] },
-      { "item": "chem_zinc_powder", "prob": 10, "charges": [ 100, -1 ] },
-      { "item": "chem_manganese_dioxide", "prob": 5, "charges": [ 100, -1 ] },
-      { "item": "chem_potassium_chloride", "prob": 5, "charges": [ 100, -1 ] },
+      { "item": "chem_carbide", "prob": 10, "count": [ 100, -1 ] },
+      { "item": "chem_zinc_powder", "prob": 10, "count": [ 100, -1 ] },
+      { "item": "chem_manganese_dioxide", "prob": 5, "count": [ 100, -1 ] },
+      { "item": "chem_potassium_chloride", "prob": 5, "count": [ 100, -1 ] },
       { "item": "chem_muriatic_acid", "prob": 15 },
       { "item": "denat_alcohol", "prob": 6 },
       { "item": "methed_alcohol", "prob": 4 },
@@ -303,7 +303,7 @@
     "id": "memorial",
     "subtype": "collection",
     "entries": [
-      { "item": "corpse_ash", "prob": 100, "charges": [ 1905, 3969 ], "container-item": "porcelain_urn" },
+      { "item": "corpse_ash", "prob": 100, "count": [ 1905, 3969 ], "entry-wrapper": "porcelain_urn" },
       { "item": "photo_album", "prob": 75 },
       { "item": "bouquet", "prob": 50 },
       { "item": "candle", "prob": 50, "charges": [ 1, 6 ] },
@@ -377,7 +377,7 @@
     "id": "memorial_mansion",
     "subtype": "collection",
     "entries": [
-      { "item": "corpse_ash", "prob": 100, "charges": [ 1905, 3969 ], "container-item": "crystal_urn" },
+      { "item": "corpse_ash", "prob": 100, "count": [ 1905, 3969 ], "entry-wrapper": "crystal_urn" },
       { "item": "photo_album", "prob": 80 },
       { "item": "bouquet", "prob": 80 },
       { "item": "candlestick", "prob": 50, "count": [ 1, 6 ] },
@@ -392,7 +392,7 @@
     "id": "grave_cremains",
     "subtype": "collection",
     "entries": [
-      { "item": "corpse_ash", "prob": 100, "charges": [ 1905, 3969 ], "container-item": "porcelain_urn" },
+      { "item": "corpse_ash", "prob": 100, "count": [ 1905, 3969 ], "entry-wrapper": "porcelain_urn" },
       { "item": "bouquet", "prob": 100 },
       {
         "distribution": [
@@ -820,8 +820,8 @@
       { "prob": 5, "item": "catfood_dry", "count": [ 2, -1 ] },
       { "group": "charcoal_bag_part", "prob": 5, "charges": [ 25, 50 ] },
       { "item": "soap", "prob": 70, "charges": [ 1, 10 ] },
-      { "item": "detergent", "prob": 25, "charges": [ 1, 20 ] },
-      { "item": "chem_borax", "prob": 15, "charges": [ 50, 500 ] },
+      { "item": "detergent", "prob": 25, "count": [ 1, 20 ] },
+      { "item": "chem_borax", "prob": 15, "count": [ 50, 500 ] },
       { "item": "survnote", "prob": 1 },
       { "item": "cookbook_sushi", "prob": 5 },
       { "item": "scots_cookbook", "prob": 6 },
@@ -1126,7 +1126,7 @@
       { "group": "insecticide_bag_plastic", "prob": 2 },
       { "item": "soap", "prob": 80 },
       { "item": "detergent", "prob": 80 },
-      { "item": "chem_borax", "prob": 15, "charges": [ 50, 500 ] },
+      { "item": "chem_borax", "prob": 15, "count": [ 50, 500 ] },
       { "item": "chem_hydrogen_peroxide", "prob": 20 },
       { "item": "plunger_toilet", "prob": 30 },
       { "item": "plunger_futuristic", "prob": 15 },
@@ -1295,197 +1295,6 @@
         "prob": 2
       }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "yogurt_starter_culture_bag_plastic_4",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "yogurt_starter_culture", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "licorice_bag_plastic_4",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "licorice", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "bacon_bag_plastic_2",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "bacon", "container-item": "null", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cocoa_powder_various",
-    "subtype": "distribution",
-    "entries": [ { "prob": 4, "group": "cocoa_powder_bag_plastic" }, { "prob": 2, "group": "cocoa_powder_bag_paper" } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cocoa_powder_various_full",
-    "subtype": "distribution",
-    "entries": [ { "prob": 1, "group": "cocoa_powder_bag_paper_full", "container-item": "null", "count": [ 10, 40 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cocoa_powder_bag_paper_full",
-    "subtype": "collection",
-    "container-item": "bag_paper_powder",
-    "entries": [ { "item": "cocoa_powder", "container-item": "null", "count": 40 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cocoa_powder_bag_plastic_full",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "cocoa_powder", "container-item": "null", "count": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cocoa_powder_bag_plastic",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "cocoa_powder", "container-item": "null", "count": [ 2, 8 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cocoa_powder_bag_paper",
-    "subtype": "collection",
-    "container-item": "bag_paper_powder",
-    "entries": [ { "item": "cocoa_powder", "container-item": "null", "count": [ 5, 40 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "milk_cocoa_powder_various",
-    "subtype": "distribution",
-    "entries": [ { "prob": 4, "group": "milk_cocoa_powder_bag_plastic" }, { "prob": 2, "group": "milk_cocoa_powder_bag_paper" } ]
-  },
-  {
-    "type": "item_group",
-    "id": "milk_cocoa_powder_various_full",
-    "subtype": "distribution",
-    "entries": [ { "prob": 1, "group": "milk_cocoa_powder_bag_paper_full", "container-item": "null", "count": [ 10, 40 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "milk_cocoa_powder_bag_paper_full",
-    "subtype": "collection",
-    "container-item": "bag_paper_powder",
-    "entries": [ { "item": "cocoa_powder_milk", "container-item": "null", "count": 40 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "milk_cocoa_powder_bag_plastic_full",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "cocoa_powder_milk", "container-item": "null", "count": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "milk_cocoa_powder_bag_plastic",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "cocoa_powder_milk", "container-item": "null", "count": [ 2, 8 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "milk_cocoa_powder_bag_paper",
-    "subtype": "collection",
-    "container-item": "bag_paper_powder",
-    "entries": [ { "item": "cocoa_powder_milk", "container-item": "null", "count": [ 5, 40 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "powder_eggs_bottle_plastic_small_16",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "powder_eggs", "container-item": "null", "count": 16 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "bologna_bag_plastic_10",
-    "subtype": "collection",
-    "container-item": "bowl_plastic",
-    "entries": [ { "item": "bologna", "container-item": "null", "count": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "toastem_box_small_8",
-    "subtype": "collection",
-    "container-item": "box_small",
-    "entries": [ { "item": "toastem", "container-item": "null", "count": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "toasterpastryfrozen_box_snack_2",
-    "subtype": "collection",
-    "container-item": "box_snack",
-    "entries": [ { "item": "toasterpastryfrozen", "container-item": "null", "count": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "brownie_box_small_4",
-    "subtype": "collection",
-    "container-item": "box_small",
-    "entries": [ { "item": "brownie", "container-item": "null", "count": 4 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "lemonade_powder_bottle_plastic_small_10",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "lemonade_powder", "container-item": "null", "count": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "crackers_box_small_full",
-    "subtype": "collection",
-    "container-item": "box_small",
-    "entries": [ { "item": "crackers", "container-item": "null", "count": -1 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "oyster_crackers_plastic_bag_vac_8",
-    "subtype": "collection",
-    "container-item": "plastic_bag_vac",
-    "entries": [ { "item": "oyster_crackers", "container-item": "null", "count": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "biscuit_box_small_10",
-    "subtype": "collection",
-    "container-item": "box_small",
-    "entries": [ { "item": "biscuit", "container-item": "null", "count": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cheese_bag_plastic",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "cheese", "container-item": "null", "count": [ 2, 16 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cheese_in_can",
-    "subtype": "distribution",
-    "entries": [ { "item": "can_cheese", "entry-wrapper": "can_food", "count": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "butter_wrapper_1_32",
-    "subtype": "collection",
-    "container-item": "wrapper",
-    "entries": [ { "item": "butter", "container-item": "null", "count": [ 1, 32 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "fried_seeds_bag_plastic_4",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "fried_seeds", "container-item": "null", "count": 4 } ]
   },
   {
     "type": "item_group",

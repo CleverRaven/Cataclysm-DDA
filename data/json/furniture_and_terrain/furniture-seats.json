@@ -15,7 +15,7 @@
     "mass": "12 kg",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT", "SMALL_HIDE" ],
     "deconstruct": {
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "nuts_bolts", "charges": 12 }, { "item": "lc_steel_chunk", "count": 8 } ]
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "nuts_bolts", "count": 12 }, { "item": "lc_steel_chunk", "count": 8 } ]
     },
     "bash": {
       "str_min": 10,
@@ -24,9 +24,9 @@
       "sound_fail": "whump.",
       "items": [
         { "item": "2x4", "count": [ 1, 2 ] },
-        { "item": "nuts_bolts", "charges": [ 2, 6 ] },
+        { "item": "nuts_bolts", "count": [ 2, 6 ] },
         { "item": "splinter", "count": [ 1, 6 ] },
-        { "item": "scrap", "charges": [ 10, 25 ] }
+        { "item": "scrap", "count": [ 10, 25 ] }
       ],
       "hit_field": [ "fd_dust", 2 ],
       "destroyed_field": [ "fd_splinters", 1 ]
@@ -99,7 +99,7 @@
       "sound_fail": "whump.",
       "items": [
         { "item": "pipe", "count": [ 0, 2 ] },
-        { "item": "scrap", "charges": [ 2, 10 ] },
+        { "item": "scrap", "count": [ 2, 10 ] },
         { "item": "sheet_cotton", "count": [ 2, 5 ] },
         { "item": "cotton_patchwork", "count": [ 5, 8 ] },
         { "item": "plastic_chunk", "count": [ 1, 7 ] },
@@ -150,7 +150,7 @@
         { "item": "wooden_post_short", "count": 6 },
         { "item": "sheet_cotton", "count": 10 },
         { "item": "cotton_patchwork", "count": 5 },
-        { "item": "nuts_bolts", "charges": 16 },
+        { "item": "nuts_bolts", "count": 16 },
         { "item": "qt_wire", "count": 3 },
         { "item": "splinter", "count": [ 1, 25 ] }
       ]
@@ -163,9 +163,9 @@
       "sound_fail": "whump.",
       "items": [
         { "item": "wooden_post_short", "count": [ 0, 3 ] },
-        { "item": "nuts_bolts", "charges": [ 2, 8 ] },
+        { "item": "nuts_bolts", "count": [ 2, 8 ] },
         { "item": "splinter", "count": [ 5, 35 ] },
-        { "item": "scrap", "charges": [ 0, 6 ] },
+        { "item": "scrap", "count": [ 0, 6 ] },
         { "item": "sheet_cotton", "count": [ 5, 8 ] },
         { "item": "cotton_patchwork", "count": [ 1, 6 ] }
       ],
@@ -299,7 +299,7 @@
       "sound": "metal screeching!",
       "sound_fail": "crash!",
       "items": [
-        { "item": "scrap", "charges": [ 20, 65 ] },
+        { "item": "scrap", "count": [ 20, 65 ] },
         { "item": "lc_steel_chunk", "count": [ 0, 5 ] },
         { "item": "pipe", "count": [ 1, 2 ] }
       ]
@@ -307,7 +307,7 @@
     "deconstruct": {
       "items": [
         { "item": "pipe_fittings", "count": 4 },
-        { "item": "scrap", "charges": 15 },
+        { "item": "scrap", "count": 15 },
         { "item": "sheet_metal", "count": 1 },
         { "item": "lc_steel_chunk", "count": 8 },
         { "item": "pipe", "count": 4 }
@@ -358,7 +358,7 @@
     "mass": "20 kg",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "SMALL_HIDE" ],
     "deconstruct": {
-      "items": [ { "item": "2x4", "count": 8 }, { "item": "nuts_bolts", "charges": 20 }, { "item": "lc_steel_chunk", "count": 12 } ]
+      "items": [ { "item": "2x4", "count": 8 }, { "item": "nuts_bolts", "count": 20 }, { "item": "lc_steel_chunk", "count": 12 } ]
     },
     "bash": {
       "str_min": 10,
@@ -367,9 +367,9 @@
       "sound_fail": "whump.",
       "items": [
         { "item": "2x4", "count": [ 1, 5 ] },
-        { "item": "nuts_bolts", "charges": [ 4, 12 ] },
+        { "item": "nuts_bolts", "count": [ 4, 12 ] },
         { "item": "splinter", "count": [ 2, 16 ] },
-        { "item": "scrap", "charges": [ 15, 40 ] }
+        { "item": "scrap", "count": [ 15, 40 ] }
       ],
       "hit_field": [ "fd_dust", 2 ],
       "destroyed_field": [ "fd_splinters", 1 ]

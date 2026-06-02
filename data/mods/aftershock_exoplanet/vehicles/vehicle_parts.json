@@ -206,7 +206,7 @@
     "breaks_into": [
       { "item": "mc_steel_lump", "count": [ 6, 11 ] },
       { "item": "mc_steel_chunk", "count": [ 6, 11 ] },
-      { "item": "scrap", "charges": [ 6, 11 ] }
+      { "item": "scrap", "count": [ 6, 11 ] }
     ],
     "damage_reduction": { "all": 50 },
     "variants": [ { "symbols": "O", "symbols_broken": "#" } ]

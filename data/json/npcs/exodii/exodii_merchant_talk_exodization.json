@@ -6,7 +6,11 @@
     "responses": [
       {
         "text": "[Install CBM Interface] Let's do it.",
-        "condition": { "not": { "or": [ { "u_has_flag": "NO_CBM_INSTALLATION" }, { "u_has_trait": "CBM_Interface" } ] } },
+        "condition": {
+          "not": {
+            "or": [ { "u_has_flag": "NO_CBM_INSTALLATION" }, { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ]
+          }
+        },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "2 hours" },
           { "u_add_effect": "sleep", "duration": "2 hours" },
@@ -188,7 +192,8 @@
           "or": [
             { "not": { "u_has_trait": "CBM_Interface" } },
             { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } },
-            { "not": { "u_has_trait": "Hub01_CBM_Interface" } }
+            { "not": { "u_has_trait": "Hub01_CBM_Interface" } },
+            { "not": { "u_has_trait": "NL_CBM_Interface" } }
           ]
         },
         "effect": [
@@ -204,7 +209,7 @@
       },
       {
         "text": "[Install Power Storage Mk. II CBM] I guess since I'm already a cyborg, I could use some more power.",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [
           { "u_add_faction_trust": 2 },
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
@@ -221,20 +226,20 @@
       },
       {
         "text": "How about store credit instead?  [adds $400 in store credit].",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [ { "u_spend_cash": -40000 }, { "u_add_faction_trust": 2 }, "start_trade" ],
         "topic": "TALK_DONE"
       },
       {
         "text": "Consider it a favor, Rubik.",
-        "condition": { "u_has_trait": "CBM_Interface" },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "effect": [ { "u_add_faction_trust": 4 } ],
         "opinion": { "trust": 7, "value": 5 },
         "topic": "TALK_DONE"
       },
       {
         "text": "Hold on.  I need to rethink it again.",
-        "condition": { "not": { "u_has_trait": "CBM_Interface" } },
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
         "topic": "TALK_DONE"
       }
     ]
@@ -243,7 +248,7 @@
     "id": "TALK_EXODII_MERCHANT_Remove_Hub01_CBM_interface_1",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "&Rubik stares at you for a very long moment, rubs their chin, and scratches at a bit of metal on their head.  \"Right, well that explains where our missing warehouses and robots went.  You came clean, and Rubik appreciates that.  Yeah, we can remove it, but not without risk.  Might leave you with a little less brain than before, I'm afraid.  But despite your honesty, we can't trade with you or let you stick around if you refuse, now.  So we can take it out, and you might be a bit duller, or you can keep it, and I'll give you a ten minute head start before the stompys come after you.  Sorry that it has to be this way.\"",
+      "//~": "Right, well that explains where our missing warehouses and robots went.  You came clean, and Rubik appreciates that.  Yeah, we can remove it, but not without risk.  Might leave you with a little less brain than before, I'm afraid.  But despite your honesty, we can't trade with you or let you stick around if you refuse, now.  So we can take it out, and you might be a bit duller, or you can keep it, and I'll give you a ten minute head start before the stompys come after you.  Sorry that it has to be this way.",
       "str": "&Rubik stares at you for a very long moment, rubs their chin, and scratches at a bit of metal on their head.  \"Rightly then, that tells where the missin' shinies n' stompers went.  Ye came clean, an' ol' Rubik prizes that.  Aye.  We can take it out.  But not wi'out risk.  Might leave ye wi' a mite less wits than afore, I'm afeared.  Yet for all yet honesty, we can't trade wi' ye nor let ye tarry if ye refuse, now.  So we take it out, an' ye may be the duller for it.  Or ye keep it, an' I'll grant ye' ten minutes' head start afore the stompers come huntin'.  Sorry.  Must be so.\""
     },
     "responses": [
@@ -400,7 +405,7 @@
     "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Rubik makes a stiff, bowing gesture and leads you out of the shop and down a stone pathway towards a familiar building - the gloomy surgical suite.  Rubik greets the humanoid cyborg that operates the suite, then stares a long moment in wordless communication.  The cyborg brings out a bulbous CRT monitor with a wired mechanical clicker, which they hand to you.  Rubik's joints hiss as they crouch to view the screen with you.  \"This Exodii is named Venn.  You've met before.  Venn and the Autodoc will do some serious work on you.  They'll take out all of your important organs and stick them in a Cyberframe, like these.  It'l take a long time.  We can offer you one of two basic Cyberframes.  If your mind is set on doing this, you can pick.\"  Rubik gestures to the glowing terminal.  Displayed is an outline of what looks like a human.  Beside it are two other outlines.  The first, which Rubik calls \"one-aye,\" looks a lot like Rubik himself.  It towers over the human shape, and can only be called humanoid.  Its center mass is a thick, squat shape, with the head and torso hard to distinguish from one another.  The second, which Rubik calls \"one-bay,\" looks slender, traced by hard, mechanical lines, but is nevertheless distinctly human-like.",
+      "//~": "This Exodii is named Venn.  You've met before.  Venn and the Autodoc will do some serious work on you.  They'll take out all of your important organs and stick them in a Cyberframe, like these.  It will take a long time.  We can offer you one of two basic Cyberframes.  If your mind is set on doing this, you can pick.",
       "str": "&Rubik makes a stiff, bowing gesture and leads you out of the shop and down a stone pathway towards a familiar building - the gloomy surgical suite.  Rubik greets the humanoid cyborg that operates the suite, then stares a long moment in wordless communication.  The cyborg brings out a bulbous CRT monitor with a wired mechanical clicker, which they hand to you.  Rubik's joints hiss as they crouch to view the screen with you.\n\n\"This'ere Exodii monicked Venn.  Ye've met'afore.  Venn'n'the'robot here'll do you somethin' fierce.  They'll carve out all yer important meat bits, and stick'em in a Cyberframe, like this'n.  It'll take time.  Lots'o'time.  We've the means for two basic frames.  If yer lump is set, ye can pick.\"\n\nRubik gestures to the glowing terminal.  Displayed is an outline of what looks like a human.  Beside it are two other outlines.  The first, which Rubik calls \"one-aye,\" looks a lot like Rubik himself.  It towers over the human shape, and can only be called humanoid.  Its center mass is a thick, squat shape, with the head and torso hard to distinguish from one another.  The second, which Rubik calls \"one-bay,\" looks slender, traced by hard, mechanical lines, but is nevertheless distinctly human-like."
     },
     "responses": [
@@ -425,7 +430,7 @@
     "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_info",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Simple, really.  You'll still be human on the inside.  Most of your meat will be there.  Even a lot of your muscle and bone.  But your arms and legs will mostly be robotic.  Your eyes, too.  You'll keep the inside parts, but they'll be part of the armored interface.  They'll all need power to work properly.  It'll all still work a bit without it, but it's not pleasent.  Your torso and head, and everything in them, will be integrated into the shell itself.  Your body will keep everything going as it is now, so no need for power there.  You'll be more sturdy, and the machines will do most of the hard work for you, so no more worrying about getting out of breath while running from the dead.  But that's only if you keep it powered and in good repair.",
+      "//~": "Simple, really.  You'll still be human on the inside.  Most of your meat will be there.  Even a lot of your muscle and bone.  But your arms and legs will mostly be robotic.  Your eyes, too.  You'll keep the inside parts, but they'll be part of the armored interface.  They'll all need power to work properly.  It'll all still work a bit without it, but it's not pleasant.  Your torso and head, and everything in them, will be integrated into the shell itself.  Your body will keep everything going as it is now, so no need for power there.  You'll be more sturdy, and the machines will do most of the hard work for you, so no more worrying about getting out of breath while running from the dead.  But that's only if you keep it powered and in good repair.",
       "str": "Peasey, truly.  You'll still be mostly mince, like ol' Rubik here.  Even much'a muscle n' bone.  Human inside.  But yer wiggles and wobs, that is yer limbs and digits, will be mostly steel.\"  Rubik motions to your eyes.  \"Yer berry pies, too.  Ye'll keep the see-ey bits, but they'll be part'a the new interface.  So, arms, legs, eyes, it'll all need power to work.  They'll work without, but tassed it isn't nice.\"  Rubik motions to your torso and head.  \"Now, yer chest n' lump, and everything in'em, will go inside the tidy bell.  Yer heart n' lungs n' all of that will keep going as it is now, no need for power.  All in all, you'll be more sturdy, n' the steel'll do the hard work for ye.  No more losin' breath on a scramble with the dead… if ye can stay powered n' in fine repair."
     },
     "responses": [
@@ -470,7 +475,7 @@
     "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1a",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Rubik flicks a heavy plastic switch and the terminal whirs.  The image changes to a more detailed blueprint of the bulky, humanoid frame.  \"Aye, so this one's a lot like mine.  Real popular among this Exodii node.  It's heavy duty, but as you can see, it's a little less human-like than maybe you're comfortable with.  It's a good, sturdy design, that will keep you safe.  But you'll have to get used to going without most clothing and armor.  The body just isn't made for them.  This is my suggestion.\"",
+      "//~": "Aye, so this one's a lot like mine.  Real popular among this Exodii node.  It's heavy duty, but as you can see, it's a little less human-like than maybe you're comfortable with.  It's a good, sturdy design, that will keep you safe.  But you'll have to get used to going without most clothing and armor.  The body just isn't made for them.  This is my suggestion.",
       "str": "&Rubik flicks a heavy plastic switch and the terminal whirs.  The image changes to a more detailed blueprint of the bulky, humanoid frame.  \"Aye, so this'n like thisn's, ol' Rubik's I mean.  Popular with us'n.  It's heavy n' tough.  Keep yer mince meat safe.  But if ye' wanna be real human, yer out of luck, as ye'll have to get used to goin' without cloth n' steel gear.  The frame just isn't made for them.  Won't fit.  But who needs'em?  Not me.  My lump'a'ice is ta' seal yourself up in this one.\""
     },
     "responses": [
@@ -498,7 +503,7 @@
     "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1b",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Rubik flicks a heavy plastic switch and the terminal whirs.  The image changes to a more detailed blueprint of the human-like frame.  It's very familiar, and has all of the body parts one expects to find, albeit made of plates and metal joints.  \"This one's for the nostalgic, I suppose, like Venn here.  You'll still have a human shape, and can still do and wear all your human things.  Downside is it can't be plated as well, so it's a bit more vulnerable by itself.\"",
+      "//~": "This one's for the nostalgic, I suppose, like Venn here.  You'll still have a human shape, and can still do and wear all your human things.  Downside is it can't be plated as well, so it's a bit more vulnerable by itself.",
       "str": "&Rubik flicks a heavy plastic switch and the terminal whirs.  The image changes to a more detailed blueprint of the human-like frame.  It's very familiar, and has all of the body parts one expects to find, albeit made of plates and metal joints.  \"This'n for those'n can't help'a look back, like Venn, aye?  You'll still have the shape'o'yerself, and ye'd still wear yer human things.  But can't be plated like this'n's and keep'at shape, so it's more tattarrattat, less thunk, should somethin' come and smash ya' up.  That is to say, yer less tough.\""
     },
     "responses": [
@@ -610,7 +615,7 @@
     "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_done2",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Yes, it's done.  Don't waste time thinking about what's different.  You're still there, just inside a tough steel case.  It won't be easy to adapt, but keep a stiff upper lip - or be brave - as you might say. Try to keep everyting intact, but if you get any damage, come back here.  Venn'll do repairs in exchange for materials.",
+      "//~": "Yes, it's done.  Don't waste time thinking about what's different.  You're still there, just inside a tough steel case.  It won't be easy to adapt, but keep a stiff upper lip - or be brave - as you might say.  Try to keep everything intact, but if you get any damage, come back here.  Venn'll do repairs in exchange for materials.",
       "str": "Aye, done'n'done.  Don' tarry on what's left.  Yer still there, just tougher'n steelies, now.  Time fer the stiff upper lip, as might be y'assert.\"  Rubik chuckles.  \"Anyhow, try'ta keep'er intact, but Ven'll keep ya' fixed up fer trade.  Got it?"
     },
     "responses": [
