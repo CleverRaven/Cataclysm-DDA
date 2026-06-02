@@ -178,13 +178,16 @@ static void ClearScreen()
     RenderClear( renderer );
 }
 
-void clear_sdl_window()
+bool clear_sdl_window()
 {
     display_buffer_draw_scope draw_scope;
-    if( display_buffer_scope_is_invalid() ) {
-        return;
+    if( !draw_scope.should_draw() ) {
+        // Report no clear so the caller keeps its clear request armed for a
+        // renderer about to be rebuilt.
+        return false;
     }
     ClearScreen();
+    return true;
 }
 
 static void InitSDL()
@@ -937,9 +940,11 @@ void refresh_display()
         return;
     }
 
-    if( display_buffer_scope_recovery_pending() ) {
-        // An earlier target switch latched recovery; skip the whole present so
-        // nothing runs against the undefined renderer until the rebuild clears it.
+    if( renderer_coordinator.should_abort_frame() ) {
+        // Skip the whole present so nothing (clear, copy, overlays, present) runs
+        // against a renderer about to be rebuilt or a buffer about to be resized.
+        // Re-arm needupdate so the present retries after the next drain.
+        needupdate = true;
         return;
     }
 
@@ -1001,6 +1006,11 @@ static void try_sdl_update()
 void drain_renderer_recovery()
 {
     renderer_coordinator.drain_pending();
+}
+
+bool renderer_should_abort_frame()
+{
+    return renderer_coordinator.should_abort_frame();
 }
 
 void get_display_buffer_dims( int *w, int *h )
@@ -1169,7 +1179,7 @@ void display_buffer_scope_clear_recovery_required()
     display_buffer_scope_recovery_required = false;
 }
 
-display_buffer_draw_scope::display_buffer_draw_scope()
+display_buffer_draw_scope::display_buffer_draw_scope( const bool allow_during_recovery )
 {
     if( display_buffer_scope_depth++ != 0 ) {
         // Inner scopes inherit the outer scope's validity. No bind work.
@@ -1180,6 +1190,12 @@ display_buffer_draw_scope::display_buffer_draw_scope()
     // Carry recovery_required across scopes -- it is sticky until the
     // coordinator clears it. invalid is per-scope; reset here.
     display_buffer_scope_invalid = display_buffer_scope_recovery_required;
+    if( !allow_during_recovery && renderer_should_abort_frame() ) {
+        // Skip the bind so no SDL_SetRenderTarget runs on a paused or
+        // about-to-be-rebuilt renderer; should_draw() then reports false.
+        display_buffer_scope_invalid = true;
+        return;
+    }
     if( !renderer || !display_buffer ) {
         display_buffer_scope_invalid = true;
         return;
@@ -1245,10 +1261,15 @@ display_buffer_draw_scope::~display_buffer_draw_scope()
     }
 }
 
+bool display_buffer_draw_scope::should_draw() const
+{
+    return !display_buffer_scope_invalid && !renderer_should_abort_frame();
+}
+
 void clear_window_area( const catacurses::window &win_ )
 {
     display_buffer_draw_scope draw_scope;
-    if( display_buffer_scope_is_invalid() ) {
+    if( !draw_scope.should_draw() ) {
         return;
     }
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
@@ -1511,7 +1532,9 @@ void renderer_resource_coordinator::run_post_success_full_invalidation()
     // resize landed mid-drain. Either way mark every UI adaptor for a full
     // redraw so the next frame re-emits from scratch, not onto stale contents.
     if( !recovery_blank_blocked() ) {
-        display_buffer_draw_scope draw_scope;
+        // Bind during recovery: the abort latch is still raised here, but
+        // recovery_blank_blocked() is the authoritative gate for this step.
+        display_buffer_draw_scope draw_scope( /*allow_during_recovery=*/true );
         if( !display_buffer_scope_is_invalid() ) {
             ClearScreen();
         }
@@ -2773,6 +2796,12 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     };
 
     for( int row = min_row; row < max_row; row++ ) {
+        if( renderer_should_abort_frame() ) {
+            // As in cata_tiles::draw(): abort the grid emit mid-draw. The
+            // end-of-function clip reset and variant_pass flush still run, leaving
+            // the renderer clean; invalidation kept for the next frame.
+            break;
+        }
         for( int col = min_col; col < max_col; col++ ) {
             const tripoint_abs_omt omp = origin + point( col, row );
 
@@ -3346,7 +3375,9 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w,
 void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 {
     display_buffer_draw_scope draw_scope;
-    if( display_buffer_scope_is_invalid() ) {
+    if( !draw_scope.should_draw() ) {
+        // Leave last_render_epoch stale so the next foreground draw replays this
+        // window in full.
         return;
     }
     if( scaling_factor > 1 ) {
@@ -6427,7 +6458,9 @@ bool save_screenshot( const std::string &file_path )
     // Capture from the terminal-sized buffer so the screenshot matches the
     // in-game presentation rather than the raw window output.
     display_buffer_draw_scope draw_scope;
-    if( display_buffer_scope_is_invalid() ) {
+    if( !draw_scope.should_draw() ) {
+        // A renderer mid-reset or paused returns garbage pixels; fail the
+        // capture so the caller can retry.
         return false;
     }
     // Note: the viewport is returned by SDL and we don't have to manage its lifetime.

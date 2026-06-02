@@ -368,8 +368,10 @@ void ui_adaptor::redraw_invalidated( )
     }
 #if defined(TILES)
     display_buffer_draw_scope draw_scope;
-    if( display_buffer_scope_is_invalid() ) {
-        // Bind failed; skip the redraw. Invalidation is preserved for retry.
+    if( !draw_scope.should_draw() ) {
+        // Return before the redraw callbacks clear their invalidation flags, so a
+        // queued recovery, a failed bind, or a watcher race all leave invalidation
+        // intact for the next drain to replay the full UI.
         return;
     }
     int buf_w = 0;
@@ -502,10 +504,11 @@ void ui_adaptor::redraw_invalidated( )
 #endif
 
 #if defined(TILES)
-    if( display_buffer_scope_recovery_pending() ) {
-        // An inner draw latched recovery mid-frame: abort the frame instead of
-        // painting the drawlist onto the undefined target. The coordinator
-        // rebuilds before the next ui pass.
+    if( renderer_should_abort_frame() ) {
+        // Close the ImGui frame WITHOUT backend rendering: abort_frame balances
+        // the next NewFrame assert without painting the drawlist onto a target
+        // about to be rebuilt. A recovery re-invalidates every adaptor; a bare
+        // resize keeps the buffer contents the present path restretches.
         if( imgui_frame_started ) {
             imclient->abort_frame();
         }

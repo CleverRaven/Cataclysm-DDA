@@ -948,7 +948,8 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
     // Start drawing from the lowest visible z-level (some off-screen tiles
     // are considered visible here to simplify the logic.)
     int cur_zlevel = std::max( center.z() - fov_3d_z_range, -OVERMAP_DEPTH );
-    while( cur_zlevel <= center.z() ) {
+    bool draw_aborted = false;
+    while( cur_zlevel <= center.z() && !draw_aborted ) {
         const half_open_rectangle<point> &cur_any_tile_range = is_isometric()
                 ? z_any_tile_range[center.z() - cur_zlevel] : top_any_tile_range;
         // For each row
@@ -962,6 +963,13 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
         // is available.
         const bool zlev_has_color = zlev_cache.has_colored_lights && !iso;
         for( int row = cur_any_tile_range.p_min.y; row < cur_any_tile_range.p_max.y; row ++ ) {
+            if( renderer_should_abort_frame() ) {
+                // Abort emitting tiles mid-draw. Post-loop bookkeeping still runs
+                // so map memory and overrides stay consistent; invalidation kept
+                // for the next frame.
+                draw_aborted = true;
+                break;
+            }
             // --- Per-tile prepass ---
             // Initialize base height and decide which tiles need a colored light
             // tint overlay. We do this before the layer loop so that:
