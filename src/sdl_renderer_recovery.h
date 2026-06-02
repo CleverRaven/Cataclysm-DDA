@@ -287,7 +287,7 @@ class renderer_resource_coordinator
         recipe_result map_replay_interrupt( atlas_upload_interrupt reason );
         // Poll consulted during atlas replay: reports pause or a higher
         // pending severity so the upload stops and quarantines.
-        atlas_upload_interrupt replay_poll() const;
+        atlas_upload_interrupt replay_poll();
         // Rebuild display_buffer, recording its dims on success. A failure
         // with the sticky boundary latch raised escalates to device-loss in
         // the same drain rather than a plain retry.
@@ -321,6 +321,19 @@ class renderer_resource_coordinator
         // pause or loss; drained on the live renderer before retry or
         // abandoned before a renderer is destroyed.
         atlas_replay_quarantine replay_quarantine_;
+
+        // Test-only fault-injection hooks, armed via renderer_recovery_test_support
+        // and inert by default. Drive the retry, coalesce, replay-pause, and
+        // seq-CAS branches without threads.
+        enum class test_phase_action {
+            none,
+            fail_retry,
+            queue_device_reset,
+        };
+        test_phase_action test_phase_action_ = test_phase_action::none;
+        int test_phase_countdown_ = 0;
+        bool test_phase_fault_fired_ = false;
+        int test_replay_pause_countdown_ = 0;
 };
 
 // Process-lifetime coordinator; the event-watch userdata must outlive
@@ -365,6 +378,16 @@ struct renderer_recovery_test_support {
     static bool cache_lookup_is_fresh(
         const std::string &tileset_id, const std::string &memory_map_mode,
         uint64_t current_renderer_instance_gen, uint64_t current_gpu_textures_gen );
+
+    // Arm the coordinator's deterministic fault hooks (inert until armed): the
+    // phase faults fire at the Nth check_pause_abort gate, the replay pause at
+    // the Nth replay poll.
+    static void arm_phase_fail_retry( int phase_countdown );
+    static void arm_phase_queue_device_reset( int phase_countdown );
+    static void arm_replay_pause( int poll_countdown );
+    static bool replay_quarantine_empty();
+    // Whether the most recently armed phase fault has fired since arming.
+    static bool phase_fault_fired();
 };
 
 // RAII wrapper around setup/teardown for use as a Catch2 fixture local.

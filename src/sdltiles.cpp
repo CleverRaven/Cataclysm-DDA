@@ -1316,6 +1316,21 @@ void renderer_resource_coordinator::assert_recipe_postcondition(
 
 bool renderer_resource_coordinator::check_pause_abort()
 {
+    if( test_phase_action_ != test_phase_action::none && test_phase_countdown_ > 0 ) {
+        --test_phase_countdown_;
+        if( test_phase_countdown_ == 0 ) {
+            const test_phase_action action = test_phase_action_;
+            test_phase_action_ = test_phase_action::none;
+            test_phase_fault_fired_ = true;
+            if( action == test_phase_action::fail_retry ) {
+                planner_.note_pause_abort();
+                return true;
+            }
+            // queue_device_reset: re-queue work mid-drain without aborting, so
+            // the coalesce loop reclaims it after the recipe succeeds.
+            request_recovery( renderer_recovery_severity::device_reset );
+        }
+    }
     if( lifecycle_state_of( lifecycle_epoch_.load() ) == lifecycle_state::paused ) {
         planner_.note_pause_abort();
         return true;
@@ -1611,7 +1626,11 @@ recipe_result renderer_resource_coordinator::recipe_device_lost()
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
-    permanent_render_target_bind( renderer, nullptr, shared_variant_pass_or_null() );
+    // A prior attempt may have already torn the renderer down before a pause;
+    // there is no target to unbind in that case.
+    if( renderer ) {
+        permanent_render_target_bind( renderer, nullptr, shared_variant_pass_or_null() );
+    }
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
@@ -1705,8 +1724,17 @@ void renderer_resource_coordinator::release_live_atlases() const
     ts_cache.release_live_atlases();
 }
 
-atlas_upload_interrupt renderer_resource_coordinator::replay_poll() const
+atlas_upload_interrupt renderer_resource_coordinator::replay_poll()
 {
+    if( test_replay_pause_countdown_ > 0 ) {
+        --test_replay_pause_countdown_;
+        if( test_replay_pause_countdown_ == 0 ) {
+            // Drive the lifecycle to paused as a real suspension would, so the
+            // quarantine has to survive the pause until a foreground drain.
+            notify_lifecycle( lifecycle_state::paused );
+            return atlas_upload_interrupt::paused;
+        }
+    }
     const uint64_t epoch = lifecycle_epoch_.load();
     const lifecycle_state ls = lifecycle_state_of( epoch );
     if( ls == lifecycle_state::paused ) {
@@ -1860,6 +1888,10 @@ void renderer_recovery_test_support::reset_coordinator()
     c.pending_severity_.store( renderer_recovery_severity::none );
     c.pending_resize_epoch_.store( 0 );
     c.lifecycle_epoch_.store( 0 );
+    c.test_phase_action_ = renderer_resource_coordinator::test_phase_action::none;
+    c.test_phase_countdown_ = 0;
+    c.test_phase_fault_fired_ = false;
+    c.test_replay_pause_countdown_ = 0;
 }
 
 bool renderer_recovery_test_support::setup_software_renderer()
@@ -2007,6 +2039,40 @@ bool renderer_recovery_test_support::cache_lookup_is_fresh(
     };
     return ts_cache.find_fresh_cached( key, current_renderer_instance_gen,
                                        current_gpu_textures_gen ) != nullptr;
+}
+
+void renderer_recovery_test_support::arm_phase_fail_retry( const int phase_countdown )
+{
+    cata_assert( phase_countdown > 0 );
+    renderer_coordinator.test_phase_action_ =
+        renderer_resource_coordinator::test_phase_action::fail_retry;
+    renderer_coordinator.test_phase_countdown_ = phase_countdown;
+    renderer_coordinator.test_phase_fault_fired_ = false;
+}
+
+void renderer_recovery_test_support::arm_phase_queue_device_reset( const int phase_countdown )
+{
+    cata_assert( phase_countdown > 0 );
+    renderer_coordinator.test_phase_action_ =
+        renderer_resource_coordinator::test_phase_action::queue_device_reset;
+    renderer_coordinator.test_phase_countdown_ = phase_countdown;
+    renderer_coordinator.test_phase_fault_fired_ = false;
+}
+
+void renderer_recovery_test_support::arm_replay_pause( const int poll_countdown )
+{
+    cata_assert( poll_countdown > 0 );
+    renderer_coordinator.test_replay_pause_countdown_ = poll_countdown;
+}
+
+bool renderer_recovery_test_support::replay_quarantine_empty()
+{
+    return renderer_coordinator.replay_quarantine_.empty();
+}
+
+bool renderer_recovery_test_support::phase_fault_fired()
+{
+    return renderer_coordinator.test_phase_fault_fired_;
 }
 
 bool renderer_resource_coordinator::apply_resize_only( const uint32_t serviced_resize_epoch )
