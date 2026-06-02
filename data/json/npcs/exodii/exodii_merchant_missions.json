@@ -253,7 +253,7 @@
     "id": "TALK_EXODII_MERCHANT_mission_1_pay_skeptic",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "I didn't know you'd be such a hard bargain!  Tell ya what, when you come back, I'll let you in on some of these fancy knick-kacks.",
+      "//~": "I didn't know you'd be such a hard bargain!  Tell ya what, when you come back, I'll let you in on some of these fancy knick-knacks.",
       "str": "Rightly a trig barter, an I'm ken.  By ol' Rubik's word, on your saintly march home, for you'll have the pick of the bright and steelies roun' ol' Rubik's shop, choice o' your own finely.  What say?"
     },
     "responses": [
@@ -799,7 +799,7 @@
     "id": "TALK_EXODII_MERCHANT_mission_2_ExodiiFrame_yes",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Hm.  That's a really big ask.  You seem to be the sort of person who would ask for this kind of thing, but are you certain you want to be permenantly attached to this suitcase?  You sure you're thinking clearly?  This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life.",
+      "//~": "Hm.  That's a really big ask.  You seem to be the sort of person who would ask for this kind of thing, but are you certain you want to be permanently attached to this suitcase?  You sure you're thinking clearly?  This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life.",
       "str": "Hm.  A mighty ask on a mighty ask.  Ye certainly got the disposition, but you sure you wanna be cut inta' this crowded space?\"  Rubik taps their metal torso.  \"You sure ya' lump is screwed on tight?  This isn't like the bright'n'steelies on offer.  No goin' back.  And ye best be happy with the amount'a power you can generate.  This'ere needs contant power.  Without power, yer good as dead.  The power storage units?  Fer a case this'n kind, one'a the power storage units buys you a little-less'an an hour of walkin'.  Less for scrappin' and scramblin'.  Nothin's easy about it.\""
     },
     "responses": [
@@ -926,7 +926,10 @@
   {
     "id": "TALK_EXODII_MERCHANT_mission_3_complete",
     "type": "talk_topic",
-    "dynamic_line": "&Rubik sighs, takes the head, stares at it for a moment, then sets it gently down on the counter.  They then reach below the counter and take out three clear plastic bags, each containing a different cybernetic module.  \"Ye've done us'n a true service, so as us'n promised, take one o' these dandies as true reward.  Which'll it be?  As y'like.",
+    "dynamic_line": {
+      "//~": "You've done us a real service.  As promised, you can take one of these bionics as reward.  What would you like?",
+      "str": "&Rubik sighs, takes the head, stares at it for a moment, then sets it gently down on the counter.  They then reach below the counter and take out three clear plastic bags, each containing a different cybernetic module.  \"Ye've done us'n a true service, so as us'n promised, take one o' these dandies as true reward.  Which'll it be?  As y'like."
+    },
     "responses": [
       {
         "text": "[Install Diamond Cornea CBM] I like the look of those eye implants.  Let's try that.",
@@ -1004,7 +1007,10 @@
   {
     "id": "TALK_EXODII_MERCHANT_mission_3_ExodiiFrame_no",
     "type": "talk_topic",
-    "dynamic_line": "No.  As ye' can see, us'n can't spare the steelies.  Too much to danger.",
+    "dynamic_line": {
+      "//~": "No.  As you can probably see, we can't spare the parts.  Too much risk these days.",
+      "str": "No.  As ye' can see, us'n can't spare the steelies.  Too much to danger."
+    },
     "responses": [
       {
         "text": "[Install Diamond Cornea CBM] I like the look of those eye implants.  Let's try that.",
@@ -1057,7 +1063,7 @@
     "id": "TALK_EXODII_MERCHANT_mission_3_ExodiiFrame_yes",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Hm.  That's a really big ask.  You seem to be the sort of person who would ask for this kind of thing, but are you certain you want to be permenantly attached to this suitcase?  You sure you're thinking clearly?  This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life.",
+      "//~": "Hm.  That's a really big ask.  You seem to be the sort of person who would ask for this kind of thing, but are you certain you want to be permanently attached to this suitcase?  You sure you're thinking clearly?  This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life.",
       "str": "Hm.  A mighty ask on a mighty ask.  Ye certainly got the disposition, but you sure you wanna be cut inta' this crowded space?\"  Rubik taps their metal torso.  \"You sure ya' lump is screwed on tight?  This isn't like the bright'n'steelies on offer.  No goin' back.  And ye best be happy with the amount'a power you can generate.  This'ere needs contant power.  Without power, yer good as dead.  The power storage units?  Fer a case this'n kind, one'a the power storage units buys you a little-less'an an hour of walkin'.  Less for scrappin' and scramblin'.  Nothin's easy about it.\""
     },
     "responses": [
@@ -1127,7 +1133,7 @@
     "id": "TALK_EXODII_MERCHANT_String_Dimension_Exodii_Mission_Offer1",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "All dead. That's a shame. Could I interest you in a mercenary contract to get me some more information on this place?",
+      "//~": "All dead.  That's a shame.  Could I interest you in a mercenary contract to get me some more information on this place?",
       "str": "All dead, eh?  A sorry shame.  Ahh, but, might I tempt ye with a pop-n-work's bond t'fetch us'n more ken?"
     },
     "responses": [
@@ -1143,7 +1149,7 @@
     "id": "TALK_EXODII_MERCHANT_String_Dimension_Exodii_Mission_Offer2",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "If you can find your way back to that place, look all over for some sort of terminal or computer. You may or may not find one with a plug for this contraption. If you plug it in, and it works, and the Exodii there aren't too diverged from us, it should download lots of important data we can use. Do this for me, and I'll reward you handsomely.",
+      "//~": "If you can find your way back to that place, look all over for some sort of terminal or computer.  You may or may not find one with a plug for this contraption.  If you plug it in, and it works, and the Exodii there aren't too diverged from us, it should download lots of important data we can use.  Do this for me, and I'll reward you handsomely.",
       "str": "If ye wend back that way, escolt fer some manner o' terminal, computer, the like.  Ye mayhap upon one wi' a jack fer this contraption.\"  Rubik pulls out a small, scrap metal device that looks like an otherworldly USB drive.  \"If ye set it in, an' it takes, an' the node strayed not o'er far from us'n, it should draw down a trove o' vital reckonin' we can make use of.  Do this fer me, an' us'll pay ye right handsome."
     },
     "responses": [
@@ -1328,7 +1334,7 @@
     "id": "TALK_EXODII_MERCHANT_mission_string_dimension_ExodiiFrame_yes",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Hm.  That's a really big ask.  You seem to be the sort of person who would ask for this kind of thing, but are you certain you want to be permenantly attached to this suitcase?  You sure you're thinking clearly?  This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life.",
+      "//~": "Hm.  That's a really big ask.  You seem to be the sort of person who would ask for this kind of thing, but are you certain you want to be permanently attached to this suitcase?  You sure you're thinking clearly?  This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life.",
       "str": "Hm.  A mighty ask on a mighty ask.  Ye certainly got the disposition, but you sure you wanna be cut inta' this crowded space?\"  Rubik taps their metal torso.  \"You sure ya' lump is screwed on tight?  This isn't like the bright'n'steelies on offer.  No goin' back.  And ye best be happy with the amount'a power you can generate.  This'ere needs contant power.  Without power, yer good as dead.  The power storage units?  Fer a case this'n kind, one'a the power storage units buys you a little-less'an an hour of walkin'.  Less for scrappin' and scramblin'.  Nothin's easy about it.\""
     },
     "responses": [

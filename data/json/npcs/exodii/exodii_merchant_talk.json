@@ -1314,7 +1314,10 @@
   {
     "id": "TALK_EXODII_MERCHANT_Robot_Quads",
     "type": "talk_topic",
-    "dynamic_line": "*'s tone changes slightly, sounding a bit pained.  \"Ah, them be an in-between, more machiner.  Us'n use the softer bits o' other critters for them, an' there be a manufactory for the walker.  A hard but needed choice.\"",
+    "dynamic_line": {
+      "//": "Ah, they're an inbetween, but more machine than meat.  We use the softer bits of other critters for those, but the walker itself is printed.  It's complicated.",
+      "str": "*'s tone changes slightly, sounding a bit pained.  \"Ah, them be an in-between, more machiner.  Us'n use the softer bits o' other critters for them, an' there be a manufactory for the walker.  A hard but needed choice.\""
+    },
     "//": "Rubik is not giving you the whole story here and will avoid giving you the whole story unless you force them.",
     "responses": [
       { "text": "How long does it take you to make one of these walkers?", "topic": "TALK_EXODII_MERCHANT_Robot_Make_Time" },
@@ -1354,7 +1357,7 @@
     "id": "TALK_EXODII_MERCHANT_String_Dimension_Exodii",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Ah, you found another node - another community of Exodii. Tell me what you saw?",
+      "//~": "Ah, you found another node - another community of Exodii.  Tell me what you saw?",
       "str": "Ahh, mayhaps ye've found another node - kin o' us'n Exodii.  Tell ol' Rubik:  what'd ye escolt there?  Exodii alive?  Trade?  Stompers?  Manufactory?"
     },
     "responses": [
@@ -1876,7 +1879,7 @@
     "id": "TALK_EXODII_MERCHANT_Found_Hub01_CBM_interface",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "&Rubik pulls out a glowing, green terminal while a surgical robot rolls in to do standard pre-surgical checks.  \"Right, let's see what we can do for you.\"  Then the surgical robot starts to beep loudly and blurts out words you don't understand in a mechanical voice.  Rubik stares at it a moment, then stares at you.  \"Well, well, well.  Looks like you got your interface swapped out.  I won't hear any excuses.  We've had some tech and some workers go missing, and we've heard from a few trade partners that a certain bunker is offering stolen cybernetics.  You've got two minutes to get out of here.  Got it?\"",
+      "//~": "Right, let's see what we can do for you.  Well, well, well.  Looks like you got your interface swapped out.  I won't hear any excuses.  We've had some tech and some workers go missing, and we've heard from a few trade partners that a certain bunker is offering stolen cybernetics.  You've got two minutes to get out of here.  Got it?\"",
       "str": "&Rubik pulls out a glowing, green terminal while a surgical robot rolls in to do standard pre-surgical checks.  \"Rightly then, let us'n see what can do 'ye for.\"  Then the surgical robot starts to beep loudly and blurts out words you don't understand in a mechanical voice.  Rubik stares at it a moment, then stares at you.  \"Well now.  Seems to this'n ye've had yer interface swapped.  I'll hear no excuses.  We've had some tech an' stompers gone missin', an' word aroun' says a certain bunker offerin' stolen steelies.  Ye've two minutes to traipse out o'here.  Ken it.\""
     },
     "responses": [
@@ -1922,7 +1925,10 @@
   {
     "id": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear_On_Credit",
     "type": "talk_topic",
-    "dynamic_line": "If'n you survive, we can give you a fortnight and six odd days to pay us'n back.",
+    "dynamic_line": {
+      "//~": "If you survive, we can give you twenty-odd days to pay us back.",
+      "str": "If'n you survive, we can give you a fortnight and six odd days to pay us'n back."
+    },
     "responses": [
       {
         "text": "Thanks Rubik, I'll be back with your payment soon.",

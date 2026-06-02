@@ -11,6 +11,28 @@
     }
   },
   {
+    "id": "TALK_EXODII_MERCHANT_New_NL_Interface",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Us call us the Exodii, eh?  An' other things, but that'n's good.  This're our home, such as it.  This'n's monicked as Rubik, and tassed with a trade an'.  You lookin' to trade?  Us'n's alay for the scrap, metal an' more as it be.",
+        "\"\n\n[TRANSLATE:] \"",
+        "We call ourselves the Exodii, eh?  And other things, but that's good.  This is our home, such as it is.  I'm called Rubik, and I've been assigned to trade with you.  Are you looking to trade?  We're always looking for scrap, metal and more."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_New_NL_Interface2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "&The towering cyborg listens intently, bowing its entire torso now and again, in a sort of understanding nod.  Unseen speakers emit a whistle, like a human impressed, tinged with only the faintest amount of static.  \"S'a tale, no doubt.  At times, we happen by places this'n might call \"labyrinths.\"   Apples an' pears down to otherlands, in their own right.  The Exodii keeps the reckonin'.  An there's one \"nearby\", so t'speak, spotted by a green Exodii 'emself.  That's the one, this'n takes it.  So we've got accord.  We're kin by circumstance has it, aye?  Yer welcome here, n' this'n will remember n' yark the tale.\"",
+        "\"\n\n[TRANSLATE:] \"",
+        "Now that's a story.  Sometimes, we find places we call \"labyrinths.\"  Stairs down to other worlds.  We keep track of them.  And, one is nearby, spotted by a novice Exodii, themselves.  That'd be the one you were trapped in, I believe.  So, I guess we're related, by circumstance, at least.  You're welcome here, and I'll remember and tell your story."
+      ]
+    }
+  },
+  {
     "id": "TALK_EXODII_MERCHANT_DoneTrade",
     "type": "talk_topic",
     "dynamic_line": [
@@ -68,9 +90,9 @@
     "type": "talk_topic",
     "dynamic_line": {
       "concatenate": [
-        "HEH, ye c'nnae get enough o' ol' Rubik's merchandise, eh?  Sure as 'ell, come back on <restock_time_point>.",
+        "HEH, ye c'nnae get enough o' ol' Rubik's merchandise, eh?  Sure as 'ell, come back after <restock_time_point>.",
         "\"\n\n[TRANSLATE:] \"",
-        "HEH, you can't get enough of old Rubik's merchandise, eh?  Sure as hell, come back on <restock_time_point>."
+        "HEH, you can't get enough of old Rubik's merchandise, eh?  Sure as hell, come back after <restock_time_point>."
       ]
     }
   },
@@ -414,35 +436,24 @@
     }
   },
   {
+    "id": "TALK_EXODII_MERCHANT_String_Dimension_Exodii",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Ahh, mayhaps ye've found another node - kin o' us'n Exodii.  Tell ol' Rubik:  what'd ye escolt there?  Exodii alive?  Trade?  Stompers?  Manufactory?",
+        "\"\n\n[TRANSLATE:] \"",
+        "Ah, you found another node - another community of Exodii.  Tell me what you saw?"
+      ]
+    }
+  },
+  {
     "id": "TALK_EXODII_MERCHANT_Jobs",
     "type": "talk_topic",
     "dynamic_line": {
       "concatenate": [
-        {
-          "concatenate": [
-            "*pulls out a sheaf of mismatched papers, and leafs through the pages for a second.  Their broad metallic fingers look surprisingly deft and delicate, and incongruous on the otherwise unremarkable looseleaf.  \"Aye, an' there's room for a pop-an-work roun' here.  Rubik's got tassed a lissy, right and clean",
-            " [TRANSLATE: ",
-            "Yeah, we're always in need of some help around here.  Here's the list I've got for stuff like this.",
-            "]"
-          ]
-        },
-        {
-          "u_has_mission": "EXODII_MISSION_CONTACT_HUB",
-          "yes": ".  Right and so, mayhap ye should first see about that escoltin'.\"",
-          "no": [
-            {
-              "math": [ "exodii_knows_hub01 == 1" ],
-              "yes": [
-                {
-                  "math": [ "warehouse_was_found == 1" ],
-                  "yes": ", but for the right-an-quick, this'n has nothin' t'be tassed for ye.\"",
-                  "no": ".  How'd ye be twigged by a pop-an-squeak?  Or as y'r tassed, a treasure hunt?\""
-                }
-              ],
-              "no": ".  How'd ye be twigged by a quick an' round, a nice escoltin' out to a place sommat of curiosity?\""
-            }
-          ]
-        }
+        "*pulls out a sheaf of mismatched papers, and leafs through the pages for a second.  Their broad metallic fingers look surprisingly deft and delicate, and incongruous on the otherwise unremarkable looseleaf.  \"Aye, an' there's room for a pop-an-work roun' here.  Rubik's got tassed a lissy, right and clean.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Yeah, we're always in need of some help around here.  Here's the list I've got for stuff like this."
       ]
     }
   },
@@ -685,6 +696,39 @@
         "If'n you're full an' plenty, this'n's happy to make the call, for a shiny farthing.",
         "\"\n\n[TRANSLATE:] \"",
         "If you've got what I need, I'm happy to call ahead and make the arrangements, for a fee."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Found_Hub01_CBM_interface",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "&Rubik pulls out a glowing, green terminal while a surgical robot rolls in to do standard pre-surgical checks.  \"Rightly then, let us'n see what can do 'ye for.\"  Then the surgical robot starts to beep loudly and blurts out words you don't understand in a mechanical voice.  Rubik stares at it a moment, then stares at you.  \"Well now.  Seems to this'n ye've had yer interface swapped.  I'll hear no excuses.  We've had some tech an' stompers gone missin', an' word aroun' says a certain bunker offerin' stolen steelies.  Ye've two minutes to traipse out o'here.  Ken it.\"",
+        "\"\n\n[TRANSLATE:] \"",
+        "Right, let's see what we can do for you.  Well, well, well.  Looks like you got your interface swapped out.  I won't hear any excuses.  We've had some tech and some workers go missing, and we've heard from a few trade partners that a certain bunker is offering stolen cybernetics.  You've got two minutes to get out of here.  Got it?\""
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear_On_Credit",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "If'n you survive, we can give you a fortnight and six odd days to pay us'n back.",
+        "\"\n\n[TRANSLATE:] \"",
+        "If you survive, we can give you twenty-odd days to pay us back."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Hates_Hub_Cyborgs",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Shinies an' stompers missin', an' escoltin' a bunker offerin' stolen steelies.  Thine steelies.  Ne.  Ye ain't tassed from around here.  Ye've two minutes to traipse out o'here.  Ken it.",
+        "\"\n\n[TRANSLATE:] \"",
+        "We've had some tech and some workers go missing, and we've heard from a few trade partners that a certain bunker is offering stolen cybernetics.  Your bionics.  You didn't get them from around here.  You've got two minutes to get out of here.  You are not welcome here.  Got it?"
       ]
     }
   }
