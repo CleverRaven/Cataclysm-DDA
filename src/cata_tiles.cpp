@@ -1487,6 +1487,13 @@ void cata_tiles::reset_minimap()
     minimap->reset();
 }
 
+void cata_tiles::reset_tint_mask()
+{
+    tint_mask_tex.reset();
+    tint_mask_w = 0;
+    tint_mask_h = 0;
+}
+
 point cata_tiles::get_window_base_tile_counts(
     const point &size, const point &tile_size, const bool iso )
 {

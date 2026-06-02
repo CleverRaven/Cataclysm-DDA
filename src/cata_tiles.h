@@ -955,6 +955,10 @@ class cata_tiles
         // they rebuild against the live renderer on the next draw.
         void reset_minimap();
 
+        // Drop the scratch silhouette mask target so the next tinted ortho
+        // draw reallocates it against the live renderer.
+        void reset_tint_mask();
+
         // Draw caches persist data between draws and are only recalculated when dirty
         void set_draw_cache_dirty();
 
