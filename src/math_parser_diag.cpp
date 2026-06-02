@@ -257,7 +257,7 @@ double consumption_count_total_eval( const_dialogue const &d, char scope,
     return count;
 }
 
-double light_level_eval( const_dialogue const &d , char /* scope */,
+double light_level_eval( const_dialogue const &d, char /* scope */,
                          std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
     const map &here = get_map();
