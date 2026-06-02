@@ -41,7 +41,7 @@
   },
   {
     "type": "recipe",
-    "result": "armor_riot",
+    "result": "armor_riot_assembly",
     "obsolete": true
   },
   {
@@ -142,6 +142,16 @@
   {
     "type": "recipe",
     "result": "carpet_armguards",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_ballistic_vest_qt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_ballistic_vest_lc",
     "obsolete": true
   }
 ]
