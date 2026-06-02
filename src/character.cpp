@@ -6705,7 +6705,7 @@ void Character::process_one_effect( effect &it, bool is_new )
         }
         if( is_new || it.activated( calendar::turn, "PAIN", val, reduced, mod ) ) {
             int pain_inc = bound_mod_to_vals( get_pain(), val, it.get_max_val( "PAIN", reduced ), 0 );
-            mod_pain( pain_inc );
+            mod_pain( pain_inc, it.get_bp() );
             if( pain_inc > 0 ) {
                 add_pain_msg( val, bp );
             }

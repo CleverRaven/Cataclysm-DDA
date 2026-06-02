@@ -283,6 +283,9 @@ struct body_part_type {
         float bmi_encumbrance_scalar = 0;
         float smash_efficiency = 0.5f;
 
+        // if this bodypart is hit, pain amount is multiplied by this
+        float pain_mod = 1.f;
+
         //Morale parameters
         float hot_morale_mod = 0.0f;
         float cold_morale_mod = 0.0f;
