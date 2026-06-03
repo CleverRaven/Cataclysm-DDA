@@ -218,6 +218,13 @@ class atlas_replay_quarantine
         bool empty() const {
             return batches_.empty();
         }
+        // Abandon gate shared by the most recently added batch's handles, or
+        // null when empty, so a caller can tell an abandoned batch (gate set)
+        // from a drained one.
+        gate last_batch_gate() const {
+            return batches_.empty() ? gate{} :
+                   batches_.back().handles.current_gate();
+        }
         // Destroy the quarantined textures against the still-live renderer.
         void drain_live_renderer();
         // Release C++ ownership without SDL_DestroyTexture because the
@@ -491,13 +498,18 @@ class tileset_cache
         // Look up or load a tileset bundle. current_renderer_instance_gen and
         // current_gpu_textures_gen are compared against the bundle's recorded
         // generations; a mismatch on either treats the cached entry as stale
-        // and reloads.
+        // and reloads. A fresh upload builds an isolated candidate, published only
+        // on full success; on interrupt the candidate moves into *quarantine, the
+        // live entry stays, and *out_interrupt reports the reason with a null return.
         std::shared_ptr<const tileset> load_tileset( const std::string &tileset_id,
                 const SDL_Renderer_Ptr &renderer, bool precheck,
                 bool force, bool pump_events, bool terrain,
                 const std::string &memory_map_mode,
                 uint64_t current_renderer_instance_gen,
-                uint64_t current_gpu_textures_gen );
+                uint64_t current_gpu_textures_gen,
+                const atlas_upload_poll &poll = {},
+                atlas_replay_quarantine *quarantine = nullptr,
+                atlas_upload_interrupt *out_interrupt = nullptr );
 
         // Drop the atlas textures on every live cached tileset. Called before
         // renderer destruction so the handles are freed against the live

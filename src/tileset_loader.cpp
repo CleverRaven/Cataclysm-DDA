@@ -326,8 +326,10 @@ void tileset_cache::loader::read_image_dimensions( const cata_path &img_path,
     size = expected_tilecount;
 }
 
-void tileset_cache::loader::load( const std::string &tileset_id, const bool precheck,
-                                  const bool pump_events, const bool terrain )
+atlas_upload_interrupt tileset_cache::loader::load( const std::string &tileset_id,
+        const bool precheck, const bool pump_events, const bool terrain,
+        const uint64_t renderer_instance_generation, const uint64_t gpu_textures_generation,
+        const atlas_upload_poll &poll, atlas_replay_quarantine *const quarantine )
 {
     std::string json_conf;
     std::string layering;
@@ -393,7 +395,10 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
 
     if( precheck ) {
         config.allow_omitted_members();
-        return;
+        // A precheck loads no textures; still record the generations so the
+        // metadata-only bundle is cache-fresh until the next renderer epoch.
+        ts.set_upload_generations( renderer_instance_generation, gpu_textures_generation );
+        return atlas_upload_interrupt::none;
     }
 
     ts.clear();
@@ -500,8 +505,9 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
         load_layers( layer_config );
     }
 
-    upload_atlases( ts, renderer, memory_map_mode, ts.get_atlas_descriptors(),
-                    0, 0, pump_events );
+    return upload_atlases( ts, renderer, memory_map_mode, ts.get_atlas_descriptors(),
+                           renderer_instance_generation, gpu_textures_generation,
+                           pump_events, poll, quarantine );
 }
 
 void tileset_cache::loader::parse_atlases( const JsonObject &config,

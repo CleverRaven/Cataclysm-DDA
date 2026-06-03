@@ -232,6 +232,10 @@ class renderer_resource_coordinator
         void drain_pending();
         bool is_render_allowed() const;
         bool should_abort_frame() const;
+        // True while the mobile lifecycle epoch is in the paused state, so a
+        // caller can wait out a background event before draining and retrying an
+        // interrupted upload.
+        bool lifecycle_paused() const;
 
         renderer_recovery_state state() const {
             return planner_.state();
@@ -253,6 +257,12 @@ class renderer_resource_coordinator
         renderer_texture_generations texture_generations() const {
             return { renderer_instance_generation_, gpu_textures_generation_ };
         }
+        // Poll the inbox for the standalone tileset-load upload (not a recovery
+        // replay): paused -> paused; resumed-foreground or pending device_reset ->
+        // texture_resources_invalidated; device_lost or the boundary latch ->
+        // renderer_invalidated; a queued targets_reset is left to the drain loop.
+        // Carries no drain state, so it is safe to call outside drain_pending().
+        atlas_upload_interrupt mode2_upload_poll();
 
     private:
         // should_abort_frame without the recovery-owned abort latch: true when
@@ -344,6 +354,11 @@ class renderer_resource_coordinator
         int test_phase_countdown_ = 0;
         bool test_phase_fault_fired_ = false;
         int test_replay_pause_countdown_ = 0;
+        // Mode-2 upload poll seam: after the countdown reaches zero,
+        // mode2_upload_poll() reports test_mode2_interrupt_ once, then resumes
+        // reading the real inbox.
+        int test_mode2_interrupt_countdown_ = 0;
+        atlas_upload_interrupt test_mode2_interrupt_ = atlas_upload_interrupt::none;
 };
 
 // Process-lifetime coordinator; the event-watch userdata must outlive
@@ -421,7 +436,15 @@ struct renderer_recovery_test_support {
     static void arm_phase_fail_retry( int phase_countdown );
     static void arm_phase_queue_device_reset( int phase_countdown );
     static void arm_replay_pause( int poll_countdown );
+    // Arm the mode-2 upload poll to report `interrupt` once after
+    // `poll_countdown` polls, simulating a reset/loss/pause landing mid-load.
+    static void arm_mode2_interrupt( int poll_countdown, atlas_upload_interrupt interrupt );
     static bool replay_quarantine_empty();
+    // Run a synthetic atlas upload interrupted after its textures are created,
+    // capturing the real candidate handles into `quarantine` so the mode-2
+    // disposal path can be exercised. Returns the captured batch's abandon gate.
+    static atlas_replay_quarantine::gate populate_mode2_quarantine(
+        atlas_replay_quarantine &quarantine );
     // Whether the most recently armed phase fault has fired since arming.
     static bool phase_fault_fired();
 

@@ -1236,6 +1236,28 @@ void refresh_display();
 void drain_renderer_recovery();
 
 /**
+ * Pump SDL events on the main thread until the renderer leaves the paused
+ * lifecycle state (a foreground event has landed). Used by the tileset-load
+ * retry loop after a background interrupt; android-only in practice. No-op in
+ * curses or when not paused.
+ */
+void pump_until_renderer_foreground();
+
+enum class atlas_upload_interrupt;
+class atlas_replay_quarantine;
+/**
+ * Service renderer recovery for an interrupted standalone tileset-load upload and
+ * dispose the quarantined candidate against the resulting renderer: destroy on a
+ * healthy same-instance renderer, otherwise abandon without SDL_DestroyTexture.
+ * instance_before is the instance generation sampled when the candidate textures
+ * were created. Returns true if the renderer came back healthy so the caller may
+ * retry, false to stop and keep the previous tileset bound.
+ */
+bool service_mode2_upload_interrupt( atlas_upload_interrupt interrupt,
+                                     atlas_replay_quarantine &quarantine,
+                                     uint64_t instance_before );
+
+/**
  * Sync OS cursor and ImGui cursor-handling flags with the current
  * ENABLE_MOUSE and HIDE_CURSOR option values. No-op in curses builds.
  */
