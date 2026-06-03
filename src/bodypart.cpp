@@ -1045,9 +1045,10 @@ float bodypart::wound_adjusted_limb_value( const float val, const limb_score_id 
         }
     }
 
-    if( percent > 0.75 && wound_score_penalty == 0.f ) {
-        return val;
+    if( percent > 0.75 ) {
+        return val * ( 1 - wound_score_penalty );
     }
+    percent /= 0.75;
     return val * ( static_cast<float>( percent ) - wound_score_penalty );
 }
 
