@@ -3973,13 +3973,23 @@ std::optional<int> iuse::gasmask_activate( Character *p, item *it, const tripoin
         it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
     }
 
-    if( it->has_flag( flag_PAPR_MASK ) ) {
-        if( !p->has_item_with_flag( flag_PAPR_BLOWER ) ) {
-            p->add_msg_if_player( m_bad,
-                                  _( "You don't have an active PAPR blower unit so the %s fails to function." ), it->tname() );
-            it->set_var( "overwrite_env_resist", 0 );
-            it->active = false;
-        }
+    return 0;
+}
+
+std::optional<int> iuse::papr_mask_activate ( Character *p, item *it, const tripoint_bub_ms & )
+{
+    if( !p->has_item_with_flag( flag_PAPR_BLOWER ) ) {
+        p->add_msg_if_player( m_bad,
+                              _( "You don't have an active PAPR blower unit so the %s fails to function." ), it->tname() );
+    } else if( !it->activation_success() ) {
+        p->add_msg_if_player( m_bad, _( "You fail to adjust your damaged %s so it doesn't leak." ),
+                              it->tname() );
+        return std::nullopt;
+
+    } else {
+        p->add_msg_if_player( _( "You prepare your %s." ), it->tname() );
+        it->active = true;
+        it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
     }
 
     return 0;
@@ -4045,14 +4055,74 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint_bub_ms 
         it->active = false;
     }
 
-    if( it->has_flag( flag_PAPR_MASK ) ) {
-        if( !p->has_item_with_flag( flag_PAPR_BLOWER ) ) {
+    return 0;
+}
+
+std::optional<int> iuse::papr_mask( Character *p, item *it, const tripoint_bub_ms &pos )
+{        
+    if( p && p->is_worn( *it ) ) {    
+        if( it->activation_success() ) {
+            // In case if failed the previous tick.
+            it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
+        } else {
+            p->add_msg_if_player( m_bad, _( "Your damaged %s is leaking." ), it->tname() );
+            it->set_var( "overwrite_env_resist", 0 );
+            return std::nullopt;
+        }
+        if( p && !p->has_item_with_flag( flag_PAPR_BLOWER ) ) {
             p->add_msg_if_player( m_bad, _( "Your PAPR system stops working!" ) );
             it->set_var( "overwrite_env_resist", 0 );
             it->active = false;
         }
     }
+    
+    return 0;
+}
 
+std::optional<int> iuse::papr_blower( Character *p, item *it, const tripoint_bub_ms &pos )
+{        
+    map &here = get_map();
+    // calculate amount of absorbed gas per filter charge
+    const field &gasfield = here.field_at( pos );
+    for( const auto &dfield : gasfield ) {
+        const field_entry &entry = dfield.second;
+        int gas_abs_factor = to_turns<int>( entry.get_field_type()->gas_absorption_factor );
+        // Not set, skip this field
+        if( gas_abs_factor == 0 ) {
+            continue;
+        }
+        const field_intensity_level &int_level = entry.get_intensity_level();
+        // 6000 is the amount of "gas absorbed" charges in a full 100 capacity gas mask cartridge.
+        // factor/concentration gives an amount of seconds the cartidge is expected to last in current conditions.
+        /// 6000/that is the amount of "gas absorbed" charges to tick up every second in order to reach that number.
+        float gas_absorbed = 6000 / ( static_cast<float>( gas_abs_factor ) / static_cast<float>
+                                      ( int_level.concentration ) );
+        add_msg_debug( debugmode::DF_IUSE, "Absorbing %g/60 from field: 6000 / (%d * %d)", gas_absorbed,
+                       gas_abs_factor, int_level.concentration );
+        if( gas_absorbed > 0 ) {
+            it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + gas_absorbed );
+        }
+    }
+    if( it->get_var( "gas_absorbed", 0 ) >= 60 ) {
+        it->ammo_consume_in_pocket( "papr_blower_filter", 1, here, pos );
+        it->set_var( "gas_absorbed", 0 );
+        if( it->ammo_remaining_in_pocket( "papr_blower_filter" ) < 10 ) {
+            p->add_msg_player_or_npc(
+                m_bad,
+                _( "Your %s is struggling to filter gas!" ),
+                _( "<npcname>'s PAPR blower is struggling to filter gas!" )
+                , it->tname() );
+        }
+    }
+    if( it->ammo_remaining_in_pocket( "papr_blower_filter" ) == 0 ) {
+        p->add_msg_player_or_npc(
+            m_bad,
+            _( "Your %s requires new filters!" ),
+            _( "<npcname> needs new PAPR blower filters!" )
+            , it->tname() );
+        it->deactivate();
+    }
+    
     return 0;
 }
 

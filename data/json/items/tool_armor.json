@@ -2809,12 +2809,6 @@
     "flags": [ "WATERPROOF", "PADDED", "OVERSIZE", "SLEEP_IGNORE", "PAPR_MASK" ],
     "pocket_data": [
       {
-        "pocket_type": "MAGAZINE_WELL",
-        "flag_restriction": [ "GASFILTER_MED" ],
-        "default_magazine": "gasfilter_med",
-        "rigid": true
-      },
-      {
         "pocket_type": "CONTAINER",
         "ablative": true,
         "volume_encumber_modifier": 0,
@@ -2856,9 +2850,8 @@
         "transparent": true
       }
     ],
-    "use_action": [ "GASMASK_ACTIVATE" ],
-    "tick_action": [ "GASMASK" ],
-    "tool_ammo": "gasfilter_m"
+    "use_action": [ "PAPR_MASK_ACTIVATE" ],
+    "tick_action": [ "PAPR_MASK" ]
   },
   {
     "id": "military_papr_mask",
@@ -3289,13 +3282,21 @@
     "material_thickness": 1,
     "pocket_data": [
       {
+        "id": "papr_blower_filter",
+        "pocket_type": "MAGAZINE_WELL",
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med",
+        "rigid": true
+      },
+      {
+        "id": "papr_blower_battery",
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "charges_per_use": 1,
+    "consumption_per_use": [ { "pocket": "papr_blower_battery", "qty": 1 } ],
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s and the fan starts to audibly whoosh.",
@@ -3303,7 +3304,7 @@
       "need_charges": 1,
       "need_charges_msg": "The batteries are dead."
     },
-    "tool_ammo": [ "battery" ],
+    "tool_ammo": [ "battery", "gasfilter_m" ],
     "flags": [ "BELTED", "OVERSIZE", "ELECTRONIC", "WATER_BREAK_ACTIVE" ],
     "armor": [
       {
@@ -3332,13 +3333,22 @@
     "material_thickness": 1,
     "pocket_data": [
       {
+        "id": "papr_blower_filter",
+        "pocket_type": "MAGAZINE_WELL",
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med",
+        "rigid": true
+      },
+      {
+        "id": "papr_blower_battery",
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "power_draw": "4000 mW",
+    "consumption_per_use": [ { "pocket": "papr_blower_battery", "qty": 1 } ],
+    "turns_per_charge": 240,
     "revert_to": "basic_papr_belt_off",
     "use_action": {
       "menu_text": "Turn off",
@@ -3347,15 +3357,18 @@
       "target": "basic_papr_belt_off",
       "ammo_scale": 0
     },
-    "tick_action": {
-      "type": "sound",
-      "sound_type": "movement",
-      "sound_message": "whooooo…",
-      "sound_id": "humming",
-      "sound_variant": "machinery",
-      "sound_volume": 12
-    },
-    "tool_ammo": [ "battery" ],
+    "tick_action": [
+      "PAPR_BLOWER",
+      {
+        "type": "sound",
+        "sound_type": "movement",
+        "sound_message": "whooooo…",
+        "sound_id": "humming",
+        "sound_variant": "machinery",
+        "sound_volume": 12
+      }
+    ],
+    "tool_ammo": [ "battery", "gasfilter_m" ],
     "flags": [ "BELTED", "OVERSIZE", "ELECTRONIC", "TRADER_AVOID", "WATER_BREAK", "SPAWN_ACTIVE", "PAPR_BLOWER" ],
     "armor": [
       {
@@ -3399,7 +3412,7 @@
       "need_charges": 1,
       "need_charges_msg": "The batteries are dead."
     },
-    "tool_ammo": [ "battery" ],
+    "tool_ammo": [ "battery", "gasfilter_m" ],
     "flags": [ "BELTED", "OVERSIZE", "ELECTRONIC" ],
     "armor": [
       {
@@ -3451,7 +3464,7 @@
       "sound_variant": "machinery",
       "sound_volume": 12
     },
-    "tool_ammo": [ "battery" ],
+    "tool_ammo": [ "battery", "gasfilter_m" ],
     "flags": [ "BELTED", "OVERSIZE", "ELECTRONIC", "TRADER_AVOID", "SPAWN_ACTIVE", "PAPR_BLOWER" ],
     "armor": [
       {

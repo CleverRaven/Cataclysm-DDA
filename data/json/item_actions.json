@@ -561,6 +561,11 @@
   },
   {
     "type": "item_action",
+    "id": "PAPR_MASK_ACTIVATE",
+    "name": { "str": "Attach to PAPR blower, pressurise, and suction test" }
+  },
+  {
+    "type": "item_action",
     "id": "DIVE_TANK_ACTIVATE",
     "name": { "str": "Use regulator" }
   },
