@@ -1981,6 +1981,7 @@ Eost
 Eozen
 Eozenez
 EPA
+EPLRS
 épée
 épées
 Ephesus
@@ -7105,6 +7106,7 @@ tse
 tshk
 TsKBEM
 TsNIITochMash
+TSQ
 Tsu
 tsuba
 tsuka
