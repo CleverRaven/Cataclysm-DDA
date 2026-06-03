@@ -171,6 +171,9 @@ struct rot_spawn_data {
     /** Range of monsters spawned */
     std::pair<int, int> rot_spawn_monster_amount;
 
+    // supports was_loaded
+    void load( const JsonObject &jo, bool was_loaded );
+    bool handle_extend( const JsonValue &jv );
     void deserialize( const JsonObject &jo );
 };
 
