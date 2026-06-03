@@ -300,12 +300,6 @@ void tileset_cache::loader::create_textures_from_tile_atlas( const SDL_Surface_P
     }
 }
 
-template<typename T>
-static void extend_vector_by( std::vector<T> &vec, const size_t additional_size )
-{
-    vec.resize( vec.size() + additional_size );
-}
-
 void tileset_cache::loader::read_image_dimensions( const cata_path &img_path,
         const int kr, const int kg, const int kb )
 {
@@ -317,12 +311,6 @@ void tileset_cache::loader::read_image_dimensions( const cata_path &img_path,
 
     const int expected_tilecount = ( tile_atlas->w / sprite_width ) *
                                    ( tile_atlas->h / sprite_height );
-    extend_vector_by( ts.tile_values, expected_tilecount );
-    extend_vector_by( ts.shadow_tile_values, expected_tilecount );
-    extend_vector_by( ts.night_tile_values, expected_tilecount );
-    extend_vector_by( ts.overexposed_tile_values, expected_tilecount );
-    extend_vector_by( ts.memory_tile_values, expected_tilecount );
-    extend_vector_by( ts.silhouette_tile_values, expected_tilecount );
 
     atlas_replay_descriptor desc;
     desc.image_path_u8 = img_path.get_unrelative_path().u8string();
