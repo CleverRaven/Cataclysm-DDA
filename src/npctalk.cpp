@@ -6271,7 +6271,7 @@ std::optional<assigned_mortar> get_assigned_mortar( const npc &gunner )
 npc *mortar_primary_operator_at( const npc &requester, const tripoint_abs_ms &mortar_pos )
 {
     for( npc *candidate : g->get_npcs_if( [&requester]( const npc & guy ) {
-        return guy.getID() != requester.getID() && guy.is_player_ally() &&
+    return guy.getID() != requester.getID() && guy.is_player_ally() &&
                !guy.get_value( "mortar_assignment" ).is_empty();
     } ) ) {
         const std::optional<assigned_mortar> assignment = get_assigned_mortar( *candidate );
