@@ -6268,6 +6268,20 @@ std::optional<assigned_mortar> get_assigned_mortar( const npc &gunner )
     };
 }
 
+npc *mortar_primary_operator_at( const npc &requester, const tripoint_abs_ms &mortar_pos )
+{
+    for( npc *candidate : g->get_npcs_if( [&requester]( const npc & guy ) {
+        return guy.getID() != requester.getID() && guy.is_player_ally() &&
+               !guy.get_value( "mortar_assignment" ).is_empty();
+    } ) ) {
+        const std::optional<assigned_mortar> assignment = get_assigned_mortar( *candidate );
+        if( assignment && assignment->pos == mortar_pos ) {
+            return candidate;
+        }
+    }
+    return nullptr;
+}
+
 std::optional<tripoint_abs_ms> get_mortar_last_target( const npc &gunner )
 {
     const diag_value target = gunner.get_value( "mortar_target" );
@@ -6911,6 +6925,14 @@ void assign_mortar_support_impl( npc &gunner )
         return;
     }
 
+    map &here = get_map();
+    const tripoint_abs_ms mortar_abs = here.get_abs( mortar->pos );
+    if( const npc *operator_npc = mortar_primary_operator_at( gunner, mortar_abs ) ) {
+        add_msg( _( "%1$s is already manning that mortar for %2$s." ),
+                 operator_npc->disp_name(), mortar_ammo_name( *mortar->type ) );
+        return;
+    }
+
     if( gunner.has_player_activity() ) {
         gunner.revert_after_activity();
     }
@@ -6918,8 +6940,6 @@ void assign_mortar_support_impl( npc &gunner )
     const int ammo_transferred = give_mortar_rounds( gunner, *mortar->type,
                                  _( "Select mortar rounds to hand over" ), true );
 
-    map &here = get_map();
-    const tripoint_abs_ms mortar_abs = here.get_abs( mortar->pos );
     gunner.set_value( "mortar_assignment", mortar->type->id.str() );
     gunner.set_value( "mortar_assignment_pos", mortar_abs );
     gunner.remove_value( "mortar_target" );
