@@ -1,62 +1,57 @@
 [
   {
     "type": "recipe",
-    "result": "coffeemaker",
+    "result": "socks_bag",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "electronics_controls",
+    "result": "cardboard_crown",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "food_processor",
+    "result": "heavy_load_bearing_vest_sling",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "dehydrator",
+    "result": "heavy_load_bearing_vest",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "microcentrifuge",
+    "result": "vest_jean",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "reading_light",
+    "result": "vest_jean_from_jacket",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "bat",
+    "result": "wearable_rx12",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "bwirebat",
+    "result": "fancy_ordinance_cartridge_necklace",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "pastaextruder",
+    "result": "simple_ordnance_cartridge_necklace",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "biogas_cooker",
+    "result": "fancy_rifle_cartridge_necklace",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "xl_biogas_tank",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "large_biogas_tank",
+    "result": "simple_rifle_cartridge_necklace",
     "obsolete": true
   }
 ]
