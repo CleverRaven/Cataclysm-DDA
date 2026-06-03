@@ -4058,7 +4058,7 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint_bub_ms 
     return 0;
 }
 
-std::optional<int> iuse::papr_mask( Character *p, item *it, const tripoint_bub_ms &pos )
+std::optional<int> iuse::papr_mask( Character *p, item *it, const tripoint_bub_ms & )
 {
     if( p && p->is_worn( *it ) ) {
         if( it->activation_success() ) {
