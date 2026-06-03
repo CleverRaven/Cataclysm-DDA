@@ -173,7 +173,7 @@
     "id": "MISSION_ROBOFAC_PAT_EXODII_WAREHOUSE",
     "type": "mission_definition",
     "name": { "str": "Pat & the Lost Warehouse" },
-    "description": "Pat is looking into the Rubik's lost warehouse for me.  They said it could take a while, and told me to check in once a week.",
+    "description": "Pat is looking into Rubik's lost warehouse for me.  They said it could take a while, and told me to check in once a week.",
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,

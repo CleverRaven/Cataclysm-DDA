@@ -1640,7 +1640,7 @@
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Cranial EMF Shielding CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A a microscopically thin layer of some non-newtonian fluid for skull application.  It can protect from some types of electromagnetic fields.  Is it useful?  Maybe.",
+    "description": "A microscopically thin layer of some non-newtonian fluid for skull application.  It can protect from some types of electromagnetic fields.  Is it useful?  Maybe.",
     "price": "7 kUSD 500 USD",
     "price_postapoc": "50 USD",
     "difficulty": 9

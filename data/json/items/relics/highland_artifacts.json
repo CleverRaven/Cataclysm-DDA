@@ -31,32 +31,32 @@
     "variants": [
       {
         "id": "traveler",
-        "name": { "str_sp": "gold medallion" },
+        "name": { "str": "gold medallion" },
         "description": "Its engraved with an image showing a winged ship over a three peaked mountain.",
         "append": true,
         "weight": 300
       },
       {
         "id": "tindalos",
-        "name": { "str_sp": "starbeast icon" },
+        "name": { "str": "starbeast icon" },
         "description": "This medallion is engraved with the image of a fanciful beast set before a starfield.  Its head is strangely piscine, with a wide, toothy maw and no eyes.",
         "weight": 300
       },
       {
         "id": "realm_map",
-        "name": { "str_sp": "starchart medallion" },
+        "name": { "str": "starchart medallion" },
         "description": "Three articulate discs are mounted within this medallion and can be rotated independently, creating a strange, shifting pattern of holes.  You believe it to be a starchart of some kind, but the allowed movements of the discs don't seem to correspond to how stars move in the sky.",
         "weight": 300
       },
       {
         "id": "knight",
-        "name": { "str_sp": "knight's talisman" },
+        "name": { "str": "knight's talisman" },
         "description": "A small sword shaped pendant wrapped in a still pristine indigo handkerchief.  Threads of silver and gold are woven into the fabric.",
         "weight": 300
       },
       {
         "id": "faith",
-        "name": { "str_sp": "tree pendant" },
+        "name": { "str": "tree pendant" },
         "description": "A necklace with a pendant in the shape of a tree.  The treetop and roots are completely symmetrical, and a small sphere-cut gem is set in the center of the trunk.",
         "weight": 300
       }
