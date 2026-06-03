@@ -151,6 +151,9 @@ std::optional<int> binder_add_recipe( Character *, item *, const tripoint_bub_ms
 std::optional<int> binder_manage_recipe( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> pack_cbm( Character *p, item *it, const tripoint_bub_ms & );
 std::optional<int> pack_item( Character *, item *, const tripoint_bub_ms & );
+std::optional<int> papr_blower( Character *, item *, const tripoint_bub_ms & );
+std::optional<int> papr_mask( Character *, item *, const tripoint_bub_ms & );
+std::optional<int> papr_mask_activate( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> pick_lock( Character *p, item *it, const tripoint_bub_ms &pos );
 std::optional<int> pickaxe( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> play_game( Character *, item *, const tripoint_bub_ms & );

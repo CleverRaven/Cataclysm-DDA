@@ -1533,7 +1533,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
     "name": { "str": "Hub 01 LENS PAPR mask" },
-    "description": "A ballistic powered air purifying respirator mask, designed form a tight seal with a Hub 01 LENS helmet.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be loaded with a filter and prepared before use; unlike a standard gas mask, or any other LENS mask, easy airflow keeps it relatively cool and comfortable.  However, it will only function to filter air when paired with an active PAPR blower unit.",
+    "description": "A ballistic powered air purifying respirator mask, designed to form a tight seal with a Hub 01 LENS helmet.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be prepared before use; unlike a standard gas mask, or any other LENS mask, easy airflow keeps it relatively cool and comfortable.  However, it will only function to filter air when paired with an active PAPR blower unit.",
     "weight": "512 g",
     "volume": "750 ml",
     "price": "200 USD",
@@ -1552,16 +1552,7 @@
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "mouth" ] } ],
     "environmental_protection": 4,
     "environmental_protection_with_filter": 16,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "GASFILTER_MED" ],
-        "default_magazine": "gasfilter_med"
-      }
-    ],
-    "use_action": [ "GASMASK_ACTIVATE" ],
-    "tick_action": [ "GASMASK" ],
-    "tool_ammo": "gasfilter_m"
+    "use_action": [ "PAPR_MASK_ACTIVATE" ],
+    "tick_action": [ "PAPR_MASK" ]
   }
 ]
