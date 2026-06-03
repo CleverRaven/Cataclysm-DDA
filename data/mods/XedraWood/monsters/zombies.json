@@ -95,7 +95,10 @@
     "id": "mon_zombie_rot",
     "type": "MONSTER",
     "copy-from": "mon_zombie_rot",
+    "description": "A once-dead human corpse.  Its discolored, swollen flesh is riddled with festering wounds and open sores.  Even at a distance, the smell nearly makes you gag.",
     "weakpoint_sets": [ "wps_humanoid_zombie_body" ],
+    "attack_effs": [ { "id": "pre_flu", "duration": 432000, "chance": 2 }, { "id": "rat_bite_fever", "duration": 345600, "chance": 3 } ],
+    "emit_fields": [ { "emit_id": "emit_nauseating_smell", "delay": "1 s" } ],
     "upgrades": false,
     "death_drops": "hollow_one_death_drops_zombie"
   },
