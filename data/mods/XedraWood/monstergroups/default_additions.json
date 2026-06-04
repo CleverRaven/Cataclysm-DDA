@@ -3,6 +3,54 @@
     "type": "monstergroup",
     "id": "GROUP_FOREST",
     "monsters": [
+      {
+        "group": "GROUP_WILDERNESS_FOREST_MAMMAL",
+        "weight": 75,
+        "starts": "12 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "group": "GROUP_WILDERNESS_FOREST_MAMMAL",
+        "weight": 75,
+        "starts": "28 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "group": "GROUP_WILDERNESS_FOREST_MAMMAL",
+        "weight": 75,
+        "starts": "112 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "group": "GROUP_WILDERNESS_FOREST_MAMMAL",
+        "weight": 75,
+        "starts": "360 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "group": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER",
+        "weight": 75,
+        "starts": "12 days",
+        "conditions": [ "WINTER" ]
+      },
+      {
+        "group": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER",
+        "weight": 75,
+        "starts": "28 days",
+        "conditions": [ "WINTER" ]
+      },
+      {
+        "group": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER",
+        "weight": 75,
+        "starts": "112 days",
+        "conditions": [ "WINTER" ]
+      },
+      {
+        "group": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER",
+        "weight": 75,
+        "starts": "360 days",
+        "conditions": [ "WINTER" ]
+      },
       { "monster": "mon_claw_runner", "weight": 9, "cost_multiplier": 4 },
       { "monster": "mon_claw_runner", "weight": 3, "cost_multiplier": 4, "pack_size": [ 2, 5 ] },
       { "monster": "mon_claw_hunter", "weight": 3, "cost_multiplier": 30 },
@@ -22,6 +70,13 @@
     "type": "monstergroup",
     "id": "GROUP_SWAMP",
     "monsters": [
+      {
+        "monster": "mon_lemming",
+        "weight": 50,
+        "pack_size": [ 2, 7 ],
+        "starts": "360 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
       { "monster": "mon_claw_runner", "weight": 15, "cost_multiplier": 4 },
       { "monster": "mon_claw_runner", "weight": 5, "cost_multiplier": 4, "pack_size": [ 2, 5 ] },
       { "monster": "mon_claw_hunter", "weight": 6, "cost_multiplier": 30 },
@@ -38,6 +93,24 @@
       { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 5 },
       { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 1, "pack_size": [ 2, 5 ] }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_WILDERNESS_FOREST_ZOMBIE",
+    "override": true,
+    "monsters": [ { "monster": "mon_null", "weight": 1 } ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_WILDERNESS_FOREST_MAMMAL_MUTANT",
+    "override": true,
+    "monsters": [ { "monster": "mon_null", "weight": 1 } ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_MUTAFROGS_SWAMP",
+    "override": true,
+    "monsters": [ { "monster": "mon_null", "weight": 1 } ]
   },
   {
     "type": "monstergroup",
