@@ -5,7 +5,7 @@
     "copy-from": "mon_zombie",
     "description": "A human body, skin a sickly grayish color, moving with a slow shuffling motion.",
     "upgrades": false,
-    "death_drops": "hollow_one_death_drops_zombie"
+    "death_drops": "hollow_one_death_drops_zombie",
     "weakpoint_sets": [ "wps_humanoid_zombie_body" ],
     "extend": {
       "flags": [ "CLUMSY_ATTACKS" ],
