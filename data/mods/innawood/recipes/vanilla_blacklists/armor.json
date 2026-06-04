@@ -176,11 +176,6 @@
   },
   {
     "type": "recipe",
-    "result": "improvised_armguard_tire",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "legguard_paper",
     "obsolete": true
   },

@@ -58,5 +58,10 @@
     "type": "recipe",
     "result": "large_biogas_tank",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "plastic_chunk",
+    "obsolete": true
   }
 ]
