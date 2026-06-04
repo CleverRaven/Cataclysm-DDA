@@ -1,0 +1,199 @@
+#pragma once
+#ifndef CATA_SRC_SDL_RENDERER_RECOVERY_H
+#define CATA_SRC_SDL_RENDERER_RECOVERY_H
+
+#if defined(TILES)
+
+#include <atomic>
+#include <cstdint>
+#include <string>
+
+#include "cata_tiles.h"
+
+// Severity of a renderer-resource recovery, ordered so the inbox can keep
+// the maximum pending level via a monotonic-max. Android foreground maps to
+// device_reset through the lifecycle epoch rather than a distinct severity.
+enum class renderer_recovery_severity : int {
+    none = 0,
+    targets_reset = 1,
+    device_reset = 2,
+    device_lost = 3,
+};
+
+enum class renderer_recovery_state {
+    bootstrapping,
+    ready,
+    recovering,
+    retry_needed,
+};
+
+// Packed into the lifecycle epoch alongside a sequence number so a
+// background-foreground-background ordering cannot be lost between the two
+// separate stores a watcher makes.
+enum class lifecycle_state : uint64_t {
+    active = 0,
+    paused = 1,
+    resumed_pending_rebuild = 2,
+};
+
+// The two generations sampled together at tileset fetch time so the cache
+// can reject a bundle uploaded against a since-invalidated renderer or
+// device-texture epoch.
+struct renderer_texture_generations {
+    uint64_t instance;
+    uint64_t textures;
+};
+
+// Outcome of a recovery recipe. restart_required means the recipe bailed
+// before any destructive teardown (e.g. an unsafe unbind) and the drain
+// should re-claim work at restart_severity without bumping generations.
+enum class recipe_outcome {
+    success,
+    failure,
+    restart_required,
+};
+struct recipe_result {
+    recipe_outcome outcome;
+    renderer_recovery_severity restart_severity = renderer_recovery_severity::none;
+};
+
+// SDL-free state machine that owns the drain transition policy: lifecycle epoch
+// pack/unpack, severity coalesce, the resize-after-recovery ordering, the
+// post-success seq-CAS decision, and retry persistence. The coordinator owns the
+// atomic inbox, the SDL recipes, and the generations; drain_pending() is a thin
+// driver that asks the planner for the next action, performs that one side
+// effect (recipe, resize, inbox read, seq-CAS), and feeds the result back. The
+// policy lives here so the coalesce / seq-CAS / restart / resize branches are
+// unit-testable with plain values and no renderer.
+class recovery_drain_planner
+{
+    public:
+        // Lifecycle epoch packs a sequence number with the state so a
+        // background-foreground-background ordering survives the two separate
+        // stores a watcher makes: [63..2] seq, [1..0] state.
+        static constexpr uint64_t make_lifecycle_epoch( uint64_t seq, lifecycle_state s ) {
+            return ( seq << 2 ) | static_cast<uint64_t>( s );
+        }
+        static constexpr uint64_t lifecycle_seq_of( uint64_t epoch ) {
+            return epoch >> 2;
+        }
+        static constexpr lifecycle_state lifecycle_state_of( uint64_t epoch ) {
+            return static_cast<lifecycle_state>( epoch & 0x3 );
+        }
+        static constexpr renderer_recovery_severity severity_max(
+            renderer_recovery_severity a, renderer_recovery_severity b ) {
+            return static_cast<int>( a ) >= static_cast<int>( b ) ? a : b;
+        }
+
+        // The next side effect drain_pending must perform. For the read /
+        // exchange / recipe / resize kinds the driver performs it and feeds the
+        // result back through the matching advance_*; finish_ready and
+        // finish_retry are terminal.
+        enum class action_kind {
+            load_entry_epoch,     // load lifecycle epoch -> advance_entry_epoch
+            claim_initial_inbox,  // exchange severity, load resize, read latch -> advance_initial_inbox
+            run_recipe,           // run_recipe_for(action.severity) -> advance_recipe
+            attempt_seq_cas,      // clear the serviced foreground epoch -> advance_seq_cas_done
+            claim_after_success,  // exchange severity, load lifecycle -> advance_after_success
+            claim_after_restart,  // load lifecycle, exchange severity -> advance_after_restart
+            load_post_resize,     // load resize epoch -> advance_post_resize
+            apply_resize,         // apply_resize_only(action.resize_epoch) -> advance_resize
+            finish_ready,
+            finish_retry,
+        };
+        struct action {
+            action_kind kind;
+            renderer_recovery_severity severity = renderer_recovery_severity::none;
+            uint32_t resize_epoch = 0;
+            uint64_t serviced_seq = 0;
+        };
+
+        // Pure state the coordinator predicates and recipes consult.
+        renderer_recovery_state state() const {
+            return state_;
+        }
+        bool abort_latch() const {
+            return abort_latch_;
+        }
+        uint32_t observed_resize_epoch() const {
+            return observed_resize_epoch_;
+        }
+        uint64_t serviced_lifecycle_seq() const {
+            return serviced_lifecycle_seq_;
+        }
+        renderer_recovery_severity current_claimed() const {
+            return current_claimed_;
+        }
+
+        // Bootstrapping -> ready, once the base UI is up.
+        void finish_bootstrap() {
+            state_ = renderer_recovery_state::ready;
+        }
+        // Back to the initial bootstrapping state for a fresh test fixture.
+        void reset() {
+            *this = recovery_drain_planner{};
+        }
+
+        // Driver protocol. begin() opens a drain (recovering + abort latch) and
+        // returns the first action. Each advance_* consumes the result of the
+        // side effect the previous action named and returns the next action.
+        action begin();
+        action advance_entry_epoch( uint64_t entry_epoch );
+        action advance_initial_inbox( renderer_recovery_severity pulled, uint32_t resize_epoch,
+                                      bool boundary_recovery_pending );
+        action advance_recipe( recipe_result r );
+        action advance_seq_cas_done();
+        action advance_after_success( renderer_recovery_severity pulled, uint64_t live_epoch );
+        action advance_after_restart( uint64_t live_epoch, renderer_recovery_severity pulled );
+        action advance_post_resize( uint32_t resize_epoch );
+        action advance_resize( bool applied );
+
+        // Called from inside an SDL recipe (or apply_resize_only) when a pause is
+        // observed: persists the in-flight severity as the retry and arms the
+        // mid-recipe abort so the next advance_recipe finishes as retry_needed.
+        void note_pause_abort();
+        // Called from inside apply_resize_only at the point the serviced resize
+        // epoch is committed, before the post-success blank, so the blank
+        // predicate sees no phantom pending resize.
+        void acknowledge_resize( uint32_t serviced_resize_epoch ) {
+            observed_resize_epoch_ = serviced_resize_epoch;
+        }
+
+    private:
+        // Merge a freshly exchanged inbox severity with any persisted retry, then
+        // clear the retry slot. The exchange itself is the coordinator's atomic
+        // side effect; only the merge half is pure policy.
+        renderer_recovery_severity merge_retry( renderer_recovery_severity pulled );
+        action emit_run_recipe( renderer_recovery_severity sev );
+        action emit_apply_resize( uint32_t resize_epoch, bool fast_path );
+        action finish_ready_action();
+        action finish_retry_action();
+
+        renderer_recovery_state state_ = renderer_recovery_state::bootstrapping;
+        renderer_recovery_severity retry_severity_ = renderer_recovery_severity::none;
+        // Severity of the recipe currently in flight, so a mid-recipe pause abort
+        // can persist it as the retry severity.
+        renderer_recovery_severity current_claimed_ = renderer_recovery_severity::none;
+        bool abort_latch_ = false;
+        uint32_t observed_resize_epoch_ = 0;
+        // Lifecycle sequence the current drain is servicing. A resumed epoch with
+        // this sequence is the foreground rebuild in progress and does not
+        // self-interrupt; a different sequence is a newer foreground.
+        uint64_t serviced_lifecycle_seq_ = 0;
+        // epoch_implied severity derived from the entry lifecycle state, carried
+        // from advance_entry_epoch to advance_initial_inbox.
+        renderer_recovery_severity entry_epoch_implied_ = renderer_recovery_severity::none;
+        // restart_severity from the recipe result, carried from advance_recipe to
+        // advance_after_restart.
+        renderer_recovery_severity restart_severity_pending_ = renderer_recovery_severity::none;
+        // Set by note_pause_abort so the following advance_recipe finishes the
+        // drain as retry_needed regardless of the recipe's own outcome.
+        bool recipe_pause_aborted_ = false;
+        // Whether the apply_resize in flight is the entry fast path (clears retry
+        // on failure) rather than the post-recovery step (leaves it).
+        bool resize_fast_path_ = false;
+};
+
+#endif // TILES
+
+#endif // CATA_SRC_SDL_RENDERER_RECOVERY_H

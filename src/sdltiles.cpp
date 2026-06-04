@@ -72,6 +72,7 @@
 #include "overmapbuffer.h"
 #include "path_info.h"
 #include "sdl_geometry.h"
+#include "sdl_renderer_recovery.h"
 #include "sdl_wrappers.h"
 #include "sdl_font.h"
 #include "sdl_gamepad.h"
@@ -1098,6 +1099,182 @@ void clear_window_area( const catacurses::window &win_ )
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     geometry->rect( renderer, point( win->pos.x * fontwidth, win->pos.y * fontheight ),
                     win->width * fontwidth, win->height * fontheight, color_as_sdl( catacurses::black ) );
+}
+
+recovery_drain_planner::action recovery_drain_planner::begin()
+{
+    state_ = renderer_recovery_state::recovering;
+    abort_latch_ = true;
+    current_claimed_ = renderer_recovery_severity::none;
+    entry_epoch_implied_ = renderer_recovery_severity::none;
+    restart_severity_pending_ = renderer_recovery_severity::none;
+    recipe_pause_aborted_ = false;
+    resize_fast_path_ = false;
+    return { action_kind::load_entry_epoch };
+}
+
+recovery_drain_planner::action recovery_drain_planner::advance_entry_epoch(
+    const uint64_t entry_epoch )
+{
+    const lifecycle_state entry_state = lifecycle_state_of( entry_epoch );
+    if( entry_state == lifecycle_state::paused ) {
+        // Suspended: no rendering. Severity stays queued (never exchanged) for
+        // the next foreground.
+        return finish_ready_action();
+    }
+    // resumed_pending_rebuild implies an effective severity of at least
+    // device_reset until the post-success seq-CAS clears it.
+    entry_epoch_implied_ = ( entry_state == lifecycle_state::resumed_pending_rebuild )
+                           ? renderer_recovery_severity::device_reset
+                           : renderer_recovery_severity::none;
+    serviced_lifecycle_seq_ = lifecycle_seq_of( entry_epoch );
+    return { action_kind::claim_initial_inbox };
+}
+
+recovery_drain_planner::action recovery_drain_planner::advance_initial_inbox(
+    const renderer_recovery_severity pulled, const uint32_t resize_epoch,
+    const bool boundary_recovery_pending )
+{
+    renderer_recovery_severity claimed = severity_max( merge_retry( pulled ), entry_epoch_implied_ );
+    if( boundary_recovery_pending ) {
+        // A draw-path boundary loss raised the sticky latch without queuing
+        // inbox work. Escalate to a full device-loss rebuild.
+        claimed = severity_max( claimed, renderer_recovery_severity::device_lost );
+    }
+    if( claimed == renderer_recovery_severity::none ) {
+        // Resize-only fast path; otherwise nothing to recover, but still re-read
+        // the resize epoch after the empty recipe loop.
+        if( resize_epoch != observed_resize_epoch_ ) {
+            return emit_apply_resize( resize_epoch, true );
+        }
+        return { action_kind::load_post_resize };
+    }
+    return emit_run_recipe( claimed );
+}
+
+recovery_drain_planner::action recovery_drain_planner::advance_recipe( const recipe_result r )
+{
+    if( recipe_pause_aborted_ ) {
+        // A mid-recipe pause already set retry_needed and persisted the severity.
+        return finish_retry_action();
+    }
+    if( r.outcome == recipe_outcome::failure ) {
+        retry_severity_ = current_claimed_;
+        return finish_retry_action();
+    }
+    if( r.outcome == recipe_outcome::restart_required ) {
+        restart_severity_pending_ = r.restart_severity;
+        return { action_kind::claim_after_restart };
+    }
+    return { action_kind::attempt_seq_cas, renderer_recovery_severity::none, 0,
+             serviced_lifecycle_seq_ };
+}
+
+recovery_drain_planner::action recovery_drain_planner::advance_seq_cas_done()
+{
+    return { action_kind::claim_after_success };
+}
+
+recovery_drain_planner::action recovery_drain_planner::advance_after_success(
+    const renderer_recovery_severity pulled, const uint64_t live_epoch )
+{
+    const renderer_recovery_severity new_work = merge_retry( pulled );
+    renderer_recovery_severity next_epoch_implied = renderer_recovery_severity::none;
+    if( lifecycle_state_of( live_epoch ) == lifecycle_state::resumed_pending_rebuild
+        && lifecycle_seq_of( live_epoch ) != serviced_lifecycle_seq_ ) {
+        // A newer foreground raced the seq-CAS: re-service it as a device reset.
+        next_epoch_implied = renderer_recovery_severity::device_reset;
+        serviced_lifecycle_seq_ = lifecycle_seq_of( live_epoch );
+    }
+    const renderer_recovery_severity claimed = severity_max( new_work, next_epoch_implied );
+    if( claimed == renderer_recovery_severity::none ) {
+        return { action_kind::load_post_resize };
+    }
+    return emit_run_recipe( claimed );
+}
+
+recovery_drain_planner::action recovery_drain_planner::advance_after_restart(
+    const uint64_t live_epoch, const renderer_recovery_severity pulled )
+{
+    if( lifecycle_state_of( live_epoch ) == lifecycle_state::resumed_pending_rebuild ) {
+        // A newer foreground triggered the restart (e.g. a replay interrupt);
+        // adopt its sequence so the next replay does not interrupt on the same
+        // epoch forever.
+        serviced_lifecycle_seq_ = lifecycle_seq_of( live_epoch );
+    }
+    const renderer_recovery_severity claimed =
+        severity_max( merge_retry( pulled ), restart_severity_pending_ );
+    if( claimed == renderer_recovery_severity::none ) {
+        return { action_kind::load_post_resize };
+    }
+    return emit_run_recipe( claimed );
+}
+
+recovery_drain_planner::action recovery_drain_planner::advance_post_resize(
+    const uint32_t resize_epoch )
+{
+    if( resize_epoch != observed_resize_epoch_ ) {
+        return emit_apply_resize( resize_epoch, false );
+    }
+    return finish_ready_action();
+}
+
+recovery_drain_planner::action recovery_drain_planner::advance_resize( const bool applied )
+{
+    if( applied ) {
+        return finish_ready_action();
+    }
+    if( resize_fast_path_ ) {
+        // The entry resize fast path carries no recipe severity, so a failure
+        // must not persist a stale one as the retry.
+        retry_severity_ = renderer_recovery_severity::none;
+    }
+    return finish_retry_action();
+}
+
+void recovery_drain_planner::note_pause_abort()
+{
+    retry_severity_ = severity_max( retry_severity_, current_claimed_ );
+    state_ = renderer_recovery_state::retry_needed;
+    recipe_pause_aborted_ = true;
+}
+
+renderer_recovery_severity recovery_drain_planner::merge_retry( const renderer_recovery_severity
+        pulled )
+{
+    const renderer_recovery_severity claimed = severity_max( pulled, retry_severity_ );
+    retry_severity_ = renderer_recovery_severity::none;
+    return claimed;
+}
+
+recovery_drain_planner::action recovery_drain_planner::emit_run_recipe(
+    const renderer_recovery_severity sev )
+{
+    current_claimed_ = sev;
+    return { action_kind::run_recipe, sev };
+}
+
+recovery_drain_planner::action recovery_drain_planner::emit_apply_resize(
+    const uint32_t resize_epoch, const bool fast_path )
+{
+    // Resize carries no recipe severity; clear current_claimed_ so a pause inside
+    // apply_resize_only persists nothing.
+    current_claimed_ = renderer_recovery_severity::none;
+    resize_fast_path_ = fast_path;
+    return { action_kind::apply_resize, renderer_recovery_severity::none, resize_epoch };
+}
+
+recovery_drain_planner::action recovery_drain_planner::finish_ready_action()
+{
+    state_ = renderer_recovery_state::ready;
+    abort_latch_ = false;
+    return { action_kind::finish_ready };
+}
+
+recovery_drain_planner::action recovery_drain_planner::finish_retry_action()
+{
+    state_ = renderer_recovery_state::retry_needed;
+    return { action_kind::finish_retry };
 }
 
 static std::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arrow(
