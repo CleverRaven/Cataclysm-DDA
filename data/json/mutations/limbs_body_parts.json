@@ -1519,7 +1519,7 @@
     ],
     "sub_parts": [ "tentacle_lower_front_base_l", "tentacle_lower_front_middle_l", "tentacle_lower_front_tip_l" ],
     "similar_bodypart": "tentacle_default_l",
-    "flags": [ "LIMB_LOWER", "MEND_LIMB" ],
+    "flags": [ "LIMB_LOWER", "MEND_LIMB", "TOUGH_FEET" ],
     "windage_effect": "winded_tentacle",
     "bmi_encumbrance_threshold": 7,
     "bmi_encumbrance_scalar": 0.5
