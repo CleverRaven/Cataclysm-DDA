@@ -672,5 +672,61 @@
     "type": "mapgen",
     "om_terrain": "ravine_bottom_forest",
     "object": { "predecessor_mapgen": "forest" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "ravine_bottom_forest",
+    "weight": 750,
+    "object": { "predecessor_mapgen": "forest_thick" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "ravine_bottom_forest",
+    "weight": 100,
+    "object": {
+      "rotation": [ 0, 3 ],
+      "predecessor_mapgen": "forest",
+      "rows": [
+        "                        ",
+        "                        ",
+        "       ??????????       ",
+        "    ????????????????    ",
+        "   ?????]]]]]]]]?????   ",
+        "   ???]]]]]]]]]]]]???   ",
+        "   ??]]]]******]]]]??   ",
+        "  ???]]**********]]???  ",
+        "  ??]]]**[[[[[[**]]]??  ",
+        "  ??]]**[[[[[[[[**]]??  ",
+        "  ??]]**[[~~~~[[**]]??  ",
+        "  ??]]**[[~~~~[[**]]??  ",
+        "  ??]]**[[~~~~[[**]]??  ",
+        "  ??]]**[[~~~~[[**]]??  ",
+        "  ??]]**[[[[[[[[**]]??  ",
+        "  ??]]]**[[[[[[**]]]??  ",
+        "  ???]]**********]]???  ",
+        "   ??]]]]******]]]]??   ",
+        "   ???]]]]]]]]]]]]???   ",
+        "   ?????]]]]]]]]?????   ",
+        "    ????????????????    ",
+        "       ??????????       ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "?": [ [ "t_water_sh", 2 ], [ "t_region_groundcover", 20 ] ],
+        "]": [ [ "t_water_sh", 6 ], "t_region_soil", "t_region_groundcover" ],
+        "*": "t_water_sh",
+        "[": [ [ "t_water_dp", 2 ], [ "t_water_sh", 3 ] ],
+        "~": "t_water_dp"
+      },
+      "nested": {
+        "]": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
+        "*": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
+        "[": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
+        "~": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] }
+      },
+      "place_monster": [ { "group": "GROUP_FISH", "x": [ 6, 18 ], "y": [ 6, 17 ], "chance": 15, "repeat": [ 1, 2 ] } ]
+    }
   }
 ]
