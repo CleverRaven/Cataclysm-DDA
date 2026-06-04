@@ -121,11 +121,6 @@
   },
   {
     "type": "recipe",
-    "result": "power_supply",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "workbench_with_recharger",
     "obsolete": true
   },
