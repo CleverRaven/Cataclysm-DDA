@@ -170,13 +170,13 @@
           "chunks": [ "24x24_tee_connection_e_hunvre" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "east": [ { "om_terrain": "recycling_plant_x0_y1_z0" } ] }
+          "neighbors": { "east": [ { "om_terrain": "recycling_plant_x1_y0_z0" } ] }
         },
         {
           "chunks": [ "24x24_tee_connection_w_hunvre" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "west": [ { "om_terrain": "recycling_plant_x0_y1_z0" } ] }
+          "neighbors": { "west": [ { "om_terrain": "recycling_plant_x1_y0_z0" } ] }
         }
       ],
       "place_vehicles": [
@@ -552,6 +552,12 @@
             "west": [ "SIDEWALK" ],
             "north_west": [ "SIDEWALK" ]
           }
+        },
+        {
+          "chunks": [ "24x24_four_way_connection_hunvre" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "north": [ { "om_terrain": "recycling_plant_x1_y0_z0" } ] }
         }
       ]
     }
