@@ -12,7 +12,7 @@
     "encumbrance_text": "Your vision is impaired!",
     "hit_size": 7,
     "is_vital": true,
-    "hit_difficulty": 1.2,
+    "hit_difficulty": 1.6,
     "main_part": "head_dragonfly",
     "connected_to": "head_dragonfly",
     "opposite_part": "head_dragonfly",
@@ -20,10 +20,13 @@
     "limb_scores": [ [ "reaction", 0.9 ], [ "balance", 0.4 ] ],
     "encumbrance_threshold": 0,
     "encumbrance_limit": 75,
+    "//2": "Squeamish is because your head is mostly eye.  Yuck!!",
+    "squeamish_penalty": 30,
     "base_hp": 50,
     "ugliness": 10,
     "drench_capacity": 700,
     "ugliness_mandatory": 6,
+    "bionic_slots": 12,
     "armor": { "cut": 3 },
     "sub_parts": [
       "head_dragonfly_forehead",
@@ -92,7 +95,7 @@
         "max_duration": 12
       }
     ],
-    "//2": "encumbrance per weight increased 10% over human head",
+    "//3": "encumbrance per weight increased 10% over human head",
     "encumbrance_per_weight": [
       { "weight": "1 mg", "encumbrance": 1 },
       { "weight": "300 g", "encumbrance": 4 },
