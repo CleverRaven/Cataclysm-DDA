@@ -39,6 +39,7 @@
     "id": "mon_dragonfly_giant",
     "copy-from": "mon_dragonfly_giant",
     "type": "MONSTER",
+    "aggression": 0,
     "upgrades": false
   },
   {
