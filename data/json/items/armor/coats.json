@@ -607,10 +607,24 @@
         "layers": [ "BELTED" ]
       },
       {
-        "covers": [ "tentacle_default_l", "tentacle_default_r" ],
+        "covers": [
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ],
         "coverage": 86,
         "encumbrance": [ 4, 5 ],
-        "specifically_covers": [ "tentacle_draped_l", "tentacle_draped_r" ],
+        "specifically_covers": [
+          "tentacle_draped_lower_front_l",
+          "tentacle_draped_lower_middle_l",
+          "tentacle_draped_lower_rear_l",
+          "tentacle_draped_lower_front_r",
+          "tentacle_draped_lower_middle_r",
+          "tentacle_draped_lower_rear_r"
+        ],
         "layers": [ "BELTED" ]
       },
       {
