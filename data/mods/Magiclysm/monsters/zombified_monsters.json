@@ -280,7 +280,7 @@
     "copy-from": "mon_giant_heron_ridable",
     "default_faction": "zombie",
     "species": [ "BIRD", "ZOMBIE" ],
-    "speed": 250,
+    "speed": 175,
     "harvest": "large_bird_flightless_zombie",
     "extend": { "flags": [ "STUMBLES", "NO_BREATHE", "REVIVES" ] },
     "petfood": {  },
