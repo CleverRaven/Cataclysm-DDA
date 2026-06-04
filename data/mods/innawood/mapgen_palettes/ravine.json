@@ -2,7 +2,14 @@
   {
     "type": "palette",
     "id": "ravine",
-    "nested": { "#": { "else_chunks": [ "1x1_ground" ], "check_z": [ 0 ] }, " ": { "chunks": [ "1x1_open_air" ], "check_z": [ 0 ] } }
+    "nested": {
+      "#": [
+        { "chunks": [ "1x1_ground" ], "check_z": [ 0 ] },
+        { "chunks": [ "1x1_under_soil" ], "check_z": [ -1 ] },
+        { "chunks": [ "1x1_under_stone" ], "check_z": [ -2 ] }
+      ],
+      " ": { "chunks": [ "1x1_open_air" ], "check_z": [ 0 ] }
+    }
   },
   {
     "type": "palette",

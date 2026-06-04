@@ -660,6 +660,16 @@
   },
   {
     "type": "mapgen",
+    "nested_mapgen_id": "1x1_under_soil",
+    "object": { "mapgensize": [ 1, 1 ], "terrain": { " ": "t_soil" }, "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "1x1_under_stone",
+    "object": { "mapgensize": [ 1, 1 ], "terrain": { " ": "t_rock" }, "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ] }
+  },
+  {
+    "type": "mapgen",
     "om_terrain": "ravine_bottom_forest",
     "object": { "predecessor_mapgen": "forest" }
   }
