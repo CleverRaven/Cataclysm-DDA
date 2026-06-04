@@ -1533,6 +1533,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
 
     if( wkpt != nullptr ) {
         wkpt->apply_effects( *this, total_damage, attack );
+        add_msg_debug( debugmode::DF_WEAKPOINTS, "applying weakpoint: %s", wkpt->id );
     }
 
     return dealt_dams;
