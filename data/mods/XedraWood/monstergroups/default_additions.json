@@ -3,7 +3,7 @@
     "type": "monstergroup",
     "id": "GROUP_FOREST",
     "monsters": [
-       {
+      {
         "group": "GROUP_WILDERNESS_FOREST_MAMMAL",
         "weight": 75,
         "starts": "12 days",
@@ -105,7 +105,7 @@
     "id": "GROUP_WILDERNESS_FOREST_MAMMAL_MUTANT",
     "override": true,
     "monsters": [ { "monster": "mon_null", "weight": 1 } ]
-  }, 
+  },
   {
     "type": "monstergroup",
     "id": "GROUP_MUTAFROGS_SWAMP",

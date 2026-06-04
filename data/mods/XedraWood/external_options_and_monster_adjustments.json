@@ -36,7 +36,7 @@
     "//": "Higher-evo monsters should mostly be spawned through mapgen or map extras, so just crank this up so we don't have to edit a ton of monsters to turn evolution off",
     "stype": "float",
     "value": 99.0
-  }
+  },
   {
     "type": "monster_adjustment",
     "species": "ZOMBIE",
