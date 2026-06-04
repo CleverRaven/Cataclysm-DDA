@@ -71,13 +71,8 @@
     "type": "overmap_terrain",
     "id": "ravine_bottom_forest",
     "name": "ravine floor",
+    "extras": "ravine_bottom",
     "copy-from": "forest"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pond_ravine_bottom",
-    "name": "pond",
-    "copy-from": "pond_field"
   },
   {
     "type": "overmap_terrain",
