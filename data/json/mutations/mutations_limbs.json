@@ -1391,7 +1391,7 @@
     "type": "mutation",
     "id": "LEG_TENTACLES",
     "name": { "str": "Leg Tentacles" },
-    "description": "Your legs have transformed into six tentacles.  This decreases your speed on land by about 25%, makes your movement silent, increases your swimming speed and reduces wet penalties, but you can't use footwear any more.  Fortunately the lack of footwear does not reduce your speed, and your tentacles do not need splints to heal should they become critically damaged.",
+    "description": "Your legs have transformed into six tentacles.  This decreases your speed on land by about 20%, makes your movement silent, increases your swimming speed and reduces wet penalties, but you can't use footwear any more.  Fortunately the lack of footwear does not reduce your speed, and your tentacles do not need splints to heal should they become critically damaged.",
     "category": [ "CEPHALOPOD" ],
     "types": [ "LEGS", "FEET", "SOLES" ],
     "leads_to": [ "LEG_TENT_BRACE" ],
@@ -1424,13 +1424,7 @@
           { "gain": "tentacle_lower_rear_r" }
         ]
       },
-      {
-        "values": [
-          { "value": "MOVE_COST", "multiply": 0.2 },
-          { "value": "MOVECOST_SWIM_MOD", "multiply": -0.15 },
-          { "value": "FOOTSTEP_NOISE", "multiply": -1 }
-        ]
-      }
+      { "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -1 } ] }
     ],
     "wet_protection": [
       { "part": "leg_l", "neutral": 21 },
