@@ -16,11 +16,6 @@
   },
   {
     "type": "recipe",
-    "result": "vest_jean",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "vest_jean_mod",
     "obsolete": true
   },
@@ -52,11 +47,6 @@
   {
     "type": "recipe",
     "result": "rigid_kevlar_plate",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "nylon",
     "obsolete": true
   },
   {
@@ -152,6 +142,46 @@
   {
     "type": "recipe",
     "result": "xl_ballistic_vest_lc",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "armor_tiresuit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "armor_tiresuit_assembly",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tireplate",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helmet_cardboard",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "armor_cardboard_cuirass",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "improvised_legguard_tire",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "legguard_paper",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "armguard_paper",
     "obsolete": true
   }
 ]
