@@ -194,6 +194,134 @@ class recovery_drain_planner
         bool resize_fast_path_ = false;
 };
 
+// Main-thread executor that recovers every renderer-owned GPU resource
+// across SDL render-target reset, device reset, device loss, and android
+// background/foreground. The event watch writes only the atomic inbox;
+// drain_pending() runs the ordered recovery recipes at the named outer
+// boundaries.
+class renderer_resource_coordinator
+{
+    public:
+        // Inbox writers. Safe to call from the SDL event-watch thread: they
+        // touch only the atomic inbox.
+        void request_recovery( renderer_recovery_severity sev );
+        void notify_resize();
+        void notify_lifecycle( lifecycle_state ev );
+
+        // Seed the renderer creation policy from the live renderer (backend
+        // name plus actual software/accelerated mode). Stays in
+        // bootstrapping; rendering is not yet allowed.
+        void seed_renderer_policy( const std::string &renderer_name );
+        // Move bootstrapping -> ready once the cold-start tileset upload has
+        // succeeded. Rendering is allowed from here.
+        void finish_bootstrap();
+
+        // Main-thread surface.
+        void drain_pending();
+        bool is_render_allowed() const;
+        bool should_abort_frame() const;
+
+        renderer_recovery_state state() const {
+            return planner_.state();
+        }
+        renderer_recovery_severity pending() const {
+            return pending_severity_.load();
+        }
+        uint64_t resource_generation() const {
+            return renderer_resource_generation_;
+        }
+        uint64_t instance_generation() const {
+            return renderer_instance_generation_;
+        }
+        uint64_t textures_generation() const {
+            return gpu_textures_generation_;
+        }
+        // Sampled together by the tileset fetch path for the cache staleness
+        // check.
+        renderer_texture_generations texture_generations() const {
+            return { renderer_instance_generation_, gpu_textures_generation_ };
+        }
+
+    private:
+        // should_abort_frame without the recovery-owned abort latch: true when
+        // the external inbox (lifecycle, severity, resize, boundary latch)
+        // forbids rendering.
+        bool external_inbox_blocks_render() const;
+        // Like external_inbox_blocks_render but permits the foreground epoch
+        // this drain is servicing (resumed with serviced_lifecycle_seq_), so
+        // the recovery-owned post-success blank may run for it; a pause, a
+        // newer resumed sequence, or other inbox work still blocks.
+        bool recovery_blank_blocked() const;
+        // Clear the foreground epoch the drain serviced so the next coalesce
+        // iteration re-derives epoch_implied from the current lifecycle state.
+        void attempt_serviced_seq_cas( uint64_t serviced_seq );
+        recipe_result run_recipe_for( renderer_recovery_severity sev );
+        // Debug-only invariant check run after each recipe success: usable
+        // renderer + display buffer, boundary latch cleared, generations not
+        // rolled backward from the pre-dispatch snapshot.
+        void assert_recipe_postcondition( uint64_t resource_gen_before,
+                                          renderer_texture_generations gens_before ) const;
+        // serviced_resize_epoch is the pending_resize_epoch value sampled by
+        // the drain; it is acknowledged into observed_resize_epoch_ on success
+        // so the post-success blank predicate sees no phantom pending resize.
+        bool apply_resize_only( uint32_t serviced_resize_epoch );
+        void run_post_success_full_invalidation();
+        bool install_renderer_with_fallback();
+        bool safe_pre_teardown_unbind( recipe_result &out );
+        bool check_pause_abort();
+        // Drop every live cached tileset's atlas textures against the still-
+        // live renderer, before any renderer destruction. Idempotent.
+        void release_live_atlases() const;
+        // Re-upload atlases over every live tileset, polling for pause/loss
+        // between chunks and routing interrupted candidates into the replay
+        // quarantine. Returns the interrupt reason, or none on full success.
+        atlas_upload_interrupt replay_live_atlases();
+        // Map an atlas-replay interrupt to a recipe outcome: paused persists
+        // retry and yields retry_needed; the *_invalidated reasons restart at
+        // the matching severity.
+        recipe_result map_replay_interrupt( atlas_upload_interrupt reason );
+        // Poll consulted during atlas replay: reports pause or a higher
+        // pending severity so the upload stops and quarantines.
+        atlas_upload_interrupt replay_poll() const;
+        // Rebuild display_buffer, recording its dims on success. A failure
+        // with the sticky boundary latch raised escalates to device-loss in
+        // the same drain rather than a plain retry.
+        recipe_result setup_target_phase();
+        recipe_result recipe_targets_reset();
+        recipe_result recipe_device_reset();
+        recipe_result recipe_device_lost();
+        void record_display_buffer_dims();
+
+        // Pure drain transition policy. drain_pending() drives it; the
+        // coordinator supplies the atomic inbox reads and the SDL side effects.
+        recovery_drain_planner planner_;
+        uint64_t renderer_resource_generation_ = 0;
+        uint64_t renderer_instance_generation_ = 0;
+        uint64_t gpu_textures_generation_ = 0;
+        // Display-buffer dims the coordinator last built, so a resize can
+        // skip the rebuild when only DPI or letterboxing changed.
+        int display_buffer_w_ = 0;
+        int display_buffer_h_ = 0;
+        // Renderer creation policy, retained so a device-loss rebuild can
+        // recreate with the same backend choice and track the actual
+        // installed backend after any accelerated-to-software fallback.
+        std::string renderer_name_;
+        bool software_renderer_ = false;
+
+        std::atomic<renderer_recovery_severity> pending_severity_{ renderer_recovery_severity::none };
+        std::atomic<uint32_t> pending_resize_epoch_{ 0 };
+        std::atomic<uint64_t> lifecycle_epoch_{ 0 };
+
+        // Candidate atlas textures captured when a replay is interrupted by a
+        // pause or loss; drained on the live renderer before retry or
+        // abandoned before a renderer is destroyed.
+        atlas_replay_quarantine replay_quarantine_;
+};
+
+// Process-lifetime coordinator; the event-watch userdata must outlive
+// every callback.
+extern renderer_resource_coordinator renderer_coordinator;
+
 #endif // TILES
 
 #endif // CATA_SRC_SDL_RENDERER_RECOVERY_H

@@ -11,6 +11,7 @@
 
 #include <algorithm>
 #include <array>
+#include <atomic>
 #include <climits>
 #include <cmath>
 #include <cstdint>
@@ -658,6 +659,8 @@ static void WinCreate()
 #endif
 
     imclient = std::make_unique<cataimgui::client>( renderer, window, geometry );
+
+    renderer_coordinator.seed_renderer_policy( renderer_name );
 }
 
 static void WinDestroy()
@@ -1099,6 +1102,799 @@ void clear_window_area( const catacurses::window &win_ )
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     geometry->rect( renderer, point( win->pos.x * fontwidth, win->pos.y * fontheight ),
                     win->width * fontwidth, win->height * fontheight, color_as_sdl( catacurses::black ) );
+}
+
+// Shared variant_pass pointer for the pass-aware target binds, or null on
+// SDL2 where there is no shader pass.
+static cata_shader::variant_pass *shared_variant_pass_or_null()
+{
+#if SDL_MAJOR_VERSION >= 3
+    return get_shared_variant_pass();
+#else
+    return nullptr;
+#endif
+}
+
+// Renderer-resource coordinator: recovery recipes and the drain state
+// machine that run on the main thread. The header declares the public
+// lifecycle surface and the atomic inbox.
+
+// Thin forwards to the planner's canonical pack/unpack so the coordinator's
+// inbox writers and predicates read the epoch the same way the planner does.
+static constexpr uint64_t make_lifecycle_epoch( uint64_t seq, lifecycle_state s )
+{
+    return recovery_drain_planner::make_lifecycle_epoch( seq, s );
+}
+static constexpr uint64_t lifecycle_seq_of( uint64_t epoch )
+{
+    return recovery_drain_planner::lifecycle_seq_of( epoch );
+}
+static constexpr lifecycle_state lifecycle_state_of( uint64_t epoch )
+{
+    return recovery_drain_planner::lifecycle_state_of( epoch );
+}
+
+static_assert( std::atomic<uint64_t>::is_always_lock_free );
+static_assert( std::atomic<uint32_t>::is_always_lock_free );
+static_assert( std::atomic<renderer_recovery_severity>::is_always_lock_free );
+
+// Process-lifetime storage: the event-watch userdata must outlive every
+// callback, so the coordinator is never destroyed before SDL teardown.
+renderer_resource_coordinator renderer_coordinator;
+
+void renderer_resource_coordinator::request_recovery( renderer_recovery_severity sev )
+{
+    renderer_recovery_severity cur = pending_severity_.load();
+    while( static_cast<int>( sev ) > static_cast<int>( cur ) ) {
+        if( pending_severity_.compare_exchange_weak( cur, sev ) ) {
+            break;
+        }
+    }
+}
+
+void renderer_resource_coordinator::notify_resize()
+{
+    pending_resize_epoch_.fetch_add( 1 );
+}
+
+void renderer_resource_coordinator::notify_lifecycle( lifecycle_state ev )
+{
+    uint64_t cur = lifecycle_epoch_.load();
+    uint64_t desired = 0;
+    do {
+        desired = make_lifecycle_epoch( lifecycle_seq_of( cur ) + 1, ev );
+    } while( !lifecycle_epoch_.compare_exchange_weak( cur, desired ) );
+}
+
+bool renderer_resource_coordinator::is_render_allowed() const
+{
+    return planner_.state() == renderer_recovery_state::ready
+           && pending_severity_.load() == renderer_recovery_severity::none
+           && pending_resize_epoch_.load() == planner_.observed_resize_epoch()
+           && lifecycle_state_of( lifecycle_epoch_.load() ) == lifecycle_state::active
+           && !display_buffer_scope_recovery_pending();
+}
+
+bool renderer_resource_coordinator::external_inbox_blocks_render() const
+{
+    return pending_severity_.load() != renderer_recovery_severity::none
+           || lifecycle_state_of( lifecycle_epoch_.load() ) != lifecycle_state::active
+           || pending_resize_epoch_.load() != planner_.observed_resize_epoch()
+           || display_buffer_scope_recovery_pending();
+}
+
+bool renderer_resource_coordinator::recovery_blank_blocked() const
+{
+    const uint64_t epoch = lifecycle_epoch_.load();
+    const lifecycle_state ls = lifecycle_state_of( epoch );
+    if( ls == lifecycle_state::paused ) {
+        return true;
+    }
+    // The foreground epoch this drain services may blank; a newer one cannot.
+    if( ls == lifecycle_state::resumed_pending_rebuild
+        && lifecycle_seq_of( epoch ) != planner_.serviced_lifecycle_seq() ) {
+        return true;
+    }
+    return pending_severity_.load() != renderer_recovery_severity::none
+           || pending_resize_epoch_.load() != planner_.observed_resize_epoch()
+           || display_buffer_scope_recovery_pending();
+}
+
+bool renderer_resource_coordinator::should_abort_frame() const
+{
+    return planner_.abort_latch() || external_inbox_blocks_render();
+}
+
+// Apply fn to each live tile context once, deduplicating the aliased global
+// slots (tilecontext usually aliases closetilecontext).
+static void for_each_unique_tile_context( const std::function<void( cata_tiles & )> &fn )
+{
+    cata_tiles *ctxs[] = { tilecontext.get(), closetilecontext.get(),
+                           fartilecontext.get(), overmap_tilecontext.get()
+                         };
+    cata_tiles *seen[4] = {};
+    size_t n = 0;
+    for( cata_tiles *c : ctxs ) {
+        if( !c ) {
+            continue;
+        }
+        bool dup = false;
+        for( size_t i = 0; i < n; ++i ) {
+            if( seen[i] == c ) {
+                dup = true;
+                break;
+            }
+        }
+        if( dup ) {
+            continue;
+        }
+        seen[n++] = c;
+        fn( *c );
+    }
+}
+
+static void reset_context_minimaps()
+{
+    for_each_unique_tile_context( []( cata_tiles & c ) {
+        c.reset_minimap();
+    } );
+}
+
+// The silhouette mask target only goes stale on a device reset or loss, not a
+// target reset.
+static void reset_context_tint_masks()
+{
+    for_each_unique_tile_context( []( cata_tiles & c ) {
+        c.reset_tint_mask();
+    } );
+}
+
+// Drop the glyph atlases on every font root. The TTF glyph cache repopulates
+// lazily on the next OutputChar; bitmap atlases need an explicit rebuild.
+static void release_font_roots()
+{
+    for( Font_Ptr *f : {
+             &font, &gui_font, &map_font, &overmap_font
+         } ) {
+        if( *f ) {
+            ( *f )->release_gpu_resources();
+        }
+    }
+}
+
+// Rebuild bitmap glyph atlases on every font root against the live renderer.
+// TTF fonts are a no-op here and recreate their glyphs lazily.
+static void rebuild_font_roots()
+{
+    for( Font_Ptr *f : {
+             &font, &gui_font, &map_font, &overmap_font
+         } ) {
+        if( *f ) {
+            ( *f )->rebuild_for_renderer( renderer );
+        }
+    }
+}
+
+recipe_result renderer_resource_coordinator::run_recipe_for( renderer_recovery_severity sev )
+{
+    const uint64_t resource_gen_before = renderer_resource_generation_;
+    const renderer_texture_generations gens_before{
+        renderer_instance_generation_, gpu_textures_generation_ };
+    recipe_result r{ recipe_outcome::success };
+    switch( sev ) {
+        case renderer_recovery_severity::targets_reset:
+            r = recipe_targets_reset();
+            break;
+        case renderer_recovery_severity::device_reset:
+            r = recipe_device_reset();
+            break;
+        case renderer_recovery_severity::device_lost:
+            r = recipe_device_lost();
+            break;
+        case renderer_recovery_severity::none:
+            return r;
+    }
+    if( r.outcome == recipe_outcome::success ) {
+        assert_recipe_postcondition( resource_gen_before, gens_before );
+    }
+    return r;
+}
+
+void renderer_resource_coordinator::assert_recipe_postcondition(
+    [[maybe_unused]] const uint64_t resource_gen_before,
+    [[maybe_unused]] const renderer_texture_generations gens_before ) const
+{
+    // See header. Catches a recipe that reports success without restoring the
+    // invariant, instead of a silent failure on the next frame.
+    cata_assert( renderer );
+    cata_assert( display_buffer );
+    cata_assert( !display_buffer_scope_recovery_pending() );
+    cata_assert( renderer_resource_generation_ >= resource_gen_before );
+    cata_assert( renderer_instance_generation_ >= gens_before.instance );
+    cata_assert( gpu_textures_generation_ >= gens_before.textures );
+}
+
+bool renderer_resource_coordinator::check_pause_abort()
+{
+    if( lifecycle_state_of( lifecycle_epoch_.load() ) == lifecycle_state::paused ) {
+        planner_.note_pause_abort();
+        return true;
+    }
+    return false;
+}
+
+// Unbind the render target before destructive teardown. A failed_in_switch
+// means SDL left the renderer undefined, so escalate to a full device-loss
+// rebuild rather than tear down against an unusable renderer. Device-loss
+// recovery is best-effort and does not call this.
+bool renderer_resource_coordinator::safe_pre_teardown_unbind( recipe_result &out )
+{
+    const bind_result r = permanent_render_target_bind( renderer, nullptr,
+                          shared_variant_pass_or_null() );
+    if( r == bind_result::failed_in_switch ) {
+        out = { recipe_outcome::restart_required, renderer_recovery_severity::device_lost };
+        return false;
+    }
+    return true;
+}
+
+void renderer_resource_coordinator::run_post_success_full_invalidation()
+{
+    // Blank the rebuilt buffer, skipping the draw if a pause, newer recovery, or
+    // resize landed mid-drain. Either way mark every UI adaptor for a full
+    // redraw so the next frame re-emits from scratch, not onto stale contents.
+    if( !recovery_blank_blocked() ) {
+        display_buffer_draw_scope draw_scope;
+        if( !display_buffer_scope_is_invalid() ) {
+            ClearScreen();
+        }
+    }
+    ui_manager::invalidate_all_ui_adaptors();
+}
+
+recipe_result renderer_resource_coordinator::recipe_targets_reset()
+{
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+#if SDL_MAJOR_VERSION >= 3
+    if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
+        if( !vp->flush() ) {
+            // An undefined shader boundary must escalate before any further
+            // SDL call lands on this renderer.
+            return { recipe_outcome::restart_required, renderer_recovery_severity::device_lost };
+        }
+    }
+#endif
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+    recipe_result restart { recipe_outcome::failure };
+    if( !safe_pre_teardown_unbind( restart ) ) {
+        return restart;
+    }
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+    reset_context_minimaps();
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+    display_buffer.reset();
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+    const recipe_result setup = setup_target_phase();
+    if( setup.outcome != recipe_outcome::success ) {
+        return setup;
+    }
+    ++renderer_resource_generation_;
+    display_buffer_scope_clear_recovery_required();
+    run_post_success_full_invalidation();
+    return { recipe_outcome::success };
+}
+
+recipe_result renderer_resource_coordinator::recipe_device_reset()
+{
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+#if SDL_MAJOR_VERSION >= 3
+    if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
+        if( !vp->flush() ) {
+            return { recipe_outcome::restart_required, renderer_recovery_severity::device_lost };
+        }
+    }
+#endif
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+    recipe_result restart { recipe_outcome::failure };
+    if( !safe_pre_teardown_unbind( restart ) ) {
+        return restart;
+    }
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+    reset_context_minimaps();
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+    reset_context_tint_masks();
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+    // Drop atlas textures against the live renderer before the rest of the
+    // teardown so no atlas handle outlives the renderer that owns it.
+    release_live_atlases();
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+    // Destroy any partial candidates from a previously interrupted replay on
+    // the same live renderer before re-uploading.
+    replay_quarantine_.drain_live_renderer();
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+    release_font_roots();
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+    if( geometry ) {
+        geometry->release_gpu_resources();
+    }
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+#if defined(__ANDROID__)
+    touch_joystick.reset();
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+#endif
+    display_buffer.reset();
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+#if SDL_MAJOR_VERSION >= 3
+    if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
+        vp->release_gpu_resources();
+    }
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+#endif
+    if( imclient ) {
+        imclient->destroy_backend_device_objects();
+    }
+    // SDL3 documents a device reset as invalidating every texture, so cached
+    // atlas bundles are rejected by the texture-generation bump and replayed
+    // explicitly below over every live tileset.
+    ++gpu_textures_generation_;
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+#if SDL_MAJOR_VERSION >= 3
+    if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
+        vp->rebind_renderer( renderer.get() );
+    }
+#endif
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+    const recipe_result setup = setup_target_phase();
+    if( setup.outcome != recipe_outcome::success ) {
+        return setup;
+    }
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+    if( geometry ) {
+        geometry->rebuild_for_renderer( renderer );
+    }
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+    rebuild_font_roots();
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+#if defined(__ANDROID__)
+    touch_joystick = CreateTextureFromSurface( renderer, load_image( "android/joystick.png" ) );
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+#endif
+    const atlas_upload_interrupt replay = replay_live_atlases();
+    if( replay != atlas_upload_interrupt::none ) {
+        return map_replay_interrupt( replay );
+    }
+    ++renderer_resource_generation_;
+    display_buffer_scope_clear_recovery_required();
+    run_post_success_full_invalidation();
+    return { recipe_outcome::success };
+}
+
+// Install a renderer and its display target, falling back to software if the
+// requested backend fails. ImGui and variant_pass re-attach to whichever
+// renderer wins; on success the installed backend is recorded and the instance
+// and texture generations bump. False only if even software fails.
+bool renderer_resource_coordinator::install_renderer_with_fallback()
+{
+    for( const bool software : {
+             software_renderer_, true
+         } ) {
+        if( check_pause_abort() ) {
+            return false;
+        }
+        if( imclient ) {
+            imclient->shutdown_renderer_backend();
+            if( check_pause_abort() ) {
+                return false;
+            }
+            imclient->shutdown_platform_backend();
+        }
+        if( check_pause_abort() ) {
+            return false;
+        }
+        renderer.reset();
+        if( check_pause_abort() ) {
+            return false;
+        }
+        renderer = create_game_renderer( renderer_name_, software );
+        if( !renderer ) {
+            continue;
+        }
+        if( check_pause_abort() ) {
+            return false;
+        }
+        detect_renderer_backend();
+        if( check_pause_abort() ) {
+            return false;
+        }
+        if( imclient ) {
+            imclient->init_platform_backend();
+            if( check_pause_abort() ) {
+                return false;
+            }
+            imclient->init_renderer_backend();
+        }
+        if( check_pause_abort() ) {
+            return false;
+        }
+#if SDL_MAJOR_VERSION >= 3
+        if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
+            vp->rebind_renderer( renderer.get() );
+        }
+#endif
+        if( check_pause_abort() ) {
+            return false;
+        }
+        // The new renderer is valid: clear the sticky boundary latch left by
+        // the lost renderer so the target setup's pass-aware bind is not
+        // pre-refused.
+        display_buffer_scope_clear_recovery_required();
+        if( !SetupRenderTarget() ) {
+            continue;
+        }
+        if( check_pause_abort() ) {
+            return false;
+        }
+        record_display_buffer_dims();
+        software_renderer_ = IsRendererSoftware( renderer );
+        ++renderer_instance_generation_;
+        ++gpu_textures_generation_;
+        return true;
+    }
+    return false;
+}
+
+recipe_result renderer_resource_coordinator::recipe_device_lost()
+{
+    // Teardown before install_renderer_with_fallback is best-effort: the
+    // renderer is dying, so a failed flush force-abandons local shader state
+    // instead of calling SDL again, and the unbind ignores its result.
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+#if SDL_MAJOR_VERSION >= 3
+    if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
+        if( !vp->flush() ) {
+            vp->force_abandon_gpu_resources();
+        }
+    }
+#endif
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+    permanent_render_target_bind( renderer, nullptr, shared_variant_pass_or_null() );
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+    reset_context_minimaps();
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+    reset_context_tint_masks();
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+    // Drop atlas textures against the dying-but-still-live renderer before it
+    // is destroyed in the fallback install below.
+    release_live_atlases();
+    // The renderer is about to be destroyed: abandon any quarantined replay
+    // candidates so their deleters skip SDL_DestroyTexture on the dead
+    // renderer.
+    replay_quarantine_.abandon_pre_lost_renderer();
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+    release_font_roots();
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+    if( geometry ) {
+        geometry->release_gpu_resources();
+    }
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+#if defined(__ANDROID__)
+    touch_joystick.reset();
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+#endif
+    display_buffer.reset();
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+#if SDL_MAJOR_VERSION >= 3
+    if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
+        vp->release_gpu_resources();
+    }
+#endif
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+    if( !install_renderer_with_fallback() ) {
+        return { recipe_outcome::failure };
+    }
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+    // Reselect geometry strategy now the final installed backend is known --
+    // a software fallback may not support color-modulated textures.
+    rebuild_geometry_strategy( software_renderer_ );
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+    rebuild_font_roots();
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+#if defined(__ANDROID__)
+    touch_joystick = CreateTextureFromSurface( renderer, load_image( "android/joystick.png" ) );
+    if( check_pause_abort() ) {
+        return { recipe_outcome::failure };
+    }
+#endif
+    const atlas_upload_interrupt replay = replay_live_atlases();
+    if( replay != atlas_upload_interrupt::none ) {
+        return map_replay_interrupt( replay );
+    }
+    ++renderer_resource_generation_;
+    display_buffer_scope_clear_recovery_required();
+    run_post_success_full_invalidation();
+    return { recipe_outcome::success };
+}
+
+void renderer_resource_coordinator::record_display_buffer_dims()
+{
+    const point d = compute_display_buffer_dims();
+    display_buffer_w_ = d.x;
+    display_buffer_h_ = d.y;
+}
+
+void renderer_resource_coordinator::release_live_atlases() const
+{
+    ts_cache.release_live_atlases();
+}
+
+atlas_upload_interrupt renderer_resource_coordinator::replay_poll() const
+{
+    const uint64_t epoch = lifecycle_epoch_.load();
+    const lifecycle_state ls = lifecycle_state_of( epoch );
+    if( ls == lifecycle_state::paused ) {
+        return atlas_upload_interrupt::paused;
+    }
+    if( ls == lifecycle_state::resumed_pending_rebuild
+        && lifecycle_seq_of( epoch ) != planner_.serviced_lifecycle_seq() ) {
+        // A newer foreground epoch arrived mid-replay; restart so the
+        // just-uploaded textures are not published against a since-reset
+        // device. The epoch this drain services does not self-interrupt.
+        return atlas_upload_interrupt::texture_resources_invalidated;
+    }
+    const renderer_recovery_severity sev = pending_severity_.load();
+    if( sev == renderer_recovery_severity::device_lost
+        || display_buffer_scope_recovery_pending() ) {
+        return atlas_upload_interrupt::renderer_invalidated;
+    }
+    if( sev == renderer_recovery_severity::device_reset ) {
+        return atlas_upload_interrupt::texture_resources_invalidated;
+    }
+    // A queued targets_reset is left for the drain loop, not the upload.
+    return atlas_upload_interrupt::none;
+}
+
+atlas_upload_interrupt renderer_resource_coordinator::replay_live_atlases()
+{
+    return ts_cache.replay_live_atlases( renderer, renderer_instance_generation_,
+                                         gpu_textures_generation_,
+    [this]() {
+        return replay_poll();
+    },
+    replay_quarantine_ );
+}
+
+recipe_result renderer_resource_coordinator::map_replay_interrupt(
+    const atlas_upload_interrupt reason )
+{
+    switch( reason ) {
+        case atlas_upload_interrupt::paused:
+            planner_.note_pause_abort();
+            return { recipe_outcome::failure };
+        case atlas_upload_interrupt::texture_resources_invalidated:
+            return { recipe_outcome::restart_required, renderer_recovery_severity::device_reset };
+        case atlas_upload_interrupt::renderer_invalidated:
+            return { recipe_outcome::restart_required, renderer_recovery_severity::device_lost };
+        case atlas_upload_interrupt::none:
+            break;
+    }
+    return { recipe_outcome::success };
+}
+
+recipe_result renderer_resource_coordinator::setup_target_phase()
+{
+    if( SetupRenderTarget() ) {
+        record_display_buffer_dims();
+        return { recipe_outcome::success };
+    }
+    if( display_buffer_scope_recovery_pending() ) {
+        return { recipe_outcome::restart_required, renderer_recovery_severity::device_lost };
+    }
+    return { recipe_outcome::failure };
+}
+
+void renderer_resource_coordinator::seed_renderer_policy( const std::string &renderer_name )
+{
+    renderer_name_ = renderer_name;
+    software_renderer_ = IsRendererSoftware( renderer );
+    record_display_buffer_dims();
+}
+
+void renderer_resource_coordinator::finish_bootstrap()
+{
+    planner_.finish_bootstrap();
+}
+
+bool renderer_resource_coordinator::apply_resize_only( const uint32_t serviced_resize_epoch )
+{
+    // The planner cleared current_claimed_ when it issued this resize, so a
+    // pause here persists no stale recipe severity as the retry.
+    if( check_pause_abort() ) {
+        return false;
+    }
+    const point want = compute_display_buffer_dims();
+    if( display_buffer && want.x == display_buffer_w_ && want.y == display_buffer_h_ ) {
+        // DPI-only or letterbox-only change: the display buffer keeps its
+        // size, so no target recreate and no generation bump.
+        planner_.acknowledge_resize( serviced_resize_epoch );
+        return true;
+    }
+    const bind_result r = permanent_render_target_bind( renderer, nullptr,
+                          shared_variant_pass_or_null() );
+    if( r == bind_result::failed_in_switch ) {
+        // Undefined renderer state -- escalate to a full device-loss rebuild
+        // at the next drain rather than recreating against it.
+        request_recovery( renderer_recovery_severity::device_lost );
+        return false;
+    }
+    if( check_pause_abort() ) {
+        return false;
+    }
+    display_buffer.reset();
+    if( check_pause_abort() ) {
+        return false;
+    }
+    if( !SetupRenderTarget() ) {
+        if( display_buffer_scope_recovery_pending() ) {
+            request_recovery( renderer_recovery_severity::device_lost );
+        }
+        return false;
+    }
+    record_display_buffer_dims();
+    ++renderer_resource_generation_;
+    display_buffer_scope_clear_recovery_required();
+    // Acknowledge the serviced epoch before the blank so the post-success
+    // predicate sees no phantom pending resize. A newer resize arriving during
+    // setup keeps a higher pending epoch and is serviced on the next drain.
+    planner_.acknowledge_resize( serviced_resize_epoch );
+    run_post_success_full_invalidation();
+    return true;
+}
+
+void renderer_resource_coordinator::attempt_serviced_seq_cas( const uint64_t serviced_seq )
+{
+    // Clear only the exact foreground epoch this drain serviced, so the next
+    // coalesce derives epoch_implied fresh instead of re-deriving device_reset
+    // from a stale resumed epoch. A newer sequence fails the match, left to re-service.
+    uint64_t latest = lifecycle_epoch_.load();
+    if( lifecycle_seq_of( latest ) == serviced_seq
+        && lifecycle_state_of( latest ) == lifecycle_state::resumed_pending_rebuild ) {
+        const uint64_t desired = make_lifecycle_epoch( serviced_seq, lifecycle_state::active );
+        lifecycle_epoch_.compare_exchange_strong( latest, desired );
+    }
+}
+
+void renderer_resource_coordinator::drain_pending()
+{
+    // Refuse drains until the cold-start upload finishes (finish_bootstrap),
+    // and guard against re-entry while a drain is already running.
+    if( planner_.state() == renderer_recovery_state::bootstrapping
+        || planner_.state() == renderer_recovery_state::recovering ) {
+        return;
+    }
+    // Thin driver: the planner names the next side effect, the coordinator runs
+    // that one atomic read / SDL recipe / resize, and the result feeds straight
+    // back. The branch policy lives in the planner.
+    using action_kind = recovery_drain_planner::action_kind;
+    recovery_drain_planner::action a = planner_.begin();
+    for( ;; ) {
+        switch( a.kind ) {
+            case action_kind::load_entry_epoch:
+                a = planner_.advance_entry_epoch( lifecycle_epoch_.load() );
+                break;
+            case action_kind::claim_initial_inbox: {
+                const renderer_recovery_severity pulled =
+                    pending_severity_.exchange( renderer_recovery_severity::none );
+                const bool boundary = display_buffer_scope_recovery_pending();
+                const uint32_t resize_epoch = pending_resize_epoch_.load();
+                a = planner_.advance_initial_inbox( pulled, resize_epoch, boundary );
+                break;
+            }
+            case action_kind::run_recipe:
+                a = planner_.advance_recipe( run_recipe_for( a.severity ) );
+                break;
+            case action_kind::attempt_seq_cas:
+                attempt_serviced_seq_cas( a.serviced_seq );
+                a = planner_.advance_seq_cas_done();
+                break;
+            case action_kind::claim_after_success: {
+                const renderer_recovery_severity pulled =
+                    pending_severity_.exchange( renderer_recovery_severity::none );
+                const uint64_t live = lifecycle_epoch_.load();
+                a = planner_.advance_after_success( pulled, live );
+                break;
+            }
+            case action_kind::claim_after_restart: {
+                const uint64_t live = lifecycle_epoch_.load();
+                const renderer_recovery_severity pulled =
+                    pending_severity_.exchange( renderer_recovery_severity::none );
+                a = planner_.advance_after_restart( live, pulled );
+                break;
+            }
+            case action_kind::load_post_resize:
+                a = planner_.advance_post_resize( pending_resize_epoch_.load() );
+                break;
+            case action_kind::apply_resize:
+                a = planner_.advance_resize( apply_resize_only( a.resize_epoch ) );
+                break;
+            case action_kind::finish_ready:
+            case action_kind::finish_retry:
+                return;
+        }
+    }
 }
 
 recovery_drain_planner::action recovery_drain_planner::begin()
@@ -4737,6 +5533,8 @@ void catacurses::init_interface()
 void load_tileset()
 {
     if( !tilecontext || !use_tiles ) {
+        // No atlas upload to gate; the coordinator may allow drains.
+        renderer_coordinator.finish_bootstrap();
         return;
     }
     closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
@@ -4756,6 +5554,9 @@ void load_tileset()
                                            /*pump_events=*/true, /*terrain=*/true );
         overmap_tilecontext->do_tile_loading_report();
     }
+
+    // The real cold-start atlas upload is complete; allow drains and rendering.
+    renderer_coordinator.finish_bootstrap();
 }
 
 //Ends the terminal, destroy everything
