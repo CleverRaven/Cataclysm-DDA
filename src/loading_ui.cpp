@@ -163,6 +163,7 @@ static void update_state( const std::string &context, const std::string &step )
         // get image
         std::vector<cata_path> imgs;
         std::vector<mod_id> &active_mod_list = world_generator->active_world->active_mod_order;
+        bool only_mod_loading_screens = false;
         for( mod_id &some_mod : active_mod_list ) {
             // We haven't migrated mods yet
             // TODO: Move mod migration before this function?
@@ -170,19 +171,29 @@ static void update_state( const std::string &context, const std::string &step )
                 continue;
             }
             const MOD_INFORMATION &mod = *some_mod;
+            if( mod.disable_other_loading_screens ) {  // Clear any already loaded screens, use only from the mod that has asked for this behaviour in the modinfo.
+                only_mod_loading_screens = true;
+                imgs.clear();
+            }
             for( const std::string &img_name : mod.loading_images ) {
-                // There may be more than one file matching the name, so we need to get all of them
+                // There may be more than one file matching the name, so we need to get all of them.
                 for( cata_path &img_path : get_files_from_path( img_name, mod.path, true ) ) {
                     imgs.emplace_back( img_path );
                 }
             }
+            if( only_mod_loading_screens ) {
+                break;
+            }
         }
         // We haven't selected a loading image yet, let's do so.
         if( gLUI->chosen_load_img == cata_path() ) {
-            const std::string img_name_pattern = "loading_img";
-            const cata_path load_screens_directory = PATH_INFO::gfxdir() / "loading_screens";
-            for( cata_path &img_path : get_files_from_path( img_name_pattern, load_screens_directory, true ) ) {
-                imgs.emplace_back( img_path );
+            if( imgs.empty() ||
+                !only_mod_loading_screens ) { // No modded screens available or not disabled in the mods, so let's add vanilla ones.
+                const std::string img_name_pattern = "loading_img";
+                const cata_path load_screens_directory = PATH_INFO::gfxdir() / "loading_screens";
+                for( cata_path &img_path : get_files_from_path( img_name_pattern, load_screens_directory, true ) ) {
+                    imgs.emplace_back( img_path );
+                }
             }
             gLUI->chosen_load_img = random_entry( imgs );
         }
