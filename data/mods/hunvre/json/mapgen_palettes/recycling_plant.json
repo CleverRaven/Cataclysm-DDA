@@ -1,7 +1,7 @@
 [
   {
     "type": "palette",
-    "id": "factory",
+    "id": "recycling_plant",
     "parameters": {
       "carpet_color_type": {
         "type": "ter_str_id",

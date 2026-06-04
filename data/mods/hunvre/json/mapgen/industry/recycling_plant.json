@@ -57,7 +57,7 @@
         "#                         i::::::::::::::::::i                         #",
         "########################################################################"
       ],
-      "palettes": [ "factory" ]
+      "palettes": [ "recycling_plant" ]
     }
   },
   {
@@ -118,7 +118,7 @@
         "#                         D  D    D  D    D  D                         #",
         "########################################################################"
       ],
-      "palettes": [ "factory" ]
+      "palettes": [ "recycling_plant" ]
     }
   },
   {
@@ -179,7 +179,7 @@
         "########################################################################",
         "########################################################################"
       ],
-      "palettes": [ "factory" ],
+      "palettes": [ "recycling_plant" ],
       "terrain": { "6": "t_concrete" }
     }
   },
@@ -231,7 +231,7 @@
       "recycling_plant_x2_y1_z-2"
     ],
     "type": "overmap_terrain",
-    "name": "recycling plant",
+    "name": "polymer recycling plant",
     "sym": "+",
     "color": "red",
     "vision_levels": "city_building",
