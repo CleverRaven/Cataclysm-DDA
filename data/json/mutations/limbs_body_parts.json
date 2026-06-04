@@ -1443,9 +1443,9 @@
     "limb_types": "leg",
     "limb_scores": [
       [ "manip", 0.05, 0.1 ],
-      [ "move_speed", 0.11 ],
+      [ "move_speed", 0.13 ],
       [ "balance", 0.05 ],
-      [ "footing", 0.15 ],
+      [ "footing", 0.17 ],
       [ "block", 0.35 ],
       [ "crawl", 0.08 ],
       [ "swim", 0.2 ]
