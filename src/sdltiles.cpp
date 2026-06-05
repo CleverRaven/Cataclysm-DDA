@@ -607,29 +607,48 @@ extern "C" {
 
 SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferHeight )
 {
-    // If the display buffer aspect ratio is wider than the display,
-    // draw it at the top of the screen so it doesn't get covered up
-    // by the virtual keyboard. Otherwise just center it.
-    SDL_Rect dstrect;
-    float DisplayBufferAspect = DisplayBufferWidth / static_cast<float>( DisplayBufferHeight );
-    float WindowHeightLessShortcuts = static_cast<float>( WindowHeight );
-    if( !get_option<bool>( "ANDROID_SHORTCUT_OVERLAP" ) && quick_shortcuts_enabled ) {
-        WindowHeightLessShortcuts -= get_option<int>( "ANDROID_SHORTCUT_HEIGHT" );
+    // Aspect-fit the display buffer into a bounds rectangle. The bounds default to
+    // the whole window; with ANDROID_RENDER_SAFE_AREA the system safe area is used
+    // instead so the game stays clear of the camera cutout and other unsafe edges.
+    SDL_Rect bounds{ 0, 0, WindowWidth, WindowHeight };
+#if SDL_MAJOR_VERSION >= 3
+    if( get_option<bool>( "ANDROID_RENDER_SAFE_AREA" ) ) {
+        SDL_Rect safe;
+        if( SDL_GetWindowSafeArea( ::window.get(), &safe ) && safe.w > 0 && safe.h > 0 ) {
+            bounds = safe;
+        }
     }
-    float WindowAspect = WindowWidth / static_cast<float>( WindowHeightLessShortcuts );
-    if( WindowAspect < DisplayBufferAspect ) {
-        dstrect.x = 0;
-        dstrect.y = 0;
-        dstrect.w = WindowWidth;
-        dstrect.h = WindowWidth / DisplayBufferAspect;
-    } else {
-        dstrect.x = 0.5f * ( WindowWidth - ( WindowHeightLessShortcuts * DisplayBufferAspect ) );
-        dstrect.y = 0;
-        dstrect.w = WindowHeightLessShortcuts * DisplayBufferAspect;
-        dstrect.h = WindowHeightLessShortcuts;
+#endif
+
+    // Reserve the on-screen shortcut strip along the bottom unless it overlaps.
+    // Keep at least one row so the aspect math never divides by a zero height.
+    if( !get_option<bool>( "ANDROID_SHORTCUT_OVERLAP" ) && quick_shortcuts_enabled ) {
+        bounds.h = std::max( 1, bounds.h - get_option<int>( "ANDROID_SHORTCUT_HEIGHT" ) );
     }
 
-    // Make sure the destination rectangle fits within the visible area
+    const float DisplayBufferAspect = DisplayBufferWidth / DisplayBufferHeight;
+    const float BoundsAspect = static_cast<float>( bounds.w ) / static_cast<float>( bounds.h );
+
+    // If the bounds are wider than the buffer, top-align so the virtual keyboard
+    // doesn't cover the content. Otherwise center horizontally within the bounds.
+    SDL_Rect dstrect;
+    if( BoundsAspect < DisplayBufferAspect ) {
+        dstrect.w = bounds.w;
+        dstrect.h = static_cast<int>( bounds.w / DisplayBufferAspect );
+        dstrect.x = bounds.x;
+        dstrect.y = bounds.y;
+    } else {
+        dstrect.w = static_cast<int>( bounds.h * DisplayBufferAspect );
+        dstrect.h = bounds.h;
+        dstrect.x = bounds.x + static_cast<int>( 0.5f * ( bounds.w - dstrect.w ) );
+        dstrect.y = bounds.y;
+    }
+
+    // Make sure the destination rectangle fits within the visible area.
+    // FIXME: has_visible_display_frame is fed by the SDL2 onNativeVisibleDisplayFrameChanged
+    // JNI hook, which the SDL3 Android AAR never calls (it reports insets through
+    // onNativeInsetsChanged and the keyboard as a shown/hidden bool with no rectangle).
+    // So this keyboard-avoidance clamp is inert under SDL3 and needs an IME-inset source.
     if( get_option<bool>( "ANDROID_KEYBOARD_SCREEN_SCALE" ) && has_visible_display_frame ) {
         int vdf_right = visible_display_frame.x + visible_display_frame.w;
         int vdf_bottom = visible_display_frame.y + visible_display_frame.h;
@@ -3320,6 +3339,14 @@ static void CheckMessages()
                 case CATA_WINDOWEVENT_EXPOSED:
                     needupdate = true;
                     break;
+#if SDL_MAJOR_VERSION >= 3
+                case CATA_WINDOWEVENT_SAFE_AREA_CHANGED:
+                    // The safe area feeds the android render rect, so repaint to
+                    // pick up the new bounds when a cutout or inset changes.
+                    needupdate = true;
+                    ui_manager::redraw_invalidated();
+                    break;
+#endif
                 case CATA_WINDOWEVENT_RESTORED:
 #if defined(__ANDROID__)
                     needs_sdl_surface_visibility_refresh = true;
