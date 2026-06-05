@@ -73,11 +73,5 @@
     "name": "ravine floor",
     "extras": "ravine_bottom",
     "copy-from": "forest"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hot_springs_ravine_bottom",
-    "name": "hot spring",
-    "copy-from": "hot_springs"
   }
 ]
