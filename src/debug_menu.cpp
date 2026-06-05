@@ -1074,7 +1074,7 @@ static int map_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::KILL_AREA, true, 'a', _( "Kill in Area" ) ) },
-        { uilist_entry( debug_menu_index::KILL_NPCS, true, 'k', _( "Kill NPCs" ) ) },
+        { uilist_entry( debug_menu_index::KILL_NPCS, true, 'i', _( "Kill NPCs" ) ) },
         { uilist_entry( debug_menu_index::MAP_EDITOR, true, 'M', _( "Map editor" ) ) },
         { uilist_entry( debug_menu_index::PALETTE_VIEWER, true, 'P', _( "Palette viewer" ) ) },
         { uilist_entry( debug_menu_index::CHANGE_WEATHER, true, 'w', _( "Change weather" ) ) },
@@ -2457,7 +2457,7 @@ static void character_edit_menu()
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "Teleport" ) );
     nmenu.addentry( D_ADD_EFFECT, true, 'E', "%s", _( "Add an effect" ) );
     nmenu.addentry( D_CHECK_TEMP, true, 'U', "%s", _( "Print temperature" ) );
-    nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attack" ) );
+    nmenu.addentry( D_ASTHMA, true, 'K', "%s", _( "Cause asthma attack" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit missions (WARNING: Unstable!)" ) );
     nmenu.addentry( D_PRINT_VARS, true, 'V', "%s", _( "Print vars to file" ) );
     nmenu.addentry( D_WRITE_EOCS, true, 'W', "%s",
@@ -2917,7 +2917,7 @@ static void faction_edit_menu()
     nmenu.addentry( D_POWER, true, 'p', "%s", _( "Set power" ) );
     nmenu.addentry( D_FOOD, true, 'f', "%s", _( "Set food supply" ) );
     nmenu.addentry( D_OPINION, true, 'o', "%s", _( "Set opinions" ) );
-    nmenu.addentry( D_KNOWN, true, 'k', "%s", _( "Toggle Known by you" ) );
+    nmenu.addentry( D_KNOWN, true, 'n', "%s", _( "Toggle Known by you" ) );
     nmenu.addentry( D_LONE, true, 'l', "%s", _( "Toggle Lone wolf" ) );
     nmenu.addentry( D_THIEF, true, 't', "%s", _( "Reset steal mode" ) );
 
