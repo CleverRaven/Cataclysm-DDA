@@ -1169,10 +1169,10 @@ void editmap_ui::edit_items()
                     i = 0;
                     for( item &an_item : items ) {
                         ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname(),
-                                        an_item.is_emissive() ? " L" : "" );
+                                         an_item.is_emissive() ? " L" : "" );
                     }
                     ilmenu.addentry( items.size(), true, 'a',
-                                    pgettext( "item manipulation debug menu entry for adding an item on a tile", "Add item" ) );
+                                     pgettext( "item manipulation debug menu entry for adding an item on a tile", "Add item" ) );
                     ilmenu.setup();
                     ilmenu.filterlist();
 
