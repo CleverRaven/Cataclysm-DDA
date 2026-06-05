@@ -15,7 +15,6 @@
 #include "material.h"
 #include "recipe.h"
 #include "ret_val.h"
-#include "string_formatter.h"
 #include "subbodypart.h"
 #include "translations.h"
 #include "units_utility.h"

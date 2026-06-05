@@ -76,6 +76,7 @@
 #include "rng.h"
 #include "skill.h"
 #include "stomach.h"
+#include "string_formatter.h"
 #include "subbodypart.h"
 #include "text_snippets.h"
 #include "trait_group.h"
