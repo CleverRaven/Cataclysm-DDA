@@ -25,16 +25,17 @@
   {
     "type": "monstergroup",
     "id": "GROUP_OVERLAND_RENFIELD",
-    "is_animal": true,
-    "monsters": [ { "monster": "mon_renfield", "weight": 200 }, { "monster": "mon_renfield", "weight": 50, "pack_size": [ 2, 5 ] } ]
+    "monsters": [
+      { "monster": "mon_renfield_innawood", "weight": 200 },
+      { "monster": "mon_renfield_innawood", "weight": 50, "pack_size": [ 2, 5 ] }
+    ]
   },
   {
     "type": "monstergroup",
     "id": "GROUP_CAVE_VAMPIRE",
-    "is_animal": true,
     "monsters": [
-      { "monster": "mon_renfield", "weight": 200 },
-      { "monster": "mon_renfield", "weight": 50, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_renfield_innawood", "weight": 200 },
+      { "monster": "mon_renfield_innawood", "weight": 50, "pack_size": [ 1, 3 ] },
       { "group": "GROUP_VAMPIRE_MOROI_TYPES", "weight": 35 },
       { "monster": "mon_vampire_strigoi", "weight": 25 },
       { "monster": "mon_vampire_strigoi", "weight": 5, "pack_size": [ 2, 4 ] },
