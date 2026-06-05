@@ -2221,14 +2221,14 @@ units::volume item::volume( bool integral, bool ignore_contents, int charges_in_
 
     if( is_craft() ) {
         if( !craft_data_->cached_volume ) {
-            units::volume ret = 0_ml;
+            units::volume ret = 0_ul;
             for( const item_components::type_vector_pair &tvp : components ) {
                 for( const item &it : tvp.second ) {
                     ret += it.volume();
                 }
             }
-            // 1 mL minimum craft volume to avoid 0 volume errors from practices or hammerspace
-            craft_data_->cached_volume = std::max( ret, 1_ml );
+            // 1 uL minimum craft volume to avoid 0 volume errors from practices or hammerspace
+            craft_data_->cached_volume = std::max( ret, 1_ul );
         }
         return *craft_data_->cached_volume;
     }
@@ -2244,7 +2244,7 @@ units::volume item::volume( bool integral, bool ignore_contents, int charges_in_
     }
 
     if( count_by_charges() || made_of( phase_id::LIQUID ) ) {
-        units::quantity<int64_t, units::volume_in_milliliter_tag> num = ret * static_cast<int64_t>
+        units::quantity<int64_t, units::volume_in_microliter_tag> num = ret * static_cast<int64_t>
                 ( charges_in_vol );
         if( type->stack_size <= 0 ) {
             if( type->charges_default() <= 0 ) {

@@ -495,13 +495,13 @@ void Item_factory::finalize_pre( itype &obj )
 
     // Items always should have some volume.
     // TODO: handle possible exception software?
-    if( obj.volume <= 0_ml ) {
+    if( obj.volume <= 0_ul ) {
         if( is_physical( obj ) ) {
             debugmsg( "item %s has zero volume (if zero volume is intentional "
                       "you can suppress this error with the ZERO_WEIGHT "
                       "flag)\n", obj.id.str() );
         }
-        obj.volume = units::from_milliliter( 1 );
+        obj.volume = units::from_microliter( 1 );
     }
 
     // Finalize vitamins in food
