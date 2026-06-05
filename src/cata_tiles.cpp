@@ -306,6 +306,10 @@ void tileset::clear()
     overexposed_tile_values.clear();
     memory_tile_values.clear();
     silhouette_tile_values.clear();
+    atlas_descriptors.clear();
+    default_item_highlight_index.reset();
+    renderer_instance_generation_at_upload = 0;
+    gpu_textures_generation_at_upload = 0;
     duplicate_ids.clear();
     tile_ids.clear();
     for( std::unordered_map<std::string, season_tile_value> &m : tile_ids_by_season ) {
@@ -313,6 +317,30 @@ void tileset::clear()
     }
     item_layer_data.clear();
     field_layer_data.clear();
+}
+
+uint64_t compute_tileset_filter_fingerprint( const std::string &memory_map_mode )
+{
+    auto mix = []( uint64_t &h, uint64_t v ) {
+        h ^= v + 0x9e3779b97f4a7c15ULL + ( h << 6 ) + ( h >> 2 );
+    };
+    uint64_t h = 0;
+    // SCALING_MODE is stamped onto every texture at CreateTexture time via
+    // the SDL default scale quality.
+    mix( h, std::hash<std::string> {}( get_option<std::string>( "SCALING_MODE" ) ) );
+    if( memory_map_mode == "color_pixel_custom" ) {
+        mix( h, static_cast<uint64_t>( get_option<int>( "MEMORY_RGB_DARK_RED" ) ) );
+        mix( h, static_cast<uint64_t>( get_option<int>( "MEMORY_RGB_DARK_GREEN" ) ) );
+        mix( h, static_cast<uint64_t>( get_option<int>( "MEMORY_RGB_DARK_BLUE" ) ) );
+        mix( h, static_cast<uint64_t>( get_option<int>( "MEMORY_RGB_BRIGHT_RED" ) ) );
+        mix( h, static_cast<uint64_t>( get_option<int>( "MEMORY_RGB_BRIGHT_GREEN" ) ) );
+        mix( h, static_cast<uint64_t>( get_option<int>( "MEMORY_RGB_BRIGHT_BLUE" ) ) );
+        const float gamma = get_option<float>( "MEMORY_GAMMA" );
+        uint32_t gamma_bits = 0;
+        std::memcpy( &gamma_bits, &gamma, sizeof( gamma_bits ) );
+        mix( h, static_cast<uint64_t>( gamma_bits ) );
+    }
+    return h;
 }
 
 const tile_type *tileset::find_tile_type( const std::string &id ) const
@@ -389,7 +417,7 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
     tileset_mutation_overlay_ordering.clear();
 
     tileset_ptr = cache.load_tileset( tileset_id, renderer, precheck, force, pump_events, terrain,
-                                      memory_map_mode );
+                                      memory_map_mode, 0, 0 );
 
     set_draw_scale( 16 );
 
@@ -3957,18 +3985,31 @@ bool cata_tiles::draw_item_highlight( const tripoint_bub_ms &pos, int &height_3d
 
 std::shared_ptr<const tileset> tileset_cache::load_tileset( const std::string &tileset_id,
         const SDL_Renderer_Ptr &renderer, const bool precheck, const bool force, const bool pump_events,
-        const bool terrain, const std::string &memory_map_mode )
+        const bool terrain, const std::string &memory_map_mode,
+        const uint64_t current_renderer_instance_gen, const uint64_t current_gpu_textures_gen )
 {
+    const tileset_cache_key key {
+        tileset_id, memory_map_mode, compute_tileset_filter_fingerprint( memory_map_mode )
+    };
+
     const auto get_or_create_tileset = [&]() {
-        const auto it = tilesets_.find( tileset_id );
-        if( it == tilesets_.end() || it->second.expired() ) {
-            std::shared_ptr<tileset> new_ts = std::make_shared<tileset>();
-            loader loader( *new_ts, renderer, memory_map_mode );
-            loader.load( tileset_id, precheck, pump_events, terrain );
-            tilesets_.emplace( tileset_id, new_ts );
-            return new_ts;
+        const auto it = tilesets_.find( key );
+        if( it != tilesets_.end() ) {
+            std::shared_ptr<tileset> cached = it->second.lock();
+            if( cached
+                && cached->get_renderer_instance_generation_at_upload() == current_renderer_instance_gen
+                && cached->get_gpu_textures_generation_at_upload() == current_gpu_textures_gen ) {
+                return cached;
+            }
         }
-        return it->second.lock();
+        std::shared_ptr<tileset> new_ts = std::make_shared<tileset>();
+        loader loader( *new_ts, renderer, memory_map_mode );
+        loader.load( tileset_id, precheck, pump_events, terrain );
+        new_ts->set_upload_generations( current_renderer_instance_gen, current_gpu_textures_gen );
+        // insert_or_assign so an expired weak_ptr at this key is replaced
+        // instead of being kept alongside a duplicate emplace attempt.
+        tilesets_.insert_or_assign( key, new_ts );
+        return new_ts;
     };
 
     std::shared_ptr<tileset> ts = get_or_create_tileset();
@@ -3976,6 +4017,7 @@ std::shared_ptr<const tileset> tileset_cache::load_tileset( const std::string &t
     if( force || ( ts->get_tileset_id().empty() && !precheck ) ) {
         loader loader( *ts, renderer, memory_map_mode );
         loader.load( tileset_id, precheck, pump_events, terrain );
+        ts->set_upload_generations( current_renderer_instance_gen, current_gpu_textures_gen );
     }
     return ts;
 }

@@ -123,6 +123,44 @@ void SetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode ble
 void GetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode &blend_mode );
 SDL_Surface_Ptr load_image( const char *path );
 bool SetRenderTarget( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &texture );
+
+namespace cata_shader
+{
+class variant_pass;
+} // namespace cata_shader
+
+// RAII render-target swap: binds `target`, restores the prior target on
+// destruction. On SDL3 a non-null `vp` is flushed before the swap so shader
+// GPU state is not left bound across the SetRenderTarget transition. Check
+// is_valid() before issuing draws.
+class scoped_render_target
+{
+    public:
+        scoped_render_target( const SDL_Renderer_Ptr &renderer, SDL_Texture *target,
+                              cata_shader::variant_pass *vp = nullptr );
+        ~scoped_render_target();
+
+        scoped_render_target( const scoped_render_target & ) = delete;
+        scoped_render_target &operator=( const scoped_render_target & ) = delete;
+        scoped_render_target( scoped_render_target && ) = delete;
+        scoped_render_target &operator=( scoped_render_target && ) = delete;
+
+        bool is_valid() const {
+            return valid_;
+        }
+
+    private:
+        SDL_Renderer *renderer_ = nullptr;
+        SDL_Texture *prior_target_ = nullptr;
+        bool valid_ = false;
+        bool restored_ = false;
+};
+
+// Bind a render target permanently, with no auto-restore, for transitions
+// where the prior target is not meaningful. Flushes variant_pass on SDL3
+// when `vp` is non-null.
+bool permanent_render_target_bind( const SDL_Renderer_Ptr &renderer, SDL_Texture *target,
+                                   cata_shader::variant_pass *vp = nullptr );
 void RenderClear( const SDL_Renderer_Ptr &renderer );
 SDL_Surface_Ptr CreateRGBSurface( Uint32 flags, int width, int height, int depth, Uint32 Rmask,
                                   Uint32 Gmask, Uint32 Bmask, Uint32 Amask );

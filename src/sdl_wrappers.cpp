@@ -9,6 +9,9 @@
 #include <string>
 
 #include "cata_assert.h"
+#if SDL_MAJOR_VERSION >= 3
+#include "cata_shader.h"
+#endif
 #include "debug.h"
 #include "point.h"
 
@@ -320,6 +323,78 @@ bool SetRenderTarget( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &t
                                       "SDL_SetRenderTarget failed" );
 #else
     const bool failed = printErrorIf( SDL_SetRenderTarget( renderer.get(), texture.get() ) != 0,
+                                      "SDL_SetRenderTarget failed" );
+#endif
+    return !failed;
+}
+
+scoped_render_target::scoped_render_target( const SDL_Renderer_Ptr &renderer,
+        SDL_Texture *target, cata_shader::variant_pass *vp )
+{
+    if( !renderer ) {
+        dbg( D_ERROR ) << "scoped_render_target: null renderer";
+        return;
+    }
+    renderer_ = renderer.get();
+#if SDL_MAJOR_VERSION >= 3
+    prior_target_ = SDL_GetRenderTarget( renderer_ );
+    if( vp && !vp->flush() ) {
+        renderer_ = nullptr;
+        prior_target_ = nullptr;
+        return;
+    }
+    if( !SDL_SetRenderTarget( renderer_, target ) ) {
+        dbg( D_ERROR ) << "scoped_render_target: SDL_SetRenderTarget failed: " << SDL_GetError();
+        renderer_ = nullptr;
+        prior_target_ = nullptr;
+        return;
+    }
+#else
+    ( void )vp;
+    prior_target_ = SDL_GetRenderTarget( renderer_ );
+    if( SDL_SetRenderTarget( renderer_, target ) != 0 ) {
+        dbg( D_ERROR ) << "scoped_render_target: SDL_SetRenderTarget failed: " << SDL_GetError();
+        renderer_ = nullptr;
+        prior_target_ = nullptr;
+        return;
+    }
+#endif
+    valid_ = true;
+}
+
+scoped_render_target::~scoped_render_target()
+{
+    if( restored_ || !valid_ || !renderer_ ) {
+        return;
+    }
+    restored_ = true;
+#if SDL_MAJOR_VERSION >= 3
+    if( !SDL_SetRenderTarget( renderer_, prior_target_ ) ) {
+        dbg( D_ERROR ) << "~scoped_render_target: SDL_SetRenderTarget failed: " << SDL_GetError();
+    }
+#else
+    if( SDL_SetRenderTarget( renderer_, prior_target_ ) != 0 ) {
+        dbg( D_ERROR ) << "~scoped_render_target: SDL_SetRenderTarget failed: " << SDL_GetError();
+    }
+#endif
+}
+
+bool permanent_render_target_bind( const SDL_Renderer_Ptr &renderer, SDL_Texture *target,
+                                   cata_shader::variant_pass *vp )
+{
+    if( !renderer ) {
+        dbg( D_ERROR ) << "permanent_render_target_bind: null renderer";
+        return false;
+    }
+#if SDL_MAJOR_VERSION >= 3
+    if( vp && !vp->flush() ) {
+        return false;
+    }
+    const bool failed = printErrorIf( !SDL_SetRenderTarget( renderer.get(), target ),
+                                      "SDL_SetRenderTarget failed" );
+#else
+    ( void )vp;
+    const bool failed = printErrorIf( SDL_SetRenderTarget( renderer.get(), target ) != 0,
                                       "SDL_SetRenderTarget failed" );
 #endif
     return !failed;

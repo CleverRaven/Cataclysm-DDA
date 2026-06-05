@@ -211,6 +211,20 @@ class layer_context_sprites
         std::string append_suffix;
 };
 
+// Inputs needed to re-upload one atlas after renderer recreate or
+// device-texture reset. image_path_u8 is a UTF-8 byte sequence so the
+// descriptor avoids a cata_path dependency.
+struct atlas_replay_descriptor {
+    std::string image_path_u8;
+    int color_key_r = -1;
+    int color_key_g = -1;
+    int color_key_b = -1;
+    int sprite_width = 0;
+    int sprite_height = 0;
+    int atlas_offset = 0;
+    int expected_tilecount = 0;
+};
+
 class tileset
 {
     private:
@@ -242,6 +256,18 @@ class tileset
         std::vector<texture> overexposed_tile_values;
         std::vector<texture> memory_tile_values;
         std::vector<texture> silhouette_tile_values;
+
+        // Descriptors recorded during JSON parsing; replayed by upload_atlases.
+        std::vector<atlas_replay_descriptor> atlas_descriptors;
+        // Sprite index of the synthetic highlight overlay, or nullopt when
+        // the tileset defines its own ITEM_HIGHLIGHT.
+        std::optional<int> default_item_highlight_index;
+
+        // Renderer-instance and device-texture epochs the textures were
+        // uploaded against. A bundle whose epochs differ from the live ones
+        // is stale and must be reuploaded before use.
+        uint64_t renderer_instance_generation_at_upload = 0;
+        uint64_t gpu_textures_generation_at_upload = 0;
 
         std::unordered_set<std::string> duplicate_ids;
 
@@ -316,6 +342,29 @@ class tileset
             return duplicate_ids;
         }
 
+        const std::vector<atlas_replay_descriptor> &get_atlas_descriptors() const {
+            return atlas_descriptors;
+        }
+        void append_atlas_descriptor( atlas_replay_descriptor desc ) {
+            atlas_descriptors.push_back( std::move( desc ) );
+        }
+        std::optional<int> get_default_item_highlight_index() const {
+            return default_item_highlight_index;
+        }
+        void set_default_item_highlight_index( std::optional<int> idx ) {
+            default_item_highlight_index = idx;
+        }
+        uint64_t get_renderer_instance_generation_at_upload() const {
+            return renderer_instance_generation_at_upload;
+        }
+        uint64_t get_gpu_textures_generation_at_upload() const {
+            return gpu_textures_generation_at_upload;
+        }
+        void set_upload_generations( uint64_t renderer_instance_gen, uint64_t gpu_textures_gen ) {
+            renderer_instance_generation_at_upload = renderer_instance_gen;
+            gpu_textures_generation_at_upload = gpu_textures_gen;
+        }
+
         tile_type &create_tile_type( const std::string &id, tile_type &&new_tile_type );
         const tile_type *find_tile_type( const std::string &id ) const;
 
@@ -338,17 +387,54 @@ class tileset
                 season_type season ) const;
 };
 
+// Hashes the options baked into tileset textures so changing any of them
+// invalidates the cache key and forces a reupload. Always folds in
+// SCALING_MODE; adds MEMORY_RGB_{DARK,BRIGHT}_{R,G,B} and MEMORY_GAMMA under
+// the "color_pixel_custom" memory map mode.
+uint64_t compute_tileset_filter_fingerprint( const std::string &memory_map_mode );
+
+struct tileset_cache_key {
+    std::string tileset_id;
+    std::string memory_preset;
+    uint64_t filter_fingerprint = 0;
+
+    bool operator==( const tileset_cache_key &other ) const {
+        return tileset_id == other.tileset_id
+               && memory_preset == other.memory_preset
+               && filter_fingerprint == other.filter_fingerprint;
+    }
+};
+
+struct tileset_cache_key_hash {
+    std::size_t operator()( const tileset_cache_key &key ) const noexcept {
+        const std::size_t h1 = std::hash<std::string> {}( key.tileset_id );
+        const std::size_t h2 = std::hash<std::string> {}( key.memory_preset );
+        const std::size_t h3 = std::hash<uint64_t> {}( key.filter_fingerprint );
+        std::size_t h = h1;
+        h ^= h2 + 0x9e3779b97f4a7c15ULL + ( h << 6 ) + ( h >> 2 );
+        h ^= h3 + 0x9e3779b97f4a7c15ULL + ( h << 6 ) + ( h >> 2 );
+        return h;
+    }
+};
+
 class tileset_cache
 {
     public:
+        // Look up or load a tileset bundle. current_renderer_instance_gen and
+        // current_gpu_textures_gen are compared against the bundle's recorded
+        // generations; a mismatch on either treats the cached entry as stale
+        // and reloads.
         std::shared_ptr<const tileset> load_tileset( const std::string &tileset_id,
                 const SDL_Renderer_Ptr &renderer, bool precheck,
                 bool force, bool pump_events, bool terrain,
-                const std::string &memory_map_mode );
+                const std::string &memory_map_mode,
+                uint64_t current_renderer_instance_gen,
+                uint64_t current_gpu_textures_gen );
     private:
         class loader;
 
-        std::unordered_map<std::string, std::weak_ptr<tileset>> tilesets_;
+        std::unordered_map<tileset_cache_key, std::weak_ptr<tileset>, tileset_cache_key_hash>
+        tilesets_;
 };
 
 

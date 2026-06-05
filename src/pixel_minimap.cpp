@@ -259,7 +259,6 @@ void pixel_minimap::clear_unused_cache()
 }
 
 //draws individual updates to the submap cache texture
-//the render target will be set back to display_buffer after all submaps are updated
 void pixel_minimap::flush_cache_updates()
 {
     for( auto &mcp : cache ) {
@@ -267,7 +266,10 @@ void pixel_minimap::flush_cache_updates()
             continue;
         }
 
-        SetRenderTarget( renderer, mcp.second.chunk_tex );
+        scoped_render_target chunk_scope( renderer, mcp.second.chunk_tex.get() );
+        if( !chunk_scope.is_valid() ) {
+            continue;
+        }
 
         if( !mcp.second.ready ) {
             mcp.second.ready = true;
@@ -440,15 +442,18 @@ void pixel_minimap::reset()
 
 void pixel_minimap::render( const tripoint_bub_ms &center )
 {
-    SetRenderTarget( renderer, main_tex );
-    SetRenderDrawColor( renderer, pixel_minimap_r, pixel_minimap_g, pixel_minimap_b, pixel_minimap_a );
-    RenderClear( renderer );
+    {
+        scoped_render_target main_scope( renderer, main_tex.get() );
+        if( !main_scope.is_valid() ) {
+            return;
+        }
+        SetRenderDrawColor( renderer, pixel_minimap_r, pixel_minimap_g, pixel_minimap_b,
+                            pixel_minimap_a );
+        RenderClear( renderer );
 
-    render_cache( center );
-    render_critters( center );
-
-    //set display buffer to main screen
-    set_displaybuffer_rendertarget();
+        render_cache( center );
+        render_critters( center );
+    }
     //paint intermediate texture to screen
     RenderCopy( renderer, main_tex, &main_tex_clip_rect, &screen_clip_rect );
 }
