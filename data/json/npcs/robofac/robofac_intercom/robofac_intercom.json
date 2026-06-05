@@ -1552,7 +1552,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_ARMOR_NANO_ASK",
     "type": "talk_topic",
-    "dynamic_line": "Thank you.  This might be of use benefit to us, but we will need at least a day to read the contents of the template.  Please speak with us again once we've had time.",
+    "dynamic_line": "Thank you.  This might be of use to us, but we will need at least a day to read the contents of the template.  Please speak with us again once we've had time to look it over.",
     "speaker_effect": {
       "effect": [
         { "u_consume_item": "template_armor", "count": 1, "popup": true },
