@@ -239,7 +239,7 @@ jobs:
           - name: macOS Tiles Universal Binary (SDL3)
             os: macos-15
             tiles: 1
-            sound: 0
+            sound: 1
             sdl3: 1
             artifact: osx-with-graphics-sdl3-universal
             ext: dmg
@@ -472,34 +472,47 @@ jobs:
       - name: install macports packages (mac, SDL3)
         if: runner.os == 'macOS' && matrix.tiles == 1 && matrix.sdl3 == 1
         run: |
-          sudo port install freetype +universal pkgconfig +universal
+          # SDL_mixer VENDORED=OFF pulls every mixer codec from a system lib.
+          # The macOS artifact is universal, so each (plus libiconv, a
+          # transitive dep of flac/wavpack) must be +universal.
+          sudo port install freetype +universal pkgconfig +universal \
+              libiconv +universal libogg +universal flac +universal \
+              libvorbis +universal wavpack +universal mpg123 +universal
       - name: Cache SDL3 stack source build (mac, SDL3)
         if: runner.os == 'macOS' && matrix.tiles == 1 && matrix.sdl3 == 1
         id: cache-sdl3-release-macos
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ${{ runner.workspace }}/sdl3_prefix
-          key: sdl3-stack-universal-sdl-3.4.4-image-3.4.2-ttf-3.2.2-mixer-3.2.0-${{ runner.os }}-v1
+          key: sdl3-stack-universal-sdl-3.4.10-image-3.4.4-ttf-3.2.2-mixer-3.2.4-${{ runner.os }}-v5
       - name: Build SDL3 stack from source (mac, SDL3, universal)
         if: runner.os == 'macOS' && matrix.tiles == 1 && matrix.sdl3 == 1 && steps.cache-sdl3-release-macos.outputs.cache-hit != 'true'
         run: |
           PREFIX=${{ runner.workspace }}/sdl3_prefix
           export PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig:/opt/local/lib/pkgconfig
-          export CMAKE_PREFIX_PATH=$PREFIX
+          # wavpack's Findwavpack.cmake uses plain find_library (no pkg-config),
+          # so /opt/local must be on CMAKE_PREFIX_PATH.
+          export CMAKE_PREFIX_PATH=$PREFIX:/opt/local
           ARCH_ARG='-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64'
-          git clone --depth 1 --branch release-3.4.4 https://github.com/libsdl-org/SDL.git sdl3_src
+          git clone --depth 1 --branch release-3.4.10 https://github.com/libsdl-org/SDL.git sdl3_src
           cmake -S sdl3_src -B sdl3_build "$ARCH_ARG" \
               -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX=$PREFIX \
               -DBUILD_SHARED_LIBS=ON
           cmake --build sdl3_build -j$(sysctl -n hw.ncpu)
           cmake --install sdl3_build
-          git clone --depth 1 --branch release-3.4.2 --recurse-submodules --shallow-submodules https://github.com/libsdl-org/SDL_image.git sdl3_image_src
+          git clone --depth 1 --branch release-3.4.4 --recurse-submodules --shallow-submodules https://github.com/libsdl-org/SDL_image.git sdl3_image_src
           cmake -S sdl3_image_src -B sdl3_image_build "$ARCH_ARG" \
               -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX=$PREFIX \
               -DSDLIMAGE_VENDORED=ON \
-              -DSDLIMAGE_AVIF=OFF -DSDLIMAGE_JXL=OFF -DSDLIMAGE_WEBP=OFF \
+              -DSDLIMAGE_DEPS_SHARED=OFF \
+              -DSDLIMAGE_STRICT=ON \
+              -DSDLIMAGE_BACKEND_IMAGEIO=OFF \
+              -DSDLIMAGE_PNG=ON -DSDLIMAGE_PNG_LIBPNG=ON \
+              -DSDLIMAGE_JPG=ON \
+              -DSDLIMAGE_AVIF=OFF -DSDLIMAGE_JXL=OFF \
+              -DSDLIMAGE_TIF=OFF -DSDLIMAGE_WEBP=OFF \
               -DPNG_ARM_NEON=off \
               -DBUILD_SHARED_LIBS=ON
           cmake --build sdl3_image_build -j$(sysctl -n hw.ncpu)
@@ -509,26 +522,102 @@ jobs:
               -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX=$PREFIX \
               -DSDLTTF_VENDORED=ON \
+              -DSDLTTF_STRICT=ON \
+              -DSDLTTF_PLUTOSVG=OFF \
               -DBUILD_SHARED_LIBS=ON
           cmake --build sdl3_ttf_build -j$(sysctl -n hw.ncpu)
           cmake --install sdl3_ttf_build
-          git clone --depth 1 --branch release-3.2.0 --recurse-submodules --shallow-submodules https://github.com/libsdl-org/SDL_mixer.git sdl3_mixer_src
+          git clone --depth 1 --branch release-3.2.4 --recurse-submodules --shallow-submodules https://github.com/libsdl-org/SDL_mixer.git sdl3_mixer_src
+          # VENDORED=OFF links the MacPorts codecs (LC_LOAD_DYLIB), not static-
+          # embed; mpg123 (LGPL) ships as a separate dylib. DEPS_SHARED=OFF keeps
+          # real link edges, not dlopen-by-name (no LC_LOAD_DYLIB, breaks bundler).
           cmake -S sdl3_mixer_src -B sdl3_mixer_build "$ARCH_ARG" \
               -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX=$PREFIX \
-              -DSDLMIXER_VENDORED=ON \
-              -DSDLMIXER_OPUS=OFF -DSDLMIXER_MOD=OFF -DSDLMIXER_MIDI=OFF \
+              -DSDLMIXER_VENDORED=OFF \
+              -DSDLMIXER_DEPS_SHARED=OFF \
+              -DSDLMIXER_STRICT=ON \
+              -DSDLMIXER_FLAC=ON -DSDLMIXER_FLAC_LIBFLAC=ON -DSDLMIXER_FLAC_DRFLAC=OFF \
+              -DSDLMIXER_MP3=ON -DSDLMIXER_MP3_MPG123=ON -DSDLMIXER_MP3_MPG123_SHARED=OFF -DSDLMIXER_MP3_DRMP3=OFF \
+              -DSDLMIXER_VORBIS_VORBISFILE=ON -DSDLMIXER_VORBIS_STB=OFF -DSDLMIXER_VORBIS_TREMOR=OFF \
+              -DSDLMIXER_WAVPACK=ON \
+              -DSDLMIXER_OPUS=OFF -DSDLMIXER_MOD=OFF -DSDLMIXER_MIDI=OFF -DSDLMIXER_GME=OFF \
               -DBUILD_SHARED_LIBS=ON
           cmake --build sdl3_mixer_build -j$(sysctl -n hw.ncpu)
           cmake --install sdl3_mixer_build
+          # Confirm a real link edge, not dlopen-by-name: otherwise
+          # dylibbundler ships no mpg123 dylib and LGPL swappability is lost.
+          if ! otool -L "$PREFIX"/lib/libSDL3_mixer*.dylib | grep -q mpg123; then
+              echo "ERROR: SDL3_mixer.dylib has no mpg123 LC_LOAD_DYLIB edge" >&2
+              exit 1
+          fi
           mkdir -p $PREFIX/share
           cp sdl3_src/LICENSE.txt $PREFIX/share/LICENSE-SDL.txt
+          cp sdl3_image_src/LICENSE.txt $PREFIX/share/LICENSE-SDL3_image.txt
+          cp sdl3_ttf_src/LICENSE.txt $PREFIX/share/LICENSE-SDL3_ttf.txt
           cp sdl3_mixer_src/LICENSE.txt $PREFIX/share/LICENSE-SDL3_mixer.txt
+          # SDL_image/SDL_ttf use VENDORED=ON (codecs static in the companion
+          # dylib), so harvest each codec's LICENSE/COPYING from external/.
+          for dep in \
+              sdl3_image_src/external/libpng \
+              sdl3_image_src/external/jpeg \
+              sdl3_ttf_src/external/freetype \
+              sdl3_ttf_src/external/harfbuzz; do
+              if [ -d "$dep" ]; then
+                  name=$(basename "$dep")
+                  for cand in "$dep"/LICENSE "$dep"/LICENSE.txt "$dep"/LICENSE.md \
+                              "$dep"/COPYING "$dep"/COPYING.txt "$dep"/COPYING.LIB \
+                              "$dep"/copyright; do
+                      if [ -f "$cand" ]; then
+                          cp "$cand" "$PREFIX/share/LICENSE-vendored-$name.txt"
+                          break
+                      fi
+                  done
+              fi
+          done
+          # SDL_mixer VENDORED=OFF ships flac/ogg/vorbis/mpg123/wavpack as
+          # separate MacPorts dylibs (no license installed); glob COPYING*/
+          # LICENSE* from each SDL_mixer submodule (FLAC uses COPYING.Xiph), fail if empty.
+          for dep in flac ogg vorbis mpg123 wavpack; do
+              src="sdl3_mixer_src/external/$dep"
+              out="$PREFIX/share/LICENSE-vendored-$dep.txt"
+              : > "$out"
+              for lic in "$src"/COPYING* "$src"/COPYRIGHT* "$src"/LICENSE* "$src"/License* "$src"/license*; do
+                  if [ -f "$lic" ]; then
+                      echo "=== $(basename "$lic") ===" >> "$out"
+                      cat "$lic" >> "$out"
+                      echo >> "$out"
+                  fi
+              done
+              if [ ! -s "$out" ]; then
+                  echo "ERROR: no license for bundled codec $dep in SDL_mixer source" >&2
+                  exit 1
+              fi
+          done
       - name: Stage SDL3 license files (mac, SDL3)
         if: runner.os == 'macOS' && matrix.tiles == 1 && matrix.sdl3 == 1
         run: |
           cp ${{ runner.workspace }}/sdl3_prefix/share/LICENSE-SDL.txt ${{ github.workspace }}/LICENSE-SDL.txt
+          cp ${{ runner.workspace }}/sdl3_prefix/share/LICENSE-SDL3_image.txt ${{ github.workspace }}/LICENSE-SDL3_image.txt
+          cp ${{ runner.workspace }}/sdl3_prefix/share/LICENSE-SDL3_ttf.txt ${{ github.workspace }}/LICENSE-SDL3_ttf.txt
           cp ${{ runner.workspace }}/sdl3_prefix/share/LICENSE-SDL3_mixer.txt ${{ github.workspace }}/LICENSE-SDL3_mixer.txt
+          for f in ${{ runner.workspace }}/sdl3_prefix/share/LICENSE-vendored-*.txt; do
+              if [ -f "$f" ]; then
+                  cp "$f" "${{ github.workspace }}/$(basename "$f")"
+              fi
+          done
+          # libiconv (LGPL) is bundled transitively via flac/wavpack but has no
+          # license on the MacPorts install or in any source tree, so ship the
+          # vendored copy committed in the repo.
+          cp ${{ github.workspace }}/build-data/osx/LICENSE-libiconv.txt ${{ github.workspace }}/LICENSE-vendored-libiconv.txt
+          # Every bundled codec plus libiconv must carry a non-empty license,
+          # independent of cache state (a stale prefix could skip the harvest).
+          for required in libiconv flac ogg vorbis mpg123 wavpack; do
+              if [ ! -s "${{ github.workspace }}/LICENSE-vendored-$required.txt" ]; then
+                  echo "ERROR: LICENSE-vendored-$required.txt missing or empty" >&2
+                  exit 1
+              fi
+          done
       - name: Create VERSION.TXT
         shell: bash
         run: |
@@ -594,15 +683,24 @@ jobs:
       - name: Build CDDA (osx, SDL2)
         if: runner.os == 'macOS' && matrix.sdl3 != 1
         run: |
-          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 FRAMEWORK=1 UNIVERSAL_BINARY=1 WARN_STALE_DATA=1 dmgdist
+          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.sound }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 FRAMEWORK=1 UNIVERSAL_BINARY=1 WARN_STALE_DATA=1 dmgdist
           mv Cataclysm.dmg cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.dmg
       - name: Build CDDA (osx, SDL3)
         if: runner.os == 'macOS' && matrix.sdl3 == 1
         env:
           PKG_CONFIG_PATH: ${{ runner.workspace }}/sdl3_prefix/lib/pkgconfig:/opt/local/lib/pkgconfig
-          DYLIBBUNDLER_SEARCH_PATHS: ${{ runner.workspace }}/sdl3_prefix/lib
+          # The MacPorts codecs live in /opt/local/lib; dylibbundler needs it
+          # so the mpg123 (and friends) dylibs get pulled into the bundle.
+          DYLIBBUNDLER_SEARCH_PATHS: ${{ runner.workspace }}/sdl3_prefix/lib /opt/local/lib
         run: |
-          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} SDL3=1 RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 UNIVERSAL_BINARY=1 WARN_STALE_DATA=1 dmgdist
+          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.sound }} SDL3=1 RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 UNIVERSAL_BINARY=1 WARN_STALE_DATA=1 dmgdist
+          # LGPL gate: mpg123 must ship as a standalone dylib in the bundle so
+          # it stays user-replaceable. Empty match means dylibbundler did not
+          # bundle it and the build must fail rather than ship a violation.
+          if ! ls Cataclysm.app/Contents/Resources/libmpg123*.dylib >/dev/null 2>&1; then
+              echo "ERROR: libmpg123 dylib missing from app bundle Resources" >&2
+              exit 1
+          fi
           mv Cataclysm.dmg cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.dmg
       - name: Set up JDK (android)
         if: runner.os == 'Linux' && matrix.android != 'none'

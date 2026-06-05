@@ -1520,6 +1520,11 @@ ifdef OSXCROSS
 	rm Cataclysm-uncompressed.dmg
 else
 	plutil -convert binary1 Cataclysm.app/Contents/Info.plist
+ifeq ($(SDL3), 1)
+	# Sign AFTER plutil rewrites Info.plist; signing earlier would be
+	# invalidated by the plist edit. dmgbuild does not modify the bundle.
+	bash build-scripts/codesign-macos.sh $(APPTARGETDIR)
+endif  # ifeq ($(SDL3), 1)
 	dmgbuild -s build-data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm.dmg
 endif
 
