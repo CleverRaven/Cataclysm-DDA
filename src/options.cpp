@@ -2939,6 +2939,13 @@ void options_manager::add_options_android()
 
     add_empty_line();
 
+    add( "ANDROID_RENDER_SAFE_AREA", "android", to_translation( "Confine display to safe area" ),
+         to_translation( "If true, keep the game within the screen's safe area so it does not draw under the camera cutout or other unsafe edges.  If false, the game fills the entire screen." ),
+         true
+       );
+
+    add_empty_line();
+
     add_option_group( "android", Group( "android_keyboard_opts",
                                         to_translation( "Android keyboard options" ),
                                         to_translation( "Options regarding Android keyboard." ) ),
