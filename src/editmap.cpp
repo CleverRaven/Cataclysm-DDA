@@ -1056,6 +1056,8 @@ void editmap_ui::edit_items()
         if( ilmenu.ret >= 0 && ilmenu.ret < static_cast<int>( items.size() ) ) {
             item &it = *items.get_iterator_from_index( ilmenu.ret );
             uilist imenu;
+            imenu.addentry( imenu_sep, false, 0, pgettext( "item manipulation debug menu entry",
+                            "-[ general ]-" ) );
             imenu.addentry( imenu_bday, true, -1, pgettext( "item manipulation debug menu entry", "bday: %d" ),
                             to_turn<int>( it.birthday() ) );
             imenu.addentry( imenu_damage, true, -1, pgettext( "item manipulation debug menu entry",
@@ -1069,9 +1071,11 @@ void editmap_ui::edit_items()
             []( const flag_id & f ) {
                 return f.str();
             } ) );
+            imenu.addentry( imenu_delete, true, 'd', pgettext( "item manipulation debug menu entry",
+                            "delete item" ) );
             imenu.addentry( imenu_sep, false, 0, pgettext( "item manipulation debug menu entry",
                             "-[ light emission ]-" ) );
-            imenu.addentry( imenu_savetest, true, -1, pgettext( "item manipulation debug menu entry",
+            imenu.addentry( imenu_savetest, true, 's', pgettext( "item manipulation debug menu entry",
                             "savetest" ) );
             imenu.input_category = "EDIT_ITEMS";
             imenu.additional_actions = {
@@ -1083,7 +1087,7 @@ void editmap_ui::edit_items()
 
             do {
                 imenu.query();
-                if( imenu.ret >= 0 && imenu.ret < imenu_savetest ) {
+                if( imenu.ret >= 0 && imenu.ret != imenu_savetest && imenu.ret != imenu_delete ) {
                     int intval = -1;
                     std::string strval;
                     switch( imenu.ret ) {
@@ -1158,12 +1162,28 @@ void editmap_ui::edit_items()
                                 break;
                         }
                     }
+                } else if( imenu.ret == imenu_delete ) {
+                    get_map().i_rem( brush.target, &it );
+                    map_stack items = get_map().i_at( brush.target );
+                    ilmenu.entries.clear();
+                    i = 0;
+                    for( item &an_item : items ) {
+                        ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname(),
+                                        an_item.is_emissive() ? " L" : "" );
+                    }
+                    ilmenu.addentry( items.size(), true, 'a',
+                                    pgettext( "item manipulation debug menu entry for adding an item on a tile", "Add item" ) );
+                    ilmenu.setup();
+                    ilmenu.filterlist();
+
+                    imenu.ret = UILIST_CANCEL;
                 } else if( imenu.ret == imenu_savetest ) {
                     edit_json( it );
                 }
             } while( imenu.ret != UILIST_CANCEL );
         } else if( ilmenu.ret == static_cast<int>( items.size() ) ) {
             debug_menu::wishitem( nullptr, brush.target );
+            map_stack items = get_map().i_at( brush.target );
             ilmenu.entries.clear();
             i = 0;
             for( item &an_item : items ) {
