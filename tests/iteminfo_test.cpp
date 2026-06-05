@@ -2455,10 +2455,10 @@ TEST_CASE( "list_of_item_qualities", "[iteminfo][quality]" )
         CHECK( item_info_str( halligan, qualities ) ==
                "--\n"
                "<color_c_white>Has qualities</color>:\n"
-               "Level <color_c_cyan>1 digging</color> quality\n"
-               "Level <color_c_cyan>2 hammering</color> quality\n"
-               "Level <color_c_cyan>4 prying</color> quality\n"
-               "Level <color_c_cyan>1 nail prying</color> quality\n" );
+               "Level <color_c_cyan>1 digging</color> quality.\n"
+               "Level <color_c_cyan>2 hammering</color> quality.\n"
+               "Level <color_c_cyan>4 prying</color> quality.\n"
+               "Level <color_c_cyan>1 nail prying</color> quality.\n" );
     }
 
     SECTION( "bottle jack" ) {
@@ -2470,7 +2470,7 @@ TEST_CASE( "list_of_item_qualities", "[iteminfo][quality]" )
                    "--\n"
                    "<color_c_white>Has qualities</color>:\n"
                    "Level <color_c_cyan>4 jacking</color> quality, rated at"
-                   " <color_c_cyan>2000</color> kg\n" );
+                   " <color_c_cyan>2000</color> kg.\n" );
         }
         SECTION( "imperial units" ) {
             override_option opt_lbs( "USE_METRIC_WEIGHTS", "lbs" );
@@ -2478,7 +2478,7 @@ TEST_CASE( "list_of_item_qualities", "[iteminfo][quality]" )
                    "--\n"
                    "<color_c_white>Has qualities</color>:\n"
                    "Level <color_c_cyan>4 jacking</color> quality, rated at"
-                   " <color_c_cyan>4409</color> lbs\n" );
+                   " <color_c_cyan>4409</color> lbs.\n" );
         }
     }
 
@@ -2488,11 +2488,11 @@ TEST_CASE( "list_of_item_qualities", "[iteminfo][quality]" )
         CHECK( item_info_str( sonic, qualities ) ==
                "--\n"
                "<color_c_white>Has qualities</color>:\n"
-               "Level <color_c_cyan>30 lockpicking</color> quality\n"
-               "Level <color_c_cyan>2 prying</color> quality\n"
-               "Level <color_c_cyan>2 screw driving</color> quality\n"
-               "Level <color_c_cyan>1 fine screw driving</color> quality\n"
-               "Level <color_c_cyan>1 bolt turning</color> quality\n" );
+               "Level <color_c_cyan>30 lockpicking</color> quality.\n"
+               "Level <color_c_cyan>2 prying</color> quality.\n"
+               "Level <color_c_cyan>2 screw driving</color> quality.\n"
+               "Level <color_c_cyan>1 fine screw driving</color> quality.\n"
+               "Level <color_c_cyan>1 bolt turning</color> quality.\n" );
     }
 
     SECTION( "cordless drill" ) {
@@ -2504,9 +2504,9 @@ TEST_CASE( "list_of_item_qualities", "[iteminfo][quality]" )
         CHECK( item_info_str( drill, qualities ) ==
                "--\n"
                "<color_c_white>Has qualities</color>:\n"
-               "Level <color_c_cyan>1 screw driving</color> quality\n"
+               "Level <color_c_cyan>1 screw driving</color> quality.\n"
                "<color_c_red>Needs 5 or more charges</color> for qualities:\n"
-               "Level <color_c_cyan>3 drilling</color> quality\n" );
+               "Level <color_c_cyan>3 drilling</color> quality.\n" );
 
         // With enough charges
         int bat_charges = drill.type->charges_to_use();
@@ -2517,9 +2517,9 @@ TEST_CASE( "list_of_item_qualities", "[iteminfo][quality]" )
         CHECK( item_info_str( drill, qualities ) ==
                "--\n"
                "<color_c_white>Has qualities</color>:\n"
-               "Level <color_c_cyan>1 screw driving</color> quality\n"
+               "Level <color_c_cyan>1 screw driving</color> quality.\n"
                "<color_c_green>Has enough charges</color> for qualities:\n"
-               "Level <color_c_cyan>3 drilling</color> quality\n" );
+               "Level <color_c_cyan>3 drilling</color> quality.\n" );
     }
 }
 
