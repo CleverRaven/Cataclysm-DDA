@@ -3782,7 +3782,7 @@ bool Character::verify_step_tools( item &craft, int step_idx,
     return true;
 }
 
-bool Character::craft_consume_step_tools( item &craft )
+bool Character::craft_consume_step_tools( item &craft, const crafting_cost_context *cost_ctx )
 {
     if( has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -3795,7 +3795,13 @@ bool Character::craft_consume_step_tools( item &craft )
     const int cur_step = craft.get_current_step();
     const double cur_progress = craft.get_step_progress();
     const bool craft_done = craft.item_counter >= 10000000;
-    const crafting_cost_context ctx = crafting_cost_context::for_recipe( *this, rec );
+    // for_recipe rebuilds the nearby inventory and rescans qualities, too costly
+    // to run every turn in a dense base; lean on the caller's cache when given.
+    std::optional<crafting_cost_context> ctx_owned;
+    if( cost_ctx == nullptr ) {
+        ctx_owned = crafting_cost_context::for_recipe( *this, rec );
+    }
+    const crafting_cost_context &ctx = cost_ctx != nullptr ? *cost_ctx : *ctx_owned;
 
     std::vector<int> targets( n_steps, 0 );
     for( int s = 0; s < n_steps; ++s ) {

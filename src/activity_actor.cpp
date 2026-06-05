@@ -6473,7 +6473,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         }
     }
     // Charge shortfall rewinds the turn before any skill gain.
-    if( !crafter.craft_consume_step_tools( craft ) ) {
+    if( !crafter.craft_consume_step_tools( craft, &cached_cost_ctx ) ) {
         rewind_turn();
         return;
     }
