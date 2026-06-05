@@ -3366,13 +3366,13 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
             //~ %1$d is the numeric quality level, and %2$s is the name of the quality.
             //~ %3$d is the amount of weight the jack can lift, and %4$s is the units of that weight.
             str = string_format( _( "Level <info>%1$d %2$s</info> quality, "
-                                    "rated at <info>%3$d</info> %4$s." ),
+                                    "rated at <info>%3$d</info> %4$s" ),
                                  q.second, q.first.obj().name,
                                  static_cast<int>( convert_weight( lifting_quality_to_mass( q.second ) ) ),
                                  weight_units() );
         } else {
             //~ %1$d is the numeric quality level, and %2$s is the name of the quality
-            str = string_format( _( "Level <info>%1$d %2$s</info> quality." ),
+            str = string_format( _( "Level <info>%1$d %2$s</info> quality" ),
                                  q.second, q.first.obj().name );
         }
         info.emplace_back( "QUALITIES", "", str );

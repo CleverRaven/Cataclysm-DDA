@@ -2024,7 +2024,7 @@ void crafting_ui_impl::draw_requirement_tools( const requirement_data &req,
         } );
 
         // Label
-        std::string label = string_format( "\u2022 %s: ", has_name ? group_name : _( "One of" ) );
+        std::string label = string_format( _( "\u2022 %s: " ), has_name ? group_name : _( "One of" ) );
 
         if( is_expanded ) {
             // Expanded: label line, then each tool as a bullet below
