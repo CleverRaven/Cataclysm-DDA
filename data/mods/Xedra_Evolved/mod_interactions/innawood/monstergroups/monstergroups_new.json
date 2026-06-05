@@ -27,7 +27,7 @@
     "id": "GROUP_OVERLAND_RENFIELD",
     "monsters": [
       { "monster": "mon_renfield_innawood", "weight": 200 },
-      { "monster": "mon_renfield", "weight": 50, "pack_size": [ 2, 5 ] }
+      { "monster": "mon_renfield_innawood", "weight": 50, "pack_size": [ 2, 5 ] }
     ]
   },
   {
