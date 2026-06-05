@@ -305,27 +305,39 @@ operator%=( quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
 /**@}*/
 
 template<typename value_type>
-inline constexpr quantity<value_type, volume_in_milliliter_tag> from_milliliter(
+inline constexpr quantity<value_type, volume_in_microliter_tag> from_microliter(
+    const value_type v)
+{
+    return quantity<value_type, volume_in_microliter_tag>(v, volume_in_microliter_tag{});
+}
+
+template<typename value_type>
+inline constexpr quantity<value_type, volume_in_microliter_tag> from_milliliter(
     const value_type v )
 {
-    return quantity<value_type, volume_in_milliliter_tag>( v, volume_in_milliliter_tag{} );
+    return from_microliter<value_type>(v * 1000);
 }
 
 template<typename value_type>
-inline constexpr quantity<value_type, volume_in_milliliter_tag> from_liter( const value_type v )
+inline constexpr quantity<value_type, volume_in_microliter_tag> from_liter( const value_type v )
 {
-    return from_milliliter<value_type>( v * 1000 );
+    return from_microliter<value_type>( v * 1000000 );
 }
 
 template<typename value_type>
-inline constexpr value_type to_milliliter( const quantity<value_type, volume_in_milliliter_tag> &v )
+inline constexpr value_type to_microliter( const quantity<value_type, volume_in_microliter_tag> &v )
 {
-    return v / from_milliliter<value_type>( 1 );
+    return v / from_microliter<value_type>( 1 );
 }
 
-inline constexpr double to_liter( const volume &v )
+inline constexpr double to_milliliter( const volume &v )
 {
     return v.value() / 1000.0;
+}
+
+inline constexpr double to_liter(const volume& v)
+{
+    return v.value() / 1000000.0;
 }
 
 template<typename value_type>
@@ -870,31 +882,43 @@ std::string display( units::power v );
 
 } // namespace units
 
-// Implicitly converted to volume, which has int as value_type!
+// Implicitly converted to volume, which has int64_t as value_type!
+inline constexpr units::volume operator""_ul(const unsigned long long v)
+{
+    return units::from_microliter(v);
+}
+
+inline constexpr units::quantity<double, units::volume_in_microliter_tag> operator""_ul(
+    const long double v)
+{
+    return units::from_microliter(v);
+}
+
+// Implicitly converted to volume, which has int64_t as value_type!
 inline constexpr units::volume operator""_ml( const unsigned long long v )
 {
     return units::from_milliliter( v );
 }
 
-inline constexpr units::quantity<double, units::volume_in_milliliter_tag> operator""_ml(
+inline constexpr units::quantity<double, units::volume_in_microliter_tag> operator""_ml(
     const long double v )
 {
     return units::from_milliliter( v );
 }
 
-// Implicitly converted to volume, which has int as value_type!
+// Implicitly converted to volume, which has int64_t as value_type!
 inline constexpr units::volume operator""_liter( const unsigned long long v )
 {
-    return units::from_milliliter( v * 1000 );
+    return units::from_liter( v );
 }
 
-inline constexpr units::quantity<double, units::volume_in_milliliter_tag> operator""_liter(
+inline constexpr units::quantity<double, units::volume_in_microliter_tag> operator""_liter(
     const long double v )
 {
-    return units::from_milliliter( v * 1000 );
+    return units::from_liter( v );
 }
 
-// Implicitly converted to mass, which has int as value_type!
+// Implicitly converted to mass, which has int64_t as value_type!
 inline constexpr units::mass operator""_milligram( const unsigned long long v )
 {
     return units::from_milligram( v );
@@ -1232,7 +1256,8 @@ constexpr std::array<std::pair<std::string_view, money>, 6> money_units = { {
         { "kUSD", 1_kUSD },
     }
 };
-constexpr std::array<std::pair<std::string_view, volume>, 2> volume_units = { {
+constexpr std::array<std::pair<std::string_view, volume>, 3> volume_units = { {
+        { "ul", 1_ul },
         { "ml", 1_ml },
         { "L", 1_liter }
     }

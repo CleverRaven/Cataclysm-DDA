@@ -10,11 +10,15 @@ namespace units
 template<typename V, typename U>
 class quantity;
 
+class volume_in_microliter_tag
+{
+};
+
 class volume_in_milliliter_tag
 {
 };
 
-using volume = quantity<int, volume_in_milliliter_tag>;
+using volume = quantity<std::int64_t, volume_in_microliter_tag>;
 
 class mass_in_microgram_tag
 {

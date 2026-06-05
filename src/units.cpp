@@ -13,10 +13,12 @@ namespace units
 template<>
 void volume::serialize( JsonOut &jsout ) const
 {
-    if( value_ % 1000 == 0 ) {
-        jsout.write( string_format( "%d L", value_ / 1000 ) );
+    if (value_ % 1000000 == 0) {
+        jsout.write(string_format("%d L", value_ / 1000000));
+    } else if (value_ % 1000 == 0) {
+        jsout.write(string_format("%d mL", value_ / 1000));
     } else {
-        jsout.write( string_format( "%d ml", value_ ) );
+        jsout.write( string_format( "%d uL", value_ ) );
     }
 }
 
