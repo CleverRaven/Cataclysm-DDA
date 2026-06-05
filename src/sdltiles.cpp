@@ -542,11 +542,18 @@ static void WinCreate()
     DebugLog( D_INFO, DC_ALL ) << "USE_COLOR_MODULATED_TEXTURES is set to " <<
                                get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" );
     //initialize the alternate rectangle texture for replacing SDL_RenderFillRect
+#if SDL_MAJOR_VERSION >= 3
+    // SDL3 batches RenderFillRect efficiently and the modulated texture path
+    // blends differently from a plain fill (it breaks the per-frame clear), so
+    // the saved option value is ignored and the default renderer is always used.
+    geometry = std::make_unique<DefaultGeometryRenderer>();
+#else
     if( get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" ) && !software_renderer ) {
         geometry = std::make_unique<ColorModulatedGeometryRenderer>( renderer );
     } else {
         geometry = std::make_unique<DefaultGeometryRenderer>();
     }
+#endif
 
     imclient = std::make_unique<cataimgui::client>( renderer, window, geometry );
 }

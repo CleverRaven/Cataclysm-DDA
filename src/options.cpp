@@ -2745,9 +2745,19 @@ void options_manager::add_options_graphics()
         get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "RENDERER", "software" );
 #endif
 
+        // Color-modulated textures are an SDL2-era speed-up that replaces
+        // RenderFillRect with a stretched 1x1 texture. Under SDL3 the renderer
+        // batches fills efficiently and the texture path blends differently, so
+        // the saved value is ignored at startup and the option is hidden; the ID
+        // is retained so existing configs still parse.
+#if defined(USE_SDL3)
+        const options_manager::copt_hide_t color_modulated_hide = COPT_ALWAYS_HIDE;
+#else
+        const options_manager::copt_hide_t color_modulated_hide = COPT_CURSES_HIDE;
+#endif
         add( "USE_COLOR_MODULATED_TEXTURES", page_id, to_translation( "Use color modulated textures" ),
              to_translation( "If true, tries to use color modulated textures to speed-up ASCII drawing.  Requires restart." ),
-             false, COPT_CURSES_HIDE
+             false, color_modulated_hide
            );
 
         add( "SCALING_MODE", page_id, to_translation( "Scaling mode" ),
@@ -3725,7 +3735,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 case ItemType::GroupHeader:
                     return true;
                 case ItemType::Option:
-                    return groups_state[curr_item.group];
+                    return groups_state[curr_item.group]
+                    && !get_options().get_option( curr_item.data ).is_hidden();
                 default:
                     cata_fatal( "invalid ItemType" );
             }
