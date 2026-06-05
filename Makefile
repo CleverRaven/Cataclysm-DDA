@@ -1026,15 +1026,25 @@ ifeq ($(TARGETSYSTEM),LINUX)
   CFLAGS += -mcx16
   CXXFLAGS += -mcx16
   BINDIST_EXTRAS += cataclysm-launcher
+  ifeq ($(SDL3),1)
+    # bundle-sdl3-linux.sh fills bindist/lib/; RUNPATH=$$ORIGIN/lib lets
+    # the binary resolve bundled libs without the launcher.
+    LDFLAGS += -Wl,-rpath,'$$ORIGIN/lib'
+    BUNDLE_SDL3_LINUX = 1
+  endif
   ifneq ("$(wildcard LICENSE-SDL.txt)","")
-    ifeq ($(SDL3),1)
-      SDL_solibs = $(shell ldd $(TARGET) | awk '/libSDL3/ {print $$3}')
-    else
+    ifneq ($(SDL3),1)
       SDL_solibs = $(shell ldd $(TARGET) | grep libSDL2-2\.0 | cut -d ' ' -f 3)
+      INSTALL_EXTRAS += $(SDL_solibs)
     endif
-    INSTALL_EXTRAS += $(SDL_solibs)
     BINDIST_EXTRAS += LICENSE-SDL.txt
     ifeq ($(SDL3),1)
+      ifneq ("$(wildcard LICENSE-SDL3_image.txt)","")
+        BINDIST_EXTRAS += LICENSE-SDL3_image.txt
+      endif
+      ifneq ("$(wildcard LICENSE-SDL3_ttf.txt)","")
+        BINDIST_EXTRAS += LICENSE-SDL3_ttf.txt
+      endif
       ifneq ("$(wildcard LICENSE-SDL3_mixer.txt)","")
         BINDIST_EXTRAS += LICENSE-SDL3_mixer.txt
       endif
@@ -1521,6 +1531,9 @@ $(BINDIST): distclean version $(TARGET) $(ZZIP_BIN) $(L10N) $(BINDIST_EXTRAS) $(
 	$(foreach lib,$(INSTALL_EXTRAS),install --strip $(lib) $(BINDIST_DIR);)
 ifdef LANGUAGES
 	cp -R --parents lang/mo $(BINDIST_DIR)
+endif
+ifeq ($(BUNDLE_SDL3_LINUX),1)
+	bash build-scripts/bundle-sdl3-linux.sh $(BINDIST_DIR) $(BINDIST_DIR)/$(notdir $(TARGET))
 endif
 	$(BINDIST_CMD)
 
