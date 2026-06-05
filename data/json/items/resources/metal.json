@@ -112,7 +112,8 @@
     "weight": "19 g",
     "volume": "1 ml",
     "price": "320 USD 15 cent",
-    "price_postapoc": "10 cent",
+    "//COMMENT": "Scrap gold is actually worthless. There's an overwhelming supply of it from looting, and no practical use for it. Ingots(bars of gold) have a minor funny value.",
+    "price_postapoc": "0 cent",
     "material": [ "gold" ],
     "symbol": "/",
     "color": "yellow"
@@ -127,7 +128,7 @@
     "volume": "1 ml",
     "price": "159 USD 5 cent",
     "//COMMENT": "With no industry to use it, worthless.",
-    "price_postapoc": "1 cent",
+    "price_postapoc": "0 cent",
     "material": [ "platinum" ],
     "symbol": "/",
     "color": "light_gray"
@@ -172,7 +173,7 @@
     "weight": "5 g",
     "volume": "1 ml",
     "price": "2 USD",
-    "price_postapoc": "2 cent",
+    "price_postapoc": "0 cent",
     "material": [ "lead" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -202,7 +203,8 @@
     "volume": "1 ml",
     "//": "200*5g / 10.49g/ml = ~95.33ml. Add 10% to take an uneven chunk into account = 104.86ml rounded upwards to 105ml.",
     "price": "750 USD",
-    "price_postapoc": "10 cent",
+    "//COMMENT": "No industry, worthless outside of vanity value.",
+    "price_postapoc": "0 cent",
     "material": [ "silver" ],
     "symbol": "/",
     "color": "light_gray"

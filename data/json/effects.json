@@ -3175,7 +3175,7 @@
     "type": "effect_type",
     "id": "lung_collapse",
     "name": [ "Lung Collapse" ],
-    "desc": [ "Your have difficulties breathing!" ],
+    "desc": [ "You have difficulties breathing!" ],
     "rating": "bad",
     "max_intensity": 2,
     "//": "intensity 1 - one of two lungs is collapsed; intensity 2 - both lungs are collapsed",

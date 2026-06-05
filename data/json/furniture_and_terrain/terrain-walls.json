@@ -978,6 +978,7 @@
     "id": "t_wall_metal",
     "copy-from": "t_abstract_wall_metal",
     "name": "metal wall",
+    "extend": { "flags": [ "WIRED_WALL" ] },
     "description": "An industrially fabricated thick sheet carefully positioned and joined seamlessly with perimeter sealant, this wall is capable of resisting extreme elements as well as hostile forces.  Blast load rated and extremely fire-retardant, breaching it will require specialized tools or an industrial vehicle.",
     "oxytorch": {
       "result": "t_scrap_wall_halfway",

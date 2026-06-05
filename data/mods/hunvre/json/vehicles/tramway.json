@@ -2,7 +2,7 @@
   {
     "id": "tram_car",
     "type": "vehicle",
-    "name": "Tram car",
+    "name": "Tram Car",
     "blueprint": [
       "┌──'─┐",
       "│##━#│",

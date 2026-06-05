@@ -51,11 +51,5 @@
       "subway_connection": "subway_tunnel",
       "rail_connection": "local_railroad"
     }
-  },
-  {
-    "type": "region_terrain_furniture",
-    "id": "netherum_labyrinth_t_region_groundcover",
-    "ter_id": "t_netherum_labyrinth_groundcover",
-    "replace_with_terrain": [ "t_nl_chasm_no_trap" ]
   }
 ]

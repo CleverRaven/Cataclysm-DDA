@@ -868,7 +868,7 @@
     "id": "spell_scroll_technomancer_perception_buff_spell",
     "//": "Technomancer spell",
     "name": { "str": "Scroll of Keenness of Sight", "str_pl": "Scrolls of Keenness of Sight" },
-    "description": "You senses all sharpen.",
+    "description": "Your senses all sharpen.",
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_perception_buff_spell" ] }
   },
   {

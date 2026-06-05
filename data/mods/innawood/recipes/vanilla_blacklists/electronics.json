@@ -41,6 +41,11 @@
   },
   {
     "type": "recipe",
+    "result": "noise_emitter_radio-mod",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "standing_directed_floodlight",
     "obsolete": true
   },
@@ -112,6 +117,16 @@
   {
     "type": "recipe",
     "result": "analytical_set_basic",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "workbench_with_recharger",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "oven",
     "obsolete": true
   }
 ]

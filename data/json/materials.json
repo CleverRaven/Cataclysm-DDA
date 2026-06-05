@@ -1913,7 +1913,7 @@
     "latent_heat": 165,
     "chip_resist": 8,
     "repaired_with": "plastic_chunk",
-    "salvaged_into": "chunk_rubber",
+    "salvaged_into": "rubber_tire_chunk",
     "dmg_adj": [ "worn", "stressed", "shredded", { "ctxt": "adjective", "str": "ruined" } ],
     "bash_dmg_verb": "stressed",
     "cut_dmg_verb": "slashed",

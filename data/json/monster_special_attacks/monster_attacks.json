@@ -970,12 +970,12 @@
     "condition": {
       "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" }, { "not": { "u_has_effect": "sectioned_filaments" } } ]
     },
-    "hit_dmg_u": "%1$s pulls your %2$s in its orifice and starts crushing it.",
-    "hit_dmg_npc": "%1$s pulls <npcname>'s %2$s in its orifice and starts crushing it.",
-    "miss_msg_u": "%1$s tries to pulls your %2$s in its orifice but misses.",
-    "miss_msg_npc": "%1$s tries to pulls <npcname>'s %2$s in its orifice but misses.",
-    "no_dmg_msg_u": "%1$s pulls your %2$s in its orifice and starts crushing it, but can't penetrate your armor.",
-    "no_dmg_msg_npc": "%1$s pulls <npcname>'s %2$s in its orifice and starts crushing it, but can't penetrate their armor."
+    "hit_dmg_u": "%1$s pulls your %2$s into its orifice and starts crushing it.",
+    "hit_dmg_npc": "%1$s pulls <npcname>'s %2$s into its orifice and starts crushing it.",
+    "miss_msg_u": "%1$s tries to pulls your %2$s into its orifice but fails.",
+    "miss_msg_npc": "%1$s tries to pulls <npcname>'s %2$s into its orifice but fails.",
+    "no_dmg_msg_u": "%1$s pulls your %2$s into its orifice and starts crushing it, but fails to penetrate your armor.",
+    "no_dmg_msg_npc": "%1$s pulls <npcname>'s %2$s into its orifice and starts crushing it, but fails to penetrate their armor."
   },
   {
     "type": "monster_attack",
