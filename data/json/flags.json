@@ -113,6 +113,10 @@
     "type": "json_flag"
   },
   {
+    "id": "ALLOWS_LEG_TENTACLES",
+    "type": "json_flag"
+  },
+  {
     "id": "ALLOWS_TALONS",
     "type": "json_flag"
   },
