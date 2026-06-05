@@ -46,6 +46,7 @@
     "charges": 4,
     "//": "See pur_tablets item definition for documentation and discussion",
     "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
     "components": [ [ [ "water", 4 ], [ "water_murky", 4 ] ], [ [ "pur_tablets", 1 ] ] ]
   },
   {
@@ -650,6 +651,7 @@
     "skill_used": "cooking",
     "time": "30 s",
     "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
     "components": [ [ [ "lemonade_powder", 1 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
@@ -662,6 +664,7 @@
     "skill_used": "cooking",
     "time": "30 s",
     "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
     "components": [ [ [ "orangeade_powder", 1 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
@@ -674,6 +677,7 @@
     "skill_used": "cooking",
     "time": "30 s",
     "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
     "components": [ [ [ "grapeade_powder", 1 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
@@ -1258,6 +1262,7 @@
     "time": "2 m",
     "autolearn": true,
     "//": "You're just dissolving the milk cocoa powder into the water. That takes some time because cocoa powder has some fat. Therefore, you need to mix well",
+    "flags": [ "BLIND_HARD" ],
     "components": [ [ [ "cocoa_powder_milk", 1 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
