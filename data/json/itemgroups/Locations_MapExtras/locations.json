@@ -1682,7 +1682,6 @@
       { "item": "razor_blade", "prob": 20 },
       { "item": "soap", "prob": 5, "charges": [ 1, 10 ] },
       { "item": "detergent", "prob": 5, "count": [ 1, 20 ] },
-      { "item": "chem_borax", "prob": 5, "count": [ 100, 500 ] },
       { "item": "knitting_needles", "prob": 1 },
       { "item": "survnote", "prob": 2 },
       { "item": "ankle_wallet_pouch", "prob": 5 }
