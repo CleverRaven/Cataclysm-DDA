@@ -237,6 +237,19 @@
     "items": [ { "item": "nicotine_liquid", "charges": [ 5, -1 ] } ]
   },
   {
+    "id": "borax_box",
+    "type": "item_group",
+    "container-item": "box_small",
+    "//": "65 oz",
+    "items": [ { "item": "chem_borax", "count": 532 } ]
+  },
+  {
+    "id": "borax_box_part",
+    "type": "item_group",
+    "container-item": "box_small",
+    "items": [ { "item": "chem_borax", "count": [ 100, 532 ] } ]
+  },
+  {
     "id": "paint",
     "type": "item_group",
     "items": [
@@ -614,7 +627,7 @@
       { "item": "water_clean", "prob": 90, "charges": [ 1, -1 ], "container-item": "bottle_plastic", "sealed": false },
       { "item": "salt_water", "prob": 20, "charges": [ 1, -1 ] },
       { "item": "detergent", "prob": 10, "count": [ 1, 20 ] },
-      { "item": "chem_borax", "prob": 10, "count": [ 100, 500 ] },
+      { "group": "borax_box_part", "prob": 10 },
       { "item": "bleach", "prob": 10, "charges": [ 10, -1 ] },
       { "item": "ammonia_liquid", "prob": 20, "charges": [ 6, -1 ] },
       { "item": "ammonia_hydroxide", "prob": 10, "charges": [ 10, -1 ] },

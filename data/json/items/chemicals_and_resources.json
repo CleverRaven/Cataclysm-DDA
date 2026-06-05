@@ -125,18 +125,18 @@
     "type": "ITEM",
     "id": "chem_borax",
     "category": "chems",
-    "price": "5 cent",
+    "price": "1 cent",
     "price_postapoc": "0 cent",
     "looks_like": "detergent",
     "name": { "str_sp": "borax powder" },
+    "display_type": "BY_WEIGHT",
     "symbol": "=",
     "color": "white",
     "description": "Borax powder.  It's a common household cleaner, used in laundry to remove soap scum, and for making insecticide.  It's also useful in metalworking as a ubiquitous flux.",
-    "material": [ "powder" ],
+    "material": [ "dense_powder_nonflam" ],
     "volume": "2 ml",
     "weight": "3460 mg",
-    "//": "Density: 1.73g/cm3",
-    "container": "box_small"
+    "//": "Density: 1.73g/cm3"
   },
   {
     "type": "ITEM",
