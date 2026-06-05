@@ -1023,6 +1023,7 @@ enum editmap_imenu_ent {
     imenu_bday,
     imenu_damage,
     imenu_degradation,
+    imenu_delete,
     imenu_burnt,
     imenu_tags,
     imenu_sep,
