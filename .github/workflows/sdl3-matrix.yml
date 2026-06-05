@@ -65,7 +65,7 @@ jobs:
       id: sdl
       uses: libsdl-org/setup-sdl@4ebea449684c989388fe6bcea0460e300d13a5ae # main
       with:
-        version: 3.4.4
+        version: 3.4.10
         cmake-generator: Ninja
         install-linux-dependencies: true
 
@@ -184,7 +184,7 @@ jobs:
       uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
       with:
         path: ${{ runner.workspace }}/sdl3_prefix
-        key: sdl3-stack-sdl-3.4.4-image-3.4.2-ttf-3.2.2-mixer-3.2.0-${{ runner.os }}-v1
+        key: sdl3-stack-sdl-3.4.10-image-3.4.4-ttf-3.2.2-mixer-3.2.4-${{ runner.os }}-v2
 
     - name: build SDL3 stack from source (Ubuntu)
       if: matrix.platform == 'linux' && steps.cache-sdl3.outputs.cache-hit != 'true'
@@ -192,14 +192,14 @@ jobs:
           PREFIX=${{ runner.workspace }}/sdl3_prefix
           export PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig:$PREFIX/lib/x86_64-linux-gnu/pkgconfig
           export CMAKE_PREFIX_PATH=$PREFIX
-          git clone --depth 1 --branch release-3.4.4 https://github.com/libsdl-org/SDL.git sdl3_src
+          git clone --depth 1 --branch release-3.4.10 https://github.com/libsdl-org/SDL.git sdl3_src
           cmake -S sdl3_src -B sdl3_build \
               -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX=$PREFIX \
               -DBUILD_SHARED_LIBS=ON
           cmake --build sdl3_build -j$(nproc)
           cmake --install sdl3_build
-          git clone --depth 1 --branch release-3.4.2 https://github.com/libsdl-org/SDL_image.git sdl3_image_src
+          git clone --depth 1 --branch release-3.4.4 https://github.com/libsdl-org/SDL_image.git sdl3_image_src
           cmake -S sdl3_image_src -B sdl3_image_build \
               -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX=$PREFIX \
@@ -215,14 +215,14 @@ jobs:
               -DBUILD_SHARED_LIBS=ON
           cmake --build sdl3_ttf_build -j$(nproc)
           cmake --install sdl3_ttf_build
-          git clone --depth 1 --branch release-3.2.0 https://github.com/libsdl-org/SDL_mixer.git sdl3_mixer_src
+          git clone --depth 1 --branch release-3.2.4 https://github.com/libsdl-org/SDL_mixer.git sdl3_mixer_src
           cmake -S sdl3_mixer_src -B sdl3_mixer_build \
               -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX=$PREFIX \
               -DSDLMIXER_VENDORED=OFF \
               -DSDLMIXER_FLAC=ON -DSDLMIXER_FLAC_LIBFLAC=ON \
               -DSDLMIXER_MP3=ON -DSDLMIXER_MP3_MPG123=ON \
-              -DSDLMIXER_VORBIS=VORBISFILE \
+              -DSDLMIXER_VORBIS_VORBISFILE=ON -DSDLMIXER_VORBIS_STB=OFF -DSDLMIXER_VORBIS_TREMOR=OFF \
               -DSDLMIXER_WAVPACK=ON \
               -DSDLMIXER_OPUS=OFF -DSDLMIXER_MOD=OFF -DSDLMIXER_MIDI=OFF \
               -DBUILD_SHARED_LIBS=ON
@@ -245,7 +245,7 @@ jobs:
       uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2 # v11.6
       with:
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
-        vcpkgGitCommitId: 'c3867e714dd3a51c272826eea77267876517ed99'
+        vcpkgGitCommitId: 'f6672d8e480ccdecddfad3fd1b838ba369ffe6cd'
 
     - name: integrate vcpkg (Windows)
       if: matrix.platform == 'windows'
@@ -259,7 +259,7 @@ jobs:
       uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
       with:
         path: msvc-full-features/vcpkg_installed
-        key: vcpkg-installed-sdl3-${{ hashFiles('msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/x64-windows-static.cmake') }}-c3867e714dd3a51c272826eea77267876517ed99
+        key: vcpkg-installed-sdl3-${{ hashFiles('msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/x64-windows-static.cmake') }}-f6672d8e480ccdecddfad3fd1b838ba369ffe6cd
 
     - name: build (Ubuntu)
       if: matrix.platform == 'linux'
