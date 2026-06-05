@@ -12,7 +12,7 @@
     "global": true,
     "condition": {
       "and": [
-        { "u_near_om_location": "robofachq_surface_road1", "range": 30 },
+        { "u_near_om_location": "robofachq_surface_road1", "range": 180 },
         { "not": { "u_near_om_location": "robofachq_surface_road1", "range": 4 } },
         { "math": [ "robofac_destroyed != 1" ] }
       ]
