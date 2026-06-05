@@ -6,11 +6,5 @@
     "required_event": "game_start",
     "condition": { "u_has_trait": "LIZARDFOLK_BUILD" },
     "effect": [ { "u_mutate_towards": "LIZARDFOLK_NO_HAIR", "category": "ANY", "use_vitamins": false } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_XEDRAWOOD_LIZARDFOLK_HAVE_NO_HAIR_ACTIVE",
-    "condition": { "u_has_trait": "LIZARDFOLK_BUILD" },
-    "effect": [  ]
   }
 ]
