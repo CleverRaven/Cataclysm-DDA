@@ -8,6 +8,6 @@
     "description": "Expands on connection between Xedra Evolved and Innawood, turning it into a full-fledged neolithic sword and sorcery setting.",
     "category": "content",
     "dependencies": [ "dda", "xedra_evolved", "innawood" ],
-    "conflicts": [ "magiclysm", "generic_guns", "backrooms", "desertpack", "tropicata", "Isolation_Protocol", "MA", "no_hope" ]
+    "conflicts": [ "magiclysm", "generic_guns", "MA" ]
   }
 ]
