@@ -176,7 +176,7 @@ static void update_state( const std::string &context, const std::string &step )
                 imgs.clear();
             }
             for( const std::string &img_name : mod.loading_images ) {
-                // There may be more than one file matching the name, so we need to get all of them.
+                // There may be more than one file matching the name, so we need to get all of them
                 for( cata_path &img_path : get_files_from_path( img_name, mod.path, true ) ) {
                     imgs.emplace_back( img_path );
                 }
