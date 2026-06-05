@@ -6387,12 +6387,18 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         return;
     }
 
+    // Book bonuses and tool speeds come from the nearby inventory, not the
+    // crafter's proficiency, so they survive the per-5% proficiency invalidation.
+    // batch_time still applies the live proficiency malus on top of this context,
+    // so the move totals stay current without rebuilding it each step.
+    if( !cost_ctx_ready ) {
+        cached_cost_ctx = { crafter.book_bonuses_nearby(), compute_tool_speeds( rec, crafter ) };
+        cost_ctx_ready = true;
+    }
+
     if( cached_crafting_speed != crafting_speed || cached_assistants != assistants ) {
         cached_crafting_speed = crafting_speed;
         cached_assistants = assistants;
-        // Recompute cost context: tool speeds + book proficiency bonuses
-        cached_cost_ctx = { crafter.book_bonuses_nearby(), compute_tool_speeds( rec, crafter ) };
-
         // Base moves for batch size with no speed modifier or assistants
         // Must ensure >= 1 so we don't divide by 0;
         cached_base_total_moves = std::max( static_cast<int64_t>( 1 ),
@@ -6473,7 +6479,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         }
     }
     // Charge shortfall rewinds the turn before any skill gain.
-    if( !crafter.craft_consume_step_tools( craft ) ) {
+    if( !crafter.craft_consume_step_tools( craft, &cached_cost_ctx ) ) {
         rewind_turn();
         return;
     }
