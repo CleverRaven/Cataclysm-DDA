@@ -1602,10 +1602,9 @@ std::string trim_trailing_punctuations( std::string_view s )
 {
     std::u32string u32s = utf8_to_utf32( s );
     auto it = std::find_if_not( u32s.rbegin(), u32s.rend(), []( char32_t ch ) {
-            // '<' and '>' are used for tags and should not be removed
-            return u32_ispunct( ch ) && ch != U'<' && ch != U'>';
-        }
-    );
+        // '<' and '>' are used for tags and should not be removed
+        return u32_ispunct( ch ) && ch != U'<' && ch != U'>';
+    } );
     u32s.erase( it.base(), u32s.end() );
     return utf32_to_utf8( u32s );
 }
