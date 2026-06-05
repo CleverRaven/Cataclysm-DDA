@@ -3,6 +3,7 @@
     "type": "profession_blacklist",
     "subtype": "blacklist",
     "professions": [
+      "svictim",
       "hobby_eater",
       "hobby_dreamer",
       "hobby_inventor",
