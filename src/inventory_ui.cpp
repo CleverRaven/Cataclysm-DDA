@@ -795,7 +795,7 @@ std::string inventory_selector_preset::get_caption( const inventory_entry &entry
     }
 
     return ( count > 1 ) ? string_format( "%s %s",
-                                          entry.any_item()->type->count_or_volume_or_weight_prefix( count ), disp_name ) : disp_name;
+                                          entry.any_item()->type->item_measure_prefix( count ), disp_name ) : disp_name;
 }
 
 std::string inventory_selector_preset::get_denial( const inventory_entry &entry ) const
