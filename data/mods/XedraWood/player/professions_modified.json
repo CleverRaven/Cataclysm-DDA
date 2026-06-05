@@ -1,0 +1,98 @@
+[
+  {
+    "type": "profession",
+    "id": "paraclesian_ierde",
+    "copy-from": "paraclesian_ierde",
+    "traits": [ "IERDE", "IERDE_STONE_MEDITATIONS" ],
+    "skills": [ { "level": 3, "name": "deduction" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ]
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_arvore",
+    "copy-from": "paraclesian_arvore",
+    "traits": [ "ARVORE", "ARVORE_SEED_BEARER" ],
+    "skills": [ { "level": 3, "name": "gramarye" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ]
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_undine",
+    "copy-from": "paraclesian_undine",
+    "traits": [ "UNDINE" ],
+    "proficiencies": [ "prof_parkour" ],
+    "skills": [ { "level": 3, "name": "deduction" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ]
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_salamander",
+    "copy-from": "paraclesian_salamander",
+    "traits": [ "SALAMANDER", "PYROMANIA", "DEFT" ],
+    "skills": [ { "level": 3, "name": "gramarye" }, { "level": 1, "name": "unarmed" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ]
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_homullus",
+    "copy-from": "paraclesian_homullus",
+    "skills": [ { "level": 3, "name": "deduction" }, { "level": 3, "name": "speech" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ]
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_sylph",
+    "copy-from": "paraclesian_sylph",
+    "traits": [ "SYLPH", "LIGHTSTEP" ],
+    "skills": [ { "level": 3, "name": "deduction" }, { "level": 3, "name": "dodge" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ]
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_ierde_naked_afraid",
+    "copy-from": "paraclesian_ierde_naked_afraid",
+    "traits": [ "IERDE", "IERDE_STONE_MEDITATIONS" ],
+    "skills": [ { "level": 3, "name": "deduction" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ]
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_arvore_naked_afraid",
+    "copy-from": "paraclesian_arvore_naked_afraid",
+    "traits": [ "ARVORE", "ARVORE_SEED_BEARER" ],
+    "skills": [ { "level": 3, "name": "gramarye" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ]
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_undine_naked_afraid",
+    "copy-from": "paraclesian_undine_naked_afraid",
+    "traits": [ "UNDINE" ],
+    "proficiencies": [ "prof_parkour" ],
+    "skills": [ { "level": 3, "name": "deduction" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ]
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_salamander_naked_afraid",
+    "copy-from": "paraclesian_salamander_naked_afraid",
+    "traits": [ "SALAMANDER", "PYROMANIA", "DEFT" ],
+    "skills": [ { "level": 3, "name": "gramarye" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ]
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_homullus_naked_afraid",
+    "copy-from": "paraclesian_homullus_naked_afraid",
+    "skills": [ { "level": 3, "name": "deduction" }, { "level": 3, "name": "speech" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ]
+  },
+  {
+    "type": "profession",
+    "id": "paraclesian_sylph_naked_afraid",
+    "copy-from": "paraclesian_sylph_naked_afraid",
+    "traits": [ "SYLPH", "LIGHTSTEP" ],
+    "skills": [ { "level": 3, "name": "deduction" }, { "level": 3, "name": "dodge" } ],
+    "hobbies": [ "PARACLESIAN_FAKE_HOBBY" ]
+  }
+]

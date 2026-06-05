@@ -1,0 +1,285 @@
+[
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "simple_home_cooking",
+    "name": "Simple Home Cooking",
+    "description": "You've been living on your own long enough that you know how to cook basic dishes and feed yourself.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "cooking" } ],
+    "proficiencies": [ "prof_food_prep" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "computer_literate",
+    "name": "Computer Literate",
+    "description": "Either through school, your job, or from your family, you've learned the basics of how to use a computer.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "computer" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "social_skills",
+    "name": "Social Skills",
+    "description": "You've spent a significant portion of your life living among other people and are familiar with social norms.  You know how to talk with other people, and how to convey your emotions and understand those of others.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "speech" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "high_school_graduate",
+    "name": "High School Graduate",
+    "description": "You've graduated from high school and thus know a little bit about applied science and electronics.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "chemistry" }, { "level": 1, "name": "electronics" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "mundane_survival",
+    "name": "Mundane Survival",
+    "description": "You've managed to survive modern life in a first world country.  Through your ordeals you've learned how to treat scrapes and bruises, and how to assemble basic furniture.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "fabrication" }, { "level": 1, "name": "firstaid" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "smoker",
+    "name": "Nicotine Dependence",
+    "description": "Your coworkers always muttered when you had to duck outside every hour for a smoke, but it ended up saving your life when things got bad.  You'll need to find a steady supply of nicotine if you want to keep the cravings at bay.",
+    "points": -1,
+    "addictions": [ { "intensity": 10, "type": "nicotine" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "bushcraft",
+    "name": "Bushcraft",
+    "description": "You take camping to a whole new level.  You have spent nights and weekends surviving in the wild with just a knife to aid you.  Maybe this skill for self-sufficiency can keep you safe.",
+    "points": 4,
+    "skills": [ { "level": 3, "name": "survival" }, { "level": 1, "name": "fabrication" }, { "level": 1, "name": "cooking" } ],
+    "proficiencies": [
+      "prof_fibers",
+      "prof_leatherworking_basic",
+      "prof_fibers_rope",
+      "prof_traps",
+      "prof_knapping",
+      "prof_carving",
+      "prof_butchering_basic",
+      "prof_skinning_basic"
+    ],
+    "traits": [ "OUTDOORSMAN" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "diy_crafts",
+    "name": "DIY Crafting (Intermediate)",
+    "description": "You spent much of your time making useful things out of bits and bobbles.",
+    "points": 3,
+    "proficiencies": [
+      "prof_pottery",
+      "prof_carving",
+      "prof_basketweaving",
+      "prof_elastics",
+      "prof_leatherworking_basic",
+      "prof_plasticworking"
+    ],
+    "skills": [ { "level": 3, "name": "fabrication" }, { "level": 1, "name": "tailor" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "camping",
+    "name": "Camping",
+    "description": "You enjoyed camping in the vast wilderness as a means of escaping the pace of modern life.  The wilderness isn't filled with people, so it must be safe.  Right?  It must be.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "firstaid" }, { "level": 1, "name": "cooking" } ],
+    "traits": [ "OUTDOORSMAN" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "boating_license",
+    "name": "Boating License",
+    "description": "You've trained in how to pilot marine craft, as well as general boating and swimming safety.",
+    "points": 0,
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "swimming" } ],
+    "proficiencies": [ "prof_boat_pilot" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "melee_training",
+    "name": "Melee Training (Intermediate)",
+    "description": "You have practiced fighting with weapons.  You start with your choice of Barbaran Montante, Bōjutsu, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pencak Silat, or Sōjutsu.",
+    "points": 7,
+    "skills": [
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "bashing" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "cutting" }
+    ],
+    "traits": [ "MARTIAL_ARTS5" ],
+    "proficiencies": [
+      "prof_quarterstaves_familiar",
+      "prof_maces_familiar",
+      "prof_knives_familiar",
+      "prof_long_swords_familiar",
+      "prof_hooking_familiar",
+      "prof_fencing_weapons_familiar",
+      "prof_spears_familiar",
+      "prof_gross_anatomy"
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "melee_training_expert",
+    "name": "Melee Training (Expert)",
+    "description": "Despite firearms making traditional melee weapons largely obsolete, you have extensive experience fighting in hand-to-hand combat with tools of war.  Maybe it was full-contact HEMA or SCA sparring, or maybe you're just a badass commando with a machete.  You start with your choice of Barbaran Montante, Bōjutsu, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pencak Silat, or Sōjutsu.",
+    "points": 14,
+    "skills": [
+      { "level": 6, "name": "melee" },
+      { "level": 5, "name": "bashing" },
+      { "level": 5, "name": "stabbing" },
+      { "level": 5, "name": "cutting" }
+    ],
+    "traits": [ "MARTIAL_ARTS5" ],
+    "proficiencies": [
+      "prof_quarterstaves_familiar",
+      "prof_quarterstaves_pro",
+      "prof_maces_familiar",
+      "prof_maces_pro",
+      "prof_knives_familiar",
+      "prof_knives_pro",
+      "prof_long_swords_familiar",
+      "prof_long_swords_pro",
+      "prof_hooking_familiar",
+      "prof_hooking_pro",
+      "prof_fencing_weapons_familiar",
+      "prof_fencing_weapons_pro",
+      "prof_spears_familiar",
+      "prof_spears_pro",
+      "prof_gross_anatomy"
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "gourmand",
+    "name": "Fine Dining",
+    "description": "You loved going to all kinds of restaurants and experiencing everything the world of culinary arts had to offer.  Nowadays, those chefs are all dead, so it'll be up to you to recreate the joys of your past.",
+    "points": 2,
+    "traits": [ "GOURMAND", "TABLEMANNERS" ],
+    "skills": [ { "level": 2, "name": "cooking" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "marathon_runner",
+    "name": "Marathon Running",
+    "description": "You ran the Boston Marathon every year.  That conditioning should make you better equipped than most in avoiding the dead.",
+    "points": 5,
+    "traits": [ "GOODCARDIO", "FLEET" ],
+    "skills": [ { "level": 2, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "arts_and_crafts",
+    "name": "Arts and Crafts",
+    "description": "You loved doing crafts at home.  Now, you might want to channel those skills into making more practical things.",
+    "points": 1,
+    "skills": [ { "level": 1, "name": "fabrication" }, { "level": 2, "name": "tailor" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "name": "First Aid",
+    "id": "redcross",
+    "description": "You've got training and some experience in dealing with urgent injuries.  In the absence of any medical professionals, that'll have to do.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "firstaid" } ],
+    "proficiencies": [ "prof_wound_care" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "back_yard_grilling",
+    "name": "Backyard Grilling",
+    "description": "You enjoyed inviting the neighborhood to a backyard cookout on the weekends.  You, of course, were the grill master.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "cooking" } ],
+    "proficiencies": [ "prof_food_prep", "prof_knife_skills", "prof_knives_familiar" ]
+  },
+  {
+    "type": "profession",
+    "id": "homebrewer",
+    "subtype": "hobby",
+    "name": "Homebrewing",
+    "description": "Your white lightning could knock out an elephant, but you're drinking alone now.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "chemistry" } ],
+    "proficiencies": [
+      "prof_distilling",
+      "prof_beverage_distilling",
+      "prof_fermenting",
+      "prof_food_prep",
+      "prof_brewing",
+      "prof_winemaking"
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "gardening",
+    "name": "Gardening",
+    "description": "Your green thumb will come in handy when the grocery stores are overrun.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "cooking" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "backpacking",
+    "name": "Backpacking",
+    "description": "You enjoyed trekking on long trails in nature with all your necessities strapped to your back.",
+    "points": 3,
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 2, "name": "firstaid" } ],
+    "traits": [ "OUTDOORSMAN", "GOODCARDIO", "NOMAD" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "fireperformance",
+    "name": "Fire Performing",
+    "description": "Whether you twirled, spun, juggled, or ate it, your manipulation of flaming objects was impressive and terrifying to behold.",
+    "points": 1,
+    "traits": [ "PYROMANIA", "DEFT" ],
+    "skills": [ { "level": 1, "name": "survival" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "socialdance",
+    "name": "Social Dancing",
+    "description": "You loved meeting new people on the dance floor.  These zombies aren't terribly friendly, but they're ready to tango!",
+    "points": 2,
+    "skills": [ { "level": 1, "name": "dodge" }, { "level": 2, "name": "speech" } ],
+    "traits": [ "LIGHTSTEP" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "PARACLESIAN_FAKE_HOBBY",
+    "name": "A new life",
+    "description": "You are born anew, freshly spun forth from the natural elements but hours ago.  You have as yet had no time to develop hobbies.",
+    "points": 1
+  }
+]
