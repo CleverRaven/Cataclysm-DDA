@@ -277,43 +277,16 @@
       "str_pl": "zombified aenóren"
     },
     "description": "With bedraggled feathers and rent skin, stumbling as it walks, this formerly-living aenor is in a sad state.",
+    "copy-from": "mon_giant_heron_ridable",
     "default_faction": "zombie",
-    "symbol": "H",
-    "color": "blue_white",
-    "volume": "550 L",
-    "weight": "500 kg",
-    "material": [ "flesh" ],
-    "aggression": 100,
-    "hp": 250,
-    "morale": 100,
-    "attack_cost": 200,
-    "melee_skill": 6,
-    "melee_dice": 1,
-    "melee_dice_sides": 8,
-    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "grab_strength": 5,
-    "dodge": 3,
     "species": [ "BIRD", "ZOMBIE" ],
     "speed": 175,
     "harvest": "large_bird_flightless_zombie",
+    "extend": { "flags": [ "STUMBLES", "NO_BREATHE", "REVIVES" ] },
+    "petfood": {  },
     "special_attacks": [
       { "id": "impale", "cooldown": 5, "move_cost": 375 },
       { "id": "mutant_hoof", "cooldown": 6, "dodgeable": true, "move_cost": 350 }
-    ],
-    "anger_triggers": [ "PLAYER_CLOSE" ],
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "GOODHEARING",
-      "ANIMAL",
-      "PATH_AVOID_DANGER",
-      "WARM",
-      "STUMBLES",
-      "NO_BREATHE",
-      "REVIVES",
-      "UNBREAKABLE_MORALE"
-    ],
-    "armor": { "bash": 3, "cut": 2, "necrotic": 25 }
+    ]
   }
 ]
