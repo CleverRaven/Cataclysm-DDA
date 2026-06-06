@@ -87,6 +87,45 @@
     <name>Kevin Granade and Contributors</name>
   </developer>
   <releases>
+    <release version="0.I" date="2026-06-06">
+      <description>
+        <p>
+          The 9th post alpha stable release of Cataclysm: DDA has arrived.  It is named after Junji
+          Ito, known for his ability to transform mundane occurrences into catastrophic events.  As
+          a long inspiration of many horror elements of Dark Days Ahead this namesake is well
+          deserved.  Between 0.H and 0.I there were over 13,000 commits from 486 contributors (242
+          of which were first-time contributors), affecting 82,000 entities, and adding more than 1
+          million lines of code and data.
+        </p>
+        <p>
+          The headline features for this cycle:  Dormant zombies that have turned quiescent for a
+          lack of nearby prey, avoid disturbing them and your travels will be easier.  Trees have
+          tops that you can climb into on separate z-levels now. Faults have expanded to items so
+          that eventually you won’t get generic damage but each level of damage on an item will
+          have specific ways to mend it similar to how many vehicle parts work now. Overmap specials
+          now have different visibility levels that controls how far away you can identify what they
+          are. We have probably now reached saturation on animal themed mutation paths and mutation
+          gain has been reworked to eliminate the wait between mutating to avoid bad mutations.
+          Defined outfits and tons of new mapgen including some things hidden out in the ocean.
+          More eldritch abominations exist and finally procgenned riot damage to represent that some
+          places got destroyed in and before the Cataclysm. Progress continues on the Imgui
+          migration as DDA transitions to a standardized UI that allows for easier development.
+        </p>
+        <p>
+          In news for the in repo mods several games worth of content has been added to Aftershock:
+          Exoplanet, Mind over Matter and Xedra Evolved. Isolation Protocol and Sky Island continue
+          to receive work that enables them to deliver unique gameplay experiences.  This has also
+          included our focus on making more details of the game meaningfully moddable.  EOC
+          expansion has been pioneered in mods and we expect those benefits to accrue to mainline
+          over time.
+        </p>
+        <p>
+          We welcome you to join us here in finding the beautiful and the horrific in the Cataclysm
+          while we ask the question of how you will spend your final days.
+        </p>
+      </description>
+      <url type="details">https://raw.githubusercontent.com/CleverRaven/Cataclysm-DDA/refs/heads/0.I-branch/data/changelog.txt</url>
+    </release>
     <release version="0.H" date="2024-07-22">
       <description>
         <p>
