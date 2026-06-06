@@ -3,20 +3,11 @@
     "type": "profession",
     "subtype": "hobby",
     "id": "simple_home_cooking",
-    "name": "Simple Home Cooking",
-    "description": "You've been living on your own long enough that you know how to cook basic dishes and feed yourself.",
+    "name": "Simple Cooking",
+    "description": "You've spent enough time around the communal campfires that you know how to cook basic dishes and feed yourself.",
     "points": 0,
     "skills": [ { "level": 1, "name": "cooking" } ],
     "proficiencies": [ "prof_food_prep" ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
-    "id": "computer_literate",
-    "name": "Computer Literate",
-    "description": "Either through school, your job, or from your family, you've learned the basics of how to use a computer.",
-    "points": 0,
-    "skills": [ { "level": 1, "name": "computer" } ]
   },
   {
     "type": "profession",
@@ -31,17 +22,17 @@
     "type": "profession",
     "subtype": "hobby",
     "id": "high_school_graduate",
-    "name": "High School Graduate",
-    "description": "You've graduated from high school and thus know a little bit about applied science and electronics.",
+    "name": "Living in the Wild",
+    "description": "Since you were young you were taught which plants to avoid and which ones can feed you in an emergency, how to follow water to the source, when fruits are in season, and to *never* stay out in the forest after dark.",
     "points": 0,
-    "skills": [ { "level": 1, "name": "chemistry" }, { "level": 1, "name": "electronics" } ]
+    "skills": [ { "level": 2, "name": "survival" } ]
   },
   {
     "type": "profession",
     "subtype": "hobby",
     "id": "mundane_survival",
     "name": "Mundane Survival",
-    "description": "You've managed to survive modern life in a first world country.  Through your ordeals you've learned how to treat scrapes and bruises, and how to assemble basic furniture.",
+    "description": "You've managed to survive to adulthood, which is no small feat.  Through your ordeals you've learned how to treat scrapes and bruises, and how to assemble basic furniture.",
     "points": 0,
     "skills": [ { "level": 1, "name": "fabrication" }, { "level": 1, "name": "firstaid" } ]
   },
@@ -49,30 +40,112 @@
     "type": "profession",
     "subtype": "hobby",
     "id": "smoker",
-    "name": "Nicotine Dependence",
-    "description": "Your coworkers always muttered when you had to duck outside every hour for a smoke, but it ended up saving your life when things got bad.  You'll need to find a steady supply of nicotine if you want to keep the cravings at bay.",
+    "name": "Pipeleaf Dependence",
+    "description": "Your people may have used pipeleaf for ritual purposes but you were always a bit too…enthusiastic when your partook.  You'll need to find a steady supply of leaf to smoke if you want to keep the cravings at bay.",
     "points": -1,
     "addictions": [ { "intensity": 10, "type": "nicotine" } ]
   },
   {
     "type": "profession",
     "subtype": "hobby",
-    "id": "bushcraft",
-    "name": "Bushcraft",
-    "description": "You take camping to a whole new level.  You have spent nights and weekends surviving in the wild with just a knife to aid you.  Maybe this skill for self-sufficiency can keep you safe.",
+    "id": "long_distance_messenger",
+    "name": "Messenger",
+    "description": "You made your living running messages between the villages and tribes of the land, always priding yourself on being the fastest.  That speed is definitely going to help you now.",
+    "points": 5,
+    "traits": [ "GOODCARDIO", "FLEET" ],
+    "skills": [ { "level": 2, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "butcher_amateur",
+    "name": "Butcher's Apprentice",
+    "description": "You helped dress and prepare the animals that came back from the hunt, and sometimes accompanied the hunters into the field if they were expecting a particularly large catch.  You're very good at preparing a carcass for food.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "cooking" } ],
+    "proficiencies": [ "prof_butchering_basic", "prof_skinning_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hunting_snares",
+    "name": "Snare-making",
+    "description": "You used to accompany the hunters but not to flush out or chase the quarry.  Your task was to place snares in the path, so the others would harry your prey and your traps could catch them.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "devices" } ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_traps" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "nomad",
+    "name": "Wanderer",
+    "description": "You used to travel far beyond the safety of your people's lands.  Maybe you were a trader seeking new goods, or maybe you ranged far afield seeking new game, or maybe you just needed some time away from everyone else.  At least now you'll get some time alone.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "firstaid" } ],
+    "traits": [ "OUTDOORSMAN", "ASOCIAL1" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "leatherworking",
+    "name": "Leatherworker (Apprentice)",
+    "description": "You spent time time apprenticed to the leather-workers among your people and have practice in cutting and treating hides as well as sewing them together to make garments.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "tailor" }, { "level": 1, "name": "fabrication" } ],
+    "proficiencies": [ "prof_leatherworking_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "leatherworking_adept",
+    "name": "Leatherworker (Adept)",
+    "description": "You were an adept hand with the hides the hunters brought back, turning them into clothing and shelter for your people.",
     "points": 4,
-    "skills": [ { "level": 3, "name": "survival" }, { "level": 1, "name": "fabrication" }, { "level": 1, "name": "cooking" } ],
-    "proficiencies": [
-      "prof_fibers",
-      "prof_leatherworking_basic",
-      "prof_fibers_rope",
-      "prof_traps",
-      "prof_knapping",
-      "prof_carving",
-      "prof_butchering_basic",
-      "prof_skinning_basic"
-    ],
-    "traits": [ "OUTDOORSMAN" ]
+    "skills": [ { "level": 4, "name": "tailor" }, { "level": 1, "name": "fabrication" } ],
+    "proficiencies": [ "prof_leatherworking_basic", "prof_leatherworking" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "stonecarver",
+    "name": "Stonecarver (Apprentice)",
+    "description": "You were an apprentice stonecarver, set to accomplish simple tasks like knife-knapping and finding flaking stones in the wild.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "fabrication" } ],
+    "proficiencies": [ "prof_knapping" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "stonecarver_adept",
+    "name": "Stonecarver (Adept)",
+    "description": "You served your people as a stonecarver, making the tools and weapons they needed to survive in the hostile wilderness.",
+    "points": 4,
+    "skills": [ { "level": 4, "name": "fabrication" } ],
+    "proficiencies": [ "prof_knapping", "prof_knapping_speed" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "basket_weaving",
+    "name": "Basket-weaving",
+    "description": "You frequently took a turn with the basketweavers, staying awake as long as the fire gave enough light to provide the containers your people used to transport their food and possessions on their wanderings.  To this day you still don't need as much sleep as others do.",
+    "points": 1,
+    "skills": [ { "level": 3, "name": "fabrication" } ],
+    "traits": [ "WAKEFUL" ],
+    "proficiencies": [ "prof_basketweaving" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "river_dweller",
+    "name": "River-dweller",
+    "description": "Your people dwelt by the waters, and you were playing on and in them almost before you could walk.  You're familiar with both swimming and boating.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 2, "name": "swimming" } ],
+    "proficiencies": [ "prof_boat_pilot" ]
   },
   {
     "type": "profession",
@@ -94,26 +167,6 @@
   {
     "type": "profession",
     "subtype": "hobby",
-    "id": "camping",
-    "name": "Camping",
-    "description": "You enjoyed camping in the vast wilderness as a means of escaping the pace of modern life.  The wilderness isn't filled with people, so it must be safe.  Right?  It must be.",
-    "points": 2,
-    "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "firstaid" }, { "level": 1, "name": "cooking" } ],
-    "traits": [ "OUTDOORSMAN" ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
-    "id": "boating_license",
-    "name": "Boating License",
-    "description": "You've trained in how to pilot marine craft, as well as general boating and swimming safety.",
-    "points": 0,
-    "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "swimming" } ],
-    "proficiencies": [ "prof_boat_pilot" ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
     "id": "melee_training",
     "name": "Melee Training (Intermediate)",
     "description": "You have practiced fighting with weapons.  You start with your choice of Barbaran Montante, Bōjutsu, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pencak Silat, or Sōjutsu.",
@@ -129,9 +182,7 @@
       "prof_quarterstaves_familiar",
       "prof_maces_familiar",
       "prof_knives_familiar",
-      "prof_long_swords_familiar",
       "prof_hooking_familiar",
-      "prof_fencing_weapons_familiar",
       "prof_spears_familiar",
       "prof_gross_anatomy"
     ]
@@ -157,12 +208,6 @@
       "prof_maces_pro",
       "prof_knives_familiar",
       "prof_knives_pro",
-      "prof_long_swords_familiar",
-      "prof_long_swords_pro",
-      "prof_hooking_familiar",
-      "prof_hooking_pro",
-      "prof_fencing_weapons_familiar",
-      "prof_fencing_weapons_pro",
       "prof_spears_familiar",
       "prof_spears_pro",
       "prof_gross_anatomy"
@@ -177,17 +222,6 @@
     "points": 2,
     "traits": [ "GOURMAND", "TABLEMANNERS" ],
     "skills": [ { "level": 2, "name": "cooking" } ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
-    "id": "marathon_runner",
-    "name": "Marathon Running",
-    "description": "You ran the Boston Marathon every year.  That conditioning should make you better equipped than most in avoiding the dead.",
-    "points": 5,
-    "traits": [ "GOODCARDIO", "FLEET" ],
-    "skills": [ { "level": 2, "name": "swimming" } ],
-    "proficiencies": [ "prof_athlete_basic" ]
   },
   {
     "type": "profession",
