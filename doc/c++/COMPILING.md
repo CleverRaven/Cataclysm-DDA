@@ -62,7 +62,7 @@ Rough list based on building on Arch:
   * General: `gcc-libs`, `glibc`, `zlib`, `bzip2`
   * Optional: `gettext`
   * Curses: `ncurses`
-  * Tiles: `sdl2`, `sdl2_image`, `sdl2_ttf`, `sdl2_mixer`, `freetype2`
+  * Tiles: `sdl3`, `sdl3_image`, `sdl3_ttf`, `sdl3_mixer`, `freetype2`, `glslang`
 
 E.g. for curses build on Debian and derivatives you'll also need `libncurses5-dev` or `libncursesw5-dev`.
 
@@ -79,7 +79,8 @@ Given you're building from source you have a number of choices to make:
   * `NATIVE=` - you should only care about this if you're cross-compiling
   * `RELEASE=1` - without this you'll get a debug build (see note below)
   * `LTO=1` - enables link-time optimization with GCC/Clang
-  * `TILES=1` - with this you'll get the tiles version, without it the curses version
+  * `TILES=1` - with this you'll get the tiles version, without it the curses version. Tiles builds use SDL3 by default.
+  * `SDL3=0` - use the SDL2 fallback for tiles builds
   * `SOUND=1` - if you want sound
   * `LOCALIZE=0` - this disables localizations so `gettext` is not needed
   * `CLANG=1` - use Clang instead of GCC
@@ -141,20 +142,28 @@ Run:
 
 Dependencies:
 
-  * SDL2
-  * SDL2_image
-  * SDL2_ttf
+  * SDL3 >= 3.4.0
+  * SDL3_image
+  * SDL3_ttf
   * freetype
   * g++ and make
-  * libsdl2-mixer-dev - Used if compiling with sound support.
+  * SDL3_mixer - Used if compiling with sound support.
+  * `glslangValidator` from glslang (GLSL to SPIR-V)
+  * `SDL_shadercross` (SPIR-V to DXIL on Windows, MSL on macOS). Build from <https://github.com/libsdl-org/SDL_shadercross> if your distribution does not package it.
 
-Install:
+Install the SDL3 libraries from your package manager or build them from the upstream SDL release branches. `BUILD_SHADER_FORMATS` picks which shader artifacts get built: `spv` on Linux, `msl` on macOS, `dxil` on Windows by default. Put `shadercross` on `PATH` (or set `SDL_SHADERCROSS=/path/to/shadercross`) for formats that need it.
 
-    sudo dnf install astyle gcc-c++ SDL2-devel SDL2_image-devel SDL2_ttf-devel SDL2_mixer-devel freetype-devel make
+Install the shader compiler on Debian/Ubuntu:
+
+    sudo apt-get install glslang-tools
+
+Install the shader compiler on macOS via Homebrew:
+
+    brew install glslang
 
 ### Building
 
-A simple installation could be done by simply running:
+Tiled builds use SDL3 by default. A simple installation could be done by simply running:
 
     make TILES=1
 
@@ -162,45 +171,24 @@ A more comprehensive alternative is:
 
     make -j2 TILES=1 SOUND=1 RELEASE=1 USE_HOME_DIR=1
 
-### SDL3 lane
+To build the SDL2 fallback explicitly, pass `SDL3=0`:
 
-The SDL3 build (`SDL3=1`) needs SDL3 >= 3.4.0 plus a shader toolchain on top of the SDL2 deps.
+    make -j2 TILES=1 SOUND=1 SDL3=0 RELEASE=1 USE_HOME_DIR=1
 
-Dependencies:
-
-  * SDL3, SDL3_image, SDL3_ttf, SDL3_mixer (>= 3.4.0)
-  * `glslangValidator` from glslang (GLSL to SPIR-V)
-  * `SDL_shadercross` (SPIR-V to DXIL on Windows, MSL on macOS). Build from <https://github.com/libsdl-org/SDL_shadercross> if your distribution does not package it.
-
-Install (Debian/Ubuntu):
-
-    sudo apt-get install glslang-tools
-
-Install (macOS via Homebrew):
-
-    brew install glslang
-
-Put `shadercross` on `PATH` (or set `SDL_SHADERCROSS=/path/to/shadercross`). `BUILD_SHADER_FORMATS` picks which artifacts get built: `spv` on Linux, `msl` on macOS, `dxil` on Windows by default. Override with a comma list for a multi-platform bindist. The GPU shader path stays inert at runtime if its artifact format is missing; the game falls back to the pre-baked atlas variants.
-
-Build:
-
-    make -j2 TILES=1 SOUND=1 SDL3=1 RELEASE=1 USE_HOME_DIR=1
+For CMake, `-DTILES=ON` also defaults to SDL3; pass `-DUSE_SDL3=OFF` to build the SDL2 fallback. For MSVC, tiled configurations default to SDL3; pass `-p:UseSDL3=false` to build the SDL2 fallback.
 
 The Windows MSVC lane uses a vcpkg overlay-port at `vcpkg/overlay-ports/sdl3/` (configured via `msvc-full-features/vcpkg-configuration.json`) to pin SDL3 >= 3.4.0 above the registry baseline.
 
 The -j2 flag means it will compile with two parallel processes. It can be omitted or changed to -j4 in a more modern processor. If there is no desire to have sound, those flags can also be omitted. The USE_HOME_DIR flag places the user files, like configurations and saves, into the home folder, making it easier for backups, and can also be omitted.
 
 # Gentoo
-If you want sound and graphics, make sure to emerge with the following:
+If you want sound and graphics, install SDL3, SDL3_image, SDL3_ttf, SDL3_mixer, freetype, and glslang from portage if available, or build the SDL3 stack from the upstream release branches.
 
-```bash
-USE="vorbis png" \
- emerge -1va emerge media-libs/libsdl2 media-libs/sdl2-gfx media-libs/sdl2-image media-libs/sdl2-mixer media-libs/sdl2-ttf
-```
-
-Once the above libraries are installed, compile with:
+Once the above libraries are installed, compile the default SDL3 tiles build with:
 
     make -j$(nproc) TILES=1 SOUND=1 RELEASE=1
+
+If you still want to use the SDL2 fallback, install the SDL2 libraries instead and pass `SDL3=0`.
 
 
 # Debian
@@ -231,15 +219,19 @@ Run:
 
 Dependencies:
 
-  * SDL
-  * SDL_ttf
+  * SDL3 >= 3.4.0
+  * SDL3_image
+  * SDL3_ttf
   * freetype
   * build essentials
-  * libsdl2-mixer-dev - Used if compiling with sound support.
+  * SDL3_mixer - Used if compiling with sound support.
+  * glslang-tools
 
 Install:
 
-    sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libfreetype6-dev build-essential
+    sudo apt-get install libsdl3-dev libsdl3-ttf-dev libsdl3-image-dev libsdl3-mixer-dev libfreetype6-dev glslang-tools build-essential
+
+If your Debian/Ubuntu release does not package SDL3 >= 3.4.0 and the SDL3 satellite libraries, build them from the upstream SDL release branches. To use the SDL2 fallback with the older SDL2 packages, pass `SDL3=0` when building.
 
 ### Building
 
@@ -316,13 +308,15 @@ This is to ensure that the variables for the `make` command will not get reset a
 
 ### Building (SDL)
 
+These MXE instructions build the SDL2 fallback. SDL3 cross-compilation requires equivalent SDL3, SDL3_image, SDL3_ttf, SDL3_mixer, and shader toolchain packages.
+
     cd ~/src/Cataclysm-DDA
 
 Run one of the following commands based on your targeted environment:
 
 ```bash
-make -j$((`nproc`+0)) CROSS="${PLATFORM_32}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 bindist
-make -j$((`nproc`+0)) CROSS="${PLATFORM_64}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 bindist
+make -j$((`nproc`+0)) CROSS="${PLATFORM_32}" TILES=1 SOUND=1 SDL3=0 RELEASE=1 LOCALIZE=1 bindist
+make -j$((`nproc`+0)) CROSS="${PLATFORM_64}" TILES=1 SOUND=1 SDL3=0 RELEASE=1 LOCALIZE=1 bindist
 ```
 
 
@@ -356,10 +350,10 @@ Your directory tree should look like:
 
     ~/
     ├── Frameworks
-    │   ├── SDL2.framework
-    │   ├── SDL2_image.framework
-    │   ├── SDL2_mixer.framework
-    │   └── SDL2_ttf.framework
+    │   ├── SDL3.framework
+    │   ├── SDL3_image.framework
+    │   ├── SDL3_mixer.framework
+    │   └── SDL3_ttf.framework
     └── libs
         ├── gettext
         │   ├── include
@@ -372,6 +366,7 @@ Populated with respective frameworks, dylibs and headers.
 Tested lib versions are libintl.8.dylib for gettext and libncurses.5.4.dylib for ncurses.
 These libs were obtained from `homebrew` binary distribution at OS X 10.11.
 Frameworks were obtained from the SDL official website as described in the next [section](#sdl).
+If you use SDL2 frameworks instead, add `SDL3=0` to the build command.
 
 ### Building (SDL)
 
@@ -383,7 +378,7 @@ make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx USE_HOME_DIR=1 CLANG=1 \
   OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
 ```
 
-Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable.
+Make sure that `x86_64-apple-darwin15-clang++`, `glslangValidator`, and `shadercross` are in `PATH` environment variable.
 
 ### Building (ncurses)
 
@@ -522,40 +517,40 @@ For most people, the simple Homebrew installation is enough. For developers, her
 
 ### SDL
 
-SDL2, SDL2_image, and SDL2_ttf are needed for the tiles build. Optionally, you can add SDL2_mixer for sound support. Cataclysm can be built using either the SDL framework or shared libraries built from source.
+SDL3, SDL3_image, and SDL3_ttf are needed for the default tiles build. Optionally, you can add SDL3_mixer for sound support. Cataclysm can be built using either the SDL framework or shared libraries built from source. To build the SDL2 fallback, install the SDL2 libraries instead and pass `SDL3=0`.
 
 The SDL framework files can be downloaded here:
 
-* [**SDL2**](http://www.libsdl.org/download-2.0.php)
-* [**SDL2_image**](http://www.libsdl.org/projects/SDL_image/)
-* [**SDL2_ttf**](http://www.libsdl.org/projects/SDL_ttf/)
+* [**SDL3**](https://www.libsdl.org/)
+* [**SDL3_image**](https://github.com/libsdl-org/SDL_image)
+* [**SDL3_ttf**](https://github.com/libsdl-org/SDL_ttf)
 
-Copy `SDL2.framework`, `SDL2_image.framework`, and `SDL2_ttf.framework`
+Copy `SDL3.framework`, `SDL3_image.framework`, and `SDL3_ttf.framework`
 to `/Library/Frameworks` or `/Users/name/Library/Frameworks`.
 
 If you want sound support, you will need an additional SDL framework:
 
-* [**SDL2_mixer**](https://www.libsdl.org/projects/SDL_mixer/)
+* [**SDL3_mixer**](https://github.com/libsdl-org/SDL_mixer)
 
-Copy `SDL2_mixer.framework` to `/Library/Frameworks` or `/Users/name/Library/Frameworks`.
+Copy `SDL3_mixer.framework` to `/Library/Frameworks` or `/Users/name/Library/Frameworks`.
 
 Alternatively, SDL shared libraries can be installed using a package manager:
 
 For Homebrew:
 
-    brew install pkgconfig freetype sdl2 sdl2_image sdl2_ttf
+    brew install pkgconfig freetype glslang sdl3 sdl3_image sdl3_ttf
 
 with sound:
 
-    brew install sdl2_mixer libvorbis libogg
+    brew install sdl3_mixer libvorbis libogg
 
 For MacPorts:
 
-    sudo port install libsdl2 libsdl2_image libsdl2_ttf
+    sudo port install freetype pkgconfig glslang
 
-with sound:
+Build the SDL3 libraries from the upstream SDL release branches if your MacPorts tree does not provide recent enough SDL3 ports.
 
-    sudo port install libsdl2_mixer libvorbis libogg
+For SDL2 fallback builds, use the SDL2 packages and add `SDL3=0` to the `make` command.
 
 ### ncurses and gettext
 
@@ -728,7 +723,9 @@ Install the following with pkg (or from Ports):
 
     pkg install gmake libiconv
 
-Tiles builds will also require SDL2:
+Default tiles builds also require SDL3, SDL3_image, SDL3_ttf, and SDL3_mixer if building with sound. If your FreeBSD packages do not provide SDL3 >= 3.4.0, build the SDL3 stack from the upstream release branches.
+
+For SDL2 fallback builds, install the SDL2 packages and pass `SDL3=0`:
 
     pkg install sdl20 sdl2_image sdl2_mixer sdl2_ttf
 
@@ -745,7 +742,9 @@ Install necessary dependencies:
 
     pkg_add gmake libiconv
 
-If building with tiles also install:
+Default tiles builds also require SDL3, SDL3_image, SDL3_ttf, and SDL3_mixer if building with sound. If those are not available from packages, build the SDL3 stack from the upstream release branches.
+
+For SDL2 fallback builds, install the SDL2 packages and pass `SDL3=0`:
 
     pkg_add sdl2 sdl2-image sdl2-mixer sdl2-ttf
 
@@ -781,7 +780,7 @@ Then you should be able to build with something like:
 
     CXX=eg++ gmake
 
-Only an ncurses build is possible on 5.8-release, as SDL2 is broken. On recent -current or snapshots, however, you can install the SDL2 packages:
+Only an ncurses build is possible on 5.8-release, as SDL2 is broken. On recent -current or snapshots, use SDL3 packages if they are available, or build the SDL3 stack from the upstream release branches. For SDL2 fallback builds, install the SDL2 packages and pass `SDL3=0`:
 
     pkg_add sdl2 sdl2-image sdl2-mixer sdl2-ttf
 
@@ -802,5 +801,7 @@ export CXXFLAGS="-I/usr/pkg/include"
 gmake # ncurses builds
 LDFLAGS="-L/usr/pkg/lib" gmake TILES=1 # tiles builds
 ```
+
+If only SDL2 packages are available, add `SDL3=0` to the tiles build command.
 
 SDL builds currently compile, but did not run in my testing - not only do they segfault, but gdb segfaults when reading the debug symbols! Perhaps your mileage will vary.

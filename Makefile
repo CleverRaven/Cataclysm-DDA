@@ -773,6 +773,24 @@ endif
 
 PKG_CONFIG = $(CROSS)pkg-config
 
+# Utility targets should not require desktop SDL dependencies just because CI
+# exported SDL3=1 for build jobs.
+NO_SDL_GOALS = clean clean-lang clean-tests distclean localization lang/mo_built.stamp
+ifneq ($(MAKECMDGOALS),)
+  ifeq ($(filter-out $(NO_SDL_GOALS),$(MAKECMDGOALS)),)
+    override SDL3 = 0
+    override SDL = 0
+    override TILES = 0
+    override SOUND = 0
+  endif
+endif
+
+ifeq ($(TILES), 1)
+  ifeq ($(origin SDL3), undefined)
+    SDL3 = 1
+  endif
+endif
+
 ifeq ($(SDL3), 1)
   SDL = 1
   TILES = 1
