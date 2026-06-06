@@ -77,13 +77,13 @@
     "name": { "str_sp": "graphite" },
     "symbol": "!",
     "description": "Graphite, aka elemental carbon, mixed with a little clay or oil.  Produces gray or black marks that are easily erased, but otherwise resistant to moisture, most chemicals, ultraviolet radiation, and natural aging.  Useful as a lubricant in metalworking.",
-    "material": [ "powder" ],
+    "material": [ "dense_powder_nonflam" ],
+    "display_type": "BY_WEIGHT",
     "volume": "1 ml",
-    "weight": "40 mg",
+    "weight": "2 g",
     "color": "dark_gray",
     "looks_like": "charcoal",
-    "flags": [ "TRADER_AVOID" ],
-    "container": "bottle_plastic_small"
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "type": "ITEM",
