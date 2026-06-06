@@ -11,7 +11,7 @@ def parse_fault(json, origin):
     write_text(json["description"], origin,
                comment=f"Description of fault '{name}'")
 
-    write_text(json["message"], origin,
+    write_text(json.get("message"), origin,
                comment=f"Message of fault occur '{name}'")
 
     write_text(json.get("item_prefix"), origin,
