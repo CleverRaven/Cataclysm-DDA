@@ -55,9 +55,8 @@ void Character::update_morale()
 
 void Character::hoarder_morale_penalty()
 {
-    // For hoarders holsters count as a flat -1 penalty for being empty, we also give them a 25% allowance on their pockets below 1000_ml
-    int empty_holsters = 0;
-    units::volume penalty_volume = 0_ml;
+    units::volume no_penalty_volume = 8000_ml;
+    units::volume total_volume = 0_ml;
 
     std::vector<item_pocket *> top_pockets = weapon.get_container_pockets();
     for( item &it : worn.worn ) {
@@ -65,29 +64,24 @@ void Character::hoarder_morale_penalty()
         top_pockets.insert( top_pockets.end(), worn_pockets.begin(), worn_pockets.end() );
     }
     for( const item_pocket *pocket : top_pockets ) {
-        if( pocket->is_forbidden() ) {
+        // Ablative stuff isn't gear, it is armor
+        if( pocket->is_ablative() ) {
             continue;
         }
-        if( pocket->is_holster() ) {
-            if( pocket->empty() ) {
-                empty_holsters++;
-            }
-        } else {
-            if( units::volume capacity = pocket->volume_capacity(); capacity <= 1000_ml ) {
-                penalty_volume += std::max( 0_ml, pocket->remaining_volume() - capacity / 4 );
-            } else {
-                penalty_volume += pocket->remaining_volume();
-            }
-        }
+        total_volume += pocket->contents_volume();
     }
-    int pen = penalty_volume / 125_ml;
-    pen += empty_holsters;
-    if( pen > 70 ) {
-        pen = 70;
-    }
-    if( pen <= 0 ) {
+    int pen = ( no_penalty_volume - total_volume ) / 100_ml;
+    if( pen >= 80 ) {
+        pen = 60;
+    } else if( pen <= 0 ) {
         pen = 0;
+    } else if( pen <= 40 ) {
+        // first 4L counts 10 per, next 4L is only 5 per
+        pen = pen / 2 ;
+    } else {
+        pen = pen - 20 ;
     }
+
     if( has_effect( effect_took_xanax ) ) {
         pen = pen / 7;
     } else if( has_trait( trait_THRESH_SPECIES_RAVENFOLK ) ) {
