@@ -209,43 +209,18 @@ render_state &render_state::operator=( render_state &&other ) noexcept
     return *this;
 }
 
-gpu_state_scope::gpu_state_scope( SDL_Renderer *renderer, SDL_GPURenderState *state )
-    : renderer_( renderer )
-{
-    if( !renderer_ || !state ) {
-        return;
-    }
-    if( !SDL_SetGPURenderState( renderer_, state ) ) {
-        DebugLog( D_ERROR, DC_ALL )
-                << "cata_shader::gpu_state_scope: SDL_SetGPURenderState failed: "
-                << SDL_GetError();
-        return;
-    }
-    active_ = true;
-}
-
-gpu_state_scope::~gpu_state_scope()
-{
-    ( void )unbind();
-}
-
-bool gpu_state_scope::unbind()
-{
-    if( !active_ ) {
-        return true;
-    }
-    active_ = false;
-    if( !SDL_SetGPURenderState( renderer_, nullptr ) ) {
-        DebugLog( D_ERROR, DC_ALL )
-                << "cata_shader::gpu_state_scope: SDL_SetGPURenderState(NULL) failed: "
-                << SDL_GetError();
-        return false;
-    }
-    return true;
-}
-
 namespace
 {
+
+// Disposal slot for probe-owned textures left undestroyable by a failed
+// SDL_SetGPURenderState(NULL). Recovery replaces the renderer, so the gate
+// keeps teardown from destroying them on a dead renderer.
+gpu_handle_graveyard &probe_texture_graveyard()
+{
+    static gpu_handle_graveyard g;
+    return g;
+}
+
 
 const char *shader_basename_for( variant_kind v )
 {
@@ -381,38 +356,58 @@ variant_pass::~variant_pass()
 namespace
 {
 
+struct probe_result {
+    bool ok = false;
+    // False when the renderer was left with an undefined shader-state bind
+    // or with rt still active as the target. Caller must NOT destroy any
+    // resources that the renderer might still reference.
+    bool boundary_safe = true;
+};
+
 // Renders a 1x1 mid-gray sprite via state and checks readback via pred.
 // Mid-gray (128,128,128,255) gives each variant a distinctive output, so a
 // passing predicate distinguishes "shader ran" from "bind silently ignored".
-bool draw_probe( SDL_Renderer *renderer, SDL_GPURenderState *state,
-                 probe_predicate pred )
+probe_result draw_probe( SDL_Renderer *renderer, SDL_GPURenderState *state,
+                         probe_predicate pred )
 {
+    probe_result res;
     SDL_Surface *src_surf = SDL_CreateSurface( 1, 1, SDL_PIXELFORMAT_RGBA32 );
     if( !src_surf ) {
-        return false;
+        return res;
     }
     // Mid-gray opaque: 0x80, 0x80, 0x80, 0xFF in RGBA32.
     SDL_FillSurfaceRect( src_surf, nullptr, 0xFF808080u );
     SDL_Texture *src = SDL_CreateTextureFromSurface( renderer, src_surf );
     SDL_DestroySurface( src_surf );
     if( !src ) {
-        return false;
+        return res;
     }
     SDL_Texture *rt = SDL_CreateTexture( renderer, SDL_PIXELFORMAT_RGBA32,
                                          SDL_TEXTUREACCESS_TARGET, 1, 1 );
     if( !rt ) {
         SDL_DestroyTexture( src );
-        return false;
+        return res;
     }
     SDL_Texture *prior_target = SDL_GetRenderTarget( renderer );
-    bool ok = false;
-    if( SDL_SetRenderTarget( renderer, rt ) ) {
+    const bool target_bound = SDL_SetRenderTarget( renderer, rt );
+    if( !target_bound ) {
+        // SDL may mutate target state before failing, so this is not a clean
+        // no-op: mark the boundary unsafe and graveyard the probe textures.
+        DebugLog( D_ERROR, DC_ALL )
+                << "cata_shader::draw_probe: SDL_SetRenderTarget(rt) failed: "
+                << SDL_GetError();
+        res.boundary_safe = false;
+    }
+    if( target_bound ) {
         SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
         SDL_RenderClear( renderer );
         if( SDL_SetGPURenderState( renderer, state ) ) {
             const SDL_FRect dst{ 0.0f, 0.0f, 1.0f, 1.0f };
-            if( SDL_RenderTexture( renderer, src, nullptr, &dst ) ) {
-                SDL_SetGPURenderState( renderer, nullptr );
+            const bool drew = SDL_RenderTexture( renderer, src, nullptr, &dst );
+            // Unbind shader state before any further switch/readback. On
+            // failure the bind is still held, so skip rt + restore.
+            const bool unbound = SDL_SetGPURenderState( renderer, nullptr );
+            if( drew && unbound ) {
                 const SDL_Rect rect{ 0, 0, 1, 1 };
                 SDL_Surface *out = SDL_RenderReadPixels( renderer, &rect );
                 if( out ) {
@@ -428,19 +423,47 @@ bool draw_probe( SDL_Renderer *renderer, SDL_GPURenderState *state,
                         const int g = p[1];
                         const int b = p[2];
                         const int a = p[3];
-                        ok = a >= 250 && pred && pred( r, g, b );
+                        res.ok = a >= 250 && pred && pred( r, g, b );
                         SDL_DestroySurface( rgba );
                     }
                 }
-            } else {
-                SDL_SetGPURenderState( renderer, nullptr );
             }
+            if( !unbound ) {
+                DebugLog( D_ERROR, DC_ALL )
+                        << "cata_shader::draw_probe: SDL_SetGPURenderState(NULL) failed: "
+                        << SDL_GetError();
+                res.ok = false;
+                res.boundary_safe = false;
+            }
+        } else {
+            // Bind state undefined after a failed SDL_SetGPURenderState:
+            // assume still held, so do not ship rt/probe through teardown.
+            DebugLog( D_ERROR, DC_ALL )
+                    << "cata_shader::draw_probe: SDL_SetGPURenderState failed: "
+                    << SDL_GetError();
+            res.ok = false;
+            res.boundary_safe = false;
+        }
+        if( res.boundary_safe && !SDL_SetRenderTarget( renderer, prior_target ) ) {
+            DebugLog( D_ERROR, DC_ALL )
+                    << "cata_shader::draw_probe: SDL_SetRenderTarget restore failed: "
+                    << SDL_GetError();
+            res.ok = false;
+            // rt is still the active target: mark unsafe so neither rt nor
+            // src is destroyed and the caller refuses the still-bound state.
+            res.boundary_safe = false;
         }
     }
-    SDL_SetRenderTarget( renderer, prior_target );
-    SDL_DestroyTexture( rt );
-    SDL_DestroyTexture( src );
-    return ok;
+    // Preserve rt and src when the renderer state is undefined: destroying
+    // them here would invalidate resources the renderer still references.
+    if( res.boundary_safe ) {
+        SDL_DestroyTexture( rt );
+        SDL_DestroyTexture( src );
+    } else {
+        probe_texture_graveyard().add( rt );
+        probe_texture_graveyard().add( src );
+    }
+    return res;
 }
 
 } // namespace
@@ -448,35 +471,53 @@ bool draw_probe( SDL_Renderer *renderer, SDL_GPURenderState *state,
 namespace
 {
 
+enum class load_outcome {
+    ok,
+    failed_clean,
+    failed_unsafe,
+};
+
 // Loads shader + render_state for basename and validates via draw_probe.
-bool load_and_probe( SDL_GPUDevice *device, SDL_Renderer *renderer,
-                     const char *basename, probe_predicate pred,
-                     shader &out_shader, render_state &out_state )
+// On a probe boundary failure the local shader/state are abandoned so their
+// destructors do not release SDL handles the renderer may still reference.
+load_outcome load_and_probe( SDL_GPUDevice *device, SDL_Renderer *renderer,
+                             const char *basename, probe_predicate pred,
+                             shader &out_shader, render_state &out_state )
 {
     shader frag = shader::load_fragment( device, basename, 1, 0 );
     if( !frag.is_valid() ) {
         DebugLog( D_ERROR, DC_ALL )
                 << "cata_shader::variant_pass: shader load failed for "
                 << basename << "; shader variant path disabled";
-        return false;
+        return load_outcome::failed_clean;
     }
     render_state state = render_state::create( renderer, frag );
     if( !state.is_valid() ) {
         DebugLog( D_ERROR, DC_ALL )
                 << "cata_shader::variant_pass: render_state::create failed for "
                 << basename << "; shader variant path disabled";
-        return false;
+        return load_outcome::failed_clean;
     }
-    if( !draw_probe( renderer, state.get(), pred ) ) {
+    const probe_result res = draw_probe( renderer, state.get(), pred );
+    if( !res.boundary_safe ) {
+        DebugLog( D_ERROR, DC_ALL )
+                << "cata_shader::variant_pass: probe left renderer in undefined "
+                "state for " << basename << "; abandoning shader + render_state "
+                "to avoid destroying a bound resource";
+        state.abandon();
+        frag.abandon();
+        return load_outcome::failed_unsafe;
+    }
+    if( !res.ok ) {
         DebugLog( D_ERROR, DC_ALL )
                 << "cata_shader::variant_pass: textured-draw probe failed for "
                 << basename << " (silent miswire? readback did not match "
                 "expected variant transform); shader variant path disabled";
-        return false;
+        return load_outcome::failed_clean;
     }
     out_shader = std::move( frag );
     out_state = std::move( state );
-    return true;
+    return load_outcome::ok;
 }
 
 } // namespace
@@ -495,6 +536,7 @@ void variant_pass::reset()
     probe_attempted_ = false;
     probed_ok_ = false;
     session_disabled_ = false;
+    unbind_required_ = false;
 }
 
 void variant_pass::probe()
@@ -516,8 +558,14 @@ void variant_pass::probe()
         if( !basename ) {
             continue;
         }
-        if( !load_and_probe( device, renderer_, basename, predicate_for( v ),
-                             shaders_[i], states_[i] ) ) {
+        const load_outcome o = load_and_probe( device, renderer_, basename,
+                                               predicate_for( v ), shaders_[i], states_[i] );
+        if( o == load_outcome::failed_unsafe ) {
+            unbind_required_ = true;
+            session_disabled_ = true;
+            return;
+        }
+        if( o == load_outcome::failed_clean ) {
             return;
         }
     }
@@ -527,8 +575,14 @@ void variant_pass::probe()
         if( !basename ) {
             continue;
         }
-        if( !load_and_probe( device, renderer_, basename, predicate_for( p ),
-                             memory_shaders_[i], memory_states_[i] ) ) {
+        const load_outcome o = load_and_probe( device, renderer_, basename,
+                                               predicate_for( p ), memory_shaders_[i], memory_states_[i] );
+        if( o == load_outcome::failed_unsafe ) {
+            unbind_required_ = true;
+            session_disabled_ = true;
+            return;
+        }
+        if( o == load_outcome::failed_clean ) {
             return;
         }
     }
@@ -576,7 +630,10 @@ bool variant_pass::try_begin( variant_kind v )
                 << "cata_shader::variant_pass: SDL_SetGPURenderState failed: "
                 << SDL_GetError();
         session_disabled_ = true;
-        currently_bound_.reset();
+        // Bind state undefined after the failure: assume still held. Keep
+        // currently_bound_ so operator== rejects the boundary, and force the
+        // next flush() to call null-state even if currently_bound_ was empty.
+        unbind_required_ = true;
         return false;
     }
     if( target ) {
@@ -584,6 +641,7 @@ bool variant_pass::try_begin( variant_kind v )
     } else {
         currently_bound_.reset();
     }
+    unbind_required_ = false;
     return target != nullptr;
 }
 
@@ -594,7 +652,7 @@ bool variant_pass::end()
 
 bool variant_pass::flush()
 {
-    if( !currently_bound_ ) {
+    if( !currently_bound_ && !unbind_required_ ) {
         return true;
     }
     if( !SDL_SetGPURenderState( renderer_, nullptr ) ) {
@@ -605,6 +663,7 @@ bool variant_pass::flush()
         return false;
     }
     currently_bound_.reset();
+    unbind_required_ = false;
     return true;
 }
 

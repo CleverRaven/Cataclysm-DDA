@@ -430,6 +430,12 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
 void cata_tiles::reinit()
 {
     set_draw_scale( 16 );
+    // Wrap so the clear lands on display_buffer rather than the null idle
+    // target.
+    display_buffer_draw_scope draw_scope;
+    if( display_buffer_scope_is_invalid() ) {
+        return;
+    }
     RenderClear( renderer );
 }
 
@@ -476,7 +482,8 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                        std::multimap<point, formatted_text> &overlay_strings,
                        color_block_overlay_container &color_blocks )
 {
-    if( !g ) {
+    display_buffer_draw_scope draw_scope;
+    if( display_buffer_scope_is_invalid() || !g ) {
         return;
     }
 
@@ -1123,20 +1130,24 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
 
                         // Phase 1: build the silhouette mask.
                         {
+                            scoped_render_target mask_scope( renderer, tint_mask_tex.get()
 #if SDL_MAJOR_VERSION >= 3
-                            cata_shader::render_target_scope mask_scope(
-                                renderer.get(), tint_mask_tex.get(), m_variant_pass.get() );
+                                                             , m_variant_pass.get()
+#endif
+                                                           );
                             if( !mask_scope.is_valid() ) {
                                 // variant_pass may have failed to unbind; later
                                 // target switches would cross with shader bound.
                                 batch_tiles.clear();
                                 batch_sum_area = 0;
-                                throw std::runtime_error(
-                                    "cata_tiles::flush_tint_batch: render_target_scope construction failed" );
+                                if( !mask_scope.boundary_intact() ) {
+                                    // Boundary lost: latch so the enclosing dtor skips detach.
+                                    display_buffer_scope_signal_recovery_required();
+                                }
+                                throw std::runtime_error( mask_scope.boundary_intact()
+                                                          ? "cata_tiles::flush_tint_batch: variant_pass refused boundary"
+                                                          : "cata_tiles::flush_tint_batch: scoped_render_target boundary lost" );
                             }
-#else
-                            SetRenderTarget( renderer, tint_mask_tex );
-#endif
                             // Clip is per-target; clear defensively for reused mask.
                             RenderSetClipRect( renderer, nullptr );
                             SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
@@ -1161,17 +1172,19 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                                                          static_cast<CataFlipMode>( rec.flip ) );
                                 }
                             }
-#if SDL_MAJOR_VERSION >= 3
+                            // Explicit restore before phase 2 so a failure
+                            // aborts compositing instead of leaving the draw
+                            // landing in the mask.
                             if( !mask_scope.restore() ) {
-                                // Subsequent draws would land in the mask.
                                 batch_tiles.clear();
                                 batch_sum_area = 0;
-                                throw std::runtime_error(
-                                    "cata_tiles::flush_tint_batch: failed to restore display_buffer render target" );
+                                if( !mask_scope.boundary_intact() ) {
+                                    display_buffer_scope_signal_recovery_required();
+                                }
+                                throw std::runtime_error( mask_scope.boundary_intact()
+                                                          ? "cata_tiles::flush_tint_batch: variant_pass refused boundary on restore"
+                                                          : "cata_tiles::flush_tint_batch: failed to restore display_buffer render target" );
                             }
-#else
-                            set_displaybuffer_rendertarget();
-#endif
                         }
 
                         // Phase 2: composite the mask to the display buffer.
@@ -1443,9 +1456,13 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
     RenderSetClipRect( renderer, nullptr );
 #if SDL_MAJOR_VERSION >= 3
     // Unbind any GPU render state held across sprite batches so ImGui or the
-    // next-frame draws see a clean state.
-    if( m_variant_pass ) {
-        m_variant_pass->flush();
+    // next-frame draws see clean state. On flush failure the bind boundary
+    // forbids a target switch: abort the unbind, latch recovery, and throw.
+    if( m_variant_pass && !m_variant_pass->flush() ) {
+        draw_scope.abort_unbind();
+        display_buffer_scope_signal_recovery_required();
+        throw std::runtime_error(
+            "cata_tiles::draw: variant_pass flush failed at end of frame; renderer in undefined state" );
     }
 #endif
 }

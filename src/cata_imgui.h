@@ -83,9 +83,16 @@ class client
 #endif
         ~client();
 
-        void new_frame();
+        // display_buffer_w/h drive ImGui layout (DisplaySize) and SDL2 mouse
+        // scaling. Pass 0 to fall back to the bound target's output size (only
+        // valid while a draw scope has display_buffer bound).
+        void new_frame( int display_buffer_w = 0, int display_buffer_h = 0 );
         void end_frame();
-        void process_input( void *input );
+        // Close the active ImGui frame without any backend draw commands, for
+        // aborting mid-flight when end_frame() is unsafe (renderer undefined).
+        // The next NewFrame would assert if the frame were left open.
+        void abort_frame();
+        void process_input( void *input, int display_buffer_w = 0, int display_buffer_h = 0 );
         void process_cata_input( const input_event &event );
 #ifdef TUI
         void upload_color_pair( int p, int f, int b );
@@ -103,6 +110,14 @@ class client
         // True if an ImGui text field or shortcut has keyboard focus.
         static bool want_capture_keyboard();
 };
+
+#ifndef TUI
+// Pick the ImGui DisplaySize for a frame: the explicit display-buffer dims when
+// both are positive, else the renderer's output dims. Keeps the terminal-buffer
+// sizing contract when the idle-null target leaves the output reading the window.
+point imgui_frame_display_size( int display_buffer_w, int display_buffer_h,
+                                int renderer_output_w, int renderer_output_h );
+#endif
 
 void point_to_imvec2( point *src, ImVec2 *dest );
 void imvec2_to_point( ImVec2 *src, point *dest );

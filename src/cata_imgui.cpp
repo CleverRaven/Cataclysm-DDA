@@ -15,6 +15,7 @@
 #include "input.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
 #include "ui_manager.h"
 #include "input_context.h"
 
@@ -120,13 +121,29 @@ cataimgui::client::~client()
     ImGui::Shutdown();
 }
 
-void cataimgui::client::new_frame()
+void cataimgui::client::new_frame( int display_buffer_w, int display_buffer_h )
 {
+    // TUI layout is driven by the ncurses backend, not display-buffer
+    // pixel dims.
+    ( void )display_buffer_w;
+    ( void )display_buffer_h;
     ImTui_ImplNcurses_NewFrame( imtui_events );
     imtui_events.clear();
     ImTui_ImplText_NewFrame();
 
     ImGui::NewFrame();
+}
+
+void cataimgui::client::abort_frame()
+{
+    // EndFrame finalizes the drawlist without painting it. Drain
+    // cata_input_trail like end_frame() so events do not pile up.
+    ImGui::EndFrame();
+    ImGuiIO &io = ImGui::GetIO();
+    for( const int &code : cata_input_trail ) {
+        io.AddKeyEvent( cata_key_to_imgui( code ), false );
+    }
+    cata_input_trail.clear();
 }
 
 void cataimgui::client::end_frame()
@@ -155,8 +172,12 @@ void cataimgui::client::set_alloced_pair_count( short count )
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
-void cataimgui::client::process_input( void *input )
+void cataimgui::client::process_input( void *input, int display_buffer_w, int display_buffer_h )
 {
+    // TUI input is in cell coordinates from ncurses; no display-buffer
+    // pixel scaling.
+    ( void )display_buffer_w;
+    ( void )display_buffer_h;
     if( !any_window_shown() ) {
         return;
     }
@@ -470,7 +491,16 @@ struct FreeTypeTest {
 FreeTypeTest freetype_test;
 #endif
 
-void cataimgui::client::new_frame()
+point cataimgui::imgui_frame_display_size( const int display_buffer_w, const int display_buffer_h,
+        const int renderer_output_w, const int renderer_output_h )
+{
+    if( display_buffer_w > 0 && display_buffer_h > 0 ) {
+        return point{ display_buffer_w, display_buffer_h };
+    }
+    return point{ renderer_output_w, renderer_output_h };
+}
+
+void cataimgui::client::new_frame( int display_buffer_w, int display_buffer_h )
 {
 #if 0 and not TUI
     if( freetype_test.PreNewFrame() ) {
@@ -496,18 +526,20 @@ void cataimgui::client::new_frame()
     ImGui_ImplSDL2_NewFrame();
 #endif
 
-    // The game and ImGui both draw into display_buffer, whose size can differ from
-    // the window: SCALING_FACTOR shrinks the buffer on desktop, and on Android the
-    // buffer stays terminal-sized behind a fullscreen window. The SDL backend sets
-    // io.DisplaySize to the window size, which mis-centers and oversizes ImGui
-    // windows, so use the render target's output size instead.
+    // ImGui draws into display_buffer, whose size differs from the window under
+    // SCALING_FACTOR or android letterboxing. Prefer the caller's dims; fall
+    // back to the bound target's output size.
     {
         ImGuiIO &io = ImGui::GetIO();
-        int target_w = 0;
-        int target_h = 0;
-        GetRendererOutputSize( sdl_renderer, &target_w, &target_h );
-        if( target_w > 0 && target_h > 0 ) {
-            io.DisplaySize = ImVec2( static_cast<float>( target_w ), static_cast<float>( target_h ) );
+        int output_w = 0;
+        int output_h = 0;
+        if( display_buffer_w <= 0 || display_buffer_h <= 0 ) {
+            GetRendererOutputSize( sdl_renderer, &output_w, &output_h );
+        }
+        const point sz = imgui_frame_display_size( display_buffer_w, display_buffer_h,
+                         output_w, output_h );
+        if( sz.x > 0 && sz.y > 0 ) {
+            io.DisplaySize = ImVec2( static_cast<float>( sz.x ), static_cast<float>( sz.y ) );
             io.DisplayFramebufferScale = ImVec2( 1.0f, 1.0f );
         }
     }
@@ -533,12 +565,24 @@ void cataimgui::client::end_frame()
     cata_input_trail.clear();
 }
 
+void cataimgui::client::abort_frame()
+{
+    // EndFrame finalizes the drawlist without painting it. Drain
+    // cata_input_trail like end_frame() so events do not pile up.
+    ImGui::EndFrame();
+    ImGuiIO &io = ImGui::GetIO();
+    for( const int &code : cata_input_trail ) {
+        io.AddKeyEvent( cata_key_to_imgui( code ), false );
+    }
+    cata_input_trail.clear();
+}
+
 bool cataimgui::clear_pending()
 {
     return clear_screen;
 }
 
-void cataimgui::client::process_input( void *input )
+void cataimgui::client::process_input( void *input, int display_buffer_w, int display_buffer_h )
 {
     if( any_window_shown() ) {
         const SDL_Event *evt = static_cast<const SDL_Event *>( input );
@@ -552,38 +596,14 @@ void cataimgui::client::process_input( void *input )
                     return;
             }
         }
+        ( void )display_buffer_w;
+        ( void )display_buffer_h;
 #if SDL_MAJOR_VERSION >= 3
         ImGui_ImplSDL3_ProcessEvent( evt );
 #else
-        // ImGui lays out windows in render-target (display_buffer) coordinates (see
-        // new_frame), but SDL mouse events arrive in window coordinates. Scale mouse
-        // positions into buffer space so they line up; SDL3 handles this in
-        // ConvertEventCoordinates().
-        int buf_w = 0;
-        int buf_h = 0;
-        int win_w = 0;
-        int win_h = 0;
-        GetRendererOutputSize( sdl_renderer, &buf_w, &buf_h );
-        GetWindowSize( sdl_window.get(), &win_w, &win_h );
-        if( win_w > 0 && win_h > 0 && ( buf_w != win_w || buf_h != win_h ) ) {
-            SDL_Event scaled = *evt;
-            const float sx = static_cast<float>( buf_w ) / win_w;
-            const float sy = static_cast<float>( buf_h ) / win_h;
-            switch( evt->type ) {
-                case CATA_MOUSEMOTION:
-                    scaled.motion.x = static_cast<Sint32>( evt->motion.x * sx );
-                    scaled.motion.y = static_cast<Sint32>( evt->motion.y * sy );
-                    break;
-                case CATA_MOUSEBUTTONDOWN:
-                case CATA_MOUSEBUTTONUP:
-                    scaled.button.x = static_cast<Sint32>( evt->button.x * sx );
-                    scaled.button.y = static_cast<Sint32>( evt->button.y * sy );
-                    break;
-            }
-            ImGui_ImplSDL2_ProcessEvent( &scaled );
-        } else {
-            ImGui_ImplSDL2_ProcessEvent( evt );
-        }
+        // Coordinates already converted to display_buffer space by
+        // convert_event_to_display_buffer_coords in the event pump.
+        ImGui_ImplSDL2_ProcessEvent( evt );
 #endif
     }
 }

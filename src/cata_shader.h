@@ -94,6 +94,14 @@ class shader
             return ptr_;
         }
 
+        // Renounce ownership without SDL_ReleaseGPUShader, for when the
+        // renderer still references this through a stale bind we could not
+        // detach -- destroying it would invalidate live GPU pipeline state.
+        void abandon() {
+            ptr_ = nullptr;
+            device_ = nullptr;
+        }
+
     private:
         shader( SDL_GPUDevice *device, SDL_GPUShader *ptr )
             : device_( device ), ptr_( ptr ) {}
@@ -131,41 +139,16 @@ class render_state
             return ptr_;
         }
 
+        // Renounce ownership without SDL_DestroyGPURenderState. Used when a
+        // probe leaves the state bound on a renderer we cannot safely detach.
+        void abandon() {
+            ptr_ = nullptr;
+        }
+
     private:
         explicit render_state( SDL_GPURenderState *ptr ) : ptr_( ptr ) {}
 
         SDL_GPURenderState *ptr_ = nullptr;
-};
-
-// RAII bracket around SDL_SetGPURenderState. Binds the supplied state on
-// construction, clears it on destruction (or earlier via unbind()). ImGui's
-// SDL3 renderer backend does not save/restore custom GPU state; any unpaired
-// bind leaks into the next draw, so the bracket is mandatory.
-class gpu_state_scope
-{
-    public:
-        // Binds state on the renderer. is_valid() reflects whether the bind
-        // succeeded; on failure end-of-scope is a no-op.
-        gpu_state_scope( SDL_Renderer *renderer, SDL_GPURenderState *state );
-        ~gpu_state_scope();
-
-        gpu_state_scope( const gpu_state_scope & ) = delete;
-        gpu_state_scope &operator=( const gpu_state_scope & ) = delete;
-        gpu_state_scope( gpu_state_scope && ) = delete;
-        gpu_state_scope &operator=( gpu_state_scope && ) = delete;
-
-        bool is_valid() const {
-            return active_;
-        }
-
-        // Clears the bind early. Returns true on success (or no-op when
-        // already inactive), false if SDL_SetGPURenderState(NULL) failed.
-        // Subsequent destruction is a no-op.
-        bool unbind();
-
-    private:
-        SDL_Renderer *renderer_ = nullptr;
-        bool active_ = false;
 };
 
 // Owns one SDL_GPUShader + SDL_GPURenderState per supported variant and
@@ -234,6 +217,10 @@ class variant_pass
         memory_states_;
         std::optional<memory_preset> active_memory_preset_;
         std::optional<variant_kind> currently_bound_;
+        // Set after an unsafe bind transition (failed SDL_SetGPURenderState or
+        // a probe boundary loss): next flush() must call null-state regardless
+        // of currently_bound_ to clear whatever the renderer holds.
+        bool unbind_required_ = false;
         bool probe_attempted_ = false;
         bool probed_ok_ = false;
         bool session_disabled_ = false;
