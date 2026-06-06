@@ -174,7 +174,7 @@ void game::print_visibility_info( const catacurses::window &w_look, int column, 
             break;
     }
 
-    mvwprintz( w_look, point( line, column ), c_light_gray, visibility_message );
+    mvwprintz( w_look, point( column, line ), c_light_gray, visibility_message );
     line += 2;
 }
 
