@@ -266,7 +266,7 @@
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       { "item": "soldering_iron", "prob": 70 },
       { "item": "soldering_iron_portable", "prob": 70, "charges": [ 0, 50 ] },
-      { "item": "solder_wire", "prob": 70 },
+      { "group": "solder_wire_spool", "prob": 70 },
       { "item": "processor", "prob": 15 },
       { "item": "RAM", "prob": 22 },
       { "item": "mp3", "prob": 6, "charges": [ 0, -1 ] },

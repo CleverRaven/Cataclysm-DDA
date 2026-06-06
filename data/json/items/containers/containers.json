@@ -5397,11 +5397,37 @@
     "flags": [ "NO_RELOAD" ]
   },
   {
+    "id": "spool_small",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "small spool" },
+    "description": "A small plastic spool designed to hold various materials.",
+    "//": "0.5 lbs or 3 ft of solder",
+    "weight": "20 g",
+    "volume": "50 ml",
+    "//2": "spool itself is 200 ml, but volume is reduced if empty",
+    "material": [ "plastic" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "max_contains_volume": "200 ml",
+        "max_contains_weight": "300 g",
+        "item_restriction": [ "solder_wire" ],
+        "transparent": true,
+        "moves": 800
+      }
+    ],
+    "flags": [ "NO_RELOAD" ]
+  },
+  {
     "id": "spool_welding",
     "type": "ITEM",
     "category": "container",
     "name": { "str": "wire spool" },
-    "description": "A large plastic spool designed to hold welding wire or solder.",
+    "description": "A large plastic spool designed to hold welding wire.",
     "weight": "400 g",
     "volume": "1600 ml",
     "material": [ "plastic" ],
@@ -5413,12 +5439,13 @@
         "rigid": false,
         "max_contains_volume": "3000 ml",
         "max_contains_weight": "6 kg",
-        "item_restriction": [ "welding_wire_steel", "welding_wire_alloy", "solder_wire" ],
-        "transparent": false,
+        "item_restriction": [ "welding_wire_steel", "welding_wire_alloy" ],
+        "transparent": true,
         "moves": 800,
         "volume_multiplier": 0.3
       }
-    ]
+    ],
+    "flags": [ "NO_RELOAD" ]
   },
   {
     "id": "tube_welding_rod",

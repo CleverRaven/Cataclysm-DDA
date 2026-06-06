@@ -88,7 +88,7 @@
       { "item": "diamond", "prob": 10 },
       { "item": "holy_symbol", "prob": 20 },
       { "item": "soldering_iron_portable", "prob": 60, "charges": [ 0, 50 ] },
-      { "item": "solder_wire", "prob": 60 },
+      { "group": "solder_wire_spool_part", "prob": 60 },
       { "item": "inhaler", "prob": 14, "charges": [ 10, 100 ] },
       { "prob": 15, "group": "codeine_bottle_plastic_pill_painkiller_10" },
       { "prob": 4, "group": "oxycodone_bottle_plastic_pill_prescription_10" },

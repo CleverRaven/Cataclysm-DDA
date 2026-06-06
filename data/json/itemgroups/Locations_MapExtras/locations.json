@@ -1951,7 +1951,7 @@
       [ "scissors", 50 ],
       { "item": "soldering_iron", "prob": 70 },
       { "item": "soldering_iron_portable", "prob": 70, "charges": [ 0, 50 ] },
-      [ "solder_wire", 70 ],
+      { "group": "solder_wire_spool_part", "prob": 70 },
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       [ "syringe", 8 ],
       { "item": "mp3", "prob": 6, "charges": [ 0, 100 ] },
