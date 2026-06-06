@@ -15,7 +15,7 @@
     "failure_exp_percent": 1,
     "max_book_level": 0
   },
-   {
+  {
     "id": "night_sight",
     "type": "SPELL",
     "name": "Night Sight",
