@@ -1406,10 +1406,10 @@
             { "current_dimension": "" },
             { "not": { "u_has_effect": "VITRIFYING" } },
             { "not": { "u_has_effect": "LIXA_unfolded_eff" } },
-            { "not":  { "u_is_on_terrain": "t_floor_warped" } },
-            { "not":  { "u_at_om_location": "nether_glass" } },
-            { "not":  { "u_at_om_location": "nether_glass_deep" } },
-            { "not":  { "u_at_om_location": "microlab_portal_elevator_nether_glass" } }       
+            { "not": { "u_is_on_terrain": "t_floor_warped" } },
+            { "not": { "u_at_om_location": "nether_glass" } },
+            { "not": { "u_at_om_location": "nether_glass_deep" } },
+            { "not": { "u_at_om_location": "microlab_portal_elevator_nether_glass" } }
           ]
         },
         "then": [
