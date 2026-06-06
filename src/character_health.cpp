@@ -2579,9 +2579,6 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
     }
 
     int pain = 0;
-    if( !hurt->has_flag( json_flag_BIONIC_LIMB ) ) {
-        pain = mod_pain( dam / 2 );
-    }
 
     const bodypart_id &part_to_damage = hurt->main_part;
 
@@ -3358,7 +3355,7 @@ int Character::get_pain() const
     return p + Creature::get_pain();
 }
 
-int Character::mod_pain( int npain )
+int Character::mod_pain( int npain, const bodypart_id bp )
 {
     if( npain > 0 ) {
         double mult = enchantment_cache->get_value_multiply( enchant_vals::mod::PAIN );
@@ -3373,6 +3370,8 @@ int Character::mod_pain( int npain )
             npain = roll_remainder( npain * ( 1 + mult ) );
         }
         npain += enchantment_cache->get_value_add( enchant_vals::mod::PAIN );
+
+        npain *= bp->pain_mod;
 
         // no matter how powerful the enchantment if we are gaining pain we don't lose any
         npain = std::max( 0, npain );
