@@ -52,6 +52,11 @@ class Font
                                        const GeometryRenderer_Ptr &geometry,
                                        unsigned char line_id, const point &p, unsigned char color ) const;
 
+        /// Drop any GPU-side glyph textures owned by this font. Subclasses
+        /// override to clear their own atlases or caches. Path and metadata
+        /// kept so the font can be rebuilt against a fresh renderer.
+        virtual void release_gpu_resources() {}
+
         /// Try to load a font by typeface (Bitmap or Truetype).
         static std::unique_ptr<Font> load_font(
             SDL_Renderer_Ptr &renderer, Uint32 pixel_format,
@@ -84,6 +89,7 @@ class CachedTTFFont : public Font
                          const std::string &ch,
                          const point &p,
                          unsigned char color, float opacity = 1.0f ) override;
+        void release_gpu_resources() override;
 
     protected:
         SDL_Texture_Ptr create_glyph( const SDL_Renderer_Ptr &renderer, const std::string &ch,
@@ -143,9 +149,13 @@ class BitmapFont : public Font
                          unsigned char color, float opacity = 1.0f );
         void draw_ascii_lines( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry,
                                unsigned char line_id, const point &p, unsigned char color ) const override;
+        void release_gpu_resources() override;
     protected:
         std::array<SDL_Texture_Ptr, color_loader<SDL_Color>::COLOR_NAMES_COUNT> ascii;
         int tilewidth;
+        // Retained for atlas rebuild after a GPU device-texture reset.
+        std::string typeface_path;
+        Uint32 source_pixel_format = 0;
 };
 
 /// Multiple fonts container. Tries to render character using font on the top,
@@ -166,6 +176,7 @@ class FontFallbackList : public Font
                          const std::string &ch,
                          const point &p,
                          unsigned char color, float opacity = 1.0f ) override;
+        void release_gpu_resources() override;
     protected:
         std::vector<std::unique_ptr<Font>> fonts;
         std::map<std::string, std::vector<std::unique_ptr<Font>>::iterator> glyph_font;

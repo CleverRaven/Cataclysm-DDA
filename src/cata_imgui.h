@@ -71,6 +71,13 @@ constexpr int min_screen_res_y = 384;
 class client
 {
         std::vector<int> cata_input_trail;
+#ifndef TUI
+        // Backend-active latches for the platform (SDL2/SDL3) and
+        // renderer (SDLRenderer2/3) ImGui backends. Guard the wrappers
+        // so partial teardown + retry is idempotent.
+        bool platform_backend_active_ = false;
+        bool renderer_backend_active_ = false;
+#endif
     public:
 #ifdef TUI
         client();
@@ -83,9 +90,9 @@ class client
 #endif
         ~client();
 
-        // display_buffer_w/h drive ImGui layout (DisplaySize) and SDL2 mouse
-        // scaling. Pass 0 to fall back to the bound target's output size (only
-        // valid while a draw scope has display_buffer bound).
+        // display_buffer_w/h drive ImGui layout (DisplaySize). Pass 0 to fall
+        // back to the bound target's output size (only valid while a draw scope
+        // has display_buffer bound).
         void new_frame( int display_buffer_w = 0, int display_buffer_h = 0 );
         void end_frame();
         // Close the active ImGui frame without any backend draw commands, for
@@ -101,6 +108,18 @@ class client
         const SDL_Renderer_Ptr &sdl_renderer;
         const SDL_Window_Ptr &sdl_window;
         const GeometryRenderer_Ptr &sdl_geometry;
+
+        // ImGui backend lifecycle wrappers. Each tracks backend-active state so
+        // the vendored Shutdown (which asserts when inactive) is never doubled.
+        // Pair: init platform then renderer; shutdown reverse.
+        void init_platform_backend();
+        void init_renderer_backend();
+        void shutdown_renderer_backend();
+        void shutdown_platform_backend();
+        // Drop the renderer backend's GPU device objects (font atlas,
+        // buffers) without tearing down the backend; they recreate
+        // lazily on the next RenderDrawData.
+        void destroy_backend_device_objects() const;
 #endif
         bool auto_size_frame_active();
         bool any_window_shown();

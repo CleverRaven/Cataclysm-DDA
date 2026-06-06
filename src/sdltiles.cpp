@@ -1,6 +1,9 @@
 #include "cursesdef.h" // IWYU pragma: associated
 #include "sdltiles.h" // IWYU pragma: associated
 
+#if SDL_MAJOR_VERSION >= 3
+#include "cata_shader.h"
+#endif
 #include "cuboid_rectangle.h"
 #include "point.h"
 
@@ -140,6 +143,9 @@ static SDL_Renderer_Ptr renderer;
 static Uint32 pixel_format = SDL_PIXELFORMAT_UNKNOWN;
 static SDL_Texture_Ptr display_buffer;
 static GeometryRenderer_Ptr geometry;
+#if SDL_MAJOR_VERSION >= 3
+static std::unique_ptr<cata_shader::variant_pass> shared_variant_pass;
+#endif
 #if defined(__ANDROID__)
 static SDL_Texture_Ptr touch_joystick;
 #endif
@@ -269,19 +275,42 @@ gpu_handle_graveyard &setup_target_quarantine()
 }
 } // namespace
 
+// Terminal-sized intermediate buffer dimensions: logical window size over
+// scaling_factor, independent of backing-store pixels.
+static point compute_display_buffer_dims()
+{
+    return point{ WindowWidth / scaling_factor, WindowHeight / scaling_factor };
+}
+
+// Backing-store pixel dimensions of the window, tracked independently of the
+// logical size so a DPI-only change leaves the display buffer alone.
+[[maybe_unused]] static point compute_drawable_dims()
+{
+    int pw = 0;
+    int ph = 0;
+    GetWindowSizeInPixels( ::window.get(), &pw, &ph );
+    return point{ pw, ph };
+}
+
 static bool SetupRenderTarget()
 {
     SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
     // Stage into a local so a failed bind leaves the previous display_buffer
     // intact rather than orphaning a still-referenced target.
+    const point buffer_dims = compute_display_buffer_dims();
     SDL_Texture_Ptr staged = CreateTexture( renderer, SDL_PIXELFORMAT_ARGB8888,
-                                            SDL_TEXTUREACCESS_TARGET, WindowWidth / scaling_factor,
-                                            WindowHeight / scaling_factor );
+                                            SDL_TEXTUREACCESS_TARGET, buffer_dims.x,
+                                            buffer_dims.y );
     if( printErrorIf( !staged, "Failed to create window buffer" ) ) {
         return false;
     }
+#if SDL_MAJOR_VERSION >= 3
+    cata_shader::variant_pass *vp = get_shared_variant_pass();
+#else
+    cata_shader::variant_pass *vp = nullptr;
+#endif
     {
-        const bind_result r = permanent_render_target_bind( renderer, staged.get() );
+        const bind_result r = permanent_render_target_bind( renderer, staged.get(), vp );
         if( r == bind_result::failed_in_switch ) {
             // Boundary undefined: quarantine staged so its dtor cannot race the
             // active target. The previous display_buffer is untouched.
@@ -289,13 +318,13 @@ static bool SetupRenderTarget()
             return false;
         }
         if( r != bind_result::ok ) {
-            // Refused before binding; staged was never bound, drop it.
+            // variant_pass refused before binding; staged never bound, drop it.
             return false;
         }
     }
     ClearScreen();
     {
-        const bind_result r = permanent_render_target_bind( renderer, nullptr );
+        const bind_result r = permanent_render_target_bind( renderer, nullptr, vp );
         if( r == bind_result::failed_in_switch ) {
             // Detach failed: staged is still the active target, so quarantine
             // rather than destroy.
@@ -371,6 +400,57 @@ static bool only_spirv_shader_artifacts_present()
     return any_spv;
 }
 #endif
+
+// Create an SDL renderer for the window with no render target. software picks
+// the software backend (renderer_name ignored), else accelerated. Null on
+// failure. Deferring the target lets recreation rebind variant_pass first.
+static SDL_Renderer_Ptr create_game_renderer( const std::string &renderer_name, bool software )
+{
+    if( software ) {
+        return CreateRenderer( ::window, nullptr, true, false );
+    }
+    return CreateRenderer( ::window, renderer_name.c_str(), false, true );
+}
+
+// Derive renderer-dependent backend state from the live renderer. Re-run
+// after any renderer (re)creation so a replacement cannot inherit a stale
+// direct3d_mode from the prior renderer choice.
+static void detect_renderer_backend()
+{
+#if SDL_MAJOR_VERSION >= 3
+    direct3d_mode = false;
+    const SDL_PropertiesID props = SDL_GetRendererProperties( renderer.get() );
+    const char *actual_name = props != 0
+                              ? SDL_GetStringProperty( props, SDL_PROP_RENDERER_NAME_STRING, "" )
+                              : "";
+    dbg( D_INFO ) << "SDL renderer in use: " << ( actual_name ? actual_name : "unknown" );
+    if( actual_name && std::string( actual_name ).find( "direct3d" ) != std::string::npos ) {
+        direct3d_mode = true;
+    }
+#endif
+}
+
+// Pick the geometry renderer matching the live renderer's capabilities:
+// color-modulated textures need an accelerated renderer, software falls
+// back to plain RenderFillRect.
+static void rebuild_geometry_strategy( bool software_renderer )
+{
+    DebugLog( D_INFO, DC_ALL ) << "USE_COLOR_MODULATED_TEXTURES is set to " <<
+                               get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" );
+#if SDL_MAJOR_VERSION >= 3
+    ( void )software_renderer;
+    // SDL3 batches RenderFillRect efficiently and the modulated texture path
+    // blends differently from a plain fill (it breaks the per-frame clear), so
+    // the saved option value is ignored and the default renderer is always used.
+    geometry = std::make_unique<DefaultGeometryRenderer>();
+#else
+    if( get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" ) && !software_renderer ) {
+        geometry = std::make_unique<ColorModulatedGeometryRenderer>( renderer );
+    } else {
+        geometry = std::make_unique<DefaultGeometryRenderer>();
+    }
+#endif
+}
 
 //Registers, creates, and shows the Window!!
 static void WinCreate()
@@ -515,7 +595,7 @@ static void WinCreate()
     if( !software_renderer ) {
         dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
 
-        renderer = CreateRenderer( ::window, renderer_name.c_str(), false, true );
+        renderer = create_game_renderer( renderer_name, false );
         if( printErrorIf( !renderer,
                           "Failed to initialize accelerated renderer, falling back to software rendering" ) ) {
             software_renderer = true;
@@ -539,27 +619,13 @@ static void WinCreate()
             SDL_SetHint( SDL_HINT_FRAMEBUFFER_ACCELERATION, "1" );
         }
 #endif
-        renderer = CreateRenderer( ::window, nullptr, true, false );
+        renderer = create_game_renderer( {}, true );
         throwErrorIf( !renderer, "Failed to initialize software renderer" );
         throwErrorIf( !SetupRenderTarget(),
                       "Failed to initialize display buffer under software rendering, unable to continue." );
     }
 
-#if SDL_MAJOR_VERSION >= 3
-    {
-        // Reset before runtime detection so renderer recreation cannot
-        // leave stale direct3d_mode set from a prior renderer choice.
-        direct3d_mode = false;
-        const SDL_PropertiesID props = SDL_GetRendererProperties( renderer.get() );
-        const char *actual_name = props != 0
-                                  ? SDL_GetStringProperty( props, SDL_PROP_RENDERER_NAME_STRING, "" )
-                                  : "";
-        dbg( D_INFO ) << "SDL renderer in use: " << ( actual_name ? actual_name : "unknown" );
-        if( actual_name && std::string( actual_name ).find( "direct3d" ) != std::string::npos ) {
-            direct3d_mode = true;
-        }
-    }
-#endif
+    detect_renderer_backend();
 
     SetWindowMinimumSize( ::window.get(), fontwidth * EVEN_MINIMUM_TERM_WIDTH * scaling_factor,
                           fontheight * EVEN_MINIMUM_TERM_HEIGHT * scaling_factor );
@@ -584,20 +650,10 @@ static void WinCreate()
     // Set up audio mixer.
     init_sound();
 
-    DebugLog( D_INFO, DC_ALL ) << "USE_COLOR_MODULATED_TEXTURES is set to " <<
-                               get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" );
-    //initialize the alternate rectangle texture for replacing SDL_RenderFillRect
+    rebuild_geometry_strategy( software_renderer );
+
 #if SDL_MAJOR_VERSION >= 3
-    // SDL3 batches RenderFillRect efficiently and the modulated texture path
-    // blends differently from a plain fill (it breaks the per-frame clear), so
-    // the saved option value is ignored and the default renderer is always used.
-    geometry = std::make_unique<DefaultGeometryRenderer>();
-#else
-    if( get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" ) && !software_renderer ) {
-        geometry = std::make_unique<ColorModulatedGeometryRenderer>( renderer );
-    } else {
-        geometry = std::make_unique<DefaultGeometryRenderer>();
-    }
+    shared_variant_pass = std::make_unique<cata_shader::variant_pass>( renderer.get() );
 #endif
 
     imclient = std::make_unique<cataimgui::client>( renderer, window, geometry );
@@ -613,6 +669,9 @@ static void WinDestroy()
     tilecontext.reset();
     gamepad::quit();
     geometry.reset();
+#if SDL_MAJOR_VERSION >= 3
+    shared_variant_pass.reset();
+#endif
     display_buffer.reset();
     renderer.reset();
     ::window.reset();
@@ -740,15 +799,20 @@ void refresh_display()
     // Present from the window target. The buffer stays unbound; draw paths
     // re-bind it next frame. Go through the pass-aware helper so variant_pass
     // can flush before the switch.
+#if SDL_MAJOR_VERSION >= 3
+    cata_shader::variant_pass *present_vp = get_shared_variant_pass();
+#else
+    cata_shader::variant_pass *present_vp = nullptr;
+#endif
     {
-        const bind_result r = permanent_render_target_bind( renderer, nullptr );
+        const bind_result r = permanent_render_target_bind( renderer, nullptr, present_vp );
         if( r == bind_result::failed_in_switch ) {
             // Helper already latched; signal again defensively and skip present.
             display_buffer_scope_signal_recovery_required();
             return;
         }
         if( r != bind_result::ok ) {
-            // Refused; skip this frame.
+            // variant_pass refused; skip this frame.
             return;
         }
     }
@@ -895,6 +959,13 @@ void convert_event_to_display_buffer_coords( SDL_Event *event )
     }
 }
 
+#if SDL_MAJOR_VERSION >= 3
+cata_shader::variant_pass *get_shared_variant_pass()
+{
+    return shared_variant_pass.get();
+}
+#endif
+
 namespace
 {
 // Draw-scope state. depth counts nested scopes. aborted lets an inner
@@ -962,7 +1033,12 @@ display_buffer_draw_scope::display_buffer_draw_scope()
         // rebuilds the renderer.
         return;
     }
-    const bind_result r = permanent_render_target_bind( renderer, display_buffer.get() );
+#if SDL_MAJOR_VERSION >= 3
+    cata_shader::variant_pass *vp = get_shared_variant_pass();
+#else
+    cata_shader::variant_pass *vp = nullptr;
+#endif
+    const bind_result r = permanent_render_target_bind( renderer, display_buffer.get(), vp );
     if( r == bind_result::failed_in_switch ) {
         // Boundary undefined: latch recovery so this and later scopes refuse.
         display_buffer_scope_recovery_required = true;
@@ -970,7 +1046,7 @@ display_buffer_draw_scope::display_buffer_draw_scope()
         return;
     }
     if( r != bind_result::ok ) {
-        // Refused, boundary intact: skip the draw but do not latch recovery.
+        // variant_pass refused, boundary intact: skip the draw, do not latch.
         display_buffer_scope_invalid = true;
         return;
     }
@@ -1001,7 +1077,12 @@ display_buffer_draw_scope::~display_buffer_draw_scope()
         // -- another switch on the undefined renderer would deepen corruption.
         return;
     }
-    if( permanent_render_target_bind( renderer, nullptr )
+#if SDL_MAJOR_VERSION >= 3
+    cata_shader::variant_pass *vp = get_shared_variant_pass();
+#else
+    cata_shader::variant_pass *vp = nullptr;
+#endif
+    if( permanent_render_target_bind( renderer, nullptr, vp )
         == bind_result::failed_in_switch ) {
         // Boundary undefined: latch so later scopes refuse until rebuild.
         display_buffer_scope_recovery_required = true;
@@ -1685,11 +1766,13 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     // Flush failure means the shader bind boundary forbids a target switch:
     // abort the scope's unbind, latch recovery, and throw to unwind
     // curses_drawwindow instead of drawing terrain overlays on a dead renderer.
-    if( m_variant_pass && !m_variant_pass->flush() ) {
-        draw_scope.abort_unbind();
-        display_buffer_scope_signal_recovery_required();
-        throw std::runtime_error(
-            "cata_tiles::draw_om: variant_pass flush failed at end of frame; renderer in undefined state" );
+    if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
+        if( !vp->flush() ) {
+            draw_scope.abort_unbind();
+            display_buffer_scope_signal_recovery_required();
+            throw std::runtime_error(
+                "cata_tiles::draw_om: variant_pass flush failed at end of frame; renderer in undefined state" );
+        }
     }
 #endif
 }
@@ -1697,8 +1780,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 static bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offset )
 {
     if( scaling_factor > 1 ) {
-        RenderSetLogicalSize( renderer, WindowWidth / scaling_factor,
-                              WindowHeight / scaling_factor );
+        const point buffer_dims = compute_display_buffer_dims();
+        RenderSetLogicalSize( renderer, buffer_dims.x, buffer_dims.y );
     }
 
     cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
@@ -1826,8 +1909,8 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         return;
     }
     if( scaling_factor > 1 ) {
-        RenderSetLogicalSize( renderer, WindowWidth / scaling_factor,
-                              WindowHeight / scaling_factor );
+        const point buffer_dims = compute_display_buffer_dims();
+        RenderSetLogicalSize( renderer, buffer_dims.x, buffer_dims.y );
     }
     WINDOW *const win = w.get<WINDOW>();
     bool update = false;

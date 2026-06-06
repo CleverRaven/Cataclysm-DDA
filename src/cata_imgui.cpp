@@ -118,7 +118,10 @@ cataimgui::client::~client()
 {
     ImTui_ImplNcurses_Shutdown();
     ImTui_ImplText_Shutdown();
-    ImGui::Shutdown();
+    // DestroyContext runs the internal Shutdown and frees the context;
+    // calling ImGui::Shutdown alone leaks the context created in the
+    // constructor.
+    ImGui::DestroyContext();
 }
 
 void cataimgui::client::new_frame( int display_buffer_w, int display_buffer_h )
@@ -307,12 +310,71 @@ cataimgui::client::client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Windo
     // Default cellPadding is {4, 2}. We reduce this to {3, 2}.
     ImGui::PushStyleVar( ImGuiStyleVar_CellPadding, ImVec2( 3, style.CellPadding.y ) );
 
+    init_platform_backend();
+    init_renderer_backend();
+}
+
+void cataimgui::client::init_platform_backend()
+{
+    if( platform_backend_active_ ) {
+        return;
+    }
 #if SDL_MAJOR_VERSION >= 3
     ImGui_ImplSDL3_InitForSDLRenderer( sdl_window.get(), sdl_renderer.get() );
-    ImGui_ImplSDLRenderer3_Init( sdl_renderer.get() );
 #else
     ImGui_ImplSDL2_InitForSDLRenderer( sdl_window.get(), sdl_renderer.get() );
+#endif
+    platform_backend_active_ = true;
+}
+
+void cataimgui::client::init_renderer_backend()
+{
+    if( renderer_backend_active_ ) {
+        return;
+    }
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDLRenderer3_Init( sdl_renderer.get() );
+#else
     ImGui_ImplSDLRenderer2_Init( sdl_renderer.get() );
+#endif
+    renderer_backend_active_ = true;
+}
+
+void cataimgui::client::shutdown_renderer_backend()
+{
+    if( !renderer_backend_active_ ) {
+        return;
+    }
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDLRenderer3_Shutdown();
+#else
+    ImGui_ImplSDLRenderer2_Shutdown();
+#endif
+    renderer_backend_active_ = false;
+}
+
+void cataimgui::client::shutdown_platform_backend()
+{
+    if( !platform_backend_active_ ) {
+        return;
+    }
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDL3_Shutdown();
+#else
+    ImGui_ImplSDL2_Shutdown();
+#endif
+    platform_backend_active_ = false;
+}
+
+void cataimgui::client::destroy_backend_device_objects() const
+{
+    if( !renderer_backend_active_ ) {
+        return;
+    }
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDLRenderer3_DestroyDeviceObjects();
+#else
+    ImGui_ImplSDLRenderer2_DestroyDeviceObjects();
 #endif
 }
 
@@ -396,11 +458,11 @@ void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
 
 cataimgui::client::~client()
 {
-#if SDL_MAJOR_VERSION >= 3
-    ImGui_ImplSDL3_Shutdown();
-#else
-    ImGui_ImplSDL2_Shutdown();
-#endif
+    // Reverse-order teardown: renderer backend, platform backend, context.
+    // Skipping any one leaks that resource.
+    shutdown_renderer_backend();
+    shutdown_platform_backend();
+    ImGui::DestroyContext();
 }
 
 #if 0 and not TUI
