@@ -24,6 +24,7 @@ void wound_type::load( const JsonObject &jo, const std::string_view & )
     mandatory( jo, was_loaded, "damage_types", damage_types );
     mandatory( jo, was_loaded, "damage_required", damage_required );
     optional( jo, was_loaded, "weight", weight, 1 );
+    optional( jo, was_loaded, "limb_scores", limb_scores );
     optional( jo, was_loaded, "limit", limit, 0 );
 
     optional( jo, was_loaded, "wound_progression", wound_progression );
@@ -193,6 +194,12 @@ void wound_fix::finalize()
     requirement_data::finalize();
 }
 
+void wound_limb_score::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "score", score );
+    optional( jo, false, "value", value, 0.f );
+}
+
 void wound_progress::deserialize( const JsonObject &jo )
 {
     mandatory( jo, false, "id", id );
@@ -296,6 +303,11 @@ time_duration wound_type::evaluate_healing_time() const
 int wound_type::get_limit() const
 {
     return limit;
+}
+
+std::vector<wound_limb_score> wound_type::get_limb_scores() const
+{
+    return limb_scores;
 }
 
 std::string wound_type::get_name() const
