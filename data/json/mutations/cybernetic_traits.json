@@ -9,12 +9,11 @@
   },
   {
     "type": "mutation",
-    "//~": "NO_I18N",
     "id": "EXODII_WRATH",
     "player_display": false,
-    "name": { "str": "Exodii Wrath" },
+    "name": { "//~": "NO_I18N", "str": "Exodii Wrath" },
     "points": 0,
-    "description": "Makes sure all the exodii mobs shoot you on sight.",
+    "description": { "//~": "NO_I18N", "str": "Makes sure all the exodii mobs shoot you on sight." },
     "valid": false,
     "purifiable": false,
     "anger_relations": [ [ "CYBORG", 95 ] ]
