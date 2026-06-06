@@ -126,6 +126,18 @@
     "items": [ { "item": "material_quicklime", "count": [ 400, 1200 ] } ]
   },
   {
+    "id": "quicklime_barrel",
+    "type": "item_group",
+    "container-item": "30gal_barrel",
+    "items": [ { "item": "material_quicklime", "count": 6000 } ]
+  },
+  {
+    "id": "quicklime_barrel_part",
+    "type": "item_group",
+    "container-item": "30gal_barrel",
+    "items": [ { "item": "material_quicklime", "count": [ 600, 6000 ] } ]
+  },
+  {
     "id": "paintcans",
     "type": "item_group",
     "items": [ { "item": "paint_can_steel" }, { "item": "paint_can_plastic" } ]
@@ -305,6 +317,7 @@
       { "group": "fertilizer_commercial_bag_canvas_60", "prob": 100 },
       { "group": "styrofoam_sheet_pack", "prob": 30, "count": [ 1, 4 ] },
       { "group": "quicklime_bag", "prob": 70 },
+      { "group": "quicklime_barrel", "prob": 5 },
       { "group": "concrete_bag", "count": [ 3, 7 ], "prob": 100 },
       { "group": "cement_bag", "count": [ 1, 3 ], "prob": 100 },
       { "item": "nuts_bolts", "prob": 60, "count": [ 250, 400 ], "entry-wrapper": "box_small" },
@@ -750,6 +763,7 @@
       { "group": "fertilizer_commercial_bag_canvas_60", "prob": 100 },
       [ "fertilizer_liquid", 60 ],
       { "group": "quicklime_bag", "prob": 80 },
+      { "group": "quicklime_barrel", "prob": 20 },
       { "item": "chem_saltpetre", "prob": 15, "count": [ 10, 50 ] }
     ]
   },
