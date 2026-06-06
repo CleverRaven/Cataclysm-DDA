@@ -184,8 +184,7 @@ These special attacks are defined in [JSON](/data/json/monster_special_attacks),
 |						      | randomly rolled multiplier between the values `min_mul` and `max_mul`.  Default 0.5 and 1.0, meaning each attack will do at least half of the defined damage.
 | `move_cost`                 | Integer, moves needed to complete special attack.  Default 100.
 | `accuracy`                  | Integer, if defined the attack will use a different accuracy from monster's regular melee attack.
-| `body_parts`			      | List, If empty the regular melee roll body part selection is used.  If non-empty, a body part is selected from the map to be targeted using the provided weights.
-|						      | targeted with a chance proportional to the value.
+| `body_part_types`           | If used, the attack will pick a random body part from the list of all possible bodyparts of types used. For example, using `"body_part_types": [ [ "torso", 4 ], [ "arm", 3 ] ],` would pick torso with probability of 4, or any arm with probability of 3. Possible values are: head, torso, sensor, mouth, arm, hand, leg, foot, wing, tail, other.
 | `condition`                 | Object, dialog conditions enabling the attack - see `NPCs.md` for the potential conditions - note that `u` refers to the monster, `npc` to the attack target, and for `x_has_flag` conditions targeting monsters only take effect flags into consideration, not monster flags.
 | `attack_upper`		      | Boolean, default true. If false the attack can't target any bodyparts with the `UPPER_LIMB` flag with the regular attack rolls (provided the bodypart is not explicitly targeted).
 | `range`       		      | Integer, range of the attack in tiles (Default 1, this equals melee range). Melee attacks require unobstructed straight paths.
