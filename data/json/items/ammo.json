@@ -421,6 +421,7 @@
     "material": [ "plastic" ],
     "volume": "2 ml",
     "weight": "2 g",
+    "longest_side": "125 mm",
     "ammo_type": "tape",
     "count": 1,
     "//1": "50 x 125 x 0.3 mm per unit, rounded up. 200 units = 25 m",
