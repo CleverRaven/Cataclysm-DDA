@@ -53,6 +53,19 @@
     ]
   },
   {
+    "id": "graphite_small_bottle",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz",
+    "items": [ { "item": "graphite", "count": 118 } ]
+  },
+  {
+    "id": "graphite_small_bottle_part",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "items": [ { "item": "graphite", "count": [ 2, 118 ] } ]
+  },
+  {
     "id": "sandbag",
     "type": "item_group",
     "container-item": "bag_durasack",
