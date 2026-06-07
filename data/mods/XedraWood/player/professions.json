@@ -181,16 +181,18 @@
     "type": "profession",
     "id": "wise_one_forest",
     "name": { "male": "Brother to the Trees", "female": "Sister to the Trees" },
-    "description": "From your birth, you were in contact with the spirit world.  You were trained in the ways of the spirits and intermediated between them and your tribe.  In time, one of the Wise came to your village to induct you into the deeper mysteries, but they vanished before completing your training.  Now that you're alone, you'll need to contact the spirits of this new place and learn their ways.",
+    "description": "You passed your apprenticeship among the Wise, learning the lesser mysteries and undergoing the ordeal to bond your soul with that of the Forest.  You succeeded where many of your fellow apprentices failed and began to learn the deeper mysteries under the tutelage of your master.  Now you're on your own, but ",
     "points": 10,
     "skills": [ { "level": 2, "name": "firstaid" }, { "level": 5, "name": "deduction" }, { "level": 3, "name": "survival" } ],
     "spells": [
       { "id": "hedge_increase_healing_rate", "level": 1 },
       { "id": "hedge_make_plants_grow", "level": 1 },
       { "id": "hedge_extinguish_fire_spell", "level": 1 },
-      { "id": "hedge_prevent_wild_animal_attacks", "level": 1 }
+      { "id": "hedge_prevent_wild_animal_attacks", "level": 1 },
+      { "id": "forest_commanding_grasses", "level": 5 },
+      { "id": "forest_unity_nature", "level": 4 }
     ],
-    "traits": [ "WITCHSIGHT", "HEDGE_MAGIC", "FOREST_MAGIC" ],
+    "traits": [ "XEDRAWOOD_THE_WISE", "WITCHSIGHT", "HEDGE_MAGIC", "FOREST_MAGIC" ],
     "proficiencies": [ "prof_wound_care", "prof_occult_research", "prof_thaumatology" ],
     "items": {
       "both": {

@@ -10,5 +10,11 @@
     "type": "jmath_function",
     "num_args": 0,
     "return": "clamp( ( ( (u_pain('type': 'perceived') / 200 ) + ( u_spell_difficulty(_spell_id) / 8.2 ) + ( ( u_spell_level(_spell_id) / 30 ) * -1) ) + ( ( u_skill('deduction') / 25 ) * -1) + xedrawood_weariness_sorcery_effects() ), 0.005, 1)"
+  },
+  {
+    "id": "xedrawood_forest_magic_modifiers",
+    "type": "jmath_function",
+    "num_args": 0,
+    "return": "1"
   }
 ]

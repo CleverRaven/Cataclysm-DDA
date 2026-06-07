@@ -1,67 +1,117 @@
 [
   {
+    "id": "forest_commanding_grasses",
+    "type": "SPELL",
+    "name": { "str": "Commanding the Grasses" },
+    "description": "Your command over plants allows you to cause grass to grow in profusion from the soil, making the terrain very difficult for enemies to traverse.",
+    "message": "You reach out and infuse life into the least of the plants of the earth.",
+    "valid_targets": [ "self", "hostile", "ground" ],
+    "flags": [ "VERBAL", "SOMATIC", "NO_PROJECTILE" ],
+    "max_level": 15,
+    "skill": "deduction",
+    "difficulty": 1,
+    "spell_class": "FOREST_MAGIC",
+    "effect": "ter_transform",
+    "effect_str": "ter_arvore_command_grasses",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( (8 + (u_spell_level('forest_commanding_grasses') * 0.85) + (u_skill('deduction') * 1.2) ) ) * xedrawood_forest_magic_modifiers() ), 35)"
+      ]
+    },
+    "max_range": {
+      "math": [
+        "min( ( (8 + (u_spell_level('forest_commanding_grasses') * 0.85) + (u_skill('deduction') * 1.2) ) ) * xedrawood_forest_magic_modifiers() ), 35)"
+      ]
+    },
+    "min_aoe": {
+      "math": [
+        "min( ( (3 + (u_spell_level('forest_commanding_grasses') * 0.5) + (u_skill('deduction') * 0.75) ) ) * xedrawood_forest_magic_modifiers() ), 35)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( (3 + (u_spell_level('forest_commanding_grasses') * 0.5) + (u_skill('deduction') * 0.75) ) ) * xedrawood_forest_magic_modifiers() ), 35)"
+      ]
+    },
+    "magic_type": "xedrawood_forest_magic",
+    "base_casting_time": 250,
+    "base_energy_cost": 100
+  },
+  {
     "id": "forest_bramble_spear",
     "type": "SPELL",
     "name": "Spear of Brambles",
     "description": "This spell turns a stick into a vicious spear that drips with sticky sap.",
     "message": "You grasp the stick tightly and feel the sap flowing within.",
-    "valid_targets": [ "none" ],
+    "valid_targets": [ "self" ],
     "skill": "deduction",
-    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "spell_class": "FOREST_MAGIC",
+    "flags": [ "VERBAL", "SOMATIC", "RANDOM_DURATION" ],
     "effect": "spawn_item",
     "effect_str": "bramble_spear_item",
     "components": "spell_components_bramble_spear",
     "shape": "blast",
-    "magic_type": "xedrawood_forest_magic",
-    "spell_class": "FOREST_MAGIC",
-    "difficulty": 3,
+    "difficulty": 2,
     "min_damage": 1,
     "max_damage": 1,
     "max_level": 15,
+    "magic_type": "xedrawood_forest_magic",
     "base_casting_time": 12000,
-    "base_energy_cost": 350,
-    "min_duration": 60000,
-    "max_duration": 720000,
-    "duration_increment": 24000
+    "base_energy_cost": 250,
+    "min_duration": {
+      "math": [
+        "( (12182 + (u_spell_level('forest_bramble_spear') * 11826) + (u_skill('deduction') * 21915) ) ) * xedrawood_forest_magic_modifiers() )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (26182 + (u_spell_level('forest_bramble_spear') * 23185) + (u_skill('deduction') * 40952) ) ) * xedrawood_forest_magic_modifiers() )"
+      ]
+    }
   },
   {
     "id": "forest_unity_nature",
     "type": "SPELL",
     "name": "Unity with Nature",
     "description": "Reaching out to the forest, you absorb some of its serenity and peace into yourself.",
-    "message": "You close your eyes and listen to the wind in the leaves as you solemnly intone in the incantation.",
+    "message": "You close your eyes and listen to the leaves rustling in the wind as you solemnly intone the incantation.",
     "valid_targets": [ "self" ],
     "skill": "deduction",
+    "spell_class": "FOREST",
+    "flags": [ "SOMATIC", "VERBAL", "RANDOM_DURATION" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_FOREST_NATURE_UNITY",
     "shape": "blast",
-    "flags": [ "SOMATIC", "VERBAL", "RANDOM_DURATION" ],
-    "magic_type": "xedrawood_forest_magic",
-    "spell_class": "FOREST",
     "difficulty": 3,
-    "base_casting_time": 12000,
+    "base_casting_time": 180000,
     "base_energy_cost": 600,
     "final_energy_cost": 400,
     "energy_increment": -10,
-    "max_level": 20,
-    "min_duration": { "math": [ "18501 + (u_spell_level('forest_unity_nature') * 9681)" ] },
-    "max_duration": { "math": [ "39815 + (u_spell_level('forest_unity_nature') * 22044)" ] }
+    "max_level": 15,
+    "magic_type": "xedrawood_forest_magic",
+    "min_duration": { "math": [ "35501 + (u_spell_level('forest_unity_nature') * 12681) + (u_skill('deduction') * 23085)" ] },
+    "max_duration": { "math": [ "85815 + (u_spell_level('forest_unity_nature') * 38044) + (u_skill('deduction') * 56085)" ] }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_FOREST_NATURE_UNITY",
     "effect": [
       {
-        "u_add_effect": "natures_commune",
-        "duration": { "math": [ "rng(185.01,398.15) + (u_spell_level('forest_unity_nature') * rng(96.81,)" ] }
+        "math": [ "_duration_low = (355.01 + (u_spell_level('forest_unity_nature') * 126.81) + (u_skill('deduction') * 230.85) )" ]
       },
+      {
+        "math": [ "_duration_high = (858.15 + (u_spell_level('forest_unity_nature') * 380.44) + (u_skill('deduction') * 560.85) )" ]
+      },
+      { "math": [ "_spell_duration = rng(_duration_low,_duration_high)" ] },
+      { "u_add_effect": "natures_commune", "duration": { "math": [ "_spell_duration" ] } },
       { "u_lose_morale": "morale_forest_unity" },
       {
         "u_add_morale": "morale_forest_unity",
-        "bonus": { "math": [ "5 + (u_spell_level('forest_unity_nature') * 3)  * ( channeling_proficiency_modifier() )" ] },
+        "bonus": { "math": [ "5 + (u_spell_level('forest_unity_nature') * 3) )" ] },
         "max_bonus": 50,
-        "duration": { "math": [ "( 300 + (u_spell_level('forest_unity_nature') * 165) )  * ( channeling_proficiency_modifier() )" ] },
-        "decay_start": { "math": [ "(( 300 + (u_spell_level('forest_unity_nature') * 165) ) / 2)  * ( channeling_proficiency_modifier() )" ] }
+        "duration": { "math": [ "_spell_duration" ] },
+        "decay_start": { "math": [ "_spell_duration 2" ] }
       }
     ]
   }
