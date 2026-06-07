@@ -12,7 +12,7 @@
       {
         "id": "marlin_9a",
         "name": { "str": "Marlin 39A rifle" },
-        "description": "The oldest and longest-produced shoulder firearm in the world.  Though it fires the weak .22 round, it is highly accurate and damaging, and has essentially no recoil."
+        "description": "The oldest and longest-produced shoulder firearm in the world.  Though it only fires the weak .22 round, it is still highly accurate and has essentially no recoil."
       }
     ],
     "ascii_picture": "marlin_39a",
@@ -54,7 +54,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": ".22 pipe rifle" },
-    "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
+    "description": "A homemade rifle.  While it is simply a pipe attached to a stock, with a hammer to strike the single round it holds, this single-shot rifle can still kill.",
     "ascii_picture": "sm_pipe_gun",
     "weight": "1953 g",
     "volume": "1610 ml",
@@ -82,13 +82,13 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "varmint rifle" },
-    "description": "A lightweight and modular pistol caliber hunting carbine, firing the low power .22 LR cartridge.  Before the Cataclysm, a mix of high customizability, cheap ammunition, and low recoil made this a very popular varmint rifle among civilian shooters.",
+    "description": "A lightweight and modular pistol caliber hunting carbine, firing the low power .22 LR cartridge.  Before the Cataclysm, a mix of high customizability, cheap ammunition, and low recoil made this a very popular rifle among civilian shooters.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ruger_1022",
         "name": { "str": "Ruger 10/22 rifle" },
-        "description": "A combination of negligible recoil, high customization, and inexpensive ammunition made the Ruger 10/22 a popular choice among enthusiasts and small game hunters.  Even though it fires the weak .22 round, it's perfectly capable of killing."
+        "description": "A combination of negligible recoil, high customization, and inexpensive ammunition made the Ruger 10/22 a popular choice among enthusiasts and small game hunters.  Even though it fires the weak .22 round, it's still perfectly capable of killing."
       }
     ],
     "ascii_picture": "ruger1022",
@@ -142,7 +142,7 @@
       {
         "id": "ruger_1022_auto",
         "name": { "str": "full-auto Ruger 10/22 rifle" },
-        "description": "A Ruger 10/22 modified post-Cataclysm to selective fire.  While the .22 round isn't very powerful, full auto makes it a lot more effective, and still easily controllable in full auto."
+        "description": "A Ruger 10/22 modified post-Cataclysm to selective fire.  While the .22 round isn't very powerful, full auto makes it a lot more effective while still being controllable"
       }
     ],
     "price_postapoc": "15 USD",
@@ -237,48 +237,6 @@
     "dispersion": 480,
     "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [ { "magazine_well": "126 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "wp22mag" ] } ]
-  },
-  {
-    "id": "cp33",
-    "copy-from": "gun_base_22_semi_pistol",
-    "looks_like": "modular_ar_pistol",
-    "type": "ITEM",
-    "subtypes": [ "GUN" ],
-    "name": { "str": "high capacity handgun" },
-    "description": "A large capacity handgun, chambered in .22 and feeding from quad stack magazines.  Used both recreationally and in competition.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "cp33",
-        "name": { "str": "CP33" },
-        "description": "The Kel-Tec CP33, standing for Competition Pistol 33, is a .22 semi automatic pistol targeted towards competition shooters and recreational shooters alike, with the ability to feed from 33 round quad stack magazines, or even 50 with an extension.  While in a fairly weak cartridge, the capacity makes it quite a formidable weapon in the right hands."
-      }
-    ],
-    "weight": "669 g",
-    "volume": "525 ml",
-    "price": "495 USD",
-    "longest_side": "273 mm",
-    "barrel_length": "140 mm",
-    "material": [ "steel", "plastic", "aluminum" ],
-    "dispersion": 480,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock mount", 1 ]
-    ],
-    "durability": 6,
-    "pocket_data": [
-      {
-        "rigid": false,
-        "magazine_well": "123 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "cp33_mag", "cp33_mag_50" ]
-      }
-    ]
   },
   {
     "id": "ruger_mk4",
@@ -599,7 +557,7 @@
     "variants": [
       {
         "id": "sw617",
-        "name": { "str": "S&W 617" },
+        "name": { "str": "S&W 617 revolver" },
         "description": "The S&W 617 is a fine revolver, chambered in .22 LR.  However, instead of more common 6 rounds revolvers come in, this revolver has a 10 round capacity cylinder.  While still a revolver, and to boot a revolver in .22 LR, 10 is still bigger than 6."
       }
     ]
@@ -637,7 +595,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "Glock 44 pistol" },
-    "description": "A Glock chambered in .22LR.  While effective against paper targets and rodents, it will struggle against the walking dead.",
+    "description": "A Glock chambered in .22 LR.  While effective against paper targets and rodents, it will struggle against the walking dead.",
     "weight": "358 g",
     "volume": "398 ml",
     "longest_side": "212 mm",
@@ -704,7 +662,7 @@
       {
         "id": "mp_15_22",
         "name": { "str": "M&P 15-22" },
-        "description": "A .22 LR version of the M&P-15, this rifle resembles an AR-15 in form and function, but does not have the ability for compatible uppers or lowers."
+        "description": "A .22 LR version of the M&P 15, this rifle resembles an AR-15 in form and function, but does not have the ability for compatible uppers or lowers."
       }
     ],
     "weight": "2540 g",

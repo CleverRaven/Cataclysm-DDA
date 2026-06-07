@@ -1,0 +1,56 @@
+[
+  {
+    "id": "mx_witchwood_grove",
+    "type": "map_extra",
+    "name": { "str": "witchwood grove" },
+    "description": "A grove of witchwood trees.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_witchwood_grove" },
+    "sym": "F",
+    "color": "cyan",
+    "autonote_visibility": "details"
+  },
+  {
+    "id": "mx_warped_tree_grove",
+    "type": "map_extra",
+    "name": { "str": "dead grove" },
+    "description": "A grove of strange trees, all dead.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_warped_tree_grove" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "T",
+    "color": "light_gray",
+    "autonote_visibility": "details",
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "id": "mx_campfire_remnants",
+    "type": "map_extra",
+    "name": { "str": "campfire remains" },
+    "description": "The remnants of a campfire, long gone to ash.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_campfire_remnants" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "X",
+    "color": "light_gray",
+    "autonote_visibility": "details",
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "id": "mx_nest_claw_hunter",
+    "type": "map_extra",
+    "name": { "str": "claw hunter nest" },
+    "description": "A nest of claw hunters.  Watch out.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_claw_hunter" },
+    "sym": "D",
+    "color": "yellow",
+    "autonote_visibility": "details"
+  },
+  {
+    "id": "mx_nest_claw_runner",
+    "type": "map_extra",
+    "name": { "str": "claw runner nest" },
+    "description": "A claw runner nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_claw_runner" },
+    "sym": "D",
+    "color": "yellow",
+    "autonote_visibility": "details"
+  }
+]

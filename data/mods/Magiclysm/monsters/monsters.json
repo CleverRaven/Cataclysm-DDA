@@ -62,7 +62,6 @@
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "dissect": "dissect_slime_sample_single",
     "weakpoint_sets": [ "wps_slime" ],
-    "families": [ "prof_wp_slime_basic", "prof_wp_slime_advanced" ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "special_attacks": [
       {
@@ -494,6 +493,19 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ]
   },
   {
+    "id": "mon_baleful_polymorph_crawler",
+    "type": "MONSTER",
+    "copy-from": "mon_crawler",
+    "looks_like": "mon_crawler",
+    "name": { "str": "fleshwarped wretch", "str_pl": "fleshwarped wretches" },
+    "description": "Whatever this poor creature was, the tangle of limbs, sensory organs, and parts that it is now is no longer recognizable as any earthly being.",
+    "default_faction": "magical_beast",
+    "hp": 84,
+    "speed": 40,
+    "aggression": 10,
+    "fear_triggers": [ "PLAYER_CLOSE", "FIRE" ]
+  },
+  {
     "id": "mon_lemure",
     "type": "MONSTER",
     "name": "lemure",
@@ -562,7 +574,7 @@
     "id": "mon_loup_garou",
     "type": "MONSTER",
     "name": { "str": "loup garou" },
-    "description": "Previously thought extinct outside of rural Quebec and Louisiana this cursed creature has been known to breed with true wolves when it isn't madly destroying any signs of humanity in its territory.  These once normal men, women, elves and dwarves are now forever cursed to roam the wilderness as four legged avatars of destruction; giant, rabid, maddened wolves that never know peace when they can smell or see the creations of the mortal races.  Immortal until killed it would be difficult to remember they were once mortal until cutting beneath the fur shows meat that somehow remembers a different life.",
+    "description": "Previously thought extinct outside of rural Quebec and Louisiana this cursed creature has been known to breed with true wolves when it isn't madly destroying any signs of humanity in its territory.  These once normal men, women, elves, and dwarves are now forever cursed to roam the wilderness as four legged avatars of destruction; giant, rabid, maddened wolves that never know peace when they can smell or see the creations of the mortal races.  Immortal until killed it would be difficult to remember they were once mortal until cutting beneath the fur shows meat that somehow remembers a different life.",
     "default_faction": "wolf",
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
@@ -636,7 +648,8 @@
       },
       { "id": "flaming_whip" }
     ],
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away.  Only embers remain." },
+    "death_drops": "balrog_drops",
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "flags": [ "SEES", "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "PUSH_MON", "PUSH_VEH", "FIREY", "PATH_AVOID_DANGER" ],
     "armor": { "bash": 12, "cut": 12, "bullet": 25 }

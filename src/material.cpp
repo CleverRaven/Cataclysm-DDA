@@ -64,7 +64,11 @@ material_type::material_type() :
     _bash_dmg_verb( to_translation( "damages" ) ),
     _cut_dmg_verb( to_translation( "damages" ) )
 {
-    _dmg_adj = { to_translation( "lightly damaged" ), to_translation( "damaged" ), to_translation( "very damaged" ), to_translation( "thoroughly damaged" ) };
+    _dmg_adj = { to_translation( "adjective", "lightly damaged" ),
+                 to_translation( "adjective", "damaged" ),
+                 to_translation( "adjective", "very damaged" ),
+                 to_translation( "adjective", "thoroughly damaged" )
+               };
 }
 
 void mat_burn_data::deserialize( const JsonObject &jo )
@@ -91,7 +95,7 @@ void material_type::load( const JsonObject &jsobj, std::string_view )
     }
 
     optional( jsobj, was_loaded, "conductive", _conductive );
-    mandatory( jsobj, was_loaded, "chip_resist", _chip_resist );
+    mandatory( jsobj, was_loaded, "chip_resist", _chip_resist, numeric_bound_reader<int> {0} );
     mandatory( jsobj, was_loaded, "density", _density );
 
     optional( jsobj, was_loaded, "sheet_thickness", _sheet_thickness );
@@ -365,7 +369,7 @@ material_list materials::get_all()
     return material_data.get_all();
 }
 
-std::set<material_id> materials::get_rotting()
+const std::set<material_id> &materials::get_rotting()
 {
     static generic_factory<material_type>::Version version;
     static std::set<material_id> rotting;

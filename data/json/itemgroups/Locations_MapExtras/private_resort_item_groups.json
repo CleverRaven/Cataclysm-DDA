@@ -48,8 +48,7 @@
       { "item": "maid_hat", "prob": 25 },
       { "item": "cuffs", "prob": 30 },
       { "item": "collar_playboy", "prob": 30 },
-      { "item": "bunny_ears_black", "prob": 30 },
-      { "item": "tail_bunny_playboy", "prob": 30 }
+      { "item": "bunny_ears_black", "prob": 30 }
     ]
   },
   {
@@ -214,7 +213,7 @@
       { "item": "money_strap_twenty", "prob": 50 },
       { "item": "money_strap_fifty", "prob": 50 },
       { "item": "money_strap_hundred", "prob": 50 },
-      { "item": "deck_of_cards", "prob": 90 },
+      { "group": "decks_of_cards", "prob": 90 },
       { "item": "plastic_six_dice", "prob": 40 }
     ]
   },
@@ -238,7 +237,7 @@
       { "group": "cigar_box_opened", "prob": 15, "count": [ 1, 2 ] },
       { "item": "matches", "prob": 50, "charges": [ 1, 20 ] },
       { "item": "ref_matches", "prob": 50, "charges": [ 1, 32 ] },
-      { "item": "rolling_paper", "prob": 50, "charges": [ 1, 30 ] },
+      { "item": "rolling_paper", "prob": 50, "count": [ 1, 30 ] },
       { "item": "wrapper", "prob": 50 },
       { "item": "wrapper_foil", "prob": 5 },
       { "item": "news_regional", "prob": 50 },

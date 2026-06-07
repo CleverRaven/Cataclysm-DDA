@@ -5,7 +5,6 @@
     "data/font/unifont.ttf"
   ],
   "gui_typeface": [
-    { "path": "data/font/Roboto-Medium.ttf", "hinting": "Light" },
     { "path": "data/font/Terminus.ttf", "hinting": "Bitmap" },
     "data/font/unifont.ttf"
   ],

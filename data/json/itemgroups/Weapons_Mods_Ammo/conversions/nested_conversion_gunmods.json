@@ -234,23 +234,6 @@
   },
   {
     "type": "item_group",
-    "id": "boxed_223rem_cz600kit",
-    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
-    "subtype": "collection",
-    "container-item": "box_retool",
-    "on_overflow": "spill",
-    "entries": [ { "item": "retool_cz600_223rem" }, { "item": "stanag10", "charges": 0 }, { "group": "nested_retool_extras" } ]
-  },
-  {
-    "type": "item_group",
-    "id": "boxed_762_cz600kit",
-    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
-    "subtype": "collection",
-    "container-item": "box_retool",
-    "entries": [ { "item": "retool_cz600_762" }, { "item": "bren2_762mag10", "charges": 0 }, { "group": "nested_retool_extras" } ]
-  },
-  {
-    "type": "item_group",
     "id": "boxed_50ae_deaglekit",
     "//": "a conversion kit packed along with appropriate empty magazines and miscellaneous items.",
     "subtype": "collection",
@@ -365,18 +348,6 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "boxed_cz600kits",
-    "//": "An item group for a specific weapon platform's possible conversion kits .",
-    "entries": [
-      {
-        "distribution": [ { "group": "boxed_223rem_cz600kit", "prob": 30 }, { "group": "boxed_762_cz600kit", "prob": 25 } ],
-        "prob": 100
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
     "id": "boxed_deaglekits",
     "//": "An item group for a specific weapon platform's possible conversion kits .",
     "entries": [
@@ -414,13 +385,6 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "nested_cz600_with_kits",
-    "//": "An item group for an empty rifle to spawn alongside one of a number of compatible conversion kits. Intended for use in gun store racks and adjacent locations.",
-    "entries": [ { "group": "boxed_cz600kits" }, { "group": "cz600" } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
     "id": "nested_deagle_with_kits",
     "//": "An item group for an empty pistol to spawn alongside one of a number of compatible conversion kits. Intended for use in gun store racks and adjacent locations.",
     "entries": [ { "group": "boxed_deaglekits" }, { "group": "modular_deagle_50" } ]
@@ -435,8 +399,7 @@
         "distribution": [
           { "group": "boxed_ar15kits", "prob": 30 },
           { "group": "boxed_mdrxkits", "prob": 15 },
-          { "group": "boxed_axmckits", "prob": 5 },
-          { "group": "boxed_cz600kits", "prob": 15 }
+          { "group": "boxed_axmckits", "prob": 5 }
         ],
         "prob": 100
       }

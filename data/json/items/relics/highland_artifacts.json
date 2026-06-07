@@ -1,0 +1,116 @@
+[
+  {
+    "id": "higlands_teleport",
+    "copy-from": "silver_necklace",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "landscape miniature" },
+    "description": "A desolate scene depicts a sea of fog broken by great mountains and jagged ruins.  The painting seems to shift ever so slightly, as if the winds depicted within were real.",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Study the miniature.",
+      "effect_on_conditions": [ "EOC_HIGHLANDS_DIMENSION_TELEPORT" ]
+    },
+    "variants": [  ]
+  },
+  {
+    "id": "highland_medallion",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "gold_medal",
+    "name": { "str": "gold medallion" },
+    "description": "A small gold medallion.",
+    "weight": "50 g",
+    "volume": "25 ml",
+    "price": "100 USD",
+    "price_postapoc": "25 cent",
+    "material": [ "gold" ],
+    "symbol": "[",
+    "color": "yellow",
+    "flags": [ "NO_WEAR_EFFECT", "IMPERIAL_ROAD_KEY" ],
+    "variants": [
+      {
+        "id": "traveler",
+        "name": { "str": "gold medallion" },
+        "description": "Its engraved with an image showing a winged ship over a three peaked mountain.",
+        "append": true,
+        "weight": 300
+      },
+      {
+        "id": "tindalos",
+        "name": { "str": "starbeast icon" },
+        "description": "This medallion is engraved with the image of a fanciful beast set before a starfield.  Its head is strangely piscine, with a wide, toothy maw and no eyes.",
+        "weight": 300
+      },
+      {
+        "id": "realm_map",
+        "name": { "str": "starchart medallion" },
+        "description": "Three articulate discs are mounted within this medallion and can be rotated independently, creating a strange, shifting pattern of holes.  You believe it to be a starchart of some kind, but the allowed movements of the discs don't seem to correspond to how stars move in the sky.",
+        "weight": 300
+      },
+      {
+        "id": "knight",
+        "name": { "str": "knight's talisman" },
+        "description": "A small sword shaped pendant wrapped in a still pristine indigo handkerchief.  Threads of silver and gold are woven into the fabric.",
+        "weight": 300
+      },
+      {
+        "id": "faith",
+        "name": { "str": "tree pendant" },
+        "description": "A necklace with a pendant in the shape of a tree.  The treetop and roots are completely symmetrical, and a small sphere-cut gem is set in the center of the trunk.",
+        "weight": 300
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "category": "currency",
+    "subtypes": [ "ARTIFACT" ],
+    "id": "coin_highlands",
+    "copy-from": "coin_silver",
+    "name": { "str": "silver obol" },
+    "description": "A small silver coin, looted from the dead.  Its face shows the faded profile of a man, the reverse depicts a tree crowned by three starlike eyes.",
+    "flags": [ "MUNDANE" ],
+    "passive_effects": [ { "condition": "ALWAYS", "values": [ { "value": "ARTIFACT_RESONANCE", "add": 5 } ] } ]
+  },
+  {
+    "id": "highland_shroud",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "cloak",
+    "name": { "str": "burial shroud" },
+    "description": "A cloak of thin, faded cloth that was used to wrap a corpse.  Its deep blue, and embroidered has been embroidered with a starmap in silver thread.",
+    "variants": [
+      {
+        "id": "default",
+        "description": "A cloak of thin, faded cloth that was used to wrap a corpse.  Its deep blue, and embroidered has been embroidered with a starmap in silver thread.",
+        "weight": 500
+      },
+      {
+        "id": "clue",
+        "description": "Violet clouds part to reveal a road winding into the starry sky.  The constellations embroidered on this shroud seem to match the ones above you.",
+        "weight": 500
+      },
+      {
+        "id": "plus",
+        "description": "This shroud is dyed a deep, inky black.  The star map embroidered on it is more intricate than others you have seen, and includes a number of small, gem-like beads sewn into the fabric at various points.",
+        "weight": 500
+      },
+      {
+        "id": "eden",
+        "description": "Ramping beasts and blossoming plants are embroidered in gold thread across this shroud, which is dyed a vibrant emerald green.",
+        "weight": 500
+      },
+      {
+        "id": "empire",
+        "description": "White towers rise from a jagged coastline, in a heavily geometric pattern that repeats across the entire shroud.",
+        "weight": 500
+      },
+      {
+        "id": "tindalos",
+        "description": "Fanged beasts devour each other in appalling detail across this shroud.  The embroidery is so intricate that it seems to shift and writhe as you look at it.",
+        "weight": 500
+      }
+    ]
+  }
+]

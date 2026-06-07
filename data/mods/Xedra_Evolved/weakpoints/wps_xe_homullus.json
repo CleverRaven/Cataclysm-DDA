@@ -1,0 +1,25 @@
+[
+  {
+    "type": "weakpoint_set",
+    "id": "wps_xe_homullus_aleph",
+    "weakpoints": [
+      {
+        "id": "aleph",
+        "name": "the aleph",
+        "coverage": 5,
+        "difficulty": { "melee": 4, "ranged": 5 },
+        "condition": { "and": [ "has_alpha", "u_is_character" ] },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          {
+            "effect": "staggered",
+            "instant_death_chance": 100,
+            "chance": 100,
+            "message": "The aleph letter carving breaks, the word 'met' is formed, and the %s returns into a lifeless pile of clay.",
+            "damage_required": [ 7, 100 ]
+          }
+        ]
+      }
+    ]
+  }
+]

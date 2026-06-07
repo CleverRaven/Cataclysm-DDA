@@ -30,7 +30,7 @@
       [ [ "enchanted_wood", 2 ] ],
       [ [ "rune_druid", 1 ] ],
       [ [ "mag_awakened_water", 100 ] ],
-      [ [ "tallow", 1 ], [ "wax_any", 1, "LIST" ], [ "candle", 1 ] ]
+      [ [ "edible_tallow", 2, "LIST" ], [ "wax_any", 1, "LIST" ], [ "candle", 1 ] ]
     ]
   },
   {
@@ -52,7 +52,7 @@
       [ [ "mana_pearl", 2 ] ],
       [ [ "rune_druid", 1 ] ],
       [ [ "mag_awakened_water", 50 ] ],
-      [ [ "tallow", 1 ], [ "wax_any", 1, "LIST" ], [ "candle", 1 ] ]
+      [ [ "edible_tallow", 2, "LIST" ], [ "wax_any", 1, "LIST" ], [ "candle", 1 ] ]
     ]
   },
   {

@@ -1,0 +1,143 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "mx_campfire_remnants",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_nested": [ { "chunks": [ "campfire_remnants_chunk" ], "x": [ 2, 8 ], "y": [ 2, 8 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "campfire_remnants_chunk",
+    "weight": 1000,
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "  ,,,  ",
+        " ,W,W, ",
+        ",W___W,",
+        ",,_O_,,",
+        ",W___W,",
+        " ,W,W, ",
+        "  ,,,  "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        ",": [ [ "t_dirt", 50 ], [ "t_region_groundcover", 25 ] ],
+        "_": "t_dirt",
+        " ": "t_null",
+        "W": [ [ "t_dirt", 50 ], [ "t_region_groundcover", 25 ] ]
+      },
+      "furniture": { "O": "f_firering", "W": [ [ "f_logstool", 1 ], [ "f_null", 1 ] ] },
+      "place_item": [ { "item": "ash", "x": 3, "y": 3, "chance": 50, "repeat": [ 500, 1200 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "campfire_remnants_chunk",
+    "weight": 50,
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "  ,,,  ",
+        " ,W,W, ",
+        ",W___W,",
+        ",,_O_,,",
+        ",W___W,",
+        " ,W,W, ",
+        "  ,,,  "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        ",": [ [ "t_dirt", 50 ], [ "t_region_groundcover", 25 ] ],
+        "_": "t_dirt",
+        " ": "t_null",
+        "W": [ [ "t_dirt", 50 ], [ "t_region_groundcover", 25 ] ]
+      },
+      "furniture": { "O": "f_firering", "W": [ [ "f_logstool", 1 ], [ "f_null", 1 ] ] },
+      "place_item": [ { "item": "ash", "x": 3, "y": 3, "chance": 50, "repeat": [ 500, 1200 ] } ],
+      "nested": { "W": { "chunks": [ [ "campfire_remnants_chunk_1x1_body", 1 ], [ "null", 5 ] ] } }
+    }
+  },
+  {
+    "nested_mapgen_id": "campfire_remnants_chunk_1x1_body",
+    "type": "mapgen",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ " " ],
+      "place_item": [
+        { "item": "skull_human", "x": 0, "y": 0, "chance": 50 },
+        { "item": "bone_human", "x": 0, "y": 0, "chance": 50, "repeat": [ 3, 25 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "campfire_remnants_chunk",
+    "weight": 10,
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "  ,,,  ",
+        " ,W,W, ",
+        ",W___W,",
+        ",,_O_,,",
+        ",W___W,",
+        " ,W,W, ",
+        "  ,,,  "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        ",": [ [ "t_dirt", 50 ], [ "t_region_groundcover", 25 ] ],
+        "_": "t_dirt",
+        " ": "t_null",
+        "W": [ [ "t_dirt", 50 ], [ "t_region_groundcover", 25 ] ]
+      },
+      "furniture": {
+        "O": "f_firering",
+        "W": [
+          [ "f_statue_woman_sitting", 1 ],
+          [ "f_statue_man_standing_looking_away", 1 ],
+          [ "f_statue_man_sitting_cooking", 1 ],
+          [ "f_statue_woman_lying_down", 1 ],
+          [ "f_statue_child_sitting", 1 ],
+          [ "f_statue_man_laughing", 1 ],
+          [ "f_statue_woman_sitting_away", 1 ],
+          [ "f_statue_child_drawing_dirt", 1 ],
+          [ "f_statue_man_sharpening_axe", 1 ],
+          [ "f_statue_worn_away", 2 ],
+          [ "f_logstool", 2 ],
+          [ "f_null", 1 ]
+        ]
+      },
+      "place_item": [ { "item": "ash", "x": 3, "y": 3, "chance": 50, "repeat": [ 500, 1200 ] } ]
+    }
+  }
+]

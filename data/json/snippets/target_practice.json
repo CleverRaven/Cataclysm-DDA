@@ -1,0 +1,57 @@
+[
+  {
+    "type": "snippet",
+    "category": "target_practice_common",
+    "text": [
+      "You control your breath to keep your aim steady.",
+      "You pull the trigger slowly, feeling the different stages of the trigger.",
+      "Your focus sharpens, and you can feel the hammer fall before you feel the recoil of the round.",
+      "You try a different grip for a bit, before deciding it's uncomfortable.",
+      "You picture a zombie as you fire.",
+      "You grip the firearm a bit tighter this time."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "target_practice_novice",
+    "text": [
+      "You hesitate as you pull the trigger, moving your aim off-target.",
+      "The sound startles you, and you almost drop your gun.",
+      "You hear a click.  You forgot the safety."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "target_practice_spinner",
+    "text": [
+      "You track the spinning target, gauging the best moment to shoot.",
+      "The target spins chaotically, making it harder to strike.  This is harder than it seems.",
+      "You attempt to land several hits on the same side of the spinner targets in one go."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "target_practice_coaching_beginner",
+    "text": [
+      "%s explains to you how to properly use the sights.",
+      "%s demonstrates to you how to handle a weapon without hurting yourself.",
+      "%s shows you how to grip the weapon.",
+      "%s shows you how to position your body properly.",
+      "%s points out that you're flinching before the shot, pushing the gun downwards in anticipation.",
+      "%s points out that you tense up too much before taking a shot, and explains how confidence affects accuracy.",
+      "%s explains how to aim with both eyes open.",
+      "%s describes situations wherein single-eye shooting is the preferable option.",
+      "%s demonstrates how to quickly draw your gun."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "target_practice_coaching_advanced",
+    "text": [
+      "%s points out slight inconsistencies in your stance.",
+      "%s suggest improvements for using the sights.",
+      "%s applauds your recoil management.",
+      "%s commends the speed at which you ready your weapon, while noting subtle redundancies in your moves."
+    ]
+  }
+]

@@ -6,9 +6,11 @@
 #include <climits>
 #include <cstddef>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <string_view>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -63,6 +65,11 @@ enum body_part : int {
     bp_foot_r,
     num_bp
 };
+
+inline auto format_as( body_part bp )
+{
+    return static_cast<std::underlying_type_t<body_part>>( bp );
+}
 
 template<>
 struct enum_traits<body_part> {
@@ -177,6 +184,16 @@ struct bp_onhit_effect {
     void load( const JsonObject &jo );
 };
 
+struct bp_qualities_provided {
+
+    quality_id quality;
+    int level;
+    // 0-1, if limb HP is below this percentage, it is deactivated
+    float disable_percent = 0;
+
+    void load( const JsonObject &jo );
+};
+
 struct body_part_type {
     public:
         /**
@@ -217,6 +234,8 @@ struct body_part_type {
 
         // Limb-specific attacks
         std::set<matec_id> techniques;
+
+        std::vector<bp_qualities_provided> qualities;
 
         // Effect to trigger on being winded
         efftype_id windage_effect;
@@ -264,6 +283,9 @@ struct body_part_type {
         float bmi_encumbrance_scalar = 0;
         float smash_efficiency = 0.5f;
 
+        // if this bodypart is hit, pain amount is multiplied by this
+        float pain_mod = 1.f;
+
         //Morale parameters
         float hot_morale_mod = 0.0f;
         float cold_morale_mod = 0.0f;
@@ -301,7 +323,7 @@ struct body_part_type {
 
         // These limbs should be covered by armor covering this limb (1:1 coverage)
         // TODO: Coverage/Encumbrance multiplier
-        std::vector<bodypart_str_id> similar_bodyparts;
+        std::optional<bodypart_str_id> similar_bodypart;
 
         weighted_int_list<bp_wounds> potential_wounds;
 
@@ -366,6 +388,8 @@ struct body_part_type {
         // this version just pairs normal body parts
         static std::set<translation, localized_comparator> consolidate( std::vector<bodypart_id>
                 &covered );
+
+        std::vector<bodypart_str_id> get_all_combined_similar_bodyparts() const;
 };
 
 struct layer_details {
@@ -442,7 +466,7 @@ class bodypart
         std::vector<wound> wounds;
 
         // adjust any limb "value" based on how wounded the limb is. scaled to 0-75%
-        float wound_adjusted_limb_value( float val ) const;
+        float wound_adjusted_limb_value( float val, const limb_score_id &score ) const;
         // Same idea as for wounds, though not all scores get this applied. Should be applied after wounds.
         float encumb_adjusted_limb_value( const Creature &mon, float val ) const;
         // If the limb score is affected by a skill, adjust it by the skill's level (used for swimming)
@@ -470,11 +494,6 @@ class bodypart
         // Get our limb attacks
         std::set<matec_id> get_limb_techs( const Creature &mon ) const;
 
-        /** Returns the string id of the effect to be used. */
-        efftype_id get_windage_effect() const;
-        /** Returns the string id of the effect to be used. */
-        efftype_id get_no_power_effect() const;
-
         // Get onhit effects
         std::vector<bp_onhit_effect> get_onhit_effects( damage_type_id dtype ) const;
 
@@ -485,10 +504,20 @@ class bodypart
                               int override_wounds = -1 ) const;
         float get_limb_score_max( const limb_score_id &score ) const;
 
-        std::vector<wound> get_wounds() const;
+        const std::vector<wound> &get_wounds() const;
+        std::vector<wound> &get_wounds();
 
-        void add_wound( wound &wd );
+        void add_or_worsen_wound( wound_type_id wd );
+        void add_or_worsen_wound( const wound &wd );
+
+        void add_wound( const wound &wd );
         void add_wound( wound_type_id wd );
+        bool has_wounds() const;
+        bool has_wound( wound_type_id wd ) const;
+        wound *get_wound( wound_type_id wd_id );
+        void remove_wound( wound wd );
+        void remove_wound( wound_type_id wd );
+        void remove_all_wounds_of_type( wound_type_id wd );
         void update_wounds( time_duration time_passed );
 
         int get_hp_cur() const;

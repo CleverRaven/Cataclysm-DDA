@@ -60,6 +60,8 @@ static std::optional<input_event> key_bound_to( const input_context &ctxt,
     }
 }
 
+namespace
+{
 class actmenu_cb : public uilist_callback
 {
     private:
@@ -81,6 +83,7 @@ class actmenu_cb : public uilist_callback
             return false;
         }
 };
+} // namespace
 
 item_action_generator::item_action_generator() = default;
 
@@ -158,7 +161,7 @@ item_action_map item_action_generator::map_actions_to_items( Character &you,
 
             const use_function *func = actual_item->get_use( use );
             if( !( func && func->get_actor_ptr() &&
-                   func->get_actor_ptr()->can_use( you, *actual_item, you.pos_bub() ).success() ) ) {
+                   func->get_actor_ptr()->can_use( you, *actual_item, &get_map(), you.pos_bub() ).success() ) ) {
                 continue;
             }
 
@@ -183,18 +186,30 @@ item_action_map item_action_generator::map_actions_to_items( Character &you,
             if( found == candidates.end() ) {
                 better = true;
             } else {
-                if( actual_item->ammo_required() > found->second->ammo_required() ) {
+                if( actual_item->expected_cost_per_use( use ) >
+                    found->second->expected_cost_per_use( use ) ) {
                     continue; // Other item consumes less charges
                 }
 
-                if( found->second->ammo_remaining( ) > actual_item->ammo_remaining( ) ) {
+                // For heterogeneous-resource multimag tools, raw ammo_remaining
+                // sums across pocket flavors and isn't a meaningful comparator.
+                map &here = get_map();
+                const int actual_remaining =
+                    actual_item->uses_firing_requirements()
+                    ? actual_item->tool_uses_remaining( here, &you )
+                    : actual_item->ammo_remaining();
+                const int found_remaining =
+                    found->second->uses_firing_requirements()
+                    ? found->second->tool_uses_remaining( here, &you )
+                    : found->second->ammo_remaining();
+                if( found_remaining > actual_remaining ) {
                     better = true; // Items with less charges preferred
                 }
             }
 
             if( better ) {
                 candidates[use] = actual_item;
-                if( actual_item->ammo_required() == 0 ) {
+                if( !actual_item->needs_charges_to_use() ) {
                     to_remove.insert( use );
                 }
             }
@@ -250,7 +265,7 @@ void item_action_generator::check_consistency() const
 {
     for( const auto &elem : item_actions ) {
         const item_action &action = elem.second;
-        if( !item_controller->has_iuse( action.id ) ) {
+        if( !Item_factory::has_iuse( action.id ) ) {
             debugmsg( "Item action \"%s\" isn't known to the game.  Check item action definitions in JSON.",
                       action.id.c_str() );
         }
@@ -317,8 +332,9 @@ void game::item_action_menu( item_location loc )
     std::transform( iactions.begin(), iactions.end(), std::back_inserter( menu_items ),
     []( const std::pair<item_action_id, item *> &elem ) {
         std::string ss = elem.second->display_name();
-        if( elem.second->ammo_required() ) {
-
+        if( elem.second->uses_firing_requirements() ) {
+            ss += "(" + elem.second->format_consumption_requirements( elem.first ) + ")";
+        } else if( elem.second->ammo_required() ) {
             if( elem.second->has_flag( flag_USES_BIONIC_POWER ) ) {
                 ss += string_format( "(%d kJ)", elem.second->ammo_required() );
             } else {
@@ -326,7 +342,6 @@ void game::item_action_menu( item_location loc )
                 ss += string_format( "(-%d)", elem.second->ammo_required() * ( iter ==
                                      elem.second->type->ammo_scale.end() ? 1 : iter->second ) );
             }
-
         }
 
         const use_function *method = elem.second->get_use( elem.first );
@@ -391,17 +406,6 @@ std::string use_function::get_type() const
     } else {
         return errstring;
     }
-}
-
-std::optional<int> iuse_actor::use( Character *p, item &it, const tripoint_bub_ms &pos ) const
-{
-    return use( p, it, &get_map(), pos );
-}
-
-ret_val<void> iuse_actor::can_use( const Character &p, const item &it,
-                                   const tripoint_bub_ms &pos ) const
-{
-    return can_use( p, it, &get_map(), pos );
 }
 
 ret_val<void> iuse_actor::can_use( const Character &, const item &, map *,

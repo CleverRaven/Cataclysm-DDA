@@ -43,13 +43,22 @@ class pixel_minimap
 
         void draw( const SDL_Rect &screen_rect, const tripoint_bub_ms &center );
 
+        // Drop every renderer-owned GPU resource (main texture, texture
+        // pool) along with the projector and submap cache. All of it
+        // rebuilds lazily on the next draw().
+        void reset();
+
+        // True if the last draw() rendered any critters with blinking beacons.
+        bool has_blinking_beacons() const {
+            return has_blinking_beacons_;
+        }
+
     private:
         struct submap_cache;
 
         submap_cache &get_cache_at( const tripoint_abs_sm &abs_sm_pos );
 
         void set_screen_rect( const SDL_Rect &screen_rect );
-        void reset();
 
         void draw_beacon( const SDL_Rect &rect, const SDL_Color &color );
 
@@ -90,6 +99,8 @@ class pixel_minimap
         std::unique_ptr<shared_texture_pool> tex_pool;
 
         std::map<tripoint_abs_sm, submap_cache> cache;
+
+        bool has_blinking_beacons_ = false;
 };
 
 #endif // CATA_SRC_PIXEL_MINIMAP_H

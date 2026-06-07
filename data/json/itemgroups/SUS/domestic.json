@@ -101,7 +101,10 @@
       { "item": "scissors", "prob": 80 },
       { "item": "peeler", "prob": 75, "count": [ 1, 2 ] },
       { "item": "cutting_board", "count": [ 1, 2 ] },
-      { "item": "cutting_board", "prob": 75 }
+      { "item": "cutting_board", "prob": 75 },
+      {
+        "distribution": [ { "item": "metal_honing_rod", "prob": 35 }, { "item": "knife_sharpener_handheld", "prob": 60 } ]
+      }
     ]
   },
   {
@@ -117,6 +120,7 @@
       { "item": "bag_zipper", "prob": 85, "count": [ 1, 18 ] },
       { "item": "bag_zipper_gallon", "prob": 80, "count": [ 1, 9 ] },
       { "item": "screwdriver", "prob": 70 },
+      { "item": "tape_measure", "prob": 20 },
       { "item": "hammer", "prob": 60 },
       { "item": "pliers", "prob": 60 },
       { "item": "flashlight", "prob": 75, "charges": [ 0, 300 ] },
@@ -144,7 +148,7 @@
       { "item": "metal_RPG_die", "prob": 1 },
       { "item": "aluminum_foil", "prob": 25 },
       { "item": "wrapper_foil", "prob": 12, "count": [ 5, 40 ], "entry-wrapper": "wrapper_foil_roll" },
-      { "item": "nuts_bolts", "prob": 20, "charges": [ 1, 4 ] },
+      { "item": "nuts_bolts", "prob": 20, "count": [ 1, 4 ] },
       { "item": "plastic_shopping_bag", "prob": 60, "count": [ 1, 10 ] },
       {
         "distribution": [
@@ -205,17 +209,16 @@
       { "item": "file", "prob": 30 },
       { "item": "string_floss", "prob": 30 },
       { "item": "comb_pocket", "prob": 30 },
-      { "item": "aluminum_foil", "prob": 30, "charges": [ 1, 4 ] },
+      { "item": "aluminum_foil", "prob": 30, "count": [ 1, 4 ] },
       { "item": "fishing_hook_basic", "prob": 25 },
       { "item": "balloon", "prob": 20, "count": [ 1, 2 ] },
       { "item": "lighter", "prob": 25, "count": [ 2, 7 ], "charges": [ 0, 12 ] },
       { "group": "adhesive_bandages_box_used", "prob": 25 },
       { "item": "marble", "prob": 20, "charges": [ 1, 3 ] },
       { "item": "coin_nickel", "prob": 20, "count": [ 1, 8 ] },
-      { "item": "button_plastic", "prob": 25, "count": [ 2, 8 ], "charges": 1 },
-      { "item": "button_steel", "prob": 15, "count": [ 2, 4 ], "charges": 1 },
+      { "item": "button_plastic", "prob": 40, "count": [ 4, 12 ] },
       { "item": "bearing", "prob": 15, "charges": [ 1, 3 ] },
-      { "prob": 15, "group": "adderall_bottle_plastic_pill_prescription_1" },
+      { "prob": 15, "group": "adderall_bottle_plastic_pill_prescription_1_10" },
       { "item": "lighter", "prob": 10, "charges": [ 0, 90 ] },
       { "item": "zipper_short_plastic", "prob": 10 },
       { "item": "bracelet_friendship", "prob": 10 },
@@ -246,7 +249,7 @@
       { "item": "paint_brush", "prob": 5 },
       { "item": "chopsticks", "prob": 2 },
       { "item": "office_holepunch", "prob": 2, "count": [ 1, 3 ] },
-      { "item": "nuts_bolts", "prob": 50, "charges": [ 3, 12 ] },
+      { "item": "nuts_bolts", "prob": 50, "count": [ 3, 12 ] },
       { "prob": 1, "count": 1, "group": "melatonin_tablet_bottle_plastic_pill_supplement_10" },
       { "item": "bat_anklet", "prob": 10 },
       { "item": "flower_anklet", "prob": 10 },
@@ -260,7 +263,8 @@
       { "item": "silver_nose_ring_loop", "prob": 6 },
       { "item": "silver_nose_ring_stud", "prob": 6 },
       { "item": "gold_toe_ring", "prob": 5 },
-      { "item": "silver_toe_ring", "prob": 6 }
+      { "item": "silver_toe_ring", "prob": 6 },
+      { "group": "sunscreen_bottle", "prob": 5 }
     ]
   },
   {
@@ -287,8 +291,9 @@
       { "item": "cotton_patchwork", "count": [ 3, 4 ], "prob": 50 },
       { "item": "thread", "prob": 40 },
       { "item": "thread", "prob": 30 },
-      { "item": "sewing_kit", "prob": 47, "charges": [ 50, 150 ] },
-      { "item": "solder_wire", "prob": 40 },
+      { "item": "sewing_kit", "prob": 25, "charges": [ 50, 150 ] },
+      { "item": "sewing_machine", "prob": 25 },
+      { "group": "solder_wire_spool_part", "prob": 40 },
       { "group": "glue_weak_domestic", "prob": 20 },
       { "group": "glue_strong_domestic", "prob": 20 },
       { "item": "knitting_needles", "prob": 40 },
@@ -299,13 +304,12 @@
       { "item": "felt_patch", "count": [ 1, 3 ], "prob": 30 },
       { "item": "bandana", "prob": 30 },
       { "item": "pin_reamer", "prob": 30 },
-      { "item": "deck_of_cards", "prob": 30 },
+      { "group": "decks_of_cards", "prob": 30 },
       { "item": "glasses_reading", "prob": 30 },
-      { "item": "button_wood", "prob": 30, "count": [ 1, 12 ], "charges": 1 },
-      { "item": "button_plastic", "prob": 30, "count": [ 2, 18 ], "charges": 1 },
+      { "item": "button_plastic", "prob": 90, "count": [ 4, 52 ] },
       { "item": "bracelet_friendship", "count": [ 3, 6 ], "prob": 25 },
       { "item": "boxcutter", "prob": 20 },
-      { "item": "feather", "prob": 20, "charges": 1 },
+      { "item": "feather", "prob": 20, "count": 1 },
       { "item": "tailors_kit", "prob": 12, "charges": [ 50, 350 ] },
       { "item": "electric_spinwheel", "prob": 12 },
       { "item": "polaroid_photo", "prob": 10 },
@@ -337,6 +341,7 @@
       { "group": "glue_strong_domestic", "prob": 45 },
       { "item": "boxcutter", "prob": 85 },
       { "group": "duct_tape_roll_part", "prob": 85 },
+      { "item": "tape_measure", "prob": 70 },
       { "item": "flashlight", "prob": 80, "charges": [ 100, 300 ] },
       { "item": "toothbrush_plain", "custom-flags": [ "FILTHY" ], "prob": 80 },
       { "item": "bottle_opener", "prob": 75 },
@@ -381,7 +386,8 @@
       { "item": "hygrometer", "prob": 3 },
       { "item": "barometer", "prob": 3 },
       { "item": "smart_lamp", "prob": 3 },
-      { "item": "nuts_bolts", "prob": 95, "charges": [ 10, 20 ] }
+      { "item": "nuts_bolts", "prob": 95, "count": [ 10, 20 ] },
+      { "group": "sunscreen_bottle", "prob": 5 }
     ]
   },
   {
@@ -407,7 +413,7 @@
       { "group": "glue_strong_domestic", "prob": 15 },
       { "item": "light_battery_cell", "count": 4, "prob": 50, "charges": 100 },
       { "group": "batteries", "prob": 50 },
-      { "item": "deck_of_cards", "prob": 50 },
+      { "group": "decks_of_cards", "prob": 50 },
       { "item": "teleumbrella", "prob": 50 },
       { "prob": 50, "group": "bottle_otc_painkiller_20" },
       { "item": "matches", "prob": 50, "charges": 20 },
@@ -473,6 +479,7 @@
       { "item": "pot_copper", "prob": 75 },
       { "item": "stock_pot", "prob": 50 },
       { "item": "pot_canning", "prob": 25 },
+      { "item": "pressure_cooker", "prob": 15 },
       { "item": "colander_steel", "prob": 80 },
       { "item": "splatter_guard", "prob": 20 },
       { "item": "pan", "count": [ 1, 2 ] },
@@ -492,7 +499,8 @@
     "//2": "This group is for the cleaning materials under a kitchen sink.",
     "subtype": "collection",
     "entries": [
-      { "item": "detergent", "charges": [ 1, 40 ], "container-item": "box_small" },
+      { "item": "detergent", "count": [ 1, 40 ], "container-item": "null", "entry-wrapper": "box_small" },
+      { "group": "borax_box_part", "prob": 60 },
       { "item": "cotton_patchwork", "count": [ 1, 3 ] },
       { "item": "dish_towel", "count": [ 1, 6 ] },
       { "item": "brush" },
@@ -502,7 +510,7 @@
       { "item": "methed_alcohol", "prob": 5, "charges": [ 1, -1 ] },
       { "item": "denat_alcohol", "prob": 5, "charges": [ 1, -1 ] },
       { "item": "chem_methanol", "prob": 5, "charges": [ 1, -1 ] },
-      { "item": "chem_washing_soda", "prob": 50, "charges": [ 1, -1 ] },
+      { "item": "chem_washing_soda", "prob": 50, "count": [ 1, -1 ] },
       { "item": "bleach", "prob": 75, "charges": [ 1, -1 ] },
       { "item": "ammonia_hydroxide", "prob": 65, "charges": [ 1, -1 ] }
     ]
@@ -515,7 +523,7 @@
     "//3": "Frequency of pet food appearing based on percentage of Massachusetts homes with a pet.",
     "subtype": "collection",
     "entries": [
-      { "group": "pantry_liquids", "prob": 50, "count": [ 1, 2 ] },
+      { "group": "pantry_liquids", "prob": 60, "count": [ 1, 2 ] },
       { "group": "pasta_ingredients", "prob": 70, "count": [ 1, 3 ] },
       { "group": "cannedfood", "prob": 100, "count": [ 1, 6 ] },
       { "group": "big_canned_food", "prob": 20, "count": [ 1, 2 ] },
@@ -526,7 +534,7 @@
       { "item": "garlic", "prob": 66, "count": [ 1, 3 ] },
       { "item": "onion", "prob": 66, "count": [ 1, 3 ] },
       { "item": "potato", "prob": 30, "count": [ 2, 12 ] },
-      { "group": "pet_food", "prob": 50 }
+      { "group": "pet_food_in_container", "prob": 50 }
     ]
   },
   {
@@ -571,15 +579,9 @@
       { "distribution": [ { "item": "coffeemaker", "prob": 90 } ], "prob": 75 },
       {
         "distribution": [
-          { "item": "coffee_raw", "prob": 30 },
-          { "item": "instant_coffee", "prob": 40, "count": [ 1, 5 ] },
-          {
-            "item": "coffee_raw",
-            "prob": 30,
-            "count": [ 1, 200 ],
-            "container-item": "null",
-            "entry-wrapper": "can_food_big"
-          }
+          { "prob": 30, "item": "coffee_raw" },
+          { "prob": 40, "item": "instant_coffee", "count": [ 1, 5 ] },
+          { "prob": 30, "group": "raw_coffee_in_container" }
         ],
         "prob": 80
       },
@@ -616,7 +618,7 @@
           },
           { "item": "con_milk", "count": [ 1, 6 ], "prob": 10 },
           { "item": "milk_evap", "count": [ 1, 6 ], "prob": 20 },
-          { "item": "milk_UHT", "prob": 10 }
+          { "group": "milk_in_container", "prob": 10 }
         ],
         "prob": 30
       },
@@ -643,38 +645,10 @@
         "collection": [
           { "item": "toaster" },
           {
-            "distribution": [
-              { "item": "bread", "count": [ 2, 14 ], "prob": 70, "container-item": "null", "entry-wrapper": "bag_plastic" },
-              {
-                "item": "sourdough_bread",
-                "count": [ 2, 12 ],
-                "prob": 30,
-                "container-item": "null",
-                "entry-wrapper": "bag_plastic"
-              }
-            ],
+            "distribution": [ { "group": "bread_in_bag", "prob": 70 }, { "group": "sourdough_bread_in_bag", "prob": 30 } ],
             "prob": 80
           },
-          {
-            "distribution": [
-              { "item": "toastem", "count": [ 1, 8 ], "prob": 40, "container-item": "null", "entry-wrapper": "box_small" },
-              {
-                "item": "toastem2",
-                "count": [ 1, 8 ],
-                "prob": 30,
-                "container-item": "null",
-                "entry-wrapper": "box_small"
-              },
-              {
-                "item": "toastem3",
-                "count": [ 1, 8 ],
-                "prob": 30,
-                "container-item": "null",
-                "entry-wrapper": "box_small"
-              }
-            ],
-            "prob": 60
-          }
+          { "item": "toastem", "count": [ 1, 8 ], "prob": 60, "container-item": "null", "entry-wrapper": "box_small" }
         ],
         "prob": 80
       },
@@ -682,9 +656,9 @@
       { "item": "peanutbutter", "charges": [ 1, -1 ], "prob": 80 },
       { "item": "marshmallow_fluff", "charges": [ 1, -1 ], "prob": 80 },
       { "item": "syrup", "charges": [ 1, -1 ], "prob": 50 },
-      { "item": "oatmeal", "count": [ 2, 16 ], "prob": 80 },
-      { "group": "box_cereal_any_opened" },
-      { "group": "box_cereal_any_opened", "prob": 75 },
+      { "item": "oatmeal", "entry-wrapper": "box_small", "container-item": "null", "count": [ 2, 16 ], "prob": 80 },
+      { "group": "breakfast_cereal_in_box" },
+      { "group": "breakfast_cereal_in_box", "prob": 75 },
       {
         "distribution": [
           {
@@ -696,7 +670,7 @@
             "sealed": false
           },
           { "item": "milk_evap", "count": [ 1, 6 ], "prob": 20 },
-          { "item": "milk_UHT", "prob": 20 }
+          { "group": "milk_in_container", "prob": 20 }
         ],
         "prob": 20
       }
@@ -807,14 +781,16 @@
       { "item": "comb_lice", "prob": 2 },
       { "item": "bleach", "prob": 15, "charges": [ 1, -1 ] },
       { "item": "ammonia_hydroxide", "prob": 20, "charges": [ 1, -1 ] },
-      { "item": "chem_washing_soda", "prob": 10, "charges": [ 1, -1 ] },
+      { "item": "chem_washing_soda", "prob": 10, "count": [ 1, -1 ] },
+      { "group": "borax_box_part", "prob": 10 },
       { "item": "string_floss", "count": [ 1, 2 ], "prob": 60 },
       { "group": "tampon_box_used", "prob": 10 },
       { "group": "menstrual_pad_box_used", "prob": 10 },
       { "item": "menstrual_cup", "prob": 1 },
       { "item": "toothbrush_plain", "count": [ 1, 3 ], "prob": 45 },
       { "item": "dentures", "count": [ 1, 2 ], "prob": 15 },
-      { "item": "toothbrush_electric", "count": [ 1, 3 ], "prob": 25 }
+      { "item": "toothbrush_electric", "count": [ 1, 3 ], "prob": 25 },
+      { "group": "sunscreen_bottle", "prob": 25 }
     ]
   },
   {
@@ -904,10 +880,7 @@
         ],
         "prob": 10
       },
-      {
-        "distribution": [ { "item": "nyquil", "prob": 60, "charges": [ 1, -1 ] }, { "item": "dayquil", "prob": 20, "charges": [ 1, -1 ] } ],
-        "prob": 50
-      },
+      { "group": "any_cough_syrup_in_bottle", "prob": 70 },
       {
         "distribution": [
           { "group": "adhesive_bandages_box_used", "prob": 30 },
@@ -1047,7 +1020,7 @@
         "prob": 20
       },
       { "item": "toilet_paper", "prob": 80 },
-      { "item": "towel", "count": [ 1, 2 ], "prob": 75 },
+      { "item": "towel", "count": [ 1, 4 ], "prob": 90 },
       { "group": "bathroom_hair_dye_kit", "prob": 35 }
     ]
   },
@@ -1074,7 +1047,7 @@
     "//": "clothing found in a man's wardrobe",
     "subtype": "collection",
     "entries": [
-      { "group": "shoes_unisex", "prob": 50, "count": [ 1, 2 ] },
+      { "group": "shoes_unisex", "count": [ 0, 3 ] },
       { "item": "sleeping_bag_roll", "prob": 5 },
       { "group": "coats_unisex", "prob": 50, "count": [ 0, 3 ] },
       { "group": "suits_unisex", "prob": 50, "count": [ 0, 2 ] },
@@ -1247,90 +1220,9 @@
   },
   {
     "type": "item_group",
-    "id": "adderall_bottle_plastic_pill_prescription_1",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "adderall", "container-item": "null" } ]
-  },
-  {
-    "type": "item_group",
-    "id": "weak_antibiotic_bottle_plastic_pill_prescription_1",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "weak_antibiotic", "container-item": "null" } ]
-  },
-  {
-    "type": "item_group",
-    "id": "garlic_powder_various",
-    "subtype": "distribution",
-    "entries": [
-      { "prob": 18, "group": "garlic_powder_bottle_plastic_small" },
-      { "prob": 18, "group": "garlic_powder_bottle_glass_small" },
-      { "prob": 2, "group": "garlic_powder_bottle_plastic" },
-      { "prob": 2, "group": "garlic_powder_bottle_glass" },
-      { "prob": 4, "group": "garlic_powder_bag_plastic" },
-      { "prob": 1, "group": "garlic_powder_bag_paper" }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "garlic_powder_bottle_plastic_small",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_seasoning_small",
-    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 50 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "garlic_powder_bottle_glass_small",
-    "subtype": "collection",
-    "container-item": "bottle_glass_seasoning_small",
-    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 50 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "garlic_powder_bottle_plastic",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_seasoning",
-    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 100 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "garlic_powder_bottle_glass",
-    "subtype": "collection",
-    "container-item": "bottle_glass_seasoning",
-    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 100 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "baking_soda_box",
     "subtype": "collection",
     "container-item": "box_small",
     "entries": [ { "item": "chem_baking_soda", "container-item": "null", "count": [ 1, 2 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "garlic_powder_bag_plastic",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 100 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "garlic_powder_bag_paper",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_paper_powder",
-    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 25, 500 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "tums_bottle_plastic_small_1_20",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "tums", "container-item": "null", "count": [ 1, 20 ] } ]
   }
 ]

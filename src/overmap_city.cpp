@@ -18,14 +18,14 @@
 #include "map_iterator.h"
 #include "map_scale_constants.h"
 #include "omdata.h"
-#include "options.h"
 #include "overmap.h"
 #include "overmap_connection.h"
 #include "overmapbuffer.h"
 #include "point.h"
-#include "rng.h"
 #include "regional_settings.h"
+#include "rng.h"
 #include "simple_pathfinding.h"
+#include "text_snippets.h"
 #include "type_id.h"
 
 static const oter_str_id oter_road_nesw( "road_nesw" );
@@ -64,9 +64,10 @@ spawns happen at... <cue Clue music>
 20:56 <kevingranade>: game:pawn_mon() in game.cpp:7380*/
 void overmap::place_cities()
 {
-    int op_city_spacing = get_option<int>( "CITY_SPACING" );
-    int op_city_size = get_option<int>( "CITY_SIZE" );
-    int max_urbanity = get_option<int>( "OVERMAP_MAXIMUM_URBANITY" );
+    const region_settings_city &city_settings = settings->get_settings_city();
+    int op_city_spacing = city_settings.city_spacing;
+    int op_city_size = city_settings.city_size;
+    int max_urbanity = settings->max_urban;
     if( op_city_size <= 0 ) {
         return;
     }
@@ -133,11 +134,39 @@ void overmap::place_cities()
 
     const size_t num_cities_on_this_overmap_count = num_cities_on_this_overmap;
 
+    if( city_settings.is_megacity ) {
+        // Clang pls. These are separate variables for legibility.
+        // NOLINTNEXTLINE(cata-combine-locals-into-point)
+        const int quarter_OMAPX = OMAPX / 4;
+        const int quarter_OMAPY = OMAPY / 4;
+        // This places 4 equidistant "individual cities" on every overmap, guaranteed. We're essentially building a smaller square within the square overmap.
+        // For space-filling reasons there is now a fifth in the exact center.
+        std::vector<tripoint_om_omt> megacity_quad_points = {
+            {quarter_OMAPX, quarter_OMAPY, 0},
+            {quarter_OMAPX, quarter_OMAPY * 3, 0},
+            {quarter_OMAPX * 2, quarter_OMAPY * 2, 0},
+            {quarter_OMAPX * 3, quarter_OMAPY, 0},
+            {quarter_OMAPX * 3, quarter_OMAPY * 3, 0}
+        };
+        for( tripoint_om_omt selected_point : megacity_quad_points ) {
+            city tmp( SNIPPET.expand( settings->get_settings_city().name_snippet ) );
+            tmp.pos_om = pos();
+            ter_set( selected_point, oter_road_nesw ); // every city starts with an intersection
+            city_tiles.insert( selected_point.xy() );
+            tmp.pos = selected_point.xy();
+            // Note: The higher we bump this, the more gets filled in. However, performance becomes worse and worse as it apparently tries to place parts of cities overtop each other.
+            // For the moment, this is the value I've gone with so it's playable in some state.
+            tmp.size = 40;
+            cities.push_back( tmp );
+        }
+        return;
+    }
+
     // place a seed for num_cities_on_this_overmap cities, and maybe one more
     while( cities.size() < num_cities_on_this_overmap_count && !city_candidates.empty() ) {
 
         tripoint_om_omt selected_point;
-        city tmp;
+        city tmp( SNIPPET.expand( city_settings.name_snippet ) );
         tmp.pos_om = pos();
         if( use_random_cities ) {
             // randomly make some cities smaller or larger
@@ -206,7 +235,7 @@ void overmap::build_cities()
 overmap_special_id overmap::pick_random_building_to_place( int town_dist, int town_size,
         const std::unordered_set<overmap_special_id> &placed_unique_buildings ) const
 {
-    const city_settings &city_spec = settings->city_spec;
+    const region_settings_city &city_spec = settings->get_settings_city();
     int shop_radius = city_spec.shop_radius;
     int park_radius = city_spec.park_radius;
 
@@ -226,11 +255,11 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist, int to
     }
     auto building_type_to_pick = [&]() {
         if( shop_normal > town_dist ) {
-            return std::mem_fn( &city_settings::pick_shop );
+            return std::mem_fn( &region_settings_city::pick_shop );
         } else if( park_normal > town_dist ) {
-            return std::mem_fn( &city_settings::pick_park );
+            return std::mem_fn( &region_settings_city::pick_park );
         } else {
-            return std::mem_fn( &city_settings::pick_house );
+            return std::mem_fn( &region_settings_city::pick_house );
         }
     };
     auto pick_building = building_type_to_pick();
@@ -277,6 +306,8 @@ void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, 
 pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connection &connection,
         const point_om_omt &source, om_direction::type dir, size_t len )
 {
+    const int &highway_width = settings->overmap_highway ?
+                               settings->get_settings_highway().width_of_segments : 0;
     auto valid_placement = [this]( const overmap_connection & connection, const tripoint_om_omt pos,
     om_direction::type dir ) {
         if( !inbounds( pos, 1 ) ) {
@@ -328,7 +359,6 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
                 if( are_parallel( dir, ter_id.obj().get_dir() ) ) {
                     break;
                 }
-                const int &highway_width = settings->overmap_highway.width_of_segments;
                 const tripoint_om_omt pos_after_highway = pos + om_direction::displace( dir, highway_width );
                 // Ensure we can pass fully through
                 if( !valid_placement( connection, pos_after_highway, dir ) ) {

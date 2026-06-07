@@ -1,0 +1,79 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sorcerer_forget_spell_refund_slots",
+    "condition": { "expects_vars": [ "forgotten_spell_level" ] },
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "sorcerer_refund_level_0_slot",
+          "condition": { "math": [ "_forgotten_spell_level < 1" ] },
+          "effect": [ { "math": [ "u_sorcerer_level_0_spells_known--" ] } ]
+        }
+      },
+      {
+        "run_eocs": {
+          "id": "sorcerer_refund_level_1_slot",
+          "condition": { "math": [ "_forgotten_spell_level == 1" ] },
+          "effect": [ { "math": [ "u_sorcerer_level_1_spells_known--" ] } ]
+        }
+      },
+      {
+        "run_eocs": {
+          "id": "sorcerer_refund_level_2_slot",
+          "condition": { "math": [ "_forgotten_spell_level == 2" ] },
+          "effect": [ { "math": [ "u_sorcerer_level_2_spells_known--" ] } ]
+        }
+      },
+      {
+        "run_eocs": {
+          "id": "sorcerer_refund_level_3_slot",
+          "condition": { "math": [ "_forgotten_spell_level == 3" ] },
+          "effect": [ { "math": [ "u_sorcerer_level_3_spells_known--" ] } ]
+        }
+      },
+      {
+        "run_eocs": {
+          "id": "sorcerer_refund_level_4_slot",
+          "condition": { "math": [ "_forgotten_spell_level == 4" ] },
+          "effect": [ { "math": [ "u_sorcerer_level_4_spells_known--" ] } ]
+        }
+      },
+      {
+        "run_eocs": {
+          "id": "sorcerer_refund_level_5_slot",
+          "condition": { "math": [ "_forgotten_spell_level == 5" ] },
+          "effect": [ { "math": [ "u_sorcerer_level_5_spells_known--" ] } ]
+        }
+      },
+      {
+        "run_eocs": {
+          "id": "sorcerer_refund_level_6_slot",
+          "condition": { "math": [ "_forgotten_spell_level == 6" ] },
+          "effect": [ { "math": [ "u_sorcerer_level_6_spells_known--" ] } ]
+        }
+      },
+      {
+        "run_eocs": {
+          "id": "sorcerer_refund_level_7_slot",
+          "condition": { "math": [ "_forgotten_spell_level == 7" ] },
+          "effect": [ { "math": [ "u_sorcerer_level_7_spells_known--" ] } ]
+        }
+      },
+      {
+        "run_eocs": {
+          "id": "sorcerer_refund_level_8_slot",
+          "condition": { "math": [ "_forgotten_spell_level == 8" ] },
+          "effect": [ { "math": [ "u_sorcerer_level_8_spells_known--" ] } ]
+        }
+      },
+      {
+        "run_eocs": {
+          "id": "sorcerer_refund_level_9_slot",
+          "condition": { "math": [ "_forgotten_spell_level == 9" ] },
+          "effect": [ { "math": [ "u_sorcerer_level_9_spells_known--" ] } ]
+        }
+      }
+    ]
+  }
+]

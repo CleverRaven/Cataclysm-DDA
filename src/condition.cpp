@@ -795,6 +795,25 @@ conditional_t::func f_has_item_category( const JsonObject &jo, std::string_view 
     };
 }
 
+conditional_t::func f_has_software( const JsonObject &jo, std::string_view member, bool is_npc )
+{
+    JsonObject has_software = jo.get_object( member );
+
+    str_or_var software_id = get_str_or_var( has_software.get_member( "item" ), "item", true );
+    dbl_or_var charges = get_dbl_or_var( has_software, "charges", false, 0.0 );
+    str_or_var device_id = get_str_or_var( has_software.get_member( "device" ), "device", false );
+
+    return [software_id, charges, device_id, is_npc]( const_dialogue const & d ) {
+        const_talker const *actor = d.const_actor( is_npc );
+        itype_id soft_id = itype_id( software_id.evaluate( d ) );
+        int min_charges = static_cast<int>( charges.evaluate( d ) );
+        itype_id dev_id = device_id.evaluate( d ).empty() ? itype_id::NULL_ID() : itype_id(
+                              device_id.evaluate( d ) );
+
+        return actor->has_software( soft_id, min_charges, dev_id );
+    };
+}
+
 conditional_t::func f_has_bionics( const JsonObject &jo, std::string_view member,
                                    bool is_npc )
 {
@@ -1348,6 +1367,13 @@ conditional_t::func f_is_avatar_passenger( bool is_npc )
     };
 }
 
+conditional_t::func f_is_in_vehicle( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_in_vehicle();
+    };
+}
+
 conditional_t::func f_no_assigned_mission()
 {
     return []( const_dialogue const & d ) {
@@ -1712,7 +1738,7 @@ conditional_t::func f_map_in_city( const JsonObject &jo, std::string_view member
     return [target]( const_dialogue const & d ) {
         tripoint_abs_omt target_pos = project_to<coords::omt>( read_var_value( target, d ).tripoint() );
 
-        // TODO: Remove this in favour of a seperate condition for location z-level that can be used in conjunction with this map_in_city as needed
+        // TODO: Remove this in favour of a separate condition for location z-level that can be used in conjunction with this map_in_city as needed
         if( target_pos.z() < -1 ) {
             return false;
         }
@@ -1859,6 +1885,14 @@ conditional_t::func f_u_has_camp()
     };
 }
 
+conditional_t::func f_npc_has_assigned_camp()
+{
+    return []( const_dialogue const & d ) {
+        const npc *n = d.const_actor( true )->get_const_npc();
+        return n && n->assigned_camp.has_value();
+    };
+}
+
 conditional_t::func f_has_pickup_list( bool is_npc )
 {
     return [is_npc]( const_dialogue const & d ) {
@@ -1992,6 +2026,17 @@ conditional_t::func f_is_on_terrain( const JsonObject &jo, std::string_view memb
     };
 }
 
+conditional_t::func f_is_on_furniture( const JsonObject &jo, std::string_view member,
+                                       bool is_npc )
+{
+    const map &here = get_map();
+
+    str_or_var furn_type = get_str_or_var( jo.get_member( member ), member, true );
+    return [furn_type, is_npc, &here]( const_dialogue const & d ) {
+        return here.furn( d.const_actor( is_npc )->pos_bub( here ) ) == furn_id( furn_type.evaluate( d ) );
+    };
+}
+
 conditional_t::func f_is_on_terrain_with_flag( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
@@ -2000,6 +2045,17 @@ conditional_t::func f_is_on_terrain_with_flag( const JsonObject &jo, std::string
     str_or_var terrain_type = get_str_or_var( jo.get_member( member ), member, true );
     return [terrain_type, is_npc, &here]( const_dialogue const & d ) {
         return here.ter( d.const_actor( is_npc )->pos_bub( here ) )->has_flag( terrain_type.evaluate( d ) );
+    };
+}
+
+conditional_t::func f_is_on_furniture_with_flag( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    const map &here = get_map();
+
+    str_or_var furn_type = get_str_or_var( jo.get_member( member ), member, true );
+    return [furn_type, is_npc, &here]( const_dialogue const & d ) {
+        return here.furn( d.const_actor( is_npc )->pos_bub( here ) )->has_flag( furn_type.evaluate( d ) );
     };
 }
 
@@ -2049,13 +2105,25 @@ conditional_t::func f_using_martial_art( const JsonObject &jo, std::string_view 
     };
 }
 
+conditional_t::func f_is_rotten()
+{
+    return []( const_dialogue const & d ) {
+        item_location const *it = d.const_actor( true )->get_const_item();
+        if( it ) {
+            return ( *it )->get_relative_rot() > 1;
+        } else {
+            debugmsg( "beta talker must be Item" );
+            return false;
+        }
+    };
+}
 
 } // namespace
 } // namespace conditional_fun
 
 template<class T>
 static std::function<T( const_dialogue const & )> get_get_str_( const JsonObject &jo,
-        std::function<T( const std::string & )> ret_func )
+        const std::function<T( const std::string & )> &ret_func )
 {
     if( !jo.has_string( "mutator" ) ) {
         return nullptr;
@@ -2104,7 +2172,7 @@ static std::function<T( const_dialogue const & )> get_get_str_( const JsonObject
 
 template<class T>
 static std::function<T( const_dialogue const & )> get_get_translation_( const JsonObject &jo,
-        std::function<T( const translation & )> ret_func )
+        const std::function<T( const translation & )> &ret_func )
 {
     // straight translation - used by diag_value_or_var
     if( jo.get_bool( "i18n", false ) && jo.has_string( "str" ) ) {
@@ -2209,6 +2277,7 @@ std::unordered_map<std::string_view, int ( const_talker::* )() const> const f_ge
     { "mana", &const_talker::mana_cur },
     { "morale", &const_talker::morale_cur },
     { "owed", &const_talker::debt },
+    { "oxygen", &const_talker::get_oxygen },
     { "perception_base", &const_talker::get_per_max },
     { "perception_bonus", &const_talker::get_per_bonus },
     { "perception", &const_talker::per_cur },
@@ -2219,6 +2288,7 @@ std::unordered_map<std::string_view, int ( const_talker::* )() const> const f_ge
     { "sleep_deprivation", &const_talker::get_sleep_deprivation },
     { "sold", &const_talker::sold },
     { "stamina", &const_talker::get_stamina },
+    { "stamina_max", &const_talker::get_stamina_max },
     { "stim", &const_talker::get_stim },
     { "strength_base", &const_talker::get_str_max },
     { "strength_bonus", &const_talker::get_str_bonus },
@@ -2301,6 +2371,7 @@ std::unordered_map<std::string_view, void ( talker::* )( int )> const f_set_vals
     { "intelligence_bonus", &talker::set_int_bonus },
     { "mana", &talker::set_mana_cur },
     { "morale", &talker::set_morale },
+    { "oxygen", &talker::set_oxygen },
     { "perception_base", &talker::set_per_max },
     { "perception_bonus", &talker::set_per_bonus },
     { "pkill", &talker::set_pkill },
@@ -2430,6 +2501,7 @@ parsers = {
     {"u_has_items", "npc_has_items", jarg::member, &conditional_fun::f_has_items },
     {"u_has_items_sum", "npc_has_items_sum", jarg::array, &conditional_fun::f_has_items_sum },
     {"u_has_item_category", "npc_has_item_category", jarg::member, &conditional_fun::f_has_item_category },
+    {"u_has_software", "npc_has_software", jarg::member, &conditional_fun::f_has_software },
     {"u_has_bionics", "npc_has_bionics", jarg::member, &conditional_fun::f_has_bionics },
     {"u_has_any_effect", "npc_has_any_effect", jarg::array, &conditional_fun::f_has_any_effect },
     {"u_has_effect", "npc_has_effect", jarg::member, &conditional_fun::f_has_effect },
@@ -2466,6 +2538,8 @@ parsers = {
     {"u_has_wielded_with_ammotype", "npc_has_wielded_with_ammotype", jarg::member, &conditional_fun::f_has_wielded_with_ammotype },
     {"u_is_on_terrain", "npc_is_on_terrain", jarg::member, &conditional_fun::f_is_on_terrain },
     {"u_is_on_terrain_with_flag", "npc_is_on_terrain_with_flag", jarg::member, &conditional_fun::f_is_on_terrain_with_flag },
+    {"u_is_on_furniture", "npc_is_on_furniture", jarg::member, &conditional_fun::f_is_on_furniture },
+    {"u_is_on_furniture_with_flag", "npc_is_on_furniture_with_flag", jarg::member, &conditional_fun::f_is_on_furniture_with_flag },
     {"u_is_in_field", "npc_is_in_field", jarg::member, &conditional_fun::f_is_in_field },
     {"u_has_move_mode", "npc_has_move_mode", jarg::member, &conditional_fun::f_has_move_mode },
     {"u_can_see_location", "npc_can_see_location", jarg::member, &conditional_fun::f_can_see_location },
@@ -2533,6 +2607,7 @@ parsers_simple = {
     {"u_is_outside", "npc_is_outside", &conditional_fun::f_is_outside },
     {"u_is_underwater", "npc_is_underwater", &conditional_fun::f_is_underwater },
     {"u_has_camp", &conditional_fun::f_u_has_camp },
+    {"npc_has_assigned_camp", &conditional_fun::f_npc_has_assigned_camp },
     {"u_has_pickup_list", "has_pickup_list", &conditional_fun::f_has_pickup_list },
     {"u_has_pickup_list", "npc_has_pickup_list", &conditional_fun::f_has_pickup_list },
     {"is_by_radio", &conditional_fun::f_is_by_radio },
@@ -2567,6 +2642,8 @@ parsers_simple = {
     {"u_is_sinking", "npc_is_sinking", &conditional_fun::f_is_sinking },
     {"u_is_on_rails", "npc_is_on_rails", &conditional_fun::f_is_on_rails },
     {"u_is_avatar_passenger", "npc_is_avatar_passenger", &conditional_fun::f_is_avatar_passenger },
+    {"u_is_in_vehicle", "npc_is_in_vehicle", &conditional_fun::f_is_in_vehicle },
+    {"is_rotten", &conditional_fun::f_is_rotten },
 };
 
 conditional_t::conditional_t( const JsonObject &jo )

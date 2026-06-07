@@ -25,6 +25,7 @@
 #include "faction.h"
 #include "faction_camp.h"
 #include "game.h"
+#include "input_popup.h"
 #include "inventory.h"
 #include "item.h"
 #include "map.h"
@@ -41,7 +42,6 @@
 #include "recipe_groups.h"
 #include "requirements.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -124,6 +124,8 @@ basecamp::basecamp() = default;
 
 basecamp_map::basecamp_map( const basecamp_map & ) {}
 
+// rhs is intentionally ignored; assignment resets the cached map.
+// NOLINTNEXTLINE(bugprone-unhandled-self-assignment,cert-oop54-cpp)
 basecamp_map &basecamp_map::operator=( const basecamp_map & )
 {
     map_.reset();
@@ -247,7 +249,8 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, const map
         skills = &bld_reqs.skills;
     } else {
         reqs = &making.simple_requirements();
-        base_time = making.batch_duration( get_player_character() );
+        base_time = making.batch_duration( get_player_character(),
+                                           crafting_cost_context::for_recipe( get_player_character(), making ) );
         skills = &making.required_skills;
     }
 
@@ -670,15 +673,15 @@ comp_list basecamp::get_mission_workers( const mission_id &miss_id, bool contain
 
 void basecamp::query_new_name( bool force )
 {
-    string_input_popup input_popup;
+    string_input_popup_imgui input_popup( 40 );
     bool done = false;
     bool need_input = true;
+    std::string text;
     do {
-        input_popup.title( _( "Name this camp" ) )
-        .width( 40 )
-        .max_length( 25 )
-        .query();
-        if( input_popup.canceled() || input_popup.text().empty() ) {
+        input_popup.set_description( _( "Name this camp" ) );
+        input_popup.set_max_input_length( 25 );
+        text = input_popup.query();
+        if( input_popup.cancelled() || text.empty() ) {
             if( name.empty() || force ) {
                 popup( _( "You need to input the base camp name." ) );
             } else {
@@ -689,7 +692,7 @@ void basecamp::query_new_name( bool force )
         }
     } while( !done && need_input );
     if( done ) {
-        name = input_popup.text();
+        name = text;
     }
 }
 
@@ -886,7 +889,7 @@ void basecamp::handle_takeover_by( faction_id new_owner, bool violent_takeover )
     camp_workers.clear();
 
     add_msg_debug( debugmode::DF_CAMPS, "Camp %s owned by %s is being taken over by %s!",
-                   name, fac()->name, new_owner->name );
+                   name, fac()->id.c_str(), new_owner->id.c_str() );
 
     if( !violent_takeover ) {
         set_owner( new_owner );
@@ -913,7 +916,8 @@ void basecamp::handle_takeover_by( faction_id new_owner, bool violent_takeover )
         if( checked_camp->get_owner() == get_owner() ) {
             add_msg_debug( debugmode::DF_CAMPS,
                            "Camp %s at %s is owned by %s, adding it to plunder calculations.",
-                           checked_camp->camp_name(), checked_camp->camp_omt_pos().to_string_writable(), get_owner()->name );
+                           checked_camp->camp_name(), checked_camp->camp_omt_pos().to_string_writable(),
+                           get_owner()->id.c_str() );
             num_of_owned_camps++;
         }
     }
@@ -933,7 +937,7 @@ void basecamp::handle_takeover_by( faction_id new_owner, bool violent_takeover )
     camp_food_supply( taken_from_camp );
     add_msg_debug( debugmode::DF_CAMPS,
                    "Food supplies of %s plundered by %d kilocalories!  Total food supply reduced to %d kilocalories after losing %.1f%% of their camps.",
-                   fac()->name, captured_with_camp.kcal(), fac()->food_supply().kcal(),
+                   fac()->id.c_str(), captured_with_camp.kcal(), fac()->food_supply().kcal(),
                    1.0 / static_cast<double>( num_of_owned_camps ) * 100.0 );
     set_owner( new_owner );
     int previous_days_of_food = camp_food_supply_days( MODERATE_EXERCISE );
@@ -943,7 +947,7 @@ void basecamp::handle_takeover_by( faction_id new_owner, bool violent_takeover )
     fac()->add_to_food_supply( added );
     add_msg_debug( debugmode::DF_CAMPS,
                    "Food supply of new owner %s has increased to %d kilocalories due to takeover of camp %s!",
-                   fac()->name, new_owner->food_supply().kcal(), name );
+                   fac()->id.c_str(), new_owner->food_supply().kcal(), name );
     if( new_owner == get_player_character().get_faction()->id ) {
         popup( _( "Through your looting of %s you found %d days worth of food and other resources." ),
                name, camp_food_supply_days( MODERATE_EXERCISE ) - previous_days_of_food );
@@ -1004,6 +1008,13 @@ basecamp_action_components::basecamp_action_components(
 
 bool basecamp_action_components::choose_components()
 {
+    // Basecamp crafting selects and consumes tools whole-recipe; the per-step
+    // tool model is not wired through this path, so step recipes are excluded
+    // here rather than risk mis-metering their tools.
+    if( making_.has_steps() ) {
+        debugmsg( "step recipe %s cannot be crafted at a basecamp yet", making_.ident().str() );
+        return false;
+    }
     const auto filter = is_crafting_component;
     avatar &player_character = get_avatar();
     const requirement_data *req;
@@ -1059,8 +1070,11 @@ void basecamp_action_components::consume_components()
         src.emplace_back( target_map.get_bub( p ) );
     }
     for( const comp_selection<item_comp> &sel : item_selections_ ) {
-        std::list<item> empty_consumed = player_character.consume_items( target_map, sel, batch_size_,
-                                         is_crafting_component, src );
+        std::list<item> consumed = player_character.consume_items( target_map, sel, batch_size_,
+                                   is_crafting_component, src );
+        for( item &comp : consumed ) {
+            consumed_components_.add( comp );
+        }
     }
     // this may consume pseudo-resources from fake items
     for( const comp_selection<tool_comp> &sel : tool_selections_ ) {

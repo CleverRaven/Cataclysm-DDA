@@ -1,0 +1,29 @@
+[
+  {
+    "type": "jmath_function",
+    "id": "matrix_awakening_odds",
+    "num_args": 1,
+    "return": "_0 * 0"
+  },
+  {
+    "type": "jmath_function",
+    "id": "portal_storm_awakening_odds",
+    "num_args": 1,
+    "return": "_0 * 0"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_PSION_AWAKENING_DISTANT",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_PSION_AWAKENING_MEDIUM",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_PSION_AWAKENING_CLOSE",
+    "effect": [  ]
+  }
+]

@@ -59,6 +59,12 @@
         "condition": { "u_has_trait": "DEBUG_MIND_CONTROL" },
         "topic": "TALK_ALLY_DEBUG"
       },
+      {
+        "text": "Go back to your camp.",
+        "topic": "TALK_FRIEND",
+        "condition": "npc_has_assigned_camp",
+        "effect": "return_to_camp_duties"
+      },
       { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
       { "text": "<lets_go>", "topic": "TALK_DONE" }
     ]
@@ -231,7 +237,6 @@
       { "text": "Set up pickup rules.", "topic": "TALK_FRIEND", "effect": "set_npc_pickup" },
       { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
       { "text": "Let's talk about the camp.", "topic": "TALK_CAMP" },
-      { "text": "Change your martial arts style.", "topic": "TALK_DONE", "effect": "pick_style" },
       { "text": "<lets_go>", "topic": "TALK_DONE" }
     ]
   },
@@ -347,6 +352,12 @@
         "topic": "TALK_DONE",
         "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
         "effect": "do_read_repeatedly"
+      },
+      {
+        "text": "Please study from books in study zones.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_study"
       },
       {
         "text": "Please start deconstructing any vehicles in a deconstruction zone.",

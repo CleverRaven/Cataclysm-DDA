@@ -32,17 +32,14 @@
 #include "math_defines.h"
 #include "mdarray.h"
 #include "monster.h"
+#include "mtype.h"
 #include "pixel_minimap_projectors.h"
 #include "sdl_utils.h"
+#include "sdltiles.h"
 #include "type_id.h"
 #include "vehicle.h"
 #include "viewer.h"
 #include "vpart_position.h"
-
-class game;
-
-// NOLINTNEXTLINE(cata-static-declarations)
-extern std::unique_ptr<game> g;
 
 namespace
 {
@@ -72,7 +69,7 @@ float get_animation_phase( int phase_length_ms )
         return 0.0f;
     }
 
-    return std::fmod<float>( SDL_GetTicks(), phase_length_ms ) / phase_length_ms;
+    return std::fmod<float>( GetTicks(), phase_length_ms ) / phase_length_ms;
 }
 
 //creates the texture that individual minimap updates are drawn to
@@ -111,7 +108,8 @@ SDL_Color get_critter_color( Creature *critter, int flicker, int mixture )
         //faction status (attacking or tracking) determines if red highlights get applied to creature
         const monster_attitude matt = m->attitude( &get_player_character() );
 
-        if( MATT_ATTACK == matt || MATT_FOLLOW == matt ) {
+        if( ( MATT_ATTACK == matt || MATT_FOLLOW == matt ) &&
+            !m->has_flag( mon_flag_APPEARS_NEUTRAL ) ) {
             const SDL_Color red_pixel = SDL_Color{ 0xFF, 0x0, 0x0, 0xFF };
             result = adjust_color_brightness( mix_colors( result, red_pixel, mixture ), flicker );
         }
@@ -262,7 +260,6 @@ void pixel_minimap::clear_unused_cache()
 }
 
 //draws individual updates to the submap cache texture
-//the render target will be set back to display_buffer after all submaps are updated
 void pixel_minimap::flush_cache_updates()
 {
     for( auto &mcp : cache ) {
@@ -270,7 +267,22 @@ void pixel_minimap::flush_cache_updates()
             continue;
         }
 
-        SetRenderTarget( renderer, mcp.second.chunk_tex );
+        scoped_render_target chunk_scope( renderer, mcp.second.chunk_tex.get()
+#if SDL_MAJOR_VERSION >= 3
+                                          , get_shared_variant_pass()
+#endif
+                                        );
+        if( !chunk_scope.is_valid() ) {
+            if( !chunk_scope.boundary_intact() ) {
+                // Boundary lost: latch so the enclosing dtor skips detach.
+                display_buffer_scope_signal_recovery_required();
+            }
+            // Chunk did not paint, so a later render would composite stale data.
+            // Throw to abort the frame, like the tint-mask path.
+            throw std::runtime_error( chunk_scope.boundary_intact()
+                                      ? "pixel_minimap::flush_cache_updates: variant_pass refused boundary"
+                                      : "pixel_minimap::flush_cache_updates: scoped_render_target boundary lost" );
+        }
 
         if( !mcp.second.ready ) {
             mcp.second.ready = true;
@@ -303,6 +315,17 @@ void pixel_minimap::flush_cache_updates()
         }
 
         mcp.second.update_list.clear();
+
+        // Restore failure leaves later draws landing on the chunk texture or an
+        // undefined target, so propagate like the other scoped failures.
+        if( !chunk_scope.restore() ) {
+            if( !chunk_scope.boundary_intact() ) {
+                display_buffer_scope_signal_recovery_required();
+            }
+            throw std::runtime_error( chunk_scope.boundary_intact()
+                                      ? "pixel_minimap::flush_cache_updates: variant_pass refused boundary on restore"
+                                      : "pixel_minimap::flush_cache_updates: failed to restore prior render target" );
+        }
     }
 }
 
@@ -396,9 +419,9 @@ void pixel_minimap::set_screen_rect( const SDL_Rect &screen_rect )
         main_tex_clip_rect = SDL_Rect{ 0, 0, size_on_screen.x, size_on_screen.y };
         screen_clip_rect = fit_rect_inside( main_tex_clip_rect, screen_rect );
 
-        SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" );
         main_tex = create_cache_texture( renderer, size_on_screen.x, size_on_screen.y );
-        SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "0" );
+        // This texture is scaled to fit the screen; use linear filtering for smooth presentation.
+        SetTextureScaleQuality( main_tex, "linear" );
 
     } else {
         const point d( ( size_on_screen.x - screen_rect.w ) / 2, ( size_on_screen.y - screen_rect.h ) / 2 );
@@ -443,16 +466,37 @@ void pixel_minimap::reset()
 
 void pixel_minimap::render( const tripoint_bub_ms &center )
 {
-    SetRenderTarget( renderer, main_tex );
-    SetRenderDrawColor( renderer, pixel_minimap_r, pixel_minimap_g, pixel_minimap_b, pixel_minimap_a );
+    scoped_render_target main_scope( renderer, main_tex.get()
+#if SDL_MAJOR_VERSION >= 3
+                                     , get_shared_variant_pass()
+#endif
+                                   );
+    if( !main_scope.is_valid() ) {
+        if( !main_scope.boundary_intact() ) {
+            display_buffer_scope_signal_recovery_required();
+        }
+        // main_tex unpainted: the RenderCopy below would composite stale data.
+        throw std::runtime_error( main_scope.boundary_intact()
+                                  ? "pixel_minimap::render: variant_pass refused boundary"
+                                  : "pixel_minimap::render: scoped_render_target boundary lost" );
+    }
+    SetRenderDrawColor( renderer, pixel_minimap_r, pixel_minimap_g, pixel_minimap_b,
+                        pixel_minimap_a );
     RenderClear( renderer );
 
     render_cache( center );
     render_critters( center );
 
-    //set display buffer to main screen
-    set_displaybuffer_rendertarget();
-    //paint intermediate texture to screen
+    // Restore so the compositing RenderCopy below lands on the caller's prior
+    // target, not main_tex.
+    if( !main_scope.restore() ) {
+        if( !main_scope.boundary_intact() ) {
+            display_buffer_scope_signal_recovery_required();
+        }
+        throw std::runtime_error( main_scope.boundary_intact()
+                                  ? "pixel_minimap::render: variant_pass refused boundary on restore"
+                                  : "pixel_minimap::render: failed to restore prior render target" );
+    }
     RenderCopy( renderer, main_tex, &main_tex_clip_rect, &screen_clip_rect );
 }
 
@@ -499,6 +543,8 @@ void pixel_minimap::render_cache( const tripoint_bub_ms &center )
 
 void pixel_minimap::render_critters( const tripoint_bub_ms &center )
 {
+    has_blinking_beacons_ = false;
+
     const map &m = get_map();
 
     //handles the enemy faction red highlights
@@ -549,6 +595,9 @@ void pixel_minimap::render_critters( const tripoint_bub_ms &center )
             const SDL_Rect critter_rect = SDL_Rect{ critter_pos.x, critter_pos.y, beacon_size.x, beacon_size.y };
             const SDL_Color critter_color = get_critter_color( critter, flicker, mixture );
 
+            if( indicator_length > 0 ) {
+                has_blinking_beacons_ = true;
+            }
             draw_beacon( critter_rect, critter_color );
         }
     }

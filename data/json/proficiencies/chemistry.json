@@ -86,9 +86,7 @@
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.25,
     "required_proficiencies": [ "prof_organic_chemistry", "prof_intro_biology" ],
-    "time_to_learn": "8 h",
-    "default_weakpoint_bonus": 2,
-    "default_weakpoint_penalty": 0
+    "time_to_learn": "8 h"
   },
   {
     "type": "proficiency",

@@ -106,6 +106,7 @@ class MonsterGenerator
         void validate_species_ids( mtype &mon );
         void finalize_pathfinding_settings( mtype &mon );
 
+        friend class int_id<mtype>;
         friend class string_id<mtype>;
         friend class string_id<species_type>;
         friend class string_id<mattack_actor>;

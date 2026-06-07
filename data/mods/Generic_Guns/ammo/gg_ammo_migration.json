@@ -609,6 +609,11 @@
     "replace": "gg_plasma_cell"
   },
   {
+    "id": [ "nl_chem_thrower_ammo" ],
+    "type": "MIGRATION",
+    "replace": "gg_nl_chem_thrower_ammo"
+  },
+  {
     "id": [
       "84x246mm_hedp",
       "m235_tpa",

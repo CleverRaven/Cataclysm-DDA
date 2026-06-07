@@ -30,7 +30,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "DRINK",
     "category": "food",
-    "name": { "str": "almond water" },
+    "name": { "str_sp": "almond water" },
     "description": "A bottle of what looks like slightly-cloudy water.",
     "weight": "250 g",
     "volume": "250 ml",

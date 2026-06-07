@@ -1,7 +1,9 @@
 #include "subbodypart.h"
 
+#include <unordered_map>
 #include <vector>
 
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "type_id.h"
 
@@ -9,6 +11,10 @@ namespace
 {
 
 generic_factory<sub_body_part_type> sub_body_part_factory( "sub body part" );
+
+// groups all the bodypart into a shared bucket
+std::unordered_map<sub_bodypart_str_id, std::vector<sub_bodypart_str_id>>
+        combined_similar_sub_bodyparts;
 
 } // namespace
 
@@ -72,10 +78,17 @@ void sub_body_part_type::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "max_coverage", max_coverage );
     optional( jo, was_loaded, "side", part_side );
     optional( jo, was_loaded, "name_multiple", name_multiple );
-    optional( jo, was_loaded, "opposite", opposite );
+
+    // turn off blindly copying-from to prevent accidental inconsistent opposites
+    if( jo.has_string( "opposite" ) ) {
+        mandatory( jo, was_loaded, "opposite", opposite );
+    } else {
+        opposite = id;
+    }
+
     // defaults to self
     optional( jo, was_loaded, "locations_under", locations_under, { id } );
-    optional( jo, was_loaded, "similar_bodyparts", similar_bodyparts );
+    optional( jo, was_loaded, "similar_bodypart", similar_bodypart );
     optional( jo, was_loaded, "unarmed_damage", unarmed_damage );
 }
 
@@ -91,5 +104,22 @@ void sub_body_part_type::finalize_all()
 
 void sub_body_part_type::finalize()
 {
+    // populate combined_similar_bodyparts
+    if( similar_bodypart.has_value() ) {
+        // `head` is similar to `head_dragonfly`
+        combined_similar_sub_bodyparts[similar_bodypart.value()].emplace_back( id );
+        // `head_dragonfly` is similar to `head`
+        combined_similar_sub_bodyparts[id].emplace_back( similar_bodypart.value() );
+    }
+}
 
+std::vector<sub_bodypart_str_id> sub_body_part_type::get_all_combined_similar_sub_bodyparts() const
+{
+    const auto found = combined_similar_sub_bodyparts.find( id );
+
+    if( found != combined_similar_sub_bodyparts.end() ) {
+        return found->second;
+    }
+
+    return std::vector<sub_bodypart_str_id>();
 }

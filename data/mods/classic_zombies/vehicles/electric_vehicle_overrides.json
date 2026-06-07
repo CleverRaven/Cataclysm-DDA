@@ -1,0 +1,32 @@
+[
+  {
+    "id": "autotractor",
+    "type": "vehicle",
+    "name": "Primitive Tractor",
+    "blueprint": [
+      [ " O  O " ],
+      [ "&&#==&" ],
+      [ " O  O " ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame#vertical", "seat", "controls" ] },
+      { "x": 1, "y": 0, "parts": [ "frame#vertical", "halfboard#vertical" ] },
+      { "x": 2, "y": 0, "parts": [ "frame#horizontal_front", "halfboard#vertical" ] },
+      { "x": -1, "y": 0, "parts": [ "plow" ] },
+      { "x": 2, "y": -1, "parts": [ "frame#vertical_T_left", "wheel_mount_medium_steerable" ] },
+      { "x": 2, "y": 1, "parts": [ "frame#vertical_T_right", "wheel_mount_medium_steerable" ] },
+      { "x": -1, "y": -1, "parts": [ "frame#vertical_T_left", "wheel_mount_medium" ] },
+      { "x": -1, "y": 1, "parts": [ "frame#vertical_T_right", "wheel_mount_medium" ] },
+      { "x": 0, "y": 0, "parts": [ "dashboard" ] },
+      { "x": 1, "y": 0, "parts": [ "engine_steam_medium", "alternator_truck", "battery_car" ] },
+      { "x": 2, "y": -1, "parts": [ "wheel_wide_or" ] },
+      { "x": 2, "y": 0, "parts": [ { "part": "fuel_bunker", "fuel": "coal_lump" } ] },
+      { "x": 2, "y": 1, "parts": [ "wheel_wide_or" ] },
+      { "x": 3, "y": 0, "parts": [ "reaper" ] },
+      { "x": -1, "y": -1, "parts": [ "wheel_wide_or" ] },
+      { "x": -1, "y": 1, "parts": [ "wheel_wide_or" ] },
+      { "x": -2, "y": 0, "parts": [ "seed_drill" ] }
+    ],
+    "items": [  ]
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "any_crepe",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ "crepe_plain", "crepe" ]
+  },
+  {
+    "id": "crepe_filling_ingredients",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "sugar_various_full" },
+      { "group": "butter_wrapper_1_32" },
+      { "group": "chocolate_wrapper_1_3" },
+      { "group": "jam_fruit_jar_sealed" },
+      { "group": "butcher_meat" },
+      { "group": "cheese_hard_wrapper_8" },
+      { "group": "eggs_in_carton_full" },
+      { "group": "onion_bag_plastic_1" }
+    ]
+  },
+  {
+    "id": "crepe_ingredients",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "flour_bulk" },
+      { "group": "eggs_in_carton_full" },
+      { "group": "salt_various_full" },
+      { "group": "milk_in_container_full" }
+    ]
+  }
+]

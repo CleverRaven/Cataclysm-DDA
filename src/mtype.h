@@ -31,13 +31,8 @@ class monster;
 enum class creature_size : int;
 enum class phase_id : int;
 
-namespace catacurses
-{
-class window;
-}  // namespace catacurses
 struct const_dialogue;
 struct dealt_projectile_attack;
-struct point;
 template <typename E> struct enum_traits;
 
 using mon_action_death  = void ( * )( monster & );
@@ -92,6 +87,7 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_ALWAYS_SEES_YOU,
        mon_flag_ALWAYS_VISIBLE,
        mon_flag_ANIMAL,
+       mon_flag_APPEARS_NEUTRAL,
        mon_flag_AQUATIC,
        mon_flag_ARTHROPOD_BLOOD,
        mon_flag_ATTACKMON,
@@ -107,6 +103,7 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_CAN_DIG,
        mon_flag_CAN_OPEN_DOORS,
        mon_flag_CLIMBS,
+       mon_flag_CLUMSY_ATTACKS,
        mon_flag_COMBAT_MOUNT,
        mon_flag_CONSOLE_DESPAWN,
        mon_flag_CONVERSATION,
@@ -149,10 +146,12 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_HUMAN,
        mon_flag_ID_CARD_DESPAWN,
        mon_flag_IMMOBILE,
+       mon_flag_INFRARED_VISION,
        mon_flag_INSECTICIDEPROOF,
        mon_flag_INTERIOR_AMMO,
        mon_flag_KEENNOSE,
        mon_flag_KEEP_DISTANCE,
+       mon_flag_LOCKS_ON,
        mon_flag_LOUDMOVES,
        mon_flag_MECH_DEFENSIVE,
        mon_flag_MECH_RECON_VISION,
@@ -168,6 +167,9 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_NO_BREED,
        mon_flag_NO_FUNG_DMG,
        mon_flag_NO_NECRO,
+       mon_flag_ONE_DIMENSIONAL_X,
+       mon_flag_ONE_DIMENSIONAL_Y,
+       mon_flag_ONE_DIMENSIONAL_Z,
        mon_flag_PACIFIST,
        mon_flag_PARALYZEVENOM,
        mon_flag_PATH_AVOID_DANGER,
@@ -179,6 +181,7 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_PET_MOUNTABLE,
        mon_flag_PET_WONT_FOLLOW,
        mon_flag_PHOTOPHOBIC,
+       mon_flag_PLANT_BLOOD,
        mon_flag_PLASTIC,
        mon_flag_POISON,
        mon_flag_PRIORITIZE_TARGETS,
@@ -208,6 +211,7 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_SWIMS,
        mon_flag_TEEP_IMMUNE,
        mon_flag_TRUESIGHT,
+       mon_flag_UNBREAKABLE_MORALE,
        mon_flag_VAMP_VIRUS,
        mon_flag_VENOM,
        mon_flag_WARM,
@@ -458,14 +462,20 @@ struct mtype {
 
     private:
         ::weakpoints weakpoints_deferred_inline;
+        // How dangerous is this thing?
+        int difficulty = 0;
+        // Manually-defined adjustment in JSON. *Not* additive, use the getter functions.
+        int difficulty_adjustment = 0;
     public:
         int mat_portion_total = 0;
         units::volume volume;
         creature_size size;
         phase_id phase;
-        int difficulty = 0;     /** many uses; 30 min + (diff-3)*30 min = earliest appearance */
-        // difficulty from special attacks instead of from melee attacks, defenses, HP, etc.
-        int difficulty_base = 0;
+
+        // Return the total difficulty as used to determine monster coloring etc
+        int get_total_difficulty() const;
+        // You should probably not be using this!! This was already factored into the difficulty calculation!
+        int get_difficulty_adjustment() const;
 
         int hp = 0;
         int speed = 0;          /** e.g. human = 100 */
@@ -473,7 +483,6 @@ struct mtype {
 
         int agro = 0;           /** chance will attack [-100,100] */
         int morale = 0;         /** initial morale level at spawn */
-        int stomach_size = 0;         /** how many times this monster will eat */
 
         // how close the monster is willing to approach its target while under the MATT_FOLLOW attitude
         int tracking_distance = 8;
@@ -519,7 +528,7 @@ struct mtype {
 
         unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
         // Monster's ability to destroy terrain and vehicles
-        int bash_skill;
+        std::map<damage_type_id, int> bash_skill;
 
         // Monster upgrade variables
         int half_life;
@@ -602,7 +611,8 @@ struct mtype {
         void set_strategy();
         void add_goal( const std::string &goal_id );
         const behavior::node_t *get_goals() const;
-        void faction_display( catacurses::window &w, const point &top_left, int width ) const;
+        std::string get_difficulty_description() const;
+        std::string get_size_name() const;
 
         // Historically located in monstergenerator.cpp
         void load( const JsonObject &jo, std::string_view src );

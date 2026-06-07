@@ -506,6 +506,20 @@
   },
   {
     "type": "terrain",
+    "id": "t_ship_floor_heated_low_light",
+    "name": "starship corridor",
+    "description": "Large metal plates with access panels to the conduits hiding beneath.",
+    "looks_like": "t_metal_floor",
+    "light_emitted": 1,
+    "symbol": ".",
+    "color": "light_cyan",
+    "move_cost": 2,
+    "roof": "t_metal_roof",
+    "flags": [ "TRANSPARENT", "INDOORS", "SUPPORTS_ROOF", "FLAT", "ROAD" ],
+    "emissions": [ "afs_emit_AC" ]
+  },
+  {
+    "type": "terrain",
     "id": "t_ship_bay_heated",
     "name": "starship loading bay",
     "description": "A great slab of carbide, printed as a single piece.  It could withstand centuries of abuse, and indeed it has done so.",
@@ -563,7 +577,7 @@
         { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
-        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 1 ] },
         { "item": "afs_energy_storage_2", "count": [ 1, 6 ] },
         { "item": "afs_energy_storage_4", "count": [ 0, 1 ] },
         { "item": "afs_material_1", "count": [ 12, 18 ] }
@@ -606,7 +620,7 @@
         { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
-        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 1 ] },
         { "item": "afs_energy_storage_2", "count": [ 1, 6 ] },
         { "item": "afs_energy_storage_4", "count": [ 0, 1 ] },
         { "item": "afs_material_1", "count": [ 12, 18 ] }
@@ -643,7 +657,7 @@
       "items": [
         { "item": "afs_circuitry_1", "count": [ 1, 7 ] },
         { "item": "afs_circuitry_2", "count": [ 0, 2 ] },
-        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 1 ] },
         { "item": "afs_material_1", "count": [ 8, 12 ] }
       ]
     }
@@ -670,7 +684,7 @@
         { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
-        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 1 ] },
         { "item": "afs_energy_storage_2", "count": [ 1, 6 ] },
         { "item": "afs_energy_storage_4", "count": [ 0, 1 ] },
         { "item": "afs_material_1", "count": [ 12, 18 ] }
@@ -700,7 +714,7 @@
         { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
         { "item": "ai_module", "count": [ 0, 1 ] },
-        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 1 ] },
         { "item": "afs_energy_storage_2", "count": [ 1, 6 ] },
         { "item": "afs_energy_storage_4", "count": [ 0, 1 ] },
         { "item": "afs_material_1", "count": [ 12, 18 ] }
@@ -730,7 +744,7 @@
         { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ] },
         { "item": "ai_module", "count": [ 0, 1 ] },
-        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 1 ] },
         { "item": "afs_energy_storage_2", "count": [ 1, 6 ] },
         { "item": "afs_energy_storage_4", "count": [ 0, 1 ] },
         { "item": "afs_material_1", "count": [ 12, 18 ] }

@@ -13,7 +13,8 @@
       [ "journeyman_enchanting", 20 ],
       [ "arcane_archer_companion", 15 ],
       [ "cooking_poison", 15 ],
-      [ "metal_legends", 5 ]
+      [ "metal_legends", 5 ],
+      [ "alchemy_mana_processing", 10 ]
     ]
   },
   {
@@ -25,7 +26,8 @@
       [ "alchemy_illegal", 30 ],
       [ "alchemy_master", 30 ],
       [ "weapon_enchanting_guide", 30 ],
-      [ "mag_druid_items_master", 30 ]
+      [ "mag_druid_items_master", 30 ],
+      [ "harnessing_hellfire", 30 ]
     ]
   }
 ]

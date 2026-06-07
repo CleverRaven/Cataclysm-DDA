@@ -17,20 +17,12 @@
     "ammo": [ "NULL" ],
     "dispersion": 150,
     "min_cycle_recoil": 1350,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "loading port", 1 ],
-      [ "mechanism", 2 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 1 ],
-      [ "stock", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 1 ], [ "stock", 1 ] ],
     "flags": [ "NO_TURRET" ]
   },
   {
     "id": "modular_ar_pistol",
-    "copy-from": "pistol_base",
+    "copy-from": "gun_base_rifle_semi",
     "//": "Based on https://www.aeroprecisionusa.com/m4e1-carbine-complete-lower-a2-grip-no-stock-anodized",
     "looks_like": "modular_ar15",
     "type": "ITEM",
@@ -42,21 +34,11 @@
     "longest_side": "373 mm",
     "price": "245 USD",
     "price_postapoc": "35 USD",
-    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "skill": "rifle",
     "material": [ "steel", "aluminum" ],
     "ammo": [ "NULL" ],
     "dispersion": 150,
     "min_cycle_recoil": 1350,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "loading port", 1 ],
-      [ "mechanism", 2 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 1 ],
-      [ "stock", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 1 ], [ "stock", 1 ] ],
     "flags": [ "NO_TURRET" ],
     "melee_damage": { "bash": 9 }
   },
@@ -68,7 +50,7 @@
     "subtypes": [ "GUN" ],
     "copy-from": "gun_base_rifle_semi",
     "name": { "str": "M27 assault rifle" },
-    "description": "Designed to replace the M4 Carbine, the M27 assault rifle features most of the former's strengths, while being considerably more durable.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
+    "description": "Designed to replace the M4 Carbine, the M27 assault rifle features most of the former's strengths, while being considerably more durable.  It is chambered in 5.56x45mm NATO and accepts STANAG magazines.",
     "weight": "1222 g",
     "volume": "3407 ml",
     "longest_side": "388 mm",
@@ -79,19 +61,19 @@
     "variants": [
       {
         "id": "modular_h&k416a5",
-        "name": { "str": "H&K416 A5 rifle" },
-        "description": "Designed to replace the M4A1, the Heckler and Koch 416A5 features most of the former's strengths, while being considerably more durable."
+        "name": { "str": "H&K HK416 A5 rifle" },
+        "description": "Designed to replace the M4A1, the Heckler and Koch 416 A5 features most of the former's strengths, while being considerably more durable."
       },
       {
         "id": "modular_m27iar",
         "name": { "str": "M27 IAR carbine" },
-        "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
+        "description": "A HK416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
         "ascii_picture": "m27_iar"
       },
       {
         "id": "modular_m38dmr",
         "name": { "str": "M38 DMR rifle" },
-        "description": "The M38 Designated Marksman Rifle is an M27 IAR, itself derived from a H&K416, selected for accuracy, and outfitted with a variable power scope and a QDSS suppressor."
+        "description": "The M38 Designated Marksman Rifle is an M27 IAR, itself derived from a HK416, selected for accuracy, and outfitted with a variable power scope and a QDSS suppressor."
       }
     ],
     "to_hit": -1,
@@ -99,17 +81,8 @@
     "ammo": [ "NULL" ],
     "dispersion": 180,
     "min_cycle_recoil": 1350,
-    "default_mods": [ "retool_ar15_223rem" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "loading port", 1 ],
-      [ "mechanism", 2 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 1 ],
-      [ "stock", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 1 ], [ "stock", 1 ] ],
     "flags": [ "NO_TURRET" ]
   },
   {
@@ -118,7 +91,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "FN SCAR-L" },
-    "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight .223 round.",
+    "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight 5.56 NATO round.",
     "ascii_picture": "scar-L",
     "weight": "3490 g",
     "volume": "4957 ml",
@@ -232,7 +205,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "M249 machine gun" },
-    "description": "The M249 is a mountable machine gun used by the US military and SWAT teams.  Quite inaccurate and difficult to control, the M249 is designed to fire many rounds very quickly.",
+    "description": "The M249 is a mountable machine gun used by the US military and SWAT teams.  While quite inaccurate and difficult to control, the M249 is designed to fire many rounds very quickly.",
     "ascii_picture": "m249_saw",
     "weight": "7500 g",
     "volume": "10610 ml",
@@ -299,7 +272,7 @@
     "subtypes": [ "GUN" ],
     "copy-from": "gun_base_rifle_semi",
     "name": { "str": "M4 carbine" },
-    "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
+    "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.  It is chambered in 5.56x45mm NATO and accepts STANAG magazines.",
     "ascii_picture": "modular_m4a1",
     "weight": "880 g",
     "volume": "1760 ml",
@@ -327,15 +300,7 @@
     "dispersion": 180,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "loading port", 1 ],
-      [ "mechanism", 2 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 1 ],
-      [ "stock", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 1 ], [ "stock", 1 ] ],
     "flags": [ "NO_TURRET" ],
     "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow."
   },
@@ -346,7 +311,7 @@
     "subtypes": [ "GUN" ],
     "copy-from": "modular_m4_carbine",
     "name": { "str": "M16 burst rifle" },
-    "description": "The M16 is a common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It fires in three round bursts, ensuring the rifle is more accurate, but at the cost of being slower than other assault rifles.  It is chambered in 5.56x45mm rounds, and accepts STANAG magazines.",
+    "description": "The M16 is a common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It fires in three round bursts, ensuring the rifle is more accurate, but at the cost of being slower than other assault rifles.  It is chambered in 5.56x45mm NATO rounds, and accepts STANAG magazines.",
     "weight": "992 g",
     "volume": "3480 ml",
     "longest_side": "495 mm",
@@ -356,21 +321,13 @@
       {
         "id": "modular_m16a4",
         "name": { "str": "M16A4 rifle" },
-        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil."
+        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil.  This model is a M16A4, which shoots in semiautomatic and burst fire, and a Picatinny rail."
       }
     ],
     "material": [ "aluminum", "steel", "plastic" ],
     "default_mods": [ "adjustable_stock", "retool_ar15_223rem_extended" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "loading port", 1 ],
-      [ "mechanism", 2 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 1 ],
-      [ "stock", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 1 ], [ "stock", 1 ] ],
     "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow."
   },
   {
@@ -380,13 +337,13 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "M16 auto rifle" },
-    "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  Unlike its more common brother, the M16 burst rifle, this one has full-auto capabilities.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
+    "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  Unlike its more common brother, the M16 burst rifle, this one has full-auto capabilities.  It is chambered in 5.56x45mm NATO and accepts STANAG magazines.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "modular_m16a3",
         "name": { "str": "M16A3 rifle" },
-        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability."
+        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil.  This model is a relatively rare M16A3, with full auto capability."
       }
     ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
@@ -410,15 +367,7 @@
     "material": [ "steel", "wood" ],
     "dispersion": 100,
     "barrel_volume": "500 ml",
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "loading port", 1 ],
-      [ "mechanism", 2 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 1 ],
-      [ "stock", 1 ]
-    ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 1 ], [ "stock", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -434,7 +383,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "SIG civilian rifle" },
-    "description": "A civilian variant of an automatic Swiss rifle for military service.  Accepts STANAG magazines.",
+    "description": "A civilian variant of an automatic Swiss rifle for military service.  Accepts 5.56x45mm NATO STANAG magazines.",
     "weight": "4100 g",
     "volume": "3146 ml",
     "longest_side": "1020 mm",
@@ -494,7 +443,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "AUG assault rifle" },
-    "description": "An assault rifle chambered in 5.56x45mm and accepting AUG magazines",
+    "description": "An assault rifle chambered in 5.56x45mm NATO and accepting AUG magazines",
     "weight": "3500 g",
     "volume": "3520 ml",
     "longest_side": "715 mm",
@@ -539,7 +488,7 @@
     "variants": [
       {
         "id": "zpapm90",
-        "name": { "str": "ZPAP M90" },
+        "name": { "str": "Zastava ZPAP M90" },
         "description": "A Serbian-made AK pattern rifle made by Zastava in 5.56x45mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts."
       }
     ],
@@ -561,11 +510,11 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "zpap85mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "zpap85mag", "zpap85mag_10rd" ] } ]
   },
   {
     "id": "mdrx",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_rifle_semi",
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -585,13 +534,9 @@
     "//": "The length, weight, and volume numbers are assigned to, roughly, represent an MDRX without a protruding barrel. the difference will be made up for with the installable conversion kits.",
     "price": "1 kUSD 739 USD",
     "price_postapoc": "40 USD",
-    "to_hit": -1,
     "material": [ "aluminum", "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
     "ammo": [ "NULL" ],
     "dispersion": 150,
-    "durability": 8,
     "min_cycle_recoil": 1250,
     "valid_mod_locations": [
       [ "bore", 1 ],
@@ -634,8 +579,7 @@
           "survivor223mag"
         ]
       }
-    ],
-    "melee_damage": { "bash": 10 }
+    ]
   },
   {
     "id": "bren2_556",
@@ -644,7 +588,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "Bren 5.56x45mm carbine" },
-    "description": "A semi-automatic clone of the Czech Republic's standard infantry carbine, sold for civilian sport shooting and recreational use, this modular rifle makes use of the standard magazines of the AR-15 platform and a 5.56x45mm cartridge.",
+    "description": "A semi-automatic clone of the Czech Republic's standard infantry carbine, sold for civilian sport shooting and recreational use, this modular rifle makes use of the standard magazines of the AR-15 platform and a 5.56x45mm NATO cartridge.",
     "variant_type": "gun",
     "variants": [
       {
@@ -700,62 +644,19 @@
     ]
   },
   {
-    "id": "cz600",
-    "copy-from": "rifle_manual",
-    "looks_like": "modular_ar15",
-    "type": "ITEM",
-    "subtypes": [ "GUN" ],
-    "name": { "str": "bolt-action trail carbine" },
-    "description": "Compact, svelte, and lightweight, this Leen bolt-action rifle packs the same features of larger sporting weapons into a backpack-sized package.  Possessing an adjustable buttstock, a detachable magazine-based system, and a quick-swap barrel that can be exchanged to accommodate the firing of .223 Remington or 7.62x39mm Soviet ammunition, the weapon is a commendable backpacker or prepper rifle.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "cz600",
-        "name": { "str": "CZ 600 TRAIL rifle" },
-        "description": "A handy bolt-action offering from CZ, the 600 Trail is a box magazine-fed ranch rifle that utilizes an aluminum chassis to keep its overall heft to a minimum.  Possessing an extendable buttstock, extensive modularity, and a quick-swap barrel assembly switchable to accommodate the firing of either .223 or 7.62x39mm ammunition, the rifle was intended for use by backpackers, trail hikers, and preppers."
-      }
-    ],
-    "weight": "1800 g",
-    "volume": "2500 ml",
-    "longest_side": "384 mm",
-    "//": "The size calculations are taken from a CZ 600 with a half-extended buttstock, sitting at 790 mm, between the minimum and maximum of 690 and 890 mm. In addition, the length of a 16-inch barrel has been deducted and will be made up for by the installable barrel assemblies.",
-    "price": "1 kUSD 155 USD",
-    "price_postapoc": "40 USD",
-    "to_hit": -1,
-    "material": [ "aluminum", "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "NULL" ],
-    "dispersion": 150,
-    "durability": 8,
-    "built_in_mods": [ "adjustable_stock" ],
-    "valid_mod_locations": [
-      [ "bore", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail", 2 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock accessory", 2 ],
-      [ "stock", 1 ]
-    ],
-    "flags": [ "NO_TURRET", "EASY_CLEAN" ],
-    "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
-    "melee_damage": { "bash": 10 }
-  },
-  {
     "id": "rdb_223",
-    "copy-from": "rifle_semi",
+    "copy-from": "gun_base_223_semi_rifle",
     "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "5.56x45mm bullpup rifle" },
-    "description": "This is a semi-automatic bullpup rifle with a lightened body due to the use of polymers and aluminum, using standard magazines of the AR-15 platform and a 5.56x45mm cartridge.",
+    "description": "This is a semi-automatic bullpup rifle with a lightened body due to the use of polymers and aluminum, using standard magazines of the AR-15 platform and a 5.56x45mm NATO cartridge.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "rdb_223",
         "name": { "str": "Kel-Tec RDB rifle" },
-        "description": "This is a semi-automatic bullpup rifle with a lightened body due to the use of polymers and aluminum, using standard magazines from the AR-15 platform and the 5.56 NATO cartridge.  The name stands for rifle, downward-ejection, bullpup, and its design was intended to incorporate some technical solutions, such as downward case ejection and convenience for left-handers, to solve some problems with bullpup guns.  However, the good idea's execution is not as perfect as the manufacturer (and user) would like.  No good idea from Kel-Tec is immune to Kel-Tec manufacturing issues, sadly."
+        "description": "This is a semi-automatic bullpup rifle with a lightened body due to the use of polymers and aluminum, using standard magazines from the AR-15 platform and the 5.56x45mm NATO cartridge.  The name stands for rifle, downward-ejection, bullpup, and its design was intended to incorporate some technical solutions, such as downward case ejection and convenience for left-handers, to solve some problems with bullpup guns.  However, the good idea's execution is not as perfect as the manufacturer (and user) would like.  No good idea from Kel-Tec is immune to Kel-Tec manufacturing issues, sadly."
       }
     ],
     "weight": "3200 g",
@@ -765,13 +666,9 @@
     "price": "1 kUSD",
     "price_postapoc": "40 USD",
     "material": [ "steel", "aluminum", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "223" ],
     "dispersion": 180,
     "sight_dispersion": 500,
     "durability": 6,
-    "min_cycle_recoil": 1350,
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
@@ -807,8 +704,7 @@
           "survivor223mag"
         ]
       }
-    ],
-    "melee_damage": { "bash": 10 }
+    ]
   },
   {
     "id": "iwi_tavor_x95_300blk",
@@ -818,7 +714,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "IWI Tavor X95" },
-    "description": "The Tavor is an Israeli series of bullpup rifles designed and produced by Israel Weapon Industries.  This is the Tavor X95, a civilian-legal rifle lacking any full-auto capability, and sporting a 16.5\" barrel.  Chambered in 5.56/.223, this rifle feeds from STANAG magazines.",
+    "description": "The Tavor is an Israeli series of bullpup rifles designed and produced by Israel Weapon Industries.  This is the Tavor X95, a civilian-legal rifle lacking any full-auto capability, and sporting a 16.5\" barrel.  Chambered in 5.56x45mm NATO, this rifle feeds from STANAG magazines.",
     "weight": "3583 g",
     "volume": "2400 ml",
     "longest_side": "665 mm",

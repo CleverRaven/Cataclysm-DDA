@@ -14,6 +14,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
+#include "map.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
 #include "ret_val.h"
@@ -179,7 +180,7 @@ TEST_CASE( "battery_tool_mod_test", "[battery][mod]" )
 
                     Character *dummy = &get_avatar();
                     clear_avatar();
-                    actor->use( dummy, flashlight, dummy->pos_bub() );
+                    actor->use( dummy, flashlight, &get_map(), dummy->pos_bub() );
 
                     // Regression tests for #42764 / #42854
                     THEN( "mod remains installed" ) {
@@ -362,7 +363,8 @@ TEST_CASE( "installing_battery_in_tool", "[battery][tool][install]" )
             ret_val<void> result = flashlight.put_in( med_bat_cell, pocket_type::MAGAZINE_WELL );
             CHECK_FALSE( result.success() );
         } );
-        CHECK_THAT( dmsg, Catch::EndsWith( "holster does not accept this item type or form factor" ) );
+        CHECK_THAT( dmsg,
+                    Catch::Matchers::EndsWith( "holster does not accept this item type or form factor" ) );
         CHECK_FALSE( flashlight.magazine_current() );
     }
 }

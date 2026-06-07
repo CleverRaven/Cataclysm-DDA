@@ -27,6 +27,8 @@
     "copy-from": "mon_dog_zombie_rot",
     "description": "A huge swollen zombie dog, smeared black with slime.  Its teeth have grown longer, and its broad back ripples with muscles and oozing wounds.",
     "diff": 2,
+    "volume": "46 L",
+    "weight": "60 kg",
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5, "attack_cost": 1.5 },
     "relative": {
@@ -174,6 +176,7 @@
     "description": "This undead boar appears to have been a truly massive specimen in life.  Stretching eight to nine feet in length, the most arresting feature of this animal is that the enamel of its tusks has spread across its face, leaving a skull-like appearance with deep-set eye holes.",
     "diff": 2,
     "color": "red",
+    "volume": "281 L",
     "weight": "281 kg",
     "proportional": { "hp": 1.5, "speed": 1.5, "attack_cost": 1.5 },
     "relative": {
@@ -432,6 +435,8 @@
     "copy-from": "mon_zoose",
     "description": "This once-great moose's eyes ooze with dark, oily fluid, and its flesh is torn and scarred.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
+    "volume": "465 L",
+    "weight": "465 kg",
     "hp": 315,
     "speed": 200,
     "attack_cost": 200,
@@ -444,7 +449,11 @@
     "vision_night": 6,
     "//grab": "Assuming it's grabbing with its mouth a bit grabbier than a zed should be about right",
     "grab_strength": 30,
-    "special_attacks": [ { "id": "smash", "throw_strength": 108, "cooldown": 30 }, { "id": "grab", "cooldown": 7 } ],
+    "special_attacks": [
+      { "type": "bite", "cooldown": 5, "condition": { "not": { "u_has_flag": "GRAB_FILTER" } } },
+      { "id": "smash", "throw_strength": 108, "cooldown": 30 },
+      { "id": "grab", "cooldown": 7 }
+    ],
     "upgrades": false,
     "flags": [
       "SEES",
@@ -483,7 +492,12 @@
     "attack_effs": [ { "id": "paralyzepoison", "duration": 33 } ],
     "//grab": "Let's say the thorns make it half again as grabby",
     "grab_strength": 45,
-    "special_attacks": [ { "id": "scratch" }, { "id": "grab", "cooldown": 7 }, [ "PARA_STING", 30 ] ],
+    "special_attacks": [
+      { "type": "bite", "cooldown": 5, "condition": { "not": { "u_has_flag": "GRAB_FILTER" } } },
+      { "id": "scratch" },
+      { "id": "grab", "cooldown": 7 },
+      [ "PARA_STING", 30 ]
+    ],
     "upgrades": false,
     "flags": [
       "SEES",

@@ -58,7 +58,7 @@ Several key developers (including Kevin) already have horror stories about debug
 
 Multithreading massively increases the overhead of maintaining the game. That's an ongoing overhead that just never goes away, it worms its way into every part of the system. For example, if anything but thread #1 wants to touch a data structure, that data structure must now be threading-safe and/or protected by locks
 
-Also, we use mingw for windows builds, it turns out mingw does not have working POSIX locking primitives. (If you do multithreaded on mingw, you abandon linux portability and use windows locking primitives). This is another huge maintenance burden.
+~~Also, we use mingw for windows builds, it turns out mingw does not have working POSIX locking primitives. (If you do multithreaded on mingw, you abandon linux portability and use windows locking primitives). This is another huge maintenance burden.~~
 
 Problem #3 is that multithreading doesn't get you performance improvements as fast as almost anyone thinks it will. To break that down, threading is relatively good for throughput, but it's hard to use it to improve latency.  As it turns out, user-facing programs almost never care about throughput, they only care about latency, so that kind of sucks.  So for example, one of the expensive things we do is calculating FoV, it turns out it's what's called embarrassingly paralleizable, if a little tricky (i.e. you can break it up into 8 almost entirely independent jobs).  The catch is, that task is actually dominated by cache misses instead of computation, and multithreading makes that worse, because you have to ship the input and output data around to the various CPUs. So splitting that task up is relatively easy, but I'm not at all certain that doing so would make it any faster.
 
@@ -149,6 +149,24 @@ If you encounter a bug while savescumming, you need to reproduce it without the 
 Savescumming is not a normal part of the game, and there is no intention of ever adding features that facilitate it, like auto-backup of saves, tracking multiple saves, or the like.
 
 ### Player abilities
+
+#### Stat training after game start: Yes, but quite limited
+
+If we allowed every stat to be increased during gameplay by doing [arbitrary timed activity] then a large portion of players would be convinced that they MUST do that on every character. Instead of just... starting with a reasonable amount of stat. And then they optimize fun out of the game, for themselves.
+
+We really do not want to encourage people picking lower starting stats with the idea that they will endlessly grind all of their characters up to some arbitrary cap. There is nothing exciting or interesting about pressing the exercise button and watching the bar spin.
+
+The absolute \#1 concern here is making sure that any implementation is not some hellish grind that looks even remotely attractive. Currently the game assumes you are starting in near-peak physical condition. It specifically and purposefully avoids this meaningless grind by simply letting you have the stats in the first place.
+
+Strength: Maybe +1 above starting stat. **Would decay and require upkeep.** The upkeep must be automated in some way. Not everyone can become a 14-strength olympic weightlifter no matter how much time or effort they put into the task.
+
+Dexterity: Again, probably +1 above starting stat with decay.
+
+Perception: No real way to train this
+
+Intelligence: Absolutely no way to train this.
+
+Note that decay would be able to take the character below their starting stat as well. Hence, there greatly needs to be some form of automation so it does not require significant player input.
 
 #### Dying and coming back as an NPC from your faction: Yes, with caveats
 
@@ -392,7 +410,7 @@ Points are a bad tool for balance. How many points is a bad back trait worth? 3?
 
 Luckily for us, a smart person coded a smarter solution to this, named Survivor mode, which is, put simply, "let's put the character against multiple in-game simulations and see how it would behave". Instead of assuming "dense bones = two points", we apply dense bones mutation to the test character and calculate how many blows it can take against a zombie. Is it more than average? It will help you in your game, so be "strong". Such evaluation will ensure the system will always work without much maintenance burden.
 
-Is it a perfect system? No, even now, when this text is written, it still has a lot of rough edges. Is it a good system? Yes, very. Has the pool system been removed completely? No, you can still turn it on when you create the world, and it won't be removed unless it stands in the way of another changes. Is it possible to make a good system out of a pool system? Probably, but no one did.
+Is it a perfect system? No, even now, when this text is written, it still has a lot of rough edges. Is it a good system? Yes, very. Is it possible to make a good system out of a pool system? Probably, but no one did.
 
 Nota Bene, having a version of survivor mode with restrictions, a-la "you can't get traits that would make your defense higher than X" is desirable and would cover the niche of players who feel the open pool is too much for them, and want some sort of restriction.
 

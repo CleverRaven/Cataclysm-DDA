@@ -330,14 +330,9 @@ to ensure that the strings are correctly extracted for translation, and run the
 unit test to fix text styling issues reported by the `translation` class.
 
 If a string doesn't need to be translated, you can write `"NO_I18N"` in the
-`"//~"` comment, and this string will not be available to translators (see [here](/doc/JSON/JSON_INFO.md#translatable-strings)):
-
-```jsonc
-"name": {
-    "//~": "NO_I18N",
-    "str": "Fake Monster-Only Spell"
-}
-```
+`"//~"` comment, and this string will not be available to translators.
+Alternatively, you can specify `"//I18N": false` at the top level.
+(see [here](/doc/JSON/JSON_INFO.md#translatable-strings))
 
 #### C++
 
@@ -420,14 +415,9 @@ You can also change the language in game options if both are installed.
 
 ### Language stats
 
-We also store some statistics for how complete each translation is, in
-`src/lang_stats.inc`.  This can be used for example to show end users some
-information about the translations.
+You can see statistics for how complete each translation is in [Transifex translations project][1] or in-game language selection menu.
 
-These stats are also normally updated by the GitHub workflow, but can be
-updated by hand via `lang/update_stats.sh`.
-
-[1]: https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/
+[1]: https://explore.transifex.com/cataclysm-dda-translators/cataclysm-dda/
 [2]: https://discourse.cataclysmdda.org/c/game-talk/translations-team-discussion
 [3]: https://docs.transifex.com/
 [4]: ../lang/notes

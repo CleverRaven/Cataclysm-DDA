@@ -10,7 +10,7 @@
     "move_cost_mod": -1,
     "coverage": 55,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF", "NO_SELF_CONNECT" ],
+    "flags": [ "FLAMMABLE_ASH", "USABLE_FIRE", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF", "NO_SELF_CONNECT" ],
     "connect_groups": "COUNTER",
     "connects_to": "COUNTER",
     "deconstruct": {
@@ -19,8 +19,20 @@
         { "item": "rigid_plastic_sheet", "count": 1 },
         { "item": "polycarbonate_sheet", "count": [ 2, 8 ] }
       ]
-    },
-    "crafting_pseudo_item": "fire"
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_your_ship_panel",
+    "looks_like": "f_security_panel",
+    "name": "control panel",
+    "symbol": "e",
+    "description": "A slim wall mounted metal panel with several buttons, sliders, and displays.  Can be used to control secondary systems of the ship.",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_SHIP_LIGHTS" ] }
   },
   {
     "type": "furniture",

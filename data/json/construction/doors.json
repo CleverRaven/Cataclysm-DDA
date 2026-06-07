@@ -246,7 +246,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ], [ "mechanics", 4 ] ],
     "time": "120 m",
-    "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
+    "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "welding_kit", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
     "qualities": [ [ { "id": "SAW_M", "level": 2 } ], [ { "id": "GLARE", "level": 1 } ] ],
     "components": [
       [ [ "steel_lump_any", 8, "LIST" ], [ "steel_chunk_any", 24, "LIST" ], [ "scrap", 72 ] ],

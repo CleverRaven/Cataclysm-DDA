@@ -20,6 +20,7 @@
 #include "craft_command.h"
 #include "game_constants.h"
 #include "inventory.h"
+#include "item_components.h"
 #include "item_location.h"
 #include "map.h"
 #include "mapgendata.h"
@@ -62,11 +63,6 @@ struct expansion_data {
 
 using npc_ptr = shared_ptr_fast<npc>;
 using comp_list = std::vector<npc_ptr>;
-
-namespace catacurses
-{
-class window;
-} // namespace catacurses
 
 namespace base_camps
 {
@@ -198,7 +194,6 @@ class basecamp
         std::vector<std::vector<ui_mission_id>> hidden_missions;
         std::vector<tripoint_abs_omt> fortifications;
         std::vector<expansion_salt_water_pipe *> salt_water_pipes;
-        void faction_display( const catacurses::window &fac_w, int width ) const;
 
         //change name of camp
         void set_name( const std::string &new_name );
@@ -531,6 +526,9 @@ class basecamp_action_components
         // Returns true iff all necessary components were successfully chosen
         bool choose_components();
         void consume_components();
+        item_components &consumed_components() {
+            return consumed_components_;
+        }
     private:
         const recipe &making_;
         const mapgen_arguments &args_;
@@ -538,6 +536,7 @@ class basecamp_action_components
         basecamp &base_;
         std::vector<comp_selection<item_comp>> item_selections_;
         std::vector<comp_selection<tool_comp>> tool_selections_;
+        item_components consumed_components_;
 };
 
 #endif // CATA_SRC_BASECAMP_H

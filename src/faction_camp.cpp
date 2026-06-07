@@ -18,6 +18,7 @@
 #include <unordered_set>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "build_reqs.h"
@@ -49,12 +50,12 @@
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
+#include "item_components.h"
 #include "item_group.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "kill_tracker.h"
-#include "line.h"
 #include "list.h"
 #include "localized_comparator.h"
 #include "map.h"
@@ -102,8 +103,6 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "weather.h"
-
-static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 
 static const addiction_id addiction_alcohol( "alcohol" );
 
@@ -246,11 +245,14 @@ static const std::string cook_recipe_group_string = "COOK";
 static const std::string farm_recipe_group_string = "FARM";
 static const std::string smith_recipe_group_string = "SMITH";
 
+namespace
+{
 struct mass_volume {
     units::mass wgt = 0_gram;
     units::volume vol = 0_ml;
     int count = 0;
 };
+} // namespace
 
 namespace base_camps
 {
@@ -320,14 +322,6 @@ static tripoint_abs_omt om_target_tile(
     const std::unordered_set<oter_type_str_id> &possible_om_types = {}, bool must_see = true,
     const tripoint_abs_omt &source = tripoint_abs_omt::invalid, bool bounce = false,
     const std::optional<std::string> &message = std::nullopt );
-static void om_range_mark( const tripoint_abs_omt &origin, int range, bool add_notes = true,
-                           const std::string &message = "Y;X: MAX RANGE" );
-static void om_line_mark(
-    const tripoint_abs_omt &origin, const tripoint_abs_omt &dest, bool add_notes = true,
-    const std::string &message = "R;X: PATH" );
-static void om_path_mark(
-    const std::vector<tripoint_abs_omt> &note_pts, bool add_notes = true,
-    const std::string &message = "R;X: PATH" );
 /**
  * Select waypoints and plot a path for a companion to travel
  * @param start start point
@@ -801,7 +795,7 @@ void basecamp::add_available_recipes( mission_data &mission_key, mission_kind ki
     const mission_id miss_id = {kind, "DUMMY_RECIPE_REPLACED_IN_CAMP", {}, dir};
     std::string miss_desc = string_format( _( "Notes:\n"
                                            "This will open the regular crafting screen where you may select a recipe and batch size.\n\n"
-                                           "You will be prompted to select a NPC to perform the craft after selecting the recipe.\n\n"
+                                           "You will be prompted to select an NPC to perform the craft after selecting the recipe.\n\n"
                                            "Kcal cost will be shown last, you will be prompted to accept or back out." ) );
     mission_key.add_start( miss_id, _( "Crafting" ), miss_desc, true );
 }
@@ -1216,10 +1210,12 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                   &plots]() {
                 return farm_description( dir, plots, farm_ops::plant );
             } ) );
+            const tripoint_abs_omt target_omt = omt_pos + dir;
+            const tripoint_bub_ms target_pnt = get_map().get_bub( project_to<coords::ms>( target_omt ) );
             // FIXME/HACK: Always checks buckwheat seeds!
             mission_key.add_start( miss_id,
                                    name_display_of( miss_id ), entry,
-                                   plots > 0 && warm_enough_to_plant( omt_pos + dir, itype_seed_buckwheat ) );
+                                   plots > 0 && warm_enough_to_plant( target_pnt, itype_seed_buckwheat ).success() );
         }
         if( !npc_list.empty() ) {
             entry = action_of( miss_id.id );
@@ -1317,7 +1313,7 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
         {
             const mission_id miss_id = { Camp_Distribute_Food, "", {}, base_dir };
             entry = string_format( _( "Notes:\n"
-                                      "Distribute food to your follower and fill your larders.  "
+                                      "Distribute food to your followers and fill your larders.  "
                                       "Place the food you wish to distribute in the camp food zone.  "
                                       "You must have a camp food zone, and a camp storage zone, "
                                       "or you will be prompted to create them using the zone manager.\n"
@@ -2317,7 +2313,7 @@ void basecamp::start_menial_labor()
     }
     validate_sort_points();
 
-    comp->assign_activity( ACT_MOVE_LOOT );
+    comp->assign_activity( zone_sort_activity_actor() );
     popup( _( "%s goes off to clean toilets and sort loot." ), comp->disp_name() );
 }
 
@@ -2678,7 +2674,9 @@ void basecamp::start_fortifications( const mission_id &miss_id, float exertion_l
             travel_time += companion_travel_time_calc( path, 2 );
             dist += path.dist * 2;
         }
-        build_time += making.batch_duration( get_player_character() ); // TODO calculate for NPC, not player
+        build_time += making.batch_duration( get_player_character(),
+                                             crafting_cost_context::for_recipe( get_player_character(),
+                                                     making ) ); // TODO calculate for NPC, not player
     }
     // trench requires just one triangular trip
     if( miss_id.parameters != faction_wall_level_n_1_string ) {
@@ -3349,7 +3347,7 @@ void basecamp::start_crafting( const mission_id &miss_id )
     }
 
     uilist choose_crafter;
-    choose_crafter.title = _( "Choose a NPC to craft" );
+    choose_crafter.title = _( "Choose a companion to craft" );
     int i = 0;
     for( const npc_ptr &guy : assigned_npcs ) {
         if( guy.get() ) {
@@ -3388,7 +3386,7 @@ void basecamp::start_crafting( const mission_id &miss_id )
     }
 
     time_duration work_days = base_camps::to_workdays( making->batch_duration( *guy_to_send,
-                              num_to_make ) );
+                              crafting_cost_context::for_recipe( *guy_to_send, *making ), num_to_make ) );
 
     int kcal_consumed = time_to_food( work_days, making->exertion_level() );
     int kcal_have = fac()->food_supply().kcal();
@@ -3404,6 +3402,9 @@ void basecamp::start_crafting( const mission_id &miss_id )
         return;
     }
 
+    // Move this to applying when they return?
+    making->apply_all_morale_mods( *guy_to_send );
+
     // Now that we know the actual thing we're crafting we will properly form our mission_id
     mission_id actual_id = {miss_id.id, making->ident().str(), miss_id.mapgen_args, miss_id.dir };
     npc_ptr comp = start_mission( actual_id, work_days, true,
@@ -3411,7 +3412,8 @@ void basecamp::start_crafting( const mission_id &miss_id )
                                   0_hours, guy_to_send );
     if( comp != nullptr ) {
         components.consume_components();
-        for( const item &results : making->create_results( num_to_make ) ) {
+        item_components used = components.consumed_components();
+        for( const item &results : making->create_results( num_to_make, &used ) ) {
             comp->companion_mission_inv.add_item( results );
         }
         for( const item &byproducts : making->create_byproducts( num_to_make ) ) {
@@ -3900,7 +3902,7 @@ bool basecamp::gathering_return( const mission_id &miss_id, time_duration min_ti
     int favor = 2;
     int threat = 10;
     std::string skill_group = "gathering";
-    float skill = 2 * comp->get_skill_level( skill_survival ) + comp->per_cur;
+    float skill = 2 * comp->get_skill_level( skill_survival ) + comp->get_per();
     int checks_per_cycle = 6;
     if( miss_id.id == Camp_Foraging ) {
         task_description = _( "foraging for edible plants" );
@@ -3911,14 +3913,14 @@ bool basecamp::gathering_return( const mission_id &miss_id, time_duration min_ti
         favor = 1;
         danger = 15;
         skill_group = "trapping";
-        skill = 2 * comp->get_skill_level( skill_traps ) + comp->per_cur;
+        skill = 2 * comp->get_skill_level( skill_traps ) + comp->get_per();
         checks_per_cycle = 4;
     } else if( miss_id.id == Camp_Hunting ) {
         task_description = _( "hunting for meat" );
         danger = 10;
         favor = 0;
         skill_group = "hunting";
-        skill = 1.5 * comp->get_skill_level( skill_gun ) + comp->per_cur / 2.0;
+        skill = 1.5 * comp->get_skill_level( skill_gun ) + comp->get_per() / 2.0;
         threat = 12;
         checks_per_cycle = 2;
     }
@@ -4240,10 +4242,10 @@ void basecamp::recruit_return( const mission_id &miss_id, int score )
     while( true ) {
         std::string description = _( "NPC Overview:\n\n" );
         description += string_format( _( "Name:  %s\n\n" ), right_justify( recruit->get_name(), 20 ) );
-        description += string_format( _( "Strength:        %10d\n" ), recruit->str_max );
-        description += string_format( _( "Dexterity:       %10d\n" ), recruit->dex_max );
-        description += string_format( _( "Intelligence:    %10d\n" ), recruit->int_max );
-        description += string_format( _( "Perception:      %10d\n\n" ), recruit->per_max );
+        description += string_format( _( "Strength:        %10d\n" ), recruit->get_str_base() );
+        description += string_format( _( "Dexterity:       %10d\n" ), recruit->get_dex_base() );
+        description += string_format( _( "Intelligence:    %10d\n" ), recruit->get_int_base() );
+        description += string_format( _( "Perception:      %10d\n\n" ), recruit->get_per_base() );
         description += _( "Top 3 Skills:\n" );
 
         const auto skillslist = Skill::get_skills_sorted_by(
@@ -4632,7 +4634,9 @@ int basecamp::recipe_batch_max( const recipe &making ) const
     for( size_t batch_size = 1000; batch_size > 0; batch_size /= 10 ) {
         for( int iter = 0; iter < max_checks; iter++ ) {
             const time_duration &work_days = base_camps::to_workdays( making.batch_duration(
-                                                 get_player_character(), max_batch + batch_size ) );
+                                                 get_player_character(),
+                                                 crafting_cost_context::for_recipe( get_player_character(), making ),
+                                                 max_batch + batch_size ) );
             int food_req = time_to_food( work_days );
             bool can_make = making.deduped_requirements().can_make_with_inventory(
                                 _inv, making.get_component_filter(), max_batch + batch_size );
@@ -4881,8 +4885,8 @@ tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range,
     const std::unordered_set<oter_type_str_id> bounce_locations = { oter_type_faction_hide_site_0 };
 
     tripoint_abs_omt where;
-    om_range_mark( omt_pos, range );
-    om_range_mark( omt_pos, min_range, true, "Y;X: MIN RANGE" );
+    ui::omap::range_mark( omt_pos, range );
+    ui::omap::range_mark( omt_pos, min_range, true, "Y;X: MIN RANGE" );
     const std::string &real_message = string_format(
                                           message ? *message : _( "Select a location from %d to %d tiles away." ), min_range, range );
     if( source.is_invalid() ) {
@@ -4890,8 +4894,8 @@ tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range,
     } else {
         where = ui::omap::choose_point( real_message, source );
     }
-    om_range_mark( omt_pos, range, false );
-    om_range_mark( omt_pos, min_range, false, "Y;X: MIN RANGE" );
+    ui::omap::range_mark( omt_pos, range, false );
+    ui::omap::range_mark( omt_pos, min_range, false, "Y;X: MIN RANGE" );
 
     if( where.is_invalid() ) {
         return where;
@@ -4916,10 +4920,10 @@ tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range,
         for( const oter_type_str_id &pos_om : bounce_locations ) {
             if( bounce && pos_om == omt_ref && range > 5 ) {
                 if( query_yn( _( "Do you want to bounce off this location to extend range?" ) ) ) {
-                    om_line_mark( omt_pos, omt_tgt );
+                    ui::omap::line_mark( omt_pos, omt_tgt );
                     tripoint_abs_omt dest =
                         om_target_tile( omt_tgt, 2, range * .75, possible_om_types, true, omt_tgt, true );
-                    om_line_mark( omt_pos, omt_tgt, false );
+                    ui::omap::line_mark( omt_pos, omt_tgt, false );
                     return dest;
                 }
             }
@@ -4932,85 +4936,6 @@ tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range,
 
     return om_target_tile( omt_pos, min_range, range, possible_om_types, must_see, omt_pos );
 }
-
-void om_range_mark( const tripoint_abs_omt &origin, int range, bool add_notes,
-                    const std::string &message )
-{
-    std::vector<tripoint_abs_omt> note_pts;
-
-    if( trigdist ) {
-        note_pts.reserve( range * 7 ); // actual multiplier varies from 5.33 to 8, mostly 6 to 7
-        for( const tripoint_abs_omt &pos : points_on_radius_circ( origin, range ) ) {
-            note_pts.emplace_back( pos );
-        }
-    } else {
-        note_pts.reserve( range * 8 );
-        //North Limit
-        for( int x = origin.x() - range; x < origin.x() + range + 1; x++ ) {
-            note_pts.emplace_back( x, origin.y() - range, origin.z() );
-        }
-        //South
-        for( int x = origin.x() - range; x < origin.x() + range + 1; x++ ) {
-            note_pts.emplace_back( x, origin.y() + range, origin.z() );
-        }
-        //West
-        for( int y = origin.y() - range; y < origin.y() + range + 1; y++ ) {
-            note_pts.emplace_back( origin.x() - range, y, origin.z() );
-        }
-        //East
-        for( int y = origin.y() - range; y < origin.y() + range + 1; y++ ) {
-            note_pts.emplace_back( origin.x() + range, y, origin.z() );
-        }
-    }
-
-    for( tripoint_abs_omt &pt : note_pts ) {
-        if( add_notes ) {
-            if( !overmap_buffer.has_note( pt ) ) {
-                overmap_buffer.add_note( pt, message );
-            }
-        } else {
-            if( overmap_buffer.has_note( pt ) && overmap_buffer.note( pt ) == message ) {
-                overmap_buffer.delete_note( pt );
-            }
-        }
-    }
-}
-
-void om_line_mark( const tripoint_abs_omt &origin, const tripoint_abs_omt &dest, bool add_notes,
-                   const std::string &message )
-{
-    std::vector<tripoint_abs_omt> note_pts = line_to( origin, dest );
-
-    for( const tripoint_abs_omt &pt : note_pts ) {
-        if( add_notes ) {
-            if( !overmap_buffer.has_note( pt ) ) {
-                overmap_buffer.add_note( pt, message );
-            }
-        } else {
-            if( overmap_buffer.has_note( pt ) && overmap_buffer.note( pt ) == message ) {
-                overmap_buffer.delete_note( pt );
-            }
-        }
-    }
-}
-
-static void om_path_mark(
-    const std::vector<tripoint_abs_omt> &note_pts, bool add_notes,
-    const std::string &message )
-{
-    for( const tripoint_abs_omt &pt : note_pts ) {
-        if( add_notes ) {
-            if( !overmap_buffer.has_note( pt ) ) {
-                overmap_buffer.add_note( pt, message );
-            }
-        } else {
-            if( overmap_buffer.has_note( pt ) && overmap_buffer.note( pt ) == message ) {
-                overmap_buffer.delete_note( pt );
-            }
-        }
-    }
-}
-
 
 bool om_set_hide_site( npc &comp, const tripoint_abs_omt &omt_tgt,
                        const drop_locations &itms,
@@ -5087,7 +5012,7 @@ int om_carry_weight_to_trips( const units::mass &total_mass, const units::volume
 {
     units::mass max_m = comp ? comp->weight_capacity() - comp->weight_carried() : 60_kilogram;
     //Assume an additional pack will be carried in addition to normal gear
-    units::volume sack_v = item( itype_duffelbag ).get_total_capacity();
+    units::volume sack_v = item( itype_duffelbag ).get_volume_capacity();
     units::volume max_v = comp ? comp->free_space() : sack_v;
     max_v += sack_v;
     return om_carry_weight_to_trips( total_mass, total_volume, max_m, max_v );
@@ -5110,7 +5035,7 @@ pf::simple_path<tripoint_abs_omt> om_companion_path( const tripoint_abs_omt &sta
             if( scout_segments.empty() ) {
                 return {};
             }
-            om_path_mark( scout_segments.back().points, false );
+            ui::omap::path_mark( scout_segments.back().points, false );
             range += scout_segments.back().cost / 24;
             scout_segments.pop_back();
             if( scout_segments.empty() ) {
@@ -5129,10 +5054,10 @@ pf::simple_path<tripoint_abs_omt> om_companion_path( const tripoint_abs_omt &sta
             debugmsg( "Got empty travel path during mission planning." );
             continue;
         }
-        om_path_mark( note_pts.points );
+        ui::omap::path_mark( note_pts.points );
         if( note_pts.cost / 24 > range ) {
             ui::omap::choose_point( _( "This path is too far, continue to undo and try again." ), spt );
-            om_path_mark( note_pts.points, false );
+            ui::omap::path_mark( note_pts.points, false );
             continue;
         }
         scout_segments.emplace_back( note_pts );
@@ -5147,7 +5072,7 @@ pf::simple_path<tripoint_abs_omt> om_companion_path( const tripoint_abs_omt &sta
         }
     }
     for( const pf::simple_path<tripoint_abs_omt> &scout_segment : scout_segments ) {
-        om_path_mark( scout_segment.points, false );
+        ui::omap::path_mark( scout_segment.points, false );
     }
     return std::accumulate( scout_segments.begin(), scout_segments.end(),
                             pf::simple_path<tripoint_abs_omt>(), []( pf::simple_path<tripoint_abs_omt> a,
@@ -5203,10 +5128,10 @@ drop_locations basecamp::give_equipment( Character *pc, const inventory_filter_p
             return string_format( "%3d", val );
         };
         using stats = inventory_selector::stats;
-        return stats{ {
+        return inventory_selector::convert_stats_to_header_stats( stats{ {
                 display_stat( _( "Volume (L)" ), total_volume.value() / 1000, INT_MAX, to_string ),
                 display_stat( _( "Weight (kg)" ), total_mass.value() / 1000000, INT_MAX, to_string )
-            } };
+            } } );
     };
 
     inventory_multiselector inv_s( *pc, preset, msg,
@@ -5252,10 +5177,10 @@ drop_locations basecamp::get_equipment( tinymap *target_bay, const tripoint_omt_
             return string_format( "%3d", val );
         };
         using stats = inventory_selector::stats;
-        return stats{ {
+        return inventory_selector::convert_stats_to_header_stats( stats{ {
                 display_stat( _( "Volume (L)" ), total_volume.value() / 1000, INT_MAX, to_string ),
                 display_stat( _( "Weight (kg)" ), total_mass.value() / 1000000, INT_MAX, to_string )
-            } };
+            } } );
     };
 
     inventory_multiselector inv_s( *pc, preset, msg,
@@ -5294,7 +5219,7 @@ bool basecamp::validate_sort_points()
 bool basecamp::set_sort_points()
 {
     popup( _( "Please create some sorting zones.  You must create a camp food zone, and a camp storage zone." ) );
-    g->zones_manager();
+    zone_manager_ui::display_zone_manager();
     return validate_sort_points();
 }
 
@@ -5365,10 +5290,14 @@ std::string basecamp::craft_description( const recipe_id &itm )
     for( auto &elem : component_print_buffer ) {
         str_append( comp, elem, "\n" );
     }
+    const crafting_cost_context camp_ctx = crafting_cost_context::for_recipe(
+            get_player_character(), making );
     comp = string_format( _( "Skill used: %s\nDifficulty: %d\n%s\nTime: %s\nCalories per craft: %s\n" ),
                           making.skill_used.obj().name(), making.difficulty, comp,
-                          to_string( base_camps::to_workdays( making.batch_duration( get_player_character() ) ) ),
-                          time_to_food( base_camps::to_workdays( making.batch_duration( get_player_character() ) ),
+                          to_string( base_camps::to_workdays( making.batch_duration(
+                                         get_player_character(), camp_ctx ) ) ),
+                          time_to_food( base_camps::to_workdays( making.batch_duration(
+                                            get_player_character(), camp_ctx ) ),
                                         itm.obj().exertion_level() ) );
     return comp;
 }
@@ -5619,6 +5548,7 @@ void basecamp::feed_workers( const std::vector<std::reference_wrapper <Character
             case ROTTEN:
             case NAUSEA:
             case NO_TOOL:
+                debugmsg( "Unexpected food condition encountered in camp larder" );
                 break;
         }
     }
@@ -5793,6 +5723,7 @@ bool basecamp::distribute_food( bool player_command )
     // @FIXME: items under a vehicle cargo part will get taken even if there's no non-vehicle zone there
     // @FIXME: items in a vehicle cargo part will get taken even if the zone is on the ground underneath
     std::map<time_point, nutrients> all_nutrients;
+    int num_skipped = 0;
     for( const tripoint_abs_ms &p_food_stock_abs : z_food ) {
         const tripoint_bub_ms p_food_stock = here.get_bub( p_food_stock_abs );
         map_stack items = here.i_at( p_food_stock );
@@ -5802,6 +5733,7 @@ bool basecamp::distribute_food( bool player_command )
             if( ret.success() ) {
                 iter = items.erase( iter );
             } else {
+                num_skipped++;
                 ++iter;
             }
             for( const std::pair<const time_point, nutrients> &entry : ret.value() ) {
@@ -5816,6 +5748,7 @@ bool basecamp::distribute_food( bool player_command )
                 if( ret.success() ) {
                     iter = items.erase( iter );
                 } else {
+                    num_skipped++;
                     ++iter;
                 }
                 for( const std::pair<const time_point, nutrients> &entry : ret.value() ) {
@@ -5827,7 +5760,12 @@ bool basecamp::distribute_food( bool player_command )
 
     if( all_nutrients.empty() ) {
         if( player_command ) {
-            popup( _( "No suitable items are located at the drop points…" ) );
+            std::string fail_msg = _( "No suitable items are located at the drop points…" );
+            fail_msg += "\n\n";
+            fail_msg += string_format(
+                            _( "%d items were skipped for being unsuitable (not food, or too disgusting to eat, or already rotten, etc.  )" ),
+                            num_skipped );
+            popup( fail_msg );
         }
         return false;
     }

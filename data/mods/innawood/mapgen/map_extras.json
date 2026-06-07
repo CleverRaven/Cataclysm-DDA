@@ -1,0 +1,55 @@
+[
+  {
+    "id": "mx_grove_ravine",
+    "type": "map_extra",
+    "name": { "str": "Grove" },
+    "description": "This area is covered with a single type of trees.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_grove" },
+    "min_max_zlevel": [ -2, -2 ],
+    "sym": "F",
+    "color": "light_green",
+    "autonote_visibility": "same_tile",
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "id": "mx_pond_ravine",
+    "type": "map_extra",
+    "name": { "str": "Pond" },
+    "description": "Small pond is here.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_pond" },
+    "min_max_zlevel": [ -2, -2 ],
+    "sym": "p",
+    "color": "blue",
+    "autonote_visibility": "details",
+    "flags": [ "CLASSIC", "WATER" ]
+  },
+  {
+    "id": "mx_pond_forest_ravine",
+    "type": "map_extra",
+    "name": { "str": "basin" },
+    "description": "Small basin is here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_forest" },
+    "min_max_zlevel": [ -2, -2 ],
+    "flags": [ "CLASSIC", "WATER" ]
+  },
+  {
+    "id": "mx_pond_forest_2_ravine",
+    "type": "map_extra",
+    "copy-from": "mx_pond_forest",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_forest_2" },
+    "min_max_zlevel": [ -2, -2 ],
+    "flags": [ "CLASSIC", "WATER" ]
+  },
+  {
+    "id": "mx_shrubbery_ravine",
+    "type": "map_extra",
+    "name": { "str": "Shrubbery" },
+    "description": "This area is covered with a single type of shrubs.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_shrubbery" },
+    "min_max_zlevel": [ -2, -2 ],
+    "sym": "s",
+    "color": "light_green",
+    "autonote_visibility": "same_tile",
+    "flags": [ "CLASSIC" ]
+  }
+]

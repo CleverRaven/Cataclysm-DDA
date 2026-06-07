@@ -1,0 +1,9 @@
+[
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "egg_dino_small",
+    "copy-from": "egg_dino_small",
+    "name": "small dinosaur egg"
+  }
+]

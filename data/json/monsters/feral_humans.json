@@ -28,7 +28,6 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 3,
-    "stomach_size": 700,
     "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "starting_ammo": { "rock": 6 },
     "special_attacks": [
@@ -75,7 +74,7 @@
     "id": "mon_feral_sapien_spear",
     "type": "MONSTER",
     "name": { "str": "cunning feral" },
-    "description": "This feral human's eyes look more focused, and its movements steadier, than others of their kind.  They're carrying a crude spear, and have assembled some basic armor from scavenged clothing and bits of riot armor, though you can see several gaps.  Despite these signs of greater intelligence, this creature is still only a few steps away from being a zombie themself.",
+    "description": "This feral human's eyes look more focused, and its movements steadier, than others of their kind.  They're carrying a crude spear, and have assembled some basic armor from scavenged clothing and bits of riot armor, though you can see several gaps.  Despite these signs of greater intelligence, this creature is still only a few steps away from being a zombie themselves.",
     "copy-from": "mon_feral_human_pipe",
     "dodge": 3,
     "special_attacks": [ [ "PARROT_AT_DANGER", 0 ], { "id": "feral_weapon_spear_knife" } ],
@@ -114,7 +113,7 @@
     "death_drops": "default_zombie_death_drops",
     "dissect": "dissect_troglobite_sample_small",
     "zombify_into": "mon_zombie_shady",
-    "extend": { "flags": [ "FILTHY" ] }
+    "extend": { "flags": [ "FILTHY", "INFRARED_VISION" ] }
   },
   {
     "id": "mon_feral_human_crowbar",
@@ -145,7 +144,7 @@
   {
     "id": "mon_feral_human_axe",
     "type": "MONSTER",
-    "name": { "str": "deranged axeman", "str_pl": "deranged axemen" },
+    "name": "axe murderer",
     "description": "They stumble along dragging a large bloodstained axe.  Their face is twisted into a sadistic grin, and they walk among the dead as though already one of them.",
     "copy-from": "mon_feral_human_pipe",
     "special_attacks": [ { "id": "feral_weapon_axe" }, [ "PARROT_AT_DANGER", 0 ] ],
@@ -408,7 +407,7 @@
     "id": "mon_feral_militia",
     "type": "MONSTER",
     "name": { "str": "mad militia" },
-    "description": "Wearing a tactical camo uniform with a Kevlar vest, this person seems to have been a militia member, now turned feral.  Their hands grip unto a semi-automatic rifle as their bloodshot eyes scan for threats; a flashlight strapped to their helmet illuminates their presence and surroundings.",
+    "description": "Wearing a tactical camo uniform with a Kevlar vest, this person seems to have been a militia member, now turned feral.  Their hands grip onto a semi-automatic rifle as their bloodshot eyes scan for threats; a flashlight strapped to their helmet illuminates their presence and surroundings.",
     "copy-from": "mon_feral_human_pipe",
     "diff": 15,
     "aggression": 75,
@@ -509,8 +508,8 @@
   {
     "id": "mon_feral_marine_bayonet",
     "type": "MONSTER",
-    "name": { "str": "feral marine" },
-    "description": "This twitching, bloodied person is still clad in a ragged naval uniform, the insignia of the marines visible on their coat and a corresponding tattoo on their forearm.  Clutching a rifle in their quivering hands, you see them repeatedly pull the weapon's trigger, constantly muttering incoherently and yanking back on the gun's charging handle every time the rifle fails to fire.  Seemingly having lost the capability to comprehend that their weapon is empty, you'd feel relatively safe were it not for the gleaming bayonet still attached to the end of their firearm.",
+    "name": { "str": "feral Marine" },
+    "description": "This twitching, bloodied person is still clad in a ragged Marine uniform, the insignia of the Marines visible on their coat and a corresponding tattoo on their forearm.  Clutching a rifle in their quivering hands, you see them repeatedly pull the weapon's trigger, constantly muttering incoherently and yanking back on the gun's charging handle every time the rifle fails to fire.  Seemingly having lost the capability to comprehend that their weapon is empty, you'd feel relatively safe were it not for the gleaming bayonet still attached to the end of their firearm.",
     "copy-from": "mon_feral_human_pipe",
     "speed": 85,
     "aggression": 50,

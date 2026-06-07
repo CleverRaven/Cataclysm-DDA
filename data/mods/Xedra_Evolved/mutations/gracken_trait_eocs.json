@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GRACKEN_CONVERT_RADS_TO_CALORIES",
-    "recurrence": [ "5 seconds", "15 seconds" ],
+    "recurrence": [ "75 seconds", "175 seconds" ],
     "condition": { "u_has_trait": "RADIOTROPHIC" },
     "deactivate_condition": { "not": { "u_has_trait": "RADIOTROPHIC" } },
     "effect": [

@@ -171,7 +171,7 @@ def filter_analyzable_files(in_files: list[Path]) -> list[Path]:
 def run_iwyu_on(iwyu_tool_path: str, files: list[Path]) -> int:
     argslist = [iwyu_tool_path]
     argslist.extend(str(f) for f in files)
-    argslist.extend(["-p", "build", "--output-format", "clang", "--jobs", "4"])
+    argslist.extend(["-p", "build", "--jobs", "4"])
     argslist.extend(["--"])
     cdda_root = Path(__file__).parent.parent
     mapping_path = cdda_root / "tools/iwyu/cata.imp"
@@ -182,24 +182,45 @@ def run_iwyu_on(iwyu_tool_path: str, files: list[Path]) -> int:
         "-Xiwyu", "--max_line_length=1000",
         "-Xiwyu", "--error=1"])
 
+    fix_args = ["fix_includes.py", "--nosafe_headers", "--reorder"]
+
     print("::group::IWYU full output")
     print("Running: ")
     print_long_list(argslist)
+    print("Piping output to: %s " % " ".join(fix_args))
     flush_both()
     # start the process, consume its stdout, leave stderr be
-    proc = subprocess.Popen(argslist, stdout=subprocess.PIPE, encoding="utf-8")
+    iwyu_proc = subprocess.Popen(
+        argslist,
+        stdout=subprocess.PIPE,
+        encoding="utf-8",
+    )
+    fix_proc = subprocess.Popen(
+        fix_args,
+        stdin=subprocess.PIPE,
+        encoding="utf-8",
+    )
     problem_lines = []
+    fix_lines = []
     while True:
-        line = proc.stdout.readline()
+        line = iwyu_proc.stdout.readline()
         if line == '':
             break  # IWYU finished and closed the pipe
+        fix_lines.append(line)
         line = line.strip()
-        print(line)
         if "#includes/fwd-decls are correct" not in line:
-            problem_lines.append(line)
-    proc.wait()
+            print(line)
+            if line:
+                problem_lines.append(line)
+            elif len(problem_lines) > 0 and len(problem_lines[-1]) != 0:
+                # Only push empty lines if the previous line is not empty.
+                problem_lines.append(line)
+    iwyu_proc.wait()
+    print("Applying fixes to files.")
+    fix_proc.communicate("\n".join(fix_lines))
+    fix_proc.wait()
     flush_both()
-    print("Return code ", proc.returncode)
+    print("Return code ", iwyu_proc.returncode)
     print("::endgroup::")
 
     # remove the matcher to prevent double-posting the annotations
@@ -209,12 +230,12 @@ def run_iwyu_on(iwyu_tool_path: str, files: list[Path]) -> int:
         print("Problems found:")
         for line in problem_lines:
             print(line)
-    elif proc.returncode == 0:
+    elif iwyu_proc.returncode == 0:
         print("No issues found!")
     else:
         print("No suggestions provided, but the process still failed somehow?")
 
-    return proc.returncode
+    return iwyu_proc.returncode
 
 
 # GHA truncates each line to 1024 characters.

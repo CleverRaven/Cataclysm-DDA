@@ -15,6 +15,8 @@
 #include "coordinates.h"
 #include "debug.h"
 #include "effect.h"
+#include "item.h"
+#include "item_pocket.h"
 #include "map_iterator.h"
 #include "messages.h"
 #include "morale.h"
@@ -23,7 +25,6 @@
 #include "type_id.h"
 #include "units.h"
 
-class item;
 struct itype;
 
 static const efftype_id effect_took_prozac( "took_prozac" );
@@ -53,15 +54,33 @@ void Character::update_morale()
 
 void Character::hoarder_morale_penalty()
 {
-    // For hoarders holsters count as a flat -1 penalty for being empty, we also give them a 25% allowence on their pockets below 1000_ml
-    int pen = ( ( free_space() - holster_volume() ) - ( small_pocket_volume() / 4 ) ) / 125_ml;
-    pen += empty_holsters();
-    if( pen > 70 ) {
-        pen = 70;
+    units::volume no_penalty_volume = 8000_ml;
+    units::volume total_volume = 0_ml;
+
+    std::vector<item_pocket *> top_pockets = weapon.get_container_pockets();
+    for( item &it : worn.worn ) {
+        std::vector<item_pocket *> worn_pockets = it.get_container_pockets();
+        top_pockets.insert( top_pockets.end(), worn_pockets.begin(), worn_pockets.end() );
     }
-    if( pen <= 0 ) {
+    for( const item_pocket *pocket : top_pockets ) {
+        // Ablative stuff isn't gear, it is armor
+        if( pocket->is_ablative() ) {
+            continue;
+        }
+        total_volume += pocket->contents_volume();
+    }
+    int pen = ( no_penalty_volume - total_volume ) / 100_ml;
+    if( pen >= 80 ) {
+        pen = 60;
+    } else if( pen <= 0 ) {
         pen = 0;
+    } else if( pen <= 40 ) {
+        // first 4L counts 10 per, next 4L is only 5 per
+        pen = pen / 2 ;
+    } else {
+        pen = pen - 20 ;
     }
+
     if( has_effect( effect_took_xanax ) ) {
         pen = pen / 7;
     } else if( has_trait( trait_THRESH_SPECIES_RAVENFOLK ) ) {
@@ -213,7 +232,7 @@ void Character::check_and_recover_morale()
         add_msg_debug( debugmode::DF_CHARACTER, "Actual %s morale:\n%s\n", disp_name( true ),
                        morale->to_string_writable() );
 
-        *morale = player_morale( test_morale ); // Recover consistency
+        morale->sync_permanent( test_morale ); // Recover only permanent morale
         add_msg_debug( debugmode::DF_CHARACTER, "%s morale was recovered.", disp_name( true ) );
     }
 }

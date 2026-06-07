@@ -190,7 +190,7 @@
       { "group": "preserved_food", "prob": 100 },
       { "group": "preserved_food", "prob": 100 },
       { "group": "preserved_food", "prob": 100 },
-      { "group": "pet_food", "prob": 70 },
+      { "group": "pet_food_in_container", "prob": 70 },
       { "group": "condiments", "prob": 70 },
       { "group": "trader_guns&ammo", "prob": 70, "charges": 50 },
       { "group": "hardware", "prob": 70 },

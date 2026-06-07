@@ -586,6 +586,7 @@
     "effect": [
       {
         "run_eocs": [
+          "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_INTENSIFY_FLAMES",
           "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_ERUPTION",
           "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_FLASH",
           "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_CAUTERIZE",
@@ -603,6 +604,12 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_INTENSIFY_FLAMES",
+    "condition": { "and": [ { "u_has_trait": "PYROKINETIC" }, { "math": [ "u_spell_level('pyrokinetic_intensify_flames') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_pyrokinetic_intensify_flames" } ]
   },
   {
     "type": "effect_on_condition",
@@ -1091,6 +1098,7 @@
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_HEALING_TRANCE",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_ATTACK_TOUCH",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_BLOOD_PURGE",
+          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_NO_NEED_FOR_SLEEP",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_BANISH_ILLNESS",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_SUPER_HEAL",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_LIMB_RESTORE",
@@ -1179,6 +1187,12 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_NO_NEED_FOR_SLEEP",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_no_need_for_sleep') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_vita_no_need_for_sleep" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_BANISH_ILLNESS",
     "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_banish_illness') >= 0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_vita_banish_illness" } ]
@@ -1262,12 +1276,100 @@
         "then": { "u_learn_recipe": "practice_photokinetic_radio_knack" }
       },
       {
+        "if": { "math": [ "u_spell_level('pyrokinetic_intensify_flames_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_intensify_flames_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_flash_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_flash_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_eruption_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_eruption_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_call_flames_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_call_flames_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_cloak_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_cloak_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_flamethrower_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_flamethrower_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_aura_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_aura_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('pyrokinetic_blast_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_pyrokinetic_blast_knack" }
+      },
+      {
         "if": { "math": [ "u_spell_level('telekinetic_pull_knack') >= 1" ] },
         "then": { "u_learn_recipe": "practice_telekinetic_pull_knack" }
       },
       {
         "if": { "math": [ "u_spell_level('telekinetic_push_knack') >= 1" ] },
         "then": { "u_learn_recipe": "practice_telekinetic_push_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telekinetic_slam_down_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telekinetic_slam_down_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telekinetic_wave_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telekinetic_wave_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telepathic_shield_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telepathic_shield_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telepathic_mind_sense_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telepathic_mind_sense_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telepathic_blast_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telepathic_blast_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telepathic_mesmerize_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telepathic_mesmerize_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telepathic_animal_mind_control_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telepathic_animal_mind_control_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telepathic_invisibility_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telepathic_invisibility_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('telepathic_blast_radius_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_telepathic_blast_radius_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('vita_health_power_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_vita_health_power_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('vita_concentrated_healing_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_vita_concentrated_healing_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('vita_remove_poison_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_vita_remove_poison_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('vita_cure_disease_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_vita_cure_disease_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('vita_banish_illness_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_vita_banish_illness_knack" }
       }
     ]
   },

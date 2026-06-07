@@ -1346,7 +1346,6 @@
     "type": "item_group",
     "id": "poppy_pain_jar_glass_sealed_2",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "jar_glass_sealed",
     "entries": [ { "item": "poppy_pain", "count": 2 } ]
   },
@@ -1354,7 +1353,6 @@
     "type": "item_group",
     "id": "poppy_sleep_jar_glass_sealed_2",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "jar_glass_sealed",
     "entries": [ { "item": "poppy_sleep", "count": 2 } ]
   }

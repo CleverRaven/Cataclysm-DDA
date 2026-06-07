@@ -138,9 +138,10 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "diamond dental grill" },
     "description": "Fake teeth inlaid with diamonds, worn over the teeth.  Fits horribly, but looks very shiny.  For that high-class gangsta rap look.",
-    "weight": "10 g",
-    "volume": "1 ml",
+    "weight": "35 g",
+    "volume": "5 ml",
     "price": "500 USD",
+    "price_postapoc": "50 cent",
     "material": [ "gold" ],
     "symbol": "[",
     "looks_like": "gold_dental_grill",
@@ -155,8 +156,8 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "garnet dental grill" },
     "description": "Fake teeth inlaid with garnets, worn over the teeth.  It looks very shiny.",
-    "weight": "10 g",
-    "volume": "1 ml",
+    "weight": "35 g",
+    "volume": "5 ml",
     "price": "300 USD",
     "price_postapoc": "25 cent",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "gemstone" } ],
@@ -477,8 +478,8 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "intricate cufflinks (pair)" },
     "description": "An expensive pair of silver cufflinks, stylized with detailed overlays of gold gears and fractal patterns.",
-    "weight": "11 g",
-    "volume": "1 ml",
+    "weight": "22 g",
+    "volume": "5 ml",
     "price": "70 USD",
     "price_postapoc": "50 cent",
     "material": [ { "type": "silver", "portion": 8 }, { "type": "gold", "portion": 2 } ],
@@ -699,12 +700,7 @@
     "description": "A pair of cufflinks with inset rubies.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_ruby_silver_cufflinks",
-        "name": { "str_sp": "ruby and silver cufflinks" },
-        "description": "A pair of cufflinks with inset rubies.",
-        "weight": 99
-      },
+      { "id": "generic_ruby_silver_cufflinks", "//": "inherit name and description from item", "weight": 99 },
       {
         "id": "vampire_cufflinks",
         "name": { "str_sp": "vampire cufflinks" },
@@ -784,12 +780,7 @@
     "description": "A pair of cufflinks with inset onyx.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_onyx_silver_cufflinks",
-        "name": { "str_sp": "onyx and silver cufflinks" },
-        "description": "A pair of cufflinks with inset onyx.",
-        "weight": 99
-      },
+      { "id": "generic_onyx_silver_cufflinks", "//": "inherit name and description from item", "weight": 99 },
       {
         "id": "dark_cufflinks",
         "name": { "str_sp": "dark cufflinks" },
@@ -972,8 +963,8 @@
     "sided": true,
     "armor": [
       {
-        "encumbrance": 20,
-        "coverage": 0,
+        "encumbrance": 0,
+        "coverage": 20,
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
       }
@@ -986,8 +977,8 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "gold dental grill" },
     "description": "Fake golden teeth, worn over the teeth.  Fits horribly, but looks very shiny.",
-    "weight": "10 g",
-    "volume": "1 ml",
+    "weight": "19 g",
+    "volume": "5 ml",
     "price": "200 USD",
     "price_postapoc": "50 cent",
     "material": [ "gold" ],
@@ -1031,7 +1022,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "gold locket" },
     "description": "A heart-shaped gold locket with a frame inside to store photographs or small objects.",
-    "weight": "50 g",
+    "weight": "57 g",
     "volume": "25 ml",
     "price": "200 USD",
     "price_postapoc": "25 cent",
@@ -1056,7 +1047,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "gold medal" },
     "description": "A medal awarded for achieving first place in some event.  Before everything fell apart, this was likely a source of great pride for its owner.  Now it's just another shiny bauble.",
-    "weight": "50 g",
+    "weight": "57 g",
     "volume": "25 ml",
     "price": "100 USD",
     "price_postapoc": "25 cent",
@@ -1086,7 +1077,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "gold necklace" },
     "description": "A shiny, unadorned gold necklace.",
-    "weight": "50 g",
+    "weight": "57 g",
     "volume": "25 ml",
     "price": "400 USD",
     "price_postapoc": "50 cent",
@@ -1101,7 +1092,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "gold ring" },
     "description": "A flashy gold ring.",
-    "weight": "10 g",
+    "weight": "18 g",
     "volume": "1 ml",
     "price": "300 USD",
     "price_postapoc": "50 cent",
@@ -1261,7 +1252,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "holy symbol" },
     "description": "A necklace made of fine gold chain, bearing the symbol of a forgotten faith.",
-    "weight": "50 g",
+    "weight": "57 g",
     "volume": "25 ml",
     "price": "50 USD",
     "price_postapoc": "1 USD",
@@ -1280,6 +1271,13 @@
         "weight": 100
       },
       {
+        "id": "rosary",
+        "name": { "str": "rosary", "str_pl": "rosaries" },
+        "description": "A necklace made of a fine gold chain, with 59 beads and crucifix on the end.  The Rosary is a sort of ritual prayer primarily done by Roman Catholics.  It consists of 5 decades, each made up of 10 Hail Marys, each followed by one Lord's Prayer.  It is said that praying a whole Rosary sends 1000 souls to Heaven.",
+        "color": "yellow",
+        "weight": 15
+      },
+      {
         "id": "jewish_necklace",
         "name": { "str": "Star of David necklace" },
         "description": "A necklace made of a fine gold chain with the Star of David symbol as a pendant.  It is a symbol of the Jewish faith.  The Star of David became officially associated with Judaism when it was chosen as the symbol to appear on a flag at the First Zionist Congress in 1897.  At that time, it became the symbol of the Jewish people, Zionism, and the Jewish communities throughout the world.",
@@ -1290,6 +1288,14 @@
         "id": "muslim_necklace",
         "name": { "str": "Crescent Moon and Star necklace" },
         "description": "A necklace made of a fine gold chain with the Crescent Moon and Star symbol as a pendant.  It is a symbol of both the Sunni and Shia Islam faith.  The crescent of the new moon signifies the beginning and end of fasting during Ramadan.",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "saint_necklace",
+        "expand_snippets": true,
+        "name": { "str": "Saint Medallion" },
+        "description": "A necklace made of a fine gold chain with a medallion bearing the image of a Catholic saint.  The back reads \"<catholic_saints>\".",
         "color": "yellow",
         "weight": 5
       },
@@ -1442,7 +1448,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "platinum bracelet" },
     "description": "A flawless platinum bracelet.",
-    "weight": "50 g",
+    "weight": "42 g",
     "volume": "25 ml",
     "price": "380 USD",
     "price_postapoc": "1 USD",
@@ -1459,8 +1465,8 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "platinum dental grill" },
     "description": "Fake platinum-and-silver teeth.  They may be cheaper than fake gold teeth, but they're much more rare.  Fits horribly, but looks very shiny.",
-    "weight": "15 g",
-    "volume": "1 ml",
+    "weight": "21 g",
+    "volume": "5 ml",
     "price": "150 USD",
     "price_postapoc": "25 cent",
     "material": [ "platinum", "silver" ],
@@ -1530,7 +1536,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "platinum necklace" },
     "description": "A platinum necklace, with a small, empty heart-shaped frame hanging from a chain.",
-    "weight": "47 g",
+    "weight": "42 g",
     "volume": "25 ml",
     "price": "500 USD",
     "price_postapoc": "50 cent",
@@ -1545,7 +1551,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "platinum ring" },
     "description": "A platinum ring, engraved with all manner of swirls and spirals.",
-    "weight": "15 g",
+    "weight": "21 g",
     "volume": "1 ml",
     "price": "240 USD",
     "price_postapoc": "50 cent",
@@ -1641,7 +1647,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "wedding ring" },
     "description": "A flawless ring, ensnaring a diamond with twists of pure gold.  It's a constant reminder that the wearer is married.",
-    "weight": "16 g",
+    "weight": "19 g",
     "volume": "2 ml",
     "price": "1 kUSD 500 USD",
     "price_postapoc": "50 cent",
@@ -1765,6 +1771,21 @@
     "material": [ "leather" ],
     "symbol": "-",
     "color": "dark_gray",
+    "flags": [ "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "priest_collar",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "clerical collar" },
+    "description": "A white plastic collar worn by Christian clergymen (or women).  Although it is most commonly associated with Catholic Priests, it is also worn by Anglicans, Lutherans, Presbyterians, and Methodists.  It represents the belief that the wearer is eternally bound in service to God",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": "0 USD",
+    "price_postapoc": "25 cent",
+    "material": [ "plastic" ],
+    "symbol": "-",
+    "color": "white",
     "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
@@ -2036,12 +2057,7 @@
     "color": "pink",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "faux_fur_cat_ears",
-        "name": { "str_sp": "faux fur cat ears (pair)" },
-        "description": "A fuzzy pair of garishly colored cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
-        "color": "pink"
-      },
+      { "id": "faux_fur_cat_ears", "//": "inherit name and description from item", "color": "pink" },
       {
         "id": "bunny_ears_white",
         "name": { "str_sp": "white bunny ears (pair)" },
@@ -2348,12 +2364,7 @@
     "description": "A pair of shiny ruby and silver earrings.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_ruby_silver_earring",
-        "name": { "str_sp": "ruby and silver earrings (pair)" },
-        "description": "A pair of shiny ruby and silver earrings.",
-        "weight": 99
-      },
+      { "id": "generic_ruby_silver_earring", "//": "inherit name and description from item", "weight": 99 },
       {
         "id": "vampire_earring",
         "name": { "str_sp": "vampire earrings (pair)" },
@@ -2433,12 +2444,7 @@
     "description": "A pair of shiny onyx and silver earrings.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_onyx_silver_earring",
-        "name": { "str_sp": "onyx and silver earrings (pair)" },
-        "description": "A pair of shiny onyx and silver earrings.",
-        "weight": 99
-      },
+      { "id": "generic_onyx_silver_earring", "//": "inherit name and description from item", "weight": 99 },
       {
         "id": "dark_earring",
         "name": { "str_sp": "dark earrings (pair)" },
@@ -2814,12 +2820,7 @@
     "description": "A silver ring with a ruby mounted on top of it.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_ruby_silver_ring",
-        "name": { "str": "ruby and silver ring" },
-        "description": "A silver ring with a ruby mounted on top of it.",
-        "weight": 99
-      },
+      { "id": "generic_ruby_silver_ring", "//": "inherit name and description from item", "weight": 99 },
       {
         "id": "vampire_ring",
         "name": { "str": "vampire ring" },
@@ -2899,12 +2900,7 @@
     "description": "A silver ring with an onyx mounted on top of it.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_onyx_silver_ring",
-        "name": { "str": "onyx and silver ring" },
-        "description": "A silver ring with an onyx mounted on top of it.",
-        "weight": 99
-      },
+      { "id": "generic_onyx_silver_ring", "//": "inherit name and description from item", "weight": 99 },
       {
         "id": "dark_ring",
         "name": { "str": "dark ring" },
@@ -3289,12 +3285,7 @@
     "description": "A silver bracelet with sparkling rubies.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_ruby_silver_bracelet",
-        "name": { "str": "ruby and silver bracelet" },
-        "description": "A silver bracelet with sparkling rubies.",
-        "weight": 99
-      },
+      { "id": "generic_ruby_silver_bracelet", "//": "inherit name and description from item", "weight": 99 },
       {
         "id": "vampire_bracelet",
         "name": { "str": "vampire bracelet" },
@@ -3374,12 +3365,7 @@
     "description": "A silver bracelet with striking onyx.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_onyx_silver_bracelet",
-        "name": { "str": "onyx and silver bracelet" },
-        "description": "A silver bracelet with striking onyx.",
-        "weight": 99
-      },
+      { "id": "generic_onyx_silver_bracelet", "//": "inherit name and description from item", "weight": 99 },
       {
         "id": "dark_bracelet",
         "name": { "str": "dark bracelet" },
@@ -3748,12 +3734,7 @@
     "description": "A shiny, silver necklace adorned with a ruby pendant.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_ruby_silver_pendant_necklace",
-        "name": { "str": "ruby and silver pendant necklace" },
-        "description": "A shiny, silver necklace adorned with a ruby pendant.",
-        "weight": 99
-      },
+      { "id": "generic_ruby_silver_pendant_necklace", "//": "inherit name and description from item", "weight": 99 },
       {
         "id": "vampire_necklace",
         "name": { "str": "vampire necklace" },
@@ -3833,12 +3814,7 @@
     "description": "A shiny, silver necklace adorned with an onyx pendant.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_onyx_silver_pendant_necklace",
-        "name": { "str": "onyx and silver pendant necklace" },
-        "description": "A shiny, silver necklace adorned with an onyx pendant.",
-        "weight": 99
-      },
+      { "id": "generic_onyx_silver_pendant_necklace", "//": "inherit name and description from item", "weight": 99 },
       {
         "id": "dark_necklace",
         "name": { "str": "dark necklace" },
@@ -4363,12 +4339,7 @@
     "description": "A shiny, silver tiara adorned with rubies.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_ruby_silver_tiara",
-        "name": { "str": "ruby and silver tiara" },
-        "description": "A shiny, silver tiara adorned with rubies.",
-        "weight": 99
-      },
+      { "id": "generic_ruby_silver_tiara", "//": "inherit name and description from item", "weight": 99 },
       {
         "id": "vampire_tiara",
         "name": { "str": "vampire tiara" },
@@ -4448,12 +4419,7 @@
     "description": "A shiny, silver tiara adorned with onyx.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_onyx_silver_tiara",
-        "name": { "str": "onyx and silver tiara" },
-        "description": "A shiny, silver tiara adorned with onyx.",
-        "weight": 99
-      },
+      { "id": "generic_onyx_silver_tiara", "//": "inherit name and description from item", "weight": 99 },
       { "id": "dark_tiara", "name": { "str": "dark tiara" }, "description": "A dark silver tiara adorned with onyx." }
     ],
     "color": "dark_gray"
@@ -5079,7 +5045,7 @@
     "price_postapoc": "10 cent",
     "weight": "42 g",
     "volume": "30 ml",
-    "material": "bone",
+    "material": [ "bone" ],
     "flags": [ "NO_WEAR_EFFECT", "BELTED" ],
     "variants": [
       {
@@ -5095,7 +5061,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "devil horns (pair)" },
-    "description": "A red plastic headband adorned with a pair of cartoonish devil horns.  Delightfully devillish.",
+    "description": "A red plastic headband adorned with a pair of cartoonish devil horns.  Delightfully devilish.",
     "weight": "100 g",
     "volume": "100 ml",
     "price": "15 USD",
@@ -5209,21 +5175,6 @@
     "material": [ "cotton", "plastic" ],
     "symbol": "^",
     "color": "dark_gray",
-    "flags": [ "NO_WEAR_EFFECT" ]
-  },
-  {
-    "id": "tail_bunny_playboy",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "bunny tail" },
-    "description": "A fluffy bunny tail ball, usually worn with a sexy one-piece bunny suit and bunny ears headband.",
-    "weight": "50 g",
-    "volume": "100 ml",
-    "price": "10 USD",
-    "price_postapoc": "10 cent",
-    "material": [ "cotton" ],
-    "symbol": "*",
-    "color": "light_gray",
     "flags": [ "NO_WEAR_EFFECT" ]
   },
   {

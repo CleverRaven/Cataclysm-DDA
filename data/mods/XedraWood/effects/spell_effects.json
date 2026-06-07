@@ -1,0 +1,26 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_triffid_entangled",
+    "name": [ "Vegetative Grasp" ],
+    "desc": [ "Roots and vines entangle your foes." ],
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "show_in_info": true,
+    "apply_message": "Roots and vines burst from the ground and entangle you!",
+    "remove_message": "The roots and vines wither up and die.",
+    "base_mods": { "speed_mod": [ -20 ] },
+    "scaling_mods": { "speed_mod": [ -5 ] },
+    "flags": [ "EFFECT_IMPEDING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_triffid_speed_boost",
+    "name": [ "Vegetal Speed" ],
+    "desc": [ "Make you faster, and allow to hold this state for a while." ],
+    "apply_message": "You feel your legs can work much better than before",
+    "remove_message": "Your speed slows down.",
+    "rating": "good",
+    "base_mods": { "speed_mod": [ 40 ], "stamina_min": [ 20 ] }
+  }
+]

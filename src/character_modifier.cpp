@@ -180,8 +180,11 @@ float Character::manipulator_score( const std::map<bodypart_str_id, bodypart> &b
                 }
             }
         } else if( id.first->primary_limb_type() != bp_type::num_types ) {
-            bodypart_groups[ id.first->primary_limb_type() ].emplace_back( id.second,
-                    id.first->limbtypes.at( id.first->primary_limb_type() ) );
+            const bp_type primary_type = id.first->primary_limb_type();
+            const auto primary_limb = id.first->limbtypes.find( primary_type );
+            if( primary_limb != id.first->limbtypes.end() ) {
+                bodypart_groups[ primary_type ].emplace_back( id.second, primary_limb->second );
+            }
         }
     }
     for( auto &part : bodypart_groups ) {

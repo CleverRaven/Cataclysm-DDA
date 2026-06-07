@@ -150,7 +150,7 @@ static npc &prep_test( dialogue &d, bool shopkeep = false )
     map &here = get_map();
     clear_avatar();
     clear_vehicles();
-    clear_map();
+    clear_map_without_vision();
     avatar &player_character = get_avatar();
     player_character.set_value( "test_var", "It's avatar" );
     player_character.name = "Alpha Avatar";
@@ -213,10 +213,14 @@ TEST_CASE( "npc_talk_stats", "[npc_talk]" )
     prep_test( d );
 
     Character &player_character = get_avatar();
-    player_character.str_cur = 8;
-    player_character.dex_cur = 8;
-    player_character.int_cur = 8;
-    player_character.per_cur = 8;
+    player_character.set_str_bonus( 0 );
+    player_character.set_dex_bonus( 0 );
+    player_character.set_int_bonus( 0 );
+    player_character.set_per_bonus( 0 );
+    player_character.set_str_base( 8 );
+    player_character.set_dex_base( 8 );
+    player_character.set_int_base( 8 );
+    player_character.set_per_base( 8 );
 
     d.add_topic( "TALK_TEST_SIMPLE_STATS" );
     gen_response_lines( d, 5 );
@@ -225,10 +229,10 @@ TEST_CASE( "npc_talk_stats", "[npc_talk]" )
     CHECK( d.responses[2].text == "This is a dexterity test response." );
     CHECK( d.responses[3].text == "This is an intelligence test response." );
     CHECK( d.responses[4].text == "This is a perception test response." );
-    player_character.str_cur = 6;
-    player_character.dex_cur = 6;
-    player_character.int_cur = 6;
-    player_character.per_cur = 6;
+    player_character.set_str_base( 6 );
+    player_character.set_dex_base( 6 );
+    player_character.set_int_base( 6 );
+    player_character.set_per_base( 6 );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
 
@@ -295,8 +299,8 @@ TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
     CHECK( d.responses[1].text == "This is a trait test response." );
     CHECK( d.responses[2].text == "This is a short trait test response." );
     CHECK( d.responses[3].text == "This is a wearing test response." );
-    CHECK( d.responses[4].text == "This is a npc trait test response." );
-    CHECK( d.responses[5].text == "This is a npc short trait test response." );
+    CHECK( d.responses[4].text == "This is an NPC trait test response." );
+    CHECK( d.responses[5].text == "This is an NPC short trait test response." );
     player_character.toggle_trait( trait_ELFA_EARS );
     talker_npc.toggle_trait( trait_ELFA_EARS );
     player_character.toggle_trait( trait_PSYCHOPATH );
@@ -305,7 +309,7 @@ TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a wearing test response." );
     CHECK( d.responses[2].text == "This is a trait flags test response." );
-    CHECK( d.responses[3].text == "This is a npc trait flags test response." );
+    CHECK( d.responses[3].text == "This is an NPC trait flags test response." );
     player_character.toggle_trait( trait_PSYCHOPATH );
     talker_npc.toggle_trait( trait_SAPIOVORE );
 }
@@ -322,12 +326,12 @@ TEST_CASE( "npc_talk_effect", "[npc_talk]" )
     talker_npc.add_effect( effect_gave_quest_item, 9999_turns );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is an npc effect test response." );
+    CHECK( d.responses[1].text == "This is an NPC effect test response." );
     player_character.add_effect( effect_gave_quest_item, 9999_turns );
     d.gen_responses( d.topic_stack.back() );
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is an npc effect test response." );
+    CHECK( d.responses[1].text == "This is an NPC effect test response." );
     CHECK( d.responses[2].text == "This is a player effect test response." );
 }
 
@@ -350,8 +354,8 @@ TEST_CASE( "npc_talk_service", "[npc_talk]" )
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a cash test response." );
-    CHECK( d.responses[2].text == "This is an npc service test response." );
-    CHECK( d.responses[3].text == "This is an npc available test response." );
+    CHECK( d.responses[2].text == "This is an NPC service test response." );
+    CHECK( d.responses[3].text == "This is an NPC available test response." );
 }
 
 TEST_CASE( "npc_talk_location", "[npc_talk]" )
@@ -426,7 +430,7 @@ TEST_CASE( "npc_talk_allies", "[npc_talk]" )
     d.add_topic( "TALK_TEST_NPC_ALLIES" );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is a npc allies 1 test response." );
+    CHECK( d.responses[1].text == "This is an NPC allies 1 test response." );
 }
 
 TEST_CASE( "npc_talk_needs", "[npc_talk]" )
@@ -442,9 +446,9 @@ TEST_CASE( "npc_talk_needs", "[npc_talk]" )
     talker_npc.set_sleepiness( sleepiness_levels::EXHAUSTED );
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is a npc thirst test response." );
-    CHECK( d.responses[2].text == "This is a npc hunger test response." );
-    CHECK( d.responses[3].text == "This is a npc sleepiness test response." );
+    CHECK( d.responses[1].text == "This is an NPC thirst test response." );
+    CHECK( d.responses[2].text == "This is an NPC hunger test response." );
+    CHECK( d.responses[3].text == "This is an NPC sleepiness test response." );
 }
 
 TEST_CASE( "npc_talk_mission_goal", "[npc_talk]" )
@@ -539,23 +543,23 @@ TEST_CASE( "npc_talk_switch", "[npc_talk]" )
     player_character.cash = 1000;
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is an switch 1 test response." );
+    CHECK( d.responses[1].text == "This is a switch 1 test response." );
     CHECK( d.responses[2].text == "This is another basic test response." );
     player_character.cash = 100;
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is an switch 2 test response." );
+    CHECK( d.responses[1].text == "This is a switch 2 test response." );
     CHECK( d.responses[2].text == "This is another basic test response." );
     player_character.cash = 10;
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is an switch default 1 test response." );
-    CHECK( d.responses[2].text == "This is an switch default 2 test response." );
+    CHECK( d.responses[1].text == "This is a switch default 1 test response." );
+    CHECK( d.responses[2].text == "This is a switch default 2 test response." );
     CHECK( d.responses[3].text == "This is another basic test response." );
     player_character.cash = 0;
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is an switch default 2 test response." );
+    CHECK( d.responses[1].text == "This is a switch default 2 test response." );
     CHECK( d.responses[2].text == "This is another basic test response." );
 }
 
@@ -605,7 +609,8 @@ TEST_CASE( "npc_talk_nested", "[npc_talk]" )
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     player_character.cash = 800;
-    player_character.int_cur = 11;
+    player_character.set_int_base( 11 );
+    player_character.set_int_bonus( 0 );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a complex nested test response." );
@@ -670,7 +675,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
         return has_item( p, itype_bottle_glass, 1 ) && has_item( p, itype_beer, count );
     };
     player_character.cash = 1000;
-    player_character.int_cur = 8;
+    player_character.set_int_base( 8 );
     player_character.worn.wear_item( player_character, item( itype_backpack ), false, false );
     d.add_topic( "TALK_TEST_EFFECTS" );
     gen_response_lines( d, 19 );
@@ -833,7 +838,7 @@ TEST_CASE( "npc_talk_vars", "[npc_talk]" )
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a u_add_var test response." );
-    CHECK( d.responses[2].text == "This is a npc_add_var test response." );
+    CHECK( d.responses[2].text == "This is an npc_add_var test response." );
     talk_effect_t &effects = d.responses[1].success;
     effects.apply( d );
     effects = d.responses[2].success;
@@ -849,7 +854,7 @@ TEST_CASE( "npc_talk_vars", "[npc_talk]" )
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a u_add_var test response." );
-    CHECK( d.responses[2].text == "This is a npc_add_var test response." );
+    CHECK( d.responses[2].text == "This is an npc_add_var test response." );
 }
 
 TEST_CASE( "npc_talk_vars_time", "[npc_talk]" )
@@ -863,7 +868,7 @@ TEST_CASE( "npc_talk_vars_time", "[npc_talk]" )
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a u_add_var time test response." );
-    CHECK( d.responses[2].text == "This is a npc_add_var time test response." );
+    CHECK( d.responses[2].text == "This is an npc_add_var time test response." );
     talk_effect_t &effects = d.responses[1].success;
     effects.apply( d );
     gen_response_lines( d, 1 );
@@ -893,7 +898,7 @@ TEST_CASE( "npc_talk_bionics", "[npc_talk]" )
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a u_has_bionics bio_ads test response." );
-    CHECK( d.responses[2].text == "This is a npc_has_bionics ANY response." );
+    CHECK( d.responses[2].text == "This is an npc_has_bionics ANY response." );
 }
 
 TEST_CASE( "npc_faction_trust", "[npc_talk]" )
@@ -1072,14 +1077,22 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     Character &player_character = get_avatar();
     clear_avatar();
 
-    player_character.str_cur = 4;
-    player_character.dex_cur = 4;
-    player_character.int_cur = 4;
-    player_character.per_cur = 4;
-    beta.str_cur = 8;
-    beta.dex_cur = 8;
-    beta.int_cur = 8;
-    beta.per_cur = 8;
+    player_character.set_str_bonus( 0 );
+    player_character.set_dex_bonus( 0 );
+    player_character.set_int_bonus( 0 );
+    player_character.set_per_bonus( 0 );
+    player_character.set_str_base( 4 );
+    player_character.set_dex_base( 4 );
+    player_character.set_int_base( 4 );
+    player_character.set_per_base( 4 );
+    beta.set_str_bonus( 0 );
+    beta.set_dex_bonus( 0 );
+    beta.set_int_bonus( 0 );
+    beta.set_per_bonus( 0 );
+    beta.set_str_base( 8 );
+    beta.set_dex_base( 8 );
+    beta.set_int_base( 8 );
+    beta.set_per_base( 8 );
     player_character.kill_xp = 50;
     for( npc *guy : g->allies() ) {
         talk_function::leave( *guy );
@@ -1113,16 +1126,16 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     d.add_topic( "TALK_TEST_COMPARE_INT" );
     gen_response_lines( d, expected_answers );
     CHECK( d.responses[ 0 ].text == "This is a math test response that increments by 1." );
-    CHECK( d.responses[ 1 ].text == "This is an math test response that increments by 2." );
+    CHECK( d.responses[ 1 ].text == "This is a math test response that increments by 2." );
     CHECK( d.responses[ 2 ].text == "This is a u_add_var time test response." );
     CHECK( d.responses[expected_answers - 2].text == "Exp of Pew, Pew is -1." );
     CHECK( d.responses[expected_answers - 1].text ==
            "Test Proficiency total learning time is 24 hours." );
 
-    beta.str_cur = 9;
-    beta.dex_cur = 10;
-    beta.int_cur = 11;
-    beta.per_cur = 12;
+    beta.set_str_base( 9 );
+    beta.set_dex_base( 10 );
+    beta.set_int_base( 11 );
+    beta.set_per_base( 12 );
     time_point then = calendar::turn;
     calendar::turn = calendar::turn + time_duration( 4_days );
     REQUIRE( then < calendar::turn );
@@ -1173,17 +1186,21 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     // gains weakpoint proficiency practice which lowers focus
     // (see kill_tracker::notify() -> weakpoint_families::practice_kill())
     player_character.set_focus( 24 );
-    player_character.str_cur = 5;
-    player_character.dex_cur = 6;
-    player_character.int_cur = 7;
-    player_character.per_cur = 8;
+    player_character.set_str_bonus( 0 );
+    player_character.set_dex_bonus( 0 );
+    player_character.set_int_bonus( 0 );
+    player_character.set_per_bonus( 0 );
+    player_character.set_str_base( 5 );
+    player_character.set_dex_base( 6 );
+    player_character.set_int_base( 7 );
+    player_character.set_per_base( 8 );
     player_character.magic->set_mana( 25 );
 
     // Each response is separated out into a single line for easier browsing.
     // TODO: Reliably test the random number generator.
     std::vector<std::string> expected_responses = {
         "This is a math test response that increments by 1.",
-        "This is an math test response that increments by 2.",
+        "This is a math test response that increments by 2.",
         "PC strength is five.",
         "PC dexterity is six.",
         "PC intelligence is seven.",
@@ -1309,29 +1326,29 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects.apply( d );
     CHECK( get_weather().weather_precise->pressure == 5 );
 
-    player_character.str_max = 10;
+    player_character.set_str_base( 10 );
     // "Sets base strength to 6."
     effects = d.responses[ 5 ].success;
     effects.apply( d );
-    CHECK( player_character.str_max == 6 );
+    CHECK( player_character.get_str_base() == 6 );
 
-    player_character.dex_max = 10;
+    player_character.set_dex_base( 10 );
     // "Sets base dexterity to 7."
     effects = d.responses[ 6 ].success;
     effects.apply( d );
-    CHECK( player_character.dex_max == 7 );
+    CHECK( player_character.get_dex_base() == 7 );
 
-    player_character.int_max = 10;
+    player_character.set_int_base( 10 );
     // "Sets base intelligence to 8."
     effects = d.responses[ 7 ].success;
     effects.apply( d );
-    CHECK( player_character.int_max == 8 );
+    CHECK( player_character.get_int_base() == 8 );
 
-    player_character.per_max = 10;
+    player_character.set_per_base( 10 );
     // "Sets base perception to 9."
     effects = d.responses[ 8 ].success;
     effects.apply( d );
-    CHECK( player_character.per_max == 9 );
+    CHECK( player_character.get_per_base() == 9 );
 
     std::string var_name = "test_var_time_test_test";
     player_character.set_value( var_name, 1 );

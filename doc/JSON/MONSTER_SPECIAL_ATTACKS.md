@@ -184,8 +184,7 @@ These special attacks are defined in [JSON](/data/json/monster_special_attacks),
 |						      | randomly rolled multiplier between the values `min_mul` and `max_mul`.  Default 0.5 and 1.0, meaning each attack will do at least half of the defined damage.
 | `move_cost`                 | Integer, moves needed to complete special attack.  Default 100.
 | `accuracy`                  | Integer, if defined the attack will use a different accuracy from monster's regular melee attack.
-| `body_parts`			      | List, If empty the regular melee roll body part selection is used.  If non-empty, a body part is selected from the map to be targeted using the provided weights.
-|						      | targeted with a chance proportional to the value.
+| `body_part_types`           | If used, the attack will pick a random body part from the list of all possible bodyparts of types used. For example, using `"body_part_types": [ [ "torso", 4 ], [ "arm", 3 ] ],` would pick torso with probability of 4, or any arm with probability of 3. Possible values are: head, torso, sensor, mouth, arm, hand, leg, foot, wing, tail, other.
 | `condition`                 | Object, dialog conditions enabling the attack - see `NPCs.md` for the potential conditions - note that `u` refers to the monster, `npc` to the attack target, and for `x_has_flag` conditions targeting monsters only take effect flags into consideration, not monster flags.
 | `attack_upper`		      | Boolean, default true. If false the attack can't target any bodyparts with the `UPPER_LIMB` flag with the regular attack rolls (provided the bodypart is not explicitly targeted).
 | `range`       		      | Integer, range of the attack in tiles (Default 1, this equals melee range). Melee attacks require unobstructed straight paths.
@@ -197,6 +196,8 @@ These special attacks are defined in [JSON](/data/json/monster_special_attacks),
 | `dodgeable`                 | Boolean, default true. The attack can be dodged normally.
 | `uncanny_dodgeable`         | Boolean, defaults to the value of `dodgeable`. The attack can be dodged by the Uncanny Dodge bionic or by characters having the `UNCANNY_DODGE` character flag.  Uncanny dodging takes precedence over normal dodging.
 | `blockable`                 | Boolean, default true.  The attack can be blocked (after the dodge checks).
+| `attack_amount`             | Pair of integers, default 1.  Specifies if this attack will hit you once, or multiple times, in multiple limbs (or multiple times in the same limb, if you are unlucky). The total damage of attack will be split evenly across all hits.
+| `spread_damage`             | Boolean, default false.  If true, attack will damage all the limbs of character; The total damage of attack will be split evenly across all limbs
 | `effects_require_dmg`       | Boolean, default true.  Effects will only be applied if the attack successfully damaged the target.
 | `effects`				      | Array, defines additional effects for the attack to add.  See [MONSTERS.md](MONSTERS.md#attack_effs) for the exact syntax. Duration is in turns, not in movement points
 | `self_effects_always`        | Array of `effects` the monster applies to itself when doing this attack.
@@ -322,3 +323,15 @@ A special defense attack, triggered when the monster is attacked.  It should con
 - ```ACIDSPLASH``` Splashes acid on the attacker.
 - ```NONE``` No special attack to the attacker.
 - ```ZAPBACK``` Shocks attacker on hit.
+
+## EOC attack
+
+Triggers the specified `effect_on_condition` with the monster as `alpha_talker` and its target as `beta_talker`, the attack requires vision of the target. 
+
+| Field             | Description                                                                                                |
+| ---               | ---------------------------------------------------------------------------------------------------------- |
+| `range`           | (Required) Float, maximal range of the jump.  Respects circular distance setting!                          |
+| `cooldown`        | Disregard target location entirely when leaping, leading to completely random jumps.                       |
+| `eoc`             | (Required) Array of ids, the effect on condition . See `NPCs.md`                                           |
+| `condition`       | Object, dialogue conditions enabling the attack.  See `NPCs.md` for the possible conditions, `u` refers to the monster.                |
+| `allow_no_target` | Default `false`. If true the script will always run, the beta talker will be discarded.                    |

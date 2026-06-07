@@ -277,6 +277,8 @@ class generic_factory
                 check_plural = check_plural_t::none;
                 const std::string abstract_id =  jo.get_string( abstract_member_name );
                 def.id = string_id<T>( abstract_id );
+                // def is a local stack object; virtual dispatch is fine here.
+                // NOLINTNEXTLINE(clang-analyzer-optin.cplusplus.VirtualCall)
                 def.load( jo, src );
                 abstracts[abstract_id] = def;
             }
@@ -371,6 +373,8 @@ class generic_factory
                     }
                     def.id = string_id<T>( e );
                     mod_tracker::assign_src( def, src );
+                    // def is a local stack object; virtual dispatch is fine here.
+                    // NOLINTNEXTLINE(clang-analyzer-optin.cplusplus.VirtualCall)
                     def.load( jo, src );
                     insert( def );
                 }
@@ -1262,8 +1266,7 @@ struct handler<weighted_int_list<T>> {
         container.clear();
     }
     bool insert( weighted_int_list<T> &container, const std::pair<T, int> &data ) const {
-        container.add( data );
-        return true;
+        return !!container.add_or_replace( data.first, data.second );
     }
     bool relative( weighted_int_list<T> &, const std::pair<T, int> & ) const {
         return false;
@@ -1298,8 +1301,7 @@ struct handler<weighted_list<T, W>> {
         container.clear();
     }
     bool insert( weighted_list<T, W> &container, const std::pair<T, W> &data ) const {
-        container.add( data );
-        return true;
+        return !!container.add_or_replace( data.first, data.second );
     }
     bool relative( weighted_list<T, W> &, const std::pair<T, W> & ) const {
         return false;
@@ -2256,6 +2258,14 @@ class text_style_check_reader : public generic_typed_reader<text_style_check_rea
 
     private:
         allow_object object_allowed;
+};
+
+struct time_duration_as_moves_reader : public generic_typed_reader<time_duration_as_moves_reader> {
+    int64_t get_next( const JsonValue &jv ) const {
+        time_duration ret;
+        jv.read( ret );
+        return to_moves<int64_t>( ret );
+    }
 };
 
 class activity_level_reader : public generic_typed_reader<activity_level_reader>

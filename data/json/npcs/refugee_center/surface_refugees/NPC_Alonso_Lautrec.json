@@ -54,7 +54,7 @@
     "type": "item_group",
     "id": "REFUGEE_Alonso_carried",
     "subtype": "collection",
-    "entries": [ { "item": "mag_porn" }, { "item": "vibrator" }, { "item": "condom" } ]
+    "entries": [ { "item": "mag_porn" }, { "group": "sex_accessories_domestic" }, { "item": "condom" } ]
   },
   {
     "type": "item_group",

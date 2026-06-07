@@ -1,0 +1,118 @@
+[
+  {
+    "id": "aquarium_medium_drying",
+    "type": "ITEM",
+    "category": "other",
+    "name": { "str": "50 gallon aquarium (drying) (obsolete)", "str_pl": "50 gallon aquariums (drying) (obsolete)" },
+    "description": "A 50-gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
+    "ascii_picture": "aquarium_medium",
+    "weight": "45 kg",
+    "volume": "222 L",
+    "longest_side": "91 cm",
+    "price": "50 USD",
+    "price_postapoc": "7 USD 50 cent",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": false,
+        "open_container": true,
+        "max_contains_volume": "189 L",
+        "max_contains_weight": "300 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "use_action": {
+      "target": "aquarium_medium",
+      "msg": "You check that the aquarium does indeed hold water, it is ready.",
+      "moves": 100,
+      "type": "delayed_transform",
+      "transform_age": 604800,
+      "not_ready_msg": "The silicone hasn't dried quite yet.",
+      "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
+    },
+    "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "aquarium_small_drying",
+    "type": "ITEM",
+    "category": "other",
+    "name": { "str": "30 gallon aquarium (drying) (obsolete)", "str_pl": "30 gallon aquariums (drying) (obsolete)" },
+    "description": "A 30-gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
+    "ascii_picture": "aquarium_small",
+    "weight": "22 kg",
+    "volume": "133 L",
+    "longest_side": "91 cm",
+    "price": "15 USD",
+    "price_postapoc": "3 USD 50 cent",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "looks_like": "aquarium_medium",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": false,
+        "open_container": true,
+        "max_contains_volume": "113 L",
+        "max_contains_weight": "180 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "use_action": {
+      "target": "aquarium_small",
+      "msg": "You check that the aquarium does indeed hold water, it is ready.",
+      "moves": 100,
+      "type": "delayed_transform",
+      "transform_age": 604800,
+      "not_ready_msg": "The silicone hasn't dried quite yet.",
+      "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
+    },
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "aquarium_large_drying",
+    "type": "ITEM",
+    "category": "other",
+    "name": { "str": "100 gallon aquarium (drying) (obsolete)", "str_pl": "100 gallon aquariums (drying) (obsolete)" },
+    "description": "A 100-gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
+    "ascii_picture": "aquarium_large",
+    "weight": "80 kg",
+    "volume": "400 L",
+    "longest_side": "183 cm",
+    "price": "200 USD",
+    "price_postapoc": "10 USD",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "looks_like": "aquarium_medium",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": false,
+        "open_container": true,
+        "max_contains_volume": "378 L",
+        "max_contains_weight": "500 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "use_action": {
+      "target": "aquarium_large",
+      "msg": "You check that the aquarium does indeed hold water, it is ready.",
+      "moves": 100,
+      "type": "delayed_transform",
+      "transform_age": 604800,
+      "not_ready_msg": "The silicone hasn't dried quite yet.",
+      "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
+    },
+    "melee_damage": { "bash": 20 }
+  }
+]

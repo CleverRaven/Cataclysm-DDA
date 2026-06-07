@@ -1070,11 +1070,35 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_POOKA_SKUNK_TAIL_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_TAIL_LONG" },
+      { "u_deactivate_trait": "POOKA_TAIL_STING" },
+      { "u_deactivate_trait": "POOKA_TAIL_FLUFFY" },
+      { "u_add_trait": "TAIL_SKUNK" }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SKUNK_TAIL_OFF",
+    "effect": [ { "u_lose_trait": "TAIL_SKUNK" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_POOKA_WOLF_TAIL_ON",
     "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
     "effect": [
       { "u_deactivate_trait": "POOKA_TAIL_LONG" },
       { "u_deactivate_trait": "POOKA_TAIL_STING" },
+      { "u_deactivate_trait": "TAIL_SKUNK" },
       { "u_add_trait": "TAIL_FLUFFY" }
     ],
     "false_effect": [
@@ -1097,6 +1121,7 @@
     "effect": [
       { "u_deactivate_trait": "POOKA_WOLF_TAIL" },
       { "u_deactivate_trait": "POOKA_TAIL_STING" },
+      { "u_deactivate_trait": "POOKA_SKUNK_TAIL" },
       { "u_add_trait": "TAIL_LONG" }
     ],
     "false_effect": [
@@ -1119,6 +1144,7 @@
     "effect": [
       { "u_deactivate_trait": "POOKA_WOLF_TAIL" },
       { "u_deactivate_trait": "POOKA_TAIL_LONG" },
+      { "u_deactivate_trait": "TAIL_SKUNK" },
       { "u_add_trait": "TAIL_STING" }
     ],
     "false_effect": [
@@ -1195,7 +1221,7 @@
             "id": "EOC_POOKA_SHAPESHIFT_FULL_BAT_activated_2",
             "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
               { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "VAMPIRE_BAT_FORM_TRAITS" },
               { "u_add_trait": "ECHOLOCATION" },
@@ -1220,7 +1246,7 @@
             "id": "EOC_POOKA_SHAPESHIFT_FULL_BAT_deactivated",
             "condition": { "u_has_trait": "VAMPIRE_BAT_FORM_TRAITS" },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
               { "u_lose_trait": "ECHOLOCATION" },
               { "math": [ "u_calories() *= 4" ] },
               { "u_lose_trait": "VAMPIRE_BAT_FORM_TRAITS" },
@@ -1258,7 +1284,7 @@
             "id": "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_activated_2",
             "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
               { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "TURN_INTO_RAVEN_TRAITS" },
               { "math": [ "u_calories() /= 4" ] },
@@ -1282,7 +1308,7 @@
             "id": "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_deactivated",
             "condition": { "u_has_trait": "TURN_INTO_RAVEN_TRAITS" },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
               { "math": [ "u_calories() *= 4" ] },
               { "u_lose_trait": "TURN_INTO_RAVEN_TRAITS" },
               {
@@ -1319,7 +1345,7 @@
             "id": "EOC_POOKA_SHAPESHIFT_FULL_BEAR_activated_2",
             "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
               { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "TURN_INTO_BEAR_TRAITS" },
               { "math": [ "u_calories() *= 3" ] },
@@ -1343,7 +1369,7 @@
             "id": "EOC_POOKA_SHAPESHIFT_FULL_BEAR_deactivated",
             "condition": { "u_has_trait": "TURN_INTO_BEAR_TRAITS" },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
               { "math": [ "u_calories() /= 3" ] },
               { "u_lose_trait": "TURN_INTO_BEAR_TRAITS" },
               {
@@ -1380,7 +1406,7 @@
             "id": "EOC_POOKA_SHAPESHIFT_FULL_DEER_activated_2",
             "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
               { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "TURN_INTO_DEER_TRAITS" },
               {
@@ -1403,7 +1429,7 @@
             "id": "EOC_POOKA_SHAPESHIFT_FULL_DEER_deactivated",
             "condition": { "u_has_trait": "TURN_INTO_DEER_TRAITS" },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
               { "u_lose_trait": "TURN_INTO_DEER_TRAITS" },
               {
                 "u_message": "Your body shifts and contracts and you return to your humanoid form.",
@@ -1439,7 +1465,7 @@
             "id": "EOC_POOKA_SHAPESHIFT_FULL_WOLF_activated_2",
             "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
               { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
               {
@@ -1462,7 +1488,7 @@
             "id": "EOC_POOKA_SHAPESHIFT_FULL_WOLF_deactivated",
             "condition": { "u_has_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
               { "u_lose_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
               { "u_message": "Your fur disappears and you walk once again on two legs.", "type": "neutral" },
               { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" }
@@ -1495,7 +1521,7 @@
             "id": "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_activated_2",
             "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
               { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "TURN_INTO_COUGAR_TRAITS" },
               { "u_add_trait": "FELINE_LEAP" },
@@ -1520,7 +1546,7 @@
             "id": "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_deactivated",
             "condition": { "u_has_trait": "TURN_INTO_COUGAR_TRAITS" },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
               { "u_lose_trait": "TURN_INTO_COUGAR_TRAITS" },
               { "u_lose_trait": "FELINE_LEAP" },
               { "u_lose_trait": "WHISKERS" },

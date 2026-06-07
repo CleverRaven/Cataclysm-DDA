@@ -65,7 +65,7 @@ void ammunition_type::check_consistency()
         const auto &id = ammo.first;
         const itype_id &at = ammo.second.default_ammotype_;
 
-        // TODO: these ammo types should probably not have default ammo at all.
+        // FIXME: Remove this insane fake ammo stuff.
         if( at.str() == "components" || at.str() == "thrown" ) {
             continue;
         }

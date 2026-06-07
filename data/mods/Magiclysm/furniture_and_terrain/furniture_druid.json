@@ -10,6 +10,7 @@
     "move_cost_mod": 6,
     "required_str": -1,
     "light_emitted": 40,
+    "light_color": [ 0, 120, 0 ],
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC" ],
     "bash": {
       "str_min": 6,

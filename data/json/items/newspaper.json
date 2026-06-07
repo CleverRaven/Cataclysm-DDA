@@ -155,7 +155,7 @@
     "variants": [
       {
         "id": "lab_file_mutation_testing_1",
-        "name": { "str_sp": "production tests" },
+        "//": "inherit name from item",
         "description": "\n\n<mutation_testing>",
         "append": true,
         "expand_snippets": true
@@ -172,7 +172,7 @@
     "variants": [
       {
         "id": "lab_file_serum_testing_regen",
-        "name": { "str_sp": "production tests" },
+        "//": "inherit name from item",
         "description": "\n\n<serum_testing_regen>",
         "append": true,
         "expand_snippets": true
@@ -627,18 +627,25 @@
     "variants": [
       {
         "id": "hp_original",
-        "name": { "str": "picture" },
+        "//": "inherit name from item",
         "description": { "str": "<home_pictures>", "//~": "NO_I18N" },
         "expand_snippets": true,
         "weight": 200
       },
       {
         "id": "hp_snippet_nested",
-        "name": { "str": "picture" },
+        "//": "inherit name from item",
         "description": { "str": "<hp_nested>", "//~": "NO_I18N" },
         "expand_snippets": true,
         "weight": 40
       }
     ]
+  },
+  {
+    "type": "ITEM",
+    "id": "xedra_shack_checklist",
+    "name": { "str": "incomplete checklist" },
+    "copy-from": "file",
+    "description": "A sheet of paper with a checklist titled \"TO DO BEFORE JULY RESIGNATION\":\n [X] Acquire activity suit\n [X] Acquire respirator\n [X] Shield gear against THEM\n [ ] Shield walls against THEM\n [X] Install security door\n [ ] 6 months food, water\n [X] Order appliances, panels, radio\n [ ] Install solar panels\n [X] Install radio gear\n [X] Install air purifiers\n [ ] Fix the old boat\n [ ] Buy a gun\n [ ] Finish research statement for faculty apps"
   }
 ]

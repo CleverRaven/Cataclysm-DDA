@@ -46,7 +46,7 @@
 
 #if defined(__ANDROID__)
 #include <jni.h>
-#include <SDL_keyboard.h>
+#include "sdl_wrappers.h" // for GetAndroidJNIEnv(), GetAndroidActivity()
 #endif
 
 // Display data
@@ -844,8 +844,8 @@ bool query_yn( const std::string &text )
 {
 #if defined(__ANDROID__)
     if( get_option<bool>( "ANDROID_NATIVE_UI" ) ) {
-        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-        jobject activity = ( jobject )SDL_AndroidGetActivity();
+        JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
+        jobject activity = ( jobject )GetAndroidActivity();
         jclass clazz( env->GetObjectClass( activity ) );
         jmethodID get_nativeui_method_id = env->GetMethodID( clazz, "getNativeUI",
                                            "()Lcom/cleverraven/cataclysmdda/NativeUI;" );
@@ -957,8 +957,8 @@ int popup( const std::string &text, PopupFlags flags )
 {
 #if defined(__ANDROID__)
     if( get_option<bool>( "ANDROID_NATIVE_UI" ) && flags == PF_NONE ) {
-        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-        jobject activity = ( jobject )SDL_AndroidGetActivity();
+        JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
+        jobject activity = ( jobject )GetAndroidActivity();
         jclass clazz( env->GetObjectClass( activity ) );
         jmethodID get_nativeui_method_id = env->GetMethodID( clazz, "getNativeUI",
                                            "()Lcom/cleverraven/cataclysmdda/NativeUI;" );
@@ -1592,7 +1592,7 @@ static std::string trim( std::string_view s, Predicate pred )
 }
 
 template<typename Prep>
-std::string trim_trailing( std::string_view s, Prep prep )
+static std::string trim_trailing( std::string_view s, Prep prep )
 {
     return std::string( s.begin(), std::find_if_not(
     s.rbegin(), s.rend(), [&prep]( int c ) {
@@ -1615,32 +1615,29 @@ std::string trim_trailing_punctuations( std::string_view s )
     } );
 }
 
-std::string remove_punctuations( const std::string &s )
+std::string remove_punctuations( const std::string_view s )
 {
-    std::wstring ws = utf8_to_wstr( s );
-    std::wstring result;
-    std::remove_copy_if( ws.begin(), ws.end(), std::back_inserter( result ),
-    []( wchar_t ch ) {
-        return std::iswpunct( ch ) && ch != '_';
+    std::u32string u32s = utf8_to_utf32( s );
+    std::u32string result;
+    std::remove_copy_if( u32s.begin(), u32s.end(), std::back_inserter( result ),
+    []( const char32_t ch ) {
+        return u32_ispunct( ch ) && ch != '_';
     } );
-    return wstr_to_utf8( result );
+    return utf32_to_utf8( result );
 }
 
-using char_t = std::string::value_type;
-std::string to_upper_case( const std::string &s )
+std::string to_upper_case( const std::string_view s )
 {
-    const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
-    std::wstring wstr = utf8_to_wstr( s );
-    f.toupper( wstr.data(), wstr.data() + wstr.size() );
-    return wstr_to_utf8( wstr );
+    std::u32string u32s = utf8_to_utf32( s );
+    std::transform( u32s.begin(), u32s.end(), u32s.begin(), u32_to_uppercase );
+    return utf32_to_utf8( u32s );
 }
 
-std::string to_lower_case( const std::string &s )
+std::string to_lower_case( const std::string_view s )
 {
-    const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
-    std::wstring wstr = utf8_to_wstr( s );
-    f.tolower( wstr.data(), wstr.data() + wstr.size() );
-    return wstr_to_utf8( wstr );
+    std::u32string u32s = utf8_to_utf32( s );
+    std::transform( u32s.begin(), u32s.end(), u32s.begin(), u32_to_lowercase );
+    return utf32_to_utf8( u32s );
 }
 
 // find the position of each non-printing tag in a string
@@ -2086,8 +2083,8 @@ bool scrollbar::handle_dragging( const std::string &action, const std::optional<
         // We don't want to accidentally select something on mouse-up after dragging the scrollbar, so if
         // there's a mouse-up event, tell the UI that we've handled it
         return action == "SELECT";
-    } else  if( action == "CLICK_AND_DRAG" && coord.has_value() &&
-                scrollbar_area.contains( coord.value() ) ) {
+    } else if( action == "CLICK_AND_DRAG" && coord.has_value() &&
+               scrollbar_area.contains( coord.value() ) ) {
         // Started dragging the scrollbar
         dragging = true;
         return true;
@@ -2541,195 +2538,6 @@ void calcStartPos( int &iStartPos, const int iCurrentLine, const int iContentHei
     }
 }
 
-#if defined(_MSC_VER)
-std::string cata::string_formatter::raw_string_format( const char *const format, ... )
-{
-    va_list args;
-    va_start( args, format );
-
-    va_list args_copy;
-    va_copy( args_copy, args );
-    const int result = _vscprintf_p( format, args_copy );
-    va_end( args_copy );
-    if( result == -1 ) {
-        throw std::runtime_error( "Bad format string for printf: \"" + std::string( format ) + "\"" );
-    }
-
-    std::string buffer( result, '\0' );
-    _vsprintf_p( &buffer[0], result + 1, format, args ); //+1 for string's null
-    va_end( args );
-
-    return buffer;
-}
-#else
-
-// Cygwin has limitations which prevents
-// from using more than 9 positional arguments.
-// This functions works around it in two ways:
-//
-// First if all positional arguments are in "natural" order
-// (i.e. like %1$d %2$d %3$d),
-// then their positions is stripped away and string
-// formatted without positions.
-//
-// Otherwise only 9 arguments are passed to vsnprintf
-//
-std::string rewrite_vsnprintf( const char *msg )
-{
-    bool contains_positional = false;
-    const char *orig_msg = msg;
-    const char *formats = "diouxXeEfFgGaAcsCSpnm";
-
-    std::string rewritten_msg;
-    std::string rewritten_msg_optimised;
-    const char *ptr = nullptr;
-    int next_positional_arg = 1;
-    while( true ) {
-
-        // First find next position where argument might be used
-        ptr = strchr( msg, '%' );
-        if( !ptr ) {
-            rewritten_msg += msg;
-            rewritten_msg_optimised += msg;
-            break;
-        }
-
-        // Write portion of the string that was before %
-        rewritten_msg += std::string( msg, ptr );
-        rewritten_msg_optimised += std::string( msg, ptr );
-
-        const char *arg_start = ptr;
-
-        ptr++;
-
-        // If it simply '%%', then no processing needed
-        if( *ptr == '%' ) {
-            rewritten_msg += "%%";
-            rewritten_msg_optimised += "%%";
-            msg = ptr + 1;
-            continue;
-        }
-
-        // Parse possible number of positional argument
-        int positional_arg = 0;
-        while( isdigit( *ptr ) ) {
-            positional_arg = positional_arg * 10 + *ptr - '0';
-            ptr++;
-        }
-
-        // If '$' ever follows a numeral, the string has a positional arg
-        if( *ptr == '$' ) {
-            contains_positional = true;
-        }
-
-        // Check if it's expected argument
-        if( *ptr == '$' && positional_arg == next_positional_arg ) {
-            next_positional_arg++;
-        } else {
-            next_positional_arg = -1;
-        }
-
-        // Now find where it ends
-        const char *end = strpbrk( ptr, formats );
-        if( !end ) {
-            // Format string error. Just bail.
-            return orig_msg;
-        }
-
-        // write entire argument to rewritten_msg
-        if( positional_arg < 10 ) {
-            std::string argument( arg_start, end + 1 );
-            rewritten_msg += argument;
-        } else {
-            rewritten_msg += "<formatting error>";
-        }
-
-        // write argument without position to rewritten_msg_optimised
-        if( next_positional_arg > 0 ) {
-            std::string argument( ptr + 1, end + 1 );
-            rewritten_msg_optimised += "%" + argument;
-        }
-
-        msg = end + 1;
-    }
-
-    if( !contains_positional ) {
-        return orig_msg;
-    }
-
-    if( next_positional_arg > 0 ) {
-        // If all positioned arguments were in order (%1$d %2$d) then we simply
-        // strip arguments
-        return rewritten_msg_optimised;
-    }
-
-    return rewritten_msg;
-}
-
-// NOLINTNEXTLINE(cert-dcl50-cpp)
-std::string cata::string_formatter::raw_string_format( const char *format, ... )
-{
-#if defined(_WIN32)
-    // For unknown reason, vsnprintf on Windows does not seem to support positional arguments (e.g. "%1$s")
-    va_list args;
-    va_start( args, format );
-
-    va_list args_copy_1;
-    va_copy( args_copy_1, args );
-    // Return value of _vscprintf_p does not include the '\0' terminator
-    const int characters = _vscprintf_p( format, args_copy_1 ) + 1;
-    va_end( args_copy_1 );
-
-    std::vector<char> buffer( characters, '\0' );
-    va_list args_copy_2;
-    va_copy( args_copy_2, args );
-    _vsprintf_p( &buffer[0], characters, format, args_copy_2 );
-    va_end( args_copy_2 );
-
-    va_end( args );
-    return std::string( &buffer[0] );
-#else
-    va_list args;
-    va_start( args, format );
-
-    errno = 0; // Clear errno before trying
-    std::vector<char> buffer( 1024, '\0' );
-
-#if defined(__CYGWIN__)
-    std::string rewritten_format = rewrite_vsnprintf( format );
-    format = rewritten_format.c_str();
-#endif
-
-    for( ;; ) {
-        const size_t buffer_size = buffer.size();
-
-        va_list args_copy;
-        va_copy( args_copy, args );
-        const int result = vsnprintf( buffer.data(), buffer_size, format, args_copy );
-        va_end( args_copy );
-
-        // No error, and the buffer is big enough; we're done.
-        if( result >= 0 && static_cast<size_t>( result ) < buffer_size ) {
-            break;
-        }
-
-        // Standards conformant versions return -1 on error only.
-        // Some non-standard versions return -1 to indicate a bigger buffer is needed.
-        // Some of the latter set errno to ERANGE at the same time.
-        if( result < 0 && errno && errno != ERANGE ) {
-            throw std::runtime_error( "Bad format string for printf: \"" + std::string( format ) + "\"" );
-        }
-
-        // Looks like we need to grow... bigger, definitely bigger.
-        buffer.resize( buffer_size * 2 );
-    }
-
-    va_end( args );
-    return std::string( buffer.data() );
-#endif
-}
-#endif
-
 void replace_city_tag( std::string &input, const std::string &name )
 {
     replace_substring( input, "<city>", name, true );
@@ -2751,18 +2559,22 @@ void replace_substring( std::string &input, const std::string &substring,
     }
 }
 
-std::string uppercase_first_letter( const std::string &str )
+std::string uppercase_first_letter( const std::string_view str )
 {
-    std::wstring wstr = utf8_to_wstr( str );
-    wstr[0] = towupper( wstr[0] );
-    return wstr_to_utf8( wstr );
+    std::u32string u32s = utf8_to_utf32( str );
+    if( !u32s.empty() ) {
+        u32s[0] = u32_to_uppercase( u32s[0] );
+    }
+    return utf32_to_utf8( u32s );
 }
 
-std::string lowercase_first_letter( const std::string &str )
+std::string lowercase_first_letter( const std::string_view str )
 {
-    std::wstring wstr = utf8_to_wstr( str );
-    wstr[0] = towlower( wstr[0] );
-    return wstr_to_utf8( wstr );
+    std::u32string u32s = utf8_to_utf32( str );
+    if( !u32s.empty() ) {
+        u32s[0] = u32_to_lowercase( u32s[0] );
+    }
+    return utf32_to_utf8( u32s );
 }
 
 //remove prefix of a string, between c1 and c2, i.e., "<prefix>remove it"
@@ -2939,11 +2751,12 @@ using RatingVector = std::vector<std::tuple<double, char, std::string>>;
 template std::string get_labeled_bar<RatingVector::iterator>( const double val, const int width,
         const std::string &label,
         RatingVector::iterator begin, RatingVector::iterator end,
-        std::function<std::string( RatingVector::iterator, int )> printer );
+        const std::function<std::string( RatingVector::iterator, int )> &printer );
 
 template<typename BarIterator>
 std::string get_labeled_bar( const double val, const int width, const std::string &label,
-                             BarIterator begin, BarIterator end, std::function<std::string( BarIterator, int )> printer )
+                             BarIterator begin, BarIterator end,
+                             const std::function<std::string( BarIterator, int )> &printer )
 {
     std::string result;
 

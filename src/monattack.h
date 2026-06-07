@@ -72,7 +72,6 @@ bool absorb_meat( monster *z );
 bool lunge( monster *z );
 bool parrot( monster *z );
 bool parrot_at_danger( monster *parrot );
-bool darkman( monster *z );
 bool slimespring( monster *z );
 bool evolve_kill_strike( monster *z );
 bool leech_spawner( monster *z );
@@ -91,6 +90,7 @@ bool grenadier_elite( monster *z );
 bool doot( monster *z );
 bool zombie_fuse( monster *z );
 bool blow_whistle( monster *z );
+bool eat_clone( monster *z );
 bool graze( monster *z );
 
 void taze( monster *z, Creature *target );

@@ -34,7 +34,7 @@ class cata_tiles_test_helper
 TEST_CASE( "walls_should_be_unconnected_without_nearby_walls", "[multitile][connects]" )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
 
     std::bitset<NUM_TERCONN> none;
@@ -64,7 +64,7 @@ TEST_CASE( "walls_should_be_unconnected_without_nearby_walls", "[multitile][conn
 TEST_CASE( "walls_should_connect_to_walls_as_end_pieces", "[multitile][connects]" )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
 
     std::bitset<NUM_TERCONN> none;
@@ -100,7 +100,7 @@ TEST_CASE( "walls_should_connect_to_walls_as_end_pieces", "[multitile][connects]
             cata_tiles_test_helper::get_connect_values( pos.raw(), subtile, rotation,
                     wall, none );
             CHECK( subtile == end_piece );
-            CHECK( rotation == 1 );
+            CHECK( rotation == 3 );
         }
     }
     WHEN( "connecting neighbour north" ) {
@@ -126,14 +126,14 @@ TEST_CASE( "walls_should_connect_to_walls_as_end_pieces", "[multitile][connects]
             cata_tiles_test_helper::get_connect_values( pos.raw(), subtile, rotation,
                     wall, none );
             CHECK( subtile == end_piece );
-            CHECK( rotation == 3 );
+            CHECK( rotation == 1 );
         }
     }
 }
 TEST_CASE( "walls_should_connect_to_walls_as_corners", "[multitile][connects]" )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
 
     std::bitset<NUM_TERCONN> none;
@@ -169,7 +169,7 @@ TEST_CASE( "walls_should_connect_to_walls_as_corners", "[multitile][connects]" )
             cata_tiles_test_helper::get_connect_values( pos.raw(), subtile, rotation,
                     wall, none );
             CHECK( subtile == corner );
-            CHECK( rotation == 1 );
+            CHECK( rotation == 3 );
         }
     }
     WHEN( "connecting neighbour north and west" ) {
@@ -195,14 +195,14 @@ TEST_CASE( "walls_should_connect_to_walls_as_corners", "[multitile][connects]" )
             cata_tiles_test_helper::get_connect_values( pos.raw(), subtile, rotation,
                     wall, none );
             CHECK( subtile == corner );
-            CHECK( rotation == 3 );
+            CHECK( rotation == 1 );
         }
     }
 }
 TEST_CASE( "walls_should_connect_to_walls_as_edges", "[multitile][connects]" )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
 
     std::bitset<NUM_TERCONN> none;
@@ -245,7 +245,7 @@ TEST_CASE( "walls_should_connect_to_walls_as_edges", "[multitile][connects]" )
 TEST_CASE( "walls_should_connect_to_walls_as_t-connections_and_fully", "[multitile][connects]" )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
 
     std::bitset<NUM_TERCONN> none;
@@ -281,7 +281,7 @@ TEST_CASE( "walls_should_connect_to_walls_as_t-connections_and_fully", "[multiti
             cata_tiles_test_helper::get_connect_values( pos.raw(), subtile, rotation,
                     wall, none );
             CHECK( subtile == t_connection );
-            CHECK( rotation == 1 );
+            CHECK( rotation == 3 );
         }
     }
     WHEN( "connecting neighbour all but south" ) {
@@ -307,7 +307,7 @@ TEST_CASE( "walls_should_connect_to_walls_as_t-connections_and_fully", "[multiti
             cata_tiles_test_helper::get_connect_values( pos.raw(), subtile, rotation,
                     wall, none );
             CHECK( subtile == t_connection );
-            CHECK( rotation == 3 );
+            CHECK( rotation == 1 );
         }
     }
     // All
@@ -329,7 +329,7 @@ TEST_CASE( "walls_should_connect_to_walls_as_t-connections_and_fully", "[multiti
 TEST_CASE( "windows_should_connect_to_walls_and_rotate_to_indoor_floor", "[multitile][rotates]" )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
 
     std::bitset<NUM_TERCONN> floor;
@@ -453,7 +453,7 @@ TEST_CASE( "windows_should_connect_to_walls_and_rotate_to_indoor_floor", "[multi
 TEST_CASE( "unconnected_windows_rotate_to_indoor_floor", "[multitile][rotates]" )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
 
     std::bitset<NUM_TERCONN> none;
@@ -503,7 +503,7 @@ TEST_CASE( "unconnected_windows_rotate_to_indoor_floor", "[multitile][rotates]" 
             cata_tiles_test_helper::get_connect_values( pos.raw(), subtile, rotation,
                     none, floor );
             CHECK( subtile == unconnected );
-            CHECK( rotation == 3 );
+            CHECK( rotation == 1 );
         }
     }
     WHEN( "indoor floor to the south" ) {
@@ -529,7 +529,7 @@ TEST_CASE( "unconnected_windows_rotate_to_indoor_floor", "[multitile][rotates]" 
             cata_tiles_test_helper::get_connect_values( pos.raw(), subtile, rotation,
                     none, floor );
             CHECK( subtile == unconnected );
-            CHECK( rotation == 1 );
+            CHECK( rotation == 3 );
         }
     }
 }

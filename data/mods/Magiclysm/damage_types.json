@@ -18,7 +18,7 @@
     "melee_only": false,
     "physical": false,
     "magic_color": "green",
-    "name": "poison",
+    "name": { "ctxt": "damage_type", "str": "poison" },
     "mon_difficulty": true,
     "material_required": false,
     "immune_flags": { "character": [ "POISON_IMMUNE" ], "monster": [ "POISONPROOF" ] }
@@ -40,7 +40,7 @@
     "melee_only": false,
     "physical": false,
     "magic_color": "yellow",
-    "name": "light",
+    "name": { "ctxt": "damage_type", "str": "light" },
     "derived_from": [ "heat", 2 ],
     "mon_difficulty": true,
     "material_required": false
@@ -62,7 +62,7 @@
     "melee_only": false,
     "physical": false,
     "magic_color": "black_green",
-    "name": "necrotic",
+    "name": { "ctxt": "damage_type", "str": "necrotic" },
     "mon_difficulty": true,
     "material_required": false,
     "immune_flags": { "monster": [ "TIMELESS" ] }
@@ -84,7 +84,7 @@
     "melee_only": false,
     "physical": false,
     "magic_color": "h_white",
-    "name": "sonic",
+    "name": { "ctxt": "damage_type", "str": "sonic" },
     "derived_from": [ "bash", 0.4 ],
     "mon_difficulty": true,
     "material_required": false
@@ -106,7 +106,7 @@
     "melee_only": false,
     "physical": false,
     "magic_color": "pink",
-    "name": "psionic",
+    "name": { "ctxt": "damage_type", "str": "psionic" },
     "mon_difficulty": true,
     "material_required": false,
     "immune_flags": { "character": [ "PSIONIC_IMMUNE" ], "monster": [ "PSIONICPROOF" ] }
@@ -128,7 +128,7 @@
     "melee_only": false,
     "physical": false,
     "magic_color": "white_magenta",
-    "name": "gravity",
+    "name": { "ctxt": "damage_type", "str": "gravity" },
     "mon_difficulty": true,
     "material_required": false
   },
@@ -149,7 +149,7 @@
     "melee_only": false,
     "physical": false,
     "magic_color": "i_pink",
-    "name": "nether",
+    "name": { "ctxt": "damage_type", "str": "nether" },
     "mon_difficulty": true,
     "material_required": false,
     "immune_flags": { "character": [ "NETHER_IMMUNE" ], "monster": [ "NETHERPROOF" ] }

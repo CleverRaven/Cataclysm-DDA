@@ -79,7 +79,7 @@
     "time": "30 m",
     "flags": [ "SECRET" ],
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "COOK", "level": 1 } ],
-    "components": [ [ [ "scrap_dreamdross", 1 ] ], [ [ "scrap_shadowstuff", 1 ], [ "grappler_sinew", 1 ] ] ]
+    "components": [ [ [ "scrap_dreamdross", 1 ] ], [ [ "scrap_shadowstuff", 1 ] ], [ [ "grappler_sinew", 1 ] ] ]
   },
   {
     "type": "recipe",

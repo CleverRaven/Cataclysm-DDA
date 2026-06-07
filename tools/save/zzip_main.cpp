@@ -9,6 +9,7 @@
 #include <string_view>
 #include <thread>
 #include <utility>
+#include <vector>
 
 #include <zstd/zstd.h>
 #include <zstd/common/mem.h>
@@ -220,22 +221,8 @@ struct ZzipStream {
 
 #define RETURN_ERROR(e) err = e; return entry
 
-            // Skip the zzip header.
-            if( !ZSTD_isSkippableFrame( base, remaining_len ) ) {
-                RETURN_ERROR( ZzipError( zzip_path, 0, "Zzip does not start with skippable frame." ) );
-            }
-
-            // The first frame of a zzip should be a skippable frame of two 64 bit ints
             ZSTD_FrameHeader header;
-            size_t error_code = ZSTD_getFrameHeader( &header, base, remaining_len );
-            if( ZSTD_isError( error_code ) ||
-                header.dictID != kFooterChecksumMagic ||
-                header.frameContentSize != 2 * sizeof( uint64_t ) ) {
-                RETURN_ERROR( ZzipError( zzip_path, 0, "Error reading zzip header." ) );
-            }
-
-            base += ZSTD_SKIPPABLEHEADERSIZE + 2 * sizeof( uint64_t );
-            remaining_len -= ZSTD_SKIPPABLEHEADERSIZE + 2 * sizeof( uint64_t );
+            size_t error_code = 0;
 
             std::string filename;
             uint64_t checksum = 0;
@@ -374,7 +361,7 @@ static int decompress_to( std::filesystem::path const &zzip_path,
         entry_map[filename] = std::move( *entry );
     }
 
-    for( const std::pair<std::string, ZzipEntry> &entry : entry_map ) {
+    for( const std::pair<const std::string, ZzipEntry> &entry : entry_map ) {
         const std::string &filename = entry.second.path;
         const char *entry_base = entry.second.base;
         size_t frame_size = entry.second.size;
@@ -402,7 +389,6 @@ static int decompress_to( std::filesystem::path const &zzip_path,
         } catch( std::exception &e ) {
             throw FsError( output_file, {}, std::string{ "Error writing output: " } + e.what() );
         }
-        return {};
     }
     if( !zs.good() ) {
         zs.e().throw_exception();
@@ -673,7 +659,7 @@ static int handle_file_contextual( std::filesystem::path const &input_file )
         throw IDK( input_file );
     }
 
-    world_relative_zzip.concat( ".zzip" );
+    world_relative_zzip.concat( kZzipExt );
     return compress_to( world_root / world_relative_zzip, entry_key, world_root / relative_input,
                         dict );
 }

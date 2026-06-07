@@ -15,6 +15,7 @@
 #include "options.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "translation.h"
 #include "translations.h"
 #include "units.h"
 #include "units_utility.h"
@@ -350,7 +351,7 @@ bool is_day( const time_point &p )
     return sun_altitude( p ) >= sunrise_angle;
 }
 
-static bool is_twilight( const time_point &p )
+bool is_twilight( const time_point &p )
 {
     units::angle altitude = sun_altitude( p );
     return altitude >= civil_dawn && altitude <= sunrise_angle;
@@ -368,7 +369,7 @@ bool is_dawn( const time_point &p )
     return now < 12_hours && is_twilight( p );
 }
 
-static float moon_light_at( const time_point &p )
+float moon_light_at( const time_point &p )
 {
     int current_phase = static_cast<int>( get_moon_phase( p ) );
     if( current_phase > static_cast<int>( MOON_PHASE_MAX ) / 2 ) {
@@ -788,7 +789,8 @@ bool x_in_y( const time_duration &a, const time_duration &b )
     return ::x_in_y( to_turns<int>( a ), to_turns<int>( b ) );
 }
 
-const std::vector<std::pair<std::string, time_duration>> time_duration::units = { {
+constexpr const std::array<std::pair<std::string_view, time_duration>, 15> time_duration::units
+= { {
         { "turns", 1_turns },
         { "turn", 1_turns },
         { "t", 1_turns },
@@ -907,13 +909,13 @@ std::pair<month, int> month_and_day( time_point turn )
 
 std::string to_string( month m )
 {
-    static std::array<std::string, 12> months = {
-        translate_marker_context( "month", "Jan" ), translate_marker_context( "month", "Feb" ),
-        translate_marker_context( "month", "Mar" ), translate_marker_context( "month", "Apr" ),
-        translate_marker_context( "month", "May" ), translate_marker_context( "month", "Jun" ),
-        translate_marker_context( "month", "Jul" ), translate_marker_context( "month", "Aug" ),
-        translate_marker_context( "month", "Sep" ), translate_marker_context( "month", "Oct" ),
-        translate_marker_context( "month", "Nov" ), translate_marker_context( "month", "Dec" )
+    static std::array<translation, 12> months = {
+        to_translation( "month", "Jan" ), to_translation( "month", "Feb" ),
+        to_translation( "month", "Mar" ), to_translation( "month", "Apr" ),
+        to_translation( "month", "May" ), to_translation( "month", "Jun" ),
+        to_translation( "month", "Jul" ), to_translation( "month", "Aug" ),
+        to_translation( "month", "Sep" ), to_translation( "month", "Oct" ),
+        to_translation( "month", "Nov" ), to_translation( "month", "Dec" )
     };
 
     static_assert( static_cast<month>( 0 ) == month::JANUARY, "month enum out of phase" );
@@ -922,7 +924,7 @@ std::string to_string( month m )
         return _( "Cataclysm" );
     }
 
-    return _( months[static_cast<int>( m )] );
+    return months[static_cast<int>( m )].translated();
 }
 
 std::string get_diary_time_since_str( const time_duration &turn_diff, time_accuracy acc,

@@ -67,7 +67,6 @@
       {
         "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
-          "energy_amount": 2000,
           "prep_time": 1,
           "spell_to_cast": "spell_feline_leap",
           "message_success": {
@@ -86,7 +85,6 @@
       {
         "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
-          "energy_amount": 2000,
           "prep_time": 2,
           "spell_to_cast": "spell_short_leap",
           "message_success": {
@@ -105,7 +103,6 @@
       {
         "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
-          "energy_amount": 6000,
           "prep_time": 3,
           "spell_to_cast": "spell_crushing_leap",
           "message_success": { "i18n": true, "str": "You squat down, build up tension in your legs and release.  Death from above." },
@@ -121,7 +118,6 @@
       {
         "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
-          "energy_amount": 2500,
           "prep_time": 1,
           "spell_to_cast": "spell_avian_leap",
           "message_success": {

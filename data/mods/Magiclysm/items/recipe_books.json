@@ -126,6 +126,27 @@
     "read_fun": -2
   },
   {
+    "id": "alchemy_mana_processing",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "name": { "str": "Quintessential Refinement", "str_pl": "copies of Quintessential Refinement" },
+    "description": "A reference manual for the process needed to turn raw mana crystals into useful crystallized mana, for those who prefer to source their mana from nature instead of the time-consuming and extremely fatiguing process of condensing the mana using thaumaturgy.",
+    "weight": "425 g",
+    "volume": "450 ml",
+    "price": "50 USD",
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "white",
+    "required_level": 6,
+    "max_level": 9,
+    "intelligence": 12,
+    "time": "20 m",
+    "melee_damage": { "bash": 6 },
+    "read_skill": "chemistry",
+    "read_fun": -2
+  },
+  {
     "id": "techno_basic",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
@@ -359,5 +380,25 @@
     "melee_damage": { "bash": 5 },
     "read_skill": "spellcraft",
     "read_fun": -1
+  },
+  {
+    "id": "harnessing_hellfire",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "name": { "str": "Harnessing Hellfire", "str_pl": "copies of Harnessing Hellfire" },
+    "description": "A detailed guide on how one could use otherworldly flames for crafting everlasting light sources.  Long considered outdated, now might be time for these methods to make a comeback.",
+    "weight": "160 g",
+    "volume": "700 ml",
+    "price": "60 USD",
+    "material": [ "paper" ],
+    "looks_like": "manual_gun",
+    "required_level": 3,
+    "max_level": 4,
+    "intelligence": 9,
+    "time": "25 m",
+    "symbol": "?",
+    "color": "light_gray",
+    "read_skill": "spellcraft"
   }
 ]

@@ -213,6 +213,52 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_MUTE_DEXTEROUS_PAWS_GAIN",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": {
+      "or": [
+        { "compare_string": [ "PAWS_LITTLE", { "context_val": "trait" } ] },
+        { "compare_string": [ "PAWS_RAT", { "context_val": "trait" } ] }
+      ]
+    },
+    "effect": [ { "u_learn_recipe": "prac_dextrous_paws" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEXTROUS_PAWS_RESULTS",
+    "condition": { "math": [ "u_progress_dextrous_paws_usage >= 10" ] },
+    "effect": [
+      { "u_message": "You tie the last knot and look at it with satisfaction.  You've got it all figured out now." },
+      { "u_forget_recipe": "prac_dextrous_paws" }
+    ],
+    "false_effect": [
+      { "math": [ "u_progress_dextrous_paws_usage++" ] },
+      {
+        "u_message": "The thumb goes *there* and your fingers go like *this*.  You won't do any delicate work but you're getting there."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEXTROUS_PAWS_LOSE",
+    "eoc_type": "EVENT",
+    "required_event": "loses_mutation",
+    "//": "If we lose either trait check if we end up in a mute state via the queued EoC",
+    "condition": {
+      "or": [
+        { "compare_string": [ "PAWS_LITTLE", { "context_val": "trait" } ] },
+        { "compare_string": [ "PAWS_RAT", { "context_val": "trait" } ] }
+      ]
+    },
+    "effect": [
+      { "u_forget_recipe": "prac_dextrous_paws" },
+      { "math": [ "u_progress_dextrous_paws_usage = 0" ] },
+      { "u_message": "You've got your old fingers back.  They feel almost hypermobile compared to before." }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "mut_eyestalk",
     "recurrence": [ "2 hours 15 minutes", "10 hours 15 minutes" ],
     "condition": {
@@ -440,7 +486,7 @@
     "id": "rashy_skin",
     "recurrence": [ "2 hour", "24 hours" ],
     "condition": { "and": [ { "u_has_trait": "SKIN_RASHY" }, { "not": { "u_has_effect": "formication" } } ] },
-    "effect": [ { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "random" } ]
+    "effect": [ { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "RANDOM" } ]
   },
   {
     "type": "effect_on_condition",
@@ -597,16 +643,16 @@
     "category": "<radiation_category>",
     "//": "Radiation will only mutate you inside your class ie Mammalia",
     "text": [
-      { "text": "URSINE" },
-      { "text": "CHIROPTERAN" },
-      { "text": "LUPINE" },
-      { "text": "RAT" },
-      { "text": "MOUSE" },
-      { "text": "HUMAN" },
-      { "text": "RABBIT" },
-      { "text": "FELINE" },
-      { "text": "CATTLE" },
-      { "text": "TROGLOBITE" }
+      { "text": { "str": "URSINE", "//~": "NO_I18N" } },
+      { "text": { "str": "CHIROPTERAN", "//~": "NO_I18N" } },
+      { "text": { "str": "LUPINE", "//~": "NO_I18N" } },
+      { "text": { "str": "RAT", "//~": "NO_I18N" } },
+      { "text": { "str": "MOUSE", "//~": "NO_I18N" } },
+      { "text": { "str": "HUMAN", "//~": "NO_I18N" } },
+      { "text": { "str": "RABBIT", "//~": "NO_I18N" } },
+      { "text": { "str": "FELINE", "//~": "NO_I18N" } },
+      { "text": { "str": "CATTLE", "//~": "NO_I18N" } },
+      { "text": { "str": "TROGLOBITE", "//~": "NO_I18N" } }
     ]
   },
   {
@@ -655,16 +701,6 @@
     "//": "will remove ink_gland_ink effect when the mutation is lost",
     "condition": { "and": [ { "u_has_effect": "ink_gland_ink" }, { "compare_string": [ "INK_GLANDS", { "context_val": "trait" } ] } ] },
     "effect": [ { "u_lose_effect": "ink_gland_ink" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_insect_wings_shutoff",
-    "recurrence": [ "1 seconds", "1 seconds" ],
-    "condition": { "and": [ { "math": [ "u_val('stamina') < 3000" ] }, { "u_has_trait": "WINGS_INSECT_active" } ] },
-    "effect": [
-      { "u_activate_trait": "WINGS_INSECT_active" },
-      { "u_message": "You don't have the stamina to keep buzzing.", "type": "bad" }
-    ]
   },
   {
     "type": "effect_on_condition",

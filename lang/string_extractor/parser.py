@@ -24,7 +24,7 @@ from .parsers.faction_mission import parse_faction_mission
 from .parsers.fault import parse_fault
 from .parsers.fault_fix import parse_fault_fix
 from .parsers.field_type import parse_field_type
-from .parsers.furniture import parse_furniture
+from .parsers.furniture_terrain import parse_furniture_terrain
 from .parsers.gate import parse_gate
 from .parsers.generic import parse_generic
 from .parsers.gun import parse_gun
@@ -54,7 +54,6 @@ from .parsers.proficiency_category import parse_proficiency_category
 from .parsers.recipe import parse_recipe
 from .parsers.recipe_category import parse_recipe_category
 from .parsers.recipe_group import parse_recipe_group
-from .parsers.magazine import parse_magazine
 from .parsers.material import parse_material
 from .parsers.martial_art import parse_martial_art
 from .parsers.mission_definition import parse_mission_definition
@@ -67,8 +66,10 @@ from .parsers.mutation_category import parse_mutation_category
 from .parsers.overmap_land_use_code import parse_overmap_land_use_code
 from .parsers.overmap_special import parse_overmap_special
 from .parsers.practice import parse_practice
+from .parsers.requirement import parse_requirement
 from .parsers.scenario import parse_scenario
 from .parsers.shop_blacklist import parse_shopkeeper_blacklist
+from .parsers.shop_whitelist import parse_shopkeeper_whitelist
 from .parsers.skill import parse_skill
 from .parsers.skill_display_type import parse_skill_display_type
 from .parsers.speech import parse_speech
@@ -81,7 +82,6 @@ from .parsers.sub_body_part import parse_sub_body_part
 from .parsers.talk_topic import parse_talk_topic
 from .parsers.technique import parse_technique
 from .parsers.ter_furn_transform import parse_ter_furn_transform
-from .parsers.terrain import parse_terrain
 from .parsers.tool_quality import parse_tool_quality
 from .parsers.trap import parse_trap
 from .parsers.vehicle import parse_vehicle
@@ -109,6 +109,7 @@ parsers = {
     "anatomy": dummy_parser,
     "ascii_art": dummy_parser,
     "attack_vector": dummy_parser,
+    "bash_damage_profile": dummy_parser,
     "behavior": dummy_parser,
     "bionic": parse_bionic,
     "bionic_migration": dummy_parser,
@@ -134,6 +135,7 @@ parsers = {
     "disease_type": dummy_parser,
     "effect_on_condition": parse_effect_on_condition,
     "effect_type": parse_effect_type,
+    "effect_migration": dummy_parser,
     "emit": dummy_parser,
     "enchantment": parse_enchant,
     "end_screen": parse_end_screen,
@@ -146,7 +148,7 @@ parsers = {
     "fault_fix": parse_fault_fix,
     "fault_group": dummy_parser,
     "field_type": parse_field_type,
-    "furniture": parse_furniture,
+    "furniture": parse_furniture_terrain,
     "gate": parse_gate,
     "gun": parse_gun,
     "gunmod": parse_gunmod,
@@ -164,7 +166,6 @@ parsers = {
     "keybinding": parse_keybinding,
     "limb_score": parse_limb_score,
     "loot_zone": parse_loot_zone,
-    "magazine": parse_magazine,
     "magic_type": dummy_parser,
     "map_extra": parse_map_extra,
     "mapgen": parse_mapgen,
@@ -192,6 +193,7 @@ parsers = {
     "nested_category": parse_nested_category,
     "npc": parse_npc,
     "npc_class": parse_npc_class,
+    "omt_placeholder": dummy_parser,
     "oter_id_migration": dummy_parser,
     "oter_vision": parse_oter_vision,
     "option_slider": parse_option_slider,
@@ -204,12 +206,15 @@ parsers = {
     "overmap_terrain": parse_overmap_terrain,
     "palette": parse_palette,
     "playlist": dummy_parser,
+    "pp_generator": dummy_parser,
     "practice": parse_practice,
     "profession": parse_profession,
+    "profession_blacklist": dummy_parser,
     "profession_group": dummy_parser,
     "profession_item_substitutions": dummy_parser,
     "proficiency": parse_proficiency,
     "proficiency_category": parse_proficiency_category,
+    "proficiency_migration": dummy_parser,
     "recipe": parse_recipe,
     "recipe_category": parse_recipe_category,
     "recipe_group": parse_recipe_group,
@@ -227,19 +232,18 @@ parsers = {
     "region_terrain_furniture": dummy_parser,
     "region_settings_forest_mapgen": dummy_parser,
     "region_settings_map_extras": dummy_parser,
-    "forest_biome_feature": dummy_parser,
+    "forest_biome_component": dummy_parser,
     "forest_biome_mapgen": dummy_parser,
     "map_extra_collection": dummy_parser,
-    "region_settings_new": dummy_parser,
-    "region_overlay_new": dummy_parser,
     "relic_procgen_data": dummy_parser,
-    "requirement": dummy_parser,
+    "requirement": parse_requirement,
     "rotatable_symbol": dummy_parser,
     "scenario": parse_scenario,
     "scenario_blacklist": dummy_parser,
     "scent_type": dummy_parser,
     "score": dummy_parser,
     "shopkeeper_blacklist": parse_shopkeeper_blacklist,
+    "shopkeeper_whitelist": parse_shopkeeper_whitelist,
     "shopkeeper_consumption_rates": dummy_parser,
     "skill": parse_skill,
     "skill_boost": dummy_parser,
@@ -256,7 +260,7 @@ parsers = {
     "technique": parse_technique,
     "temperature_removal_blacklist": dummy_parser,
     "ter_furn_transform": parse_ter_furn_transform,
-    "terrain": parse_terrain,
+    "terrain": parse_furniture_terrain,
     "ter_furn_migration": dummy_parser,
     "trait_blacklist": dummy_parser,
     "trait_group": dummy_parser,

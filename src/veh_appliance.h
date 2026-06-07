@@ -47,10 +47,8 @@ class veh_app_interact
          *
          * @param veh The vehicle representing the appliance
          * @param p The point of interaction on the vehicle (Default = (0,0))
-         * @returns An activity to assign to the player (ACT_VEHICLE),
-         * or a null activity if no further action is required.
         */
-        static player_activity run( map &here, vehicle &veh, const point_rel_ms &p = point_rel_ms::zero );
+        static void run( map &here, vehicle &veh, const point_rel_ms &p = point_rel_ms::zero );
 
     private:
         explicit veh_app_interact( vehicle &veh, const point_rel_ms &p );
@@ -65,30 +63,24 @@ class veh_app_interact
         // to uilist entries in imenu.
         input_context ctxt;
         weak_ptr_fast<ui_adaptor> ui;
-        // Activity to be returned from run(), or a null activity if
-        // no further action is required.
-        player_activity act;
         // Functions corresponding to the actions listed in imenu.entries.
         std::vector<std::function<void()>> app_actions;
-        // Curses window to represent the whole drawing area of the interaction UI.
-        catacurses::window w_border;
-        // Curses window to represent the upper portion that displays
-        // the appliance's usage info.
-        catacurses::window w_info;
         // Input menu in the lower portion. Handles input and draws the list
-        // of possible actions. The menu's internal window is modified by
-        // init_ui_windows() to integrate with the rest of the UI.
+        // of possible actions. Various stats about the appliance are added
+        // to the uilist header by draw_info_imgui_header();
         uilist imenu;
 
         /**
-         * Sets up the window parameters to fit the amount of text to be displayed.
+         * Does a bunch of offsetting that used to make room for a ncurses window.
+         * Nowadays largely redundant.
+         * TODO: Get rid of me?
          * The setup calls populate_app_actions() to initialize the content.
         */
         void init_ui_windows( map &here );
         /**
-         * Draws the upper portion, representing the appliance's usage info.
+         * Creates the header text, representing the appliance's usage info.
         */
-        void draw_info( map &here );
+        std::string draw_info_imgui_header( map &here );
         /**
          * Populates the list of available actions for this appliance. The action display
          * names are stored as uilist entries in imenu, and the associated functions

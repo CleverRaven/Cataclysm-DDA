@@ -306,7 +306,14 @@
       {
         "id": "blister_pack_bc",
         "name": { "str": "birth control pack" },
-        "description": "A thin piece of plastic and foil, with tiny bubbles meant for pills.  This one is for birth control, with 28 sections for pills in it."
+        "description": "A thin piece of plastic and foil, with tiny bubbles meant for pills.  This one is for birth control, with 28 sections for pills in it.",
+        "weight": 0
+      },
+      {
+        "id": "blister_pack_gum",
+        "name": { "str": "pack of chewing gum", "str_pl": "packs of chewing gum" },
+        "description": "A thin piece of plastic and foil, with tiny bubbles meant for chewing gum.",
+        "weight": 0
       }
     ],
     "weight": "5 g",
@@ -327,5 +334,40 @@
     "symbol": ")",
     "color": "light_gray",
     "flags": [ "COLLAPSE_CONTENTS", "NO_RELOAD" ]
+  },
+  {
+    "id": "primer_tray",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "primer tray" },
+    "looks_like": "box_small",
+    "description": "A small, flat plastic tray meant to hold primers encased in a cardboard sleeve.",
+    "weight": "2 g",
+    "volume": "26 ml",
+    "longest_side": "98 mm",
+    "price": "85 cent",
+    "price_postapoc": "1 cent",
+    "material": [ "plastic", "cardboard" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "150 ml",
+        "max_contains_weight": "200 g",
+        "item_restriction": [
+          "smpistol_primer",
+          "lgpistol_primer",
+          "smrifle_primer",
+          "lgrifle_primer",
+          "shotgun_primer",
+          "spent_smpistol_primer",
+          "spent_lgpistol_primer",
+          "spent_smrifle_primer",
+          "spent_lgrifle_primer",
+          "spent_shotgun_primer"
+        ]
+      }
+    ],
+    "symbol": ")",
+    "color": "blue"
   }
 ]

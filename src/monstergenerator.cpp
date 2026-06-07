@@ -41,6 +41,8 @@
 
 struct itype;
 
+static const damage_type_id damage_bash( "bash" );
+
 static const harvest_id harvest_list_human( "human" );
 
 static const material_id material_flesh( "flesh" );
@@ -106,6 +108,24 @@ std::string enum_to_string<mdeath_type>( mdeath_type data )
 
 } // namespace io
 
+template<>
+const mtype &int_id<mtype>::obj() const
+{
+    return MonsterGenerator::generator().mon_templates->obj( *this );
+}
+
+template<>
+bool int_id<mtype>::is_valid() const
+{
+    return MonsterGenerator::generator().mon_templates->is_valid( *this );
+}
+
+template<>
+const string_id<mtype> &int_id<mtype>::id() const
+{
+    return MonsterGenerator::generator().mon_templates->convert( *this );
+}
+
 /** @relates string_id */
 template<>
 const mtype &string_id<mtype>::obj() const
@@ -118,6 +138,12 @@ template<>
 bool string_id<mtype>::is_valid() const
 {
     return MonsterGenerator::generator().mon_templates->is_valid( *this );
+}
+
+template<>
+int_id<mtype> string_id<mtype>::id() const
+{
+    return MonsterGenerator::generator().mon_templates->convert( *this, int_id<mtype>( 0 ) );
 }
 
 /** @relates string_id */
@@ -220,7 +246,7 @@ void MonsterGenerator::reset()
     init_attack();
 }
 
-static int calc_bash_skill( const mtype &t )
+static std::map<damage_type_id, int> calc_bash_skill( const mtype &t )
 {
     // IOW, the critter's max bashing damage
     int ret = t.melee_dice * t.melee_sides;
@@ -230,10 +256,10 @@ static int calc_bash_skill( const mtype &t )
     } else if( t.has_flag( mon_flag_DESTROYS ) ) {
         ret *= 2.5;
     } else if( !t.has_flag( mon_flag_BASHES ) ) {
-        ret = 0;
+        return {};
     }
 
-    return ret;
+    return {{{damage_bash, ret}}};
 }
 
 static creature_size volume_to_size( const units::volume &vol )
@@ -250,6 +276,8 @@ static creature_size volume_to_size( const units::volume &vol )
     return creature_size::huge;
 }
 
+namespace
+{
 struct monster_adjustment {
     species_id species;
     std::string stat;
@@ -259,6 +287,7 @@ struct monster_adjustment {
     std::string special;
     void apply( mtype &mon ) const;
 };
+} // namespace
 
 void monster_adjustment::apply( mtype &mon ) const
 {
@@ -351,7 +380,7 @@ void MonsterGenerator::finalize_mtypes()
             adj.apply( mon );
         }
 
-        if( mon.bash_skill < 0 ) {
+        if( mon.bash_skill.empty() ) {
             mon.bash_skill = calc_bash_skill( mon );
         }
 
@@ -391,7 +420,7 @@ void MonsterGenerator::finalize_mtypes()
         }
         mon.difficulty = ( mon.melee_skill + 1 ) * mon.melee_dice * ( melee_dmg_total + mon.melee_sides ) *
                          0.04 + ( mon.sk_dodge + 1 ) * armor_diff * 0.04 +
-                         ( mon.difficulty_base + special_attacks_diff + 8 * mon.emit_fields.size() );
+                         ( mon.get_difficulty_adjustment() + special_attacks_diff + 8 * mon.emit_fields.size() );
         mon.difficulty *= ( mon.hp + mon.speed - mon.attack_cost + ( mon.morale + mon.agro ) * 0.1 ) * 0.01
                           + ( mon.vision_day + 2 * mon.vision_night ) * 0.01;
 
@@ -505,6 +534,12 @@ mtype MonsterGenerator::generate_fake_pseudo_dormant_monster( const mtype &mon )
     fake_mon.zombify_into = mon.id;
     // looks like "corpse" + original mon
     fake_mon.looks_like = "corpse_" + mon.id.str();
+    // disable upgrades - pseudo-dormant monsters exist briefly and must not
+    // change type before they fire their dormant trap setup attack
+    fake_mon.upgrades = false;
+    // just in case, clear the upgrade targets too
+    fake_mon.upgrade_into = mtype_id::NULL_ID();
+    fake_mon.upgrade_group = mongroup_id::NULL_ID();
     // set the hp to 5
     fake_mon.hp = 5;
     // set the speed to 1
@@ -522,7 +557,7 @@ mtype MonsterGenerator::generate_fake_pseudo_dormant_monster( const mtype &mon )
     }
     // add the special attack.
     // first make a new mon_spellcasting_actor actor
-    std::unique_ptr<mon_spellcasting_actor> new_actor( new mon_spellcasting_actor() );
+    std::unique_ptr<mon_spellcasting_actor> new_actor = std::make_unique<mon_spellcasting_actor>();
     new_actor->allow_no_target = true;
     new_actor->cooldown = 1;
     new_actor->spell_data.id = spell_pseudo_dormant_trap_setup;
@@ -569,7 +604,7 @@ void MonsterGenerator::finalize_pathfinding_settings( mtype &mon )
         mon.path_settings.max_length = mon.path_settings.max_dist * 5;
     }
 
-    if( mon.path_settings.bash_strength < 0 ) {
+    if( mon.path_settings.bash_strength.empty() ) {
         mon.path_settings.bash_strength = mon.bash_skill;
     }
 
@@ -656,7 +691,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "PARROT", mattack::parrot );
     add_hardcoded_attack( "PARROT_AT_DANGER", mattack::parrot_at_danger );
     add_hardcoded_attack( "BLOW_WHISTLE", mattack::blow_whistle );
-    add_hardcoded_attack( "DARKMAN", mattack::darkman );
     add_hardcoded_attack( "SLIMESPRING", mattack::slimespring );
     add_hardcoded_attack( "EVOLVE_KILL_STRIKE", mattack::evolve_kill_strike );
     add_hardcoded_attack( "LEECH_SPAWNER", mattack::leech_spawner );
@@ -674,6 +708,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "RIOTBOT", mattack::riotbot );
     add_hardcoded_attack( "DOOT", mattack::doot );
     add_hardcoded_attack( "ZOMBIE_FUSE", mattack::zombie_fuse );
+    add_hardcoded_attack( "EAT_CLONE", mattack::eat_clone );
 }
 
 void MonsterGenerator::init_defense()
@@ -860,16 +895,16 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "phase", phase, make_flag_reader( gen.phase_map, "phase id" ),
               phase_id::SOLID );
 
-    optional( jo, was_loaded, "diff", difficulty_base, numeric_bound_reader<int> {0}, 0 );
+    optional( jo, was_loaded, "diff", difficulty_adjustment, numeric_bound_reader<int> {0}, 0 );
     optional( jo, was_loaded, "hp", hp, numeric_bound_reader<int> {1} );
     optional( jo, was_loaded, "speed", speed, numeric_bound_reader<int> {0}, 0 );
     optional( jo, was_loaded, "aggression", agro, numeric_bound_reader<int> {-100, 100}, 0 );
     optional( jo, was_loaded, "morale", morale, 0 );
-    optional( jo, was_loaded, "stomach_size", stomach_size, 0 );
 
     optional( jo, was_loaded, "tracking_distance", tracking_distance, numeric_bound_reader<int> {3},
               8 );
 
+    //In its 1920 Manual of Horse Management, The U.S. Cavalry suggested a horse should not be asked to carry more than 20% of its body weight. This assumed a combined weight of rider, saddle, bridle, and other equipment.
     optional( jo, was_loaded, "mountable_weight_ratio", mountable_weight_ratio, 0.2f );
 
     optional( jo, was_loaded, "attack_cost", attack_cost, numeric_bound_reader<int> {0}, 100 );
@@ -1135,7 +1170,15 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "flags", pre_flags_, string_id_reader<mon_flag> {} );
 
     // Can't calculate yet - we want all flags first
-    optional( jo, was_loaded, "bash_skill", bash_skill, -1 );
+    if( jo.has_int( "bash_skill" ) ) {
+        int skill;
+        optional( jo, false, "bash_skill", skill, -1 );
+        if( skill <= 0 ) {
+            bash_skill = {{{damage_bash, skill}}};
+        }
+    } else {
+        optional( jo, was_loaded, "bash_skill", bash_skill );
+    }
 
     const auto trigger_reader = enum_flags_reader<mon_trigger> { "monster trigger" };
     optional( jo, was_loaded, "anger_triggers", anger, trigger_reader );
@@ -1147,7 +1190,7 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
         // Here rather than in pathfinding.cpp because we want monster-specific defaults and was_loaded
         optional( jop, was_loaded, "max_dist", path_settings.max_dist, 0 );
         optional( jop, was_loaded, "max_length", path_settings.max_length, -1 );
-        optional( jop, was_loaded, "bash_strength", path_settings.bash_strength, -1 );
+        optional( jop, was_loaded, "bash_strength", path_settings.bash_strength );
         optional( jop, was_loaded, "allow_open_doors", path_settings.allow_open_doors, false );
         optional( jop, was_loaded, "avoid_traps", path_settings.avoid_traps, false );
         optional( jop, was_loaded, "allow_climb_stairs", path_settings.allow_climb_stairs, true );
@@ -1216,6 +1259,8 @@ mtype_id MonsterGenerator::get_valid_hallucination() const
     return random_entry( hallucination_monsters );
 }
 
+namespace
+{
 class mattack_hardcoded_wrapper : public mattack_actor
 {
     private:
@@ -1235,6 +1280,7 @@ class mattack_hardcoded_wrapper : public mattack_actor
 
         void load_internal( const JsonObject &, const std::string & ) override {}
 };
+} // namespace
 
 mtype_special_attack::mtype_special_attack( const mattack_id &id, const mon_action_attack f )
     : mtype_special_attack( std::make_unique<mattack_hardcoded_wrapper>( id, f ) ) {}
@@ -1294,6 +1340,10 @@ mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
         new_attack = std::make_unique<gun_actor>();
     } else if( attack_type == "spell" ) {
         new_attack = std::make_unique<mon_spellcasting_actor>();
+    } else if( attack_type == "polymorph_special" ) {
+        new_attack = std::make_unique<polymorph_special>();
+    } else if( attack_type == "eoc" ) {
+        new_attack = std::make_unique<mon_eoc_actor>();
     } else if( attack_type == "invalid" ) {
         new_attack = std::make_unique<invalid_mattack_actor>();
     } else {
@@ -1555,7 +1605,7 @@ void monster_death_effect::deserialize( const JsonObject &data )
 
 void pet_food_data::load( const JsonObject &jo )
 {
-    mandatory( jo, was_loaded, "food", food );
+    optional( jo, was_loaded, "food", food );
     optional( jo, was_loaded, "feed", feed );
     optional( jo, was_loaded, "pet", pet );
 }

@@ -32,14 +32,19 @@
 #include "trap.h"
 #include "type_id.h"
 
+
 static furn_id f_null;
+
+static const bash_damage_profile_id bash_damage_profile_default( "default" );
 
 static const flag_id json_flag_DIGGABLE( "DIGGABLE" );
 static const flag_id json_flag_EASY_DECONSTRUCT( "EASY_DECONSTRUCT" );
 static const flag_id json_flag_FLAT( "FLAT" );
+static const flag_id json_flag_PHASE_BACK( "PHASE_BACK" );
 static const flag_id json_flag_PLOWABLE( "PLOWABLE" );
 
 static const furn_str_id furn_f_null( "f_null" );
+
 
 static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
 
@@ -220,6 +225,9 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_CURRENT: return "CURRENT";
         case ter_furn_flag::TFLAG_HARVESTED: return "HARVESTED";
         case ter_furn_flag::TFLAG_PERMEABLE: return "PERMEABLE";
+        case ter_furn_flag::TFLAG_THIN_ICE: return "THIN_ICE";
+        case ter_furn_flag::TFLAG_THICK_ICE: return "THICK_ICE";
+        case ter_furn_flag::TFLAG_SWIM_UNDER: return "SWIM_UNDER";
         case ter_furn_flag::TFLAG_AUTO_WALL_SYMBOL: return "AUTO_WALL_SYMBOL";
         case ter_furn_flag::TFLAG_CONNECT_WITH_WALL: return "CONNECT_WITH_WALL";
         case ter_furn_flag::TFLAG_CLIMBABLE: return "CLIMBABLE";
@@ -321,6 +329,10 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_WIRED_WALL: return "WIRED_WALL";
         case ter_furn_flag::TFLAG_MON_AVOID_STRICT: return "MON_AVOID_STRICT";
         case ter_furn_flag::TFLAG_REGION_PSEUDO: return "REGION_PSEUDO";
+        case ter_furn_flag::TFLAG_PHASE_BACK: return "PHASE_BACK";
+        case ter_furn_flag::TFLAG_ONE_DIMENSIONAL_X: return "ONE_DIMENSIONAL_X";
+        case ter_furn_flag::TFLAG_ONE_DIMENSIONAL_Y: return "ONE_DIMENSIONAL_Y";
+        case ter_furn_flag::TFLAG_ONE_DIMENSIONAL_Z: return "ONE_DIMENSIONAL_Z";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:
@@ -380,6 +392,8 @@ void map_common_bash_info::load( const JsonObject &jo, const bool was_loaded,
 
     optional( jo, was_loaded, "str_min_supported", str_min_supported, -1 );
     optional( jo, was_loaded, "str_max_supported", str_max_supported, -1 );
+
+    optional( jo, was_loaded, "profile", damage_profile, bash_damage_profile_default );
 
     optional( jo, was_loaded, "explosive", explosive, -1 );
 
@@ -441,7 +455,7 @@ std::string map_common_bash_info::potential_bash_items( const map_data_common_t 
         for( const item_comp &comp : ter_furn.get_uncraft_components() ) {
             ret += string_format( "- <color_cyan>%d %s</color>\n", comp.count, item::nname( comp.type ) );
         }
-        ret += string_format( _( "Bashing the %s may yield:\n%s" ), ter_furn.name(), ret );
+        ret = string_format( _( "Bashing the %s may yield:\n%s" ), ter_furn.name(), ret );
         ret += "\n";
         ret += _( "Or whatever remains of that which you manage to not destroy" );
         return ret;
@@ -508,6 +522,10 @@ std::string map_common_deconstruct_info::potential_deconstruct_items( const map_
         ret += string_format(
                    _( "\nYou feel you might also learn something about <color_cyan>%s</color>." ),
                    skill->id.obj().name() );
+    }
+    // Remove extra newline
+    if( !ret.empty() && ret.back() == '\n' ) {
+        ret.pop_back();
     }
     return ret;
 }
@@ -607,8 +625,9 @@ ter_t null_terrain_t()
 }
 
 template<typename C, typename F>
-void load_season_array( const JsonObject &jo, const std::string &key, const std::string &context,
-                        const bool ignore_absent_key, C &container, F load_func )
+static void load_season_array( const JsonObject &jo, const std::string &key,
+                               const std::string &context,
+                               const bool ignore_absent_key, C &container, F load_func )
 {
     if( jo.has_string( key ) ) {
         container.fill( load_func( jo.get_string( key ) ) );
@@ -742,9 +761,14 @@ std::vector<std::string> ter_t::extended_description() const
     std::vector<std::string> tmp = map_data_common_t::extended_description();
     ret.insert( ret.end(), tmp.begin(), tmp.end() );
 
-    if( deconstruct || !base_item.is_null() ) {
+    if( deconstruct.has_value() ) {
         ret.emplace_back( "--" );
         ret.emplace_back( deconstruct->potential_deconstruct_items( *this ) );
+    } else if( !base_item.is_null() ) {
+        ret.emplace_back( "--" );
+        ret.emplace_back( string_format(
+                              _( "Deconstructing the %s would yield:\n- <color_cyan>1 %s</color>\n" ), name(),
+                              item::nname( base_item ) ) );
     }
 
     if( is_smashable() ) {
@@ -782,9 +806,14 @@ std::vector<std::string> furn_t::extended_description() const
         }
     }
 
-    if( deconstruct || !base_item.is_null() ) {
+    if( deconstruct.has_value() ) {
         ret.emplace_back( "--" );
         ret.emplace_back( deconstruct->potential_deconstruct_items( *this ) );
+    } else if( !base_item.is_null() ) {
+        ret.emplace_back( "--" );
+        ret.emplace_back( string_format(
+                              _( "Deconstructing the %s would yield:\n- <color_cyan>1 %s</color>\n" ), name(),
+                              item::nname( base_item ) ) );
     }
 
     if( is_smashable() ) {
@@ -865,6 +894,7 @@ std::vector<std::string> map_data_common_t::extended_description() const
         }
     };
     add_if( has_flag( ter_furn_flag::TFLAG_DIGGABLE ), json_flag_DIGGABLE->name() );
+    add_if( has_flag( ter_furn_flag::TFLAG_PHASE_BACK ), json_flag_PHASE_BACK->name() );
     add_if( has_flag( ter_furn_flag::TFLAG_PLOWABLE ), json_flag_PLOWABLE->name() );
     add_if( has_flag( ter_furn_flag::TFLAG_ROUGH ), _( "Rough." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_UNSTABLE ), _( "Unstable." ) );
@@ -1209,6 +1239,12 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
     optional( jo, was_loaded, "light_emitted", light_emitted );
+    if( jo.has_array( "light_color" ) ) {
+        JsonArray jarr = jo.get_array( "light_color" );
+        light_color.r = jarr.get_int( 0 ) / 255.0f;
+        light_color.g = jarr.get_int( 1 ) / 255.0f;
+        light_color.b = jarr.get_int( 2 ) / 255.0f;
+    }
 
     if( jo.has_object( "shoot" ) ) {
         shoot = cata::make_value<map_shoot_info>();
@@ -1216,6 +1252,16 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
     }
 
     optional( jo, was_loaded, "item", base_item, itype_id::NULL_ID() );
+}
+
+bool map_data_common_t::is_terrain() const
+{
+    return false;
+}
+
+bool ter_t::is_terrain() const
+{
+    return true;
 }
 
 bool ter_t::is_null() const
@@ -1246,6 +1292,47 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "lockpick_result", lockpick_result, ter_str_id::NULL_ID() );
 
+    // Phase-change fields
+    if( jo.has_array( "phase_targets" ) ) {
+        JsonArray ja = jo.get_array( "phase_targets" );
+        for( const JsonValue v : ja ) {
+            if( v.test_string() ) {
+                phase_targets.emplace_back( v.get_string() );
+            } else {
+                jo.throw_error( "phase_targets must be an array of terrain id strings" );
+            }
+        }
+    }
+
+    if( jo.has_array( "phase_temps" ) ) {
+        JsonArray ja = jo.get_array( "phase_temps" );
+        for( const JsonValue v : ja ) {
+            if( v.test_number() ) {
+                // Interpret numeric values as degrees Celsius in JSON
+                phase_temps.emplace_back( units::from_celsius( v.get_float() ) );
+            } else if( v.test_string() ) {
+                const std::string s = v.get_string();
+                try {
+                    const double val = std::stod( s );
+                    phase_temps.emplace_back( units::from_celsius( val ) );
+                } catch( const std::exception & ) {
+                    jo.throw_error( "phase_temps entries must be numbers (Celsius) or numeric strings" );
+                }
+            } else {
+                jo.throw_error( "phase_temps must be an array of numbers or numeric strings" );
+            }
+        }
+    }
+
+    optional( jo, was_loaded, "phase_method", phase_method );
+
+    // Validate phase arrays: `phase_temps` must contain exactly one less
+    // entry than `phase_targets`.
+    if( !phase_targets.empty() ) {
+        if( phase_temps.size() != phase_targets.size() - 1 ) {
+            jo.throw_error( "phase_temps must contain exactly one less entry than phase_targets" );
+        }
+    }
     oxytorch = cata::make_value<activity_data_ter>();
     if( jo.has_object( "oxytorch" ) ) { //TODO: Make overwriting these with eg "oxytorch": { } work while still allowing overwriting single values
         oxytorch->load( jo.get_object( "oxytorch" ) );

@@ -29,6 +29,9 @@ using anatomy_id = string_id<anatomy>;
 struct attack_vector;
 using attack_vector_id = string_id<attack_vector>;
 
+class bash_damage_profile;
+using bash_damage_profile_id = string_id<bash_damage_profile>;
+
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
 
@@ -163,6 +166,9 @@ using palette_id = string_id<mapgen_palette>;
 class material_type;
 using material_id = string_id<material_type>;
 
+class pp_generator;
+using pp_generator_id = string_id<pp_generator>;
+
 struct mission_type;
 using mission_type_id = string_id<mission_type>;
 
@@ -189,6 +195,7 @@ using morale_type = string_id<morale_type_data>;
 
 struct mtype;
 using mtype_id = string_id<mtype>;
+using mtype_int_id = int_id<mtype>;
 
 class nested_mapgen;
 using nested_mapgen_id = string_id<nested_mapgen>;
@@ -273,17 +280,14 @@ using region_settings_forest_mapgen_id = string_id<region_settings_forest_mapgen
 struct forest_biome_mapgen;
 using forest_biome_mapgen_id = string_id<forest_biome_mapgen>;
 
-struct forest_biome_feature;
-using forest_biome_feature_id = string_id<forest_biome_feature>;
+struct forest_biome_component;
+using forest_biome_component_id = string_id<forest_biome_component>;
 
 struct region_settings_map_extras;
 using region_settings_map_extras_id = string_id<region_settings_map_extras>;
 
 struct region_settings;
 using region_settings_id = string_id<region_settings>;
-
-struct region_overlay_new;
-using region_overlay_new_id = string_id<region_overlay_new>;
 
 struct requirement_data;
 using requirement_id = string_id<requirement_data>;
@@ -296,6 +300,9 @@ using shopkeeper_cons_rates_id = string_id<shopkeeper_cons_rates>;
 
 struct shopkeeper_blacklist;
 using shopkeeper_blacklist_id = string_id<shopkeeper_blacklist>;
+
+struct shopkeeper_whitelist;
+using shopkeeper_whitelist_id = string_id<shopkeeper_whitelist>;
 
 class Skill;
 using skill_id = string_id<Skill>;
@@ -410,6 +417,9 @@ using weakpoints_id = string_id<weakpoints>;
 
 class wound_type;
 using wound_type_id = string_id<wound_type>;
+
+class wound_fix;
+using wound_fix_id = string_id<wound_fix>;
 
 struct connect_group;
 using connect_group_id = string_id<connect_group>;

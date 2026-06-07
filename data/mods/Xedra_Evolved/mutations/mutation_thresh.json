@@ -5,7 +5,7 @@
     "name": { "str": "Ierde" },
     "points": 1,
     "description": "You have ascended into your fae nature.",
-    "flags": [ "FAEBLOOD" ],
+    "flags": [ "FAEBLOOD", "NO_BODY_HEAT" ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -16,7 +16,7 @@
     "name": { "str": "Arvore" },
     "points": 1,
     "description": "You have ascended into your fae nature.",
-    "flags": [ "FAEBLOOD" ],
+    "flags": [ "FAEBLOOD", "NO_BODY_HEAT" ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -27,7 +27,7 @@
     "name": { "str": "Undine" },
     "points": 1,
     "description": "You have ascended into your fae nature.",
-    "flags": [ "FAEBLOOD" ],
+    "flags": [ "FAEBLOOD", "NO_BODY_HEAT" ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -49,7 +49,7 @@
     "name": { "str": "Sylph" },
     "points": 1,
     "description": "You have ascended into your fae nature.",
-    "flags": [ "FAEBLOOD" ],
+    "flags": [ "FAEBLOOD", "NO_BODY_HEAT" ],
     "valid": false,
     "purifiable": false,
     "threshold": true

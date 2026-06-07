@@ -1,0 +1,42 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_dorm1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "........................",
+        "...=======-..-=======...",
+        "...=S    S=..-W    W=...",
+        "...=W    W=$$-S    S=...",
+        "..---n   --$$--   n---..",
+        "..-❶: ,, W=..-W ,, :❺-..",
+        "..---    S=..-S    ---..",
+        "...=p    ------    p=...",
+        "...=S              S=...",
+        "...=W n-WS----SW-  W=...",
+        "..---#-----66----::---..",
+        "..-kh   ]      ]    s-..",
+        "..-k ,hc=  ,,  ]   ys-..",
+        "..--/#////    //n  /--..",
+        "...=*  /p     =s   s=...",
+        "...=*,,:   ,, =y   s=...",
+        "...=*  /p     =sss y=...",
+        "..--/  ///    /////#--..",
+        "..-~:  :~#    /jjUF o-..",
+        "..--/  ///    ]     --..",
+        ".../~  ~/6 ,, ] hyh =...",
+        ".../~,,~/%    / hyh =...",
+        ".../~  ~|/=]]=/|hyh /...",
+        "..//|||||      |||||//.."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing", "afs_habitat_life_support" ],
+      "terrain": { ".": "t_open_air", " ": "t_metal_floor" },
+      "vendingmachines": { "6": { "item_group": "afs_vending_medicine", "reinforced": true, "powered": true, "networked": true } },
+      "items": { "s": { "item": "afs_messy_sofa", "repeat": [ 2, 5 ], "chance": 5 } },
+      "monsters": { ",": { "monster": "AFS_GROUP_MOXIE_LOW_RISK", "chance": 15, "density": 0.1 } },
+      "place_nested": [ { "chunks": [ "afs_modular_habitat_greenhouse_roof_full" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  }
+]

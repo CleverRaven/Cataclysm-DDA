@@ -5,8 +5,8 @@
     "looks_like": "shotbelt_20",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "10-round assault shotgun magazine" },
-    "description": "A removable plastic 10-round box magazine, for use with firearms chambered in 12-gauge shotgun shells.",
+    "name": { "str": "assault shotgun 10-round magazine" },
+    "description": "A removable plastic 10-round box magazine, for use with compatible firearms chambered in 12-gauge shotgun shells.",
     "variant_type": "gun",
     "variants": [
       {
@@ -33,8 +33,8 @@
     "looks_like": "shotbelt_20",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "20-round assault shotgun magazine" },
-    "description": "A removable plastic 20-round drum magazine, for use with firearms chambered in 12-gauge shotgun shells.",
+    "name": { "str": "assault shotgun 20-round magazine" },
+    "description": "A removable plastic 20-round drum magazine, for use with compatible firearms chambered in 12-gauge shotgun shells.",
     "variant_type": "gun",
     "variants": [
       {
@@ -299,7 +299,7 @@
     "copy-from": "mka_1919_10",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "shotgun 5-round magazine" },
+    "name": { "str": "rifle shotgun 5-round magazine" },
     "description": "5-round box magazine for rifle-like magazine-fed shotguns.",
     "variant_type": "gun",
     "variants": [
@@ -325,7 +325,7 @@
     "id": "mka_1919_10",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "shotgun 10-round magazine" },
+    "name": { "str": "rifle shotgun 10-round magazine" },
     "description": "10-round box magazine for rifle-like magazine-fed shotguns.",
     "variant_type": "gun",
     "variants": [
@@ -352,7 +352,7 @@
     "copy-from": "mka_1919_10",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "shotgun 20-round drum magazine" },
+    "name": { "str": "rifle shotgun 20-round drum magazine" },
     "description": "20-round drum magazine for rifle-like magazine-fed shotguns.",
     "variant_type": "gun",
     "variants": [

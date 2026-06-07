@@ -32,7 +32,8 @@
     "volume": "1250 ml",
     "price": "24 USD",
     "price_postapoc": "0 cent",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "use_action": [ "MOP" ]
   },
   {
     "type": "ITEM",
@@ -42,7 +43,7 @@
     "name": { "str": "ceramic shard" },
     "description": "A broken ceramic shard.  It is relatively heavy for its size and has a somewhat sharp edge, but it's too irregular to cut properly.",
     "material": [ "ceramic" ],
-    "flags": [ "TRADER_AVOID", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "TRADER_AVOID", "ALLOWS_BODY_BLOCK", "PUNCTURE_VEHICLE_WHEELS" ],
     "weight": "150 g",
     "volume": "50 ml",
     "longest_side": "8 cm",
@@ -71,7 +72,6 @@
   {
     "id": "incendiary",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "chems",
     "name": { "str_sp": "incendiary" },
     "description": "Material from an incendiary round, useful in constructing incendiary ammunition.",
@@ -82,10 +82,7 @@
     "container": "bag_plastic",
     "material": [ "powder" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "count": 200,
-    "ammo_type": "components",
-    "effects": [ "COOKOFF" ]
+    "color": "dark_gray"
   },
   {
     "id": "mattress",
@@ -134,13 +131,12 @@
       "trap": "tr_down_mattress",
       "moves": 1000,
       "practice": 0,
-      "done_message": "You lay the down mattress flat on the ground."
+      "done_message": "You lay the mattress flat on the ground."
     }
   },
   {
     "id": "fuse",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str_sp": "fuse" },
     "description": "A piece of fuse, long enough to give you enough time to get away from most explosions.",
@@ -151,10 +147,7 @@
     "container": "bag_plastic",
     "material": [ "cotton" ],
     "symbol": ",",
-    "color": "dark_gray",
-    "count": 50,
-    "ammo_type": "components",
-    "effects": [ "COOKOFF" ]
+    "color": "dark_gray"
   },
   {
     "type": "ITEM",
@@ -176,7 +169,6 @@
   {
     "id": "sole_rubber",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "rubber sole" },
     "description": "A sole made from rubber, usually found on the bottoms of boots.  Can be used for making actual boots.",
@@ -186,8 +178,7 @@
     "price_postapoc": "10 cent",
     "material": [ "rubber" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "ammo_type": "components"
+    "color": "dark_gray"
   },
   {
     "id": "rubber_tire_chunk",
@@ -306,5 +297,38 @@
     "price_postapoc": "10 cent",
     "volume": "250 ml",
     "flags": [ "UNRECOVERABLE" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "discharging_battery",
+    "name": { "str": "discharging lithium-ion battery", "str_pl": "discharging lithium-ion batteries" },
+    "symbol": "=",
+    "color": "dark_gray",
+    "description": "A lithium-ion battery that is soaking in saltwater.  After about a day, it should have short-circuited and discharged its energy, leaving it safe to handle… ideally.",
+    "material": [ "plastic", "steel" ],
+    "weight": "1350 g",
+    "volume": "500 ml",
+    "category": "other",
+    "use_action": {
+      "target": "discharged_storage_battery",
+      "msg": "You dump the colorful saltwater and dry the battery.",
+      "moves": 1000,
+      "type": "delayed_transform",
+      "transform_age": 172800,
+      "not_ready_msg": "The battery is still discharging.",
+      "//": "48 hours"
+    }
+  },
+  {
+    "type": "ITEM",
+    "id": "discharged_storage_battery",
+    "name": { "str": "discharged lithium-ion battery", "str_pl": "discharged lithium-ion batteries" },
+    "symbol": "=",
+    "color": "dark_gray",
+    "description": "A lithium-ion battery that has been shorted and discharged using saltwater.  At least, you hope it is.",
+    "material": [ "plastic", "steel" ],
+    "weight": "1350 g",
+    "volume": "500 ml",
+    "category": "other"
   }
 ]

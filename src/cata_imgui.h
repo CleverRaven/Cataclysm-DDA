@@ -2,6 +2,7 @@
 #include <cstddef>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <vector>
 #include <unordered_map>
 
@@ -63,11 +64,19 @@ enum class scroll : int {
     page_down
 };
 
+// smallest supported resolution, in px
+constexpr int min_screen_res_x = 640;
+constexpr int min_screen_res_y = 384;
+
 class client
 {
         std::vector<int> cata_input_trail;
 #ifndef TUI
-        std::unordered_map<uint32_t, unsigned char> sdlColorsToCata;
+        // Backend-active latches for the platform (SDL2/SDL3) and
+        // renderer (SDLRenderer2/3) ImGui backends. Guard the wrappers
+        // so partial teardown + retry is idempotent.
+        bool platform_backend_active_ = false;
+        bool renderer_backend_active_ = false;
 #endif
     public:
 #ifdef TUI
@@ -81,9 +90,16 @@ class client
 #endif
         ~client();
 
-        void new_frame();
+        // display_buffer_w/h drive ImGui layout (DisplaySize). Pass 0 to fall
+        // back to the bound target's output size (only valid while a draw scope
+        // has display_buffer bound).
+        void new_frame( int display_buffer_w = 0, int display_buffer_h = 0 );
         void end_frame();
-        void process_input( void *input );
+        // Close the active ImGui frame without any backend draw commands, for
+        // aborting mid-flight when end_frame() is unsafe (renderer undefined).
+        // The next NewFrame would assert if the frame were left open.
+        void abort_frame();
+        void process_input( void *input, int display_buffer_w = 0, int display_buffer_h = 0 );
         void process_cata_input( const input_event &event );
 #ifdef TUI
         void upload_color_pair( int p, int f, int b );
@@ -92,27 +108,62 @@ class client
         const SDL_Renderer_Ptr &sdl_renderer;
         const SDL_Window_Ptr &sdl_window;
         const GeometryRenderer_Ptr &sdl_geometry;
+
+        // ImGui backend lifecycle wrappers. Each tracks backend-active state so
+        // the vendored Shutdown (which asserts when inactive) is never doubled.
+        // Pair: init platform then renderer; shutdown reverse.
+        void init_platform_backend();
+        void init_renderer_backend();
+        void shutdown_renderer_backend();
+        void shutdown_platform_backend();
+        // Drop the renderer backend's GPU device objects (font atlas,
+        // buffers) without tearing down the backend; they recreate
+        // lazily on the next RenderDrawData.
+        void destroy_backend_device_objects() const;
 #endif
         bool auto_size_frame_active();
         bool any_window_shown();
+
+        // True if ImGui is consuming mouse input (hover / drag / popup).
+        static bool want_capture_mouse();
+        // True if an ImGui text field or shortcut has keyboard focus.
+        static bool want_capture_keyboard();
 };
+
+#ifndef TUI
+// Pick the ImGui DisplaySize for a frame: the explicit display-buffer dims when
+// both are positive, else the renderer's output dims. Keeps the terminal-buffer
+// sizing contract when the idle-null target leaves the output reading the window.
+point imgui_frame_display_size( int display_buffer_w, int display_buffer_h,
+                                int renderer_output_w, int renderer_output_h );
+#endif
 
 void point_to_imvec2( point *src, ImVec2 *dest );
 void imvec2_to_point( ImVec2 *src, point *dest );
 
 ImVec4 imvec4_from_color( const nc_color &color );
 
+ImU32 ImU32_from_color( const nc_color &color );
+
 void set_scroll( scroll &s );
 
 void draw_colored_text( const std::string &original_text, const nc_color &color,
                         float wrap_width = 0.0F, bool *is_selected = nullptr,
                         bool *is_focused = nullptr, bool *is_hovered = nullptr );
+#ifndef TUI
+bool clear_pending();
+#endif
 void draw_colored_text( const std::string &original_text, nc_color &color,
                         float wrap_width = 0.0F, bool *is_selected = nullptr,
                         bool *is_focused = nullptr, bool *is_hovered = nullptr );
 void draw_colored_text( const std::string &original_text,
                         float wrap_width = 0.0F, bool *is_selected = nullptr,
                         bool *is_focused = nullptr, bool *is_hovered = nullptr );
+
+// calculates how much space the text takes horizontally, in pixels, without color tags
+size_t get_string_width( std::string_view str );
+// calculates how much space the text takes vertically, in pixels, including the wrapping
+size_t get_string_height( std::string_view str, float wrap_width );
 
 class window
 {
@@ -132,16 +183,18 @@ class window
         virtual void draw();
         virtual void on_resized() {}
         bool is_bounds_changed();
-        size_t get_text_width( const std::string &text );
+        size_t get_text_width( std::string_view text );
         size_t get_text_height( const char *text );
         size_t str_width_to_pixels( size_t len );
         size_t str_height_to_pixels( size_t len );
         std::string get_filter();
         void clear_filter();
+        void defocus_filter();
         void mark_resized();
 
     protected:
         bool force_to_back = false;
+        bool hide_ui = false;
         bool is_open;
         std::string id;
         int window_flags;
@@ -149,6 +202,7 @@ class window
         virtual bounds get_bounds();
         virtual void draw_controls() = 0;
         void draw_filter( const input_context &ctxt, bool filtering_active );
+        void hide_if_hidden() const;
 };
 
 #ifdef TUI
@@ -162,9 +216,16 @@ bool InputFloat( const char *label, float *v, float step = 0.0f, float step_fast
 
 void PushGuiFont();
 void PushMonoFont();
+void PushGuiFont1_5x();
+void PopGuiFont1_5x();
 
 bool BeginRightAlign( const char *str_id );
 void EndRightAlign();
+
+// wrapper around BeginTabItem() that allows to define if tab should be selected directly,
+// instead of manually passing ImGuiTabItemFlags_SetSelected
+bool BeginTabItem( const char *label, bool is_selected, bool *p_open = nullptr,
+                   ImGuiTabItemFlags flags = 0 );
 
 // Set ImGui theme colors to those chosen by the player.
 // This loads the settings from `config/imgui_style.json` and - optionally - falls back to base colors

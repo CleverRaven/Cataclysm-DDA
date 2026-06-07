@@ -17,6 +17,7 @@
 #include "contents_change_handler.h"
 #include "debug.h"
 #include "enums.h"
+#include "faction.h"
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
@@ -35,6 +36,7 @@
 #include "messages.h"
 #include "overmapbuffer.h"
 #include "options.h"
+#include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
 #include "popup.h"
@@ -67,6 +69,8 @@ static void show_pickup_message( const PickupMap &mapPickup )
     }
 }
 
+namespace
+{
 struct pickup_count {
     bool pick = false;
     //count is 0 if the whole stack is being picked up, nonzero otherwise.
@@ -80,6 +84,7 @@ enum pickup_answer : int {
     STASH,
     NUM_ANSWERS
 };
+} // namespace
 
 static pickup_answer handle_problematic_pickup( const item &it, const std::string &explain )
 {
@@ -111,7 +116,6 @@ static pickup_answer handle_problematic_pickup( const item &it, const std::strin
 
 bool Pickup::query_thief( const item &it )
 {
-    Character &u = get_player_character();
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
     const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
                             : input_context::allow_all_keys;
@@ -132,21 +136,28 @@ bool Pickup::query_thief( const item &it )
                          .cursor( 1 ) // default to the second option `NO`
                          .query()
                          .action; // retrieve the input action
+    // Get faction info for item so we can set steal persist
+    const faction_id owner = it.get_owner();
+    faction *owner_fac = g->faction_manager_ptr->get( owner, false );
     if( answer == "YES" ) {
-        u.set_value( "THIEF_MODE", "THIEF_STEAL" );
-        u.set_value( "THIEF_MODE_KEEP", "NO" );
+        if( owner_fac ) {
+            owner_fac->steal_persist = std::nullopt;
+        }
         return true;
     } else if( answer == "NO" ) {
-        u.set_value( "THIEF_MODE", "THIEF_HONEST" );
-        u.set_value( "THIEF_MODE_KEEP", "NO" );
+        if( owner_fac ) {
+            owner_fac->steal_persist = std::nullopt;
+        }
         return false;
     } else if( answer == "ALWAYS" ) {
-        u.set_value( "THIEF_MODE", "THIEF_STEAL" );
-        u.set_value( "THIEF_MODE_KEEP", "YES" );
+        if( owner_fac ) {
+            owner_fac->steal_persist = true;
+        }
         return true;
     } else if( answer == "NEVER" ) {
-        u.set_value( "THIEF_MODE", "THIEF_HONEST" );
-        u.set_value( "THIEF_MODE_KEEP", "YES" );
+        if( owner_fac ) {
+            owner_fac->steal_persist = false;
+        }
         return false;
     } else {
         // error
@@ -201,13 +212,26 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
     //new item (copy)
     item newit = it;
 
+    // Clear activity_var if it differs from the picker's name
+    if( it.has_var( "activity_var" ) && it.get_var( "activity_var", "" ) != player_character.name ) {
+        it.erase_var( "activity_var" );
+        newit.erase_var( "activity_var" );
+    }
     if( !newit.is_owned_by( player_character, true ) ) {
-        // Has the player given input on if stealing is ok?
-        if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
-            Pickup::query_thief( newit );
-        }
-        if( player_character.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" ) {
-            return true; // Since we are honest, return no problem before picking up
+        const std::string thief_mode = player_character.get_value( "THIEF_MODE" ).str();
+        if( thief_mode == "THIEF_HONEST" ) {
+            return true;
+        } else if( thief_mode != "THIEF_STEAL" ) {
+            // Default (THIEF_ASK) - check faction steal_persist
+            faction *owner_fac = g->faction_manager_ptr->get( newit.get_owner(), false );
+            if( owner_fac && owner_fac->steal_persist.has_value() ) {
+                if( !*owner_fac->steal_persist ) {
+                    return true; // NEVER
+                }
+                // ALWAYS
+            } else if( !Pickup::query_thief( newit ) ) {
+                return true;
+            }
         }
     }
     if( newit.invlet != '\0' &&
@@ -297,7 +321,8 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
             if( ret.success() ) {
                 if( added_it == item_location::nowhere ) {
                     newit.charges = last_charges - newit.charges;
-                    newit.on_pickup( player_character );
+                    // Don't call on_pickup on this local copy -- the real items
+                    // already got it via add_stash -> fill_with (#85439).
                     if( newit.charges != 0 ) {
                         auto &entry = mapPickup[newit.tname()];
                         entry.second += newit.charges;
@@ -429,7 +454,7 @@ void Pickup::autopickup( const tripoint_bub_ms &p )
     }
     // which items are we grabbing?
     std::vector<item_stack::iterator> here;
-    const map_stack mapitems = local.i_at( p );
+    map_stack mapitems = local.i_at( p );
     here.reserve( mapitems.size() );
     for( item_stack::iterator it = mapitems.begin(); it != mapitems.end(); ++it ) {
         here.push_back( it );

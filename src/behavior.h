@@ -3,6 +3,7 @@
 #define CATA_SRC_BEHAVIOR_H
 
 #include <functional>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <tuple>
@@ -24,6 +25,7 @@ enum class status_t : char { running, success, failure };
 struct behavior_return {
     status_t result;
     const node_t *selection;
+    float score = 0.0f;
 };
 
 // The behavior tree is (at least initially) intended to decide on a goal for a given subject.
@@ -46,13 +48,19 @@ class tree
     public:
         // Entry point, evaluates the tree and returns the selected goal.
         std::string tick( const oracle_t *subject );
+        // Evaluate the tree and return both the goal string and its
+        // utility score (from the winning node's score function).
+        std::pair<std::string, float> tick_full( const oracle_t *subject );
         // Retrieves the most recently determined goal without re-evaluating the tree.
         std::string goal() const;
+        // Score from the most recent tick_full / tick evaluation.
+        float last_score() const;
         // Set the root node of the tree.
         void add( const node_t *new_node );
     private:
         const node_t *root = nullptr;
         const node_t *active_node = nullptr;
+        float active_score = 0.0f;
 };
 
 class node_t
@@ -69,6 +77,8 @@ class node_t
                             new_predicate, const std::string &argument = "", const bool &invert_result = false );
         void set_goal( const std::string &new_goal );
         void add_child( const node_t *new_child );
+        using score_type = std::function<float( const oracle_t *, std::string_view )>;
+        void set_score_function( const score_type &func, const std::string &argument = "" );
 
         // Loading interface.
         void load( const JsonObject &jo, std::string_view src );
@@ -84,6 +94,7 @@ class node_t
         status_t process_predicates( const oracle_t *subject ) const;
         // TODO: make into an ID?
         std::string _goal;
+        std::optional<std::pair<score_type, std::string>> score_function_;
 };
 
 // Deserialization support.

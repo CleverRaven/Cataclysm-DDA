@@ -18,6 +18,7 @@ Use the `Home` key to return to the top.
   - [Comments](#comments)
 - [File descriptions](#file-descriptions)
   - [`data/json/`](#datajson)
+  - [`data/json/mutations/`](#datajsonmutations)
   - [`data/json/items/`](#datajsonitems)
     - [`data/json/items/comestibles/`](#datajsonitemscomestibles)
   - [`data/json/requirements/`](#datajsonrequirements)
@@ -427,6 +428,37 @@ The string extractor will extract all encountered strings from JSON for translat
 
 The extractor will skip these two specified strings and only these, extracting the remaining unmarked strings from the same JSON object.
 
+You can also mark the entire JSON object as non-translatable by adding a `"//I18N": false` comment at the top level:
+
+```jsonc
+{
+  "id": "zweifire_on",
+  "type": "ITEM",
+  "subtypes": [ "TOOL" ],
+  "name": { "str": "flammenschwert", "str_pl": "flammenschwerter" },
+  "//": "All of this is SUPPOSED to be in German.",
+  "//I18N": false,
+  ...
+}
+```
+
+Some objects may be non-translatable by default. For example, mutations, if `player_display` is `false` and no `starting_trait` or `initial_ma_styles` fields are specified. In this case, to enable translation, you must explicitly add the `"//I18N": true` comment if this mutation is still visible to the player somewhere during normal gameplay, for instance, during character creation:
+
+```jsonc
+{
+  "type": "mutation",
+  "id": "BLOODTHORNE_SORCERY",
+  "name": "Thornwitchery",
+  "description": "This is the school trait for Bloodthorne Druids.  You shouldn't see it directly.",
+  "points": 0,
+  "//I18N": true,
+  "starting_trait": false,
+  "purifiable": false,
+  "valid": false,
+  "player_display": false
+}
+```
+
 ## Comments
 
 JSON has no intrinsic support for comments.  However, by convention in CDDA
@@ -491,9 +523,6 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | `monstergroups_egg.json`      | monster spawn groups from eggs
 | `monsters.json`               | monster descriptions, mostly zombies
 | `morale_types.json`           | morale modifier messages
-| `mutation_category.json`      | messages for mutation categories
-| `mutation_ordering.json`      | draw order for mutation and CBM overlays in tiles mode
-| `mutations.json`              | traits/mutations
 | `names.json`                  | names used for NPC/player name generation
 | `overmap_connections.json`    | connections for roads and tunnels in the overmap
 | `overmap_terrain.json`        | overmap terrain
@@ -524,7 +553,21 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | `vehicle_part_locations.json` | locations on vehicles where parts are installed
 | `vitamin.json`                | vitamins and their deficiencies
 
-selected subfolders
+## `data/json/mutations/`
+
+| Filename                 | Description
+|---                       |---
+| `mutation_category.json` | messages for mutation categories
+| `mutation_ordering.json` | draw order for mutation and CBM overlays in tiles mode
+| `mutations.json`         | biological mutations
+| `mutations_limb.json`    | biological mutations, limbs, horns, hooves, tails, etc.
+| `mutations_skin.json`    | biological mutations, skin, fur, scales, chitin, etc.
+| `supernatural.json`      | non-biological anomalous traits
+| `professions.json`       | backgrounds and hobby
+| `mycus.json`             | fungal mutations
+| `debug.json`             | debug traits/mutations
+| `baseline.json`          | human dummy traits
+| `npc_only.json`          | NPC-only pseudo-traits and markers
 
 ## `data/json/items/`
 
@@ -628,7 +671,7 @@ This section describes each json file and their contents. Each json has their ow
     ]
   }
 ```
-For information about tools with option to export ASCII art in format ready to be pasted into `ascii_arts.json`, see [ASCII_ARTS.md](ASCII_ARTS.md).
+For information about tools with option to export ASCII art in format ready to be pasted into the appropriate JSON file, see [ASCII_ART.md](../ASCII_ART.md).
 
 ### Snippets 
 
@@ -812,7 +855,7 @@ Without specifying, the random snippet would be used
 
 ------
 
-Snippets can also be used in EoC, see [EFFECT_ON_CONDITION.md#u_message](EFFECT_ON_CONDITION.md#u_messagenpc_message)
+Snippets can also be used in EoC, see [`EFFECT_ON_CONDITION.md`](EFFECT_ON_CONDITION.md#u_messagenpc_messagemessage)
 
 ------
 
@@ -991,8 +1034,7 @@ reference at least one body part or sub body part.
 |---                     |---
 | `id`                   | (_mandatory_) Unique ID. Must be one continuous word, use underscores if necessary.
 | `name`                 | (_mandatory_) In-game name displayed.
-| `limb_type`            | (_mandatory_) Type of limb, as defined by `bodypart.h`. Certain functions will check only a given bodypart type for their purposes. Currently implemented types are: `head, torso, sensor, mouth, arm, hand, leg, foot, wing, tail, other`.
-| `limb_types`           | (_optional_) (Can be used instead of `limb_type`) Weighted list of limb types this body part can emulate. The weights are modifiers that determine how good this body part is at acting like the given limb type. (Ex: `[ [ "foot", 1.0 ], [ "hand", 0.15 ] ]`)
+| `limb_types`           | (_mandatory_) Type(s) of limb, as defined by `bodypart.h`. Certain functions will check only a given bodypart type for their purposes. Currently implemented types are: `head, torso, sensor, mouth, arm, hand, leg, foot, wing, tail, other`. Weighted list of limb types this body part can emulate. The weights are modifiers that determine how good this body part is at acting like the given limb type. (Ex: `[ [ "foot", 1.0 ], [ "hand", 0.15 ] ]`)
 | `secondary_types`      | (_optional_) List of secondary limb types for the bodypart, to include it in relevant calculations.
 | `accusative`           | (_mandatory_) Accusative form for this bodypart.
 | `heading`              | (_mandatory_) How it's displayed in headings.
@@ -1010,18 +1052,23 @@ reference at least one body part or sub body part.
 | `hit_difficulty`       | (_mandatory_) How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
 | `drench_capacity`      | (_mandatory_) How wet this part can get before being 100% drenched. 0 makes the limb waterproof, morale checks for absolute wetness while other effects for wetness percentage - making a high `drench_capacity` prevent the penalties longer.
 | `drench_increment`     | (_optional_) Units of "wetness" applied each time the limb gets drenched. Default 2, ignored by diving underwater.
-| `drying_rate`          | (_optional float_) Divisor on the time needed to dry a given amount of wetness from a bodypart, modified by clothing.  Final drying rate depends on breathability, weather, and `drying_capacity` of the bodypart.
+| `drying_rate`          | (_optional float_) Divisor on the time needed to dry a given amount of wetness from a bodypart, modified by clothing.  Final drying rate depends on breathability and weather.
 | `wet_morale`           | (_optional_) Mood bonus/malus when the limb gets wet, representing the morale effect at 100% limb saturation. Modified by worn clothing and ambient temperature.
 | `hot_morale_mod`       | (_optional_) Mood effect of being too hot on this part. (default: `0`)
 | `cold_morale_mod`      | (_optional_) Mood effect of being too cold on this part. (default: `0`)
 | `squeamish_penalty`    | (_optional_) Mood effect of wearing filthy clothing on this part. (default: `0`)
+| `pain_mod`             | (_optional_) If pain was applied to this bodypart, it is multiplied by this amount. (default: `1.0`)
 | `fire_warmth_bonus`    | (_optional_) How effectively you can warm yourself at a fire with this part. (default: `0`)
 | `temp_mod`             | (_optional array_) Intrinsic temperature modifier of the bodypart.  The first value (in the same "temperature unit" as mutations' `bodytemp_modifier`) is always applied, the second value is applied on top when the bodypart isn't overheated.
+| `feels_discomfort`     | (_optional ) Whether the limb will suffer from chafing if rigid armor is worn directly on it (default: `true`)
 | `env_protection`       | (_optional_) Innate environmental protection of this part. (default: `0`)
 | `stat_hp_mods`         | (_optional_) Values modifying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodified value of the X stat and get_healthy() being the hidden health stat of the character.
 | `heal_bonus`           | (_optional_) Innate amount of HP the bodypart heals every successful healing roll. See the `ALWAYS_HEAL` and `HEAL_OVERRIDE` flags.
 | `mend_rate`            | (_optional_) Innate mending rate of the limb, should it get broken. Default `1.0`, used as a multiplier on the healing factor after other factors are calculated.
 | `health_limit`         | (_optional_) Amount of limb HP necessary for the limb to provide its melee `techniques` and `conditional_flags`.  Defaults to 1, meaning broken limbs don't contribute.
+| `windage_effect`       | (_optional_) Effect applied to the limb when out of stamina.
+| `no_power_effect`      | (_optional_) Effect applied to the limb if a bionic limb is out of power.
+| `power_efficiency`     | (_optional_) Power usage of bionic limbs, measured in joules per stamina
 | `ugliness`             | (_optional_) Ugliness of the part that can be covered up, negatives confer beauty bonuses.
 | `ugliness_mandatory`   | (_optional_) Inherent ugliness that can't be covered up by armor.
 | `bionic_slots`         | (_optional_) How many bionic slots does this part have.
@@ -1039,7 +1086,7 @@ reference at least one body part or sub body part.
   Only one step of substitution occurs ( Ie. an armor covering `arm_l` will cover `arm_bear_l`, but not any similar bps defined in `arm_bear_l` ).
   Any coverage of a similar sbp will imply coverage of the substitute subpart's parent for the sub-part in question:  Armor covering the elbows will cover similar elbows on other limbs, but not any of the other locations.
 | `armor`                | (_optional_) An object containing damage resistance values. Ex: `"armor": { "bash": 2, "cut": 1 }`. See [Part Resistance](#part-resistance) for details.
-
+| `qualities`            | (_optional_) Object that defines potential tool qualities this bodypart provide; `quality` and `level` fields are self-explanatory, `disable_percent` removes a quality if limb HP is less than percent defined
 ```jsonc
 {
   "id": "arm_l",
@@ -1058,7 +1105,7 @@ reference at least one body part or sub body part.
   "opposite_part": "arm_r",
   "hit_size": 9,
   "hit_difficulty": 0.95,
-  "limb_type": "arm",
+  "limb_types": "arm",
   "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "lift", 0.5 ], [ "block", 1.0 ], [ "swim", 0.1 ] ],
   "armor": { "electric": 2, "stab": 1 },
   "side": "left",
@@ -1073,9 +1120,26 @@ reference at least one body part or sub body part.
   "smash_message": "You elbow-smash the %s.",
   "bionic_slots": 20,
   "similar_bodyparts": [ "arm_bear_l" ],
+  "qualities": [ { "quality": "HAMMER", "level": 1, "disable_percent": 0.5 }, { "quality": "BUTCHER", "level": 2 } ],
   "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ]
 }
 ```
+
+List of possible limb types:
+```jsonc
+head, // this is where helmets go, and is a vital part.
+torso, // the torso is generally the center of mass of a creature
+sensor, // provides sight
+mouth, // you eat and scream with this
+arm, // may manipulate objects to some degree, is a main part
+hand, // manipulates objects. usually is not a main part.
+leg, // provides motive power
+foot, // helps with balance. usually is not a main part
+wing, // may reduce fall damage
+tail, // may provide balance or manipulation
+other, // more of a general purpose limb, such as horns.
+```
+
 
 # On-hit Effects
 
@@ -1153,6 +1217,7 @@ Here are the currently defined limb scores:
 | `manipulator_score`    | Modifies aim speed, reload speed, thrown attack speed, ranged dispersion and crafting speed.  The manipulator scores of each limb type are aggregated and the best limb group is chosen for checks.
 | `manipulator_max`      | The upper limit of manipulator score the limb can contribute to.
 | `lifting_score`        | Modifies melee attack stamina and move cost, as well as a number of STR checks.  A sum above 0.5 qualifies for wielding two-handed weapons and similar checks.  Arms below 0.1 lift score don't count as working for the purposes of melee combat.
+| `grip_score`           | Modifies chance to escape traps, ability to wield two-handed weapons, chance mounts are spooked if approaching enemies, and ability to resist being disarmed.
 | `blocking_score`       | The blocking limb is chosen by a roll weighted by eligible limbs' block score, and blocking efficiency is multiplied by the target limb's score.
 | `breathing_score`      | Modifies stamina recovery speed and shout volume.
 | `vision_score`         | Modifies ranged dispersion, ranged and melee weakpoint hit chances.
@@ -1264,6 +1329,7 @@ mod = min( max, ( limb_score / denominator ) - subtract );
 | `env_protec`                 | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
 | `protec`                     | (_optional_) An array of resistance values that determines the types of protection this bionic provides on the specified body parts.
 | `occupied_bodyparts`         | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
+| `replaced_bodyparts`         | (_optional_) A list of body parts completely replaced by this bionic. Accepts an array of bodypart ids.  When removing a bionic, any dependent bionic with an occupied_bodyparts entry matching a replaced_bodyparts entry will also be removed.
 | `capacity`                   | (_optional_) Amount of power storage added by this bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
 | `fuel_options`               | (_optional_) A list of materials that this bionic can use to produce bionic power.
 | `is_remote_fueled`           | (_optional_) If true this bionic allows you to plug your power banks to an external power source (solar backpack, UPS, vehicle etc) via a cable. (default: `false`)
@@ -1372,13 +1438,14 @@ When adding a new bionic, if it's not included with another one, you must also a
 | `edged`             | _(optional)_ Identifies this damage type as originating from a sharp or pointy weapon or implement. (defaults to false)
 | `environmental`     | _(optional)_ This damage type corresponds to environmental sources. Currently influences whether an item or piece of armor includes environmental resistance against this damage type. (defaults to false)
 | `material_required` | _(optional)_ Determines whether materials must defined a resistance for this damage type. (defaults to false)
+| `bash_conversion_factor` | _(optional)_ The rate at which damage of this type will be converted into damage to objects on the map (terrain/furniture/fields). Defaults to 0.
 | `mon_difficulty`    | _(optional)_ Determines whether this damage type should contribute to a monster's difficulty rating. (defaults to false)
 | `no_resist`         | _(optional)_ Identifies this damage type as being impossible to resist against (ie. "pure" damage). (defaults to false)
 | `immune_flags`      | _(optional)_ An object with two optional fields: `"character"` and `"monster"`. Both inner fields list an array of character flags and monster flags, respectively, that would make the character or monster immune to this damage type.
 | `magic_color`       | _(optional)_ Determines which color identifies this damage type when used in spells. (defaults to "black")
 | `derived_from`      | _(optional)_ An array that determines how this damage type should be calculated in terms of armor protection and monster resistance values. The first value is the source damage type and the second value is the modifier applied to source damage type calculations.
 | `onhit_eocs`        | _(optional)_ An array of effect-on-conditions that activate when a monster or character hits another monster or character with this damage type. In this case, `u` refers to the damage source and `npc` refers to the damage target.
-| `ondamage_eocs`        | _(optional)_ An array of effect-on-conditions that activate when a monster or character takes damage from another monster or character with this damage type. In this case, `u` refers to the damage source and `npc` refers to the damage target. Also have access to some [context vals](EFFECT_ON_CONDITION#context-variables-for-other-eocs)
+| `ondamage_eocs`        | _(optional)_ An array of effect-on-conditions that activate when a monster or character takes damage from another monster or character with this damage type. In this case, `u` refers to the damage source and `npc` refers to the damage target. Also have access to some [context vals](EFFECT_ON_CONDITION.md#context-variables-for-other-eocs)
 
 ```jsonc
   {
@@ -1389,6 +1456,7 @@ When adding a new bionic, if it's not included with another one, you must also a
     "physical": true,
     "edged": true,
     "magic_color": "light_red",
+    "bash_conversion_factor": 0.1,
     "name": "pierce",
     "skill": "stabbing",
     "//2": "derived from cut only for monster defs",
@@ -1599,17 +1667,22 @@ Faults can be defined for more specialized damage of an item.
   "type": "fault",
   "id": "fault_gun_chamber_spent", // unique id for the fault
   "name": { "str": "Spent casing in chamber" }, // fault name for display
+  "color": "bad" // color for displaying the fault name, accepts 'bad' (red), 'neutral' (yellow), or 'good' (green)
   "description": "This gun currently...", // fault description
   "item_prefix": "jammed", // optional string, items with this fault will be prefixed with this
   "item_suffix": "no handle", // optional string, items with this fault will be suffixed with this. The string would be encased in parentheses, like `sword (no handle)`
   "message": "%s has it's handle broken!", // Message, that would be shown when such fault is applied, unless supressed
   "fault_type": "gun_mechanical_simple", // type of a fault, code may call for a random fault in a group instead of specific fault
   "affected_by_degradation": false, // default false. If true, the item degradation value would be added to fault weight on roll
+  "instant_damage": 500,  // default 0. Instantly applies this much damage to the item when the fault is applied. (A "full health" item has 4000 "HP" currently)
   "degradation_mod": 50,  // default 0. Having this fault would add this amount of temporary degradation on the item, resulting in higher chance to trigger faults with "affected_by_degradation": true. Such degradation will be removed when fault is fixed
   "price_modifier": 0.4, // (Optional, double) Defaults to 1 if not specified. A multiplier on the price of an item when this fault is present. Values above 1.0 will increase the item's value.
   "melee_damage_mod": [ { "damage_id": "cut", "add": -5, "multiply": 0.8 } ], // (Optional) alters the melee damage of this type for item, if fault of this type is presented. `damage_id` is mandatory, `add` is 0 by default, `multiply` is 1 by default
   "armor_mod": [ { "damage_id": "cut", "add": -5, "multiply": 0.8 } ], // (Optional) Same as armor_mod, changes the protection value of damage type of the faulted item if it's presented
   "encumbrance_add": 20,  // if armor, item encumbrance will be modified by this amount, in this case +20 encumbrance
+  "contact_area_mod": 0.5, // Modifies(multiplicative) the contact area of the vehicle part that this item is the base for
+  "rolling_resistance_mod": 10.0, // Modifies(multiplicative) the rolling resistance of the vehicle part that this item is the base for
+  "vehicle_move_penalty_mod": 5, // Modifies(additive) the move_penalty of terrain that this vehicle part moves over, thus decreasing traction. See wheel_terrain_modifiers
   "encumbrance_mult": 1.3, // if armor, item encumbrance will be multiplied by this amount, in this case 1.3x as much (100-> 130)
   "block_faults": [ "fault_handle_chipping", "fault_handle_cracked" ], // Faults, that cannot be applied if this fault is already presented on item. If there is already such a fault, it will be removed. Can't have chipped blade if the blade is gone
   "flags": [ "JAMMED_GUN" ] // optional flags, see below
@@ -2150,7 +2223,7 @@ The array of hobbies (listed as professions) is whitelisted to all characters.  
 ### Scores, Achievements, and Conducts
 
 Scores are defined in two or three steps based on *events*.  To see what events
-exist and what data they contain, read [`event.h`](../src/event.h).
+exist and what data they contain, read [`event.h`](/src/event.h).
 
 Each event contains a certain set of fields.  Each field has a string key and a
 `cata_variant` value.  The fields should provide all the relevant information
@@ -2469,22 +2542,24 @@ it is present to help catch errors.
     { "level": 2, "description": "foo" },
     { "level": 3, "description": "bar" },
     { "level": 4, "description": "xyz" }
-],
-"level_descriptions_practice": [
-    { "level": 0, "description": "You don't know how to operate the computer whatsoever" },
-    { "level": 1, "description": "You know how to open browser and search images.  Were able to, at least." },
-    { "level": 2, "description": "foo" },
-    { "level": 3, "description": "bar" },
-    { "level": 4, "description": "xyz" }
-],
-  "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ]
+  ],
+  "level_descriptions_practice": [
+      { "level": 0, "description": "You don't know how to operate the computer whatsoever" },
+      { "level": 1, "description": "You know how to open browser and search images.  Were able to, at least." },
+      { "level": 2, "description": "foo" },
+      { "level": 3, "description": "bar" },
+      { "level": 4, "description": "xyz" }
+  ],
+  "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ],
+  "required_traits": [ "THINSKIN", "HORNS" ],
+  "allowed_traits": [ "PAWS", "SKIN_DARK" ]
 }
 ```
 
 | Field                      | Purpose |
 | ---                        | ---     |
-| `name`                     | Name of the skill as displayed in the the character info screen. |
-| `description`              | Description of the skill as displayed in the the character info screen. |
+| `name`                     | Name of the skill as displayed in the character info screen. |
+| `description`              | Description of the skill as displayed in the character info screen. |
 | `tags`                     | Identifies special cases. Currently valid tags are: "combat_skill" and "contextual_skill". |
 | `time_to_attack`           | Object used to calculate the movecost for firing a gun. |
 | `display_category`         | Category in the character info screen where this skill is displayed. |
@@ -2497,6 +2572,10 @@ it is present to help catch errors.
 | `companion_combat_rank_factor`   | _(int)_ Affects an NPC's rank when determining the success rate for combat missions. |
 | `companion_survival_rank_factor` | _(int)_ Affects an NPC's rank when determining the success rate for survival missions. |
 | `companion_industry_rank_factor` | _(int)_ Affects an NPC's rank when determining the success rate for industry missions. |
+| `requires_all_traits` | Traits that the player is required to have to display the skill in the character tab. All traits are required |
+| `requires_any_traits` | Traits that the player needs at least one of to display the skill in the character tab. At least one trait is required |
+
+If neither `requires_all_traits` or `requires_any_traits` are defined, the skill will always display in the character tab
 
 ### Speed Description
 
@@ -2621,6 +2700,14 @@ Qualities are (non-exclusively) associated with items in the various item
 definitions in the json files by adding a `"qualities":` line.
 For example: `"qualities": [ [ "ANVIL", 2 ] ],` associates the `ANVIL` quality
 at level `2` to the item.
+
+Qualities also accept an object format with an optional `speed` field:
+`"qualities": [ { "id": "SEW", "level": 2, "speed": 0.3 } ]`.
+The `speed` value (default 1.0) is a multiplier applied to recipe steps that
+require this quality. Values below 1.0 make the step faster (e.g. a sewing
+machine with speed 0.3 completes sewing steps in 30% of the base time).
+Both array and object formats can be mixed freely. `charged_qualities` accepts
+the same format.
 
 ### Traits/Mutations
 
@@ -2998,14 +3085,14 @@ A thin container for weakpoint definitions. The only unique fields for this obje
       "effects": [
         {
           "effect": "stunned",
-          "duration": [ 1, 2 ],
+          "duration": [ "1 seconds", "2 seconds" ],
           "chance": 5,
           "message": "The %s is stunned!",
           "damage_required": [ 1, 10 ]
         },
         {
           "effect": "stunned",
-          "duration": [ 1, 2 ],
+          "duration": [ "1 seconds", "2 seconds" ],
           "chance": 25,
           "message": "The %s is stunned!",
           "damage_required": [ 11, 100 ]
@@ -4320,7 +4407,7 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
 
 # Obsoletion and migration
 
-[OBSOLETION_AND_MIGRATION.md](#OBSOLETION_AND_MIGRATION.md)
+[OBSOLETION_AND_MIGRATION.md](OBSOLETION_AND_MIGRATION.md)
 
 
 # Field types
@@ -4359,27 +4446,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
         "translucency": 2.0, // How much light the field blocks (higher numbers mean less light can penetrate through)
         "concentration": 1, // How concentrated this intensity of gas is. Generally the thin/hazy cloud intensity will be 1, the standard gas will be 2, and thick gas will be 4. The amount of time a gas mask filter will last will be divided by this value.
         "convection_temperature_mod": 12, // Heat given off by this level of intensity
-        "effects":  // List of effects applied to any creatures within the field as long as they aren't immune to the effect or the field itself
-        [
-          {
-            "effect_id": "webbed", // Effect ID
-            "min_duration": "1 minutes",
-            "max_duration": "5 minutes", // Effect duration randomized between min and max duration
-            "intensity": 1, // Intensity of the effect to apply
-            "body_part": "head", // Bodypart the effect gets applied to, default BP_NULL ("whole body")
-            "is_environmental": false, // If true the environmental effect roll is used to determine if the effect gets applied: <intensity>d3 > <target BP's armor/bionic env resist>d3
-            "immune_in_vehicle": // If true, *standing* inside a vehicle (like without walls or roof) protects from the effect
-            "immune_inside_vehicle": false, // If true being inside a vehicle protects from the effect
-            "immune_outside_vehicle": false, // If true being *outside* a vehicle protects from the effect,
-            "chance_in_vehicle": 2,
-            "chance_inside_vehicle": 2,
-            "chance_outside_vehicle": 2, // 1-in-<chance> chance of the effect being applied when traversing a field in a vehicle, inside a vehicle (as in, under a roof), and outside a vehicle
-            "message": "You're debilitated!", // Message to print when the effect is applied to the player
-            "message_npc": "<npcname> is debilitated!", // Message to print when the effect is applied to an NPC
-            "message_type": "bad", // Type of the above messages - good/bad/mixed/neutral
-            "immunity_data": {...} // See Immunity Data below
-          }
-        ]
+        "effects": [  ] // List of effects applied to any creatures within the field as long as they aren't immune to the effect or the field itself. See field_effect below for syntax
         "scent_neutralization": 3, // Reduce scents at the field's position by this value        
     ],
     "npc_complain": { "chance": 20, "issue": "weed_smoke", "duration": "10 minutes", "speech": "<weed_smoke>" }, // NPCs in this field will complain about being in it once per <duration> if a 1-in-<chance> roll succeeds, giving off a <speech> bark that supports snippets
@@ -4387,6 +4454,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
     "decay_amount_factor": 2, // The field's rain decay amount is divided by this when processing the field, the rain decay is a function of the weather type's precipitation class: very_light = 5s, light = 15s, heavy = 45 s
     "half_life": "3 minutes", // If above 0 the field will disappear after two half-lifes on average
     "underwater_age_speedup": "25 minutes", // Increase the field's age by this time every tick if it's on a terrain with the SWIMMABLE flag
+    "block_mtypes": [ "zombie", "animal" ], // these monster types cannot move on tile with this field
     "linear_half_life": "true", // If true the half life decay is converted to a non-random, linear wait based on the defined half_life time. 
     "outdoor_age_speedup": "20 minutes", // Increase the field's age by this duration if it's on an outdoor tile
     "accelerated_decay": true, // If the field should use a more simple decay calculation, used for cosmetic fields like gibs
@@ -4408,8 +4476,9 @@ Fields can exist on top of terrain/furniture, and support different intensity le
     "decrease_intensity_on_contact": true, // Decrease the field intensity by one each time a character walk on it.
     "mopsafe": false, // field is safe to use in a mopping zone
     "bash": {
-      "str_min": 1, // lower bracket of bashing damage required to bash
-      "str_max": 3, // higher bracket
+      "str_min": 1, // minimum damage required to bash - e.g. 2 damage is required here
+      "str_max": 3, // defines "bash hp", minus str_min - how many minimum damage hits must be dealt to destroy
+      "profile": "wooden_door", // describes how different damage types will be applied as bash damage
       "sound_vol": 2, // noise made when successfully bashing the field
       "sound_fail_vol": 2, // noise made when failing to bash the field
       "sound": "shwip", // sound on success
@@ -4442,6 +4511,33 @@ Defines field emissions
   "qty": 100,             // amount of fields that would be emitted, in a circle, 1 means 1 field; 9 would be 3x3, 16 would be 4x4 square etc
   "chance": 50            // chance to emit one unit of field, from 1 to 100
 },
+```
+
+## field_effect
+Field effect defines what effect/effects will be applied on character or monsters, and what immunity protections can be used to defend against this effect.
+currnetly used as `"effects"` field in `field_type`, and as `passive_effects` in `weather_type`
+
+```jsonc
+[
+  {
+    "effect_id": "webbed", // Effect ID
+    "min_duration": "1 minutes",
+    "max_duration": "5 minutes", // Effect duration randomized between min and max duration
+    "intensity": 1, // Intensity of the effect to apply
+    "body_part": "head", // Bodypart the effect gets applied to, default BP_NULL ("whole body")
+    "is_environmental": false, // If true the environmental effect roll is used to determine if the effect gets applied: intensity amount of d3 vs bodypart environment resistance amount of d3 
+    "immune_in_vehicle": false, // If true, *standing* inside a vehicle (like without walls or roof) protects from the effect
+    "immune_inside_vehicle": false, // If true, being inside a vehicle protects from the effect
+    "immune_outside_vehicle": false, // If true, being *outside* a vehicle protects from the effect,
+    "chance_in_vehicle": 2,
+    "chance_inside_vehicle": 2,
+    "chance_outside_vehicle": 2, // 1-in-<chance> chance of the effect being applied when traversing a field in a vehicle, inside a vehicle (as in, under a roof), and outside a vehicle
+    "message": "You're debilitated!", // Message to print when the effect is applied to the player
+    "message_npc": "<npcname> is debilitated!", // Message to print when the effect is applied to an NPC
+    "message_type": "bad", // Type of the above messages - good/bad/mixed/neutral
+    "immunity_data": {...} // See Immunity Data below
+  }
+]
 ```
 
 ## Immunity data

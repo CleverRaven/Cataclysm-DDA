@@ -1,0 +1,17 @@
+[
+  {
+    "type": "recipe",
+    "result": "scrap_brass",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "nylon",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sheet_nylon",
+    "obsolete": true
+  }
+]

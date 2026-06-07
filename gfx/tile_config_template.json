@@ -380,7 +380,6 @@
     { "id": "mon_secubot", "fg": -1, "bg": -1, "rotates": false, "multitile": false },
     { "id": "mon_hazmatbot", "fg": -1, "bg": -1, "rotates": false, "multitile": false },
     { "id": "mon_copbot", "fg": -1, "bg": -1, "rotates": false, "multitile": false },
-    { "id": "mon_molebot", "fg": -1, "bg": -1, "rotates": false, "multitile": false },
     { "id": "mon_tripod", "fg": -1, "bg": -1, "rotates": false, "multitile": false },
     { "id": "mon_chickenbot", "fg": -1, "bg": -1, "rotates": false, "multitile": false },
     { "id": "mon_tankbot", "fg": -1, "bg": -1, "rotates": false, "multitile": false },

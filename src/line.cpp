@@ -725,37 +725,37 @@ std::string direction_suffix( const tripoint_abs_ms &p, const tripoint_abs_ms &q
 // Sub-sub-cardinals are direction && abs(x) > abs(y) or vice versa.
 // Result is adjacent cardinal and sub-cardinals, plus the nearest other cardinal.
 // e.g. if the direction is NNE, also include E.
-std::vector<tripoint_bub_ms> squares_closer_to( const tripoint_bub_ms &from,
-        const tripoint_bub_ms &to )
+std::vector<tripoint> squares_closer_to( const tripoint &from,
+        const tripoint &to )
 {
-    std::vector<tripoint_bub_ms> adjacent_closer_squares;
+    std::vector<tripoint> adjacent_closer_squares;
     adjacent_closer_squares.reserve( 5 );
-    const tripoint_rel_ms d( to - from );
-    const point a( std::abs( d.x() ), std::abs( d.y() ) );
-    if( d.z() != 0 ) {
-        adjacent_closer_squares.push_back( from + tripoint( sgn( d.x() ), sgn( d.y() ), sgn( d.z() ) ) );
+    const tripoint d( to - from );
+    const point a( std::abs( d.x ), std::abs( d.y ) );
+    if( d.z != 0 ) {
+        adjacent_closer_squares.push_back( from + tripoint( sgn( d.x ), sgn( d.y ), sgn( d.z ) ) );
     }
     if( a.x > a.y ) {
         // X dominant.
-        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), 0 ) );
-        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), 1 ) );
-        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), -1 ) );
-        if( d.y() != 0 ) {
-            adjacent_closer_squares.push_back( from + point( 0, sgn( d.y() ) ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x ), 0 ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x ), 1 ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x ), -1 ) );
+        if( d.y != 0 ) {
+            adjacent_closer_squares.push_back( from + point( 0, sgn( d.y ) ) );
         }
     } else if( a.x < a.y ) {
         // Y dominant.
-        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y() ) ) );
-        adjacent_closer_squares.push_back( from + point( 1, sgn( d.y() ) ) );
-        adjacent_closer_squares.push_back( from + point( -1, sgn( d.y() ) ) );
-        if( d.x() != 0 ) {
-            adjacent_closer_squares.push_back( from + point( sgn( d.x() ), 0 ) );
+        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y ) ) );
+        adjacent_closer_squares.push_back( from + point( 1, sgn( d.y ) ) );
+        adjacent_closer_squares.push_back( from + point( -1, sgn( d.y ) ) );
+        if( d.x != 0 ) {
+            adjacent_closer_squares.push_back( from + point( sgn( d.x ), 0 ) );
         }
-    } else if( d.x() != 0 ) {
+    } else if( d.x != 0 ) {
         // Pure diagonal.
-        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), sgn( d.y() ) ) );
-        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), 0 ) );
-        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y() ) ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x ), sgn( d.y ) ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x ), 0 ) );
+        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y ) ) );
     }
 
     return adjacent_closer_squares;

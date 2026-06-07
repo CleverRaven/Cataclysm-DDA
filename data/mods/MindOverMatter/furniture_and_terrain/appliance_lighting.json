@@ -13,9 +13,9 @@
     "bonus": 150,
     "damage_modifier": 10,
     "epower": "-4 W",
-    "looks_like": "atomic_lamp",
+    "looks_like": "ap_standing_lamp",
     "breaks_into": [
-      { "item": "cable", "charges": [ 1, 4 ] },
+      { "item": "cable", "count": [ 1, 4 ] },
       { "item": "lc_steel_chunk", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],

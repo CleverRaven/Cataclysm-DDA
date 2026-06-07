@@ -147,8 +147,6 @@
     "grab_strength": 30,
     "starting_ammo": { "boomer_bile_adv": 999 },
     "special_attacks": [
-      { "id": "grab" },
-      { "id": "scratch_humanoid" },
       {
         "type": "gun",
         "move_cost": 150,

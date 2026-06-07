@@ -8,7 +8,7 @@
       "rows": [
         "################        ",
         "#FwlwL|P-------#4      Y",
-        "#Flwlwa..U.U.U.g        ",
+        "#Flwlwa§.U.U.U.g        ",
         "#awlwla........g        ",
         "#alwlwa........g        ",
         "#awlwl{........g        ",
@@ -27,7 +27,7 @@
         "#<+............gcccccccR",
         "#||+|..........GccccBccR",
         "#sll|..BB..BB..gcccBTBcR",
-        "#lll|..TT..TT..gccccBccR",
+        "#lll|..TT..TT.§gccccBccR",
         "#tll|..BB..BB.PgcccccccR",
         "################RRRRRRRR"
       ],
@@ -103,7 +103,8 @@
         { "item": "pizza_bathroom", "x": [ 2, 3 ], "y": [ 20, 22 ], "chance": 37, "repeat": [ 1, 3 ] },
         { "item": "SUS_trash_trashcan_public", "x": 1, "y": [ 15, 16 ], "chance": 50 },
         { "item": "cash_register_random", "x": 6, "y": [ 2, 4 ], "chance": 100 }
-      ]
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

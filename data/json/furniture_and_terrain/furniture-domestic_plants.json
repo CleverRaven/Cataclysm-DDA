@@ -80,7 +80,7 @@
     "symbol": "#",
     "color": "red",
     "coverage": 50,
-    "move_cost_mod": 2,
+    "move_cost_mod": 0,
     "required_str": -1,
     "flags": [
       "PLANT",
@@ -105,7 +105,7 @@
     "symbol": "#",
     "color": "light_green",
     "coverage": 30,
-    "move_cost_mod": 1,
+    "move_cost_mod": 0,
     "required_str": -1,
     "flags": [
       "PLANT",

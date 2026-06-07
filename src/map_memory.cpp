@@ -49,6 +49,8 @@ static std::string find_region_filename( const tripoint &p )
     return string_format( "%d.%d.%d.mmr", p.x, p.y, p.z );
 }
 
+namespace
+{
 /**
  * Helper class for converting global sm coord into
  * global mm_region coord + sm coord within the region.
@@ -61,6 +63,7 @@ struct reg_coord_pair {
         reg = tripoint( sm_to_mmr_remain( sm_loc.x(), sm_loc.y() ), p.z() );
     }
 };
+} // namespace
 
 mm_submap::mm_submap( bool make_valid ) : valid( make_valid ) {}
 

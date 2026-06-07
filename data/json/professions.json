@@ -200,7 +200,7 @@
     "id": "rolling_cigs",
     "entries": [
       { "item": "tobacco", "count": 20, "container-item": "null", "entry-wrapper": "bag_plastic" },
-      { "item": "rolling_paper", "charges": 20 }
+      { "item": "rolling_paper", "count": 20 }
     ]
   },
   {
@@ -537,11 +537,6 @@
   },
   {
     "type": "profession_item_substitutions",
-    "item": "gum",
-    "sub": [ { "present": [ "ANTIJUNK" ], "new": [ "nic_gum" ] } ]
-  },
-  {
-    "type": "profession_item_substitutions",
     "item": "sandwich_pbj",
     "sub": [
       { "present": [ "ANTIFRUIT" ], "absent": [ "ANTIWHEAT" ], "new": [ "sandwich_pbh" ] },
@@ -711,6 +706,7 @@
   {
     "type": "profession",
     "id": "unemployed",
+    "//": "This profession is meant to convey an average person who has not prepared for the Cataclysm at all. Starting out unprepared is fully intentional, and this scenario is not meant to aid new players.",
     "name": "Survivor",
     "description": "Some would say that there's nothing particularly notable about you, but you've survived, and that's more than most could say right now.",
     "npc_background": "BG_survival_story_EVACUEE",
@@ -722,13 +718,8 @@
           { "item": "longshirt" },
           { "item": "socks" },
           { "item": "sneakers" },
-          { "item": "mbag" },
-          { "item": "pockknife" },
-          { "item": "water_clean" },
-          { "item": "wristwatch" },
           { "group": "charged_smart_phone", "contents-item": "guidebook" },
-          { "group": "starter_wallet_full" },
-          { "group": "charged_matches" }
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -958,7 +949,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -1017,7 +1009,7 @@
           { "item": "boots" },
           { "item": "coat_lab" },
           { "item": "gloves_rubber" },
-          { "item": "glasses_safety" },
+          { "item": "goggles_chem" },
           { "group": "charged_smart_watch_adv" },
           { "item": "pants", "variant": "pants_gray" },
           { "group": "charged_smart_phone", "contents-item": "textbook_chemistry" },
@@ -1026,7 +1018,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -1054,7 +1047,8 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -1103,7 +1097,8 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -1141,8 +1136,7 @@
       },
       "male": { "entries": [ { "item": "boxer_briefs" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    },
-    "age_lower": 18
+    }
   },
   {
     "type": "profession",
@@ -1197,7 +1191,7 @@
           { "item": "cleats" },
           { "item": "helmet_ball" },
           { "item": "sports_drink" },
-          { "item": "gum" },
+          { "group": "chewing_gum_used" },
           { "group": "charged_smart_phone", "contents-item": "book_fict_soft_sports_bunt" },
           { "group": "starter_wallet_full" },
           { "item": "bat", "custom-flags": [ "auto_wield" ] },
@@ -1207,7 +1201,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
     },
-    "age_lower": 16
+    "age_lower": 16,
+    "age_upper": 30
   },
   {
     "type": "profession",
@@ -1236,7 +1231,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
     },
-    "age_lower": 16
+    "age_lower": 16,
+    "age_upper": 30
   },
   {
     "type": "profession",
@@ -1273,7 +1269,8 @@
       "male": { "entries": [ { "item": "under_armor_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
     },
-    "age_lower": 16
+    "age_lower": 16,
+    "age_upper": 30
   },
   {
     "type": "profession",
@@ -1340,14 +1337,16 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "panties" }, { "item": "sports_bra" } ] }
-    }
+    },
+    "age_lower": 23,
+    "age_upper": 30
   },
   {
     "type": "profession",
     "id": "major-general",
     "name": "Major General",
     "requirement": [ "achievement_reach_military_bunker", "achievement_reach_military_base" ],
-    "description": "You worked your way up through the ranks from a no-name private to a big shot Major General, respected and decorated.  On the downside, years of desk duty have left your shooting skills rusty, and all the medals in the world won't protect you now.",
+    "description": "You worked your way up through the ranks from a no-name private to a big shot major general, respected and decorated.  On the downside, years of desk duty have left your shooting skills rusty, and all the medals in the world won't protect you now.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 4,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
@@ -1393,7 +1392,7 @@
     "type": "profession",
     "id": "marine",
     "name": { "male": "Marine Infantryman", "female": "Marine Infantrywoman" },
-    "requirement": "achievement_reach_military_bunker",
+    "requirement": "achievement_reach_military_base",
     "description": "You are one of the few and the proud: a member of the US Marine Corps.  Now that military command has collapsed in on itself as far as you can tell, you suppose that it falls to you to carry the memory of the Corps forward into the future.  Semper fi.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 6,
@@ -1451,7 +1450,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -1506,7 +1506,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -1558,13 +1559,14 @@
       "male": { "entries": [ { "item": "rashguard" }, { "item": "wetsuit_shorts" } ] },
       "female": { "entries": [ { "item": "bikini_top" }, { "item": "wetsuit_shorts" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_upper": 40
   },
   {
     "type": "profession",
     "id": "veteran",
     "name": "Military Veteran",
-    "requirement": "achievement_reach_military_bunker",
+    "requirement": "achievement_reach_military_base",
     "description": "After being discharged from the armed forces, you were sent to a veterans' hospital for treatment.  Just when you thought you'd overcome your traumas and readjusted to civilian life, the world has come to an end and your worst nightmare has become a reality: life in an endless battlefield.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 3,
@@ -1595,13 +1597,14 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
     "id": "recruit",
     "name": "Military Recruit",
-    "requirement": "achievement_reach_military_bunker",
+    "requirement": "achievement_reach_military_base",
     "description": "Joining the military has been your dream for years.  You finally got in, just in time for your training to get interrupted by some sort of national emergency.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 3,
@@ -1655,13 +1658,15 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_lower": 18,
+    "age_upper": 23
   },
   {
     "type": "profession",
     "id": "combat-mechanic",
     "name": "Combat Mechanic",
-    "requirement": "achievement_reach_military_bunker",
+    "requirement": "achievement_reach_military_base",
     "description": "Early in your military career, you were hand-picked for extra training in the mechanic's trade, keeping the armor running.  It's been years since you last touched a rifle, and the dead men are marching again…",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 5,
@@ -1707,13 +1712,15 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_lower": 25,
+    "age_upper": 40
   },
   {
     "type": "profession",
     "id": "combat-engineer",
     "name": "Combat Engineer",
-    "requirement": "achievement_reach_military_bunker",
+    "requirement": "achievement_reach_military_base",
     "description": "Your job was simple: Keep the army moving.  You built bridges, you built roads, you destroyed fortifications, and you cleared mines.  It has been years since you last handled a rifle in basic training; now might be the time to dust off those skills.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 7,
@@ -1756,13 +1763,15 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_lower": 25,
+    "age_upper": 40
   },
   {
     "type": "profession",
     "id": "nco",
     "name": "Non-Commissioned Officer",
-    "requirement": "achievement_reach_military_bunker",
+    "requirement": "achievement_reach_military_base",
     "description": "You're a veteran of several peacekeeping missions.  You led your squad as a sort of parental figure, and they relied on you to give orders and keep them alive.  You failed them.  And now you're alone.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 7,
@@ -1818,13 +1827,15 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_lower": 30,
+    "age_upper": 45
   },
   {
     "type": "profession",
     "id": "rifleman",
     "name": "Rifleman",
-    "requirement": "achievement_reach_military_bunker",
+    "requirement": "achievement_reach_military_base",
     "description": "When you were young, you dreamed of being a soldier.  War is hell and hell is war, but you never thought it would be this bad.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 5,
@@ -1879,12 +1890,13 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
     "id": "seal_sniper",
-    "name": "Navy SEAL Marksmen",
+    "name": "Navy SEAL Marksman",
     "description": "Recruited into the ranks of the US Navy's Special Warfare forces as a designated sniper, your training in precision marksmanship and maritime operations was extensive.  As a proficient soldier and combative in all respects, you provided overwatch and long-range elimination services in the line of duty.  Now, with naval command imploding and your spotter MIA, your skills with a rifle and covert operations are the only things standing between you and the Cataclysm.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 8,
@@ -1939,7 +1951,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -2006,7 +2019,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -2065,7 +2079,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -2172,8 +2187,8 @@
     "name": "Medical Resident",
     "description": "Fresh out of med school, you've got little in the way of practical experience and just a handful of first-aid supplies.  You just hope it will be enough if 'physician, heal thyself' turns out to be more literal than you expected.",
     "npc_background": "BG_survival_story_MEDICAL",
-    "points": 2,
-    "skills": [ { "level": 5, "name": "firstaid" } ],
+    "points": 5,
+    "skills": [ { "level": 7, "name": "firstaid" }, { "level": 2, "name": "speech" }, { "level": 4, "name": "chemistry" } ],
     "proficiencies": [
       "prof_wound_care",
       "prof_wound_care_expert",
@@ -2181,7 +2196,9 @@
       "prof_intro_chemistry",
       "prof_physiology",
       "prof_burn_care",
-      "prof_dissect_humans"
+      "prof_dissect_humans",
+      "prof_organic_chemistry",
+      "prof_gross_anatomy"
     ],
     "traits": [ "PROF_MED" ],
     "items": {
@@ -2193,7 +2210,7 @@
           { "item": "dress_shoes" },
           { "item": "coat_lab" },
           { "item": "badge_doctor" },
-          { "item": "glasses_safety" },
+          { "item": "goggles_chem" },
           { "item": "wristwatch" },
           { "item": "water_clean" },
           { "item": "bandages", "count": 3 },
@@ -2208,7 +2225,9 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 26,
+    "age_upper": 33
   },
   {
     "type": "profession",
@@ -2217,8 +2236,8 @@
     "requirement": "achievement_reach_hospital",
     "description": "You were a patient-facing doctor practicing general or specialized medicine.  While your bedside manner might not get you far in this new world, your medical skills will certainly help.",
     "npc_background": "BG_survival_story_MEDICAL",
-    "points": 5,
-    "skills": [ { "level": 7, "name": "firstaid" }, { "level": 3, "name": "speech" } ],
+    "points": 6,
+    "skills": [ { "level": 8, "name": "firstaid" }, { "level": 3, "name": "speech" }, { "level": 4, "name": "chemistry" } ],
     "proficiencies": [
       "prof_wound_care",
       "prof_wound_care_expert",
@@ -2226,7 +2245,9 @@
       "prof_intro_chemistry",
       "prof_physiology",
       "prof_burn_care",
-      "prof_dissect_humans"
+      "prof_dissect_humans",
+      "prof_organic_chemistry",
+      "prof_gross_anatomy"
     ],
     "traits": [ "PROF_MED" ],
     "items": {
@@ -2238,7 +2259,7 @@
           "dress_shoes",
           "coat_lab",
           "badge_doctor",
-          "glasses_safety",
+          "goggles_chem",
           "wristwatch",
           "water_clean",
           { "item": "bandages", "count": 5 },
@@ -2259,7 +2280,7 @@
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     },
-    "age_lower": 25
+    "age_lower": 30
   },
   {
     "type": "profession",
@@ -2269,9 +2290,18 @@
     "description": "You were a pharmacist working in a community pharmacy.  No simple pill-pusher, you have a plethora of knowledge of drug preparation, biochemistry, and biology.  With your trusty mortar and pestle, you hope to grind the undead to a pulp.",
     "npc_background": "BG_survival_story_MEDICAL",
     "points": 5,
-    "skills": [ { "level": 6, "name": "firstaid" }, { "level": 1, "name": "speech" } ],
-    "proficiencies": [ "prof_intro_biology", "prof_intro_chemistry", "prof_organic_chemistry", "prof_biochemistry", "prof_physiology" ],
-    "traits": [ "PROF_MED" ],
+    "skills": [ { "level": 5, "name": "firstaid" }, { "level": 1, "name": "speech" }, { "level": 5, "name": "chemistry" } ],
+    "proficiencies": [
+      "prof_wound_care",
+      "prof_intro_biology",
+      "prof_intro_chemistry",
+      "prof_organic_chemistry",
+      "prof_gross_anatomy",
+      "prof_biochemistry",
+      "prof_intro_chem_synth",
+      "prof_chem_synth",
+      "prof_pharmaceutical"
+    ],
     "items": {
       "both": {
         "items": [
@@ -2280,8 +2310,7 @@
           "socks",
           "dress_shoes",
           "coat_lab",
-          "badge_doctor",
-          "glasses_safety",
+          "goggles_chem",
           "wristwatch",
           "mortar_pestle",
           "water_clean",
@@ -2337,7 +2366,7 @@
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     },
-    "age_lower": 25
+    "age_lower": 26
   },
   {
     "type": "profession",
@@ -2542,13 +2571,14 @@
           { "group": "starter_wallet_full" },
           { "group": "charged_flashlight" },
           { "item": "lighter", "charges": 100 },
-          { "group": "knife_rambo_full", "container-item": "scabbard" },
+          { "group": "knife_rambo_full", "container-item": "sheath" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -2646,7 +2676,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -2691,7 +2722,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 30
   },
   {
     "type": "profession",
@@ -2859,7 +2891,8 @@
       { "level": 1, "name": "dodge" },
       { "level": 1, "name": "swimming" }
     ],
-    "addictions": [ { "intensity": 10, "type": "nicotine" } ]
+    "addictions": [ { "intensity": 10, "type": "nicotine" } ],
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -2911,7 +2944,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -2971,7 +3005,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -3026,7 +3061,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -3144,7 +3180,8 @@
       },
       "male": { "entries": [ { "item": "briefs" }, { "item": "citrine_gold_cufflinks" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" }, { "item": "gold_ear" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -3166,7 +3203,7 @@
           { "item": "sunglasses" },
           { "item": "hat_boonie" },
           { "group": "charged_smart_watch_adv" },
-          { "item": "caff_gum" },
+          { "group": "chewing_gum_used_caff" },
           { "group": "charged_smart_phone", "contents-item": "book_archery" },
           { "group": "starter_wallet_full" },
           { "item": "rashguard", "variant": "black_rashguard_shirt" },
@@ -3489,7 +3526,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -3558,16 +3596,15 @@
       { "level": 6, "name": "firstaid" },
       { "level": 4, "name": "melee" },
       { "level": 4, "name": "bashing" },
-      { "level": 4, "name": "swimming" },
+      { "level": 3, "name": "swimming" },
       { "level": 4, "name": "driving" }
     ],
     "proficiencies": [
       "prof_wound_care",
       "prof_wound_care_expert",
-      "prof_intro_biology",
-      "prof_physiology",
       "prof_burn_care",
-      "prof_dissect_humans",
+      "prof_gross_anatomy",
+      "prof_intro_biology",
       "prof_driver"
     ],
     "vehicle": "fire_engine",
@@ -3583,7 +3620,7 @@
           { "item": "fire_gauntlets" },
           { "item": "nomex_hood" },
           { "item": "firehelmet" },
-          { "item": "mask_bunker" },
+          { "item": "mask_bunker", "ammo-item": "gasfilter_med", "charges": 100 },
           { "item": "mbag" },
           { "item": "nomex_socks" },
           { "item": "water_clean" },
@@ -3820,7 +3857,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -3900,7 +3938,7 @@
           { "item": "tool_belt" },
           { "group": "charged_smart_watch" },
           { "item": "mbag" },
-          { "item": "solder_wire" },
+          { "group": "solder_wire_spool_part" },
           { "group": "charged_smart_phone", "contents-item": "manual_electronics" },
           { "group": "starter_wallet_full" },
           { "group": "charged_flashlight" },
@@ -3939,7 +3977,8 @@
       },
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -3957,7 +3996,7 @@
           { "item": "sneakers" },
           { "item": "mbag" },
           { "item": "caffeine", "count": 10, "container-item": "null", "entry-wrapper": "bottle_plastic_small" },
-          { "item": "caff_gum", "count": 3 },
+          { "group": "chewing_gum_used_caff" },
           { "item": "memory_card", "contents-item": "textbook_computer" },
           { "item": "usb_drive", "contents-item": "SICP" },
           { "item": "portable_game", "charges": 150 },
@@ -4069,7 +4108,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" }, { "item": "tank_top" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4160,7 +4200,7 @@
           { "item": "boots" },
           { "item": "knit_scarf" },
           { "item": "coat_lab" },
-          { "item": "glasses_safety" },
+          { "item": "goggles_chem" },
           { "item": "wristwatch" },
           { "group": "starter_wallet_full" }
         ]
@@ -4278,7 +4318,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4359,7 +4400,8 @@
         "entries": [ { "item": "panties" }, { "item": "bra" }, { "item": "dress" }, { "item": "fanny" }, { "item": "gold_watch" } ]
       }
     },
-    "age_lower": 50
+    "age_lower": 65,
+    "age_upper": 85
   },
   {
     "type": "profession",
@@ -4472,7 +4514,8 @@
           { "item": "stockings", "variant": "stockings_black" }
         ]
       }
-    }
+    },
+    "age_lower": 18
   },
   {
     "type": "profession",
@@ -4485,9 +4528,10 @@
       { "level": 4, "name": "melee" },
       { "level": 4, "name": "bashing" },
       { "level": 4, "name": "firstaid" },
-      { "level": 3, "name": "swimming" }
+      { "level": 3, "name": "swimming" },
+      { "level": 4, "name": "driving" }
     ],
-    "proficiencies": [ "prof_burn_care" ],
+    "proficiencies": [ "prof_burn_care", "prof_wound_care" ],
     "items": {
       "both": {
         "entries": [
@@ -4498,7 +4542,7 @@
           { "item": "boots_bunker" },
           { "item": "nomex_gloves" },
           { "item": "fire_gauntlets" },
-          { "item": "mask_bunker" },
+          { "item": "mask_bunker", "ammo-item": "gasfilter_med", "charges": 100 },
           { "item": "nomex_hood" },
           { "item": "firehelmet" },
           { "item": "pocketwatch" },
@@ -4654,7 +4698,8 @@
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4669,7 +4714,8 @@
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4709,7 +4755,7 @@
           { "item": "jumpsuit_pocketless", "variant": "orange" },
           { "item": "sneakers" },
           { "item": "socks" },
-          { "item": "gum" },
+          { "group": "chewing_gum_used" },
           { "group": "charged_cell_phone" }
         ]
       },
@@ -4795,7 +4841,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4820,13 +4867,14 @@
         "entries": [ { "item": "briefs" }, { "item": "dress_shirt" }, { "item": "suit" }, { "item": "pants", "variant": "pants_black" } ]
       },
       "female": { "entries": [ { "item": "dress" }, { "item": "purse" }, { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
     "id": "c_priest",
     "name": { "male": "Catholic Priest", "female": "Nun" },
-    "description": "For your entire time as a servant of God, you helped, protected and listened to your parish faithful.  But the Rapture has come, and your parish turned against you.  Now all you can do is pray to the Holy Virgin, and prepare to maintain your wellbeing.",
+    "description": "For your entire time as a servant of God, you helped, protected and listened to your parish faithful.  But these days, the Book of Revelation is starting to feel less metaphorical, and your parish turned against you.  Now all you can do is pray for the intercession of the saints.  Mary, Mother of God, pray for us!",
     "npc_background": "BG_survival_story_SPIRITUAL",
     "points": 0,
     "skills": [ { "level": 3, "name": "speech" } ],
@@ -4843,11 +4891,10 @@
       },
       "male": {
         "entries": [
-          { "item": "pants" },
-          { "item": "longshirt" },
-          { "item": "cassock" },
-          { "item": "cape_catholic" },
-          { "item": "zucchetto" },
+          { "item": "pants", "variant": "pants_black" },
+          { "item": "dress_shirt", "variant": "black" },
+          { "item": "gold_watch" },
+          { "item": "priest_collar" },
           { "item": "briefs" }
         ]
       },
@@ -4858,10 +4905,12 @@
           { "item": "dress_shirt" },
           { "item": "purse" },
           { "item": "bra" },
+          { "item": "holy_symbol", "variant": "rosary" },
           { "item": "panties" }
         ]
       }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4888,7 +4937,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4913,7 +4963,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4968,7 +5019,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4998,7 +5050,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 30
   },
   {
     "type": "profession",
@@ -5029,7 +5082,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -5055,7 +5109,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
     },
-    "missions": [ "MISSION_BLACK_BELT_GOAL" ]
+    "missions": [ "MISSION_BLACK_BELT_GOAL" ],
+    "age_lower": 18
   },
   {
     "type": "profession",
@@ -5095,7 +5150,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
     },
-    "missions": [ "MISSION_BLACK_BELT_GOAL" ]
+    "missions": [ "MISSION_BLACK_BELT_GOAL" ],
+    "age_lower": 18
   },
   {
     "type": "profession",
@@ -5163,7 +5219,9 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 18,
+    "age_upper": 25
   },
   {
     "type": "profession",
@@ -5196,7 +5254,9 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 16,
+    "age_upper": 25
   },
   {
     "type": "profession",
@@ -5243,7 +5303,7 @@
     "type": "profession",
     "id": "national_guard",
     "name": "National Guardsman",
-    "requirement": "achievement_reach_military_bunker",
+    "requirement": "achievement_reach_military_base",
     "description": "The government activated your National Guard unit to deal with the growing epidemics.  Despite your best efforts, you were unable to form up before all communications ceased and you found yourself alone among the dead.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 4,
@@ -5385,7 +5445,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -5480,7 +5541,8 @@
       },
       "male": { "entries": [ { "item": "chestwrap_fur" }, { "item": "loincloth_fur" } ] },
       "female": { "entries": [ { "item": "bikini_top_fur" }, { "item": "hot_pants_fur" } ] }
-    }
+    },
+    "age_lower": 30
   },
   {
     "type": "profession",
@@ -5664,7 +5726,7 @@
           { "item": "gloves_fingerless" },
           { "item": "helmet_skid" },
           { "item": "sneakers" },
-          { "item": "folded_skateboard_generic" },
+          { "item": "folded_skateboard_generic", "custom-flags": [ "auto_wield" ] },
           { "item": "wristwatch" },
           { "item": "sports_drink" },
           { "group": "charged_smart_phone", "contents-item": "book_fict_soft_ya_rwya" },
@@ -5877,7 +5939,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 28
   },
   {
     "type": "profession",
@@ -5938,7 +6001,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -6102,7 +6166,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 23
   },
   {
     "type": "profession",
@@ -6163,7 +6228,8 @@
         ]
       },
       "female": { "entries": [ { "item": "plastron_plastic" } ] }
-    }
+    },
+    "age_upper": 35
   },
   {
     "type": "profession",
@@ -6194,7 +6260,9 @@
       "male": { "entries": [ { "item": "boxer_shorts" }, { "item": "opal_platinum_cufflinks" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" }, { "item": "opal_platinum_earring" } ] }
     },
-    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ]
+    "missions": [ "MISSION_SOCIAL_BUTTERFLY" ],
+    "age_lower": 35,
+    "age_upper": 70
   },
   {
     "type": "profession",
@@ -6429,7 +6497,7 @@
     "type": "profession",
     "id": "mil_marksman",
     "name": "Military Marksman",
-    "requirement": "achievement_reach_military_bunker",
+    "requirement": "achievement_reach_military_base",
     "description": "You like to think of yourself as a sniper, but really you're just infantry with a bigger gun.  That said, a big gun is a definite advantage now.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 5,
@@ -6481,13 +6549,14 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
     "id": "mil_auto_rifleman",
     "name": "Military Automatic Rifleman",
-    "requirement": "achievement_reach_military_bunker",
+    "requirement": "achievement_reach_military_base",
     "description": "You were trusted with a big-ass, belt-fed machine gun and plenty of ammo to lay down suppressing fire for your team.  Now that it's going to be much harder to resupply, you should probably be more selective with the ol' spray-and-pray.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 5,
@@ -6541,13 +6610,14 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
     "id": "mil_grenadier",
     "name": "Military Grenadier",
-    "requirement": "achievement_reach_military_bunker",
+    "requirement": "achievement_reach_military_base",
     "description": "There's no kill like overkill, and not many people in this world can boast that they have a grenade launcher and know how to use it.  Just try not to blow yourself up, that would be really embarrassing.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 4,
@@ -6609,13 +6679,14 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
     "id": "mil_breacher",
     "name": "Military Breacher",
-    "requirement": "achievement_reach_military_bunker",
+    "requirement": "achievement_reach_military_base",
     "description": "Doors and windows everywhere dare not speak your name.  You're going to be breaking into buildings for supplies rather than combat operations now, but the principle is about the same.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 5,
@@ -6671,13 +6742,14 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
     "id": "mil_sniper",
     "name": "Military Sniper",
-    "requirement": "achievement_reach_military_bunker",
+    "requirement": "achievement_reach_military_base",
     "description": "You're a crack shot with a rifle, and the farther you can stay away from zombies, the better.  The only thing stopping you is limited ammo, so you should try to find a place to restock sooner or later.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 5,
@@ -6735,13 +6807,14 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
     "id": "mil_hacker",
     "name": "Military Hacker",
-    "requirement": "achievement_reach_military_bunker",
+    "requirement": "achievement_reach_military_base",
     "description": "'Hacker' is a silly pop-culture name, popularized by Hollywood and people with little to no knowledge of what your job entails.  You prefer 'Electronic Warfare Specialist,' though nobody's really left to make the distinction.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 7,
@@ -6797,7 +6870,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -6843,13 +6917,15 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "boy_shorts" }, { "item": "sports_bra" } ] }
-    }
+    },
+    "age_lower": 23,
+    "age_upper": 40
   },
   {
     "type": "profession",
     "id": "mili_pilot",
     "name": "Military Pilot",
-    "requirement": "achievement_reach_military_bunker",
+    "requirement": "achievement_reach_military_base",
     "description": "You got to see things fall apart from the sky, transporting soldiers and survivors from one holdout to the next.  You knew it was only a matter of time before the horrors patrolling the skies shot you down.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 5,
@@ -6893,7 +6969,8 @@
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
     },
     "flags": [ "SCEN_ONLY" ],
-    "missions": [ "MISSION_HELICOPTER_PILOT" ]
+    "missions": [ "MISSION_HELICOPTER_PILOT" ],
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -6902,9 +6979,8 @@
     "description": "You were responding to a call with your partner before you got separated.  Now all you have is your trusty ambulance, ready to transport patients through the apocalypse.",
     "npc_background": "BG_survival_story_MEDICAL",
     "points": 3,
-    "skills": [ { "level": 5, "name": "firstaid" }, { "level": 4, "name": "driving" }, { "level": 2, "name": "mechanics" } ],
-    "proficiencies": [ "prof_wound_care", "prof_intro_biology", "prof_physiology", "prof_burn_care", "prof_driver", "prof_gross_anatomy" ],
-    "traits": [ "PROF_MED" ],
+    "skills": [ { "level": 5, "name": "firstaid" }, { "level": 4, "name": "driving" } ],
+    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_burn_care", "prof_driver" ],
     "vehicle": "ambulance",
     "items": {
       "both": {
@@ -6934,17 +7010,15 @@
     "description": "You were separated from your partner while out on a call.  You managed to hang onto some medical supplies, but it's looking like the only life that needs saving now is yours.",
     "npc_background": "BG_survival_story_MEDICAL",
     "points": 3,
-    "skills": [ { "level": 6, "name": "firstaid" }, { "level": 3, "name": "driving" }, { "level": 1, "name": "mechanics" } ],
+    "skills": [ { "level": 6, "name": "firstaid" }, { "level": 4, "name": "driving" } ],
     "proficiencies": [
       "prof_wound_care",
       "prof_wound_care_expert",
-      "prof_intro_biology",
-      "prof_physiology",
       "prof_burn_care",
-      "prof_dissect_humans",
-      "prof_gross_anatomy"
+      "prof_gross_anatomy",
+      "prof_intro_biology",
+      "prof_driver"
     ],
-    "traits": [ "PROF_MED" ],
     "items": {
       "both": {
         "entries": [
@@ -6975,12 +7049,12 @@
     "type": "profession",
     "id": "mili_medic",
     "name": "Combat Medic",
-    "requirement": "achievement_reach_military_bunker",
+    "requirement": "achievement_reach_military_base",
     "description": "You were on the front lines when everything happened, patching up the wounded and providing support.  But they wouldn't stop coming.  Now you're on your own.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 5,
     "skills": [
-      { "level": 6, "name": "firstaid" },
+      { "level": 5, "name": "firstaid" },
       { "level": 4, "name": "gun" },
       { "level": 4, "name": "rifle" },
       { "level": 3, "name": "pistol" },
@@ -6995,10 +7069,7 @@
       "prof_spotting",
       "prof_wound_care",
       "prof_wound_care_expert",
-      "prof_intro_biology",
-      "prof_physiology",
       "prof_burn_care",
-      "prof_dissect_humans",
       "prof_gun_cleaning",
       "prof_knives_familiar",
       "prof_auto_rifles_familiar",
@@ -7047,7 +7118,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -7114,15 +7186,17 @@
     "name": "Hazmat Unit",
     "description": "You were deployed to autopsy one of the rioters showing feral behavior before being put down.  When they got back up, you knew this was out of your pay grade.",
     "npc_background": "BG_survival_story_WORKER_FIREFIGHTER",
-    "points": 4,
-    "skills": [ { "level": 6, "name": "firstaid" } ],
+    "points": 5,
+    "skills": [ { "level": 7, "name": "firstaid" }, { "level": 4, "name": "chemistry" } ],
     "proficiencies": [
       "prof_wound_care",
       "prof_wound_care_expert",
       "prof_intro_biology",
+      "prof_intro_chemistry",
       "prof_physiology",
       "prof_burn_care",
       "prof_dissect_humans",
+      "prof_organic_chemistry",
       "prof_gross_anatomy"
     ],
     "traits": [ "PROF_MED" ],
@@ -7134,7 +7208,7 @@
           { "item": "socks" },
           { "item": "gloves_medical" },
           { "item": "wristwatch" },
-          { "item": "glasses_safety" },
+          { "item": "goggles_chem" },
           { "item": "scalpel" },
           { "group": "charged_smart_phone", "contents-item": "atomic_survival" },
           { "group": "starter_wallet_full" },
@@ -7143,7 +7217,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 26
   },
   {
     "type": "profession",
@@ -7241,7 +7316,7 @@
           { "item": "socks" },
           { "item": "gloves_rubber" },
           { "item": "tool_belt" },
-          { "item": "glasses_safety" },
+          { "item": "goggles_chem" },
           { "item": "camera_bag" },
           { "group": "charged_smart_phone", "contents-item": "book_nonf_hard_phil_mdlogic" },
           { "group": "starter_wallet_full" },
@@ -7260,7 +7335,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 28
   },
   {
     "type": "profession",
@@ -7547,7 +7623,8 @@
       "male": { "entries": [ { "item": "speedo" } ] },
       "female": { "entries": [ { "item": "flag_swimsuit", "variant": "generic_swimsuit" } ] }
     },
-    "proficiencies": [ "prof_athlete_basic" ]
+    "proficiencies": [ "prof_athlete_basic" ],
+    "age_upper": 30
   },
   {
     "type": "profession",
@@ -7581,7 +7658,8 @@
         "entries": [ { "item": "trunks" }, { "item": "swim_briefs" }, { "item": "rashguard", "variant": "lifeguard_rashguard_shirt" } ]
       },
       "female": { "entries": [ { "item": "flag_swimsuit", "variant": "lifeguard_swimsuit" } ] }
-    }
+    },
+    "age_lower": 18
   },
   {
     "type": "profession",
@@ -7745,7 +7823,8 @@
         ]
       }
     },
-    "missions": [ "MISSION_ASSASSINATION" ]
+    "missions": [ "MISSION_ASSASSINATION" ],
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -7785,7 +7864,8 @@
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "boy_shorts" }, { "item": "bra" } ] }
     },
-    "age_lower": 50
+    "age_lower": 60,
+    "age_upper": 80
   },
   {
     "type": "profession",
@@ -7927,7 +8007,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "panties" }, { "item": "bra" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -7982,7 +8063,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "age_upper": 40
   },
   {
     "type": "profession",
@@ -8010,7 +8092,8 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
     },
-    "missions": [ "MISSION_BLACK_BELT_GOAL" ]
+    "missions": [ "MISSION_BLACK_BELT_GOAL" ],
+    "age_upper": 30
   },
   {
     "type": "profession",
@@ -8053,7 +8136,8 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
-    }
+    },
+    "age_upper": 25
   },
   {
     "type": "profession",
@@ -8066,5 +8150,580 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "panties" } ] }
     }
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_none",
+    "name": "Human Mutant",
+    "description": "You were the control case in the scientists' experiments - after they were done playing God with you, they injected some kind of drug that made you normal again.  Unfortunately, you know this world is no longer a place for normality.  Will you embrace the changes once again?",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
+    "points": -1,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_fish",
+    "name": "Fish Mutant",
+    "description": "You have become a creature from the deep, like a monster from a cheap horror flick.  Only, it is far too real.",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "WEBBED",
+      "WEBBED_FEET",
+      "TAIL_FIN",
+      "SCALES",
+      "ELECTRORECEPTORS",
+      "SLIMY",
+      "BIOLUM1",
+      "THIRST",
+      "SMELLY2",
+      "FANGS",
+      "NIGHTVISION",
+      "MEMBRANE",
+      "DEX_UP"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_spider",
+    "name": "Spider Mutant",
+    "description": "Forget about great responsibility - after everything that's been done to you, it's a miracle you don't have eight eyes.",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "CHITIN",
+      "LIGHT_BONES",
+      "CARNIVORE",
+      "WEB_WALKER",
+      "POISONOUS",
+      "PADDED_FEET",
+      "RAP_TALONS",
+      "POISRESIST",
+      "FANGS_SPIDER",
+      "NIGHTVISION",
+      "STRONG_LEGS",
+      "CHITIN2",
+      "ASOCIAL2"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_lupine",
+    "name": "Wolf Mutant",
+    "description": "Being cooped up in here has been awful.  You need friends, and your fellow mutants aren't good company.  Hopefully once you escape, you'll find a pack to take you in.",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "LUPINE_EARS",
+      "LUPINE_FUR",
+      "CARNIVORE",
+      "TAIL_FLUFFY",
+      "GOURMAND",
+      "FANGS",
+      "RESISTCHILL",
+      "PADDED_FEET",
+      "GROWL",
+      "NIGHTVISION",
+      "PAWS",
+      "ANIMAL_FEET",
+      "MANSBESTFRIEND",
+      "SOCIAL2",
+      "MUZZLE"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_beast",
+    "name": "Beast Mutant",
+    "description": "It's not clear exactly what kind of beast you became, but that's not important anymore.  All that matters is the hunt.",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "CANINE_EARS",
+      "FELINE_FUR",
+      "SPINES",
+      "CARNIVORE",
+      "TAIL_STUB",
+      "STR_UP",
+      "RESISTCHILL",
+      "PADDED_FEET",
+      "GROWL",
+      "CLAWS",
+      "PAWS",
+      "HUNGER",
+      "HORNS_CURLED",
+      "ANIMAL_FEET",
+      "FANGS"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_insect",
+    "name": "Insect Mutant",
+    "description": "Alike to The Fly, you are now a disturbing mix of human and bug.  But, bugs are nothing if not tenacious - and so shall you be.",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "ANIMALDISCORD",
+      "COMPOUND_EYES",
+      "MANDIBLES",
+      "WINGS_INSECT",
+      "TAIL_STUB",
+      "NIGHTVISION",
+      "COLDBLOOD",
+      "ANTENNAE",
+      "SMELLY2",
+      "PROJUNK",
+      "TERRIFYING",
+      "FORGETFUL",
+      "CHITIN",
+      "CHITIN2",
+      "MUTE_INSECT"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_feline",
+    "name": "Feline Mutant",
+    "description": "Considering that you always complained about Mondays, this was probably inevitable.  Too bad you can't eat lasagna to complete the fit.",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "CARNIVORE",
+      "GROWL",
+      "FANGS",
+      "FEL_EYE",
+      "FEL_NV",
+      "SNOUT",
+      "WHISKERS",
+      "SLEEPY",
+      "FELINE_FUR",
+      "HATES_WATER",
+      "PADDED_FEET",
+      "ANIMAL_FEET",
+      "FELINE_EARS",
+      "TAIL_LONG",
+      "CLAWS_RETRACT"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_trog",
+    "name": "Subterranean Mutant",
+    "description": "Your large, glowing eyes and starkly pallid skin suggest you have become some kind of cave creature.  The thought of the surface terrifies you, but anything is better than here.",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "SUNBURN",
+      "TROGLO2",
+      "STR_UP",
+      "TOLERANCE",
+      "SAPROVORE",
+      "ALCMET",
+      "NIGHTVISION2",
+      "FASTHEALER",
+      "DISRESISTANT",
+      "PAINRESIST",
+      "POISRESIST",
+      "NIGHT_RAIDER"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_medical",
+    "name": "Medical Mutant",
+    "description": "Initially, the changes didn't seem obvious.  But then the psychological disorders began to manifest.  No matter; your body will survive anything.",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "ADDICTIVE",
+      "DISRESISTANT",
+      "INFRESIST",
+      "PARAIMMUNE",
+      "MOODSWINGS",
+      "JEKYLL",
+      "MASOCHIST",
+      "FASTHEALER",
+      "PAINREC1",
+      "PAINRESIST",
+      "POISRESIST",
+      "RADIOGENIC",
+      "CHEMIMBALANCE",
+      "SCHIZOPHRENIC"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_bird",
+    "name": "Avian Mutant",
+    "description": "The free skies of the surface seem so far away now.  Will you ever spread your wings again?",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "BEAK",
+      "ARM_FEATHERS",
+      "FEATHERS",
+      "HOLLOW_BONES",
+      "TALONS",
+      "PER_UP",
+      "GLASSJAW",
+      "FLEET",
+      "SCREECH",
+      "MUTE_BIRD",
+      "NOMAD",
+      "WINGS_STUB",
+      "LIGHTEATER",
+      "EAGLEEYED"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_bear",
+    "name": "Ursine Mutant",
+    "description": "The experiments turned you into a hulking beast of fur and muscle.  It took a while to stop bonking your head on doorways, but that's the least of your problems now.",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "URSINE_FUR",
+      "PAWS",
+      "CLAWS_RAT",
+      "URSINE_EARS",
+      "GROWL",
+      "URSINE_EYE",
+      "STR_UP_2",
+      "LARGE",
+      "MUZZLE_BEAR",
+      "DENSE_BONES",
+      "FAT",
+      "FANGS",
+      "HEAVYSLEEPER",
+      "SMELLY",
+      "TAIL_STUB"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_mouse",
+    "name": "Mouse Mutant",
+    "description": "One might think being shrunk down to the size of a child might be an issue in this world of violence.  Well, you'll prove them wrong!  You just have to be… craftier.",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "UNDERSIZE" ] } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "SMALL2",
+      "TAIL_RAT",
+      "PROJUNK",
+      "FELINE_FUR",
+      "GOODCARDIO",
+      "FLIMSY",
+      "LIGHT_BONES",
+      "QUICK",
+      "ANIMALDISCORD2",
+      "WHISKERS_RAT",
+      "GOURMAND",
+      "NIGHTVISION",
+      "SLEEPY",
+      "MET_RAT"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_rabbit",
+    "name": "Rabbit Mutant",
+    "description": "All the world will be your enemy, and when they catch you, they will kill you.  But first, they must catch you…  Be cunning, and full of tricks, and you shall never be destroyed.",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "SMALL",
+      "RABBIT_EARS",
+      "TAIL_RABBIT",
+      "RABBIT_FEET",
+      "RABBIT_FUR",
+      "GOODCARDIO",
+      "LIGHT_BONES",
+      "HERBIVORE",
+      "ANIMALDISCORD2",
+      "WHISKERS",
+      "GOODHEARING",
+      "FLEET",
+      "SLEEPY",
+      "PAWS_LITTLE",
+      "NAILS"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_elfa",
+    "name": "Sylvan Mutant",
+    "description": "At first it seemed like you were turning into a plant.  But now, your form calls to mind an elf, or perhaps a dryad.  Hopefully there are still pristine forests out there.",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "ANIMALEMPATH2",
+      "ELFA_EARS",
+      "BEAUTIFUL",
+      "PLANTSKIN",
+      "MOODSWINGS",
+      "LIGHT_BONES",
+      "WAKEFUL",
+      "ELFAEYES",
+      "SOCIAL1",
+      "LIGHTSTEP",
+      "FLIMSY",
+      "GOODHEARING",
+      "WEAKSTOMACH"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_plant",
+    "name": "Plant Mutant",
+    "description": "Mutation has turned you into a bizarre mix of tree and human.  While you're slower than you used to be, you're sturdy as an oak.",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "DISRESISTANT",
+      "FASTHEALER",
+      "COLDBLOOD2",
+      "PLANTSKIN",
+      "BARK",
+      "LEAVES",
+      "THORNS",
+      "HAIRROOTS",
+      "VINES2",
+      "SEASONAL_AFFECTIVE",
+      "PONDEROUS1",
+      "SUNLIGHT_DEPENDENT"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_lizard",
+    "name": "Lizard Mutant",
+    "description": "It's a good thing you always thought dinosaurs were cool, considering you've practically become one.  Hopefully you don't also go extinct.",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "CARNIVORE",
+      "FASTHEALER",
+      "COLDBLOOD2",
+      "SCALES",
+      "TALONS",
+      "HISS",
+      "LIZ_EYE",
+      "LIZ_IR",
+      "TAIL_THICK",
+      "VERY_TALL",
+      "FORKED_TONGUE",
+      "FANGS",
+      "SLIT_NOSTRILS"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_cow",
+    "name": "Bovine Mutant",
+    "description": "You've mutated into a minotaur, though unlike Asterios you've no hunger for human flesh, or any meat for that matter.  Still, you'll plow through anyone who gets in your way.",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "HERBIVORE",
+      "RUMINANT",
+      "CANINE_EARS",
+      "DENSE_BONES",
+      "BOVINE_BULK",
+      "LARGE",
+      "STR_UP",
+      "HORNS",
+      "FUR",
+      "TAIL_CATTLE",
+      "THICKSKIN",
+      "HOOVES",
+      "PONDEROUS1"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_rat",
+    "name": "Rat Mutant",
+    "description": "Once you're free of this place, you'll be able to make all the rules.  Have all the cheese you want.  Hopefully the normal humans will tolerate your rather unsightly appearance…",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "GROWL",
+      "FUR",
+      "UGLY",
+      "TAIL_RAT",
+      "MUZZLE_RAT",
+      "WHISKERS_RAT",
+      "NIGHTVISION",
+      "PAWS",
+      "CLAWS_RAT",
+      "POISRESIST",
+      "DISRESISTANT",
+      "SLEEPY",
+      "HUNGER",
+      "MET_RAT",
+      "SOCIAL1"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_cephalopod",
+    "name": "Cephalopod Mutant",
+    "description": "It was hard enough to adjust to having tentacles instead of arms and legs; now the world's coming to an end, too.  At least your annoying neighbors won't bother you anymore.",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "BEAK",
+      "MUTE_CEPH",
+      "INT_UP_2",
+      "THIRST",
+      "CAMO1",
+      "LEG_TENTACLES",
+      "ARM_TENTACLES_4",
+      "THICKSKIN",
+      "SHELL",
+      "POISRESIST",
+      "SLIMY",
+      "DEX_UP_2",
+      "MOUTH_TENTACLES",
+      "CEPH_EYES",
+      "CEPH_VISION"
+    ]
+  },
+  {
+    "type": "profession",
+    "id": "mutant_patient_chiropteran",
+    "name": "Chiropteran Mutant",
+    "description": "When power flickered, you didn't mind the dark.  But mutants down here don't make for a great community, and you yearn to see the night-sky.",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
+    "points": 3,
+    "items": {
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [
+      "DEX_UP_2",
+      "FANGS",
+      "BATEARS",
+      "LEAFNOSE",
+      "SOCIAL1",
+      "LIGHTFUR",
+      "LIGHT_BONES",
+      "SOCIAL2",
+      "HEMOVORE",
+      "ARMS_BAT",
+      "TROGLO",
+      "MESOPIC",
+      "ANTIWHEAT",
+      "UGLY"
+    ]
   }
 ]

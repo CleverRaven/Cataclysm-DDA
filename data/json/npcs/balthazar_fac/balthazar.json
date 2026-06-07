@@ -176,7 +176,7 @@
         { "u_spawn_item": "guns_rifle_milspec", "count": 2, "use_item_group": true },
         { "u_spawn_item": "stanag30", "count": 2 },
         { "u_spawn_item": "MRE", "count": 5, "use_item_group": true },
-        { "u_spawn_item": "bot_manhack" },
+        { "u_spawn_item": "bot_grenade_hack" },
         { "u_consume_item_sum": [ { "item": "ground_solar_panel", "amount": 12 } ] }
       ]
     },

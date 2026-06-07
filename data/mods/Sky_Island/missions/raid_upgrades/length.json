@@ -1,0 +1,130 @@
+[
+  {
+    "id": "SKYISLAND_UPGRADE_raidlength1",
+    "type": "mission_definition",
+    "name": "Unlock: Large Expeditions",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Warped Hourglass from experimental materials and miscellaneous parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: You will be able to select Large Expeditions when leaving via the warp obelisk.  Large Expeditions last 2x as long, but mission targets and exit points are significantly farther away.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_raidlength1",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_raidlength1" },
+        {
+          "u_message": "With some success under your belt, you feel ready to tackle more ambitious expeditions, and the island seems to know it.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will be able to select Large Expeditions when leaving via the warp obelisk.  Large Expeditions last 2x as long, but mission targets and exit points are significantly farther away.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "longerraids = 1" ] },
+        { "u_forget_recipe": "upgradekey_raidlength1" },
+        {
+          "u_message": "You are ready for a longer haul.\nLarge Expeditions are now available at the warp obelisk.  Exits and missions will be farther away, but you will have twice as long to spend earthside.  Use this time wisely, and set your sights on bigger targets.  What will you do with your newfound time?",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_raidlength1",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Warped Hourglass", "str_pl": "Warped Hourglasses" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Large Expeditions",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_raidlength1",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "mask_gas", 1 ], [ "mask_gas_half", 1 ] ],
+      [ [ "warptoken", 1 ] ],
+      [ [ "backpack", 4 ], [ "backpack_leather", 4 ] ],
+      [ [ "granola", 6 ] ],
+      [ [ "water_mineral", 5 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_raidlength2",
+    "type": "mission_definition",
+    "name": "Unlock: Extended Expeditions",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Watch of Flowing Time from experimental materials and miscellaneous parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: You will be able to select Extended Expeditions when leaving via the warp obelisk.  Extended Expeditions last 3x as long, but mission targets and exit points are significantly farther away.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_raidlength2",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_raidlength2" },
+        {
+          "u_message": "You've seen enough safe returns to know your way around an expedition.  Now if you could spend even more time earthside, you'd be able to tackle even bigger and more ambitious goals.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will be able to select Extended Expeditions when leaving via the warp obelisk.  Extended Expeditions last 3x as long, but mission targets and exit points are much farther away.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "longerraids = 2" ] },
+        { "u_forget_recipe": "upgradekey_raidlength2" },
+        {
+          "u_message": "You're in it to win it, and are prepared to take a long time exploring the world below.\nExtended Expeditions are now available at the warp obelisk.  Exits and missions will be much farther away, but you will have three times as long to spend earthside.  Pack supplies for a day trip and be sure to bring plenty of storage space.  Where will you go with your newfound time?",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_raidlength2",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Watch of Flowing Time" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Extended Expeditions",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_raidlength2",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "boots_hiking", 2 ] ],
+      [ [ "backpack_hiking", 2 ] ],
+      [ [ "pants_hiking", 1 ] ],
+      [ [ "rehydration_drink", 5 ] ],
+      [ [ "protein_bar_evac", 10 ], [ "protein_smoothie", 4 ] ]
+    ]
+  }
+]

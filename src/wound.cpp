@@ -1,6 +1,10 @@
 #include "wound.h"
 
+#include <memory>
+#include <set>
+
 #include "bodypart.h"
+#include "debug.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "json.h"
@@ -20,7 +24,10 @@ void wound_type::load( const JsonObject &jo, const std::string_view & )
     mandatory( jo, was_loaded, "damage_types", damage_types );
     mandatory( jo, was_loaded, "damage_required", damage_required );
     optional( jo, was_loaded, "weight", weight, 1 );
+    optional( jo, was_loaded, "limb_scores", limb_scores );
+    optional( jo, was_loaded, "limit", limit, 0 );
 
+    optional( jo, was_loaded, "wound_progression", wound_progression );
     optional( jo, was_loaded, "whitelist_bp_with_flag", whitelist_bp_with_flag );
     optional( jo, was_loaded, "whitelist_body_part_types", whitelist_body_part_types );
     optional( jo, was_loaded, "blacklist_bp_with_flag", blacklist_bp_with_flag );
@@ -36,6 +43,9 @@ wound::wound( wound_type_id wd ) :
 namespace
 {
 generic_factory<wound_type> wound_type_factory( "wound" );
+
+// we'll store requirement_ids here and wait for requirements to load in, then we can actualize them
+std::multimap<wound_fix_id, std::pair<std::string, int>> reqs_temp_storage;
 } // namespace
 
 void wound_type::load_wounds( const JsonObject &jo, const std::string &src )
@@ -87,6 +97,168 @@ void wound_type::finalize()
 
 }
 
+namespace
+{
+generic_factory<wound_fix> wound_fix_factory( "wound_fix" );
+} // namespace
+
+void wound_fix::load_wound_fixes( const JsonObject &jo, const std::string &src )
+{
+    wound_fix_factory.load( jo, src );
+}
+
+std::string wound_fix::get_name() const
+{
+    return name.translated();
+}
+
+std::string wound_fix::get_description() const
+{
+    return description.translated();
+}
+
+/** @relates string_id */
+template<>
+const wound_fix &string_id<wound_fix>::obj() const
+{
+    return wound_fix_factory.obj( *this );
+}
+
+/** @relates string_id */
+template<>
+bool string_id<wound_fix>::is_valid() const
+{
+    return wound_fix_factory.is_valid( *this );
+}
+
+void wound_fix::reset()
+{
+    wound_fix_factory.reset();
+    reqs_temp_storage.clear();
+}
+
+void wound_fix::check_consistency()
+{
+    wound_fix_factory.check();
+}
+
+void wound_fix::check() const
+{
+    for( const auto &[skill_id, lvl] : skills ) {
+        if( !skill_id.is_valid() ) {
+            debugmsg( "wound_fix %s requires unknown skill '%s'", id.str(), skill_id.str() );
+        }
+    }
+    for( const wound_type_id &wd_id : wounds_removed ) {
+        if( !wd_id.is_valid() ) {
+            debugmsg( "wound_fix '%s' has invalid wound id '%s' in 'wounds_removed' field",
+                      id.str(), wd_id.str() );
+        }
+    }
+    for( const wound_type_id &wd_id : wounds_added ) {
+        if( !wd_id.is_valid() ) {
+            debugmsg( "wound_fix '%s' has invalid wound id '%s' in 'wounds_added' field",
+                      id.str(), wd_id.str() );
+        }
+    }
+
+    for( const wound_proficiency &wound_prof : proficiencies ) {
+        if( !wound_prof.prof.is_valid() ) {
+            debugmsg( "wound_fix '%s' has invalid proficiency '%s' in 'proficiencies' field",
+                      id.str(), wound_prof.prof.str() );
+        }
+    }
+}
+
+void wound_fix::finalize_all()
+{
+    wound_fix_factory.finalize();
+}
+
+void wound_fix::finalize()
+{
+    const auto range = reqs_temp_storage.equal_range( id );
+    for( auto it = range.first; it != range.second; ++it ) {
+        const requirement_id req_id( it->second.first );
+        const int amount = it->second.second;
+        if( !req_id.is_valid() ) {
+            debugmsg( "wound_fix '%s' has invalid requirement_id '%s'", id.str(), req_id.str() );
+            continue;
+        }
+        *requirements = *requirements + ( *req_id ) * amount;
+    }
+    requirements->consolidate();
+    for( const wound_type_id &fid : wounds_removed ) {
+        const_cast<wound_type &>( *fid ).fixes.emplace( id );
+    }
+    requirement_data::finalize();
+}
+
+void wound_limb_score::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "score", score );
+    optional( jo, false, "value", value, 0.f );
+}
+
+void wound_progress::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "id", id );
+    optional( jo, false, "chance", chance, numeric_bound_reader<int> {0, 100} );
+}
+
+void wound_proficiency::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "proficiency", prof );
+    optional( jo, false, "time_save", time_save, 1.f );
+    optional( jo, false, "is_mandatory", is_mandatory, false );
+}
+
+void wound_fix::load( const JsonObject &jo, const std::string_view & )
+{
+    mandatory( jo, was_loaded, "name", name );
+    mandatory( jo, was_loaded, "description", description );
+    optional( jo, was_loaded, "success_msg", success_msg );
+    optional( jo, was_loaded, "mod_hp", mod_hp, 0 );
+    optional( jo, was_loaded, "time", time );
+    optional( jo, was_loaded, "skills", skills );
+    optional( jo, was_loaded, "wounds_removed", wounds_removed );
+    optional( jo, was_loaded, "wounds_added", wounds_added );
+
+    if( jo.has_array( "proficiencies" ) ) {
+        proficiencies.clear();
+        for( JsonObject job : jo.get_array( "proficiencies" ) ) {
+            wound_proficiency wound_prof;
+            wound_prof.deserialize( job );
+            proficiencies.emplace_back( wound_prof );
+        }
+    }
+
+    if( jo.has_array( "requirements" ) ) {
+        for( const JsonValue &jv : jo.get_array( "requirements" ) ) {
+            if( jv.test_array() ) {
+                // array of 2 elements filled with [requirement_id, count]
+                const JsonArray &req = static_cast<JsonArray>( jv );
+                const std::string req_id = req.get_string( 0 );
+                const int req_amount = req.get_int( 1 );
+                reqs_temp_storage.emplace( id, std::make_pair( req_id, req_amount ) );
+            } else if( jv.test_object() ) {
+                // defining single requirement inline
+                const JsonObject &req = static_cast<JsonObject>( jv );
+                const requirement_id req_id( "wound_fix_" + id.str() + "_inline_req" );
+                requirement_data::load_requirement( req, req_id );
+                reqs_temp_storage.emplace( id, std::make_pair( req_id.str(), 1 ) );
+            } else {
+                debugmsg( "wound_fix '%s' has has invalid requirement element", id.str() );
+            }
+        }
+    }
+}
+
+const requirement_data &wound_fix::get_requirements() const
+{
+    return *requirements;
+}
+
 bool wound_type::allowed_on_bodypart( bodypart_str_id bp_id ) const
 {
 
@@ -126,6 +298,16 @@ int wound_type::evaluate_pain() const
 time_duration wound_type::evaluate_healing_time() const
 {
     return rng( healing_time_.first, healing_time_.second );
+}
+
+int wound_type::get_limit() const
+{
+    return limit;
+}
+
+std::vector<wound_limb_score> wound_type::get_limb_scores() const
+{
+    return limb_scores;
 }
 
 std::string wound_type::get_name() const

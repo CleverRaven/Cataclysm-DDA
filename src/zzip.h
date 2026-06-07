@@ -165,7 +165,7 @@ class zzip
          * Writes a copy of the live/most recent contents of this zzip into the given file.
          * Returns true on success, false on error.
          */
-        bool compact_to( std::shared_ptr<mmap_file> dest ) const;
+        bool compact_to( std::shared_ptr<mmap_file> const &dest ) const;
 
         /**
          * Removes all contents and resets to a default initialized empty zzip.

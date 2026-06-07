@@ -345,10 +345,20 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "collection",
     "entries": [
-      { "group": "boxed_223_20_used", "prob": 100 },
-      { "group": "223_loose", "prob": 100, "count": [ 1, 4 ] },
-      { "group": "boxed_223_20", "prob": 50 },
-      { "group": "boxed_223_50", "prob": 25 }
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "group": "223_loose", "prob": 100, "count": [ 1, 4 ] },
+              { "group": "boxed_223_20_used", "prob": 100 },
+              { "group": "boxed_223_20", "prob": 50 },
+              { "group": "boxed_223_50", "prob": 25 }
+            ],
+            "prob": 100
+          },
+          { "collection": [ { "group": "clip223_10rd_556", "prob": 100, "count": [ 1, 5 ] } ], "prob": 20 }
+        ]
+      }
     ]
   },
   {

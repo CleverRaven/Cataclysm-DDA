@@ -1,22 +1,18 @@
-import re
-
-
 def get_singular_name(name):
     if type(name) is dict:
-        if "str_sp" in name:
+        if name.get("str_sp"):
             return name["str_sp"]
-        elif "str" in name:
+        elif name.get("str"):
             return name["str"]
-        else:
-            raise Exception("Cannot find singular name in {}".format(name))
+        elif name.get("name"):
+            return get_singular_name(name["name"])
+        elif name.get("id"):
+            return name["id"]
+        elif name.get("abstract"):
+            return name["abstract"]
     elif type(name) is str:
         return name
-    else:
-        raise Exception("Cannot find singular name in {}".format(name))
-
-
-tag_pattern = re.compile(r'^<[a-z0-9_]*>$')
-
-
-def is_tag(text):
-    return tag_pattern.match(text)
+    elif type(name) is list:
+        if len(name) > 0:
+            return get_singular_name(name[0])
+    return "???"

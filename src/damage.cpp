@@ -128,6 +128,7 @@ void damage_type::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "material_required", material_required );
     optional( jo, was_loaded, "mon_difficulty", mon_difficulty );
     optional( jo, was_loaded, "no_resist", no_resist );
+    optional( jo, was_loaded, "bash_conversion_factor", bash_conversion_factor, 0.0 );
     if( jo.has_object( "immune_flags" ) ) {
         JsonObject jsobj = jo.get_object( "immune_flags" );
         if( jsobj.has_array( "monster" ) ) {
@@ -174,6 +175,9 @@ void damage_type::check()
         } );
         if( iter == dio_list.end() ) {
             debugmsg( "damage type %s has no associated damage_info_order type.", dt.id.c_str() );
+        }
+        if( dt.bash_conversion_factor < 0.0 ) {
+            debugmsg( "damage type %s has bash conversion factor < 0.", dt.id.str() );
         }
     }
 }
@@ -468,6 +472,17 @@ damage_instance damage_instance::di_considering_length( units::length barrel_len
     }
     return di;
 }
+
+bool damage_instance::has_damage_by_barrel() const
+{
+    for( const damage_unit &du : damage_units ) {
+        if( !du.barrels.empty() ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void damage_instance::clear()
 {
     damage_units.clear();
@@ -574,7 +589,7 @@ bool damage_instance::handle_proportional( const JsonValue &jval )
         prop_damage.unconditional_res_mult *= read_proportional_entry( jo, "constant_armor_multiplier" );
         prop_damage.unconditional_damage_mult *= read_proportional_entry( jo,
                 "constant_damage_multiplier" );
-        float barrel_mult = read_proportional_entry( jo, "barrels" );
+        float barrel_mult = read_proportional_entry( jo, "amount" );
         for( barrel_desc &bd : prop_damage.barrels ) {
             bd.amount *= barrel_mult;
         }
@@ -688,6 +703,33 @@ int dealt_damage_instance::total_damage() const
     []( int acc, const std::pair<const damage_type_id, int> &dmg ) {
         return acc + dmg.second;
     } );
+}
+
+dealt_damage_instance &dealt_damage_instance::operator+=( const dealt_damage_instance &rhs )
+{
+    for( auto&[dt_lhs, amt_lhs] : dealt_dams ) {
+        for( const auto&[dt_rhs, amt_rhs] : rhs.dealt_dams ) {
+            if( dt_lhs != dt_rhs ) {
+                continue;
+            }
+            amt_lhs += amt_rhs;
+        }
+
+        if( !rhs.bp_hit ) {
+            bp_hit = rhs.bp_hit;
+        }
+
+        if( !rhs.wp_hit.empty() ) {
+            wp_hit = rhs.wp_hit;
+        }
+    }
+
+    return *this;
+}
+
+int accumulate_to_bash_damage( int so_far, const std::pair<damage_type_id, int> &dam )
+{
+    return so_far + ( dam.second * dam.first->bash_conversion_factor );
 }
 
 resistances::resistances( const item &armor, bool to_self, int roll, const bodypart_id &bp )

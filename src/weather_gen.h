@@ -78,6 +78,7 @@ class weather_generator
 
         bool was_loaded = false;
         void load( const JsonObject &jo, std::string_view );
+        void finalize();
         static void load_weather_generator( const JsonObject &jo, const std::string &src );
         static void reset();
         static void finalize_all();

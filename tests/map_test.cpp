@@ -87,7 +87,7 @@ TEST_CASE( "map_coordinate_conversion_functions" )
 
 TEST_CASE( "destroy_grabbed_furniture" )
 {
-    clear_map();
+    clear_map_without_vision();
     avatar &player_character = get_avatar();
     GIVEN( "Furniture grabbed by the player" ) {
         const tripoint_bub_ms test_origin( 60, 60, 0 );
@@ -113,7 +113,7 @@ TEST_CASE( "map_bounds_checking" )
     // vehicles are stored in the global MAPBUFFER which all maps refer to.  To
     // work around the problem we clear the map of vehicles, but this is an
     // inelegant solution.
-    clear_map();
+    clear_map_without_vision();
     map m;
     tripoint_abs_sm point_away_from_real_map( get_map().get_abs_sub() + point( MAPSIZE_X, 0 ) );
     m.load( point_away_from_real_map, false );
@@ -139,7 +139,7 @@ TEST_CASE( "tinymap_bounds_checking" )
     // vehicles are stored in the global MAPBUFFER which all maps refer to.  To
     // work around the problem we clear the map of vehicles, but this is an
     // inelegant solution.
-    clear_map();
+    clear_map_without_vision();
     tinymap m;
     tripoint_abs_sm point_away_from_real_map( get_map().get_abs_sub() + point( MAPSIZE_X, 0 ) );
     m.load( project_to<coords::omt>( point_away_from_real_map + point::east ),
@@ -291,7 +291,7 @@ TEST_CASE( "milk_rotting", "[active_item][map]" )
 TEST_CASE( "active_monster_drops", "[active_item][map]" )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     get_avatar().setpos( here, tripoint_bub_ms::zero );
     tripoint_bub_ms start_loc = get_avatar().pos_bub( here ) + tripoint::east;
     restore_on_out_of_scope restore_temp(
