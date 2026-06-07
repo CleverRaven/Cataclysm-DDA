@@ -251,7 +251,10 @@ void tileset_cache::loader::create_textures_from_tile_atlas( const SDL_Surface_P
 
     // Compute per-sprite opaque bounds once from the unfiltered atlas.
     // Color filter variants preserve the alpha channel, so rescanning is unnecessary.
-    // Blit into a 32-bit surface for format-safe pixel access.
+    // Blit into a 32-bit surface for format-safe pixel access. The normal atlas
+    // texture is uploaded from the same 32-bit surface so shader variants sample
+    // the same concrete RGBA pixels as the pre-baked variants; paletted fallback
+    // atlases are not reliable shader sources on every SDL3 GPU backend.
     SDL_Surface_Ptr scan_surf = create_surface_32( tile_atlas->w, tile_atlas->h );
     throwErrorIf( BlitSurface( tile_atlas, nullptr, scan_surf, nullptr ) != 0,
                   "SDL_BlitSurface failed" );
@@ -289,8 +292,7 @@ void tileset_cache::loader::create_textures_from_tile_atlas( const SDL_Surface_P
         color_pixel_function_pointer color_pixel_function = get_color_pixel_function( std::get<1>
                 ( entry ) );
         if( !color_pixel_function ) {
-            // TODO: Move it inside apply_color_filter.
-            copy_surface_to_texture( tile_atlas, offset, *tile_values, opaque_bounds, abandon_gate );
+            copy_surface_to_texture( scan_surf, offset, *tile_values, opaque_bounds, abandon_gate );
         } else {
             copy_surface_to_texture( apply_color_filter( tile_atlas, color_pixel_function ), offset,
                                      *tile_values, opaque_bounds, abandon_gate );
