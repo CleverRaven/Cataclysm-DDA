@@ -1,0 +1,68 @@
+[
+  {
+    "id": "forest_bramble_spear",
+    "type": "SPELL",
+    "name": "Spear of Brambles",
+    "description": "This spell turns a stick into a vicious spear that drips with sticky sap.",
+    "message": "You grasp the stick tightly and feel the sap flowing within.",
+    "valid_targets": [ "none" ],
+    "skill": "deduction",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "spawn_item",
+    "effect_str": "bramble_spear_item",
+    "components": "spell_components_bramble_spear",
+    "shape": "blast",
+    "magic_type": "xedrawood_forest_magic",
+    "spell_class": "FOREST_MAGIC",
+    "difficulty": 3,
+    "min_damage": 1,
+    "max_damage": 1,
+    "max_level": 15,
+    "base_casting_time": 12000,
+    "base_energy_cost": 350,
+    "min_duration": 60000,
+    "max_duration": 720000,
+    "duration_increment": 24000
+  },
+  {
+    "id": "forest_unity_nature",
+    "type": "SPELL",
+    "name": "Unity with Nature",
+    "description": "Reaching out to the forest, you absorb some of its serenity and peace into yourself.",
+    "message": "You close your eyes and listen to the wind in the leaves as you solemnly intone in the incantation.",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_FOREST_NATURE_UNITY",
+    "shape": "blast",
+    "flags": [ "SOMATIC", "VERBAL", "RANDOM_DURATION" ],
+    "magic_type": "xedrawood_forest_magic",
+    "spell_class": "FOREST",
+    "difficulty": 3,
+    "base_casting_time": 12000,
+    "base_energy_cost": 600,
+    "final_energy_cost": 400,
+    "energy_increment": -10,
+    "max_level": 20,
+    "min_duration": { "math": [ "18501 + (u_spell_level('forest_unity_nature') * 9681)" ] },
+    "max_duration": { "math": [ "39815 + (u_spell_level('forest_unity_nature') * 22044)" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FOREST_NATURE_UNITY",
+    "effect": [
+      {
+        "u_add_effect": "natures_commune",
+        "duration": { "math": [ "rng(185.01,398.15) + (u_spell_level('forest_unity_nature') * rng(96.81,)" ] }
+      },
+      { "u_lose_morale": "morale_forest_unity" },
+      {
+        "u_add_morale": "morale_forest_unity",
+        "bonus": { "math": [ "5 + (u_spell_level('forest_unity_nature') * 3)  * ( channeling_proficiency_modifier() )" ] },
+        "max_bonus": 50,
+        "duration": { "math": [ "( 300 + (u_spell_level('forest_unity_nature') * 165) )  * ( channeling_proficiency_modifier() )" ] },
+        "decay_start": { "math": [ "(( 300 + (u_spell_level('forest_unity_nature') * 165) ) / 2)  * ( channeling_proficiency_modifier() )" ] }
+      }
+    ]
+  }
+]

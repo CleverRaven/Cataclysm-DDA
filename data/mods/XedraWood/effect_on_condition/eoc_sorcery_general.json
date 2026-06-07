@@ -1,0 +1,30 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRAWOOD_WEARINESS_COST",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_any_trait": [ "FOREST_MAGIC" ] },
+        { "or": [ { "compare_string": [ "FOREST_MAGIC", { "context_val": "school" } ] } ] }
+      ]
+    },
+    "effect": [
+      {
+        "math": [ "u_spell_weariness_cost", "=", "(12 * ( _difficulty * 0.4 ) * max( ( ( 30 - u_spell_level(_spell) ) / 30 ), 0.5) )" ]
+      },
+      {
+        "if": { "math": [ "_success != false" ] },
+        "then": [
+          { "math": [ "u_calories()", "-=", "u_spell_weariness_cost" ] },
+          { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "u_spell_weariness_cost" ] }
+        ],
+        "else": [
+          { "math": [ "u_calories()", "-=", "u_spell_weariness_cost / 5" ] },
+          { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "u_spell_weariness_cost / 5" ] }
+        ]
+      }
+    ]
+  }
+]

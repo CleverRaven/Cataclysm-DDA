@@ -1,0 +1,212 @@
+[
+  {
+    "type": "profession",
+    "id": "tribal_warrior_expert",
+    "name": "Tribal Warrior Veteran",
+    "description": "You are veteran of many a raid and have fought in defense of your people against the things in the wild when they try to invade your home.  You have been scarred by weapon, by claw, and by things you'd rather not remember.  This latest ordeal is just another battle to be won.",
+    "points": 8,
+    "proficiencies": [
+      "prof_bow_basic",
+      "prof_bow_expert",
+      "prof_knives_familiar",
+      "prof_spears_familiar",
+      "prof_spears_pro",
+      "prof_gross_anatomy"
+    ],
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 3, "name": "archery" },
+      { "level": 5, "name": "stabbing" },
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "dodge" },
+      { "level": 3, "name": "swimming" }
+    ],
+    "traits": [ "TOUGH", "PAINRESIST" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "helmet_larmor" },
+          { "item": "armor_larmor" },
+          { "item": "socks" },
+          { "item": "boots_larmor" },
+          { "item": "gauntlets_larmor" },
+          { "item": "water_clean", "charges": 6, "container-item": "waterskin" },
+          { "item": "quiver_birchbark", "contents-group": "quiver_bow_hunter" },
+          { "item": "spear_copper", "container-item": "spearsling" },
+          { "item": "copper_knife", "container-item": "sheath_birchbark" },
+          { "item": "longbow", "contents-item": [ "primitive_bow_silencer" ] }
+        ]
+      },
+      "male": { "entries": [ { "item": "loincloth_leather" } ] },
+      "female": { "entries": [ { "item": "chestwrap_leather" }, { "item": "loincloth_leather" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "lizardfolk_warrior",
+    "name": "Lizardfolk Swampstalker",
+    "//": "Separate lizardfolk hunter/warrior professions because they don't have clothes and they have unarmed proficiency due to teeth and claws",
+    "description": "The land was your kin's long before the warmbloods came.  Someday, it will be yours again.",
+    "points": 4,
+    "skills": [
+      { "level": 3, "name": "unarmed" },
+      { "level": 4, "name": "stabbing" },
+      { "level": 3, "name": "melee" },
+      { "level": 2, "name": "dodge" },
+      { "level": 4, "name": "swimming" },
+      { "level": 2, "name": "survival" }
+    ],
+    "proficiencies": [ "prof_spears_familiar", "prof_spears_pro", "prof_unarmed_familiar", "prof_unarmed_pro", "prof_gross_anatomy" ],
+    "traits": [
+      "LIZARDFOLK_BUILD",
+      "SCALES",
+      "MEMBRANE",
+      "COLDBLOOD4_LIZ",
+      "STRONGER_RESISTWARM_LIZ",
+      "FORKED_TONGUE",
+      "HISS",
+      "ANTIJUNK",
+      "TAIL_THICK",
+      "LIZ_EYE",
+      "INFRARED_LIZ",
+      "REGEN_LIZARDFOLK",
+      "MUZZLE_LONG_LIZ",
+      "WEBBED_LIZ_FEET",
+      "WEBBED_LIZ_HANDS",
+      "TALONS",
+      "FANGS",
+      "SLIT_NOSTRILS",
+      "PRED_LIZ"
+    ],
+    "items": {
+      "both": {
+        "items": [ "straw_basket", "grass_cloak", "rope_loop" ],
+        "entries": [
+          { "item": "spear_stone", "container-item": "spearsling" },
+          { "item": "primitive_knife", "container-item": "sheath_birchbark" }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "lizardfolk_hunter",
+    "name": "Lizardfolk Hunter",
+    "description": "For years you went out from your tribe's village, taking game and bringing it back to keep them fed.  Now that you're on your own, those skills will have to be enough to keep you alive.",
+    "points": 5,
+    "skills": [
+      { "level": 3, "name": "unarmed" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "melee" },
+      { "level": 1, "name": "dodge" },
+      { "level": 4, "name": "throwing" },
+      { "level": 4, "name": "gun" },
+      { "level": 3, "name": "swimming" },
+      { "level": 4, "name": "survival" }
+    ],
+    "proficiencies": [
+      "prof_spears_familiar",
+      "prof_spears_pro",
+      "prof_unarmed_familiar",
+      "prof_unarmed_pro",
+      "prof_spotting",
+      "prof_gross_anatomy"
+    ],
+    "traits": [
+      "LIZARDFOLK_BUILD",
+      "SCALES",
+      "MEMBRANE",
+      "COLDBLOOD4_LIZ",
+      "STRONGER_RESISTWARM_LIZ",
+      "FORKED_TONGUE",
+      "HISS",
+      "ANTIJUNK",
+      "TAIL_THICK",
+      "LIZ_EYE",
+      "INFRARED_LIZ",
+      "REGEN_LIZARDFOLK",
+      "MUZZLE_LONG_LIZ",
+      "WEBBED_LIZ_FEET",
+      "WEBBED_LIZ_HANDS",
+      "TALONS",
+      "FANGS",
+      "SLIT_NOSTRILS",
+      "PRED_LIZ"
+    ],
+    "items": {
+      "both": {
+        "items": [ "straw_basket", "grass_cloak" ],
+        "entries": [
+          { "item": "spear_stone" },
+          { "item": "bola" },
+          { "item": "bola" },
+          { "item": "spear_stone", "container-item": "spearsling" },
+          { "item": "primitive_knife", "container-item": "sheath_birchbark" }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "wise_one_apprentice",
+    "name": { "str": "Apprentice to the Wise" },
+    "description": "From your birth, you were in contact with the spirit world.  You were trained in the ways of the spirits and intermediated between them and your tribe.  In time, one of the Wise came to your village to induct you into the deeper mysteries, but they vanished before completing your training.  Now that you're alone, you'll need to contact the spirits of this new place and learn their ways.",
+    "points": 3,
+    "skills": [ { "level": 1, "name": "firstaid" }, { "level": 3, "name": "deduction" }, { "level": 1, "name": "survival" } ],
+    "spells": [
+      { "id": "hedge_ward_off_rain", "level": 1 },
+      { "id": "hedge_light_fire", "level": 1 },
+      { "id": "hedge_no_nightmares", "level": 1 },
+      { "id": "hedge_astral_projection", "level": 1 }
+    ],
+    "traits": [ "WITCHSIGHT", "HEDGE_MAGIC" ],
+    "proficiencies": [ "prof_wound_care", "prof_occult_research", "prof_thaumatology" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "loincloth_leather" },
+          { "item": "grass_cloak" },
+          { "item": "shirt_straw" },
+          { "item": "skirt_grass" },
+          { "item": "footrags_leather" },
+          { "item": "water_clean", "charges": 6, "container-item": "waterskin" },
+          { "item": "grass_keffiyeh" },
+          { "item": "magical_grimoire_apprentice", "container-item": "straw_basket" },
+          { "item": "primitive_knife", "container-item": "sheath_birchbark" }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "wise_one_forest",
+    "name": { "male": "Brother to the Trees", "female": "Sister to the Trees" },
+    "description": "From your birth, you were in contact with the spirit world.  You were trained in the ways of the spirits and intermediated between them and your tribe.  In time, one of the Wise came to your village to induct you into the deeper mysteries, but they vanished before completing your training.  Now that you're alone, you'll need to contact the spirits of this new place and learn their ways.",
+    "points": 10,
+    "skills": [ { "level": 2, "name": "firstaid" }, { "level": 5, "name": "deduction" }, { "level": 3, "name": "survival" } ],
+    "spells": [
+      { "id": "hedge_increase_healing_rate", "level": 1 },
+      { "id": "hedge_make_plants_grow", "level": 1 },
+      { "id": "hedge_extinguish_fire_spell", "level": 1 },
+      { "id": "hedge_prevent_wild_animal_attacks", "level": 1 }
+    ],
+    "traits": [ "WITCHSIGHT", "HEDGE_MAGIC", "FOREST_MAGIC" ],
+    "proficiencies": [ "prof_wound_care", "prof_occult_research", "prof_thaumatology" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "cloak_leather" },
+          { "item": "shirt_straw" },
+          { "item": "pants_leather" },
+          { "item": "leathersandals" },
+          { "item": "water_clean", "charges": 6, "container-item": "waterskin" },
+          { "item": "straw_hat" },
+          { "item": "magical_grimoire_apprentice", "container-item": "straw_basket" },
+          { "item": "primitive_knife", "container-item": "sheath_birchbark" }
+        ]
+      },
+      "male": { "entries": [ { "item": "loincloth_leather" } ] },
+      "female": { "entries": [ { "item": "chestwrap_leather" }, { "item": "loincloth_leather" } ] }
+    }
+  }
+]
