@@ -300,11 +300,11 @@
     "type": "profession",
     "subtype": "hobby",
     "id": "parkour_xedrawood",
-    "name": "Parkour",
-    "description": "You've practiced parkour for many years, and made the world your playground.  It wouldn't be a lie to say that running is your life.  Which is good, because now that the end has come, you're running for your life.",
+    "name": "Acrobatic Movement",
+    "description": "You used to climb trees and jump from branch to branch to impress the other youths in your tribe, and hours of jumping over stones and running down gully walls have paid off.  You'll be a great position to escape the next time you get into trouble.",
     "points": 2,
     "proficiencies": [ "prof_parkour", "prof_athlete_basic" ],
-    "skills": [ { "level": 1, "name": "swimming" } ]
+    "skills": [ { "level": 2, "name": "swimming" } ]
   },
   {
     "type": "profession",
