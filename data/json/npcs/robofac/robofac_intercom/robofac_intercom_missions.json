@@ -52,8 +52,14 @@
       },
       {
         "text": "The weapon worked!  [Hand over the inactive trifacet.]",
-        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" }, { "u_has_item": "bot_yrax_trifacet" } ] },
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" },
+            { "u_has_items_sum": [ { "item": "bot_yrax_trifacet", "amount": 1 } ] }
+          ]
+        },
         "effect": [
+          { "u_consume_item_sum": [ { "item": "bot_yrax_trifacet", "amount": 1 } ] },
           { "u_consume_item": "bot_yrax_trifacet", "count": 1, "popup": true },
           { "u_spawn_item": "RobofacCoin", "count": 2 },
           { "finish_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1", "success": true }
@@ -136,9 +142,14 @@
       },
       {
         "text": "I've returned with a disabled Exodii worker.  [Hand over the broken Exodii worker]",
-        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI" }, { "u_has_item": "broken_exodii_worker" } ] },
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI" },
+            { "u_has_items_sum": [ { "item": "broken_exodii_worker", "amount": 1 } ] }
+          ]
+        },
         "effect": [
-          { "u_consume_item": "broken_exodii_worker", "count": 1, "popup": true },
+          { "u_consume_item_sum": [ { "item": "broken_exodii_worker", "amount": 1 } ] },
           { "finish_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI", "success": true },
           { "math": [ "u_timer_hub_waiting_on_autodoc = time('now')" ] },
           { "math": [ "robofac_exodii_cbm_knowledge += 1" ] },
