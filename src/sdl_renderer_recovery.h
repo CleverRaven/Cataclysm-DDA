@@ -6,6 +6,7 @@
 
 #include <atomic>
 #include <cstdint>
+#include <memory>
 #include <string>
 
 #include "cata_tiles.h"
@@ -194,6 +195,9 @@ class recovery_drain_planner
         bool resize_fast_path_ = false;
 };
 
+// Test-only seam, befriended below; full declaration follows the coordinator.
+struct renderer_recovery_test_support;
+
 // Main-thread executor that recovers every renderer-owned GPU resource
 // across SDL render-target reset, device reset, device loss, and android
 // background/foreground. The event watch writes only the atomic inbox;
@@ -201,6 +205,7 @@ class recovery_drain_planner
 // boundaries.
 class renderer_resource_coordinator
 {
+        friend struct renderer_recovery_test_support;
     public:
         // Inbox writers. Safe to call from the SDL event-watch thread: they
         // touch only the atomic inbox.
@@ -282,7 +287,7 @@ class renderer_resource_coordinator
         recipe_result map_replay_interrupt( atlas_upload_interrupt reason );
         // Poll consulted during atlas replay: reports pause or a higher
         // pending severity so the upload stops and quarantines.
-        atlas_upload_interrupt replay_poll() const;
+        atlas_upload_interrupt replay_poll();
         // Rebuild display_buffer, recording its dims on success. A failure
         // with the sticky boundary latch raised escalates to device-loss in
         // the same drain rather than a plain retry.
@@ -316,11 +321,94 @@ class renderer_resource_coordinator
         // pause or loss; drained on the live renderer before retry or
         // abandoned before a renderer is destroyed.
         atlas_replay_quarantine replay_quarantine_;
+
+        // Test-only fault-injection hooks, armed via renderer_recovery_test_support
+        // and inert by default. Drive the retry, coalesce, replay-pause, and
+        // seq-CAS branches without threads.
+        enum class test_phase_action {
+            none,
+            fail_retry,
+            queue_device_reset,
+        };
+        test_phase_action test_phase_action_ = test_phase_action::none;
+        int test_phase_countdown_ = 0;
+        bool test_phase_fault_fired_ = false;
+        int test_replay_pause_countdown_ = 0;
 };
 
 // Process-lifetime coordinator; the event-watch userdata must outlive
 // every callback.
 extern renderer_resource_coordinator renderer_coordinator;
+
+// Test-only seam for the renderer-recovery suite. Methods are defined beside the
+// file-static render globals in sdltiles.cpp; the struct is friended by the
+// coordinator, tileset cache, and tileset so a Catch2 suite can stand up a
+// headless renderer and synthetic bundle without those members going public.
+struct renderer_recovery_test_support {
+    // Stand up a hidden-window software renderer, display_buffer, variant_pass,
+    // and geometry on the file-static globals, then seed and bootstrap the
+    // coordinator. False (globals clean) if the dummy backend fails or a window is up.
+    static bool setup_software_renderer();
+    // Reverse setup: drain the quarantine and release atlases on the live
+    // renderer, destroy variant_pass before the renderer, reset globals and the
+    // coordinator, and quit video only if this fixture acquired it.
+    static void teardown_software_renderer();
+
+    // Return the process-lifetime coordinator to its initial bootstrapping
+    // state, draining any quarantine on the still-live renderer first.
+    static void reset_coordinator();
+
+    // Build a one-descriptor 1x1 bundle, upload it once at the given generations,
+    // and insert it into the global cache. Returns the held bundle so the weak
+    // cache entry stays live and the recorded generations are readable.
+    static std::shared_ptr<const tileset> install_synthetic_bundle(
+        const std::string &tileset_id, const std::string &memory_map_mode,
+        uint64_t renderer_instance_generation, uint64_t gpu_textures_generation );
+
+    // Fetch a bundle through the production cache lookup at the given current
+    // generations; returns the cached bundle on a fresh hit. Used only for the
+    // matching-generation hit path, which does not trigger a reload.
+    static std::shared_ptr<const tileset> fetch_cached_bundle(
+        const std::string &tileset_id, const std::string &memory_map_mode,
+        uint64_t current_renderer_instance_gen, uint64_t current_gpu_textures_gen );
+
+    // Whether the production fresh-cache predicate accepts the bundle at
+    // (tileset_id, memory_map_mode) for the given generations: false on a
+    // generation mismatch or a fingerprint miss, without a JSON reload.
+    static bool cache_lookup_is_fresh(
+        const std::string &tileset_id, const std::string &memory_map_mode,
+        uint64_t current_renderer_instance_gen, uint64_t current_gpu_textures_gen );
+
+    // Arm the coordinator's deterministic fault hooks (inert until armed): the
+    // phase faults fire at the Nth check_pause_abort gate, the replay pause at
+    // the Nth replay poll.
+    static void arm_phase_fail_retry( int phase_countdown );
+    static void arm_phase_queue_device_reset( int phase_countdown );
+    static void arm_replay_pause( int poll_countdown );
+    static bool replay_quarantine_empty();
+    // Whether the most recently armed phase fault has fired since arming.
+    static bool phase_fault_fired();
+};
+
+// RAII wrapper around setup/teardown for use as a Catch2 fixture local.
+class software_render_fixture
+{
+    public:
+        software_render_fixture()
+            : available_( renderer_recovery_test_support::setup_software_renderer() ) {}
+        ~software_render_fixture() {
+            if( available_ ) {
+                renderer_recovery_test_support::teardown_software_renderer();
+            }
+        }
+        software_render_fixture( const software_render_fixture & ) = delete;
+        software_render_fixture &operator=( const software_render_fixture & ) = delete;
+        bool available() const {
+            return available_;
+        }
+    private:
+        bool available_ = false;
+};
 
 #endif // TILES
 

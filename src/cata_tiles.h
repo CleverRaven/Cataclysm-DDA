@@ -259,6 +259,9 @@ class layer_context_sprites
 // Inputs needed to re-upload one atlas after renderer recreate or
 // device-texture reset. image_path_u8 is a UTF-8 byte sequence so the
 // descriptor avoids a cata_path dependency.
+// Test-only seam (full definition in sdl_renderer_recovery.h), befriended below.
+struct renderer_recovery_test_support;
+
 struct atlas_replay_descriptor {
     std::string image_path_u8;
     int color_key_r = -1;
@@ -331,6 +334,7 @@ class tileset
         }
 
         friend class tileset_cache;
+        friend struct renderer_recovery_test_support;
 
     public:
 
@@ -509,6 +513,13 @@ class tileset_cache
                 const atlas_upload_poll &poll, atlas_replay_quarantine &quarantine );
     private:
         class loader;
+        friend struct renderer_recovery_test_support;
+
+        // Return the cached bundle at key when it is present and its recorded
+        // generations match the current ones; null on a miss or a stale entry.
+        // The single freshness predicate behind the fetch path's cache hit.
+        std::shared_ptr<tileset> find_fresh_cached( const tileset_cache_key &key,
+                uint64_t current_renderer_instance_gen, uint64_t current_gpu_textures_gen ) const;
 
         std::unordered_map<tileset_cache_key, std::weak_ptr<tileset>, tileset_cache_key_hash>
         tilesets_;

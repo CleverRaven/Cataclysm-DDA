@@ -15,6 +15,7 @@
 #include <climits>
 #include <cmath>
 #include <cstdint>
+#include <cstdlib>
 #include <cstring>
 #include <exception>
 #include <fstream>
@@ -76,6 +77,7 @@
 #include "sdl_renderer_recovery.h"
 #include "sdl_wrappers.h"
 #include "sdl_font.h"
+#include "tileset_loader.h"
 #include "sdl_gamepad.h"
 #if defined(SDL_SOUND)
 #include "sound_backend.h"
@@ -88,8 +90,6 @@
 #include "cata_imgui.h"
 
 std::unique_ptr<cataimgui::client> imclient;
-
-#include <cstdlib> // getenv()/setenv()
 
 #if defined(_WIN32)
 #   if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
@@ -1316,6 +1316,21 @@ void renderer_resource_coordinator::assert_recipe_postcondition(
 
 bool renderer_resource_coordinator::check_pause_abort()
 {
+    if( test_phase_action_ != test_phase_action::none && test_phase_countdown_ > 0 ) {
+        --test_phase_countdown_;
+        if( test_phase_countdown_ == 0 ) {
+            const test_phase_action action = test_phase_action_;
+            test_phase_action_ = test_phase_action::none;
+            test_phase_fault_fired_ = true;
+            if( action == test_phase_action::fail_retry ) {
+                planner_.note_pause_abort();
+                return true;
+            }
+            // queue_device_reset: re-queue work mid-drain without aborting, so
+            // the coalesce loop reclaims it after the recipe succeeds.
+            request_recovery( renderer_recovery_severity::device_reset );
+        }
+    }
     if( lifecycle_state_of( lifecycle_epoch_.load() ) == lifecycle_state::paused ) {
         planner_.note_pause_abort();
         return true;
@@ -1611,7 +1626,11 @@ recipe_result renderer_resource_coordinator::recipe_device_lost()
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
-    permanent_render_target_bind( renderer, nullptr, shared_variant_pass_or_null() );
+    // A prior attempt may have already torn the renderer down before a pause;
+    // there is no target to unbind in that case.
+    if( renderer ) {
+        permanent_render_target_bind( renderer, nullptr, shared_variant_pass_or_null() );
+    }
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
@@ -1705,8 +1724,17 @@ void renderer_resource_coordinator::release_live_atlases() const
     ts_cache.release_live_atlases();
 }
 
-atlas_upload_interrupt renderer_resource_coordinator::replay_poll() const
+atlas_upload_interrupt renderer_resource_coordinator::replay_poll()
 {
+    if( test_replay_pause_countdown_ > 0 ) {
+        --test_replay_pause_countdown_;
+        if( test_replay_pause_countdown_ == 0 ) {
+            // Drive the lifecycle to paused as a real suspension would, so the
+            // quarantine has to survive the pause until a foreground drain.
+            notify_lifecycle( lifecycle_state::paused );
+            return atlas_upload_interrupt::paused;
+        }
+    }
     const uint64_t epoch = lifecycle_epoch_.load();
     const lifecycle_state ls = lifecycle_state_of( epoch );
     if( ls == lifecycle_state::paused ) {
@@ -1780,6 +1808,271 @@ void renderer_resource_coordinator::seed_renderer_policy( const std::string &ren
 void renderer_resource_coordinator::finish_bootstrap()
 {
     planner_.finish_bootstrap();
+}
+
+// Whether this fixture initialized the video subsystem (so teardown must quit
+// it) and the SDL_VIDEODRIVER value to restore afterwards.
+static bool test_fixture_acquired_video = false;
+static bool test_fixture_had_prior_driver = false;
+static std::string test_fixture_prior_driver;
+
+// File-static render state captured at setup and restored at teardown so a case
+// cannot leak window/font/render globals into a later test.
+static struct {
+    int terminal_width;
+    int terminal_height;
+    int fontwidth;
+    int fontheight;
+    int scaling_factor;
+    int window_width;
+    int window_height;
+    Uint32 pixel_format;
+    bool direct3d_mode;
+    bool needupdate;
+    unsigned curses_render_epoch;
+} test_fixture_saved;
+
+// SDL caches its own process environment at startup and does not observe later
+// C-runtime setenv calls, so the video-driver override has to go through SDL's
+// environment API to be seen at video-subsystem init.
+static void set_videodriver_env( const char *const value )
+{
+#if SDL_MAJOR_VERSION >= 3
+    SDL_SetEnvironmentVariable( SDL_GetEnvironment(), "SDL_VIDEODRIVER", value, true );
+#else
+    SDL_setenv( "SDL_VIDEODRIVER", value, 1 );
+#endif
+}
+
+static void clear_videodriver_env()
+{
+#if SDL_MAJOR_VERSION >= 3
+    SDL_UnsetEnvironmentVariable( SDL_GetEnvironment(), "SDL_VIDEODRIVER" );
+#elif defined(_WIN32)
+    // SDL2 has no unset; an empty value still counts as defined, so drop the
+    // variable through the C runtime, which SDL2's SDL_getenv reads directly.
+    _putenv_s( "SDL_VIDEODRIVER", "" );
+#else
+    unsetenv( "SDL_VIDEODRIVER" );
+#endif
+}
+
+static void restore_videodriver_env()
+{
+    if( test_fixture_had_prior_driver ) {
+        set_videodriver_env( test_fixture_prior_driver.c_str() );
+    } else {
+        clear_videodriver_env();
+    }
+}
+
+void renderer_recovery_test_support::reset_coordinator()
+{
+    renderer_resource_coordinator &c = renderer_coordinator;
+    if( !c.replay_quarantine_.empty() ) {
+        if( renderer ) {
+            c.replay_quarantine_.drain_live_renderer();
+        } else {
+            // No renderer to destroy the handles against; drop them C++-side.
+            c.replay_quarantine_.abandon_pre_lost_renderer();
+        }
+    }
+    c.planner_.reset();
+    c.renderer_resource_generation_ = 0;
+    c.renderer_instance_generation_ = 0;
+    c.gpu_textures_generation_ = 0;
+    c.display_buffer_w_ = 0;
+    c.display_buffer_h_ = 0;
+    c.renderer_name_.clear();
+    c.software_renderer_ = false;
+    c.pending_severity_.store( renderer_recovery_severity::none );
+    c.pending_resize_epoch_.store( 0 );
+    c.lifecycle_epoch_.store( 0 );
+    c.test_phase_action_ = renderer_resource_coordinator::test_phase_action::none;
+    c.test_phase_countdown_ = 0;
+    c.test_phase_fault_fired_ = false;
+    c.test_replay_pause_countdown_ = 0;
+}
+
+bool renderer_recovery_test_support::setup_software_renderer()
+{
+    if( renderer || window ) {
+        return false;
+    }
+    const char *const prior = SDL_getenv( "SDL_VIDEODRIVER" );
+    test_fixture_had_prior_driver = prior != nullptr;
+    test_fixture_prior_driver = prior != nullptr ? prior : std::string();
+    set_videodriver_env( "dummy" );
+
+    test_fixture_acquired_video = !SDL_WasInit( SDL_INIT_VIDEO );
+    if( test_fixture_acquired_video ) {
+#if SDL_MAJOR_VERSION >= 3
+        const bool inited = SDL_InitSubSystem( SDL_INIT_VIDEO );
+#else
+        const bool inited = SDL_InitSubSystem( SDL_INIT_VIDEO ) == 0;
+#endif
+        if( !inited ) {
+            test_fixture_acquired_video = false;
+            restore_videodriver_env();
+            return false;
+        }
+    }
+
+    test_fixture_saved = {
+        TERMINAL_WIDTH, TERMINAL_HEIGHT, fontwidth, fontheight, scaling_factor,
+        WindowWidth, WindowHeight, pixel_format, direct3d_mode, needupdate,
+        cata_cursesport::curses_render_epoch
+    };
+
+    TERMINAL_WIDTH = 8;
+    TERMINAL_HEIGHT = 8;
+    fontwidth = 8;
+    fontheight = 8;
+    scaling_factor = 1;
+    WindowWidth = TERMINAL_WIDTH * fontwidth * scaling_factor;
+    WindowHeight = TERMINAL_HEIGHT * fontheight * scaling_factor;
+
+    window = CreateGameWindow( "", 0, WindowWidth, WindowHeight, CATA_WINDOW_HIDDEN );
+    if( !window ) {
+        teardown_software_renderer();
+        return false;
+    }
+    renderer = create_game_renderer( {}, true );
+    if( !renderer ) {
+        teardown_software_renderer();
+        return false;
+    }
+    detect_renderer_backend();
+    pixel_format = SDL_PIXELFORMAT_ARGB8888;
+#if SDL_MAJOR_VERSION >= 3
+    shared_variant_pass = std::make_unique<cata_shader::variant_pass>( renderer.get() );
+#endif
+    geometry = std::make_unique<DefaultGeometryRenderer>();
+    if( !SetupRenderTarget() ) {
+        teardown_software_renderer();
+        return false;
+    }
+    renderer_coordinator.seed_renderer_policy( {} );
+    renderer_coordinator.finish_bootstrap();
+    return true;
+}
+
+void renderer_recovery_test_support::teardown_software_renderer()
+{
+    ts_cache.release_live_atlases();
+    // Every draw scope must have unwound; clear the full scope state so an
+    // injected boundary failure cannot leave invalid/aborted set for a later
+    // test.
+    cata_assert( display_buffer_scope_depth == 0 );
+    display_buffer_scope_aborted = false;
+    display_buffer_scope_invalid = false;
+    display_buffer_scope_recovery_required = false;
+    reset_coordinator();
+    geometry.reset();
+#if SDL_MAJOR_VERSION >= 3
+    shared_variant_pass.reset();
+#endif
+    display_buffer.reset();
+    renderer.reset();
+    window.reset();
+
+    TERMINAL_WIDTH = test_fixture_saved.terminal_width;
+    TERMINAL_HEIGHT = test_fixture_saved.terminal_height;
+    fontwidth = test_fixture_saved.fontwidth;
+    fontheight = test_fixture_saved.fontheight;
+    scaling_factor = test_fixture_saved.scaling_factor;
+    WindowWidth = test_fixture_saved.window_width;
+    WindowHeight = test_fixture_saved.window_height;
+    pixel_format = test_fixture_saved.pixel_format;
+    direct3d_mode = test_fixture_saved.direct3d_mode;
+    needupdate = test_fixture_saved.needupdate;
+    cata_cursesport::curses_render_epoch = test_fixture_saved.curses_render_epoch;
+
+    if( test_fixture_acquired_video ) {
+        SDL_QuitSubSystem( SDL_INIT_VIDEO );
+        test_fixture_acquired_video = false;
+    }
+    restore_videodriver_env();
+}
+
+std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic_bundle(
+    const std::string &tileset_id, const std::string &memory_map_mode,
+    const uint64_t renderer_instance_generation, const uint64_t gpu_textures_generation )
+{
+    std::shared_ptr<tileset> ts = std::make_shared<tileset>();
+    ts->tileset_id = tileset_id;
+    atlas_replay_descriptor desc;
+    desc.image_path_u8 = "tests/data/renderer_recovery_atlas.png";
+    desc.sprite_width = 1;
+    desc.sprite_height = 1;
+    desc.atlas_offset = 0;
+    desc.expected_tilecount = 1;
+    ts->append_atlas_descriptor( desc );
+    ts->set_memory_map_mode_at_upload( memory_map_mode );
+    tileset_cache::loader::upload_atlases( *ts, renderer, memory_map_mode,
+                                           ts->get_atlas_descriptors(),
+                                           renderer_instance_generation,
+                                           gpu_textures_generation, false );
+    ts->set_upload_generations( renderer_instance_generation, gpu_textures_generation );
+    const tileset_cache_key key {
+        tileset_id, memory_map_mode, compute_tileset_filter_fingerprint( memory_map_mode )
+    };
+    ts_cache.tilesets_.insert_or_assign( key, ts );
+    return ts;
+}
+
+std::shared_ptr<const tileset> renderer_recovery_test_support::fetch_cached_bundle(
+    const std::string &tileset_id, const std::string &memory_map_mode,
+    const uint64_t current_renderer_instance_gen, const uint64_t current_gpu_textures_gen )
+{
+    return ts_cache.load_tileset( tileset_id, renderer, false, false, false, false,
+                                  memory_map_mode, current_renderer_instance_gen,
+                                  current_gpu_textures_gen );
+}
+
+bool renderer_recovery_test_support::cache_lookup_is_fresh(
+    const std::string &tileset_id, const std::string &memory_map_mode,
+    const uint64_t current_renderer_instance_gen, const uint64_t current_gpu_textures_gen )
+{
+    const tileset_cache_key key {
+        tileset_id, memory_map_mode, compute_tileset_filter_fingerprint( memory_map_mode )
+    };
+    return ts_cache.find_fresh_cached( key, current_renderer_instance_gen,
+                                       current_gpu_textures_gen ) != nullptr;
+}
+
+void renderer_recovery_test_support::arm_phase_fail_retry( const int phase_countdown )
+{
+    cata_assert( phase_countdown > 0 );
+    renderer_coordinator.test_phase_action_ =
+        renderer_resource_coordinator::test_phase_action::fail_retry;
+    renderer_coordinator.test_phase_countdown_ = phase_countdown;
+    renderer_coordinator.test_phase_fault_fired_ = false;
+}
+
+void renderer_recovery_test_support::arm_phase_queue_device_reset( const int phase_countdown )
+{
+    cata_assert( phase_countdown > 0 );
+    renderer_coordinator.test_phase_action_ =
+        renderer_resource_coordinator::test_phase_action::queue_device_reset;
+    renderer_coordinator.test_phase_countdown_ = phase_countdown;
+    renderer_coordinator.test_phase_fault_fired_ = false;
+}
+
+void renderer_recovery_test_support::arm_replay_pause( const int poll_countdown )
+{
+    cata_assert( poll_countdown > 0 );
+    renderer_coordinator.test_replay_pause_countdown_ = poll_countdown;
+}
+
+bool renderer_recovery_test_support::replay_quarantine_empty()
+{
+    return renderer_coordinator.replay_quarantine_.empty();
+}
+
+bool renderer_recovery_test_support::phase_fault_fired()
+{
+    return renderer_coordinator.test_phase_fault_fired_;
 }
 
 bool renderer_resource_coordinator::apply_resize_only( const uint32_t serviced_resize_epoch )
