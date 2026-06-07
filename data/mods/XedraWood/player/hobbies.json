@@ -2,6 +2,24 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "driving_license",
+    "name": "Adult Physique",
+    "description": "All adults have to walk long hours and do physical labor to support their people.  You were no exception, leaving you well-conditioned to survive on your own.",
+    "points": 0,
+    "skills": [ { "level": 2, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "computer_literate",
+    "name": "Null",
+    "description": "Null.",
+    "points": 0
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "simple_home_cooking",
     "name": "Simple Cooking",
     "description": "You've spent enough time around the communal campfires that you know how to cook basic dishes and feed yourself.",
@@ -53,8 +71,48 @@
     "description": "You made your living running messages between the villages and tribes of the land, always priding yourself on being the fastest.  That speed is definitely going to help you now.",
     "points": 5,
     "traits": [ "GOODCARDIO", "FLEET" ],
-    "skills": [ { "level": 2, "name": "swimming" } ],
-    "proficiencies": [ "prof_athlete_basic" ]
+    "skills": [ { "level": 3, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic", "prof_athlete_expert" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "socialdance",
+    "name": "Dancing",
+    "description": "You loved meeting new people during tribal gatherings, dancing around the fire until the late hours.  Maybe you can keep putting those skills to use.",
+    "points": 2,
+    "skills": [ { "level": 1, "name": "dodge" }, { "level": 2, "name": "speech" } ],
+    "traits": [ "LIGHTSTEP" ]
+  },
+  {
+    "type": "profession",
+    "id": "brewer",
+    "subtype": "hobby",
+    "name": "Brewer",
+    "description": "You didn't hunt, and you didn't cook food, but your skills at brewing alcohol ensured that you were always valued at any tribal gathering larger than two or three people.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "chemistry" } ],
+    "proficiencies": [ "prof_distilling", "prof_beverage_distilling", "prof_brewing" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "foraging",
+    "name": "Foraging",
+    "description": "You have plenty of practice.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "cooking" } ],
+    "proficiencies": [ "prof_forage_cooking" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "fireperformance",
+    "name": "Flamedancer",
+    "description": "Whether you twirled, spun, juggled, or ate it, your manipulation of flaming objects was impressive and terrifying to behold.",
+    "points": 1,
+    "traits": [ "PYROMANIA", "DEFT" ],
+    "skills": [ { "level": 1, "name": "survival" } ]
   },
   {
     "type": "profession",
@@ -73,18 +131,48 @@
     "name": "Snare-making",
     "description": "You used to accompany the hunters but not to flush out or chase the quarry.  Your task was to place snares in the path, so the others would harry your prey and your traps could catch them.",
     "points": 2,
-    "skills": [ { "level": 2, "name": "devices" } ],
+    "skills": [ { "level": 2, "name": "traps" } ],
     "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_traps" ]
   },
   {
     "type": "profession",
     "subtype": "hobby",
-    "id": "nomad",
+    "id": "wanderer",
     "name": "Wanderer",
     "description": "You used to travel far beyond the safety of your people's lands.  Maybe you were a trader seeking new goods, or maybe you ranged far afield seeking new game, or maybe you just needed some time away from everyone else.  At least now you'll get some time alone.",
     "points": 2,
     "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "firstaid" } ],
     "traits": [ "OUTDOORSMAN", "ASOCIAL1" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "outcast",
+    "name": "Outcast",
+    "description": "You were exiled from your tribe.  Whether you deserved it or not, it has forced you become self-reliant and stay on the move lest you meet others who know of your sentence.",
+    "points": 3,
+    "skills": [ { "level": 3, "name": "survival" }, { "level": 2, "name": "firstaid" } ],
+    "traits": [ "OUTDOORSMAN", "GOODCARDIO", "NOMAD" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "cookfire_tender",
+    "name": "Cookfire Tender",
+    "description": "You used to tend the cookfires and prepare the meals, making sure that the meat didn't burn and the flames stayed hot until every one of your people was fed.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "cooking" } ],
+    "proficiencies": [ "prof_food_prep", "prof_knife_skills", "prof_knives_familiar" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "name": "Healer's Apprentice",
+    "id": "redcross",
+    "description": "You've got training and some experience in dealing with urgent injuries.  Away from your people, that'll have to do.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "firstaid" } ],
+    "proficiencies": [ "prof_wound_care" ]
   },
   {
     "type": "profession",
@@ -99,12 +187,32 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "big_eater",
+    "name": "Big Eater",
+    "description": "You were almost always hungry, always thinking about where your next meal was coming from.  You hung around the tribal cookfires so often that they eventually just kept roping you in to help prepare the meals.  You never minded as long as you got to taste the meals before they were served.",
+    "points": 1,
+    "skills": [ { "level": 1, "name": "cooking" } ],
+    "traits": [ "GOURMAND" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "leatherworking_adept",
     "name": "Leatherworker (Adept)",
     "description": "You were an adept hand with the hides the hunters brought back, turning them into clothing and shelter for your people.",
     "points": 4,
     "skills": [ { "level": 4, "name": "tailor" }, { "level": 1, "name": "fabrication" } ],
     "proficiencies": [ "prof_leatherworking_basic", "prof_leatherworking" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "carving_hobby",
+    "name": "Whittling",
+    "description": "You've spent a chunk of your free time around the fire in camp or on boring moments out in the wild carving wood and bone into amusing or memorable shapes, and over time you've gotten pretty good at it.",
+    "points": 1,
+    "skills": [ { "level": 1, "name": "fabrication" } ],
+    "proficiencies": [ "prof_carving" ]
   },
   {
     "type": "profession",
@@ -150,163 +258,77 @@
   {
     "type": "profession",
     "subtype": "hobby",
-    "id": "diy_crafts",
-    "name": "DIY Crafting (Intermediate)",
-    "description": "You spent much of your time making useful things out of bits and bobbles.",
-    "points": 3,
-    "proficiencies": [
-      "prof_pottery",
-      "prof_carving",
-      "prof_basketweaving",
-      "prof_elastics",
-      "prof_leatherworking_basic",
-      "prof_plasticworking"
-    ],
-    "skills": [ { "level": 3, "name": "fabrication" }, { "level": 1, "name": "tailor" } ]
+    "id": "witch_sight",
+    "name": "Witch-sight",
+    "description": "You were born attuned to the spirit world.  Normally that would have marked you out for apprenticeship to a shaman or one of the Wise, but for whatever reason, that did not happen.  Your unique senses have left you with some knowledge of the unseen world, as well as difficulty falling asleep.",
+    "points": 1,
+    "traits": [ "WITCHSIGHT", "INSOMNIA" ],
+    "skills": [ { "level": 2, "name": "deduction" } ]
   },
   {
     "type": "profession",
     "subtype": "hobby",
-    "id": "melee_training",
-    "name": "Melee Training (Intermediate)",
-    "description": "You have practiced fighting with weapons.  You start with your choice of Barbaran Montante, Bōjutsu, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pencak Silat, or Sōjutsu.",
-    "points": 7,
-    "skills": [
-      { "level": 3, "name": "melee" },
-      { "level": 3, "name": "bashing" },
-      { "level": 3, "name": "stabbing" },
-      { "level": 3, "name": "cutting" }
-    ],
-    "traits": [ "MARTIAL_ARTS5" ],
-    "proficiencies": [
-      "prof_quarterstaves_familiar",
-      "prof_maces_familiar",
-      "prof_knives_familiar",
-      "prof_hooking_familiar",
-      "prof_spears_familiar",
-      "prof_gross_anatomy"
-    ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
-    "id": "melee_training_expert",
-    "name": "Melee Training (Expert)",
-    "description": "Despite firearms making traditional melee weapons largely obsolete, you have extensive experience fighting in hand-to-hand combat with tools of war.  Maybe it was full-contact HEMA or SCA sparring, or maybe you're just a badass commando with a machete.  You start with your choice of Barbaran Montante, Bōjutsu, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pencak Silat, or Sōjutsu.",
-    "points": 14,
-    "skills": [
-      { "level": 6, "name": "melee" },
-      { "level": 5, "name": "bashing" },
-      { "level": 5, "name": "stabbing" },
-      { "level": 5, "name": "cutting" }
-    ],
-    "traits": [ "MARTIAL_ARTS5" ],
-    "proficiencies": [
-      "prof_quarterstaves_familiar",
-      "prof_quarterstaves_pro",
-      "prof_maces_familiar",
-      "prof_maces_pro",
-      "prof_knives_familiar",
-      "prof_knives_pro",
-      "prof_spears_familiar",
-      "prof_spears_pro",
-      "prof_gross_anatomy"
-    ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
-    "id": "gourmand",
-    "name": "Fine Dining",
-    "description": "You loved going to all kinds of restaurants and experiencing everything the world of culinary arts had to offer.  Nowadays, those chefs are all dead, so it'll be up to you to recreate the joys of your past.",
+    "id": "unarmed_combat",
+    "name": "Wrestler (Apprentice)",
+    "description": "You've spent time fighting with your bare hands.  Not to take down game or against other tribes, of course, but in friendly--or at least, non-lethal--contests around the campfires.  You've gotten pretty good at it..",
     "points": 2,
-    "traits": [ "GOURMAND", "TABLEMANNERS" ],
-    "skills": [ { "level": 2, "name": "cooking" } ]
+    "skills": [ { "level": 1, "name": "melee" }, { "level": 2, "name": "unarmed" }, { "level": 2, "name": "dodge" } ],
+    "proficiencies": [ "prof_unarmed_familiar" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "unarmed_combat_adept",
+    "name": "Wrestler (Adept)",
+    "description": "You're a veteran of contests using just your fists.  Maybe you've even used your skills in fights against other tribes, if it came down to a contest of champions and both of you ended up without your weapons.",
+    "points": 5,
+    "skills": [ { "level": 3, "name": "melee" }, { "level": 4, "name": "unarmed" }, { "level": 4, "name": "dodge" } ],
+    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_gross_anatomy" ],
+    "traits": [ "PAINRESIST" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hunter_hobby",
+    "name": "Hunter (Apprentice)",
+    "description": "While not usually one of the hunters, you've gone on hunts when food supplies were slow or some of the hunters were recovering from their injuries, and have developed skill with the bow because of it.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "archery" }, { "level": 2, "name": "gun" }, { "level": 2, "name": "survival" } ],
+    "proficiencies": [ "prof_bow_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "parkour_xedrawood",
+    "name": "Parkour",
+    "description": "You've practiced parkour for many years, and made the world your playground.  It wouldn't be a lie to say that running is your life.  Which is good, because now that the end has come, you're running for your life.",
+    "points": 2,
+    "proficiencies": [ "prof_parkour", "prof_athlete_basic" ],
+    "skills": [ { "level": 1, "name": "swimming" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "warrior_hobby",
+    "name": "Warrior (Apprentice)",
+    "description": "While not one of the warriors who went out on raids, you have fought in defense of your people and know how to handle yourself in a fight.",
+    "points": 5,
+    "skills": [
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "bashing" },
+      { "level": 2, "name": "stabbing" },
+      { "level": 2, "name": "cutting" }
+    ],
+    "proficiencies": [ "prof_quarterstaves_familiar", "prof_knives_familiar", "prof_spears_familiar" ]
   },
   {
     "type": "profession",
     "subtype": "hobby",
     "id": "arts_and_crafts",
-    "name": "Arts and Crafts",
-    "description": "You loved doing crafts at home.  Now, you might want to channel those skills into making more practical things.",
+    "name": "Artisan",
+    "description": "You loved creating small dolls, toys, and bits of art during your downtime.  Now, you might want to channel those skills into making more practical things.",
     "points": 1,
     "skills": [ { "level": 1, "name": "fabrication" }, { "level": 2, "name": "tailor" } ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
-    "name": "First Aid",
-    "id": "redcross",
-    "description": "You've got training and some experience in dealing with urgent injuries.  In the absence of any medical professionals, that'll have to do.",
-    "points": 1,
-    "skills": [ { "level": 2, "name": "firstaid" } ],
-    "proficiencies": [ "prof_wound_care" ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
-    "id": "back_yard_grilling",
-    "name": "Backyard Grilling",
-    "description": "You enjoyed inviting the neighborhood to a backyard cookout on the weekends.  You, of course, were the grill master.",
-    "points": 1,
-    "skills": [ { "level": 2, "name": "cooking" } ],
-    "proficiencies": [ "prof_food_prep", "prof_knife_skills", "prof_knives_familiar" ]
-  },
-  {
-    "type": "profession",
-    "id": "homebrewer",
-    "subtype": "hobby",
-    "name": "Homebrewing",
-    "description": "Your white lightning could knock out an elephant, but you're drinking alone now.",
-    "points": 2,
-    "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "chemistry" } ],
-    "proficiencies": [
-      "prof_distilling",
-      "prof_beverage_distilling",
-      "prof_fermenting",
-      "prof_food_prep",
-      "prof_brewing",
-      "prof_winemaking"
-    ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
-    "id": "gardening",
-    "name": "Gardening",
-    "description": "Your green thumb will come in handy when the grocery stores are overrun.",
-    "points": 1,
-    "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "cooking" } ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
-    "id": "backpacking",
-    "name": "Backpacking",
-    "description": "You enjoyed trekking on long trails in nature with all your necessities strapped to your back.",
-    "points": 3,
-    "skills": [ { "level": 2, "name": "survival" }, { "level": 2, "name": "firstaid" } ],
-    "traits": [ "OUTDOORSMAN", "GOODCARDIO", "NOMAD" ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
-    "id": "fireperformance",
-    "name": "Fire Performing",
-    "description": "Whether you twirled, spun, juggled, or ate it, your manipulation of flaming objects was impressive and terrifying to behold.",
-    "points": 1,
-    "traits": [ "PYROMANIA", "DEFT" ],
-    "skills": [ { "level": 1, "name": "survival" } ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
-    "id": "socialdance",
-    "name": "Social Dancing",
-    "description": "You loved meeting new people on the dance floor.  These zombies aren't terribly friendly, but they're ready to tango!",
-    "points": 2,
-    "skills": [ { "level": 1, "name": "dodge" }, { "level": 2, "name": "speech" } ],
-    "traits": [ "LIGHTSTEP" ]
   },
   {
     "type": "profession",

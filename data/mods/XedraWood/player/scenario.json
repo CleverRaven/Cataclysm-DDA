@@ -1,0 +1,56 @@
+[
+  {
+    "type": "scenario",
+    "id": "evacuee",
+    "copy-from": "evacuee",
+    "extend": { "professions": [ "tribal_warrior_expert" ] }
+  },
+  {
+    "type": "scenario",
+    "id": "cave_lonesome",
+    "copy-from": "cave_lonesome",
+    "extend": { "professions": [ "tribal_warrior_expert" ] }
+  },
+  {
+    "type": "scenario",
+    "id": "infected",
+    "copy-from": "infected",
+    "extend": { "professions": [ "tribal_warrior_expert" ] }
+  },
+  {
+    "type": "scenario",
+    "id": "hunted_start",
+    "copy-from": "hunted_start",
+    "extend": { "professions": [ "tribal_warrior_expert" ] }
+  },
+  {
+    "type": "scenario",
+    "id": "fungal_start",
+    "copy-from": "fungal_start",
+    "extend": { "professions": [ "tribal_warrior_expert" ] }
+  },
+  {
+    "type": "scenario",
+    "id": "bordered",
+    "copy-from": "bordered",
+    "extend": { "professions": [ "tribal_warrior_expert" ] }
+  },
+  {
+    "type": "scenario",
+    "id": "ambushed",
+    "copy-from": "ambushed",
+    "extend": { "professions": [ "tribal_warrior_expert" ] }
+  },
+  {
+    "type": "scenario",
+    "id": "summer_advanced_start",
+    "copy-from": "summer_advanced_start",
+    "extend": { "professions": [ "tribal_warrior_expert" ] }
+  },
+  {
+    "type": "scenario",
+    "id": "wilderness",
+    "copy-from": "wilderness",
+    "extend": { "professions": [ "tribal_warrior_expert" ] }
+  }
+]
