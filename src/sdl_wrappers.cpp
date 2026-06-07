@@ -90,7 +90,8 @@ void RenderCopy( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &textur
         return;
     }
 #if SDL_MAJOR_VERSION >= 3
-    SDL_FRect fsrc, fdst;
+    SDL_FRect fsrc;
+    SDL_FRect fdst;
     const SDL_FRect *fsrcp = srcrect ? &( fsrc = to_frect( *srcrect ) ) : nullptr;
     const SDL_FRect *fdstp = dstrect ? &( fdst = to_frect( *dstrect ) ) : nullptr;
     printErrorIf( !SDL_RenderTexture( renderer.get(), texture.get(), fsrcp, fdstp ),
@@ -587,7 +588,8 @@ void RenderCopyEx( const SDL_Renderer_Ptr &renderer, SDL_Texture *const texture,
         return;
     }
 #if SDL_MAJOR_VERSION >= 3
-    SDL_FRect fsrc, fdst;
+    SDL_FRect fsrc;
+    SDL_FRect fdst;
     SDL_FPoint fcenter;
     const SDL_FRect *fsrcp = srcrect ? &( fsrc = to_frect( *srcrect ) ) : nullptr;
     const SDL_FRect *fdstp = dstrect ? &( fdst = to_frect( *dstrect ) ) : nullptr;
@@ -1231,7 +1233,8 @@ bool SetClipboardText( const std::string &text )
 Uint32 GetMouseState( int *x, int *y )
 {
 #if SDL_MAJOR_VERSION >= 3
-    float fx = 0, fy = 0;
+    float fx = 0;
+    float fy = 0;
     Uint32 buttons = SDL_GetMouseState( &fx, &fy );
     if( x ) {
         *x = static_cast<int>( fx );
