@@ -70,6 +70,7 @@
 #include "overmap.h"
 #include "pixel_minimap.h"
 #include "scent_map.h"
+#include "sdl_renderer_recovery.h"
 #include "sdl_utils.h"
 #include "sdl_wrappers.h"
 #include "sdltiles.h"
@@ -405,7 +406,13 @@ tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_til
 void cata_tiles::load_tileset( const std::string &tileset_id, const bool precheck,
                                const bool force, const bool pump_events, const bool terrain )
 {
-    if( tileset_ptr && tileset_ptr->get_tileset_id() == tileset_id && !force ) {
+    const renderer_texture_generations gens = renderer_coordinator.texture_generations();
+    // Skip the reload only when the same tileset is already bound against the
+    // current renderer and texture generations; a generation bump from a
+    // device reset or loss invalidates the bundle and must reload.
+    if( tileset_ptr && tileset_ptr->get_tileset_id() == tileset_id && !force
+        && tileset_ptr->get_renderer_instance_generation_at_upload() == gens.instance
+        && tileset_ptr->get_gpu_textures_generation_at_upload() == gens.textures ) {
         return;
     }
     // TODO: move into clear or somewhere else.
@@ -413,7 +420,7 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
     tileset_mutation_overlay_ordering.clear();
 
     tileset_ptr = cache.load_tileset( tileset_id, renderer, precheck, force, pump_events, terrain,
-                                      memory_map_mode, 0, 0 );
+                                      memory_map_mode, gens.instance, gens.textures );
 
     set_draw_scale( 16 );
 
@@ -4068,6 +4075,47 @@ std::shared_ptr<const tileset> tileset_cache::load_tileset( const std::string &t
         ts->set_upload_generations( current_renderer_instance_gen, current_gpu_textures_gen );
     }
     return ts;
+}
+
+void tileset_cache::release_live_atlases()
+{
+    for( auto it = tilesets_.begin(); it != tilesets_.end(); ) {
+        std::shared_ptr<tileset> ts = it->second.lock();
+        if( !ts ) {
+            it = tilesets_.erase( it );
+            continue;
+        }
+        ts->release_gpu_atlases();
+        ++it;
+    }
+}
+
+atlas_upload_interrupt tileset_cache::replay_live_atlases( const SDL_Renderer_Ptr &renderer,
+        const uint64_t renderer_instance_gen, const uint64_t gpu_textures_gen,
+        const atlas_upload_poll &poll, atlas_replay_quarantine &quarantine )
+{
+    for( auto it = tilesets_.begin(); it != tilesets_.end(); ) {
+        if( poll ) {
+            const atlas_upload_interrupt interrupt = poll();
+            if( interrupt != atlas_upload_interrupt::none ) {
+                return interrupt;
+            }
+        }
+        std::shared_ptr<tileset> ts = it->second.lock();
+        if( !ts ) {
+            it = tilesets_.erase( it );
+            continue;
+        }
+        const atlas_upload_interrupt interrupt =
+            loader::upload_atlases( *ts, renderer, ts->get_memory_map_mode_at_upload(),
+                                    ts->get_atlas_descriptors(), renderer_instance_gen,
+                                    gpu_textures_gen, false, poll, &quarantine );
+        if( interrupt != atlas_upload_interrupt::none ) {
+            return interrupt;
+        }
+        ++it;
+    }
+    return atlas_upload_interrupt::none;
 }
 
 

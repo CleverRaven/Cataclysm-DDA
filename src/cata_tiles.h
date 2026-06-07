@@ -3,10 +3,12 @@
 #define CATA_SRC_CATA_TILES_H
 
 #include <array>
+#include <atomic>
 #include <bitset>
 #include <chrono>
 #include <cstddef>
 #include <deque>
+#include <functional>
 #include <map>
 #include <memory>
 #include <optional>
@@ -183,6 +185,50 @@ class texture
         }
 };
 
+// Reason an atlas upload was interrupted. A separate enum from the recovery
+// coordinator's severity so the tileset loader needs no coordinator header;
+// the coordinator maps these to severities. paused stops the upload so it
+// retries on foreground; the *_invalidated reasons mean a reset or device
+// loss was observed mid upload.
+enum class atlas_upload_interrupt {
+    none,
+    paused,
+    texture_resources_invalidated,
+    renderer_invalidated,
+};
+// Polled between atlas chunks. Returns the reason to stop, or none.
+using atlas_upload_poll = std::function<atlas_upload_interrupt()>;
+
+// Candidate atlas textures captured when an upload is interrupted, kept
+// alive past the pause so their destructors never run against a suspended or
+// destroyed renderer. Each batch shares one gate captured by every texture's
+// deleter: setting it suppresses SDL_DestroyTexture when the originating
+// renderer is torn down before the quarantine is drained.
+class atlas_replay_quarantine
+{
+    public:
+        using gate = gpu_handle_graveyard::gate;
+
+        struct batch {
+            gpu_handle_graveyard handles;
+            uint64_t renderer_instance_generation = 0;
+        };
+
+        void add( batch &&b );
+        bool empty() const {
+            return batches_.empty();
+        }
+        // Destroy the quarantined textures against the still-live renderer.
+        void drain_live_renderer();
+        // Release C++ ownership without SDL_DestroyTexture because the
+        // originating renderer is being destroyed; its device reclaims the
+        // GPU memory on teardown.
+        void abandon_pre_lost_renderer();
+
+    private:
+        std::vector<batch> batches_;
+};
+
 /**
  * Bundles per-tile rendering state so the draw path carries all lighting
  * decisions in one place. Future fields (light color tint, per-tile
@@ -267,6 +313,9 @@ class tileset
         // is stale and must be reuploaded before use.
         uint64_t renderer_instance_generation_at_upload = 0;
         uint64_t gpu_textures_generation_at_upload = 0;
+        // Memory-map mode the atlases were uploaded with, retained so a
+        // device-reset replay regenerates the memory tiles identically.
+        std::string memory_map_mode_at_upload;
 
         std::unordered_set<std::string> duplicate_ids;
 
@@ -363,6 +412,22 @@ class tileset
             renderer_instance_generation_at_upload = renderer_instance_gen;
             gpu_textures_generation_at_upload = gpu_textures_gen;
         }
+        const std::string &get_memory_map_mode_at_upload() const {
+            return memory_map_mode_at_upload;
+        }
+        void set_memory_map_mode_at_upload( const std::string &mode ) {
+            memory_map_mode_at_upload = mode;
+        }
+        // Drop the per-variant atlas textures. Safe to call repeatedly; the
+        // descriptors and metadata are retained for a later replay.
+        void release_gpu_atlases() {
+            tile_values.clear();
+            shadow_tile_values.clear();
+            night_tile_values.clear();
+            overexposed_tile_values.clear();
+            memory_tile_values.clear();
+            silhouette_tile_values.clear();
+        }
 
         tile_type &create_tile_type( const std::string &id, tile_type &&new_tile_type );
         const tile_type *find_tile_type( const std::string &id ) const;
@@ -429,6 +494,19 @@ class tileset_cache
                 const std::string &memory_map_mode,
                 uint64_t current_renderer_instance_gen,
                 uint64_t current_gpu_textures_gen );
+
+        // Drop the atlas textures on every live cached tileset. Called before
+        // renderer destruction so the handles are freed against the live
+        // renderer. Expired entries are pruned. Idempotent.
+        void release_live_atlases();
+
+        // Re-upload atlases over every live cached tileset against `renderer`
+        // and the given generations, replaying each bundle's descriptors and
+        // memory-map mode. poll is consulted between entries and chunks; on
+        // interrupt the upload stops, candidates quarantine, and the reason returns.
+        atlas_upload_interrupt replay_live_atlases( const SDL_Renderer_Ptr &renderer,
+                uint64_t renderer_instance_gen, uint64_t gpu_textures_gen,
+                const atlas_upload_poll &poll, atlas_replay_quarantine &quarantine );
     private:
         class loader;
 
