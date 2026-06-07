@@ -13,12 +13,12 @@
   },
   {
     "type": "palette",
-    "id": "ravine_edge_parameters",
+    "id": "ravine_straight_parameters",
     "parameters": {
       "variant": {
         "type": "nested_mapgen_id",
         "scope": "omt_stack",
-        "default": { "distribution": [ "24x24_ravine_edge_v1", "24x24_ravine_edge_v2" ] }
+        "default": { "distribution": [ "24x24_ravine_straight_v1", "24x24_ravine_straight_v2" ] }
       }
     }
   }

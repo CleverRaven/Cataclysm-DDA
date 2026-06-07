@@ -115,7 +115,15 @@
     "id": "biome_forest_thick_default",
     "copy-from": "biome_forest_thick_default",
     "extend": {
-      "terrains": [ "ravine", "ravine_2way", "ravine_3way", "ravine_edge", "ravine_corner", "ravine_edge_ground", "ravine_bottom_forest" ]
+      "terrains": [
+        "ravine",
+        "ravine_2way",
+        "ravine_3way",
+        "ravine_edge",
+        "ravine_corner",
+        "ravine_straight_ground",
+        "ravine_bottom_forest"
+      ]
     }
   },
   {
@@ -123,7 +131,15 @@
     "id": "biome_forest_default",
     "copy-from": "biome_forest_default",
     "extend": {
-      "terrains": [ "ravine", "ravine_2way", "ravine_3way", "ravine_edge", "ravine_corner", "ravine_edge_ground", "ravine_bottom_forest" ]
+      "terrains": [
+        "ravine",
+        "ravine_2way",
+        "ravine_3way",
+        "ravine_edge",
+        "ravine_corner",
+        "ravine_straight_ground",
+        "ravine_bottom_forest"
+      ]
     }
   },
   {
