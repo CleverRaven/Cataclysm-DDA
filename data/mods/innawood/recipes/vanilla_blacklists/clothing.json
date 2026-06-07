@@ -68,5 +68,30 @@
     "type": "recipe",
     "result": "rollerskates",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_wetsuit_booties",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "wetsuit_booties",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_wetsuit_booties",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "under_armor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "under_armor_shorts",
+    "obsolete": true
   }
 ]

@@ -358,5 +358,35 @@
     "type": "recipe",
     "result": "xs_wetsuit_gloves_thick",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_wetsuit_thick",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_wetsuit_thick",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "wetsuit_thick",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "wetsuit_hood_thick",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_wetsuit_hood_thick",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_wetsuit_hood_thick",
+    "obsolete": true
   }
 ]
