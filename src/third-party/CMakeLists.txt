@@ -145,7 +145,7 @@ if (TILES)
                         imgui
                         SYSTEM
                         PRIVATE
-                        ${FREETYPE_INCLUDE_DIRS}
+                        /usr/include/freetype2
                         )
             endif ()
         else ()
@@ -154,7 +154,7 @@ if (TILES)
                     SYSTEM
                     PRIVATE
                     ${SDL2_INCLUDE_DIR}/..
-                    ${FREETYPE_INCLUDE_DIRS}
+                    /usr/include/freetype2
                     )
         endif ()
 
