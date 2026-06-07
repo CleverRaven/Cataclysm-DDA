@@ -231,7 +231,7 @@
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "scrap", 4 ] ],
-      [ [ "cable", 10 ] ],
+      [ [ "cable", 4 ] ],
       [ [ "small_lcd_screen", 1 ] ]
     ]
   },

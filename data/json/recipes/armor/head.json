@@ -1793,7 +1793,7 @@
       [ [ "amplifier", 2 ] ],
       [ [ "circuit", 2 ] ],
       [ [ "e_scrap", 8 ] ],
-      [ [ "cable", 2 ] ]
+      [ [ "cable", 1 ] ]
     ]
   },
   {
@@ -1827,7 +1827,7 @@
       [ [ "amplifier", 2 ] ],
       [ [ "circuit", 2 ] ],
       [ [ "e_scrap", 8 ] ],
-      [ [ "cable", 2 ] ]
+      [ [ "cable", 1 ] ]
     ]
   },
   {
@@ -1893,7 +1893,7 @@
       [ [ "amplifier", 2 ] ],
       [ [ "circuit", 2 ] ],
       [ [ "e_scrap", 8 ] ],
-      [ [ "cable", 2 ] ]
+      [ [ "cable", 1 ] ]
     ]
   },
   {
@@ -2071,7 +2071,7 @@
     "components": [
       [ [ "cotton_patchwork", 4 ], [ "scarf", 2 ], [ "scarf_long", 1 ], [ "balclava", 1 ] ],
       [ [ "element", 2 ], [ "crude_heating_element", 3 ] ],
-      [ [ "cable", 6 ] ]
+      [ [ "cable", 2 ] ]
     ]
   },
   {

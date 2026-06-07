@@ -4,8 +4,14 @@
     "type": "item_group",
     "//": "Parts for electronics crafting or repair",
     "items": [
-      { "item": "cable", "prob": 40, "count": [ 1, 2 ] },
-      { "item": "cable", "prob": 25, "count": [ 2, 4 ] },
+      {
+        "collection": [ { "group": "cable_roll", "prob": 40, "count": [ 1, 2 ] }, { "group": "cable_roll_part" } ],
+        "prob": 60
+      },
+      {
+        "collection": [ { "group": "copper_wire_roll", "prob": 40, "count": [ 1, 2 ] }, { "group": "copper_wire_roll_part" } ],
+        "prob": 40
+      },
       { "item": "voltmeter", "prob": 40 },
       { "item": "multimeter", "prob": 40, "charges": [ 0, 100 ] },
       { "item": "emf_detector", "prob": 20, "charges": [ 0, 100 ] },
@@ -15,7 +21,6 @@
       [ "nuts_bolts", 15 ],
       { "group": "ammo_any_batteries_full", "prob": 100 },
       { "group": "batteries", "prob": 60 },
-      [ "cable", 60 ],
       [ "power_supply", 20 ],
       [ "processor", 20 ],
       [ "solar_cell", 10 ],
@@ -153,6 +158,32 @@
     "id": "paintcans",
     "type": "item_group",
     "items": [ { "item": "paint_can_steel" }, { "item": "paint_can_plastic" } ]
+  },
+  {
+    "id": "cable_roll",
+    "type": "item_group",
+    "container-item": "spool_small",
+    "//1": "~100 ft.",
+    "items": [ { "item": "cable", "count": 100 } ]
+  },
+  {
+    "id": "cable_roll_part",
+    "type": "item_group",
+    "container-item": "spool_small",
+    "items": [ { "item": "cable", "count": [ 3, 100 ] } ]
+  },
+  {
+    "id": "copper_wire_roll",
+    "type": "item_group",
+    "container-item": "spool_small",
+    "//1": "~100 ft.",
+    "items": [ { "item": "copper_wire", "count": 100 } ]
+  },
+  {
+    "id": "copper_wire_roll_part",
+    "type": "item_group",
+    "container-item": "spool_small",
+    "items": [ { "item": "copper_wire", "count": [ 3, 100 ] } ]
   },
   {
     "id": "duct_tape_roll",

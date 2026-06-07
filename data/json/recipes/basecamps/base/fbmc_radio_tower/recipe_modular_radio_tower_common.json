@@ -124,7 +124,7 @@
           [ [ "circuit", 2 ] ],
           [ [ "power_supply", 1 ] ],
           [ [ "amplifier", 1 ] ],
-          [ [ "cable", 160 ] ]
+          [ [ "cable", 54 ] ]
         ]
       }
     },
@@ -243,7 +243,7 @@
           [ [ "circuit", 32 ] ],
           [ [ "power_supply", 16 ] ],
           [ [ "amplifier", 16 ] ],
-          [ [ "cable", 400 ] ],
+          [ [ "cable", 134 ] ],
           [ [ "software_electronics_reference", 1 ] ]
         ]
       }

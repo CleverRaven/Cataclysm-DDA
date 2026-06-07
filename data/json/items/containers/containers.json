@@ -5415,10 +5415,11 @@
         "pocket_type": "CONTAINER",
         "rigid": false,
         "max_contains_volume": "200 ml",
-        "max_contains_weight": "300 g",
-        "item_restriction": [ "solder_wire" ],
+        "max_contains_weight": "1 kg",
+        "max_item_length": "50 cm",
+        "item_restriction": [ "solder_wire", "cable", "copper_wire" ],
         "transparent": true,
-        "moves": 800
+        "moves": 200
       }
     ],
     "flags": [ "NO_RELOAD" ]

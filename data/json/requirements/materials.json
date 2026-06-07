@@ -621,13 +621,13 @@
     "id": "solar_panel",
     "type": "requirement",
     "//": "Materials used for repairing solar panels",
-    "components": [ [ [ "solar_cell", 3 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "solar_cell", 3 ] ], [ [ "cable", 2 ] ] ]
   },
   {
     "id": "solar_panel_v2",
     "type": "requirement",
     "//": "Materials used for advanced solar panels",
-    "components": [ [ [ "solar_cell_v2", 3 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "solar_cell_v2", 3 ] ], [ [ "cable", 2 ] ] ]
   },
   {
     "id": "paint",
