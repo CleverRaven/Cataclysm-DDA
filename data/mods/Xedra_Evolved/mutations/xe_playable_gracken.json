@@ -34,7 +34,8 @@
       "SHADE_STOMACH",
       "SHADE_EVOLUTION_GLAND",
       "RADIOTROPHIC",
-      "GRACKEN"
+      "GRACKEN",
+      "GRACKEN_EVOLUTION"
     ]
   },
   {
@@ -80,6 +81,61 @@
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ],
     "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "gracken_eyes" } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "SHADE_SEVENOCLOCK_EYES",
+    "name": { "str": "Eyes of the Nineteenth Hour" },
+    "points": 5,
+    "description": "You grafted the eyes of a cryptid that knew exactly the location of those who should sleep but aren't. They grant you the same power with the same conditions.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "special_vision": [
+          {
+            "condition": {
+              "and": [
+                {
+                  "or": [ { "math": [ "time_since('noon', 'unit':'hours') >= 7" ] }, { "math": [ "time_until('noon', 'unit':'hours') >= 7" ] } ]
+                },
+                { "not": { "npc_has_effect": "sleep" } }
+              ]
+            },
+            "distance": 50,
+            "precise": true,
+            "ignores_aiming_cone": true,
+            "descriptions": [ { "id": "sleep_sense", "text": "You sense something awake here.", "symbol": "a", "color": "yellow" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "SHADE_SANDMAN_EYE",
+    "name": { "str": "Everdusting Eyes of a Sandman" },
+    "description": "Silver eyes glint out from the shadowy crevices of your face.",
+    "types": [ "EYES" ],
+    "purifiable": false,
+    "mixed_effect": true,
+    "points": 1,
+    "visibility": 2,
+    "ugliness": 1,
+    "category": [ "GRACKEN" ],
+    "threshreq": [ "THRESH_SPECIES_GRACKEN" ],
+    "spells_learned": [ [ "sandman_gaze_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "GRACKEN_EVOLUTION",
+    "name": { "str": "Gracken Evolution" },
+    "points": 1,
+    "description": "This provides the school trait for gracken powers.  It should not be visible.",
+    "valid": false,
+    "purifiable": false,
+    "player_display": false
   },
   {
     "type": "mutation",
@@ -381,6 +437,58 @@
     "purifiable": false,
     "vitamin_cost": 160,
     "description": "Your system has adapted to radiation.  While irradiated, you will convert the radiation into calories.",
+    "category": [ "GRACKEN" ],
+    "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
+  },
+  {
+    "id": "SHADE_HUNTERS_ORGAN",
+    "type": "mutation",
+    "name": { "str": "Shade Hunter's Organ" },
+    "points": 8,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "types": [ "EMISSIONS" ],
+    "description": "You've managed to bring down a creature with strong powers of electricity.  You have gained some measure of its powers.",
+    "enchantments": [
+      { "incoming_damage_mod": [ { "type": "electric", "multiply": -0.4 } ] },
+      {
+        "hit_me_effect": [
+          {
+            "id": "SHADE_HUNTERS_ORGAN",
+            "message": "Electricity arcs out from where you've been hit.",
+            "npc_message": "%1$s's body arcs electricity from the wound."
+          }
+        ]
+      }
+    ],
+    "flags": [ "ELECTRIC_IMMUNE" ],
+    "category": [ "GRACKEN" ],
+    "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
+  },
+  {
+    "id": "SHADE_BILLIOUS_BOMBADIER",
+    "type": "mutation",
+    "name": { "str": "Shade Bile Bombadier" },
+    "points": 8,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "types": [ "EMISSIONS" ],
+    "description": "You've managed to bring down a creature with strong acidity.  You have gained some measure of its powers.",
+    "enchantments": [
+      { "incoming_damage_mod": [ { "type": "biological", "multiply": -0.4 } ] },
+      {
+        "hit_me_effect": [
+          {
+            "id": "SHADE_BILLIOUS_BOMBADIER",
+            "message": "Acid spews out from where you've been hit.",
+            "npc_message": "%1$s's body spews acid from the wound."
+          }
+        ]
+      }
+    ],
+    "flags": [ "ACID_IMMUNE" ],
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
   }

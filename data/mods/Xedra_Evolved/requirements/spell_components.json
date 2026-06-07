@@ -271,6 +271,11 @@
     "components": [ [ [ "paper", 3 ] ] ]
   },
   {
+    "id": "spell_components_sandman_gaze_spell",
+    "type": "requirement",
+    "components": [ [ [ "scrap_shadowstuff", 1 ] ], [ [ "scrap_dreamdross", 1 ] ] ]
+  },
+  {
     "id": "spell_components_hedge_extinguish_fire_spell",
     "type": "requirement",
     "tools": [ [ [ "spellbook_hedge_book_of_raziel", -1 ] ] ],

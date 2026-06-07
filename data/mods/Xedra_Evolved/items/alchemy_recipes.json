@@ -419,5 +419,53 @@
     "symbol": "ç",
     "color": "light_green",
     "read_skill": "chemistry"
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "id": "alchemy_recipe_earth_imbuement",
+    "copy-from": "schematics_generic",
+    "looks_like": "spell_scroll",
+    "name": { "str_sp": "scribbled notes (Imbuement of Stone)" },
+    "description": "An handwritten set of notes detailing an alchemical recipe for a method to obtain the power of…humanity?  More human than human, you suppose.",
+    "required_level": 7,
+    "max_level": 7,
+    "intelligence": 10,
+    "time": "45 m",
+    "symbol": "ç",
+    "color": "light_green",
+    "read_skill": "chemistry"
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "id": "alchemy_recipe_water_imbuement",
+    "copy-from": "schematics_generic",
+    "looks_like": "spell_scroll",
+    "name": { "str_sp": "scribbled notes (Imbuement of Waves)" },
+    "description": "An handwritten set of notes detailing an alchemical recipe for a method to obtain the power of…humanity?  More human than human, you suppose.",
+    "required_level": 7,
+    "max_level": 7,
+    "intelligence": 10,
+    "time": "45 m",
+    "symbol": "ç",
+    "color": "light_green",
+    "read_skill": "chemistry"
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "id": "alchemy_recipe_air_imbuement",
+    "copy-from": "schematics_generic",
+    "looks_like": "spell_scroll",
+    "name": { "str_sp": "scribbled notes (Imbuement of the Winds)" },
+    "description": "An handwritten set of notes detailing an alchemical recipe for a method to obtain the power of flames.  You hope those lines about \"the ashes of the dead\" are optional.",
+    "required_level": 5,
+    "max_level": 5,
+    "intelligence": 10,
+    "time": "45 m",
+    "symbol": "ç",
+    "color": "light_green",
+    "read_skill": "chemistry"
   }
 ]
