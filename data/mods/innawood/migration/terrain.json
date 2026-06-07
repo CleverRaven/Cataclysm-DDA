@@ -1,0 +1,20 @@
+[
+  {
+    "type": "oter_id_migration",
+    "//": "Migrated in 0.J experimental",
+    "oter_ids": {
+      "ravine_edge_ground_north": "ravine_straight_ground_north",
+      "ravine_edge_ground_west": "ravine_straight_ground_west",
+      "ravine_edge_ground_east": "ravine_straight_ground_east",
+      "ravine_edge_ground_south": "ravine_straight_ground_south",
+      "ravine_edge_north": "ravine_straight_north",
+      "ravine_edge_west": "ravine_straight_west",
+      "ravine_edge_east": "ravine_straight_east",
+      "ravine_edge_south": "ravine_straight_south",
+      "ravine_edge_bottom_north": "ravine_straight_bottom_north",
+      "ravine_edge_bottom_west": "ravine_straight_bottom_west",
+      "ravine_edge_bottom_east": "ravine_straight_bottom_east",
+      "ravine_edge_bottom_south": "ravine_straight_bottom_south"
+    }
+  }
+]
