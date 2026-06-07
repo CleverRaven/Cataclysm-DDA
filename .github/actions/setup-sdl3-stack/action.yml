@@ -20,10 +20,11 @@ runs:
         sudo apt-get update
         sudo apt-get install -y libflac-dev libogg-dev libvorbis-dev libmpg123-dev libwavpack-dev \
             libfreetype-dev libharfbuzz-dev libjpeg-dev libpng-dev libwebp-dev libtiff-dev \
-            libpulse-dev pkg-config cmake \
+            libasound2-dev libpulse-dev pkg-config cmake \
             libx11-dev libxext-dev libxcursor-dev libxi-dev libxfixes-dev libxrandr-dev \
-            libxrender-dev libxss-dev libxtst-dev libxkbcommon-dev libwayland-dev \
-            libdecor-0-dev libdrm-dev libgbm-dev libudev-dev libpipewire-0.3-dev \
+            libxrender-dev libxss-dev libxtst-dev libxkbcommon-dev libwayland-dev libwayland-bin \
+            wayland-protocols libdecor-0-dev libdrm-dev libgbm-dev libudev-dev \
+            libegl-dev libgl-dev libgles-dev libvulkan-dev libpipewire-0.3-dev \
             libdbus-1-dev libibus-1.0-dev
 
     - name: Restore SDL3 stack cache
@@ -50,6 +51,33 @@ runs:
         cmake -S sdl3_src -B sdl3_build \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_INSTALL_PREFIX="$PREFIX" \
+            -DSDL_DEPS_SHARED=ON \
+            -DSDL_AUDIO=ON \
+            -DSDL_ALSA=ON \
+            -DSDL_ALSA_SHARED=ON \
+            -DSDL_DBUS=ON \
+            -DSDL_GPU=ON \
+            -DSDL_IBUS=ON \
+            -DSDL_KMSDRM=ON \
+            -DSDL_KMSDRM_SHARED=ON \
+            -DSDL_LIBUDEV=ON \
+            -DSDL_OPENGL=ON \
+            -DSDL_OPENGLES=ON \
+            -DSDL_PIPEWIRE=ON \
+            -DSDL_PIPEWIRE_SHARED=ON \
+            -DSDL_PULSEAUDIO=ON \
+            -DSDL_PULSEAUDIO_SHARED=ON \
+            -DSDL_RENDER=ON \
+            -DSDL_RENDER_GPU=ON \
+            -DSDL_RENDER_VULKAN=ON \
+            -DSDL_VIDEO=ON \
+            -DSDL_VULKAN=ON \
+            -DSDL_WAYLAND=ON \
+            -DSDL_WAYLAND_SHARED=ON \
+            -DSDL_WAYLAND_LIBDECOR=ON \
+            -DSDL_WAYLAND_LIBDECOR_SHARED=ON \
+            -DSDL_X11=ON \
+            -DSDL_X11_SHARED=ON \
             -DBUILD_SHARED_LIBS=ON
         cmake --build sdl3_build -j"$(nproc)"
         cmake --install sdl3_build

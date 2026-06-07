@@ -125,7 +125,7 @@ jobs:
     - name: setup SDL3 stack
       uses: ./.github/actions/setup-sdl3-stack
       with:
-        cache-key: sdl3-stack-strict-sdl-3.4.10-image-3.4.4-ttf-3.2.2-mixer-3.2.4-ubuntu-24.04-v1
+        cache-key: sdl3-stack-strict-sdl-3.4.10-image-3.4.4-ttf-3.2.2-mixer-3.2.4-ubuntu-24.04-v2
         prefix: ${{ runner.workspace }}/sdl3_prefix
     - name: download plugin from the previous job in this workflow run
       uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
