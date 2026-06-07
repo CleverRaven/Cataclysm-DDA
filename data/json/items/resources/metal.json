@@ -412,6 +412,7 @@
     "symbol": "=",
     "color": "light_gray",
     "description": "A small spool of solder, useful for electronics crafting.",
+    "display_type": "BY_WEIGHT",
     "material": [ "steel" ],
     "volume": "1 ml",
     "weight": "2 g",

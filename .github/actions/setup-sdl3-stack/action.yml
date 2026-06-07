@@ -1,0 +1,125 @@
+name: Setup SDL3 stack
+description: Build or restore the SDL3 stack used by Linux CI jobs.
+inputs:
+  cache-key:
+    description: Cache key for the installed SDL3 prefix.
+    required: true
+  prefix:
+    description: Installation prefix for SDL3 and satellite libraries.
+    required: true
+  stage-licenses:
+    description: Copy SDL3 license files into the workflow workspace.
+    required: false
+    default: "false"
+runs:
+  using: composite
+  steps:
+    - name: Install SDL3 build dependencies
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libflac-dev libogg-dev libvorbis-dev libmpg123-dev libwavpack-dev \
+            libfreetype-dev libharfbuzz-dev libjpeg-dev libpng-dev libwebp-dev libtiff-dev \
+            libpulse-dev pkg-config cmake \
+            libx11-dev libxext-dev libxcursor-dev libxi-dev libxfixes-dev libxrandr-dev \
+            libxrender-dev libxss-dev libxtst-dev libxkbcommon-dev libwayland-dev \
+            libdecor-0-dev libdrm-dev libgbm-dev libudev-dev libpipewire-0.3-dev \
+            libdbus-1-dev libibus-1.0-dev
+
+    - name: Restore SDL3 stack cache
+      id: cache-sdl3
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+      with:
+        path: ${{ inputs.prefix }}
+        key: ${{ inputs.cache-key }}
+
+    - name: Build SDL3 stack from source
+      if: steps.cache-sdl3.outputs.cache-hit != 'true'
+      shell: bash
+      env:
+        PREFIX: ${{ inputs.prefix }}
+      run: |
+        set -euxo pipefail
+        BUILD_ROOT="${RUNNER_TEMP}/sdl3-stack-build"
+        mkdir -p "$PREFIX" "$BUILD_ROOT"
+        cd "$BUILD_ROOT"
+        export PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig:$PREFIX/lib/x86_64-linux-gnu/pkgconfig"
+        export CMAKE_PREFIX_PATH="$PREFIX"
+
+        git clone --depth 1 --branch release-3.4.10 https://github.com/libsdl-org/SDL.git sdl3_src
+        cmake -S sdl3_src -B sdl3_build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX="$PREFIX" \
+            -DBUILD_SHARED_LIBS=ON
+        cmake --build sdl3_build -j"$(nproc)"
+        cmake --install sdl3_build
+
+        git clone --depth 1 --branch release-3.4.4 https://github.com/libsdl-org/SDL_image.git sdl3_image_src
+        cmake -S sdl3_image_src -B sdl3_image_build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX="$PREFIX" \
+            -DSDLIMAGE_VENDORED=OFF \
+            -DSDLIMAGE_DEPS_SHARED=OFF \
+            -DSDLIMAGE_STRICT=ON \
+            -DSDLIMAGE_PNG=ON -DSDLIMAGE_PNG_LIBPNG=ON \
+            -DSDLIMAGE_JPG=ON \
+            -DSDLIMAGE_AVIF=OFF -DSDLIMAGE_JXL=OFF \
+            -DSDLIMAGE_TIF=OFF -DSDLIMAGE_WEBP=OFF \
+            -DBUILD_SHARED_LIBS=ON
+        cmake --build sdl3_image_build -j"$(nproc)"
+        cmake --install sdl3_image_build
+
+        git clone --depth 1 --branch release-3.2.2 https://github.com/libsdl-org/SDL_ttf.git sdl3_ttf_src
+        cmake -S sdl3_ttf_src -B sdl3_ttf_build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX="$PREFIX" \
+            -DSDLTTF_VENDORED=OFF \
+            -DSDLTTF_STRICT=ON \
+            -DSDLTTF_PLUTOSVG=OFF \
+            -DBUILD_SHARED_LIBS=ON
+        cmake --build sdl3_ttf_build -j"$(nproc)"
+        cmake --install sdl3_ttf_build
+
+        git clone --depth 1 --branch release-3.2.4 https://github.com/libsdl-org/SDL_mixer.git sdl3_mixer_src
+        cmake -S sdl3_mixer_src -B sdl3_mixer_build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX="$PREFIX" \
+            -DSDLMIXER_VENDORED=OFF \
+            -DSDLMIXER_DEPS_SHARED=OFF \
+            -DSDLMIXER_STRICT=ON \
+            -DSDLMIXER_FLAC=ON -DSDLMIXER_FLAC_LIBFLAC=ON -DSDLMIXER_FLAC_DRFLAC=OFF \
+            -DSDLMIXER_MP3=ON -DSDLMIXER_MP3_MPG123=ON -DSDLMIXER_MP3_DRMP3=OFF \
+            -DSDLMIXER_VORBIS_VORBISFILE=ON -DSDLMIXER_VORBIS_STB=OFF -DSDLMIXER_VORBIS_TREMOR=OFF \
+            -DSDLMIXER_WAVPACK=ON \
+            -DSDLMIXER_OPUS=OFF -DSDLMIXER_MOD=OFF -DSDLMIXER_MIDI=OFF -DSDLMIXER_GME=OFF \
+            -DBUILD_SHARED_LIBS=ON
+        cmake --build sdl3_mixer_build -j"$(nproc)"
+        cmake --install sdl3_mixer_build
+
+        mkdir -p "$PREFIX/share"
+        cp sdl3_src/LICENSE.txt "$PREFIX/share/LICENSE-SDL.txt"
+        cp sdl3_image_src/LICENSE.txt "$PREFIX/share/LICENSE-SDL3_image.txt"
+        cp sdl3_ttf_src/LICENSE.txt "$PREFIX/share/LICENSE-SDL3_ttf.txt"
+        cp sdl3_mixer_src/LICENSE.txt "$PREFIX/share/LICENSE-SDL3_mixer.txt"
+
+    - name: Configure SDL3 environment
+      shell: bash
+      env:
+        PREFIX: ${{ inputs.prefix }}
+      run: |
+        {
+          echo "PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig:$PREFIX/lib/x86_64-linux-gnu/pkgconfig"
+          echo "CMAKE_PREFIX_PATH=$PREFIX"
+          echo "LD_LIBRARY_PATH=$PREFIX/lib:$PREFIX/lib/x86_64-linux-gnu"
+        } >> "$GITHUB_ENV"
+
+    - name: Stage SDL3 license files
+      if: ${{ inputs.stage-licenses == 'true' }}
+      shell: bash
+      env:
+        PREFIX: ${{ inputs.prefix }}
+      run: |
+        cp "$PREFIX/share/LICENSE-SDL.txt" "$GITHUB_WORKSPACE/LICENSE-SDL.txt"
+        cp "$PREFIX/share/LICENSE-SDL3_image.txt" "$GITHUB_WORKSPACE/LICENSE-SDL3_image.txt"
+        cp "$PREFIX/share/LICENSE-SDL3_ttf.txt" "$GITHUB_WORKSPACE/LICENSE-SDL3_ttf.txt"
+        cp "$PREFIX/share/LICENSE-SDL3_mixer.txt" "$GITHUB_WORKSPACE/LICENSE-SDL3_mixer.txt"

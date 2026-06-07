@@ -10,6 +10,7 @@
     "conflicts": [ "aftershock_exoplanet", "backrooms", "desertpack", "tropicata", "classic_zombies", "Isolation_Protocol", "no_hope" ],
     "dependencies": [ "dda" ],
     "loading_images": [ "innawoods1.png" ],
+    "disable_other_loading_screens": true,
     "obsolete": false
   }
 ]

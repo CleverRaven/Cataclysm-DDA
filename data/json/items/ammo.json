@@ -421,6 +421,7 @@
     "material": [ "plastic" ],
     "volume": "2 ml",
     "weight": "2 g",
+    "longest_side": "125 mm",
     "ammo_type": "tape",
     "count": 1,
     "//1": "50 x 125 x 0.3 mm per unit, rounded up. 200 units = 25 m",
@@ -1070,8 +1071,10 @@
     "description": "A roll of semi-opaque medical tape, intended to hold bandages in place.  Not as versatile as duct tape.",
     "material": [ "plastic" ],
     "//": "25 x 200 x 0.2 mm per unit, 5 meters roll is 25 units",
+    "display_type": "BY_LENGTH",
     "volume": "1 ml",
-    "weight": "1 g"
+    "weight": "1 g",
+    "longest_side": "20 cm"
   },
   {
     "type": "ITEM",

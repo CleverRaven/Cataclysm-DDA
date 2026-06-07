@@ -514,7 +514,7 @@ load_outcome load_and_probe( SDL_GPUDevice *device, SDL_Renderer *renderer,
     if( !res.ok ) {
         DebugLog( D_ERROR, DC_ALL )
                 << "cata_shader::variant_pass: textured-draw probe failed for "
-                << basename << " (silent miswire? readback did not match "
+                << basename << " (silent miswire?  readback did not match "
                 "expected variant transform); shader variant path disabled";
         return load_outcome::failed_clean;
     }

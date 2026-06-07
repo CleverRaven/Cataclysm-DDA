@@ -68,7 +68,9 @@ static void redraw()
         const float center_x = ImGui::GetMainViewport()->Size.x / 2;
         const float image_start_pos_x = center_x - ( gLUI->splash_size.x / 2 );
         ImGui::SetCursorPosX( image_start_pos_x );
-        ImGui::Image( reinterpret_cast<ImTextureID>( gLUI->splash.get() ), gLUI->splash_size );
+        if( gLUI->splash ) {
+            ImGui::Image( reinterpret_cast<ImTextureID>( gLUI->splash.get() ), gLUI->splash_size );
+        }
 
         // hint
         ImGui::SetCursorPosY( ImGui::GetWindowHeight() - gLUI->text_height );
@@ -163,6 +165,7 @@ static void update_state( const std::string &context, const std::string &step )
         // get image
         std::vector<cata_path> imgs;
         std::vector<mod_id> &active_mod_list = world_generator->active_world->active_mod_order;
+        bool only_mod_loading_screens = false;
         for( mod_id &some_mod : active_mod_list ) {
             // We haven't migrated mods yet
             // TODO: Move mod migration before this function?
@@ -170,16 +173,24 @@ static void update_state( const std::string &context, const std::string &step )
                 continue;
             }
             const MOD_INFORMATION &mod = *some_mod;
+            if( mod.disable_other_loading_screens ) {  // Clear any already loaded screens, use only from the mod that has asked for this behaviour in the modinfo.
+                only_mod_loading_screens = true;
+                imgs.clear();
+            }
             for( const std::string &img_name : mod.loading_images ) {
                 // There may be more than one file matching the name, so we need to get all of them
                 for( cata_path &img_path : get_files_from_path( img_name, mod.path, true ) ) {
                     imgs.emplace_back( img_path );
                 }
             }
+            if( only_mod_loading_screens ) {
+                break;
+            }
         }
         // We haven't selected a loading image yet, let's do so.
         if( gLUI->chosen_load_img == cata_path() ) {
-            if( imgs.empty() ) { // No modded screens available, so let's consider the vanilla ones.
+            if( imgs.empty() ||
+                !only_mod_loading_screens ) { // No modded screens available or not disabled in the mods, so let's add vanilla ones.
                 const std::string img_name_pattern = "loading_img";
                 const cata_path load_screens_directory = PATH_INFO::gfxdir() / "loading_screens";
                 for( cata_path &img_path : get_files_from_path( img_name_pattern, load_screens_directory, true ) ) {
@@ -199,7 +210,12 @@ static void update_state( const std::string &context, const std::string &step )
         gLUI->splash_size = { static_cast<float>( surf->w ) / longest_side_ratio,
                               static_cast<float>( surf->h ) / longest_side_ratio
                             };
-        gLUI->splash = CreateTextureFromSurface( get_sdl_renderer(), surf );
+        if( !renderer_should_abort_frame() ) {
+            // Skip the upload when recovery is queued: it would invalidate the
+            // texture. The splash stays absent for this load rather than uploading
+            // against a renderer about to be rebuilt.
+            gLUI->splash = CreateTextureFromSurface( get_sdl_renderer(), surf );
+        }
         gLUI->window_size = gLUI->splash_size + ImVec2{ 0.0f, 2.0f * ImGui::GetTextLineHeightWithSpacing() };
 #else
         std::string splash = PATH_INFO::title( get_holiday_from_time() );
@@ -226,6 +242,7 @@ void loading_ui::show( const std::string &context, const std::string &step )
         return;
     }
     update_state( context, step );
+    drain_renderer_recovery();
     ui_manager::redraw();
     refresh_display();
     inp_mngr.pump_events();
@@ -243,4 +260,13 @@ void loading_ui::done()
         delete gLUI;
         gLUI = nullptr;
     }
+}
+
+void loading_ui::release_gpu_resources()
+{
+#ifdef TILES
+    if( gLUI != nullptr ) {
+        gLUI->splash.reset();
+    }
+#endif
 }

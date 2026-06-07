@@ -1261,14 +1261,22 @@ std::vector<std::string> monster::extended_description() const
             tmp.emplace_back( "Lifespan end time: n/a <color_yellow>(indefinite)</color>" );
         }
 
+        if( !type->weakpoints.weakpoint_list.empty() ) {
+            tmp.emplace_back( colorize( "weakpoints:", c_white ) );
+            for( const weakpoint &wp : type->weakpoints.weakpoint_list ) {
+                tmp.emplace_back( string_format( "%s - coverage %.3f", wp.id, wp.coverage ) );
+            }
+        }
+
         const std::vector<std::reference_wrapper<const effect>> all_effects = get_effects();
         if( !all_effects.empty() ) {
             tmp.emplace_back( "Applied effects:" );
             for( const effect &eff : all_effects ) {
                 const std::string is_permanent = eff.is_permanent() ? "(permanent)" : "";
-                tmp.emplace_back( string_format( "%s (%s) %s", eff.get_id().c_str(),
-                                                 to_string_writable( eff.get_duration() ).c_str(),
-                                                 is_permanent.c_str() ) );
+                tmp.emplace_back( string_format( "%s [%d] (%s) %s", eff.get_id().c_str(),
+                                                 eff.get_intensity(),
+                                                 to_string_writable( eff.get_duration() ),
+                                                 is_permanent ) );
             }
         }
     }

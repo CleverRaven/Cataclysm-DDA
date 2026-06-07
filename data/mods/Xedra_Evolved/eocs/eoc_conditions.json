@@ -200,5 +200,19 @@
       { "math": [ "dream_counter = 1" ] },
       { "run_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DREAM_CLASS_XP",
+    "condition": { "one_in_chance": 2 },
+    "effect": [ { "run_eocs": "EOC_DREAM_CRAFTS", "time_in_future": 1 } ],
+    "false_effect": [ { "run_eocs": "EOC_XE_GOT_A_SPELL_LVL", "time_in_future": 1 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DREAM_CRAFTS",
+    "condition": { "or": [ { "u_has_trait": "DREAMSMITH" }, { "u_has_trait": "INVENTOR" } ] },
+    "effect": [ { "run_eocs": "EOC_DREAMSMITHS_SCORE_TRAIN", "time_in_future": 1 } ],
+    "false_effect": [ { "run_eocs": "EOC_XE_GOT_A_SPELL_LVL", "time_in_future": 1 } ]
   }
 ]

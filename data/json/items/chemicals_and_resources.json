@@ -77,13 +77,13 @@
     "name": { "str_sp": "graphite" },
     "symbol": "!",
     "description": "Graphite, aka elemental carbon, mixed with a little clay or oil.  Produces gray or black marks that are easily erased, but otherwise resistant to moisture, most chemicals, ultraviolet radiation, and natural aging.  Useful as a lubricant in metalworking.",
-    "material": [ "powder" ],
+    "material": [ "dense_powder_nonflam" ],
+    "display_type": "BY_WEIGHT",
     "volume": "1 ml",
-    "weight": "40 mg",
+    "weight": "2 g",
     "color": "dark_gray",
     "looks_like": "charcoal",
-    "flags": [ "TRADER_AVOID" ],
-    "container": "bottle_plastic_small"
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "type": "ITEM",
@@ -252,6 +252,7 @@
     "price": "1 USD",
     "price_postapoc": "10 cent",
     "name": { "str_sp": "quicklime" },
+    "display_type": "BY_WEIGHT",
     "symbol": "=",
     "color": "dark_gray",
     "description": "The product of burning limestone, this white powder is a crucial ingredient in making cement.  That said, it is also extremely caustic and will cause severe burns to any tissue it comes in contact with.  This property could probably be exploited.",

@@ -23,6 +23,7 @@
 
 #include "cata_assert.h"
 #include "cata_path.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
@@ -182,16 +183,45 @@ static bool is_contained( const SDL_Rect &smaller, const SDL_Rect &larger )
            smaller.y + smaller.h <= larger.y + larger.h;
 }
 
+void atlas_replay_quarantine::add( batch &&b )
+{
+    batches_.push_back( std::move( b ) );
+}
+
+void atlas_replay_quarantine::drain_live_renderer()
+{
+    for( batch &b : batches_ ) {
+        b.handles.drain_live_renderer();
+    }
+    batches_.clear();
+}
+
+void atlas_replay_quarantine::abandon_pre_lost_renderer()
+{
+    for( batch &b : batches_ ) {
+        b.handles.abandon();
+    }
+    batches_.clear();
+}
+
+std::shared_ptr<SDL_Texture> tileset_cache::loader::make_gated_atlas_texture(
+    SDL_Texture_Ptr tex, atlas_replay_quarantine::gate abandon_gate )
+{
+    return make_gated_texture( tex.release(), std::move( abandon_gate ) );
+}
+
 void tileset_cache::loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf,
         const point &offset, std::vector<texture> &target,
-        const std::vector<SDL_Rect> &opaque_bounds )
+        const std::vector<SDL_Rect> &opaque_bounds,
+        const atlas_replay_quarantine::gate &abandon_gate )
 {
     cata_assert( surf );
     const rect_range<SDL_Rect> input_range( sprite_width, sprite_height,
                                             point( surf->w / sprite_width,
                                                     surf->h / sprite_height ) );
 
-    const std::shared_ptr<SDL_Texture> texture_ptr = CreateTextureFromSurface( renderer, surf );
+    const std::shared_ptr<SDL_Texture> texture_ptr =
+        make_gated_atlas_texture( CreateTextureFromSurface( renderer, surf ), abandon_gate );
     cata_assert( texture_ptr );
 
     for( const SDL_Rect rect : input_range ) {
@@ -212,7 +242,8 @@ void tileset_cache::loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf
 }
 
 void tileset_cache::loader::create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas,
-        const point &offset, const tile_value_targets &targets )
+        const point &offset, const tile_value_targets &targets,
+        const atlas_replay_quarantine::gate &abandon_gate )
 {
     cata_assert( tile_atlas );
     cata_assert( targets.normal && targets.shadow && targets.night && targets.overexposed
@@ -220,7 +251,10 @@ void tileset_cache::loader::create_textures_from_tile_atlas( const SDL_Surface_P
 
     // Compute per-sprite opaque bounds once from the unfiltered atlas.
     // Color filter variants preserve the alpha channel, so rescanning is unnecessary.
-    // Blit into a 32-bit surface for format-safe pixel access.
+    // Blit into a 32-bit surface for format-safe pixel access. The normal atlas
+    // texture is uploaded from the same 32-bit surface so shader variants sample
+    // the same concrete RGBA pixels as the pre-baked variants; paletted fallback
+    // atlases are not reliable shader sources on every SDL3 GPU backend.
     SDL_Surface_Ptr scan_surf = create_surface_32( tile_atlas->w, tile_atlas->h );
     throwErrorIf( BlitSurface( tile_atlas, nullptr, scan_surf, nullptr ) != 0,
                   "SDL_BlitSurface failed" );
@@ -258,11 +292,10 @@ void tileset_cache::loader::create_textures_from_tile_atlas( const SDL_Surface_P
         color_pixel_function_pointer color_pixel_function = get_color_pixel_function( std::get<1>
                 ( entry ) );
         if( !color_pixel_function ) {
-            // TODO: Move it inside apply_color_filter.
-            copy_surface_to_texture( tile_atlas, offset, *tile_values, opaque_bounds );
+            copy_surface_to_texture( scan_surf, offset, *tile_values, opaque_bounds, abandon_gate );
         } else {
             copy_surface_to_texture( apply_color_filter( tile_atlas, color_pixel_function ), offset,
-                                     *tile_values, opaque_bounds );
+                                     *tile_values, opaque_bounds, abandon_gate );
         }
     }
 }
@@ -972,12 +1005,15 @@ void tileset_cache::loader::load_tile_spritelists( const JsonObject &entry,
         vs.add( std::vector<int>( {entry.get_int( objname ) + sprite_id_offset} ), 1 );
     }
 }
-void tileset_cache::loader::upload_atlases( tileset &ts, const SDL_Renderer_Ptr &renderer,
+atlas_upload_interrupt tileset_cache::loader::upload_atlases( tileset &ts,
+        const SDL_Renderer_Ptr &renderer,
         const std::string &memory_map_mode,
         const std::vector<atlas_replay_descriptor> &descriptors,
         const uint64_t renderer_instance_generation,
         const uint64_t gpu_textures_generation,
-        const bool pump_events )
+        const bool pump_events,
+        const atlas_upload_poll &poll,
+        atlas_replay_quarantine *const quarantine )
 {
     int total = 0;
     for( const atlas_replay_descriptor &d : descriptors ) {
@@ -996,6 +1032,41 @@ void tileset_cache::loader::upload_atlases( tileset &ts, const SDL_Renderer_Ptr 
     std::vector<texture> cand_memory( total );
     std::vector<texture> cand_silhouette( total );
 
+    // Candidates are built against this gate; on success they commit and destroy
+    // normally, on abnormal exit they are adopted into the graveyard (below).
+    gpu_handle_graveyard candidate_graveyard;
+    const atlas_replay_quarantine::gate abandon_gate = candidate_graveyard.current_gate();
+
+    // Any abnormal exit before commit -- interrupt return or exception -- routes
+    // the candidates into *quarantine so they never destroy against a dead
+    // renderer. Callers without a quarantine just destruct on the live renderer.
+    bool committed = false;
+    auto quarantine_candidates = [&]() {
+        if( !quarantine ) {
+            return;
+        }
+        // Adopt every built candidate into the graveyard so its gated handles
+        // outlive the renderer teardown; the candidate vectors then drop their
+        // refs, leaving the graveyard the last owner.
+        for( const std::vector<texture> *v : {
+                 &cand_normal, &cand_shadow, &cand_night,
+                 &cand_overexposed, &cand_memory, &cand_silhouette
+             } ) {
+            for( const texture &t : *v ) {
+                candidate_graveyard.adopt( t.get_texture_ptr() );
+            }
+        }
+        atlas_replay_quarantine::batch b;
+        b.handles = std::move( candidate_graveyard );
+        b.renderer_instance_generation = renderer_instance_generation;
+        quarantine->add( std::move( b ) );
+    };
+    on_out_of_scope capture_guard( [&]() {
+        if( !committed ) {
+            quarantine_candidates();
+        }
+    } );
+
     loader uploader( ts, renderer, memory_map_mode );
     tile_value_targets targets;
     targets.normal = &cand_normal;
@@ -1006,7 +1077,24 @@ void tileset_cache::loader::upload_atlases( tileset &ts, const SDL_Renderer_Ptr 
     targets.silhouette = &cand_silhouette;
 
     for( const atlas_replay_descriptor &desc : descriptors ) {
-        uploader.upload_one_atlas( desc, targets, pump_events );
+        if( poll ) {
+            const atlas_upload_interrupt interrupt = poll();
+            if( interrupt != atlas_upload_interrupt::none ) {
+                return interrupt;
+            }
+        }
+        const atlas_upload_interrupt interrupt =
+            uploader.upload_one_atlas( desc, targets, pump_events, abandon_gate, poll );
+        if( interrupt != atlas_upload_interrupt::none ) {
+            return interrupt;
+        }
+    }
+
+    if( poll ) {
+        const atlas_upload_interrupt interrupt = poll();
+        if( interrupt != atlas_upload_interrupt::none ) {
+            return interrupt;
+        }
     }
 
     if( highlight_idx ) {
@@ -1017,8 +1105,19 @@ void tileset_cache::loader::upload_atlases( tileset &ts, const SDL_Renderer_Ptr 
                                 highlight_alpha ) ) != 0, "SDL_FillRect failed" );
         const int idx = *highlight_idx;
         cata_assert( idx >= 0 && idx < static_cast<int>( cand_normal.size() ) );
-        cand_normal[idx] = texture( CreateTextureFromSurface( renderer, surface ),
-                                    SDL_Rect{ 0, 0, ts.tile_width, ts.tile_height } );
+        cand_normal[idx] = texture(
+                               make_gated_atlas_texture( CreateTextureFromSurface( renderer, surface ),
+                                       abandon_gate ),
+                               SDL_Rect{ 0, 0, ts.tile_width, ts.tile_height } );
+    }
+
+    // Final poll before publishing: a reset or loss observed after the
+    // highlight upload must not publish the candidates against a stale device.
+    if( poll ) {
+        const atlas_upload_interrupt interrupt = poll();
+        if( interrupt != atlas_upload_interrupt::none ) {
+            return interrupt;
+        }
     }
 
     // Commit candidates atomically so a partial upload is never observable.
@@ -1030,10 +1129,14 @@ void tileset_cache::loader::upload_atlases( tileset &ts, const SDL_Renderer_Ptr 
     ts.silhouette_tile_values = std::move( cand_silhouette );
 
     ts.set_upload_generations( renderer_instance_generation, gpu_textures_generation );
+    ts.set_memory_map_mode_at_upload( memory_map_mode );
+    committed = true;
+    return atlas_upload_interrupt::none;
 }
 
-void tileset_cache::loader::upload_one_atlas( const atlas_replay_descriptor &desc,
-        const tile_value_targets &targets, const bool pump_events )
+atlas_upload_interrupt tileset_cache::loader::upload_one_atlas( const atlas_replay_descriptor &desc,
+        const tile_value_targets &targets, const bool pump_events,
+        const atlas_replay_quarantine::gate &abandon_gate, const atlas_upload_poll &poll )
 {
     cata_assert( desc.sprite_width > 0 );
     cata_assert( desc.sprite_height > 0 );
@@ -1111,6 +1214,12 @@ void tileset_cache::loader::upload_one_atlas( const atlas_replay_descriptor &des
     tile_atlas_width = tile_atlas->w;
 
     for( const SDL_Rect sub_rect : output_range ) {
+        if( poll ) {
+            const atlas_upload_interrupt interrupt = poll();
+            if( interrupt != atlas_upload_interrupt::none ) {
+                return interrupt;
+            }
+        }
         cata_assert( sub_rect.x % desc.sprite_width == 0 );
         cata_assert( sub_rect.y % desc.sprite_height == 0 );
         cata_assert( sub_rect.w % desc.sprite_width == 0 );
@@ -1133,12 +1242,14 @@ void tileset_cache::loader::upload_one_atlas( const atlas_replay_descriptor &des
         const SDL_Surface_Ptr &surf_to_use = smaller_surf ? smaller_surf : tile_atlas;
         cata_assert( surf_to_use );
 
-        create_textures_from_tile_atlas( surf_to_use, point( sub_rect.x, sub_rect.y ), targets );
+        create_textures_from_tile_atlas( surf_to_use, point( sub_rect.x, sub_rect.y ), targets,
+                                         abandon_gate );
 
         if( pump_events ) {
             inp_mngr.pump_events();
         }
     }
+    return atlas_upload_interrupt::none;
 }
 
 #endif // defined(TILES)

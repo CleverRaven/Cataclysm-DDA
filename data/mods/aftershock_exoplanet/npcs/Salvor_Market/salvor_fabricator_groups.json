@@ -154,7 +154,7 @@
       { "item": "soldering_iron_portable", "prob": 10, "count": [ 1, 2 ] },
       { "item": "multimeter", "prob": 20 },
       { "item": "voltmeter", "prob": 20 },
-      { "item": "solder_wire", "prob": 50, "count": [ 1, 4 ] }
+      { "group": "solder_wire_spool_part", "prob": 70 }
     ]
   },
   {
