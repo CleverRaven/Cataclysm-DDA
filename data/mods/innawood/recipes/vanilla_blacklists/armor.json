@@ -223,5 +223,105 @@
     "type": "recipe",
     "result": "lc_esbi_plate",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "armor_mercenary_top",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "armor_mercenary_bottom",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_lsurvivor_armor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_lsurvivor_armor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "motorbike_boots",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_aketon_nylon",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "aketon_nylon",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_aketon_nylon",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_aketon_nylon_vest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "aketon_nylon_vest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_aketon_nylon_vest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "aketon_hood_nylon",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "aketon_pants_nylon",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "aketon_gloves_nylon",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_aketon_hood_nylon",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_aketon_hood_nylon",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_aketon_pants_nylon",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_aketon_pants_nylon",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_aketon_gloves_nylon",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_aketon_gloves_nylon",
+    "obsolete": true
   }
 ]
