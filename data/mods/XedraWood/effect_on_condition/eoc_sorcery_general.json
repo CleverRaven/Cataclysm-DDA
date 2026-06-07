@@ -1,6 +1,29 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_XEDRAWOOD_SORCERY_XP_GAIN",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_any_trait": [ "FOREST_MAGIC" ] },
+        { "or": [ { "compare_string": [ "FOREST_MAGIC", { "context_val": "school" } ] } ] }
+      ]
+    },
+    "effect": [
+      {
+        "if": { "math": [ "_success == false" ] },
+        "then": [
+          {
+            "math": [ "u_skill_exp('deduction', 'format': 'raw') += (100 * _difficulty * game_option('SKILL_TRAINING_SPEED') )" ]
+          }
+        ],
+        "else": { "math": [ "u_skill_exp('deduction', 'format': 'raw') += (20 * _difficulty * game_option('SKILL_TRAINING_SPEED') )" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_XEDRAWOOD_WEARINESS_COST",
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
