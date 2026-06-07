@@ -9,6 +9,17 @@
   },
   {
     "type": "mutation",
+    "id": "EXODII_WRATH",
+    "player_display": false,
+    "name": { "//~": "NO_I18N", "str": "Exodii Wrath" },
+    "points": 0,
+    "description": { "//~": "NO_I18N", "str": "Makes sure all the exodii mobs shoot you on sight." },
+    "valid": false,
+    "purifiable": false,
+    "anger_relations": [ [ "CYBORG", 95 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "CBM_Interface",
     "name": { "str": "Standard Neurobionic Interface" },
     "points": 0,
