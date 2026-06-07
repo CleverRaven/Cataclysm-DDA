@@ -89,8 +89,22 @@ jobs:
           echo "fail_fast=$([ "$GITHUB_REF_NAME" = "master" -o "$GITHUB_REPOSITORY_OWNER" != "CleverRaven" ] && echo false || echo true)" >> $GITHUB_OUTPUT
           echo "skip_tests=$([ "$GITHUB_REF_NAME" = "master" ] && echo true || echo false)" >> $GITHUB_OUTPUT
           echo "max_parallel=$([ "$GITHUB_REF_NAME" = "master" -o "$GITHUB_REPOSITORY_OWNER" != "CleverRaven" ] && echo 20 || echo 1)" >> $GITHUB_OUTPUT
+  compile-shaders:
+    name: Compile shaders
+    needs: [ skip-duplicates-code, skip-duplicates-data ]
+    if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.draft == false && (needs.skip-duplicates-code.outputs.should_skip_code != 'true' || needs.skip-duplicates-data.outputs.should_skip_data != 'true')) }}
+    runs-on: ubuntu-24.04
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      with:
+        persist-credentials: false
+    - name: build SDL3 shader artifacts
+      uses: ./.github/actions/build-sdl3-shaders
+
   varied_builds:
-    needs: [ skip-duplicates-code, skip-duplicates-data, matrix-variables ]
+    needs: [ skip-duplicates-code, skip-duplicates-data, matrix-variables, compile-shaders ]
+    if: ${{ always() && (needs.compile-shaders.result == 'success' || needs.compile-shaders.result == 'skipped') }}
     strategy:
       fail-fast: ${{ fromJSON(needs.matrix-variables.outputs.fail_fast) }}
       max-parallel: ${{ fromJSON(needs.matrix-variables.outputs.max_parallel) }}
@@ -119,17 +133,19 @@ jobs:
             pch: 0
             tiles: 1
             sound: 1
+            sdl3: 1
             localize: 1
-            title: macOS 15, Apple Clang 17, Tiles, Sound, x64 and arm64 Universal Binary
+            title: macOS 15, Apple Clang 17, Tiles, Sound, SDL3
             ccache_limit: 12G
-            ccache_key: macos-llvm-17-universal
+            ccache_key: macos-llvm-17-sdl3
 
           - title: Android x64 (build only)
             os: ubuntu-latest
             android: arm64
+            sdl3: 1
 
           - compiler: g++-9
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             cmake: 0
             tiles: 0
             sound: 0
@@ -146,10 +162,11 @@ jobs:
             extra_package: g++-9
 
           - compiler: clang++-18
-            os: ubuntu-latest
+            os: ubuntu-24.04
             cmake: 0
             tiles: 1
             sound: 0
+            sdl3: 1
             localize: 1
             native: linux64
             pch: 1
@@ -172,10 +189,11 @@ jobs:
             ccache_key: linux-gcc-14
 
           - compiler: g++-9
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             cmake: 1
             tiles: 1
             sound: 1
+            sdl3: 1
             localize: 0
             native: linux64
             sanitize: undefined
@@ -197,6 +215,7 @@ jobs:
         OS: ${{ matrix.os }}
         TILES: ${{ matrix.tiles }}
         SOUND: ${{ matrix.sound }}
+        SDL3: ${{ matrix.sdl3 }}
         LOCALIZE: ${{ matrix.localize }}
         MODS: ${{ matrix.mods }}
         SANITIZE: ${{ matrix.sanitize }}
@@ -238,16 +257,28 @@ jobs:
       uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       with:
         persist-credentials: false
+    - name: download prebuilt shader artifacts
+      if: ${{ env.SKIP == 'false' && matrix.tiles == 1 && matrix.sdl3 == 1 }}
+      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+      with:
+        name: cdda-shaders
+        path: data/shaders
+    - name: mark shader artifacts fresh
+      if: ${{ env.SKIP == 'false' && matrix.tiles == 1 && matrix.sdl3 == 1 }}
+      run: |
+          touch data/shaders/build-*.stamp data/shaders/*.spv data/shaders/*.dxil data/shaders/*.msl
     - name: install dependencies (ubuntu)
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
       run: |
           sudo apt-get update
           sudo apt-get install libncursesw5-dev ccache gettext parallel ${{ matrix.extra_package }}
           sudo locale-gen en_US.UTF-8 de_DE.UTF-8
-    - name: install SDL2 dependencies (ubuntu)
-      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.tiles == 1 }}
-      run: |
-          sudo apt-get install libflac-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev
+    - name: setup SDL3 stack (ubuntu)
+      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.tiles == 1 && matrix.sdl3 == 1 }}
+      uses: ./.github/actions/setup-sdl3-stack
+      with:
+        cache-key: sdl3-stack-strict-sdl-3.4.10-image-3.4.4-ttf-3.2.2-mixer-3.2.4-ubuntu-24.04-v1
+        prefix: ${{ runner.workspace }}/sdl3_prefix
     - name: install recent ccache on ubuntu
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
       run: |
@@ -255,25 +286,15 @@ jobs:
           sudo apt-get remove --purge -y ccache
           curl -sL https://github.com/ccache/ccache/releases/download/v4.10.2/ccache-4.10.2-linux-x86_64.tar.xz | sudo tar Jxvf - --strip-components 1 -C /usr/bin ccache-4.10.2-linux-x86_64/ccache
           ccache --version
-    - name: install runtime dependencies (mac)
-      if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
-      uses: BrettDong/setup-sdl2-frameworks@8ec523df88d65b2af0e1ae520695badd88851497 # v1
-      with:
-        sdl2: 2.30.11
-        sdl2-ttf: 2.24.0
-        sdl2-image: 2.8.4
-        sdl2-mixer: 2.8.0
     - name: install build dependencies (mac)
       if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
       run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel
-    - name: install macports (mac)
-      if: ${{ env.SKIP == 'false' && runner.os == 'macOS' && matrix.tiles == 1 }}
-      uses: melusina-org/setup-macports@c7eb59386def259a274627092566a7f7b8d219b1 # v1
-    - name: install macports packages (mac)
-      if: ${{ env.SKIP == 'false' && runner.os == 'macOS' && matrix.tiles == 1 }}
+    - name: install SDL3 dependencies (mac)
+      if: ${{ env.SKIP == 'false' && runner.os == 'macOS' && matrix.tiles == 1 && matrix.sdl3 == 1 }}
       run: |
-        sudo port install freetype +universal pkgconfig +universal
+          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes \
+              brew install pkgconf sdl3 sdl3_image sdl3_ttf sdl3_mixer
     - name: prepare
       if: ${{ env.SKIP == 'false' }}
       run: bash ./build-scripts/requirements.sh
