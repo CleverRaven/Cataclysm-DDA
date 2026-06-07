@@ -199,6 +199,110 @@
     "items": [ { "item": "charcoal", "charges": [ 200, 5000 ] } ]
   },
   {
+    "id": "ultralight_battery_small_bag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "shrink_wrap",
+    "items": [
+      { "item": "light_minus_disposable_cell", "count": 4, "charges": 1000 },
+      { "item": "light_minus_battery_cell", "count": 4, "charges": 1000, "prob": 25 }
+    ]
+  },
+  {
+    "id": "ultralight_battery_small_bag_part",
+    "type": "item_group",
+    "container-item": "shrink_wrap",
+    "items": [
+      { "item": "light_minus_disposable_cell", "count": [ 1, 4 ], "charges": 1000 },
+      { "item": "light_minus_battery_cell", "count": [ 1, 4 ], "charges": 1000, "prob": 25 }
+    ]
+  },
+  {
+    "id": "ultralight_battery_large_bag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "shrink_wrap",
+    "items": [
+      { "item": "light_minus_disposable_cell", "count": 10, "charges": 1000 },
+      { "item": "light_minus_battery_cell", "count": 10, "charges": 1000, "prob": 25 }
+    ]
+  },
+  {
+    "id": "ultralight_battery_large_bag_part",
+    "type": "item_group",
+    "container-item": "shrink_wrap",
+    "items": [
+      { "item": "light_minus_disposable_cell", "count": [ 1, 10 ], "charges": 1000 },
+      { "item": "light_minus_battery_cell", "count": [ 1, 10 ], "charges": 1000, "prob": 25 }
+    ]
+  },
+  {
+    "id": "light_battery_small_bag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "shrink_wrap",
+    "items": [
+      { "item": "light_battery_cell", "count": 8, "charges": 1000 },
+      { "item": "light_cell_rechargeable", "count": 8, "charges": 1000, "prob": 25 }
+    ]
+  },
+  {
+    "id": "light_battery_small_bag_part",
+    "type": "item_group",
+    "container-item": "shrink_wrap",
+    "items": [
+      { "item": "light_battery_cell", "count": [ 1, 8 ], "charges": 1000 },
+      { "item": "light_cell_rechargeable", "count": [ 1, 8 ], "charges": 1000, "prob": 25 }
+    ]
+  },
+  {
+    "id": "light_battery_large_bag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "shrink_wrap",
+    "items": [
+      { "item": "light_battery_cell", "charges": 1000, "count": 24 },
+      { "item": "light_cell_rechargeable", "count": 24, "charges": 1000, "prob": 25 }
+    ]
+  },
+  {
+    "id": "light_battery_large_bag_part",
+    "type": "item_group",
+    "container-item": "shrink_wrap",
+    "items": [
+      { "item": "light_battery_cell", "count": [ 1, 24 ], "charges": 1000 },
+      { "item": "light_cell_rechargeable", "count": [ 1, 24 ], "charges": 1000, "prob": 25 }
+    ]
+  },
+  {
+    "id": "medium_battery_small_bag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "shrink_wrap",
+    "items": [ { "item": "medium_battery_cell", "count": 1, "charges": 1000 } ]
+  },
+  {
+    "id": "medium_battery_small_bag_part",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "shrink_wrap",
+    "items": [ { "item": "medium_battery_cell", "count": [ 0, 1 ], "charges": 1000 } ]
+  },
+  {
+    "id": "medium_battery_large_bag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "shrink_wrap",
+    "items": [ { "item": "medium_battery_cell", "count": 2, "charges": 1000 } ]
+  },
+  {
+    "id": "medium_battery_large_bag_part",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "shrink_wrap",
+    "items": [ { "item": "medium_battery_cell", "count": [ 0, 2 ], "charges": 1000 } ]
+  },
+  {
     "id": "nail_box_1lb_full",
     "type": "item_group",
     "container-item": "box_small",
