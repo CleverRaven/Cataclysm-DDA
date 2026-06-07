@@ -158,7 +158,7 @@
     "type": "profession",
     "subtype": "hobby",
     "id": "cookfire_tender",
-    "name": "Cookfire Tender",
+    "name": "Tender of Cookfires",
     "description": "You used to tend the cookfires and prepare the meals, making sure that the meat didn't burn and the flames stayed hot until every one of your people was fed.",
     "points": 1,
     "skills": [ { "level": 2, "name": "cooking" } ],
