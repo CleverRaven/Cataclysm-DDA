@@ -136,6 +136,11 @@
   },
   {
     "type": "recipe",
+    "result": "xl_ballistic_vest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "xl_ballistic_vest_qt",
     "obsolete": true
   },
@@ -322,6 +327,36 @@
   {
     "type": "recipe",
     "result": "xl_aketon_gloves_nylon",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_wetsuit_gloves_thick",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "wetsuit_gloves_thick",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "wetsuit_booties_thick",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_wetsuit_booties_thick",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_wetsuit_booties_thick",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_wetsuit_gloves_thick",
     "obsolete": true
   }
 ]
