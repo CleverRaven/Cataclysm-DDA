@@ -11,6 +11,16 @@
   },
   {
     "type": "recipe",
+    "result": "load_bearing_vest_sling",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "load_bearing_vest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "heavy_load_bearing_vest_sling",
     "obsolete": true
   },
@@ -52,6 +62,11 @@
   {
     "type": "recipe",
     "result": "simple_rifle_cartridge_necklace",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rollerskates",
     "obsolete": true
   }
 ]

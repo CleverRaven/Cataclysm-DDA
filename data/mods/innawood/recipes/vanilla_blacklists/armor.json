@@ -183,5 +183,45 @@
     "type": "recipe",
     "result": "armguard_paper",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "qt_esapi_plate",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mc_esapi_plate",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lc_esapi_plate",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hc_esapi_plate",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ch_esbi_plate",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "qt_esbi_plate",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hc_esbi_plate",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lc_esbi_plate",
+    "obsolete": true
   }
 ]
