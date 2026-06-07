@@ -294,7 +294,7 @@
     "copy-from": "gracken_improvement_general",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str_sp": "Gracken Seven O'clock Eyes" },
+    "name": { "str_sp": "Gracken Eyes of the Nineteenth Hour" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their eyes into a mystical tool powered by an Earth cryptid.",
     "use_action": {
