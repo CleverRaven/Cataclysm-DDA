@@ -159,7 +159,7 @@
       { "id": "hedge_no_nightmares", "level": 1 },
       { "id": "hedge_astral_projection", "level": 1 }
     ],
-    "traits": [ "WITCHSIGHT", "HEDGE_MAGIC" ],
+    "traits": [ "WITCHSIGHT", "HEDGE_MAGIC", "INSOMNIA" ],
     "proficiencies": [ "prof_wound_care", "prof_occult_research", "prof_thaumatology" ],
     "items": {
       "both": {
@@ -190,7 +190,8 @@
       { "id": "hedge_extinguish_fire_spell", "level": 1 },
       { "id": "hedge_prevent_wild_animal_attacks", "level": 1 },
       { "id": "forest_commanding_grasses", "level": 5 },
-      { "id": "forest_unity_nature", "level": 4 }
+      { "id": "forest_unity_nature", "level": 4 },
+      { "id": "forest_traverse_the_wilds", "level": 2 }
     ],
     "traits": [ "XEDRAWOOD_THE_WISE", "WITCHSIGHT", "HEDGE_MAGIC", "FOREST_MAGIC" ],
     "proficiencies": [ "prof_wound_care", "prof_occult_research", "prof_thaumatology" ],

@@ -1,6 +1,12 @@
 [
   {
     "type": "profession",
+    "id": "shaman",
+    "copy-from": "shaman",
+    "name": "Healer"
+  },
+  {
+    "type": "profession",
     "id": "paraclesian_ierde",
     "copy-from": "paraclesian_ierde",
     "traits": [ "IERDE", "IERDE_STONE_MEDITATIONS" ],

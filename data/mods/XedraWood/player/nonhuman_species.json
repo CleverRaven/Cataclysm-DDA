@@ -27,6 +27,7 @@
       "FANGS",
       "SLIT_NOSTRILS",
       "PRED_LIZ"
-    ]
+    ],
+    "chargen_allow_npc": false
   }
 ]
