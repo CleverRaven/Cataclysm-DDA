@@ -1860,7 +1860,8 @@ void map::creature_in_field( Creature &critter )
             maybe_apply_field_effect( cur_field_entry.get_intensity_level().field_effects, critter );
         }
 
-        if( cur_field_id->decrease_intensity_on_contact ) {
+        if( cur_field_id->decrease_intensity_on_contact &&
+            !critter.is_immune_field( cur_field_id ) ) {
             mod_field_intensity( critter.pos_bub(), cur_field_id, -1 );
         }
     }
