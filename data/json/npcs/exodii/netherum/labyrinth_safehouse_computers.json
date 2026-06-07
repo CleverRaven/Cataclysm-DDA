@@ -4,8 +4,16 @@
     "id": "COMP_labyrinthine_safehouse_computer_meeting",
     "dynamic_line": "& █████╗ ██╗  ████████╗ █████╗ ██████╗      ██████╗ ███████╗\n██╔══██╗██║  ╚══██╔══╝██╔══██╗██╔══██╗    ██╔═══██╗██╔════╝\n███████║██║     ██║   ███████║██████╔╝    ██║   ██║███████╗\n██╔══██║██║     ██║   ██╔══██║██╔══██╗    ██║   ██║╚════██║\n██║  ██║███████╗██║   ██║  ██║██║  ██║    ╚██████╔╝███████║\n╚═╝  ╚═╝╚══════╝╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚══════╝\n\nWelcome ᴴᵁᴹᴬᴺ, to your home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ.\n\nThis is a ˡᵒᵃᵈᴵⁿᵍ ᵖʳᴼᵍʳᵃᵐ.\n\nThis is the ᵐᵉᵈᴵᵘᵐ ᵖˡᵃᶜᵉ.\n\nᵖˡᵉᵃˢᵉ make yourself at home.\n\n @AltarOS > skill -ELEVATE -@User\n\n @User > _",
     "responses": [
-      { "text": "[Step closer to the terminal and touch the keyboard]", "topic": "COMP_labyrinthine_safehouse_computer" },
-      { "text": "[Step away from the terminal]", "topic": "TALK_DONE" }
+      {
+        "text": "[Step closer to the terminal and touch the keyboard]",
+        "topic": "COMP_labyrinthine_safehouse_computer",
+        "effect": { "u_add_var": "traveled_to_labyrinth_safehouse", "value": "yes" }
+      },
+      {
+        "text": "[Step away from the terminal]",
+        "topic": "TALK_DONE",
+        "effect": { "u_add_var": "traveled_to_labyrinth_safehouse", "value": "yes" }
+      }
     ]
   },
   {
@@ -13,8 +21,16 @@
     "id": "COMP_labyrinthine_safehouse_computer_meeting_scenario_trapped_in_labyrinth",
     "dynamic_line": "& █████╗ ██╗  ████████╗ █████╗ ██████╗      ██████╗ ███████╗\n██╔══██╗██║  ╚══██╔══╝██╔══██╗██╔══██╗    ██╔═══██╗██╔════╝\n███████║██║     ██║   ███████║██████╔╝    ██║   ██║███████╗\n██╔══██║██║     ██║   ██╔══██║██╔══██╗    ██║   ██║╚════██║\n██║  ██║███████╗██║   ██║  ██║██║  ██║    ╚██████╔╝███████║\n╚═╝  ╚═╝╚══════╝╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚══════╝\n\nWelcome ᴴᵁᴹᴬᴺ, to your home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ.\n\nThis is a ˡᵒᵃᵈᴵⁿᵍ ᵖʳᴼᵍʳᵃᵐ.\n\nThis is the ᵐᵉᵈᴵᵘᵐ ᵖˡᵃᶜᵉ.\n\nYou were saved from your peril.\n\nYour new implants were necessary to stabilize your reality.\n\nᵖˡᵉᵃˢᵉ make yourself at home.\n\n @AltarOS > skill -ELEVATE -@User\n\n @User > _",
     "responses": [
-      { "text": "[Step closer to the terminal and touch the keyboard]", "topic": "COMP_labyrinthine_safehouse_computer" },
-      { "text": "[Step away from the terminal]", "topic": "TALK_DONE" }
+      {
+        "text": "[Step closer to the terminal and touch the keyboard]",
+        "topic": "COMP_labyrinthine_safehouse_computer",
+        "effect": { "u_add_var": "traveled_to_labyrinth_safehouse", "value": "yes" }
+      },
+      {
+        "text": "[Step away from the terminal]",
+        "topic": "TALK_DONE",
+        "effect": { "u_add_var": "traveled_to_labyrinth_safehouse", "value": "yes" }
+      }
     ]
   },
   {
