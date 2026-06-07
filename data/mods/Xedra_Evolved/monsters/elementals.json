@@ -525,7 +525,7 @@
       "xe_cold_iron_bash_damage": 0,
       "xe_cold_iron_stab_damage": 0
     },
-    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes" ],
     "families": [ "prof_alien_biology", "prof_wp_hulk" ],
     "vision_day": 40,
     "vision_night": 10,
@@ -937,7 +937,7 @@
     "dissect": "dissect_homullus_single",
     "fear_triggers": [ "HURT", "FIRE", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "families": [ "prof_wp_demihuman" ],
-    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes" ],
     "special_attacks": [ { "id": "slam" } ],
     "flags": [ "HEARS", "WARM", "ANIMAL", "FAE_CREATURE", "PATH_AVOID_DANGER", "NO_BREATHE" ]
   },
@@ -1022,7 +1022,7 @@
       "FAE_CREATURE",
       "PATH_AVOID_DANGER"
     ],
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small", "wps_xe_homullus_aleph" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes", "wps_humanoid_head_small", "wps_xe_homullus_aleph" ],
     "armor": { "bash": 15, "cut": 10, "bullet": 10 }
   },
   {
