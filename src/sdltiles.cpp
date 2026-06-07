@@ -701,21 +701,23 @@ static uint32_t preview_terminal_change_time = 0;
 
 extern "C" {
 
-    static bool visible_display_frame_dirty = false;
-    static bool has_visible_display_frame = false;
-    static SDL_Rect visible_display_frame;
+    static bool ime_visible_frame_dirty = false;
+    static bool has_ime_visible_frame = false;
+    static bool ime_visible = false;
+    static SDL_Rect ime_visible_frame;
 
-    JNIEXPORT void JNICALL Java_org_libsdl_app_SDLActivity_onNativeVisibleDisplayFrameChanged(
-        JNIEnv *env, jclass jcls, jint left, jint top, jint right, jint bottom )
+    JNIEXPORT void JNICALL Java_com_cleverraven_cataclysmdda_CataclysmDDA_onNativeImeInsetsChanged(
+        JNIEnv *env, jclass jcls, jint left, jint top, jint right, jint bottom, jboolean visible )
     {
         ( void )env; // unused
         ( void )jcls; // unused
-        has_visible_display_frame = true;
-        visible_display_frame_dirty = true;
-        visible_display_frame.x = left;
-        visible_display_frame.y = top;
-        visible_display_frame.w = right - left;
-        visible_display_frame.h = bottom - top;
+        has_ime_visible_frame = true;
+        ime_visible_frame_dirty = true;
+        ime_visible = visible;
+        ime_visible_frame.x = left;
+        ime_visible_frame.y = top;
+        ime_visible_frame.w = std::max( 0, right - left );
+        ime_visible_frame.h = std::max( 0, bottom - top );
     }
 
 } // "C"
@@ -759,19 +761,15 @@ SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferH
         dstrect.y = bounds.y;
     }
 
-    // Make sure the destination rectangle fits within the visible area.
-    // FIXME: has_visible_display_frame is fed by the SDL2 onNativeVisibleDisplayFrameChanged
-    // JNI hook, which the SDL3 Android AAR never calls (it reports insets through
-    // onNativeInsetsChanged and the keyboard as a shown/hidden bool with no rectangle).
-    // So this keyboard-avoidance clamp is inert under SDL3 and needs an IME-inset source.
-    if( get_option<bool>( "ANDROID_KEYBOARD_SCREEN_SCALE" ) && has_visible_display_frame ) {
-        int vdf_right = visible_display_frame.x + visible_display_frame.w;
-        int vdf_bottom = visible_display_frame.y + visible_display_frame.h;
-        if( vdf_right < dstrect.x + dstrect.w ) {
-            dstrect.w = vdf_right - dstrect.x;
+    if( get_option<bool>( "ANDROID_KEYBOARD_SCREEN_SCALE" ) && has_ime_visible_frame &&
+        ime_visible && ime_visible_frame.w > 0 && ime_visible_frame.h > 0 ) {
+        const int ime_right = ime_visible_frame.x + ime_visible_frame.w;
+        const int ime_bottom = ime_visible_frame.y + ime_visible_frame.h;
+        if( ime_right < dstrect.x + dstrect.w ) {
+            dstrect.w = std::max( 1, ime_right - dstrect.x );
         }
-        if( vdf_bottom < dstrect.y + dstrect.h ) {
-            dstrect.h = vdf_bottom - dstrect.y;
+        if( ime_bottom < dstrect.y + dstrect.h ) {
+            dstrect.h = std::max( 1, ime_bottom - dstrect.y );
         }
     }
     return dstrect;
@@ -4636,10 +4634,10 @@ static void CheckMessages()
     bool is_repeat = false;
 
 #if defined(__ANDROID__)
-    if( visible_display_frame_dirty ) {
+    if( ime_visible_frame_dirty ) {
         needupdate = true;
         ui_manager::redraw_invalidated();
-        visible_display_frame_dirty = false;
+        ime_visible_frame_dirty = false;
     }
 
     uint32_t ticks = GetTicks();
