@@ -19,8 +19,7 @@
       [ "power_supply", 20 ],
       [ "processor", 20 ],
       [ "solar_cell", 10 ],
-      [ "solder_wire", 40 ],
-      { "item": "solder_wire", "prob": 20, "count": [ 2, 4 ], "entry-wrapper": "spool_welding" },
+      { "group": "solder_wire_spool_part", "prob": 60 },
       [ "RAM", 20 ],
       [ "radiocontrol", 10 ],
       [ "receiver", 30 ],
@@ -262,6 +261,19 @@
     "items": [ { "item": "chem_borax", "count": [ 100, 532 ] } ]
   },
   {
+    "id": "solder_wire_spool",
+    "type": "item_group",
+    "container-item": "spool_small",
+    "//": "8 oz",
+    "items": [ { "item": "solder_wire", "count": 113 } ]
+  },
+  {
+    "id": "solder_wire_spool_part",
+    "type": "item_group",
+    "container-item": "spool_small",
+    "items": [ { "item": "solder_wire", "count": [ 0, 113 ] } ]
+  },
+  {
     "id": "paint",
     "type": "item_group",
     "items": [
@@ -354,7 +366,7 @@
       { "item": "pipe_cpvc", "prob": 60, "count": [ 1, 2 ] },
       { "item": "cu_pipe", "prob": 200, "count": [ 1, 2 ] },
       { "item": "hose", "prob": 200, "count": [ 1, 2 ] },
-      { "item": "solder_wire", "prob": 100, "count": [ 1, 2 ] },
+      { "group": "solder_wire_spool_part", "prob": 100, "count": [ 1, 2 ] },
       [ "metal_tank_little", 5 ],
       [ "metal_tank", 1 ],
       [ "jerrycan", 5 ],
@@ -391,7 +403,7 @@
       { "item": "pipe_cpvc", "prob": 100, "count": [ 150, 400 ] },
       { "item": "hose", "prob": 100, "count": [ 1, 10 ] },
       { "item": "water_faucet", "prob": 30, "count": [ 1, 5 ] },
-      { "item": "solder_wire", "prob": 50, "count": [ 2, 6 ] },
+      { "group": "solder_wire_spool", "count": [ 2, 6 ] },
       { "item": "pilot_light", "prob": 50, "count": [ 1, 2 ] },
       { "item": "metal_tank_little", "prob": 50, "count": [ 1, 2 ] },
       [ "metal_tank", 10 ],
@@ -550,7 +562,7 @@
       { "item": "rebar", "prob": 20, "count": [ 5, 10 ] },
       { "item": "brick", "prob": 20, "count": [ 5, 10 ] },
       { "group": "wrapped_gasmask_filter", "count": [ 2, 6 ], "prob": 20 },
-      [ "solder_wire", 20 ],
+      { "group": "solder_wire_spool_part", "prob": 20 },
       { "group": "glue_weak_professional_full", "prob": 15 },
       { "group": "glue_strong_professional_full", "prob": 15 },
       { "group": "glue_weak_domestic_full", "prob": 25 },

@@ -46,7 +46,7 @@
       [ "cable", 30 ],
       { "item": "soldering_iron_portable", "prob": 70, "charges": [ 0, 50 ] },
       { "item": "soldering_iron", "prob": 70 },
-      [ "solder_wire", 70 ],
+      { "group": "solder_wire_spool_part", "prob": 70 },
       { "item": "hotplate", "prob": 10 },
       { "item": "hotplate_induction", "prob": 3 },
       { "item": "UPS_OFF", "prob": 5, "charges": [ 0, 1000 ] },
@@ -81,7 +81,7 @@
       { "item": "multimeter", "prob": 10, "charges": [ 0, 100 ] },
       { "item": "soldering_iron", "prob": 70 },
       { "item": "soldering_iron_portable", "prob": 70, "charges": [ 0, 50 ] },
-      [ "solder_wire", 70 ],
+      { "group": "solder_wire_spool_part", "prob": 70 },
       [ "solar_cell", 5 ],
       [ "screwdriver", 40 ],
       [ "screwdriver_set", 40 ],
@@ -332,6 +332,6 @@
     "id": "soldering_supplies",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "group": "soldering_tool" }, { "item": "solder_wire", "count": [ 0, 200 ] } ]
+    "items": [ { "group": "soldering_tool" }, { "group": "solder_wire_spool_part" } ]
   }
 ]

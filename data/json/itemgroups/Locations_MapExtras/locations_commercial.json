@@ -1747,7 +1747,7 @@
       [ "receiver", 5 ],
       { "item": "soldering_iron", "prob": 65 },
       { "item": "soldering_iron_portable", "prob": 65, "charges": [ 0, 50 ] },
-      [ "solder_wire", 50 ],
+      { "group": "solder_wire_spool_part", "prob": 50 },
       { "group": "glue_weak_professional", "prob": 25 },
       { "group": "glue_strong_professional", "prob": 30 },
       [ "screwdriver", 60 ],
