@@ -1,13 +1,16 @@
 #if defined(TILES)
 
+#include <algorithm>
 #include <cstdint>
 #include <initializer_list>
 #include <memory>
 #include <string>
 
 #include "cata_catch.h"
+#include "cata_imgui.h"
 #include "cata_tiles.h"
 #include "options_helpers.h"
+#include "point.h"
 #include "sdl_renderer_recovery.h"
 
 namespace
@@ -575,6 +578,222 @@ TEST_CASE( "renderer_coordinator_resize_failure_persists_retry", "[tiles][render
     // The next drain retries the resize and clears the embargo.
     renderer_coordinator.drain_pending();
     CHECK( renderer_coordinator.is_render_allowed() );
+}
+
+TEST_CASE( "renderer_coordinator_deferred_scaled_resize_rebuilds_buffer",
+           "[tiles][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    // Odd window dimensions at scaling > 1: the display buffer must follow the
+    // terminal-sized dims (floor(window / font / scaling) cells times font), not
+    // the raw window-over-scaling pixels.
+    renderer_recovery_test_support::set_scaling_and_resize_window( 2, 802, 602 );
+    REQUIRE_FALSE( renderer_coordinator.is_render_allowed() );
+
+    renderer_coordinator.drain_pending();
+    CHECK( renderer_coordinator.is_render_allowed() );
+
+    int win_w = 0;
+    int win_h = 0;
+    int font_w = 0;
+    int font_h = 0;
+    int scaling = 0;
+    int min_term_w = 0;
+    int min_term_h = 0;
+    renderer_recovery_test_support::current_window_metrics( win_w, win_h, font_w, font_h, scaling,
+            min_term_w, min_term_h );
+    int buf_w = 0;
+    int buf_h = 0;
+    renderer_recovery_test_support::current_display_buffer_dims( buf_w, buf_h );
+    CAPTURE( win_w, win_h, font_w, font_h, scaling, min_term_w, min_term_h, buf_w, buf_h );
+    REQUIRE( scaling == 2 );
+    REQUIRE( font_w > 0 );
+    REQUIRE( font_h > 0 );
+    // Buffer follows the terminal-sized dims: floor(window / font / scaling)
+    // cells (clamped to the minimum terminal size) times the font.
+    const int term_w = std::max( win_w / font_w / scaling, min_term_w );
+    const int term_h = std::max( win_h / font_h / scaling, min_term_h );
+    CHECK( buf_w == term_w * font_w );
+    CHECK( buf_h == term_h * font_h );
+    // At least one axis must exercise the genuine scaled rounding (not min-clamped)
+    // so the buffer differs from the raw window-over-scaling pixels.
+    const bool height_scaled = win_h / font_h / scaling > min_term_h;
+    REQUIRE( height_scaled );
+    CHECK( buf_h != win_h / scaling );
+}
+
+TEST_CASE( "renderer_coordinator_resize_without_buffer_change_keeps_generation",
+           "[tiles][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    const uint64_t res0 = renderer_coordinator.resource_generation();
+    int buf_w0 = 0;
+    int buf_h0 = 0;
+    renderer_recovery_test_support::current_display_buffer_dims( buf_w0, buf_h0 );
+    int draw_w0 = 0;
+    int draw_h0 = 0;
+    renderer_recovery_test_support::current_drawable_dims( draw_w0, draw_h0 );
+
+    // DPI-only change: logical window untouched (buffer dims unchanged) but
+    // backing pixels grow. The fast path follows the new drawable pixels and
+    // re-arms presentation without recreating the buffer or bumping the generation.
+    renderer_recovery_test_support::set_needupdate( false );
+    renderer_recovery_test_support::override_drawable_pixels( draw_w0 * 2, draw_h0 * 2 );
+    REQUIRE_FALSE( renderer_coordinator.is_render_allowed() );
+
+    renderer_coordinator.drain_pending();
+    CHECK( renderer_coordinator.is_render_allowed() );
+    CHECK( renderer_coordinator.resource_generation() == res0 );
+
+    // Buffer dims unchanged (no recreate on the fast path).
+    int buf_w1 = 0;
+    int buf_h1 = 0;
+    renderer_recovery_test_support::current_display_buffer_dims( buf_w1, buf_h1 );
+    CHECK( buf_w1 == buf_w0 );
+    CHECK( buf_h1 == buf_h0 );
+
+    // The drawable track followed the new backing pixels.
+    int draw_w1 = 0;
+    int draw_h1 = 0;
+    renderer_recovery_test_support::current_drawable_dims( draw_w1, draw_h1 );
+    CHECK( draw_w1 == draw_w0 * 2 );
+    CHECK( draw_h1 == draw_h0 * 2 );
+
+    // Presentation re-armed even though no renderer-owned resource changed.
+    CHECK( renderer_recovery_test_support::needupdate_armed() );
+}
+
+TEST_CASE( "renderer_coordinator_buffer_changing_resize_bumps_resource_generation",
+           "[tiles][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    const uint64_t res0 = renderer_coordinator.resource_generation();
+    const uint64_t tex0 = renderer_coordinator.textures_generation();
+    // A resize that changes the terminal-sized buffer recreates the display
+    // buffer and bumps only the resource generation; a resize does not
+    // invalidate textures, so the texture generation is unchanged.
+    renderer_recovery_test_support::set_scaling_and_resize_window( 2, 802, 602 );
+    renderer_coordinator.drain_pending();
+
+    CHECK( renderer_coordinator.is_render_allowed() );
+    CHECK( renderer_coordinator.resource_generation() == res0 + 1 );
+    CHECK( renderer_coordinator.textures_generation() == tex0 );
+}
+
+TEST_CASE( "renderer_coordinator_background_then_foreground_rebuilds",
+           "[tiles][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    const uint64_t tex0 = renderer_coordinator.textures_generation();
+    // Backgrounded: a drain performs no rendering work and rendering stays
+    // embargoed while the texture generation is untouched.
+    renderer_coordinator.notify_lifecycle( lifecycle_state::paused );
+    renderer_coordinator.drain_pending();
+    CHECK_FALSE( renderer_coordinator.is_render_allowed() );
+    CHECK( renderer_coordinator.textures_generation() == tex0 );
+
+    // Foregrounded: the resumed epoch implies a device reset, so the next drain
+    // rebuilds, bumps the texture generation, and clears the embargo.
+    renderer_coordinator.notify_lifecycle( lifecycle_state::resumed_pending_rebuild );
+    renderer_coordinator.drain_pending();
+    CHECK( renderer_coordinator.is_render_allowed() );
+    CHECK( renderer_coordinator.textures_generation() == tex0 + 1 );
+}
+
+TEST_CASE( "imgui_frame_display_size_prefers_explicit_display_buffer_dims",
+           "[tiles][renderer_recovery]" )
+{
+    // Idle-null contract: when the caller passes positive display-buffer dims,
+    // ImGui sizes to them and never falls back to the renderer output (which
+    // under the idle-null target reads the window). Zero dims fall back.
+    CHECK( cataimgui::imgui_frame_display_size( 320, 240, 1920, 1080 ) == point{ 320, 240 } );
+    CHECK( cataimgui::imgui_frame_display_size( 0, 0, 1920, 1080 ) == point{ 1920, 1080 } );
+    // A one-axis-zero size is treated as unset and falls back, matching the
+    // new_frame predicate.
+    CHECK( cataimgui::imgui_frame_display_size( 320, 0, 1920, 1080 ) == point{ 1920, 1080 } );
+}
+
+TEST_CASE( "renderer_coordinator_pause_during_draw_scope_restores_target",
+           "[tiles][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    const uint64_t tex0 = renderer_coordinator.textures_generation();
+
+    // A pause that lands while a draw scope is on the stack must not stop the
+    // scope dtor from restoring the render target to NULL (the idle-target
+    // invariant), and a later foreground drain must still rebuild.
+    bool bound_during = false;
+    bool null_after = false;
+    renderer_recovery_test_support::pause_during_draw_scope( bound_during, null_after );
+    CHECK( bound_during );
+    CHECK( null_after );
+
+    // Paused: the drain performs no rendering work and the embargo holds.
+    renderer_coordinator.drain_pending();
+    CHECK_FALSE( renderer_coordinator.is_render_allowed() );
+
+    // Foregrounded: the resumed epoch implies a device reset, so the next drain
+    // rebuilds, bumps the texture generation, and clears the embargo.
+    renderer_coordinator.notify_lifecycle( lifecycle_state::resumed_pending_rebuild );
+    renderer_coordinator.drain_pending();
+    CHECK( renderer_coordinator.is_render_allowed() );
+    CHECK( renderer_coordinator.textures_generation() == tex0 + 1 );
+}
+
+TEST_CASE( "renderer_coordinator_recovery_then_resize_in_one_drain",
+           "[tiles][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    const uint64_t tex0 = renderer_coordinator.textures_generation();
+    // Queue both a device reset and a buffer-changing resize, then drain once.
+    // Recovery runs first; the deferred resize is consumed afterwards.
+    renderer_coordinator.request_recovery( renderer_recovery_severity::device_reset );
+    renderer_recovery_test_support::set_scaling_and_resize_window( 2, 802, 602 );
+    renderer_coordinator.drain_pending();
+
+    CHECK( renderer_coordinator.is_render_allowed() );
+    // The device reset ran: textures were invalidated and regenerated.
+    CHECK( renderer_coordinator.textures_generation() == tex0 + 1 );
+    // The resize was consumed after recovery: the display buffer ends at the
+    // resized terminal-sized dims, not the pre-resize fixture size.
+    int win_w = 0;
+    int win_h = 0;
+    int font_w = 0;
+    int font_h = 0;
+    int scaling = 0;
+    int min_term_w = 0;
+    int min_term_h = 0;
+    renderer_recovery_test_support::current_window_metrics( win_w, win_h, font_w, font_h, scaling,
+            min_term_w, min_term_h );
+    int buf_w = 0;
+    int buf_h = 0;
+    renderer_recovery_test_support::current_display_buffer_dims( buf_w, buf_h );
+    CHECK( buf_w == std::max( win_w / font_w / scaling, min_term_w ) * font_w );
+    CHECK( buf_h == std::max( win_h / font_h / scaling, min_term_h ) * font_h );
 }
 
 TEST_CASE( "renderer_coordinator_replay_pause_quarantines_then_retries",

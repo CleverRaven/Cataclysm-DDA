@@ -62,6 +62,7 @@
 #include "input_context.h"
 #include "json.h"
 #include "line.h"
+#include "loading_ui.h"
 #include "map.h"
 #include "map_extras.h"
 #include "mapbuffer.h"
@@ -153,6 +154,10 @@ static SDL_Texture_Ptr touch_joystick;
 #endif
 static int WindowWidth;        //Width of the actual window, not the curses window
 static int WindowHeight;       //Height of the actual window, not the curses window
+// Backing-store pixel dimensions of the window, tracked apart from the logical
+// window size so a resize can tell a DPI-only change from a layout change.
+static int DrawableWidth;
+static int DrawableHeight;
 // input from various input sources. Each input source sets the type and
 // the actual input value (key pressed, mouse button clicked, ...)
 // This value is finally returned by input_manager::get_input_event.
@@ -178,13 +183,16 @@ static void ClearScreen()
     RenderClear( renderer );
 }
 
-void clear_sdl_window()
+bool clear_sdl_window()
 {
     display_buffer_draw_scope draw_scope;
-    if( display_buffer_scope_is_invalid() ) {
-        return;
+    if( !draw_scope.should_draw() ) {
+        // Report no clear so the caller keeps its clear request armed for a
+        // renderer about to be rebuilt.
+        return false;
     }
     ClearScreen();
+    return true;
 }
 
 static void InitSDL()
@@ -281,18 +289,41 @@ gpu_handle_graveyard &setup_target_quarantine()
 // scaling_factor, independent of backing-store pixels.
 static point compute_display_buffer_dims()
 {
-    return point{ WindowWidth / scaling_factor, WindowHeight / scaling_factor };
+    // On desktop this matches the window over scaling up to a sub-cell remainder;
+    // on android TERMINAL is window-independent, the only correct buffer size.
+    return point{ TERMINAL_WIDTH * fontwidth, TERMINAL_HEIGHT * fontheight };
 }
 
 // Backing-store pixel dimensions of the window, tracked independently of the
 // logical size so a DPI-only change leaves the display buffer alone.
-[[maybe_unused]] static point compute_drawable_dims()
+static point compute_drawable_dims()
 {
     int pw = 0;
     int ph = 0;
     GetWindowSizeInPixels( ::window.get(), &pw, &ph );
     return point{ pw, ph };
 }
+
+// Test-only injected drawable pixels. The headless dummy backend reports backing
+// pixels equal to the logical window, so a DPI-only change cannot be produced
+// through SDL; a non-negative override stands in. Inert at the -1 default.
+static int test_drawable_override_w = -1;
+static int test_drawable_override_h = -1;
+
+// Refresh the cached drawable-pixel track from the current window.
+static void refresh_drawable_dims()
+{
+    if( test_drawable_override_w >= 0 && test_drawable_override_h >= 0 ) {
+        DrawableWidth = test_drawable_override_w;
+        DrawableHeight = test_drawable_override_h;
+        return;
+    }
+    const point drawable = compute_drawable_dims();
+    DrawableWidth = drawable.x;
+    DrawableHeight = drawable.y;
+}
+
+static bool apply_resize_layout( int w, int h );
 
 static bool SetupRenderTarget()
 {
@@ -451,6 +482,89 @@ static void rebuild_geometry_strategy( bool software_renderer )
     } else {
         geometry = std::make_unique<DefaultGeometryRenderer>();
     }
+#endif
+}
+
+// The renderer event watch may run off the main thread (SDL calls watches on the
+// thread that pushes the event), so it writes only the coordinator's atomic
+// inbox; the main thread drains at outer boundaries. Render and window events are
+// filtered to the game window; mobile lifecycle events carry no window id.
+static Uint32 renderer_watch_window_id = 0;
+
+#if SDL_MAJOR_VERSION >= 3
+static bool SDLCALL renderer_event_watch( void *userdata, SDL_Event *event )
+#else
+static int SDLCALL renderer_event_watch( void *userdata, SDL_Event *event )
+#endif
+{
+    renderer_resource_coordinator *coord =
+        static_cast<renderer_resource_coordinator *>( userdata );
+    switch( event->type ) {
+        case CATA_RENDER_TARGETS_RESET:
+#if SDL_MAJOR_VERSION >= 3
+            if( event->render.windowID == renderer_watch_window_id )
+#endif
+                coord->request_recovery( renderer_recovery_severity::targets_reset );
+            break;
+        case CATA_RENDER_DEVICE_RESET:
+#if SDL_MAJOR_VERSION >= 3
+            if( event->render.windowID == renderer_watch_window_id )
+#endif
+            {
+#if defined(__ANDROID__)
+                // SDL emits this only after the preserved EGL context fails to
+                // restore and it allocates a replacement context, leaving the
+                // GLES backend bound to a stale context. Recreate the renderer.
+                coord->request_recovery( renderer_recovery_severity::device_lost );
+#else
+                coord->request_recovery( renderer_recovery_severity::device_reset );
+#endif
+            }
+            break;
+#if SDL_MAJOR_VERSION >= 3
+        case CATA_RENDER_DEVICE_LOST:
+            if( event->render.windowID == renderer_watch_window_id ) {
+                coord->request_recovery( renderer_recovery_severity::device_lost );
+            }
+            break;
+#endif
+#if defined(__ANDROID__)
+        case CATA_APP_DIDENTERFOREGROUND:
+            // Severity is a hint; the lifecycle epoch is the durable signal that
+            // forces a device-reset-equivalent rebuild on the next drain.
+            coord->request_recovery( renderer_recovery_severity::device_reset );
+            coord->notify_lifecycle( lifecycle_state::resumed_pending_rebuild );
+            break;
+        case CATA_APP_WILLENTERBACKGROUND:
+        case CATA_APP_DIDENTERBACKGROUND:
+            // No severity: recovery cannot run while paused. Foreground re-queues.
+            coord->notify_lifecycle( lifecycle_state::paused );
+            break;
+#endif
+#if SDL_MAJOR_VERSION >= 3
+        case CATA_WINDOWEVENT_RESIZED:
+        case CATA_WINDOWEVENT_PIXEL_SIZE_CHANGED:
+            if( event->window.windowID == renderer_watch_window_id ) {
+                coord->notify_resize();
+            }
+            break;
+#else
+        case SDL_WINDOWEVENT:
+            // SDL2 delivers resize as a window sub-event under one umbrella type.
+            if( event->window.windowID == renderer_watch_window_id
+                && ( event->window.event == CATA_WINDOWEVENT_RESIZED
+                     || event->window.event == CATA_WINDOWEVENT_PIXEL_SIZE_CHANGED ) ) {
+                coord->notify_resize();
+            }
+            break;
+#endif
+        default:
+            break;
+    }
+#if SDL_MAJOR_VERSION >= 3
+    return true;
+#else
+    return 0;
 #endif
 }
 
@@ -629,6 +743,9 @@ static void WinCreate()
 
     detect_renderer_backend();
 
+    // Seed the drawable track from the created window (see DrawableWidth).
+    refresh_drawable_dims();
+
     SetWindowMinimumSize( ::window.get(), fontwidth * EVEN_MINIMUM_TERM_WIDTH * scaling_factor,
                           fontheight * EVEN_MINIMUM_TERM_HEIGHT * scaling_factor );
 
@@ -661,10 +778,28 @@ static void WinCreate()
     imclient = std::make_unique<cataimgui::client>( renderer, window, geometry );
 
     renderer_coordinator.seed_renderer_policy( renderer_name );
+
+    // Register before the cold-start tileset upload so a reset or mobile
+    // lifecycle event during bootstrap is not lost.
+    renderer_watch_window_id = SDL_GetWindowID( ::window.get() );
+#if SDL_MAJOR_VERSION >= 3
+    if( !SDL_AddEventWatch( renderer_event_watch, &renderer_coordinator ) ) {
+        DebugLog( D_ERROR, DC_ALL ) << "Failed to register renderer event watch: " << SDL_GetError();
+    }
+#else
+    SDL_AddEventWatch( renderer_event_watch, &renderer_coordinator );
+#endif
 }
 
 static void WinDestroy()
 {
+    // Unregister before SDL teardown. The remove does not join an in-flight
+    // callback, but the process-lifetime coordinator outlives it.
+#if SDL_MAJOR_VERSION >= 3
+    SDL_RemoveEventWatch( renderer_event_watch, &renderer_coordinator );
+#else
+    SDL_DelEventWatch( renderer_event_watch, &renderer_coordinator );
+#endif
 #if defined(__ANDROID__)
     touch_joystick.reset();
 #endif
@@ -699,25 +834,84 @@ static int preview_terminal_width = -1;
 static int preview_terminal_height = -1;
 static uint32_t preview_terminal_change_time = 0;
 
-extern "C" {
+// onNativeImeInsetsChanged fires from the Android UI thread; refresh and
+// CheckMessages read on the SDL game-loop thread. A seqlock over per-field
+// atomics hands the reader a torn-free snapshot lock-free; one serialized writer
+// makes the odd/even sequence sufficient.
+struct android_visible_frame_inbox {
+    std::atomic<uint32_t> seq{ 0 };
+    std::atomic<int> x{ 0 };
+    std::atomic<int> y{ 0 };
+    std::atomic<int> w{ 0 };
+    std::atomic<int> h{ 0 };
+    std::atomic<bool> valid{ false };
+    std::atomic<bool> visible{ false };
 
-    static bool ime_visible_frame_dirty = false;
-    static bool has_ime_visible_frame = false;
-    static bool ime_visible = false;
-    static SDL_Rect ime_visible_frame;
+    void publish( int left, int top, int right, int bottom, bool frame_visible ) {
+        const uint32_t s = seq.load( std::memory_order_relaxed );
+        seq.store( s + 1, std::memory_order_relaxed );
+        std::atomic_thread_fence( std::memory_order_release );
+        x.store( left, std::memory_order_relaxed );
+        y.store( top, std::memory_order_relaxed );
+        w.store( std::max( 0, right - left ), std::memory_order_relaxed );
+        h.store( std::max( 0, bottom - top ), std::memory_order_relaxed );
+        valid.store( true, std::memory_order_relaxed );
+        visible.store( frame_visible, std::memory_order_relaxed );
+        std::atomic_thread_fence( std::memory_order_release );
+        seq.store( s + 2, std::memory_order_relaxed );
+    }
+
+    uint32_t read_frame( SDL_Rect &out, bool &has_frame, bool &frame_visible ) const {
+        uint32_t s1 = 0;
+        uint32_t s2 = 0;
+        int rx = 0;
+        int ry = 0;
+        int rw = 0;
+        int rh = 0;
+        bool rv = false;
+        bool rvisible = false;
+        do {
+            s1 = seq.load( std::memory_order_acquire );
+            rx = x.load( std::memory_order_relaxed );
+            ry = y.load( std::memory_order_relaxed );
+            rw = w.load( std::memory_order_relaxed );
+            rh = h.load( std::memory_order_relaxed );
+            rv = valid.load( std::memory_order_relaxed );
+            rvisible = visible.load( std::memory_order_relaxed );
+            std::atomic_thread_fence( std::memory_order_acquire );
+            s2 = seq.load( std::memory_order_relaxed );
+        } while( s1 != s2 || ( s1 & 1u ) );
+        out.x = rx;
+        out.y = ry;
+        out.w = rw;
+        out.h = rh;
+        has_frame = rv;
+        frame_visible = rvisible;
+        return s1;
+    }
+
+    uint32_t even_sequence() const {
+        return seq.load( std::memory_order_acquire ) & ~uint32_t( 1 );
+    }
+};
+
+static_assert( std::atomic<int>::is_always_lock_free,
+               "visible-frame inbox needs lock-free int atomics on every shipped ABI" );
+static_assert( std::atomic<bool>::is_always_lock_free,
+               "visible-frame inbox needs lock-free bool atomics on every shipped ABI" );
+static_assert( std::atomic<uint32_t>::is_always_lock_free,
+               "visible-frame inbox needs lock-free uint32 atomics on every shipped ABI" );
+
+static android_visible_frame_inbox visible_frame_inbox;
+
+extern "C" {
 
     JNIEXPORT void JNICALL Java_com_cleverraven_cataclysmdda_CataclysmDDA_onNativeImeInsetsChanged(
         JNIEnv *env, jclass jcls, jint left, jint top, jint right, jint bottom, jboolean visible )
     {
         ( void )env; // unused
         ( void )jcls; // unused
-        has_ime_visible_frame = true;
-        ime_visible_frame_dirty = true;
-        ime_visible = visible;
-        ime_visible_frame.x = left;
-        ime_visible_frame.y = top;
-        ime_visible_frame.w = std::max( 0, right - left );
-        ime_visible_frame.h = std::max( 0, bottom - top );
+        visible_frame_inbox.publish( left, top, right, bottom, visible == JNI_TRUE );
     }
 
 } // "C"
@@ -761,6 +955,10 @@ SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferH
         dstrect.y = bounds.y;
     }
 
+    SDL_Rect ime_visible_frame;
+    bool has_ime_visible_frame = false;
+    bool ime_visible = false;
+    visible_frame_inbox.read_frame( ime_visible_frame, has_ime_visible_frame, ime_visible );
     if( get_option<bool>( "ANDROID_KEYBOARD_SCREEN_SCALE" ) && has_ime_visible_frame &&
         ime_visible && ime_visible_frame.w > 0 && ime_visible_frame.h > 0 ) {
         const int ime_right = ime_visible_frame.x + ime_visible_frame.w;
@@ -788,9 +986,11 @@ void refresh_display()
         return;
     }
 
-    if( display_buffer_scope_recovery_pending() ) {
-        // An earlier target switch latched recovery; skip the whole present so
-        // nothing runs against the undefined renderer until the rebuild clears it.
+    if( renderer_coordinator.should_abort_frame() ) {
+        // Skip the whole present so nothing (clear, copy, overlays, present) runs
+        // against a renderer about to be rebuilt or a buffer about to be resized.
+        // Re-arm needupdate so the present retries after the next drain.
+        needupdate = true;
         return;
     }
 
@@ -847,6 +1047,21 @@ static void try_sdl_update()
     } else {
         needupdate = true;
     }
+}
+
+void drain_renderer_recovery()
+{
+    renderer_coordinator.drain_pending();
+}
+
+bool renderer_should_abort_frame()
+{
+    return renderer_coordinator.should_abort_frame();
+}
+
+uint64_t renderer_resource_generation()
+{
+    return renderer_coordinator.resource_generation();
 }
 
 void get_display_buffer_dims( int *w, int *h )
@@ -1015,7 +1230,7 @@ void display_buffer_scope_clear_recovery_required()
     display_buffer_scope_recovery_required = false;
 }
 
-display_buffer_draw_scope::display_buffer_draw_scope()
+display_buffer_draw_scope::display_buffer_draw_scope( const bool allow_during_recovery )
 {
     if( display_buffer_scope_depth++ != 0 ) {
         // Inner scopes inherit the outer scope's validity. No bind work.
@@ -1026,6 +1241,12 @@ display_buffer_draw_scope::display_buffer_draw_scope()
     // Carry recovery_required across scopes -- it is sticky until the
     // coordinator clears it. invalid is per-scope; reset here.
     display_buffer_scope_invalid = display_buffer_scope_recovery_required;
+    if( !allow_during_recovery && renderer_should_abort_frame() ) {
+        // Skip the bind so no SDL_SetRenderTarget runs on a paused or
+        // about-to-be-rebuilt renderer; should_draw() then reports false.
+        display_buffer_scope_invalid = true;
+        return;
+    }
     if( !renderer || !display_buffer ) {
         display_buffer_scope_invalid = true;
         return;
@@ -1091,10 +1312,15 @@ display_buffer_draw_scope::~display_buffer_draw_scope()
     }
 }
 
+bool display_buffer_draw_scope::should_draw() const
+{
+    return !display_buffer_scope_invalid && !renderer_should_abort_frame();
+}
+
 void clear_window_area( const catacurses::window &win_ )
 {
     display_buffer_draw_scope draw_scope;
-    if( display_buffer_scope_is_invalid() ) {
+    if( !draw_scope.should_draw() ) {
         return;
     }
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
@@ -1357,7 +1583,9 @@ void renderer_resource_coordinator::run_post_success_full_invalidation()
     // resize landed mid-drain. Either way mark every UI adaptor for a full
     // redraw so the next frame re-emits from scratch, not onto stale contents.
     if( !recovery_blank_blocked() ) {
-        display_buffer_draw_scope draw_scope;
+        // Bind during recovery: the abort latch is still raised here, but
+        // recovery_blank_blocked() is the authoritative gate for this step.
+        display_buffer_draw_scope draw_scope( /*allow_during_recovery=*/true );
         if( !display_buffer_scope_is_invalid() ) {
             ClearScreen();
         }
@@ -1469,6 +1697,7 @@ recipe_result renderer_resource_coordinator::recipe_device_reset()
         return { recipe_outcome::failure };
     }
 #endif
+    loading_ui::release_gpu_resources();
     display_buffer.reset();
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
@@ -1666,6 +1895,7 @@ recipe_result renderer_resource_coordinator::recipe_device_lost()
         return { recipe_outcome::failure };
     }
 #endif
+    loading_ui::release_gpu_resources();
     display_buffer.reset();
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
@@ -1808,6 +2038,17 @@ void renderer_resource_coordinator::finish_bootstrap()
     planner_.finish_bootstrap();
 }
 
+void renderer_resource_coordinator::begin_atlas_upload()
+{
+    ++atlas_upload_depth_;
+}
+
+void renderer_resource_coordinator::end_atlas_upload()
+{
+    cata_assert( atlas_upload_depth_ > 0 );
+    --atlas_upload_depth_;
+}
+
 // Whether this fixture initialized the video subsystem (so teardown must quit
 // it) and the SDL_VIDEODRIVER value to restore afterwards.
 static bool test_fixture_acquired_video = false;
@@ -1824,6 +2065,8 @@ static struct {
     int scaling_factor;
     int window_width;
     int window_height;
+    int drawable_width;
+    int drawable_height;
     Uint32 pixel_format;
     bool direct3d_mode;
     bool needupdate;
@@ -1876,6 +2119,7 @@ void renderer_recovery_test_support::reset_coordinator()
         }
     }
     c.planner_.reset();
+    c.atlas_upload_depth_ = 0;
     c.renderer_resource_generation_ = 0;
     c.renderer_instance_generation_ = 0;
     c.gpu_textures_generation_ = 0;
@@ -1918,8 +2162,8 @@ bool renderer_recovery_test_support::setup_software_renderer()
 
     test_fixture_saved = {
         TERMINAL_WIDTH, TERMINAL_HEIGHT, fontwidth, fontheight, scaling_factor,
-        WindowWidth, WindowHeight, pixel_format, direct3d_mode, needupdate,
-        cata_cursesport::curses_render_epoch
+        WindowWidth, WindowHeight, DrawableWidth, DrawableHeight, pixel_format, direct3d_mode,
+        needupdate, cata_cursesport::curses_render_epoch
     };
 
     TERMINAL_WIDTH = 8;
@@ -1950,6 +2194,9 @@ bool renderer_recovery_test_support::setup_software_renderer()
         teardown_software_renderer();
         return false;
     }
+    // Seed the drawable track from the hidden fixture window before tests consume
+    // it; production seeds it in WinCreate.
+    refresh_drawable_dims();
     renderer_coordinator.seed_renderer_policy( {} );
     renderer_coordinator.finish_bootstrap();
     return true;
@@ -1981,9 +2228,13 @@ void renderer_recovery_test_support::teardown_software_renderer()
     scaling_factor = test_fixture_saved.scaling_factor;
     WindowWidth = test_fixture_saved.window_width;
     WindowHeight = test_fixture_saved.window_height;
+    DrawableWidth = test_fixture_saved.drawable_width;
+    DrawableHeight = test_fixture_saved.drawable_height;
     pixel_format = test_fixture_saved.pixel_format;
     direct3d_mode = test_fixture_saved.direct3d_mode;
     needupdate = test_fixture_saved.needupdate;
+    test_drawable_override_w = -1;
+    test_drawable_override_h = -1;
     cata_cursesport::curses_render_epoch = test_fixture_saved.curses_render_epoch;
 
     if( test_fixture_acquired_video ) {
@@ -2073,6 +2324,69 @@ bool renderer_recovery_test_support::phase_fault_fired()
     return renderer_coordinator.test_phase_fault_fired_;
 }
 
+void renderer_recovery_test_support::set_scaling_and_resize_window( const int scaling,
+        const int window_w, const int window_h )
+{
+    scaling_factor = scaling;
+    SetWindowSize( ::window.get(), window_w, window_h );
+    renderer_coordinator.notify_resize();
+}
+
+void renderer_recovery_test_support::current_display_buffer_dims( int &w, int &h )
+{
+    get_display_buffer_dims( &w, &h );
+}
+
+void renderer_recovery_test_support::current_window_metrics( int &window_w, int &window_h,
+        int &font_w, int &font_h, int &scaling, int &min_term_w, int &min_term_h )
+{
+    window_w = WindowWidth;
+    window_h = WindowHeight;
+    font_w = fontwidth;
+    font_h = fontheight;
+    scaling = scaling_factor;
+    min_term_w = EVEN_MINIMUM_TERM_WIDTH;
+    min_term_h = EVEN_MINIMUM_TERM_HEIGHT;
+}
+
+void renderer_recovery_test_support::current_drawable_dims( int &w, int &h )
+{
+    w = DrawableWidth;
+    h = DrawableHeight;
+}
+
+void renderer_recovery_test_support::override_drawable_pixels( const int w, const int h )
+{
+    test_drawable_override_w = w;
+    test_drawable_override_h = h;
+    renderer_coordinator.notify_resize();
+}
+
+void renderer_recovery_test_support::set_needupdate( const bool armed )
+{
+    needupdate = armed;
+}
+
+bool renderer_recovery_test_support::needupdate_armed()
+{
+    return needupdate;
+}
+
+void renderer_recovery_test_support::pause_during_draw_scope( bool &bound_during,
+        bool &null_after )
+{
+    {
+        display_buffer_draw_scope scope;
+        bound_during = !display_buffer_scope_is_invalid()
+                       && GetRenderTarget( renderer ) == display_buffer.get();
+        // The pause lands while the scope is still on the stack; the dtor must
+        // still unbind to NULL because it consults only the recovery latch, not
+        // the lifecycle epoch.
+        renderer_coordinator.notify_lifecycle( lifecycle_state::paused );
+    }
+    null_after = GetRenderTarget( renderer ) == nullptr;
+}
+
 bool renderer_resource_coordinator::apply_resize_only( const uint32_t serviced_resize_epoch )
 {
     // The planner cleared current_claimed_ when it issued this resize, so a
@@ -2080,42 +2394,57 @@ bool renderer_resource_coordinator::apply_resize_only( const uint32_t serviced_r
     if( check_pause_abort() ) {
         return false;
     }
+    // Refresh the logical, drawable, and desktop terminal tracks from the live
+    // window before deciding whether the display buffer needs recreation.
+    int logical_w = 0;
+    int logical_h = 0;
+    GetWindowSize( ::window.get(), &logical_w, &logical_h );
+    const bool terminal_relaid = apply_resize_layout( logical_w, logical_h );
     const point want = compute_display_buffer_dims();
-    if( display_buffer && want.x == display_buffer_w_ && want.y == display_buffer_h_ ) {
-        // DPI-only or letterbox-only change: the display buffer keeps its
-        // size, so no target recreate and no generation bump.
-        planner_.acknowledge_resize( serviced_resize_epoch );
-        return true;
-    }
-    const bind_result r = permanent_render_target_bind( renderer, nullptr,
-                          shared_variant_pass_or_null() );
-    if( r == bind_result::failed_in_switch ) {
-        // Undefined renderer state -- escalate to a full device-loss rebuild
-        // at the next drain rather than recreating against it.
-        request_recovery( renderer_recovery_severity::device_lost );
-        return false;
-    }
-    if( check_pause_abort() ) {
-        return false;
-    }
-    display_buffer.reset();
-    if( check_pause_abort() ) {
-        return false;
-    }
-    if( !SetupRenderTarget() ) {
-        if( display_buffer_scope_recovery_pending() ) {
+    const bool buffer_changed = !display_buffer || want.x != display_buffer_w_
+                                || want.y != display_buffer_h_;
+    if( buffer_changed ) {
+        const bind_result r = permanent_render_target_bind( renderer, nullptr,
+                              shared_variant_pass_or_null() );
+        if( r == bind_result::failed_in_switch ) {
+            // Undefined renderer state -- escalate to a full device-loss rebuild
+            // at the next drain rather than recreating against it.
             request_recovery( renderer_recovery_severity::device_lost );
+            return false;
         }
-        return false;
+        if( check_pause_abort() ) {
+            return false;
+        }
+        display_buffer.reset();
+        if( check_pause_abort() ) {
+            return false;
+        }
+        if( !SetupRenderTarget() ) {
+            if( display_buffer_scope_recovery_pending() ) {
+                request_recovery( renderer_recovery_severity::device_lost );
+            }
+            return false;
+        }
+        record_display_buffer_dims();
+        ++renderer_resource_generation_;
+        display_buffer_scope_clear_recovery_required();
     }
-    record_display_buffer_dims();
-    ++renderer_resource_generation_;
-    display_buffer_scope_clear_recovery_required();
-    // Acknowledge the serviced epoch before the blank so the post-success
+    // Acknowledge the serviced epoch before any blank so the post-success
     // predicate sees no phantom pending resize. A newer resize arriving during
     // setup keeps a higher pending epoch and is serviced on the next drain.
     planner_.acknowledge_resize( serviced_resize_epoch );
-    run_post_success_full_invalidation();
+    if( terminal_relaid && !test_mode ) {
+        // Desktop terminal layout changed: rebuild the game UI windows and mark
+        // every adaptor for resize. Skipped under the test harness, which has no
+        // game or menu UI to lay out.
+        game_ui::init_ui();
+        ui_manager::screen_resized();
+    }
+    // The drawable can change with the buffer kept (DPI-only), so re-arm present.
+    needupdate = true;
+    if( buffer_changed ) {
+        run_post_success_full_invalidation();
+    }
     return true;
 }
 
@@ -2134,10 +2463,12 @@ void renderer_resource_coordinator::attempt_serviced_seq_cas( const uint64_t ser
 
 void renderer_resource_coordinator::drain_pending()
 {
-    // Refuse drains until the cold-start upload finishes (finish_bootstrap),
-    // and guard against re-entry while a drain is already running.
+    // Refuse drains before base UI init (bootstrapping), while an atlas upload
+    // owns unpublished candidate textures, and against re-entry while a drain
+    // is already running.
     if( planner_.state() == renderer_recovery_state::bootstrapping
-        || planner_.state() == renderer_recovery_state::recovering ) {
+        || planner_.state() == renderer_recovery_state::recovering
+        || atlas_upload_depth_ > 0 ) {
         return;
     }
     // Thin driver: the planner names the next side effect, the coordinator runs
@@ -2605,6 +2936,12 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     };
 
     for( int row = min_row; row < max_row; row++ ) {
+        if( renderer_should_abort_frame() ) {
+            // As in cata_tiles::draw(): abort the grid emit mid-draw. The
+            // end-of-function clip reset and variant_pass flush still run, leaving
+            // the renderer clean; invalidation kept for the next frame.
+            break;
+        }
         for( int col = min_col; col < max_col; col++ ) {
             const tripoint_abs_omt omp = origin + point( col, row );
 
@@ -3178,7 +3515,9 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w,
 void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 {
     display_buffer_draw_scope draw_scope;
-    if( display_buffer_scope_is_invalid() ) {
+    if( !draw_scope.should_draw() ) {
+        // Leave last_render_epoch stale so the next foreground draw replays this
+        // window in full.
         return;
     }
     if( scaling_factor > 1 ) {
@@ -3651,32 +3990,39 @@ static input_event sdl_keysym_to_keycode_evt( const CataKeysym &keysym )
     return evt;
 }
 
-bool handle_resize( int w, int h )
+// Refresh the window and drawable tracks from a new logical size, and on desktop
+// the terminal-derived layout. Returns whether the terminal layout was recomputed
+// (false on android, which keeps a window-independent terminal across rotation).
+static bool apply_resize_layout( int w, int h )
 {
-    if( w == WindowWidth && h == WindowHeight ) {
-        return false;
-    }
+    const bool logical_changed = w != WindowWidth || h != WindowHeight;
     WindowWidth = w;
     WindowHeight = h;
-    // A minimal window size is set during initialization, but some platforms ignore
-    // the minimum size so we clamp the terminal size here for extra safety.
-    TERMINAL_WIDTH = std::max( WindowWidth / fontwidth / scaling_factor, EVEN_MINIMUM_TERM_WIDTH );
-    TERMINAL_HEIGHT = std::max( WindowHeight / fontheight / scaling_factor, EVEN_MINIMUM_TERM_HEIGHT );
-    need_invalidate_framebuffers = true;
-    catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point::zero );
-    throwErrorIf( !SetupRenderTarget(), "SetupRenderTarget failed" );
-    game_ui::init_ui();
-    ui_manager::screen_resized();
-    return true;
+    refresh_drawable_dims();
+#if defined(__ANDROID__)
+    ( void )logical_changed;
+    return false;
+#else
+    if( logical_changed ) {
+        // A minimal window size is set during initialization, but some platforms
+        // ignore the minimum size so we clamp the terminal size here for safety.
+        TERMINAL_WIDTH = std::max( WindowWidth / fontwidth / scaling_factor, EVEN_MINIMUM_TERM_WIDTH );
+        TERMINAL_HEIGHT = std::max( WindowHeight / fontheight / scaling_factor, EVEN_MINIMUM_TERM_HEIGHT );
+        need_invalidate_framebuffers = true;
+        catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point::zero );
+    }
+    return logical_changed;
+#endif
 }
 
 void resize_term( const int cell_w, const int cell_h )
 {
-    int w = cell_w * fontwidth * scaling_factor;
-    int h = cell_h * fontheight * scaling_factor;
+    const int w = cell_w * fontwidth * scaling_factor;
+    const int h = cell_h * fontheight * scaling_factor;
     SetWindowSize( window.get(), w, h );
-    GetWindowSize( window.get(), &w, &h );
-    handle_resize( w, h );
+    // The resize is async: the coordinator applies it on the next drain, driven
+    // by this hint and the resulting watched resize event.
+    renderer_coordinator.notify_resize();
 }
 
 void toggle_fullscreen_window()
@@ -3706,10 +4052,8 @@ void toggle_fullscreen_window()
             return;
         }
     }
-    int nw = 0;
-    int nh = 0;
-    GetWindowSize( window.get(), &nw, &nh );
-    handle_resize( nw, nh );
+    // Apply the new size on the next drain, driven by the watched resize event.
+    renderer_coordinator.notify_resize();
     fullscreen = !fullscreen;
 }
 
@@ -4633,11 +4977,15 @@ static void CheckMessages()
     bool text_refresh = false;
     bool is_repeat = false;
 
+    drain_renderer_recovery();
+
 #if defined(__ANDROID__)
-    if( ime_visible_frame_dirty ) {
+    static uint32_t last_seen_visible_frame_seq = 0;
+    const uint32_t cur_visible_frame_seq = visible_frame_inbox.even_sequence();
+    if( cur_visible_frame_seq != last_seen_visible_frame_seq ) {
+        last_seen_visible_frame_seq = cur_visible_frame_seq;
         needupdate = true;
         ui_manager::redraw_invalidated();
-        ime_visible_frame_dirty = false;
     }
 
     uint32_t ticks = GetTicks();
@@ -4941,8 +5289,6 @@ static void CheckMessages()
 
     last_input = input_event();
 
-    std::optional<point> resize_dims;
-    bool render_target_reset = false;
     using cata::options::mouse;
 
     int imgui_buf_w = 0;
@@ -4975,17 +5321,8 @@ static void CheckMessages()
                         g->quicksave();
                     }
                     break;
-                // SDL sends a window resize event whenever the screen rotates orientation.
-                // SDL3: SIZE_CHANGED removed; RESIZED covers the same case.
-                case CATA_WINDOWEVENT_RESIZED:
-                    WindowWidth = ev.window.data1;
-                    WindowHeight = ev.window.data2;
-                    SDL_Delay( 500 );
-                    SDL_GetWindowSurface( window.get() );
-                    ui_manager::redraw_invalidated();
-                    refresh_display();
-                    needupdate = true;
-                    break;
+                    // Window resize (including android screen rotation) is handled by
+                    // the event watch, which bumps the resize epoch for the next drain.
 #else
                 case CATA_WINDOWEVENT_FOCUS_LOST:
                     window_focus = false;
@@ -5025,19 +5362,13 @@ static void CheckMessages()
                     ui_manager::redraw_invalidated();
                     break;
 #endif
-                case CATA_WINDOWEVENT_RESTORED:
 #if defined(__ANDROID__)
+                case CATA_WINDOWEVENT_RESTORED:
                     needs_sdl_surface_visibility_refresh = true;
                     if( android_is_hardware_keyboard_available() ) {
                         focus_aware_stop_text_input();
                         focus_aware_start_text_input();
                     }
-#endif
-                    break;
-#if !defined(__ANDROID__)
-                // Non-Android resize: store dimensions for deferred handling
-                case CATA_WINDOWEVENT_RESIZED:
-                    resize_dims = point( ev.window.data1, ev.window.data2 );
                     break;
 #endif
                 default:
@@ -5045,9 +5376,6 @@ static void CheckMessages()
             }
         } else {
             switch( ev.type ) {
-                case CATA_RENDER_TARGETS_RESET:
-                    render_target_reset = true;
-                    break;
                 case CATA_KEYDOWN: {
 #if defined(__ANDROID__)
                     // Toggle virtual keyboard with Android back button. For some reason I get double inputs, so ignore everything once it's already down.
@@ -5563,25 +5891,6 @@ static void CheckMessages()
             break;
         }
     }
-    bool resized = false;
-    if( resize_dims.has_value() ) {
-        restore_on_out_of_scope prev_last_input( last_input );
-        needupdate = resized = handle_resize( resize_dims.value().x, resize_dims.value().y );
-    }
-    // resizing already reinitializes the render target
-    if( !resized && render_target_reset ) {
-        throwErrorIf( !SetupRenderTarget(), "SetupRenderTarget failed" );
-        needupdate = true;
-        restore_on_out_of_scope prev_last_input( last_input );
-        // FIXME: SDL_RENDER_TARGETS_RESET only seems to be fired after the first redraw
-        // when restoring the window after system sleep, rather than immediately
-        // on focus gain. This seems to mess up the first redraw and
-        // causes black screen that lasts ~0.5 seconds before the screen
-        // contents are redrawn in the following code.
-        ui_manager::invalidate( rectangle<point>( point::zero, point( WindowWidth, WindowHeight ) ),
-                                false );
-        ui_manager::redraw_invalidated();
-    }
     if( needupdate ) {
         try_sdl_update();
     }
@@ -5836,14 +6145,16 @@ void catacurses::init_interface()
     preview_terminal_width = TERMINAL_WIDTH * fontwidth;
     preview_terminal_height = TERMINAL_HEIGHT * fontheight;
 #endif
+    // Base UI is up: allow recovery (see finish_bootstrap) and service any inbox
+    // work queued during startup.
+    renderer_coordinator.finish_bootstrap();
+    drain_renderer_recovery();
 }
 
 // This is supposed to be called from init.cpp, and only from there.
 void load_tileset()
 {
     if( !tilecontext || !use_tiles ) {
-        // No atlas upload to gate; the coordinator may allow drains.
-        renderer_coordinator.finish_bootstrap();
         return;
     }
     closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
@@ -5863,9 +6174,6 @@ void load_tileset()
                                            /*pump_events=*/true, /*terrain=*/true );
         overmap_tilecontext->do_tile_loading_report();
     }
-
-    // The real cold-start atlas upload is complete; allow drains and rendering.
-    renderer_coordinator.finish_bootstrap();
 }
 
 //Ends the terminal, destroy everything
@@ -5921,6 +6229,12 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
         // input should be skipped in caller's code
         throw std::runtime_error( "input_manager::get_input_event called in test mode" );
     }
+
+    // Pump so a just-queued reset reaches the inbox via the event watch, then
+    // drain before the pre-poll draw path. Pumping does not consume input; the
+    // CheckMessages poll below still reads it.
+    SDL_PumpEvents();
+    drain_renderer_recovery();
 
 #if !defined(__ANDROID__) && !(defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)
     if( actual_keyboard_mode( preferred_keyboard_mode ) == keyboard_mode::keychar ) {
@@ -6269,7 +6583,9 @@ bool save_screenshot( const std::string &file_path )
     // Capture from the terminal-sized buffer so the screenshot matches the
     // in-game presentation rather than the raw window output.
     display_buffer_draw_scope draw_scope;
-    if( display_buffer_scope_is_invalid() ) {
+    if( !draw_scope.should_draw() ) {
+        // A renderer mid-reset or paused returns garbage pixels; fail the
+        // capture so the caller can retry.
         return false;
     }
     // Note: the viewport is returned by SDL and we don't have to manage its lifetime.

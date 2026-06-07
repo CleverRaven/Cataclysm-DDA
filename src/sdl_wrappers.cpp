@@ -1168,6 +1168,14 @@ void GetRendererOutputSize( const SDL_Renderer_Ptr &renderer, int *w, int *h )
 #endif
 }
 
+SDL_Texture *GetRenderTarget( const SDL_Renderer_Ptr &renderer )
+{
+    if( !renderer ) {
+        return nullptr;
+    }
+    return SDL_GetRenderTarget( renderer.get() );
+}
+
 
 uint32_t GetTicks()
 {

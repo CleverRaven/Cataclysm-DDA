@@ -217,9 +217,16 @@ class renderer_resource_coordinator
         // name plus actual software/accelerated mode). Stays in
         // bootstrapping; rendering is not yet allowed.
         void seed_renderer_policy( const std::string &renderer_name );
-        // Move bootstrapping -> ready once the cold-start tileset upload has
-        // succeeded. Rendering is allowed from here.
+        // Move bootstrapping -> ready once the base renderer, display buffer,
+        // shader pass, ImGui, and fonts are up. Rendering and recovery are
+        // allowed from here, before any world-load atlas upload.
         void finish_bootstrap();
+
+        // Enter/leave a nestable atlas-upload scope; see atlas_upload_scope below.
+        // end releases depth only -- drain explicitly after the outermost scope,
+        // since recovery can throw and must not run from a destructor.
+        void begin_atlas_upload();
+        void end_atlas_upload();
 
         // Main-thread surface.
         void drain_pending();
@@ -300,6 +307,9 @@ class renderer_resource_coordinator
         // Pure drain transition policy. drain_pending() drives it; the
         // coordinator supplies the atomic inbox reads and the SDL side effects.
         recovery_drain_planner planner_;
+        // Nesting depth of active atlas-upload scopes; see begin_atlas_upload.
+        // Distinct from bootstrapping, which only covers pre-base-UI startup.
+        int atlas_upload_depth_ = 0;
         uint64_t renderer_resource_generation_ = 0;
         uint64_t renderer_instance_generation_ = 0;
         uint64_t gpu_textures_generation_ = 0;
@@ -339,6 +349,32 @@ class renderer_resource_coordinator
 // Process-lifetime coordinator; the event-watch userdata must outlive
 // every callback.
 extern renderer_resource_coordinator renderer_coordinator;
+
+// RAII wrapper over begin_atlas_upload/end_atlas_upload, the canonical gate for
+// atlas uploads: while any scope is open, a drain cannot rebuild the renderer
+// under partially uploaded candidate textures. Enters on construction, releases
+// on destruction so a throwing upload unwinds. Does not drain (recovery can
+// throw, the dtor is noexcept); the caller drains after the outermost scope.
+// active=false skips gating, e.g. a precheck load that does no GPU upload.
+class atlas_upload_scope
+{
+    public:
+        explicit atlas_upload_scope( bool active = true )
+            : active_( active ) {
+            if( active_ ) {
+                renderer_coordinator.begin_atlas_upload();
+            }
+        }
+        ~atlas_upload_scope() {
+            if( active_ ) {
+                renderer_coordinator.end_atlas_upload();
+            }
+        }
+        atlas_upload_scope( const atlas_upload_scope & ) = delete;
+        atlas_upload_scope &operator=( const atlas_upload_scope & ) = delete;
+    private:
+        bool active_;
+};
 
 // Test-only seam for the renderer-recovery suite. Methods are defined beside the
 // file-static render globals in sdltiles.cpp; the struct is friended by the
@@ -388,6 +424,31 @@ struct renderer_recovery_test_support {
     static bool replay_quarantine_empty();
     // Whether the most recently armed phase fault has fired since arming.
     static bool phase_fault_fired();
+
+    // Set the scaling factor and resize the hidden fixture window, then notify
+    // the coordinator. The deferred resize applies on the next drain.
+    static void set_scaling_and_resize_window( int scaling, int window_w, int window_h );
+    // Current display_buffer texture dimensions, for asserting a resize rebuild.
+    static void current_display_buffer_dims( int &w, int &h );
+    // The logical window size, font/scaling metrics, and minimum terminal size
+    // the resize applied, so a test can derive the expected terminal-sized
+    // buffer from the actual (possibly clamped) window.
+    static void current_window_metrics( int &window_w, int &window_h, int &font_w,
+                                        int &font_h, int &scaling, int &min_term_w,
+                                        int &min_term_h );
+    // Current backing-store (drawable) pixel dimensions.
+    static void current_drawable_dims( int &w, int &h );
+    // Inject divergent drawable pixels and notify a resize, standing in for a
+    // DPI change the headless backend cannot produce. Cleared at teardown.
+    static void override_drawable_pixels( int w, int h );
+    // Set and read the present-needed flag, for asserting the resize fast path
+    // re-arms presentation.
+    static void set_needupdate( bool armed );
+    static bool needupdate_armed();
+    // Open an outermost draw scope, inject a paused lifecycle epoch while it is
+    // on the stack, then close it. Reports whether the display buffer was bound
+    // inside the scope and whether the target returned to NULL after it.
+    static void pause_during_draw_scope( bool &bound_during, bool &null_after );
 };
 
 // RAII wrapper around setup/teardown for use as a Catch2 fixture local.
