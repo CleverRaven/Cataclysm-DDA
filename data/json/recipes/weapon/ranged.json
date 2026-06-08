@@ -1029,7 +1029,7 @@
       [ [ "chain", 1 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "power_supply", 2 ] ],
-      [ [ "cable", 4 ] ],
+      [ [ "cable", 2 ] ],
       [ [ "spring", 7 ] ],
       [ [ "scrap", 2 ] ]
     ]
@@ -1290,7 +1290,7 @@
       [ [ "amplifier", 1 ] ],
       [ [ "e_scrap", 30 ] ],
       [ [ "scrap", 10 ] ],
-      [ [ "cable", 100 ] ]
+      [ [ "cable", 34 ] ]
     ]
   },
   {

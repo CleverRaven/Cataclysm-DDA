@@ -202,7 +202,7 @@
     "using": [ [ "soldering_standard", 10 ], [ "electric_probing", 1 ] ],
     "components": [
       [ [ "scrap", 4 ] ],
-      [ [ "cable", 20 ] ],
+      [ [ "cable", 7 ] ],
       [ [ "afs_optics_3", 1 ] ],
       [ [ "afs_material_1", 5 ] ],
       [ [ "afs_heat_1", 3 ] ],
@@ -223,7 +223,7 @@
     "using": [ [ "soldering_standard", 10 ], [ "electric_probing", 1 ] ],
     "components": [
       [ [ "scrap", 2 ] ],
-      [ [ "cable", 20 ] ],
+      [ [ "cable", 7 ] ],
       [ [ "afs_optics_3", 1 ] ],
       [ [ "afs_material_1", 1 ] ],
       [ [ "afs_heat_1", 2 ] ],
@@ -511,6 +511,6 @@
     "time": "6 h 40 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "motor_tiny", 6 ] ], [ [ "power_supply", 6 ] ], [ [ "cable", 12 ] ], [ [ "ch_steel_chunk", 6 ] ] ]
+    "components": [ [ [ "motor_tiny", 6 ] ], [ [ "power_supply", 6 ] ], [ [ "cable", 4 ] ], [ [ "ch_steel_chunk", 6 ] ] ]
   }
 ]

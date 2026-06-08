@@ -177,7 +177,7 @@
       { "item": "tazer", "prob": 3 },
       { "item": "usb_drive", "prob": 15 },
       { "item": "recipe_augs", "prob": 4 },
-      { "item": "cable", "prob": 60 },
+      { "group": "cable_roll_part", "prob": 60 },
       { "item": "vac_sealer", "prob": 10 },
       { "group": "civilian_phones", "prob": 50, "charges": [ 0, -1 ] },
       { "item": "eink_tablet_pc", "prob": 15 },

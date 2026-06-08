@@ -787,6 +787,7 @@
     "items": [
       [ "cu_pipe", 45 ],
       { "item": "cable", "prob": 50, "count": [ 1, 20 ] },
+      { "item": "copper_wire", "prob": 50, "count": [ 1, 20 ] },
       [ "pot_copper", 30 ],
       [ "pot_makeshift_copper", 15 ],
       [ "copper_pan", 15 ],
@@ -1676,7 +1677,6 @@
       { "item": "matches", "prob": 10, "charges": [ 0, 20 ] },
       { "item": "ref_matches", "prob": 10, "charges": [ 0, 32 ] },
       { "group": "chewing_gum_used", "prob": 10 },
-      { "item": "cable", "prob": 5 },
       { "item": "panties", "prob": 2 },
       { "item": "sharp_toothbrush", "prob": 10 },
       { "item": "razor_blade", "prob": 20 },
