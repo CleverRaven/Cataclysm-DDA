@@ -232,8 +232,7 @@
         "cut": 30,
         "bash": 30,
         "stab": 30,
-        "bullet": 25,
-        "acid": 30
+        "bullet": 25
       }
     ],
     "cancels": [ "BENDY1", "BENDY2", "BENDY3", "INTERSTICE_POSTURE", "INTERSTICE_POSTURE_2" ]
@@ -323,8 +322,7 @@
         "cut": 5,
         "bash": 5,
         "stab": 5,
-        "bullet": 2,
-        "acid": 30
+        "bullet": 2
       }
     ],
     "cancels": [ "BENDY1", "BENDY2", "BENDY3", "INTERSTICE_POSTURE", "INTERSTICE_POSTURE_2" ]
@@ -360,7 +358,6 @@
         "bash": 15,
         "stab": 15,
         "bullet": 10,
-        "acid": 25,
         "electric": 0
       }
     ]
@@ -389,8 +386,7 @@
         "cut": 5,
         "bash": 5,
         "stab": 5,
-        "bullet": 2,
-        "acid": 30
+        "bullet": 2
       }
     ]
   },
@@ -418,8 +414,7 @@
         "cut": 5,
         "bash": 5,
         "stab": 5,
-        "bullet": 2,
-        "acid": 30
+        "bullet": 2
       }
     ]
   },
@@ -457,8 +452,7 @@
         "cut": 5,
         "bash": 5,
         "stab": 5,
-        "bullet": 2,
-        "acid": 30
+        "bullet": 2
       }
     ],
     "cancels": [
@@ -513,8 +507,7 @@
         "cut": 5,
         "bash": 5,
         "stab": 5,
-        "bullet": 2,
-        "acid": 30
+        "bullet": 2
       }
     ]
   },
@@ -542,8 +535,7 @@
         "cut": 5,
         "bash": 5,
         "stab": 5,
-        "bullet": 2,
-        "acid": 30
+        "bullet": 2
       }
     ]
   },
@@ -582,8 +574,7 @@
         "cut": 5,
         "bash": 5,
         "stab": 5,
-        "bullet": 2,
-        "acid": 30
+        "bullet": 2
       }
     ],
     "cancels": [
