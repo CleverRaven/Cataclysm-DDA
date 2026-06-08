@@ -1169,7 +1169,7 @@
     "id": "bio_creeyncaggii",
     "type": "bionic",
     "name": { "str": "Heart of The Warrior CBM" },
-    "description": "The Cree'yn Cag'gii, a forgotten relic of the Exodii.  Legends say it continues beating long after its user expires.",
+    "description": "The Cree'yn Cag'gii, a forgotten relic of the Exodii.  You feel the strength of its previous owner with you in every beat.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "enchantments": [
