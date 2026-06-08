@@ -4062,6 +4062,48 @@ static int sdl_keysym_to_curses( const CataKeysym &keysym )
     }
 }
 
+static int sdl_keypad_scancode_to_keycode( SDL_Scancode scancode )
+{
+    // SDL3 reports keypad digits as regular digit key values. The scancode
+    // still preserves keypad identity, including repeat events on macOS.
+    switch( scancode ) {
+        case SDL_SCANCODE_KP_DIVIDE:
+            return keycode::kp_divide;
+        case SDL_SCANCODE_KP_MULTIPLY:
+            return keycode::kp_multiply;
+        case SDL_SCANCODE_KP_MINUS:
+            return keycode::kp_minus;
+        case SDL_SCANCODE_KP_PLUS:
+            return keycode::kp_plus;
+        case SDL_SCANCODE_KP_ENTER:
+            return keycode::kp_enter;
+        case SDL_SCANCODE_KP_1:
+            return keycode::kp_1;
+        case SDL_SCANCODE_KP_2:
+            return keycode::kp_2;
+        case SDL_SCANCODE_KP_3:
+            return keycode::kp_3;
+        case SDL_SCANCODE_KP_4:
+            return keycode::kp_4;
+        case SDL_SCANCODE_KP_5:
+            return keycode::kp_5;
+        case SDL_SCANCODE_KP_6:
+            return keycode::kp_6;
+        case SDL_SCANCODE_KP_7:
+            return keycode::kp_7;
+        case SDL_SCANCODE_KP_8:
+            return keycode::kp_8;
+        case SDL_SCANCODE_KP_9:
+            return keycode::kp_9;
+        case SDL_SCANCODE_KP_0:
+            return keycode::kp_0;
+        case SDL_SCANCODE_KP_PERIOD:
+            return keycode::kp_period;
+        default:
+            return 0;
+    }
+}
+
 static input_event sdl_keysym_to_keycode_evt( const CataKeysym &keysym )
 {
     switch( keysym.sym ) {
@@ -4073,6 +4115,7 @@ static input_event sdl_keysym_to_keycode_evt( const CataKeysym &keysym )
         case SDLK_RALT:
             return input_event();
     }
+
     input_event evt;
     evt.type = input_event_t::keyboard_code;
     if( keysym.mod & KMOD_CTRL ) {
@@ -4084,7 +4127,8 @@ static input_event sdl_keysym_to_keycode_evt( const CataKeysym &keysym )
     if( keysym.mod & KMOD_SHIFT ) {
         evt.modifiers.emplace( keymod_t::shift );
     }
-    evt.sequence.emplace_back( keysym.sym );
+    const int keypad_keycode = sdl_keypad_scancode_to_keycode( keysym.scancode );
+    evt.sequence.emplace_back( keypad_keycode ? keypad_keycode : keysym.sym );
     return evt;
 }
 
