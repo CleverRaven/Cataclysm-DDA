@@ -11,7 +11,7 @@
         "*****...♥♥~♠♠~♦♦~♣♣...**",
         "*****...♥♥~♠♠~♦♦~♣♣.....",
         "*****....~~~~~~~~~......",
-        "*****.......~.##w####...",
+        "*****.......~C##w####...",
         "*****.......~##lt % ##..",
         "*****....~~~~w    #RR#..",
         "*****....~~~~+    ####..",
@@ -37,6 +37,7 @@
         "-": "t_fence",
         "w": "t_embrasure_log",
         "+": "t_door_c",
+        "C": "t_rootcellar",
         "q": "t_water_sh",
         "Q": "t_water_dp",
         "#": "t_wall_log",
@@ -66,6 +67,7 @@
         "Ṛ": "f_rack_primitive"
       },
       "items": {
+        "C": { "item": "preserved_food", "chance": 100, "repeat": [ 4, 8 ] },
         "R": { "item": "hedge_magick_materials", "chance": 100, "repeat": [ 2, 4 ] },
         "Ṟ": [ { "item": "shirts", "chance": 100, "repeat": 2 }, { "item": "pants_male", "chance": 100, "repeat": 2 } ]
       },

@@ -137,7 +137,7 @@
       "both": {
         "items": [ "straw_basket", "grass_cloak" ],
         "entries": [
-          { "item": "spear_stone" },
+          { "item": "javelin" },
           { "item": "bolas" },
           { "item": "bolas" },
           { "item": "spear_stone", "container-item": "spearsling" },
