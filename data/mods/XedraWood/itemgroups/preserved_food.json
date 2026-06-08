@@ -4,6 +4,7 @@
     "id": "dry_meat_preserved_in_sack",
     "subtype": "collection",
     "container-item": "bag_canvas_small",
+    "on_overflow": "discard",
     "entries": [ { "item": "dry_meat", "container-item": "null", "count": [ 5, 10 ] } ]
   },
   {
@@ -11,6 +12,7 @@
     "id": "dry_fish_preserved_in_sack",
     "subtype": "collection",
     "container-item": "bag_canvas_small",
+    "on_overflow": "discard",
     "entries": [ { "item": "dry_fish", "container-item": "null", "count": [ 5, 10 ] } ]
   },
   {
@@ -18,6 +20,7 @@
     "id": "dry_veggy_preserved_in_sack",
     "subtype": "collection",
     "container-item": "bag_canvas_small",
+    "on_overflow": "discard",
     "entries": [ { "item": "dry_veggy", "container-item": "null", "count": [ 5, 10 ] } ]
   },
   {
@@ -25,6 +28,7 @@
     "id": "dry_corn_preserved_in_sack",
     "subtype": "collection",
     "container-item": "bag_canvas_small",
+    "on_overflow": "discard",
     "entries": [ { "item": "dry_corn", "container-item": "null", "count": [ 5, 10 ] } ]
   },
   {
@@ -32,6 +36,7 @@
     "id": "dry_fruit_preserved_in_sack",
     "subtype": "collection",
     "container-item": "bag_canvas_small",
+    "on_overflow": "discard",
     "entries": [ { "item": "dry_fruit", "container-item": "null", "count": [ 5, 10 ] } ]
   }
 ]
