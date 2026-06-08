@@ -1439,7 +1439,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_IVAS_ADVICE_ANDURIL",
     "type": "talk_topic",
-    "dynamic_line": "The are, or were, a defense contractor.  They are headquartered elsewhere, but maintained software engineering offices here, and we believe this one was testing the MVAS system."
+    "dynamic_line": "They are, or were, a defense contractor.  They are headquartered elsewhere, but maintained software engineering offices here, and we believe this one was testing the MVAS system."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_IVAS_ACCEPTED",
@@ -1691,7 +1691,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_LIXA_ACRONYM",
     "type": "talk_topic",
-    "dynamic_line": "It's an acronym that stands for Laser Interferometer eXodimensional resonance Assay."
+    "dynamic_line": "It's an acronym that stands for Laser Interferometer eXodimensional resonance Array."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE_Replacement",
