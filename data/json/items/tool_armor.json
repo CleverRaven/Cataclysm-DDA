@@ -2399,14 +2399,7 @@
     "material_thickness": 2,
     "environmental_protection": 3,
     "environmental_protection_with_filter": 16,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "GASFILTER_MED" ],
-        "default_magazine": "gasfilter_med"
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GASFILTER_MED" ], "default_magazine": "gasfilter_med" } ],
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
     "armor": [ { "encumbrance": 35, "rigid_layer_only": true, "coverage": 100, "covers": [ "mouth" ] } ],
@@ -2537,14 +2530,7 @@
     "volume": "1350 ml",
     "price": "260 USD",
     "price_postapoc": "18 USD",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "GASFILTER_MED" ],
-        "default_magazine": "gasfilter_med"
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GASFILTER_MED" ], "default_magazine": "gasfilter_med" } ],
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
     "material": [ "leather_treated", "hard_plastic_transp", "lc_steel" ],
