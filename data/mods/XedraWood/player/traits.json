@@ -14,7 +14,7 @@
         "values": [
           {
             "value": "MAX_MANA",
-            "add": { "math": [ "( (u_spell_count('school': 'FOREST_MAGIC') ) * 72) + (u_skill('deduction') * 145) )" ] }
+            "add": { "math": [ "( (u_spell_count('school': 'FOREST_MAGIC') ) * 72) + (u_skill('deduction') * 145)" ] }
           }
         ]
       }

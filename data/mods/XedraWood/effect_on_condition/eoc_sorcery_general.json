@@ -49,5 +49,16 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRAWOOD_THE_WISE_NO_STAFF_HARDER_SORCERY",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "not": { "u_has_wielded_with_flag": "WISE_SORCERY_AID" } },
+    "effect": [
+      { "math": [ "u_spellcasting_adjustment('cost', 'school': 'FOREST_MAGIC')", "=", "0.5" ] },
+      { "math": [ "u_spellcasting_adjustment('casting_time', 'school': 'FOREST_MAGIC')", "=", "1" ] }
+    ]
   }
 ]

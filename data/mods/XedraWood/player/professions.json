@@ -99,7 +99,7 @@
       { "level": 3, "name": "stabbing" },
       { "level": 3, "name": "melee" },
       { "level": 1, "name": "dodge" },
-      { "level": 4, "name": "throwing" },
+      { "level": 4, "name": "throw" },
       { "level": 4, "name": "gun" },
       { "level": 3, "name": "swimming" },
       { "level": 4, "name": "survival" }
@@ -138,8 +138,8 @@
         "items": [ "straw_basket", "grass_cloak" ],
         "entries": [
           { "item": "spear_stone" },
-          { "item": "bola" },
-          { "item": "bola" },
+          { "item": "bolas" },
+          { "item": "bolas" },
           { "item": "spear_stone", "container-item": "spearsling" },
           { "item": "primitive_knife", "container-item": "sheath_birchbark" }
         ]
@@ -160,7 +160,7 @@
       { "id": "hedge_astral_projection", "level": 1 }
     ],
     "traits": [ "WITCHSIGHT", "HEDGE_MAGIC", "INSOMNIA" ],
-    "proficiencies": [ "prof_wound_care", "prof_occult_research", "prof_thaumatology" ],
+    "proficiencies": [ "prof_wound_care", "prof_occult_exploration", "prof_thaumatology" ],
     "items": {
       "both": {
         "entries": [
@@ -195,7 +195,7 @@
       { "id": "forest_traverse_the_wilds", "level": 2 }
     ],
     "traits": [ "XEDRAWOOD_THE_WISE", "WITCHSIGHT", "HEDGE_MAGIC", "FOREST_MAGIC", "ELFAEYES", "ANIMALEMPATH2", "SEASONAL_AFFECTIVE" ],
-    "proficiencies": [ "prof_wound_care", "prof_occult_research", "prof_thaumatology" ],
+    "proficiencies": [ "prof_wound_care", "prof_occult_exploration", "prof_thaumatology" ],
     "items": {
       "both": {
         "entries": [
@@ -206,6 +206,7 @@
           { "item": "water_clean", "charges": 6, "container-item": "waterskin" },
           { "item": "straw_hat" },
           { "item": "magical_grimoire_apprentice", "container-item": "straw_basket" },
+          { "item": "q_staff_of_the_wise" },
           { "item": "primitive_knife", "container-item": "sheath_birchbark" }
         ]
       },
