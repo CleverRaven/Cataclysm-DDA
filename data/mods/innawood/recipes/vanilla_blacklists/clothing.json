@@ -93,5 +93,130 @@
     "type": "recipe",
     "result": "under_armor_shorts",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "zentai",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_binder_top",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_binder_top",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "binder_top",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hat_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "coat_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_coat_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_coat_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pants_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_duster_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "duster_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faux_fur_cat_tail",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "trenchcoat_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "armor_faux_farmor_xs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "armor_faux_farmor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_armor_faux_farmor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_boots_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "boots_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_boots_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faux_fur_collar",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_gloves_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_gloves_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "gloves_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "faux_fur_cat_ears",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "footrags_faux_fur",
+    "obsolete": true
   }
 ]

@@ -388,5 +388,75 @@
     "type": "recipe",
     "result": "xl_wetsuit_hood_thick",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sleeveless_duster_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_wsurvivor_jumpsuit_nofur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "wsurvivor_jumpsuit_nofur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_wsurvivor_jumpsuit_nofur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sleeveless_trenchcoat_faux_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_hood_wsurvivor_nofur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_hood_wsurvivor_nofur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hood_wsurvivor_nofur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_boots_wsurvivor_nofur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "boots_wsurvivor_nofur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_boots_wsurvivor_nofur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_gloves_wsurvivor_nofur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_gloves_wsurvivor_nofur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "gloves_wsurvivor_nofur",
+    "obsolete": true
   }
 ]
