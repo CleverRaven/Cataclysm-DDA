@@ -220,10 +220,10 @@
     "description": "Builders and merchants of magical wonders.  They expect to weather this Cataclysm through trade and innovation.  They will take any coin from any land."
   },
   {
-  "type": "effect_on_condition",
-  "id": "EOC_DEATH_FORGE_LORD",
-  "eoc_type": "NPC_DEATH",
-  "effect": [ { "u_cast_spell": { "id": "SPELL_FORGE_LOCKDOWN" } } ]
+    "type": "effect_on_condition",
+    "id": "EOC_DEATH_FORGE_LORD",
+    "eoc_type": "NPC_DEATH",
+    "effect": [ { "u_cast_spell": { "id": "SPELL_FORGE_LOCKDOWN" } } ]
   },
   {
     "type": "SPELL",
@@ -240,11 +240,11 @@
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_PROJECTILE", "NO_FAIL", "IGNORE_WALLS" ]
   },
   {
-  "type": "effect_on_condition",
-  "id": "EOC_FORGE_LOCKDOWN",
-  "eoc_type": "EVENT",
-  "condition": { "not": { "u_has_trait": "VAULT_DEFENDER" } },
-  "effect": { "u_add_trait": "MARK_FOR_DEATH_VALZAIN" }
+    "type": "effect_on_condition",
+    "id": "EOC_FORGE_LOCKDOWN",
+    "eoc_type": "EVENT",
+    "condition": { "not": { "u_has_trait": "VAULT_DEFENDER" } },
+    "effect": { "u_add_trait": "MARK_FOR_DEATH_VALZAIN" }
   },
   {
     "type": "mutation",
