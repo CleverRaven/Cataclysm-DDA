@@ -13,10 +13,10 @@
       "#": "t_rock_wall"
     },
     "furniture": {
-      "b": "f_bench",
-      "h": "f_bench",
+      "b": "f_logstool",
+      "h": "f_logstool",
       "X": "f_elemental_altar",
-      "1": "f_brazier",
+      "1": "f_statue",
       "2": "f_topiary_animal",
       "3": "f_topiary_abstract",
       "4": "f_topiary_dragon"
@@ -26,8 +26,8 @@
     "type": "palette",
     "id": "xe_genius_locum_homullus",
     "terrain": {
-      "~": [ [ "t_metal_floor_no_roof", 2 ], [ "t_floor_noroof", 10 ], [ "t_pavement", 5 ] ],
-      "|": [ [ "t_scrap_wall", 10 ], [ "t_scrap_wall_halfway", 2 ], [ "t_brick_wall", 10 ], [ "t_brick_wall_halfway", 2 ] ]
+      "~": [ [ "t_rock_floor_no_roof", 2 ], [ "t_dirtfloor_no_roof", 10 ], [ "t_dirtmound", 5 ] ],
+      "|": [ [ "t_wall_log", 10 ], [ "t_wall_log_half", 2 ], [ "t_rock_wall", 10 ], [ "t_rock_wall_half", 2 ] ]
     }
   }
 ]
