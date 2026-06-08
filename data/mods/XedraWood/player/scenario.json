@@ -52,5 +52,17 @@
     "id": "wilderness",
     "copy-from": "wilderness",
     "extend": { "professions": [ "tribal_warrior_expert", "lizardfolk_warrior", "lizardfolk_hunter", "wise_one_apprentice" ] }
+  },
+  {
+    "type": "scenario",
+    "id": "xedrawood_wise_one_start",
+    "name": "Path of the Wise",
+    "points": 0,
+    "description": "",
+    "start_name": "???",
+    "allowed_locs": [ "sloc_wise_one_hut" ],
+    "professions": [ "wise_one_apprentice", "wise_one_forest" ],
+    "reveal_locale": false,
+    "flags": [ "LONE_START" ]
   }
 ]

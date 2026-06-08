@@ -2,7 +2,7 @@
   {
     "type": "profession",
     "id": "tribal_warrior_expert",
-    "name": "Tribal Warrior Veteran",
+    "name": "Seasoned Tribal Warrior",
     "description": "You are veteran of many a raid and have fought in defense of your people against the things in the wild when they try to invade your home.  You have been scarred by weapon, by claw, and by things you'd rather not remember.  This latest ordeal is just another battle to be won.",
     "points": 8,
     "proficiencies": [
@@ -149,7 +149,7 @@
   {
     "type": "profession",
     "id": "wise_one_apprentice",
-    "name": { "str": "Apprentice to the Wise" },
+    "name": "Apprentice to the Wise",
     "description": "From your birth, you were in contact with the spirit world.  You were trained in the ways of the spirits and intermediated between them and your tribe.  In time, one of the Wise came to your village to induct you into the deeper mysteries, but they vanished before completing your training.  Now that you're alone, you'll need to contact the spirits of this new place and learn their ways.",
     "points": 3,
     "skills": [ { "level": 1, "name": "firstaid" }, { "level": 3, "name": "deduction" }, { "level": 1, "name": "survival" } ],
@@ -181,7 +181,8 @@
     "type": "profession",
     "id": "wise_one_forest",
     "name": { "male": "Brother to the Trees", "female": "Sister to the Trees" },
-    "description": "You passed your apprenticeship among the Wise, learning the lesser mysteries and undergoing the ordeal to bond your soul with that of the Forest.  You succeeded where many of your fellow apprentices failed and began to learn the deeper mysteries under the tutelage of your master.  Now you're on your own, but ",
+    "description": "You passed your apprenticeship among the Wise, learning the lesser mysteries and undergoing the ordeal to bond your soul with that of the Forest.  You succeeded where many of your fellow apprentices failed and began to learn the deeper mysteries under the tutelage of your master.  Now you're on your own, but your knowledge will guide your way forward.",
+    "flags": [ "SCEN_ONLY" ],
     "points": 10,
     "skills": [ { "level": 2, "name": "firstaid" }, { "level": 5, "name": "deduction" }, { "level": 3, "name": "survival" } ],
     "spells": [
@@ -193,7 +194,7 @@
       { "id": "forest_unity_nature", "level": 4 },
       { "id": "forest_traverse_the_wilds", "level": 2 }
     ],
-    "traits": [ "XEDRAWOOD_THE_WISE", "WITCHSIGHT", "HEDGE_MAGIC", "FOREST_MAGIC" ],
+    "traits": [ "XEDRAWOOD_THE_WISE", "WITCHSIGHT", "HEDGE_MAGIC", "FOREST_MAGIC", "ELFAEYES", "ANIMALEMPATH2", "SEASONAL_AFFECTIVE" ],
     "proficiencies": [ "prof_wound_care", "prof_occult_research", "prof_thaumatology" ],
     "items": {
       "both": {

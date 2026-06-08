@@ -1,0 +1,97 @@
+[
+  {
+    "om_terrain": "xedrawood_wise_one_hut",
+    "type": "mapgen",
+    "object": {
+      "fill_ter": "t_dirtfloor_thatchroof",
+      "rows": [
+        "**********.......*******",
+        "******.............*****",
+        "*****................***",
+        "*****.................**",
+        "*****...................",
+        "*****...................",
+        "*****.........##w####...",
+        "*****........##lt % ##..",
+        "*****....~~~~w    #RR#..",
+        "*****....~~~~+    ####..",
+        "****........~#  F % L#..",
+        "***.qqqqq...~#L   #  #..",
+        "**.qQQQQQq..~#L   # B#..",
+        "**.qQQQQQqq.~## tl#Ṟ##..",
+        "**qQQQQQQQqq~~#w#####..",
+        "*.qQQQQQQQQq.~~~~~~~....",
+        "*qQQQQQQQQQQqqq~...~....",
+        "*qQQQQQQQQQQQqqqqq.~....",
+        "*qqQQQQQQQQQQQQQQqq~....",
+        "*.qQQQQQQQQQQQQQQQq~....",
+        "*.qqQQQQQQQQQQQQQQq~....",
+        "*.qqqQQQQQQQQQQQQQq....*",
+        "**..qqQQqqqQQQQQqq.*****",
+        "******qq***qqqqq********"
+      ],
+      "terrain": {
+        ".": [ [ "t_region_groundcover", 1 ], "t_region_groundcover_forest", 3 ],
+        "~": [ [ "t_region_groundcover_barren", 3 ], "t_region_groundcover" ],
+        "*": [ [ "t_region_groundcover_forest", 15 ], "t_region_shrub" ],
+        "-": "t_fence",
+        "w": "t_embrasure_log",
+        "W": [ [ "t_window_boarded", 2 ], "t_window" ],
+        "+": [ [ "t_door_c", 3 ], "t_door_locked" ],
+        "=": "t_door_c",
+        "q": "t_water_sh",
+        "Q": "t_water_dp",
+        "#": "t_wall_log",
+        "%": "t_door_grass_curtain_c"
+      },
+      "furniture": {
+        "B": "f_hammock_net",
+        "b": "f_bench",
+        "c": "f_chair",
+        "D": "f_dresser",
+        "d": "f_desk",
+        "F": "f_firering",
+        "L": "f_leather_tarp",
+        "l": "f_stool",
+        "t": "f_table",
+        "R": "f_rack_primitive",
+        "Ṟ": "f_rack_primitive",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "xedrawood_wise_one_hut_roof",
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "              .......   ",
+        "             .........  ",
+        "             .........  ",
+        "             .........  ",
+        "             .... ....  ",
+        "             .........  ",
+        "             .........  ",
+        "             .........  ",
+        "              .......   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ".": "t_thatch_roof" }
+    }
+  }
+]
