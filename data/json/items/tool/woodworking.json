@@ -551,7 +551,12 @@
     "material": [ "wood", "stone" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "AXE", 1 ], [ "BUTCHER", -70 ], [ "HAMMER", 1 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "AXE", "level": 1, "speed": 3 },
+      { "id": "BUTCHER", "level": -70 },
+      { "id": "HAMMER", "level": 1 }
+    ],
     "flags": [ "BELT_CLIP", "SHEATH_AXE" ],
     "melee_damage": { "bash": 8, "cut": 14 }
   },

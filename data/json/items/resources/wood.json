@@ -195,7 +195,7 @@
   {
     "type": "ITEM",
     "id": "firewood",
-    "name": { "str": "firewood" },
+    "name": { "str": "piece of firewood", "str_pl": "pieces of firewood" },
     "description": "A part of a log rough-chopped into firewood, burned for heat for longer than recorded history.",
     "category": "spare_parts",
     "weight": "2847 g",
