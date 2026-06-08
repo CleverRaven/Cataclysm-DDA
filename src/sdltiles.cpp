@@ -502,9 +502,12 @@ static int SDLCALL renderer_event_watch( void *userdata, SDL_Event *event )
     switch( event->type ) {
         case CATA_RENDER_TARGETS_RESET:
 #if SDL_MAJOR_VERSION >= 3
-            if( event->render.windowID == renderer_watch_window_id )
+            if( event->render.windowID == renderer_watch_window_id ) {
 #endif
                 coord->request_recovery( renderer_recovery_severity::targets_reset );
+#if SDL_MAJOR_VERSION >= 3
+            }
+#endif
             break;
         case CATA_RENDER_DEVICE_RESET:
 #if SDL_MAJOR_VERSION >= 3
@@ -1052,6 +1055,13 @@ static void try_sdl_update()
 void drain_renderer_recovery()
 {
     renderer_coordinator.drain_pending();
+}
+
+void pump_until_renderer_foreground()
+{
+    while( renderer_coordinator.lifecycle_paused() ) {
+        inp_mngr.pump_events();
+    }
 }
 
 bool renderer_should_abort_frame()
@@ -1987,6 +1997,50 @@ atlas_upload_interrupt renderer_resource_coordinator::replay_poll()
     return atlas_upload_interrupt::none;
 }
 
+atlas_upload_interrupt renderer_resource_coordinator::mode2_upload_poll()
+{
+    if( test_mode2_interrupt_countdown_ > 0 ) {
+        --test_mode2_interrupt_countdown_;
+        if( test_mode2_interrupt_countdown_ == 0 ) {
+            const atlas_upload_interrupt injected = test_mode2_interrupt_;
+            test_mode2_interrupt_ = atlas_upload_interrupt::none;
+            // Drive the real inbox so the retry loop's drain has matching work,
+            // as a real reset/loss/pause landing mid-upload would.
+            switch( injected ) {
+                case atlas_upload_interrupt::paused:
+                    notify_lifecycle( lifecycle_state::paused );
+                    break;
+                case atlas_upload_interrupt::texture_resources_invalidated:
+                    request_recovery( renderer_recovery_severity::device_reset );
+                    break;
+                case atlas_upload_interrupt::renderer_invalidated:
+                    request_recovery( renderer_recovery_severity::device_lost );
+                    break;
+                case atlas_upload_interrupt::none:
+                    break;
+            }
+            return injected;
+        }
+    }
+    const uint64_t epoch = lifecycle_epoch_.load();
+    const lifecycle_state ls = lifecycle_state_of( epoch );
+    if( ls == lifecycle_state::paused ) {
+        return atlas_upload_interrupt::paused;
+    }
+    if( ls == lifecycle_state::resumed_pending_rebuild ) {
+        return atlas_upload_interrupt::texture_resources_invalidated;
+    }
+    const renderer_recovery_severity sev = pending_severity_.load();
+    if( sev == renderer_recovery_severity::device_lost
+        || display_buffer_scope_recovery_pending() ) {
+        return atlas_upload_interrupt::renderer_invalidated;
+    }
+    if( sev == renderer_recovery_severity::device_reset ) {
+        return atlas_upload_interrupt::texture_resources_invalidated;
+    }
+    return atlas_upload_interrupt::none;
+}
+
 atlas_upload_interrupt renderer_resource_coordinator::replay_live_atlases()
 {
     return ts_cache.replay_live_atlases( renderer, renderer_instance_generation_,
@@ -2036,6 +2090,11 @@ void renderer_resource_coordinator::seed_renderer_policy( const std::string &ren
 void renderer_resource_coordinator::finish_bootstrap()
 {
     planner_.finish_bootstrap();
+}
+
+bool renderer_resource_coordinator::lifecycle_paused() const
+{
+    return lifecycle_state_of( lifecycle_epoch_.load() ) == lifecycle_state::paused;
 }
 
 void renderer_resource_coordinator::begin_atlas_upload()
@@ -2134,6 +2193,8 @@ void renderer_recovery_test_support::reset_coordinator()
     c.test_phase_countdown_ = 0;
     c.test_phase_fault_fired_ = false;
     c.test_replay_pause_countdown_ = 0;
+    c.test_mode2_interrupt_countdown_ = 0;
+    c.test_mode2_interrupt_ = atlas_upload_interrupt::none;
 }
 
 bool renderer_recovery_test_support::setup_software_renderer()
@@ -2270,6 +2331,35 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic
     return ts;
 }
 
+atlas_replay_quarantine::gate renderer_recovery_test_support::populate_mode2_quarantine(
+    atlas_replay_quarantine &quarantine )
+{
+    tileset ts;
+    ts.tileset_id = "synthetic_mode2_ts";
+    atlas_replay_descriptor desc;
+    desc.image_path_u8 = "tests/data/renderer_recovery_atlas.png";
+    desc.sprite_width = 1;
+    desc.sprite_height = 1;
+    desc.atlas_offset = 0;
+    desc.expected_tilecount = 1;
+    ts.append_atlas_descriptor( desc );
+    // Pass the per-descriptor and pre-subrect polls so the atlas textures are
+    // created, then interrupt at the post-loop poll so the populated candidate
+    // is captured into the quarantine with live handles.
+    int polls = 0;
+    const atlas_upload_poll poll = [&polls]() {
+        return ++polls >= 3 ? atlas_upload_interrupt::texture_resources_invalidated
+               : atlas_upload_interrupt::none;
+    };
+    tileset_cache::loader::upload_atlases( ts, renderer, "color_pixel_sepia_light",
+                                           ts.get_atlas_descriptors(),
+                                           renderer_coordinator.instance_generation(),
+                                           renderer_coordinator.textures_generation(),
+                                           false, poll, &quarantine );
+    cata_assert( !quarantine.empty() );
+    return quarantine.last_batch_gate();
+}
+
 std::shared_ptr<const tileset> renderer_recovery_test_support::fetch_cached_bundle(
     const std::string &tileset_id, const std::string &memory_map_mode,
     const uint64_t current_renderer_instance_gen, const uint64_t current_gpu_textures_gen )
@@ -2312,6 +2402,14 @@ void renderer_recovery_test_support::arm_replay_pause( const int poll_countdown 
 {
     cata_assert( poll_countdown > 0 );
     renderer_coordinator.test_replay_pause_countdown_ = poll_countdown;
+}
+
+void renderer_recovery_test_support::arm_mode2_interrupt( const int poll_countdown,
+        const atlas_upload_interrupt interrupt )
+{
+    cata_assert( poll_countdown > 0 );
+    renderer_coordinator.test_mode2_interrupt_countdown_ = poll_countdown;
+    renderer_coordinator.test_mode2_interrupt_ = interrupt;
 }
 
 bool renderer_recovery_test_support::replay_quarantine_empty()

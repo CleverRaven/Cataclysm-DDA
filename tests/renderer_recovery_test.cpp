@@ -10,6 +10,7 @@
 #include "cata_imgui.h"
 #include "cata_tiles.h"
 #include "options_helpers.h"
+#include "output.h"
 #include "point.h"
 #include "sdl_renderer_recovery.h"
 
@@ -300,6 +301,48 @@ TEST_CASE( "renderer_coordinator_embargoes_render_on_inbox_change", "[tiles][ren
         coord.notify_lifecycle( lifecycle_state::paused );
         CHECK_FALSE( coord.is_render_allowed() );
         CHECK( coord.should_abort_frame() );
+    }
+}
+
+TEST_CASE( "renderer_coordinator_mode2_upload_poll_maps_inbox", "[tiles][renderer_recovery]" )
+{
+    // The standalone tileset-load upload polls the inbox through
+    // mode2_upload_poll; each inbox state must map to the interrupt the retry loop
+    // acts on, so a mid-upload reset/loss/pause aborts and quarantines instead of
+    // creating textures against a dead renderer.
+    renderer_resource_coordinator coord;
+    coord.finish_bootstrap();
+    REQUIRE( coord.mode2_upload_poll() == atlas_upload_interrupt::none );
+
+    SECTION( "paused lifecycle pauses the upload" ) {
+        coord.notify_lifecycle( lifecycle_state::paused );
+        CHECK( coord.mode2_upload_poll() == atlas_upload_interrupt::paused );
+    }
+
+    SECTION( "resumed foreground invalidates textures" ) {
+        coord.notify_lifecycle( lifecycle_state::resumed_pending_rebuild );
+        CHECK( coord.mode2_upload_poll() == atlas_upload_interrupt::texture_resources_invalidated );
+    }
+
+    SECTION( "queued device reset invalidates textures" ) {
+        coord.request_recovery( renderer_recovery_severity::device_reset );
+        CHECK( coord.mode2_upload_poll() == atlas_upload_interrupt::texture_resources_invalidated );
+    }
+
+    SECTION( "queued targets reset is left to the drain loop" ) {
+        coord.request_recovery( renderer_recovery_severity::targets_reset );
+        CHECK( coord.mode2_upload_poll() == atlas_upload_interrupt::none );
+    }
+
+    SECTION( "queued device loss invalidates the renderer" ) {
+        coord.request_recovery( renderer_recovery_severity::device_lost );
+        CHECK( coord.mode2_upload_poll() == atlas_upload_interrupt::renderer_invalidated );
+    }
+
+    SECTION( "paused outranks a queued device loss" ) {
+        coord.request_recovery( renderer_recovery_severity::device_lost );
+        coord.notify_lifecycle( lifecycle_state::paused );
+        CHECK( coord.mode2_upload_poll() == atlas_upload_interrupt::paused );
     }
 }
 
@@ -833,6 +876,79 @@ TEST_CASE( "renderer_coordinator_replay_pause_quarantines_then_retries",
     renderer_coordinator.drain_pending();
     CHECK( renderer_recovery_test_support::replay_quarantine_empty() );
     CHECK( renderer_coordinator.is_render_allowed() );
+}
+
+TEST_CASE( "renderer_coordinator_mode2_interrupt_disposes_quarantine",
+           "[tiles][renderer_recovery]" )
+{
+    // The standalone tileset-load retry path quarantines a candidate on an
+    // interrupted upload, then disposes it against the post-drain renderer:
+    // destroy on the live renderer only when recovery left it healthy and the same
+    // instance survived, otherwise abandon so no SDL_DestroyTexture runs against a
+    // dead or half-rebuilt renderer.
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+
+    SECTION( "successful reset drains the candidate on the surviving renderer" ) {
+        atlas_replay_quarantine quarantine;
+        const atlas_replay_quarantine::gate gate =
+            renderer_recovery_test_support::populate_mode2_quarantine( quarantine );
+        REQUIRE_FALSE( quarantine.empty() );
+        REQUIRE( gate );
+        REQUIRE_FALSE( gate->load() );
+        const uint64_t inst = renderer_coordinator.instance_generation();
+
+        renderer_coordinator.request_recovery( renderer_recovery_severity::device_reset );
+        const bool recovered = service_mode2_upload_interrupt(
+                                   atlas_upload_interrupt::texture_resources_invalidated, quarantine, inst );
+
+        CHECK( recovered );
+        CHECK( quarantine.empty() );
+        CHECK_FALSE( gate->load() );
+    }
+
+    SECTION( "a failed reset drain abandons the candidate and stops" ) {
+        atlas_replay_quarantine quarantine;
+        const atlas_replay_quarantine::gate gate =
+            renderer_recovery_test_support::populate_mode2_quarantine( quarantine );
+        REQUIRE_FALSE( quarantine.empty() );
+        REQUIRE( gate );
+        const uint64_t inst = renderer_coordinator.instance_generation();
+
+        // Bail the reset recipe so the drain ends retry_needed: the renderer may
+        // be mid-teardown, so the candidate must be abandoned, not destroyed, and
+        // the caller must stop rather than retry against an unready renderer.
+        renderer_coordinator.request_recovery( renderer_recovery_severity::device_reset );
+        renderer_recovery_test_support::arm_phase_fail_retry( 1 );
+        const bool recovered = service_mode2_upload_interrupt(
+                                   atlas_upload_interrupt::texture_resources_invalidated, quarantine, inst );
+
+        CHECK_FALSE( recovered );
+        CHECK( quarantine.empty() );
+        CHECK( gate->load() );
+    }
+
+    SECTION( "device loss abandons the candidate before the renderer is recreated" ) {
+        atlas_replay_quarantine quarantine;
+        const atlas_replay_quarantine::gate gate =
+            renderer_recovery_test_support::populate_mode2_quarantine( quarantine );
+        REQUIRE_FALSE( quarantine.empty() );
+        REQUIRE( gate );
+        const uint64_t inst = renderer_coordinator.instance_generation();
+
+        renderer_coordinator.request_recovery( renderer_recovery_severity::device_lost );
+        const bool recovered = service_mode2_upload_interrupt(
+                                   atlas_upload_interrupt::renderer_invalidated, quarantine, inst );
+
+        CHECK( recovered );
+        CHECK( quarantine.empty() );
+        // renderer_invalidated abandons up front; the recreated renderer must
+        // never receive SDL_DestroyTexture for the old handles.
+        CHECK( gate->load() );
+    }
 }
 
 TEST_CASE( "renderer_coordinator_retries_from_any_phase", "[tiles][renderer_recovery]" )
