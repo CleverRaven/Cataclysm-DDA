@@ -211,7 +211,7 @@
     "id": "EOC_FOREST_TRAVERSE_THE_WILDS_REMOVER_INDOORS",
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
-    "condition": { "not": "u_is_outside" },
+    "condition": { "and": [ { "u_has_effect": "effect_forest_traverse_the_wilds" }, { "not": "u_is_outside" } ] },
     "effect": [
       { "u_lose_effect": "effect_forest_traverse_the_wilds" },
       { "u_message": "As you step indoors, your spell fades.", "type": "bad" }

@@ -13,9 +13,10 @@
     "type": "profession",
     "subtype": "hobby",
     "id": "computer_literate",
-    "name": "Null",
-    "description": "Null.",
-    "points": 0
+    "name": "Traditional Mindset",
+    "description": "What survives from the past has proved its worth.  A new thing is risky--who knows if it will stand the test of time?  You cannot use modern technology.",
+    "points": 0,
+    "traits": [ "XEDRA_WOOD_COMPUTER_ILLITERATE" ]
   },
   {
     "type": "profession",

@@ -161,6 +161,14 @@
     ],
     "traits": [ "WITCHSIGHT", "HEDGE_MAGIC", "INSOMNIA" ],
     "proficiencies": [ "prof_wound_care", "prof_occult_exploration", "prof_thaumatology" ],
+    "hobbies": [
+      "hobby_species_gracken",
+      "hobby_species_changeling_noble",
+      "hobby_species_changeling_commoner",
+      "hates_books",
+      "witch_sight"
+    ],
+    "whitelist_hobbies": false,
     "items": {
       "both": {
         "entries": [
@@ -196,6 +204,15 @@
     ],
     "traits": [ "XEDRAWOOD_THE_WISE", "WITCHSIGHT", "HEDGE_MAGIC", "FOREST_MAGIC", "ELFAEYES", "ANIMALEMPATH2", "SEASONAL_AFFECTIVE" ],
     "proficiencies": [ "prof_wound_care", "prof_occult_exploration", "prof_thaumatology" ],
+    "recipes": [ "q_staff_of_the_wise" ],
+    "hobbies": [
+      "hobby_species_gracken",
+      "hobby_species_changeling_noble",
+      "hobby_species_changeling_commoner",
+      "hates_books",
+      "witch_sight"
+    ],
+    "whitelist_hobbies": false,
     "items": {
       "both": {
         "entries": [

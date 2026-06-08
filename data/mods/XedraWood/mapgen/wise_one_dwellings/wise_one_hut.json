@@ -84,7 +84,7 @@
     "type": "mapgen",
     "om_terrain": "xedrawood_scenario_wise_one_hut_roof",
     "object": {
-      "fill_ter": "t_tar_flat_roof",
+      "fill_ter": "t_open_air",
       "rows": [
         "                        ",
         "                        ",

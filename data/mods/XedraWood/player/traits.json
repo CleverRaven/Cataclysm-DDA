@@ -1,6 +1,18 @@
 [
   {
     "type": "mutation",
+    "id": "XEDRA_WOOD_COMPUTER_ILLITERATE",
+    "name": { "str": "Traditional Mindset" },
+    "description": "What survives from the past has proved its worth.  A new thing is risky--who knows if it will stand the test of time?  You cannot use modern technology.",
+    "points": -5,
+    "starting_trait": false,
+    "valid": false,
+    "player_display": false,
+    "enchantments": [ { "skills": [ { "value": "computer", "multiply": -1 } ] } ],
+    "flags": [ "CANNOT_USE_COMPUTERS" ]
+  },
+  {
+    "type": "mutation",
     "id": "XEDRAWOOD_THE_WISE",
     "name": { "str": "The Wise" },
     "points": 0,
