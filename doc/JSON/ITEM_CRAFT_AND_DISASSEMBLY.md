@@ -78,7 +78,7 @@ Crafting recipes are defined as a JSON object with the following fields:
 "container": "jar_glass_sealed", //The resulting item will be contained by the item set here, overrides default container.
 "container_variant": "jar_glass_sealed_strawberry_picture", //The container specified above will spawn as the specified variant, overrides the normal weighted behavior.
 "batch_time_factors": ..., // See below for details
-"charges": 2,                // Number of resulting items/charges per craft. Uses default charges if not set. If a container is set, this is the amount that gets put inside it, capped by container capacity.
+"charges": 2,                // (Optional, default 1) Number of resulting items/charges per craft. If a container is set, this is the amount that gets put inside it, capped by container capacity.
 "result_mult": 2,            // Multiplier for resulting items. Also multiplies container items.
 "flags": [                   // A set of strings describing boolean features of the recipe
   "BLIND_EASY",

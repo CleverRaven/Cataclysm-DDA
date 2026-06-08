@@ -1860,7 +1860,8 @@ void map::creature_in_field( Creature &critter )
             maybe_apply_field_effect( cur_field_entry.get_intensity_level().field_effects, critter );
         }
 
-        if( cur_field_id->decrease_intensity_on_contact ) {
+        if( cur_field_id->decrease_intensity_on_contact &&
+            !critter.is_immune_field( cur_field_id ) ) {
             mod_field_intensity( critter.pos_bub(), cur_field_id, -1 );
         }
     }
@@ -2300,6 +2301,10 @@ std::vector<FieldProcessorPtr> map_field_processing::processors_for_type( const 
     }
     if( ft.id == fd_fire ) {
         processors.push_back( &field_processor_fd_fire );
+        // Removes fungal terrain and "kills it".
+        // The non-flammability of fungal terrain makes fire not spread.
+        // But fire acting as a fungicide still "clears it", as far as you can spread the fire.
+        processors.push_back( &field_processor_fd_fungicidal_gas );
     }
     if( ft.id == fd_fungal_haze ) {
         processors.push_back( &field_processor_fd_fungal_haze );

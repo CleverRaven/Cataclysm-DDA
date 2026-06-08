@@ -9,8 +9,30 @@
   },
   {
     "type": "mutation",
+    "id": "EXODII_WRATH",
+    "player_display": false,
+    "name": { "//~": "NO_I18N", "str": "Exodii Wrath" },
+    "points": 0,
+    "description": { "//~": "NO_I18N", "str": "Makes sure all the exodii mobs shoot you on sight." },
+    "valid": false,
+    "purifiable": false,
+    "anger_relations": [ [ "CYBORG", 95 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "CBM_Interface",
     "name": { "str": "Standard Neurobionic Interface" },
+    "points": 0,
+    "description": "You have a matrix in your central nervous system that acts as a universal control and installation bus for compact bionic modules.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "Cybernetic" ],
+    "cancels": [ "NO_CBM_INSTALLATION" ]
+  },
+  {
+    "type": "mutation",
+    "id": "NL_CBM_Interface",
+    "name": { "str": "AltarOS Neurobionic Interface" },
     "points": 0,
     "description": "You have a matrix in your central nervous system that acts as a universal control and installation bus for compact bionic modules.",
     "valid": false,

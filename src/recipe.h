@@ -310,13 +310,13 @@ class recipe
         // The time malus due to proficiencies lacking.
         // book_bonuses: nearby book proficiency bonuses (avoids inventory scan).
         float proficiency_time_maluses( const Character &crafter,
-                                        const book_proficiency_bonuses &books ) const;
+                                        const book_proficiency_bonuses &books = {} ) const;
         // The time malus if all the proficiencies were lacking
         float max_proficiency_time_maluses( const Character &crafter ) const;
         // The skill malus due to proficiencies lacking.
         // book_bonuses: nearby book proficiency bonuses (avoids inventory scan).
         float proficiency_skill_maluses( const Character &crafter,
-                                         const book_proficiency_bonuses &books ) const;
+                                         const book_proficiency_bonuses &books = {} ) const;
         // The max skill malus due to proficiencies lacking
         float max_proficiency_skill_maluses( const Character &crafter ) const;
 

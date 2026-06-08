@@ -3190,7 +3190,7 @@ Allow to select the bodypart and store it in variable
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- |
-| "u_pick_bodypart`, `npc_pick_bodypart" | **mandatory** | [variable object](#variable-object) | variable where the bodypart will be stored |
+| "u_pick_bodypart", "npc_pick_bodypart" | **mandatory** | [variable object](#variable-object) | variable where the bodypart will be stored |
 | "whitelist_flag" | optional | string or [variable object](#variable-object) | If used, only bodyparts that has this flag will be allowed |
 | "blacklist_flag" | optional | string or [variable object](#variable-object) | If used, bodyparts that has this flag are excluded |
 | "whitelist_type" | optional | array of strings or [variable objects](#variable-object) | If used, only bodyparts of this type will be allowed |
@@ -3215,6 +3215,66 @@ Allows to pick any bodypart and store it in context val `bp`
     "id": "Test",
     "effect": [ { "u_pick_bodypart": { "context_val": "bp" } } ]
   },
+```
+
+#### `u_add_wound`, `npc_add_wound`
+
+Adds a specific wound on specific bodypart
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "u_add_wound", "npc_add_wound" | **mandatory** | string or [variable object](#variable-object) | id of a bodypart where the wound should be added |
+| "wound_id" | optional | string or [variable object](#variable-object) | id of a wound that will be applied |
+
+##### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+Adds deep_scratch to bodypart alpha talker picks from
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ADD_WOUND",
+    "effect": [
+      { "u_pick_bodypart": { "context_val": "bp" } },
+      { "u_add_wound": { "context_val": "bp" }, "wound_id": "deep_scratch" },
+      { "u_message": "Added deep_scratch wound to <context_val:bp>" }
+    ]
+  }
+```
+
+#### `u_remove_wound`, `npc_remove_wound`
+
+Removes specifc wounds from a specific bodypart
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "u_remove_wound", "npc_remove_wound" | **mandatory** | string or [variable object](#variable-object) | id of a bodypart where the wound should be added |
+| "wound_id" | optional | array of strings or [variable objects](#variable-object) | id of a wounds that will be removed |
+
+##### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+Removes all scratch and deep_scratch wounds from bodypart alpha talker picks from
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REMOVE_WOUND",
+    "effect": [
+      { "u_pick_bodypart": { "context_val": "bp" } },
+      { "u_remove_wound": { "context_val": "bp" }, "wound_id": [ "scratch", "deep_scratch" ] },
+      { "u_message": "Removed scratch and deep_scratch wounds from <context_val:bp>" }
+    ]
+  }
 ```
 
 #### `u_deal_damage`, `npc_deal_damage`

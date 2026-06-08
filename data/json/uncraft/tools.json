@@ -53,7 +53,7 @@
       [ [ "motor_micro", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 1 ] ],
-      [ [ "cable", 4 ] ]
+      [ [ "cable", 2 ] ]
     ]
   },
   {
@@ -69,7 +69,7 @@
       [ [ "plastic_chunk", 4 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "cable", 4 ] ],
+      [ [ "cable", 2 ] ],
       [ [ "scrap", 1 ] ]
     ]
   },
@@ -86,7 +86,7 @@
       [ [ "plastic_chunk", 4 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "cable", 100 ] ],
+      [ [ "cable", 34 ] ],
       [ [ "scrap", 1 ] ]
     ]
   },
@@ -104,7 +104,7 @@
       [ [ "motor_tiny", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
       [ [ "scrap", 2 ] ],
-      [ [ "cable", 3 ] ],
+      [ [ "cable", 1 ] ],
       [ [ "1cyl_combustion_small", 1 ] ]
     ]
   },
@@ -122,7 +122,7 @@
       [ [ "motor_tiny", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 1 ] ],
-      [ [ "cable", 4 ] ]
+      [ [ "cable", 2 ] ]
     ]
   },
   {
@@ -133,7 +133,7 @@
     "difficulty": 1,
     "time": "30 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap_aluminum", 1 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "cable", 4 ] ], [ [ "motor_micro", 1 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 1 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "cable", 2 ] ], [ [ "motor_micro", 1 ] ] ]
   },
   {
     "result": "elec_hairtrimmer",
@@ -161,7 +161,7 @@
       [ [ "plastic_chunk", 9 ] ],
       [ [ "scrap", 3 ] ],
       [ [ "e_scrap", 2 ] ],
-      [ [ "cable", 6 ] ],
+      [ [ "cable", 2 ] ],
       [ [ "spring", 2 ] ],
       [ [ "radio_car_wheel", 1 ] ]
     ]

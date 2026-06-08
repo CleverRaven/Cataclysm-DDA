@@ -164,7 +164,7 @@
     "type": "mutation",
     "id": "INTERSTICE_AURA",
     "name": { "str": "Penumbral Interstitium" },
-    "description": "Your cells operate under different rules.  While you still need to breath, you are otherwise extremely resistant to the thermal and chemical insults of the so-called universe.",
+    "description": "Your cells operate under different rules.  While you still need to breathe, you are otherwise extremely resistant to the thermal and chemical insults of the so-called universe.",
     "category": [ "INTERSTICE" ],
     "prereqs": [ "INTERSTICE_RESISTCHILL_RESISTWARM_2" ],
     "threshreq": [ "THRESH_INTERSTICE" ],
@@ -1147,7 +1147,7 @@
     "id": "NO_CBM_INSTALLATION",
     "name": { "str": "Oversensitive System" },
     "description": "While it doesn't cause you any problems in daily life, your immune system and body chemistry are overly sensitive to foreign implants.  You cannot have any CBMs installed.",
-    "cancels": [ "CBM_Interface", "Hub01_CBM_Interface" ],
+    "cancels": [ "CBM_Interface", "Hub01_CBM_Interface", "NL_CBM_Interface" ],
     "points": -8,
     "player_display": true,
     "starting_trait": true,
@@ -1763,8 +1763,8 @@
     "type": "mutation",
     "id": "HOARDER",
     "name": { "str": "Hoarder" },
-    "description": "You don't feel right unless you're carrying as much as you can.  You suffer morale penalties for carrying less than maximum volume (weight is ignored).  Xanax can help control this anxiety.",
-    "points": -4,
+    "description": "You don't feel right unless you're carrying a bunch of stuff.  You want to always have the right tool for every occasion, whether that's a knife, a gas mask, fresh water, a crowbar, or jelly babies.  If you can't be well stocked, then even carrying junk helps keep the horrible thoughts quiet.  Xanax can help control this anxiety.",
+    "points": -2,
     "starting_trait": true,
     "valid": false
   },
@@ -3689,6 +3689,16 @@
   },
   {
     "type": "mutation",
+    "id": "NL_MUTE",
+    "name": { "str": "Mute (Dimensional Jaunt)" },
+    "description": "Something is rendering you incapable of speech.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "flags": [ "MUTE" ]
+  },
+  {
+    "type": "mutation",
     "id": "MUTE_BIRD",
     "name": { "str": "Mute (Bird)" },
     "description": "Your mouth and larynx have changed dramatically, rendering you incapable of human speech.  With enough practice you could relearn imitating their weird ape chirps, but it will take time.  <color_red>Look for a new practice recipe to lose this setback.</color>",
@@ -5508,7 +5518,7 @@
     "type": "mutation",
     "id": "LONG_TONGUE2",
     "name": { "str": "Whipping Tongue" },
-    "description": "You've developed an extremely long and mobile tongue.  You may use it to attack your enemies and pull them towards you.",
+    "description": "You've developed an extremely long and mobile tongue.  You may use it to pull your enemies towards you.",
     "category": [ "BATRACHIAN" ],
     "types": [ "TONGUE" ],
     "threshreq": [ "THRESH_BATRACHIAN" ],
@@ -5516,15 +5526,7 @@
     "points": 3,
     "active": true,
     "vitamin_cost": 160,
-    "visibility": 1,
-    "attacks": {
-      "attack_text_u": "You swipe %s with your tongue!",
-      "attack_text_npc": "%1$s swipes %2$s with their tongue!",
-      "body_part": "mouth",
-      "chance": 15,
-      "base_damage": { "damage_type": "bash", "amount": 15 },
-      "strength_damage": { "damage_type": "bash", "amount": 2 }
-    }
+    "visibility": 1
   },
   {
     "type": "mutation",
@@ -5974,14 +5976,22 @@
     "type": "mutation",
     "id": "COMPOUND_EYES",
     "name": { "str": "Compound Eyes" },
-    "description": "Your eyes are compound, like those of an insect.  This increases your Perception by 2 whenever you aren't wearing eyewear.",
+    "description": "Your eyes are compound, like those of an insect.  This increases your reaction time, but your fine detailed vision isn't as acute.",
     "category": [ "INSECT" ],
     "types": [ "EYES" ],
     "prereqs": [ "EYEBULGE" ],
     "points": 2,
     "vitamin_cost": 160,
     "visibility": 9,
-    "ugliness": 5
+    "ugliness": 5,
+    "restricts_gear": [ "eyes" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "BONUS_DODGE", "add": 1 } ],
+        "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_compound" } ]
+      }
+    ]
   },
   {
     "type": "mutation",

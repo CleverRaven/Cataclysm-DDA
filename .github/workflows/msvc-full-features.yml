@@ -90,7 +90,7 @@ jobs:
       id: runvcpkg
       with:
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
-        vcpkgGitCommitId: 'c3867e714dd3a51c272826eea77267876517ed99'
+        vcpkgGitCommitId: 'f6672d8e480ccdecddfad3fd1b838ba369ffe6cd'
 
     - name: Integrate vcpkg
       run: |
@@ -102,7 +102,7 @@ jobs:
       uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
       with:
         path: msvc-full-features/vcpkg_installed
-        key: vcpkg-installed-${{ hashFiles('msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/x64-windows-static.cmake') }}-c3867e714dd3a51c272826eea77267876517ed99
+        key: vcpkg-installed-sdl3-${{ hashFiles('msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/x64-windows-static.cmake') }}-f6672d8e480ccdecddfad3fd1b838ba369ffe6cd
 
     - name: Download ccache
       uses: robinraju/release-downloader@368754b9c6f47c345fcfbf42bcb577c2f0f5f395 # v1.9
@@ -149,7 +149,7 @@ jobs:
 
     - name: Build
       run: |
-          msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static;JsonFormatter-vcpkg-static;zzip" msvc-full-features/Cataclysm-vcpkg-static.sln
+          msbuild -m -p:Configuration=Release -p:Platform=x64 -p:UseSDL3=true "-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static;JsonFormatter-vcpkg-static;zzip" msvc-full-features/Cataclysm-vcpkg-static.sln
 
     - name: Get ccache cache age cutoff
       id: get-cache-age

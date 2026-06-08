@@ -418,7 +418,7 @@ void iexamine::genemill( Character &you, const tripoint_bub_ms & )
 
 
     if( genetech.empty() ) {
-        popup( _( "You aren't carrying have any genetic treatments." ) );
+        popup( _( "You aren't carrying any genetic treatments." ) );
         return;
     }
     std::map<int, item_location> item_map;
@@ -7439,6 +7439,10 @@ void iexamine::workbench_internal( Character &you, const tripoint_bub_ms &examp,
                     break;
                 }
                 selected_craft = crafts[amenu2.ret].get_item();
+                if( selected_craft->is_awaiting_collection() ) {
+                    craft_collect_finalized( crafts[amenu2.ret] );
+                    break;
+                }
                 const recipe &rec = selected_craft->get_making();
                 std::optional<std::vector<attention_plan>> chosen;
                 if( rec.has_remaining_attention_steps( selected_craft->get_current_step() )

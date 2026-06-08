@@ -2889,6 +2889,9 @@ void item::craft_data::serialize( JsonOut &jsout ) const
     if( passive_end_counter != 0 ) {
         jsout.member( "passive_end_counter", passive_end_counter );
     }
+    if( awaiting_collection ) {
+        jsout.member( "awaiting_collection", awaiting_collection );
+    }
     jsout.end_object();
 }
 
@@ -3136,6 +3139,7 @@ void item::craft_data::deserialize( const JsonObject &obj )
     }
     passive_start_counter = obj.get_int( "passive_start_counter", 0 );
     passive_end_counter = obj.get_int( "passive_end_counter", 0 );
+    awaiting_collection = obj.get_bool( "awaiting_collection", false );
     // Recipe-edit migration: drop stale passive runtime on shape mismatch.
     bool stale = false;
     if( making && !disassembly ) {
@@ -4483,6 +4487,14 @@ void mm_submap::serialize( JsonOut &jsout ) const
     jsout.end_array();
 }
 
+static std::string migrate_memorized_terrain( const std::string &ter_id )
+{
+    if( auto it = ter_migrations.find( ter_str_id( ter_id ) ); it != ter_migrations.end() ) {
+        return it->second.first.str();
+    }
+    return ter_id;
+}
+
 void mm_submap::deserialize( int version, const JsonArray &ja )
 {
     size_t submap_array_idx = 0;
@@ -4500,7 +4512,7 @@ void mm_submap::deserialize( int version, const JsonArray &ja )
                 if( version < 1 ) { // legacy, remove after 0.H comes out
                     std::string id = ja_tile.get_string( 0 );
                     if( string_starts_with( id, "t_" ) ) {
-                        tile.set_ter_id( std::move( id ) );
+                        tile.set_ter_id( migrate_memorized_terrain( id ) );
                         tile.set_ter_subtile( ja_tile.get_int( 1 ) );
                         tile.set_ter_rotation( ja_tile.get_int( 2 ) );
                         tile.set_dec_id( "" );
@@ -4529,7 +4541,7 @@ void mm_submap::deserialize( int version, const JsonArray &ja )
                 } else {
                     remaining = ja_tile.get_int( 0 ) - 1;
                     tile.symbol = ja_tile.get_int( 1 );
-                    tile.set_ter_id( ja_tile.get_string( 2 ) );
+                    tile.set_ter_id( migrate_memorized_terrain( ja_tile.get_string( 2 ) ) );
                     tile.ter_subtile = ja_tile.get_int( 3 );
                     tile.ter_rotation = ja_tile.get_int( 4 );
                     if( ja_tile.size() > 5 ) {

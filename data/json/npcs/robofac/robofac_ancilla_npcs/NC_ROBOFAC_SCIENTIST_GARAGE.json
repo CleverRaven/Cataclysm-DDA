@@ -94,95 +94,46 @@
     "responses": [
       {
         "text": "[1 HGC] I've brought you one of those workers.",
-        "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE_SELL_EXODII_PAID",
-        "condition": { "u_has_items": { "item": "broken_exodii_worker", "count": 1 } },
+        "topic": "TALK_DONE",
+        "condition": { "u_has_items_sum": [ { "item": "broken_exodii_worker", "amount": 1 } ] },
         "effect": [
-          { "u_consume_item": "broken_exodii_worker", "count": 1, "popup": true },
+          { "u_consume_item_sum": [ { "item": "broken_exodii_worker", "amount": 1 } ] },
           { "u_spawn_item": "RobofacCoin", "count": 1 },
           { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
         ]
       },
       {
         "text": "[2 HGC] I've brought you one of those quadrupeds.",
-        "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE_SELL_EXODII_PAID",
-        "condition": { "u_has_items": { "item": "broken_exodii_quad", "count": 1 } },
+        "topic": "TALK_DONE",
+        "condition": { "u_has_items_sum": [ { "item": "broken_exodii_quad", "amount": 1 } ] },
         "effect": [
-          { "u_consume_item": "broken_exodii_quad", "count": 1, "popup": true },
+          { "u_consume_item_sum": [ { "item": "broken_exodii_quad", "amount": 1 } ] },
           { "u_spawn_item": "RobofacCoin", "count": 2 },
           { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
         ]
       },
       {
         "text": "[2 HGC] I've brought you one of those turrets.",
-        "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE_SELL_EXODII_PAID",
-        "condition": { "u_has_items": { "item": "broken_exodii_turret", "count": 1 } },
+        "topic": "TALK_DONE",
+        "condition": { "u_has_items_sum": [ { "item": "broken_exodii_turret", "amount": 1 } ] },
         "effect": [
-          { "u_consume_item": "broken_exodii_turret", "count": 1, "popup": true },
+          { "u_consume_item_sum": [ { "item": "broken_exodii_turret", "amount": 1 } ] },
           { "u_spawn_item": "RobofacCoin", "count": 2 },
           { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
         ]
       },
       {
         "text": "[4 HGC] I found this strange balloon robot.",
-        "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE_SELL_EXODII_PAID",
-        "condition": { "u_has_items": { "item": "broken_exodii_sniper_drone", "count": 1 } },
+        "topic": "TALK_DONE",
+        "condition": { "u_has_items_sum": [ { "item": "broken_exodii_sniper_drone", "amount": 1 } ] },
         "effect": [
-          { "u_consume_item": "broken_exodii_sniper_drone", "count": 1, "popup": true },
+          { "u_consume_item_sum": [ { "item": "broken_exodii_sniper_drone", "amount": 1 } ] },
           { "u_spawn_item": "RobofacCoin", "count": 4 },
           { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
         ]
       },
       { "text": "Nevermind.  Let's talk about something else.", "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE" },
       { "text": "Actually, I'd better be going.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_ROBOFAC_SCIENTIST_GARAGE_SELL_EXODII_PAID",
-    "dynamic_line": "Thanks, man.  Enjoy that.",
-    "responses": [
-      {
-        "text": "[1 HGC] I've also got one of those workers.",
-        "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE_SELL_EXODII_PAID",
-        "condition": { "u_has_items": { "item": "broken_exodii_worker", "count": 1 } },
-        "effect": [
-          { "u_consume_item": "broken_exodii_worker", "count": 1, "popup": true },
-          { "u_spawn_item": "RobofacCoin", "count": 1 },
-          { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
-        ]
-      },
-      {
-        "text": "[2 HGC] I've also got one of those quadrupeds.",
-        "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE_SELL_EXODII_PAID",
-        "condition": { "u_has_items": { "item": "broken_exodii_quad", "count": 1 } },
-        "effect": [
-          { "u_consume_item": "broken_exodii_quad", "count": 1, "popup": true },
-          { "u_spawn_item": "RobofacCoin", "count": 2 },
-          { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
-        ]
-      },
-      {
-        "text": "[2 HGC] I've also got one of those turrets.",
-        "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE_SELL_EXODII_PAID",
-        "condition": { "u_has_items": { "item": "broken_exodii_turret", "count": 1 } },
-        "effect": [
-          { "u_consume_item": "broken_exodii_turret", "count": 1, "popup": true },
-          { "u_spawn_item": "RobofacCoin", "count": 2 },
-          { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
-        ]
-      },
-      {
-        "text": "[4 HGC] I also found this strange balloon robot.",
-        "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE_SELL_EXODII_PAID",
-        "condition": { "u_has_items": { "item": "broken_exodii_sniper_drone", "count": 1 } },
-        "effect": [
-          { "u_consume_item": "broken_exodii_sniper_drone", "count": 1, "popup": true },
-          { "u_spawn_item": "RobofacCoin", "count": 4 },
-          { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
-        ]
-      },
-      { "text": "Let's talk about something else.", "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE" },
-      { "text": "I'd better be going.", "topic": "TALK_DONE" }
     ]
   },
   {

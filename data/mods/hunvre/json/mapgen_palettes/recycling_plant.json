@@ -1,0 +1,130 @@
+[
+  {
+    "type": "palette",
+    "id": "recycling_plant",
+    "parameters": {
+      "carpet_color_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [ [ "t_carpet_red", 1 ], [ "t_carpet_green", 1 ], [ "t_carpet_purple", 1 ], [ "t_carpet_yellow", 1 ] ]
+        }
+      }
+    },
+    "mapping": {
+      "_": { "terrain": "t_sidewalk" },
+      "-": { "terrain": "t_thconc_y" },
+      ";": { "terrain": { "param": "carpet_color_type", "fallback": "t_carpet_red" } },
+      ":": { "terrain": "t_grate" },
+      ".": { "terrain": "t_railroad_rubble" },
+      "'": { "terrain": "t_concrete" },
+      "[": { "terrain": "t_wall_glass" },
+      "*": { "terrain": "t_railroad_track" },
+      "/": { "terrain": "t_door_metal_locked" },
+      "#": { "terrain": "t_concrete_wall" },
+      "+": { "terrain": "t_door_c" },
+      "<": { "terrain": "t_stairs_up" },
+      "=": { "terrain": "t_door_metal_locked" },
+      ">": { "terrain": "t_stairs_down" },
+      "0": { "terrain": "t_open_air" },
+      "1": { "terrain": "t_concrete_ramp_down_high" },
+      "2": { "terrain": "t_concrete_ramp_down_low" },
+      "3": { "terrain": "t_concrete_ramp_up_high" },
+      "4": { "terrain": "t_concrete_ramp_up_low" },
+      "5": { "terrain": "t_concrete", "items": [ { "item": "SUS_toilet", "chance": 50 } ] },
+      "6": { "furniture": [ "f_degraded_nurdle_pile_tall", "f_degraded_nurdle_pile", "f_degraded_nurdle_pile_short" ] },
+      "7": { "furniture": [ "f_contaminated_dirt_pile_tall", "f_contaminated_dirt_pile", "f_contaminated_dirt_pile_short" ] },
+      "8": { "furniture": [ "f_nurdle_pile_tall", "f_nurdle_pile", "f_nurdle_pile_short" ] },
+      "A": { "terrain": "t_wall_metal_shipping_container" },
+      "B": { "terrain": "t_metal_floor" },
+      "C": { "terrain": "t_elevator_control_no_roof" },
+      "c": { "terrain": { "param": "carpet_color_type", "fallback": "t_carpet_red" }, "furniture": [ "f_bench" ] },
+      "D": { "terrain": "t_support_l" },
+      "d": {
+        "terrain": [ "t_concrete" ],
+        "furniture": [ "f_locker" ],
+        "items": [ { "item": "locker_gym", "chance": 50, "repeat": 3 } ]
+      },
+      "e": { "terrain": [ "t_concrete" ], "furniture": [ "f_sink" ] },
+      "F": { "terrain": "t_gate_metal_o" },
+      "f": {
+        "terrain": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "furniture": [ "f_counter" ],
+        "items": [ { "item": "SUS_office_desk", "chance": 40 } ]
+      },
+      "G": { "terrain": "t_elevator_no_roof" },
+      "g": { "terrain": { "param": "carpet_color_type", "fallback": "t_carpet_red" }, "furniture": [ "f_counter_gate_c" ] },
+      "H": { "terrain": "t_water_pool_shallow" },
+      "h": { "terrain": { "param": "carpet_color_type", "fallback": "t_carpet_red" }, "furniture": [ "f_armchair" ] },
+      "i": { "terrain": [ "t_metal_railing" ] },
+      "j": { "terrain": [ "t_concrete" ], "furniture": [ "f_oven" ] },
+      "k": { "terrain": { "param": "carpet_color_type", "fallback": "t_carpet_red" }, "furniture": [ "f_coffee_table" ] },
+      "l": { "terrain": [ "t_concrete" ], "furniture": [ "f_table" ] },
+      "m": {
+        "terrain": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "furniture": [ "f_table" ],
+        "items": [ { "item": "dining", "chance": 40, "repeat": [ 1, 2 ] } ]
+      },
+      "n": {
+        "terrain": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "furniture": [ "f_filing_cabinet" ],
+        "items": [ { "item": "SUS_office_filing_cabinet", "chance": 90 } ]
+      },
+      "o": { "terrain": { "param": "carpet_color_type", "fallback": "t_carpet_red" }, "furniture": [ "f_sofa" ] },
+      "q": { "terrain": [ "t_concrete" ], "furniture": [ "f_bench" ] },
+      "r": {
+        "terrain": [ "t_concrete" ],
+        "furniture": [ "f_table" ],
+        "items": [ { "item": "dining", "chance": 40, "repeat": [ 1, 2 ] } ]
+      },
+      "s": { "terrain": [ "t_concrete" ], "furniture": [ "f_counter" ] },
+      "T": { "terrain": "t_chainfence" },
+      "t": {
+        "terrain": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "furniture": [ "f_desk" ],
+        "items": [ { "item": "SUS_office_desk", "chance": 40 } ]
+      },
+      "u": {
+        "terrain": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "furniture": [ "f_locker" ],
+        "items": [ { "item": "locker_gym", "chance": 50, "repeat": 3 } ]
+      },
+      "v": {
+        "terrain": [ "t_concrete" ],
+        "furniture": [ "f_fridge" ],
+        "items": [ { "item": "SUS_fridge_breakroom", "chance": 70 } ]
+      },
+      "w": {
+        "terrain": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "furniture": [ "f_fridge" ],
+        "items": [ { "item": "SUS_fridge_breakroom", "chance": 70 } ]
+      },
+      "x": {
+        "terrain": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "furniture": [ "f_oven" ],
+        "items": [ { "item": "SUS_oven", "chance": 90 } ]
+      },
+      "y": { "terrain": { "param": "carpet_color_type", "fallback": "t_carpet_red" }, "furniture": [ "f_sink" ] }
+    },
+    "toilets": { "5": {  } },
+    "vehicles": {
+      "Ú": { "chance": 80, "vehicle": "forklift_diesel", "rotation": 90 },
+      "Ù": { "chance": 80, "vehicle": "forklift", "rotation": 270 }
+    },
+    "nested": {
+      "Ò": { "chunks": [ [ "8x8_machine1", 1 ], [ "8x8_machine2", 1 ] ] },
+      "Ó": { "chunks": [ [ "shipping_container_north", 80 ], [ "null", 20 ] ] }
+    },
+    "items": { "H": { "item": "SUS_junk_drawer_messy", "chance": 80 }, "9": { "item": "SUS_junk_drawer_messy" } },
+    "signs": {
+      "ó": { "signage": "Repolymerization." },
+      "ò": { "signage": "Refuse." },
+      "ö": { "signage": "Ready for processing." }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "machines",
+    "terrain": { "3": "t_thconc_y" },
+    "furniture": { "0": "f_barstool", "1": "f_machinery_heavy", "2": "f_machinery_heavy" }
+  }
+]

@@ -68,12 +68,10 @@ jobs:
 
   # Compile GLSL -> spv/dxil/msl once on Linux and share with every SDL3
   # platform job. Runtime variant_pass picks the format matching its GPU
-  # backend (Vulkan/D3D12/Metal). Non-SDL3 builds ignore the artifact.
+  # backend (Vulkan/D3D12/Metal). Curses jobs do not fetch it.
   compile-shaders:
     name: Compile shaders
-    # SDL3 is opt-in / experimental; do not block non-SDL3 release builds if
-    # the shader toolchain is broken.
-    continue-on-error: true
+    # Default SDL3 release builds need these shader artifacts.
     runs-on: ubuntu-24.04
     steps:
     - name: checkout repository
@@ -81,74 +79,8 @@ jobs:
       with:
         persist-credentials: false
 
-    - name: install glslang
-      run: |
-          sudo apt-get update
-          sudo apt-get install -y glslang-tools
-
-    - name: setup SDL3 (for shadercross link)
-      id: sdl
-      uses: libsdl-org/setup-sdl@4ebea449684c989388fe6bcea0460e300d13a5ae # main
-      with:
-        version: 3.4.4
-        cmake-generator: Ninja
-        install-linux-dependencies: true
-
-    - name: build SDL_shadercross
-      run: |
-          git clone --recursive https://github.com/libsdl-org/SDL_shadercross.git /tmp/SDL_shadercross
-          cd /tmp/SDL_shadercross
-          git checkout 6b06e55c7c5d7e7a09a8a14f76e866dcfad5ab99
-          git submodule update --init --recursive
-          cmake -P build-scripts/download-prebuilt-DirectXShaderCompiler.cmake
-          cmake -S external/SPIRV-Cross -B spirv_cross_build -GNinja \
-              -DCMAKE_BUILD_TYPE=Release \
-              -DSPIRV_CROSS_SHARED=OFF \
-              -DSPIRV_CROSS_STATIC=ON \
-              -DSPIRV_CROSS_CLI=OFF \
-              -DSPIRV_CROSS_ENABLE_TESTS=OFF \
-              -DCMAKE_INSTALL_PREFIX=/tmp/spirv_cross_prefix
-          cmake --build spirv_cross_build
-          cmake --install spirv_cross_build
-          cmake -B build -GNinja \
-              -DCMAKE_BUILD_TYPE=Release \
-              -DCMAKE_PREFIX_PATH=/tmp/spirv_cross_prefix \
-              -DDirectXShaderCompiler_ROOT=/tmp/SDL_shadercross/external/DirectXShaderCompiler-binaries \
-              -DSDLSHADERCROSS_VENDORED=OFF \
-              -DSDLSHADERCROSS_INSTALL=ON \
-              -DSDLSHADERCROSS_CLI=ON \
-              -DSDLSHADERCROSS_SHARED=OFF \
-              -DSDLSHADERCROSS_STATIC=ON \
-              -DSDLSHADERCROSS_SPIRVCROSS_SHARED=OFF
-          cmake --build build
-          sudo cmake --install build
-
-    - name: compile shaders for all backends
-      env:
-        # shadercross dynamically links against SDL3 (built by setup-sdl) and
-        # against the prebuilt DXC libdxcompiler.so under the SDL_shadercross
-        # external/ tree, neither of which is in the system loader path.
-        LD_LIBRARY_PATH: ${{ steps.sdl.outputs.prefix }}/lib:/tmp/SDL_shadercross/external/DirectXShaderCompiler-binaries/linux/lib
-      run: |
-          python3 tools/build_shaders.py \
-              --shader-dir data/shaders \
-              --formats spv,dxil,msl \
-              --stamp data/shaders/build-spv-dxil-msl.stamp
-          touch data/shaders/build-spv.stamp \
-                data/shaders/build-dxil.stamp \
-                data/shaders/build-msl.stamp
-
-    - name: upload shader artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: cdda-shaders
-        path: |
-          data/shaders/*.spv
-          data/shaders/*.dxil
-          data/shaders/*.msl
-          data/shaders/build-*.stamp
-        if-no-files-found: error
-        retention-days: 7
+    - name: build SDL3 shader artifacts
+      uses: ./.github/actions/build-sdl3-shaders
 
   builds:
     needs:
@@ -168,16 +100,9 @@ jobs:
             content: application/zip
             tiles: 1
             sound: 0
+            sdl3: 1
           - name: Windows Tiles Sounds x64 MSVC
             artifact: windows-with-graphics-and-sounds-x64
-            arch: x64
-            os: windows-2022
-            ext: zip
-            content: application/zip
-            tiles: 1
-            sound: 1
-          - name: Windows Tiles Sounds x64 MSVC (SDL3)
-            artifact: windows-with-graphics-and-sounds-sdl3-x64
             arch: x64
             os: windows-2022
             ext: zip
@@ -191,6 +116,7 @@ jobs:
             libbacktrace: 1
             tiles: 1
             sound: 0
+            sdl3: 1
             artifact: linux-with-graphics-x64
             ext: tar.gz
             content: application/gzip
@@ -200,17 +126,8 @@ jobs:
             libbacktrace: 1
             tiles: 1
             sound: 1
-            artifact: linux-with-graphics-and-sounds-x64
-            ext: tar.gz
-            content: application/gzip
-          - name: Linux Tiles Sounds x64 (SDL3)
-            os: ubuntu-24.04
-            android: none
-            libbacktrace: 1
-            tiles: 1
-            sound: 1
             sdl3: 1
-            artifact: linux-with-graphics-and-sounds-sdl3-x64
+            artifact: linux-with-graphics-and-sounds-x64
             ext: tar.gz
             content: application/gzip
           - name: Linux Curses x64
@@ -232,21 +149,15 @@ jobs:
           - name: macOS Tiles Universal Binary (x64 and arm64)
             os: macos-15
             tiles: 1
-            sound: 0
-            artifact: osx-with-graphics-universal
-            ext: dmg
-            content: application/x-apple-diskimage
-          - name: macOS Tiles Universal Binary (SDL3)
-            os: macos-15
-            tiles: 1
-            sound: 0
+            sound: 1
             sdl3: 1
-            artifact: osx-with-graphics-sdl3-universal
+            artifact: osx-with-graphics-universal
             ext: dmg
             content: application/x-apple-diskimage
           - name: Android x64
             os: ubuntu-latest
             tiles: 1
+            sdl3: 1
             android: arm64
             artifact: android-x64
             ext: apk
@@ -254,6 +165,7 @@ jobs:
           - name: Android x32
             os: ubuntu-latest
             tiles: 1
+            sdl3: 1
             android: arm32
             artifact: android-x32
             ext: apk
@@ -318,7 +230,7 @@ jobs:
         id: runvcpkg
         with:
           vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
-          vcpkgGitCommitId: 'c3867e714dd3a51c272826eea77267876517ed99'
+          vcpkgGitCommitId: 'f6672d8e480ccdecddfad3fd1b838ba369ffe6cd'
       - name: Install dependencies (windows msvc) (3/4)
         if: runner.os == 'Windows'
         run: |
@@ -331,158 +243,87 @@ jobs:
           install: >-
             gettext
             make
-      - name: Cache vcpkg packages (Windows, SDL2)
-        if: runner.os == 'Windows' && matrix.sdl3 != 1
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
-        with:
-          path: msvc-full-features/vcpkg_installed
-          key: vcpkg-installed-sdl2-${{ hashFiles('msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/x64-windows-static.cmake') }}-c3867e714dd3a51c272826eea77267876517ed99
       - name: Cache vcpkg packages (Windows, SDL3)
         if: runner.os == 'Windows' && matrix.sdl3 == 1
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: msvc-full-features/vcpkg_installed
-          key: vcpkg-installed-sdl3-${{ hashFiles('msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/x64-windows-static.cmake') }}-c3867e714dd3a51c272826eea77267876517ed99
-      - name: Install dependencies (Linux, SDL2)
-        if: runner.os == 'Linux' && matrix.android == 'none' && !matrix.wasm && matrix.sdl3 != 1
+          key: vcpkg-installed-sdl3-${{ hashFiles('msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/x64-windows-static.cmake') }}-f6672d8e480ccdecddfad3fd1b838ba369ffe6cd
+      - name: Install dependencies (Linux, curses)
+        if: runner.os == 'Linux' && matrix.android == 'none' && !matrix.wasm && matrix.tiles != 1
         run: |
           sudo apt-get update
-          sudo apt-get install libsdl2-dev
-          git clone https://github.com/libsdl-org/SDL.git --branch release-2.0.20 --depth 1
-          cd SDL
-          mkdir build
-          cd build
-          ../configure
-          make -j$((`nproc`+0))
-          sudo make install
-          cp ../LICENSE.txt ${{ github.workspace }}/LICENSE-SDL.txt
-          sudo apt-get install libncursesw5-dev libsdl2-ttf-dev libsdl2-image-dev \
-            libsdl2-mixer-dev libpulse-dev ccache gettext parallel
+          sudo apt-get install -y libncursesw5-dev ccache gettext parallel
       - name: Install dependencies (Linux, SDL3)
         if: runner.os == 'Linux' && matrix.android == 'none' && !matrix.wasm && matrix.sdl3 == 1
         run: |
           sudo apt-get update
-          sudo apt-get install libflac-dev libogg-dev libvorbis-dev libmpg123-dev libwavpack-dev \
-              libfreetype-dev libharfbuzz-dev libjpeg-dev libpng-dev libwebp-dev libtiff-dev \
-              libpulse-dev libncursesw5-dev ccache gettext parallel pkg-config cmake \
-              libx11-dev libxext-dev libxcursor-dev libxi-dev libxfixes-dev libxrandr-dev \
-              libxrender-dev libxss-dev libxtst-dev libxkbcommon-dev libwayland-dev \
-              libdecor-0-dev libdrm-dev libgbm-dev libudev-dev libpipewire-0.3-dev \
-              libdbus-1-dev libibus-1.0-dev
-      - name: Cache SDL3 stack source build (Linux, SDL3)
+          wget -O /tmp/llvm.sh https://apt.llvm.org/llvm.sh
+          chmod +x /tmp/llvm.sh
+          sudo /tmp/llvm.sh 18
+          sudo apt-get install -y libncursesw5-dev ccache gettext parallel patchelf
+      - name: Setup SDL3 stack (Linux, SDL3)
         if: runner.os == 'Linux' && matrix.android == 'none' && !matrix.wasm && matrix.sdl3 == 1
-        id: cache-sdl3-release
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        uses: ./.github/actions/setup-sdl3-stack
         with:
-          path: ${{ runner.workspace }}/sdl3_prefix
-          key: sdl3-stack-sdl-3.4.4-image-3.4.2-ttf-3.2.2-mixer-3.2.0-${{ runner.os }}-v2
-      - name: Build SDL3 stack from source (Linux, SDL3)
-        if: runner.os == 'Linux' && matrix.android == 'none' && !matrix.wasm && matrix.sdl3 == 1 && steps.cache-sdl3-release.outputs.cache-hit != 'true'
-        run: |
-          PREFIX=${{ runner.workspace }}/sdl3_prefix
-          export PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig:$PREFIX/lib/x86_64-linux-gnu/pkgconfig
-          export CMAKE_PREFIX_PATH=$PREFIX
-          git clone --depth 1 --branch release-3.4.4 https://github.com/libsdl-org/SDL.git sdl3_src
-          cmake -S sdl3_src -B sdl3_build \
-              -DCMAKE_BUILD_TYPE=Release \
-              -DCMAKE_INSTALL_PREFIX=$PREFIX \
-              -DBUILD_SHARED_LIBS=ON
-          cmake --build sdl3_build -j$(nproc)
-          cmake --install sdl3_build
-          git clone --depth 1 --branch release-3.4.2 https://github.com/libsdl-org/SDL_image.git sdl3_image_src
-          cmake -S sdl3_image_src -B sdl3_image_build \
-              -DCMAKE_BUILD_TYPE=Release \
-              -DCMAKE_INSTALL_PREFIX=$PREFIX \
-              -DSDLIMAGE_VENDORED=OFF \
-              -DBUILD_SHARED_LIBS=ON
-          cmake --build sdl3_image_build -j$(nproc)
-          cmake --install sdl3_image_build
-          git clone --depth 1 --branch release-3.2.2 https://github.com/libsdl-org/SDL_ttf.git sdl3_ttf_src
-          cmake -S sdl3_ttf_src -B sdl3_ttf_build \
-              -DCMAKE_BUILD_TYPE=Release \
-              -DCMAKE_INSTALL_PREFIX=$PREFIX \
-              -DSDLTTF_VENDORED=OFF \
-              -DBUILD_SHARED_LIBS=ON
-          cmake --build sdl3_ttf_build -j$(nproc)
-          cmake --install sdl3_ttf_build
-          git clone --depth 1 --branch release-3.2.0 https://github.com/libsdl-org/SDL_mixer.git sdl3_mixer_src
-          cmake -S sdl3_mixer_src -B sdl3_mixer_build \
-              -DCMAKE_BUILD_TYPE=Release \
-              -DCMAKE_INSTALL_PREFIX=$PREFIX \
-              -DSDLMIXER_VENDORED=OFF \
-              -DSDLMIXER_FLAC=ON -DSDLMIXER_FLAC_LIBFLAC=ON \
-              -DSDLMIXER_MP3=ON -DSDLMIXER_MP3_MPG123=ON \
-              -DSDLMIXER_VORBIS=VORBISFILE \
-              -DSDLMIXER_WAVPACK=ON \
-              -DSDLMIXER_OPUS=OFF -DSDLMIXER_MOD=OFF -DSDLMIXER_MIDI=OFF \
-              -DBUILD_SHARED_LIBS=ON
-          cmake --build sdl3_mixer_build -j$(nproc)
-          cmake --install sdl3_mixer_build
-          mkdir -p $PREFIX/share
-          cp sdl3_src/LICENSE.txt $PREFIX/share/LICENSE-SDL.txt
-          cp sdl3_mixer_src/LICENSE.txt $PREFIX/share/LICENSE-SDL3_mixer.txt
-      - name: Stage SDL3 license files (Linux, SDL3)
-        if: runner.os == 'Linux' && matrix.android == 'none' && !matrix.wasm && matrix.sdl3 == 1
-        run: |
-          cp ${{ runner.workspace }}/sdl3_prefix/share/LICENSE-SDL.txt ${{ github.workspace }}/LICENSE-SDL.txt
-          cp ${{ runner.workspace }}/sdl3_prefix/share/LICENSE-SDL3_mixer.txt ${{ github.workspace }}/LICENSE-SDL3_mixer.txt
+          cache-key: sdl3-stack-strict-sdl-3.4.10-image-3.4.4-ttf-3.2.2-mixer-3.2.4-ubuntu-24.04-v1
+          prefix: ${{ runner.workspace }}/sdl3_prefix
+          stage-licenses: "true"
       - name: Install Emscripten (WebAssembly)
         if: matrix.wasm
         uses: mymindstorm/setup-emsdk@d233ac12b0102f74ca199f5dad7a4e2c13a8a745 # v13
-      - name: Install runtime dependencies (mac, SDL2)
-        if: runner.os == 'macOS' && matrix.sdl3 != 1
-        uses: BrettDong/setup-sdl2-frameworks@a8ca795ef904417e9ddcb010ef6bf2d11779dbe3 # v2
-        with:
-          sdl2: 2.30.11
-          sdl2-ttf: 2.24.0
-          sdl2-image: 2.8.4
-          sdl2-mixer: 2.8.0
       - name: Install build dependencies (mac)
         if: runner.os == 'macOS'
         run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel dylibbundler
           pip3 install --break-system-packages dmgbuild biplist
-      - name: install macports (mac, SDL2)
-        if: runner.os == 'macOS' && matrix.tiles == 1 && matrix.sdl3 != 1
-        uses: melusina-org/setup-macports@c7eb59386def259a274627092566a7f7b8d219b1 # v1
-      - name: install macports packages (mac, SDL2)
-        if: runner.os == 'macOS' && matrix.tiles == 1 && matrix.sdl3 != 1
-        run: |
-          sudo port install freetype +universal pkgconfig +universal
       - name: install macports (mac, SDL3)
         if: runner.os == 'macOS' && matrix.tiles == 1 && matrix.sdl3 == 1
         uses: melusina-org/setup-macports@c7eb59386def259a274627092566a7f7b8d219b1 # v1
       - name: install macports packages (mac, SDL3)
         if: runner.os == 'macOS' && matrix.tiles == 1 && matrix.sdl3 == 1
         run: |
-          sudo port install freetype +universal pkgconfig +universal
+          # SDL_mixer VENDORED=OFF pulls every mixer codec from a system lib.
+          # The macOS artifact is universal, so each (plus libiconv, a
+          # transitive dep of flac/wavpack) must be +universal.
+          sudo port install freetype +universal pkgconfig +universal \
+              libiconv +universal libogg +universal flac +universal \
+              libvorbis +universal wavpack +universal mpg123 +universal
       - name: Cache SDL3 stack source build (mac, SDL3)
         if: runner.os == 'macOS' && matrix.tiles == 1 && matrix.sdl3 == 1
         id: cache-sdl3-release-macos
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ${{ runner.workspace }}/sdl3_prefix
-          key: sdl3-stack-universal-sdl-3.4.4-image-3.4.2-ttf-3.2.2-mixer-3.2.0-${{ runner.os }}-v1
+          key: sdl3-stack-universal-sdl-3.4.10-image-3.4.4-ttf-3.2.2-mixer-3.2.4-${{ runner.os }}-v5
       - name: Build SDL3 stack from source (mac, SDL3, universal)
         if: runner.os == 'macOS' && matrix.tiles == 1 && matrix.sdl3 == 1 && steps.cache-sdl3-release-macos.outputs.cache-hit != 'true'
         run: |
           PREFIX=${{ runner.workspace }}/sdl3_prefix
           export PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig:/opt/local/lib/pkgconfig
-          export CMAKE_PREFIX_PATH=$PREFIX
+          # wavpack's Findwavpack.cmake uses plain find_library (no pkg-config),
+          # so /opt/local must be on CMAKE_PREFIX_PATH.
+          export CMAKE_PREFIX_PATH=$PREFIX:/opt/local
           ARCH_ARG='-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64'
-          git clone --depth 1 --branch release-3.4.4 https://github.com/libsdl-org/SDL.git sdl3_src
+          git clone --depth 1 --branch release-3.4.10 https://github.com/libsdl-org/SDL.git sdl3_src
           cmake -S sdl3_src -B sdl3_build "$ARCH_ARG" \
               -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX=$PREFIX \
               -DBUILD_SHARED_LIBS=ON
           cmake --build sdl3_build -j$(sysctl -n hw.ncpu)
           cmake --install sdl3_build
-          git clone --depth 1 --branch release-3.4.2 --recurse-submodules --shallow-submodules https://github.com/libsdl-org/SDL_image.git sdl3_image_src
+          git clone --depth 1 --branch release-3.4.4 --recurse-submodules --shallow-submodules https://github.com/libsdl-org/SDL_image.git sdl3_image_src
           cmake -S sdl3_image_src -B sdl3_image_build "$ARCH_ARG" \
               -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX=$PREFIX \
               -DSDLIMAGE_VENDORED=ON \
-              -DSDLIMAGE_AVIF=OFF -DSDLIMAGE_JXL=OFF -DSDLIMAGE_WEBP=OFF \
+              -DSDLIMAGE_DEPS_SHARED=OFF \
+              -DSDLIMAGE_STRICT=ON \
+              -DSDLIMAGE_BACKEND_IMAGEIO=OFF \
+              -DSDLIMAGE_PNG=ON -DSDLIMAGE_PNG_LIBPNG=ON \
+              -DSDLIMAGE_JPG=ON \
+              -DSDLIMAGE_AVIF=OFF -DSDLIMAGE_JXL=OFF \
+              -DSDLIMAGE_TIF=OFF -DSDLIMAGE_WEBP=OFF \
               -DPNG_ARM_NEON=off \
               -DBUILD_SHARED_LIBS=ON
           cmake --build sdl3_image_build -j$(sysctl -n hw.ncpu)
@@ -492,26 +333,102 @@ jobs:
               -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX=$PREFIX \
               -DSDLTTF_VENDORED=ON \
+              -DSDLTTF_STRICT=ON \
+              -DSDLTTF_PLUTOSVG=OFF \
               -DBUILD_SHARED_LIBS=ON
           cmake --build sdl3_ttf_build -j$(sysctl -n hw.ncpu)
           cmake --install sdl3_ttf_build
-          git clone --depth 1 --branch release-3.2.0 --recurse-submodules --shallow-submodules https://github.com/libsdl-org/SDL_mixer.git sdl3_mixer_src
+          git clone --depth 1 --branch release-3.2.4 --recurse-submodules --shallow-submodules https://github.com/libsdl-org/SDL_mixer.git sdl3_mixer_src
+          # VENDORED=OFF links the MacPorts codecs (LC_LOAD_DYLIB), not static-
+          # embed; mpg123 (LGPL) ships as a separate dylib. DEPS_SHARED=OFF keeps
+          # real link edges, not dlopen-by-name (no LC_LOAD_DYLIB, breaks bundler).
           cmake -S sdl3_mixer_src -B sdl3_mixer_build "$ARCH_ARG" \
               -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX=$PREFIX \
-              -DSDLMIXER_VENDORED=ON \
-              -DSDLMIXER_OPUS=OFF -DSDLMIXER_MOD=OFF -DSDLMIXER_MIDI=OFF \
+              -DSDLMIXER_VENDORED=OFF \
+              -DSDLMIXER_DEPS_SHARED=OFF \
+              -DSDLMIXER_STRICT=ON \
+              -DSDLMIXER_FLAC=ON -DSDLMIXER_FLAC_LIBFLAC=ON -DSDLMIXER_FLAC_DRFLAC=OFF \
+              -DSDLMIXER_MP3=ON -DSDLMIXER_MP3_MPG123=ON -DSDLMIXER_MP3_MPG123_SHARED=OFF -DSDLMIXER_MP3_DRMP3=OFF \
+              -DSDLMIXER_VORBIS_VORBISFILE=ON -DSDLMIXER_VORBIS_STB=OFF -DSDLMIXER_VORBIS_TREMOR=OFF \
+              -DSDLMIXER_WAVPACK=ON \
+              -DSDLMIXER_OPUS=OFF -DSDLMIXER_MOD=OFF -DSDLMIXER_MIDI=OFF -DSDLMIXER_GME=OFF \
               -DBUILD_SHARED_LIBS=ON
           cmake --build sdl3_mixer_build -j$(sysctl -n hw.ncpu)
           cmake --install sdl3_mixer_build
+          # Confirm a real link edge, not dlopen-by-name: otherwise
+          # dylibbundler ships no mpg123 dylib and LGPL swappability is lost.
+          if ! otool -L "$PREFIX"/lib/libSDL3_mixer*.dylib | grep -q mpg123; then
+              echo "ERROR: SDL3_mixer.dylib has no mpg123 LC_LOAD_DYLIB edge" >&2
+              exit 1
+          fi
           mkdir -p $PREFIX/share
           cp sdl3_src/LICENSE.txt $PREFIX/share/LICENSE-SDL.txt
+          cp sdl3_image_src/LICENSE.txt $PREFIX/share/LICENSE-SDL3_image.txt
+          cp sdl3_ttf_src/LICENSE.txt $PREFIX/share/LICENSE-SDL3_ttf.txt
           cp sdl3_mixer_src/LICENSE.txt $PREFIX/share/LICENSE-SDL3_mixer.txt
+          # SDL_image/SDL_ttf use VENDORED=ON (codecs static in the companion
+          # dylib), so harvest each codec's LICENSE/COPYING from external/.
+          for dep in \
+              sdl3_image_src/external/libpng \
+              sdl3_image_src/external/jpeg \
+              sdl3_ttf_src/external/freetype \
+              sdl3_ttf_src/external/harfbuzz; do
+              if [ -d "$dep" ]; then
+                  name=$(basename "$dep")
+                  for cand in "$dep"/LICENSE "$dep"/LICENSE.txt "$dep"/LICENSE.md \
+                              "$dep"/COPYING "$dep"/COPYING.txt "$dep"/COPYING.LIB \
+                              "$dep"/copyright; do
+                      if [ -f "$cand" ]; then
+                          cp "$cand" "$PREFIX/share/LICENSE-vendored-$name.txt"
+                          break
+                      fi
+                  done
+              fi
+          done
+          # SDL_mixer VENDORED=OFF ships flac/ogg/vorbis/mpg123/wavpack as
+          # separate MacPorts dylibs (no license installed); glob COPYING*/
+          # LICENSE* from each SDL_mixer submodule (FLAC uses COPYING.Xiph), fail if empty.
+          for dep in flac ogg vorbis mpg123 wavpack; do
+              src="sdl3_mixer_src/external/$dep"
+              out="$PREFIX/share/LICENSE-vendored-$dep.txt"
+              : > "$out"
+              for lic in "$src"/COPYING* "$src"/COPYRIGHT* "$src"/LICENSE* "$src"/License* "$src"/license*; do
+                  if [ -f "$lic" ]; then
+                      echo "=== $(basename "$lic") ===" >> "$out"
+                      cat "$lic" >> "$out"
+                      echo >> "$out"
+                  fi
+              done
+              if [ ! -s "$out" ]; then
+                  echo "ERROR: no license for bundled codec $dep in SDL_mixer source" >&2
+                  exit 1
+              fi
+          done
       - name: Stage SDL3 license files (mac, SDL3)
         if: runner.os == 'macOS' && matrix.tiles == 1 && matrix.sdl3 == 1
         run: |
           cp ${{ runner.workspace }}/sdl3_prefix/share/LICENSE-SDL.txt ${{ github.workspace }}/LICENSE-SDL.txt
+          cp ${{ runner.workspace }}/sdl3_prefix/share/LICENSE-SDL3_image.txt ${{ github.workspace }}/LICENSE-SDL3_image.txt
+          cp ${{ runner.workspace }}/sdl3_prefix/share/LICENSE-SDL3_ttf.txt ${{ github.workspace }}/LICENSE-SDL3_ttf.txt
           cp ${{ runner.workspace }}/sdl3_prefix/share/LICENSE-SDL3_mixer.txt ${{ github.workspace }}/LICENSE-SDL3_mixer.txt
+          for f in ${{ runner.workspace }}/sdl3_prefix/share/LICENSE-vendored-*.txt; do
+              if [ -f "$f" ]; then
+                  cp "$f" "${{ github.workspace }}/$(basename "$f")"
+              fi
+          done
+          # libiconv (LGPL) is bundled transitively via flac/wavpack but has no
+          # license on the MacPorts install or in any source tree, so ship the
+          # vendored copy committed in the repo.
+          cp ${{ github.workspace }}/build-data/osx/LICENSE-libiconv.txt ${{ github.workspace }}/LICENSE-vendored-libiconv.txt
+          # Every bundled codec plus libiconv must carry a non-empty license,
+          # independent of cache state (a stale prefix could skip the harvest).
+          for required in libiconv flac ogg vorbis mpg123 wavpack; do
+              if [ ! -s "${{ github.workspace }}/LICENSE-vendored-$required.txt" ]; then
+                  echo "ERROR: LICENSE-vendored-$required.txt missing or empty" >&2
+                  exit 1
+              fi
+          done
       - name: Create VERSION.TXT
         shell: bash
         run: |
@@ -545,7 +462,7 @@ jobs:
             export PKG_CONFIG_PATH="$RUNNER_WORKSPACE/sdl3_prefix/lib/pkgconfig:$RUNNER_WORKSPACE/sdl3_prefix/lib/x86_64-linux-gnu/pkgconfig"
             export LD_LIBRARY_PATH="$RUNNER_WORKSPACE/sdl3_prefix/lib:$RUNNER_WORKSPACE/sdl3_prefix/lib/x86_64-linux-gnu"
           fi
-          make COMPILER=clang++-18 -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} SDL3=${{ matrix.sdl3 == 1 && '1' || '0' }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=1 LIBBACKTRACE=${{ matrix.libbacktrace }} WARN_STALE_DATA=1 PCH=0 bindist
+          make COMPILER=clang++-18 -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.sound }} SDL3=${{ matrix.sdl3 == 1 && '1' || '0' }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=1 LIBBACKTRACE=${{ matrix.libbacktrace }} WARN_STALE_DATA=1 PCH=0 bindist
           mv cataclysmdda-0.J.tar.gz cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.tar.gz
       - name: Build CDDA (WebAssembly)
         if: matrix.wasm && success()
@@ -553,17 +470,6 @@ jobs:
           ./build-scripts/build-emscripten.sh
           ./build-scripts/prepare-web.sh
           (cd build && zip ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }} *)
-      - name: Build CDDA (windows msvc, SDL2)
-        if: runner.os == 'Windows' && matrix.sdl3 != 1
-        env:
-          # Enable pretty backtraces
-          BACKTRACE: 1
-          CDDA_RELEASE_BUILD: 1
-          VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
-        run: |
-          msbuild -m -p:Configuration=Release -p:Platform=${{ matrix.arch }} "-target:Cataclysm-vcpkg-static;JsonFormatter-vcpkg-static;zzip" msvc-full-features\Cataclysm-vcpkg-static.sln
-          .\build-scripts\windist.ps1
-          mv cataclysmdda-0.J.zip cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
       - name: Build CDDA (windows msvc, SDL3)
         if: runner.os == 'Windows' && matrix.sdl3 == 1
         env:
@@ -572,27 +478,36 @@ jobs:
           VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
         run: |
           msbuild -m -p:Configuration=Release -p:Platform=${{ matrix.arch }} -p:UseSDL3=true "-target:Cataclysm-vcpkg-static;JsonFormatter-vcpkg-static;zzip" msvc-full-features\Cataclysm-vcpkg-static.sln
-          .\build-scripts\windist.ps1
+          .\build-scripts\windist.ps1 -SDL3
           mv cataclysmdda-0.J.zip cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
-      - name: Build CDDA (osx, SDL2)
-        if: runner.os == 'macOS' && matrix.sdl3 != 1
+      - name: Build CDDA (osx, curses)
+        if: runner.os == 'macOS' && matrix.tiles != 1
         run: |
-          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 FRAMEWORK=1 UNIVERSAL_BINARY=1 WARN_STALE_DATA=1 dmgdist
+          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.sound }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 FRAMEWORK=1 UNIVERSAL_BINARY=1 WARN_STALE_DATA=1 dmgdist
           mv Cataclysm.dmg cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.dmg
       - name: Build CDDA (osx, SDL3)
         if: runner.os == 'macOS' && matrix.sdl3 == 1
         env:
           PKG_CONFIG_PATH: ${{ runner.workspace }}/sdl3_prefix/lib/pkgconfig:/opt/local/lib/pkgconfig
-          DYLIBBUNDLER_SEARCH_PATHS: ${{ runner.workspace }}/sdl3_prefix/lib
+          # The MacPorts codecs live in /opt/local/lib; dylibbundler needs it
+          # so the mpg123 (and friends) dylibs get pulled into the bundle.
+          DYLIBBUNDLER_SEARCH_PATHS: ${{ runner.workspace }}/sdl3_prefix/lib /opt/local/lib
         run: |
-          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} SDL3=1 RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 UNIVERSAL_BINARY=1 WARN_STALE_DATA=1 dmgdist
+          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.sound }} SDL3=1 RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 UNIVERSAL_BINARY=1 WARN_STALE_DATA=1 dmgdist
+          # LGPL gate: mpg123 must ship as a standalone dylib in the bundle so
+          # it stays user-replaceable. Empty match means dylibbundler did not
+          # bundle it and the build must fail rather than ship a violation.
+          if ! ls Cataclysm.app/Contents/Resources/libmpg123*.dylib >/dev/null 2>&1; then
+              echo "ERROR: libmpg123 dylib missing from app bundle Resources" >&2
+              exit 1
+          fi
           mv Cataclysm.dmg cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.dmg
       - name: Set up JDK (android)
         if: runner.os == 'Linux' && matrix.android != 'none'
         uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4
         with:
-          java-version: '11'
-          distribution: 'adopt'   
+          java-version: '17'
+          distribution: 'temurin'   
       - name: Setup Build and Dependencies (android)
         if: runner.os == 'Linux' && matrix.android != 'none'
         run: |

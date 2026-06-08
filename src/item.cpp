@@ -310,7 +310,8 @@ safe_reference<item> item::get_safe_reference()
     return anchor->reference_to( this );
 }
 
-item::item( const recipe *rec, int qty, item_components items, std::vector<item_comp> selections )
+item::item( const recipe *rec, int qty, item_components items, std::vector<item_comp> selections,
+            bool should_add_faults )
     : item( itype_craft, calendar::turn )
 {
     craft_data_ = cata::make_value<craft_data>();
@@ -326,6 +327,10 @@ item::item( const recipe *rec, int qty, item_components items, std::vector<item_
         if( goes_bad() ) {
             inherit_rot_from_components( *this );
         }
+    }
+
+    if( should_add_faults ) {
+        set_flag( flag_FAULT_ON_COMPLETION );
     }
 
     for( item_components::type_vector_pair &tvp : components ) {
@@ -5415,6 +5420,17 @@ void item::set_passive_end_counter( int c )
 {
     cata_assert( craft_data_ );
     craft_data_->passive_end_counter = c;
+}
+
+bool item::is_awaiting_collection() const
+{
+    return craft_data_ && craft_data_->awaiting_collection;
+}
+
+void item::set_awaiting_collection( bool v )
+{
+    cata_assert( craft_data_ );
+    craft_data_->awaiting_collection = v;
 }
 
 const cata::value_ptr<islot_comestible> &item::get_comestible() const

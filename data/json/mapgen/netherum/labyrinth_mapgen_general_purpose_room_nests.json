@@ -99,8 +99,7 @@
       ],
       "palettes": [ "labyrinthine_base_palette" ],
       "terrain": { "1": "t_nl_metal_floor" },
-      "nested": { "1": { "chunks": [ "ls_bubblecell_6x6_room_Wentry" ] } },
-      "monsters": { "_": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
+      "nested": { "1": { "chunks": [ "ls_bubblecell_6x6_room_Wentry" ] } }
     }
   },
   {

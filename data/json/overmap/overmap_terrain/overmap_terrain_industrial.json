@@ -112,7 +112,8 @@
     "vision_levels": "warehouse",
     "sym": "w",
     "color": "light_blue",
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",

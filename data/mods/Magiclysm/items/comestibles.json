@@ -32,7 +32,7 @@
     "quench": 14,
     "calories": 2100,
     "volume": "1800 ml",
-    "rot_spawn": { "monster": "mon_giant_heron_ridable_chick", "chance": 75 }
+    "extend": { "rot_spawn": { "monster": "mon_giant_heron_ridable_chick", "chance": 75 } }
   },
   {
     "type": "ITEM",

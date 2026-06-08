@@ -29,6 +29,7 @@
 #include "clzones.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "debug_capture.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -524,6 +525,8 @@ bool game::do_turn()
         return turn_handler::cleanup_at_end();
     }
 
+    drain_renderer_recovery();
+
     weather_manager &weather = get_weather();
 
     // Increment game turn
@@ -797,5 +800,6 @@ bool game::do_turn()
     EM_ASM( window.game_unsaved = true; );
 #endif
 
+    debug_menu::debug_capture::tick_if_active();
     return false;
 }

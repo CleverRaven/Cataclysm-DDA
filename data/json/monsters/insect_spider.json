@@ -57,7 +57,7 @@
     "dissect": "dissect_troglobite_sample_small",
     "fear_triggers": [ "FIRE" ],
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SMELLS", "HEARS", "GOODHEARING", "BASHES", "BORES", "POISON", "SUNDEATH", "ACIDPROOF", "ACIDTRAIL" ],
+    "flags": [ "SMELLS", "HEARS", "GOODHEARING", "BASHES", "BORES", "POISON", "SUNDEATH", "ACIDPROOF", "ACIDTRAIL", "ACID_BLOOD" ],
     "armor": { "bash": 6, "electric": 3 }
   },
   {
@@ -2178,7 +2178,6 @@
         "cooldown": 5,
         "move_cost": 130,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 10, "armor_penetration": 20 } ],
-        "body_parts": [ [ "leg_l", 2 ], [ "leg_r", 2 ], [ "head", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "torso", 4 ] ],
         "min_mul": 0.5,
         "max_mul": 1.5,
         "condition": { "not": { "u_has_effect": "maimed_mandible" } }
@@ -2254,7 +2253,6 @@
         "damage_max_instance": [ { "damage_type": "cut", "amount": 10, "armor_penetration": 30 } ],
         "min_mul": 1,
         "max_mul": 3,
-        "body_parts": [ [ "leg_l", 2 ], [ "leg_r", 2 ], [ "head", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "torso", 4 ] ],
         "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
@@ -2673,6 +2671,7 @@
     "flags": [
       "ACIDPROOF",
       "SHORTACIDTRAIL",
+      "ACID_BLOOD",
       "HEARS",
       "POISON",
       "SEES",

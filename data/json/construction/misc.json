@@ -49,7 +49,7 @@
       { "item": "brick", "count": [ 0, 2 ] },
       { "item": "rock", "count": [ 0, 2 ] },
       { "item": "splinter", "count": [ 0, 2 ] },
-      { "item": "scrap", "charges": [ 0, 2 ] },
+      { "item": "scrap", "count": [ 0, 2 ] },
       { "item": "material_gravel", "count": [ 0, 3 ] }
     ],
     "pre_terrain": "f_rubble",
@@ -64,7 +64,7 @@
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "required_skills": [ [ "survival", 0 ] ],
     "time": "1 m",
-    "byproducts": [ { "item": "ash", "charges": [ 0, 100 ] } ],
+    "byproducts": [ { "item": "ash", "count": [ 0, 100 ] } ],
     "pre_flags": "RUBBLE",
     "pre_terrain": "f_ash",
     "post_terrain": "f_null",
@@ -155,7 +155,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "5 m",
     "byproducts": [
-      { "item": "scrap", "charges": [ 0, 6 ] },
+      { "item": "scrap", "count": [ 0, 6 ] },
       { "item": "slag", "count": [ 0, 3 ] },
       { "item": "scrap_tin", "count": [ 0, 1 ] },
       { "item": "scrap_aluminum", "count": [ 0, 1 ] },

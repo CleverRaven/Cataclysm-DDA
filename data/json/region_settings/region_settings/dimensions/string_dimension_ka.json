@@ -51,30 +51,5 @@
       "subway_connection": "subway_tunnel",
       "rail_connection": "local_railroad"
     }
-  },
-  {
-    "type": "region_terrain_furniture",
-    "id": "string_dimension_t_region_groundcover",
-    "ter_id": "t_string_dimension_groundcover",
-    "replace_with_terrain": [ "t_string_xyz" ]
-  },
-  {
-    "type": "weather_generator",
-    "id": "string_dimension_weather",
-    "base_temperature": -20,
-    "base_humidity": 0,
-    "base_pressure": 1015.0,
-    "base_wind": 0,
-    "base_wind_distrib_peaks": 0,
-    "base_wind_season_variation": 0,
-    "spring_temp_manual_mod": 0,
-    "summer_temp_manual_mod": 0,
-    "autumn_temp_manual_mod": 0,
-    "winter_temp_manual_mod": 0,
-    "spring_humidity_manual_mod": 0,
-    "summer_humidity_manual_mod": 0,
-    "autumn_humidity_manual_mod": 0,
-    "winter_humidity_manual_mod": 0,
-    "weather_white_list": [ "clear" ]
   }
 ]

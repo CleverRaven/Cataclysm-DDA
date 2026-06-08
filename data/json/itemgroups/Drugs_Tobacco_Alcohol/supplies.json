@@ -104,6 +104,34 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "quikclot_bag_plastic_6",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "quikclot", "container-item": "null", "count": 6 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "quikclot_bag_plastic_1_6",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "quikclot", "container-item": "null", "count": [ 1, 6 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "quikclot_bag_plastic_5",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "quikclot", "container-item": "null", "count": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "quikclot_bag_plastic_0_5",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "quikclot", "container-item": "null", "count": [ 0, 5 ] } ]
+  },
+  {
     "id": "adhesive_bandages_box_full",
     "type": "item_group",
     "subtype": "collection",

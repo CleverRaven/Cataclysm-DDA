@@ -154,6 +154,23 @@
     "flags": [ "IGNORE_TEMP", "LIMB_UPPER" ]
   },
   {
+    "type": "body_part",
+    "id": "eyes_compound",
+    "name": "compound eyes",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "compound eyes" },
+    "heading": "eyes",
+    "heading_multiple": "eyes",
+    "copy-from": "eyes",
+    "opposite_part": "eyes_compound",
+    "hit_size": 7,
+    "ugliness": 8,
+    "drench_capacity": 5,
+    "drying_rate": 0.4,
+    "limb_scores": [ [ "vision", 0.65 ], [ "night_vis", 0.8 ], [ "reaction", 1.0 ] ],
+    "sub_parts": [ "eyes_compound_left", "eyes_compound_right" ],
+    "flags": [ "IGNORE_TEMP", "SEESLEEP", "LIMB_UPPER" ]
+  },
+  {
     "id": "muzzle",
     "//": "Used as a default for similar_bodypart to work for armor.",
     "type": "body_part",
@@ -746,6 +763,45 @@
     "sub_parts": [ "insect_tarsomere_r", "insect_segment_r", "insect_terminus_r" ]
   },
   {
+    "id": "paw_default_l",
+    "//": "Used as a default for similar_bodypart to work for armor.",
+    "type": "body_part",
+    "name": "default paw",
+    "name_multiple": "default left paws",
+    "heading": "default paw",
+    "heading_multiple": "paws",
+    "encumbrance_text": "Your default paw feels heavy",
+    "hit_size": 1,
+    "drench_capacity": 4,
+    "main_part": "paw_default_l",
+    "hit_difficulty": 0.8,
+    "limb_types": "hand",
+    "opposite_part": "paw_default_r",
+    "connected_to": "arm_l",
+    "side": "left",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "default paw" },
+    "hp_bar_ui_text": "TST PAW",
+    "base_hp": 20,
+    "limb_scores": [ [ "balance", 0.0 ] ],
+    "sub_parts": [ "paw_default_wrist_l", "paw_default_palm_l", "paw_default_back_l", "paw_default_fingers_l" ]
+  },
+  {
+    "id": "paw_default_r",
+    "copy-from": "paw_default_l",
+    "type": "body_part",
+    "name": "default paw",
+    "name_multiple": "paws",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "left paw" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "paws" },
+    "heading": "r. paw",
+    "heading_multiple": "paws",
+    "encumbrance_text": "Manual tasks are slowed.",
+    "main_part": "arm_r",
+    "opposite_part": "paw_default_l",
+    "side": "right",
+    "sub_parts": [ "paw_default_wrist_r", "paw_default_palm_r", "paw_default_back_r", "paw_default_fingers_r" ]
+  },
+  {
     "id": "paw_broad_l",
     "type": "body_part",
     "name": "left paw",
@@ -775,7 +831,8 @@
     "sub_parts": [ "paw_broad_wrist_l", "paw_broad_palm_l", "paw_broad_back_l", "paw_broad_fingers_l" ],
     "bmi_encumbrance_threshold": 18,
     "bmi_encumbrance_scalar": 0.2,
-    "unarmed_damage": [ { "damage_type": "bash", "amount": 4 } ]
+    "unarmed_damage": [ { "damage_type": "bash", "amount": 4 } ],
+    "similar_bodypart": "paw_default_l"
   },
   {
     "id": "paw_broad_r",
@@ -791,7 +848,8 @@
     "main_part": "arm_r",
     "opposite_part": "paw_broad_l",
     "side": "right",
-    "sub_parts": [ "paw_broad_wrist_r", "paw_broad_palm_r", "paw_broad_back_r", "paw_broad_fingers_r" ]
+    "sub_parts": [ "paw_broad_wrist_r", "paw_broad_palm_r", "paw_broad_back_r", "paw_broad_fingers_r" ],
+    "similar_bodypart": "paw_default_r"
   },
   {
     "id": "paw_l",
@@ -822,7 +880,8 @@
     "bionic_slots": 4,
     "sub_parts": [ "paw_wrist_l", "paw_palm_l", "paw_back_l", "paw_fingers_l" ],
     "bmi_encumbrance_threshold": 19,
-    "bmi_encumbrance_scalar": 0.17
+    "bmi_encumbrance_scalar": 0.17,
+    "similar_bodypart": "paw_default_l"
   },
   {
     "id": "paw_r",
@@ -838,7 +897,8 @@
     "main_part": "arm_r",
     "opposite_part": "paw_l",
     "side": "right",
-    "sub_parts": [ "paw_wrist_r", "paw_palm_r", "paw_back_r", "paw_fingers_r" ]
+    "sub_parts": [ "paw_wrist_r", "paw_palm_r", "paw_back_r", "paw_fingers_r" ],
+    "similar_bodypart": "paw_default_r"
   },
   {
     "id": "paw_rat_l",
@@ -868,7 +928,8 @@
     "bionic_slots": 4,
     "sub_parts": [ "paw_rat_wrist_l", "paw_rat_palm_l", "paw_rat_back_l", "paw_rat_fingers_l" ],
     "bmi_encumbrance_threshold": 20,
-    "bmi_encumbrance_scalar": 0.15
+    "bmi_encumbrance_scalar": 0.15,
+    "similar_bodypart": "paw_default_l"
   },
   {
     "id": "paw_rat_r",
@@ -884,7 +945,8 @@
     "main_part": "arm_r",
     "opposite_part": "paw_rat_l",
     "side": "right",
-    "sub_parts": [ "paw_rat_wrist_r", "paw_rat_palm_r", "paw_rat_back_r", "paw_rat_fingers_r" ]
+    "sub_parts": [ "paw_rat_wrist_r", "paw_rat_palm_r", "paw_rat_back_r", "paw_rat_fingers_r" ],
+    "similar_bodypart": "paw_default_r"
   },
   {
     "id": "paw_little_l",
@@ -915,7 +977,8 @@
     "sub_parts": [ "paw_little_wrist_l", "paw_little_palm_l", "paw_little_back_l", "paw_little_fingers_l" ],
     "bmi_encumbrance_threshold": 20,
     "bmi_encumbrance_scalar": 0.15,
-    "unarmed_damage": [ { "damage_type": "bash", "amount": -1 } ]
+    "unarmed_damage": [ { "damage_type": "bash", "amount": -1 } ],
+    "similar_bodypart": "paw_default_l"
   },
   {
     "id": "paw_little_r",
@@ -931,7 +994,8 @@
     "main_part": "arm_r",
     "opposite_part": "paw_little_l",
     "side": "right",
-    "sub_parts": [ "paw_little_wrist_r", "paw_little_palm_r", "paw_little_back_r", "paw_little_fingers_r" ]
+    "sub_parts": [ "paw_little_wrist_r", "paw_little_palm_r", "paw_little_back_r", "paw_little_fingers_r" ],
+    "similar_bodypart": "paw_default_r"
   },
   {
     "id": "vine_limb_upper_r",
@@ -1387,6 +1451,246 @@
     "side": "right",
     "windage_effect": "winded_crab_leg",
     "sub_parts": [ "leg_crab_basis_rr", "leg_crab_merus_rr", "leg_crab_carpus_rr", "leg_crab_manus_rr", "leg_crab_dactyl_rr" ]
+  },
+  {
+    "id": "tentacle_default_l",
+    "//": "Exists for armor coverage definitions.  Encompasses three tentacles, hence the 100% plurals",
+    "type": "body_part",
+    "name": "left tentacles",
+    "name_multiple": "left tentacles",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "left tentacles" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "left tentacles" },
+    "heading": "l. tents",
+    "heading_multiple": "l. tents",
+    "hp_bar_ui_text": "L TENTS",
+    "encumbrance_text": "Slithering is slowed.",
+    "encumbrance_threshold": 6,
+    "main_part": "tentacle_default_l",
+    "connected_to": "torso",
+    "opposite_part": "tentacle_default_r",
+    "hit_size": 7,
+    "hit_difficulty": 0.6,
+    "drench_capacity": 1000,
+    "limb_types": "leg",
+    "base_hp": 20,
+    "side": "left",
+    "sub_parts": [ "tentacle_default_base_l", "tentacle_default_middle_l", "tentacle_default_tip_l" ]
+  },
+  {
+    "id": "tentacle_default_r",
+    "//": "Exists for armor coverage definitions.  Encompasses three tentacles, hence the 100% plurals",
+    "type": "body_part",
+    "name": "right tentacles",
+    "name_multiple": "right tentacles",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "right tentacles" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "right tentacles" },
+    "heading": "r. tents",
+    "heading_multiple": "r. tents",
+    "hp_bar_ui_text": "R TENTS",
+    "encumbrance_text": "Slithering is slowed.",
+    "encumbrance_threshold": 6,
+    "main_part": "tentacle_default_r",
+    "connected_to": "torso",
+    "opposite_part": "tentacle_default_l",
+    "hit_size": 7,
+    "hit_difficulty": 0.6,
+    "drench_capacity": 1000,
+    "limb_types": "leg",
+    "base_hp": 20,
+    "side": "right",
+    "sub_parts": [ "tentacle_default_base_r", "tentacle_default_middle_r", "tentacle_default_tip_r" ]
+  },
+  {
+    "id": "tentacle_lower_front_l",
+    "//": "Slower speed but much better footing, slight balance buff, lower crawl, good swimming.  Numbers scale based on having six tentacles.",
+    "type": "body_part",
+    "name": "left front tentacle",
+    "name_multiple": "front tentacles",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "left front tentacle" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "front tentacles" },
+    "heading": "l. f. tent",
+    "heading_multiple": "f. tent",
+    "hp_bar_ui_text": "L FTENT",
+    "encumbrance_text": "Slithering is slowed.",
+    "encumbrance_threshold": 6,
+    "main_part": "tentacle_lower_front_l",
+    "connected_to": "torso",
+    "opposite_part": "tentacle_lower_front_r",
+    "hit_size": 7,
+    "hit_difficulty": 0.6,
+    "limb_types": "leg",
+    "limb_scores": [
+      [ "manip", 0.05, 0.1 ],
+      [ "move_speed", 0.125 ],
+      [ "balance", 0.05 ],
+      [ "footing", 0.17 ],
+      [ "block", 0.35 ],
+      [ "crawl", 0.08 ],
+      [ "swim", 0.2 ]
+    ],
+    "side": "left",
+    "hot_morale_mod": 0.25,
+    "cold_morale_mod": 0.25,
+    "fire_warmth_bonus": 100,
+    "squeamish_penalty": 3,
+    "is_limb": true,
+    "base_hp": 40,
+    "drench_capacity": 1400,
+    "smash_message": "You whip the %s with your tentacle, smashing it.",
+    "bionic_slots": 5,
+    "effects_on_hit": [
+      {
+        "id": "bleed",
+        "dmg_type": "cut",
+        "dmg_threshold": 4,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 45,
+        "max_duration": 1800
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "stab",
+        "dmg_threshold": 2,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 60,
+        "max_duration": 1800
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "bullet",
+        "dmg_threshold": 2,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 60,
+        "max_duration": 1800
+      },
+      {
+        "id": "bouldering",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 3,
+        "chance": 20,
+        "chance_dmg_scaling": 2,
+        "duration": 3,
+        "max_duration": 15
+      },
+      {
+        "id": "downed",
+        "dmg_type": "bash",
+        "dmg_threshold": 20,
+        "dmg_scale_increment": 20,
+        "chance": 5,
+        "chance_dmg_scaling": 20,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5
+      },
+      {
+        "id": "downed",
+        "dmg_threshold": 35,
+        "dmg_scale_increment": 20,
+        "chance": 15,
+        "chance_dmg_scaling": 20,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5
+      }
+    ],
+    "sub_parts": [ "tentacle_lower_front_base_l", "tentacle_lower_front_middle_l", "tentacle_lower_front_tip_l" ],
+    "similar_bodypart": "tentacle_default_l",
+    "flags": [ "LIMB_LOWER", "MEND_LIMB", "TOUGH_FEET" ],
+    "windage_effect": "winded_tentacle",
+    "bmi_encumbrance_threshold": 7,
+    "bmi_encumbrance_scalar": 0.5
+  },
+  {
+    "id": "tentacle_lower_middle_l",
+    "type": "body_part",
+    "copy-from": "tentacle_lower_front_l",
+    "name": "left middle tentacle",
+    "name_multiple": "middle tentacles",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "left middle tentacle" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "middle tentacles" },
+    "heading": "l. m. tent",
+    "heading_multiple": "m. tent",
+    "hp_bar_ui_text": "L MTENT",
+    "main_part": "tentacle_lower_middle_l",
+    "opposite_part": "tentacle_lower_middle_r",
+    "side": "left",
+    "windage_effect": "winded_tentacle",
+    "sub_parts": [ "tentacle_lower_middle_base_l", "tentacle_lower_middle_middle_l", "tentacle_lower_middle_tip_l" ],
+    "similar_bodypart": "tentacle_default_l"
+  },
+  {
+    "id": "tentacle_lower_rear_l",
+    "type": "body_part",
+    "copy-from": "tentacle_lower_front_l",
+    "name": "left rear tentacle",
+    "name_multiple": "rear tentacles",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "left rear tentacle" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "rear tentacles" },
+    "heading": "l. r. tent",
+    "heading_multiple": "r. tent",
+    "hp_bar_ui_text": "L RTENT",
+    "main_part": "tentacle_lower_rear_l",
+    "opposite_part": "tentacle_lower_rear_r",
+    "side": "left",
+    "windage_effect": "winded_tentacle",
+    "sub_parts": [ "tentacle_lower_rear_base_l", "tentacle_lower_rear_middle_l", "tentacle_lower_rear_tip_l" ],
+    "similar_bodypart": "tentacle_default_l"
+  },
+  {
+    "id": "tentacle_lower_front_r",
+    "type": "body_part",
+    "copy-from": "tentacle_lower_front_l",
+    "name": "right front tentacle",
+    "name_multiple": "front tentacles",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "right front tentacle" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "front tentacles" },
+    "heading": "r. f. tent",
+    "heading_multiple": "f. tent",
+    "hp_bar_ui_text": "R FTENT",
+    "main_part": "tentacle_lower_front_r",
+    "opposite_part": "tentacle_lower_front_l",
+    "side": "right",
+    "windage_effect": "winded_tentacle",
+    "sub_parts": [ "tentacle_lower_middle_base_r", "tentacle_lower_middle_middle_r", "tentacle_lower_middle_tip_r" ],
+    "similar_bodypart": "tentacle_default_r"
+  },
+  {
+    "id": "tentacle_lower_middle_r",
+    "type": "body_part",
+    "copy-from": "tentacle_lower_front_l",
+    "name": "right middle tentacle",
+    "name_multiple": "middle tentacles",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "right middle tentacle" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "middle tentacles" },
+    "heading": "r. m. tent",
+    "heading_multiple": "m. tent",
+    "hp_bar_ui_text": "R MTENT",
+    "main_part": "tentacle_lower_middle_r",
+    "opposite_part": "tentacle_lower_middle_l",
+    "side": "right",
+    "windage_effect": "winded_tentacle",
+    "sub_parts": [ "tentacle_lower_middle_base_r", "tentacle_lower_middle_middle_r", "tentacle_lower_middle_tip_r" ],
+    "similar_bodypart": "tentacle_default_r"
+  },
+  {
+    "id": "tentacle_lower_rear_r",
+    "type": "body_part",
+    "copy-from": "tentacle_lower_front_l",
+    "name": "right rear tentacle",
+    "name_multiple": "rear tentacles",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "right rear tentacle" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "rear tentacles" },
+    "heading": "r. r. tent",
+    "heading_multiple": "r. tent",
+    "hp_bar_ui_text": "R RTENT",
+    "main_part": "tentacle_lower_rear_r",
+    "opposite_part": "tentacle_lower_rear_l",
+    "side": "right",
+    "windage_effect": "winded_tentacle",
+    "sub_parts": [ "tentacle_lower_rear_base_r", "tentacle_lower_rear_middle_r", "tentacle_lower_rear_tip_r" ],
+    "similar_bodypart": "tentacle_default_r"
   },
   {
     "id": "hoof_l",

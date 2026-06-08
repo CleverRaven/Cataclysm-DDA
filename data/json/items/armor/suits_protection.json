@@ -629,66 +629,105 @@
     "armor": [
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 97, "thickness": 1.45 },
+          { "type": "lc_steel", "covered_by_mat": 92, "thickness": 1.5 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance": 12,
+        "cover_vitals": 92
       },
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.45 },
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 1.45 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_lower" ],
-        "coverage": 100
+        "coverage": 100,
+        "cover_vitals": 100
       },
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 0.7 },
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.75 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_lower_l", "arm_lower_r" ],
         "coverage": 100,
-        "encumbrance": 10
+        "encumbrance": 8,
+        "cover_vitals": 95
       },
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.7 },
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 0.7 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ],
-        "coverage": 100
+        "specifically_covers": [ "arm_upper_l", "arm_upper_r" ],
+        "coverage": 100,
+        "cover_vitals": 80
       },
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 92, "thickness": 0.7 },
+          { "type": "lc_steel", "covered_by_mat": 88, "thickness": 1.4 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 100,
+        "cover_vitals": 85
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 0.75 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r" ],
+        "coverage": 100,
+        "cover_vitals": 85
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 1.4 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_upper_l", "leg_upper_r", "leg_hip_l", "leg_hip_r", "leg_knee_l", "leg_knee_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
         "coverage": 100,
-        "encumbrance": 10
+        "encumbrance": 9,
+        "cover_vitals": 85
       },
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 0.7 },
+          { "type": "lc_steel", "covered_by_mat": 85, "thickness": 0.7 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r", "leg_knee_l", "leg_knee_r" ],
+        "coverage": 100,
+        "cover_vitals": 85
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.75 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_lower_l", "leg_lower_r" ],
-        "coverage": 100
+        "coverage": 100,
+        "cover_vitals": 100
       }
     ],
     "melee_damage": { "bash": 8 }
@@ -798,45 +837,72 @@
     "armor": [
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 97, "thickness": 3.4 },
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 3.1 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ],
         "coverage": 100,
-        "encumbrance": 20
+        "cover_vitals": 98,
+        "encumbrance": 18
       },
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 3.4 },
+          { "type": "lc_steel", "covered_by_mat": 98, "thickness": 2.5 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_lower" ],
+        "cover_vitals": 100,
         "coverage": 100
       },
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.15 },
+          { "type": "lc_steel", "covered_by_mat": 97, "thickness": 1.15 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_lower_l", "arm_lower_r" ],
         "coverage": 100,
-        "encumbrance": 15
+        "cover_vitals": 100,
+        "encumbrance": 12
       },
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 1.15 },
+          { "type": "lc_steel", "covered_by_mat": 94, "thickness": 1.15 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ],
-        "coverage": 100
+        "specifically_covers": [ "arm_upper_l", "arm_upper_r", "arm_elbow_l", "arm_elbow_r" ],
+        "coverage": 100,
+        "cover_vitals": 90
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 92, "thickness": 2.5 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 100,
+        "cover_vitals": 90
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 2.5 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 15,
+        "cover_vitals": 90
       },
       {
         "material": [
@@ -845,19 +911,20 @@
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_upper_l", "leg_upper_r", "leg_hip_l", "leg_hip_r", "leg_knee_l", "leg_knee_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r", "leg_knee_l", "leg_knee_r" ],
         "coverage": 100,
-        "encumbrance": 15
+        "cover_vitals": 90
       },
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.15 },
+          { "type": "lc_steel", "covered_by_mat": 97, "thickness": 1.15 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_lower_l", "leg_lower_r" ],
-        "coverage": 100
+        "coverage": 100,
+        "cover_vitals": 100
       }
     ],
     "melee_damage": { "bash": 8 }
@@ -952,7 +1019,7 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "mild steel heavy plate armor" },
-    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  This one has been made with mild steel.",
+    "description": "A heavy suit of plate armor with a 5 mm thick chestpiece.  This one has been made with mild steel.",
     "weight": "25 kg",
     "volume": "17500 ml",
     "price": "600 USD",
@@ -970,23 +1037,25 @@
     "armor": [
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 97, "thickness": 4.8 },
+          { "type": "lc_steel", "covered_by_mat": 97, "thickness": 4.1 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
+        "cover_vitals": 100,
         "specifically_covers": [ "torso_upper" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 23
       },
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 4.8 },
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 3.4 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_lower" ],
+        "cover_vitals": 100,
         "coverage": 100
       },
       {
@@ -997,29 +1066,55 @@
         ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_lower_l", "arm_lower_r" ],
+        "cover_vitals": 100,
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance": 18
       },
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 1.65 },
+          { "type": "lc_steel", "covered_by_mat": 96, "thickness": 1.65 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ],
-        "coverage": 100
+        "specifically_covers": [ "arm_upper_l", "arm_upper_r", "arm_elbow_l", "arm_elbow_r" ],
+        "coverage": 100,
+        "cover_vitals": 95
       },
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 92, "thickness": 1.65 },
+          { "type": "lc_steel", "covered_by_mat": 96, "thickness": 3.4 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 100,
+        "cover_vitals": 100
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 3.4 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "//": "This version would have a comprehensive fauld over the groin and butt, which is why coverage is at 100",
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "cover_vitals": 100,
+        "encumbrance": 20
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 96, "thickness": 1.65 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_knee_l", "leg_knee_r", "leg_upper_l", "leg_upper_r" ],
-        "coverage": 100,
-        "encumbrance": 15
+        "specifically_covers": [ "leg_knee_l", "leg_knee_r", "leg_upper_l", "leg_upper_r" ],
+        "cover_vitals": 95,
+        "coverage": 100
       },
       {
         "material": [
@@ -1029,7 +1124,8 @@
         ],
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_lower_l", "leg_lower_r" ],
-        "coverage": 100
+        "coverage": 100,
+        "cover_vitals": 100
       }
     ],
     "melee_damage": { "bash": 8 }

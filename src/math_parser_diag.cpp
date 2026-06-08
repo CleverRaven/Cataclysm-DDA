@@ -257,6 +257,15 @@ double consumption_count_total_eval( const_dialogue const &d, char scope,
     return count;
 }
 
+double light_level_eval( const_dialogue const &d, char /* scope */,
+                         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    const map &here = get_map();
+    tripoint_abs_ms loc_val = params[0].tripoint( d );
+
+    return static_cast<double>( here.light_at( here.get_bub( loc_val ) ) );
+}
+
 double distance_eval( const_dialogue const &d, char /* scope */,
                       std::vector<diag_value> const &params, diag_kwargs const & /* kwargs */ )
 {
@@ -1816,6 +1825,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "damage_level", { "un", 0, damage_level_eval } },
     { "degradation", { "un", 0, degradation_eval, degradation_ass } },
     { "distance", { "g", 2, distance_eval } },
+    { "light_level", { "g", 1, light_level_eval } },
     { "effect_intensity", { "un", 1, effect_intensity_eval, {}, { "bodypart" } } },
     { "effect_duration", { "un", 1, effect_duration_eval, {}, { "bodypart", "unit" } } },
     { "limb_score", { "un", 1, limb_score_eval, {}, { "type" } } },

@@ -48,7 +48,7 @@
     "proportional": { "hp": 0.5, "speed": 1.05, "volume": 0.5, "weight": 0.5 },
     "bodytype": "human",
     "species": [ "ZOMBIE", "GOBLIN" ],
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_child_body" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes", "wps_humanoid_child_body" ],
     "special_attacks": [
       [ "PARROT", 400 ],
       [ "PARROT_AT_DANGER", 0 ],
@@ -78,7 +78,7 @@
     "bodytype": "angel",
     "species": [ "RAVENFOLK", "ZOMBIE" ],
     "volume": "62500 ml",
-    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes" ],
     "weakpoints": [
       {
         "id": "wing",
@@ -130,7 +130,7 @@
     "species": [ "LIZARDFOLK", "ZOMBIE" ],
     "volume": "80 L",
     "weight": "100 kg",
-    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman" ],
     "armor": { "bash": 3, "cut": 4, "stab": 4, "bullet": 2 },
     "harvest": "zombie_lizardfolk",

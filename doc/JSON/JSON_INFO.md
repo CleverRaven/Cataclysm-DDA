@@ -1057,6 +1057,7 @@ reference at least one body part or sub body part.
 | `hot_morale_mod`       | (_optional_) Mood effect of being too hot on this part. (default: `0`)
 | `cold_morale_mod`      | (_optional_) Mood effect of being too cold on this part. (default: `0`)
 | `squeamish_penalty`    | (_optional_) Mood effect of wearing filthy clothing on this part. (default: `0`)
+| `pain_mod`             | (_optional_) If pain was applied to this bodypart, it is multiplied by this amount. (default: `1.0`)
 | `fire_warmth_bonus`    | (_optional_) How effectively you can warm yourself at a fire with this part. (default: `0`)
 | `temp_mod`             | (_optional array_) Intrinsic temperature modifier of the bodypart.  The first value (in the same "temperature unit" as mutations' `bodytemp_modifier`) is always applied, the second value is applied on top when the bodypart isn't overheated.
 | `feels_discomfort`     | (_optional ) Whether the limb will suffer from chafing if rigid armor is worn directly on it (default: `true`)
@@ -1666,6 +1667,7 @@ Faults can be defined for more specialized damage of an item.
   "type": "fault",
   "id": "fault_gun_chamber_spent", // unique id for the fault
   "name": { "str": "Spent casing in chamber" }, // fault name for display
+  "color": "bad" // color for displaying the fault name, accepts 'bad' (red), 'neutral' (yellow), or 'good' (green)
   "description": "This gun currently...", // fault description
   "item_prefix": "jammed", // optional string, items with this fault will be prefixed with this
   "item_suffix": "no handle", // optional string, items with this fault will be suffixed with this. The string would be encased in parentheses, like `sword (no handle)`

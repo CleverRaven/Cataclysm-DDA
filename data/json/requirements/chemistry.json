@@ -39,7 +39,7 @@
     "id": "metal_lube",
     "type": "requirement",
     "//": "Hi-temp lubricant for metal chains and parts, such as flatjaw tongs. makes a very thin coating. 1mL is enough to cover 1ft^2 or .1m^2 of material.",
-    "components": [ [ [ "graphite", 50 ] ] ]
+    "components": [ [ [ "graphite", 1 ] ] ]
   },
   {
     "id": "metal_punch",

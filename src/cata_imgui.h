@@ -72,7 +72,11 @@ class client
 {
         std::vector<int> cata_input_trail;
 #ifndef TUI
-        std::unordered_map<uint32_t, unsigned char> sdlColorsToCata;
+        // Backend-active latches for the platform (SDL2/SDL3) and
+        // renderer (SDLRenderer2/3) ImGui backends. Guard the wrappers
+        // so partial teardown + retry is idempotent.
+        bool platform_backend_active_ = false;
+        bool renderer_backend_active_ = false;
 #endif
     public:
 #ifdef TUI
@@ -86,9 +90,16 @@ class client
 #endif
         ~client();
 
-        void new_frame();
+        // display_buffer_w/h drive ImGui layout (DisplaySize). Pass 0 to fall
+        // back to the bound target's output size (only valid while a draw scope
+        // has display_buffer bound).
+        void new_frame( int display_buffer_w = 0, int display_buffer_h = 0 );
         void end_frame();
-        void process_input( void *input );
+        // Close the active ImGui frame without any backend draw commands, for
+        // aborting mid-flight when end_frame() is unsafe (renderer undefined).
+        // The next NewFrame would assert if the frame were left open.
+        void abort_frame();
+        void process_input( void *input, int display_buffer_w = 0, int display_buffer_h = 0 );
         void process_cata_input( const input_event &event );
 #ifdef TUI
         void upload_color_pair( int p, int f, int b );
@@ -97,6 +108,18 @@ class client
         const SDL_Renderer_Ptr &sdl_renderer;
         const SDL_Window_Ptr &sdl_window;
         const GeometryRenderer_Ptr &sdl_geometry;
+
+        // ImGui backend lifecycle wrappers. Each tracks backend-active state so
+        // the vendored Shutdown (which asserts when inactive) is never doubled.
+        // Pair: init platform then renderer; shutdown reverse.
+        void init_platform_backend();
+        void init_renderer_backend();
+        void shutdown_renderer_backend();
+        void shutdown_platform_backend();
+        // Drop the renderer backend's GPU device objects (font atlas,
+        // buffers) without tearing down the backend; they recreate
+        // lazily on the next RenderDrawData.
+        void destroy_backend_device_objects() const;
 #endif
         bool auto_size_frame_active();
         bool any_window_shown();
@@ -106,6 +129,14 @@ class client
         // True if an ImGui text field or shortcut has keyboard focus.
         static bool want_capture_keyboard();
 };
+
+#ifndef TUI
+// Pick the ImGui DisplaySize for a frame: the explicit display-buffer dims when
+// both are positive, else the renderer's output dims. Keeps the terminal-buffer
+// sizing contract when the idle-null target leaves the output reading the window.
+point imgui_frame_display_size( int display_buffer_w, int display_buffer_h,
+                                int renderer_output_w, int renderer_output_h );
+#endif
 
 void point_to_imvec2( point *src, ImVec2 *dest );
 void imvec2_to_point( ImVec2 *src, point *dest );
@@ -158,10 +189,12 @@ class window
         size_t str_height_to_pixels( size_t len );
         std::string get_filter();
         void clear_filter();
+        void defocus_filter();
         void mark_resized();
 
     protected:
         bool force_to_back = false;
+        bool hide_ui = false;
         bool is_open;
         std::string id;
         int window_flags;
@@ -169,6 +202,7 @@ class window
         virtual bounds get_bounds();
         virtual void draw_controls() = 0;
         void draw_filter( const input_context &ctxt, bool filtering_active );
+        void hide_if_hidden() const;
 };
 
 #ifdef TUI

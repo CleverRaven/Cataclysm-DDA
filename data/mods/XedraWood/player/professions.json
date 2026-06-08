@@ -1,0 +1,44 @@
+[
+  {
+    "type": "profession",
+    "id": "tribal_warrior_expert",
+    "name": "Tribal Warrior Veteran",
+    "description": "You are veteran of many a raid and have fought in defense of your people against the things in the wild when they try to invade your home.  You have been scarred by weapon, by claw, and by things you'd rather not remember.  This latest ordeal is just another battle to be won.",
+    "points": 8,
+    "proficiencies": [
+      "prof_bow_basic",
+      "prof_bow_expert",
+      "prof_knives_familiar",
+      "prof_spears_familiar",
+      "prof_spears_pro",
+      "prof_gross_anatomy"
+    ],
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 3, "name": "archery" },
+      { "level": 5, "name": "stabbing" },
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "dodge" },
+      { "level": 3, "name": "swimming" }
+    ],
+    "traits": [ "TOUGH", "PAINRESIST" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "helmet_larmor" },
+          { "item": "armor_larmor" },
+          { "item": "socks" },
+          { "item": "boots_larmor" },
+          { "item": "gauntlets_larmor" },
+          { "item": "water_clean", "charges": 6, "container-item": "waterskin" },
+          { "item": "quiver_birchbark", "contents-group": "quiver_bow_hunter" },
+          { "item": "spear_copper", "container-item": "spearsling" },
+          { "item": "copper_knife", "container-item": "sheath_birchbark" },
+          { "item": "longbow", "contents-item": [ "primitive_bow_silencer" ] }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  }
+]

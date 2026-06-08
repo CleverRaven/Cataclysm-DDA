@@ -27,8 +27,6 @@
 
 #if defined(__ANDROID__)
 #include <jni.h>
-#include <SDL_keyboard.h>
-#include <SDL_mouse.h>
 #include "options.h"
 #endif
 
@@ -39,6 +37,7 @@
 void uilist_impl::draw_controls()
 {
 #if defined(TILES)
+    hide_if_hidden();
     using cata::options::mouse;
     bool cursor_shown = IsCursorVisible();
     if( mouse.hidekb && !cursor_shown ) {
@@ -96,7 +95,8 @@ void uilist_impl::draw_controls()
 
         float entry_height = ImGui::GetTextLineHeightWithSpacing();
         ImGuiStyle &style = ImGui::GetStyle();
-        if( ImGui::BeginChild( "scroll", parent.calculated_menu_size ) ) {
+        if( ImGui::BeginChild( "scroll", parent.calculated_menu_size, ImGuiChildFlags_None,
+                               ImGuiWindowFlags_NoNavInputs ) ) {
             if( ImGui::BeginTable( "menu items", 3, ImGuiTableFlags_SizingFixedFit ) ) {
                 ImGui::TableSetupColumn( "hotkey", ImGuiTableColumnFlags_WidthFixed,
                                          parent.calculated_hotkey_width );
@@ -107,7 +107,7 @@ void uilist_impl::draw_controls()
 
                 ImGuiListClipper clipper;
                 clipper.Begin( parent.fentries.size(), entry_height );
-                clipper.IncludeRangeByIndices( parent.fselected, parent.fselected + 1 );
+                clipper.IncludeItemsByIndex( parent.fselected, parent.fselected + 1 );
                 while( clipper.Step() ) {
                     // It would be natural to make the entries into buttons, or
                     // combos, or other pre-built ui elements. For now I am mostly
@@ -125,7 +125,7 @@ void uilist_impl::draw_controls()
                             parent.need_to_scroll = false;
                         }
                         ImGuiSelectableFlags flags = ImGuiSelectableFlags_SpanAllColumns |
-                                                     ImGuiSelectableFlags_AllowItemOverlap;
+                                                     ImGuiSelectableFlags_AllowOverlap;
                         if( !entry.enabled ) {
                             flags |= ImGuiSelectableFlags_Disabled;
                         }
@@ -920,8 +920,8 @@ bool uilist::query_setup()
             calc_data();
             started = true;
         }
-        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-        jobject activity = ( jobject )SDL_AndroidGetActivity();
+        JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
+        jobject activity = ( jobject )GetAndroidActivity();
         jclass clazz( env->GetObjectClass( activity ) );
         jmethodID get_nativeui_method_id = env->GetMethodID( clazz, "getNativeUI",
                                            "()Lcom/cleverraven/cataclysmdda/NativeUI;" );
@@ -1056,6 +1056,17 @@ void uilist::query_once( input_context &ctxt, int timeout,
 }
 
 ///@}
+#if defined(TILES)
+void uilist::set_hide( bool val )
+{
+    create_or_get_ui()->hide_ui = val;
+}
+
+void uilist::hide_if_hidden()
+{
+    create_or_get_ui()->hide_if_hidden();
+}
+#endif
 /**
  * cleanup
  */

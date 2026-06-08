@@ -283,6 +283,9 @@ struct body_part_type {
         float bmi_encumbrance_scalar = 0;
         float smash_efficiency = 0.5f;
 
+        // if this bodypart is hit, pain amount is multiplied by this
+        float pain_mod = 1.f;
+
         //Morale parameters
         float hot_morale_mod = 0.0f;
         float cold_morale_mod = 0.0f;
@@ -463,7 +466,7 @@ class bodypart
         std::vector<wound> wounds;
 
         // adjust any limb "value" based on how wounded the limb is. scaled to 0-75%
-        float wound_adjusted_limb_value( float val ) const;
+        float wound_adjusted_limb_value( float val, const limb_score_id &score ) const;
         // Same idea as for wounds, though not all scores get this applied. Should be applied after wounds.
         float encumb_adjusted_limb_value( const Creature &mon, float val ) const;
         // If the limb score is affected by a skill, adjust it by the skill's level (used for swimming)
@@ -501,7 +504,8 @@ class bodypart
                               int override_wounds = -1 ) const;
         float get_limb_score_max( const limb_score_id &score ) const;
 
-        std::vector<wound> get_wounds() const;
+        const std::vector<wound> &get_wounds() const;
+        std::vector<wound> &get_wounds();
 
         void add_or_worsen_wound( wound_type_id wd );
         void add_or_worsen_wound( const wound &wd );
@@ -513,6 +517,7 @@ class bodypart
         wound *get_wound( wound_type_id wd_id );
         void remove_wound( wound wd );
         void remove_wound( wound_type_id wd );
+        void remove_all_wounds_of_type( wound_type_id wd );
         void update_wounds( time_duration time_passed );
 
         int get_hp_cur() const;

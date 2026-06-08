@@ -101,6 +101,17 @@
         "refusal": "You're not yet qualified to buy this"
       },
       {
+        "group": "NC_ROBOFAC_INTERCOM_XM_EXOSKELETONS",
+        "rigid": true,
+        "strict": true,
+        "condition": {
+          "and": [
+            { "math": [ "ancilla_autodoc_placed == 1" ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_3" } ] }
+          ]
+        }
+      },
+      {
         "group": "NC_ROBOFAC_INTERCOM_LENS",
         "rigid": true,
         "strict": true,
@@ -230,6 +241,16 @@
     "id": "NC_ROBOFAC_INTERCOM_trade_envirosuit",
     "subtype": "collection",
     "entries": [ { "item": "robofac_enviro_suit", "count": 1, "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_INTERCOM_XM_EXOSKELETONS",
+    "subtype": "collection",
+    "entries": [
+      { "item": "integrated_bio_robofac_xmleg", "prob": 70, "count": [ 1, 2 ] },
+      { "item": "integrated_bio_robofac_xmarm", "prob": 70, "count": [ 1, 2 ] },
+      { "item": "integrated_bio_robofac_xmback", "prob": 70, "count": [ 1, 2 ] }
+    ]
   },
   {
     "type": "item_group",
@@ -1531,7 +1552,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_ARMOR_NANO_ASK",
     "type": "talk_topic",
-    "dynamic_line": "Thank you.  This might be of use benefit to us, but we will need at least a day to read the contents of the template.  Please speak with us again once we've had time.",
+    "dynamic_line": "Thank you.  This might be of use to us, but we will need at least a day to read the contents of the template.  Please speak with us again once we've had time to look it over.",
     "speaker_effect": {
       "effect": [
         { "u_consume_item": "template_armor", "count": 1, "popup": true },
@@ -2086,11 +2107,11 @@
     },
     "responses": [
       {
-        "text": "Actually, I'm familiar with these cybernetics.  I already have an interface installed by the Exodii.",
+        "text": "Actually, I'm familiar with these cybernetics.  I already have one.",
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('14 d')" ] },
-            { "u_has_trait": "CBM_Interface" },
+            { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" } ] },
             { "not": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" } }
           ]
         },
@@ -2121,7 +2142,8 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('14 d')" ] },
-            { "not": { "u_has_trait": "CBM_Interface" } }
+            { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "u_has_trait": "NL_CBM_Interface" } }
           ]
         },
         "effect": [

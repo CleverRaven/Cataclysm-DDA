@@ -10,8 +10,8 @@
       [ "crucible", 30 ],
       [ "swage", 60 ],
       [ "drift", 70 ],
-      { "item": "graphite", "prob": 70, "charges": [ 50, 12500 ] },
-      { "item": "chem_borax", "prob": 90, "charges": [ 0, 500 ] },
+      { "group": "graphite_small_bottle_part", "prob": 70 },
+      { "group": "borax_box_part", "prob": 90 },
       [ "metal_file", 90 ],
       [ "hotcut", 90 ],
       [ "metalworking_tongs", 90 ],
@@ -67,7 +67,7 @@
       { "item": "cordless_impact_wrench", "prob": 20, "charges": [ 0, 500 ] },
       [ "metal_smoother", 90 ],
       { "item": "jackhammer", "prob": 40, "charges": [ 0, 1200 ] },
-      { "item": "graphite", "prob": 10, "charges": [ 50, 12500 ] },
+      { "group": "graphite_small_bottle_part", "prob": 10 },
       { "group": "tools_toolbox", "prob": 20 },
       { "group": "tools_workshop", "prob": 5 },
       [ "recharge_station", 10 ],
@@ -127,7 +127,7 @@
       [ "multitool", 10 ],
       [ "recharge_station", 10 ],
       [ "hand_crank_charger", 25 ],
-      { "item": "graphite", "prob": 10, "charges": [ 50, 12500 ] },
+      { "group": "graphite_small_bottle_part", "prob": 10 },
       [ "metal_file", 10 ],
       [ "clamp", 10 ],
       [ "sandpaper", 80 ],
@@ -152,7 +152,7 @@
       [ "hand_pump", 1 ],
       [ "funnel", 50 ],
       [ "metal_file", 40 ],
-      { "item": "graphite", "prob": 50, "charges": [ 50, 12500 ] },
+      { "group": "graphite_small_bottle_part", "prob": 50 },
       { "item": "tape_measure", "prob": 70 },
       [ "sandpaper", 65 ]
     ]
@@ -179,7 +179,7 @@
       [ "hacksaw", 30 ],
       [ "saw", 65 ],
       { "item": "bow_saw", "prob": 40 },
-      { "item": "graphite", "prob": 30, "charges": [ 50, 12500 ] },
+      { "group": "graphite_small_bottle_part", "prob": 30 },
       [ "pin_reamer", 18 ],
       [ "clamp", 30 ],
       [ "boxcutter", 20 ],
@@ -340,7 +340,7 @@
       { "item": "reciprocating_saw", "prob": 50, "charges": [ 0, 500 ] },
       { "item": "cordless_drill", "prob": 100, "charges": [ 0, 500 ] },
       [ "pin_reamer", 30 ],
-      { "item": "graphite", "prob": 30, "charges": [ 50, 12500 ] },
+      { "group": "graphite_small_bottle_part", "prob": 30 },
       [ "clamp", 10 ],
       [ "sandpaper", 90 ],
       [ "bench_vise", 15 ]
@@ -416,8 +416,8 @@
           },
           {
             "distribution": [
-              { "item": "brazing_rod_bronze", "prob": 75, "count": [ 500, 1500 ] },
-              { "item": "brazing_rod_alloy", "prob": 50, "count": [ 500, 1500 ] }
+              { "item": "brazing_rod_bronze", "prob": 75, "count": [ 500, 1500 ], "entry-wrapper": "tube_welding_rod" },
+              { "item": "brazing_rod_alloy", "prob": 50, "count": [ 500, 1500 ], "entry-wrapper": "tube_welding_rod" }
             ]
           }
         ],
@@ -437,12 +437,12 @@
       { "item": "welding_blanket", "prob": 20, "count": [ 0, 1 ] },
       {
         "distribution": [
-          { "item": "welding_rod_steel", "prob": 20, "count": [ 1000, 1600 ] },
-          { "item": "welding_rod_alloy", "prob": 10, "count": [ 1000, 1600 ] },
-          { "item": "welding_wire_steel", "prob": 15, "count": [ 1000, 1600 ] },
-          { "item": "welding_wire_alloy", "prob": 5, "count": [ 1000, 1600 ] },
-          { "item": "brazing_rod_bronze", "prob": 7, "count": [ 500, 1500 ] },
-          { "item": "brazing_rod_alloy", "prob": 5, "count": [ 400, 1200 ] }
+          { "item": "welding_rod_steel", "prob": 20, "count": [ 1000, 1600 ], "entry-wrapper": "tube_welding_rod" },
+          { "item": "welding_rod_alloy", "prob": 10, "count": [ 1000, 1600 ], "entry-wrapper": "tube_welding_rod" },
+          { "item": "welding_wire_steel", "prob": 15, "count": [ 1000, 1600 ], "entry-wrapper": "spool_welding" },
+          { "item": "welding_wire_alloy", "prob": 5, "count": [ 1000, 1600 ], "entry-wrapper": "spool_welding" },
+          { "item": "brazing_rod_bronze", "prob": 7, "count": [ 500, 1500 ], "entry-wrapper": "tube_welding_rod" },
+          { "item": "brazing_rod_alloy", "prob": 5, "count": [ 400, 1200 ], "entry-wrapper": "tube_welding_rod" }
         ]
       },
       [ "clamp", 10 ],
@@ -450,7 +450,7 @@
       [ "welding_papr_helmet", 40 ],
       { "group": "papr_kit", "prob": 20 },
       [ "thread_cutting_set", 40 ],
-      { "item": "graphite", "prob": 40, "charges": [ 50, 12500 ] }
+      { "group": "graphite_small_bottle_part", "prob": 40 }
     ]
   },
   {
@@ -462,7 +462,7 @@
       { "item": "jack", "prob": 100 },
       { "item": "lug_wrench", "prob": 80 },
       { "item": "jack_small", "prob": 80 },
-      { "item": "graphite", "prob": 50, "charges": [ 50, 12500 ] },
+      { "group": "graphite_small_bottle_part", "prob": 50 },
       { "item": "compressor", "prob": 40 },
       { "group": "tools_toolbox", "prob": 80 },
       { "group": "tools_workshop", "prob": 70 },
@@ -495,7 +495,7 @@
       { "item": "whistle_multitool", "prob": 70 },
       { "item": "glowstick", "charges": 1400, "prob": 60 },
       { "item": "handflare", "count": [ 0, 4 ], "charges": 300 },
-      { "group": "pur_tablets_bottle_plastic_small_0_50" },
+      { "group": "pur_tablets_bottle_plastic_small_1_50" },
       { "item": "pocket_survival", "prob": 40 }
     ]
   },
@@ -865,7 +865,7 @@
       { "item": "plut_cell", "prob": 4, "charges": [ 1, 5 ] },
       { "group": "glue_weak_domestic", "prob": 15 },
       { "group": "glue_strong_domestic", "prob": 15 },
-      { "item": "graphite", "prob": 30, "charges": [ 50, 12500 ] },
+      { "group": "graphite_small_bottle_part", "prob": 30 },
       [ "pliers", 10 ],
       [ "tin_snips", 10 ],
       { "item": "matches", "prob": 10, "charges": [ 1, 20 ] },
@@ -880,12 +880,12 @@
       { "item": "welding_blanket", "prob": 10, "count": [ 0, 1 ] },
       {
         "distribution": [
-          { "item": "welding_rod_steel", "prob": 10, "count": [ 1000, 1600 ] },
-          { "item": "welding_rod_alloy", "prob": 5, "count": [ 1000, 1600 ] },
-          { "item": "welding_wire_steel", "prob": 20, "count": [ 1000, 1600 ] },
-          { "item": "welding_wire_alloy", "prob": 20, "count": [ 1000, 1600 ] },
-          { "item": "brazing_rod_bronze", "prob": 3, "count": [ 500, 1500 ] },
-          { "item": "brazing_rod_alloy", "prob": 2, "count": [ 400, 1200 ] }
+          { "item": "welding_rod_steel", "prob": 10, "count": [ 1000, 1600 ], "entry-wrapper": "tube_welding_rod" },
+          { "item": "welding_rod_alloy", "prob": 5, "count": [ 1000, 1600 ], "entry-wrapper": "tube_welding_rod" },
+          { "item": "welding_wire_steel", "prob": 20, "count": [ 1000, 1600 ], "entry-wrapper": "spool_welding" },
+          { "item": "welding_wire_alloy", "prob": 20, "count": [ 1000, 1600 ], "entry-wrapper": "spool_welding" },
+          { "item": "brazing_rod_bronze", "prob": 3, "count": [ 500, 1500 ], "entry-wrapper": "tube_welding_rod" },
+          { "item": "brazing_rod_alloy", "prob": 2, "count": [ 400, 1200 ], "entry-wrapper": "tube_welding_rod" }
         ]
       },
       { "item": "soldering_iron", "prob": 8 },
@@ -1024,17 +1024,10 @@
   },
   {
     "type": "item_group",
-    "id": "pur_tablets_bottle_plastic_small_0_50",
+    "id": "pur_tablets_bottle_plastic_small_1_50",
     "subtype": "collection",
     "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "pur_tablets", "count": [ 0, 50 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "quikclot_bag_plastic_5",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "quikclot", "container-item": "null", "count": 5 } ]
+    "entries": [ { "item": "pur_tablets", "count": [ 1, 50 ] } ]
   },
   {
     "type": "item_group",
@@ -1042,13 +1035,6 @@
     "subtype": "collection",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "pur_tablets", "count": [ 0, 9 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "quikclot_bag_plastic_0_5",
-    "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "quikclot", "container-item": "null", "count": [ 0, 5 ] } ]
   },
   {
     "type": "item_group",

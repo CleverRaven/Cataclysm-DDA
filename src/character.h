@@ -102,6 +102,7 @@ enum npc_attitude : int;
 struct attention_plan;
 struct bionic;
 struct construction;
+struct crafting_cost_context;
 struct dealt_projectile_attack;
 /// @brief Item slot used to apply modifications from food and meds
 struct islot_comestible;
@@ -2721,7 +2722,7 @@ class Character : public Creature, public visitable
         /** Modifies a pain value by wounds before passing it to Creature::mod_pain() */
         int get_pain() const override;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
-        int mod_pain( int npain ) override;
+        int mod_pain( int npain, bodypart_id bp = bodypart_id() ) override;
         /** Sets new intensity of pain an reacts to it */
         void set_pain( int npain ) override;
         /** Returns perceived pain (reduced with painkillers)*/
@@ -3845,21 +3846,32 @@ class Character : public Creature, public visitable
         /** Consume tools for the next multiplier * 5% progress of the craft */
         bool craft_consume_tools( item &craft, int multiplier, bool start_craft );
         /** Advance per-step tool consumption so each step's allocations match its
-         *  current progress.  Returns false (consuming nothing) if charges are short. */
-        bool craft_consume_step_tools( item &craft );
+         *  current progress.  Returns false (consuming nothing) if charges are short.
+         *  When cost_ctx is supplied, it is reused for step budgets instead of
+         *  recomputing crafting_cost_context::for_recipe. */
+        bool craft_consume_step_tools( item &craft, const crafting_cost_context *cost_ctx = nullptr );
         /** Advance the active unattended step's tool consumption to match its
          *  wall-clock progress.  Returns false (consuming nothing) if charges are short. */
         bool craft_consume_passive_step_tools( item &craft, time_point now, const item_location &loc );
         /** Consume each step's tool allocations up to its 5% bucket target.
-         *  active_step is the in-progress step, whose non-charged selected tools are
-         *  re-checked for presence every call (even once their buckets are full) so a
-         *  tool removed before completion cannot finish the step.  When pin_to_map is
-         *  set, usage_from::player and usage_from::both allocations draw from the map
-         *  at origin instead of the crafter.  Returns false (consuming nothing) on a
-         *  shortfall. */
+         *  Non-charged selected tools are re-checked for presence on bucket
+         *  transitions only; verify_step_tools catches tools removed within a
+         *  bucket when the step closes.  When pin_to_map is set,
+         *  usage_from::player and usage_from::both allocations draw from the
+         *  map at origin instead of the crafter.  Returns false (consuming
+         *  nothing) on a shortfall. */
         bool consume_step_tool_targets( item &craft, const std::vector<int> &targets,
-                                        int active_step, const tripoint_bub_ms &origin, int radius,
+                                        const tripoint_bub_ms &origin, int radius,
                                         bool pin_to_map );
+        /** Verify that every non-charged tool selected for a recipe step is
+         *  present at the source the step draws from.  Emits a player-visible
+         *  message naming the missing tool on failure and clears the craft's
+         *  tools_to_continue flag so resume re-validates and reselects.
+         *  Charged tools are outside the scope: their availability is enforced
+         *  when consumed.  When pin_to_map is set, presence is checked against
+         *  the map at origin instead of the crafter. */
+        bool verify_step_tools( item &craft, int step_idx,
+                                const tripoint_bub_ms &origin, int radius, bool pin_to_map );
         void consume_tools( const comp_selection<tool_comp> &tool, int batch );
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
                             const tripoint_bub_ms &origin = tripoint_bub_ms::zero, int radius = PICKUP_RANGE,

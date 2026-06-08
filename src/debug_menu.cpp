@@ -1074,7 +1074,7 @@ static int map_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::KILL_AREA, true, 'a', _( "Kill in Area" ) ) },
-        { uilist_entry( debug_menu_index::KILL_NPCS, true, 'k', _( "Kill NPCs" ) ) },
+        { uilist_entry( debug_menu_index::KILL_NPCS, true, 'i', _( "Kill NPCs" ) ) },
         { uilist_entry( debug_menu_index::MAP_EDITOR, true, 'M', _( "Map editor" ) ) },
         { uilist_entry( debug_menu_index::PALETTE_VIEWER, true, 'P', _( "Palette viewer" ) ) },
         { uilist_entry( debug_menu_index::CHANGE_WEATHER, true, 'w', _( "Change weather" ) ) },
@@ -1132,10 +1132,11 @@ static int dialogue_uilist()
 static std::optional<debug_menu_index> debug_menu_uilist()
 {
     enum {
-        D_INFO, D_GAME, D_SPAWNING, D_PLAYER, D_MONSTER, D_FACTION, D_VEHICLE, D_TELEPORT, D_MAP, D_DIALOGUE, D_QUICK_SETUP
+        D_CONSOLE, D_INFO, D_GAME, D_SPAWNING, D_PLAYER, D_MONSTER, D_FACTION, D_VEHICLE, D_TELEPORT, D_MAP, D_DIALOGUE, D_QUICK_SETUP
     };
 
     const std::vector<uilist_entry> debug_menu = {
+        { uilist_entry( D_CONSOLE,     true, 'C', _( "Console…" ) ) },
         { uilist_entry( D_INFO,        true, 'i', _( "Info…" ) ) },
         { uilist_entry( D_GAME,        true, 'g', _( "Game…" ) ) },
         { uilist_entry( D_SPAWNING,    true, 's', _( "Spawning…" ) ) },
@@ -1162,6 +1163,9 @@ static std::optional<debug_menu_index> debug_menu_uilist()
         int action;
 
         switch( group ) {
+            case D_CONSOLE:
+                debug_menu::open_console();
+                return std::nullopt;
             case D_INFO:
                 action = info_uilist();
                 break;
@@ -2453,7 +2457,7 @@ static void character_edit_menu()
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "Teleport" ) );
     nmenu.addentry( D_ADD_EFFECT, true, 'E', "%s", _( "Add an effect" ) );
     nmenu.addentry( D_CHECK_TEMP, true, 'U', "%s", _( "Print temperature" ) );
-    nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attack" ) );
+    nmenu.addentry( D_ASTHMA, true, 'K', "%s", _( "Cause asthma attack" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit missions (WARNING: Unstable!)" ) );
     nmenu.addentry( D_PRINT_VARS, true, 'V', "%s", _( "Print vars to file" ) );
     nmenu.addentry( D_WRITE_EOCS, true, 'W', "%s",
@@ -2913,7 +2917,7 @@ static void faction_edit_menu()
     nmenu.addentry( D_POWER, true, 'p', "%s", _( "Set power" ) );
     nmenu.addentry( D_FOOD, true, 'f', "%s", _( "Set food supply" ) );
     nmenu.addentry( D_OPINION, true, 'o', "%s", _( "Set opinions" ) );
-    nmenu.addentry( D_KNOWN, true, 'k', "%s", _( "Toggle Known by you" ) );
+    nmenu.addentry( D_KNOWN, true, 'n', "%s", _( "Toggle Known by you" ) );
     nmenu.addentry( D_LONE, true, 'l', "%s", _( "Toggle Lone wolf" ) );
     nmenu.addentry( D_THIEF, true, 't', "%s", _( "Reset steal mode" ) );
 
@@ -4745,21 +4749,21 @@ const std::vector<debug_action_entry> &all_actions()
             }
         },
 
-        // Setup
+        // Quick character / game setup
         {
-            debug_menu_index::QUICK_SETUP, translate_marker( "Quick setup" ), "quick setup", "Setup", []()
+            debug_menu_index::QUICK_SETUP, translate_marker( "Quick setup" ), "quick setup", "Game", []()
             {
                 do_debug_quick_setup();
             }
         },
         {
-            debug_menu_index::QUICK_SETUP_FLAG_DIRTY, translate_marker( "Quick setup (dirty)" ), "quick setup dirty", "Setup", []()
+            debug_menu_index::QUICK_SETUP_FLAG_DIRTY, translate_marker( "Quick setup (dirty)" ), "quick setup dirty", "Game", []()
             {
                 do_debug_quick_setup( true );
             }
         },
         {
-            debug_menu_index::TOGGLE_SETUP_MUTATION, translate_marker( "Toggle debug mutations" ), "debug mutation", "Setup", []()
+            debug_menu_index::TOGGLE_SETUP_MUTATION, translate_marker( "Toggle debug mutations" ), "debug mutation", "Game", []()
             {
                 Character &u = get_avatar();
                 for( trait_id &trait : setup_traits ) {
@@ -4768,13 +4772,13 @@ const std::vector<debug_action_entry> &all_actions()
             }
         },
         {
-            debug_menu_index::NORMALIZE_BODY_STAT, translate_marker( "Normalize body" ), "normalize body", "Setup", []()
+            debug_menu_index::NORMALIZE_BODY_STAT, translate_marker( "Normalize body" ), "normalize body", "Game", []()
             {
                 normalize_body( get_avatar() );
             }
         },
         {
-            debug_menu_index::SIX_MILLION_DOLLAR_SURVIVOR, translate_marker( "Install ALL bionics" ), "bionic install all", "Setup", []()
+            debug_menu_index::SIX_MILLION_DOLLAR_SURVIVOR, translate_marker( "Install ALL bionics" ), "bionic install all", "Player", []()
             {
                 Character &u = get_avatar();
                 for( const bionic_data &bionic : bionic_data::get_all() ) {

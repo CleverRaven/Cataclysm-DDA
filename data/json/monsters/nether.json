@@ -60,7 +60,7 @@
     "bleed_rate": 50,
     "harvest": "demihuman",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_eyes" ],
     "special_attacks": [ { "type": "spell", "cooldown": 0, "spell_data": { "id": "fear_paralyze" }, "monster_message": "" } ],
     "death_function": { "eoc": "EOC_last_amigara_death" },
     "dissect": "dissect_human_sample_single",
@@ -91,7 +91,7 @@
     "dodge": 1,
     "harvest": "demihuman",
     "families": [ "prof_wp_netherium_abomination" ],
-    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes" ],
     "special_attacks": [
       [ "SHRIEK", 10 ],
       {
@@ -906,7 +906,7 @@
     "vision_day": 30,
     "harvest": "gozu",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_demihuman" ],
-    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes" ],
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "fear_paralyze" }, "monster_message": "", "cooldown": 20 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "HAS_MIND", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "NO_BREATHE", "PATH_AVOID_DANGER" ]
   },
@@ -936,7 +936,7 @@
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "harvest": "demihuman",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_demihuman" ],
-    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes" ],
     "flags": [ "SMELLS", "HEARS", "WARM", "HAS_MIND", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER" ],
     "armor": { "electric": 1 }
   },
@@ -1477,7 +1477,7 @@
     "dodge": 6,
     "harvest": "demihuman",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_demihuman" ],
-    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "POISON", "HUMAN" ]
   },
   {
@@ -2194,7 +2194,7 @@
     "vision_day": 35,
     "vision_night": 35,
     "harvest": "nether_huntsman",
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_nether_huntsman" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes", "wps_nether_huntsman" ],
     "families": [ "prof_wp_netherium_abomination" ],
     "path_settings": { "max_dist": 35, "allow_open_doors": false, "avoid_traps": false, "avoid_sharp": true },
     "starting_ammo": { "nether_huntsman_javelin": 7 },
@@ -2457,7 +2457,7 @@
   {
     "id": "mon_twisting_mass",
     "type": "MONSTER",
-    "name": { "str_sp": "glowing mass of strings" },
+    "name": { "str": "glowing mass of strings", "str_pl": "glowing masses of strings" },
     "description": "A multitude of thin, fluorescent purple strings violently writhe about the air.  Occasionally, individual strings lash out extremely far before retracting almost instantly.  The strings are so dense that they form a nearly solid, suffocating mass.",
     "default_faction": "nether",
     "bodytype": "spider",
@@ -2487,7 +2487,7 @@
   {
     "id": "mon_halo_tangle",
     "type": "MONSTER",
-    "name": { "str_sp": "halo tangle" },
+    "name": { "str": "halo tangle" },
     "description": "A mass of uncountable, gleaming halos, each large enough to encompass ten humans, all impossibly intermingled and rapidly rotating.  At its core is a dark flame, with the shadow of a twitching humanoid.",
     "default_faction": "nether",
     "species": [ "NETHER" ],

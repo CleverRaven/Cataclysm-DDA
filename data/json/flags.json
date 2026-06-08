@@ -113,6 +113,10 @@
     "type": "json_flag"
   },
   {
+    "id": "ALLOWS_LEG_TENTACLES",
+    "type": "json_flag"
+  },
+  {
     "id": "ALLOWS_TALONS",
     "type": "json_flag"
   },
@@ -991,6 +995,11 @@
     "info": "This clothing will <good>protect</good> you from harm and withstand <info>a lot of abuse</info>.",
     "conflicts": [ "FRAGILE" ],
     "inherit": false
+  },
+  {
+    "id": "FAULT_ON_COMPLETION",
+    "//COMMENT": "Hardcoded application/removal.",
+    "type": "json_flag"
   },
   {
     "id": "SUN_GLASSES",
@@ -3041,6 +3050,21 @@
     "type": "json_flag",
     "//": "Terrain / Furniture flag",
     "//2": "This terrain will phase back to its original terrain when no longer modified."
+  },
+  {
+    "id": "ROBOFAC_ARM",
+    "type": "json_flag",
+    "info": "This item is a Hub 01 ARM exoskeleton.  It requires an implanted XM-ARM interface to function."
+  },
+  {
+    "id": "ROBOFAC_LEG",
+    "type": "json_flag",
+    "info": "This item is a Hub 01 LEG exoskeleton.  It requires an implanted XM-LEG interface to function."
+  },
+  {
+    "id": "ROBOFAC_BACK",
+    "type": "json_flag",
+    "info": "This item is a Hub 01 BACK exoskeleton.  It requires an implanted XM-LEG interface and it must be worn with ARM and LEG exoskeletons to function."
   },
   {
     "id": "ROBOFAC_LENS_ACCESSORY",

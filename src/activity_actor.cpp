@@ -4375,12 +4375,8 @@ std::string efile_activity_actor::efile_action_name( efile_action action_type, b
     std::vector<std::string> base_names = { _( "browse" ), _( "read" ), _( "move" ), _( "move" ), _( "copy" ), _( "copy" ), _( "wipe" ) };
     std::vector<std::string> past_names = { _( "browsed" ), _( "read" ), _( "moved" ), _( "moved" ), _( "copied" ), _( "copied" ), _( "wiped" ) };
     std::vector<std::string> extensions = { "", "", _( " files onto" ), _( " files off of" ), _( " files onto" ), _( " files off of" ), "" };
-    std::string name_output;
-    past_tense ? name_output += past_names[action_type] : name_output += base_names[action_type];
-    if( extended ) {
-        name_output += extensions[action_type];
-    }
-    return name_output;
+    const std::string name_output = ( past_tense ? past_names : base_names )[action_type];
+    return extended ? name_output + extensions[action_type] : name_output;
 }
 
 bool efile_activity_actor::efile_action_exclude_used( efile_action action_type )
@@ -6320,6 +6316,13 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     if( rec.has_steps() ) {
         const recipe_step &cur_step = rec.steps()[craft.get_current_step()];
         if( cur_step.attention == step_attention::unattended ) {
+            // Parked awaiting collection: stop the actor instead of re-stamping a
+            // fresh passive entry.  The player collects via an explicit activate.
+            if( craft.is_awaiting_collection() ) {
+                act.set_to_null();
+                crafter.set_moves( 0 );
+                return;
+            }
             const std::vector<attention_plan> &plans = craft.get_step_plans();
             const int idx = craft.get_current_step();
             const attention_plan plan = idx < static_cast<int>( plans.size() ) ? plans[idx] :
@@ -6384,12 +6387,18 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         return;
     }
 
+    // Book bonuses and tool speeds come from the nearby inventory, not the
+    // crafter's proficiency, so they survive the per-5% proficiency invalidation.
+    // batch_time still applies the live proficiency malus on top of this context,
+    // so the move totals stay current without rebuilding it each step.
+    if( !cost_ctx_ready ) {
+        cached_cost_ctx = { crafter.book_bonuses_nearby(), compute_tool_speeds( rec, crafter ) };
+        cost_ctx_ready = true;
+    }
+
     if( cached_crafting_speed != crafting_speed || cached_assistants != assistants ) {
         cached_crafting_speed = crafting_speed;
         cached_assistants = assistants;
-        // Recompute cost context: tool speeds + book proficiency bonuses
-        cached_cost_ctx = { crafter.book_bonuses_nearby(), compute_tool_speeds( rec, crafter ) };
-
         // Base moves for batch size with no speed modifier or assistants
         // Must ensure >= 1 so we don't divide by 0;
         cached_base_total_moves = std::max( static_cast<int64_t>( 1 ),
@@ -6424,8 +6433,20 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     craft.item_counter = std::min( craft.item_counter, 10000000 );
 
     // Step transitions: accumulate work and advance through step boundaries.
+    // Each closing step gets a final non-charged tool sweep before its index
+    // is incremented; a missing tool rewinds the whole turn.
     int old_step = 0;
     double old_step_progress = 0.0;
+    const auto rewind_turn = [&]() {
+        if( rec.has_steps() ) {
+            craft.set_current_step( old_step );
+            craft.set_step_progress( old_step_progress );
+        }
+        craft.item_counter = old_counter;
+        crafter.set_moves( old_moves );
+        craft.erase_var( "crafter" );
+        crafter.cancel_activity();
+    };
     if( rec.has_steps() ) {
         old_step = craft.get_current_step();
         old_step_progress = craft.get_step_progress();
@@ -6438,22 +6459,28 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
             if( craft.get_step_progress() < budget ) {
                 break;
             }
+            if( !crafter.verify_step_tools( craft, craft.get_current_step(),
+                                            crafter.pos_bub(), PICKUP_RANGE, /*pin_to_map=*/false ) ) {
+                rewind_turn();
+                return;
+            }
             craft.set_step_progress( craft.get_step_progress() - budget );
             craft.set_current_step( craft.get_current_step() + 1 );
         }
     }
-    // Consume tools to match progress: per recipe step, or the whole recipe as a
-    // single implicit step for stepless recipes.  A charge shortfall rewinds this
-    // turn's step and counter state before any skill gain.
-    if( !crafter.craft_consume_step_tools( craft ) ) {
-        if( rec.has_steps() ) {
-            craft.set_current_step( old_step );
-            craft.set_step_progress( old_step_progress );
+    // Verify before debit so a rejected closure does not burn charges first.
+    if( craft.item_counter >= 10000000 ) {
+        const int closing_step = rec.has_steps()
+                                 ? static_cast<int>( rec.steps().size() ) - 1 : 0;
+        if( !crafter.verify_step_tools( craft, closing_step,
+                                        crafter.pos_bub(), PICKUP_RANGE, /*pin_to_map=*/false ) ) {
+            rewind_turn();
+            return;
         }
-        craft.item_counter = old_counter;
-        crafter.set_moves( old_moves );
-        craft.erase_var( "crafter" );
-        crafter.cancel_activity();
+    }
+    // Charge shortfall rewinds the turn before any skill gain.
+    if( !crafter.craft_consume_step_tools( craft, &cached_cost_ctx ) ) {
+        rewind_turn();
         return;
     }
 
@@ -11388,6 +11415,7 @@ void vehicle_activity_actor::complete_vehicle( player_activity &act, Character &
                 break;
             }
             ::vehicle_part &vp_new = veh.part( partnum );
+            here.add_vehicle_to_cache( &veh );
             if( vp_new.info().variants.size() > 1 ) {
                 veh_shape( here, veh ).change_part_shape( vpart_reference( veh, partnum ) );
             }

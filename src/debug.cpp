@@ -272,7 +272,9 @@ std::string filter_name( debug_filter value )
         case DF_VEHICLE: return "DF_VEHICLE";
         case DF_VEHICLE_DRAG: return "DF_VEHICLE_DRAG";
         case DF_VEHICLE_MOVE: return "DF_VEHICLE_MOVE";
+        case DF_WEAKPOINTS: return "DF_WEAKPOINTS";
         case DF_WOUNDS: return "DF_WOUNDS";
+        case DF_MONITOR: return "DF_MONITOR";
         // *INDENT-ON*
         case DF_LAST:
         default:

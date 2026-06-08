@@ -20,7 +20,7 @@
         "learning_time_multiplier": 0.3
       }
     ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 100 ] ], [ [ "circuit", 1 ] ] ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 34 ] ], [ [ "circuit", 1 ] ] ],
     "time": "7 h",
     "skill_used": "deduction",
     "difficulty": 7,
@@ -50,7 +50,7 @@
         "learning_time_multiplier": 0.3
       }
     ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 100 ] ], [ [ "circuit", 1 ] ] ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 34 ] ], [ [ "circuit", 1 ] ] ],
     "time": "7 h",
     "skill_used": "deduction",
     "difficulty": 7,
@@ -80,7 +80,7 @@
         "learning_time_multiplier": 0.3
       }
     ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 100 ] ], [ [ "circuit", 1 ] ] ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 34 ] ], [ [ "circuit", 1 ] ] ],
     "time": "7 h",
     "skill_used": "deduction",
     "difficulty": 7,
@@ -115,7 +115,7 @@
       [ [ "scrap", 1 ] ],
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "amplifier", 1 ] ],
-      [ [ "cable", 100 ] ],
+      [ [ "cable", 34 ] ],
       [ [ "circuit", 1 ] ]
     ],
     "time": "7 h",
@@ -175,7 +175,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "scrap", 2 ] ],
-      [ [ "cable", 80 ] ],
+      [ [ "cable", 27 ] ],
       [ [ "plastic_chunk", 5 ] ],
       [ [ "circuit", 3 ] ],
       [ [ "power_supply", 4 ] ],
@@ -203,7 +203,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "scrap", 2 ] ],
-      [ [ "cable", 80 ] ],
+      [ [ "cable", 27 ] ],
       [ [ "plastic_chunk", 5 ] ],
       [ [ "circuit", 3 ] ],
       [ [ "power_supply", 4 ] ],
@@ -231,7 +231,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "scrap", 2 ] ],
-      [ [ "cable", 80 ] ],
+      [ [ "cable", 27 ] ],
       [ [ "plastic_chunk", 5 ] ],
       [ [ "circuit", 3 ] ],
       [ [ "power_supply", 4 ] ],
@@ -259,7 +259,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "scrap", 2 ] ],
-      [ [ "cable", 80 ] ],
+      [ [ "cable", 27 ] ],
       [ [ "plastic_chunk", 5 ] ],
       [ [ "circuit", 3 ] ],
       [ [ "power_supply", 4 ] ],
@@ -287,7 +287,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "scrap", 2 ] ],
-      [ [ "cable", 80 ] ],
+      [ [ "cable", 27 ] ],
       [ [ "plastic_chunk", 5 ] ],
       [ [ "circuit", 3 ] ],
       [ [ "power_supply", 4 ] ],
@@ -315,7 +315,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "scrap", 2 ] ],
-      [ [ "cable", 80 ] ],
+      [ [ "cable", 27 ] ],
       [ [ "plastic_chunk", 5 ] ],
       [ [ "power_supply", 4 ] ],
       [ [ "amplifier", 1 ] ],
@@ -343,7 +343,7 @@
     "components": [
       [ [ "inventor_lasmod_adv_cooler", 1 ] ],
       [ [ "scrap", 3 ] ],
-      [ [ "cable", 80 ] ],
+      [ [ "cable", 27 ] ],
       [ [ "plastic_chunk", 3 ] ],
       [ [ "circuit", 1 ] ],
       [ [ "power_supply", 4 ] ],
@@ -371,7 +371,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "scrap", 3 ] ],
-      [ [ "cable", 120 ] ],
+      [ [ "cable", 40 ] ],
       [ [ "plastic_chunk", 2 ] ],
       [ [ "amplifier", 2 ] ],
       [ [ "e_scrap", 11 ] ],
@@ -398,7 +398,7 @@
     "components": [
       [ [ "inventor_lasmod_mega_capasitor", 1 ] ],
       [ [ "scrap", 5 ] ],
-      [ [ "cable", 30 ] ],
+      [ [ "cable", 10 ] ],
       [ [ "circuit", 2 ] ],
       [ [ "power_supply", 4 ] ],
       [ [ "amplifier", 1 ] ],
@@ -423,7 +423,7 @@
       { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": 0 }
     ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 6 ] ], [ [ "cable", 80 ] ], [ [ "duct_tape", 20 ] ] ]
+    "components": [ [ [ "scrap", 6 ] ], [ [ "cable", 27 ] ], [ [ "duct_tape", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -442,7 +442,7 @@
       { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": 0 }
     ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 14 ] ], [ [ "cable", 80 ] ], [ [ "plastic_chunk", 5 ] ], [ [ "duct_tape", 20 ] ] ]
+    "components": [ [ [ "scrap", 14 ] ], [ [ "cable", 27 ] ], [ [ "plastic_chunk", 5 ] ], [ [ "duct_tape", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -461,7 +461,7 @@
       { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": 0 }
     ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 4 ] ], [ [ "cable", 80 ] ], [ [ "plastic_chunk", 5 ] ], [ [ "e_scrap", 3 ] ], [ [ "duct_tape", 30 ] ] ]
+    "components": [ [ [ "scrap", 4 ] ], [ [ "cable", 27 ] ], [ [ "plastic_chunk", 5 ] ], [ [ "e_scrap", 3 ] ], [ [ "duct_tape", 30 ] ] ]
   },
   {
     "type": "recipe",
@@ -482,7 +482,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "scrap", 2 ] ],
-      [ [ "cable", 80 ] ],
+      [ [ "cable", 27 ] ],
       [ [ "plastic_chunk", 5 ] ],
       [ [ "circuit", 3 ] ],
       [ [ "power_supply", 4 ] ],

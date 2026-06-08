@@ -69,11 +69,20 @@ struct WINDOW {
     bool inuse;
     // Tracks if the window text has been changed
     bool draw;
+    // Render epoch this window was last fully drawn against. When it differs
+    // from curses_render_epoch the window is forced to redraw in full,
+    // bypassing the per-line touched skip, so a renderer rebuild re-emits
+    // every window even if its text is unchanged.
+    unsigned last_render_epoch = 0;
     point cursor;
     std::vector<curseline> line;
 };
 
 extern std::array<pairs, 100> colorpairs;
+// Bumped once after a renderer-resource recovery to force every curses
+// window to re-emit on its next refresh.
+extern unsigned curses_render_epoch;
+void bump_curses_render_epoch();
 void curses_drawwindow( const catacurses::window &win );
 
 } // namespace cata_cursesport

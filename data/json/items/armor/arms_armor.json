@@ -1261,24 +1261,37 @@
     "armor": [
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 0.7 },
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 0.75 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r" ],
+        "coverage": 100,
+        "cover_vitals": 85
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 0.7 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_upper_r" ],
+        "coverage": 100,
+        "cover_vitals": 80
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.75 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_lower_l", "arm_lower_r" ],
         "coverage": 100,
-        "encumbrance": 10
-      },
-      {
-        "material": [
-          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.7 },
-          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ],
-        "coverage": 100
+        "encumbrance": 8,
+        "cover_vitals": 95
       }
     ],
     "melee_damage": { "bash": 8 }
@@ -1392,24 +1405,26 @@
     "armor": [
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.15 },
+          { "type": "lc_steel", "covered_by_mat": 97, "thickness": 1.15 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_lower_l", "arm_lower_r" ],
         "coverage": 100,
-        "encumbrance": 15
+        "cover_vitals": 100,
+        "encumbrance": 10
       },
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 1.15 },
+          { "type": "lc_steel", "covered_by_mat": 94, "thickness": 1.15 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ],
-        "coverage": 100
+        "specifically_covers": [ "arm_upper_l", "arm_upper_r", "arm_elbow_l", "arm_elbow_r" ],
+        "coverage": 100,
+        "cover_vitals": 90
       }
     ],
     "melee_damage": { "bash": 8 }
@@ -1522,24 +1537,26 @@
     "armor": [
       {
         "material": [
-          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.65 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.65 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l" ],
+        "specifically_covers": [ "arm_lower_l", "arm_lower_r" ],
+        "cover_vitals": 100,
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 15
       },
       {
         "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 1.65 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "lc_steel", "covered_by_mat": 96, "thickness": 1.65 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
-        "coverage": 100
+        "specifically_covers": [ "arm_upper_l", "arm_upper_r", "arm_elbow_l", "arm_elbow_r" ],
+        "coverage": 100,
+        "cover_vitals": 95
       }
     ],
     "melee_damage": { "bash": 8 }

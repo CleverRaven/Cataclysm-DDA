@@ -85,7 +85,7 @@
 // Requires FreeType headers to be available in the include path. Requires program to be compiled with 'misc/freetype/imgui_freetype.cpp' (in this repository) + the FreeType library (not provided).
 // On Windows you may use vcpkg with 'vcpkg install freetype --triplet=x64-windows' + 'vcpkg integrate install'.
 // START CDDA PATCH #76529
-#ifdef TILES
+#if defined(TILES) && !defined(__ANDROID__)
 #define IMGUI_ENABLE_FREETYPE
 #endif
 // END CDDA PATCH #76529

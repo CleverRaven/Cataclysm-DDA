@@ -61,6 +61,7 @@
 #include "vehicle.h"
 #include "viewer.h"
 #include "vpart_position.h"
+#include "weighted_list.h"
 
 static const damage_type_id damage_bash( "bash" );
 
@@ -487,13 +488,7 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
         grab_data.load_grab( obj.get_object( "grab_data" ) );
     }
 
-    if( obj.has_array( "body_parts" ) ) {
-        for( JsonArray sub : obj.get_array( "body_parts" ) ) {
-            const bodypart_str_id bp( sub.get_string( 0 ) );
-            const float prob = sub.get_float( 1 );
-            body_parts.add_or_replace( bp, prob );
-        }
-    }
+    optional( obj, was_loaded, "body_part_types", body_parts_types );
 
     if( obj.has_array( "effects" ) ) {
         for( JsonObject eff : obj.get_array( "effects" ) ) {
@@ -808,6 +803,46 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
     return 1;
 }
 
+std::vector<bodypart_id> melee_actor::pick_bodyparts_hit( const Creature *target,
+        const int hitspread ) const
+{
+    std::vector<bodypart_id> bodyparts_hit;
+    const int attack_amt = rng( attack_amount.first, attack_amount.second );
+
+    // if damage is spread, just grab all possible bodyparts
+    if( spread_damage ) {
+        bodyparts_hit = target->get_all_body_parts();
+        return bodyparts_hit;
+    }
+
+    // target specific bodyparts, by picking from a list of all possible bpts
+    if( !body_parts_types.empty() ) {
+        weighted_int_list<bodypart_id> potential_bps;
+        for( const auto &[bp, weight] : body_parts_types ) {
+            for( const bodypart_id &bp_of_type : target->get_all_body_parts_of_type( bp ) ) {
+                potential_bps.add( bp_of_type, weight );
+            }
+        }
+
+        if( !potential_bps.empty() ) {
+            for( int i = 0; i < attack_amt; i++ ) {
+                const bodypart_id bp = *potential_bps.pick();
+                bodyparts_hit.emplace_back( bp );
+            }
+            return bodyparts_hit;
+        }
+    }
+
+    // if no early return, use default selection
+    for( int i = 0; i < attack_amt; i++ ) {
+        const bodypart_id &bp =
+            target->select_body_part( hitsize_min, hitsize_max, attack_upper, hitspread );
+        bodyparts_hit.emplace_back( bp );
+    }
+
+    return bodyparts_hit;
+}
+
 bool melee_actor::call( monster &z ) const
 {
     map &here = get_map();
@@ -848,23 +883,7 @@ bool melee_actor::call( monster &z ) const
     // Dodge check
     const int acc = accuracy >= 0 ? accuracy : z.type->melee_skill;
     int hitspread = target->deal_melee_attack( &z, melee::melee_hit_range( acc ) );
-
-    // Pick bodyparts hit
-    std::vector<bodypart_id> bodyparts_hit;
-    const int attack_amt = rng( attack_amount.first, attack_amount.second );
-    if( spread_damage ) {
-        bodyparts_hit = target->get_all_body_parts();
-    } else if( !body_parts.empty() ) {
-        for( int i = 0; i < attack_amt; i++ ) {
-            bodyparts_hit.emplace_back( *body_parts.pick() );
-        }
-    } else {
-        for( int i = 0; i < attack_amt; i++ ) {
-            const bodypart_id &bp =
-                target->select_body_part( hitsize_min, hitsize_max, attack_upper, hitspread );
-            bodyparts_hit.emplace_back( bp );
-        }
-    }
+    std::vector<bodypart_id> bodyparts_hit = pick_bodyparts_hit( target, hitspread );
 
     if( bodyparts_hit.empty() ) {
         debugmsg( "Monster %s tries to attack, but fails to pick bodypart/bodyparts", z.type->id.c_str() );

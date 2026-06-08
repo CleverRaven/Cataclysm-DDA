@@ -15,6 +15,7 @@
 #include "crafting.h"
 #include "crafting_enums.h"
 #include "flexbuffer_json.h"
+#include "game_constants.h"
 #include "item.h"
 #include "item_components.h"
 #include "item_location.h"
@@ -36,6 +37,7 @@ static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_microwave( "microwave" );
 static const itype_id itype_soldering_iron_portable( "soldering_iron_portable" );
+static const itype_id itype_water( "water" );
 
 static const recipe_id recipe_cudgel_test_charged_fast_stepless(
     "cudgel_test_charged_fast_stepless" );
@@ -63,6 +65,8 @@ static const recipe_id recipe_cudgel_test_unattended_simple(
     "cudgel_test_unattended_simple" );
 static const recipe_id recipe_cudgel_test_unattended_with_qual(
     "cudgel_test_unattended_with_qual" );
+static const recipe_id recipe_water_clean_test_unattended_liquid(
+    "water_clean_test_unattended_liquid" );
 
 TEST_CASE( "attention_recipe_loads_attention_field", "[craft][attention][schema]" )
 {
@@ -1273,10 +1277,32 @@ TEST_CASE( "craft_unattended_noncharged_tool_offset_crafter_uses_map_source",
 
         WHEN( "the tool is gone at the completion true-up" ) {
             here.i_rem( craft_pos, &tool );
+            on_map.set_tools_to_continue( true );
 
-            THEN( "completion re-checks presence and the step does not finish free" ) {
-                CHECK_FALSE( u.craft_consume_passive_step_tools(
-                                 on_map, calendar::turn + 10_minutes, loc ) );
+            THEN( "the verifier fails and clears tools_to_continue" ) {
+                CHECK_FALSE( u.verify_step_tools( on_map, 1, craft_pos, PICKUP_RANGE,
+                                                  /*pin_to_map=*/true ) );
+                CHECK_FALSE( on_map.has_tools_to_continue() );
+            }
+        }
+    }
+
+    GIVEN( "ready dispatch fires with the non-charged tool missing" ) {
+        on_map.set_step_plans( std::vector<attention_plan>( 2 ) );
+        on_map.set_tools_to_continue( true );
+        std::vector<std::vector<step_tool_alloc>> drift_allocs = on_map.get_step_tool_allocs();
+        drift_allocs[1][0].consumed_buckets = 20;
+        on_map.set_step_tool_allocs( drift_allocs );
+
+        WHEN( "craft_actualize_scheduled runs the ready_check handler" ) {
+            craft_actualize_scheduled( on_map, item_wakeup_kind::ready_check,
+                                       calendar::turn + 10_minutes, loc );
+
+            THEN( "the step pauses without closing and tools_to_continue clears" ) {
+                REQUIRE( loc.get_item() != nullptr );
+                CHECK( on_map.get_current_step() == 1 );
+                CHECK( on_map.get_pause_started_at() == calendar::turn + 10_minutes );
+                CHECK_FALSE( on_map.has_tools_to_continue() );
             }
         }
     }
@@ -1355,6 +1381,68 @@ TEST_CASE( "craft_actualize_ready_fail_at_precedes_ready",
     craft_resolve_overdue_passive( on_map, calendar::turn + 30_minutes, loc );
 
     CHECK( loc.get_item() == nullptr );
+}
+
+TEST_CASE( "craft_terminal_unattended_liquid_parks_for_collection",
+           "[craft][attention][liquid]" )
+{
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms craft_pos( 60, 60, 0 );
+    // Avatar on the craft tile: a liquid step still parks (collection is always
+    // explicit, so proximity does not gate it).
+    u.setpos( here, craft_pos );
+
+    SECTION( "liquid result parks at full progress instead of finalizing" ) {
+        item ingredient( itype_water, calendar::turn );
+        item placed( &recipe_water_clean_test_unattended_liquid.obj(), 1, ingredient );
+        item &on_map = here.add_item( craft_pos, placed );
+        REQUIRE( on_map.is_craft() );
+
+        on_map.set_current_step( 0 );
+        on_map.set_passive_started_at( calendar::turn );
+        on_map.set_ready_at( calendar::turn + 10_minutes );
+        on_map.set_crafter_id( u.getID() );
+        std::vector<attention_plan> plans( 1 );
+        on_map.set_step_plans( plans );
+
+        item_location loc( map_cursor( here.get_abs( craft_pos ) ), &on_map );
+        get_item_wakeups().rebuild_for_item( loc );
+        const int64_t uid = on_map.uid().get_value();
+
+        // Finalizing a liquid here would hit the pour prompt and abort the test
+        // (cata_assert( !test_mode ) in uilist); parking is what prevents that.
+        craft_resolve_overdue_passive( on_map, calendar::turn + 10_minutes + 1_turns, loc );
+
+        REQUIRE( loc.get_item() != nullptr );
+        item *parked = loc.get_item();
+        CHECK( parked->is_craft() );
+        CHECK( parked->tname().find( "100%" ) != std::string::npos );
+        // Parked, so no ready wakeup remains to re-fire.
+        CHECK_FALSE( get_item_wakeups().is_scheduled( uid, item_wakeup_kind::ready_check ) );
+    }
+
+    SECTION( "solid result still finalizes when overdue" ) {
+        item ingredient( itype_2x4, calendar::turn );
+        item placed( &recipe_cudgel_test_only_unattended.obj(), 1, ingredient );
+        item &on_map = here.add_item( craft_pos, placed );
+        REQUIRE( on_map.is_craft() );
+
+        on_map.set_current_step( 0 );
+        on_map.set_passive_started_at( calendar::turn );
+        on_map.set_ready_at( calendar::turn + 10_minutes );
+        on_map.set_crafter_id( u.getID() );
+        std::vector<attention_plan> plans( 1 );
+        on_map.set_step_plans( plans );
+
+        item_location loc( map_cursor( here.get_abs( craft_pos ) ), &on_map );
+
+        craft_resolve_overdue_passive( on_map, calendar::turn + 10_minutes + 1_turns, loc );
+
+        // Non-liquid result finalizes normally; the parking gate is liquid-only.
+        CHECK( loc.get_item() == nullptr );
+    }
 }
 
 TEST_CASE( "craft_stamp_passive_entry_carries_step_progress_fraction",

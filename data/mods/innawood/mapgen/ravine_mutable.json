@@ -35,7 +35,7 @@
         "south": { "id": "ravine_to_ravine", "type": "available", "alternatives": [ "ravine_to_edge" ] },
         "west": { "id": "ravine_to_ravine", "type": "available", "alternatives": [ "ravine_to_edge" ] }
       },
-      "ravine_edge_ground": { "overmap": "ravine_edge_ground_north", "north": { "id": "ravine_to_ravine" } },
+      "ravine_straight_ground": { "overmap": "ravine_straight_ground_north", "north": { "id": "ravine_to_ravine" } },
       "ravine_corner_ground": {
         "overmap": "ravine_corner_ground_north",
         "north": { "id": "ravine_to_ravine", "alternatives": [ "ravine_to_edge" ] },
@@ -56,11 +56,11 @@
       "ravine_filler": { "overmap": "open_air" },
       "ravine_root_filler": { "overmap": "open_air", "above": { "id": "ravine_to_bottom", "alternatives": [ "ravine_to_edge" ] } },
       "ravine_bottom": { "overmap": "ravine_bottom_forest" },
-      "ravine_edge": { "overmap": "ravine_edge_north" },
+      "ravine_straight": { "overmap": "ravine_straight_north" },
       "ravine_corner": { "overmap": "ravine_corner_north" },
       "ravine_2way": { "overmap": "ravine_2way_east" },
       "ravine_3way": { "overmap": "ravine_3way_north" },
-      "ravine_edge_bottom": { "overmap": "ravine_edge_bottom_north" },
+      "ravine_straight_bottom": { "overmap": "ravine_straight_bottom_north" },
       "ravine_corner_bottom": { "overmap": "ravine_corner_bottom_north" },
       "ravine_2way_bottom": { "overmap": "ravine_2way_bottom_east" },
       "ravine_3way_bottom": { "overmap": "ravine_3way_bottom_north" }
@@ -177,9 +177,9 @@
         {
           "name": "ravine edge",
           "chunk": [
-            { "overmap": "ravine_edge_ground", "pos": [ 0, 0, 0 ] },
-            { "overmap": "ravine_edge", "pos": [ 0, 0, -1 ] },
-            { "overmap": "ravine_edge_bottom", "pos": [ 0, 0, -2 ] }
+            { "overmap": "ravine_straight_ground", "pos": [ 0, 0, 0 ] },
+            { "overmap": "ravine_straight", "pos": [ 0, 0, -1 ] },
+            { "overmap": "ravine_straight_bottom", "pos": [ 0, 0, -2 ] }
           ],
           "weight": 1
         }
@@ -240,36 +240,36 @@
   {
     "type": "mapgen",
     "//": "z0",
-    "om_terrain": "ravine_edge_ground",
+    "om_terrain": "ravine_straight_ground",
     "object": {
       "fallback_predecessor_mapgen": "forest",
-      "palettes": [ "ravine_edge_parameters" ],
-      "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "24x24_ravine_edge_v1" } ], "x": 0, "y": 0 } ]
+      "palettes": [ "ravine_straight_parameters" ],
+      "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "24x24_ravine_straight_v1" } ], "x": 0, "y": 0 } ]
     }
   },
   {
     "type": "mapgen",
     "//": "z-1",
-    "om_terrain": "ravine_edge",
+    "om_terrain": "ravine_straight",
     "object": {
       "predecessor_mapgen": "open_air",
-      "palettes": [ "ravine_edge_parameters" ],
-      "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "24x24_ravine_edge_v1" } ], "x": 0, "y": 0 } ]
+      "palettes": [ "ravine_straight_parameters" ],
+      "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "24x24_ravine_straight_v1" } ], "x": 0, "y": 0 } ]
     }
   },
   {
     "type": "mapgen",
     "//": "z-2",
-    "om_terrain": "ravine_edge_bottom",
+    "om_terrain": "ravine_straight_bottom",
     "object": {
       "predecessor_mapgen": "forest",
-      "palettes": [ "ravine_edge_parameters" ],
-      "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "24x24_ravine_edge_v1" } ], "x": 0, "y": 0 } ]
+      "palettes": [ "ravine_straight_parameters" ],
+      "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "24x24_ravine_straight_v1" } ], "x": 0, "y": 0 } ]
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_ravine_edge_v1",
+    "nested_mapgen_id": "24x24_ravine_straight_v1",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -303,7 +303,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_ravine_edge_v2",
+    "nested_mapgen_id": "24x24_ravine_straight_v2",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -660,7 +660,23 @@
   },
   {
     "type": "mapgen",
+    "nested_mapgen_id": "1x1_under_soil",
+    "object": { "mapgensize": [ 1, 1 ], "terrain": { " ": "t_soil" }, "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "1x1_under_stone",
+    "object": { "mapgensize": [ 1, 1 ], "terrain": { " ": "t_rock" }, "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ] }
+  },
+  {
+    "type": "mapgen",
     "om_terrain": "ravine_bottom_forest",
     "object": { "predecessor_mapgen": "forest" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "ravine_bottom_forest",
+    "weight": 750,
+    "object": { "predecessor_mapgen": "forest_thick" }
   }
 ]

@@ -2148,6 +2148,9 @@ void Item_factory::init()
     add_iuse( "OXYTORCH", &iuse::oxytorch );
     add_iuse( "PACK_CBM", &iuse::pack_cbm );
     add_iuse( "PACK_ITEM", &iuse::pack_item );
+    add_iuse( "PAPR_BLOWER", &iuse::papr_blower );
+    add_iuse( "PAPR_MASK", &iuse::papr_mask );
+    add_iuse( "PAPR_MASK_ACTIVATE", &iuse::papr_mask_activate );
     add_iuse( "PETFOOD", &iuse::petfood );
     add_iuse( "PICK_LOCK", &iuse::pick_lock );
     add_iuse( "PICKAXE", &iuse::pickaxe );

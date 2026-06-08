@@ -334,7 +334,10 @@ void sounds::sound( const tripoint_bub_ms &p, int vol, sound_t category,
     }
     const season_type seas = season_of_year( calendar::turn );
     const std::string seas_str = season_str( seas );
-    recent_sounds.emplace_back( p, monster_sound_event{ vol, is_provocative( category ) } );
+    // Silent sounds are inaudible to monsters and would divide by zero in cluster_sounds.
+    if( vol > 0 ) {
+        recent_sounds.emplace_back( p, monster_sound_event{ vol, is_provocative( category ) } );
+    }
     sounds_since_last_turn.emplace_back( p,
                                          sound_event{ vol, category, description, ambient,
                                                  false, id, variant, seas_str } );
@@ -415,6 +418,11 @@ static std::vector<centroid> cluster_sounds(
         }
         const float volume_sum = static_cast<float>( sound_event_pair.second.volume ) +
                                  found_centroid->weight;
+        if( volume_sum <= 0.0f ) {
+            // Both the sound and its nearest cluster are silent; averaging their
+            // positions would divide by zero and corrupt the centroid.
+            continue;
+        }
         // Set the centroid location to the average of the two locations, weighted by volume.
         found_centroid->x = static_cast<float>( ( sound_event_pair.first.x() *
                                                 sound_event_pair.second.volume ) +

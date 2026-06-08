@@ -2161,7 +2161,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         const islot_armor *armor = find_armor_data();
         if( armor != nullptr ) {
             if( armor->rigid ) {
-                std::string coverage = _( "<bold>This armor is rigid</bold>" );
+                std::string coverage = _( "<bold>This armor is rigid</bold>." );
                 info.emplace_back( "ARMOR", coverage );
             } else {
                 // only some parts are rigid
@@ -2215,7 +2215,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         const islot_armor *armor = find_armor_data();
         if( armor != nullptr ) {
             if( armor->comfortable ) {
-                std::string coverage = _( "<bold>This armor is comfortable</bold>" );
+                std::string coverage = _( "<bold>This armor is comfortable</bold>." );
                 info.emplace_back( "ARMOR", coverage );
             } else {
                 // only some parts are comfortable
@@ -2263,7 +2263,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             for( const translation &entry : to_print ) {
                 coverage += string_format( _( " The <info>%s</info>." ), entry );
             }
-            info.emplace_back( "ARMOR", "", string_format( "  <num>%%:%s", coverage ), iteminfo::no_flags,
+            info.emplace_back( "ARMOR", "", string_format( _( "  <num>%%:%s" ), coverage ), iteminfo::no_flags,
                                entry.first );
         }
     }
@@ -2312,7 +2312,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.emplace_back( "ARMOR", when_empty_message, "",
                                    iteminfo::no_newline | iteminfo::lower_is_better, entry.first.encumb_min );
             }
-            info.emplace_back( "ARMOR", string_format( ":%s", coverage ) );
+            info.emplace_back( "ARMOR", string_format( _( ":%s" ), coverage ) );
         }
     }
 
@@ -2333,7 +2333,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             for( const translation &entry : to_print ) {
                 coverage += string_format( _( " The <info>%s</info>." ), entry );
             }
-            info.emplace_back( "ARMOR", "", string_format( "  <num>:%s", coverage ), iteminfo::no_flags,
+            info.emplace_back( "ARMOR", "", string_format( _( "  <num>:%s" ), coverage ), iteminfo::no_flags,
                                entry.first );
         }
     }
@@ -2358,7 +2358,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             for( const translation &entry : to_print ) {
                 coverage += string_format( _( " The <info>%s</info>." ), entry );
             }
-            info.emplace_back( "ARMOR", "", string_format( "  <num>%%:%s", coverage ), iteminfo::no_flags,
+            info.emplace_back( "ARMOR", "", string_format( _( "  <num>%%:%s" ), coverage ), iteminfo::no_flags,
                                entry.first );
         }
     }
@@ -3491,8 +3491,9 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     insert_separation_line( info );
 
     if( bid->required_bionic ) {
-        info.emplace_back( "CBM", string_format( "* This CBM requires another CBM to also be installed: %s",
-                           bid->required_bionic->name ) );
+        info.emplace_back( "CBM", string_format(
+                               _( "* This CBM requires another CBM to also be installed: %s" ),
+                               bid->required_bionic->name ) );
     }
     insert_separation_line( info );
 
@@ -3702,7 +3703,7 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
                 if( non_crit.type_damage( dio.dmg_type ) > 0 || crit.type_damage( dio.dmg_type ) > 0 ) {
                     // NOTE: Using "BASE" instead of "DESCRIPTION", so numerical formatting will work
                     // (output.cpp:format_item_info does not interpolate <num> for DESCRIPTION info)
-                    info.emplace_back( "BASE", string_format( "%s: ",
+                    info.emplace_back( "BASE", string_format( _( "%s: " ),
                                        uppercase_first_letter( dio.dmg_type->name.translated() ) ),
                                        "<num>", iteminfo::no_newline, non_crit.type_damage( dio.dmg_type ) );
                     //~ Label used in the melee damage section in the item info screen (ex: "  Critical bash: ")
@@ -4094,8 +4095,8 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::DESCRIPTION_FAULTS ) ) {
         for( const fault_id &e : faults ) {
             //~ %1$s is the name of a fault and %2$s is the description of the fault
-            info.emplace_back( "DESCRIPTION", string_format( _( "* <bad>%1$s</bad>.  %2$s" ),
-                               e.obj().name(), get_fault_description( e ) ) );
+            info.emplace_back( "DESCRIPTION", string_format( _( "* <%3$s>%1$s</%3$s>.  %2$s" ),
+                               e.obj().name(), get_fault_description( e ), e.obj().color() ) );
         }
     }
 

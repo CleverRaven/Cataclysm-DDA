@@ -1768,20 +1768,16 @@ drop_locations game_menus::inv::edevice_select( Character &who, item_location &u
         return false;
     } );
 
-    std::string action_name = efile_activity_actor::efile_action_name( action, false, true );
-    std::string inv_title = _( action_name );
-    std::string used_device_name;
-    if( efile_activity_actor::efile_action_exclude_used( action ) ) {
-        used_device_name = string_format( _( " (using %s)?" ), used_edevice->display_name() );
-    } else {
-        used_device_name = "?";
-    }
+    const std::string action_name = efile_activity_actor::efile_action_name( action, false, true );
+    const std::string used_device_name = efile_activity_actor::efile_action_exclude_used( action ) ?
+                                         string_format( _( " (using %s)?" ), used_edevice->display_name() ) :
+                                         "?";
+    const std::string inv_title = action_name + _( " which device" ) + used_device_name;
 
     if( action == EF_READ || efile_activity_actor::efile_action_is_from( action ) ) {
         inventory_pick_selector select_one_edevice( who, preset );
         select_one_edevice.add_character_items( who );
         select_one_edevice.add_nearby_items( PICKUP_RANGE );
-        inv_title += _( " which device" ) + used_device_name;
         select_one_edevice.set_title( inv_title );
         if( select_one_edevice.empty() ) {
             popup( string_format( _( "You have no eligible devices to %s." ), action_name ), PF_GET_KEY );
@@ -1798,7 +1794,6 @@ drop_locations game_menus::inv::edevice_select( Character &who, item_location &u
                                        action_name ) );
         inv_s.add_character_items( who );
         inv_s.add_nearby_items( PICKUP_RANGE );
-        inv_title += _( " which devices" ) + used_device_name;
         inv_s.set_title( inv_title );
         if( inv_s.empty() ) {
             popup( string_format( _( "You have no eligible devices to %s." ), action_name ), PF_GET_KEY );
@@ -1905,10 +1900,10 @@ drop_locations game_menus::inv::efile_select( Character &who, item_location &use
         select_multiple_efiles.add_contained_efiles( loc );
     }
     if( select_multiple_efiles.empty() ) {
-        popup( std::string( _( "You have no files to " + action_name + "." ) ), PF_GET_KEY );
+        popup( string_format( _( "You have no files to %s." ), action_name ), PF_GET_KEY );
         return drop_locations();
     }
-    select_multiple_efiles.set_title( _( "Select files to " + action_name ) );
+    select_multiple_efiles.set_title( string_format( _( "Select files to %s" ), action_name ) );
     bool done = false;
     drop_locations selected_efiles;
     while( !done ) {
