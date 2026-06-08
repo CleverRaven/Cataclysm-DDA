@@ -110,6 +110,7 @@
     "description": "Designed to attach to an exosuit's helmet, this is a plate of vacuum-cast carbide.",
     "weight": "7500 g",
     "material": [ "vacuum_carbide_hard" ],
+    "faults": [ { "fault_group": "carbide_armor" } ],
     "looks_like": "power_armor_helmet_basic",
     "non_functional": "damaged_exo_helmet_vcc",
     "extend": { "flags": [ "NO_REPAIR" ] },

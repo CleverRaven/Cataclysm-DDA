@@ -33,6 +33,7 @@
     "name": "habitat window",
     "description": "A prefabricated porthole style window, equipped with metallic shutters for both protection and privacy purposes.  It cannot be opened, but with its shutters are retracted, it could be smashed with no particular difficulty.",
     "roof": "t_metal_flat_roof",
+    "looks_like": "t_wall_glass",
     "symbol": "#",
     "color": "light_cyan",
     "close": "t_wall_prefab_glass_shutters",
@@ -48,6 +49,57 @@
       "sound_fail": "clang!",
       "ter_set": "t_wall_prefab_bglass",
       "items": [ { "item": "glass_shard", "count": [ 22, 33 ] }, { "item": "scrap", "count": [ 0, 4 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_prefab_glass_reinforced",
+    "name": "reinforced habitat window",
+    "description": "A reinforced curtain wall segment, made from steel and laminated glass.  A set of machine deployed shutters can cover the window in the event of a storm or some other hazard, but they cannot be closed manually.",
+    "roof": "t_metal_flat_roof",
+    "looks_like": "t_reinforced_glass",
+    "symbol": "#",
+    "color": "light_cyan",
+    "move_cost": 0,
+    "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 120,
+      "sound": "glass breaking!",
+      "sound_fail": "clang!",
+      "ter_set": "t_broken_prefab",
+      "items": [ { "item": "glass_shard", "count": [ 22, 33 ] }, { "item": "scrap", "count": [ 0, 4 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_prefab_glass_reinforced_l",
+    "name": "reinforced habitat window (lockdown)",
+    "description": "Security shutters have been deployed over this reinforced window.  Access will require either breaking through or bypassing the locking mechanism from somewhere else.",
+    "roof": "t_metal_flat_roof",
+    "looks_like": "t_reinforced_glass_shutter",
+    "symbol": "=",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 180,
+      "str_max": 250,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_broken_prefab",
+      "items": [
+        { "item": "lc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 12 ] },
+        { "item": "afs_material_2", "count": [ 2, 8 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
     }
   },
   {

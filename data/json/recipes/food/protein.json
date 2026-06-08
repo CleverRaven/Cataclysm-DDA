@@ -15,6 +15,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "protein_shake",
+    "charges": 2,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -44,6 +45,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "protein_smoothie",
+    "charges": 2,
     "id_suffix": "milk",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -61,6 +63,7 @@
   {
     "type": "recipe",
     "result": "protein_smoothie",
+    "charges": 2,
     "id_suffix": "water",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",

@@ -6,5 +6,13 @@
     "copy-from": "caotel_plasma_ring",
     "name": { "str": "plasma condenser" },
     "description": "A bulky magazine that holds a dozen plasma cells.  It will be automatically expelled by the weapon once the ammo inside has been fired."
+  },
+  {
+    "id": "gg_nl_chem_thrower_mag",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "copy-from": "nl_chem_thrower_mag",
+    "name": { "str": "odd charge pack" },
+    "description": "Some kind of blocky battery pack made of unnaturally dense bone.  The connection-points look like stubby, fleshy gums, but despite their shape, otherwise appear to be copper."
   }
 ]

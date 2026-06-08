@@ -16,21 +16,21 @@
         "effects": [
           {
             "effect": "stunned",
-            "duration": [ 1, 3 ],
+            "duration": [ "1 seconds", "3 seconds" ],
             "chance": 7,
             "message": "The %s is stunned!",
             "damage_required": [ 1, 10 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 3 ],
+            "duration": [ "1 seconds", "3 seconds" ],
             "chance": 18,
             "message": "The %s is stunned!",
             "damage_required": [ 11, 100 ]
           },
           {
             "effect": "dazed",
-            "duration": [ 1, 3 ],
+            "duration": [ "1 seconds", "3 seconds" ],
             "chance": 10,
             "message": "The %s is dazed!",
             "damage_required": [ 10, 100 ]
@@ -52,21 +52,21 @@
         "effects": [
           {
             "effect": "stunned",
-            "duration": [ 1, 3 ],
+            "duration": [ "1 seconds", "3 seconds" ],
             "chance": 7,
             "message": "The %s is stunned!",
             "damage_required": [ 1, 10 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 3 ],
+            "duration": [ "1 seconds", "3 seconds" ],
             "chance": 18,
             "message": "The %s is stunned!",
             "damage_required": [ 11, 100 ]
           },
           {
             "effect": "dazed",
-            "duration": [ 1, 3 ],
+            "duration": [ "1 seconds", "3 seconds" ],
             "chance": 10,
             "message": "The %s is dazed!",
             "damage_required": [ 10, 100 ]
@@ -109,7 +109,13 @@
         "coverage_mult": { "ranged": 0.5 },
         "difficulty": { "ranged": 4, "melee": 3 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "duration": [ "1 seconds", "2 seconds" ],
+            "chance": 25,
+            "message": "The %s is blinded!",
+            "damage_required": [ 1, 25 ]
+          },
           {
             "effect": "blind",
             "permanent": true,
@@ -129,7 +135,13 @@
         "coverage_mult": { "ranged": 0.5 },
         "difficulty": { "ranged": 6, "melee": 10 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "duration": [ "1 seconds", "2 seconds" ],
+            "chance": 25,
+            "message": "The %s is blinded!",
+            "damage_required": [ 1, 25 ]
+          },
           {
             "effect": "blind",
             "permanent": true,
@@ -150,7 +162,7 @@
           {
             "effect": "staggered",
             "chance": 25,
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "message": "The %s is staggered!",
             "damage_required": [ 10, 100 ]
           },

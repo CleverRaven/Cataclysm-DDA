@@ -14,5 +14,9 @@
 
 const char *getVersionString()
 {
+#if defined(USE_SDL3)
+    return VERSION "+SDL3";
+#else
     return VERSION;
+#endif
 }

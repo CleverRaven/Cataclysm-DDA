@@ -15,7 +15,6 @@
     "longest_side": "213 cm",
     "volume": "570 L",
     "weight": "57 kg",
-    "material": [ { "type": "dreamstuff", "portion": 75 }, { "type": "wood", "portion": 25 } ],
-    "to_hit": -8
+    "material": [ { "type": "dreamstuff", "portion": 75 }, { "type": "wood", "portion": 25 } ]
   }
 ]

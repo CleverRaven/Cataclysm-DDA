@@ -125,6 +125,7 @@
     "color": "yellow",
     "looks_like": "t_water_sh",
     "light_emitted": 15,
+    "light_color": [ 135, 150, 0 ],
     "move_cost": 8,
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SHALLOW_WATER" ]
   },

@@ -1,0 +1,55 @@
+[
+  {
+    "type": "snippet",
+    "category": "<card_tarot_any>",
+    "text": [ { "text": "<card_major_arcana>", "weight": 22 }, { "text": "<card_minor_arcana>", "weight": 56 } ]
+  },
+  {
+    "type": "snippet",
+    "category": "<card_major_arcana>",
+    "text": [
+      "The Fool",
+      "The Magician",
+      "The High Priestess",
+      "The Empress",
+      "The Emperor",
+      "The Hierophant",
+      "The Lovers",
+      "The Chariot",
+      "Strength",
+      "The Hermit",
+      "Wheel of Fortune",
+      "Justice",
+      "The Hanged Man",
+      "Death",
+      "Temperance",
+      "The Devil",
+      "The Tower",
+      "The Star",
+      "The Moon",
+      "The Sun",
+      "Judgement",
+      "The World"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<card_minor_arcana>",
+    "text": [ "The <card_rank> of <card_suit_tarot>" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<card_orientation>",
+    "text": [ "", " reversed" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<card_suit_tarot>",
+    "text": [ "Wands", "Cups", "Swords", "Pentacles" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<card_rank>",
+    "text": [ "Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Page", "Knight", "Queen", "King" ]
+  }
+]

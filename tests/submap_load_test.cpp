@@ -887,6 +887,9 @@ static void load_from_jsin( submap &sm, const JsonValue &jsin )
     }
 }
 
+namespace
+{
+
 struct submap_checks {
     bool terrain = true;
     bool furniture = true;
@@ -900,6 +903,8 @@ struct submap_checks {
     bool construction = true;
     bool computers = true;
 };
+
+} // namespace
 
 //static const submap_checks dont_care;
 

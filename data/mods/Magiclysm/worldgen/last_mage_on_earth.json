@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "lmoe_under_empty" ],
+    "om_terrain": [ "lmoe_under" ],
     "//": "Empty LMOE shelter built for a wizard.",
     "weight": 40,
     "object": {

@@ -17,10 +17,13 @@
 static const ammotype ammo_battery( "battery" );
 static const flag_id json_flag_DEBUG_ONLY( "DEBUG_ONLY" );
 
+namespace
+{
 struct battery_chemistry_family {
     float max_energy_density_kj_kg;
     float max_energy_density_kj_l;
 };
+} // namespace
 
 // NOLINTBEGIN(cata-static-string_id-constants)
 static const std::map<itype_id, std::string> battery_to_chemistry = {
@@ -124,7 +127,7 @@ static bool is_battery( const itype &type )
 
 TEST_CASE( "battery_density_check" )
 {
-    for( const itype *id : item_controller->find( is_battery ) ) {
+    for( const itype *id : Item_factory::find( is_battery ) ) {
         auto chemistry_name = battery_to_chemistry.find( id->get_id() );
         battery_chemistry_family chemistry;
         if( chemistry_name == battery_to_chemistry.end() ) {

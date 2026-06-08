@@ -1,0 +1,79 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "mx_warped_tree_grove",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_nested": [ { "chunks": [ "warped_tree_grove_chunk" ], "x": [ 2, 8 ], "y": [ 2, 8 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "warped_tree_grove_chunk",
+    "weight": 1000,
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "  ,,,  ",
+        " ,W,W, ",
+        ",W,,,W,",
+        ",,,,,,,",
+        ",W,,,W,",
+        " ,W,W, ",
+        "  ,,,  "
+      ],
+      "terrain": { ",": [ [ "t_dirt", 50 ], [ "t_grass_dead", 25 ] ], "W": "t_tree_dead_warped", " ": "t_null" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "warped_tree_grove_chunk",
+    "weight": 750,
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    ,,,,    ",
+        "  ,,W,,W,,  ",
+        " ,W,,,,,,W, ",
+        " ,,,,,,,,,, ",
+        ",W,,,,,,,,W,",
+        ",,,,,,,,,,,,",
+        ",,,,,,,,,,,,",
+        ",W,,,,,,,,W,",
+        " ,,,,,,,,,, ",
+        " ,W,,,,,,W, ",
+        "  ,,W,,W,,  ",
+        "    ,,,,    "
+      ],
+      "terrain": { ",": [ [ "t_dirt", 50 ], [ "t_grass_dead", 25 ] ], "W": "t_tree_dead_warped", " ": "t_null" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

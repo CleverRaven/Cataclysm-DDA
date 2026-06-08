@@ -17,6 +17,7 @@
       { "item": "seed_canola", "prob": 5, "count": [ 1, 2 ] },
       { "item": "dogbane", "prob": 5, "count": [ 1, 2 ] },
       { "item": "carrot_wild", "prob": 5, "count": [ 3, 6 ] },
+      { "item": "raw_asparagus", "prob": 5, "count": [ 3, 6 ] },
       { "item": "bee_balm", "prob": 5, "count": [ 4, 8 ] },
       { "item": "mugwort", "prob": 5, "count": [ 1, 2 ] },
       { "item": "swarm_bees", "prob": 2 }
@@ -62,6 +63,7 @@
       { "item": "seed_canola", "prob": 5, "count": [ 1, 3 ] },
       { "item": "dogbane", "prob": 5, "count": [ 1, 3 ] },
       { "item": "carrot_wild", "prob": 5, "count": [ 3, 6 ] },
+      { "item": "raw_asparagus", "prob": 5, "count": [ 3, 6 ] },
       { "item": "bee_balm", "prob": 5, "count": [ 1, 3 ] },
       { "item": "mugwort", "prob": 5, "count": [ 1, 3 ] },
       { "item": "salsify_raw", "prob": 5, "count": [ 1, 3 ] }

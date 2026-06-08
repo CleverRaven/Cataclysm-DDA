@@ -1013,6 +1013,24 @@ check do you memorize `meat_hunk` recipe
 { "u_know_recipe": "meat_hunk" }
 ```
 
+### `u_has_item_with_flag`, `npc_has_item_with_flag`
+- type: string or [variable object](#variable-object)
+- return true if alpha or beta talker has any item with specific flag
+
+#### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+
+check do you have anything with `RAD_DETECT` flag
+```jsonc
+{ "u_has_item_with_flag": "RAD_DETECT" }
+```
+
+
 ### `u_has_worn_with_flag`, `npc_has_worn_with_flag`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker wear some item with specific flag
@@ -1185,9 +1203,9 @@ NPC is dead
 | ------ | --------- | ---- | ------- | --- | ---- |
 | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
-### `u_is_on_terrain`, `npc_is_on_terrain`
+### `u_is_on_terrain`, `npc_is_on_terrain`, `u_is_on_furniture`, `npc_is_on_furniture`
 - type: string or [variable object](#variable-object)
-- return true if alpha or beta talker stand on specific terrain
+- return true if alpha or beta talker stand on specific terrain or furniture
 
 #### Valid talkers:
 
@@ -1201,9 +1219,9 @@ check do you stand on grass
 { "u_is_on_terrain": "t_grass" }
 ```
 
-### `u_is_on_terrain_with_flag`, `npc_is_on_terrain_with_flag`
+### `u_is_on_terrain_with_flag`, `npc_is_on_terrain_with_flag`, `u_is_on_furniture_with_flag`, `npc_is_on_furniture_with_flag`
 - type: string or [variable object](#variable-object)
-- return true if alpha or beta talker stand on terrain with specific flag
+- return true if alpha or beta talker stand on terrain or furniture with specific flag
 
 #### Valid talkers:
 
@@ -1689,6 +1707,22 @@ You can see selected location.
 "u_is_avatar_passenger"
 ```
 
+### `u_is_in_vehicle`, `npc_is_in_vehicle`
+- type: simple string
+- return true if alpha or beta talker is in a vehicle, ie physically standing on it
+
+#### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+
+```jsonc
+"u_is_in_vehicle"
+```
+
 ### `has_ammo`
 - type: simple string
 - return true if beta talker is an item and has enough ammo for at least one "shot".
@@ -1792,6 +1826,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | dies_of_starvation | | { "character", `character_id` }  | character / NONE |
 | dies_of_thirst | | { "character", `character_id` }  | character / NONE |
 | digs_into_lava | | NONE  | avatar / NONE |
+| dimension_travel | Triggers after the player travels between dimensions | { "character", `character_id` }<br />{ "from_dimension", `string` }<br />{ "to_dimension", `string` }  | avatar / NONE |
 | disarms_nuke | Triggered via disarm missile computer action in missile silo special | NONE  | avatar / NONE |
 | eats_sewage | Triggered via use action `SEWAGE` | NONE  | avatar / NONE |
 | evolves_mutation | | { "character", `character_id` },<br/> { "from_trait", `trait_id` },<br/> { "to_trait", `trait_id` }, | character / NONE |
@@ -1820,6 +1855,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | opens_portal | Triggers when TOGGLE PORTAL option is activated via ("old lab" finale's?) computer | NONE | avatar / NONE |
 | opens_spellbook | Triggers when player opens the spell menu OR when NPC evaluates spell as best weapon(in preparation to use it) | { "character", `character_id` } | character / NONE |
 | opens_temple | Triggers when `pedestal_temple` examine action is used to consume a petrified eye | NONE | avatar / NONE |
+| phase_move | Triggers after a phasing enchant movement is completed | { "distance_traveled", `int` },<br/> { "is_bionic", `bool` }, | avatar / NONE |
 | player_fails_conduct | | { "conduct", `achievement_id` },<br/> { "achievements_enabled", `bool` }, | avatar / NONE |
 | player_gets_achievement | | { "achievement", `achievement_id` },<br/> { "achievements_enabled", `bool` }, | avatar / NONE |
 | player_levels_spell | triggers when player changes it's spell level, either by casting a spell, reading spell book, or using EoC. Spawning a new character with spells defined by using `spells` in chargen option will also run an event | { "character", `character_id` },<br/>{ "spell", `spell_id` },<br/>{ "new_level", `int` },{ "spell_class", `trait_id` } | character / NONE |
@@ -1950,6 +1986,21 @@ Opens the menu to swap the avatar
 "effect": [ "take_control_menu" ]
 ```
 
+#### `u_make_radio_representative` `npc_make_radio_representative`
+Sets alpha or beta talker as faction representative, allowing avatar to contact them, if both NPC and avatar has a charged radio
+It will open `talk_radio` dialogue, so remember to change the topic of NPC you want to make a representative, otherwise the default `TALK_RADIO` will be set, used for your followers
+
+##### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ❌ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+Sets NPC to be faction representative
+```jsonc
+"effect": [ "npc_make_radio_representative" ]
+```
 
 #### `give_achievement`
 Marks the given achievement as complete
@@ -2510,6 +2561,28 @@ Resets all of your vitamins.
 }
 ```
 
+#### `u_pickup_items`, `npc_pickup_items`
+Opens a menu that allow to pick items from any point directly into the inventory
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "u_pickup_items" / "npc_pickup_items" | **mandatory** | [variable object](#variable-object) | location variable of the center of pickup |
+| "max_mass" | optional | int or [variable object](#variable-object) | default -1 (unlimited), max weight of a single item you try to pick up, in grams |
+| "max_volume" | optional | int or [variable object](#variable-object) | default -1 (unlimited), max volume of a single item you try to pick up, in milliliters |
+| "extra_moves_per_item" | optional | int or [variable object](#variable-object) | additional time penalty for picking up items via this effect, in moves. Multiplied by the distance between the character that picks up and the item |
+
+##### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+Pick up items exactly from the positions you are standing on
+```jsonc
+{ "u_location_variable": { "u_val": "i_am_here" } }
+{ "u_pickup_items": { "u_val": "i_am_here" } }
+```
 
 #### `u_run_npc_eocs`, `npc_run_npc_eocs`
 NPC run EoCs, provided by this effect; can work outside of reality bubble
@@ -3110,6 +3183,99 @@ you can pick one of four options from `Choose your destiny` list;
 ```
 
 ## Character effects
+
+#### `u_pick_bodypart`, `npc_pick_bodypart`
+
+Allow to select the bodypart and store it in variable
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "u_pick_bodypart", "npc_pick_bodypart" | **mandatory** | [variable object](#variable-object) | variable where the bodypart will be stored |
+| "whitelist_flag" | optional | string or [variable object](#variable-object) | If used, only bodyparts that has this flag will be allowed |
+| "blacklist_flag" | optional | string or [variable object](#variable-object) | If used, bodyparts that has this flag are excluded |
+| "whitelist_type" | optional | array of strings or [variable objects](#variable-object) | If used, only bodyparts of this type will be allowed |
+| "blacklist_type" | optional | array of strings or [variable objects](#variable-object) | If used, bodyparts of this type are excluded |
+| "wounded" | optional | bool | default unset; if true, only bodyparts that have wounds are allowed; if false, such bodyparts are excluded |
+| "pick_random" | optional | bool | default false; if true, or if talker is not an avatar, no selector will appear, and a random bodypart out of the possible will be assigned; if false, the list will appear, allowing to pick the limb manually |
+| "allow_cancel" | optional | bool | allows the menu to be cancelled |
+| "title" | optional | string or [variable object](#variable-object) | title of the menu that appears if pick_random is false |
+
+##### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+Allows to pick any bodypart and store it in context val `bp`
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "Test",
+    "effect": [ { "u_pick_bodypart": { "context_val": "bp" } } ]
+  },
+```
+
+#### `u_add_wound`, `npc_add_wound`
+
+Adds a specific wound on specific bodypart
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "u_add_wound", "npc_add_wound" | **mandatory** | string or [variable object](#variable-object) | id of a bodypart where the wound should be added |
+| "wound_id" | optional | string or [variable object](#variable-object) | id of a wound that will be applied |
+
+##### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+Adds deep_scratch to bodypart alpha talker picks from
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ADD_WOUND",
+    "effect": [
+      { "u_pick_bodypart": { "context_val": "bp" } },
+      { "u_add_wound": { "context_val": "bp" }, "wound_id": "deep_scratch" },
+      { "u_message": "Added deep_scratch wound to <context_val:bp>" }
+    ]
+  }
+```
+
+#### `u_remove_wound`, `npc_remove_wound`
+
+Removes specifc wounds from a specific bodypart
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "u_remove_wound", "npc_remove_wound" | **mandatory** | string or [variable object](#variable-object) | id of a bodypart where the wound should be added |
+| "wound_id" | optional | array of strings or [variable objects](#variable-object) | id of a wounds that will be removed |
+
+##### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+Removes all scratch and deep_scratch wounds from bodypart alpha talker picks from
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REMOVE_WOUND",
+    "effect": [
+      { "u_pick_bodypart": { "context_val": "bp" } },
+      { "u_remove_wound": { "context_val": "bp" }, "wound_id": [ "scratch", "deep_scratch" ] },
+      { "u_message": "Removed scratch and deep_scratch wounds from <context_val:bp>" }
+    ]
+  }
+```
 
 #### `u_deal_damage`, `npc_deal_damage`
 
@@ -3754,6 +3920,26 @@ Save the condition  `season is not winter, and it is a daytime` into `random_enc
 ```
 
 
+#### `dimension_name`
+Store string from dimension_name in the [variable](#variable-object) object. The default dimension is currently an empty string.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "dimension_name" | **mandatory** | [variable object](#variable-object) | variable, that accept the value; usually `context_val` |
+
+##### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+##### Examples
+Saves the current dimension into `dimension_name` variable and display it in a message:
+```jsonc
+{ "dimension_name": { "u_val": "dim_name" } }, { "u_message": "Dimension Name: '<u_val:dim_name>'" },
+```
+
+
 #### `u_location_variable`, `npc_location_variable`
 Search a specific coordinates of map around `u_`, `npc_` or `target_params` and save them in [variable](#variable-object)
 
@@ -3794,7 +3980,7 @@ Search overmap terrain `afs_crashed_escape_pod` on z-level 0, range 500 overmap 
 }
 ```
 
-Search the map, that contain `house` in it's id on a range 200-1200 overmap tiles, picks random from them, and save its coordinates  into `OM_missionspot` variable:
+Search the map, that contain `house` in it's id on a range 200-1200 overmap tiles, picks random from them, and save its coordinates into `OM_missionspot` variable:
 ```jsonc
 {
   "u_location_variable": { "global_val": "OM_missionspot" },
@@ -4457,7 +4643,7 @@ You or NPC is teleported to `target_var` coordinates
 | "u_teleport", / "npc_teleport" | **mandatory** | [variable object](#variable-object) | location to teleport; should use `target_var`, created previously |
 | "success_message" | optional | string or [variable object](#variable-object) | message, that would be printed, if teleportation was successful |
 | "fail_message" | optional | string or [variable object](#variable-object) | message, that would be printed, if teleportation was failed, like if coordinates contained creature or impassable obstacle (like wall) |
-| "force" | optional | boolean | default false; if true, teleportation can't fail - any creature, that stand on target coordinates, would be brutally telefragged, and if impassable obstacle occur, the closest point would be picked instead |
+| "force" | optional | boolean | default false; if true, teleportation can't fail - any creature, that stand on target coordinates, would be brutally telefragged, and if impassable obstacle occur, the closest point would be picked instead. For the vehicle, collision test will be skipped. |
 | "force_safe" | optional | boolean | default false; if true, teleportation cannot^(tm) fail.  If there is a creature or obstacle at the target coordinate, the closest passable point within 5 horizontal tiles is picked instead.  If there is no point, the creature remains where they are. |
 
 ##### Valid talkers:
@@ -4491,6 +4677,8 @@ Unloads the current dimension and loads the dimension with the specific ID, opti
 | "u_travel_to_dimension" | **mandatory** | string | Will teleport the player to a dimension with the ID. |
 | "npc_travel_radius" | optional | int or [variable object](#variable-object) | default 0; if a value above 0 is specified, the NPCs within that radius around the player will be transported with them when dimension hopping. |
 | "npc_travel_filter" | optional | string or [variable object](#variable-object) | default `all`; Acceps the following values: `all`, `follower`, `enemy`. Does nothing if `npc_travel_radius` is 0. |
+| "item_travel_radius" | optional | int or [variable object](#variable-object) | default -1; if a value 0 or above is specified, the items within that radius around the player will be transported with them when dimension hopping. |
+| "target_location" | optional | [variable object](#variable-object) | default is the player's location; if present this variable will be used as the center point for items in conjunction with `item_travel_radius` |
 | "region_type" | optional | string or [variable object](#variable-object) | default `default`; The dimension is generated with the region settings of a `region_settings_new` object. |
 
 ##### Valid talkers:
@@ -4502,7 +4690,7 @@ Unloads the current dimension and loads the dimension with the specific ID, opti
 
 ##### Examples
 
-You teleport to a dimension with the ID of `test`, at the same position you're in currently, bringing any NPC following you  within 5 tiles of you along.
+You teleport to a dimension with the ID of `test`, at the same position you're in currently, bringing any NPC following you within 5 tiles of you along.
 ```jsonc
   {
   "u_travel_to_dimension": "test",
@@ -5120,7 +5308,7 @@ Spawn a plastic bottle on ground
 
 ## Map Updates
 
-Map updates are related to  any change in the map, weather, or coordinates, and any talker can use them
+Map updates are related to any change in the map, weather, or coordinates, and any talker can use them
 
 #### `mapgen_update`
 Update the map with changes, described in `mapgen_update`
@@ -5445,7 +5633,7 @@ Subtract this many turns from the alpha talker's moves.
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- |
-| "turn_cost" | **mandatory** | number, duration, [variable object](#variable-object) or value between two | how long the action takes (can be specified in number of turns (as decimal), or as a duration) |
+| "turn_cost" | **mandatory** | number, duration, [variable object](#variable-object) or value between two | how long the action takes as a duration |
 
 ##### Examples
 
@@ -5453,14 +5641,6 @@ Subtract this many turns from the alpha talker's moves.
 {
   "effect": [
     { "turn_cost": "1 sec" }
-  ]
-}
-```
-
-```jsonc
-{
-  "effect": [
-    { "turn_cost": 0.6 }
   ]
 }
 ```
@@ -5516,7 +5696,7 @@ search_data is an array, that allow to filter specific items from the list. At t
 | "material" | string, [variable object](#variable-object) or array of strings or variable objects | filter the list of items by their material |
 | "uses_energy" | boolean | filter the list of items by whether or not they use energy. `true` would pick only items that use energy, `false` would pick all items that do not use energy |
 | "is_chargeable" | boolean | filter the list of items by whether or not they are chargeable.  `true` will only return electrical items that can hold more charge.  `false` will only return electrical items that cannot hold more charge (ie, fully charged items or ups / bionic items).
-| "worn_only" | boolean | return only items you you wear (clothes) |
+| "worn_only" | boolean | return only items you wear (clothes) |
 | "wielded_only" | boolean | return only item you hold in your hands right now. if you hold nothing, and picking object is not manual, it return string `none` |
 | "held_only" | boolean | return both items you wear and item you hold in your hands |
 | "condition" | condition object | allows to use same conditions as EoC. Alpha talker in this case is whoever runs the effect, and beta is the item |

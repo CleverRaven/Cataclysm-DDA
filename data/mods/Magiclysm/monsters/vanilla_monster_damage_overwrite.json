@@ -1489,12 +1489,6 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_molebot",
-    "copy-from": "mon_molebot",
-    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
-  },
-  {
-    "type": "MONSTER",
     "id": "mon_nursebot",
     "copy-from": "mon_nursebot",
     "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }

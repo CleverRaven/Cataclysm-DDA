@@ -18,7 +18,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "s",
     "color": "red",
-    "autonote": true
+    "autonote_visibility": "same_tile"
   },
   {
     "id": "mx_jackson",
@@ -29,7 +29,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "j",
     "color": "red",
-    "autonote": true
+    "autonote_visibility": "same_tile"
   },
   {
     "type": "map_extra_collection",

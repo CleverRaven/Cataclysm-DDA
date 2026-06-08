@@ -409,6 +409,7 @@ TEST_CASE( "hunger" )
     reset_time();
     clear_stomach( dummy );
     dummy.initialize_stomach_contents();
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     dummy.clear_effects();
 
     if( print_tests ) {

@@ -172,7 +172,7 @@
     "multiple_projectiles": 3,
     "shape": "line",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": "IGNITE_FLAMMABLE",
+    "flags": [ "IGNITE_FLAMMABLE" ],
     "message": "",
     "max_level": 20,
     "min_damage": 80,

@@ -33,8 +33,8 @@
       "terrain": { "#": "t_rock", " ": [ [ "t_puddle_underground", 1 ], [ "t_rock_floor", 10 ] ], "~": "t_rock_floor" },
       "nested": {
         " ": { "chunks": [ [ "mine_sinkhole", 1 ], [ "mine_wreckage", 1 ], [ "mine_minerals_equipment", 1 ], [ "null", 50 ] ] },
-        "!": { "chunks": [ [ "mine_toxic_gas", 1 ], [ "mine_lava", 1 ], [ "null", 9 ] ] },
-        "@": { "chunks": [ [ "mine_lava", 1 ], [ "null", 15 ] ] }
+        "!": { "chunks": [ [ "mine_toxic_gas", 1 ], [ "null", 9 ] ] },
+        "@": { "chunks": [ [ "null", 15 ] ] }
       },
       "place_nested": [
         { "chunks": [ "mine_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 0 },
@@ -99,7 +99,7 @@
       "nested": {
         " ": { "chunks": [ [ "mine_sinkhole", 1 ], [ "mine_wreckage", 1 ], [ "mine_minerals_equipment", 1 ], [ "null", 50 ] ] },
         "!": { "chunks": [ [ "mine_toxic_gas", 1 ], [ "null", 9 ] ] },
-        "@": { "chunks": [ [ "mine_lava", 1 ], [ "null", 15 ] ] }
+        "@": { "chunks": [ [ "null", 15 ] ] }
       },
       "place_nested": [
         { "chunks": [ "transition_down" ], "joins": { "below": "tunnel_ramp" }, "x": 11, "y": 12 },
@@ -154,7 +154,7 @@
       "nested": {
         " ": { "chunks": [ [ "mine_sinkhole", 1 ], [ "mine_wreckage", 1 ], [ "mine_minerals_equipment", 1 ], [ "null", 50 ] ] },
         "!": { "chunks": [ [ "mine_toxic_gas", 1 ], [ "null", 9 ] ] },
-        "@": { "chunks": [ [ "mine_lava", 1 ], [ "null", 15 ] ] }
+        "@": { "chunks": [ [ "null", 15 ] ] }
       },
       "place_nested": [
         { "chunks": [ "mine_tunnel_bounds_h1" ], "x": [ 4, 6 ], "y": 7 },
@@ -229,7 +229,7 @@
       "nested": {
         " ": { "chunks": [ [ "mine_sinkhole", 1 ], [ "mine_wreckage", 1 ], [ "mine_minerals_equipment", 1 ], [ "null", 50 ] ] },
         "!": { "chunks": [ [ "mine_toxic_gas", 1 ], [ "null", 9 ] ] },
-        "@": { "chunks": [ [ "mine_lava", 1 ], [ "null", 15 ] ] }
+        "@": { "chunks": [ [ "null", 15 ] ] }
       },
       "place_nested": [
         { "chunks": [ "mine_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 17 },
@@ -301,7 +301,7 @@
       "nested": {
         " ": { "chunks": [ [ "mine_sinkhole", 1 ], [ "mine_wreckage", 1 ], [ "mine_minerals_equipment", 1 ], [ "null", 50 ] ] },
         "!": { "chunks": [ [ "mine_toxic_gas", 1 ], [ "null", 9 ] ] },
-        "@": { "chunks": [ [ "mine_lava", 1 ], [ "null", 15 ] ] }
+        "@": { "chunks": [ [ "null", 15 ] ] }
       },
       "place_nested": [
         { "chunks": [ "mine_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 0 },

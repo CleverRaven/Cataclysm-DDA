@@ -1,0 +1,98 @@
+[
+  {
+    "type": "palette",
+    "id": "elevator",
+    "parameters": {
+      "elevator_state": {
+        "type": "ter_str_id",
+        "default": { "distribution": [ [ "t_central_elevator", 1 ], [ "t_central_elevator_closed", 1 ] ] }
+      }
+    },
+    "terrain": {
+      "#": "t_concrete_wall",
+      "*": [ [ "t_door_metal_elocked", 3 ], [ "t_door_metal_c", 2 ], [ "t_door_metal_pickable", 3 ], [ "t_door_metal_o", 1 ] ],
+      "+": [ "t_door_c", "t_door_o" ],
+      "%": "t_ret_furn_target",
+      "&": "t_elevator_control",
+      "i": "t_metal_railing",
+      ">": "t_stairs_down",
+      "<": "t_stairs_up",
+      "0": "t_open_air",
+      "-": "t_door_metal_c",
+      "µ": "t_contraband_scanner",
+      "o": "t_reinforced_glass",
+      "O": [ "t_reinforced_glass_shutter", "t_reinforced_glass_shutter_open" ],
+      "_": { "param": "elevator_state", "fallback": "t_central_elevator" },
+      "|": "t_bars",
+      "/": "t_door_bar_locked",
+      "°": "t_door_c"
+    },
+    "furniture": {
+      "1": "f_counter",
+      "2": "f_counter",
+      "9": "f_console_broken",
+      "F": "f_fridge",
+      "L": "f_locker",
+      "R": "f_rack",
+      "S": "f_sink",
+      "Y": "f_trashcan",
+      "T": "f_table",
+      "b": "f_metal_bench",
+      "h": "f_chair",
+      "l": "f_locker",
+      "r": "f_rack"
+    },
+    "items": {
+      "L": [ { "item": "locker_gym", "chance": 50, "repeat": [ 1, 3 ] } ],
+      "S": [ { "item": "SUS_kitchen_sink", "chance": 50 } ],
+      "y": [ { "item": "SUS_trash_trashcan", "chance": 50 } ],
+      "l": [ { "item": "locker_gym", "chance": 50, "repeat": 3 } ],
+      "R": [
+        { "item": "elevator_fridge_drink", "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "elevator_fridge_food", "chance": 50, "repeat": [ 1, 3 ] }
+      ]
+    },
+    "computers": {
+      "6": { "name": "Elevator controls", "eocs": [ "EOC_elevator_controls" ], "chat_topics": [ "elevator_controls_start" ] }
+    },
+    "vendingmachines": { "V": { "item_group": "vending_food_drink_items", "lootable": true } },
+    "toilets": { "t": {  } },
+    "nested": {
+      "£": { "chunks": [ "6x6_elevator_shop" ] },
+      "^": { "chunks": [ "9x9_elevator_shop" ] },
+      "$": { "chunks": [ "8x8_elevator_shop" ] },
+      "ù": { "chunks": [ "12x12_elevator_shop" ] }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "elevator_shop_base",
+    "terrain": { "#": "t_concrete_wall" },
+    "furniture": { "F": "f_glass_fridge", "O": "f_oven", "c": "f_counter", "d": "f_displaycase", "h": "f_chair", "s": "f_barstool" }
+  },
+  {
+    "type": "palette",
+    "id": "elevator_shop_drink",
+    "//": "TODO: These all need more groups and different items",
+    "items": {
+      "F": [ { "item": "elevator_fridge_drink", "chance": 50, "repeat": [ 1, 3 ] } ],
+      "d": [ { "item": "elevator_fridge_drink", "chance": 50, "repeat": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "elevator_shop_food",
+    "items": {
+      "F": [ { "item": "elevator_fridge_food", "chance": 50, "repeat": [ 1, 3 ] } ],
+      "d": [ { "item": "elevator_fridge_food", "chance": 50, "repeat": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "elevator_shop_luxury",
+    "items": {
+      "F": [ { "item": "elevator_fridge_drink", "chance": 50, "repeat": [ 1, 3 ] } ],
+      "d": [ { "item": "elevator_fridge_food", "chance": 50, "repeat": [ 1, 3 ] } ]
+    }
+  }
+]

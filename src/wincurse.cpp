@@ -10,6 +10,9 @@
 #include <fstream>
 
 #include "cached_options.h"
+#if defined(SDL_SOUND)
+#include "sound_backend.h"
+#endif
 #include "cursesdef.h"
 #include "options.h"
 #include "output.h"
@@ -752,7 +755,7 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
         rval.text = utf32_to_utf8( lastchar );
         previously_pressed_key = lastchar;
         // for compatibility only add the first byte, not the code point
-        // as it would  conflict with the special keys defined by ncurses
+        // as it would conflict with the special keys defined by ncurses
         rval.add_input( lastchar );
     }
 
@@ -814,7 +817,14 @@ HWND getWindowHandle()
 
 void refresh_display()
 {
+#if defined(SDL_SOUND)
+    sound_backend::poll();
+#endif
     RedrawWindow( WindowHandle, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW );
+}
+
+void refresh_mouse_config()
+{
 }
 
 void set_title( const std::string &title )

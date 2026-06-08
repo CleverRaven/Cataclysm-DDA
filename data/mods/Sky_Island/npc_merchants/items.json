@@ -1,0 +1,25 @@
+[
+  {
+    "type": "ITEM",
+    "id": "si_human_ammo_merchant_phrasebook",
+    "subtypes": [ "BOOK" ],
+    "name": { "str": "wīsdōmes uord", "//~": "Words of Wisdom in Old English" },
+    "description": "Some kind of phrasebook.",
+    "intelligence": 4,
+    "symbol": "?",
+    "looks_like": "novel_pulp",
+    "color": "light_cyan",
+    "time": "15 m",
+    "chapters": 8,
+    "read_fun": 2,
+    "weight": "250 g",
+    "volume": "662 ml",
+    "longest_side": "18 cm",
+    "price": "7 USD 99 cent",
+    "price_postapoc": "2 USD 50 cent",
+    "material": [ "paper" ],
+    "flags": [  ],
+    "copy-from": "book_pulp_newage_tpl",
+    "melee_damage": { "bash": 1 }
+  }
+]

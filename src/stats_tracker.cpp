@@ -155,6 +155,8 @@ int event_multiset::maximum( const std::string &field ) const
     return maximum;
 }
 
+namespace
+{
 template<time_point event_summary::*Member>
 struct compare_times {
     bool operator()( const event_multiset::summaries_type::value_type &l,
@@ -162,6 +164,7 @@ struct compare_times {
         return l.second.*Member < r.second.*Member;
     }
 };
+} // namespace
 
 std::optional<event_multiset::summaries_type::value_type> event_multiset::first() const
 {

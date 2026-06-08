@@ -58,18 +58,18 @@
     "joins": [ { "id": "support_join", "into_locations": [ "lake_surface", "open_air", "lake_water_cube", "lake_bed" ] } ],
     "overmaps": {
       "support_top": {
-        "overmap": "hw_supports",
+        "overmap": "hw_supports_north",
         "below": { "id": "support_join", "type": "available" },
         "locations": [ "lake_surface", "open_air" ]
       },
       "support": {
-        "overmap": "hw_supports",
+        "overmap": "hw_supports_north",
         "above": { "id": "support_join", "type": "available" },
         "below": { "id": "support_join", "type": "available" },
         "locations": [ "open_air", "lake_water_cube" ]
       },
       "support_bottom": {
-        "overmap": "hw_supports",
+        "overmap": "hw_supports_north",
         "above": { "id": "support_join", "type": "available" },
         "locations": [ "water", "lake_bed", "subterranean" ]
       }

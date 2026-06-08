@@ -56,7 +56,13 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease",
-      "knack_vita_banish_illness"
+      "knack_vita_banish_illness",
+      "knack_random_01",
+      "knack_random_02",
+      "knack_random_03",
+      "knack_random_04",
+      "knack_random_05",
+      "knack_random_06"
     ],
     "chargen_allow_npc": false
   },
@@ -137,7 +143,13 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease",
-      "knack_vita_banish_illness"
+      "knack_vita_banish_illness",
+      "knack_random_01",
+      "knack_random_02",
+      "knack_random_03",
+      "knack_random_04",
+      "knack_random_05",
+      "knack_random_06"
     ],
     "chargen_allow_npc": false
   },
@@ -215,7 +227,13 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease",
-      "knack_vita_banish_illness"
+      "knack_vita_banish_illness",
+      "knack_random_01",
+      "knack_random_02",
+      "knack_random_03",
+      "knack_random_04",
+      "knack_random_05",
+      "knack_random_06"
     ],
     "chargen_allow_npc": false
   },
@@ -301,7 +319,13 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease",
-      "knack_vita_banish_illness"
+      "knack_vita_banish_illness",
+      "knack_random_01",
+      "knack_random_02",
+      "knack_random_03",
+      "knack_random_04",
+      "knack_random_05",
+      "knack_random_06"
     ],
     "chargen_allow_npc": false
   },
@@ -376,7 +400,13 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease",
-      "knack_vita_banish_illness"
+      "knack_vita_banish_illness",
+      "knack_random_01",
+      "knack_random_02",
+      "knack_random_03",
+      "knack_random_04",
+      "knack_random_05",
+      "knack_random_06"
     ],
     "chargen_allow_npc": false
   },
@@ -444,7 +474,13 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease",
-      "knack_vita_banish_illness"
+      "knack_vita_banish_illness",
+      "knack_random_01",
+      "knack_random_02",
+      "knack_random_03",
+      "knack_random_04",
+      "knack_random_05",
+      "knack_random_06"
     ],
     "chargen_allow_npc": false
   },
@@ -546,7 +582,13 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease",
-      "knack_vita_banish_illness"
+      "knack_vita_banish_illness",
+      "knack_random_01",
+      "knack_random_02",
+      "knack_random_03",
+      "knack_random_04",
+      "knack_random_05",
+      "knack_random_06"
     ],
     "chargen_allow_npc": false
   },
@@ -623,7 +665,13 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease",
-      "knack_vita_banish_illness"
+      "knack_vita_banish_illness",
+      "knack_random_01",
+      "knack_random_02",
+      "knack_random_03",
+      "knack_random_04",
+      "knack_random_05",
+      "knack_random_06"
     ],
     "chargen_allow_npc": false
   },
@@ -675,7 +723,7 @@
             "variant": "itzcuauhtli_wrist_computer_standard",
             "charges": [ 7000, 10000 ]
           },
-          { "item": "matrix_crystal_teleportation" },
+          { "group": "teleportation_matrix_crystals_group", "prob": 1 },
           {
             "item": "mom_fusion_mag",
             "ammo-item": "mom_fusion_ammo",
@@ -719,7 +767,13 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease",
-      "knack_vita_banish_illness"
+      "knack_vita_banish_illness",
+      "knack_random_01",
+      "knack_random_02",
+      "knack_random_03",
+      "knack_random_04",
+      "knack_random_05",
+      "knack_random_06"
     ],
     "flags": [ "SCEN_ONLY" ],
     "chargen_allow_npc": false
@@ -792,7 +846,13 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease",
-      "knack_vita_banish_illness"
+      "knack_vita_banish_illness",
+      "knack_random_01",
+      "knack_random_02",
+      "knack_random_03",
+      "knack_random_04",
+      "knack_random_05",
+      "knack_random_06"
     ],
     "chargen_allow_npc": false
   },
@@ -828,7 +888,7 @@
       "bio_physical_buffs_fifth_sun",
       "bio_cameleoflage_fifth_sun"
     ],
-    "traits": [ "FIFTH_SUN_PEOPLE" ],
+    "traits": [ "FIFTH_SUN_PEOPLE", "FIFTH_SUN_CBM_INTERFACE" ],
     "items": {
       "both": {
         "entries": [
@@ -924,7 +984,13 @@
       "knack_vita_concentrated_healing",
       "knack_vita_remove_poison",
       "knack_vita_cure_disease",
-      "knack_vita_banish_illness"
+      "knack_vita_banish_illness",
+      "knack_random_01",
+      "knack_random_02",
+      "knack_random_03",
+      "knack_random_04",
+      "knack_random_05",
+      "knack_random_06"
     ],
     "chargen_allow_npc": false
   },

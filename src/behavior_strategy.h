@@ -39,6 +39,14 @@ class sequential_until_done_t : public strategy_t
                                   std::vector<const node_t *> children ) const override;
 };
 
+// Select the running child with the highest score.
+// Children that return success or failure are skipped.
+class utility_t : public strategy_t
+{
+        behavior_return evaluate( const oracle_t *subject,
+                                  std::vector<const node_t *> children ) const override;
+};
+
 extern std::unordered_map<std::string, const strategy_t *> strategy_map;
 
 } // namespace behavior

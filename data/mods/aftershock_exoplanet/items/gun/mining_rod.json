@@ -18,11 +18,20 @@
     "range": 60,
     "dispersion": 45,
     "durability": 8,
-    "energy_drain": "50 kJ",
     "reload": 2000,
     "clip_size": 1,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "metal_rail": 1 } } ],
-    "flags": [ "USE_UPS" ],
+    "pocket_data": [
+      { "id": "ammo", "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "metal_rail": 1 } },
+      {
+        "id": "power",
+        "pocket_type": "MAGAZINE_WELL",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "magazine_well": "75 ml",
+        "item_restriction": [ "afs_cartridge" ]
+      }
+    ],
+    "firing_requirements": { "DEFAULT": [ { "pocket": "ammo", "qty": 1 }, { "pocket": "power", "qty": 100 } ] },
     "melee_damage": { "bash": 12 }
   }
 ]

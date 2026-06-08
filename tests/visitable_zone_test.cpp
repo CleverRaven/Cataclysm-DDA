@@ -21,6 +21,9 @@
 static const tripoint_bub_ms p1( 0, 0, -2 );
 static const tripoint_bub_ms p2( ( MAPSIZE *SEEX ) - 1, ( MAPSIZE *SEEY ) - 1, 1 );
 
+namespace
+{
+
 struct structure {
     structure( const tripoint_bub_ms &origin, const tripoint_rel_ms &dimensions,
                const std::string &name ) :
@@ -31,6 +34,8 @@ struct structure {
     inclusive_cuboid<tripoint_bub_ms> area;
     std::string name_;
 };
+
+} // namespace
 
 static void place_structures( const std::vector<structure> &spawn_areas,
                               std::vector<std::vector<tripoint_bub_ms>> &interior_areas,
@@ -82,7 +87,7 @@ static constexpr tripoint_rel_ms cave_offset{ building_width, building_width, 0 
 TEST_CASE( "visitable_zone_surface_test" )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
 
     std::string mon_type = "mon_zombie";
     std::vector<monster *> monsters;

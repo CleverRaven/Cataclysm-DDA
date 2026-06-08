@@ -43,8 +43,14 @@
     "grab_strength": 35,
     "special_attacks": [
       { "id": "grab", "cooldown": 21 },
+      { "id": "staggering_blow" },
       { "id": "bite_humanoid", "cooldown": 5 },
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
+      {
+        "id": "smash",
+        "throw_strength": 56,
+        "cooldown": 45,
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] }
+      },
       {
         "id": "scratch_humanoid",
         "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ]
@@ -76,7 +82,13 @@
       { "id": "grab", "cooldown": 21 },
       { "id": "scratch_humanoid" },
       { "id": "bite_humanoid", "cooldown": 5 },
-      [ "PARROT", 8 ]
+      [ "PARROT", 8 ],
+      { "id": "mon_shocker_chargeup", "cooldown": 7 },
+      { "id": "mon_shocker_chargeup_attack", "damage_max_instance": [ { "damage_type": "electric", "amount": 80 } ] },
+      {
+        "id": "mon_shocker_chargeup_attack_grab",
+        "damage_max_instance": [ { "damage_type": "electric", "amount": 80 } ]
+      }
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "fungalize_into": "mon_skeleton_dusted",

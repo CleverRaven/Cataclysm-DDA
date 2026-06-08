@@ -36,6 +36,8 @@ static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
 
 static constexpr int max_iters = 100000;
 
+namespace
+{
 struct addict_effect_totals {
     int sleepiness = 0;
     int morale = 0;
@@ -55,10 +57,10 @@ struct addict_effect_totals {
         sleepiness += u.get_sleepiness();
         morale += u.get_morale_level();
         stim += u.get_stim();
-        str_bonus += u.str_cur;
-        dex_bonus += u.dex_cur;
-        per_bonus += u.per_cur;
-        int_bonus += u.int_cur;
+        str_bonus += u.get_str();
+        dex_bonus += u.get_dex();
+        per_bonus += u.get_per();
+        int_bonus += u.get_int();
         health_mod += u.get_daily_health();
         pkiller += u.get_painkiller();
         pain += u.get_pain();
@@ -67,6 +69,7 @@ struct addict_effect_totals {
         hallu += u.has_effect( effect_hallu ) ? 1 : 0;
     }
 };
+} // namespace
 
 static void clear_addictions( Character &u )
 {
@@ -74,10 +77,10 @@ static void clear_addictions( Character &u )
     u.clear_effects();
     u.set_moves( u.get_speed() );
     u.set_daily_health( 0 );
-    u.str_max = 8;
-    u.dex_max = 8;
-    u.int_max = 8;
-    u.per_max = 8;
+    u.set_str_base( 8 );
+    u.set_dex_base( 8 );
+    u.set_int_base( 8 );
+    u.set_per_base( 8 );
     u.set_str_bonus( 0 );
     u.set_dex_bonus( 0 );
     u.set_int_bonus( 0 );

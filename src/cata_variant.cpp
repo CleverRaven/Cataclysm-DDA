@@ -10,7 +10,7 @@ static bool is_valid_impl_2( const std::string &s )
 }
 
 template<size_t... I>
-constexpr bool is_valid_impl( const cata_variant &v, std::index_sequence<I...> )
+static constexpr bool is_valid_impl( const cata_variant &v, std::index_sequence<I...> )
 {
     constexpr size_t num_types = static_cast<size_t>( cata_variant_type::num_types );
     constexpr std::array<bool( * )( const std::string & ), num_types> is_valid_helpers = {{

@@ -8,6 +8,7 @@
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
+#include "sdltiles.h"
 #endif
 
 #if defined(__ANDROID__)
@@ -48,11 +49,14 @@ static bool is_word( const uint32_t uc )
     return uc != ' ';
 }
 
+namespace
+{
 struct folded_line {
     int cpts_start;
     int cpts_end;
     std::string str;
 };
+} // namespace
 
 // fold text without truncating spaces or parsing color tags
 class folded_text
@@ -416,7 +420,7 @@ std::pair<bool, std::string> string_editor_window::query_string()
 #if defined(__ANDROID__)
     on_out_of_scope stop_text_input( []() {
         if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-            StopTextInput();
+            StopTextInput( get_sdl_window() );
         }
     } );
 #endif
@@ -509,11 +513,7 @@ std::pair<bool, std::string> string_editor_window::query_string()
             if( action == "TEXT.PASTE" ) {
 #if defined(TILES)
                 if( edit.empty() ) {
-                    char *const clip = SDL_GetClipboardText();
-                    if( clip ) {
-                        entered = clip;
-                        SDL_free( clip );
-                    }
+                    entered = GetClipboardText();
                 }
 #endif
             } else if( action == "TEXT.INPUT_FROM_FILE" ) {

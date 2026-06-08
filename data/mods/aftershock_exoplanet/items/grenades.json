@@ -22,7 +22,7 @@
     "use_action": {
       "need_wielding": true,
       "target": "afs_kaburaya_bomb_act",
-      "msg": "You activate the device.",
+      "msg": "You pull the pin on the %s.",
       "target_timer": "3 seconds",
       "menu_text": "Pull pin",
       "type": "transform"
@@ -37,7 +37,7 @@
     "looks_like": "c4",
     "name": "armed Kabura-ya antipersonnel device",
     "description": "A tiny plastic explosive meant to be installed within a Kabura-ya drone.  It is on the verge of exploding.",
-    "use_action": { "type": "message", "message": "You've already activated the %s, try throwing it instead.", "name": "Pull pin" },
+    "use_action": { "type": "message", "message": "You've already pulled the pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": {
       "type": "explosion",
       "explosion": { "power": 100, "max_noise": 25, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.125 }, "distance_factor": 0.2 }
@@ -58,7 +58,7 @@
       "target": "afs_demo_charge_act",
       "msg": "You activate the demolition charge.",
       "target_timer": "1 seconds",
-      "menu_text": "Activate charge",
+      "menu_text": "Activate",
       "type": "transform"
     },
     "flags": [ "RADIO_ACTIVATION", "RADIO_INVOKE_PROC", "RADIOSIGNAL_1", "BOMB" ]
@@ -71,7 +71,7 @@
     "name": "active demolition charge",
     "looks_like": "c4armed",
     "description": "A powerful explosive with a highly focused blast radius, often used for mining or demolition work.  It's currently active.",
-    "use_action": { "type": "message", "message": "You've already activated the %s, try throwing it instead." },
+    "use_action": { "type": "message", "message": "You've already activated the %s.  Get rid of it and clear out!" },
     "countdown_action": { "type": "explosion", "explosion": { "power": 3000, "max_noise": 250, "distance_factor": 0.3 } },
     "extend": { "flags": [ "TRADER_AVOID" ] }
   },
@@ -89,7 +89,7 @@
     "use_action": {
       "need_wielding": true,
       "target": "afs_HE_grenade_act",
-      "msg": "You pull the pin on the grenade.",
+      "msg": "You pull the pin on the %s.",
       "target_timer": "5 seconds",
       "menu_text": "Pull pin",
       "type": "transform"
@@ -104,7 +104,7 @@
     "name": "active HE grenade",
     "looks_like": "grenade_act",
     "description": "A high explosive grenade that deals most of its damage through a powerful shockwave.  It's currently active.",
-    "use_action": { "type": "message", "message": "You've already activated the %s, try throwing it instead." },
+    "use_action": { "type": "message", "message": "You've already pulled the pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "explosion": { "power": 3000, "max_noise": 250, "distance_factor": 0.7 } },
     "extend": { "flags": [ "TRADER_AVOID" ] }
   },
@@ -156,7 +156,7 @@
     "use_action": {
       "need_wielding": true,
       "target": "grenade_cryo_act",
-      "msg": "You pull the pin on the grenade.",
+      "msg": "You pull the pin on the %s.",
       "target_timer": "5 seconds",
       "menu_text": "Pull pin",
       "type": "transform"
@@ -179,7 +179,7 @@
     "material": [ "superalloy" ],
     "symbol": "*",
     "color": "green",
-    "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
+    "use_action": { "type": "message", "message": "You've already pulled the pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": {
       "type": "explosion",
       "fields_type": "fd_rad_glimmer",
@@ -205,7 +205,7 @@
     "use_action": {
       "need_wielding": true,
       "target": "afs_toxic_grenade_act",
-      "msg": "You pull the pin on the grenade.",
+      "msg": "You pull the pin on the %s.",
       "target_timer": "5 seconds",
       "menu_text": "Pull pin",
       "type": "transform"
@@ -220,7 +220,7 @@
     "name": "active neurotoxin grenade",
     "looks_like": "grenade_act",
     "description": "A neurotoxic device that deploys thick swathes of toxic foam upon detonation.  It's currently active.",
-    "use_action": { "type": "message", "message": "You've already activated the %s, try throwing it instead." },
+    "use_action": { "type": "message", "message": "You've already pulled the pin, try throwing it instead." },
     "countdown_action": {
       "type": "explosion",
       "explosion": { "power": 150, "max_noise": 250, "distance_factor": 0.7 },
@@ -243,9 +243,9 @@
     "use_action": {
       "need_wielding": true,
       "target": "afs_oxygen_bomb_act",
-      "msg": "You pull the pin on the bomb.",
+      "msg": "You pull the pin on the %s.",
       "target_timer": "3 seconds",
-      "menu_text": "Pull the pin",
+      "menu_text": "Pull pin",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]

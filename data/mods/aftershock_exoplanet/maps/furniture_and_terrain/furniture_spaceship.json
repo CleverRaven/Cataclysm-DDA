@@ -23,6 +23,19 @@
   },
   {
     "type": "furniture",
+    "id": "f_your_ship_panel",
+    "looks_like": "f_security_panel",
+    "name": "control panel",
+    "symbol": "e",
+    "description": "A slim wall mounted metal panel with several buttons, sliders, and displays.  Can be used to control secondary systems of the ship.",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_SHIP_LIGHTS" ] }
+  },
+  {
+    "type": "furniture",
     "id": "f_spaceship_fridge",
     "name": "fridge",
     "description": "A compact refrigerator and freezer unit.  Its plugged into a ship's power supply, so it should be expected to work for a very long time.",

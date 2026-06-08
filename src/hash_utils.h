@@ -25,7 +25,7 @@ namespace tuple_hash_detail
 {
 
 // Recursive template code derived from Matthieu M.
-template < class Tuple, size_t Index = std::tuple_size<Tuple>::value - 1 >
+template < class Tuple, size_t Index = std::tuple_size_v<Tuple> - 1 >
 struct Impl
 {
     static void apply( size_t &seed, const Tuple &tuple ) {

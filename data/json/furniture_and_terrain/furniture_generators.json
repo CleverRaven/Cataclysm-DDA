@@ -16,6 +16,7 @@
     "move_cost_mod": -1,
     "coverage": 80,
     "required_str": 8,
+    "mass": "168 kg",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "diesel_generator" },
     "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "ACTIVE_GENERATOR", "EASY_DECONSTRUCT" ],
     "bash": {
@@ -35,6 +36,7 @@
     "name": "portable generator",
     "looks_like": "t_plut_generator",
     "description": "A small, portable generator, one that people buy for a camp.",
+    "mass": "22 kg",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "portable_generator" },
     "bash": {
       "str_min": 1,
@@ -53,6 +55,7 @@
     "name": "diesel generator",
     "looks_like": "t_plut_generator",
     "description": "Big and powerful generator, used for street works.",
+    "mass": "168 kg",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "diesel_generator" },
     "bash": {
       "str_min": 1,
@@ -71,6 +74,7 @@
     "name": "military diesel generator",
     "looks_like": "t_plut_generator",
     "description": "Big and powerful generator, painted in camo.",
+    "mass": "536 kg",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "military_generator" },
     "bash": {
       "str_min": 1,
@@ -89,6 +93,7 @@
     "name": "powerful gasoline generator",
     "looks_like": "t_plut_generator",
     "description": "Big and powerful, yet portable generator.",
+    "mass": "150 kg",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "12000_gasoline_generator" },
     "bash": {
       "str_min": 1,

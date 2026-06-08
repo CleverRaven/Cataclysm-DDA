@@ -1,8 +1,59 @@
 [
   {
+    "type": "effect_on_condition",
+    "id": "EOC_JETPACK_RUN_ACTIVE",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [ { "u_has_worn_with_flag": "JETPACK" }, { "compare_string": [ "run", { "context_val": "movement_mode" } ] } ]
+    },
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "worn_only": true, "id": "afs_jetpack", "condition": "has_ammo" } ],
+        "true_eocs": [
+          {
+            "id": "_EOC_JETPACK_RUN_ACTIVE",
+            "effect": [
+              { "transform_item": "afs_jetpack_active", "active": true },
+              { "u_message": "You start using the rocket pack to boost your running speed." }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_JETPACK_RUN_DEACTIVATE",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_worn_with_flag": "JETPACK" },
+        { "not": { "compare_string": [ "run", { "context_val": "movement_mode" } ] } }
+      ]
+    },
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "worn_only": true, "id": "afs_jetpack_active", "condition": "has_ammo" } ],
+        "true_eocs": [ { "id": "_EOC_JETPACK_RUN_DEACTIVATE", "effect": [ { "transform_item": "afs_jetpack" } ] } ]
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "afs_ench_jetpack_sprint",
+    "name": { "str": "Powered Movement" },
+    "description": "You are using a jetpack to boost your movement speed.",
+    "condition": "ACTIVE",
+    "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ]
+  },
+  {
     "id": "afs_jetpack",
     "type": "ITEM",
-    "subtypes": [ "TOOL", "ARMOR" ],
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "rocket pack" },
     "description": "A back mounted rocket pack, its well worn superalloy nozzles seem to suggest great age.  Units like this one are rarely used by elite military forces and by scavenger-explorers hoping to find high value salvage.  Not powerful enough to enable true flight within a gravity well, but it may still be used to perform short jumps and air-dashes.",
     "weight": "4350 g",
@@ -12,7 +63,18 @@
     "material": [ "vacuum_carbide_hard" ],
     "symbol": "[",
     "looks_like": "rpg",
-    "use_action": { "type": "cast_spell", "spell_id": "spell_rocket_jump", "no_fail": true, "level": 1 },
+    "use_action": [
+      { "type": "cast_spell", "spell_id": "spell_rocket_jump", "no_fail": true, "level": 1, "mundane": true },
+      {
+        "ammo_scale": 0,
+        "target": "afs_jetpack_active",
+        "menu_text": "Activate",
+        "msg": "You ignite the rocket pack thrusters.",
+        "type": "transform",
+        "need_charges": 1,
+        "need_charges_msg": "The fuel tank is empty."
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -24,11 +86,32 @@
     ],
     "color": "white",
     "charges_per_use": 1,
+    "turns_per_charge": 30,
     "warmth": 6,
     "material_thickness": 5,
-    "flags": [ "BELTED", "JETPACK" ],
+    "flags": [ "BELTED", "JETPACK", "MUNDANE" ],
+    "passive_effects": [ { "id": "afs_ench_jetpack_sprint" } ],
     "max_worn": 1,
     "armor": [ { "encumbrance": 10, "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
     "tool_ammo": [ "ammonia_liquid" ]
+  },
+  {
+    "id": "afs_jetpack_active",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "copy-from": "afs_jetpack",
+    "name": { "str": "rocket pack" },
+    "revert_to": "afs_jetpack",
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "afs_jetpack",
+        "menu_text": "Deactivate",
+        "msg": "You stop using the rocket pack.",
+        "type": "transform"
+      },
+      { "type": "cast_spell", "spell_id": "spell_rocket_jump", "no_fail": true, "level": 1, "mundane": true }
+    ]
   }
 ]

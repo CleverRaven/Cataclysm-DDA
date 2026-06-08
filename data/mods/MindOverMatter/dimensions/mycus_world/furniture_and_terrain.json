@@ -1,0 +1,37 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_trunk_fungal",
+    "looks_like": "t_trunk",
+    "name": "fungal tree trunk",
+    "description": "A section of trunk from a fungal tree that has collapsed or fallen over due to being overcome with rot.  It looks like those pictures of smokers' lungs they showed you back in school.",
+    "symbol": "1",
+    "color": "brown",
+    "move_cost": 4,
+    "coverage": 45,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE", "SHORT" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "splinter", "count": [ 5, 15 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_puddle_mycus",
+    "name": "recess",
+    "description": "A shallow pit in the ground.  The surface is covered in a thin coating of mycus spores.",
+    "looks_like": "t_dirt",
+    "symbol": "~",
+    "color": "light_blue",
+    "move_cost": 3,
+    "liquid_source": { "id": "water_mycus", "count": [ 40, 240 ] },
+    "flags": [ "TRANSPARENT", "LIQUIDCONT" ],
+    "examine_action": "finite_water_source"
+  }
+]

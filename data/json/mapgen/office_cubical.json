@@ -9,7 +9,7 @@
         "s##wwww##  ss  ##wwww##s",
         "s#.....^#$$ss$$#III..o#s",
         "s#.HttH.###++###..H..o#s",
-        "s#.HttH.w.....^|.xdd.o#s",
+        "s#.HttH.w.§...^|.xdd.o#s",
         "s#.HttH.w......+..h..o#s",
         "s#.HttH.w..cccc|Y....^#s",
         "s#^.....+..c.h.|||||+|#s",
@@ -17,8 +17,8 @@
         "s#I.Y...+....II|...|||#s",
         "s#I..H..|..||||||+||Sl#s",
         "s#Ixddd^|..aVVe...+..R#s",
-        "s#|||||||.........||||#s",
-        "s#Ih................hI#s",
+        "s#|||||||........§||||#s",
+        "s#Ih...§............hI#s",
         "s#ddx-....IIII^...-ddx#s",
         "s#----..--------I.----#s",
         "s#Ih...Y-ddxddx-....hI#s",
@@ -70,7 +70,8 @@
         "o": { "item": "novels", "chance": 80, "repeat": [ 4, 8 ] },
         "T": { "item": "SUS_toilet", "chance": 50 }
       },
-      "vehicles": { "h": { "vehicle": "swivel_chair" } }
+      "vehicles": { "h": { "vehicle": "swivel_chair" } },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -135,17 +136,17 @@
         " ##wwww##$ssss$##wwww## ",
         " #^....^#$ssss$#a????^##",
         " #.HttH.###++###..ttH.o#",
-        " #.HttH.|Y.UU.^|......o#",
+        " #.HttH.|Y.UU.^|§.....o#",
         " #.HttH.+..UU..|..ee..o#",
         " #.HttH.+..UU..|.||||+##",
-        " #......|..UU....|T+..# ",
+        " #§.....|..UU....|T+..# ",
         "##||+||||..UU...Y|||.S# ",
         "#I......+.cccc...|T+.S# ",
         "#I.d.h.o|.c.h..|.|||||# ",
         "#IHd.h.o|.x..II|.|I..x# ",
         "##.d...o|+||||||.|I.hdw ",
         " #|||||||..RRl...^...dw ",
-        " #................----# ",
+        " #§...............----# ",
         " #.-------..----..-ddx#4",
         " #.^.x-x......x-^.-.h.##",
         " w...d-d.h..h.d-I.....d#",
@@ -153,7 +154,7 @@
         " #.-------..----.-....x#",
         " #...x-x......x-.-.h.I##",
         " #..hd-dh....hd#D#xddI#s",
-        " ##.Id-dI..^.Id#s##ww##s",
+        " ##.Id-dI.§^.Id#s##ww##s",
         "  ##############ssssssss"
       ],
       "palettes": [ "parametrized_carpets_palette", "parametrized_highrise_walls_palette" ],
@@ -198,7 +199,8 @@
         "o": { "item": "novels", "chance": 80, "repeat": [ 4, 8 ] },
         "T": { "item": "SUS_toilet", "chance": 50 }
       },
-      "vehicles": { "h": { "vehicle": "swivel_chair" } }
+      "vehicles": { "h": { "vehicle": "swivel_chair" } },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

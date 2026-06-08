@@ -1,43 +1,77 @@
 name: Code Style Reviewer
 
 on:
-  pull_request_target:
-    types: ['opened', 'reopened', 'synchronize', 'ready_for_review']
-    paths:
-      - '**.json'
-      - '**.cpp'
-      - '**.h'
-      - '**.c'
   pull_request:
     types: ['opened', 'reopened', 'synchronize', 'ready_for_review']
     paths:
+      - 'Makefile'
+      - '.astylerc'
+      - '.github/workflows/linter.yml'
       - '**.json'
       - '**.cpp'
       - '**.h'
       - '**.c'
+      - '!src/third-party/**'
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}-${{ github.event_name }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
   style-code:
-    if: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.draft == false }}
+    if: ${{ github.event.pull_request.draft == false }}
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       with:
         ref: '${{ github.event.pull_request.head.sha }}'
+        persist-credentials: false
+
+    - name: determine changed files
+      if: ${{ github.event_name == 'pull_request' }}
+      uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+      with:
+        script: |
+          var fs = require('fs');
+          const response = await github.paginate(github.rest.pulls.listFiles,
+            {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            }
+          );
+          const files = response.map(x => x.filename);
+          for (const path of files) {
+            console.log(path);
+          }
+          fs.writeFileSync("files_changed", files.join('\n') + '\n');
 
     - run: sudo apt-get install astyle
 
-    - run: make astyle-fast
-    - run: make style-all-json-parallel
+    - run: make -k astyle-fast style-all-json-parallel; git diff --quiet
 
-    - name: 'suggester / JSON & C++'
-      uses: reviewdog/action-suggester@v1
-      if: ${{ always() }}
+    - name: Create pr comment artifacts
+      if: ${{ failure() }}
+      run: |
+        set +e
+        cat files_changed | while read f; do
+          git add $f
+        done
+        git checkout .
+        git reset
+        git diff --exit-code
+        if [ $? -ne 0 ]; then
+          mkdir -p suggestions
+          git diff -U1 > suggestions/diff.txt
+          echo ${{ github.event.pull_request.number }} > suggestions/pr_number
+          echo ${{ github.event.pull_request.head.sha }} > suggestions/commit_sha
+          echo '[JSON & C++ formatters](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/c++/DEVELOPER_TOOLING.md)' > suggestions/comment.txt
+        fi
+    - name: Upload pr comment artifacts
+      if: ${{ failure() }}
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       with:
-        tool_name: '[JSON & C++ formatters](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/c++/DEVELOPER_TOOLING.md)'
+        name: suggestions
+        path: suggestions/

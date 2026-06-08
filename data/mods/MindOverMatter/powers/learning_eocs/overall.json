@@ -70,7 +70,11 @@
       ]
     },
     "effect": [
-      { "math": [ "u_skill_exp('metaphysics', 'format': 'raw') += (35 * u_latest_studied_power_difficulty)" ] },
+      {
+        "math": [
+          "u_skill_exp('metaphysics', 'format': 'raw') += (35 * u_latest_studied_power_difficulty * game_option('SKILL_TRAINING_SPEED'))"
+        ]
+      },
       { "run_eocs": "EOC_PSI_STUDYING_POWER_METAPHYSICS_GAIN", "time_in_future": [ "30 seconds", "5 minutes" ] }
     ]
   },

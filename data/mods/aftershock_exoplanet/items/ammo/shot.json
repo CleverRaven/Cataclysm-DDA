@@ -1,5 +1,25 @@
 [
   {
+    "id": "shot_00",
+    "copy-from": "shotshell_abstract",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str_sp": "12 gauge buckshot" },
+    "weight": "43 g",
+    "description": "A 12 gauge shotgun shell, filled with 9 pellets of 00 buck.  A very common and versatile round, they're useful for both self defense and for hunting.  The spread of the shot doesn't just increase your chances to have a projectile hit, it also causes a much larger wound, greatly increasing lethality.  It does struggle with range, and against body armor.",
+    "ascii_picture": "shot_00",
+    "price": "5 USD",
+    "price_postapoc": "8 USD",
+    "range": 18,
+    "damage": { "damage_type": "bullet", "amount": 60 },
+    "shot_damage": { "damage_type": "bullet", "amount": 15, "armor_penetration": 4 },
+    "projectile_count": 9,
+    "shot_spread": 300,
+    "recoil": 2500,
+    "loudness": 160,
+    "effects": [ "COOKOFF", "SHOT" ]
+  },
+  {
     "id": "afs_shot_he",
     "copy-from": "shot_slug",
     "type": "ITEM",

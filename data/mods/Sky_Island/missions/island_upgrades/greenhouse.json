@@ -1,0 +1,420 @@
+[
+  {
+    "id": "SKYISLAND_BUILD_south_greenhouse1",
+    "type": "mission_definition",
+    "name": "Construct: South Greenhouse 1",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Miner's Cameo from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: South Greenhouse 1.  Add two rooms to the south of the bunker entrance for eventual greenhouses.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_south_greenhouse_1",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_south_greenhouse_1" },
+        {
+          "u_message": "There is a lot of space to the south of your bunker.  Perhaps you can build some greenhouses there?  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: South Greenhouse 1.  Add two rooms to the south of the bunker entrance for eventual greenhouses.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_greenhouse = 1" ] },
+        { "u_forget_recipe": "buildkey_south_greenhouse_1" },
+        { "run_eocs": "EOC_skyisland_build_greenhouse1" },
+        {
+          "u_message": "Construction complete.  There is a new set of rooms to the south, to be turned into greenhouses eventually.",
+          "popup": true
+        }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_south_greenhouse_1",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "Miner's Cameo (South)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: South Greenhouse 1",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_south_greenhouse_1",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [
+      { "id": "DIG", "level": 1 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "WELD", "level": 1 },
+      { "id": "GLARE", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [
+      [ [ "2x4", 4 ] ],
+      [ [ "hinge", 6 ] ],
+      [ [ "box_medium", 4 ], [ "box_large", 1 ], [ "box_oversize", 2 ] ],
+      [ [ "material_soil", 40 ] ],
+      [ [ "sheet_metal", 3 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_south_greenhouse2",
+    "type": "mission_definition",
+    "name": "Construct: South Greenhouse 2",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Hollow Carver from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: South Greenhouse 2.  Add two more rooms to the south of the bunker entrance for eventual greenhouses.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_south_greenhouse_2",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_south_greenhouse_2" },
+        {
+          "u_message": "There is more space next to the first two rooms you dug out to the south.  You can fit two more greenhouses there.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: South Greenhouse 2.  Add two more rooms to the south of the bunker entrance for eventual greenhouses.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_greenhouse = 2" ] },
+        { "u_forget_recipe": "buildkey_south_greenhouse_2" },
+        { "run_eocs": "EOC_skyisland_build_greenhouse2" },
+        {
+          "u_message": "Construction complete.  There is a two more rooms to the south, to be turned into greenhouses eventually.",
+          "popup": true
+        }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_south_greenhouse_2",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "Hollow Carver (South)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: South Greenhouse 2",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_south_greenhouse_2",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [
+      { "id": "DIG", "level": 1 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "WELD", "level": 1 },
+      { "id": "GLARE", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [
+      [ [ "2x4", 4 ] ],
+      [ [ "hinge", 6 ] ],
+      [ [ "box_medium", 4 ], [ "box_large", 1 ], [ "box_oversize", 2 ] ],
+      [ [ "material_soil", 40 ] ],
+      [ [ "sheet_metal", 3 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_south_greenhouse3",
+    "type": "mission_definition",
+    "name": "Construct: South Greenhouse 3",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Warped Reinforcement from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: South Greenhouse 3.  Upgrade the first set of dirt rooms into full greenhouses.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_south_greenhouse_3",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_south_greenhouse_3" },
+        {
+          "u_message": "You can finally construct greenhouses now that you have climate control in the bunker.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: South Greenhouse 3.  Upgrade the first set of dirt rooms into full greenhouses.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_greenhouse = 3" ] },
+        { "u_forget_recipe": "buildkey_south_greenhouse_3" },
+        { "run_eocs": "EOC_skyisland_build_greenhouse3" },
+        {
+          "u_message": "Construction complete.  Two of the rooms to the south have been converted into greenhouses.",
+          "popup": true
+        }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_south_greenhouse_3",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "Warped Reinforcement (South)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: South Greenhouse 3",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_south_greenhouse_3",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "2x4", 10 ] ],
+      [ [ "nail", 20 ] ],
+      [ [ "chunk_rubber", 30 ] ],
+      [ [ "clay_pot_flower", 30 ], [ "plastic_pot_flower", 30 ] ],
+      [ [ "tempered_glass_sheet", 8 ] ],
+      [ [ "cable", 30 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_south_greenhouse4",
+    "type": "mission_definition",
+    "name": "Construct: South Greenhouse 4",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Cavernous Soul from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: South Greenhouse 4.  Upgrade the second set of dirt rooms into full greenhouses.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_south_greenhouse_4",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_south_greenhouse_4" },
+        {
+          "u_message": "The first set of greenhouses was a success, now to build the last two.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: South Greenhouse 4.  Upgrade the second set of dirt rooms into full greenhouses.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_greenhouse = 4" ] },
+        { "u_forget_recipe": "buildkey_south_greenhouse_4" },
+        { "run_eocs": "EOC_skyisland_build_greenhouse4" },
+        {
+          "u_message": "Construction complete.  The last two rooms to the south have been converted into greenhouses.",
+          "popup": true
+        }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_south_greenhouse_4",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "Cavernous Soul (South)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: South Greenhouse 4",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_south_greenhouse_4",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "2x4", 10 ] ],
+      [ [ "nail", 20 ] ],
+      [ [ "chunk_rubber", 30 ] ],
+      [ [ "clay_pot_flower", 30 ], [ "plastic_pot_flower", 30 ] ],
+      [ [ "tempered_glass_sheet", 8 ] ],
+      [ [ "cable", 30 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_south_greenhouse_skylight1",
+    "type": "mission_definition",
+    "name": "Construct: South Greenhouse Skylight 1",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Glass Figurine from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: South Greenhouse Skylight 1.  Build a set of skylights for the first set of southern rooms.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_south_greenhouse_skylight_1",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_south_greenhouse_skylight_1" },
+        {
+          "u_message": "You dug out two dirt rooms to plant in, now you need to let the sunlight in.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: South Greenhouse Skylight 1.  Build a set of skylights for the first set of southern rooms.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_greenhouse_skylight = 1" ] },
+        { "u_forget_recipe": "buildkey_south_greenhouse_skylight_1" },
+        { "run_eocs": "EOC_skyisland_build_greenhouse_skylight1" },
+        { "u_message": "Construction complete.  The first set of southern rooms now have skylights.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_south_greenhouse_skylight_1",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "Glass Figurine (South)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: South Greenhouse Skylight 1",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_south_greenhouse_skylight_1",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "components": [
+      [ [ "glass_sheet", 4 ] ],
+      [ [ "tempered_glass_sheet", 4 ] ],
+      [ [ "glue_strong", 80 ] ],
+      [ [ "nuts_bolts", 80 ] ],
+      [ [ "frame_wood", 8 ] ],
+      [ [ "cordage", 2, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_south_greenhouse_skylight2",
+    "type": "mission_definition",
+    "name": "Construct: South Greenhouse Skylight 2",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Crystalline Mirror from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: South Greenhouse Skylight 2.  Build a set of skylights for the second set of southern rooms.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_south_greenhouse_skylight_2",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_south_greenhouse_skylight_2" },
+        {
+          "u_message": "The skylights in the first set of rooms work great, now you need to build the second set of sky lights.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: South Greenhouse Skylight 2.  Build a set of skylights for the second set of southern rooms.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_greenhouse_skylight = 2" ] },
+        { "u_forget_recipe": "buildkey_south_greenhouse_skylight_2" },
+        { "run_eocs": "EOC_skyisland_build_greenhouse_skylight2" },
+        { "u_message": "Construction complete.  The second set of southern rooms now have skylights.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_south_greenhouse_skylight_2",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "Crystalline Mirror (South)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: South Greenhouse Skylight 2",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_south_greenhouse_skylight_2",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "components": [
+      [ [ "glass_sheet", 4 ] ],
+      [ [ "tempered_glass_sheet", 4 ] ],
+      [ [ "glue_strong", 80 ] ],
+      [ [ "nuts_bolts", 80 ] ],
+      [ [ "frame_wood", 8 ] ],
+      [ [ "cordage", 2, "LIST" ] ]
+    ]
+  }
+]

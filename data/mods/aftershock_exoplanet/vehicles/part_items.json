@@ -52,6 +52,15 @@
   },
   {
     "type": "ITEM",
+    "id": "ship_reactor_pdu",
+    "copy-from": "veh_tools_abstract",
+    "name": { "str": "Ship's PDU" },
+    "weight": "10000 kg",
+    "description": "A distribution cabinet linking to the ship's main reactor, can be used to build an external electric grid powered by the ship's surplus power.",
+    "looks_like": "minireactor"
+  },
+  {
+    "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "id": "minireactor",
     "name": { "str": "minireactor" },

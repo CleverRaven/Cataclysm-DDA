@@ -2,6 +2,7 @@
   {
     "id": "GROUP_COWS_DAIRY",
     "type": "monstergroup",
+    "is_animal": true,
     "is_safe": true,
     "monsters": [
       { "monster": "mon_null", "weight": 850 },
@@ -14,6 +15,7 @@
   {
     "id": "GROUP_COWS",
     "type": "monstergroup",
+    "is_animal": true,
     "monsters": [
       { "monster": "mon_cow", "weight": 150, "cost_multiplier": 2 },
       { "monster": "mon_cow_calf", "weight": 50, "ends": "28 days" },
@@ -23,6 +25,7 @@
   {
     "id": "GROUP_BEARS",
     "type": "monstergroup",
+    "is_animal": true,
     "monsters": [
       { "monster": "mon_bear", "weight": 150, "cost_multiplier": 2 },
       { "monster": "mon_bear_cub", "weight": 50, "ends": "124 days", "conditions": [ "SPRING", "SUMMER" ] },
@@ -32,6 +35,7 @@
   {
     "id": "GROUP_BOARS",
     "type": "monstergroup",
+    "is_animal": true,
     "monsters": [
       { "monster": "mon_boar_wild", "weight": 150, "cost_multiplier": 2 },
       { "monster": "mon_boar_wild_piglet", "weight": 50, "pack_size": [ 1, 6 ], "ends": "56 days" },
@@ -41,6 +45,7 @@
   {
     "id": "GROUP_PIGS",
     "type": "monstergroup",
+    "is_animal": true,
     "monsters": [
       { "monster": "mon_pig", "weight": 150, "cost_multiplier": 2 },
       { "monster": "mon_pig_piglet", "weight": 25, "pack_size": [ 1, 2 ], "ends": "28 days" },
@@ -50,6 +55,7 @@
   {
     "id": "GROUP_SHEEPS",
     "type": "monstergroup",
+    "is_animal": true,
     "monsters": [
       { "monster": "mon_sheep", "weight": 150, "cost_multiplier": 2 },
       { "monster": "mon_sheep_lamb", "weight": 25, "ends": "28 days", "conditions": [ "SPRING", "SUMMER" ] },
@@ -59,6 +65,7 @@
   {
     "id": "GROUP_DEERS",
     "type": "monstergroup",
+    "is_animal": true,
     "monsters": [
       { "monster": "mon_deer", "weight": 150, "cost_multiplier": 2 },
       { "monster": "mon_deer_fawn", "weight": 25, "ends": "28 days", "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
@@ -73,6 +80,7 @@
   {
     "id": "GROUP_REINDEERS",
     "type": "monstergroup",
+    "is_animal": true,
     "monsters": [
       { "monster": "mon_reindeer", "weight": 150, "cost_multiplier": 2 },
       {
@@ -94,6 +102,7 @@
   {
     "id": "GROUP_DEER_MUT_SPIDERS",
     "type": "monstergroup",
+    "is_animal": true,
     "//": "Mutant deer are better prepared to protect/escape with their spawn than normal deer, so, contrary to normal wildlife, their spawn becomes more common as time goes on.",
     "monsters": [
       { "monster": "mon_deer_mutant_spider", "weight": 150, "cost_multiplier": 2 },
@@ -114,6 +123,7 @@
   {
     "id": "GROUP_WOLFS",
     "type": "monstergroup",
+    "is_animal": true,
     "monsters": [
       { "monster": "mon_wolf", "weight": 150, "cost_multiplier": 2 },
       {
@@ -135,6 +145,7 @@
   {
     "id": "GROUP_COUGARS",
     "type": "monstergroup",
+    "is_animal": true,
     "monsters": [
       { "monster": "mon_cougar", "weight": 150, "cost_multiplier": 2 },
       {
@@ -156,6 +167,7 @@
   {
     "id": "GROUP_HORSES",
     "type": "monstergroup",
+    "is_animal": true,
     "monsters": [
       { "monster": "mon_horse", "weight": 150, "cost_multiplier": 2 },
       { "monster": "mon_horse_foal", "weight": 50, "ends": "124 days" },
@@ -165,11 +177,13 @@
   {
     "id": "GROUP_HORSES_STABLES",
     "type": "monstergroup",
+    "is_animal": true,
     "monsters": [ { "monster": "mon_null", "weight": 50 }, { "group": "GROUP_HORSES", "weight": 50, "ends": "56 days" } ]
   },
   {
     "id": "GROUP_MOOSE",
     "type": "monstergroup",
+    "is_animal": true,
     "monsters": [
       { "group": "GROUP_MOOSE_NORMAL", "weight": 19 },
       { "group": "GROUP_TUSKED_MOOSE", "weight": 1, "starts": "3832 days" }
@@ -178,6 +192,7 @@
   {
     "id": "GROUP_MOOSE_NORMAL",
     "type": "monstergroup",
+    "is_animal": true,
     "monsters": [
       { "monster": "mon_moose", "weight": 150, "cost_multiplier": 2 },
       { "monster": "mon_moose_calf", "weight": 50, "ends": "124 days", "conditions": [ "AUTUMN", "WINTER" ] },
@@ -187,6 +202,7 @@
   {
     "id": "GROUP_TUSKED_MOOSE",
     "type": "monstergroup",
+    "is_animal": true,
     "//": "Same as mutant deer.",
     "monsters": [
       { "monster": "mon_tusked_moose", "weight": 150, "cost_multiplier": 2 },
@@ -197,6 +213,7 @@
   {
     "id": "GROUP_COYOTE",
     "type": "monstergroup",
+    "is_animal": true,
     "//": "Not doing the whole weird thing with timers and weight halving for babies as the groups above me did. I have no idea what's that hoping to accomplish and nobody else seems to either.",
     "monsters": [
       { "monster": "mon_coyote", "weight": 38 },
@@ -207,6 +224,7 @@
   {
     "id": "GROUP_BEAVER",
     "type": "monstergroup",
+    "is_animal": true,
     "monsters": [
       { "monster": "mon_beaver", "weight": 38 },
       { "monster": "mon_beaver_mutant_avian", "weight": 1, "starts": "2920 days" },
@@ -216,6 +234,7 @@
   {
     "id": "GROUP_STRAY_DOGS",
     "type": "monstergroup",
+    "is_animal": true,
     "default": "mon_dog",
     "monsters": [
       { "group": "GROUP_PET_DOGS", "weight": 90, "cost_multiplier": 0 },
@@ -228,6 +247,7 @@
   {
     "id": "GROUP_STRAY_CATS",
     "type": "monstergroup",
+    "is_animal": true,
     "default": "mon_cat",
     "monsters": [
       { "group": "GROUP_PET_CATS", "weight": 97, "cost_multiplier": 0 },
@@ -239,6 +259,7 @@
   {
     "id": "GROUP_PET_DOGS",
     "type": "monstergroup",
+    "is_animal": true,
     "default": "mon_dog",
     "monsters": [
       { "monster": "mon_dog", "weight": 50, "cost_multiplier": 0 },
@@ -274,6 +295,7 @@
   {
     "id": "GROUP_MUTANT_PET_DOGS",
     "type": "monstergroup",
+    "is_animal": true,
     "default": "mon_dog_mutant_mongrel",
     "monsters": [
       { "monster": "mon_dog_mutant_mongrel", "weight": 7, "cost_multiplier": 0 },
@@ -285,6 +307,7 @@
   {
     "id": "GROUP_PET_CATS",
     "type": "monstergroup",
+    "is_animal": true,
     "default": "mon_cat",
     "//": "Persian, Devon Rex, and sphynx cats are not really fit to survive without human assistance and will die off eventually. Persians will overheat in the summer and have trouble breathing because of their flat faces and sphynx cats and Devons will freeze in the cold season.",
     "monsters": [
@@ -317,6 +340,7 @@
   {
     "id": "GROUP_PETS",
     "type": "monstergroup",
+    "is_animal": true,
     "default": "mon_dog",
     "monsters": [
       { "group": "GROUP_PET_CATS", "weight": 1, "cost_multiplier": 0 },
@@ -328,6 +352,7 @@
   {
     "id": "GROUP_RABBIT_WILD",
     "type": "monstergroup",
+    "is_animal": true,
     "default": "mon_wild_rabbit",
     "monsters": [
       { "monster": "mon_wild_rabbit", "weight": 893, "cost_multiplier": 0 },

@@ -1,0 +1,60 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mom_mycus_world_default",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "           1            ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   1                    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "nested": { "1": { "chunks": [ [ "null", 100 ], [ "mom_mycus_world_extra_1", 1 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mom_mycus_world_extra_1",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "            ",
+        "   ..  ..   ",
+        "  ..   ...  ",
+        "         .. ",
+        "  ..     .. ",
+        "  ...     . ",
+        "   ..   ... ",
+        "     .  ..  ",
+        "    ..  ..  ",
+        "      ..    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { ".": "t_fungus_mound" }
+    }
+  }
+]

@@ -52,6 +52,11 @@ class dialogue_window
         void clear_history_highlights();
         bool is_computer = false;
         bool is_not_conversation = false;
+        // Remote conversation (intercom, radio). Hides physical-presence
+        // actions (Look at, Assess, etc.) but keeps normal dialogue style.
+        // If remote_name is set, it replaces the NPC name in the header.
+        bool is_remote = false;
+        std::string remote_name;
         bool show_dynamic_line_conditionals = true;
         bool show_dynamic_line_effects = true;
         bool show_response_conditionals = true;

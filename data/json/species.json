@@ -84,6 +84,13 @@
   },
   {
     "type": "SPECIES",
+    "id": "TINDALOS",
+    "description": "an abomination ",
+    "bleeds": "fd_tindalos_gas",
+    "flags": [ "DRACULIN_IMMUNE" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "SLIME",
     "description": "a slime",
     "footsteps": "plop.",

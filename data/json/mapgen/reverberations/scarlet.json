@@ -1,0 +1,387 @@
+[
+  {
+    "om_terrain": "scarlet_sea_reverberation",
+    "type": "mapgen",
+    "object": {
+      "fill_ter": "t_water_sh_scarlet",
+      "rows": [
+        "       1               .",
+        " 1              1      .",
+        "                       .",
+        "     1                 .",
+        "                       .",
+        "              1        .",
+        "                       .",
+        "                       .",
+        "1      1               .",
+        "                       .",
+        "                 1     .",
+        "         1             .",
+        "                       .",
+        "                       .",
+        " 1                     .",
+        "              1        .",
+        "                       .",
+        "      1          1     .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "........................"
+      ],
+      "nested": {
+        "1": { "chunks": [ [ "null", 95 ], [ "scarlet_island_reverberation", 5 ] ] },
+        " ": { "chunks": [ [ "null", 399 ], [ "scarlet_light", 1 ] ] }
+      },
+      "terrain": { " ": "t_water_sh_scarlet", "1": "t_water_sh_scarlet", ".": "t_water_sh_scarlet" },
+      "fields": {
+        " ": [ { "field": "fd_scarlet_atmosphere" } ],
+        "1": [ { "field": "fd_scarlet_atmosphere" } ],
+        ".": [ { "field": "fd_scarlet_atmosphere" } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "scarlet_light",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "1~",
+        "L1"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "L": "t_scarlet_light",
+        "~": "t_water_sh_scarlet_wave",
+        "1": [ [ "t_water_sh_scarlet", 90 ], [ "t_water_sh_scarlet_wave", 10 ] ]
+      },
+      "fields": {
+        "L": [ { "field": "fd_scarlet_atmosphere" } ],
+        "~": [ { "field": "fd_scarlet_atmosphere" } ],
+        "1": [ { "field": "fd_scarlet_atmosphere" } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "scarlet_island_reverberation",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  .~~  ",
+        " ....~ ",
+        "...#..~",
+        "..###.~",
+        "...#...",
+        " ..... ",
+        "  ...  "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "#": "t_sand_scarlet",
+        ".": [ [ "t_sand_scarlet", 60 ], [ "t_water_sh_scarlet", 40 ] ],
+        "~": [ [ "t_sand_scarlet", 60 ], [ "t_water_sh_scarlet_wave", 40 ] ]
+      },
+      "fields": {
+        " ": [ { "field": "fd_scarlet_atmosphere" } ],
+        ".": [ { "field": "fd_scarlet_atmosphere" } ],
+        "#": [ { "field": "fd_scarlet_atmosphere" } ],
+        "~": [ { "field": "fd_scarlet_atmosphere" } ]
+      }
+    }
+  },
+  {
+    "om_terrain": "scarlet_scrap_metal_spire",
+    "type": "mapgen",
+    "object": {
+      "fill_ter": "t_water_sh_scarlet",
+      "rows": [
+        "                       .",
+        "                       .",
+        "                       .",
+        "     2                 .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        " 1                     .",
+        "              1        .",
+        "                       .",
+        "      1          1     .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "........................"
+      ],
+      "terrain": { " ": "t_water_sh_scarlet", "1": "t_water_sh_scarlet", ".": "t_water_sh_scarlet" },
+      "fields": {
+        " ": [ { "field": "fd_scarlet_atmosphere" } ],
+        "1": [ { "field": "fd_scarlet_atmosphere" } ],
+        ".": [ { "field": "fd_scarlet_atmosphere" } ]
+      },
+      "nested": {
+        "1": { "chunks": [ [ "null", 95 ], [ "scarlet_island_reverberation", 5 ] ] },
+        " ": { "chunks": [ [ "null", 399 ], [ "scarlet_light", 1 ] ] },
+        "2": { "chunks": [ "scarlet_scrap_metal_spire_0" ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "scarlet_light",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "1~",
+        "L1"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "L": "t_scarlet_light",
+        "~": "t_water_sh_scarlet_wave",
+        "1": [ [ "t_water_sh_scarlet", 90 ], [ "t_water_sh_scarlet_wave", 10 ] ]
+      },
+      "fields": {
+        "L": [ { "field": "fd_scarlet_atmosphere" } ],
+        "~": [ { "field": "fd_scarlet_atmosphere" } ],
+        "1": [ { "field": "fd_scarlet_atmosphere" } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "scarlet_scrap_metal_spire_0",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    ~~~~    ",
+        "   !!!!!~   ",
+        " ,##...#!~  ",
+        " ,##.####!~ ",
+        "##.#......~ ",
+        "#..##.....!~",
+        "#...,..###! ",
+        "####......#~",
+        " ....#######",
+        ",##..#..## ,",
+        " ,!!...!!,  ",
+        "  ,!!O!!,   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "!": "t_nl_scrap_wall_scarlet",
+        "#": [ [ "t_water_sh_scarlet", 10 ], [ "t_nl_scrap_wall_scarlet", 90 ] ],
+        ".": "t_nl_scrap_floor",
+        ",": "t_scrap_scaffolding_scarlet",
+        "L": "t_nl_scrap_floor",
+        " ": "t_water_sh_scarlet",
+        "~": "t_water_sh_scarlet_wave",
+        "<": "t_ladder_up",
+        "O": "t_nl_archway"
+      },
+      "furniture": { "L": "f_nl_exodii_lamp" },
+      "fields": {
+        "!": [ { "field": "fd_scarlet_atmosphere" } ],
+        "#": [ { "field": "fd_scarlet_atmosphere" } ],
+        ".": [ { "field": "fd_scarlet_atmosphere" } ],
+        ",": [ { "field": "fd_scarlet_atmosphere" } ],
+        " ": [ { "field": "fd_scarlet_atmosphere" } ],
+        "~": [ { "field": "fd_scarlet_atmosphere" } ],
+        "O": [ { "field": "fd_scarlet_atmosphere" } ]
+      },
+      "place_nested": [
+        { "chunks": [ "scarlet_scrap_metal_spire_1" ], "x": 0, "y": 1, "z": 1 },
+        { "chunks": [ "scarlet_scrap_metal_spire_2" ], "x": 1, "y": 2, "z": 2 },
+        { "chunks": [ "scarlet_scrap_metal_spire_3-8" ], "x": 2, "y": 3, "z": 3 },
+        { "chunks": [ "scarlet_scrap_metal_spire_3-8" ], "x": 2, "y": 3, "z": 4 },
+        { "chunks": [ "scarlet_scrap_metal_spire_3-8" ], "x": 2, "y": 3, "z": 5 },
+        { "chunks": [ "scarlet_scrap_metal_spire_3-8" ], "x": 2, "y": 3, "z": 6 },
+        { "chunks": [ "scarlet_scrap_metal_spire_3-8" ], "x": 2, "y": 3, "z": 7 },
+        { "chunks": [ "scarlet_scrap_metal_spire_3-8" ], "x": 2, "y": 3, "z": 8 },
+        { "chunks": [ "scarlet_scrap_metal_spire_9" ], "x": 3, "y": 4, "z": 9 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "scarlet_scrap_metal_spire_1",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "    ,,,    ",
+        "   ,###,   ",
+        "  ,##.##,  ",
+        " ,##...##, ",
+        ",##.....##,",
+        ",#.......#,",
+        ",##.....##,",
+        " ,##...##, ",
+        "  ,##.##,  ",
+        "   ,###,   ",
+        "    ,,,    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "#": [ [ "t_nl_scrap_floor", 10 ], [ "t_nl_scrap_wall_scarlet", 90 ] ],
+        ".": [ [ "t_open_air", 50 ], [ "t_nl_scrap_wall_scarlet", 50 ] ],
+        ",": [ "t_scrap_scaffolding_scarlet" ]
+      },
+      "fields": {
+        "#": [ { "field": "fd_scarlet_atmosphere" } ],
+        ".": [ { "field": "fd_scarlet_atmosphere" } ],
+        ",": [ { "field": "fd_scarlet_atmosphere" } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "scarlet_scrap_metal_spire_2",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "   ,,,   ",
+        "  ,###,  ",
+        " ,##.##, ",
+        ",##...##,",
+        ",#.....#,",
+        ",##...##,",
+        " ,##.##, ",
+        "  ,###,  ",
+        "   ,,,   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "#": [ [ "t_nl_scrap_floor", 10 ], [ "t_nl_scrap_wall_scarlet", 90 ] ],
+        ".": [ [ "t_open_air", 50 ], [ "t_nl_scrap_wall_scarlet", 50 ] ],
+        ",": [ "t_scrap_scaffolding_scarlet" ]
+      },
+      "fields": {
+        "#": [ { "field": "fd_scarlet_atmosphere" } ],
+        ".": [ { "field": "fd_scarlet_atmosphere" } ],
+        ",": [ { "field": "fd_scarlet_atmosphere" } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "scarlet_scrap_metal_spire_3-8",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "  ,,,  ",
+        " ,###, ",
+        ",##.##,",
+        ",#...#,",
+        ",##.##,",
+        " ,###, ",
+        "  ,,,  "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "#": [ [ "t_nl_scrap_floor", 10 ], [ "t_nl_scrap_wall_scarlet", 90 ] ],
+        ".": "t_open_air",
+        ",": "t_scrap_scaffolding_scarlet"
+      },
+      "fields": {
+        "#": [ { "field": "fd_scarlet_atmosphere" } ],
+        ".": [ { "field": "fd_scarlet_atmosphere" } ],
+        ",": [ { "field": "fd_scarlet_atmosphere" } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "scarlet_scrap_metal_spire_9",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        " .A. ",
+        ".....",
+        ".....",
+        ".....",
+        " .L. "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { ".": "t_nl_scrap_floor", "L": "t_nl_scrap_floor", "A": "t_nl_obelisk_scarlet" },
+      "furniture": { "L": "f_nl_exodii_lamp" },
+      "fields": {
+        ".": [ { "field": "fd_scarlet_atmosphere" } ],
+        "A": [ { "field": "fd_scarlet_atmosphere" } ],
+        "L": [ { "field": "fd_scarlet_atmosphere" } ]
+      }
+    }
+  },
+  {
+    "om_terrain": "scarlet_sea_xedra_hew",
+    "type": "mapgen",
+    "object": {
+      "fill_ter": "t_water_sh_scarlet",
+      "rows": [
+        "                       ,",
+        "                       ,",
+        "    .....~~            ,",
+        "   ..#a##..~           ,",
+        "    ..####..~          ,",
+        "   ...###T#..~         ,",
+        "    ...#####..~        ,",
+        "     ...a##f#..~       ,",
+        "      ...#####..~      ,",
+        "       ...####a..~     ,",
+        "        ........       ,",
+        "         1             ,",
+        "                       ,",
+        "                       ,",
+        " 1                     ,",
+        "              1        ,",
+        "                       ,",
+        "      1          1     ,",
+        "                       ,",
+        "                       ,",
+        "                       ,",
+        "                       ,",
+        "                       ,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,"
+      ],
+      "nested": {
+        "1": { "chunks": [ [ "null", 95 ], [ "scarlet_island_reverberation", 5 ] ] },
+        " ": { "chunks": [ [ "null", 399 ], [ "scarlet_light", 1 ] ] }
+      },
+      "furniture": { "T": "f_xedra_mobile_weather_station", "a": "f_xedra_antenna", "f": "f_foot_locker_aluminum" },
+      "terrain": {
+        "#": "t_sand_scarlet",
+        ",": "t_water_sh_scarlet",
+        "T": "t_sand_scarlet",
+        "a": "t_sand_scarlet",
+        "f": "t_sand_scarlet",
+        ".": [ [ "t_sand_scarlet", 60 ], [ "t_water_sh_scarlet", 40 ] ],
+        "~": [ [ "t_sand_scarlet", 60 ], [ "t_water_sh_scarlet_wave", 40 ] ]
+      },
+      "place_loot": [
+        { "item": "folded_inflatable_boat", "x": 11, "y": 7, "chance": 100 },
+        { "item": "hand_pump", "x": 11, "y": 7, "chance": 100 },
+        { "group": "wrapped_gasmask_filter", "x": 11, "y": 7, "chance": 100, "repeat": 20 }
+      ],
+      "fields": {
+        " ": [ { "field": "fd_scarlet_atmosphere" } ],
+        ",": [ { "field": "fd_scarlet_atmosphere" } ],
+        "#": [ { "field": "fd_scarlet_atmosphere" } ],
+        "T": [ { "field": "fd_scarlet_atmosphere" } ],
+        "a": [ { "field": "fd_scarlet_atmosphere" } ],
+        ".": [ { "field": "fd_scarlet_atmosphere" } ],
+        "~": [ { "field": "fd_scarlet_atmosphere" } ],
+        "f": [ { "field": "fd_scarlet_atmosphere" } ]
+      }
+    }
+  }
+]

@@ -112,5 +112,17 @@
     "components": [ [ [ "2x4", 4 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ], [ [ "nails", 8, "LIST" ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_table"
+  },
+  {
+    "type": "construction",
+    "id": "constr_solar_cooker",
+    "group": "build_solar_cooker",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "20 m",
+    "components": [ [ [ "solar_cooker", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_solar_cooker",
+    "activity_level": "MODERATE_EXERCISE"
   }
 ]

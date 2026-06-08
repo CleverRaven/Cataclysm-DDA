@@ -75,6 +75,9 @@
 #include "pimpl.h"
 #include "popup.h"
 #include "safemode_ui.h"
+#if defined(TILES)
+#include "sdltiles.h"
+#endif
 #include "stats_tracker.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -409,7 +412,6 @@ bool game::load( const save_t &name )
                         gamemode = std::make_unique<special_game>();
                     }
 
-                    safe_mode = get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF;
                     mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
 
                     init_autosave();
@@ -475,6 +477,15 @@ bool game::load( const save_t &name )
                     effect_on_conditions::load_existing_character( u );
                     // recalculate light level for correctly resuming crafting and disassembly
                     here.build_map_cache( here.get_abs_sub().z() );
+
+                    set_zoom( uistate.tileset_zoom );
+                    set_overmap_zoom( uistate.overmap_tileset_zoom );
+#if defined(TILES)
+                    // Ensure tileset display is synced with loaded zoom level
+                    rescale_tileset( uistate.tileset_zoom );
+                    overmap_tilecontext->set_draw_scale( uistate.overmap_tileset_zoom );
+#endif
+
                 }
             },
         }

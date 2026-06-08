@@ -11,7 +11,7 @@
         " ~~~~~~~~~~~___Á_,___Á_~",
         " #####O++O#~_____,_____~",
         " #cccc...]#~_____,_____~",
-        " #.......]#~~~~~~~~~~~~~",
+        " #§......]#~~~~~~~~~~~~~",
         " #e.c....]#############~",
         " #e.c.....yaaaaaaaaaaa#~",
         " #e.c.................O~",
@@ -19,7 +19,7 @@
         " #e...-.l....bbbbbbbbb#~",
         " #|+|||||||.||||||||###~",
         " #..y|]]]]].]]]]]]]]#~~~",
-        " #&.S|..............#~  ",
+        " #&.S|.............§#~  ",
         " #####]]]]].]]]]]]]]#~  ",
         "     #..............#~  ",
         "     Odh............O~  ",
@@ -75,7 +75,8 @@
       },
       "toilets": { "&": {  } },
       "place_items": [ { "item": "cash_register_random", "x": [ 7, 9 ], "y": 10, "chance": 100 } ],
-      "vehicles": { "Á": { "vehicle": "parking_garage_short", "chance": 33, "rotation": 90 } }
+      "vehicles": { "Á": { "vehicle": "parking_garage_short", "chance": 33, "rotation": 90 } },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -133,12 +134,12 @@
       "rows": [
         "ppppp''''''''~~'''''''''",
         "ppppp###---##++##---###'",
-        "ppppp#b.........v....P#'",
+        "ppppp#b§........v....P#'",
         "ppppp#b.b.b.r..r.o.o.P#'",
         "ppppp#b.b.b.c..c.o.o.P#'",
         "ppppp#..v.........v..P#'",
         "ppppp#l.lllll..hhhhh.P#'",
-        "ppppp#|=||...........P#'",
+        "ppppp#|=||..........§P#'",
         "ppppp#S.&|lll..hhhhhvP#'",
         "ppppp########++########'",
         "ppppp#HHHHHHH__HHHHHHH#4",
@@ -215,7 +216,8 @@
         "T": { "vehicle": "handjack", "chance": 20, "status": 1 },
         "V": { "vehicle": "flatbed_truck", "chance": 50, "status": 1, "rotation": 270 },
         "v": { "vehicle": "shopping_cart", "chance": 10, "status": 1 }
-      }
+      },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

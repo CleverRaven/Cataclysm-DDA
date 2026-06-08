@@ -7,7 +7,7 @@
         "u_query_tile": "line_of_sight",
         "range": {
           "math": [
-            "clamp( ( ( ( (u_spell_level('pyrokinetic_intensify_flames') + u_spell_level('pyrokinetic_intensify_flames_knack') ) * 1.1) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 1, 70)"
+            "clamp( ( ( ( (u_spell_level('pyrokinetic_intensify_flames') + u_spell_level('pyrokinetic_intensify_flames_knack') ) * 1.1) + 3) * psionic_power_modifiers() ), 1, 70)"
           ]
         },
         "message": "Choose target.",
@@ -43,7 +43,7 @@
           "EOC_PYROKIN_CAUTERIZE_LEFT_LEG",
           "EOC_PYROKIN_CAUTERIZE_RIGHT_LEG",
           "EOC_PYROKIN_CAUTERIZE_BODY",
-          "EOC_PORTAL_NULL_AWAKENING"
+          "EOC_MOM_NO_EFFECT"
         ],
         "names": [ "Left Arm", "Right Arm", "Head", "Left Leg", "Right Leg", "Torso", "Nevermind." ],
         "keys": [ "1", "2", "3", "4", "5", "6", "7" ],
@@ -609,7 +609,7 @@
           "EOC_SPELL_PYROKIN_SUMMON_HEAT_3",
           "EOC_SPELL_PYROKIN_SUMMON_HEAT_4",
           "EOC_SPELL_PYROKIN_BANISH_HEAT",
-          "EOC_PORTAL_NULL_AWAKENING"
+          "EOC_MOM_NO_EFFECT"
         ],
         "names": [
           "Minor thermogenesis",

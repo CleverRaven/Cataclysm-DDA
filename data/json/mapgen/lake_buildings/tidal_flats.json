@@ -1,0 +1,45 @@
+[
+  {
+    "type": "palette",
+    "id": "tidal_flats_palette",
+    "terrain": {
+      ".": [ [ "t_sand", 2 ], [ "t_water_sh", 1 ], [ "t_null", 1 ] ],
+      "o": [ [ "t_shore_boulder", 2 ], [ "t_shore_boulder_oyster", 1 ], [ "t_sand", 2 ], [ "t_null", 1 ] ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "mx_tidal_flat",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "          ....          ",
+        "        ........        ",
+        "       ...........      ",
+        "      .....ooo.o....    ",
+        "      ....ooooo.....    ",
+        "     ....o.oooo.....    ",
+        "     .....ooooo.....    ",
+        "     .....ooooo.....    ",
+        "     .....ooooo.....    ",
+        "      ....o.oo.....     ",
+        "      .....oo......     ",
+        "       ....oo......     ",
+        "       .....o.....      ",
+        "        ...o.....       ",
+        "         .......        ",
+        "           ...          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "tidal_flats_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_vehicles": [ { "vehicle": "canoe", "chance": 20, "x": 18, "y": 18, "rotation": 0 } ]
+    }
+  }
+]

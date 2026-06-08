@@ -21,7 +21,7 @@
     "recoil": 400,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "price_postapoc": "18 USD",
-    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF" ]
   },
   {
     "id": "afs_5x50heavy",

@@ -11,17 +11,17 @@
         "b..1SSSSSCTCSSSSCTCSTS.b",
         "b..1S111SSSSSCTCSSSSCS.b",
         "b.##+#o####OO#OO#OO###.b",
-        "b.#^,---|,ctc,,ctc,,^#.b",
+        "b.#^,---|,ctc,,ctc,§^#.b",
         "b.#{,,,,|,,,,,,,,,,,c#.b",
         "b.#{,,,,,,,,c,,,,,,,tO.b",
         "b.#{,,,,,,,ctc,,c,,,,O.b",
-        "b.#,,,,,|,,,c,,ctc,,c#.b",
+        "b.#,,,,§|,,,c,,ctc,,c#.b",
         "b.#-----|c,,,,,,c,,,t#.b",
         "b.#,,c,,|t,,,,c,,,,,c#.b",
         "b.#+|||||c,,,ctc,,,,,O.b",
         "b.# F@@K|,,,,,c,,,,c,O.b",
         "b.#     +,,,,,,,,,ctc#.b",
-        "b.#  @@@|^,ctc,,,,,c,#.b",
+        "b.#  @@@|^,ctc,,§,,c,#.b",
         "b.#+###||||||||+|||###.b",
         "b.1S&&#RRRR|Uv|,|vU#4..b",
         "b.1SSS+,,,,|  +,+  #...b",
@@ -86,7 +86,8 @@
         "t": { "item": "tea_dishes", "chance": 30, "repeat": [ 1, 2 ] },
         "T": { "item": "tea_dishes", "chance": 30, "repeat": [ 1, 2 ] },
         "U": { "item": "SUS_toilet", "chance": 50 }
-      }
+      },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -139,7 +140,7 @@
       "rows": [
         ".....SSS.......T.....T..",
         ".qqqqSSSqqqqqq|||OOO|||.",
-        ".q...TSS.T..Tz|c,$$$&C|.",
+        ".q...TSS.T..Tz|c§$$$&C|.",
         ".q.T..SSS@...zOtC,,,,t|T",
         ".q...TSSS.1T.zOtC,,,,C|.",
         "TqT...1SS1111z|c,,,,,Y|.",
@@ -150,7 +151,7 @@
         ".q..@.SS.111.z|c,,,,,Y|.",
         ".q...SSS1.1.TzOtC,,,,{|.",
         ".q..TSS....T.zOtC,,,,{|T",
-        ".q.T.SS.T....z|c,,,,,<|.",
+        ".q.T.SS.T....z|c,,§,,<|.",
         ".q..SSS..T..|||||###-||.",
         ".wwW,,Www...|};;;;;;;|..",
         ".wc,,,c,w..T|};F|;;;;|..",
@@ -216,7 +217,8 @@
         "c": { "item": "chair_torso", "chance": 10, "repeat": [ 1, 3 ] }
       },
       "place_signs": [ { "signage": "The Green Leaf Tea Shop", "x": 4, "y": 0 } ],
-      "place_loot": [ { "group": "cash_register_random", "x": [ 17, 19 ], "y": 14 } ]
+      "place_loot": [ { "group": "cash_register_random", "x": [ 17, 19 ], "y": 14 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

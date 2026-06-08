@@ -5,7 +5,7 @@
     "name": { "str": "Blood Suck", "//~": "NO_I18N" },
     "description": { "str": "Sucks blood from one foe.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "TOUCH_REQUIRED", "NO_LEGS" ],
     "damage_type": "stab",
     "min_damage": 5,
     "max_damage": 10,

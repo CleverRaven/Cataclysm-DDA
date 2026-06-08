@@ -10,12 +10,12 @@
         "ss_____-_____sssssssssss",
         "ss_____-_____sssssssssss",
         "s#===========#[[#===#sss",
-        "s#^..........^..^...#sss",
+        "s#^..........^..^..§#sss",
         "s#t..#.............&#sss",
         "s#C.B#.............D#sss",
         "s#ttt#....rrrr.....D#sss",
         "s#WWWWWWWWWWWt.....D#%ss",
-        "s#.................D#%ss",
+        "s#§................D#%ss",
         "s#WWWWWWWWWWWt.....D#sss",
         "s#.................D#LLs",
         "s#WWWWWWWWWWWt.....D#ass",
@@ -25,7 +25,7 @@
         "s#c...WWWWWWWt.....|lS#s",
         "s#6................+lT#s",
         "s#6...rrrrrrrr.....|||#s",
-        "s#V...rrrrrrrr.....|lS#s",
+        "s#V...rrrrrrrr....§|lS#s",
         "s#v................+lT#s",
         "s#############++#######s",
         "ssssssssssssssssssssssss"
@@ -91,7 +91,8 @@
         { "vehicle": "shopping_cart", "x": 15, "y": 12, "chance": 10 },
         { "vehicle": "shopping_cart", "x": 17, "y": 18, "chance": 10 },
         { "vehicle": "shopping_cart", "x": 17, "y": 21, "chance": 10 }
-      ]
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

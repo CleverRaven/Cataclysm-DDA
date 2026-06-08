@@ -27,6 +27,15 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CONDITION_CHECK_HOMULLUS_NEAR_FACTION_ON_OMT_ENTER",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": { "and": [ { "u_has_trait": "HOMULLUS" }, { "test_eoc": "EOC_CONDITION_HOMULLUS_NEAR_FACTION" } ] },
+    "effect": [ { "math": [ "u_homullus_is_near_faction = 1" ] } ],
+    "false_effect": [ { "math": [ "u_homullus_is_near_faction = 0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CONDITION_HOMULLUS_NEAR_FACTION",
     "condition": {
       "or": [
@@ -67,16 +76,6 @@
           "math": [ "( 3600 + (u_spell_level('homullus_self_deception_spell') * 900) ) * scaling_factor(u_val('perception') ) / 2" ]
         }
       }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_HOMULLUS_NO_TRACE_ON",
-    "condition": { "not": { "u_has_trait": "NO_TRACE_YET_I_WISH_active" } },
-    "effect": [ { "u_add_trait": "NO_TRACE_YET_I_WISH_active" }, { "u_message": "Your body stops producing scent.", "type": "good" } ],
-    "false_effect": [
-      { "u_lose_trait": "NO_TRACE_YET_I_WISH_active" },
-      { "u_message": "Your body begins producing scent.", "type": "neutral" }
     ]
   },
   {

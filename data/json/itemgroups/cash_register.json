@@ -39,5 +39,15 @@
     "subtype": "distribution",
     "id": "cash_register_random_ransacked",
     "items": [ { "group": "cash_register_looted", "prob": 30 }, { "group": "cash_register_empty", "prob": 20 }, [ "null", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "cash_register_impulse_buy_general",
+    "items": [
+      { "item": "gift_card", "count": [ 0, 60 ] },
+      { "group": "snacks", "count": [ 0, 20 ] },
+      { "group": "SUS_commercial_chewing_gum" }
+    ]
   }
 ]

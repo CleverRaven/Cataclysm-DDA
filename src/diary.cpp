@@ -392,9 +392,9 @@ void diary::stat_changes()
         const int prev = prevpage ? prevpage->*std::get<2>( stat ) : -1;
         const int curr = currpage->*std::get<2>( stat );
         if( !prevpage || prev == curr ) {
-            add_to_change_list( string_format( std::get<0>( stat ), curr ) );
+            add_to_change_list( string_format( std::get<0>( stat ).translated(), curr ) );
         } else {
-            add_to_change_list( string_format( std::get<1>( stat ), prev, curr ) );
+            add_to_change_list( string_format( std::get<1>( stat ).translated(), prev, curr ) );
         }
     }
     if( !flag ) {
@@ -548,7 +548,7 @@ time_accuracy diary::time_acc() const
 
 void diary::new_page()
 {
-    std::unique_ptr<diary_page> page( new diary_page() );
+    std::unique_ptr<diary_page> page = std::make_unique<diary_page>();
     page -> m_text = std::string();
     page -> turn = calendar::turn;
     page -> kills = g ->get_kill_tracker().kills;
@@ -690,7 +690,7 @@ void diary::deserialize( const JsonValue &jsin )
         pages.clear();
         add_summary_page();
         for( JsonObject elem : data.get_array( "pages" ) ) {
-            std::unique_ptr<diary_page> page( new diary_page() );
+            std::unique_ptr<diary_page> page = std::make_unique<diary_page>();
             page->m_text = elem.get_string( "text" );
             elem.read( "turn", page->turn );
             elem.read( "time_accuracy", page->time_acc );

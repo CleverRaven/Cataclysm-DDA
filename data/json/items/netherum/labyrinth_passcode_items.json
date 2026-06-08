@@ -1,0 +1,55 @@
+[
+  {
+    "type": "ITEM",
+    "id": "ls_sd_passcode",
+    "name": "holographic shard",
+    "category": "artifact",
+    "symbol": ",",
+    "color": "blue",
+    "description": "A palm-sized shard of alien glass, reflecting light in holographic prisms.  You think you can see something in its depths.  Activate it to look closer.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "anomaly" ],
+    "weight": "10 g",
+    "volume": "5 ml",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Study the shard",
+      "description": "Study the shard",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_LS_SD_PASSCODE",
+          "condition": { "not": { "compare_string": [ "yes", { "u_val": "ls_used_holographic_shard" } ] } },
+          "effect": [
+            {
+              "u_message": "You glance into the depths of the shard and there is a strange sensation, as if you were experiencing someone's memories, forcing their way into your mind.  They are too foreign for you to comprehend, and they quickly pass from your own memory.  But, you realize you now possess a Passcode.  You fail for a moment to reconcile this understanding, because it's no password as you previously understood it.  It is, in fact, the sound of KÁ!",
+              "popup": true
+            },
+            { "u_add_trait": "LS_Passcode_string_dimension" },
+            { "u_add_var": "ls_had_a_passcode", "value": "yes" },
+            { "u_add_var": "ls_used_holographic_shard", "value": "yes" },
+            { "transform_item": "ls_sd_passcode_used" }
+          ],
+          "false_effect": [
+            { "u_message": "You glance into the depths of the shard.  You don't see anything.", "popup": true },
+            { "transform_item": "ls_sd_passcode_used" }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "ITEM",
+    "id": "ls_sd_passcode_used",
+    "name": { "str": "holographic shard (used)", "str_pl": "holographic shards (used)" },
+    "category": "artifact",
+    "symbol": ",",
+    "color": "blue",
+    "description": "A palm-sized shard of alien glass, reflecting light in holographic prisms.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "anomaly" ],
+    "weight": "10 g",
+    "volume": "5 ml"
+  }
+]

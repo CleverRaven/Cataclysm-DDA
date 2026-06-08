@@ -527,20 +527,12 @@
     "effect": [
       {
         "set_string_var": "default",
-        "string_input": {
-          "title": { "str": "teleport to dimension named:" },
-          "description": { "str": "empty for main dimension" },
-          "width": 30
-        },
+        "string_input": { "title": { "str": "teleport to dimension named:" }, "description": { "str": "empty for main dimension" } },
         "target_var": { "u_val": "destination_dimension" }
       },
       {
         "set_string_var": "default",
-        "string_input": {
-          "title": { "str": "region type for the dimension?" },
-          "description": { "str": "empty for default region." },
-          "width": 30
-        },
+        "string_input": { "title": { "str": "region type for the dimension?" }, "description": { "str": "empty for default region." } },
         "target_var": { "u_val": "region_type" }
       },
       {
@@ -563,11 +555,7 @@
     "effect": [
       {
         "set_string_var": "",
-        "string_input": {
-          "title": { "str": "clear the dimension named:" },
-          "description": { "str": "the main dimension can't be cleared." },
-          "width": 30
-        },
+        "string_input": { "title": { "str": "clear the dimension named:" }, "description": { "str": "the main dimension can't be cleared." } },
         "target_var": { "u_val": "target_dimension" }
       },
       { "clear_dimension": { "u_val": "target_dimension" } },

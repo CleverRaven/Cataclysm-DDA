@@ -342,6 +342,13 @@
   {
     "type": "effect_on_condition",
     "id": "use_hair_dye_kit",
+    "condition": {
+      "and": [
+        { "not": { "u_has_trait": "EXODII_BODY_1" } },
+        { "not": { "u_has_trait": "EXODII_BODY_1b" } },
+        { "not": { "u_has_bionics": "bio_robofac_xmlens" } }
+      ]
+    },
     "effect": [
       {
         "run_eoc_selector": [
@@ -382,7 +389,8 @@
           "Don't do anything."
         ]
       }
-    ]
+    ],
+    "false_effect": { "u_message": "You don't have any hair to dye!" }
   },
   {
     "type": "effect_on_condition",

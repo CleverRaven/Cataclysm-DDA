@@ -1,0 +1,62 @@
+[
+  {
+    "type": "recipe",
+    "result": "shark_suit_faraday",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "crude_plastic_vest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "armor_pipe_vest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "vest_jean",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "vest_jean_mod",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "vest_jean_mod_ch",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shorts_denim",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "nomex_sockmitts",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "armor_riot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hat_hard_hooded",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rigid_kevlar_plate",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "nylon",
+    "obsolete": true
+  }
+]

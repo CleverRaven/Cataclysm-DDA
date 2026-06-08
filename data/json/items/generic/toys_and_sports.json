@@ -119,7 +119,7 @@
     "dispersion": 14,
     "loudness": 0,
     "recovery_chance": 98,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
+    "effects": [ "NON_FOULING" ],
     "thrown_damage": [ { "damage_type": "bash", "amount": 3 } ]
   },
   {
@@ -159,7 +159,7 @@
     "dispersion": 12,
     "loudness": 0,
     "recovery_chance": 99,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
+    "effects": [ "NON_FOULING" ],
     "thrown_damage": [ { "damage_type": "bash", "amount": 3 } ]
   },
   {

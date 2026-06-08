@@ -11,7 +11,7 @@
         "..#::::::::**::::::::#..",
         "..#y          y&y(y&y#..",
         "..#b          |||||||#..",
-        "..#J    &y&     c    #..",
+        "..#J    &y&   § c    #..",
         "..#J            cs  D#..",
         "..#J            c   y#..",
         "..#J    CyC     ccc  o..",
@@ -24,7 +24,7 @@
         "..o  WWWWWWWW  UI   B#..",
         "..#y           UI   B#..",
         "..#|||||||||   UI   B#..",
-        "..#cccccccc|b     |||#..",
+        "..#cccccccc|b    §|||#..",
         "..#            |+||dd#..",
         "..#+||+||+|||+||  + so..",
         "..# b| b| b|t_S|LL|D$#..",
@@ -39,7 +39,8 @@
       },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ],
       "vehicles": { " ": { "vehicle": "shopping_cart", "chance": 1, "status": 0 } },
-      "place_loot": [ { "group": "cash_register_random", "x": 16, "y": [ 5, 7 ] } ]
+      "place_loot": [ { "group": "cash_register_random", "x": 16, "y": [ 5, 7 ] } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -105,7 +106,7 @@
         "...#:::::::***:::::::#..",
         "...#c & &c|   |c&c & #..",
         "...#||||+||   ||||||+#..",
-        "...#  b| &        c  #..",
+        "...#  b| &        c§ #..",
         "...o   |          c  #..",
         "...# h +          c  #..",
         "...#b  |b         cs #..",
@@ -115,7 +116,7 @@
         "...#   +   & &   |d  o..",
         "...#  b|         +  [#..",
         "...#||||         | hd#..",
-        "...#b  +    hhb y|  b#..",
+        "...#b  +    hhb§y|  b#..",
         "...# h ||+||||||||[  #..",
         "...o   |S_|d[]b f|dh o..",
         "...#  b|t_|dh    +   ;..",
@@ -130,7 +131,8 @@
         "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
-      "place_loot": [ { "group": "cash_register_random", "x": 18, "y": [ 6, 9 ] } ]
+      "place_loot": [ { "group": "cash_register_random", "x": 18, "y": [ 6, 9 ] } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -193,7 +195,7 @@
         "------------------------",
         "..p--####:::++:::#......",
         "..p--#JJ|&      &#......",
-        "..p--#  |        #......",
+        "..p--#  |       §#......",
         "..p--#+||b  yA  y#......",
         "..p--# [c       h#......",
         "..p--#  c       h#......",
@@ -206,7 +208,7 @@
         "..p--;   h |+||||#......",
         ".....0  [[   +___#......",
         "....z#|+||i|||_St#......",
-        "....z#d |    #####......",
+        "....z#d |   §#####......",
         "....z#dh|LLLL#4zzz......",
         "....z##0######z.........",
         "........................",
@@ -219,7 +221,8 @@
         "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
-      "place_loot": [ { "group": "cash_register_random", "x": 7, "y": 7 } ]
+      "place_loot": [ { "group": "cash_register_random", "x": 7, "y": 7 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -291,12 +294,12 @@
         "***#]..]..]|].....-#****",
         "***#]..]..]|]..@..-#****",
         "***#]..]..]|]..T..-#****",
-        "***#].....]|].....-#****",
+        "***#]..§..]|].§...-#****",
         "***#|||||i|||i|||||#****",
         "***#dd|o.......+..]#****",
         "***#.h|o..TTh.F||||#****",
         "***O..|o..hh..}|ust#****",
-        "***#..+........+___O****",
+        "***#..+.....§..+___O****",
         "***######O#+########****",
         "******4***~~~***********",
         "**********~~~***********",
@@ -355,7 +358,8 @@
         { "item": "SUS_trash_trashcan_public", "x": 16, "y": 17, "chance": 75 },
         { "item": "cash_register_random", "x": 9, "y": [ 4, 5 ], "chance": 100 },
         { "item": "cash_register_random", "x": 13, "y": [ 6, 8 ], "chance": 100 }
-      ]
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -418,7 +422,7 @@
         "------------------------",
         "------------------------",
         ".#:::::**::::::**:::::#.",
-        ".#cy@c   c@y@ c   c@y@#.",
+        ".#cy@c§  c@y@ c   c@y@#.",
         ".#           sc       #.",
         ".#||||   c s  c    @c #.",
         ".#b  |   cccccc       #.",
@@ -427,7 +431,7 @@
         ".#||||  [[  RRR      R#.",
         ".o   |           [@  R#.",
         ".# h +           [@  R#.",
-        ".#b  |RRRRRRRR       R#.",
+        ".#b  |RRRRRRRR    §  R#.",
         ".###########||||+|||+|#.",
         ".zzzz4zzzzz#<|dd  ]|_S#.",
         "..........z#+|h   ]|_t#.",
@@ -445,7 +449,8 @@
         "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
-      "place_loot": [ { "group": "cash_register_random", "repeat": 2, "x": [ 10, 13 ], "y": 7 } ]
+      "place_loot": [ { "group": "cash_register_random", "repeat": 2, "x": [ 10, 13 ], "y": 7 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -553,17 +558,17 @@
         "*****rzr**~~~**rzr******",
         "*~~~~~~~~~~~~~~~~~~~~~~*",
         "*####===##:::##===#####*",
-        "*#[..f@.........@y|ddd#*",
+        "*#[.§f@.........@y|ddd#*",
         "*#[..........@....|h.h#*",
         "*#[...............+...#*",
         "*#||+||+|..@...@..|d..O*",
         "*#h..|u_|.........|dh.#*",
         "*#...|s_|..@...@..|]..#*",
-        "*#U..|t_|........y|]..#*",
+        "*#U..|t_|.......§y|]..#*",
         "*##O#####::##.|||||||.#*",
         "*zrzrzrzr~~r#.[[[[[[[.#*",
         "*********~~z#.........#4",
-        "*******&*~~r#.........#*",
+        "*******&*~~r#........§#*",
         "R********~~z#|+|||||+|#*",
         "******~~~~~r#....|...h#*",
         "******~~~~~z#h..U|U...#*",
@@ -639,7 +644,10 @@
         { "monster": "GROUP_MAYBE_ZOMBIE", "x": [ 13, 16 ], "y": [ 18, 19 ], "density": 1 },
         { "monster": "GROUP_MAYBE_ZOMBIE", "x": [ 18, 21 ], "y": [ 18, 19 ], "density": 1 }
       ],
-      "nested": { "R": { "chunks": [ [ "roof_6x6_garden_1", 95 ], [ "roof_6x6_garden_2", 5 ] ] } }
+      "nested": {
+        "R": { "chunks": [ [ "roof_6x6_garden_1", 95 ], [ "roof_6x6_garden_2", 5 ] ] },
+        "§": { "chunks": [ "fire_extinguisher" ] }
+      }
     }
   },
   {
@@ -701,7 +709,7 @@
         "----ppppp------ppppp----",
         "------------------------",
         "..#:::::::#**#:::::::#..",
-        "..#&ycy&       c&yy& #..",
+        "..#&ycy&       c&yy&§#..",
         "..#                  #..",
         "..#J  W          W  K#..",
         "..#J  W   cccc   W  K#..",
@@ -712,7 +720,7 @@
         "..#U  M     [&   M  I#..",
         "..#U  M     &[   M  I#..",
         "..#y                b#..",
-        "..#   b [[&         y#..",
+        "..#  §b [[&         y#..",
         "..#+|||||||||+||+||+|#..",
         "..#        l| h| h|_D#..",
         ".4#   h[[h l|  |  |__#..",
@@ -729,7 +737,8 @@
         "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "D": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
-      "place_loot": [ { "group": "cash_register_random", "x": [ 10, 13 ], "y": 7 } ]
+      "place_loot": [ { "group": "cash_register_random", "x": [ 10, 13 ], "y": 7 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

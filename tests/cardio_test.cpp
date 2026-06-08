@@ -154,7 +154,7 @@ TEST_CASE( "base_cardio", "[cardio][base]" )
     verify_default_cardio_options();
     Character &they = get_player_character();
 
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
 
     // Ensure no initial effects that would affect cardio
@@ -196,7 +196,7 @@ TEST_CASE( "cardio_is_and_is_not_affected_by_certain_traits", "[cardio][traits]"
     verify_default_cardio_options();
     Character &they = get_player_character();
 
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
 
     // Ensure no initial effects that would affect cardio

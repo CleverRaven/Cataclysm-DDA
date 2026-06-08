@@ -40,7 +40,6 @@
     "price": "160 USD",
     "material": [ "steel" ],
     "flags": [ "REACH_ATTACK", "WATERPROOF_GUN", "NEVER_JAMS", "NO_TURRET" ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "ammo": [ "arrow" ],
     "weight": "340 g",

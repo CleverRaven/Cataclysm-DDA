@@ -1,0 +1,725 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_modular_habitat_center_industry",
+    "object": {
+      "fill_ter": "t_metal_floor_no_roof",
+      "place_nested": [ { "chunks": [ "afs_modular_habitat_center_industry" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_modular_habitat_industry",
+    "object": {
+      "fill_ter": "t_metal_floor_no_roof",
+      "place_nested": [
+        {
+          "chunks": [ [ "afs_modular_habitat_reactor", 45 ], [ "afs_modular_habitat_laser_fab", 45 ], [ "afs_modular_habitat_dorm1", 45 ] ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_modular_habitat_biodiesel_straight",
+    "object": {
+      "fill_ter": "t_metal_floor_no_roof",
+      "place_nested": [ { "chunks": [ "afs_modular_habitat_biodiesel_straight" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_modular_habitat_biodiesel_end",
+    "object": {
+      "fill_ter": "t_metal_floor_no_roof",
+      "place_nested": [ { "chunks": [ "afs_modular_habitat_biodiesel_end" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_industry_roof",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "2.......................",
+        "...1       ..1       ...",
+        "...        ..        ...",
+        "...        ..        ...",
+        "..//       ..       //..",
+        "../        ..        /..",
+        "..//       ..       //..",
+        "...                  ...",
+        "...                  ...",
+        "...                  ...",
+        "..//                //..",
+        "../                  /..",
+        "../                  /..",
+        "..//                //..",
+        "...                  ...",
+        "...                  ...",
+        "...                  ...",
+        "..//                //..",
+        "../                  /..",
+        "..//                //..",
+        "...                  ...",
+        "...                  ...",
+        "...                  ...",
+        "..                    .."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure" ],
+      "terrain": { ".": "t_open_air", " ": "t_metal_floor_no_roof", "2": "t_open_air" },
+      "nested": {
+        "1": { "chunks": [ [ "afs_modular_habitat_stratoscomm", 1 ], [ "null", 9 ] ] },
+        "2": { "chunks": [ [ "afs_modular_habitat_roof_panels", 6 ], [ "afs_modular_habitat_roof_aerie", 1 ], [ "null", 10 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_center_industry",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "..---------!!---------..",
+        "..-   c- -    -~-~- ~-..",
+        "---   1-.-    -:-:-:----",
+        "---!------    -, , ,  *-",
+        "-p   =   h    ------  *-",
+        "- k  =  kkk       :,  *-",
+        "-hk  ],          ,------",
+        "-    ], ññññññññ ,= [..-",
+        "-kh  =  ññññññññ  ] [..-",
+        "-k   =  ññññññññ  =>[..-",
+        "------  -%-]]-   -------",
+        "!   ,   ---EE-      ,  !",
+        "!   ,    -eEE-      ,  !",
+        "-        ------        -",
+        "------   -6yy6-  -----#-",
+        "-  c ,           -lb,bl-",
+        "-U j ,           -lb bl-",
+        "-F j ----- ,, - --   bl-",
+        "-        =    - ,   ,bl-",
+        "-hyh,hyh =    -- --  bl-",
+        "-hyh,hyh =    -~ ~-  bl-",
+        "---      - ,, -~,~--#---",
+        "..-hyyh p-    -~ ~-< -..",
+        "..---------!!---------.."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing" ],
+      "terrain": {
+        " ": "t_metal_floor_no_roof",
+        ".": "t_open_air",
+        "e": "t_elevator_control",
+        "E": "t_elevator",
+        "ñ": "t_carpet_metal_red"
+      },
+      "computers": {
+        "1": {
+          "name": "ColNet access point",
+          "eocs": [ "EOC_GENERIC_SALVAGE_COMPUTER" ],
+          "chat_topics": [ "COMPUTER_GENERIC_SALVAGE_LOCKED" ]
+        }
+      },
+      "vendingmachines": { "6": { "item_group": "afs_vending_medicine", "reinforced": true, "powered": true, "networked": true } },
+      "monsters": { ",": { "monster": "AFS_GROUP_MOXIE_LOW_RISK", "chance": 15, "density": 0.1 } },
+      "place_nested": [
+        { "chunks": [ "afs_modular_habitat_center_industry_roof" ], "x": 0, "y": 0, "z": 1 },
+        { "chunks": [ "afs_modular_habitat_center_industry_roof_top" ], "x": 0, "y": 0, "z": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_center_industry_roof",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "..                    ..",
+        "..                    ..",
+        "                        ",
+        "           __     5     ",
+        "   3   3   __           ",
+        "           __           ",
+        "   3   3   __           ",
+        "                     __ ",
+        "                     __ ",
+        "                     __ ",
+        "         -----          ",
+        "         --..-  1  1  1 ",
+        "         --..-  1  1  1 ",
+        "         --  -  1  1  1 ",
+        "         ---#-441  1  1 ",
+        "               41  1  1 ",
+        "               4        ",
+        "     -222222222-44      ",
+        "                 4      ",
+        "     -222222222- 4      ",
+        "                 4      ",
+        "     -222222222- 4--#-  ",
+        "..               4-> -..",
+        "..                ----.."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure" ],
+      "terrain": {
+        " ": "t_metal_floor_no_roof",
+        ".": "t_open_air",
+        "_": "t_clearcrete_roof",
+        "1": "t_metal_floor_no_roof",
+        "2": "t_metal_floor_no_roof",
+        "3": "t_metal_floor_no_roof",
+        "4": "t_metal_floor_no_roof",
+        "5": "t_metal_floor_no_roof"
+      },
+      "furniture": {
+        "1": "f_solar_unit",
+        "2": "f_algae_bioreactor",
+        "3": "f_drone_recharge_station",
+        "4": "f_vent_pipe",
+        "5": "f_small_satellite_dish"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_center_industry_roof_top",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "..                    ..",
+        "..                    ..",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "         -----          ",
+        "         -1---          ",
+        "         -1---          ",
+        "         -1---          ",
+        "         -----          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                  ----  ",
+        "..                -5--..",
+        "..                ----.."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure" ],
+      "terrain": {
+        " ": "t_open_air",
+        ".": "t_open_air",
+        "e": "t_elevator_control",
+        "E": "t_elevator",
+        "-": "t_metal_floor_no_roof",
+        "1": "t_metal_floor_no_roof",
+        "5": "t_metal_floor_no_roof"
+      },
+      "furniture": { "1": "f_solar_unit", "5": "f_roof_turbine_vent" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_reactor",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "........................",
+        "...ÑÑÑÑÑÑÑÑ..ÑÑÑÑÑÑÑÑ...",
+        "...ÑE     Ñ..Ñ  77  Ñ...",
+        "...ÑE 99  Ñ..Ñ  55  Ñ...",
+        "..--  99  Ñ..Ñ  55  --..",
+        "..-8      Ñ..Ñ      8-..",
+        "..----!----..----!----..",
+        "...Ñ1k -2------2- k1Ñ...",
+        "...Ñ1   ,! -- !,   1Ñ...",
+        "...Ñ     - -- -     Ñ...",
+        "..---!-- -,  ,- --!---..",
+        "..-3  3- Ñ 00 Ñ -3  6-..",
+        "..-3  3- Ñ,  ,Ñ -3  6-..",
+        "..---!-- -ÑÑÑÑ- --!---..",
+        "...Ñ1   ,  41  ,   1Ñ...",
+        "...Ñ1              1Ñ...",
+        "...Ñ     -))))-     Ñ...",
+        "..--#-h ,      , h-#--..",
+        "..-  -hk  -  -  kh-  -..",
+        "..--#------éé------#--..",
+        "...= 3 3é-2   -é3 3 =...",
+        "...=, , é  ,,  é , ,=...",
+        "...= 3 3é-    -é3 3 =...",
+        "..//|||||-    -|||||//.."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing" ],
+      "terrain": {
+        ".": "t_open_air",
+        " ": "t_metal_floor",
+        "0": "t_nuclear_reactor",
+        "Ñ": "t_wall_prefab_glass_reinforced_l",
+        "é": "t_afs_security_gate_closed",
+        "!": "t_afs_door_metal_elocked"
+      },
+      "furniture": {
+        "1": "f_command_console_old",
+        "2": "f_security_panel",
+        "4": "f_command_console_old",
+        "5": "f_heatsink",
+        "3": "f_drone_recharge_station",
+        "6": "f_ancient_processor",
+        "7": "f_ancient_processor",
+        "8": "f_cryofluid_pump",
+        "9": "f_future_industy_pump",
+        "E": "f_machinery_electronic"
+      },
+      "monsters": { "3": { "monster": "AFS_GROUP_ROBOT_MODERATE_RISK", "chance": 2, "density": 0.06 } },
+      "place_nested": [ { "chunks": [ "afs_modular_habitat_industry_roof" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_laser_fab",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "........................",
+        "...========..--------...",
+        "...=  88  =..-  88  -...",
+        "...=  //  =7$-  --  -...",
+        "..--  88  =7$-  88  --..",
+        "..-3  //  =..-      3-..",
+        "..--  88  =..-      --..",
+        "...=  //  ----==]===-...",
+        "...=                -...",
+        "...= ,,          ,, -...",
+        "..---  -00000000-  ---..",
+        "..-     0 1  1 0     -..",
+        "..-% 5  0      0  6 %-..",
+        "..-- 5  0 1  1 0  6 --..",
+        "...=    0      0  6 =...",
+        "...= 5  0 1  1 0  6 =...",
+        "...= 5  ]      ]  6 =...",
+        "..--   --000000--   --..",
+        "..-2 ,,    ,,    ,,  -..",
+        "..---!!--      --  ---..",
+        "...=4  4-      -5   =...",
+        "...=4  4---!!--- ,, =...",
+        ".../4  4|     2|3333/...",
+        "..//|||||      |||||//.."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing" ],
+      "terrain": {
+        "0": "t_wall_clearcrete_alarm",
+        ".": "t_open_air",
+        "=": "t_wall_prefab_glass_reinforced",
+        " ": "t_metal_floor",
+        "!": "t_afs_door_metal_elocked"
+      },
+      "furniture": {
+        "1": "f_powder_fusion_forge",
+        "2": "f_security_panel",
+        "3": "f_rack",
+        "4": "f_rack",
+        "5": "f_metal_table",
+        "6": "f_metal_table",
+        "7": "f_heatsink",
+        "8": "f_security_panel",
+        "9": "f_cryo_storage_l"
+      },
+      "items": {
+        "3": { "item": "afs_tools_robot_maintenance", "chance": 33, "repeat": [ 2, 5 ] },
+        "4": { "item": "afs_laserlab_scrap", "repeat": [ 2, 5 ], "chance": 22 },
+        "5": { "item": "afs_tools_electric_repair", "chance": 33, "repeat": [ 2, 5 ] },
+        "6": { "item": "afs_common_material_scrapgroup", "chance": 33, "repeat": [ 2, 3 ] }
+      },
+      "monsters": { ",": { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "chance": 15, "density": 0.1 } },
+      "place_nested": [ { "chunks": [ "afs_modular_habitat_industry_roof" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_biodiesel_end",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "............[[[[........",
+        ".......000..[_4[........",
+        "..--___000__[__[....--..",
+        "..-....000..[__[.00__-..",
+        "..-.....2...[__[.00__-..",
+        "..--___000__[__[....--..",
+        "...._..000..[__/........",
+        "...._..000..[__/........",
+        "...._...2...[__[[[[[[...",
+        "..--___000..[_______--..",
+        "..-....000______11__<-..",
+        "..--___000..[_______--..",
+        "........2...[__[[[[[[...",
+        "........2...[__[........",
+        "........2...[__[........",
+        "........2...[__[........"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure" ],
+      "terrain": {
+        ".": "t_open_air",
+        "_": "t_grate",
+        ">": "t_ladder_down",
+        "<": "t_ladder_up",
+        "X": "t_ladder_up_down",
+        "2": "t_sewage_pipe"
+      },
+      "furniture": { "0": "f_storage_tank", "1": "f_cryofluid_pump", "3": "f_drone_recharge_station" },
+      "computers": {
+        "4": {
+          "name": "ColNet access point",
+          "eocs": [ "EOC_GENERIC_SALVAGE_COMPUTER" ],
+          "chat_topics": [ "COMPUTER_GENERIC_SALVAGE_LOCKED" ]
+        }
+      },
+      "place_nested": [
+        { "chunks": [ "afs_modular_habitat_biodiesel_end_1" ], "x": 0, "y": 0, "z": 1 },
+        { "chunks": [ "afs_modular_habitat_biodiesel_end_2" ], "x": 0, "y": 0, "z": 2 },
+        { "chunks": [ "afs_modular_habitat_biodiesel_end_3" ], "x": 0, "y": 0, "z": 3 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_biodiesel_end_1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        ".......00022222222......",
+        "..--___000[[_____2__--..",
+        "..-....000_[.....00..-..",
+        "..-....[___[.....0022-..",
+        "..--___000_[________--..",
+        "...._..000_[.........2..",
+        "...._..000_[.........2..",
+        "...._..[_<_[.........2..",
+        "..--___000_[[[[[[[[[--..",
+        "..-....000__________>-..",
+        "..--___000[[[__[[[[[--..",
+        "............[__[........",
+        "............[__[........",
+        "............[__[........",
+        "............[__[........"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure" ],
+      "terrain": {
+        "0": "t_grate",
+        ".": "t_open_air",
+        "_": "t_grate",
+        ">": "t_ladder_down",
+        "<": "t_ladder_up",
+        "X": "t_ladder_up_down",
+        "2": "t_sewage_pipe"
+      },
+      "furniture": { "0": "f_storage_tank" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_biodiesel_end_2",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        ".....[[[[[[[............",
+        ".....[_____[............",
+        ".....[_000_[............",
+        ".....[_000_[............",
+        ".....[_000_[.....ññ.....",
+        ".....[_<___[.....ññ.....",
+        ".....[_000_[............",
+        ".....[_000_[............",
+        ".....[_000_[............",
+        ".....[___>_[............",
+        ".....[_000_[............",
+        ".....[_000_[............",
+        ".....[_000_[............",
+        ".....[_____[............",
+        ".....[[[[[[[............",
+        "........................",
+        "........................"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure" ],
+      "terrain": {
+        "0": "t_grate",
+        ".": "t_open_air",
+        "_": "t_grate",
+        ">": "t_ladder_down",
+        "<": "t_ladder_up",
+        "X": "t_ladder_up_down",
+        "ñ": "t_metal_floor"
+      },
+      "furniture": { "0": "f_storage_tank" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_biodiesel_end_3",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        ".....[[[[[[[............",
+        ".....[_1__2[............",
+        ".....[_000_[............",
+        ".....[_000_[............",
+        ".....[_000_[............",
+        ".....[_>___[............",
+        ".....[_000_[............",
+        ".....[_000_[............",
+        ".....[_000_[............",
+        ".....[_____[............",
+        ".....[_000_[............",
+        ".....[_000_[............",
+        ".....[_000_[............",
+        ".....[___1_[............",
+        ".....[[[[[[[............",
+        "........................",
+        "........................"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure" ],
+      "terrain": {
+        "0": "t_grate",
+        "1": "t_grate",
+        "2": "t_grate",
+        ".": "t_open_air",
+        "_": "t_grate",
+        ">": "t_ladder_down",
+        "<": "t_ladder_up",
+        "X": "t_ladder_up_down"
+      },
+      "furniture": { "0": "f_storage_tank", "1": "f_cryofluid_pump" },
+      "items": { "2": { "item": "afs_dead_survivor", "chance": 5 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_biodiesel_straight_1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "............[__[........",
+        "............[__[[[......",
+        "......._____[____[[.....",
+        "......__--------__[[....",
+        ".....__--......--__[....",
+        ".....__--......--__[....",
+        "......__--------__[[....",
+        "......._____[____[[.....",
+        "............[__[[[......",
+        "............[__[........",
+        "..__________[,,[[[[[[[..",
+        "............[,,,,,,,,[..",
+        "............[,,,,2,,,[..",
+        "..__________[,,[[[[[[[..",
+        "............[,,[........",
+        "............[,,[[[00....",
+        "............[,,,_X00....",
+        "..__________[,,[[[[[__..",
+        "........000.[,,[........",
+        "..______000_[,,[______..",
+        "........000.[,,[..000...",
+        "............[,,[..000...",
+        "........[[[[[,,[[.000...",
+        "..//|||||       ||||//.."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure" ],
+      "terrain": {
+        ".": "t_open_air",
+        "0": "t_grate",
+        " ": "t_metal_floor_no_roof",
+        ",": "t_metal_floor_no_roof",
+        "_": "t_grate",
+        ">": "t_ladder_down",
+        "<": "t_ladder_up",
+        "X": "t_ladder_up_down"
+      },
+      "furniture": { "0": "f_storage_tank" },
+      "items": { "2": { "item": "afs_dead_survivor", "chance": 5 } },
+      "place_nested": [ { "chunks": [ "afs_modular_habitat_biodiesel_straight_2" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_biodiesel_straight_2",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "........1...............",
+        "........1...............",
+        "........1...............",
+        "........--------........",
+        ".......--......--.......",
+        ".......--......--.......",
+        "........--------........",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        ".................[[[[...",
+        "................[[__[[..",
+        "................[_00_[..",
+        "................[>00_[..",
+        "................[[__[[..",
+        "........000......[[[[...",
+        "........000.............",
+        "........000.............",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure" ],
+      "terrain": { "0": "t_grate", ".": "t_open_air", "_": "t_grate", ">": "t_ladder_down", "1": "t_sewage_pipe" },
+      "furniture": { "0": "f_storage_tank" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_biodiesel_straight",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "............[__[........",
+        ".....[[[[[[[[__[[[[.....",
+        "....[[____________[.....",
+        "....[___--------__[[....",
+        "..--[__--......--__[--..",
+        "..-___2--......--2___-..",
+        "..--[___--------___[--..",
+        "....[[____________[[....",
+        ".... [[[[[[[[__[[[[.....",
+        "............[__[........",
+        "..--[[[[[[../]]/==//--..",
+        "..-2____>[../   44k l-..",
+        "..-2_____[../       l-..",
+        "..--_3___[[[/  /////--..",
+        "...[_112____]  /........",
+        "...[_1___[[[/  /[[00....",
+        "...[_12[[[..=  /_X00....",
+        "..--_1.._...=  ]__[.--..",
+        "..-__1..000.=  /__[..-..",
+        "..--_111000_/  =__[.--..",
+        "...[_1..000./  =__000...",
+        "...[_1..$.../  /__000...",
+        "...[_1../////  /__000...",
+        "..//|||||      |||||//.."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing" ],
+      "terrain": {
+        ".": "t_open_air",
+        " ": "t_metal_floor_no_roof",
+        ">": "t_ladder_down",
+        "<": "t_ladder_up",
+        "X": "t_ladder_up_down",
+        "*": "t_metal_floor",
+        "_": "t_grate",
+        "1": "t_sewage_pipe"
+      },
+      "furniture": { "0": "f_storage_tank", "2": "f_cryofluid_pump", "3": "f_future_industy_pump", "4": "f_command_console_old" },
+      "place_nested": [
+        { "chunks": [ "afs_modular_habitat_biodiesel_straight_1" ], "x": 0, "y": 0, "z": 1 },
+        { "chunks": [ "afs_modular_habitat_biodiesel_straight_under" ], "x": 0, "y": 0, "z": -1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_biodiesel_straight_under",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........--------........",
+        "..--...--222222--...--..",
+        "..-____--222222--____-..",
+        "..--....--------....--..",
+        "........1..........._...",
+        ".....1111____________...",
+        ".....1.......00....._...",
+        "..--[1[[[[...00.....--..",
+        "..-..1[_<[....1......-..",
+        "..-..1[_[[...00......-..",
+        "..--.1[_[....0011100--..",
+        "......[_[.........00....",
+        "......[_[.......[[00....",
+        "......[_[[[[[[[[[<00....",
+        "..--..[___________[.--..",
+        "..-...[_000[[[[[[[[..-..",
+        "..--..[_000.........--..",
+        "......[_000.......000...",
+        "......[[[.........000...",
+        "........................",
+        "........................"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure" ],
+      "terrain": {
+        "0": "t_metal_floor_no_roof",
+        ".": "t_open_air",
+        ">": "t_ladder_down",
+        "<": "t_ladder_up",
+        "X": "t_ladder_up_down",
+        "_": "t_grate",
+        "1": "t_sewage_pipe",
+        "2": "t_toxic_water"
+      },
+      "furniture": { "0": "f_storage_tank" },
+      "monsters": { "2": { "monster": "GROUP_ROBOT_FARM_HOSTILE", "chance": 15, "density": 0.1 } }
+    }
+  }
+]

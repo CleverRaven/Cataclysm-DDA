@@ -61,6 +61,8 @@ enum class iteminfo_parts : size_t {
     AMMO_BARREL_DETAILS,
     AMMO_REMAINING_OR_TYPES,
     AMMO_DAMAGE_VALUE,
+    AMMO_DAMAGE_PELLETS,
+    AMMO_DAMAGE_TOTAL,
     AMMO_DAMAGE_PROPORTIONAL,
     AMMO_DAMAGE_CRIT_MULTIPLIER,
     AMMO_DAMAGE_AP,
@@ -248,6 +250,8 @@ enum class iteminfo_parts : size_t {
     DESCRIPTION_VEHICLE_PARTS,
 
     DESCRIPTION_MED_ADDICTING,
+
+    DESCRIPTION_ASCII_ART,
 
     // element count tracker
     NUM_VALUES

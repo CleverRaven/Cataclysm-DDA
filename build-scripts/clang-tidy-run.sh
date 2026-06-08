@@ -5,7 +5,11 @@
 echo "Using bash version $BASH_VERSION"
 set -exo pipefail
 
-num_jobs=3
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+repo_root="$(dirname "$script_dir")"
+
+num_jobs=${num_jobs:-3}
+build_dir=${CATA_BUILD_DIR:-build}
 
 # enable all the switches by default
 BACKTRACE=${BACKTRACE:-1}
@@ -14,26 +18,28 @@ TILES=${TILES:-1}
 SOUND=${SOUND:-1}
 
 # create compilation database (compile_commands.json)
-mkdir -p build
-cd build
+mkdir -p "$build_dir"
+build_dir="$(cd "$build_dir" && pwd)"
+export CATA_BUILD_DIR="$build_dir"
+cd "$build_dir"
 cmake \
     -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
     ${COMPILER:+-DCMAKE_CXX_COMPILER=$COMPILER} \
     -DCMAKE_BUILD_TYPE="Release" \
-    -DBACKTRACE=${BACKTRACE} \
-    -DLOCALIZE=${LOCALIZE} \
-    -DTILES=${TILES} \
-    -DSOUND=${SOUND} \
-    ..
-cd ..
-ln --force --symbolic build/compile_commands.json .
+    -DBACKTRACE="${BACKTRACE}" \
+    -DLOCALIZE="${LOCALIZE}" \
+    -DTILES="${TILES}" \
+    -DSOUND="${SOUND}" \
+    "$repo_root"
+cd "$repo_root"
+ln --force --symbolic "${build_dir}/compile_commands.json" .
 
-if [ ! -f build/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so ]
+if [ ! -f "${build_dir}/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so" ]
 then
     echo "Cata plugin not found. Assuming we're in CI and bailing out."
     echo "If you are running clang-tidy locally with no plugin, consider"
     echo "calling it explicitly with the files you care to check."
-    echo 'e.g. `clang-tidy src/item* tests/item*` '
+    echo "e.g. clang-tidy src/item* tests/item*"
     exit 1
 fi
 
@@ -50,7 +56,7 @@ set +x
 
 # Check for changes to any files that would require us to run clang-tidy across everything
 changed_global_files="$( ( cat ./files_changed || echo 'unknown' ) | \
-    egrep -i "clang-tidy-build.sh|clang-tidy-run.sh|clang-tidy-wrapper.sh|clang-tidy.yml|.clang-tidy|files_changed|get_affected_files.py|CMakeLists.txt|CMakePresets.json|unknown" || true )"
+    grep -Ei "clang-tidy-build.sh|clang-tidy-run.sh|clang-tidy-wrapper.sh|clang-tidy.yml|.clang-tidy|files_changed|get_affected_files.py|CMakeLists.txt|CMakePresets.json|unknown" || true )"
 if [ -n "$changed_global_files" ]
 then
     first_changed_file="$(echo "$changed_global_files" | head -n 1)"
@@ -58,7 +64,7 @@ then
     TIDY="all"
 fi
 
-all_cpp_files="$(jq -r '.[].file | select(contains("third-party") | not)' build/compile_commands.json)"
+all_cpp_files="$(jq -r '.[].file | select(contains("third-party") | not)' "${build_dir}/compile_commands.json")"
 if [ "$TIDY" == "all" ]
 then
     echo "Analyzing all files"
@@ -66,12 +72,12 @@ then
 else
     make \
         --silent \
-        -j $num_jobs \
-        ${COMPILER:+COMPILER=$COMPILER} \
-        BACKTRACE=${BACKTRACE} \
-        LOCALIZE=${LOCALIZE} \
-        TILES=${TILES} \
-        SOUND=${SOUND} \
+        -j "$num_jobs" \
+        ${COMPILER:+COMPILER="$COMPILER"} \
+        BACKTRACE="${BACKTRACE}" \
+        LOCALIZE="${LOCALIZE}" \
+        TILES="${TILES}" \
+        SOUND="${SOUND}" \
         includes
 
     tidyable_cpp_files="$( \

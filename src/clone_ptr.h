@@ -18,7 +18,9 @@ class clone_ptr
         clone_ptr( const clone_ptr &other ) : p_( other.p_ ? other.p_->clone() : nullptr ) {}
         clone_ptr( clone_ptr && ) noexcept = default;
         clone_ptr &operator=( const clone_ptr &other ) {
-            p_ = other.p_ ? other.p_->clone() : nullptr;
+            if( this != &other ) {
+                p_ = other.p_ ? other.p_->clone() : nullptr;
+            }
             return *this;
         }
         clone_ptr &operator=( clone_ptr && ) noexcept = default;

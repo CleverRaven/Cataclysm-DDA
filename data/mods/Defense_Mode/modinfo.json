@@ -7,6 +7,7 @@
     "authors": [ "Whales", "MNG-cataclysm" ],
     "maintainers": [ "MNG-cataclysm" ],
     "category": "total_conversion",
+    "obsolete": true,
     "dependencies": [ "dda" ]
   }
 ]

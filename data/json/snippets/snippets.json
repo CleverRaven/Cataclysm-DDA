@@ -472,7 +472,7 @@
       { "id": "dog_name_0016", "text": "Benji" },
       { "id": "dog_name_0017", "text": "Bentley" },
       { "id": "dog_name_0018", "text": "Bingo" },
-      { "id": "dog_name_0019", "text": "Blue" },
+      { "id": "dog_name_0019", "text": { "ctxt": "dog_name", "str": "Blue" } },
       { "id": "dog_name_0020", "text": "Bo" },
       { "id": "dog_name_0021", "text": "Bonnie" },
       { "id": "dog_name_0022", "text": "Boomer" },

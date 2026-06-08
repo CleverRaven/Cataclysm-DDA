@@ -9,14 +9,14 @@
         " #gggggggGgggggggggggg# ",
         " #A..........CTC.CTC.p# ",
         " #A...................w ",
-        " #....................# ",
+        " #...................§# ",
         " #+|||-c-c-c-c-c||||..# ",
-        " #.....l.l.l.l.l|s.+..w ",
+        " #..§..l.l.l.l.l|s.+..w ",
         " #..............|..|..# ",
-        " #..ccccccccp...|£.|..# ",
+        " #..ccccccccp§..|£.|..# ",
         " #|||||||||||||+||||%%# ",
         " #.....*..............# ",
-        " w.....|..............# ",
+        " w.....|.....§........# ",
         " #.TTT.|....||+||+||+## ",
         " #p.C.p|....|......|.c# ",
         " #||||||....|...CT.|.c# ",
@@ -24,14 +24,15 @@
         " #R$$$R|....||||||||||# ",
         " #R___R|....|........p# ",
         " #R___R|....|..C.C.C..# ",
-        " #Rt__MM....|..TTTTTC.# ",
+        " #Rt__MM...§|..TTTTTC.# ",
         " #Rt__MM...|||.C.C.C..w ",
         "4#RRRRR|6..+<|p......p# ",
         " ###############w####w# ",
         "                        "
       ],
       "palettes": [ "bank_palette" ],
-      "terrain": { " ": [ [ "t_region_groundcover_urban", 10 ], "t_region_shrub_decorative" ] }
+      "terrain": { " ": [ [ "t_region_groundcover_urban", 10 ], "t_region_shrub_decorative" ] },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -120,21 +121,21 @@
         " ggGGgggggggggg#######  ",
         " gA.........ccx.|....## ",
         " gA........C-C..+....p# ",
-        " gA.........ccx.|aca..##",
+        " gA....§....ccx.|aca..##",
         " #|||%||...C-C..|aca..Dw",
         " #LL|.d-....ccx.|aca..Dw",
         " #..%.C-...C-C..|.....Dw",
-        " #LL|xx-....%...|ee...##",
+        " #LL|xx-....%..§|ee...##",
         " #||||||hGh|||||||||%|# ",
         " #£.*..+...|1   |dx...# ",
         " #|||.s|...|    |dC...# ",
         " #£.*.s|...|    |d..Cx# ",
         "##||||||...h    ||.ddd# ",
         "#RRRRRR|...G    |..||## ",
-        "#R$$$$R|...h    |..xd#  ",
+        "#R$$$$R|§..h    |..xd#  ",
         "#R____R||%||+||||..Cd#  ",
         "#R_tt_R|...|.ddd|..pd#  ",
-        "#R_tt_R|...|.pCx|..||#  ",
+        "#R_tt_R|...|.pCx|§.||#  ",
         "#R_tt_MM...%.........#  ",
         "#R____MM...|..C..|xCp#  ",
         "#R$$$$R|6..|pddxp|ddd#  ",
@@ -143,7 +144,10 @@
       ],
       "palettes": [ "bank_palette" ],
       "terrain": { " ": "t_region_groundcover_urban" },
-      "nested": { "1": { "chunks": [ [ "bank_office_nest_no_safe", 3 ], [ "bank_office_nest_safe", 7 ] ] } }
+      "nested": {
+        "1": { "chunks": [ [ "bank_office_nest_no_safe", 3 ], [ "bank_office_nest_safe", 7 ] ] },
+        "§": { "chunks": [ "fire_extinguisher" ] }
+      }
     }
   },
   {

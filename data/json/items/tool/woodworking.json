@@ -65,7 +65,7 @@
           "id": "EOC_toolweapon_activate__chainsaw",
           "condition": { "and": [ { "math": [ "rng(0, 10) - n_damage_level() > 5" ] }, { "not": "u_is_underwater" }, "has_ammo" ] },
           "effect": [
-            { "turn_cost": 0.8 },
+            { "turn_cost": { "math": [ "0.8" ] } },
             { "u_make_sound": "With a roar, the chainsaw screams to life!", "type": "combat", "volume": 20 },
             { "u_message": "With a roar, the chainsaw screams to life!" },
             { "transform_item": "chainsaw_on", "active": true },
@@ -234,7 +234,11 @@
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
     "power_draw": "1200 W",
     "revert_to": "circsaw_off",
-    "qualities": [ [ "CUT", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -40 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1, "speed": 0.5 },
+      { "id": "SAW_W", "level": 2, "speed": 0.3 },
+      { "id": "BUTCHER", "level": -40 }
+    ],
     "use_action": { "target": "circsaw_off", "msg": "Your %s goes quiet.", "menu_text": "Turn off", "type": "transform" },
     "tick_action": {
       "type": "effect_on_conditions",
@@ -364,7 +368,7 @@
           "effect": {
             "run_eocs": "EOC_toolweapon_activate",
             "variables": {
-              "turn_cost": 0.6,
+              "turn_cost": { "math": [ "0.6" ] },
               "transform_target": "elec_chainsaw_on",
               "success_message": { "i18n": true, "str": "With a roar, the electric chainsaw screams to life!" },
               "volume": 20,
@@ -435,7 +439,7 @@
             "effect": {
               "run_eocs": "EOC_toolweapon_activate",
               "variables": {
-                "turn_cost": 0.6,
+                "turn_cost": { "math": [ "0.6" ] },
                 "transform_target": "elec_chainsaw_cord_on",
                 "success_message": { "i18n": true, "str": "With a roar, the corded electric chainsaw screams to life!" },
                 "volume": 20,

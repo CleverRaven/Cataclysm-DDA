@@ -218,8 +218,8 @@ TEST_CASE( "bionic_weapons", "[bionics] [weapon] [item]" )
         bionic &customizable_bionic = dummy.bionic_at_index( dummy.my_bionics->size() - 1 );
         REQUIRE_FALSE( dummy.get_bionics().empty() );
         REQUIRE_FALSE( dummy.has_weapon() );
-        item::FlagsSetType *allowed_flags = const_cast<item::FlagsSetType *>
-                                            ( &customizable_weapon_bionic_id->installable_weapon_flags );
+        std::set<json_character_flag> *allowed_flags = const_cast<std::set<json_character_flag> *>
+                ( &customizable_weapon_bionic_id->installable_weapon_flags );
         allowed_flags->insert( json_flag_PSEUDO );
 
         GIVEN( "weapon bionic allows installation of new weapons" ) {

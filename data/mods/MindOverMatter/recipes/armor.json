@@ -23,7 +23,7 @@
     "components": [
       [ [ "matrix_crystal_telepath_dust_refined", 6 ] ],
       [ [ "matrix_crystal_teleport_dust_refined", 2 ] ],
-      [ [ "matrix_crystal_teleportation", 1 ] ],
+      [ [ "matrix_crystal_teleportation", 1 ], [ "matrix_crystal_teleportation_artifact", 1 ] ],
       [ [ "steel_chunk_any", 2, "LIST" ], [ "steel_lump_any", 1, "LIST" ] ]
     ],
     "flags": [ "SECRET" ]

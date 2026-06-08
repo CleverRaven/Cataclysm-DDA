@@ -1,0 +1,150 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "underwear",
+    "groups": [ [ "female_underwear", 50 ], [ "male_underwear", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "female_underwear",
+    "groups": [ "female_underwear_top", "female_underwear_bottom" ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "female_underwear_child",
+    "groups": [ "female_underwear_top_child", "female_underwear_bottom" ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "male_underwear",
+    "groups": [ "male_underwear_top", "male_underwear_bottom" ]
+  },
+  {
+    "type": "item_group",
+    "id": "female_underwear_top",
+    "items": [ [ "corset", 5 ], [ "binder_top", 1 ], [ "corset_waist", 5 ], { "group": "female_underwear_top_child", "prob": 190 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "female_underwear_top_child",
+    "items": [
+      [ "bra", 70 ],
+      [ "sports_bra", 50 ],
+      [ "camisole", 30 ],
+      [ "halter_top", 30 ],
+      { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 70, "event": "independence_day" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "female_underwear_bottom",
+    "items": [
+      [ "panties", 70 ],
+      [ "boy_shorts", 50 ],
+      { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 2 },
+      { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 70, "event": "independence_day" },
+      { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 70, "event": "independence_day" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "male_underwear_top",
+    "items": [
+      [ "undershirt", 50 ],
+      [ "binder_top", 2 ],
+      [ "long_undertop", 20 ],
+      [ "thermal_shirt", 10 ],
+      [ "under_armor", 20 ],
+      [ "tank_top", 50 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "male_underwear_bottom",
+    "items": [
+      [ "boxer_shorts", 70 ],
+      { "item": "boxer_shorts", "variant": "flag_boxer_shorts", "prob": 5 },
+      { "item": "boxer_shorts", "variant": "flag_boxer_shorts", "prob": 100, "event": "independence_day" },
+      [ "briefs", 30 ],
+      [ "boxer_briefs", 50 ],
+      [ "long_underpants", 20 ],
+      [ "under_armor_shorts", 20 ]
+    ]
+  },
+  {
+    "id": "underwear_unisex",
+    "type": "item_group",
+    "//": "unisex underwear",
+    "subtype": "distribution",
+    "items": [
+      { "item": "thermal_suit", "prob": 1 },
+      { "item": "thermal_outfit", "prob": 1 },
+      { "item": "long_undertop", "prob": 30 },
+      { "item": "under_armor", "prob": 10 },
+      { "item": "undershirt", "prob": 40 },
+      { "item": "under_armor_shorts", "prob": 10 },
+      { "item": "long_underpants", "prob": 30 }
+    ]
+  },
+  {
+    "id": "underwear_womens",
+    "type": "item_group",
+    "//": "women's underwear.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "boy_shorts", "prob": 30 },
+      { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 2 },
+      { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 100, "event": "independence_day" },
+      { "item": "bra", "prob": 60 },
+      { "item": "panties", "prob": 70 },
+      { "group": "bikini", "prob": 55 },
+      { "item": "flag_swimsuit", "prob": 5 },
+      { "item": "camisole", "prob": 30 },
+      { "item": "corset", "prob": 10 },
+      { "item": "corset_waist", "prob": 10 },
+      { "item": "sports_bra", "prob": 50 },
+      { "item": "stockings", "prob": 20 },
+      { "item": "garter_belt", "prob": 10 },
+      { "item": "tights", "prob": 20 },
+      { "group": "costume_independence_undergarments_women", "prob": 70, "event": "independence_day" },
+      { "group": "costume_undergarments_women", "prob": 70, "event": "halloween" }
+    ]
+  },
+  {
+    "id": "underwear_mens",
+    "type": "item_group",
+    "//": "men's underwear.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "boxer_briefs", "prob": 30 },
+      { "item": "boxer_shorts", "prob": 50 },
+      { "item": "boxer_shorts", "variant": "flag_boxer_shorts", "prob": 5 },
+      { "item": "boxer_shorts", "variant": "flag_boxer_shorts", "prob": 100, "event": "independence_day" },
+      { "item": "briefs", "prob": 50 },
+      { "item": "trunks", "prob": 10 },
+      { "item": "swim_briefs", "prob": 5 },
+      { "item": "speedo", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "loincloth",
+    "items": [ [ "loincloth", 2 ], [ "loincloth_wool", 1 ], [ "loincloth_fur", 1 ], [ "loincloth_leather", 1 ] ]
+  },
+  {
+    "id": "socks_unisex",
+    "type": "item_group",
+    "//": "unisex socks",
+    "subtype": "distribution",
+    "items": [
+      { "item": "socks", "prob": 70 },
+      { "item": "socks_ankle", "prob": 50 },
+      { "item": "socks_wool", "prob": 30 },
+      { "item": "thermal_socks", "prob": 1 }
+    ]
+  }
+]

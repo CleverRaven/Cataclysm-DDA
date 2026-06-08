@@ -475,5 +475,18 @@
     "material": [ "gold" ],
     "weight": "385 g",
     "volume": "20 ml"
+  },
+  {
+    "type": "ITEM",
+    "id": "string_dimension_computer",
+    "name": { "str": "otherworldly box", "str_pl": "otherworldly boxes" },
+    "description": "An extremely heavy cube with rounded edges, made of a very dense metal.  It has a swing-open door that hides neatly packaged electronics of some unknown design.",
+    "symbol": "p",
+    "color": "dark_gray",
+    "weight": "40 kg",
+    "volume": "10 L",
+    "price": "100 USD",
+    "material": [ "plastic", "unobtanium" ],
+    "category": "spare_parts"
   }
 ]

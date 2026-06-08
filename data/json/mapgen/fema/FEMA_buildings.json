@@ -26,14 +26,15 @@
         ".#  12F#.#  12F#.#  12F#",
         ".#+#####.#+#####.#+#####",
         ".o    g#.o    g#.o    g#",
-        ".#tS9  #.#tS9  #.#tS9  #",
+        ".#tS9 §#.#tS9 §#.#tS9 §#",
         ".#######.#######.#######",
         ".^.......^.......^......"
       ],
       "palettes": [ "standard_domestic_migration_palette" ],
       "terrain": { ".": "t_railroad_rubble", "_": "t_railroad_rubble", "#": "t_wall_w", "Á": "t_railroad_rubble" },
       "place_nested": [ { "chunks": [ "fema_housing_roof" ], "x": 0, "y": 0, "z": 1 } ],
-      "vehicles": { "Á": { "vehicle": "suburban_home", "chance": 75, "rotation": 90 } }
+      "vehicles": { "Á": { "vehicle": "suburban_home", "chance": 75, "rotation": 90 } },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -81,30 +82,30 @@
         ".#pppp  do   #@n@n@n@n#.",
         ".#      do   #@ @ @ @ #.",
         ".#     hdo   #        #.",
-        ".#  ppp co   #        #.",
+        ".# §ppp co   #       §#.",
         ".#+########*##        #.",
         ".#           # @ @ @ @#.",
         ".#           + @n@n@n@#.",
         ".#########   ##########.",
-        ".#       +   +     d p#.",
-        ".#  hh  Y#   #     dh #.",
+        ".#    §  +   +     d p#.",
+        ".#  hh  Y#   #     dh§#.",
         ".# hTTh  #   #     d  #.",
-        ".# hTTh  #   #       !#.",
+        ".# hTTh  #   #§      !#.",
         ".#  hh   #   #R R  r r#.",
         ".#       #   #R R  r r#.",
         ".#       #   #R R  r r#.",
         ".#  hh   #!  #R R  r r#.",
         ".# hTTh  ###+#R R  r r#.",
         ".# hTTh  #   #R R  r r#.",
-        ".#  hh   #   #        #.",
-        ".#      Y#tS #qqqqqqqq#.",
+        ".#  hh   #   #§       #.",
+        ".#    § Y#tS #qqqqqqqq#.",
         ".######################.",
         "........................"
       ],
       "terrain": {
         ".": "t_railroad_rubble",
         "#": "t_wall_w",
-        "*": [ [ "t_door_metal_c", 1 ], [ "t_door_metal_interior_locked", 2 ] ],
+        "*": [ [ "t_door_metal_c", 1 ], [ "t_door_metal_locked", 2 ] ],
         "+": [ "t_door_c", "t_door_locked_interior" ],
         "§": "t_card_military",
         "o": "t_reinforced_glass"
@@ -139,7 +140,8 @@
       "item": { "d": { "item": "id_military", "chance": 20 } },
       "monster": { "!": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } } },
       "toilets": { "t": {  } },
-      "place_nested": [ { "chunks": [ "fema_military_building_roof" ], "x": 0, "y": 0, "z": 1 } ]
+      "place_nested": [ { "chunks": [ "fema_military_building_roof" ], "x": 0, "y": 0, "z": 1 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -185,7 +187,7 @@
         "........................",
         ".#$$$$$$$$###########*#.",
         ".#        &      !    #.",
-        ".#           É        #.",
+        ".#           É       §#.",
         ".#          rr  rr   r#.",
         ".#          rr  rr   r#.",
         ".#          rr  rr   r#.",
@@ -201,8 +203,8 @@
         ".#          rr  rr   r#.",
         ".#          rr  rr   r#.",
         ".#          rr  rr   r#.",
-        ".#          rr  rr   r#.",
-        ".#            É       #.",
+        ".#§         rr  rr   r#.",
+        ".#            É      §#.",
         ".#rrrrrrrrr!         !#.",
         ".######################.",
         "........................"
@@ -232,7 +234,8 @@
         "É": { "vehicle": "forklift_vehicles", "chance": 75, "rotation": 0 }
       },
       "monster": { "!": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } } },
-      "place_nested": [ { "chunks": [ "fema_storage_roof" ], "x": 0, "y": 0, "z": 1 } ]
+      "place_nested": [ { "chunks": [ "fema_storage_roof" ], "x": 0, "y": 0, "z": 1 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -283,7 +286,7 @@
         "........................",
         "...!................!...",
         ".#####............#####.",
-        ".#  do............od  #.",
+        ".#§ do............od §#.",
         ".# hdo............odh #.",
         ".#  do............od  #.",
         ".#p c#............#c p#.",
@@ -308,7 +311,8 @@
       },
       "item": { "d": { "item": "id_military", "chance": 20 } },
       "monster": { "!": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 0, 6 ] } ] } } },
-      "place_nested": [ { "chunks": [ "fema_entrance_roof" ], "x": 0, "y": 0, "z": 1 } ]
+      "place_nested": [ { "chunks": [ "fema_entrance_roof" ], "x": 0, "y": 0, "z": 1 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

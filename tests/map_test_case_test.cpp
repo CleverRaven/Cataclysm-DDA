@@ -100,7 +100,7 @@ TEST_CASE( "map_test_case_transform_consistency", "[map_test_case]" )
     );
     neigh_vec.push_back( tripoint::zero );
     CHECK_THAT( std::vector<tripoint>( tiles.begin(), tiles.end() ),
-                Catch::UnorderedEquals( neigh_vec ) );
+                Catch::Matchers::UnorderedEquals( neigh_vec ) );
 
     tst.for_each_tile( [&]( mtc::tile t ) {
         CHECK( t.expect_c == t.setup_c );

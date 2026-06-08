@@ -11,11 +11,11 @@
 #include "debug.h"
 #include "enums.h"
 #include "string_formatter.h"
+#include "translation.h"
 
 class Creature;
 class JsonObject;
 class JsonOut;
-class translation;
 
 namespace catacurses
 {
@@ -55,7 +55,7 @@ inline void add_msg( const char *const msg, Args &&... args )
 template<typename ...Args>
 inline void add_msg( const translation &msg, Args &&... args )
 {
-    return add_msg( string_format( msg, std::forward<Args>( args )... ) );
+    return add_msg( string_format( msg.translated(), std::forward<Args>( args )... ) );
 }
 
 void add_msg( const game_message_params &params, std::string msg );
@@ -172,12 +172,19 @@ inline T &&clang_tidy_no_translations( T &&t )
 #define add_msg_debug_if(condition, type, ...)                                                          \
     do {                                                                                                \
         if( debug_mode && Messages::has_debug_filter( type ) && ( condition ) ) {                       \
-            Messages::add_msg( m_debug, clang_tidy_no_translations( string_format( __VA_ARGS__ ) ) );   \
+            std::string cata_dbg_msg = clang_tidy_no_translations( string_format( __VA_ARGS__ ) );      \
+            Messages::add_msg( m_debug, cata_dbg_msg );                                                 \
+            debug_menu::log_debug_msg( type, cata_dbg_msg );                                            \
         }                                                                                               \
     } while( false )
 
 #define add_msg_debug(type, ...) \
     add_msg_debug_if( true, type, __VA_ARGS__ )
+
+namespace debug_menu
+{
+void log_debug_msg( debugmode::debug_filter type, const std::string &msg );
+} // namespace debug_menu
 
 void modify_msg_with_exclamations( std::string &msg, game_message_type type );
 

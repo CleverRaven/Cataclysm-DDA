@@ -148,7 +148,7 @@ void follower_rules_ui_impl::print_hotkey( input_event &hotkey )
     // Padding spaces intentional, so it's obvious that the fake "Hotkey:" header refers to these.
     // TODO: Just reimplement everything as a table...? Would avoid this sort of thing.
     // But surely not *everything* needs to be a table...
-    cataimgui::draw_colored_text( string_format( "  %s  ",
+    cataimgui::draw_colored_text( string_format( "  %c  ",
                                   static_cast<char>( hotkey.sequence.front() ) ),
                                   c_green );
     ImGui::SameLine();
@@ -315,7 +315,7 @@ void follower_rules_ui_impl::checkbox( int rule_number, const T &this_rule,
 }
 
 template<typename T>
-void follower_rules_ui_impl::radio_group( const std::string header_id, const char *title, T *rule,
+void follower_rules_ui_impl::radio_group( const std::string &header_id, const char *title, T *rule,
         std::map<T, std::string> &values, input_event &assigned_hotkey, const input_event &pressed_key )
 {
     ImGui::Separator();

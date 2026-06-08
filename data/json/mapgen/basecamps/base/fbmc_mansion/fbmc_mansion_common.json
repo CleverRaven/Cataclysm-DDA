@@ -12,7 +12,8 @@
         "     "
       ],
       "terrain": { "f": "t_dirtmound" },
-      "furniture": { "f": "f_clear" }
+      "furniture": { "f": "f_clear" },
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {

@@ -38,9 +38,9 @@ Scaled Multi-Octave Simplex noise functions scale the values returned from the
 traditional (-1,1) range to whichever range is passed to the function.
 
 In many cases, you may think you only need a 1D noise function, but in practice
-2D  is almost always better.  For instance, if you're using the current frame
-number  as the parameter for the noise, all objects will end up with the same
-noise value  at each frame. By adding a second parameter on the second
+2D is almost always better.  For instance, if you're using the current frame
+number as the parameter for the noise, all objects will end up with the same
+noise value at each frame. By adding a second parameter on the second
 dimension, you can ensure that each gets a unique noise value and they don't
 all look identical.
 */

@@ -10,6 +10,7 @@
       { "group": "GROUP_BUGS_SUBTERRANEAN", "weight": 175 },
       { "monster": "mon_mutant_experimental", "weight": 25 },
       { "monster": "mon_mole_cricket", "weight": 60 },
+      { "monster": "mon_mole", "weight": 60 },
       { "monster": "mon_woodlouse", "weight": 60, "pack_size": [ 1, 4 ] },
       { "monster": "mon_stag_beetle_larva", "weight": 40 },
       { "monster": "mon_pickerel_frog", "weight": 200, "pack_size": [ 2, 4 ] }
@@ -148,6 +149,9 @@
       { "group": "GROUP_STRAY_CATS", "weight": 10 },
       { "group": "GROUP_STRAY_CATS", "weight": 1, "pack_size": [ 2, 8 ] },
       { "monster": "mon_ferret", "weight": 1, "cost_multiplier": 5 },
+      { "monster": "mon_shrew", "weight": 1, "cost_multiplier": 5 },
+      { "monster": "mon_mole", "weight": 1, "cost_multiplier": 5 },
+      { "monster": "mon_porcupine", "weight": 1, "cost_multiplier": 5 },
       { "monster": "mon_chipmunk", "weight": 30, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "group": "GROUP_STRAY_DOGS", "weight": 6, "cost_multiplier": 25, "pack_size": [ 1, 6 ] },
       { "group": "GROUP_HORSES", "weight": 1, "cost_multiplier": 15, "pack_size": [ 1, 4 ] },

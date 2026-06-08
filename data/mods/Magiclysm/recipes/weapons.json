@@ -106,6 +106,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "sharped_bone",
+    "charges": 10,
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
     "skill_used": "fabrication",

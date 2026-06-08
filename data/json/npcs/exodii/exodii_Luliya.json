@@ -20,7 +20,8 @@
       { "trait": "EXODII_BODY_2" },
       { "trait": "IGNORE_SOUND" },
       { "trait": "NO_BASH" },
-      { "trait": "RETURN_TO_START_POS" }
+      { "trait": "RETURN_TO_START_POS" },
+      { "trait": "NPC_STASIS" }
     ],
     "common": false,
     "bonus_str": { "rng": [ 0, 6 ] },
@@ -122,7 +123,8 @@
     "speaker_effect": {
       "effect": [
         { "u_add_var": "general_meeting_u_met_luliya", "value": "yes" },
-        { "math": [ "u_timer_meeting_luliya_music_timer = time('now')" ] }
+        { "math": [ "u_timer_meeting_luliya_music_timer = time('now')" ] },
+        { "npc_lose_trait": "NPC_STASIS" }
       ]
     },
     "responses": [

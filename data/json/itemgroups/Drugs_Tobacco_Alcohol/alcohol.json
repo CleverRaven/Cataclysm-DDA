@@ -1,0 +1,171 @@
+[
+  {
+    "type": "item_group",
+    "id": "alcohol",
+    "//": "all comestible alcohol -- packaged, mixed and homemade",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "alcohol_bottled_canned", "prob": 376 },
+      { "group": "mixed_alcoholic_drinks", "prob": 141 },
+      { "item": "dandelion_wine", "prob": 8 },
+      { "item": "hb_beer", "prob": 8 },
+      { "item": "hb_seltzer", "prob": 8 },
+      { "item": "moonshine", "prob": 8 },
+      { "item": "brandied_fruit", "prob": 2, "charges": 12, "container-item": "jar_3l_glass_sealed" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "alcohol_bottled_canned",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "liquor_and_spirits", "prob": 108 },
+      { "group": "wines_worthy", "prob": 39 },
+      { "group": "beer_in_container", "prob": 141 },
+      { "group": "misc_alcohol", "prob": 88 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "wines_worthy",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "wine_riesling", "prob": 20 },
+      { "item": "wine_chardonnay", "prob": 30 },
+      { "item": "wine_cabernet", "prob": 30 },
+      { "item": "wine_noir", "prob": 20 },
+      { "item": "wine_vermouth", "prob": 25 },
+      { "item": "wine_marsala", "prob": 15 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "liquor_and_spirits",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "whiskey", "prob": 16 },
+      { "item": "vodka", "prob": 20 },
+      { "item": "gin", "prob": 20 },
+      { "item": "rum", "prob": 14 },
+      { "item": "tequila", "prob": 12 },
+      { "item": "triple_sec", "prob": 12 },
+      { "item": "brandy", "prob": 12 },
+      { "item": "single_malt_whiskey", "prob": 2, "container-item": "bottle_glass" },
+      { "item": "single_pot_whiskey", "prob": 10 },
+      { "item": "cheap_whiskey", "prob": 10 },
+      { "item": "canadian_whiskey", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "misc_alcohol",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bum_wine", "prob": 20 },
+      { "item": "pine_wine", "prob": 6 },
+      { "item": "fruit_wine", "prob": 12 },
+      { "item": "mead", "prob": 10 },
+      { "item": "sherry", "prob": 10 },
+      { "item": "bristol_sherry", "prob": 5 },
+      { "item": "madeira", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mixed_alcoholic_drinks",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "drink_rumcola", "prob": 12 },
+      { "item": "drink_screwdriver", "prob": 12 },
+      { "item": "drink_wild_apple", "prob": 8 },
+      { "item": "long_island", "prob": 6 },
+      { "item": "drink_strawberry_surprise", "prob": 6 },
+      { "item": "drink_boozeberry", "prob": 6 },
+      { "item": "drink_gintonic", "prob": 12 },
+      { "item": "drink_pinacolada", "prob": 10 },
+      { "item": "drink_tequilasunrise", "prob": 8 },
+      { "item": "drink_hobo", "prob": 10 },
+      { "item": "drink_kalimotxo", "prob": 10 },
+      { "item": "drink_beeknees", "prob": 8 },
+      { "item": "drink_wsour", "prob": 8 },
+      { "item": "eggnog_spiked", "prob": 5 },
+      { "item": "drink_martini", "prob": 10 }
+    ]
+  },
+  {
+    "id": "any_beer",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "beer", 35 ],
+      [ "european_pilsner", 25 ],
+      [ "drink_hard_seltzer", 25 ],
+      [ "pale_ale", 25 ],
+      [ "india_pale_ale", 25 ],
+      [ "stout", 15 ],
+      [ "belgian_ale", 10 ],
+      [ "imperial_stout", 4 ],
+      [ "wine_barley", 2 ]
+    ]
+  },
+  {
+    "id": "beer_in_container_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "any_beer", "container-item": "bottle_glass" },
+      { "group": "any_beer", "container-item": "bottle_glass_330ml" },
+      { "group": "any_beer", "container-item": "can_drink" }
+    ]
+  },
+  {
+    "id": "beer_in_container",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "any_beer", "container-item": "bottle_glass", "charges": [ 1, -1 ] },
+      { "group": "any_beer", "container-item": "bottle_glass_330ml", "charges": [ 1, -1 ] },
+      { "group": "any_beer", "container-item": "can_drink", "charges": [ 1, -1 ] }
+    ]
+  },
+  {
+    "id": "beer_in_six_pack_rings",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "six_pack_rings",
+    "entries": [
+      { "prob": 35, "container-item": "can_drink", "count": 6, "item": "beer" },
+      { "prob": 25, "container-item": "can_drink", "count": 6, "item": "european_pilsner" },
+      { "prob": 25, "container-item": "can_drink", "count": 6, "item": "drink_hard_seltzer" },
+      { "prob": 25, "container-item": "can_drink", "count": 6, "item": "pale_ale" },
+      { "prob": 25, "container-item": "can_drink", "count": 6, "item": "india_pale_ale" },
+      { "prob": 15, "container-item": "can_drink", "count": 6, "item": "stout" },
+      { "prob": 10, "container-item": "can_drink", "count": 6, "item": "belgian_ale" },
+      { "prob": 4, "container-item": "can_drink", "count": 6, "item": "imperial_stout" },
+      { "prob": 2, "container-item": "can_drink", "count": 6, "item": "wine_barley" }
+    ]
+  },
+  {
+    "id": "beer_in_six_pack_cardboard",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_medium",
+    "entries": [
+      { "prob": 35, "container-item": "bottle_glass_330ml", "count": 6, "item": "beer" },
+      { "prob": 25, "container-item": "bottle_glass_330ml", "count": 6, "item": "european_pilsner" },
+      { "prob": 25, "container-item": "bottle_glass_330ml", "count": 6, "item": "drink_hard_seltzer" },
+      { "prob": 25, "container-item": "bottle_glass_330ml", "count": 6, "item": "pale_ale" },
+      { "prob": 25, "container-item": "bottle_glass_330ml", "count": 6, "item": "india_pale_ale" },
+      { "prob": 15, "container-item": "bottle_glass_330ml", "count": 6, "item": "stout" },
+      { "prob": 10, "container-item": "bottle_glass_330ml", "count": 6, "item": "belgian_ale" },
+      { "prob": 4, "container-item": "bottle_glass_330ml", "count": 6, "item": "imperial_stout" },
+      { "prob": 2, "container-item": "bottle_glass_330ml", "count": 6, "item": "wine_barley" }
+    ]
+  },
+  {
+    "id": "beer_in_six_pack",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "beer_in_six_pack_rings" }, { "group": "beer_in_six_pack_cardboard" } ]
+  }
+]

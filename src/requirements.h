@@ -248,6 +248,11 @@ struct requirement_data {
             return id_;
         }
 
+        /** Optional human-readable name (e.g. "Heat source" for surface_heat).
+         *  Empty if not set in JSON. */
+        const std::string &display_name() const;
+        bool has_display_name() const;
+
         /** null requirements are always empty (were never initialized) */
         bool is_null() const {
             return id_.is_null();
@@ -347,6 +352,12 @@ struct requirement_data {
         bool can_make_with_inventory( const read_only_visitable &crafting_inv,
                                       const std::function<bool( const item & )> &filter, int batch = 1,
                                       craft_flags = craft_flags::none, bool restrict_volume = true ) const;
+        /**
+         * Returns true if there are enough item_comp in the crafting_inv for this recipe.
+         * @param filter should be recipe::get_component_filter() if used with a recipe, as above.
+         */
+        bool check_enough_materials( const item_comp &comp, const read_only_visitable &crafting_inv,
+                                     const std::function<bool( const item & )> &filter, int batch = 1 ) const;
 
         /** @param filter see @ref can_make_with_inventory */
         std::vector<std::string> get_folded_components_list( int width, nc_color col,
@@ -391,14 +402,13 @@ struct requirement_data {
 
     private:
         requirement_id id_ = requirement_id::NULL_ID(); // NOLINT(cata-serialize)
+        translation name_; // NOLINT(cata-serialize)
 
         bool blacklisted = false;
 
         bool check_enough_materials( const read_only_visitable &crafting_inv,
                                      const std::function<bool( const item & )> &filter, int batch = 1,
                                      bool restrict_volume = true ) const;
-        bool check_enough_materials( const item_comp &comp, const read_only_visitable &crafting_inv,
-                                     const std::function<bool( const item & )> &filter, int batch = 1 ) const;
 
         template<typename T>
         static void check_consistency( const std::vector< std::vector<T> > &vec,

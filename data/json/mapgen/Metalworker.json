@@ -11,7 +11,7 @@
         "_8888^^^^^8_-P.k...P|_8_",
         "_8__________+..kh..N|_8_",
         "_8__________-b.kk.||||8_",
-        "_8________s_|b....|.t|8_",
+        "_8________s_|b...§|.t|8_",
         "_8__|=====%||n....+.S|8_",
         "_8__|.....sLLR...|||||8_",
         "_8__|..............q|<8_",
@@ -20,7 +20,7 @@
         "_8__|q.......Q.Q.#.m|_8_",
         "_8__|q.......Q.Q....|_8_",
         "_8__|q.............P|_8_",
-        "_8_U|........?||+-|||_8_",
+        "_8_U|§.......?||+-|||_8_",
         "_8_U|R....sRm?|...HHP_8_",
         "_8_4|=====%|--|......_8_",
         "_8________s___________8_",
@@ -49,8 +49,8 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
-        "3": "f_machinery_heavy",
-        "1": "f_machinery_old",
+        "3": [ [ "f_machinery_heavy", 70 ], [ "f_steel_kiln", 30 ] ],
+        "1": [ [ "f_machinery_old", 80 ], [ "f_steel_kiln", 20 ] ],
         "H": "f_bench",
         "S": "f_sink",
         "#": "f_stool",
@@ -94,7 +94,8 @@
         { "item": "metal_workshop", "x": [ 13, 13 ], "y": [ 11, 13 ], "chance": 30, "repeat": [ 2, 10 ] }
       ],
       "place_vehicles": [ { "vehicle": "workshop_vehicles", "x": [ 6, 11 ], "y": [ 9, 15 ], "chance": 50, "fuel": 20, "status": 0 } ],
-      "place_monsters": [ { "monster": "GROUP_FERROUS", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 4 } ]
+      "place_monsters": [ { "monster": "GROUP_FERROUS", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 4 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

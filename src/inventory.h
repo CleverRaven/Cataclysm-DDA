@@ -145,6 +145,14 @@ class inventory : public visitable
         // returns a reference to the added item
         item &add_item( item newit, bool keep_invlet = false, bool assign_invlet = true,
                         bool should_stack = true );
+        // Bulk variant of add_item for callers ingesting many items at once
+        // (json save load, form_from_map). Preserves source order within each
+        // typeId bucket to match add_item's per-item invlet inheritance.
+        // Supports keep_invlet=true,assign_invlet=false and
+        // keep_invlet=false,assign_invlet=false; other combinations fall
+        // through to repeated add_item calls.
+        void add_items_bulk( std::vector<item> items_in, bool keep_invlet = false,
+                             bool assign_invlet = true, bool should_stack = true );
         void add_item_keep_invlet( const item &newit );
         void push_back( const item &newit );
 

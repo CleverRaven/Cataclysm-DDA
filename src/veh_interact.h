@@ -95,8 +95,6 @@ class veh_interact
                 const part_selector &sel,
                 const std::string &title = std::string() );
 
-        static void do_change_shape_menu( vehicle_part &vp );
-
     private:
         explicit veh_interact( map &here, vehicle &veh, const point_rel_ms &p = point_rel_ms::zero );
         ~veh_interact();
@@ -256,6 +254,9 @@ class veh_interact
 
             /** Writes any extra details for this entry */
             std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details;
+
+            /** Number of additional rows past the title row that details writes. */
+            std::function<int( const vehicle_part &pt )> extra_rows;
 
             /** Writes to message window when part is selected */
             std::function<void( const vehicle_part &pt )> message;

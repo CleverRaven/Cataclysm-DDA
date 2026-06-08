@@ -466,7 +466,7 @@
     "name": { "str": "Seed Bearer Real", "//~": "NO_I18N" },
     "description": { "str": "The actual spell that calls forth seeds.  It's a bug if you have it.", "//~": "NO_I18N" },
     "skill": "deduction",
-    "flags": [ "SPAWN_GROUP" ],
+    "flags": [ "SPAWN_GROUP", "PERMANENT" ],
     "valid_targets": [ "self" ],
     "effect": "spawn_item",
     "effect_str": "farming_seeds",

@@ -87,7 +87,7 @@ directed_path<point> greedy_path( const point &source, const point &dest, const 
  */
 template<typename Point, typename = std::enable_if_t<Point::dimension == 2>>
 directed_path<Point> greedy_path( const Point &source, const Point &dest, const Point &max,
-                                  two_node_scoring_fn<Point> scorer )
+                                  const two_node_scoring_fn<Point> &scorer )
 {
     directed_path<Point> res;
     const two_node_scoring_fn<point> point_scorer

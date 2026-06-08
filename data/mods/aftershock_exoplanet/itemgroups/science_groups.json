@@ -7,5 +7,10 @@
       { "group": "afs_biomedical_scrapgroup", "prob": 10 },
       { "group": "afs_advanced_biomaterial_scrapgroup", "prob": 2 }
     ]
+  },
+  {
+    "id": "bio_templates_lab",
+    "type": "item_group",
+    "items": [ [ "afs_template_bio1_expendable", 10 ], [ "afs_template_bio1", 1 ] ]
   }
 ]

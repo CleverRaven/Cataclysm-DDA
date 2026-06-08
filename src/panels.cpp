@@ -572,6 +572,8 @@ void panel_manager::deserialize( const JsonArray &ja )
             for( auto it2 = layout.begin() + std::distance( layout.begin(), it ); it2 != layout.end(); ++it2 ) {
                 if( it2->get_id() == id ) {
                     if( it->get_id() != id ) {
+                        // Copy is intentional: layout.erase( it2 ) below invalidates *it2.
+                        // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
                         window_panel panel = *it2;
                         layout.erase( it2 );
                         it = layout.insert( it, panel );

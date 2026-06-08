@@ -298,7 +298,7 @@ static void test_multi_spawn( const mtype_id &old_mon, int range, int min, int m
     calendar::start_of_game = calendar::turn_zero;
 
     for( int i = 0; i < upgrade_attempts; i++ ) {
-        clear_map();
+        clear_map_without_vision();
         map &m = get_map();
         calendar::turn = start;
         const tripoint_bub_ms ground_zero = get_player_character().pos_bub() - tripoint( 5, 5, 0 );

@@ -45,6 +45,7 @@
       "furniture": { "£": "f_magic_brambles", "€": [ [ "f_diesel_generator", 2 ], [ "f_null", 1 ] ] },
       "place_item": [
         { "item": "plant_imbuement", "x": 10, "y": 8, "chance": 65 },
+        { "item": "manual_arvore_lashing_bough", "x": 8, "y": 14, "chance": 2 },
         { "item": "alchemy_recipe_plant_imbuement", "x": 13, "y": 11, "chance": 50 }
       ],
       "place_nested": [

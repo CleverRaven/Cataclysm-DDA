@@ -15,7 +15,7 @@
         "222222222222222222222222",
         "222222222222222222222222",
         ".####11111111####gg##222",
-        ".#HH           1 ooV#2<2",
+        ".#HH§          1 ooV#2<2",
         ".#HH  A  A  A  1 ooW#+##",
         ".#HH  A  A  A  ||gg|| L#",
         ".#HH  A  A  A    oo |+|#",
@@ -25,7 +25,7 @@
         ".#HH  HH            ||##",
         ".#    HH AAAAAAAAA   a#.",
         ".#+||                a#.",
-        ".# B|AAAAAAAAAAAAA   a#.",
+        ".# B|AAAAAAAAAAAAA§  a#.",
         ".##################+###.",
         "...Z...........2UU22U...",
         "........................"
@@ -83,7 +83,8 @@
         "K": { "item": "SUS_office_filing_cabinet", "chance": 30 },
         "L": { "item": "cleaning", "chance": 20, "repeat": [ 2, 4 ] }
       },
-      "place_items": [ { "item": "cash_register_random", "x": [ 16, 19 ], "y": 15, "chance": 100 } ]
+      "place_items": [ { "item": "cash_register_random", "x": [ 16, 19 ], "y": 15, "chance": 100 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

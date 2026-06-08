@@ -193,5 +193,27 @@
       [ [ 5, 3 ], "Kills: <total_kills>" ]
     ],
     "last_words_label": "Last Words:"
+  },
+  {
+    "type": "end_screen",
+    "id": "botched_exodii_surgery",
+    "priority": 200,
+    "picture_id": "ascii_tombstone",
+    "condition": { "and": [ { "not": "u_is_alive" }, { "u_has_effect": "a_turncoat_to_the_end" } ] },
+    "added_info": [
+      [ [ 6, 6 ], "In memory of: <u_name>" ],
+      [ [ 6, 7 ], "Survived: <time_survived>" ],
+      [ [ 6, 8 ], "Kills: <total_kills>" ],
+      [ [ 7, 10 ], "When the birds and the beasts" ],
+      [ [ 7, 11 ], "had made peace," ],
+      [ [ 7, 12 ], "the fraud appeared" ],
+      [ [ 7, 13 ], "to both kinds;" ],
+      [ [ 7, 14 ], "therefore," ],
+      [ [ 8, 15 ], "condemned," ],
+      [ [ 9, 16 ], "he fled from both," ],
+      [ [ 10, 17 ], "and from that time on" ],
+      [ [ 11, 18 ], "flew only at night." ]
+    ],
+    "last_words_label": "Last Words:"
   }
 ]

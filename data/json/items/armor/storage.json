@@ -807,6 +807,97 @@
     "melee_damage": { "bash": 5 }
   },
   {
+    "id": "laptop_hard_case",
+    "type": "ITEM",
+    "//": "Based on Pelican 1495 Protector Laptop Case",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "laptop hard case" },
+    "description": "A rugged hard case for a laptop, frequently used by military, scientists, and others working in the field.  This model is waterproof and lined with impact-resistant foam.  The shoulder strap is current cinched up so it can be carried by hand.  Activate it to extend the shoulder strap.",
+    "weight": "3800 g",
+    "volume": "29740 ml",
+    "longest_side": "55 cm",
+    "price": "240 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "plastic_shopping_bag",
+    "color": "light_gray",
+    "sided": true,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "fire_protection": true,
+        "max_contains_volume": "16 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "48 cm",
+        "moves": 200
+      }
+    ],
+    "material_thickness": 6,
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY", "STURDY" ],
+    "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
+    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 8 },
+    "use_action": {
+      "type": "transform",
+      "msg": "You extend the shoulder strap.",
+      "menu_text": "Extend shoulder strap",
+      "target": "laptop_hard_case_shoulder",
+      "moves": 120
+    }
+  },
+  {
+    "id": "laptop_hard_case_shoulder",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "laptop hard case" },
+    "copy-from": "laptop_hard_case",
+    "description": "A rugged hard case for a laptop, frequently used by military, scientists, and others working in the field.  This model is waterproof and lined with impact-resistant foam.  The shoulder strap is extended to be worn on the side.  Activate it to wear it on your back.",
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 4,
+        "volume_encumber_modifier": 0.25,
+        "coverage": 40,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You move the bag to your back.",
+      "menu_text": "Switch to back",
+      "target": "laptop_hard_case_back",
+      "moves": 120
+    }
+  },
+  {
+    "id": "laptop_hard_case_back",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "laptop hard case" },
+    "copy-from": "laptop_hard_case",
+    "description": "A rugged hard case for a laptop, frequently used by military, scientists, and others working in the field.  This model is waterproof and lined with impact-resistant foam.  The shoulder strap is extended to be worn on the back.  Activate it cinch the strap and carry it by the handle.",
+    "armor": [
+      {
+        "encumbrance": 4,
+        "volume_encumber_modifier": 0.25,
+        "coverage": 60,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You cinch up the shoulder strap.",
+      "menu_text": "Cinch the shoulder strap",
+      "target": "laptop_hard_case",
+      "moves": 120
+    }
+  },
+  {
     "id": "case_violin",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -1664,8 +1755,8 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "armrig",
-    "name": { "str": "small leg purse" },
-    "description": "A small purse that can be worn on the upper leg using buckled straps, easier to use than on the arm.  For those who want to wear a dress without pockets while carrying their phone and money.  Use it to adjust it to fit your arm.",
+    "name": { "str": "small leg pouch", "str_pl": "small leg pouches" },
+    "description": "A small pouch that can be worn on the upper leg using buckled straps, easier to use than on the arm.  For those who want to wear a dress without pockets while carrying their phone and money.  Use it to adjust it to fit your arm.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1687,7 +1778,7 @@
     ],
     "use_action": {
       "type": "transform",
-      "msg": "You adjust your %s to wear it on your arm.",
+      "msg": "You adjust your purse to wear it on your arm.",
       "target": "armrig",
       "menu_text": "Adjust on the arm"
     }
@@ -1696,7 +1787,7 @@
     "id": "armrig",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "armband pouch", "str_pl": "armband pouches" },
+    "name": { "str": "small armband pouch", "str_pl": "small armband pouches" },
     "description": "A small pouch that can be worn on the upper arm using buckled straps.  This is a favored item among sports & camping enthusiasts.  Use it to adjust it to fit your leg.",
     "weight": "205 g",
     "volume": "550 ml",
@@ -1729,7 +1820,7 @@
     ],
     "use_action": {
       "type": "transform",
-      "msg": "You adjust your %s to wear it on your leg.",
+      "msg": "You adjust your purse to wear it on your leg.",
       "target": "leg_small_bag",
       "menu_text": "Adjust on the leg"
     }
@@ -1933,6 +2024,14 @@
         "max_item_length": "50 cm",
         "magazine_well": "5 L",
         "moves": 300
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "7 L",
+        "max_contains_weight": "10 kg",
+        "max_item_length": "30 cm",
+        "moves": 300,
+        "description": "Front pocket."
       },
       {
         "//": "hydration pouch storage",

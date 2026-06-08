@@ -1,0 +1,34 @@
+[
+  {
+    "id": "spell_components_hedge_luck_spell",
+    "type": "requirement",
+    "tools": [ [ [ "candle_lit", -1 ] ], [ [ "survival_marker", 8 ] ] ],
+    "components": [ [ [ "copper", 1 ] ], [ [ "paper", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_clairvoyance_cone",
+    "type": "requirement",
+    "tools": [ [ [ "sharp_rock", -1 ], [ "primitive_knife", -1 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_raziel_amulet_protection",
+    "type": "requirement",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
+    "components": [
+      [ [ "hard_liquor", 3, "LIST" ] ],
+      [ [ "eggs_bird", 1, "LIST" ] ],
+      [ [ "apple", 1 ], [ "lemon", 1 ] ],
+      [ [ "copper_necklace", 1 ] ]
+    ]
+  },
+  {
+    "id": "spell_components_hedge_prevent_wild_animal_attacks",
+    "type": "requirement",
+    "components": [ [ [ "feces_roach", 3 ], [ "feces_manure", 3 ], [ "feces_dog", 3 ], [ "feces_cow", 3 ], [ "feces_bird", 3 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_extinguish_fire_spell",
+    "type": "requirement",
+    "components": [ [ [ "ash", 25 ] ], [ [ "morningflower_leaves_smoked", 2 ] ] ]
+  }
+]

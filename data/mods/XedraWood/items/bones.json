@@ -1,0 +1,50 @@
+[
+  {
+    "type": "ITEM",
+    "id": "skull_dino_pred_med",
+    "name": { "str": "dragon-bird skull" },
+    "description": "The skull of a dragon-bird with sharp teeth.",
+    "category": "spare_parts",
+    "looks_like": "skull_human",
+    "weight": "2 kg",
+    "volume": "2800 ml",
+    "symbol": "@",
+    "color": "white",
+    "price": "20 cent",
+    "price_postapoc": "20 cent",
+    "material": [ "bone" ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ] ]
+  },
+  {
+    "type": "ITEM",
+    "id": "skull_dino_pred_small",
+    "name": { "str": "smaller dragon-bird skull" },
+    "description": "A smaller dragon-bird skull with sharp teeth.",
+    "category": "spare_parts",
+    "looks_like": "skull_human",
+    "weight": "1 kg",
+    "volume": "1400 ml",
+    "symbol": "@",
+    "color": "white",
+    "price": "10 cent",
+    "price_postapoc": "10 cent",
+    "material": [ "bone" ],
+    "qualities": [ [ "CUT_FINE", 1 ] ]
+  },
+  {
+    "type": "ITEM",
+    "id": "skull_dino_pred_large",
+    "name": { "str": "larger dragon-bird skull" },
+    "description": "The skull of a larger dragon-bird with sharp teeth.",
+    "category": "spare_parts",
+    "looks_like": "skull_human",
+    "weight": "4 kg",
+    "volume": "5600 ml",
+    "symbol": "@",
+    "color": "white",
+    "price": "40 cent",
+    "price_postapoc": "40 cent",
+    "material": [ "bone" ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 1 ] ]
+  }
+]

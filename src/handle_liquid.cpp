@@ -493,11 +493,13 @@ static bool handle_item_target( Character &player_character, item &liquid, liqui
     // not on ground or similar. TODO: implement storing arbitrary container locations.
     if( target.item_loc && create_activity() ) {
         serialize_liquid_target( player_character.activity, target.item_loc );
+        return true;
     } else if( player_character.pour_into( target.item_loc, liquid, true, silent ) ) {
         target.item_loc.make_active();
         player_character.mod_moves( -100 );
+        return true;
     }
-    return true;
+    return false;
 }
 
 static bool handle_vehicle_target( Character &player_character, item &liquid,

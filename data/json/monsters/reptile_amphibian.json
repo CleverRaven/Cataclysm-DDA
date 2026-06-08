@@ -333,7 +333,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "mutant_tiny",
     "biosignature": { "biosig_item": "shed_snakeskin", "biosig_timer": 180 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL", "INFRARED_VISION" ]
   },
   {
     "id": "mon_rattlesnake_giant",
@@ -380,7 +380,7 @@
     "upgrades": { "half_life": 320, "into": "mon_rattlesnake_mega" },
     "biosignature": { "biosig_item": "shed_snakeskin_giant", "biosig_timer": 180 },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL", "INFRARED_VISION" ],
     "armor": { "bash": 2, "cut": 4, "bullet": 3, "electric": 1 }
   },
   {
@@ -434,7 +434,7 @@
     "//babies2": "Deathrattle is heavily mutated, so a short gestation period and all-year large clutch birth are plausible",
     "zombify_into": "mon_meat_cocoon_large",
     "biosignature": { "biosig_item": "shed_snakeskin_scales", "biosig_timer": 180 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL", "PUSH_MON" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL", "PUSH_MON", "INFRARED_VISION" ],
     "armor": { "bash": 6, "cut": 8, "bullet": 6, "electric": 3, "acid": 6 }
   },
   {
@@ -1116,7 +1116,7 @@
     "id": "mon_jumbo_bigfrog",
     "type": "MONSTER",
     "name": { "str": "jumbo treefrog" },
-    "description": "On, thick over-proportioned legs this large treefrog slings its weight with notable force.  It doesn't seem a danger, but its size is still cause for concern.  Even scrunched up, it is as large as a Thanksgiving turkey.",
+    "description": "On thick, over-proportioned legs, this large treefrog slings its weight with notable force.  It doesn't seem dangerous, but its size is still cause for concern.  Even scrunched up, it is as large as a Thanksgiving turkey.",
     "copy-from": "mon_proxy_bigfrog",
     "volume": "20 L",
     "weight": "14 kg",

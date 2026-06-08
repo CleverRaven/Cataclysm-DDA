@@ -137,7 +137,7 @@ def _recurse_through_igroups(igroup, item_group, item_to_group, group_id=None):
 def get_item_data(entries, categories=None, ignore=None):
     """Scans the raw data structure from JSON and constructs
        an item to group map, a dict of orphans, a dict of items,
-       an a list of potential problems"""
+       and a list of potential problems"""
     ignore_items = ["battery_test"]
     TYPE_WHITELIST.append("item_group")
     if ignore:

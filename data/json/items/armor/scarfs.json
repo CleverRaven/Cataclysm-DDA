@@ -17,7 +17,7 @@
     "material_thickness": 1,
     "environmental_protection": 2,
     "flags": [ "OVERSIZE", "HOOD", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 20, "coverage": 70, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 70, "covers": [ "mouth", "beak", "muzzle" ] } ]
   },
   {
     "id": "headscarf",
@@ -73,7 +73,7 @@
     "material": [ "cotton" ],
     "weight": "60 g",
     "volume": "500 ml",
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "patchwork_scarf_loose", "menu_text": "Loosen" },
+    "use_action": { "type": "transform", "msg": "You loosen your scarf.", "target": "patchwork_scarf_loose", "menu_text": "Loosen" },
     "flags": [ "OUTER" ],
     "warmth": 20,
     "environmental_protection": 1,
@@ -97,7 +97,7 @@
     "revert_to": "patchwork_scarf",
     "use_action": {
       "type": "transform",
-      "msg": "You wrap your %s around your head.",
+      "msg": "You wrap your scarf around your head.",
       "target": "patchwork_scarf_headwrap",
       "menu_text": "Wrap head"
     },
@@ -121,7 +121,7 @@
     "material": [ "cotton" ],
     "weight": "60 g",
     "volume": "500 ml",
-    "use_action": { "type": "transform", "msg": "You lower your %s.", "target": "patchwork_scarf", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower your scarf.", "target": "patchwork_scarf", "menu_text": "Lower" },
     "flags": [ "OUTER" ],
     "warmth": 20,
     "environmental_protection": 1,
@@ -142,12 +142,12 @@
     "material": [ "cotton" ],
     "weight": "120 g",
     "volume": "1 L",
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "long_patchwork_scarf_loose", "menu_text": "Loosen" },
+    "use_action": { "type": "transform", "msg": "You loosen your scarf.", "target": "long_patchwork_scarf_loose", "menu_text": "Loosen" },
     "flags": [ "OVERSIZE", "POCKETS", "OUTER" ],
     "warmth": 20,
     "environmental_protection": 1,
     "material_thickness": 0.3,
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "beak", "muzzle" ] } ]
   },
   {
     "id": "long_patchwork_scarf_loose",
@@ -165,7 +165,7 @@
     "volume": "1 L",
     "use_action": {
       "type": "transform",
-      "msg": "You wrap your %s around your head.",
+      "msg": "You wrap your scarf around your head.",
       "target": "long_patchwork_scarf_headwrap",
       "menu_text": "Wrap head"
     },
@@ -174,7 +174,7 @@
     "warmth": 10,
     "environmental_protection": 1,
     "material_thickness": 0.3,
-    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth", "beak", "muzzle" ] } ]
   },
   {
     "id": "long_patchwork_scarf_headwrap",
@@ -190,7 +190,7 @@
     "material": [ "cotton" ],
     "weight": "120 g",
     "volume": "1 L",
-    "use_action": { "type": "transform", "msg": "You lower your %s.", "target": "long_patchwork_scarf", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower your scarf.", "target": "long_patchwork_scarf", "menu_text": "Lower" },
     "flags": [ "OUTER" ],
     "warmth": 20,
     "environmental_protection": 1,
@@ -211,7 +211,7 @@
     "material": [ "cotton" ],
     "weight": "96 g",
     "volume": "750 ml",
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "knit_scarf_loose", "menu_text": "Loosen" },
+    "use_action": { "type": "transform", "msg": "You loosen your scarf.", "target": "knit_scarf_loose", "menu_text": "Loosen" },
     "flags": [ "OUTER" ],
     "warmth": 20,
     "environmental_protection": 2,
@@ -235,7 +235,7 @@
     "revert_to": "knit_scarf",
     "use_action": {
       "type": "transform",
-      "msg": "You wrap your %s around your head.",
+      "msg": "You wrap your scarf around your head.",
       "target": "knit_scarf_headwrap",
       "menu_text": "Wrap head"
     },
@@ -259,7 +259,7 @@
     "material": [ "cotton" ],
     "weight": "96 g",
     "volume": "750 ml",
-    "use_action": { "type": "transform", "msg": "You lower your %s.", "target": "knit_scarf", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower your scarf.", "target": "knit_scarf", "menu_text": "Lower" },
     "flags": [ "OUTER" ],
     "warmth": 20,
     "environmental_protection": 2,
@@ -280,12 +280,12 @@
     "material": [ "cotton" ],
     "weight": "192 g",
     "volume": "1250 ml",
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "long_knit_scarf_loose", "menu_text": "Loosen" },
+    "use_action": { "type": "transform", "msg": "You loosen your scarf.", "target": "long_knit_scarf_loose", "menu_text": "Loosen" },
     "flags": [ "OVERSIZE", "POCKETS", "OUTER" ],
     "warmth": 20,
     "environmental_protection": 2,
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "beak", "muzzle" ] } ]
   },
   {
     "id": "long_knit_scarf_loose",
@@ -303,7 +303,7 @@
     "volume": "1250 ml",
     "use_action": {
       "type": "transform",
-      "msg": "You wrap your %s around your head.",
+      "msg": "You wrap your scarf around your head.",
       "target": "long_knit_scarf_headwrap",
       "menu_text": "Wrap head"
     },
@@ -312,7 +312,7 @@
     "warmth": 10,
     "environmental_protection": 1,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth", "beak", "muzzle" ] } ]
   },
   {
     "id": "long_knit_scarf_headwrap",
@@ -328,7 +328,7 @@
     "material": [ "cotton" ],
     "weight": "192 g",
     "volume": "1250 ml",
-    "use_action": { "type": "transform", "msg": "You lower your %s.", "target": "long_knit_scarf", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower your scarf.", "target": "long_knit_scarf", "menu_text": "Lower" },
     "flags": [ "OUTER" ],
     "warmth": 20,
     "environmental_protection": 1,
@@ -349,7 +349,7 @@
     "material": [ "wool" ],
     "weight": "100 g",
     "volume": "750 ml",
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "scarf_loose", "menu_text": "Loosen" },
+    "use_action": { "type": "transform", "msg": "You loosen your scarf.", "target": "scarf_loose", "menu_text": "Loosen" },
     "flags": [ "OUTER" ],
     "warmth": 45,
     "environmental_protection": 2,
@@ -373,7 +373,7 @@
     "revert_to": "scarf",
     "use_action": {
       "type": "transform",
-      "msg": "You wrap your %s around your head.",
+      "msg": "You wrap your scarf around your head.",
       "target": "scarf_headwrap",
       "menu_text": "Wrap head"
     },
@@ -397,7 +397,7 @@
     "material": [ "wool" ],
     "weight": "80 g",
     "volume": "750 ml",
-    "use_action": { "type": "transform", "msg": "You lower your %s.", "target": "scarf", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower your scarf.", "target": "scarf", "menu_text": "Lower" },
     "flags": [ "OUTER" ],
     "warmth": 45,
     "environmental_protection": 1,
@@ -418,12 +418,12 @@
     "material": [ "wool" ],
     "weight": "160 g",
     "volume": "1250 ml",
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "scarf_long_loose", "menu_text": "Loosen" },
+    "use_action": { "type": "transform", "msg": "You loosen your scarf.", "target": "scarf_long_loose", "menu_text": "Loosen" },
     "flags": [ "OVERSIZE", "POCKETS", "OUTER" ],
     "warmth": 45,
     "environmental_protection": 2,
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "beak", "muzzle" ] } ]
   },
   {
     "id": "scarf_long_loose",
@@ -441,7 +441,7 @@
     "volume": "1250 ml",
     "use_action": {
       "type": "transform",
-      "msg": "You wrap your %s around your head.",
+      "msg": "You wrap your scarf around your head.",
       "target": "scarf_long_headwrap",
       "menu_text": "Wrap head"
     },
@@ -450,7 +450,7 @@
     "warmth": 20,
     "environmental_protection": 1,
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth", "beak", "muzzle" ] } ]
   },
   {
     "id": "scarf_long_headwrap",
@@ -466,7 +466,7 @@
     "material": [ "wool" ],
     "weight": "160 g",
     "volume": "1250 ml",
-    "use_action": { "type": "transform", "msg": "You lower your %s.", "target": "scarf_long", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower your scarf.", "target": "scarf_long", "menu_text": "Lower" },
     "flags": [ "OUTER" ],
     "warmth": 45,
     "environmental_protection": 2,
@@ -487,7 +487,7 @@
     "material": [ "fur" ],
     "weight": "140 g",
     "volume": "1 L",
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "scarf_fur_loose", "menu_text": "Loosen" },
+    "use_action": { "type": "transform", "msg": "You loosen your scarf.", "target": "scarf_fur_loose", "menu_text": "Loosen" },
     "flags": [ "OUTER" ],
     "warmth": 65,
     "environmental_protection": 2,
@@ -511,7 +511,7 @@
     "revert_to": "scarf_fur",
     "use_action": {
       "type": "transform",
-      "msg": "You wrap your %s around your head.",
+      "msg": "You wrap your scarf around your head.",
       "target": "scarf_fur_headwrap",
       "menu_text": "Wrap head"
     },
@@ -535,7 +535,7 @@
     "material": [ "fur" ],
     "weight": "140 g",
     "volume": "1 L",
-    "use_action": { "type": "transform", "msg": "You lower your %s.", "target": "scarf_fur", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower your scarf.", "target": "scarf_fur", "menu_text": "Lower" },
     "flags": [ "OUTER" ],
     "warmth": 65,
     "environmental_protection": 2,
@@ -556,12 +556,12 @@
     "material": [ "fur" ],
     "weight": "280 g",
     "volume": "2 L",
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "scarf_fur_long_loose", "menu_text": "Loosen" },
+    "use_action": { "type": "transform", "msg": "You loosen your scarf.", "target": "scarf_fur_long_loose", "menu_text": "Loosen" },
     "flags": [ "OVERSIZE", "POCKETS", "OUTER" ],
     "warmth": 65,
     "environmental_protection": 2,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "mouth", "beak", "muzzle" ] } ]
   },
   {
     "id": "scarf_fur_long_loose",
@@ -579,7 +579,7 @@
     "volume": "2 L",
     "use_action": {
       "type": "transform",
-      "msg": "You wrap your %s around your head.",
+      "msg": "You wrap your scarf around your head.",
       "target": "scarf_fur_long_headwrap",
       "menu_text": "Wrap head"
     },
@@ -588,7 +588,7 @@
     "warmth": 30,
     "environmental_protection": 1,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 10, "coverage": 45, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 45, "covers": [ "mouth", "beak", "muzzle" ] } ]
   },
   {
     "id": "scarf_fur_long_headwrap",
@@ -604,7 +604,7 @@
     "material": [ "fur" ],
     "weight": "280 g",
     "volume": "2 L",
-    "use_action": { "type": "transform", "msg": "You lower your %s.", "target": "scarf_fur_long", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower your scarf.", "target": "scarf_fur_long", "menu_text": "Lower" },
     "flags": [ "OUTER" ],
     "warmth": 65,
     "environmental_protection": 2,
@@ -625,7 +625,7 @@
     "material": [ "faux_fur" ],
     "weight": "140 g",
     "volume": "1 L",
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "scarf_faux_fur_loose", "menu_text": "Loosen" },
+    "use_action": { "type": "transform", "msg": "You loosen your scarf.", "target": "scarf_faux_fur_loose", "menu_text": "Loosen" },
     "flags": [ "OUTER" ],
     "warmth": 50,
     "environmental_protection": 2,
@@ -650,7 +650,7 @@
     "revert_to": "scarf_faux_fur",
     "use_action": {
       "type": "transform",
-      "msg": "You wrap your %s around your head.",
+      "msg": "You wrap your scarf around your head.",
       "target": "scarf_faux_fur_headwrap",
       "menu_text": "Wrap head"
     },
@@ -674,7 +674,7 @@
     "material": [ "faux_fur" ],
     "weight": "140 g",
     "volume": "1 L",
-    "use_action": { "type": "transform", "msg": "You lower your %s.", "target": "scarf_faux_fur", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower your scarf.", "target": "scarf_faux_fur", "menu_text": "Lower" },
     "flags": [ "OUTER" ],
     "warmth": 50,
     "environmental_protection": 2,
@@ -695,12 +695,12 @@
     "material": [ "faux_fur" ],
     "weight": "280 g",
     "volume": "2 L",
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "scarf_faux_fur_long_loose", "menu_text": "Loosen" },
+    "use_action": { "type": "transform", "msg": "You loosen your scarf.", "target": "scarf_faux_fur_long_loose", "menu_text": "Loosen" },
     "flags": [ "OVERSIZE", "POCKETS", "OUTER" ],
     "warmth": 50,
     "environmental_protection": 2,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "mouth", "beak", "muzzle" ] } ]
   },
   {
     "id": "scarf_faux_fur_long_loose",
@@ -719,7 +719,7 @@
     "volume": "2 L",
     "use_action": {
       "type": "transform",
-      "msg": "You wrap your %s around your head.",
+      "msg": "You wrap your scarf around your head.",
       "target": "scarf_faux_fur_long_headwrap",
       "menu_text": "Wrap head"
     },
@@ -728,7 +728,7 @@
     "warmth": 25,
     "environmental_protection": 1,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 10, "coverage": 45, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 45, "covers": [ "mouth", "beak", "muzzle" ] } ]
   },
   {
     "id": "scarf_faux_fur_long_headwrap",
@@ -744,7 +744,7 @@
     "material": [ "faux_fur" ],
     "weight": "280 g",
     "volume": "2 L",
-    "use_action": { "type": "transform", "msg": "You lower your %s.", "target": "scarf_faux_fur_long", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower your scarf.", "target": "scarf_faux_fur_long", "menu_text": "Lower" },
     "flags": [ "OUTER" ],
     "warmth": 50,
     "environmental_protection": 2,

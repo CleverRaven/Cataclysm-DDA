@@ -19,6 +19,8 @@ class item;
 class read_only_visitable;
 template<typename T> struct enum_traits;
 
+const std::string flag_ALWAYS_START_ON_GROUND( "ALWAYS_START_ON_GROUND" );
+
 /**
 *   enum used by comp_selection to indicate where a component should be consumed from.
 */
@@ -53,6 +55,35 @@ struct comp_selection {
     void deserialize( const JsonObject &data );
 };
 
+/** One recipe step's allocation of a single chosen tool. */
+struct step_tool_alloc {
+    comp_selection<tool_comp> sel;
+    // count * batch units allocated to this step, in tool_comp.count units
+    // (NOT scaled by charge_factor).  Zero for non-charged tools.
+    int step_count_units = 0;
+    // 5% buckets (0..20) already debited for this step.
+    int consumed_buckets = 0;
+    // Pro-rated from a recipe-root tool rather than the step's own tools.
+    bool root_derived = false;
+
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( const JsonObject &data );
+};
+
+/**
+*   Builds per-step tool allocations for a step recipe: each step's own tools
+*   plus recipe-root tools distributed across the timed steps pro-rata by each
+*   step's move budget.  Sets cancelled when the crafter cancels a tool prompt so
+*   the caller can abort instead of silently dropping that tool group.
+*   When reselect_step >= 0 (resume), only that step's own tools are reselected
+*   (root is still distributed across all steps); other steps get no own
+*   allocations, so the caller can keep their prior selections and an absent
+*   future step's tool neither cancels nor degrades the resume.
+*/
+std::vector<std::vector<step_tool_alloc>> select_step_tool_allocs(
+        Character &crafter, const recipe &rec, int batch, read_only_visitable &map_inv,
+        bool &cancelled, int reselect_step = -1 );
+
 /**
 *   Class that describes a crafting job.
 *
@@ -85,8 +116,13 @@ class craft_command
             return longcraft;
         }
 
+        // prevent player from
+        bool always_start_on_ground() const {
+            return rec->has_flag( flag_ALWAYS_START_ON_GROUND );
+        }
+
         bool has_cached_selections() const {
-            return !item_selections.empty() || !tool_selections.empty();
+            return !item_selections.empty() || !tool_selections.empty() || !step_tool_allocs.empty();
         }
 
         bool empty() const {
@@ -117,6 +153,8 @@ class craft_command
 
         std::vector<comp_selection<item_comp>> item_selections;
         std::vector<comp_selection<tool_comp>> tool_selections;
+        // Per-step tool allocations for step recipes (empty for stepless).
+        std::vector<std::vector<step_tool_alloc>> step_tool_allocs;
 
         /** Checks if tools we selected in a previous call to execute() are still available. */
         std::vector<comp_selection<item_comp>> check_item_components_missing(

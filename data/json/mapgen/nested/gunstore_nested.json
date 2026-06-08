@@ -428,7 +428,7 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "#" ],
       "terrain": { "#": "t_thconc_floor" },
-      "flags": [ "ERASE_ITEMS_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ERASE_ITEMS_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   }
 ]

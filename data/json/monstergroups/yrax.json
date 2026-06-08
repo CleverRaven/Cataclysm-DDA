@@ -1,0 +1,10 @@
+[
+  {
+    "type": "monstergroup",
+    "id": "GROUP_YRAX_SCIENCE_DRONES",
+    "monsters": [
+      { "monster": "mon_yrax_sphenocorona", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_yrax_trifacet", "weight": 100, "cost_multiplier": 0 }
+    ]
+  }
+]

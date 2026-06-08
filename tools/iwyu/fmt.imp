@@ -1,0 +1,4 @@
+[
+    { include: ['@<fmt/base.h>', "private", "<fmt/format.h>", "public"] },
+    { include: ['@<fmt/base.h>', "private", "<fmt/printf.h>", "public"] },
+]

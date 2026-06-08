@@ -1,0 +1,12 @@
+[
+  {
+    "type": "pp_generator",
+    "id": "riot_damage",
+    "//": "Applied to city buildings via post_process_generators field on oter_type_t."
+  },
+  {
+    "type": "pp_generator",
+    "id": "riot_damage_road",
+    "//": "Applied to city roads. Same as riot_damage but without pre_burn."
+  }
+]

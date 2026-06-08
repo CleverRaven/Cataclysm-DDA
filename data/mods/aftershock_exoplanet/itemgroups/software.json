@@ -1,0 +1,18 @@
+[
+  {
+    "type": "item_group",
+    "id": "generated_ruin_data",
+    "subtype": "distribution",
+    "items": [
+      { "item": "ruin_data_0", "prob": 40 },
+      { "item": "ruin_data", "prob": 30 },
+      { "item": "ruin_data_encrypted", "prob": 20 },
+      { "item": "ruin_data_collapse", "prob": 10 },
+      { "item": "ruin_data_decryption_keys", "prob": 5 },
+      { "item": "ruin_data_space_currents", "prob": 5 },
+      { "item": "ruin_data_holo", "prob": 2 },
+      { "item": "ruin_data_geoengineering", "prob": 2 },
+      { "item": "ruin_data_mercurial_id", "prob": 1 }
+    ]
+  }
+]

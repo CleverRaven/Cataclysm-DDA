@@ -244,7 +244,7 @@
           },
           { "set_string_var": "perk_xe_vampire_killer", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "None.",
+            "set_string_var": "No requirements",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },

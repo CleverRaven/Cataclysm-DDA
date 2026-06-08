@@ -1,0 +1,44 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_innawood_bonus_exp_warpshards",
+    "//": "For Sky Island.  Gives bonus exp to help with Sorcerer and Bombasticperks due to there being few monsters in Innawood",
+    "condition": { "mod_is_loaded": "innawood" },
+    "effect": [
+      { "math": [ "u_bonus_exp += 25" ] },
+      { "run_eocs": "EOC_innawood_bombastic_perks_bridge" },
+      { "run_eocs": "EOC_innawood_perk_melee_bridge" },
+      { "run_eocs": "EOC_innawood_sorcerer_bridge" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_innawood_bonus_exp_material_tokens",
+    "//": "For Sky Island.  Gives bonus exp to help with Sorcerer and Bombasticperks due to there being few monsters in Innawood",
+    "condition": { "mod_is_loaded": "innawood" },
+    "effect": [
+      { "math": [ "u_bonus_exp += ( owed_material_tokens * 2 ) / 5" ] },
+      { "run_eocs": "EOC_innawood_bombastic_perks_bridge" },
+      { "run_eocs": "EOC_innawood_perk_melee_bridge" },
+      { "run_eocs": "EOC_innawood_sorcerer_bridge" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_innawood_bombastic_perks_bridge",
+    "//": "Overridden by mod_interactions/bombastic_perks when that mod is loaded",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_innawood_perk_melee_bridge",
+    "//": "Overridden by mod_interactions/perk_melee_system when that mod is loaded",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_innawood_sorcerer_bridge",
+    "//": "Overridden by mod_interactions/sorcerer when that mod is loaded",
+    "effect": [  ]
+  }
+]

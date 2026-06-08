@@ -1,0 +1,2337 @@
+[
+  {
+    "type": "mutation",
+    "id": "artificial_hair_bald",
+    "name": { "str": "Artificial hair: bald" },
+    "description": "You are bald.",
+    "points": 0,
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_buzzcut",
+    "name": { "str": "Artificial hair: buzz cut" },
+    "points": 0,
+    "description": "Your hair has been shaved close to the head.",
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, buzz cut" },
+        "description": "Your black hair has been shaved close to the head.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, buzz cut" },
+        "description": "Your blond hair has been shaved close to the head.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, buzz cut" },
+        "description": "Your blue hair has been shaved close to the head.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, buzz cut" },
+        "description": "Your brown hair has been shaved close to the head.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, buzz cut" },
+        "description": "Your gray hair has been shaved close to the head.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, buzz cut" },
+        "description": "Your green hair has been shaved close to the head.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, buzz cut" },
+        "description": "Your pink hair has been shaved close to the head.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, buzz cut" },
+        "description": "Your purple hair has been shaved close to the head.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, buzz cut" },
+        "description": "Your red hair has been shaved close to the head.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, buzz cut" },
+        "description": "Your white hair has been shaved close to the head.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_crewcut",
+    "name": { "str": "Artificial hair: crew-cut" },
+    "description": "Crewcut hair style.",
+    "points": 0,
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, crew-cut" },
+        "description": "Crewcut black hair style.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, crew-cut" },
+        "description": "Crewcut blond hair style.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, crew-cut" },
+        "description": "Crewcut blue hair style.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, crew-cut" },
+        "description": "Crewcut brown hair style.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, crew-cut" },
+        "description": "Crewcut gray hair style.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, crew-cut" },
+        "description": "Crewcut green hair style.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, crew-cut" },
+        "description": "Crewcut pink hair style.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, crew-cut" },
+        "description": "Crewcut purple hair style.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, crew-cut" },
+        "description": "Crewcut red hair style.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, crew-cut" },
+        "description": "Crewcut white hair style.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_fro",
+    "name": { "str": "Artificial hair: afro" },
+    "description": "'Fro hair style.",
+    "points": 0,
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, afro" },
+        "description": "'Fro black hair style.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, afro" },
+        "description": "'Fro blond hair style.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, afro" },
+        "description": "'Fro blue hair style.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, afro" },
+        "description": "'Fro brown hair style.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, afro" },
+        "description": "'Fro gray hair style.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, afro" },
+        "description": "'Fro green hair style.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, afro" },
+        "description": "'Fro pink hair style.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, afro" },
+        "description": "'Fro purple hair style.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, afro" },
+        "description": "'Fro red hair style.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, afro" },
+        "description": "'Fro white hair style.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_long",
+    "name": { "str": "Artificial hair: long" },
+    "description": "Long hair style.",
+    "points": 0,
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, long" },
+        "description": "Long black hair style.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, long" },
+        "description": "Long blond hair style.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, long" },
+        "description": "Long blue hair style.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, long" },
+        "description": "Long brown hair style.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, long" },
+        "description": "Long gray hair style.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, long" },
+        "description": "Long green hair style.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, long" },
+        "description": "Long pink hair style.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, long" },
+        "description": "Long purple hair style.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, long" },
+        "description": "Long red hair style.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, long" },
+        "description": "Long white hair style.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_long_over_eye",
+    "name": { "str": "Artificial hair: long over-eye" },
+    "points": 0,
+    "description": "You have long hair, swooping over one eye.",
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, long over-eye" },
+        "description": "You have long black hair, swooping over one eye.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, long over-eye" },
+        "description": "You have long blond hair, swooping over one eye.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, long over-eye" },
+        "description": "You have long blue hair, swooping over one eye.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, long over-eye" },
+        "description": "You have long brown hair, swooping over one eye.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, long over-eye" },
+        "description": "You have long gray hair, swooping over one eye.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, long over-eye" },
+        "description": "You have long green hair, swooping over one eye.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, long over-eye" },
+        "description": "You have long pink hair, swooping over one eye.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, long over-eye" },
+        "description": "You have long purple hair, swooping over one eye.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, long over-eye" },
+        "description": "You have long red hair, swooping over one eye.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, long over-eye" },
+        "description": "You have long white hair, swooping over one eye.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_medium",
+    "name": { "str": "Artificial hair: medium-length" },
+    "description": "Medium-length hair style.",
+    "points": 0,
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, medium-length" },
+        "description": "Medium-length black hair style.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, medium-length" },
+        "description": "Medium-length blond hair style.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, medium-length" },
+        "description": "Medium-length blue hair style.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, medium-length" },
+        "description": "Medium-length brown hair style.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, medium-length" },
+        "description": "Medium-length gray hair style.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, medium-length" },
+        "description": "Medium-length green hair style.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, medium-length" },
+        "description": "Medium-length pink hair style.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, medium-length" },
+        "description": "Medium-length purple hair style.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, medium-length" },
+        "description": "Medium-length red hair style.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, medium-length" },
+        "description": "Medium-length white hair style.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_messy",
+    "name": { "str": "Artificial hair: long messy" },
+    "points": 0,
+    "description": "You have long, messy hair, worn loose and carefree!",
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, long messy" },
+        "description": "You have long black hair, worn loose and carefree!",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, long messy" },
+        "description": "You have long blond hair, worn loose and carefree!",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, long messy" },
+        "description": "You have long blue hair, worn loose and carefree!",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, long messy" },
+        "description": "You have long brown hair, worn loose and carefree!",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, long messy" },
+        "description": "You have long gray hair, worn loose and carefree!",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, long messy" },
+        "description": "You have long green hair, worn loose and carefree!",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, long messy" },
+        "description": "You have long pink hair, worn loose and carefree!",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, long messy" },
+        "description": "You have long purple hair, worn loose and carefree!",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, long messy" },
+        "description": "You have long red hair, worn loose and carefree!",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, long messy" },
+        "description": "You have long white hair, worn loose and carefree!",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_very_long",
+    "name": { "str": "Artificial hair: very long" },
+    "points": 0,
+    "description": "You have very long hair, which goes down to your waist.",
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, very long" },
+        "description": "You have very long black hair, which goes down to your waist.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, very long" },
+        "description": "You have very long blond hair, which goes down to your waist.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, very long" },
+        "description": "You have very long blue hair, which goes down to your waist.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, very long" },
+        "description": "You have very long brown hair, which goes down to your waist.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, very long" },
+        "description": "You have very long gray hair, which goes down to your waist.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, very long" },
+        "description": "You have very long green hair, which goes down to your waist.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, very long" },
+        "description": "You have very long pink hair, which goes down to your waist.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, very long" },
+        "description": "You have very long purple hair, which goes down to your waist.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, very long" },
+        "description": "You have very long red hair, which goes down to your waist.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, very long" },
+        "description": "You have very long white hair, which goes down to your waist.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_extremely_long",
+    "name": { "str": "Artificial hair: extremely long" },
+    "points": 0,
+    "description": "You have extremely long hair, which goes down to your knees.",
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, extremely long" },
+        "description": "You have extremely long black hair, which goes down to your knees.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, extremely long" },
+        "description": "You have extremely long blond hair, which goes down to your knees.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, extremely long" },
+        "description": "You have extremely long blue hair, which goes down to your knees.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, extremely long" },
+        "description": "You have extremely long brown hair, which goes down to your knees.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, extremely long" },
+        "description": "You have extremely long gray hair, which goes down to your knees.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, extremely long" },
+        "description": "You have extremely long green hair, which goes down to your knees.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, extremely long" },
+        "description": "You have extremely long pink hair, which goes down to your knees.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, extremely long" },
+        "description": "You have extremely long purple hair, which goes down to your knees.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, extremely long" },
+        "description": "You have extremely long red hair, which goes down to your knees.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, extremely long" },
+        "description": "You have extremely long white hair, which goes down to your knees.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_body_length",
+    "name": { "str": "Artificial hair: body-length" },
+    "points": 0,
+    "description": "Your hair is now so long that it reaches the floor.",
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, body-length" },
+        "description": "Your black hair is now so long that it reaches the floor.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, body-length" },
+        "description": "Your blond hair is now so long that it reaches the floor.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, body-length" },
+        "description": "Your blue hair is now so long that it reaches the floor.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, body-length" },
+        "description": "Your brown hair is now so long that it reaches the floor.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, body-length" },
+        "description": "Your gray hair is now so long that it reaches the floor.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, body-length" },
+        "description": "Your green hair is now so long that it reaches the floor.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, body-length" },
+        "description": "Your pink hair is now so long that it reaches the floor.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, body-length" },
+        "description": "Your purple hair is now so long that it reaches the floor.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, body-length" },
+        "description": "Your red hair is now so long that it reaches the floor.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, body-length" },
+        "description": "Your white hair is now so long that it reaches the floor.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_mohawk",
+    "name": { "str": "Artificial hair: mohawk" },
+    "description": "Mohawk hair style.",
+    "points": 0,
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, mohawk" },
+        "description": "Mohawk black hair style.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, mohawk" },
+        "description": "Mohawk blond hair style.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, mohawk" },
+        "description": "Mohawk blue hair style.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, mohawk" },
+        "description": "Mohawk brown hair style.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, mohawk" },
+        "description": "Mohawk gray hair style.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, mohawk" },
+        "description": "Mohawk green hair style.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, mohawk" },
+        "description": "Mohawk pink hair style.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, mohawk" },
+        "description": "Mohawk purple hair style.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, mohawk" },
+        "description": "Mohawk red hair style.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, mohawk" },
+        "description": "Mohawk white hair style.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_long_mohawk",
+    "name": { "str": "Artificial hair: long mohawk" },
+    "description": "You have a long mohawk.",
+    "points": 0,
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, mohawk" },
+        "description": "You have a long black mohawk.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, mohawk" },
+        "description": "You have a long blond mohawk.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, mohawk" },
+        "description": "You have a long blue mohawk.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, mohawk" },
+        "description": "You have a long brown mohawk.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, mohawk" },
+        "description": "You have a long gray mohawk.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, mohawk" },
+        "description": "You have a long green mohawk.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, mohawk" },
+        "description": "You have a long pink mohawk.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, mohawk" },
+        "description": "You have a long purple mohawk.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, mohawk" },
+        "description": "You have a long red mohawk.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, mohawk" },
+        "description": "You have a long white mohawk.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_mullet",
+    "name": { "str": "Artificial hair: mullet" },
+    "points": 0,
+    "description": "Business in the front, party in the back!",
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, mullet" },
+        "description": "You have long black hair, in the style of a mullet.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, mullet" },
+        "description": "You have long blond hair, in the style of a mullet.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, mullet" },
+        "description": "You have long blue hair, in the style of a mullet.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, mullet" },
+        "description": "You have long brown hair, in the style of a mullet.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, mullet" },
+        "description": "You have long gray hair, in the style of a mullet.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, mullet" },
+        "description": "You have long green hair, in the style of a mullet.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, mullet" },
+        "description": "You have long pink hair, in the style of a mullet.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, mullet" },
+        "description": "You have long purple hair, in the style of a mullet.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, mullet" },
+        "description": "You have long red hair, in the style of a mullet.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, mullet" },
+        "description": "You have long white hair, in the style of a mullet.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_ponytail",
+    "name": { "str": "Artificial hair: ponytail" },
+    "points": 0,
+    "description": "You have long hair, pulled back into a ponytail.",
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, ponytail" },
+        "description": "You have long black hair, pulled back into a ponytail.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, ponytail" },
+        "description": "You have long blond hair, pulled back into a ponytail.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, ponytail" },
+        "description": "You have long blue hair, pulled back into a ponytail.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, ponytail" },
+        "description": "You have long brown hair, pulled back into a ponytail.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, ponytail" },
+        "description": "You have long gray hair, pulled back into a ponytail.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, ponytail" },
+        "description": "You have long green hair, pulled back into a ponytail.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, ponytail" },
+        "description": "You have long pink hair, pulled back into a ponytail.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, ponytail" },
+        "description": "You have long purple hair, pulled back into a ponytail.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, ponytail" },
+        "description": "You have long red hair, pulled back into a ponytail.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, ponytail" },
+        "description": "You have long white hair, pulled back into a ponytail.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_short",
+    "name": { "str": "Artificial hair: short" },
+    "description": "Short hair style.",
+    "points": 0,
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, short" },
+        "description": "Short black hair style.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, short" },
+        "description": "Short blond hair style.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, short" },
+        "description": "Short blue hair style.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, short" },
+        "description": "Short brown hair style.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, short" },
+        "description": "Short gray hair style.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, short" },
+        "description": "Short green hair style.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, short" },
+        "description": "Short pink hair style.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, short" },
+        "description": "Short purple hair style.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, short" },
+        "description": "Short red hair style.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, short" },
+        "description": "Short white hair style.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_short_no_fringe",
+    "name": { "str": "Artificial hair: short without a fringe" },
+    "points": 0,
+    "description": "You have short hair, without a fringe.",
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, short without a fringe" },
+        "description": "You have short black hair, without a fringe.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, short without a fringe" },
+        "description": "You have short blond hair, without a fringe.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, short without a fringe" },
+        "description": "You have short blue hair, without a fringe.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, short without a fringe" },
+        "description": "You have short brown hair, without a fringe.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, short without a fringe" },
+        "description": "You have short gray hair, without a fringe.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, short without a fringe" },
+        "description": "You have short green hair, without a fringe.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, short without a fringe" },
+        "description": "You have short pink hair, without a fringe.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, short without a fringe" },
+        "description": "You have short purple hair, without a fringe.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, short without a fringe" },
+        "description": "You have short red hair, without a fringe.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, short without a fringe" },
+        "description": "You have short white hair, without a fringe.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_short_over_eye",
+    "name": { "str": "Artificial hair: short over-eye" },
+    "points": 0,
+    "description": "You have short hair, with the fringe over one eye.",
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, short over-eye" },
+        "description": "You have short black hair, with the fringe over one eye.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, short over-eye" },
+        "description": "You have short blond hair, with the fringe over one eye.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, short over-eye" },
+        "description": "You have short blue hair, with the fringe over one eye.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, short over-eye" },
+        "description": "You have short brown hair, with the fringe over one eye.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, short over-eye" },
+        "description": "You have short gray hair, with the fringe over one eye.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, short over-eye" },
+        "description": "You have short green hair, with the fringe over one eye.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, short over-eye" },
+        "description": "You have short pink hair, with the fringe over one eye.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, short over-eye" },
+        "description": "You have short purple hair, with the fringe over one eye.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, short over-eye" },
+        "description": "You have short red hair, with the fringe over one eye.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, short over-eye" },
+        "description": "You have short white hair, with the fringe over one eye.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_punk_long",
+    "name": { "str": "Artificial hair: long punk" },
+    "points": 0,
+    "description": "You are rockin' with these long locks.",
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, long punk" },
+        "description": "You are rockin' with these long black locks.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, long punk" },
+        "description": "You are rockin' with these long blond locks.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, long punk" },
+        "description": "You are rockin' with these long blue locks.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, long punk" },
+        "description": "You are rockin' with these long brown locks.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, long punk" },
+        "description": "You are rockin' with these long gray locks.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, long punk" },
+        "description": "You are rockin' with these long green locks.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, long punk" },
+        "description": "You are rockin' with these long pink locks.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, long punk" },
+        "description": "You are rockin' with these long purple locks.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, long punk" },
+        "description": "You are rockin' with these long red locks.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, long punk" },
+        "description": "You are rockin' with these long white locks.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_curls",
+    "name": { "str": "Artificial hair: curls" },
+    "points": 0,
+    "description": "Your face is framed by cute curls.",
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, curls" },
+        "description": "Your face is framed by cute curls.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, curls" },
+        "description": "Your face is framed by cute blond curls.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, curls" },
+        "description": "Your face is framed by cute blue curls.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, curls" },
+        "description": "Your face is framed by cute brown curls.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, curls" },
+        "description": "Your face is framed by cute gray curls.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, curls" },
+        "description": "Your face is framed by cute green curls.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, curls" },
+        "description": "Your face is framed by cute pink curls.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, curls" },
+        "description": "Your face is framed by cute purple curls.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, curls" },
+        "description": "Your face is framed by cute red curls.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, curls" },
+        "description": "Your face is framed by cute white curls.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_modern",
+    "name": { "str": "Artificial hair: modern" },
+    "points": 0,
+    "description": "Your modern and plain cut common among college students.",
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, modern" },
+        "description": "Your modern and plain cut common among college students, black.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, modern" },
+        "description": "Your modern and plain cut common among college students, blond.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, modern" },
+        "description": "Your modern and plain cut common among college students, blue.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, modern" },
+        "description": "Your modern and plain cut common among college students, brown.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, modern" },
+        "description": "Your modern and plain cut common among college students, gray.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, modern" },
+        "description": "Your modern and plain cut common among college students, green.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, modern" },
+        "description": "Your modern and plain cut common among college students, pink.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, modern" },
+        "description": "Your modern and plain cut common among college students, purple.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, modern" },
+        "description": "Your modern and plain cut common among college students, red.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, modern" },
+        "description": "Your modern and plain cut common among college students, white.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_bun",
+    "name": { "str": "Artificial hair: bun" },
+    "points": 0,
+    "description": "Your long hair is bound into a bun.",
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, bun" },
+        "description": "Your long black hair is bound into a bun.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, bun" },
+        "description": "Your long blond hair is bound into a bun.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, bun" },
+        "description": "Your long blue hair is bound into a bun.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, bun" },
+        "description": "Your long brown hair is bound into a bun.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, bun" },
+        "description": "Your long gray hair is bound into a bun.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, bun" },
+        "description": "Your long green hair is bound into a bun.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, bun" },
+        "description": "Your long pink hair is bound into a bun.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, bun" },
+        "description": "Your long purple hair is bound into a bun.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, bun" },
+        "description": "Your long red hair is bound into a bun.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, bun" },
+        "description": "Your long white hair is bound into a bun.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_braid",
+    "name": { "str": "Artificial hair: princess braid" },
+    "points": 0,
+    "description": "Your long hair is bound in a braid.",
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, princess braid" },
+        "description": "Your long black hair is bound in a braid.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, princess braid" },
+        "description": "Your long blond hair is bound in a braid.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, princess braid" },
+        "description": "Your long blue hair is bound in a braid.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, princess braid" },
+        "description": "Your long brown hair is bound in a braid.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, princess braid" },
+        "description": "Your long gray hair is bound in a braid.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, princess braid" },
+        "description": "Your long green hair is bound in a braid.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, princess braid" },
+        "description": "Your long pink hair is bound in a braid.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, princess braid" },
+        "description": "Your long purple hair is bound in a braid.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, princess braid" },
+        "description": "Your long red hair is bound in a braid.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, princess braid" },
+        "description": "Your long white hair is bound in a braid.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_puff",
+    "name": { "str": "Artificial hair: puffs" },
+    "points": 0,
+    "description": "Hair tied into two puffs.",
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, puffs" },
+        "description": "Black hair tied into two puffs.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, puffs" },
+        "description": "Blond hair tied into two puffs.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, puffs" },
+        "description": "Blue hair tied into two puffs.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, puffs" },
+        "description": "Brown hair tied into two puffs.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, puffs" },
+        "description": "Gray hair tied into two puffs.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, puffs" },
+        "description": "Green hair tied into two puffs.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, puffs" },
+        "description": "Pink hair tied into two puffs.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, puffs" },
+        "description": "Purple hair tied into two puffs.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, puffs" },
+        "description": "Red hair tied into two puffs.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, puffs" },
+        "description": "White hair tied into two puffs.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_beaded",
+    "name": { "str": "Artificial hair: beaded hair" },
+    "points": 0,
+    "description": "Hair threaded with beads.",
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, beaded" },
+        "description": "Black hair threaded with beads.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, beaded" },
+        "description": "Blond hair threaded with beads.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, beaded" },
+        "description": "Blue hair threaded with beads.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, beaded" },
+        "description": "Brown hair threaded with beads.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, beaded" },
+        "description": "Gray hair threaded with beads.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, beaded" },
+        "description": "Green hair threaded with beads.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, beaded" },
+        "description": "Pink hair threaded with beads.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, beaded" },
+        "description": "Purple hair threaded with beads.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, beaded" },
+        "description": "Red hair threaded with beads.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, beaded" },
+        "description": "White hair threaded with beads.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_twintails",
+    "name": { "str": "Artificial hair: twin tails" },
+    "points": 0,
+    "description": "Two very long braids.",
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, twin tails" },
+        "description": "Two very long black braids.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, twin tails" },
+        "description": "Two very long blond braids.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, twin tails" },
+        "description": "Two very long blue braids.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, twin tails" },
+        "description": "Two very long brown braids.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, twin tails" },
+        "description": "Two very long gray braids.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, twin tails" },
+        "description": "Two very long green braids.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, twin tails" },
+        "description": "Two very long pink braids.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, twin tails" },
+        "description": "Two very long purple braids.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, twin tails" },
+        "description": "Two very long red braids.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, twin tails" },
+        "description": "Two very long white braids.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_super_princess",
+    "name": { "str": "Artificial hair: super princess" },
+    "points": 0,
+    "description": "Hair for the better princess.",
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, super princess" },
+        "description": "Black hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, super princess" },
+        "description": "Blond hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, super princess" },
+        "description": "Blue hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, super princess" },
+        "description": "Brown hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, super princess" },
+        "description": "Gray hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, super princess" },
+        "description": "Green hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, super princess" },
+        "description": "Pink hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, super princess" },
+        "description": "Purple hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, super princess" },
+        "description": "Red hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, super princess" },
+        "description": "White hair for the better princess.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "artificial_hair_detective",
+    "name": { "str": "Artificial hair: detective" },
+    "points": 0,
+    "description": "Hair for lawyers and crime solvers.",
+    "starting_trait": false,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Artificial hair: black, detective" },
+        "description": "Black hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Artificial hair: blond, detective" },
+        "description": "Blond hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Artificial hair: blue, detective" },
+        "description": "Blue hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Artificial hair: brown, detective" },
+        "description": "Brown hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Artificial hair: gray, detective" },
+        "description": "Gray hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Artificial hair: green, detective" },
+        "description": "Green hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Artificial hair: pink, detective" },
+        "description": "Pink hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Artificial hair: purple, detective" },
+        "description": "Purple hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Artificial hair: red, detective" },
+        "description": "Red hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Artificial hair: white, detective" },
+        "description": "White hair for lawyers and crime solvers.",
+        "weight": 1
+      }
+    ],
+    "types": [ "artificial_hair_style" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_NONE",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: none" },
+    "description": "You have no hair on your face, it is shaven or simply untouched by the presence of hair.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": false,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_GOATEE",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: goatee" },
+    "description": "You have a short beard at the tip of your chin.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_CIRCLE",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: circle beard" },
+    "description": "You have a mustache and a short beard, that both form a circle around your lips.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_ROYALE",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: royale beard" },
+    "description": "You have a mustache and a short beard forming a patch under your lips.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_ANCHOR",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: anchor beard" },
+    "description": "You have a mustache and a beard starting with a strip going down from the bottom lip, then tracing the jaw lines.  It looks a bit like an anchor, thus the name.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_SHORTBOXED",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: short boxed beard" },
+    "description": "You have a mustache and a short beard with trimmed sides.  Thin patches connect them both, forming a 'box' around the lips, thus the name.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_CHEVRON",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: chevron mustache" },
+    "description": "You have a mustache that covers your entire top lip.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_3DAYSTUBBLE",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: 3-day stubble" },
+    "description": "You have a short trimmed mustache and beard imitating a 3-day stubble.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_HORSESHOE",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: horseshoe" },
+    "description": "You have a mustache with patches going down the chin from both ends, thus the name.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_MUSTACHE",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: original mustache" },
+    "description": "You have a mustache with shortened ends, that covers only the skin above your upper lip.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_MUTTONCHOPS",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: mutton chops beard" },
+    "description": "You have long sideburns that connect to your mustache, with the tip of the chin shaven clean.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_GUNSLINGER",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: gunslinger beard" },
+    "description": "You have a horseshoe mustache and disconnected sideburns.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_CHIN_STRIP",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: chin strip" },
+    "description": "You have a short beard in a form of a vertical patch under your bottom lip.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_CHIN_CURTAIN",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: chin curtain" },
+    "description": "You have a full beard without a mustache, restricted to the chin, sometimes called a 'lion's mane'. Much like Abraham Lincoln's beard.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_CHIN_STRAP",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: chin strap" },
+    "description": "You have a beard along the jaw lines, circling the chin, and no mustache.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_BEARD",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: beard" },
+    "description": "You have a mustache and a long beard, both formed by allowing free growth of hair, with no particular styling.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_HANDLEBAR",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: handlebar mustache" },
+    "description": "You have a mustache with long flared out ends.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_NECKBEARD",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: neckbeard" },
+    "description": "You have a beard formed from hair grown on neck below the chin line.  No mustache included.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_PENCIL",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: pencil mustache" },
+    "description": "You have a very thin mustache just above the line of the upper lip.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_SHENANDOAH",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: shenandoah" },
+    "description": "Long full beard with no mustache, popular among Amish community, often with two pointed ends.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_SIDEBURNS",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: sideburns" },
+    "description": "You have patches of hair in front of your ears, that normally would connect your hair with the beard, but they are here by themselves.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_SOUL_PATCH",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: soul patch" },
+    "description": "You have a little bit of hair in the dip under your lower lip, and no other facial hair whatsoever.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_TOOTHBRUSH",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: toothbrush mustache" },
+    "description": "Charlie Chaplin used to have this short patch of hair just under the nose, but then that other guy used it as a characteristic, and it became unwelcome.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_VANDYKE",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: Van Dyke" },
+    "description": "You have a handlebar mustache with a chin strip or a small goatee.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_WALRUS",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: walrus" },
+    "description": "You have a long thick mustache, overshadowing your lips, that somewhat resembles the facial hair of a walrus.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_ZAPPA",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: The Zappa" },
+    "description": "You have a wide soul patch and a full mustache that extends a bit downwards at the corners of your lips.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_BEARD_LONG",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: long beard" },
+    "description": "You have a long beard, that goes down to your chest.  Somewhat reminiscent of Santa's mustache.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  },
+  {
+    "id": "ARTIFICIAL_FACIAL_HAIR_BEARD_VERY_LONG",
+    "type": "mutation",
+    "name": { "str": "Artificial facial hair: very long beard" },
+    "description": "You have a very long beard, that goes down to your waist, like wise old mentors have.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "artificial_facial_hair" ]
+  }
+]

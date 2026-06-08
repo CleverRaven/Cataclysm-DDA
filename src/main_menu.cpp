@@ -65,6 +65,8 @@
 static const mod_id MOD_INFORMATION_dda( "dda" );
 static const mod_id MOD_INFORMATION_dda_tutorial( "dda_tutorial" );
 
+namespace
+{
 enum class main_menu_opts : int {
     MOTD = 0,
     NEWCHAR,
@@ -77,6 +79,7 @@ enum class main_menu_opts : int {
     QUIT,
     NUM_MENU_OPTS,
 };
+} // namespace
 
 std::string main_menu::queued_world_to_load;
 std::string main_menu::queued_save_id_to_load;
@@ -480,7 +483,7 @@ void main_menu::init_strings()
     }
     vNewGameHints.clear();
     vNewGameHints.emplace_back(
-        _( "Allows you to fully customize points pool, scenario, and character's profession, stats, traits, skills and other parameters." ) );
+        _( "Allows you to fully customize scenario, character's profession, stats, traits, skills and other parameters." ) );
     vNewGameHints.emplace_back( _( "Select from one of previously created character templates." ) );
     vNewGameHints.emplace_back(
         _( "Creates random character, but lets you preview the generated character and the scenario and change character and/or scenario if needed." ) );

@@ -344,7 +344,7 @@
   {
     "type": "ITEM",
     "id": "dreamforged_broadsword",
-    "copy-from": "mc_broadsword",
+    "copy-from": "broadsword",
     "name": { "str": "dreamforged broadsword" },
     "description": "A broadsword, forged entirely from dreamdross.  So light that you can't properly apply any force on it.  The dreamdross grants it some minor magical properties, but you can't control their effects.",
     "replace_materials": { "mc_steel": "forged_dreamstuff", "leather": "forged_dreamstuff" },
@@ -389,7 +389,7 @@
   {
     "type": "ITEM",
     "id": "dreamforged_kukri",
-    "copy-from": "mc_kukri",
+    "copy-from": "kukri",
     "name": { "str": "dreamforged kukri" },
     "description": "A small kukri, forged entirely from dreamdross.  You barely feel any weight.  The dreamdross grants it some minor magical properties, but you can't control their effects.",
     "replace_materials": { "mc_steel": "forged_dreamstuff", "wood": "forged_dreamstuff" },
@@ -407,7 +407,7 @@
   {
     "type": "ITEM",
     "id": "dreamforged_rapier",
-    "copy-from": "mc_rapier",
+    "copy-from": "rapier",
     "name": { "str": "dreamforged rapier" },
     "description": "A short rapier, forged entirely from dreamdross.  The dreamdross grants it some minor magical properties, but you can't control their effects.",
     "replace_materials": { "mc_steel": "forged_dreamstuff", "leather": "forged_dreamstuff" },

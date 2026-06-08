@@ -13,7 +13,7 @@
         "....FFFFFFFFFFFFFFFF....",
         "..--FFFFFFFFFFFFFFFF....",
         "..-.##hhhhh++hhhhh##....",
-        "..-.#              #....",
+        "..-.#             §#....",
         "..-.#hh ;;;;;;;; hh#....",
         "..-.#%h ;;hhhh;; h%#....",
         "..-.#%h ;;h;;h;; h%#....",
@@ -23,7 +23,7 @@
         "=---#   ;;CttC;;  r#....",
         "=--4#   ;;;;;;;;  r#####",
         "=--U#%%%%%        r|sf9#",
-        "=--U# a  x     rrrr|~~~#",
+        "=--U#§a  x     rrrr|~~~#",
         "=---#||&|||||||||||||&|#",
         "=---&~~~~@@@@@@~~~T|c~~#",
         "====#~c~~~~~c~~~~~T|~~L#",
@@ -89,7 +89,8 @@
         "L": { "item": "jackets", "chance": 20 },
         "9": [ { "item": "softdrugs", "chance": 20 }, { "item": "SUS_toilet", "chance": 50 } ]
       },
-      "place_vehicles": [ { "vehicle": "security_van", "x": 11, "y": 2, "chance": 20, "rotation": 0 } ]
+      "place_vehicles": [ { "vehicle": "security_van", "x": 11, "y": 2, "chance": 20, "rotation": 0 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

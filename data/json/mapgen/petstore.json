@@ -7,7 +7,7 @@
       "rows": [
         "...........2rrrrrrrrrrr2",
         ".###6666###2rrryrrryrrr2",
-        ".#'4      #2rrryrrryrrr2",
+        ".#'4     §#2rrryrrryrrr2",
         ".#||  CC I62rrryrrryrrr2",
         ".#'4  CC I62rrryrrryrrr2",
         ".#||  CC I62rrryrrryrrr2",
@@ -25,7 +25,7 @@
         ".# K K L            ###.",
         ".#          CC  CC  AA#.",
         ".#+||+||              #.",
-        ".#-B|'G|  KAAAAAAAAAAA#.",
+        ".#-B|'G| §KAAAAAAAAAAA#.",
         ".#######+##############.",
         "......~~~~~UU~UU~~......",
         "......~~~~~~~~~~~~......"
@@ -78,7 +78,8 @@
       "place_loot": [
         { "group": "cash_register_random", "x": [ 11, 13 ], "y": 15 },
         { "group": "cash_register_random", "x": [ 16, 18 ], "y": 15 }
-      ]
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

@@ -27,6 +27,19 @@
   },
   {
     "type": "construction",
+    "id": "constr_camp_anvil",
+    "group": "place_camp_anvil",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "//COMMENT": "Any anvil item that should provide ANVIL 3 quality.",
+    "components": [ [ [ "anvil", 1 ], [ "anvil_bronze", 1 ], [ "anvil_crude", 1 ], [ "anvil_scavenged", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_camp_anvil",
+    "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "constr_anvil_crude",
     "group": "place_anvil_crude",
     "category": "FURN",

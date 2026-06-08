@@ -4,6 +4,22 @@
     "//": "Very high value alien artifacts: high quality weapons, combat tools or supplies.",
     "id": "alienciv_artifact_5",
     "subtype": "distribution",
-    "entries": [ { "item": "afs_hardlight_longbow", "prob": 1 }, { "item": "alien_battery", "charges": 4500, "prob": 10 } ]
+    "entries": [
+      { "item": "afs_hardlight_longbow", "prob": 1 },
+      { "item": "alien_battery", "charges": 4500, "prob": 10 },
+      { "group": "afs_espertech_tinctures", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "//": "This isn't alien tech per se (though it is derived from it), but we'll put it here for now",
+    "id": "afs_espertech_tinctures",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "afs_espertech_gain_esper_powers_geist", "prob": 1 },
+      { "item": "afs_espertech_gain_esper_powers_spark", "prob": 1 },
+      { "item": "afs_espertech_gain_esper_powers_sybil", "prob": 1 },
+      { "item": "afs_espertech_gain_esper_powers_whisper", "prob": 1 }
+    ]
   }
 ]

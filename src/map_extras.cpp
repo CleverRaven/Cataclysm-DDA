@@ -32,6 +32,7 @@
 #include "mapgen_functions.h"
 #include "mapgendata.h"
 #include "omdata.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "regional_settings.h"
@@ -93,13 +94,13 @@ static const map_extra_id map_extra_mx_shrubbery( "mx_shrubbery" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
+static const mongroup_id GROUP_FUNGI_QUEEN( "GROUP_FUNGI_QUEEN" );
 static const mongroup_id GROUP_MIL_PASSENGER( "GROUP_MIL_PASSENGER" );
 static const mongroup_id GROUP_MIL_PILOT( "GROUP_MIL_PILOT" );
 static const mongroup_id GROUP_MIL_WEAK( "GROUP_MIL_WEAK" );
 static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
 static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
 
-static const mtype_id mon_fungaloid_queen( "mon_fungaloid_queen" );
 
 static const oter_type_str_id oter_type_road( "road" );
 
@@ -164,6 +165,30 @@ std::string enum_to_string<map_extra_method>( map_extra_method data )
         // *INDENT-ON*
     }
     cata_fatal( "Invalid map_extra_method" );
+}
+
+template<>
+std::string enum_to_string<map_extra_visibility>( map_extra_visibility data )
+{
+    switch( data ) {
+        case map_extra_visibility::none:
+            return "none";
+        case map_extra_visibility::always:
+            return "always";
+        case map_extra_visibility::vague:
+            return "vague";
+        case map_extra_visibility::outlines:
+            return "outlines";
+        case map_extra_visibility::details:
+            return "details";
+        case map_extra_visibility::full:
+            return "full";
+        case map_extra_visibility::same_tile:
+            return "same_tile";
+        case map_extra_visibility::LAST:
+            break;
+    }
+    cata_fatal( "Invalid map extra visibility" );
 }
 
 } // namespace io
@@ -338,7 +363,8 @@ static bool mx_helicopter( map &m, const tripoint_abs_sm &abs_sub )
                        };
     }
 
-    vehicle *wreckage = m.add_vehicle( crashed_hull, wreckage_pos, dir1, rng( 1, 33 ), 1 );
+    vehicle *wreckage = m.add_vehicle( crashed_hull, wreckage_pos, dir1, rng( 1, 33 ),
+                                       veh_spawn_status::DISABLED );
 
     const auto controls_at = [&m]( vehicle * wreckage, const tripoint_bub_ms & pos ) {
         return !wreckage->get_parts_at( &m, pos, "CONTROLS", part_status_flag::any ).empty() ||
@@ -1049,7 +1075,8 @@ static bool mx_fungal_zone( map &m, const tripoint_abs_sm &abs_sub )
     }
 
     const tripoint_bub_ms suitable_location = random_entry( suitable_locations, omt_center );
-    m.add_spawn( mon_fungaloid_queen, 1, suitable_location );
+    m.place_spawns( GROUP_FUNGI_QUEEN, 1, suitable_location.xy(), suitable_location.xy(),
+                    suitable_location.z(), 1, true );
     m.place_spawns( GROUP_FUNGI_FUNGALOID, 1,
                     suitable_location.xy() + point::north_west,
                     suitable_location.xy() + point::south_east,
@@ -1294,6 +1321,29 @@ bool map_extra::is_valid_for( const mapgendata &md ) const
     return true;
 }
 
+bool map_extra::potentially_visible_at( om_vision_level vis ) const
+{
+    switch( visibility ) {
+        case map_extra_visibility::none:
+            return false;
+        case map_extra_visibility::always:
+            return true;
+        case map_extra_visibility::vague:
+            return vis >= om_vision_level::vague;
+        case map_extra_visibility::outlines:
+            return vis >= om_vision_level::outlines;
+        case map_extra_visibility::details:
+            return vis >= om_vision_level::details;
+        case map_extra_visibility::full:
+            return vis >= om_vision_level::full;
+        case map_extra_visibility::same_tile: // this is a weird case and has it's own checks
+            return true;
+        case map_extra_visibility::LAST:
+            return false;
+    }
+    return false;
+}
+
 void map_extra::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", name_ );
@@ -1307,7 +1357,7 @@ void map_extra::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader, NULL_UNICODE );
     color = jo.has_member( "color" ) ? color_from_string( jo.get_string( "color" ) ) : was_loaded ?
             color : c_white;
-    optional( jo, was_loaded, "autonote", autonote, false );
+    optional( jo, was_loaded, "autonote_visibility", visibility, map_extra_visibility::none );
     optional( jo, was_loaded, "min_max_zlevel", min_max_zlevel_ );
     optional( jo, was_loaded, "flags", flags_, string_reader{} );
     if( was_loaded && jo.has_member( "extend" ) ) {

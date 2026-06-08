@@ -132,6 +132,7 @@
     "result": "disinfectant_makeshift",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
+    "charges": 10,
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
@@ -194,6 +195,7 @@
   },
   {
     "result": "cattail_jelly",
+    "charges": 7,
     "byproducts": [ [ "plant_fibre" ] ],
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

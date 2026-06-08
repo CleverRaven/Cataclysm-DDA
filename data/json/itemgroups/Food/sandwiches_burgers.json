@@ -1,0 +1,163 @@
+[
+  {
+    "type": "item_group",
+    "id": "sandwiches",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "sandwich_cucumber", "prob": 15 },
+      { "prob": 10, "group": "sandwich_deluxe_wrapper_2" },
+      { "prob": 15, "group": "sandwich_reuben_wrapper_2" },
+      { "item": "sandwich_veggy", "prob": 30 },
+      { "prob": 30, "group": "sandwich_t_wrapper_2" },
+      { "item": "sandwich_pb", "prob": 1 },
+      { "item": "sandwich_pbf", "prob": 1 },
+      { "item": "sandwich_pbj", "prob": 1 },
+      { "item": "sandwich_pbh", "prob": 1 },
+      { "item": "sandwich_pbm", "prob": 1 },
+      { "item": "fish_sandwich", "prob": 15 },
+      { "item": "sandwich_jam_butter", "prob": 5 },
+      { "item": "sandwich_jam", "prob": 5 },
+      { "item": "sandwich_cheese", "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "toast_bag_plastic_2",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "toast", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "PBJ_Toast_bag_plastic_2",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "PBJ_Toast", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cheeseburger_wrapper_1_inf",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "cheeseburger", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "hamburger_wrapper_1_inf",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "hamburger", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "blt_wrapper_1_inf",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "blt", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "blt_wrapper_2",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "blt", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "fish_sandwich_wrapper_1_inf",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "fish_sandwich", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sloppyjoe_wrapper_1_inf",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "sloppyjoe", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sandwich_t_wrapper_1_inf",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "sandwich_t", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sandwich_t_wrapper_2",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "sandwich_t", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sandwich_veggy_wrapper_1_inf",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "sandwich_veggy", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sandwich_jam_butter_wrapper_1_inf",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "sandwich_jam_butter", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sandwich_jam_wrapper_1_inf",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "sandwich_jam", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sandwich_cheese_wrapper_1_inf",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "sandwich_cheese", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sandwich_deluxe_wrapper_1_inf",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "sandwich_deluxe", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sandwich_deluxe_wrapper_2",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "sandwich_deluxe", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sandwich_reuben_wrapper_1_inf",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "sandwich_reuben", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sandwich_reuben_wrapper_2",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "sandwich_reuben", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sandwich_pb_wrapper_1_inf",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "sandwich_pb", "container-item": "null", "count": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sandwich_pbj_wrapper_1_inf",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "sandwich_pbj", "container-item": "null", "count": [ 1, -1 ] } ]
+  }
+]

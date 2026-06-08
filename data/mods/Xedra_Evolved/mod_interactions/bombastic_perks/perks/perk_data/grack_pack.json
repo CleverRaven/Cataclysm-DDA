@@ -3,7 +3,7 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_PERK_GRACK_PACK",
     "effect": [
-      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "1.5" ] } },
       { "u_cast_spell": { "id": "perk_GRACKEN_FRIENDSHIP_spell" }, "targeted": true }
     ]
   },

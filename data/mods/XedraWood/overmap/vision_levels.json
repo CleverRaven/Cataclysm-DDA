@@ -1,0 +1,20 @@
+[
+  {
+    "id": "hollow_village",
+    "type": "oter_vision",
+    "levels": [
+      { "name": "cluster of buildings", "sym": ";", "color": "red", "looks_like": "campsite" },
+      { "name": "village", "sym": "^", "color": "red", "looks_like": "campsite" },
+      { "name": "village", "sym": "^", "color": "red", "looks_like": "campsite" }
+    ]
+  },
+  {
+    "id": "zombie_village",
+    "type": "oter_vision",
+    "levels": [
+      { "name": "cluster of buildings", "sym": ";", "color": "red", "looks_like": "campsite" },
+      { "name": "village", "sym": "^", "color": "red", "looks_like": "campsite" },
+      { "name": "village", "sym": "^", "color": "red", "looks_like": "campsite" }
+    ]
+  }
+]

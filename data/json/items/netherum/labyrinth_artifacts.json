@@ -1,0 +1,24 @@
+[
+  {
+    "id": "nl_overgrown_halligan",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
+    "name": { "str": "petrified prybar" },
+    "description": "While this hefty-looking implement looks like a halligan prybar, it appears as if it it were grown rather than fabricated.  It's color is that of metal and natural stone, but it's surprisingly light in the hand, and bares the striations of old, dense wood.",
+    "weight": "2500 g",
+    "volume": "550 ml",
+    "longest_side": "76 cm",
+    "price": "75 USD",
+    "price_postapoc": "15 USD",
+    "material": [ "cyber_wood" ],
+    "symbol": ";",
+    "color": "white",
+    "looks_like": "halligan",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
+    "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ], [ "PRYING_NAIL", 1 ] ],
+    "use_action": [ "CROWBAR" ],
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "SHEATH_AXE" ],
+    "melee_damage": { "bash": 42, "stab": 5 }
+  }
+]

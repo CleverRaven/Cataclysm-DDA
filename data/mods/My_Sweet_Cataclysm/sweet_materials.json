@@ -8,9 +8,9 @@
     "specific_heat_solid": 2.03,
     "latent_heat": 57,
     "chip_resist": 0,
-    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
-    "bash_dmg_verb": "damaged",
-    "cut_dmg_verb": "damaged",
+    "dmg_adj": [ "lightly damaged", { "ctxt": "adjective", "str": "damaged" }, "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": { "ctxt": "verb", "str": "damaged" },
+    "cut_dmg_verb": { "ctxt": "verb", "str": "damaged" },
     "burn_data": [ { "fuel": 1, "smoke": 1, "burn": 1 }, { "fuel": 1, "smoke": 1, "burn": 2 }, { "fuel": 1, "smoke": 1, "burn": 3 } ],
     "resist": { "bash": 0, "cut": 0, "acid": 1, "heat": 1, "bullet": 0, "electric": 1 }
   },

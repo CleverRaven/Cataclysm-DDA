@@ -1,0 +1,20 @@
+[
+  {
+    "id": "dreamer_regen_no",
+    "name": { "str": "Calm or Bored" },
+    "description": "Your mood is stable and stilled.  Your ability to regenerate mana is nonexistent.",
+    "type": "enchantment",
+    "has": "HELD",
+    "condition": { "and": [ { "math": [ "u_val('morale') >= -34" ] }, { "math": [ "u_val('morale') <= 34" ] } ] },
+    "values": [ { "value": "REGEN_MANA", "multiply": -1 } ]
+  },
+  {
+    "id": "dreamer_regen_yes",
+    "name": { "str": "Passionate" },
+    "description": "You can feel your emotions filling your reservoirs of magickal energy.",
+    "type": "enchantment",
+    "has": "HELD",
+    "condition": { "or": [ { "math": [ "u_val('morale') < -34" ] }, { "math": [ "u_val('morale') > 34" ] } ] },
+    "values": [ { "value": "REGEN_MANA", "multiply": { "math": [ "abs(u_val('morale') ) /41" ] } } ]
+  }
+]

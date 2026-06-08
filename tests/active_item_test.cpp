@@ -8,6 +8,7 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "coordinates.h"
+#include "enums.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -34,7 +35,7 @@ static const vproto_id vehicle_prototype_test_shopping_cart( "test_shopping_cart
 TEST_CASE( "active_items_processed_regularly", "[active_item]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     avatar &player_character = get_avatar();
     map &here = get_map();
     // An arbitrary active item that ticks every turn.
@@ -54,7 +55,8 @@ TEST_CASE( "active_items_processed_regularly", "[active_item]" )
     here.add_item( player_character.pos_bub(), active_item );
 
     tripoint_bub_ms vehicle_pos = player_character.pos_bub() + tripoint::east;
-    REQUIRE( here.add_vehicle( vehicle_prototype_test_shopping_cart, vehicle_pos, 0_degrees, 0, 0 ) );
+    REQUIRE( here.add_vehicle( vehicle_prototype_test_shopping_cart, vehicle_pos, 0_degrees, 0,
+                               veh_spawn_status::UNDAMAGED ) );
     std::optional<vpart_reference> cargo = here.veh_at( here.get_abs( vehicle_pos ) ).cargo();
     REQUIRE( cargo );
     item vehicle_active_item( itype_chainsaw_on );

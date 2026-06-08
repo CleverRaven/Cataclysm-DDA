@@ -23,6 +23,6 @@
     "recoil": 26250,
     "//2": "Recoil currently copied from 50 bmg ball as game_balance.md does not state a method for calculating recoil",
     "loudness": 900,
-    "effects": [ "COOKOFF", "MUZZLE_SMOKE", "BLACKPOWDER", "RECYCLED" ]
+    "effects": [ "COOKOFF", "MUZZLE_SMOKE", "BLACKPOWDER", "RECYCLED", "EXCESS_PEN" ]
   }
 ]

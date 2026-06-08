@@ -27,7 +27,7 @@
   {
     "id": "achievement_kill_10000_dinos",
     "type": "achievement",
-    "name": "Red",
+    "name": { "ctxt": "achievement", "str": "Red" },
     "hidden_by": [ "achievement_kill_1000_dinos" ],
     "requirements": [ { "event_statistic": "num_avatar_dino_kills", "is": ">=", "target": 10000 } ]
   },

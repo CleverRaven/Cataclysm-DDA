@@ -1,0 +1,17 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "airlock_to_path",
+    "furniture": [ { "result": "f_shower_retractable", "valid_furniture": [ "f_null", "f_shower_retractable", "f_bed_retractable" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "path_to_airlock",
+    "furniture": [ { "result": "f_null", "valid_furniture": [ "f_null", "f_shower_retractable", "f_bed_retractable" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "closed_elevator_to_open",
+    "terrain": [ { "result": "t_central_elevator", "valid_terrain": [ "t_central_elevator_closed" ] } ]
+  }
+]

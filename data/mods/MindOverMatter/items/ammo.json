@@ -61,7 +61,27 @@
     "id": "noetic_charge_power",
     "copy-from": "psionic_charge_power",
     "name": { "str_sp": "noetic energy" },
-    "ammo_type": "noetic_charge_power",
-    "description": "Power charge for psychic phenomena."
+    "ammo_type": "noetic_charge_power"
+  },
+  {
+    "id": "exodii_exodii_stungun_mag",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "category": "tool_magazine",
+    "name": { "str": "Onšut power pack" },
+    "description": "A power pack for the Onšut §A.  After a catastrophic failure the Exodii stopped attempting to modify their Onšut §As to accept a more standardized power source and worked on adapting their charging stations to recharge the existing power packs, which they eventually managed.",
+    "weight": "50 g",
+    "volume": "17 ml",
+    "longest_side": "20 mm",
+    "price": "101 cent",
+    "price_postapoc": "6 cent",
+    "material": [ { "type": "plastic", "portion": 9 }, { "type": "nether_crystal", "portion": 1 } ],
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": [ "psionic_charge_power" ],
+    "looks_like": "battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD" ],
+    "capacity": 36,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "psionic_charge_power": 36 } } ]
   }
 ]

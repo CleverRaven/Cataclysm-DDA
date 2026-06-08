@@ -83,21 +83,21 @@
     "id": [ "TALK_SALVOR_FABRICATOR_INTRODUCTION_INTIMIDATE_SUCCESS" ],
     "type": "talk_topic",
     "//": "Not a super hard check to pass, it's more about standing up for yourself rather than backing down or redirecting the conversation.",
-    "dynamic_line": "Veronica looks you up and down discerningly and a small smile creases her lips.\nSo you got some spine, good.  Some of the kids that come through here fold the minute the pressure's on.  They don't have a damn clue what's waiting for them out there.  You, well come back alive and you can call me impressed.",
+    "dynamic_line": "&Veronica looks you up and down discerningly and a small smile creases her lips.\n\"So you got some spine, good.  Some of the kids that come through here fold the minute the pressure's on.  They don't have a damn clue what's waiting for them out there.  You, well come back alive and you can call me impressed.\"",
     "responses": [ { "text": "So, what do you actually do here?", "topic": "TALK_SALVOR_FABRICATOR_INTRODUCTION_3" } ]
   },
   {
     "id": [ "TALK_SALVOR_FABRICATOR_INTRODUCTION_INTIMIDATE_FAILURE" ],
     "//": "Veronica is not impressed by your attempt to puff out your chest and look tough. But she still wants you to buy from her because she genuinely wants you to survive.",
     "type": "talk_topic",
-    "dynamic_line": "Veronica looks you up and down discerningly and scoffs.\nYou don't have what it takes kid.  But I won't beat a dead horse.  If you're set on this: best you get geared up before you head out there.  Got some good stuff here that might save your life.",
+    "dynamic_line": "&Veronica looks you up and down discerningly and scoffs.\n\"You don't have what it takes kid.  But I won't beat a dead horse.  If you're set on this: best you get geared up before you head out there.  Got some good stuff here that might save your life.\"",
     "responses": [ { "text": "So, what do you actually do here?", "topic": "TALK_SALVOR_FABRICATOR_INTRODUCTION_3" } ]
   },
   {
     "id": [ "TALK_SALVOR_FABRICATOR_INTRODUCTION_REDIRECT" ],
     "//": "Veronica respects your sass. But you didn't impress her so you aren't going to get the trust boost.",
     "type": "talk_topic",
-    "dynamic_line": "A small smile tugs at the edge of Veronica's lips.\nTch.  No, just the ones I like.  If you ain't changing your mind then at least take a look around.  Best not to go into those frigid wastes unprepared.",
+    "dynamic_line": "&A small smile tugs at the edge of Veronica's lips.\n\"Tch.  No, just the ones I like.  If you ain't changing your mind then at least take a look around.  Best not to go into those frigid wastes unprepared.\"",
     "responses": [ { "text": "So, what do you actually do here?", "topic": "TALK_SALVOR_FABRICATOR_INTRODUCTION_3" } ]
   },
   {
@@ -168,13 +168,13 @@
   {
     "id": [ "TALK_SALVOR_FABRICATOR_BACKSTORY_INTERESTING_COOL_STUFF_WHAT_HAPPENED" ],
     "type": "talk_topic",
-    "dynamic_line": "Net Breacher woke up the Ship's AI.  The bastard fried her brain from the inside out.  Rail from a Wraith turned another two to paste while everyone was still losing their shit.  Rest is a haze of bloody screams and a hail of bullets and plasma.  Few that got out died later of blood loss or froze from suits full o' holes.\nVeronica removes her glove revealing a metallic hand that glints brightly in the dim light of the structure.\nWoulda been dead myself but the plasma burst that took my arm cauterized the wound.  Patched the suit up with foamcrete on my way out.  The Doc had a lot of fun with that one.",
+    "dynamic_line": "Net Breacher woke up the Ship's AI.  The bastard fried her brain from the inside out.  Rail from a Wraith turned another two to paste while everyone was still losing their shit.  Rest is a haze of bloody screams and a hail of bullets and plasma.  Few that got out died later of blood loss or froze from suits full o' holes.\"\nVeronica removes her glove revealing a metallic hand that glints brightly in the dim light of the structure.\n\"Woulda been dead myself but the plasma burst that took my arm cauterized the wound.  Patched the suit up with foamcrete on my way out.  The Doc had a lot of fun with that one.",
     "responses": [ { "text": "I'm sorry for your loss.", "topic": "TALK_SALVOR_FABRICATOR_BACKSTORY_INTERESTING_COOL_STUFF_WARNING" } ]
   },
   {
     "id": [ "TALK_SALVOR_FABRICATOR_BACKSTORY_INTERESTING_COOL_STUFF_WARNING" ],
     "type": "talk_topic",
-    "dynamic_line": "Veronica slowly slides her glove back over her hand and meets your eyes with a scornful gaze.\nThose kids were hopeful idiots but they knew what they were doing.  This place 'ill take everything from you no matter how prepared you think you are.  Leave as soon as you can.  And stay the hell away from the graveyards.",
+    "dynamic_line": "&Veronica slowly slides her glove back over her hand and meets your eyes with a scornful gaze.\n\"Those kids were hopeful idiots but they knew what they were doing.  This place 'ill take everything from you no matter how prepared you think you are.  Leave as soon as you can.  And stay the hell away from the graveyards.\"",
     "responses": [
       {
         "text": "What happened afterwards, how did you end up here?",
@@ -199,6 +199,6 @@
     "type": "talk_topic",
     "//": "In the future if the player demonstrates capability. Veronica will ask you to go to the ship her crew died at and blow up the Ship AI Core. Optionally she will reward you extra for recovering keepsakes from her crew.",
     "dynamic_line": "Well, it ain't like I got someplace to be.  And, well, I can't rightly explain it, but, I feel like I still got business here.  There's a score that needs to be settled, and it just wouldn't sit right leaving things at that.  Salus ain't through with me yet.",
-    "responses": [ { "text": "I understand", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "I understand.", "topic": "TALK_DONE" } ]
   }
 ]

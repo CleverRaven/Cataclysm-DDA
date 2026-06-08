@@ -21,6 +21,7 @@
       "HORROR",
       "ABERRATION",
       "HALLUCINATION",
+      "TINDALOS",
       "UNKNOWN"
     ]
   },
@@ -52,6 +53,7 @@
       "ABERRATION",
       "HALLUCINATION",
       "HUMAN",
+      "TINDALOS",
       "UNKNOWN"
     ]
   },
@@ -78,6 +80,7 @@
       "ABERRATION",
       "HALLUCINATION",
       "HUMAN",
+      "TINDALOS",
       "UNKNOWN"
     ]
   }

@@ -108,7 +108,13 @@
         "difficulty": { "ranged": 7, "melee": 5 },
         "coverage_mult": { "broad": 0.5 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 40 ] },
+          {
+            "effect": "blind",
+            "duration": [ "1 seconds", "2 seconds" ],
+            "chance": 40,
+            "message": "The %s is blinded!",
+            "damage_required": [ 1, 40 ]
+          },
           {
             "effect": "blind",
             "permanent": true,

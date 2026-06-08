@@ -18,7 +18,7 @@
       "trap": "tr_birchbark_funnel",
       "moves": 100,
       "practice": 0,
-      "done_message": "You place the birchbark funnel, waiting to collect rain."
+      "done_message": "You place the funnel, waiting to collect rain."
     },
     "flags": [ "SINGLE_USE" ]
   },
@@ -64,7 +64,7 @@
       "trap": "tr_leather_funnel",
       "moves": 100,
       "practice": 0,
-      "done_message": "You place the leather funnel, waiting to collect rain."
+      "done_message": "You place the funnel, waiting to collect rain."
     },
     "flags": [ "SINGLE_USE" ]
   },
@@ -87,7 +87,7 @@
       "trap": "tr_makeshift_funnel",
       "moves": 100,
       "practice": 0,
-      "done_message": "You place the makeshift funnel, waiting to collect rain."
+      "done_message": "You place the funnel, waiting to collect rain."
     },
     "flags": [ "SINGLE_USE" ]
   },
@@ -111,7 +111,7 @@
       "trap": "tr_metal_funnel",
       "moves": 100,
       "practice": 0,
-      "done_message": "You place the metal funnel, waiting to collect rain."
+      "done_message": "You place the funnel, waiting to collect rain."
     },
     "flags": [ "SINGLE_USE" ],
     "melee_damage": { "bash": 4 }

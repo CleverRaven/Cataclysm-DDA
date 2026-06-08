@@ -31,6 +31,8 @@
 
 template <typename E> struct enum_traits;
 
+namespace
+{
 enum class scores_ui_tab : int {
     achievements = 0,
     conducts,
@@ -38,6 +40,7 @@ enum class scores_ui_tab : int {
     kills,
     num_tabs
 };
+} // namespace
 
 template<>
 struct enum_traits<scores_ui_tab> {
@@ -45,6 +48,8 @@ struct enum_traits<scores_ui_tab> {
     static constexpr scores_ui_tab last = scores_ui_tab::num_tabs;
 };
 
+namespace
+{
 class scores_ui
 {
         friend class scores_ui_impl;
@@ -357,6 +362,7 @@ void scores_ui_impl::draw_controls()
 
     cataimgui::set_scroll( s );
 }
+} // namespace
 
 void show_scores_ui()
 {

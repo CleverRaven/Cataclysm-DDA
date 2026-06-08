@@ -1,0 +1,45 @@
+[
+  {
+    "type": "region_settings_forest",
+    "//": "Designed to make forests and swamps more common and wilderness food more rare, as well as allowing easier access to the ocean in a world without roads",
+    "id": "default",
+    "copy-from": "default",
+    "noise_threshold_forest": 0.15,
+    "noise_threshold_forest_thick": 0.25,
+    "noise_threshold_swamp_adjacent_water": 0.3,
+    "noise_threshold_swamp_isolated": 0.6,
+    "river_floodplain_buffer_distance_min": 3,
+    "river_floodplain_buffer_distance_max": 15
+  },
+  {
+    "type": "region_settings_ocean",
+    "id": "default",
+    "copy-from": "default",
+    "noise_threshold_ocean": 0.25,
+    "ocean_size_min": 100,
+    "ocean_depth": -9,
+    "ocean_start_north": 500,
+    "ocean_start_east": 3,
+    "ocean_start_west": 1000,
+    "ocean_start_south": 5,
+    "sandy_beach_width": 15
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "forest_water",
+    "copy-from": "forest_water",
+    "extend": { "extras": [ [ "mx_nest_claw_hunter", 1 ], [ "mx_nest_claw_runner", 4 ] ] }
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "forest",
+    "copy-from": "forest",
+    "extend": { "extras": [ [ "mx_nest_claw_runner", 2 ] ] }
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "forest_thick",
+    "copy-from": "forest_thick",
+    "extend": { "extras": [ [ "mx_warped_tree_grove", 10 ], [ "mx_campfire_remnants", 5 ] ] }
+  }
+]

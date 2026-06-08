@@ -89,7 +89,9 @@ struct WORLD {
         bool create_timestamp();
 
         bool has_compression_enabled() const;
-        bool set_compression_enabled( bool enabled ) const;
+        bool set_compression_enabled( bool enabled );
+    private:
+        mutable std::optional<bool> is_compressed;
 
 };
 
@@ -138,7 +140,7 @@ class worldfactory
         bool valid_worldname( const std::string &name, bool automated = false ) const;
 
         /**
-         * @param delete_folder If true: delete all the files and directories  of the given
+         * @param delete_folder If true: delete all the files and directories of the given
          * world folder. Else just avoid deleting the config files and the directory
          * itself.
          */

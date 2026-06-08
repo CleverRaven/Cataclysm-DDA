@@ -48,10 +48,12 @@
         ],
         "order": 1000
       },
-      { "id": [ "PALE", "SKIN_DARK", "SKIN_LIGHT", "SKIN_MEDIUM", "SKIN_PINK", "SKIN_TAN" ], "order": 1100 },
+      {
+        "id": [ "PALE", "SKIN_DARK", "SKIN_LIGHT", "SKIN_MEDIUM", "SKIN_PINK", "SKIN_TAN", "ALBINO", "SUNBURN" ],
+        "order": 1100
+      },
       {
         "id": [
-          "ALBINO",
           "BARK",
           "CHITIN",
           "CHITIN2",
@@ -73,6 +75,7 @@
           "RABBIT_FUR",
           "SCALES",
           "SKIN_ROUGH",
+          "SLIMY",
           "SLEEK_SCALES",
           "SORES",
           "THICK_SCALES",

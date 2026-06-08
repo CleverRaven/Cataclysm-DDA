@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <map>
 #include <memory>
-#include <utility>
 
 #include "avatar.h"
 #include "cata_scope_helpers.h"
@@ -12,11 +11,11 @@
 #include "game.h"
 #include "game_constants.h"
 #include "input_enums.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "map_scale_constants.h"
 #include "memory_fast.h"
 #include "options.h"
-#include "output.h"
 #include "player_activity.h"
 #include "point.h"
 #include "ret_val.h"
@@ -151,44 +150,27 @@ void veh_shape::change_part_shape( vpart_reference vpr ) const
     veh_menu menu( this->veh, _( "Choose cosmetic variant:" ) );
     std::string chosen_variant = part.variant; // support for cancel
 
-    do {
-        menu.reset( false );
-
-        for( const auto &[vvid, vv] : vpi.variants ) {
-            menu.add( vv.get_label() )
-            .text_color( ( part.variant == vvid ) ? c_light_green : c_light_gray )
-            .keep_menu_open()
-            .skip_locked_check()
-            .skip_theft_check()
-            .location( veh.bub_part_pos( here, part ).raw() )
-            .select( part.variant == vvid )
-            .desc( _( "Confirm to save or exit to revert" ) )
-            .symbol( vv.get_symbol_curses( 0_degrees, false ) )
-            .symbol_color( vpi.color )
-            .on_select( [&part, variant_id = vvid]() {
-                part.variant = variant_id;
-            } )
-            .on_submit( [&chosen_variant, variant_id = vvid]() {
-                chosen_variant = variant_id;
-            } );
-        }
-
-        // An ordering of the line drawing symbols that does not result in
-        // connecting when placed adjacent to each other vertically.
-        menu.sort( []( const veh_menu_item & a, const veh_menu_item & b ) {
-            const static std::map<int, int> symbol_order = {
-                { LINE_XOXO, 0 }, { LINE_OXOX, 1 }, { LINE_XOOX, 2 }, { LINE_XXOO, 3 },
-                { LINE_XXXX, 4 }, { LINE_OXXO, 5 }, { LINE_OOXX, 6 },
-            };
-            const auto a_iter = symbol_order.find( a._symbol );
-            const auto b_iter = symbol_order.find( b._symbol );
-            if( a_iter != symbol_order.end() ) {
-                return ( b_iter == symbol_order.end() ) || ( a_iter->second < b_iter->second );
-            } else {
-                return ( b_iter == symbol_order.end() ) && ( a._symbol < b._symbol );
-            }
+    for( const auto &[vvid, vv] : vpi.variants ) {
+        menu.add( vv.get_label() )
+        .text_color( ( part.variant == vvid ) ? c_light_green : c_light_gray )
+        .skip_locked_check()
+        .skip_theft_check()
+        .location( veh.bub_part_pos( here, part ).raw() )
+        .desc( _( "Confirm to save or exit to revert" ) )
+        .symbol( vv.get_symbol_curses( 0_degrees, false ) )
+        .symbol_color( vpi.color )
+        .on_select( [&part, variant_id = vvid]() {
+            part.variant = variant_id;
+        } )
+        .on_submit( [&chosen_variant, variant_id = vvid]() {
+            chosen_variant = variant_id;
         } );
-    } while( menu.query() );
+    }
+
+    menu.sort( []( const veh_menu_item & a, const veh_menu_item & b ) -> int {
+        return localized_compare( a._text, b._text );
+    } );
+    menu.query();
 
     part.variant = chosen_variant;
 }

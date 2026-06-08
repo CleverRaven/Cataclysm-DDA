@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_SUBBODYPART_H
 #define CATA_SRC_SUBBODYPART_H
 
+#include <optional>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -66,7 +67,7 @@ struct sub_body_part_type {
 
     // These subparts act like this limb for armor coverage
     // TODO: Coverage/Encumbrance multiplier
-    std::vector<sub_bodypart_str_id> similar_bodyparts;
+    std::optional<sub_bodypart_str_id> similar_bodypart;
     // Unarmed damage when this subpart is our contact area
     damage_instance unarmed_damage;
 
@@ -77,12 +78,14 @@ struct sub_body_part_type {
     // combine matching body part strings together for printing
     static std::vector<translation> consolidate( std::vector<sub_bodypart_id> &covered );
 
+    std::vector<sub_bodypart_str_id> get_all_combined_similar_sub_bodyparts() const;
+
     // Clears all bps
     static void reset();
     // Post-load finalization
     static void finalize_all();
 
-    static void finalize();
+    void finalize();
 };
 
 #endif // CATA_SRC_SUBBODYPART_H

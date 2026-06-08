@@ -12,7 +12,7 @@
 #include <CoreFoundation/CoreFoundation.h>
 #elif defined(__ANDROID__)
 #include <jni.h>
-#include "sdl_wrappers.h" // for SDL_AndroidGetJNIEnv()
+#include "sdl_wrappers.h" // for GetAndroidJNIEnv()
 #include "debug.h" // for DebugLog/D_INFO/D_MAIN
 #elif defined(__linux__)
 #include <langinfo.h>
@@ -128,8 +128,8 @@ std::optional<std::string> Language()
 
     return matchGameLanguage( lang_code );
 #elif defined(__ANDROID__)
-    JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-    jobject activity = ( jobject )SDL_AndroidGetActivity();
+    JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
+    jobject activity = ( jobject )GetAndroidActivity();
     jclass clazz( env->GetObjectClass( activity ) );
     jmethodID method_id = env->GetMethodID( clazz, "getSystemLang", "()Ljava/lang/String;" );
     jstring ans = ( jstring )env->CallObjectMethod( activity, method_id, 0 );

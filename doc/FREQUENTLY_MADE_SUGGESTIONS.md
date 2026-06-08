@@ -58,7 +58,7 @@ Several key developers (including Kevin) already have horror stories about debug
 
 Multithreading massively increases the overhead of maintaining the game. That's an ongoing overhead that just never goes away, it worms its way into every part of the system. For example, if anything but thread #1 wants to touch a data structure, that data structure must now be threading-safe and/or protected by locks
 
-Also, we use mingw for windows builds, it turns out mingw does not have working POSIX locking primitives. (If you do multithreaded on mingw, you abandon linux portability and use windows locking primitives). This is another huge maintenance burden.
+~~Also, we use mingw for windows builds, it turns out mingw does not have working POSIX locking primitives. (If you do multithreaded on mingw, you abandon linux portability and use windows locking primitives). This is another huge maintenance burden.~~
 
 Problem #3 is that multithreading doesn't get you performance improvements as fast as almost anyone thinks it will. To break that down, threading is relatively good for throughput, but it's hard to use it to improve latency.  As it turns out, user-facing programs almost never care about throughput, they only care about latency, so that kind of sucks.  So for example, one of the expensive things we do is calculating FoV, it turns out it's what's called embarrassingly paralleizable, if a little tricky (i.e. you can break it up into 8 almost entirely independent jobs).  The catch is, that task is actually dominated by cache misses instead of computation, and multithreading makes that worse, because you have to ship the input and output data around to the various CPUs. So splitting that task up is relatively easy, but I'm not at all certain that doing so would make it any faster.
 
@@ -410,7 +410,7 @@ Points are a bad tool for balance. How many points is a bad back trait worth? 3?
 
 Luckily for us, a smart person coded a smarter solution to this, named Survivor mode, which is, put simply, "let's put the character against multiple in-game simulations and see how it would behave". Instead of assuming "dense bones = two points", we apply dense bones mutation to the test character and calculate how many blows it can take against a zombie. Is it more than average? It will help you in your game, so be "strong". Such evaluation will ensure the system will always work without much maintenance burden.
 
-Is it a perfect system? No, even now, when this text is written, it still has a lot of rough edges. Is it a good system? Yes, very. Has the pool system been removed completely? No, you can still turn it on when you create the world, and it won't be removed unless it stands in the way of another changes. Is it possible to make a good system out of a pool system? Probably, but no one did.
+Is it a perfect system? No, even now, when this text is written, it still has a lot of rough edges. Is it a good system? Yes, very. Is it possible to make a good system out of a pool system? Probably, but no one did.
 
 Nota Bene, having a version of survivor mode with restrictions, a-la "you can't get traits that would make your defense higher than X" is desirable and would cover the niche of players who feel the open pool is too much for them, and want some sort of restriction.
 

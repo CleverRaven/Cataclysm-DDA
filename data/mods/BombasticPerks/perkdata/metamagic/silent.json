@@ -27,6 +27,11 @@
       { "math": [ "u_spellcasting_adjustment('sound', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES' ) = -1" ] },
       {
         "math": [ "u_spellcasting_adjustment('cost', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES' ) = 0.2" ]
+      },
+      {
+        "math": [
+          "u_spellcasting_adjustment('cost', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES', 'flag_whitelist': 'SILENT' ) = -0.2"
+        ]
       }
     ]
   }

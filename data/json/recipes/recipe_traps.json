@@ -182,23 +182,6 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "blade_trap",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TRAPS",
-    "skill_used": "mechanics",
-    "skills_required": [ "traps", 3 ],
-    "difficulty": 4,
-    "time": "25 m",
-    "reversible": true,
-    "decomp_learn": 3,
-    "proficiencies": [ { "proficiency": "prof_traps" } ],
-    "book_learn": [ [ "manual_mechanics", 3 ], [ "manual_traps", 3 ], [ "howto_traps", 3 ], [ "book_icef", 4 ] ],
-    "qualities": [ { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "motor_small", 1 ] ], [ [ "blade", 2 ] ], [ [ "cordage", 1, "LIST" ] ] ]
-  },
-  {
-    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "boobytrap",
     "id_suffix": "closed_cans_such_as_drinks",

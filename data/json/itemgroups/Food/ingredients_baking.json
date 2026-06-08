@@ -1,0 +1,376 @@
+[
+  {
+    "type": "item_group",
+    "id": "flour_various",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 6, "group": "flour_bottle_plastic" },
+      { "prob": 6, "group": "flour_bottle_glass" },
+      { "prob": 12, "group": "flour_bag_plastic" },
+      { "prob": 6, "group": "flour_bag_paper" },
+      { "prob": 1, "group": "flour_wheat_free_bottle_plastic" },
+      { "prob": 1, "group": "flour_wheat_free_bottle_glass" },
+      { "prob": 2, "group": "flour_wheat_free_bag_plastic" },
+      { "prob": 2, "group": "flour_wheat_free_bag_paper" },
+      { "prob": 3, "group": "bread_flour_bag_plastic" },
+      { "prob": 3, "group": "bread_flour_bag_paper" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_various_full",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 6, "group": "flour_bag_plastic_full" },
+      { "prob": 9, "group": "flour_bag_paper_full" },
+      { "prob": 1, "group": "flour_wheat_free_bag_plastic_full" },
+      { "prob": 2, "group": "flour_wheat_free_bag_paper_full" },
+      { "prob": 2, "group": "bread_flour_bag_plastic_full" },
+      { "prob": 3, "group": "bread_flour_bag_paper_full" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_bulk",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 1, "group": "flour_bag_plastic" },
+      { "prob": 5, "group": "flour_bag_paper" },
+      { "prob": 3, "group": "flour_bag_paper_bulk" },
+      { "prob": 3, "group": "flour_bag_paper_50lb" },
+      { "prob": 1, "group": "flour_wheat_free_bag_plastic" },
+      { "prob": 2, "group": "flour_wheat_free_bag_paper" },
+      { "prob": 1, "group": "flour_wheat_free_bag_paper_bulk" },
+      { "prob": 1, "group": "flour_wheat_free_bag_paper_50lb" },
+      { "prob": 1, "group": "bread_flour_bag_plastic" },
+      { "prob": 5, "group": "bread_flour_bag_paper" },
+      { "prob": 3, "group": "bread_flour_bag_paper_bulk" },
+      { "prob": 3, "group": "bread_flour_bag_paper_50lb" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_bag_plastic_full",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "flour", "container-item": "null", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_bag_paper_full",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "flour", "container-item": "null", "count": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_wheat_free_bag_plastic_full",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "flour_wheat_free", "container-item": "null", "count": 16 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_wheat_free_bag_paper_full",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "flour_wheat_free", "container-item": "null", "count": 60 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bread_flour_bag_plastic_full",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "bread_flour", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bread_flour_bag_paper_full",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "bread_flour", "container-item": "null", "count": 16 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_bottle_plastic",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "flour", "container-item": "null", "count": [ 2, 20 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_bottle_glass",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "flour", "container-item": "null", "count": [ 2, 20 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_bag_paper",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "flour", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_bag_paper_bulk",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder_bulk",
+    "entries": [ { "item": "flour", "container-item": "null", "count": [ 10, 400 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_bag_plastic",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "flour", "container-item": "null", "count": [ 2, 20 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_bag_paper_50lb",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder_50lb",
+    "entries": [ { "item": "flour", "container-item": "null", "count": [ 10, 1850 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_wheat_free_bottle_plastic",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "flour_wheat_free", "container-item": "null", "count": [ 2, 16 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_wheat_free_bottle_glass",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "flour_wheat_free", "container-item": "null", "count": [ 2, 16 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_wheat_free_bag_paper",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "flour_wheat_free", "container-item": "null", "count": [ 5, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_wheat_free_bag_paper_bulk",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder_bulk",
+    "entries": [ { "item": "flour_wheat_free", "container-item": "null", "count": [ 5, 260 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_wheat_free_bag_plastic",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "flour_wheat_free", "container-item": "null", "count": [ 2, 12 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_wheat_free_bag_paper_50lb",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder_50lb",
+    "entries": [ { "item": "flour_wheat_free", "container-item": "null", "count": [ 5, 1200 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bread_flour_bag_paper",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "bread_flour", "container-item": "null", "count": [ 2, 16 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bread_flour_bag_plastic",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "bread_flour", "container-item": "null", "count": [ 1, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bread_flour_bag_paper_bulk",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder_bulk",
+    "entries": [ { "item": "bread_flour", "container-item": "null", "count": [ 2, 65 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bread_flour_bag_paper_50lb",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder_50lb",
+    "entries": [ { "item": "bread_flour", "container-item": "null", "count": [ 2, 300 ] } ]
+  },
+  {
+    "id": "flour_bag_50",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "flour", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "id": "bread_flour_bag_50",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "bread_flour", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "id": "flour_wheat_free_bag_50",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "flour_wheat_free", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tortilla_flour_bag_plastic_full",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "tortilla_flour", "container-item": "null", "count": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cornmeal_box_full",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "cornmeal", "container-item": "null", "count": -1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "yeast_various",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 18, "group": "yeast_bottle_plastic_small" },
+      { "prob": 18, "group": "yeast_bottle_glass_small" },
+      { "prob": 2, "group": "yeast_bottle_plastic" },
+      { "prob": 2, "group": "yeast_bottle_glass" },
+      { "prob": 4, "group": "yeast_bag_plastic" },
+      { "prob": 2, "group": "yeast_bag_paper" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "yeast_various_full",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 10, "group": "yeast_bottle_plastic_small_full" },
+      { "prob": 10, "group": "yeast_bottle_glass_small_full" },
+      { "prob": 4, "group": "yeast_bottle_plastic_full" },
+      { "prob": 4, "group": "yeast_bottle_glass_full" },
+      { "prob": 1, "group": "yeast_bag_plastic_full" },
+      { "prob": 1, "group": "yeast_bag_paper_full" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "yeast_bulk",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 20, "group": "yeast_bottle_plastic" },
+      { "prob": 20, "group": "yeast_bottle_glass" },
+      { "prob": 5, "group": "yeast_bag_plastic" },
+      { "prob": 10, "group": "yeast_bag_paper" },
+      { "prob": 2, "group": "yeast_bag_paper_bulk" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "yeast_bottle_plastic_small_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "yeast", "container-item": "null", "count": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "yeast_bottle_glass_small_full",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning_small",
+    "entries": [ { "item": "yeast", "container-item": "null", "count": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "yeast_bottle_plastic_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "yeast", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "yeast_bottle_glass_full",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "yeast", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "yeast_bag_plastic_full",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "yeast", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "id": "yeast_bag_10",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "yeast", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "yeast_bag_paper_full",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "yeast", "container-item": "null", "count": 180 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "yeast_bottle_plastic_small",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "yeast", "container-item": "null", "count": [ 5, 25 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "yeast_bottle_glass_small",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning_small",
+    "entries": [ { "item": "yeast", "container-item": "null", "count": [ 5, 25 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "yeast_bottle_plastic",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "yeast", "container-item": "null", "count": [ 5, 50 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "yeast_bottle_glass",
+    "subtype": "collection",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "yeast", "container-item": "null", "count": [ 5, 50 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "yeast_bag_plastic",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "yeast", "container-item": "null", "count": [ 5, 50 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "yeast_bag_paper",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "yeast", "container-item": "null", "count": [ 20, 180 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "yeast_bag_paper_bulk",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder_bulk",
+    "entries": [ { "item": "yeast", "container-item": "null", "count": [ 20, 1000 ] } ]
+  }
+]

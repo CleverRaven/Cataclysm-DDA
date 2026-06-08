@@ -2,7 +2,7 @@
   {
     "type": "snippet",
     "category": "nightmares",
-    "//": "When writing nightmares, take care to (1) ensure they are generic enough that getting the same nightmare twice in a row isn't too weird, and (2) that they don't assume anything about the person having them.  If your nightmare reads like a horror story or creepypasta, it is probably going too far. In general, avoid too much description.",
+    "//1": "When writing nightmares, take care to (1) ensure they are generic enough that getting the same nightmare twice in a row isn't too weird, and (2) that they don't assume anything about the person having them.  If your nightmare reads like a horror story or creepypasta, it is probably going too far. In general, avoid too much description.",
     "//2": "It's also a good idea to try mainly to include nightmares that have something to do with the apocalyptic setting of the game, not just generic scary dreams.  Obviously, not all nightmares have to follow this rule, but the more they advance the overall setting of DDA the better.",
     "text": [
       "You awaken from a nightmare about being eaten alive while your friends applaud.",
@@ -119,7 +119,14 @@
       "You dream your boss is scolding you for allowing a zombie through security.",
       "You dream that you're a meal delivery worker, delivering a slab of flesh and some sodas to a zombie house party.",
       "You wake from a nightmare just as your plane crashes.  You remember screams, the lifeless eyes of a zombie child, and her unmoving mother.",
-      "You wake from a dream.  You were on your knees, lapping blood from the floor."
+      "You wake from a dream.  You were on your knees, lapping blood from the floor.",
+      "You dream of thousands of rioters forming a sea of bodies, all writhing and screaming.  Amidst the chaos, you see a young mother viciously tearing her child apart.",
+      "You dream of civilians storming a police barricade, screaming and clawing against the riot shields.  The police fire into the crowd indiscriminately.",
+      "You dream of standing in a watchtower.  You look down to ground level and see a black mass crawling towards the stairs.",
+      "You dream of fighting your neighbor.  You try to block their attacks, but your limbs are as heavy as lead and the air is as thick as honey.",
+      "You dream of crawling into bed after being mauled by an animal.  Something inside you starts stitching your insides together as you drift into unconsciousness.",
+      "You have a nightmare of a trip on a cruise liner.  Just as you're about to re-enter your cabin, dozens of your fellow passengers burst out of their rooms and overwhelm you.",
+      "You have a nightmare of sitting in an airplane.  The pilot steps out the cockpit, his neck broken and horribly bent.  He drags the co-pilot behind him."
     ]
   }
 ]

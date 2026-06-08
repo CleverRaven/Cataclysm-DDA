@@ -64,7 +64,7 @@ void dialogue_window::draw( const std::string &npc_name )
                                         line );
         }
     } else {
-        if( !is_computer && !is_not_conversation ) {
+        if( !is_computer && !is_not_conversation && !is_remote ) {
             std::string formatted_text = formatted_hotkey( ctxt.get_desc( "LOOK_AT", 1 ),
                                          cur_color ).append( _( "Look at" ) );
             print_colored_text( d_win, point( actions_xoffset, ycurrent ), cur_color, c_magenta,

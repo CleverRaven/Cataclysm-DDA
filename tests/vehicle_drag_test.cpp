@@ -8,6 +8,7 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "coordinates.h"
+#include "enums.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
@@ -38,7 +39,8 @@ static void clear_game_drag( const ter_id &terrain )
     // Blind the player to avoid needless drawing-related overhead
     player_character.add_effect( effect_blind, 1_turns, true );
     // Make sure the ST is 8 so that muscle powered results are consistent
-    player_character.str_cur = 8;
+    player_character.set_str_base( 8 );
+    player_character.set_str_bonus( 0 );
 
     build_test_map( terrain );
 
@@ -52,7 +54,8 @@ static vehicle *setup_drag_test( const vproto_id &veh_id )
     map &here = get_map();
     clear_vehicles();
     const tripoint_bub_ms map_starting_point( 60, 60, 0 );
-    vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90_degrees, 0, 0 );
+    vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90_degrees, 0,
+                                         veh_spawn_status::UNDAMAGED );
 
     REQUIRE( veh_ptr != nullptr );
     if( veh_ptr == nullptr ) {

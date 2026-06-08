@@ -10,8 +10,6 @@
       { "point": [ 1, 0, -2 ], "overmap": "innawood_ore_vein_surface_z2_right_side_north" }
     ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 20, -1 ],
-    "city_sizes": [ 0, 13 ],
     "occurrences": [ 0, 5 ]
   },
   {
@@ -26,8 +24,6 @@
       { "point": [ 1, 0, -3 ], "overmap": "innawood_ore_vein_surface_z3_right_side_north" }
     ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 20, -1 ],
-    "city_sizes": [ 0, 13 ],
     "occurrences": [ 3, 10 ]
   },
   {
@@ -47,8 +43,6 @@
       { "point": [ 1, 0, -4 ], "overmap": "innawood_ore_vein_surface_z2_right_side_north" }
     ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 20, -1 ],
-    "city_sizes": [ 0, 13 ],
     "occurrences": [ 50, 100 ],
     "flags": [ "OVERMAP_UNIQUE" ]
   }

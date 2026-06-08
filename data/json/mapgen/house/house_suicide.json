@@ -155,7 +155,6 @@
     "type": "item_group",
     "id": "oxycodone_bottle_plastic_pill_prescription_1",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "oxycodone", "container-item": "null" } ]
   }

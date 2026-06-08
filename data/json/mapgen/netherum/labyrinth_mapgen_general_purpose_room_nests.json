@@ -69,6 +69,76 @@
   },
   {
     "type": "mapgen",
+    "nested_mapgen_id": "ls_4waysquarerooms_22x22_rooms",
+    "//": "large room for setpiece nests",
+    "object": {
+      "mapgensize": [ 22, 22 ],
+      "rows": [
+        "1|||||________________",
+        "|____||_______________",
+        "______+_____||||||||||",
+        "______+_____|vvvvvvvvv",
+        "|____||_____|vvvvvvvvv",
+        "||||||______|vvvvvvvvv",
+        "___________|||||||||||",
+        "___________Fbbbbb_____",
+        "L__________FdddddÇ___L",
+        "___________F__________",
+        "___________F__________",
+        "___________F__________",
+        "___________F__________",
+        "L__________FdddddÇ___L",
+        "___________Fbbbbb_____",
+        "___________|||||||||||",
+        "1|||||______|vvvvvvvvv",
+        "|____||_____|vvvvvvvvv",
+        "______+_____|vvvvvvvvv",
+        "______+_____||||||||||",
+        "|____||_______________",
+        "||||||________________"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "terrain": { "1": "t_nl_metal_floor" },
+      "nested": { "1": { "chunks": [ "ls_bubblecell_6x6_room_Wentry" ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_4waysquarerooms_22x22_rooms",
+    "//": "large room for setpiece nests",
+    "object": {
+      "mapgensize": [ 22, 22 ],
+      "rows": [
+        "1|||||________________",
+        "|____||_______________",
+        "______+_____||||||||||",
+        "______+_____|vvvvvvvvv",
+        "|____||_____|vvvvvvvvv",
+        "||||||______|vvvvvvvvv",
+        "UUUUUU_____|||||||||||",
+        "_____________|2_|2_|2_",
+        "L____________|__|__|__",
+        "_____________|+||+||+|",
+        "______________________",
+        "______________________",
+        "_____________|+||+||+|",
+        "L____________|2_|2_|2_",
+        "_____________|__|__|__",
+        "UUUUUU_____|||||||||||",
+        "1|||||______|vvvvvvvvv",
+        "|____||_____|vvvvvvvvv",
+        "______+_____|vvvvvvvvv",
+        "______+_____||||||||||",
+        "|____||_______________",
+        "||||||________________"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "terrain": { "1": "t_nl_metal_floor", "2": "t_nl_metal_floor" },
+      "nested": { "1": { "chunks": [ "ls_bubblecell_6x6_room_Wentry" ] }, "2": { "chunks": [ "ls_2x2_furniture" ] } }
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "ls_openarea_12x12_rooms",
     "//": "central area to place in larger rooms",
     "object": {
@@ -120,6 +190,29 @@
     "object": {
       "mapgensize": [ 12, 12 ],
       "rows": [
+        "L(        (L",
+        "(|F||||||F|(",
+        " |__L||L__| ",
+        " |___Cc___| ",
+        " |___cC___| ",
+        " F__U||U__F ",
+        " F__U||U__F ",
+        "(|___cC___| ",
+        " |___Cc___| ",
+        " |__L||L__| ",
+        "(|F||||||F|(",
+        "L(        (L"
+      ],
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_openarea_12x12_rooms",
+    "//": "central area to place in larger rooms",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
         " (ϟ      ϟ( ",
         "(||      ||(",
         "ϟ||      ||ϟ",
@@ -129,6 +222,29 @@
         "            ",
         "   cL  Lc   ",
         "   cc  cc   ",
+        " ||      ||ϟ",
+        "(||      ||(",
+        "ϟ(       ϟ( "
+      ],
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_openarea_12x12_rooms",
+    "//": "central area to place in larger rooms",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        " (ϟ      ϟ( ",
+        "(||      ||(",
+        "ϟ||      ||ϟ",
+        "   ÇÇ  ÇÇ   ",
+        "   ÇL  LÇ   ",
+        "            ",
+        "            ",
+        "   ÇL  LÇ   ",
+        "   ÇÇ  ÇÇ   ",
         " ||      ||ϟ",
         "(||      ||(",
         "ϟ(       ϟ( "

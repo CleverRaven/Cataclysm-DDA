@@ -1,0 +1,69 @@
+[
+  {
+    "id": "oxygen_widget",
+    "type": "widget",
+    "var": "oxygen",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
+  },
+  {
+    "id": "oxygen_graph_classic",
+    "type": "widget",
+    "copy-from": "oxygen_widget",
+    "label": "O₂",
+    "style": "graph",
+    "width": 5,
+    "symbols": ".\\|"
+  },
+  {
+    "id": "oxygen_graph",
+    "type": "widget",
+    "copy-from": "oxygen_widget",
+    "label": "Oxygen",
+    "style": "graph",
+    "width": 10,
+    "symbols": ".\\|"
+  },
+  {
+    "id": "oxygen_num_label",
+    "type": "widget",
+    "copy-from": "oxygen_widget",
+    "label": "Oxygen",
+    "style": "number"
+  },
+  {
+    "id": "oxygen_num_no_label",
+    "type": "widget",
+    "copy-from": "oxygen_num_label",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "oxygen_classic_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Oxygen",
+    "arrange": "rows",
+    "default_clause": { "text": "" },
+    "clauses": [ { "condition": { "math": [ "u_oxygen_max() != u_oxygen()" ] }, "id": "content", "widgets": "oxygen_graph_classic" } ],
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ]
+  },
+  {
+    "id": "oxygen_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Oxygen",
+    "arrange": "rows",
+    "default_clause": { "text": "" },
+    "clauses": [ { "condition": { "math": [ "u_oxygen_max() != u_oxygen()" ] }, "id": "content", "widgets": "oxygen_graph" } ],
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ]
+  },
+  {
+    "id": "oxygen_num_label_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Oxygen",
+    "arrange": "rows",
+    "default_clause": { "text": "" },
+    "clauses": [ { "condition": { "math": [ "u_oxygen_max() != u_oxygen()" ] }, "id": "content", "widgets": "oxygen_num_label" } ],
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ]
+  }
+]

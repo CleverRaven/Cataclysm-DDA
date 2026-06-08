@@ -1,0 +1,57 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "mx_witchwood_grove",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_nested": [ { "chunks": [ "witchwood_trees" ], "x": [ 2, 13 ], "y": [ 2, 13 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "witchwood_trees",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "   GSG   ",
+        " SGGGGGS ",
+        " GGSGSGG ",
+        "GSGGGGGSG",
+        "SGGGSGGGS",
+        "GSGSGGSSG",
+        " GGSGSGG ",
+        " SGGGGGS ",
+        "   GSG   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "G": [ [ "t_tree_witchwood", 2 ], [ "t_forestfloor", 2 ], [ "t_moss", 2 ], [ "t_grass", 2 ] ], " ": "t_null" },
+      "furniture": { "S": [ [ "f_starsbreath", 1 ], [ "f_null", 1 ] ] }
+    }
+  }
+]

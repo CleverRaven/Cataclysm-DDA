@@ -1,0 +1,204 @@
+[
+  {
+    "id": "box_of_contact_lens_any",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "contain either used or pristine boxes with any contact lenses",
+    "items": [
+      { "group": "box_of_contact_lens_weekly_pristine", "prob": 25 },
+      { "group": "box_of_contact_lens_weekly_used", "prob": 100 },
+      { "group": "box_of_contact_lens_daily_pristine", "prob": 35 },
+      { "group": "box_of_contact_lens_daily_used", "prob": 100 },
+      { "group": "box_of_contact_lens_daily_big_pristine", "prob": 8 },
+      { "group": "box_of_contact_lens_daily_big_used", "prob": 30 }
+    ]
+  },
+  {
+    "id": "box_of_contact_lens_weekly_pristine",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_paper_small",
+    "items": [
+      { "item": "myopia_contacts_weekly", "prob": 100, "count": 6 },
+      { "item": "myopia_transition_contacts_weekly", "prob": 25, "count": 6 },
+      { "item": "hyperopia_contacts_weekly", "prob": 100, "count": 6 },
+      { "item": "hyperopia_transition_contacts_weekly", "prob": 25, "count": 6 },
+      { "item": "bifocal_contacts_weekly", "prob": 100, "count": 6 },
+      { "item": "bifocal_transition_contacts_weekly", "prob": 25, "count": 6 },
+      { "item": "plano_transition_contacts_weekly", "prob": 15, "count": 6 }
+    ]
+  },
+  {
+    "id": "box_of_contact_lens_weekly_used",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_paper_small",
+    "items": [
+      { "item": "myopia_contacts_weekly", "prob": 100, "count": [ 0, 6 ] },
+      { "item": "myopia_transition_contacts_weekly", "prob": 25, "count": [ 0, 6 ] },
+      { "item": "hyperopia_contacts_weekly", "prob": 100, "count": [ 0, 6 ] },
+      { "item": "hyperopia_transition_contacts_weekly", "prob": 25, "count": [ 0, 6 ] },
+      { "item": "bifocal_contacts_weekly", "prob": 100, "count": [ 0, 6 ] },
+      { "item": "bifocal_transition_contacts_weekly", "prob": 25, "count": [ 0, 6 ] },
+      { "item": "plano_transition_contacts_weekly", "prob": 15, "count": [ 0, 6 ] }
+    ]
+  },
+  {
+    "id": "box_of_contact_lens_daily_pristine",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_small",
+    "items": [
+      { "item": "myopia_contacts_daily", "prob": 100, "count": 30 },
+      { "item": "myopia_transition_contacts_daily", "prob": 25, "count": 30 },
+      { "item": "hyperopia_contacts_daily", "prob": 100, "count": 30 },
+      { "item": "hyperopia_transition_contacts_daily", "prob": 25, "count": 30 },
+      { "item": "bifocal_contacts_daily", "prob": 100, "count": 30 },
+      { "item": "bifocal_transition_contacts_daily", "prob": 25, "count": 30 },
+      { "item": "plano_transition_contacts_daily", "prob": 15, "count": 30 }
+    ]
+  },
+  {
+    "id": "box_of_contact_lens_daily_used",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_small",
+    "items": [
+      { "item": "myopia_contacts_daily", "prob": 100, "count": [ 0, 30 ] },
+      { "item": "myopia_transition_contacts_daily", "prob": 25, "count": [ 0, 30 ] },
+      { "item": "hyperopia_contacts_daily", "prob": 100, "count": [ 0, 30 ] },
+      { "item": "hyperopia_transition_contacts_daily", "prob": 25, "count": [ 0, 30 ] },
+      { "item": "bifocal_contacts_daily", "prob": 100, "count": [ 0, 30 ] },
+      { "item": "bifocal_transition_contacts_daily", "prob": 25, "count": [ 0, 30 ] },
+      { "item": "plano_transition_contacts_daily", "prob": 15, "count": [ 0, 30 ] }
+    ]
+  },
+  {
+    "id": "box_of_contact_lens_daily_big_pristine",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_small",
+    "items": [
+      { "item": "myopia_contacts_daily", "prob": 100, "count": 90 },
+      { "item": "myopia_transition_contacts_daily", "prob": 25, "count": 90 },
+      { "item": "hyperopia_contacts_daily", "prob": 100, "count": 90 },
+      { "item": "hyperopia_transition_contacts_daily", "prob": 25, "count": 90 },
+      { "item": "bifocal_contacts_daily", "prob": 100, "count": 90 },
+      { "item": "bifocal_transition_contacts_daily", "prob": 25, "count": 90 },
+      { "item": "plano_transition_contacts_daily", "prob": 15, "count": 90 }
+    ]
+  },
+  {
+    "id": "box_of_contact_lens_daily_big_used",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_small",
+    "items": [
+      { "item": "myopia_contacts_daily", "prob": 100, "count": [ 0, 90 ] },
+      { "item": "myopia_transition_contacts_daily", "prob": 25, "count": [ 0, 90 ] },
+      { "item": "hyperopia_contacts_daily", "prob": 100, "count": [ 0, 90 ] },
+      { "item": "hyperopia_transition_contacts_daily", "prob": 25, "count": [ 0, 90 ] },
+      { "item": "bifocal_contacts_daily", "prob": 100, "count": [ 0, 90 ] },
+      { "item": "bifocal_transition_contacts_daily", "prob": 25, "count": [ 0, 90 ] },
+      { "item": "plano_transition_contacts_daily", "prob": 15, "count": [ 0, 90 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "quikclot_bag_plastic_6",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "quikclot", "container-item": "null", "count": 6 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "quikclot_bag_plastic_1_6",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "quikclot", "container-item": "null", "count": [ 1, 6 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "quikclot_bag_plastic_5",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "quikclot", "container-item": "null", "count": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "quikclot_bag_plastic_0_5",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "quikclot", "container-item": "null", "count": [ 0, 5 ] } ]
+  },
+  {
+    "id": "adhesive_bandages_box_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_paper_small",
+    "items": [ { "item": "adhesive_bandages", "prob": 100, "count": 20 } ]
+  },
+  {
+    "id": "adhesive_bandages_box_used",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_paper_small",
+    "items": [ { "item": "adhesive_bandages", "prob": 100, "count": [ 1, 20 ] } ]
+  },
+  {
+    "id": "alcohol_wipes_box_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_paper_small",
+    "items": [ { "item": "alcohol_wipes", "prob": 100, "count": 40 } ]
+  },
+  {
+    "id": "alcohol_wipes_box_used",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_paper_small",
+    "items": [ { "item": "alcohol_wipes", "prob": 100, "count": [ 1, 40 ] } ]
+  },
+  {
+    "id": "cotton_ball_bag_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "items": [ { "item": "cotton_ball", "count": 20 } ]
+  },
+  {
+    "id": "cotton_ball_bag_used",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "items": [ { "item": "cotton_ball", "count": [ 1, -1 ] } ]
+  },
+  {
+    "id": "tampon_box_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "items": [ { "item": "tampon", "prob": 100, "container-item": "null", "count": 24 } ]
+  },
+  {
+    "id": "tampon_box_used",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "items": [ { "item": "tampon", "prob": 100, "container-item": "null", "count": [ 1, 24 ] } ]
+  },
+  {
+    "id": "menstrual_pad_box_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "items": [ { "item": "menstrual_pad", "prob": 100, "count": 24 } ]
+  },
+  {
+    "id": "menstrual_pad_box_used",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "items": [ { "item": "menstrual_pad", "prob": 100, "count": [ 1, 24 ] } ]
+  }
+]

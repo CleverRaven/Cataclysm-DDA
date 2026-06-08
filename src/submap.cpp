@@ -46,10 +46,13 @@ static const std::string COSMETICS_SIGNAGE( "SIGNAGE" );
 // Handle GCC warning: 'warning: returning reference to temporary'
 static const std::string STRING_EMPTY;
 
+namespace
+{
 struct cosmetic_find_result {
     bool result = false;
     int ndx = 0;
 };
+} // namespace
 static cosmetic_find_result make_result( bool b, int ndx )
 {
     cosmetic_find_result result;
@@ -405,7 +408,8 @@ void submap::merge_submaps( submap *copy_from, bool copy_from_is_overlay )
             this->m->lum[x][y] += copy_from->m->lum[x][y];
 
             for( const item &itm : copy_from->m->itm[x][y] ) {
-                this->m->itm[x][y].emplace( itm );
+                const auto iter = this->m->itm[x][y].emplace( itm );
+                this->active_items.add( *iter, point_sm_ms( x, y ) );
             }
 
             for( std::map<field_type_id, field_entry>::iterator it = copy_from->m->fld[x][y].begin();
@@ -454,10 +458,7 @@ void submap::merge_submaps( submap *copy_from, bool copy_from_is_overlay )
         }
     }
 
-    // TODO: Copy the active item cache
-    if( !copy_from->active_items.empty() ) {
-        debugmsg( "Active items found on copied submap which is not supported." );
-    }
+    // Active items from copy_from are re-registered during item copy above.
 
     if( copy_from->last_touched > this->last_touched ) {
         this->last_touched = copy_from->last_touched;
@@ -491,4 +492,28 @@ void submap::merge_submaps( submap *copy_from, bool copy_from_is_overlay )
     if( copy_from->temperature_mod != 0 && this->temperature_mod == 0 ) {
         this->temperature_mod = copy_from->temperature_mod;
     }
+}
+
+bool submap::has_original_ter( const point_sm_ms &p ) const
+{
+    return original_terrain.find( p ) != original_terrain.end();
+}
+
+ter_id submap::get_original_ter( const point_sm_ms &p ) const
+{
+    auto it = original_terrain.find( p );
+    if( it != original_terrain.end() ) {
+        return it->second;
+    }
+    return ter_id();
+}
+
+void submap::set_original_ter( const point_sm_ms &p, const ter_id &t )
+{
+    original_terrain[p] = t;
+}
+
+void submap::clear_original_ter( const point_sm_ms &p )
+{
+    original_terrain.erase( p );
 }

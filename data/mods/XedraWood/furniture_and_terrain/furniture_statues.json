@@ -1,0 +1,202 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_statue_worn_away",
+    "looks_like": "f_statue",
+    "name": "statue",
+    "description": "A statue.  Whatever features and details it once had have been worn away by time and the elements.",
+    "symbol": "S",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "SIGN" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 1, 6 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_statue_woman_sitting",
+    "looks_like": "f_statue",
+    "name": "statue",
+    "description": "A statue of a woman sitting.  Her features are mostly worn away, but you can make out her head resting on her hand and another hand extending toward the fire ring, as though to keep warm.",
+    "symbol": "S",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "SIGN" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 1, 6 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_statue_man_standing_looking_away",
+    "looks_like": "f_statue",
+    "name": "statue",
+    "description": "A statue of a man, standing and facing away from the fire.  One stone hand is raised in front of his face and the other is reaching for the stone axe strapped to his stone belt.",
+    "symbol": "S",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "SIGN" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 1, 6 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_statue_man_sitting_cooking",
+    "looks_like": "f_statue",
+    "name": "statue",
+    "description": "A statue of a man sitting near the fire ring.  One hand is braced against the ground and the other is extended and curled, as though it held a stick or a rod of some kind.",
+    "symbol": "S",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "SIGN" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 1, 6 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_statue_woman_lying_down",
+    "looks_like": "f_statue",
+    "name": "statue",
+    "description": "A statue of a woman lying curled up near the fire ring.  Her features are mostly obscured by the stone animal-skin cloak thrown over her body.",
+    "symbol": "S",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "SIGN" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 1, 6 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_statue_child_sitting",
+    "looks_like": "f_statue",
+    "name": "statue",
+    "description": "A statue of a child, wrapped in a stone blanket to the point where any individual features are barely distinguishable.  Two stone hands peek out from the blanket, extended toward the fire ring.",
+    "symbol": "S",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "SIGN" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 1, 6 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_statue_man_laughing",
+    "looks_like": "f_statue",
+    "name": "statue",
+    "description": "A statue of a man sitting, one hand raised above his knee and his head thrown back in laughter.",
+    "symbol": "S",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "SIGN" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 1, 6 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_statue_woman_sitting_away",
+    "looks_like": "f_statue",
+    "name": "statue",
+    "description": "A statue of a woman sitting, facing away from the fire ring.  Both hands are raised to the sides of her face, narrowing her field of vision.",
+    "symbol": "S",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "SIGN" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 1, 6 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_statue_child_drawing_dirt",
+    "looks_like": "f_statue",
+    "name": "statue",
+    "description": "A statue of a child sitting on their heels, one hand in the middle of drawing something in the dirt.  Whatever it was is long since gone to wind and rain.",
+    "symbol": "S",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "SIGN" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 1, 6 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_statue_man_sharpening_axe",
+    "looks_like": "f_statue",
+    "name": "statue",
+    "description": "A statue of a man sitting with a stone axe on his lap.  The other stone hand holds a whetstone, frozen in the act of sharpening.",
+    "symbol": "S",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "SIGN" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 1, 6 ] } ]
+    }
+  }
+]

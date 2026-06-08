@@ -451,7 +451,8 @@
       "bigun",
       "mossberg_590m",
       "USAS_12",
-      "m1014"
+      "m1014",
+      "benelli_m4"
     ],
     "type": "MIGRATION",
     "replace": "shot_tactical"
@@ -497,5 +498,10 @@
     "id": [ "m26_mass_standalone" ],
     "type": "MIGRATION",
     "replace": "small_shotgun"
+  },
+  {
+    "id": [ "nl_chem_thrower" ],
+    "type": "MIGRATION",
+    "replace": "gg_nl_chem_thrower"
   }
 ]

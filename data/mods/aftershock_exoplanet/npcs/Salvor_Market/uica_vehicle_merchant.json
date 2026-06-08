@@ -9,6 +9,7 @@
       { "trait": "BKGR_EARTH" },
       { "group": "BG_survival_story_POLICE" },
       { "group": "NPC_starting_traits" },
+      { "trait": "RETURN_TO_START_POS" },
       { "group": "Appearance_demographics" }
     ],
     "bonus_str": { "rng": [ 0, 1 ] },

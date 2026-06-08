@@ -76,6 +76,8 @@ bool string_id<achievement>::is_valid() const
     return achievement_factory.is_valid( *this );
 }
 
+namespace
+{
 enum class requirement_visibility : int {
     always,
     when_requirement_completed,
@@ -83,6 +85,7 @@ enum class requirement_visibility : int {
     never,
     last
 };
+} // namespace
 
 template<>
 struct enum_traits<requirement_visibility> {
@@ -500,7 +503,7 @@ static std::optional<std::string> text_for_requirement(
     } else if( current_value.type() == cata_variant_type::int_ ) {
         int current = current_value.get<int>();
         int target = req.target.get<int>();
-        result = string_format( _( "%s/%s %s" ), current, target,
+        result = string_format( _( "%d/%d %s" ), current, target,
                                 req.statistic->description().translated( target ) );
     } else {
         // The tricky part here is formatting an arbitrary cata_variant value.

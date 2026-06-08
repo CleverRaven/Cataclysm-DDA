@@ -1,0 +1,42 @@
+[
+  {
+    "type": "effect_migration",
+    "from": "winded_leg_l",
+    "to": "winded_leg"
+  },
+  {
+    "type": "effect_migration",
+    "from": "winded_leg_r",
+    "to": "winded_leg"
+  },
+  {
+    "type": "effect_migration",
+    "from": "winded_arm_l",
+    "to": "winded_arm"
+  },
+  {
+    "type": "effect_migration",
+    "from": "winded_arm_r",
+    "to": "winded_arm"
+  },
+  {
+    "type": "effect_migration",
+    "from": "no_power_leg_l",
+    "to": "no_power_leg"
+  },
+  {
+    "type": "effect_migration",
+    "from": "no_power_leg_r",
+    "to": "no_power_leg"
+  },
+  {
+    "type": "effect_migration",
+    "from": "no_power_arm_l",
+    "to": "no_power_arm"
+  },
+  {
+    "type": "effect_migration",
+    "from": "no_power_arm_r",
+    "to": "no_power_arm"
+  }
+]

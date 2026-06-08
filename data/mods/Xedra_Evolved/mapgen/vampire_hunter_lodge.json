@@ -1,0 +1,161 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "lodge_VH_ground1", "lodge_VH_ground2" ] ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ".%##9###9###9###9###₸##9#################%......",
+        ".*#c B#c B#B c#B c#  #h s#a            >#*......",
+        ".*9d B#d B#B d#B d#  #h T#^   a ZZZ OC  9*......",
+        ".*##=###=###=###=##  ##=##a   a ZZZ OC  #*......",
+        ".*#                           a ZZZ OC  #*......",
+        ".*9                                     9*......",
+        ".*#    YY   YY  AAAAAAAA  ata ^        >#*......",
+        ".%########₸########################   ###*......",
+        "ooooooooooGGGGGGG~~~~~~~~~~~~~~~~~#   #%**......",
+        "ooooooooooooooooG~~~~~%############   #*........",
+        "ooooooooooooooooG~~~~~*9              #*........",
+        "ooooooooooooooooG~~~~~*#Y   c c c     9*........",
+        "ooooooooooooooooGGGGGGG=    ttttt    b9*........",
+        "ooooooooooooooooGGGGGGG=    ttttt    b9*........",
+        "oooooooooooooooo~~~~~G*#Y   c c c     9*........",
+        "oooooooooooooooo~~~~~G*9              9*........",
+        "oooooooooooooooo~~~~~G*#####   ########*........",
+        "oooooooooooooooo~~~~~G***#<#   #********........",
+        "oooooooooooooooo%~~~~GGGG8 #   #%****...........",
+        "......*###-###-###-#########   #####*...........",
+        ".....0*#UU URU URU URU #12C     5 é#*...........",
+        ".....0*#R              z      C   u9*...........",
+        ".....0*#UU URU URU URU #3CC&  4CVuF#*...........",
+        "......%###-###-###-##########₸######%..........."
+      ],
+      "palettes": [ "lodge_palette" ],
+      "terrain": { "₸": "t_door_boarded", "8": "t_door_locked", "9": "t_window_bars_domestic" },
+      "faction_owner": [ { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "place_npcs": [
+        { "class": "vampire_hunter_generic_guard", "x": 20, "y": 12 },
+        { "class": "vampire_hunter_generic_guard", "x": 20, "y": 12 },
+        { "class": "vampire_hunter_generic_guard", "x": 29, "y": 3 },
+        { "class": "vampire_hunter_generic_guard", "x": 29, "y": 5 },
+        { "class": "vampire_hunter_mundane", "x": 27, "y": 12 },
+        { "class": "vampire_hunter_doctor", "x": 30, "y": 20 },
+        { "class": "vampire_hunter_bloodthorne", "x": 37, "y": 5 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "lodge_VH_2ndfloor1", "lodge_VH_2ndfloor2" ] ],
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        " %##W###W###W###W###w##W#################%      ",
+        "  #hh_________DD____/__________________<#       ",
+        "  Whh__///_________/_/____OOOOO_ZZZ_____W       ",
+        "  #____/_/________/___/___O_____ZZZ_///D#       ",
+        "  #__O_///O________/___/________ZZZ_/_/D#       ",
+        "  W__OOOOOO_________/_/____hhh______///_W       ",
+        "  #_________éFF______/_____hhh_________<#       ",
+        " %########w#######wwww#############www###       ",
+        "                                  -...%         ",
+        "                       5-----------...-         ",
+        "                       -..............-         ",
+        "                       -..............-         ",
+        "                       -..............-         ",
+        "                       -..............-         ",
+        "                       -..............-         ",
+        "                       -..............-         ",
+        "                       ---.....--------         ",
+        "                         -.....-                ",
+        "                         -.....-                ",
+        "       ---------5---------.....5----            ",
+        "       -...........................-            ",
+        "       -...........................-            ",
+        "       -........................=..-            ",
+        "       5---------------------------5            "
+      ],
+      "palettes": [ "lodge_2ndfloor_palette" ],
+      "faction_owner": [ { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "place_npcs": [
+        { "class": "vampire_hunter_generic_guard", "x": 17, "y": 2 },
+        { "class": "vampire_hunter_generic_guard", "x": 17, "y": 5 },
+        { "class": "vampire_hunter_generic_guard", "x": 12, "y": 2 },
+        { "class": "vampire_hunter_generic_guard", "x": 12, "y": 5 },
+        { "class": "vampire_hunter_leader", "x": 11, "y": 4 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "lodge_VH_roof1", "lodge_VH_roof2" ] ],
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "  5-------------------------------------5       ",
+        "  -.....................................-       ",
+        "  -.............................~~~.....-       ",
+        "  -.............................~~~.....-       ",
+        "  -V............................~~~.....-       ",
+        "  -.....................................-       ",
+        "  -.....................................-       ",
+        "  5-----------------------------------5--       ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                "
+      ],
+      "palettes": [ "roof_palette" ],
+      "faction_owner": [ { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "furniture": { "V": "f_wind_vane" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "lodge_VH_basement_residential1", "lodge_VH_basement_residential2" ] ],
+    "object": {
+      "fill_ter": "t_soil",
+      "rows": [
+        " ########################################       ",
+        " #_//________//____//______//____//_____#       ",
+        " #___//______//______//____//______//___#       ",
+        " #___//________//____//______//____//___#       ",
+        " #_____//______//______//____//______//_#       ",
+        " #_____//________//____//______//____//_#       ",
+        " #_______//______//______//____//______/#       ",
+        " ####################################_###       ",
+        "                                    #_#         ",
+        "                         ############_#         ",
+        "                         #__________RR#         ",
+        "                         #____________#         ",
+        "                         #____________#         ",
+        "                         #____________#         ",
+        "                         #____________#         ",
+        "                         #____________#         ",
+        "                         ###______#####         ",
+        "                         #<#______#             ",
+        "                         #_+______#             ",
+        "                         ##########             ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                "
+      ],
+      "palettes": [ "standard_domestic_basement_palette" ],
+      "faction_owner": [ { "id": "vampire_hunters", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "terrain": { "/": "t_carpet_yellow", "_": "t_carpet_green", "R": "t_carpet_green" }
+    }
+  }
+]

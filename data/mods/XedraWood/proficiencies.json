@@ -1,0 +1,41 @@
+[
+  {
+    "type": "proficiency_category",
+    "id": "prof_occult_research",
+    "name": "Occult Research",
+    "description": "Proficiencies for discovering the hidden truths of the world."
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_occult_exploration",
+    "name": { "str": "Occult Exploration" },
+    "category": "prof_occult_research",
+    "description": "You have developed a systemized approach to understanding otherworldly phenomenon, and may be able to learn more if you devote yourself.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.25,
+    "time_to_learn": "16 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_thaumatology",
+    "name": { "str": "Thaumatology" },
+    "category": "prof_occult_research",
+    "description": "An understanding of how the hidden forces of the world interact, and possible ways to manipulate them yourself.",
+    "can_learn": true,
+    "default_time_multiplier": 3,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "32 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_bookbinding",
+    "category": "prof_misc_craft",
+    "name": { "str": "Bookbinding" },
+    "description": "Turning paper, leather, wood, and thread into a book.",
+    "can_learn": true,
+    "default_time_multiplier": 2.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "20 h"
+  }
+]

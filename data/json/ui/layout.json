@@ -250,6 +250,7 @@
       "place_desc",
       "lighting_desc",
       "weather_desc",
+      "snow_depth_desc",
       "moon_phase_desc",
       "date_desc_label",
       "time_desc_label"

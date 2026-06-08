@@ -36,6 +36,8 @@ enum scaling_stat : int {
     SKILL_DRIVE,
     SKILL_FIRSTAID,
     SKILL_SPELLCRAFT,
+    SKILL_METAPHYSICS,
+    SKILL_GRAMARYE,
     NUM_STATS
 };
 

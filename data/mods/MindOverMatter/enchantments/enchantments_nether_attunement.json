@@ -1,0 +1,42 @@
+[
+  {
+    "id": "ench_mom_incense_nether_attunement",
+    "type": "enchantment",
+    "has": "HELD",
+    "condition": {
+      "u_has_any_trait": [
+        "BIOKINETIC",
+        "CLAIRSENTIENT",
+        "ELECTROKINETIC",
+        "PHOTOKINETIC",
+        "PYROKINETIC",
+        "TELEKINETIC",
+        "TELEPATH",
+        "TELEPORTER",
+        "VITAKINETIC",
+        "PSYCHIC_KNACK"
+      ]
+    },
+    "ench_effects": [ { "effect": "effect_mom_incense_nether_attunement_minor", "intensity": 1 } ]
+  },
+  {
+    "id": "ench_mom_incense_nether_attunement_major",
+    "type": "enchantment",
+    "has": "HELD",
+    "condition": {
+      "u_has_any_trait": [
+        "BIOKINETIC",
+        "CLAIRSENTIENT",
+        "ELECTROKINETIC",
+        "PHOTOKINETIC",
+        "PYROKINETIC",
+        "TELEKINETIC",
+        "TELEPATH",
+        "TELEPORTER",
+        "VITAKINETIC",
+        "PSYCHIC_KNACK"
+      ]
+    },
+    "ench_effects": [ { "effect": "effect_mom_incense_nether_attunement_major", "intensity": 1 } ]
+  }
+]

@@ -1,0 +1,176 @@
+[
+  {
+    "om_terrain": "cabin_3_reverberation",
+    "type": "mapgen",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "              ~         ",
+        "              ~~        ",
+        "               ~        ",
+        "               ~        ",
+        "               ~        ",
+        "          ##ww#+#ww##   ",
+        "          #14&888OOO#   ",
+        "~~~~~~    wF8888888Ow~~~",
+        "     ~~~~~w2888cc88Ow   ",
+        "          #S888tt88A#   ",
+        "          #3588cc88A#   ",
+        "          ####888888w   ",
+        "         0#s8+88B8BBw   ",
+        "         %#T8#Y8BDBB#   ",
+        "          #####+#ww##   ",
+        "           bbb ~        ",
+        "           ~~~~~        ",
+        "               ~        ",
+        "               ~        ",
+        "               ~        ",
+        "              ~~        ",
+        "              ~         ",
+        "              ~         ",
+        "              ~         "
+      ],
+      "palettes": [ "cabin_palette_reverberation" ],
+      "place_nested": [
+        {
+          "chunks": [
+            "cabin_reverberation_trench_1_surface",
+            "cabin_reverberation_trench_2_surface",
+            "cabin_reverberation_trench_3_surface",
+            "cabin_reverberation_trench_4_surface"
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "terrain": { "0": "t_region_soil", "b": "t_region_groundcover", " ": "t_region_groundcover", "8": "t_floor" },
+      "furniture": {
+        " ": [ [ "f_null", 410 ], [ "f_black_eyed_susan", 10 ], [ "f_bluebell", 50 ], [ "f_lily", 30 ], [ "f_flower_tulip", 30 ] ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "cabin_roof_3_reverberation",
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          -----------   ",
+        "          -.........-   ",
+        "          -.........-   ",
+        "          -.........-   ",
+        "          -~........-   ",
+        "          -.........-   ",
+        "          -.........-   ",
+        "          -.........-   ",
+        "          5.........-   ",
+        "          -----------   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_tar_flat_roof" }
+    }
+  },
+  {
+    "type": "overmap_special",
+    "id": "Cabin_3_reverberation_hint",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cabin_3_reverberation_hint_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_3_reverberation_hint_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "forest_trail", "connection": "forest_trail" } ],
+    "locations": [ "forest" ],
+    "city_distance": [ 25, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 1, 1 ],
+    "flags": [ "CLASSIC", "WILDERNESS", "MAN_MADE", "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "om_terrain": "cabin_3_reverberation_hint",
+    "type": "mapgen",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "************************",
+        "************************",
+        "*********.............**",
+        "********...............*",
+        "********...............*",
+        "********..##ww#+#ww##..*",
+        "********..#14&   OOO#..*",
+        "********..wF       Ow..*",
+        "********..w2   cc  Ow..*",
+        "********..#S   tt  A#..*",
+        "********..#35  cc  A#..*",
+        "********..####      w..*",
+        "********.0#s +  B BBw..*",
+        "********.%#T #  BDBB#..*",
+        "********..#####+#ww##..*",
+        "********...bbb.,.......*",
+        "********...,,,,,.......*",
+        "*********......,......**",
+        "**************.,.*******",
+        "*************..,.*******",
+        "*************.,,.*******",
+        "*************.,..*******",
+        "*************.,.********",
+        "*************.,.********"
+      ],
+      "palettes": [ "cabin_palette_abandoned" ],
+      "place_item": [
+        { "item": "survnote_cabin_reverberation_hint", "x": [ 15, 17 ], "y": [ 9, 12 ], "amount": 1 },
+        { "item": "stepladder", "x": [ 8, 9 ], "y": [ 7, 14 ], "amount": 1 }
+      ],
+      "terrain": { "0": "t_region_soil", "b": "t_region_groundcover", ",": "t_region_soil" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "cabin_roof_3_reverberation_hint",
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          -----------   ",
+        "          -.........-   ",
+        "          -.O.......-   ",
+        "          -.........-   ",
+        "          - ........-   ",
+        "          -.........-   ",
+        "          -.........-   ",
+        "          -.........-   ",
+        "          5.........-   ",
+        "          -----------   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_tar_flat_roof" },
+      "graffiti": { "O": { "text": "IT HAPPENED HERE" } }
+    }
+  }
+]

@@ -1,0 +1,125 @@
+[
+  {
+    "id": "xe_nether_sorcery",
+    "type": "magic_type",
+    "energy_source": "STAMINA",
+    "failure_cost_percent": 0.5,
+    "max_book_level": 5,
+    "cannot_cast_flags": "NO_SPELLCASTING",
+    "cannot_cast_message": "Your powers do not come as you call them!",
+    "failure_chance_formula_id": "xe_nether_sorcery_failure_chance"
+  },
+  {
+    "id": "xe_nether_sorcery_summoning_successful_control",
+    "type": "SPELL",
+    "name": { "str": "Control Summon", "//~": "NO_I18N" },
+    "description": { "str": "This spell is used if the summoning control is successful.", "//~": "NO_I18N" },
+    "message": "",
+    "valid_targets": [ "ground", "ally", "hostile" ],
+    "flags": [ "SILENT" ],
+    "spell_class": "XE_NETHER_SORCERY",
+    "magic_type": "xe_nether_sorcery",
+    "effect": "charm_monster",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "max_level": 15,
+    "difficulty": 60,
+    "skill": "magic",
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "min_damage": 10000,
+    "max_damage": 10000,
+    "min_range": 40,
+    "max_range": 40,
+    "min_duration": 7200000,
+    "max_duration": 14400000,
+    "duration_increment": 720000,
+    "targeted_monster_species": [ "SUMMONED_CREATURE" ]
+  },
+  {
+    "id": "xe_nether_sorcery_cold_damage_over_time",
+    "type": "SPELL",
+    "name": "Bound in Ebon Bands",
+    "description": "Bind a single target in bands of shadow, holding them in place and causing cold damage over time.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "RANDOM_DAMAGE", "RANDOM_DURATION", "VERBAL", "SOMATIC", "NO_LEGS", "LOUD" ],
+    "spell_class": "XE_NETHER_SORCERY",
+    "magic_type": "xe_nether_sorcery",
+    "skill": "deduction",
+    "difficulty": 30,
+    "max_level": 15,
+    "effect": "attack",
+    "effect_str": "effect_xe_nether_sorcery_cold_damage_over_time",
+    "shape": "blast",
+    "damage_type": "cold",
+    "min_dot": { "math": [ "(u_spell_level('xe_nether_sorcery_cold_damage_over_time') * 0.03) + 0.3" ] },
+    "max_dot": { "math": [ "(u_spell_level('xe_nether_sorcery_cold_damage_over_time') * 0.06) + 0.8" ] },
+    "min_duration": { "math": [ "(u_spell_level('xe_nether_sorcery_cold_damage_over_time') * 150) + 800" ] },
+    "max_duration": { "math": [ "(u_spell_level('xe_nether_sorcery_cold_damage_over_time') * 350) + 2000" ] },
+    "min_range": 6,
+    "range_increment": 0.5,
+    "max_range": 30,
+    "base_energy_cost": 2500,
+    "base_casting_time": 75
+  },
+  {
+    "id": "xe_nether_sorcery_summon_kreck_pack",
+    "type": "SPELL",
+    "name": { "str": "The Baying of Hounds" },
+    "description": "Using this spell will summon a pack of otherworldly hounds.  They are <color_yellow>somewhat difficult</color> to control.",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "spell_class": "XE_NETHER_SORCERY",
+    "magic_type": "xe_nether_sorcery",
+    "effect": "effect_on_condition",
+    "skill": "deduction",
+    "shape": "blast",
+    "effect_str": "EOC_XE_NETHER_SORCERY_SUMMON_KRECK_PACK",
+    "difficulty": 50,
+    "max_level": 15,
+    "min_duration": 680000,
+    "max_duration": 1360000,
+    "duration_increment": 68000,
+    "base_casting_time": 300,
+    "base_energy_cost": 5000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_NETHER_SORCERY_SUMMON_KRECK_PACK",
+    "effect": [
+      {
+        "u_query_tile": "line_of_sight",
+        "target_var": { "context_val": "summoning_loc" },
+        "message": "Call the hounds",
+        "range": { "math": [ "(u_spell_level('xe_nether_sorcery_summon_kreck_pack') * 1) + 3" ] }
+      },
+      {
+        "if": { "math": [ "has_var(_summoning_loc)" ] },
+        "then": {
+          "u_spawn_monster": "mon_xe_kreck_summoned",
+          "summoner_is_alpha": true,
+          "real_count": { "math": [ "(u_spell_level('xe_nether_sorcery_summon_kreck_pack') * 0.6) + 3" ] },
+          "max_radius": 3,
+          "target_var": { "context_val": "summoning_loc" },
+          "lifespan": { "math": [ "(u_spell_level('xe_nether_sorcery_summon_kreck_pack') * 680.00) + 6800.00" ] },
+          "spawn_message": "With a baying sound, otherworldly shapes appear!"
+        },
+        "else": { "u_message": "Canceled." }
+      },
+      {
+        "if": {
+          "math": [
+            "( rand(u_skill('deduction') ) + rand(u_spell_level('xe_nether_sorcery_summon_kreck_pack') ) + rand(8) + rand(8) + (u_effect_intensity('effect_xe_nether_resonance_consequences') / 500 ) ) > 11 "
+          ]
+        },
+        "then": [
+          {
+            "u_cast_spell": { "id": "xe_nether_sorcery_summoning_successful_control" },
+            "loc": { "context_val": "summoning_loc" }
+          }
+        ],
+        "else": [ { "u_message": "The things you called up resist your attempt to control them!", "type": "bad" } ]
+      }
+    ]
+  }
+]

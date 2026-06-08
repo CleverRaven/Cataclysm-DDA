@@ -28,7 +28,7 @@ using pset = std::unordered_set<tripoint_abs_ms>;
 TEST_CASE( "zones_custom", "[zones]" )
 {
     WHEN( "overlapping custom zones" ) {
-        clear_map();
+        clear_map_without_vision();
         map &m = get_map();
         tripoint_abs_ms const zone_loc = m.get_abs( tripoint_bub_ms{ 5, 5, 0 } );
         tripoint_abs_ms const zone_hammer_end = zone_loc + tripoint::north;

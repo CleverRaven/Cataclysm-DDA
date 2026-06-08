@@ -4,6 +4,9 @@
 
 #include "safe_reference.h"
 
+namespace
+{
+
 struct example {
     safe_reference_anchor anchor;
 
@@ -11,6 +14,8 @@ struct example {
         return anchor.reference_to( this );
     }
 };
+
+} // namespace
 
 TEST_CASE( "safe_reference_returns_correct_object", "[safe_reference]" )
 {

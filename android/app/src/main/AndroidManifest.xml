@@ -31,7 +31,8 @@
         android:allowBackup="true"
         android:theme="@style/AppTheme"
         android:hardwareAccelerated="true"
-        android:isGame="true" >
+        android:isGame="true"
+        android:enableOnBackInvokedCallback="false" >
 
         <!-- Example of setting SDL hints from AndroidManifest.xml:
         <meta-data android:name="SDL_ENV.SDL_ACCELEROMETER_AS_JOYSTICK" android:value="0"/>
@@ -58,6 +59,17 @@
                   android:configChanges="keyboardHidden|keyboard|orientation|screenSize|navigation"
                   >
         </activity>
+        <!-- Expose app's private data directory for backup without root -->
+        <provider
+            android:name=".CDDADocumentsProvider"
+            android:authorities="com.cleverraven.cataclysmdda.documents"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:permission="android.permission.MANAGE_DOCUMENTS">
+            <intent-filter>
+                <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
+            </intent-filter>
+        </provider>
     </application>
 
 </manifest>

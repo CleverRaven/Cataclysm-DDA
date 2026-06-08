@@ -71,7 +71,7 @@ TEST_CASE( "mapgen_remove_npcs" )
 {
     GIVEN( "in bounds of main map" ) {
         map &here = get_map();
-        clear_map();
+        clear_map_without_vision();
         clear_avatar();
         tripoint_bub_ms const start_loc( HALF_MAPSIZE_X + SEEX - 2, HALF_MAPSIZE_Y + SEEY - 1, 0 );
         get_avatar().setpos( here, start_loc );

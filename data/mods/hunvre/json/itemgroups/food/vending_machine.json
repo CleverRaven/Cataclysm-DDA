@@ -1,0 +1,9 @@
+[
+  {
+    "id": "vending_food_drink_items",
+    "type": "item_group",
+    "//": "TODO: Make actual food items made of algae & fungus and put into real itemgroups",
+    "subtype": "collection",
+    "items": [ { "group": "default_vending_machine" } ]
+  }
+]

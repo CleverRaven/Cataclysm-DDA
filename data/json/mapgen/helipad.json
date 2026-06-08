@@ -19,7 +19,7 @@
         ".F..pppppyppppyppp...|____C___B____________|..F.",
         ".F..pppppyppppypppooom___________B______%__|..F.",
         ".F..pppppyppppyppp...||||||||m|MMMMMMMMM||||..F.",
-        ".F..pppppyppppyppp...|_rrrr|____________%__|..F.",
+        ".F..pppppyppppyppp...|_qqqq|____________%__|..F.",
         ".F..oooooooooooooo...|_____|_______________|..F.",
         ".F..............oo...|_rrrr|___IIIIIIIII_RR|..F.",
         ".F..WwWWwWwwWwwW++WwW|M|||||___IUUUUUUUI_sR|..F.",
@@ -80,13 +80,13 @@
           },
           "chance": 50
         },
-        "r": {
-          "item": {
-            "subtype": "distribution",
-            "entries": [ { "group": "military_standard_assault_rifles", "prob": 45 }, { "group": "military_standard_shotguns", "prob": 5 } ]
-          },
-          "chance": 10
-        },
+        "r": [
+          { "item": "milspec_arsenal_group_only_guns", "chance": 100 },
+          { "item": "arsenal_mics_group", "chance": 70 },
+          { "item": "c4_box_part", "chance": 10 },
+          { "item": "grenade_can_pa120_grenades_full", "chance": 10 }
+        ],
+        "q": { "item": "milspec_arsenal_group_only_ammo", "chance": 100, "repeat": [ 1, 2 ] },
         "l": {
           "item": {
             "subtype": "distribution",

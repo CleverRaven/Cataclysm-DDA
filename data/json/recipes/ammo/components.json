@@ -3,6 +3,7 @@
     "result": "incendiary",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "charges": 200,
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
     "skill_used": "chemistry",

@@ -26,6 +26,9 @@ TEST_CASE( "construct_event", "[event]" )
     CHECK( e.get<int>( "exp" ) == 100 );
 }
 
+namespace
+{
+
 struct test_subscriber : public event_subscriber {
     using event_subscriber::notify;
     void notify( const cata::event &e ) override {
@@ -34,6 +37,8 @@ struct test_subscriber : public event_subscriber {
 
     std::vector<cata::event> events;
 };
+
+} // namespace
 
 TEST_CASE( "push_event_on_vector", "[event]" )
 {
@@ -80,6 +85,9 @@ TEST_CASE( "destroy_bus_before_subscriber", "[event]" )
     CHECK( sub.events.size() == 1 );
 }
 
+namespace
+{
+
 struct expect_subscriber : public event_subscriber {
     using event_subscriber::notify;
     void notify( const cata::event & ) override {
@@ -87,6 +95,8 @@ struct expect_subscriber : public event_subscriber {
     }
     bool found = false;
 };
+
+} // namespace
 
 TEST_CASE( "notify_subscriber_2", "[event]" )
 {

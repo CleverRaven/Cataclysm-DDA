@@ -1,0 +1,9 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRAWOOD_HOLLOW_ONES_RESET_RELATIONS",
+    "recurrence": [ "1 days", "2 days" ],
+    "global": true,
+    "effect": [ { "math": [ "faction_like('hollow_ones_faction') = 1" ] }, { "math": [ "faction_like('hollow_ones_faction') = 1" ] } ]
+  }
+]

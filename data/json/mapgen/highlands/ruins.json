@@ -1,0 +1,677 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "highland_ruins" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "rows": [
+        "1          .1           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "1           1           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highland_structure" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "highland_ruin", 80 ],
+            [ "highland_ruin_empty1", 10 ],
+            [ "highland_ruin_empty2", 10 ],
+            [ "highland_ruin_empty3", 10 ],
+            [ "highland_ruin_empty4", 10 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "highland_ruins" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "rows": [
+        "           .1           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "            1           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highland_structure" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "highland_ruin", 80 ],
+            [ "highland_ruin_empty1", 10 ],
+            [ "highland_ruin_empty2", 10 ],
+            [ "highland_ruin_empty3", 10 ],
+            [ "highland_ruin_empty4", 10 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_ruin",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "||    ..  ||",
+        "|..     .. .",
+        " . S     S .",
+        ".          .",
+        ".. S     S  ",
+        " .         .",
+        " . S     S. ",
+        " ..    . .. ",
+        "   .... ....",
+        "|||||   ||||",
+        "   |     |  ",
+        "   |     |  "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highland_structure" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_ruin",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    |       ",
+        "|||||J J||| ",
+        "    |JJJ|F||",
+        "    |||||FF|",
+        "    -www-   ",
+        "    -wSw-   ",
+        "    -www-   ",
+        "    -----   ",
+        "   .....    ",
+        "|||       ||",
+        "  ||     || ",
+        "   |     |  "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highland_structure" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_ruin",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "     ...... ",
+        "||||||||||||",
+        " ...|wwwwww|",
+        "   .|------|",
+        "  ... ..    ",
+        "...    I .. ",
+        "   ....     ",
+        "    |  ...  ",
+        "    |    |||",
+        "|||||..  |. ",
+        "  ....   ...",
+        "   |     |  "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highland_structure" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_ruin",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        " ..      .. ",
+        "| .... ....|",
+        "|||||||||JJ|",
+        "|FFF|FFF||||",
+        "|xxxxxxx| . ",
+        "|txxxxxxxx. ",
+        "|txxxxxxx ..",
+        "|xxxxxxx| ..",
+        "|FFF|FFF||||",
+        "|||||||||.. ",
+        "  ...  ...  ",
+        "   |... ||||"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highland_structure" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_ruin",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "|||   ||||||",
+        "|S    |     ",
+        "|S         .",
+        "|||   |     ",
+        "      ||||||",
+        "     ......|",
+        "  |--| ...  ",
+        "  -GG-...   ",
+        "| -GG-   ...",
+        " .||||||||||",
+        "   |..  ... ",
+        "   |JJ|     "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highland_structure" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_ruin",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "||.    .....",
+        "|..     ||||",
+        "||       . |",
+        " |---   ||||",
+        " -ww- .... |",
+        " -ww-......|",
+        " ||||||... |",
+        " ..    ..   ",
+        "  .     ....",
+        "    .|||  ||",
+        "     |     |",
+        "     |     |"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highland_structure" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_ruin",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "||||....|||.",
+        "|..  |  . |.",
+        "|..  |.  .|.",
+        "||||  . ||||",
+        "      .... |",
+        "     ......|",
+        "  |...|....|",
+        "       .. . ",
+        "|       . .|",
+        "||||     |||",
+        "    ..  ... ",
+        "      .     "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highland_structure" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_ruin",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "||  ||..|||.",
+        "|... |||  |.",
+        "-......  . .",
+        "|||.. .|||||",
+        "|..   .....|",
+        "|... ...... ",
+        "|||..|  ||||",
+        "     | ..JJ|",
+        "|    |JJJ|J|",
+        "|||  |||||||",
+        "    ..   .. ",
+        "  ||||.     "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highland_structure" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_ruin",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "|   ||..|||.",
+        "           .",
+        "  ---|---   ",
+        "  -ww|ww-   ",
+        "  -ww|ww-. |",
+        "  -ww|ww-  S",
+        "  -ww|ww-  |",
+        "  -ww|ww-   ",
+        "  -ww|ww-.  ",
+        "| ||||||||||",
+        "        | . ",
+        "      . |   "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highland_structure" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_ruin",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "| ..||..|||.",
+        " ..   ......",
+        "  -------.  ",
+        "  -wwwww-.  ",
+        " |||||||||||",
+        "...   .....|",
+        " .      ...|",
+        " .|JJ  .... ",
+        " .|JJJ   .. ",
+        "| ||||||||||",
+        "        | . ",
+        "      . |   "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highland_structure" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_ruin",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "||   |.   ||",
+        "|... |     |",
+        "|....|.  ..|",
+        "||   |||  ||",
+        "  .  |JJ.  |",
+        "  .. |||  .|",
+        "|||. |JJ   |",
+        "|J   |JJ   |",
+        "|J   |JJ   |",
+        "|||  ||||  |",
+        "    ..  |  |",
+        "  ||| . |   "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highland_structure" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_ruin",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "||||||..|  |",
+        " ... |  ||||",
+        " .... ....S|",
+        "||    . .  |",
+        "     |..... ",
+        "||||||||....",
+        "|FFFFFF|||||",
+        "..........  ",
+        "    ......  ",
+        "     |--|..|",
+        "    .|GG|  |",
+        "|||||||||.. "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highland_structure" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_ruin",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "|          .",
+        "| .|-|-|   .",
+        "  .|w|w|.. .",
+        "   -www-   .",
+        "   -www- . |",
+        "   |w|w| . |",
+        "   |w|w|   |",
+        "   -www-  . ",
+        "   -www-.  .",
+        "   |w|w|    ",
+        "|  |-|-|   |",
+        "|         ||"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highland_structure" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_ruin",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "| .......  .",
+        "| .|||||   .",
+        "  .|JJJ|.. .",
+        "....       .",
+        ".        . |",
+        ".|     ... |",
+        "|| -----   |",
+        "   -www-  . ",
+        "   -www-.  .",
+        "   |S|S|    ",
+        "|  |||||   |",
+        "|  |   |||||"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highland_structure" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_ruin",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "|  |||......",
+        "| .|........",
+        ". .|..  .. .",
+        ".... ..  |||",
+        "      I  F| ",
+        "...| . ..|||",
+        "||||     -G|",
+        "  ...  ..-G|",
+        ".. |||  .|||",
+        ".  |.  . F| ",
+        "||||.    |||",
+        "|..    ... |"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highland_structure" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_ruin_empty1",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "|  .....  ..",
+        "|.     .. |.",
+        ".. |      |.",
+        "|  ||      .",
+        "|    S  ....",
+        "|       ..  ",
+        ".  |  .    |",
+        "..    |   . ",
+        " ..        |",
+        "  .   I     ",
+        " ..      I  ",
+        " ||   ..    "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highland_structure" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_ruin_empty2",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "| ...    ||.",
+        "|   .      .",
+        ".  |..  .. .",
+        ".. ||   F   ",
+        ".           ",
+        ".           ",
+        "   |||  F  |",
+        "   ..     . ",
+        "   ..|     |",
+        ".    |  ... ",
+        ".. ..     ..",
+        "|.|.    ... "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highland_structure" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_ruin_empty3",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "|   ..   ||.",
+        "|        ...",
+        "    ...... .",
+        "            ",
+        "         .. ",
+        "  S.        ",
+        "       ..  |",
+        "          ..",
+        ".        .||",
+        "..        .|",
+        " .    ...   ",
+        "|        .. "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highland_structure" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "highland_ruin_empty4",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "|..  ...   .",
+        "|      .....",
+        "  .|    .. .",
+        "         |||",
+        "     S  . ..",
+        ".        |||",
+        "||       ..|",
+        " .        . ",
+        "...         ",
+        " .. .  ...  ",
+        " ...  .|||..",
+        "| ..      .."
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highland_structure" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "fade_ruins_west",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        ". |                     ",
+        ". ||                    ",
+        "..                      ",
+        ". ..                    ",
+        "|.. .                   ",
+        "..   .                  ",
+        ".|                      ",
+        ".|                      ",
+        " ...                    ",
+        "  .   .                 ",
+        " .      .               ",
+        ".. |                    ",
+        " ..|                    ",
+        "..                      ",
+        "   .|                   ",
+        " ..||                   ",
+        ".                       ",
+        "..                      ",
+        ".||                     ",
+        "                        ",
+        "  | |                   ",
+        " .|                     ",
+        ".|.                     ",
+        "   .                    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "highland_structure" ],
+      "terrain": { "|": [ [ "t_rock_wall", 2 ], [ "t_highland_groundcover", 1 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "fade_ruins_east",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                       .",
+        "                    |...",
+        "                      ..",
+        "                    |.. ",
+        "                      |.",
+        "                    |  .",
+        "                    |  .",
+        "                    ....",
+        "                  |   ..",
+        "                      ..",
+        "                     ...",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                      ||",
+        "                       |",
+        "                      |.",
+        "                     ...",
+        "                       .",
+        "                    || .",
+        "                     | .",
+        "                      ..",
+        "                    .. .",
+        "                      .."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "highland_structure" ],
+      "terrain": { "|": [ [ "t_rock_wall", 2 ], [ "t_highland_groundcover", 1 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "fade_ruins_north",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        " |..  |  ....    ||... |",
+        "   ...||  |...    |   ..",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "highland_structure" ],
+      "terrain": { "|": [ [ "t_rock_wall", 2 ], [ "t_highland_groundcover", 1 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "fade_ruins_south",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   ...||  |...    |   ..",
+        " |..  |  ....    ||... |"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "highland_structure" ],
+      "terrain": { "|": [ [ "t_rock_wall", 2 ], [ "t_highland_groundcover", 1 ] ] }
+    }
+  }
+]

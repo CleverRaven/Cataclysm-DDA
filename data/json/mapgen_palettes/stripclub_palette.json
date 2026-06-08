@@ -1,0 +1,62 @@
+[
+  {
+    "type": "palette",
+    "id": "stripclub_palette",
+    "palettes": [ "parametrized_linoleum_palette", "parametrized_carpets_palette", "parametrized_walls_palette" ],
+    "terrain": {
+      "o": "t_window_no_curtains_open",
+      "+": "t_door_c",
+      "-": "t_railing",
+      "*": "t_door_metal_locked",
+      ".": "t_region_groundcover_urban",
+      "_": "t_concrete",
+      ",": "t_thconc_floor",
+      "^": "t_gutter_downspout",
+      "D": "t_concrete",
+      "%": "t_region_shrub_decorative",
+      "á": "t_thconc_floor",
+      "l": "t_thconc_floor",
+      "S": "t_thconc_floor",
+      "B": "t_thconc_floor"
+    },
+    "furniture": {
+      "D": "f_dumpster",
+      "L": "f_locker",
+      "I": "f_dancing_pole",
+      "e": "f_beaded_door",
+      "E": "f_beaded_door",
+      "B": "f_bigmirror",
+      "C": "f_chair",
+      "H": "f_sofa",
+      "á": "f_stool",
+      "Á": "f_barstool",
+      "h": "f_armchair",
+      "S": "f_sofa",
+      "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+      "c": "f_counter",
+      "(": "f_counter",
+      "F": "f_glass_fridge",
+      "t": "f_table",
+      "3": "f_table",
+      "Y": "f_trashcan",
+      "l": "f_locker",
+      "b": "f_metal_bench",
+      "&": "f_sink"
+    },
+    "items": {
+      "L": { "item": "SUS_janitors_closet", "chance": 100 },
+      "Y": [ { "item": "SUS_trash_trashcan", "chance": 30 }, { "item": "stripclub_dirty", "chance": 5 } ],
+      "T": { "item": "SUS_toilet", "chance": 35 },
+      "D": [ { "item": "SUS_trash_dumpster", "chance": 75 }, { "item": "stripclub_dirty", "chance": 5 } ]
+    },
+    "item": {
+      ".": [
+        { "item": "bottle_glass", "chance": 4 },
+        { "item": "can_drink", "chance": 2 },
+        { "item": "glass_shard", "chance": 7 }
+      ],
+      "c": [ { "item": "makeup_kit", "chance": 65 }, { "item": "mirror", "chance": 80 } ]
+    },
+    "toilets": { "T": {  } }
+  }
+]

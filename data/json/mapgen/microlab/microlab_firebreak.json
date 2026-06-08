@@ -11,7 +11,7 @@
         "|####|            |####|",
         "|###||            |####|",
         "|###|N            |####|",
-        "|#||||            ||||#|",
+        "|#||||§          §||||#|",
         "|#|XX=            =XX|#|",
         "|#|XX=            =XX|#|",
         "|#|XX=dddd    dddd=XX|#|",
@@ -27,7 +27,7 @@
         "|#|XX=ddd     dddd=XX|#|",
         "|#|XX=            =XX|#|",
         "|#|XX=            =XX|#|",
-        "|#||||            ||||#|",
+        "|#||||§          §||||#|",
         "|###|N PP  PP  PP |####|",
         "|||||| PP  PP  PP ||||||"
       ],
@@ -51,7 +51,8 @@
           "options": [ { "name": "UNLOCK SECURITY DOORS", "action": "unlock" } ],
           "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
         }
-      }
+      },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -63,7 +64,7 @@
       "rows": [
         "||||||            ||||||",
         "|###|N            |####|",
-        "|###||            |####|",
+        "|###||§          §|####|",
         "|####|ddd      ddd|####|",
         "|####| hd      d  |####|",
         "|#||||  d PPPP d h|####|",
@@ -82,7 +83,7 @@
         "|####|==== YY dddd|####|",
         "|###||            |####|",
         "|###|N            |####|",
-        "|###||            |####|",
+        "|###||§          §|####|",
         "|####| PP  PP  PP |####|",
         "|||||| PP  PP  PP ||||||"
       ],
@@ -106,7 +107,8 @@
           "options": [ { "name": "UNLOCK SECURITY DOORS", "action": "unlock" } ],
           "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
         }
-      }
+      },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -119,7 +121,7 @@
         "||||||            ||||||",
         "|####|            |####|",
         "|####|            |####|",
-        "|###||            |####|",
+        "|###||§          §|####|",
         "|###|N            |####|",
         "|#||||    M       ||||#|",
         "|#|XX=            =XX|#|",
@@ -137,7 +139,7 @@
         "|#|XX=ddd     dddd=XX|#|",
         "|#|XX=            =XX|#|",
         "|#|XX=            =XX|#|",
-        "|#||||            ||||#|",
+        "|#||||§          §||||#|",
         "|###|N PP  PP  PP |####|",
         "|||||| PP  PP  PP ||||||"
       ],
@@ -152,7 +154,8 @@
           "options": [ { "name": "UNLOCK SECURITY DOORS", "action": "unlock" } ],
           "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
         }
-      }
+      },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
@@ -164,7 +167,7 @@
       "rows": [
         "||||||            ||||||",
         "|####|            |####|",
-        "|####|            |####|",
+        "|####|§          §|####|",
         "|###||           ü|####|",
         "|###|N            |####|",
         "|#||||            ||||#|",
@@ -183,7 +186,7 @@
         "|#|XX=ddd     dddd=XX|#|",
         "|#|XXü            =XX|#|",
         "|#|XX=            =üX|#|",
-        "|#||||            ||||#|",
+        "|#||||§          §||||#|",
         "|###|N PP  PP  PP |####|",
         "|||||| PP  PP  PP ||||||"
       ],
@@ -197,7 +200,8 @@
           "options": [ { "name": "UNLOCK SECURITY DOORS", "action": "unlock" } ],
           "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
         }
-      }
+      },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   }
 ]

@@ -1,0 +1,42 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_nl_pipe_plant",
+    "name": "pipe plant",
+    "description": "This looks like a squat collection of reeds.  Upon closer inspection, they are almost identical in shape to plumbing pipes, just made of a wood-like material.",
+    "symbol": "!",
+    "color": "brown",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 30,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "splinter", "count": [ 3, 5 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_nl_climbing_vine",
+    "name": "climbing vines",
+    "description": "This floor-to-ceiling collection of vines is twisted and gnarled, like fraying, loose wires.  Its surface has a plastic sheen.",
+    "symbol": "!",
+    "color": "red",
+    "move_cost_mod": 6,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 30,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "splinter", "count": [ 3, 5 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
+    }
+  }
+]

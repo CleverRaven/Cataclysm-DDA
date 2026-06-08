@@ -45,6 +45,7 @@
     "price": "55 USD",
     "price_postapoc": "1 USD",
     "copy-from": "foldframe",
+    "faults": [ { "fault": "fault_broken_window" } ],
     "melee_damage": { "bash": 20 }
   },
   {

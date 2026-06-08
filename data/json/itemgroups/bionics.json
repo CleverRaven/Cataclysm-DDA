@@ -199,8 +199,28 @@
   },
   {
     "type": "item_group",
+    "id": "bionics_string_dimension_exodii_vault",
+    "items": [
+      [ "bio_eye_enhancer", 1 ],
+      [ "bio_dex_enhancer", 1 ],
+      [ "bio_str_enhancer", 1 ],
+      [ "bio_int_enhancer", 1 ],
+      [ "bio_blade", 1 ],
+      [ "bio_uncanny_dodge", 1 ],
+      [ "bio_nanobots", 1 ],
+      [ "bio_targeting", 1 ],
+      [ "bio_evap", 1 ],
+      [ "bio_water_extractor", 1 ],
+      [ "bio_recoil", 1 ],
+      [ "bio_speed", 1 ],
+      [ "bio_time_freeze", 1 ],
+      [ "bio_probability_travel", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "bionics_ancient",
     "subtype": "collection",
-    "entries": [ { "item": "bio_creeyncaggii", "prob": 100, "faults": { "id": [ "<fault_bionic_salvaged>" ], "chance": 100 } } ]
+    "entries": [ { "item": "bio_creeyncaggii", "prob": 100 } ]
   }
 ]

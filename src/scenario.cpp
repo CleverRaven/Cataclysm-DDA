@@ -9,6 +9,7 @@
 #include "debug.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
+#include "localized_comparator.h"
 #include "mission.h"
 #include "mutation.h"
 #include "options.h"
@@ -701,6 +702,36 @@ ret_val<void> scenario::can_pick() const
     }
 
     return ret_val<void>::make_success();
+}
+
+bool scenario_sorter::operator()( const scenario *a, const scenario *b ) const
+{
+    if( cities_enabled ) {
+        // The generic ("Unemployed") profession should be listed first.
+        const scenario *gen = scenario::generic();
+        if( b == gen ) {
+            return false;
+        } else if( a == gen ) {
+            return true;
+        }
+    }
+
+    if( !a->can_pick().success() && b->can_pick().success() ) {
+        return false;
+    }
+
+    if( a->can_pick().success() && !b->can_pick().success() ) {
+        return true;
+    }
+
+    if( !cities_enabled && a->has_flag( "CITY_START" ) != b->has_flag( "CITY_START" ) ) {
+        return a->has_flag( "CITY_START" ) < b->has_flag( "CITY_START" );
+    } else if( sort_by_points ) {
+        return a->point_cost() < b->point_cost();
+    } else {
+        return localized_compare( a->gender_appropriate_name( male ),
+                                  b->gender_appropriate_name( male ) );
+    }
 }
 
 bool scenario::has_map_extra() const

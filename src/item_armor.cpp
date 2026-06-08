@@ -764,6 +764,15 @@ item::cover_type item::get_cover_type( const damage_type_id &type )
 
 int item::get_avg_coverage( const cover_type &type ) const
 {
+    const Character &viewer = get_player_character();
+    body_part_set viewer_parts;
+    viewer_parts.fill( viewer.get_all_body_parts() );
+    return get_avg_coverage( viewer_parts, type );
+}
+
+int item::get_avg_coverage( const body_part_set &relevant_parts,
+                            const cover_type &type ) const
+{
     const islot_armor *t = find_armor_data();
     if( !t ) {
         return 0;
@@ -773,6 +782,9 @@ int item::get_avg_coverage( const cover_type &type ) const
     for( const armor_portion_data &entry : t->data ) {
         if( entry.covers.has_value() ) {
             for( const bodypart_str_id &limb : entry.covers.value() ) {
+                if( !relevant_parts.test( limb ) ) {
+                    continue;
+                }
                 int coverage = get_coverage( limb, type );
                 if( coverage ) {
                     avg_coverage += coverage;
@@ -781,12 +793,7 @@ int item::get_avg_coverage( const cover_type &type ) const
             }
         }
     }
-    if( avg_coverage == 0 ) {
-        return 0;
-    } else {
-        avg_coverage /= avg_ctr;
-        return avg_coverage;
-    }
+    return avg_ctr > 0 ? avg_coverage / avg_ctr : 0;
 }
 
 int item::get_coverage( const bodypart_id &bodypart, const cover_type &type ) const

@@ -34,14 +34,7 @@
           "expected": 1
         }
       ],
-      "recipe": [
-        { "given": "recipe spawns item with default charges", "recipe": "test_item_with_charges", "expected": 4 },
-        {
-          "given": "recipe spawns item with custom charges",
-          "recipe": "test_item_with_charges_custom",
-          "expected": 17
-        }
-      ],
+      "recipe": [ { "given": "recipe spawns item with custom charges", "recipe": "test_item_with_charges_custom", "expected": 17 } ],
       "vehicle": [
         {
           "given": "vehicle spawns with item with default charges and default container",
@@ -178,14 +171,6 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [ { "item": "test_item_with_container_without_charges" } ]
-  },
-  {
-    "type": "recipe",
-    "result": "test_item_with_charges",
-    "activity_level": "MODERATE_EXERCISE",
-    "container": "test_backpack",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS"
   },
   {
     "type": "recipe",

@@ -24,7 +24,7 @@
     "forests": null,
     "forest_trails": null,
     "highways": null,
-    "cities": null,
+    "cities": "no_cities",
     "forest_composition": "no_forests",
     "map_extras": "no_map_extras",
     "terrain_furniture": "highland",
@@ -81,7 +81,7 @@
     "base_pressure": 995.0,
     "base_wind": 2.0,
     "base_wind_distrib_peaks": 80,
-    "base_wind_season_variation": 50,
-    "weather_white_list": [ "clear", "cloudy", "afs_whiteout", "light_drizzle", "rain", "mist", "fog" ]
+    "base_wind_season_variation": 0,
+    "weather_white_list": [ "clear", "cloudy", "light_drizzle", "rain", "mist", "fog" ]
   }
 ]

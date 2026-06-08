@@ -132,6 +132,7 @@
       { "item": "gloves_work", "prob": 30 },
       { "item": "mask_dust", "prob": 65 },
       { "item": "glasses_safety", "prob": 40 },
+      { "item": "goggles_chem", "prob": 5 },
       { "item": "hand_drill", "prob": 10 },
       { "item": "solar_cell", "prob": 5 },
       { "item": "manual_mechanics", "prob": 35 },

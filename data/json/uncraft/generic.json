@@ -237,7 +237,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "gold_small", 40 ] ] ]
+    "components": [ [ [ "gold_small", 10 ] ] ]
   },
   {
     "result": "pillowcase",
@@ -381,5 +381,21 @@
     "time": "3 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "scrap_aluminum", 3 ] ], [ [ "sheet_canvas", 1 ] ] ]
+  },
+  {
+    "result": "discharged_storage_battery",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "electronics",
+    "time": "20 m",
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "CUT_FINE", "level": 2 } ],
+    "components": [
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "scrap", 7 ] ],
+      [ [ "copper", 13 ] ],
+      [ [ "aluminum_foil", 400 ] ],
+      [ [ "graphite", 98 ] ],
+      [ [ "waste_electrolyte_slurry", 1 ] ]
+    ]
   }
 ]

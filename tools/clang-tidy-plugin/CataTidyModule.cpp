@@ -1,6 +1,8 @@
 #include <clang/Basic/Version.h>
 #include <clang-tidy/ClangTidyModule.h>
+#if CLANG_VERSION_MAJOR < 22
 #include <clang-tidy/ClangTidyModuleRegistry.h>
+#endif
 #include <llvm/ADT/StringRef.h>
 
 #include "AlmostNeverAutoCheck.h"

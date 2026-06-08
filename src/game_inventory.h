@@ -132,13 +132,9 @@ drop_locations smoke_food( Character &you, units::volume total_capacity,
 * Consume an item via a custom menu.
 * If item_location is provided then consume only from the contents of that container.
 */
-item_location consume( const item_location &loc = item_location() );
-/** Consuming a food item via a custom menu. */
-item_location consume_food();
-/** Consuming a drink item via a custom menu. */
-item_location consume_drink();
-/** Consuming a medication item via a custom menu. */
-item_location consume_meds();
+item_location consume( const std::string &comestible_type_filter = std::string(),
+                       const item_location &loc = item_location() );
+
 /** Choosing a container for liquid. */
 item_location container_for( Character &you, const item &liquid, int radius = 0,
                              const item *avoid = nullptr );
@@ -180,6 +176,8 @@ drop_locations unload_container();
 item_location saw_barrel( Character &you, item &tool );
 /** Choosing a gun to saw down its barrel. */
 item_location saw_stock( Character &you, item &tool );
+/** Choosing a gun to use in target_practice activity. */
+item_location pick_target_practice_gun( Character &you );
 /** Choosing an item to attach to a load bearing vest. */
 item_location molle_attach( Character &you, item &tool );
 /** Choosing an item to attach to a vehicle tool station. */

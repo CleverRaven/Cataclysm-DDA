@@ -15,13 +15,17 @@
 #include "dialogue.h"
 #include "effect_on_condition.h"
 #include "enum_conversions.h"
+#include "magic_enchantment.h"
 #include "mutation.h"
 #include "npc.h"
+#include "pimpl.h"
 #include "player_helpers.h"
 #include "talker.h"
 #include "type_id.h"
 
 static const effect_on_condition_id effect_on_condition_changing_mutate2( "changing_mutate2" );
+
+static const itype_id itype_integrated_lupine_fur( "integrated_lupine_fur" );
 
 static const morale_type morale_perm_debug( "morale_perm_debug" );
 
@@ -41,6 +45,7 @@ static const trait_id trait_BEAK_PECK( "BEAK_PECK" );
 static const trait_id trait_EAGLEEYED( "EAGLEEYED" );
 static const trait_id trait_FELINE_EARS( "FELINE_EARS" );
 static const trait_id trait_GOURMAND( "GOURMAND" );
+static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_QUICK( "QUICK" );
 static const trait_id trait_SMELLY( "SMELLY" );
@@ -385,6 +390,41 @@ TEST_CASE( "OVERMAP_SIGHT_enchantment_affect_overmap_sight_range", "[mutations][
             CHECK( dummy.overmap_modified_sight_range( 100.0f ) == 3.0 );
         }
     }
+}
+
+TEST_CASE( "update_cached_mutations_does_not_reapply_cached_traits", "[mutations][regression]" )
+{
+    Character &dummy = get_player_character();
+    clear_avatar();
+
+    dummy.set_mutation( trait_LUPINE_FUR );
+    REQUIRE( dummy.has_trait( trait_LUPINE_FUR ) );
+    REQUIRE( dummy.amount_worn( itype_integrated_lupine_fur ) == 1 );
+
+    // Non-empty old cache triggers the add-path that diffs old vs new.
+    // LUPINE_FUR appears in new but not old, so without the cached_mutations
+    // guard it would call mutation_effect again and wear a duplicate.
+    dummy.old_mutation_cache->mutations = { trait_GOURMAND };
+    dummy.new_mutation_cache->mutations = { trait_LUPINE_FUR };
+
+    dummy.update_cached_mutations();
+
+    CHECK( dummy.amount_worn( itype_integrated_lupine_fur ) == 1 );
+}
+
+TEST_CASE( "mutation_effect_does_not_stack_integrated_armor", "[mutations][regression]" )
+{
+    Character &dummy = get_player_character();
+    clear_avatar();
+
+    dummy.set_mutation( trait_LUPINE_FUR );
+    REQUIRE( dummy.amount_worn( itype_integrated_lupine_fur ) == 1 );
+
+    dummy.mutation_effect( trait_LUPINE_FUR, true );
+    CHECK( dummy.amount_worn( itype_integrated_lupine_fur ) == 1 );
+
+    dummy.mutation_effect( trait_LUPINE_FUR, true );
+    CHECK( dummy.amount_worn( itype_integrated_lupine_fur ) == 1 );
 }
 
 static void check_test_mutation_is_triggered( const Character &dummy, bool trigger_on )
@@ -770,4 +810,3 @@ TEST_CASE( "Threshold_substitutions", "[mutations]" )
     CHECK( !dummy.has_trait( trait_WINGS_BIRD ) );
     CHECK( !dummy.has_trait( trait_STR_ALPHA ) );
 }
-

@@ -4,6 +4,7 @@
     "activity_level": "NO_EXERCISE",
     "result": "mixed_alcohol_strong",
     "id_suffix": "from_water",
+    "charges": 7,
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ELEMENTAL",
     "skill_used": "deduction",

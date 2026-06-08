@@ -1,0 +1,52 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SWAMP_TRAVEL_GHOST_LIGHT_SPAWN",
+    "recurrence": [ "15 minutes", "3 hours" ],
+    "global": true,
+    "run_for_npcs": false,
+    "condition": {
+      "and": [
+        { "one_in_chance": 12 },
+        { "not": "is_day" },
+        { "not": { "u_has_effect": "sleep" } },
+        "u_is_outside",
+        { "or": [ { "u_at_om_location": "forest_water" }, { "u_near_om_location": "river_center", "range": 1 } ] }
+      ]
+    },
+    "effect": [
+      { "u_spawn_monster": "mon_ghost_light", "real_count": [ 2, 4 ], "min_radius": 20, "max_radius": 50 },
+      { "u_message": "You see flickering lights in the distance." }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRAWOOD_VERY_RARE_GHOSTS_SPAWN_ON_ROADS",
+    "required_event": "avatar_enters_omt",
+    "eoc_type": "EVENT",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        { "u_at_om_location": "ancient_road" },
+        { "not": "is_day" },
+        { "math": [ "u_val('fine_detail_vision_mod') >= 4" ] },
+        { "math": [ "moon_phase() != 4" ] },
+        { "not": { "is_weather": "clear" } },
+        { "not": { "is_weather": "sunny" } },
+        { "x_in_y_chance": { "x": 1, "y": 2500 } }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "As your footsteps thud on the ancient road, you suddenly hear the sound of other footsteps behind you.",
+        "type": "bad"
+      },
+      {
+        "u_spawn_monster": "mon_ghostly_warrior",
+        "real_count": [ 2, 4 ],
+        "min_radius": [ 5, 7 ],
+        "max_radius": [ 8, 15 ]
+      }
+    ]
+  }
+]

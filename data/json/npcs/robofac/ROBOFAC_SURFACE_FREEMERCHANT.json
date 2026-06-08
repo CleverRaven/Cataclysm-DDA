@@ -15,7 +15,7 @@
     "id": "NC_ROBOFAC_FREE_MERCHANT",
     "name": { "str": "Caravaneer" },
     "job_description": "I'm the owner of a trade caravan.",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "RETURN_TO_START_POS" } ],
     "//": "This is a unique NPC who doesn't get randomly selected background traits",
     "common": false,
     "bonus_int": { "one_in": 4 },

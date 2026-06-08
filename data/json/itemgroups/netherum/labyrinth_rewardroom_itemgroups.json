@@ -149,5 +149,19 @@
       [ "bio_infrared", 10 ],
       [ "bio_ground_sonar", 10 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_bionics",
+    "//": "Labyrinth only bionics, not tuned to specific encounters",
+    "subtype": "distribution",
+    "items": [
+      [ "bio_nl_dimensional_anchor", 10 ],
+      [ "bio_nl_laser_reader", 10 ],
+      [ "bio_nl_psyshield", 10 ],
+      [ "bio_nl_hair", 10 ],
+      [ "bio_nl_blood_factory", 10 ],
+      [ "bio_nl_antigravity_jump", 10 ]
+    ]
   }
 ]

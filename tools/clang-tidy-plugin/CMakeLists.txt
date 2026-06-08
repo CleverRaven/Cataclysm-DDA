@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 include(ExternalProject)
+include(CheckCXXCompilerFlag)
 
 find_package(LLVM REQUIRED CONFIG)
 find_package(Clang REQUIRED CONFIG)
@@ -53,12 +54,21 @@ set(CataAnalyzerSrc
 if (CATA_CLANG_TIDY_EXECUTABLE)
     set(CataAnalyzerName CataAnalyzer)
     add_executable(${CataAnalyzerName} ${CataAnalyzerSrc})
-    target_link_libraries(${CataAnalyzerName} PRIVATE clangTidyMain)
+    if (TARGET clangTidyMain)
+        target_link_libraries(${CataAnalyzerName} PRIVATE clangTidyMain)
+    endif ()
     add_definitions(-DCATA_CLANG_TIDY_EXECUTABLE)
 else ()
     set(CataAnalyzerName CataAnalyzerPlugin)
     add_library(${CataAnalyzerName} MODULE ${CataAnalyzerSrc})
-    target_link_libraries(${CataAnalyzerName} PRIVATE clangTidyPlugin)
+    # Stock LLVM packages list clangTidyPlugin in CLANG_EXPORTED_TARGETS without
+    # defining it as an imported library, so an unconditional link sends a literal
+    # -lclangTidyPlugin to the linker and fails. The patched plugin-support build
+    # used in CI does export it. Plugin symbols are resolved at LD_PRELOAD time
+    # in either case.
+    if (TARGET clangTidyPlugin)
+        target_link_libraries(${CataAnalyzerName} PRIVATE clangTidyPlugin)
+    endif ()
     if ("${CMAKE_SYSTEM_NAME}" MATCHES "Darwin")
         target_link_options(${CataAnalyzerName} PRIVATE -undefined dynamic_lookup)
     endif ()
@@ -81,6 +91,20 @@ target_compile_definitions(${CataAnalyzerName} PRIVATE ${LLVM_DEFINITIONS_SEP})
 if (MSVC)
 else ()
     target_compile_options(${CataAnalyzerName} PRIVATE -fno-exceptions -fno-rtti)
+    # LLVM/Clang headers occasionally trip CATA_WARNINGS via system-header
+    # inlining (-Wnonnull, -Wstringop-overflow, etc).  The plugin is build-time
+    # tooling, so relax those errors locally instead of weakening project flags.
+    set(CATA_TIDY_RELAX_WARNINGS
+            nonnull
+            stringop-overflow
+            array-bounds
+            dangling-reference)
+    foreach (RELAX IN LISTS CATA_TIDY_RELAX_WARNINGS)
+        check_cxx_compiler_flag("-Wno-error=${RELAX}" CATA_TIDY_HAS_NO_ERROR_${RELAX})
+        if (CATA_TIDY_HAS_NO_ERROR_${RELAX})
+            target_compile_options(${CataAnalyzerName} PRIVATE "-Wno-error=${RELAX}")
+        endif ()
+    endforeach ()
 endif ()
 
 configure_file(test/lit.site.cfg.in test/lit.site.cfg @ONLY)

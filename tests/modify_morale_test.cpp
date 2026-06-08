@@ -127,7 +127,7 @@ TEST_CASE( "food_enjoyability", "[food][modify_morale][fun]" )
 
 TEST_CASE( "dining_with_table_and_chair", "[food][modify_morale][table][chair]" )
 {
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     avatar dummy;
     dummy.set_body();

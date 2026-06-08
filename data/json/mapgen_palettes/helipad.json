@@ -40,6 +40,7 @@
     "furniture": {
       "C": "f_crate_c",
       "r": "f_rack",
+      "q": "f_rack",
       "z": [ "f_indoor_plant_y", "f_indoor_plant" ],
       "L": "f_locker",
       "4": "f_locker",

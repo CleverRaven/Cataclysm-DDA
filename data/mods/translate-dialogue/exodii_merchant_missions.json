@@ -1,0 +1,367 @@
+[
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_1_intro",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Them as offer as can, an it be so.  How'd ye be twigged by a quick an' round, a nice escoltin' out to a place sommat of curiosity?  Aye, there's summat the old Scythy been larkin' up Rubik's tailpipe.  B'ain't tass right for a clanker like this'n, but a pop-an-work like you'n, maybe well and suited.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Just because you asked, I think we can work something out.  Yes, the Scythean has been bugging me about something.  It's not something a cyborg like me can do, but a mercenary would probably fit the bill."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_1_explain",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Hat ye kennt our great clanks an' stompers?  There be many a thing we can do right good, but for the supple an' smooth, we b'ain't.  Wish'n we to make a meet-cute, must we first lay out the hempen mats.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Have you seen our big stompy quads?  There's a lot of things we're good at, but sneaky and subtle we aren't.  If we want a meet cute, first we've got to lay out the hempen mats."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_1_intro1",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "It be a right coddle to yark, but ol' Rubik'll do as can.  Them as we send a'far, what I'd assert as 'escolts'… explorers?  They's escolted a place with a mite o' promise, an I'm ken.  A wall o' crete-stone, abreast a rattlin' clunker… a 'bunker'.  Not so odd in a deadlands alas, but this'n gots the comin's and goin's.  Sommat's still in there, an' ol' Rubik wonders who.  Be they friend or foe?  What say ye t'helpin' with a mite o' escoltin' y'self?",
+        "\"\n\n[TRANSLATE:] \"",
+        "It's a bit hard to explain, but I'll do my best.  The forces we send far out, what I'd call 'escolts'… explorers?  They've scouted a place with a bit of promise, as far as I can tell.  A wall of concrete around a bunker.  That's not so odd in a place like this, but this one has people coming and going.  There's something still in there, and I wonder who.  Are they friendly or not?  What would you think about doing some scouting yourself?"
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_1_intro2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "No, me fruit gum, no!  Make no contact, y'ken?  This be covert.  If ye kennit be safe, traipse along an' for a kennabout, but upon the chimes, speak none and tarry little.",
+        "\"\n\n[TRANSLATE:] \"",
+        "No, my friend, no!  Don't make contact, understand?  This is a covert op.  If you see that it's safe you can go in closer and look around, but for goodness' sake, don't talk to anyone and don't linger."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_1_intro3",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Them as we've escolted seems a fair kin, an' we've eyed a scav or two wanderin' the premise unscathed.  If'n the scavs o' the dust can make it in an' out, so should ye be.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Our scouts have seen people who look like you wandering in the area safely.  If the scavengers can make it in and out, you should be fine."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_1_pay_skeptic",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Rightly a trig barter, an I'm ken.  By ol' Rubik's word, on your saintly march home, for you'll have the pick of the bright and steelies roun' ol' Rubik's shop, choice o' your own finely.  What say?",
+        "\"\n\n[TRANSLATE:] \"",
+        "I didn't know you'd be such a hard bargain!  Tell ya what, when you come back, I'll let you in on some of these fancy knick-knacks."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_1_pay_nice",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Ah, 'tis a fine spark.  F'r a switch an' clock, ol' Rubik can share y'like o' these bright and steelies roun' the shop, choice o' your finely.  What say?",
+        "\"\n\n[TRANSLATE:] \"",
+        "That's quite the spirit!  For an exchange, I'll give you some of these shiny tools, whatever you want.  How's that sound?"
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_1_met_hub",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Ah, would ye be willin' ta yark with me about it?",
+        "\"\n\n[TRANSLATE:] \"",
+        "Ah, would you be willing to tell me about it?"
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_1_complete",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "'Tis a fine an' dandy!  What can ol' Rubik stand ye for, then?",
+        "\"\n\n[TRANSLATE:] \"",
+        "That's great!  What would you like as payment?"
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_intro",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') >= 28" ],
+      "yes": {
+        "concatenate": [
+          "Well an surely, fruit gum!  How'd ye be twigged by a pop-an-squeak?  Or as y'r tassed, a treasure hunt?  'Tis a store-cabin, mayhap the likes you've seen.  This'n be older'n most, clade o' iron and crete-stone.  Abreast the ceil, high atop, there be a steely jut, piercin' the heavens.  In times ordinary, Great Grey could call out and screed the jut, kennit, and send aloft an escolt to razz 'er.  Oft times, the jut is wibbled on the wobble, an' it be coals'n coke.  Ol' Rubik can give you'n a dandy to pop 'er back aloft, and that's a fig and a fiddle.",
+          "\"\n\n[TRANSLATE:] \"",
+          "We are unable to locate one of our warehouses since the last jump.  We would need you to go find it and reactivate its locator"
+        ]
+      },
+      "no": {
+        "math": [ "talked_to_hub == 1" ],
+        "yes": {
+          "concatenate": [
+            "Well an surely, fruit gum!  How'd ye be twigged by a pop-an-squeak?  Or as y'r tassed, a treasure hunt?  Mayhap this be a chance to show y'self a true, for Rubik's got sommat to ask yet again.  The way o' the Exode is t'shimmy an' wobble, an' on thislike wobble, a few bits wobbled off, kennit?  'Tis rightful common, alack.  One such is hidden for our escolts an' our screeds.  Mayhap as y'know the lands, ye'd have a see of it?  Aye, ye kennit well.  'Tis a store-cabin, mayhap the likes you've seen.  This'n be older'n most, clade o' iron and crete-stone.  Abreast the ceil, high atop, there be a steely jut, piercin' the heavens.  In times ordinary, Great Grey could call out and screed the jut, kennit, and send aloft an escolt to razz 'er.  Oft times, the jut is wibbled on the wobble, an' it be coals'n coke.  Ol' Rubik can give you'n a dandy to pop 'er back aloft, and that's a fig and a fiddle.",
+            "\"\n\n[TRANSLATE:] \"",
+            "We are unable to locate one of our warehouses since the last jump.  We would need you to go find it and reactivate its locator"
+          ]
+        },
+        "no": {
+          "math": [ "exodii_knows_hub01 == 1" ],
+          "yes": {
+            "concatenate": [
+              "Well an surely, fruit gum!  For an' such as ye've done us a good.  How'd ye be twigged by a pop-an-squeak?  Or as y'r tassed, a treasure hunt?  'Tis a store-cabin, mayhap the likes you've seen.  This'n be older'n most, clade o' iron and crete-stone.  Abreast the ceil, high atop, there be a steely jut, piercin' the heavens.  In times ordinary, Great Grey could call out and screed the jut, kennit, and send aloft an escolt to razz 'er.  Oft times, the jut is wibbled on the wobble, an' it be coals'n coke.  Ol' Rubik can give you'n a dandy to pop 'er back aloft, and that's a fig and a fiddle.",
+              "\"\n\n[TRANSLATE:] \"",
+              "We are unable to locate one of our warehouses since the last jump.  We would need you to go find it and reactivate its locator"
+            ]
+          },
+          "no": {
+            "concatenate": [
+              "Well an surely, fruit gum!  How'd ye be twigged by a pop-an-squeak?  Or as y'r tassed, a treasure hunt?  'Tis a store-cabin, mayhap the likes you've seen.  This'n be older'n most, clade o' iron and crete-stone.  Abreast the ceil, high atop, there be a steely jut, piercin' the heavens.  In times ordinary, Great Grey could call out and screed the jut, kennit, and send aloft an escolt to razz 'er.  Oft times, the jut is wibbled on the wobble, an' it be coals'n coke.  Ol' Rubik can give you'n a dandy to pop 'er back aloft, and that's a fig and a fiddle.",
+              "\"\n\n[TRANSLATE:] \"",
+              "We are unable to locate one of our warehouses since the last jump.  We would need you to go find it and reactivate its locator"
+            ]
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_clarify",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "A jut be a long, thin post, kennit.  The store-cabin be made o' con-crete an' rusty iron, and atop it be a glintin' post.  The post be broken, I'd razz.  Turnt off.  Rubik's got a tool for you to pop, make it turnt on.",
+        "\"\n\n[TRANSLATE:] \"",
+        "A jut is a long, thin pole.  The warehouse is made of concrete and rusty iron, and atop it there's a glistening pole.  The pole is broken, turned off.  I got a tool for you to turn it back on."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_intro1",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Just so.  'Tis like yarkin' fit f'r me beloved jaryi, y'kennit so fine.  What say you?",
+        "\"\n\n[TRANSLATE:] \"",
+        "Exactly.  This is some talking fit for my beloved jaryi.  What do you think?"
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_jaryi",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Ha, not callin' y'me jaryi.  Jaryi be the mother-twice.  'Tis but a King's Landing assert f'r a grandmother, Rubik's makin' a chestnut at ye.",
+        "\"\n\n[TRANSLATE:] \"",
+        "No, I'm not calling you jaryi.  Jaryi is my mother's mother.  It's a King's Landing word for a grandmother, I'm making a little joke at you."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_jaryi2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Right so, a fine notice.  Rubik's mother-twice, she were a woman o'th'old kind.  And were her mate, and Rubik's father-twice.  Rubik's father-mother, she were a gran, a fitty bit of ol' London-Town, right so, but Rubik had a jaryi and a taita and a tamoi.\" Rubik's voice goes distant for a moment.  \"An' they was all there, right to the end.  Standin' by, we were, one and all.\" They pause, then seem to snap back.  \"No time for stories, kennit?  Back to the here an' now.",
+        "\"\n\n[TRANSLATE:] \"",
+        "That's right, I did.  My mother's mother was a woman of the old kind, and so was my father's father.  My father's mother, she was a grandma, a little piece of old London-Town, but I had a jaryi and a taita and a tamoi (these are words for grandparents in a guarani dialect).  They were all there, right to the end.  Standing by, we were, one and all.  No time for stories, though.  Back to the here and now."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_explain",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "'Tis a gull's errand, with narry a sign.  Our stompers cannot cover each squarrel, and they've many a dropsy to search.  This'n be a right easy spot for keen eyes, so mayhap your sameworlds can be of a snap.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Without any indication of its location, there's too much ground to cover, and we have many other things to look for.  This one is pretty easy to see, so maybe some of the locals can help find it."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_find",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "That's be for your assert, an I'm ken.  If ol' Rubik could find 'er, us'n'd send out the stompers.  For a yark an' a lark, though, couldst ask another of your sameworld?  Mercants or traveler-such?  It be a fine slick to a local guide.",
+        "\"\n\n[TRANSLATE:] \"",
+        "that's up to you, I think.  If I could find it myself, I'd send quads out there.  Maybe it would be worth asking around to other survivors?  Seems like a good job for a local guide."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_complete",
+    "type": "talk_topic",
+    "dynamic_line": { "concatenate": [ "Aye?", "\"\n\n[TRANSLATE:] \"", "Aye?" ] }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_lie_truth",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "*looks you up and down, sizing you up fully before speaking in a matter-of-fact tone.  \"Alas and alack.  A pop-an-work you'n be, a pop-an-work you'n do.  Now, ye remember this… the Exodii remembers, aye?\"",
+        "\"\n\n[TRANSLATE:] \"",
+        "Alas.  You're a mercenary, so you'll act like a mercenary.  But you better remember that the Exodii also remember."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_ExodiiFrame_no",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "No.  Too mighty an ask, and we can't spare the steelies.  I'll give ye a lump'a'ice.  Keep up the work, n' mayhaps somethin' changes one'a these days.",
+        "\"\n\n[TRANSLATE:] \"",
+        "No.  That's too much to ask, and we can't spare the materials.  I'll give you some advice.  Keep up the good work, and maybe I'll change my mind one day."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_ExodiiFrame_yes",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Hm.  A mighty ask on a mighty ask.  Ye certainly got the disposition, but you sure you wanna be cut inta' this crowded space?\"  Rubik taps their metal torso.  \"You sure ya' lump is screwed on tight?  This isn't like the bright'n'steelies on offer.  No goin' back.  And ye best be happy with the amount'a power you can generate.  This'ere needs contant power.  Without power, yer good as dead.  The power storage units?  Fer a case this'n kind, one'a the power storage units buys you a little-less'an an hour of walkin'.  Less for scrappin' and scramblin'.  Nothin's easy about it.\"",
+        "\"\n\n[TRANSLATE:] \"",
+        "Hm.  That's a really big ask.  You seem to be the sort of person who would ask for this kind of thing, but are you certain you want to be permanently attached to this suitcase?  You sure you're thinking clearly?  This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_3_intro",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Ye mind that bunker ye ferreted fer us'n?  Turns they be no kindly folk.  Us'n learned one o'their scavs keep'n a second hall, an' we reckon an escolt we lost be held fast inside.  One kin t'me - Exodii - much metal, deep red shell, hard t'miss.  Torture'n the like - bad if tassed this'n.  If ye can fetch 'em back pop-n-work-like, us'll pay ye right handsome.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Do you remember that bunker you found for us?  Well, turns out they're not so friendly.  We found out one of their people is running some sort of workshop, and we think that an explorer we lost is being held inside.  They're Exodii like me - lots of metal, not easy to miss.  I think they're being tortured, at the least.  If you, a mercenary, can recover them, we'd pay handsomely."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_3_explain",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Ol' Rubik don't want'n 'em kennin' us'n be involved.  Folk o' this kind we've spied in otherlands, an' we ken it be perilous t'let 'em learn o'er much about us'n.",
+        "\"\n\n[TRANSLATE:] \"",
+        "I don't want them to know we are involved.  We've seen people like this in other otherlands, and we know it's dangerous to let them know too much about us."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_3_advice_dead",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "If that be the case, fetch back the proof ya' can.  Any piece'o'their frame will do, but I'd prefer all of it.  Deep red color.  Hard t'miss.",
+        "\"\n\n[TRANSLATE:] \"",
+        "If that's the case, just bring back proof.  We know them well, so any part of their frame will do.  It's a deep red color.  Hard to miss."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_3_complete",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "&Rubik sighs, takes the head, stares at it for a moment, then sets it gently down on the counter.  They then reach below the counter and take out three clear plastic bags, each containing a different cybernetic module.  \"Ye've done us'n a true service, so as us'n promised, take one o' these dandies as true reward.  Which'll it be?  As y'like.",
+        "\"\n\n[TRANSLATE:] \"",
+        "You've done us a real service.  As promised, you can take one of these bionics as reward.  What would you like?"
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_3_ExodiiFrame_no",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "No.  As ye' can see, us'n can't spare the steelies.  Too much to danger.",
+        "\"\n\n[TRANSLATE:] \"",
+        "No.  As you can probably see, we can't spare the parts.  Too much risk these days."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_3_ExodiiFrame_yes",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Hm.  A mighty ask on a mighty ask.  Ye certainly got the disposition, but you sure you wanna be cut inta' this crowded space?\"  Rubik taps their metal torso.  \"You sure ya' lump is screwed on tight?  This isn't like the bright'n'steelies on offer.  No goin' back.  And ye best be happy with the amount'a power you can generate.  This'ere needs contant power.  Without power, yer good as dead.  The power storage units?  Fer a case this'n kind, one'a the power storage units buys you a little-less'an an hour of walkin'.  Less for scrappin' and scramblin'.  Nothin's easy about it.\"",
+        "\"\n\n[TRANSLATE:] \"",
+        "Hm.  That's a really big ask.  You seem to be the sort of person who would ask for this kind of thing, but are you certain you want to be permanently attached to this suitcase?  You sure you're thinking clearly?  This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_String_Dimension_Exodii_Mission_Offer1",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "All dead, eh?  A sorry shame.  Ahh, but, might I tempt ye with a pop-n-work's bond t'fetch us'n more ken?",
+        "\"\n\n[TRANSLATE:] \"",
+        "All dead.  That's a shame.  Could I interest you in a mercenary contract to get me some more information on this place?"
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_String_Dimension_Exodii_Mission_Offer2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "If ye wend back that way, escolt fer some manner o' terminal, computer, the like.  Ye mayhap upon one wi' a jack fer this contraption.\"  Rubik pulls out a small, scrap metal device that looks like an otherworldly USB drive.  \"If ye set it in, an' it takes, an' the node strayed not o'er far from us'n, it should draw down a trove o' vital reckonin' we can make use of.  Do this fer me, an' us'll pay ye right handsome.",
+        "\"\n\n[TRANSLATE:] \"",
+        "If you can find your way back to that place, look all over for some sort of terminal or computer.  You may or may not find one with a plug for this contraption.  If you plug it in, and it works, and the Exodii there aren't too diverged from us, it should download lots of important data we can use.  Do this for me, and I'll reward you handsomely."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_String_Dimension_Exodii_Mission_Accepted",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "&Rubik hands you the device and nods.  \"Good fortune.\"",
+        "\"\n\n[TRANSLATE:] \"",
+        "&Rubik hands you the device and nods.  \"Good luck.\""
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_string_dimension_ExodiiFrame_yes",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Hm.  A mighty ask on a mighty ask.  Ye certainly got the disposition, but you sure you wanna be cut inta' this crowded space?\"  Rubik taps their metal torso.  \"You sure ya' lump is screwed on tight?  This isn't like the bright'n'steelies on offer.  No goin' back.  And ye best be happy with the amount'a power you can generate.  This'ere needs contant power.  Without power, yer good as dead.  The power storage units?  Fer a case this'n kind, one'a the power storage units buys you a little-less'an an hour of walkin'.  Less for scrappin' and scramblin'.  Nothin's easy about it.\"",
+        "\"\n\n[TRANSLATE:] \"",
+        "Hm.  That's a really big ask.  You seem to be the sort of person who would ask for this kind of thing, but are you certain you want to be permanently attached to this suitcase?  You sure you're thinking clearly?  This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_ANUS_FETICK_ALT",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Mayhap ye bringin' us a nip o' good tea.  Not 'tea', o'course.  I'm yarkin dockside Anglic here.  Us means the stuff what puts y'to sleep f'r a chirurgery.  The Great Grey says y'r assert for it is 'anus fetick'.  You bring us a thousand unit of 'anus fetick', us'll fix'n ye up with a wire an' a tiff.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Maybe you could bring us a bit of good tea.  Not literally 'tea' of course.  That's my Anglic street slang.  I mean the stuff that puts you to sleep for surgery.  The Great Grey says your word for it is 'anesthetic'.  You bring us a thousand units of anesthetic, we'll fix you up with a wire and everything."
+      ]
+    }
+  }
+]

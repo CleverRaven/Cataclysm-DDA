@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <string_view>
 #include <unordered_map>
@@ -373,6 +374,8 @@ class mapgen_palette
         void add( const mapgen_palette &rh, const add_palette_context & );
 };
 
+using terrain_coord_map = std::map<point_rel_ms, std::set<ter_str_id>>;
+
 struct jmapgen_objects {
 
         jmapgen_objects( const tripoint_rel_ms &offset, const point_rel_ms &mapsize,
@@ -405,6 +408,22 @@ struct jmapgen_objects {
 
         void add_placement_coords_to( std::unordered_set<point_rel_ms> & ) const;
 
+        bool has_terrain_placements( const mapgen_parameters &params ) const;
+        bool any_nested_has_unguarded_terrain_for_furniture(
+            const mapgen_parameters &params, int depth_limit ) const;
+        void collect_terrain_coords( std::set<point_rel_ms> &coords,
+                                     const mapgen_parameters &params, int depth_limit ) const;
+        void collect_terrain_data( terrain_coord_map &data,
+                                   const mapgen_parameters &params, int depth_limit ) const;
+        void collect_furniture_coords( std::set<point_rel_ms> &coords,
+                                       const mapgen_parameters &params, int depth_limit ) const;
+        void check_nested_overlaps(
+            const std::string &context,
+            const mapgen_parameters &parameters,
+            const std::set<point_rel_ms> &extra_furn_positions,
+            const terrain_coord_map &parent_explicit_terrain,
+            const mapgen_value<ter_id> *fill_ter ) const;
+
         void apply( const mapgendata &dat, mapgen_phase, const std::string &context ) const;
         void apply( const mapgendata &dat, mapgen_phase, const tripoint_rel_ms &offset,
                     const std::string &context ) const;
@@ -415,6 +434,8 @@ struct jmapgen_objects {
          **/
         ret_val<void> has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &offset ) const;
 
+        void collect_terrain_coords_for_sibling( std::set<point_rel_ms> &coords,
+                const mapgen_parameters &params ) const;
     private:
         /**
          * Combination of where to place something and what to place.
@@ -438,8 +459,29 @@ class mapgen_function_json_base
 
         void add_placement_coords_to( std::unordered_set<point_rel_ms> & ) const;
 
+        bool has_furniture_clearing_flags() const;
+        bool reliably_clears_furniture() const;
+        point_rel_ms get_mapgensize() const;
+        bool has_unguarded_terrain_for_furniture( int depth_limit = 10 ) const;
+        void collect_terrain_coords( std::set<point_rel_ms> &coords,
+                                     int depth_limit = 10 ) const;
+        void collect_terrain_data( terrain_coord_map &data,
+                                   int depth_limit = 10 ) const;
+        void collect_furniture_coords( std::set<point_rel_ms> &coords,
+                                       int depth_limit = 10 ) const;
+        void collect_setmap_terrain( terrain_coord_map &data ) const;
+
+        virtual const mapgen_value<ter_id> *get_fill_ter() const {
+            return nullptr;
+        }
+
         const mapgen_parameters &get_parameters() const {
             return parameters;
+        }
+
+        // For static sibling overlap checks
+        const jmapgen_objects &jmapgen_objects_for_check() const {
+            return objects;
         }
 
     private:
@@ -491,6 +533,10 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
 
         cata::value_ptr<mapgen_value<ter_id>> fill_ter;
         oter_id predecessor_mapgen;
+
+        const mapgen_value<ter_id> *get_fill_ter() const override {
+            return fill_ter.get();
+        }
 
     protected:
         bool setup_internal( const JsonObject &jo ) override;

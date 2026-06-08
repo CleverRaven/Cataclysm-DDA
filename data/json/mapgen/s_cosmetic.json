@@ -9,7 +9,7 @@
         "__....................._",
         "__....................._",
         "__#gggg#gggg#g[[g#gggg#_",
-        "__#  tt^tt  t^==^- b  #_",
+        "__#§ tt^tt  t^==^- b  #_",
         "__#              ---- #_",
         "__gt  rrr  rrr        g_",
         "__#r  r|r  r|r  r|t   #_",
@@ -22,7 +22,7 @@
         "__# ^  |r  r|t  t|r  r#_",
         "__#    |r  r|t  t|r  r#_",
         "__# ^  |r  r|t  t|r  r#_",
-        "__#                   #_",
+        "__#                  §#_",
         "__#||I||||||||||||||||#_",
         ".4#***C|**CC**kkkk*| T#_",
         "..#***C|***********|  #_",
@@ -69,7 +69,8 @@
         "t": [ { "item": "beauty", "chance": 30, "repeat": [ 0, 4 ] } ],
         "7": [ { "item": "beauty", "chance": 30, "repeat": [ 0, 4 ] } ]
       },
-      "place_items": [ { "item": "cash_register_random", "x": [ 18, 20 ], "y": 6, "chance": 100 } ]
+      "place_items": [ { "item": "cash_register_random", "x": [ 18, 20 ], "y": 6, "chance": 100 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

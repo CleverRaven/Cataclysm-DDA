@@ -1,30 +1,45 @@
 name: Sort new contributors for test approval
 
 on:
+  # Does not interpolate i.e. ${{ }} user controlled fields into the script.
+  # Does not check out and run user controlled code.
+  # Safe to use pull_request_target.
   pull_request_target:
     types:
       - opened
-
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  PR_NUMBER: ${{ github.event.pull_request.number }}
 
 jobs:
   triage:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Check if user has any merged PRs in this reposiory
-        id: pr-check
-        run: |
-          author="${{ github.event.pull_request.user.login }}"
-          pr_count=$(gh pr list --state merged --author $author --json number | jq 'length')
-
-          echo "Debug: $author with $pr_count merged PRs."
-          echo "pr_count=$pr_count" >> $GITHUB_OUTPUT
-
       - name: Label contributors with no merged PRs
         if: steps.pr-check.outputs.pr_count == 0
-        run: |
-          gh pr edit "$PR_NUMBER" --add-label "new contributor"
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+        with:
+          script: |
+            // Get a list of all issues created by the PR opener
+            // See: https://octokit.github.io/rest.js/#pagination
+            const creator = context.payload.sender.login
+            const opts = github.rest.pulls.list.endpoint.merge({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'closed'
+            })
+
+            const this_pr = context.payload.pull_request.number;
+            let is_new_contributor = true;
+            for await (const pr of github.paginate.iterator(opts)) {
+              if (pr.number !== this_pr && pr.merged_at !== null) {
+                is_new_contributor = false;
+                break;
+              }
+            }
+
+            if (is_new_contributor) {
+              await github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['new contributor']
+              })
+            }

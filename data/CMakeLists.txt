@@ -16,6 +16,10 @@ if (SOUND)
     list(APPEND CATACLYSM_DATA_DIRS sound)
 endif ()
 
+if (USE_SDL3)
+    list(APPEND CATACLYSM_DATA_DIRS shaders)
+endif ()
+
 set(CATACLYSM_DATA_FILES
         changelog.txt
         cataicon.ico

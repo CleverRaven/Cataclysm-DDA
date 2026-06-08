@@ -1552,7 +1552,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Instant<br />
 *Stamina Cost*: 6000, minus 200 per level to a minimum of 3000<br />
 *Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75<br />
-*Effects*: Allows the psion to teleport to a locus that they are maintaining with Loci Establishment, does nothing if not maintaining a locus. Loci Technique and Loci Establishment are learned from contemplating Loci Establishment but have separate practice meditations.<br />
+*Effects*: Allows the psion to teleport to a locus that they are maintaining with Loci Establishment, does nothing if not maintaining a locus. Loci Technique and Loci Establishment are learned from contemplating Loci Establishment but have separate practice meditations.  The psion may always teleport themselves, and can carry 8L of gear, plus 5L per power level.<br />
 *Prerequisites*: Extended Stride 6, Farstep 6 (Learned with Loci Establishment)<br />
 </details>
 <details>
@@ -1779,6 +1779,17 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Channeling Time*: 250 moves, minus 8 moves per level to a minimum of 100<br />
 *Effects*: Clean the psion's blood of all foreign substances or chemicals. Applies the cureall effect, the same as from Panacea, and also remove all mutagen as well.<br />
 *Prerequisites*: Revitalizing Meditation 6, Allay Infection 8 *or* Detoxification 8<br />
+</details>
+<details>
+<summary><h3>Selective Autosomnia (C)</h3></summary>
+
+*Difficulty*: 7<br />
+*Target*: Self<br />
+*Duration*: 32 minutes and 30 seconds to 1 hour and 19 minutes and 40 seconds, plus 5 minutes and 40 seconds to 13 minutes and 10 seconds per power level<br />
+*Stamina Cost*: 9500, minus 205 per level to a minimum of 5550<br />
+*Channeling Time*: 150 moves, minus 5 moves per level to a minimum of 50<br />
+*Effects*: Selectively put parts of the psion's brain to sleep in sequence, allowing rest to occur while remaining conscious. However, concentration suffers somewhat, providing a penalty to learning focus (-15) and social skills (50% of normal).<br />
+*Prerequisites*: Wakeful Rest 10, Revitalizing Meditation 6<br />
 </details>
 <details>
 <summary><h3>Banish Illness</h3></summary>

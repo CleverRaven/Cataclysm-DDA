@@ -76,9 +76,12 @@ static const std::vector<vitamin_id> mutagen_vit_list{ vitamin_mutagen, vitamin_
 
 static const std::vector<itype_id> marloss_food{ itype_marloss_berry, itype_marloss_gel, itype_marloss_seed };
 
+namespace
+{
 struct all_stats {
     statistics<int> calories;
 };
+} // namespace
 
 // given a list of components, adds all the calories together
 static int comp_calories( const std::vector<item_comp> &components )

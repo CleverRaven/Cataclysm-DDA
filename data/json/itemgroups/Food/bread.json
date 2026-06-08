@@ -1,0 +1,108 @@
+[
+  {
+    "type": "item_group",
+    "id": "sourdough_bread_in_bag",
+    "subtype": "collection",
+    "entries": [ { "item": "sourdough_bread", "entry-wrapper": "bag_plastic", "count": [ 1, 14 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sourdough_bread_in_bag_full",
+    "subtype": "collection",
+    "entries": [ { "item": "sourdough_bread", "entry-wrapper": "bag_plastic", "count": 14 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bread_in_bag",
+    "subtype": "collection",
+    "entries": [ { "item": "bread", "entry-wrapper": "bag_plastic", "count": [ 1, 14 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bread_in_bag_full",
+    "subtype": "collection",
+    "entries": [ { "item": "bread", "entry-wrapper": "bag_plastic", "count": 14 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "garlic_bread_in_bag",
+    "subtype": "collection",
+    "entries": [ { "item": "bread_garlic", "entry-wrapper": "bag_plastic_small", "count": [ 1, 8 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "garlic_bread_in_bag_full",
+    "subtype": "collection",
+    "entries": [ { "item": "bread_garlic", "entry-wrapper": "bag_plastic_small", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "frybread_in_bag",
+    "subtype": "collection",
+    "entries": [ { "item": "frybread", "entry-wrapper": "bag_plastic_small", "count": [ 1, 8 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "frybread_in_bag_full",
+    "subtype": "collection",
+    "entries": [ { "item": "frybread", "entry-wrapper": "bag_plastic_small", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cornbread_in_bag",
+    "subtype": "collection",
+    "entries": [ { "item": "cornbread", "entry-wrapper": "bag_plastic_small", "count": [ 1, 8 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cornbread_in_bag_full",
+    "subtype": "collection",
+    "entries": [ { "item": "cornbread", "entry-wrapper": "bag_plastic_small", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tortilla_corn_bag_plastic_full",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "tortilla_corn", "container-item": "null", "count": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flatbread_in_bag",
+    "subtype": "collection",
+    "entries": [ { "item": "flatbread", "entry-wrapper": "bag_plastic_small", "count": [ 1, 8 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flatbread_in_bag_full",
+    "subtype": "collection",
+    "entries": [ { "item": "flatbread", "entry-wrapper": "bag_plastic_small", "count": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bread_wheat_free_bag_plastic_14",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "bread", "container-item": "null", "components": [ "flour_wheat_free" ], "count": 14 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "brown_bread_in_bag_full",
+    "subtype": "collection",
+    "entries": [ { "item": "brown_bread", "entry-wrapper": "bag_plastic", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "brown_bread_in_bag",
+    "subtype": "collection",
+    "entries": [ { "item": "brown_bread", "entry-wrapper": "bag_plastic", "count": [ 0, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "brown_bread_can_medium_14",
+    "subtype": "collection",
+    "on_overflow": "discard",
+    "container-item": "can_medium",
+    "entries": [ { "item": "brown_bread", "container-item": "null", "count": 14 } ]
+  }
+]

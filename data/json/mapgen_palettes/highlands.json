@@ -26,5 +26,31 @@
         "furniture": [ [ "f_boulder_large", 20 ], [ "f_boulder_small", 1 ] ]
       }
     }
+  },
+  {
+    "type": "palette",
+    "id": "highland_structure",
+    "terrain": {
+      " ": "t_highland_groundcover",
+      "F": "t_highland_groundcover",
+      "_": [ [ "t_stone_masonry_floor", 2 ], [ "t_highland_groundcover", 1 ] ],
+      ".": [ [ "t_stone_masonry_floor", 10 ], [ "t_highland_groundcover", 1 ] ],
+      "x": "t_highland_mosaic",
+      "G": "t_highland_flower_bed",
+      "S": "t_stone_masonry_floor",
+      "|": "t_rock_wall",
+      "w": "t_water_sh",
+      "I": [ "t_tree_dead_warped" ],
+      "-": "t_stone_fence",
+      "v": [ [ "t_window_stained_blue", 1 ], [ "t_window_stained_red", 2 ], [ "t_window_stained_green", 2 ] ]
+    },
+    "furniture": {
+      "S": "f_highlands_holy_statue",
+      "t": "f_highland_sarcophagus",
+      "F": [ [ "f_slab", 2 ], [ "f_null", 1 ] ],
+      "w": [ [ "f_null", 2 ], [ "f_lilypad", 1 ] ]
+    },
+    "item": { "_": { "item": "highland_censer", "chance": 20 }, "J": { "item": "clay_watercont", "chance": 2 } },
+    "items": { "t": [ { "item": "highland_sarcophagus_common" } ] }
   }
 ]

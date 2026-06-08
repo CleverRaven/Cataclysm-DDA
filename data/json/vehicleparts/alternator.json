@@ -18,15 +18,11 @@
     "description": "A very lightweight alternator used to power a bicycle's headlights.",
     "looks_like": "alternator_motorbike",
     "durability": 250,
-    "power": "-75 W",
-    "epower": "36 W",
+    "power": "-12 W",
+    "epower": "6 W",
     "damage_modifier": 80,
-    "folded_volume": "1250 ml",
-    "breaks_into": [
-      { "item": "mc_steel_lump", "count": [ 2, 5 ] },
-      { "item": "mc_steel_chunk", "count": [ 2, 5 ] },
-      { "item": "scrap", "count": [ 2, 5 ] }
-    ],
+    "folded_volume": "133 ml",
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 1, 4 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },

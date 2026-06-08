@@ -69,6 +69,43 @@
   },
   {
     "type": "mapgen",
+    "om_terrain": [ "radio_tower_reverberation_mp3" ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        " |2222222|||||||||||||| ",
+        " |_______             | ",
+        " |_______             | ",
+        " |_______ R____R      | ",
+        " |_______ ______      | ",
+        " |_______ ______      | ",
+        " |_______ ______      | ",
+        " |_______ _<____      | ",
+        " |_______ R____R      | ",
+        " |_______   9  6      | ",
+        " |_______             | ",
+        " ||||||22|||||||||||||| ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "radio_tower_palette" ],
+      "items": { "9": [ { "item": "corpse_painful" } ] },
+      "terrain": { "9": "t_region_groundcover" },
+      "place_item": [ { "item": "mp3_reverberation", "x": [ 11, 13 ], "y": [ 10, 11 ], "amount": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
     "om_terrain": "radio_tower_roof_1",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",

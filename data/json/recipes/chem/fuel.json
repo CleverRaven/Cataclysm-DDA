@@ -3,6 +3,7 @@
     "result": "chem_ethanol",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
+    "charges": 250,
     "byproducts": [ [ "water_clean" ] ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_FUEL",
@@ -19,6 +20,7 @@
     "result": "methed_alcohol",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
+    "charges": 250,
     "byproducts": [ [ "water_clean" ] ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_FUEL",
@@ -35,6 +37,7 @@
     "result": "biodiesel",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
+    "charges": 250,
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_FUEL",
     "byproducts": [ [ "chem_glycerol", 4 ] ],
@@ -54,7 +57,6 @@
       [
         [ "cooking_oil", 64 ],
         [ "edible_tallow", 20, "LIST" ],
-        [ "tallow_tainted", 8 ],
         [ "any_fat", 160, "LIST" ],
         [ "lamp_oil", 1000 ],
         [ "motor_oil", 1000 ]
@@ -86,13 +88,7 @@
     "tools": [ [ [ "catalytic_cracking_reactor_tool", 50000 ] ], [ [ "water", 40 ], [ "water_clean", 40 ] ] ],
     "components": [
       [ [ "chem_washing_soda", 40 ] ],
-      [
-        [ "edible_tallow", 450, "LIST" ],
-        [ "tallow_tainted", 180 ],
-        [ "cooking_oil", 660 ],
-        [ "any_fat", 500, "LIST" ],
-        [ "ghee", 720 ]
-      ]
+      [ [ "edible_tallow", 450, "LIST" ], [ "cooking_oil", 660 ], [ "any_fat", 500, "LIST" ], [ "ghee", 720 ] ]
     ],
     "flags": [ "ALLOW_ROTTEN" ]
   },
@@ -100,6 +96,7 @@
     "result": "crude_lamp_oil",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
+    "charges": 250,
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_FUEL",
     "skill_used": "chemistry",
@@ -108,7 +105,7 @@
     "batch_time_factors": [ 95, 5 ],
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
-    "components": [ [ [ "edible_tallow", 5, "LIST" ], [ "tallow_tainted", 2 ], [ "cooking_oil", 16 ] ] ],
+    "components": [ [ [ "edible_tallow", 5, "LIST" ], [ "cooking_oil", 16 ] ] ],
     "flags": [ "ALLOW_ROTTEN" ]
   }
 ]

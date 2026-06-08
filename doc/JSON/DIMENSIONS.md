@@ -36,6 +36,22 @@ There are also `all` and `enemy` filters you can use.
 
 There's a quirk with NPCs right now, that causes issues when attempting to take them with you to another dimension and then attempt to teleport them to some location within the same turn, you probably have to delay the npc teleportation stage by a turn to get around this. This might get fixed in the future.
 
+## Items
+
+When using `u_travel_to_dimension` EOC, you can choose to take the nearby items with you.
+
+Travel to dimension `test`, take any item within 3 tiles of your avatar with you.
+```jsonc
+{ "u_travel_to_dimension": "test", "item_travel_radius": 3 }
+```
+
+If you pass a location variable in `target_location`, the function will use that as the center point for where to get items from and where to place items after the shift.
+```jsonc
+{ "u_travel_to_dimension": "test", "item_travel_radius": 3, "region_type": "default", "target_location": { "u_val": "debug_loc" } }
+```
+
+All of the items transferred as part of the shift will be placed on the player's location, or `target_location` if set. Any items that do not fit in that tile will spill outwards from that point until all of them can be placed.
+
 ## Region Settings
 
 When generating a new dimension, you have the option to supply a [region_settings](REGION_SETTINGS.md) object which the dimension will use to generate it's terrain.

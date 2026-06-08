@@ -1,0 +1,269 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_BIO_ADJUST_YOUR_HAIR",
+    "dynamic_line": "What form should your artificial hair take?",
+    "responses": [
+      {
+        "text": "Get a buzzcut.",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_buzzcut" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a crewcut.",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_crewcut" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a short cut.",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_short" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a short cut (no fringe).",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_short_no_fringe" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a short cut (over eye).",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_short_over_eye" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a modern cut.",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_modern" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a detective cut.",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_detective" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a medium-length cut.",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_medium" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a puff cut.",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_puff" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a mohawk.",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_mohawk" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a beaded cut.",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_beaded" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a curly cut.",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_curls" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a super princess cut.",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_super_princess" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a long mohawk.",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_long_mohawk" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a long cut.",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_long" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a long cut (over eye).",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_long_over_eye" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a mullet.",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_mullet" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a bun cut.",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_bun" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a messy cut.",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_messy" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a long punk cut.",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_punk_long" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a very long cut.",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_very_long" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get an extremely long cut.",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_extremely_long" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get twin tails.",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_twintails" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a braided cut.",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_braid" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a body-length cut.",
+        "effect": [ { "run_eocs": "reset_all_artificial_hair_types" }, { "u_add_trait": "artificial_hair_body_length" } ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "Don't adjust anything.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BIO_ADJUST_YOUR_BEARD",
+    "dynamic_line": "How do you want your artificial beard to look?",
+    "responses": [
+      { "text": "Get a clean shave.", "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_NONE" } ], "topic": "TALK_DONE" },
+      {
+        "text": "Get a neck beard.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_NECKBEARD" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get some sideburns.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_SIDEBURNS" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a soul patch.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_SOUL_PATCH" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a chin strip.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_CHIN_STRIP" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get some 3-day stubble.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_3DAYSTUBBLE" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a toothbrush mustache.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_TOOTHBRUSH" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a chin strap.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_CHIN_STRAP" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a mustache.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_MUSTACHE" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a walrus mustache.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_WALRUS" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a Zappa.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_ZAPPA" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a goatee.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_GOATEE" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a circle beard.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_CIRCLE" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a short boxed beard.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_SHORTBOXED" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a horseshoe.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_HORSESHOE" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get some mutton chops.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_MUTTONCHOPS" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a gunslinger beard.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_GUNSLINGER" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a chin curtain.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_CHIN_CURTAIN" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a handlebar mustache.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_HANDLEBAR" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a Van Dyke.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_VANDYKE" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a regular beard.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_BEARD" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a anchor beard.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_ANCHOR" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a royale beard.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_ROYALE" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a Shenandoah.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_SHENANDOAH" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a long beard.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_BEARD_LONG" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a very long beard.",
+        "effect": [ { "u_add_trait": "ARTIFICIAL_FACIAL_HAIR_BEARD_VERY_LONG" } ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "Don't change anything.", "topic": "TALK_DONE" }
+    ]
+  }
+]

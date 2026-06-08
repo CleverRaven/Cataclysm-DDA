@@ -5,8 +5,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "hazmat_suit", "prob": 60 },
-      { "item": "mask_gas", "prob": 60, "charges": [ 0, -1 ] },
-      { "item": "gasfilter_med", "prob": 60, "charges": [ 0, -1 ] },
+      { "group": "papr_kit", "prob": 80 },
       { "item": "rad_monitor", "prob": 33, "charges": [ 0, 100 ] },
       { "prob": 33, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
       { "group": "full_1st_aid", "prob": 15 },

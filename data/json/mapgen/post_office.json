@@ -17,7 +17,7 @@
         " ###w########v.......W# ",
         " #^IIIF|^11&|......|||# ",
         " #..C.......|==.=...XX# ",
-        " #..........c.=.=....X# ",
+        " #§.........c.=.=....X# ",
         "4|f....|...Cc.=.=....X# ",
         " #f....|....c.=.=....X# ",
         " #f...X|I...c...=....X# ",
@@ -27,7 +27,7 @@
         " #e%%%Scc...|......|.T# ",
         " #..........|.....Y|||# ",
         " #..........a......D.T# ",
-        " #&.bbb.{{{{|^bb...|.S# ",
+        " #&.bbb.{{{{|^bb..§|.S# ",
         " ################D##### "
       ],
       "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
@@ -87,7 +87,8 @@
         "%": { "item": "snacks", "chance": 50, "repeat": [ 2, 4 ] }
       },
       "place_signs": [ { "signage": "SHIPPING SUPPLIES", "x": 13, "y": 19 } ],
-      "place_loot": [ { "group": "cash_register_random", "x": 12, "y": [ 12, 15 ] } ]
+      "place_loot": [ { "group": "cash_register_random", "x": 12, "y": [ 12, 15 ] } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

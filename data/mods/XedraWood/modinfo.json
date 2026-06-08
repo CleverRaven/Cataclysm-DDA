@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "xedra_evolved_innawoods",
+    "name": "XedraWood: Stone and Sorcery",
+    "authors": [ "StandingStorm" ],
+    "maintainers": [ "StandingStorm" ],
+    "description": "Expands on connection between Xedra Evolved and Innawood, turning it into a full-fledged neolithic sword and sorcery setting.",
+    "category": "content",
+    "dependencies": [ "dda", "xedra_evolved", "innawood" ]
+  }
+]

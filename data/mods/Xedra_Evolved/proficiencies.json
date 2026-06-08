@@ -54,5 +54,27 @@
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.25,
     "time_to_learn": "24 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_paraclesian_computer_understanding",
+    "category": "prof_misc_craft",
+    "name": { "str": "Lore of the Thinking Machines" },
+    "description": "The mortals have taught objects to think.  Now you too know how to read their thoughts.",
+    "can_learn": true,
+    "time_to_learn": "48 h",
+    "default_time_multiplier": 2,
+    "default_skill_penalty": 0.2
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_paraclesian_electronics_understanding",
+    "category": "prof_misc_craft",
+    "name": { "str": "Lore of the Fulmenwrights" },
+    "description": "The mortals have harnessed lightning and put it into boxes.  Now you also hold the reins.",
+    "can_learn": true,
+    "time_to_learn": "48 h",
+    "default_time_multiplier": 2,
+    "default_skill_penalty": 0.2
   }
 ]

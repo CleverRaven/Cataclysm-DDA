@@ -25,7 +25,9 @@
         { "item": "chunk_cassiterite", "count": [ 2, 4 ], "prob": 10 },
         { "item": "chunk_galena", "count": [ 2, 4 ], "prob": 10 },
         { "item": "chunk_hematite", "count": [ 2, 2 ], "prob": 10 },
-        { "item": "chunk_magnetite", "count": [ 2, 2 ], "prob": 5 }
+        { "item": "chunk_magnetite", "count": [ 2, 2 ], "prob": 5 },
+        { "item": "chunk_graphite", "count": [ 0, 1 ], "prob": 2 },
+        { "item": "chunk_feldspar", "count": [ 2, 4 ], "prob": 10 }
       ]
     }
   }

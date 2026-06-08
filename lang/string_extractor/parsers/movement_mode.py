@@ -13,6 +13,17 @@ def parse_movement_mode(json, origin):
     write_text(json["panel_char"], origin,
                comment="Character displayed in the panel for "
                f"movement mode '{name}'")
+
+    write_text(json["prepare_none"], origin,
+               comment="Prepare to switch to movement mode "
+               f"'{name}' with no steed")
+    write_text(json["prepare_animal"], origin,
+               comment="Prepare to switch to movement mode "
+               f"'{name}' with animal steed")
+    write_text(json["prepare_mech"], origin,
+               comment="Prepare to switch to movement mode "
+               f"'{name}' with mechanical steed")
+
     write_text(json["change_good_none"], origin,
                comment="Successfully switched to movement mode "
                f"'{name}' with no steed")

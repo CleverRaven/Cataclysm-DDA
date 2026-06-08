@@ -7,6 +7,7 @@
     "maintainers": [ "Venera3" ],
     "description": "A repository for the in-progress Limb Project, containing all JSON-defined limb content for dedicated testing (and limit breakage for players who don't want to be on the bleeding edge).  Things might not work properly, so please report any limb-related weirdness on GitHub!",
     "category": "misc",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   }
 ]

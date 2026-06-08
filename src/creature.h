@@ -18,6 +18,7 @@
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_lazy.h"
 #include "character_id.h"
 #include "compatibility.h"
 #include "coordinates.h"
@@ -28,7 +29,9 @@
 #include "global_vars.h"
 #include "math_parser_diag_value.h"
 #include "pimpl.h"
+#include "safe_reference.h"
 #include "string_formatter.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units_fwd.h"
 #include "viewer.h"
@@ -51,7 +54,6 @@ class monster;
 class nc_color;
 class npc;
 class talker;
-class translation;
 
 namespace enchant_vals
 {
@@ -807,6 +809,7 @@ class Creature : public viewer
 
         /** The creature's position in absolute coordinates */
         tripoint_abs_ms location;
+        lazy<safe_reference_anchor> anchor;
     protected:
         // Sets the creature's position without any side-effects.
         void set_pos_bub_only( const map &here, const tripoint_bub_ms &p );
@@ -814,6 +817,7 @@ class Creature : public viewer
     public:
         // Sets the creature's position without any side-effects.
         void set_pos_abs_only( const tripoint_abs_ms &loc );
+        safe_reference<Creature> get_safe_reference();
     protected:
         // Invoked when the creature's position changes.
         virtual void on_move( const tripoint_abs_ms &old_pos );
@@ -990,7 +994,7 @@ class Creature : public viewer
          * @param vStart vertical start to print, that means the first line to print.
          * @param vLines number of lines to print at most (printing less is fine).
          * @param column horizontal start to print (column), horizontal end is
-         * one character before  the right border of the window (to keep the border).
+         * one character before the right border of the window (to keep the border).
          * @return The line just behind the last printed line, that means multiple calls
          * to this can be stacked, the return value is acceptable as vStart for the next
          * call without creating empty lines or overwriting lines.
@@ -1025,7 +1029,7 @@ class Creature : public viewer
         }
         template<typename ...Args>
         void add_msg_if_player( const translation &msg, Args &&... args ) const {
-            return add_msg_if_player( string_format( msg, std::forward<Args>( args )... ) );
+            return add_msg_if_player( string_format( msg.translated(), std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
         void add_msg_if_player( const game_message_params &params, const char *const msg,
@@ -1049,7 +1053,8 @@ class Creature : public viewer
             if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_if_player( params, string_format( msg, std::forward<Args>( args )... ) );
+            return add_msg_if_player( params, string_format( msg.translated(),
+                                      std::forward<Args>( args )... ) );
         }
 
         virtual void add_msg_if_npc( const std::string &/*msg*/ ) const {}
@@ -1067,7 +1072,7 @@ class Creature : public viewer
         }
         template<typename ...Args>
         void add_msg_if_npc( const translation &msg, Args &&... args ) const {
-            return add_msg_if_npc( string_format( msg, std::forward<Args>( args )... ) );
+            return add_msg_if_npc( string_format( msg.translated(), std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
         void add_msg_if_npc( const game_message_params &params, const char *const msg,
@@ -1091,7 +1096,7 @@ class Creature : public viewer
             if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_if_npc( params, string_format( msg, std::forward<Args>( args )... ) );
+            return add_msg_if_npc( params, string_format( msg.translated(), std::forward<Args>( args )... ) );
         }
 
         virtual void add_msg_player_or_npc( const std::string &/*player_msg*/,
@@ -1106,48 +1111,48 @@ class Creature : public viewer
                                     const translation &/*npc_msg*/ ) const;
         template<typename ...Args>
         void add_msg_player_or_npc( const char *const player_msg, const char *const npc_msg,
-                                    Args &&... args ) const {
-            return add_msg_player_or_npc( string_format( player_msg, std::forward<Args>( args )... ),
-                                          string_format( npc_msg, std::forward<Args>( args )... ) );
+                                    const Args &... args ) const {
+            return add_msg_player_or_npc( string_format( player_msg, args... ),
+                                          string_format( npc_msg, args... ) );
         }
         template<typename ...Args>
         void add_msg_player_or_npc( const std::string &player_msg, const std::string &npc_msg,
-                                    Args &&... args ) const {
-            return add_msg_player_or_npc( string_format( player_msg, std::forward<Args>( args )... ),
-                                          string_format( npc_msg, std::forward<Args>( args )... ) );
+                                    const Args &... args ) const {
+            return add_msg_player_or_npc( string_format( player_msg, args... ),
+                                          string_format( npc_msg, args... ) );
         }
         template<typename ...Args>
         void add_msg_player_or_npc( const translation &player_msg, const translation &npc_msg,
-                                    Args &&... args ) const {
-            return add_msg_player_or_npc( string_format( player_msg, std::forward<Args>( args )... ),
-                                          string_format( npc_msg, std::forward<Args>( args )... ) );
+                                    const Args &... args ) const {
+            return add_msg_player_or_npc( string_format( player_msg.translated(), args... ),
+                                          string_format( npc_msg.translated(), args... ) );
         }
         template<typename ...Args>
         void add_msg_player_or_npc( const game_message_params &params, const char *const player_msg,
-                                    const char *const npc_msg, Args &&... args ) const {
+                                    const char *const npc_msg, const Args &... args ) const {
             if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_player_or_npc( params, string_format( player_msg, std::forward<Args>( args )... ),
-                                          string_format( npc_msg, std::forward<Args>( args )... ) );
+            return add_msg_player_or_npc( params, string_format( player_msg, args... ),
+                                          string_format( npc_msg, args... ) );
         }
         template<typename ...Args>
         void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
-                                    const std::string &npc_msg, Args &&... args ) const {
+                                    const std::string &npc_msg, const Args &... args ) const {
             if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_player_or_npc( params, string_format( player_msg, std::forward<Args>( args )... ),
-                                          string_format( npc_msg, std::forward<Args>( args )... ) );
+            return add_msg_player_or_npc( params, string_format( player_msg, args... ),
+                                          string_format( npc_msg, args... ) );
         }
         template<typename ...Args>
         void add_msg_player_or_npc( const game_message_params &params, const translation &player_msg,
-                                    const translation &npc_msg, Args &&... args ) const {
+                                    const translation &npc_msg, const Args &... args ) const {
             if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_player_or_npc( params, string_format( player_msg, std::forward<Args>( args )... ),
-                                          string_format( npc_msg, std::forward<Args>( args )... ) );
+            return add_msg_player_or_npc( params, string_format( player_msg.translated(), args... ),
+                                          string_format( npc_msg.translated(), args... ) );
         }
 
         virtual void add_msg_player_or_say( const std::string &/*player_msg*/,
@@ -1162,48 +1167,48 @@ class Creature : public viewer
                                     const translation &/*npc_speech*/ ) const;
         template<typename ...Args>
         void add_msg_player_or_say( const char *const player_msg, const char *const npc_speech,
-                                    Args &&... args ) const {
-            return add_msg_player_or_say( string_format( player_msg, std::forward<Args>( args )... ),
-                                          string_format( npc_speech, std::forward<Args>( args )... ) );
+                                    const Args &... args ) const {
+            return add_msg_player_or_say( string_format( player_msg, args... ),
+                                          string_format( npc_speech, args... ) );
         }
         template<typename ...Args>
         void add_msg_player_or_say( const std::string &player_msg, const std::string &npc_speech,
-                                    Args &&... args ) const {
-            return add_msg_player_or_say( string_format( player_msg, std::forward<Args>( args )... ),
-                                          string_format( npc_speech, std::forward<Args>( args )... ) );
+                                    const Args &... args ) const {
+            return add_msg_player_or_say( string_format( player_msg, args... ),
+                                          string_format( npc_speech, args... ) );
         }
         template<typename ...Args>
         void add_msg_player_or_say( const translation &player_msg, const translation &npc_speech,
-                                    Args &&... args ) const {
-            return add_msg_player_or_say( string_format( player_msg, std::forward<Args>( args )... ),
-                                          string_format( npc_speech, std::forward<Args>( args )... ) );
+                                    const Args &... args ) const {
+            return add_msg_player_or_say( string_format( player_msg.translated(), args... ),
+                                          string_format( npc_speech.translated(), args... ) );
         }
         template<typename ...Args>
         void add_msg_player_or_say( const game_message_params &params, const char *const player_msg,
-                                    const char *const npc_speech, Args &&... args ) const {
+                                    const char *const npc_speech, const Args &... args ) const {
             if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_player_or_say( params, string_format( player_msg, std::forward<Args>( args )... ),
-                                          string_format( npc_speech, std::forward<Args>( args )... ) );
+            return add_msg_player_or_say( params, string_format( player_msg, args... ),
+                                          string_format( npc_speech, args... ) );
         }
         template<typename ...Args>
         void add_msg_player_or_say( const game_message_params &params, const std::string &player_msg,
-                                    const std::string &npc_speech, Args &&... args ) const {
+                                    const std::string &npc_speech, const Args &... args ) const {
             if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_player_or_say( params, string_format( player_msg, std::forward<Args>( args )... ),
-                                          string_format( npc_speech, std::forward<Args>( args )... ) );
+            return add_msg_player_or_say( params, string_format( player_msg, args... ),
+                                          string_format( npc_speech, args... ) );
         }
         template<typename ...Args>
         void add_msg_player_or_say( const game_message_params &params, const translation &player_msg,
-                                    const translation &npc_speech, Args &&... args ) const {
+                                    const translation &npc_speech, const Args &... args ) const {
             if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_player_or_say( params, string_format( player_msg, std::forward<Args>( args )... ),
-                                          string_format( npc_speech, std::forward<Args>( args )... ) );
+            return add_msg_player_or_say( params, string_format( player_msg.translated(), args... ),
+                                          string_format( npc_speech.translated(), args... ) );
         }
 
         virtual std::vector<std::string> extended_description() const = 0;
@@ -1229,7 +1234,9 @@ class Creature : public viewer
 
         void migrate_effects();
     protected:
-        // How many moves do we have to work with
+        /*
+        * moves are spent and replenished during game::do_turn()
+        */
         int moves;
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
         void set_killer( Creature *killer );
@@ -1261,7 +1268,12 @@ class Creature : public viewer
         int num_dodges_bonus = 0;
 
         std::map<damage_type_id, float> armor_bonus;
-        int speed_base = 0; // only speed needs a base, the rest are assumed at 0 and calculated off skills
+
+        /*
+        * speed is measured in moves and replenishes Creature::moves in game::do_turn()
+        * only speed needs a base, the other bonuses are assumed at 0 and calculated off skills
+        */
+        int speed_base = 0;
 
         int speed_bonus = 0;
         float dodge_bonus = 0.0f;

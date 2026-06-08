@@ -56,6 +56,14 @@ A vast industrial conglomerate whose origins can be traced back to Earth's Early
 
 Out of public view, the enigmatic leaders of Wraitheon fashion themselves as the rightful heirs, keepers and re-builders of the advanced technology developed during The late Hyperspace Era. Shielded behind UICA they obsessively scourge the frontier for technologies at the expense of almost anything else, in a desperate search of the keys to re-ignite Singularity before they degrade into uselessness. At their best, their chartered explorers and robotic ancillaries cooperate, research and trade knowledge with newfound-worlds for the betterment of all. At their worst, they raze and subjugate the same worlds just to ensure access to what little advanced technology they possessed; for if some must be sacrificed to reclaim mankind's lost knowledge, then they will be.
 
+### Palver-Shikishima Noetics
+
+Formed from an alliance between two of the most powerful of the noetic houses, Palver-Shikishima Noetics has an effective monopoly on esper activity and all commercial use of psionics throughout inhabited space. Any individual or organization that wants a Sibyl to help determine the most optimal course of action, a Whisper to ensure both sides of a contract intend to follow the terms, or a Spark to secure their data against espionage need to go through Palver-Shikishima in order to do so.
+
+Most corporate activity is in service to this monopoly and in comparison to other solar corporations, Palver-Shikishima directly administers only a relatively small territory, mostly the historical property of the noetic houses back on Earth and the few colonies where they have land holdings. They constantly sponsor expeditions to Hyperspace Era colonies looking for remnants of pre-discontinuity espertech in service of increasing the capabilities and power of their members and, though they would not state this publicly, maintaining their monopoly. Any other corporation that could provide the same services would ruin their entire business model and Palver-Shikishima knows it.
+
+While Palver-Shikishima is a model of transparency and openness in comparison to corporations like Wraitheon, partially because the nature of their business draws a large degree of suspicion, that does not mean the leaders are altruistic. Most people outside the noetic houses are not comfortable with someone who can read their mind or tamper with their cybernetics without an effective countermeasures other than hiring their own Whisper or Spark to protect themselves, and the corporation has been known to clandestinely exploit this unease in order to drive up business, judging that their services are so valuable that no alternative could ever exist.
+
 
 ## Minor corporations
 Other smaller corporations mentioned within Aftershock

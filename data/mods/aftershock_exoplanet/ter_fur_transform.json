@@ -40,6 +40,28 @@
   },
   {
     "type": "ter_furn_transform",
+    "id": "afs_open_cryo_storage",
+    "furniture": [
+      {
+        "result": "f_cryo_storage_o",
+        "valid_furniture": [ "f_cryo_storage_l" ],
+        "message": "Vapor hisses out from the cryogenic storage unit as its locking mechanism releases.  Whatever is inside should be recovered before it thaws out.",
+        "message_good": true
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "your_ship_dim_lights",
+    "terrain": [ { "result": "t_ship_floor_heated_low_light", "valid_terrain": [ "t_ship_floor_heated" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "your_ship_lights_on",
+    "terrain": [ { "result": "t_ship_floor_heated", "valid_terrain": [ "t_ship_floor_heated_low_light" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
     "id": "your_ship_stairs_up",
     "terrain": [ { "result": "t_ship_stairs_down_retracted", "valid_terrain": [ "t_ship_stairs_down" ] } ]
   },
@@ -82,7 +104,7 @@
       {
         "result": "f_security_panel_locked",
         "valid_furniture": [ "f_security_panel", "f_security_panel_10" ],
-        "message": "You trip the security failsafe and the panel fries it's own electronics."
+        "message": "You trip the security failsafe and the panel fries its own electronics."
       },
       {
         "result": "f_reinforced_displaycase_locked",
@@ -97,6 +119,11 @@
         "message": "The door's PIN pad chimes unhappily before powering down."
       }
     ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "afs_computer_off",
+    "furniture": [ { "result": "f_console_broken", "valid_furniture": [ "f_console" ], "message": "The console shuts down." } ]
   },
   {
     "type": "ter_furn_transform",

@@ -1,0 +1,39 @@
+[
+  {
+    "type": "palette",
+    "id": "micro_apartment_palette_shower",
+    "furniture": { "1": "f_shower_retractable", "2": "f_null" }
+  },
+  {
+    "type": "palette",
+    "id": "micro_apartment_palette_bed",
+    "furniture": { "1": "f_bed_retractable", "2": "f_bed" }
+  },
+  {
+    "type": "palette",
+    "id": "micro_apartment_palette_null",
+    "furniture": { "1": "f_null", "2": "f_null" }
+  },
+  {
+    "type": "palette",
+    "id": "base",
+    "terrain": {
+      "#": "t_concrete_wall",
+      "3": "t_floor_container",
+      "+": "t_door_c",
+      ".": "t_concrete_light",
+      "$": "t_wall_control",
+      "%": "t_ret_furn_target",
+      "i": "t_metal_railing",
+      ">": "t_stairs_down",
+      "<": "t_stairs_up",
+      "0": "t_open_air",
+      "-": "t_door_metal_c"
+    },
+    "furniture": { "4": "f_dumpster", "T": "f_table", "=": "f_utility_shelf", "h": "f_chair", "c": "f_counter" },
+    "items": {
+      "L": [ { "item": "locker_gym", "chance": 50, "repeat": 3 } ],
+      "3": [ { "item": "locker_gym", "chance": 50, "repeat": 3 }, { "item": "oneirosis_countermeasures", "chance": 5 } ]
+    }
+  }
+]

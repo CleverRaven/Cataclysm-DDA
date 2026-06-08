@@ -209,6 +209,7 @@
       }
     ],
     "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ],
+    "cancels": [ "CHAOTIC", "CHAOTIC_BAD" ],
     "chargen_allow_npc": false
   },
   {
@@ -228,6 +229,7 @@
         ]
       }
     ],
+    "cancels": [ "CHAOTIC", "CHAOTIC_BAD" ],
     "chargen_allow_npc": false
   },
   {
@@ -258,6 +260,7 @@
         ]
       }
     ],
+    "cancels": [ "CHAOTIC", "CHAOTIC_BAD" ],
     "chargen_allow_npc": false
   },
   {
@@ -288,6 +291,7 @@
         ]
       }
     ],
+    "cancels": [ "CHAOTIC", "CHAOTIC_BAD" ],
     "chargen_allow_npc": false
   },
   {
@@ -318,6 +322,7 @@
         ]
       }
     ],
+    "cancels": [ "CHAOTIC", "CHAOTIC_BAD" ],
     "chargen_allow_npc": false
   },
   {
@@ -568,12 +573,18 @@
     "activated_is_setup": true,
     "activation_msg": "The mortal sentiments in your thoughts fade away.",
     "enchantments": [
-      { "condition": "ACTIVE", "mutations": [ "PSYCHOPATH" ] },
-      { "condition": { "math": [ "u_pain('type': 'perceived')", ">=", "50" ] }, "mutations": [ "PSYCHOPATH" ] },
-      { "condition": { "math": [ "u_val('sleepiness')", ">=", "200" ] }, "mutations": [ "PSYCHOPATH" ] },
+      { "condition": "ACTIVE", "ench_effects": [ { "effect": "effect_changeling_temporary_psychopath", "intensity": 1 } ] },
+      {
+        "condition": { "math": [ "u_pain('type': 'perceived')", ">=", "50" ] },
+        "ench_effects": [ { "effect": "effect_changeling_temporary_psychopath", "intensity": 1 } ]
+      },
+      {
+        "condition": { "math": [ "u_val('sleepiness')", ">=", "200" ] },
+        "ench_effects": [ { "effect": "effect_changeling_temporary_psychopath", "intensity": 1 } ]
+      },
       {
         "condition": { "u_has_any_effect": [ "formication", "visuals", "hallu", "bite", "infected" ] },
-        "mutations": [ "PSYCHOPATH" ]
+        "ench_effects": [ { "effect": "effect_changeling_temporary_psychopath", "intensity": 1 } ]
       }
     ]
   },

@@ -336,6 +336,7 @@
     "visibility": 10,
     "ugliness": 3,
     "bodytemp_modifiers": [ 750, 1500 ],
+    "integrated_armor": [ "integrated_rabbitfur" ],
     "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 1 } ],
     "enchantments": [ { "values": [ { "value": "BODYTEMP_SLEEP", "add": 1 } ] } ]
   },

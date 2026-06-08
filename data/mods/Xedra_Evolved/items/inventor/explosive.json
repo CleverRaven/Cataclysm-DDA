@@ -19,7 +19,7 @@
       "target": "portable_dark_age_apct",
       "msg": "You activate the portable dark age.",
       "target_timer": "50 seconds",
-      "menu_text": "Activate bomb",
+      "menu_text": "Activate",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "WATER_BREAK" ],

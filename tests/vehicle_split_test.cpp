@@ -5,6 +5,7 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "coordinates.h"
+#include "enums.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
@@ -31,7 +32,7 @@ TEST_CASE( "vehicle_split_section", "[vehicle]" )
         clear_vehicles();
         REQUIRE( here.get_vehicles().empty() );
         vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_cross_split_test,
-                                             vehicle_origin, dir, 0, 0 );
+                                             vehicle_origin, dir, 0, veh_spawn_status::UNDAMAGED );
         REQUIRE( veh_ptr != nullptr );
         std::set<tripoint_abs_ms> original_points = veh_ptr->get_points( true );
 
@@ -73,7 +74,8 @@ TEST_CASE( "vehicle_split_section", "[vehicle]" )
         }
         REQUIRE( here.get_vehicles().empty() );
         vehicle_origin = { 20, 20, 0 };
-        veh_ptr = here.add_vehicle( vehicle_prototype_circle_split_test, vehicle_origin, dir, 0, 0 );
+        veh_ptr = here.add_vehicle( vehicle_prototype_circle_split_test, vehicle_origin, dir, 0,
+                                    veh_spawn_status::UNDAMAGED );
         REQUIRE( veh_ptr != nullptr );
         here.destroy_vehicle( vehicle_origin );
         veh_ptr->part_removal_cleanup( here );
@@ -111,7 +113,7 @@ TEST_CASE( "crater_crash", "[vehicle]" )
 
 TEST_CASE( "split_vehicle_during_mapgen", "[vehicle]" )
 {
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     clear_vehicles();
     REQUIRE( here.get_vehicles().empty() );
@@ -124,7 +126,7 @@ TEST_CASE( "split_vehicle_during_mapgen", "[vehicle]" )
     REQUIRE( tm.get_vehicles().empty() );
     tripoint_omt_ms vehicle_origin{ 14, 14, 0 };
     vehicle *veh_ptr = tm.add_vehicle( vehicle_prototype_cross_split_test,
-                                       vehicle_origin, 0_degrees, 0, 0 );
+                                       vehicle_origin, 0_degrees, 0, veh_spawn_status::UNDAMAGED );
     REQUIRE( veh_ptr != nullptr );
     REQUIRE( !tm.get_vehicles().empty() );
     tm.destroy( vehicle_origin );

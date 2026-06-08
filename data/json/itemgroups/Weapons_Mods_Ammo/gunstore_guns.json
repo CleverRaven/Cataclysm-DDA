@@ -560,7 +560,7 @@
     "subtype": "collection",
     "id": "boxed_ruger_lcr_38",
     "container-item": "box_pistol",
-    "items": [ { "item": "ruger_lcr_38" }, { "group": "firearm_box_extras" }, { "item": "38_speedloader5", "prob": 5 } ]
+    "items": [ { "item": "ruger_lcr_38" }, { "group": "firearm_box_extras" }, { "item": "38_speedloader6", "prob": 5 } ]
   },
   {
     "type": "item_group",
@@ -1440,7 +1440,7 @@
           { "item": "browning_a5", "prob": 100 },
           { "item": "benelli_tsa", "prob": 24 },
           { "item": "mossberg_930", "prob": 31 },
-          { "item": "m1014", "prob": 11 },
+          { "item": "benelli_m4", "prob": 11 },
           { "item": "tavor_12", "prob": 53 }
         ]
       }

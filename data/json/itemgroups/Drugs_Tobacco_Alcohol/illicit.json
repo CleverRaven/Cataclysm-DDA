@@ -1,0 +1,124 @@
+[
+  {
+    "type": "item_group",
+    "id": "mobile_meth_lab",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          {
+            "item": "adderall",
+            "count": [ 0, 20 ],
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_prescription"
+          },
+          { "item": "energy_drink", "count": [ 0, 2 ] },
+          {
+            "item": "caffeine",
+            "count": [ 0, 20 ],
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_supplement"
+          }
+        ]
+      },
+      { "group": "nondrowsy_cough_syrup_in_bottle", "count": [ 0, 2 ] },
+      { "item": "red_phosphorous", "prob": 40, "count": [ 0, 1 ] },
+      { "item": "iodine_crystal", "prob": 40, "count": [ 0, 1 ] },
+      { "count": [ 0, 2 ], "group": "meth_bag_zipper_1_6" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "meth_ingredients",
+    "items": [
+      { "group": "nondrowsy_cough_syrup_in_bottle", "prob": 2 },
+      { "item": "red_phosphorous", "prob": 25, "count": [ 1, 20 ] },
+      { "item": "iodine_crystal", "prob": 10, "count": [ 1, 10 ] },
+      [ "energy_drink", 2 ],
+      { "prob": 20, "group": "caffeine_bottle_plastic_pill_supplement_1_10" }
+    ]
+  },
+  {
+    "id": "jar_weed",
+    "type": "item_group",
+    "//": "For sale display appropriate packaging",
+    "subtype": "distribution",
+    "items": [
+      [ "jar_3l_glass_sealed", 100 ],
+      { "prob": 100, "sealed": false, "group": "weed_jar_3l_glass_sealed_10_420" },
+      [ "jar_glass_sealed", 100 ],
+      { "prob": 100, "sealed": false, "group": "hi_q_shatter_jar_glass_sealed_5_140" },
+      { "prob": 100, "sealed": false, "group": "hi_q_wax_jar_glass_sealed_5_140" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "weed_jar_3l_glass_sealed_10_420",
+    "subtype": "collection",
+    "container-item": "jar_3l_glass_sealed",
+    "entries": [ { "item": "weed", "count": [ 10, 420 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "hi_q_shatter_jar_glass_sealed_5_140",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "hi_q_shatter", "count": [ 5, 140 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "hi_q_wax_jar_glass_sealed_5_140",
+    "subtype": "collection",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "hi_q_wax", "count": [ 5, 140 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "meth_bag_zipper_6",
+    "subtype": "collection",
+    "container-item": "bag_zipper",
+    "entries": [ { "item": "meth", "container-item": "null", "count": 6 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "meth_bag_zipper_1_6",
+    "subtype": "collection",
+    "container-item": "bag_zipper",
+    "entries": [ { "item": "meth", "container-item": "null", "count": [ 1, 6 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "crack_bag_zipper_1_4",
+    "subtype": "collection",
+    "container-item": "bag_zipper",
+    "entries": [ { "item": "crack", "container-item": "null", "count": [ 1, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "heroin_bag_zipper_4",
+    "subtype": "collection",
+    "container-item": "bag_zipper",
+    "entries": [ { "item": "heroin", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "heroin_bag_zipper_1_4",
+    "subtype": "collection",
+    "container-item": "bag_zipper",
+    "entries": [ { "item": "heroin", "container-item": "null", "count": [ 1, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "coke_bag_zipper_1_8",
+    "subtype": "collection",
+    "container-item": "bag_zipper",
+    "entries": [ { "item": "coke", "container-item": "null", "count": [ 1, 8 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "lsd_bag_zipper_1_5",
+    "subtype": "collection",
+    "container-item": "bag_zipper",
+    "entries": [ { "item": "lsd", "count": [ 1, 5 ] } ]
+  }
+]

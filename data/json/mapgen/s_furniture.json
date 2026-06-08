@@ -7,7 +7,7 @@
       "rows": [
         "          ssss          ",
         " #ggggggggg++ggggggggg# ",
-        " #.CphpH.c....O.O.&.&.# ",
+        " #.CphpH.c....O.O.&.&§# ",
         " #B.....kc...........y# ",
         " #B....ccc...........f# ",
         " #v..........-.m..e..B# ",
@@ -20,7 +20,7 @@
         " #h......EE..CC..&&..B# ",
         " #H......EE..CC..éé..B# ",
         " #H..................q# ",
-        " #...yffBBBBBBBBBBBBBB# ",
+        " #..§yffBBBBBBBBBBBBBB# ",
         " #DD|||||||||||||###### ",
         " #...............Dsss4s ",
         " #BBBB.y...mmmpv.Dsssss ",
@@ -81,7 +81,8 @@
         { "item": "tools_carpentry", "x": [ 2, 5 ], "y": 18, "chance": 75, "repeat": [ 1, 8 ] },
         { "item": "magazines", "x": 2, "y": [ 3, 4 ], "chance": 75, "repeat": [ 1, 4 ] },
         { "item": "cash_register_random", "x": 9, "y": [ 2, 4 ], "chance": 100 }
-      ]
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

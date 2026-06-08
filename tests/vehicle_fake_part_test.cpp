@@ -9,6 +9,7 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "coordinates.h"
+#include "enums.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "pathfinding.h"
@@ -28,9 +29,9 @@ static const vproto_id vehicle_prototype_schoolbus( "schoolbus" );
 static const vproto_id vehicle_prototype_suv( "suv" );
 static const vproto_id vehicle_prototype_test_van( "test_van" );
 
-static void really_clear_map()
+static void really_clear_map_without_vision()
 {
-    clear_map();
+    clear_map_without_vision();
     build_test_map( ter_id( "t_pavement" ) );
 }
 
@@ -80,10 +81,11 @@ TEST_CASE( "ensure_fake_parts_enable_on_place", "[vehicle] [vehicle_fake]" )
             for( int sub_angle = 0; sub_angle < std::round( 90_degrees / vehicles::steer_increment );
                  sub_angle += 1 )  {
                 const units::angle angle = quadrant * 90_degrees + sub_angle * vehicles::steer_increment;
-                really_clear_map();
+                really_clear_map_without_vision();
                 map &here = get_map();
 
-                vehicle *veh = here.add_vehicle( vehicle_prototype_test_van, test_origin, angle, 100, 0 );
+                vehicle *veh = here.add_vehicle( vehicle_prototype_test_van, test_origin, angle, 100,
+                                                 veh_spawn_status::UNDAMAGED );
                 REQUIRE( veh != nullptr );
 
                 /* since we want all the doors closed anyway, go ahead and test that opening
@@ -110,10 +112,11 @@ TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
     std::vector<int> active_fakes_by_angle = { 0, 3, 8, 15, 6, 1 };
 
     GIVEN( "A vehicle with a known number of parts" ) {
-        really_clear_map();
+        really_clear_map_without_vision();
         map &here = get_map();
         const tripoint_bub_ms test_origin( 30, 30, 0 );
-        vehicle *veh = here.add_vehicle( vehicle_prototype_test_van, test_origin, 0_degrees, 100, 0 );
+        vehicle *veh = here.add_vehicle( vehicle_prototype_test_van, test_origin, 0_degrees, 100,
+                                         veh_spawn_status::UNDAMAGED );
         REQUIRE( veh != nullptr );
 
         /* since we want all the doors closed anyway, go ahead and test that opening
@@ -168,10 +171,11 @@ TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
 TEST_CASE( "ensure_vehicle_weight_is_constant", "[vehicle] [vehicle_fake]" )
 {
     clear_avatar();
-    really_clear_map();
+    really_clear_map_without_vision();
     const tripoint_bub_ms test_origin( 30, 30, 0 );
     map &here = get_map();
-    vehicle *veh = here.add_vehicle( vehicle_prototype_suv, test_origin, 0_degrees, 0, 0 );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_suv, test_origin, 0_degrees, 0,
+                                     veh_spawn_status::UNDAMAGED );
     REQUIRE( veh != nullptr );
 
     veh->tags.insert( "IN_CONTROL_OVERRIDE" );
@@ -196,11 +200,12 @@ TEST_CASE( "ensure_vehicle_weight_is_constant", "[vehicle] [vehicle_fake]" )
 TEST_CASE( "vehicle_collision_applies_damage_to_fake_parent", "[vehicle] [vehicle_fake]" )
 {
     clear_avatar();
-    really_clear_map();
+    really_clear_map_without_vision();
     map &here = get_map();
     GIVEN( "A moving vehicle traveling at a 45 degree angle to the X axis" ) {
         const tripoint_bub_ms test_origin( 30, 30, 0 );
-        vehicle *veh = here.add_vehicle( vehicle_prototype_suv, test_origin, 0_degrees, 100, 0 );
+        vehicle *veh = here.add_vehicle( vehicle_prototype_suv, test_origin, 0_degrees, 100,
+                                         veh_spawn_status::UNDAMAGED );
         REQUIRE( veh != nullptr );
 
         veh->tags.insert( "IN_CONTROL_OVERRIDE" );
@@ -255,11 +260,12 @@ TEST_CASE( "vehicle_collision_applies_damage_to_fake_parent", "[vehicle] [vehicl
 TEST_CASE( "vehicle_to_vehicle_collision", "[vehicle] [vehicle_fake]" )
 {
     clear_avatar();
-    really_clear_map();
+    really_clear_map_without_vision();
     map &here = get_map();
     GIVEN( "A moving vehicle traveling at a 30 degree angle to the X axis" ) {
         const tripoint_bub_ms test_origin( 30, 30, 0 );
-        vehicle *veh = here.add_vehicle( vehicle_prototype_test_van, test_origin, 30_degrees, 100, 0 );
+        vehicle *veh = here.add_vehicle( vehicle_prototype_test_van, test_origin, 30_degrees, 100,
+                                         veh_spawn_status::UNDAMAGED );
         REQUIRE( veh != nullptr );
         const tripoint_bub_ms global_origin = veh->pos_bub( here );
 
@@ -271,7 +277,8 @@ TEST_CASE( "vehicle_to_vehicle_collision", "[vehicle] [vehicle_fake]" )
         here.vehmove();
         const tripoint_bub_ms global_move = veh->pos_bub( here );
         const tripoint_bub_ms obstacle_point = test_origin + 2 * ( global_move - global_origin );
-        vehicle *trg = here.add_vehicle( vehicle_prototype_schoolbus, obstacle_point, 90_degrees, 100, 0 );
+        vehicle *trg = here.add_vehicle( vehicle_prototype_schoolbus, obstacle_point, 90_degrees, 100,
+                                         veh_spawn_status::UNDAMAGED );
         REQUIRE( trg != nullptr );
         trg->name = "crash bus";
         WHEN( "A vehicle is placed in the vehicle's path such that it will hit a true part" ) {
@@ -312,11 +319,12 @@ TEST_CASE( "vehicle_to_vehicle_collision", "[vehicle] [vehicle_fake]" )
 TEST_CASE( "ensure_vehicle_with_no_obstacles_has_no_fake_parts", "[vehicle] [vehicle_fake]" )
 {
     clear_avatar();
-    really_clear_map();
+    really_clear_map_without_vision();
     map &here = get_map();
     GIVEN( "A vehicle with no parts that block movement" ) {
         const tripoint_bub_ms test_origin( 30, 30, 0 );
-        vehicle *veh = here.add_vehicle( vehicle_prototype_bicycle, test_origin, 45_degrees, 100, 0 );
+        vehicle *veh = here.add_vehicle( vehicle_prototype_bicycle, test_origin, 45_degrees, 100,
+                                         veh_spawn_status::UNDAMAGED );
         REQUIRE( veh != nullptr );
         WHEN( "The vehicle is placed in the world" ) {
             THEN( "There are no fake parts added" ) {
@@ -329,12 +337,12 @@ TEST_CASE( "ensure_vehicle_with_no_obstacles_has_no_fake_parts", "[vehicle] [veh
 TEST_CASE( "vehicle_with_fake_obstacle_parts_block_movement", "[vehicle][vehicle_fake]" )
 {
     clear_avatar();
-    really_clear_map();
+    really_clear_map_without_vision();
     map &here = get_map();
     Character &you = get_player_character();
     const tripoint_bub_ms test_origin( 30, 30, 0 );
     vehicle *veh = here.add_vehicle( vehicle_prototype_obstacle_test,
-                                     test_origin, 315_degrees, 100, 0 );
+                                     test_origin, 315_degrees, 100, veh_spawn_status::UNDAMAGED );
     REQUIRE( veh != nullptr );
     veh->refresh( );
     here.set_seen_cache_dirty( 0 );
@@ -352,7 +360,7 @@ TEST_CASE( "vehicle_with_fake_obstacle_parts_block_movement", "[vehicle][vehicle
 
 TEST_CASE( "fake_parts_are_opaque", "[vehicle][vehicle_fake]" )
 {
-    really_clear_map();
+    really_clear_map_without_vision();
     Character &you = get_player_character();
     clear_avatar();
     const tripoint_bub_ms test_origin = you.pos_bub() + point( 6, 2 );
@@ -360,7 +368,8 @@ TEST_CASE( "fake_parts_are_opaque", "[vehicle][vehicle_fake]" )
     set_time_to_day();
 
     REQUIRE( you.sees( here, you.pos_bub( here ) + point( 10, 10 ) ) );
-    vehicle *veh = here.add_vehicle( vehicle_prototype_test_van, test_origin, 315_degrees, 100, 0 );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_test_van, test_origin, 315_degrees, 100,
+                                     veh_spawn_status::UNDAMAGED );
     REQUIRE( veh != nullptr );
     here.set_seen_cache_dirty( 0 );
     here.build_map_cache( 0 );
@@ -369,13 +378,14 @@ TEST_CASE( "fake_parts_are_opaque", "[vehicle][vehicle_fake]" )
 
 TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
 {
-    really_clear_map();
+    really_clear_map_without_vision();
     Character &you = get_player_character();
     clear_avatar();
     const tripoint_bub_ms test_origin = you.pos_bub() + point( 3, 0 );
     map &here = get_map();
 
-    vehicle *veh = here.add_vehicle( vehicle_prototype_test_van, test_origin, 315_degrees, 100, 0 );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_test_van, test_origin, 315_degrees, 100,
+                                     veh_spawn_status::UNDAMAGED );
     REQUIRE( veh != nullptr );
 
     // First get the doors to a known good state.

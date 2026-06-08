@@ -32,6 +32,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "faction.h"
 #include "flag.h"
 #include "flat_set.h"
 #include "game.h"
@@ -88,6 +89,7 @@ static const character_modifier_id character_modifier_solid_consume_mod( "solid_
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_common_cold( "common_cold" );
+static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_flu( "flu" );
 static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_fungus( "fungus" );
@@ -103,6 +105,9 @@ static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_visuals( "visuals" );
 
+static const flag_id json_flag_ALCOHOL( "ALCOHOL" );
+static const flag_id json_flag_ALCOHOL_STRONG( "ALCOHOL_STRONG" );
+static const flag_id json_flag_ALCOHOL_WEAK( "ALCOHOL_WEAK" );
 static const flag_id json_flag_ALLERGEN_CHEESE( "ALLERGEN_CHEESE" );
 static const flag_id json_flag_ALLERGEN_EGG( "ALLERGEN_EGG" );
 static const flag_id json_flag_ALLERGEN_MEAT( "ALLERGEN_MEAT" );
@@ -162,15 +167,18 @@ static const skill_id skill_survival( "survival" );
 static const species_id species_HUMAN( "HUMAN" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
+static const trait_id trait_ALCMET( "ALCMET" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
 static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
 static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
+static const trait_id trait_BLOOD_DRINKER( "BLOOD_DRINKER" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_GOURMAND( "GOURMAND" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_LACTOSE( "LACTOSE" );
+static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_MEATARIAN( "MEATARIAN" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
@@ -194,6 +202,7 @@ static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_THRESH_RABBIT( "THRESH_RABBIT" );
 static const trait_id trait_THRESH_RAT( "THRESH_RAT" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
+static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
 static const trait_id trait_VEGAN( "VEGAN" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
@@ -513,9 +522,25 @@ std::pair<int, int> Character::fun_for( const item &comest, bool ignore_already_
 
     // Food is less enjoyable when eaten too often.
     if( !ignore_already_ate && ( fun > 0 || comest.has_flag( flag_NEGATIVE_MONOTONY_OK ) ) ) {
+        const itype_id food_canonical = comest.get_comestible()->eats_like.is_empty()
+                                        ? comest.typeId()
+                                        : comest.get_comestible()->eats_like;
         for( const consumption_event &event : consumption_history ) {
-            if( event.time > calendar::turn - 2_days && event.type_id == comest.typeId() &&
-                event.component_hash == comest.make_component_hash() ) {
+            if( event.time <= calendar::turn - 2_days ) {
+                continue;
+            }
+            // Exact same type and recipe variant
+            bool dominated = event.type_id == comest.typeId() &&
+                             event.component_hash == comest.make_component_hash();
+            // Same eats_like group (different type, skip component_hash)
+            if( !dominated ) {
+                const itype_id ev_canonical = event.type_id->comestible &&
+                                              !event.type_id->comestible->eats_like.is_empty()
+                                              ? event.type_id->comestible->eats_like
+                                              : event.type_id;
+                dominated = ev_canonical == food_canonical;
+            }
+            if( dominated ) {
                 fun -= comest.get_comestible()->monotony_penalty;
                 // This effect can't drop fun below 0, unless the food has the right flag.
                 // 0 is the lowest we'll go, no need to keep looping.
@@ -988,6 +1013,17 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     const bool saprophage = has_trait( trait_SAPROPHAGE );
     const auto &comest = food.get_comestible();
 
+    // To avoid hardcoding a check for mutant_toxin we instead iterate all vitamin types.
+    // Break this out into its own function?
+    for( const auto &v : vitamin::all() ) {
+        if( v.first->type() == vitamin_type::TOXIN ) {
+            if( food.has_vitamin( v.first ) ) {
+                // NOTE: Purely visual information. Nausea is not actually a symptom of consuming mutant toxin.
+                add_consequence( _( "This is disgusting!" ), NAUSEA );
+            }
+        }
+    }
+
     if( food.rotten() ) {
         const bool saprovore = has_trait( trait_SAPROVORE );
         if( !saprophage && !saprovore ) {
@@ -1005,8 +1041,9 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     }
 
     if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
-        !has_flag( json_flag_PARAIMMUNE ) && ( !food.has_flag( flag_HEMOVORE_FUN ) ||
-                ( !has_flag( json_flag_HEMOVORE ) && !has_flag( json_flag_BLOODFEEDER ) ) ) ) {
+        !has_flag( json_flag_PARAIMMUNE ) && !saprophage && !has_trait( trait_SAPROVORE ) &&
+        ( !food.has_flag( flag_HEMOVORE_FUN ) ||
+          ( !has_flag( json_flag_HEMOVORE ) && !has_flag( json_flag_BLOODFEEDER ) ) ) ) {
         add_consequence( string_format( _( "Consuming this %s probably isn't very healthy." ),
                                         food.tname() ),
                          PARASITES );
@@ -1072,6 +1109,35 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     return ret_val<edible_rating>::make_success();
 }
 
+static constexpr time_duration alc_strength( const int strength, const time_duration &weak,
+        const time_duration &medium, const time_duration &strong )
+{
+    return strength == 0 ? weak : strength == 1 ? medium : strong;
+}
+
+static int apply_alcohol_effects( Character &p, const item &it, const int strength )
+{
+    // Weaker characters are cheap drunks
+    /** @EFFECT_STR_MAX reduces drunkenness duration */
+    time_duration duration = alc_strength( strength, 22_minutes, 34_minutes,
+                                           45_minutes ) - ( alc_strength( strength, 36_seconds, 1_minutes, 72_seconds ) * p.get_str_base() );
+    if( p.has_trait( trait_ALCMET ) ) {
+        duration = alc_strength( strength, 6_minutes, 14_minutes, 18_minutes ) - ( alc_strength( strength,
+                   36_seconds, 1_minutes, 1_minutes ) * p.get_str_base() );
+        // Metabolizing the booze improves the nutritional value;
+        // might not be healthy, and still causes Thirst problems, though
+        p.stomach.mod_nutr( -std::abs( it.get_comestible() ? it.type->comestible->stim : 0 ) );
+        // Metabolizing it cancels out the depressant
+        p.mod_stim( std::abs( it.get_comestible() ? it.get_comestible()->stim : 0 ) );
+    } else if( p.has_trait( trait_TOLERANCE ) ) {
+        duration -= alc_strength( strength, 9_minutes, 16_minutes, 24_minutes );
+    } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
+        duration += alc_strength( strength, 9_minutes, 16_minutes, 24_minutes );
+    }
+    p.add_effect( effect_drunk, duration );
+    return 1;
+}
+
 /** Eat a comestible.
 *   @return true if item consumed.
 */
@@ -1086,18 +1152,16 @@ static bool eat( item &food, Character &you, bool force )
         return false;
     }
 
-    int charges_used = 0;
-    if( food.type->has_use() ) {
-        if( !food.type->can_use( "PETFOOD" ) ) {
-            charges_used = food.type->invoke( &you, food, you.pos_bub() ).value_or( 0 );
-            if( charges_used <= 0 ) {
-                return false;
-            }
-        }
-    }
-
     // Note: the block below assumes we decided to eat it
     // No coming back from here
+
+    if( food.has_flag( json_flag_ALCOHOL_WEAK ) ) {
+        apply_alcohol_effects( you, food, 0 );
+    } else if( food.has_flag( json_flag_ALCOHOL ) ) {
+        apply_alcohol_effects( you, food, 1 );
+    } else if( food.has_flag( json_flag_ALCOHOL_STRONG ) ) {
+        apply_alcohol_effects( you, food, 2 );
+    }
 
     if( food.is_container() ) {
         food.spill_contents( you );
@@ -1136,13 +1200,6 @@ static bool eat( item &food, Character &you, bool force )
         you.add_msg_if_player( m_good, _( "Mmm, this %s tastes delicious…" ), food.tname() );
     }
     if( !you.consume_effects( food ) ) {
-        // Already consumed by using `food.type->invoke`?
-        if( charges_used > 0 ) {
-            if( food.count_by_charges() ) {
-                food.mod_charges( -charges_used );
-            }
-            return true;
-        }
         return false;
     }
     if( food.count_by_charges() ) {
@@ -1401,6 +1458,8 @@ void Character::modify_morale( item &food, const int nutr )
             // Reduced penalties
             add_morale( morale_cannibal, moderate_morale_penalty, maximum_stacked_morale_penalty,
                         7_days, 4_days );
+        } else if( has_trait( trait_BLOOD_DRINKER ) ) {
+            add_msg_if_player( m_good, _( "Blood.  Just what you need.  You want more." ) );
         } else if( cannibal && psycho ) {
             add_msg_if_player( m_good,
                                _( "You worry that your hunger for human flesh is going to be a liability one of these days." ) );
@@ -1849,12 +1908,20 @@ time_duration Character::get_consume_time( const item &it ) const
 static bool query_consume_ownership( item &target, Character &p )
 {
     if( !target.is_owned_by( p, true ) ) {
-        bool choice = true;
-        if( p.get_value( "THIEF_MODE" ).str() == "THIEF_ASK" ) {
-            choice = Pickup::query_thief( target );
-        }
-        if( p.get_value( "THIEF_MODE" ).str() == "THIEF_HONEST" || !choice ) {
+        const std::string thief_mode = p.get_value( "THIEF_MODE" ).str();
+        if( thief_mode == "THIEF_HONEST" ) {
             return false;
+        } else if( thief_mode != "THIEF_STEAL" ) {
+            // Default (THIEF_ASK) - check faction steal_persist
+            faction *owner_fac = g->faction_manager_ptr->get( target.get_owner(), false );
+            if( owner_fac && owner_fac->steal_persist.has_value() ) {
+                if( !*owner_fac->steal_persist ) {
+                    return false; // NEVER
+                }
+                // ALWAYS
+            } else if( !Pickup::query_thief( target ) ) {
+                return false;
+            }
         }
         g->on_witness_theft( target );
     }

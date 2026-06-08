@@ -85,7 +85,7 @@
     "type": "item_group",
     "id": "xe_eater_spell_tier0",
     "subtype": "distribution",
-    "entries": [ { "item": "deck_of_tarot_cards", "prob": 50 }, { "item": "hurricane_lamp_thorns", "prob": 100 } ]
+    "entries": [ { "item": "deck_of_tarot_cards_xe", "prob": 50 }, { "item": "hurricane_lamp_thorns", "prob": 100 } ]
   },
   {
     "type": "item_group",

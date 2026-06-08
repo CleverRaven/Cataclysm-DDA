@@ -8,6 +8,7 @@
 
 #include "imtui.h"
 #include "imtui-impl-text.h"
+#include "imgui/imgui_internal.h"
 
 #include <cmath>
 #include <vector>
@@ -285,26 +286,15 @@ bool ImTui_ImplText_Init() {
     ImGui::GetStyle().Colors[ImGuiCol_TitleBg]          = ImVec4(0.35, 0.35, 0.35, 1.0f);
     ImGui::GetStyle().Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.15, 0.15, 0.15, 1.0f);
     ImGui::GetStyle().Colors[ImGuiCol_TextSelectedBg]   = ImVec4(0.75, 0.75, 0.75, 0.5f);
-    ImGui::GetStyle().Colors[ImGuiCol_NavHighlight]     = ImVec4(0.00, 0.00, 0.00, 0.0f);
+    ImGui::GetStyle().Colors[ImGuiCol_NavCursor]        = ImVec4(0.00, 0.00, 0.00, 0.0f);
 
     ImFontConfig fontConfig;
     fontConfig.GlyphMinAdvanceX = 1.0f;
     fontConfig.SizePixels = 1.00;
-    static const ImWchar ranges[] = {
-        0x0020, 0x052F,
-        0x1D00, 0x1DFF,
-        0x2000, 0x206F,
-        0x20A0, 0x20CF,
-        0x2100, 0x214F,
-        0x2190, 0x22FF,
-        //0x0020, 0xCFFF,
-        0
-    };
-    fontConfig.GlyphRanges = ranges;
     ImGui::GetIO().Fonts->AddFontDefault(&fontConfig);
 
-    // Build atlas
-    ImGui::GetIO().Fonts->Build();
+    // Force atlas build now (legacy backend: no ImGuiBackendFlags_RendererHasTextures).
+    ImFontAtlasBuildMain(ImGui::GetIO().Fonts);
 
     return true;
 }

@@ -335,7 +335,7 @@
     "name": { "str": "krar" },
     "description": "A wooden krar, similar to a harp.",
     "copy-from": "krar_golden",
-    "material": "wood",
+    "material": [ "wood" ],
     "weight": "2500 g"
   },
   {
@@ -479,6 +479,7 @@
     "looks_like": "acoustic_guitar",
     "name": { "str": "electric guitar" },
     "category": "tools",
+    "ascii_picture": "guitar_electric",
     "weight": "3750 g",
     "color": "red",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },

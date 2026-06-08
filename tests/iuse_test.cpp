@@ -3,6 +3,7 @@
 #include <list>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "avatar.h"
 #include "bodypart.h"
@@ -67,7 +68,9 @@ static const itype_id itype_atomic_coffee( "atomic_coffee" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_coffee( "coffee" );
 static const itype_id itype_diazepam( "diazepam" );
+static const itype_id itype_gasfilter_med( "gasfilter_med" );
 static const itype_id itype_inhaler( "inhaler" );
+static const itype_id itype_mask_gas( "mask_gas" );
 static const itype_id itype_oxygen( "oxygen" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_panacea( "panacea" );
@@ -1079,4 +1082,34 @@ TEST_CASE( "water_tablet_purification_test", "[iuse][pur_tablets]" )
         }
 
     }
+}
+
+// Gas mask has no charges_per_use; iuse::gasmask must drain the filter via
+// ammo_consume directly. consume_tool_uses bails out without draining when
+// charges_to_use() is zero.
+TEST_CASE( "gasmask_filter_drains_on_full_absorption", "[iuse][gasmask]" )
+{
+    avatar dummy;
+    dummy.normalize();
+    map &here = get_map();
+    const tripoint_bub_ms pos = dummy.pos_bub( here );
+
+    item mask( itype_mask_gas );
+    REQUIRE( mask.put_in( item( itype_gasfilter_med ), pocket_type::MAGAZINE_WELL ).success() );
+    const int charges_before = mask.ammo_remaining();
+    REQUIRE( charges_before > 0 );
+
+    item_location mask_loc = dummy.i_add( mask );
+    REQUIRE( dummy.wear( mask_loc, false ) );
+    item *worn_mask = dummy.worn.top_items_loc( dummy ).front().get_item();
+    REQUIRE( worn_mask != nullptr );
+    REQUIRE( dummy.is_worn( *worn_mask ) );
+
+    worn_mask->active = true;
+    worn_mask->set_var( "gas_absorbed", 60 );
+
+    iuse::gasmask( &dummy, worn_mask, pos );
+
+    CHECK( worn_mask->ammo_remaining() == charges_before - 1 );
+    CHECK( worn_mask->get_var( "gas_absorbed", -1 ) == 0 );
 }

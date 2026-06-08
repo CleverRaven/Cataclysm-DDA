@@ -1,0 +1,39 @@
+[
+  {
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "id": "ink_abstract",
+    "category": "chems",
+    "price": "30 USD",
+    "price_postapoc": "5 USD",
+    "name": { "str_sp": "ink abstract" },
+    "symbol": "=",
+    "color": "white",
+    "description": "The Platonic essence of ink.  You probably shouldn't have access to this.",
+    "container": "clay_pot",
+    "material": [ "fruit", "water" ],
+    "phase": "liquid",
+    "volume": "25 ml",
+    "weight": "1250 mg",
+    "ammo_type": "components",
+    "count": 10
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "id": "homemade_ink",
+    "copy-from": "ink_abstract",
+    "name": { "str_sp": "homemade ink" },
+    "description": "A simple ink made by boiling fruit and vinegar together until it becomes thicker and darker.  It won't last through the ages but you can write with it.",
+    "color": "yellow"
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "id": "magical_ink_simple",
+    "copy-from": "ink_abstract",
+    "name": { "str_sp": "magical ink, apprentice" },
+    "description": "A simple ink made by boiling fruit and vinegar with herbs.  It won't hold anything more than a rudimentary enchantment.",
+    "color": "yellow"
+  }
+]

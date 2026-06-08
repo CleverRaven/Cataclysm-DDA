@@ -43,7 +43,7 @@
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "AFS_ELECTROKINETIC",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "LOUD", "NO_PROJECTILE", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "LOUD", "NO_PROJECTILE", "RANDOM_DAMAGE", "RANDOM_DURATION", "TOUCH_REQUIRED", "NO_LEGS" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",

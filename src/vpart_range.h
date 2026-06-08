@@ -59,7 +59,12 @@ class vehicle_part_iterator
 
         vehicle_part_iterator &operator++() {
             cata_assert( vp_ );
+#pragma GCC diagnostic push
+#ifndef __clang__
+# pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#endif
             skip_to_next_valid( vp_->part_index() + 1 );
+#pragma GCC diagnostic pop
             return *this;
         }
 
@@ -70,7 +75,12 @@ class vehicle_part_iterator
             if( !vp_.has_value() ) {
                 return true;
             }
+#pragma GCC diagnostic push
+#ifndef __clang__
+# pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#endif
             return &vp_->vehicle() == &rhs.vp_->vehicle() && vp_->part_index() == rhs.vp_->part_index();
+#pragma GCC diagnostic pop
         }
         bool operator!=( const vehicle_part_iterator &rhs ) const {
             return !operator==( rhs );

@@ -278,11 +278,11 @@ bool computer_session::hack_attempt( Character &you, int Security ) const
     int player_roll = round( you.get_greater_skill_or_knowledge_level(
                                  skill_computer ) ); //this relates to the success of the roll for hacking - the practical skill covers the time.
     ///\EFFECT_INT <8 randomly penalizes hack attempts, 50% of the time
-    if( you.int_cur < 8 && one_in( 2 ) ) {
-        player_roll -= rng( 0, 8 - you.int_cur );
+    if( you.get_int() < 8 && one_in( 2 ) ) {
+        player_roll -= rng( 0, 8 - you.get_int() );
         ///\EFFECT_INT >8 randomly benefits hack attempts, 33% of the time
-    } else if( you.int_cur > 8 && one_in( 3 ) ) {
-        player_roll += rng( 0, you.int_cur - 8 );
+    } else if( you.get_int() > 8 && one_in( 3 ) ) {
+        player_roll += rng( 0, you.get_int() - 8 );
     }
 
     ///\EFFECT_COMPUTER increases chance of successful hack attempt, vs Security level
@@ -717,8 +717,7 @@ void computer_session::action_map_subway()
 {
     helper_map(
     []( const oter_id & oter ) {
-        return ( oter->get_type_id() == oter_type_subway ) ||
-               is_ot_match( "lab_train_depot", oter, ot_match_type::contains );
+        return oter->get_type_id() == oter_type_subway;
     },
     _( "Subway map data downloaded.  Press any key…" ), COMPACT_MAP_SUBWAY );
 }
@@ -1312,7 +1311,7 @@ void computer_session::action_irradiator()
                 }
                 if( !error && platform_exists ) {
                     print_error( _( "PROCESSING…  CYCLE COMPLETE." ) );
-                    print_error( _( "GEIGER COUNTER @ PLATFORM: %s mSv/h." ), here.get_radiation( dest ) );
+                    print_error( _( "GEIGER COUNTER @ PLATFORM: %d mSv/h." ), here.get_radiation( dest ) );
                 }
             }
         }
@@ -1357,13 +1356,13 @@ void computer_session::action_geiger()
                 peak_rad = here.get_radiation( platform );
             }
         }
-        print_error( _( "GEIGER COUNTER @ ZONE:… AVG %s mSv/h." ), sum_rads / tiles_counted );
-        print_error( _( "GEIGER COUNTER @ ZONE:… MAX %s mSv/h." ), peak_rad );
+        print_error( _( "GEIGER COUNTER @ ZONE:… AVG %d mSv/h." ), sum_rads / tiles_counted );
+        print_error( _( "GEIGER COUNTER @ ZONE:… MAX %d mSv/h." ), peak_rad );
         print_newline();
     }
-    print_error( _( "GEIGER COUNTER @ CONSOLE:… %s mSv/h." ),
+    print_error( _( "GEIGER COUNTER @ CONSOLE:… %d mSv/h." ),
                  here.get_radiation( player_character.pos_bub() ) );
-    print_error( _( "PERSONAL DOSIMETRY:… %s mSv." ), player_character.get_rad() );
+    print_error( _( "PERSONAL DOSIMETRY:… %d mSv." ), player_character.get_rad() );
     print_newline();
     query_any( _( "Press any key…" ) );
 }

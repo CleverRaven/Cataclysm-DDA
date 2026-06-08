@@ -33,6 +33,8 @@ static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_jeans( "jeans" );
 static const itype_id itype_tshirt( "tshirt" );
 
+namespace
+{
 enum inventory_location {
     GROUND,
     INVENTORY,
@@ -55,6 +57,7 @@ enum test_action {
     REMOVE_1ST_ADD_1ST,
     TEST_ACTION_NUM,
 };
+} // namespace
 
 static void set_id( item &it, const std::string &id )
 {
@@ -758,7 +761,7 @@ TEST_CASE( "Inventory_letter_test", "[.invlet]" )
     map &here = get_map();
     avatar &dummy = get_avatar();
     const tripoint_bub_ms spot( 60, 60, 0 );
-    clear_map();
+    clear_map_without_vision();
     dummy.setpos( here, spot );
     here.ter_set( spot, ter_id( "t_dirt" ) );
     here.furn_set( spot, furn_id( "f_null" ) );

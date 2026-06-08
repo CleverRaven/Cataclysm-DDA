@@ -197,5 +197,12 @@
     "species": [ "NETHER", "SUMMONED_CREATURE" ],
     "delete": { "special_attacks": [ "DISAPPEAR" ] },
     "categories": [ "XE_CLASSIC" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_xe_kreck_summoned",
+    "copy-from": "mon_kreck",
+    "species": [ "NETHER", "SUMMONED_CREATURE" ],
+    "categories": [ "XE_CLASSIC" ]
   }
 ]

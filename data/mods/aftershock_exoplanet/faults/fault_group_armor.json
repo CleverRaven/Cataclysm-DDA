@@ -1,0 +1,7 @@
+[
+  {
+    "type": "fault_group",
+    "id": "carbide_armor",
+    "group": [ { "fault": "fault_armor_carbide", "weight": 100 }, { "fault": "fault_armor_carbide_bad", "weight": 5 } ]
+  }
+]

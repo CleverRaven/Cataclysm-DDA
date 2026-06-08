@@ -46,7 +46,7 @@ static void test_repair( const std::vector<item> &tools, bool plug_in_tools, boo
 {
     map &here = get_map();
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     Character &player_character = get_player_character();
@@ -70,7 +70,7 @@ static void test_repair( const std::vector<item> &tools, bool plug_in_tools, boo
 
     const tripoint_bub_ms vehicle_origin = test_origin + tripoint::south_east;
     vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_car, vehicle_origin, -90_degrees, 0,
-                                         0 );
+                                         veh_spawn_status::UNDAMAGED );
 
     REQUIRE( veh_ptr != nullptr );
     // Find the frame at the origin.

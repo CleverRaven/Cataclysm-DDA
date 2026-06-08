@@ -111,7 +111,7 @@
       "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "adhesive", 3 ] ] }
     },
-    "flags": [ "FLOATS", "SEAT", "BOARDABLE", "NO_INSTALL_HIDDEN", "NO_UNINSTALL", "SOLAR_PANEL" ],
+    "flags": [ "FLOATS", "SEAT", "BELTABLE", "BOARDABLE", "NO_INSTALL_HIDDEN", "NO_UNINSTALL", "SOLAR_PANEL" ],
     "breaks_into": [ { "item": "stick", "count": [ 1, 4 ] }, { "item": "leaves", "count": [ 10, 20 ] } ],
     "damage_reduction": { "all": 14 },
     "variants": [ { "symbols": "o", "symbols_broken": "x" } ]

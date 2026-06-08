@@ -741,6 +741,18 @@ std::vector<overmap_special_terrain> mutable_overmap_special_data::get_terrains(
     return std::vector<overmap_special_terrain> { root_as_overmap_special_terrain() };
 }
 
+std::vector<oter_type_id> mutable_overmap_special_data::get_terrain_type_ids() const
+{
+    std::vector<oter_type_id> result;
+    result.reserve( overmaps.size() );
+    for( const auto &pair : overmaps ) {
+        if( pair.second.terrain.is_valid() ) {
+            result.emplace_back( pair.second.terrain->get_type_id() );
+        }
+    }
+    return result;
+}
+
 std::vector<overmap_special_terrain> mutable_overmap_special_data::preview_terrains() const
 {
     return std::vector<overmap_special_terrain> { root_as_overmap_special_terrain() };
@@ -907,6 +919,9 @@ special_placement_result mutable_overmap_special_data::place(
 void mutable_overmap_special_data::load( const JsonObject &jo, bool was_loaded )
 {
     optional( jo, was_loaded, "check_for_locations", check_for_locations );
+    // this has poor copy-from/overwrite support...
+    // It pushes to check_for_locations, and so if "check_for_locations" is not specified
+    // then it will push to the old data, extending instead of overwriting.
     if( jo.has_array( "check_for_locations_area" ) ) {
         JsonArray jar = jo.get_array( "check_for_locations_area" );
         while( jar.has_more() ) {

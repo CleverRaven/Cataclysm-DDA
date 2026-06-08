@@ -335,6 +335,11 @@ enum color_id {
     num_colors
 };
 
+inline auto format_as( color_id cid )
+{
+    return static_cast<std::underlying_type_t<color_id>>( cid );
+}
+
 class cata_path;
 class JsonArray;
 class JsonOut;

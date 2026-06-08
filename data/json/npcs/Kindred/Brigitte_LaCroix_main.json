@@ -1,0 +1,328 @@
+[
+  {
+    "id": [ "TALK_FRIEND_BONE_SEER", "TALK_FRIEND_BONE_SEER_Abilities" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "is_by_radio": {
+        "u_female": true,
+        "yes": " *psssht* Do you read me, sister?  The song cannot transmit over these waves.",
+        "no": " *psssht* Do you read me, brother?  The song cannot transmit over these waves."
+      },
+      "no": {
+        "has_reason": { "use_reason": true },
+        "no": { "u_female": true, "yes": "Greetings, sister.", "no": "Greetings, brother." }
+      }
+    },
+    "responses": [
+      { "text": "[rules] Let's talk about how we'll work together.", "topic": "TALK_DONE", "effect": "npc_rules_menu" },
+      {
+        "text": "I'd like to know a bit more about your abilities.",
+        "topic": "TALK_FRIEND_BONE_SEER_Abilities",
+        "effect": "reveal_stats"
+      },
+      { "text": "Please go to this location.", "topic": "TALK_GOTO_LOCATION", "effect": "goto_location" },
+      { "text": "There's something I want you to do.", "topic": "TALK_BONE_SEER_ORDERS" },
+      {
+        "text": "I just wanted to talk for a bit.",
+        "condition": { "and": [ "at_safe_space", { "not": "is_by_radio" } ] },
+        "topic": "TALK_BONE_SEER_SOCIAL"
+      },
+      { "text": "Can you help me understand something?  (HELP/TUTORIAL)", "topic": "TALK_ALLY_TUTORIAL" },
+      {
+        "text": "[DEBUG MIND CONTROL] Now listen closely… (DEBUG FUNCTIONS)",
+        "condition": { "u_has_trait": "DEBUG_MIND_CONTROL" },
+        "topic": "TALK_ALLY_DEBUG"
+      },
+      { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
+      { "text": "<lets_go>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FRIEND_GUARD_BONE_SEER",
+    "type": "talk_topic",
+    "dynamic_line": "Listen…  Can't you hear the song here?",
+    "responses": [
+      { "text": "I need you to come with me.", "topic": "TALK_FRIEND_BONE_SEER", "effect": "stop_guard" },
+      { "text": "Let's talk.", "topic": "TALK_FRIEND_BONE_SEER" },
+      { "text": "See you around.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FRIEND_BONE_SEER_Abilities",
+    "type": "talk_topic",
+    "dynamic_line": "I hear the song of the bones.  You can hear it too.  We listen to them, and learn from their stories.  I can also break them just the same."
+  },
+  {
+    "id": [ "TALK_BONE_SEER_ORDERS" ],
+    "type": "talk_topic",
+    "dynamic_line": [
+      "I know you understand my motives, but the way you phrase things is awfully distant.  No matter.  What do you need?",
+      "I lent you my services, and I listen."
+    ],
+    "responses": [
+      {
+        "text": "Can you teach me anything?",
+        "condition": { "not": "is_by_radio" },
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "or": [
+              { "npc_need": "thirst", "amount": 80 },
+              { "npc_need": "hunger", "amount": 160 },
+              { "npc_need": "sleepiness", "level": "TIRED" },
+              { "npc_has_effect": "asked_to_train" },
+              { "npc_has_trait": "HALLUCINATION" },
+              "u_driving",
+              "npc_driving"
+            ]
+          }
+        },
+        "success": { "topic": "TALK_DENY_TRAIN" },
+        "failure": { "topic": "TALK_TRAIN_PERSUADE_BONE_SEER" }
+      },
+      {
+        "text": "Can you host a training seminar?",
+        "condition": { "and": [ { "not": "is_by_radio" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "or": [
+              { "npc_need": "thirst", "amount": 80 },
+              { "npc_need": "hunger", "amount": 160 },
+              { "npc_need": "sleepiness", "level": "TIRED" },
+              { "npc_has_effect": "asked_to_train" },
+              "u_driving",
+              "npc_driving"
+            ]
+          }
+        },
+        "success": { "topic": "TALK_DENY_TRAIN_SEMINAR" },
+        "failure": { "topic": "TALK_TRAIN_SEMINAR_PERSUADE_BONE_SEER" }
+      },
+      {
+        "text": "I have something to teach you.",
+        "condition": {
+          "and": [
+            { "not": "u_driving" },
+            { "not": "npc_driving" },
+            { "not": "is_by_radio" },
+            { "not": { "u_has_effect": "asked_to_train" } },
+            { "not": { "npc_has_trait": "HALLUCINATION" } }
+          ]
+        },
+        "topic": "TALK_TRAIN_NPC"
+      },
+      {
+        "text": "Let's trade items.",
+        "condition": { "and": [ { "not": { "npc_has_trait": "HALLUCINATION" } }, { "not": "is_by_radio" } ] },
+        "topic": "TALK_FRIEND_BONE_SEER",
+        "effect": "start_trade",
+        "switch": true,
+        "default": true
+      },
+      {
+        "text": "I want you to use this item.",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND_BONE_SEER",
+        "effect": "npc_gets_item_to_use"
+      },
+      {
+        "text": "Hold on to this item.",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND_BONE_SEER",
+        "effect": "npc_gets_item"
+      },
+      {
+        "text": "Guard this position.",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND_GUARD_BONE_SEER",
+        "effect": "assign_guard"
+      },
+      {
+        "text": "Find a horse and mount up!",
+        "condition": { "and": [ { "not": "npc_is_riding" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "topic": "TALK_DONE",
+        "effect": "find_mount"
+      },
+      {
+        "text": "Drop off any items you're not using.",
+        "condition": { "and": [ { "not": "is_by_radio" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "topic": "TALK_DONE",
+        "effect": "drop_items_in_place"
+      },
+      {
+        "text": "Get off your mount, please.",
+        "condition": "npc_is_riding",
+        "topic": "TALK_DONE",
+        "effect": "dismount"
+      },
+      { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
+      { "text": "Let's talk about the camp.", "topic": "TALK_CAMP" },
+      { "text": "<lets_go>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_TRAIN_PERSUADE_BONE_SEER",
+    "type": "talk_topic",
+    "dynamic_line": "I have taught you much.  A little more won't hurt.",
+    "responses": [
+      {
+        "text": "And I listen, as you have taught me to.",
+        "topic": "TALK_TRAIN",
+        "effect": { "npc_add_effect": "asked_to_train", "duration": 21600 }
+      },
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_TRAIN_SEMINAR_PERSUADE_BONE_SEER",
+    "type": "talk_topic",
+    "dynamic_line": "I haven't taught so many people before, I'll try my best.",
+    "responses": [
+      {
+        "text": "I know you'll do well.",
+        "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 6 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
+        "success": { "topic": "TALK_TRAIN_SEMINAR" },
+        "failure": { "topic": "TALK_DENY_PERSONAL", "effect": { "npc_add_effect": "asked_to_train", "duration": 21600 } }
+      },
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": [ "TALK_BONE_SEER_SOCIAL" ],
+    "dynamic_line": "What do you need?",
+    "responses": [
+      { "text": "Tell me about the songs again.", "topic": "TALK_BONE_SEER_SONG_FRIEND" },
+      { "text": "Tell me about yourself.", "topic": "TALK_BONE_SEER_ABOUT_FRIEND" },
+      { "text": "I changed my mind, wanted to ask you something else.", "topic": "TALK_NONE" },
+      { "text": "<lets_go>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_ABOUT_FRIEND",
+    "dynamic_line": "I grew up in Louisiana with my grandmother.  Great cook.  Made the best boudin I've ever had.  Each night, she would tell me stories; mostly folklore and myths, like about the rougarou, or the Honey Island Swamp monster but… she sometimes told me about me about the Song, and the bones.  The way she talked about it was… different, serious.  Didn't give it much thought back then; I was just a child, after all.  I moved here a few years back for work, before the Cataclysm, before everything changed.  I do miss home sometimes, but at least the rats here are smaller.  Never could stand the things.  Anyway… thank you for asking.  Been a while since I could simply talk to someone.",
+    "responses": [
+      { "text": "Why didn't your parents raise you?", "topic": "TALK_BONE_SEER_PARENTS_FRIEND" },
+      { "text": "What's boudin?", "topic": "TALK_BONE_SEER_BOUDIN_FRIEND" },
+      {
+        "text": "What do you mean she talked about the Song 'differently'?",
+        "topic": "TALK_BONE_SEER_GRANDMA_FRIEND"
+      },
+      { "text": "What's wrong with rats?", "topic": "TALK_BONE_SEER_RATS_FRIEND" },
+      { "text": "Thank you for sharing.  <done_conversation_section>", "topic": "TALK_FRIEND_BONE_SEER" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_PARENTS_FRIEND",
+    "dynamic_line": "They died when I was very young.  Car accident.  I… don't have any memories of them, but my grandmother raised me as her own.",
+    "responses": [ { "text": "She sounds nice.", "topic": "TALK_BONE_SEER_ABOUT_FRIEND" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_BOUDIN_FRIEND",
+    "dynamic_line": "Spicy sausage, green onions, rice.  She'd batter and deep fry them, make boudin balls.  A dish to die for.",
+    "responses": [
+      { "text": "Sounds delicious.", "topic": "TALK_BONE_SEER_ABOUT_FRIEND" },
+      { "text": "Not my kind of thing.", "topic": "TALK_BONE_SEER_ABOUT_FRIEND" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_GRANDMA_FRIEND",
+    "dynamic_line": "Unlike the other stories, she spoke with determination, reverence even.  I didn't realize it back then but it wasn't just a story; she knew that this wasn't just another tale.",
+    "responses": [ { "text": "I see.", "topic": "TALK_BONE_SEER_ABOUT_FRIEND" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_RATS_FRIEND",
+    "dynamic_line": "Ever since a young age, I hated rats.  Can't quite say why; they always struck me as something… foul.  I even have nightmares about them sometimes.  Not too long ago, I had one about a man-sized rat, shambling on it's hind legs.  It chased me up a tall building and then pushed me off, snickering.  Maybe the Song was trying to tell me something, but then again, maybe it was just a bad dream.",
+    "responses": [ { "text": "Strange dream, but we all have fears, sometimes irrational.", "topic": "TALK_BONE_SEER_ABOUT_FRIEND" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_SONG_FRIEND",
+    "dynamic_line": "Listen carefully.  The bones… they hum.  Can you hear it?  The song they weave?  The stories they hold?",
+    "responses": [
+      { "text": "Tell me more.", "topic": "TALK_BONE_SEER_SONG2_FRIEND" },
+      { "text": "Uh… yeah, sure.  <end_talking_leave>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_SONG2_FRIEND",
+    "dynamic_line": "When it all happened, the Cataclysm, something… changed.  You can see it in all creatures, most of all in their bones.  They break, morph, rise again, over and over - a never-ending cycle.  The dead walk again, horrors rip and tear each other apart.  And within each one… the quiet hum of raw strength.  Only by taking the bones does the cycle end - their story, their song, their strength; they become yours to use.",
+    "speaker_effect": { "effect": { "u_add_var": "dialogue_song_asked_about_song", "value": "yes" } },
+    "responses": [
+      { "text": "What do we actually do with the bones?", "topic": "TALK_BONE_SEER_BONES_FRIEND" },
+      { "text": "I'm still not remembering fully.", "topic": "TALK_BONE_SEER_SONG3_FRIEND" },
+      { "text": "Does anyone else, uh, believe this?", "topic": "TALK_BONE_SEER_OTHERS_FRIEND" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_SONG3_FRIEND",
+    "dynamic_line": "Only when you crush the bones of a body does it cease to rise.  Only if you examine the bones can you see what was, the story of the bones.  Whatever causes this change is alive, writhing within us all; an inevitable part of this new world.  It holds the power of change.  When we hold the bones, we hold the power.  Thus the strength.  Together… they form a beautiful song.",
+    "responses": [
+      { "text": "What do we actually do with the bones?", "topic": "TALK_BONE_SEER_BONES_FRIEND" },
+      { "text": "Does anyone else share this belief?", "topic": "TALK_BONE_SEER_OTHERS_FRIEND" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_OTHERS_FRIEND",
+    "dynamic_line": "There are others who know the power the bones hold, but not all of them are my kin.  Not anymore, at least.",
+    "speaker_effect": { "effect": { "u_add_var": "dialogue_kindred_knows_kindred", "value": "yes" } },
+    "responses": [
+      { "text": "What do you mean 'not anymore'?", "topic": "TALK_BONE_SEER_COOPER_FRIEND" },
+      { "text": "Why do we gather these bones again?", "topic": "TALK_BONE_SEER_BONES_FRIEND" },
+      { "text": "Thank you for the recap, but I have to go now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_COOPER_FRIEND",
+    "dynamic_line": "Some time ago, a man named Cooper joined me and my kin.  He showed great promise and devotion to our cause, but in his effort to weave songs, he justified increasingly grim actions.  We tried to stop him when we learned of this, but he managed to get away.  If you ever come across him, be sure to thread carefully, and if you can, stop him.",
+    "speaker_effect": { "effect": { "u_add_var": "dialogue_kindred_cooper_knows_cooper", "value": "yes" } },
+    "responses": [
+      { "text": "What exactly did he do again?", "topic": "TALK_BONE_SEER_COOPER2_FRIEND" },
+      { "text": "What do we do with the bones?", "topic": "TALK_BONE_SEER_BONES_FRIEND" },
+      { "text": "I see.  <done_conversation_section>", "topic": "TALK_FRIEND_BONE_SEER" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_COOPER2_FRIEND",
+    "dynamic_line": "He began killing others to get their bones as fresh as possible.  Later, he… he started carving the bones of the living.  Thought the anguish alone would empower the song.  The goal of the Kindred is to banish the shadow of the Cataclysm, not to cast it.  Such heinous acts will likely twist the song of the world, but I don't think Cooper realizes it.  To him, the end justifies any means.",
+    "speaker_effect": { "effect": { "u_add_var": "dialogue_kindred_cooper_knows_cooper_kill", "value": "yes" } },
+    "responses": [
+      { "text": "Well… shit.  <done_conversation_section>", "topic": "TALK_FRIEND_BONE_SEER" },
+      {
+        "text": "What if he is right?  Maybe what you do isn't enough and he's the only one to do what it takes.",
+        "topic": "TALK_BONE_SEER_COOPER3_FRIEND"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_COOPER3_FRIEND",
+    "dynamic_line": "You do not realize the gravity of your claim.  When you understand the Song better, you will understand the danger of his actions.",
+    "responses": [ { "text": "I see, I'm sorry.", "topic": "TALK_FRIEND_BONE_SEER" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_BONES_FRIEND",
+    "dynamic_line": "The song can be woven in many forms.  Carved bone charms, weapons and armor all hold immense power, and when the time comes, me and my Kindred shall amass enough Song to restore this world as it was before.  Restore it, or end it.  Makes no difference.",
+    "responses": [ { "text": "End the world?  What?", "topic": "TALK_BONE_SEER_END_FRIEND" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_END_FRIEND",
+    "dynamic_line": "The Song holds immeasurable power.  A grand symphony could revert the Cataclysm - or accelerate it to a time beyond all.  But with the world looking as is, both options are preferable.",
+    "responses": [ { "text": "Yes, that's right.  Thank you for reminding me.", "topic": "TALK_FRIEND_BONE_SEER" } ]
+  }
+]

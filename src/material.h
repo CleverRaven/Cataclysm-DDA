@@ -180,7 +180,7 @@ void check();
 void reset();
 
 material_list get_all();
-std::set<material_id> get_rotting();
+const std::set<material_id> &get_rotting();
 
 } // namespace materials
 

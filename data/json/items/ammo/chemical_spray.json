@@ -18,7 +18,7 @@
     "ammo_type": "chemical_spray",
     "range": 4,
     "count": 100,
-    "effects": [ "TOXICGAS", "NEVER_MISFIRES", "JET", "SPECIAL_COOKOFF" ]
+    "effects": [ "TOXICGAS", "JET", "SPECIAL_COOKOFF" ]
   },
   {
     "id": "gas_fungicidal",
@@ -39,7 +39,7 @@
     "ammo_type": "chemical_spray",
     "range": 4,
     "count": 100,
-    "effects": [ "GAS_FUNGICIDAL", "STREAM_GAS_FUNGICIDAL", "NEVER_MISFIRES", "JET" ]
+    "effects": [ "GAS_FUNGICIDAL", "STREAM_GAS_FUNGICIDAL", "JET" ]
   },
   {
     "id": "gas_insecticidal",
@@ -60,6 +60,6 @@
     "ammo_type": "chemical_spray",
     "range": 4,
     "count": 100,
-    "effects": [ "GAS_INSECTICIDAL", "STREAM_GAS_INSECTICIDAL", "NEVER_MISFIRES", "JET" ]
+    "effects": [ "GAS_INSECTICIDAL", "STREAM_GAS_INSECTICIDAL", "JET" ]
   }
 ]

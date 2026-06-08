@@ -174,20 +174,68 @@
   },
   {
     "type": "item_group",
+    "id": "SCRAPPER_Shop_Bismuth",
+    "subtype": "collection",
+    "items": [ { "item": "bismuth", "count": 100, "entry-wrapper": "bag_zipper_gallon" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "SCRAPPER_Shop_Zinc",
+    "subtype": "collection",
+    "items": [ { "item": "zinc_metal", "count": 100, "entry-wrapper": "jar_glass_sealed" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "SCRAPPER_Shop_Lead",
+    "subtype": "collection",
+    "items": [ { "item": "lead", "count": 100, "entry-wrapper": "bag_zipper_gallon" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "SCRAPPER_Shop_Tin",
+    "subtype": "collection",
+    "items": [ { "item": "tin", "count": 100, "entry-wrapper": "bag_zipper_gallon" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "SCRAPPER_Shop_Magnesium",
+    "subtype": "collection",
+    "items": [ { "item": "magnesium", "count": 100, "entry-wrapper": "bag_zipper_gallon" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "SCRAPPER_Shop_Silver",
+    "subtype": "collection",
+    "items": [ { "item": "silver_small", "count": 100, "entry-wrapper": "bag_zipper_gallon" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "SCRAPPER_Shop_Gold",
+    "subtype": "collection",
+    "items": [ { "item": "gold_small", "count": 100, "entry-wrapper": "bag_zipper_gallon" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "SCRAPPER_Shop_Platinum",
+    "subtype": "collection",
+    "items": [ { "item": "platinum_small", "count": 100, "entry-wrapper": "bag_zipper_gallon" } ]
+  },
+  {
+    "type": "item_group",
     "id": "SCRAPPER_Shop_Specialty_Metals",
     "subtype": "collection",
     "items": [
       { "item": "scrap_aluminum", "count": [ 100, 200 ] },
       { "item": "scrap_bronze", "count": [ 20, 50 ] },
-      { "item": "bismuth", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
-      { "item": "zinc_metal", "count": [ 0, 3 ], "container-item": "jar_glass_sealed", "charges": 100 },
-      { "item": "lead", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
+      { "group": "SCRAPPER_Shop_Bismuth", "count": [ 0, 3 ] },
+      { "group": "SCRAPPER_Shop_Zinc", "count": [ 0, 3 ] },
+      { "group": "SCRAPPER_Shop_Lead", "count": [ 0, 3 ] },
       { "item": "scrap_copper", "count": [ 100, 200 ] },
-      { "item": "tin", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
-      { "item": "magnesium", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
-      { "item": "silver_small", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
-      { "item": "gold_small", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
-      { "item": "platinum_small", "count": [ 0, 3 ], "container-item": "jar_glass_sealed", "charges": 100 }
+      { "group": "SCRAPPER_Shop_Tin", "count": [ 0, 3 ] },
+      { "group": "SCRAPPER_Shop_Magnesium", "count": [ 0, 3 ] },
+      { "group": "SCRAPPER_Shop_Silver", "count": [ 0, 3 ] },
+      { "group": "SCRAPPER_Shop_Gold", "count": [ 0, 3 ] },
+      { "group": "SCRAPPER_Shop_Platinum", "count": [ 0, 3 ] }
     ]
   },
   {

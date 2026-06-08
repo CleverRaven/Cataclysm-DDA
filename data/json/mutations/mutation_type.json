@@ -257,11 +257,19 @@
   },
   {
     "type": "mutation_type",
+    "id": "artificial_hair_style"
+  },
+  {
+    "type": "mutation_type",
     "id": "hair_color"
   },
   {
     "type": "mutation_type",
     "id": "facial_hair"
+  },
+  {
+    "type": "mutation_type",
+    "id": "artificial_facial_hair"
   },
   {
     "type": "mutation_type",

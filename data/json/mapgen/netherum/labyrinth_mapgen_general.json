@@ -1,0 +1,7 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "netherum_labyrinth_sparkling_chasm",
+    "object": { "fill_ter": "t_nl_chasm_no_trap" }
+  }
+]

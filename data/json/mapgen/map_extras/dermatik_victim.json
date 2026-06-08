@@ -1,0 +1,58 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "mx_dermatikvictim",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "              sss       ",
+        "              sSs       ",
+        "              sss       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "nested": {
+        "S": { "chunks": [ "corpse_blood_gibs_dermatik_3x3" ] },
+        "s": { "chunks": [ [ "null", 4 ], [ "dermatik_trap", 1 ] ] }
+      },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "corpse_blood_gibs_dermatik_3x3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "place_items": [ { "item": "map_extra_dermatik_victim_itemgroup", "x": [ 0, 0 ], "y": [ 0, 0 ], "chance": 100 } ],
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 1 ], "y": [ 0, 1 ] }, { "field": "fd_gibs_flesh", "x": [ 0, 1 ], "y": [ 0, 1 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "dermatik_trap",
+    "weight": 1,
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_traps": [ { "trap": "tr_dermatik", "x": 0, "y": 0 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

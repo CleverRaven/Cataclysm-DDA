@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy -allow-stdinc %s cata-json-translation-input %t -- --load=%cata_plugin -- -isystem %cata_include -isystem %cata_include/third-party -DLOCALIZE
+// RUN: %check_clang_tidy -allow-stdinc %s cata-json-translation-input %t -- --load=%cata_plugin -- -isystem %cata_include -isystem %cata_third_party_include -DLOCALIZE
 
 #include "json.h"
 #include "translations.h"

@@ -195,7 +195,7 @@
     "name": [ "Synthblood Comedown", "Synthblood" ],
     "desc": [
       "As the synthetic blood decays and is purged throughout your bloodstream, you begin to feel minor symptoms of altitude sickness, making you sluggish and short of breath.",
-      "Your breaths instinctively grows more shallow as the synthetic blood carries oxygen throughout your body, increasing your speed, stamina, and general endurance."
+      "Your breaths instinctively grow shallow as the synthetic blood carries oxygen throughout your body, increasing your speed, stamina, and general endurance."
     ],
     "rating": "good",
     "int_dur_factor": "8 h",
@@ -225,7 +225,7 @@
     "name": [ "Isohypsa Overwatch" ],
     "desc": [
       {
-        "//~": "This is just a fragment of machine code, it needs no translation.",
+        "//~": "NO_I18N",
         "str": "FE09-    A3 65 FF    ATT $#17A\nFE0B-    4E          JMP $5010\nFE0D-    A5 24       DEX $#05\n"
       }
     ],

@@ -7,9 +7,9 @@ No Hope alters some of the spawn rates for the categories to a degree depending 
 These rates notably don't work with every type of item spawn rn.
 Below is each category's inclusion/exclusion along with any reasoning:
 
-item_category_id | included/excluded | reasoning
--------------------------------------------------
-guns             | included          |
+| item_category_id | included/excluded | reasoning|
+-----------------|---------------------|-----------
+|guns             | included          |
 magazines        | included          |
 ammo             | included          |
 weapons          | included          |

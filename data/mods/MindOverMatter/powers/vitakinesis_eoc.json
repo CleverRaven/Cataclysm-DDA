@@ -43,15 +43,9 @@
               {
                 "run_eocs": "EOC_VITAKIN_CONCENTRATED_HEALING_DERMATIK_CHECK",
                 "time_in_future": [
+                  { "math": [ "3600 - ((u_spell_level('vita_concentrated_healing') * 60) * psionic_power_modifiers() )" ] },
                   {
-                    "math": [
-                      "3600 - ((u_spell_level('vita_concentrated_healing') * 60) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling)"
-                    ]
-                  },
-                  {
-                    "math": [
-                      "3600 - ((u_spell_level('vita_concentrated_healing') * 60) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling)"
-                    ]
+                    "math": [ "3600 - ((u_spell_level('vita_concentrated_healing') * 60) * psionic_power_modifiers() )" ]
                   }
                 ]
               }
@@ -94,12 +88,12 @@
         "time_in_future": [
           {
             "math": [
-              "max( ( 15 - ( (u_spell_level('vita_remove_poison') + u_spell_level('vita_remove_poison_knack') ) * u_nether_attunement_power_scaling) ), 1)"
+              "max( ( 15 - ( (u_spell_level('vita_remove_poison') + u_spell_level('vita_remove_poison_knack') ) * psionic_power_modifiers()) ), 1)"
             ]
           },
           {
             "math": [
-              "max( ( 120 - ( ( (u_spell_level('vita_remove_poison') + u_spell_level('vita_remove_poison_knack') ) * u_nether_attunement_power_scaling ) * 2) ), 1)"
+              "max( ( 120 - ( ( (u_spell_level('vita_remove_poison') + u_spell_level('vita_remove_poison_knack') ) * psionic_power_modifiers() ) * 2) ), 1)"
             ]
           }
         ]
@@ -131,12 +125,12 @@
         "time_in_future": [
           {
             "math": [
-              "( ( (u_spell_level('vita_remove_poison') + u_spell_level('vita_remove_poison_knack') ) * 4) + 156) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('vita_remove_poison') + u_spell_level('vita_remove_poison_knack') ) * 4) + 156) * psionic_power_modifiers() "
             ]
           },
           {
             "math": [
-              "( ( (u_spell_level('vita_remove_poison') + u_spell_level('vita_remove_poison_knack') ) * 32) + 418) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('vita_remove_poison') + u_spell_level('vita_remove_poison_knack') ) * 32) + 418) * psionic_power_modifiers() "
             ]
           }
         ]
@@ -509,6 +503,23 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BLOOD_PURGE",
+    "effect": { "run_eocs": [ "EOC_VITAKIN_MUTAGEN_PURGE", "EOC_VITAKIN_DRUG_PURGE" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_DRUG_PURGE",
+    "effect": [
+      { "math": [ "u_vitamin('vit_betablocker') = 0" ] },
+      { "math": [ "u_vitamin('vit_bloodthinner') = 0" ] },
+      { "math": [ "u_vitamin('vit_ibuprofen') = 0" ] },
+      { "math": [ "u_vitamin('vit_mme') = 0" ] },
+      { "math": [ "u_vitamin('ethanol') = 0" ] },
+      { "math": [ "u_vitamin('BAC') = 0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VITAKIN_MUTAGEN_PURGE",
     "effect": [
       { "math": [ "u_vitamin('mutagen') = 0" ] },
@@ -865,7 +876,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_WEAKENING",
-    "condition": { "u_has_trait": "WEAKENING" },
+    "condition": { "u_has_trait": "ROT1" },
     "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_WEAKENING", "duration": "480 minutes" } ],
     "false_effect": [ { "u_message": "You don't have a weakening sickness.  There is no need to attempt to cure it.", "type": "mixed" } ]
   },
@@ -883,7 +894,7 @@
     "condition": { "math": [ "vita_banish_illness_equation() >= 15" ] },
     "effect": [
       { "u_message": "New vigor fills your body.", "type": "good" },
-      { "u_lose_trait": "WEAKENING" },
+      { "u_lose_trait": "ROT1" },
       { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 45,75 )" ] }
     ],
     "false_effect": [
@@ -996,16 +1007,8 @@
       {
         "run_eocs": "EOC_VITAKIN_SUPER_HEAL_RUN_HEALING",
         "time_in_future": [
-          {
-            "math": [
-              "20 - min( ( (u_spell_level('vita_super_heal') * 0.5) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 17) "
-            ]
-          },
-          {
-            "math": [
-              "35 - min( ( (u_spell_level('vita_super_heal') * 0.5) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 28) "
-            ]
-          }
+          { "math": [ "20 - min( ( (u_spell_level('vita_super_heal') * 0.5) * psionic_power_modifiers() ), 17) " ] },
+          { "math": [ "35 - min( ( (u_spell_level('vita_super_heal') * 0.5) * psionic_power_modifiers() ), 28) " ] }
         ]
       }
     ]
@@ -1044,7 +1047,7 @@
           "effect": [
             {
               "if": { "math": [ "u_hp(_id) < u_hp_max(_id)" ] },
-              "then": { "math": [ "u_hp(_id) += max(( 1 * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 1)" ] }
+              "then": { "math": [ "u_hp(_id) += max(( 1 * psionic_power_modifiers() ), 1)" ] }
             }
           ]
         }
@@ -1214,14 +1217,7 @@
       { "math": [ "u_vitamin('vitamin_psionic_drain') += rand(10) + 2" ] },
       {
         "run_eocs": "EOC_VITAKIN_RETURN_FROM_DEATH_RUN_HEALING",
-        "time_in_future": [
-          1,
-          {
-            "math": [
-              "3 - min( ( (u_spell_level('vita_return_from_death') / 25) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 2) "
-            ]
-          }
-        ]
+        "time_in_future": [ 1, { "math": [ "3 - min( ( (u_spell_level('vita_return_from_death') / 25) * psionic_power_modifiers() ), 2) " ] } ]
       }
     ]
   },
@@ -1295,15 +1291,9 @@
       {
         "run_eocs": "EOC_VITAKIN_RETURN_FROM_DEATH_RUN_HEALING",
         "time_in_future": [
+          { "math": [ "2 - min( ( (u_spell_level('vita_return_from_death') / 25) * psionic_power_modifiers() ), 1) " ] },
           {
-            "math": [
-              "2 - min( ( (u_spell_level('vita_return_from_death') / 25) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 1) "
-            ]
-          },
-          {
-            "math": [
-              "3 - min( ( (u_spell_level('vita_return_from_death') / 25) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 2) "
-            ]
+            "math": [ "3 - min( ( (u_spell_level('vita_return_from_death') / 25) * psionic_power_modifiers() ), 2) " ]
           }
         ]
       },

@@ -13,6 +13,7 @@
 #include "character.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "enums.h"
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -131,6 +132,8 @@ static const tile_predicate set_up_tiles_common =
     ifchar( 'G', ter_set( ter_t_window_stained_green ) + ter_set_flat_roof_above ) ||
     fail;
 
+namespace
+{
 struct vision_test_flags {
     bool crouching = false;
     bool headlamp = false;
@@ -138,7 +141,10 @@ struct vision_test_flags {
     bool moncam = false;
     bool myopic = false;
 };
+} // namespace
 
+namespace
+{
 struct vision_test_case {
 
     std::vector<std::string> setup;
@@ -162,7 +168,8 @@ struct vision_test_case {
         player_character.clear_bionics();
         player_character.clear_mutations(); // remove mutations that potentially affect vision
         player_character.clear_moncams();
-        clear_map( -2, OVERMAP_HEIGHT );
+        clear_map_without_vision( -2,
+                                  OVERMAP_HEIGHT ); // without_vision just skips updating map memory which we don't test here.
         g->reset_light_level();
         scoped_weather_override weather_clear( WEATHER_CLEAR );
 
@@ -239,6 +246,7 @@ struct vision_test_case {
         }
     }
 };
+} // namespace
 
 static std::optional<units::angle> testcase_veh_dir( point const &def, vision_test_case const &t,
         map_test_case::tile &tile )
@@ -830,7 +838,8 @@ TEST_CASE( "vision_vehicle_mirrors", "[shadowcasting][vision][vehicle]" )
     tile_predicate spawn_veh = [&]( map_test_case::tile tile ) {
         std::optional<units::angle> dir = testcase_veh_dir( {7, 2}, t, tile );
         if( dir ) {
-            vehicle *v = here.add_vehicle( vehicle_prototype_meth_lab, tile.p, *dir, 0, 0 );
+            vehicle *v = here.add_vehicle( vehicle_prototype_meth_lab, tile.p, *dir, 0,
+                                           veh_spawn_status::UNDAMAGED );
             for( const vpart_reference &vp : v->get_avail_parts( "OPENABLE" ) ) {
                 v->close( here, vp.part_index() );
             }
@@ -877,7 +886,8 @@ TEST_CASE( "vision_vehicle_camera", "[shadowcasting][vision][vehicle]" )
         std::optional<units::angle> const dir = testcase_veh_dir( { 1, 0 }, t, tile );
         if( dir ) {
             vehicle *v =
-                get_map().add_vehicle( vehicle_prototype_vehicle_camera_test, tile.p, *dir, 0, 0 );
+                get_map().add_vehicle( vehicle_prototype_vehicle_camera_test, tile.p, *dir, 0,
+                                       veh_spawn_status::UNDAMAGED );
             v->camera_on = true;
         }
         return true;
@@ -932,7 +942,7 @@ TEST_CASE( "vision_vehicle_camera_skew", "[shadowcasting][vision][vehicle][vehic
         if( dir ) {
             units::angle const skew = *dir + 45_degrees;
             v = here.add_vehicle( vehicle_prototype_vehicle_camera_test, tile.p, skew, 0,
-                                  0 );
+                                  veh_spawn_status::UNDAMAGED );
             v->camera_on = camera_on;
         }
         return true;
@@ -992,7 +1002,8 @@ TEST_CASE( "vision_moncam_invalidation", "[shadowcasting][vision][moncam]" )
         std::optional<units::angle> const dir = testcase_veh_dir( { 1, 1 }, t, tile );
         if( dir ) {
             vehicle *v =
-                get_map().add_vehicle( vehicle_prototype_vehicle_camera_test, tile.p, *dir, 0, 0 );
+                get_map().add_vehicle( vehicle_prototype_vehicle_camera_test, tile.p, *dir, 0,
+                                       veh_spawn_status::UNDAMAGED );
             v->camera_on = true;
         }
         return true;
@@ -1154,7 +1165,7 @@ TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision][moncam]" )
             dir = 0_degrees;
         }
         if( dir ) {
-            v = here.add_vehicle( vehicle_prototype_meth_lab, tile.p, *dir, 0, 0 );
+            v = here.add_vehicle( vehicle_prototype_meth_lab, tile.p, *dir, 0, veh_spawn_status::UNDAMAGED );
             for( const vpart_reference &vp : v->get_avail_parts( "OPENABLE" ) ) {
                 v -> close( here, vp.part_index() );
             }

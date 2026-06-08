@@ -1,0 +1,16 @@
+[
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_BACKSTAGE_active",
+    "copy-from": "HOMULLUS_BACKSTAGE_active",
+    "anger_relations": [
+      [ "HUMAN", -50 ],
+      [ "FERAL", -50 ],
+      [ "LIZARDFOLK", -50 ],
+      [ "GOBLIN", -50 ],
+      [ "RAVENFOLK", -50 ],
+      [ "ELF", -50 ],
+      [ "DWARF", -50 ]
+    ]
+  }
+]

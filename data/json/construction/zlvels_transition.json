@@ -116,7 +116,7 @@
     "byproducts": [ { "group": "mining_rock" } ],
     "activity_level": "EXTRA_EXERCISE",
     "pre_special": "check_down_OK",
-    "pre_terrain": "t_rock_floor",
+    "pre_terrain": [ "t_rock_floor", "t_rock_floor_no_roof" ],
     "post_special": "done_mine_downstair"
   },
   {

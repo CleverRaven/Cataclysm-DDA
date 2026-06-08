@@ -100,7 +100,7 @@
     "name": { "str": "Activate Sphenocorona", "//~": "NO_I18N" },
     "description": { "str": "Golden monoliths to Sphenocoronae.", "//~": "NO_I18N" },
     "copy-from": "activate_yrax",
-    "targeted_monster_ids": [ "mon_yrax_sphenocorona_inert" ],
+    "targeted_monster_ids": [ "mon_golden_monolith" ],
     "effect_str": "mon_yrax_sphenocorona"
   },
   {

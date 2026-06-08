@@ -1,313 +1,499 @@
-"[C++]":
-  - "**/*.cpp"
-  - "**/*.h"
-
-"[JSON]":
-  - "**/*.json"
-
-"[Markdown]":
-  - "**/*.md"
-
-"Game: Achievements / Conducts / Scores":
-  - "**/scores**"
-  - "**/**statistics**"
-  - "**/statistics**"
-  - "**/**achievement**"
-  - "**/achievement**"
-  - "**/**conducts**"
-  - "**/conducts**"
-
-"[Python]":
-  - "**/*.py"
-
-"<Documentation>":
-  - "**/*.md"
-  - "doc/**"
-  - "doxygen_doc/**"
-
-"Code: Tooling":
-  - ".github/**"
-  - "utilities/**"
-  - any: ['tools/**', '!tools/spell_checker/dictionary.txt']
-
-"Code: Tests":
-  - "tests/**"
-  - "data/mods/TEST_DATA/**"
-
-"Character / World Generation":
-  - "**/newcharacter**"
-  - "**/worldfactory**"
-
-"Code: Build":
-  - "build-data/**"
-  - "build-scripts/**"
-  - "**/Makefile"
-  - "**/CMakeLists.txt"
-  - "**/*.cmake"
-
-"Code: Infrastructure / Style / Static Analysis":
-  - .astylerc
-  - .clang-tidy
-  - .editorconfig
-  - .lgtm.yml
-
-"Crafting / Construction / Recipes":
-  - "**/**crafting**"
-  - "**/crafting**"
-  - "**/**recipe**"
-  - "**/recipe**"
-  - "**/**construction**"
-  - "**/construction**"
-
-"EOC: Effects On Condition":
-  - "**/**effect_on_condition**"
-  - "**/effect_on_condition**"
-  - "**/**eoc**"
-  - "**/eoc**"
-  - "**/condition**"
-
-"Fields / Furniture / Terrain / Traps":
-  - "**/**furniture**"
-  - "**/furniture**"
-  - "**/**field**"
-  - "**/field**"
-  - "**/**terrain**"
-  - "**/terrain**"
-  - "**/**trap**"
-  - "**/trap**"
-
-"Items: Food / Vitamins":
-  - "**/**food**"
-  - "**/food**"
-  - "**/**comestible**"
-  - "**/comestible**"
-  - "**/**comestible**/**"
-  - "**/comestible**/**"
-
-"NPC / Factions":
-  - "**/**npc**"
-  - "**/npc**"
-  - "**/**NPC**"
-  - "**/NPC**"
-
-"Melee":
-  - "**/**melee**"
-  - "**/melee**"
-  - "**/**techniques**"
-  - "**/techniques**"
-
-"Missions":
-  - "**/**mission**"
-  - "**/mission**"
-
-"Info / User Interface":
-  - "src/**ui**"
-  - "**/ui/**"
-  - "**/**widget**"
-  - "**/widget**"
-  - "**/**view**"
-  - "**/view**"
-
-"Items: Archery":
-  - "**/archery**"
-  - "**/crossbow**"
-
-"Items: Armor / Clothing":
-  - "**/**armor**"
-  - "**/armor**"
-  - "**/armor/**"
-
-"Items: Battery / UPS":
-  - "**/**battery**"
-  - "**/battery**"
-
-"Items: Containers":
-  - "**/container**"
-  - "**/**pocket**"
-  - "**/pocket**"
-  - "**/**contents**"
-  - "**/contents**"
-
-"Items: Magazines":
-  - "**/**magazine**"
-  - "**/magazine**"
-
-"Appliance/Power Grid":
-  - "**/**appliance**"
-  - "**/appliance**"
-
-"Monsters":
-  - "**/**monster**"
-  - "**/monster**"
-  - "**/**monster**/**"
-  - "**/monster**/**"
-
-"Mutations / Traits / Professions/ Hobbies":
-  - "**/**profession**"
-  - "**/profession**"
-  - "**/**mutation**"
-  - "**/mutation**"
-  - data/mods/extra_mut_scen/**/*
-  - "**/hobbies**"
-
-"Lore":
-  - data/json/npcs/BG_trait_groups.json
-  - data/json/npcs/Personality_trait_groups.json
-  - data/json/npcs/personality_traits.json
-  - "**/**Backgrounds**"
-  - "**/Backgrounds**"
-  - "**/**snippets**"
-  - "**/snippets**"
-
-"Limbs":
-  - "**/**bodypart**"
-  - "**/bodypart**"
-  - "data/json/limb_scores.json"
-
-"Spawn":
-  - "**/**itemgroup**"
-  - "**/itemgroup**"
-  - "**/itemgroups/**"
-  - "**/**monstergroup**"
-  - "**/monstergroup**"
-  - "**/monstergroups/**"
-
-"Bionics":
-  - "**/bionic**"
-  - "**/**bionic**"
-
-"Map / Mapgen":
-  - "**/**mapgen**"
-  - "**/mapgen**"
-  - "**/mapgen/**"
-  - "**/**palette**"
-  - "**/**overmap**"
-  - "**/overmap**"
-  - "**/overmap/**"
-  - "data/json/regional_map_settings.json"
-  - "**/mapgen_palettes/**"
-
-"Martial Arts":
-  - "**/martialart**"
-
-"Player Faction Base / Camp":
-  - "**/basecamp**"
-  - "**/faction_camp**"
-
-"Items: Ammo / Guns":
-  - "**/**gun**"
-  - "**/gun**"
-  - "**/**ammo**"
-  - "**/ammo**"
-
-"Items: Gunmod / Toolmod":
-  - "**/**gunmod**"
-  - "**/gunmod**"
-  - "**/**toolmod**"
-  - "**/toolmod**"
-
-"SDL: Tiles / Sound":
-  - "gfx/**"
-  - "sound/**"
-
-"Scenarios":
-  - "**/scenario**"
-  - "**/start_location**"
-
-"Translation":
-  - "lang/**"
-  - "**/**translation**"
-  - "**/translation**"
-
-"Mods: Bombastic Perks":
-  - data/mods/BombasticPerks/**/*
-
-"Mods: Aftershock":
-  - data/mods/Aftershock/**/*
-  - data/mods/aftershock_exoplanet/**/*
-
-"Mods: Backrooms":
-  - data/mods/Backrooms/**/*
-
-"Mods: Dark Days of the Dead":
-  - data/mods/classic_zombies/**/*
-
-"Mods: Dark Skies":
-  - data/mods/Dark-Skies-Above/**/*
-
-"Mods: Desert Region":
-  - data/mods/desert_region/**/*
-
-"Mods: DinoMod":
-  - data/mods/DinoMod/**/*
-
-"Mods: Extra Mutated Scenarios":
-  - data/mods/extra_mut_scen/**/*
-
-"Mods: Generic Guns":
-  - data/mods/Generic_Guns/**/*
-
-"Mods: MA":
-  - data/mods/MA/**/*
-
-"Mods: MMA":
-  - data/mods/MMA/**/*
-
-"Mods: Magiclysm":
-  - data/mods/Magiclysm/**/*
-
-"My Sweet Cataclysm 🍬":
-  - data/mods/My_Sweet_Cataclysm/**/*
-
-"Mods: Innawood 🌲":
-  - data/mods/innawood/**/*
-
-"Mods: No Hope":
-  - data/mods/No_Hope/**/*
-
-"Mods: TropiCataclysm 🌴":
-  - data/mods/TropiCataclysm/**/*
-
-"Mods: Tamable Wildlife":
-  - data/mods/Tamable_Wildlife/**/*
-
-"Mods: Xedra Evolved":
-  - data/mods/Xedra_Evolved/**/*
-
-"Mods: Mind Over Matter":
-  - data/mods/MindOverMatter/**/*
-
-"Mods: Sky Island":
-  - data/mods/Sky_Island/**/*
-
-"Mods: Isolation Protocol ☣":
-  - data/mods/Isolation-Protocol/**/*
-
-"Mods":
-  - all: [ 'data/mods/**', '!data/mods/TEST_DATA/**', '!data/mods/dda/**', '!data/mods/dda_tutorial/**' ]
-
-"Mechanics: Enchantments / Spells":
-  - "**/**enchantment**"
-  - "**/enchantment**"
-  - "**/**spells**"
-  - "**/spells**"
-  - "**/Spells/**"
-  - any: ['**/**spell**', '!tools/**']
-
-"Mechanics: Weather":
-  - "**/weather**"
-
-"Vehicles":
-  - "**/**vehicle**"
-  - "**/vehicle**"
-  - "src/veh_**"
- 
-"Mods: Defense Mode":
-  - "data/mods/Defense_Mode/**"
-
-"Tutorial":
-  - "data/mods/dda_tutorial/**"
-
-"ImGui":
-  - "src/third-party/imgui/**"
-  - "src/third-party/imtui/**"
+version: v1
+
+labels:
+  - label: "<Enhancement / Feature>"
+    matcher:
+      body: "(\\s|^)#### Summary\\s*Features +\".+\"\\s*(\n|$)"
+
+  - label: "Info / User Interface"
+    matcher:
+      body: "(\\s|^)#### Summary\\s*Interface +\".+\"\\s*(\n|$)"
+
+  - label: "Mods"
+    matcher:
+      body: "(\\s|^)#### Summary\\s*Mods +\".+\"\\s*(\n|$)"
+
+  - label: "Game: Balance"
+    matcher:
+      body: "(\\s|^)#### Summary\\s*Balance +\".+\"\\s*(\n|$)"
+
+  - label: "<Bugfix>"
+    matcher:
+      body: "(\\s|^)#### Summary\\s*Bugfixes +\".+\"\\s*(\n|$)"
+
+  - label: "<Bugfix>"
+    matcher:
+      body: ".*((C|c)lose(s|d)?|(F|f)ix(es|ed)?|(R|r)esolve(s|d)?):?.*#([1-9][0-9]{3,8}).*"
+
+  - label: "Code: Performance"
+    matcher:
+      body: "(\\s|^)#### Summary\\s*Performance +\".+\"\\s*(\n|$)"
+
+  - label: "Code: Infrastructure / Style / Static Analysis"
+    matcher:
+      body: "(\\s|^)#### Summary\\s*Infrastructure +\".+\"\\s*(\n|$)"
+
+  - label: "Code: Build"
+    matcher:
+      body: "(\\s|^)#### Summary\\s*Build +\".+\"\\s*(\n|$)"
+
+  - label: "Translation"
+    matcher:
+      body: "(\\s|^)#### Summary\\s*I18N +\".+\"\\s*(\n|$)"
+
+  - label: "[C++]"
+    matcher:
+      files:
+        - "**/*.cpp"
+        - "**/*.h"
+
+  - label: "[JSON]"
+    matcher:
+      files:
+        - "**/*.json"
+
+  - label: "[Markdown]"
+    matcher:
+      files:
+        - "**/*.md"
+
+  - label: "Game: Achievements / Conducts / Scores"
+    matcher:
+      files:
+        - "**/scores**"
+        - "**/**statistics**"
+        - "**/statistics**"
+        - "**/**achievement**"
+        - "**/achievement**"
+        - "**/**conducts**"
+        - "**/conducts**"
+
+  - label: "[Python]"
+    matcher:
+      files:
+        - "**/*.py"
+
+  - label: "<Documentation>"
+    matcher:
+      files:
+        - "**/*.md"
+        - "doc/**"
+        - "doxygen_doc/**"
+
+  - label: "Code: Tooling"
+    matcher:
+      files:
+        any:
+          - ".github/**"
+          - "utilities/**"
+          - "tools/**"
+        all: ["!tools/spell_checker/dictionary.txt"]
+
+  - label: "Code: Tests"
+    matcher:
+      files:
+        - "tests/**"
+        - "data/mods/TEST_DATA/**"
+
+  - label: "Character / World Generation"
+    matcher:
+      files:
+        - "**/newcharacter**"
+        - "**/worldfactory**"
+
+  - label: "Code: Build"
+    matcher:
+      files:
+        - "build-data/**"
+        - "build-scripts/**"
+        - "**/Makefile"
+        - "**/CMakeLists.txt"
+        - "**/*.cmake"
+
+  - label: "Code: Infrastructure / Style / Static Analysis"
+    matcher:
+      files:
+        - .astylerc
+        - .clang-tidy
+        - .editorconfig
+        - .lgtm.yml
+
+  - label: "Crafting / Construction / Recipes"
+    matcher:
+      files:
+        - "**/**crafting**"
+        - "**/crafting**"
+        - "**/**recipe**"
+        - "**/recipe**"
+        - "**/**construction**"
+        - "**/construction**"
+
+  - label: "EOC: Effects On Condition"
+    matcher:
+      files:
+        - "**/**effect_on_condition**"
+        - "**/effect_on_condition**"
+        - "**/**eoc**"
+        - "**/eoc**"
+        - "**/condition**"
+
+  - label: "Fields / Furniture / Terrain / Traps"
+    matcher:
+      files:
+        - "**/**furniture**"
+        - "**/furniture**"
+        - "**/**field**"
+        - "**/field**"
+        - "**/**terrain**"
+        - "**/terrain**"
+        - "**/**trap**"
+        - "**/trap**"
+
+  - label: "Items: Food / Vitamins"
+    matcher:
+      files:
+        - "**/**food**"
+        - "**/food**"
+        - "**/**comestible**"
+        - "**/comestible**"
+        - "**/**comestible**/**"
+        - "**/comestible**/**"
+
+  - label: "NPC / Factions"
+    matcher:
+      files:
+        - "**/**npc**"
+        - "**/npc**"
+        - "**/**NPC**"
+        - "**/NPC**"
+
+  - label: "Melee"
+    matcher:
+      files:
+        - "**/**melee**"
+        - "**/melee**"
+        - "**/**techniques**"
+        - "**/techniques**"
+
+  - label: "Missions"
+    matcher:
+      files:
+        - "**/**mission**"
+        - "**/mission**"
+
+  - label: "Info / User Interface"
+    matcher:
+      files:
+        - "src/**ui**"
+        - "**/ui/**"
+        - "**/**widget**"
+        - "**/widget**"
+        - "**/**view**"
+        - "**/view**"
+
+  - label: "Items: Archery"
+    matcher:
+      files:
+        - "**/archery**"
+        - "**/crossbow**"
+
+  - label: "Items: Armor / Clothing"
+    matcher:
+      files:
+        - "**/**armor**"
+        - "**/armor**"
+        - "**/armor/**"
+
+  - label: "Items: Battery / UPS"
+    matcher:
+      files:
+        - "**/**battery**"
+        - "**/battery**"
+
+  - label: "Items: Containers"
+    matcher:
+      files:
+        - "**/container**"
+        - "**/**pocket**"
+        - "**/pocket**"
+        - "**/**contents**"
+        - "**/contents**"
+
+  - label: "Items: Magazines"
+    matcher:
+      files:
+        - "**/**magazine**"
+        - "**/magazine**"
+
+  - label: "Appliance/Power Grid"
+    matcher:
+      files:
+        - "**/**appliance**"
+        - "**/appliance**"
+
+  - label: "Monsters"
+    matcher:
+      files:
+        - "**/**monster**"
+        - "**/monster**"
+        - "**/**monster**/**"
+        - "**/monster**/**"
+
+  - label: "Mutations / Traits / Professions/ Hobbies"
+    matcher:
+      files:
+        - "**/**profession**"
+        - "**/profession**"
+        - "**/**mutation**"
+        - "**/mutation**"
+        - "data/mods/extra_mut_scen/**/*"
+        - "**/hobbies**"
+
+  - label: "Lore"
+    matcher:
+      files:
+        - data/json/npcs/BG_trait_groups.json
+        - data/json/npcs/Personality_trait_groups.json
+        - data/json/npcs/personality_traits.json
+        - "**/**Backgrounds**"
+        - "**/Backgrounds**"
+        - "**/**snippets**"
+        - "**/snippets**"
+
+  - label: "Limbs"
+    matcher:
+      files:
+        - "**/**bodypart**"
+        - "**/bodypart**"
+        - "data/json/limb_scores.json"
+
+  - label: "Spawn"
+    matcher:
+      files:
+        - "**/**itemgroup**"
+        - "**/itemgroup**"
+        - "**/itemgroups/**"
+        - "**/**monstergroup**"
+        - "**/monstergroup**"
+        - "**/monstergroups/**"
+
+  - label: "Bionics"
+    matcher:
+      files:
+        - "**/bionic**"
+        - "**/**bionic**"
+
+  - label: "Map / Mapgen"
+    matcher:
+      files:
+        - "**/**mapgen**"
+        - "**/mapgen**"
+        - "**/mapgen/**"
+        - "**/**palette**"
+        - "**/**overmap**"
+        - "**/overmap**"
+        - "**/overmap/**"
+        - "data/json/regional_map_settings.json"
+        - "**/mapgen_palettes/**"
+
+  - label: "Martial Arts"
+    matcher:
+      files:
+        - "**/martialart**"
+
+  - label: "Player Faction Base / Camp"
+    matcher:
+      files:
+        - "**/basecamp**"
+        - "**/faction_camp**"
+
+  - label: "Items: Ammo / Guns"
+    matcher:
+      files:
+        - "**/**gun**"
+        - "**/gun**"
+        - "**/**ammo**"
+        - "**/ammo**"
+
+  - label: "Items: Gunmod / Toolmod"
+    matcher:
+      files:
+        - "**/**gunmod**"
+        - "**/gunmod**"
+        - "**/**toolmod**"
+        - "**/toolmod**"
+
+  - label: "SDL: Tiles / Sound"
+    matcher:
+      files:
+        - "gfx/**"
+        - "sound/**"
+
+  - label: "Scenarios"
+    matcher:
+      files:
+        - "**/scenario**"
+        - "**/start_location**"
+
+  - label: "Translation"
+    matcher:
+      files:
+        - "lang/**"
+        - "**/**translation**"
+        - "**/translation**"
+
+  - label: "Mods: Bombastic Perks"
+    matcher:
+      files:
+        - data/mods/BombasticPerks/**/*
+
+  - label: "Mods: Aftershock"
+    matcher:
+      files:
+        - data/mods/Aftershock/**/*
+        - data/mods/aftershock_exoplanet/**/*
+
+  - label: "Mods: Backrooms"
+    matcher:
+      files:
+        - data/mods/Backrooms/**/*
+
+  - label: "Mods: Dark Days of the Dead"
+    matcher:
+      files:
+        - data/mods/classic_zombies/**/*
+
+  - label: "Mods: Dark Skies"
+    matcher:
+      files:
+        - data/mods/Dark-Skies-Above/**/*
+
+  - label: "Mods: Desert Region"
+    matcher:
+      files:
+        - data/mods/desert_region/**/*
+
+  - label: "Mods: DinoMod"
+    matcher:
+      files:
+        - data/mods/DinoMod/**/*
+
+  - label: "Mods: Extra Mutated Scenarios"
+    matcher:
+      files:
+        - data/mods/extra_mut_scen/**/*
+
+  - label: "Mods: Generic Guns"
+    matcher:
+      files:
+        - data/mods/Generic_Guns/**/*
+
+  - label: "Mods: MA"
+    matcher:
+      files:
+        - data/mods/MA/**/*
+
+  - label: "Mods: MMA"
+    matcher:
+      files:
+        - data/mods/MMA/**/*
+
+  - label: "Mods: Magiclysm"
+    matcher:
+      files:
+        - data/mods/Magiclysm/**/*
+
+  - label: "My Sweet Cataclysm 🍬"
+    matcher:
+      files:
+        - data/mods/My_Sweet_Cataclysm/**/*
+
+  - label: "Mods: Innawood 🌲"
+    matcher:
+      files:
+        - data/mods/innawood/**/*
+
+  - label: "Mods: No Hope"
+    matcher:
+      files:
+        - data/mods/No_Hope/**/*
+
+  - label: "Mods: Sorcerer"
+    matcher:
+      files:
+        - data/mods/Sorcerer/**/*
+
+  - label: "Mods: TropiCataclysm 🌴"
+    matcher:
+      files:
+        - data/mods/TropiCataclysm/**/*
+
+  - label: "Mods: Tamable Wildlife"
+    matcher:
+      files:
+        - data/mods/Tamable_Wildlife/**/*
+
+  - label: "Mods: Xedra Evolved"
+    matcher:
+      files:
+        - data/mods/Xedra_Evolved/**/*
+
+  - label: "Mods: Mind Over Matter"
+    matcher:
+      files:
+        - data/mods/MindOverMatter/**/*
+
+  - label: "Mods: Sky Island"
+    matcher:
+      files:
+        - data/mods/Sky_Island/**/*
+
+  - label: "Mods: Isolation Protocol ☣"
+    matcher:
+      files:
+        - data/mods/Isolation-Protocol/**/*
+
+  - label: "Mods"
+    matcher:
+      files:
+        all: [ 'data/mods/**', '!data/mods/TEST_DATA/**', '!data/mods/dda/**', '!data/mods/dda_tutorial/**' ]
+
+  - label: "Mechanics: Enchantments / Spells"
+    matcher:
+      files:
+        any:
+          - "**/**enchantment**"
+          - "**/enchantment**"
+          - "**/**spells**"
+          - "**/spells**"
+          - "**/Spells/**"
+          - "**/**spell**"
+        all: ["!tools/**"]
+
+  - label: "Mechanics: Weather"
+    matcher:
+      files:
+        - "**/weather**"
+
+  - label: "Vehicles"
+    matcher:
+      files:
+        - "**/**vehicle**"
+        - "**/vehicle**"
+        - "src/veh_**"
+   
+  - label: "Mods: Defense Mode"
+    matcher:
+      files:
+        - "data/mods/Defense_Mode/**"
+
+  - label: "Tutorial"
+    matcher:
+      files:
+        - "data/mods/dda_tutorial/**"
+
+  - label: "ImGui"
+    matcher:
+      files:
+        - "src/third-party/imgui/**"
+        - "src/third-party/imtui/**"

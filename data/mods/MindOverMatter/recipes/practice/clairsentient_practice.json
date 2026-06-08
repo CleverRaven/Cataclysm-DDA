@@ -70,7 +70,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: speed reading",
     "id": "practice_clair_speed_reading",
-    "description": "Contemplate your powers and improve your ability to comprehend books.\n\nPower Difficulty: 2\n\nCurrent Power Level: <u_spell_level:clair_better_senses>",
+    "description": "Contemplate your powers and improve your ability to comprehend books.\n\nPower Difficulty: 2\n\nCurrent Power Level: <u_spell_level:clair_speed_reading>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",

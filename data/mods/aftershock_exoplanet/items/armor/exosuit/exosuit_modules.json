@@ -305,7 +305,7 @@
       "ammo_scale": 0,
       "menu_text": "Turn off",
       "type": "transform",
-      "msg": "You turn the heavy-duty flashlight off.",
+      "msg": "You turn the lamp off.",
       "target": "exo_flashlight"
     },
     "light": 500,

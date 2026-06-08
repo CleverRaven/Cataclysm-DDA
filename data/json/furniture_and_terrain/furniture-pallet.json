@@ -76,8 +76,8 @@
       "sound": "thump!",
       "sound_fail": "thud!",
       "items": [
-        { "item": "material_cement", "container-item": "bag_canvas", "charges": 500, "count": [ 80, 90 ] },
-        { "item": "material_cement", "charges": [ 500, 1500 ] },
+        { "group": "cement_bag", "count": 60 },
+        { "item": "material_cement", "count": [ 500, 1500 ] },
         { "item": "bag_durasack", "count": [ 2, 10 ], "damage": [ 1, 5 ] },
         { "item": "pallet", "count": 1 }
       ]

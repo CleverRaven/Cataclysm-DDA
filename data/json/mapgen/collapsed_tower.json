@@ -178,7 +178,7 @@
         " ": "t_thconc_floor_flesh",
         "?": "t_nanofab",
         "r": "t_metal_floor",
-        "/": "t_nanofab_body",
+        "/": "t_nanofab_body_broken",
         "Y": "t_thconc_floor_olight",
         "p": "t_metal_floor"
       },

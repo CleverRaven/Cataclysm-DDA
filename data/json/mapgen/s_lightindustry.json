@@ -16,10 +16,10 @@
         "#!{!v|rrrP|Prrr|HHHN|jk|U~~UUU~~U|~55~d~88~##o##",
         "#!}}!:  h    h :!!!H|;;|U~~~~~~~U|~~~~d~~~~|ppp#",
         "#!!!!:         :NN!H|M;|U~~~~~~~U|dd&dd~~~~:;q;o",
-        "#L!!!:r  hrh   )    ||+||ddddd&d||~~~~~~K~~:;;;#",
+        "#L!!!:r  hrh   )   §||+||ddddd&d||~~~~~~K~~:;;;#",
         "#L!!L:rh  r   r:    zX |~~~~~~~~~|~~~~~~9~~:;;M#",
         "#||)||B  P|P hr:       +~~`````~~~~~45~~5~~);;p#",
-        "+             u|  B    |~~`~~~`~~~~~~~~~~~~:;qpo",
+        "+    §        u|  B    |~~`~~~`~~~~~~~~~~~~:;qpo",
         "#::):|::):|::):|))|::):|~~`~~~`~~~~~52~~~~~|;;p#",
         "#    |P  u|u   |  |r   |~~`~~~`~~~~~~~~~||+##+##",
         "#rr u|r hr|P hr|  :rh u|~~`~~~`~Ł~~~~~~1|;;#.s.#",
@@ -67,7 +67,7 @@
         ".##o###o###o##...sss...s...s__________#Prr-Prr#.",
         ".#rrP-Prr-rrP#...sss...sssssc_________# h - h #.",
         "^# h - h - h #...sss...s...##bbbbbbb#+#       ##",
-        "##           #%%#o+o#%%s%%%#c~`~~~`~~~|       P#",
+        "##§          #%%#o+o#%%s%%%#c~`~~~`~~~|       P#",
         "#P           ####==y#####o##~~`~~~`~~~o hhhh hro",
         "orh  - h -  u| u|===wwx|CCC~~~`~~~`~~~| ZZZZ  r#",
         "#r   -rrP-  u|hro=====w|CC~~~~`~~~`~~~o hhhh --#",
@@ -79,7 +79,7 @@
         "#||+||P  |||||||   +;;k|Q~Q|~52~~~~~~2|;;| | hr#",
         "#P  B|P  |mnlkn|   |||||Q~Q|~~~~~4K~~~|jk| |  P#",
         "orh u|   +;;;;;+   +;;k|Q~Q|~52~~~~~~8####+##o##",
-        "#r  u|t  |qpq;Y|   |Y;j|Q~Q|~~~~~~~~~8#^sssss...",
+        "#r  u|t  |qpq;Y|  §|Y;j|Q~Q|~~~~~~~~~8#^sssss...",
         "###o###+####o########o###o####o####o###.sssss..."
       ],
       "palettes": [ "parametrized_linoleum_palette", "parametrized_carpets_palette", "parametrized_walls_palette" ],
@@ -145,7 +145,7 @@
       "furniture": {
         "5": "f_machinery_electronic",
         "6": "f_machinery_light",
-        "7": "f_machinery_heavy",
+        "7": [ [ "f_machinery_heavy", 70 ], [ "f_power_hammer", 30 ] ],
         "8": "f_machinery_old",
         "k": "f_sink",
         "l": "f_oven",
@@ -174,8 +174,8 @@
         "y": "f_trashcan",
         "B": "f_trashcan",
         "v": "f_safe_l",
-        "1": "f_arcfurnace_empty",
-        "2": "f_hydraulic_press",
+        "1": [ [ "f_arcfurnace_empty", 85 ], [ "f_steel_kiln", 15 ] ],
+        "2": [ [ "f_hydraulic_press", 80 ], [ "f_power_hammer", 20 ] ],
         "3": "f_air_compressor",
         "4": "f_drill_press",
         "9": [ [ "f_heavy_lathe", 50 ], [ "f_mill_vertical", 50 ] ],
@@ -284,7 +284,8 @@
         "À": { "vehicle": "suburban_home_compact", "chance": 50, "rotation": 90 },
         "È": { "vehicle": "industrial_transport_no_truck", "chance": 50, "rotation": 90 },
         "Ł": { "vehicle": "hand_truck", "chance": 75 }
-      }
+      },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

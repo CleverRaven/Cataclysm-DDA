@@ -58,10 +58,10 @@
 #include "uistate.h"
 #include "units.h"
 #include "units_utility.h"
-#include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -85,6 +85,9 @@ static const item_category_id item_category_BIONIC_FUEL_SOURCE( "BIONIC_FUEL_SOU
 static const item_category_id item_category_INTEGRATED( "INTEGRATED" );
 static const item_category_id item_category_ITEMS_WORN( "ITEMS_WORN" );
 static const item_category_id item_category_WEAPON_HELD( "WEAPON_HELD" );
+
+static const itype_id itype_water_faucet( "water_faucet" );
+static const quality_id qual_HOSE( "HOSE" );
 
 namespace
 {
@@ -239,6 +242,8 @@ struct inventory_input {
     inventory_entry *entry;
 };
 
+namespace
+{
 struct container_data {
     units::volume actual_capacity;
     units::volume total_capacity;
@@ -246,25 +251,22 @@ struct container_data {
     units::mass total_capacity_weight;
     units::length max_containable_length;
 
-    std::string to_formatted_string( const bool compact = true ) const {
-        std::string string_to_format;
-        if( compact ) {
-            string_to_format = _( "%s/%s : %s/%s : max %s" );
-        } else {
-            string_to_format = _( "(remains %s, %s) max length %s" );
-        }
-        return string_format( string_to_format,
+    std::string to_formatted_string() const {
+        return string_format( _( "(remains %s, %s) max length %s" ),
                               unit_to_string( total_capacity - actual_capacity, true, true ),
                               unit_to_string( total_capacity_weight - actual_capacity_weight, true, true ),
                               unit_to_string( max_containable_length, true ) );
     }
 };
+} // namespace
 
 bool inventory_entry::operator==( const inventory_entry &other ) const
 {
     return get_category_ptr() == other.get_category_ptr() && locations == other.locations;
 }
 
+namespace
+{
 class selection_column_preset : public inventory_selector_preset
 {
     public:
@@ -307,6 +309,7 @@ class selection_column_preset : public inventory_selector_preset
             return inventory_selector_preset::get_color( entry );
         }
 };
+} // namespace
 
 void inventory_selector_save_state::serialize( JsonOut &json ) const
 {
@@ -326,12 +329,12 @@ std::string enum_to_string<inventory_selector::uimode>( inventory_selector::uimo
 {
     switch( mode ) {
         case inventory_selector::uimode::hierarchy:
-            return "hierarchy";
+            return pgettext( "inventory ui mode", "hierarchy" );
         case inventory_selector::uimode::last:
         case inventory_selector::uimode::categories:
             break;
     }
-    return "categories";
+    return pgettext( "inventory ui mode", "categories" );
 }
 } // namespace io
 
@@ -374,7 +377,6 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "adv_inv_container_content_type", adv_inv_container_content_type );
     json.member( "unload_auto_contain", unload_auto_contain );
     json.member( "hide_entries_override", hide_entries_override );
-    json.member( "editmap_nsa_viewmode", editmap_nsa_viewmode );
     json.member( "overmap_blinking", overmap_blinking );
     json.member( "overmap_show_overlays", overmap_show_overlays );
     json.member( "overmap_show_map_notes", overmap_show_map_notes );
@@ -383,12 +385,16 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "overmap_show_hordes", overmap_show_hordes );
     json.member( "overmap_show_revealed_omts", overmap_show_revealed_omts );
     json.member( "overmap_show_forest_trails", overmap_show_forest_trails );
-    json.member( "vmenu_show_items", vmenu_show_items );
-    json.member( "list_item_sort", list_item_sort );
+    json.member( "vmenu_tab", vmenu_tab );
+    json.member( "vmenu_item_sort", vmenu_item_sort );
+    json.member( "vmenu_monster_sort", vmenu_monster_sort );
+    json.member( "vmenu_terfurn_sort", vmenu_terfurn_sort );
     json.member( "read_items", read_items );
     json.member( "list_item_filter_active", list_item_filter_active );
     json.member( "list_item_downvote_active", list_item_downvote_active );
     json.member( "list_item_priority_active", list_item_priority_active );
+    json.member( "list_monster_filter_active", list_monster_filter_active );
+    json.member( "list_terfurn_filter_active", list_terfurn_filter_active );
     json.member( "construction_filter", construction_filter );
     json.member( "last_construction", last_construction );
     json.member( "construction_tab", construction_tab );
@@ -397,12 +403,16 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "expanded_recipes", expanded_recipes );
     json.member( "read_recipes", read_recipes );
     json.member( "recent_recipes", recent_recipes );
+    json.member( "crafting_expand_details", crafting_expand_details );
+    json.member( "crafting_expand_steps", crafting_expand_steps );
     json.member( "bionic_ui_sort_mode", bionic_sort_mode );
     json.member( "overmap_debug_weather", overmap_debug_weather );
     json.member( "overmap_visible_weather", overmap_visible_weather );
     json.member( "overmap_debug_mongroup", overmap_debug_mongroup );
     json.member( "overmap_fast_travel", overmap_fast_travel );
     json.member( "overmap_fast_scroll", overmap_fast_scroll );
+    json.member( "tileset_zoom", tileset_zoom );
+    json.member( "overmap_tileset_zoom", overmap_tileset_zoom );
     json.member( "distraction_noise", distraction_noise );
     json.member( "distraction_pain", distraction_pain );
     json.member( "distraction_attack", distraction_attack );
@@ -418,10 +428,15 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "distraction_mutation", distraction_mutation );
     json.member( "distraction_oxygen", distraction_oxygen );
     json.member( "distraction_withdrawal", distraction_withdrawal );
+    json.member( "distraction_craft_step_complete", distraction_craft_step_complete );
     json.member( "numpad_navigation", numpad_navigation );
 
     json.member( "overmap_sidebar_uistate" );
     overmap_sidebar_state.serialize( json );
+    json.member( "consume_menu_uistate" );
+    consume_uistate.serialize( json );
+    json.member( "editmap_uistate" );
+    editmap_state.serialize( json );
 
     json.member( "input_history" );
     json.start_object();
@@ -461,7 +476,11 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "adv_inv_container_content_type", adv_inv_container_content_type );
     jo.read( "unload_auto_contain", unload_auto_contain );
     jo.read( "hide_entries_override", hide_entries_override );
-    jo.read( "editmap_nsa_viewmode", editmap_nsa_viewmode );
+
+    //TODO: remove in 0.J
+    bool migrate_editmap_nsa_viewmode = false;
+    jo.read( "editmap_nsa_viewmode", migrate_editmap_nsa_viewmode );
+
     jo.read( "overmap_blinking", overmap_blinking );
     jo.read( "overmap_show_overlays", overmap_show_overlays );
     jo.read( "overmap_show_map_notes", overmap_show_map_notes );
@@ -470,18 +489,24 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "overmap_show_hordes", overmap_show_hordes );
     jo.read( "overmap_show_revealed_omts", overmap_show_revealed_omts );
     jo.read( "overmap_show_forest_trails", overmap_show_forest_trails );
+    jo.read( "consume_menu_uistate", consume_uistate );
     jo.read( "hidden_recipes", hidden_recipes );
     jo.read( "favorite_recipes", favorite_recipes );
     jo.read( "expanded_recipes", expanded_recipes );
     jo.read( "read_recipes", read_recipes );
     jo.read( "recent_recipes", recent_recipes );
+    jo.read( "crafting_expand_details", crafting_expand_details );
+    jo.read( "crafting_expand_steps", crafting_expand_steps );
     jo.read( "bionic_ui_sort_mode", bionic_sort_mode );
     jo.read( "overmap_debug_weather", overmap_debug_weather );
     jo.read( "overmap_visible_weather", overmap_visible_weather );
     jo.read( "overmap_debug_mongroup", overmap_debug_mongroup );
     jo.read( "overmap_fast_travel", overmap_fast_travel );
     jo.read( "overmap_fast_scroll", overmap_fast_scroll );
+    jo.read( "tileset_zoom", tileset_zoom );
+    jo.read( "overmap_tileset_zoom", overmap_tileset_zoom );
     jo.read( "overmap_sidebar_uistate", overmap_sidebar_state );
+    jo.read( "editmap_uistate", editmap_state );
     jo.read( "distraction_noise", distraction_noise );
     jo.read( "distraction_pain", distraction_pain );
     jo.read( "distraction_attack", distraction_attack );
@@ -497,19 +522,18 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "distraction_mutation", distraction_mutation );
     jo.read( "distraction_oxygen", distraction_oxygen );
     jo.read( "distraction_withdrawal", distraction_withdrawal );
+    jo.read( "distraction_craft_step_complete", distraction_craft_step_complete );
     jo.read( "numpad_navigation", numpad_navigation );
-
-    if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
-        // This is an old save: 1 means view items, 2 means view monsters,
-        // -1 means uninitialized
-        vmenu_show_items = jo.get_int( "list_item_mon", -1 ) != 2;
-    }
-
-    jo.read( "list_item_sort", list_item_sort );
+    jo.read( "vmenu_tab", vmenu_tab );
+    jo.read( "vmenu_item_sort", vmenu_item_sort );
+    jo.read( "vmenu_monster_sort", vmenu_monster_sort );
+    jo.read( "vmenu_terfurn_sort", vmenu_terfurn_sort );
     jo.read( "read_items", read_items );
     jo.read( "list_item_filter_active", list_item_filter_active );
     jo.read( "list_item_downvote_active", list_item_downvote_active );
     jo.read( "list_item_priority_active", list_item_priority_active );
+    jo.read( "list_monster_filter_active", list_monster_filter_active );
+    jo.read( "list_terfurn_filter_active", list_terfurn_filter_active );
 
     jo.read( "construction_filter", construction_filter );
     jo.read( "last_construction", last_construction );
@@ -522,7 +546,7 @@ void uistatedata::deserialize( const JsonObject &jo )
             v.push_back( line );
         }
     }
-    // fetch list_item settings from input_history
+    // fetch surroundings menu settings from input_history
     if( !gethistory( "item_filter" ).empty() ) {
         list_item_filter = gethistory( "item_filter" ).back();
     }
@@ -531,6 +555,12 @@ void uistatedata::deserialize( const JsonObject &jo )
     }
     if( !gethistory( "list_item_priority" ).empty() ) {
         list_item_priority = gethistory( "list_item_priority" ).back();
+    }
+    if( !gethistory( "monster_filter" ).empty() ) {
+        monster_filter = gethistory( "monster_filter" ).back();
+    }
+    if( !gethistory( "terfurn_filter" ).empty() ) {
+        terfurn_filter = gethistory( "terfurn_filter" ).back();
     }
 
     jo.read( "lastreload", lastreload );
@@ -637,13 +667,18 @@ void inventory_entry::cache_denial( inventory_selector_preset const &preset ) co
 
 const item_category *inventory_entry::get_category_ptr() const
 {
+    if( cached_category_ptr != nullptr ) {
+        return cached_category_ptr;
+    }
     if( custom_category != nullptr ) {
-        return custom_category;
+        cached_category_ptr = custom_category;
+        return cached_category_ptr;
     }
     if( !is_item() ) {
         return nullptr;
     }
-    return &any_item()->get_category_of_contents();
+    cached_category_ptr = &any_item()->get_category_of_contents();
+    return cached_category_ptr;
 }
 
 inventory_column::inventory_column( const inventory_selector_preset &preset ) :
@@ -708,15 +743,8 @@ inventory_selector_preset::inventory_selector_preset()
     } ) );
 }
 
-bool inventory_selector_preset::is_shown( const item_location &loc ) const
+bool inventory_selector_preset::is_shown( const item_location & ) const
 {
-    if( loc->is_gunmod() ) {
-        item_location parent = loc.parent_item();
-        const bool installed = parent && parent->is_gun();
-        if( installed && !loc->type->gunmod->is_visible_when_installed ) {
-            return false;
-        }
-    }
     return true;
 }
 
@@ -766,7 +794,8 @@ std::string inventory_selector_preset::get_caption( const inventory_entry &entry
         disp_name = entry.any_item()->display_name( count );
     }
 
-    return ( count > 1 ) ? string_format( "%d %s", count, disp_name ) : disp_name;
+    return ( count > 1 ) ? string_format( "%s %s",
+                                          entry.any_item()->type->count_or_volume_or_weight_prefix( count ), disp_name ) : disp_name;
 }
 
 std::string inventory_selector_preset::get_denial( const inventory_entry &entry ) const
@@ -812,7 +841,7 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
                         total_capacity_weight,
                         max_containable_length
                     };
-                    std::string formatted_string = container_data.to_formatted_string( false );
+                    std::string formatted_string = container_data.to_formatted_string();
 
                     text = text + string_format( " %s", formatted_string );
                 }
@@ -1333,15 +1362,16 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
     paging_is_valid = false;
     if( entry.is_item() ) {
         item_location entry_item = entry.locations.front();
+        item_category const *entry_cat_ptr = entry.get_category_ptr();
 
         auto entry_with_loc = std::find_if( dest.begin(),
-        dest.end(), [&entry, &entry_item, this]( const inventory_entry & e ) {
+        dest.end(), [&entry_item, entry_cat_ptr, this]( const inventory_entry & e ) {
             if( !e.is_item() ) {
                 return false;
             }
             item_location found_entry_item = e.locations.front();
             return !e.is_collated() &&
-                   e.get_category_ptr() == entry.get_category_ptr() &&
+                   e.get_category_ptr() == entry_cat_ptr &&
                    entry_item.where() == found_entry_item.where() &&
                    entry_item.pos_abs() == found_entry_item.pos_abs() &&
                    entry_item.parent_item() == found_entry_item.parent_item() &&
@@ -2216,6 +2246,43 @@ void inventory_selector::add_vehicle_items( const tripoint_bub_ms &target, bool 
     }, add_efiles );
 }
 
+void inventory_selector::add_vehicle_tank_items( const tripoint_bub_ms &target )
+{
+    map &here = get_map();
+
+    // Check for a vehicle at the player's tile
+    const optional_vpart_position ovp = here.veh_at( target );
+    if( !ovp ) {
+        return;
+    }
+
+    // Check for hose or faucet to determine if we can access the tank
+    const bool has_hose = u.crafting_inventory().has_quality( qual_HOSE );
+    bool has_faucet = false;
+    if( !has_hose ) {
+        for( const tripoint_bub_ms &pos : closest_points_first( target, 1 ) ) {
+            if( here.veh_at( pos ).part_with_tool( here, itype_water_faucet ) ) {
+                has_faucet = true;
+                break;
+            }
+        }
+    }
+    if( !has_hose && !has_faucet ) {
+        return;
+    }
+
+    // Get all tank liquids on the vehicle
+    vehicle &veh = ovp->vehicle();
+    for( const vpart_reference &vpr : veh.get_all_parts() ) {
+        if( !vpr.part().contains_liquid() ) {
+            continue;
+        }
+        item_location base_loc = veh.part_base( vpr.part_index() );
+        add_entry( map_column, std::vector<item_location>( 1, item_location( base_loc,
+                   &base_loc->only_item() ) ) );
+    }
+}
+
 void inventory_selector::_add_map_items( tripoint_bub_ms const &target, item_category const &cat,
         item_stack &items, std::function<item_location( item & )> const &floc, bool add_efiles )
 {
@@ -2714,7 +2781,7 @@ inventory_selector::header_stats inventory_selector::get_pocket_summary_header_s
                                                            other_spaces[i].first->is_restricted()
                                                          );
                     other_space_strings.push_back( string_format( "%s %s%s", str1, str2,
-                                                   ( other_spaces_copies[i] > 1 ? string_format( " (%s)", other_spaces_copies[i] ) : "" ) )
+                                                   ( other_spaces_copies[i] > 1 ? string_format( " (%d)", other_spaces_copies[i] ) : "" ) )
                                                  );
                 }
                 if( other_spaces_display_truncated ) {
@@ -2913,7 +2980,7 @@ inventory_selector::header_stats_line inventory_selector::build_pocket_stats_lin
         header_stats_tab_stop,
         free_pocket_str2,
         header_stats_tab_stop,
-        ( free_pocket_copies > 1 ? string_format( " (%s)", free_pocket_copies ) : "" ),
+        ( free_pocket_copies > 1 ? string_format( " (%d)", free_pocket_copies ) : "" ),
         header_stats_tab_stop, // extra stops to align with the max-space printing version
         header_stats_tab_stop,
         header_stats_tab_stop
@@ -2945,7 +3012,7 @@ inventory_selector::header_stats_line inventory_selector::build_pocket_stats_lin
         header_stats_tab_stop,
         free_pocket_str2,
         header_stats_tab_stop,
-        ( free_pocket_copies > 1 ? string_format( " (%s)", free_pocket_copies ) : "" ),
+        ( free_pocket_copies > 1 ? string_format( " (%d)", free_pocket_copies ) : "" ),
         header_stats_tab_stop,
         " | ",
         colorize( _( "Max: " ), color_label ),
@@ -3297,7 +3364,7 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
 
         right_print( w, getmaxy( w ) - border, border + 1, c_light_gray,
                      string_format( "< [%s] %s >", ctxt.get_desc( "VIEW_CATEGORY_MODE" ),
-                                    io::enum_to_string( _uimode ) ) );
+                                    _( io::enum_to_string( _uimode ) ) ) );
         const auto footer = get_footer( mode );
         if( !footer.first.empty() ) {
             const int string_width = utf8_width( footer.first );
@@ -3907,43 +3974,217 @@ ammo_inventory_selector::ammo_inventory_selector( Character &you,
     force_single_column = true;
 }
 
-std::vector<item_location> get_possible_reload_targets( const item_location &target )
+std::vector<reload_target> get_possible_reload_targets( const item_location &target )
 {
-    std::vector<item_location> opts;
-    opts.emplace_back( target );
+    std::vector<reload_target> opts;
 
-    if( target->magazine_current() ) {
-        opts.emplace_back( target, const_cast<item *>( target->magazine_current() ) );
-    }
+    auto append_owner = [&opts]( const item_location & owner ) {
+        // pocket_index is the position in contents (stable across empty
+        // wells), not the position in magazines_current().
+        const bool multimag = owner->uses_firing_requirements();
+        int idx = 0;
+        for( const item_pocket *p : owner->get_pockets( []( const item_pocket & ) {
+        return true;
+    } ) ) {
+            if( p->is_type( pocket_type::MAGAZINE_WELL ) ) {
+                reload_target well;
+                well.target = owner;
+                well.owner = owner;
+                well.pocket_index = idx;
+                well.ui_well_index = idx;
+                well.kind = reload_target::kind::well;
+                opts.push_back( well );
 
-    for( const item *mod : target->gunmods() ) {
-        item_location mod_loc( target, const_cast<item *>( mod ) );
-        opts.emplace_back( mod_loc );
-        if( mod->magazine_current() ) {
-            opts.emplace_back( mod_loc, const_cast<item *>( mod->magazine_current() ) );
+                if( const item *mag = p->magazine_current() ) {
+                    reload_target mag_target;
+                    mag_target.target = item_location( owner, const_cast<item *>( mag ) );
+                    mag_target.owner = owner;
+                    mag_target.pocket_index = -1;
+                    mag_target.ui_well_index = idx;
+                    mag_target.kind = reload_target::kind::loaded_mag;
+                    opts.push_back( mag_target );
+                }
+            } else if( multimag && p->is_type( pocket_type::MAGAZINE ) &&
+                       p->get_pocket_data() != nullptr &&
+                       !p->get_pocket_data()->ammo_restriction.empty() ) {
+                // Integral MAGAZINE on a multimag host: surface as its own
+                // target so loose ammo reaches it past sibling wells.
+                reload_target mag_pocket;
+                mag_pocket.target = owner;
+                mag_pocket.owner = owner;
+                mag_pocket.pocket_index = idx;
+                mag_pocket.ui_well_index = idx;
+                mag_pocket.kind = reload_target::kind::integral_magazine;
+                opts.push_back( mag_pocket );
+            }
+            ++idx;
         }
+        // Owner-level fallback for hosts without a pocket-level target
+        // (integral mag, watertight container) so loose ammo discovery
+        // still has a destination.
+        bool has_dest = false;
+        for( const reload_target &rt : opts ) {
+            if( rt.owner == owner ) {
+                has_dest = true;
+                break;
+            }
+        }
+        if( !has_dest ) {
+            reload_target self;
+            self.target = owner;
+            self.owner = owner;
+            self.pocket_index = -1;
+            self.ui_well_index = -1;
+            self.kind = reload_target::kind::loaded_mag;
+            opts.push_back( self );
+        }
+    };
+
+    append_owner( target );
+    for( const item *mod : target->gunmods() ) {
+        append_owner( item_location( target, const_cast<item *>( mod ) ) );
     }
 
     return opts;
 }
 
+// Well and integral-magazine entries gate on owner-level (gun ammo type) AND
+// pocket-level (item id, fullness) compatibility. Loaded-mag delegates.
+static bool reload_target_accepts( const reload_target &rt, const item_location &ammo )
+{
+    if( rt.kind == reload_target::kind::well ||
+        rt.kind == reload_target::kind::integral_magazine ) {
+        if( !rt.owner.can_reload_with( ammo, true ) ) {
+            return false;
+        }
+        int idx = 0;
+        for( const item_pocket *p : rt.owner->get_pockets( []( const item_pocket & ) {
+        return true;
+    } ) ) {
+            if( idx == rt.pocket_index ) {
+                if( rt.kind == reload_target::kind::well ) {
+                    return p->is_type( pocket_type::MAGAZINE_WELL ) &&
+                           p->can_reload_with( *ammo, true );
+                }
+                return p->is_type( pocket_type::MAGAZINE ) &&
+                       p->can_reload_with( *ammo, true );
+            }
+            ++idx;
+        }
+        return false;
+    }
+    return rt.target.can_reload_with( ammo, true );
+}
+
+const reload_target *find_matching_reload_target(
+    const std::vector<reload_target> &targets, const item_location &ammo )
+{
+    for( const reload_target &rt : targets ) {
+        if( reload_target_accepts( rt, ammo ) ) {
+            return &rt;
+        }
+    }
+    return nullptr;
+}
+
+std::vector<const reload_target *> find_all_matching_reload_targets(
+    const std::vector<reload_target> &targets, const item_location &ammo )
+{
+    std::vector<const reload_target *> out;
+    for( const reload_target &rt : targets ) {
+        if( reload_target_accepts( rt, ammo ) ) {
+            out.push_back( &rt );
+        }
+    }
+    return out;
+}
+
 // todo: this should happen when the entries are created, but that's a different refactoring
 void ammo_inventory_selector::set_all_entries_chosen_count()
 {
+    const std::vector<reload_target> targets = get_possible_reload_targets( reload_loc );
+
+    // One synthetic category per (owner, ui_well_index) renders as a header
+    // between groups. Build once per selector lifetime; clearing would dangle
+    // pointers held by inventory_entry::custom_category.
+    std::map<std::pair<const item *, int>, const item_category *> cat_map;
+    const bool wants_separators = targets.size() > 1;
+    if( wants_separators && reload_well_categories.empty() ) {
+        int sort_rank = 0;
+        for( const reload_target &rt : targets ) {
+            const std::pair<const item *, int> key{ rt.owner.get_item(), rt.ui_well_index };
+            if( cat_map.count( key ) ) {
+                continue;
+            }
+            std::string label;
+            if( rt.kind == reload_target::kind::well ) {
+                const item_pocket *well = nullptr;
+                int idx = 0;
+                for( const item_pocket *p : rt.owner->get_pockets( []( const item_pocket & ) {
+                return true;
+            } ) ) {
+                    if( idx == rt.pocket_index ) {
+                        well = p;
+                        break;
+                    }
+                    ++idx;
+                }
+                const pocket_data *pd = well ? well->get_pocket_data() : nullptr;
+                const std::string display = pd ? pd->pocket_name.translated() : std::string();
+                if( !display.empty() ) {
+                    label = display;
+                } else if( well != nullptr && !well->magazine_default().is_null() ) {
+                    label = string_format( _( "%s well" ), item::nname( well->magazine_default() ) );
+                } else {
+                    label = _( "magazine well" );
+                }
+            } else if( rt.target ) {
+                label = string_format( _( "top up %s" ), rt.target->tname() );
+            }
+            if( rt.owner != reload_loc ) {
+                label = string_format( _( "%s: %s" ), rt.owner->tname(), label );
+            }
+            translation header = no_translation( label );
+            reload_well_categories.emplace_back(
+                item_category_id( "RELOAD_WELL_" + std::to_string( reload_well_categories.size() ) ),
+                header, header, sort_rank++ );
+            cat_map[key] = &reload_well_categories.back();
+        }
+    } else if( wants_separators ) {
+        // Subsequent calls: rebuild the map using existing category pointers.
+        std::set<std::pair<const item *, int>> seen;
+        auto cat_it = reload_well_categories.begin();
+        for( const reload_target &rt : targets ) {
+            const std::pair<const item *, int> key{ rt.owner.get_item(), rt.ui_well_index };
+            if( !seen.insert( key ).second ) {
+                continue;
+            }
+            if( cat_it == reload_well_categories.end() ) {
+                break;
+            }
+            cat_map[key] = &*cat_it;
+            ++cat_it;
+        }
+    }
+
     for( inventory_column *col : columns ) {
         for( inventory_entry *entry : col->get_entries( return_item, true ) ) {
-            for( const item_location &loc : get_possible_reload_targets( reload_loc ) ) {
-                item_location it = entry->any_item();
-                if( loc.can_reload_with( it, true ) ) {
-                    item::reload_option tmp_opt( &u, loc, it );
-                    int count = entry->get_available_count();
-                    if( it->has_flag( flag_SPEEDLOADER ) || it->has_flag( flag_SPEEDLOADER_CLIP ) ) {
-                        count = it->ammo_remaining( );
-                    }
-                    tmp_opt.qty( count );
-                    entry->chosen_count = tmp_opt.qty();
-                    break;
-                }
+            item_location it = entry->any_item();
+            const reload_target *match = find_matching_reload_target( targets, it );
+            if( match == nullptr ) {
+                continue;
+            }
+            item::reload_option tmp_opt( &u, match->target, it, match->pocket_index );
+            int count = entry->get_available_count();
+            if( it->has_flag( flag_SPEEDLOADER ) || it->has_flag( flag_SPEEDLOADER_CLIP ) ) {
+                count = it->ammo_remaining( );
+            }
+            tmp_opt.qty( count );
+            entry->chosen_count = tmp_opt.qty();
+            const std::pair<const item *, int> key{ match->owner.get_item(), match->ui_well_index };
+            const auto cit = cat_map.find( key );
+            if( cit != cat_map.end() ) {
+                entry->set_custom_category( cit->second );
             }
         }
     }
@@ -3954,13 +4195,17 @@ void ammo_inventory_selector::mod_chosen_count( inventory_entry &entry, int valu
     if( !entry.any_item()->is_ammo() ) {
         return;
     }
-    for( const item_location &loc : get_possible_reload_targets( reload_loc ) ) {
-        if( loc.can_reload_with( entry.any_item(), true ) ) {
-            item::reload_option tmp_opt( &u, loc, entry.any_item() );
-            tmp_opt.qty( entry.chosen_count + value );
-            entry.chosen_count = tmp_opt.qty();
-            break;
-        }
+    const std::vector<reload_target> targets = get_possible_reload_targets( reload_loc );
+    const reload_target *match = find_matching_reload_target( targets, entry.any_item() );
+    if( match != nullptr ) {
+        item::reload_option tmp_opt( &u, match->target, entry.any_item(), match->pocket_index );
+        tmp_opt.qty( entry.chosen_count + value );
+        entry.chosen_count = tmp_opt.qty();
+    }
+    const item_location loc = entry.any_item();
+    if( std::find( player_adjusted_ammo_locs.begin(), player_adjusted_ammo_locs.end(), loc ) ==
+        player_adjusted_ammo_locs.end() ) {
+        player_adjusted_ammo_locs.push_back( loc );
     }
 
     entry.make_entry_cell_cache( preset );
@@ -3981,7 +4226,11 @@ drop_location ammo_inventory_selector::execute()
                     ui_manager::redraw();
                 }
             } else if( input.action == "ANY_INPUT" || input.action == "SELECT" ) {
-                return { input.entry->any_item(), static_cast<int>( input.entry->chosen_count ) };
+                const item_location chosen_loc = input.entry->any_item();
+                last_player_adjusted = std::find( player_adjusted_ammo_locs.begin(),
+                                                  player_adjusted_ammo_locs.end(),
+                                                  chosen_loc ) != player_adjusted_ammo_locs.end();
+                return { chosen_loc, static_cast<int>( input.entry->chosen_count ) };
             } else {
                 if( highlight( input.entry->any_item() ) ) {
                     ui_manager::redraw();
@@ -3989,11 +4238,16 @@ drop_location ammo_inventory_selector::execute()
                 on_input( input );
             }
         } else if( input.action == "QUIT" ) {
+            last_player_adjusted = false;
             return drop_location();
         } else if( input.action == "CONFIRM" ) {
             const inventory_entry &highlighted = get_active_column().get_highlighted();
             if( highlighted && highlighted.is_selectable() ) {
-                return { highlighted.any_item(), static_cast<int>( highlighted.chosen_count ) };
+                const item_location chosen_loc = highlighted.any_item();
+                last_player_adjusted = std::find( player_adjusted_ammo_locs.begin(),
+                                                  player_adjusted_ammo_locs.end(),
+                                                  chosen_loc ) != player_adjusted_ammo_locs.end();
+                return { chosen_loc, static_cast<int>( highlighted.chosen_count ) };
             }
         } else if( input.action == "INCREASE_COUNT" ) {
             inventory_entry &highlighted = get_active_column().get_highlighted();
@@ -4409,11 +4663,17 @@ void inventory_multiselector::deselect_contained_items()
                     if( !selected->is_item() ) {
                         continue;
                     }
+                    bool deselected = false;
                     for( const item *item_contained : loc_container->all_items_ptr() ) {
                         for( const item_location &selected_loc : selected->locations ) {
                             if( selected_loc.get_item() == item_contained ) {
                                 set_chosen_count( *selected, 0 );
+                                deselected = true;
+                                break;
                             }
+                        }
+                        if( deselected ) {
+                            break;
                         }
                     }
                 }

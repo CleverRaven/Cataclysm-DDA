@@ -204,5 +204,26 @@
     "flags": [ "SELF_JACK" ],
     "damage_reduction": { "all": 5 },
     "variants": [ { "symbols": "[", "symbols_broken": "/" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "solar_reflector",
+    "name": "solar reflector",
+    "categories": [ "utility" ],
+    "color": "yellow",
+    "broken_color": "dark_gray",
+    "description": "A faceted reflector dish that concentrates sunlight for cooking.  Only works outdoors in strong direct sunlight.",
+    "item": "solar_cooker",
+    "location": "on_roof",
+    "durability": 30,
+    "damage_modifier": 10,
+    "flags": [ "FLAT_SURF" ],
+    "pseudo_tools": [ { "id": "fake_solar_cooker" } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] }
+    },
+    "breaks_into": [ { "item": "scrap", "count": [ 2, 4 ] }, { "item": "sheet_metal_small", "count": [ 1, 2 ] } ],
+    "variants": [ { "symbols": ")", "symbols_broken": "x" } ]
   }
 ]

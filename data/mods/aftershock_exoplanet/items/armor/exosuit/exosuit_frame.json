@@ -10,7 +10,7 @@
     "material": [ "titanium" ],
     "power_armor": true,
     "symbol": "T",
-    "looks_like": "power_armor_basic",
+    "looks_like": "combat_exoskeleton_medium",
     "color": "light_gray",
     "pocket_data": [
       {
@@ -387,7 +387,7 @@
     "weight": "30 kg",
     "volume": "130 L",
     "symbol": "t",
-    "looks_like": "power_armor_basic",
+    "looks_like": "combat_exoskeleton_medium",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

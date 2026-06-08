@@ -1,0 +1,27 @@
+[
+  {
+    "type": "recipe",
+    "result": "EMPbomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "briefcase_smg",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sharp_toothbrush",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pointed_rebar",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sling-ready_grenade",
+    "obsolete": true
+  }
+]

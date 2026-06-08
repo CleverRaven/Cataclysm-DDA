@@ -12,7 +12,7 @@
     "entries": [
       { "item": "paper", "count": [ 100, 300 ] },
       { "item": "stick", "count": [ 5, 8 ] },
-      { "item": "cable", "charges": [ 20, 50 ] },
+      { "item": "cable", "count": [ 20, 50 ] },
       { "item": "amplifier", "count": [ 0, 3 ] }
     ]
   },

@@ -1,0 +1,51 @@
+[
+  {
+    "type": "snippet",
+    "category": "<imperial_road_early>",
+    "text": [
+      "Where is it?  Where is the city?  You have to find it.  You have to get back there.",
+      "Your steps resonate strangely.  It's as if you had done this a thousand times before.",
+      "You see yourself as a child, leaving through this very gate.  Why would you do that?  Why would you leave?",
+      "The empty streets stretch out before you, but you can't remember where they lead.  You can't remember where you were going.",
+      "You see yourself old and feeble.  Your servants carry you through the gate, but you don't want to go.  You want to stay here.",
+      "You kneel on the ground, and the world around you warps and shifts.  You hoped it would take you home, but it doesn't.",
+      "You hold the medallion in your hand, and do the sign for home.  Why doesn't it work?",
+      "You see yourself standing before a great gate, but you can't remember what's on the other side.",
+      "You step through and into the highroad, expecting home on the other side.  But it's not there.",
+      "You step forward and the world around you shifts, but is it the one you know?  You can't remember.",
+      "You walk forward, so engrossed in memory you don't notice the landscape is gone."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<imperial_road_late>",
+    "text": [
+      "The old statues mock you.  They tell you to hurry, but you don't know where to go.",
+      "The old conquerors stare with their empty eyes.  They know you don't belong here.",
+      "Some of the statues are broken, but you can't remember how they got that way.  You can't remember what happened here.",
+      "You feel like a thousand years have passed, but you can't remember a single moment of them.",
+      "How long have you walked?  Days?  Weeks?  Will they ever end?",
+      "The highroad is crumbling.  How did it ever get like this?",
+      "It should have ended now.  It was never this long.",
+      "Maybe death will find you soon.  Like it found everyone else.",
+      "No one deserves this.  Why do you?",
+      "Please end.  Anywhere but here.  Please end.  Please end.",
+      "You mutter to yourself, but your voice is distorted and strange.  You can't understand what you're saying.",
+      "The fields turn red with blood, but you can't remember whose it is.  You can't remember what happened.",
+      "Something terrible has happened.  It's no surprise you can't remember.",
+      "Why would fate punish you like this?  Why would you survive, only to walk endlessly through the highroad ruins?",
+      "You deserve this.  You caused this.",
+      "Why are you alone here?  You had never seen it like this before-",
+      "How could the highroad break?  Where is everyone?",
+      "You cry fitfully, but the highroad doesn't care.  It just keeps going.",
+      "You fear you'll never see the pale blue sun again.  No, you know you won't.",
+      "You think to voice a prayer, but the words are lost on your tongue.",
+      "These steps led home.  Why don't they anymore?  What has changed?",
+      "It feels like pushing through cobwebs, but the highroad pulls you forward.",
+      "You once knew the name of these lands.  Why can't you remember it?",
+      "Did the gods abandon us?  Did they ever care about us at all?",
+      "You remember banners fluttering before this very gate.  What did they look like?  What did they say?",
+      "You remember the bustling streets and grand buildings, did you ever call one home?"
+    ]
+  }
+]

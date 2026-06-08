@@ -110,6 +110,7 @@ TEST_CASE( "flat_set_comparison", "[flat_set]" )
     CHECK( int_set{ 6, 0 } < int_set{ 1 } );
 }
 
+// NOLINTNEXTLINE(misc-use-internal-linkage): anon-ns wrap makes friend-operator overloads look unused
 struct int_like {
     int i;
 #define INT_LIKE_OPERATOR( op ) \

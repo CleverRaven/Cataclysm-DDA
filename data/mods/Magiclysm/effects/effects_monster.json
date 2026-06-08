@@ -26,7 +26,7 @@
     "max_duration": "12 hours",
     "show_in_info": true,
     "resist_traits": [ "POISRESIST" ],
-    "immune_bp_flags": [ "BIONIC_LIMB" ],
+    "immune_bp_flags": [ "BIONIC_LIMB", "NON_FLESH_LIMB" ],
     "base_mods": { "pain_amount": [ 2 ], "pain_min": [ 1 ], "pain_chance": [ 30 ], "pain_max_val": [ 40 ] },
     "enchantments": [
       { "incoming_damage_mod": [ { "type": "heat", "multiply": 0.33 } ] },

@@ -101,8 +101,8 @@
     "id": "schematics_chickenbot",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
-    "name": { "str_sp": "chicken walker schematics" },
-    "description": "Bearing the logo of Northrop, those are assembly plans, design specs, and technical drawings for the chicken walker.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+    "name": { "str_sp": "Pathfinder schematics" },
+    "description": "Bearing the logo of Wraitheon, those are assembly plans, design specs, and technical drawings for the Pathfinder.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
@@ -125,8 +125,8 @@
     "id": "schematics_tankbot",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
-    "name": { "str_sp": "tank drone schematics" },
-    "description": "Bearing the logo of Northrop, those are assembly plans, design specs, and technical drawings for the tank drone.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+    "name": { "str_sp": "Regulator schematics" },
+    "description": "Bearing the logo of Wraitheon, those are assembly plans, design specs, and technical drawings for the Regulator.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {

@@ -627,5 +627,36 @@
     "value": 0,
     "start": "kill_nemesis",
     "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_FIND_LABYRINTH_SPIRE",
+    "type": "mission_definition",
+    "name": { "str": "Investigate the green light" },
+    "description": "You don't know where you are, but in the distance you see a jagged spire, with a green light atop it.  Perhaps you should climb this spire and investigate?  What else do you have to lose?",
+    "difficulty": 10,
+    "value": 0,
+    "goal": "MGOAL_NULL",
+    "destination": "scarlet_scrap_metal_spire",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "scarlet_scrap_metal_spire",
+        "om_special": "scarlet_scrap_metal_spire",
+        "reveal_radius": 2,
+        "random": false
+      }
+    },
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
   }
 ]

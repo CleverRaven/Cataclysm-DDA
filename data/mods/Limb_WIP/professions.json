@@ -18,7 +18,7 @@
           { "item": "dress_shirt" },
           { "item": "knit_scarf" },
           { "item": "coat_lab" },
-          { "item": "glasses_safety" },
+          { "item": "goggles_chem" },
           { "item": "wristwatch" },
           { "item": "folded_wheelchair_generic" },
           { "item": "pants", "variant": "pants_black" }
@@ -76,7 +76,7 @@
           { "item": "pants", "variant": "pants_black" },
           { "item": "knit_scarf" },
           { "item": "coat_lab" },
-          { "item": "glasses_safety" },
+          { "item": "goggles_chem" },
           { "item": "folded_wheelchair_generic" }
         ]
       },

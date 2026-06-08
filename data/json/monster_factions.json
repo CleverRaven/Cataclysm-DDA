@@ -126,6 +126,21 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "shrew",
+    "base_faction": "mammal_small_predator"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mole",
+    "base_faction": "mammal_small_predator"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "porcupine",
+    "base_faction": "mammal_small_predator"
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "raccoon",
     "base_faction": "mammal_small_predator"
   },
@@ -279,7 +294,8 @@
     "type": "MONSTER_FACTION",
     "name": "herbivore_domestic",
     "base_faction": "herbivore",
-    "by_mood": [ "herbivore" ]
+    "by_mood": [ "herbivore" ],
+    "neutral": [ "pig" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -316,6 +332,7 @@
     "name": "dog",
     "base_faction": "animal",
     "friendly": [ "dog_small" ],
+    "neutral": [ "pig" ],
     "hate": [ "small_animal" ]
   },
   {
@@ -328,7 +345,7 @@
     "type": "MONSTER_FACTION",
     "name": "pig",
     "base_faction": "herbivore",
-    "neutral": [ "herbivore" ]
+    "neutral": [ "herbivore", "herbivore_domestic", "dog" ]
   },
   {
     "type": "MONSTER_FACTION",

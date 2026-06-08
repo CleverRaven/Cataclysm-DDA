@@ -687,5 +687,15 @@
     "shape": "blast",
     "min_aoe": 15,
     "max_aoe": 15
+  },
+  {
+    "id": "bezoar_vomit",
+    "type": "SPELL",
+    "name": { "str": "Bezoar Vomit", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "description": { "str": "Vomits when you consume a second bezoar.", "//~": "NO_I18N" },
+    "flags": [ "SILENT" ],
+    "effect": "vomit",
+    "shape": "blast"
   }
 ]

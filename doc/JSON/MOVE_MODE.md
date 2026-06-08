@@ -38,6 +38,9 @@
   "panel_color": "light_green",
   "symbol_color": "light_green",
   "exertion_level": "EXTRA_EXERCISE",
+  "prepare_none": "You eye the ground and wonder how to miss it",
+  "prepare_animal": "Your horse is growing some wings",
+  "prepare_mech": "Your mechs jetpack is warming up",
   "change_good_none": "You throw yourself at the ground, and miss.",
   "change_good_animal": "You steer your steed into a... fly?",
   "change_good_mech": "You enable your mech's jetpack unit.",
@@ -84,6 +87,13 @@ MODERATE_EXERCISE
 ACTIVE_EXERCISE
 EXTRA_EXERCISE
 ```
+
+### `prepare_x`
+Mandatory. The message given when the character switches their desired mode to this move mode, before any action is taken.
+There are three values for x: `none`, `animal`, and `mech`.
+- `none` is the message given when the character is not mounted.
+- `animal` is the message given when riding an animal.
+- `mech` is the message given when in a mech.
 
 ### `change_good_x`
 Mandatory. The message given when the character switches to this move mode.

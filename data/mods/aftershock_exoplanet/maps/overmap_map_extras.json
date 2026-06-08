@@ -7,7 +7,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_wraitheon_droneswarm" },
     "sym": "w",
     "color": "pink",
-    "autonote": true
+    "autonote_visibility": "same_tile"
   },
   {
     "id": "mx_reaver_bandits",
@@ -17,7 +17,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_reaver_bandits" },
     "sym": "b",
     "color": "pink",
-    "autonote": true
+    "autonote_visibility": "same_tile"
   },
   {
     "id": "mx_gunship",
@@ -28,6 +28,6 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "X",
     "color": "light_blue",
-    "autonote": true
+    "autonote_visibility": "same_tile"
   }
 ]

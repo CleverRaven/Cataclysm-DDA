@@ -196,7 +196,7 @@
             "id": "EOC_LILIN_TURN_INTO_OWL_activated_2",
             "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 360 * lilin_has_ruach_efficiency()" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "1.5" ] } },
               { "math": [ "u_vitamin('lilin_ruach_vitamin') -= 360 * lilin_has_ruach_efficiency()" ] },
               { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               { "u_add_trait": "TURN_INTO_OWL_TRAITS" },
@@ -390,7 +390,7 @@
             "id": "EOC_LILIN_TRANSFORM_INTO_WAR_OWL_FORM_activated_2",
             "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 480 * lilin_has_ruach_efficiency()" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "1.5" ] } },
               { "math": [ "u_vitamin('lilin_ruach_vitamin') -= 480 * lilin_has_ruach_efficiency()" ] },
               { "u_add_trait": "LILIN_WAR_OWL_FORM_TRAITS" },
               { "u_add_trait": "LILIN_WAR_OWL_FORM_LEAPER" },

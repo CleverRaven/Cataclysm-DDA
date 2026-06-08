@@ -22,6 +22,6 @@
     "dispersion": 200,
     "recoil": 100,
     "drop": "sigflare_lit",
-    "effects": [ "NEVER_MISFIRES", "NO_EMBED" ]
+    "effects": [ "NO_EMBED" ]
   }
 ]

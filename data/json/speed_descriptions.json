@@ -11,7 +11,7 @@
       { "value": 0.6, "descriptions": "<color_cyan>It is slower than you.</color>" },
       { "value": 0.3, "descriptions": "<color_light_green>It is much slower than you.</color>" },
       { "value": 0.01, "descriptions": "<color_green>It is practically immobile.</color>" },
-      { "value": 0.0, "descriptions": "<color_green>It is immobile</color>" }
+      { "value": 0.0, "descriptions": "<color_green>It is immobile.</color>" }
     ]
   }
 ]

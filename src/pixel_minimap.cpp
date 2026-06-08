@@ -32,6 +32,7 @@
 #include "math_defines.h"
 #include "mdarray.h"
 #include "monster.h"
+#include "mtype.h"
 #include "pixel_minimap_projectors.h"
 #include "sdl_utils.h"
 #include "type_id.h"
@@ -67,7 +68,7 @@ float get_animation_phase( int phase_length_ms )
         return 0.0f;
     }
 
-    return std::fmod<float>( SDL_GetTicks(), phase_length_ms ) / phase_length_ms;
+    return std::fmod<float>( GetTicks(), phase_length_ms ) / phase_length_ms;
 }
 
 //creates the texture that individual minimap updates are drawn to
@@ -106,7 +107,8 @@ SDL_Color get_critter_color( Creature *critter, int flicker, int mixture )
         //faction status (attacking or tracking) determines if red highlights get applied to creature
         const monster_attitude matt = m->attitude( &get_player_character() );
 
-        if( MATT_ATTACK == matt || MATT_FOLLOW == matt ) {
+        if( ( MATT_ATTACK == matt || MATT_FOLLOW == matt ) &&
+            !m->has_flag( mon_flag_APPEARS_NEUTRAL ) ) {
             const SDL_Color red_pixel = SDL_Color{ 0xFF, 0x0, 0x0, 0xFF };
             result = adjust_color_brightness( mix_colors( result, red_pixel, mixture ), flicker );
         }
@@ -391,9 +393,9 @@ void pixel_minimap::set_screen_rect( const SDL_Rect &screen_rect )
         main_tex_clip_rect = SDL_Rect{ 0, 0, size_on_screen.x, size_on_screen.y };
         screen_clip_rect = fit_rect_inside( main_tex_clip_rect, screen_rect );
 
-        SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" );
         main_tex = create_cache_texture( renderer, size_on_screen.x, size_on_screen.y );
-        SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "0" );
+        // This texture is scaled to fit the screen; use linear filtering for smooth presentation.
+        SetTextureScaleQuality( main_tex, "linear" );
 
     } else {
         const point d( ( size_on_screen.x - screen_rect.w ) / 2, ( size_on_screen.y - screen_rect.h ) / 2 );
@@ -494,6 +496,8 @@ void pixel_minimap::render_cache( const tripoint_bub_ms &center )
 
 void pixel_minimap::render_critters( const tripoint_bub_ms &center )
 {
+    has_blinking_beacons_ = false;
+
     const map &m = get_map();
 
     //handles the enemy faction red highlights
@@ -544,6 +548,9 @@ void pixel_minimap::render_critters( const tripoint_bub_ms &center )
             const SDL_Rect critter_rect = SDL_Rect{ critter_pos.x, critter_pos.y, beacon_size.x, beacon_size.y };
             const SDL_Color critter_color = get_critter_color( critter, flicker, mixture );
 
+            if( indicator_length > 0 ) {
+                has_blinking_beacons_ = true;
+            }
             draw_beacon( critter_rect, critter_color );
         }
     }

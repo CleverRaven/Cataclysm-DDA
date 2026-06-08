@@ -53,8 +53,18 @@
   <ItemGroup>
     <ClInclude Include="..\src\third-party\imgui\imconfig.h" />
     <ClInclude Include="..\src\third-party\imgui\imgui.h" />
-    <ClInclude Include="..\src\third-party\imgui\imgui_impl_sdl2.h" />
-    <ClInclude Include="..\src\third-party\imgui\imgui_impl_sdlrenderer2.h" />
+    <ClInclude Include="..\src\third-party\imgui\imgui_impl_sdl2.h">
+      <ExcludedFromBuild Condition="$(_UseSDL3)">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\third-party\imgui\imgui_impl_sdlrenderer2.h">
+      <ExcludedFromBuild Condition="$(_UseSDL3)">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\third-party\imgui\imgui_impl_sdl3.h">
+      <ExcludedFromBuild Condition="!$(_UseSDL3)">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\third-party\imgui\imgui_impl_sdlrenderer3.h">
+      <ExcludedFromBuild Condition="!$(_UseSDL3)">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\src\third-party\imgui\imgui_internal.h" />
     <ClInclude Include="..\src\third-party\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\src\third-party\imgui\imgui_stdlib.h" />
@@ -69,8 +79,18 @@
     <ClCompile Include="..\src\third-party\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\src\third-party\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\src\third-party\imgui\imgui_freetype.cpp" />
-    <ClCompile Include="..\src\third-party\imgui\imgui_impl_sdl2.cpp" />
-    <ClCompile Include="..\src\third-party\imgui\imgui_impl_sdlrenderer2.cpp" />
+    <ClCompile Include="..\src\third-party\imgui\imgui_impl_sdl2.cpp">
+      <ExcludedFromBuild Condition="$(_UseSDL3)">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\third-party\imgui\imgui_impl_sdlrenderer2.cpp">
+      <ExcludedFromBuild Condition="$(_UseSDL3)">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\third-party\imgui\imgui_impl_sdl3.cpp">
+      <ExcludedFromBuild Condition="!$(_UseSDL3)">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\third-party\imgui\imgui_impl_sdlrenderer3.cpp">
+      <ExcludedFromBuild Condition="!$(_UseSDL3)">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\src\third-party\imgui\imgui_stdlib.cpp" />
     <ClCompile Include="..\src\third-party\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\src\third-party\imgui\imgui_widgets.cpp" />

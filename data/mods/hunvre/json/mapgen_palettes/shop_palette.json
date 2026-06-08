@@ -1,0 +1,52 @@
+[
+  {
+    "type": "palette",
+    "id": "restaurant_palette_hunvre",
+    "palettes": [ "base" ],
+    "parameters": {
+      "carpet_color_type": {
+        "type": "ter_str_id",
+        "default": { "distribution": [ [ "t_carpet_green", 1 ], [ "t_carpet_red", 1 ], [ "t_carpet_yellow", 1 ] ] }
+      }
+    },
+    "terrain": {
+      "_": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+      "T": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+      "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+      "e": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+      "g": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+      "b": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
+    },
+    "furniture": {
+      "j": "f_sink",
+      "D": "f_dishwasher",
+      "E": "f_fridge",
+      "F": "f_heavy_duty_fridge",
+      "f": "f_freezer",
+      "O": "f_oven",
+      "o": "f_deep_fryer",
+      "A": "f_dumpster",
+      "a": "f_trashcan",
+      "C": "f_counter",
+      "c": "f_counter_gate_c",
+      "d": "f_cupboard",
+      "T": "f_table",
+      "h": "f_chair",
+      "e": "f_barstool",
+      "g": "f_stool",
+      "b": "f_bench",
+      "=": "f_rack",
+      "H": "f_warehouse_shelf"
+    },
+    "items": {
+      "j": { "item": "SUS_kitchen_sink" },
+      "C": [ { "item": "any_crepe", "chance": 50 }, { "item": "kitchen_nonfood" } ],
+      "d": { "item": "kitchen_nonfood" },
+      "=": [ { "item": "crepe_ingredients" }, { "item": "crepe_filling_ingredients" } ],
+      "H": [ { "item": "crepe_ingredients" }, { "item": "crepe_filling_ingredients" } ],
+      "E": [ { "item": "crepe_ingredients" }, { "item": "crepe_filling_ingredients" } ],
+      "F": [ { "item": "crepe_ingredients" }, { "item": "crepe_filling_ingredients" } ],
+      "f": [ { "item": "crepe_ingredients" }, { "item": "crepe_filling_ingredients" } ]
+    }
+  }
+]

@@ -31,6 +31,7 @@
       { "item": "win70", "prob": 20, "charges": [ 0, 3 ] },
       { "item": "henry_big_boy", "prob": 2, "charges": [ 0, 10 ] },
       { "item": "weatherby_5", "prob": 2, "charges": [ 0, 3 ] },
+      { "item": "varmint_airgun", "prob": 20, "charges": [ 0, 1 ] },
       { "item": "single_sling", "prob": 10 }
     ]
   },

@@ -4,11 +4,11 @@
     "id": "DREAMER",
     "name": "Dreamer",
     "points": 0,
-    "description": "Dreamers are people who are able to tap into the power of dreams and nearby dimensions and create fantastical effects as a result.  They can even pull some of this dream material into our world to build other things with it.  Sometimes they hear outside voices that offer help and presents, and with enough power, dreamers can pull them right from beyond.  Their power scales with their natural perception and intellect.",
+    "description": "Dreamers are people who are able to tap into the power of dreams and nearby dimensions and create fantastical effects as a result.  They can even pull some of this dream material into our world to build other things with it.  Sometimes they hear outside voices that offer help and presents, and with enough power, dreamers can pull them right from beyond.  Their mana regen is controlled by their emotions, strong moods positive or negative are needed for them to refill their mana pool.  Their power scales with their natural perception and intellect.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "enchantments": [ "BONUS_DREAMER" ],
+    "enchantments": [ "BONUS_DREAMER", "dreamer_regen_yes", "dreamer_regen_no" ],
     "cancels": [ "EATER" ],
     "moncams": [
       [ "mon_shifter", 100 ],
@@ -72,7 +72,6 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "hedge_luck_spell", 0 ] ],
     "flags": [ "ATTUNEMENT" ]
   },
   {

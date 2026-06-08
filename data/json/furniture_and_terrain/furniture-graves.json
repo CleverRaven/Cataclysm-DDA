@@ -21,6 +21,49 @@
   },
   {
     "type": "furniture",
+    "id": "f_highland_sarcophagus",
+    "name": "stone sarcophagus",
+    "description": "A large stone coffin, adorned with reliefs depicting figures in various poses of mourning.  The lid is firmly sealed, and the interior is inaccessible.",
+    "symbol": "n",
+    "looks_like": "f_slab",
+    "color": "dark_gray",
+    "move_cost_mod": 2,
+    "coverage": 30,
+    "required_str": 12,
+    "crafting_pseudo_item": "boulder_anvil",
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "furn_set": "f_highland_sarcophagus_o",
+      "items": [ { "item": "rock", "count": [ 2, 7 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_highland_sarcophagus_o",
+    "name": "broken stone sarcophagus",
+    "description": "A large stone coffin, adorned with reliefs depicting figures in various poses of mourning.  Its been desecrated and looted.",
+    "symbol": "n",
+    "looks_like": "f_slab",
+    "color": "dark_gray",
+    "move_cost_mod": 2,
+    "coverage": 30,
+    "required_str": 12,
+    "crafting_pseudo_item": "boulder_anvil",
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 2, 7 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_grave_head",
     "name": "headstone",
     "description": "A large slab of stone, engraved with information on the deceased individual buried beneath.  While only a solemn reminder of the uncountable losses of the Cataclysm, a proper final resting place grants an odd sense of peace.",

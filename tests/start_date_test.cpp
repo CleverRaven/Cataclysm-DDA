@@ -26,7 +26,7 @@ TEST_CASE( "Test_start_dates" )
     } };
 
     SECTION( "Scenario with custom game start date" ) {
-        scenario scen = scenario_test_custom_game.obj();
+        const scenario &scen = scenario_test_custom_game.obj();
         set_scenario( &scen );
         g->start_calendar();
 
@@ -39,7 +39,7 @@ TEST_CASE( "Test_start_dates" )
     }
 
     SECTION( "Scenario has game start date before cataclysm start date" ) {
-        scenario scen = scenario_test_custom_game_invalid.obj();
+        const scenario &scen = scenario_test_custom_game_invalid.obj();
         set_scenario( &scen );
         g->start_calendar();
 
@@ -47,7 +47,7 @@ TEST_CASE( "Test_start_dates" )
     }
 
     SECTION( "Scenario with custom cataclysm start date" ) {
-        scenario scen = scenario_test_custom_cataclysm.obj();
+        const scenario &scen = scenario_test_custom_cataclysm.obj();
         set_scenario( &scen );
         g->start_calendar();
 
@@ -60,7 +60,7 @@ TEST_CASE( "Test_start_dates" )
     }
 
     SECTION( "Scenario with custom cataclysm start date and game start date" ) {
-        scenario scen = scenario_test_custom_both.obj();
+        const scenario &scen = scenario_test_custom_both.obj();
         set_scenario( &scen );
         g->start_calendar();
 

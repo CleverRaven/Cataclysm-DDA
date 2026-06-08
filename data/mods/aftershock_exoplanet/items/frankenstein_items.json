@@ -9,7 +9,7 @@
     "volume": "62 L",
     "price": "6 kUSD",
     "to_hit": -3,
-    "material": "flesh",
+    "material": [ "flesh" ],
     "symbol": ";",
     "color": "green",
     "use_action": {

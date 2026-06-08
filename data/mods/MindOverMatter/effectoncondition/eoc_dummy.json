@@ -4,5 +4,10 @@
     "//": "This is for dummy versions of EoCs overwritten in the mod_interactions folder",
     "id": "EOC_PERK_BURNING_BRIGHT_RAISE_ATTUNEMENT",
     "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_RAISE_ATTUNEMENT_NETHER_SORCERY_INTERACTION",
+    "effect": [  ]
   }
 ]

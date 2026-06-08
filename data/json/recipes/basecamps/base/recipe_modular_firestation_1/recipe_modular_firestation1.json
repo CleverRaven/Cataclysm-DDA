@@ -418,7 +418,12 @@
     "blueprint_provides": [ { "id": "fbmc_firestation1_pottery" }, { "id": "fbmc_firestation_blacksmith_recipes_3" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_pottery" } ],
     "blueprint_resources": [ "anvil_crude", "crucible" ],
-    "components": [ [ [ "glassblowing_book", 1 ] ], [ [ "glasses_safety", 1 ] ], [ [ "chemistry_set", 1 ] ], [ [ "pipe", 1 ] ] ]
+    "components": [
+      [ [ "glassblowing_book", 1 ] ],
+      [ [ "glasses_safety", 1 ], [ "goggles_chem", 1 ] ],
+      [ [ "chemistry_set", 1 ] ],
+      [ [ "pipe", 1 ] ]
+    ]
   },
   {
     "type": "recipe",

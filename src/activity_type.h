@@ -46,6 +46,7 @@ class activity_type
         based_on_type based_on_ = based_on_type::SPEED;
         bool can_resume_ = true;
         bool multi_activity_ = false;
+        bool fetch_items_to_zone_ = true;
         bool refuel_fires = false;
         bool auto_needs = false;
         float activity_level = NO_EXERCISE;
@@ -81,6 +82,9 @@ class activity_type
         }
         bool multi_activity() const {
             return multi_activity_;
+        }
+        bool fetch_items_to_zone() const {
+            return fetch_items_to_zone_;
         }
         /**
          * If true, player will refuel one adjacent fire if there is firewood spot adjacent.

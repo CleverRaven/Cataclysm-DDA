@@ -6,5 +6,13 @@
     "copy-from": "caotel_cell",
     "name": { "str": "plasma cell" },
     "description": "A small energy cell used to power plasma weapons."
+  },
+  {
+    "id": "gg_nl_chem_thrower_ammo",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "copy-from": "nl_chem_thrower_ammo",
+    "name": { "str": "chem charge" },
+    "description": "Charges for an otherworldly chem rifle."
   }
 ]

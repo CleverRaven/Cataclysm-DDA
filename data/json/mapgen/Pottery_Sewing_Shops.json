@@ -13,13 +13,13 @@
         "sssssssssss55sssssssssss",
         "sssssssssssb3sssssssssss",
         "s51#---+-#s55s#-+---#15s",
-        "s11#.c..P-ssss-P..c.#11s",
+        "s11#§c..P-ssss-P..c.#11s",
         "s4##Tc..B##<<##n..cT##4s",
         "s;#R.c..B|####|n..c.R#;s",
         "s;#B....B|t|SS|n....B#;s",
         "s;#B.nn..=wwww=..nn.n#4s",
         "s;#B....B||||||n....n#;s",
-        "s4#B.....=L|L=......n#;s",
+        "s4#B.....=L|L=.....§n#;s",
         "s;#||-+-|||||||-+-|||#4s",
         "s;#E*******|QQQ***|NN#;s",
         "s4#**Nh*Nh*|Q*****|=|#;s",
@@ -113,7 +113,8 @@
       "place_vendingmachines": [
         { "item_group": "vending_food", "x": 4, "y": 6, "lootable": true },
         { "item_group": "vending_drink", "x": 18, "y": 6, "lootable": true }
-      ]
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

@@ -239,7 +239,8 @@ void climbing_aid::climb_cost::deserialize( const JsonObject &jo )
 }
 
 template< typename Lambda >
-void for_each_aid_condition( const climbing_aid::condition_list &conditions, const Lambda &func )
+static void for_each_aid_condition( const climbing_aid::condition_list &conditions,
+                                    const Lambda &func )
 {
     for( const climbing_aid::condition &cond : conditions ) {
         if( int( cond.cat ) < int( climbing_lookup.size() ) ) {

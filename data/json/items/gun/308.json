@@ -353,7 +353,7 @@
     "ammo": [ "308" ],
     "dispersion": 85,
     "barrel_volume": "500 ml",
-    "default_mods": [ "rifle_scope", "bipod" ],
+    "default_mods": [ "underbarrel_mount", "bipod", "sights_mount", "rifle_scope" ],
     "clip_size": 5,
     "valid_mod_locations": [
       [ "barrel", 1 ],

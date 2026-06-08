@@ -50,6 +50,9 @@ static double proportion_gteq_x( std::vector<double> const &v, double x )
 static constexpr int n_hours = to_hours<int>( 1_days );
 static constexpr int n_minutes = to_minutes<int>( 1_days );
 
+namespace
+{
+
 struct year_of_weather_data {
     explicit year_of_weather_data( int n_days )
         : temperature( n_days, std::vector<double>( n_minutes, 0 ) )
@@ -63,6 +66,8 @@ struct year_of_weather_data {
     std::vector<double> highs;
     std::vector<double> lows;
 };
+
+} // namespace
 
 static year_of_weather_data collect_weather_data( unsigned seed )
 {

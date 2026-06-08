@@ -1,0 +1,20 @@
+[
+  {
+    "id": "helmet_dragon_bird_pred",
+    "looks_like": "helmet_dino_pred",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "dragon-bird skull helmet" },
+    "description": "The top part of a dragon-bird skull, equipped with leather straps to secure it on your head.  Every inch of the skull has been carved with a maze of fine, intertwined symbols.",
+    "weight": "1 kg",
+    "volume": "3 L",
+    "price": "14 USD",
+    "price_postapoc": "2 USD",
+    "material": [ "leather", "bone" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "material_thickness": 3,
+    "flags": [ "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance_modifiers": [ "IMBALANCED" ], "coverage": 85, "covers": [ "head" ] } ]
+  }
+]

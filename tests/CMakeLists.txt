@@ -7,6 +7,13 @@ if (BUILD_TESTING)
     # Enabling benchmarks
     add_definitions(-DCATCH_CONFIG_ENABLE_BENCHMARKING)
 
+    # Workaround clang>=22 flagging __COUNTER__ as c2y-extension
+    # (llvm/llvm-project#189645). Mirrors tests/Makefile.
+    if (CMAKE_CXX_COMPILER_ID MATCHES "Clang"
+            AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 22)
+        add_definitions(-DCATCH_CONFIG_NO_COUNTER)
+    endif ()
+
     if(LOCALIZE)
         # Need to build the test .mo file for the tests to pass.
         # Unfortunately we currently need to put this in the source dir, not the

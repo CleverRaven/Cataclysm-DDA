@@ -72,6 +72,7 @@ constexpr R _diag_value_helper( diag_value::impl_t const &data, const_dialogue c
         {
             if constexpr( std::is_same_v<std::decay_t<decltype( v )>, C> )
             {
+                // NOLINTNEXTLINE(bugprone-return-const-ref-from-parameter)
                 return v;
             } else if constexpr( std::is_same_v<std::decay_t<decltype( v )>, diag_value::legacy_value> )
             {

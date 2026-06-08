@@ -1,0 +1,222 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_stratoscomm",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "        ",
+        "  ----- ",
+        "  -  2- ",
+        " --< 2- ",
+        " -1   - ",
+        " ---!-- ",
+        "        ",
+        "        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "!": "t_afs_door_metal_elocked", "<": "t_ladder_up", "-": "t_wall_metal" },
+      "furniture": { "2": [ "f_mil_comms_power", "f_mil_comms_power_broken" ], "1": "f_mil_comms_terminal" },
+      "place_nested": [ { "chunks": [ "afs_modular_habitat_stratoscomm_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_stratoscomm_up",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "        ",
+        "  -[[[- ",
+        "  [$11[ ",
+        "  [x$$[ ",
+        "  [$11[ ",
+        "  -[[[- ",
+        "        ",
+        "        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure" ],
+      "terrain": { "x": "t_ladder_up_down", " ": "t_open_air", "1": "t_grate" },
+      "furniture": { "1": "f_mil_comms_heatsink" },
+      "place_nested": [ { "chunks": [ "afs_modular_habitat_stratoscomm_top" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_stratoscomm_top",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "        ",
+        "  [[[[[ ",
+        "  [$$$[ ",
+        "  [>$1[ ",
+        "  [$$$[ ",
+        "  [[[[[ ",
+        "        ",
+        "        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { ">": "t_ladder_down", " ": "t_open_air", "1": "t_grate" },
+      "palettes": [ "afs_habitat_structure" ],
+      "furniture": { "1": "f_mil_comms_sat" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_roof_panels",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        " .......................",
+        "...        ..        ...",
+        "...        ..        ...",
+        "...        ..        ...",
+        "..         ..         ..",
+        "..         ..         ..",
+        "..         ..         ..",
+        "...                  ...",
+        " .. 1 1   1 1   1 1  ...",
+        "... 1 1   1 1   1 1  ...",
+        "..  1 1   1 1   1 1   ..",
+        "..  1 1   1 1   1 1   ..",
+        "..  1 1   1 1   1 1   ..",
+        "..  1 1   1 1   1 1   ..",
+        "... 1 1   1 1   1 1  ...",
+        "... 1 1   1 1   1 1  ...",
+        "... 1 1   1 1   1 1  ...",
+        "..  1 1   1 1   1 1   ..",
+        "..  1 1   1 1   1 1   ..",
+        "..  1 1   1 1   1 1   ..",
+        "... 1 1   1 1   1 1  ...",
+        "... 1 1   1 1   1 1  ...",
+        "... 1 1   1 1   1 1  ...",
+        "..                    .."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { ".": "t_open_air" },
+      "furniture": { "1": "f_solar_unit" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_roof_aerie",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        " .......................",
+        "...        ..        ...",
+        "...        ..        ...",
+        "...        ..        ...",
+        "..         ..         ..",
+        "..         ..         ..",
+        "..         ..         ..",
+        "...                  ...",
+        " ..                  ...",
+        "...       ----       ...",
+        "..        -< -        ..",
+        "..       --  --       ..",
+        "..        -  -        ..",
+        "..       -- 3--       ..",
+        "...       - 3-       ...",
+        "...      --  --      ...",
+        "...       - 3-       ...",
+        "..        - 3-        ..",
+        "..       --  --       ..",
+        "..        -  -        ..",
+        "...      --!!--      ...",
+        "...      -2  1-      ...",
+        "...      --  --      ...",
+        "..                    .."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "-": "t_wall_metal", "!": "t_afs_security_gate_closed", "<": "t_ladder_up" },
+      "furniture": { "1": "f_security_panel", "3": "f_ancient_processor", "2": "f_command_console_old" },
+      "place_nested": [ { "chunks": [ "afs_modular_habitat_roof_aerie_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_roof_aerie_up",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "........................",
+        "...        ..        ...",
+        "...        ..        ...",
+        "...        ..        ...",
+        "..         ..         ..",
+        "..         ..         ..",
+        "..         ..         ..",
+        "...                  ...",
+        " ..                  ...",
+        "...       ----       ...",
+        "..        ->$-        ..",
+        "..       --$$--       ..",
+        "..       3é$$é3       ..",
+        "..       --$ --       ..",
+        "...      3é$$é3      ...",
+        "...      --$ --      ...",
+        "...      3é$$é3      ...",
+        "..       3é$$é3       ..",
+        "..       --$ --       ..",
+        "..       3é$$é3       ..",
+        "...      --$$--      ...",
+        "...      -11$2-      ...",
+        "...      ------      ...",
+        "..                    .."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure" ],
+      "terrain": {
+        ".": "t_open_air",
+        " ": "t_open_air",
+        "1": "t_grate",
+        "2": "t_grate",
+        "3": "t_grate",
+        "é": "t_afs_security_gate_closed",
+        ">": "t_ladder_down"
+      },
+      "furniture": { "1": "f_drone_recharge_station", "3": "f_drone_recharge_station", "2": "f_command_console_old" },
+      "monsters": { "1": { "monster": "AFS_GROUP_ROBOT_MODERATE_RISK", "chance": 33 } },
+      "place_nested": [ { "chunks": [ "afs_modular_habitat_roof_aerie_top" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_roof_aerie_top",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "........................",
+        "...        ..        ...",
+        "...        ..        ...",
+        "...        ..        ...",
+        "..         ..         ..",
+        "..         ..         ..",
+        "..         ..         ..",
+        "...                  ...",
+        " ..                  ...",
+        "...       ----       ...",
+        "..        ----        ..",
+        "..       ------       ..",
+        "..       --__--       ..",
+        "..       ------       ..",
+        "...      --__--      ...",
+        "...      ------      ...",
+        "...      --__--      ...",
+        "..       --__--       ..",
+        "..       ------       ..",
+        "..       --__--       ..",
+        "...      --__--      ...",
+        "...      ------      ...",
+        "...      ------      ...",
+        "..                    .."
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_structure" ],
+      "terrain": { ".": "t_open_air", " ": "t_open_air", "-": "t_metal_floor_no_roof", "_": "t_clearcrete_roof" }
+    }
+  }
+]

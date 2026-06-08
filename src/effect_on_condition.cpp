@@ -1,6 +1,7 @@
 #include "effect_on_condition.h"
 
 #include <algorithm>
+#include <chrono>
 #include <cstddef>
 #include <iterator>
 #include <list>
@@ -19,6 +20,7 @@
 #include "condition.h"
 #include "creature.h"
 #include "debug.h"
+#include "debug_capture.h"
 #include "event.h"
 #include "flexbuffer_json.h"
 #include "game.h"
@@ -73,8 +75,17 @@ bool string_id<effect_on_condition>::is_valid() const
     return effect_on_condition_factory.is_valid( *this );
 }
 
+static std::vector<std::pair<std::string, std::string>> pending_eoc_refs;
+
 void effect_on_conditions::check_consistency()
 {
+    for( const auto &[eoc_str, context] : pending_eoc_refs ) {
+        effect_on_condition_id eid( eoc_str );
+        if( !eid.is_valid() ) {
+            debugmsg( "EOC reference \"%s\" (loaded from %s) does not exist", eoc_str, context );
+        }
+    }
+    pending_eoc_refs.clear();
 }
 
 void effect_on_condition::load( const JsonObject &jo, std::string_view src )
@@ -122,6 +133,8 @@ effect_on_condition_id effect_on_conditions::load_inline_eoc( const JsonValue &j
         std::string_view src )
 {
     if( jv.test_string() ) {
+        std::string context = string_format( "%s (%s)", src, jv.get_root_source_path() );
+        pending_eoc_refs.emplace_back( jv.get_string(), std::move( context ) );
         return effect_on_condition_id( jv.get_string() );
     } else if( jv.test_object() ) {
         effect_on_condition inline_eoc;
@@ -337,6 +350,11 @@ void effect_on_conditions::process_reactivate()
 
 bool effect_on_condition::activate( dialogue &d, bool require_callstack_check ) const
 {
+    const bool tracing = debug_menu::debug_capture::is_eoc_tracing();
+    std::chrono::steady_clock::time_point trace_start;
+    if( tracing ) {
+        trace_start = std::chrono::steady_clock::now();
+    }
     bool retval = false;
     if( require_callstack_check ) {
         d.amend_callstack( "EOC: " + id.str() );
@@ -366,6 +384,16 @@ bool effect_on_condition::activate( dialogue &d, bool require_callstack_check ) 
                 false_effect.apply( d_npc );
             }
         }
+    }
+    if( tracing ) {
+        // Read callstack depth at trace time regardless of require_callstack_check
+        // (recursive EOC fires pass false but we still want depth > 0).
+        const int trace_depth = static_cast<int>( d.get_callstack().size() );
+        debug_menu::debug_capture::instance().push_eoc_trace(
+            id.str(), retval,
+            std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::steady_clock::now() - trace_start ),
+            trace_depth );
     }
     return retval;
 }
@@ -530,6 +558,7 @@ const std::vector<effect_on_condition> &effect_on_conditions::get_all()
 void effect_on_conditions::reset()
 {
     effect_on_condition_factory.reset();
+    pending_eoc_refs.clear();
 }
 
 void effect_on_conditions::load( const JsonObject &jo, const std::string &src )

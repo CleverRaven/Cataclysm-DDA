@@ -12,7 +12,7 @@ To define a Hackable Furniture in Aftershock you need to give it an examine acti
 |power_cost_mult | Multiplier applied to the total power cost of the hack if a tool or bionic is used. This can be used to increase the total power requirement of a hack without making it take longer to complete.| EOC Context |
 |hack_minor_failure_eoc |The ID of the EOC to run when the player minorly fails at hacking this furniture. Leaving this blank will trigger the generic hack minor failure EOC to run. | User |
 |hack_critical_failure |The ID of the EOC to run when the player critically fails at hacking this furniture. Leaving this blank will trigger the generic critical failure EOC to run. However, you will still need to add this furniture to the multi-lockdown ter-fur transform.| User
-|hack_sucess_eoc | The ID of the EOC to run when the player succeeds at hacking the furniture. If this is left blank the generic success EOC will run. However, you will still need to add the furniture to the multi-unlock ter-fur transform.| User
+|hack_success_eoc | The ID of the EOC to run when the player succeeds at hacking the furniture. If this is left blank the generic success EOC will run. However, you will still need to add the furniture to the multi-unlock ter-fur transform.| User
 
 ```
     "examine_action": {

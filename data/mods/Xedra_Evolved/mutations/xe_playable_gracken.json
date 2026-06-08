@@ -50,7 +50,7 @@
     "description": "A traveler from another dimension.  A dimension of shadows with few bright lights.  Once your species matures, they gain the ability to create new alterations to their body from ingredients harvested from their kills, shadowstuff and magickal essence.",
     "types": [ "HERITAGE" ],
     "allowed_category": [ "GRACKEN" ],
-    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR", "CHAOTIC", "CHAOTIC_BAD" ],
     "empathize_with": [ "GRACKEN" ],
     "no_empathize_with": [ "HUMAN" ],
     "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ]
@@ -350,7 +350,7 @@
     "mixed_effect": true,
     "points": 1,
     "category": [ "GRACKEN" ],
-    "flags": "HERBIVORE_DIET",
+    "flags": [ "HERBIVORE_DIET" ],
     "enchantments": [
       {
         "values": [

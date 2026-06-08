@@ -1,0 +1,19 @@
+[
+  {
+    "type": "faction",
+    "id": "hollow_ones_faction",
+    "name": "The Hollow",
+    "description": "The inhabitants of the villages in the forest.  They look human, but there's something not right about them.",
+    "likes_u": 0,
+    "respects_u": 0,
+    "trusts_u": 0,
+    "known_by_u": false,
+    "size": 100,
+    "power": 100,
+    "fac_food_supply": [ [ 0, { "calories": 270000000, "vitamins": { "iron": 8640, "calcium": 8640, "vitC": 8640 } } ] ],
+    "lone_wolf_faction": false,
+    "wealth": 75000,
+    "currency": "copper",
+    "mon_faction": "hollow_civilian"
+  }
+]

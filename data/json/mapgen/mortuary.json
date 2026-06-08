@@ -19,7 +19,7 @@
         "...,,,,,,,,,,,,,,,,,,...",
         "....uuuu.#o++o#.uuuu....",
         "..##oooo##P  P##oooo##uu",
-        "..oP cc P|H  H|      #fu",
+        "..oP§cc P|H  H|      #fu",
         "###c    c|H  H| H H  ofu",
         "#&|c    c|    | H H  #fu",
         "#~+      + DD + H H P#uu",
@@ -27,7 +27,7 @@
         "###||||||||++|| H H P#uu",
         ".4#dT~T~L|C  O| H H  #fu",
         "..#d~~~~~*   O| H H  ofu",
-        "..#dT~T~i|C  O|      #fu",
+        "..#dT~T~i|C  O|     §#fu",
         "..#########++###o##o##uu",
         ".........u.,,.u........."
       ],
@@ -88,7 +88,8 @@
         { "group": "corpse_female_mortuary", "x": 6, "y": 21, "chance": 40 },
         { "group": "corpse_viewing", "x": 20, "y": 17, "chance": 50 }
       ],
-      "place_vehicles": [ { "vehicle": "hearse", "x": 12, "y": 7, "chance": 90 } ]
+      "place_vehicles": [ { "vehicle": "hearse", "x": 12, "y": 7, "chance": 90 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

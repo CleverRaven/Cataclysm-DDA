@@ -1,6 +1,11 @@
 [
   {
     "type": "mapgen",
+    "om_terrain": "afs_modular_habitat_roof",
+    "object": { "fill_ter": "t_metal_floor_no_roof" }
+  },
+  {
+    "type": "mapgen",
     "om_terrain": "afs_modular_habitat_pillars_ground_walkway",
     "object": {
       "fill_ter": "t_region_groundcover_urban",
@@ -51,6 +56,14 @@
         },
         { "chunks": [ "afs_modular_habitat_end_pillars_ground_walkway" ], "x": 0, "y": 0 }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_modular_habitat_pillars_ground",
+    "object": {
+      "fill_ter": "t_region_groundcover_urban",
+      "place_nested": [ { "chunks": [ "afs_modular_habitat_end_pillars" ], "x": 0, "y": 0 } ]
     }
   },
   {

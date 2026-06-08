@@ -24,6 +24,7 @@ static color_pixel_function_map builtin_color_pixel_functions = {
     { "color_pixel_grayscale", color_pixel_grayscale },
     { "color_pixel_nightvision", color_pixel_nightvision },
     { "color_pixel_overexposed", color_pixel_overexposed },
+    { "color_pixel_silhouette", color_pixel_silhouette },
 };
 
 color_pixel_function_pointer get_color_pixel_function( const std::string &name )

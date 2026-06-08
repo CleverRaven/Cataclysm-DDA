@@ -1,10 +1,18 @@
 [
   {
     "type": "ITEM",
+    "id": "afs_optics_2",
+    "copy-from": "afs_scrap_2",
+    "name": { "str_sp": "borosilicide lasing magnifier" },
+    "description": "A previously cheap, easily replaceable component vital to industrial lasing applications.  They burn out after several hundred hours of use, intended to be replaced rather than repaired.  Superior performance was attained by atomically binding conventional glass materials in hard vacuum, microgravity environments.  This \"low technology\" was easily produced in the trillions by the great space manufacturies of Earth, ready to ship lifetime supplies of replacements to every colony out there.  The Discontinuity has made such reliable interstellar shipping impossible, and the recycling of existing supplies can only go so far.  Unblemished examples would easily be valued by any faction outside of Sol.",
+    "looks_like": "scrap"
+  },
+  {
+    "type": "ITEM",
     "id": "afs_optics_3",
     "copy-from": "afs_scrap_3",
-    "name": { "str_sp": "laser optics" },
-    "description": "Lenses, mirrors, emitters and other optical elements that once belonged to a weapon, industrial cutter or laser research setup.",
+    "name": { "str_sp": "femtosecond laser" },
+    "description": "An intact laser assembly salvaged from a high-power industrial laser or weapon.  Although not of a particularly advanced design, their sale is tightly controlled by interstellar authorities, and they fetch high prices on the black market.",
     "looks_like": "scrap"
   },
   {
@@ -12,7 +20,7 @@
     "id": "afs_optics_4",
     "copy-from": "afs_scrap_4",
     "name": { "str": "metamaterial lens", "str_pl": "metamaterial lenses" },
-    "description": "A diminute sphere of crystal and metal, magnetically affixed to the centroid of its containing chamber.",
+    "description": "A diminute sphere of crystal and metal, magnetically affixed to the centroid of its containing chamber.  The magnetic casing alone would be almost impossible to replicate with modern technology, nevermind the complex atomic structure of the spherical lens itself.",
     "looks_like": "scrap"
   }
 ]

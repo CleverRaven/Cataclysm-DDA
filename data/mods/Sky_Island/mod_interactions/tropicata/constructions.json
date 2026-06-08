@@ -1,0 +1,179 @@
+[
+  {
+    "type": "construction",
+    "id": "grow_warped_mango_tree",
+    "group": "warped_mango_tree",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 4 ] ],
+    "time": "120 m",
+    "components": [
+      [ [ "warptoken", 2 ] ],
+      [ [ "stick_long", 1 ], [ "stick", 2 ], [ "twig", 6 ] ],
+      [ [ "leaves", 8 ], [ "young_leaves", 8 ] ],
+      [ [ "mango", 3 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_tree_mango",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction_group",
+    "id": "warped_mango_tree",
+    "name": "Grow a Warped Mango Tree"
+  },
+  {
+    "type": "construction",
+    "id": "grow_warped_papaya_tree",
+    "group": "warped_papaya_tree",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 4 ] ],
+    "time": "120 m",
+    "components": [
+      [ [ "warptoken", 2 ] ],
+      [ [ "stick_long", 1 ], [ "stick", 2 ], [ "twig", 6 ] ],
+      [ [ "leaves", 8 ], [ "young_leaves", 8 ] ],
+      [ [ "papaya", 3 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_tree_papaya",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction_group",
+    "id": "warped_papaya_tree",
+    "name": "Grow a Warped Papaya Tree"
+  },
+  {
+    "type": "construction",
+    "id": "grow_warped_pomegranate_tree",
+    "group": "warped_pomegranate_tree",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 4 ] ],
+    "time": "120 m",
+    "components": [
+      [ [ "warptoken", 2 ] ],
+      [ [ "stick_long", 1 ], [ "stick", 2 ], [ "twig", 6 ] ],
+      [ [ "leaves", 8 ], [ "young_leaves", 8 ] ],
+      [ [ "pomegranate", 3 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_tree_pomegranate",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction_group",
+    "id": "warped_pomegranate_tree",
+    "name": "Grow a Warped Pomegranate Tree"
+  },
+  {
+    "type": "construction",
+    "id": "grow_warped_coconut_tree",
+    "group": "warped_coconut_tree",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 5 ] ],
+    "time": "120 m",
+    "components": [
+      [ [ "warptoken", 3 ] ],
+      [ [ "stick_long", 1 ], [ "stick", 2 ], [ "twig", 6 ] ],
+      [ [ "leaves", 8 ], [ "young_leaves", 8 ] ],
+      [ [ "coconut", 2 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_tree_coconut",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction_group",
+    "id": "warped_coconut_tree",
+    "name": "Grow a Warped Coconut Tree"
+  },
+  {
+    "type": "construction",
+    "id": "grow_warped_orange_tree",
+    "group": "warped_orange_tree",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 3 ] ],
+    "time": "120 m",
+    "components": [
+      [ [ "warptoken", 2 ] ],
+      [ [ "stick_long", 1 ], [ "stick", 2 ], [ "twig", 6 ] ],
+      [ [ "leaves", 8 ], [ "young_leaves", 8 ] ],
+      [ [ "orange", 3 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_tree_orange",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction_group",
+    "id": "warped_orange_tree",
+    "name": "Grow a Warped Orange Tree"
+  },
+  {
+    "type": "construction",
+    "id": "grow_warped_lemon_tree",
+    "group": "warped_lemon_tree",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 3 ] ],
+    "time": "120 m",
+    "components": [
+      [ [ "warptoken", 2 ] ],
+      [ [ "stick_long", 1 ], [ "stick", 2 ], [ "twig", 6 ] ],
+      [ [ "leaves", 8 ], [ "young_leaves", 8 ] ],
+      [ [ "lemon", 3 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_tree_lemon",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction_group",
+    "id": "warped_lemon_tree",
+    "name": "Grow a Warped Lemon Tree"
+  },
+  {
+    "type": "construction",
+    "id": "grow_warped_grapefruit_tree",
+    "group": "warped_grapefruit_tree",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 3 ] ],
+    "time": "120 m",
+    "components": [
+      [ [ "warptoken", 2 ] ],
+      [ [ "stick_long", 1 ], [ "stick", 2 ], [ "twig", 6 ] ],
+      [ [ "leaves", 8 ], [ "young_leaves", 8 ] ],
+      [ [ "grapefruit", 3 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_tree_grapefruit",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction_group",
+    "id": "warped_grapefruit_tree",
+    "name": "Grow a Warped Grapefruit Tree"
+  },
+  {
+    "type": "construction",
+    "id": "grow_warped_cactus",
+    "group": "warped_cactus",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 5 ] ],
+    "time": "120 m",
+    "components": [
+      [ [ "warptoken", 3 ] ],
+      [ [ "plant_stalk", 8 ] ],
+      [ [ "twig", 10 ] ],
+      [ [ "carrot_wild", 4 ] ],
+      [ [ "cactus_pad", 1 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_cholla_cactus",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction_group",
+    "id": "warped_cactus",
+    "name": "Grow a Warped Cholla Cactus"
+  }
+]

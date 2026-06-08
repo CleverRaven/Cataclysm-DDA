@@ -2,11 +2,14 @@
 
 #include <cstddef>
 
+#include "coordinates.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_stdlib.h"
 #include "input_enums.h"
+#include "ret_val.h"
 #include "text.h"
 #include "translations.h"
+#include "try_parse_integer.h"
 #include "uilist.h"
 #include "ui_manager.h"
 #include "uistate.h"
@@ -361,6 +364,22 @@ std::string string_input_popup_imgui::query()
 
     is_cancelled = true;
     return old_input;
+}
+
+std::optional<tripoint_abs_omt> string_input_popup_imgui::query_coordinate( bool loop )
+{
+    do {
+        const std::string &queried_string = query();
+        ret_val<tripoint_abs_omt> result = try_parse_coordinate_abs( queried_string );
+        if( cancelled() || queried_string.empty() ) {
+            return std::nullopt;
+        }
+        if( result.success() ) {
+            return result.value();
+        }
+    } while( loop );
+
+    return tripoint_abs_omt::zero;
 }
 
 void string_input_popup_imgui::use_uilist_history( bool use_uilist )

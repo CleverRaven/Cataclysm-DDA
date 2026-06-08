@@ -72,6 +72,12 @@
   },
   {
     "type": "SPECIES",
+    "id": "SHABRIRI",
+    "//": "This is currently needed until EOC conditions can refer to a specific monster.",
+    "description": "A blinding spirit"
+  },
+  {
+    "type": "SPECIES",
     "id": "THORNBEAST",
     "description": "A magickally-animated mass of thorns, born to kill vampires"
   },

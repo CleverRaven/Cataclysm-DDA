@@ -1,0 +1,114 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [
+      [
+        "string_dimension_ka_facility_x0y0z0",
+        "string_dimension_ka_facility_x1y0z0",
+        "string_dimension_ka_facility_x2y0z0",
+        "string_dimension_ka_facility_x3y0z0",
+        "string_dimension_ka_facility_x4y0z0"
+      ],
+      [
+        "string_dimension_ka_facility_x0y1z0",
+        "string_dimension_ka_facility_x1y1z0",
+        "string_dimension_ka_facility_x2y1z0",
+        "string_dimension_ka_facility_x3y1z0",
+        "string_dimension_ka_facility_x4y1z0"
+      ]
+    ],
+    "object": {
+      "rows": [
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                        -----------------                                         --------------------- ",
+        "                                        -MMMMMMMMMMMMMMM-                                         -MMMMMMMMMMMMMMMMMMM- ",
+        "                                        --.,.,.,.,.,.,.--                             --------------........,........-- ",
+        "                                       ---.,,,,,,,,,,,.-           ---                -MMMMMMMMMMM---..,,,,,,.......--  ",
+        "                                   -----........,.....--           -.-------          --..,..,...-- --.,....,.!....--   ",
+        "                               -----............,.!...-----        -.EEEEEE--------------.,,,,,.--   --.....,.....--    ",
+        "                          -----EEEE...EE---.....,.....+...----     -......,.EEEE..............,.-     --....,....--     ",
+        "                      -----EEEE......---- --....,.....+...RRR-------......,..,.....------.....,.--------....,,,,,-      ",
+        "    ppppppppppppp------EEEE.......-------  -....,....--............+......,,,,.....EEEEEE.....,,,,,,,,,,,,,,,....-      ",
+        "    p    ---------EEEEE........----M....----....,....--............+......,..........,.........,---------...,...--      ",
+        "   #p    -EEEEEEEE..........------M.......---...,...--....RRR-------,,,,,,,,,,,,,,,,,,,,,,,,,,,,-M.---  -...,...-       ",
+        "   #1....................----  --M..........-...,...-ppppp----     -,.........------------.....--M...----...,...-       ",
+        "   #32.....!...........---    --M...-----...+...,...-------        -,....pppppppppppppppppppppp--M..........,...--------",
+        "   #123.............----     --M......-------...,..--    p         -,---------------------....- -M,,,,,,,,,,,,..+.....O-",
+        "   #2311.........---------  --M.........--- --..,..-     p         -,...p.....------------ ...- -M...........,,,--------",
+        "   #32132.....----MMMMMMM- --M..---.......----..,..-     p         -,...p.....................- -M...-----.....--       ",
+        "   #12323...---  --.....----M.....-----......-..,..-     p         -,...p.....-------------...- -M.---   -.....-        ",
+        "   #32111.....--  -ppppp---M....!...-------..+..,..-     p         -,----------           -...- -M--     -.....-        ",
+        "   #1232.......----.....--M--.........--------..,.--     pp        -,..p......-------------...- ---      --...--        ",
+        "   #123........EEE--...--M...-----.......--- -..,.-       p        -,..p..!...................-           -...-         ",
+        "   #31............EE....--......-----......----.,.---------------  -,..p......-------------...-           -...-         ",
+        "   #2..........!..,.....---.......-------....--.,.--M.....pppppp----,----------------     -...-           -...-         ",
+        "   #p    -EEEEE...,...,,EE----......--------..+.,.---M,,,,,,,,,,,,,,,...............--------.--------------...-         ",
+        "    ppp  ------EEEEE..,...EEE---.......--- ----.,.- --M.......,...........................................+...-         ",
+        "      pp      ------..,...,....-----.....------.,.- --M,,,,,,,,..!.....ppppppppppppppppppppppppppp---------...-         ",
+        "       pp          -..E-EEEEE....EE----.....---.,.---M.........ppppppppp---------------------------       -E..-         ",
+        "        ppppppppppp-pp-------.........----....-.,.--M.pppppppppp---------                                 --pp-         ",
+        "                   -..-  p  -----........----.+.,.---------------                                          -..-         ",
+        "                   -MM-  ppppppp-----.......---.,.-pppp                                                    -pp-         ",
+        "                   ----             ------......,.-                                                        -..-         ",
+        "                                         -----..,.-                                                        -pp-         ",
+        "                                             --MMM-                                                        -..-         ",
+        "                                              -----                                                        ----         ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        ",
+        "                                                                                                                        "
+      ],
+      "terrain": {
+        " ": "t_string_dimension_meteoric_rock",
+        "-": "t_wall_metal",
+        "#": "t_string_dimension_meteoric_rock_charred",
+        "1": "t_string_xy_plane_2",
+        "2": "t_string_xy_plane_2",
+        "3": "t_string_z",
+        ".": "t_metal_floor",
+        "!": "t_metal_floor",
+        ",": "t_metal_floor",
+        "R": "t_metal_floor",
+        "M": "t_metal_floor",
+        "O": "t_metal_floor",
+        "E": "t_metal_floor",
+        "p": "t_sewage_pipe",
+        "+": "t_door_metal_bulkhead_c"
+      },
+      "furniture": {
+        "M": "f_string_dimension_pylon",
+        "R": "f_locker",
+        ",": "f_ground_cable",
+        "E": [ [ "f_capacitor", 2 ], [ "f_machinery_electronic", 2 ], [ "f_console_broken_table", 1 ] ],
+        "O": "f_string_dimension_floor_portal_enclosure"
+      },
+      "monster": {
+        "1": { "monster": "mon_linelander_magenta" },
+        "2": { "monster": "mon_linelander_cyan" },
+        "3": { "monster": "mon_linelander_yellow" },
+        "!": { "monster": "mon_halo_tangle" },
+        ".": { "monster": "mon_twisting_mass", "chance": 5 }
+      },
+      "place_loot": [
+        { "item": "string_dimension_phase_immersion_suit", "x": [ 58, 60 ], "y": 14, "repeat": [ 2, 5 ] },
+        { "item": "string_dimension_biosuit", "x": [ 58, 60 ], "y": 17, "repeat": [ 5, 15 ] },
+        { "item": "string_dimension_biocoif", "x": [ 58, 60 ], "y": 17, "repeat": [ 5, 15 ] }
+      ],
+      "traps": {
+        "1": "tr_string_dimension_ka_moonpool_exit",
+        "2": "tr_string_dimension_ka_moonpool_exit",
+        "3": "tr_string_dimension_ka_moonpool_exit"
+      }
+    }
+  }
+]

@@ -106,7 +106,8 @@
         "P//////////////////////P",
         "PPPPPPPPPPPPPPPPPPPPPPPP"
       ],
-      "palettes": [ "farm_house" ]
+      "palettes": [ "farm_house" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -140,7 +141,8 @@
         "P//////////////////////P",
         "PPPP%%%%PPPPPPPP%%%%PPPP"
       ],
-      "palettes": [ "farm_house" ]
+      "palettes": [ "farm_house" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -174,7 +176,8 @@
         "P//////////////////////P",
         "PPPPPPPPPPPPPPPPPPPPPPPP"
       ],
-      "palettes": [ "farm_house" ]
+      "palettes": [ "farm_house" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -213,7 +216,8 @@
         "%//////////////////////%",
         "%%%%%%%%%%%//%%%%%%%%%%%"
       ],
-      "palettes": [ "farm_house" ]
+      "palettes": [ "farm_house" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {

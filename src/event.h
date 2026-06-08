@@ -85,6 +85,7 @@ enum class event_type : int {
     dies_of_starvation,
     dies_of_thirst,
     digs_into_lava,
+    dimension_travel,
     disarms_nuke,
     eats_sewage,
     evolves_mutation,
@@ -113,6 +114,7 @@ enum class event_type : int {
     opens_portal,
     opens_spellbook,
     opens_temple,
+    phase_move,
     player_fails_conduct,
     player_gets_achievement,
     player_levels_spell,
@@ -193,7 +195,10 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 107,
+// NOTE: Events are saved to the character file for later memorializing them. It's currently unsafe to ever remove any of these.
+// Removal will cause any save file with one of the saved events to be unable to load.
+// FIXME.
+static_assert( static_cast<int>( event_type::num_event_types ) == 109,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -612,6 +617,16 @@ template<>
 struct event_spec<event_type::digs_into_lava> : event_spec_empty {};
 
 template<>
+struct event_spec<event_type::dimension_travel> {
+    static constexpr std::array<event_field, 3> fields = {{
+            { "character", cata_variant_type::character_id },
+            { "from_dimension", cata_variant_type::string },
+            { "to_dimension", cata_variant_type::string },
+        }
+    };
+};
+
+template<>
 struct event_spec<event_type::disarms_nuke> : event_spec_empty {};
 
 template<>
@@ -826,6 +841,15 @@ struct event_spec<event_type::opens_portal> : event_spec_empty {};
 
 template<>
 struct event_spec<event_type::opens_temple> : event_spec_empty {};
+
+template<>
+struct event_spec<event_type::phase_move> {
+    static constexpr std::array<event_field, 2> fields = {{
+            { "distance_traveled", cata_variant_type::int_ },
+            { "is_bionic", cata_variant_type::bool_ },
+        }
+    };
+};
 
 template<>
 struct event_spec<event_type::releases_subspace_specimens> : event_spec_empty {};

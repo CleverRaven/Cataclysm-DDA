@@ -9,6 +9,7 @@
     "move_cost_mod": 2,
     "coverage": 80,
     "required_str": 5,
+    "mass": "13 kg",
     "crafting_pseudo_item": "mirror",
     "flags": [ "NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
     "examine_action": "change_appearance",
@@ -33,6 +34,7 @@
     "move_cost_mod": 2,
     "coverage": 80,
     "required_str": 5,
+    "mass": "9 kg",
     "flags": [ "NOITEM", "BLOCKSDOOR" ],
     "bash": {
       "str_min": 8,
@@ -51,7 +53,7 @@
     "color": "light_gray",
     "move_cost_mod": 2,
     "coverage": 30,
-    "required_str": 0,
+    "required_str": -1,
     "bash": {
       "str_min": 80,
       "str_max": 200,
@@ -71,7 +73,7 @@
     "looks_like": "f_bitts",
     "move_cost_mod": 2,
     "coverage": 30,
-    "required_str": 0,
+    "required_str": -1,
     "bash": {
       "str_min": 80,
       "str_max": 200,
@@ -109,6 +111,7 @@
     "move_cost_mod": -1,
     "coverage": 50,
     "required_str": 10,
+    "mass": "100 kg",
     "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "SIGN" ],
     "bash": {
       "str_min": 16,
@@ -139,6 +142,21 @@
   },
   {
     "type": "furniture",
+    "id": "f_highlands_gatekeeper_statue",
+    "name": "statue of a gatekeeper",
+    "description": "A demonic figure carved from dark stone stands guard over the bronze pillars ahead.  It holds a bronze censer with one outstretched hand, while the other points upwards into the sky.",
+    "looks_like": "f_statue",
+    "copy-from": "f_statue",
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 10, 14 ] }, { "item": "highland_censer", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_mannequin",
     "name": "mannequin",
     "description": "A life-size wooden figure of a person, most commonly used to display clothing in stores, or for tailors to design outfits on.  Considering all that's happened, something about it is somewhat unnerving.",
@@ -147,6 +165,7 @@
     "move_cost_mod": 2,
     "coverage": 40,
     "required_str": 5,
+    "mass": "10 kg",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT" ],
     "deployed_item": "mannequin",
     "item": "mannequin",
@@ -169,6 +188,7 @@
     "color": "light_gray",
     "move_cost_mod": -1,
     "required_str": 10,
+    "mass": "40 kg",
     "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "LIQUIDCONT", "TRANSPARENT" ],
     "bash": {
       "str_min": 16,
@@ -187,6 +207,7 @@
     "color": "white",
     "move_cost_mod": -1,
     "required_str": 10,
+    "mass": "40 kg",
     "flags": [ "BLOCKSDOOR", "MINEABLE" ],
     "bash": {
       "str_min": 16,
@@ -209,6 +230,7 @@
     "color": "white",
     "move_cost_mod": -2,
     "required_str": 10,
+    "mass": "10 kg",
     "flags": [ "TRANSPARENT", "BLOCKSDOOR", "PLACE_ITEM" ],
     "deconstruct": {
       "items": [
@@ -240,6 +262,7 @@
     "color": "light_gray",
     "move_cost_mod": 2,
     "required_str": 1,
+    "mass": "2500 g",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "standing_lamp" },
     "flags": [ "TRANSPARENT", "BLOCKSDOOR", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
     "item": "standing_lamp",
@@ -272,6 +295,7 @@
     "color": "light_green",
     "move_cost_mod": 2,
     "required_str": 5,
+    "mass": "7 kg",
     "bash": {
       "str_min": 20,
       "str_max": 40,
@@ -312,6 +336,7 @@
     "looks_like": "t_tree_pine",
     "move_cost_mod": -1,
     "required_str": 10,
+    "mass": "50 kg",
     "flags": [ "BLOCKSDOOR", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 20,
@@ -359,6 +384,7 @@
     "move_cost_mod": 2,
     "coverage": 20,
     "required_str": 1,
+    "mass": "1 kg",
     "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
     "max_volume": "2 L",
     "bash": {
@@ -367,6 +393,34 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "items": [ { "item": "material_aluminium_ingot", "count": [ 4, 8 ] }, { "item": "scrap", "count": [ 2, 6 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_indoor_flagpole_wooden",
+    "name": "wooden indoor flagpole",
+    "description": "A 2.5-meter tall wooden flagpole on a weighted stand.  You could hoist up a flag here.",
+    "symbol": "F",
+    "color": "brown",
+    "move_cost_mod": 2,
+    "coverage": 20,
+    "required_str": 1,
+    "mass": "1 kg",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "ORGANIC" ],
+    "max_volume": "2 L",
+    "deconstruct": {
+      "items": [ { "item": "nail", "charges": [ 2, 6 ] }, { "item": "2x4", "count": 1 }, { "item": "stick_long", "count": 1 } ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 30,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "nail", "charges": [ 2, 6 ] },
+        { "item": "2x4", "count": [ 0, 1 ] },
+        { "item": "splinter", "count": [ 2, 6 ] }
+      ]
     }
   }
 ]

@@ -70,7 +70,7 @@ class translation
          * the translated string. A number can be used to translate the plural
          * form if the object has it.
          **/
-        std::string translated( int num = 1 ) const;
+        const std::string &translated( int num = 1 ) const;
 
         /**
          * Methods exposing the underlying raw strings are not implemented, and

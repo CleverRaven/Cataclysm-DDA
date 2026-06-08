@@ -68,17 +68,26 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
     return info;
 }
 
-bool mod_ui::confirm_mod_compatibility( const mod_id &checked_mod,
-                                        const std::vector<mod_id> &active_list )
+std::optional<mod_id> mod_ui::find_mod_conflict( const mod_id &checked_mod,
+        const std::vector<mod_id> &active_list )
 {
-    for( mod_id some_active_mod : active_list ) {
-        for( mod_id conflict_mod_id : some_active_mod->conflicts ) {
+    for( const mod_id &some_active_mod : active_list ) {
+        for( const mod_id &conflict_mod_id : some_active_mod->conflicts ) {
             if( conflict_mod_id == checked_mod ) {
-                return false;
+                return some_active_mod;
             }
         }
     }
-    return true;
+    if( checked_mod.is_valid() ) {
+        for( const mod_id &conflict_mod_id : checked_mod->conflicts ) {
+            std::vector<mod_id>::const_iterator it = std::find( active_list.begin(),
+                    active_list.end(), conflict_mod_id );
+            if( it != active_list.end() ) {
+                return *it;
+            }
+        }
+    }
+    return std::nullopt;
 }
 
 void mod_ui::try_add( const mod_id &mod_to_add,
@@ -92,9 +101,10 @@ void mod_ui::try_add( const mod_id &mod_to_add,
         debugmsg( "Unable to load mod \"%s\".", mod_to_add.c_str() );
         return;
     }
-    if( !confirm_mod_compatibility( mod_to_add, active_list ) ) {
-        popup( _( "Unable to add %s.  It is incompatible with a currently active mod." ),
-               mod_to_add->name() );
+    std::optional<mod_id> conflict = find_mod_conflict( mod_to_add, active_list );
+    if( conflict ) {
+        popup( _( "Unable to add %s.  It conflicts with %s." ),
+               mod_to_add->name(), ( *conflict )->name() );
         return;
     }
 

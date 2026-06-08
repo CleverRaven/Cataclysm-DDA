@@ -1,0 +1,16 @@
+[
+  {
+    "type": "trap",
+    "id": "tr_contraband_scanner",
+    "name": "contraband scanner",
+    "color": "brown",
+    "flags": [ "UNCONSUMED", "UNDODGEABLE" ],
+    "symbol": "0",
+    "visibility": -1,
+    "avoidance": -1,
+    "difficulty": 99,
+    "always_invisible": true,
+    "action": "eocs",
+    "eocs": [ "EOC_contraband_scanner_trap" ]
+  }
+]

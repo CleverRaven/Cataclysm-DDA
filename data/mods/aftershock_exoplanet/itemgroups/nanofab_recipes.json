@@ -4,5 +4,49 @@
     "id": "afs_template_10mm_smart",
     "subtype": "distribution",
     "entries": [ { "item": "afs_10mm_smart", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_template_bio1",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "afs_mealgrub_medium", "prob": 10, "container-item": "null" },
+      { "item": "afs_mealgrub_spores", "prob": 10, "container-item": "null" },
+      { "item": "afs_medigel", "prob": 10, "container-item": "null" },
+      { "item": "afs_painkiller", "prob": 10, "container-item": "null" },
+      { "item": "afs_stimpack", "prob": 10, "container-item": "null" },
+      { "item": "afs_synth_blood", "prob": 10, "container-item": "null" },
+      { "item": "cream_prot_cold", "prob": 10, "container-item": "null" },
+      { "item": "quikclot", "prob": 10, "container-item": "null" },
+      { "item": "morphine", "prob": 10, "container-item": "null" },
+      { "item": "antiparasitic", "prob": 10, "container-item": "null" },
+      { "item": "antibiotics", "prob": 10, "container-item": "null" },
+      { "item": "strong_antibiotic", "prob": 10, "container-item": "null" },
+      { "item": "antifungal", "prob": 10, "container-item": "null" },
+      { "item": "weak_antibiotic", "prob": 10, "container-item": "null" },
+      { "item": "estrogen", "prob": 10, "container-item": "null" },
+      { "item": "birth_control", "prob": 10, "container-item": "null" },
+      { "item": "aspirin", "prob": 10, "container-item": "null" },
+      { "item": "metaprolol", "prob": 10, "container-item": "null" },
+      { "item": "melatonin_tablet", "prob": 10, "container-item": "null" },
+      { "item": "caffeine", "prob": 10, "container-item": "null" },
+      { "item": "diazepam", "prob": 10, "container-item": "null" },
+      { "item": "antihistamine", "prob": 10, "container-item": "null" },
+      { "item": "prophylactic_antivenom", "prob": 10, "container-item": "null" },
+      { "item": "prozac", "prob": 10, "container-item": "null" },
+      { "item": "bfipowder", "prob": 10, "container-item": "null" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_template_bio1_expendable",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "afs_cryo_goop", "prob": 10 },
+      { "item": "afs_enzime_replicator", "prob": 1 },
+      { "item": "afs_cryo_seedlings", "prob": 10 },
+      { "item": "afs_cryo_terraforming_moss", "prob": 10 },
+      { "group": "afs_template_bio1", "prob": 30, "container-item": "null" }
+    ]
   }
 ]
