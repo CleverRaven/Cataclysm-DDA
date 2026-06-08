@@ -17,8 +17,8 @@
         "*****....~~~~+    ####..",
         "****........~#  F % L#..",
         "***.qqqqq...~#L   #  #..",
-        "**.qQQQQQq..~#L  R# B#..",
-        "**.qQQQQQqq.~## lt#Ṟ##..",
+        "**.qQQQQQq..~#L   # B#..",
+        "**.qQQQQQqq.~##tlṚ#Ṟ##..",
         "**qQQQQQQQqq~~#w#####...",
         "*.qQQQQQQQQq.~~~~~~~....",
         "*qQQQQQQQQQQqqq~...~....",
@@ -62,11 +62,16 @@
         "l": "f_stool",
         "t": "f_table",
         "R": "f_rack_primitive",
-        "Ṟ": "f_rack_primitive"
+        "Ṟ": "f_rack_primitive",
+        "Ṛ": "f_rack_primitive"
+      },
+      "items": {
+        "R": { "item": "hedge_magick_materials", "chance": 100, "repeat": [ 2, 4 ] },
+        "Ṟ": [ { "item": "shirts", "chance": 100, "repeat": 2 }, { "item": "pants_male", "chance": 100, "repeat": 2 } ]
       },
       "place_loot": [
-        { "item": "dry_meat", "x": 17, "y": 12, "chance": 100, "repeat": [ 5, 20 ] },
-        { "item": "dry_fruit", "x": 17, "y": 12, "chance": 100, "repeat": [ 5, 20 ] },
+        { "item": "dry_meat", "x": 17, "y": 13, "chance": 100, "repeat": [ 5, 20 ] },
+        { "item": "dry_fruit", "x": 17, "y": 13, "chance": 100, "repeat": [ 5, 20 ] },
         { "item": "makeshift_pillow", "x": 20, "y": 12, "chance": 100 },
         { "item": "fur_blanket", "x": 20, "y": 12, "chance": 100 },
         { "item": "clay_watercont", "x": 14, "y": 10, "chance": 100 },

@@ -1,0 +1,7 @@
+[
+  {
+    "type": "item_group",
+    "id": "shirts",
+    "items": [ [ "shirt_straw", 80 ], [ "poncho", 10 ] ]
+  }
+]

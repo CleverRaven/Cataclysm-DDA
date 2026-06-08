@@ -11,7 +11,7 @@
     "city_distance": [ 25, -1 ],
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 5, 100 ],
-    "flags": [ "GLOBALLY_UNIQUE" ]
+    "flags": [ "GLOBALLY_UNIQUE", "SAFE_AT_WORLDGEN" ]
   },
   {
     "type": "overmap_special",

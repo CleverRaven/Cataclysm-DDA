@@ -221,7 +221,6 @@
           { "item": "pants_leather" },
           { "item": "leathersandals" },
           { "item": "water_clean", "charges": 6, "container-item": "waterskin" },
-          { "item": "straw_hat" },
           { "item": "magical_grimoire_apprentice", "container-item": "straw_basket" },
           { "item": "q_staff_of_the_wise" },
           { "item": "primitive_knife", "container-item": "sheath_birchbark" }
