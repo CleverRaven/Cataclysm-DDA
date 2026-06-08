@@ -234,9 +234,6 @@ More nuanced Hub 01-Exodii full cyborg aggression
 Charged tools can be used on unattended crafting steps
 Unattended liquid crafts wait for you to pour them
 Crafting faults
-PAPR blowers are now loaded with filters and batteries; PAPR masks simply need to be attached and activated
-Controlled NPCs get Bombastic Perks if mod is enabled
-Allow loading screens to be picked from both mods and vanilla if mods are loaded.
 
 
 ## Content:
@@ -498,12 +495,7 @@ The Exodii can turn you into a full-blown cyborg
 If the Exodii trust you enough they'll give you a Cyberframe
 Dimension: the Scarlet Sea
 Challenge - Labyrinth Bound
-Big batch of typo/weird language fixes
-Replace what rubber items are cut up into
-Cephalopod Leg Tentacles to limbs
-[Hunvre] Add a factory
-Add some random fungus to the groundcover pool
-Zombies can bleed, therefore, they have heart you can hit. And a few more stuff
+Expanding zombie weakpoints with vitals
 
 
 ## Interface:
@@ -668,8 +660,6 @@ Migrate popups in vehicle interaction menu to ImGui
 Update to ImGui 1.91.9b
 Move appliance infobox to imgui
 Display some items by volume, weight or length instead of count
-Draw the Android game surface edge to edge with a safe-area option
-Look around: show memorised terrain and furniture
 
 
 ## Mods:
@@ -1156,21 +1146,6 @@ XE Proficiency CBMs
 [BPerks/MM/Sorc] XP mods can level up more than once at a time
 Aftershock: Add industrial habitat building.
 Add "XedraWood: Stone and Sorcery" mod to the CDDA repository
-[XE] Additions to the vampire hunter faction.
-[Sky Island] Add triffid pollen to the list of effects that being healed removes
-[Innawood] Blacklist some recipes that you'll never make anyway
-[MoM] Add Interstice/MoM interactions
-[Innawood] More innawood blacklisting
-[XedraWood] Add some mod identity around evolution and zombification
-[Innawood] Even more blacklisting
-[XedraWood] Override insect age_grow and remove higher-growth insects from monstergroups
-[XedraWood] Mod conflicts
-[XedraWood] Playable lizardfolk
-[Innawood] Add alternate recipe to make a soaking spear shaft with only stone age tools
-[Innawood] Ravine bottom map extras
-[Magiclysm] Update construction recipes for Translocator Gates
-Rework Spell Learning for Dream Magick Part Uno reverse
-[XedraWood] Hobby audit
 
 ## Balance:
 Visitors Passes and Freight Badges no longer reveal roads
@@ -1320,10 +1295,6 @@ Nobody wants to cooperate with psychopaths
 Zombie corpses aren't useful
 Stepped many many weapon recipes
 Joint Torsion Ratchet CBM doesn't allow for perpetual motion cyborgs
-Changes the proficiency learn time for the synthetic armors and amphibian biology proficiencies to take 30m in line with other weakpoints.
-Gold is worthless
-Add wiring to the reinforced metal walls found in LMOE shelters and industrial locations
-Set feather and down feather prices to 0 cent
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1864,23 +1835,7 @@ Aftershock: Plasma degrades armors
 Stop spamming player log when NPCs are hot
 Stop ref center guard EOCs from firing in alternate dimensions
 Uncomfortable limbs must exist
-AIM `examine menu > activate` overlaps item selection
-Fix SDL3 zoom crash from tint mask render target switch
-[Magiclysm] No longer can you tame zombie aenóren
-Fix for subset of high severity density mismatches caused by decharging
-Remove riot damage chance from MVAS warehouse
-Fix SDL3 colored light tint rendering
-fix `rot_spawn_data` inheritance overriding unset values
-Allow more simple drinks crafting in dark
-Fix conflicting keybinds in debug menu
-New Hoarder morale calculations
-fixing typos
-Fix SDL3 shader fallback tiles going black
-Make Android system bars configurable
-Fix semi frequent crash when using safehouse teleporter
-Iron Safari, Circuit Safari, and the Hub 01 Bionic Garage no longer require you to physically lift massive robots to finish missions
 Fix Android black screen after turning the screen off
-[Innawood] Fix ravine cutouts
 
 
 ## Performance:
@@ -1926,8 +1881,7 @@ Save map size by not serializing unnecessary item components.
 Skip lightmap rebuild on idle frames
 Speedup highway placement by caching expensive math
 Speed up spawning item groups into containers
-Stop rebuilding nearby-item inventory every craft tick
-Stop rebuilding crafting cost context every tick
+Crafting optimizations
 
 
 ## Infrastructure:
@@ -2176,13 +2130,6 @@ Vendor plf colony/list verbatim under src/third-party
 Upgrade vendored plf_colony and plf_list to latest upstream
 Ignore root dotfiles by default in .gitignore
 Consume crafting tools per recipe step
-Invalidate clang-tidy plugin cache on LLVM patch bumps
-Split tileset loading into parse and upload steps, add render-target RAII helpers
-Keep the renderer's idle target at null, bind display_buffer per draw through an RAII scope
-Reset and rebind primitives for renderer-owned GPU resources
-Renderer-resource recovery coordinator and its SDL-free drain planner
-Tests for the renderer-resource recovery coordinator and drain planner
-Fix outgoing links from CONTRIBUTING.md
 
 
 ## Build:
@@ -2219,15 +2166,8 @@ Fix maybe-uninitialized warning in unseal_and_spill_test
 Cache vcpkg installed packages in MSVC CI
 Build instruction and files for Visual Studio Code
 Demote GCC 16 -Wsfinae-incomplete to warning
-Fix SDL3 release artifacts for Linux, macOS, Windows
+Proper SDL support
 Migrate Android to SDL3 via CMake + prefab AAR; drop SDL2 customs; bump buildkit
-Skip ccache CMake launcher on Android when ccache absent
-CMake+vcpkg to select SDL3 or SDL2
-Bundle the SDL3 stack into release artifacts
-Let dmgbuild size macOS disk images
-Fix hardcoded FreeType include path breaking CMake builds on Windows/MSYS2
-Make SDL3 the default tiled build
-Use CMake FreeType target for ImGui
 
 
 ## I18N and A11Y:
