@@ -150,7 +150,7 @@
     "type": "profession",
     "id": "wise_one_apprentice",
     "name": "Apprentice to the Wise",
-    "description": "From your birth, you were in contact with the spirit world.  You were trained in the ways of the spirits and intermediated between them and your tribe.  In time, one of the Wise came to your village to induct you into the deeper mysteries, but they vanished before completing your training.  Now that you're alone, you'll need to contact the spirits of this new place and learn their ways.",
+    "description": "From your birth, you were in contact with the spirit world.  You were trained in the ways of the spirits and mediated between them and your tribe.  In time, one of the Wise came to your village to induct you into the deeper mysteries, but they vanished before completing your training.  Now that you're alone, you'll need to contact the spirits of this new place and learn their ways.",
     "points": 3,
     "skills": [ { "level": 1, "name": "firstaid" }, { "level": 3, "name": "deduction" }, { "level": 1, "name": "survival" } ],
     "spells": [

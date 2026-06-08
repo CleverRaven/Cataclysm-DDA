@@ -58,12 +58,12 @@
     "type": "forest_biome_mapgen",
     "id": "biome_forest_thick_default",
     "copy-from": "biome_forest_thick_default",
-    "extend": { "terrains": [ "xedrawood_wise_one_hut" ] }
+    "extend": { "terrains": [ "xedrawood_scenario_wise_one_hut" ] }
   },
   {
     "type": "forest_biome_mapgen",
     "id": "biome_forest_default",
     "copy-from": "biome_forest_default",
-    "extend": { "terrains": [ "xedrawood_wise_one_hut" ] }
+    "extend": { "terrains": [ "xedrawood_scenario_wise_one_hut" ] }
   }
 ]
