@@ -275,7 +275,7 @@
     "material": [ "wood", "copper" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "CUT", 1 ], [ "AXE", 1 ], [ "BUTCHER", -44 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "AXE", "level": 1, "speed": 2.2 }, { "id": "BUTCHER", "level": -44 } ],
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
     "weapon_category": [ "HAND_AXES" ],
     "melee_damage": { "bash": 7, "cut": 14 }
@@ -296,7 +296,7 @@
     "symbol": "/",
     "color": "yellow",
     "looks_like": "ax",
-    "qualities": [ [ "CUT", 1 ], [ "AXE", 2 ], [ "BUTCHER", -30 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "AXE", "level": 2, "speed": 1.5 }, { "id": "BUTCHER", "level": -30 } ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ],
     "melee_damage": { "bash": 12, "cut": 24 }
@@ -319,7 +319,13 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
     "weapon_category": [ "HAND_AXES" ],
-    "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "BUTCHER", 16 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "AXE", "level": 2, "speed": 1.5 },
+      { "id": "BUTCHER", "level": 16 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "HAMMER_FINE", "level": 1 }
+    ],
     "melee_damage": { "bash": 10, "cut": 20 }
   },
   {
