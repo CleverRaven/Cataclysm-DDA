@@ -734,8 +734,8 @@ check do you have 3 manuals in inventory
 - type: [variable object](#variable-object)
 - return true if alpha or beta talker has software specified as `item` in one of the devices in their inventory
 - `item` - the software we are looking for
-- `charges` - optionally, the device in which the software is found has to have at least this number of charges or be plugged into a power grid (if omitted or 0, devices with no charges are matched too)
-- `device` - optionally, match only the software in this device
+- `charges` - optional, the device in which the software is found has to have at least this number of charges or be plugged into a power grid (if omitted or 0, devices with no charges are matched too)
+- `device` - optional, match only the software in this device
 
 #### Valid talkers:
 

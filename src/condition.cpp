@@ -815,7 +815,8 @@ conditional_t::func f_has_software( const JsonObject &jo, std::string_view membe
 
     str_or_var software_id = get_str_or_var( has_software.get_member( "item" ), "item", true );
     dbl_or_var charges = get_dbl_or_var( has_software, "charges", false, 0.0 );
-    str_or_var device_id = get_str_or_var( has_software.get_member( "device" ), "device", false );
+    str_or_var device_id;
+    optional( has_software, false, "device", device_id );
 
     return [software_id, charges, device_id, is_npc]( const_dialogue const & d ) {
         const_talker const *actor = d.const_actor( is_npc );
