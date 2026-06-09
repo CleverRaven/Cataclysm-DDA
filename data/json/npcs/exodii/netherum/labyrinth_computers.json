@@ -116,7 +116,8 @@
         "text": "[Place your hand on the stone]",
         "topic": "TALK_DONE",
         "effect": [
-          { "math": [ "u_vitamin('blood') -= 250" ] },
+          { "math": [ "u_vitamin('blood') -= 12500" ] },
+          { "math": [ "u_vitamin('redcells') -= 12500" ] },
           { "u_location_variable": { "context_val": "loc" } },
           { "reveal_map": { "context_val": "loc" }, "radius": 30 },
           {
@@ -189,7 +190,8 @@
         "text": "[ Prick yourself on the needle ]",
         "topic": "COMP_LS_Passcode_Door4blood",
         "effect": [
-          { "math": [ "u_vitamin('blood') *= 0.75" ] },
+          { "math": [ "u_vitamin('blood') -= -12500" ] },
+          { "math": [ "u_vitamin('redcells') -= -12500" ] },
           { "math": [ "npc_LS_door_requests += 1" ] },
           { "run_eocs": [ "EOC_LS_ReallyUnlock" ] }
         ]
