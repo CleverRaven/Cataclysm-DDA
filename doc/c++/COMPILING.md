@@ -611,6 +611,10 @@ The Cataclysm source is compiled using `make`.
 
 In addition to the options above, there is an `app` make target which will package the tiles build into `Cataclysm.app`, a complete tiles build in a Mac application that can run without Terminal.
 
+For Homebrew, install `dylibbundler` before using the `app` target:
+
+    brew install dylibbundler
+
 For more info, see the comments in the [Makefile](../../Makefile).
 
 ### Make examples
