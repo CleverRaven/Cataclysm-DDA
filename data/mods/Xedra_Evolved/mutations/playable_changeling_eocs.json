@@ -494,6 +494,38 @@
       {
         "if": { "u_has_effect": "conjunctivitis", "bodypart": "eyes" },
         "then": [ { "u_lose_effect": "conjunctivitis", "target_part": "eyes" }, { "math": [ "u_val('sleepiness') += 35" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "tetanus" },
+        "then": [ { "u_lose_effect": "tetanus" }, { "math": [ "u_val('sleepiness') += 75" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "rat_bite_fever" },
+        "then": [ { "u_lose_effect": "rat_bite_fever" }, { "math": [ "u_val('sleepiness') += 60" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "bloodworms" },
+        "then": [ { "u_lose_effect": "bloodworms" }, { "math": [ "u_val('sleepiness') += 50" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "brainworms" },
+        "then": [ { "u_lose_effect": "brainworms" }, { "math": [ "u_val('sleepiness') += 60" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "tapeworm" },
+        "then": [ { "u_lose_effect": "tapeworm" }, { "math": [ "u_val('sleepiness') += 75" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "fungus" },
+        "then": [ { "u_lose_effect": "fungus" }, { "math": [ "u_val('sleepiness') += 150" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "blood_spiders" },
+        "then": [ { "u_lose_effect": "blood_spiders" }, { "math": [ "u_val('sleepiness') += 125" ] } ]
+      },
+      {
+        "if": { "and": [ { "u_has_effect": "vampire_virus" }, { "not": { "u_has_trait": "VAMPIRE" } } ] },
+        "then": [ { "u_lose_effect": "vampire_virus" }, { "math": [ "u_val('sleepiness') += 200" ] } ]
       }
     ]
   },
