@@ -277,7 +277,7 @@ jobs:
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.tiles == 1 && matrix.sdl3 == 1 }}
       uses: ./.github/actions/setup-sdl3-stack
       with:
-        cache-key: sdl3-stack-strict-sdl-3.4.10-image-3.4.4-ttf-3.2.2-mixer-3.2.4-ubuntu-24.04-v1
+        cache-key: sdl3-stack-strict-sdl-3.4.10-image-3.4.4-ttf-3.2.2-mixer-3.2.4-ubuntu-24.04-v2
         prefix: ${{ runner.workspace }}/sdl3_prefix
     - name: install recent ccache on ubuntu
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
