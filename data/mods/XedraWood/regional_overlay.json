@@ -41,5 +41,29 @@
     "id": "forest_thick",
     "copy-from": "forest_thick",
     "extend": { "extras": [ [ "mx_warped_tree_grove", 10 ], [ "mx_campfire_remnants", 5 ] ] }
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "forest_thick",
+    "copy-from": "forest_thick",
+    "extend": { "extras": [ [ "mx_warped_tree_grove", 10 ], [ "mx_campfire_remnants", 5 ] ] }
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "ravine_bottom",
+    "copy-from": "ravine_bottom",
+    "extend": { "extras": [ [ "mx_warped_tree_grove", 10 ] ] }
+  },
+  {
+    "type": "forest_biome_mapgen",
+    "id": "biome_forest_thick_default",
+    "copy-from": "biome_forest_thick_default",
+    "extend": { "terrains": [ "xedrawood_scenario_wise_one_hut" ] }
+  },
+  {
+    "type": "forest_biome_mapgen",
+    "id": "biome_forest_default",
+    "copy-from": "biome_forest_default",
+    "extend": { "terrains": [ "xedrawood_scenario_wise_one_hut" ] }
   }
 ]

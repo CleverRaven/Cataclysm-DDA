@@ -1,6 +1,17 @@
 [
   {
     "type": "overmap_terrain",
+    "id": [ "xedrawood_scenario_wise_one_hut" ],
+    "name": "dwelling",
+    "copy-from": "cabin_7"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "xedrawood_scenario_wise_one_hut_roof" ],
+    "copy-from": "cabin_roof_7"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "forest_tomb",
     "name": "ancient tomb",
     "sym": "T",

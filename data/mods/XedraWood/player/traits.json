@@ -1,6 +1,39 @@
 [
   {
     "type": "mutation",
+    "id": "XEDRA_WOOD_COMPUTER_ILLITERATE",
+    "name": { "str": "Traditional Mindset" },
+    "description": "What survives from the past has proved its worth.  A new thing is risky--who knows if it will stand the test of time?  You cannot use modern technology.",
+    "points": -5,
+    "starting_trait": false,
+    "valid": false,
+    "player_display": false,
+    "enchantments": [ { "skills": [ { "value": "computer", "multiply": -1 } ] } ],
+    "flags": [ "CANNOT_USE_COMPUTERS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "XEDRAWOOD_THE_WISE",
+    "name": { "str": "The Wise" },
+    "points": 0,
+    "description": "You are one of the Wise, capable of performing the deeper mysteries having undergone the ordeal to bond your soul to one of the great natural forces of the Earth, the Forest, the Moon, the Sea, or the Sky.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          {
+            "value": "MAX_MANA",
+            "add": { "math": [ "( (u_spell_count('school': 'FOREST_MAGIC') ) * 72) + (u_skill('deduction') * 145)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "WITCHSIGHT",
     "name": { "str": "Witch-Sight" },
     "points": 2,
@@ -55,5 +88,16 @@
         ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "FOREST_MAGIC",
+    "name": "Forest-Wise",
+    "points": 0,
+    "description": "You underwent the Ordeal of the Weald and bonded your soul to the Forest, and the forest spirits allow to draw on a portion of their power.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "flags": [ "ATTUNEMENT", "TREE_COMMUNION_PLUS" ]
   }
 ]
