@@ -240,10 +240,10 @@
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_PROJECTILE", "NO_FAIL", "IGNORE_WALLS" ]
   },
   {
-  "type": "effect_on_condition",
-  "id": "EOC_FORGE_LOCKDOWN",
-  "condition": { "not": { "u_has_trait": "VAULT_DEFENDER" } },
-  "effect": { "u_add_trait": "MARK_FOR_DEATH_VALZAIN" }
+    "type": "effect_on_condition",
+    "id": "EOC_FORGE_LOCKDOWN",
+    "condition": { "not": { "u_has_trait": "VAULT_DEFENDER" } },
+    "effect": { "u_add_trait": "MARK_FOR_DEATH_VALZAIN" }
   },
   {
     "type": "effect_on_condition",
