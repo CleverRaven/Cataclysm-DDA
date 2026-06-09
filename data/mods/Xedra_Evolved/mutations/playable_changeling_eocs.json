@@ -525,11 +525,7 @@
       },
       {
         "if": { "and": [ { "u_has_effect": "vampire_virus" }, { "not": { "u_has_trait": "VAMPIRE" } } ] },
-        "then": [
-          { "u_lose_effect": "vampire_virus" },
-          { "math": [ "u_val('sleepiness') += 200" ] },
-          { "u_add_effect": "curevamp", "duration": "24 hours" }
-        ]
+        "then": [ { "u_lose_effect": "vampire_virus" }, { "math": [ "u_val('sleepiness') += 200" ] } ]
       }
     ]
   },
