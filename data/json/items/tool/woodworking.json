@@ -508,7 +508,12 @@
     "material": [ "stone" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -50 ], [ "AXE", 1 ], [ "HAMMER", 1 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "AXE", "level": 1, "speed": 12 },
+      { "id": "BUTCHER", "level": -50 },
+      { "id": "HAMMER", "level": 1 }
+    ],
     "flags": [ "SHEATH_AXE" ],
     "melee_damage": { "bash": 3, "cut": 11 }
   },
@@ -521,6 +526,12 @@
     "description": "A chunk of steel with one edge hammered down to something resembling a cutting edge.  It works passably well, but really can't compare to a proper axe.",
     "material": [ "steel" ],
     "flags": [ "SHEATH_AXE" ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "AXE", "level": 1, "speed": 7 },
+      { "id": "BUTCHER", "level": -50 },
+      { "id": "HAMMER", "level": 1 }
+    ],
     "melee_damage": { "bash": 5, "cut": 12 }
   },
   {
