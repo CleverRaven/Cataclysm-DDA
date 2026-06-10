@@ -2454,5 +2454,25 @@
         "breathability": "GOOD"
       }
     ]
+  },
+  {
+    "id": "internal_bio_purifier",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "Air Filtration System" },
+    "description": "Surgically implanted in your trachea is an advanced filtration system.  If toxins or airborne diseases find their way into your windpipe, the filter will attempt to remove them.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "nanotubes" ],
+    "material_thickness": 0.01,
+    "symbol": "x",
+    "color": "light_red",
+    "warmth": 0,
+    "environmental_protection": 16,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL" ],
+    "armor": [ { "covers": [ "mouth", "muzzle", "beak" ], "coverage": 100, "encumbrance": 0 } ]
   }
 ]
