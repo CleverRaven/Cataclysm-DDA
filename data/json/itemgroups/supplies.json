@@ -929,7 +929,7 @@
     "items": [
       { "item": "water_clean", "prob": 90, "charges": [ 1, -1 ], "container-item": "bottle_plastic", "sealed": false },
       { "item": "salt_water", "prob": 20, "charges": [ 1, -1 ] },
-      { "item": "detergent", "prob": 10, "count": [ 1, 20 ] },
+      { "group": "detergent_small_box_part", "prob": 10 },
       { "group": "borax_box_part", "prob": 10 },
       { "item": "bleach", "prob": 10, "charges": [ 10, -1 ] },
       { "item": "ammonia_liquid", "prob": 20, "charges": [ 6, -1 ] },
