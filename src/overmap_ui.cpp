@@ -2066,6 +2066,11 @@ static bool try_travel_to_destination( avatar &player_character, const tripoint_
     return false;
 }
 
+static bool should_quit_overmap_mode_after_action( const std::string &action )
+{
+    return action == "QUIT" || action == "CONFIRM";
+}
+
 static tripoint_abs_omt display()
 {
     // HACK: Remove saved land use code uistate for people who might have accidentally turned it on previously, before it was debug-only
@@ -2169,6 +2174,7 @@ static tripoint_abs_omt display()
     std::string action;
     data.show_explored = true;
     int fast_scroll_offset = get_option<int>( "FAST_SCROLL_OFFSET" );
+    bool sticky_fast_scroll = get_option<bool>( "STICKY_FAST_SCROLL_OVERMAP" );
     std::optional<tripoint_rel_omt> mouse_pos;
     std::chrono::time_point<std::chrono::steady_clock> last_blink = std::chrono::steady_clock::now();
     std::chrono::time_point<std::chrono::steady_clock> last_advance = std::chrono::steady_clock::now();
@@ -2396,7 +2402,12 @@ static tripoint_abs_omt display()
             }
             last_blink = now;
         }
-    } while( action != "QUIT" && action != "CONFIRM" );
+
+        if( uistate.overmap_fast_scroll && !sticky_fast_scroll &&
+            should_quit_overmap_mode_after_action( action ) ) {
+            uistate.overmap_fast_scroll = false;
+        }
+    } while( !should_quit_overmap_mode_after_action( action ) );
     if( !keep_overmap_ui ) {
         ui::omap::force_quit();
     } else {

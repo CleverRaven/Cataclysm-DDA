@@ -2217,6 +2217,16 @@ void options_manager::add_options_interface()
              1, 50, 5
            );
 
+        add( "STICKY_FAST_SCROLL", page_id, to_translation( "Sticky fast scroll" ),
+             to_translation( "If true, fast scroll will stay enabled after looking around." ),
+             true
+           );
+
+        add( "STICKY_FAST_SCROLL_OVERMAP", page_id, to_translation( "Sticky fast scroll (overmap)" ),
+             to_translation( "If true, fast scroll will stay enabled after exiting the overmap." ),
+             true
+           );
+
         add( "MENU_SCROLL", page_id, to_translation( "Centered menu scrolling" ),
              to_translation( "If true, menus will start scrolling in the center of the list, and keep the list centered." ),
              true
