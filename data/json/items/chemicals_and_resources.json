@@ -1418,11 +1418,11 @@
   },
   {
     "type": "ITEM",
-    "id": "detergent powder",
+    "id": "detergent",
     "category": "chems",
     "price": "50 cent",
     "price_postapoc": "10 cent",
-    "name": { "str_sp": "detergent" },
+    "name": { "str_sp": "detergent powder" },
     "symbol": "=",
     "color": "white",
     "description": "A popular pre-Cataclysm washing powder.",
