@@ -5960,6 +5960,12 @@ std::optional<tripoint_bub_ms> game::look_around()
     return result.position;
 }
 
+static bool should_quit_look_around_mode_after_action( const std::string &action )
+{
+    return action == "QUIT" || action == "CONFIRM" || action == "SELECT" || action == "TRAVEL_TO" ||
+           action == "throw_blind" || action == "throw_blind_wielded";
+}
+
 look_around_result game::look_around(
     const bool show_window, tripoint_bub_ms &center, const tripoint_bub_ms &start_point,
     bool has_first_point,
@@ -5979,6 +5985,7 @@ look_around_result game::look_around(
     int &lz = lp.z();
 
     int soffset = get_option<int>( "FAST_SCROLL_OFFSET" );
+    bool sticky_fast_scroll = get_option<bool>( "STICKY_FAST_SCROLL" );
     static bool fast_scroll = false;
 
     std::unique_ptr<ui_adaptor> ui;
@@ -6284,8 +6291,11 @@ look_around_result game::look_around(
             zoom_out();
             mark_main_ui_adaptor_resize();
         }
-    } while( action != "QUIT" && action != "CONFIRM" && action != "SELECT" && action != "TRAVEL_TO" &&
-             action != "throw_blind" && action != "throw_blind_wielded" );
+
+        if( fast_scroll && !sticky_fast_scroll && should_quit_look_around_mode_after_action( action ) ) {
+            fast_scroll = false;
+        }
+    } while( !should_quit_look_around_mode_after_action( action ) );
 
     if( center.z() != old_levz ) {
         here.invalidate_map_cache( old_levz );
