@@ -9,7 +9,7 @@
     "name_unique": "Phyliss Thomason",
     "gender": "female",
     "attitude": 0,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_HUNTER_BLOODTHORNE",
     "personality": { "aggression": 5, "bravery": 10, "collector": -3, "altruism": 3 },
     "faction": "vampire_hunters"

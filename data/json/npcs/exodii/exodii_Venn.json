@@ -7,7 +7,7 @@
     "class": "NC_EXODII_TYPE_1b_surgeon",
     "name_unique": "Venn",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_EXODII_VENN",
     "faction": "exodii"
   },

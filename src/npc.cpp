@@ -176,6 +176,37 @@ static void starting_clothes( npc &who, const npc_class_id &type, bool male );
 static void starting_inv( npc &who, const npc_class_id &type );
 static void starting_inv_ammo( npc &who, std::list<item> &res, int multiplier );
 
+template <typename T> struct enum_traits;
+
+template<>
+struct enum_traits<npc_mission> {
+    static constexpr npc_mission last = npc_mission::NPC_MISSION_LAST;
+};
+
+namespace io
+{
+template<>
+std::string enum_to_string<npc_mission>( npc_mission data )
+{
+    switch( data ) {
+            // *INDENT-OFF*
+        case npc_mission::NPC_MISSION_NULL: return "NULL";
+        case npc_mission::NPC_MISSION_LEGACY_1: return "LEGACY_1";
+        case npc_mission::NPC_MISSION_SHELTER: return "SHELTER";
+        case npc_mission::NPC_MISSION_SHOPKEEP: return "SHOPKEEP";
+        case npc_mission::NPC_MISSION_GUARD_ALLY: return "GUARD_ALLY";
+        case npc_mission::NPC_MISSION_GUARD: return "GUARD";
+        case npc_mission::NPC_MISSION_GUARD_PATROL: return "GUARD_PATROL";
+        case npc_mission::NPC_MISSION_ACTIVITY: return "ACTIVITY";
+        case npc_mission::NPC_MISSION_TRAVELLING: return "TRAVELLING";
+        case npc_mission::NPC_MISSION_CAMP_RESIDENT: return "CAMP_RESIDENT";
+        case npc_mission::NPC_MISSION_LAST: break;
+            // *INDENT-ON*
+    }
+    cata_fatal( "Invalid npc_mission" );
+}
+} // namespace io
+
 bool job_data::set_task_priority( const activity_id &task, int new_priority )
 {
     auto it = task_priorities.find( task );
@@ -352,7 +383,9 @@ void npc_template::load( const JsonObject &jsobj, std::string_view src )
         guy.set_attitude( NPCATT_NULL );
     }
     guy.set_attitude( static_cast<npc_attitude>( jsobj.get_int( "attitude" ) ) );
-    guy.mission = static_cast<npc_mission>( jsobj.get_int( "mission" ) );
+    if( jsobj.has_string( "mission" ) ) {
+        guy.mission = io::string_to_enum<npc_mission>( jsobj.get_string( "mission" ) );
+    }
     guy.chatbin.first_topic = jsobj.get_string( "chat" );
     if( jsobj.has_string( "mission_offered" ) ) {
         guy.miss_ids.emplace_back( jsobj.get_string( "mission_offered" ) );

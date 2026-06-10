@@ -41,7 +41,7 @@
     "gender": "male",
     "class": "NC_UICA_VEHICLE_MERCHANT",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_UICA_VEHICLE_MERCHANT",
     "faction": "UICA"
   },

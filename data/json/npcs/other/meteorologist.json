@@ -5,7 +5,7 @@
     "class": "NC_meteorologist",
     "name_suffix": "meteorologist",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_meteorologist_1",
     "faction": "no_faction",
     "mission_offered": "MISSION_meteorologist_1"

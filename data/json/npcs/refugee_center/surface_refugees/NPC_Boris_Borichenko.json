@@ -7,7 +7,7 @@
     "name_suffix": "Refugee",
     "class": "NC_REFUGEE_Boris",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_REFUGEE_Boris_1",
     "mission_offered": "MISSION_REFUGEE_Boris_CLEANUP",
     "faction": "free_merchants"

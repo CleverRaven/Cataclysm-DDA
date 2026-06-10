@@ -7,7 +7,7 @@
     "class": "MILITIA_MERCHANT",
     "attitude": 0,
     "name_suffix": "Survivor",
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_MILITIA_MAIN",
     "faction": "GM_militia_faction"
   },

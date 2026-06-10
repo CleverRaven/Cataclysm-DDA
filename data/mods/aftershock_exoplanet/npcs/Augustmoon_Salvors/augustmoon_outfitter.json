@@ -110,7 +110,7 @@
     "name_suffix": "outfitter clerk",
     "class": "NC_AUGUSTMOON_OUTFITTER",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_AUGUSTMOON_OUTFITTER",
     "faction": "UICA"
   },

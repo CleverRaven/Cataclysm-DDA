@@ -6,7 +6,7 @@
     "name_suffix": "Guard",
     "class": "NC_FREE_MERCH_GUARD",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_GUARD",
     "faction": "free_merchants"
   },
@@ -17,7 +17,7 @@
     "name_suffix": "Guard",
     "class": "NC_FREE_MERCH_GUARD_NIGHT",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_GUARD",
     "faction": "free_merchants"
   },
