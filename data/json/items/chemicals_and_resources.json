@@ -76,7 +76,7 @@
     "price_postapoc": "0 cent",
     "name": { "str_sp": "graphite powder" },
     "symbol": "!",
-    "description": "A handful of graphite in powder form. Produces gray or black marks that are easily erased, but otherwise resistant to moisture, most chemicals, ultraviolet radiation, and natural aging.  Useful as a lubricant in metalworking.",
+    "description": "A handful of graphite in powder form. Produces gray or black marks that are easily erased, but otherwise resistant to moisture, most chemicals, ultraviolet radiation, and natural aging.  Useful as a dry lubricant in metalworking. mixed with clay to form crucibles or creating casting molds, or mixed with oil to create a lubricant",
     "material": [ "dense_powder_nonflam" ],
     "display_type": "BY_WEIGHT",
     "volume": "1 ml",
