@@ -108,11 +108,25 @@
     "items": [ { "item": "red_phosphorous", "count": 188 } ]
   },
   {
-    "id": "redphosphorous_small_bottle_part",
+    "id": "whitephosphorous_small_bottle_part",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
     "//": "8 oz bottle, opened with a variable amount",
     "items": [ { "item": "red_phosphorous", "count": [ 2, 188 ] } ]
+  },
+      {
+    "id": "whitephosphorous_small_bottle",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, filled 80% as new",
+    "items": [ { "item": "white_phosphorous", "count": 188 } ]
+  },
+  {
+    "id": "redphosphorous_small_bottle_part",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, opened with a variable amount",
+    "items": [ { "item": "white_phosphorous", "count": [ 2, 188 ] } ]
   },
     {
     "id": "maganesedioxide_small_bottle",
