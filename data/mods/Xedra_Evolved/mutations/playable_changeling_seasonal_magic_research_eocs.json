@@ -442,7 +442,12 @@
     "type": "effect_on_condition",
     "id": "EOC_CHANGELING_USE_DREAMDROSS_TO_RESEARCH_NEW_SPELLS",
     "condition": {
-      "u_has_items": { "item": "scrap_dreamdross", "count": { "math": [ "u_changeling_seasonal_magic_dreamdross_research_cost" ] } }
+      "and": [
+        {
+          "u_has_items": { "item": "scrap_dreamdross", "count": { "math": [ "u_changeling_seasonal_magic_dreamdross_research_cost" ] } }
+        },
+        { "not": { "u_has_trait": "VAMPIRE" } }
+      ]
     },
     "effect": [
       { "u_message": "You reach into the dreamdross and draw on the dreams of mortals for inspiration.", "type": "good" },
@@ -482,8 +487,15 @@
     ],
     "false_effect": [
       {
-        "u_message": "You don't have enough dreamdross for your research into new magicks to be effective.  You need at least <u_val:changeling_seasonal_magic_dreamdross_research_cost> scraps of dreamdross.",
-        "type": "bad"
+        "if": { "u_has_trait": "VAMPIRE" },
+        "then": {
+          "u_message": "You try to research new magicks but you can't think about anything but finding some warm, delicious blood to sate your thirst.",
+          "type": "bad"
+        },
+        "else": {
+          "u_message": "You don't have enough dreamdross for your research into new magicks to be effective.  You need at least <u_val:changeling_seasonal_magic_dreamdross_research_cost> scraps of dreamdross.",
+          "type": "bad"
+        }
       }
     ]
   },

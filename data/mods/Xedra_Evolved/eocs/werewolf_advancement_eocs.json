@@ -50,7 +50,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WEREWOLVES_GAIN_MORE_POWERS",
-    "condition": { "u_has_effect": "effect_werewolf_gain_more_powers" },
+    "condition": { "and": [ { "u_has_effect": "effect_werewolf_gain_more_powers" }, { "not": { "u_has_trait": "VAMPIRE" } } ] },
     "effect": [
       {
         "if": { "and": [ { "not": "is_day" }, "u_is_outside" ] },
@@ -84,7 +84,16 @@
         "else": { "u_message": "You must be outside under the moon to learn another Gift of the Moon.", "type": "mixed" }
       }
     ],
-    "false_effect": [ { "u_message": "You are not get ready for another Gift of the Moon.  Continue the hunt.", "type": "mixed" } ]
+    "false_effect": [
+      {
+        "if": { "u_has_trait": "VAMPIRE" },
+        "then": {
+          "u_message": "Your mind can't focus on the Moon.  You can only think about blood and how it's the only thing worth having.",
+          "type": "bad"
+        },
+        "else": { "u_message": "You are not get ready for another Gift of the Moon.  Continue the hunt.", "type": "mixed" }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
