@@ -76,28 +76,28 @@
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
     "//": "8 oz bottle, filled 80% as new",
-    "items": [ { "item": "chem_zinc_powder", "count": 188 } ]
+    "items": [ { "item": "chem_zinc_powder", "count": 122 } ]
   },
   {
     "id": "zincpowder_small_bottle_part",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
     "//": "8 oz bottle, opened with a variable amount",
-    "items": [ { "item": "chem_zinc_powder", "count": [ 2, 188 ] } ]
+    "items": [ { "item": "chem_zinc_powder", "count": [ 2, 122 ] } ]
   },
       {
     "id": "zincpowder_glass_flask",
     "type": "item_group",
-    "container-item": "bottle_plastic_355ml",
+    "container-item": "flask_glass",
     "//": "8 oz glass flask, filled 80% as new",
-    "items": [ { "item": "chem_zinc_powder", "count": 188 } ]
+    "items": [ { "item": "chem_zinc_powder", "count": 175 } ]
   },
   {
     "id": "zincpowder_glass_flask_part",
     "type": "item_group",
-    "container-item": "bottle_plastic_355ml",
+    "container-item": "flask_glass",
     "//": "8 oz glass flask, opened with a variable amount",
-    "items": [ { "item": "chem_zinc_powder", "count": [ 2, 188 ] } ]
+    "items": [ { "item": "chem_zinc_powder", "count": [ 2, 175 ] } ]
   },
   
     {
@@ -105,84 +105,84 @@
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
     "//": "8 oz bottle, filled 80% as new",
-    "items": [ { "item": "red_phosphorous", "count": 188 } ]
-  },
-  {
-    "id": "whitephosphorous_small_bottle_part",
-    "type": "item_group",
-    "container-item": "bottle_plastic_355ml",
-    "//": "8 oz bottle, opened with a variable amount",
-    "items": [ { "item": "red_phosphorous", "count": [ 2, 188 ] } ]
-  },
-      {
-    "id": "whitephosphorous_small_bottle",
-    "type": "item_group",
-    "container-item": "bottle_plastic_355ml",
-    "//": "8 oz bottle, filled 80% as new",
-    "items": [ { "item": "white_phosphorous", "count": 188 } ]
+    "items": [ { "item": "red_phosphorous", "count": 71 } ]
   },
   {
     "id": "redphosphorous_small_bottle_part",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
     "//": "8 oz bottle, opened with a variable amount",
-    "items": [ { "item": "white_phosphorous", "count": [ 2, 188 ] } ]
+    "items": [ { "item": "red_phosphorous", "count": [ 2, 71] } ]
+  },
+      {
+    "id": "whitephosphorous_small_bottle",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, filled 80% as new",
+    "items": [ { "item": "white_phosphorous", "count": 71 } ]
+  },
+  {
+    "id": "whitephosphorous_small_bottle_part",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, opened with a variable amount",
+    "items": [ { "item": "white_phosphorous", "count": [ 2, 71 ] } ]
   },
     {
     "id": "maganesedioxide_small_bottle",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
     "//": "8 oz bottle, filled 80% as new",
-    "items": [ { "item": "chem_manganese_dioxide", "count": 188 } ]
+    "items": [ { "item": "chem_manganese_dioxide", "count": 170 } ]
   },
   {
     "id": "manganesedioxide_small_bottle_part",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
     "//": "8 oz bottle, opened with a variable amount",
-    "items": [ { "item": "chem_manganese_dioxide", "count": [ 2, 188 ] } ]
+    "items": [ { "item": "chem_manganese_dioxide", "count": [ 2, 170 ] } ]
   },
       {
     "id": "chromiumoxide_small_bottle",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
     "//": "8 oz bottle, filled 80% as new",
-    "items": [ { "item": "chem_chromium_oxide", "count": 188 } ]
+    "items": [ { "item": "chem_chromium_oxide", "count": 165 } ]
   },
   {
     "id": "chromiumoxide_small_bottle_part",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
     "//": "8 oz bottle, opened with a variable amount",
-    "items": [ { "item": "chem_chromium_oxide", "count": [ 2, 188 ] } ]
+    "items": [ { "item": "chem_chromium_oxide", "count": [ 2, 165 ] } ]
   },
         {
     "id": "calciumcarbonate_small_bottle",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
     "//": "8 oz bottle, filled 80% as new",
-    "items": [ { "item": "chem_caco3", "count": 188 } ]
+    "items": [ { "item": "chem_caco3", "count": 322 } ]
   },
   {
     "id": "calciumcarbonate_small_bottle_part",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
     "//": "8 oz bottle, opened with a variable amount",
-    "items": [ { "item": "chem_caco3", "count": [ 2, 188 ] } ]
+    "items": [ { "item": "chem_caco3", "count": [ 2, 322 ] } ]
   },
           {
     "id": "calciumcarboide_small_bottle",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
     "//": "8 oz bottle, filled 80% as new",
-    "items": [ { "item": "chem_carbide", "count": 188 } ]
+    "items": [ { "item": "chem_carbide", "count": 355 } ]
   },
   {
     "id": "calciumcarbide_small_bottle_part",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
     "//": "8 oz bottle, opened with a variable amount",
-    "items": [ { "item": "chem_carbide", "count": [ 2, 188 ] } ]
+    "items": [ { "item": "chem_carbide", "count": [ 2, 355 ] } ]
   },
             {
     "id": "detergent_small_box",
