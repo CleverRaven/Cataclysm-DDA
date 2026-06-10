@@ -11,5 +11,11 @@ def parse_fault(json, origin):
     write_text(json["description"], origin,
                comment=f"Description of fault '{name}'")
 
+    write_text(json.get("message"), origin,
+               comment=f"Message of fault occur '{name}'")
+
     write_text(json.get("item_prefix"), origin,
                comment=f"Prefix for item's name '{name}'")
+
+    write_text(json.get("item_suffix"), origin,
+               comment=f"Suffix for item's name '{name}'")

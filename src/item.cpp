@@ -1825,12 +1825,12 @@ std::string item::display_name( unsigned int quantity ) const
                     }
                     amt = string_format( " (%s%s)",
                                          colorize( string_format( "%s/%s",
-                                                   type->count_or_volume_or_weight_prefix( amount ),
-                                                   type->count_or_volume_or_weight_prefix( max_amount ) ),
+                                                   type->item_measure_prefix( amount ),
+                                                   type->item_measure_prefix( max_amount ) ),
                                                    charges_color ),
                                          ammotext );
                 } else  {
-                    amt = string_format( " (%s%s)", type->count_or_volume_or_weight_prefix( amount ), ammotext );
+                    amt = string_format( " (%s%s)", type->item_measure_prefix( amount ), ammotext );
                 }
             }
         } else if( !ammotext.empty() ) {

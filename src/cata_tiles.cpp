@@ -14,6 +14,7 @@
 #include <optional>
 #include <set>
 #include <sstream>
+#include <stdexcept>
 #include <tuple>
 #include <unordered_set>
 #include <variant>
@@ -1151,6 +1152,19 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
             // dawn/dusk light, etc). Tint eligibility and color were precomputed
             // in the per-tile prepass above; row_tinted holds only eligible tiles.
             if( !row_tinted.empty() ) {
+#if SDL_MAJOR_VERSION >= 3
+                // Sprite rendering can leave a variant shader bound across same-variant
+                // runs. The tint overlay is plain renderer geometry/copy work, so it must
+                // start from null GPU render state or SDL3 may apply the sprite shader to
+                // only part of a row depending on which sprite path was hit first.
+                if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
+                    if( !vp->flush() ) {
+                        display_buffer_scope_signal_recovery_required();
+                        throw std::runtime_error(
+                            "cata_tiles::draw: variant_pass flush failed before tint overlay; renderer in undefined state" );
+                    }
+                }
+#endif
                 const int zlev_base = ( cur_zlevel - center.z() ) * zlevel_height;
                 if( iso ) {
                     // Iso: flat tint rect over the tile footprint (unchanged

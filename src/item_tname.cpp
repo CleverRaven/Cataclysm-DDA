@@ -311,10 +311,10 @@ std::string contents( item const &it, unsigned int /* quantity */,
             if( total_count == aggi_count ) {
                 return string_format(
                            segments[tname::segments::CONTENTS_COUNT]
-                           //~ [container item name] " > [count or volume or weight (depending on type)] [type]"
+                           //~ [container item name] " > [count or volume or weight or length (depending on type)] [type]"
                            ? npgettext( "item name", " > %1$s %2$s", " > %1$s %2$s", total_count )
                            : " > %2$s",
-                           contents_item.type->count_or_volume_or_weight_prefix( total_count ),
+                           contents_item.type->item_measure_prefix( total_count ),
                            ctnc );
             }
             return string_format(
