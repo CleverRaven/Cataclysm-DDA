@@ -90,7 +90,6 @@
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
     "//": "8 oz glass flask, filled 80% as new",
-    "//": "since MoM spawns powder in glass flasks",
     "items": [ { "item": "chem_zinc_powder", "count": 188 } ]
   },
   {
@@ -98,7 +97,6 @@
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
     "//": "8 oz glass flask, opened with a variable amount",
-    "//": "since MoM spawns powder in glass flasks",
     "items": [ { "item": "chem_zinc_powder", "count": [ 2, 188 ] } ]
   },
   
