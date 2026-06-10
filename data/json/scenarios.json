@@ -828,7 +828,7 @@
     "id": "beach_day",
     "name": "Beach day",
     "points": 0,
-    "description": "You do not remember why you went there but now you are at the beach.  It is nice to look at the waves an forget about the End Times.",
+    "description": "You do not remember why you went there but now you are at the beach.  It is nice to look at the waves and forget about the End Times.",
     "start_name": "Beach day",
     "allowed_locs": [ "sloc_ocean_shore" ],
     "reveal_locale": false,
