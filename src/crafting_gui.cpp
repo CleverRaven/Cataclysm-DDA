@@ -1121,7 +1121,7 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 if( total_yield > 1 ) {
                     //~ %1$s: success chance, %2$s: yield count, %3$s: time, %4$s: activity level
                     const std::string fmt = _( "%1$s chance to yield %2$s in %3$s of %4$s" );
-                    const std::string yield_as_string = recp.result()->count_or_volume_or_weight_prefix( total_yield );
+                    const std::string yield_as_string = recp.result()->item_measure_prefix( total_yield );
                     plain = string_format( fmt, chance_str, yield_as_string, time_str, activity_str );
                     colored = string_format( fmt,
                                              colorize( chance_str, success_col ),
@@ -2037,8 +2037,7 @@ void crafting_ui_impl::draw_requirement_tools( const requirement_data &req,
         } );
 
         // Label
-        std::string label = has_name ? string_format( "\u2022 %s: ", group_name ) :
-                            std::string( _( "\u2022 One of: " ) );
+        std::string label = string_format( _( "\u2022 %s: " ), has_name ? group_name : _( "One of" ) );
 
         if( is_expanded ) {
             // Expanded: label line, then each tool as a bullet below

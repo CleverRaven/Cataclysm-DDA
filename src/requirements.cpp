@@ -191,18 +191,18 @@ std::string item_comp::to_string( const int batch, const int avail ) const
                                              "%2$s %1$s (have infinite)",
                                              num_wanted ),
                                   item_temp.tname( 1, tname::base_item_name ),
-                                  type->count_or_volume_or_weight_prefix( num_wanted ) );
+                                  type->item_measure_prefix( num_wanted ) );
         } else if( avail > 0 ) {
             //~ %1$s: item name, %2$s: charge requirement (number or weight or volume of item, depending on type), %3%s: available charges (number or weight or volume of item, depending on type)
             return string_format( npgettext( "requirement", "%2$s %1$s (have %3$s)",
                                              "%2$s %1$s (have %3$s)", num_wanted ),
                                   item_temp.tname( 1, tname::base_item_name ),
-                                  type->count_or_volume_or_weight_prefix( num_wanted ),
-                                  type->count_or_volume_or_weight_prefix( avail ) );
+                                  type->item_measure_prefix( num_wanted ),
+                                  type->item_measure_prefix( avail ) );
         } else {
             //~ %1$s: item name, %2$s: charge requirement (number or weight or volume of item, depending on type)
             return string_format( npgettext( "requirement", "%2$s %1$s", "%2$s %1$s", num_wanted ),
-                                  item_temp.tname( 1, tname::base_item_name ), type->count_or_volume_or_weight_prefix( num_wanted ) );
+                                  item_temp.tname( 1, tname::base_item_name ), type->item_measure_prefix( num_wanted ) );
         }
     } else {
         if( avail == item::INFINITE_CHARGES ) {
@@ -211,19 +211,19 @@ std::string item_comp::to_string( const int batch, const int avail ) const
                                              "%2$s %1$s (have infinite)",
                                              num_wanted ),
                                   item_temp.tname( num_wanted, tname::base_item_name ),
-                                  type->count_or_volume_or_weight_prefix( num_wanted ) );
+                                  type->item_measure_prefix( num_wanted ) );
         } else if( avail > 0 ) {
             //~ %1$s: item name, %2$s: required count (number or weight or volume of item, depending on type), %3%d: available count (number or weight or volume of item, depending on type)
             return string_format( npgettext( "requirement", "%2$s %1$s (have %3$s)",
                                              "%2$s %1$s (have %3$s)", num_wanted ),
                                   item_temp.tname( num_wanted, tname::base_item_name ),
-                                  type->count_or_volume_or_weight_prefix( num_wanted ),
-                                  type->count_or_volume_or_weight_prefix( avail ) );
+                                  type->item_measure_prefix( num_wanted ),
+                                  type->item_measure_prefix( avail ) );
         } else {
             //~ %1$s: item name, %2$s: required count (number or weight or volume of item, depending on type)
             return string_format( npgettext( "requirement", "%2$s %1$s", "%2$s %1$s", num_wanted ),
                                   item_temp.tname( num_wanted, tname::base_item_name ),
-                                  type->count_or_volume_or_weight_prefix( num_wanted ) );
+                                  type->item_measure_prefix( num_wanted ) );
         }
     }
 }

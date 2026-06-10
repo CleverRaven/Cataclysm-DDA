@@ -1680,7 +1680,7 @@ struct itype {
 
         std::string get_item_type_string() const;
 
-        std::string count_or_volume_or_weight_prefix( unsigned int quantity ) const;
+        std::string item_measure_prefix( unsigned int quantity ) const;
 
         // Returns the name of the item type in the correct language and with respect to its grammatical number,
         // based on quantity (example: item type "anvil", nname(4) would return "anvils" (as in "4 anvils").

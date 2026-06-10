@@ -795,7 +795,7 @@ std::string inventory_selector_preset::get_caption( const inventory_entry &entry
     }
 
     return ( count > 1 ) ? string_format( "%s %s",
-                                          entry.any_item()->type->count_or_volume_or_weight_prefix( count ), disp_name ) : disp_name;
+                                          entry.any_item()->type->item_measure_prefix( count ), disp_name ) : disp_name;
 }
 
 std::string inventory_selector_preset::get_denial( const inventory_entry &entry ) const
@@ -4950,16 +4950,17 @@ pickup_selector::pickup_selector( Character &p, const inventory_selector_preset 
 #endif
 
     set_hint( string_format(
-                  _( "%s wield %s wear\n%s expand %s all\n%s examine %s/%s/%s quantity (or type number then %s)" ),
-                  colorize( ctxt.get_desc( "WIELD" ), c_yellow ),
-                  colorize( ctxt.get_desc( "WEAR" ), c_yellow ),
-                  colorize( ctxt.get_desc( "SHOW_HIDE_CONTENTS" ), c_yellow ),
-                  colorize( ctxt.get_desc( "SHOW_HIDE_CONTENTS_ALL" ), c_yellow ),
-                  colorize( ctxt.get_desc( "EXAMINE" ), c_yellow ),
-                  colorize( ctxt.get_desc( "MARK_WITH_COUNT" ), c_yellow ),
-                  colorize( ctxt.get_desc( "INCREASE_COUNT" ), c_yellow ),
-                  colorize( ctxt.get_desc( "DECREASE_COUNT" ), c_yellow ),
-                  colorize( ctxt.get_desc( "TOGGLE_ENTRY" ), c_yellow ) ) );
+                  _( "<color_yellow>%s</color> Wield  <color_yellow>%s</color> Wear  <color_yellow>%s</color> Expand  <color_yellow>%s</color> All  <color_yellow>%s</color> Examine\n"
+                     "Quantity: <color_yellow>%s</color> to mark selected  <color_yellow>%s</color>/<color_yellow>%s</color> to offset  type number then <color_yellow>%s</color> to set" ),
+                  ctxt.get_desc( "WIELD" ),
+                  ctxt.get_desc( "WEAR" ),
+                  ctxt.get_desc( "SHOW_HIDE_CONTENTS" ),
+                  ctxt.get_desc( "SHOW_HIDE_CONTENTS_ALL" ),
+                  ctxt.get_desc( "EXAMINE" ),
+                  ctxt.get_desc( "MARK_WITH_COUNT" ),
+                  ctxt.get_desc( "INCREASE_COUNT" ),
+                  ctxt.get_desc( "DECREASE_COUNT" ),
+                  ctxt.get_desc( "TOGGLE_ENTRY" ) ) );
 }
 
 void pickup_selector::apply_selection( std::vector<drop_location> selection )
@@ -5231,10 +5232,10 @@ unload_selector::unload_selector( Character &p,
 
 std::string unload_selector::hint_string()
 {
-    std::string mode = uistate.unload_auto_contain ? _( "Auto" ) : _( "Manual" );
     return string_format(
-               _( "[<color_yellow>%s</color>] Confirm [<color_yellow>%s</color>] Cancel [<color_yellow>%s</color>] Select destination(<color_yellow>%s</color>)" ),
-               ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "QUIT" ), ctxt.get_desc( "CONTAIN_MODE" ), mode );
+               _( "<color_yellow>%s</color> Confirm  <color_yellow>%s</color> Cancel  <color_yellow>%s</color> Select destination (<color_yellow>%s</color>)" ),
+               ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "QUIT" ), ctxt.get_desc( "CONTAIN_MODE" ),
+               uistate.unload_auto_contain ? _( "Auto" ) : _( "Manual" ) );
 }
 
 std::pair<item_location, bool> unload_selector::execute()
