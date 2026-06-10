@@ -820,7 +820,7 @@
       { "prob": 5, "item": "catfood_dry", "count": [ 2, -1 ] },
       { "group": "charcoal_bag_part", "prob": 5, "charges": [ 25, 50 ] },
       { "item": "soap", "prob": 70, "charges": [ 1, 10 ] },
-      { "group": "detergent_small_box_part", "prob": 25},
+      { "group": "detergent_small_box_part", "prob": 25 },
       { "group": "borax_box_part", "prob": 15 },
       { "item": "survnote", "prob": 1 },
       { "item": "cookbook_sushi", "prob": 5 },
