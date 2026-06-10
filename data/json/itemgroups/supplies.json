@@ -61,14 +61,128 @@
     "id": "graphite_small_bottle",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
-    "//": "8 oz",
+    "//": "8 oz bottle, filled 80% as new",
     "items": [ { "item": "graphite", "count": 118 } ]
   },
   {
     "id": "graphite_small_bottle_part",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, opened with a variable amount",
     "items": [ { "item": "graphite", "count": [ 2, 118 ] } ]
+  },
+    {
+    "id": "zincpowder_small_bottle",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, filled 80% as new",
+    "items": [ { "item": "chem_zinc_powder", "count": 188 } ]
+  },
+  {
+    "id": "zincpowder_small_bottle_part",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, opened with a variable amount",
+    "items": [ { "item": "chem_zinc_powder", "count": [ 2, 188 ] } ]
+  },
+  
+    {
+    "id": "redphosphorous_small_bottle",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, filled 80% as new",
+    "items": [ { "item": "red_phosphorous", "count": 188 } ]
+  },
+  {
+    "id": "redphosphorous_small_bottle_part",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, opened with a variable amount",
+    "items": [ { "item": "red_phosphorous", "count": [ 2, 188 ] } ]
+  },
+    {
+    "id": "maganesedioxide_small_bottle",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, filled 80% as new",
+    "items": [ { "item": "chem_manganese_dioxide", "count": 188 } ]
+  },
+  {
+    "id": "manganesedioxide_small_bottle_part",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, opened with a variable amount",
+    "items": [ { "item": "chem_manganese_dioxide", "count": [ 2, 188 ] } ]
+  },
+      {
+    "id": "chromiumoxide_small_bottle",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, filled 80% as new",
+    "items": [ { "item": "chem_chromium_oxide", "count": 188 } ]
+  },
+  {
+    "id": "chromiumoxide_small_bottle_part",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, opened with a variable amount",
+    "items": [ { "item": "chem_chromium_oxide", "count": [ 2, 188 ] } ]
+  },
+        {
+    "id": "calciumcarbonate_small_bottle",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, filled 80% as new",
+    "items": [ { "item": "chem_caco3", "count": 188 } ]
+  },
+  {
+    "id": "calciumcarbonate_small_bottle_part",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, opened with a variable amount",
+    "items": [ { "item": "chem_caco3", "count": [ 2, 188 ] } ]
+  },
+          {
+    "id": "calciumcarboide_small_bottle",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, filled 80% as new",
+    "items": [ { "item": "chem_carbide", "count": 188 } ]
+  },
+  {
+    "id": "calciumcarbide_small_bottle_part",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, opened with a variable amount",
+    "items": [ { "item": "chem_carbide", "count": [ 2, 188 ] } ]
+  },
+            {
+    "id": "detergent_small_box",
+    "type": "item_group",
+    "container-item": "box_small",
+    "//": "71 oz box, filled 80% as new",
+    "items": [ { "item": "chem_carbide", "count": 129 } ]
+  },
+  {
+    "id": "detergent_small_box_part",
+    "type": "item_group",
+    "container-item": "box_small",
+    "//": "71 oz box, opened with a variable amount",
+    "items": [ { "item": "chem_carbide", "count": [ 2, 129 ] } ]
+  },
+              {
+    "id": "magnesiumpowder_small_bag",
+    "type": "item_group",
+    "container-item": "box_small",
+    "//": "17 oz bag, filled 80% as new",
+    "items": [ { "item": "magnesium", "count": 200 } ]
+  },
+  {
+    "id": "magnesiumpowder_small_bag_part",
+    "type": "item_group",
+    "container-item": "box_small",
+    "//": "17 oz bag, opened with a variable amount",
+    "items": [ { "item": "magnesium", "count": [ 2, 200 ] } ]
   },
   {
     "id": "sandbag",
