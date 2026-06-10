@@ -360,7 +360,7 @@
     "name": { "str_sp": "sweetened coffee substitute with milk" },
     "calories": 88,
     "extend": { "flags": [ "EATEN_COLD" ] },
-    "description": "The morning ritual of the post-apocalyptic world.  Brewed from the Kentucky coffeetree, this drink has no actual caffeine, but serves as a replacement for those who dearly miss the aroma of real coffee.",
+    "description": "The morning ritual of the post-apocalyptic world.  Brewed from the Kentucky coffeetree, this drink has no actual caffeine, but serves as a replacement for those who dearly miss the aroma of real coffee. Can also be served cold.",
     "fun": 4
   },
   {
@@ -1751,7 +1751,7 @@
     "name": { "str_sp": "sweetened coffee milk" },
     "calories": 88,
     "extend": { "flags": [ "EATEN_COLD" ] },
-    "description": "Coffee syrup mixed into milk.  It's been the state drink of Rhode Island since 1993.  With added sweetener for those who like it even sweeter.",
+    "description": "Coffee syrup mixed into milk.  It's been the state drink of Rhode Island since 1993.  With added sweetener for those who like it even sweeter. Can also be served cold.",
     "price": "4 USD 90 cent",
     "price_postapoc": "60 cent",
     "fun": 14
