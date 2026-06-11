@@ -264,7 +264,7 @@
     "object": {
       "predecessor_mapgen": "forest",
       "palettes": [ "ravine_straight_parameters" ],
-      "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "24x24_ravine_straight_v1" } ], "x": 0, "y": 0 } ]
+      "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "24x24_ravine_straight_v1_bottom" } ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -298,7 +298,8 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "ravine" ]
+      "palettes": [ "ravine" ],
+      "place_nested": [ { "chunks": [ [ "null", 50 ], [ "innawood_ravine_cave", 1 ] ], "x": 5, "y": 3, "z": -2 } ]
     }
   },
   {
