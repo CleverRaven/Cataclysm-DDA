@@ -100,21 +100,21 @@
     "items": [ { "item": "chem_zinc_powder", "count": [ 2, 175 ] } ]
   },
   {
-    "id": "redphosphorous_small_bottle",
+    "id": "redphosphorus_small_bottle",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
     "//": "8 oz bottle, filled 80% as new",
     "items": [ { "item": "red_phosphorous", "count": 71 } ]
   },
   {
-    "id": "redphosphorous_small_bottle_part",
+    "id": "redphosphorus_small_bottle_part",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
     "//": "8 oz bottle, opened with a variable amount",
     "items": [ { "item": "red_phosphorous", "count": [ 2, 71 ] } ]
   },
   {
-    "id": "whitephosphorous_small_bottle",
+    "id": "whitephosphorus_small_bottle",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
     "//": "8 oz bottle, filled 80% as new",
@@ -128,7 +128,7 @@
     "items": [ { "item": "white_phosphorous", "count": [ 2, 71 ] } ]
   },
   {
-    "id": "maganesedioxide_small_bottle",
+    "id": "manganesedioxide_small_bottle",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
     "//": "8 oz bottle, filled 80% as new",
@@ -170,7 +170,7 @@
     "items": [ { "item": "chem_caco3", "count": [ 2, 322 ] } ]
   },
   {
-    "id": "calciumcarboide_small_bottle",
+    "id": "calciumcarbide_small_bottle",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
     "//": "8 oz bottle, filled 80% as new",
