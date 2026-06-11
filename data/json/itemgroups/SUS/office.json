@@ -119,7 +119,7 @@
       { "item": "apron_plastic", "prob": 40 },
       { "item": "chem_hydrogen_peroxide", "prob": 40, "charges": [ 4, -1 ] },
       { "item": "soap", "count": [ 1, 2 ], "prob": 70 },
-      { "item": "detergent", "count": [ 1, 2 ], "prob": 40 },
+      { "group": "detergent_small_box_part", "prob": 40 },
       { "group": "borax_box_part", "prob": 40 },
       { "item": "paper", "count": [ 1, 2 ], "prob": 90 }
     ]

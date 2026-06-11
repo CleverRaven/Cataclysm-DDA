@@ -78,13 +78,7 @@
             "prob": 30
           },
           { "item": "water_clean", "count": [ 6, 12 ], "prob": 20 },
-          {
-            "collection": [
-              { "item": "protein_bar_evac", "count": 12, "container-item": "box_small" },
-              { "item": "protein_bar_evac", "count": [ 8, 12 ], "container-item": "box_small" }
-            ],
-            "prob": 60
-          },
+          { "group": "full_box_of_evacuation_protein_bar", "prob": 60 },
           {
             "collection": [
               { "item": "extinguisher", "prob": 70, "charges": 100 },
@@ -98,7 +92,7 @@
           },
           {
             "collection": [
-              { "item": "detergent", "count": [ 0, 2 ] },
+              { "group": "detergent_small_box_part", "prob": 15 },
               { "group": "borax_box_part", "prob": 15 },
               { "item": "brush", "prob": 85 },
               { "item": "bleach", "prob": 45 },
@@ -147,13 +141,7 @@
             ],
             "prob": 50
           },
-          {
-            "collection": [
-              { "item": "protein_bar_evac", "count": [ 1, 12 ], "container-item": "box_small" },
-              { "item": "protein_bar_evac", "count": [ 0, 11 ], "container-item": "box_small" }
-            ],
-            "prob": 60
-          },
+          { "group": "box_of_evacuation_protein_bar", "prob": 60 },
           {
             "collection": [
               { "item": "extinguisher", "prob": 50, "charges": 100 },
@@ -166,7 +154,7 @@
           },
           {
             "collection": [
-              { "item": "detergent", "count": [ 0, 2 ] },
+              { "group": "detergent_small_box_part", "prob": 15 },
               { "group": "borax_box_part", "prob": 15 },
               { "item": "brush", "prob": 85 },
               { "item": "bleach", "charges": [ 1, -1 ], "prob": 45 },
