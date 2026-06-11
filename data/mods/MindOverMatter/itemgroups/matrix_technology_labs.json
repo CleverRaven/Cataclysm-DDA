@@ -8,7 +8,7 @@
       { "item": "bleach", "prob": 20, "charges": [ 1, -1 ] },
       { "item": "ether", "prob": 50, "charges": [ 100, -1 ] },
       { "item": "chem_aluminium_powder", "prob": 25, "container-item": "flask_glass" },
-      { "item": "chem_zinc_powder", "prob": 25, "container-item": "flask_glass" },
+      { "group": "zincpowder_glass_flask_part", "prob": 25 },
       { "group": "adderall_bottle_plastic_pill_prescription_1_10", "prob": 10 },
       { "group": "wallets_phavian", "prob": 3 },
       { "group": "distribution_matrix_dust", "prob": 80 },

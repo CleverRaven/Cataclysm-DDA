@@ -188,7 +188,6 @@
     "volume": "2 ml",
     "price": "50 USD",
     "price_postapoc": "1 cent",
-    "container": "bag_plastic_small",
     "material": [ "powder" ],
     "symbol": "=",
     "color": "dark_gray"

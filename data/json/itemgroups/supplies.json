@@ -61,14 +61,155 @@
     "id": "graphite_small_bottle",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
-    "//": "8 oz",
+    "//": "8 oz bottle, filled 80% as new",
     "items": [ { "item": "graphite", "count": 118 } ]
   },
   {
     "id": "graphite_small_bottle_part",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, opened with a variable amount",
     "items": [ { "item": "graphite", "count": [ 2, 118 ] } ]
+  },
+  {
+    "id": "zincpowder_small_bottle",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, filled 80% as new",
+    "items": [ { "item": "chem_zinc_powder", "count": 122 } ]
+  },
+  {
+    "id": "zincpowder_small_bottle_part",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, opened with a variable amount",
+    "items": [ { "item": "chem_zinc_powder", "count": [ 2, 122 ] } ]
+  },
+  {
+    "id": "zincpowder_glass_flask",
+    "type": "item_group",
+    "container-item": "flask_glass",
+    "//": "8 oz glass flask, filled 80% as new",
+    "items": [ { "item": "chem_zinc_powder", "count": 175 } ]
+  },
+  {
+    "id": "zincpowder_glass_flask_part",
+    "type": "item_group",
+    "container-item": "flask_glass",
+    "//": "8 oz glass flask, opened with a variable amount",
+    "items": [ { "item": "chem_zinc_powder", "count": [ 2, 175 ] } ]
+  },
+  {
+    "id": "redphosphorus_small_bottle",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, filled 80% as new",
+    "items": [ { "item": "red_phosphorous", "count": 71 } ]
+  },
+  {
+    "id": "redphosphorus_small_bottle_part",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, opened with a variable amount",
+    "items": [ { "item": "red_phosphorous", "count": [ 2, 71 ] } ]
+  },
+  {
+    "id": "whitephosphorus_small_bottle",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, filled 80% as new",
+    "items": [ { "item": "white_phosphorous", "count": 71 } ]
+  },
+  {
+    "id": "whitephosphorus_small_bottle_part",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, opened with a variable amount",
+    "items": [ { "item": "white_phosphorous", "count": [ 2, 71 ] } ]
+  },
+  {
+    "id": "manganesedioxide_small_bottle",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, filled 80% as new",
+    "items": [ { "item": "chem_manganese_dioxide", "count": 170 } ]
+  },
+  {
+    "id": "manganesedioxide_small_bottle_part",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, opened with a variable amount",
+    "items": [ { "item": "chem_manganese_dioxide", "count": [ 2, 170 ] } ]
+  },
+  {
+    "id": "chromiumoxide_small_bottle",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, filled 80% as new",
+    "items": [ { "item": "chem_chromium_oxide", "count": 165 } ]
+  },
+  {
+    "id": "chromiumoxide_small_bottle_part",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, opened with a variable amount",
+    "items": [ { "item": "chem_chromium_oxide", "count": [ 2, 165 ] } ]
+  },
+  {
+    "id": "calciumcarbonate_small_bottle",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, filled 80% as new",
+    "items": [ { "item": "chem_caco3", "count": 322 } ]
+  },
+  {
+    "id": "calciumcarbonate_small_bottle_part",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, opened with a variable amount",
+    "items": [ { "item": "chem_caco3", "count": [ 2, 322 ] } ]
+  },
+  {
+    "id": "calciumcarbide_small_bottle",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, filled 80% as new",
+    "items": [ { "item": "chem_carbide", "count": 355 } ]
+  },
+  {
+    "id": "calciumcarbide_small_bottle_part",
+    "type": "item_group",
+    "container-item": "bottle_plastic_355ml",
+    "//": "8 oz bottle, opened with a variable amount",
+    "items": [ { "item": "chem_carbide", "count": [ 2, 355 ] } ]
+  },
+  {
+    "id": "detergent_small_box",
+    "type": "item_group",
+    "container-item": "box_small",
+    "//": "71 oz box, filled 80% as new",
+    "items": [ { "item": "detergent", "count": 129 } ]
+  },
+  {
+    "id": "detergent_small_box_part",
+    "type": "item_group",
+    "container-item": "box_small",
+    "//": "71 oz box, opened with a variable amount",
+    "items": [ { "item": "detergent", "count": [ 2, 129 ] } ]
+  },
+  {
+    "id": "magnesiumpowder_small_bag",
+    "type": "item_group",
+    "container-item": "box_small",
+    "//": "17 oz bag, filled 80% as new",
+    "items": [ { "item": "magnesium", "count": 200 } ]
+  },
+  {
+    "id": "magnesiumpowder_small_bag_part",
+    "type": "item_group",
+    "container-item": "box_small",
+    "//": "17 oz bag, opened with a variable amount",
+    "items": [ { "item": "magnesium", "count": [ 2, 200 ] } ]
   },
   {
     "id": "sandbag",
@@ -777,8 +918,8 @@
       [ "chem_sulphuric_acid", 30 ],
       [ "chem_muriatic_acid", 35 ],
       [ "peephole", 25 ],
-      { "item": "chem_chromium_oxide", "prob": 5, "count": [ 100, -1 ] },
-      { "item": "chem_zinc_powder", "prob": 5, "count": [ 100, -1 ] },
+      { "group": "chromiumoxide_small_bottle_part", "prob": 5 },
+      { "group": "zincpowder_small_bottle_part", "prob": 5 },
       [ "denat_alcohol", 3 ],
       [ "methed_alcohol", 2 ],
       [ "lamp_oil", 25 ],
@@ -799,7 +940,7 @@
     "items": [
       { "item": "water_clean", "prob": 90, "charges": [ 1, -1 ], "container-item": "bottle_plastic", "sealed": false },
       { "item": "salt_water", "prob": 20, "charges": [ 1, -1 ] },
-      { "item": "detergent", "prob": 10, "count": [ 1, 20 ] },
+      { "group": "detergent_small_box_part", "prob": 10 },
       { "group": "borax_box_part", "prob": 10 },
       { "item": "bleach", "prob": 10, "charges": [ 10, -1 ] },
       { "item": "ammonia_liquid", "prob": 20, "charges": [ 6, -1 ] },
@@ -810,15 +951,15 @@
       [ "lye", 5 ],
       [ "lye_potassium", 5 ],
       { "group": "lye_powder_bottle_part", "prob": 10 },
-      { "item": "magnesium", "prob": 10, "count": [ 50, 100 ] },
+      { "group": "magnesiumpowder_small_bag_part", "prob": 10 },
       { "group": "charcoal_bag_part", "prob": 10 },
       { "prob": 10, "group": "chem_sulphur_bottle_plastic_small_100_inf" },
       [ "chunk_sulfur", 5 ],
       [ "chem_aluminium_powder", 10 ],
       [ "chem_aluminium_sulphate", 10 ],
       [ "chem_saltpetre", 10 ],
-      { "item": "red_phosphorous", "prob": 5, "count": [ 100, -1 ] },
-      { "item": "white_phosphorous", "prob": 5, "count": [ 100, -1 ] },
+      { "group": "redphosphorus_small_bottle_part", "prob": 5 },
+      { "group": "whitephosphorus_small_bottle_part", "prob": 5 },
       { "item": "bismuth", "prob": 5, "count": [ 1, -1 ] },
       { "item": "chem_benzene", "prob": 10, "charges": [ 1, -1 ] },
       { "item": "chem_toluene", "prob": 10, "charges": [ 1, -1 ] },
@@ -835,15 +976,15 @@
       { "item": "chem_acetic_acid", "prob": 10, "charges": [ 1, -1 ] },
       { "item": "chem_formaldehyde", "prob": 10, "charges": [ 1, -1 ] },
       { "item": "chem_acetone", "prob": 10, "charges": [ 1, -1 ] },
-      { "item": "chem_carbide", "prob": 10, "count": [ 100, -1 ] },
-      { "item": "chem_caco3", "prob": 10, "count": [ 100, -1 ] },
+      { "group": "calciumcarbide_small_bottle_part", "prob": 10 },
+      { "group": "calciumcarbonate_small_bottle_part", "prob": 10 },
       { "item": "mercury", "prob": 10, "charges": [ 100, -1 ] },
       { "item": "chem_sodium", "prob": 10, "charges": [ 100, -1 ] },
       { "item": "chem_potassium", "prob": 10, "charges": [ 100, -1 ] },
       [ "chem_ammonium_nitrate", 10 ],
-      { "item": "chem_chromium_oxide", "prob": 10, "count": [ 100, -1 ] },
-      { "item": "chem_zinc_powder", "prob": 10, "count": [ 100, -1 ] },
-      { "item": "chem_manganese_dioxide", "prob": 10, "count": [ 100, -1 ] },
+      { "group": "chromiumoxide_small_bottle_part", "prob": 10 },
+      { "group": "zincpowder_small_bottle_part", "prob": 10 },
+      { "group": "manganesedioxide_small_bottle_part", "prob": 10 },
       { "item": "chem_hydrogen_peroxide_conc", "prob": 10, "charges": [ 1, -1 ] },
       [ "material_rocksalt", 2 ],
       { "item": "ether", "prob": 10, "charges": [ 100, -1 ] },

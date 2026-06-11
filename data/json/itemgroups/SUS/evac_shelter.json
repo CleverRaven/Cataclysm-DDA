@@ -98,7 +98,7 @@
           },
           {
             "collection": [
-              { "item": "detergent", "count": [ 0, 2 ] },
+              { "group": "detergent_small_box_part", "prob": 15 },
               { "group": "borax_box_part", "prob": 15 },
               { "item": "brush", "prob": 85 },
               { "item": "bleach", "prob": 45 },
@@ -166,7 +166,7 @@
           },
           {
             "collection": [
-              { "item": "detergent", "count": [ 0, 2 ] },
+              { "group": "detergent_small_box_part", "prob": 15 },
               { "group": "borax_box_part", "prob": 15 },
               { "item": "brush", "prob": 85 },
               { "item": "bleach", "charges": [ 1, -1 ], "prob": 45 },

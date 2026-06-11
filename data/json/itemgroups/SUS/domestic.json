@@ -497,7 +497,7 @@
     "//2": "This group is for the cleaning materials under a kitchen sink.",
     "subtype": "collection",
     "entries": [
-      { "item": "detergent", "count": [ 1, 40 ], "container-item": "null", "entry-wrapper": "box_small" },
+      { "group": "detergent_small_box_part", "prob": 40 },
       { "group": "borax_box_part", "prob": 60 },
       { "item": "cotton_patchwork", "count": [ 1, 3 ] },
       { "item": "dish_towel", "count": [ 1, 6 ] },
