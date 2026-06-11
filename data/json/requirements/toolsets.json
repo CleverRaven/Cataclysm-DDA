@@ -374,8 +374,7 @@
       { "id": "PRY", "level": 1 },
       { "id": "DIG", "level": 3 }
     ],
-    "///": "The farrier's nail_puller can't be used with a hammer, but it probably has enough leverage on its own.",
-    "tools": [ [ [ "claw_bar", -1 ], [ "nail_puller_bronze", -1 ], [ "nail_puller", -1 ] ] ]
+    "tools": [ [ [ "claw_bar", -1 ], [ "nail_puller_bronze", -1 ] ] ]
   },
   {
     "id": "linoleum_removal_standard",
