@@ -6,7 +6,7 @@
     "class": "NC_SKY_ISLAND_HUMAN_AMMO_MERCHANT",
     "name_unique": "Tabani",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_SI_HUMAN_AMMO_MERCHANT",
     "faction": "sky_island_traders",
     "personality": { "aggression": -4, "bravery": -1, "collector": 6, "altruism": -1 },

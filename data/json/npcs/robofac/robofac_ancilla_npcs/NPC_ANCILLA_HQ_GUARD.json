@@ -6,7 +6,7 @@
     "name_suffix": "mercenary",
     "class": "NC_ANCILLA_GRUNT",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_ANCILLA_HQ_GUARD",
     "faction": "robofac_auxiliaries"
   },

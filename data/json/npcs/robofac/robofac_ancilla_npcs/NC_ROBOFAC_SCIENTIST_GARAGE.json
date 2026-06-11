@@ -6,7 +6,7 @@
     "name_suffix": "Hub Scientist",
     "class": "NC_ROBOFAC_SCIENTIST_GARAGE",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_ROBOFAC_SCIENTIST_GARAGE",
     "faction": "robofac_auxiliaries"
   },

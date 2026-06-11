@@ -6,7 +6,7 @@
     "name_suffix": "UICA Engineer",
     "class": "NC_UICA_GROUND_ENGINEER",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_UICA_GROUND_ENGINEER",
     "faction": "UICA"
   },

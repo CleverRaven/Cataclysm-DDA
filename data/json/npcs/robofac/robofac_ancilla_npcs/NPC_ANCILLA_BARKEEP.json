@@ -5,7 +5,7 @@
     "name_suffix": "Bartender",
     "class": "NC_ANCILLA_BARTENDER",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_ANCILLA_BARKEEP",
     "mission_offered": "MISSION_RANCH_BARTENDER_1",
     "faction": "robofac_auxiliaries"

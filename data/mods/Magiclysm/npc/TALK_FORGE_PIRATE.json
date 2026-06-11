@@ -5,7 +5,7 @@
     "name_suffix": "Former Pirate",
     "class": "NC_FORGE_PIRATE",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_FORGE_PIRATE",
     "faction": "forge_lords"
   },

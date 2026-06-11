@@ -6,7 +6,7 @@
     "name_suffix": "Scavenger Boss",
     "class": "NC_JUNK_SHOPKEEP",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_RANCH_SCAVENGER_1",
     "mission_offered": "MISSION_RANCH_SCAVENGER_1",
     "faction": "tacoma_commune"

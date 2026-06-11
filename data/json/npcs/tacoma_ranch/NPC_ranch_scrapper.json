@@ -6,7 +6,7 @@
     "name_suffix": "Scrapper",
     "class": "NC_HUNTER",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_RANCH_SCRAPPER",
     "faction": "tacoma_commune"
   },

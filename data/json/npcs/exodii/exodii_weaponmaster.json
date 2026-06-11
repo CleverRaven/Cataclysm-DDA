@@ -6,7 +6,7 @@
     "class": "NC_EXODII_TYPE_9_Weaponmaster",
     "name_unique": "Nine",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_WEAPONMASTER_INTRO_1",
     "faction": "exodii",
     "personality": { "aggression": -2, "bravery": 2, "collector": 2, "altruism": -2 }
