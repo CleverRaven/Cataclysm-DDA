@@ -293,7 +293,7 @@
           "Learn <trait_name:WEREWOLF_CURE_OUTSIDE_EFFECTS>",
           "Go Back."
         ],
-        "keys": [ "1", "2", "3", "4", "5" ],
+        "keys": [ "1", "2", "3", "4", "5", "6" ],
         "descriptions": [
           "<trait_name:WEREWOLF_SILVER_CLAWS>\n<trait_description:WEREWOLF_SILVER_CLAWS>",
           "<trait_name:WEREWOLF_MANA_BONUS_AFTER_KILL>\n<trait_description:WEREWOLF_MANA_BONUS_AFTER_KILL>",
