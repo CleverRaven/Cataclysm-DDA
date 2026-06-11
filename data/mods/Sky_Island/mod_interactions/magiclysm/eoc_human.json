@@ -1,0 +1,7 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_SKY_ISLAND_TRIFFID_MERCHANT",
+    "condition": { "u_has_trait": "SI_TRIFFID_DECOR_MUTATION" }
+  }
+]
