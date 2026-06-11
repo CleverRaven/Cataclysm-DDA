@@ -109,5 +109,18 @@
     "spoils_in": "8 days 16 hours",
     "fun": 0,
     "use_action": [ "BLECH" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "tanglevine_root",
+    "name": { "str": "tanglevine root" },
+    "weight": "210 g",
+    "color": "green",
+    "symbol": "%",
+    "description": "A thick, woody root from a tanglevine.  The end glistens as though sap were still flowing through it.",
+    "price": "10 USD",
+    "price_postapoc": "3 USD 10 cent",
+    "material": [ "veggy" ],
+    "volume": "350 ml"
   }
 ]
