@@ -282,6 +282,7 @@
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_THREE_WEREWOLF_MANA_BONUS_AFTER_KILL",
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_THREE_WEREWOLF_STRENGTH_BONUS",
           "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_THREE_WEREWOLF_BATTLE_FURY",
+          "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_THREE_WEREWOLF_CURE_OUTSIDE_EFFECTS",
           "EOC_WEREWOLF_LUNAR_GIFT_GO_BACK"
         ],
         "names": [
@@ -289,6 +290,7 @@
           "Learn <trait_name:WEREWOLF_MANA_BONUS_AFTER_KILL>",
           "Learn <trait_name:WEREWOLF_STRENGTH_BONUS>",
           "Learn <trait_name:WEREWOLF_BATTLE_FURY>",
+          "Learn <trait_name:WEREWOLF_CURE_OUTSIDE_EFFECTS>",
           "Go Back."
         ],
         "keys": [ "1", "2", "3", "4", "5" ],
@@ -297,6 +299,7 @@
           "<trait_name:WEREWOLF_MANA_BONUS_AFTER_KILL>\n<trait_description:WEREWOLF_MANA_BONUS_AFTER_KILL>",
           "<trait_name:WEREWOLF_STRENGTH_BONUS>\n<trait_description:WEREWOLF_STRENGTH_BONUS>",
           "<trait_name:WEREWOLF_BATTLE_FURY>\n<trait_description:WEREWOLF_BATTLE_FURY>",
+          "<trait_name:WEREWOLF_CURE_OUTSIDE_EFFECTS>\n<trait_description:WEREWOLF_CURE_OUTSIDE_EFFECTS>",
           "Go back to the Gift level selection."
         ],
         "allow_cancel": true
@@ -336,6 +339,15 @@
     "condition": { "not": { "u_has_trait": "WEREWOLF_BATTLE_FURY" } },
     "effect": [
       { "set_string_var": "WEREWOLF_BATTLE_FURY", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
+      { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "3 hours", "4 hours 30 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_LUNAR_GIFT_LEVEL_THREE_WEREWOLF_CURE_OUTSIDE_EFFECTS",
+    "condition": { "not": { "u_has_trait": "WEREWOLF_CURE_OUTSIDE_EFFECTS" } },
+    "effect": [
+      { "set_string_var": "WEREWOLF_CURE_OUTSIDE_EFFECTS", "target_var": { "u_val": "xe_werewolf_power_to_gain" } },
       { "u_assign_activity": "ACT_WEREWOLF_LEARNING_MOON_GIFT", "duration": [ "3 hours", "4 hours 30 minutes" ] }
     ]
   },
