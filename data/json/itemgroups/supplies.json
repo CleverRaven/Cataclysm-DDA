@@ -224,6 +224,18 @@
     "items": [ { "item": "material_sand", "count": [ 400, 2500 ] } ]
   },
   {
+    "id": "sandbag_canvas",
+    "type": "item_group",
+    "container-item": "bag_canvas",
+    "items": [ { "item": "material_sand", "count": 500 } ]
+  },
+  {
+    "id": "sandbag_canvas_part",
+    "type": "item_group",
+    "container-item": "bag_canvas",
+    "items": [ { "item": "material_sand", "count": [ 100, 500 ] } ]
+  },
+  {
     "id": "gravelbag",
     "type": "item_group",
     "container-item": "bag_durasack",
@@ -246,6 +258,19 @@
     "type": "item_group",
     "container-item": "bag_durasack",
     "items": [ { "item": "material_soil", "count": [ 1, 3 ] } ]
+  },
+  
+  {
+    "id": "earthbag_canvas",
+    "type": "item_group",
+    "container-item": "bag_canvas",
+    "items": [ { "item": "material_soil", "count": 2 } ]
+  },
+  {
+    "id": "earthbag_canvas_part",
+    "type": "item_group",
+    "container-item": "bag_canvas",
+    "items": [ { "item": "material_soil", "count": [ 1, 2 ] } ]
   },
   {
     "id": "concrete_bag",
