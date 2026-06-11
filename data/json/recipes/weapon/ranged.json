@@ -499,14 +499,24 @@
     "skills_required": [ [ "gun", 2 ] ],
     "difficulty": 5,
     "time": "16 h",
-    "book_learn": [ [ "text_gunsmith", 3 ], [ "textbook_anarch", 4], [ "manual_smg", 4 ] ],
+    "book_learn": [ [ "text_gunsmith", 3 ], [ "textbook_anarch", 4 ], [ "manual_smg", 4 ] ],
     "qualities": [ { "id": "DRILL", "level": 3 }, { "id": "SAW_M", "level": 2 }, { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "metal_file", -1 ] ], [ [ "angle_grinder", 100 ] ], [ [ "belt_grinder", 100 ] ], [ [ "pin_reamer", -1 ] ], [ [ "bench_vise", -1 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_gunsmithing_improv" }, 
-      { "proficiency": "prof_gunsmithing_basic" }
+    "tools": [
+      [ [ "metal_file", -1 ] ],
+      [ [ "angle_grinder", 100 ] ],
+      [ [ "belt_grinder", 100 ] ],
+      [ [ "pin_reamer", -1 ] ],
+      [ [ "bench_vise", -1 ] ]
     ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 5 ] ], [ [ "nuts_bolts", 15 ] ], [ [ "scrap", 33 ] ], [ [ "qt_wire", 1 ] ], [ [ "spring_medium", 1 ] ] ]
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_improv" }, { "proficiency": "prof_gunsmithing_basic" } ],
+    "components": [
+      [ [ "pipe", 2 ] ],
+      [ [ "sheet_metal", 5 ] ],
+      [ [ "nuts_bolts", 15 ] ],
+      [ [ "scrap", 33 ] ],
+      [ [ "qt_wire", 1 ] ],
+      [ [ "spring_medium", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
