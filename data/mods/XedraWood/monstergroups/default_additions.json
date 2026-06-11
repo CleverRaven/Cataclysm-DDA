@@ -34,11 +34,11 @@
       { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 40 },
       { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 10, "pack_size": [ 2, 5 ] },
       { "monster": "mon_tanglevine", "weight": 5, "cost_multiplier": 15 },
-      { "group": "GROUP_TRIFFID", "weight": 5, "cost_multiplier": 15, "pack_size": [ 2, 6 ] },
       { "group": "GROUP_FOREST_SPIRIT", "weight": 3, "cost_multiplier": 20 },
       { "group": "GROUP_CHANGELING_MIRRORED_FIELD", "weight": 3, "cost_multiplier": 10 },
       { "group": "GROUP_CHANGELING_MIRRORED_FIELD", "weight": 1, "cost_multiplier": 15, "pack_size": [ 2, 6 ] },
       { "group": "GROUP_CHANGELING_STRIKE_FORCE", "weight": 1, "cost_multiplier": 15, "pack_size": [ 2, 6 ] },
+      { "group": "GROUP_TRIFFID", "weight": 2, "cost_multiplier": 15, "pack_size": [ 2, 6 ] },
       { "group": "GROUP_OVERLAND_RENFIELD", "weight": 2, "cost_multiplier": 5 }
     ]
   },
@@ -141,7 +141,7 @@
     "type": "monstergroup",
     "id": "GROUP_FOREST_SPIRIT",
     "default": "mon_null",
-    "monsters": [ { "group": "mon_dryad", "weight": 200 }, { "group": "mon_dryad", "weight": 25, "pack_size": [ 2, 3 ] } ]
+    "monsters": [ { "monster": "mon_dryad", "weight": 200 }, { "monster": "mon_dryad", "weight": 25, "pack_size": [ 2, 3 ] } ]
   },
   {
     "type": "monstergroup",
