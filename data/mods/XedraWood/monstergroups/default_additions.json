@@ -16,10 +16,23 @@
       { "group": "GROUP_WILDERNESS_FOREST_INSECT", "weight": 75, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
       {
         "group": "GROUP_WILDERNESS_FOREST_REPTILE",
-        "weight": 10,
+        "weight": 30,
         "cost_multiplier": 5,
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
+      { "monster": "mon_claw_runner", "weight": 15, "cost_multiplier": 4 },
+      { "monster": "mon_claw_runner", "weight": 6, "cost_multiplier": 4, "pack_size": [ 2, 5 ] },
+      { "monster": "mon_claw_hunter", "weight": 6, "cost_multiplier": 30 },
+      { "monster": "mon_claw_hunter", "weight": 2, "cost_multiplier": 30, "pack_size": [ 2, 5 ] },
+      {
+        "group": "GROUP_HOLLOW_TRIBAL_WARPARTY",
+        "weight": 10,
+        "cost_multiplier": 2,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "group": "GROUP_HOLLOW_TRIBAL_HUNTPARTY", "weight": 35, "conditions": [ "DAY" ] },
+      { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 40 },
+      { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 10, "pack_size": [ 2, 5 ] },
       { "monster": "mon_tanglevine", "weight": 5, "cost_multiplier": 15 },
       { "group": "GROUP_TRIFFID", "weight": 5, "cost_multiplier": 15, "pack_size": [ 2, 6 ] },
       { "group": "GROUP_FOREST_SPIRIT", "weight": 3, "cost_multiplier": 20 },
