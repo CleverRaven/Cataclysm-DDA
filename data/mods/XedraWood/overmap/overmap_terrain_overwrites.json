@@ -21,6 +21,6 @@
     "type": "overmap_terrain",
     "id": "forest_water",
     "copy-from": "forest_water",
-    "spawns": { "group": "GROUP_SWAMP", "population": [ 1, 4 ], "chance": 10 }
+    "spawns": { "group": "GROUP_SWAMP", "population": [ 1, 4 ], "chance": 8 }
   }
 ]
