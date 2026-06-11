@@ -20,10 +20,15 @@
     "ugliness": 0,
     "description": "You have developed an intuitive understanding of computers.  You can develop the computer skill normally and gain a bonus to its use.",
     "valid": false,
-    "purifiable": false,
-    "enchantments": [
-      { "condition": { "math": [ "u_skill('computer') <= 7" ] }, "skills": [ { "value": "computers", "add": 2 } ] },
-      { "condition": { "math": [ "u_skill('computer') <= 8" ] }, "skills": [ { "value": "computers", "add": 1 } ] }
-    ]
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "ILLITERATE",
+    "name": { "str": "Pre-Literate" },
+    "description": "While some warrior societies or groups of the Wise may have secret runic codes, wide-scale writing has not yet been invented.  You cannot read.",
+    "cancels": [ "FASTREADER", "SLOWREADER", "PROF_DICEMASTER", "LOVES_BOOKS", "HATES_BOOKS" ],
+    "points": 0,
+    "valid": false
   }
 ]
