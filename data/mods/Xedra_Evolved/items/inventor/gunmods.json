@@ -134,7 +134,7 @@
     "type": "ITEM",
     "subtypes": [ "GUNMOD" ],
     "name": { "str": "pistol double tapper" },
-    "description": "A set of mechanism that allow the blocky pistol to shoot two rounds simultaneously.",
+    "description": "A set of mechanisms that allow the blocky pistol to shoot two rounds simultaneously.",
     "flags": [ "INVENTOR_CRAFTED" ],
     "weight": "68 g",
     "volume": "119 ml",
