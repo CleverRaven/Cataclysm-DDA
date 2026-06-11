@@ -2057,9 +2057,7 @@
     "subtype": "collection",
     "items": [
       { "group": "sandbag", "prob": 50 },
-      { "group": "sandbag_canvas", "prob": 50 },
       { "group": "earthbag", "prob": 50 },
-      { "group": "earthbag_canvas", "prob": 50 }
     ]
   },
   {
