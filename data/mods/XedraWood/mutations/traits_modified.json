@@ -1,0 +1,29 @@
+[
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_CAN_USE_ELECTRONICS",
+    "name": { "str": "Veins Like Circuits" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "For almost all of recorded history, even tool-using history, humanity had not harnessed lightning, and most of the Fair Folk still have little understanding of electrical devices.  This ability gives you an almost-instinctive understanding of circuits, however, allowing you to develop the electronics skill normally and providing a bonus to its use.",
+    "valid": false,
+    "purifiable": false,
+    "craft_skill_bonus": [ [ "electronics", 2 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_CAN_USE_COMPUTERS",
+    "name": { "str": "Man-Machine Mind" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You have developed an intuitive understanding of computers.  You can develop the computer skill normally and gain a bonus to its use.",
+    "valid": false,
+    "purifiable": false,
+    "enchantments": [
+      { "condition": { "math": [ "u_skill('computer') <= 7" ] }, "skills": [ { "value": "computers", "add": 2 } ] },
+      { "condition": { "math": [ "u_skill('computer') <= 8" ] }, "skills": [ { "value": "computers", "add": 1 } ] }
+    ]
+  }
+]
