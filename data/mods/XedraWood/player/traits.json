@@ -51,7 +51,7 @@
     "points": 0,
     "player_display": false,
     "valid": false,
-    "flags": [ "MAGICAL_CBMS" ],
+    "flags": [ "MAGICAL_CBMS", "ATTUNEMENT" ],
     "enchantments": [
       { "condition": "ALWAYS", "values": [ { "value": "POWER_TRICKLE", "add": 10 } ] },
       { "condition": { "u_has_effect": "asleep" }, "values": [ { "value": "POWER_TRICKLE", "add": 1000 } ] },

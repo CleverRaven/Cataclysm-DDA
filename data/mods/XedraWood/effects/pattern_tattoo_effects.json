@@ -1,0 +1,10 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_mountain_tattoo_three",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "removes_effects": [ "stunned", "downed", "dazed" ]
+  }
+]
