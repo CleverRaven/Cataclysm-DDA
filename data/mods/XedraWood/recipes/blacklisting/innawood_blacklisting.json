@@ -326,11 +326,6 @@
   },
   {
     "type": "recipe",
-    "result": "wearable_light",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "wooden_grip",
     "obsolete": true
   },
