@@ -3651,7 +3651,7 @@ talk_effect_fun_t::func f_remove_category( const JsonObject &jo,
     str_or_var category = get_str_or_var( jo.get_member( member ), member, true );
 
     return [is_npc, category]( dialogue const &d ) {
-        Character *ch = d.actor( is_npc );
+        Character *ch = d.actor( is_npc )->get_character();
 
         const mutation_category_id cat_id( category.evaluate( d ) );
 
@@ -3660,7 +3660,9 @@ talk_effect_fun_t::func f_remove_category( const JsonObject &jo,
         for( const trait_id &mut : ch->get_mutations() ) {
             const mutation_branch &branch = mut.obj();
 
-            if( branch.category.count( cat_id ) > 0 ) {
+            if( std::find( branch.category.begin(),
+               branch.category.end(),
+               cat_id ) != branch.category.end() ) {
                 to_remove.push_back( mut );
             }
         }
