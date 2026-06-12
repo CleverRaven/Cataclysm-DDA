@@ -3643,6 +3643,34 @@ talk_effect_fun_t::func f_remove_trait( const JsonObject &jo, std::string_view m
     };
 }
 
+talk_effect_fun_t::func f_remove_category( const JsonObject &jo,
+        std::string_view member,
+        std::string_view,
+        bool is_npc )
+{
+    str_or_var category = get_str_or_var( jo.get_member( member ), member, true );
+
+    return [is_npc, category]( dialogue const &d ) {
+        Character *ch = d.actor( is_npc );
+
+        const mutation_category_id cat_id( category.evaluate( d ) );
+
+        std::vector<trait_id> to_remove;
+
+        for( const trait_id &mut : ch->get_mutations() ) {
+            const mutation_branch &branch = mut.obj();
+
+            if( branch.category.count( cat_id ) > 0 ) {
+                to_remove.push_back( mut );
+            }
+        }
+
+        for( const trait_id &mut : to_remove ) {
+            ch->unset_mutation( mut );
+        }
+    };
+}
+
 talk_effect_fun_t::func f_learn_martial_art( const JsonObject &jo, std::string_view member,
         std::string_view, bool is_npc )
 {
