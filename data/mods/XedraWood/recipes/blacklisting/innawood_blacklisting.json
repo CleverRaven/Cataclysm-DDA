@@ -11,6 +11,11 @@
   },
   {
     "type": "recipe",
+    "result": "steel_lump",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "lc_steel_lump",
     "obsolete": true
   },
@@ -22,6 +27,46 @@
   {
     "type": "recipe",
     "result": "hc_steel_lump",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "qt_steel_lump",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "steel_lump_from ore",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "steel_chunk_from ore",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "scrap_from ore",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "steel_lump_smelt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "steel_chunk_smelt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "scrap_smelt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "material_aluminium_ingot_native",
     "obsolete": true
   },
   {
