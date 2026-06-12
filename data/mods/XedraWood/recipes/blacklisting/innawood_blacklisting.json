@@ -371,11 +371,6 @@
   },
   {
     "type": "recipe",
-    "result": "crossbow",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "bullet_crossbow",
     "obsolete": true
   },
