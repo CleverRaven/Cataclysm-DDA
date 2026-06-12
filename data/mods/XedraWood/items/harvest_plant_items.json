@@ -124,6 +124,7 @@
     "volume": "350 ml"
   },
   {
+    "type": "ITEM",
     "id": "dryad_bark",
     "copy-from": "alder_bark",
     "name": { "str": "dryad bark", "str_pl": "chunks of dryad bark" },
