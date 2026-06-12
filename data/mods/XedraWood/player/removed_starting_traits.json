@@ -88,5 +88,11 @@
     "id": "SLOWREADER",
     "copy-from": "SLOWREADER",
     "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "NO_CBM_INSTALLATION",
+    "copy-from": "NO_CBM_INSTALLATION",
+    "starting_trait": false
   }
 ]
