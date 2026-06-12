@@ -94,5 +94,12 @@
     "id": "NO_CBM_INSTALLATION",
     "copy-from": "NO_CBM_INSTALLATION",
     "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "KI_STRIKE",
+    "copy-from": "KI_STRIKE",
+    "starting_trait": false,
+    "chargen_allow_npc": false
   }
 ]
