@@ -1,0 +1,38 @@
+[
+  {
+    "type": "mutation",
+    "id": "QUICK",
+    "copy-from": "QUICK",
+    "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "DEFT",
+    "copy-from": "DEFT",
+    "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "FAST_REFLEXES",
+    "copy-from": "FAST_REFLEXES",
+    "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "NIGHTVISION",
+    "copy-from": "NIGHTVISION",
+    "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "PACKMULE",
+    "copy-from": "PACKMULE",
+    "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "TOUGH",
+    "copy-from": "TOUGH",
+    "starting_trait": false
+  }
+]

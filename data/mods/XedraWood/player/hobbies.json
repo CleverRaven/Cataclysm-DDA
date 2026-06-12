@@ -79,7 +79,7 @@
     "type": "profession",
     "subtype": "hobby",
     "id": "socialdance",
-    "name": "Dancing",
+    "name": "Group Dancing",
     "description": "You loved meeting new people during tribal gatherings, dancing around the fire until the late hours.  Maybe you can keep putting those skills to use.",
     "points": 2,
     "skills": [ { "level": 1, "name": "dodge" }, { "level": 2, "name": "speech" } ],
@@ -100,7 +100,7 @@
     "subtype": "hobby",
     "id": "foraging",
     "name": "Foraging",
-    "description": "You have plenty of practice.",
+    "description": "You have plenty of practice at searching the forest for delicious foods.",
     "points": 1,
     "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "cooking" } ],
     "proficiencies": [ "prof_forage_cooking" ]
@@ -359,5 +359,14 @@
     "description": "Unlike most of your people, you always stayed up long past sunset, staring at the moon or walking at the edge of the firelight.  You are much better at seeing at night, but have a harder time falling asleep and waking up.",
     "points": 3,
     "traits": [ "NIGHTVISION2", "INSOMNIA", "HEAVYSLEEPER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "XEDRAWOOD_PORTER",
+    "name": "Tribal Porter",
+    "description": "In your nomadic wanderings, your tribe relied on you to transport the larger goods like tents or baskets of preserved food and bedding, and you've gotten very good at packing efficiently and carrying goods for long distances.",
+    "points": 1,
+    "traits": [ "PACKMULE", "STRONGBACK" ]
   }
 ]
