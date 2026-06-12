@@ -2274,7 +2274,7 @@ ret_val<item *> item_pocket::insert_item( const item &it,
         contents.push_back( it );
         inserted = &contents.back();
     }
-    if( restack_charges ) {
+    if( restack_charges && it.count_by_charges() ) {
         inserted = restack( inserted );
     }
     if( bulk_fill_volume ) {
