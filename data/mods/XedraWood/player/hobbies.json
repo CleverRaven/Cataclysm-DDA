@@ -386,5 +386,15 @@
     "points": 1,
     "proficiencies": [ "prof_spotting" ],
     "traits": [ "EAGLEEYED", "ASOCIAL2" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "XEDRAWOOD_DRUNKEN_MASTER",
+    "name": "Drunken Warrior",
+    "description": "You have a bit too much of a taste for the beverages served during tribal celebrations, but you've gotten used to fighting while under their spell.  Some of your fellows even say you fight better after you've had a few.",
+    "points": 3,
+    "traits": [ "DRUNKEN", "ADDICTIVE" ],
+    "addictions": [ { "intensity": 20, "type": "alcohol" } ]
   }
 ]
