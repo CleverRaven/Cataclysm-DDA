@@ -46,25 +46,19 @@
     "type": "map_extra_collection",
     "id": "forest",
     "copy-from": "forest",
-    "extend": { "extras": [ [ "mx_nest_claw_runner", 2 ] ] }
+    "extend": { "extras": [ [ "mx_warped_tree_grove", 10 ], [ "mx_campfire_remnants", 5 ], [ "mx_nest_claw_runner", 2 ] ] }
   },
   {
     "type": "map_extra_collection",
     "id": "forest_thick",
     "copy-from": "forest_thick",
-    "extend": { "extras": [ [ "mx_warped_tree_grove", 10 ], [ "mx_campfire_remnants", 5 ] ] }
-  },
-  {
-    "type": "map_extra_collection",
-    "id": "forest_thick",
-    "copy-from": "forest_thick",
-    "extend": { "extras": [ [ "mx_warped_tree_grove", 10 ], [ "mx_campfire_remnants", 5 ] ] }
+    "extend": { "extras": [ [ "mx_warped_tree_grove", 10 ], [ "mx_campfire_remnants", 5 ], [ "mx_tanglevine_patch", 2 ] ] }
   },
   {
     "type": "map_extra_collection",
     "id": "ravine_bottom",
     "copy-from": "ravine_bottom",
-    "extend": { "extras": [ [ "mx_warped_tree_grove", 10 ] ] }
+    "extend": { "extras": [ [ "mx_warped_tree_grove", 10 ], [ "mx_tanglevine_patch", 4 ] ] }
   },
   {
     "type": "forest_biome_mapgen",

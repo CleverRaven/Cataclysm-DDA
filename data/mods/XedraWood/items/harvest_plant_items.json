@@ -112,6 +112,19 @@
   },
   {
     "type": "ITEM",
+    "id": "tanglevine_root",
+    "name": { "str": "tanglevine root" },
+    "weight": "210 g",
+    "color": "green",
+    "symbol": "%",
+    "description": "A thick, woody root from a tanglevine.  The end glistens as though sap were still flowing through it.",
+    "price": "10 USD",
+    "price_postapoc": "3 USD 10 cent",
+    "material": [ "veggy" ],
+    "volume": "350 ml"
+  },
+  {
+    "type": "ITEM",
     "id": "dryad_bark",
     "copy-from": "alder_bark",
     "name": { "str": "dryad bark", "str_pl": "chunks of dryad bark" },

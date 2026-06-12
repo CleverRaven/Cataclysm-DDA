@@ -99,6 +99,17 @@
     ]
   },
   {
+    "id": "tanglevine_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "tanglevine_root", "prob": 15 },
+      { "item": "stick", "prob": 90, "count": [ 1, 2 ] },
+      { "item": "leaves", "prob": 100, "count": [ 2, 4 ] },
+      { "item": "withered", "prob": 75, "count": [ 10, 40 ] }
+    ]
+  },
+  {
     "id": "dryad_death_drops",
     "type": "item_group",
     "subtype": "collection",
