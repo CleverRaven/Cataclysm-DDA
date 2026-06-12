@@ -334,9 +334,30 @@
   {
     "type": "profession",
     "subtype": "hobby",
-    "id": "PARACLESIAN_FAKE_HOBBY",
-    "name": "A new life",
-    "description": "You are born anew, freshly spun forth from the natural elements but hours ago.  You have as yet had no time to develop hobbies.",
-    "points": 1
+    "id": "XEDRAWOOD_EXTRA_STRONG",
+    "name": "Mighty Thews",
+    "description": "Due to long hours of exercise your limbs are thick with corded muscle.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "swimming" } ],
+    "traits": [ "STR_UP_2" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "XEDRAWOOD_EXTRA_DEX",
+    "name": "Pantherish Grace",
+    "description": "You used to do backflips and splits to impress other members of your tribe, and you've maintained your flexibility.",
+    "points": 2,
+    "skills": [ { "level": 1, "name": "swimming" } ],
+    "traits": [ "DEX_UP_2" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "XEDRAWOOD_NOCTURNAL",
+    "name": "Up Past the Sun",
+    "description": "Unlike most of your people, you always stayed up long past sunset, staring at the moon or walking at the edge of the firelight.  You are much better at seeing at night, but have a harder time falling asleep and waking up.",
+    "points": 3,
+    "traits": [ "NIGHTVISION2", "INSOMNIA", "HEAVYSLEEPER" ]
   }
 ]
