@@ -101,5 +101,12 @@
     "copy-from": "KI_STRIKE",
     "starting_trait": false,
     "chargen_allow_npc": false
+  },
+  {
+    "type": "mutation",
+    "id": "DRUNKEN",
+    "copy-from": "DRUNKEN",
+    "starting_trait": false,
+    "chargen_allow_npc": false
   }
 ]
