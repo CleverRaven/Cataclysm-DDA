@@ -23,6 +23,7 @@
 #include "flexbuffer_json.h"
 #include "game_inventory.h"
 #include "input.h"
+#include "pickup.h"
 #include "input_enums.h"
 #include "inventory.h"
 #include "item.h"
@@ -5012,6 +5013,23 @@ drop_locations pickup_selector::execute()
     return dropped_pos_and_qty;
 }
 
+static item_location get_item_to_highlight_after_use( inventory_column &column,
+        item_location const &loc )
+{
+    bool found = false;
+    for( const inventory_entry *entry : column.get_entries( return_item ) ) {
+        for( const item_location &l : entry->locations ) {
+            if( found ) {
+                return l;
+            }
+            if( l == loc ) {
+                found = true;
+            }
+        }
+    }
+    return item_location::nowhere;
+}
+
 bool pickup_selector::wield( int &count )
 {
     inventory_entry &selected = get_active_column().get_highlighted();
@@ -5027,7 +5045,8 @@ bool pickup_selector::wield( int &count )
 
     if( u.can_wield( *it ).success() ) {
         remove_from_to_use( it );
-        reopen_menu();
+        const item_location next_item = get_item_to_highlight_after_use( get_active_column(), it );
+        reopen_menu( next_item );
         u.assign_activity( wield_activity_actor( it, charges ) );
         return true;
     } else {
@@ -5049,7 +5068,9 @@ bool pickup_selector::wear()
 
     if( u.can_wear( *items.front() ).success() ) {
         remove_from_to_use( items.front() );
-        reopen_menu();
+        const item_location next_item = get_item_to_highlight_after_use( get_active_column(),
+                                        items.front() );
+        reopen_menu( next_item );
         u.assign_activity( wear_activity_actor( items, quantities ) );
         return true;
     } else {
@@ -5059,11 +5080,13 @@ bool pickup_selector::wear()
     return false;
 }
 
-void pickup_selector::reopen_menu()
+void pickup_selector::reopen_menu( const item_location &next_item )
 {
     // copy the member variables to still be valid on call
-    uistate.open_menu = [where = where, to_use = to_use]() {
-        get_player_character().pick_up( game_menus::inv::pickup( where, to_use ) );
+    uistate.open_menu = [where = where, to_use = to_use, next_item]() {
+        Pickup::pick_info pickup_info;
+        pickup_info.highlight = next_item;
+        get_player_character().pick_up( game_menus::inv::pickup( where, to_use, pickup_info ) );
     };
 }
 
