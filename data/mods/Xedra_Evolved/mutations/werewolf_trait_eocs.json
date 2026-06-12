@@ -55,9 +55,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WEREWOLF_CURE_OUTSIDE_EFFECTS_ACTIVATED",
-    "condition": { "math": [ "u_val('mana')", ">=", "u_werewolf_cure_outside_effects_mana_cost" ] },
+    "condition": { "math": [ "u_val('mana') >= werewolf_cure_outside_effects_mana_cost()" ] },
     "effect": [
-      { "math": [ "u_val('mana') =- u_werewolf_cure_outside_effects_mana_cost" ] },
+      { "math": [ "u_val('mana') -= werewolf_cure_outside_effects_mana_cost()" ] },
       {
         "u_message": "You focus your mana within your body, using it to destroy your ailments like you use your claws to destroy the Outsiders.",
         "type": "good"
