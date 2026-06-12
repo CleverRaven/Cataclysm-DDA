@@ -4,7 +4,7 @@
     "id": "spaceport_portmaster",
     "class": "NC_AUGUSTMOON_shipping_chief",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "name_suffix": "Portmaster",
     "chat": "TALK_SPACEPORT_PORTMASTER",
     "faction": "UICA"

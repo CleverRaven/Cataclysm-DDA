@@ -13,6 +13,38 @@
   },
   {
     "type": "mutation",
+    "id": "HOMULLUS_CAN_USE_ELECTRONICS",
+    "name": { "str": "Veins Like Circuits" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "For almost all of recorded history, even tool-using history, humanity had not harnessed lightning, and most of the Fair Folk still have little understanding of electrical devices.  This ability gives you an almost-instinctive understanding of circuits, however, allowing you to develop the electronics skill normally and providing a bonus to its use.",
+    "valid": false,
+    "purifiable": false,
+    "craft_skill_bonus": [ [ "electronics", 2 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_CAN_USE_COMPUTERS",
+    "name": { "str": "Man-Machine Mind" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You have developed an intuitive understanding of computers.  You can develop the computer skill normally and gain a bonus to its use.",
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "ILLITERATE",
+    "name": { "str": "Pre-Literate" },
+    "description": "While some warrior societies or groups of the Wise may have secret runic codes, wide-scale writing has not yet been invented.  You cannot read.",
+    "cancels": [ "FASTREADER", "SLOWREADER", "PROF_DICEMASTER", "LOVES_BOOKS", "HATES_BOOKS" ],
+    "points": 0,
+    "valid": false
+  },
+  {
+    "type": "mutation",
     "id": "XEDRAWOOD_THE_WISE",
     "name": { "str": "The Wise" },
     "points": 0,

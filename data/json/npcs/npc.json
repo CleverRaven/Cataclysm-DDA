@@ -6,7 +6,7 @@
     "name_suffix": "Deserter",
     "class": "NC_SOLDIER",
     "attitude": 10,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_DONE",
     "faction": "no_faction"
   },
@@ -17,7 +17,7 @@
     "name_suffix": "Marloss Voice",
     "class": "NC_MARLOSS_VOICE",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_MARLOSS_VOICE",
     "faction": "marloss"
   },
@@ -29,7 +29,7 @@
     "class": "NC_APIS",
     "gender": "female",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_DONE",
     "faction": "apis_hive"
   },
@@ -40,7 +40,7 @@
     "name_suffix": "Psycho",
     "class": "NC_THUG",
     "attitude": 8,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_DONE",
     "faction": "no_faction"
   },
@@ -51,7 +51,7 @@
     "name_suffix": "chef",
     "class": "NC_SURVIVOR_CHEF",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_NC_SURVIVOR_CHEF",
     "faction": "no_faction"
   },
@@ -62,7 +62,7 @@
     "name_suffix": "farmer",
     "class": "NC_FARMER",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_NC_FARMER",
     "faction": "no_faction"
   },
@@ -73,7 +73,7 @@
     "name_unique": "Foodperson",
     "class": "NC_TRUE_FOODPERSON",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_TRUE_FOODPERSON",
     "mission_offered": "MISSION_PROVE_YOUR_WORTH",
     "faction": "no_faction"
@@ -85,7 +85,7 @@
     "name_suffix": "Cyborg",
     "class": "NC_CYBORG",
     "attitude": 1,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_CYBORG_1",
     "faction": "no_faction"
   },
@@ -96,7 +96,7 @@
     "name_suffix": "officer",
     "class": "NC_CITY_COP",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "mission_offered": "MISSION_GET_CITY_COP_MOMENTO",
     "chat": "TALK_CITY_COP",
     "faction": "no_faction"
@@ -107,7 +107,7 @@
     "name_suffix": "camper",
     "class": "NC_SCAVENGER_STATIC",
     "attitude": 1,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_NPC_CAMPER_SURVIVOR",
     "faction": "no_faction"
   },
@@ -117,7 +117,7 @@
     "name_suffix": "scavenger",
     "class": "NC_SCAVENGER_STATIC",
     "attitude": 1,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_NPC_APARTMENT_SURVIVOR",
     "faction": "no_faction"
   },
@@ -127,7 +127,7 @@
     "name_suffix": "prepper",
     "class": "NC_SCAVENGER_PREPPER",
     "attitude": 1,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_NPC_PREPPER_SURVIVOR",
     "faction": "no_faction"
   },
@@ -137,7 +137,7 @@
     "name_suffix": "moonshiner",
     "class": "NC_SCAVENGER_MOONSHINER",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_NPC_MOONSHINER",
     "faction": "no_faction"
   },
@@ -147,7 +147,7 @@
     "class": "NC_SCAVENGER",
     "name_suffix": "marksman",
     "attitude": 1,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_NPC_GUN_STORE_SURVIVOR",
     "faction": "no_faction"
   },
@@ -157,7 +157,7 @@
     "class": "NC_VETERINARIAN",
     "name_suffix": "veterinarian",
     "attitude": 1,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_NPC_ANIMAL_SHELTER_SURVIVOR",
     "faction": "no_faction"
   },
@@ -166,7 +166,7 @@
     "id": "NPC_park_survivor",
     "class": "NC_SCAVENGER",
     "attitude": 1,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_STRANGER_NEUTRAL",
     "faction": "no_faction"
   },
@@ -176,7 +176,7 @@
     "class": "NC_SCAVENGER_STATIC",
     "name_suffix": "scavenger",
     "attitude": 1,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_NPC_EVAC_SURVIVOR",
     "faction": "no_faction"
   },
@@ -187,7 +187,7 @@
     "name_suffix": "mutant",
     "class": "NC_LAB_MUTANT",
     "attitude": 0,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_STRANGER_WARY",
     "faction": "no_faction"
   },
@@ -197,7 +197,7 @@
     "class": "NC_SCAVENGER_STATIC",
     "name_suffix": "scavenger",
     "attitude": 1,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "chat": "TALK_NPC_HOMELESS_SURVIVOR",
     "faction": "no_faction"
   },
@@ -207,7 +207,7 @@
     "class": "NC_HOMELESS_BROKER",
     "name_suffix": "scavenger",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_NPC_HOMELESS_BROKER",
     "faction": "wasteland_scavengers",
     "mission_offered": "MISSION_KILL_SLIMES"
@@ -218,7 +218,7 @@
     "class": "NC_SCAVENGER_NOMOVE",
     "name_suffix": "scavenger",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_NPC_HOMELESS_GROUP_SURVIVOR",
     "faction": "wasteland_scavengers"
   },
@@ -228,7 +228,7 @@
     "//": "the gunslinger that spawns for MISSION_RECRUIT_TRACKER",
     "class": "NC_COWBOY",
     "attitude": 1,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "mission_offered": "MISSION_JOIN_TRACKER",
     "chat": "TALK_STRANGER_FRIENDLY",
     "faction": "no_faction"
@@ -240,7 +240,7 @@
     "name_suffix": "Debug",
     "class": "NC_NONE",
     "attitude": 0,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_DONE",
     "faction": "no_faction",
     "death_eocs": [ "EOC_event_NPC_DEATH_test" ]

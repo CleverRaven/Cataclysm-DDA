@@ -25,6 +25,18 @@
     "sandy_beach_width": 15
   },
   {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_groundcover",
+    "ter_id": "t_region_groundcover",
+    "replace_with_terrain": [ [ "t_grass", 12000 ], [ "t_grass_dead", 2000 ], [ "t_dirt", 1000 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_groundcover_swamp",
+    "ter_id": "t_region_groundcover_swamp",
+    "replace_with_terrain": [ [ "t_grass_long", 300 ], [ "t_grass_tall", 100 ], [ "t_moss", 200 ], [ "t_dirt", 200 ] ]
+  },
+  {
     "type": "map_extra_collection",
     "id": "forest_water",
     "copy-from": "forest_water",

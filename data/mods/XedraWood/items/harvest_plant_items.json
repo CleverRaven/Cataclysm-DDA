@@ -122,5 +122,11 @@
     "price_postapoc": "3 USD 10 cent",
     "material": [ "veggy" ],
     "volume": "350 ml"
+  },
+  {
+    "id": "dryad_bark",
+    "copy-from": "alder_bark",
+    "name": { "str": "dryad bark", "str_pl": "chunks of dryad bark" },
+    "description": "A strip of bark taken from a fallen dryad.  It's still slightly supple, as though it were attached to a living tree."
   }
 ]

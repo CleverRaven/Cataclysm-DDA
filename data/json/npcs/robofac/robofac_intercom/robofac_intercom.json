@@ -9,7 +9,7 @@
     "gender": "female",
     "class": "NC_ROBOFAC_INTERCOM",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_ROBOFAC_INTERCOM",
     "mission_offered": [ "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1", "MISSION_ROBOFAC_INTERCOM_2" ],
     "faction": "robofac"
@@ -170,7 +170,7 @@
     "name_suffix": "Intercom Operator",
     "class": "NC_ROBOFAC_INTERCOM_DAY",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_ROBOFAC_INTERCOM",
     "faction": "robofac"
   },
@@ -181,7 +181,7 @@
     "name_suffix": "Intercom Operator",
     "class": "NC_ROBOFAC_INTERCOM_NIGHT",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_ROBOFAC_INTERCOM",
     "faction": "robofac"
   },
@@ -208,7 +208,7 @@
     "name_suffix": "Hub 01 Representative",
     "class": "NC_ROBOFAC_INTERCOM_SUPPLY",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_ROBOFAC_INTERCOM",
     "faction": "robofac"
   },

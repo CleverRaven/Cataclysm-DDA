@@ -7,7 +7,7 @@
     "name_suffix": "Forge Lord",
     "class": "NC_FORGE_LORD_REAGENT",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "gender": "female",
     "chat": "TALK_FORGE_LORD_REAGENT",
     "faction": "forge_lords"

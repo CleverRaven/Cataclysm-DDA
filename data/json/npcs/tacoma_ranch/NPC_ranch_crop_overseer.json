@@ -6,7 +6,7 @@
     "name_suffix": "Crop Overseer",
     "class": "NC_BOUNTY_HUNTER",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_RANCH_CROP_OVERSEER",
     "faction": "tacoma_commune"
   },

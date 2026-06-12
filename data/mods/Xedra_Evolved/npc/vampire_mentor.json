@@ -5,7 +5,7 @@
     "name_suffix": "vampire",
     "class": "NC_NPC_XE_VAMPIRE_MENTOR",
     "attitude": 0,
-    "mission": 2,
+    "mission": "SHELTER",
     "chat": "TALK_VAMPIRE_MENTOR",
     "faction": "no_faction"
   },

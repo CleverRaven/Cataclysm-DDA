@@ -1,6 +1,49 @@
 [
   {
     "type": "monstergroup",
+    "id": "GROUP_FOREST_THICK",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "group": "GROUP_WILDERNESS_FOREST_MAMMAL", "weight": 375, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      { "group": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER", "weight": 375, "conditions": [ "WINTER" ] },
+      { "group": "GROUP_WILDERNESS_FOREST_BIRD", "weight": 300 },
+      {
+        "group": "GROUP_WILDERNESS_FOREST_INSECT_HARMLESS",
+        "weight": 75,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "group": "GROUP_WILDERNESS_FOREST_INSECT", "weight": 75, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      {
+        "group": "GROUP_WILDERNESS_FOREST_REPTILE",
+        "weight": 30,
+        "cost_multiplier": 5,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "monster": "mon_claw_runner", "weight": 15, "cost_multiplier": 4 },
+      { "monster": "mon_claw_runner", "weight": 6, "cost_multiplier": 4, "pack_size": [ 2, 5 ] },
+      { "monster": "mon_claw_hunter", "weight": 6, "cost_multiplier": 30 },
+      { "monster": "mon_claw_hunter", "weight": 2, "cost_multiplier": 30, "pack_size": [ 2, 5 ] },
+      {
+        "group": "GROUP_HOLLOW_TRIBAL_WARPARTY",
+        "weight": 10,
+        "cost_multiplier": 2,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "group": "GROUP_HOLLOW_TRIBAL_HUNTPARTY", "weight": 35, "conditions": [ "DAY" ] },
+      { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 40 },
+      { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 10, "pack_size": [ 2, 5 ] },
+      { "monster": "mon_tanglevine", "weight": 5, "cost_multiplier": 15 },
+      { "group": "GROUP_FOREST_SPIRIT", "weight": 3, "cost_multiplier": 20 },
+      { "group": "GROUP_CHANGELING_MIRRORED_FIELD", "weight": 3, "cost_multiplier": 10 },
+      { "group": "GROUP_CHANGELING_MIRRORED_FIELD", "weight": 1, "cost_multiplier": 15, "pack_size": [ 2, 6 ] },
+      { "group": "GROUP_CHANGELING_STRIKE_FORCE", "weight": 1, "cost_multiplier": 15, "pack_size": [ 2, 6 ] },
+      { "group": "GROUP_TRIFFID", "weight": 2, "cost_multiplier": 15, "pack_size": [ 2, 6 ] },
+      { "group": "GROUP_OVERLAND_RENFIELD", "weight": 2, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "id": "GROUP_FOREST",
     "monsters": [
       {
@@ -93,6 +136,12 @@
       { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 5 },
       { "group": "GROUP_HOLLOW_ZOMBIES", "weight": 1, "pack_size": [ 2, 5 ] }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_FOREST_SPIRIT",
+    "default": "mon_null",
+    "monsters": [ { "monster": "mon_dryad", "weight": 200 }, { "monster": "mon_dryad", "weight": 25, "pack_size": [ 2, 3 ] } ]
   },
   {
     "type": "monstergroup",

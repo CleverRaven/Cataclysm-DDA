@@ -7,7 +7,7 @@
     "name_suffix": "Hub Mercenary",
     "class": "NC_ROBOFAC_MERC_MONSTER_CORPSE_1",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_ROBOFAC_MERC_MONSTER_CORPSE_1",
     "faction": "robofac_auxiliaries"
   },
@@ -104,7 +104,7 @@
     "name_unique": "armed mercenary",
     "class": "NC_ANCILLA_GRUNT",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_ROBOFAC_MERC_MONSTER_CORPSE_2",
     "faction": "robofac_auxiliaries"
   },

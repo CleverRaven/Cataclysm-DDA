@@ -6,7 +6,7 @@
     "gender": "male",
     "name_suffix": "scrapper",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_NPC_SCRAP_TRADER",
     "faction": "wasteland_scavengers",
     "mission_offered": "MISSION_SCRAP_TRADER_GET_25_MAGNETRON"

@@ -652,8 +652,7 @@
     "material": [ "dense_powder" ],
     "volume": "1 ml",
     "weight": "7140 mg",
-    "//": "Density 7.14g/cm³",
-    "container": "bottle_plastic_small"
+    "//": "Density 7.14g/cm³"
   },
   {
     "type": "ITEM",
@@ -668,8 +667,7 @@
     "material": [ "dense_powder" ],
     "volume": "1 ml",
     "weight": "5606 mg",
-    "//": "Density: 5.606 g/cm3",
-    "container": "bottle_plastic_small"
+    "//": "Density: 5.606 g/cm3"
   },
   {
     "type": "ITEM",
@@ -684,8 +682,7 @@
     "material": [ "dense_powder" ],
     "volume": "1 ml",
     "weight": "5026 mg",
-    "//": "density: 5.026 g/cm3",
-    "container": "bottle_plastic_small"
+    "//": "density: 5.026 g/cm3"
   },
   {
     "type": "ITEM",
@@ -858,8 +855,7 @@
     "material": [ "powder_nonflam" ],
     "volume": "1 ml",
     "weight": "5220 mg",
-    "//": "density: 5.22 g/cm3",
-    "container": "bottle_plastic_small"
+    "//": "density: 5.22 g/cm3"
   },
   {
     "type": "ITEM",
@@ -896,8 +892,7 @@
     "material": [ "dense_powder" ],
     "volume": "1 ml",
     "weight": "2220 mg",
-    "//": "density: 2.22 g/cm3",
-    "container": "bottle_plastic_small"
+    "//": "density: 2.22 g/cm3"
   },
   {
     "type": "ITEM",
@@ -912,8 +907,7 @@
     "material": [ "dense_powder" ],
     "volume": "1 ml",
     "weight": "2710 mg",
-    "//": "density: 2.71 g/cm3",
-    "container": "bottle_plastic_small"
+    "//": "density: 2.71 g/cm3"
   },
   {
     "type": "ITEM",
@@ -1429,8 +1423,7 @@
     "material": [ "powder" ],
     "volume": "13 ml",
     "weight": "7500 mg",
-    "flags": [ "DETERGENT" ],
-    "container": "box_small"
+    "flags": [ "DETERGENT" ]
   },
   {
     "type": "ITEM",
@@ -1989,7 +1982,6 @@
     "weight": "10 g",
     "volume": "5 ml",
     "//": "Density around 2.2g/cm3, but since it's a powder, it's a bit lower, around 1.8-2.0 g/cm3",
-    "container": "bottle_plastic_small",
     "symbol": "=",
     "color": "red",
     "price": "50 cent",
@@ -2018,7 +2010,6 @@
     "weight": "7500 mg",
     "volume": "5 ml",
     "//": "Density around 1.8g/cm3, but since it's a powder, it's a bit lower, around 1.5 g/cm3",
-    "container": "bottle_plastic_small",
     "symbol": "=",
     "color": "white",
     "price": "50 cent",

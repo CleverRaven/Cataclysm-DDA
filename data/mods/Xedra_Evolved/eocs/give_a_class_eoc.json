@@ -205,6 +205,7 @@
       { "u_forget_recipe": "trinket_sound" },
       { "u_forget_recipe": "choke_wideshot" },
       { "u_forget_recipe": "mod_inv_pistol_booster" },
+      { "u_forget_recipe": "mod_inv_pistol_double_tap" },
       { "u_forget_recipe": "stunning_qr_trap" },
       { "u_forget_recipe": "stunning_arg_trap" },
       { "u_forget_recipe": "inventor_light_minus_cell" },

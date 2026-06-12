@@ -6,7 +6,7 @@
     "gender": "male",
     "class": "NC_MERCURIAL_DOCTOR",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_MERCURIAL_DOCTOR",
     "faction": "mercurial"
   },
