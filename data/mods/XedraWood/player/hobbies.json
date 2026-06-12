@@ -373,8 +373,18 @@
     "subtype": "hobby",
     "id": "XEDRAWOOD_PORTER",
     "name": "Tribal Porter",
-    "description": "In your nomadic wanderings, your tribe relied on you to transport the larger goods like tents or baskets of preserved food and bedding, and you've gotten very good at packing efficiently and carrying goods for long distances.",
+    "description": "In your nomadic wanderings, your tribe relied on you to transport the larger goods like tents or baskets of preserved food and bedding, and you've gotten very good at packing efficiently and carrying goods for long distances, but you tend to have a pretty heavy tread when walking.",
     "points": 1,
-    "traits": [ "PACKMULE", "STRONGBACK" ]
+    "traits": [ "PACKMULE", "STRONGBACK", "CLUMSY" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "XEDRAWOOD_SCOUT",
+    "name": "Tribal Scout",
+    "description": "You spent long hours wandering far afield, looking for new hunting grounds, making sure the things of the forest and the swamps stayed away from your people's lands.  You are very good at spotting threats from far away, but you've grown used to spending time alone.",
+    "points": 1,
+    "proficiencies": [ "prof_spotting" ],
+    "traits": [ "EAGLEEYED", "ASOCIAL2" ]
   }
 ]
