@@ -562,13 +562,13 @@
     "container-item": "spool_small",
     "items": [ { "item": "solder_wire", "count": [ 0, 113 ] } ]
   },
-    {
+  {
     "id": "bag_garbage_box",
     "type": "item_group",
     "container-item": "box_small",
     "items": [ { "item": "bag_garbage", "count": 20 } ]
   },
-    {
+  {
     "id": "bag_garbage_box_part",
     "type": "item_group",
     "container-item": "box_small",
