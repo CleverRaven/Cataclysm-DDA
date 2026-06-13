@@ -7,6 +7,7 @@
     "attitude": 0,
     "mission": "GUARD_PATROL",
     "chat": "TALK_FORGE_PIRATE",
+    "death_eocs": [ "EOC_DEATH_FORGE_LORD" ],
     "faction": "forge_lords"
   },
   {
