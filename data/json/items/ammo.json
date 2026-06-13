@@ -1060,8 +1060,7 @@
     "description": "Some scrap bits of copper.  Could be used to craft things, such as makeshift ammunition.",
     "material": [ "copper" ],
     "volume": "1 ml",
-    "weight": "5 g",
-    "//": "200*5g / 8.63g/ml = ~115.87ml. Add 10% to take an uneven chunk into account = 127.46ml rounded upwards to 128ml."
+    "weight": "9 g"
   },
   {
     "type": "ITEM",
