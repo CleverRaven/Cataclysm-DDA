@@ -22,15 +22,9 @@
     <_CDDA_ENABLE_THIN_ARCHIVES Condition="'$(CDDA_ENABLE_THIN_ARCHIVES)'!=''">true</_CDDA_ENABLE_THIN_ARCHIVES>
     <_CDDA_USE_LLD_LINK>false</_CDDA_USE_LLD_LINK>
     <_CDDA_USE_LLD_LINK Condition="'$(CDDA_USE_LLD_LINK)'!='' Or $(_CDDA_ENABLE_THIN_ARCHIVES)">true</_CDDA_USE_LLD_LINK>
-    <_UseSDL3>false</_UseSDL3>
-    <_UseSDL3 Condition="'$(UseSDL3)'=='' And !$(Configuration.Contains(NoTiles))">true</_UseSDL3>
-    <_UseSDL3 Condition="'$(UseSDL3)'=='true'">true</_UseSDL3>
-    <_UseSDL3 Condition="'$(UseSDL3)'=='false'">false</_UseSDL3>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg">
     <VcpkgAdditionalInstallOptions>--clean-after-build</VcpkgAdditionalInstallOptions>
-    <VcpkgAdditionalInstallOptions Condition="$(_UseSDL3)">$(VcpkgAdditionalInstallOptions) --x-feature=sdl3</VcpkgAdditionalInstallOptions>
-    <VcpkgAdditionalInstallOptions Condition="!$(_UseSDL3) And !$(Configuration.Contains(NoTiles))">$(VcpkgAdditionalInstallOptions) --x-feature=sdl2</VcpkgAdditionalInstallOptions>
     <CustomBuildAfterTargets>VcpkgInstallManifestDependencies</CustomBuildAfterTargets>
   </PropertyGroup>
   <PropertyGroup Condition="$(_CDDA_USE_CCACHE)">
@@ -77,7 +71,7 @@
     <ClCompile Condition="!$(Configuration.Contains(NoTiles))">
       <PreprocessorDefinitions>TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <ClCompile Condition="!$(Configuration.Contains(NoTiles)) And $(_UseSDL3)">
+    <ClCompile Condition="!$(Configuration.Contains(NoTiles))">
       <PreprocessorDefinitions>USE_SDL3;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ClCompile Condition="$(Configuration.Contains(NoTiles))">
@@ -117,7 +111,7 @@
       <AdditionalLibraryDirectories Condition="$(Configuration.StartsWith(Release))">
         $(ProjectDir)vcpkg_installed\$(VcpkgTripet)\$(VcpkgTriplet)\lib;%(AdditionalLibraryDirectories)
       </AdditionalLibraryDirectories>
-      <AdditionalDependencies Condition="$(_UseSDL3)">
+      <AdditionalDependencies>
         brotlicommon.lib;
         brotlidec.lib;
         brotlienc.lib;
@@ -141,7 +135,7 @@
         vorbis.lib;
         vorbisenc.lib;
         vorbisfile.lib;
-        zlib$(VcpkgLibSuffix).lib;
+        zs$(VcpkgLibSuffix).lib;
         <!-- win32 deps of the vcpkg deps -->
         Advapi32.lib;
         Cfgmgr32.lib;
@@ -157,47 +151,7 @@
         Winmm.lib;
         %(AdditionalDependencies)
       </AdditionalDependencies>
-      <AdditionalDependencies Condition="!$(_UseSDL3) And !$(Configuration.Contains(NoTiles))">
-        brotlicommon.lib;
-        brotlidec.lib;
-        brotlienc.lib;
-        bz2$(VcpkgLibSuffix).lib;
-        FLAC.lib;
-        FLAC++.lib;
-        freetype$(VcpkgLibSuffix).lib;
-        jpeg.lib;
-        libpng16$(VcpkgLibSuffix).lib;
-        libwavpack.lib;
-        mpg123.lib;
-        ogg.lib;
-        out123.lib;
-        pdcurses.lib;
-        SDL2_image-static$(VcpkgLibSuffix).lib;
-        SDL2_mixer-static$(VcpkgLibSuffix).lib;
-        SDL2_ttf$(VcpkgLibSuffix).lib;
-        SDL2-static$(VcpkgLibSuffix).lib;
-        syn123.lib;
-        turbojpeg.lib;
-        vorbis.lib;
-        vorbisenc.lib;
-        vorbisfile.lib;
-        zlib$(VcpkgLibSuffix).lib;
-        <!-- win32 deps of the vcpkg deps -->
-        Advapi32.lib;
-        Cfgmgr32.lib;
-        Gdi32.lib;
-        Imm32.lib;
-        Ole32.lib;
-        OleAut32.lib;
-        Setupapi.lib;
-        Shell32.lib;
-        Shlwapi.lib;
-        User32.lib;
-        Version.lib;
-        Winmm.lib;
-        %(AdditionalDependencies)
-      </AdditionalDependencies>
-      <AdditionalDependencies Condition="!$(_UseSDL3) And $(Configuration.Contains(NoTiles))">
+      <AdditionalDependencies Condition="$(Configuration.Contains(NoTiles))">
         pdcurses.lib;
         %(AdditionalDependencies)
       </AdditionalDependencies>
