@@ -406,13 +406,6 @@
     "name": { "str": "hydraulic press", "str_pl": "hydraulic presses" }
   },
   {
-    "id": "heavy_lathe_tool",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "copy-from": "fake_appliance_tool",
-    "name": { "str": "power lathe" }
-  },
-  {
     "id": "air_compressor_tool",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
