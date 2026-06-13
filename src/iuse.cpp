@@ -3793,7 +3793,6 @@ void iuse::make_music( Character *p, const tripoint_bub_ms &source, int volume, 
                        bool play_sounds )
 {
     //I've mirrored playing music which is really more like listening to music.  Studies show that satisfaction from playing musical instruments outlasts emotional impact of listening to music.
-    map &here = get_map();
     if( play_sounds ) {
         sounds::sound( source, volume, sounds::sound_t::music, _( "music" ), false, "music", "music" );
     }
