@@ -3,8 +3,14 @@
     "type": "MONSTER_FACTION",
     "name": "forest_spirit_faction",
     "base_faction": "animal",
-    "friendly": [ "animal", "herbivore" ],
+    "friendly": [ "animal", "herbivore", "arvore" ],
     "hate": [ "zombie", "fungus", "nether_player_hate", "jabberwock" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "arvore",
+    "copy-from": "arvore",
+    "friendly": [ "forest_spirit_faction" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -100,5 +106,15 @@
     "name": "velociraptor_hatchling",
     "base_faction": "very_small_predator",
     "friendly": [ "velociraptor" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "lizardfolk_nonhostile",
+    "hate": [ "lizardfolk_hostile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "lizardfolk_hostile",
+    "hate": [ "lizardfolk_nonhostile" ]
   }
 ]

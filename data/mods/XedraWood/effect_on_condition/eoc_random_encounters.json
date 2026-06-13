@@ -1,0 +1,39 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRAWOOD_LIZARDFOLK_HUNTING_PARTY_SWAMP_RANDENC",
+    "recurrence": 21600,
+    "global": true,
+    "condition": { "math": [ "RandEnc != 1" ] },
+    "effect": [
+      { "set_condition": "random_enc_condition", "condition": { "math": [ "0 == 0" ] } },
+      {
+        "run_eocs": "EOC_RandEnc",
+        "variables": {
+          "omt": "forest_water",
+          "map_update": "nest_RandEnc_lizardfolk_hunting_party_add",
+          "map_removal": "nest_RandEnc_lizardfolk_hunting_party_remove",
+          "chance": 10,
+          "days_till_spawn": 0
+        }
+      }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "nest_RandEnc_lizardfolk_hunting_party_add",
+    "object": { "place_monster": [ { "monster": "GROUP_LIZARDFOLK_RANDENC", "x": [ 0, 24 ], "y": [ 0, 24 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "nest_RandEnc_lizardfolk_hunting_party_remove",
+    "object": {
+      "remove_monsters": [
+        { "monster": "mon_lizardfolk_warrior", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "monster": "mon_lizardfolk_hunter", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "monster": "mon_lizardfolk_warrior_hostile", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "monster": "mon_lizardfolk_hunter_hostile", "x": [ 0, 23 ], "y": [ 0, 23 ] }
+      ]
+    }
+  }
+]
