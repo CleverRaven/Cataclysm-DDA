@@ -99,7 +99,7 @@
               { "item": "chem_washing_soda", "prob": 10 },
               { "item": "ammonia_hydroxide", "prob": 15 },
               { "item": "vinegar", "prob": 10 },
-              { "item": "bag_garbage", "count": 25, "container-item": "box_small", "prob": 35 }
+              { "group": "bag_garbage_box", "prob": 35 }
             ],
             "prob": 15
           },
@@ -163,7 +163,7 @@
               { "item": "bowl_plastic", "prob": 5 },
               { "item": "ammonia_hydroxide", "charges": [ 1, -1 ], "prob": 15 },
               { "item": "chem_washing_soda", "count": [ 1, -1 ], "prob": 10 },
-              { "item": "bag_garbage", "count": [ 1, 25 ], "container-item": "box_small", "prob": 35 }
+              { "group": "bag_garbage_box_part", "prob": 35 }
             ],
             "prob": 15
           },
