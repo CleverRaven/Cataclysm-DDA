@@ -2563,6 +2563,14 @@ drop_locations game_menus::inv::pickup( const std::set<tripoint_bub_ms> &targets
     if( info.max_mass != -1_gram ) {
         pick_s.overriden_mass = info.max_mass;
     }
+
+    if( info.highlight ) {
+        // Use `highlight_one_of` instead of `highlight` because
+        // `highlight` doesn't `prepare_layout`, which causes items
+        // to change visual positions after the highlight.
+        pick_s.highlight_one_of( { info.highlight } );
+    }
+
     return pick_s.execute();
 }
 
