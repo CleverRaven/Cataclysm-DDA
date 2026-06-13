@@ -79,7 +79,7 @@
     "type": "profession",
     "subtype": "hobby",
     "id": "socialdance",
-    "name": "Dancing",
+    "name": "Group Dancing",
     "description": "You loved meeting new people during tribal gatherings, dancing around the fire until the late hours.  Maybe you can keep putting those skills to use.",
     "points": 2,
     "skills": [ { "level": 1, "name": "dodge" }, { "level": 2, "name": "speech" } ],
@@ -100,7 +100,7 @@
     "subtype": "hobby",
     "id": "foraging",
     "name": "Foraging",
-    "description": "You have plenty of practice.",
+    "description": "You have plenty of practice at searching the forest for delicious foods.",
     "points": 1,
     "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "cooking" } ],
     "proficiencies": [ "prof_forage_cooking" ]
@@ -190,10 +190,10 @@
     "subtype": "hobby",
     "id": "big_eater",
     "name": "Big Eater",
-    "description": "You were almost always hungry, always thinking about where your next meal was coming from.  You hung around the tribal cookfires so often that they eventually just kept roping you in to help prepare the meals.  You never minded as long as you got to taste the meals before they were served.",
+    "description": "You were almost always hungry, always thinking about where your next meal was coming from.  You hung around the tribal cookfires so often that they eventually just kept roping you in to help prepare the meals.  You never minded as long as you got to taste the meals before they were served, but it's made you very particular about what you eat.",
     "points": 1,
     "skills": [ { "level": 1, "name": "cooking" } ],
-    "traits": [ "GOURMAND" ]
+    "traits": [ "GOURMAND", "PICKYEATER" ]
   },
   {
     "type": "profession",
@@ -338,5 +338,63 @@
     "name": "A new life",
     "description": "You are born anew, freshly spun forth from the natural elements but hours ago.  You have as yet had no time to develop hobbies.",
     "points": 1
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "XEDRAWOOD_EXTRA_STRONG",
+    "name": "Mighty Thews",
+    "description": "Due to long hours of exercise your limbs are thick with corded muscle.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "swimming" } ],
+    "traits": [ "STR_UP_2" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "XEDRAWOOD_EXTRA_DEX",
+    "name": "Pantherish Grace",
+    "description": "You used to do backflips and splits to impress other members of your tribe, and you've maintained your flexibility.",
+    "points": 2,
+    "skills": [ { "level": 1, "name": "swimming" } ],
+    "traits": [ "DEX_UP_2" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "XEDRAWOOD_NOCTURNAL",
+    "name": "Up Past the Sun",
+    "description": "Unlike most of your people, you always stayed up long past sunset, staring at the moon or walking at the edge of the firelight.  You are much better at seeing at night, but have a harder time falling asleep and waking up.",
+    "points": 3,
+    "traits": [ "NIGHTVISION2", "INSOMNIA", "HEAVYSLEEPER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "XEDRAWOOD_PORTER",
+    "name": "Tribal Porter",
+    "description": "In your nomadic wanderings, your tribe relied on you to transport the larger goods like tents or baskets of preserved food and bedding, and you've gotten very good at packing efficiently and carrying goods for long distances, but you tend to have a pretty heavy tread when walking.",
+    "points": 1,
+    "traits": [ "PACKMULE", "STRONGBACK", "CLUMSY" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "XEDRAWOOD_SCOUT",
+    "name": "Tribal Scout",
+    "description": "You spent long hours wandering far afield, looking for new hunting grounds, making sure the things of the forest and the swamps stayed away from your people's lands.  You are very good at spotting threats from far away, but you've grown used to spending time alone.",
+    "points": 1,
+    "proficiencies": [ "prof_spotting" ],
+    "traits": [ "EAGLEEYED", "ASOCIAL2" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "XEDRAWOOD_DRUNKEN_MASTER",
+    "name": "Drunken Warrior",
+    "description": "You have a bit too much of a taste for the beverages served during tribal celebrations, but you've gotten used to fighting while under their spell.  Some of your fellows even say you fight better after you've had a few.",
+    "points": 3,
+    "traits": [ "DRUNKEN", "ADDICTIVE" ],
+    "addictions": [ { "intensity": 20, "type": "alcohol" } ]
   }
 ]
