@@ -8,8 +8,8 @@
 #include "start_location.h"
 #include "type_id.h"
 
-static const string_id<scenario> scenario_beach_day( "beach_day" );
 static const start_location_id start_location_sloc_ocean_shore( "sloc_ocean_shore" );
+static const string_id<scenario> scenario_beach_day( "beach_day" );
 
 TEST_CASE( "Test_origin_offset" )
 {
