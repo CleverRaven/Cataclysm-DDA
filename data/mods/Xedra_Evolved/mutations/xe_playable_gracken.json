@@ -53,7 +53,8 @@
     "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR", "CHAOTIC", "CHAOTIC_BAD" ],
     "empathize_with": [ "GRACKEN" ],
     "no_empathize_with": [ "HUMAN" ],
-    "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ]
+    "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ],
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] } ]
   },
   {
     "type": "mutation",
