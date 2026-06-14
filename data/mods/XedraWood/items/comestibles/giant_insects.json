@@ -93,5 +93,26 @@
     "volume": "250 ml",
     "fun": -25,
     "vitamins": [ [ "meat_allergen", 1 ] ]
+  },
+  {
+    "id": "insect_meat_fried",
+    "copy-from": "meat_fried",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "fried insect meat" },
+    "material": [ "flesh" ],
+    "symbol": "%",
+    "color": "brown",
+    "parasites": 0,
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "meat_allergen", 1 ] ],
+    "flags": [ "EATEN_HOT" ],
+    "weight": "298 g",
+    "volume": "250 ml",
+    "spoils_in": "1 day",
+    "description": "Oil-fried insect meat.  It looks marginally more appetizing now.",
+    "proportional": { "price": 0.1, "calories": 0.65 },
+    "quench": -1,
+    "fun": 6
   }
 ]

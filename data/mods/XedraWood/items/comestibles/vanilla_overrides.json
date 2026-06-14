@@ -20,6 +20,18 @@
     ]
   },
   {
+    "id": "meat_fried",
+    "copy-from": "meat_fried",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "conditional_names": [
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "fried fool" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "fried familiar" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "%s, mutant" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "insect", "name": { "str_sp": "%s, insect" } }
+    ]
+  },
+  {
     "id": "jerky",
     "copy-from": "jerky",
     "type": "ITEM",
