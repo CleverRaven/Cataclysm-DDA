@@ -2448,6 +2448,23 @@ void Item_factory::check_definitions() const
             }
         }
 
+        // Keys must be modes the mod owns via mode_modifier; flag add+hide of one mode.
+        if( type->gunmod ) {
+            for( const auto &mode_pair : type->gunmod->firing_requirements.per_mode ) {
+                if( !type->gunmod->mode_modifier.count( mode_pair.first ) ) {
+                    msg += string_format(
+                               "gunmod mode_firing_requirements mode \"%s\" is not in this mod's mode_modifier\n",
+                               mode_pair.first.str() );
+                }
+            }
+            for( const gun_mode_id &h : type->gunmod->hide_modes ) {
+                if( type->gunmod->mode_modifier.count( h ) ) {
+                    msg += string_format(
+                               "gunmod both adds and hides mode \"%s\"\n", h.str() );
+                }
+            }
+        }
+
         if( !type->category_force.is_valid() ) {
             msg += "undefined category " + type->category_force.str() + "\n";
         }
@@ -3842,6 +3859,11 @@ void islot_gunmod::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "heat_per_shot_modifier", heat_per_shot_modifier );
     optional( jo, was_loaded, "heat_per_shot_multiplier", heat_per_shot_multiplier, 1.0f );
     optional( jo, was_loaded, "mode_modifier", mode_modifier, gun_modes_reader{} );
+    // Distinct key so it never collides with itype-level firing_requirements.
+    if( jo.has_member( "mode_firing_requirements" ) ) {
+        firing_requirements.deserialize_firing_requirements( jo, "mode_firing_requirements" );
+    }
+    optional( jo, was_loaded, "hide_modes", hide_modes );
     optional( jo, was_loaded, "reload_modifier", reload_modifier );
     optional( jo, was_loaded, "min_str_required_mod", min_str_required_mod );
     optional( jo, was_loaded, "min_str_required_mod_if_prone", min_str_required_mod_if_prone );

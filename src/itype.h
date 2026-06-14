@@ -1000,6 +1000,13 @@ struct islot_gunmod : common_ranged_data {
     /** Firing modes added to or replacing those of the base gun */
     std::map<gun_mode_id, gun_modifier_data> mode_modifier;
 
+    /** Per-pocket cost a gunmod imposes on its host for the modes it adds via
+     *  mode_modifier. Loaded from key "mode_firing_requirements". */
+    firing_requirement_set firing_requirements;
+
+    /** Modes removed from the final merged mode set when this mod is installed. */
+    std::set<gun_mode_id> hide_modes;
+
     std::set<std::string> ammo_effects;
 
     /** Relative adjustment to base gun handling */

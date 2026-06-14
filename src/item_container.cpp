@@ -14,6 +14,7 @@
 #include <list>
 #include <memory>
 #include <optional>
+#include <map>
 #include <string>
 #include <type_traits>
 #include <unordered_map>
@@ -29,6 +30,7 @@
 #include "enums.h"
 #include "flag.h"
 #include "flat_set.h"
+#include "gun_mode.h"
 #include "item_category.h"
 #include "item_contents.h"
 #include "item_location.h"
@@ -167,6 +169,15 @@ void item::update_modified_pockets()
     }
 
     contents.update_modified_pockets( std::move( mag_or_mag_wells ), std::move( container_pockets ) );
+
+    // A gunmod's hide_modes can remove the gun's selected mode; reselect a
+    // survivor. All modes hidden leaves no selection, and shot resolution refuses.
+    if( is_gun() ) {
+        const std::map<gun_mode_id, gun_mode> modes = gun_all_modes();
+        if( !modes.empty() && modes.count( gun_get_mode_id() ) == 0 ) {
+            gun_cycle_mode();
+        }
+    }
 }
 
 bool item::same_contents( const item &rhs ) const

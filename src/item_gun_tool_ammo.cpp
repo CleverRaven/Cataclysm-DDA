@@ -138,12 +138,37 @@ static const std::vector<pocket_consumption_entry> *resolve_firing_entries(
     const item &host, const gun_mode_id &mode )
 {
     const firing_requirement_set &set = host.type->firing_requirements;
-    const std::vector<pocket_consumption_entry> *entries = set.for_mode( mode );
-    if( entries != nullptr && !entries->empty() ) {
-        return entries;
+    // Cost comes from the item owning the winning mode-def: a gunmod owning a
+    // mode supplies its cost, else inherits host DEFAULT. host[M] is read only
+    // for host-owned modes, so a same-id override never splits def from cost.
+    bool mod_owns = false;
+    if( host.is_gun() ) {
+        for( const item *mod : host.gunmods() ) {
+            if( mod->type == nullptr || !mod->type->gunmod ) {
+                continue;
+            }
+            if( !mod->type->gunmod->mode_modifier.count( mode ) ) {
+                continue;
+            }
+            // mode_modifier owns the mode; gunmod->firing_requirements (key
+            // "mode_firing_requirements") carries its per-pocket cost.
+            const firing_requirement_set &ms = mod->type->gunmod->firing_requirements;
+            const std::vector<pocket_consumption_entry> *me = ms.for_mode( mode );
+            if( me != nullptr && !me->empty() ) {
+                return me;
+            }
+            mod_owns = true; // owns the mode but gave no cost: inherit host DEFAULT
+            break;
+        }
     }
-    if( host.type->gun && host.type->gun->modes.count( mode ) ) {
-        return nullptr; // base gun mode without explicit entry: validation failure
+    if( !mod_owns ) {
+        const std::vector<pocket_consumption_entry> *entries = set.for_mode( mode );
+        if( entries != nullptr && !entries->empty() ) {
+            return entries;
+        }
+        if( host.type->gun && host.type->gun->modes.count( mode ) ) {
+            return nullptr; // base gun mode without explicit entry: validation failure
+        }
     }
     return set.for_mode( gun_mode_DEFAULT );
 }
@@ -1382,6 +1407,9 @@ int item::shots_remaining( const map &here, const Character *carrier ) const
 {
     if( uses_firing_requirements() ) {
         const gun_mode_id mode = is_gun() ? gun_get_mode_id() : gun_mode_DEFAULT;
+        if( firing_mode_blocked( mode ) ) {
+            return 0;
+        }
         const std::vector<pocket_consumption_entry> *entries =
             resolve_firing_entries( *this, mode );
         if( entries == nullptr || entries->empty() ) {
@@ -2378,6 +2406,7 @@ int item::ammo_consume_in_pocket( const std::string &id, int qty, map &here,
 
 bool item::uses_firing_requirements() const
 {
+    // itype-level firing_requirements is the item's own consumption, empty for a bare gunmod.
     return type && !type->firing_requirements.empty();
 }
 
@@ -2832,6 +2861,14 @@ int item::consume_shots( const gun_mode_id &mode, int shots, map &here,
     if( shots <= 0 ) {
         return 0;
     }
+    if( firing_mode_blocked( mode ) ) {
+        const gun_mode gm = gun_get_mode( mode );
+        if( gm && gm.target != this ) {
+            debugmsg( "multimag: aux-gunmod mode %s fired on host %s is unsupported "
+                      "(would mis-bill parent pockets)", mode.str(), tname() );
+        }
+        return 0;
+    }
     if( uses_firing_requirements() ) {
         const std::vector<pocket_consumption_entry> *entries =
             resolve_firing_entries( *this, mode );
@@ -3109,6 +3146,16 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
         }
     }
 
+    // hide_modes is a global, id-based kill switch applied to the final merged
+    // set: a hidden id is removed regardless of which item contributed it.
+    for( const item *e : gunmods() ) {
+        if( e->type != nullptr && e->type->gunmod ) {
+            for( const gun_mode_id &h : e->type->gunmod->hide_modes ) {
+                res.erase( h );
+            }
+        }
+    }
+
     return res;
 }
 
@@ -3137,6 +3184,30 @@ gun_mode_id item::gun_get_mode_id() const
     return gun_mode_id( get_var( GUN_MODE_VAR_NAME, "DEFAULT" ) );
 }
 
+bool item::firing_mode_blocked( const gun_mode_id &mode ) const
+{
+    if( !is_gun() ) {
+        return false;
+    }
+    // A mode a gunmod hides must not fire even when other modes survive.
+    for( const item *mod : gunmods() ) {
+        if( mod->type && mod->type->gunmod && mod->type->gunmod->hide_modes.count( mode ) ) {
+            return true;
+        }
+    }
+    const std::map<gun_mode_id, gun_mode> modes = gun_all_modes();
+    if( modes.empty() ) {
+        return true; // every mode hidden by a gunmod: gun is unfireable
+    }
+    // Aux gunmod modes target the aux item, not this host; billing them here
+    // would drain the parent's pockets, so block.
+    const auto it = modes.find( mode );
+    if( it != modes.end() && it->second.target != this && uses_firing_requirements() ) {
+        return true;
+    }
+    return false;
+}
+
 bool item::gun_set_mode( const gun_mode_id &mode )
 {
     if( !is_gun() || is_gunmod() || !gun_all_modes().count( mode ) ) {
@@ -3154,6 +3225,9 @@ void item::gun_cycle_mode()
 
     const gun_mode_id cur = gun_get_mode_id();
     const std::map<gun_mode_id, gun_mode> modes = gun_all_modes();
+    if( modes.empty() ) {
+        return; // every mode hidden: nothing to cycle to
+    }
 
     for( auto iter = modes.begin(); iter != modes.end(); ++iter ) {
         if( iter->first == cur ) {

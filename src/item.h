@@ -2969,6 +2969,10 @@ class item : public visitable
         /** Switch to the next available firing mode */
         void gun_cycle_mode();
 
+        /** True if @p mode cannot be fired: not live (all modes hidden), or an aux
+         *  gunmod mode targeting the aux item on a multimag gun (aux cost out of scope). */
+        bool firing_mode_blocked( const gun_mode_id &mode ) const;
+
         /** Get lowest actual and effective dispersion of either integral or any attached sights for specific character */
         std::pair<int, int> sight_dispersion( const Character &character ) const;
 

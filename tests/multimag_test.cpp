@@ -2,6 +2,7 @@
 #include <cstddef>
 #include <functional>
 #include <list>
+#include <map>
 #include <set>
 #include <sstream>
 #include <string>
@@ -20,6 +21,7 @@
 #include "debug.h"
 #include "flag.h"
 #include "flat_set.h"
+#include "gun_mode.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
@@ -50,6 +52,9 @@ static const flag_id json_flag_CASING( "CASING" );
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
 static const gun_mode_id gun_mode_BURST( "BURST" );
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
+static const gun_mode_id gun_mode_EXTRA( "EXTRA" );
+static const gun_mode_id gun_mode_REGULATED( "REGULATED" );
+static const gun_mode_id gun_mode_TGMODE( "TGMODE" );
 
 static const item_group_id Item_spawn_data_test_multimag_full_load( "test_multimag_full_load" );
 
@@ -71,12 +76,19 @@ static const itype_id itype_paper( "paper" );
 static const itype_id itype_robofac_gun( "robofac_gun" );
 static const itype_id itype_stanag30( "stanag30" );
 static const itype_id itype_sw_619( "sw_619" );
+static const itype_id itype_test_multimag_add_extra_mode_mod( "test_multimag_add_extra_mode_mod" );
+static const itype_id itype_test_multimag_aux_gun( "test_multimag_aux_gun" );
 static const itype_id itype_test_multimag_gun( "test_multimag_gun" );
 static const itype_id itype_test_multimag_gun_consume( "test_multimag_gun_consume" );
 static const itype_id itype_test_multimag_gun_integral_ammo( "test_multimag_gun_integral_ammo" );
 static const itype_id itype_test_multimag_gun_same_type( "test_multimag_gun_same_type" );
+static const itype_id itype_test_multimag_hide_all_mod( "test_multimag_hide_all_mod" );
+static const itype_id
+itype_test_multimag_hide_extra_mode_mod( "test_multimag_hide_extra_mode_mod" );
+static const itype_id itype_test_multimag_regulated_mod( "test_multimag_regulated_mod" );
 static const itype_id itype_test_multimag_tool_consume( "test_multimag_tool_consume" );
 static const itype_id itype_test_multimag_tool_factor( "test_multimag_tool_factor" );
+static const itype_id itype_test_multimag_tool_gunmod( "test_multimag_tool_gunmod" );
 static const itype_id itype_test_multimag_turret_gun( "test_multimag_turret_gun" );
 static const itype_id itype_test_multimag_vehicle_welder( "test_multimag_vehicle_welder" );
 static const itype_id itype_welding_wire_steel_tests_dupe( "welding_wire_steel_tests_dupe" );
@@ -1407,6 +1419,131 @@ TEST_CASE( "consume_shots_and_consume_tool_uses_drain_per_pocket",
         CHECK( welder.ammo_remaining_in_pocket( "power" ) == 95 );
         CHECK( welder.ammo_remaining_in_pocket( "oxygen" ) == 18 );
         CHECK( welder.ammo_remaining_in_pocket( "rod" ) == 4 );
+    }
+}
+
+TEST_CASE( "gunmod_supplies_per_mode_firing_requirements", "[multimag][consume][mod]" )
+{
+    clear_map();
+    map &here = get_map();
+    const tripoint_bub_ms pos = tripoint_bub_ms::zero;
+
+    item gun = make_multimag_consume_gun( 15, 100 );
+    REQUIRE( gun.put_in( item( itype_test_multimag_regulated_mod ),
+                         pocket_type::MOD ).success() );
+
+    GIVEN( "a gun mod that adds a REGULATED mode with its own per-pocket cost" ) {
+        THEN( "the added mode appears and DEFAULT is hidden" ) {
+            const std::map<gun_mode_id, gun_mode> modes = gun.gun_all_modes();
+            CHECK( modes.count( gun_mode_REGULATED ) == 1 );
+            CHECK( modes.count( gun_mode_DEFAULT ) == 0 );
+        }
+        WHEN( "fired in REGULATED mode" ) {
+            const int got = gun.consume_shots( gun_mode_REGULATED, 3, here, pos, nullptr );
+            THEN( "the mod's firing_requirements drive consumption, not DEFAULT" ) {
+                CHECK( got == 3 );
+                // 15 - 3*1
+                CHECK( gun.ammo_remaining_in_pocket( "ammo" ) == 12 );
+                // 100 - 3*1 (host DEFAULT would have drawn 5/shot)
+                CHECK( gun.ammo_remaining_in_pocket( "power" ) == 97 );
+            }
+        }
+        WHEN( "the hidden DEFAULT mode id is fired directly" ) {
+            const int got = gun.consume_shots( gun_mode_DEFAULT, 3, here, pos, nullptr );
+            THEN( "it is blocked and bills nothing, not the host DEFAULT cost" ) {
+                CHECK( got == 0 );
+                CHECK( gun.ammo_remaining_in_pocket( "ammo" ) == 15 );
+                CHECK( gun.ammo_remaining_in_pocket( "power" ) == 100 );
+            }
+        }
+    }
+}
+
+TEST_CASE( "gunmod_hide_modes_global_kill_switch", "[multimag][consume][mod]" )
+{
+    clear_map();
+    map &here = get_map();
+    const tripoint_bub_ms pos = tripoint_bub_ms::zero;
+
+    SECTION( "hiding every mode leaves the gun unfireable, not crashing" ) {
+        item gun = make_multimag_consume_gun( 15, 100 );
+        REQUIRE( gun.put_in( item( itype_test_multimag_hide_all_mod ),
+                             pocket_type::MOD ).success() );
+        CHECK( gun.gun_all_modes().empty() );
+        // No live mode: shot resolution refuses, consuming nothing.
+        CHECK( gun.shots_remaining( here, nullptr ) == 0 );
+        CHECK( gun.consume_shots( gun_mode_DEFAULT, 1, here, pos, nullptr ) == 0 );
+        CHECK( gun.ammo_remaining_in_pocket( "ammo" ) == 15 );
+        CHECK( gun.ammo_remaining_in_pocket( "power" ) == 100 );
+    }
+
+    SECTION( "one mod can hide a mode another mod added" ) {
+        item gun = make_multimag_consume_gun( 15, 100 );
+        REQUIRE( gun.put_in( item( itype_test_multimag_add_extra_mode_mod ),
+                             pocket_type::MOD ).success() );
+        REQUIRE( gun.gun_all_modes().count( gun_mode_EXTRA ) == 1 );
+        REQUIRE( gun.put_in( item( itype_test_multimag_hide_extra_mode_mod ),
+                             pocket_type::MOD ).success() );
+        CHECK( gun.gun_all_modes().count( gun_mode_EXTRA ) == 0 );
+    }
+}
+
+TEST_CASE( "tool_gunmod_firing_requirements_is_not_own_consumption", "[multimag][consume][mod]" )
+{
+    clear_map();
+    map &here = get_map();
+    const tripoint_bub_ms pos = tripoint_bub_ms::zero;
+
+    // A TOOL+GUNMOD's mode_firing_requirements is the cost it imposes on its gun
+    // host, not its own tool consumption: the bare item is not a multimag host.
+    item tg( itype_test_multimag_tool_gunmod );
+    REQUIRE( tg.is_tool() );
+    REQUIRE( tg.is_gunmod() );
+    CHECK_FALSE( tg.uses_firing_requirements() );
+
+    SECTION( "installed on a gun, its mode draws the mod's per-pocket cost" ) {
+        item gun = make_multimag_consume_gun( 15, 100 );
+        REQUIRE( gun.put_in( item( itype_test_multimag_tool_gunmod ),
+                             pocket_type::MOD ).success() );
+        REQUIRE( gun.gun_all_modes().count( gun_mode_TGMODE ) == 1 );
+        const int got = gun.consume_shots( gun_mode_TGMODE, 2, here, pos, nullptr );
+        CHECK( got == 2 );
+        CHECK( gun.ammo_remaining_in_pocket( "ammo" ) == 13 );   // 15 - 2*1
+        CHECK( gun.ammo_remaining_in_pocket( "power" ) == 98 );  // 100 - 2*1 (DEFAULT would be 5)
+    }
+}
+
+TEST_CASE( "aux_gunmod_mode_blocked_on_multimag_host", "[multimag][consume][mod]" )
+{
+    clear_map();
+    map &here = get_map();
+    const tripoint_bub_ms pos = tripoint_bub_ms::zero;
+
+    item gun = make_multimag_consume_gun( 15, 100 );
+    REQUIRE( gun.put_in( item( itype_test_multimag_aux_gun ), pocket_type::MOD ).success() );
+
+    // The aux gun-gunmod contributes a mode whose gun_mode target is the aux item.
+    gun_mode_id aux_mode;
+    for( const std::pair<const gun_mode_id, gun_mode> &m : gun.gun_all_modes() ) {
+        if( m.second.target != &gun ) {
+            aux_mode = m.first;
+        }
+    }
+    REQUIRE_FALSE( aux_mode.is_empty() );
+
+    WHEN( "the aux mode is selected on the multimag host" ) {
+        THEN( "it is blocked: not fireable, host pockets untouched" ) {
+            CHECK( gun.firing_mode_blocked( aux_mode ) );
+            int consumed = -1;
+            // consume_shots intentionally debugmsgs once when refusing an aux mode.
+            const std::string dmsg = capture_debugmsg_during( [&]() {
+                consumed = gun.consume_shots( aux_mode, 1, here, pos, nullptr );
+            } );
+            CHECK( consumed == 0 );
+            CHECK( dmsg.find( "aux-gunmod" ) != std::string::npos );
+            CHECK( gun.ammo_remaining_in_pocket( "ammo" ) == 15 );
+            CHECK( gun.ammo_remaining_in_pocket( "power" ) == 100 );
+        }
     }
 }
 
