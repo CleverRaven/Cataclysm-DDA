@@ -504,7 +504,7 @@
     "professions": [ "security", "labtech", "medic" ],
     "allowed_locs": [ "sloc_lab_concourse_area" ],
     "map_extra": "mx_lab_concourse_area",
-    "requirement": "achievement_tcl_win",
+    "requirement": "achievement_reach_trans_coast_lab",
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
@@ -917,7 +917,7 @@
       "combat-mechanic",
       "combat-engineer"
     ],
-    "requirement": "achievement_reach_military_armory",
+    "requirement": "achievement_reach_military_base",
     "distance_initial_visibility": 25,
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
