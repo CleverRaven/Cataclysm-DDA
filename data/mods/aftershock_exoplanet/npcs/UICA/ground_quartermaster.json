@@ -49,6 +49,7 @@
   {
     "type": "npc",
     "id": "uica_quartermaster",
+    "name_unique": "Keir Albior",
     "name_suffix": "UICA Quartermaster",
     "class": "NC_UICA_GROUND_QUARTERMASTER",
     "attitude": 0,
