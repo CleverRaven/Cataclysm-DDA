@@ -1,0 +1,23 @@
+[
+  {
+    "id": "afs_bars",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
+    "name": { "str": "strange recoil system" },
+    "description": "This gun appears to have a recoil-reduction system, although you are unsure as to how it functions.  All you know is that it works, and that's enough.",
+    "weight": "60 g",
+    "volume": "250 ml",
+    "integral_volume": "0 ml",
+    "price": "240 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "red",
+    "location": "mechanism",
+    "mod_targets": [ "rifle", "smg" ],
+    "install_time": "15 m",
+    "handling_modifier": 15,
+    "min_skills": [ [ "mechanics", 2 ], [ "rifle", 3 ] ],
+    "flags": [ "IRREMOVABLE" ]
+  }
+]

@@ -13,6 +13,24 @@
     "pocket_data": [  ]
   },
   {
+    "id": "afs_mirror_shades",
+    "repairs_like": "glasses_bal",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "glasses_bal",
+    "looks_like": "glasses_bal",
+    "name": { "str": "mirror shades", "str_pl": "pairs of mirror shades" },
+    "description": "A pair of mirrored combat sunglasses.  An essential piece of streetwear, they confer a definitive disadvantage when it comes to playing cards."
+  },
+  {
+    "id": "afs_merc_boot",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "boots_combat",
+    "name": { "str": "pair of LYNX Arctic Combat® boots", "str_pl": "pairs of LYNX Arctic Combat® boots" },
+    "description": "A pair of winterized combat boots from the LYNX Arctic Combat® collection.  LYNX was supposedly founded in 2065, after their founder, Marion Howl, shot and killed the last Lynx off the beaches of Alaska.  After being acquired by Lausanne, the name 'LYNX' became synonymous with stylish, yet combat-ready apparel for the discerning mercenary."
+  },
+  {
     "id": "afs_academy_cloak",
     "repairs_like": "cloak",
     "type": "ITEM",
@@ -31,6 +49,15 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "nanoweave formal shirt" },
     "description": "A luxurious Lausanne dress shirt.  Steel grey fading into golden thread, it has a mandarin collar and a neo-deco look that was the rage back on Earth when you last left.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "arctic",
+        "name": { "str": "LYNX Arctic Comabt® dress shirt" },
+        "description": "A very flattering dress shirt made by LYNX, a subsidiary of Lausanne.  As a member of the Arctic Combat® collection, this designer shirt is rumored to have real penguin tooth inlays on the top button.  While certainly justifying the price tag, this basalt grey shirt is otherwise quite unassuming.",
+        "weight": 0
+      }
+    ],
     "weight": "250 g",
     "volume": "750 ml",
     "price": "880 USD",
@@ -214,6 +241,16 @@
         "moves": 350,
         "description": "rear channel pocket."
       }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "merc",
+        "name": { "str": "LYNX Arctic Comabt® diode bomber" },
+        "description": "Fresh from LYNX's trademarked Arctic Comabt® lineup, this cool jacket will send chills down the spine of any poser that tries to pull your look!  It sports a magnesium white body, real faux-fur collar, and some cyan lights to really up the cool factor.",
+        "color": "white",
+        "weight": 0
+      }
     ]
   },
   {
@@ -313,6 +350,64 @@
         "color": "dark_gray",
         "weight": 0,
         "append": true
+      },
+      {
+        "id": "lynx",
+        "name": { "str": "LYNX Arctic Combat® bolero" },
+        "description": "It's soft white with a salmon interior and a real faux-fur collar.  Fresh from the LYNX Arctic Combat® collection.",
+        "color": "dark_gray",
+        "weight": 0,
+        "append": true
+      }
+    ]
+  },
+  {
+    "id": "afs_lx_armypants",
+    "copy-from": "pants_army",
+    "material": [ "graphene_weave" ],
+    "price": "3 kUSD",
+    "name": { "str": "LYNX nanoweave combat pants", "str_pl": "pairs of  LYNX nanoweave combat pants" },
+    "description": "A pair of nanowoven combat pants produced by LYNX, a subsidiary of Lausanne.  Catering to high-earning mercenaries who value style, these pants are form-fitting and stylish while also boasting mutliple deep pockets.  This pair is black, with a gunmetal black turning into a shiny steel-grey as it nears the waistline.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "arctic",
+        "name": { "str": "LYNX Arctic Combat® pants", "str_pl": "pairs of LYNX Arctic Combat® pants" },
+        "description": "A pair of sleek nanoweave combat pants, produced by LYNX, a subsidiary of Lausanne.  Being part of the Arctic Combat® collection, it is resplendent in mottled black and white camo, that appears to change pattern as one walks.  Unfortunately, the coloration does little to help blend in on Salus IV.",
+        "weight": 0
+      }
+    ]
+  },
+  {
+    "id": "afs_lx_comcropped",
+    "material": [ "graphene_weave" ],
+    "price": "2 kUSD",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "LYNX combat crop top" },
+    "description": "A nanoweave crop top produced by LYNX, a subsidiary of Lausanne.  Substantially thicker than a standard crop top, this article of clothing is designed to be worn over a combat cryosuit or other body-glove like piece of clothing, while also fitting underneath a bolero.  It boasts a single front pocket.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "arctic",
+        "name": { "str": "LYNX Arctic Combat® crop top" },
+        "description": "A nanoweave crop top, produced by LYNX, a subsidiary of Lausanne.  Perhaps the strangest part of the Arctic Combat® collection, it fits just under a bolero jacket, allegedly to keep it from scratching your cryosuit.  While this magnesium white top would make an excellent fashion statement on a cruise through the Arctic Sea, it lacks coverage.",
+        "weight": 0
+      }
+    ],
+    "material_thickness": 1,
+    "armor": [
+      { "encumbrance": 3, "coverage": 80, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] },
+      { "encumbrance": 3, "coverage": 90, "cover_vitals": 90, "covers": [ "arm_l", "arm_r" ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "8 cm",
+        "moves": 80,
+        "description": "Zip-up chest pocket."
       }
     ]
   }
