@@ -1016,7 +1016,7 @@
     "id": "any_blood",
     "type": "requirement",
     "//": "Any type of blood.",
-    "components": [ [ [ "edible_blood", 1, "LIST" ], [ "blood_tainted", 1 ] ] ]
+    "components": [ [ [ "edible_blood", 1, "LIST" ], [ "blood_tainted", 1 ], [ "blood_tainted_human", 1 ] ] ]
   },
   {
     "id": "any_butter_or_oil",
