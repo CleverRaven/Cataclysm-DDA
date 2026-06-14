@@ -3235,7 +3235,6 @@ void npc::die( map *here, Creature *nkiller )
         // *only* set to true in this function!
         return;
     }
-    
     prevent_death_reminder = false;
     dialogue d( get_talker_for( this ), nkiller == nullptr ? nullptr : get_talker_for( nkiller ) );
     for( effect_on_condition_id &eoc : death_eocs ) {
@@ -3298,7 +3297,8 @@ void npc::die( map *here, Creature *nkiller )
     }
 
     if( Character *ch = dynamic_cast<Character *>( killer ) ) {
-        get_event_bus().send<event_type::character_kills_character>( ch->getID(), getID(), get_name(), myclass.c_str() );
+        get_event_bus().send<event_type::character_kills_character>( ch->getID(), getID(), get_name(),
+                myclass.c_str() );
     }
     Character &player_character = get_player_character();
     if( killer == &player_character ) {
