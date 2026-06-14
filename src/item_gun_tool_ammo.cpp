@@ -1651,7 +1651,8 @@ int item::remaining_ammo_capacity() const
     if( !loaded_ammo || !loaded_ammo->ammo ) {
         return 0;
     }
-    return ammo_capacity( loaded_ammo->ammo->type ) - ammo_remaining( );
+    // Clamp: a capacity-shrinking mod can leave an integral pocket overfilled.
+    return std::max( 0, ammo_capacity( loaded_ammo->ammo->type ) - ammo_remaining( ) );
 }
 
 // Returns the MAGAZINE_WELL pocket at well_idx in contents, or nullptr if
@@ -1744,9 +1745,9 @@ int item::ammo_capacity( const ammotype &ammo, bool include_linked ) const
             const auto &restrictions = p->get_pocket_data()
                                        ? p->get_pocket_data()->ammo_restriction
                                        : std::map<ammotype, int> {};
-            const auto it = restrictions.find( ammo );
-            if( it != restrictions.end() ) {
-                return it->second;
+            if( restrictions.find( ammo ) != restrictions.end() ) {
+                // pocket-level applies any installed capacity_mods scaling
+                return p->ammo_capacity( ammo );
             }
         }
     }

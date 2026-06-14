@@ -124,6 +124,16 @@ struct pocket_consumption_mod {
     void deserialize( const JsonObject &jo );
 };
 
+// A mod's scaling of one host pocket's ammo capacity, targeted by id. Applies to
+// integral MAGAZINE pockets only; multiple mods on one pocket combine by product.
+struct pocket_capacity_mod {
+    std::string pocket;
+    float multiply = 1.0f;
+
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
+};
+
 // Tools lower consumption_per_use into per_mode[DEFAULT]; guns use the
 // firing_requirements map directly.
 struct firing_requirement_set {
@@ -710,6 +720,10 @@ struct islot_mod {
     /** Per-host-pocket consumption adjustments, targeted by pocket id. On the mod
      *  slot so gunmods and toolmods share one reader. */
     std::vector<pocket_consumption_mod> consumption_mods;
+
+    /** Per-host-pocket ammo capacity scaling, targeted by id. Integral MAGAZINE
+     *  pockets only; a MAGAZINE_WELL target is ignored. */
+    std::vector<pocket_capacity_mod> capacity_mods;
 };
 
 /**

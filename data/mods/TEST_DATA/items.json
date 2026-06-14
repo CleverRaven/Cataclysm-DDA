@@ -6064,6 +6064,40 @@
     "consumption_mods": [ { "pocket": "well_a", "multiply": 0.5 } ]
   },
   {
+    "id": "test_multimag_capacity_gunmod",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
+    "name": { "str": "test multimag capacity gunmod" },
+    "description": "Test gunmod: doubles the integral ammo pocket capacity via capacity_mods.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "longest_side": "50 mm",
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "underbarrel",
+    "mod_targets": [ "pistol" ],
+    "install_time": "5 s",
+    "capacity_mods": [ { "pocket": "ammo", "multiply": 2.0 } ]
+  },
+  {
+    "id": "test_multimag_capacity_well_gunmod",
+    "type": "ITEM",
+    "subtypes": [ "GUNMOD" ],
+    "name": { "str": "test multimag capacity well gunmod" },
+    "description": "Test gunmod whose capacity_mods targets a MAGAZINE_WELL pocket, for the integral-only diagnostic.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "longest_side": "50 mm",
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "underbarrel",
+    "mod_targets": [ "pistol" ],
+    "install_time": "5 s",
+    "capacity_mods": [ { "pocket": "power", "multiply": 2.0 } ]
+  },
+  {
     "id": "test_multimag_gun_integral_ammo",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -6082,6 +6116,7 @@
     "dispersion": 480,
     "durability": 10,
     "flags": [ "NO_TURRET" ],
+    "valid_mod_locations": [ [ "underbarrel", 1 ] ],
     "pocket_data": [
       { "id": "ammo", "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 1 } },
       {

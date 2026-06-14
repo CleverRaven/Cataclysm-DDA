@@ -12,9 +12,9 @@
 #include <cmath>
 #include <functional>
 #include <list>
+#include <map>
 #include <memory>
 #include <optional>
-#include <map>
 #include <set>
 #include <string>
 #include <type_traits>
@@ -180,6 +180,25 @@ void item::update_modified_pockets()
         }
     }
 
+    // Restamp per-pocket capacity scaling from installed mods. Reset first so
+    // removing a mod restores base capacity; combine multiple mods by product.
+    for( item_pocket *p : get_pockets( []( const item_pocket & ) {
+    return true;
+} ) ) {
+        p->set_capacity_mult( 1.0f );
+    }
+    for( const item *mod : mods() ) {
+        if( mod->type == nullptr || !mod->type->mod ) {
+            continue;
+        }
+        for( const pocket_capacity_mod &cm : mod->type->mod->capacity_mods ) {
+            item_pocket *p = pocket_by_id( cm.pocket );
+            if( p != nullptr && p->is_type( pocket_type::MAGAZINE ) ) {
+                p->set_capacity_mult( p->get_capacity_mult() * cm.multiply );
+            }
+        }
+    }
+
     validate_mod_pocket_refs();
 }
 
@@ -217,6 +236,16 @@ void item::validate_mod_pocket_refs() const
         if( mod->type->mod ) {
             for( const pocket_consumption_mod &cm : mod->type->mod->consumption_mods ) {
                 check( cm.pocket, "consumption_mods" );
+            }
+            for( const pocket_capacity_mod &cm : mod->type->mod->capacity_mods ) {
+                const item_pocket *p = pocket_by_id( cm.pocket );
+                if( p == nullptr ) {
+                    debugmsg( "%s: mod capacity_mods references unknown pocket id \"%s\"",
+                              tname(), cm.pocket );
+                } else if( !p->is_type( pocket_type::MAGAZINE ) ) {
+                    debugmsg( "%s: capacity_mods pocket \"%s\" is not an integral MAGAZINE; "
+                              "well capacity is the loaded magazine's", tname(), cm.pocket );
+                }
             }
         }
     }

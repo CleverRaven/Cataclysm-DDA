@@ -79,6 +79,9 @@ static const itype_id itype_sw_619( "sw_619" );
 static const itype_id itype_test_multimag_add_extra_mode_mod( "test_multimag_add_extra_mode_mod" );
 static const itype_id itype_test_multimag_aux_gun( "test_multimag_aux_gun" );
 static const itype_id itype_test_multimag_bad_pocket_gunmod( "test_multimag_bad_pocket_gunmod" );
+static const itype_id itype_test_multimag_capacity_gunmod( "test_multimag_capacity_gunmod" );
+static const itype_id
+itype_test_multimag_capacity_well_gunmod( "test_multimag_capacity_well_gunmod" );
 static const itype_id itype_test_multimag_consume_gunmod( "test_multimag_consume_gunmod" );
 static const itype_id
 itype_test_multimag_consume_gunmod_mult( "test_multimag_consume_gunmod_mult" );
@@ -1491,6 +1494,86 @@ TEST_CASE( "gunmod_hide_modes_global_kill_switch", "[multimag][consume][mod]" )
                              pocket_type::MOD ).success() );
         CHECK( gun.gun_all_modes().count( gun_mode_EXTRA ) == 0 );
     }
+}
+
+TEST_CASE( "gunmod_scales_integral_pocket_capacity", "[multimag][mod]" )
+{
+    clear_map();
+    item gun( itype_test_multimag_gun_integral_ammo );
+    const item_pocket *ammo_p = gun.pocket_by_id( "ammo" );
+    REQUIRE( ammo_p != nullptr );
+    REQUIRE_FALSE( ammo_p->ammo_types().empty() );
+    const ammotype at = *ammo_p->ammo_types().begin();
+    REQUIRE( ammo_p->ammo_capacity( at ) == 1 );
+
+    REQUIRE( gun.put_in( item( itype_test_multimag_capacity_gunmod ),
+                         pocket_type::MOD ).success() );
+
+    THEN( "the integral pocket capacity scales, including the reload-facing remaining" ) {
+        const item_pocket *scaled = gun.pocket_by_id( "ammo" );
+        REQUIRE( scaled != nullptr );
+        CHECK( scaled->ammo_capacity( at ) == 2 );
+        CHECK( scaled->remaining_ammo_capacity( at ) == 2 );
+        // the item-level API (used by reload/UI) reflects the scaling too
+        CHECK( gun.ammo_capacity( at ) == 2 );
+    }
+}
+
+TEST_CASE( "capacity_mods_reflected_in_item_name", "[multimag][mod]" )
+{
+    clear_map();
+    item gun( itype_test_multimag_gun_integral_ammo );
+    REQUIRE( gun.put_in( item( itype_test_multimag_capacity_gunmod ),
+                         pocket_type::MOD ).success() );
+    const std::string name = remove_color_tags( gun.display_name() );
+    INFO( name );
+    // the integral ammo pocket capacity doubles 1 -> 2; empty it shows as 0/2
+    CHECK( name.find( "0/2" ) != std::string::npos );
+}
+
+TEST_CASE( "capacity_mod_overflow_grandfathered_on_removal", "[multimag][mod]" )
+{
+    clear_map();
+    item gun( itype_test_multimag_gun_integral_ammo );
+    REQUIRE( gun.put_in( item( itype_test_multimag_capacity_gunmod ),
+                         pocket_type::MOD ).success() );
+    item_pocket *ammo = gun.pocket_by_id( "ammo" );
+    REQUIRE( ammo != nullptr );
+    const ammotype at = *ammo->ammo_types().begin();
+    REQUIRE( ammo->ammo_capacity( at ) == 2 );
+    REQUIRE( ammo->insert_item( item( itype_9mm, calendar::turn, 1 ) ).success() );
+    REQUIRE( ammo->insert_item( item( itype_9mm, calendar::turn, 1 ) ).success() );
+    REQUIRE( ammo->remaining_ammo_capacity( at ) == 0 );
+
+    WHEN( "the boost mod is removed while the pocket is at the boosted fill" ) {
+        gun.remove_items_with( [&]( const item & it ) {
+            return it.typeId() == itype_test_multimag_capacity_gunmod;
+        } );
+        THEN( "capacity drops but contents are grandfathered and remaining clamps to 0" ) {
+            const item_pocket *ammo2 = gun.pocket_by_id( "ammo" );
+            REQUIRE( ammo2 != nullptr );
+            CHECK( ammo2->ammo_capacity( at ) == 1 );
+            CHECK( ammo2->remaining_ammo_capacity( at ) == 0 );
+            // item-level API: capacity drops and remaining clamps (no -1)
+            CHECK( gun.ammo_capacity( at ) == 1 );
+            CHECK( gun.remaining_ammo_capacity() == 0 );
+            int loaded = 0;
+            for( const item *it : ammo2->all_items_top() ) {
+                loaded += it->count();
+            }
+            CHECK( loaded == 2 );
+        }
+    }
+}
+
+TEST_CASE( "capacity_mods_on_magazine_well_diagnosed", "[multimag][mod]" )
+{
+    clear_map();
+    item gun( itype_test_multimag_gun_integral_ammo );  // "power" is a MAGAZINE_WELL
+    const std::string dmsg = capture_debugmsg_during( [&]() {
+        gun.put_in( item( itype_test_multimag_capacity_well_gunmod ), pocket_type::MOD );
+    } );
+    CHECK( dmsg.find( "not an integral MAGAZINE" ) != std::string::npos );
 }
 
 TEST_CASE( "mod_consumption_mods_override_per_pocket", "[multimag][consume][mod]" )
