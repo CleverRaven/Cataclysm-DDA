@@ -9,7 +9,7 @@
       "ll_limbs_layout",
       "spacer",
       "ll_stats_layout",
-      "sound_mood_focus_layout",
+      "sound_mood_layout",
       "spacer",
       "stamina_speed_layout_full",
       "weary_rest_layout",
@@ -33,7 +33,7 @@
     "arrange": "rows",
     "widgets": [
       "ll_stats_layout",
-      "sound_mood_focus_layout",
+      "sound_mood_layout",
       "spacer",
       "stamina_speed_layout_full",
       "weary_rest_layout",

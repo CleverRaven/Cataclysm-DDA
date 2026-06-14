@@ -60,9 +60,9 @@
     "id": "ln_focus_move_layout",
     "type": "widget",
     "style": "layout",
-    "label": "Focus/Move",
+    "label": "Move",
     "arrange": "columns",
-    "widgets": [ "focus_num", "move_count_mode_desc" ]
+    "widgets": [ "move_count_mode_desc" ]
   },
   {
     "id": "ln_movement_layout",
