@@ -8,7 +8,8 @@
         "variables": {
           "prep_time": 3,
           "spell_to_cast": "soothing_the_savage_beast_spell",
-          "message_success": { "i18n": true, "str": "You sing a song to charm the most wild heart." }
+          "message_success": { "i18n": true, "str": "You sing a song to charm the most wild heart." },
+          "message_fail": { "i18n": true, "str": "Your song has no effect!" }
         }
       }
     ]
@@ -22,7 +23,7 @@
     "teachable": false,
     "valid_targets": [ "hostile" ],
     "skill": "survival",
-    "flags": [ "VERBAL", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "VERBAL", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "SILENT" ],
     "effect": "charm_monster",
     "shape": "blast",
     "min_damage": 800,

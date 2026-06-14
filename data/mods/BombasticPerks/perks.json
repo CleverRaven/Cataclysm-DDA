@@ -1588,13 +1588,15 @@
     "type": "mutation",
     "id": "perk_hive_queen",
     "name": { "str": "Hive Queen" },
-    "description": "The insects have accepted you as one of their own. You are neutral with eusocial insects, including giant ones, but your presence is a little unnerving to animals and people.",
+    "description": "The insects have accepted you as one of their own.  You are neutral with eusocial insects, including giant ones, but your presence is a little unnerving to animals and people.",
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "ignored_by": [ "INSECT_FLYING", "INSECT" ],
     "anger_relations": [ [ "MAMMAL", 5 ], [ "BIRD", 5 ] ],
-    "enchantments": [ { "values": [ { "value": "SOCIAL_PERSUADE", "add": -5 }, { "value": "SOCIAL_INTIMIDATE", "add": -5 } ] } ],
+    "enchantments": [
+      { "condition": { "not": { "u_has_effect": "effect_hive_queen_canceller" } }, "mutations": [ "TRAIT_HIVE_QUEEN" ] },
+      { "values": [ { "value": "SOCIAL_PERSUADE", "add": -5 }, { "value": "SOCIAL_INTIMIDATE", "add": -5 } ] }
+    ],
     "flags": [ "ANIMALDISCORD" ]
   }
 ]
