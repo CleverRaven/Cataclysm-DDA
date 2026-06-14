@@ -2,14 +2,13 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <set>
 #include <string>
+#include <unordered_map>
 
-#include "assign.h"
 #include "debug.h"
-#include "game_constants.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
+#include "translations.h"
 
 static std::vector<move_mode_id> move_modes_sorted;
 
@@ -47,20 +46,22 @@ void move_mode::load_move_mode( const JsonObject &jo, const std::string &src )
     move_mode_factory.load( jo, src );
 }
 
-void move_mode::load( const JsonObject &jo, const std::string_view/*src*/ )
+void move_mode::load( const JsonObject &jo, std::string_view/*src*/ )
 {
     mandatory( jo, was_loaded, "character", _letter, unicode_codepoint_from_symbol_reader );
     mandatory( jo, was_loaded, "name",  _name );
 
     mandatory( jo, was_loaded, "panel_char", _panel_letter, unicode_codepoint_from_symbol_reader );
-    assign( jo, "panel_color", _panel_color );
-    assign( jo, "symbol_color", _symbol_color );
+    optional( jo, was_loaded, "panel_color", _panel_color, nc_color_reader{} );
+    optional( jo, was_loaded, "symbol_color", _symbol_color, nc_color_reader{} );
 
-    std::string exert = jo.get_string( "exertion_level" );
-    if( !activity_levels_map.count( exert ) ) {
-        jo.throw_error_at( id.str(), "Invalid activity level for move mode " + id.str() );
-    }
-    _exertion_level = activity_levels_map.at( exert );
+    mandatory( jo, was_loaded, "exertion_level", _exertion_level, activity_level_reader{} );
+    optional( jo, was_loaded, "exertion_level_animal_riding", _exertion_level_animal_riding,
+              activity_level_reader{} );
+
+    mandatory( jo, was_loaded, "prepare_none", prepare_messages[steed_type::NONE] );
+    mandatory( jo, was_loaded, "prepare_animal", prepare_messages[steed_type::ANIMAL] );
+    mandatory( jo, was_loaded, "prepare_mech", prepare_messages[steed_type::MECH] );
 
     mandatory( jo, was_loaded, "change_good_none", change_messages_success[steed_type::NONE] );
     mandatory( jo, was_loaded, "change_good_animal", change_messages_success[steed_type::ANIMAL] );
@@ -92,6 +93,11 @@ void move_mode::reset()
 
 void move_mode::finalize()
 {
+}
+
+void move_mode::finalize_all()
+{
+    move_mode_factory.finalize();
     for( const move_mode &mode : move_mode_factory.get_all() ) {
         move_modes_sorted.emplace_back( mode.ident() );
     }
@@ -146,6 +152,19 @@ std::string move_mode::change_message( bool success, steed_type steed ) const
     return change_messages_fail.at( steed ).translated();
 }
 
+std::string move_mode::prepare_message( steed_type steed ) const
+{
+    if( steed == steed_type::NUM ) {
+        debugmsg( "Attempted to switch to bad movement mode!" );
+        //~ This should never occur - this is the message when the character switches to
+        //~ an invalid move mode or there's not a message for failing to switch to a move
+        //~ mode
+        return _( "You feel bugs crawl over your skin." );
+    }
+
+    return prepare_messages.at( steed ).translated();
+}
+
 move_mode_id move_mode::cycle() const
 {
     return cycle_to;
@@ -174,6 +193,11 @@ float move_mode::stamina_mult() const
 float move_mode::exertion_level() const
 {
     return _exertion_level;
+}
+
+float move_mode::exertion_level_animal_riding() const
+{
+    return _exertion_level_animal_riding;
 }
 
 float move_mode::move_speed_mult() const

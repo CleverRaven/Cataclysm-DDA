@@ -13,7 +13,24 @@ if (WIN32)
             OBJECT_DEPENDS "${RSRC_RC_DEP}")
 endif ()
 
-file(GLOB CATACLYSM_DDA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+file(GLOB CATACLYSM_DDA_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/cata_allocator_c.c)
+
+if (MSVC)
+    set_source_files_properties(
+        ${CMAKE_CURRENT_SOURCE_DIR}/mapgen.cpp
+        PROPERTIES COMPILE_OPTIONS "/bigobj"
+    )
+endif()
+
+if (NOT WARN_STALE_DATA)
+    set_source_files_properties(
+        ${CMAKE_CURRENT_SOURCE_DIR}/flexbuffer_cache.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/options.cpp
+        PROPERTIES COMPILE_DEFINITIONS NO_STALE_DATA_WARN
+    )
+endif()
 
 list(REMOVE_ITEM CATACLYSM_DDA_SOURCES ${MAIN_CPP} ${MESSAGES_CPP})
 
@@ -81,7 +98,7 @@ if (TILES)
     target_compile_definitions(cataclysm-tiles-common PUBLIC TILES )
     if(NOT "${CMAKE_EXPORT_COMPILE_COMMANDS}")
         target_precompile_headers(cataclysm-tiles-common PUBLIC
-            ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
+            "$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_SOURCE_DIR}/pch/main-pch.hpp>")
     endif ()
     if (LOCALIZE)
         target_include_directories(cataclysm-tiles-common PUBLIC
@@ -100,29 +117,72 @@ if (TILES)
         target_link_libraries(cataclysm-tiles-common PUBLIC ${CMAKE_THREAD_LIBS_INIT})
     endif ()
 
-    if (NOT DYNAMIC_LINKING)
-        target_link_libraries(cataclysm-tiles-common PUBLIC
-            SDL2::SDL2-static
-            SDL2_image::SDL2_image-static
-            SDL2_ttf::SDL2_ttf-static
-        )
-    else()
-        target_link_libraries(cataclysm-tiles-common PUBLIC
-            SDL2::SDL2
-            SDL2_image::SDL2_image
-            SDL2_ttf::SDL2_ttf
-        )
-    endif ()
-    if (SOUND)
+    if (USE_SDL3)
         if (NOT DYNAMIC_LINKING)
+            if (TARGET SDL3::SDL3-static)
+                set(_SDL3 SDL3::SDL3-static)
+            else ()
+                set(_SDL3 SDL3::SDL3)
+            endif ()
+            if (TARGET SDL3_image::SDL3_image-static)
+                set(_SDL3_IMAGE SDL3_image::SDL3_image-static)
+            else ()
+                set(_SDL3_IMAGE SDL3_image::SDL3_image)
+            endif ()
+            if (TARGET SDL3_ttf::SDL3_ttf-static)
+                set(_SDL3_TTF SDL3_ttf::SDL3_ttf-static)
+            else ()
+                set(_SDL3_TTF SDL3_ttf::SDL3_ttf)
+            endif ()
             target_link_libraries(cataclysm-tiles-common PUBLIC
-                SDL2_mixer::SDL2_mixer-static
+                ${_SDL3}
+                ${_SDL3_IMAGE}
+                ${_SDL3_TTF}
             )
         else()
             target_link_libraries(cataclysm-tiles-common PUBLIC
-                SDL2_mixer::SDL2_mixer
+                SDL3::SDL3
+                SDL3_image::SDL3_image
+                SDL3_ttf::SDL3_ttf
             )
-        endif()
+        endif ()
+    else ()
+        if (NOT DYNAMIC_LINKING)
+            target_link_libraries(cataclysm-tiles-common PUBLIC
+                SDL2::SDL2-static
+                SDL2_image::SDL2_image-static
+                SDL2_ttf::SDL2_ttf-static
+            )
+        else()
+            target_link_libraries(cataclysm-tiles-common PUBLIC
+                SDL2::SDL2
+                SDL2_image::SDL2_image
+                SDL2_ttf::SDL2_ttf
+            )
+        endif ()
+    endif ()
+    if (SOUND)
+        if (USE_SDL3)
+            if (NOT DYNAMIC_LINKING AND TARGET SDL3_mixer::SDL3_mixer-static)
+                target_link_libraries(cataclysm-tiles-common PUBLIC
+                    SDL3_mixer::SDL3_mixer-static
+                )
+            else()
+                target_link_libraries(cataclysm-tiles-common PUBLIC
+                    SDL3_mixer::SDL3_mixer
+                )
+            endif()
+        else ()
+            if (NOT DYNAMIC_LINKING)
+                target_link_libraries(cataclysm-tiles-common PUBLIC
+                    SDL2_mixer::SDL2_mixer-static
+                )
+            else()
+                target_link_libraries(cataclysm-tiles-common PUBLIC
+                    SDL2_mixer::SDL2_mixer
+                )
+            endif()
+        endif ()
         add_definitions(-DSDL_SOUND)
     endif ()
 
@@ -137,6 +197,7 @@ if (TILES)
         target_link_libraries(cataclysm-tiles-common PUBLIC setupapi.lib)
         if (SOUND)
             target_link_libraries(cataclysm-tiles-common PUBLIC shlwapi.lib)
+            target_link_libraries(cataclysm-tiles-common PUBLIC dwrite.lib)
         endif()
         if (BACKTRACE)
             target_link_libraries(cataclysm-tiles-common PUBLIC dbghelp.lib)
@@ -155,6 +216,53 @@ if (TILES)
     if (RELEASE)
         install(TARGETS cataclysm-tiles RUNTIME)
     endif ()
+
+    if (TARGET ZLIB::ZLIB)
+        target_link_libraries(cataclysm-tiles-common PUBLIC ZLIB::ZLIB)
+    else()
+        target_link_libraries(cataclysm-tiles-common PUBLIC ${ZLIB_LIBRARIES})
+    endif()
+
+    if (USE_SDL3)
+        # Compile GLSL shaders to per-backend artifacts (.spv / .dxil / .msl)
+        # for the GPU shader path. Pattern mirrors lang/CMakeLists.txt locale
+        # build. Default the format set to the local GPU backend so that
+        # builds without shadercross succeed (variant_pass goes inert at
+        # runtime if the expected artifact format is missing). Override
+        # CATA_SHADER_FORMATS when shipping a multi-platform bindist.
+        set(_SHADERS_DIR ${CMAKE_SOURCE_DIR}/data/shaders)
+        if (NOT DEFINED CATA_SHADER_FORMATS)
+            if (APPLE)
+                set(CATA_SHADER_FORMATS "msl")
+            elseif (WIN32)
+                set(CATA_SHADER_FORMATS "dxil")
+            else()
+                set(CATA_SHADER_FORMATS "spv")
+            endif()
+        endif()
+        # Stamp filename encodes the format set so switching CATA_SHADER_FORMATS
+        # invalidates the stamp and triggers a rebuild. Hyphen-separated to
+        # avoid commas in filenames; matches the Makefile and MSVC prebuild.
+        string(REPLACE "," "-" _SHADER_STAMP_TAG "${CATA_SHADER_FORMATS}")
+        set(_SHADERS_STAMP ${_SHADERS_DIR}/build-${_SHADER_STAMP_TAG}.stamp)
+        file(GLOB _SHADER_SOURCES "${_SHADERS_DIR}/*.frag" "${_SHADERS_DIR}/*.vert")
+        find_package(Python3 COMPONENTS Interpreter REQUIRED)
+        add_custom_command(
+                OUTPUT ${_SHADERS_STAMP}
+                COMMAND ${Python3_EXECUTABLE}
+                    ${CMAKE_SOURCE_DIR}/tools/build_shaders.py
+                    --shader-dir ${_SHADERS_DIR}
+                    --formats ${CATA_SHADER_FORMATS}
+                    --stamp ${_SHADERS_STAMP}
+                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                DEPENDS ${_SHADER_SOURCES}
+                        ${CMAKE_SOURCE_DIR}/tools/build_shaders.py
+                COMMENT "Compiling shader artifacts (${CATA_SHADER_FORMATS})"
+        )
+        add_custom_target(compile_shaders ALL DEPENDS ${_SHADERS_STAMP})
+        add_dependencies(cataclysm-tiles-common compile_shaders)
+    endif()
+
 endif ()
 
 # Build curses version if requested
@@ -163,7 +271,6 @@ if (CURSES)
             ${CATACLYSM_DDA_SOURCES}
             ${CATACLYSM_DDA_HEADERS})
     target_include_directories(cataclysm-common INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
-
     target_link_libraries(cataclysm-common PUBLIC third-party)
 
     if (WIN32)
@@ -171,6 +278,12 @@ if (CURSES)
                 ${MAIN_CPP}
                 ${MESSAGES_CPP}
                 ${RESOURCE_RC})
+        if(NOT MINGW)
+            # Use only our RT_MANIFEST from resource.rc
+            target_link_options(cataclysm PRIVATE
+                "LINKER:/MANIFEST:NO"
+            )
+        endif()
     else ()
         add_executable(cataclysm
                 ${MAIN_CPP}
@@ -189,8 +302,10 @@ if (CURSES)
                 ${ICONV_LIBRARIES})
     endif ()
 
-    target_include_directories(cataclysm-common PUBLIC ${CURSES_INCLUDE_DIR} ${ZLIB_INCLUDE_DIRS})
-    target_link_libraries(cataclysm-common PUBLIC ${CURSES_LIBRARIES} ${ZLIB_LIBRARIES})
+    target_include_directories(cataclysm-common PUBLIC
+        ${CURSES_INCLUDE_DIR} ${NCURSES_INCLUDE_DIRS}
+    )
+    target_link_libraries(cataclysm-common PUBLIC ${CURSES_LIBRARIES})
 
     if (CMAKE_USE_PTHREADS_INIT)
         target_compile_options(cataclysm-common PUBLIC "-pthread")
@@ -202,6 +317,9 @@ if (CURSES)
 
     if (WIN32)
         # Global settings for Windows targets (at end)
+        if(USE_PDCURSES)
+            target_compile_definitions(cataclysm-common PUBLIC USE_PDCURSES)
+        endif()
         target_link_libraries(cataclysm-common PUBLIC gdi32.lib)
         target_link_libraries(cataclysm-common PUBLIC winmm.lib)
         target_link_libraries(cataclysm-common PUBLIC imm32.lib)
@@ -222,6 +340,12 @@ if (CURSES)
     if (RELEASE)
         install(TARGETS cataclysm RUNTIME)
     endif ()
+
+    if (TARGET ZLIB::ZLIB)
+        target_link_libraries(cataclysm-common PUBLIC ZLIB::ZLIB)
+    else()
+        target_link_libraries(cataclysm-common PUBLIC ${ZLIB_LIBRARIES})
+    endif()
 endif ()
 
 if (MINGW AND NOT RELEASE)
@@ -269,7 +393,7 @@ if (MINGW AND NOT RELEASE)
                 ${RuntimeLib_SDL2_TTF}
                 ${RuntimeLib_ft}
                 ${RuntimeLib_glib})
-        if (SOUND)
+        if (SOUND AND NOT USE_SDL3)
             find_library(RuntimeLib_SDL_SND  "SDL2_mixer")
             find_library(RuntimeLib_flac  "libFLAC-8")
             find_library(RuntimeLib_ogg  "libogg-0")

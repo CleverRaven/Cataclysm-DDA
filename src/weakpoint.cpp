@@ -2,25 +2,38 @@
 
 #include <algorithm>
 #include <cmath>
+#include <memory>
+#include <set>
 #include <string>
 #include <utility>
 
-#include "assign.h"
 #include "calendar.h"
 #include "character.h"
+#include "condition.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
+#include "effect_on_condition.h"
 #include "effect_source.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
+#include "map.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "make_static.h"
+#include "magic_enchantment.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
+#include "pimpl.h"
+#include "proficiency.h"
 #include "rng.h"
+#include "talker.h"
 #include "translations.h"
+
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_stab( "stab" );
 
 static const limb_score_id limb_score_reaction( "reaction" );
 static const limb_score_id limb_score_vision( "vision" );
@@ -29,9 +42,6 @@ static const skill_id skill_gun( "gun" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_throw( "throw" );
 static const skill_id skill_unarmed( "unarmed" );
-
-class JsonArray;
-class JsonObject;
 
 namespace
 {
@@ -114,13 +124,10 @@ void weakpoint_family::load( const JsonValue &jsin )
         proficiency = proficiency_id( id );
     } else {
         JsonObject jo = jsin.get_object();
-        assign( jo, "id", id );
-        assign( jo, "proficiency", proficiency );
-        assign( jo, "bonus", bonus );
-        assign( jo, "penalty", penalty );
-        if( !jo.has_string( "id" ) ) {
-            id = static_cast<std::string>( proficiency );
-        }
+        mandatory( jo, false, "proficiency", proficiency );
+        optional( jo, false, "id", id, proficiency.str() );
+        optional( jo, false, "bonus", bonus );
+        optional( jo, false, "penalty", penalty );
     }
 }
 
@@ -194,6 +201,26 @@ void weakpoint_families::load( const JsonArray &ja )
     }
 }
 
+void weakpoint_families::deserialize( const JsonValue &jv )
+{
+    // the load function extends, which is kinda gross, but fine
+    clear();
+    load( jv.get_array() );
+}
+
+bool weakpoint_families::handle_extend( const JsonValue &jv )
+{
+    // the load function extends, which is fine I guess
+    load( jv.get_array() );
+    return true;
+}
+
+bool weakpoint_families::handle_delete( const JsonValue &jv )
+{
+    remove( jv.get_array() );
+    return true;
+}
+
 void weakpoint_families::remove( const JsonArray &ja )
 {
     for( const JsonValue jsin : ja ) {
@@ -255,7 +282,7 @@ void weakpoint_difficulty::load( const JsonObject &jo )
 weakpoint_effect::weakpoint_effect()  :
     chance( 100.0f ),
     permanent( false ),
-    duration( 1, 1 ),
+    duration( 1_seconds, 1_seconds ),
     intensity( 0, 0 ),
     damage_required( 0.0f, 100.0f ) {}
 
@@ -277,48 +304,38 @@ void weakpoint_effect::apply_to( Creature &target, int total_damage,
     if( !( rng_float( 0.0f, 100.f ) < chance ) ) {
         return;
     }
-    target.add_effect( effect_source( attack.source ), effect,
-                       time_duration::from_turns( rng( duration.first, duration.second ) ),
-                       permanent, rng( intensity.first, intensity.second ) );
+    if( effect && !effect.is_empty() ) {
+        target.add_effect( effect_source( attack.source ), effect,
+                           time_duration::from_turns( rng( duration.first, duration.second ) ),
+                           permanent, rng( intensity.first, intensity.second ) );
+    }
+    for( const effect_on_condition_id &eoc : effect_on_conditions ) {
+        dialogue d( attack.source == nullptr ? nullptr : get_talker_for( *attack.source ),
+                    get_talker_for( target ) );
+        eoc->activate( d );
+    }
+
+    if( x_in_y( rng( instant_death_chance.first, instant_death_chance.second ), 100 ) ) {
+        target.die( &get_map(), attack.source == nullptr ? nullptr : attack.source );
+    }
 
     if( !get_message().empty() && attack.source != nullptr && attack.source->is_avatar() ) {
         add_msg_if_player_sees( target, m_good, get_message(), target.get_name() );
     }
+    add_msg_debug( debugmode::DF_WEAKPOINTS, "applying effect: %s", effect.str() );
 }
 
 void weakpoint_effect::load( const JsonObject &jo )
 {
-    assign( jo, "effect", effect );
-
-    if( jo.has_float( "chance" ) ) {
-        assign( jo, "chance", chance, false, 0.0f, 100.0f );
-    }
-    if( jo.has_bool( "permanent" ) ) {
-        assign( jo, "permanent", permanent );
-    }
-    if( jo.has_string( "message" ) ) {
-        assign( jo, "message", message );
-    }
-
-    // Support shorthand for a single value.
-    if( jo.has_int( "duration" ) ) {
-        int i = jo.get_int( "duration", 0 );
-        duration = {i, i};
-    } else if( jo.has_array( "duration" ) ) {
-        assign( jo, "duration", duration );
-    }
-    if( jo.has_int( "intensity" ) ) {
-        int i = jo.get_int( "intensity", 0 );
-        intensity = {i, i};
-    } else if( jo.has_array( "intensity" ) ) {
-        assign( jo, "intensity", intensity );
-    }
-    if( jo.has_float( "damage_required" ) ) {
-        float f = jo.get_float( "damage_required", 0.0f );
-        damage_required = {f, f};
-    } else if( jo.has_array( "damage_required" ) ) {
-        assign( jo, "damage_required", damage_required );
-    }
+    optional( jo, false, "effect", effect );
+    optional( jo, false, "effect_on_conditions", effect_on_conditions );
+    optional( jo, false, "chance", chance, numeric_bound_reader{0.f, 100.f}, 100.f );
+    optional( jo, false, "permanent", permanent );
+    optional( jo, false, "message", message );
+    optional( jo, false, "instant_death_chance", instant_death_chance, pair_reader<int> {} );
+    optional( jo, false, "duration", duration, pair_reader<time_duration> {} );
+    optional( jo, false, "intensity", intensity, pair_reader<int> {} );
+    optional( jo, false, "damage_required", damage_required, pair_reader<float> {} );
 }
 
 weakpoint_attack::weakpoint_attack()  :
@@ -342,11 +359,11 @@ weakpoint_attack::type_of_melee_attack( const damage_instance &damage )
         }
     }
     // FIXME: Hardcoded damage types
-    if( primary == STATIC( damage_type_id( "bash" ) ) ) {
+    if( primary == damage_bash ) {
         return attack_type::MELEE_BASH;
-    } else if( primary == STATIC( damage_type_id( "cut" ) ) ) {
+    } else if( primary == damage_cut ) {
         return attack_type::MELEE_CUT;
-    } else if( primary == STATIC( damage_type_id( "stab" ) ) ) {
+    } else if( primary == damage_stab ) {
         return attack_type::MELEE_STAB;
     }
     return attack_type::NONE;
@@ -399,45 +416,32 @@ weakpoint::weakpoint() : coverage_mult( 1.0f ), difficulty( -100.0f )
 
 void weakpoint::load( const JsonObject &jo )
 {
-    assign( jo, "id", id );
-    assign( jo, "name", name );
-    assign( jo, "coverage", coverage, false, 0.0f, 100.0f );
-    if( jo.has_object( "armor_mult" ) ) {
-        armor_mult = load_damage_map( jo.get_object( "armor_mult" ) );
-    }
-    if( jo.has_object( "armor_penalty" ) ) {
-        armor_penalty = load_damage_map( jo.get_object( "armor_penalty" ) );
-    }
-    if( jo.has_object( "damage_mult" ) ) {
-        damage_mult = load_damage_map( jo.get_object( "damage_mult" ) );
-    }
-    if( jo.has_object( "crit_mult" ) ) {
-        crit_mult = load_damage_map( jo.get_object( "crit_mult" ) );
+    if( jo.has_member( "id" ) ) {
+        mandatory( jo, false, "id", id );
     } else {
-        // Default to damage multiplier, if crit multipler is not specified.
-        crit_mult = damage_mult;
+        mandatory( jo, false, "name", id );
     }
-    if( jo.has_array( "required_effects" ) ) {
-        assign( jo, "required_effects", required_effects );
+    optional( jo, false, "name", name );
+    optional( jo, false, "coverage", coverage, numeric_bound_reader{0.0f, 100.0f}, 100.f );
+    optional( jo, false, "is_good", is_good, true );
+    // ???
+    if( is_good ) {
+        optional( jo, false, "is_head", is_head, false );
     }
-    if( jo.has_array( "effects" ) ) {
-        for( const JsonObject effect_jo : jo.get_array( "effects" ) ) {
-            weakpoint_effect effect;
-            effect.load( effect_jo );
-            effects.push_back( std::move( effect ) );
-        }
-    }
-    if( jo.has_object( "coverage_mult" ) ) {
-        coverage_mult.load( jo.get_object( "coverage_mult" ) );
-    }
-    if( jo.has_object( "difficulty" ) ) {
-        difficulty.load( jo.get_object( "difficulty" ) );
-    }
+    optional( jo, false, "armor_mult", armor_mult, generic_map_reader<damage_type_id, float> {} );
+    optional( jo, false, "armor_penalty", armor_penalty, generic_map_reader<damage_type_id, float> {} );
+    optional( jo, false, "damage_mult", damage_mult, generic_map_reader<damage_type_id, float> {} );
+    optional( jo, false, "crit_mult", crit_mult, generic_map_reader<damage_type_id, float> {},
+              damage_mult );
 
-    // Set the ID to the name, if not provided.
-    if( !jo.has_string( "id" ) ) {
-        assign( jo, "name", id );
+    // FIXME: read conditions with optional
+    if( jo.has_member( "condition" ) ) {
+        read_condition( jo, "condition", condition, false );
+        has_condition = true;
     }
+    optional( jo, false, "effects", effects );
+    optional( jo, false, "coverage_mult", coverage_mult, weakpoint_difficulty( 1.f ) );
+    optional( jo, false, "difficulty", difficulty, weakpoint_difficulty( -100.f ) );
 }
 
 void weakpoint::check() const
@@ -490,9 +494,13 @@ void weakpoint::apply_to( damage_instance &damage, bool is_crit ) const
         if( is_crit ) {
             if( crit_mult.count( elem.type ) > 0 ) {
                 elem.damage_multiplier *= crit_mult.at( elem.type );
+                add_msg_debug( debugmode::DF_MONSTER, "%s crit_mult %f",
+                               elem.type.str(), crit_mult.at( elem.type ) );
             }
         } else if( damage_mult.count( elem.type ) > 0 ) {
             elem.damage_multiplier *= damage_mult.at( elem.type );
+            add_msg_debug( debugmode::DF_MONSTER, "%s damage_mult %f",
+                           elem.type.str(), damage_mult.at( elem.type ) );
         }
     }
 }
@@ -507,20 +515,40 @@ void weakpoint::apply_effects( Creature &target, int total_damage,
 
 float weakpoint::hit_chance( const weakpoint_attack &attack ) const
 {
-    // Check for required effects
-    for( const auto &effect : required_effects ) {
-        if( !attack.target->has_effect( effect ) ) {
+    // Evaluate condition
+    if( has_condition ) {
+        dialogue d( attack.source == nullptr ? nullptr : get_talker_for( *attack.source ),
+                    get_talker_for( *attack.target ) );
+        if( !condition( d ) ) {
+            add_msg_debug( debugmode::DF_MONSTER, "Attack conditionals failed" );
             return 0.0f;
         }
     }
+
     // Retrieve multipliers.
     float constant_mult = coverage_mult.of( attack );
-    // Probability of a sample from a normal distribution centered on `skill` with `SD = 2`
-    // exceeding the difficulty.
-    float diff = attack.wp_skill - difficulty.of( attack );
-    float difficulty_mult = 0.5f * ( 1.0f + erf( diff / ( 2.0f * sqrt( 2.0f ) ) ) );
-    // Compute the total value
-    return constant_mult * difficulty_mult * coverage;
+    float diff;
+    float difficulty_mult;
+    float final_coverage;
+    if( is_good ) {
+        // Probability of a sample from a normal distribution centered on `skill` with `SD = 2`
+        // exceeding the difficulty.
+        diff = attack.wp_skill - difficulty.of( attack );
+        difficulty_mult = 0.5f * ( 1.0f + erf( diff / ( 2.0f * sqrt( 2.0f ) ) ) );
+        if( attack.source && attack.source->as_character() ) {
+            final_coverage = attack.source->as_character()->enchantment_cache->modify_value(
+                                 enchant_vals::mod::WEAKPOINT_ACCURACY, coverage );
+        } else {
+            final_coverage = coverage;
+        }
+    } else {
+        // Use erfc if the wp does not benefit the attacker.
+        diff = attack.wp_skill - std::max( difficulty.of( attack ) + 10.0f, 10.0f );
+        difficulty_mult = std::max( 0.5f * erfc( diff / ( 2.0f * sqrt( 2.0f ) ) ), 0.1f );
+        final_coverage = coverage;
+    }
+
+    return constant_mult * difficulty_mult * final_coverage;
 }
 
 // Reweighs the probability distribution of hitting a weakpoint.
@@ -540,10 +568,10 @@ static float reweigh( float base, float rolls )
 const weakpoint *weakpoints::select_weakpoint( const weakpoint_attack &attack ) const
 {
     add_msg_debug( debugmode::DF_MONSTER,
-                   "Weakpoint Selection: Source: %s, Weapon %s, Skill %.3f",
+                   "Weakpoint Selection: Source: %s, Weapon %s, Skill %.3f, Accuracy %.3f",
                    attack.source == nullptr ? "nullptr" : attack.source->get_name(),
                    attack.weapon == nullptr ? "nullptr" : attack.weapon->type_name(),
-                   attack.wp_skill );
+                   attack.wp_skill, attack.accuracy );
     float rolls = std::max( 1.0f, 1.0f + attack.wp_skill / 2.5f );
     // The base probability of hitting a more preferable weak point.
     float base = 0.0f;
@@ -551,12 +579,19 @@ const weakpoint *weakpoints::select_weakpoint( const weakpoint_attack &attack ) 
     float reweighed = 0.0f;
     float idx = rng_float( 0.0f, 100.0f );
     for( const weakpoint &weakpoint : weakpoint_list ) {
-        float new_base = base + weakpoint.hit_chance( attack );
+        float raw_chance = weakpoint.hit_chance( attack );
+        if( raw_chance == 0.0f ) {
+            add_msg_debug( debugmode::DF_MONSTER,
+                           "Weakpoint Selection: weakpoint %s, conditions not match",
+                           weakpoint.id );
+            continue;
+        }
+        float new_base = base + raw_chance;
         float new_reweighed = 100.0f * reweigh( new_base / 100.0f, rolls );
         float hit_chance = new_reweighed - reweighed;
         add_msg_debug( debugmode::DF_MONSTER,
-                       "Weakpoint Selection: weakpoint %s, hit_chance %.4f",
-                       weakpoint.id, hit_chance );
+                       "Weakpoint Selection: weakpoint %s, raw_chance %.4f, hit_chance %.4f",
+                       weakpoint.id, raw_chance, hit_chance );
         if( idx < hit_chance ) {
             return &weakpoint;
         }
@@ -570,6 +605,61 @@ const weakpoint *weakpoints::select_weakpoint( const weakpoint_attack &attack ) 
 void weakpoints::clear()
 {
     weakpoint_list.clear();
+}
+
+void weakpoints::deserialize( const JsonValue &jv )
+{
+    load( jv.get_array() );
+}
+
+bool weakpoints::handle_extend( const JsonValue &jv )
+{
+    weakpoints tmp;
+    tmp.deserialize( jv );
+    add_from_set( tmp, true );
+    return true;
+}
+
+bool weakpoints::handle_delete( const JsonValue &jv )
+{
+    weakpoints tmp;
+    tmp.deserialize( jv );
+    del_from_set( tmp );
+    return true;
+}
+
+weakpoints weakpoints_reader::get_next( const JsonValue &jv ) const
+{
+    weakpoints ret;
+    if( !jv.read( ret ) ) {
+        jv.throw_error( "Invalid weakpoints format" );
+    }
+    return ret;
+}
+
+bool weakpoints_reader::do_extend( const JsonObject &jo, const std::string_view name,
+                                   weakpoints &member ) const
+{
+    if( !jo.has_member( name ) ) {
+        return false;
+    }
+    return member.handle_extend( jo.get_member( name ) );
+}
+
+bool weakpoints_reader::do_delete( const JsonObject &jo, const std::string_view name,
+                                   weakpoints &member ) const
+{
+    if( !jo.has_member( name ) ) {
+        return false;
+    }
+    weakpoints tmp;
+    tmp.deserialize( jo.get_member( name ) );
+    // deferred delete for weakpoints from sets
+    for( const weakpoint &del : tmp.weakpoint_list ) {
+        deleted.emplace( del.id );
+    }
+    member.del_from_set( tmp );
+    return true;
 }
 
 void weakpoints::load( const JsonArray &ja )
@@ -639,7 +729,7 @@ void weakpoints::remove( const JsonArray &ja )
     }
 }
 
-void weakpoints::load( const JsonObject &jo, const std::string_view )
+void weakpoints::load( const JsonObject &jo, std::string_view )
 {
     load( jo.get_array( "weakpoints" ) );
 }

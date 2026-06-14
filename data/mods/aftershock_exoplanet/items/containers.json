@@ -1,0 +1,213 @@
+[
+  {
+    "id": "afs_landfall_kit_2",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "Type II. landfall survival kit" },
+    "description": "This is a metal box containing survival supplies, often found within ships and their escape pods.  Its cyan highlights indicate that it's a simpler Type II kit, and that it would only be helpful in a planet whose atmosphere and gravity are within two deviations from Earth's.",
+    "weight": "1022 g",
+    "volume": "22 L",
+    "price_postapoc": "30 USD",
+    "symbol": ",",
+    "color": "red",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "40 kg",
+        "max_item_length": "133 cm",
+        "rigid": true
+      }
+    ]
+  },
+  {
+    "id": "afs_augustmoon_kit_box",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "survival kit" },
+    "description": "A survival kit box clearly repurposed from a ship's escape pod.  It contains a variety of supplies to help you survive planetside.",
+    "weight": "1022 g",
+    "volume": "32 L",
+    "price_postapoc": "5 USD",
+    "symbol": ",",
+    "color": "red",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "30 L",
+        "max_contains_weight": "40 kg",
+        "max_item_length": "133 cm",
+        "rigid": true
+      }
+    ]
+  },
+  {
+    "id": "afs_cargo_crate",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "cargo crate" },
+    "description": "A standard orbital cargo transfer container.  Its faceted corners are adorned with the livery of company you don't recognize.",
+    "weight": "2710 g",
+    "volume": "30 L",
+    "price_postapoc": "30 USD",
+    "symbol": "0",
+    "color": "light_red",
+    "pocket_data": [ { "max_contains_volume": "28 L", "max_contains_weight": "40 kg", "max_item_length": "170 cm", "rigid": true } ]
+  },
+  {
+    "id": "pressure_tank",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "copy-from": "pressure_tank",
+    "name": { "str": "pressurized tank" },
+    "flags": [ "NO_RELOAD", "MAG_BULKY" ]
+  },
+  {
+    "id": "afs_thermos",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "radio thermos", "str_pl": "radio thermoses" },
+    "looks_like": "thermos",
+    "description": "A small radioactive source is used to safely(?) heat the contents of this vacuum flask.  Its not powerful enough to melt already frozen liquids.\n\n Frontier rated only.",
+    "ascii_picture": "thermos",
+    "weight": "530 g",
+    "volume": "1250 ml",
+    "longest_side": "32 cm",
+    "price": "175 USD ",
+    "price_postapoc": "175 USD",
+    "material": [ "steel" ],
+    "symbol": "I",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "1 L",
+        "insulation": 3000,
+        "max_contains_weight": "4 kg"
+      }
+    ],
+    "use_action": "HEAT_LIQUID_ITEMS",
+    "flags": [ "COLLAPSE_CONTENTS", "BELT_CLIP" ]
+  },
+  {
+    "id": "afs_sample_container",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "cryogenic flask" },
+    "looks_like": "thermos",
+    "description": "A sealed flask used to transport hazardous and delicate materials.  Of advanced design, it utilizes a miniaturized riemann barrier to achieve both perfect insulation and containment.  Although the scientific principles of Riemann barriers are not completely lost, its exceedingly difficult for contemporary industry to produce emitters of this size, making these containers extremely valuable.",
+    "subtypes": [ "TOOL" ],
+    "ascii_picture": "thermos",
+    "weight": "530 g",
+    "volume": "1250 ml",
+    "longest_side": "32 cm",
+    "price": "175 USD ",
+    "price_postapoc": "175 USD",
+    "material": [ "steel" ],
+    "symbol": "I",
+    "color": "green",
+    "tool_ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "750 ml",
+        "insulation": 3000,
+        "max_contains_weight": "4 kg"
+      },
+      { "pocket_type": "MAGAZINE_WELL", "holster": true, "item_restriction": [ "afs_compact_cartridge" ] }
+    ],
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn on",
+      "msg": "You activate your %s.  A faint humming noise can be heard as the Riemann barrier powers up.",
+      "target": "afs_sample_container_on"
+    },
+    "flags": [ "COLLAPSE_CONTENTS", "BELT_CLIP" ]
+  },
+  {
+    "id": "afs_sample_container_on",
+    "type": "ITEM",
+    "copy-from": "afs_sample_container",
+    "name": { "str": "cryogenic flask" },
+    "subtypes": [ "TOOL" ],
+    "description": "A sealed flask used to transport hazardous and delicate materials.  Of advanced design, it utilizes a miniaturized riemann barrier to achieve both perfect insulation and containment.  Its currently active, and its contents are completely inaccessible.",
+    "power_draw": "11111 mW",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "1 L",
+        "insulation": 3000,
+        "spoil_multiplier": 0.0,
+        "max_contains_weight": "4 kg"
+      },
+      { "pocket_type": "MAGAZINE_WELL", "holster": true, "item_restriction": [ "afs_compact_cartridge" ] }
+    ],
+    "revert_to": "afs_sample_container",
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "afs_sample_container"
+    },
+    "flags": [ "COLLAPSE_CONTENTS", "BELT_CLIP", "NO_UNLOAD", "NO_RELOAD", "SPAWN_ACTIVE" ]
+  },
+  {
+    "type": "ITEM",
+    "category": "container",
+    "id": "plastic_bowl_fast_food",
+    "name": { "str": "plastic bowl" },
+    "symbol": ")",
+    "description": "A perfectly ordinary disposable plastic bowl.  It has a sealed lid with a wide spigot for drinking or serving.",
+    "copy-from": "base_ceramic_dish",
+    "volume": "625 ml",
+    "price": "0 USD ",
+    "price_postapoc": "0 USD",
+    "material": [ "plastic" ],
+    "longest_side": "13 cm",
+    "pocket_data": [
+      {
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "watertight": true,
+        "rigid": true,
+        "sealed_data": { "spoil_multiplier": 0.0 }
+      }
+    ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "flags": [ "COLLAPSE_CONTENTS", "NO_RELOAD" ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "afs_mre_package",
+    "copy-from": "mre_package",
+    "type": "ITEM",
+    "name": { "str": "Astronaut MRE" },
+    "description": "Marketing has adorned the package of this individual ration with white and red livery, a deliberate callback to the space corporations of old.  Despite best efforts, the food within is no more natural than usual, but is at least palatable."
+  },
+  {
+    "id": "afs_foil_bag",
+    "copy-from": "plastic_bag_vac",
+    "type": "ITEM",
+    "name": { "str": "foil bag" },
+    "description": "A plastic and aluminum foil bag for long term food storage.",
+    "material": [ "plastic", "aluminum" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "open_container": true,
+        "watertight": true,
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "3 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 }
+      }
+    ]
+  }
+]

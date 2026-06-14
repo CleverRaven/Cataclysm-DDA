@@ -2,8 +2,12 @@
 #ifndef CATA_SRC_DEBUG_H
 #define CATA_SRC_DEBUG_H
 
-#include "string_formatter.h"
+#include <cstdlib>
+#include <string>
 #include <unordered_set>
+#include <utility>
+
+#include "string_formatter.h"
 
 /**
  *      debugmsg(msg, ...)
@@ -66,7 +70,7 @@
  * a printf style format string.
  */
 
-#define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), CATA_FUNCTION_NAME, __VA_ARGS__)
+#define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), CATA_FUNCTION_NAME, __VA_ARGS__) // NOLINT(bugprone-lambda-function-name)
 
 // Don't use this, use debugmsg instead.
 void realDebugmsg( const char *filename, const char *line, const char *funcname,
@@ -206,6 +210,11 @@ void limitDebugClass( int );
 bool debug_has_error_been_observed();
 
 /**
+ * Reset the error observation flag (for seed-fuzz test reruns).
+ */
+void debug_reset_error_observed();
+
+/**
  * Capturing debug messages during func execution,
  * used to test debugmsg calls in the unit tests
  * @return std::string debugmsg
@@ -247,6 +256,7 @@ enum debug_filter : int {
     DF_ANATOMY_BP, // anatomy::select_body_part()
     DF_AVATAR, // avatar generic
     DF_BALLISTIC, // ballistic generic
+    DF_CAMPS, // Everything to do with camps, player-owned or otherwise
     DF_CHARACTER, // character generic
     DF_CHAR_CALORIES, // character stomach and calories
     DF_CHAR_HEALTH, // character health related
@@ -256,6 +266,7 @@ enum debug_filter : int {
     DF_EXPLOSION, // explosion generic
     DF_FOOD, // food generic
     DF_GAME, // game generic
+    DF_HIGHWAY, // highway overmap generation
     DF_IEXAMINE, // iexamine generic
     DF_IUSE, // iuse generic
     DF_MAP, // map generic
@@ -268,6 +279,7 @@ enum debug_filter : int {
     DF_NPC_COMBATAI, // npc combat and danger assessment logic
     DF_NPC_ITEMAI, // npc weapon/item logic - weapon choices, decision to reload, etc.
     DF_NPC_MOVEAI, // Pathfinding and movement logic.  For the NPC with places to be.
+    DF_NPC_NEEDS, // NPC behavior tree needs evaluation (npc_behavior.json)
     DF_OVERMAP, // overmap generic
     DF_RADIO, // radio stuff
     DF_RANGED, // ranged generic
@@ -277,12 +289,21 @@ enum debug_filter : int {
     DF_VEHICLE, // vehicle generic
     DF_VEHICLE_DRAG, // vehicle coeff_air_drag()
     DF_VEHICLE_MOVE, // vehicle move generic
+    DF_WEAKPOINTS, // monster weakpoints and stuff
+    DF_WOUNDS, // everything related to applying wounds
+    DF_MONITOR, // debug console per-object monitor snapshots
     DF_LAST // This is always the last entry
 };
+
+inline auto format_as( debug_filter df )
+{
+    return static_cast<std::underlying_type_t<debug_filter>>( df );
+}
 
 extern std::unordered_set<debug_filter> enabled_filters;
 std::string filter_name( debug_filter value );
 } // namespace debugmode
+
 
 // From catch.hpp:
 // Returns true if the current process is being debugged (either

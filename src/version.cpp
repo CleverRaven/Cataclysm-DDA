@@ -3,7 +3,7 @@
 #if (defined(_WIN32) || defined(MINGW)) && !defined(GIT_VERSION) && !defined(CROSS_LINUX) && !defined(_MSC_VER)
 
 #ifndef VERSION
-#define VERSION "0.I"
+#define VERSION "0.J"
 #endif
 
 #else
@@ -14,5 +14,9 @@
 
 const char *getVersionString()
 {
+#if defined(USE_SDL3)
+    return VERSION "+SDL3";
+#else
     return VERSION;
+#endif
 }

@@ -12,7 +12,7 @@ There is more space in mods for fun. In general the vanilla living dinos should 
 This mod is about adding content. In general it should have as light a touch on the vanilla game as possible. This helps us keep it working by itself and with other mods.
 
 # How to contribute
-This mod is distributed with the base game, so any content contributed will have to be submitted to the Github site. You can talk with the mod maintainers about your ideas on Discord.
+This mod is distributed with the base game, so any content contributed will have to be submitted to the GitHub site. You can talk with the mod maintainers about your ideas on Discord.
 
 # Where should new dinosaurs spawn?
 North American dinos should be added to dinosaur and wilderness monster groups. Zombie variants should be added to the zinosaur monster groups. Dinos from other parts of the world should be added to the labs monster group and their region lists and/or get a new dedicated lab finale variant just for them, especially good for finales if they're very dangerous. Small dinos that can't zombify are good options for CBM dinos. Fungal zombie variants get added to fungal spawn lists.
@@ -22,7 +22,7 @@ As of this writing, each dinosaur touches at least ten different JSON files, lis
 
 Main DinoMod folder: 
 
-* monster_factions.json is where custom dino factions go. Plant eaters are pretty simple but predators have three each usually to manage famiies
+* monster_factions.json is where custom dino factions go. Plant eaters are pretty simple but predators have three each usually to manage families
 
 items folder:
 
@@ -34,7 +34,7 @@ monstergroups folder:
 * fungi.json is where you add the fungal variant to spawn in fungal locations
 * lab.json is where you add the dinosaur if it is not native to North America
 * misc.json has all kinds of odd lists, especially for safe, scavenging, and underground dinos
-* monstergroups_egg.json is where you add the hatchling to be spawned from its own egg, and from random eggs
+* monstergroups_egg.json is where you add the hatchling to be spawned from random eggs, if they are North American natives
 * wilderness.json is where your dino will be spawned in natural settings. Forests should stay safe.
 * zinosaur.json  adds the zombified version to zombie spawn lists and is where the zombie upgrade groups go for now
 

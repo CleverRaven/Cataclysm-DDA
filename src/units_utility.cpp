@@ -1,5 +1,6 @@
 #include "units_utility.h"
 
+#include <clocale>
 #include <string>
 
 #include "cata_utility.h"
@@ -140,6 +141,30 @@ double convert_velocity( int velocity, const units_type vel_units )
 
     return ret;
 }
+
+static std::pair<double, std::string> convert_weight_pretty( const units::mass &weight )
+{
+    double ret = to_milligram( weight );
+    const double mg_to_kg = 1'000'000.0;
+    const double mg_to_g = 1'000.0;
+
+    const double mg_to_lbs = 453600.0;
+
+    std::string ret_string;
+    if( get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "kg" ) {
+        if( ret / mg_to_kg >= 1.0 ) {
+            return {ret / mg_to_kg, _( "kg" )};
+        } else if( ret / mg_to_g >= 1.0 ) {
+            return {ret / mg_to_g, _( "g" )};
+        } else {
+            return {ret, _( "mg" )};
+        }
+    }
+
+    // TODO: Ounces???
+    return {ret / mg_to_lbs, _( "lbs" )};
+}
+
 double convert_weight( const units::mass &weight )
 {
     double ret = to_gram( weight );
@@ -171,12 +196,12 @@ int convert_length( const units::length &length )
     int ret = to_millimeter( length );
     const bool metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
     if( metric ) {
-        if( ret % 1'000'000 == 0 ) {
+        if( ret % 1000000 == 0 ) {
             // kilometers
-            ret /= 1'000'000;
-        } else if( ret % 1'000 == 0 ) {
+            ret /= 1000000;
+        } else if( ret % 1000 == 0 ) {
             // meters
-            ret /= 1'000;
+            ret /= 1000;
         } else if( ret % 10 == 0 ) {
             // centimeters
             ret /= 10;
@@ -201,10 +226,10 @@ std::string length_units( const units::length &length )
     int length_mm = to_millimeter( length );
     const bool metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
     if( metric ) {
-        if( length_mm % 1'000'000 == 0 ) {
+        if( length_mm % 1000000 == 0 ) {
             //~ kilometers
             return _( "km" );
-        } else if( length_mm % 1'000 == 0 ) {
+        } else if( length_mm % 1000 == 0 ) {
             //~ meters
             return _( "m" );
         } else if( length_mm % 10 == 0 ) {
@@ -246,30 +271,124 @@ std::string length_to_string( const units::length &length, const bool compact )
                           length_units( length ) );
 }
 
+double convert_length_approx( const units::length &length, bool &display_as_integer )
+{
+    double ret = static_cast<double>( to_millimeter( length ) );
+    const bool metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
+    if( metric ) {
+        if( ret > 500000 ) {
+            // kilometers
+            ret /= 1000000.0;
+        } else {
+            // meters
+            ret /= 1000.0;
+            display_as_integer = true;
+        }
+    } else {
+        double inches_value = ret / 25.4;
+        if( inches_value > 31680 ) {
+            // Miles
+            inches_value /= 63360.0;
+        } else {
+            // Yards
+            inches_value /= 36.0;
+            display_as_integer = true;
+        }
+        ret = inches_value;
+    }
+    return ret;
+}
+
+std::string length_units_approx( const units::length &length )
+{
+    int length_mm = to_millimeter( length );
+    const bool metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
+    if( metric ) {
+        if( length_mm > 500000 ) {
+            //~ kilometers
+            return _( "km" );
+        } else {
+            //~ meters
+            return _( "m" );
+        }
+    } else {
+        int length_inches = length_mm / 25.4;
+        if( length_inches > 31680 ) {
+            //~ miles
+            return _( "mi" );
+        } else {
+            //~ yards (length)
+            return _( "yd" );
+        }
+    }
+}
+
+std::string length_to_string_approx( const units::length &length )
+{
+    bool display_as_integer = false;
+    double approx_length = convert_length_approx( length, display_as_integer );
+    std::string string_to_format = "%.2f%s";
+    if( display_as_integer ) {
+        string_to_format = "%u%s";
+        int approx_length_as_integer = static_cast<int>( approx_length );
+        return string_format( string_to_format, approx_length_as_integer, length_units_approx( length ) );
+    } else {
+        return string_format( string_to_format, approx_length, length_units_approx( length ) );
+    }
+}
+
 std::string weight_to_string( const units::mass &weight, const bool compact,
                               const bool remove_trailing_zeroes )
 {
     const int default_decimal_places = 2;
-    const double converted_weight = round_with_places( convert_weight( weight ),
-                                    default_decimal_places );
+    std::pair<double, std::string> converted_weight = convert_weight_pretty( weight );
+    converted_weight.first = round_with_places( converted_weight.first, default_decimal_places );
     std::string string_to_format = remove_trailing_zeroes ? "%g%s%s" : "%." +
                                    std::to_string( default_decimal_places ) + "f%s%s";
-    return string_format( string_to_format, converted_weight, compact ? "" : " ", weight_units() );
+    return string_format( string_to_format, converted_weight.first, compact ? "" : " ",
+                          converted_weight.second );
 }
 
 std::pair<std::string, std::string> weight_to_string( const
         units::quantity<int, units::mass_in_microgram_tag> &weight )
 {
     using high_res_mass = units::quantity<int, units::mass_in_microgram_tag>;
-    static const high_res_mass gram = high_res_mass( 1'000'000, {} );
-    static const high_res_mass milligram = high_res_mass( 1'000, {} );
+    static const high_res_mass gram = high_res_mass( 1000000, {} );
+    static const high_res_mass milligram = high_res_mass( 1000, {} );
 
     if( weight > gram ) {
-        return {string_format( "%.0f", weight.value() / 1'000'000.f ), "g"};
+        return {string_format( "%.0f", weight.value() / 1000000.f ), "g"};
     } else if( weight > milligram ) {
-        return {string_format( "%.0f", weight.value() / 1'000.f ), "mg"};
+        return {string_format( "%.0f", weight.value() / 1000.f ), "mg"};
     }
     return {string_format( "%d", weight.value() ), "μg"};
+}
+
+static std::pair<double, std::string> convert_volume_pretty( units::volume volume )
+{
+    double ret = to_milliliter( volume );
+    const double mL_to_Liter = 1000.0;
+    const double mL_to_gallons = 3784.0;
+    const double mL_to_quarts = 946.0;
+    const double mL_to_cups = 250.0;
+
+    std::string ret_string;
+
+    if( get_option<std::string>( "VOLUME_UNITS" ) == "l" ) {
+        if( ret / mL_to_Liter >= 1.0 ) {
+            return {ret / mL_to_Liter, pgettext( "Volume unit", "L" )};
+        } else {
+            return {ret, pgettext( "Volume unit", "mL" )};
+        }
+    }
+
+    if( ret / mL_to_gallons >= 1.0 ) {
+        return {ret / mL_to_gallons, pgettext( "Volume unit", "gal" )};
+    } else if( ret / mL_to_quarts >= 1.0 ) {
+        return {ret / mL_to_quarts, pgettext( "Volume unit", "qt" )};
+    } else {
+        return {ret / mL_to_cups, pgettext( "Volume unit", "c" )};
+    }
 }
 
 double convert_volume( int volume )
@@ -289,6 +408,7 @@ double convert_volume( int volume, int *out_scale )
         ret *= 0.001;
         scale = 2;
     } else {
+        // quarts.
         ret *= 0.00105669;
         scale = 2;
     }
@@ -301,14 +421,13 @@ double convert_volume( int volume, int *out_scale )
 std::string vol_to_string( const units::volume &vol, const bool compact,
                            const bool remove_trailing_zeroes )
 {
-    int converted_volume_scale = 0;
     const int default_decimal_places = 3;
-    const double converted_volume =
-        round_with_places( convert_volume( vol.value(),
-                                           &converted_volume_scale ), default_decimal_places );
+    std::pair<double, std::string> converted_volume = convert_volume_pretty( vol );
+    converted_volume.first = round_with_places( converted_volume.first, default_decimal_places );
     std::string string_to_format = remove_trailing_zeroes ? "%g%s%s" : "%." +
                                    std::to_string( default_decimal_places ) + "f%s%s";
-    return string_format( string_to_format, converted_volume, compact ? "" : " ", volume_units_abbr() );
+    return string_format( string_to_format, converted_volume.first, compact ? "" : " ",
+                          converted_volume.second );
 }
 
 std::string unit_to_string( const units::volume &unit, const bool compact,
@@ -333,4 +452,23 @@ double round_with_places( double value, int decimal_places )
 {
     const double multiplier = std::pow( 10.0, decimal_places );
     return std::round( value * multiplier ) / multiplier;
+}
+
+std::string three_digit_display( const double value )
+{
+    const bool neg = value < 0;
+    const double abs_value = abs( value );
+    if( abs_value == 0 ) {
+        return "0";
+    }
+    if( abs_value >= 10 ) {
+        return string_format( "%.0f", value );
+    }
+    if( abs_value >= 1 ) {
+        return string_format( "%.1f", value );
+    }
+
+    return string_format( "%s%c%02d", neg ? "-" : "",
+                          *std::localeconv()->decimal_point,
+                          static_cast<int>( abs_value * 100 ) );
 }

@@ -2,11 +2,12 @@
   {
     "type": "snippet",
     "category": "grave_label",
-    "//": "these labels are meant for graves made during or after the initial cataclysm, riots, or portal storm craziness and are not meant for pre-apocalypse grave sites.",
+    "//": "these labels are meant for graves made during or after the initial Cataclysm, riots, or portal storm craziness and are not meant for pre-apocalypse grave sites.",
     "text": [
       "Here lies our beloved friend",
       "Here lies my best friend",
       "Rest in peace",
+      "RIP",
       "Sorry we couldn't save you",
       "Sorry I couldn't save you",
       "Sorry we failed you",

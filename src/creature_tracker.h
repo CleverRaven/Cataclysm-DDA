@@ -4,21 +4,20 @@
 
 #include <cstddef>
 #include <list>
-#include <map>
 #include <memory>
-#include <set>
 #include <unordered_map>
+#include <unordered_set>
+#include <utility>
 #include <vector>
 
 #include "coordinates.h"
 #include "creature.h"
 #include "memory_fast.h"
-#include "point.h"
 #include "type_id.h"
 
-class game;
 class JsonArray;
 class JsonOut;
+class game;
 class monster;
 class npc;
 
@@ -111,16 +110,10 @@ class creature_tracker
          * but it's not of the requested type, returns nullptr.
          * @param allow_hallucination Whether to return monsters that are actually hallucinations.
          */
-        // TODO: fix point types (remove the first overload)
-        template<typename T = Creature>
-        T * creature_at( const tripoint &p, bool allow_hallucination = false );
         template<typename T = Creature>
         T * creature_at( const tripoint_bub_ms &p, bool allow_hallucination = false );
         template<typename T = Creature>
         T * creature_at( const tripoint_abs_ms &p, bool allow_hallucination = false );
-        // TODO: fix point types (remove the first overload)
-        template<typename T = Creature>
-        const T * creature_at( const tripoint &p, bool allow_hallucination = false ) const;
         template<typename T = Creature>
         const T * creature_at( const tripoint_bub_ms &p, bool allow_hallucination = false ) const;
         template<typename T = Creature>

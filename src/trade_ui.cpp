@@ -1,10 +1,15 @@
 
 #include "trade_ui.h"
 
+#include <algorithm>
 #include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <memory>
+#include <set>
+#include <unordered_set>
 
+#include "avatar.h"
 #include "character.h"
 #include "clzones.h"
 #include "color.h"
@@ -12,18 +17,28 @@
 #include "game_constants.h"
 #include "inventory_ui.h"
 #include "item.h"
+#include "item_category.h"
+#include "map.h"
 #include "npc.h"
+#include "npc_opinion.h"
 #include "npctrade.h"
 #include "npctrade_utils.h"
 #include "options.h"
 #include "output.h"
 #include "point.h"
+#include "ret_val.h"
 #include "string_formatter.h"
 #include "type_id.h"
+#include "vehicle.h"
+
+static const faction_id faction_your_followers( "your_followers" );
 
 static const flag_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
+
 static const item_category_id item_category_ITEMS_WORN( "ITEMS_WORN" );
 static const item_category_id item_category_WEAPON_HELD( "WEAPON_HELD" );
+
+static const trait_id trait_TRADE_BACKEND( "TRADE_BACKEND" );
 
 namespace
 {
@@ -65,10 +80,12 @@ std::string trade_preset::get_denial( const item_location &loc ) const
         npc const &np = *_u.as_npc();
         ret_val<void> const ret = np.wants_to_sell( loc, price );
         if( !ret.success() ) {
-            if( ret.str().empty() ) {
+            std::string refused_text = ret.str();
+            if( refused_text.empty() ) {
                 return string_format( _( "%s does not want to sell this" ), np.get_name() );
             }
-            return np.replace_with_npc_name( ret.str() );
+            parse_tags( refused_text, _trader, _u );
+            return refused_text;
         }
     } else if( _trader.is_npc() ) {
         npc const &np = *_trader.as_npc();
@@ -113,7 +130,9 @@ trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string titl
 {
     _panes[_you]->add_character_items( you );
     _panes[_you]->add_nearby_items( 1 );
-    _panes[_trader]->add_character_items( trader );
+    if( !trader.has_trait( trait_TRADE_BACKEND ) ) {
+        _panes[_trader]->add_character_items( trader );
+    }
     if( trader.is_shopkeeper() ) {
         _panes[_trader]->categorize_map_items( true );
 
@@ -121,24 +140,25 @@ trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string titl
 
         zone_manager &zmgr = zone_manager::get_manager();
 
-        // FIXME: migration for traders in old saves - remove after 0.G
-        zone_data const *const fallback =
-            zmgr.get_zone_at( trader.get_location(), true, trader.get_fac_id() );
-        bool const legacy = fallback != nullptr && fallback->get_name() == fallback_name;
+        std::unordered_set<tripoint_bub_ms> const src =
+            zmgr.get_point_set_loot( trader.pos_abs(), PICKUP_RANGE, trader.get_fac_id() );
 
-        if( legacy ) {
-            _panes[_trader]->add_nearby_items( PICKUP_RANGE );
-        } else {
-            std::unordered_set<tripoint> const src =
-                zmgr.get_point_set_loot( trader.get_location(), PICKUP_RANGE, trader.get_fac_id() );
-
-            for( tripoint const &pt : src ) {
-                _panes[_trader]->add_map_items( pt );
-                _panes[_trader]->add_vehicle_items( pt );
-            }
+        for( tripoint_bub_ms const &pt : src ) {
+            _panes[_trader]->add_map_items( pt );
+            _panes[_trader]->add_vehicle_items( pt );
         }
     } else if( !trader.is_player_ally() ) {
         _panes[_trader]->add_nearby_items( 1 );
+    }
+
+    const map &here = get_map();
+
+    for( const wrapped_vehicle &wv : get_map().get_vehicles() ) {
+        if( wv.v->owner == faction_your_followers ) {
+            for( const tripoint_abs_ms &veh_pt : wv.v->get_points() ) {
+                _panes[_you]->add_vehicle_items( here.get_bub( veh_pt ) );
+            }
+        }
     }
 
     if( trader.will_exchange_items_freely() ) {
@@ -152,7 +172,7 @@ trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string titl
     _panes[_you]->get_active_column().on_deactivate();
 
     _header_ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        _header_w = catacurses::newwin( header_size, TERMX, point_zero );
+        _header_w = catacurses::newwin( header_size, TERMX, point::zero );
         ui.position_from_window( _header_w );
         ui.invalidate_ui();
         resize();
@@ -218,6 +238,10 @@ void trade_ui::autobalance()
     int const sign = _cpane == _you ? -1 : 1;
     if( ( sign < 0 && _balance < 0 ) || ( sign > 0 && _balance > 0 ) ) {
         inventory_entry &entry = _panes[_cpane]->get_active_column().get_highlighted();
+        if( !entry.is_selectable() ) {
+            popup( _( "%s cannot be traded." ), entry.any_item()->tname() );
+            return;
+        }
         size_t const avail = entry.get_available_count() - entry.chosen_count;
         double const price = npc_trading::trading_price( *_parties[-_cpane + 1], *_parties[_cpane],
                              entry_t{ entry.any_item(), 1 } ) * sign;
@@ -315,7 +339,8 @@ void trade_ui::_draw_header()
                                   format_money( std::abs( _balance ) ) );
     }
     center_print( _header_w, 2, trade_color, cost_str );
-    mvwprintz( _header_w, { 1, 3 }, c_white, _parties[_trader]->get_name() );
+    const std::string &rname = get_avatar().dialogue_remote_name;
+    mvwprintz( _header_w, { 1, 3 }, c_white, rname.empty() ? _parties[_trader]->get_name() : rname );
     right_print( _header_w, 3, 1, c_white, _( "You" ) );
     center_print( _header_w, header_size - 1, c_white,
                   string_format( _( "%s to switch panes" ),

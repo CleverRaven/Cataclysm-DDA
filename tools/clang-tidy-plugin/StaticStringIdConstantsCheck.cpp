@@ -17,20 +17,6 @@ static auto isStringIdConstructor()
     return cxxConstructorDecl( ofClass( isStringIdType() ) );
 }
 
-static auto testWhetherInStaticMacro()
-{
-    return cxxConstructExpr(
-               anyOf(
-                   hasAncestor(
-                       callExpr(
-                           callee( decl( functionDecl( hasName( "static_argument_identity" ) ) ) )
-                       ).bind( "staticArgument" )
-                   ),
-                   anything()
-               )
-           );
-}
-
 static auto isStringIdConstructExpr()
 {
     return cxxConstructExpr(
@@ -38,7 +24,6 @@ static auto isStringIdConstructExpr()
                testWhetherConstructingTemporary(),
                testWhetherParentIsVarDecl(),
                testWhetherGrandparentIsTranslationUnitDecl(),
-               testWhetherInStaticMacro(),
                hasArgument( 0, stringLiteral().bind( "arg" ) )
            ).bind( "constructorCall" );
 }
@@ -63,7 +48,7 @@ static std::string GetPrefixFor( const CXXRecordDecl *Type, StaticStringIdConsta
         dyn_cast<ClassTemplateSpecializationDecl>( Type );
     if( !CTSDecl ) {
         Check.diag( Type->getBeginLoc(),
-                    "Declaration of string_id instantiation was not a tempalte specialization" );
+                    "Declaration of string_id instantiation was not a template specialization" );
         return {};
     }
     QualType ArgType = CTSDecl->getTemplateArgs()[0].getAsType();
@@ -71,6 +56,7 @@ static std::string GetPrefixFor( const CXXRecordDecl *Type, StaticStringIdConsta
     Policy.adjustForCPlusPlus();
     std::string TypeName = ArgType.getAsString( Policy );
 
+    //TODO: These want updating
     static const std::unordered_map<std::string, std::string> HardcodedPrefixes = {
         { "activity_type", "" },
         { "add_type", "addiction_" },
@@ -103,7 +89,7 @@ static std::string GetPrefixFor( const CXXRecordDecl *Type, StaticStringIdConsta
     for( const char *Suffix : {
              "_type", "_info"
          } ) {
-        if( StringRef( TypeName ).endswith( Suffix ) ) {
+        if( StringRef( TypeName ).ends_with( Suffix ) ) {
             TypeName.erase( TypeName.end() - strlen( Suffix ), TypeName.end() );
         }
     }
@@ -123,7 +109,7 @@ static std::string GetCanonicalName( const CXXRecordDecl *Type, const StringRef 
     }
 
     static const std::string anon_prefix = "_anonymous_namespace___";
-    if( StringRef( Result ).startswith( anon_prefix ) ) {
+    if( StringRef( Result ).starts_with( anon_prefix ) ) {
         Result.erase( Result.begin(), Result.begin() + anon_prefix.size() );
     }
 
@@ -200,7 +186,7 @@ void StaticStringIdConstantsCheck::CheckConstructor( const MatchFinder::MatchRes
         std::string CurrentName = VarDeclParent->getNameAsString();
         if( CurrentName != CanonicalName &&
             !PreviousDeclIsExtern &&
-            !StringRef( CurrentName ).startswith( "fuel_type_" ) ) {
+            !StringRef( CurrentName ).starts_with( "fuel_type_" ) ) {
             SourceRange Range =
                 DeclarationNameInfo( VarDeclParent->getDeclName(), VarDeclParent->getLocation()
                                    ).getSourceRange();
@@ -223,10 +209,8 @@ void StaticStringIdConstantsCheck::CheckConstructor( const MatchFinder::MatchRes
     // At this point we are looking at a construction call which is not a
     // VarDecl at translation unit scope
 
-    // First ignore anything in a STATIC macro call
-    const CallExpr *IsInStaticMacro = Result.Nodes.getNodeAs<CallExpr>( "staticArgument" );
     unsigned offset = SM.getFileOffset( ConstructorCall->getBeginLoc() );
-    if( !IsInStaticMacro && !CanonicalName.empty() && promotable_set_.insert( offset ).second ) {
+    if( !CanonicalName.empty() && promotable_set_.insert( offset ).second ) {
         promotable_.push_back(
             PromotableCall{ VarDeclParent, ConstructorCall, CanonicalName, Arg->getString() } );
     }
@@ -528,7 +512,7 @@ static void CheckDeclRef( StaticStringIdConstantsCheck &Check,
     std::string CurrentName = VarDeclParent->getNameAsString();
 
     if( CurrentName != CanonicalName &&
-        !StringRef( CurrentName ).startswith( "fuel_type_" ) ) {
+        !StringRef( CurrentName ).starts_with( "fuel_type_" ) ) {
         Check.diag(
             Ref->getBeginLoc(),
             "Use of string_id %0 should be named '%1'."

@@ -61,7 +61,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 10, -1 ],
     "occurrences": [ 30, 100 ],
-    "flags": [ "LAB", "UNIQUE" ],
+    "flags": [ "LAB", "OVERMAP_UNIQUE" ],
     "rotate": false
   },
   {

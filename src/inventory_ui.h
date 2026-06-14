@@ -2,38 +2,50 @@
 #ifndef CATA_SRC_INVENTORY_UI_H
 #define CATA_SRC_INVENTORY_UI_H
 
+#include <algorithm>
 #include <array>
 #include <climits>
 #include <cstddef>
+#include <cstdint>
 #include <functional>
 #include <limits>
 #include <list>
 #include <memory>
 #include <optional>
+#include <set>
 #include <string>
+#include <string_view>
+#include <tuple>
 #include <utility>
 #include <vector>
 
 #include "color.h"
+#include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "input_context.h"
+#include "item.h"
 #include "item_category.h"
 #include "item_location.h"
-#include "pocket_type.h"
+#include "item_pocket.h"
+#include "memory_fast.h"
 #include "pimpl.h"
+#include "pocket_type.h"
+#include "point.h"
 #include "translations.h"
-#include "units_fwd.h"
+#include "units.h"
 
-class basecamp;
 class Character;
+class JsonObject;
+class JsonOut;
+class basecamp;
 class inventory_selector_preset;
-class item;
 class item_stack;
 class string_input_popup;
 class tinymap;
 class ui_adaptor;
+template <typename E> struct enum_traits;
 
 enum class navigation_mode : int {
     ITEM = 0,
@@ -53,15 +65,15 @@ enum class toggle_mode : int {
 struct inventory_input;
 struct navigation_mode_data;
 
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<drop_location>;
-
 struct collation_meta_t {
     item_location tip;
     bool collapsed = true;
     bool enabled = true;
 };
 
+/**
+* A selectable entry in an inventory_selector
+*/
 class inventory_entry
 {
     public:
@@ -85,6 +97,7 @@ class inventory_entry
         inventory_entry( const inventory_entry &entry, const item_category *custom_category ) :
             inventory_entry( entry ) {
             this->custom_category = custom_category;
+            this->cached_category_ptr = nullptr;
         }
 
         explicit inventory_entry( const std::vector<item_location> &locations,
@@ -179,14 +192,17 @@ class inventory_entry
         item_location topmost_parent;
         std::shared_ptr<collation_meta_t> collation_meta;
         size_t generation = 0;
+        // for collation; true = header, false = entry
         bool chevron = false;
         int indent = 0;
+        // whether this entry is selectable, highlightable
         mutable bool enabled = true;
         void cache_denial( inventory_selector_preset const &preset ) const;
         mutable std::optional<std::string> denial;
 
         void set_custom_category( const item_category *category ) {
             custom_category = category;
+            cached_category_ptr = nullptr;
         }
 
         void reset_collation() {
@@ -208,6 +224,7 @@ class inventory_entry
 
     private:
         mutable item_category const *custom_category = nullptr;
+        mutable item_category const *cached_category_ptr = nullptr;
     protected:
         // indents the entry if it is contained in an item
         bool _indent = true;
@@ -216,6 +233,10 @@ class inventory_entry
 };
 
 struct inventory_selector_save_state;
+
+/**
+* Handles how inventory_entry are displayed and selected in an inventory_selector
+*/
 class inventory_selector_preset
 {
     public:
@@ -223,9 +244,8 @@ class inventory_selector_preset
         virtual ~inventory_selector_preset() = default;
 
         /** Does this entry satisfy the basic preset conditions? */
-        virtual bool is_shown( const item_location & ) const {
-            return true;
-        }
+        virtual bool is_shown( const item_location &loc ) const;
+
 
         /**
          * The reason why this entry cannot be selected.
@@ -254,8 +274,12 @@ class inventory_selector_preset
             return check_components;
         }
 
-        pocket_type get_pocket_type() const {
+        std::vector<pocket_type> get_pocket_type() const {
             return _pk_type;
+        }
+
+        bool has_pocket_type( pocket_type pt ) const {
+            return std::find( _pk_type.begin(), _pk_type.end(), pt ) != _pk_type.end();
         }
 
         virtual std::function<bool( const inventory_entry & )> get_filter( const std::string &filter )
@@ -292,7 +316,7 @@ class inventory_selector_preset
         bool _indent_entries = true;
         bool _collate_entries = false;
 
-        pocket_type _pk_type = pocket_type::CONTAINER;
+        std::vector<pocket_type> _pk_type = { pocket_type::CONTAINER };
 
     private:
         class cell_t
@@ -316,6 +340,9 @@ class inventory_selector_preset
         std::vector<cell_t> cells;
 };
 
+/**
+* Preset for putting items inside valid containers
+*/
 class inventory_holster_preset : public inventory_selector_preset
 {
     public:
@@ -334,6 +361,9 @@ class inventory_holster_preset : public inventory_selector_preset
 
 const inventory_selector_preset default_preset;
 
+/**
+* Collection of inventory_entry
+*/
 class inventory_column
 {
     public:
@@ -492,6 +522,12 @@ class inventory_column
         void uncollate();
         virtual void cycle_hide_override();
 
+        /** Call after items are added to reduce entries to a std::set of single itype_ids
+        * @param include_variants - if true, treats variants as itype_ids -- so two identical variants will
+        * still be removed but different variants of the same itype_id will not
+        */
+        void remove_duplicate_itypes( bool include_variants );
+
     protected:
         /**
          * Move the selection.
@@ -601,6 +637,10 @@ class selection_column : public inventory_column
         inventory_entry last_changed;
 };
 
+/**
+* Selects an item from one or more inventory_column
+* using an inventory_selector_preset to filter if necessary.
+*/
 class inventory_selector
 {
     public:
@@ -611,14 +651,18 @@ class inventory_selector
         bool add_contained_items( item_location &container );
         bool add_contained_items( item_location &container, inventory_column &column,
                                   const item_category *custom_category = nullptr, item_location const &topmost_parent = {},
-                                  int indent = 0 );
+                                  int indent = 0, bool add_efiles = false );
         void add_contained_gunmods( Character &you, item &gun );
-        void add_contained_ebooks( item_location &container );
-        void add_character_items( Character &character );
-        void add_map_items( const tripoint &target );
-        void add_vehicle_items( const tripoint &target );
-        void add_nearby_items( int radius = 1 );
-        void add_remote_map_items( tinymap *remote_map, const tripoint &target );
+        bool add_contained_ebooks( item_location &container );
+        bool add_contained_efiles( item_location &container );
+        void add_character_items( Character &character, bool add_efiles = false );
+        void add_character_ebooks( Character &character );
+        void add_map_items( const tripoint_bub_ms &target, bool add_efiles = false );
+        void add_inaccessible_map_items( const tripoint_bub_ms &target, bool add_efiles = false );
+        void add_vehicle_items( const tripoint_bub_ms &target, bool add_efiles = false );
+        void add_vehicle_tank_items( const tripoint_bub_ms &target );
+        void add_nearby_items( int radius = 1, bool add_efiles = false );
+        void add_remote_map_items( tinymap *remote_map, const tripoint_omt_ms &target );
         void add_basecamp_items( const basecamp &camp );
         /** Remove all items */
         void clear_items();
@@ -670,9 +714,14 @@ class inventory_selector
 
         void categorize_map_items( bool toggle );
 
+        void remove_duplicate_itypes( bool include_variants );
+
         // An array of cells for the stat lines. Example: ["Weight (kg)", "10", "/", "20"].
         using stat = std::array<std::string, 4>;
-        using stats = std::array<stat, 3>;
+        using stats = std::array<stat, 3>; // legacy
+        using header_stats_line = std::vector<std::string>;
+        using header_stats = std::vector<header_stats_line>;
+        static header_stats convert_stats_to_header_stats( const stats &old_stats );
 
     protected:
         Character &u;
@@ -684,17 +733,20 @@ class inventory_selector
         input_context ctxt;
 
         const item_category *naturalize_category( const item_category &category,
-                const tripoint &pos );
+                const tripoint_bub_ms &pos );
 
         inventory_entry *add_entry( inventory_column &target_column,
                                     std::vector<item_location> &&locations,
                                     const item_category *custom_category = nullptr,
                                     size_t chosen_count = 0, item_location const &topmost_parent = {},
                                     bool chevron = false );
+        /**
+        * Recursively adds containers (and contents) as entries
+        */
         bool add_entry_rec( inventory_column &entry_column, inventory_column &children_column,
                             item_location &loc, item_category const *entry_category = nullptr,
                             item_category const *children_category = nullptr,
-                            item_location const &topmost_parent = {}, int indent = 0 );
+                            item_location const &topmost_parent = {}, int indent = 0, bool add_efiles = false );
 
         bool drag_drop_item( item *sourceItem, item *destItem );
 
@@ -726,22 +778,60 @@ class inventory_selector
         /** Tackles screen overflow */
         virtual void rearrange_columns( size_t client_width );
 
-        static stat get_weight_and_length_stat( units::mass weight_carried,
-                                                units::mass weight_capacity, const units::length &longest_length );
-        static stat get_volume_stat( const units::volume
-                                     &volume_carried, const units::volume &volume_capacity, const units::volume &largest_free_volume );
-        static stat get_holster_stat( const units::volume
-                                      &holster_volume, int used_holsters, int total_holsters );
-        static stats get_weight_and_volume_and_holster_stats(
-            units::mass weight_carried, units::mass weight_capacity,
-            const units::volume &volume_carried, const units::volume &volume_capacity,
-            const units::length &longest_length, const units::volume &largest_free_volume,
-            const units::volume &holster_volume, int used_holsters, int total_holsters );
+        static header_stats_line build_weight_and_volume_stats_line(
+            units::mass weight_carried, units::mass weight_capacity, const std::string &weight_label,
+            const units::volume &volume_in_pockets, const units::volume &volume_of_pockets,
+            const std::string &volume_label
+        );
+        static header_stats_line build_selection_stats_line(
+            units::volume volume, units::mass weight
+        );
+        static header_stats_line build_pocket_stats_line(
+            const std::string &prefix,
+            const item_pocket *free_pocket,
+            units::volume free_pocket_volume,
+            units::length free_pocket_length,
+            int free_pocket_copies
+        );
+        static header_stats_line build_pocket_stats_line(
+            const std::string &prefix,
+            const item_pocket *free_pocket,
+            units::volume free_pocket_volume,
+            units::length free_pocket_length,
+            int free_pocket_copies,
+            const item_pocket *max_pocket,
+            units::volume max_pocket_volume,
+            units::length max_pocket_length
+        );
+        using pocket_with_constraint = std::pair<const item_pocket *, pocket_constraint>;
+        static bool pockets_match( const pocket_with_constraint &a, const pocket_with_constraint &b );
+        // returns strings describing the volume and length of a given space (volume)
+        static std::tuple<std::string, std::string> build_space_stats( units::volume size,
+                units::length min_length, units::length max_length, bool is_restricted );
+        // returns build_space_stats to use when such a space doesn't exist
+        static std::tuple<std::string, std::string> build_invalid_space_stats();
+        /** returns a multiline block with an overview of space available in the given pockets.
+        * Total volume and weight are given explicitly, as the desired value might not be a simple sum of contents/capacities of all pockets.
+        * @param pockets pockets, with their corresponding constrainsts from outer pockets, to consider for summary
+        * @param show_unconstrained_max_space if set, the "max size" summary will show the "true" max and not apply constraints from outer pockets.
+        *   this is useful when reporting on a particular item rather than the inventory as a whole.
+        */
+        static header_stats get_pocket_summary_header_stats(
+            const units::mass &weight_carried, const units::mass &weight_capacity,
+            const units::volume &volume_in_pockets, const units::volume &volume_of_pockets,
+            std::vector<pocket_with_constraint> pockets, bool show_unconstrained_max_space,
+            const std::string *weight_label_override = nullptr,
+            const std::string *volume_label_override = nullptr
+        );
+        // this string is detected to indicate text rows must be aligned at this point.
+        // NOLINTNEXTLINE(cata-text-style): the tab is not printed.
+        static constexpr const char *header_stats_tab_stop = "\t";
+
 
         /** Get stats to display in top right.
          *
          * By default, computes volume/weight numbers for @c u */
-        virtual stats get_raw_stats() const;
+        virtual header_stats get_raw_stats() const;
 
         std::vector<std::string> get_stats() const;
         std::pair<std::string, nc_color> get_footer( navigation_mode m ) const;
@@ -796,8 +886,8 @@ class inventory_selector
         void draw_footer( const catacurses::window &w ) const;
         void draw_columns( const catacurses::window &w );
         void draw_frame( const catacurses::window &w ) const;
-        void _add_map_items( tripoint const &target, item_category const &cat, item_stack &items,
-                             std::function<item_location( item & )> const &floc );
+        void _add_map_items( tripoint_bub_ms const &target, item_category const &cat, item_stack &items,
+                             std::function<item_location( item & )> const &floc, bool add_efiles = false );
 
     public:
         /**
@@ -938,13 +1028,41 @@ class container_inventory_selector : public inventory_pick_selector
             inventory_pick_selector( p, preset ), loc( loc ) {}
 
     protected:
-        stats get_raw_stats() const override;
+        header_stats get_raw_stats() const override;
 
     private:
         item_location loc;
 };
 
-std::vector<item_location> get_possible_reload_targets( const item_location &target );
+// One reload destination: either a MAGAZINE_WELL slot (kind::well) or an
+// already-loaded magazine accepting loose ammo (kind::loaded_mag). owner is
+// the gun/gunmod containing the well; ui_well_index groups entries in the UI.
+struct reload_target {
+    enum class kind {
+        well,
+        loaded_mag,
+        // Integral MAGAZINE on a multimag host: target is the host item,
+        // pocket_index points at the MAGAZINE pocket for direct deposit.
+        integral_magazine,
+    };
+
+    item_location target;
+    item_location owner;
+    int pocket_index = -1;
+    int ui_well_index = -1;
+    kind kind = kind::well;
+};
+
+std::vector<reload_target> get_possible_reload_targets( const item_location &target );
+
+// First reload_target accepting the given ammo, or nullptr.
+const reload_target *find_matching_reload_target(
+    const std::vector<reload_target> &targets, const item_location &ammo );
+
+// Every reload_target accepting the given ammo. Used to detect ambiguous
+// reloads (multiple matching wells / loaded mags) for disambiguation prompts.
+std::vector<const reload_target *> find_all_matching_reload_targets(
+    const std::vector<reload_target> &targets, const item_location &ammo );
 class ammo_inventory_selector : public inventory_selector
 {
     public:
@@ -953,15 +1071,30 @@ class ammo_inventory_selector : public inventory_selector
 
         drop_location execute();
         void set_all_entries_chosen_count();
+        // True if the user changed the count for the entry returned by
+        // the most recent execute().
+        bool last_choice_count_player_adjusted() const {
+            return last_player_adjusted;
+        }
     private:
         void mod_chosen_count( inventory_entry &entry, int val );
         const item_location reload_loc;
+        // Keyed on item_location so the signal survives column rebuilds
+        // caused by filtering during the menu session.
+        std::vector<item_location> player_adjusted_ammo_locs;
+        bool last_player_adjusted = false;
+        // Per-well synthetic categories. std::list keeps pointers stable for
+        // inventory_entry::custom_category.
+        std::list<item_category> reload_well_categories;
 };
 
+/**
+* inventory_selector, but capable of selecting multiple items.
+*/
 class inventory_multiselector : public inventory_selector
 {
     public:
-        using GetStats = std::function<stats( const std::vector<std::pair<item_location, int>> )>;
+        using GetStats = std::function<header_stats( const std::vector<std::pair<item_location, int>> )>;
         explicit inventory_multiselector( Character &p,
                                           const inventory_selector_preset &preset = default_preset,
                                           const std::string &selection_column_title = "",
@@ -981,7 +1114,7 @@ class inventory_multiselector : public inventory_selector
         virtual void on_toggle() {};
         void on_input( const inventory_input &input );
         int count = 0;
-        stats get_raw_stats() const override;
+        header_stats get_raw_stats() const override;
         void toggle_categorize_contained();
     private:
         std::unique_ptr<inventory_column> selection_col;
@@ -1023,7 +1156,7 @@ class inventory_drop_selector : public inventory_multiselector
             bool warn_liquid = true );
         drop_locations execute();
     protected:
-        stats get_raw_stats() const override;
+        header_stats get_raw_stats() const override;
 
     private:
         bool warn_liquid;
@@ -1038,7 +1171,7 @@ class inventory_insert_selector : public inventory_drop_selector
             const std::string &selection_column_title = _( "ITEMS TO INSERT" ),
             bool warn_liquid = true );
     protected:
-        stats get_raw_stats() const override;
+        header_stats get_raw_stats() const override;
 };
 
 class pickup_selector : public inventory_multiselector
@@ -1046,18 +1179,21 @@ class pickup_selector : public inventory_multiselector
     public:
         explicit pickup_selector( Character &p, const inventory_selector_preset &preset = default_preset,
                                   const std::string &selection_column_title = _( "ITEMS TO PICK UP" ),
-                                  const std::optional<tripoint> &where = std::nullopt );
+                                  const std::set<tripoint_bub_ms> &where = {} );
         drop_locations execute();
         void apply_selection( std::vector<drop_location> selection );
+
+        std::optional<units::volume> overriden_volume;
+        std::optional<units::mass> overriden_mass;
     protected:
-        stats get_raw_stats() const override;
+        header_stats get_raw_stats() const override;
         void reassign_custom_invlets() override;
     private:
         bool wield( int &count );
         bool wear();
         void remove_from_to_use( item_location &it );
-        void add_reopen_activity();
-        const std::optional<tripoint> where;
+        void reopen_menu( const item_location &next_item );
+        const std::set<tripoint_bub_ms> where;
 };
 
 class unload_selector : public inventory_pick_selector

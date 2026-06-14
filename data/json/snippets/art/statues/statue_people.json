@@ -1,0 +1,39 @@
+[
+  {
+    "type": "snippet",
+    "category": "<sculpture_person_description>",
+    "text": [
+      { "id": "sculpture_person_description_0001", "text": "<physical_build_adjective> <character_gender_adjective>" },
+      {
+        "id": "sculpture_person_description_0002",
+        "text": "<physical_build_adjective>, <physical_appearance_adjective> <character_gender_adjective>"
+      },
+      {
+        "id": "sculpture_person_description_0003",
+        "text": "<physical_appearance_adjective> <character_gender_adjective>"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<random_character_pose_statue>",
+    "text": [
+      { "id": "random_character_pose_statue_0001", "text": "standing proudly, with head held high" },
+      { "id": "random_character_pose_statue_0002", "text": "sitting at a table" },
+      { "id": "random_character_pose_statue_0003", "text": "sitting at a table, having a meal" },
+      { "id": "random_character_pose_statue_0004", "text": "sitting upright in a chair" },
+      { "id": "random_character_pose_statue_0005", "text": "sitting upright in a chair, reading a book" },
+      { "id": "random_character_pose_statue_0006", "text": "smiling" },
+      { "id": "random_character_pose_statue_0007", "text": "gently embracing a <sculpture_person_description>" },
+      { "id": "random_character_pose_statue_0008", "text": "kissing a <sculpture_person_description>" },
+      { "id": "random_character_pose_statue_0009", "text": "staring outward with a blank expression" },
+      { "id": "random_character_pose_statue_0010", "text": "thinking intently" },
+      { "id": "random_character_pose_statue_0011", "text": "gripping weapons, ready for battle" },
+      { "id": "random_character_pose_statue_0012", "text": "angrily shouting at a <sculpture_person_description>" },
+      { "id": "random_character_pose_statue_0013", "text": "locked in combat with a <sculpture_person_description>" },
+      { "id": "random_character_pose_statue_0014", "text": "looking downward, weeping heavily" },
+      { "id": "random_character_pose_statue_0015", "text": "killing a <sculpture_person_description>" },
+      { "id": "random_character_pose_statue_0016", "text": "being slain by a <sculpture_person_description>" }
+    ]
+  }
+]

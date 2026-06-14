@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "anthill",
     "object": {
       "fallback_predecessor_mapgen": "field",
@@ -38,17 +37,20 @@
   {
     "//": "slopes up to anthill entrance to be used where appropriate",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ant_up_to_surface",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
         ">>",
         ">>"
-      ], "terrain": { ">": "t_slope_up" } }
+      ],
+      "terrain": { ">": "t_slope_up" }
+    }
   },
   {
     "//": "walls of ant tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ant_tunnel_bounds_h",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -74,7 +76,6 @@
   {
     "//": "walls of ant tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ant_tunnel_bounds_h1",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -100,7 +101,6 @@
   {
     "//": "walls of ant tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ant_tunnel_bounds_v",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -126,7 +126,6 @@
   {
     "//": "walls of ant tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ant_tunnel_bounds_v1",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -152,7 +151,6 @@
   {
     "//": "walls of ant tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "ant_tunnel_bounds_v2",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -177,7 +175,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "ants_straight",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -238,7 +235,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "ants_end",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -287,7 +283,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "ants_curved",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -358,7 +353,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "ants_tee",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -426,7 +420,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "ants_four_way",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -492,7 +485,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "ants_fungus_colony",
     "//": "Not related to the mycus, just a big ball of mushrooms.",
     "object": {
@@ -535,7 +527,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "ants_food",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -578,7 +569,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "ants_larvae",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -621,7 +611,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "ants_queen",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -664,7 +653,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "acid_ants_straight",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -725,7 +713,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "acid_ants_end",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -774,7 +761,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "acid_ants_curved",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -845,7 +831,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "acid_ants_tee",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -913,7 +898,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "acid_ants_four_way",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -979,7 +963,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "acid_ants_fungus_colony",
     "//": "Not related to the mycus, just a big ball of mushrooms.",
     "object": {
@@ -1022,7 +1005,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "acid_ants_food",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -1065,7 +1047,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "acid_ants_larvae",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -1108,7 +1089,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "acid_ants_queen",
     "object": {
       "fill_ter": "t_dirt_underground",

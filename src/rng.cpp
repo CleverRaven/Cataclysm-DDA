@@ -5,7 +5,9 @@
 #include <cmath>
 
 #include "calendar.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
+#include "debug.h"
 #include "units.h"
 
 unsigned int rng_bits()
@@ -78,12 +80,16 @@ float normal_roll_chance( float center, float stddev, float difficulty )
 double normal_roll( double mean, double stddev )
 {
     static std::normal_distribution<double> rng_normal_dist;
+    // Clear cached state -- some implementations (Box-Muller) generate pairs
+    // and cache the spare, which survives engine re-seeding.
+    rng_normal_dist.reset();
     return rng_normal_dist( rng_get_engine(), std::normal_distribution<>::param_type( mean, stddev ) );
 }
 
 double exponential_roll( double lambda )
 {
     static std::exponential_distribution<double> rng_exponential_dist;
+    rng_exponential_dist.reset();
     return rng_exponential_dist( rng_get_engine(),
                                  std::exponential_distribution<>::param_type( lambda ) );
 }
@@ -91,6 +97,8 @@ double exponential_roll( double lambda )
 double chi_squared_roll( double trial_num )
 {
     static std::chi_squared_distribution<double> rng_chi_squared_dist;
+    // chi_squared internally uses gamma_distribution which may cache state.
+    rng_chi_squared_dist.reset();
     return rng_chi_squared_dist( rng_get_engine(),
                                  std::chi_squared_distribution<>::param_type( trial_num ) );
 }

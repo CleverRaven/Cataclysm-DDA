@@ -43,5 +43,6 @@ void tiny_bitset::resize_heap( size_t requested_bits ) noexcept
 
 void tiny_bitset::set_storage( block_t *data )
 {
+    // NOLINTNEXTLINE(bugprone-multi-level-implicit-pointer-conversion)
     memcpy( &storage_, &data, sizeof( data ) );
 }

@@ -3,23 +3,33 @@
 #define CATA_SRC_MATTACK_ACTORS_H
 
 #include <climits>
-#include <iosfwd>
 #include <map>
-#include <memory>
+#include <string>
 #include <utility>
 #include <vector>
 
 #include "bodypart.h"
+#include "coords_fwd.h"
 #include "damage.h"
 #include "magic.h"
 #include "mattack_common.h"
-#include "translations.h"
+#include "mtype.h"
+#include "translation.h"
+#include "type_id.h"
 #include "weighted_list.h"
 
 class Creature;
 class JsonObject;
 class monster;
-struct mon_effect_data;
+
+enum class bp_type;
+
+class invalid_mattack_actor : public mattack_actor
+{
+        bool call( monster & ) const override;
+        std::unique_ptr<mattack_actor> clone() const override;
+        void load_internal( const JsonObject &, const std::string & ) override {}
+};
 
 class leap_actor : public mattack_actor
 {
@@ -70,6 +80,22 @@ class mon_spellcasting_actor : public mattack_actor
         void load_internal( const JsonObject &obj, const std::string &src ) override;
         bool call( monster & ) const override;
         std::unique_ptr<mattack_actor> clone() const override;
+};
+
+class mon_eoc_actor : public mattack_actor
+{
+    public:
+        int range = 1;
+        bool allow_no_target = false;
+        std::vector<effect_on_condition_id> eoc;
+
+        mon_eoc_actor() = default;
+        ~mon_eoc_actor() override = default;
+
+        void load_internal( const JsonObject &obj, const std::string &src ) override;
+        bool call( monster & ) const override;
+        std::unique_ptr<mattack_actor> clone() const override;
+
 };
 
 struct grab {
@@ -139,13 +165,17 @@ class melee_actor : public mattack_actor
         bool attack_upper = true;
         grab grab_data;
         bool is_grab = false;
+        std::pair<int, int> attack_amount = {1, 1};
+        bool spread_damage = false;
+
+        std::vector<effect_on_condition_id> eoc;
 
         /**
          * If empty, regular melee roll body part selection is used.
          * If non-empty, a body part is selected from the map to be targeted,
          * with a chance proportional to the value.
          */
-        weighted_float_list<bodypart_str_id> body_parts;
+        weighted_int_list<bp_type> body_parts_types;
 
         /** Extra effects applied on hit. */
         std::vector<mon_effect_data> effects;
@@ -172,7 +202,7 @@ class melee_actor : public mattack_actor
         /** Message for throwing a non-player. */
         translation throw_msg_npc;
 
-        melee_actor();
+        melee_actor() = default;
         ~melee_actor() override = default;
 
         virtual Creature *find_target( monster &z ) const;
@@ -182,6 +212,8 @@ class melee_actor : public mattack_actor
         /* Dedicated grab faction. Possible returns: -1 fails silently (attempting another attack instead)
         0 fails loudly (resetting the cooldown), 1 succeeds */
         int do_grab( monster &, Creature *target, bodypart_id bp_id ) const;
+        // return vector of bodyparts that were hit by this attack. Helper
+        std::vector<bodypart_id> pick_bodyparts_hit( const Creature *target, int hitspread ) const;
         bool call( monster & ) const override;
         std::unique_ptr<mattack_actor> clone() const override;
 };
@@ -261,7 +293,7 @@ class gun_actor : public mattack_actor
         bool require_sunlight = false;
 
         bool try_target( monster &z, Creature &target ) const;
-        void shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
+        bool shoot( monster &z, const tripoint_bub_ms &target, const gun_mode_id &mode,
                     int inital_recoil = 0 ) const;
         int get_max_range() const;
 
@@ -269,6 +301,22 @@ class gun_actor : public mattack_actor
         ~gun_actor() override = default;
 
         void load_internal( const JsonObject &obj, const std::string &src ) override;
+        bool call( monster & ) const override;
+        std::unique_ptr<mattack_actor> clone() const override;
+};
+
+class polymorph_special : public mattack_actor
+{
+    public:
+        mtype_id mon_id;
+        bool keep_speed = true;
+        bool keep_hp = true;
+        bool keep_anger = true;
+
+        polymorph_special() = default;
+        ~polymorph_special() override = default;
+
+        void load_internal( const JsonObject &jo, const std::string &src ) override;
         bool call( monster & ) const override;
         std::unique_ptr<mattack_actor> clone() const override;
 };

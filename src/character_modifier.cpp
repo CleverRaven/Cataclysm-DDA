@@ -1,10 +1,23 @@
-#include "character.h"
 #include "character_modifier.h"
+
+#include <algorithm>
+#include <cmath>
+#include <functional>
+#include <limits>
+
+#include "bodypart.h"
+#include "character.h"
+#include "debug.h"
+#include "effect.h"
 #include "enum_conversions.h"
 #include "flag.h"
+#include "flexbuffer_json.h"
+#include "game_constants.h"
 #include "generic_factory.h"
 #include "messages.h"
 #include "move_mode.h"
+#include "output.h"
+#include "string_formatter.h"
 
 static const character_modifier_id
 character_modifier_limb_footing_movecost_mod( "limb_footing_movecost_mod" );
@@ -41,6 +54,11 @@ bool string_id<character_modifier>::is_valid() const
 void character_modifier::load_character_modifiers( const JsonObject &jo, const std::string &src )
 {
     character_modifier_factory.load( jo, src );
+}
+
+void character_modifier::finalize_all()
+{
+    character_modifier_factory.finalize();
 }
 
 void character_modifier::reset()
@@ -88,7 +106,7 @@ static float load_float_or_maxmovecost( const JsonObject &jo, const std::string 
     return val;
 }
 
-void character_modifier::load( const JsonObject &jo, const std::string_view )
+void character_modifier::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "description", desc );
@@ -121,7 +139,7 @@ void character_modifier::load( const JsonObject &jo, const std::string_view )
         optional( jobj, was_loaded, "limb_score_op", lsop, "*" );
         limbscore_modop = string_to_modtype( lsop );
 
-        optional( jobj, was_loaded, "limb_type", limbtype, body_part_type::type::num_types );
+        optional( jobj, was_loaded, "limb_type", limbtype, bp_type::num_types );
         if( jobj.has_member( "override_encumb" ) ) {
             bool over;
             mandatory( jobj, was_loaded, "override_encumb", over );
@@ -148,11 +166,11 @@ void character_modifier::load( const JsonObject &jo, const std::string_view )
 
 // the total of the manipulator score in the best limb group
 float Character::manipulator_score( const std::map<bodypart_str_id, bodypart> &body,
-                                    body_part_type::type type, int override_encumb, int override_wounds ) const
+                                    bp_type type, int override_encumb, int override_wounds ) const
 {
-    std::map<body_part_type::type, std::vector<std::pair<bodypart, float>>> bodypart_groups;
+    std::map<bp_type, std::vector<std::pair<bodypart, float>>> bodypart_groups;
     std::vector<float> score_groups;
-    const bool required_type = type != body_part_type::type::num_types;
+    const bool required_type = type != bp_type::num_types;
     const bool local_effect = has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL );
     for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
         if( required_type ) {
@@ -161,9 +179,12 @@ float Character::manipulator_score( const std::map<bodypart_str_id, bodypart> &b
                     bodypart_groups[ bp_type.first ].emplace_back( id.second, bp_type.second );
                 }
             }
-        } else if( id.first->primary_limb_type() != body_part_type::type::num_types ) {
-            bodypart_groups[ id.first->primary_limb_type() ].emplace_back( id.second,
-                    id.first->limbtypes.at( id.first->primary_limb_type() ) );
+        } else if( id.first->primary_limb_type() != bp_type::num_types ) {
+            const bp_type primary_type = id.first->primary_limb_type();
+            const auto primary_limb = id.first->limbtypes.find( primary_type );
+            if( primary_limb != id.first->limbtypes.end() ) {
+                bodypart_groups[ primary_type ].emplace_back( id.second, primary_limb->second );
+            }
         }
     }
     for( auto &part : bodypart_groups ) {
@@ -189,13 +210,13 @@ float Character::manipulator_score( const std::map<bodypart_str_id, bodypart> &b
                     }
                 }
             }
-            total = std::min( total + id.first.get_limb_score( limb_score_manip, -1, override_encumb,
+            total = std::min( total + id.first.get_limb_score( *this, limb_score_manip, -1, override_encumb,
                               override_wounds ) * id.second * local_mul,
                               id.first.get_limb_score_max( limb_score_manip ) * local_mul * id.second );
         }
         add_msg_debug( debugmode::DF_CHARACTER,
                        "Manipulation score of bodypart group %s %.1f",
-                       io::enum_to_string<body_part_type::type>( part.first ), total );
+                       io::enum_to_string<bp_type>( part.first ), total );
         score_groups.emplace_back( total );
     }
     const auto score_groups_max = std::max_element( score_groups.begin(), score_groups.end() );
@@ -207,7 +228,7 @@ float Character::manipulator_score( const std::map<bodypart_str_id, bodypart> &b
     }
 }
 
-float Character::get_limb_score( const limb_score_id &score, const body_part_type::type &bp,
+float Character::get_limb_score( const limb_score_id &score, const bp_type &bp,
                                  int override_encumb, int override_wounds ) const
 {
     int skill = -1;
@@ -227,10 +248,10 @@ float Character::get_limb_score( const limb_score_id &score, const body_part_typ
     bool cache_flag_EFFECT_LIMB_SCORE_MOD_LOCAL = has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL );
     for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
         float mod = 0.0f;
-        if( bp == body_part_type::type::num_types ) {
-            mod = id.second.get_limb_score( score, skill, override_encumb, override_wounds );
+        if( bp == bp_type::num_types ) {
+            mod = id.second.get_limb_score( *this, score, skill, override_encumb, override_wounds );
         } else if( id.first->has_type( bp ) ) {
-            mod = id.second.get_limb_score( score, skill, override_encumb,
+            mod = id.second.get_limb_score( *this, score, skill, override_encumb,
                                             override_wounds ) * id.first->limbtypes.at( bp );
         }
         if( cache_flag_EFFECT_LIMB_SCORE_MOD_LOCAL ) {

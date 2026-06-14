@@ -1,7 +1,7 @@
 [
   {
     "id": "envelope",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "envelope" },
     "looks_like": "paper",
@@ -9,8 +9,8 @@
     "weight": "6750 mg",
     "volume": "80 ml",
     "longest_side": "241 mm",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "pocket_data": [
       {
@@ -26,7 +26,7 @@
   },
   {
     "id": "letter",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "letter" },
     "looks_like": "paper",
@@ -34,8 +34,8 @@
     "weight": "3 g",
     "volume": "6 ml",
     "longest_side": "297 mm",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "symbol": "`",
     "color": "white",
@@ -109,7 +109,7 @@
   },
   {
     "id": "postcard",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "postcard" },
     "looks_like": "paper",
@@ -117,15 +117,15 @@
     "weight": "6 g",
     "volume": "6 ml",
     "longest_side": "152 mm",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "symbol": "`",
     "color": "white"
   },
   {
     "id": "gift_card",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "gift card" },
     "looks_like": "cash_card",
@@ -133,8 +133,8 @@
     "weight": "5 g",
     "volume": "5 ml",
     "longest_side": "80 mm",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "plastic" ],
     "variant_type": "generic",
     "variants": [
@@ -179,7 +179,7 @@
   },
   {
     "id": "greeting_card",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "greeting card" },
     "looks_like": "paper",
@@ -187,8 +187,8 @@
     "weight": "30 g",
     "volume": "72 ml",
     "longest_side": "177 mm",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "variant_type": "generic",
     "variants": [
@@ -239,7 +239,7 @@
         "id": "sympathy_greeting_card",
         "name": { "str": "sympathy card" },
         "description": "A black greeting card with a picture of a dimly lit candle.  Words printed on it read: \"Please accept our deepest and most heartfelt condolences at this challenging time.\"",
-        "color": "black"
+        "color": "dark_gray"
       },
       {
         "id": "thank_you_greeting_card",

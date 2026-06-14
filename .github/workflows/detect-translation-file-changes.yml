@@ -2,6 +2,9 @@ name: Detect translation file changes
 
 
 on:
+  # Does not interpolate i.e. ${{ }} user controlled text into script.
+  # Does not checkout and run user controlled code.
+  # Safe to use pull_request_target.
   pull_request_target:
     paths:
       - lang/po/*.po
@@ -13,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Detect translation file changes"
-        uses: actions/github-script@v6.3.3
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |

@@ -3,8 +3,9 @@
 #define CATA_SRC_MEMORIAL_LOGGER_H
 
 #include <iosfwd>
-#include <new>
 #include <optional>
+#include <string>
+#include <string_view>
 #include <vector>
 
 #include "calendar.h"
@@ -12,10 +13,6 @@
 #include "string_formatter.h"
 #include "type_id.h"
 
-namespace cata
-{
-class event;
-}  // namespace cata
 class JsonObject;
 class JsonOut;
 

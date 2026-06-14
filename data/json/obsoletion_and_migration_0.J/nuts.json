@@ -1,0 +1,28 @@
+[
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "acorns_blanching",
+    "name": { "str_sp": "blanching acorns (obsolete)" },
+    "copy-from": "acorns",
+    "description": "A mix of water and hulled acorns, slowly leaching the tannins.  It'll take about a week before they're palatable.",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 25,
+    "price_postapoc": "50 cent",
+    "delete": { "flags": [ "EDIBLE_FROZEN" ] },
+    "weight": "512 g",
+    "volume": "500 ml",
+    "charges": 1,
+    "phase": "liquid",
+    "looks_like": "coffee",
+    "use_action": {
+      "target": "acorns_blanched",
+      "msg": "After a week of changing water and taste-testing, the acorns are no longer bitter and ready to decant.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 518400,
+      "not_ready_msg": "The acorns are still bitter."
+    }
+  }
+]

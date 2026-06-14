@@ -1,0 +1,40 @@
+[
+  {
+    "copy-from": "mon_renfield",
+    "id": "mon_renfield_innawood",
+    "type": "MONSTER",
+    "name": { "str": "renfield" },
+    "upgrades": { "half_life": 200, "into_group": "GROUP_RENFIELD_UPGRADE_INNAWOOD" }
+  },
+  {
+    "copy-from": "mon_vampire_feral",
+    "id": "mon_vampire_feral_innawood",
+    "type": "MONSTER"
+  },
+  {
+    "copy-from": "mon_vampire_moroi_fast",
+    "id": "mon_vampire_moroi_fast_innawood",
+    "type": "MONSTER"
+  },
+  {
+    "copy-from": "mon_vampire_moroi_tough",
+    "id": "mon_vampire_moroi_tough_innawood",
+    "type": "MONSTER"
+  },
+  {
+    "copy-from": "mon_vampire_moroi_animalistic",
+    "id": "mon_vampire_moroi_animalistic_innawood",
+    "type": "MONSTER"
+  },
+  {
+    "copy-from": "mon_vampire_moroi_stealthy",
+    "id": "mon_vampire_moroi_stealthy_innawood",
+    "type": "MONSTER"
+  },
+  {
+    "copy-from": "mon_fetch_child",
+    "id": "mon_fetch_child",
+    "type": "MONSTER",
+    "death_drops": "fetch_child_death_drops"
+  }
+]

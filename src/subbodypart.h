@@ -2,28 +2,21 @@
 #ifndef CATA_SRC_SUBBODYPART_H
 #define CATA_SRC_SUBBODYPART_H
 
-#include <array>
-#include <cstddef>
-#include <initializer_list>
-#include <iosfwd>
+#include <optional>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
-#include "enums.h"
-#include "flat_set.h"
-#include "int_id.h"
-#include "string_id.h"
-#include "translations.h"
+#include "damage.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
-class JsonOut;
-class JsonValue;
-struct sub_body_part_type;
 struct body_part_type;
+struct sub_body_part_type;
+template <typename T> struct enum_traits;
 
-using sub_bodypart_str_id = string_id<sub_body_part_type>;
 using sub_bodypart_id = int_id<sub_body_part_type>;
 
 enum class side : int {
@@ -69,12 +62,14 @@ struct sub_body_part_type {
 
     // the locations that are under this location
     // used with secondary locations to define what sublocations
-    // exist bellow them for things like discomfort
+    // exist below them for things like discomfort
     std::vector<sub_bodypart_str_id> locations_under;
 
     // These subparts act like this limb for armor coverage
     // TODO: Coverage/Encumbrance multiplier
-    std::vector<sub_bodypart_str_id> similar_bodyparts;
+    std::optional<sub_bodypart_str_id> similar_bodypart;
+    // Unarmed damage when this subpart is our contact area
+    damage_instance unarmed_damage;
 
     static void load_bp( const JsonObject &jo, const std::string &src );
 
@@ -83,12 +78,14 @@ struct sub_body_part_type {
     // combine matching body part strings together for printing
     static std::vector<translation> consolidate( std::vector<sub_bodypart_id> &covered );
 
+    std::vector<sub_bodypart_str_id> get_all_combined_similar_sub_bodyparts() const;
+
     // Clears all bps
     static void reset();
     // Post-load finalization
     static void finalize_all();
 
-    static void finalize();
+    void finalize();
 };
 
 #endif // CATA_SRC_SUBBODYPART_H

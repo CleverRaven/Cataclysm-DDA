@@ -22,7 +22,7 @@ void PointInitializationCheck::registerMatchers( MatchFinder *Finder )
                 allOf(
                     argumentCountIs( 1 ),
                     hasArgument( 0, declRefExpr( to( varDecl(
-                                     anyOf( hasName( "point_zero" ), hasName( "tripoint_zero" ) )
+                                     anyOf( hasName( "point::zero" ), hasName( "tripoint::zero" ) )
                                  ) ) ) ) ),
                 allOf(
                     hasArgument( 0, integerLiteral( equals( 0 ) ) ),

@@ -1,0 +1,189 @@
+[
+  {
+    "type": "npc_class",
+    "id": "CRYO_HACKER",
+    "name": { "str": "Thawed Hacker" },
+    "job_description": "I'm looking for some choice systems to hack.",
+    "traits": [
+      { "group": "BG_survival_story_TEENAGER" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "AFS_CRYOADAPTATION" }
+    ],
+    "bonus_str": { "rng": [ -4, 0 ] },
+    "bonus_dex": { "rng": [ -2, 0 ] },
+    "bonus_int": { "rng": [ 1, 5 ] },
+    "bonus_per": { "rng": [ -2, 0 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ -1, -2 ] } ] } ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "computer", "bonus": { "rng": [ 3, 6 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "CRYO_DOCTOR",
+    "name": { "str": "Thawed Doctor" },
+    "job_description": "I'm looking for wounded to help.",
+    "traits": [
+      { "group": "BG_survival_story_MEDICAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "AFS_CRYOADAPTATION" },
+      { "trait": "PROF_MED" }
+    ],
+    "bonus_str": { "rng": [ -2, 0 ] },
+    "bonus_int": { "rng": [ 0, 2 ] },
+    "bonus_per": { "one_in": 4 },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 3, 2 ] }, { "rng": [ -1, -3 ] } ] } ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 2, 6 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "CRYO_SCIENTIST",
+    "name": { "str": "Thawed Scientist" },
+    "job_description": "I'm looking for clues concerning these monsters' origins…",
+    "traits": [
+      { "group": "BG_survival_story_LAB" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "AFS_CRYOADAPTATION" }
+    ],
+    "bonus_str": { "rng": [ -1, -3 ] },
+    "bonus_dex": { "rng": [ -1, 0 ] },
+    "bonus_int": { "rng": [ 2, 5 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -4 } ] } ] } },
+      { "skill": "computer", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 1, 4 ] } }
+    ]
+  },
+  {
+    "id": "TALK_THAWED_1",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "npc_val": "dialogue_thawed_thawed_has_talked" } ],
+      "no": "What year is it?  How long have I been asleep?",
+      "yes": "Anymore bad news?"
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "dialogue_thawed_thawed_has_talked", "value": "yes" } },
+    "responses": [
+      {
+        "switch": true,
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_thawed_thawed_has_talked" } ] },
+        "text": "Hey.  Let's chat for a second.",
+        "topic": "TALK_STRANGER_NEUTRAL"
+      },
+      {
+        "switch": true,
+        "default": true,
+        "text": "I thawed you out of that pod.  Listen, I could use your help…",
+        "trial": { "type": "PERSUADE", "difficulty": 0 },
+        "success": { "topic": "TALK_THAWED_FRIENDLY", "opinion": { "trust": 1, "value": 1 } },
+        "failure": { "topic": "TALK_THAWED_WARY", "opinion": { "anger": 1, "fear": 1 } }
+      },
+      {
+        "switch": true,
+        "default": true,
+        "text": "If you won't help me, I am going to hurt you.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "AGGRESSION", -2 ], [ "BRAVERY", -2 ] ] },
+        "success": { "topic": "TALK_THAWED_FEARFUL", "opinion": { "trust": -4, "fear": 3, "value": -1, "anger": 4 } },
+        "failure": { "topic": "TALK_THAWED_BREAKDOWN", "opinion": { "trust": -4, "value": -5, "anger": 10 } }
+      },
+      {
+        "switch": true,
+        "default": true,
+        "text": "Sorry, no need to get angry.  I'll get out of your way.",
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_THAWED_FRIENDLY",
+    "type": "talk_topic",
+    "dynamic_line": "So what happens now?",
+    "responses": [
+      {
+        "text": "Come with me.  We can help each other out.",
+        "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "value", 2 ] ] },
+        "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": 1, "value": 1 } },
+        "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": -1, "fear": 1 } }
+      },
+      { "text": "We both go our separate ways.  Enjoy your freedom.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_THAWED_WARY",
+    "type": "talk_topic",
+    "dynamic_line": "Why didn't you leave me frozen until things were better?",
+    "responses": [
+      {
+        "text": "If I didn't thaw you out now, you'd have died in that pod.",
+        "trial": { "type": "PERSUADE", "difficulty": 5, "mod": [ [ "TRUST", 2 ], [ "VALUE", 2 ] ] },
+        "success": { "topic": "TALK_THAWED_FRIENDLY", "opinion": { "trust": 1, "value": 1 } },
+        "failure": { "topic": "TALK_THAWED_LEAVES" }
+      },
+      {
+        "text": "I'm being nice for now.  You'd better hope that it lasts.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "AGGRESSION", -2 ], [ "BRAVERY", -2 ] ] },
+        "success": { "topic": "TALK_THAWED_FEARFUL", "opinion": { "trust": -4, "fear": 3, "value": -1, "anger": 4 } },
+        "failure": { "topic": "TALK_THAWED_BREAKDOWN", "opinion": { "trust": -4, "value": -5, "anger": 10 } }
+      },
+      { "text": "Forget it.  Enjoy your freedom.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_THAWED_FEARFUL",
+    "type": "talk_topic",
+    "dynamic_line": "I'm sorry, what can I do to help you?",
+    "responses": [
+      {
+        "text": "Follow me and do my bidding, then.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] },
+        "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": -4, "fear": 3, "value": -1, "anger": 4 } },
+        "failure": { "topic": "TALK_THAWED_BREAKDOWN", "opinion": { "trust": 4, "value": -5, "anger": 10 } }
+      },
+      {
+        "text": "Get out of my sight.",
+        "topic": "TALK_DONE",
+        "effect": "flee",
+        "opinion": { "trust": -1, "fear": -2, "anger": -2 }
+      },
+      {
+        "text": "No, *I'm* sorry, I didn't mean that.  Go do what you want.",
+        "trial": { "type": "PERSUADE", "difficulty": 10 },
+        "success": { "topic": "TALK_DONE", "opinion": { "trust": 1, "value": 1, "anger": -1 } },
+        "failure": { "topic": "TALK_THAWED_BREAKDOWN", "opinion": { "trust": 4, "value": -5, "anger": 10 } }
+      }
+    ]
+  },
+  {
+    "id": "TALK_THAWED_BREAKDOWN",
+    "type": "talk_topic",
+    "dynamic_line": "How dare you threaten me!",
+    "responses": [
+      {
+        "text": "Run while you still can!",
+        "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] },
+        "success": { "topic": "TALK_DONE", "effect": "flee" },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      },
+      { "text": "Not if I kill you first!", "topic": "TALK_DONE", "effect": "hostile" },
+      {
+        "text": "I'm sorry!  I shouldn't have said that!",
+        "trial": { "type": "PERSUADE", "difficulty": 30 },
+        "success": { "topic": "TALK_DONE", "opinion": { "trust": 1, "value": 1, "anger": -1 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_THAWED_LEAVES",
+    "type": "talk_topic",
+    "dynamic_line": "Go freeze yourself.  Bye.",
+    "responses": [ { "text": "Suit yourself.", "topic": "TALK_DONE" } ]
+  }
+]

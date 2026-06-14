@@ -8,6 +8,8 @@
 #include "generic_factory.h"
 #include "json.h"
 #include "localized_comparator.h"
+#include "rng.h"
+#include "translations.h"
 
 translation::translation( const plural_tag ) : raw_pl( cata::make_value<std::string>() ) {}
 
@@ -291,7 +293,7 @@ void translation::deserialize( const JsonObject &jsobj )
     needs_translation = true;
 }
 
-std::string translation::translated( const int num ) const
+const std::string &translation::translated( const int num ) const
 {
     if( !needs_translation || raw.empty() ) {
         return raw;

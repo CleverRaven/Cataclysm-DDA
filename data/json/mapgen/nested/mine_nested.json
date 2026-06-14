@@ -7,7 +7,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "spiral_cw",
     "object": {
       "palettes": [ "mine_palette" ],
@@ -24,7 +23,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "spiral_ccw",
     "object": {
       "palettes": [ "mine_palette" ],
@@ -41,7 +39,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "spiral_boulder_cw",
     "object": {
       "palettes": [ "mine_palette" ],
@@ -58,7 +55,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "spiral_boulder_ccw",
     "object": {
       "palettes": [ "mine_palette" ],
@@ -75,7 +71,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mine_tunnel_entrance",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -96,7 +91,6 @@
   {
     "//": "walls of mine tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mine_tunnel_bounds_h",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -116,13 +110,13 @@
         "              ",
         "              "
       ],
-      "terrain": { "#": "t_rock", "№": [ [ "t_pillar", 10 ], [ "t_rock", 90 ] ] }
+      "terrain": { "#": "t_rock", "№": [ [ "t_pillar", 10 ], [ "t_rock", 90 ] ] },
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "//": "walls of mine tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mine_tunnel_bounds_h1",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -142,13 +136,13 @@
         "              ",
         "              "
       ],
-      "terrain": { "#": "t_rock", "№": [ [ "t_pillar", 10 ], [ "t_rock", 90 ] ] }
+      "terrain": { "#": "t_rock", "№": [ [ "t_pillar", 10 ], [ "t_rock", 90 ] ] },
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "//": "walls of mine tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mine_tunnel_bounds_v",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -168,13 +162,13 @@
         "#             ",
         "#             "
       ],
-      "terrain": { "#": "t_rock", "№": [ [ "t_pillar", 10 ], [ "t_rock", 90 ] ] }
+      "terrain": { "#": "t_rock", "№": [ [ "t_pillar", 10 ], [ "t_rock", 90 ] ] },
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "//": "walls of mine tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mine_tunnel_bounds_v1",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -194,13 +188,13 @@
         "              ",
         "              "
       ],
-      "terrain": { "#": "t_rock", "№": [ [ "t_pillar", 10 ], [ "t_rock", 90 ] ] }
+      "terrain": { "#": "t_rock", "№": [ [ "t_pillar", 10 ], [ "t_rock", 90 ] ] },
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
     "//": "walls of mine tunnel that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mine_tunnel_bounds_v2",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -225,7 +219,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mine_sinkhole",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -236,13 +229,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mine_toxic_gas",
     "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_gas_vent", "x": 0, "y": 0, "intensity": 2, "age": 20 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mine_wreckage",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -252,7 +243,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mine_minerals_equipment",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -267,8 +257,8 @@
               { "item": "material_shrd_limestone", "prob": 40, "count": [ 1, 10 ] },
               { "item": "material_limestone", "prob": 40, "count": [ 1, 10 ] },
               { "item": "material_niter", "prob": 5, "count": [ 1, 10 ] },
-              { "item": "material_sand", "prob": 50, "charges": [ 10, 500 ] },
-              { "item": "material_soil", "prob": 50, "charges": [ 10, 500 ] },
+              { "item": "material_sand", "prob": 50, "count": [ 10, 500 ] },
+              { "item": "material_soil", "prob": 50, "count": [ 10, 500 ] },
               { "item": "chunk_sulfur", "prob": 5, "count": [ 1, 10 ] },
               { "item": "material_rocksalt", "prob": 5, "count": [ 1, 10 ] },
               { "item": "material_rhodonite", "prob": 5, "count": [ 1, 10 ] },
@@ -292,7 +282,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mine_lava",
     "object": {
       "palettes": [ "mine_palette" ],
@@ -310,7 +299,6 @@
   {
     "//": "slopes down to be used where appropriate",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "transition_down",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -325,7 +313,6 @@
   {
     "//": "slopes up to be used where appropriate",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "transition_up",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -339,7 +326,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mine_the_thing_victims",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -355,7 +341,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mine_finale_archaeology",
     "object": {
       "mapgensize": [ 6, 6 ],

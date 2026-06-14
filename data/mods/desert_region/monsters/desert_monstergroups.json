@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_DESERT",
+    "id": "GROUP_DESERT",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [

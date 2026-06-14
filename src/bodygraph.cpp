@@ -1,18 +1,43 @@
 #include "bodygraph.h"
+
+#include <algorithm>
+#include <cstddef>
+#include <initializer_list>
+#include <memory>
+#include <set>
+#include <tuple>
+
 #include "bodypart.h"
+#include "cata_utility.h"
+#include "catacharset.h"
 #include "character.h"
+#include "character_attire.h"
+#include "creature.h"
 #include "cursesdef.h"
 #include "damage.h"
+#include "debug.h"
+#include "enums.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "input_context.h"
-#include "make_static.h"
+#include "memory_fast.h"
+#include "output.h"
+#include "point.h"
+#include "string_formatter.h"
+#include "subbodypart.h"
+#include "translation.h"
+#include "translations.h"
+#include "uilist.h"
 #include "ui_manager.h"
+#include "units.h"
 #include "weather.h"
 
 #define BPGRAPH_MAXROWS 20
 #define BPGRAPH_MAXCOLS 40
 
 static const bodygraph_id bodygraph_full_body( "full_body" );
+
+static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
 
 namespace
 {
@@ -60,7 +85,7 @@ void bodygraph::check_all()
     bodygraph_factory.check();
 }
 
-void bodygraph::load( const JsonObject &jo, const std::string_view )
+void bodygraph::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "parent_bodypart", parent_bp );
     optional( jo, was_loaded, "fill_sym", fill_sym );
@@ -110,6 +135,11 @@ void bodygraph::load( const JsonObject &jo, const std::string_view )
             parts.emplace( sym, bpg );
         }
     }
+
+    if( jo.has_string( "label_fill" ) ) {
+        label_fill = jo.get_string( "label_fill" );
+    }
+
 }
 
 void bodygraph::finalize()
@@ -213,6 +243,8 @@ void bodygraph::check() const
 using part_tuple =
     std::tuple<bodypart_id, const sub_body_part_type *, const bodygraph_part *, bool>;
 
+namespace
+{
 struct bodygraph_display {
     const Character *u;
     bodygraph_id id;
@@ -255,6 +287,7 @@ struct bodygraph_display {
     void draw_info();
     void display();
 };
+} // namespace
 
 bodygraph_display::bodygraph_display( const Character *u, const bodygraph_id &id ) :
     u( u ), id( id ), ctxt( "BODYGRAPH" )
@@ -311,7 +344,7 @@ void bodygraph_display::draw_borders()
     bh_borders.draw_border( w_border, c_white );
 
     const int first_win_width = partlist_width;
-    auto center_txt_start = [&first_win_width]( const std::string_view txt ) {
+    auto center_txt_start = [&first_win_width]( std::string_view txt ) {
         return 2 + first_win_width + ( BPGRAPH_MAXCOLS / 2 - utf8_width( txt, true ) / 2 );
     };
 
@@ -354,7 +387,7 @@ void bodygraph_display::draw_partlist()
     werase( w_partlist );
     int y = 0;
     for( int i = top_part; y < all_height - 2 && i < static_cast<int>( partlist.size() ); i++ ) {
-        const auto bgt = partlist[i];
+        const auto &bgt = partlist[i];
         std::string txt = !std::get<1>( bgt ) ?
                           std::get<0>( bgt )->name.translated() :
                           std::get<1>( bgt )->name.translated();
@@ -375,6 +408,8 @@ static const bodygraph_id &get_bg_rows( const bodygraph_id &bgid )
     if( !!bgid->mirror ) {
         return get_bg_rows( bgid->mirror.value() );
     }
+    // bodygraph_id is a string_id with stable storage; callers do not pass temporaries.
+    // NOLINTNEXTLINE(bugprone-return-const-ref-from-parameter)
     return bgid;
 }
 
@@ -402,9 +437,7 @@ void bodygraph_display::draw_info()
         int y = 0;
         for( unsigned i = top_info; i < info_txt.size() && y < all_height - 2; i++, y++ ) {
             if( info_txt[i] == "--" ) {
-                for( int x = 1; x < info_width - 2; x++ ) {
-                    mvwputch( w_info, point( x, y ), c_dark_gray, LINE_OXOX );
-                }
+                mvwhline( w_info, point( 1, y ), c_dark_gray, LINE_OXOX, info_width - 3 );
             } else {
                 trim_and_print( w_info, point( 1, y ), info_width - 2, c_white, info_txt[i] );
             }
@@ -491,8 +524,8 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
     info_txt.emplace_back( string_format( "%s: %d%%", colorize( _( "Wetness" ), c_magenta ),
                                           static_cast<int>( info.wetness * 100.0f ) ) );
     // part temperature
-    const bool temp_precise = u->cache_has_item_with( STATIC( flag_id( "THERMOMETER" ) ) ) ||
-                              u->has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) );
+    const bool temp_precise = u->cache_has_item_with( json_flag_THERMOMETER ) ||
+                              u->has_flag( json_flag_THERMOMETER );
     const units::temperature temp = units::from_fahrenheit( info.temperature.first / 50.0 );
     info_txt.emplace_back( string_format( "%s: %s", colorize( _( "Body temp" ), c_magenta ),
                                           temp_precise ? colorize( print_temperature( temp ),
@@ -622,7 +655,8 @@ void display_bodygraph( const Character &u, const bodygraph_id &id )
 }
 
 std::vector<std::string> get_bodygraph_lines( const Character &u,
-        const bodygraph_callback &fragment_cb, const bodygraph_id &id, int width, int height )
+        const bodygraph_callback &fragment_cb, const bodygraph_id &id, int width, int height,
+        std::string_view label )
 {
     width = ( width <= 0 || width > BPGRAPH_MAXCOLS ) ? BPGRAPH_MAXCOLS : width;
     height = ( height <= 0 || height > BPGRAPH_MAXROWS ) ? BPGRAPH_MAXROWS : height;
@@ -653,9 +687,20 @@ std::vector<std::string> get_bodygraph_lines( const Character &u,
     for( int i = 0; static_cast<size_t>( i ) < rid->rows.size() && i < height; i++ ) {
         std::string ret_row;
         int j = hflip ? rid->rows[i].size() - 1 : 0;
+        size_t label_i = 0;
         for( int x = 0 ; x < width && j < BPGRAPH_MAXCOLS && j >= 0; hflip ? j-- : j++, x++ ) {
-            std::string sym = id->fill_sym.empty() ? rid->rows[i][j] : id->fill_sym;
-            auto iter = id->parts.find( rid->rows[i][j] );
+            std::string sym = " ";
+            const std::string &r = rid->rows[i][j];
+            bool label_sym = false;
+            if( !id->fill_rows.empty() && id->label_fill == id->fill_rows[i][j] ) {
+                if( label_i < label.length() ) {
+                    label_sym = true;
+                    sym = label[label_i++];
+                }
+            } else {
+                sym = id->fill_sym.empty() ? r : id->fill_sym;
+            }
+            auto iter = id->parts.find( r );
             const bodygraph_part *bgp = nullptr;
             if( iter != id->parts.end() ) {
                 bgp = &iter->second;
@@ -670,7 +715,9 @@ std::vector<std::string> get_bodygraph_lines( const Character &u,
                         missing_section = false;
                     }
                 }
-                sym = missing_section ? " " : ( id->fill_rows.empty() ? iter->second.sym : id->fill_rows[i][j] );
+                if( !label_sym ) {
+                    sym = missing_section ? " " : ( id->fill_rows.empty() ? iter->second.sym : id->fill_rows[i][j] );
+                }
             }
             if( rid->rows[i][j] == " " ) {
                 sym = " ";

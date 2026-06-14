@@ -4,42 +4,85 @@
 #include <emscripten.h>
 #endif
 
+#include <algorithm>
+#include <chrono>
+#include <map>
+#include <memory>
+#include <optional>
+#include <ostream>
+#include <ratio>
+#include <string>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
 #include "action.h"
+#include "activity_type.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "cached_options.h"
 #include "calendar.h"
+#ifdef TILES
+#include "cata_imgui.h"
+#endif
+#include "cata_variant.h"
+#include "clzones.h"
+#include "coordinates.h"
+#include "debug.h"
+#include "debug_capture.h"
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
+#include "field.h"
 #include "game.h"
+#include "game_constants.h"
 #include "gamemode.h"
 #include "help.h"
 #include "input.h"
 #include "input_context.h"
-#include "make_static.h"
+#include "item_wakeup.h"
+#include "magic_enchantment.h"
 #include "map.h"
+#include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapbuffer.h"
+#include "mapdata.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "mission.h"
+#include "monster.h"
 #include "mtype.h"
 #include "music.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
+#include "player_activity.h"
+#include "point.h"
 #include "popup.h"
+#include "rng.h"
 #include "scent_map.h"
 #include "sdlsound.h"
+#include "simple_pathfinding.h"
+#include "sounds.h"
 #include "stats_tracker.h"
+#include "string_formatter.h"
 #include "timed_event.h"
+#include "translations.h"
+#include "type_id.h"
+#include "uilist.h"
 #include "ui_manager.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "weather.h"
 #include "worldfactory.h"
 
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
+static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
 static const bionic_id bio_alarm( "bio_alarm" );
@@ -50,6 +93,8 @@ static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_sleep( "sleep" );
 
 static const event_statistic_id event_statistic_last_words( "last_words" );
+
+static const json_character_flag json_flag_NO_SCENT( "NO_SCENT" );
 
 static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
 
@@ -163,14 +208,14 @@ bool cleanup_at_end()
     }
 
     //Reset any offset due to driving
-    g->set_driving_view_offset( point_zero );
+    g->set_driving_view_offset( point_rel_ms::zero );
 
     //clear all sound channels
     sfx::fade_audio_channel( sfx::channel::any, 300 );
     sfx::fade_audio_group( sfx::group::weather, 300 );
     sfx::fade_audio_group( sfx::group::time_of_day, 300 );
     sfx::fade_audio_group( sfx::group::context_themes, 300 );
-    sfx::fade_audio_group( sfx::group::fatigue, 300 );
+    sfx::fade_audio_group( sfx::group::low_stamina, 300 );
 
     zone_manager::get_manager().clear();
 
@@ -202,6 +247,12 @@ void handle_key_blocking_activity()
             if( u.activity.is_interruptible_with_kb() ) {
                 g->cancel_activity_query( _( "Confirm:" ) );
             }
+        } else if( action == "zoom_in" ) {
+            g->zoom_in();
+            g->mark_main_ui_adaptor_resize();
+        } else if( action == "zoom_out" ) {
+            g->zoom_out();
+            g->mark_main_ui_adaptor_resize();
         } else if( action == "player_data" ) {
             u.disp_info( true );
         } else if( action == "messages" ) {
@@ -230,26 +281,33 @@ void monmove()
     avatar &u = get_avatar();
 
     for( monster &critter : g->all_monsters() ) {
+        if( !m.inbounds( critter.pos_abs() ) ) {
+            continue;
+        }
+        const tripoint_bub_ms critter_pos = critter.pos_bub( m );
+
         // Critters in impassable tiles get pushed away, unless it's not impassable for them
-        if( !critter.is_dead() && m.impassable( critter.pos() ) && !critter.can_move_to( critter.pos() ) ) {
+        if( !critter.is_dead() && ( m.impassable( critter_pos ) &&
+                                    !m.get_impassable_field_at( critter_pos ).has_value() ) &&
+            !critter.can_move_to( critter_pos ) ) {
             dbg( D_ERROR ) << "game:monmove: " << critter.name()
-                           << " can't move to its location!  (" << critter.posx()
-                           << ":" << critter.posy() << ":" << critter.posz() << "), "
-                           << m.tername( critter.pos() );
+                           << " can't move to its location!  (" << critter_pos.x()
+                           << ":" << critter_pos.y() << ":" << critter_pos.z() << "), "
+                           << m.tername( critter_pos );
             add_msg_debug( debugmode::DF_MONSTER, "%s can't move to its location!  (%d,%d,%d), %s",
                            critter.name(),
-                           critter.posx(), critter.posy(), critter.posz(), m.tername( critter.pos() ) );
+                           critter_pos.x(), critter_pos.y(), critter_pos.z(), m.tername( critter_pos ) );
             bool okay = false;
-            for( const tripoint &dest : m.points_in_radius( critter.pos(), 3 ) ) {
+            for( const tripoint_bub_ms &dest : m.points_in_radius( critter_pos, 3 ) ) {
                 if( critter.can_move_to( dest ) && g->is_empty( dest ) ) {
-                    critter.setpos( dest );
+                    critter.setpos( m, dest );
                     okay = true;
                     break;
                 }
             }
             if( !okay ) {
                 // die of "natural" cause (overpopulation is natural)
-                critter.die( nullptr );
+                critter.die( &m, nullptr );
             }
         }
 
@@ -265,14 +323,14 @@ void monmove()
             critter.try_biosignature();
             critter.try_reproduce();
         }
-        while( critter.moves > 0 && !critter.is_dead() && !critter.has_effect( effect_ridden ) ) {
+        while( critter.get_moves() > 0 && !critter.is_dead() && !critter.has_effect( effect_ridden ) ) {
             critter.made_footstep = false;
             // Controlled critters don't make their own plans
             if( !critter.has_effect( effect_controlled ) ) {
                 // Formulate a path to follow
                 critter.plan();
             } else {
-                critter.moves = 0;
+                critter.set_moves( 0 );
                 break;
             }
             critter.move(); // Move one square, possibly hit u
@@ -280,15 +338,19 @@ void monmove()
             m.creature_in_field( critter );
         }
 
-        if( !critter.is_dead() &&
-            u.has_active_bionic( bio_alarm ) &&
-            u.get_power_level() >= bio_alarm->power_trigger &&
-            rl_dist( u.pos(), critter.pos() ) <= 5 &&
-            !critter.is_hallucination() ) {
-            u.mod_power_level( -bio_alarm->power_trigger );
-            add_msg( m_warning, _( "Your motion alarm goes off!" ) );
-            g->cancel_activity_or_ignore_query( distraction_type::motion_alarm,
-                                                _( "Your motion alarm goes off!" ) );
+        if( !critter.is_dead() && !critter.is_hallucination() &&
+            rl_dist( u.pos_abs(), critter.pos_abs() ) < u.enchantment_cache->modify_value(
+                enchant_vals::mod::MOTION_ALARM, 0 ) ) {
+            if( u.has_active_bionic( bio_alarm ) ) {
+                u.mod_power_level( -bio_alarm->power_trigger );
+                add_msg( m_warning, _( "Your motion alarm goes off!" ) );
+                g->cancel_activity_or_ignore_query( distraction_type::motion_alarm,
+                                                    _( "Your motion alarm goes off!" ) );
+            } else {
+                add_msg( m_warning, _( "You suddenly feel alerted!" ) );
+                g->cancel_activity_or_ignore_query( distraction_type::motion_alarm,
+                                                    _( "Your instincts warn you for danger!" ) );
+            }
             if( u.has_effect( effect_sleep ) ) {
                 u.wake_up();
             }
@@ -306,7 +368,7 @@ void monmove()
     for( npc &guy : g->all_npcs() ) {
         int turns = 0;
         int real_count = 0;
-        const int count_limit = std::max( 10, guy.moves / 64 );
+        const int count_limit = std::max( 10, guy.get_moves() / 64 );
         if( guy.is_mounted() ) {
             guy.check_mount_is_spooked();
         }
@@ -314,12 +376,13 @@ void monmove()
         if( !guy.has_effect( effect_npc_suspend ) ) {
             guy.process_turn();
         }
-        while( !guy.is_dead() && ( !guy.in_sleep_state() || guy.activity.id() == ACT_OPERATION ) &&
-               guy.moves > 0 && turns < 10 ) {
-            const int moves = guy.moves;
+        while( !guy.is_dead() && ( !guy.in_sleep_state() ||
+                                   guy.activity.id() == ACT_OPERATION || guy.activity.id() == ACT_MIGRATION_CANCEL ) &&
+               guy.get_moves() > 0 && turns < 10 ) {
+            const int moves = guy.get_moves();
             const bool has_destination = guy.has_destination_activity();
             guy.move();
-            if( moves == guy.moves ) {
+            if( moves == guy.get_moves() ) {
                 // Count every time we exit npc::move() without spending any moves.
                 real_count++;
                 if( has_destination == guy.has_destination_activity() || real_count > count_limit ) {
@@ -359,7 +422,7 @@ void overmap_npc_move()
             continue;
         }
         npc *npc_to_add = elem.get();
-        if( ( !npc_to_add->is_active() || rl_dist( u.pos(), npc_to_add->pos() ) > SEEX * 2 ) &&
+        if( ( !npc_to_add->is_active() || rl_dist( u.pos_bub(), npc_to_add->pos_bub() ) > SEEX * 2 ) &&
             npc_to_add->mission == NPC_MISSION_TRAVELLING ) {
             travelling_npcs.push_back( npc_to_add );
         }
@@ -368,16 +431,16 @@ void overmap_npc_move()
     for( npc *&elem : travelling_npcs ) {
         if( elem->has_omt_destination() ) {
             if( !elem->omt_path.empty() ) {
-                if( rl_dist( elem->omt_path.back(), elem->global_omt_location() ) > 2 ) {
+                if( rl_dist( elem->omt_path.back(), elem->pos_abs_omt() ) > 2 ) {
                     // recalculate path, we got distracted doing something else probably
                     elem->omt_path.clear();
-                } else if( elem->omt_path.back() == elem->global_omt_location() ) {
+                } else if( elem->omt_path.back() == elem->pos_abs_omt() ) {
                     elem->omt_path.pop_back();
                 }
             }
             if( elem->omt_path.empty() ) {
-                elem->omt_path = overmap_buffer.get_travel_path( elem->global_omt_location(), elem->goal,
-                                 overmap_path_params::for_npc() );
+                elem->omt_path = overmap_buffer.get_travel_path( elem->pos_abs_omt(), elem->goal,
+                                 overmap_path_params::for_npc() ).points;
                 if( elem->omt_path.empty() ) { // goal is unreachable, or already reached goal, reset it
                     elem->goal = npc::no_goal_point;
                 }
@@ -398,253 +461,11 @@ void overmap_npc_move()
 
 } // namespace
 
-// MAIN GAME LOOP
-// Returns true if game is over (death, saved, quit, etc)
-bool do_turn()
+void game::handle_progress_ui()
 {
-    if( g->is_game_over() ) {
-        return turn_handler::cleanup_at_end();
-    }
-
-    weather_manager &weather = get_weather();
-    // Actual stuff
-    if( g->new_game ) {
-        g->new_game = false;
-        if( get_option<std::string>( "ETERNAL_WEATHER" ) != "normal" ) {
-            weather.weather_override = static_cast<weather_type_id>
-                                       ( get_option<std::string>( "ETERNAL_WEATHER" ) );
-            weather.set_nextweather( calendar::turn );
-        } else {
-            weather.weather_override = WEATHER_NULL;
-            weather.set_nextweather( calendar::turn );
-        }
-    } else {
-        g->gamemode->per_turn();
-        calendar::turn += 1_turns;
-    }
-
-    play_music( music::get_music_id_string() );
-
-    // starting a new turn, clear out temperature cache
-    weather.temperature_cache.clear();
-
-    if( g->npcs_dirty ) {
-        g->load_npcs();
-    }
-
-    timed_event_manager &timed_events = get_timed_events();
-    timed_events.process();
-    mission::process_all();
     avatar &u = get_avatar();
-    map &m = get_map();
-    // If controlling a vehicle that is owned by someone else
-    if( u.in_vehicle && u.controlling_vehicle ) {
-        vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
-        if( veh && !veh->handle_potential_theft( u, true ) ) {
-            veh->handle_potential_theft( u, false, false );
-        }
-    }
 
-    // Make sure players cant defy gravity by standing still, Looney tunes style.
-    u.gravity_check();
-
-    // If you're inside a wall or something and haven't been telefragged, let's get you out.
-    if( m.impassable( u.pos() ) && !m.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, u.pos() ) ) {
-        u.stagger();
-    }
-
-    // If riding a horse - chance to spook
-    if( u.is_mounted() ) {
-        u.check_mount_is_spooked();
-    }
-    if( calendar::once_every( 1_days ) ) {
-        overmap_buffer.process_mongroups();
-    }
-
-    // Move hordes every 2.5 min
-    if( calendar::once_every( time_duration::from_minutes( 2.5 ) ) ) {
-
-        if( get_option<bool>( "WANDER_SPAWNS" ) ) {
-            overmap_buffer.move_hordes();
-        }
-        if( u.has_trait( trait_HAS_NEMESIS ) ) {
-            overmap_buffer.move_nemesis();
-        }
-        // Hordes that reached the reality bubble need to spawn,
-        // make them spawn in invisible areas only.
-        m.spawn_monsters( false );
-    }
-
-    g->debug_hour_timer.print_time();
-
-    u.update_body();
-
-    // Auto-save if autosave is enabled
-    if( get_option<bool>( "AUTOSAVE" ) &&
-        calendar::once_every( 1_turns * get_option<int>( "AUTOSAVE_TURNS" ) ) &&
-        !u.is_dead_state() ) {
-        g->autosave();
-    }
-
-    weather.update_weather();
-    g->reset_light_level();
-
-    g->perhaps_add_random_npc( /* ignore_spawn_timers_and_rates = */ false );
-    while( u.moves > 0 && u.activity ) {
-        u.activity.do_turn( u );
-    }
-    // FIXME: hack needed due to the legacy code in advanced_inventory::move_all_items()
-    if( !u.activity ) {
-        kill_advanced_inv();
-    }
-
-    // Process NPC sound events before they move or they hear themselves talking
-    for( npc &guy : g->all_npcs() ) {
-        if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
-            sounds::process_sound_markers( &guy );
-        }
-    }
-
-    music::deactivate_music_id( music::music_id::sound );
-
-    // Process sound events into sound markers for display to the player.
-    sounds::process_sound_markers( &u );
-
-    if( u.is_deaf() ) {
-        sfx::do_hearing_loss();
-    }
-
-    if( !u.has_effect( effect_sleep ) || g->uquit == QUIT_WATCH ) {
-        if( u.moves > 0 || g->uquit == QUIT_WATCH ) {
-            while( u.moves > 0 || g->uquit == QUIT_WATCH ) {
-                g->cleanup_dead();
-                g->mon_info_update();
-                // Process any new sounds the player caused during their turn.
-                for( npc &guy : g->all_npcs() ) {
-                    if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
-                        sounds::process_sound_markers( &guy );
-                    }
-                }
-                explosion_handler::process_explosions();
-                sounds::process_sound_markers( &u );
-                if( !u.activity && g->uquit != QUIT_WATCH
-                    && ( !u.has_distant_destination() || calendar::once_every( 10_seconds ) ) ) {
-                    g->wait_popup.reset();
-                    ui_manager::redraw();
-                }
-
-                if( g->queue_screenshot ) {
-                    g->take_screenshot();
-                    g->queue_screenshot = false;
-                }
-
-                if( g->handle_action() ) {
-                    ++g->moves_since_last_save;
-                    u.action_taken();
-                }
-
-                if( g->is_game_over() ) {
-                    return turn_handler::cleanup_at_end();
-                }
-
-                if( g->uquit == QUIT_WATCH ) {
-                    break;
-                }
-                while( u.moves > 0 && u.activity ) {
-                    u.activity.do_turn( u );
-                }
-            }
-            // Reset displayed sound markers now that the turn is over.
-            // We only want this to happen if the player had a chance to examine the sounds.
-            sounds::reset_markers();
-        } else {
-            // Rate limit key polling to 10 times a second.
-            static auto start = std::chrono::time_point_cast<std::chrono::milliseconds>(
-                                    std::chrono::steady_clock::now() );
-            const auto now = std::chrono::time_point_cast<std::chrono::milliseconds>(
-                                 std::chrono::steady_clock::now() );
-            if( ( now - start ).count() > 100 ) {
-                handle_key_blocking_activity();
-                start = now;
-            }
-
-            g->mon_info_update();
-
-            // If player is performing a task, a monster is dangerously close,
-            // and monster can reach to the player or it has some sort of a ranged attack,
-            // warn them regardless of previous safemode warnings
-            if( u.activity ) {
-                for( std::pair<const distraction_type, std::string> &dist : u.activity.get_distractions() ) {
-                    if( g->cancel_activity_or_ignore_query( dist.first, dist.second ) ) {
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    if( g->driving_view_offset.x != 0 || g->driving_view_offset.y != 0 ) {
-        // Still have a view offset, but might not be driving anymore,
-        // or the option has been deactivated,
-        // might also happen when someone dives from a moving car.
-        // or when using the handbrake.
-        vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
-        g->calc_driving_offset( veh );
-    }
-
-    scent_map &scent = get_scent();
-    // No-scent debug mutation has to be processed here or else it takes time to start working
-    if( !u.has_flag( STATIC( json_character_flag( "NO_SCENT" ) ) ) ) {
-        scent.set( u.pos(), u.scent, u.get_type_of_scent() );
-        overmap_buffer.set_scent( u.global_omt_location(),  u.scent );
-    }
-    scent.update( u.pos(), m );
-
-    // We need floor cache before checking falling 'n stuff
-    m.build_floor_caches();
-
-    m.process_falling();
-    m.vehmove();
-    m.process_fields();
-    m.process_items();
-    explosion_handler::process_explosions();
-    m.creature_in_field( u );
-
-    // Apply sounds from previous turn to monster and NPC AI.
-    sounds::process_sounds();
-    const int levz = m.get_abs_sub().z();
-    // Update vision caches for monsters. If this turns out to be expensive,
-    // consider a stripped down cache just for monsters.
-    m.build_map_cache( levz, true );
-    monmove();
-    if( calendar::once_every( 5_minutes ) ) {
-        overmap_npc_move();
-    }
-    if( calendar::once_every( 10_seconds ) ) {
-        for( const tripoint &elem : m.get_furn_field_locations() ) {
-            const furn_t &furn = *m.furn( elem );
-            for( const emit_id &e : furn.emissions ) {
-                m.emit_field( elem, e );
-            }
-        }
-        for( const tripoint &elem : m.get_ter_field_locations() ) {
-            const ter_t &ter = *m.ter( elem );
-            for( const emit_id &e : ter.emissions ) {
-                m.emit_field( elem, e );
-            }
-        }
-    }
-    g->mon_info_update();
-    u.process_turn();
-    if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
-        ui_manager::redraw();
-        refresh_display();
-    }
-
-    if( levz >= 0 && !u.is_underwater() ) {
-        handle_weather_effects( weather.weather_id );
-    }
-
+    // handle activity/progress/waiting UI
     const bool player_is_sleeping = u.has_effect( effect_sleep );
     bool wait_redraw = false;
     std::string wait_message;
@@ -668,25 +489,277 @@ bool do_turn()
         }
     }
     if( wait_redraw ) {
-        if( g->first_redraw_since_waiting_started ||
+        if( first_redraw_since_waiting_started ||
             calendar::once_every( std::min( 1_minutes, wait_refresh_rate ) ) ) {
-            if( g->first_redraw_since_waiting_started || calendar::once_every( wait_refresh_rate ) ) {
+            if( first_redraw_since_waiting_started || calendar::once_every( wait_refresh_rate ) ) {
                 ui_manager::redraw();
             }
 
             // Avoid redrawing the main UI every time due to invalidation
+#ifdef TILES
+            // If an ImGui window just closed and cleared the buffer, do a full
+            // redraw now before blocking UIs below.
+            if( cataimgui::clear_pending() ) {
+                ui_manager::redraw();
+            }
+#endif
             ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
-            g->wait_popup = std::make_unique<static_popup>();
-            g->wait_popup->on_top( true ).wait_message( "%s", wait_message );
+            if( !wait_popup ) {
+                wait_popup = std::make_unique<static_popup>();
+            }
+            wait_popup->on_top( true ).wait_message( "%s", wait_message );
             ui_manager::redraw();
             refresh_display();
-            g->first_redraw_since_waiting_started = false;
+            first_redraw_since_waiting_started = false;
         }
     } else {
         // Nothing to wait for now
-        g->wait_popup.reset();
-        g->first_redraw_since_waiting_started = true;
+        wait_popup_reset();
+        first_redraw_since_waiting_started = true;
     }
+}
+
+bool game::do_turn()
+{
+    if( is_game_over() ) {
+        return turn_handler::cleanup_at_end();
+    }
+
+    drain_renderer_recovery();
+
+    weather_manager &weather = get_weather();
+
+    // Increment game turn
+    if( new_game ) {
+        new_game = false;
+        weather.on_game_start();
+    } else {
+        gamemode->per_turn();
+        calendar::turn += 1_turns;
+    }
+    //used for dimension swapping
+    if( swapping_dimensions ) {
+        swapping_dimensions = false;
+    }
+    play_music( music::get_music_id_string() );
+
+    // starting a new turn, clear out temperature cache
+    weather.temperature_cache.clear();
+
+    if( npcs_dirty ) {
+        load_npcs();
+    }
+
+    timed_event_manager &timed_events = get_timed_events();
+    timed_events.process();
+    get_item_wakeups().process( calendar::turn );
+    mission::process_all();
+    avatar &u = get_avatar();
+    map &m = get_map();
+    // If controlling a vehicle that is owned by someone else
+    if( u.in_vehicle && u.controlling_vehicle ) {
+        vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos_bub() ) );
+        if( veh && !veh->handle_potential_theft( u, true ) ) {
+            veh->handle_potential_theft( u, false, false );
+        }
+    }
+
+    // If you're inside a wall or something and haven't been telefragged, let's get you out.
+    if( ( m.impassable( u.pos_bub() ) && !m.impassable_field_at( u.pos_bub() ) ) &&
+        !m.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, u.pos_bub() ) ) {
+        u.stagger();
+    }
+
+    // If riding a horse - chance to spook
+    if( u.is_mounted() ) {
+        u.check_mount_is_spooked();
+    }
+    if( calendar::once_every( 1_days ) ) {
+        overmap_buffer.process_mongroups();
+    }
+
+    // Move hordes every turn, move_hordes has its own rate limiting
+    overmap_buffer.move_hordes();
+    if( calendar::once_every( time_duration::from_minutes( 2.5 ) ) ) {
+        if( u.has_trait( trait_HAS_NEMESIS ) ) {
+            overmap_buffer.move_nemesis();
+        }
+    }
+
+    debug_hour_timer.print_time();
+
+    u.update_body();
+
+    // Auto-save if autosave is enabled
+    if( get_option<bool>( "AUTOSAVE" ) &&
+        calendar::once_every( 1_turns * get_option<int>( "AUTOSAVE_TURNS" ) ) &&
+        !u.is_dead_state() ) {
+        autosave();
+    }
+
+    weather.update_weather();
+
+    reset_light_level();
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        m.set_lightmap_cache_dirty( z );
+    }
+
+    perhaps_add_random_npc( /* ignore_spawn_timers_and_rates = */ false );
+
+    // process avatar activities (ignoring user input)
+    while( u.get_moves() > 0 && u.activity ) {
+        u.activity.do_turn( u );
+    }
+
+    // Process NPC sound events before they move or they hear themselves talking
+    for( npc &guy : all_npcs() ) {
+        if( rl_dist( guy.pos_bub(), u.pos_bub() ) < MAX_VIEW_DISTANCE ) {
+            sounds::process_sound_markers( &guy );
+        }
+    }
+
+    music::deactivate_music_id( music::music_id::sound );
+
+    // Process sound events into sound markers for display to the player.
+    sounds::process_sound_markers( &u );
+
+    if( u.is_deaf() ) {
+        sfx::do_hearing_loss();
+    }
+
+    // avatar processes human input through handle_action()
+    if( !u.has_effect( effect_sleep ) || uquit == QUIT_WATCH ) {
+        if( u.get_moves() > 0 || uquit == QUIT_WATCH ) {
+            while( u.get_moves() > 0 || uquit == QUIT_WATCH ) {
+
+                // handle_action() may cause map updates, creatures to die
+                m.process_falling();
+                cleanup_dead();
+
+                mon_info_update();
+                // Process any new sounds the player caused during their turn.
+                for( npc &guy : all_npcs() ) {
+                    if( rl_dist( guy.pos_bub(), u.pos_bub() ) < MAX_VIEW_DISTANCE ) {
+                        sounds::process_sound_markers( &guy );
+                    }
+                }
+                explosion_handler::process_explosions();
+                sounds::process_sound_markers( &u );
+                if( !u.activity && uquit != QUIT_WATCH
+                    && ( !u.has_distant_destination() || calendar::once_every( 10_seconds ) ) ) {
+                    wait_popup_reset();
+                    ui_manager::redraw();
+                }
+
+                if( queue_screenshot ) {
+                    take_screenshot();
+                    queue_screenshot = false;
+                }
+
+                if( handle_action() ) {
+                    ++moves_since_last_save;
+                    u.action_taken();
+                }
+
+                if( is_game_over() ) {
+                    return turn_handler::cleanup_at_end();
+                }
+
+                if( uquit == QUIT_WATCH ) {
+                    break;
+                }
+
+                // avatar processes moves for activities started by handle_action()
+                while( u.get_moves() > 0 && u.activity ) {
+                    u.activity.do_turn( u );
+                }
+            }
+            // Reset displayed sound markers now that the turn is over.
+            // We only want this to happen if the player had a chance to examine the sounds.
+            sounds::reset_markers();
+        } else {
+            // Rate limit key polling to 10 times a second.
+            static auto start = std::chrono::time_point_cast<std::chrono::milliseconds>(
+                                    std::chrono::steady_clock::now() );
+            const auto now = std::chrono::time_point_cast<std::chrono::milliseconds>(
+                                 std::chrono::steady_clock::now() );
+            if( ( now - start ).count() > 100 ) {
+                handle_key_blocking_activity();
+                start = now;
+            }
+
+            mon_info_update();
+
+            // If player is performing a task, a monster is dangerously close,
+            // and monster can reach to the player or it has some sort of a ranged attack,
+            // warn them regardless of previous safemode warnings
+            if( u.activity ) {
+                for( std::pair<const distraction_type, std::string> &dist : u.activity.get_distractions() ) {
+                    if( cancel_activity_or_ignore_query( dist.first, dist.second ) ) {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    if( driving_view_offset.x() != 0 || driving_view_offset.y() != 0 ) {
+        // Still have a view offset, but might not be driving anymore,
+        // or the option has been deactivated,
+        // might also happen when someone dives from a moving car.
+        // or when using the handbrake.
+        vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos_bub() ) );
+        calc_driving_offset( veh );
+    }
+
+    scent_map &scent = get_scent();
+    // No-scent debug mutation has to be processed here or else it takes time to start working
+    if( !u.has_flag( json_flag_NO_SCENT ) ) {
+        scent.set( u.pos_bub(), u.scent, u.get_type_of_scent() );
+        overmap_buffer.set_scent( u.pos_abs_omt(),  u.scent );
+    }
+    scent.update( u.pos_bub(), m );
+
+    // We need floor cache before checking falling 'n stuff
+    m.build_floor_caches();
+
+    m.process_falling();
+    m.vehmove();
+    m.process_fields();
+    m.process_items();
+    explosion_handler::process_explosions();
+    m.creature_in_field( u );
+
+    // Apply sounds from previous turn to monster and NPC AI.
+    sounds::process_sounds();
+    const int levz = m.get_abs_sub().z();
+    // Update vision caches for monsters. If this turns out to be expensive,
+    // consider a stripped down cache just for monsters.
+    m.build_map_cache( levz, true );
+
+    // process monster and npc turn
+    monmove();
+
+    if( calendar::once_every( time_between_npc_OM_moves ) ) {
+        overmap_npc_move();
+    }
+    m.furniture_terrain_emit_fields();
+    // required after monsters move and fields emit
+    mon_info_update();
+
+    // replenish avatar moves
+    u.process_turn();
+
+    if( u.get_moves() < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
+        ui_manager::redraw();
+        refresh_display();
+    }
+
+    if( levz >= 0 && !u.is_underwater() ) {
+        handle_weather_effects( weather.weather_id );
+    }
+
+    handle_progress_ui();
 
     m.invalidate_visibility_cache();
 
@@ -696,7 +769,7 @@ bool do_turn()
 
     if( calendar::once_every( 1_minutes ) ) {
         u.update_morale();
-        for( npc &guy : g->all_npcs() ) {
+        for( npc &guy : all_npcs() ) {
             guy.update_morale();
             guy.check_and_recover_morale();
         }
@@ -712,7 +785,7 @@ bool do_turn()
     sfx::do_danger_music();
     sfx::do_vehicle_engine_sfx();
     sfx::do_vehicle_exterior_engine_sfx();
-    sfx::do_fatigue();
+    sfx::do_low_stamina_sfx();
 
     // reset player noise
     u.volume = 0;
@@ -727,5 +800,6 @@ bool do_turn()
     EM_ASM( window.game_unsaved = true; );
 #endif
 
+    debug_menu::debug_capture::tick_if_active();
     return false;
 }

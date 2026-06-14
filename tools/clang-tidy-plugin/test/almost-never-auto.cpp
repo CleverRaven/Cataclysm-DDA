@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-almost-never-auto %t -- --load=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-almost-never-auto %t -- --load=%cata_plugin -- -fno-delayed-template-parsing
 
 using int_alias = int;
 int_alias return_int_alias();

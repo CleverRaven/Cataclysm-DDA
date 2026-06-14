@@ -2,21 +2,24 @@
 #ifndef CATA_SRC_CRAFT_COMMAND_H
 #define CATA_SRC_CRAFT_COMMAND_H
 
-#include <iosfwd>
-#include <new>
+#include <functional>
 #include <optional>
+#include <string>
 #include <vector>
 
-#include "point.h"
+#include "coordinates.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "type_id.h"
 
 class Character;
+class JsonObject;
 class JsonOut;
 class item;
 class read_only_visitable;
 template<typename T> struct enum_traits;
+
+const std::string flag_ALWAYS_START_ON_GROUND( "ALWAYS_START_ON_GROUND" );
 
 /**
 *   enum used by comp_selection to indicate where a component should be consumed from.
@@ -52,6 +55,35 @@ struct comp_selection {
     void deserialize( const JsonObject &data );
 };
 
+/** One recipe step's allocation of a single chosen tool. */
+struct step_tool_alloc {
+    comp_selection<tool_comp> sel;
+    // count * batch units allocated to this step, in tool_comp.count units
+    // (NOT scaled by charge_factor).  Zero for non-charged tools.
+    int step_count_units = 0;
+    // 5% buckets (0..20) already debited for this step.
+    int consumed_buckets = 0;
+    // Pro-rated from a recipe-root tool rather than the step's own tools.
+    bool root_derived = false;
+
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( const JsonObject &data );
+};
+
+/**
+*   Builds per-step tool allocations for a step recipe: each step's own tools
+*   plus recipe-root tools distributed across the timed steps pro-rata by each
+*   step's move budget.  Sets cancelled when the crafter cancels a tool prompt so
+*   the caller can abort instead of silently dropping that tool group.
+*   When reselect_step >= 0 (resume), only that step's own tools are reselected
+*   (root is still distributed across all steps); other steps get no own
+*   allocations, so the caller can keep their prior selections and an absent
+*   future step's tool neither cancels nor degrades the resume.
+*/
+std::vector<std::vector<step_tool_alloc>> select_step_tool_allocs(
+        Character &crafter, const recipe &rec, int batch, read_only_visitable &map_inv,
+        bool &cancelled, int reselect_step = -1 );
+
 /**
 *   Class that describes a crafting job.
 *
@@ -63,14 +95,14 @@ class craft_command
         /** Instantiates an empty craft_command, which can't be executed. */
         craft_command() = default;
         craft_command( const recipe *to_make, int batch_size, bool is_long, Character *crafter,
-                       const std::optional<tripoint> &loc ) :
+                       const std::optional<tripoint_bub_ms> &loc ) :
             rec( to_make ), batch_size( batch_size ), longcraft( is_long ), crafter( crafter ), loc( loc ) {}
 
         /**
          * Selects components to use for the craft, then assigns the crafting activity to 'crafter'.
          * Executes with supplied location, std::nullopt means crafting from inventory.
          */
-        void execute( const std::optional<tripoint> &new_loc );
+        void execute( const std::optional<tripoint_bub_ms> &new_loc );
         /** Executes with saved location, NOT the same as execute( std::nullopt )! */
         void execute( bool only_cache_comps = false );
 
@@ -84,8 +116,13 @@ class craft_command
             return longcraft;
         }
 
+        // prevent player from
+        bool always_start_on_ground() const {
+            return rec->has_flag( flag_ALWAYS_START_ON_GROUND );
+        }
+
         bool has_cached_selections() const {
-            return !item_selections.empty() || !tool_selections.empty();
+            return !item_selections.empty() || !tool_selections.empty() || !step_tool_allocs.empty();
         }
 
         bool empty() const {
@@ -112,10 +149,12 @@ class craft_command
 
         // Location of the workbench to place the item on
         // zero_tripoint indicates crafting without a workbench
-        std::optional<tripoint> loc;
+        std::optional<tripoint_bub_ms> loc;
 
         std::vector<comp_selection<item_comp>> item_selections;
         std::vector<comp_selection<tool_comp>> tool_selections;
+        // Per-step tool allocations for step recipes (empty for stepless).
+        std::vector<std::vector<step_tool_alloc>> step_tool_allocs;
 
         /** Checks if tools we selected in a previous call to execute() are still available. */
         std::vector<comp_selection<item_comp>> check_item_components_missing(

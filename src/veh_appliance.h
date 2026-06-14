@@ -2,15 +2,28 @@
 #ifndef CATA_SRC_VEH_APPLIANCE_H
 #define CATA_SRC_VEH_APPLIANCE_H
 
-#include "input_context.h"
-#include "player_activity.h"
+#include <functional>
+#include <optional>
+#include <vector>
 
-class vehicle;
+#include "coordinates.h"
+#include "cursesdef.h"
+#include "input_context.h"
+#include "item.h"
+#include "memory_fast.h"
+#include "player_activity.h"
+#include "point.h"
+#include "type_id.h"
+#include "uilist.h"
+
+class Character;
+class map;
 class ui_adaptor;
+class vehicle;
 
 vpart_id vpart_appliance_from_item( const itype_id &item_id );
-void place_appliance( const tripoint &p, const vpart_id &vpart,
-                      const std::optional<item> &base = std::nullopt );
+bool place_appliance( map &here, const tripoint_bub_ms &p, const vpart_id &vpart,
+                      const Character &owner, const std::optional<item> &base = std::nullopt );
 
 /**
  * Appliance interaction UI. Works similarly to veh_interact, but has
@@ -34,17 +47,15 @@ class veh_app_interact
          *
          * @param veh The vehicle representing the appliance
          * @param p The point of interaction on the vehicle (Default = (0,0))
-         * @returns An activity to assign to the player (ACT_VEHICLE),
-         * or a null activity if no further action is required.
         */
-        static player_activity run( vehicle &veh, const point &p = point_zero );
+        static void run( map &here, vehicle &veh, const point_rel_ms &p = point_rel_ms::zero );
 
     private:
-        explicit veh_app_interact( vehicle &veh, const point &p );
+        explicit veh_app_interact( vehicle &veh, const point_rel_ms &p );
         ~veh_app_interact() = default;
 
         // The player's point of interaction on the appliance.
-        point a_point = point_zero;
+        point_rel_ms a_point = point_rel_ms::zero;
         // The vehicle representing the appliance.
         vehicle *veh;
         // An input context to contain registered actions from the APP_INTERACT category.
@@ -52,45 +63,39 @@ class veh_app_interact
         // to uilist entries in imenu.
         input_context ctxt;
         weak_ptr_fast<ui_adaptor> ui;
-        // Activity to be returned from run(), or a null activity if
-        // no further action is required.
-        player_activity act;
         // Functions corresponding to the actions listed in imenu.entries.
         std::vector<std::function<void()>> app_actions;
-        // Curses window to represent the whole drawing area of the interaction UI.
-        catacurses::window w_border;
-        // Curses window to represent the upper portion that displays
-        // the appliance's usage info.
-        catacurses::window w_info;
         // Input menu in the lower portion. Handles input and draws the list
-        // of possible actions. The menu's internal window is modified by
-        // init_ui_windows() to integrate with the rest of the UI.
+        // of possible actions. Various stats about the appliance are added
+        // to the uilist header by draw_info_imgui_header();
         uilist imenu;
 
         /**
-         * Sets up the window parameters to fit the amount of text to be displayed.
+         * Does a bunch of offsetting that used to make room for a ncurses window.
+         * Nowadays largely redundant.
+         * TODO: Get rid of me?
          * The setup calls populate_app_actions() to initialize the content.
         */
-        void init_ui_windows();
+        void init_ui_windows( map &here );
         /**
-         * Draws the upper portion, representing the appliance's usage info.
+         * Creates the header text, representing the appliance's usage info.
         */
-        void draw_info();
+        std::string draw_info_imgui_header( map &here );
         /**
          * Populates the list of available actions for this appliance. The action display
          * names are stored as uilist entries in imenu, and the associated functions
          * are stored in app_actions.
         */
-        void populate_app_actions();
+        void populate_app_actions( map &here );
         /**
          * Initializes the ui_adaptor and callbacks responsible for drawing w_border and w_info.
         */
-        shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
+        shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor( map &here );
         /**
          * Checks whether the current appliance can be refilled (excludes batteries).
          * @returns True if the appliance contains a part that can be refilled.
         */
-        bool can_refill();
+        bool can_refill( );
         /**
          * Checks whether the player can siphon liquids from the appliance.
          * Requires an item with HOSE quality and a part containing liquid.
@@ -98,30 +103,19 @@ class veh_app_interact
         */
         bool can_siphon();
         /**
-         * Checks whether the current appliance is power storage
-         * or powergen or a cable and can thus be merged into a powergrid.
-         * @returns True if the appliance can be merged.
-        */
-        bool can_merge();
-        /**
-         * Function associated with the "MERGE" action.
-         * Merge power grid elements together into a single appliance
-         */
-        void merge();
-        /**
          * Function associated with the "REFILL" action.
          * Checks all appliance parts for a watertight container to refill. If multiple
          * parts are eligible, the player is prompted to select one. A refill activity
          * is created and assigned to 'act' to be assigned to the player once run returns.
         */
-        void refill();
+        void refill( );
         /**
          * Function associated with the "SIPHON" action.
          * Checks all appliance parts for a liquid containing part that can be siphoned.
          * If multiple parts are eligible, the player is prompted to select one.
          * A liquid handling activity is assigned to the player to process the transfer.
         */
-        void siphon();
+        void siphon( map &here );
         /**
          * Function associated with the "RENAME" action.
          * Prompts the player to choose a new name for this appliance. The name is
@@ -132,18 +126,34 @@ class veh_app_interact
          * Function associated with the "REMOVE" action.
          * Turns the installed appliance into its base item.
         */
-        void remove();
+        void remove( map &here );
+        /**
+         * Checks whether the part has any items linked to it so it can tell the player
+         * to disconnect those first. This prevents players from doing this by accident.
+         * @returns True if there aren't any tow cable parts or items linked to the mount point.
+        */
+        bool can_disconnect();
+        /**
+         * Function associated with the "DISCONNECT_GRID" action.
+         * Removes appliance from a power grid, allowing it to be moved individually.
+        */
+        void disconnect( map &here );
         /**
         * Function associated with the "PLUG" action.
         * Connects the power cable to selected tile.
         */
-        void plug();
+        void plug( map &here );
+        /**
+        * Function associated with the "HIDE" action.
+        * Hides the selected tiles sprite.
+        */
+        void hide();
         /**
          * The main loop of the appliance UI. Redraws windows, checks for input, and
          * performs selected actions. The loop exits once an activity is assigned
          * (either directly to the player or to 'act'), or when QUIT input is received.
         */
-        void app_loop();
+        void app_loop( map &here );
 };
 
 #endif // CATA_SRC_VEH_APPLIANCE_H

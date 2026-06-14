@@ -1,0 +1,120 @@
+[
+  {
+    "type": "construction",
+    "id": "constr_barricade_road",
+    "group": "build_road_barricade",
+    "category": "OTHER",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "20 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 6 ] ], [ [ "nails", 12, "LIST" ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_barricade_road"
+  },
+  {
+    "type": "construction",
+    "id": "constr_earthbag_half",
+    "group": "build_earthbag_wall",
+    "//": "Step 1: Build earthbag barricade",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "16 m",
+    "components": [ [ [ "bag_durasack", 16 ], [ "bag_canvas", 16 ] ], [ [ "material_soil", 48 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_earthbag_half"
+  },
+  {
+    "type": "construction",
+    "id": "constr_earthbag_wall",
+    "group": "build_earthbag_wall",
+    "//": "Step 2: Finish the earthbag wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "20 m",
+    "components": [ [ [ "bag_durasack", 20 ], [ "bag_canvas", 20 ] ], [ [ "material_soil", 60 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_terrain": "f_earthbag_half",
+    "post_terrain": "f_earthbag_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gravelbag_half",
+    "group": "build_gravelbag_wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "16 m",
+    "components": [ [ [ "bag_durasack", 16 ], [ "bag_canvas", 16 ] ], [ [ "material_gravel", 32000 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_gravelbag_half"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gravelbag_wall",
+    "group": "build_gravelbag_wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "20 m",
+    "components": [ [ [ "bag_durasack", 20 ], [ "bag_canvas", 20 ] ], [ [ "material_gravel", 40000 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_terrain": "f_gravelbag_half",
+    "post_terrain": "f_gravelbag_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_sandbag_half",
+    "group": "build_sandbag_wall",
+    "//": "Step 1: Build sandbag barricade",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "16 m",
+    "components": [ [ [ "bag_durasack", 16 ], [ "bag_canvas", 16 ] ], [ [ "material_sand", 32000 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_sandbag_half"
+  },
+  {
+    "type": "construction",
+    "id": "constr_sandbag_wall",
+    "group": "build_sandbag_wall",
+    "//": "Step 2: Finish the sandbag wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "20 m",
+    "components": [ [ [ "bag_durasack", 20 ], [ "bag_canvas", 20 ] ], [ [ "material_sand", 40000 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_terrain": "f_sandbag_half",
+    "post_terrain": "f_sandbag_wall"
+  },
+  {
+    "type": "construction",
+    "id": "constr_showjump",
+    "group": "build_showjump",
+    "category": "CONSTRUCT",
+    "difficulty": 0,
+    "time": "10 s",
+    "components": [ [ [ "long_pole", 1 ] ] ],
+    "dark_craftable": true,
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_showjump"
+  },
+  {
+    "type": "construction",
+    "id": "constr_showjump_end",
+    "group": "build_showjump_end",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [
+      [ [ "pointy_stick", 4 ], [ "spear_wood", 4 ], [ "pointy_stick_long", 4 ] ],
+      [ [ "2x4", 4 ] ],
+      [ [ "nails", 20, "LIST" ] ]
+    ],
+    "pre_flags": "DIGGABLE",
+    "pre_special": "check_empty",
+    "post_terrain": "f_showjump_end"
+  }
+]

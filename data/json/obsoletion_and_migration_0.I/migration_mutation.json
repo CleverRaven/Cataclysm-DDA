@@ -1,0 +1,31 @@
+[
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "BILE_STINK",
+    "remove": true
+  },
+  {
+    "id": "instability",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Instability" },
+    "excess": "genetics_damaged",
+    "min": 0,
+    "max": 8000,
+    "flags": [ "NO_DISPLAY" ],
+    "rate": "1 s",
+    "disease_excess": [ [ 1, 899 ], [ 900, 2799 ], [ 2800, 8000 ] ]
+  },
+  {
+    "type": "effect_type",
+    "id": "genetics_damaged",
+    "name": [ "Spent Phenotype", "Depleted Phenotype", "Bankrupt Phenotype" ],
+    "desc": [
+      "Mutation has left you with a persistent mild discomfort.  It seems harmless for now, but you can't predict if it'll get worse.",
+      "There's an enervating sense of dysmorphia throughout your whole body.  It waxes and wanes, but never quite goes away.  Mutating this much can't be good for you…",
+      "You're haunted by phantom pains across your entire body now.  Everything aches from an exhaustion that never seems to fade.  Any further mutation right now is very unlikely to have a happy ending."
+    ],
+    "max_intensity": 3,
+    "rating": "bad"
+  }
+]

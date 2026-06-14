@@ -2,35 +2,40 @@
   {
     "id": "cudgel",
     "copy-from": "cudgel",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "cudgel" },
     "extend": { "weapon_category": [ "HYLIAN_IMPROV_WEAPONS" ] }
   },
   {
     "id": "ladle",
     "copy-from": "ladle",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "ladle" },
     "extend": { "weapon_category": [ "HYLIAN_IMPROV_WEAPONS" ] }
   },
   {
     "id": "stick",
     "copy-from": "stick",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "stick" },
     "extend": { "weapon_category": [ "HYLIAN_IMPROV_WEAPONS" ] }
   },
   {
     "id": "torch",
     "copy-from": "torch",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "torch", "str_pl": "torches" },
     "extend": { "weapon_category": [ "HYLIAN_IMPROV_WEAPONS" ] }
   },
   {
     "id": "torch_lit",
     "copy-from": "torch_lit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "torch", "str_pl": "torches" },
     "extend": { "weapon_category": [ "HYLIAN_IMPROV_WEAPONS" ] }
   }

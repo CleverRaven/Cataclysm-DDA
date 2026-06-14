@@ -2,7 +2,7 @@
   {
     "type": "snippet",
     "category": "<music_description>",
-    "text": [ "some <musicgenre>.", "some <musicgenre>. The <musicdesc_part> is <musicdesc_evaluation>." ]
+    "text": [ "some <musicgenre>.", "some <musicgenre>.  The <musicdesc_part> is <musicdesc_evaluation>." ]
   },
   {
     "type": "snippet",
@@ -54,7 +54,7 @@
       "alternative",
       "college",
       "arthouse",
-      "underground",
+      { "text": { "ctxt": "music genre", "str": "underground" } },
       "experimental",
       "traditional",
       "historical",
@@ -67,7 +67,7 @@
       "British",
       "Continental",
       "tropical",
-      "island",
+      { "text": { "ctxt": "music genre", "str": "island" } },
       "New York",
       "Hollywood",
       "Trans-Pacific",
@@ -153,7 +153,12 @@
       "clown ",
       "murder ",
       "narco ",
-      "gangster "
+      "gangster ",
+      "nu-",
+      "post-apocalyptic",
+      "k-",
+      "mumble",
+      "chiptune"
     ]
   },
   {
@@ -176,7 +181,7 @@
       "salsa",
       "mambo",
       "electronic",
-      "house",
+      { "text": { "ctxt": "music genre", "str": "house" } },
       "metal",
       "reggae",
       "ska",
@@ -191,12 +196,21 @@
       "gospel",
       "opera",
       "shanties",
-      "filk"
+      "filk",
+      "bard",
+      "witch",
+      "dub",
+      "emo",
+      "bachata",
+      "musique concrète",
+      "vapor",
+      "glitch",
+      "rap"
     ]
   },
   {
     "type": "snippet",
     "category": "<musicgenre_postfix>",
-    "text": [ "-tune", "-core", "-wave", "-beat", "-step", "-pop", "-hop", "-drums", "-style", "-chant" ]
+    "text": [ "-tune", "-core", "-wave", "-beat", "-step", "-pop", "-hop", "-drums", "-style", "-chant", "-house", "-step" ]
   }
 ]

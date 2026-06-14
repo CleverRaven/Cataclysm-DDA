@@ -1,0 +1,42 @@
+[
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "t_underbrush_harvested_spring",
+    "to_ter": "t_underbrush_harvested"
+  },
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "t_underbrush_harvested_summer",
+    "to_ter": "t_underbrush_harvested"
+  },
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "t_underbrush_harvested_autumn",
+    "to_ter": "t_underbrush_harvested"
+  },
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "t_underbrush_harvested_winter",
+    "to_ter": "t_underbrush_harvested"
+  },
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "t_cvdbody",
+    "to_ter": "t_thconc_floor"
+  },
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "t_cvdmachine",
+    "to_ter": "t_thconc_floor"
+  },
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "t_nl_metal_wall_edge",
+    "to_ter": "t_nl_metal_wall_border"
+  },
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "t_nl_sewage_pipe_edge",
+    "to_ter": "t_nl_sewage_pipe_border"
+  }
+]

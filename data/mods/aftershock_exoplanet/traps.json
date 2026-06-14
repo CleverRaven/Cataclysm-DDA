@@ -1,0 +1,16 @@
+[
+  {
+    "type": "trap",
+    "id": "tr_escape_pod",
+    "name": "escape pod launch button",
+    "color": "red",
+    "symbol": "#",
+    "visibility": -1,
+    "avoidance": 99,
+    "difficulty": 99,
+    "trap_radius": 2,
+    "action": "eocs",
+    "flags": [ "UNCONSUMED", "UNDODGEABLE" ],
+    "eocs": [ "EOC_ESCAPE_POD_CHAIR" ]
+  }
+]

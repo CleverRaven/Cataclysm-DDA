@@ -10,19 +10,19 @@ users:
     - casswedson
     # curator
     - Maleclypse
-    # voluntiers
+    # volunteers
     - Termineitor244
     - Faalagorn
     - Ilysen
     - Aerin-of-the-Toast
     - anoobindisguise
+    - DukePaulAtreid3s
     - PatrikLundell
     - alef
     - TheShadowFerret
     - Jan-Blasiak
     - MNG-cataclysm
     - mqrause
-    - andrei8l
     - haveric
     - MylieDaniels
     - nopenoperson 
@@ -45,6 +45,27 @@ users:
     - harakka
     - Karol1223
     - Bobtron
+    - DPavonis
+    - Amnestasia
+    - TealcOneill
+    - Holli-Git
+    - l29ah
+    - Milopetilo
+    - Standing-Storm
+    - terribleperson
+    - moxian
+    - Kray4000
+    - czyjanek
+    - SariusSkelrets
+    - SittingDucken
+    - ShnitzelX2
+    - BalthazarArgall
+    - dobbry-vechur
+    - thaelina
+    - Tektolnes
+    - gettingusedto
+    - Uwuewsky
+    - armaswiss
 
 keywords:
   - name: confirm-bug
@@ -61,6 +82,9 @@ keywords:
     value: '\/(G|g)ood[\s-]*(F|f)irst[\s-]*(I|i)ssue.*'
 
   - name: help-wanted
-    # - only works in PRs
     # example: /help-wanted
     value: '\/(H|h)elp[\s-]*(W|w)anted.*'
+
+  - name: retry-jobs
+    # example: /retry, /rerun
+    value: '\/(([Rr])etry|([Rr])erun).*'

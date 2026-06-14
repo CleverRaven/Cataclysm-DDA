@@ -28,7 +28,7 @@
   {
     "id": "CWH_EVACUEE_4_IDEAS1",
     "type": "talk_topic",
-    "dynamic_line": "How could you not know what happened?  The world damn well ended, that's what.  And it didn't start with an earthquake, birds, snakes, or music.  It started with riots, and they had to dispatch violent goons to take care of the <swear> criminals.  The leadership tried to pad it claiming it was some kind of mind control, but I didn't see too much different from the usual bullshit: entitled babies looking for an excuse to break the law.  It just got way worse, this time, until it was time to get away.  I heard rumors they were even burning some places to try to control it - which, I have to admit, is maybe a bit too hard-core.",
+    "dynamic_line": "How could you not know what happened?  The world damn well ended, that's what.  And it didn't start with an earthquake, birds, snakes, or music.  It started with riots, and they had to dispatch violent goons to take care of the <freaking> criminals.  The leadership tried to pad it claiming it was some kind of mind control, but I didn't see too much different from the usual bullshit: entitled babies looking for an excuse to break the law.  It just got way worse, this time, until it was time to get away.  I heard rumors they were even burning some places to try to control it - which, I have to admit, is maybe a bit too hard-core.",
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   }
 ]

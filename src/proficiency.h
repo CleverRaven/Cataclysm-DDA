@@ -2,22 +2,21 @@
 #ifndef CATA_SRC_PROFICIENCY_H
 #define CATA_SRC_PROFICIENCY_H
 
-#include <iosfwd>
 #include <map>
 #include <optional>
 #include <set>
-#include <vector>
 #include <string>
+#include <string_view>
+#include <utility>
+#include <vector>
 
 #include "calendar.h"
 #include "color.h"
 #include "flat_set.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
-#include "mod_tracker.h"
-
-class JsonArray;
+class Character;
 class JsonObject;
 class JsonOut;
 struct display_proficiency;
@@ -25,13 +24,13 @@ struct learning_proficiency;
 template<typename E> struct enum_traits;
 template<typename T>
 class generic_factory;
-class Character;
 
 enum class proficiency_bonus_type : int {
     strength,
     dexterity,
     intelligence,
     perception,
+    stamina,
     last
 };
 
@@ -54,6 +53,7 @@ struct proficiency_category {
     bool was_loaded = false;
 
     static void load_proficiency_categories( const JsonObject &jo, const std::string &src );
+    static void finalize_all();
     static void reset();
     void load( const JsonObject &jo, std::string_view src );
     static const std::vector<proficiency_category> &get_all();
@@ -89,6 +89,7 @@ class proficiency
 
     public:
         static void load_proficiencies( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
         void load( const JsonObject &jo, std::string_view src );
 
@@ -112,6 +113,7 @@ class proficiency
         std::set<proficiency_id> required_proficiencies() const;
 
         std::vector<proficiency_bonus> get_bonuses( const std::string &category ) const;
+        std::optional<float> bonus_for( const std::string &category, proficiency_bonus_type type ) const;
 };
 
 // The proficiencies you know, and the ones you're learning.
@@ -129,8 +131,8 @@ class proficiency_set
         std::vector<display_proficiency> display() const;
         // True if the proficiency is learned;
         bool practice( const proficiency_id &practicing, const time_duration &amount,
-                       const std::optional<time_duration> &max );
-        void learn( const proficiency_id &learned );
+                       float remainder, const std::optional<time_duration> &max );
+        void learn( const proficiency_id &learned, bool recursive = false );
         void remove( const proficiency_id &lost );
 
         // Ignore requirements, made for debugging
@@ -148,13 +150,13 @@ class proficiency_set
         time_duration training_time_needed( const proficiency_id &query ) const;
         std::vector<proficiency_id> known_profs() const;
         std::vector<proficiency_id> learning_profs() const;
-
         float get_proficiency_bonus( const std::string &category,
                                      proficiency_bonus_type prof_bonus ) const;
 
+        void migrate_proficiencies();
+
         void serialize( JsonOut &jsout ) const;
         void deserialize( const JsonObject &jsobj );
-        void deserialize_legacy( const JsonArray &jo );
 };
 
 struct learning_proficiency {
@@ -162,6 +164,8 @@ struct learning_proficiency {
 
     // How long we have practiced this proficiency
     time_duration practiced;
+    // Rounding errors of seconds, so that proficiencies practiced very briefly don't get truncated
+    float remainder = 0.f;
 
     learning_proficiency() = default;
     learning_proficiency( const proficiency_id &id, const time_duration &practiced ) : id( id ),
@@ -220,6 +224,22 @@ class book_proficiency_bonuses
         // adjustment to the crafting time malus when missing the proficiency, ranging from 0
         // (no mitigation) to 1 (full mitigation)
         float time_factor( const proficiency_id &id ) const;
+};
+
+class proficiency_migration
+{
+    public:
+        proficiency_id id_old;
+        std::optional<proficiency_id> id_new;
+
+        static void load( const JsonObject &jo );
+
+        static void reset();
+
+        static void check();
+
+        /** Find the last migration entry of the given vpart_id */
+        static const proficiency_migration *find_migration( const proficiency_id &original );
 };
 
 void show_proficiencies_window( const Character &u,

@@ -22,7 +22,7 @@
     "id": "BGSS_EVACUEE_5_BEES",
     "type": "talk_topic",
     "dynamic_line": {
-      "gendered_line": "Yeah, I'm sure you've seen them, they're everywhere.  Like something out of an old sci-fi movie.  Some of the others in the evac shelter got stung, it was no joke.  I didn't stick around to see what the lasting effect was though.  I'm not ashamed to admit I ran like a <swear> chicken.",
+      "gendered_line": "Yeah, I'm sure you've seen them, they're everywhere.  Like something out of an old sci-fi movie.  Some of the others in the evac shelter got stung, it was no joke.  I didn't stick around to see what the lasting effect was though.  I'm not ashamed to admit I ran like a <freaking> chicken.",
       "relevant_genders": [ "npc" ]
     },
     "responses": [
@@ -39,7 +39,7 @@
     "id": "BGSS_EVACUEE_5_WASPS",
     "type": "talk_topic",
     "dynamic_line": {
-      "gendered_line": "Well, excuse me if I didn't stop to <swear> ask what kind of killer bugs they were.",
+      "gendered_line": "Well, excuse me if I didn't stop to fucking ask what kind of killer bugs they were.",
       "relevant_genders": [ "npc" ]
     },
     "responses": [

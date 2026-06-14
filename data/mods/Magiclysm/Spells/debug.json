@@ -114,7 +114,7 @@
     "valid_targets": [ "ground" ],
     "effect": "summon",
     "shape": "blast",
-    "effect_str": "debug_mon",
+    "effect_str": "pseudo_debug_mon",
     "base_casting_time": 100,
     "max_level": 30,
     "min_aoe": 10,

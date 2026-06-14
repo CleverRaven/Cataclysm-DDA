@@ -1,10 +1,20 @@
+#include <memory>
+#include <set>
+#include <string>
+#include <vector>
+
 #include "cata_catch.h"
 
-#include <algorithm>
-#include <cstddef>
-#include <functional>
-#include <iterator>
-#include <set>
+// Wraps Catch2 internal test-enumeration API in one place.
+static std::vector<std::string> get_all_test_case_names()
+{
+    std::vector<std::string> names;
+    for( const Catch::TestCase &tc :
+         Catch::getAllTestCasesSorted( *Catch::getCurrentContext().getConfig() ) ) {
+        names.push_back( tc.getTestCaseInfo().name );
+    }
+    return names;
+}
 
 TEST_CASE( "enforce_normalized_test_cases" )
 {
@@ -18,9 +28,7 @@ TEST_CASE( "enforce_normalized_test_cases" )
     INFO( "Prefer simple characters for TEST_CASE names to avoid need for escaping" );
     CAPTURE( allowed_chars );
 
-    for( const Catch::TestCase &tc :
-         Catch::getAllTestCasesSorted( *Catch::getCurrentContext().getConfig() ) ) {
-        const std::string &test_case_name = tc.name;
+    for( const std::string &test_case_name : get_all_test_case_names() ) {
         CAPTURE( test_case_name );
         int i = 0;
         for( ; i < static_cast<int>( test_case_name.size() ); i++ ) {

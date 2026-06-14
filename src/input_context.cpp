@@ -4,14 +4,18 @@
 #include <array>
 #include <cctype>
 #include <cstddef>
+#include <cstdint>
 #include <exception>
 #include <iterator>
+#include <list>
 #include <memory>
 #include <optional>
 #include <set>
+#include <type_traits>
 #include <utility>
 
 #include "action.h"
+#include "cata_imgui.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
@@ -20,6 +24,7 @@
 #include "cursesdef.h"
 #include "game.h"
 #include "help.h"
+#include "imgui/imgui.h"
 #include "input.h"
 #include "map.h"
 #include "options.h"
@@ -27,18 +32,16 @@
 #include "point.h"
 #include "popup.h"
 #include "sdltiles.h" // IWYU pragma: keep
+#include "cursesport.h" // IWYU pragma: keep
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "sdl_gamepad.h"
 
 enum class kb_menu_status {
-    remove, reset, add, add_global, execute, show
+    remove, reset, add, add_global, execute, show, filter
 };
-
-#if !defined(__ANDROID__)
-#include "cata_imgui.h"
-#include "imgui/imgui.h"
 
 class keybindings_ui : public cataimgui::window
 {
@@ -50,8 +53,8 @@ class keybindings_ui : public cataimgui::window
         const nc_color unbound_key = c_light_red;
         const nc_color h_unbound_key = h_light_red;
         input_context *ctxt;
-        char filter_text_impl[255]; // NOLINT(modernize-avoid-c-arrays)
     public:
+        cataimgui::scroll keybinds_scroll = cataimgui::scroll::none;
         // current status: adding/removing/reseting/executing/showing keybindings
         kb_menu_status status = kb_menu_status::show, last_status = kb_menu_status::execute;
 
@@ -62,8 +65,8 @@ class keybindings_ui : public cataimgui::window
         std::vector<std::string> filtered_registered_actions;
         std::string hotkeys;
         int highlight_row_index = -1;
-        size_t scroll_offset = 0;
-        std::string filter_text;
+        int scroll_offset = 0;
+        //std::string filter_text;
         keybindings_ui( bool permit_execute_action, input_context *parent );
         void init();
 
@@ -74,13 +77,11 @@ class keybindings_ui : public cataimgui::window
             init();
         };
 };
-#endif
 
 static const std::string default_context_id( "default" );
 
-static constexpr int LEGEND_HEIGHT = 9;
-static constexpr int BORDER_SPACE = 2;
-
+namespace
+{
 template <class T1, class T2>
 struct ContainsPredicate {
     const T1 &container;
@@ -92,6 +93,7 @@ struct ContainsPredicate {
         return std::find( container.begin(), container.end(), c ) != container.end();
     }
 };
+} // namespace
 
 bool input_context::action_uses_input( const std::string &action_id,
                                        const input_event &event ) const
@@ -158,9 +160,43 @@ const std::string &input_context::input_to_action( const input_event &inp ) cons
     return CATA_ERROR;
 }
 
-#if defined(__ANDROID__)
-std::list<input_context *> input_context::input_context_stack;
+input_context *input_context_stack_impl::reap()
+{
+    input_context *ret = nullptr;
+    while( !stack.empty() ) {
+        std::shared_ptr<input_context_handle> handle = stack.back().lock();
+        if( handle ) {
+            ret = handle->cxtx;
+            break;
+        }
+        stack.pop_back();
+    }
+    return ret;
+}
 
+input_context *input_context_stack_impl::back()
+{
+    return reap();
+}
+
+void input_context_stack_impl::pop()
+{
+    if( reap() ) {
+        stack.pop_back();
+    }
+}
+
+void input_context_stack_impl::push( std::shared_ptr<input_context_handle> const &context )
+{
+    reap();
+    stack.push_back( context );
+}
+
+#if defined(__ANDROID__) || defined(TILES)
+input_context_stack_impl input_context::input_context_stack;
+#endif
+
+#if defined(__ANDROID__)
 void input_context::register_manual_key( manual_key mk )
 {
     // Prevent duplicates
@@ -324,6 +360,44 @@ std::string input_context::get_desc( const std::string &action_descriptor,
     return rval;
 }
 
+
+std::string input_context::get_button_text( const std::string &action_descriptor ) const
+{
+    std::string action_name = get_action_name( action_descriptor );
+    if( action_name.empty() ) {
+        action_name = action_descriptor;
+    }
+    return get_button_text( action_descriptor, action_name );
+}
+
+std::string input_context::get_button_text( const std::string &action_descriptor,
+        const std::string &action_text ) const
+{
+    if( action_descriptor == "ANY_INPUT" ) {
+        return ""; // what sort of crazy button would this be?
+    }
+
+    bool is_local = false;
+    const std::vector<input_event> &events = inp_mngr.get_input_for_action( action_descriptor,
+            category, &is_local );
+    if( events.empty() ) {
+        return action_text;
+    }
+
+    std::vector<input_event> inputs_to_show;
+    for( const input_event &event : events ) {
+        if( is_event_type_enabled( event.type ) ) {
+            inputs_to_show.push_back( event );
+        }
+    }
+
+    if( inputs_to_show.empty() ) {
+        return action_text;
+    } else {
+        return string_format( "[%s] %s", inputs_to_show[0].long_description(), action_text );
+    }
+}
+
 std::string input_context::get_desc(
     const std::string &action_descriptor,
     const std::string &text,
@@ -333,7 +407,7 @@ std::string input_context::get_desc(
 {
     if( action_descriptor == "ANY_INPUT" ) {
         //~ keybinding description for anykey
-        return string_format( separate_fmt, pgettext( "keybinding", "any" ), text );
+        return string_format( separate_fmt.translated(), pgettext( "keybinding", "any" ), text );
     }
 
     const auto &events = inp_mngr.get_input_for_action( action_descriptor, category );
@@ -349,7 +423,7 @@ std::string input_context::get_desc(
                     const std::string key = utf32_to_utf8( ch );
                     const int pos = ci_find_substr( text, key );
                     if( pos >= 0 ) {
-                        return string_format( inline_fmt, text.substr( 0, pos ),
+                        return string_format( inline_fmt.translated(), text.substr( 0, pos ),
                                               key, text.substr( pos + key.size() ) );
                     }
                 }
@@ -359,9 +433,10 @@ std::string input_context::get_desc(
 
     if( na ) {
         //~ keybinding description for unbound or non-applicable keys
-        return string_format( separate_fmt, pgettext( "keybinding", "n/a" ), text );
+        return string_format( separate_fmt.translated(), pgettext( "keybinding", "n/a" ), text );
     } else {
-        return string_format( separate_fmt, get_desc( action_descriptor, 1, evt_filter ), text );
+        return string_format( separate_fmt.translated(), get_desc( action_descriptor, 1, evt_filter ),
+                              text );
     }
 }
 
@@ -517,33 +592,38 @@ static void rotate_direction_cw( int &dx, int &dy )
     dy = dir_num / 3 - 1;
 }
 
-std::optional<tripoint> input_context::get_direction( const std::string &action ) const
+// This templating ensures that only coord_point with origin::relative is accepted.
+// See src/coords_fwd.h and src/coordinates.h
+template<typename Point, coords::scale Scale>
+static std::optional<coords::coord_point<Point, coords::origin::relative, Scale>>
+        get_direction( const std::string &action, bool iso_mode )
 {
-    static const auto noop = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
+    using CoordPoint = coords::coord_point<Point, coords::origin::relative, Scale>;
+    static const auto noop = static_cast<CoordPoint( * )( CoordPoint )>( []( CoordPoint p ) {
         return p;
     } );
-    static const auto rotate = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
-        rotate_direction_cw( p.x, p.y );
+    static const auto rotate = static_cast<CoordPoint( * )( CoordPoint )>( []( CoordPoint p ) {
+        rotate_direction_cw( p.x(), p.y() );
         return p;
     } );
     const auto transform = iso_mode && g->is_tileset_isometric() ? rotate : noop;
 
     if( action == "UP" ) {
-        return transform( tripoint_north );
+        return transform( CoordPoint::north );
     } else if( action == "DOWN" ) {
-        return transform( tripoint_south );
+        return transform( CoordPoint::south );
     } else if( action == "LEFT" ) {
-        return transform( tripoint_west );
+        return transform( CoordPoint::west );
     } else if( action == "RIGHT" ) {
-        return transform( tripoint_east );
+        return transform( CoordPoint::east );
     } else if( action == "LEFTUP" ) {
-        return transform( tripoint_north_west );
+        return transform( CoordPoint::north_west );
     } else if( action == "RIGHTUP" ) {
-        return transform( tripoint_north_east );
+        return transform( CoordPoint::north_east );
     } else if( action == "LEFTDOWN" ) {
-        return transform( tripoint_south_west );
+        return transform( CoordPoint::south_west );
     } else if( action == "RIGHTDOWN" ) {
-        return transform( tripoint_south_east );
+        return transform( CoordPoint::south_east );
     } else {
         return std::nullopt;
     }
@@ -552,36 +632,13 @@ std::optional<tripoint> input_context::get_direction( const std::string &action 
 std::optional<tripoint_rel_ms> input_context::get_direction_rel_ms( const std::string &action )
 const
 {
-    static const auto noop = static_cast<tripoint_rel_ms( * )( tripoint_rel_ms )>( [](
-    tripoint_rel_ms p ) {
-        return p;
-    } );
-    static const auto rotate = static_cast<tripoint_rel_ms( * )( tripoint_rel_ms )>( [](
-    tripoint_rel_ms p ) {
-        rotate_direction_cw( p.x(), p.y() );
-        return p;
-    } );
-    const auto transform = iso_mode && g->is_tileset_isometric() ? rotate : noop;
+    return get_direction<tripoint, coords::ms>( action, iso_mode );
+}
 
-    if( action == "UP" ) {
-        return transform( tripoint_rel_ms( tripoint_north ) );
-    } else if( action == "DOWN" ) {
-        return transform( tripoint_rel_ms( tripoint_south ) );
-    } else if( action == "LEFT" ) {
-        return transform( tripoint_rel_ms( tripoint_west ) );
-    } else if( action == "RIGHT" ) {
-        return transform( tripoint_rel_ms( tripoint_east ) );
-    } else if( action == "LEFTUP" ) {
-        return transform( tripoint_rel_ms( tripoint_north_west ) );
-    } else if( action == "RIGHTUP" ) {
-        return transform( tripoint_rel_ms( tripoint_north_east ) );
-    } else if( action == "LEFTDOWN" ) {
-        return transform( tripoint_rel_ms( tripoint_south_west ) );
-    } else if( action == "RIGHTDOWN" ) {
-        return transform( tripoint_rel_ms( tripoint_south_east ) );
-    } else {
-        return std::nullopt;
-    }
+std::optional<tripoint_rel_omt> input_context::get_direction_rel_omt( const std::string &action )
+const
+{
+    return get_direction<tripoint, coords::omt>( action, iso_mode );
 }
 
 // Custom set of hotkeys that explicitly don't include the hardcoded
@@ -608,16 +665,24 @@ static const std::map<fallback_action, int> fallback_keys = {
     { fallback_action::execute, '.' },
 };
 
-#if !defined(__ANDROID__)
 keybindings_ui::keybindings_ui( bool permit_execute_action,
-                                input_context *parent ) : cataimgui::window( "KEYBINDINGS", ImGuiWindowFlags_NoNav )
+                                input_context *parent ) : cataimgui::window( _( "KEYBINDINGS" ), ImGuiWindowFlags_NoNav )
 {
-    filter_text_impl[0] = '\0';
     this->ctxt = parent;
 
-    legend.push_back( colorize( _( "Unbound keys" ), unbound_key ) );
-    legend.push_back( colorize( _( "Keybinding active only on this screen" ), local_key ) );
-    legend.push_back( colorize( _( "Keybinding active globally" ), global_key ) );
+    // FIXME? These categories aren't translated. It's still useful to display them, even if the viewer can't understand them.
+    if( parent->category == "DEFAULTMODE" ) {
+        legend.emplace_back( _( "Currently showing keys for the main game." ) );
+    } else {
+        legend.push_back( string_format( _( "Currently showing keys ONLY for the last opened window: %s!" ),
+                                         parent->category ) );
+    }
+
+    legend.push_back( colorize( _( "Unbound keys are colored like this." ), unbound_key ) );
+    legend.push_back( colorize( _( "Keybinding active only on this screen are colored like this." ),
+                                local_key ) );
+    legend.push_back( colorize( _( "Keybinding active globally are colored like this." ),
+                                global_key ) );
     legend.push_back( colorize( _( "* User customized" ), global_key ) );
     if( permit_execute_action ) {
         legend.push_back( string_format(
@@ -650,121 +715,131 @@ cataimgui::bounds keybindings_ui::get_bounds()
 
 void keybindings_ui::draw_controls()
 {
-    scroll_offset = SIZE_MAX;
+    scroll_offset = INT_MAX;
     size_t legend_idx = 0;
     for( ; legend_idx < 4; legend_idx++ ) {
-        draw_colored_text( legend[legend_idx], c_white );
+        cataimgui::draw_colored_text( legend[legend_idx], c_white );
         ImGui::SameLine();
         std::string button_text_no_color = remove_color_tags( buttons[legend_idx].second );
         ImGui::SetCursorPosX( str_width_to_pixels( width ) - ( get_text_width(
                                   button_text_no_color ) +
                               ( ImGui::GetStyle().FramePadding.x * 2 ) + ImGui::GetStyle().ItemSpacing.x ) );
+        ImGui::BeginDisabled( status == kb_menu_status::filter );
         action_button( buttons[legend_idx].first, button_text_no_color );
+        ImGui::EndDisabled();
     }
     for( ; legend_idx < legend.size(); legend_idx++ ) {
-        draw_colored_text( legend[legend_idx], c_white );
+        cataimgui::draw_colored_text( legend[legend_idx], c_white );
     }
-    if( last_status != status && status == kb_menu_status::show ) {
-        ImGui::SetKeyboardFocusHere( 0 );
+    draw_filter( *ctxt, status == kb_menu_status::filter );
+    if( last_status != status && status == kb_menu_status::filter ) {
+        ImGui::SetKeyboardFocusHere( -1 );
     }
-    strncpy( filter_text_impl, filter_text.c_str(), filter_text.length() );
-    ImGui::InputText( "##NOLABEL", filter_text_impl, std::extent_v< decltype( filter_text_impl )>,
-                      status == kb_menu_status::show ? ImGuiInputTextFlags_None : ImGuiInputTextFlags_ReadOnly );
-    filter_text.assign( filter_text_impl );
     ImGui::Separator();
-    if( ImGui::BeginTable( "KB_KEYS", 2, ImGuiTableFlags_ScrollY ) ) {
-        if( last_status != status && status != kb_menu_status::show ) {
-            ImGui::SetKeyboardFocusHere( 0 );
-        }
+
+    if( last_status != status && status == kb_menu_status::show ) {
+        defocus_filter();
+        ImGui::SetNextWindowFocus();
+    }
+    if( ImGui::BeginTable( "KB_KEYS", 4, ImGuiTableFlags_ScrollY ) ) {
+        float one_char_width = ImGui::CalcTextSize( "M" ).x;
+        ImGui::TableSetupColumn( "##invlet",
+                                 ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoSort, one_char_width );
+        ImGui::TableSetupColumn( "##modified",
+                                 ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoSort, one_char_width );
         ImGui::TableSetupColumn( "Action Name",
                                  ImGuiTableColumnFlags_WidthStretch | ImGuiTableColumnFlags_NoSort );
         float keys_col_width = str_width_to_pixels( width ) - str_width_to_pixels( TERMX >= 100 ? 62 : 52 );
         ImGui::TableSetupColumn( "Assigned Key(s)",
                                  ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoSort, keys_col_width );
-        //ImGui::TableHeadersRow();
-        for( size_t i = 0; i < filtered_registered_actions.size(); i++ ) {
-            const std::string &action_id = filtered_registered_actions[i];
+        float row_height = ImGui::GetTextLineHeightWithSpacing();
+        cataimgui::set_scroll( keybinds_scroll );
+        ImGuiListClipper clipper;
+        clipper.Begin( filtered_registered_actions.size(), row_height );
+        while( clipper.Step() ) {
+            for( int i = clipper.DisplayStart; i < clipper.DisplayEnd; i++ ) {
+                ImGui::TableNextRow();
+                const std::string &action_id = filtered_registered_actions[i];
+                ImGui::PushID( action_id.c_str() );
 
-            bool overwrite_default;
-            const action_attributes &attributes = inp_mngr.get_action_attributes( action_id, ctxt->category,
-                                                  &overwrite_default );
-            bool basic_overwrite_default;
-            const action_attributes &basic_attributes = inp_mngr.get_action_attributes( action_id,
-                    ctxt->category, &basic_overwrite_default, true );
-            bool customized_keybinding = overwrite_default != basic_overwrite_default
-                                         || attributes.input_events != basic_attributes.input_events;
+                bool overwrite_default;
+                const action_attributes &attributes = inp_mngr.get_action_attributes( action_id, ctxt->category,
+                                                      &overwrite_default );
+                bool basic_overwrite_default;
+                const action_attributes &basic_attributes = inp_mngr.get_action_attributes( action_id,
+                        ctxt->category, &basic_overwrite_default, true );
+                bool customized_keybinding = overwrite_default != basic_overwrite_default
+                                             || attributes.input_events != basic_attributes.input_events;
 
-            ImGui::TableNextColumn();
-            ImGui::Text( " " );
-            ImGui::SameLine( 0, 0 );
-            char invlet = ' ';
-            //if( i < hotkeys.size() ) {
-            //    invlet = hotkeys[i];
-            if( ImGui::IsItemVisible() ) {
-                if( scroll_offset == SIZE_MAX ) {
-                    scroll_offset = i;
+                ImGui::TableSetColumnIndex( 1 );
+                if( customized_keybinding ) {
+                    ImGui::TextUnformatted( "*" );
                 }
-                if( i >= scroll_offset && ( i - scroll_offset ) < hotkeys.size() ) {
-                    invlet = hotkeys[i - scroll_offset];
+
+                ImGui::TableSetColumnIndex( 2 );
+                nc_color col;
+                if( attributes.input_events.empty() ) {
+                    col = i == highlight_row_index ? h_unbound_key : unbound_key;
+                } else if( overwrite_default ) {
+                    col = i == highlight_row_index ? h_local_key : local_key;
+                } else {
+                    col = i == highlight_row_index ? h_global_key : global_key;
                 }
+                bool is_selected = false;
+                bool is_hovered = false;
+                cataimgui::draw_colored_text( ctxt->get_action_name( action_id ),
+                                              col, 0.0f,
+                                              status == kb_menu_status::show ? nullptr : &is_selected,
+                                              nullptr, &is_hovered );
+
+                ImGui::TableSetColumnIndex( 3 );
+                ImGui::Text( "%s", ctxt->get_desc( action_id ).c_str() );
+
+                // handle the first column last because
+                // ImGui::IsItemVisble() tells you the status of the most
+                // recent item, not the item you’re about to create. If we
+                // did this column first, then when we call it for the
+                // first row it would tell us that the headers were
+                // hidden, which is not what we want to know.
+                ImGui::TableSetColumnIndex( 0 );
+                char invlet = ' ';
+                if( ImGui::IsItemVisible() ) {
+                    if( scroll_offset == INT_MAX ) {
+                        scroll_offset = i;
+                    }
+                    if( i >= scroll_offset && size_t( i - scroll_offset ) < hotkeys.size() ) {
+                        invlet = hotkeys[i - scroll_offset];
+                    }
+                }
+                if( ( status == kb_menu_status::add_global && overwrite_default )
+                    || ( status == kb_menu_status::reset && !customized_keybinding )
+                  ) {
+                    // We're trying to add a global, but this action has a local
+                    // defined, so gray out the invlet.
+                    ImGui::TextColored( c_dark_gray, "%c", invlet );
+                } else if( status == kb_menu_status::add || status == kb_menu_status::add_global ||
+                           status == kb_menu_status::remove || status == kb_menu_status::reset ) {
+                    ImGui::TextColored( c_light_blue, "%c", invlet );
+                } else if( status == kb_menu_status::execute ) {
+                    ImGui::TextColored( c_white, "%c", invlet );
+                }
+
+                if( ( is_selected || is_hovered ) && invlet != ' ' ) {
+                    highlight_row_index = i;
+                }
+                ImGui::PopID();
             }
-            std::string key_text;
-            if( ( status == kb_menu_status::add_global && overwrite_default )
-                || ( status == kb_menu_status::reset && !customized_keybinding )
-              ) {
-                // We're trying to add a global, but this action has a local
-                // defined, so gray out the invlet.
-                key_text = colorize( string_format( "%c", invlet ), c_dark_gray );
-            } else if( status == kb_menu_status::add || status == kb_menu_status::add_global ||
-                       status == kb_menu_status::remove || status == kb_menu_status::reset ) {
-                key_text = colorize( string_format( "%c", invlet ), c_light_blue );
-            } else if( status == kb_menu_status::execute ) {
-                key_text = colorize( string_format( "%c", invlet ), c_white );
-            } else {
-                key_text = " ";
-            }
-            nc_color col;
-            if( attributes.input_events.empty() ) {
-                col = i == size_t( highlight_row_index ) ? h_unbound_key : unbound_key;
-            } else if( overwrite_default ) {
-                col = i == size_t( highlight_row_index ) ? h_local_key : local_key;
-            } else {
-                col = i == size_t( highlight_row_index ) ? h_global_key : global_key;
-            }
-            if( customized_keybinding ) {
-                key_text += "*";
-            } else {
-                key_text += " ";
-            }
-            key_text += string_format( "%s:", ctxt->get_action_name( action_id ) );
-            bool is_selected = false;
-            bool is_hovered = false;
-            draw_colored_text( key_text, col, 0.0f, status == kb_menu_status::show ? nullptr : &is_selected,
-                               nullptr, &is_hovered );
-            if( ( is_selected || is_hovered ) && invlet != ' ' ) {
-                highlight_row_index = i;
-            }
-            //ImGui::SameLine();
-            //ImGui::SetCursorPosX(str_width_to_pixels(TERMX >= 100 ? 62 : 52));
-            ImGui::TableNextColumn();
-            ImGui::Text( "%s", ctxt->get_desc( action_id ).c_str() );
         }
         ImGui::EndTable();
     }
     last_status = status;
-
-    // spopup.query_string() will call wnoutrefresh( w_help )
-    //spopup.text(filter_phrase);
-    //spopup.query_string(false, true);
-    // Record cursor immediately after spopup drawing
-    //ui.record_term_cursor();
 }
 
 void keybindings_ui::init()
 {
     width = TERMX >= 100 ? 100 : 80;
 }
-#endif
+
 bool input_context::resolve_conflicts( const std::vector<input_event> &events,
                                        const std::string &ignore_action )
 {
@@ -812,13 +887,16 @@ bool input_context::action_reset( const std::string &action_id )
     std::vector<input_event> conflicting_events;
     std::array<std::reference_wrapper<const std::string>, 2> contexts = { default_context_id, category };
     for( const std::string &context : contexts ) {
-        const input_manager::t_actions &def = inp_mngr.basic_action_contexts.at( context );
-
-        bool is_in_def = def.find( action_id ) != def.end();
-        if( is_in_def ) {
-            for( const input_event &event : def.at( action_id ).input_events ) {
-                conflicting_events.emplace_back( event );
-            }
+        auto iter_basic = inp_mngr.basic_action_contexts.find( context );
+        if( iter_basic == inp_mngr.basic_action_contexts.end() ) {
+            continue;
+        }
+        auto iter_action = iter_basic->second.find( action_id );
+        if( iter_action == iter_basic->second.end() ) {
+            continue;
+        }
+        for( const input_event &event : iter_action->second.input_events ) {
+            conflicting_events.emplace_back( event );
         }
     }
     if( !resolve_conflicts( conflicting_events, action_id ) ) {
@@ -827,20 +905,30 @@ bool input_context::action_reset( const std::string &action_id )
 
     // RESET KEY BINDINGS
     for( const std::string &context : contexts ) {
-        const input_manager::t_actions &def = inp_mngr.basic_action_contexts.at( context );
-        const input_manager::t_actions &cus = inp_mngr.action_contexts.at( context );
-
-        bool is_in_def = def.find( action_id ) != def.end();
-        bool is_in_cus = cus.find( action_id ) != cus.end();
-
-        if( is_in_cus ) {
-            inp_mngr.remove_input_for_action( action_id, context );
+        // reset -> remove from user created keybindings
+        auto iter_cus = inp_mngr.action_contexts.find( context );
+        if( iter_cus != inp_mngr.action_contexts.end() ) {
+            if( iter_cus->second.find( action_id ) != iter_cus->second.end() ) {
+                inp_mngr.remove_input_for_action( action_id, context );
+            }
         }
 
-        if( is_in_def ) {
-            for( const input_event &event : def.at( action_id ).input_events ) {
-                inp_mngr.add_input_for_action( action_id, context, event );
-            }
+        // reset the original keybindings
+        auto iter_def = inp_mngr.basic_action_contexts.find( context );
+        if( iter_def == inp_mngr.basic_action_contexts.end() ) {
+            continue;
+        }
+        auto iter_action = iter_def->second.find( action_id );
+        if( iter_action == iter_def->second.end() ) {
+            continue;
+        }
+        if( iter_action->second.input_events.empty() ) {
+            // special case: reset to an empty local keybinding "Unbound locally!"
+            inp_mngr.get_or_create_event_list( action_id, context );
+            continue;
+        }
+        for( const input_event &event : iter_action->second.input_events ) {
+            inp_mngr.add_input_for_action( action_id, context, event );
         }
     }
     return true;
@@ -893,7 +981,9 @@ bool input_context::action_add( const std::string &name, const std::string &acti
         return false;
     }
 
-    if( !resolve_conflicts( { new_event }, action_id ) ) {
+    std::vector<input_event> new_events;
+    new_events.push_back( new_event );
+    if( !resolve_conflicts( new_events, action_id ) ) {
         return false;
     }
 
@@ -907,391 +997,8 @@ bool input_context::action_add( const std::string &name, const std::string &acti
     return true;
 }
 
-action_id input_context::display_menu_legacy( const bool permit_execute_action )
+action_id input_context::display_menu( bool permit_execute_action )
 {
-    action_id action_to_execute = ACTION_NULL;
-
-    input_context ctxt( "HELP_KEYBINDINGS", keyboard_mode::keychar );
-    // Keybinding menu actions
-    ctxt.register_action( "COORDINATE" );
-    ctxt.register_action( "MOUSE_MOVE" );
-    ctxt.register_action( "SELECT" );
-    ctxt.register_action( "SCROLL_UP" );
-    ctxt.register_action( "SCROLL_DOWN" );
-    ctxt.register_action( "UP", to_translation( "Scroll up" ) );
-    ctxt.register_action( "DOWN", to_translation( "Scroll down" ) );
-    ctxt.register_action( "PAGE_DOWN" );
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "REMOVE" );
-    ctxt.register_action( "RESET" );
-    ctxt.register_action( "ADD_LOCAL" );
-    ctxt.register_action( "ADD_GLOBAL" );
-    if( permit_execute_action ) {
-        ctxt.register_action( "EXECUTE" );
-    }
-    ctxt.register_action( "QUIT" );
-    // String input actions
-    ctxt.register_action( "TEXT.LEFT" );
-    ctxt.register_action( "TEXT.RIGHT" );
-    ctxt.register_action( "TEXT.CLEAR" );
-    ctxt.register_action( "TEXT.BACKSPACE" );
-    ctxt.register_action( "TEXT.HOME" );
-    ctxt.register_action( "TEXT.END" );
-    ctxt.register_action( "TEXT.DELETE" );
-#if defined( TILES )
-    ctxt.register_action( "TEXT.PASTE" );
-#endif
-    ctxt.register_action( "TEXT.INPUT_FROM_FILE" );
-    ctxt.register_action( "ANY_INPUT" );
-
-    if( category != "HELP_KEYBINDINGS" ) {
-        // avoiding inception!
-        ctxt.register_action( "HELP_KEYBINDINGS" );
-    }
-
-    std::string hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
-
-    ui_adaptor ui;
-    int width = 0;
-    catacurses::window w_help;
-    size_t display_height = 0;
-    size_t legwidth = 0;
-    string_input_popup spopup;
-    // ignore hardcoded keys in string input popup
-    for( const std::pair<const fallback_action, int> &v : fallback_keys ) {
-        spopup.add_callback( v.second, []() {
-            return true;
-        } );
-    }
-    const auto recalc_size = [&]( ui_adaptor & ui ) {
-        width = TERMX >= 100 ? 100 : 80;
-        w_help = catacurses::newwin( TERMY, width - 2, point( TERMX / 2 - width / 2, 0 ) );
-        // height of the area usable for display of keybindings, excludes headers & borders
-        display_height = TERMY - LEGEND_HEIGHT;
-        const point filter_pos( 4, 6 );
-        // width of the legend
-        legwidth = width - filter_pos.x * 2 - BORDER_SPACE;
-        // +1 for end-of-text cursor
-        spopup.window( w_help, filter_pos, filter_pos.x + legwidth + 1 )
-        .max_length( legwidth )
-        .context( ctxt );
-        ui.position_from_window( w_help );
-    };
-    recalc_size( ui );
-    ui.on_screen_resize( recalc_size );
-
-    // has the user changed something?
-    bool changed = false;
-    // keybindings before the user changed anything.
-    input_manager::t_action_contexts old_action_contexts( inp_mngr.action_contexts );
-    // current status: adding/removing/executing/showing keybindings
-    kb_menu_status status = kb_menu_status::show;
-    // copy of registered_actions, but without the ANY_INPUT and COORDINATE, which should not be shown
-    std::vector<std::string> org_registered_actions( registered_actions );
-    org_registered_actions.erase( std::remove_if( org_registered_actions.begin(),
-                                  org_registered_actions.end(),
-    []( const std::string & a ) {
-        return a == ANY_INPUT || a == COORDINATE;
-    } ), org_registered_actions.end() );
-
-    // colors of the keybindings
-    static const nc_color global_key = c_light_gray;
-    static const nc_color h_global_key = h_light_gray;
-    static const nc_color local_key = c_light_green;
-    static const nc_color h_local_key = h_light_green;
-    static const nc_color unbound_key = c_light_red;
-    static const nc_color h_unbound_key = h_light_red;
-
-    enum class kb_btn_idx { none, remove, reset, add_local, add_global } highlighted_btn_index =
-        kb_btn_idx::none;
-    // (vertical) scroll offset
-    size_t scroll_offset = 0;
-    // keybindings help
-    std::string legend;
-    legend += colorize( _( "Unbound keys" ), unbound_key ) + "\n";
-    legend += colorize( _( "Keybinding active only on this screen" ), local_key ) + "\n";
-    legend += colorize( _( "Keybinding active globally" ), global_key ) + "\n";
-    legend += colorize( _( "* User customized" ), global_key ) + "\n";
-    if( permit_execute_action ) {
-        legend += string_format(
-                      _( "Press %c to execute action\n" ),
-                      fallback_keys.at( fallback_action::execute ) );
-    }
-
-    std::vector<std::string> filtered_registered_actions = org_registered_actions;
-    std::string filter_phrase;
-    std::string action;
-    int raw_input_char = 0;
-    int highlight_row_index = -1;
-    const auto redraw = [&]( ui_adaptor & ui ) {
-        werase( w_help );
-        draw_border( w_help, BORDER_COLOR, _( "Keybindings" ), c_light_red );
-        draw_scrollbar( w_help, scroll_offset, display_height,
-                        filtered_registered_actions.size(), point( 0, 7 ), c_white, true );
-        fold_and_print( w_help, point( 2, 1 ), legwidth, c_white, legend );
-        const auto item_color = []( const int index_to_draw, int index_highlighted ) {
-            return index_highlighted == index_to_draw ? h_light_gray : c_light_gray;
-        };
-        right_print( w_help, 1, 2,
-                     item_color( static_cast<int>( kb_btn_idx::remove ), int( highlighted_btn_index ) ),
-                     string_format( _( "<[<color_yellow>%c</color>] Remove keybinding>" ),
-                                    fallback_keys.at( fallback_action::remove ) ) );
-        right_print( w_help, 2, 2,
-                     item_color( static_cast<int>( kb_btn_idx::add_local ), int( highlighted_btn_index ) ),
-                     string_format( _( "<[<color_yellow>%c</color>] Add local keybinding>" ),
-                                    fallback_keys.at( fallback_action::add_local ) ) );
-        right_print( w_help, 3, 2,
-                     item_color( static_cast<int>( kb_btn_idx::add_global ), int( highlighted_btn_index ) ),
-                     string_format( _( "<[<color_yellow>%c</color>] Add global keybinding>" ),
-                                    fallback_keys.at( fallback_action::add_global ) ) );
-        right_print( w_help, 4, 2,
-                     item_color( static_cast<int>( kb_btn_idx::reset ), int( highlighted_btn_index ) ),
-                     string_format( _( "<[<color_yellow>%c</color>] Reset keybinding>" ),
-                                    fallback_keys.at( fallback_action::reset ) ) );
-
-        for( size_t i = 0; i + scroll_offset < filtered_registered_actions.size() &&
-             i < display_height; i++ ) {
-            const std::string &action_id = filtered_registered_actions[i + scroll_offset];
-
-            bool overwrite_default;
-            const action_attributes &attributes = inp_mngr.get_action_attributes( action_id, category,
-                                                  &overwrite_default );
-            bool basic_overwrite_default;
-            const action_attributes &basic_attributes = inp_mngr.get_action_attributes( action_id, category,
-                    &basic_overwrite_default, true );
-            bool customized_keybinding = overwrite_default != basic_overwrite_default
-                                         || attributes.input_events != basic_attributes.input_events;
-
-            char invlet;
-            if( i < hotkeys.size() ) {
-                invlet = hotkeys[i];
-            } else {
-                invlet = ' ';
-            }
-
-            if( ( status == kb_menu_status::add_global && overwrite_default )
-                || ( status == kb_menu_status::reset && !customized_keybinding )
-              ) {
-                // We're trying to add a global, but this action has a local
-                // defined, so gray out the invlet.
-                mvwprintz( w_help, point( 2, i + 7 ), c_dark_gray, "%c ", invlet );
-            } else if( status == kb_menu_status::add || status == kb_menu_status::add_global ||
-                       status == kb_menu_status::remove || status == kb_menu_status::reset ) {
-                mvwprintz( w_help, point( 2, i + 7 ), c_light_blue, "%c ", invlet );
-            } else if( status == kb_menu_status::execute ) {
-                mvwprintz( w_help, point( 2, i + 7 ), c_white, "%c ", invlet );
-            } else {
-                mvwprintz( w_help, point( 2, i + 7 ), c_blue, "  " );
-            }
-            nc_color col;
-            if( attributes.input_events.empty() ) {
-                col = i == size_t( highlight_row_index ) ? h_unbound_key : unbound_key;
-            } else if( overwrite_default ) {
-                col = i == size_t( highlight_row_index ) ? h_local_key : local_key;
-            } else {
-                col = i == size_t( highlight_row_index ) ? h_global_key : global_key;
-            }
-            if( customized_keybinding ) {
-                mvwprintz( w_help, point( 3, i + 7 ), col, "*" );
-            }
-            mvwprintz( w_help, point( 4, i + 7 ), col, "%s:", get_action_name( action_id ) );
-            mvwprintz( w_help, point( TERMX >= 100 ? 62 : 52, i + 7 ), col, "%s", get_desc( action_id ) );
-        }
-
-        // spopup.query_string() will call wnoutrefresh( w_help )
-        spopup.text( filter_phrase );
-        spopup.query_string( false, true );
-        // Record cursor immediately after spopup drawing
-        ui.record_term_cursor();
-    };
-    ui.on_redraw( redraw );
-
-    while( true ) {
-        ui_manager::redraw();
-
-        if( status == kb_menu_status::show ) {
-            filter_phrase = spopup.query_string( false );
-            action = ctxt.input_to_action( ctxt.get_raw_input() );
-        } else {
-            action = ctxt.handle_input();
-        }
-        raw_input_char = ctxt.get_raw_input().get_first_input();
-        for( const std::pair<const fallback_action, int> &v : fallback_keys ) {
-            if( v.second == raw_input_char ) {
-                action.clear();
-            }
-        }
-
-        filtered_registered_actions = filter_strings_by_phrase( org_registered_actions, filter_phrase );
-        if( scroll_offset > filtered_registered_actions.size() ) {
-            scroll_offset = 0;
-        }
-        if( action == "MOUSE_MOVE" || action == "SELECT" ) {
-            highlighted_btn_index = kb_btn_idx::none;
-            highlight_row_index = -1;
-            std::optional<point> o_p = ctxt.get_coordinates_text( w_help );
-            if( o_p ) {
-                point p = o_p.value();
-                if( window_contains_point_relative( w_help, p ) ) {
-                    if( p.y >= 7 && p.y < TERMY && status != kb_menu_status::show ) {
-                        highlight_row_index = p.y - 7;
-                    } else if( p.y == 1 ) {
-                        highlighted_btn_index = kb_btn_idx::remove;
-                    } else if( p.y == 2 ) {
-                        highlighted_btn_index = kb_btn_idx::add_local;
-                    } else if( p.y == 3 ) {
-                        highlighted_btn_index = kb_btn_idx::add_global;
-                    } else if( p.y == 4 ) {
-                        highlighted_btn_index = kb_btn_idx::reset;
-                    }
-                }
-            }
-            if( action == "SELECT" ) {
-                switch( highlighted_btn_index ) {
-                    case kb_btn_idx::remove:
-                        status = kb_menu_status::remove;
-                        break;
-                    case kb_btn_idx::reset:
-                        status = kb_menu_status::reset;
-                        break;
-                    case kb_btn_idx::add_local:
-                        status = kb_menu_status::add;
-                        break;
-                    case kb_btn_idx::add_global:
-                        status = kb_menu_status::add_global;
-                        break;
-                    case kb_btn_idx::none:
-                        break;
-                }
-            }
-        }
-        // In addition to the modifiable hotkeys, we also check for hardcoded
-        // keys, e.g. '+', '-', '=', '.' in order to prevent the user from
-        // entering an unrecoverable state.
-        if( action == "ADD_LOCAL"
-            || raw_input_char == fallback_keys.at( fallback_action::add_local ) ) {
-            if( !filtered_registered_actions.empty() ) {
-                status = kb_menu_status::add;
-            }
-        } else if( action == "ADD_GLOBAL"
-                   || raw_input_char == fallback_keys.at( fallback_action::add_global ) ) {
-            if( !filtered_registered_actions.empty() ) {
-                status = kb_menu_status::add_global;
-            }
-        } else if( action == "REMOVE"
-                   || raw_input_char == fallback_keys.at( fallback_action::remove ) ) {
-            if( !filtered_registered_actions.empty() ) {
-                status = kb_menu_status::remove;
-            }
-        } else if( action == "RESET"
-                   || raw_input_char == fallback_keys.at( fallback_action::reset ) ) {
-            if( !filtered_registered_actions.empty() ) {
-                status = kb_menu_status::reset;
-            }
-        } else if( ( action == "EXECUTE"
-                     || raw_input_char == fallback_keys.at( fallback_action::execute ) )
-                   && permit_execute_action ) {
-            if( !filtered_registered_actions.empty() ) {
-                status = kb_menu_status::execute;
-            }
-        } else if( action == "DOWN" ) {
-            if( !filtered_registered_actions.empty()
-                && filtered_registered_actions.size() > display_height
-                && scroll_offset < filtered_registered_actions.size() - display_height ) {
-                scroll_offset++;
-            }
-        } else if( action == "UP" ) {
-            if( !filtered_registered_actions.empty()
-                && scroll_offset > 0 ) {
-                scroll_offset--;
-            }
-        } else if( action == "PAGE_DOWN" || action == "SCROLL_DOWN" ) {
-            if( filtered_registered_actions.empty() ) {
-                // do nothing
-            } else if( scroll_offset + display_height < filtered_registered_actions.size() ) {
-                scroll_offset += std::min( display_height, filtered_registered_actions.size() -
-                                           display_height - scroll_offset );
-            } else if( filtered_registered_actions.size() > display_height ) {
-                scroll_offset = 0;
-            }
-        } else if( action == "PAGE_UP" || action == "SCROLL_UP" ) {
-            if( filtered_registered_actions.empty() ) {
-                // do nothing
-            } else if( scroll_offset >= display_height ) {
-                scroll_offset -= display_height;
-            } else if( scroll_offset > 0 ) {
-                scroll_offset = 0;
-            } else if( filtered_registered_actions.size() > display_height ) {
-                scroll_offset = filtered_registered_actions.size() - display_height;
-            }
-        } else if( action == "QUIT" ) {
-            if( status != kb_menu_status::show ) {
-                status = kb_menu_status::show;
-            } else {
-                break;
-            }
-        } else if( action == "HELP_KEYBINDINGS" ) {
-            // update available hotkeys in case they've changed
-            hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
-        } else if( !filtered_registered_actions.empty() && status != kb_menu_status::show ) {
-            size_t hotkey_index = hotkeys.find_first_of( raw_input_char );
-            if( hotkey_index == std::string::npos ) {
-                if( action == "SELECT" && highlight_row_index != -1 ) {
-                    hotkey_index = size_t( highlight_row_index );
-                } else {
-                    continue;
-                }
-            }
-            const size_t action_index = hotkey_index + scroll_offset;
-            if( action_index >= filtered_registered_actions.size() ) {
-                continue;
-            }
-            const std::string &action_id = filtered_registered_actions[action_index];
-
-            // Check if this entry is local or global.
-            bool is_local = false;
-            const action_attributes &actions = inp_mngr.get_action_attributes( action_id, category, &is_local );
-            bool is_empty = actions.input_events.empty();
-            const std::string name = get_action_name( action_id );
-
-            // We don't want to completely delete a global context entry.
-            // Only attempt removal for a local context, or when there's
-            // bindings for the default context.
-            if( status == kb_menu_status::remove && ( is_local || !is_empty ) ) {
-                changed = action_remove( name, action_id, is_local, is_empty );
-            } else if( status == kb_menu_status::reset ) {
-                changed = action_reset( action_id );
-            } else if( status == kb_menu_status::add_global && is_local ) {
-                // Disallow adding global actions to an action that already has a local defined.
-                popup( _( "There are already local keybindings defined for this action, please remove them first." ) );
-            } else if( status == kb_menu_status::add || status == kb_menu_status::add_global ) {
-                changed = action_add( name, action_id, is_local, status );
-            } else if( status == kb_menu_status::execute && permit_execute_action ) {
-                action_to_execute = look_up_action( action_id );
-                break;
-            }
-            status = kb_menu_status::show;
-        }
-    }
-
-    if( changed && query_yn( _( "Save changes?" ) ) ) {
-        try {
-            inp_mngr.save();
-            get_help().load();
-        } catch( std::exception &err ) {
-            popup( _( "saving keybindings failed: %s" ), err.what() );
-        }
-    } else if( changed ) {
-        inp_mngr.action_contexts.swap( old_action_contexts );
-    }
-
-    return action_to_execute;
-}
-
-#if !defined(__ANDROID__)
-action_id input_context::display_menu_imgui( const bool permit_execute_action )
-{
-
     action_id action_to_execute = ACTION_NULL;
 
     input_context ctxt( "HELP_KEYBINDINGS", keyboard_mode::keychar );
@@ -1304,11 +1011,16 @@ action_id input_context::display_menu_imgui( const bool permit_execute_action )
     ctxt.register_action( "ADD_LOCAL" );
     ctxt.register_action( "ADD_GLOBAL" );
     ctxt.register_action( "TEXT.CLEAR" );
+    ctxt.register_action( "TEXT.CONFIRM" );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "END" );
     ctxt.register_action( "HOME" );
+    ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "TEXT.INPUT_FROM_FILE" );
+    ctxt.register_action( "UILIST.UP" );
+    ctxt.register_action( "UILIST.DOWN" );
     if( permit_execute_action ) {
         ctxt.register_action( "EXECUTE" );
     }
@@ -1319,9 +1031,7 @@ action_id input_context::display_menu_imgui( const bool permit_execute_action )
         // avoiding inception!
         ctxt.register_action( "HELP_KEYBINDINGS" );
     }
-#if defined(WIN32) || defined(TILES)
     ctxt.set_timeout( 50 );
-#endif
 
     // has the user changed something?
     bool changed = false;
@@ -1362,13 +1072,20 @@ action_id input_context::display_menu_imgui( const bool permit_execute_action )
         }
 
         kb_menu.filtered_registered_actions = filter_strings_by_phrase( org_registered_actions,
-                                              kb_menu.filter_text );
+                                              kb_menu.get_filter() );
 
         // In addition to the modifiable hotkeys, we also check for hardcoded
         // keys, e.g. '+', '-', '=', '.' in order to prevent the user from
         // entering an unrecoverable state.
-        if( action == "ADD_LOCAL"
-            || raw_input_char == fallback_keys.at( fallback_action::add_local ) ) {
+        if( kb_menu.status == kb_menu_status::filter ) {
+            if( action == "QUIT" ) {
+                kb_menu.clear_filter();
+                kb_menu.status = kb_menu_status::show;
+            } else if( action == "TEXT.CONFIRM" ) {
+                kb_menu.status = kb_menu_status::show;
+            }
+        } else if( action == "ADD_LOCAL"
+                   || raw_input_char == fallback_keys.at( fallback_action::add_local ) ) {
             if( !kb_menu.filtered_registered_actions.empty() ) {
                 kb_menu.status = kb_menu_status::add;
             }
@@ -1393,22 +1110,34 @@ action_id input_context::display_menu_imgui( const bool permit_execute_action )
             if( !kb_menu.filtered_registered_actions.empty() ) {
                 kb_menu.status = kb_menu_status::execute;
             }
-        } else if( action == "PAGE_UP" || action == "PAGE_DOWN" || action == "HOME" || action == "END" ) {
-            continue; // do nothing - on tiles version for some reason this counts as pressing various alphabet keys
+        } else if( action == "PAGE_UP" ) {
+            kb_menu.keybinds_scroll = cataimgui::scroll::page_up;
+        } else if( action == "PAGE_DOWN" ) {
+            kb_menu.keybinds_scroll = cataimgui::scroll::page_down;
+        } else if( action == "HOME" ) {
+            kb_menu.keybinds_scroll = cataimgui::scroll::begin;
+        } else if( action == "END" ) {
+            kb_menu.keybinds_scroll = cataimgui::scroll::end;
+        } else if( action == "UILIST.UP" ) {
+            kb_menu.keybinds_scroll = cataimgui::scroll::line_up;
+        } else if( action == "UILIST.DOWN" ) {
+            kb_menu.keybinds_scroll = cataimgui::scroll::line_down;
         } else if( action == "TEXT.CLEAR" ) {
-            kb_menu.filter_text.assign( "" );
+            kb_menu.clear_filter();
             kb_menu.filtered_registered_actions = filter_strings_by_phrase( org_registered_actions,
                                                   "" );
         } else if( !kb_menu.get_is_open() ) {
             break;
+        } else if( action == "FILTER" ) {
+            kb_menu.status = kb_menu_status::filter;
+        } else if( action == "RESET_FILTER" ) {
+            kb_menu.clear_filter();
         } else if( action == "QUIT" ) {
             if( kb_menu.status != kb_menu_status::show ) {
                 kb_menu.status = kb_menu_status::show;
             } else {
                 break;
             }
-        } else if( action == "TEXT.INPUT_FROM_FILE" ) {
-            kb_menu.filter_text += get_input_string_from_file();
         } else if( action == "HELP_KEYBINDINGS" ) {
             // update available hotkeys in case they've changed
             kb_menu.hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
@@ -1459,7 +1188,6 @@ action_id input_context::display_menu_imgui( const bool permit_execute_action )
     if( changed && query_yn( _( "Save changes?" ) ) ) {
         try {
             inp_mngr.save();
-            get_help().load();
         } catch( std::exception &err ) {
             popup( _( "saving keybindings failed: %s" ), err.what() );
         }
@@ -1469,35 +1197,16 @@ action_id input_context::display_menu_imgui( const bool permit_execute_action )
 
     return action_to_execute;
 }
-#endif
-
-action_id input_context::display_menu( bool permit_execute_action )
-{
-#if defined(__ANDROID__)
-    return display_menu_legacy( permit_execute_action );
-#else
-    if( get_options().has_option( "USE_IMGUI" ) && get_option<bool>( "USE_IMGUI" ) ) {
-        return display_menu_imgui( permit_execute_action );
-    } else {
-        return display_menu_legacy( permit_execute_action );
-    }
-#endif
-}
 
 input_event input_context::get_raw_input()
 {
     return next_action;
 }
 
-#if !(defined(TILES) || defined(_WIN32))
+#if defined(TUI)
 // Also specify that we don't have a gamepad plugged in.
-bool gamepad_available()
-{
-    return false;
-}
-
-std::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win,
-        const point &offset, const bool center_cursor ) const
+std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses::window
+        &capture_win, const point &offset, const bool center_cursor ) const
 {
     if( !coordinate_input_received ) {
         return std::nullopt;
@@ -1512,24 +1221,35 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
 
     point p = coordinate + offset;
     // If no offset is specified, account for the window location
-    if( offset == point_zero ) {
+    if( offset == point::zero ) {
         p -= win_min;
     }
     // Some windows (notably the overmap) want 0,0 to be the center of the screen
     if( center_cursor ) {
         p -= view_size / 2;
     }
-    return tripoint( p, get_map().get_abs_sub().z() );
+    return tripoint_bub_ms( p.x, p.y, get_map().get_abs_sub().z() );
 }
 #endif
+
+std::optional<tripoint_rel_omt> input_context::get_coordinates_rel_omt( const catacurses::window
+        &capture_win, const point &offset, const bool center_cursor ) const
+{
+    // Sometimes off by one with tiles but I think that's due to the centre changing with zoom level + tileset size so I don't think it can be easily fixed here
+    const std::optional<tripoint_bub_ms> p = get_coordinates( capture_win, offset, center_cursor );
+    if( p ) {
+        return tripoint_rel_omt( p->raw() );
+    }
+    return std::nullopt;
+}
 
 std::optional<point> input_context::get_coordinates_text( const catacurses::window
         &capture_win ) const
 {
 #if !defined( TILES )
-    std::optional<tripoint> coord3d = get_coordinates( capture_win );
+    std::optional<tripoint_bub_ms> coord3d = get_coordinates( capture_win );
     if( coord3d.has_value() ) {
-        return get_coordinates( capture_win )->xy();
+        return coord3d->xy().raw();
     } else {
         return std::nullopt;
     }
@@ -1538,10 +1258,21 @@ std::optional<point> input_context::get_coordinates_text( const catacurses::wind
         return std::nullopt;
     }
     const window_dimensions dim = get_window_dimensions( capture_win );
-    const int &fw = dim.scaled_font_size.x;
-    const int &fh = dim.scaled_font_size.y;
+    const int scaling_factor = get_scaling_factor();
+    point logical_coordinate = coordinate;
+    int fw = dim.scaled_font_size.x;
+    int fh = dim.scaled_font_size.y;
+
+    // convert coordinate and font sizeto logical if UI is scaled
+    if( scaling_factor > 1 ) {
+        logical_coordinate.x /= scaling_factor;
+        logical_coordinate.y /= scaling_factor;
+        fw /= scaling_factor;
+        fh /= scaling_factor;
+    }
+
     const point &win_min = dim.window_pos_pixel;
-    const point screen_pos = coordinate - win_min;
+    const point screen_pos = logical_coordinate - win_min;
     const point selected( divide_round_down( screen_pos.x, fw ),
                           divide_round_down( screen_pos.y, fh ) );
     return selected;
@@ -1626,7 +1357,7 @@ void input_context::set_iso( bool mode )
 }
 
 std::vector<std::string> input_context::filter_strings_by_phrase(
-    const std::vector<std::string> &strings, const std::string_view phrase ) const
+    const std::vector<std::string> &strings, std::string_view phrase ) const
 {
     std::vector<std::string> filtered_strings;
 
@@ -1671,7 +1402,11 @@ bool input_context::is_event_type_enabled( const input_event_t type ) const
         case input_event_t::keyboard_code:
             return input_manager::actual_keyboard_mode( preferred_keyboard_mode ) == keyboard_mode::keycode;
         case input_event_t::gamepad:
-            return gamepad_available();
+#if defined(TILES)
+            return gamepad::is_active();
+#else
+            return false;
+#endif
         case input_event_t::mouse:
             return true;
     }

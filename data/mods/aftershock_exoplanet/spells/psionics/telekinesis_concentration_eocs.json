@@ -1,0 +1,48 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_TELEKIN_MOMENTUM_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_afs_telekinetic_momentum" } },
+    "effect": [
+      { "u_message": "The air around you feels more yielding.", "type": "good" },
+      { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_PLUS_ONE" },
+      { "u_add_effect": "effect_afs_telekinetic_momentum", "duration": "PERMANENT" },
+      {
+        "run_eocs": "EOC_AFS_TELEKIN_MOMENTUM_MAINTENANCE",
+        "time_in_future": [
+          { "math": [ "( (u_spell_level('afs_telekinetic_momentum') * 10) + 90) * scaling_factor(u_val('intelligence') )" ] },
+          {
+            "math": [ "( (u_spell_level('afs_telekinetic_momentum') * 20) + 600) * scaling_factor(u_val('intelligence') )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_AFS_TELEKIN_REMOVE_MOMENTUM" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_TELEKIN_REMOVE_MOMENTUM",
+    "condition": { "u_has_effect": "effect_afs_telekinetic_momentum" },
+    "effect": [ { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_afs_telekinetic_momentum" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_TELEKIN_MOMENTUM_MAINTENANCE",
+    "condition": { "u_has_effect": "effect_afs_telekinetic_momentum" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('afs_telekinetic_momentum')" ] },
+      { "math": [ "u_spell_exp('afs_telekinetic_momentum') += psionic_power_experience_formula_maintenance()" ] },
+      { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "run_eocs": "EOC_AFS_TELEKIN_MOMENTUM_MAINTENANCE",
+        "time_in_future": [
+          { "math": [ "( (u_spell_level('afs_telekinetic_momentum') * 10) + 90) * scaling_factor(u_val('intelligence') )" ] },
+          {
+            "math": [ "( (u_spell_level('afs_telekinetic_momentum') * 20) + 600) * scaling_factor(u_val('intelligence') )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  }
+]

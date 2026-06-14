@@ -3,25 +3,23 @@
 #define CATA_SRC_CONSTRUCTION_H
 
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "game_constants.h"
 #include "item.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class Character;
 class read_only_visitable;
-struct construction;
 struct point;
 
 namespace catacurses
@@ -30,18 +28,12 @@ class window;
 } // namespace catacurses
 class JsonObject;
 class nc_color;
-struct tripoint;
 
 struct partial_con {
     int counter = 0;
-    std::list<item> components = {};
+    std::list<item> components;
     construction_id id = construction_id( -1 );
 };
-
-template <>
-const construction &construction_id::obj() const;
-template <>
-bool construction_id::is_valid() const;
 
 struct construction {
         // Construction type category
@@ -50,8 +42,8 @@ struct construction {
         construction_group_str_id group;
         // Additional note displayed along with construction requirements.
         translation pre_note;
-        // Beginning terrain for construction
-        std::string pre_terrain;
+        // Beginning terrain(s) for construction
+        std::set<std::string> pre_terrain;
         // Final terrain after construction
         std::string post_terrain;
 
@@ -71,23 +63,26 @@ struct construction {
         std::vector<std::pair<requirement_id, int>> reqs_using;
         requirement_id requirements;
 
+        bool is_blacklisted() const;
+
         // Index in construction vector
-        construction_id id = construction_id( -1 );
-        construction_str_id str_id = construction_str_id::NULL_ID();
+        construction_str_id id;
+        void load( const JsonObject &jo, std::string_view );
+        void check() const;
+        void finalize();
 
         // Time in moves
         int time = 0;
 
+        bool was_loaded = false;
         // If true, the requirements are generated during finalization
         bool vehicle_start = false;
 
         // Custom constructibility check
-        bool ( *pre_special )( const tripoint_bub_ms & );
         std::vector<bool ( * )( const tripoint_bub_ms & )> pre_specials;
         // Custom while constructing effects
         void ( *do_turn_special )( const tripoint_bub_ms &, Character & );
         // Custom after-effects
-        void ( *post_special )( const tripoint_bub_ms &, Character & );
         std::vector<void ( * )( const tripoint_bub_ms &, Character & )> post_specials;
         // Custom error message display
         void ( *explain_failure )( const tripoint_bub_ms & );
@@ -119,22 +114,21 @@ struct construction {
 
 const std::vector<construction> &get_constructions();
 
-//! Set all constructions to take the specified time.
-void standardize_construction_times( int time );
-
 void place_construction( std::vector<construction_group_str_id> const &groups );
-void load_construction( const JsonObject &jo );
+void load_construction( const JsonObject &jo, const std::string &src );
 void reset_constructions();
 construction_id construction_menu( bool blueprint );
-void complete_construction( Character *you );
-bool can_construct_furn_ter( const construction &con, furn_id const &furn, ter_id const &ter );
+bool has_pre_flags( const construction &con, furn_id const &f, ter_id const &t );
 bool can_construct( const construction &con, const tripoint_bub_ms &p );
 bool player_can_build( Character &you, const read_only_visitable &inv, const construction &con,
                        bool can_construct_skip = false );
-std::vector<construction *> constructions_by_group( const construction_group_str_id &group );
-std::vector<construction *> constructions_by_filter( std::function<bool( construction const & )>
-        const &filter );
+std::vector<const construction *> constructions_by_group( const construction_group_str_id &group );
+std::vector<const construction *> constructions_by_filter(
+    std::function<bool( construction const & )>
+    const &filter );
 void check_constructions();
 void finalize_constructions();
-
+std::vector<construction_id> find_build_sequence( const std::string &target_id,
+        std::function<bool( construction const & )> const &filter,
+        std::function<bool( construction const & )> const &can_build );
 #endif // CATA_SRC_CONSTRUCTION_H

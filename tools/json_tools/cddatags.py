@@ -18,9 +18,9 @@ TAGS_FILE = os.path.join(TOP_DIR, "tags")
 
 
 def cdda_style_json(v):
-    if type(v) == str:
+    if type(v) is str:
         return json.dumps(v)
-    elif type(v) == list:
+    elif type(v) is list:
         return f'[ {", ".join(cdda_style_json(e) for e in v)} ]'
     else:
         raise RuntimeError('Unexpected type')
@@ -53,9 +53,9 @@ def main(args):
     def add_definition(id_key, id, full_id, relative_path):
         if not id:
             return
-        if type(id) == str:
+        if type(id) is str:
             definitions.append((id_key, id, full_id, relative_path))
-        elif type(id) == list:
+        elif type(id) is list:
             for i in id:
                 add_definition(id_key, i, full_id, relative_path)
 
@@ -73,9 +73,9 @@ def main(args):
                             "Problem reading file %s, reason: %s" %
                             (filename, err))
                         continue
-                    if type(json_data) == dict:
+                    if type(json_data) is dict:
                         json_data = [json_data]
-                    elif type(json_data) != list:
+                    elif type(json_data) is not list:
                         sys.stderr.write(
                             "Problem parsing data from file %s, reason: "
                             "expected a list." % filename)

@@ -1,0 +1,28 @@
+[
+  {
+    "id": "TALK_EXODII_MERCHANT",
+    "type": "talk_topic",
+    "responses": [ { "text": "What can you tell me about the dinosaurs?", "topic": "TALK_EXODII_MERCHANT_DINOSAURS" } ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_DINOSAURS",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Yes, and what can I tell you about the grass being green and the sun being yellow?  All of the large baby chickens do what they do and we get no benefit from it regardless of what we say about them.  Why do you ask, you person with a physical body?  Do you like the big turkeys?",
+      "str": "Aye, 'n what c'n I yark'n ye around the grassins what be a'green 'n that the big brassy what be a'yeller?  All'n those great chickees do what they do 'n we profit none 'n the immortalinity of the crabs consists just so. What of it ye long and bobbly?  Ye takin' a shinin' to the jibble-necks?"
+    },
+    "responses": [
+      { "text": "This was unhelpful.", "topic": "TALK_EXODII_MERCHANT" },
+      { "text": "Are you really this nonchalant about the dinosaurs?", "topic": "TALK_EXODII_MERCHANT_DINOSAURS_2" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_DINOSAURS_2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Yes, and yes again.  If every world has zombies, 90% of the ones we reach have dinos.",
+      "str": "Aye, n'aye again!  E'ry ball o mud has the Enemy.  Nine mudballs out o' ten  are mudded up wit thunder chickees."
+    },
+    "responses": [ { "text": "I wonder why most worlds have dinosaurs roaming?", "topic": "TALK_EXODII_MERCHANT" } ]
+  }
+]

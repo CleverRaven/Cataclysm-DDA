@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_up_left_vacant",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -15,7 +14,7 @@
         "   hhhh            ",
         "  hhh h            ",
         "                   ",
-        "                   ",
+        "                  §",
         "    h        n n n ",
         "             n n n ",
         "                   ",
@@ -27,12 +26,12 @@
         "        XX         "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "convention_nested_palette" ]
+      "palettes": [ "convention_nested_palette" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_up_right_vacant",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -45,7 +44,7 @@
         "                   ",
         "                   ",
         "                 **",
-        "                   ",
+        "                  §",
         "                  n",
         "  h               n",
         "h               *n*",
@@ -58,17 +57,17 @@
         "                 *n"
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "convention_nested_palette" ]
+      "palettes": [ "convention_nested_palette" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_mid_left_vacant",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
-        "│││││                   ",
+        "│││││§                  ",
         "│││││X                  ",
         "│││││X                  ",
         "│││││                   ",
@@ -79,7 +78,7 @@
         "│││││                   ",
         "│││││*            hh  h ",
         "│││││*                  ",
-        "│││││               h   ",
+        "│││││§              h   ",
         "│││││nn                 ",
         "│││││**nn               ",
         "│││││nn**               ",
@@ -94,12 +93,12 @@
         "│││││**nn               "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "convention_nested_palette" ]
+      "palettes": [ "convention_nested_palette" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_mid_right_vacant",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -110,7 +109,7 @@
         "  h            **  │││││",
         "                   │││││",
         "                 nn│││││",
-        "h                  │││││",
+        "h                 §│││││",
         "                   │││││",
         "                   │││││",
         "                ││││││││",
@@ -121,7 +120,7 @@
         "                ││││││││",
         "              hhh h│││││",
         "        h   h  hhhh│││││",
-        "              hhh  │││││",
+        "              hhh §│││││",
         "           hhhh hhh│││││",
         "           h hhhhhh│││││",
         "            hhh  hh│││││",
@@ -130,12 +129,12 @@
         "                   │││││"
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "convention_nested_palette" ]
+      "palettes": [ "convention_nested_palette" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_down_left_vacant",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -149,7 +148,7 @@
         "     nn            ",
         "                   ",
         "                   ",
-        "                   ",
+        "                  §",
         "                   ",
         "        **         ",
         "                   ",
@@ -161,12 +160,12 @@
         "  *n*n*n*n         "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "convention_nested_palette" ]
+      "palettes": [ "convention_nested_palette" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_down_right_vacant",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -180,7 +179,7 @@
         "                 nn",
         "                   ",
         "                   ",
-        "                   ",
+        "                  §",
         "                   ",
         "                   ",
         "                   ",
@@ -192,12 +191,12 @@
         "  X  hhhh h        "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "convention_nested_palette" ]
+      "palettes": [ "convention_nested_palette" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_up_left_fandom",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -206,14 +205,14 @@
         "     nh      n     ",
         "     n  h    n     ",
         "     n       n     ",
-        "     nnnnnnnnn     ",
+        "     nnnnnnnnn    §",
         "                   ",
         "                   ",
         "                   ",
         "                   ",
         "                   ",
         "                   ",
-        "     **  *  **     ",
+        "     **  *  **    §",
         "     n  h*   n     ",
         "     n   *  hn     ",
         "     n   *   n│    ",
@@ -223,12 +222,12 @@
         "     n   *   n     "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "convention_nested_palette" ]
+      "palettes": [ "convention_nested_palette" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_up_right_fandom",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -242,7 +241,7 @@
         "                   ",
         "                   ",
         "                   ",
-        "                   ",
+        "                  §",
         "                 XX",
         " nnnnnn          XX",
         " n  h n            ",
@@ -254,12 +253,12 @@
         "                   "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "convention_nested_palette" ]
+      "palettes": [ "convention_nested_palette" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_mid_left_fandom",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -272,14 +271,14 @@
         "│││││     n   *   n     ",
         "│││││     n   * h n     ",
         "│││││     n  h*   n     ",
-        "│││││     **  *  **     ",
+        "│││││§    **  *  **     ",
         "│││││                   ",
         "│││││                   ",
         "│││││                   ",
         "│││││                   ",
         "│││││                   ",
         "│││││                   ",
-        "│││││     **  *  **     ",
+        "│││││§    **  *  **     ",
         "│││││     n   *h  n     ",
         "│││││     nh  *   n     ",
         "│││││     n   *   n     ",
@@ -290,18 +289,18 @@
         "│││││     **  *  **     "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "convention_nested_palette" ]
+      "palettes": [ "convention_nested_palette" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_mid_right_fandom",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
         "                   │││││",
-        "                   │││││",
+        "                  §│││││",
         "                   │││││",
         "             ***   │││││",
         "             n     │││││",
@@ -312,7 +311,7 @@
         "             n  ││││││││",
         "             nh ││││││││",
         "             ** ││││││││",
-        "             n  ││││││││",
+        "             n §││││││││",
         "             n  ││││││││",
         "             n h││││││││",
         "             **  XX│││││",
@@ -326,12 +325,12 @@
         "             ***   │││││"
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "convention_nested_palette" ]
+      "palettes": [ "convention_nested_palette" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_down_left_fandom",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -343,7 +342,7 @@
         "     n   *   n     ",
         "     n h *   n     ",
         "     n   *  hn     ",
-        "     **  *  **     ",
+        "§    **  *  **    §",
         "                   ",
         "                   ",
         "                   ",
@@ -357,12 +356,12 @@
         "                   "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "convention_nested_palette" ]
+      "palettes": [ "convention_nested_palette" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_down_right_fandom",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -376,7 +375,7 @@
         " *  h*   *   *     ",
         "           h       ",
         "     X  h          ",
-        " *************     ",
+        " *************    §",
         "     XX            ",
         "  h                ",
         " *   *h  * h *     ",
@@ -388,12 +387,12 @@
         "               X XX"
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "convention_nested_palette" ]
+      "palettes": [ "convention_nested_palette" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_up_left_lecture",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -401,7 +400,7 @@
         "n*n*  n*nn    **n*n",
         "n*n*  n*     *  n*n",
         "          nn *     ",
-        "                   ",
+        "                  §",
         "                   ",
         "                   ",
         "                   ",
@@ -413,18 +412,18 @@
         "            h      ",
         "     h  hhh     h  ",
         "              │    ",
-        "    hhhhhhh hhhhh  ",
+        "    hhhhhhh hhhhh §",
         "                   ",
         "    hhh hhhhhhhh   ",
         "                   "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "convention_nested_palette" ]
+      "palettes": [ "convention_nested_palette" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_up_right_lecture",
     "object": {
       "mapgensize": [ 19, 19 ],
@@ -432,7 +431,7 @@
         "*n nn  *   nn**nn**",
         "*n     *     nn**  ",
         "     **  n     nn**",
-        "         n*    **  ",
+        "         n*    ** §",
         "          *        ",
         "                   ",
         "                   ",
@@ -444,18 +443,18 @@
         "                   ",
         "   hhhh  hh        ",
         "                   ",
-        "  hhhhhhhhhhh h    ",
+        "  hhhhhhhhhhh h   §",
         "                   ",
         "  hhh hhhhhhhhh    ",
         "                   "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "convention_nested_palette" ]
+      "palettes": [ "convention_nested_palette" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_mid_left_lecture",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -464,7 +463,7 @@
         "│││││                   ",
         "│││││    hhhhhhhhhhhh   ",
         "│││││                   ",
-        "│││││    hhhhhhhhhhhhh  ",
+        "│││││§   hhhhhhhhhhhhh  ",
         "│││││                   ",
         "│││││    hhhhhhhhhhhhh  ",
         "│││││                   ",
@@ -478,7 +477,7 @@
         "│││││                   ",
         "│││││    hhhhhhhhhhhhh  ",
         "│││││                   ",
-        "│││││    hhhhhhhhhhhhh  ",
+        "│││││§   hhhhhhhhhhhhh  ",
         "│││││                   ",
         "│││││    hhhhhhhhhhhhh  ",
         "│││││                   ",
@@ -486,12 +485,12 @@
         "│││││                   "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "convention_nested_palette" ]
+      "palettes": [ "convention_nested_palette" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_mid_right_lecture",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -504,14 +503,14 @@
         "                   │││││",
         "  hhhhhhhhhhhhh    │││││",
         "                   │││││",
-        "  hhhhhhhhhhhhh    │││││",
+        "  hhhhhhhhhhhhh   §│││││",
         "                ││││││││",
         "  hhhhhhhhhhhhh ││││││││",
         "                ││││││││",
         "  hhhhhhhhhhhhh ││││││││",
         "                ││││││││",
         "  hhhhhhhhhhhhh ││││││││",
-        "                   │││││",
+        "                  §│││││",
         "  hhhhhhhhhhhhh    │││││",
         "                   │││││",
         "  hhhhhhhhhhhhh    │││││",
@@ -522,17 +521,17 @@
         "                   │││││"
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "convention_nested_palette" ]
+      "palettes": [ "convention_nested_palette" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_down_left_lecture",
     "object": {
       "mapgensize": [ 19, 19 ],
       "rows": [
-        "    hhhhhhhhhhhhh  ",
+        "§   hhhhhhhhhhhhh  ",
         "                   ",
         "    hhhhhhhhhhhhh  ",
         "                   ",
@@ -546,24 +545,24 @@
         "                   ",
         "                   ",
         "                   ",
-        "                 nn",
+        "§                nn",
         "                 hh",
         "                   ",
         "                   ",
         "                   "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "convention_nested_palette" ]
+      "palettes": [ "convention_nested_palette" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "convention_down_right_lecture",
     "object": {
       "mapgensize": [ 19, 19 ],
       "rows": [
-        "  hhhhhhhhhhhhh    ",
+        "  hhhhhhhhhhhhh   §",
         "                   ",
         "  hhhhhhhhhhhhh    ",
         "                   ",
@@ -577,19 +576,19 @@
         "                   ",
         "                   ",
         "                   ",
-        "nn                 ",
+        "nn                §",
         "hh                 ",
         "                   ",
         "                   ",
         "                   "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "convention_nested_palette" ]
+      "palettes": [ "convention_nested_palette" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "conference_small_vacant",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -599,7 +598,7 @@
         " nnh       ",
         "hh         ",
         "nh h       ",
-        "n          ",
+        "n         §",
         "           ",
         "       h   ",
         "     h     ",
@@ -607,12 +606,12 @@
         "    h h   a"
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "convention_nested_palette" ]
+      "palettes": [ "convention_nested_palette" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "conference_small_lecture",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -622,7 +621,7 @@
         "     hhhhh ",
         "     hhhhh ",
         "     hhhhh ",
-        "  n        ",
+        "  n       §",
         "     hhhhh ",
         "     hhhhh ",
         "     hhhhh ",
@@ -630,12 +629,12 @@
         "nn        a"
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "convention_nested_palette" ]
+      "palettes": [ "convention_nested_palette" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "conference_small_meeting",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -645,7 +644,7 @@
         "h   h h    ",
         "           ",
         "  h     h  ",
-        "           ",
+        "          §",
         "  h     h  ",
         "           ",
         "    h h    ",
@@ -654,12 +653,12 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "convention_nested_palette" ],
-      "place_loot": [ { "item": "coffeemaker", "x": [ 5, 6 ], "y": 0 } ]
+      "place_loot": [ { "item": "coffeemaker", "x": [ 5, 6 ], "y": 0 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "conference_big_vacant",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -670,7 +669,7 @@
         "      h    nn ",
         "              ",
         "              ",
-        "              ",
+        "             §",
         "   *          ",
         "h  *   h     h",
         "h  hh        h",
@@ -680,12 +679,12 @@
         "hhhhhh    ** y"
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "convention_nested_palette" ]
+      "palettes": [ "convention_nested_palette" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "conference_big_lecture",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -693,7 +692,7 @@
         "a            y",
         "   hhhhhh     ",
         "   hhhhhh     ",
-        "              ",
+        "             §",
         " hhh hhhh     ",
         " hhh hhhh  nh ",
         " hhh hhhh  nh ",
@@ -706,12 +705,12 @@
         "             y"
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "convention_nested_palette" ]
+      "palettes": [ "convention_nested_palette" ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "conference_big_meeting",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -722,7 +721,7 @@
         "   h      h  n",
         "              ",
         "  h        h  ",
-        "              ",
+        "             §",
         "              ",
         "  h        h  ",
         "              ",
@@ -733,7 +732,8 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "convention_nested_palette" ],
-      "place_loot": [ { "item": "coffeemaker", "x": [ 5, 6 ], "y": 0 } ]
+      "place_loot": [ { "item": "coffeemaker", "x": [ 5, 6 ], "y": 0 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   }
 ]

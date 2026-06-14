@@ -1,5 +1,6 @@
 #include "cata_catch.h"
-
+#include "coordinates.h"
+#include "map_scale_constants.h"
 #include "mdarray.h"
 
 TEST_CASE( "mdarray_default_size_sensible", "[mdarray]" )

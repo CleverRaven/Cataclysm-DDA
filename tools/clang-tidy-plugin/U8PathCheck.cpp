@@ -111,28 +111,28 @@ void U8PathCheck::check( const MatchFinder::MatchResult &Result )
     std::string diagMessage;
     if( constructExpr ) {
         diagRange = constructExpr->getSourceRange();
-        diagMessage = "Construct `fs::path` by passing UTF-8 string to "
-                      "`fs::u8path` to ensure the correct path encoding.";
+        diagMessage = "Construct `std::filesystem::path` by passing UTF-8 string to "
+                      "`std::filesystem::u8path` to ensure the correct path encoding.";
     } else if( operatorCallArg ) {
         diagRange = operatorCallArg->getSourceRange();
-        diagMessage = "Modify `fs::path` using parameter constructed with "
-                      "`fs::u8path` and UTF-8 string to ensure the correct path "
+        diagMessage = "Modify `std::filesystem::path` using parameter constructed with "
+                      "`std::filesystem::u8path` and UTF-8 string to ensure the correct path "
                       "encoding.";
     } else if( operatorRefExpr ) {
         diagRange = operatorRefExpr->getSourceRange();
-        diagMessage = "Use the operator overload with `fs::path` parameter and "
-                      "call it using parameter constructed with `fs::u8path` and "
+        diagMessage = "Use the operator overload with `std::filesystem::path` parameter and "
+                      "call it using parameter constructed with `std::filesystem::u8path` and "
                       "UTF-8 string to ensure the correct path encoding.";
     } else if( memberCallExpr ) {
         diagRange = memberCallExpr->getSourceRange();
-        diagMessage = "Modify `fs::path` using `=`, `/=`, and `+=` and parameter "
-                      "constructed with `fs::u8path` and UTF-8 string to ensure "
+        diagMessage = "Modify `std::filesystem::path` using `=`, `/=`, and `+=` and parameter "
+                      "constructed with `std::filesystem::u8path` and UTF-8 string to ensure "
                       "the correct path encoding.";
     } else if( methodRefExpr ) {
         diagRange = methodRefExpr->getSourceRange();
         diagMessage = "Use the `=`, `/=`, or `+=` operator overload with "
-                      "`fs::path` parameter and call it using parameter "
-                      "constructed with `fs::u8path` and UTF-8 string to ensure "
+                      "`std::filesystem::path` parameter and call it using parameter "
+                      "constructed with `std::filesystem::u8path` and UTF-8 string to ensure "
                       "the correct path encoding.";
     } else {
         return;

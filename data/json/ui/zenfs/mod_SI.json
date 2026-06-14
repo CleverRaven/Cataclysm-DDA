@@ -40,81 +40,81 @@
       },
       {
         "id": "nine_left",
-        "text": " +-+-+-+-+-+-+-+-+",
+        "text": { "str": " +-+-+-+-+-+-+-+-+", "//~": "NO_I18N" },
         "color": "light_blue",
-        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "timeawayfromhome", "==", "0" ] } ] }
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "timeawayfromhome == 0" ] } ] }
       },
       {
         "id": "eight_left",
-        "text": "  +-+-+-+-+-+-+-+",
+        "text": { "str": "  +-+-+-+-+-+-+-+", "//~": "NO_I18N" },
         "color": "green",
-        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft", ">=", "8" ] } ] }
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft >= 8" ] } ] }
       },
       {
         "id": "seven_left",
-        "text": "   +-+-+-+-+-+-+",
+        "text": { "str": "   +-+-+-+-+-+-+", "//~": "NO_I18N" },
         "color": "light_green",
-        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft", "==", "7" ] } ] }
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft == 7" ] } ] }
       },
       {
         "id": "six_left",
-        "text": "    +-+-+-+-+-+",
+        "text": { "str": "    +-+-+-+-+-+", "//~": "NO_I18N" },
         "color": "light_green",
-        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft", "==", "6" ] } ] }
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft == 6" ] } ] }
       },
       {
         "id": "five_left",
-        "text": "     +-+-+-+-+",
+        "text": { "str": "     +-+-+-+-+", "//~": "NO_I18N" },
         "color": "yellow",
-        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft", "==", "5" ] } ] }
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft == 5" ] } ] }
       },
       {
         "id": "four_left",
-        "text": "      +-+-+-+",
+        "text": { "str": "      +-+-+-+", "//~": "NO_I18N" },
         "color": "yellow",
-        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft", "==", "4" ] } ] }
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft == 4" ] } ] }
       },
       {
         "id": "three_left",
-        "text": "       +-+-+",
+        "text": { "str": "       +-+-+", "//~": "NO_I18N" },
         "color": "yellow",
-        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft", "==", "3" ] } ] }
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft == 3" ] } ] }
       },
       {
         "id": "two_left",
-        "text": "        +-+",
+        "text": { "str": "        +-+", "//~": "NO_I18N" },
         "color": "light_red",
-        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft", "==", "2" ] } ] }
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft == 2" ] } ] }
       },
       {
         "id": "one_left",
-        "text": "         +",
+        "text": { "str": "         +", "//~": "NO_I18N" },
         "color": "light_red",
-        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft", "==", "1" ] } ] }
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "readablepulsesleft == 1" ] } ] }
       },
       {
         "id": "over_deadline",
         "text": "       DANGER",
         "color": "i_light_red",
-        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "timeawayfromhome", "==", "9" ] } ] }
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "timeawayfromhome == 9" ] } ] }
       },
       {
         "id": "over_deadline_one",
         "text": "   SEVERE DANGER",
         "color": "i_light_red",
-        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "timeawayfromhome", "==", "10" ] } ] }
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "timeawayfromhome == 10" ] } ] }
       },
       {
         "id": "over_deadline_two",
         "text": "   EXTREME DANGER",
         "color": "i_red",
-        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "timeawayfromhome", "==", "11" ] } ] }
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "timeawayfromhome == 11" ] } ] }
       },
       {
         "id": "over_deadline_three",
         "text": "CATASTROPHIC DANGER",
         "color": "i_red",
-        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "timeawayfromhome", "==", "12" ] } ] }
+        "condition": { "and": [ { "u_has_trait": "awayfromhome" }, { "math": [ "timeawayfromhome == 12" ] } ] }
       },
       {
         "id": "over_deadline_four",

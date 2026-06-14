@@ -1,15 +1,12 @@
 #include "vehicle.h" // IWYU pragma: associated
 
 #include <algorithm>
-#include <cmath>
 #include <memory>
 #include <set>
 #include <string>
 
 #include "ammo.h"
-#include "cata_assert.h"
 #include "character.h"
-#include "color.h"
 #include "debug.h"
 #include "enums.h"
 #include "fault.h"
@@ -17,18 +14,17 @@
 #include "game.h"
 #include "item.h"
 #include "itype.h"
-#include "iuse_actor.h"
-#include "map.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "npc.h"
 #include "pocket_type.h"
+#include "requirements.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
-#include "vpart_position.h"
 #include "weather.h"
 
 static const ammotype ammo_battery( "battery" );
@@ -37,6 +33,7 @@ static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_none( "null" );
 
 static const itype_id itype_battery( "battery" );
+static const itype_id itype_seed_buckwheat( "seed_buckwheat" );
 
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
@@ -84,13 +81,7 @@ std::vector<item> vehicle_part::get_salvageable() const
         item newit( comp.type, calendar::turn );
         if( base.typeId() != comp.type && !newit.has_flag( flag_UNRECOVERABLE ) ) {
             int compcount = comp.count;
-            const bool is_liquid = newit.made_of( phase_id::LIQUID );
-            if( newit.count_by_charges() || is_liquid ) {
-                newit.charges = compcount;
-                compcount = 1;
-            } else if( !newit.craft_has_charges() && newit.charges > 0 ) {
-                newit.charges = 0;
-            }
+            newit.compress_charges_or_liquid( compcount );
             for( ; compcount > 0; compcount-- ) {
                 tmp.push_back( newit );
             }
@@ -104,6 +95,7 @@ void vehicle_part::set_base( item &&new_base )
     if( new_base.typeId() != info().base_item ) {
         debugmsg( "new base '%s' doesn't match part type '%s', this is a bug",
                   new_base.typeId().str(), info().id.str() );
+        base = null_item_reference();
         return;
     }
     base = std::move( new_base );
@@ -113,6 +105,9 @@ void vehicle_part::set_base( item &&new_base )
 std::string vehicle_part::name( bool with_prefix ) const
 {
     std::string res;
+    if( debug_mode ) {
+        res += string_format( "(dam %d,deg %d)", base.damage_level( true ), base.degradation() );
+    }
     if( with_prefix ) {
         res += base.damage_indicator() + base.degradation_symbol() + " ";
         if( !base.type->degrade_increments() ) {
@@ -123,8 +118,20 @@ std::string vehicle_part::name( bool with_prefix ) const
         res += string_format( _( "%d\" " ), base.type->wheel->diameter );
     }
     res += info().name();
+    // animal carrier
     if( base.has_var( "contained_name" ) ) {
         res += string_format( _( " holding %s" ), base.get_var( "contained_name" ) );
+    }
+    // furniture tiedown
+    if( base.has_var( "tied_down_furniture" ) ) {
+        furn_str_id stored_furniture( base.get_var( "tied_down_furniture" ) );
+        if( stored_furniture.is_valid() ) {
+            res += string_format( _( " holding %s" ), stored_furniture->name() );
+        } else {
+            // no debugmsg or else it will trigger every frame, essentially forcing (i)gnore error to exit the menu at all
+            //~Invalid here means it doesn't refer to a real furn_str_id, i.e. something is wrong with the game. This is not a state the player should normally encounter.
+            res += _( " holding invalid furniture" );
+        }
     }
     for( const fault_id &f : base.faults ) {
         const std::string prefix = f->item_prefix();
@@ -140,6 +147,11 @@ std::string vehicle_part::name( bool with_prefix ) const
     if( is_leaking() ) {
         res += _( " (draining)" );
     }
+
+    for( const fault_id &f : faults() ) {
+        res += string_format( " (%s)", f->item_suffix() );
+    }
+
     if( debug_mode ) {
         res += "{" + variant + "}";
     }
@@ -262,7 +274,7 @@ int vehicle_part::ammo_capacity( const ammotype &ammo ) const
 {
     if( is_tank() ) {
         const itype *ammo_type = item::find_type( ammo->default_ammotype() );
-        const int max_charges_volume = ammo_type->charges_per_volume( base.get_total_capacity() );
+        const int max_charges_volume = ammo_type->charges_per_volume( base.get_volume_capacity() );
         const int max_charges_weight = ammo_type->weight == 0_gram ? INT_MAX :
                                        static_cast<int>( base.get_total_weight_capacity() / ammo_type->weight );
         return std::min( max_charges_volume, max_charges_weight );
@@ -275,13 +287,33 @@ int vehicle_part::ammo_capacity( const ammotype &ammo ) const
     return 0;
 }
 
-int vehicle_part::ammo_remaining() const
+int vehicle_part::item_capacity( const itype_id &stuffing_id ) const
+{
+    const itype *stuffing = item::find_type( stuffing_id );
+    if( stuffing->ammo ) {
+        return ammo_capacity( stuffing->ammo->type );
+    }
+
+    int max_amount_volume = 0;
+    int max_amount_weight = stuffing->weight == 0_gram ? INT_MAX :
+                            static_cast<int>( base.get_total_weight_capacity() / stuffing->weight );
+
+    if( stuffing->count_by_charges() ) {
+        max_amount_volume = stuffing->charges_per_volume( base.get_volume_capacity() );
+    } else {
+        max_amount_volume = base.get_volume_capacity() / stuffing->volume;
+    }
+
+    return std::min( max_amount_volume, max_amount_weight );
+}
+
+int vehicle_part::ammo_remaining( ) const
 {
     if( is_tank() ) {
         return base.empty() ? 0 : base.legacy_front().charges;
     }
     if( is_fuel_store( false ) || is_turret() ) {
-        return base.ammo_remaining();
+        return base.ammo_remaining( );
     }
 
     return 0;
@@ -297,9 +329,9 @@ int vehicle_part::ammo_set( const itype_id &ammo, int qty )
     // We often check if ammo is set to see if tank is empty, if qty == 0 don't set ammo
     if( is_tank() && qty != 0 ) {
         const itype *ammo_itype = item::find_type( ammo );
-        if( ammo_itype && ammo_itype->ammo && ammo_itype->phase >= phase_id::LIQUID ) {
+        if( ammo_itype && ammo_itype->phase >= phase_id::LIQUID ) {
             base.clear_items();
-            const int limit = ammo_capacity( ammo_itype->ammo->type );
+            const int limit = item_capacity( ammo );
             // assuming "ammo" isn't really going into a magazine as this is a vehicle part
             const int amount = qty > 0 ? std::min( qty, limit ) : limit;
             base.put_in( item( ammo, calendar::turn, amount ), pocket_type::CONTAINER );
@@ -309,14 +341,14 @@ int vehicle_part::ammo_set( const itype_id &ammo, int qty )
 
     if( is_turret() ) {
         if( base.is_magazine() ) {
-            return base.ammo_set( ammo, qty ).ammo_remaining();
+            return base.ammo_set( ammo, qty ).ammo_remaining( );
         }
         itype_id mag_type = base.magazine_default();
         if( mag_type ) {
             item mag( mag_type );
             mag.ammo_set( ammo, qty );
             base.put_in( mag, pocket_type::MAGAZINE_WELL );
-            return base.ammo_remaining();
+            return base.ammo_remaining( );
         }
     }
 
@@ -324,7 +356,7 @@ int vehicle_part::ammo_set( const itype_id &ammo, int qty )
         const itype *ammo_itype = item::find_type( ammo );
         if( ammo_itype && ammo_itype->ammo ) {
             base.ammo_set( ammo, qty >= 0 ? qty : ammo_capacity( ammo_itype->ammo->type ) );
-            return base.ammo_remaining();
+            return base.ammo_remaining( );
         }
     }
 
@@ -340,10 +372,10 @@ void vehicle_part::ammo_unset()
     }
 }
 
-int vehicle_part::ammo_consume( int qty, const tripoint &pos )
+int vehicle_part::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos )
 {
     if( is_tank() && !base.empty() ) {
-        const int res = std::min( ammo_remaining(), qty );
+        const int res = std::min( ammo_remaining( ), qty );
         item &liquid = base.legacy_front();
         liquid.charges -= res;
         if( liquid.charges == 0 ) {
@@ -351,12 +383,12 @@ int vehicle_part::ammo_consume( int qty, const tripoint &pos )
         }
         return res;
     }
-    return base.ammo_consume( qty, pos, nullptr );
+    return base.ammo_consume( qty, *here, pos, nullptr );
 }
 
 units::energy vehicle_part::consume_energy( const itype_id &ftype, units::energy wanted_energy )
 {
-    if( !is_fuel_store() ) {
+    if( !is_fuel_store() || has_flag( vp_flag::carried_flag ) ) {
         return 0_J;
     }
 
@@ -429,14 +461,14 @@ bool vehicle_part::can_reload( const item &obj ) const
 
     // Despite checking for an empty tank, item::find_type can still turn up with an empty ammo pointer
     if( cata::value_ptr<islot_ammo> a_val = item::find_type( ammo_current() )->ammo ) {
-        return ammo_remaining() < ammo_capacity( a_val->type );
+        return ammo_remaining( ) < ammo_capacity( a_val->type );
     }
 
     // Nothing in tank
     return ammo_capacity( obj.ammo_type() ) > 0;
 }
 
-void vehicle_part::process_contents( map &here, const tripoint &pos, const bool e_heater )
+void vehicle_part::process_contents( map &here, const tripoint_bub_ms &pos, const bool e_heater )
 {
     // for now we only care about processing food containers since things like
     // fuel don't care about temperature yet
@@ -462,7 +494,7 @@ bool vehicle_part::fill_with( item &liquid, int qty )
 
     int charges_max = 0;
     if( cata::value_ptr<islot_ammo> a_val = item::find_type( ammo_current() )->ammo ) {
-        charges_max = ammo_capacity( a_val->type ) - ammo_remaining();
+        charges_max = ammo_capacity( a_val->type ) - ammo_remaining( );
     } else {
         // Nothing in tank
         charges_max = ammo_capacity( liquid.ammo_type() );
@@ -488,6 +520,11 @@ bool vehicle_part::has_fault_flag( const std::string &searched_flag ) const
     return base.has_fault_flag( searched_flag );
 }
 
+bool vehicle_part::has_fault( const fault_id &fault ) const
+{
+    return base.has_fault( fault );
+}
+
 std::set<fault_id> vehicle_part::faults_potential() const
 {
     return base.faults_potential();
@@ -498,8 +535,60 @@ bool vehicle_part::fault_set( const fault_id &f )
     if( !faults_potential().count( f ) ) {
         return false;
     }
-    base.faults.insert( f );
+    base.set_fault( f );
     return true;
+}
+
+bool vpart_position::can_load_furniture() const
+{
+    std::optional<vpart_reference> loader = part_with_feature( "FURNITURE_TIEDOWN", true );
+    if( !loader.has_value() ) {
+        return false;
+    }
+    if( !loader->items().empty() ) {
+        return false;
+    }
+    if( loader->part().get_base().has_var( "tied_down_furniture" ) ) {
+        return false;
+    }
+    return true;
+}
+
+bool vpart_position::has_loaded_furniture() const
+{
+    std::optional<vpart_reference> loader = part_with_feature( "FURNITURE_TIEDOWN", true );
+    if( !loader.has_value() ) {
+        return false;
+    }
+    return loader->part().get_base().has_var( "tied_down_furniture" );
+}
+
+void vehicle_part::load_furniture( map &here, const tripoint_bub_ms &from )
+{
+    if( base.has_var( "tied_down_furniture" ) ) {
+        return;
+    }
+
+    // The awful hack that makes this all work. We store the furniture's string id directly on the item as an item var.
+    base.set_var( "tied_down_furniture", here.furn( from ).id().str() );
+    here.furn_clear( from );
+}
+
+void vehicle_part::unload_furniture( map &here, const tripoint_bub_ms &to )
+{
+    if( !base.has_var( "tied_down_furniture" ) ) {
+        return;
+    }
+    furn_str_id carried_furn( base.get_var( "tied_down_furniture" ) );
+    if( !carried_furn.is_valid() ) {
+        debugmsg( "Invalid carried furniture %s", carried_furn.str() );
+        return;
+    }
+    if( here.has_furn( to ) ) {
+        return;
+    }
+    base.remove_var( "tied_down_furniture" );
+    here.furn_set( to, carried_furn );
 }
 
 npc *vehicle_part::crew() const
@@ -532,7 +621,7 @@ void vehicle_part::unset_crew()
     crew_id = character_id();
 }
 
-void vehicle_part::reset_target( const tripoint &pos )
+void vehicle_part::reset_target( const tripoint_abs_ms &pos )
 {
     target.first = pos;
     target.second = pos;
@@ -600,6 +689,11 @@ bool vehicle_part::is_seat() const
     return info().has_flag( "SEAT" );
 }
 
+bool vehicle_part::is_wheel() const
+{
+    return info().wheel_info.has_value();
+}
+
 const vpart_info &vehicle_part::info() const
 {
     return *info_;
@@ -639,7 +733,7 @@ bool vehicle::mod_hp( vehicle_part &pt, int qty )
     return pt.base.mod_damage( -qty * pt.base.max_damage() / dur );
 }
 
-bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
+bool vehicle::can_enable( map &here, const vehicle_part &pt, bool alert ) const
 {
     if( std::none_of( parts.begin(), parts.end(), [&pt]( const vehicle_part & e ) {
     return &e == &pt;
@@ -651,16 +745,19 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
         return false;
     }
 
-    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( get_player_character().pos() ) ) {
+    // FIXME/HACK: Always checks buckwheat seeds!
+    ret_val<void>can_plant = warm_enough_to_plant( get_player_character().pos_bub(),
+                             itype_seed_buckwheat );
+    if( pt.info().has_flag( "PLANTER" ) && !can_plant.success() ) {
         if( alert ) {
-            add_msg( m_bad, _( "It is too cold to plant anything now." ) );
+            add_msg( m_bad, can_plant.c_str() );
         }
         return false;
     }
 
     // TODO: check fuel for combustion engines
 
-    if( pt.info().epower < 0_W && fuel_left( fuel_type_battery ) <= 0 ) {
+    if( pt.info().epower < 0_W && fuel_left( here, fuel_type_battery ) <= 0 ) {
         if( alert ) {
             add_msg( m_bad, _( "Insufficient power to enable %s" ), pt.name() );
         }
@@ -699,4 +796,49 @@ std::string vehicle_part::carried_name() const
     return carried_stack.empty()
            ? std::string()
            : carried_stack.top().veh_name;
+}
+
+int vehicle_part::contact_area() const
+{
+    int contact_area = 1;
+
+    const std::optional<vpslot_wheel> &wi = info_->wheel_info;
+
+    if( wi.has_value() ) {
+        contact_area = wi.value().contact_area;
+    }
+
+    for( const fault_id &ft : faults() ) {
+        contact_area *= ft.obj().contact_area_mod();
+    }
+
+    return std::max( 1, contact_area );
+}
+
+float vehicle_part::rolling_resistance() const
+{
+    float rolling_resistance = 1.f;
+
+    const std::optional<vpslot_wheel> &wi = info_->wheel_info;
+
+    if( wi.has_value() ) {
+        rolling_resistance = wi.value().rolling_resistance;
+    }
+
+    for( const fault_id &ft : faults() ) {
+        rolling_resistance *= ft.obj().rolling_resistance_mod();
+    }
+
+    return rolling_resistance;
+}
+
+int vehicle_part::move_penalty() const
+{
+    int move_penalty = 0;
+
+    for( const fault_id &ft : faults() ) {
+        move_penalty += ft.obj().vehicle_move_penalty_mod();
+    }
+
+    return move_penalty;
 }

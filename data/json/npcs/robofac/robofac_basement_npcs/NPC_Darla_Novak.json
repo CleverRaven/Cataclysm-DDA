@@ -7,7 +7,7 @@
     "name_suffix": "building maintenance",
     "class": "NC_HUB01_DNovak",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "HUB01_DNovak_Intro",
     "faction": "robofac"
   },
@@ -40,7 +40,7 @@
       { "item": "bra" },
       { "item": "panties" },
       { "item": "socks" },
-      { "item": "robofac_jumpsuit" },
+      { "item": "jumpsuit", "variant": "robofac" },
       { "item": "boots_steel" },
       { "item": "vest" },
       { "item": "gloves_work" }
@@ -74,7 +74,7 @@
       {
         "text": "Nice to meet you too.",
         "topic": "TALK_DONE",
-        "effect": { "u_add_var": "u_met_DNovak", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "u_add_var": "general_meeting_u_met_DNovak", "value": "yes" },
         "condition": { "u_has_trait": "PROF_HUB01_ANCILLIARY" }
       }
     ]

@@ -50,7 +50,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     # We'll either get a dict or a list...
-    if type(json_data) == dict:
+    if type(json_data) is dict:
         # ... and just make it a list.
         json_data = [json_data]
 

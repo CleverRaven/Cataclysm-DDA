@@ -1,17 +1,22 @@
-from ..write_text import write_text
+from ..write_text import write_text, append_comment
 
 
 def parse_snippet(json, origin):
     text = json["text"]
     if type(text) is not list:
         text = [text]
-    comment = ["Snippet in category \"{}\"".format(json["category"])]
-    if "//" in json:
-        comment.append(json["//"])
-    c_format = "schizophrenia" in json
+    category = json["category"]
+
+    comment = json.get("//", [])
+    comment_snip = f"Snippet in category '{category}'"
+    comment_name = f"Name of a snippet in category '{category}'"
+
+    comment_snip = append_comment([comment_snip], comment)
+    comment_name = append_comment([comment_name], comment)
+
     for snip in text:
         if type(snip) is str:
-            write_text(snip, origin, comment=comment, c_format=c_format)
+            write_text(snip, origin, comment=comment_snip)
         elif type(snip) is dict:
-            write_text(snip["text"], origin, comment=comment,
-                       c_format=c_format)
+            write_text(snip.get("name"), origin, comment=comment_name)
+            write_text(snip.get("text"), origin, comment=comment_snip)

@@ -1,9 +1,7 @@
 [
   {
-    "method": "json",
     "om_terrain": "rural_house1",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -45,7 +43,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "rural_house1_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -64,9 +61,9 @@
         "                        ",
         "                        ",
         " ---------              ",
+        " -..0....-              ",
+        " -N......-              ",
         " -.......-              ",
-        " -.......-              ",
-        " -.....N.-              ",
         " -.......-              ",
         " -.&.....-              ",
         " 5......--              ",
@@ -76,14 +73,13 @@
         "    -----               "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_shingle_flat_roof" }
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "nested": { "0": { "chunks": [ [ "residential_6kW_solar", 125 ], [ "null", 873 ] ] } }
     }
   },
   {
-    "method": "json",
     "om_terrain": "rural_house2",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -132,7 +128,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "rural_house2_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -147,7 +142,7 @@
         "  -.....-               ",
         "  -.....-               ",
         "  -..=..-               ",
-        "  -.....-               ",
+        "  -0....-               ",
         "  -.....-               ",
         "  -.....-               ",
         "  -.....----            ",
@@ -163,12 +158,12 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_shingle_flat_roof" }
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "nested": { "0": { "chunks": [ [ "residential_6kW_solar", 125 ], [ "null", 873 ] ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "rural_house2_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -191,14 +186,14 @@
         "  |W.......|            ",
         "  |Z.......|            ",
         "  |........|            ",
-        "  |FJJ.....|            ",
+        "  |âJJ.....|            ",
         "  ||||||||||            ",
         "                        ",
         "                        ",
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": { "chunks": [ [ "null", 70 ], [ "5x5_holdout_W", 10 ], [ "5x5_sauna_W", 20 ] ] },
         "2": {

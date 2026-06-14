@@ -74,6 +74,12 @@ class angle_in_radians_tag
 
 using angle = quantity<double, angle_in_radians_tag>;
 
+class ememory_in_kilobytes_tag
+{
+};
+
+using ememory = quantity<std::int64_t, ememory_in_kilobytes_tag>;
+
 } // namespace units
 
 #endif // CATA_SRC_UNITS_FWD_H

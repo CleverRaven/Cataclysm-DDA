@@ -6,6 +6,7 @@
       {
         "id": "head",
         "name": "the head",
+        "is_head": true,
         "coverage": 10,
         "armor_mult": { "physical": 0.9 },
         "crit_mult": { "all": 1.1 },
@@ -13,21 +14,21 @@
         "effects": [
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 5,
             "message": "The %s is stunned!",
             "damage_required": [ 1, 10 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 25,
             "message": "The %s is stunned!",
             "damage_required": [ 11, 50 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 45,
             "message": "The %s is stunned!",
             "damage_required": [ 51, 100 ]
@@ -37,13 +38,20 @@
       {
         "id": "eye",
         "name": "the eye",
+        "is_head": true,
         "coverage": 3,
         "coverage_mult": { "broad": 0.5 },
         "armor_mult": { "all": 0.2 },
         "crit_mult": { "all": 1.25 },
         "difficulty": { "melee": 5, "ranged": 7 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "duration": [ "1 seconds", "2 seconds" ],
+            "chance": 40,
+            "message": "The %s is blinded!",
+            "damage_required": [ 1, 25 ]
+          },
           {
             "effect": "blind",
             "permanent": true,
@@ -56,6 +64,7 @@
       {
         "id": "mouth",
         "name": "the mouth",
+        "is_head": true,
         "coverage": 5,
         "armor_mult": { "all": 0.75 },
         "crit_mult": { "all": 1.25 },
@@ -64,14 +73,14 @@
           {
             "effect": "maimed_mandible",
             "chance": 10,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's mouth hangs slack!",
             "damage_required": [ 1, 20 ]
           },
           {
             "effect": "maimed_mandible",
             "chance": 25,
-            "duration": [ 15, 50 ],
+            "duration": [ "15 seconds", "50 seconds" ],
             "message": "The %s's mouth hangs slack!",
             "damage_required": [ 21, 40 ]
           },
@@ -87,22 +96,23 @@
       {
         "id": "mouth_grabbing",
         "name": "the mouth",
+        "is_head": true,
         "coverage": 10,
         "armor_mult": { "all": 0.9 },
         "crit_mult": { "all": 1.25 },
-        "required_effects": [ "grabbing" ],
+        "condition": { "npc_has_any_effect": [ "grabbing" ] },
         "effects": [
           {
             "effect": "maimed_mandible",
             "chance": 10,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's mouth hangs slack!",
             "damage_required": [ 1, 20 ]
           },
           {
             "effect": "maimed_mandible",
             "chance": 25,
-            "duration": [ 15, 50 ],
+            "duration": [ "15 seconds", "50 seconds" ],
             "message": "The %s's mouth hangs slack!",
             "damage_required": [ 21, 40 ]
           },
@@ -133,14 +143,14 @@
           {
             "effect": "maimed_leg",
             "chance": 10,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's leg goes limp!",
             "damage_required": [ 1, 20 ]
           },
           {
             "effect": "maimed_leg",
             "chance": 25,
-            "duration": [ 15, 50 ],
+            "duration": [ "15 seconds", "50 seconds" ],
             "message": "The %s's leg goes limp!",
             "damage_required": [ 21, 40 ]
           },
@@ -171,14 +181,14 @@
           {
             "effect": "maimed_leg",
             "chance": 10,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's leg goes limp!",
             "damage_required": [ 1, 20 ]
           },
           {
             "effect": "maimed_leg",
             "chance": 25,
-            "duration": [ 15, 50 ],
+            "duration": [ "15 seconds", "50 seconds" ],
             "message": "The %s's leg goes limp!",
             "damage_required": [ 21, 40 ]
           },
@@ -209,22 +219,23 @@
       {
         "id": "tongue_grabbing",
         "name": "the tongue",
+        "is_head": true,
         "coverage": 15,
         "coverage_mult": { "point": 0.75 },
         "crit_mult": { "all": 1.25 },
-        "required_effects": [ "grabbing" ],
+        "condition": { "npc_has_any_effect": [ "grabbing" ] },
         "effects": [
           {
             "effect": "maimed_tongue",
             "chance": 10,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's tongue recoils in pain!",
             "damage_required": [ 1, 20 ]
           },
           {
             "effect": "maimed_tongue",
             "chance": 25,
-            "duration": [ 15, 50 ],
+            "duration": [ "15 seconds", "50 seconds" ],
             "message": "The %s's tongue recoils in pain!",
             "damage_required": [ 21, 40 ]
           },
@@ -255,14 +266,14 @@
           {
             "effect": "maimed_leg",
             "chance": 10,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's leg goes limp!",
             "damage_required": [ 1, 20 ]
           },
           {
             "effect": "maimed_leg",
             "chance": 25,
-            "duration": [ 15, 50 ],
+            "duration": [ "15 seconds", "50 seconds" ],
             "message": "The %s's leg goes limp!",
             "damage_required": [ 21, 40 ]
           },
@@ -302,14 +313,14 @@
           {
             "effect": "maimed_tail",
             "chance": 10,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's tail goes limp!",
             "damage_required": [ 1, 20 ]
           },
           {
             "effect": "maimed_tail",
             "chance": 25,
-            "duration": [ 15, 50 ],
+            "duration": [ "15 seconds", "50 seconds" ],
             "message": "The %s's tail goes limp!",
             "damage_required": [ 1, 40 ]
           },
@@ -331,6 +342,7 @@
       {
         "id": "head",
         "name": "the head",
+        "is_head": true,
         "coverage": 10,
         "coverage_mult": { "point": 0.25 },
         "armor_mult": { "physical": 1.5 },
@@ -339,21 +351,21 @@
         "effects": [
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 5,
             "message": "The %s is stunned!",
             "damage_required": [ 1, 10 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 25,
             "message": "The %s is stunned!",
             "damage_required": [ 11, 50 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 45,
             "message": "The %s is stunned!",
             "damage_required": [ 51, 100 ]
@@ -363,13 +375,20 @@
       {
         "id": "eye",
         "name": "the eye",
+        "is_head": true,
         "coverage": 2,
         "coverage_mult": { "broad": 0.5 },
         "armor_mult": { "all": 0.2 },
         "crit_mult": { "all": 1.25 },
         "difficulty": { "melee": 5, "ranged": 7 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "duration": [ "1 seconds", "2 seconds" ],
+            "chance": 40,
+            "message": "The %s is blinded!",
+            "damage_required": [ 1, 25 ]
+          },
           {
             "effect": "blind",
             "permanent": true,
@@ -382,6 +401,7 @@
       {
         "id": "mouth",
         "name": "the mouth",
+        "is_head": true,
         "coverage": 5,
         "armor_mult": { "all": 1.75 },
         "crit_mult": { "all": 1.1 },
@@ -390,14 +410,14 @@
           {
             "effect": "maimed_mandible",
             "chance": 10,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's mouth hangs slack!",
             "damage_required": [ 1, 20 ]
           },
           {
             "effect": "maimed_mandible",
             "chance": 25,
-            "duration": [ 15, 50 ],
+            "duration": [ "15 seconds", "50 seconds" ],
             "message": "The %s's mouth hangs slack!",
             "damage_required": [ 21, 40 ]
           },
@@ -413,22 +433,23 @@
       {
         "id": "mouth_grabbing",
         "name": "the mouth",
+        "is_head": true,
         "coverage": 10,
         "armor_mult": { "all": 1.75 },
         "crit_mult": { "all": 1.1 },
-        "required_effects": [ "grabbing" ],
+        "condition": { "npc_has_any_effect": [ "grabbing" ] },
         "effects": [
           {
             "effect": "maimed_mandible",
             "chance": 10,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's mouth hangs slack!",
             "damage_required": [ 1, 20 ]
           },
           {
             "effect": "maimed_mandible",
             "chance": 25,
-            "duration": [ 15, 50 ],
+            "duration": [ "15 seconds", "50 seconds" ],
             "message": "The %s's mouth hangs slack!",
             "damage_required": [ 21, 40 ]
           },
@@ -458,14 +479,14 @@
           {
             "effect": "zapped",
             "chance": 25,
-            "duration": [ 2, 10 ],
+            "duration": [ "2 seconds", "10 seconds" ],
             "message": "The %s twitches and spasms!  It's zapping itself!",
             "damage_required": [ 1, 15 ]
           },
           {
             "effect": "electrocuted",
             "chance": 50,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s electrifies itself!  It begins seizing!",
             "damage_required": [ 16, 30 ]
           },

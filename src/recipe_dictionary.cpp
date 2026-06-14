@@ -1,29 +1,55 @@
 #include "recipe_dictionary.h"
 
 #include <algorithm>
+#include <array>
+#include <cctype>
+#include <chrono>
+#include <climits>
 #include <iterator>
+#include <list>
 #include <memory>
+#include <optional>
 #include <unordered_map>
 #include <utility>
 
+#include "bodypart.h"
+#include "cached_options.h"
+#include "calendar.h"
 #include "cata_algo.h"
+#include "cata_compiler_support.h"
 #include "cata_utility.h"
+#include "character.h"
+#include "character_id.h"
 #include "crafting_gui.h"
-#include "display.h"
 #include "debug.h"
+#include "display.h"
+#include "enums.h"
+#include "flag.h"
+#include "flexbuffer_json.h"
 #include "init.h"
 #include "input.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
-#include "make_static.h"
 #include "mapgen.h"
+#include "math_parser_type.h"
+#include "mod_tracker.h"
 #include "output.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "skill.h"
+#include "string_formatter.h"
+#include "subbodypart.h"
+#include "translation.h"
+#include "translations.h"
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
+
+static const flag_id json_flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
+
+static const itype_id itype_debug_item_search( "debug_item_search" );
 
 static const requirement_id requirement_data_uncraft_book( "uncraft_book" );
 
@@ -87,7 +113,7 @@ const recipe &recipe_dictionary::get_craft( const itype_id &id )
 
 // searches for left-anchored partial match in the relevant recipe requirements set
 template <class group>
-bool search_reqs( const group &gp, const std::string_view txt )
+static bool search_reqs( const group &gp, std::string_view txt )
 {
     return std::any_of( gp.begin(), gp.end(), [&]( const typename group::value_type & opts ) {
         return std::any_of( opts.begin(),
@@ -99,7 +125,7 @@ bool search_reqs( const group &gp, const std::string_view txt )
 // template specialization to make component searches easier
 template<>
 bool search_reqs( const std::vector<std::vector<item_comp> > &gp,
-                  const std::string_view txt )
+                  std::string_view txt )
 {
     return std::any_of( gp.begin(), gp.end(), [&]( const std::vector<item_comp> &opts ) {
         return std::any_of( opts.begin(), opts.end(), [&]( const item_comp & ic ) {
@@ -165,8 +191,54 @@ std::vector<const recipe *> recipe_subset::recent() const
     return res;
 }
 
+// Cache for the search function
+static std::map<const itype_id, std::string> item_info_cache;
+static time_point cache_valid_turn;
+
+static std::string cached_item_info( const itype_id &item_type )
+{
+    if( cache_valid_turn != calendar::turn ) {
+        cache_valid_turn = calendar::turn;
+        item_info_cache.clear();
+    }
+    if( item_info_cache.count( item_type ) > 0 ) {
+        return item_info_cache.at( item_type );
+    }
+    const item result( item_type );
+    item_info_cache[item_type] = result.info( true );
+    return item_info_cache.at( item_type );
+}
+
+// keep data for one search cycle
+static itype filtered_fake_itype;
+static item filtered_fake_item;
+static std::unordered_set<bodypart_id> filtered_bodyparts;
+static std::unordered_set<sub_bodypart_id> filtered_sub_bodyparts;
+static std::unordered_set<layer_level> filtered_layers;
+
+template<typename Unit, size_t N>
+static Unit can_contain_filter( std::string_view hint, std::string_view txt, Unit max,
+                                const std::array<std::pair<std::string_view, Unit>, N> &units )
+{
+    // TODO: LAMBDA_NORETURN_CLANG21x1 can be replaced with [[noreturn]] once we switch to C++23 on all compilers
+    auto const error = [hint, txt]( char const *, size_t /* offset */ ) LAMBDA_NORETURN_CLANG21x1 {
+        throw math::runtime_error( _( string_format( hint, txt ) ) );
+    };
+    // Start at max. On convert failure: results are empty and user knows it is unusable.
+    Unit uni = max;
+    try {
+        uni = detail::read_from_json_string_common<Unit>( txt, units, error );
+    } catch( math::runtime_error &err ) {
+        popup( err.what() );
+    }
+    // copy the debug item template (itype)
+    filtered_fake_itype = itype( *item_controller->find_template( itype_debug_item_search ) );
+    return uni;
+}
+
 std::vector<const recipe *> recipe_subset::search(
-    const std::string_view txt, const search_type key,
+    std::string_view txt, const search_type key,
+    std::optional<std::reference_wrapper<const Character>> crafter,
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
     auto predicate = [&]( const recipe * r ) {
@@ -206,17 +278,73 @@ std::vector<const recipe *> recipe_subset::search(
                 return item::find_type( r->result() )->has_any_quality( txt );
             }
 
+            case search_type::length:
+            case search_type::volume:
+            case search_type::mass:
+                return item( r->result() ).can_contain( filtered_fake_item ).success();
+
+            case search_type::covers: {
+                const item result_item( r->result() );
+                return std::any_of( filtered_bodyparts.begin(), filtered_bodyparts.end(),
+                [&result_item]( const bodypart_id & bp ) {
+                    return result_item.covers( bp );
+                } )
+                || std::any_of( filtered_sub_bodyparts.begin(), filtered_sub_bodyparts.end(),
+                [&result_item]( const sub_bodypart_id & sbp ) {
+                    return result_item.covers( sbp );
+                } );
+            }
+
+            case search_type::layer: {
+                const std::vector<layer_level> layers = item( r->result() ).get_layer();
+                return std::any_of( layers.begin(), layers.end(), []( layer_level l ) {
+                    return filtered_layers.count( l );
+                } );
+            }
+
             case search_type::description_result: {
                 if( r->is_practice() ) {
                     return lcmatch( r->description.translated(), txt );
                 } else {
-                    const item result( r->result() );
-                    return lcmatch( remove_color_tags( result.info( true ) ), txt );
+                    // Info is always rendered for avatar anyway, no need to cache per Character then.
+                    return lcmatch( remove_color_tags( cached_item_info( r->result() ) ), txt );
                 }
             }
 
             case search_type::proficiency:
                 return lcmatch( r->recipe_proficiencies_string(), txt );
+
+            case search_type::book: {
+                if( !crafter.has_value() ) {
+                    debugmsg( "search_type::book requires a crafter to be provided, since it checks crafting group and crafters inventory" );
+                    return false;
+                }
+                const Character &crafter_ref = crafter->get();
+                const inventory &crafting_inventory = crafter_ref.crafting_inventory();
+
+                for( const auto &stack : crafting_inventory.const_slice() ) {
+                    const item &item = stack->front();
+
+                    for( const auto &recipe : item.get_available_recipes( crafter_ref ) ) {
+                        if( recipe.first == r && ( lcmatch( item.display_name(), txt ) ||
+                                                   lcmatch( item::nname( item.typeId() ), txt ) ) ) {
+                            return true;
+                        }
+                    }
+                }
+
+                std::vector<const Character *> knowing_helpers;
+                for( const Character *helper : crafter_ref.get_crafting_group() ) {
+                    if( crafter_ref.getID() != helper->getID() && helper->knows_recipe( r ) ) {
+                        knowing_helpers.push_back( helper );
+                    }
+                }
+
+                return std::any_of( knowing_helpers.begin(), knowing_helpers.end(),
+                [&txt]( const Character * helper ) {
+                    return lcmatch( helper->is_avatar() ? _( "You" ) : helper->get_name(), txt );
+                } );
+            }
 
             case search_type::difficulty: {
                 std::string range_start;
@@ -282,9 +410,80 @@ std::vector<const recipe *> recipe_subset::search(
         }
     };
 
+    // prepare search
+    switch( key ) {
+        case search_type::length: {
+            units::length len = can_contain_filter(
+                                    "Failed to convert '%s' to length.\nValid examples:\n122 cm\n1101mm\n2   meter",
+                                    txt, units::length::max(), units::length_units );
+
+            filtered_fake_itype.longest_side = len;
+            filtered_fake_item = item( &filtered_fake_itype );
+            // make the item hard, otherwise longest_side is ignored
+            filtered_fake_item.set_flag( flag_HARD );
+            break;
+        }
+        case search_type::volume: {
+            units::volume vol = can_contain_filter(
+                                    "Failed to convert '%s' to volume.\nValid examples:\n750 ml\n4L",
+                                    txt, units::volume::max(), units::volume_units );
+
+            filtered_fake_itype.volume = vol;
+            filtered_fake_item = item( &filtered_fake_itype );
+            break;
+        }
+        case search_type::mass: {
+            units::mass mas = can_contain_filter(
+                                  "Failed to convert '%s' to mass.\nValid examples:\n12 mg\n400g\n25  kg",
+                                  txt, units::mass::max(), units::mass_units );
+
+            filtered_fake_itype.weight = mas;
+            filtered_fake_item = item( &filtered_fake_itype );
+            break;
+        }
+        case search_type::covers: {
+            filtered_bodyparts.clear();
+            filtered_sub_bodyparts.clear();
+            for( const body_part &bp : all_body_parts ) {
+                const bodypart_str_id &bp_str_id = convert_bp( bp );
+                if( lcmatch( body_part_name( bp_str_id, 1 ), txt )
+                    || lcmatch( body_part_name( bp_str_id, 2 ), txt ) ) {
+                    filtered_bodyparts.insert( bp_str_id->id );
+                }
+                for( const sub_bodypart_str_id &sbp : bp_str_id->sub_parts ) {
+                    if( lcmatch( sbp->name.translated(), txt )
+                        || lcmatch( sbp->name_multiple.translated(), txt ) ) {
+                        filtered_sub_bodyparts.insert( sbp->id );
+                    }
+                }
+            }
+            break;
+        }
+        case search_type::layer: {
+            filtered_layers.clear();
+            for( layer_level layer = layer_level( 0 ); layer != layer_level::NUM_LAYER_LEVELS; ++layer ) {
+                if( lcmatch( item::layer_to_string( layer ), txt ) ) {
+                    filtered_layers.insert( layer );
+                }
+            }
+            break;
+        }
+        default:
+            break;
+    }
+
+    // search
     std::vector<const recipe *> res;
     size_t i = 0;
+    ctxt.register_action( "QUIT" );
+    std::chrono::steady_clock::time_point next_input_check = std::chrono::steady_clock::now();
     for( const recipe *r : recipes ) {
+        if( !test_mode && std::chrono::steady_clock::now() > next_input_check ) {
+            next_input_check = std::chrono::steady_clock::now() + std::chrono::milliseconds( 250 );
+            if( ctxt.handle_input( 1 ) == "QUIT" ) {
+                return res;
+            }
+        }
         if( progress_callback ) {
             progress_callback( i, recipes.size() );
         }
@@ -305,10 +504,17 @@ recipe_subset::recipe_subset( const recipe_subset &src, const std::vector<const 
 }
 
 recipe_subset recipe_subset::reduce(
-    const std::string_view txt, const search_type key,
+    std::string_view txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
-    return recipe_subset( *this, search( txt, key, progress_callback ) );
+    return recipe_subset( *this, search( txt, key, std::nullopt, progress_callback ) );
+}
+
+recipe_subset recipe_subset::reduce(
+    std::string_view txt, const Character &crafter, const search_type key,
+    const std::function<void( size_t, size_t )> &progress_callback ) const
+{
+    return recipe_subset( *this, search( txt, key, crafter, progress_callback ) );
 }
 recipe_subset recipe_subset::intersection( const recipe_subset &subset ) const
 {
@@ -340,7 +546,8 @@ std::vector<const recipe *> recipe_subset::recipes_that_produce( const itype_id 
     return res;
 }
 
-bool recipe_subset::empty_category( const std::string &cat, const std::string &subcat ) const
+bool recipe_subset::empty_category( const crafting_category_id &cat,
+                                    const std::string &subcat ) const
 {
     if( subcat == "CSC_*_FAVORITE" ) {
         return uistate.favorite_recipes.empty();
@@ -348,7 +555,7 @@ bool recipe_subset::empty_category( const std::string &cat, const std::string &s
         return uistate.recent_recipes.empty();
     } else if( subcat == "CSC_*_HIDDEN" ) {
         return uistate.hidden_recipes.empty();
-    } else if( cat == "CC_*" ) {
+    } else if( cat->is_wildcard ) {
         //any other category in CC_* is populated
         return false;
     }
@@ -368,7 +575,7 @@ bool recipe_subset::empty_category( const std::string &cat, const std::string &s
     return true;
 }
 
-std::vector<const recipe *> recipe_subset::in_category( const std::string &cat,
+std::vector<const recipe *> recipe_subset::in_category( const crafting_category_id &cat,
         const std::string &subcat ) const
 {
     std::vector<const recipe *> res;
@@ -435,7 +642,14 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
     }
 
     r.load( jo, src );
+    mod_tracker::assign_src( r, src );
     r.was_loaded = true;
+
+    // Check for duplicate recipe_ids before assigning it to the map
+    auto duplicate = out.find( r.ident() );
+    if( duplicate != out.end() ) {
+        mod_tracker::check_duplicate_entries( r, duplicate->second );
+    }
 
     return out[ r.ident() ] = std::move( r );
 }
@@ -511,7 +725,7 @@ void recipe_dictionary::find_items_on_loops()
     items_on_loops.clear();
     std::unordered_map<itype_id, std::vector<itype_id>> potential_components_of;
     for( const itype *i : item_controller->all() ) {
-        if( !i->comestible || i->has_flag( STATIC( flag_id( "NUTRIENT_OVERRIDE" ) ) ) ) {
+        if( !i->comestible || i->has_flag( json_flag_NUTRIENT_OVERRIDE ) ) {
             continue;
         }
         std::vector<itype_id> &potential_components = potential_components_of[i->get_id()];
@@ -594,7 +808,7 @@ void recipe_dictionary::finalize()
         if( e->book && !recipe_dict.uncraft.count( rid ) && e->volume > 0_ml ) {
             int pages = e->volume / 12.5_ml;
             recipe &bk = recipe_dict.uncraft[rid];
-            bk.ident_ = rid;
+            bk.id = rid;
             bk.result_ = id;
             bk.reversible = true;
             bk.requirements_ = *requirement_data_uncraft_book * pages;
@@ -647,7 +861,7 @@ void recipe_dictionary::check_consistency()
     for( const auto &e : recipe_dict.recipes ) {
         const recipe &r = e.second;
 
-        if( r.category.empty() ) {
+        if( r.category.str().empty() ) {
             if( !r.subcategory.empty() ) {
                 debugmsg( "recipe %s has subcategory but no category", r.ident().str() );
             }
@@ -655,18 +869,19 @@ void recipe_dictionary::check_consistency()
             continue;
         }
 
-        const std::vector<std::string> *subcategories = subcategories_for_category( r.category );
-        if( !subcategories ) {
-            debugmsg( "recipe %s has invalid category %s", r.ident().str(), r.category );
+        if( !r.category.is_valid() ) {
+            debugmsg( "recipe %s has invalid category %s", r.ident().str(), r.category.str() );
             continue;
         }
 
+        const std::vector<std::string> &subcategories = r.category->subcategories;
+
         if( !r.subcategory.empty() ) {
-            auto it = std::find( subcategories->begin(), subcategories->end(), r.subcategory );
-            if( it == subcategories->end() ) {
+            auto it = std::find( subcategories.begin(), subcategories.end(), r.subcategory );
+            if( it == subcategories.end() ) {
                 debugmsg(
                     "recipe %s has subcategory %s which is invalid or doesn't match category %s",
-                    r.ident().str(), r.subcategory, r.category );
+                    r.ident().str(), r.subcategory, r.category.str() );
             }
         }
     }
@@ -690,6 +905,10 @@ void recipe_dictionary::reset()
     recipe_dict.recipes.clear();
     recipe_dict.uncraft.clear();
     recipe_dict.items_on_loops.clear();
+    for( std::pair<JsonObject, std::string> &deferred_json : deferred ) {
+        deferred_json.first.allow_omitted_members();
+    }
+    deferred.clear();
 }
 
 void recipe_dictionary::delete_if( const std::function<bool( const recipe & )> &pred )

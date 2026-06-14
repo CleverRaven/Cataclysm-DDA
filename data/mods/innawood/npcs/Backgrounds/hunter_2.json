@@ -2,7 +2,7 @@
   {
     "id": "BGSS_HUNTER_2_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "My brother and I were out on a hunting trip.  We saw these strange monsters flying overhead… big, scary ones, like out of a nightmare.  They were heading in the direction of where our parents lived.  Something about it really shook us up, and we started heading back that way… we weren't that far off when we saw this huge, floating eyeball appear out of <swear> nowhere.  Ha.  Hard to believe we're in a time where I don't feel like I need to convince you I'm telling the truth.",
+    "dynamic_line": "My brother and I were out on a hunting trip.  We saw these strange monsters flying overhead… big, scary ones, like out of a nightmare.  They were heading in the direction of where our parents lived.  Something about it really shook us up, and we started heading back that way… we weren't that far off when we saw this huge, floating eyeball appear out of <freaking> nowhere.  Ha.  Hard to believe we're in a time where I don't feel like I need to convince you I'm telling the truth.",
     "responses": [
       { "text": "What happened next?", "topic": "BGSS_HUNTER_2_STORY2" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }

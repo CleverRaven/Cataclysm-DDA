@@ -1,7 +1,8 @@
 [
   {
     "id": "crane_pseudo_item",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "copy-from": "fake_butcher_rack",
     "name": { "str_sp": "suspending for butchering" }
   },
@@ -65,7 +66,6 @@
   {
     "id": "crane_tiny",
     "type": "vehicle_part",
-    "name": { "str": "pallet lifter" },
     "item": "pallet_lifter",
     "location": "center",
     "categories": [ "utility" ],
@@ -88,7 +88,7 @@
   {
     "id": "forklift_fork",
     "type": "vehicle_part",
-    "name": { "str": "forklift arm" },
+    "name": { "str": "forklift arms" },
     "item": "frame",
     "location": "structure",
     "categories": [ "utility" ],
@@ -96,11 +96,7 @@
     "durability": 300,
     "description": "A pair of forklift arms.  If it is in your line of sight and within two tiles of another vehicle, you will automatically use it when you want to jack up the other vehicle to change its wheels.  To use it to lift a heavy component like an engine that you are installing or removing, the crane must have line of sight to where it is going and it must be within four tiles of it.",
     "size": "12500 ml",
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] }
-    ],
+    "breaks_into": "ig_vp_frame",
     "qualities": [ [ "LIFT", 2 ], [ "JACK", 6 ] ],
     "//": "30 cm of weld per quadrant of damage, 60 cm of weld to install",
     "requirements": {
@@ -114,7 +110,7 @@
         "time": "30 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_lc_steel", 3 ] ] }
     },
     "flags": [ "CARGO", "PROTRUSION" ],
     "pseudo_tools": [ { "id": "crane_pseudo_item" } ],
@@ -124,7 +120,6 @@
   {
     "id": "rockwheel",
     "type": "vehicle_part",
-    "name": { "str": "rockwheel" },
     "item": "v_rockwheel_item",
     "location": "structure",
     "categories": [ "utility" ],
@@ -133,8 +128,8 @@
     "description": "A large metal disc, powered by the vehicle's engines.  Use the vehicle controls to turn it on or off.  When turned on, it will stop the vehicle unless it has a strong engine.  When turned on, it will dig a shallow pit in dirt.  Mount it on the edge of your vehicle.",
     "power": "-70000 W",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "ch_steel_lump", "count": [ 4, 6 ] },
+      { "item": "ch_steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
     ],
     "transform_terrain": { "pre_flags": [ "DIGGABLE" ], "post_terrain": "t_pit_shallow" },
@@ -159,7 +154,6 @@
   {
     "type": "vehicle_part",
     "id": "air_jack",
-    "name": { "str": "air jack system" },
     "item": "v_airjack_item",
     "location": "under",
     "categories": [ "utility" ],
@@ -194,12 +188,11 @@
   {
     "type": "vehicle_part",
     "id": "motorcycle_kickstand",
-    "name": { "str": "motorcycle kickstand" },
     "item": "v_motorcycle_kickstand_item",
+    "description": "A kickstand to keep a bike from falling over.  You could use this to lean a small vehicle forward or backward to change a tire.",
     "categories": [ "utility" ],
     "broken_color": "light_blue",
     "durability": 200,
-    "description": "A kickstand to keep the bike from falling over.  You could use this to lean it forward or backward to change a tire.",
     "breaks_into": [ { "item": "pipe", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "qualities": [ [ "SELF_JACK", 1 ] ],
     "//": "20 cm of weld per quadrant of damage and 30 cm to install",
@@ -211,5 +204,26 @@
     "flags": [ "SELF_JACK" ],
     "damage_reduction": { "all": 5 },
     "variants": [ { "symbols": "[", "symbols_broken": "/" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "solar_reflector",
+    "name": "solar reflector",
+    "categories": [ "utility" ],
+    "color": "yellow",
+    "broken_color": "dark_gray",
+    "description": "A faceted reflector dish that concentrates sunlight for cooking.  Only works outdoors in strong direct sunlight.",
+    "item": "solar_cooker",
+    "location": "on_roof",
+    "durability": 30,
+    "damage_modifier": 10,
+    "flags": [ "FLAT_SURF" ],
+    "pseudo_tools": [ { "id": "fake_solar_cooker" } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] }
+    },
+    "breaks_into": [ { "item": "scrap", "count": [ 2, 4 ] }, { "item": "sheet_metal_small", "count": [ 1, 2 ] } ],
+    "variants": [ { "symbols": ")", "symbols_broken": "x" } ]
   }
 ]

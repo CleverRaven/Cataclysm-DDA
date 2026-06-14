@@ -1,0 +1,16 @@
+[
+  {
+    "id": "MISSION_REACH_REFUGEE_CENTER",
+    "type": "mission_definition",
+    "name": { "str": "Reach Refugee Center?" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "description": "Something is telling you to find this location but something else is telling you that there is nothing there.",
+    "difficulty": 1,
+    "value": 0,
+    "invisible_on_complete": true,
+    "origins": [ "ORIGIN_COMPUTER" ],
+    "start": { "assign_mission_target": { "om_terrain": "field", "reveal_radius": 0 } },
+    "destination": "field",
+    "end": { "effect": [ { "u_message": "Wait, where is this?  What happened?  Why am I here?", "popup": true } ] }
+  }
+]

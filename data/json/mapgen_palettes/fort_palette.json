@@ -49,8 +49,8 @@
       "r": { "furniture": "f_chair", "terrain": "t_floor" },
       "-": { "furniture": "f_counter", "terrain": "t_floor", "items": { "item": "cash_register_random", "chance": 100 } },
       "/": { "furniture": "f_counter_gate_o", "terrain": "t_floor" },
-      "s": { "furniture": "f_trashcan", "terrain": "t_thconc_floor", "items": { "item": "trash", "chance": 15 } },
-      "S": { "furniture": "f_trashcan", "terrain": "t_floor", "items": { "item": "trash", "chance": 15 } },
+      "s": { "furniture": "f_trashcan", "terrain": "t_thconc_floor", "items": { "item": "SUS_trash_trashcan", "chance": 15 } },
+      "S": { "furniture": "f_trashcan", "terrain": "t_floor", "items": { "item": "SUS_trash_trashcan", "chance": 15 } },
       "p": {
         "furniture": "f_cupboard",
         "terrain": "t_floor",

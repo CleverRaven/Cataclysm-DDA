@@ -5,8 +5,8 @@
     "subtype": "mutable",
     "locations": [ "subterranean_empty", "land", "open_air" ],
     "city_distance": [ 10, 40 ],
-    "occurrences": [ 0, 2 ],
-    "flags": [ "MAN_MADE" ],
+    "occurrences": [ 10, 80 ],
+    "flags": [ "MAN_MADE", "OVERMAP_UNIQUE" ],
     "check_for_locations": [
       [ [ 0, -1, 0 ], [ "land", "road" ] ],
       [ [ 0, 0, 0 ], [ "land" ] ],

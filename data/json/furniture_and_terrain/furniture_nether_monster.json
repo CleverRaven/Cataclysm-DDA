@@ -54,23 +54,17 @@
           "effect": [
             {
               "weighted_list_eocs": [
-                [ { "id": "admire", "effect": { "u_message": "You admire the lily.  Isn't it beautiful?", "popup": true } }, 15 ],
+                [ { "id": "admire", "effect": { "u_message": "You admire the lily.  Isn't it beautiful?" } }, 15 ],
                 [
-                  { "id": "admire_2", "effect": { "u_message": "You worship the lily, and feel truly fulfilled.", "popup": true } },
+                  { "id": "admire_2", "effect": { "u_message": "You worship the lily, and feel truly fulfilled." } },
                   10
                 ],
                 [
-                  {
-                    "id": "admire_3",
-                    "effect": { "u_message": "You bow to the lily, and gain immense satisfaction in having done so.", "popup": true }
-                  },
+                  { "id": "admire_3", "effect": { "u_message": "You bow to the lily, and gain immense satisfaction in having done so." } },
                   5
                 ],
                 [
-                  {
-                    "id": "admire_4",
-                    "effect": { "u_message": "You focus on the lily and realize it truly is perfection *incarnate*.", "popup": true }
-                  },
+                  { "id": "admire_4", "effect": { "u_message": "You focus on the lily and realize it truly is perfection *incarnate*." } },
                   2
                 ]
               ]

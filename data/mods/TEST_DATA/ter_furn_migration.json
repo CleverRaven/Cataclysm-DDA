@@ -1,0 +1,13 @@
+[
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "test_t_migration_old_id",
+    "to_ter": "test_t_migration_new_id",
+    "to_furn": "test_f_migration_new_id"
+  },
+  {
+    "type": "ter_furn_migration",
+    "from_furn": "test_f_migration_old_id",
+    "to_furn": "test_f_migration_new_id"
+  }
+]

@@ -1,7 +1,40 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
+    "nested_mapgen_id": "nest_dirtmound_rock_roof",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "%" ],
+      "terrain": { "%": "t_dirtmound" },
+      "place_nested": [ { "chunks": [ "nest_rock_roof" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "nest_mud_rock_roof",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "%" ],
+      "terrain": { "%": "t_mud" },
+      "place_nested": [ { "chunks": [ "nest_rock_roof" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "river_cave_surface_palette",
+    "//": "nest_rock_wall_roof is defined in the regular cave",
+    "terrain": { " ": "t_null", "-": "t_sand", "C": "t_dirtmound" },
+    "nested": {
+      ".": { "chunks": [ "nest_mud_rock_roof" ] },
+      "#": { "chunks": [ "nest_rock_wall_roof" ] },
+      ">": { "chunks": [ "nest_slope_down_rock_roof" ] },
+      "c": { "chunks": [ "nest_dirtmound_rock_roof" ] }
+    }
+  },
+  {
+    "type": "mapgen",
     "om_terrain": [ "c_cave_entrance" ],
     "object": {
       "fallback_predecessor_mapgen": "lake_shore",
@@ -16,12 +49,12 @@
         "      -----------       ",
         "     ---##...##C---     ",
         "    --C####..###C-      ",
-        "   ---##CCC..CC##---    ",
-        "   ---#CC.....C.#---    ",
-        "    -##C...>>..##--     ",
-        "  ---C#C...>>..C#--     ",
-        "   ---##C.....C##---    ",
-        "   --###CC#.CCC##---    ",
+        "   ---##ccc..cc##---    ",
+        "   ---#cc.....c.#---    ",
+        "    -##c...>>..##--     ",
+        "  ---C#c...>>..c#--     ",
+        "   ---##c.....c##---    ",
+        "   --###cc#.ccc##---    ",
         "  ----C#########C-      ",
         "    ----##C-##CC---     ",
         "     -------------      ",
@@ -33,13 +66,12 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
-      "terrain": { " ": "t_null", ".": "t_mud", "-": "t_sand", "#": "t_rock", ">": "t_slope_down", "C": "t_dirtmound" }
+      "palettes": [ "river_cave_surface_palette" ]
     }
   },
   {
     "//": "slopes up to river cave entrance to be used where appropriate",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "river_cave_up_to_surface",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -54,7 +86,6 @@
   {
     "//": "walls of river cave that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "river_cave_bounds_h",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -80,7 +111,6 @@
   {
     "//": "walls of river_cave that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "river_cave_bounds_h1",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -106,7 +136,6 @@
   {
     "//": "walls of river_cave that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "river_cave_bounds_v",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -132,7 +161,6 @@
   {
     "//": "walls of river_cave that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "river_cave_bounds_v1",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -158,7 +186,6 @@
   {
     "//": "walls of river_cave that can shift from side to side to make the tunnel wind",
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "river_cave_bounds_v2",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -183,7 +210,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "river_cave_straight",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -244,7 +270,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "river_cave_end",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -293,7 +318,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "river_cave_curved",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -364,7 +388,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "river_cave_tee",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -432,7 +455,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "river_cave_four_way",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -498,7 +520,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "river_cave_food",
     "object": {
       "fill_ter": "t_water_sh_underground",
@@ -541,7 +562,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "river_cave_nest",
     "object": {
       "fill_ter": "t_water_sh_underground",
@@ -584,7 +604,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "river_cave_kraken",
     "object": {
       "fill_ter": "t_water_sh_underground",

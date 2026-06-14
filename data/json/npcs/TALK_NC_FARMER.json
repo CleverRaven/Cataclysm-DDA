@@ -10,7 +10,7 @@
         "topic": "TALK_SUGGEST_FOLLOW"
       },
       { "text": "A daring trader?  Yes.  Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
-      { "text": "I don't have time for this.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -25,7 +25,7 @@
       { "text": "How did you make it?", "topic": "TALK_NC_FARMER_STORY1" },
       { "text": "What did you do before the Cataclysm?", "topic": "TALK_NC_FARMER_EXPERTISE" },
       { "text": "Have anything to trade?", "topic": "TALK_NONE", "effect": "start_trade" },
-      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -39,7 +39,7 @@
       { "text": "What did you do before the Cataclysm?", "topic": "TALK_NC_FARMER_EXPERTISE" },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
-      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -50,7 +50,7 @@
       { "text": "What happened next?", "topic": "TALK_NC_FARMER_STORY2" },
       { "text": "What did you do before the Cataclysm?", "topic": "TALK_NC_FARMER_EXPERTISE" },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
-      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -61,7 +61,7 @@
       { "text": "That's decent, was she all right?", "topic": "TALK_NC_FARMER_STORY3" },
       { "text": "What did you do before the Cataclysm?", "topic": "TALK_NC_FARMER_EXPERTISE" },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
-      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -72,7 +72,7 @@
       { "text": "Are you all right?", "topic": "TALK_NC_FARMER_STORY4" },
       { "text": "What did you do before the Cataclysm?", "topic": "TALK_NC_FARMER_EXPERTISE" },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
-      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -85,7 +85,7 @@
     "responses": [
       { "text": "What did you do before the Cataclysm?", "topic": "TALK_NC_FARMER_EXPERTISE" },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
-      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -99,7 +99,7 @@
       { "text": "Why don't you go somewhere else?", "topic": "TALK_NC_FARMER_LEAVE" },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
-      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   }
 ]

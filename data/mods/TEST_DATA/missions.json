@@ -27,5 +27,13 @@
     "copy-from": "TEST_MISSION_GOAL_CONDITION1",
     "goal": "MGOAL_CONDITION",
     "origins": [  ]
+  },
+  {
+    "//COMMENT": "Dummy EOCs to prevent the startup chain from triggering missions in the test environment.",
+    "type": "effect_on_condition",
+    "id": "EOC_FACTION_SUCCESSION_CHANGE_REINIT",
+    "eoc_type": "EVENT",
+    "required_event": "game_avatar_new",
+    "effect": [  ]
   }
 ]

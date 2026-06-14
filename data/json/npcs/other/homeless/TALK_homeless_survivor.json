@@ -3,26 +3,23 @@
     "type": "talk_topic",
     "id": "TALK_NPC_HOMELESS_SURVIVOR",
     "dynamic_line": {
-      "u_has_var": "talked_to_homeless",
-      "type": "dialogue",
-      "context": "first_meeting",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_homeless" } ],
       "yes": "Hello there.  Nice to see you again.",
       "no": "Who are you?"
     },
-    "speaker_effect": { "effect": { "npc_add_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "dialogue_first_meeting_talked_to_homeless", "value": "yes" } },
     "responses": [
       {
         "text": "Nice to meet you.",
         "topic": "TALK_NPC_HOMELESS_SURVIVOR_INTRO",
-        "condition": { "not": { "npc_has_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_talked_to_homeless" } ] } }
       },
       {
         "text": "Pleasure to see you again.",
         "topic": "TALK_NPC_HOMELESS_SURVIVOR_INTRO",
-        "condition": { "npc_has_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_talked_to_homeless" } ] }
       },
-      { "text": "See ya.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -34,7 +31,7 @@
       {
         "text": "I'd like to ask you a few questions.",
         "topic": "TALK_FRIEND_CONVERSATION",
-        "condition": { "npc_has_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_talked_to_homeless" } ] }
       },
       { "text": "Care to trade?", "topic": "TALK_NPC_HOMELESS_SURVIVOR_INTRO", "effect": "start_trade" },
       {
@@ -48,7 +45,7 @@
         "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
         "topic": "TALK_MISSION_LIST"
       },
-      { "text": "I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {

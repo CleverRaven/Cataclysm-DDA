@@ -1,3 +1,19 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Developer FAQ](#developer-faq)
+  - [Adding stuff](#adding-stuff)
+  - [Adding a monster](#adding-a-monster)
+  - [Adding structures to the map](#adding-structures-to-the-map)
+  - [Adding a bionic](#adding-a-bionic)
+  - [How armor protection is calculated](#how-armor-protection-is-calculated)
+  - [Adding an iuse function.](#adding-an-iuse-function)
+  - [Acid resistance](#acid-resistance)
+- [FAQ](#faq)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Developer FAQ
 
 ## Adding stuff
@@ -22,7 +38,7 @@ If you want your building to be displayed at overmap in different orientations, 
 
 In the same file in structure `const oter_t oterlist[num_ter_types]` we should define how these buildings will be displayed, how much they obscure vision and which extras set they have. For example:
 
-```C++
+```cpp
 {"mil. surplus", '^', c_white, 5, build_extras, false, false},
 {"mil. surplus", '>', c_white, 5, build_extras, false, false},
 {"mil. surplus", 'v', c_white, 5, build_extras, false, false},
@@ -37,7 +53,7 @@ If you want your building to be spawned not only in city limits you should refer
 
 These structures are also commented in source code. Add new identifier in enum `omspec_id` structure before `NUM_OMSPECS` and then add a record in `const overmap_special overmap_specials[NUM_OMSPECS]` array. For example:
 
-```C++
+```cpp
 {ot_toxic_dump,   0,  5, 15, -1, mcat_null, 0, 0, 0, 0, &omspec_place::wilderness,0}
 ```
 
@@ -72,8 +88,9 @@ Specifically to ablative plates, some transform when damaged instead of damaging
 ## Adding an iuse function.
 
 1. Add the new item use code to `iuse.cpp` and `iuse.h`.
-2. Add the new json_flag to your item. And link it to the iuse function in `item_factory.cpp`.
-3. Document the new flag in `JSON_FLAGS.md`.
+2. Add a new json_flag to `flags.json`, and add the flag to your item(s) and to an `item_actions.json` entry. 
+3. Link the flag to the iuse function in `item_factory.cpp`.
+4. Document the new flag in `JSON_FLAGS.md`.
 
 ## Acid resistance
 

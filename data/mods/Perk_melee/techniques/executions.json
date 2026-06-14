@@ -1,0 +1,101 @@
+[
+  {
+    "type": "technique",
+    "id": "tec_perk_execution_sword",
+    "name": "Execution (Great Sword)",
+    "messages": [
+      "You deliver a rapid strike to the %s before cleaving them in two with a powerful blow",
+      "<npcname> cleaves %s in two with a powerful blow"
+    ],
+    "required_char_flags_all": [ "MELEE_PERK_EXECUTION" ],
+    "melee_allowed": true,
+    "crit_ok": true,
+    "weapon_categories_allowed": [ "GREAT_SWORDS" ],
+    "weighting": 10000,
+    "condition": {
+      "and": [
+        { "math": [ "u_perk_mymelee >= n_hp('torso')" ] },
+        { "math": [ "u_monsters_nearby('radius': 2) < 2" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "arpen", "type": "bash", "scale": 1000 },
+      { "stat": "arpen", "type": "cut", "scale": 1000 },
+      { "stat": "arpen", "type": "stab", "scale": 1000 }
+    ],
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 12.0 },
+      { "stat": "damage", "type": "cut", "scale": 12.0 },
+      { "stat": "damage", "type": "stab", "scale": 12.0 },
+      { "stat": "movecost", "scale": 1.5 }
+    ],
+    "eocs": [ "EOC_EXECUTION_EXTA_EFFECTS" ],
+    "attack_vectors": [ "vector_null" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_perk_execution_hammer",
+    "name": "Execution (Great Hammer)",
+    "messages": [
+      "You knock the %s to the ground before delivering a crushing blow",
+      "<npcname> knocks down and crushes %s with a powerful blow"
+    ],
+    "required_char_flags_all": [ "MELEE_PERK_EXECUTION" ],
+    "melee_allowed": true,
+    "crit_ok": true,
+    "weapon_categories_allowed": [ "GREAT_HAMMERS" ],
+    "weighting": 10000,
+    "condition": {
+      "and": [
+        { "math": [ "u_perk_mymelee >= n_hp('torso')" ] },
+        { "math": [ "u_monsters_nearby('radius': 2) < 2" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "arpen", "type": "bash", "scale": 1000 },
+      { "stat": "arpen", "type": "cut", "scale": 1000 },
+      { "stat": "arpen", "type": "stab", "scale": 1000 }
+    ],
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 12.0 },
+      { "stat": "damage", "type": "cut", "scale": 12.0 },
+      { "stat": "damage", "type": "stab", "scale": 12.0 },
+      { "stat": "movecost", "scale": 1.5 }
+    ],
+    "eocs": [ "EOC_EXECUTION_EXTA_EFFECTS" ],
+    "attack_vectors": [ "vector_null" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_perk_execution_axe",
+    "name": "Execution (Great Axe)",
+    "messages": [ "You cleave the %s asunder with a furious slash", "<npcname> cleaves into %s with a powerful blow" ],
+    "required_char_flags_all": [ "MELEE_PERK_EXECUTION" ],
+    "melee_allowed": true,
+    "crit_ok": true,
+    "weapon_categories_allowed": [ "GREAT_AXES" ],
+    "weighting": 10000,
+    "condition": {
+      "and": [
+        { "math": [ "u_perk_mymelee >= n_hp('torso')" ] },
+        { "math": [ "u_monsters_nearby('radius': 2) < 2" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "arpen", "type": "bash", "scale": 1000 },
+      { "stat": "arpen", "type": "cut", "scale": 1000 },
+      { "stat": "arpen", "type": "stab", "scale": 1000 }
+    ],
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 12.0 },
+      { "stat": "damage", "type": "cut", "scale": 12.0 },
+      { "stat": "damage", "type": "stab", "scale": 12.0 },
+      { "stat": "movecost", "scale": 1.5 }
+    ],
+    "eocs": [ "EOC_EXECUTION_EXTA_EFFECTS" ],
+    "attack_vectors": [ "vector_null" ]
+  }
+]

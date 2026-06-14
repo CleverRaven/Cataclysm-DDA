@@ -16,8 +16,9 @@ echo "> Extracting strings from C++ code"
 xgettext --default-domain="cataclysm-dda" \
          --add-comments="~" \
          --sort-by-file \
-         --output="lang/po/gui.pot" \
+         --output="lang/po/base.pot" \
          --keyword="_" \
+         --keyword="_fmt" \
          --keyword="pgettext:1c,2" \
          --keyword="n_gettext:1,2" \
          --keyword="npgettext:1c,2,3" \
@@ -40,24 +41,47 @@ version=$(grep '^VERSION *= *' Makefile | tr -d [:space:] | cut -f 2 -d '=')
 echo "> Extracting strings from JSON"
 if ! lang/extract_json_strings.py \
         -i data \
+        -i data/json \
+        -i data/mods \
+        -i data/mods/DinoMod \
+        -i data/mods/My_Sweet_Cataclysm \
+        -i data/mods/translate-dialogue \
+        -i data/mods/CrazyCataclysm \
+        -i data/mods/TropiCataclysm \
+        -i data/mods/MA \
+        -i data/mods/desert_region \
+        -i data/mods/railroads \
+        -i data/mods/Limb_WIP \
         -x data/mods/TEST_DATA \
+        -x data/mods/Standard_Combat_Tests \
+        -x data/json/debug \
+        -X data/json/effects_on_condition/example_eocs.json \
+        -X data/json/furniture_and_terrain/terrain-regional-pseudo.json \
+        -X data/json/furniture_and_terrain/furniture-regional-pseudo.json \
         -X data/json/items/book/abstract.json \
+        -X data/json/items/tool/debug_tools.json \
+        -X data/json/npcs/BG_traits.json \
         -X data/json/npcs/TALK_TEST.json \
+        -X data/json/recipes/basecamps/special_hardcoded.json \
+        -X data/core/sentinels.json \
         -X data/raw/color_templates/no_bright_background.json \
+        -X data/mods/aftershock_exoplanet/npcs/Backgrounds/BG_traits_afs.json \
+        -X data/mods/aftershock_exoplanet/npcs/cyborg_npcs/backgrounds/bg_traits_cyborg.json \
+        -X data/mods/Magiclysm/Spells/debug.json \
         -n "$package $version" \
-        -r lang/po/gui.pot \
-        -o lang/po/json.pot
+        -r lang/po/base.pot
 then
     echo "Error in extracting strings from JSON. Aborting."
     exit 1
 fi
 
-echo "> Merging translation templates"
-msgcat -o lang/po/cataclysm-dda.pot --use-first lang/po/json.pot lang/po/gui.pot
+echo "> Unification of translation template"
+msguniq -o lang/po/cataclysm-dda.pot lang/po/base.pot
 if [ ! -f lang/po/cataclysm-dda.pot ]; then
     echo "Error in merging translation templates. Aborting."
     exit 1
 fi
+sed -i "/^#\. #-#-#-#-#  [a-zA-Z0-9(). -]*#-#-#-#-#$/d" lang/po/cataclysm-dda.pot
 
 # convert line endings to unix
 os="$(uname -s)"

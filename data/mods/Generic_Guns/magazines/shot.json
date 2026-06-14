@@ -2,7 +2,8 @@
   {
     "id": "shot_mag",
     "copy-from": "saiga10mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "name": "shotgun box magazine",
     "capacity": 8,
     "material": [ "plastic" ],
@@ -14,7 +15,8 @@
     "id": "shot_speedloader",
     "copy-from": "shot_speedloader6",
     "name": "shotgun speedloader",
-    "type": "MAGAZINE",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
     "description": "A shotshell 'speedloader', a long plastic tube with a prominent plastic follower.  You can feed 6 shotshells into an appropriately modified shotgun by pushing the follower against the shotgun's loading port.  Bulky, but sees use in competition occasionally.",
     "ammo_type": [ "ammo_shot" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_shot": 6 }, "rigid": true } ]

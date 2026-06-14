@@ -1,4 +1,4 @@
-#include <type_traits>
+#include <utility>
 
 #include "cata_catch.h"
 #include "value_ptr.h"

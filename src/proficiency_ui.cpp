@@ -1,8 +1,30 @@
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <optional>
+#include <ostream>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include "calendar.h"
+#include "cata_utility.h"
 #include "character.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "debug.h"
 #include "input_context.h"
+#include "memory_fast.h"
 #include "output.h"
+#include "point.h"
 #include "proficiency.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translation.h"
+#include "translations.h"
+#include "type_id.h"
+#include "uilist.h"
 #include "ui_manager.h"
 
 // Basic layout:
@@ -26,6 +48,8 @@
 
 using display_prof_deps = std::pair<display_proficiency, std::vector<proficiency_id>>;
 
+namespace
+{
 struct prof_window {
     input_context ctxt;
     weak_ptr_fast<ui_adaptor> ui;
@@ -61,6 +85,7 @@ struct prof_window {
     void draw_details();
     void run( std::optional<proficiency_id> default_selection = std::nullopt );
 };
+} // namespace
 
 std::vector<display_prof_deps *> &prof_window::get_current_set()
 {
@@ -101,14 +126,14 @@ void prof_window::filter()
     }
     float prog_val = 0.0f;
     if( prefix == _prof_filter_prefix::AS_PROGRESS ) {
-        try {
-            prog_val = std::stof( qry );
-        } catch( const std::invalid_argument &e ) {
+        std::optional<double> v = svtod( qry, false );
+        if( !v.has_value() ) {
             // User mistyped query. Not severe enough for debugmsg.
             DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME ) <<
-                    "Malformed proficiency query \"" << filter_str << "\": " << e.what();
+                    "Malformed proficiency query \"" << filter_str << "\"";
             return;
         }
+        prog_val = v.value();
     }
     for( display_prof_deps &dp : all_profs ) {
         if( prefix == _prof_filter_prefix::AS_PROGRESS ) {
@@ -247,17 +272,15 @@ void prof_window::draw_borders()
     const int h = catacurses::getmaxy( w_border );
     draw_border( w_border, c_white, _( "Proficiencies" ), c_yellow );
     // horizontal header separator
-    for( int i = 1; i < w - 1; i++ ) {
-        mvwputch( w_border, point( i, 4 ), c_white, LINE_OXOX );
-    }
-    mvwputch( w_border, point( 0, 4 ), c_white, LINE_XXXO );
-    mvwputch( w_border, point( w - 1, 4 ), c_white, LINE_XOXX );
+    wattron( w_border, c_white );
+    mvwhline( w_border, point( 1, 4 ), LINE_OXOX, w - 2 );
+    mvwaddch( w_border, point( 0, 4 ), LINE_XXXO );
+    mvwaddch( w_border, point( w - 1, 4 ), LINE_XOXX );
     // vertical column separator
-    for( int i = 5; i < h - 1; i++ ) {
-        mvwputch( w_border, point( column_width + 1, i ), c_white, LINE_XOXO );
-    }
-    mvwputch( w_border, point( column_width + 1, 4 ), c_white, LINE_OXXX );
-    mvwputch( w_border, point( column_width + 1, h - 1 ), c_white, LINE_XXOX );
+    mvwvline( w_border, point( column_width + 1, 5 ), LINE_XOXO, h - 6 );
+    mvwaddch( w_border, point( column_width + 1, 4 ), LINE_OXXX );
+    mvwaddch( w_border, point( column_width + 1, h - 1 ), LINE_XXOX );
+    wattroff( w_border, c_white );
 
     scrollbar()
     .border_color( c_white )

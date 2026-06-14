@@ -1,0 +1,12 @@
+[
+  {
+    "type": "vehicle_part_migration",
+    "from": "atomic_lamp",
+    "to": "aisle_lights"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "atomic_light",
+    "to": "aisle_lights"
+  }
+]

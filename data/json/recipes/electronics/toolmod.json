@@ -25,7 +25,7 @@
       { "proficiency": "prof_elec_circuits" },
       { "proficiency": "prof_elec_semiconductors" }
     ],
-    "components": [ [ [ "power_supply", 1 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 10 ] ] ]
+    "components": [ [ [ "power_supply", 1 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 4 ] ] ]
   },
   {
     "result": "battery_bionic",
@@ -65,7 +65,7 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_circuits" } ],
-    "components": [ [ [ "power_supply", 1 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 10 ] ] ]
+    "components": [ [ [ "power_supply", 1 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 4 ] ] ]
   },
   {
     "result": "magazine_battery_light_mod",
@@ -84,7 +84,7 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_circuits" } ],
-    "components": [ [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "scrap", 4 ] ], [ [ "cable", 2 ] ] ]
   },
   {
     "result": "magazine_battery_medium_mod",
@@ -103,7 +103,7 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_circuits" } ],
-    "components": [ [ [ "scrap", 6 ] ], [ [ "cable", 8 ] ] ]
+    "components": [ [ [ "scrap", 6 ] ], [ [ "cable", 3 ] ] ]
   },
   {
     "result": "magazine_battery_heavy_mod",
@@ -122,25 +122,7 @@
     "using": [ [ "soldering_standard", 15 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_circuits" } ],
-    "components": [ [ [ "scrap", 8 ] ], [ [ "cable", 10 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "medium_battery_cell",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "electronics",
-    "skills_required": [ "fabrication", 1 ],
-    "difficulty": 3,
-    "time": "15 m",
-    "reversible": true,
-    "decomp_learn": 3,
-    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_circuits" } ],
-    "components": [ [ [ "light_battery_cell", 5 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "scrap", 8 ] ], [ [ "cable", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -158,25 +140,7 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_circuits" } ],
-    "components": [ [ [ "medium_battery_cell", 2 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "medium_plus_battery_cell",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "electronics",
-    "skills_required": [ "fabrication", 1 ],
-    "difficulty": 3,
-    "time": "15 m",
-    "reversible": true,
-    "decomp_learn": 3,
-    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_circuits" } ],
-    "components": [ [ [ "light_plus_battery_cell", 5 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "medium_battery_cell", 5 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -194,6 +158,6 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_circuits" } ],
-    "components": [ [ [ "medium_plus_battery_cell", 2 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "medium_battery_cell", 10 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 2 ] ] ]
   }
 ]

@@ -8,7 +8,7 @@
     "gender": "male",
     "class": "NC_ROBOFAC_SECURITY_HEAD",
     "attitude": 0,
-    "mission": 8,
+    "mission": "GUARD_PATROL",
     "//2": "He needs unique dialogue.  But for now he's just the boss enemy of Hub 01, if the player attempts to invade the lab.",
     "chat": "TALK_HUB_SECURITY",
     "faction": "robofac"
@@ -55,17 +55,12 @@
   {
     "type": "item_group",
     "id": "NC_robofac_security_head_weapon",
-    "items": [ { "item": "rm20", "charges": 20, "ammo-item": "20x66_slug", "contents-group": "robofac_sec_weapon_mods" } ]
+    "items": [ { "item": "fn_p90", "charges": 50 } ]
   },
   {
     "type": "item_group",
     "id": "NC_robofac_security_head_misc",
     "subtype": "collection",
-    "entries": [
-      { "item": "flashbang", "count": 2 },
-      { "item": "20x66_40_mag", "count": 2, "charges": 40, "ammo-item": "20x66_shot" },
-      { "item": "20x66_beanbag", "count": 1 },
-      { "item": "20x66_frag", "count": 2 }
-    ]
+    "entries": [ { "item": "flashbang", "count": 2 }, { "item": "fnp90mag", "count": 3, "charges": 50 } ]
   }
 ]

@@ -1,0 +1,52 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_unopenable_grip",
+    "effect": [
+      {
+        "u_run_inv_eocs": "manual",
+        "search_data": [ { "wielded_only": true } ],
+        "true_eocs": [
+          {
+            "id": "EOC_unopenable_grip_toggle_check",
+            "condition": { "not": { "npc_has_flag": "NO_UNWIELD" } },
+            "effect": [
+              { "npc_set_flag": "NO_UNWIELD" },
+              { "npc_set_flag": "IS_GRIPPED" },
+              { "u_message": "You focus on your grip, making it impossible to drop what you hold.", "type": "good" }
+            ],
+            "false_effect": [
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_unopenable_grip_toggle_attempt",
+                    "condition": { "npc_has_flag": "IS_GRIPPED" },
+                    "effect": [
+                      { "npc_unset_flag": "NO_UNWIELD" },
+                      { "npc_unset_flag": "IS_GRIPPED" },
+                      {
+                        "u_message": "You loosen your grip on what you're holding.  You can now drop it if you want.",
+                        "type": "mixed"
+                      }
+                    ],
+                    "false_effect": [
+                      {
+                        "u_message": "You cannot get a proper grip on this item, so your attempts to hold it with all your might are fruitless.",
+                        "type": "bad"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "IS_GRIPPED",
+    "type": "json_flag",
+    "info": "You are holding this object really hard, so hard it cannot be removed from your hand unless you die.  Activate the unopenable grip perk again to be able to drop this object."
+  }
+]

@@ -1,0 +1,116 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_afs_shuttle_fusion_engine",
+    "name": "Direct fusion drive",
+    "looks_like": "t_metal_ventilation_shutter",
+    "description": "A powerful fusion engine fueled by helium.  A miracle of hyperspace age technology, painstakingly reproduced from original schematics without true understanding.  Its core components are notably expensive.",
+    "symbol": "=",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "NOITEM", "BLOCKSDOOR" ],
+    "keg_capacity": "5 L",
+    "bash": {
+      "str_min": 60,
+      "str_max": 120,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "afs_material_2", "count": [ 2, 12 ] },
+        { "item": "afs_material_3", "count": [ 0, 3 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 2 ] },
+        { "item": "afs_energy_storage_3", "count": [ 1, 2 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 2, 4 ] },
+        { "item": "frame", "count": 1 },
+        { "item": "afs_magnet_3", "count": [ 0, 2 ] },
+        { "item": "afs_heat_4", "count": [ 0, 1 ] },
+        { "item": "afs_fusion_engine_core", "count": [ 0, 1 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "afs_material_2", "count": [ 2, 12 ] },
+        { "item": "afs_material_3", "count": [ 0, 3 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 2 ] },
+        { "item": "afs_energy_storage_3", "count": [ 1, 2 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 2, 4 ] },
+        { "item": "frame", "count": 1 },
+        { "item": "afs_magnet_3", "count": [ 0, 2 ] },
+        { "item": "afs_heat_4", "count": [ 0, 1 ] },
+        { "item": "afs_fusion_engine_core", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_afs_shuttle_manuevering_thruster",
+    "name": "Multi-axis maneuvering thruster",
+    "looks_like": "f_vent",
+    "description": "A set of highly maneuverable chemical thrusters used is small to medium spacecraft.",
+    "symbol": "0",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "NOITEM", "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 60,
+      "str_max": 120,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 9 ] },
+        { "item": "afs_material_2", "count": [ 2, 12 ] },
+        { "item": "afs_material_3", "count": [ 0, 3 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 2 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 2, 4 ] },
+        { "item": "frame", "count": 1 },
+        { "item": "afs_magnet_2", "count": [ 0, 2 ] },
+        { "item": "ammonia_liquid", "prob": 100, "count": [ 4, 8 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 4, 9 ] },
+        { "item": "afs_material_2", "count": [ 2, 12 ] },
+        { "item": "afs_material_3", "count": [ 0, 3 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 2 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 2, 4 ] },
+        { "item": "frame", "count": 1 },
+        { "item": "afs_magnet_2", "count": [ 0, 2 ] },
+        { "item": "ammonia_liquid", "prob": 100, "count": [ 4, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_afs_reactor_meltdown",
+    "name": "radioactive slag",
+    "description": "A pile of melted slag from a destroyed spaceship reactor.  Incandescently hot and highly radioactive, you'd need a purposefully armored suit to even approach it.",
+    "looks_like": "t_nuclear_reactor",
+    "symbol": "#",
+    "color": "light_green",
+    "move_cost_mod": 6,
+    "max_volume": "750 L",
+    "required_str": -1,
+    "emissions": [ "heavy_rad_glimmer" ],
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "SHARP",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "SMALL_HIDE",
+      "SHORT",
+      "RUBBLE"
+    ]
+  }
+]

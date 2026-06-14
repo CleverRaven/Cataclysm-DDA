@@ -1,0 +1,6 @@
+[
+  {
+    "type": "MONSTER_BLACKLIST",
+    "monsters": [ "mon_plasticgolem", "mon_irongolem" ]
+  }
+]

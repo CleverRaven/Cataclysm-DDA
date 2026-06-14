@@ -43,21 +43,21 @@
         "effects": [
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 5,
             "message": "The %s is stunned!",
             "damage_required": [ 1, 10 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 25,
             "message": "The %s is stunned!",
             "damage_required": [ 11, 50 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 45,
             "message": "The %s is stunned!",
             "damage_required": [ 51, 100 ]
@@ -83,6 +83,7 @@
       {
         "id": "thick bark",
         "name": "a particularly thick patch of the bark",
+        "is_good": false,
         "armor_mult": { "all": 1.25 },
         "crit_mult": { "all": 0.75 },
         "coverage_mult": { "melee": 0.75 },

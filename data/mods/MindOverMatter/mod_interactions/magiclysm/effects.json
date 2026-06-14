@@ -1,0 +1,11 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_item_mind_protection",
+    "//": "Hidden effect, used as an item buff",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "flags": [ "TEEPSHIELD" ]
+  }
+]

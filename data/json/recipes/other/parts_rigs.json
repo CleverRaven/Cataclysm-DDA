@@ -31,7 +31,7 @@
     "book_learn": [ [ "textbook_mechanics", 6 ], [ "textbook_electronics", 8 ], [ "textbook_fabrication", 8 ], [ "welding_book", 5 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 2 ] ], [ [ "kiln", 1 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "power_supply", 2 ] ], [ [ "kiln", 1 ] ], [ [ "cable", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -73,14 +73,7 @@
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
-    "components": [
-      [ [ "pipe", 2 ] ],
-      [ [ "sheet_metal", 1 ] ],
-      [ [ "motor", 2 ] ],
-      [ [ "wheel", 1 ] ],
-      [ [ "processor", 1 ] ],
-      [ [ "nuts_bolts", 16 ] ]
-    ]
+    "components": [ [ [ "pipe", 3 ] ], [ [ "sheet_metal", 1 ] ], [ [ "wheel", 2 ] ], [ [ "nuts_bolts", 16 ] ] ]
   },
   {
     "type": "recipe",
@@ -101,7 +94,7 @@
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 1 ] ], [ [ "frame", 1 ] ], [ [ "wheel", 1 ] ], [ [ "nuts_bolts", 16 ] ] ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "sheet_metal", 1 ] ], [ [ "frame", 1 ] ], [ [ "wheel", 2 ] ], [ [ "nuts_bolts", 16 ] ] ]
   },
   {
     "type": "recipe",
@@ -127,7 +120,6 @@
       [ [ "steel_plate", 2 ] ],
       [ [ "frame", 1 ] ],
       [ [ "wheel", 1 ] ],
-      [ [ "motor", 1 ] ],
       [ [ "pipe_fittings", 2 ] ],
       [ [ "nuts_bolts", 50 ] ]
     ]

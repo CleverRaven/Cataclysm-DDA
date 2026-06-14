@@ -1,0 +1,32 @@
+[
+  {
+    "result": "armguard_chitin",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "40 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "string_6", 8 ] ], [ [ "chitin_piece", 14 ] ], [ [ "sheet_leather_patchwork", 1 ] ] ]
+  },
+  {
+    "result": "xs_armguard_chitin",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "40 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "string_6", 8 ] ], [ [ "chitin_piece", 11 ] ], [ [ "sheet_leather_patchwork", 1 ] ] ]
+  },
+  {
+    "result": "xl_armguard_chitin",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "40 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "string_6", 8 ] ], [ [ "chitin_piece", 18 ] ], [ [ "sheet_leather_patchwork", 1 ] ] ]
+  }
+]

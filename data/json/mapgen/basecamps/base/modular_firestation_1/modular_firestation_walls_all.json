@@ -49,7 +49,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmc_firestation1_living_quarters",
     "object": {
       "parameters": {
@@ -93,7 +92,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_living_area",
-    "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmc_firestation1_living_quarters" ], "x": 10, "y": 9 } ] }
   }
 ]

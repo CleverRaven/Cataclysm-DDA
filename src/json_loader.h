@@ -2,8 +2,6 @@
 #ifndef CATA_SRC_JSON_LOADER_H
 #define CATA_SRC_JSON_LOADER_H
 
-#include <ghc/fs_std_fwd.hpp>
-
 #include "path_info.h"
 #include "flexbuffer_json.h"
 
@@ -23,7 +21,7 @@ class json_loader
                 size_t offset = 0 ) noexcept( false );
 
         // Like json_loader::from_path, except instead of parsing data from a file, will parse data from a string in memory.
-        static JsonValue from_string( std::string const &data ) noexcept( false );
+        static JsonValue from_string( std::string data ) noexcept( false );
         static std::optional<JsonValue> from_string_opt( std::string const &data ) noexcept( false );
 
 };

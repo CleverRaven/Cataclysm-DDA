@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "mall_a_56_basement",
@@ -24,7 +23,7 @@
         "                                                                  #EEEE#EEEE#****,*,*,*,***#EEEE#EEEE#                                                                  ",
         "                                                                ###H++H#H++H#*,*,*,*,*,*,**#H++H#H++H###                                                                ",
         "                                                                #******Ŋ*******,*,*,*,*,*,******Ŋ******#                                                                ",
-        "                                                                #*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,**#                                                                ",
+        "                                                                #§,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*§#                                                                ",
         "                                                                #**,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*#                                                                ",
         "                                                                #F,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*F#                                                                ",
         "                                                                #F*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,F#                                                                ",
@@ -38,30 +37,31 @@
         "                                                                   #F,*,*,*,*,*,*,{,*}*,*,*,*,*,*,*F#                                                                   ",
         "                                                                   #F*,*,*,*,*,*,*}*,{,*,*,*,*,*,*,F#                                                                   ",
         "                                                                   #Y,*,*,*,*,*,*,{,*}*,*,*,*,*,*,*Y#                                                                   ",
-        "                                                                   #**,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*#                                                                   ",
+        "                                                                   #§*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,§#                                                                   ",
         "                                                                   #*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,**#                                                                   "
       ],
-      "palettes": [ "mall_palette_basement" ],
+      "palettes": [ "parametrized_concrete_carpets_palette", "parametrized_linoleum_palette", "mall_palette_basement" ],
       "terrain": {
         "#": "t_brick_wall",
         "*": "t_linoleum_gray",
         ",": "t_linoleum_white",
-        "6": "t_carpet_concrete_red",
+        "6": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_red" },
         "{": "t_linoleum_gray",
         "Y": "t_linoleum_gray",
         "}": "t_linoleum_white",
         "(": "t_linoleum_gray",
         ")": "t_linoleum_gray",
-        "F": "t_linoleum_gray"
+        "F": "t_linoleum_gray",
+        "§": "t_linoleum_gray"
       },
       "furniture": { "{": "f_bench", "}": "f_bench", "Y": "f_trashcan" },
       "vendingmachines": { "(": { "item_group": "vending_drink", "lootable": true }, ")": { "item_group": "vending_food", "lootable": true } },
-      "place_monster": [ { "group": "GROUP_MALL", "x": [ 72, 95 ], "y": [ 8, 23 ], "repeat": [ 8, 12 ] } ]
+      "place_monster": [ { "group": "GROUP_MALL", "x": [ 72, 95 ], "y": [ 8, 23 ], "repeat": [ 8, 12 ] } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [
         "mall_a_65_basement",
@@ -84,10 +84,10 @@
         "                                                                   #{,*,*,*,*,*,*,{,*}*,*,*,*,*,*,*{#                                                                   ",
         "                                                                   #{*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,{#                                                                   ",
         "                                                                   #*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,**#                                                                   ",
-        "                                                                   #**,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*#                                                                   ",
+        "                                                                   #§*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,§#                                                                   ",
         "                                                                   #*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,**#                                                                   ",
         "                                                                   #>*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,>#                                                                   ",
-        "                                                                   #>***Ŋ**********************Ŋ***>#                                                                   ",
+        "                                                                   #>***Ŋ**********§§**********Ŋ***>#                                                                   ",
         "                                                                   ##+++########################+++##                                                                   ",
         "                                                                    |ŊEE|                      |ŊEE|                                                                    ",
         "                                                                    |EEE|                      |EEE|                                                                    ",
@@ -101,26 +101,27 @@
         "                                                                                                                                                                        ",
         "                                                                                                                                                                        "
       ],
-      "palettes": [ "mall_palette_basement" ],
+      "palettes": [ "parametrized_linoleum_palette", "mall_palette_basement" ],
       "terrain": {
         "#": "t_brick_wall",
         "*": "t_linoleum_gray",
         ",": "t_linoleum_white",
         "{": "t_linoleum_gray",
         "Y": "t_linoleum_gray",
-        "}": "t_linoleum_white"
+        "}": "t_linoleum_white",
+        "§": "t_linoleum_gray"
       },
       "furniture": { "{": "f_bench", "}": "f_bench", "Y": "f_trashcan" },
       "place_vehicles": [
-        { "vehicle": "food_cart", "x": 75, "y": 3, "chance": 100, "rotation": 270 },
-        { "vehicle": "ice_cream_cart", "x": 93, "y": 3, "chance": 100, "rotation": 180 }
+        { "vehicle": "food_cart", "x": 75, "y": 3, "rotation": 270 },
+        { "vehicle": "ice_cream_cart", "x": 93, "y": 3, "rotation": 180 }
       ],
-      "place_monster": [ { "group": "GROUP_MALL", "x": [ 72, 95 ], "y": [ 0, 9 ], "repeat": [ 8, 12 ] } ]
+      "place_monster": [ { "group": "GROUP_MALL", "x": [ 72, 95 ], "y": [ 0, 9 ], "repeat": [ 8, 12 ] } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mall_a_67_sub_basement", "mall_a_68_sub_basement", "mall_a_69_sub_basement" ] ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -135,7 +136,7 @@
         "                              ############                              ",
         "                       ########.{{.().{{.########                       ",
         "                   #####.,.,.,.,.,.,.,.,.,.,.,.,#####                   ",
-        "                   #<__#,.,.,.,.,.,.,.,.,.,.,.,.#__<#                   ",
+        "                   #<_§#,.,.,.,.,.,.,.,.,.,.,.,.#§_<#                   ",
         "                   #<__θ.,.,.,.,.,.,.,.,.,.,.,.,θ__<#                   ",
         "                   ######Ŋ,.,.,.,.,.,.,.,.,.,.Ŋ######                   ",
         "                    #EEŊ+..,.,.,.,.}{,.,.,.,.,.+ŊEE#                    ",
@@ -147,10 +148,10 @@
         "                    #______4%444%4;;;;4%444%4______#                    ",
         "                    #__FF__-&---&-;;;;-&---&-__FF__#                    ",
         "                    #__FF__4%444%4;;;;4%444%4__FF__#                    ",
-        "                    #__FF__-&---&-;;;;-&---&-__FF__#                    ",
+        "                    #§_FF__-&---&-;;;;-&---&-__FF_§#                    ",
         "                    #______4%444%4;;;;4%444%4______#                    "
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "parametrized_linoleum_palette", "mall_palette_2" ],
       "terrain": {
         "&": "t_railroad_track",
         " ": "t_rock",
@@ -159,15 +160,16 @@
         ";": "t_rock_floor",
         "4": "t_railroad_rubble",
         "-": "t_railroad_tie_h",
-        "{": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
-        "}": "t_linoleum_white",
-        "(": "t_linoleum_gray",
-        ")": "t_linoleum_gray"
+        "{": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "}": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "(": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        ")": { "param": "linoleum_color", "fallback": "t_linoleum_gray" }
       },
       "furniture": { "{": "f_bench", "}": "f_bench", "Y": "f_trashcan" },
       "vendingmachines": { "(": { "item_group": "vending_drink", "lootable": true }, ")": { "item_group": "vending_food", "lootable": true } },
-      "place_monster": [ { "group": "GROUP_MALL", "x": [ 24, 47 ], "y": [ 10, 23 ], "repeat": [ 4, 8 ] } ]
+      "place_monster": [ { "group": "GROUP_MALL", "x": [ 24, 47 ], "y": [ 10, 23 ], "repeat": [ 4, 8 ] } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   }
 ]

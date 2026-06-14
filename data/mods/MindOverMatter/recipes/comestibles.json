@@ -12,10 +12,7 @@
     "components": [ [ [ "rose_hips", 1 ] ] ],
     "flags": [ "SECRET" ],
     "result_eocs": [
-      {
-        "id": "EOC_FOOD_PHOTOKIN_DRAIN",
-        "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] } ]
-      }
+      { "id": "EOC_FOOD_PHOTOKIN_DRAIN", "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 0,2 )" ] } ] }
     ]
   },
   {

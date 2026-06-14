@@ -2,6 +2,7 @@
   {
     "type": "palette",
     "id": "police_dept",
+    "palettes": [ "parametrized_highrise_walls_palette" ],
     "terrain": {
       "+": "t_door_c",
       "L": [ [ "t_door_locked_alarm", 5 ], [ "t_door_locked_interior", 20 ], [ "t_door_locked", 2 ], [ "t_door_c", 1 ] ],
@@ -11,9 +12,7 @@
       "ß": "t_sidewalk",
       ",": "t_pavement",
       ";": "t_pavement_y",
-      "|": "t_brick_wall",
-      "│": "t_concrete_wall",
-      "#": "t_ponywall",
+      "│": "t_ponywall",
       "W": "t_wall_glass",
       "w": "t_window",
       "V": "t_reinforced_glass",
@@ -97,16 +96,16 @@
       "i": { "item": "SUS_office_filing_cabinet", "chance": 80 },
       "I": { "item": "SUS_office_filing_cabinet", "chance": 80 },
       "l": { "item": "SUS_janitors_closet", "chance": 100 },
-      "a": { "item": "trash", "chance": 50, "repeat": [ 1, 3 ] },
-      "á": { "item": "trash", "chance": 50, "repeat": [ 1, 3 ] },
-      "A": { "item": "trash", "chance": 75, "repeat": [ 1, 10 ] },
+      "a": { "item": "SUS_trash_trashcan", "chance": 50 },
+      "á": { "item": "SUS_trash_trashcan", "chance": 50 },
+      "A": { "item": "SUS_trash_dumpster", "chance": 75 },
       "Y": { "item": "forensic_locker", "chance": 90 },
       "E": { "item": "forensic_lab", "chance": 80, "repeat": [ 2, 6 ] }
     },
     "item": {
       "T": [ { "item": "brush_toilet", "chance": 15 }, { "item": "toilet_paper", "chance": 80, "repeat": [ 1, 2 ] } ],
       "t": { "item": "toilet_paper", "chance": 66, "repeat": [ 1, 3 ] },
-      "j": [ { "item": "toothbrush_plain", "chance": 100 }, { "item": "soap", "chance": 75, "charges": [ 1, 10 ] } ]
+      "j": [ { "item": "toothbrush_plain", "chance": 100 }, { "item": "soap", "chance": 75 } ]
     },
     "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
     "computers": {

@@ -17,5 +17,10 @@
     "//": "Copy of tailoring_cotton_patchwork with gossamer subbed in for cotton",
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "sheet_gossamer", 1 ], [ "sheet_gossamer_patchwork", 1 ] ], [ [ "filament", 5, "LIST" ] ] ]
+  },
+  {
+    "id": "data_core_install",
+    "type": "requirement",
+    "tools": [ [ "data_core_slots" ] ]
   }
 ]

@@ -1,10 +1,13 @@
 #include "mutation.h" // IWYU pragma: associated
 
-#include "json.h"
+#include "flexbuffer_json.h"
 
+namespace
+{
 struct mutation_type {
     std::string id;
 };
+} // namespace
 
 static std::map<std::string, mutation_type> mutation_types;
 

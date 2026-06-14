@@ -4,14 +4,27 @@ from ..write_text import write_text
 
 
 def parse_enchant(json, origin):
-    if "name" in json:
-        name = get_singular_name(json["name"])
-        write_text(json["name"], origin,
-                   comment="Name of a enchantment")
+    if not (json and type(json) is dict):
+        return
 
-    if "description" in json:
-        write_text(json["description"], origin,
-                   comment="Description of enchantment \"{}\"".format(name))
+    name = get_singular_name(json)
+
+    write_text(json.get("name"), origin,
+               comment="Name of a enchantment")
+    write_text(json.get("description"), origin,
+               comment=f"Description of enchantment '{name}'")
 
     if "hit_me_effect" in json:
         parse_effect(json["hit_me_effect"], origin)
+
+    for vision in json.get("special_vision", []):
+        for description in vision.get("descriptions", []):
+            parse_description(description, origin)
+
+
+def parse_description(description, origin):
+    if "text" in description:
+        special_vision_id = description["id"]
+        write_text(description["text"], origin,
+                   comment="Description of creature revealed by special "
+                   f"vision '{special_vision_id}'")

@@ -1,0 +1,28 @@
+[
+  {
+    "id": "nuclear_waste",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "nuclear_waste", "entry-wrapper": "hazardous_waste_drum", "count": 10 } ]
+  },
+  {
+    "id": "nuclear_reactor",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "nuclear_waste", "count": [ 5, 10 ] }, { "item": "nuclear_fuel", "count": [ 1, 10 ] } ]
+  },
+  {
+    "id": "reactor_gear",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hazmat_suit", "prob": 33 },
+      { "item": "prussian_blue", "prob": 33 },
+      { "item": "rad_monitor", "prob": 33 },
+      { "item": "iodine", "prob": 33 },
+      { "item": "flashlight", "prob": 33 },
+      { "group": "full_1st_aid", "prob": 15 },
+      { "item": "geiger_off", "prob": 15 }
+    ]
+  }
+]

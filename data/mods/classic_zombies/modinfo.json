@@ -5,9 +5,12 @@
     "name": "Dark Days of the Dead",
     "authors": [ "Hirmuolio", "I-am-Erk" ],
     "maintainers": [ "I-am-Erk" ],
-    "description": "Turns the game into a classic Romero zombie game.  You must destroy the brain.  Getting bitten is fatal.  However, zombies don't evolve, and when they're down, they're down.  Removes the sci-fi and interdimensional aspects of CDDA.",
+    "description": "Turns the game into a classic Romero zombie game.  You must destroy the brain.  Getting bitten is fatal.  However, zombies don't evolve, and when they're down, they're down.  Removes the sci-fi and interdimensional aspects of CDDA.\n\nDark Days of the Dead is set in Alberta, Canada, sometime during the late 20th century.  Prepare for less advanced technology, rolling plains, and rainier weather.",
+    "conflicts": [ "aftershock_exoplanet", "backrooms", "desertpack", "tropicata", "innawood", "Isolation_Protocol", "no_hope" ],
     "category": "total_conversion",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "loading_images": [ "ddotd1.png" ],
+    "disable_other_loading_screens": true
   },
   {
     "type": "monster_adjustment",
@@ -32,20 +35,19 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "//": "Adding a variable flag to the player allows certain dialogue to be changed that otherwise is hard to change in a mod.",
-    "condition": { "not": { "u_has_var": "modded", "type": "flag", "value": "ddotd" } },
-    "effect": [ { "u_add_var": "modded", "type": "flag", "value": "ddotd" } ]
+    "condition": { "not": { "compare_string": [ "ddotd", { "u_val": "flag_modded" } ] } },
+    "effect": [ { "u_add_var": "flag_modded", "value": "ddotd" } ]
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "LATITUDE",
-    "info": "Sets the latitude used for sunrise/sunset times.  Set to Edmonton, Alberta.",
+    "//": "Set to Edmonton, Alberta.",
     "stype": "float",
     "value": 53.55
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "LONGITUDE",
-    "info": "Sets the longitude used for sunrise/sunset times.  Set to Edmonton, Alberta.",
     "stype": "float",
     "value": -113.49
   }

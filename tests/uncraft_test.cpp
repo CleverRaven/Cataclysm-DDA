@@ -1,12 +1,20 @@
+#include <map>
+#include <string>
+#include <vector>
+
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "character_attire.h"
+#include "coordinates.h"
 #include "item.h"
 #include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "player_helpers.h"
+#include "recipe.h"
 #include "recipe_dictionary.h"
+#include "type_id.h"
 
 // Tests for disassembling items from an "uncraft" recipe.
 //
@@ -29,7 +37,7 @@ static Character &setup_uncraft_character()
 {
     Character &they = get_player_character();
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     set_time( midday );
     // Backpack for storage, and multi-tool for qualities
     they.worn.wear_item( they, item( itype_debug_backpack ), false, false );
@@ -58,14 +66,14 @@ static std::map<itype_id, int> repeat_uncraft( Character &they, const itype_id &
         it_dis_loc = they.create_in_progress_disassembly( it );
 
         // Clear away bits
-        clear_map();
+        clear_map_without_vision();
         // Get lit
         set_time( midday );
         // Disassemble it
         they.complete_disassemble( it_dis_loc, dis_recip );
 
         // Count how many of each type of item are here
-        for( item &it : get_map().i_at( they.pos() ) ) {
+        for( item &it : get_map().i_at( they.pos_bub() ) ) {
             if( yield_items.count( it.typeId() ) == 0 ) {
                 yield_items[it.typeId()] = it.count();
             } else {

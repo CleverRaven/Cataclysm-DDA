@@ -5,7 +5,7 @@
     "name": "alien reef",
     "sym": "O",
     "color": "light_blue",
-    "see_cost": 3,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "see_cost": "medium",
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   }
 ]

@@ -6,7 +6,7 @@
     "//": "A general EOC for selecting a random event.  Can and should be expanded.",
     "condition": {
       "and": [
-        { "math": [ "random_events_allowed", "==", "0" ] },
+        { "math": [ "random_events_allowed == 0" ] },
         { "not": { "is_weather": "portal_storm" } },
         { "x_in_y_chance": { "x": 7, "y": 10 } }
       ]

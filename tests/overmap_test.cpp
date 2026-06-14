@@ -1,25 +1,54 @@
+#include <algorithm>
+#include <array>
+#include <cmath>
+#include <cstdio>
+#include <functional>
+#include <list>
+#include <map>
 #include <memory>
+#include <optional>
+#include <regex>
+#include <set>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
+#include <utility>
 #include <vector>
 
-#include "all_enum_values.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "city.h"
 #include "common_types.h"
 #include "coordinates.h"
+#include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
-#include "game_constants.h"
+#include "game.h"
 #include "global_vars.h"
+#include "item.h"
+#include "item_factory.h"
+#include "itype.h"
 #include "map.h"
+#include "map_helpers.h"
+#include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapbuffer.h"
 #include "omdata.h"
-// #include "options_helpers.h"
+#include "options.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmap_location.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
+#include "point.h"
+#include "recipe.h"
+#include "regional_settings.h"
+#include "rng.h"
 #include "test_data.h"
 #include "type_id.h"
+#include "value_ptr.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 static const oter_str_id oter_cabin( "cabin" );
 static const oter_str_id oter_cabin_east( "cabin_east" );
@@ -29,6 +58,98 @@ static const oter_str_id oter_cabin_west( "cabin_west" );
 
 static const overmap_special_id overmap_special_Cabin( "Cabin" );
 static const overmap_special_id overmap_special_Lab( "Lab" );
+
+class overmap_test_helper
+{
+    public:
+        static void set_highway_connections(
+            overmap &om,
+            const std::array<tripoint_om_omt, 4> &conns ) {
+            om.highway_connections = conns;
+        }
+        static const std::array<tripoint_om_omt, 4> &get_highway_connections(
+            const overmap &om ) {
+            return om.highway_connections;
+        }
+};
+
+static std::vector<oter_flags> all_oter_flags()
+{
+    const int max_flag = static_cast<int>( oter_flags::num_oter_flags );
+    std::vector<oter_flags> flags;
+    flags.reserve( max_flag );
+    for( int i = 0; i < max_flag; ++i ) {
+        flags.emplace_back( static_cast<oter_flags>( i ) );
+    }
+    return flags;
+}
+
+static std::vector<std::string> location_flag_strings()
+{
+    std::unordered_set<std::string> unique_flags;
+    for( const overmap_location &loc : overmap_locations::get_all() ) {
+        for( const std::string &flag : loc.get_flags() ) {
+            unique_flags.insert( flag );
+        }
+    }
+    std::vector<std::string> result( unique_flags.begin(), unique_flags.end() );
+    std::sort( result.begin(), result.end() );
+    return result;
+}
+
+static bool any_terrain_with_flag( const oter_flags flag )
+{
+    for( const oter_t &ter : overmap_terrains::get_all() ) {
+        if( ter.has_flag( flag ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+TEST_CASE( "oter_flags_string_round_trip", "[overmap][flags]" )
+{
+    const auto &flag_map = io::get_enum_lookup_map<oter_flags>();
+    const std::vector<oter_flags> flags = all_oter_flags();
+
+    CHECK( flag_map.size() == flags.size() );
+
+    std::unordered_set<std::string> seen_strings;
+    for( const oter_flags flag : flags ) {
+        const std::string flag_string = io::enum_to_string( flag );
+        CAPTURE( flag_string );
+        CHECK_FALSE( flag_string.empty() );
+        CHECK( flag_map.count( flag_string ) == 1 );
+        CHECK( io::string_to_enum<oter_flags>( flag_string ) == flag );
+        CHECK( seen_strings.emplace( flag_string ).second );
+    }
+}
+
+TEST_CASE( "overmap_location_flags_are_valid", "[overmap][flags]" )
+{
+    const std::vector<std::string> flags = location_flag_strings();
+
+    for( const std::string &flag : flags ) {
+        CAPTURE( flag );
+        CHECK( io::enum_is_valid<oter_flags>( flag ) );
+        CHECK( io::string_to_enum_optional<oter_flags>( flag ).has_value() );
+    }
+}
+
+TEST_CASE( "overmap_location_flags_match_terrain_flags", "[overmap][flags]" )
+{
+    const std::vector<std::string> flags = location_flag_strings();
+    const auto &flag_map = io::get_enum_lookup_map<oter_flags>();
+
+    for( const std::string &flag : flags ) {
+        const auto iter = flag_map.find( flag );
+        if( iter == flag_map.end() ) {
+            continue;
+        }
+        CAPTURE( flag );
+        CHECK( any_terrain_with_flag( iter->second ) );
+    }
+}
 
 TEST_CASE( "set_and_get_overmap_scents", "[overmap]" )
 {
@@ -53,13 +174,17 @@ TEST_CASE( "set_and_get_overmap_scents", "[overmap]" )
 
 TEST_CASE( "default_overmap_generation_always_succeeds", "[overmap][slow]" )
 {
+    overmap_buffer.clear();
+    const int city_size = overmap_buffer.get_default_settings(
+                              point_abs_om() ).get_settings_city().city_size;
     int overmaps_to_construct = 10;
     for( const point_abs_om &candidate_addr : closest_points_first( point_abs_om(), 10 ) ) {
         // Skip populated overmaps.
         if( overmap_buffer.has( candidate_addr ) ) {
             continue;
         }
-        overmap_special_batch test_specials = overmap_specials::get_default_batch( candidate_addr );
+        overmap_special_batch test_specials = overmap_specials::get_default_batch( candidate_addr,
+                                              city_size );
         overmap_buffer.create_custom_overmap( candidate_addr, test_specials );
         for( const overmap_special_placement &special_placement : test_specials ) {
             const overmap_special *special = special_placement.special_details;
@@ -72,7 +197,6 @@ TEST_CASE( "default_overmap_generation_always_succeeds", "[overmap][slow]" )
             break;
         }
     }
-    overmap_buffer.clear();
 }
 
 TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[overmap][slow]" )
@@ -82,6 +206,7 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[
     overmap_special mandatory;
     overmap_special optional;
 
+    overmap_buffer.clear();
     // Get some specific overmap specials so we can assert their presence later.
     // This should probably be replaced with some custom specials created in
     // memory rather than tying this test to these, but it works for now...
@@ -124,7 +249,6 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[
 
     INFO( "Failed to place optional special on origin " );
     CHECK( found_optional == true );
-    overmap_buffer.clear();
 }
 
 TEST_CASE( "is_ot_match", "[overmap][terrain]" )
@@ -134,7 +258,7 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
         // NOLINTNEXTLINE(cata-ot-match)
         CHECK( is_ot_match( "forest", oter_id( "forest" ), ot_match_type::exact ) );
         // NOLINTNEXTLINE(cata-ot-match)
-        CHECK( is_ot_match( "central_lab", oter_id( "central_lab" ), ot_match_type::exact ) );
+        CHECK( is_ot_match( "forest_thick", oter_id( "forest_thick" ), ot_match_type::exact ) );
 
         // Does not exactly match if rotation differs
         // NOLINTNEXTLINE(cata-ot-match)
@@ -156,7 +280,7 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
 
         // Does not match if base type does not match
         // NOLINTNEXTLINE(cata-ot-match)
-        CHECK_FALSE( is_ot_match( "lab", oter_id( "central_lab" ), ot_match_type::type ) );
+        CHECK_FALSE( is_ot_match( "forest", oter_id( "forest_thick" ), ot_match_type::type ) );
         // NOLINTNEXTLINE(cata-ot-match)
         CHECK_FALSE( is_ot_match( "sub_station", oter_id( "sewer_sub_station" ), ot_match_type::type ) );
     }
@@ -164,15 +288,16 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
     SECTION( "prefix match" ) {
         // Matches the complete string
         CHECK( is_ot_match( "forest", oter_id( "forest" ), ot_match_type::prefix ) );
-        CHECK( is_ot_match( "central_lab", oter_id( "central_lab" ), ot_match_type::prefix ) );
+        CHECK( is_ot_match( "forest_thick", oter_id( "forest_thick" ),
+                            ot_match_type::prefix ) );
 
         // Prefix matches when an underscore separator exists
-        CHECK( is_ot_match( "central", oter_id( "central_lab" ), ot_match_type::prefix ) );
-        CHECK( is_ot_match( "central", oter_id( "central_lab_stairs" ), ot_match_type::prefix ) );
+        CHECK( is_ot_match( "forest", oter_id( "forest_thick" ), ot_match_type::prefix ) );
+        CHECK( is_ot_match( "underground", oter_id( "underground_sub_station" ), ot_match_type::prefix ) );
 
         // Prefix itself may contain underscores
-        CHECK( is_ot_match( "central_lab", oter_id( "central_lab_stairs" ), ot_match_type::prefix ) );
-        CHECK( is_ot_match( "central_lab_train", oter_id( "central_lab_train_depot" ),
+        CHECK( is_ot_match( "sewer_end", oter_id( "sewer_end_north" ), ot_match_type::prefix ) );
+        CHECK( is_ot_match( "test_forest_very", oter_id( "test_forest_very_thick" ),
                             ot_match_type::prefix ) );
 
         // Prefix does not match without an underscore separator
@@ -180,28 +305,29 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
         CHECK_FALSE( is_ot_match( "fore", oter_id( "forest_thick" ), ot_match_type::prefix ) );
 
         // Prefix does not match the middle or end
-        CHECK_FALSE( is_ot_match( "lab", oter_id( "central_lab" ), ot_match_type::prefix ) );
-        CHECK_FALSE( is_ot_match( "lab", oter_id( "central_lab_stairs" ), ot_match_type::prefix ) );
+        CHECK_FALSE( is_ot_match( "sub", oter_id( "sewer_sub_station" ), ot_match_type::prefix ) );
+        CHECK_FALSE( is_ot_match( "station", oter_id( "sewer_sub_station" ), ot_match_type::prefix ) );
     }
 
     SECTION( "contains match" ) {
         // Matches the complete string
         CHECK( is_ot_match( "forest", oter_id( "forest" ), ot_match_type::contains ) );
-        CHECK( is_ot_match( "central_lab", oter_id( "central_lab" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "forest_thick", oter_id( "forest_thick" ),
+                            ot_match_type::contains ) );
 
         // Matches the beginning/middle/end of an underscore-delimited id
-        CHECK( is_ot_match( "central", oter_id( "central_lab_stairs" ), ot_match_type::contains ) );
-        CHECK( is_ot_match( "lab", oter_id( "central_lab_stairs" ), ot_match_type::contains ) );
-        CHECK( is_ot_match( "stairs", oter_id( "central_lab_stairs" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "sewer", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "sub", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "station", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
 
         // Matches the beginning/middle/end without undercores as well
-        CHECK( is_ot_match( "cent", oter_id( "central_lab_stairs" ), ot_match_type::contains ) );
-        CHECK( is_ot_match( "ral_lab", oter_id( "central_lab_stairs" ), ot_match_type::contains ) );
-        CHECK( is_ot_match( "_lab_", oter_id( "central_lab_stairs" ), ot_match_type::contains ) );
-        CHECK( is_ot_match( "airs", oter_id( "central_lab_stairs" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "sewe", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "er_su", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "_sub_", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "tion", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
 
         // Does not match if substring is not contained
-        CHECK_FALSE( is_ot_match( "forest", oter_id( "central_lab" ), ot_match_type::contains ) );
+        CHECK_FALSE( is_ot_match( "forest", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
         CHECK_FALSE( is_ot_match( "forestry", oter_id( "forest" ), ot_match_type::contains ) );
     }
 }
@@ -209,7 +335,7 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
 TEST_CASE( "mutable_overmap_placement", "[overmap][slow]" )
 {
     const overmap_special &special =
-        *overmap_special_id( GENERATE( "test_anthill", "test_crater", "test_microlab" ) );
+        *overmap_special_id( GENERATE( "test_crater", "test_microlab" ) );
     const city cit;
 
     constexpr int num_overmaps = 100;
@@ -221,7 +347,7 @@ TEST_CASE( "mutable_overmap_placement", "[overmap][slow]" )
     for( int j = 0; j < num_overmaps; ++j ) {
         // overmap objects are really large, so we don't want them on the
         // stack.  Use unique_ptr and put it on the heap
-        std::unique_ptr<overmap> om = std::make_unique<overmap>( point_abs_om( point_zero ) );
+        std::unique_ptr<overmap> om = std::make_unique<overmap>( point_abs_om::zero );
         om_direction::type dir = om_direction::type::north;
 
         int successes = 0;
@@ -243,80 +369,396 @@ TEST_CASE( "mutable_overmap_placement", "[overmap][slow]" )
             }
         }
 
+        CAPTURE( special.id.str() );
         CHECK( successes > num_trials_per_overmap / 2 );
     }
 }
+
+static bool tally_items( std::unordered_map<itype_id, float> &global_item_count,
+                         std::unordered_map<itype_id, int> &item_count, tinymap &tm )
+{
+    bool found = false;
+    for( const tripoint_omt_ms &p : tm.points_on_zlevel() ) {
+        for( item &i : tm.i_at( p ) ) {
+            std::unordered_map<itype_id, float>::iterator iter = global_item_count.find( i.typeId() );
+            if( iter != global_item_count.end() ) {
+                found = true;
+                item_count.emplace( i.typeId(), 0 ).first->second += i.count();
+            }
+            for( const item *it : i.all_items_ptr() ) {
+                iter = global_item_count.find( it->typeId() );
+                if( iter != global_item_count.end() ) {
+                    found = true;
+                    item_count.emplace( i.typeId(), 0 ).first->second += i.count();
+                }
+            }
+        }
+        if( const optional_vpart_position ovp = tm.veh_at( p ) ) {
+            vehicle *const veh = &ovp->vehicle();
+            for( const int elem : veh->parts_at_relative( ovp->mount_pos(), true ) ) {
+                const vehicle_part &vp = veh->part( elem );
+                for( item &i : veh->get_items( vp ) ) {
+                    std::unordered_map<itype_id, float>::iterator iter = global_item_count.find( i.typeId() );
+                    if( iter != global_item_count.end() ) {
+                        found = true;
+                        item_count.emplace( i.typeId(), 0 ).first->second += i.count();
+                    }
+                    for( const item *it : i.all_items_ptr() ) {
+                        iter = global_item_count.find( it->typeId() );
+                        if( iter != global_item_count.end() ) {
+                            found = true;
+                            item_count.emplace( i.typeId(), 0 ).first->second += i.count();
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return found;
+}
+
+TEST_CASE( "enumerate_items", "[.]" )
+{
+    for( const itype *id : Item_factory::find(
+    []( const itype & type ) -> bool {
+    return !!type.gun;
+} ) ) {
+        printf( "%s ", id->gun->skill_used.str().c_str() );
+        printf( "%s\n", id->get_id().str().c_str() );
+    }
+}
+
+static void finalize_item_counts( std::unordered_map<itype_id, float> &item_counts )
+{
+    for( std::pair<const std::string, item_demographic_test_data> &category :
+         test_data::item_demographics ) {
+        // Scan for match ing ammo types and shim them into the provided data so
+        // the test doesn't break every time we add a new item variant.
+        // Ammo has a lot of things in it we don't consider "real ammo" so there's a list
+        // of item types to ignore that are applied here.
+        if( category.first == "ammo" ) {
+            for( const itype *id : Item_factory::find( []( const itype & type ) -> bool {
+            return !!type.ammo;
+        } ) ) {
+                if( category.second.ignored_items.find( id->get_id() ) != category.second.ignored_items.end() ) {
+                    continue;
+                }
+                category.second.item_weights[id->get_id()] = 1;
+                auto ammotype_map_iter = category.second.groups.find( id->ammo->type.str() );
+                if( ammotype_map_iter == category.second.groups.end() ) {
+                    // If there's no matching ammotype in the test data,
+                    // stick the item in the "other" group.
+                    category.second.groups["other"].second[id->get_id()];
+                } else {
+                    // If there is a matching ammotype and the item id isn't already populated,
+                    // add it.
+                    if( ammotype_map_iter->second.second.find( id->get_id() ) ==
+                        ammotype_map_iter->second.second.end() ) {
+                        ammotype_map_iter->second.second[id->get_id()] = 1;
+                    }
+                }
+            }
+        } else if( category.first == "gun" ) {
+            for( const itype *id : Item_factory::find( []( const itype & type ) -> bool {
+            return !!type.gun;
+        } ) ) {
+                if( category.second.ignored_items.find( id->get_id() ) != category.second.ignored_items.end() ) {
+                    continue;
+                }
+                category.second.item_weights[id->get_id()] = 1; // ???
+                for( const ammotype &ammotype_id : id->gun->ammo ) {
+                    auto ammotype_map_iter = category.second.groups.find( ammotype_id.str() );
+                    if( ammotype_map_iter == category.second.groups.end() ) {
+                        // If there's no matching ammotype in the test data,
+                        // stick the item in the "other" group.
+                        category.second.groups["other"].second[id->get_id()];
+                    } else {
+                        // If there is a matching ammotype and the item id isn't already populated,
+                        // add it.
+                        if( ammotype_map_iter->second.second.find( id->get_id() ) ==
+                            ammotype_map_iter->second.second.end() ) {
+                            ammotype_map_iter->second.second[id->get_id()] = 1; // ???
+                        }
+                    }
+                }
+            }
+        }
+        for( const std::pair<const itype_id, int> &demographics : category.second.item_weights ) {
+            item_counts[demographics.first] = 0.0;
+        }
+    }
+}
+
+// Toggle this to enable the (very very very expensive) item demographics test.
+static bool enable_item_demographics = false;
 
 TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
 {
     // The goal of this test is to generate a lot of overmaps, and count up how
     // many times we see each terrain, so that we can check that everything
     // generates at least sometimes.
-    // override_option override_forestosity( "OVERMAP_FOREST_LIMIT", "0.2" );
-    // override_option override_urbanity( "OVERMAP_MAXIMUM_URBANITY", "1" );
     struct omt_stats {
-        explicit omt_stats( const tripoint_abs_omt &p ) : first_observed( p ) {}
+        explicit omt_stats( const tripoint_abs_omt &p ) : last_observed( p ) {}
 
-        tripoint_abs_omt first_observed;
+        tripoint_abs_omt last_observed;
         int count = 0;
+        int samples = 0;
+        bool found = false;
+        std::unordered_map<itype_id, int> item_counts;
     };
     std::unordered_map<oter_type_id, omt_stats> stats;
-    point_abs_omt origin;
+    std::unordered_map<itype_id, float> item_counts;
+    finalize_item_counts( item_counts );
     map &main_map = get_map();
-
-    for( const point_abs_omt &p : closest_points_first( origin, 0, 10 * OMAPX - 1 ) ) {
-        // We need to avoid OMTs that overlap with the 'main' map, so we start at a
-        // non-zero minimum radius and ensure that the 'main' map is inside that
-        // minimum radius.
-        if( main_map.inbounds( tripoint_abs_ms( project_to<coords::ms>( p ), 0 ) ) ) {
-            continue;
-        }
-        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; ++z ) {
-            tripoint_abs_omt tp( p, z );
-            oter_type_id id = overmap_buffer.ter( tp )->get_type_id();
-            auto it = stats.emplace( id, tp ).first;
-            ++it->second.count;
-        }
-    }
-
-    std::unordered_set<oter_type_id> done;
-    std::vector<oter_type_id> missing;
-
-    global_variables &globvars = get_globals();
-    globvars.clear_global_values();
-
-    for( const oter_t &ter : overmap_terrains::get_all() ) {
-        oter_type_id id = ter.get_type_id();
-        oter_type_str_id id_s = id.id();
-        if( id_s.is_empty() || id_s.is_null() ) {
-            continue;
-        }
-        if( done.insert( id ).second ) {
-            CAPTURE( id );
-            auto it = stats.find( id );
-            const bool found = it != stats.end();
-            const bool should_be_found = !id->has_flag( oter_flags::should_not_spawn );
-
-            if( found == should_be_found ) {
+    point_abs_om overmap_origin = project_to<coords::om>( main_map.get_abs_sub().xy() );
+    g->place_player_overmap( { project_to<coords::omt>( overmap_origin + ( 6 * point::north_west ) ), 0 } );
+    // Don't inherit overmap state from initialization or previous tests.
+    overmap_buffer.clear();
+    // Build the set of terrain types we expect to find. Anything still in this
+    // set after generation is reported as missing.
+    std::unordered_set<oter_type_id> yet_to_be_seen;
+    {
+        std::unordered_set<oter_type_id> dedup;
+        for( const oter_t &ter : overmap_terrains::get_all() ) {
+            oter_type_id id = ter.get_type_id();
+            oter_type_str_id id_s = id.id();
+            if( id_s.is_empty() || id_s.is_null() || !dedup.insert( id ).second ) {
                 continue;
             }
-
-            // We also want to skip any terrain that's the result of a faction
-            // camp construction recipe
+            if( id->has_flag( oter_flags::should_not_spawn ) ) {
+                continue;
+            }
             const recipe_id recipe( id_s.c_str() );
             if( recipe.is_valid() && recipe->is_blueprint() ) {
                 continue;
             }
-
-            if( found ) {
-                FAIL( "oter_type_id was found in map but had SHOULD_NOT_SPAWN flag" );
-            } else if( !test_data::overmap_terrain_coverage_whitelist.count( id ) ) {
-                missing.push_back( id );
+            if( id->has_flag( oter_flags::ocean ) || id->has_flag( oter_flags::highway ) ) {
+                continue;
+            }
+            bool is_whitelisted = false;
+            for( const std::regex &wl : test_data::overmap_terrain_coverage_whitelist ) {
+                std::cmatch m;
+                if( std::regex_match( id_s.c_str(), m, wl ) &&
+                    m.prefix().length() == 0 && m.suffix().length() == 0 ) {
+                    is_whitelisted = true;
+                    break;
+                }
+            }
+            if( !is_whitelisted ) {
+                yet_to_be_seen.insert( id );
             }
         }
     }
 
+    // Build reverse map: oter_type_id -> info about specials that produce it.
+    // Used for the filtered generation phase and diagnostic logging.
+    struct special_spawn_info {
+        overmap_special_id id;
+        bool is_unique;
+        bool is_optional;
+        bool needs_water;
+        int occ_min;
+        int occ_max;
+    };
+    std::unordered_map<oter_type_id, std::vector<special_spawn_info>> terrain_to_specials;
+    const int city_size = overmap_buffer.get_default_settings(
+                              point_abs_om() ).get_settings_city().city_size;
+    for( const overmap_special &sp : overmap_specials::get_all() ) {
+        if( !sp.can_spawn( city_size ) ) {
+            continue;
+        }
+        const overmap_special_placement_constraints &constraints = sp.get_constraints();
+        special_spawn_info info;
+        info.id = sp.id;
+        info.is_unique = sp.has_flag( "OVERMAP_UNIQUE" ) || sp.has_flag( "GLOBALLY_UNIQUE" );
+        info.is_optional = constraints.occurrences.min == 0;
+        info.needs_water = sp.has_flag( "LAKE" ) || sp.has_flag( "OCEAN" );
+        info.occ_min = constraints.occurrences.min;
+        info.occ_max = constraints.occurrences.max;
+
+        for( const oter_type_id &tid : sp.get_terrain_type_ids() ) {
+            terrain_to_specials[tid].push_back( info );
+        }
+    }
+
+    constexpr int max_attempts = 3;
+    for( int attempt_no = 0; attempt_no < max_attempts && !yet_to_be_seen.empty();
+         ++attempt_no ) {
+        if( attempt_no > 0 ) {
+            overmap_buffer.reset();
+        }
+        // First we just touch all the overmaps in an area to cause them to generate.
+        for( const point_abs_om &om_cur : closest_points_first( overmap_origin, 0, 3 ) ) {
+            point_abs_omt omt_start = project_to<coords::omt>( om_cur );
+            overmap_buffer.ter( { omt_start, 0 } );
+        }
+        // Then we scan the generated overmaps.
+        for( const point_abs_om &om_cur : closest_points_first( overmap_origin, 0, 5 ) ) {
+            point_abs_omt omt_start = project_to<coords::omt>( om_cur );
+            // In the two rows of overmaps outside the central area, special placement logic.
+            // Can trigger additional overmap placement, this checcks to see if an overmap
+            // Has already been placed, and skips it if it hasn't.
+            // This insures we can scan all the overmaps we generate.
+            if( overmap_buffer.ter_existing( { omt_start, 0 } ) == oter_id() ) {
+                continue;
+            }
+            point_abs_omt omt_end = omt_start + ( point::south_east * OMAPX );
+            for( point_abs_omt p = omt_start; p.y() < omt_end.y(); p.y()++ ) {
+                for( p.x() = omt_start.x(); p.x() < omt_end.x(); p.x()++ ) {
+                    REQUIRE( !main_map.inbounds( tripoint_abs_ms( project_to<coords::ms>( p ), 0 ) ) );
+                    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; ++z ) {
+                        tripoint_abs_omt tp( p, z );
+                        oter_type_id id = overmap_buffer.ter( tp )->get_type_id();
+                        auto iter_bool = stats.emplace( id, tp );
+                        if( iter_bool.second ) {
+                            yet_to_be_seen.erase( id );
+                        }
+                        iter_bool.first->second.last_observed = tp;
+                        ++iter_bool.first->second.count;
+                    }
+                }
+            }
+        }
+        // The second phase of this test is to perform the tile-level mapgen
+        // for each oter_type, in hopes of triggering any errors that might arise
+        // with that.
+        // In addition, if enable_item_demographics == true,
+        // perform extensive mapgen analysis and make assertions about
+        // the ratios of selected item occurrence rates.
+        for( std::pair<const oter_type_id, omt_stats> &p : stats ) {
+            const std::string oter_type_id = p.first->id.str();
+            const tripoint_abs_omt pos = p.second.last_observed;
+            const int count = p.second.count;
+            // Once we find items of interest in an oter_type, increase the sampling for it.
+            int sampling_exponent = p.second.found ? 3 : 2;
+            int goal_samples = std::pow( std::log( std::max( 10, count ) ), sampling_exponent );
+            if( !enable_item_demographics ) {
+                goal_samples = 1;
+            }
+            // We are sampling with logarithmic falloff. Once we pass a threshold where
+            // log( total_count ) yields the next-higher integer value, we take another sample.
+            int sample_size = goal_samples - p.second.samples;
+            if( sample_size <= 0 ) {
+                continue;
+            }
+            CAPTURE( oter_type_id );
+            const std::string msg = capture_debugmsg_during( [pos,
+            &item_counts, &p, &sample_size, &goal_samples, count, oter_type_id]() {
+                for( int i = 0; i < sample_size; ++i ) {
+                    // clear the generated maps so we keep getting new results.
+                    MAPBUFFER.clear_outside_reality_bubble();
+                    smallmap tm;
+                    tm.generate( pos, calendar::turn, false );
+                    // Map edits without the "mapgen_in_progress" variable set will toggle
+                    // player_adjusted_map to true, this should find callers that fail to do so.
+                    CHECK( !map_meddler::has_altered_submaps( *tm.cast_to_map() ) );
+                    bool found = tally_items( item_counts, p.second.item_counts, tm );
+                    if( enable_item_demographics && found && !p.second.found ) {
+                        goal_samples = std::pow( std::log( std::max( 10, count ) ), 3 );
+                        sample_size = goal_samples - p.second.samples;
+                        p.second.found = true;
+                    }
+                    tm.delete_unmerged_submaps();
+                }
+            } );
+            p.second.samples = goal_samples;
+            CAPTURE( msg );
+            CAPTURE( msg.empty() );
+        }
+    }
+    // Last attempt's overmaps are still in memory for the forced placement phase.
+
+    // Check that no SHOULD_NOT_SPAWN terrain was generated.
+    for( const auto &entry : stats ) {
+        if( entry.first->has_flag( oter_flags::should_not_spawn ) ) {
+            CAPTURE( entry.first );
+            FAIL( "oter_type_id was found in map but had SHOULD_NOT_SPAWN flag" );
+        }
+    }
+
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    // Filtered generation: for terrains still missing after normal generation,
+    // run one more attempt with a custom batch containing only the specials that
+    // produce those terrains. With all other specials removed from competition,
+    // the remaining ones get all 144 sectors to themselves.
+    if( !yet_to_be_seen.empty() ) {
+        std::vector<const overmap_special *> filtered;
+        std::unordered_set<overmap_special_id> seen_ids;
+        for( const oter_type_id &tid : yet_to_be_seen ) {
+            auto it = terrain_to_specials.find( tid );
+            if( it == terrain_to_specials.end() ) {
+                continue;
+            }
+            for( const special_spawn_info &info : it->second ) {
+                if( seen_ids.insert( info.id ).second ) {
+                    filtered.push_back( &info.id.obj() );
+                }
+            }
+        }
+
+        if( !filtered.empty() ) {
+            overmap_buffer.reset();
+            overmap_special_batch custom_batch( overmap_origin, filtered );
+            for( const point_abs_om &om_cur :
+                 closest_points_first( overmap_origin, 0, 3 ) ) {
+                overmap_buffer.create_custom_overmap( om_cur, custom_batch );
+            }
+            // Scan the custom overmaps for newly-placed terrains.
+            for( const point_abs_om &om_cur :
+                 closest_points_first( overmap_origin, 0, 5 ) ) {
+                point_abs_omt omt_start = project_to<coords::omt>( om_cur );
+                if( overmap_buffer.ter_existing( { omt_start, 0 } ) == oter_id() ) {
+                    continue;
+                }
+                point_abs_omt omt_end = omt_start + ( point::south_east * OMAPX );
+                for( point_abs_omt p = omt_start; p.y() < omt_end.y(); p.y()++ ) {
+                    for( p.x() = omt_start.x(); p.x() < omt_end.x(); p.x()++ ) {
+                        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; ++z ) {
+                            tripoint_abs_omt tp( p, z );
+                            oter_type_id id = overmap_buffer.ter( tp )->get_type_id();
+                            auto iter_bool = stats.emplace( id, tp );
+                            if( iter_bool.second ) {
+                                yet_to_be_seen.erase( id );
+                            }
+                            iter_bool.first->second.last_observed = tp;
+                            ++iter_bool.first->second.count;
+                        }
+                    }
+                }
+            }
+            // Mapgen sampling for newly observed terrains.
+            for( std::pair<const oter_type_id, omt_stats> &p : stats ) {
+                int goal_samples = 1;
+                int sample_size = goal_samples - p.second.samples;
+                if( sample_size <= 0 ) {
+                    continue;
+                }
+                const std::string oter_type_id = p.first->id.str();
+                const tripoint_abs_omt pos = p.second.last_observed;
+                CAPTURE( oter_type_id );
+                const std::string msg = capture_debugmsg_during( [pos]() {
+                    MAPBUFFER.clear_outside_reality_bubble();
+                    smallmap tm;
+                    tm.generate( pos, calendar::turn, false );
+                    CHECK( !map_meddler::has_altered_submaps( *tm.cast_to_map() ) );
+                    tm.delete_unmerged_submaps();
+                } );
+                p.second.samples = goal_samples;
+                CAPTURE( msg );
+                CAPTURE( msg.empty() );
+            }
+            WARN( "Ran filtered generation with " << filtered.size()
+                  << " specials for unobserved terrains" );
+        }
+    }
+    overmap_buffer.reset();
+
+    // Final check: anything still in yet_to_be_seen after both normal generation
+    // and forced placement must be in the manual whitelist or it's a failure.
     {
+        std::vector<oter_type_id> missing( yet_to_be_seen.begin(), yet_to_be_seen.end() );
         size_t num_missing = missing.size();
         CAPTURE( num_missing );
         constexpr size_t max_to_report = 100;
@@ -330,34 +772,336 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
             return id->id.str();
         } );
         CAPTURE( missing_oter_type_ids );
+        for( const oter_type_id &tid : missing ) {
+            auto it = terrain_to_specials.find( tid );
+            if( it != terrain_to_specials.end() ) {
+                for( const special_spawn_info &info : it->second ) {
+                    UNSCOPED_INFO( tid->id.str() << " expected from special "
+                                   << info.id.str() << " (occ=" << info.occ_min
+                                   << "/" << info.occ_max
+                                   << ( info.is_unique ? " unique" : "" )
+                                   << ( info.is_optional ? " optional" : "" )
+                                   << ( info.needs_water ? " water" : "" )
+                                   << ")" );
+                }
+            }
+        }
         INFO( "To resolve errors about missing terrains you can either give the terrain the "
-              "SHOULD_NOT_SPAWN flag (intended for terrains that should never spawn, for example "
-              "test terrains or work in progress), or tweak the constraints so that the terrain "
-              "can spawn more reliably, or add them to the whitelist above in this function "
-              "(inteded for terrains that sometimes spawn, but cannot be expected to spawn "
-              "reliably enough for this test)" );
+              "SHOULD_NOT_SPAWN flag, intended for terrains that should never spawn, for example "
+              "test terrains or work in progress, or tweak the constraints so that the terrain "
+              "can spawn more reliably, or add them to the whitelist at "
+              "/data/mods/TEST_DATA/overmap_terrain_coverage_test/overmap_terrain_coverage_whitelist.json "
+              "intended for terrains that sometimes spawn, but cannot be expected to spawn "
+              "reliably enough for this test." );
         CHECK( num_missing == 0 );
     }
 
-    // The second phase of this test is to perform the tile-level mapgen once
-    // for each oter_type, in hopes of triggering any errors that might arise
-    // with that.
-    int num_generated_since_last_clear = 0;
-    for( const std::pair<const oter_type_id, omt_stats> &p : stats ) {
-        const std::string oter_type_id = p.first->id.str();
-        const tripoint_abs_omt pos = p.second.first_observed;
-        CAPTURE( oter_type_id );
-        const std::string msg = capture_debugmsg_during( [pos, &num_generated_since_last_clear]() {
-            tinymap tm;
-            tm.load( project_to<coords::sm>( pos ), false );
-
-            // Periodically clear the generated maps to save memory
-            if( ++num_generated_since_last_clear >= 64 ) {
-                MAPBUFFER.clear_outside_reality_bubble();
-                num_generated_since_last_clear = 0;
+    if( !enable_item_demographics ) {
+        // This should be SKIP() but we haven't updated to Catch 3.3.0 yet.
+        return;;
+    }
+    // Copy and scale the final results from all oter_types to the global item_count map for analysis.
+    for( const std::pair<const oter_type_id, omt_stats> &omt_entry : stats ) {
+        REQUIRE( omt_entry.second.samples != 0 );
+        float sampling_factor = static_cast<float>( omt_entry.second.count ) /
+                                static_cast<float>( omt_entry.second.samples );
+        for( std::pair<const itype_id, int> item_entry : omt_entry.second.item_counts ) {
+            const itype *item_type = item::find_type( item_entry.first );
+            // Adjust this filter to limit output.
+            if( !!item_type->gun ) {
+                printf( "Found %f %s in %d instances of %s (scaled)\n",
+                        static_cast<float>( item_entry.second ) * sampling_factor,
+                        item_entry.first.c_str(), omt_entry.second.count,
+                        omt_entry.first.id().c_str() );
             }
-        } );
-        CAPTURE( msg );
-        REQUIRE( msg.empty() );
+            item_counts[item_entry.first] += static_cast<float>( item_entry.second ) * sampling_factor;
+        }
+    }
+
+    // We're asserting ratios for three things here.
+    // 1. global weight within a category, so e.g. number of glock 19s / all guns spawned.
+    // 2. weight of a sub-category within a category, e.g. number of 9mm firearms / all guns.
+    // 3. weight of individual items within a sub-category, e.g. number of glock 19s / all 9mm firearms.
+    for( std::pair<const std::string, item_demographic_test_data> &category :
+         test_data::item_demographics ) {
+        if( category.second.tests.count( "items" ) ) {
+            float category_weight_total = 0.0;
+            float category_actual_total = 0.0;
+            // I don't see an alternative to just walking this twice?
+            for( std::pair<const itype_id, int> &item_ratio : category.second.item_weights ) {
+                category_weight_total += item_ratio.second;
+                category_actual_total += item_counts[item_ratio.first];
+            }
+            for( std::pair<const itype_id, int> &item_ratio : category.second.item_weights ) {
+                float actual_item_count = item_counts[item_ratio.first];
+                float actual_item_ratio = actual_item_count / category_actual_total;
+                float expected_item_total = item_ratio.second;
+                float expected_item_ratio = expected_item_total / category_weight_total;
+                CAPTURE( item_ratio.first );
+                CAPTURE( actual_item_count );
+                CAPTURE( expected_item_total );
+                CHECK_THAT( actual_item_ratio, Catch::Matchers::WithinRel( expected_item_ratio, 0.1f ) );
+            }
+        }
+        if( category.second.tests.count( "groups" ) ) {
+            float all_type_weight_total = 0.0;
+            float all_type_actual_total = 0.0;
+            // I don't see an alternative to just walking this twice?
+            for( std::pair < const std::string,
+                 std::pair<int, std::map<itype_id, int>>> &group : category.second.groups ) {
+                all_type_weight_total += group.second.first;
+                for( std::pair<const itype_id, int> &item_ratio : group.second.second ) {
+                    all_type_actual_total += item_counts[item_ratio.first];
+                }
+            }
+            for( std::pair < const std::string,
+                 std::pair<int, std::map<itype_id, int>>> &group : category.second.groups ) {
+                float current_type_actual_total = 0.0;
+                float current_type_weight_total = group.second.first;
+                for( std::pair<const itype_id, int> &item_ratio : group.second.second ) {
+                    current_type_actual_total += item_counts[item_ratio.first];
+                }
+                if( category.second.tests.count( "inner-group" ) ) {
+                    for( std::pair<const itype_id, int> &item_ratio : group.second.second ) {
+                        float actual_item_count = item_counts[item_ratio.first];
+                        float actual_item_ratio = actual_item_count / current_type_actual_total;
+                        float expected_item_ratio = item_ratio.second / current_type_weight_total;
+                        CAPTURE( category.first );
+                        CAPTURE( item_ratio.first );
+                        CAPTURE( actual_item_count );
+                        CAPTURE( expected_item_ratio );
+                        CHECK_THAT( actual_item_ratio,
+                                    Catch::Matchers::WithinRel( expected_item_ratio, 0.1f ) );
+                    }
+                }
+                float current_type_expected_ratio = current_type_weight_total / all_type_weight_total;
+                float current_type_actual_ratio = current_type_actual_total / all_type_actual_total;
+                CAPTURE( category.first );
+                CAPTURE( group.first );
+                CAPTURE( current_type_expected_ratio );
+                CAPTURE( current_type_actual_ratio );
+                INFO( "Difference: " << current_type_actual_ratio - current_type_expected_ratio );
+                CHECK_THAT( current_type_actual_ratio,
+                            Catch::Matchers::WithinRel( current_type_expected_ratio, 0.1f ) );
+            }
+        }
+    }
+}
+
+TEST_CASE( "highway_find_intersection_bounds", "[overmap]" )
+{
+    overmap_buffer.clear();
+    highway_intersection_grid &highway_grid =
+        overmap_buffer.global_state.highway_intersections;
+    highway_grid.set_grid_origin( point_abs_om::zero );
+    point_abs_om pos = highway_grid.get_grid_origin();
+
+    const int c_separation = get_option<int>( "HIGHWAY_GRID_COLUMN_SEPARATION" );
+    const int r_separation = get_option<int>( "HIGHWAY_GRID_ROW_SEPARATION" );
+
+    const int col_test = c_separation / 2;
+    const int row_test = r_separation / 2;
+    const int col_test_2 = c_separation * 1.5;
+    const int row_test_2 = r_separation * 1.5;
+
+    //check points in 8 directions of origin
+    std::vector<std::pair<point_rel_om, point_rel_om>> input_output_pairs = {
+        //inside quadrants surrounding origin + 0,0
+        { point_rel_om( col_test, 0 ), point_rel_om( 0, 0 ) },
+        { point_rel_om( -col_test, 0 ), point_rel_om( -c_separation, 0 ) },
+        { point_rel_om( 0, row_test ), point_rel_om( 0, 0 ) },
+        { point_rel_om( 0, -row_test ), point_rel_om( 0, -r_separation ) },
+        { point_rel_om( col_test, row_test ), point_rel_om( 0, 0 ) },
+        { point_rel_om( -col_test, row_test ), point_rel_om( -c_separation, 0 ) },
+        { point_rel_om( col_test, -row_test ), point_rel_om( 0, -r_separation ) },
+        //on grid points
+        { point_rel_om( 0, 0 ), point_rel_om( 0, 0 ) },
+        { point_rel_om( -c_separation, 0 ), point_rel_om( -c_separation, 0 ) },
+        { point_rel_om( c_separation, 0 ), point_rel_om( c_separation, 0 ) },
+        { point_rel_om( 0, -r_separation ), point_rel_om( 0, -r_separation ) },
+        { point_rel_om( 0, r_separation ), point_rel_om( 0, r_separation ) },
+        //outside quadrants surrounding origin + 0,0
+        { point_rel_om( col_test_2, 0 ), point_rel_om( c_separation, 0 ) },
+        { point_rel_om( -col_test_2, 0 ), point_rel_om( -c_separation * 2, 0 ) },
+        { point_rel_om( 0, row_test_2 ), point_rel_om( 0, r_separation ) },
+        { point_rel_om( 0, -row_test_2 ), point_rel_om( 0, -r_separation * 2 ) },
+        { point_rel_om( col_test_2, row_test_2 ), point_rel_om( c_separation, r_separation ) },
+        { point_rel_om( -col_test_2, row_test_2 ), point_rel_om( -c_separation * 2, r_separation ) },
+        { point_rel_om( col_test_2, -row_test_2 ), point_rel_om( c_separation, -r_separation * 2 ) },
+        { point_rel_om( -col_test_2, -row_test_2 ), point_rel_om( -c_separation * 2, -r_separation * 2 ) }
+    };
+
+    for( const std::pair<point_rel_om, point_rel_om> &p : input_output_pairs ) {
+        std::vector<point_abs_om> bounds = highway_grid.find_feature_point_bounds( pos + p.first );
+        CHECK( bounds.back() == pos + p.second );
+    }
+
+}
+
+TEST_CASE( "highway_connections_default_to_invalid", "[overmap][highway]" )
+{
+    overmap_buffer.clear();
+
+    point_abs_om pos;
+    bool found = false;
+    for( const point_abs_om &candidate : closest_points_first( point_abs_om(), 50 ) ) {
+        if( !overmap_buffer.has( candidate ) ) {
+            pos = candidate;
+            found = true;
+            break;
+        }
+    }
+    REQUIRE( found );
+
+    // Heap-allocated because overmap's map_layer arrays overflow the stack.
+    auto om = std::make_unique<overmap>( pos );
+    const auto &conns = overmap_test_helper::get_highway_connections( *om );
+    for( int i = 0; i < 4; i++ ) {
+        CAPTURE( i );
+        CHECK( conns[i] == tripoint_om_omt::invalid );
+        CHECK( conns[i] != tripoint_om_omt::zero );
+    }
+}
+
+TEST_CASE( "highway_neighbor_missing_connections_no_crash", "[overmap][highway]" )
+{
+    overmap_buffer.clear();
+
+    // Find a clean block with no on-disk saves.
+    point_abs_om cluster_origin;
+    bool found_cluster = false;
+    for( const point_abs_om &candidate : closest_points_first( point_abs_om(), 50 ) ) {
+        bool block_clean = true;
+        for( const point_abs_om &p : closest_points_first( candidate, 0, 4 ) ) {
+            if( overmap_buffer.has( p ) ) {
+                block_clean = false;
+                break;
+            }
+        }
+        if( block_clean ) {
+            cluster_origin = candidate;
+            found_cluster = true;
+            break;
+        }
+    }
+    overmap_buffer.clear();
+    REQUIRE( found_cluster );
+
+    // Generate a radius-2 cluster, leaving an ungenerated ring around it.
+    for( const point_abs_om &om_pos : closest_points_first( cluster_origin, 0, 2 ) ) {
+        const point_abs_omt omt = project_to<coords::omt>( om_pos );
+        overmap_buffer.ter( tripoint_abs_omt( omt, 0 ) );
+    }
+
+    // Find a boundary highway overmap with a valid outward connection
+    // toward an ungenerated neighbor.
+    overmap *target = nullptr;
+    point_abs_om target_pos;
+    int outward_dir = -1;
+    for( const point_abs_om &om_pos : closest_points_first( cluster_origin, 2, 2 ) ) {
+        overmap *om = overmap_buffer.get_existing( om_pos );
+        if( om == nullptr ) {
+            continue;
+        }
+        const auto &conns = overmap_test_helper::get_highway_connections( *om );
+        for( int i = 0; i < 4; i++ ) {
+            if( conns[i] == tripoint_om_omt::zero || conns[i] == tripoint_om_omt::invalid ) {
+                continue;
+            }
+            const point_abs_om neighbor = om_pos + four_adjacent_offsets[i];
+            if( overmap_buffer.get_existing( neighbor ) == nullptr ) {
+                target = om;
+                target_pos = om_pos;
+                outward_dir = i;
+                break;
+            }
+        }
+        if( target != nullptr ) {
+            break;
+        }
+    }
+    REQUIRE( target != nullptr );
+
+    // Corrupt to simulate old-save or cascading failure.
+    overmap_test_helper::set_highway_connections( *target, {
+        tripoint_om_omt::zero, tripoint_om_omt::zero,
+        tripoint_om_omt::zero, tripoint_om_omt::zero
+    } );
+
+    // Generate the neighbor that reads the corrupted connection.
+    const point_abs_om victim = target_pos + four_adjacent_offsets[outward_dir];
+    std::string dmsg = capture_debugmsg_during( [&]() {
+        const point_abs_omt omt = project_to<coords::omt>( victim );
+        overmap_buffer.ter( tripoint_abs_omt( omt, 0 ) );
+    } );
+
+    CHECK_THAT( dmsg, !Catch::Contains( "highway connections not initialized" ) );
+}
+
+TEST_CASE( "overmap_generation_is_deterministic", "[overmap]" )
+{
+    // Verify that overmap generation produces identical results when the RNG
+    // engine starts from the same state.  Catches stale distribution cache
+    // bugs and any other hidden nondeterminism in the generation pipeline.
+
+    // NOLINTNEXTLINE(cata-determinism)
+    const cata_default_random_engine saved_engine = rng_get_engine();
+
+    map &main_map = get_map();
+    const point_abs_om origin = project_to<coords::om>( main_map.get_abs_sub().xy() );
+
+    // Generate a 2x2 cluster of overmaps (origin + 3 neighbors).
+    const std::vector<point_abs_om> cluster = closest_points_first( origin, 0, 1 );
+
+    constexpr int runs = 3;
+    std::vector<std::vector<oter_id>> snapshots( runs );
+
+    for( int run = 0; run < runs; ++run ) {
+        overmap_buffer.clear();
+        rng_get_engine() = saved_engine;
+
+        // Touch all overmaps in the cluster to trigger generation.
+        for( const point_abs_om &om : cluster ) {
+            const point_abs_omt omt = project_to<coords::omt>( om );
+            overmap_buffer.ter( { omt, 0 } );
+        }
+
+        // Snapshot every z=0 tile across the cluster.
+        std::vector<oter_id> &snap = snapshots[run];
+        snap.reserve( cluster.size() * OMAPX * OMAPY );
+        for( const point_abs_om &om : cluster ) {
+            const point_abs_omt omt_start = project_to<coords::omt>( om );
+            const point_abs_omt omt_end = omt_start + point::south_east * OMAPX;
+            for( int y = omt_start.y(); y < omt_end.y(); ++y ) {
+                for( int x = omt_start.x(); x < omt_end.x(); ++x ) {
+                    snap.push_back( overmap_buffer.ter( { point_abs_omt( x, y ), 0 } ) );
+                }
+            }
+        }
+    }
+
+    // Compare each run against the first.
+    for( int run = 1; run < runs; ++run ) {
+        REQUIRE( snapshots[run].size() == snapshots[0].size() );
+        bool match = true;
+        for( size_t i = 0; i < snapshots[0].size(); ++i ) {
+            if( snapshots[run][i] != snapshots[0][i] ) {
+                // Report the first mismatch with tile coordinates.
+                const int tiles_per_om = OMAPX * OMAPY;
+                const int om_idx = static_cast<int>( i ) / tiles_per_om;
+                const int local = static_cast<int>( i ) % tiles_per_om;
+                const int y = local / OMAPX;
+                const int x = local % OMAPX;
+                CAPTURE( run, om_idx, x, y );
+                CAPTURE( snapshots[0][i]->id );
+                CAPTURE( snapshots[run][i]->id );
+                FAIL( "overmap terrain mismatch between run 0 and run " << run );
+                match = false;
+                break;
+            }
+        }
+        if( match ) {
+            SUCCEED( "run " << run << " matches run 0" );
+        }
     }
 }

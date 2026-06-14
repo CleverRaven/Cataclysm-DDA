@@ -21,7 +21,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REACH_FAKE_DAVE" } },
-            { "not": { "u_has_var": "found_fake_dave", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "found_fake_dave" } ] } }
           ]
         }
       },
@@ -48,9 +48,7 @@
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 2,
     "value": 60000,
-    "start": {
-      "assign_mission_target": { "om_terrain": "hunter_shack", "reveal_radius": 5, "om_special": "Swamp Shack", "search_range": 120 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "hunter_shack", "reveal_radius": 5, "om_special": "Swamp Shack" } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "destination": "hunter_shack",
     "dialogue": {

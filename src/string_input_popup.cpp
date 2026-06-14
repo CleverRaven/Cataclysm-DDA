@@ -1,22 +1,28 @@
 #include "string_input_popup.h"
 
 #include <cctype>
+#include <climits>
 
 #include "cata_scope_helpers.h"
 #include "catacharset.h"
+#include "generic_factory.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "output.h"
 #include "point.h"
+#include "ret_val.h"
+#include "translation.h"
 #include "translations.h"
 #include "try_parse_integer.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "wcwidth.h"
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
+#include "sdltiles.h"
 #endif
 
 #if defined(__ANDROID__)
@@ -149,22 +155,6 @@ void string_input_popup::show_history( utf8_wrapper &ret )
     if( !hmenu.entries.empty() ) {
         hmenu.selected = hmenu.entries.size() - 1;
 
-        hmenu.w_height_setup = [&]() -> int {
-            // number of lines that make up the menu window: 2*border+entries
-            int height = 2 + hmenu.entries.size();
-            if( getbegy( w_full ) < height )
-            {
-                height = std::max( getbegy( w_full ), 4 );
-            }
-            return height;
-        };
-        hmenu.w_x_setup = [&]( int ) -> int {
-            return getbegx( w_full );
-        };
-        hmenu.w_y_setup = [&]( const int height ) -> int {
-            return std::max( getbegy( w_full ) - height, 0 );
-        };
-
         bool finished = false;
         do {
             hmenu.query();
@@ -250,9 +240,11 @@ void string_input_popup::draw( ui_adaptor *const ui, const utf8_wrapper &ret,
 
         if( !_title.empty() ) {
             int pos_y = 0;
+            wattron( w_title_and_entry, _title_color );
             for( int i = 0; i < static_cast<int>( title_split.size() ) - 1; i++ ) {
-                mvwprintz( w_title_and_entry, point( i, pos_y++ ), _title_color, title_split[i] );
+                mvwprintw( w_title_and_entry, point( i, pos_y++ ), title_split[i] );
             }
+            wattroff( w_title_and_entry, _title_color );
             trim_and_print( w_title_and_entry, point( 0, pos_y ), titlesize, _title_color, title_split.back() );
         }
     }
@@ -342,12 +334,14 @@ void string_input_popup::query( const bool loop, const bool draw_only )
 }
 
 template<typename T>
-T query_int_impl( string_input_popup &p, const bool loop, const bool draw_only )
+static std::optional<T> query_int_impl( string_input_popup &p, const bool loop,
+                                        const bool draw_only )
 {
     do {
-        ret_val<T> result = try_parse_integer<T>( p.query_string( loop, draw_only ), true );
-        if( p.canceled() ) {
-            return 0;
+        const std::string &queried_string = p.query_string( loop, draw_only );
+        ret_val<T> result = try_parse_integer<T>( queried_string, true );
+        if( p.canceled() || queried_string.empty() ) {
+            return std::nullopt;
         }
         if( result.success() ) {
             return result.value();
@@ -358,12 +352,30 @@ T query_int_impl( string_input_popup &p, const bool loop, const bool draw_only )
     return 0;
 }
 
-int string_input_popup::query_int( const bool loop, const bool draw_only )
+std::optional<tripoint_abs_omt> string_input_popup::query_coordinate_abs_impl( bool loop,
+        bool draw_only )
+{
+    do {
+        const std::string &queried_string = query_string( loop, draw_only );
+        ret_val<tripoint_abs_omt> result = try_parse_coordinate_abs( queried_string );
+        if( canceled() || queried_string.empty() ) {
+            return std::nullopt;
+        }
+        if( result.success() ) {
+            return result.value();
+        }
+        popup( result.str() );
+    } while( loop );
+
+    return tripoint_abs_omt::zero;
+}
+
+std::optional<int> string_input_popup::query_int( const bool loop, const bool draw_only )
 {
     return query_int_impl<int>( *this, loop, draw_only );
 }
 
-int64_t string_input_popup::query_int64_t( const bool loop, const bool draw_only )
+std::optional<int64_t> string_input_popup::query_int64_t( const bool loop, const bool draw_only )
 {
     return query_int_impl<int64_t>( *this, loop, draw_only );
 }
@@ -478,7 +490,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         } else if( action == "TEXT.QUIT" ) {
 #if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                StopTextInput();
+                StopTextInput( get_sdl_window() );
             }
 #endif
             _text.clear();
@@ -551,11 +563,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
                 if( action == "TEXT.PASTE" ) {
 #if defined(TILES)
                     if( edit.empty() ) {
-                        char *const clip = SDL_GetClipboardText();
-                        if( clip ) {
-                            entered = clip;
-                            SDL_free( clip );
-                        }
+                        entered = GetClipboardText();
                     }
 #endif
                 } else if( action == "TEXT.INPUT_FROM_FILE" ) {
@@ -683,4 +691,14 @@ void string_input_popup::add_callback( const std::string &action,
 void string_input_popup::add_callback( int input, const std::function<bool()> &callback_func )
 {
     callbacks.emplace_back( "", input, callback_func );
+}
+
+string_input_params string_input_params::parse_string_input_params( const JsonObject &jo )
+{
+    string_input_params p;
+    optional( jo, false, "title", p.title );
+    optional( jo, false, "description", p.description );
+    optional( jo, false, "default_text", p.default_text );
+    optional( jo, false, "identifier", p.identifier );
+    return p;
 }

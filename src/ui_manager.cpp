@@ -7,28 +7,31 @@
 
 #include "cached_options.h"
 #include "cata_assert.h"
-#include "cata_scope_helpers.h"
-#include "cata_utility.h"
-#include "cursesdef.h"
-#include "game_ui.h"
-#include "point.h"
-#include "sdltiles.h" // IWYU pragma: keep
 #include "cata_imgui.h"
+#include "cata_scope_helpers.h"
+#include "cursesdef.h"
+#include "point.h"
 
 #if defined(EMSCRIPTEN)
 #include <emscripten.h>
 #endif
 
+#if defined(TILES)
+#include "sdl_wrappers.h"
+#include "sdltiles.h"
+#endif
+
 using ui_stack_t = std::vector<std::reference_wrapper<ui_adaptor>>;
 
-#if !defined(__ANDROID__)
 static bool imgui_frame_started = false;
-#endif
 static bool redraw_in_progress = false;
 static bool showing_debug_message = false;
 static bool restart_redrawing = false;
 #if defined( TILES )
 static std::optional<SDL_Rect> prev_clip_rect;
+// renderer_resource_generation() sampled when prev_clip_rect was saved, so the
+// restore can be skipped if a recovery rebuilt the renderer in between.
+static uint64_t prev_clip_rect_generation = 0;
 #endif
 static ui_stack_t ui_stack;
 
@@ -63,28 +66,43 @@ ui_adaptor::ui_adaptor( ui_adaptor::debug_message_ui ) : is_imgui( false ),
     // alone does not prevent the graphics from becoming borked in other ways,
     // but `ui_manager` will redo the entire redrawing as soon as the redraw
     // callback returns.
-    const SDL_Renderer_Ptr &renderer = get_sdl_renderer();
-    if( SDL_RenderIsClipEnabled( renderer.get() ) ) {
-        prev_clip_rect = SDL_Rect();
-        SDL_RenderGetClipRect( renderer.get(), &prev_clip_rect.value() );
-        SDL_RenderSetClipRect( renderer.get(), nullptr );
-    } else {
+    if( renderer_should_abort_frame() ) {
+        // A recovery/pause/resize is queued; the renderer is about to be rebuilt.
+        // Skip the clip-rect query and reset, and clear any saved rect so the
+        // destructor does not restore a stale one onto the rebuilt renderer.
         prev_clip_rect = std::nullopt;
+    } else {
+        const SDL_Renderer_Ptr &renderer = get_sdl_renderer();
+        if( RenderIsClipEnabled( renderer ) ) {
+            prev_clip_rect = SDL_Rect();
+            RenderGetClipRect( renderer, &prev_clip_rect.value() );
+            RenderSetClipRect( renderer, nullptr );
+            prev_clip_rect_generation = renderer_resource_generation();
+        } else {
+            prev_clip_rect = std::nullopt;
+        }
     }
 #endif
     ui_stack.emplace_back( *this );
 }
 
+// NOLINTNEXTLINE(bugprone-exception-escape): cata_assert may throw on failed invariant by design
 ui_adaptor::~ui_adaptor()
 {
+    if( is_shutting_down ) {
+        return;
+    }
     if( is_debug_message_ui ) {
         cata_assert( showing_debug_message );
         showing_debug_message = false;
 #if defined( TILES )
-        // See ui_adaptor( debug_message_ui )
-        if( prev_clip_rect.has_value() ) {
+        // See ui_adaptor( debug_message_ui ). Skip the restore when a recovery is
+        // queued now, or when one rebuilt the renderer since the rect was saved:
+        // the saved rect belongs to the pre-rebuild renderer.
+        if( prev_clip_rect.has_value() && !renderer_should_abort_frame()
+            && renderer_resource_generation() == prev_clip_rect_generation ) {
             const SDL_Renderer_Ptr &renderer = get_sdl_renderer();
-            SDL_RenderSetClipRect( renderer.get(), &prev_clip_rect.value() );
+            RenderSetClipRect( renderer, &prev_clip_rect.value() );
         }
 #endif
     }
@@ -101,7 +119,7 @@ ui_adaptor::~ui_adaptor()
 void ui_adaptor::position_from_window( const catacurses::window &win )
 {
     if( !win ) {
-        position( point_zero, point_zero );
+        position( point::zero, point::zero );
     } else {
         const rectangle<point> old_dimensions = dimensions;
         // ensure position is updated before calling invalidate
@@ -129,6 +147,15 @@ void ui_adaptor::position( const point &topleft, const point &size )
 #else
     dimensions = rectangle<point>( topleft, topleft + size );
 #endif
+    invalidated = true;
+    ui_manager::invalidate( old_dimensions, false );
+}
+
+void ui_adaptor::position_absolute( const point &topleft, const point &size )
+{
+    const rectangle<point> old_dimensions = dimensions;
+    // ensure position is updated before calling invalidate
+    dimensions = rectangle<point>( topleft, topleft + size );
     invalidated = true;
     ui_manager::invalidate( old_dimensions, false );
 }
@@ -170,7 +197,7 @@ void ui_adaptor::record_cursor( const catacurses::window &w )
 
 void ui_adaptor::record_term_cursor()
 {
-#if !defined( TILES ) && !defined(_MSC_VER)
+#if defined( TUI )
     cursor_type = cursor::custom;
     cursor_pos = point( getcurx( catacurses::newscr ), getcury( catacurses::newscr ) );
 #else
@@ -181,7 +208,7 @@ void ui_adaptor::record_term_cursor()
 
 void ui_adaptor::default_cursor()
 {
-#if !defined( TILES )
+#if defined( TUI )
     cursor_type = cursor::last;
 #else
     // Unimplemented
@@ -196,7 +223,7 @@ void ui_adaptor::disable_cursor()
 
 static void restore_cursor( const point &p )
 {
-#if !defined( TILES ) && !defined(_MSC_VER)
+#if defined( TUI )
     wmove( catacurses::newscr, p );
 #else
     static_cast<void>( p );
@@ -218,6 +245,11 @@ static bool overlap( const rectangle<point> &lhs, const rectangle<point> &rhs )
 {
     return lhs.p_min.x < rhs.p_max.x && lhs.p_min.y < rhs.p_max.y &&
            rhs.p_min.x < lhs.p_max.x && rhs.p_min.y < lhs.p_max.y;
+}
+
+size_t ui_adaptor::ui_stack_size()
+{
+    return ui_stack.size();
 }
 
 // This function does two things:
@@ -296,7 +328,12 @@ void ui_adaptor::reset()
 {
     on_screen_resize( nullptr );
     on_redraw( nullptr );
-    position( point_zero, point_zero );
+    position( point::zero, point::zero );
+}
+
+void ui_adaptor::shutdown()
+{
+    is_shutting_down = true;
 }
 
 void ui_adaptor::invalidate( const rectangle<point> &rect, const bool reenable_uis_below )
@@ -343,16 +380,41 @@ void ui_adaptor::redraw_invalidated( )
     if( test_mode || ui_stack.empty() ) {
         return;
     }
-#if !defined(__ANDROID__)
+#if defined(TILES)
+    display_buffer_draw_scope draw_scope;
+    if( !draw_scope.should_draw() ) {
+        // Return before the redraw callbacks clear their invalidation flags, so a
+        // queued recovery, a failed bind, or a watcher race all leave invalidation
+        // intact for the next drain to replay the full UI.
+        return;
+    }
+    int buf_w = 0;
+    int buf_h = 0;
+    get_display_buffer_dims( &buf_w, &buf_h );
+#endif
     // This boolean is needed when a debug error is thrown inside redraw_invalidated
     if( !imgui_frame_started ) {
+#if defined(TILES)
+        imclient->new_frame( buf_w, buf_h );
+#else
         imclient->new_frame();
+#endif
     }
     imgui_frame_started = true;
-#endif
 
-    restore_on_out_of_scope<bool> prev_redraw_in_progress( redraw_in_progress );
-    restore_on_out_of_scope<bool> prev_restart_redrawing( restart_redrawing );
+    // On abnormal exit (exception unwinding a draw callback) close the frame
+    // without rendering so the next NewFrame() does not assert. No-op on the
+    // normal path: end_frame()/abort_frame() clear imgui_frame_started first.
+    on_out_of_scope imgui_frame_balance( [] {
+        if( imgui_frame_started )
+        {
+            imclient->abort_frame();
+            imgui_frame_started = false;
+        }
+    } );
+
+    restore_on_out_of_scope prev_redraw_in_progress( redraw_in_progress );
+    restore_on_out_of_scope prev_restart_redrawing( restart_redrawing );
     redraw_in_progress = true;
 
     do {
@@ -455,10 +517,27 @@ void ui_adaptor::redraw_invalidated( )
     emscripten_sleep( 1 );
 #endif
 
-#if !defined(__ANDROID__)
+#if defined(TILES)
+    if( renderer_should_abort_frame() ) {
+        // Close the ImGui frame WITHOUT backend rendering: abort_frame balances
+        // the next NewFrame assert without painting the drawlist onto a target
+        // about to be rebuilt. A recovery re-invalidates every adaptor; a bare
+        // resize keeps the buffer contents the present path restretches.
+        if( imgui_frame_started ) {
+            imclient->abort_frame();
+        }
+        imgui_frame_started = false;
+        return;
+    }
+#endif
     imclient->end_frame();
     imgui_frame_started = false;
-#endif
+
+    // if any ImGui window needed to calculate the size of its contents,
+    //  it needs an extra frame to draw. We do that here.
+    // if( imclient->auto_size_frame_active() ) {
+    //     redraw_invalidated();
+    // }
 }
 
 void ui_adaptor::screen_resized()
@@ -474,14 +553,16 @@ void ui_adaptor::screen_resized()
 
 background_pane::background_pane()
 {
-    ui.on_screen_resize( []( ui_adaptor & ui ) {
+    if( !test_mode ) {
+        ui.on_screen_resize( []( ui_adaptor & ui ) {
+            ui.position_from_window( catacurses::stdscr );
+        } );
         ui.position_from_window( catacurses::stdscr );
-    } );
-    ui.position_from_window( catacurses::stdscr );
-    ui.on_redraw( []( const ui_adaptor & ) {
-        catacurses::erase();
-        wnoutrefresh( catacurses::stdscr );
-    } );
+        ui.on_redraw( []( const ui_adaptor & ) {
+            catacurses::erase();
+            wnoutrefresh( catacurses::stdscr );
+        } );
+    }
 }
 
 namespace ui_manager
@@ -510,6 +591,13 @@ void invalidate_all_ui_adaptors()
 {
     for( ui_adaptor &adaptor : ui_stack ) {
         adaptor.invalidate_ui();
+    }
+}
+
+void reset()
+{
+    for( ui_adaptor &adaptor : ui_stack ) {
+        adaptor.shutdown();
     }
 }
 } // namespace ui_manager

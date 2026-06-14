@@ -1,0 +1,22 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOMANCY_IS_DISTURBING",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "//": "The character check is because it's meant to be the effects of someone seeing you cast a biomancy spell.  If no one sees it, it doesn't matter.",
+    "condition": {
+      "and": [
+        { "compare_string": [ "BIOMANCER", { "context_val": "school" } ] },
+        { "math": [ "u_characters_nearby('radius': 30, 'attitude': 'any') > 0" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_add_effect": "effect_biomancer_disturbing",
+        "intensity": { "math": [ "_difficulty * 1.5" ] },
+        "duration": { "math": [ "_difficulty * 8" ] }
+      }
+    ]
+  }
+]

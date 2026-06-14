@@ -2,15 +2,14 @@
 #ifndef CATA_SRC_SDL_UTILS_H
 #define CATA_SRC_SDL_UTILS_H
 
-#include <algorithm>
-#include <cmath>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
-#include "color.h"
 #include "options.h"
 #include "sdl_wrappers.h"
+
+class nc_color;
 
 using color_pixel_function_pointer = SDL_Color( * )( const SDL_Color &color );
 using color_pixel_function_map = std::unordered_map<std::string, color_pixel_function_pointer>;
@@ -38,6 +37,11 @@ SDL_Color color_pixel_grayscale( const SDL_Color &color );
 SDL_Color color_pixel_nightvision( const SDL_Color &color );
 SDL_Color color_pixel_overexposed( const SDL_Color &color );
 SDL_Color color_pixel_darken( const SDL_Color &color );
+// White silhouette preserving alpha. Used as tint mask texture.
+inline SDL_Color color_pixel_silhouette( const SDL_Color &color )
+{
+    return { 255, 255, 255, color.a };
+}
 SDL_Color color_pixel_mixer( const SDL_Color &color, const float &gammav,
                              const SDL_Color &color_a, const SDL_Color &color_b );
 

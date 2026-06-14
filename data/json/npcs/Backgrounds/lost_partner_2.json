@@ -11,10 +11,10 @@
       "no": {
         "npc_has_effect": "player_BGSS_SAIDYES",
         "yes": {
-          "gendered_line": "Like I said, it's a <shitty> story, but I guess it won't kill me to tell it one more time.",
+          "gendered_line": "Like I said, it's a lame story, but I guess it won't kill me to tell it one more time.",
           "relevant_genders": [ "npc" ]
         },
-        "no": "Just another <shitty> tale of love and loss.  Not one I like to tell."
+        "no": "Just another fucked-up tale of love and loss.  Not one I like to tell."
       }
     },
     "responses": [
@@ -64,7 +64,7 @@
   {
     "id": "BGSS_LOST_PARTNER_2_FUCKOFF",
     "type": "talk_topic",
-    "dynamic_line": "Oh, <fuck_you>.  This doesn't have anything to do with you, or with us.",
+    "dynamic_line": "Oh, just shut the fuck up already.  This doesn't have anything to do with you, or with us.",
     "responses": [ { "text": "…", "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 14000 }, "topic": "TALK_DONE" } ]
   },
   {
@@ -101,8 +101,8 @@
     "dynamic_line": [
       {
         "npc_female": true,
-        "yes": "He was at home when the bombs started dropping and the world went to hell.  I was at work.  I tried to make it to our house, but the city was a war zone.  Things I can't describe lurching through the streets, crushing people and cars.  Soldiers trying to stop them, but hitting people in the crossfire as much as anything.  And then the collateral damage would get right back up and join the enemy.  If it hadn't been for my husband, I would have just left, but I did what I could and I slipped through.  I actually <swear> made it alive.",
-        "no": "She was at home when the bombs started dropping and the world went to hell.  I was at work.  I tried to make it to our house, but the city was a war zone.  Things I can't describe lurching through the streets, crushing people and cars.  Soldiers trying to stop them, but hitting people in the crossfire as much as anything.  And then the collateral damage would get right back up and join the enemy.  If it hadn't been for my wife, I would have just left, but I did what I could and I slipped through.  I actually <swear> made it alive."
+        "yes": "He was at home when the bombs started dropping and the world went to hell.  I was at work.  I tried to make it to our house, but the city was a war zone.  Things I can't describe lurching through the streets, crushing people and cars.  Soldiers trying to stop them, but hitting people in the crossfire as much as anything.  And then the collateral damage would get right back up and join the enemy.  If it hadn't been for my husband, I would have just left, but I did what I could and I slipped through.  I actually made it alive.",
+        "no": "She was at home when the bombs started dropping and the world went to hell.  I was at work.  I tried to make it to our house, but the city was a war zone.  Things I can't describe lurching through the streets, crushing people and cars.  Soldiers trying to stop them, but hitting people in the crossfire as much as anything.  And then the collateral damage would get right back up and join the enemy.  If it hadn't been for my wife, I would have just left, but I did what I could and I slipped through.  I actually made it alive."
       }
     ],
     "responses": [

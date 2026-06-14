@@ -1,10 +1,8 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "synagogue" ],
     "//": "New England Synagogue",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -12,7 +10,7 @@
         "  ss^^^^^^^ss^^^^^^^    ",
         "  s^^||||w|++|w||||^^   ",
         "  s^||tt........+.||^   ",
-        "  s^|..........l|..|^   ",
+        "  s^|§.........l|..|^   ",
         " ss^|lll.tt.....|ST|^^  ",
         " s^||||||||++||||||||^  ",
         " s^|................|^  ",
@@ -25,7 +23,7 @@
         " s^|#.#.#.rrrr.#.#.#|^  ",
         " s^w................w^  ",
         " s^|.######..######.|^  ",
-        " s^|.......AA.......|^  ",
+        " s^|.......AA......§|^  ",
         " s^||||+||||||||+||||^  ",
         " s^^woo.o|y.eD....ow^^  ",
         " ss^|y...+.....h.ho|^   ",
@@ -33,13 +31,14 @@
         "  s^^|||w||++||w|||^^   ",
         "  sssssssssss    !      "
       ],
+      "palettes": [ "parametrized_linoleum_palette" ],
       "terrain": {
         " ": "t_region_groundcover_urban",
         "+": "t_door_c",
         ".": "t_floor",
-        "S": "t_linoleum_gray",
-        "T": "t_linoleum_gray",
-        "'": "t_linoleum_gray",
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "T": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "'": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "^": "t_region_shrub_decorative",
         "s": "t_sidewalk",
         "w": "t_window",
@@ -81,12 +80,12 @@
         ".": { "item": "synagogue", "chance": 3 },
         ",": { "item": "synagogue", "chance": 3 },
         "l": { "item": "jackets", "chance": 60 }
-      }
+      },
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "synagogue_roof",
     "object": {
       "fill_ter": "t_open_air",
@@ -99,15 +98,15 @@
         "    -..............-    ",
         "   --..............--   ",
         "   -................-   ",
-        "   -....|w|ww|w|....-   ",
-        "   -....woooooow....-   ",
+        "   -....|O|OO|O|....-   ",
+        "   -....OooooooO....-   ",
         "   -....|oooooo|....-   ",
-        "   -....woooooow....-   ",
+        "   -....OooooooO....-   ",
         "   -....|oooooo|....-   ",
-        "   -....woooooow....-   ",
+        "   -....OooooooO....-   ",
         "   -....|oooooo|....-   ",
-        "   -....woooooow....-   ",
-        "   -....|w|ww|w|....-   ",
+        "   -....OooooooO....-   ",
+        "   -....|O|OO|O|....-   ",
         "   -................-   ",
         "   --..............--   ",
         "    -..............-    ",
@@ -117,12 +116,11 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_tile_flat_roof", "|": "t_brick_wall", "o": "t_open_air_rooved", "w": "t_window" }
+      "terrain": { ".": "t_tile_flat_roof", "|": "t_brick_wall", "o": "t_open_air_rooved", "O": "t_window" }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "synagogue_upper_roof",
     "object": {
       "fill_ter": "t_open_air",

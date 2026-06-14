@@ -2,7 +2,7 @@
   {
     "type": "snippet",
     "category": "<talk_snippet_modded_liam_meeting1>",
-    "text": "*, your old friend, looks up at you in shock.  At his feet lies a a corpse, its head almost completely blown off by the shotgun that drops limply from Liam's fingers as you approach.  \"I swear, dude, this is not what it looks like.\""
+    "text": "*, your old friend, looks up at you in shock.  At his feet lies a corpse, its head almost completely blown off by the shotgun that drops limply from Liam's fingers as you approach.  \"I swear, dude, this is not what it looks like.\""
   },
   {
     "type": "talk_topic",
@@ -61,5 +61,10 @@
         "topic": "TALK_DONE"
       }
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "<talk_snippet_modded_liam_Friends4ever>",
+    "text": "Aww, of course.  No matter what happens, you're always you and I'm always me, right?  We've been through worse than this.\"  He pauses, his brow furrowed.  \"Well, okay, maybe we haven't.  But we've stuck through it all for so many years, what's a little undead apocalypse gonna change?  Hell, I think we're in for one of those classic buddy-buddy zombie movie experiences, like, uh, Dawn of the Dead.\"  He pauses.  \"Maybe not that one.  Night of the Living Dead?\"  He pauses again.  \"Zombieland, maybe.  Who cares.  You're my family, more than my birth family ever was."
   }
 ]

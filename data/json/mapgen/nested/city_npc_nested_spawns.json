@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "city_cop_police_station",
     "object": {
       "mapgensize": [ 10, 10 ],
@@ -39,19 +38,16 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "SEER_Brigitte_LaCroix_spawn",
     "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "SEER_Brigitte_LaCroix", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "KINDRED_Darren_Cooper_spawn",
     "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "KINDRED_Darren_Cooper", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "NPC_pizzaiolo_spawn",
     "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "NPC_pizzaiolo", "x": 0, "y": 0 } ] }
   }

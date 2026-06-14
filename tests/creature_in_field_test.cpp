@@ -1,4 +1,7 @@
+#include <string>
+
 #include "cata_catch.h"
+#include "coordinates.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
@@ -8,10 +11,10 @@
 
 static const vproto_id vehicle_prototype_handjack( "handjack" );
 
-TEST_CASE( "creature_in_field", "[monster],[field]" )
+TEST_CASE( "creature_in_field", "[monster] [field]" )
 {
-    static const tripoint target_location{ 5, 5, 0 };
-    clear_map();
+    static const tripoint_bub_ms target_location{ 5, 5, 0 };
+    clear_map_without_vision();
     map &here = get_map();
     GIVEN( "An acid field" ) {
         here.add_field( target_location, field_type_id( "fd_acid" ) );

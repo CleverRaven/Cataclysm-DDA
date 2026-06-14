@@ -7,7 +7,7 @@
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile" ],
-    "flags": [ "NO_LEGS" ],
+    "flags": [ "NO_LEGS", "PERCENTAGE_DAMAGE" ],
     "min_damage": 300,
     "max_damage": 300,
     "min_aoe": 10,

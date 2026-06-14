@@ -1,0 +1,124 @@
+[
+  {
+    "om_terrain": "xedrawood_scenario_wise_one_hut",
+    "type": "mapgen",
+    "object": {
+      "fill_ter": "t_dirtfloor_thatchroof",
+      "rows": [
+        "**********.......*******",
+        "******..♥♥~♠♠~♦♦~♣♣*****",
+        "*****...♥♥~♠♠~♦♦~♣♣..***",
+        "*****...♥♥~♠♠~♦♦~♣♣...**",
+        "*****...♥♥~♠♠~♦♦~♣♣.....",
+        "*****....~~~~~~~~~......",
+        "*****.......~C##w####...",
+        "*****.......~##lt % ##..",
+        "*****....~~~~w    #RR#..",
+        "*****....~~~~+    ####..",
+        "****........~#  F % L#..",
+        "***.qqqqq...~#L   #  #..",
+        "**.qQQQQQq..~#L   # B#..",
+        "**.qQQQQQqq.~##tlṚ#Ṟ##..",
+        "**qQQQQQQQqq~~#w#####...",
+        "*.qQQQQQQQQq.~~~~~~~....",
+        "*qQQQQQQQQQQqqq~...~....",
+        "*qQQQQQQQQQQQqqqqq.~....",
+        "*qqQQQQQQQQQQQQQQqq~....",
+        "*.qQQQQQQQQQQQQQQQq~....",
+        "*.qqQQQQQQQQQQQQQQq~....",
+        "*.qqqQQQQQQQQQQQQQq....*",
+        "**..qqQQqqqQQQQQqq.*****",
+        "******qq***qqqqq********"
+      ],
+      "terrain": {
+        ".": [ [ "t_region_groundcover", 1 ], "t_region_groundcover_forest", 3 ],
+        "~": [ [ "t_region_groundcover_barren", 3 ], "t_region_groundcover" ],
+        "*": [ [ "t_region_groundcover_forest", 15 ], "t_region_shrub" ],
+        "-": "t_fence",
+        "w": "t_embrasure_log",
+        "+": "t_door_c",
+        "C": "t_rootcellar",
+        "q": "t_water_sh",
+        "Q": "t_water_dp",
+        "#": "t_wall_log",
+        "%": "t_door_grass_curtain_c",
+        "♥": "t_dirtmound",
+        "♠": "t_dirtmound",
+        "♦": "t_dirtmound",
+        "♣": "t_dirtmound"
+      },
+      "sealed_item": {
+        "♥": { "item": { "item": "seed_wild_herbs" }, "furniture": "f_plant_seedling", "chance": 100 },
+        "♠": { "item": { "item": "seed_thyme" }, "furniture": "f_plant_seedling", "chance": 100 },
+        "♦": { "item": { "item": "seed_spurge" }, "furniture": "f_plant_seedling", "chance": 100 },
+        "♣": { "item": { "item": "seed_chamomile" }, "furniture": "f_plant_seedling", "chance": 100 }
+      },
+      "furniture": {
+        "B": "f_hammock_net",
+        "b": "f_bench",
+        "c": "f_chair",
+        "d": "f_desk",
+        "F": "f_firering",
+        "L": "f_leather_tarp",
+        "l": "f_logstool",
+        "t": "f_table",
+        "R": "f_rack_primitive",
+        "Ṟ": "f_rack_primitive",
+        "Ṛ": "f_rack_primitive"
+      },
+      "items": {
+        "C": { "item": "preserved_food", "chance": 100, "repeat": [ 4, 8 ] },
+        "R": { "item": "hedge_magick_materials", "chance": 100, "repeat": [ 2, 4 ] },
+        "Ṟ": [ { "item": "shirts", "chance": 100, "repeat": 2 }, { "item": "pants_male", "chance": 100, "repeat": 2 } ]
+      },
+      "place_loot": [
+        { "item": "dry_meat", "x": 17, "y": 13, "chance": 100, "repeat": [ 5, 20 ] },
+        { "item": "dry_fruit", "x": 17, "y": 13, "chance": 100, "repeat": [ 5, 20 ] },
+        { "item": "makeshift_pillow", "x": 20, "y": 12, "chance": 100 },
+        { "item": "fur_blanket", "x": 20, "y": 12, "chance": 100 },
+        { "item": "clay_watercont", "x": 14, "y": 10, "chance": 100 },
+        { "item": "primitive_adze", "x": 12, "y": 10, "chance": 100 },
+        { "item": "primitive_hammer", "x": 12, "y": 10, "chance": 100 },
+        { "item": "fire_drill_large", "x": 13, "y": 10, "chance": 100 },
+        { "item": "oil_lamp_clay", "x": 11, "y": 13, "chance": 100 },
+        { "item": "primitive_axe", "x": 12, "y": 10, "chance": 100 },
+        { "item": "log", "x": 12, "y": 11, "chance": 100, "repeat": [ 75, 150 ] },
+        { "item": "clay_pot", "x": 16, "y": 7, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "xedrawood_scenario_wise_one_hut_roof",
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "              .......   ",
+        "             .........  ",
+        "             .........  ",
+        "             .........  ",
+        "             .... ....  ",
+        "             .........  ",
+        "             .........  ",
+        "             .........  ",
+        "              .......   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ".": "t_thatch_roof" }
+    }
+  }
+]

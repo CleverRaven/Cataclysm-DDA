@@ -1,30 +1,42 @@
 #include <algorithm>
 #include <cstdlib>
-#include <iostream>
+#include <map>
+#include <memory>
+#include <string>
+#include <unordered_set>
+#include <utility>
+#include <vector>
 
 #include "avatar.h"
 #include "cata_catch.h"
+#include "flag.h"
 #include "item.h"
+#include "item_factory.h"
+#include "item_location.h"
+#include "itype.h"
 #include "melee.h"
 #include "monster.h"
 #include "player_helpers.h"
-#include "sounds.h"
 #include "ret_val.h"
+#include "sounds.h"
+#include "string_formatter.h"
 #include "test_data.h"
 #include "type_id.h"
 
-static const mtype_id debug_mon( "debug_mon" );
-static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
+static const itype_id itype_test_balanced_sword( "test_balanced_sword" );
+static const itype_id itype_test_clumsy_sword( "test_clumsy_sword" );
+static const itype_id itype_test_normal_sword( "test_normal_sword" );
+
+static const mtype_id mon_zombie_smoker_no_weakpoints( "mon_zombie_smoker_no_weakpoints" );
 static const mtype_id mon_zombie_soldier_no_weakpoints( "mon_zombie_soldier_no_weakpoints" );
 static const mtype_id mon_zombie_survivor_no_weakpoints( "mon_zombie_survivor_no_weakpoints" );
+static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
 
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_unarmed( "unarmed" );
-
-struct itype;
 
 // Run a large number of trials of a player attacking a monster with a given weapon,
 // and return the average damage done per second.
@@ -116,19 +128,19 @@ TEST_CASE( "effective_damage_per_second", "[effective][dps]" )
     avatar &dummy = get_avatar();
     clear_character( dummy );
 
-    item clumsy_sword( "test_clumsy_sword" );
-    item normal_sword( "test_normal_sword" );
-    item good_sword( "test_balanced_sword" );
+    item clumsy_sword( itype_test_clumsy_sword );
+    item normal_sword( itype_test_normal_sword );
+    item good_sword( itype_test_balanced_sword );
 
     SECTION( "against a debug monster with no armor or dodge" ) {
-        monster mummy( debug_mon );
+        monster mummy( pseudo_debug_mon );
 
         CHECK( clumsy_sword.effective_dps( dummy, mummy ) == Approx( 25.0f ).epsilon( 0.15f ) );
         CHECK( good_sword.effective_dps( dummy, mummy ) == Approx( 38.0f ).epsilon( 0.15f ) );
     }
 
     SECTION( "against an agile target" ) {
-        monster smoker( mon_zombie_smoker );
+        monster smoker( mon_zombie_smoker_no_weakpoints );
         REQUIRE( smoker.get_dodge() >= 4 );
 
         CHECK( clumsy_sword.effective_dps( dummy, smoker ) == Approx( 11.0f ).epsilon( 0.15f ) );
@@ -143,11 +155,11 @@ TEST_CASE( "effective_damage_per_second", "[effective][dps]" )
     }
 
     SECTION( "effect of STR and DEX on damage per second" ) {
-        monster mummy( debug_mon );
+        monster mummy( pseudo_debug_mon );
 
         SECTION( "STR 6, DEX 6" ) {
-            dummy.str_max = 6;
-            dummy.dex_max = 6;
+            dummy.set_str_base( 6 );
+            dummy.set_dex_base( 6 );
 
             CHECK( clumsy_sword.effective_dps( dummy, mummy ) == Approx( 20.0f ).epsilon( 0.15f ) );
             CHECK( normal_sword.effective_dps( dummy, mummy ) == Approx( 26.0f ).epsilon( 0.15f ) );
@@ -155,8 +167,8 @@ TEST_CASE( "effective_damage_per_second", "[effective][dps]" )
         }
 
         SECTION( "STR 8, DEX 10" ) {
-            dummy.str_max = 8;
-            dummy.dex_max = 10;
+            dummy.set_str_base( 8 );
+            dummy.set_dex_base( 10 );
 
             CHECK( clumsy_sword.effective_dps( dummy, mummy ) == Approx( 25.0f ).epsilon( 0.15f ) );
             CHECK( normal_sword.effective_dps( dummy, mummy ) == Approx( 32.0f ).epsilon( 0.15f ) );
@@ -164,8 +176,8 @@ TEST_CASE( "effective_damage_per_second", "[effective][dps]" )
         }
 
         SECTION( "STR 10, DEX 10" ) {
-            dummy.str_max = 10;
-            dummy.dex_max = 10;
+            dummy.set_str_base( 10 );
+            dummy.set_dex_base( 10 );
 
             CHECK( clumsy_sword.effective_dps( dummy, mummy ) == Approx( 27.0f ).epsilon( 0.15f ) );
             CHECK( normal_sword.effective_dps( dummy, mummy ) == Approx( 34.0f ).epsilon( 0.15f ) );
@@ -180,12 +192,12 @@ TEST_CASE( "effective_vs_actual_damage_per_second", "[actual][dps][!mayfail]" )
     clear_character( dummy );
 
     monster soldier( mon_zombie_soldier_no_weakpoints );
-    monster smoker( mon_zombie_smoker );
+    monster smoker( mon_zombie_smoker_no_weakpoints );
     monster survivor( mon_zombie_survivor_no_weakpoints );
 
-    item clumsy_sword( "test_clumsy_sword" );
-    item normal_sword( "test_normal_sword" );
-    item good_sword( "test_balanced_sword" );
+    item clumsy_sword( itype_test_clumsy_sword );
+    item normal_sword( itype_test_normal_sword );
+    item good_sword( itype_test_balanced_sword );
 
     SECTION( "soldier zombie" ) {
         check_actual_dps( dummy, soldier, clumsy_sword );
@@ -212,12 +224,12 @@ TEST_CASE( "accuracy_increases_success", "[accuracy][dps]" )
     clear_character( dummy );
 
     monster soldier( mon_zombie_soldier_no_weakpoints );
-    monster smoker( mon_zombie_smoker );
+    monster smoker( mon_zombie_smoker_no_weakpoints );
     monster survivor( mon_zombie_survivor_no_weakpoints );
 
-    item clumsy_sword( "test_clumsy_sword" );
-    item normal_sword( "test_normal_sword" );
-    item good_sword( "test_balanced_sword" );
+    item clumsy_sword( itype_test_clumsy_sword );
+    item normal_sword( itype_test_normal_sword );
+    item good_sword( itype_test_balanced_sword );
 
     SECTION( "soldier zombie" ) {
         check_accuracy_dps( dummy, soldier, clumsy_sword, normal_sword, good_sword );
@@ -235,10 +247,10 @@ TEST_CASE( "accuracy_increases_success", "[accuracy][dps]" )
 static void make_experienced_tester( avatar &test_guy )
 {
     clear_character( test_guy );
-    test_guy.str_max = 10;
-    test_guy.dex_max = 10;
-    test_guy.int_max = 10;
-    test_guy.per_max = 10;
+    test_guy.set_str_base( 10 );
+    test_guy.set_dex_base( 10 );
+    test_guy.set_int_base( 10 );
+    test_guy.set_per_base( 10 );
     test_guy.set_str_bonus( 0 );
     test_guy.set_dex_bonus( 0 );
     test_guy.set_int_bonus( 0 );
@@ -264,9 +276,14 @@ static void make_experienced_tester( avatar &test_guy )
     REQUIRE( static_cast<int>( test_guy.get_skill_level( skill_unarmed ) ) == 4 );
     REQUIRE( static_cast<int>( test_guy.get_skill_level( skill_melee ) ) == 4 );
 }
+
 /*
  * A super tedious set of test cases to make sure that weapon values do not drift too far out
  * of range without anyone noticing them and adjusting them.
+ * The weapons that *must* be enumerated include anything with a DPS over 25,
+ * essentially candidates for pushing into the top tier of weapons.
+ * Additionally we want to test a bunch of misc makeshift items to get coverage of
+ * shifts in the lwer tiers of weapons.
  * Used expected_dps(), which should make actual dps because of the calculations above.
  */
 TEST_CASE( "expected_weapon_dps", "[expected][dps]" )
@@ -281,9 +298,32 @@ TEST_CASE( "expected_weapon_dps", "[expected][dps]" )
         return Approx( test_guy.melee_value( weapon ) ).margin( 0.5 );
     };
 
+    std::unordered_set<itype_id> tested;
     for( std::pair<const itype_id, double> &weap : test_data::expected_dps ) {
+        if( weap.first->src.empty() || weap.first->src.back().second.str() != "dda" ) {
+            continue;
+        }
+        tested.emplace( weap.first );
         INFO( string_format( "%s's dps changed, if it's intended replace the value in the respective file in data/mods/TEST_DATA/expected_dps_data.",
                              weap.first.str() ) );
         CHECK( calc_expected_dps( weap.first ) == weap.second );
+    }
+
+    for( const itype *it : item_controller->all() ) {
+        if( it->src.empty() || it->src.back().second.str() != "dda" ) {
+            continue;
+        }
+        if( it->has_flag( flag_PSEUDO ) ) {
+            continue;
+        }
+        if( !item( it ).is_melee() ) {
+            continue;
+        }
+        if( tested.find( it->get_id() ) != tested.end() ) {
+            continue;
+        }
+        INFO( string_format( "'%s' is a weapon, but is not included in DPS tests.  Please place it in the appropriate file in data/mods/TEST_DATA/expected_dps_data.",
+                             it->get_id().str() ) );
+        CHECK( calc_expected_dps( it->get_id() ) <= 25.0 );
     }
 }

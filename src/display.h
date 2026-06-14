@@ -2,9 +2,26 @@
 #ifndef CATA_SRC_DISPLAY_H
 #define CATA_SRC_DISPLAY_H
 
-#include <functional>
+#include <cstddef>
+#include <map>
+#include <string>
+#include <string_view>
+#include <utility>
 
-#include "widget.h"
+#include "bodypart.h"
+#include "color.h"
+#include "coordinates.h"
+#include "point.h"
+#include "type_id.h"
+
+class Character;
+class Creature;
+class avatar;
+class mood_face;
+class time_point;
+class translation;
+class vehicle;
+enum class cardinal_direction : int;
 
 // These are the supported data variables for coloring bodygraphs.
 enum class bodygraph_var : int {
@@ -15,9 +32,6 @@ enum class bodygraph_var : int {
     wet,         // wetness
     last // END OF ENUMS
 };
-
-class avatar;
-class Character;
 
 struct disp_overmap_cache {
     private:
@@ -49,6 +63,11 @@ struct disp_overmap_cache {
         // Retrieve the cached widget string
         const std::string &get_val() const {
             return _om_wgt_str;
+        }
+
+        // Mark the cache as stale so it will be rebuilt on next access.
+        void invalidate() {
+            _center = tripoint_abs_omt::invalid;
         }
 };
 
@@ -113,6 +132,8 @@ std::string vehicle_azimuth_text( const Character &u );
 std::pair<std::string, nc_color> vehicle_cruise_text_color( const Character &u );
 // Vehicle percent of fuel remaining for currently running engine
 std::pair<std::string, nc_color> vehicle_fuel_percent_text_color( const Character &u );
+// Vehicle remaining battery percent
+std::pair<std::string, nc_color> vehicle_battery_percent_text_color( const Character &u );
 
 // Functions returning (text, color) pairs
 std::pair<translation, nc_color> weariness_text_color( size_t weariness );
@@ -123,9 +144,10 @@ std::pair<std::string, nc_color> thirst_text_color( const Character &u );
 std::pair<std::string, nc_color> hunger_text_color( const Character &u );
 std::pair<std::string, nc_color> weight_text_color( const Character &u );
 std::pair<std::string, nc_color> health_text_color( const Character &u );
-std::pair<std::string, nc_color> fatigue_text_color( const Character &u );
+std::pair<std::string, nc_color> sleepiness_text_color( const Character &u );
 std::pair<std::string, nc_color> pain_text_color( const Creature &c );
 std::pair<std::string, nc_color> pain_text_color( const Character &u );
+std::pair<std::string, nc_color> faction_text( const Character &u );
 // Character morale, as a color-coded ascii emoticon face
 std::pair<std::string, nc_color> morale_face_color( const avatar &u );
 // Helpers for morale_face_color
@@ -145,6 +167,7 @@ std::pair<std::string, nc_color> power_balance_text_color( const avatar &u );
 
 std::pair<std::string, nc_color> safe_mode_text_color( bool classic_mode );
 std::pair<std::string, nc_color> wind_text_color( const Character &u );
+std::pair<std::string, nc_color> snow_depth_text_color( const Character &u );
 std::pair<std::string, nc_color> weather_text_color( const Character &u );
 
 // Get visible threats by cardinal direction - Already colorized
@@ -168,6 +191,9 @@ nc_color limb_color( const Character &u, const bodypart_id &bp, bool bleed, bool
 // Color for displaying the given encumbrance level
 nc_color encumb_color( int level );
 
+// Weight carried, formatted as "current/max"
+std::pair<std::string, nc_color> carry_weight_value_color( const avatar &ava );
+
 // Colorized symbol for the overmap tile at the given location
 std::pair<std::string, nc_color> overmap_tile_symbol_color( const avatar &u,
         const tripoint_abs_omt &omt, bool edge_tile, bool &found_mi );
@@ -189,6 +215,9 @@ std::string weight_string( const Character &u );
 // Functions returning colorized string
 // gets the string that describes your health
 std::string health_string( const Character &u );
+
+// Force the overmap widget cache to rebuild on next access.
+void invalidate_overmap_cache();
 } // namespace display
 
 #endif // CATA_SRC_DISPLAY_H

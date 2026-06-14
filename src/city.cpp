@@ -1,17 +1,14 @@
-#include "city.h"             // IWYU pragma: associated
+#include "city.h"
 
-#include <algorithm>          // for max
-#include <set>                // for set
-#include <vector>             // for vector
-#include "coordinates.h"      // for point_om_omt, point_abs_om, trig_dist
-#include "debug.h"            // for realDebugmsg, debugmsg
-#include "generic_factory.h"  // for mandatory, optional, generic_factory
-#include "options.h"          // for get_option
-#include "rng.h"              // for rng
+#include <algorithm>
+#include <climits>
+#include <vector>
 
-#include "cube_direction.h"
-#include "omdata.h"
-#include "overmap.h"
+#include "coordinates.h"
+#include "debug.h"
+#include "generic_factory.h"
+#include "options.h"
+#include "rng.h"
 #include "text_snippets.h"
 
 generic_factory<city> &get_city_factory()
@@ -41,17 +38,20 @@ void city::load_city( const JsonObject &jo, const std::string &src )
 
 void city::finalize()
 {
-    for( city &c : const_cast<std::vector<city>&>( city::get_all() ) ) {
-        if( c.name.empty() ) {
-            c.name = SNIPPET.expand( "<city_name>" );
-        }
-        if( c.population == 0 ) {
-            c.population = rng( 1, INT_MAX );
-        }
-        if( c.size == -1 ) {
-            c.size = rng( 1, 16 );
-        }
+    if( name.empty() ) {
+        name = SNIPPET.expand( "<city_name>" );
     }
+    if( population == 0 ) {
+        population = rng( 1, INT_MAX );
+    }
+    if( size == -1 ) {
+        size = rng( 1, 16 );
+    }
+}
+
+void city::finalize_all()
+{
+    get_city_factory().finalize();
 }
 
 void city::check_consistency()
@@ -69,7 +69,7 @@ void city::reset()
     get_city_factory().reset();
 }
 
-void city::load( const JsonObject &jo, const std::string_view )
+void city::load( const JsonObject &jo, std::string_view )
 {
 
     mandatory( jo, was_loaded, "id", id );
@@ -89,9 +89,14 @@ void city::check() const
 }
 
 city::city( const point_om_omt &P, int const S )
+    : city( SNIPPET.expand( "<city_name>" ), P, S )
+{
+}
+
+city::city( const std::string &N, const point_om_omt &P, int const S )
     : pos( P )
     , size( S )
-    , name( SNIPPET.expand( "<city_name>" ) )
+    , name( N )
 {
 }
 
@@ -99,4 +104,3 @@ int city::get_distance_from( const tripoint_om_omt &p ) const
 {
     return std::max( static_cast<int>( trig_dist( p, tripoint_om_omt{ pos, 0 } ) ) - size, 0 );
 }
-

@@ -1,0 +1,286 @@
+[
+  {
+    "id": "mon_large_cockroach",
+    "copy-from": "mon_large_cockroach",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_worm_small",
+    "copy-from": "mon_worm_small",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_silverfish_small",
+    "copy-from": "mon_silverfish_small",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_bee",
+    "copy-from": "mon_bee",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_centipede_small",
+    "copy-from": "mon_centipede_small",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_centipede_house_small",
+    "copy-from": "mon_centipede_house_small",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_dragonfly_giant",
+    "copy-from": "mon_dragonfly_giant",
+    "type": "MONSTER",
+    "aggression": 0,
+    "aggro_character": false,
+    "upgrades": false
+  },
+  {
+    "id": "mon_fly",
+    "copy-from": "mon_fly",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_mosquito_small",
+    "copy-from": "mon_mosquito_small",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_mosquito_larva",
+    "copy-from": "mon_mosquito_larva",
+    "type": "MONSTER",
+    "upgrades": { "age_grow": 30, "into": "mon_mosquito_small" }
+  },
+  {
+    "id": "mon_spider_cellar_small",
+    "copy-from": "mon_spider_cellar_small",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_spider_cellar_giant_s",
+    "copy-from": "mon_spider_cellar_giant_s",
+    "type": "MONSTER",
+    "upgrades": { "age_grow": 30, "into": "mon_spider_cellar_small" }
+  },
+  {
+    "id": "mon_spider_jumping_small",
+    "copy-from": "mon_spider_jumping_small",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_spider_jumping_giant_s",
+    "copy-from": "mon_spider_jumping_giant_s",
+    "type": "MONSTER",
+    "upgrades": { "age_grow": 30, "into": "mon_spider_jumping_small" }
+  },
+  {
+    "id": "mon_spider_trapdoor_small",
+    "copy-from": "mon_spider_trapdoor_small",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_spider_trapdoor_s",
+    "copy-from": "mon_spider_jumping_giant_s",
+    "type": "MONSTER",
+    "upgrades": { "age_grow": 30, "into": "mon_spider_trapdoor_small" }
+  },
+  {
+    "id": "mon_spider_web_small",
+    "copy-from": "mon_spider_web_small",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_spider_web_s",
+    "copy-from": "mon_spider_jumping_giant_s",
+    "type": "MONSTER",
+    "upgrades": { "age_grow": 30, "into": "mon_spider_web_small" }
+  },
+  {
+    "id": "mon_spider_widow_small",
+    "copy-from": "mon_spider_widow_small",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_spider_widow_giant_s",
+    "copy-from": "mon_spider_widow_giant_s",
+    "type": "MONSTER",
+    "upgrades": { "age_grow": 30, "into": "mon_spider_widow_small" }
+  },
+  {
+    "id": "mon_spider_wolf_small",
+    "copy-from": "mon_spider_wolf_small",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_spider_wolf_giant_s",
+    "copy-from": "mon_spider_wolf_giant_s",
+    "type": "MONSTER",
+    "upgrades": { "age_grow": 30, "into": "mon_spider_wolf_small" }
+  },
+  {
+    "id": "mon_wasp_small",
+    "copy-from": "mon_wasp_small",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_wasp_small_guard",
+    "copy-from": "mon_wasp_small_guard",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_ant_small",
+    "copy-from": "mon_ant_small",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_ant_larva",
+    "copy-from": "mon_ant_larva",
+    "type": "MONSTER",
+    "upgrades": { "age_grow": 30, "into": "mon_ant_small" }
+  },
+  {
+    "id": "mon_ant_soldier",
+    "copy-from": "mon_ant_soldier",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_ant_acid_small",
+    "copy-from": "mon_ant_acid_small",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_ant_acid_larva",
+    "copy-from": "mon_ant_acid_larva",
+    "type": "MONSTER",
+    "upgrades": { "age_grow": 30, "into": "mon_ant_acid_small" }
+  },
+  {
+    "id": "mon_ant_acid_soldier",
+    "copy-from": "mon_ant_acid_soldier",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_locust_small",
+    "copy-from": "mon_locust_small",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_locust_nymph",
+    "copy-from": "mon_locust_nymph",
+    "type": "MONSTER",
+    "upgrades": { "age_grow": 30, "into": "mon_locust_small" }
+  },
+  {
+    "id": "mon_aphid_small",
+    "copy-from": "mon_aphid_small",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_mantis_small",
+    "copy-from": "mon_mantis_small",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_mantis_nymph",
+    "copy-from": "mon_mantis_nymph",
+    "type": "MONSTER",
+    "upgrades": { "age_grow": 30, "into": "mon_mantis_small" }
+  },
+  {
+    "id": "mon_lady_bug",
+    "copy-from": "mon_lady_bug",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_lady_bug_larva",
+    "copy-from": "mon_lady_bug_larva",
+    "type": "MONSTER",
+    "upgrades": { "age_grow": 30, "into": "mon_lady_bug" }
+  },
+  {
+    "id": "mon_grasshopper_small",
+    "copy-from": "mon_grasshopper_small",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_grasshopper_nymph",
+    "copy-from": "mon_grasshopper_nymph",
+    "type": "MONSTER",
+    "upgrades": { "age_grow": 30, "into": "mon_grasshopper_small" }
+  },
+  {
+    "id": "mon_stag_beetle_small",
+    "copy-from": "mon_stag_beetle_small",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_antlion_giant",
+    "copy-from": "mon_antlion_giant",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_strider_small",
+    "copy-from": "mon_strider_small",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_strider_nymph",
+    "copy-from": "mon_strider_nymph",
+    "type": "MONSTER",
+    "upgrades": { "age_grow": 30, "into": "mon_strider_small" }
+  },
+  {
+    "id": "mon_butterfly",
+    "copy-from": "mon_butterfly",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_moth",
+    "copy-from": "mon_moth",
+    "type": "MONSTER",
+    "upgrades": false
+  },
+  {
+    "id": "mon_butterfly_cocoon",
+    "copy-from": "mon_butterfly_cocoon",
+    "type": "MONSTER",
+    "upgrades": { "age_grow": 30, "into": "mon_butterfly" }
+  },
+  {
+    "id": "mon_moth_cocoon",
+    "copy-from": "mon_moth_cocoon",
+    "type": "MONSTER",
+    "upgrades": { "age_grow": 30, "into": "mon_moth" }
+  }
+]

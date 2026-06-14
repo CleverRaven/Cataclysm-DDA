@@ -10,10 +10,6 @@
     "time": "2 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [
-      [ [ "bottle_plastic", 1 ], [ "bottle_bathroom", 1 ], [ "can_medium", 1 ] ],
-      [ [ "paper", 50 ] ],
-      [ [ "duct_tape", 20 ] ]
-    ]
+    "components": [ [ [ "plastic_bottles_any", 1, "LIST" ], [ "can_medium", 1 ] ], [ [ "paper", 50 ] ], [ [ "duct_tape", 20 ] ] ]
   }
 ]

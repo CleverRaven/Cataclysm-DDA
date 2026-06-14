@@ -233,6 +233,8 @@
     "learn_difficulty": 10,
     "arm_block_with_bio_armor_arms": true,
     "leg_block_with_bio_armor_legs": true,
+    "arm_block": 2,
+    "leg_block": 3,
     "static_buffs": [
       {
         "id": "mma_buff_panzer_static1",
@@ -601,7 +603,7 @@
     "onmove_buffs": [
       {
         "id": "mma_buff_tiger_claw_onmove",
-        "name": "Pounching Charge",
+        "name": "Pouncing Charge",
         "description": "You recklessly throw yourself into battle to overpower your prey.  Strike first and strike hard.\n\n+2 accuracy, +10% damage.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
         "melee_allowed": true,

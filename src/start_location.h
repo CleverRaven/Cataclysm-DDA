@@ -3,28 +3,37 @@
 #define CATA_SRC_START_LOCATION_H
 
 #include <cstddef>
-#include <iosfwd>
 #include <set>
 #include <string>
+#include <string_view>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
-#include "assign.h"
 #include "common_types.h"
-#include "coordinates.h"
-#include "enums.h"
-#include "translations.h"
+#include "coords_fwd.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
+class JsonValue;
 class avatar;
-struct city;
 class tinymap;
+enum class ot_match_type : int;
+struct city;
 
 struct start_location_placement_constraints {
-    numeric_interval<int> city_size{ 0, INT_MAX };
-    numeric_interval<int> city_distance{ 0, INT_MAX };
-    numeric_interval<int> allowed_z_levels{ -OVERMAP_DEPTH, OVERMAP_HEIGHT };
+    numeric_interval<int> city_size;
+    numeric_interval<int> city_distance;
+    numeric_interval<int> allowed_z_levels;
+};
+
+struct omt_types_parameters {
+    std::string omt;
+    ot_match_type omt_type;
+    std::unordered_map<std::string, std::string> parameters;
+
+    void deserialize( const JsonValue &jv );
 };
 
 class start_location
@@ -33,29 +42,36 @@ class start_location
         start_location_id id;
         std::vector<std::pair<start_location_id, mod_id>> src;
         bool was_loaded = false;
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void finalize();
         void check() const;
 
         std::string name() const;
         int targets_count() const;
-        std::pair<std::string, ot_match_type> random_target() const;
+        omt_types_parameters random_target() const;
         const std::set<std::string> &flags() const;
 
         /**
          * Find a suitable start location on the overmap.
          * @return Global, absolute overmap terrain coordinates where the player should spawn.
-         * It may return `overmap::invalid_tripoint` if no suitable starting location could be found
+         * It may return `tripoint_abs_omt::invalid` if no suitable starting location could be found
          * in the world.
          */
-        tripoint_abs_omt find_player_initial_location( const point_abs_om &origin ) const;
+        std::pair<tripoint_abs_omt, std::unordered_map<std::string, std::string>>
+                find_player_initial_location( const point_abs_om &origin ) const;
         /**
          * Find a suitable start location on the overmap in specific city.
          * @return Global, absolute overmap terrain coordinates where the player should spawn.
-         * It may return `overmap::invalid_tripoint` if no suitable starting location could be found
+         * It may return `tripoint_abs_omt::invalid` if no suitable starting location could be found
          * in the world.
          */
-        tripoint_abs_omt find_player_initial_location( const city &origin ) const;
+        std::pair<tripoint_abs_omt, std::unordered_map<std::string, std::string>>
+                find_player_initial_location( const city &origin ) const;
+        /**
+         * Set any parameters assigned to the chosen start location
+         */
+        void set_parameters( const tripoint_abs_omt &omtstart,
+                             const std::unordered_map<std::string, std::string> &parameters_to_set ) const;
         /**
          * Initialize the map at players start location using @ref prepare_map.
          * @param omtstart Global overmap terrain coordinates where the player is to be spawned.
@@ -95,7 +111,7 @@ class start_location
         bool can_belong_to_city( const tripoint_om_omt &p, const city &cit ) const;
     private:
         translation _name;
-        std::vector<std::pair<std::string, ot_match_type>> _omt_types;
+        std::vector<omt_types_parameters> _locations;
         std::set<std::string> _flags;
         start_location_placement_constraints constraints_;
 

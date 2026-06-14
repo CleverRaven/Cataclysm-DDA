@@ -81,7 +81,7 @@ def tile_convert(otile, main_id, new_tile_number):
     for g in ('fg', 'bg'):
         if g not in otile:
             continue
-        if type(otile[g]) == int:
+        if type(otile[g]) is int:
             if otile[g] == -1:
                 continue
             otile[g] = list([otile[g]])
@@ -162,9 +162,9 @@ def tile_convert(otile, main_id, new_tile_number):
             for tile in ntile[g]:
                 # if tile_num is a dict with "weight" and "sprite",
                 # take the "sprite" number
-                if type(tile) == dict and "sprite" in tile:
+                if type(tile) is dict and "sprite" in tile:
                     iso_ize(tile["sprite"])
-                elif type(tile) == int:
+                elif type(tile) is int:
                     iso_ize(tile)
                 else:
                     raise RuntimeError("Unexpected sprite number: %s" % tile)

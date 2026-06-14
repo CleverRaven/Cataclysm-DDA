@@ -1,10 +1,13 @@
-#include <iosfwd>
 #include <set>
 #include <string>
 
 #include "cata_catch.h"
-#include "enum_traits.h"
+#include "cata_path.h"
+#include "path_info.h"
 #include "text_snippets.h"
+
+namespace
+{
 
 class IsOneOf : public Catch::MatcherBase<std::string>
 {
@@ -24,10 +27,12 @@ class IsOneOf : public Catch::MatcherBase<std::string>
         }
 };
 
+} // namespace
+
 TEST_CASE( "name_generation", "[name]" )
 {
     GIVEN( "Names loaded from tests/data/name.json" ) {
-        SNIPPET.reload_names( PATH_INFO::base_path_path() / "tests" / "data" / "name.json" );
+        SNIPPET.reload_names( PATH_INFO::base_path() / "tests" / "data" / "name.json" );
         WHEN( "Getting a town name" ) {
             std::string name = SNIPPET.expand( "<city_name>" );
             CHECK( name == "City" );

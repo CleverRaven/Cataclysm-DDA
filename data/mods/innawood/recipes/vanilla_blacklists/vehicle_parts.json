@@ -1,0 +1,22 @@
+[
+  {
+    "type": "recipe",
+    "result": "storage_battery_mount",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rebar_plate",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reinforced_solar_panel_v2",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reinforced_solar_panel",
+    "obsolete": true
+  }
+]

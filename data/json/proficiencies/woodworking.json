@@ -9,5 +9,16 @@
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.15,
     "time_to_learn": "4 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_luthier_basic",
+    "category": "prof_woodworking",
+    "name": { "str": "Hobbyist Luthier" },
+    "description": "Simple projects involving creating musical instruments out of wood.",
+    "can_learn": true,
+    "default_time_multiplier": 3.5,
+    "default_skill_penalty": 0.15,
+    "time_to_learn": "12 h"
   }
 ]

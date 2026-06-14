@@ -1,0 +1,123 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_AFS_SOLO",
+    "//": "Independent mercenaries with high quality combat gear and augments.",
+    "name": { "str": "Mercenary" },
+    "job_description": "Just fighting for the almighty dollar.",
+    "common": false,
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 8, 12 ] },
+    "bonus_dex": { "rng": [ 2, 6 ] },
+    "bonus_int": { "rng": [ -2, 2 ] },
+    "bonus_per": { "rng": [ 2, 6 ] },
+    "bionics": [
+      { "id": "bio_armor_head", "chance": 70 },
+      { "id": "bio_armor_torso", "chance": 55 },
+      { "id": "bio_armor_arms", "chance": 70 },
+      { "id": "bio_armor_legs", "chance": 55 },
+      { "id": "bio_ears", "chance": 100 },
+      { "id": "bio_dex_enhancer", "chance": 33 },
+      { "id": "bio_tattoo_led", "chance": 80 },
+      { "id": "bio_nanobots", "chance": 5 },
+      { "id": "bio_torsionratchet", "chance": 100 },
+      { "id": "bio_power_storage_mkII", "chance": 100 },
+      { "id": "bio_power_storage_mkII", "chance": 100 },
+      { "id": "bio_power_storage_mkII", "chance": 100 },
+      { "id": "bio_razors", "chance": 15 },
+      { "id": "bio_painkiller", "chance": 15 },
+      { "id": "bio_shield_medium", "chance": 10 },
+      { "id": "bio_microgen", "chance": 33 },
+      { "id": "bio_shield_weak", "chance": 10 },
+      { "id": "afs_bio_deck", "chance": 5 },
+      { "id": "afs_bio_blood_plus", "chance": 1 },
+      { "id": "afs_bio_blood_brain", "chance": 1 }
+    ],
+    "bonus_aggression": 100,
+    "bonus_bravery": 100,
+    "bonus_altruism": -10,
+    "worn_override": "NC_SOLO_worn",
+    "carry_override": "NC_SOLO_carry",
+    "weapon_override": "NC_SOLO_wield",
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 6, 8 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 6, 8 ] } },
+      { "skill": "smg", "bonus": { "rng": [ 6, 8 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 6, 8 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLO_worn",
+    "subtype": "collection",
+    "ammo": 100,
+    "magazine": 100,
+    "//": "Too cool to wear helmets (or much armor while at that).  They make armor bionics for that.",
+    "items": [
+      { "item": "afs_combat_cryo" },
+      { "group": "solo_jacket" },
+      { "item": "boots_combat" },
+      { "item": "under_armor" },
+      { "item": "afs_combat_headset_off" },
+      { "item": "afs_military_cloak", "prob": 20 },
+      { "item": "under_armor_shorts" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "solo_jacket",
+    "subtype": "distribution",
+    "items": [
+      { "item": "afs_bolero", "prob": 20, "contents-group": "solo_bolero" },
+      { "item": "afs_cyberpunk_bomber", "prob": 20 },
+      { "item": "afs_leather_jacket", "prob": 20 },
+      { "item": "afs_ilbe", "prob": 10, "contents-group": "solo_ilbe" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "solo_bolero",
+    "subtype": "collection",
+    "items": [ { "item": "XL_holster" }, { "item": "gadget_pouch" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "solo_ilbe",
+    "subtype": "collection",
+    "items": [ { "item": "XL_holster" }, { "item": "afs_grenade_pouch" }, { "item": "afs_triple_stacker_pouch" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLO_carry",
+    "subtype": "collection",
+    "items": [
+      { "item": "afs_UICASTA30", "charges": 30, "ammo-item": "afs_7.50mm_caseless", "count": 2 },
+      { "item": "knife_folding" },
+      { "group": "misc_smoking_legal", "prob": 33 },
+      {
+        "item": "afs_marsec_t72",
+        "ammo-item": "afs_7.50mm_caseless",
+        "charges": 9,
+        "contents-item": [ "barrel_ported" ],
+        "prob": 33
+      },
+      { "item": "afs_HE_grenade", "count": 2, "prob": 40 },
+      { "item": "afs_stimpack", "count": 3, "prob": 80 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLO_wield",
+    "subtype": "collection",
+    "items": [
+      {
+        "item": "afs_gibrifle",
+        "variant": "branded",
+        "ammo-item": "afs_7.50mm_caseless",
+        "charges": 30,
+        "contents-item": [ "shoulder_strap", "recoil_stock", "compensator" ]
+      }
+    ]
+  }
+]

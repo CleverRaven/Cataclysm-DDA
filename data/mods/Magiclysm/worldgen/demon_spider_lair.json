@@ -43,7 +43,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "demon_spider_lair" ],
     "object": {
       "rows": [

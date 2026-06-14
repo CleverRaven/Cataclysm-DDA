@@ -1,0 +1,91 @@
+[
+  {
+    "type": "item_group",
+    "id": "afs_survivor_armor",
+    "subtype": "collection",
+    "//": "Scavenged pieces of armor.  Should mostly spawn low to mid quality armor.",
+    "entries": [ { "distribution": [ { "group": "afs_basic_armor", "prob": 50 }, { "group": "afs_common_armor", "prob": 5 } ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_basic_armor",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "afs_plastic_armor_g", "prob": 10 },
+      { "group": "afs_armor_spaceship_crew_g", "prob": 5 },
+      { "group": "afs_scrap_armor_g", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_common_armor",
+    "subtype": "distribution",
+    "entries": [ { "group": "afs_carbide_raider_armor_g", "prob": 10 }, { "group": "afs_armor_military_infantry_g", "prob": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_plastic_armor_g",
+    "subtype": "collection",
+    "entries": [
+      { "group": "afs_hard_hat", "prob": 90 },
+      { "item": "legguard_hard", "prob": 40 },
+      { "item": "armguard_hard", "prob": 40 },
+      { "item": "chestguard_hard", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_scrap_armor_g",
+    "subtype": "collection",
+    "entries": [
+      { "item": "helmet_scrap", "prob": 70 },
+      { "item": "legguard_scrap", "prob": 40 },
+      { "item": "boots_scrap", "prob": 40 },
+      { "item": "armguard_scrap", "prob": 40 },
+      { "item": "cuirass_scrap", "prob": 90 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_armor_spaceship_crew_g",
+    "subtype": "collection",
+    "entries": [ { "item": "nanomesh_vest", "prob": 70 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_armor_military_infantry_g",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [ { "item": "afs_military_vest", "prob": 20 }, { "item": "afs_military_vestxl", "prob": 1 } ],
+        "prob": 100
+      },
+      {
+        "distribution": [ { "item": "tac_fullhelmet_uicas", "prob": 20 }, { "item": "tac_helmet_uicas", "prob": 1 } ],
+        "prob": 40
+      },
+      { "item": "afs_military_cloak", "prob": 40 },
+      { "item": "afs_backpack_shieldgen", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_carbide_raider_armor_g",
+    "//": "please add the rest of the carbide gear when its added.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "helmet_full_carbide", "prob": 70 },
+      { "item": "legguard_scrap", "prob": 40 },
+      { "item": "boots_scrap", "prob": 40 },
+      { "item": "armguard_scrap", "prob": 40 },
+      { "item": "cuirass_lightplate", "prob": 90 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_police_armor",
+    "//": "If specific aftershock police armor is added please add to this group. Until then it refers to civilian armors.",
+    "subtype": "collection",
+    "entries": [ { "group": "afs_armor_spaceship_crew_g", "prob": 60 }, { "group": "civilian_body_armor", "prob": 40 } ]
+  }
+]

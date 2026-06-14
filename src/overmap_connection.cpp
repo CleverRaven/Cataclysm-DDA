@@ -2,13 +2,12 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <map>
 #include <string>
+#include <unordered_map>
 
 #include "cata_assert.h"
 #include "debug.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "overmap_location.h"
 
 namespace
@@ -21,6 +20,7 @@ generic_factory<overmap_connection> connections( "overmap connection" );
 static const std::unordered_map<std::string, overmap_connection::subtype::flag>
 connection_subtype_flag_map = {
     { "ORTHOGONAL", overmap_connection::subtype::flag::orthogonal },
+    { "PERPENDICULAR_CROSSING", overmap_connection::subtype::flag::perpendicular_crossing }
 };
 
 template<>
@@ -98,7 +98,7 @@ bool overmap_connection::has( const int_id<oter_t> &oter ) const
     } ) != subtypes.cend();
 }
 
-void overmap_connection::load( const JsonObject &jo, const std::string_view )
+void overmap_connection::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, false, "subtypes", subtypes );
 }
@@ -135,9 +135,6 @@ void overmap_connections::load( const JsonObject &jo, const std::string &src )
 void overmap_connections::finalize()
 {
     connections.finalize();
-    for( const overmap_connection &elem : connections.get_all() ) {
-        const_cast<overmap_connection &>( elem ).finalize(); // This cast is ugly, but safe.
-    }
 }
 
 void overmap_connections::check_consistency()

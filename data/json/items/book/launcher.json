@@ -1,7 +1,8 @@
 [
   {
     "id": "mag_launcher",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "High Explosives Quarterly", "str_pl": "issues of High Explosives Quarterly" },
     "description": "An interesting quarterly report about rocket launchers and recoilless rifles.  There are lots of large, exciting photos of explosions and weaponry.",
@@ -37,21 +38,22 @@
     ],
     "weight": "90 g",
     "volume": "250 ml",
-    "price": 450,
-    "price_postapoc": 1250,
+    "price": "4 USD 50 cent",
+    "price_postapoc": "12 USD 50 cent",
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
     "looks_like": "mag_glam",
-    "skill": "launcher",
     "max_level": 1,
     "intelligence": 5,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "launcher",
+    "read_fun": 1
   },
   {
     "id": "manual_launcher",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Jane's Mortars and Rocket Launchers", "str_pl": "copies of Jane's Mortars and Rocket Launchers" },
     "description": "An incredibly detailed guide to modern rockets, mortars, grenade launchers, and recoilless weaponry.  Lavishly illustrated with color photographs, it contains a wealth of information.",
@@ -95,19 +97,24 @@
         "name": { "str": "FM 23-11: 90mm Recoilless Rifle, M67", "str_pl": "copies of FM 23-11: 90mm Recoilless Rifle, M67" },
         "description": "Official U.S. Army manual for using the M67 anti-tank rifle - theory, practice, and essential information.",
         "//": "979-8538902606"
+      },
+      {
+        "id": "manual_launcher_5",
+        "name": { "str": "Jane's Flamethrowers and Firestarters", "str_pl": "copies of Jane's Flamethrowers and Firestarters" },
+        "description": "A detailed, full-colored guide to flamethrowers, incendiary weapons, and napalm.  It builds off of information provided in its sister book, Jane's Mortars and Rocket Launchers, and so it's mostly incomprehensible to anyone without prior knowledge."
       }
     ],
     "weight": "650 g",
     "volume": "919 ml",
-    "price": 2000,
-    "price_postapoc": 2000,
+    "price": "20 USD",
+    "price_postapoc": "20 USD",
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "green",
-    "skill": "launcher",
     "looks_like": "mag_guns",
     "max_level": 3,
     "intelligence": 4,
-    "time": "18 m"
+    "time": "18 m",
+    "read_skill": "launcher"
   }
 ]

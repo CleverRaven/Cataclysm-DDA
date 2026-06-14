@@ -34,7 +34,7 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "PUSH_MON",
       "DESTROYS",
@@ -65,7 +65,7 @@
     "name": { "str": "spectacled bear" },
     "copy-from": "mon_bear",
     "description": "The Andean bear, sometimes called spectacled bear is the only bear species native to South America.  It lives in a very diverse array of ecosystems on low to high altitudes.",
-    "reproduction": { "baby_monster": "mon_cub_andean", "baby_count": 1, "baby_timer": 700 }
+    "reproduction": { "baby_type": { "baby_monster": "mon_cub_andean" }, "baby_count": 1, "baby_timer": 700 }
   },
   {
     "id": "mon_cub_andean",
@@ -101,7 +101,7 @@
     "vision_night": 20,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "harvest": "mammal_small_fur",
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "HIT_AND_RUN" ]
   },
   {
     "id": "mon_tapir_calf",
@@ -141,14 +141,14 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 2,
     "harvest": "mammal_large_boar",
-    "reproduction": { "baby_monster": "mon_tapir_calf", "baby_count": 1, "baby_timer": 330 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_tapir_calf" }, "baby_count": 1, "baby_timer": 330 },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "SWIMS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "SWIMS" ],
     "armor": { "bash": 2, "cut": 1 }
   },
   {
@@ -180,7 +180,7 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER", "WARM" ],
     "armor": { "bash": 2 }
   },
   {
@@ -209,7 +209,7 @@
     "harvest": "mammal_small_fur",
     "vision_night": 5,
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER", "WARM", "KEENNOSE" ]
   },
   {
     "id": "mon_bushdog",
@@ -238,7 +238,7 @@
     "vision_night": 5,
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "SWIMS", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "SWIMS", "PATH_AVOID_DANGER", "WARM", "KEENNOSE" ]
   },
   {
     "id": "mon_coypus",
@@ -266,7 +266,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "SWIMS", "WARM" ]
   },
   {
     "id": "mon_capybara_baby",
@@ -302,11 +302,11 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 2,
     "harvest": "mammal_fur",
-    "reproduction": { "baby_monster": "mon_capybara_baby", "baby_count": 8, "baby_timer": 154 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_capybara_baby" }, "baby_count": 8, "baby_timer": 154 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "SWIMS", "WARM" ]
   },
   {
     "id": "mon_hippo",
@@ -340,21 +340,21 @@
     "dissect": "dissect_cattle_sample_large",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "SWIMS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "SWIMS" ],
     "armor": { "bash": 4, "cut": 1, "bullet": 1 }
   },
   {
     "id": "mon_peccari_piglet",
     "type": "MONSTER",
-    "name": { "str": "peccari piglet" },
+    "name": { "str": "peccary piglet" },
     "copy-from": "mon_boar_wild_piglet",
-    "description": "The small offspring of a peccari.  Much like true boar piglets, this one has a mottled fur as camouflage.",
+    "description": "The small offspring of a peccary.  Much like true boar piglets, this one has a mottled fur as camouflage.",
     "upgrades": { "age_grow": 38, "into": "mon_peccari" }
   },
   {
     "id": "mon_peccari",
     "type": "MONSTER",
-    "name": "peccari",
+    "name": { "str": "peccary", "str_pl": "peccaries" },
     "description": "A small furred omnivore native to the American continent.  Despite looking like a boar it is not directly related to them or their domestic brethren.",
     "default_faction": "pig",
     "bodytype": "pig",
@@ -379,11 +379,11 @@
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
-    "reproduction": { "baby_monster": "mon_peccari_piglet", "baby_count": 8, "baby_timer": 154 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_peccari_piglet" }, "baby_count": 8, "baby_timer": 154 },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE" ]
   },
   {
     "id": "mon_guinea_pig",
@@ -410,9 +410,9 @@
     "dodge": 2,
     "harvest": "mammal_small_fur",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "reproduction": { "baby_monster": "mon_guinea_pig", "baby_count": 3, "baby_timer": 55 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_guinea_pig" }, "baby_count": 3, "baby_timer": 55 },
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER" ]
   },
   {
     "id": "mon_kangaroo_joey",
@@ -452,9 +452,9 @@
     "dodge": 2,
     "harvest": "mammal_fur",
     "special_attacks": [ [ "EAT_CROP", 120 ], { "type": "leap", "cooldown": 15, "move_cost": 0, "max_range": 12, "min_consider_range": 4 } ],
-    "reproduction": { "baby_monster": "mon_kangaroo_wallaby", "baby_count": 1, "baby_timer": 275 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_kangaroo_wallaby" }, "baby_count": 1, "baby_timer": 275 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM" ]
   }
 ]

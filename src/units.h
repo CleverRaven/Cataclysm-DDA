@@ -2,21 +2,23 @@
 #ifndef CATA_SRC_UNITS_H
 #define CATA_SRC_UNITS_H
 
-#include <cctype>
 #include <algorithm>
+#include <array>
+#include <cctype>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <limits>
 #include <map>
 #include <sstream>
 #include <string>
+#include <string_view>
 #include <type_traits>
 #include <utility>
-#include <vector>
 
+#include "flexbuffer_json.h"
 #include "json.h"
 #include "math_defines.h"
-#include "translations.h"
 #include "units_fwd.h" // IWYU pragma: export
 
 class time_duration;
@@ -52,6 +54,15 @@ class quantity
         // NOLINTNEXTLINE(google-explicit-constructor)
         constexpr quantity( const quantity<other_value_type, unit_type> &other ) :
             value_( other.value() ) {
+        }
+
+        //returns the smallest possible value for this unit
+        static constexpr this_type min() {
+            return this_type( std::numeric_limits<value_type>::min(), unit_type{} );
+        }
+        //returns the largest possible value for this unit
+        static constexpr this_type max() {
+            return this_type( std::numeric_limits<value_type>::max(), unit_type{} );
         }
 
         /**
@@ -144,7 +155,7 @@ class quantity
 };
 
 template<typename V, typename U>
-inline quantity<V, U> fabs( quantity<V, U> q )
+inline quantity<V, U> abs( quantity<V, U> q )
 {
     return quantity<V, U>( std::fabs( q.value() ), U{} );
 }
@@ -293,12 +304,6 @@ operator%=( quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
 }
 /**@}*/
 
-const volume volume_min = units::volume( std::numeric_limits<units::volume::value_type>::min(),
-                          units::volume::unit_type{} );
-
-const volume volume_max = units::volume( std::numeric_limits<units::volume::value_type>::max(),
-                          units::volume::unit_type{} );
-
 template<typename value_type>
 inline constexpr quantity<value_type, volume_in_milliliter_tag> from_milliliter(
     const value_type v )
@@ -322,16 +327,6 @@ inline constexpr double to_liter( const volume &v )
 {
     return v.value() / 1000.0;
 }
-
-// Legacy conversions factor for old volume values.
-// Don't use in new code! Use one of the from_* functions instead.
-constexpr volume legacy_volume_factor = from_milliliter( 250 );
-
-const mass mass_min = units::mass( std::numeric_limits<units::mass::value_type>::min(),
-                                   units::mass::unit_type{} );
-
-const mass mass_max = units::mass( std::numeric_limits<units::mass::value_type>::max(),
-                                   units::mass::unit_type{} );
 
 template<typename value_type>
 inline constexpr quantity<value_type, mass_in_milligram_tag> from_milligram(
@@ -371,13 +366,6 @@ inline constexpr double to_kilogram( const mass &v )
     return v.value() / 1000000.0;
 }
 
-// Specific energy
-const specific_energy specific_energy_min = units::specific_energy(
-            std::numeric_limits<units::specific_energy::value_type>::min(), units::specific_energy::unit_type{} );
-
-const specific_energy specific_energy_max = units::specific_energy(
-            std::numeric_limits<units::specific_energy::value_type>::max(), units::specific_energy::unit_type{} );
-
 template<typename value_type>
 inline constexpr quantity<value_type, specific_energy_in_joule_per_gram_tag>
 from_joule_per_gram( const value_type v )
@@ -393,12 +381,13 @@ inline constexpr value_type to_joule_per_gram( const
     return v.value();
 }
 
-// Temperature
-// Absolute zero - possibly should just be INT_MIN
-const temperature temperature_min = units::temperature( 0, units::temperature::unit_type{} );
-
-const temperature temperature_max = units::temperature(
-                                        std::numeric_limits<units::temperature::value_type>::max(), units::temperature::unit_type{} );
+template<typename value_type>
+inline constexpr quantity<units::temperature::value_type, temperature_in_kelvin_tag>
+from_millikelvin(
+    const value_type v )
+{
+    return quantity<value_type, temperature_in_kelvin_tag>( v / 1000.0, temperature_in_kelvin_tag{} );
+}
 
 template<typename value_type>
 inline constexpr quantity<units::temperature::value_type, temperature_in_kelvin_tag> from_kelvin(
@@ -408,10 +397,25 @@ inline constexpr quantity<units::temperature::value_type, temperature_in_kelvin_
 }
 
 template<typename value_type>
+inline constexpr value_type to_millikelvin( const
+        quantity<value_type, temperature_in_kelvin_tag> &v )
+{
+    return v.value() * 1000;
+}
+
+template<typename value_type>
 inline constexpr value_type to_kelvin( const
                                        quantity<value_type, temperature_in_kelvin_tag> &v )
 {
     return v.value();
+}
+
+template<typename value_type>
+inline constexpr quantity<units::temperature::value_type, temperature_in_kelvin_tag>
+from_millicelsius(
+    const value_type v )
+{
+    return from_kelvin( ( v / 1000.0 ) + 273.150f );
 }
 
 template<typename value_type>
@@ -427,6 +431,13 @@ from_fahrenheit(
     const value_type v )
 {
     return from_kelvin( ( v + 459.67f ) / 1.8f );
+}
+
+template<typename value_type>
+inline constexpr value_type to_millicelsius( const
+        quantity<value_type, temperature_in_kelvin_tag> &v )
+{
+    return ( v - from_kelvin( 273.150f ) ).value() * 1000;
 }
 
 template<typename value_type>
@@ -458,14 +469,14 @@ inline constexpr int to_legacy_bodypart_temp( const
     return static_cast<int>( ( c - 37.0 ) * 500.0 + 5000.0 );
 }
 
-// Temperature delta
-// Absolute zero - possibly should just be INT_MIN
-const temperature_delta temperature_delta_min = units::temperature_delta( 0,
-        units::temperature_delta::unit_type{} );
-
-const temperature_delta temperature_delta_max = units::temperature_delta(
-            std::numeric_limits<units::temperature_delta::value_type>::max(),
-            units::temperature_delta::unit_type{} );
+template<typename value_type>
+inline constexpr quantity<units::temperature_delta::value_type, temperature_delta_in_kelvin_tag>
+from_millikelvin_delta(
+    const value_type v )
+{
+    return quantity<value_type, temperature_delta_in_kelvin_tag>( v / 1000.0,
+            temperature_delta_in_kelvin_tag{} );
+}
 
 template<typename value_type>
 inline constexpr quantity<units::temperature_delta::value_type, temperature_delta_in_kelvin_tag>
@@ -476,10 +487,25 @@ from_kelvin_delta(
 }
 
 template<typename value_type>
+inline constexpr value_type to_millikelvin_delta( const
+        quantity<value_type, temperature_delta_in_kelvin_tag> &v )
+{
+    return v.value() * 1000;
+}
+
+template<typename value_type>
 inline constexpr value_type to_kelvin_delta( const
         quantity<value_type, temperature_delta_in_kelvin_tag> &v )
 {
     return v.value();
+}
+
+template<typename value_type>
+inline constexpr quantity<units::temperature_delta::value_type, temperature_delta_in_kelvin_tag>
+from_millicelsius_delta(
+    const value_type v )
+{
+    return from_millikelvin_delta( v );
 }
 
 template<typename value_type>
@@ -496,6 +522,13 @@ from_fahrenheit_delta(
     const value_type v )
 {
     return from_kelvin_delta( v / 1.8f );
+}
+
+template<typename value_type>
+inline constexpr value_type to_millicelsius_delta( const
+        quantity<value_type, temperature_delta_in_kelvin_tag> &v )
+{
+    return v.value() * 1000;
 }
 
 template<typename value_type>
@@ -527,13 +560,6 @@ inline constexpr int to_legacy_bodypart_temp_delta( const
 }
 
 // Energy
-
-const energy energy_min = units::energy( std::numeric_limits<units::energy::value_type>::min(),
-                          units::energy::unit_type{} );
-
-const energy energy_max = units::energy( std::numeric_limits<units::energy::value_type>::max(),
-                          units::energy::unit_type{} );
-
 template<typename value_type>
 inline constexpr quantity<value_type, energy_in_millijoule_tag> from_millijoule(
     const value_type v )
@@ -581,13 +607,6 @@ inline constexpr value_type to_kilojoule( const quantity<value_type, energy_in_m
 }
 
 // Power (watts)
-
-const power power_min = units::power( std::numeric_limits<units::power::value_type>::min(),
-                                      units::power::unit_type{} );
-
-const power power_max = units::power( std::numeric_limits<units::power::value_type>::max(),
-                                      units::power::unit_type{} );
-
 template<typename value_type>
 inline constexpr quantity<value_type, power_in_milliwatt_tag> from_milliwatt(
     const value_type v )
@@ -635,13 +654,6 @@ inline constexpr value_type to_kilowatt( const quantity<value_type, power_in_mil
 }
 
 // Money(cents)
-
-const money money_min = units::money( std::numeric_limits<units::money::value_type>::min(),
-                                      units::money::unit_type{} );
-
-const money money_max = units::money( std::numeric_limits<units::money::value_type>::max(),
-                                      units::money::unit_type{} );
-
 template<typename value_type>
 inline constexpr quantity<value_type, money_in_cent_tag> from_cent(
     const value_type v )
@@ -678,12 +690,6 @@ inline constexpr value_type to_kusd( const quantity<value_type, money_in_cent_ta
 {
     return to_usd( v ) / 1000.0;
 }
-
-const length length_min = units::length( std::numeric_limits<units::length::value_type>::min(),
-                          units::length::unit_type{} );
-
-const length length_max = units::length( std::numeric_limits<units::length::value_type>::max(),
-                          units::length::unit_type{} );
 
 template<typename value_type>
 inline constexpr quantity<value_type, length_in_millimeter_tag> from_millimeter(
@@ -770,6 +776,27 @@ inline constexpr double to_arcmin( const units::angle v )
     return to_degrees( v ) * 60;
 }
 
+template<typename value_type>
+inline constexpr quantity<value_type, ememory_in_kilobytes_tag> from_kilobytes( const value_type v )
+{
+    return quantity<value_type, ememory_in_kilobytes_tag>( v, ememory_in_kilobytes_tag{} );
+}
+template<typename value_type>
+inline constexpr quantity<value_type, ememory_in_kilobytes_tag> from_megabytes( const value_type v )
+{
+    return from_kilobytes<value_type>( v ) * 1000;
+}
+template<typename value_type>
+inline constexpr quantity<value_type, ememory_in_kilobytes_tag> from_gigabytes( const value_type v )
+{
+    return from_megabytes<value_type>( v ) * 1000;
+}
+template<typename value_type>
+inline constexpr quantity<value_type, ememory_in_kilobytes_tag> from_terabytes( const value_type v )
+{
+    return from_gigabytes<value_type>( v ) * 1000;
+}
+
 // converts a volume as if it were a cube to the length of one side
 template<typename value_type>
 inline constexpr quantity<value_type, length_in_millimeter_tag> default_length_from_volume(
@@ -838,7 +865,7 @@ inline std::ostream &operator<<( std::ostream &o, const quantity<value_type, tag
 }
 
 std::string display( const units::energy &v );
-
+std::string display( const units::ememory &v );
 std::string display( units::power v );
 
 } // namespace units
@@ -910,9 +937,19 @@ inline constexpr units::temperature operator""_C( const unsigned long long v )
     return units::from_celsius( v );
 }
 
+inline constexpr units::temperature_delta operator""_K_delta( const unsigned long long v )
+{
+    return units::from_kelvin_delta( v );
+}
+
 inline constexpr units::temperature_delta operator""_C_delta( const unsigned long long v )
 {
     return units::from_celsius_delta( v );
+}
+
+inline constexpr units::temperature operator""_mK( const long double v )
+{
+    return units::from_millikelvin( v );
 }
 
 inline constexpr units::quantity<double, units::temperature_in_kelvin_tag> operator""_K(
@@ -921,14 +958,29 @@ inline constexpr units::quantity<double, units::temperature_in_kelvin_tag> opera
     return units::from_kelvin( v );
 }
 
+inline constexpr units::temperature operator""_mC( const long double v )
+{
+    return units::from_millicelsius( v );
+}
+
 inline constexpr units::temperature operator""_C( const long double v )
 {
     return units::from_celsius( v );
 }
 
+inline constexpr units::temperature_delta operator""_mC_delta( const long double v )
+{
+    return units::from_millicelsius_delta( v );
+}
+
 inline constexpr units::temperature_delta operator""_C_delta( const long double v )
 {
     return units::from_celsius_delta( v );
+}
+
+inline constexpr units::temperature_delta operator""_mK_delta( const long double v )
+{
+    return units::from_millikelvin_delta( v );
 }
 
 inline constexpr units::energy operator""_mJ( const unsigned long long v )
@@ -1095,6 +1147,22 @@ inline constexpr units::angle operator""_arcmin( const unsigned long long v )
 {
     return units::from_arcmin( v );
 }
+inline constexpr units::ememory operator""_KB( const unsigned long long b )
+{
+    return units::from_kilobytes( b );
+}
+inline constexpr units::ememory operator""_MB( const unsigned long long b )
+{
+    return units::from_megabytes( b );
+}
+inline constexpr units::ememory operator""_GB( const unsigned long long b )
+{
+    return units::from_gigabytes( b );
+}
+inline constexpr units::ememory operator""_TB( const unsigned long long b )
+{
+    return units::from_terabytes( b );
+}
 
 namespace units
 {
@@ -1134,50 +1202,71 @@ inline units::angle acos( double x )
     return from_radians( std::acos( x ) );
 }
 
-const std::vector<std::pair<std::string, energy>> energy_units = { {
+constexpr std::array<std::pair<std::string_view, energy>, 3> energy_units = { {
         { "mJ", 1_mJ },
         { "J", 1_J },
         { "kJ", 1_kJ },
     }
 };
-const std::vector<std::pair<std::string, power>> power_units = { {
+constexpr std::array<std::pair<std::string_view, power>, 3> power_units = { {
         { "mW", 1_mW },
         { "W", 1_W },
         { "kW", 1_kW },
     }
 };
-const std::vector<std::pair<std::string, mass>> mass_units = { {
+constexpr std::array<std::pair<std::string_view, mass>, 3> mass_units = { {
         { "mg", 1_milligram },
         { "g", 1_gram },
         { "kg", 1_kilogram },
     }
 };
-const std::vector<std::pair<std::string, money>> money_units = { {
+// NOTE: Due to string matching, any string that is a subset of another must come after the one it partially matches.
+// Because e.g. 'cent' will be read as a valid unit before 'cents', our order-of-iteration must check if the string is actually
+// 'cents' first, otherwise it will assume it is 'cent' and fail when parsing the 's' in 'cents'.
+constexpr std::array<std::pair<std::string_view, money>, 6> money_units = { {
+        { "cents", 1_cent },
         { "cent", 1_cent },
+        { "dollars", 1_USD },
+        { "dollar", 1_USD },
         { "USD", 1_USD },
         { "kUSD", 1_kUSD },
     }
 };
-const std::vector<std::pair<std::string, volume>> volume_units = { {
+constexpr std::array<std::pair<std::string_view, volume>, 2> volume_units = { {
         { "ml", 1_ml },
         { "L", 1_liter }
     }
 };
-const std::vector<std::pair<std::string, length>> length_units = { {
+constexpr std::array<std::pair<std::string_view, length>, 4> length_units = { {
         { "mm", 1_mm },
         { "cm", 1_cm },
         { "meter", 1_meter },
         { "km", 1_km }
     }
 };
-const std::vector<std::pair<std::string, angle>> angle_units = { {
+constexpr std::array<std::pair<std::string_view, angle>, 3> angle_units = { {
         { "arcmin", 1_arcmin },
         { "°", 1_degrees },
         { "rad", 1_radians },
     }
 };
-const std::vector<std::pair<std::string, temperature>> temperature_units = { {
+// AFAIK unused, and it's probably not wise to use them...
+// If you need to serialize/deserialize, because of the offset, temperature_delta_units is more appropriate.
+constexpr std::array<std::pair<std::string_view, temperature>, 1> temperature_units = { {
         { "K", 1_K }
+    }
+};
+constexpr std::array<std::pair<std::string_view, temperature_delta>, 2> temperature_delta_units
+= { {
+        { "mC", 1.0_mC_delta },
+        { "C", 1_C_delta }
+    }
+};
+constexpr std::array<std::pair<std::string_view, ememory>, 4> ememory_units = { {
+        { "KB", 1_KB },
+        { "MB", 1_MB },
+        { "GB", 1_GB },
+        { "TB", 1_TB }
     }
 };
 
@@ -1186,11 +1275,6 @@ units::energy operator*( const time_duration &time, const units::power &power );
 
 units::power operator/( const units::energy &energy, const time_duration &time );
 time_duration operator/( const units::energy &energy, const units::power &power );
-
-constexpr inline units::temperature_delta abs( units::temperature_delta x )
-{
-    return from_kelvin_delta( std::abs( to_kelvin_delta( x ) ) );
-}
 
 units::temperature_delta operator-( const units::temperature &T1, const units::temperature &T2 );
 
@@ -1209,9 +1293,9 @@ units::temperature &operator+=( units::temperature &T, const units::temperature_
 namespace detail
 {
 
-template<typename T, typename Error>
+template<typename T, size_t N, typename Error>
 T read_from_json_string_common( const std::string_view s,
-                                const std::vector<std::pair<std::string, T>> &units, Error &&error )
+                                const std::array<std::pair<std::string_view, T>, N> &units, Error &&error )
 {
     size_t i = 0;
     // returns whether we are at the end of the string
@@ -1225,14 +1309,19 @@ T read_from_json_string_common( const std::string_view s,
         if( skip_spaces() ) {
             error( "invalid quantity string: missing unit", i );
         }
-        for( const std::pair<std::string, T> &pair : units ) {
-            const std::string &unit = pair.first;
+        for( const std::pair<std::string_view, T> &p : units ) {
+            const std::string_view &unit = p.first;
             if( s.size() >= unit.size() + i && s.compare( i, unit.size(), unit ) == 0 ) {
                 i += unit.size();
-                return pair.second;
+                return p.second;
             }
         }
-        error( "invalid quantity string: unknown unit", i );
+        std::string error_msg = "Invalid quantity string: unknown unit.  Valid units are:";
+        for( const std::pair<std::string_view, T> &p : units ) {
+            error_msg += "\n";
+            error_msg += p.first;
+        }
+        error( error_msg.c_str(), i );
         // above always throws but lambdas cannot be marked [[noreturn]]
         throw std::string( "Exceptionally impossible" );
     };
@@ -1256,7 +1345,7 @@ T read_from_json_string_common( const std::string_view s,
             // above always throws but lambdas cannot be marked [[noreturn]]
             throw std::string( "Exceptionally impossible" );
         }
-        int value = 0;
+        int64_t value = 0;
         for( ; i < s.size() && isdigit( s[ i ] ); ++i ) {
             value = value * 10 + ( s[ i ] - '0' );
         }
@@ -1267,8 +1356,9 @@ T read_from_json_string_common( const std::string_view s,
 
 } // namespace detail
 
-template<typename T>
-T read_from_json_string( const JsonValue &jv, const std::vector<std::pair<std::string, T>> &units )
+template<typename T, size_t N>
+T read_from_json_string( const JsonValue &jv,
+                         const std::array<std::pair<std::string_view, T>, N> &units )
 {
     const auto error = [&]( const char *const msg, size_t offset ) {
         jv.throw_error( offset, msg );
@@ -1279,13 +1369,13 @@ T read_from_json_string( const JsonValue &jv, const std::vector<std::pair<std::s
     return detail::read_from_json_string_common<T>( s, units, error );
 }
 
-template<typename T>
+template<typename T, size_t N>
 void dump_to_json_string( T t, JsonOut &jsout,
-                          const std::vector<std::pair<std::string, T>> &units )
+                          const std::array<std::pair<std::string_view, T>, N> &units )
 {
     // deduplicate unit strings and choose the shortest representations
     std::map<T, std::string> sorted_units;
-    for( const std::pair<std::string, T> &p : units ) {
+    for( const std::pair<std::string_view, T> &p : units ) {
         const auto it = sorted_units.find( p.second );
         if( it != sorted_units.end() ) {
             if( p.first.length() < it->second.length() ) {

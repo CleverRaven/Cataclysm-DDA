@@ -1,60 +1,96 @@
 #include "item_location.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstddef>
-#include <functional>
-#include <iosfwd>
+#include <cstdint>
 #include <iterator>
 #include <list>
+#include <memory>
 #include <optional>
+#include <ostream>
 #include <string>
+#include <variant>
 #include <vector>
 
 #include "character.h"
 #include "character_id.h"
 #include "color.h"
-#include "creature_tracker.h"
+#include "coordinates.h"
 #include "debug.h"
+#include "enums.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_pocket.h"
+#include "item_uid.h"
+#include "item_wakeup.h"
+#include "itype.h"
 #include "json.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "map_selector.h"
+#include "npc.h"
+#include "pimpl.h"
 #include "point.h"
 #include "ret_val.h"
 #include "safe_reference.h"
 #include "string_formatter.h"
+#include "talker.h"
 #include "talker_item.h"
 #include "translations.h"
+#include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 
+// Legacy: positional index lookup, used only for serializing idx (kept for old-save compat
+// from before #85905) and vehicle base items. Once legacy save support is dropped, this can
+// be removed for map/person/container paths. Vehicle base items still need idx=-1 as a sentinel.
 template <typename T>
 static int find_index( const T &sel, const item *obj )
 {
     int idx = -1;
-    sel.visit_items( [&idx, &obj]( const item * e, item * ) {
+    bool found = false;
+    sel.visit_items( [&idx, &obj, &found]( const item * e, item * ) {
         idx++;
         if( e == obj ) {
+            found = true;
             return VisitResponse::ABORT;
         }
         return VisitResponse::NEXT;
     } );
-    return idx;
+    return found ? idx : -1;
 }
 
+// Legacy: positional index retrieval, counterpart to find_index. Same deprecation applies (#85905).
 template <typename T>
 static item *retrieve_index( const T &sel, int idx )
 {
     item *obj = nullptr;
     sel.visit_items( [&idx, &obj]( const item * e, item * ) {
         if( idx-- == 0 ) {
+            obj = const_cast<item *>( e );
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } );
+    return obj;
+}
+
+template <typename T>
+static item *retrieve_by_uid( const T &sel, int64_t uid )
+{
+    item *obj = nullptr;
+    sel.visit_items( [&uid, &obj]( const item * e, item * ) {
+        if( e->uid().get_value() == uid ) {
             obj = const_cast<item *>( e );
             return VisitResponse::ABORT;
         }
@@ -74,7 +110,9 @@ class item_location::impl
 
         impl() = default;
         explicit impl( item *i ) : what( i->get_safe_reference() ) {}
+        // Legacy: idx-only constructor for old-save compat (#85905)
         explicit impl( int idx ) : idx( idx ), needs_unpacking( true ) {}
+        impl( int idx, int64_t uid ) : idx( idx ), uid_hint( uid ), needs_unpacking( true ) {}
 
         virtual ~impl() = default;
 
@@ -88,8 +126,12 @@ class item_location::impl
         virtual item_pocket *parent_pocket() const {
             return nullptr;
         }
-        virtual tripoint position() const = 0;
+        virtual tripoint_bub_ms pos_bub( const map &here ) const = 0;
+        virtual tripoint_abs_ms pos_abs() const = 0;
         virtual Character *carrier() const = 0;
+        virtual const vehicle_cursor *veh_cursor() const {
+            return nullptr;
+        };
         virtual std::string describe( const Character * ) const = 0;
         virtual item_location obtain( Character &, int ) = 0;
         virtual units::volume volume_capacity() const = 0;
@@ -99,7 +141,11 @@ class item_location::impl
         virtual void remove_item() = 0;
         virtual void on_contents_changed() = 0;
         virtual void serialize( JsonOut &js ) const = 0;
+        // Legacy: idx-based item lookup for old-save compat and vehicle base items (#85905)
         virtual item *unpack( int ) const = 0;
+        virtual item *unpack_by_uid( int64_t ) const {
+            return nullptr;
+        }
 
         item *target() const {
             ensure_unpacked();
@@ -114,7 +160,15 @@ class item_location::impl
     private:
         void ensure_unpacked() const {
             if( needs_unpacking ) {
-                if( item *i = unpack( idx ) ) {
+                item *i = nullptr;
+                if( uid_hint > 0 ) {
+                    i = unpack_by_uid( uid_hint );
+                }
+                if( !i && uid_hint == 0 ) {
+                    // Legacy save or vehicle base item: use index
+                    i = unpack( idx );
+                }
+                if( i ) {
                     what = i->get_safe_reference();
                 } else {
                     debugmsg( "item_location lost its target item during a save/load cycle" );
@@ -123,7 +177,8 @@ class item_location::impl
             }
         }
         mutable safe_reference<item> what;
-        mutable int idx = -1;
+        mutable int idx = -1; // legacy, see #85905
+        mutable int64_t uid_hint = 0;
         mutable bool needs_unpacking = false;
 
     public:
@@ -139,9 +194,14 @@ class item_location::impl::nowhere : public item_location::impl
             return type::invalid;
         }
 
-        tripoint position() const override {
+        tripoint_bub_ms pos_bub( const map & ) const override {
             debugmsg( "invalid use of nowhere item_location" );
-            return tripoint_min;
+            return tripoint_bub_ms::min;
+        }
+
+        tripoint_abs_ms pos_abs() const override {
+            debugmsg( "invalid use of nowhere item_location" );
+            return tripoint_abs_ms::min;
         }
 
         Character *carrier() const override {
@@ -202,12 +262,25 @@ class item_location::impl::item_on_map : public item_location::impl
     public:
         item_on_map( const map_cursor &cur, item *which ) : impl( which ), cur( cur ) {}
         item_on_map( const map_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
+        item_on_map( const map_cursor &cur, int idx, int64_t uid ) : impl( idx, uid ), cur( cur ) {}
 
         void serialize( JsonOut &js ) const override {
+            if( !target() ) {
+                item_location::nowhere.serialize( js );
+                return;
+            }
+            int idx = find_index( cur, target() );
+            if( idx < 0 ) {
+                item_location::nowhere.serialize( js );
+                return;
+            }
             js.start_object();
             js.member( "type", "map" );
-            js.member( "pos", position() );
-            js.member( "idx", find_index( cur, target() ) );
+            js.member( "position", pos_abs() );
+            js.member( "idx", idx );
+            if( target()->uid().is_valid() ) {
+                js.member( "uid", target()->uid().get_value() );
+            }
             js.end_object();
         }
 
@@ -215,12 +288,20 @@ class item_location::impl::item_on_map : public item_location::impl
             return retrieve_index( cur, idx );
         }
 
+        item *unpack_by_uid( int64_t uid ) const override {
+            return retrieve_by_uid( cur, uid );
+        }
+
         type where() const override {
             return type::map;
         }
 
-        tripoint position() const override {
-            return cur.pos();
+        tripoint_bub_ms pos_bub( const map &here ) const override {
+            return cur.pos_bub( here );
+        }
+
+        tripoint_abs_ms pos_abs() const override {
+            return cur.pos_abs();
         }
 
         Character *carrier() const override {
@@ -228,15 +309,15 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 
         std::string describe( const Character *ch ) const override {
-            std::string res = get_map().name( cur.pos() );
+            std::string res = get_map().name( cur.pos_bub() );
             if( ch ) {
-                res += std::string( " " ) += direction_suffix( ch->pos(), cur.pos() );
+                res += std::string( " " ) += direction_suffix( ch->pos_bub(), cur.pos_bub() );
             }
             return res;
         }
 
         item_location obtain( Character &ch, int qty ) override {
-            ch.moves -= obtain_cost( ch, qty );
+            ch.mod_moves( -obtain_cost( ch, qty ) );
 
             on_contents_changed();
             item obj = target()->split( qty );
@@ -263,7 +344,7 @@ class item_location::impl::item_on_map : public item_location::impl
 
             item *obj = target();
             int mv = ch.item_handling_cost( *obj, true, MAP_HANDLING_PENALTY, qty );
-            mv += 100 * rl_dist( ch.pos(), cur.pos() );
+            mv += 100 * rl_dist( ch.pos_bub(), cur.pos_bub() );
 
             // TODO: handle unpacking costs
 
@@ -280,12 +361,12 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 
         units::volume volume_capacity() const override {
-            map_stack stack = get_map().i_at( cur.pos() );
+            map_stack stack = get_map().i_at( cur.pos_bub() );
             return stack.free_volume();
         }
 
         units::mass weight_capacity() const override {
-            return units::mass_max;
+            return units::mass::max();
         }
 
         bool check_parent_capacity_recursive() const override {
@@ -318,19 +399,30 @@ class item_location::impl::item_on_person : public item_location::impl
         }
 
         item_on_person( character_id who_id, int idx ) : impl( idx ), who_id( who_id ), who( nullptr ) {}
+        item_on_person( character_id who_id, int idx, int64_t uid ) :
+            impl( idx, uid ), who_id( who_id ), who( nullptr ) {}
 
         void serialize( JsonOut &js ) const override {
             if( !ensure_who_unpacked() ) {
-                // Write an invalid item_location to avoid invalid json
-                js.start_object();
-                js.member( "type", "null" );
-                js.end_object();
+                item_location::nowhere.serialize( js );
+                return;
+            }
+            if( !target() ) {
+                item_location::nowhere.serialize( js );
+                return;
+            }
+            int idx = find_index( *who, target() );
+            if( idx < 0 ) {
+                item_location::nowhere.serialize( js );
                 return;
             }
             js.start_object();
             js.member( "type", "character" );
             js.member( "character", who_id );
-            js.member( "idx", find_index( *who, target() ) );
+            js.member( "idx", idx );
+            if( target()->uid().is_valid() ) {
+                js.member( "uid", target()->uid().get_value() );
+            }
             js.end_object();
         }
 
@@ -341,15 +433,29 @@ class item_location::impl::item_on_person : public item_location::impl
             return retrieve_index( *who, idx );
         }
 
+        item *unpack_by_uid( int64_t uid ) const override {
+            if( !ensure_who_unpacked() ) {
+                return nullptr;
+            }
+            return retrieve_by_uid( *who, uid );
+        }
+
         type where() const override {
             return type::character;
         }
 
-        tripoint position() const override {
+        tripoint_bub_ms pos_bub( const map &here ) const override {
             if( !ensure_who_unpacked() ) {
-                return tripoint_zero;
+                return tripoint_bub_ms::zero;
             }
-            return who->pos();
+            return who->pos_bub( here );
+        }
+
+        tripoint_abs_ms pos_abs() const override {
+            if( !ensure_who_unpacked() ) {
+                return tripoint_abs_ms::invalid;
+            }
+            return who->pos_abs();
         }
 
         Character *carrier() const override {
@@ -441,11 +547,11 @@ class item_location::impl::item_on_person : public item_location::impl
         }
 
         units::volume volume_capacity() const override {
-            return units::volume_max;
+            return units::volume::max();
         }
 
         units::mass weight_capacity() const override {
-            return units::mass_max;
+            return units::mass::max();
         }
 
         bool check_parent_capacity_recursive() const override {
@@ -461,14 +567,41 @@ class item_location::impl::item_on_vehicle : public item_location::impl
     public:
         item_on_vehicle( const vehicle_cursor &cur, item *which ) : impl( which ), cur( cur ) {}
         item_on_vehicle( const vehicle_cursor &cur, int idx ) : impl( idx ), cur( cur ) {}
+        item_on_vehicle( const vehicle_cursor &cur, int idx, int64_t uid ) :
+            impl( idx, uid ), cur( cur ) {}
 
         void serialize( JsonOut &js ) const override {
+            const std::vector<wrapped_vehicle> &vehicles = get_map().get_vehicles();
+            const auto same_veh = [this]( const wrapped_vehicle & wv ) {
+                return wv.v == &cur.veh;
+            };
+            if( std::find_if( vehicles.begin(), vehicles.end(), same_veh ) == vehicles.end() ) {
+                debugmsg( "Could not find vehicle for item_location on vehicle" );
+                item_location::nowhere.serialize( js );
+                return;
+            }
+            if( !target() ) {
+                item_location::nowhere.serialize( js );
+                return;
+            }
+            bool is_base_item = target() == &cur.veh.part( cur.part ).base;
+            int idx = -1;
+            if( !is_base_item ) {
+                idx = find_index( cur, target() );
+                if( idx < 0 ) {
+                    item_location::nowhere.serialize( js );
+                    return;
+                }
+            }
             js.start_object();
             js.member( "type", "vehicle" );
-            js.member( "pos", position() );
+            js.member( "position", pos_abs() );
             js.member( "part", cur.part );
-            if( target() != &cur.veh.part( cur.part ).base ) {
-                js.member( "idx", find_index( cur, target() ) );
+            if( !is_base_item ) {
+                js.member( "idx", idx );
+                if( target()->uid().is_valid() ) {
+                    js.member( "uid", target()->uid().get_value() );
+                }
             }
             js.end_object();
         }
@@ -477,16 +610,28 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             return idx >= 0 ? retrieve_index( cur, idx ) : &cur.veh.part( cur.part ).base;
         }
 
+        item *unpack_by_uid( int64_t uid ) const override {
+            return retrieve_by_uid( cur, uid );
+        }
+
         type where() const override {
             return type::vehicle;
         }
 
-        tripoint position() const override {
-            return cur.veh.global_part_pos3( cur.part );
+        tripoint_bub_ms pos_bub( const map &here ) const override {
+            return cur.veh.bub_part_pos( here, cur.part );
+        }
+
+        tripoint_abs_ms pos_abs() const override {
+            return cur.veh.abs_part_pos( cur.part );
         }
 
         Character *carrier() const override {
             return nullptr;
+        }
+
+        const vehicle_cursor *veh_cursor() const override {
+            return &cur;
         }
 
         std::string describe( const Character *ch ) const override {
@@ -501,13 +646,13 @@ class item_location::impl::item_on_vehicle : public item_location::impl
                 debugmsg( "item in vehicle part without cargo storage" );
             }
             if( ch ) {
-                res += " " + direction_suffix( ch->pos(), part_pos.pos() );
+                res += " " + direction_suffix( ch->pos_abs(), part_pos.pos_abs() );
             }
             return res;
         }
 
         item_location obtain( Character &ch, int qty ) override {
-            ch.moves -= obtain_cost( ch, qty );
+            ch.mod_moves( -obtain_cost( ch, qty ) );
 
             on_contents_changed();
             item obj = target()->split( qty );
@@ -525,9 +670,10 @@ class item_location::impl::item_on_vehicle : public item_location::impl
                 return 0;
             }
 
+            map &here = get_map();
             item *obj = target();
             int mv = ch.item_handling_cost( *obj, true, VEHICLE_HANDLING_PENALTY, qty );
-            mv += 100 * rl_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) );
+            mv += 100 * rl_dist( ch.pos_bub( here ), cur.veh.bub_part_pos( here, cur.part ) );
 
             // TODO: handle unpacking costs
 
@@ -559,7 +705,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         units::mass weight_capacity() const override {
-            return units::mass_max;
+            return units::mass::max();
         }
 
         bool check_parent_capacity_recursive() const override {
@@ -573,23 +719,19 @@ class item_location::impl::item_in_container : public item_location::impl
         item_location container;
         mutable item_pocket *container_pkt = nullptr; // NOLINT(cata-serialize)
 
-        // figures out the index for the item, which is where it is in the total list of contents
-        // note: could be a better way of handling this?
+        // Legacy: positional index for old-save compat (#85905). UID is now preferred.
         int calc_index() const {
             if( !container ) {
                 return -1;
             }
             int idx = 0;
-            for( const item *it : container->all_items_top() ) {
+            for( const item *it : container->all_items_container_top() ) {
                 if( target() == it ) {
                     return idx;
                 }
                 idx++;
             }
-            if( container->empty() ) {
-                return -1;
-            }
-            return idx;
+            return -1;
         }
     public:
         item_location parent_item() const override {
@@ -598,7 +740,7 @@ class item_location::impl::item_in_container : public item_location::impl
 
         item_pocket *parent_pocket() const override {
             if( container_pkt == nullptr ) {
-                std::vector<item_pocket *> const pkts = parent_item()->get_all_standard_pockets();
+                std::vector<item_pocket *> const pkts = parent_item()->get_standard_pockets();
                 if( pkts.size() == 1 ) {
                     container_pkt = pkts.front();
                 } else {
@@ -612,10 +754,22 @@ class item_location::impl::item_in_container : public item_location::impl
             impl( which ), container( container ) {}
 
         void serialize( JsonOut &js ) const override {
+            if( !target() ) {
+                item_location::nowhere.serialize( js );
+                return;
+            }
+            int idx = calc_index();
+            if( idx < 0 ) {
+                item_location::nowhere.serialize( js );
+                return;
+            }
             js.start_object();
-            js.member( "idx", calc_index() );
+            js.member( "idx", idx );
             js.member( "type", "in_container" );
             js.member( "parent", container );
+            if( target()->uid().is_valid() ) {
+                js.member( "uid", target()->uid().get_value() );
+            }
             js.end_object();
         }
 
@@ -652,8 +806,12 @@ class item_location::impl::item_in_container : public item_location::impl
             return container.where_recursive();
         }
 
-        tripoint position() const override {
-            return container.position();
+        tripoint_bub_ms pos_bub( const map &here ) const override {
+            return container.pos_bub( here );
+        }
+
+        tripoint_abs_ms pos_abs() const override {
+            return container.pos_abs();
         }
 
         void remove_item() override {
@@ -717,8 +875,7 @@ class item_location::impl::item_in_container : public item_location::impl
                 return 0;
             }
 
-            int primary_cost = ch.mutation_value( "obtain_cost_multiplier" ) * ch.item_handling_cost( *target(),
-                               true, container_mv );
+            int primary_cost = ch.item_handling_cost( *target(), true, container_mv, qty );
             primary_cost = ch.enchantment_cache->modify_value( enchant_vals::mod::OBTAIN_COST_MULTIPLIER,
                            primary_cost );
             int parent_obtain_cost = container.obtain_cost( ch, qty );
@@ -810,13 +967,22 @@ void item_location::serialize( JsonOut &js ) const
 
 void item_location::deserialize( const JsonObject &obj )
 {
+    const map &here = get_map();
+
     std::string type = obj.get_string( "type" );
 
     int idx = -1;
-    tripoint pos = tripoint_min;
+    int64_t uid = 0;
+    tripoint_bub_ms pos_ = tripoint_bub_ms::invalid;
+    tripoint_abs_ms position = tripoint_abs_ms::invalid;
 
     obj.read( "idx", idx );
-    obj.read( "pos", pos );
+    obj.read( "uid", uid );
+    if( !obj.read( "position", position ) ) {
+        // Save compatibility for change made 2025-02-19
+        obj.read( "pos", pos_ );
+        position = here.get_abs( pos_ );
+    }
 
     if( type == "character" ) {
         character_id who_id;
@@ -827,33 +993,57 @@ void item_location::deserialize( const JsonObject &obj )
             // character item locations were assumed to be on g->u
             who_id = get_player_character().getID();
         }
-        ptr.reset( new impl::item_on_person( who_id, idx ) );
+        ptr = std::make_shared<impl::item_on_person>( who_id, idx, uid );
 
     } else if( type == "map" ) {
-        ptr.reset( new impl::item_on_map( map_cursor( pos ), idx ) );
+        ptr = std::make_shared<impl::item_on_map>( map_cursor( position ), idx, uid );
 
     } else if( type == "vehicle" ) {
-        vehicle *const veh = veh_pointer_or_null( get_map().veh_at( pos ) );
+        vehicle *const veh = veh_pointer_or_null( here.veh_at( position ) );
         int part = obj.get_int( "part" );
         if( veh && part >= 0 && part < veh->part_count() ) {
-            ptr.reset( new impl::item_on_vehicle( vehicle_cursor( *veh, part ), idx ) );
+            ptr = std::make_shared<impl::item_on_vehicle>( vehicle_cursor( *veh, part ), idx, uid );
         }
     } else if( type == "in_container" ) {
         item_location parent;
         obj.read( "parent", parent );
         if( !parent.ptr->valid() ) {
+            if( parent == nowhere ) {
+                debugmsg( "parent location doesn't exist.  Item_location has lost its target over a save/load cycle." );
+                ptr = std::make_shared<impl::nowhere>();
+                return;
+            }
             debugmsg( "parent location does not point to valid item" );
-            ptr.reset( new impl::item_on_map( map_cursor( pos ), idx ) ); // drop on ground
+            ptr = std::make_shared<impl::item_on_map>( map_cursor( parent.pos_abs() ), idx ); // drop on ground
             return;
         }
-        const std::list<item *> parent_contents = parent->all_items_top();
-        if( idx > -1 && idx < static_cast<int>( parent_contents.size() ) ) {
+        const std::list<item *> parent_contents = parent->all_items_container_top();
+
+        item *found = nullptr;
+        if( uid > 0 ) {
+            for( item *it : parent_contents ) {
+                if( it->uid().get_value() == uid ) {
+                    found = it;
+                    break;
+                }
+            }
+            if( !found ) {
+                debugmsg( "item_location UID not found in container contents" );
+                ptr = std::make_shared<impl::nowhere>();
+                return;
+            }
+        } else if( idx > -1 && idx < static_cast<int>( parent_contents.size() ) ) {
+            // Legacy save: no UID, use index
             auto iter = parent_contents.begin();
             std::advance( iter, idx );
-            ptr.reset( new impl::item_in_container( parent, *iter ) );
+            found = *iter;
+        }
+
+        if( found ) {
+            ptr = std::make_shared<impl::item_in_container>( parent, found );
         } else {
-            // probably pointing to the wrong item
             debugmsg( "contents index greater than contents size" );
+            ptr = std::make_shared<impl::nowhere>();
         }
     }
 }
@@ -882,6 +1072,41 @@ bool item_location::has_parent() const
     return false;
 }
 
+bool item_location::is_efile() const
+{
+    return parent_item() && parent_item()->is_estorage();
+}
+
+bool item_location::is_invisible_installed_gunmod() const
+{
+    const item_location current_location = *this;
+    if( current_location->is_gunmod() ) {
+        item_location parent = parent_item();
+        const bool installed = parent && parent->is_gun();
+        if( installed && !current_location->type->gunmod->is_visible_when_installed ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+pocket_constraint item_location::get_pocket_constraints_recursive( const item_pocket *pocket ) const
+{
+    pocket_constraint ret = pocket_constraint( pocket );
+
+    item_pocket *parent_pocket;
+    item_location current_location = *this;
+
+    while( current_location.has_parent() ) {
+        parent_pocket = current_location.parent_pocket();
+        ret.constrain_by( parent_pocket );
+
+        current_location = current_location.parent_item();
+    }
+
+    return ret;
+}
+
 ret_val<void> item_location::parents_can_contain_recursive( item *it ) const
 {
     item_pocket *parent_pocket;
@@ -891,7 +1116,7 @@ ret_val<void> item_location::parents_can_contain_recursive( item *it ) const
     item_location current_location = *this;
     //item_location class cannot return current pocket so use first pocket for innermost container
     //Only used for weight and volume multipliers
-    const item_pocket *current_pocket = get_item()->get_all_standard_pockets().front();
+    const item_pocket *current_pocket = get_item()->get_standard_pockets().front();
     const pocket_data *current_pocket_data = current_pocket->get_pocket_data();
 
     //Repeat until top-most container reached
@@ -938,7 +1163,7 @@ ret_val<int> item_location::max_charges_by_parent_recursive( const item &it ) co
     item_location current_location = *this;
     //item_location class cannot return current pocket so use first pocket for innermost container
     //Only used for weight and volume multipliers
-    const item_pocket *current_pocket = get_item()->get_all_standard_pockets().front();
+    const item_pocket *current_pocket = get_item()->get_standard_pockets().front();
     const pocket_data *current_pocket_data = current_pocket->get_pocket_data();
 
     //Repeat until top-most container reached
@@ -994,9 +1219,9 @@ bool item_location::eventually_contains( item_location loc ) const
     return false;
 }
 
-void item_location::overflow()
+void item_location::overflow( map &here )
 {
-    get_item()->overflow( position(), *this );
+    get_item()->overflow( here, pos_bub( here ), *this );
 }
 
 item_location::type item_location::where() const
@@ -1009,15 +1234,14 @@ item_location::type item_location::where_recursive() const
     return ptr->where_recursive();
 }
 
-tripoint item_location::position() const
+tripoint_bub_ms item_location::pos_bub( const map &here ) const
 {
-    return ptr->position();
+    return ptr->pos_bub( here );
 }
 
-tripoint_bub_ms item_location::pos_bub() const
+tripoint_abs_ms item_location::pos_abs() const
 {
-    // TODO: fix point types
-    return tripoint_bub_ms( ptr->position() );
+    return ptr->pos_abs();
 }
 
 std::string item_location::describe( const Character *ch ) const
@@ -1046,7 +1270,7 @@ void item_location::remove_item()
         return;
     }
     ptr->remove_item();
-    ptr.reset( new impl::nowhere() );
+    ptr = std::make_shared<impl::nowhere>( );
 }
 
 void item_location::on_contents_changed()
@@ -1105,6 +1329,11 @@ Character *item_location::carrier() const
     return ptr->carrier();
 }
 
+const vehicle_cursor *item_location::veh_cursor() const
+{
+    return ptr->veh_cursor();
+}
+
 bool item_location::held_by( Character const &who ) const
 {
     return carrier() == &who;
@@ -1149,7 +1378,7 @@ std::unique_ptr<talker> get_talker_for( item_location &it )
 {
     return std::make_unique<talker_item>( &it );
 }
-std::unique_ptr<talker> get_talker_for( const item_location &it )
+std::unique_ptr<const_talker> get_const_talker_for( const item_location &it )
 {
     return std::make_unique<talker_item_const>( &it );
 }
@@ -1158,3 +1387,174 @@ std::unique_ptr<talker> get_talker_for( item_location *it )
     return std::make_unique<talker_item>( it );
 }
 
+bool item_location::can_reload_with( const item_location &ammo, bool now ) const
+{
+    const item_location reloadable = *this;
+    if( reloadable->is_gun() && !reloadable->ammo_default() ) {
+        return false;
+    } else if( reloadable->is_magazine() ) {
+        if( reloadable.has_parent() ) {
+            if( reloadable.parent_item()->is_gun() && !reloadable.parent_item()->ammo_default() ) {
+                return false;
+            }
+        }
+    }
+    return reloadable->can_reload_with( *ammo, now );
+}
+
+int item_location::get_quality( const std::string &quality, bool strict_boiling ) const
+{
+    const item_location tool = *this;
+    quality_id qualityid( quality );
+    return tool->get_quality_nonrecursive( qualityid, strict_boiling );
+}
+
+// Hint-driven uid resolution with bounded fallback.  No world-wide scan.
+// Returns invalid for items in monster stomachs, portals, or off-bubble.
+item_location find_item_by_uid( int64_t uid, const item_locator_hint &hint )
+{
+    if( uid <= 0 ) {
+        return item_location::nowhere;
+    }
+
+    map &here = get_map();
+
+    auto try_character = [uid]( Character * c ) -> item_location {
+        if( c == nullptr )
+        {
+            return item_location::nowhere;
+        }
+        item *found = retrieve_by_uid( *c, uid );
+        if( found == nullptr )
+        {
+            return item_location::nowhere;
+        }
+        return item_location( *c, found );
+    };
+
+    // Off-bubble would wrap a pointer into a temporary tinymap; gate to
+    // in-bounds.  Owners must call rebuild_for_item once back in range.
+    auto try_map_at = [uid, &here]( const tripoint_abs_ms & abs ) -> item_location {
+        if( !here.inbounds( here.get_bub( abs ) ) )
+        {
+            return item_location::nowhere;
+        }
+        map_cursor mc( abs );
+        item *found = retrieve_by_uid( mc, uid );
+        if( found == nullptr )
+        {
+            return item_location::nowhere;
+        }
+        return item_location( mc, found );
+    };
+
+    switch( hint.where ) {
+        case item_locator_hint::place::character: {
+            const character_id *cid = std::get_if<character_id>( &hint.location );
+            if( cid != nullptr && cid->is_valid() ) {
+                Character &u = get_player_character();
+                if( u.getID() == *cid ) {
+                    item_location loc = try_character( &u );
+                    if( loc ) {
+                        return loc;
+                    }
+                }
+                npc *n = g->find_npc( *cid );
+                if( n != nullptr ) {
+                    item_location loc = try_character( n );
+                    if( loc ) {
+                        return loc;
+                    }
+                }
+            }
+            break;
+        }
+        case item_locator_hint::place::map: {
+            const tripoint_abs_ms *p = std::get_if<tripoint_abs_ms>( &hint.location );
+            if( p != nullptr ) {
+                item_location loc = try_map_at( *p );
+                if( loc ) {
+                    return loc;
+                }
+            }
+            break;
+        }
+        case item_locator_hint::place::vehicle: {
+            const vehicle_hint *vh = std::get_if<vehicle_hint>( &hint.location );
+            if( vh != nullptr && here.inbounds( here.get_bub( vh->cargo_square ) ) ) {
+                const optional_vpart_position vp = here.veh_at( vh->cargo_square );
+                if( vp ) {
+                    vehicle &veh = vp->vehicle();
+                    // Try in order: stored part_index (if in range), then
+                    // mount_offset lookup, then the cargo-square part.
+                    std::vector<int> candidates;
+                    if( vh->part_index >= 0 && vh->part_index < veh.part_count() ) {
+                        candidates.push_back( vh->part_index );
+                    }
+                    const std::vector<int> at_mount = veh.parts_at_relative(
+                                                          vh->mount_offset, true, false );
+                    for( int p : at_mount ) {
+                        if( p != vh->part_index ) {
+                            candidates.push_back( p );
+                        }
+                    }
+                    const int square_part = static_cast<int>( vp->part_index() );
+                    if( std::find( candidates.begin(), candidates.end(),
+                                   square_part ) == candidates.end() ) {
+                        candidates.push_back( square_part );
+                    }
+                    for( int part : candidates ) {
+                        if( part < 0 || part >= veh.part_count() ) {
+                            continue;
+                        }
+                        vehicle_cursor vc( veh, part );
+                        item *found = retrieve_by_uid( vc, uid );
+                        if( found != nullptr ) {
+                            return item_location( vc, found );
+                        }
+                    }
+                }
+            }
+            break;
+        }
+        case item_locator_hint::place::unknown:
+            break;
+    }
+
+    // Bounded fallback: avatar + nearby NPCs + loaded vehicles + map tiles.
+    // No world-wide scan.
+    item_location loc = try_character( &get_player_character() );
+    if( loc ) {
+        return loc;
+    }
+    for( npc &n : g->all_npcs() ) {
+        item_location l2 = try_character( &n );
+        if( l2 ) {
+            return l2;
+        }
+    }
+    for( const wrapped_vehicle &wv : here.get_vehicles() ) {
+        if( wv.v == nullptr ) {
+            continue;
+        }
+        for( const vpart_reference &vpr : wv.v->get_all_parts() ) {
+            vehicle_cursor vc( *wv.v, vpr.part_index() );
+            item *found = retrieve_by_uid( vc, uid );
+            if( found != nullptr ) {
+                return item_location( vc, found );
+            }
+        }
+    }
+    for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
+        if( !here.has_items( p ) ) {
+            continue;
+        }
+        map_cursor mc( here.get_abs( p ) );
+        item *found = retrieve_by_uid( mc, uid );
+        if( found != nullptr ) {
+            return item_location( mc, found );
+        }
+    }
+
+    return item_location::nowhere;
+}

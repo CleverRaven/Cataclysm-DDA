@@ -6,10 +6,9 @@
 #include "enums.h"
 #include "item.h"
 #include "map.h"
+#include "mapdata.h"
 #include "output.h"
 #include "units.h"
-
-struct tripoint;
 
 size_t item_stack::size() const
 {
@@ -71,17 +70,17 @@ item_stack::const_reverse_iterator item_stack::rend() const
 
 item_stack::iterator item_stack::get_iterator_from_pointer( item *it )
 {
-    return items->get_iterator_from_pointer( it );
+    return items->get_iterator( it );
 }
 
 item_stack::iterator item_stack::get_iterator_from_index( size_t idx )
 {
-    return items->get_iterator_from_index( idx );
+    return cata::get_iterator_from_index( *items, idx );
 }
 
 size_t item_stack::get_index_from_iterator( const item_stack::const_iterator &it )
 {
-    return items->get_index_from_iterator( it );
+    return cata::get_index_from_iterator( *items, it );
 }
 
 item &item_stack::only_item()
@@ -142,7 +141,8 @@ const item *item_stack::stacks_with( const item &it ) const
     return nullptr;
 }
 
-std::list<item> item_stack::use_charges( const itype_id &type, int &quantity, const tripoint &pos,
+std::list<item> item_stack::use_charges( const itype_id &type, int &quantity,
+        const tripoint_bub_ms &pos,
         const std::function<bool( const item & )> &filter, bool in_tools )
 {
     std::list<item> ret;

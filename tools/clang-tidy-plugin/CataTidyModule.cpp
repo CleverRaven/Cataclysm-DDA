@@ -1,6 +1,8 @@
 #include <clang/Basic/Version.h>
 #include <clang-tidy/ClangTidyModule.h>
+#if CLANG_VERSION_MAJOR < 22
 #include <clang-tidy/ClangTidyModuleRegistry.h>
+#endif
 #include <llvm/ADT/StringRef.h>
 
 #include "AlmostNeverAutoCheck.h"
@@ -59,10 +61,10 @@ class CataModule : public ClangTidyModule
             // the same version we linked against
 
             std::string RuntimeVersion = getClangFullVersion();
-            if( !StringRef( RuntimeVersion ).contains( "clang version " CLANG_VERSION_STRING ) ) {
+            if( !llvm::StringRef( RuntimeVersion ).contains( "clang version " CLANG_VERSION_STRING ) ) {
                 llvm::report_fatal_error(
-                    Twine( "clang version mismatch in CataTidyModule.  Compiled against "
-                           CLANG_VERSION_STRING " but loaded by ", RuntimeVersion ) );
+                    llvm::Twine( "clang version mismatch in CataTidyModule.  Compiled against "
+                                 CLANG_VERSION_STRING " but loaded by ", RuntimeVersion ) );
                 abort(); // NOLINT(cata-assert)
             }
             CheckFactories.registerCheck<AlmostNeverAutoCheck>( "cata-almost-never-auto" );

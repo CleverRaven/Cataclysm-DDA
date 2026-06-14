@@ -8,7 +8,7 @@
     "gender": "male",
     "class": "NC_Rabbit_Raiser",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "mission_offered": "MISSION_Warrener_LOG_1",
     "chat": "TALK_WARRENER",
     "faction": "lapin"
@@ -60,7 +60,7 @@
       },
       { "text": "Do you need any resources?", "topic": "TALK_LAPIN_RESOURCES" },
       { "text": "Where did you get that giant firefly terrarium?", "topic": "TALK_LAPIN_FIREFLY" },
-      { "text": "Well, bye.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -160,7 +160,7 @@
         "material_sand",
         "clay_lump",
         "nail",
-        "wire",
+        "lc_wire",
         "apple",
         "banana",
         "orange",
@@ -178,8 +178,8 @@
       "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
     },
     "responses": [
-      { "text": "That's all for now.  Can we discuss something else?", "topic": "TALK_WARRENER" },
-      { "text": "That's all for now.  I'd best get going.", "topic": "TALK_DONE" }
+      { "text": "That's all for now.  <done_conversation_section>", "topic": "TALK_WARRENER" },
+      { "text": "That's all for now.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -200,7 +200,7 @@
       "accepted": "Don't forget to tell me when you have them.",
       "rejected": "It's okay, I can do without them.  Just let me know if you reconsider.",
       "advice": "There's a lot of places to look.  Trees are pretty common.",
-      "inquire": "How is the search going?  Have you found'em?",
+      "inquire": "How is the search going?  Have you found 'em?",
       "success": "I really appreciate your help.  Don't worry, you won't leave empty-handed.",
       "success_lie": "Thanks for trying… I guess.",
       "failure": "Don't worry about it, it's not that important."
@@ -239,9 +239,9 @@
     "goal": "MGOAL_CONDITION",
     "difficulty": 3,
     "start": {
-      "assign_mission_target": { "om_terrain": "farm_isherwood_2", "om_special": "Isherwood Farms", "reveal_radius": 3, "search_range": 360 }
+      "assign_mission_target": { "om_terrain": "farm_isherwood_2", "om_special": "Isherwood Farm Mutable", "reveal_radius": 3 }
     },
-    "goal_condition": { "u_has_var": "u_met_carlos_isherwood", "type": "general", "context": "meeting", "value": "yes" },
+    "goal_condition": { "compare_string": [ "yes", { "u_val": "u_met_an_isherwood" } ] },
     "value": 5000,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

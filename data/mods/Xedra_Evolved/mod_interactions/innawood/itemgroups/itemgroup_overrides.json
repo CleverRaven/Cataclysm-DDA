@@ -1,0 +1,134 @@
+[
+  {
+    "type": "item_group",
+    "id": "fae_furs",
+    "items": [
+      [ "hat_fur", 30 ],
+      [ "sleeveless_trenchcoat_fur", 10 ],
+      [ "sleeveless_duster_fur", 10 ],
+      [ "coat_fur", 30 ],
+      [ "gloves_fur", 30 ],
+      [ "boots_fur", 20 ],
+      [ "boots_glimmer_fur", 8 ],
+      [ "cloak_glimmer_fur", 10 ],
+      [ "coat_glimmer_fur", 1 ],
+      [ "duster_glimmer_fur", 1 ],
+      [ "sleeveless_duster_glimmer_fur", 1 ],
+      [ "sleeveless_trenchcoat_glimmer_fur", 1 ]
+    ]
+  },
+  {
+    "id": "gossamer_clothes",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "gossamer_upper_body", "prob": 70 },
+      { "group": "gossamer_lower_body", "prob": 70 },
+      { "group": "gossamer_outerwear", "prob": 25 },
+      { "item": "loincloth_gossamer", "prob": 80 },
+      { "group": "gossamer_socks", "prob": 25 },
+      { "group": "fae_furs", "prob": 10 }
+    ]
+  },
+  {
+    "id": "changeling_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "cufflinks_silver", "prob": 30, "damage": [ 1, 4 ] },
+      { "group": "gossamer_clothes", "prob": 100, "damage": [ 0, 4 ] },
+      { "group": "tiaras_silver", "prob": 5 },
+      { "group": "pendant_necklaces_silver", "prob": 5 },
+      { "group": "clothing_watch", "prob": 5 },
+      { "group": "fae_furs", "damage": [ 0, 4 ] },
+      { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "changeling_bannerman_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "cufflinks_silver", "prob": 30, "damage": [ 0, 4 ] },
+      { "group": "gossamer_clothes", "prob": 100, "damage": [ 0, 4 ] },
+      { "group": "bannerman_armor", "prob": 20, "damage": [ 0, 5 ] },
+      { "group": "pendant_necklaces_silver", "prob": 5 },
+      { "group": "bannerman_weapons", "prob": 50, "damage": [ 0, 5 ] },
+      { "item": "baldric", "prob": 100 },
+      { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "changeling_redcap_aspirant_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "gossamer_clothes", "prob": 100, "damage": [ 0, 4 ] },
+      { "group": "redcap_armor", "prob": 20, "damage": [ 0, 4 ] },
+      { "group": "pendant_necklaces_silver", "prob": 5 },
+      { "group": "redcap_weapons", "prob": 50, "damage": [ 0, 5 ] },
+      { "item": "scrap_dreamdross", "prob": 75, "count": [ 4, 8 ] }
+    ]
+  },
+  {
+    "id": "changeling_pooka_aspirant_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "gossamer_clothes", "prob": 100, "damage": [ 0, 4 ] },
+      { "group": "pooka_armor", "prob": 20, "damage": [ 0, 4 ] },
+      { "group": "pendant_necklaces_silver", "prob": 5 },
+      { "group": "pooka_weapons", "prob": 50, "damage": [ 0, 5 ] },
+      { "item": "scabbard", "prob": 100 },
+      { "item": "scrap_dreamdross", "prob": 75, "count": [ 4, 8 ] }
+    ]
+  },
+  {
+    "id": "changeling_lord_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "cufflinks_silver", "prob": 30, "damage": [ 0, 4 ] },
+      { "group": "gossamer_clothes", "prob": 100, "damage": [ 0, 4 ] },
+      { "group": "bannerman_armor", "prob": 20, "damage": [ 0, 4 ] },
+      { "group": "pendant_necklaces_silver", "prob": 5 },
+      { "item": "winter_lord_estoc", "prob": 25, "damage": [ 0, 5 ] },
+      { "item": "baldric", "prob": 100 },
+      { "item": "purity_crackers", "prob": 10 },
+      { "item": "golden_bridle", "prob": 5 },
+      { "item": "scrap_dreamdross", "prob": 75, "count": [ 12, 24 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "renfield_death_drops",
+    "entries": [
+      { "group": "default_innawood_zombie_clothes", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "default_innawood_zombie_items", "prob": 30, "count": [ 1, 2 ] },
+      { "group": "default_feral_weapons", "prob": 75, "damage": [ 2, 4 ] },
+      { "group": "default_feral_armor", "prob": 25, "damage": [ 2, 4 ] },
+      { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] },
+      { "group": "blood_containers", "prob": 15 }
+    ]
+  },
+  {
+    "id": "default_moroi_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "default_innawood_zombie_clothes", "prob": 90, "damage": [ 1, 4 ] },
+      { "group": "default_feral_armor", "prob": 50, "damage": [ 2, 4 ] },
+      { "group": "default_innawood_zombie_items", "prob": 5 },
+      { "group": "blood_containers", "prob": 30 },
+      { "item": "grimy_recipe", "prob": 55 },
+      { "item": "scrap_dreamdross", "prob": 35, "count": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "blood_containers",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "bowl_skull", 100 ], { "item": "blood", "prob": 400, "container-item": "waterskin" } ]
+  }
+]

@@ -1,0 +1,9 @@
+[
+  {
+    "type": "MONSTER",
+    "id": "mon_si_jabberwock",
+    "copy-from": "mon_jabberwock",
+    "looks_like": "mon_jabberwock",
+    "default_faction": "zombie"
+  }
+]

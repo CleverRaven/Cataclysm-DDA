@@ -1,0 +1,25 @@
+[
+  {
+    "type": "effect_type",
+    "id": "oneirosis_effect",
+    "name": [ "16 Hz", "8 Hz", "4 Hz", "2 Hz" ],
+    "desc": [
+      "You feel awake, your thoughts are clear.",
+      "You catch yourself having vivid daydreams.",
+      "Reality comes to you in what feels like snaps out of sleepwalks.",
+      "You are trapped in a dream of which you are not the dreamer."
+    ],
+    "max_intensity": 100
+  },
+  {
+    "type": "effect_type",
+    "id": "suffocation",
+    "name": [ "Suffocating" ],
+    "desc": [ "You try to breathe but nothing fills your lungs." ],
+    "apply_message": "You can't breathe!",
+    "rating": "bad",
+    "max_intensity": 6,
+    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.8, "scaling": -0.1 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  }
+]

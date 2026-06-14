@@ -3,7 +3,6 @@
     "id": "mon_deep_one",
     "type": "MONSTER",
     "name": { "str": "deep one" },
-    "looks_like": "mon_irradiated_wanderer_2",
     "description": "A large, greenish-gray amphibious humanoid with webbed hands and feet.  It's wide, flabby head is distinctly fish like with wide staring eyes and its gangling limbs end in wickedly sharp claws.  It moves with an odd hopping gait, occasionally dropping down to walk on four limbs.",
     "default_faction": "deep_ones",
     "bodytype": "human",
@@ -41,7 +40,7 @@
       "POISON",
       "NO_BREATHE",
       "ARTHROPOD_BLOOD",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS",
       "SWIMS",
@@ -78,7 +77,7 @@
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "FIRE", "HURT" ],
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "HAS_MIND", "WARM", "SWIMS", "CLIMBS", "SWARMS", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "HAS_MIND", "WARM", "SWIMS", "CLIMBS", "SWARMS", "PATH_AVOID_DANGER" ]
   },
   {
     "id": "mon_shantak",
@@ -115,7 +114,7 @@
       "SMELLS",
       "PET_MOUNTABLE",
       "FLIES",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "NO_BREATHE",
       "LOUDMOVES",
@@ -209,8 +208,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "weakpoints": [
       { "name": "the leg", "armor_mult": { "physical": 0.5 }, "coverage": 18 },
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      { "name": "the head", "is_head": true, "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "vision_night": 3,
     "harvest": "demihuman",

@@ -1,6 +1,8 @@
 #include "iuse_software_sokoban.h"
 
 #include <algorithm>
+#include <functional>
+#include <istream>
 #include <optional>
 #include <stdexcept>
 #include <string>
@@ -8,12 +10,14 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "input_context.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
 #include "translations.h"
+#include "ui_helpers.h"
 #include "ui_manager.h"
 
 sokoban_game::sokoban_game() = default;
@@ -224,11 +228,7 @@ int sokoban_game::start_game()
     catacurses::window w_sokoban;
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ) {
-        const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                             TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
-        w_sokoban = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                        iOffset );
-        ui.position_from_window( w_sokoban );
+        ui_helpers::full_screen_window( ui, &w_sokoban );
     } );
     ui.mark_resize();
 
@@ -246,6 +246,7 @@ int sokoban_game::start_game()
         draw_border( w_sokoban, BORDER_COLOR, _( "Sokoban" ), hilite( c_white ) );
 
         std::vector<std::string> shortcuts;
+        shortcuts.reserve( 5 );
         shortcuts.emplace_back( _( "<+> next" ) ); // '+': next
         shortcuts.emplace_back( _( "<-> prev" ) ); // '-': prev
         shortcuts.emplace_back( _( "<r>eset" ) ); // 'r': reset
@@ -302,9 +303,9 @@ int sokoban_game::start_game()
         }
 
         bMoved = false;
-        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            iDirX = vec->x;
-            iDirY = vec->y;
+        if( const std::optional<tripoint_rel_ms> vec = ctxt.get_direction_rel_ms( action ) ) {
+            iDirX = vec->x();
+            iDirY = vec->y();
             bMoved = true;
         } else if( action == "QUIT" ) {
             return iScore;

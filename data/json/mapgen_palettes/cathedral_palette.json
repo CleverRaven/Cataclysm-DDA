@@ -28,7 +28,7 @@
       "i": "t_rock_wall_half",
       "í": "t_rock_wall_half",
       "x": "t_wall_wood",
-      "X": "t_rock_floor",
+      "X": "t_thconc_floor",
       "R": "t_door_metal_c",
       "P": "t_door_bar_locked",
       "-": "t_bars",
@@ -75,7 +75,7 @@
       "4": { "item": "SUS_kitchen_sink", "chance": 100 },
       "v": { "item": "SUS_oven", "chance": 100 },
       "t": { "item": "silverware", "chance": 15, "repeat": [ 1, 2 ] },
-      "e": { "item": "fridge", "chance": 80, "repeat": [ 1, 5 ] },
+      "e": { "item": "SUS_fridge", "chance": 80, "repeat": [ 1, 2 ] },
       "W": [
         { "item": "SUS_pantry", "chance": 5 },
         { "item": "big_canned_food", "chance": 10 },
@@ -86,8 +86,9 @@
       "c": { "item": "makeshift_memorial", "chance": 50 },
       "D": { "item": "school", "chance": 50 },
       "b": { "item": "church", "chance": 10 },
-      "a": { "item": "trash", "chance": 80, "repeat": [ 1, 3 ] },
-      "l": { "item": "SUS_janitors_closet", "chance": 100 }
+      "a": { "item": "SUS_trash_trashcan", "chance": 80 },
+      "l": { "item": "SUS_janitors_closet", "chance": 100 },
+      "T": { "item": "SUS_toilet", "chance": 50 }
     },
     "toilets": { "T": {  } }
   }

@@ -3,27 +3,26 @@
 #define CATA_SRC_FACTION_H
 
 #include <bitset>
-#include <iosfwd>
+#include <cstddef>
+#include <functional>
 #include <map>
-#include <set>
+#include <optional>
 #include <string>
-#include <tuple>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
+#include "calendar.h"
 #include "character_id.h"
 #include "color.h"
+#include "generic_factory.h"
+#include "list.h"
 #include "shop_cons_rate.h"
 #include "stomach.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
-#include "vitamin.h"
 
-namespace catacurses
-{
-class window;
-}  // namespace catacurses
+enum class vitamin_type : int;
 
 // TODO: Redefine?
 constexpr int MAX_FAC_NAME_SIZE = 40;
@@ -33,24 +32,20 @@ std::string fac_respect_text( int val );
 std::string fac_wealth_text( int val, int size );
 std::string fac_combat_ability_text( int val );
 
-class item;
 class JsonObject;
 class JsonOut;
 class JsonValue;
-class faction;
+class item;
 class npc;
-
-struct dialogue;
-
-using faction_id = string_id<faction>;
 
 namespace npc_factions
 {
 void finalize();
-enum relationship : int {
+enum class relationship : int {
     kill_on_sight,
     watch_your_back,
     share_my_stuff,
+    share_public_goods,
     guard_your_stuff,
     lets_you_in,
     defend_your_space,
@@ -60,13 +55,14 @@ enum relationship : int {
 };
 
 const std::unordered_map<std::string, relationship> relation_strs = { {
-        { "kill on sight", kill_on_sight },
-        { "watch your back", watch_your_back },
-        { "share my stuff", share_my_stuff },
-        { "guard your stuff", guard_your_stuff },
-        { "lets you in", lets_you_in },
-        { "defends your space", defend_your_space },
-        { "knows your voice", knows_your_voice }
+        { "kill on sight", npc_factions::relationship::kill_on_sight },
+        { "watch your back", npc_factions::relationship::watch_your_back },
+        { "share my stuff", npc_factions::relationship::share_my_stuff },
+        { "share public goods", npc_factions::relationship::share_public_goods },
+        { "guard your stuff", npc_factions::relationship::guard_your_stuff },
+        { "lets you in", npc_factions::relationship::lets_you_in },
+        { "defends your space", npc_factions::relationship::defend_your_space },
+        { "knows your voice", npc_factions::relationship::knows_your_voice }
     }
 };
 } // namespace npc_factions
@@ -91,6 +87,28 @@ class faction_price_rules_reader : public generic_typed_reader<faction_price_rul
         static faction_price_rule get_next( JsonValue &jv );
 };
 
+
+struct faction_power_spec {
+    faction_id faction;
+    std::optional<int> power_min;
+    std::optional<int> power_max;
+
+    void deserialize( const JsonObject &jo );
+};
+
+
+struct faction_epilogue_data {
+    std::optional<int> power_min;
+    std::optional<int> power_max;
+
+    std::vector<faction_power_spec> dynamic_conditions;
+
+    snippet_id epilogue;
+
+    void deserialize( const JsonObject &jo );
+};
+
+
 class faction_template
 {
     protected:
@@ -104,8 +122,29 @@ class faction_template
         static void load( const JsonObject &jsobj );
         static void check_consistency();
         static void reset();
+        // summary nutrients of the current food supply
+        nutrients food_supply() const;
+        void add_kcal( int kcal, time_point expires );
+        void empty_food_supply();
+        // returns what could not be consumed
+        nutrients consume_food_supply( const nutrients &consumed );
+        nutrients add_to_food_supply( const std::map<time_point, nutrients> &added );
 
+        // remove rotted items in the food supply
+        void prune_food_supply();
+        // debug access to food supply
+        cata::list<std::pair<time_point, nutrients>> &debug_food_supply();
+
+        // Returns (hopefully) translated version of the faction's name.
+        std::string get_name() const;
+        // TODO: Move to faction constructor?
+        void set_name( std::string new_name );
+
+    protected:
+        // TODO: Shouldn't this be a translation object...
         std::string name;
+
+    public:
         int likes_u;
         int respects_u;
         int trusts_u; // Determines which item groups are available for trading
@@ -114,14 +153,25 @@ class faction_template
         translation desc;
         int size; // How big is our sphere of influence?
         int power; // General measure of our power
-        nutrients food_supply; //Total nutritional value held
+        // Three steal states: Always, Never, Ask
+        // Always = true, Never = false, Ask = std::nullopt
+        std::optional<bool> steal_persist;
+    protected:
+        // Sorted list of nutrients and when they expire
+        // The time_point == 0 mod 1_days, and calendar::turn_zero is non-perishable food
+        cata::list<std::pair<time_point, nutrients>> _food_supply; //Total nutritional value held
+
+    public:
+        bool consumes_food; //Whether this faction actually draws down the food_supply when eating from it
         int wealth;  //Total trade currency
         bool lone_wolf_faction; // is this a faction for just one person?
+        bool limited_area_claim;
         itype_id currency; // id of the faction currency
         std::vector<faction_price_rule> price_rules; // additional pricing rules
-        std::map<std::string, std::bitset<npc_factions::rel_types>> relations;
+        std::map<std::string, std::bitset<static_cast<size_t>( npc_factions::relationship::rel_types )>>
+                relations;
         mfaction_str_id mon_faction; // mon_faction_id of the monster faction; defaults to human
-        std::set<std::tuple<int, int, snippet_id>> epilogue_data;
+        std::vector<faction_epilogue_data> epilogue_data;
 };
 
 class faction : public faction_template
@@ -132,13 +182,14 @@ class faction : public faction_template
 
         void deserialize( const JsonObject &jo );
         void serialize( JsonOut &json ) const;
-        void faction_display( const catacurses::window &fac_w, int width ) const;
+
 
         std::string describe() const;
+        bool check_relations( const std::vector<faction_power_spec> &faction_power_specs ) const;
         std::vector<std::string> epilogue() const;
 
-        std::string food_supply_text();
-        nc_color food_supply_color();
+        std::string food_supply_text() const;
+        nc_color food_supply_color() const;
 
         std::pair<nc_color, std::string> vitamin_stores( vitamin_type vit );
 

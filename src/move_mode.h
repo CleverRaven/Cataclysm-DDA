@@ -3,12 +3,14 @@
 #define CATA_SRC_MOVE_MODE_H
 
 #include <cstdint>
-#include <iosfwd>
 #include <map>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "color.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -40,6 +42,7 @@ class move_mode
         move_mode_id id;
         std::vector<std::pair<move_mode_id, mod_id>> src;
 
+        std::map<steed_type, translation> prepare_messages;
         std::map<steed_type, translation> change_messages_success;
         std::map<steed_type, translation> change_messages_fail;
 
@@ -53,6 +56,7 @@ class move_mode
         move_mode_type _type = move_mode_type::WALKING;
 
         float _exertion_level = 0.0f;
+        float _exertion_level_animal_riding = 0.0f;
         float _move_speed_mult = 0.0f;
         float _sound_multiplier = 0.0f;
         float _stamina_multiplier = 0.0f;
@@ -69,7 +73,8 @@ class move_mode
     public:
         static void load_move_mode( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, std::string_view src );
-        static void finalize();
+        void finalize();
+        static void finalize_all();
         static void reset();
 
         move_mode() = default;
@@ -77,6 +82,7 @@ class move_mode
         // name: walk, run, crouch, prone
         std::string name() const;
         std::string change_message( bool success, steed_type steed ) const;
+        std::string prepare_message( steed_type steed ) const;
 
         move_mode_id cycle() const;
         move_mode_id cycle_reverse() const;
@@ -85,6 +91,7 @@ class move_mode
         float sound_mult() const;
         float stamina_mult() const;
         float exertion_level() const;
+        float exertion_level_animal_riding() const;
         float move_speed_mult() const;
 
         units::energy mech_power_use() const;

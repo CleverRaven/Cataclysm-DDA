@@ -1,0 +1,46 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "aeolian_plain_mutable",
+    "subtype": "mutable",
+    "locations": [ "base_land" ],
+    "occurrences": [ 1, 5 ],
+    "priority": 3,
+    "flags": [ "EXOPLANET" ],
+    "check_for_locations_area": [ { "type": [ "base_land" ], "from": [ 2, 2, 0 ], "to": [ -2, -2, 0 ] } ],
+    "joins": [ "plain_to_plain" ],
+    "overmaps": {
+      "aeolian_plain_core": {
+        "overmap": "afs_aeolian_plain",
+        "north": "plain_to_plain",
+        "east": "plain_to_plain",
+        "south": "plain_to_plain",
+        "west": "plain_to_plain"
+      },
+      "aeolian_plain_ruin": {
+        "overmap": "afs_formless_ruins_aeolian_north",
+        "north": "plain_to_plain",
+        "east": "plain_to_plain",
+        "south": "plain_to_plain",
+        "west": "plain_to_plain"
+      },
+      "aeolian_plain_end": { "overmap": "afs_aeolian_plain", "north": "plain_to_plain" },
+      "aeolian_plain_fill": {
+        "overmap": "afs_aeolian_plain",
+        "north": { "id": "plain_to_plain", "type": "available" },
+        "east": { "id": "plain_to_plain", "type": "available" },
+        "west": { "id": "plain_to_plain", "type": "available" }
+      }
+    },
+    "root": "aeolian_plain_core",
+    "phases": [
+      [ { "overmap": "aeolian_plain_core", "weight": 250, "max": 180 } ],
+      [
+        { "overmap": "aeolian_plain_core", "weight": 250 },
+        { "overmap": "aeolian_plain_end", "weight": 100 },
+        { "overmap": "aeolian_plain_ruin", "weight": 5 },
+        { "overmap": "aeolian_plain_fill", "weight": 1 }
+      ]
+    ]
+  }
+]

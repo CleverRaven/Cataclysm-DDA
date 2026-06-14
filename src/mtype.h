@@ -2,12 +2,13 @@
 #ifndef CATA_SRC_MTYPE_H
 #define CATA_SRC_MTYPE_H
 
-#include <iosfwd>
-#include <array>
+#include <functional>
 #include <map>
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "behavior.h"
@@ -15,29 +16,29 @@
 #include "color.h"
 #include "damage.h"
 #include "enum_bitset.h"
-#include "enums.h"
 #include "magic.h"
 #include "mattack_common.h"
 #include "pathfinding.h"
 #include "shearing.h"
-#include "speed_description.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h" // IWYU pragma: keep
 #include "weakpoint.h"
 
 class Creature;
+class JsonValue;
 class monster;
+enum class creature_size : int;
+enum class phase_id : int;
+
+struct const_dialogue;
 struct dealt_projectile_attack;
 template <typename E> struct enum_traits;
-
-enum class creature_size : int;
 
 using mon_action_death  = void ( * )( monster & );
 using mon_action_attack = bool ( * )( monster * );
 using mon_action_defend = void ( * )( monster &, Creature *, dealt_projectile_attack const * );
 using bodytype_id = std::string;
-class JsonArray;
 class JsonObject;
 
 // These are triggers which may affect the monster's anger or morale.
@@ -70,6 +71,7 @@ struct mon_flag {
 
     void load( const JsonObject &jo, std::string_view src );
     static void load_mon_flags( const JsonObject &jo, const std::string &src );
+    static void finalize_all();
     static void reset();
     static const std::vector<mon_flag> &get_all();
 };
@@ -85,6 +87,7 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_ALWAYS_SEES_YOU,
        mon_flag_ALWAYS_VISIBLE,
        mon_flag_ANIMAL,
+       mon_flag_APPEARS_NEUTRAL,
        mon_flag_AQUATIC,
        mon_flag_ARTHROPOD_BLOOD,
        mon_flag_ATTACKMON,
@@ -100,9 +103,12 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_CAN_DIG,
        mon_flag_CAN_OPEN_DOORS,
        mon_flag_CLIMBS,
+       mon_flag_CLUMSY_ATTACKS,
        mon_flag_COMBAT_MOUNT,
        mon_flag_CONSOLE_DESPAWN,
        mon_flag_CONVERSATION,
+       mon_flag_COPY_SUMMONER_LOOK,
+       mon_flag_COPY_AVATAR_LOOK,
        mon_flag_CORNERED_FIGHTER,
        mon_flag_DEADLY_VIRUS,
        mon_flag_DESTROYS,
@@ -123,6 +129,7 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_FIREPROOF,
        mon_flag_FIREY,
        mon_flag_FISHABLE,
+       mon_flag_FLASHBANGPROOF,
        mon_flag_FLIES,
        mon_flag_GOODHEARING,
        mon_flag_GRABS,
@@ -139,14 +146,17 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_HUMAN,
        mon_flag_ID_CARD_DESPAWN,
        mon_flag_IMMOBILE,
+       mon_flag_INFRARED_VISION,
        mon_flag_INSECTICIDEPROOF,
        mon_flag_INTERIOR_AMMO,
        mon_flag_KEENNOSE,
        mon_flag_KEEP_DISTANCE,
+       mon_flag_LOCKS_ON,
        mon_flag_LOUDMOVES,
        mon_flag_MECH_DEFENSIVE,
        mon_flag_MECH_RECON_VISION,
        mon_flag_MILKABLE,
+       mon_flag_MIND_SEEING,
        mon_flag_NEMESIS,
        mon_flag_NEVER_WANDER,
        mon_flag_NIGHT_INVISIBILITY,
@@ -157,20 +167,25 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_NO_BREED,
        mon_flag_NO_FUNG_DMG,
        mon_flag_NO_NECRO,
+       mon_flag_ONE_DIMENSIONAL_X,
+       mon_flag_ONE_DIMENSIONAL_Y,
+       mon_flag_ONE_DIMENSIONAL_Z,
        mon_flag_PACIFIST,
        mon_flag_PARALYZEVENOM,
-       mon_flag_PATH_AVOID_DANGER_1,
-       mon_flag_PATH_AVOID_DANGER_2,
+       mon_flag_PATH_AVOID_DANGER,
        mon_flag_PATH_AVOID_FALL,
        mon_flag_PATH_AVOID_FIRE,
        mon_flag_PAY_BOT,
+       mon_flag_PERMANENT_INVISIBILITY,
        mon_flag_PET_HARNESSABLE,
        mon_flag_PET_MOUNTABLE,
        mon_flag_PET_WONT_FOLLOW,
        mon_flag_PHOTOPHOBIC,
+       mon_flag_PLANT_BLOOD,
        mon_flag_PLASTIC,
        mon_flag_POISON,
        mon_flag_PRIORITIZE_TARGETS,
+       mon_flag_PULP_PRYING,
        mon_flag_PUSH_MON,
        mon_flag_PUSH_VEH,
        mon_flag_QUEEN,
@@ -194,9 +209,11 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_SUNDEATH,
        mon_flag_SWARMS,
        mon_flag_SWIMS,
+       mon_flag_TEEP_IMMUNE,
+       mon_flag_TRUESIGHT,
+       mon_flag_UNBREAKABLE_MORALE,
        mon_flag_VAMP_VIRUS,
        mon_flag_VENOM,
-       mon_flag_VERMIN,
        mon_flag_WARM,
        mon_flag_WATER_CAMOUFLAGE,
        mon_flag_WEBWALK,
@@ -224,6 +241,9 @@ struct mon_effect_data {
 
     mon_effect_data();
     void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo ) {
+        load( jo );
+    }
 };
 
 /** Pet food data */
@@ -235,6 +255,21 @@ struct pet_food_data {
     bool was_loaded = false;
     void load( const JsonObject &jo );
     void deserialize( const JsonObject &data );
+};
+
+/** movement data */
+struct move_skills_data {
+    // 10 means max movecost of 500 * terrain-difficulty with 0 skill
+    const static int max_movemod_penalty = 10;
+    std::optional<int> climb;
+    std::optional<int> dig;
+    std::optional<int> swim;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &data );
+    bool handle_extend( const JsonValue &jv );
+    bool handle_delete( const JsonValue &jv );
 };
 
 enum class mdeath_type {
@@ -254,6 +289,7 @@ struct monster_death_effect {
     bool was_loaded = false;
     bool has_effect = false;
     fake_spell sp;
+    std::optional<effect_on_condition_id> eoc;
     translation death_message;
     mdeath_type corpse_type = mdeath_type::NORMAL;
 
@@ -278,6 +314,23 @@ struct mount_item_data {
      * If this monster is a rideable mount that spawns with storage bags, this is the storage item id
      */
     itype_id storage;
+
+    void deserialize( const JsonObject &jo );
+};
+
+struct reproduction_type {
+    mtype_id baby_monster = mtype_id::NULL_ID();
+    mongroup_id baby_monster_group = mongroup_id::NULL_ID();
+    itype_id baby_egg = itype_id::NULL_ID();
+    item_group_id baby_egg_group = item_group_id::NULL_ID();
+};
+
+struct revive_type {
+    std::function<bool( const_dialogue const & )> condition;
+    mtype_id revive_mon = mtype_id::NULL_ID();
+    mongroup_id revive_monster_group = mongroup_id::NULL_ID();
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct mtype {
@@ -301,17 +354,20 @@ struct mtype {
         mfaction_str_id default_faction;
         harvest_id harvest;
         harvest_id dissect;
+        harvest_id decay;
         speed_description_id speed_desc;
         // Monster upgrade variables
         mtype_id upgrade_into;
         mongroup_id upgrade_group;
         mtype_id burn_into;
 
+        std::vector<revive_type> revive_types;
+
         mtype_id zombify_into; // mtype_id this monster zombifies into
         mtype_id fungalize_into; // mtype_id this monster fungalize into
 
-        mtype_id baby_monster;
-        itype_id baby_egg;
+        reproduction_type baby_type;
+
         // Monster biosignature variables
         itype_id biosig_item;
 
@@ -320,6 +376,12 @@ struct mtype {
          * of this type (if it's friendly).
          */
         itype_id revert_to_itype;
+
+        /**
+         * If this is not empty, the monster will become this item when mdeath::BROKEN
+         * is triggered. Overwrites the normal hardcoded broken item.
+         */
+        itype_id broken_itype;
         /**
          * If this monster is a rideable mech with built-in weapons, this is the weapons id
          */
@@ -341,6 +403,8 @@ struct mtype {
 
         // The type of material this monster can absorb. Leave unspecified for all materials.
         std::vector<material_id> absorb_material;
+        // The type of material this monster cannot absorb. Leave unspecified for no materials (blacklist none).
+        std::vector<material_id> no_absorb_material;
         damage_instance melee_damage; // Basic melee attack damage
         std::vector<std::string> special_attacks_names; // names of attacks, in json load order
         std::vector<std::string> chat_topics; // What it has to say.
@@ -398,21 +462,27 @@ struct mtype {
 
     private:
         ::weakpoints weakpoints_deferred_inline;
+        // How dangerous is this thing?
+        int difficulty = 0;
+        // Manually-defined adjustment in JSON. *Not* additive, use the getter functions.
+        int difficulty_adjustment = 0;
     public:
         int mat_portion_total = 0;
         units::volume volume;
         creature_size size;
         phase_id phase;
-        int difficulty = 0;     /** many uses; 30 min + (diff-3)*30 min = earliest appearance */
-        // difficulty from special attacks instead of from melee attacks, defenses, HP, etc.
-        int difficulty_base = 0;
+
+        // Return the total difficulty as used to determine monster coloring etc
+        int get_total_difficulty() const;
+        // You should probably not be using this!! This was already factored into the difficulty calculation!
+        int get_difficulty_adjustment() const;
 
         int hp = 0;
         int speed = 0;          /** e.g. human = 100 */
+        move_skills_data move_skills;   /** climb, dig, swim; 0-100, defaults to 0 */
+
         int agro = 0;           /** chance will attack [-100,100] */
         int morale = 0;         /** initial morale level at spawn */
-        int stomach_size = 0;         /** how many times this monster will eat */
-        int amount_eaten = 0;         /** how many times it has eaten */
 
         // how close the monster is willing to approach its target while under the MATT_FOLLOW attitude
         int tracking_distance = 8;
@@ -426,6 +496,7 @@ struct mtype {
         int melee_skill = 0;    /** melee hit skill, 20 is superhuman hitting abilities */
         int melee_dice = 0;     /** number of dice of bonus bashing damage on melee hit */
         int melee_sides = 0;    /** number of sides those dice have */
+        int melee_dice_ap = 0;  /** ap value of the melee dice*/
 
         int grab_strength = 1;    /**intensity of the effect_grabbed applied*/
         int sk_dodge = 0;       /** dodge skill */
@@ -450,14 +521,14 @@ struct mtype {
         // Maximum move cost for this monster to absorb an item (default -1, -1 for no limit)
         int absorb_move_cost_max = -1;
 
-        float luminance;           // 0 is default, >0 gives luminance to lightmap
+        float luminance = 0;       // 0 is default, >0 gives luminance to lightmap
         // Vision range is linearly scaled depending on lighting conditions
         int vision_day = 40;    /** vision range in bright light */
         int vision_night = 1;   /** vision range in total darkness */
 
         unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
         // Monster's ability to destroy terrain and vehicles
-        int bash_skill;
+        std::map<damage_type_id, int> bash_skill;
 
         // Monster upgrade variables
         int half_life;
@@ -540,27 +611,11 @@ struct mtype {
         void set_strategy();
         void add_goal( const std::string &goal_id );
         const behavior::node_t *get_goals() const;
-        void faction_display( catacurses::window &w, const point &top_left, int width ) const;
+        std::string get_difficulty_description() const;
+        std::string get_size_name() const;
 
         // Historically located in monstergenerator.cpp
-        void load( const JsonObject &jo, const std::string &src );
-
-    private:
-
-        void add_special_attacks( const JsonObject &jo, std::string_view member_name,
-                                  const std::string &src );
-        void remove_special_attacks( const JsonObject &jo, std::string_view member_name,
-                                     std::string_view src );
-
-        void add_special_attack( const JsonArray &inner, std::string_view src );
-        void add_special_attack( const JsonObject &obj, const std::string &src );
-
-        void add_regeneration_modifiers( const JsonObject &jo, std::string_view member_name,
-                                         std::string_view src );
-        void remove_regeneration_modifiers( const JsonObject &jo, std::string_view member_name,
-                                            std::string_view src );
-
-        void add_regeneration_modifier( const JsonArray &inner, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src );
 };
 
 #endif // CATA_SRC_MTYPE_H

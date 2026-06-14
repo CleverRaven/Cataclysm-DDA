@@ -4,22 +4,22 @@
 
 #include <algorithm>
 #include <functional>
-#include <iosfwd>
 #include <map>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
-class cata_path;
 class JsonArray;
-class JsonOut;
 class JsonObject;
+class JsonOut;
+class cata_path;
 
 class options_manager
 {
@@ -91,6 +91,8 @@ class options_manager
 
                 std::string getName() const;
                 std::string getPage() const;
+                /// The translated group name. If not in a group, an empty string.
+                std::string getGroupName() const;
                 /// The translated displayed option name.
                 std::string getMenuText() const;
                 /// The translated displayed option tool tip.
@@ -227,6 +229,9 @@ class options_manager
          */
         options_container get_world_defaults() const;
 
+        // Return a bare copy of all options in raw form, for debugging use only.
+        options_container get_raw_options();
+
         void set_world_options( options_container *options );
 
         /** Check if an option exists? */
@@ -235,8 +240,8 @@ class options_manager
         cOpt &get_option( const std::string &name );
 
         //add hidden external option with value
-        void add_external( const std::string &sNameIn, const std::string &sPageIn, const std::string &sType,
-                           const translation &sMenuTextIn, const translation &sTooltipIn );
+        void add_external( const std::string &sNameIn, const std::string &sPageIn,
+                           const std::string &sType );
 
         //add string select option
         void add( const std::string &sNameIn, const std::string &sPageIn,
@@ -318,7 +323,7 @@ class options_manager
                 PageItem( ItemType type, const std::string &data, const std::string &group )
                     : type( type ), data( data ), group( group ) { }
 
-                std::string fmt_tooltip( const Group &group, const options_container &cont ) const;
+                std::string fmt_tooltip( const std::string &group_id, const options_container &cont ) const;
         };
 
         /**
@@ -364,6 +369,9 @@ class options_manager
 
         /** Add empty line to page. */
         void add_empty_line( const std::string &sPageIn );
+
+        /** Find page by id. */
+        Page &find_page( const std::string &id );
 
         /** Find group by id. */
         const Group &find_group( const std::string &id ) const;
@@ -425,6 +433,7 @@ struct option_slider {
         static void finalize_all();
         static void check_consistency();
         void load( const JsonObject &jo, std::string_view src );
+        void finalize();
         void check() const;
         static const std::vector<option_slider> &get_all();
 

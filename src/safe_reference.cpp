@@ -1,5 +1,7 @@
 #include "safe_reference.h"
 
+#include <type_traits>
+
 static_assert( std::is_nothrow_move_constructible_v<safe_reference_anchor> );
 static_assert( std::is_nothrow_move_assignable_v<safe_reference_anchor> );
 

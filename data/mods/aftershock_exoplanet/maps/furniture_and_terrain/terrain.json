@@ -1,0 +1,101 @@
+[
+  {
+    "id": "t_nuclear_reactor",
+    "type": "terrain",
+    "name": "nuclear reactor core",
+    "description": "",
+    "symbol": "R",
+    "color": "light_green",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "CONTAINER", "REDUCE_SCENT", "PERMEABLE", "PLACE_ITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_foamcrete_wall",
+    "name": "foamcrete wall",
+    "description": "A lightweight wall made from unreinforced foamcrete.  Not nearly as resilient as a real wall, but it will block sight and the elements nonetheless.",
+    "symbol": "#",
+    "color": "white",
+    "looks_like": "t_rock_wall",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_foamcrete_floor",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "DESTROY_ITEM", "MINEABLE", "BLOCK_WIND" ],
+    "bash": { "str_min": 15, "str_max": 40, "sound": "crash!", "sound_fail": "thump!", "ter_set": "t_null" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_foamcrete_floor",
+    "name": "foamcrete floor",
+    "description": "A relatively flat slab of unreinforced foamcrete.",
+    "symbol": ".",
+    "color": "light_blue",
+    "looks_like": "t_rock_floor",
+    "move_cost": 2,
+    "roof": "t_open_air",
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 30, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_clearcrete_alarm",
+    "looks_like": "t_wall_glass",
+    "name": "clearcrete wall",
+    "description": "A barrier made of clearcrete, perfect for greenhouses but looks extremely fragile.  It is most definitely not fragile, and it's probably alarmed in the event of a breach.",
+    "symbol": "#",
+    "color": "light_cyan",
+    "move_cost": 0,
+    "roof": "t_clearcrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "ALARMED", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND", "NO_SHOOT" ],
+    "bash": {
+      "str_min": 200,
+      "str_max": 600,
+      "sound": "a cross between steel bending and stone shattering!",
+      "sound_fail": "whunk!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_floor",
+      "items": [ { "item": "clearcrete_chunk", "count": [ 42, 84 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_foamcrete_wall_seal",
+    "name": "foamcrete wall",
+    "description": "Automatically deployed by the ship to block breaches and seal off damaged sections, this foamcrete wall is a temporary solution at best.",
+    "symbol": "#",
+    "color": "white",
+    "looks_like": "t_rock_wall",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_foamcrete_floor",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "DESTROY_ITEM", "MINEABLE", "BLOCK_WIND" ],
+    "bash": { "str_min": 15, "str_max": 40, "sound": "crash!", "sound_fail": "thump!", "ter_set": "t_null" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_foamcrete_floor_seal",
+    "name": "foamcrete floor",
+    "description": "Automatically deployed by the ship to block breaches and seal off damaged sections, this foamcrete floor is a temporary solution at best.",
+    "symbol": ".",
+    "color": "light_blue",
+    "looks_like": "t_rock_floor",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "SUPPORTS_ROOF" ],
+    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 30, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_hard_vacuum",
+    "name": "hard vacuum",
+    "symbol": " ",
+    "color": "black",
+    "description": "The cold inhospitable vacuum of space.  Going this way without an EVA pack will end in either a slow cold death as your life support fades or a slow hot death as you drop into the planet's atmosphere.",
+    "move_cost": 1000,
+    "light_emitted": 420,
+    "flags": [ "DESTROY_ITEM" ]
+  }
+]

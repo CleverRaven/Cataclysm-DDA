@@ -44,6 +44,6 @@
       "gendered_line": "I know it's nuts.  It sounds like fake amnesia from a Bugs Bunny cartoon.  See?  How can I know that, but not remember how I know it?  Like, I remember Bugs Bunny but I don't remember any time I sat down and watched a Bugs Bunny show.",
       "relevant_genders": [ "npc" ]
     },
-    "responses": [ { "text": "What were you saying before?", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   }
 ]

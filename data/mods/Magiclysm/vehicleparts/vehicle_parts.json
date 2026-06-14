@@ -31,8 +31,8 @@
     "energy_consumption": "124500 W",
     "folded_volume": "2 L",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 10, 20 ] },
-      { "item": "steel_chunk", "count": [ 10, 20 ] },
+      { "item": "mc_steel_lump", "count": [ 10, 20 ] },
+      { "item": "lc_steel_chunk", "count": [ 10, 20 ] },
       { "item": "scrap", "count": [ 10, 20 ] }
     ],
     "requirements": {

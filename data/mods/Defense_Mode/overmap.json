@@ -1,19 +1,5 @@
 [
   {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_CITIES",
-    "info": "Allows to place cities during overmap generation.",
-    "stype": "bool",
-    "value": false
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "OVERMAP_PLACE_ROADS",
-    "info": "Allows to place procgen roads during overmap generation.",
-    "stype": "bool",
-    "value": false
-  },
-  {
     "type": "overmap_terrain",
     "id": [
       "dm_hospital_1",
@@ -34,7 +20,7 @@
     "name": "mansion",
     "sym": "M",
     "color": "light_green",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_LUXURY", "SOURCE_BOOKS" ]
   },
   {
@@ -104,7 +90,7 @@
     "name": "public works",
     "sym": "w",
     "color": "light_gray",
-    "see_cost": 5,
+    "see_cost": "high",
     "flags": [ "SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
   },
   {
@@ -113,7 +99,7 @@
     "name": "public works",
     "sym": "W",
     "color": "light_gray",
-    "see_cost": 5,
+    "see_cost": "high",
     "flags": [ "SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
   },
   {
@@ -122,7 +108,7 @@
     "name": "public works roof",
     "sym": "w",
     "color": "light_gray",
-    "see_cost": 5
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -130,7 +116,7 @@
     "name": "public works roof",
     "sym": "W",
     "color": "light_gray",
-    "see_cost": 5
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -138,7 +124,7 @@
     "name": "survivor forest camp",
     "sym": "+",
     "color": "green",
-    "see_cost": 5,
+    "see_cost": "spaced_high",
     "flags": [ "REQUIRES_PREDECESSOR" ]
   }
 ]

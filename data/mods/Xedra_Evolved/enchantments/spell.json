@@ -1,0 +1,9 @@
+[
+  {
+    "type": "enchantment",
+    "id": "enchant_selkie_fog_cloak",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "emitter": "emit_obscuring_fog"
+  }
+]

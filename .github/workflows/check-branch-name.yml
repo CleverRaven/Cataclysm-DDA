@@ -1,6 +1,10 @@
 name: Check pull request head branch name
 
 on:
+  # Normally risky but the workflow doesn't interpolate any user controlled content.
+  # i.e. no ${{ }} expressions anywhere, and none that reference anything that can be
+  # written by the pr author. Does not check out and execute user controlled code.
+  # Safe to use pull_request_target.
   pull_request_target:
     types:
       - opened
@@ -11,14 +15,13 @@ jobs:
     if: github.head_ref == 'master' && github.repository == 'CleverRaven/Cataclysm-DDA'
     steps:
       - name: Post warning
-        uses: actions/github-script@v6.3.3
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: "You are creating a pull request with the master branch as the head branch. This is likely a mistake unless you really know what you are doing. You may read https://docs.github.com/en/get-started/quickstart/contributing-to-projects#creating-a-branch-to-work-on for a typical workflow of contributing to a project on GitHub."
+              body: "You are creating a pull request with the master branch as the head branch. This is completely fine if you plan to make contribution once or do not plan to do it often, but if you are interested in making multiple pull requests within a short span of time, this would prevent you from doing it comfortably. You may read https://docs.github.com/en/get-started/quickstart/contributing-to-projects#creating-a-branch-to-work-on for a typical workflow of contributing to a project on GitHub."
             });
 

@@ -1,0 +1,49 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_forest_trail_intersection_inna",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "         4444444        ",
+        "       44333333344      ",
+        "      4332222222334     ",
+        "     432211111112234    ",
+        "    43211000000011234   ",
+        "    43210000000001234   ",
+        "   4321000000000001234  ",
+        "   4321000000000001234  ",
+        "   4321000000000001234  ",
+        "   4321000000000001234  ",
+        "   4321000000000001234  ",
+        "   4321000000000001234  ",
+        "   4321000000000001234  ",
+        "    43210000000001234   ",
+        "    43211000000011234   ",
+        "     432211111112234    ",
+        "      4332222222334     ",
+        "       44333333344      ",
+        "         4444444        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "trail_palette" ],
+      "place_nested": [
+        { "chunks": [ "9x9_forest_trail_intersection_north" ], "x": 8, "y": 0, "neighbors": { "north": "trail" } },
+        { "chunks": [ "9x9_forest_trail_intersection_east" ], "x": 18, "y": 8, "neighbors": { "east": "trail" } },
+        { "chunks": [ "9x9_forest_trail_intersection_south" ], "x": 8, "y": 18, "neighbors": { "south": "trail" } },
+        { "chunks": [ "9x9_forest_trail_intersection_west" ], "x": 0, "y": 8, "neighbors": { "west": "trail" } },
+        {
+          "chunks": [ "11x11_forest_trail_intersection_south_fire_lookout" ],
+          "x": 0,
+          "y": 13,
+          "neighbors": { "south": "ws_fire_lookout_tower_base" }
+        }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

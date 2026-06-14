@@ -27,7 +27,7 @@
     "difficulty": 6,
     "time": "6 h",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 800 ] ], [ [ "steel_lump", 200 ] ] ]
+    "components": [ [ [ "scrap", 800 ] ], [ [ "lc_steel_lump", 200 ] ] ]
   },
   {
     "result": "broken_forgeborn",

@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "riverside_dwelling",
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "forest",
       "rows": [
@@ -43,9 +41,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "riverside_dwelling_roof",
-    "weight": 75,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -79,9 +75,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "riverside_dwelling1",
-    "weight": 50,
     "object": {
       "predecessor_mapgen": "forest",
       "rows": [
@@ -113,13 +107,13 @@
       "palettes": [ "derelict_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
-        ".": "t_rock_floor",
-        "B": "t_rock_floor",
-        "X": "t_rock_floor",
-        "S": "t_rock_floor",
-        "b": "t_rock_floor",
-        "c": "t_rock_floor",
-        "r": "t_rock_floor",
+        ".": "t_floor",
+        "B": "t_floor",
+        "X": "t_floor",
+        "S": "t_floor",
+        "b": "t_floor",
+        "c": "t_floor",
+        "r": "t_floor",
         "0": "t_window_stained_blue",
         "w": "t_rock_wall_half",
         "#": "t_rock_wall"
@@ -136,45 +130,40 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "riverside_dwelling1_roof",
-    "weight": 75,
     "object": {
       "rows": [
         "                        ",
         "                        ",
-        "          .......       ",
-        "          .......       ",
-        "          .......       ",
-        "         ...........    ",
+        "          -------       ",
+        "          -.....-       ",
+        "          -.....-       ",
+        "         --.....----    ",
         "        ...........     ",
-        "        ............    ",
+        "        ...........-    ",
         "        ...........     ",
         "        ...........     ",
-        "       ............     ",
-        "       ...........      ",
-        "       ...........      ",
-        "       ............     ",
-        "       ...........      ",
-        "       ............     ",
-        "       .............    ",
-        "       .............    ",
-        "       ....  .......    ",
+        "       -...........     ",
+        "       -..........      ",
+        "       -..........      ",
+        "       -...........     ",
+        "       -..........      ",
+        "       -...........     ",
+        "       -...........-    ",
+        "       -...........-    ",
+        "       ----  -------    ",
         "                        ",
         "                        ",
         "                        ",
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_rock_floor_no_roof", " ": "t_open_air" }
+      "palettes": [ "roof_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "riverside_dwelling2",
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "forest",
       "rows": [
@@ -214,9 +203,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "riverside_dwelling2_roof",
-    "weight": 75,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -251,9 +238,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "riverside_dwelling3",
-    "weight": 75,
     "object": {
       "predecessor_mapgen": "forest",
       "rows": [
@@ -298,9 +283,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "riverside_dwelling3_roof",
-    "weight": 75,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -311,15 +294,15 @@
         "                        ",
         "                        ",
         "            -------     ",
-        "            -.......    ",
-        "            -.:.....    ",
-        "            -.......    ",
+        "            -....       ",
+        "            -.:....     ",
+        "            -.....      ",
         "            -.......-   ",
         "            -.......5   ",
         "            -.......-   ",
         "            -.......-   ",
-        "            -.......    ",
-        "            -...   .    ",
+        "            -..         ",
+        "            -.          ",
         "            --          ",
         "                        ",
         "                        ",

@@ -36,7 +36,7 @@
     "items": [
       { "item": "m3_carlgustav", "prob": 100 },
       { "item": "m4_carlgustav", "prob": 70 },
-      { "item": "AT4", "prob": 50, "count": [ 1, 3 ], "charges-min": 1, "charges-max": 1 }
+      { "item": "AT4", "prob": 50, "count": [ 1, 3 ], "charges": 1 }
     ]
   }
 ]

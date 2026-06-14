@@ -3,20 +3,26 @@
 #define CATA_SRC_NPC_CLASS_H
 
 #include <functional>
-#include <iosfwd>
 #include <map>
+#include <optional>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
-#include "shop_cons_rate.h"
-#include "translations.h"
+#include "calendar.h"
+#include "faction.h"
+#include "translation.h"
 #include "type_id.h"
 
-class npc;
 class JsonObject;
 class Trait_group;
-
-struct dialogue;
-struct faction_price_rule;
+class item;
+class npc;
+struct const_dialogue;
+struct shopkeeper_blacklist;
+struct shopkeeper_whitelist;
+struct shopkeeper_cons_rates;
 
 namespace trait_group
 {
@@ -51,8 +57,8 @@ struct shopkeeper_item_group {
     item_group_id id = item_group_id( "EMPTY_GROUP" );
     int trust = 0;
     bool strict = false;
-    std::string refusal;
-    std::function<bool( dialogue & )> condition;
+    translation refusal;
+    std::function<bool( const_dialogue const & )> condition;
 
     // Rigid shopkeeper groups will be processed a single time. Default groups are not rigid, and will be processed until the shopkeeper has no more room or remaining value to populate goods with.
     bool rigid = false;
@@ -75,6 +81,7 @@ class npc_class
         translation job_description;
 
         bool common = true;
+        double common_spawn_weight = 1;
 
         distribution bonus_str;
         distribution bonus_dex;
@@ -95,7 +102,11 @@ class npc_class
         std::vector<faction_price_rule> shop_price_rules;
         shopkeeper_cons_rates_id shop_cons_rates_id = shopkeeper_cons_rates_id::NULL_ID();
         shopkeeper_blacklist_id shop_blacklist_id = shopkeeper_blacklist_id::NULL_ID();
+        shopkeeper_whitelist_id shop_whitelist_id = shopkeeper_whitelist_id::NULL_ID();
         time_duration restock_interval = 6_days;
+        // Work shift hours [start, end). Default [0,24] = always on duty.
+        // Wraps midnight: [22,6] means 10pm-6am.
+        std::pair<int, int> work_hours_ = { 0, 24 };
 
     public:
         npc_class_id id;
@@ -108,6 +119,9 @@ class npc_class
         item_group_id worn_override;
         item_group_id carry_override;
         item_group_id weapon_override;
+
+        // category of snippet, from which bye message should be picked, if should be replaced
+        std::optional<std::string> bye_message_override;
 
         std::map<mutation_category_id, distribution> mutation_rounds;
         trait_group::Trait_group_tag traits = trait_group::Trait_group_tag( "EMPTY_GROUP" );
@@ -135,12 +149,17 @@ class npc_class
         const std::vector<shopkeeper_item_group> &get_shopkeeper_items() const;
         const shopkeeper_cons_rates &get_shopkeeper_cons_rates() const;
         const shopkeeper_blacklist &get_shopkeeper_blacklist() const;
+        const shopkeeper_whitelist &get_shopkeeper_whitelist() const;
+        bool has_whitelist() const {
+            return !shop_whitelist_id.is_null();
+        };
         const time_duration &get_shop_restock_interval() const;
+        const std::pair<int, int> &get_work_hours() const;
         faction_price_rule const *get_price_rules( item const &it, npc const &guy ) const;
 
-        void load( const JsonObject &jo, std::string_view src );
+        bool is_common() const;
 
-        static const npc_class_id &from_legacy_int( int i );
+        void load( const JsonObject &jo, std::string_view src );
 
         static const npc_class_id &random_common();
 
@@ -150,30 +169,14 @@ class npc_class
 
         static void reset_npc_classes();
 
+        void finalize();
         static void finalize_all();
 
         static void check_consistency();
 };
 
-// TODO: Get rid of that
-extern const npc_class_id NC_NONE;
-extern const npc_class_id NC_EVAC_SHOPKEEP;
-extern const npc_class_id NC_SHOPKEEP;
-extern const npc_class_id NC_HACKER;
-extern const npc_class_id NC_CYBORG;
-extern const npc_class_id NC_DOCTOR;
-extern const npc_class_id NC_TRADER;
-extern const npc_class_id NC_NINJA;
-extern const npc_class_id NC_COWBOY;
-extern const npc_class_id NC_SCIENTIST;
-extern const npc_class_id NC_BOUNTY_HUNTER;
-extern const npc_class_id NC_THUG;
-extern const npc_class_id NC_SCAVENGER;
-extern const npc_class_id NC_ARSONIST;
-extern const npc_class_id NC_HUNTER;
-extern const npc_class_id NC_SOLDIER;
-extern const npc_class_id NC_BARTENDER;
-extern const npc_class_id NC_JUNK_SHOPKEEP;
-extern const npc_class_id NC_HALLU;
+// Check if an hour falls within [start, end) work hours,
+// handling midnight wrap (e.g., [22, 6) means 10pm to 6am).
+bool is_within_work_hours( int hour, int start, int end );
 
 #endif // CATA_SRC_NPC_CLASS_H

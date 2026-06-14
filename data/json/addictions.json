@@ -4,7 +4,7 @@
     "id": "caffeine",
     "name": "Caffeine Withdrawal",
     "type_name": "caffeine",
-    "description": "Strength - 1;   Slight sluggishness;   Occasional cravings",
+    "description": "Strength - 1;   Slight sluggishness;   Occasional cravings.",
     "craving_morale": "morale_craving_caffeine",
     "effect_on_condition": "EOC_CAFFEINE_ADDICTION"
   },
@@ -13,7 +13,7 @@
     "id": "nicotine",
     "name": "Nicotine Withdrawal",
     "type_name": "nicotine",
-    "description": "Intelligence - 1;   Occasional cravings",
+    "description": "Intelligence - 1;   Occasional cravings.",
     "craving_morale": "morale_craving_nicotine",
     "builtin": "nicotine_effect"
   },
@@ -22,7 +22,7 @@
     "id": "alcohol",
     "name": "Alcohol Withdrawal",
     "type_name": "alcohol",
-    "description": "Perception - 1;   Intelligence - 1;   Occasional Cravings;\nRisk of delirium tremens",
+    "description": "Perception - 1;   Intelligence - 1;   Occasional Cravings;\nRisk of delirium tremens.",
     "craving_morale": "morale_craving_alcohol",
     "builtin": "alcohol_effect"
   },

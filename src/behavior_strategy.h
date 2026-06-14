@@ -11,8 +11,6 @@ namespace behavior
 
 class node_t;
 class oracle_t;
-
-enum class status_t : char;
 struct behavior_return;
 
 class strategy_t
@@ -36,6 +34,14 @@ class fallback_t : public strategy_t
 };
 
 class sequential_until_done_t : public strategy_t
+{
+        behavior_return evaluate( const oracle_t *subject,
+                                  std::vector<const node_t *> children ) const override;
+};
+
+// Select the running child with the highest score.
+// Children that return success or failure are skipped.
+class utility_t : public strategy_t
 {
         behavior_return evaluate( const oracle_t *subject,
                                   std::vector<const node_t *> children ) const override;

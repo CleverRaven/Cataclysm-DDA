@@ -1,7 +1,8 @@
 [
   {
     "id": "skeleton_plate",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "armor_lc_plate",
     "name": { "str": "skeletal plate" },
     "description": "A full body multilayered suit of skeletal plate armor.",

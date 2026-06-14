@@ -29,6 +29,7 @@
       "-": "t_door_metal_locked",
       "4": "t_gutter_downspout",
       ".": "t_thconc_floor",
+      "Ł": "t_thconc_floor",
       "d": "t_region_groundcover_barren",
       "^": [ [ "t_thconc_floor", 10 ], "t_region_soil" ],
       " ": { "param": "lawn_type", "fallback": "t_region_groundcover_forest" },
@@ -42,7 +43,7 @@
     },
     "items": {
       "^": [
-        { "item": "trash", "chance": 25, "repeat": 2 },
+        { "item": "SUS_trash_floor", "chance": 25, "repeat": 2 },
         { "item": "road", "chance": 1 },
         { "item": "allclothes_damaged", "chance": 3 },
         { "item": "stoner", "chance": 1 },
@@ -51,13 +52,12 @@
         { "item": "misc_smoking", "chance": 1 }
       ]
     },
+    "vehicles": { "Ł": { "vehicle": "hand_truck", "chance": 40 } },
     "nested": { "|": { "chunks": [ [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] } }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse",
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rotation": [ 1, 1 ],
@@ -93,9 +93,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rotation": [ 1, 1 ],
@@ -127,15 +125,13 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_flat_roof" },
-      "place_items": [ { "item": "roof_trash", "x": [ 10, 19 ], "y": [ 5, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 10, 19 ], "y": [ 5, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [ { "chunks": [ [ "null", 40 ], [ "roof_4x4_utility", 60 ] ], "x": 13, "y": 6 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_1",
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -151,7 +147,7 @@
         "    d|..............|d  ",
         "    d|.............<|d  ",
         "    d|^.............|d  ",
-        "    d|..^...........|d  ",
+        "    d|..^..........Ł|d  ",
         "    d|...^.^....||o||d  ",
         "    d|^..^......w#..|d  ",
         "    d|O.O..^....w#..|d  ",
@@ -168,18 +164,16 @@
       "terrain": { "o": "t_door_o", "w": "t_window" },
       "furniture": { "#": "f_desk", "&": "f_trashcan", "O": "f_crate_o", "X": "f_crate_c" },
       "items": {
-        "#": { "item": "trash", "chance": 20 },
-        "&": { "item": "trash", "chance": 55, "repeat": 2 },
-        "{": { "item": "trash", "chance": 20 }
+        "#": { "item": "SUS_trash_floor", "chance": 20 },
+        "&": { "item": "SUS_trash_floor", "chance": 55, "repeat": 2 },
+        "{": { "item": "SUS_trash_floor", "chance": 20 }
       },
       "place_vehicles": [ { "chance": 60, "fuel": 0, "rotation": 180, "status": -1, "vehicle": "forklift_vehicles", "x": 16, "y": 10 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_1_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -209,7 +203,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 6, 19 ], "y": [ 6, 17 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 6, 19 ], "y": [ 6, 17 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [ [ "null", 30 ], [ "roof_4x4_party", 10 ], [ "roof_4x4_utility", 40 ], [ "roof_5x5_coop", 5 ] ],
@@ -221,9 +215,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_2",
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -235,7 +227,7 @@
         "      aaa               ",
         "   dddaaadddddddddd     ",
         "   d|||+||||||||||d     ",
-        "   d|....^...^..{|d     ",
+        "   d|Ł...^...^..{|d     ",
         "   d|......^....{|d     ",
         "   d|..^..^...^..|d     ",
         "   d|.......^....|d     ",
@@ -244,7 +236,7 @@
         "   d|.X^X.X.X.X..|aa    ",
         "   d|...........^|aa    ",
         "   d|.X.X.X.X.X..Daa    ",
-        "   d|....^.......|aa    ",
+        "   d|....^......Ł|aa    ",
         "   d|.X.X.X.X.X..|aa    ",
         "   4|........^...|d     ",
         "   d||||||||||||||d     ",
@@ -277,9 +269,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_2_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_tar_flat_roof",
       "rows": [
@@ -310,15 +300,13 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_tar_flat_roof" },
-      "place_items": [ { "item": "roof_trash", "x": [ 5, 17 ], "y": [ 7, 19 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 5, 17 ], "y": [ 7, 19 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [ { "chunks": [ [ "null", 50 ], [ "roof_4x4_utility", 50 ] ], "x": 6, "y": 8 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_3",
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -328,7 +316,7 @@
         "           aa+..#c|d    ",
         "  dddddddddaa|^...|d    ",
         "  d||||||||||||D|||d    ",
-        "  d|.X^X.X.X......|d    ",
+        "  d|ŁX^X.X.X......|d    ",
         "  d|.X.X.X.X...^..|d    ",
         "  d|.............{|d    ",
         "  d|............^{|d    ",
@@ -350,14 +338,12 @@
       "palettes": [ "abwarehouse_palette" ],
       "terrain": { "-": "t_support_l", "D": "t_door_c", "w": "t_window" },
       "furniture": { "#": "f_desk", "O": "f_standing_tank", "X": "f_crate_c", "c": "f_chair", "{": "f_dumpster" },
-      "items": { "{": { "item": "trash", "chance": 35, "repeat": 2 }, "X": { "item": "crate_parts", "chance": 30 } }
+      "items": { "{": { "item": "SUS_trash_floor", "chance": 35, "repeat": 2 }, "X": { "item": "crate_parts", "chance": 30 } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_3_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_tile_flat_roof",
       "rows": [
@@ -389,8 +375,8 @@
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_tile_flat_roof" },
       "place_items": [
-        { "item": "roof_trash", "x": [ 4, 17 ], "y": [ 12, 20 ], "chance": 50, "repeat": [ 1, 3 ] },
-        { "item": "roof_trash", "x": [ 14, 17 ], "y": [ 7, 11 ], "chance": 50, "repeat": [ 1, 3 ] }
+        { "item": "SUS_trash_roof", "x": [ 4, 17 ], "y": [ 12, 20 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "SUS_trash_roof", "x": [ 14, 17 ], "y": [ 7, 11 ], "chance": 50, "repeat": [ 1, 3 ] }
       ],
       "place_nested": [
         {
@@ -409,9 +395,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_4",
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -421,10 +405,10 @@
         "              aaa       ",
         "      ddddddddaaaddddd  ",
         "      d||||||||+|||||d  ",
-        "      d|............|d  ",
+        "      d|...........Ł|d  ",
         "      d|...........^|d  ",
         "    aaa|......^.....|d  ",
-        "    aaa|..^.........|d  ",
+        "    aaa|Ł.^.........|d  ",
         "    aaa|.........^.^|d  ",
         "    aaa+......^.....|d  ",
         "    aaa|..{.........|d  ",
@@ -443,7 +427,7 @@
       "palettes": [ "abwarehouse_palette" ],
       "terrain": { "D": "t_region_groundcover_barren" },
       "furniture": { "D": "f_dumpster", "{": "f_warehouse_shelf" },
-      "items": { "D": { "item": "trash", "chance": 45, "repeat": 2 } },
+      "items": { "D": { "item": "SUS_trash_floor", "chance": 45, "repeat": 2 } },
       "place_items": [
         { "chance": 25, "item": "stash_food", "x": 16, "y": [ 14, 15 ] },
         { "chance": 20, "item": "stash_water", "x": 18, "y": [ 14, 15 ] }
@@ -452,9 +436,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "abandonedwarehouse_4_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_tile_flat_roof",
       "rows": [
@@ -485,7 +467,7 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_tile_flat_roof" },
-      "place_items": [ { "item": "roof_trash", "x": [ 8, 19 ], "y": [ 7, 16 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 8, 19 ], "y": [ 7, 16 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [ { "chunks": [ [ "null", 50 ], [ "roof_4x4_utility", 50 ] ], "x": 8, "y": [ 10, 12 ] } ]
     }
   }

@@ -10,7 +10,11 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "SHALLOW_WATER" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "examine_action": "water_source"
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -10, -5 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -24,9 +28,13 @@
     "move_cost": 5,
     "roof": "t_rock_roof",
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "INDOORS", "SHALLOW_WATER" ],
-    "connect_groups": "WATER",
+    "connect_groups": [ "INDOORFLOOR", "WATER" ],
     "connects_to": "WATER",
-    "examine_action": "water_source"
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -10, -5 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -37,10 +45,14 @@
     "looks_like": "t_water_sh",
     "color": "blue",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "NO_FLOOR_WATER" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "NO_FLOOR_WATER", "EMPTY_SPACE" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "examine_action": "water_source"
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -10, -5 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -53,10 +65,14 @@
     "color": "blue",
     "move_cost": 8,
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "INDOORS" ],
-    "connect_groups": "WATER",
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "INDOORS", "EMPTY_SPACE" ],
+    "connect_groups": [ "INDOORFLOOR", "WATER" ],
     "connects_to": "WATER",
-    "examine_action": "water_source"
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -10, -5 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -67,10 +83,14 @@
     "color": "light_blue",
     "looks_like": "t_water_sh",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "SHALLOW_WATER", "MURKY" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "SHALLOW_WATER" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "examine_action": "water_source"
+    "liquid_source": { "id": "water_murky", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -83,10 +103,14 @@
     "looks_like": "t_water_sh",
     "move_cost": 5,
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "INDOORS", "SHALLOW_WATER", "MURKY" ],
-    "connect_groups": "WATER",
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "INDOORS", "SHALLOW_WATER" ],
+    "connect_groups": [ "INDOORFLOOR", "WATER" ],
     "connects_to": "WATER",
-    "examine_action": "water_source"
+    "liquid_source": { "id": "water_murky", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -100,7 +124,11 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "CURRENT", "SHALLOW_WATER" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "examine_action": "water_source"
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -114,9 +142,13 @@
     "move_cost": 6,
     "roof": "t_rock_roof",
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "CURRENT", "INDOORS", "SHALLOW_WATER" ],
-    "connect_groups": "WATER",
+    "connect_groups": [ "INDOORFLOOR", "WATER" ],
     "connects_to": "WATER",
-    "examine_action": "water_source"
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -127,10 +159,14 @@
     "symbol": "~",
     "color": "blue",
     "move_cost": 10,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "CURRENT" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "CURRENT", "EMPTY_SPACE" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "examine_action": "water_source"
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -143,10 +179,14 @@
     "color": "blue",
     "move_cost": 10,
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "CURRENT", "INDOORS" ],
-    "connect_groups": "WATER",
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "CURRENT", "INDOORS", "EMPTY_SPACE" ],
+    "connect_groups": [ "INDOORFLOOR", "WATER" ],
     "connects_to": "WATER",
-    "examine_action": "water_source"
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -157,10 +197,14 @@
     "looks_like": "t_water_sh",
     "color": "light_blue",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SALT_WATER", "FISHABLE", "SHALLOW_WATER" ],
+    "liquid_source": { "id": "salt_water", "min_temp": 2.2 },
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "SHALLOW_WATER" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "examine_action": "water_source"
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -173,10 +217,14 @@
     "looks_like": "t_swater_sh",
     "move_cost": 5,
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SALT_WATER", "FISHABLE", "INDOORS", "SHALLOW_WATER" ],
-    "connect_groups": "WATER",
+    "liquid_source": { "id": "salt_water", "min_temp": 2.2 },
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "INDOORS", "SHALLOW_WATER" ],
+    "connect_groups": [ "INDOORFLOOR", "WATER" ],
     "connects_to": "WATER",
-    "examine_action": "water_source"
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -187,10 +235,14 @@
     "looks_like": "t_water_dp",
     "color": "blue",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SALT_WATER", "DEEP_WATER", "FISHABLE" ],
+    "liquid_source": { "id": "salt_water", "min_temp": 2.2 },
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "NO_FLOOR_WATER", "EMPTY_SPACE" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
-    "examine_action": "water_source"
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -203,10 +255,14 @@
     "looks_like": "t_swater_dp",
     "move_cost": 8,
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SALT_WATER", "DEEP_WATER", "FISHABLE", "INDOORS" ],
-    "connect_groups": "WATER",
+    "liquid_source": { "id": "salt_water", "min_temp": 2.2 },
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "INDOORS", "EMPTY_SPACE" ],
+    "connect_groups": [ "INDOORFLOOR", "WATER" ],
     "connects_to": "WATER",
-    "examine_action": "water_source"
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -217,9 +273,10 @@
     "color": "cyan",
     "looks_like": "t_swater_sh",
     "move_cost": 4,
-    "connect_groups": [ "SAND", "WATER" ],
-    "connects_to": [ "SAND", "SANDMOUND", "SANDGLASS", "WATER" ],
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SALT_WATER", "DIGGABLE", "FLAT" ],
+    "liquid_source": { "id": "salt_water", "min_temp": 2.2 },
+    "connect_groups": [ "WATER" ],
+    "connects_to": [ "WATER" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DIGGABLE", "FLAT" ],
     "examine_action": "water_source"
   },
   {
@@ -231,10 +288,14 @@
     "looks_like": "t_water_dp",
     "color": "light_blue",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "INDOORS", "DEEP_WATER" ],
-    "connect_groups": "POOLWATER",
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "INDOORS", "DEEP_WATER", "EMPTY_SPACE" ],
+    "connect_groups": [ "INDOORFLOOR", "POOLWATER" ],
     "connects_to": "POOLWATER",
-    "examine_action": "water_source"
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -10, -5 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -246,9 +307,13 @@
     "color": "light_blue",
     "move_cost": 5,
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "INDOORS", "SHALLOW_WATER" ],
-    "connect_groups": "POOLWATER",
+    "connect_groups": [ "INDOORFLOOR", "POOLWATER" ],
     "connects_to": "POOLWATER",
-    "examine_action": "water_source"
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -10, -5 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -259,10 +324,14 @@
     "looks_like": "t_water_pool",
     "color": "light_blue",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "EMPTY_SPACE" ],
     "connect_groups": "POOLWATER",
     "connects_to": "POOLWATER",
-    "examine_action": "water_source"
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_dp_thick", "t_ice_dp_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -10, -5 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -276,7 +345,11 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SHALLOW_WATER" ],
     "connect_groups": "POOLWATER",
     "connects_to": "POOLWATER",
-    "examine_action": "water_source"
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -10, -5 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -287,8 +360,12 @@
     "looks_like": "t_water_murky",
     "color": "light_green",
     "move_cost": 6,
+    "liquid_source": { "id": "water_sewage", "min_temp": 2.2 },
     "flags": [ "TRANSPARENT", "SWIMMABLE", "SHALLOW_WATER" ],
-    "examine_action": "water_source"
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -299,6 +376,7 @@
     "color": "red",
     "move_cost": 4,
     "light_emitted": 50,
+    "light_color": [ 255, 200, 200 ],
     "heat_radiation": 3,
     "trap": "tr_lava",
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "DESTROY_ITEM", "USABLE_FIRE" ],
@@ -313,9 +391,10 @@
     "symbol": "~",
     "color": "blue",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE", "NO_FLOOR_WATER" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE", "NO_FLOOR_WATER", "EMPTY_SPACE" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
@@ -326,7 +405,8 @@
     "symbol": "~",
     "color": "blue",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "SALT_WATER", "WATER_CUBE", "NO_FLOOR_WATER" ],
+    "liquid_source": { "id": "salt_water", "min_temp": 2.2 },
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE", "NO_FLOOR_WATER", "EMPTY_SPACE" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
     "examine_action": "water_source"
@@ -344,6 +424,7 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
@@ -356,9 +437,10 @@
     "looks_like": "t_sand",
     "color": "blue",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "GOES_UP" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
@@ -371,21 +453,23 @@
     "looks_like": "t_metal_flat_roof",
     "color": "light_gray",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "GOES_UP", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE", "MINEABLE" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
     "type": "terrain",
     "id": "t_bulkhead_floor",
-    "//": "for eventual use with water z levels.  Currently non-functional.  Roof for submerged structures.",
+    "//": "for eventual use with water z levels.  Currently non-functional.  Floor for submerged structures.",
     "name": "bulkhead",
     "description": "The bottom of a submerged structure.",
     "symbol": "#",
     "looks_like": "t_metal_floor",
     "color": "light_gray",
     "move_cost": 3,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD", "MINEABLE" ],
     "bash": {
       "sound": "thump",
@@ -394,8 +478,8 @@
       "str_max": 500,
       "str_min_supported": 200,
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "mc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 3, 12 ] },
         { "item": "scrap", "count": [ 9, 36 ] }
       ]
     }
@@ -410,7 +494,7 @@
     "looks_like": "t_concrete",
     "color": "white",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "GOES_UP", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE", "MINEABLE" ],
     "bash": {
       "ter_set": "t_lake_bed",
       "str_min": 50,
@@ -420,6 +504,7 @@
     },
     "connect_groups": "WATER",
     "connects_to": "WATER",
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
@@ -432,7 +517,7 @@
     "looks_like": "t_pavement_y",
     "color": "yellow",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "GOES_UP", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE", "MINEABLE" ],
     "bash": {
       "ter_set": "t_lake_bed",
       "str_min": 50,
@@ -442,6 +527,7 @@
     },
     "connect_groups": "WATER",
     "connects_to": "WATER",
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
     "examine_action": "water_source"
   },
   {
@@ -456,6 +542,7 @@
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SHALLOW_WATER" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
+    "liquid_source": { "id": "water_murky", "min_temp": 70 },
     "examine_action": "water_source"
   },
   {
@@ -467,8 +554,12 @@
     "symbol": "~",
     "color": "light_blue",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "LIQUIDCONT", "SPAWN_WITH_LIQUID", "FRESH_WATER", "MURKY" ],
-    "examine_action": "finite_water_source"
+    "liquid_source": { "id": "water_murky", "count": [ 40, 240 ], "min_temp": 2.2 },
+    "flags": [ "TRANSPARENT", "LIQUIDCONT", "NO_SCENT", "SWIMMABLE", "SHALLOW_WATER" ],
+    "examine_action": "finite_water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -479,8 +570,13 @@
     "symbol": "~",
     "color": "light_blue",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "LIQUIDCONT", "SPAWN_WITH_LIQUID", "FRESH_WATER", "MURKY", "INDOORS" ],
-    "examine_action": "finite_water_source"
+    "connect_groups": "INDOORFLOOR",
+    "liquid_source": { "id": "water_murky", "count": [ 40, 240 ], "min_temp": 2.2 },
+    "flags": [ "TRANSPARENT", "LIQUIDCONT", "INDOORS", "NO_SCENT", "SWIMMABLE", "SHALLOW_WATER" ],
+    "examine_action": "finite_water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -15, -10 ],
+    "phase_method": "water_freeze"
   },
   {
     "type": "terrain",
@@ -494,8 +590,92 @@
     "move_cost": 5,
     "roof": "t_rock_roof",
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "INDOORS", "SHALLOW_WATER" ],
+    "connect_groups": [ "INDOORFLOOR", "WATER" ],
+    "connects_to": "WATER",
+    "liquid_source": { "id": "water", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "phase_targets": [ "t_ice_sh_thick", "t_ice_sh_thin", "t_pseudo_phase" ],
+    "phase_temps": [ -10, -5 ],
+    "phase_method": "water_freeze"
+  },
+  {
+    "type": "terrain",
+    "id": "t_water_cube_hot",
+    "name": "warm water",
+    "description": "You are submerged below the surface of warm water, your feet can't touch the ground.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
+    "symbol": "~",
+    "color": "blue",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE", "NO_FLOOR_WATER", "EMPTY_SPACE" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
+    "heat_radiation": 1,
+    "liquid_source": { "id": "water", "min_temp": 25 },
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_metal_floor_submerged_hot",
+    "//": "for eventual use with water z levels.  Currently non-functional.  Cement on the lake floor.",
+    "name": "submerged metal floor",
+    "description": "You are standing at the bottom of a body of warm fresh water on a metal floor.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
+    "symbol": "~",
+    "looks_like": "t_metal_floor",
+    "color": "light_gray",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE", "MINEABLE" ],
+    "connect_groups": "WATER",
+    "connects_to": "WATER",
+    "heat_radiation": 1,
+    "liquid_source": { "id": "water", "min_temp": 25 },
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_water_dp_underground_hot",
+    "name": "deep water",
+    "//": "for caverns and other natural underground formations.",
+    "description": "You're having trouble seeing the bottom through the warm, deep water here.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
+    "symbol": "~",
+    "looks_like": "t_water_dp",
+    "color": "blue",
+    "move_cost": 8,
+    "roof": "t_rock_roof",
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "INDOORS", "EMPTY_SPACE" ],
+    "connect_groups": [ "INDOORFLOOR", "WATER" ],
+    "connects_to": "WATER",
+    "liquid_source": { "id": "water", "min_temp": 25 },
+    "heat_radiation": 1,
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_interstice_mutagen_sh",
+    "name": "perfectly clear water",
+    "description": "A pool of what appears to be, in most respects, water.  However, it's so clear that you can barely perceive it unless in motion.",
+    "symbol": "~",
+    "looks_like": "t_water_sh",
+    "color": "light_blue",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "INDOORS", "SHALLOW_WATER" ],
+    "connect_groups": [ "INDOORFLOOR", "WATER" ],
+    "connects_to": "WATER",
+    "liquid_source": { "id": "mutagen_interstice", "min_temp": 2.2 },
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_interstice_mutagen_pool",
+    "name": "perfectly clear water",
+    "description": "This is clearly a swimming pool, but it contains just a shallow layer of what appears to be, in most respects, water.  However, the liquid is so clear that you can barely perceive it unless in motion.",
+    "symbol": "~",
+    "looks_like": "t_water_sh",
+    "color": "light_blue",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "INDOORS", "SHALLOW_WATER" ],
+    "connect_groups": [ "INDOORFLOOR", "WATER" ],
+    "connects_to": "WATER",
+    "liquid_source": { "id": "mutagen_interstice", "min_temp": 2.2 },
     "examine_action": "water_source"
   }
 ]

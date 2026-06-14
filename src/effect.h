@@ -2,11 +2,14 @@
 #ifndef CATA_SRC_EFFECT_H
 #define CATA_SRC_EFFECT_H
 
-#include <iosfwd>
+#include <array>
+#include <cstddef>
+#include <cstdint>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
-#include <tuple>
+#include <string_view>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -14,17 +17,16 @@
 #include "calendar.h"
 #include "color.h"
 #include "effect_source.h"
+#include "enums.h"
+#include "event.h"
 #include "flat_set.h"
-#include "hash_utils.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
-class effect_type;
-
-enum game_message_type : int;
-enum class event_type : int;
+class Character;
 class JsonObject;
 class JsonOut;
+class effect_type;
 
 /** Handles the large variety of weed messages. */
 void weed_msg( Character &p );
@@ -101,8 +103,9 @@ struct effect_dur_mod {
 
 class effect_type
 {
-        friend void load_effect_type( const JsonObject &jo );
+        friend void load_effect_type( const JsonObject &jo, std::string_view src );
         friend class effect;
+        friend struct mod_tracker;
     public:
         enum class memorial_gender : int {
             male,
@@ -244,6 +247,8 @@ class effect_type
         std::vector<effect_dur_mod> effect_dur_scaling;
         std::vector<std::pair<int, int>> kill_chance;
         std::vector<std::pair<int, int>> red_kill_chance;
+
+        std::vector<std::pair<efftype_id, mod_id>> src;
 };
 
 class effect;
@@ -272,6 +277,9 @@ class effect
             eff_type( peff_type ), duration( dur ), bp( part ),
             permanent( perm ), intensity( nintensity ), start_time( nstart_time ),
             source( source ) {
+            clamp_duration();
+            apply_int_dur_factor();
+            clamp_intensity();
         }
         effect( const effect & ) = default;
         effect &operator=( const effect & ) = default;
@@ -288,6 +296,9 @@ class effect
         std::string disp_desc( bool reduced = false ) const;
         /** Returns the short description as set in json. */
         std::string disp_short_desc( bool reduced = false ) const;
+        /** Returns the mod source info. */
+        std::string disp_mod_source_info() const;
+
         /** Returns true if a description will be formatted as "Your" + body_part + description. */
         bool use_part_descs() const;
 
@@ -310,6 +321,8 @@ class effect
         void mod_duration( const time_duration &dur, bool alert = false );
         /** Multiplies the duration, capping at max_duration. */
         void mult_duration( double dur, bool alert = false );
+        /** Caps duration at max_duration. */
+        void clamp_duration();
 
         std::vector<vitamin_applied_effect> vit_effects( bool reduced ) const;
 
@@ -346,12 +359,24 @@ class effect
         int set_intensity( int val, bool alert = false );
 
         /**
+         * Clamps intensity of effect to range [1..max_intensity]
+         * @return new clamped intensity of the effect
+         */
+        int clamp_intensity();
+
+        /**
          * Modify intensity of effect capped by range [1..max_intensity]
          * @param mod Amount to increase current intensity by
          * @param alert whether decay messages should be displayed
          * @return new intensity of the effect after modification and capping
          */
         int mod_intensity( int mod, bool alert = false );
+
+        /**
+         * Set intensity of effect if it is duration based
+         * @return potentially updated intensity of the effect
+         */
+        int apply_int_dur_factor( bool alert = false );
 
         /** Returns the string id of the resist trait to be used in has_trait("id"). */
         const std::vector<trait_id> &get_resist_traits() const;
@@ -442,11 +467,27 @@ class effect
 
 };
 
-void load_effect_type( const JsonObject &jo );
+class effect_migration
+{
+    public:
+        efftype_id id_old;
+        std::optional<efftype_id> id_new;
+
+        static void load( const JsonObject &jo );
+
+        static void reset();
+
+        static void check();
+
+        /** Find the last migration entry of the given vpart_id */
+        static const effect_migration *find_migration( const efftype_id &original );
+};
+
+void load_effect_type( const JsonObject &jo, std::string_view src );
 void reset_effect_types();
 const std::map<efftype_id, effect_type> &get_effect_types();
 
-std::string texitify_base_healing_power( int power );
+std::string texitify_base_healing_power( float power );
 std::string texitify_healing_power( int power );
 std::string texitify_bandage_power( int power );
 nc_color colorize_bleeding_intensity( int intensity );

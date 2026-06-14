@@ -27,6 +27,7 @@
   {
     "type": "snippet",
     "category": "<power_leech_harvest>",
+    "//": "NO_I18N",
     "text": [ "<power_leech_harvest>", "<power_leech_harvest_deeper>", "<power_leech_harvest>  <power_leech_harvest_deeper>" ]
   }
 ]

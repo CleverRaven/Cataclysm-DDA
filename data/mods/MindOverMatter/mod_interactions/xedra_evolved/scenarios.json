@@ -1,0 +1,17 @@
+[
+  {
+    "copy-from": "heli_crash",
+    "type": "scenario",
+    "extend": {
+      "map_special": "mx_helicopter",
+      "professions": [ "xe_psi_hunter", "xe_psi_verdant_hand", "xe_psi_pyrokinetic_cyborg" ]
+    },
+    "id": "heli_crash"
+  },
+  {
+    "copy-from": "portal_dependent",
+    "type": "scenario",
+    "extend": { "professions": [ "xe_psi_hunter", "xe_psi_verdant_hand", "xe_psi_pyrokinetic_cyborg" ] },
+    "id": "portal_dependent"
+  }
+]

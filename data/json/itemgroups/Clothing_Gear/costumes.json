@@ -22,6 +22,7 @@
       { "item": "katana_fake", "prob": 1 },
       { "item": "longsword_fake", "prob": 1 },
       { "item": "clownshoes", "prob": 15 },
+      { "group": "esoteric_books", "prob": 2 },
       { "group": "costume_weapons", "prob": 5 }
     ]
   },
@@ -70,18 +71,22 @@
       { "item": "clown_nose", "prob": 20 },
       { "item": "plastic_mandible_guard", "prob": 5 },
       { "item": "leg_sheath6", "prob": 20 },
-      { "item": "throwing_knife", "count-min": 1, "count-max": 6, "entry-wrapper": "leg_sheath6", "prob": 1 },
+      { "item": "throwing_knife", "count": [ 1, 6 ], "entry-wrapper": "leg_sheath6", "prob": 1 },
       { "item": "punch_dagger", "container-item": "gartersheath1", "prob": 1 },
       { "item": "gartersheath1", "prob": 25 },
       { "item": "gartersheath2", "prob": 10 },
       { "item": "eyepatch_leather", "prob": 20 },
-      { "item": "hakama", "prob": 1 }
+      { "item": "hakama", "prob": 1 },
+      { "item": "devil_tail", "prob": 15 },
+      { "item": "angel_wings", "prob": 15 },
+      { "item": "cuffs", "prob": 25 },
+      { "item": "collar_playboy", "prob": 25 }
     ]
   },
   {
     "type": "item_group",
     "id": "costume_cloacks",
-    "//": "cloacks for costumes, cosplay and costume parties",
+    "//": "cloaks for costumes, cosplay and costume parties",
     "subtype": "distribution",
     "entries": [
       { "item": "cloak_vampire", "prob": 25 },
@@ -114,7 +119,7 @@
       { "item": "trenchcoat_steampunk", "prob": 15 },
       { "item": "plaguedoctor_robe", "prob": 15 },
       { "item": "nun_habit", "prob": 10 },
-      { "item": "suit_bostonchan", "prob": 20 }
+      { "item": "blazer", "variant": "bostonchan", "prob": 20 }
     ]
   },
   {
@@ -145,18 +150,19 @@
       { "item": "mummy_dress", "prob": 25 },
       { "item": "ninja_dress", "prob": 15 },
       { "item": "ninja_dress_sleeveless", "prob": 15 },
-      { "item": "sinister_dress", "prob": 35 },
-      { "item": "sinister_dress_short", "prob": 25 },
-      { "item": "sinister_gown", "prob": 15 },
-      { "item": "witch_dress", "prob": 35 },
-      { "item": "witch_dress_long", "prob": 25 },
-      { "item": "witch_dress_short", "prob": 20 },
+      { "item": "long_dress_sleeved", "variant": "sinister", "prob": 35 },
+      { "item": "short_dress", "variant": "sinister", "prob": 25 },
+      { "item": "gown_sleeved", "variant": "sinister", "prob": 15 },
+      { "item": "dress_sleeved", "variant": "witch_black", "prob": 35 },
+      { "item": "long_dress_sleeved", "variant": "witch_black", "prob": 25 },
+      { "item": "short_dress_sleeved", "variant": "witch_black", "prob": 20 },
       { "item": "maid_dress", "prob": 25 },
       { "item": "maid_dress_short", "prob": 35 },
       { "item": "kimono", "prob": 5 },
       { "item": "yukata", "prob": 5 },
       { "item": "gown", "prob": 5 },
-      { "item": "dress_wedding", "prob": 5 }
+      { "item": "dress_wedding", "prob": 5 },
+      { "item": "cheongsam", "prob": 10 }
     ]
   },
   {
@@ -206,7 +212,10 @@
       { "item": "bandana_head", "prob": 5 },
       { "item": "fedora", "prob": 10 },
       { "item": "porkpie", "prob": 10 },
-      { "item": "nun_wimple", "prob": 12 }
+      { "item": "nun_wimple", "prob": 12 },
+      { "item": "devil_horn_headband", "prob": 15 },
+      { "item": "angel_halo_headband", "prob": 15 },
+      { "item": "bunny_ears_black", "prob": 25 }
     ]
   },
   {
@@ -251,11 +260,11 @@
     "subtype": "distribution",
     "entries": [
       { "item": "santa_beard", "prob": 20 },
-      { "item": "mask_guy_fawkes", "prob": 10 },
+      { "item": "mask_skull", "variant": "guy_fawkes", "prob": 10 },
       { "item": "mask_hockey", "prob": 20 },
       { "item": "bondage_mask", "prob": 5 },
       { "item": "blindfold", "prob": 5 },
-      { "item": "balaclava_skull", "prob": 25 },
+      { "item": "balclava", "variant": "skull", "prob": 25 },
       { "item": "mask_skull", "prob": 20 },
       { "item": "scarf_long", "prob": 10 },
       { "item": "mask_dust", "variant": "skull_mask_dust", "prob": 20 },
@@ -316,10 +325,9 @@
       { "item": "rashguard", "variant": "skull_rashguard_shirt", "prob": 10 },
       { "item": "rashguard", "variant": "gothic_rashguard_shirt", "prob": 10 },
       { "item": "postman_shirt", "prob": 10 },
-      { "item": "flag_shirt", "prob": 15 },
+      { "item": "tshirt", "variant": "flag_shirt" },
       { "item": "dress_shirt", "prob": 10 },
-      { "item": "longshirt", "prob": 10 },
-      { "item": "striped_shirt", "prob": 15 }
+      { "item": "longshirt", "prob": 10 }
     ]
   },
   {
@@ -334,15 +342,18 @@
       { "item": "bodysuit_lycra", "prob": 25 },
       { "item": "suit", "prob": 10 },
       { "item": "tux", "prob": 10 },
-      { "item": "wolfsuit", "prob": 10 },
+      { "item": "fursuit", "prob": 15 },
       { "item": "clown_suit", "prob": 10 },
-      { "item": "dragonsuit", "prob": 10 },
-      { "item": "felinesuit", "prob": 10 },
+      { "item": "fursuit", "variant": "dragonsuit", "prob": 10 },
+      { "item": "fursuit", "variant": "felinesuit", "prob": 10 },
+      { "item": "fursuit", "variant": "dinosuit", "prob": 10 },
+      { "item": "fursuit", "variant": "sharksuit", "prob": 10 },
       { "item": "bondage_suit", "prob": 15 },
-      { "item": "dinosuit", "prob": 10 },
-      { "item": "sharksuit", "prob": 10 },
+      { "item": "wool_suit_devil", "prob": 15 },
+      { "item": "bunny_suit_playboy", "prob": 25 },
       { "item": "beekeeping_suit", "prob": 5 },
-      { "item": "zentai", "prob": 5 }
+      { "item": "zentai", "prob": 5 },
+      { "item": "jumpsuit_pocketless", "variant": "orange" }
     ]
   },
   {
@@ -351,10 +362,6 @@
     "//": "undergarments for costumes, cosplay and costume parties",
     "subtype": "distribution",
     "entries": [
-      { "item": "bikini_top", "prob": 20 },
-      { "item": "bikini_bottom", "prob": 20 },
-      { "item": "bikini_top_short", "prob": 10 },
-      { "item": "bikini_bottom_short", "prob": 10 },
       { "item": "flag_swimsuit", "prob": 15 },
       { "item": "wetsuit_spring", "prob": 5 },
       { "item": "wetsuit_spring_sleeveless", "prob": 5 },
@@ -365,12 +372,18 @@
       { "item": "tights", "prob": 25 },
       { "item": "stockings", "prob": 25 },
       { "item": "garter_belt", "prob": 25 },
-      { "item": "bikini_top_fur", "prob": 5 },
-      { "item": "bikini_top_leather", "prob": 10 },
-      { "item": "bikini_top", "variant": "maid_bikini_top", "prob": 5 },
-      { "item": "bikini_bottom", "variant": "maid_bikini_bottom", "prob": 5 },
-      { "item": "bikini_top", "variant": "skull_bikini_top", "prob": 5 },
-      { "item": "bikini_bottom", "variant": "skull_bikini_bottom", "prob": 5 },
+      { "group": "bikini", "prob": 35 },
+      {
+        "collection": [ { "item": "bikini_top", "variant": "maid_bikini_top" }, { "item": "bikini_bottom", "variant": "maid_bikini_bottom" } ],
+        "prob": 5
+      },
+      {
+        "collection": [
+          { "item": "bikini_top", "variant": "skull_bikini_top" },
+          { "item": "bikini_bottom", "variant": "skull_bikini_bottom" }
+        ],
+        "prob": 5
+      },
       { "item": "flag_swimsuit", "variant": "lifeguard_swimsuit", "prob": 10 }
     ]
   },
@@ -381,7 +394,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "flag_jumpsuit", "prob": 25 },
-      { "item": "flag_shirt", "prob": 25 },
+      { "item": "tshirt", "variant": "flag_shirt" },
       { "item": "pants", "variant": "pants_flag", "prob": 25 },
       { "item": "american_flag", "prob": 25 },
       { "group": "costume_independence_undergarments_women", "prob": 25 },
@@ -469,5 +482,11 @@
       [ "wakizashi_inferior", 8 ],
       [ "kris_fake", 8 ]
     ]
+  },
+  {
+    "id": "pet_collars",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "leather_collar", 2 ], [ "faux_fur_collar", 1 ], [ "fur_collar", 1 ] ]
   }
 ]

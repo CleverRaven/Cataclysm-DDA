@@ -10,8 +10,8 @@
   {
     "id": "clair_potion_clairvoyance",
     "type": "SPELL",
-    "name": "[Ψ]Gray Potion Clairvoyance",
-    "description": "The clairvoyance effect from the elixir.  If you have it it's a bug.",
+    "name": { "str": "[Ψ]Gray Potion Clairvoyance", "//~": "NO_I18N" },
+    "description": { "str": "The clairvoyance effect from the elixir.  If you have it it's a bug.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
@@ -37,8 +37,8 @@
   {
     "id": "clair_group_tactics_aoe",
     "type": "SPELL",
-    "name": "[Ψ]Prescient Tactics AoE",
-    "description": "This provides the buff to your followers.  It's a bug if you have it directly.",
+    "name": { "str": "[Ψ]Prescient Tactics AoE", "//~": "NO_I18N" },
+    "description": { "str": "This provides the buff to your followers.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ally" ],
@@ -62,8 +62,11 @@
   {
     "id": "electrokin_zap_attacked",
     "type": "SPELL",
-    "name": "Electrokinetic aura thorns",
-    "description": "Do electrical damage to a monster that attacked you.  If you have this directly its a bug.",
+    "name": { "str": "Electrokinetic aura thorns", "//~": "NO_I18N" },
+    "description": {
+      "str": "Do electrical damage to a monster that attacked you.  If you have this directly its a bug.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "hostile" ],
     "flags": [ "RANDOM_DAMAGE" ],
     "shape": "blast",
@@ -88,13 +91,13 @@
     "condition": "ALWAYS",
     "has": "HELD",
     "hit_you_effect": [ { "id": "electrokin_zap_attack", "hit_self": false, "once_in": 2 } ],
-    "values": [ { "value": "ARMOR_ELEC", "add": { "math": [ "u_spell_level('electrokinetic_melee_attacks') * -1" ] } } ]
+    "incoming_damage_mod": [ { "type": "electric", "add": { "math": [ "u_spell_level('electrokinetic_melee_attacks') * -1" ] } } ]
   },
   {
     "id": "electrokin_zap_attack",
     "type": "SPELL",
-    "name": "Electrokinetic melee attacks",
-    "description": "Do electrical damage to a monster you attack.  If you have this directly its a bug.",
+    "name": { "str": "Electrokinetic melee attacks", "//~": "NO_I18N" },
+    "description": { "str": "Do electrical damage to a monster you attack.  If you have this directly its a bug.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "RANDOM_DAMAGE", "RANDOM_AOE" ],
     "shape": "blast",
@@ -126,6 +129,24 @@
     "condition": "ALWAYS",
     "has": "HELD",
     "emitter": "emit_pyrokin_cloak",
+    "incoming_damage_mod": [
+      {
+        "type": "heat",
+        "multiply": {
+          "math": [
+            "( ( u_spell_level('pyrokinetic_cloak') * -1) * ( ( u_val('intelligence') + 10) / 20 ) ) * u_nether_attunement_power_scaling"
+          ]
+        }
+      },
+      {
+        "type": "cold",
+        "multiply": {
+          "math": [
+            "( ( u_spell_level('pyrokinetic_cloak') * -3) * ( ( u_val('intelligence') + 10) / 20 ) ) * u_nether_attunement_power_scaling"
+          ]
+        }
+      }
+    ],
     "values": [
       {
         "value": "CLIMATE_CONTROL_CHILL",
@@ -140,22 +161,6 @@
         "add": {
           "math": [
             "( ( u_spell_level('pyrokinetic_cloak') * 10) * ( ( u_val('intelligence') + 10) / 20 ) ) * u_nether_attunement_power_scaling"
-          ]
-        }
-      },
-      {
-        "value": "ARMOR_HEAT",
-        "add": {
-          "math": [
-            "( ( u_spell_level('pyrokinetic_cloak') * -1) * ( ( u_val('intelligence') + 10) / 20 ) ) * u_nether_attunement_power_scaling"
-          ]
-        }
-      },
-      {
-        "value": "ARMOR_COLD",
-        "add": {
-          "math": [
-            "( ( u_spell_level('pyrokinetic_cloak') * -3) * ( ( u_val('intelligence') + 10) / 20 ) ) * u_nether_attunement_power_scaling"
           ]
         }
       }
@@ -180,8 +185,8 @@
   {
     "id": "photokin_blinding_glare_attack",
     "type": "SPELL",
-    "name": "Photokinetic Blinding Radiance burst",
-    "description": "Blind nearby targets.",
+    "name": { "str": "Photokinetic Blinding Radiance burst", "//~": "NO_I18N" },
+    "description": { "str": "Blind nearby targets.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ally" ],
     "flags": [ "SILENT", "RANDOM_DURATION" ],
     "max_level": { "math": [ "int_to_level(1)" ] },
@@ -215,8 +220,8 @@
   {
     "id": "pyro_aura_attack",
     "type": "SPELL",
-    "name": "Pyrokinetic aura stabbing",
-    "description": "Do fire damage to a monster that you attack.",
+    "name": { "str": "Pyrokinetic aura stabbing", "//~": "NO_I18N" },
+    "description": { "str": "Do fire damage to a monster that you attack.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "RANDOM_DAMAGE", "IGNITE_FLAMMABLE" ],
     "shape": "blast",
@@ -230,8 +235,8 @@
   {
     "id": "pyro_aura_attacked",
     "type": "SPELL",
-    "name": "Pyrokinetic aura thorns",
-    "description": "Do fire damage to a monster that attacked you.",
+    "name": { "str": "Pyrokinetic aura thorns", "//~": "NO_I18N" },
+    "description": { "str": "Do fire damage to a monster that attacked you.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "RANDOM_DAMAGE", "IGNITE_FLAMMABLE" ],
     "shape": "blast",
@@ -243,11 +248,58 @@
     "max_range": 1
   },
   {
+    "id": "electro_potion_attacked",
+    "type": "SPELL",
+    "name": { "str": "Electrokinetic aura thorns", "//~": "NO_I18N" },
+    "description": { "str": "Do electrical damage to a monster that attacked you and daze them.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "flags": [ "RANDOM_DAMAGE", "RANDOM_DURATION" ],
+    "shape": "blast",
+    "effect": "attack",
+    "effect_str": "dazed",
+    "damage_type": "electric",
+    "min_damage": { "math": [ "3 * u_nether_attunement_power_scaling" ] },
+    "max_damage": { "math": [ "7 * u_nether_attunement_power_scaling" ] },
+    "min_range": 1,
+    "max_range": 1,
+    "min_duration": 100,
+    "max_duration": 400
+  },
+  {
+    "type": "enchantment",
+    "id": "enchant_electrokin_potion",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "incoming_damage_mod": [ { "type": "electric", "add": -5 } ],
+    "hit_me_effect": [ { "id": "electro_potion_attacked", "hit_self": false } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "enchant_photokin_potion_rads",
+    "condition": { "math": [ "u_val('rad') > 0" ] },
+    "has": "HELD",
+    "values": [ { "value": "LUMINATION", "add": 10 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "enchant_photokin_potion_hide",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "values": [ { "value": "STEALTH_MODIFIER", "add": 25 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "enchant_photokin_potion_unhide",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "values": [ { "value": "STEALTH_MODIFIER", "add": -25 } ]
+  },
+  {
     "type": "enchantment",
     "id": "enchant_pyrokin_potion",
     "condition": "ALWAYS",
     "has": "HELD",
-    "values": [ { "value": "ARMOR_HEAT", "add": -50 } ],
+    "incoming_damage_mod": [ { "type": "heat", "add": -50 } ],
     "hit_me_effect": [ { "id": "pyro_aura_attacked", "hit_self": false } ]
   },
   {

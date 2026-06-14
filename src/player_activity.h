@@ -4,10 +4,11 @@
 
 #include <climits>
 #include <cstddef>
-#include <iosfwd>
+#include <map>
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <unordered_set>
 #include <vector>
 
@@ -33,16 +34,17 @@ class player_activity
 {
     private:
         activity_id type;
-        cata::clone_ptr<activity_actor> actor;
 
         std::set<distraction_type> ignored_distractions; // NOLINT(cata-serialize)
 
         bool ignoreQuery = false; // NOLINT(cata-serialize)
 
     public:
-        /** Total number of moves required to complete the activity */
+        cata::clone_ptr<activity_actor> actor;
+
+        /** Total number of moves (1/100th of a second) required to complete the activity */
         int moves_total = 0;
-        /** The number of moves remaining in this activity before it is complete. */
+        /** The number of moves (1/100th of a second) remaining in this activity before it is complete. */
         int moves_left = calendar::INDEFINITELY_LONG;
         /** Controls whether this activity can be cancelled at all */
         bool interruptable = true;
@@ -61,10 +63,10 @@ class player_activity
         std::vector<item_location> targets;
         std::vector<int> values;
         std::vector<std::string> str_values;
-        std::vector<tripoint> coords;
-        std::unordered_set<tripoint> coord_set;
+        std::vector<tripoint_abs_ms> coords;
+        std::unordered_set<tripoint_abs_ms> coord_set;
         std::vector<weak_ptr_fast<monster>> monsters;
-        static constexpr tripoint_abs_ms invalid_place{ tripoint_min };
+        static constexpr const tripoint_abs_ms &invalid_place = tripoint_abs_ms::invalid;
         tripoint_abs_ms placement;
         // ACT_START_ENGINES needs a relative position because the engine might
         // be in a moving vehicle at the time.
@@ -144,7 +146,7 @@ class player_activity
         void deserialize_legacy_type( int legacy_type, activity_id &dest );
 
         /**
-         * Preform necessary initialization to start or resume the activity. Must be
+         * Perform necessary initialization to start or resume the activity. Must be
          * called whenever a Character starts a new activity.
          * When resuming an activity, do not call activity_actor::start
          */
@@ -167,6 +169,12 @@ class player_activity
          * can be resumed instead of starting the other activity.
          */
         bool can_resume_with( const player_activity &other, const Character &who ) const;
+
+        /**
+         * Passes new activity_actor to the old one so it can update its parameter when
+         * activity is resumed with another one.
+         */
+        void set_resume_values( const player_activity &other, const Character &who ) ;
 
         bool is_interruptible() const;
         bool is_interruptible_with_kb() const;

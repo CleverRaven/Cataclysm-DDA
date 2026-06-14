@@ -6,6 +6,7 @@
     "color": "white",
     "map_color": "h_white",
     "sym": ".",
+    "sun_sym": "⛄",
     "ranged_penalty": 1,
     "sight_penalty": 1.03,
     "light_modifier": -20,
@@ -19,7 +20,7 @@
     "sun_multiplier": 0.3,
     "required_weathers": [ "cloudy" ],
     "priority": 30,
-    "condition": { "or": [ { "math": [ "weather('humidity')", ">=", "97" ] }, { "math": [ "weather('pressure')", "<", "1000" ] } ] }
+    "condition": { "or": [ { "math": [ "weather('humidity') >= 97" ] }, { "math": [ "weather('pressure') < 1000" ] } ] }
   },
   {
     "id": "afs_whiteout",
@@ -28,6 +29,7 @@
     "color": "i_black",
     "map_color": "i_black",
     "sym": "o",
+    "sun_sym": "⛆",
     "ranged_penalty": 1,
     "sight_penalty": 1.03,
     "light_modifier": -40,
@@ -41,7 +43,7 @@
     "sun_multiplier": 0.15,
     "required_weathers": [ "cloudy", "afs_flurries" ],
     "priority": 40,
-    "condition": { "and": [ "is_day", { "math": [ "weather('windpower')", ">=", "20" ] } ] }
+    "condition": { "and": [ "is_day", { "math": [ "weather('windpower') >= 20" ] } ] }
   },
   {
     "id": "afs_snowing",
@@ -50,6 +52,7 @@
     "color": "blue",
     "map_color": "h_blue",
     "sym": "o",
+    "sun_sym": "☃",
     "ranged_penalty": 3,
     "sight_penalty": 1.1,
     "light_modifier": -30,
@@ -63,7 +66,7 @@
     "sun_multiplier": 0.2,
     "required_weathers": [ "afs_flurries", "afs_whiteout" ],
     "priority": 50,
-    "condition": { "or": [ { "math": [ "weather('humidity')", ">=", "98" ] }, { "math": [ "weather('pressure')", "<", "993" ] } ] }
+    "condition": { "or": [ { "math": [ "weather('humidity') >= 98" ] }, { "math": [ "weather('pressure') < 993" ] } ] }
   },
   {
     "id": "afs_thunder",
@@ -72,6 +75,7 @@
     "color": "dark_gray",
     "map_color": "i_blue",
     "sym": "%",
+    "sun_sym": "⛈",
     "ranged_penalty": 4,
     "sight_penalty": 1.2,
     "light_modifier": -40,
@@ -85,7 +89,7 @@
     "sun_multiplier": 0.01,
     "required_weathers": [ "afs_snowing" ],
     "priority": 60,
-    "condition": { "math": [ "weather('pressure')", "<", "990" ] }
+    "condition": { "math": [ "weather('pressure') < 990" ] }
   },
   {
     "id": "afs_lightning",
@@ -94,6 +98,7 @@
     "color": "yellow",
     "map_color": "h_yellow",
     "sym": "%",
+    "sun_sym": "⛈",
     "ranged_penalty": 4,
     "sight_penalty": 1.25,
     "light_modifier": -45,
@@ -107,6 +112,6 @@
     "sun_multiplier": 0.01,
     "required_weathers": [ "afs_thunder" ],
     "priority": 70,
-    "condition": { "math": [ "weather('pressure')", "<", "980" ] }
+    "condition": { "math": [ "weather('pressure') < 980" ] }
   }
 ]

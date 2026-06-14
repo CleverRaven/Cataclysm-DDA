@@ -3,7 +3,8 @@
 #include <functional> // std::greater
 #include <initializer_list>
 #include <iterator>
-#include <type_traits>
+#include <string>
+#include <utility>
 #include <vector> // range-insert testing
 
 #include "cata_catch.h"
@@ -1033,7 +1034,7 @@ TEST_CASE( "list_reorder", "[list]" )
     std::advance( it1, 25 );
     std::advance( it2, 5 );
 
-    test_list.reorder( it2, it1 );
+    test_list.splice( it2, it1 );
 
     it1 = test_list.begin();
     std::advance( it1, 5 );
@@ -1045,13 +1046,13 @@ TEST_CASE( "list_reorder", "[list]" )
     it1 = test_list.begin();
     std::advance( it1, 152 );
 
-    test_list.reorder( test_list.begin(), it1 );
+    test_list.splice( test_list.begin(), it1 );
 
     SECTION( "single reorder to begin" ) {
         CHECK( test_list.front() == 152 );
     }
 
-    test_list.reorder( test_list.end(), it2 );
+    test_list.splice( test_list.end(), it2 );
 
     SECTION( "single reorder to end" ) {
         it1 = std::prev( test_list.end() );
@@ -1065,7 +1066,7 @@ TEST_CASE( "list_reorder", "[list]" )
     std::advance( it2, 60 );
     std::advance( it3, 70 );
 
-    test_list.reorder( it3, it1, it2 );
+    test_list.splice( it3, it1, std::next( it2 ) );
 
     SECTION( "range reorder" ) {
         it3 = test_list.begin();
@@ -1088,9 +1089,9 @@ TEST_CASE( "list_reorder", "[list]" )
     std::advance( it1, 80 );
     std::advance( it2, 120 );
 
-    test_list.reorder( test_list.end(), it1, it2 );
+    test_list.splice( test_list.end(), it1, std::next( it2 ) );
 
-    SECTION( "range reorer to end" ) {
+    SECTION( "range reorder to end" ) {
         it3 = test_list.end();
         std::advance( it3, -41 );
 
@@ -1111,7 +1112,7 @@ TEST_CASE( "list_reorder", "[list]" )
     std::advance( it1, 40 );
     std::advance( it2, 45 );
 
-    test_list.reorder( test_list.begin(), it1, it2 );
+    test_list.splice( test_list.begin(), it1, std::next( it2 ) );
 
     SECTION( "range reorder to begin" ) {
         it3 = test_list.begin();

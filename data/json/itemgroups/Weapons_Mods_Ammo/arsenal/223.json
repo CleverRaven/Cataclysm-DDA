@@ -38,33 +38,40 @@
   {
     "type": "item_group",
     "id": "milspec_arsenal_223",
-    "items": [ { "group": "nested_m4_carbine_no_ammo", "prob": 70 }, { "group": "nested_m27_assault_rifle_no_ammo", "prob": 40 } ]
+    "items": [
+      { "group": "nested_m4_carbine_no_ammo", "prob": 70 },
+      { "group": "nested_h&k416a5_assault_rifle_no_ammo", "prob": 40 },
+      { "group": "nested_m27_assault_rifle_no_ammo", "prob": 15 },
+      { "group": "nested_m38dmr_no_ammo", "prob": 5 }
+    ]
   },
   {
     "id": "nested_m4_carbine_no_ammo",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "item": "modular_m4_carbine" }, { "group": "stanag_mags", "count": [ 1, 3 ] } ]
+    "items": [ { "group": "modular_m4a1" }, { "group": "stanag_mags", "count": [ 1, 3 ] } ]
   },
   {
     "id": "nested_m27_assault_rifle_no_ammo",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "item": "modular_m27_assault_rifle" }, { "group": "stanag_mags", "count": [ 1, 3 ] } ]
+    "items": [ { "group": "m27iar" }, { "group": "stanag_mags", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "nested_h&k416a5_assault_rifle_no_ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "group": "h&k416a5_any" }, { "group": "stanag_mags", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "nested_m38dmr_no_ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "group": "m38dmr" }, { "group": "stanag_mags", "count": [ 1, 3 ] } ]
   },
   {
     "id": "stanag_mags",
     "type": "item_group",
-    "items": [
-      { "item": "stanag30", "prob": 1000 },
-      { "item": "stanag40", "prob": 100 },
-      { "item": "stanag50", "prob": 80 },
-      { "item": "stanag60", "prob": 60 },
-      { "item": "stanag60drum", "prob": 40 },
-      { "item": "stanag90", "prob": 20 },
-      { "item": "stanag100", "prob": 10 },
-      { "item": "stanag100drum", "prob": 5 },
-      { "item": "stanag150", "prob": 3 }
-    ]
+    "items": [ { "item": "stanag30", "prob": 100 }, { "item": "stanag30ranger", "prob": 10 } ]
   }
 ]

@@ -56,8 +56,8 @@
   {
     "id": "pfruit_aura_thorns",
     "type": "SPELL",
-    "name": "Blackberry fruit aura thorns",
-    "description": "Stab a monster that attacked you.",
+    "name": { "str": "Blackberry fruit aura thorns", "//~": "NO_I18N" },
+    "description": { "str": "Stab a monster that attacked you.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "RANDOM_DAMAGE" ],
     "shape": "blast",

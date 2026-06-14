@@ -2,17 +2,16 @@
 #ifndef CATA_SRC_ITEM_ACTION_H
 #define CATA_SRC_ITEM_ACTION_H
 
-#include <iosfwd>
 #include <map>
 #include <string>
 #include <vector>
 
-#include "translations.h"
+#include "translation.h"
 
+class Character;
 class JsonObject;
 class item;
 class item_action;
-class Character;
 
 using item_action_id = std::string;
 using item_action_map = std::map< item_action_id, item * >;

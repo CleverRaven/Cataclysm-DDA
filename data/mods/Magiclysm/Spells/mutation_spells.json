@@ -1,0 +1,31 @@
+[
+  {
+    "type": "SPELL",
+    "id": "spell_ravenfolk_leap",
+    "name": "Wing Leap",
+    "description": "You launch yourself into a powerful wing-assisted leap.",
+    "valid_targets": [ "ground" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_EXPLOSION_SFX" ],
+    "effect": "dash",
+    "shape": "cone",
+    "min_damage": 0,
+    "max_damage": 0,
+    "damage_type": "bash",
+    "min_range": 6,
+    "max_range": 6
+  },
+  {
+    "type": "SPELL",
+    "id": "spell_ravenfolk_screech",
+    "name": { "str": "Ravenfolk Screech", "//~": "NO_I18N" },
+    "description": { "str": "You let out a loud raven's cry.", "//~": "NO_I18N" },
+    "message": "",
+    "valid_targets": [ "ground" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_EXPLOSION_SFX" ],
+    "effect": "noise",
+    "shape": "blast",
+    "min_damage": 30,
+    "max_damage": 30,
+    "damage_type": "bash"
+  }
+]

@@ -1,0 +1,220 @@
+[
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "n_val('sold') >= 100" ],
+      "yes": {
+        "concatenate": [
+          "Oh HO!  Well, well.  Now you're yarkin' the King's Anglic.  Aye, us'n can fix ye good, if'n ye're tassed to repay it in kind.  Us'll speak it as clear-like as this Rubik can.  If ye'n use it to put the dead back in the ground, us'n can fix ye with some goods like this, aye.  Stuck in the flesh and to the bone, wired into the brain.  Ye kennit?  If no, us'll speak to the Great Grey for a pint o' the ol' clarity-draught.",
+          "\"\n\n[TRANSLATE:] \"",
+          "Oh HO!  Well, now you're speaking my language.  We can fix you up good, if you're willing to pay us back.  I'll say it as clearly as I can.  If you help us kill the undead, we can help you get fixed up like us, yeah.  Stuck right into your flesh and bone and wired into your brain.  You understand?  If not, we'll ask the Great Grey to help clear it up."
+        ]
+      },
+      "no": {
+        "u_has_faction_trust": 5,
+        "yes": {
+          "concatenate": [
+            "Oh HO!  Well, well.  Now you're yarkin' the King's Anglic.  Aye, us'n can fix ye good, if'n ye're tassed to repay it in kind.  Us'll speak it as clear-like as this Rubik can.  If ye'n use it to put the dead back in the ground, us'n can fix ye with some goods like this, aye.  Stuck in the flesh and to the bone, wired into the brain.  Ye kennit?  If no, us'll speak to the Great Grey for a pint o' the ol' clarity-draught.",
+            "\"\n\n[TRANSLATE:] \"",
+            "Oh HO!  Well, now you're speaking my language.  We can fix you up good, if you're willing to pay us back.  I'll say it as clearly as I can.  If you help us kill the undead, we can help you get fixed up like us, yeah.  Stuck right into your flesh and bone and wired into your brain.  You understand?  If not, we'll ask the Great Grey to help clear it up."
+          ]
+        },
+        "no": {
+          "concatenate": [
+            "Ah, well.  Us'll put that into the key and lock, if'n you're ken.  Mayhap you could bring us a mite and trade, and we'll see if we can fix you good soon and soon.  Let no Exodii turn away a willin' Benny, and so it is.",
+            "\"\n\n[TRANSLATE:] \"",
+            "Ah, well.  I'll file that away, so to speak.  Maybe you could bring us a little more trade, and we'll fix you up as soon as possible.  The Exodii won't turn away a willing convert."
+          ]
+        }
+      }
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_ExodizeDialect",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "THIS'n's accent?  Ye've never egged y'r own yark, an' that's a fine fiddle.  Great Grey has a bit o' work on it, kennit?  This'n has to keep usselves useful, an' keep Great Grey doin' what it's tassed.  Asides, yarkin' to the local brights keeps us young an' shines our chrome, an I'm ken.",
+        "\"\n\n[TRANSLATE:] \"",
+        "MY accent?  You've obviously never had to listen to yourself talk.  Great Grey has more important work to do, get it?  I have to keep myself useful and keep Great Grey doing what it's supposed to.  Besides, talking to the locals keeps me young and shines my chrome, as I see it."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_ExodizeMe1",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Fine an' fine, an' fine an' fine!  Ha!  Us'll rubber up the ol' gristle mill.  Mayhap a tit-for-tat, aye?  Or a trade, aye, mayhap wi' bringin' us a nip o' good tea.  Not 'tea', o'course.  I'm yarkin dockside Anglic here.  Us means the stuff what puts y'to sleep f'r a chirurgery.  The Great Grey says y'r assert for it is 'anus fetick'.  You bring us a thousand unit of 'anus fetick', us'll fix'n ye up with a wire an' a tiff.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Great, great, great!  Ha!  We'll fire up the old meat grinder.  Maybe you do a job for us, we do a job for you?  Or we could trade, maybe if you bring us a bit of good tea.  Not literally 'tea' of course.  That's my Anglic street slang.  I mean the stuff that puts you to sleep for surgery.  The Great Grey says your word for it is 'anesthetic'.  You bring us a thousand units of anesthetic, we'll fix you up with a wire and everything."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_ExodizeMe2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Fine an' fine, an' fine an' fine!  Ha!  Now as us've got the good tea, us'll rubber up the ol' gristle mill.  You jus' set along with ol' Rubik.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Great, great, great!  Ha!  We'll fire up the old meat grinder.  You just come along with old Rubik."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Remove_Hub01_CBM_interface_1",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "&Rubik stares at you for a very long moment, rubs their chin, and scratches at a bit of metal on their head.  \"Rightly then, that tells where the missin' shinies n' stompers went.  Ye came clean, an' ol' Rubik prizes that.  Aye.  We can take it out.  But not wi'out risk.  Might leave ye wi' a mite less wits than afore, I'm afeared.  Yet for all yet honesty, we can't trade wi' ye nor let ye tarry if ye refuse, now.  So we take it out, an' ye may be the duller for it.  Or ye keep it, an' I'll grant ye' ten minutes' head start afore the stompers come huntin'.  Sorry.  Must be so.\"",
+        "\"\n\n[TRANSLATE:] \"",
+        "Right, well that explains where our missing warehouses and robots went.  You came clean, and Rubik appreciates that.  Yeah, we can remove it, but not without risk.  Might leave you with a little less brain than before, I'm afraid.  But despite your honesty, we can't trade with you or let you stick around if you refuse, now.  So we can take it out, and you might be a bit duller, or you can keep it, and I'll give you a ten minute head start before the stompys come after you.  Sorry that it has to be this way."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_ExodizeNope",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "An' that's a fine choice, I'd razz.  If'n ye change mind, ol' Rubik's here for the long an' short.  You get to know us'n better, us'n get to know you better, an' that's a good tassin'.",
+        "\"\n\n[TRANSLATE:] \"",
+        "That's a fine choice, I understand.  If you change your mind, old Rubik's going to be here for a while.  You'll get to know us better, we'll get to know you better, and that's going to be good all around."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodized2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "This're what ye'd razz a 'starter package', an I'm ken.  Tassed to get ye started, but for the real lemony tarts you'd be wantin' what this'n's got for sale.  As us'n can come to see you clairly-like, this'n can be tassed to offer more an' more.",
+        "\"\n\n[TRANSLATE:] \"",
+        "This is what you'd call a 'starter package', if I understand it.  Suitable to get you started, but for the really sweet parts you're going to want what I'm selling.  As we get to know each other better, I'll be able to get access to even more stuff."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Cyberframe_trust_no",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Not today.  Too mighty an ask, and we can't spare the steelies.  But, I'll give ye a lump'a'ice.  Keep up work'n'trade, n' mayhaps somethin' changes one'a these days.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Not today.  That's too much to ask, and we can't spare the materials.  But, I'll give you some advice.  Keep up the working and trading, and maybe I'll change my mind one day."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Cyberframe_trust_no_weirdo",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "&Rubik is quiet for a long moment, and is clearly sizing you up.  \"No, methinks not today.\"",
+        "\"\n\n[TRANSLATE:] \"",
+        "No, I don't think so.  Not today."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Cyberframe_trust_yes",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Hm.  A mighty ask on a mighty ask.  Ye certainly got the disposition, but you sure you wanna be cut inta' this crowded space?\"  Rubik taps their metal torso.  \"You sure ya' lump is screwed on tight?  This isn't like the bright'n'steelies on offer.  No goin' back.  And ye best be happy with the amount'a power you can generate.  This'ere needs contant power.  Without power, yer good as dead.  The power storage units?  Fer a case this'n kind, one'a the power storage units buys you a little-less'an an hour of walkin'.  Less for scrappin' and scramblin'.  Nothin's easy about it.\"",
+        "\"\n\n[TRANSLATE:] \"",
+        "Hm.  That's a really big ask.  You seem to be the sort of person who would ask for this kind of thing, but are you certain you want to be permanently attached to this suitcase?  You sure you're thinking clearly?  This isn't like the CBMs I sell.  There's no going back.  And you better be able to produce enough power.  These need constant power.  Without it, you're as good as dead.  For a Cyberframe like mine, one power storage unit will last less than an hour of walking.  Less if you're fighting or running.  It's not an easy life."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "&Rubik makes a stiff, bowing gesture and leads you out of the shop and down a stone pathway towards a familiar building - the gloomy surgical suite.  Rubik greets the humanoid cyborg that operates the suite, then stares a long moment in wordless communication.  The cyborg brings out a bulbous CRT monitor with a wired mechanical clicker, which they hand to you.  Rubik's joints hiss as they crouch to view the screen with you.\n\n\"This'ere Exodii monicked Venn.  Ye've met'afore.  Venn'n'the'robot here'll do you somethin' fierce.  They'll carve out all yer important meat bits, and stick'em in a Cyberframe, like this'n.  It'll take time.  Lots'o'time.  We've the means for two basic frames.  If yer lump is set, ye can pick.\"\n\nRubik gestures to the glowing terminal.  Displayed is an outline of what looks like a human.  Beside it are two other outlines.  The first, which Rubik calls \"one-aye,\" looks a lot like Rubik himself.  It towers over the human shape, and can only be called humanoid.  Its center mass is a thick, squat shape, with the head and torso hard to distinguish from one another.  The second, which Rubik calls \"one-bay,\" looks slender, traced by hard, mechanical lines, but is nevertheless distinctly human-like.",
+        "\"\n\n[TRANSLATE:] \"",
+        "This Exodii is named Venn.  You've met before.  Venn and the Autodoc will do some serious work on you.  They'll take out all of your important organs and stick them in a Cyberframe, like these.  It will take a long time.  We can offer you one of two basic Cyberframes.  If your mind is set on doing this, you can pick."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_info",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Peasey, truly.  You'll still be mostly mince, like ol' Rubik here.  Even much'a muscle n' bone.  Human inside.  But yer wiggles and wobs, that is yer limbs and digits, will be mostly steel.\"  Rubik motions to your eyes.  \"Yer berry pies, too.  Ye'll keep the see-ey bits, but they'll be part'a the new interface.  So, arms, legs, eyes, it'll all need power to work.  They'll work without, but tassed it isn't nice.\"  Rubik motions to your torso and head.  \"Now, yer chest n' lump, and everything in'em, will go inside the tidy bell.  Yer heart n' lungs n' all of that will keep going as it is now, no need for power.  All in all, you'll be more sturdy, n' the steel'll do the hard work for ye.  No more losin' breath on a scramble with the dead… if ye can stay powered n' in fine repair.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Simple, really.  You'll still be human on the inside.  Most of your meat will be there.  Even a lot of your muscle and bone.  But your arms and legs will mostly be robotic.  Your eyes, too.  You'll keep the inside parts, but they'll be part of the armored interface.  They'll all need power to work properly.  It'll all still work a bit without it, but it's not pleasant.  Your torso and head, and everything in them, will be integrated into the shell itself.  Your body will keep everything going as it is now, so no need for power there.  You'll be more sturdy, and the machines will do most of the hard work for you, so no more worrying about getting out of breath while running from the dead.  But that's only if you keep it powered and in good repair."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_bionics",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Since ye've gotta strip down t'vital flesh n' hard scones, we'll salvage your bright'n'steelies, and repackage them in the new frame.  After, you can swap your wiggles and wobs, that is yer limbs and digits, like steelies, with a bit of effort.  If ye plan to do that, also plan to remove your implants, fix'em, clean'em, and shove'em back in.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Since we're stripping you down to flesh and bone you need to survive, we can take the time to salvage your CBMs, and keep it all intact, reinstalled in your new Cyberframe.  But your limbs and other parts will be exchangeable, like bionics.  In the future, if you take off a limb, you'll have to remove your CBMs, fix them, clean them, and reinstall them."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1a",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "&Rubik flicks a heavy plastic switch and the terminal whirs.  The image changes to a more detailed blueprint of the bulky, humanoid frame.  \"Aye, so this'n like thisn's, ol' Rubik's I mean.  Popular with us'n.  It's heavy n' tough.  Keep yer mince meat safe.  But if ye' wanna be real human, yer out of luck, as ye'll have to get used to goin' without cloth n' steel gear.  The frame just isn't made for them.  Won't fit.  But who needs'em?  Not me.  My lump'a'ice is ta' seal yourself up in this one.\"",
+        "\"\n\n[TRANSLATE:] \"",
+        "Aye, so this one's a lot like mine.  Real popular among this Exodii node.  It's heavy duty, but as you can see, it's a little less human-like than maybe you're comfortable with.  It's a good, sturdy design, that will keep you safe.  But you'll have to get used to going without most clothing and armor.  The body just isn't made for them.  This is my suggestion."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_1b",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "&Rubik flicks a heavy plastic switch and the terminal whirs.  The image changes to a more detailed blueprint of the human-like frame.  It's very familiar, and has all of the body parts one expects to find, albeit made of plates and metal joints.  \"This'n for those'n can't help'a look back, like Venn, aye?  You'll still have the shape'o'yerself, and ye'd still wear yer human things.  But can't be plated like this'n's and keep'at shape, so it's more tattarrattat, less thunk, should somethin' come and smash ya' up.  That is to say, yer less tough.\"",
+        "\"\n\n[TRANSLATE:] \"",
+        "This one's for the nostalgic, I suppose, like Venn here.  You'll still have a human shape, and can still do and wear all your human things.  Downside is it can't be plated as well, so it's a bit more vulnerable by itself."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_exodii_question",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "No.  Ye'll have the Exodii-suit, but nobody Exodii until there's a scrabble and jump to otherlands or otherworlds.  Who'at'll be remains to be.",
+        "\"\n\n[TRANSLATE:] \"",
+        "No.  You'll be wearing an Exodii-suit, but nobody is Exodii until they jump with the Exodii, and that remains to be seen."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_back_out",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "&Rubik lets out a mechanical chuckle.  \"Aye, 'course.  Escolt this'n out if ya' reconsider.\"\n\nWith that, Rubik gets up and leaves, offering a backward wave on his way out.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Yes, of course.  I'll go back to the shop.  Find me if you reconsider."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_done2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Aye, done'n'done.  Don' tarry on what's left.  Yer still there, just tougher'n steelies, now.  Time fer the stiff upper lip, as might be y'assert.\"  Rubik chuckles.  \"Anyhow, try'ta keep'er intact, but Ven'll keep ya' fixed up fer trade.  Got it?",
+        "\"\n\n[TRANSLATE:] \"",
+        "Yes, it's done.  Don't waste time thinking about what's different.  You're still there, just inside a tough steel case.  It won't be easy to adapt, but keep a stiff upper lip - or be brave - as you might say.  Try to keep everything intact, but if you get any damage, come back here.  Venn'll do repairs in exchange for materials."
+      ]
+    }
+  }
+]

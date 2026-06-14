@@ -39,14 +39,14 @@
           {
             "effect": "maimed_leg",
             "chance": 10,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's leg falls limp!",
             "damage_required": [ 1, 10 ]
           },
           {
             "effect": "maimed_leg",
             "chance": 25,
-            "duration": [ 15, 50 ],
+            "duration": [ "15 seconds", "50 seconds" ],
             "message": "The %s's leg falls limp!",
             "damage_required": [ 11, 30 ]
           },
@@ -63,6 +63,7 @@
       {
         "id": "head",
         "name": "the head",
+        "is_head": true,
         "damage_mult": { "all": 1.1 },
         "crit_mult": { "all": 1.1 },
         "armor_mult": { "physical": 0.75 },
@@ -72,6 +73,7 @@
       {
         "id": "eye",
         "name": "the eye",
+        "is_head": true,
         "armor_mult": { "physical": 0.4 },
         "crit_mult": { "all": 1.25 },
         "difficulty": { "ranged": 8, "melee": 6 },
@@ -102,14 +104,14 @@
           {
             "effect": "maimed_acid_gland",
             "chance": 15,
-            "duration": [ 1, 10 ],
+            "duration": [ "1 seconds", "10 seconds" ],
             "message": "The %s's acid glands are maimed!",
             "damage_required": [ 1, 15 ]
           },
           {
             "effect": "maimed_acid_gland",
             "chance": 33,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's acid glands are maimed!",
             "damage_required": [ 16, 30 ]
           },
@@ -126,6 +128,7 @@
       {
         "id": "proboscis",
         "name": "the proboscis",
+        "is_head": true,
         "damage_mult": { "all": 0.5 },
         "crit_mult": { "all": 0.5 },
         "difficulty": { "ranged": 5, "melee": 3 },
@@ -133,14 +136,14 @@
           {
             "effect": "maimed_mandible",
             "chance": 25,
-            "duration": [ 1, 10 ],
+            "duration": [ "1 seconds", "10 seconds" ],
             "message": "The %s's proboscis is maimed!",
             "damage_required": [ 1, 15 ]
           },
           {
             "effect": "maimed_mandible",
             "chance": 50,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's proboscis is maimed!",
             "damage_required": [ 16, 30 ]
           },
@@ -172,6 +175,7 @@
       {
         "id": "armor_thick",
         "name": "a thick part of its armor",
+        "is_good": false,
         "armor_mult": { "all": 2.0 },
         "crit_mult": { "all": 0.75 },
         "coverage_mult": { "cut": 1.5 },
@@ -200,7 +204,7 @@
         "crit_mult": { "all": 1.2 },
         "coverage": 15,
         "coverage_mult": { "cut": 1.5 },
-        "required_effects": [ "maimed_armor" ]
+        "condition": { "npc_has_any_effect": [ "maimed_armor" ] }
       }
     ]
   },
@@ -218,14 +222,14 @@
           {
             "effect": "maimed_capacitor",
             "chance": 25,
-            "duration": [ 1, 10 ],
+            "duration": [ "1 seconds", "10 seconds" ],
             "message": "Sparks fly from the %s!",
             "damage_required": [ 1, 15 ]
           },
           {
             "effect": "maimed_acid_gland",
             "chance": 50,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "Sparks fly from the %s!",
             "damage_required": [ 16, 30 ]
           },
@@ -248,19 +252,20 @@
       {
         "id": "mandible",
         "name": "the mandibles",
+        "is_head": true,
         "difficulty": { "ranged": 5, "melee": 3 },
         "effects": [
           {
             "effect": "maimed_mandible",
             "chance": 25,
-            "duration": [ 1, 10 ],
+            "duration": [ "1 seconds", "10 seconds" ],
             "message": "The %s's mandibles are maimed!",
             "damage_required": [ 1, 15 ]
           },
           {
             "effect": "maimed_mandible",
             "chance": 50,
-            "duration": [ 5, 25 ],
+            "duration": [ "5 seconds", "25 seconds" ],
             "message": "The %s's mandibles are maimed!",
             "damage_required": [ 16, 30 ]
           },
@@ -290,7 +295,7 @@
           {
             "effect": "maimed_tail",
             "chance": 25,
-            "duration": [ 15, 30 ],
+            "duration": [ "15 seconds", "30 seconds" ],
             "message": "The %s's tail is maimed!",
             "damage_required": [ 0, 24 ]
           },
@@ -320,7 +325,7 @@
           {
             "effect": "maimed_wings",
             "chance": 25,
-            "duration": [ 15, 30 ],
+            "duration": [ "15 seconds", "30 seconds" ],
             "message": "The %s's wings are maimed!",
             "damage_required": [ 0, 24 ]
           },

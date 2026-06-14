@@ -1,0 +1,49 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_UICA_PORT_CREW",
+    "//": "For crew and customs officers in port Augustmoon.  They have some level of military training.",
+    "name": { "str": "Augustmoon Crew" },
+    "job_description": "I'm part of the Augustmoon crew.",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "common": false,
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "worn_override": "NC_UICA_PORT_CREW_worn",
+    "carry_override": "NC_UICA_PORT_CREW_carry",
+    "weapon_override": "EMPTY_GROUP",
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -1 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "mechanics", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 4, 6 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_UICA_PORT_CREW_worn",
+    "subtype": "collection",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [
+      { "item": "spacer_jumpsuit" },
+      { "group": "afs_colonist_coats" },
+      { "item": "afs_herc_rig", "contents-item": [ "afs_40g_plasma_civ", "afs_plasma_torch" ], "prob": 30 },
+      { "item": "boots" },
+      { "item": "spacer_cap", "prob": 30 },
+      { "item": "socks" },
+      { "item": "under_armor" },
+      { "item": "under_armor_shorts" },
+      { "group": "afs_hard_hat", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_UICA_PORT_CREW_carry",
+    "subtype": "collection",
+    "items": [ { "group": "afs_tools_pocket" } ]
+  }
+]

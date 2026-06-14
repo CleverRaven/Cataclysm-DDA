@@ -4,23 +4,24 @@
 #include <cmath>
 #include <cstdint>
 #include <cstdlib>
+#include <iterator>
+#include <memory>
 #include <optional>
 #include <string>
-#include <type_traits>
 
 #include "avatar.h"
 #include "calendar.h"
 #include "character.h"
-#include "colony.h"
-#include "damage.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
 #include "iexamine.h"
 #include "inventory_ui.h" // auto inventory blocking
+#include "item_components.h"
+#include "item_contents.h"
 #include "item_stack.h"
 #include "itype.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -30,12 +31,13 @@
 #include "pocket_type.h"
 #include "point.h"
 #include "proficiency.h"
-#include "ret_val.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "vpart_position.h"
+#include "weather.h"
 
 static const itype_id itype_acetaminophen( "acetaminophen" );
 static const itype_id itype_aspirin( "aspirin" );
@@ -50,8 +52,6 @@ static const itype_id itype_salt_water( "salt_water" );
 static const itype_id itype_tramadol( "tramadol" );
 
 static const material_id material_iron( "iron" );
-
-struct itype;
 
 const invlet_wrapper
 inv_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()+.:;=@[\\]^_{|}" );
@@ -133,6 +133,7 @@ inventory::inventory() = default;
 invslice inventory::slice()
 {
     invslice stacks;
+    stacks.reserve( items.size() );
     for( auto &elem : items ) {
         stacks.push_back( &elem );
     }
@@ -142,6 +143,7 @@ invslice inventory::slice()
 const_invslice inventory::const_slice() const
 {
     const_invslice stacks;
+    stacks.reserve( items.size() );
     for( const auto &item : items ) {
         stacks.push_back( &item );
     }
@@ -339,6 +341,79 @@ item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, boo
     return items.back().back();
 }
 
+void inventory::add_items_bulk( std::vector<item> items_in, bool keep_invlet,
+                                bool assign_invlet, bool should_stack )
+{
+    // assign_invlet=true needs the per-item invlet collision resolution
+    // that bulk grouping cannot reproduce cheaply; fall back to add_item.
+    if( assign_invlet ) {
+        for( item &it : items_in ) {
+            add_item( std::move( it ), keep_invlet, assign_invlet, should_stack );
+        }
+        return;
+    }
+
+    binned = false;
+
+    if( !should_stack ) {
+        for( item &it : items_in ) {
+            if( !keep_invlet ) {
+                update_invlet( it, assign_invlet );
+            }
+            update_cache_with_item( it );
+            items.emplace_back( std::list<item> { std::move( it ) } );
+        }
+        return;
+    }
+
+    // Index existing stacks by the front item's typeId so each new entry skips
+    // the linear stacks_with sweep over unrelated stacks. Multiple stacks of
+    // the same typeId can coexist with different variant/damage/etc., so the
+    // bucket holds every match and the deep stacks_with check filters within.
+    std::unordered_map<itype_id, std::vector<invstack::iterator>> by_type;
+    for( auto it = items.begin(); it != items.end(); ++it ) {
+        by_type[it->front().typeId()].push_back( it );
+    }
+
+    for( item &newit : items_in ) {
+        bool merged = false;
+        auto bucket_it = by_type.find( newit.typeId() );
+        if( bucket_it != by_type.end() ) {
+            for( invstack::iterator stack_it : bucket_it->second ) {
+                std::list<item>::iterator front_it = stack_it->begin();
+                if( !front_it->stacks_with( newit ) ) {
+                    continue;
+                }
+                if( front_it->merge_charges( newit ) ) {
+                    merged = true;
+                    break;
+                }
+                if( front_it->invlet == '\0' ) {
+                    if( !keep_invlet ) {
+                        update_invlet( newit, assign_invlet );
+                    }
+                    update_cache_with_item( newit );
+                    front_it->invlet = newit.invlet;
+                } else {
+                    newit.invlet = front_it->invlet;
+                }
+                stack_it->emplace_back( std::move( newit ) );
+                merged = true;
+                break;
+            }
+        }
+        if( merged ) {
+            continue;
+        }
+        if( !keep_invlet ) {
+            update_invlet( newit, assign_invlet );
+        }
+        update_cache_with_item( newit );
+        items.emplace_back( std::list<item> { std::move( newit ) } );
+        by_type[items.back().front().typeId()].push_back( std::prev( items.end() ) );
+    }
+}
+
 void inventory::add_item_keep_invlet( const item &newit )
 {
     add_item( newit, true );
@@ -480,79 +555,111 @@ static int count_charges_in_list( const ammotype *ammotype, const map_stack &ite
     return 0;
 }
 
-void inventory::form_from_map( const tripoint &origin, int range, const Character *pl,
+void inventory::form_from_map( const tripoint_bub_ms &origin, int range, const Character *pl,
                                bool assign_invlet,
                                bool clear_path )
 {
-    form_from_map( get_map(), origin, range, pl, assign_invlet, clear_path );
+    inventory::form_from_map( &get_map(), origin, range, pl, assign_invlet, clear_path );
+}
+
+void inventory::form_from_map( map *here, const tripoint_bub_ms &origin, int range,
+                               const Character *pl,
+                               bool assign_invlet,
+                               bool clear_path )
+{
+    // Populate a grid of spots that can be reached
+    // If we need a clear path we care about the reachability of points
+    if( clear_path ) {
+        const std::vector<tripoint_bub_ms> &reachable_pts = here->reachable_flood_steps( origin, range, 1,
+                100 );
+        form_from_map( *here, reachable_pts, pl, assign_invlet );
+    } else {
+        std::vector<tripoint_bub_ms> reachable_pts;
+        // Fill reachable points with points_in_radius
+        tripoint_range<tripoint_bub_ms> in_radius = here->points_in_radius( origin, range );
+        for( const tripoint_bub_ms &p : in_radius ) {
+            reachable_pts.emplace_back( p );
+        }
+        form_from_map( *here, reachable_pts, pl, assign_invlet );
+    }
 }
 
 void inventory::form_from_zone( map &m, std::unordered_set<tripoint_abs_ms> &zone_pts,
                                 const Character *pl, bool assign_invlet )
 {
-    std::vector<tripoint> pts;
+    std::vector<tripoint_bub_ms> pts;
     pts.reserve( zone_pts.size() );
     for( const tripoint_abs_ms &elem : zone_pts ) {
-        pts.push_back( m.getlocal( elem ) );
+        pts.push_back( m.get_bub( elem ) );
     }
     form_from_map( m, pts, pl, assign_invlet );
 }
 
-void inventory::form_from_map( map &m, const tripoint &origin, int range, const Character *pl,
-                               bool assign_invlet,
-                               bool clear_path )
+static bool tile_has_sufficient_sunlight( const map &m, const tripoint_bub_ms &p )
 {
-    // populate a grid of spots that can be reached
-    std::vector<tripoint> reachable_pts = {};
-    // If we need a clear path we care about the reachability of points
-    if( clear_path ) {
-        m.reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
-    } else {
-        // Fill reachable points with points_in_radius
-        tripoint_range<tripoint> in_radius = m.points_in_radius( origin, range );
-        for( const tripoint &p : in_radius ) {
-            reachable_pts.emplace_back( p );
-        }
+    if( !m.is_outside( p ) || p.z() < 0 ) {
+        return false;
     }
-    form_from_map( m, reachable_pts, pl, assign_invlet );
+    const weather_type_id wtype = current_weather( m.get_abs( p ), calendar::turn );
+    return incident_sun_irradiance( wtype, calendar::turn ) > irradiance::high;
 }
 
-void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Character *pl,
+void inventory::form_from_map( map &m, std::vector<tripoint_bub_ms> pts, const Character *pl,
                                bool assign_invlet )
 {
     items.clear();
     provisioned_pseudo_tools.clear();
 
-    for( const tripoint &p : pts ) {
+    for( const tripoint_bub_ms &p : pts ) {
+        const ter_id &t = m.ter( p );
         // a temporary hack while trees are terrain
-        if( m.ter( p )->has_flag( ter_furn_flag::TFLAG_TREE ) ) {
+        if( t->has_flag( ter_furn_flag::TFLAG_TREE ) ) {
             provide_pseudo_item( itype_butchery_tree_pseudo );
         }
         // Another terrible hack, as terrain can't provide pseudo items, and construction can't do multi-step furniture
         ter_id brick_oven( "t_brick_oven" );
-        if( m.ter( p ) == brick_oven ) {
+        if( t == brick_oven ) {
             provide_pseudo_item( itype_brick_oven_pseudo );
         }
-        const furn_t &f = m.furn( p ).obj();
-        if( item *furn_item = provide_pseudo_item( f.crafting_pseudo_item ) ) {
-            const itype *ammo = f.crafting_ammo_item_type();
-            if( furn_item->has_pocket_type( pocket_type::MAGAZINE ) ) {
-                // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
-                const bool using_ammotype = f.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD );
-                int amount = 0;
-                itype_id ammo_id = ammo->get_id();
-                // Some furniture can consume more than one item type.
-                if( using_ammotype ) {
-                    amount = count_charges_in_list( &ammo->ammo->type, m.i_at( p ), ammo_id );
-                } else {
-                    amount = count_charges_in_list( ammo, m.i_at( p ) );
+        const furn_id &f = m.furn( p );
+        const furn_t &fo = f.obj();
+        const itype_id &pseudo_id = fo.crafting_pseudo_item;
+        if( pseudo_id.is_valid() &&
+            pseudo_id->has_flag( flag_NEEDS_SUNLIGHT ) &&
+            !tile_has_sufficient_sunlight( m, p ) ) {
+            // Not enough sunlight for this tool
+        } else if( item *furn_item = provide_pseudo_item( fo.crafting_pseudo_item ) ) {
+            for( const itype *ammo : fo.crafting_ammo_item_types() ) {
+                if( furn_item->has_pocket_type( pocket_type::MAGAZINE ) ) {
+                    // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
+                    const bool using_ammotype = fo.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD );
+                    int amount = 0;
+                    itype_id ammo_id = ammo->get_id();
+                    // Some furniture can consume more than one item type.
+                    // This might be redundant now that we iterate over the ammotypes.
+                    if( using_ammotype ) {
+                        amount = count_charges_in_list( &ammo->ammo->type, m.i_at( p ), ammo_id );
+                    } else {
+                        amount = count_charges_in_list( ammo, m.i_at( p ) );
+                    }
+                    if( amount > 0 ) {
+                        item furn_ammo( ammo_id, calendar::turn, amount );
+                        furn_item->force_insert_item( furn_ammo, pocket_type::MAGAZINE );
+                    }
                 }
-                item furn_ammo( ammo_id, calendar::turn, amount );
-                furn_item->put_in( furn_ammo, pocket_type::MAGAZINE );
             }
         }
         if( m.accessible_items( p ) ) {
-            for( item &i : m.i_at( p ) ) {
+            // assign_invlet=false has no per-item invlet collision pass, so a
+            // single bulk add per tile reproduces serial output while skipping
+            // the O(stacks) stacks_with sweep that add_item does per call.
+            map_stack items_here = m.i_at( p );
+            const bool bulk_eligible = !assign_invlet && items_here.size() > 1;
+            std::vector<item> bulk_batch;
+            if( bulk_eligible ) {
+                bulk_batch.reserve( items_here.size() );
+            }
+            for( item &i : items_here ) {
                 // if it's *the* player requesting this from from map inventory
                 // then don't allow items owned by another faction to be factored into recipe components etc.
                 if( pl && !i.is_owned_by( *pl, true ) ) {
@@ -563,8 +670,15 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                         const int count = i.count_by_charges() ? i.charges : 1;
                         update_liq_container_count( i.typeId(), count );
                     }
-                    add_item( i, false, assign_invlet );
+                    if( bulk_eligible ) {
+                        bulk_batch.emplace_back( i );
+                    } else {
+                        add_item( i, false, assign_invlet );
+                    }
                 }
+            }
+            if( bulk_eligible && !bulk_batch.empty() ) {
+                add_items_bulk( std::move( bulk_batch ), false, false );
             }
         }
         // Kludges for now!
@@ -574,13 +688,13 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             }
         }
         // Handle any water from map sources.
-        item water = m.water_from( p );
+        item water = m.liquid_from( p );
         if( !water.is_null() ) {
             add_item( water );
         }
 
         // keg-kludge
-        if( m.furn( p )->has_examine( iexamine::keg ) ) {
+        if( f->has_examine( iexamine::keg ) ) {
             map_stack liq_contained = m.i_at( p );
             for( item &i : liq_contained ) {
                 if( i.made_of( phase_id::LIQUID ) ) {
@@ -591,7 +705,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 
         // form from vehicle
         if( optional_vpart_position vp = m.veh_at( p ) ) {
-            vp->form_inventory( *this );
+            vp->form_inventory( m, *this );
         }
     }
     pts.clear();
@@ -862,7 +976,7 @@ void inventory::rust_iron_items()
                                     elem_stack_iter.base_volume().value() ) / 250 ) ) ) ) &&
                 //                       ^season length   ^14/5*0.75/pi (from volume of sphere)
                 //Freshwater without oxygen rusts slower than air
-                here.water_from( player_character.pos() ).typeId() == itype_salt_water ) {
+                here.liquid_from( player_character.pos_bub() ).typeId() == itype_salt_water ) {
                 // rusting never completely destroys an item, so no need to handle return value
                 elem_stack_iter.inc_damage();
                 add_msg( m_bad, _( "Your %s is damaged by rust." ), elem_stack_iter.tname() );
@@ -885,7 +999,7 @@ units::mass inventory::weight() const
 // Helper function to iterate over the intersection of the inventory and a list
 // of items given
 template<typename F>
-void for_each_item_in_both(
+static void for_each_item_in_both(
     const invstack &items, const std::map<const item *, int> &other, const F &f )
 {
     // Shortcut the logic in the common case where other is empty
@@ -961,26 +1075,6 @@ units::volume inventory::volume_without( const std::map<const item *, int> &with
     }
 
     return ret;
-}
-
-enchant_cache inventory::get_active_enchantment_cache( const Character &owner ) const
-{
-    enchant_cache temp_cache;
-    for( const std::list<item> &elem : items ) {
-        for( const item &check_item : elem ) {
-            for( const enchant_cache &ench : check_item.get_proc_enchantments() ) {
-                if( ench.is_active( owner, check_item ) ) {
-                    temp_cache.force_add( ench );
-                }
-            }
-            for( const enchantment &ench : check_item.get_defined_enchantments() ) {
-                if( ench.is_active( owner, check_item ) ) {
-                    temp_cache.force_add( ench, owner );
-                }
-            }
-        }
-    }
-    return temp_cache;
 }
 
 int inventory::count_item( const itype_id &item_type ) const
@@ -1127,6 +1221,12 @@ const itype_bin &inventory::get_binned_items() const
         binned_items[ e->typeId() ].push_back( e );
         for( const item *it : e->softwares() ) {
             binned_items[it->typeId()].push_back( it );
+        }
+        // list stored ebooks
+        if( e->is_estorage() && !e->is_broken_on_active() ) {
+            for( const item *book : e->get_contents().ebooks() ) {
+                binned_items[ book->typeId() ].push_back( book );
+            }
         }
         return VisitResponse::NEXT;
     } );

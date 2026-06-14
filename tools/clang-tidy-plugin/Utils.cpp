@@ -16,19 +16,19 @@ bool isPointMethod( const FunctionDecl *d )
 
 NameConvention::NameConvention( StringRef xName )
 {
-    if( xName.endswith( "x" ) ) {
+    if( xName.ends_with( "x" ) ) {
         root = xName.drop_back().str();
         capital = false;
         atEnd = true;
-    } else if( xName.endswith( "X" ) ) {
+    } else if( xName.ends_with( "X" ) ) {
         root = xName.drop_back().str();
         capital = true;
         atEnd = true;
-    } else if( xName.startswith( "x" ) ) {
+    } else if( xName.starts_with( "x" ) ) {
         root = xName.drop_front().str();
         capital = false;
         atEnd = false;
-    } else if( xName.startswith( "X" ) ) {
+    } else if( xName.starts_with( "X" ) ) {
         root = xName.drop_front().str();
         capital = true;
         atEnd = false;

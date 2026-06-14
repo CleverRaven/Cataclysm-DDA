@@ -111,7 +111,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "weariness_desc", "fatigue_desc_label" ]
+    "widgets": [ "weariness_desc", "sleepiness_desc_label" ]
   },
   {
     "id": "needs_layout_cleaner",
@@ -175,6 +175,7 @@
       "separator_disabled",
       "structured_mana_layout",
       "vehicle_acf_label_layout_columns",
+      "oxygen_layout",
       "sundial_label_layout",
       "separator_disabled",
       "compass_all_layout"

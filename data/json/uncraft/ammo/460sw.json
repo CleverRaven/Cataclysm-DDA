@@ -1,0 +1,38 @@
+[
+  {
+    "result": "460sw",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "lead", 3 ] ],
+      [ [ "unprimed_460sw_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder_magnum_pistol", 27 ] ],
+      [ [ "copper", 1 ] ]
+    ]
+  },
+  {
+    "result": "460sw_jhp",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "lead", 4 ] ],
+      [ [ "unprimed_460sw_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder_magnum_pistol", 26 ] ],
+      [ [ "copper", 1 ] ]
+    ]
+  },
+  {
+    "result": "460sw_casing",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "unprimed_460sw_casing", 1 ] ], [ [ "spent_lgrifle_primer", 1 ] ] ]
+  }
+]

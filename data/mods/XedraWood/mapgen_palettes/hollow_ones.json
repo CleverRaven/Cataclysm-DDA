@@ -1,0 +1,94 @@
+[
+  {
+    "type": "palette",
+    "id": "hollow_village_palette",
+    "terrain": {
+      "3": "t_door_makeshift_c",
+      "1": "t_palisade",
+      "!": "t_pit_spiked",
+      "-": "t_wall_log",
+      "|": "t_wall_log",
+      "#": "t_dirtfloor_thatchroof",
+      "o": "t_dirtfloor_thatchroof",
+      "B": "t_dirtfloor_thatchroof",
+      "=": "t_dirtfloor_thatchroof",
+      "+": "t_dirtfloor_thatchroof",
+      "I": "t_drystone_wall_half",
+      "W": "t_wooden_well",
+      ".": [ [ "t_grass", 85 ], [ "t_dirt", 15 ] ],
+      ",": [ [ "t_region_soil", 95 ], [ "t_grass", 5 ] ],
+      "_": "t_dirt",
+      "U": "t_dirt",
+      "%": [ [ "t_dirtmound", 98 ], [ "t_region_soil", 2 ] ],
+      "Ʌ": [ [ "t_dirtmound", 98 ], [ "t_region_soil", 2 ] ],
+      "♣": [ [ "t_dirtmound", 98 ], [ "t_region_soil", 2 ] ]
+    },
+    "sealed_item": {
+      "%": { "item": { "item": "seed_oats" }, "furniture": "f_plant_seedling", "chance": 96 },
+      "♣": { "item": { "item": "seed_carrot" }, "furniture": "f_plant_seedling", "chance": 70 },
+      "Ʌ": { "item": { "item": "seed_zucchini" }, "furniture": "f_plant_seedling", "chance": 70 }
+    },
+    "items": {
+      "U": { "item": "hollow_village_foodstuffs", "repeat": [ 1, 2 ], "chance": 80 },
+      "=": { "item": "hollow_village_storage", "chance": 70, "repeat": [ 1, 3 ] },
+      "+": [
+        { "item": "hollow_village_farm_tools", "chance": 80, "repeat": [ 3, 4 ] },
+        { "item": "hollow_village_farming_seeds", "chance": 80, "repeat": [ 3, 4 ] }
+      ]
+    },
+    "furniture": {
+      "t": "f_logstool",
+      "o": "f_firering",
+      "O": "f_firering",
+      "=": "f_rack_primitive",
+      "+": "f_rack_primitive",
+      "H": "f_smoking_rack",
+      "B": "f_hammock"
+    }
+  },
+  {
+    "type": "palette",
+    "id": "hollow_village_palette_zombed",
+    "terrain": {
+      "3": "t_door_makeshift_c",
+      "1": [ [ "t_palisade", 60 ], [ "t_wall_log_broken", 40 ] ],
+      "!": "t_pit_spiked",
+      "-": [ [ "t_wall_log", 70 ], [ "t_wall_log_broken", 30 ] ],
+      "|": [ [ "t_wall_log", 70 ], [ "t_wall_log_broken", 30 ] ],
+      "#": "t_dirtfloor_thatchroof",
+      "o": "t_dirtfloor_thatchroof",
+      "B": "t_dirtfloor_thatchroof",
+      "=": "t_dirtfloor_thatchroof",
+      "I": "t_drystone_wall_half",
+      "W": "t_wooden_well",
+      ".": "t_grass",
+      ",": [ [ "t_region_soil", 75 ], [ "t_grass", 25 ] ],
+      "_": "t_dirt",
+      "%": [ [ "t_dirtmound", 50 ], [ "t_region_soil", 50 ] ],
+      "Ʌ": [ [ "t_dirtmound", 50 ], [ "t_region_soil", 50 ] ],
+      "♣": [ [ "t_dirtmound", 50 ], [ "t_region_soil", 50 ] ]
+    },
+    "sealed_item": {
+      "%": { "item": { "item": "seed_oats" }, "furniture": "f_plant_seedling", "chance": 30 },
+      "♣": { "item": { "item": "seed_carrot" }, "furniture": "f_plant_seedling", "chance": 30 },
+      "Ʌ": { "item": { "item": "seed_zucchini" }, "furniture": "f_plant_seedling", "chance": 30 }
+    },
+    "items": {
+      "U": { "item": "hollow_village_foodstuffs", "repeat": [ 1, 2 ], "chance": 30 },
+      "=": { "item": "hollow_village_storage", "chance": 70, "repeat": [ 1, 3 ] },
+      "+": [
+        { "item": "hollow_village_farm_tools", "chance": 50, "repeat": [ 3, 4 ] },
+        { "item": "hollow_village_farming_seeds", "chance": 50, "repeat": [ 3, 4 ] }
+      ]
+    },
+    "furniture": {
+      "t": "f_logstool",
+      "o": "f_firering",
+      "O": "f_firering",
+      "=": "f_rack_primitive",
+      "+": "f_rack_primitive",
+      "H": "f_smoking_rack",
+      "B": "f_hammock"
+    }
+  }
+]

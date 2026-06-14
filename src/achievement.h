@@ -6,30 +6,27 @@
 #include <functional>
 #include <iosfwd>
 #include <memory>
-#include <new>
 #include <optional>
+#include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "cata_variant.h"
 #include "event_subscriber.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
 class JsonOut;
 class achievements_tracker;
-struct achievement_requirement;
-template <typename E> struct enum_traits;
-
-namespace cata
-{
-class event;
-}  // namespace cata
 class requirement_watcher;
 class stats_tracker;
+struct achievement_requirement;
+template <typename E> struct enum_traits;
 
 enum class achievement_comparison : int {
     equal,
@@ -62,9 +59,10 @@ class achievement
         achievement() = default;
 
         void load( const JsonObject &, std::string_view );
+        void finalize();
         void check() const;
         static void load_achievement( const JsonObject &, const std::string & );
-        static void finalize();
+        static void finalize_all();
         static void check_consistency();
         static const std::vector<achievement> &get_all();
         static void reset();

@@ -1,0 +1,400 @@
+[
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "driving_license",
+    "name": "Adult Physique",
+    "description": "All adults have to walk long hours and do physical labor to support their people.  You were no exception, leaving you well-conditioned to survive on your own.",
+    "points": 0,
+    "skills": [ { "level": 2, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "computer_literate",
+    "name": "Traditional Mindset",
+    "description": "What survives from the past has proved its worth.  A new thing is risky--who knows if it will stand the test of time?  You cannot use modern technology.",
+    "points": 0,
+    "traits": [ "XEDRA_WOOD_COMPUTER_ILLITERATE", "ILLITERATE" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "simple_home_cooking",
+    "name": "Simple Cooking",
+    "description": "You've spent enough time around the communal campfires that you know how to cook basic dishes and feed yourself.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "cooking" } ],
+    "proficiencies": [ "prof_food_prep" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "social_skills",
+    "name": "Social Skills",
+    "description": "You've spent a significant portion of your life living among other people and are familiar with social norms.  You know how to talk with other people, and how to convey your emotions and understand those of others.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "speech" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "high_school_graduate",
+    "name": "Living in the Wild",
+    "description": "Since you were young you were taught which plants to avoid and which ones can feed you in an emergency, how to follow water to the source, when fruits are in season, and to *never* stay out in the forest after dark.",
+    "points": 0,
+    "skills": [ { "level": 2, "name": "survival" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "mundane_survival",
+    "name": "Mundane Survival",
+    "description": "You've managed to survive to adulthood, which is no small feat.  Through your ordeals you've learned how to treat scrapes and bruises, and how to assemble basic furniture.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "fabrication" }, { "level": 1, "name": "firstaid" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "smoker",
+    "name": "Pipeleaf Dependence",
+    "description": "Your people may have used pipeleaf for ritual purposes but you were always a bit too…enthusiastic when your partook.  You'll need to find a steady supply of leaf to smoke if you want to keep the cravings at bay.",
+    "points": -1,
+    "addictions": [ { "intensity": 10, "type": "nicotine" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "long_distance_messenger",
+    "name": "Messenger",
+    "description": "You made your living running messages between the villages and tribes of the land, always priding yourself on being the fastest.  That speed is definitely going to help you now.",
+    "points": 5,
+    "traits": [ "GOODCARDIO", "FLEET" ],
+    "skills": [ { "level": 3, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic", "prof_athlete_expert" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "socialdance",
+    "name": "Group Dancing",
+    "description": "You loved meeting new people during tribal gatherings, dancing around the fire until the late hours.  Maybe you can keep putting those skills to use.",
+    "points": 2,
+    "skills": [ { "level": 1, "name": "dodge" }, { "level": 2, "name": "speech" } ],
+    "traits": [ "LIGHTSTEP" ]
+  },
+  {
+    "type": "profession",
+    "id": "brewer",
+    "subtype": "hobby",
+    "name": "Brewer",
+    "description": "You didn't hunt, and you didn't cook food, but your skills at brewing alcohol ensured that you were always valued at any tribal gathering larger than two or three people.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "chemistry" } ],
+    "proficiencies": [ "prof_distilling", "prof_beverage_distilling", "prof_brewing" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "foraging",
+    "name": "Foraging",
+    "description": "You have plenty of practice at searching the forest for delicious foods.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "cooking" } ],
+    "proficiencies": [ "prof_forage_cooking" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "fireperformance",
+    "name": "Flamedancer",
+    "description": "Whether you twirled, spun, juggled, or ate it, your manipulation of flaming objects was impressive and terrifying to behold.",
+    "points": 1,
+    "traits": [ "PYROMANIA", "DEFT" ],
+    "skills": [ { "level": 1, "name": "survival" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "butcher_amateur",
+    "name": "Butcher's Apprentice",
+    "description": "You helped dress and prepare the animals that came back from the hunt, and sometimes accompanied the hunters into the field if they were expecting a particularly large catch.  You're very good at preparing a carcass for food.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "cooking" } ],
+    "proficiencies": [ "prof_butchering_basic", "prof_skinning_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hunting_snares",
+    "name": "Snare-making",
+    "description": "You used to accompany the hunters but not to flush out or chase the quarry.  Your task was to place snares in the path, so the others would harry your prey and your traps could catch them.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "traps" } ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_traps" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "wanderer",
+    "name": "Wanderer",
+    "description": "You used to travel far beyond the safety of your people's lands.  Maybe you were a trader seeking new goods, or maybe you ranged far afield seeking new game, or maybe you just needed some time away from everyone else.  At least now you'll get some time alone.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "firstaid" } ],
+    "traits": [ "OUTDOORSMAN", "ASOCIAL1" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "outcast",
+    "name": "Outcast",
+    "description": "You were exiled from your tribe.  Whether you deserved it or not, it has forced you become self-reliant and stay on the move lest you meet others who know of your sentence.",
+    "points": 3,
+    "skills": [ { "level": 3, "name": "survival" }, { "level": 2, "name": "firstaid" } ],
+    "traits": [ "OUTDOORSMAN", "GOODCARDIO", "NOMAD" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "cookfire_tender",
+    "name": "Tender of Cookfires",
+    "description": "You used to tend the cookfires and prepare the meals, making sure that the meat didn't burn and the flames stayed hot until every one of your people was fed.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "cooking" } ],
+    "proficiencies": [ "prof_food_prep", "prof_knife_skills", "prof_knives_familiar" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "name": "Healer's Apprentice",
+    "id": "redcross",
+    "description": "You've got training and some experience in dealing with urgent injuries.  Away from your people, that'll have to do.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "firstaid" } ],
+    "proficiencies": [ "prof_wound_care" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "leatherworking",
+    "name": "Leatherworker (Apprentice)",
+    "description": "You spent time time apprenticed to the leather-workers among your people and have practice in cutting and treating hides as well as sewing them together to make garments.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "tailor" }, { "level": 1, "name": "fabrication" } ],
+    "proficiencies": [ "prof_leatherworking_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "big_eater",
+    "name": "Big Eater",
+    "description": "You were almost always hungry, always thinking about where your next meal was coming from.  You hung around the tribal cookfires so often that they eventually just kept roping you in to help prepare the meals.  You never minded as long as you got to taste the meals before they were served, but it's made you very particular about what you eat.",
+    "points": 1,
+    "skills": [ { "level": 1, "name": "cooking" } ],
+    "traits": [ "GOURMAND", "PICKYEATER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "leatherworking_adept",
+    "name": "Leatherworker (Adept)",
+    "description": "You were an adept hand with the hides the hunters brought back, turning them into clothing and shelter for your people.",
+    "points": 4,
+    "skills": [ { "level": 4, "name": "tailor" }, { "level": 1, "name": "fabrication" } ],
+    "proficiencies": [ "prof_leatherworking_basic", "prof_leatherworking" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "carving_hobby",
+    "name": "Whittling",
+    "description": "You've spent a chunk of your free time around the fire in camp or on boring moments out in the wild carving wood and bone into amusing or memorable shapes, and over time you've gotten pretty good at it.",
+    "points": 1,
+    "skills": [ { "level": 1, "name": "fabrication" } ],
+    "proficiencies": [ "prof_carving" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "stonecarver",
+    "name": "Stonecarver (Apprentice)",
+    "description": "You were an apprentice stonecarver, set to accomplish simple tasks like knife-knapping and finding flaking stones in the wild.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "fabrication" } ],
+    "proficiencies": [ "prof_knapping" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "stonecarver_adept",
+    "name": "Stonecarver (Adept)",
+    "description": "You served your people as a stonecarver, making the tools and weapons they needed to survive in the hostile wilderness.",
+    "points": 4,
+    "skills": [ { "level": 4, "name": "fabrication" } ],
+    "proficiencies": [ "prof_knapping", "prof_knapping_speed" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "basket_weaving",
+    "name": "Basket-weaving",
+    "description": "You frequently took a turn with the basketweavers, staying awake as long as the fire gave enough light to provide the containers your people used to transport their food and possessions on their wanderings.  To this day you still don't need as much sleep as others do.",
+    "points": 1,
+    "skills": [ { "level": 3, "name": "fabrication" } ],
+    "traits": [ "WAKEFUL" ],
+    "proficiencies": [ "prof_basketweaving" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "river_dweller",
+    "name": "River-dweller",
+    "description": "Your people dwelt by the waters, and you were playing on and in them almost before you could walk.  You're familiar with both swimming and boating.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 2, "name": "swimming" } ],
+    "proficiencies": [ "prof_boat_pilot" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "witch_sight",
+    "name": "Witch-sight",
+    "description": "You were born attuned to the spirit world.  Normally that would have marked you out for apprenticeship to a shaman or one of the Wise, but for whatever reason, that did not happen.  Your unique senses have left you with some knowledge of the unseen world, as well as difficulty falling asleep.",
+    "points": 1,
+    "traits": [ "WITCHSIGHT", "INSOMNIA" ],
+    "skills": [ { "level": 2, "name": "deduction" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "unarmed_combat",
+    "name": "Wrestler (Apprentice)",
+    "description": "You've spent time fighting with your bare hands.  Not to take down game or against other tribes, of course, but in friendly--or at least, non-lethal--contests around the campfires.  You've gotten pretty good at it..",
+    "points": 2,
+    "skills": [ { "level": 1, "name": "melee" }, { "level": 2, "name": "unarmed" }, { "level": 2, "name": "dodge" } ],
+    "proficiencies": [ "prof_unarmed_familiar" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "unarmed_combat_adept",
+    "name": "Wrestler (Adept)",
+    "description": "You're a veteran of contests using just your fists.  Maybe you've even used your skills in fights against other tribes, if it came down to a contest of champions and both of you ended up without your weapons.",
+    "points": 5,
+    "skills": [ { "level": 3, "name": "melee" }, { "level": 4, "name": "unarmed" }, { "level": 4, "name": "dodge" } ],
+    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_gross_anatomy" ],
+    "traits": [ "PAINRESIST" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hunter_hobby",
+    "name": "Hunter (Apprentice)",
+    "description": "While not usually one of the hunters, you've gone on hunts when food supplies were slow or some of the hunters were recovering from their injuries, and have developed skill with the bow because of it.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "archery" }, { "level": 2, "name": "gun" }, { "level": 2, "name": "survival" } ],
+    "proficiencies": [ "prof_bow_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "parkour_xedrawood",
+    "name": "Acrobatic Movement",
+    "description": "You used to climb trees and jump from branch to branch to impress the other youths in your tribe, and hours of jumping over stones and running down gully walls have paid off.  You'll be a great position to escape the next time you get into trouble.",
+    "points": 2,
+    "proficiencies": [ "prof_parkour", "prof_athlete_basic" ],
+    "skills": [ { "level": 2, "name": "swimming" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "warrior_hobby",
+    "name": "Warrior (Apprentice)",
+    "description": "While not one of the warriors who went out on raids, you have fought in defense of your people and know how to handle yourself in a fight.",
+    "points": 5,
+    "skills": [
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "bashing" },
+      { "level": 2, "name": "stabbing" },
+      { "level": 2, "name": "cutting" }
+    ],
+    "proficiencies": [ "prof_quarterstaves_familiar", "prof_knives_familiar", "prof_spears_familiar" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "arts_and_crafts",
+    "name": "Artisan",
+    "description": "You loved creating small dolls, toys, and bits of art during your downtime.  Now, you might want to channel those skills into making more practical things.",
+    "points": 1,
+    "skills": [ { "level": 1, "name": "fabrication" }, { "level": 2, "name": "tailor" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "PARACLESIAN_FAKE_HOBBY",
+    "name": "A new life",
+    "description": "You are born anew, freshly spun forth from the natural elements but hours ago.  You have as yet had no time to develop hobbies.",
+    "points": 1
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "XEDRAWOOD_EXTRA_STRONG",
+    "name": "Mighty Thews",
+    "description": "Due to long hours of exercise your limbs are thick with corded muscle.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "swimming" } ],
+    "traits": [ "STR_UP_2" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "XEDRAWOOD_EXTRA_DEX",
+    "name": "Pantherish Grace",
+    "description": "You used to do backflips and splits to impress other members of your tribe, and you've maintained your flexibility.",
+    "points": 2,
+    "skills": [ { "level": 1, "name": "swimming" } ],
+    "traits": [ "DEX_UP_2" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "XEDRAWOOD_NOCTURNAL",
+    "name": "Up Past the Sun",
+    "description": "Unlike most of your people, you always stayed up long past sunset, staring at the moon or walking at the edge of the firelight.  You are much better at seeing at night, but have a harder time falling asleep and waking up.",
+    "points": 3,
+    "traits": [ "NIGHTVISION2", "INSOMNIA", "HEAVYSLEEPER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "XEDRAWOOD_PORTER",
+    "name": "Tribal Porter",
+    "description": "In your nomadic wanderings, your tribe relied on you to transport the larger goods like tents or baskets of preserved food and bedding, and you've gotten very good at packing efficiently and carrying goods for long distances, but you tend to have a pretty heavy tread when walking.",
+    "points": 1,
+    "traits": [ "PACKMULE", "STRONGBACK", "CLUMSY" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "XEDRAWOOD_SCOUT",
+    "name": "Tribal Scout",
+    "description": "You spent long hours wandering far afield, looking for new hunting grounds, making sure the things of the forest and the swamps stayed away from your people's lands.  You are very good at spotting threats from far away, but you've grown used to spending time alone.",
+    "points": 1,
+    "proficiencies": [ "prof_spotting" ],
+    "traits": [ "EAGLEEYED", "ASOCIAL2" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "XEDRAWOOD_DRUNKEN_MASTER",
+    "name": "Drunken Warrior",
+    "description": "You have a bit too much of a taste for the beverages served during tribal celebrations, but you've gotten used to fighting while under their spell.  Some of your fellows even say you fight better after you've had a few.",
+    "points": 3,
+    "traits": [ "DRUNKEN", "ADDICTIVE" ],
+    "addictions": [ { "intensity": 20, "type": "alcohol" } ]
+  }
+]

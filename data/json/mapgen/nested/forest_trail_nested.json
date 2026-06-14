@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_trail",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -13,7 +12,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_trail_clear",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -25,7 +23,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_predecessor_groundcover",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -39,7 +36,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_predecessor_shrub",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -54,7 +50,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_predecessor_tree",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -68,7 +63,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_t_region_groundcover_forest",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -80,7 +74,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_t_region_groundcover_swamp",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -92,7 +85,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_t_region_shrub_forest",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -104,7 +96,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_t_region_shrub_forest_dense",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -116,7 +107,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_t_region_shrub_swamp",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -128,7 +118,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_t_region_shrub_swamp",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -140,7 +129,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_t_region_tree_forest",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -152,7 +140,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_t_region_tree_forest_dense",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -164,7 +151,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_t_railroad_rubble",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -176,7 +162,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_t_dirt",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -188,7 +173,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "1x1_t_mud",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -200,7 +184,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_forest_trail_intersection",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -256,7 +239,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "9x9_forest_trail_intersection_north",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -278,7 +260,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "9x9_forest_trail_intersection_east",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -300,7 +281,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "9x9_forest_trail_intersection_south",
     "object": {
       "mapgensize": [ 9, 9 ],
@@ -322,7 +302,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "9x9_forest_trail_intersection_west",
     "object": {
       "mapgensize": [ 9, 9 ],

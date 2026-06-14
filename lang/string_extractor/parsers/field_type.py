@@ -1,22 +1,26 @@
+from ..helper import get_singular_name
 from ..write_text import write_text
 
 
 def parse_field_type(json, origin):
+    field_names = []
+
     for fd in json.get("intensity_levels", []):
-        if "name" in fd:
-            write_text(fd["name"], origin, comment="Field intensity level")
-            id_or_name = fd["name"]
-        else:
-            id_or_name = json["id"]
+        name = get_singular_name(fd)
+        field_names.append(name)
+
+        write_text(fd.get("name"), origin, comment="Field intensity level")
+
         for eff in fd.get("effects", []):
-            if "message" in eff:
-                write_text(eff["message"], origin,
-                           comment="Player message on effect of field {}"
-                           .format(id_or_name))
-            if "message_npc" in eff:
-                write_text(eff["message_npc"], origin,
-                           comment="NPC message on effect of field {}"
-                           .format(id_or_name))
+            write_text(eff.get("message"), origin,
+                       comment=f"Player message on effect of field '{name}'")
+            write_text(eff.get("message_npc"), origin,
+                       comment=f"NPC message on effect of field '{name}'")
+
     if "npc_complain" in json:
         write_text(json["npc_complain"]["speech"], origin,
                    comment="Field NPC complaint")
+
+    if "msg_success" in json.get("bash", []):
+        write_text(json["bash"]["msg_success"], origin,
+                   comment=f"Bashing message of fields: {field_names}")

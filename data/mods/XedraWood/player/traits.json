@@ -1,0 +1,137 @@
+[
+  {
+    "type": "mutation",
+    "id": "XEDRA_WOOD_COMPUTER_ILLITERATE",
+    "name": { "str": "Traditional Mindset" },
+    "description": "What survives from the past has proved its worth.  A new thing is risky--who knows if it will stand the test of time?  You cannot use modern technology.",
+    "points": -5,
+    "starting_trait": false,
+    "valid": false,
+    "player_display": false,
+    "enchantments": [ { "skills": [ { "value": "computer", "multiply": -1 } ] } ],
+    "flags": [ "CANNOT_USE_COMPUTERS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_CAN_USE_ELECTRONICS",
+    "name": { "str": "Veins Like Circuits" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "For almost all of recorded history, even tool-using history, humanity had not harnessed lightning, and most of the Fair Folk still have little understanding of electrical devices.  This ability gives you an almost-instinctive understanding of circuits, however, allowing you to develop the electronics skill normally and providing a bonus to its use.",
+    "valid": false,
+    "purifiable": false,
+    "craft_skill_bonus": [ [ "electronics", 2 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_CAN_USE_COMPUTERS",
+    "name": { "str": "Man-Machine Mind" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You have developed an intuitive understanding of computers.  You can develop the computer skill normally and gain a bonus to its use.",
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "ILLITERATE",
+    "name": { "str": "Pre-Literate" },
+    "description": "While some warrior societies or groups of the Wise may have secret runic codes, wide-scale writing has not yet been invented.  You cannot read.",
+    "cancels": [ "FASTREADER", "SLOWREADER", "PROF_DICEMASTER", "LOVES_BOOKS", "HATES_BOOKS" ],
+    "points": 0,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "XEDRAWOOD_THE_WISE",
+    "name": { "str": "The Wise" },
+    "points": 0,
+    "description": "You are one of the Wise, capable of performing the deeper mysteries having undergone the ordeal to bond your soul to one of the great natural forces of the Earth, the Forest, the Moon, the Sea, or the Sky.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          {
+            "value": "MAX_MANA",
+            "add": { "math": [ "( (u_spell_count('school': 'FOREST_MAGIC') ) * 72) + (u_skill('deduction') * 145)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "WITCHSIGHT",
+    "name": { "str": "Witch-Sight" },
+    "points": 2,
+    "description": "Your senses are attuned to the unseen world.",
+    "player_display": true,
+    "valid": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "special_vision": [
+          {
+            "condition": {
+              "and": [
+                "u_see_npc_loc",
+                {
+                  "or": [
+                    { "npc_has_species": "HORROR" },
+                    { "npc_has_species": "NETHER" },
+                    { "npc_has_species": "UMMONED_CREATURE" },
+                    { "npc_has_species": "nether_player_hate" }
+                  ]
+                }
+              ]
+            },
+            "distance": { "math": [ "u_val('perception') * 2" ] },
+            "precise": true,
+            "descriptions": [ { "id": "nether_creature_sense", "symbol": "?", "color": "c_pink", "text": "You see an otherworldy danger here." } ]
+          },
+          {
+            "condition": {
+              "or": [
+                { "npc_has_species": "HORROR" },
+                { "npc_has_species": "NETHER" },
+                { "npc_has_species": "UMMONED_CREATURE" },
+                { "npc_has_species": "nether_player_hate" }
+              ]
+            },
+            "distance": { "math": [ "u_val('perception') / 2" ] },
+            "descriptions": [ { "id": "nether_creature_sense", "symbol": "?", "color": "c_pink", "text": "You sense an otherworldy danger here." } ]
+          },
+          {
+            "condition": {
+              "and": [ "u_see_npc_loc", { "or": [ { "npc_has_species": "ELDRITCH_BEING" }, { "npc_has_species": "FOREST_SPIRIT" } ] } ]
+            },
+            "distance": { "math": [ "u_val('perception') * 2" ] },
+            "precise": true,
+            "descriptions": [ { "id": "wizard_sense", "symbol": "?", "color": "c_pink", "text": "You see a being of the Unseen World here." } ]
+          },
+          {
+            "condition": { "or": [ { "npc_has_species": "ELDRITCH_BEING" }, { "npc_has_species": "FOREST_SPIRIT" } ] },
+            "distance": { "math": [ "u_val('perception') / 2" ] },
+            "descriptions": [ { "id": "wizard_sense", "symbol": "?", "color": "c_pink", "text": "You sense a being of the Unseen World here." } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "FOREST_MAGIC",
+    "name": "Forest-Wise",
+    "points": 0,
+    "description": "You underwent the Ordeal of the Weald and bonded your soul to the Forest, and the forest spirits allow to draw on a portion of their power.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "flags": [ "ATTUNEMENT", "TREE_COMMUNION_PLUS" ]
+  }
+]

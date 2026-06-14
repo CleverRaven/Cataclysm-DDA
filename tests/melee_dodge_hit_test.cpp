@@ -1,22 +1,22 @@
-#include <iosfwd>
 #include <list>
-#include <memory>
+#include <string>
 
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "creature.h"
-#include "creature_tracker.h"
 #include "flag.h"
-#include "game.h"
 #include "item.h"
+#include "item_location.h"
 #include "map_helpers.h"
-#include "monattack.h"
 #include "monster.h"
 #include "mtype.h"
 #include "player_helpers.h"
-#include "point.h"
 #include "type_id.h"
+
+static const itype_id itype_roller_shoes_on( "roller_shoes_on" );
+static const itype_id itype_test_roller_blades( "test_roller_blades" );
+static const itype_id itype_test_rollerskates( "test_rollerskates" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
@@ -36,7 +36,7 @@ static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static float hit_base_with_dex( avatar &dummy, int dexterity )
 {
     clear_character( dummy );
-    dummy.dex_max = dexterity;
+    dummy.set_dex_base( dexterity );
 
     return dummy.get_hit_base();
 }
@@ -45,7 +45,7 @@ static float hit_base_with_dex( avatar &dummy, int dexterity )
 static float dodge_base_with_dex_and_skill( avatar &dummy, int dexterity, int dodge_skill )
 {
     clear_character( dummy );
-    dummy.dex_max = dexterity;
+    dummy.set_dex_base( dexterity );
     dummy.set_skill_level( skill_dodge, dodge_skill );
 
     return dummy.get_dodge_base();
@@ -85,7 +85,7 @@ static float dodge_wearing_item( avatar &dummy, item &clothing )
 
 TEST_CASE( "monster_get_hit_base", "[monster][melee][hit]" )
 {
-    clear_map();
+    clear_map_without_vision();
 
     SECTION( "monster get_hit_base is equal to melee skill level" ) {
         monster zed( mon_zombie );
@@ -95,7 +95,7 @@ TEST_CASE( "monster_get_hit_base", "[monster][melee][hit]" )
 
 TEST_CASE( "Character_get_hit_base", "[character][melee][hit][dex]" )
 {
-    clear_map();
+    clear_map_without_vision();
 
     avatar &dummy = get_avatar();
     clear_character( dummy );
@@ -114,7 +114,7 @@ TEST_CASE( "Character_get_hit_base", "[character][melee][hit][dex]" )
 
 TEST_CASE( "monster_get_dodge_base", "[monster][melee][dodge]" )
 {
-    clear_map();
+    clear_map_without_vision();
 
     SECTION( "monster get_dodge_base is equal to dodge skill level" ) {
         monster smoker( mon_zombie_smoker );
@@ -124,7 +124,7 @@ TEST_CASE( "monster_get_dodge_base", "[monster][melee][dodge]" )
 
 TEST_CASE( "Character_get_dodge_base", "[character][melee][dodge][dex][skill]" )
 {
-    clear_map();
+    clear_map_without_vision();
 
     avatar &dummy = get_avatar();
     clear_character( dummy );
@@ -185,7 +185,7 @@ TEST_CASE( "Character_get_dodge_base", "[character][melee][dodge][dex][skill]" )
 
 TEST_CASE( "monster_get_dodge_with_effects", "[monster][melee][dodge][effect]" )
 {
-    clear_map();
+    clear_map_without_vision();
 
     monster zombie( mon_zombie_smoker );
 
@@ -216,10 +216,12 @@ TEST_CASE( "monster_get_dodge_with_effects", "[monster][melee][dodge][effect]" )
 
 TEST_CASE( "player_get_dodge", "[player][melee][dodge]" )
 {
-    clear_map();
+    clear_map_without_vision();
 
     avatar &dummy = get_avatar();
     clear_character( dummy );
+    dodge_base_with_dex_and_skill( dummy, 10, 10 );
+    dummy.set_dodges_left( 1 );
 
     const float base_dodge = dummy.get_dodge_base();
 
@@ -237,10 +239,11 @@ TEST_CASE( "player_get_dodge", "[player][melee][dodge]" )
 
 TEST_CASE( "player_get_dodge_with_effects", "[player][melee][dodge][effect]" )
 {
-    clear_map();
+    clear_map_without_vision();
 
     avatar &dummy = get_avatar();
     clear_character( dummy );
+    dodge_base_with_dex_and_skill( dummy, 8, 4 );
 
     // Compare all effects against base dodge ability
     const float base_dodge = dummy.get_dodge_base();
@@ -263,13 +266,14 @@ TEST_CASE( "player_get_dodge_with_effects", "[player][melee][dodge][effect]" )
     }
 
     SECTION( "unstable footing: 1/4 dodge" ) {
+        // FIXME: Margin is flat instead of relative %.
         CHECK( dodge_with_effect( dummy, "bouldering" ) == Approx( base_dodge / 4 ).margin( 0.1f ) );
     }
 
     SECTION( "skating: amateur or pro?" ) {
-        item skates( "test_rollerskates" );
-        item blades( "test_roller_blades" );
-        item heelys( "roller_shoes_on" );
+        item skates( itype_test_rollerskates );
+        item blades( itype_test_roller_blades );
+        item heelys( itype_roller_shoes_on );
 
         REQUIRE( skates.has_flag( flag_ROLLER_QUAD ) );
         REQUIRE( blades.has_flag( flag_ROLLER_INLINE ) );
@@ -298,6 +302,7 @@ TEST_CASE( "player_get_dodge_stamina_effects", "[player][melee][dodge][stamina]"
 {
     avatar &dummy = get_avatar();
     clear_character( dummy );
+    dodge_base_with_dex_and_skill( dummy, 8, 0 );
 
     SECTION( "8/8/8/8, no skills, unencumbered" ) {
         const int stamina_max = dummy.get_stamina_max();

@@ -1,10 +1,9 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "sugar_house_parking" ], [ "sugar_house" ] ],
     "object": {
-      "fill_ter": "t_linoleum_white",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
         " ~,,,,,,,,,,,,,,,,,,,,~ ",
         " ~,,,,,,,,,,,,,,,,,,,,~ ",
@@ -39,7 +38,7 @@
         " |.hnnh.|F..nn..hnnh.|||",
         " |.....p|F..nn..hnnh.|t|",
         " ||||||||...hh..hnnh.+'v",
-        " |CCCfff|.......hnnh.|S|",
+        " |CCCff(|.......hnnh.|S|",
         " vO'''''|.hhhh..hnnh.|||",
         " vO'cc''|.nnnn..hnnh.|t|",
         " |1'cS''+.nnnn..hnnh.+'v",
@@ -55,6 +54,7 @@
         " |||||||++|||||||||||| M",
         " 4      ~~              "
       ],
+      "palettes": [ "parametrized_linoleum_palette" ],
       "terrain": {
         " ": "t_region_groundcover",
         "!": "t_region_groundcover",
@@ -69,7 +69,7 @@
         "h": "t_floor",
         "p": "t_floor",
         "D": "t_floor",
-        "'": "t_linoleum_white",
+        "'": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "_": "t_thconc_floor",
         "F": "t_thconc_floor",
         "r": "t_thconc_floor",
@@ -89,7 +89,8 @@
         "O": "f_oven",
         "S": "f_sink",
         "c": "f_counter",
-        "f": "f_fridge",
+        "f": "f_heavy_duty_fridge",
+        "(": "f_heavy_duty_freezer",
         "h": "f_chair",
         "n": "f_table",
         "p": [ "f_indoor_plant", "f_indoor_plant_y" ],
@@ -102,8 +103,8 @@
       "toilets": { "t": {  } },
       "items": {
         "n": { "item": "sugar_house_items", "chance": 20, "repeat": [ 1, 2 ] },
-        "D": { "item": "trash", "chance": 66, "repeat": [ 1, 3 ] },
-        "d": { "item": "trash", "chance": 66, "repeat": [ 1, 3 ] },
+        "D": { "item": "SUS_trash_trashcan", "chance": 66 },
+        "d": { "item": "SUS_trash_trashcan", "chance": 66 },
         "r": { "item": "sugar_house_furnace", "chance": 100 },
         "R": { "item": "sugar_house_tools", "chance": 50, "repeat": [ 1, 2 ] },
         "F": { "item": "fireplace_fill", "chance": 66, "repeat": [ 1, 3 ] },
@@ -113,7 +114,8 @@
         "2": { "item": "SUS_silverware", "chance": 100 },
         "3": { "item": "SUS_utensils", "chance": 100 },
         "C": { "item": "SUS_cookware", "chance": 100 },
-        "c": { "item": "sugar_house_kitchen_items", "chance": 75, "repeat": [ 1, 2 ] }
+        "c": { "item": "sugar_house_kitchen_items", "chance": 75, "repeat": [ 1, 2 ] },
+        "t": { "item": "SUS_toilet", "chance": 50 }
       },
       "item": { "M": [ { "item": "bucket", "chance": 100 }, { "item": "tree_spile", "chance": 100 } ] },
       "place_loot": [
@@ -138,7 +140,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "sugar_house_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

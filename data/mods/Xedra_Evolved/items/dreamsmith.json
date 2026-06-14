@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dreamforged_bed_of_restful_repose",
     "name": {
       "str": "dreamforged bed of restful repose, folded for travel",
@@ -10,12 +10,11 @@
     "symbol": "H",
     "color": "cyan",
     "flags": [ "NO_SALVAGE" ],
-    "price": 25000,
-    "price_postapoc": 1500,
+    "price": "250 USD",
+    "price_postapoc": "15 USD",
     "longest_side": "213 cm",
     "volume": "570 L",
     "weight": "57 kg",
-    "material": [ { "type": "dreamstuff", "portion": 75 }, { "type": "wood", "portion": 25 } ],
-    "to_hit": -8
+    "material": [ { "type": "dreamstuff", "portion": 75 }, { "type": "wood", "portion": 25 } ]
   }
 ]

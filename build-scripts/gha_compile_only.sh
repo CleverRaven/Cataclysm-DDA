@@ -5,6 +5,27 @@
 echo "Using bash version $BASH_VERSION"
 set -exo pipefail
 
+# Android build is its own separate thing, only bundled here for invocation convenience
+if [ -n "$ANDROID" ]
+then
+    cd ./android
+    chmod +x gradlew
+    if [ ${ANDROID} = "arm64" ]
+    then
+        ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_32=false assembleExperimentalRelease
+    elif [ ${ANDROID} = "arm32" ]
+    then
+        ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleExperimentalRelease
+    elif [ ${ANDROID} = "bundle" ]
+    then
+        ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease
+    else
+        echo "Unexpected value of ANDROID env var - '${ANDROID}'"
+        exit 1
+    fi
+    exit 0  # no fallthrough
+fi
+
 num_jobs=3
 
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
@@ -40,7 +61,7 @@ fi
 
 ccache --zero-stats
 # Increase cache size because debug builds generate large object files
-ccache -M 5G
+ccache -M 20G
 ccache --show-stats --verbose
 
 if [ "$CMAKE" = "1" ]
@@ -61,10 +82,22 @@ then
         -DCMAKE_BUILD_TYPE="$build_type" \
         -DTILES=${TILES:-0} \
         -DSOUND=${SOUND:-0} \
+        ${SDL3:+-DUSE_SDL3=${SDL3}} \
         ..
     make -j$num_jobs
 else
-    make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0 FRAMEWORK=1 UNIVERSAL_BINARY=1
+    effective_sdl3="${SDL3:-}"
+    if [ -z "${SDL3+x}" ] && [ "${TILES:-0}" = "1" ]; then
+        effective_sdl3=1
+    fi
+    make_args=( CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0 DEBUG_SYMBOLS=1 )
+    if [ -n "${SDL3+x}" ]; then
+        make_args+=( SDL3="$SDL3" )
+    fi
+    if [ "$effective_sdl3" != "1" ]; then
+        make_args+=( FRAMEWORK=1 UNIVERSAL_BINARY=1 )
+    fi
+    make -j "$num_jobs" "${make_args[@]}"
 
     # For CI on macOS, patch the test binary so it can find SDL2 libraries.
     if [[ ! -z "$OS" && "$OS" = "macos-12" ]]

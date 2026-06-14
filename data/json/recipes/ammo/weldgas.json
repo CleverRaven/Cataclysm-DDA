@@ -17,7 +17,7 @@
   },
   {
     "result": "acetylene",
-    "byproduct_group": [ { "item": "chem_slaked_lime", "charges": 50 } ],
+    "byproduct_group": [ { "item": "chem_slaked_lime", "count": 50 } ],
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
@@ -40,10 +40,23 @@
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
     "difficulty": 2,
+    "time": "10 m",
+    "book_learn": [ [ "welding_book", 2 ] ],
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "components": [ [ [ "tinyweldtank", 1 ] ], [ [ "oxyacetylene", 30 ] ] ]
+  },
+  {
+    "result": "smallweldtank",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
     "time": "20 m",
     "book_learn": [ [ "welding_book", 2 ] ],
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
-    "components": [ [ [ "tinyweldtank", 1 ] ], [ [ "oxyacetylene", 60 ] ] ]
+    "components": [ [ [ "smallweldtank", 1 ] ], [ [ "oxyacetylene", 60 ] ] ]
   },
   {
     "result": "weldtank",
@@ -62,6 +75,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "welding_rod_steel",
+    "charges": 10,
     "result_mult": 2,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -75,17 +89,16 @@
       [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 30 ] ],
-      [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ]
+      [ [ "rock_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ]
     ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_intro_chemistry" } ],
     "components": [
       [ [ "scrap", 1 ] ],
       [ [ "flour_any", 1, "LIST" ], [ "paper", 3 ] ],
-      [ [ "material_limestone", 1 ], [ "chem_manganese_dioxide", 1 ], [ "light_disposable_cell", 1 ] ],
+      [ [ "material_limestone", 1 ], [ "chem_manganese_dioxide", 1 ], [ "light_battery_cell", 1 ] ],
       [
         [ "rosin", 5 ],
-        [ "superglue", 1 ],
-        [ "bone_glue", 1 ],
+        [ "glue_weak", 150 ],
         [ "sugar", 1 ],
         [ "plastic_chunk", 1 ],
         [ "wax_any", 1, "LIST" ],
@@ -97,6 +110,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "welding_rod_alloy",
+    "charges": 10,
     "result_mult": 50,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -115,7 +129,7 @@
       [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 350 ] ],
-      [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 25 ] ]
+      [ [ "rock_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 25 ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -134,6 +148,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "welding_wire_steel",
+    "charges": 180,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
@@ -155,7 +170,7 @@
       { "proficiency": "prof_inorganic_chemistry" }
     ],
     "components": [
-      [ [ "wire", 4 ] ],
+      [ [ "any_wire", 4, "LIST" ] ],
       [ [ "copper", 1 ] ],
       [ [ "any_strong_acid", 1, "LIST" ] ],
       [ [ "water", 3 ], [ "water_clean", 3 ] ]
@@ -165,6 +180,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "welding_wire_alloy",
+    "charges": 180,
     "result_mult": 2,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -185,6 +201,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "brazing_rod_bronze",
+    "charges": 10,
     "result_mult": 7,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -193,19 +210,22 @@
     "difficulty": 3,
     "time": "45 m",
     "autolearn": true,
+    "using": [ [ "flux", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing", "required": true },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_intro_chemistry" }
     ],
-    "components": [ [ [ "scrap_bronze", 1 ] ], [ [ "detergent", 7 ] ] ]
+    "components": [ [ [ "scrap_bronze", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "brazing_rod_alloy",
+    "charges": 10,
     "result_mult": 38,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",

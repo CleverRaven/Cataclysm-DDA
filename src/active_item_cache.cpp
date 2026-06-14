@@ -1,12 +1,15 @@
 #include "active_item_cache.h"
 
 #include <algorithm>
+#include <numeric>
+#include <string>
 #include <utility>
 
 #include "item.h"
+#include "item_pocket.h"
 #include "safe_reference.h"
 
-float item_reference::spoil_multiplier()
+float item_reference::spoil_multiplier() const
 {
     return std::accumulate(
                pocket_chain.begin(), pocket_chain.end(), 1.0F,
@@ -15,12 +18,36 @@ float item_reference::spoil_multiplier()
     } );
 }
 
-bool active_item_cache::add( item &it, point location, item *parent,
+bool item_reference::has_watertight_container() const
+{
+    return std::any_of(
+               pocket_chain.begin(), pocket_chain.end(),
+    []( item_pocket const * pk ) {
+        return pk->can_contain_liquid( false );
+    } );
+}
+
+float item_reference::insulation() const
+{
+    return std::accumulate(
+               pocket_chain.begin(), pocket_chain.end(), 1.0F,
+    []( float a, item_pocket const * pk ) {
+        return a * pk->get_pocket_data()->insulation;
+    } );
+}
+
+bool active_item_cache::add( item &it, point_sm_ms location, item *parent,
+                             std::vector<item_pocket const *> const &pocket_chain )
+{
+    return active_item_cache::add( it, rebase_rel( location ), parent, pocket_chain );
+}
+
+bool active_item_cache::add( item &it, point_rel_ms location, item *parent,
                              std::vector<item_pocket const *> const &pocket_chain )
 {
     std::vector<item_pocket const *> pockets = pocket_chain;
     bool ret = false;
-    for( item_pocket *pk : it.get_all_standard_pockets() ) {
+    for( item_pocket *pk : it.get_standard_pockets() ) {
         pockets.emplace_back( pk );
         for( item *pkit : pk->all_items_top() ) {
             ret |= add( *pkit, location, &it, pockets );
@@ -129,7 +156,7 @@ std::vector<item_reference> active_item_cache::get_special( special_item_type ty
     return matching_items;
 }
 
-void active_item_cache::subtract_locations( const point &delta )
+void active_item_cache::subtract_locations( const point_rel_ms &delta )
 {
     for( std::pair<const int, std::list<item_reference>> &pair : active_items ) {
         for( item_reference &ir : pair.second ) {
@@ -138,23 +165,24 @@ void active_item_cache::subtract_locations( const point &delta )
     }
 }
 
-void active_item_cache::rotate_locations( int turns, const point &dim )
+void active_item_cache::rotate_locations( int turns, const point_rel_ms &dim )
 {
     for( std::pair<const int, std::list<item_reference>> &pair : active_items ) {
         for( item_reference &ir : pair.second ) {
-            ir.location = ir.location.rotate( turns, dim );
+            // Should 'rotate' be propaged up to the typed coordinates?
+            ir.location = ir.location.rotate( turns, dim.raw() );
         }
     }
 }
 
-void active_item_cache::mirror( const point &dim, bool horizontally )
+void active_item_cache::mirror( const point_rel_ms &dim, bool horizontally )
 {
     for( std::pair<const int, std::list<item_reference>> &pair : active_items ) {
         for( item_reference &ir : pair.second ) {
             if( horizontally ) {
-                ir.location.x = dim.x - 1 - ir.location.x;
+                ir.location.x() = dim.x() - 1 - ir.location.x();
             } else {
-                ir.location.y = dim.y - 1 - ir.location.y;
+                ir.location.y() = dim.y() - 1 - ir.location.y();
             }
         }
     }

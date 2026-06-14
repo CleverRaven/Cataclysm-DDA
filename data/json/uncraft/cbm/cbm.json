@@ -22,7 +22,7 @@
     "components": [
       [ [ "power_supply", 10 ] ],
       [ [ "amplifier", 6 ] ],
-      [ [ "light_plus_battery_cell", 1 ] ],
+      [ [ "light_battery_cell", 1 ] ],
       [ [ "light_battery_cell", 1 ] ],
       [ [ "burnt_out_bionic", 1 ] ]
     ]

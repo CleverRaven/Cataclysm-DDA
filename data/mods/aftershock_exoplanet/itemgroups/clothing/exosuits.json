@@ -1,0 +1,134 @@
+[
+  {
+    "id": "afs_exosuits_civ",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "afs_exosuit_light_worker", "prob": 60 },
+      { "group": "afs_exosuit_worker", "prob": 30 },
+      { "group": "afs_exosuit_security", "prob": 10 }
+    ]
+  },
+  {
+    "id": "afs_exo_civ_modules",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "afs_exo_basic_power" }, { "group": "afs_power_tools" }, { "group": "afs_exo_basic_accessories" } ]
+  },
+  {
+    "id": "afs_exo_underlayer_civ",
+    "type": "item_group",
+    "items": [ { "item": "afs_exo_standard_underlayer", "prob": 75 }, { "item": "afs_exo_hazard_underlayer", "prob": 30 } ]
+  },
+  {
+    "id": "afs_exo_basic_power",
+    "type": "item_group",
+    "items": [
+      { "item": "exo_back_battery_rechargable", "prob": 75, "charges": [ 200, 300 ] },
+      { "item": "exo_back_gasoline", "prob": 50, "charges": [ 200, 300 ] },
+      { "item": "exo_aux_power", "prob": 25, "charges": [ 50, 100 ] },
+      { "item": "exo_small_aux_power", "prob": 25, "charges": [ 50, 100 ] }
+    ]
+  },
+  {
+    "id": "afs_exo_advanced_power",
+    "type": "item_group",
+    "items": [
+      { "item": "exo_back_battery_rechargable", "prob": 50, "charges": [ 200, 300 ] },
+      { "item": "exo_back_fuelcell", "prob": 75, "charges": [ 200, 300 ] },
+      { "item": "exo_asrg", "prob": 10 },
+      { "item": "exo_aux_power", "count": [ 0, 1 ], "prob": 25, "charges": [ 50, 100 ] },
+      { "item": "exo_small_aux_power", "prob": 25, "charges": [ 50, 100 ] }
+    ]
+  },
+  {
+    "id": "afs_power_tools",
+    "type": "item_group",
+    "items": [
+      { "item": "heavy_drill", "prob": 50 },
+      { "item": "exosuit_plasma_torch", "prob": 75 },
+      { "item": "exosuit_power_cutter", "prob": 25 }
+    ]
+  },
+  {
+    "id": "afs_exo_basic_accessories",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "exo_carry", "prob": 50 },
+      { "item": "exo_small_carry", "count": [ 0, 2 ], "prob": 75 },
+      { "item": "exo_flashlight", "prob": 75 },
+      { "item": "exo_imager", "prob": 25 }
+    ]
+  },
+  {
+    "id": "afs_exosuit_light_worker",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "modular_exosuit_light", "prob": 100 },
+      { "item": "afs_exo_standard_underlayer", "prob": 90 },
+      { "item": "exo_helmet_plastic", "prob": 90 },
+      { "item": "exo_torso_plastic", "prob": 90 },
+      { "item": "exo_arm_plastic", "prob": 90 },
+      { "item": "exo_leg_plastic", "prob": 90 },
+      { "group": "afs_exo_basic_power", "prob": 75 },
+      { "group": "afs_exo_basic_accessories", "prob": 50 },
+      { "group": "afs_exo_basic_accessories", "prob": 50 },
+      { "group": "afs_power_tools", "prob": 25 }
+    ]
+  },
+  {
+    "id": "afs_exosuit_worker",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "modular_exosuit", "prob": 100 },
+      { "item": "afs_exo_standard_underlayer", "prob": 90 },
+      { "item": "exo_helmet_plastic", "prob": 90 },
+      { "item": "exo_torso_plastic", "prob": 90 },
+      { "item": "exo_arm_plastic", "prob": 90 },
+      { "item": "exo_leg_plastic", "prob": 90 },
+      { "group": "afs_exo_basic_power", "prob": 75 },
+      { "group": "afs_exo_basic_accessories", "prob": 75 },
+      { "group": "afs_exo_basic_accessories", "prob": 75 },
+      { "group": "afs_power_tools", "prob": 75 }
+    ]
+  },
+  {
+    "id": "afs_exosuit_security",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "afs_exo_combat_underlayer", "prob": 75 },
+      { "item": "afs_exo_standard_underlayer", "prob": 25 },
+      { "item": "afs_exo_hazard_underlayer", "prob": 10 },
+      { "item": "exo_helmet_steel", "prob": 90 },
+      { "item": "exo_torso_steel", "prob": 90 },
+      { "item": "exo_arm_steel", "prob": 90 },
+      { "item": "exo_leg_steel", "prob": 90 },
+      { "item": "exo_sonic_unit", "prob": 60 },
+      { "item": "exo_microwave_cannon", "prob": 60 },
+      { "item": "afs_cartridge", "count": [ 0, 4 ], "prob": 95, "charges": [ 50, 100 ] },
+      { "group": "afs_exo_basic_power", "prob": 25 }
+    ]
+  },
+  {
+    "id": "afs_exosuit_military",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "modular_exosuit", "prob": 5 },
+      { "item": "afs_exo_combat_underlayer", "prob": 75 },
+      { "item": "afs_exo_hazard_underlayer", "prob": 25 },
+      { "item": "exo_helmet_vcc", "prob": 90 },
+      { "item": "exo_torso_vcc", "prob": 90 },
+      { "item": "exo_arm_vcc", "prob": 90 },
+      { "item": "exo_leg_vcc", "prob": 90 },
+      { "item": "exo_electrolaser", "prob": 15 },
+      { "item": "exo_flame_thrower", "prob": 50, "charges": [ 100, 1500 ] },
+      { "item": "afs_cartridge", "count": [ 2, 6 ], "prob": 95, "charges": [ 50, 100 ] },
+      { "group": "afs_exo_advanced_power", "prob": 25 }
+    ]
+  }
+]

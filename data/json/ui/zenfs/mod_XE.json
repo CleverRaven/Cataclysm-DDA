@@ -20,7 +20,12 @@
     "style": "text",
     "width": 5,
     "clauses": [
-      { "id": "not_infected", "text": "     ", "color": "black", "condition": { "not": { "u_has_effect": "vampire_virus" } } },
+      {
+        "id": "not_infected",
+        "text": { "str": "     ", "//~": "NO_I18N" },
+        "color": "black",
+        "condition": { "not": { "u_has_effect": "vampire_virus" } }
+      },
       { "id": "slumber", "text": "Blood", "color": "light_gray", "condition": { "u_has_effect": "vampire_virus" } }
     ],
     "padding": 0,
@@ -32,7 +37,12 @@
     "style": "text",
     "width": 1,
     "clauses": [
-      { "id": "not_infected", "text": " ", "color": "black", "condition": { "not": { "u_has_effect": "vampire_virus" } } },
+      {
+        "id": "not_infected",
+        "text": { "str": " ", "//~": "NO_I18N" },
+        "color": "black",
+        "condition": { "not": { "u_has_effect": "vampire_virus" } }
+      },
       { "id": "slumber", "text": "B", "color": "light_gray", "condition": { "u_has_effect": "vampire_virus" } }
     ],
     "padding": 0,
@@ -47,7 +57,7 @@
     "clauses": [
       {
         "id": "not_infected",
-        "text": "                    ",
+        "text": { "str": "                    ", "//~": "NO_I18N" },
         "color": "black",
         "condition": { "not": { "u_has_effect": "vampire_virus" } }
       },
@@ -55,7 +65,7 @@
         "id": "slumber",
         "text": "Eternal Slumber",
         "color": "dark_gray_red",
-        "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "-11999" ] } ] }
+        "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "math": [ "u_vitamin('human_blood_vitamin') <= -11999" ] } ] }
       },
       {
         "id": "near_death",
@@ -64,8 +74,8 @@
         "condition": {
           "and": [
             { "u_has_effect": "vampire_virus" },
-            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "-6401" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-11999" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') <= -6401" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > -11999" ] }
           ]
         }
       },
@@ -76,8 +86,8 @@
         "condition": {
           "and": [
             { "u_has_effect": "vampire_virus" },
-            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "-5601" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-6401" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') <= -5601" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > -6401" ] }
           ]
         }
       },
@@ -88,8 +98,8 @@
         "condition": {
           "and": [
             { "u_has_effect": "vampire_virus" },
-            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "-4800" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-5601" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') <= -4800" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > -5601" ] }
           ]
         }
       },
@@ -100,8 +110,8 @@
         "condition": {
           "and": [
             { "u_has_effect": "vampire_virus" },
-            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "1800" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-4800" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') <= 1800" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > -4800" ] }
           ]
         }
       },
@@ -112,8 +122,8 @@
         "condition": {
           "and": [
             { "u_has_effect": "vampire_virus" },
-            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "2401" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "1800" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') <= 2401" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > 1800" ] }
           ]
         }
       },
@@ -124,8 +134,8 @@
         "condition": {
           "and": [
             { "u_has_effect": "vampire_virus" },
-            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "4401" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "2401" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') <= 4401" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > 2401" ] }
           ]
         }
       },
@@ -133,7 +143,7 @@
         "id": "swollen",
         "text": "Tick-like",
         "color": "red_cyan",
-        "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "math": [ "u_vitamin('human_blood_vitamin')", ">", "4401" ] } ] }
+        "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "math": [ "u_vitamin('human_blood_vitamin') > 4401" ] } ] }
       }
     ],
     "padding": 0,

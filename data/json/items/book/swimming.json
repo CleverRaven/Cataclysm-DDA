@@ -1,7 +1,8 @@
 [
   {
     "id": "mag_swimming",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Swim Planet", "str_pl": "issues of Swim Planet" },
     "description": "The world's leading resource about aquatic sports.",
@@ -39,21 +40,22 @@
     ],
     "weight": "60 g",
     "volume": "250 ml",
-    "price": 460,
-    "price_postapoc": 250,
+    "price": "4 USD 60 cent",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "pink",
-    "skill": "swimming",
     "max_level": 1,
     "intelligence": 1,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "swimming",
+    "read_fun": 1
   },
   {
     "id": "manual_swimming",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "Water Survival Training Field Manual", "str_pl": "copies of Water Survival Training Field Manual" },
     "description": "A commercially produced survival guide that details swimming and deep water survival techniques tailored to emergency scenarios.",
@@ -126,15 +128,15 @@
     ],
     "weight": "400 g",
     "volume": "500 ml",
-    "price": 2200,
-    "price_postapoc": 750,
+    "price": "22 USD",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "paper", "plastic" ],
     "symbol": "?",
     "looks_like": "manual_smg",
     "color": "green",
-    "skill": "swimming",
     "max_level": 3,
     "intelligence": 8,
-    "time": "15 m"
+    "time": "15 m",
+    "read_skill": "swimming"
   }
 ]

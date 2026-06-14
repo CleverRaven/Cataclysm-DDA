@@ -2,9 +2,10 @@
   {
     "id": "surface_heat",
     "type": "requirement",
+    "name": "Heat source",
     "//": "Heat usable for heating a surface - for example a pot, pan, dutch oven, etc.",
     "//1": "Roughly 80% efficiency for a microwave or induction hotplate, 30-40% for gas/kerosene/alcohol/propane/acetylene, 20-25% for hexamine, 15-20% for an oven/charcoal, 50-60% for a regular electric cooker.  18% efficiency for improvised options like the toolkit or an arc welder.",
-    "//2": "esbit has 40kJ/u, kerosene/gasoline 34 kJ/u, propane 25kJ/u, acetylene 50kJ/u alcohol 20kJ/u. needs 2x total energy of induction.",
+    "//2": "esbit has 40kJ/u, kerosene/gasoline 34 kJ/u, biogas 5kJ/u, propane 25kJ/u, acetylene 50kJ/u, alcohol 20kJ/u. needs 2x total energy of induction.",
     "//3": "charcoal/coal 31/u, but it is less efficient than other fossil fuels and is closer to an oven.  I'm treating the smoker as a big charcoal grill as far as efficiency is concerned.",
     "//4": "Standards: 1 surface_heat - bake one unit of standard flour, process 2u of butter/oil, 1u of sugar_standard, cook a corn tortilla, process 100g of fruit.  2 surface_heats - cook a scrap of raw meat (30g), process milk in a recipe, apply a unit of 'batter' to a recipe, process 100g of veggy (treat very starchy stuff like potatoes, roots, cattails, as flour).",
     "//5": "More Standards: 3 surface_heats: cook oatmeal. 4 surface_heats: cook beans, rice, or lentils, use cooked meat in a recipe, cook one unit of raw organs.  5 surface_heats: cook 1 unit of cornmeal or bread flour. 6u surface_heats: roast nuts, cook a chunk of tofu. 15u surface heat: process a chunk of fat or a unit of blood. 20u: cook a chunk of raw meat (300g)",
@@ -23,16 +24,19 @@
         [ "esbit_stove", 2 ],
         [ "oil_cooker", 2 ],
         [ "gasoline_cooker", 2 ],
+        [ "biogas_cooker", 10 ],
         [ "propane_cooker", 2 ],
         [ "acetylene_cooker", 1 ],
         [ "popcan_stove", 3 ],
-        [ "fire", -1 ]
+        [ "fire", -1 ],
+        [ "fake_solar_cooker", -1 ]
       ]
     ]
   },
   {
     "id": "smoking_heat",
     "type": "requirement",
+    "name": "Smoking heat",
     "//": "Power requirement to smoke 10g of food. Half the power cost of dehydrating, assuming smoking means halfway dehydrated. Can't be done electrically, obviously.",
     "//1": "https://www.masterclass.com/articles/how-to-smoke-meat-with-a-charcoal-smoker - roughly 1 pound charcoal per 1 pound meat (and 1 hour).",
     "//1.5": "https://firebrandbbq.com.au/2018/03/05/lighting-charcoal-bbq-heres-much-fuel-really-need/ also says 1:1 but that it can go as low as 1:2.",
@@ -43,6 +47,7 @@
   {
     "id": "dehydrating_heat",
     "type": "requirement",
+    "name": "Dehydrating heat",
     "//": "Power requirement to dehydrate 10g of food. Electric food dehydrators are about 30-35% efficient, which is by itself irrelevant but may eventually matter to compare other means of dehydrating.",
     "//1": "Like above with smoking_heat, charcoal expenditure is much less efficient than just cooking something.  Since you are fully dehydrating rather than just smoking, double the cost of smoking_heat in charcoal.",
     "//2": "Estimate given by dehydrating 3 lbs of bananas for 6 hours (https://www.freshoffthegrid.com/dehydrating-bananas/), 500w is about normal for a dehydrator. This might be different for meat, but I'm using the same values for any food at the moment.",
@@ -52,27 +57,30 @@
   {
     "id": "vacuum_sealing_standard",
     "type": "requirement",
+    "name": "Vacuum sealer",
     "//": "Power requirement to seal one bag, 400w for 10 seconds.  Includes the bag.",
     "//1": "Yes, they really are that cheap, vacuum sealers are trivial to operate.",
     "//2": "Vacuum sealed bags are an ideal environment for botulinum growth, and they cannot be heated to 125c due to bag meltage.",
     "//3": "Therefore, indefinite storage is impossible through this method, and as such vac bags are now only 50% instead of 0% spoilage.",
     "//4": "It's likely doable to reseal an MRE bag using a sealer and the sterilize it and its contents with heat instead of radiation, though this is speculative.",
     "tools": [ [ [ "vac_sealer", 4 ], [ "makeshift_sealer", 8 ] ] ],
-    "components": [ [ [ "bag_plastic", 1 ], [ "plastic_bag_vac", 1 ] ] ]
+    "components": [ [ [ "bag_plastic", 1 ], [ "bag_plastic_small", 1 ], [ "plastic_bag_vac", 1 ] ] ]
   },
   {
     "id": "frying_oil",
     "type": "requirement",
+    "name": "Frying oil",
     "//": "Oil usable for frying. Note: the oil is reusable.",
-    "tools": [ [ [ "cooking_oil", -1 ], [ "cooking_oil2", -1 ], [ "ghee", -1 ] ] ]
+    "tools": [ [ [ "cooking_oil", -1 ], [ "tallow", -1 ], [ "ghee", -1 ] ] ]
   },
   {
     "id": "water_boiling_heat",
     "type": "requirement",
+    "name": "Boiling heat",
     "//": "Tools usable for providing heat usable for boiling water, but not necessarily for anything else. This can use unclean water even for food recipes like boiled vegetables since it sterlizes the water.",
     "//1": "Hypothetical maximum efficiency to clean 0.25L of water (one unit) is around 100kJ, to heat in a basement and boil for 1 minute. In theory boiling water in the middle of a summer afternoon should use less power, but we cannot model that (yet)",
     "//2": "Roughly 75-80% efficiency for induction, 25-30% for gas/kerosene/alcohol/propane/acetylene, ~20% for hexamine, 50% for a regular electric cooker, 40% for microwave, 10% for oven/charcoal.",
-    "//3": "kerosene/gasoline 34 kJ/u, propane 25kJ/u, acetylene 50kJ/u alcohol 20kJ/u. needs 400kJ total - 100kJ/0.25.",
+    "//3": "kerosene/gasoline 34 kJ/u, biogas 5kJ/u, propane 25kJ/u, acetylene 50kJ/u alcohol 20kJ/u. needs 400kJ total - 100kJ/0.25.",
     "//4": "esbit has 40kJ/u, @ ~20% efficiency that's aboout 13u",
     "//5": "charcoal/coal 50/u, it is less efficient than other fossil fuels  at ~15%.",
     "//6": "note that while microwaves are great for cooking food they're not great for boiling water.  Convection in general is inefficient for this process, however induction (heats the pan itself through magnetic coils) excels.",
@@ -89,11 +97,12 @@
         [ "esbit_stove", 13 ],
         [ "oil_cooker", 12 ],
         [ "gasoline_cooker", 12 ],
+        [ "biogas_cooker", 80 ],
         [ "propane_cooker", 16 ],
         [ "acetylene_cooker", 8 ],
         [ "popcan_stove", 20 ],
-        [ "atomic_coffeepot", 115 ],
-        [ "fire", -1 ]
+        [ "fire", -1 ],
+        [ "fake_solar_cooker", -1 ]
       ]
     ]
   },
@@ -116,7 +125,7 @@
     "id": "canning_low_heat",
     "type": "requirement",
     "//": "This is sealing glass jars using the water bath method, using acid to neutralize botulinum instead of extreme heat.",
-    "//1": "For high-acid foods, such as many fruits, extreme heat is not necessary, since boulinum can't grow if PH is 4.6. immersing low acid foods in an acidic solution is typically also sufficient",
+    "//1": "For high-acid foods, such as many fruits, extreme heat is not necessary, since botulinum can't grow if PH is 4.6. immersing low acid foods in an acidic solution is typically also sufficient",
     "//2": "Per its longest_side (13.2cm) a 0.5L jar is about 7cm wide.  Per its longest_side (29.8cm) a 3L jar is about 11cm wide.",
     "//3": "water needs to fill above the jar about 3-6cm.  I'm assuming half this for the radius.  Therefore 0.5L jar is immersed in an 10x18cm cylinder, and 3L jar is immersed in a 15x35cm cylinder.",
     "//4": "accounting for displacement that means about 2u water per 0.5L jar and 12u water per 3L jar.",

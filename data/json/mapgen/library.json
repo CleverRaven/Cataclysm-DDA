@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_library" ],
     "weight": 500,
     "object": {
@@ -12,7 +11,7 @@
         "..pp----pp#%dy|L[[| dd#.",
         "..pp----pp#dh |  [| h%#.",
         ".#:::**:::#||+|+|||+||#.",
-        ".#[h      %           o.",
+        ".#[h      %          §o.",
         ".#[h      ccc%ccc%ccc #.",
         ".#[h                  #.",
         ".#||||||              #.",
@@ -20,25 +19,24 @@
         ".# [[[ |              o.",
         ".#||||||  h%[%h h%[%h #.",
         ".# hhh +              #.",
-        ".o [[[ |  K  JW  QQ  P#.",
+        ".o [[[ |  K  EW  QQ  P#.",
         ".# hhh |  K  JW  QQ  N#.",
         ".#||||||  K  JW  QQ  N#.",
         ".#cScSc|  U  OW  QQ  M#.",
         ".o     +  U  OW  QQ  M#.",
         ".#+|+|+|  U  TI  QQ  Q#.",
         ".# | | |  U  TI  QQ  Q#.",
-        ".#t|t|t|             [#.",
+        ".#t|t|t|§            [#.",
         ".########o##o###o###o##.",
         ".....4..................",
         "........................"
       ],
       "palettes": [ "standard_building_shared_palette", "library_palette" ],
-      "place_nested": [ { "chunks": [ [ "null", 199 ], [ "fire_field", 1 ] ], "x": [ 10, 20 ], "y": [ 9, 19 ] } ]
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_library" ],
     "weight": 1000,
     "//": "vandalized variant.",
@@ -50,7 +48,7 @@
         "..pp----pp#%dy|L[[| dd#.",
         "..pp----pp#dh |  [| h%#.",
         ".#:::**:::#||+|+|||+||#.",
-        ".#[h      %           o.",
+        ".#[h      %          §o.",
         ".#[h      ccc%ccc%ccc #.",
         ".#[h                  #.",
         ".#||||||              #.",
@@ -58,26 +56,25 @@
         ".# [[[ |              o.",
         ".#||||||  h%[%h h%[%h #.",
         ".# hhh +              #.",
-        ".o [[[ |  K  JW  QQ  P#.",
+        ".o [[[ |  K  EW  QQ  P#.",
         ".# hhh |  K  JW  QQ  N#.",
         ".#||||||  K  JW  QQ  N#.",
         ".#cScSc|  U  OW  QQ  M#.",
         ".o     +  U  OW  QQ  M#.",
         ".#+|+|+|  U  TI  QQ  Q#.",
         ".# | | |  U  TI  QQ  Q#.",
-        ".#t|t|t|             [#.",
+        ".#t|t|t|§            [#.",
         ".########o##o###o###o##.",
         ".....4..................",
         "........................"
       ],
       "palettes": [ "standard_building_shared_palette", "standard_building_vandalized_palette", "vandalized_library_palette" ],
       "place_rubble": [ { "x": [ 4, 21 ], "y": [ 5, 21 ], "repeat": [ 30, 100 ] } ],
-      "place_nested": [ { "chunks": [ [ "null", 80 ], [ "fire_field", 20 ] ], "x": [ 10, 20 ], "y": [ 9, 19 ] } ]
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_library_roof",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -108,7 +105,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 3, 18 ], "y": [ 6, 19 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 3, 18 ], "y": [ 6, 19 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
       "place_nested": [
         {
@@ -132,7 +129,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_library_1" ],
     "weight": 500,
     "object": {
@@ -152,7 +148,7 @@
         ".#M  WW   h%%h   JJ  I#.",
         ".#M  TT   h%%h   JJ  I#.",
         ".#M  PP   h%%h   OO  N#.",
-        ".#M  AA   h%%h   OO  N#.",
+        ".#E  AA   h%%h   OO  N#.",
         ".#                    #.",
         ".#QQQQQQQQQQQQQQ NNNNN#.",
         ".##########|||||+|||###.",
@@ -164,13 +160,11 @@
         "..........######o####..."
       ],
       "palettes": [ "standard_building_shared_palette", "library_palette" ],
-      "place_nested": [ { "chunks": [ [ "null", 199 ], [ "fire_field", 1 ] ], "x": [ 3, 22 ], "y": [ 10, 14 ] } ],
       "place_monsters": [ { "monster": "GROUP_MAYBE_ZOMBIE", "x": [ 16, 21 ], "y": [ 5, 7 ], "density": 1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_library_1" ],
     "weight": 1000,
     "//": "vandalized variant.",
@@ -191,7 +185,7 @@
         ".#M  WW   h%%h   JJ  I#.",
         ".#M  TT   h%%h   JJ  I#.",
         ".#M  PP   h%%h   OO  N#.",
-        ".#M  AA   h%%h   OO  N#.",
+        ".#E  AA   h%%h   OO  N#.",
         ".#                    #.",
         ".#QQQQQQQQQQQQQQ NNNNN#.",
         ".##########|||||+|||###.",
@@ -204,13 +198,11 @@
       ],
       "palettes": [ "standard_building_shared_palette", "standard_building_vandalized_palette", "vandalized_library_palette" ],
       "place_rubble": [ { "x": [ 4, 21 ], "y": [ 5, 21 ], "repeat": [ 30, 100 ] } ],
-      "place_nested": [ { "chunks": [ [ "null", 80 ], [ "fire_field", 20 ] ], "x": [ 3, 22 ], "y": [ 10, 14 ] } ],
       "place_monsters": [ { "monster": "GROUP_MAYBE_ZOMBIE", "x": [ 16, 21 ], "y": [ 5, 7 ], "density": 1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_library_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -268,7 +260,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_library_2" ],
     "weight": 1000,
     "object": {
@@ -290,7 +281,7 @@
         "..#IIIIIIIIII  [[h  Q#..",
         "..o                 Q#..",
         "..o                 Q#..",
-        "..#WWWWMMMMNNNNPy   Q#..",
+        "..#WWWWMMMMNNNEPy   Q#..",
         "..##########||||o+|||#..",
         "..G.......4#MAW   + S#..",
         "...........o b    | t#..",
@@ -301,14 +292,12 @@
       ],
       "palettes": [ "standard_building_shared_palette", "library_palette" ],
       "nested": { "G": { "chunks": [ "roof_6x6_garden_1" ] } },
-      "place_nested": [ { "chunks": [ [ "null", 199 ], [ "fire_field", 1 ] ], "x": [ 5, 9 ], "y": [ 4, 16 ] } ],
       "terrain": { "G": "t_grass" },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_library_2" ],
     "weight": 2000,
     "//": "vandalized variant.",
@@ -331,7 +320,7 @@
         "..#IIIIIIIIII  [[h  Q#..",
         "..o                 Q#..",
         "..o                 Q#..",
-        "..#WWWWMMMMNNNNPy   Q#..",
+        "..#WWWWMMMMNNNEPy   Q#..",
         "..##########||||o+|||#..",
         "..G.......4#MAW   + S#..",
         "...........o b    | t#..",
@@ -343,14 +332,12 @@
       "palettes": [ "standard_building_shared_palette", "standard_building_vandalized_palette", "vandalized_library_palette" ],
       "place_rubble": [ { "x": [ 4, 21 ], "y": [ 5, 21 ], "repeat": [ 30, 100 ] } ],
       "nested": { "G": { "chunks": [ "roof_6x6_garden_1" ] } },
-      "place_nested": [ { "chunks": [ [ "null", 199 ], [ "fire_field", 1 ] ], "x": [ 5, 9 ], "y": [ 4, 16 ] } ],
       "terrain": { "G": "t_grass" },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_library_roof_2",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -408,7 +395,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_library_3" ],
     "weight": 500,
     "object": {
@@ -426,7 +412,7 @@
         ".o                    #.",
         ".#||||||  [h [h [h [h o.",
         ".#cScSc|              #.",
-        ".o     +  %U%I%T%J%Q  #.",
+        ".o     +  %U%I%T%J%E  #.",
         ".#+|+|+|              #.",
         ".# | | |  cc%cccc%cc  #.",
         ".#t|t|t|              #.",
@@ -439,13 +425,11 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_building_shared_palette", "library_palette" ],
-      "place_nested": [ { "chunks": [ [ "null", 199 ], [ "fire_field", 1 ] ], "x": [ 10, 20 ], "y": [ 9, 19 ] } ]
+      "palettes": [ "standard_building_shared_palette", "library_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "s_library_3" ],
     "weight": 1000,
     "//": "vandalized variant.",
@@ -464,7 +448,7 @@
         ".o                    #.",
         ".#||||||  [h [h [h [h o.",
         ".#cScSc|              #.",
-        ".o     +  %U%I%T%J%Q  #.",
+        ".o     +  %U%I%T%J%E  #.",
         ".#+|+|+|              #.",
         ".# | | |  cc%cccc%cc  #.",
         ".#t|t|t|              #.",
@@ -477,13 +461,11 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_building_shared_palette", "standard_building_vandalized_palette", "vandalized_library_palette" ],
-      "place_nested": [ { "chunks": [ [ "null", 80 ], [ "fire_field", 20 ] ], "x": [ 10, 20 ], "y": [ 9, 19 ] } ]
+      "palettes": [ "standard_building_shared_palette", "standard_building_vandalized_palette", "vandalized_library_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_library_roof_3",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -514,7 +496,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 3, 18 ], "y": [ 6, 19 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 3, 18 ], "y": [ 6, 19 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
       "place_nested": [
         {

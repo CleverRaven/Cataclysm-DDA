@@ -13,19 +13,20 @@
     "components": [
       [ [ "circuit", 1 ] ],
       [ [ "e_scrap", 3 ] ],
-      [ [ "cable", 5 ] ],
+      [ [ "cable", 2 ] ],
       [ [ "light_minus_battery_cell", 1 ] ],
       [ [ "potato", 1 ] ]
     ]
   },
   {
     "id": "aperture_potato",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "companion potato", "str_pl": "companion potatoes" },
     "description": "Seems like some kind of Genetic Lifeform and Disk Operating System, attached to a potato.",
     "weight": "900 g",
     "volume": "500 ml",
-    "price": 9000,
+    "price": "90 USD",
     "to_hit": -1,
     "material": [ "plastic" ],
     "symbol": "%",

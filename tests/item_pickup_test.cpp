@@ -1,13 +1,29 @@
+#include <climits>
+#include <functional>
+#include <list>
+#include <optional>
+#include <string>
+#include <utility>
+
 #include "avatar.h"
 #include "cata_catch.h"
+#include "coordinates.h"
+#include "debug.h"
 #include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_selector.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
+#include "point.h"
+#include "ret_val.h"
 #include "rng.h"
+#include "type_id.h"
 
 static const itype_id itype_backpack_hiking( "backpack_hiking" );
-static const itype_id itype_modular_m4_carbine( "modular_m4_carbine" );
+static const itype_id itype_debug_modular_m4_carbine( "debug_modular_m4_carbine" );
+static const itype_id itype_nail( "nail" );
 static const itype_id itype_rope_6( "rope_6" );
 
 // This test case exists by way of documenting and exhibiting some potentially unexpected behavior
@@ -25,10 +41,10 @@ TEST_CASE( "putting_items_into_inventory_with_put_in_or_i_add", "[pickup][invent
     avatar &they = get_avatar();
     map &here = get_map();
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     // Spawn items on the map at this location
-    const tripoint ground = they.pos();
+    const tripoint_bub_ms ground = they.pos_bub();
     item &rope_map = here.add_item( ground, item( itype_rope_6 ) );
     item &backpack_map = here.add_item( ground, item( itype_backpack_hiking ) );
 
@@ -100,7 +116,7 @@ TEST_CASE( "putting_items_into_inventory_with_put_in_or_i_add", "[pickup][invent
         they.clear_worn();
 
         WHEN( "avatar tries to get the backpack with pick_up" ) {
-            item_location backpack_loc( map_cursor( ground ), &backpack_map );
+            item_location backpack_loc( map_cursor( tripoint_bub_ms( ground ) ), &backpack_map );
             const drop_locations &pack_droplocs = { std::make_pair( backpack_loc, 1 ) };
             they.pick_up( pack_droplocs );
             process_activity( they );
@@ -111,7 +127,7 @@ TEST_CASE( "putting_items_into_inventory_with_put_in_or_i_add", "[pickup][invent
         }
 
         WHEN( "avatar tries to get the rope with pick_up" ) {
-            item_location rope_loc( map_cursor( ground ), &rope_map );
+            item_location rope_loc( map_cursor( tripoint_bub_ms( ground ) ), &rope_map );
             const drop_locations &rope_droplocs = { std::make_pair( rope_loc, 1 ) };
             they.pick_up( rope_droplocs );
             process_activity( they );
@@ -138,11 +154,11 @@ TEST_CASE( "pickup_m4_with_a_rope_in_a_hiking_backpack", "[pickup][container]" )
     avatar &they = get_avatar();
     map &here = get_map();
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     // Spawn items on the map at this location
-    const tripoint ground = they.pos();
-    item &m4a1 = here.add_item( ground, item( itype_modular_m4_carbine ) );
+    const tripoint_bub_ms ground = they.pos_bub();
+    item &m4a1 = here.add_item( ground, item( itype_debug_modular_m4_carbine ) );
     item &rope_map = here.add_item( ground, item( itype_rope_6 ) );
     item &backpack_map = here.add_item( ground, item( itype_backpack_hiking ) );
 
@@ -172,7 +188,7 @@ TEST_CASE( "pickup_m4_with_a_rope_in_a_hiking_backpack", "[pickup][container]" )
 
         WHEN( "they pick up the M4" ) {
             // Get item_location for m4 on the map
-            item_location m4_loc( map_cursor( they.pos() ), &m4a1 );
+            item_location m4_loc( map_cursor( they.pos_abs() ), &m4a1 );
             const drop_locations &thing = { std::make_pair( m4_loc, 1 ) };
             CHECK_FALSE( backpack.has_item( m4a1 ) );
             // Now pick up the M4
@@ -186,5 +202,144 @@ TEST_CASE( "pickup_m4_with_a_rope_in_a_hiking_backpack", "[pickup][container]" )
             }
         }
     }
+}
+
+// Helper: count total charges of a given item type on a map tile
+static int ground_charges_of( map &here, const tripoint_bub_ms &pos,
+                              const itype_id &type )
+{
+    int total = 0;
+    for( const item &it : here.i_at( pos ) ) {
+        if( it.typeId() == type ) {
+            total += it.charges;
+        }
+    }
+    return total;
+}
+
+// Regression tests for #85439: charged-item pickup that merges into existing
+// stacks must not call on_pickup() on the detached local copy in pick_one_up().
+// The real items already get on_pickup() via item_pocket::fill_with().
+TEST_CASE( "charged_item_pickup_full_merge_no_debugmsg", "[pickup][charges]" )
+{
+    avatar &they = get_avatar();
+    map &here = get_map();
+    clear_avatar();
+    clear_map_without_vision();
+
+    const tripoint_bub_ms ground = they.pos_bub();
+
+    // Wear a backpack so we have somewhere to stash items
+    item backpack_on_ground( itype_backpack_hiking );
+    they.wear_item( backpack_on_ground );
+
+    // Pre-seed inventory with some nails
+    item seed_nails( itype_nail );
+    seed_nails.charges = 10;
+    they.i_add( seed_nails );
+
+    const int inv_before = they.charges_of( itype_nail );
+    REQUIRE( inv_before == 10 );
+
+    // Prime inv_search_cache -- the bug only fires when cache entries exist
+    they.cache_has_item_with( itype_nail );
+
+    // Place more nails on the ground (small enough to fully absorb)
+    item ground_nails( itype_nail );
+    ground_nails.charges = 5;
+    here.add_item( ground, ground_nails );
+
+    const int ground_before = ground_charges_of( here, ground, itype_nail );
+    REQUIRE( ground_before == 5 );
+    const int total_before = inv_before + ground_before;
+
+    // Build pickup list from items on the ground
+    item_location nail_loc( map_cursor( they.pos_abs() ),
+                            &here.i_at( ground ).only_item() );
+    const drop_locations to_pick_up = { std::make_pair( nail_loc, 0 ) };
+
+    std::string dmsg = capture_debugmsg_during( [&]() {
+        they.pick_up( to_pick_up );
+        process_activity( they );
+    } );
+
+    const int inv_after = they.charges_of( itype_nail );
+    const int ground_after = ground_charges_of( here, ground, itype_nail );
+
+    CHECK( dmsg.empty() );
+    CHECK( inv_after + ground_after == total_before );
+    CHECK( inv_after == 15 );
+    CHECK( ground_after == 0 );
+}
+
+TEST_CASE( "charged_item_pickup_partial_merge_no_debugmsg", "[pickup][charges]" )
+{
+    avatar &they = get_avatar();
+    map &here = get_map();
+    clear_avatar();
+    clear_map_without_vision();
+
+    const tripoint_bub_ms ground = they.pos_bub();
+
+    // Wear a backpack so we have somewhere to stash items
+    item backpack_on_ground( itype_backpack_hiking );
+    they.wear_item( backpack_on_ground );
+
+    // Determine total nail capacity of the empty backpack
+    item probe_nail( itype_nail );
+    probe_nail.charges = 1;
+    int remaining = INT_MAX;
+    they.can_stash_partial( probe_nail, remaining );
+    const int total_capacity = INT_MAX - remaining;
+    REQUIRE( total_capacity > 100 );
+
+    // Fill backpack to (capacity - margin) via i_add_or_fill
+    const int margin = 50;
+    item prefill_nails( itype_nail );
+    prefill_nails.charges = total_capacity - margin;
+    they.i_add_or_fill( prefill_nails, true, nullptr, nullptr,
+                        /*allow_drop=*/false, /*allow_wield=*/false );
+
+    const int inv_before = they.charges_of( itype_nail );
+    REQUIRE( inv_before > 0 );
+
+    // Prime inv_search_cache -- the bug only fires when cache entries exist
+    they.cache_has_item_with( itype_nail );
+
+    // Re-probe remaining capacity after prefill
+    int post_fill_remaining = INT_MAX;
+    they.can_stash_partial( probe_nail, post_fill_remaining );
+    const int can_still_fit = INT_MAX - post_fill_remaining;
+
+    // Place more nails on ground than remaining capacity
+    const int ground_count = can_still_fit + 50;
+    REQUIRE( can_still_fit > 0 );
+    REQUIRE( ground_count > can_still_fit );
+    const int expected_transferred = can_still_fit;
+    const int expected_remaining = ground_count - expected_transferred;
+
+    item ground_nails( itype_nail );
+    ground_nails.charges = ground_count;
+    here.add_item( ground, ground_nails );
+
+    const int ground_before = ground_charges_of( here, ground, itype_nail );
+    REQUIRE( ground_before == ground_count );
+
+    // Build pickup list
+    item_location nail_loc( map_cursor( they.pos_abs() ),
+                            &here.i_at( ground ).only_item() );
+    const drop_locations to_pick_up = { std::make_pair( nail_loc, 0 ) };
+
+    std::string dmsg = capture_debugmsg_during( [&]() {
+        they.pick_up( to_pick_up );
+        process_activity( they );
+    } );
+
+    const int inv_after = they.charges_of( itype_nail );
+    const int ground_after = ground_charges_of( here, ground, itype_nail );
+
+    CHECK( dmsg.empty() );
+    CHECK( inv_after == inv_before + expected_transferred );
+    CHECK( ground_after == expected_remaining );
 }
 

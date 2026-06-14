@@ -2,19 +2,20 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstddef>
+#include <cstdlib>
 #include <iterator>
 #include <utility>
 
-#include "cata_utility.h"
+#include "character.h"
 #include "debug.h"
+#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "item.h"
-#include "json.h"
 #include "options.h"
 #include "recipe.h"
 #include "rng.h"
-#include "translations.h"
 
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_bashing( "bashing" );
@@ -89,6 +90,25 @@ Skill::Skill( const skill_id &ident, const translation &name, const translation 
 {
 }
 
+std::vector<const Skill *> Skill::get_skills_for_chr_display(
+    Character &chr, std::function<bool ( const Skill &, const Skill & )> pred )
+{
+    std::vector<const Skill *> result;
+    result.reserve( skills.size() );
+
+    for( const Skill &sk : skills ) {
+        if( !sk.obsolete() && sk.can_chr_use( chr ) ) {
+            result.push_back( &sk );
+        }
+    }
+
+    std::sort( begin( result ), end( result ), [&]( const Skill * lhs, const Skill * rhs ) {
+        return pred( *lhs, *rhs );
+    } );
+
+    return result;
+}
+
 std::vector<const Skill *> Skill::get_skills_sorted_by(
     std::function<bool ( const Skill &, const Skill & )> pred )
 {
@@ -114,11 +134,32 @@ void Skill::reset()
     contextual_skills.clear();
 }
 
+void Skill::check_consistency()
+{
+    for( Skill &skill : skills )  {
+        auto rt = skill._requires_all_traits.begin();
+        while( rt != skill._requires_all_traits.end() ) {
+            auto current = rt++;
+            if( !trait_id( *current ).is_valid() ) {
+                debugmsg( "trait %s does not exist", current->c_str() );
+                rt = skill._requires_all_traits.erase( current );
+            }
+        }
+
+        rt = skill._requires_any_traits.begin();
+        while( rt != skill._requires_any_traits.end() ) {
+            auto current = rt++;
+            if( !trait_id( *current ).is_valid() ) {
+                debugmsg( "trait %s does not exist", current->c_str() );
+                rt = skill._requires_any_traits.erase( current );
+            }
+        }
+    }
+}
+
 void Skill::load_skill( const JsonObject &jsobj )
 {
-    // TEMPORARY until 0.G: Remove "ident" support
-    skill_id ident = skill_id( jsobj.has_string( "ident" ) ? jsobj.get_string( "ident" ) :
-                               jsobj.get_string( "id" ) );
+    skill_id ident = skill_id( jsobj.get_string( "id" ) );
     skills.erase( std::remove_if( begin( skills ), end( skills ), [&]( const Skill & s ) {
         return s._ident == ident;
     } ), end( skills ) );
@@ -130,6 +171,18 @@ void Skill::load_skill( const JsonObject &jsobj )
     std::unordered_map<std::string, int> companion_skill_practice;
     for( JsonObject jo_csp : jsobj.get_array( "companion_skill_practice" ) ) {
         companion_skill_practice.emplace( jo_csp.get_string( "skill" ), jo_csp.get_int( "weight" ) );
+    }
+    std::map<int, translation> level_descriptions_theory;
+    std::map<int, translation> level_descriptions_practice;
+    for( JsonObject jo : jsobj.get_array( "level_descriptions_theory" ) ) {
+        translation desc;
+        jo.read( "description", desc );
+        level_descriptions_theory.emplace( jo.get_int( "level" ), desc );
+    }
+    for( JsonObject jo : jsobj.get_array( "level_descriptions_practice" ) ) {
+        translation desc;
+        jo.read( "description", desc );
+        level_descriptions_practice.emplace( jo.get_int( "level" ), desc );
     }
     time_info_t time_to_attack;
     if( jsobj.has_object( "time_to_attack" ) ) {
@@ -147,13 +200,21 @@ void Skill::load_skill( const JsonObject &jsobj )
         debugmsg( "skill '%s' missing 'sort_rank' field.", ident.str() );
     }
 
+    if( jsobj.has_bool( "consumes_focus" ) ) {
+        sk.consumes_focus = jsobj.get_bool( "consumes_focus" );
+    }
+
     sk._time_to_attack = time_to_attack;
     sk._companion_combat_rank_factor = jsobj.get_int( "companion_combat_rank_factor", 0 );
     sk._companion_survival_rank_factor = jsobj.get_int( "companion_survival_rank_factor", 0 );
     sk._companion_industry_rank_factor = jsobj.get_int( "companion_industry_rank_factor", 0 );
     sk._companion_skill_practice = companion_skill_practice;
+    sk._level_descriptions_theory = level_descriptions_theory;
+    sk._level_descriptions_practice = level_descriptions_practice;
     sk._obsolete = jsobj.get_bool( "obsolete", false );
     sk._teachable = jsobj.get_bool( "teachable", true );
+    sk._requires_all_traits = jsobj.get_tags( "requires_all_traits" );
+    sk._requires_any_traits = jsobj.get_tags( "requires_any_traits" );
 
     if( sk.is_contextual_skill() ) {
         contextual_skills[sk.ident()] = sk;
@@ -188,10 +249,7 @@ const SkillDisplayType &skill_displayType_id::obj() const
 
 void SkillDisplayType::load( const JsonObject &jsobj )
 {
-    // TEMPORARY until 0.G: Remove "ident" support
-    skill_displayType_id ident = skill_displayType_id(
-                                     jsobj.has_string( "ident" ) ? jsobj.get_string( "ident" ) :
-                                     jsobj.get_string( "id" ) );
+    skill_displayType_id ident = skill_displayType_id( jsobj.get_string( "id" ) );
     skillTypes.erase( std::remove_if( begin( skillTypes ),
     end( skillTypes ), [&]( const SkillDisplayType & s ) {
         return s._ident == ident;
@@ -237,6 +295,26 @@ skill_id Skill::random_skill()
     return random_entry_ref( skills ).ident();
 }
 
+bool Skill::can_chr_use( Character &chr ) const
+{
+    for( std::string tid : _requires_all_traits ) {
+        if( !chr.has_trait( trait_id( tid ) ) ) {
+            return false;
+        }
+    }
+
+    if( !_requires_any_traits.empty() ) {
+        for( std::string tid : _requires_any_traits ) {
+            if( chr.has_trait( trait_id( tid ) ) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    return true;
+}
+
 // used for the pacifist trait
 bool Skill::is_combat_skill() const
 {
@@ -248,6 +326,25 @@ bool Skill::is_contextual_skill() const
 {
     static const std::string contextual_skill( "contextual_skill" );
     return _tags.count( contextual_skill ) > 0;
+}
+
+std::string Skill::get_level_description( int skill_lvl, bool practical ) const
+{
+    std::map<int, translation> description_map;
+
+    if( practical ) {
+        description_map = _level_descriptions_practice;
+    } else {
+        description_map = _level_descriptions_theory;
+    }
+
+    auto it = description_map.upper_bound( skill_lvl );
+    if( it != description_map.begin() ) {
+        --it;
+    } else {
+        return "";
+    }
+    return it->second.translated();
 }
 
 void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modifier,

@@ -6,15 +6,15 @@
     "copy-from": "forage_spring",
     "extend": {
       "entries": [
-        { "item": "whiskflower", "prob": 30, "count-min": 1, "count-max": 2 },
-        { "item": "olieribos", "prob": 10, "count-min": 1, "count-max": 3 },
-        { "item": "kampuch", "prob": 11, "count-min": 1, "count-max": 4 },
-        { "item": "wood_barnacle", "prob": 2, "count-min": 1, "count-max": 4 },
-        { "item": "horn_moss_capsule", "prob": 1, "count-min": 1, "count-max": 1 },
-        { "item": "dragon_nail", "prob": 6, "count-min": 1, "count-max": 4 },
-        { "item": "moly_tuber", "prob": 6, "count-min": 1, "count-max": 2 },
-        { "item": "fern_flower", "prob": 2, "count-min": 1, "count-max": 1 },
-        { "item": "glowing_mushroom", "prob": 4, "count-min": 1, "count-max": 2 }
+        { "item": "whiskflower", "prob": 30, "count": [ 1, 2 ] },
+        { "item": "olieribos", "prob": 10, "count": [ 1, 3 ] },
+        { "item": "kampuch", "prob": 11, "count": [ 1, 4 ] },
+        { "item": "wood_barnacle", "prob": 2, "count": [ 1, 4 ] },
+        { "item": "horn_moss_capsule", "prob": 1, "count": [ 1, 1 ] },
+        { "item": "dragon_nail", "prob": 6, "count": [ 1, 4 ] },
+        { "item": "moly_tuber", "prob": 6, "count": [ 1, 2 ] },
+        { "item": "fern_flower", "prob": 2, "count": [ 1, 1 ] },
+        { "item": "glowing_mushroom", "prob": 4, "count": [ 1, 2 ] }
       ]
     }
   },
@@ -25,34 +25,34 @@
     "copy-from": "forage_summer",
     "extend": {
       "entries": [
-        { "item": "whiskflower", "prob": 30, "count-min": 1, "count-max": 2 },
-        { "item": "olieribos", "prob": 10, "count-min": 1, "count-max": 3 },
-        { "item": "kampuch", "prob": 11, "count-min": 1, "count-max": 4 },
-        { "item": "wood_barnacle", "prob": 2, "count-min": 1, "count-max": 4 },
-        { "item": "dragon_nail", "prob": 6, "count-min": 1, "count-max": 4 },
-        { "item": "moly_tuber", "prob": 6, "count-min": 1, "count-max": 2 },
-        { "item": "fern_flower", "prob": 2, "count-min": 1, "count-max": 1 },
-        { "item": "glowing_mushroom", "prob": 4, "count-min": 1, "count-max": 2 },
-        { "item": "funnelcap_chunk", "prob": 7, "count-min": 10, "count-max": 25 }
+        { "item": "whiskflower", "prob": 30, "count": [ 1, 2 ] },
+        { "item": "olieribos", "prob": 10, "count": [ 1, 3 ] },
+        { "item": "kampuch", "prob": 11, "count": [ 1, 4 ] },
+        { "item": "wood_barnacle", "prob": 2, "count": [ 1, 4 ] },
+        { "item": "dragon_nail", "prob": 6, "count": [ 1, 4 ] },
+        { "item": "moly_tuber", "prob": 6, "count": [ 1, 2 ] },
+        { "item": "fern_flower", "prob": 2, "count": [ 1, 1 ] },
+        { "item": "glowing_mushroom", "prob": 4, "count": [ 1, 2 ] },
+        { "item": "funnelcap_chunk", "prob": 7, "count": [ 10, 25 ] }
       ]
     }
   },
   {
-    "id": "forage_fall",
+    "id": "forage_autumn",
     "type": "item_group",
     "subtype": "distribution",
-    "copy-from": "forage_fall",
+    "copy-from": "forage_autumn",
     "extend": {
       "entries": [
-        { "item": "whiskflower", "prob": 30, "count-min": 1, "count-max": 2 },
-        { "item": "olieribos", "prob": 10, "count-min": 1, "count-max": 3 },
-        { "item": "kampuch", "prob": 11, "count-min": 1, "count-max": 4 },
-        { "item": "wood_barnacle", "prob": 2, "count-min": 1, "count-max": 4 },
-        { "item": "dragon_nail", "prob": 6, "count-min": 1, "count-max": 4 },
-        { "item": "moly_tuber", "prob": 6, "count-min": 1, "count-max": 2 },
-        { "item": "fern_flower", "prob": 2, "count-min": 1, "count-max": 1 },
-        { "item": "glowing_mushroom", "prob": 4, "count-min": 1, "count-max": 2 },
-        { "item": "funnelcap_chunk", "prob": 7, "count-min": 10, "count-max": 25 }
+        { "item": "whiskflower", "prob": 30, "count": [ 1, 2 ] },
+        { "item": "olieribos", "prob": 10, "count": [ 1, 3 ] },
+        { "item": "kampuch", "prob": 11, "count": [ 1, 4 ] },
+        { "item": "wood_barnacle", "prob": 2, "count": [ 1, 4 ] },
+        { "item": "dragon_nail", "prob": 6, "count": [ 1, 4 ] },
+        { "item": "moly_tuber", "prob": 6, "count": [ 1, 2 ] },
+        { "item": "fern_flower", "prob": 2, "count": [ 1, 1 ] },
+        { "item": "glowing_mushroom", "prob": 4, "count": [ 1, 2 ] },
+        { "item": "funnelcap_chunk", "prob": 7, "count": [ 10, 25 ] }
       ]
     }
   },
@@ -82,9 +82,9 @@
     }
   },
   {
-    "id": "foraging_faction_camp_fall",
+    "id": "foraging_faction_camp_autumn",
     "type": "item_group",
-    "copy-from": "foraging_faction_camp_fall",
+    "copy-from": "foraging_faction_camp_autumn",
     "subtype": "distribution",
     "extend": {
       "entries": [

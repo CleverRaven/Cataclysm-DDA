@@ -2,9 +2,9 @@
 #ifndef CATA_SRC_DEPENDENCY_TREE_H
 #define CATA_SRC_DEPENDENCY_TREE_H
 
-#include <iosfwd>
 #include <map>
 #include <stack>
+#include <string>
 #include <vector>
 
 #include "type_id.h"

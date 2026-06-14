@@ -2,19 +2,22 @@
 #ifndef CATA_SRC_MAP_MEMORY_H
 #define CATA_SRC_MAP_MEMORY_H
 
-#include <iosfwd>
+#include <cstdint>
+#include <map>
+#include <string>
+#include <string_view>
+#include <vector>
 
-#include "game_constants.h"
+#include "coordinates.h"
+#include "map_scale_constants.h"
 #include "mdarray.h"
 #include "memory_fast.h"
 #include "point.h" // IWYU pragma: keep
+#include "type_id.h"
 
-class JsonObject;
+class JsonArray;
 class JsonOut;
 class JsonValue;
-
-struct ter_t;
-using ter_str_id = string_id<ter_t>;
 
 class memorized_tile
 {
@@ -121,6 +124,8 @@ class map_memory
         /** Save memorized submaps to disk, drop ones far from given global map square pos. */
         bool save( const tripoint_abs_ms &pos );
 
+        /** Clear out loaded map memory */
+        void clear();
         /**
          * Prepares map memory for rendering and/or memorization of given region.
          * @param p1 top-left corner of the region, in global ms coords

@@ -1,24 +1,38 @@
-#if !defined(__ANDROID__)
 #include "cata_imgui.h"
 
-#include <stack>
-#include <type_traits>
+#include <cmath>
 
+#define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
+#include <imgui/imgui_stdlib.h>
+#undef IMGUI_DEFINE_MATH_OPERATORS
+#include <imgui/imgui_freetype.h>
 
+#include "catacharset.h"
+#include "cached_options.h"
 #include "color.h"
 #include "input.h"
 #include "output.h"
+#include "path_info.h"
+#include "point.h"
 #include "ui_manager.h"
+#include "input_context.h"
 
-#if !(defined(TILES) || defined(WIN32))
+static ImGuiKey cata_key_to_imgui( int cata_key );
+
+#ifdef TUI
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
 #include <curses.h>
+#pragma GCC diagnostic pop
 #include <imtui/imtui-impl-ncurses.h>
 #include <imtui/imtui-impl-text.h>
 
 #include "color_loader.h"
 
+namespace
+{
 struct RGBTuple {
     uint8_t Blue;
     uint8_t Green;
@@ -30,11 +44,57 @@ struct pairs {
     short BG;
 };
 
+ImVec4 impalette[256] = {};
 std::array<RGBTuple, color_loader<RGBTuple>::COLOR_NAMES_COUNT> rgbPalette;
-std::array<pairs, 100> colorpairs;   //storage for pair'ed colored
+std::array<pairs, 100> colorpairs;   //storage for paired colors
+} // namespace
 
-ImTui::TScreen *imtui_screen = nullptr;
+static ImVec4 compute_color( uint8_t index )
+{
+    if( index < 16 ) {
+        RGBTuple &rgbCol = rgbPalette[index];
+        return { static_cast<float>( rgbCol.Red ) / 255.0f,
+                 static_cast<float>( rgbCol.Green ) / 255.0f,
+                 static_cast<float>( rgbCol.Blue ) / 255.0f,
+                 1.0f };
+    } else if( index < 232 ) {
+        static uint8_t colors[6] = {0, 95, 135, 175, 215, 255};
+        int i = index - 16;
+        int r = i / 36;
+        i -= 36 * r;
+        int g = i / 6;
+        i -= 6 * g;
+        int b = i;
+        return { static_cast<float>( colors[r] ) / 255.0f,
+                 static_cast<float>( colors[g] ) / 255.0f,
+                 static_cast<float>( colors[b] ) / 255.0f,
+                 1.0f };
+    } else {
+        static uint8_t gray[24] = {8, 18, 28, 38, 48, 58, 68, 78, 88, 98, 108, 118,
+                                   128, 138, 148, 158, 168, 178, 188, 198, 208, 218,
+                                   228, 238
+                                  };
+        float level = static_cast<float>( gray[index - 232] ) / 255.0f;
+        return { level, level, level, 1.0f };
+    }
+}
+
+ImVec4 cataimgui::imvec4_from_color( const nc_color &color )
+{
+    int pair_id = color.get_index();
+    pairs &pair = colorpairs[pair_id];
+
+    int palette_index = pair.FG != 0 ? pair.FG : pair.BG;
+    if( color.is_bold() ) {
+        palette_index += color_loader<RGBTuple>::COLOR_NAMES_COUNT / 2;
+    }
+    return impalette[palette_index];
+}
+
+namespace
+{
 std::vector<std::pair<int, ImTui::mouse_event>> imtui_events;
+} // namespace
 
 cataimgui::client::client()
 {
@@ -42,8 +102,11 @@ cataimgui::client::client()
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
 
-    imtui_screen = ImTui_ImplNcurses_Init();
+    ImTui_ImplNcurses_Init();
     ImTui_ImplText_Init();
+    ImGuiIO &io = ImGui::GetIO();
+
+    ( void )io;
 
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 
@@ -55,11 +118,18 @@ cataimgui::client::~client()
 {
     ImTui_ImplNcurses_Shutdown();
     ImTui_ImplText_Shutdown();
-    ImGui::Shutdown();
+    // DestroyContext runs the internal Shutdown and frees the context;
+    // calling ImGui::Shutdown alone leaks the context created in the
+    // constructor.
+    ImGui::DestroyContext();
 }
 
-void cataimgui::client::new_frame()
+void cataimgui::client::new_frame( int display_buffer_w, int display_buffer_h )
 {
+    // TUI layout is driven by the ncurses backend, not display-buffer
+    // pixel dims.
+    ( void )display_buffer_w;
+    ( void )display_buffer_h;
     ImTui_ImplNcurses_NewFrame( imtui_events );
     imtui_events.clear();
     ImTui_ImplText_NewFrame();
@@ -67,12 +137,29 @@ void cataimgui::client::new_frame()
     ImGui::NewFrame();
 }
 
+void cataimgui::client::abort_frame()
+{
+    // EndFrame finalizes the drawlist without painting it. Drain
+    // cata_input_trail like end_frame() so events do not pile up.
+    ImGui::EndFrame();
+    ImGuiIO &io = ImGui::GetIO();
+    for( const int &code : cata_input_trail ) {
+        io.AddKeyEvent( cata_key_to_imgui( code ), false );
+    }
+    cata_input_trail.clear();
+}
+
 void cataimgui::client::end_frame()
 {
     ImGui::Render();
 
-    ImTui_ImplText_RenderDrawData( ImGui::GetDrawData(), imtui_screen );
+    ImTui_ImplText_RenderDrawData( ImGui::GetDrawData() );
     ImTui_ImplNcurses_DrawScreen();
+    ImGuiIO &io = ImGui::GetIO();
+    for( const int &code : cata_input_trail ) {
+        io.AddKeyEvent( cata_key_to_imgui( code ), false );
+    }
+    cata_input_trail.clear();
 }
 
 void cataimgui::client::upload_color_pair( int p, int f, int b )
@@ -86,8 +173,17 @@ void cataimgui::client::set_alloced_pair_count( short count )
     ImTui_ImplNcurses_SetAllocedPairCount( count );
 }
 
-void cataimgui::client::process_input( void *input )
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+void cataimgui::client::process_input( void *input, int display_buffer_w, int display_buffer_h )
 {
+    // TUI input is in cell coordinates from ncurses; no display-buffer
+    // pixel scaling.
+    ( void )display_buffer_w;
+    ( void )display_buffer_h;
+    if( !any_window_shown() ) {
+        return;
+    }
     if( input ) {
         input_event *curses_input = static_cast<input_event *>( input );
         ImTui::mouse_event new_mouse_event = ImTui::mouse_event();
@@ -121,20 +217,26 @@ void cataimgui::client::process_input( void *input )
                         break;
                 }
             }
-            imtui_events.push_back( std::pair<int, ImTui::mouse_event>( KEY_MOUSE, new_mouse_event ) );
+            imtui_events.emplace_back( KEY_MOUSE, new_mouse_event );
         } else {
             int ch = curses_input->get_first_input();
             if( ch != UNKNOWN_UNICODE ) {
-                imtui_events.push_back( std::pair<int, ImTui::mouse_event>( ch, new_mouse_event ) );
+                if( ch > 127 && ch < 245 ) { // Values between 127 and 245 indicate UTF-8
+                    ch = utf8_wrapper( curses_input->text ).at( 0 );
+                }
+                imtui_events.emplace_back( ch, new_mouse_event );
             }
         }
     }
 }
+#pragma GCC diagnostic pop
 
 void cataimgui::load_colors()
 {
-
     color_loader<RGBTuple>().load( rgbPalette );
+    for( int i = 0; i < 256; i++ ) {
+        impalette[i] = compute_color( i );
+    }
 }
 
 void cataimgui::init_pair( int p, int f, int b )
@@ -157,55 +259,492 @@ RGBTuple color_loader<RGBTuple>::from_rgb( const int r, const int g, const int b
 }
 #else
 #include "sdl_utils.h"
+#include "sdl_font.h"
+#include "sdltiles.h"
+#include "sdl_wrappers.h"
+#include "font_loader.h"
+#if SDL_MAJOR_VERSION >= 3
+#include <imgui/imgui_impl_sdl3.h>
+#include <imgui/imgui_impl_sdlrenderer3.h>
+#else
 #include <imgui/imgui_impl_sdl2.h>
 #include <imgui/imgui_impl_sdlrenderer2.h>
+#endif
 
-SDL_Renderer *cataimgui::client::sdl_renderer = nullptr;
-SDL_Window *cataimgui::client::sdl_window = nullptr;
+static bool clear_screen = false;
 
-cataimgui::client::client()
+ImVec4 cataimgui::imvec4_from_color( const nc_color &color )
+{
+    SDL_Color c = curses_color_to_SDL( color );
+    return { static_cast<float>( c.r / 255. ),
+             static_cast<float>( c.g / 255. ),
+             static_cast<float>( c.b / 255. ),
+             static_cast<float>( c.a / 255. ) };
+}
+
+ImU32 cataimgui::ImU32_from_color( const nc_color &color )
+{
+    return ImGui::GetColorU32( cataimgui::imvec4_from_color( color ) );
+}
+
+cataimgui::client::client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Window_Ptr &sdl_window,
+                           const GeometryRenderer_Ptr &sdl_geometry ) :
+    sdl_renderer( sdl_renderer ),
+    sdl_window( sdl_window ),
+    sdl_geometry( sdl_geometry )
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO &io = ImGui::GetIO();
-    ( void )io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    io.ConfigInputTrickleEventQueue = false;
 
     io.IniFilename = nullptr;
     io.LogFilename = nullptr;
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
-    ImGui_ImplSDL2_InitForSDLRenderer( sdl_window, sdl_renderer );
-    ImGui_ImplSDLRenderer2_Init( sdl_renderer );
+
+    ImGuiStyle &style = ImGui::GetStyle();
+    // Default cellPadding is {4, 2}. We reduce this to {3, 2}.
+    ImGui::PushStyleVar( ImGuiStyleVar_CellPadding, ImVec2( 3, style.CellPadding.y ) );
+
+    init_platform_backend();
+    init_renderer_backend();
+}
+
+void cataimgui::client::init_platform_backend()
+{
+    if( platform_backend_active_ ) {
+        return;
+    }
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDL3_InitForSDLRenderer( sdl_window.get(), sdl_renderer.get() );
+#else
+    ImGui_ImplSDL2_InitForSDLRenderer( sdl_window.get(), sdl_renderer.get() );
+#endif
+    platform_backend_active_ = true;
+}
+
+void cataimgui::client::init_renderer_backend()
+{
+    if( renderer_backend_active_ ) {
+        return;
+    }
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDLRenderer3_Init( sdl_renderer.get() );
+#else
+    ImGui_ImplSDLRenderer2_Init( sdl_renderer.get() );
+#endif
+    renderer_backend_active_ = true;
+}
+
+void cataimgui::client::shutdown_renderer_backend()
+{
+    if( !renderer_backend_active_ ) {
+        return;
+    }
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDLRenderer3_Shutdown();
+#else
+    ImGui_ImplSDLRenderer2_Shutdown();
+#endif
+    renderer_backend_active_ = false;
+}
+
+void cataimgui::client::shutdown_platform_backend()
+{
+    if( !platform_backend_active_ ) {
+        return;
+    }
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDL3_Shutdown();
+#else
+    ImGui_ImplSDL2_Shutdown();
+#endif
+    platform_backend_active_ = false;
+}
+
+void cataimgui::client::destroy_backend_device_objects() const
+{
+    if( !renderer_backend_active_ ) {
+        return;
+    }
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDLRenderer3_DestroyDeviceObjects();
+#else
+    ImGui_ImplSDLRenderer2_DestroyDeviceObjects();
+#endif
+}
+
+#if defined(__clang__) || defined(__GNUC__)
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+
+
+// Load all fonts that exist in typefaces list
+// - typefaces is a list of paths.
+static void load_font( ImGuiIO &io, const std::vector<font_config> &typefaces,
+                       float font_size = 0.0f )
+{
+    std::vector<font_config> io_typefaces{ typefaces };
+    ensure_unifont_loaded( io_typefaces );
+
+    if( font_size <= 0.0f ) {
+        font_size = fontheight;
+    }
+
+    ImFontConfig config = ImFontConfig();
+
+    bool first = true;
+    auto it = std::begin( io_typefaces );
+    for( ; it != std::end( io_typefaces ); ++it ) {
+        if( !file_exist( it->path ) ) {
+            printf( "Font file '%s' does not exist.\n", it->path.c_str() );
+        } else {
+            config.MergeMode = !first;
+            config.FontLoaderFlags = it->imgui_config();
+            io.Fonts->AddFontFromFileTTF( it->path.c_str(), font_size, &config );
+            first = false;
+        }
+    }
+    if( first ) {
+        debugmsg( "No fonts were found in the fontdata file." );
+    }
+}
+
+static void check_font( const ImFont *font )
+{
+    if( !font || !font->IsLoaded() ) {
+        // we can’t use debugmsg or cata_fatal because they trigger a new ImGui frame
+        // NOLINTNEXTLINE(cert-err33-c)
+        fprintf( stderr,
+                 "Failed to create font atlas!  Make sure that your chosen "
+                 "font exists, can be read, and has glyphs for your chosen "
+                 "language.\n" );
+        // NOLINTNEXTLINE(cata-assert)
+        std::abort();
+    }
+}
+
+void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
+                                    const Font_Ptr &mono_font,
+                                    UNUSED const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT>
+                                    &windowsPalette,
+                                    const std::vector<font_config> &gui_typefaces, const std::vector<font_config> &mono_typefaces )
+{
+    ImGuiIO &io = ImGui::GetIO();
+    if( ImGui::GetIO().FontDefault == nullptr ) {
+        // Glyphs bake lazily on first use; the merged unifont in
+        // ensure_unifont_loaded() supplies CJK / non-Latin coverage.
+
+        const bool cjk = get_option<bool>( "IMGUI_LOAD_CHINESE" );
+        // Fonts[0] = gui, Fonts[1] = mono, Fonts[2] = gui 1.5x (non-CJK only)
+        load_font( io, gui_typefaces );
+        load_font( io, mono_typefaces );
+        if( !cjk ) {
+            load_font( io, gui_typefaces,
+                       static_cast<float>( lroundf( fontheight * 1.5f ) ) );
+        }
+        for( int i = 0; i < io.Fonts->Fonts.Size; i++ ) {
+            check_font( io.Fonts->Fonts[i] );
+        }
+        ( void )mono_font;
+    }
 }
 
 cataimgui::client::~client()
 {
-    ImGui_ImplSDL2_Shutdown();
+    // Reverse-order teardown: renderer backend, platform backend, context.
+    // Skipping any one leaks that resource.
+    shutdown_renderer_backend();
+    shutdown_platform_backend();
+    ImGui::DestroyContext();
 }
 
-void cataimgui::client::new_frame()
+#if 0 and not TUI
+struct FreeTypeTest {
+    enum FontBuildMode { FontBuildMode_FreeType, FontBuildMode_Stb };
+
+    FontBuildMode   BuildMode = FontBuildMode_FreeType;
+    bool            WantRebuild = true;
+    float           RasterizerMultiply = 1.0f;
+    unsigned int    FreeTypeLoaderFlags = 0;
+
+    // Call _BEFORE_ NewFrame()
+    bool PreNewFrame() {
+        if( !WantRebuild ) {
+            return false;
+        }
+
+        ImFontAtlas *atlas = ImGui::GetIO().Fonts;
+        for( int n = 0; n < atlas->Sources.Size; n++ ) {
+            ( static_cast<ImFontConfig *>( &atlas->Sources[n] ) )->RasterizerMultiply = RasterizerMultiply;
+        }
+
+        // Allow for dynamic selection of the font loader.
+        // In real code you are likely to just define IMGUI_ENABLE_FREETYPE and never call SetFontLoader().
+#ifdef IMGUI_ENABLE_FREETYPE
+        if( BuildMode == FontBuildMode_FreeType ) {
+            atlas->SetFontLoader( ImGuiFreeType::GetFontLoader() );
+            atlas->FontLoaderFlags = FreeTypeLoaderFlags;
+        }
+#endif
+#ifdef IMGUI_ENABLE_STB_TRUETYPE
+        if( BuildMode == FontBuildMode_Stb ) {
+            atlas->SetFontLoader( ImFontAtlasGetFontLoaderForStbTruetype() );
+            atlas->FontLoaderFlags = 0;
+        }
+#endif
+        ImFontAtlasBuildMain( atlas );
+        WantRebuild = false;
+        return true;
+    }
+
+    // Call to draw UI
+    void ShowFontsOptionsWindow() {
+        ImFontAtlas *atlas = ImGui::GetIO().Fonts;
+
+        ImGui::Begin( "FreeType Options" );
+        ImGui::ShowFontSelector( "Fonts" );
+        WantRebuild |= ImGui::RadioButton( "FreeType", reinterpret_cast<int *>( &BuildMode ),
+                                           FontBuildMode_FreeType );
+        ImGui::SameLine();
+        WantRebuild |= ImGui::RadioButton( "Stb (Default)", reinterpret_cast<int *>( &BuildMode ),
+                                           FontBuildMode_Stb );
+        WantRebuild |= ImGui::DragInt( "TexGlyphPadding", &atlas->TexGlyphPadding, 0.1f, 1, 16 );
+        WantRebuild |= ImGui::DragFloat( "RasterizerMultiply", &RasterizerMultiply, 0.001f, 0.0f, 2.0f );
+        ImGui::Separator();
+
+        if( BuildMode == FontBuildMode_FreeType ) {
+#ifndef IMGUI_ENABLE_FREETYPE
+            ImGui::TextColored( ImVec4( 1.0f, 0.5f, 0.5f, 1.0f ), "Error: FreeType builder not compiled!" );
+#endif
+            WantRebuild |= ImGui::CheckboxFlags( "NoHinting", &FreeTypeLoaderFlags,
+                                                 ImGuiFreeTypeLoaderFlags_NoHinting );
+            WantRebuild |= ImGui::CheckboxFlags( "NoAutoHint", &FreeTypeLoaderFlags,
+                                                 ImGuiFreeTypeLoaderFlags_NoAutoHint );
+            WantRebuild |= ImGui::CheckboxFlags( "ForceAutoHint", &FreeTypeLoaderFlags,
+                                                 ImGuiFreeTypeLoaderFlags_ForceAutoHint );
+            WantRebuild |= ImGui::CheckboxFlags( "LightHinting", &FreeTypeLoaderFlags,
+                                                 ImGuiFreeTypeLoaderFlags_LightHinting );
+            WantRebuild |= ImGui::CheckboxFlags( "MonoHinting", &FreeTypeLoaderFlags,
+                                                 ImGuiFreeTypeLoaderFlags_MonoHinting );
+            WantRebuild |= ImGui::CheckboxFlags( "Bold", &FreeTypeLoaderFlags,
+                                                 ImGuiFreeTypeLoaderFlags_Bold );
+            WantRebuild |= ImGui::CheckboxFlags( "Oblique", &FreeTypeLoaderFlags,
+                                                 ImGuiFreeTypeLoaderFlags_Oblique );
+            WantRebuild |= ImGui::CheckboxFlags( "Monochrome", &FreeTypeLoaderFlags,
+                                                 ImGuiFreeTypeLoaderFlags_Monochrome );
+        }
+
+        if( BuildMode == FontBuildMode_Stb ) {
+#ifndef IMGUI_ENABLE_STB_TRUETYPE
+            ImGui::TextColored( ImVec4( 1.0f, 0.5f, 0.5f, 1.0f ), "Error: stb_truetype builder not compiled!" );
+#endif
+        }
+        ImGui::End();
+    }
+};
+
+FreeTypeTest freetype_test;
+#endif
+
+point cataimgui::imgui_frame_display_size( const int display_buffer_w, const int display_buffer_h,
+        const int renderer_output_w, const int renderer_output_h )
 {
+    if( display_buffer_w > 0 && display_buffer_h > 0 ) {
+        return point{ display_buffer_w, display_buffer_h };
+    }
+    return point{ renderer_output_w, renderer_output_h };
+}
+
+void cataimgui::client::new_frame( int display_buffer_w, int display_buffer_h )
+{
+#if 0 and not TUI
+    if( freetype_test.PreNewFrame() ) {
+        // REUPLOAD FONT TEXTURE TO GPU
+#if SDL_MAJOR_VERSION >= 3
+        ImGui_ImplSDLRenderer3_DestroyDeviceObjects();
+        ImGui_ImplSDLRenderer3_CreateDeviceObjects();
+#else
+        ImGui_ImplSDLRenderer2_DestroyDeviceObjects();
+        ImGui_ImplSDLRenderer2_CreateDeviceObjects();
+#endif
+    }
+#endif
+    if( clear_screen && clear_sdl_window() ) {
+        // Keep the request armed if the clear was deferred by a queued recovery.
+        clear_screen = false;
+    }
+#if SDL_MAJOR_VERSION >= 3
+    ImGui_ImplSDLRenderer3_NewFrame();
+    ImGui_ImplSDL3_NewFrame();
+#else
     ImGui_ImplSDLRenderer2_NewFrame();
     ImGui_ImplSDL2_NewFrame();
+#endif
+
+    // ImGui draws into display_buffer, whose size differs from the window under
+    // SCALING_FACTOR or android letterboxing. Prefer the caller's dims; fall
+    // back to the bound target's output size.
+    {
+        ImGuiIO &io = ImGui::GetIO();
+        int output_w = 0;
+        int output_h = 0;
+        if( display_buffer_w <= 0 || display_buffer_h <= 0 ) {
+            GetRendererOutputSize( sdl_renderer, &output_w, &output_h );
+        }
+        const point sz = imgui_frame_display_size( display_buffer_w, display_buffer_h,
+                         output_w, output_h );
+        if( sz.x > 0 && sz.y > 0 ) {
+            io.DisplaySize = ImVec2( static_cast<float>( sz.x ), static_cast<float>( sz.y ) );
+            io.DisplayFramebufferScale = ImVec2( 1.0f, 1.0f );
+        }
+    }
 
     ImGui::NewFrame();
+#if 0 and not TUI
+    freetype_test.ShowFontsOptionsWindow();
+#endif
 }
 
 void cataimgui::client::end_frame()
 {
     ImGui::Render();
-    ImGui_ImplSDLRenderer2_RenderDrawData( ImGui::GetDrawData() );
+    // A watcher write can land after the outer-boundary drain passed but before
+    // this paint. The draw list is finalized; skip only the backend paint.
+    if( !renderer_should_abort_frame() ) {
+#if SDL_MAJOR_VERSION >= 3
+        ImGui_ImplSDLRenderer3_RenderDrawData( ImGui::GetDrawData(), sdl_renderer.get() );
+#else
+        ImGui_ImplSDLRenderer2_RenderDrawData( ImGui::GetDrawData(), sdl_renderer.get() );
+#endif
+    }
+    ImGuiIO &io = ImGui::GetIO();
+    for( const int &code : cata_input_trail ) {
+        io.AddKeyEvent( cata_key_to_imgui( code ), false );
+    }
+    cata_input_trail.clear();
 }
 
-void cataimgui::client::process_input( void *input )
+void cataimgui::client::abort_frame()
 {
-    ImGui_ImplSDL2_ProcessEvent( static_cast<const SDL_Event *>( input ) );
+    // EndFrame finalizes the drawlist without painting it. Drain
+    // cata_input_trail like end_frame() so events do not pile up.
+    ImGui::EndFrame();
+    ImGuiIO &io = ImGui::GetIO();
+    for( const int &code : cata_input_trail ) {
+        io.AddKeyEvent( cata_key_to_imgui( code ), false );
+    }
+    cata_input_trail.clear();
+}
+
+bool cataimgui::clear_pending()
+{
+    return clear_screen;
+}
+
+void cataimgui::client::process_input( void *input, int display_buffer_w, int display_buffer_h )
+{
+    if( any_window_shown() ) {
+        const SDL_Event *evt = static_cast<const SDL_Event *>( input );
+        bool no_mouse = ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_NoMouse;
+        if( no_mouse ) {
+            switch( evt->type ) {
+                case CATA_MOUSEMOTION:
+                case CATA_MOUSEWHEEL:
+                case CATA_MOUSEBUTTONDOWN:
+                case CATA_MOUSEBUTTONUP:
+                    return;
+            }
+        }
+        ( void )display_buffer_w;
+        ( void )display_buffer_h;
+#if SDL_MAJOR_VERSION >= 3
+        ImGui_ImplSDL3_ProcessEvent( evt );
+#else
+        // Coordinates already converted to display_buffer space by
+        // convert_event_to_display_buffer_coords in the event pump.
+        ImGui_ImplSDL2_ProcessEvent( evt );
+#endif
+    }
 }
 
 #endif
+
+bool cataimgui::client::auto_size_frame_active()
+{
+    for( const ImGuiWindow *window : GImGui->Windows ) {
+        if( ( window->ContentSize.x == 0 || window->ContentSize.y == 0 ) && ( window->AutoFitFramesX > 0 ||
+                window->AutoFitFramesY > 0 ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool cataimgui::client::any_window_shown()
+{
+    bool any_window_shown = false;
+    for( const ImGuiWindow *window : GImGui->Windows ) {
+        if( window->Active && !window->Hidden ) {
+            any_window_shown = true;
+            break;
+        }
+    }
+    return any_window_shown;
+}
+
+bool cataimgui::client::want_capture_mouse()
+{
+    return ImGui::GetCurrentContext() != nullptr && ImGui::GetIO().WantCaptureMouse;
+}
+
+bool cataimgui::client::want_capture_keyboard()
+{
+    return ImGui::GetCurrentContext() != nullptr && ImGui::GetIO().WantCaptureKeyboard;
+}
+
+static ImGuiKey cata_key_to_imgui( int cata_key )
+{
+    switch( cata_key ) {
+        case KEY_UP:
+            return ImGuiKey_UpArrow;
+        case KEY_DOWN:
+            return ImGuiKey_DownArrow;
+        case KEY_LEFT:
+            return ImGuiKey_LeftArrow;
+        case KEY_RIGHT:
+            return ImGuiKey_RightArrow;
+        case KEY_ENTER:
+            return ImGuiKey_Enter;
+        case KEY_ESCAPE:
+            return ImGuiKey_Escape;
+        default:
+            if( cata_key >= 'a' && cata_key <= 'z' ) {
+                return static_cast<ImGuiKey>( ImGuiKey_A + ( cata_key - 'a' ) );
+            } else if( cata_key >= 'A' && cata_key <= 'Z' ) {
+                return static_cast<ImGuiKey>( ImGuiKey_A + ( cata_key - 'A' ) );
+            } else if( cata_key >= '0' && cata_key <= '9' ) {
+                return static_cast<ImGuiKey>( ImGuiKey_A + ( cata_key - '0' ) );
+            }
+            return ImGuiKey_None;
+    }
+}
+
+void cataimgui::client::process_cata_input( const input_event &event )
+{
+    if( event.type == input_event_t::keyboard_code || event.type == input_event_t::keyboard_char ) {
+        int code = event.get_first_input();
+        ImGuiIO &io = ImGui::GetIO();
+        io.AddKeyEvent( cata_key_to_imgui( code ), true );
+        cata_input_trail.push_back( code );
+    }
+}
 
 void cataimgui::point_to_imvec2( point *src, ImVec2 *dest )
 {
@@ -223,32 +762,106 @@ void cataimgui::imvec2_to_point( ImVec2 *src, point *dest )
     }
 }
 
-void cataimgui::window::draw_colored_text( std::string const &text, const nc_color &color,
-        float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
+static void PushOrPopColor( std::string_view seg, int minimumColorStackSize )
 {
-    nc_color color_cpy = color;
-    draw_colored_text( text, color_cpy, wrap_width, is_selected, is_focused, is_hovered );
+    color_tag_parse_result tag = get_color_from_tag( seg, report_color_error::yes );
+    switch( tag.type ) {
+        case color_tag_parse_result::open_color_tag:
+            ImGui::PushStyleColor( ImGuiCol_Text, tag.color );
+            break;
+        case color_tag_parse_result::close_color_tag:
+            if( GImGui->ColorStack.Size > minimumColorStackSize ) {
+                ImGui::PopStyleColor();
+            }
+            break;
+        case color_tag_parse_result::non_color_tag:
+            // Do nothing
+            break;
+    }
 }
 
-void cataimgui::window::draw_colored_text( std::string const &text, nc_color &color,
-        float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
+/**
+ * Scrolls the current ImGui window by a scroll action
+ *
+ * Setting scroll needs to happen before drawing contents for page scroll to work properly
+ * @param s an enum for the currently pending scroll action
+ */
+void cataimgui::set_scroll( scroll &s )
 {
+    int scroll_px_begin = ImGui::GetScrollY();
+    int scroll_px = 0;
+    int line_height = ImGui::GetTextLineHeightWithSpacing();
+    int page_height = ImGui::GetWindowSize().y;
+
+    switch( s ) {
+        case scroll::none:
+            break;
+        case scroll::begin:
+            scroll_px_begin = 0;
+            break;
+        case scroll::end:
+            scroll_px_begin = ImGui::GetScrollMaxY();
+            break;
+        case scroll::line_up:
+            scroll_px = -line_height;
+            break;
+        case scroll::line_down:
+            scroll_px = line_height;
+            break;
+        case scroll::page_up:
+            scroll_px = -page_height;
+            break;
+        case scroll::page_down:
+            scroll_px = page_height;
+            break;
+    }
+
+    ImGui::SetScrollY( scroll_px_begin + scroll_px );
+
+    s = scroll::none;
+}
+
+void cataimgui::draw_colored_text( const std::string &original_text, const nc_color &color,
+                                   float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
+{
+    nc_color color_cpy = color;
+    ImGui::PushStyleColor( ImGuiCol_Text, color_cpy );
+    draw_colored_text( original_text, wrap_width, is_selected, is_focused, is_hovered );
+    ImGui::PopStyleColor();
+}
+
+void cataimgui::draw_colored_text( const std::string &original_text, nc_color &color,
+                                   float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
+{
+    ImGui::PushStyleColor( ImGuiCol_Text, color );
+    draw_colored_text( original_text, wrap_width, is_selected, is_focused, is_hovered );
+    ImGui::PopStyleColor();
+}
+
+void cataimgui::draw_colored_text( const std::string &original_text,
+                                   float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
+{
+    if( original_text.empty() ) {
+        ImGui::NewLine();
+        return;
+    }
+    const std::string &text = replace_colors( original_text );
+
     ImGui::PushID( text.c_str() );
+    int startColorStackCount = GImGui->ColorStack.Size;
     ImGuiID itemId = GImGui->CurrentWindow->IDStack.back();
-    std::stack<nc_color> color_stack;
-    color_stack.push( color );
+
     size_t chars_per_line = size_t( wrap_width );
     if( chars_per_line == 0 ) {
         chars_per_line = SIZE_MAX;
     }
-#if defined(WIN32) || defined(TILES)
+#ifndef TUI
     size_t char_width = size_t( ImGui::CalcTextSize( " " ).x );
     chars_per_line /= char_width;
 #endif
     std::vector<std::string> folded_msg = foldstring( text, chars_per_line );
 
     for( const std::string &line : folded_msg ) {
-
         const auto color_segments = split_by_color( line );
         if( is_selected != nullptr ) {
             ImGui::Selectable( "", is_selected );
@@ -261,35 +874,14 @@ void cataimgui::window::draw_colored_text( std::string const &text, nc_color &co
             }
 
             if( seg[0] == '<' ) {
-                const color_tag_parse_result::tag_type type =
-                    update_color_stack( color_stack, seg, report_color_error::yes );
-                if( type != color_tag_parse_result::non_color_tag ) {
-                    seg = rm_prefix( seg );
-                }
+                PushOrPopColor( seg, startColorStackCount );
+                seg = rm_prefix( seg );
             }
 
-            color = color_stack.empty() ? color : color_stack.top();
             if( i++ != 0 ) {
                 ImGui::SameLine( 0, 0 );
             }
-#if !(defined(TILES) || defined(WIN32))
-            int pair_id = color.get_index();
-            pairs &pair = colorpairs[pair_id];
-
-            int palette_index = pair.FG != 0 ? pair.FG : pair.BG;
-            if( color.is_bold() ) {
-                palette_index += color_loader<RGBTuple>::COLOR_NAMES_COUNT / 2;
-            }
-            RGBTuple &rgbCol = rgbPalette[palette_index];
-            ImGui::TextColored( { static_cast<float>( rgbCol.Red / 255. ), static_cast<float>( rgbCol.Green / 255. ),
-                                  static_cast<float>( rgbCol.Blue / 255. ), static_cast<float>( 255. ) },
-                                "%s", seg.c_str() );
-#else
-            SDL_Color c = curses_color_to_SDL( color );
-            ImGui::TextColored( { static_cast<float>( c.r / 255. ), static_cast<float>( c.g / 255. ),
-                                  static_cast<float>( c.b / 255. ), static_cast<float>( c.a / 255. ) },
-                                "%s", seg.c_str() );
-#endif
+            ImGui::TextUnformatted( seg.c_str() );
             GImGui->LastItemData.ID = itemId;
             if( is_focused && !*is_focused ) {
                 *is_focused = ImGui::IsItemFocused();
@@ -300,7 +892,10 @@ void cataimgui::window::draw_colored_text( std::string const &text, nc_color &co
 
         }
     }
-
+    for( int curColorStackCount = GImGui->ColorStack.Size; curColorStackCount > startColorStackCount;
+         curColorStackCount-- ) {
+        ImGui::PopStyleColor();
+    }
     ImGui::PopID();
 }
 
@@ -323,19 +918,19 @@ class cataimgui::window_impl
             window_adaptor->is_imgui = true;
             window_adaptor->on_redraw( [this]( ui_adaptor & ) {
                 win_base->draw();
-                point catapos;
-                point catasize;
-                ImVec2 impos = ImGui::GetWindowPos();
-                ImVec2 imsize = ImGui::GetWindowSize();
-                imvec2_to_point( &impos, &catapos );
-                imvec2_to_point( &imsize, &catasize );
-                window_adaptor->position( catapos, catasize );
             } );
             window_adaptor->on_screen_resize( [this]( ui_adaptor & ) {
                 is_resized = true;
                 win_base->on_resized();
             } );
         }
+};
+
+class cataimgui::filter_box_impl
+{
+    public:
+        std::string text;
+        ImGuiID id;
 };
 
 cataimgui::window::window( int window_flags )
@@ -354,18 +949,39 @@ cataimgui::window::window( const std::string &id_, int window_flags ) : window( 
     is_open = true;
 }
 
+cataimgui::window::~window()
+{
+    p_impl.reset();
+    if( GImGui ) {
+        ImGui::ClearWindowSettings( id.c_str() );
+        if( !ui_adaptor::has_imgui() ) {
+            ImGui::GetIO().ClearInputKeys();
+            GImGui->InputEventsQueue.resize( 0 );
+#ifdef TILES
+            // Removes leftover ImGui artifacts
+            clear_screen = true;
+#endif
+        }
+    }
+}
 
-cataimgui::window::~window() = default;
+void cataimgui::window::hide_if_hidden() const
+{
+    if( hide_ui ) {
+        ImGuiWindow *w = ImGui::GetCurrentWindowRead();
+        ImGui::SetWindowHiddenAndSkipItemsForCurrentFrame( w );
+    }
+}
 
 bool cataimgui::window::is_bounds_changed()
 {
     return p_impl->is_resized;
 }
 
-size_t cataimgui::window::get_text_width( const std::string &text )
+size_t cataimgui::window::get_text_width( std::string_view text )
 {
-#if defined(WIN32) || defined(TILES)
-    return ImGui::CalcTextSize( text.c_str() ).x;
+#ifndef TUI
+    return ImGui::CalcTextSize( text.data(), text.data() + text.size() ).x;
 #else
     return utf8_width( text );
 #endif
@@ -373,7 +989,7 @@ size_t cataimgui::window::get_text_width( const std::string &text )
 
 size_t cataimgui::window::get_text_height( const char *text )
 {
-#if defined(WIN32) || defined(TILES)
+#ifndef TUI
     return ImGui::CalcTextSize( "0" ).y * strlen( text );
 #else
     return utf8_width( text );
@@ -382,7 +998,7 @@ size_t cataimgui::window::get_text_height( const char *text )
 
 size_t cataimgui::window::str_width_to_pixels( size_t len )
 {
-#if defined(WIN32) || defined(TILES)
+#ifndef TUI
     return ImGui::CalcTextSize( "0" ).x * len;
 #else
     return len;
@@ -391,11 +1007,32 @@ size_t cataimgui::window::str_width_to_pixels( size_t len )
 
 size_t cataimgui::window::str_height_to_pixels( size_t len )
 {
-#if defined(WIN32) || defined(TILES)
+#ifndef TUI
     return ImGui::CalcTextSize( "0" ).y * len;
 #else
     return len;
 #endif
+}
+
+size_t cataimgui::get_string_width( const std::string_view str )
+{
+    return str.size() * ImGui::CalcTextSize( " " ).x;
+}
+
+size_t cataimgui::get_string_height( const std::string_view str, const float wrap_width )
+{
+    const std::string new_str = remove_color_tags( str );
+    size_t chars_per_line = size_t( wrap_width );
+    if( chars_per_line == 0 ) {
+        chars_per_line = SIZE_MAX;
+    }
+#ifndef TUI
+    size_t char_width = size_t( ImGui::CalcTextSize( " " ).x );
+    chars_per_line /= char_width;
+#endif
+    const std::vector<std::string> folded_msg = foldstring( new_str, chars_per_line );
+
+    return folded_msg.size() * ImGui::GetTextLineHeightWithSpacing();
 }
 
 void cataimgui::window::mark_resized()
@@ -427,17 +1064,29 @@ void cataimgui::window::draw()
         if( cached_bounds.y != -1.f ) {
             center.y = cached_bounds.y;
         }
-        ImGui::SetNextWindowPos( center, ImGuiCond_Appearing, { cached_bounds.x == -1.f ? 0.5f : 0.f,  cached_bounds.y == -1.f ? 0.5f : 0.f } );
+        ImGui::SetNextWindowPos( center, ImGuiCond_Always, { cached_bounds.x == -1.f ? 0.5f : 0.f,  cached_bounds.y == -1.f ? 0.5f : 0.f } );
     } else if( cached_bounds.x >= 0 && cached_bounds.y >= 0 ) {
         ImGui::SetNextWindowPos( { cached_bounds.x, cached_bounds.y } );
     }
-    if( cached_bounds.h > 0 || cached_bounds.w > 0 ) {
+    if( cached_bounds.h > 1.0 || cached_bounds.w > 1.0 ) {
         ImGui::SetNextWindowSize( { cached_bounds.w, cached_bounds.h } );
+    } else if( cached_bounds.h > 0.0 && cached_bounds.w > 0.0 && cached_bounds.h <= 1.0 &&
+               cached_bounds.w <= 1.0 ) {
+        ImGui::SetNextWindowSize( ImGui::GetMainViewport()->Size * ImVec2 { cached_bounds.w, cached_bounds.h } );
     }
     if( ImGui::Begin( id.c_str(), &is_open, window_flags ) ) {
         draw_controls();
         if( p_impl->window_adaptor->is_on_top && !force_to_back ) {
             ImGui::BringWindowToDisplayFront( ImGui::GetCurrentWindow() );
+        }
+        if( handled_resize ) {
+            point catapos;
+            point catasize;
+            ImVec2 impos = ImGui::GetWindowPos();
+            ImVec2 imsize = ImGui::GetWindowSize();
+            imvec2_to_point( &impos, &catapos );
+            imvec2_to_point( &imsize, &catasize );
+            p_impl->window_adaptor->position_absolute( catapos, catasize );
         }
     }
     ImGui::End();
@@ -476,4 +1125,311 @@ cataimgui::bounds cataimgui::window::get_bounds()
 {
     return { -1.f, -1.f, -1.f, -1.f };
 }
-#endif // #if defined(__ANDROID__)
+
+void cataimgui::window::draw_filter( const input_context &ctxt, bool filtering_active )
+{
+    if( !filter_impl ) {
+        filter_impl = std::make_unique<cataimgui::filter_box_impl>();
+        filter_impl->id = 0;
+    }
+
+    if( !filtering_active ) {
+        action_button( "FILTER", ctxt.get_button_text( "FILTER" ) );
+        ImGui::SameLine();
+        action_button( "RESET_FILTER", ctxt.get_button_text( "RESET_FILTER" ) );
+        ImGui::SameLine();
+    } else {
+        action_button( "QUIT", ctxt.get_button_text( "QUIT", _( "Cancel" ) ) );
+        ImGui::SameLine();
+        action_button( "TEXT.CONFIRM", ctxt.get_button_text( "TEXT.CONFIRM", _( "OK" ) ) );
+        ImGui::SameLine();
+    }
+    ImGui::BeginDisabled( !filtering_active );
+    ImGui::InputText( "##FILTERBOX", &filter_impl->text );
+    ImGui::EndDisabled();
+    if( !filter_impl->id ) {
+        filter_impl->id = GImGui->LastItemData.ID;
+    }
+}
+
+std::string cataimgui::window::get_filter()
+{
+    if( filter_impl ) {
+        return filter_impl->text;
+    } else {
+        return std::string();
+    }
+}
+
+void cataimgui::window::clear_filter()
+{
+    if( filter_impl && filter_impl->id != 0 ) {
+        ImGuiInputTextState *input_state = ImGui::GetInputTextState( filter_impl->id );
+        if( input_state ) {
+            input_state->ClearText();
+            filter_impl->text.clear();
+        }
+    }
+}
+
+void cataimgui::window::defocus_filter()
+{
+    if( filter_impl && filter_impl->id != 0 && GImGui->ActiveId == filter_impl->id ) {
+        ImGui::ClearActiveID();
+    }
+}
+
+bool cataimgui::InputFloat( const char *label, float *v, float step, float step_fast,
+                            const char *format, ImGuiInputTextFlags flags )
+{
+    return ImGui::InputScalar( label, ImGuiDataType_Float, static_cast<void *>( v ),
+                               static_cast<void *>( step > 0.0f ? &step : nullptr ),
+                               static_cast<void *>( step_fast > 0.0f ? &step_fast : nullptr ), format, flags );
+}
+
+void cataimgui::PushGuiFont()
+{
+    ImFont *font = ImGui::GetIO().Fonts->Fonts[0];
+    ImGui::PushFont( font, font->LegacySize );
+}
+
+void cataimgui::PushMonoFont()
+{
+#ifdef TILES
+    ImFont *font = ImGui::GetIO().Fonts->Fonts[1];
+#else
+    ImFont *font = ImGui::GetIO().Fonts->Fonts[0];
+#endif
+    ImGui::PushFont( font, font->LegacySize );
+}
+
+void cataimgui::PushGuiFont1_5x()
+{
+    if( ImGui::GetIO().Fonts->Fonts.Size > 2 ) {
+        ImFont *font = ImGui::GetIO().Fonts->Fonts[2];
+        ImGui::PushFont( font, font->LegacySize );
+    } else {
+        ImFont *font = ImGui::GetIO().Fonts->Fonts[0];
+        ImGui::PushFont( font, font->LegacySize * 1.5f );
+    }
+}
+
+void cataimgui::PopGuiFont1_5x()
+{
+    ImGui::PopFont();
+}
+
+
+bool cataimgui::BeginRightAlign( const char *str_id )
+{
+    if( ImGui::BeginTable( str_id, 2, ImGuiTableFlags_SizingFixedFit, ImVec2( -1, 0 ) ) ) {
+        ImGui::TableSetupColumn( "a", ImGuiTableColumnFlags_WidthStretch );
+
+        ImGui::TableNextColumn();
+        ImGui::TableNextColumn();
+        return true;
+    }
+    return false;
+}
+
+void cataimgui::EndRightAlign()
+{
+    ImGui::EndTable();
+}
+
+bool cataimgui::BeginTabItem( const char *label, bool is_selected, bool *p_open,
+                              ImGuiTabItemFlags flags )
+{
+    if( is_selected ) {
+        return ImGui::BeginTabItem( label, p_open, flags | ImGuiTabItemFlags_SetSelected );
+    } else {
+        return ImGui::BeginTabItem( label, p_open, flags );
+    }
+}
+
+// Use the base terminal palette to reasonably color ImGui elements.
+// This might be useful to easily apply the color theme (chosen via
+// Color Manager, likely) to ImGui with minimal effort.
+static void inherit_base_colors()
+{
+    ImGuiStyle &style = ImGui::GetStyle();
+
+    style.Colors[ImGuiCol_Text] = c_white;
+    style.Colors[ImGuiCol_TextDisabled] = c_unset;
+    style.Colors[ImGuiCol_WindowBg] = c_black;
+    style.Colors[ImGuiCol_ChildBg] = c_black;
+    style.Colors[ImGuiCol_PopupBg] = c_black;
+    style.Colors[ImGuiCol_Border] = c_white;
+    style.Colors[ImGuiCol_BorderShadow] = c_blue;
+    style.Colors[ImGuiCol_FrameBg] = c_dark_gray;
+    style.Colors[ImGuiCol_FrameBgHovered] = c_black;
+    style.Colors[ImGuiCol_FrameBgActive] = c_dark_gray;
+    style.Colors[ImGuiCol_TitleBg] = c_dark_gray;
+    style.Colors[ImGuiCol_TitleBgActive] = c_black;
+    style.Colors[ImGuiCol_TitleBgCollapsed] = c_dark_gray;
+    style.Colors[ImGuiCol_MenuBarBg] = c_black;
+    style.Colors[ImGuiCol_ScrollbarBg] = c_black;
+    style.Colors[ImGuiCol_ScrollbarGrab] = c_dark_gray;
+    style.Colors[ImGuiCol_ScrollbarGrabHovered] = c_light_gray;
+    style.Colors[ImGuiCol_ScrollbarGrabActive] = c_white;
+    style.Colors[ImGuiCol_CheckMark] = c_white;
+    style.Colors[ImGuiCol_SliderGrab] = c_white;
+    style.Colors[ImGuiCol_SliderGrabActive] = c_white;
+    style.Colors[ImGuiCol_Button] = c_dark_gray;
+    style.Colors[ImGuiCol_ButtonHovered] = c_dark_gray;
+    style.Colors[ImGuiCol_ButtonActive] = c_blue;
+    style.Colors[ImGuiCol_Header] = h_blue;
+    style.Colors[ImGuiCol_HeaderHovered] = c_black;
+    style.Colors[ImGuiCol_HeaderActive] = c_dark_gray;
+    style.Colors[ImGuiCol_Separator] = c_dark_gray;
+    style.Colors[ImGuiCol_SeparatorHovered] = c_white;
+    style.Colors[ImGuiCol_SeparatorActive] = c_white;
+    style.Colors[ImGuiCol_ResizeGrip] = c_light_gray;
+    style.Colors[ImGuiCol_ResizeGripHovered] = c_white;
+    style.Colors[ImGuiCol_ResizeGripActive] = c_white;
+    style.Colors[ImGuiCol_Tab] = c_black;
+    style.Colors[ImGuiCol_TabHovered] = c_blue;
+    style.Colors[ImGuiCol_TabSelected] = c_blue;
+    style.Colors[ImGuiCol_TabDimmed] = c_black;
+    style.Colors[ImGuiCol_TabDimmedSelected] = c_black;
+    style.Colors[ImGuiCol_TextSelectedBg] = c_blue;
+    style.Colors[ImGuiCol_NavCursor] = c_blue;
+}
+
+static void load_imgui_style_file( const cata_path &style_path )
+{
+    ImGuiStyle &style = ImGui::GetStyle();
+    // reset style first to unset colors
+    ImGui::StyleColorsDark( &style );
+
+    JsonValue jsin = json_loader::from_path( style_path );
+
+
+    JsonObject jo = jsin.get_object();
+
+
+    if( jo.has_bool( "inherit_base_colors" ) && jo.get_bool( "inherit_base_colors" ) ) {
+        inherit_base_colors();
+    }
+    JsonObject joc = jo.get_object( "colors" );
+
+    std::unordered_map<std::string, int> key_options = {
+        {"ImGuiCol_Text", ImGuiCol_Text},
+        {"ImGuiCol_TextDisabled", ImGuiCol_TextDisabled},
+        {"ImGuiCol_WindowBg", ImGuiCol_WindowBg},
+        {"ImGuiCol_ChildBg", ImGuiCol_ChildBg},
+        {"ImGuiCol_PopupBg", ImGuiCol_PopupBg},
+        {"ImGuiCol_Border", ImGuiCol_Border},
+        {"ImGuiCol_BorderShadow", ImGuiCol_BorderShadow},
+        {"ImGuiCol_FrameBg", ImGuiCol_FrameBg},
+        {"ImGuiCol_FrameBgHovered", ImGuiCol_FrameBgHovered},
+        {"ImGuiCol_FrameBgActive", ImGuiCol_FrameBgActive},
+        {"ImGuiCol_TitleBg", ImGuiCol_TitleBg},
+        {"ImGuiCol_TitleBgActive", ImGuiCol_TitleBgActive},
+        {"ImGuiCol_TitleBgCollapsed", ImGuiCol_TitleBgCollapsed},
+        {"ImGuiCol_MenuBarBg", ImGuiCol_MenuBarBg},
+        {"ImGuiCol_ScrollbarBg", ImGuiCol_ScrollbarBg},
+        {"ImGuiCol_ScrollbarGrab", ImGuiCol_ScrollbarGrab},
+        {"ImGuiCol_ScrollbarGrabHovered", ImGuiCol_ScrollbarGrabHovered},
+        {"ImGuiCol_ScrollbarGrabActive", ImGuiCol_ScrollbarGrabActive},
+        {"ImGuiCol_CheckMark", ImGuiCol_CheckMark},
+        {"ImGuiCol_SliderGrab", ImGuiCol_SliderGrab},
+        {"ImGuiCol_SliderGrabActive", ImGuiCol_SliderGrabActive},
+        {"ImGuiCol_Button", ImGuiCol_Button},
+        {"ImGuiCol_ButtonHovered", ImGuiCol_ButtonHovered},
+        {"ImGuiCol_ButtonActive", ImGuiCol_ButtonActive},
+        {"ImGuiCol_Header", ImGuiCol_Header},
+        {"ImGuiCol_HeaderHovered", ImGuiCol_HeaderHovered},
+        {"ImGuiCol_HeaderActive", ImGuiCol_HeaderActive},
+        {"ImGuiCol_Separator", ImGuiCol_Separator},
+        {"ImGuiCol_SeparatorHovered", ImGuiCol_SeparatorHovered},
+        {"ImGuiCol_SeparatorActive", ImGuiCol_SeparatorActive},
+        {"ImGuiCol_ResizeGrip", ImGuiCol_ResizeGrip},
+        {"ImGuiCol_ResizeGripHovered", ImGuiCol_ResizeGripHovered},
+        {"ImGuiCol_ResizeGripActive", ImGuiCol_ResizeGripActive},
+        {"ImGuiCol_Tab", ImGuiCol_Tab},
+        {"ImGuiCol_TabHovered", ImGuiCol_TabHovered},
+        {"ImGuiCol_TabActive", ImGuiCol_TabSelected},
+        {"ImGuiCol_TabSelected", ImGuiCol_TabSelected},
+        {"ImGuiCol_TabUnfocused", ImGuiCol_TabDimmed},
+        {"ImGuiCol_TabDimmed", ImGuiCol_TabDimmed},
+        {"ImGuiCol_TabUnfocusedActive", ImGuiCol_TabDimmedSelected},
+        {"ImGuiCol_TabDimmedSelected", ImGuiCol_TabDimmedSelected},
+        {"ImGuiCol_PlotLines", ImGuiCol_PlotLines},
+        {"ImGuiCol_PlotLinesHovered", ImGuiCol_PlotLinesHovered},
+        {"ImGuiCol_PlotHistogram", ImGuiCol_PlotHistogram},
+        {"ImGuiCol_PlotHistogramHovered", ImGuiCol_PlotHistogramHovered},
+        {"ImGuiCol_TableHeaderBg", ImGuiCol_TableHeaderBg},
+        {"ImGuiCol_TableBorderStrong", ImGuiCol_TableBorderStrong},
+        {"ImGuiCol_TableBorderLight", ImGuiCol_TableBorderLight},
+        {"ImGuiCol_TableRowBg", ImGuiCol_TableRowBg},
+        {"ImGuiCol_TableRowBgAlt", ImGuiCol_TableRowBgAlt},
+        {"ImGuiCol_TextSelectedBg", ImGuiCol_TextSelectedBg},
+        {"ImGuiCol_DragDropTarget", ImGuiCol_DragDropTarget},
+        {"ImGuiCol_NavHighlight", ImGuiCol_NavCursor},
+        {"ImGuiCol_NavCursor", ImGuiCol_NavCursor},
+        {"ImGuiCol_NavWindowingHighlight", ImGuiCol_NavWindowingHighlight},
+        {"ImGuiCol_NavWindowingDimBg", ImGuiCol_NavWindowingDimBg},
+        {"ImGuiCol_ModalWindowDimBg", ImGuiCol_ModalWindowDimBg},
+    };
+    for( const auto& [text_key, imgui_key] : key_options ) {
+        if( joc.has_array( text_key ) ) {
+            JsonArray jsarr = joc.get_array( text_key );
+            float alpha = 1.0; // default to full opacity if not specified explicitly
+            if( jsarr.has_float( 3 ) ) {
+                alpha = jsarr.get_float( 3 );
+            }
+            ImVec4 color = ImVec4(
+                               jsarr.get_float( 0 ),
+                               jsarr.get_float( 1 ),
+                               jsarr.get_float( 2 ),
+                               alpha
+                           );
+            style.Colors[imgui_key] = color;
+        }
+    }
+
+}
+
+void cataimgui::init_colors()
+{
+    const cata_path default_style_path = PATH_INFO::datadir_path() / "raw" / "imgui_styles" /
+                                         "default_style.json";
+    const cata_path style_path = PATH_INFO::config_dir_path() / "imgui_style.json";
+    if( !file_exist( style_path ) ) {
+        assure_dir_exist( PATH_INFO::config_dir() );
+        copy_file( default_style_path, style_path );
+    }
+
+    try {
+        load_imgui_style_file( style_path );
+    } catch( const JsonError &err ) {
+        debugmsg( "Failed to load imgui color data from \"%s\": %s",
+                  style_path.generic_u8string(), err.what() );
+    }
+}
+
+void cataimgui::TextKeybinding( const input_context &ctxt,
+                                const char *action, const char *description, bool active,
+                                int max_limit, const nc_color &default_color )
+{
+    const nc_color color = active ? ACTIVE_HOTKEY_COLOR : default_color;
+    ImGui::TextColored( default_color, "[" );
+    ImGui::SameLine( 0, 0 );
+    ImGui::TextColored( color, "%s",
+                        // strlen(action) <= 1 // for non-action explicit keys
+                        ( *action == 0 || *( action + 1 ) == 0 ) ?
+                        action :
+                        ctxt.get_desc( action, max_limit ).c_str() );
+    ImGui::SameLine( 0, 0 );
+    ImGui::TextColored( default_color, "] " );
+    ImGui::SameLine( 0, 0 );
+    ImGui::TextColored( color, "%s", description );
+}
+
+void cataimgui::TextListSeparator( const nc_color &color )
+{
+    ImGui::SameLine( 0, 0 );
+    ImGui::TextColored( color, ", " );
+    ImGui::SameLine( 0, 0 );
+}

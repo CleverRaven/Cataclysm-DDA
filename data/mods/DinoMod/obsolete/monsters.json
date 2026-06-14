@@ -30,7 +30,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": 2,
+      "melee_damage": { "damage_type": "cut", "amount": 2 },
       "vision_night": 1,
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },

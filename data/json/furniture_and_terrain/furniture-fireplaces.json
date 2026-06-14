@@ -17,8 +17,31 @@
       "str_max": 210,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "items": [ { "item": "rock", "count": [ 15, 30 ] } ]
+      "items": [ { "item": "brick", "count": [ 15, 30 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fireplace_stone",
+    "looks_like": "f_fireplace",
+    "name": "stone fireplace",
+    "symbol": "#",
+    "description": "A common fixture for safely hosting a fire indoors, with a chimney to vent the smoke to the outside.",
+    "bgcolor": "white",
+    "move_cost_mod": 2,
+    "coverage": 50,
+    "required_str": -1,
+    "crafting_pseudo_item": "fake_fireplace",
+    "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MINEABLE", "EASY_DECONSTRUCT" ],
+    "examine_action": "fireplace",
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "rock", "count": [ 25, 50 ] } ]
+    },
+    "deconstruct": { "items": [ { "item": "rock", "count": 50 } ] }
   },
   {
     "type": "furniture",
@@ -30,6 +53,7 @@
     "move_cost_mod": 2,
     "coverage": 60,
     "required_str": 10,
+    "mass": "7 kg",
     "max_volume": "250 L",
     "crafting_pseudo_item": "fake_woodstove",
     "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MOUNTABLE" ],
@@ -53,21 +77,33 @@
     "move_cost_mod": 2,
     "coverage": 35,
     "required_str": 8,
+    "mass": "5 kg",
     "crafting_pseudo_item": "fake_fireplace",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "brazier",
+    "item": "brazier",
     "examine_action": "fireplace",
-    "bash": {
-      "str_min": 8,
-      "str_max": 30,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 5, 15 ] },
-        { "item": "steel_chunk", "count": [ 2, 6 ] },
-        { "item": "sheet_metal_small", "count": [ 2, 6 ] }
-      ]
-    }
+    "bash": { "str_min": 8, "str_max": 30, "sound": "metal screeching!", "sound_fail": "clang!" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_makeshift_brazier",
+    "name": "makeshift brazier",
+    "looks_like": "bucket",
+    "description": "A metal bucket with holes, in which you can safely start a fire.  It's too small to fit any fuel item larger than some splintered wood.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost_mod": 2,
+    "coverage": 35,
+    "required_str": 4,
+    "mass": "1 kg",
+    "max_volume": "5 L",
+    "crafting_pseudo_item": "fake_fireplace",
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
+    "deployed_item": "makeshift_brazier",
+    "item": "makeshift_brazier",
+    "examine_action": "fireplace",
+    "bash": { "str_min": 8, "str_max": 30, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -79,21 +115,13 @@
     "move_cost_mod": 2,
     "coverage": 35,
     "required_str": 4,
+    "mass": "100 g",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "hobo_stove",
+    "item": "hobo_stove",
     "examine_action": "fireplace",
     "max_volume": "680 ml",
-    "bash": {
-      "str_min": 8,
-      "str_max": 30,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 2, 4 ] },
-        { "item": "steel_chunk", "count": [ 1, 2 ] },
-        { "item": "sheet_metal_small", "count": [ 1, 2 ] }
-      ]
-    }
+    "bash": { "str_min": 8, "str_max": 30, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -106,6 +134,7 @@
     "move_cost_mod": 2,
     "coverage": 40,
     "required_str": 4,
+    "mass": "3 kg",
     "max_volume": "20 L",
     "deployed_item": "portable_stove",
     "crafting_pseudo_item": "fake_woodstove",
@@ -131,20 +160,12 @@
     "move_cost_mod": 2,
     "coverage": 35,
     "required_str": 8,
+    "mass": "20 kg",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "55gal_firebarrel",
+    "item": "55gal_firebarrel",
     "examine_action": "fireplace",
-    "bash": {
-      "str_min": 8,
-      "str_max": 30,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 8, 20 ] },
-        { "item": "sheet_metal_small", "count": [ 3, 10 ] },
-        { "item": "sheet_metal", "count": [ 0, 1 ] }
-      ]
-    }
+    "bash": { "str_min": 8, "str_max": 30, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "type": "furniture",
@@ -157,16 +178,12 @@
     "move_cost_mod": 2,
     "coverage": 35,
     "required_str": 8,
+    "mass": "15 kg",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "30gal_firebarrel",
+    "item": "30gal_firebarrel",
     "examine_action": "fireplace",
-    "bash": {
-      "str_min": 8,
-      "str_max": 30,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 5, 15 ] }, { "item": "sheet_metal_small", "count": [ 1, 9 ] } ]
-    }
+    "bash": { "str_min": 8, "str_max": 30, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
   {
     "id": "f_firering",
@@ -210,5 +227,21 @@
       "sound_fail": "whump.",
       "items": [ { "item": "rock", "count": [ 20, 30 ] }, { "item": "fire_brick", "count": [ 4, 8 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_solar_cooker",
+    "name": "parabolic solar cooker",
+    "description": "A faceted reflector dish on a tripod that concentrates sunlight into a focal point for cooking.  Only works outdoors in strong direct sunlight.",
+    "symbol": ")",
+    "color": "yellow",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "required_str": 6,
+    "mass": "14 kg",
+    "crafting_pseudo_item": "fake_solar_cooker",
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "EASY_DECONSTRUCT", "FLAT_SURF" ],
+    "item": "solar_cooker",
+    "bash": { "str_min": 6, "str_max": 20, "sound": "metal screeching!", "sound_fail": "clang!" }
   }
 ]

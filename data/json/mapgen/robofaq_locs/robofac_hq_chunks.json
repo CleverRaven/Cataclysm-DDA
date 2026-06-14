@@ -1,7 +1,32 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
+    "nested_mapgen_id": "robofac_hq_surface_freemerchant_camp_roof",
+    "object": {
+      "faction_owner": [ { "id": "free_merchants", "x": [ 0, 14 ], "y": [ 0, 14 ] } ],
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "               ",
+        " rrrrrr        ",
+        " rrrrrr        ",
+        " rrrrrr        ",
+        " rrrrrr        ",
+        " rrrrrr        ",
+        " rrrrr         ",
+        " rrrrr         ",
+        "       rrr rrr ",
+        "       rrr rrr ",
+        "       rrr rrr ",
+        "               ",
+        "               ",
+        "               ",
+        "               "
+      ],
+      "terrain": { "r": "t_canvas_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "robofac_hq_surface_freemerchant_camp",
     "object": {
       "faction_owner": [ { "id": "free_merchants", "x": [ 0, 14 ], "y": [ 0, 14 ] } ],
@@ -63,32 +88,35 @@
         }
       ],
       "//": "migration from older saved games - remove older shop stocks",
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [ { "chunks": [ "robofac_hq_surface_freemerchant_camp_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "robofac_hq_surface_merc_1",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 4 ], "y": [ 0, 4 ] } ],
       "mapgensize": [ 2, 2 ],
-      "rows": [
-        "  ",
-        "  "
-      ],
       "place_npcs": [ { "class": "robofac_merc_1", "x": 1, "y": 1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
+    "nested_mapgen_id": "robofac_hq_surface_merc_2",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
+      "mapgensize": [ 1, 1 ],
+      "place_npcs": [ { "class": "chief_meteorologist_pat", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "robofachqy_window_sand_wall",
     "object": { "mapgensize": [ 8, 8 ], "set": [ { "line": "furniture", "id": "f_sandbag_wall", "x": 0, "y": 0, "x2": 7, "y2": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "robofachq_window_sand_wall_l",
     "object": {
       "mapgensize": [ 11, 11 ],
@@ -97,7 +125,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "window_sandbags_meteorology1",
     "object": {
       "place_nested": [
@@ -110,7 +137,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "window_sandbags_meteorology2",
     "object": {
       "place_nested": [
@@ -122,13 +148,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "window_sandbags_surface_road2",
     "object": { "place_nested": [ { "chunks": [ "robofachq_window_sand_wall_l" ], "x": 13, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "robofachq_ancilla_fortress_basic",
     "object": {
       "rows": [
@@ -169,7 +193,7 @@
         "S": "t_secretdoor_concrete_o",
         "Y": "t_strconc_floor_olight"
       },
-      "furniture": { "7": "f_filing_cabinet", "A": "f_sandbag_wall", "W": "f_sandbag_wall", ":": "f_small_satelitte_dish" },
+      "furniture": { "7": "f_filing_cabinet", "A": "f_sandbag_wall", "W": "f_sandbag_wall", ":": "f_small_satellite_dish" },
       "items": {
         "l": [
           { "item": "NC_ANCILLA_GRUNT_worn", "chance": 50 },
@@ -182,7 +206,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "robofachq_ancilla_bar_basic",
     "object": {
       "rows": [
@@ -227,9 +250,8 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_ancilla_bar_place_BEMs",
-    "//": "remove the null chunks once theres enough BEM npcs.",
+    "//": "remove the null chunks once there's enough BEM npcs.",
     "object": {
       "rows": [
         "                        ",
@@ -259,7 +281,7 @@
       ],
       "nested": {
         "1": { "chunks": [ [ "BEM_hireable", 40 ], [ "BEM_jabberwock", 20 ], [ "null", 20 ] ] },
-        "2": { "chunks": [ [ "BEM_human_sample", 20 ], [ "BEM_anchor_seller", 20 ], [ "null", 20 ] ] },
+        "2": { "chunks": [ [ "BEM_human_sample", 20 ], [ "BEM_anchor_seller", 20 ], [ "BEM_exodii_hunter", 20 ], [ "null", 20 ] ] },
         "3": { "chunks": [ [ "BEM_keycard_seller", 20 ], [ "BEM_template_seller", 20 ], [ "null", 20 ] ] },
         "4": { "chunks": [ [ "BEM_gunrunner", 20 ], [ "BEM_drugrunner", 20 ], [ "BEM_chatting_veterans", 20 ], [ "null", 20 ] ] }
       }
@@ -267,7 +289,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "robofachq_ancilla_bar_autodoc",
     "//": "Spawns by itself at the moment, spawning should be triggered by missions later on.",
     "object": {
@@ -311,7 +332,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_hireable",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -321,7 +341,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_human_sample",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -331,7 +350,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_anchor_seller",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -341,7 +359,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_keycard_seller",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -351,7 +368,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_template_seller",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -361,7 +377,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_gunrunner",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -371,7 +386,15 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
+    "nested_mapgen_id": "BEM_exodii_hunter",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
+      "mapgensize": [ 1, 1 ],
+      "place_npcs": [ { "class": "BEM_exodii_hunter", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "BEM_chatting_veterans",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -381,7 +404,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_drugrunner",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -391,7 +413,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "BEM_jabberwock",
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
@@ -401,7 +422,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "update_mapgen_id": "nest_ancilla_bar_remove_BEMs",
     "object": {
       "remove_npcs": [
@@ -414,8 +434,77 @@
         { "class": "BEM_template_seller", "x": 0, "y": 0 },
         { "class": "BEM_silent_veteran", "x": 0, "y": 0 },
         { "class": "BEM_chatting_veteran", "x": 0, "y": 0 },
-        { "class": "BEM_keycard_seller", "x": 0, "y": 0 }
+        { "class": "BEM_keycard_seller", "x": 0, "y": 0 },
+        { "class": "BEM_exodii_hunter", "x": 0, "y": 0 }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "robofachq_ancilla_bionic_garage",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "rows": [
+        "|||||||||||%%%%%%%%___||",
+        "^ hY ||||||_______%___||",
+        " ddd |SSSSy___________||",
+        "     |    y___________||",
+        "(((([|    y____$$____D||",
+        "          y____WW____D||",
+        "          y____WW____D||",
+        "    Y Y   y__________S||",
+        "yyyyyyyyyyy__________w||",
+        "y    y   R|__________S||",
+        "yRRRRyRRRR|55555555555||",
+        "|||||||||||MMMMMMMMMMM||",
+        "|||||||||||mmmmmmmmmmm||",
+        ",,,,,,,,||||||||||||||||",
+        ",,,,,,,,||||||||||||||||",
+        ",,,,,,,,||||||||||||||||",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        "||||||||||||||||||||||||",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,"
+      ],
+      "palettes": [ "robofachq" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "M": "t_ramp_down_high",
+        "m": "t_ramp_down_low",
+        "%": "t_pavement",
+        "S": "t_pavement",
+        "w": "t_pavement",
+        "W": "t_pavement",
+        "R": "t_pavement",
+        "D": "t_pavement",
+        "Y": "t_strconc_floor_olight",
+        "$": "t_strconc_floor_olight"
+      },
+      "furniture": {
+        "R": "f_warehouse_shelf",
+        "W": "f_workbench",
+        "$": "f_workbench",
+        "S": "f_utility_shelf",
+        "w": "f_mitresaw",
+        "%": "f_sandbag_wall",
+        "D": "f_standing_tank"
+      },
+      "place_vehicles": [
+        { "chance": 100, "fuel": 0, "rotation": 0, "status": 0, "vehicle": "engine_crane", "x": 12, "y": 3 },
+        { "chance": 100, "fuel": 0, "rotation": 0, "status": 0, "vehicle": "welding_cart", "x": 16, "y": 8 }
+      ],
+      "items": {
+        "R": [ { "item": "SUS_exodii_storage_lowvalue", "chance": 80 }, { "item": "SUS_exodii_botrack", "chance": 80 } ],
+        "S": [
+          { "item": "mechanics", "chance": 100, "repeat": [ 1, 6 ] },
+          { "item": "SUS_welding_gear", "chance": 80, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "place_npcs": [ { "class": "robofac_garage_scientist_1", "x": 2, "y": 1 } ]
     }
   }
 ]

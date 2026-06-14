@@ -20,7 +20,7 @@ int detail::get_current_language_version()
 #if defined(LOCALIZE)
 #include "options.h"
 #include "system_locale.h"
-#include "ui.h"
+#include "uilist.h"
 
 std::string select_language()
 {
@@ -53,8 +53,8 @@ std::string locale_dir()
 #endif
 
 #if !defined(__ANDROID__) && ((defined(__linux__) || defined(CATA_IS_ON_BSD) || (defined(MACOSX) && !defined(TILES))))
-    if( !PATH_INFO::base_path().empty() ) {
-        loc_dir = PATH_INFO::base_path() + "share/locale";
+    if( !PATH_INFO::base_path().get_logical_root_path().empty() ) {
+        loc_dir = ( PATH_INFO::base_path() / "share" / "locale" ).generic_u8string();
     } else {
         loc_dir = PATH_INFO::langdir();
     }

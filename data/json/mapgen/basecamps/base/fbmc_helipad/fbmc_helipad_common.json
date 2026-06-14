@@ -2,13 +2,11 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_helipad_0",
-    "method": "json",
     "object": { "set": [ { "point": "furniture", "id": "f_bulletin", "x": 15, "y": 15 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_helipad_barricade_wood",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_wall_wood", "x": 5, "y": 16 },
@@ -24,7 +22,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_helipad_barricade_migo_resin",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_wall_resin", "x": 5, "y": 16 },
@@ -40,13 +37,11 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_helipad_root_cellar",
-    "method": "json",
     "object": { "set": [ { "point": "terrain", "id": "t_rootcellar", "x": 13, "y": 15 } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_helipad_butchery_rack",
-    "method": "json",
     "object": {
       "set": [
         { "point": "furniture", "id": "f_butcher_rack", "x": 10, "y": 15 },
@@ -57,7 +52,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_helipad_reinforce_doors",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_rdoor_c", "x": 16, "y": 16 },
@@ -68,7 +62,6 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmc_helipad_radio",
-    "method": "json",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_radio_controls", "x": 19, "y": 15 },

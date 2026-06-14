@@ -1,0 +1,280 @@
+[
+  {
+    "type": "snippet",
+    "category": "<sketch_concept_description>",
+    "text": [
+      { "id": "sketch_concept_description_0001", "text": "<physical_build_adjective> <character_gender_adjective>" },
+      {
+        "id": "sketch_concept_description_0002",
+        "text": "<physical_build_adjective>, <physical_appearance_adjective> <character_gender_adjective>"
+      },
+      {
+        "id": "sketch_concept_description_0003",
+        "text": "<physical_appearance_adjective> <character_gender_adjective>"
+      },
+      {
+        "id": "sketch_concept_description_0004",
+        "text": "<physical_appearance_adjective> anthropomorphic <nonhuman_species_noun> <character_gender_adjective>"
+      },
+      { "id": "sketch_concept_description_0005", "text": "<nonhuman_species_noun>" },
+      {
+        "id": "sketch_concept_description_0006",
+        "text": "<physical_appearance_adjective> <humanoid_species_noun> <character_gender_adjective>"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<physical_build_adjective>",
+    "//": "More objective adjectives of someone's physical build.",
+    "text": [
+      { "id": "physical_build_adjective_0001", "text": { "str": "buff", "ctxt": "physical build" } },
+      { "id": "physical_build_adjective_0002", "text": { "str": "scrawny", "ctxt": "physical build" } },
+      { "id": "physical_build_adjective_0003", "text": { "str": "tall", "ctxt": "physical build" } },
+      { "id": "physical_build_adjective_0004", "text": { "str": "short", "ctxt": "physical build" } },
+      { "id": "physical_build_adjective_0005", "text": { "str": "diminutive", "ctxt": "physical build" } },
+      { "id": "physical_build_adjective_0006", "text": { "str": "broad", "ctxt": "physical build" } },
+      { "id": "physical_build_adjective_0007", "text": { "str": "stocky", "ctxt": "physical build" } },
+      { "id": "physical_build_adjective_0008", "text": { "str": "thick", "ctxt": "physical build" } },
+      { "id": "physical_build_adjective_0009", "text": { "str": "strong", "ctxt": "physical build" } },
+      { "id": "physical_build_adjective_0010", "text": { "str": "weak", "ctxt": "physical build" } },
+      { "id": "physical_build_adjective_0011", "text": { "str": "well-built", "ctxt": "physical build" } },
+      { "id": "physical_build_adjective_0012", "text": { "str": "plump", "ctxt": "physical build" } },
+      { "id": "physical_build_adjective_0013", "text": { "str": "thin", "ctxt": "physical build" } },
+      { "id": "physical_build_adjective_0014", "text": { "str": "fat", "ctxt": "physical build" } },
+      { "id": "physical_build_adjective_0015", "text": { "str": "slim", "ctxt": "physical build" } },
+      { "id": "physical_build_adjective_0016", "text": { "str": "petite", "ctxt": "physical build" } },
+      { "id": "physical_build_adjective_0017", "text": { "str": "athletic", "ctxt": "physical build" } },
+      { "id": "physical_build_adjective_0018", "text": { "str": "lanky", "ctxt": "physical build" } },
+      { "id": "physical_build_adjective_0019", "text": { "str": "stout", "ctxt": "physical build" } },
+      { "id": "physical_build_adjective_0020", "text": { "str": "curvy", "ctxt": "physical build" } },
+      { "id": "physical_build_adjective_0021", "text": { "str": "slender", "ctxt": "physical build" } },
+      { "id": "physical_build_adjective_0022", "text": { "str": "muscular", "ctxt": "physical build" } },
+      { "id": "physical_build_adjective_0023", "text": { "str": "chubby", "ctxt": "physical build" } },
+      { "id": "physical_build_adjective_0024", "text": { "str": "skinny", "ctxt": "physical build" } }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<physical_appearance_adjective>",
+    "//": "This is a biased description of how someone looks to you, like pretty.",
+    "text": [
+      { "id": "physical_appearance_adjective_0001", "text": { "str": "beautiful", "ctxt": "physical appearance adjective" } },
+      {
+        "id": "physical_appearance_adjective_0002",
+        "text": { "str": "handsome", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0003",
+        "text": { "str": "sexy", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0004",
+        "text": { "str": "ugly", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0005",
+        "text": { "str": "attractive", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0006",
+        "text": { "str": "stunning", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0007",
+        "text": { "str": "gorgeous", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0008",
+        "text": { "str": "pretty", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0009",
+        "text": { "str": "cute", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0010",
+        "text": { "str": "lovely", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0011",
+        "text": { "str": "elegant", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0012",
+        "text": { "str": "charming", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0013",
+        "text": { "str": "striking", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0014",
+        "text": { "str": "radiant", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0015",
+        "text": { "str": "dashing", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0016",
+        "text": { "str": "sophisticated", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0017",
+        "text": { "str": "exquisite", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0018",
+        "text": { "str": "alluring", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0019",
+        "text": { "str": "fashionable", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0020",
+        "text": { "str": "trendy", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0021",
+        "text": { "str": "stylish", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0022",
+        "text": { "str": "classy", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0023",
+        "text": { "str": "regal", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0024",
+        "text": { "str": "royal", "ctxt": "physical appearance adjective" }
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<character_gender_adjective>",
+    "//": "Think describing someone you saw on the street passing by.",
+    "text": [
+      { "id": "character_gender_adjective_0001", "text": { "str": "man", "ctxt": "character gender" } },
+      { "id": "character_gender_adjective_0002", "text": { "str": "woman", "ctxt": "character gender" } },
+      { "id": "character_gender_adjective_0004", "text": { "str": "girl", "ctxt": "character gender" } },
+      { "id": "character_gender_adjective_0005", "text": { "str": "boy", "ctxt": "character gender" } }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<nonhuman_species_noun>",
+    "text": [
+      { "id": "nonhuman_species_noun_0001", "text": { "str": "shark", "ctxt": "nonhuman species" } },
+      { "id": "nonhuman_species_noun_0002", "text": { "str": "wolf", "ctxt": "nonhuman species" } },
+      { "id": "nonhuman_species_noun_0003", "text": { "str": "fox", "ctxt": "nonhuman species" } },
+      { "id": "nonhuman_species_noun_0004", "text": { "str": "dog", "ctxt": "nonhuman species" } },
+      { "id": "nonhuman_species_noun_0005", "text": { "str": "snake", "ctxt": "nonhuman species" } },
+      { "id": "nonhuman_species_noun_0006", "text": { "str": "chicken", "ctxt": "nonhuman species" } },
+      { "id": "nonhuman_species_noun_0007", "text": { "str": "otter", "ctxt": "nonhuman species" } },
+      { "id": "nonhuman_species_noun_0008", "text": { "str": "cat", "ctxt": "nonhuman species" } },
+      { "id": "nonhuman_species_noun_0009", "text": { "str": "lion", "ctxt": "nonhuman species" } },
+      { "id": "nonhuman_species_noun_0010", "text": { "str": "leopard", "ctxt": "nonhuman species" } },
+      { "id": "nonhuman_species_noun_0011", "text": { "str": "falcon", "ctxt": "nonhuman species" } },
+      { "id": "nonhuman_species_noun_0012", "text": { "str": "pigeon", "ctxt": "nonhuman species" } },
+      { "id": "nonhuman_species_noun_0013", "text": { "str": "hawk", "ctxt": "nonhuman species" } },
+      { "id": "nonhuman_species_noun_0014", "text": { "str": "goose", "ctxt": "nonhuman species" } },
+      { "id": "nonhuman_species_noun_0015", "text": { "str": "fish", "ctxt": "nonhuman species" } }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<humanoid_species_noun>",
+    "//": "Things that don't need anthropromorphic to describe, like orcs and aliens.",
+    "text": [
+      { "id": "humanoid_species_noun_0001", "text": { "str": "orc", "ctxt": "humanoid species" } },
+      { "id": "humanoid_species_noun_0002", "text": { "str": "goblin", "ctxt": "humanoid species" } },
+      { "id": "humanoid_species_noun_0003", "text": { "str": "bugbear", "ctxt": "humanoid species" } },
+      { "id": "humanoid_species_noun_0004", "text": { "str": "alien", "ctxt": "humanoid species" } },
+      { "id": "humanoid_species_noun_0005", "text": { "str": "elf", "ctxt": "humanoid species" } },
+      { "id": "humanoid_species_noun_0006", "text": { "str": "dwarf", "ctxt": "humanoid species" } }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<random_character_pose>",
+    "text": [
+      { "id": "random_character_pose_0001", "text": "drawn from various perspectives across the page" },
+      { "id": "random_character_pose_0002", "text": "standing proudly, with head held high" },
+      { "id": "random_character_pose_0003", "text": "sitting at a table" },
+      { "id": "random_character_pose_0004", "text": "sitting upright in a chair" },
+      { "id": "random_character_pose_0005", "text": "laying down on a sofa" },
+      { "id": "random_character_pose_0006", "text": "smiling at the viewer" },
+      { "id": "random_character_pose_0007", "text": "casting magical powers of some sort" },
+      { "id": "random_character_pose_0008", "text": "taking a selfie with a <sketch_concept_description>" },
+      { "id": "random_character_pose_0009", "text": "gently embracing a <sketch_concept_description>" },
+      { "id": "random_character_pose_0010", "text": "kissing a <sketch_concept_description>" },
+      { "id": "random_character_pose_0011", "text": "staring at the viewer with a blank expression" },
+      { "id": "random_character_pose_0012", "text": "at a business meeting, dressed in a suit" },
+      { "id": "random_character_pose_0013", "text": "<random_character_pose_dark>" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<random_character_pose_painting>",
+    "text": [
+      { "id": "random_character_pose_painting_0001", "text": "standing proudly, with head held high" },
+      { "id": "random_character_pose_painting_0002", "text": "sitting at a table" },
+      { "id": "random_character_pose_painting_0003", "text": "sitting at a table, having a hot meal" },
+      { "id": "random_character_pose_painting_0004", "text": "sitting upright in a chair" },
+      { "id": "random_character_pose_painting_0005", "text": "sitting upright in a chair, reading a book" },
+      { "id": "random_character_pose_painting_0006", "text": "sitting upright in a chair, watching TV" },
+      { "id": "random_character_pose_painting_0007", "text": "laying down on a sofa" },
+      { "id": "random_character_pose_painting_0008", "text": "smiling at the viewer" },
+      { "id": "random_character_pose_painting_0009", "text": "casting magical powers of some sort" },
+      { "id": "random_character_pose_painting_0010", "text": "taking a selfie with a <sketch_concept_description>" },
+      { "id": "random_character_pose_painting_0011", "text": "gently embracing a <sketch_concept_description>" },
+      { "id": "random_character_pose_painting_0012", "text": "kissing a <sketch_concept_description>" },
+      { "id": "random_character_pose_painting_0013", "text": "staring at the viewer with a blank expression" },
+      { "id": "random_character_pose_painting_0014", "text": "at a business meeting, dressed in a suit" },
+      { "id": "random_character_pose_painting_0015", "text": "<random_character_pose_dark>" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<random_character_pose_dark>",
+    "text": [
+      { "id": "random_character_pose_dark_0001", "text": "angrily shouting at an unknown subject" },
+      { "id": "random_character_pose_dark_0002", "text": "angrily shouting at a <sketch_concept_description>" },
+      { "id": "random_character_pose_dark_0003", "text": "gripping weapons, ready for battle" },
+      {
+        "id": "random_character_pose_dark_0004",
+        "text": "locked in bloody combat with a <sketch_concept_description>"
+      },
+      { "id": "random_character_pose_dark_0005", "text": "looking downward, weeping heavily" },
+      {
+        "id": "random_character_pose_dark_0006",
+        "text": "sitting at the base of a wall, bleeding profusely with many wounds"
+      },
+      {
+        "id": "random_character_pose_dark_0007",
+        "text": "killing a <sketch_concept_description>, as blood flies through the air"
+      },
+      {
+        "id": "random_character_pose_dark_0008",
+        "text": "holding a <sketch_concept_description> in their arms, both of them are covered in blood"
+      },
+      {
+        "id": "random_character_pose_dark_0009",
+        "text": "dressed in combat armor, hunkering behind a wall.  Bullets are flying through the air"
+      },
+      {
+        "id": "random_character_pose_dark_0010",
+        "text": "laying on a hospital bed, overseen by nurses.  They are covered in bandages, casts, and other such things"
+      },
+      {
+        "id": "random_character_pose_dark_0011",
+        "text": "being slain by a <sketch_concept_description>, viscera flying from the wound"
+      }
+    ]
+  }
+]

@@ -1,27 +1,28 @@
 #include "event_statistics.h"
 
 #include <algorithm>
+#include <list>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
-#include <set>
 #include <string>
-#include <type_traits>
 #include <unordered_map>
 #include <utility>
 
+#include "cata_assert.h"
 #include "cata_variant.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
 #include "event_field_transformations.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
+#include "hash_utils.h"
 #include "output.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
+#include "translations.h"
 
 // event_transformation and event_statistic are both objects defined in json
 // and managed via generic_factory.
@@ -75,6 +76,11 @@ void event_transformation::load_transformation( const JsonObject &jo, const std:
     event_transformation_factory.load( jo, src );
 }
 
+void event_transformation::finalize_all()
+{
+    event_transformation_factory.finalize();
+}
+
 void event_transformation::check_consistency()
 {
     event_transformation_factory.check();
@@ -102,6 +108,11 @@ void event_statistic::load_statistic( const JsonObject &jo, const std::string &s
     event_statistic_factory.load( jo, src );
 }
 
+void event_statistic::finalize_all()
+{
+    event_statistic_factory.finalize();
+}
+
 void event_statistic::check_consistency()
 {
     event_statistic_factory.check();
@@ -122,6 +133,11 @@ template<>
 bool string_id<score>::is_valid() const
 {
     return score_factory.is_valid( *this );
+}
+
+void score::finalize_all()
+{
+    score_factory.finalize();
 }
 
 void score::load_score( const JsonObject &jo, const std::string &src )
@@ -168,6 +184,8 @@ class event_statistic::impl
         virtual std::unique_ptr<impl> clone() const = 0;
 };
 
+namespace
+{
 struct value_constraint {
     enum comparator { lt, lteq, gteq, gt };
     std::vector<cata_variant> equals_any_;
@@ -414,6 +432,7 @@ struct event_transformation_event_source : event_source {
         return std::make_unique<event_transformation_event_source>( *this );
     }
 };
+} // namespace
 
 std::unique_ptr<event_source> event_source::load( const JsonObject &jo )
 {
@@ -431,6 +450,8 @@ std::unique_ptr<event_source> event_source::load( const JsonObject &jo )
     }
 }
 
+namespace
+{
 struct event_transformation_impl : public event_transformation::impl {
     template<typename NewFields, typename Constraints, typename DropFields>
     event_transformation_impl( const string_id<event_transformation> &id,
@@ -686,6 +707,7 @@ struct event_transformation_impl : public event_transformation::impl {
         return std::make_unique<event_transformation_impl>( *this );
     }
 };
+} // namespace
 
 event_multiset event_transformation::value( stats_tracker &stats ) const
 {
@@ -697,7 +719,7 @@ std::unique_ptr<stats_tracker_state> event_transformation::watch( stats_tracker 
     return impl_->watch( stats );
 }
 
-void event_transformation::load( const JsonObject &jo, const std::string_view )
+void event_transformation::load( const JsonObject &jo, std::string_view )
 {
     std::map<std::string, new_field> new_fields;
     optional( jo, was_loaded, "new_fields", new_fields );
@@ -729,6 +751,8 @@ monotonically event_transformation::monotonicity() const
     return impl_->monotonicity();
 }
 
+namespace
+{
 struct event_statistic_count : event_statistic::impl {
     event_statistic_count( const string_id<event_statistic> &i, std::unique_ptr<event_source> s ) :
         id( i ),
@@ -1202,6 +1226,7 @@ struct event_statistic_last_value : event_statistic_field_summary<false> {
         return std::make_unique<event_statistic_last_value>( *this );
     }
 };
+} // namespace
 
 cata_variant event_statistic::value( stats_tracker &stats ) const
 {
@@ -1213,7 +1238,7 @@ std::unique_ptr<stats_tracker_state> event_statistic::watch( stats_tracker &stat
     return impl_->watch( stats );
 }
 
-void event_statistic::load( const JsonObject &jo, const std::string_view )
+void event_statistic::load( const JsonObject &jo, std::string_view )
 {
     std::string type;
     mandatory( jo, was_loaded, "stat_type", type );
@@ -1293,7 +1318,7 @@ cata_variant score::value( stats_tracker &stats ) const
     return stats.value_of( stat_ );
 }
 
-void score::load( const JsonObject &jo, const std::string_view )
+void score::load( const JsonObject &jo, std::string_view )
 {
     optional( jo, was_loaded, "description", description_ );
     mandatory( jo, was_loaded, "statistic", stat_ );

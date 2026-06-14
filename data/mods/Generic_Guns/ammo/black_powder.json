@@ -1,7 +1,8 @@
 [
   {
     "id": "black_powder_ball",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "flintlock_ammo",
     "name": { "str": "paper cartridge" },
     "description": "A paper cartridge containing black powder and a lead ball.  Historically used to reload muzzleloaders in a more reasonable time.",
@@ -9,7 +10,8 @@
   },
   {
     "id": "black_powder_shot",
-    "type": "AMMO",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "copy-from": "flintlock_shot",
     "name": { "str": "paper shot cartridge" },
     "description": "A paper cartridge containing black powder and metallic shot.  Historically used to reload muzzleloaders in a more reasonable time.",

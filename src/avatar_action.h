@@ -2,13 +2,10 @@
 #ifndef CATA_SRC_AVATAR_ACTION_H
 #define CATA_SRC_AVATAR_ACTION_H
 
-#include <iosfwd>
 #include <optional>
-#include <vector>
+#include <string>
 
-#include "activity_type.h"
-#include "point.h"
-#include "units_fwd.h"
+#include "coordinates.h"
 
 class Character;
 class avatar;
@@ -22,10 +19,7 @@ namespace avatar_action
 
 /** Eat food or fuel  'E' (or 'a') */
 void eat( avatar &you, item_location &loc );
-void eat( avatar &you, item_location &loc,
-          const std::vector<int> &consume_menu_selections,
-          const std::vector<item_location> &consume_menu_selected_items,
-          const std::string &consume_menu_filter, activity_id type );
+
 // special rules for eating: grazing etc
 // returns false if no rules are needed
 bool eat_here( avatar &you );
@@ -33,17 +27,9 @@ void eat_or_use( avatar &you, item_location loc );
 
 // Standard movement; handles attacks, traps, &c. Returns false if auto move
 // should be canceled
-bool move( avatar &you, map &m, const tripoint &d );
-inline bool move( avatar &you, map &m, const point &d )
-{
-    return move( you, m, tripoint( d, 0 ) );
-}
-
-// Handle moving from a ramp
-bool ramp_move( avatar &you, map &m, const tripoint &dest );
-
+bool move( avatar &you, map &m, const tripoint_rel_ms &d );
 /** Handles swimming by the player. Called by avatar_action::move(). */
-void swim( map &m, avatar &you, const tripoint &p );
+void swim( map &m, avatar &you, const tripoint_bub_ms &p );
 
 void autoattack( avatar &you, map &m );
 
@@ -75,8 +61,16 @@ bool fire_turret_manual( avatar &you, map &m, turret_data &turret );
 
 // Throw an item  't'
 void plthrow( avatar &you, item_location loc,
-              const std::optional<tripoint> &blind_throw_from_pos = std::nullopt );
+              const std::optional<tripoint_bub_ms> &blind_throw_from_pos = std::nullopt );
 
+// Throw the wielded item
+void plthrow_wielded( avatar &you,
+                      const std::optional<tripoint_bub_ms> &blind_throw_from_pos = std::nullopt );
+
+/**
+ * Opens up a menu to Unload a container, gun, or tool
+ * If it's a gun, some gunmods can also be loaded
+ */
 void unload( avatar &you );
 
 // Use item; also tries E,R,W  'a'

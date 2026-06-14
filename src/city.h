@@ -2,13 +2,13 @@
 #ifndef CATA_SRC_CITY_H
 #define CATA_SRC_CITY_H
 
-#include <string>         // for string, basic_string
-#include <vector>         // for vector
+#include <string>
+#include <string_view>
+#include <vector>
 
-#include "coordinates.h"  // for operator==, point_om_omt, point_abs_om, coo...
-#include "overmap_types.h"
-#include "point.h"        // for point
-#include "type_id.h"      // for city_id, string_id
+#include "coordinates.h"
+#include "point.h"
+#include "type_id.h"
 
 class JsonObject;
 template <typename T> class generic_factory;
@@ -16,8 +16,9 @@ template <typename T> class generic_factory;
 struct city {
     void load( const JsonObject &, std::string_view );
     void check() const;
+    void finalize();
     static void load_city( const JsonObject &, const std::string & );
-    static void finalize();
+    static void finalize_all();
     static void check_consistency();
     static const std::vector<city> &get_all();
     static void reset();
@@ -36,6 +37,7 @@ struct city {
     std::string name;
 
     explicit city( const point_om_omt &P = point_om_omt(), int S = -1 );
+    explicit city( const std::string &N, const point_om_omt &P = point_om_omt(), int S = -1 );
 
     explicit operator bool() const {
         return size >= 0;

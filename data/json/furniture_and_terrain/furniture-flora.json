@@ -3,7 +3,7 @@
     "type": "furniture",
     "id": "f_mutpoppy",
     "name": "mutated poppy flower",
-    "description": "These strange flowers have appeared in the wake of the Cataclysm, and their buds can be used for medicinal purposes, like the seeds of the mundane poppy they're named after.  The dirt around it gently churns as its roots writhe beneath the soil, and it's surrounded by an overwhelming floral smell that makes you feel sleepy.",
+    "description": "These strange flowers have appeared in the wake of the Cataclysm, and their buds can be used for medicinal purposes, like the buds of the mundane poppy they're named after.  The dirt around it gently churns as its roots writhe beneath the soil, and it's surrounded by an overwhelming floral smell that makes you feel sleepy.",
     "symbol": "f",
     "color": "light_red",
     "looks_like": "f_dandelion",
@@ -58,6 +58,21 @@
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "spring", "summer" ], "id": "wild_carrot_harv" } ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_asparagus_wild",
+    "name": "wild asparagus",
+    "description": "A perennial plant cultivated for its young edible shoots, commonly called spears.  When raw and growing naturally, the plant has a distinctive appearance that changes through its life cycle.",
+    "symbol": "f",
+    "looks_like": "t_shrub",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "SHRUB" ],
+    "examine_action": "harvest_furn_nectar",
+    "color": "green",
+    "harvest_by_season": [ { "seasons": [ "winter", "spring", "summer" ], "id": "wild_asparagus_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -159,7 +174,7 @@
   {
     "type": "furniture",
     "id": "f_black_eyed_susan",
-    "name": "black eyed susan",
+    "name": "black eyed Susan",
     "description": "A mildly poisonous yellow flower with a dark ball in the middle.  Sometimes known as an ox-eye daisy.",
     "looks_like": "f_dandelion",
     "symbol": "f",
@@ -324,14 +339,14 @@
     "comfort": 1,
     "floor_bedding_warmth": 50,
     "required_str": -1,
-    "deconstruct": { "items": [ { "item": "withered", "count": 50 } ] },
+    "deconstruct": { "items": [ { "item": "leaves", "count": 100 } ] },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "bash": {
       "str_min": 2,
       "str_max": 6,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "items": [ { "item": "withered", "count": [ 45, 50 ] } ]
+      "items": [ { "item": "leaves", "count": [ 62, 75 ] } ]
     }
   },
   {
@@ -473,6 +488,7 @@
     "required_str": -1,
     "move_cost_mod": 0,
     "flags": [ "TRANSPARENT", "SHORT", "SHRUB", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "examine_action": "harvest_furn",
     "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "dogbane_harv" } ],
     "bash": {
       "str_min": 2,
@@ -527,7 +543,7 @@
     "type": "furniture",
     "id": "f_wild_rice",
     "name": "wild rice",
-    "description": "Also called Indian rice, Northern wild rice, or manoomin in Ojibwe, is a species of rice that has been harvested and used by Native American tribes of the northeast for hundreds of years.  It's similar to other types of wild rice, offering a fibre-rich and healthy basis of a meal.",
+    "description": "Also called Indian rice, Northern wild rice, or manoomin in Ojibwe, is a species of rice that has been harvested and used by Native American tribes of the northeast for hundreds of years.  It's similar to other types of wild rice, offering a fiber-rich and healthy basis of a meal.",
     "symbol": "f",
     "looks_like": "f_cattails",
     "color": [ "brown_green", "green", "green", "brown" ],
@@ -550,7 +566,7 @@
     "id": "f_hedge_short",
     "name": "short hedge",
     "description": "A shrub with small green leaves, trimmed into a squared shape.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "green",
     "looks_like": "t_shrub",
     "move_cost_mod": 3,
@@ -568,7 +584,9 @@
         { "item": "stick_long", "count": [ 2, 3 ] },
         { "item": "splinter", "count": [ 5, 10 ] },
         { "item": "leaves", "count": [ 5, 8 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -576,7 +594,7 @@
     "id": "f_hedge_tall",
     "name": "tall hedge",
     "description": "A tall shrub with small green leaves, trimmed into a squared shape.  You can't see past this thick hedgerow.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "green",
     "looks_like": "t_shrub",
     "move_cost_mod": -1,
@@ -594,7 +612,9 @@
         { "item": "stick_long", "count": [ 3, 6 ] },
         { "item": "splinter", "count": [ 8, 16 ] },
         { "item": "leaves", "count": [ 7, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -618,7 +638,9 @@
         { "item": "stick_long", "count": [ 3, 6 ] },
         { "item": "splinter", "count": [ 8, 16 ] },
         { "item": "leaves", "count": [ 7, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -642,7 +664,9 @@
         { "item": "stick_long", "count": [ 3, 6 ] },
         { "item": "splinter", "count": [ 8, 16 ] },
         { "item": "leaves", "count": [ 7, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -666,7 +690,9 @@
         { "item": "stick_long", "count": [ 3, 6 ] },
         { "item": "splinter", "count": [ 8, 16 ] },
         { "item": "leaves", "count": [ 7, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -690,7 +716,9 @@
         { "item": "stick", "count": [ 5, 12 ] },
         { "item": "stick_long", "count": [ 5, 12 ] },
         { "item": "splinter", "count": [ 12, 38 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   }
 ]

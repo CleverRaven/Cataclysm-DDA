@@ -1,0 +1,12 @@
+[
+  {
+    "type": "palette",
+    "id": "no_hope_damage_palette",
+    "//": "Nested damage which has been extracted from standard_domestic_palette because it wasn't playing nicely with nests",
+    "nested": {
+      "o": { "chunks": [ [ "destroyed_furniture", 80 ], [ "null", 20 ] ] },
+      ":": { "chunks": [ [ "destroyed_glass_door_wall", 80 ], [ "null", 20 ] ] },
+      " ": { "chunks": [ [ "bile_field", 5 ], [ "trash", 5 ], [ "null", 90 ] ] }
+    }
+  }
+]

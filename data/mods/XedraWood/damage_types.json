@@ -1,0 +1,39 @@
+[
+  {
+    "id": "psychic_damage",
+    "type": "damage_type",
+    "physical": false,
+    "magic_color": "white",
+    "name": "psychic",
+    "ondamage_eocs": [ "EOC_PSYCHIC_DAMAGE_STUN_CHANCE", "EOC_PSYCHIC_DAMAGE_DAZED_CHANCE", "EOC_PSYCHIC_DAMAGE_KNOCKDOWN_CHANCE" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSYCHIC_DAMAGE_KNOCKDOWN_CHANCE",
+    "condition": { "and": [ { "x_in_y_chance": { "x": 1, "y": 20 } }, { "math": [ "_damage_taken", ">", "0" ] } ] },
+    "effect": [ { "npc_add_effect": "downed", "duration": "1 s" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSYCHIC_DAMAGE_STUN_CHANCE",
+    "condition": { "and": [ { "x_in_y_chance": { "x": 1, "y": 3 } }, { "math": [ "_damage_taken", ">", "0" ] } ] },
+    "effect": [ { "npc_add_effect": "psi_stunned", "duration": "1 s" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSYCHIC_DAMAGE_DAZED_CHANCE",
+    "condition": { "and": [ { "x_in_y_chance": { "x": 2, "y": 3 } }, { "math": [ "_damage_taken", ">", "0" ] } ] },
+    "effect": [ { "npc_add_effect": "psi_dazed", "duration": "2 s" } ]
+  },
+  {
+    "id": "psychic_damage",
+    "type": "damage_info_order",
+    "info_display": "detailed",
+    "verb": "mindblasting",
+    "bionic_info": { "order": 999900, "show_type": false },
+    "protection_info": { "order": 999900, "show_type": false },
+    "pet_prot_info": { "order": 999900, "show_type": false },
+    "melee_combat_info": { "order": 999900, "show_type": false },
+    "ablative_info": { "order": 999900, "show_type": false }
+  }
+]

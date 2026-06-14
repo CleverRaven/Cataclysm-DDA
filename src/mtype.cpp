@@ -1,22 +1,21 @@
 #include "mtype.h"
 
 #include <algorithm>
-#include <array>
 #include <cmath>
+#include <initializer_list>
 #include <unordered_map>
 
 #include "behavior_strategy.h"
 #include "creature.h"
+#include "debug.h"
+#include "enums.h"
 #include "field_type.h"
+#include "game_constants.h"
 #include "item.h"
 #include "itype.h"
-#include "mod_manager.h"
-#include "mondeath.h"
 #include "monstergenerator.h"
-#include "output.h"
 #include "translations.h"
 #include "units.h"
-#include "weakpoint.h"
 
 static const harvest_id harvest_list_human( "human" );
 
@@ -45,6 +44,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_ALWAYS_SEES_YOU,
             mon_flag_ALWAYS_VISIBLE,
             mon_flag_ANIMAL,
+            mon_flag_APPEARS_NEUTRAL,
             mon_flag_AQUATIC,
             mon_flag_ARTHROPOD_BLOOD,
             mon_flag_ATTACKMON,
@@ -60,9 +60,12 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_CAN_DIG,
             mon_flag_CAN_OPEN_DOORS,
             mon_flag_CLIMBS,
+            mon_flag_CLUMSY_ATTACKS,
             mon_flag_COMBAT_MOUNT,
             mon_flag_CONSOLE_DESPAWN,
             mon_flag_CONVERSATION,
+            mon_flag_COPY_SUMMONER_LOOK,
+            mon_flag_COPY_AVATAR_LOOK,
             mon_flag_CORNERED_FIGHTER,
             mon_flag_DEADLY_VIRUS,
             mon_flag_DESTROYS,
@@ -83,6 +86,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_FIREPROOF,
             mon_flag_FIREY,
             mon_flag_FISHABLE,
+            mon_flag_FLASHBANGPROOF,
             mon_flag_FLIES,
             mon_flag_GOODHEARING,
             mon_flag_GRABS,
@@ -99,14 +103,17 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_HUMAN,
             mon_flag_ID_CARD_DESPAWN,
             mon_flag_IMMOBILE,
+            mon_flag_INFRARED_VISION,
             mon_flag_INSECTICIDEPROOF,
             mon_flag_INTERIOR_AMMO,
             mon_flag_KEENNOSE,
             mon_flag_KEEP_DISTANCE,
+            mon_flag_LOCKS_ON,
             mon_flag_LOUDMOVES,
             mon_flag_MECH_DEFENSIVE,
             mon_flag_MECH_RECON_VISION,
             mon_flag_MILKABLE,
+            mon_flag_MIND_SEEING,
             mon_flag_NEMESIS,
             mon_flag_NEVER_WANDER,
             mon_flag_NIGHT_INVISIBILITY,
@@ -117,20 +124,25 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_NO_BREED,
             mon_flag_NO_FUNG_DMG,
             mon_flag_NO_NECRO,
+            mon_flag_ONE_DIMENSIONAL_X,
+            mon_flag_ONE_DIMENSIONAL_Y,
+            mon_flag_ONE_DIMENSIONAL_Z,
             mon_flag_PACIFIST,
             mon_flag_PARALYZEVENOM,
-            mon_flag_PATH_AVOID_DANGER_1,
-            mon_flag_PATH_AVOID_DANGER_2,
+            mon_flag_PATH_AVOID_DANGER,
             mon_flag_PATH_AVOID_FALL,
             mon_flag_PATH_AVOID_FIRE,
             mon_flag_PAY_BOT,
+            mon_flag_PERMANENT_INVISIBILITY,
             mon_flag_PET_HARNESSABLE,
             mon_flag_PET_MOUNTABLE,
             mon_flag_PET_WONT_FOLLOW,
             mon_flag_PHOTOPHOBIC,
+            mon_flag_PLANT_BLOOD,
             mon_flag_PLASTIC,
             mon_flag_POISON,
             mon_flag_PRIORITIZE_TARGETS,
+            mon_flag_PULP_PRYING,
             mon_flag_PUSH_MON,
             mon_flag_PUSH_VEH,
             mon_flag_QUEEN,
@@ -154,9 +166,11 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_SUNDEATH,
             mon_flag_SWARMS,
             mon_flag_SWIMS,
+            mon_flag_TEEP_IMMUNE,
+            mon_flag_TRUESIGHT,
+            mon_flag_UNBREAKABLE_MORALE,
             mon_flag_VAMP_VIRUS,
             mon_flag_VENOM,
-            mon_flag_VERMIN,
             mon_flag_WARM,
             mon_flag_WATER_CAMOUFLAGE,
             mon_flag_WEBWALK,
@@ -171,6 +185,7 @@ void set_mon_flag_ids()
     mon_flag_ALWAYS_SEES_YOU = mon_flag_id( "ALWAYS_SEES_YOU" );
     mon_flag_ALWAYS_VISIBLE = mon_flag_id( "ALWAYS_VISIBLE" );
     mon_flag_ANIMAL = mon_flag_id( "ANIMAL" );
+    mon_flag_APPEARS_NEUTRAL = mon_flag_id( "APPEARS_NEUTRAL" );
     mon_flag_AQUATIC = mon_flag_id( "AQUATIC" );
     mon_flag_ARTHROPOD_BLOOD = mon_flag_id( "ARTHROPOD_BLOOD" );
     mon_flag_ATTACKMON = mon_flag_id( "ATTACKMON" );
@@ -186,9 +201,12 @@ void set_mon_flag_ids()
     mon_flag_CAN_DIG = mon_flag_id( "CAN_DIG" );
     mon_flag_CAN_OPEN_DOORS = mon_flag_id( "CAN_OPEN_DOORS" );
     mon_flag_CLIMBS = mon_flag_id( "CLIMBS" );
+    mon_flag_CLUMSY_ATTACKS = mon_flag_id( "CLUMSY_ATTACKS" );
     mon_flag_COMBAT_MOUNT = mon_flag_id( "COMBAT_MOUNT" );
     mon_flag_CONSOLE_DESPAWN = mon_flag_id( "CONSOLE_DESPAWN" );
     mon_flag_CONVERSATION = mon_flag_id( "CONVERSATION" );
+    mon_flag_COPY_AVATAR_LOOK = mon_flag_id( "COPY_AVATAR_LOOK" );
+    mon_flag_COPY_SUMMONER_LOOK = mon_flag_id( "COPY_SUMMONER_LOOK" );
     mon_flag_CORNERED_FIGHTER = mon_flag_id( "CORNERED_FIGHTER" );
     mon_flag_DEADLY_VIRUS = mon_flag_id( "DEADLY_VIRUS" );
     mon_flag_DESTROYS = mon_flag_id( "DESTROYS" );
@@ -209,6 +227,7 @@ void set_mon_flag_ids()
     mon_flag_FIREPROOF = mon_flag_id( "FIREPROOF" );
     mon_flag_FIREY = mon_flag_id( "FIREY" );
     mon_flag_FISHABLE = mon_flag_id( "FISHABLE" );
+    mon_flag_FLASHBANGPROOF = mon_flag_id( "FLASHBANGPROOF" );
     mon_flag_FLIES = mon_flag_id( "FLIES" );
     mon_flag_GOODHEARING = mon_flag_id( "GOODHEARING" );
     mon_flag_GRABS = mon_flag_id( "GRABS" );
@@ -225,14 +244,17 @@ void set_mon_flag_ids()
     mon_flag_HUMAN = mon_flag_id( "HUMAN" );
     mon_flag_ID_CARD_DESPAWN = mon_flag_id( "ID_CARD_DESPAWN" );
     mon_flag_IMMOBILE = mon_flag_id( "IMMOBILE" );
+    mon_flag_INFRARED_VISION = mon_flag_id( "INFRARED_VISION" );
     mon_flag_INSECTICIDEPROOF = mon_flag_id( "INSECTICIDEPROOF" );
     mon_flag_INTERIOR_AMMO = mon_flag_id( "INTERIOR_AMMO" );
     mon_flag_KEENNOSE = mon_flag_id( "KEENNOSE" );
     mon_flag_KEEP_DISTANCE = mon_flag_id( "KEEP_DISTANCE" );
+    mon_flag_LOCKS_ON = mon_flag_id( "LOCKS_ON" );
     mon_flag_LOUDMOVES = mon_flag_id( "LOUDMOVES" );
     mon_flag_MECH_DEFENSIVE = mon_flag_id( "MECH_DEFENSIVE" );
     mon_flag_MECH_RECON_VISION = mon_flag_id( "MECH_RECON_VISION" );
     mon_flag_MILKABLE = mon_flag_id( "MILKABLE" );
+    mon_flag_MIND_SEEING = mon_flag_id( "MIND_SEEING" );
     mon_flag_NEMESIS = mon_flag_id( "NEMESIS" );
     mon_flag_NEVER_WANDER = mon_flag_id( "NEVER_WANDER" );
     mon_flag_NIGHT_INVISIBILITY = mon_flag_id( "NIGHT_INVISIBILITY" );
@@ -243,20 +265,25 @@ void set_mon_flag_ids()
     mon_flag_NO_BREED = mon_flag_id( "NO_BREED" );
     mon_flag_NO_FUNG_DMG = mon_flag_id( "NO_FUNG_DMG" );
     mon_flag_NO_NECRO = mon_flag_id( "NO_NECRO" );
+    mon_flag_ONE_DIMENSIONAL_X = mon_flag_id( "ONE_DIMENSIONAL_X" );
+    mon_flag_ONE_DIMENSIONAL_Y = mon_flag_id( "ONE_DIMENSIONAL_Y" );
+    mon_flag_ONE_DIMENSIONAL_Z = mon_flag_id( "ONE_DIMENSIONAL_Z" );
     mon_flag_PACIFIST = mon_flag_id( "PACIFIST" );
     mon_flag_PARALYZEVENOM = mon_flag_id( "PARALYZEVENOM" );
-    mon_flag_PATH_AVOID_DANGER_1 = mon_flag_id( "PATH_AVOID_DANGER_1" );
-    mon_flag_PATH_AVOID_DANGER_2 = mon_flag_id( "PATH_AVOID_DANGER_2" );
+    mon_flag_PATH_AVOID_DANGER = mon_flag_id( "PATH_AVOID_DANGER" );
     mon_flag_PATH_AVOID_FALL = mon_flag_id( "PATH_AVOID_FALL" );
     mon_flag_PATH_AVOID_FIRE = mon_flag_id( "PATH_AVOID_FIRE" );
     mon_flag_PAY_BOT = mon_flag_id( "PAY_BOT" );
+    mon_flag_PERMANENT_INVISIBILITY = mon_flag_id( "PERMANENT_INVISIBILITY" );
     mon_flag_PET_HARNESSABLE = mon_flag_id( "PET_HARNESSABLE" );
     mon_flag_PET_MOUNTABLE = mon_flag_id( "PET_MOUNTABLE" );
     mon_flag_PET_WONT_FOLLOW = mon_flag_id( "PET_WONT_FOLLOW" );
     mon_flag_PHOTOPHOBIC = mon_flag_id( "PHOTOPHOBIC" );
+    mon_flag_PLANT_BLOOD = mon_flag_id( "PLANT_BLOOD" );
     mon_flag_PLASTIC = mon_flag_id( "PLASTIC" );
     mon_flag_POISON = mon_flag_id( "POISON" );
     mon_flag_PRIORITIZE_TARGETS = mon_flag_id( "PRIORITIZE_TARGETS" );
+    mon_flag_PULP_PRYING = mon_flag_id( "PULP_PRYING" );
     mon_flag_PUSH_MON = mon_flag_id( "PUSH_MON" );
     mon_flag_PUSH_VEH = mon_flag_id( "PUSH_VEH" );
     mon_flag_QUEEN = mon_flag_id( "QUEEN" );
@@ -278,9 +305,11 @@ void set_mon_flag_ids()
     mon_flag_SUNDEATH = mon_flag_id( "SUNDEATH" );
     mon_flag_SWARMS = mon_flag_id( "SWARMS" );
     mon_flag_SWIMS = mon_flag_id( "SWIMS" );
+    mon_flag_TEEP_IMMUNE = mon_flag_id( "TEEP_IMMUNE" );
+    mon_flag_TRUESIGHT = mon_flag_id( "TRUESIGHT" );
+    mon_flag_UNBREAKABLE_MORALE = mon_flag_id( "UNBREAKABLE_MORALE" );
     mon_flag_VAMP_VIRUS = mon_flag_id( "VAMP_VIRUS" );
     mon_flag_VENOM = mon_flag_id( "VENOM" );
-    mon_flag_VERMIN = mon_flag_id( "VERMIN" );
     mon_flag_WARM = mon_flag_id( "WARM" );
     mon_flag_WATER_CAMOUFLAGE = mon_flag_id( "WATER_CAMOUFLAGE" );
     mon_flag_WEBWALK = mon_flag_id( "WEBWALK" );
@@ -309,8 +338,6 @@ mtype::mtype()
 
     reproduces = false;
     baby_count = -1;
-    baby_monster = mtype_id::NULL_ID();
-    baby_egg = itype_id::NULL_ID();
 
     biosignatures = false;
     biosig_item = itype_id::NULL_ID();
@@ -319,8 +346,9 @@ mtype::mtype()
     sp_defense = nullptr;
     melee_training_cap = MAX_SKILL;
     harvest = harvest_list_human;
+    decay = harvest_id::NULL_ID();
     luminance = 0;
-    bash_skill = 0;
+    bash_skill = {};
 
     aggro_character = true;
 
@@ -430,7 +458,7 @@ field_type_id mtype::bloodType() const
     if( has_flag( mon_flag_ARTHROPOD_BLOOD ) ) {
         return fd_blood_invertebrate;
     }
-    if( made_of( material_veggy ) ) {
+    if( made_of( material_veggy ) || has_flag( mon_flag_PLANT_BLOOD ) ) {
         return fd_blood_veggy;
     }
     if( made_of( material_iflesh ) ) {
@@ -458,6 +486,16 @@ field_type_id mtype::gibType() const
     }
     // There are other materials not listed here like steel, protoplasmic, powder, null, stone, bone
     return fd_null;
+}
+
+int mtype::get_total_difficulty() const
+{
+    return difficulty;
+}
+
+int mtype::get_difficulty_adjustment() const
+{
+    return difficulty_adjustment;
 }
 
 itype_id mtype::get_meat_itype() const
@@ -533,96 +571,45 @@ const behavior::node_t *mtype::get_goals() const
     return &goals;
 }
 
-void mtype::faction_display( catacurses::window &w, const point &top_left, const int width ) const
+std::string mtype::get_difficulty_description() const
 {
-    int y = 0;
-    // Name & symbol
-    trim_and_print( w, top_left + point( 2, y ), width, c_white, string_format( "%s  %s", colorize( sym,
-                    color ), nname() ) );
-    y++;
-    // Difficulty
-    std::string diff_str;
-    if( difficulty < 3 ) {
-        diff_str = _( "<color_light_gray>Minimal threat.</color>" );
-    } else if( difficulty < 10 ) {
-        diff_str = _( "<color_light_gray>Mildly dangerous.</color>" );
-    } else if( difficulty < 20 ) {
-        diff_str = _( "<color_light_red>Dangerous.</color>" );
-    } else if( difficulty < 30 ) {
-        diff_str = _( "<color_red>Very dangerous.</color>" );
-    } else if( difficulty < 50 ) {
-        diff_str = _( "<color_red>Extremely dangerous.</color>" );
+    const int diff = get_total_difficulty();
+    if( diff < 3 ) {
+        return _( "<color_light_gray>Minimal threat</color>" );
+    } else if( diff < 10 ) {
+        return _( "<color_light_gray>Mildly dangerous</color>" );
+    } else if( diff < 20 ) {
+        return _( "<color_light_red>Dangerous</color>" );
+    } else if( diff < 30 ) {
+        return _( "<color_red>Very dangerous</color>" );
+    } else if( diff < 50 ) {
+        return _( "<color_red>Extremely dangerous</color>" );
     } else {
-        diff_str = _( "<color_red>Fatally dangerous!</color>" );
+        return _( "<color_red>Fatally dangerous</color>" );
     }
-    trim_and_print( w, top_left + point( 0, ++y ), width, c_light_gray,
-                    string_format( "%s: %s", colorize( _( "Difficulty" ), c_white ), diff_str ) );
-    // Origin
-    std::vector<std::string> origin_list =
-        foldstring( string_format( "%s: %s", colorize( _( "Origin" ), c_white ),
-                                   enumerate_as_string( src.begin(), src.end(),
-    []( const std::pair<mtype_id, mod_id> &source ) {
-        return string_format( "'%s'", source.second->name() );
-    }, enumeration_conjunction::arrow ) ), width );
-    for( const std::string &org : origin_list ) {
-        trim_and_print( w, top_left + point( 0, ++y ), width, c_light_gray, org );
+}
+
+std::string mtype::get_size_name() const
+{
+    switch( size ) {
+        case creature_size::tiny:
+            return _( "Tiny" );
+            break;
+        case creature_size::small:
+            return _( "Small" );
+            break;
+        case creature_size::medium:
+            return _( "Medium" );
+            break;
+        case creature_size::large:
+            return _( "Large" );
+            break;
+        case creature_size::huge:
+            return _( "Huge" );
+            break;
+        default:
+            debugmsg( "Invalid creature size!" );
+            return "Invalid creature size!";
+            break;
     }
-    // Size
-    const std::map<creature_size, std::string> size_map = {
-        {creature_size::tiny, translate_marker( "Tiny" )},
-        {creature_size::small, translate_marker( "Small" )},
-        {creature_size::medium, translate_marker( "Medium" )},
-        {creature_size::large, translate_marker( "Large" )},
-        {creature_size::huge, translate_marker( "Huge" )}
-    };
-    auto size_iter = size_map.find( size );
-    trim_and_print( w, top_left + point( 0, ++y ), width, c_light_gray,
-                    string_format( "%s: %s", colorize( _( "Size" ), c_white ),
-                                   size_iter == size_map.end() ? _( "Unknown" ) : _( size_iter->second ) ) );
-    // Species
-    std::vector<std::string> species_list =
-        foldstring( string_format( "%s: %s", colorize( _( "Species" ), c_white ),
-    enumerate_as_string( species_descriptions(), []( const std::string & sp ) {
-        return colorize( sp, c_yellow );
-    } ) ), width );
-    for( const std::string &sp : species_list ) {
-        trim_and_print( w, top_left + point( 0, ++y ), width, c_light_gray, sp );
-    }
-    // Senses
-    std::vector<std::string> senses_str;
-    if( has_flag( mon_flag_HEARS ) ) {
-        senses_str.emplace_back( colorize( _( "hearing" ), c_yellow ) );
-    }
-    if( has_flag( mon_flag_SEES ) ) {
-        senses_str.emplace_back( colorize( _( "sight" ), c_yellow ) );
-    }
-    if( has_flag( mon_flag_SMELLS ) ) {
-        senses_str.emplace_back( colorize( _( "smell" ), c_yellow ) );
-    }
-    trim_and_print( w, top_left + point( 0, ++y ), width, c_light_gray,
-                    string_format( "%s: %s", colorize( _( "Senses" ), c_white ), enumerate_as_string( senses_str ) ) );
-    // Abilities
-    if( has_flag( mon_flag_SWIMS ) ) {
-        trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can swim." ) );
-    }
-    if( has_flag( mon_flag_FLIES ) ) {
-        trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can fly." ) );
-    }
-    if( has_flag( mon_flag_DIGS ) ) {
-        trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can burrow underground." ) );
-    }
-    if( has_flag( mon_flag_CLIMBS ) ) {
-        trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can climb." ) );
-    }
-    if( has_flag( mon_flag_GRABS ) ) {
-        trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can grab." ) );
-    }
-    if( has_flag( mon_flag_VENOM ) ) {
-        trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can inflict poison." ) );
-    }
-    if( has_flag( mon_flag_PARALYZEVENOM ) ) {
-        trim_and_print( w, top_left + point( 0, ++y ), width, c_white, _( "It can inflict paralysis." ) );
-    }
-    // Description
-    fold_and_print( w, top_left + point( 0, y + 2 ), width, c_light_gray, get_description() );
 }

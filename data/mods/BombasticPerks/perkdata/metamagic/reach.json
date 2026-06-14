@@ -1,15 +1,15 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_metamagic_toggle_reach",
-    "condition": { "u_has_var": "reach_deactivated", "context": "perk_metamagic", "value": "yes" },
+    "id": "EOC_metamagic_toggle_reach_on",
+    "effect": [ { "u_add_var": "perk_metamagic_reach_deactivated", "value": "no" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_metamagic_toggle_reach_off",
     "effect": [
-      { "u_message": "You activate your reach metamagic" },
-      { "u_add_var": "reach_deactivated", "context": "perk_metamagic", "value": "no" }
-    ],
-    "false_effect": [
       { "u_message": "You deactivate your reach metamagic" },
-      { "u_add_var": "reach_deactivated", "context": "perk_metamagic", "value": "yes" }
+      { "u_add_var": "perk_metamagic_reach_deactivated", "value": "yes" }
     ]
   },
   {
@@ -20,12 +20,14 @@
     "condition": {
       "and": [
         { "u_has_trait": "perk_metamagic_reach" },
-        { "not": { "u_has_var": "reach_deactivated", "context": "perk_metamagic", "value": "yes" } }
+        { "not": { "compare_string": [ "yes", { "u_val": "perk_metamagic_reach_deactivated" } ] } }
       ]
     },
     "effect": [
-      { "math": [ "u_spellcasting_adjustment('range', 'flag_blacklist': 'CONSUMES_RUNES' )", "=", "1" ] },
-      { "math": [ "u_spellcasting_adjustment('cost', 'flag_blacklist': 'CONSUMES_RUNES' )", "=", "0.5" ] }
+      { "math": [ "u_spellcasting_adjustment('range', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES' ) = 1" ] },
+      {
+        "math": [ "u_spellcasting_adjustment('cost', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES' ) = 0.5" ]
+      }
     ]
   }
 ]

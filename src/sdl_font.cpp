@@ -3,10 +3,8 @@
 
 #include "font_loader.h"
 #include "output.h"
-#if !defined(__ANDROID)
-#include "imgui/imgui.h"
-#endif
 #include "sdl_utils.h"
+#include "ui_manager.h"
 
 #if defined(_WIN32)
 #   if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
@@ -22,21 +20,22 @@
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
+
     // bitmap font size test
     // return face index that has this size or below
     static int test_face_size( const std::string &f, int size, int faceIndex )
 {
-    const TTF_Font_Ptr fnt( TTF_OpenFontIndex( f.c_str(), size, faceIndex ) );
+    const TTF_Font_Ptr fnt = OpenFontIndex( f.c_str(), size, faceIndex );
     if( fnt ) {
-        const char *style = TTF_FontFaceStyleName( fnt.get() );
+        const char *style = FontFaceStyleName( fnt );
         if( style != nullptr ) {
-            int faces = TTF_FontFaces( fnt.get() );
+            int faces = FontFaces( fnt );
             for( int i = faces - 1; i >= 0; i-- ) {
-                const TTF_Font_Ptr tf( TTF_OpenFontIndex( f.c_str(), size, i ) );
+                const TTF_Font_Ptr tf = OpenFontIndex( f.c_str(), size, i );
                 const char *ts = nullptr;
                 if( tf ) {
-                    if( nullptr != ( ts = TTF_FontFaceStyleName( tf.get() ) ) ) {
-                        if( 0 == strcasecmp( ts, style ) && TTF_FontHeight( tf.get() ) <= size ) {
+                    if( nullptr != ( ts = FontFaceStyleName( tf ) ) ) {
+                        if( 0 == strcasecmp( ts, style ) && FontHeight( tf ) <= size ) {
                             return i;
                         }
                     }
@@ -48,7 +47,7 @@
     return faceIndex;
 }
 
-std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelFormat_Ptr &format,
+std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, Uint32 pixel_format,
                                        const std::string &typeface, int fontsize, int width,
                                        int height,
                                        const palette_array &palette,
@@ -58,17 +57,17 @@ std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelForm
         // Seems to be an image file, not a font.
         // Try to load as bitmap font from user font dir, then from font dir.
         try {
-            return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, format, width, height,
+            return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, pixel_format, width, height,
                                           palette,
                                           typeface ) );
         } catch( std::exception & ) {
             try {
-                return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, format, width, height,
+                return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, pixel_format, width, height,
                                               palette,
                                               PATH_INFO::user_font() + typeface ) );
             } catch( std::exception & ) {
                 try {
-                    return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, format, width, height,
+                    return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, pixel_format, width, height,
                                                   palette,
                                                   PATH_INFO::fontdir() + typeface ) );
                 } catch( std::exception &err ) {
@@ -296,46 +295,32 @@ CachedTTFFont::CachedTTFFont(
         strcasecmp( typeface.substr( typeface.length() - 4 ).c_str(), ".fon" ) == 0 ) {
         faceIndex = test_face_size( typeface, fontsize, faceIndex );
     }
-    font.reset( TTF_OpenFontIndex( typeface.c_str(), fontsize, faceIndex ) );
+    font = OpenFontIndex( typeface.c_str(), fontsize, faceIndex );
     if( !font ) {
-        throw std::runtime_error( TTF_GetError() );
+        throw std::runtime_error( SDL_GetError() );
     }
-    TTF_SetFontStyle( font.get(), TTF_STYLE_NORMAL );
-#if !defined(__ANDROID__)
-    ImGuiIO &io = ImGui::GetIO();
-    if( io.FontDefault == nullptr && typeface.find( "unifont" ) != std::string::npos ) {
-        static const std::array<ImWchar, 17> ranges = {
-            0x0020, 0x052F,
-            0x1D00, 0x1DFF,
-            0x2000, 0x20CF,
-            0x2100, 0x214F,
-            0x2190, 0x22FF,
-            0x2500, 0x27BF,
-            0xC900, 0xC9FF,
-            //0x0020, 0xCFFF,
-            0
-        };
-        io.FontDefault = io.Fonts->AddFontFromFileTTF( typeface.c_str(), fontsize, nullptr, ranges.data() );
-    }
-#endif
+    SetFontStyle( font, TTF_STYLE_NORMAL );
 }
 
 SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
         const std::string &ch,
+        int &ch_width,
         const int color )
 {
-    const auto function = fontblending ? TTF_RenderUTF8_Blended : TTF_RenderUTF8_Solid;
-    SDL_Surface_Ptr sglyph( function( font.get(), ch.c_str(), windowsPalette[color] ) );
+    SDL_Surface_Ptr sglyph = fontblending
+                             ? RenderUTF8_Blended( font, ch.c_str(), windowsPalette[color] )
+                             : RenderUTF8_Solid( font, ch.c_str(), windowsPalette[color] );
     if( !sglyph ) {
-        dbg( D_ERROR ) << "Failed to create glyph for " << ch << ": " << TTF_GetError();
+        dbg( D_ERROR ) << "Failed to create glyph for " << ch << ": " << SDL_GetError();
         return nullptr;
     }
     const int wf = utf8_width( ch );
+    ch_width = width * wf;
     // Note: bits per pixel must be 8 to be synchronized with the surface
     // that TTF_RenderGlyph above returns. This is important for SDL_BlitScaled
-    SDL_Surface_Ptr surface = create_surface_32( width * wf, height );
+    SDL_Surface_Ptr surface = create_surface_32( ch_width, height );
     SDL_Rect src_rect = { 0, 0, sglyph->w, sglyph->h };
-    SDL_Rect dst_rect = { 0, 0, width * wf, height };
+    SDL_Rect dst_rect = { 0, 0, ch_width, height };
     if( src_rect.w < dst_rect.w ) {
         dst_rect.x = ( dst_rect.w - src_rect.w ) / 2;
         dst_rect.w = src_rect.w;
@@ -352,12 +337,12 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
     }
 
     // Copy without altering the source
-    SDL_SetSurfaceBlendMode( sglyph.get(), SDL_BLENDMODE_NONE );
-    if( !printErrorIf( SDL_BlitSurface( sglyph.get(), &src_rect, surface.get(), &dst_rect ) != 0,
+    SetSurfaceBlendMode( sglyph, SDL_BLENDMODE_NONE );
+    if( !printErrorIf( BlitSurface( sglyph, &src_rect, surface, &dst_rect ) != 0,
                        "SDL_BlitSurface failed" ) ) {
         sglyph = std::move( surface );
     }
-    SDL_SetSurfaceBlendMode( sglyph.get(), SDL_BLENDMODE_BLEND );
+    SetSurfaceBlendMode( sglyph, SDL_BLENDMODE_BLEND );
 
     return CreateTextureFromSurface( renderer, sglyph );
 }
@@ -365,13 +350,13 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
 bool CachedTTFFont::isGlyphProvided( const std::string &ch ) const
 {
     // Just return false if the glyph is not provided by the font
-    if( !TTF_GlyphIsProvided( font.get(), UTF8_getch( ch ) ) ) {
+    if( !CanRenderGlyph( font, UTF8_getch( ch ) ) ) {
         return false;
     }
 
     // Test whether the glyph can actually be rendered
     constexpr SDL_Color white{255, 255, 255, 0};
-    SDL_Surface_Ptr surface( TTF_RenderUTF8_Solid( font.get(), ch.c_str(), white ) );
+    SDL_Surface_Ptr surface = RenderUTF8_Solid( font, ch.c_str(), white );
     return static_cast<bool>( surface );
 }
 
@@ -383,10 +368,8 @@ void CachedTTFFont::OutputChar( const SDL_Renderer_Ptr &renderer, const Geometry
 
     auto it = glyph_cache_map.find( key );
     if( it == std::end( glyph_cache_map ) ) {
-        cached_t new_entry {
-            create_glyph( renderer, key.codepoints, key.color ),
-            static_cast<int>( width * utf8_width( key.codepoints ) )
-        };
+        cached_t new_entry;
+        new_entry.texture = create_glyph( renderer, key.codepoints, new_entry.width, key.color );
         it = glyph_cache_map.insert( std::make_pair( std::move( key ), std::move( new_entry ) ) ).first;
     }
     const cached_t &value = it->second;
@@ -397,20 +380,25 @@ void CachedTTFFont::OutputChar( const SDL_Renderer_Ptr &renderer, const Geometry
     }
     SDL_Rect rect {p.x, p.y, value.width, height};
     if( opacity != 1.0f ) {
-        SDL_SetTextureAlphaMod( value.texture.get(), opacity * 255.0f );
+        SetTextureAlphaMod( value.texture, opacity * 255.0f );
     }
     RenderCopy( renderer, value.texture, nullptr, &rect );
     if( opacity != 1.0f ) {
-        SDL_SetTextureAlphaMod( value.texture.get(), 255 );
+        SetTextureAlphaMod( value.texture, 255 );
     }
 }
 
 BitmapFont::BitmapFont(
-    SDL_Renderer_Ptr &renderer, SDL_PixelFormat_Ptr &format,
+    SDL_Renderer_Ptr &renderer, Uint32 pixel_format,
     const int w, const int h,
     const palette_array &palette,
     const std::string &typeface_path )
-    : Font( w, h, palette )
+    : Font( w, h, palette ), typeface_path( typeface_path ), source_pixel_format( pixel_format )
+{
+    build_textures( renderer, pixel_format );
+}
+
+void BitmapFont::build_textures( const SDL_Renderer_Ptr &renderer, const Uint32 pixel_format )
 {
     dbg( D_INFO ) << "Loading bitmap font [" + typeface_path + "].";
     SDL_Surface_Ptr asciiload = load_image( typeface_path.c_str() );
@@ -418,20 +406,20 @@ BitmapFont::BitmapFont(
     if( asciiload->w * asciiload->h < ( width * height * 256 ) ) {
         throw std::runtime_error( "bitmap for font is to small" );
     }
-    Uint32 key = SDL_MapRGB( asciiload->format, 0xFF, 0, 0xFF );
-    SDL_SetColorKey( asciiload.get(), SDL_TRUE, key );
-    std::array<SDL_Surface_Ptr, std::tuple_size<decltype( ascii )>::value> ascii_surf;
-    ascii_surf[0].reset( SDL_ConvertSurface( asciiload.get(), format.get(), 0 ) );
-    SDL_SetSurfaceRLE( ascii_surf[0].get(), 1 );
+    Uint32 key = MapRGB( asciiload, 0xFF, 0, 0xFF );
+    SetColorKey( asciiload, 1, key );
+    std::array<SDL_Surface_Ptr, std::tuple_size_v<decltype( ascii )>> ascii_surf;
+    ascii_surf[0] = ConvertSurfaceFormat( asciiload, pixel_format );
+    SetSurfaceRLE( ascii_surf[0], 1 );
     asciiload.reset();
 
-    for( size_t a = 1; a < std::tuple_size<decltype( ascii )>::value; ++a ) {
-        ascii_surf[a].reset( SDL_ConvertSurface( ascii_surf[0].get(), format.get(), 0 ) );
-        SDL_SetSurfaceRLE( ascii_surf[a].get(), 1 );
+    for( size_t a = 1; a < std::tuple_size_v<decltype( ascii )>; ++a ) {
+        ascii_surf[a] = ConvertSurfaceFormat( ascii_surf[0], pixel_format );
+        SetSurfaceRLE( ascii_surf[a], 1 );
     }
 
-    for( size_t a = 0; a < std::tuple_size<decltype( ascii )>::value - 1; ++a ) {
-        SDL_LockSurface( ascii_surf[a].get() );
+    for( size_t a = 0; a < std::tuple_size_v<decltype( ascii )> - 1; ++a ) {
+        throwErrorIf( LockSurface( ascii_surf[a] ) != 0, "SDL_LockSurface failed" );
         int size = ascii_surf[a]->h * ascii_surf[a]->w;
         Uint32 *pixels = static_cast<Uint32 *>( ascii_surf[a]->pixels );
         Uint32 color = ( windowsPalette[a].r << 16 ) | ( windowsPalette[a].g << 8 ) | windowsPalette[a].b;
@@ -440,12 +428,12 @@ BitmapFont::BitmapFont(
                 pixels[i] = color;
             }
         }
-        SDL_UnlockSurface( ascii_surf[a].get() );
+        UnlockSurface( ascii_surf[a] );
     }
     tilewidth = ascii_surf[0]->w / width;
 
     //convert ascii_surf to SDL_Texture
-    for( size_t a = 0; a < std::tuple_size<decltype( ascii )>::value; ++a ) {
+    for( size_t a = 0; a < std::tuple_size_v<decltype( ascii )>; ++a ) {
         ascii[a] = CreateTextureFromSurface( renderer, ascii_surf[a] );
     }
 }
@@ -550,11 +538,11 @@ void BitmapFont::OutputChar( const SDL_Renderer_Ptr &renderer, const GeometryRen
         rect.w = width;
         rect.h = height;
         if( opacity != 1.0f ) {
-            SDL_SetTextureAlphaMod( ascii[color].get(), opacity * 255 );
+            SetTextureAlphaMod( ascii[color], opacity * 255 );
         }
         RenderCopy( renderer, ascii[color], &src, &rect );
         if( opacity != 1.0f ) {
-            SDL_SetTextureAlphaMod( ascii[color].get(), 255 );
+            SetTextureAlphaMod( ascii[color], 255 );
         }
     } else {
         unsigned char uc = 0;
@@ -600,18 +588,19 @@ void BitmapFont::OutputChar( const SDL_Renderer_Ptr &renderer, const GeometryRen
 }
 
 FontFallbackList::FontFallbackList(
-    SDL_Renderer_Ptr &renderer, SDL_PixelFormat_Ptr &format,
+    SDL_Renderer_Ptr &renderer, Uint32 pixel_format,
     const int w, const int h,
     const palette_array &palette,
-    const std::vector<std::string> &typefaces,
+    const std::vector<font_config> &typefaces,
     const int fontsize, const bool fontblending )
     : Font( w, h, palette )
 {
-    for( const std::string &typeface : typefaces ) {
-        std::unique_ptr<Font> font = Font::load_font( renderer, format, typeface, fontsize, w, h, palette,
-                                     fontblending );
+    for( const font_config &font_config : typefaces ) {
+        std::unique_ptr<Font> font = Font::load_font( renderer, pixel_format, font_config.path, fontsize, w,
+                                     h,
+                                     palette, fontblending );
         if( !font ) {
-            throw std::runtime_error( "Cannot load font " + typeface );
+            throw std::runtime_error( "Cannot load font " + font_config.path );
         }
         fonts.emplace_back( std::move( font ) );
     }
@@ -640,6 +629,41 @@ void FontFallbackList::OutputChar( const SDL_Renderer_Ptr &renderer,
         }
     }
     ( *cached->second )->OutputChar( renderer, geometry, ch, p, color, opacity );
+}
+
+void CachedTTFFont::release_gpu_resources()
+{
+    glyph_cache_map.clear();
+}
+
+void BitmapFont::release_gpu_resources()
+{
+    for( SDL_Texture_Ptr &tex : ascii ) {
+        tex.reset();
+    }
+}
+
+void BitmapFont::rebuild_for_renderer( const SDL_Renderer_Ptr &renderer )
+{
+    build_textures( renderer, source_pixel_format );
+}
+
+void FontFallbackList::release_gpu_resources()
+{
+    for( std::unique_ptr<Font> &child : fonts ) {
+        if( child ) {
+            child->release_gpu_resources();
+        }
+    }
+}
+
+void FontFallbackList::rebuild_for_renderer( const SDL_Renderer_Ptr &renderer )
+{
+    for( std::unique_ptr<Font> &child : fonts ) {
+        if( child ) {
+            child->rebuild_for_renderer( renderer );
+        }
+    }
 }
 
 #endif // TILES

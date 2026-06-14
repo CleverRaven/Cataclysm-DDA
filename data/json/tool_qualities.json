@@ -117,6 +117,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "HOTPLATE",
+    "name": { "str": "hotplate" }
+  },
+  {
+    "type": "tool_quality",
     "id": "BOIL",
     "name": { "str": "boiling" }
   },
@@ -312,6 +317,17 @@
   },
   {
     "type": "tool_quality",
+    "id": "LUTHIER",
+    "name": { "str": "luthier" },
+    "//": "Tools specifically for turning wood into musical instruments.  Used for a complete tool kit of objects required for this process."
+  },
+  {
+    "type": "tool_quality",
+    "id": "SNOW_MAKING",
+    "name": { "str": "snow making" }
+  },
+  {
+    "type": "tool_quality",
     "id": "GRIND",
     "name": { "str": "grinding" }
   },
@@ -405,31 +421,31 @@
     "type": "tool_quality",
     "id": "GUN",
     "//": "A catchall for firearms so they can be used in practice recipes.",
-    "name": { "str": "gun" }
+    "name": { "str": "firearm practice" }
   },
   {
     "type": "tool_quality",
     "id": "RIFLE",
     "//": "A catchall for firearms so they can be used in practice recipes.",
-    "name": { "str": "rifle" }
+    "name": { "str": "rifle practice" }
   },
   {
     "type": "tool_quality",
     "id": "SHOTGUN",
     "//": "A catchall for firearms so they can be used in practice recipes.",
-    "name": { "str": "shotgun" }
+    "name": { "str": "shotgun practice" }
   },
   {
     "type": "tool_quality",
     "id": "SMG",
     "//": "A catchall for firearms so they can be used in practice recipes.",
-    "name": { "str": "smg" }
+    "name": { "str": "submachine gun practice" }
   },
   {
     "type": "tool_quality",
     "id": "PISTOL",
     "//": "A catchall for firearms so they can be used in practice recipes.",
-    "name": { "str": "pistol" }
+    "name": { "str": "pistol practice" }
   },
   {
     "type": "tool_quality",
@@ -455,5 +471,17 @@
     "type": "tool_quality",
     "id": "THREAD_TAP",
     "name": { "str": "thread tapping" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "STRIKING_SURFACE",
+    "//": "If item can be used to ignite matches.",
+    "name": { "str": "striking surface" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "TEMPER",
+    "//": "An item that can be used to temper metal with. Levels corresponds to size of metal that can be reasonably tempered",
+    "name": { "str": "tempering" }
   }
 ]

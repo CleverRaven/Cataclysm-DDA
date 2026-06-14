@@ -1,0 +1,77 @@
+[
+  {
+    "type": "mutation",
+    "id": "PSYCHIC_KNACK_WILD_TALENT_1",
+    "name": { "str": "Psychic Knack Wild Talent 1", "//~": "NO_I18N" },
+    "points": 0,
+    "description": { "str": "This exists to run an EoC.", "//~": "NO_I18N" },
+    "valid": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "PSYCHIC_KNACK_WILD_TALENT_2",
+    "name": { "str": "Psychic Knack Wild Talent 2", "//~": "NO_I18N" },
+    "points": 0,
+    "description": { "str": "This exists to run an EoC.", "//~": "NO_I18N" },
+    "valid": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "PSYCHIC_KNACK_WILD_TALENT_3",
+    "name": { "str": "Psychic Knack Wild Talent 3", "//~": "NO_I18N" },
+    "points": 0,
+    "description": { "str": "This exists to run an EoC.", "//~": "NO_I18N" },
+    "valid": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "PSYCHIC_KNACK_WILD_TALENT_4",
+    "name": { "str": "Psychic Knack Wild Talent 4", "//~": "NO_I18N" },
+    "points": 0,
+    "description": { "str": "This exists to run an EoC.", "//~": "NO_I18N" },
+    "valid": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "PSYCHIC_KNACK_WILD_TALENT_5",
+    "name": { "str": "Psychic Knack Wild Talent 5", "//~": "NO_I18N" },
+    "points": 0,
+    "description": { "str": "This exists to run an EoC.", "//~": "NO_I18N" },
+    "valid": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "PSYCHIC_KNACK_WILD_TALENT_6",
+    "name": { "str": "Psychic Knack Wild Talent 6", "//~": "NO_I18N" },
+    "points": 0,
+    "description": { "str": "This exists to run an EoC.", "//~": "NO_I18N" },
+    "valid": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "SCEN_HEART_OF_FIRE",
+    "name": { "str": "Heart of Fire" },
+    "points": 0,
+    "description": "The fire in your soul rises and falls, but never truly goes out.",
+    "valid": false,
+    "player_display": true,
+    "purifiable": false,
+    "mixed_effect": true,
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_effect": "sleep" } },
+        "ench_effects": [ { "effect": "effect_scenario_heart_of_fire_awake_attunement_gain", "intensity": 1 } ]
+      },
+      {
+        "condition": { "u_has_effect": "sleep" },
+        "ench_effects": [ { "effect": "effect_scenario_heart_of_fire_asleep_attunement_gain", "intensity": 1 } ]
+      }
+    ]
+  }
+]

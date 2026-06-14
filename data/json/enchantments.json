@@ -28,6 +28,12 @@
     "modified_bodyparts": [ { "lose": "head" }, { "gain": "big_head" } ]
   },
   {
+    "id": "ENCH_DEBUG_WEIGHT_MODIFIER",
+    "type": "enchantment",
+    "condition": "ALWAYS",
+    "values": [ { "value": "WEIGHT", "multiply": -0.5 } ]
+  },
+  {
     "type": "enchantment",
     "id": "RM13",
     "condition": "ACTIVE",
@@ -39,9 +45,187 @@
   },
   {
     "type": "enchantment",
+    "id": "ENCH_DEBUG_FREE_DODGES",
+    "condition": "ALWAYS",
+    "values": [ { "value": "FREE_DODGES", "add": 10 } ]
+  },
+  {
+    "type": "enchantment",
     "id": "SQUEAKY_ANKLES",
     "condition": "ALWAYS",
     "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 3 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "THERMAL_VISION_GOOD",
+    "condition": "ACTIVE",
+    "has": "WORN",
+    "special_vision": [
+      {
+        "condition": { "and": [ "u_see_npc_loc", "npc_is_warm" ] },
+        "distance": 60,
+        "precise": true,
+        "descriptions": [
+          {
+            "id": "infrared_creature_tiny",
+            "text_condition": { "math": [ "n_val('size') == 1" ] },
+            "symbol": ".",
+            "text": "You see a tiny figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_small",
+            "text_condition": { "math": [ "n_val('size') == 2" ] },
+            "symbol": ",",
+            "text": "You see a small figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_medium",
+            "text_condition": { "math": [ "n_val('size') == 3" ] },
+            "symbol": "o",
+            "text": "You see a medium figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_large",
+            "text_condition": { "math": [ "n_val('size') == 4" ] },
+            "symbol": "O",
+            "text": "You see a large figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_huge",
+            "text_condition": { "math": [ "n_val('size') == 5" ] },
+            "symbol": "&",
+            "text": "You see a huge figure radiating heat."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "THERMAL_VISION_GOOD_PASSIVE",
+    "condition": "ALWAYS",
+    "special_vision": [
+      {
+        "condition": { "and": [ "u_see_npc_loc", "npc_is_warm" ] },
+        "distance": 60,
+        "precise": true,
+        "descriptions": [
+          {
+            "id": "infrared_creature_tiny",
+            "text_condition": { "math": [ "n_val('size') == 1" ] },
+            "symbol": ".",
+            "text": "You see a tiny figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_small",
+            "text_condition": { "math": [ "n_val('size') == 2" ] },
+            "symbol": ",",
+            "text": "You see a small figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_medium",
+            "text_condition": { "math": [ "n_val('size') == 3" ] },
+            "symbol": "o",
+            "text": "You see a medium figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_large",
+            "text_condition": { "math": [ "n_val('size') == 4" ] },
+            "symbol": "O",
+            "text": "You see a large figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_huge",
+            "text_condition": { "math": [ "n_val('size') == 5" ] },
+            "symbol": "&",
+            "text": "You see a huge figure radiating heat."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "THERMAL_VISION_LEAFNOSE",
+    "condition": {
+      "not": {
+        "or": [
+          { "u_has_effect": "smoke", "bodypart": "mouth" },
+          { "u_has_effect": "asthma" },
+          { "u_has_effect": "tpollen" },
+          { "u_has_effect": "hay_fever" },
+          "u_is_underwater"
+        ]
+      }
+    },
+    "special_vision": [
+      {
+        "condition": { "and": [ "u_see_npc_loc", "npc_is_warm" ] },
+        "distance": 10,
+        "descriptions": [ { "id": "infrared_creature_medium", "symbol": "o", "text": "You sense a creature with your thermal nostrils." } ]
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ELECTRIC_VISION",
+    "condition": "ALWAYS",
+    "special_vision": [
+      {
+        "condition": { "test_eoc": "EOC_IS_ELECTRIC" },
+        "distance": 1000,
+        "descriptions": [
+          {
+            "id": "electric_creature_sense",
+            "symbol": "?",
+            "color": "c_cyan",
+            "text": "You sense something emitting electricity here."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "nvg_great_mech",
+    "condition": "ALWAYS",
+    "values": [ { "value": "NIGHT_VIS", "add": 14 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "nvg_great",
+    "name": { "str": "Night Vision Goggles" },
+    "description": "You are wearing night vision goggles which allow you to see really well in the dark.",
+    "condition": "ACTIVE",
+    "has": "WORN",
+    "values": [ { "value": "NIGHT_VIS", "add": 14 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "nvg_good",
+    "name": { "str": "Night Vision Goggles" },
+    "description": "You are wearing night vision goggles which allow you to see quite well in the dark.",
+    "condition": "ACTIVE",
+    "has": "WORN",
+    "values": [ { "value": "NIGHT_VIS", "add": 12 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "nvg_normal",
+    "name": { "str": "Night Vision Goggles" },
+    "description": "You are wearing night vision goggles which allow you to see in the dark.",
+    "condition": "ACTIVE",
+    "has": "WORN",
+    "values": [ { "value": "NIGHT_VIS", "add": 10 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "nvg_bad",
+    "name": { "str": "Night Vision Goggles" },
+    "description": "You are wearing night vision goggles which allow you to poorly see in the dark.",
+    "condition": "ACTIVE",
+    "has": "WORN",
+    "values": [ { "value": "NIGHT_VIS", "add": 8 } ]
   },
   {
     "id": "ench_climate_control_warm",
@@ -60,6 +244,15 @@
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+  },
+  {
+    "id": "ench_string_dimension_biosuit",
+    "name": { "str": "Passive Temperature Regulation" },
+    "description": "You are wearing equipment that moderates temperature change in your core.  It's can't protect against extreme conditions, but it helps.",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 25 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 25 } ]
   },
   {
     "id": "ench_climate_control_all_permanent",
@@ -95,7 +288,15 @@
     "description": "Your armor lets you detect otherworldly presence with ease.",
     "has": "WORN",
     "condition": "ALWAYS",
-    "values": [ { "value": "SIGHT_RANGE_NETHER", "add": 10 } ]
+    "special_vision": [
+      {
+        "condition": {
+          "or": [ { "npc_has_species": "HORROR" }, { "npc_has_species": "NETHER" }, { "npc_has_species": "nether_player_hate" } ]
+        },
+        "distance": 10,
+        "descriptions": [ { "id": "nether_creature_sense", "symbol": "?", "color": "c_pink", "text": "You sense an otherworldy danger here." } ]
+      }
+    ]
   },
   {
     "id": "ench_dampened_steps",
@@ -105,14 +306,6 @@
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.67 } ]
-  },
-  {
-    "id": "ench_wings_insect_active",
-    "type": "enchantment",
-    "name": { "str": "Insect Wings (Buzzing)" },
-    "description": "Your rapidly buzzing wings propel you with extra speed.",
-    "condition": "ALWAYS",
-    "values": [ { "value": "REGEN_STAMINA", "add": -110 }, { "value": "MOVE_COST", "multiply": -0.25 } ]
   },
   {
     "id": "ench_quadruped_movement_full",
@@ -128,7 +321,7 @@
       ]
     },
     "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ],
-    "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
+    "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
   },
   {
     "id": "ench_quadruped_movement_half",
@@ -143,6 +336,138 @@
         { "not": "u_can_drop_weapon" }
       ]
     },
-    "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ]
+    "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ],
+    "ench_effects": [ { "effect": "quadruped_half", "intensity": 1 } ]
+  },
+  {
+    "id": "ench_dextrous_paws_need_practice",
+    "type": "enchantment",
+    "condition": {
+      "and": [ { "u_has_any_trait": [ "PAWS_LITTLE", "PAWS_RAT" ] }, { "math": [ "u_progress_dextrous_paws_usage < 10" ] } ]
+    },
+    "ench_effects": [ { "effect": "effect_dextrous_paws_no_practice_manipulation_penalty", "intensity": 1 } ]
+  },
+  {
+    "id": "combat_exoskeleton_inactive",
+    "type": "enchantment",
+    "name": { "str": "Inactive exoskeleton" },
+    "description": "The exoskeleton is inactive and makes moving in it difficult and exhausting.",
+    "has": "WORN",
+    "condition": "INACTIVE",
+    "values": [ { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": 0.5 } ]
+  },
+  {
+    "id": "combat_exoskeleton_heavy_active",
+    "type": "enchantment",
+    "name": { "str": "Active combat exoskeleton mk.1" },
+    "description": "Now powered, the exoskeleton provides <color_white>significant</color> improvements to your carry weight and movement exertion while the life support system shields you against harmful gas, cools you down, and dampens harmful sounds.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [
+      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": -0.2 },
+      { "value": "CARRY_WEIGHT", "multiply": 0.8 },
+      { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
+    ]
+  },
+  {
+    "id": "combat_exoskeleton_medium_active",
+    "type": "enchantment",
+    "name": { "str": "Active combat exoskeleton mk.2" },
+    "description": "Now powered, the exoskeleton provides <color_white>moderate</color> improvements to your carry weight and movement exertion while the life support system shields you against harmful gas, cools you down, and dampens harmful sounds.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [
+      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": -0.3 },
+      { "value": "CARRY_WEIGHT", "multiply": 0.6 },
+      { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
+    ]
+  },
+  {
+    "id": "combat_exoskeleton_light_active",
+    "type": "enchantment",
+    "name": { "str": "Active combat exoskeleton mk.3" },
+    "description": "Now powered, the exoskeleton provides <color_white>slight</color> improvements to your carry weight and movement exertion while the life support system shields you against harmful gas, cools you down, and dampens harmful sounds.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [
+      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": -0.4 },
+      { "value": "CARRY_WEIGHT", "multiply": 0.4 },
+      { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
+    ]
+  },
+  {
+    "id": "resonance_suit_active",
+    "type": "enchantment",
+    "name": { "str": "Anomaly protection" },
+    "description": "The electronics in your suit are protecting you from some types of extra-dimensional interference.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [ { "value": "ARTIFACT_RESONANCE", "add": -750 } ]
+  },
+  {
+    "id": "AR_targeting_system",
+    "type": "enchantment",
+    "name": { "str": "Adaptive targeting system" },
+    "description": "Your AR HUD includes an adaptive targeting system, making firearm target acquisition easier.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [ { "value": "WEAPON_DISPERSION", "add": -0.25 } ]
+  },
+  {
+    "id": "robofac_XM_LEG_on",
+    "type": "enchantment",
+    "name": { "str": "Active XM-LEG" },
+    "description": "Your active wearable leg cybernetics are helping you move quicker and easier over flat ground and obstacles, and are increasing the amount of weight you can carry.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [
+      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": -0.2 },
+      { "value": "MOVE_COST", "multiply": -0.15 },
+      { "value": "MOVECOST_OBSTACLE_MOD", "multiply": -0.5 },
+      { "value": "CARRY_WEIGHT", "add": 20000 }
+    ]
+  },
+  {
+    "id": "robofac_XM_ARM_on",
+    "type": "enchantment",
+    "name": { "str": "Active XM-ARM" },
+    "description": "Your active wearable arm cybernetics are improving your weapon handling and throwing ability.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [
+      { "value": "RECOIL_MODIFIER", "multiply": -0.3 },
+      { "value": "WEAPON_DISPERSION", "multiply": -0.1 },
+      { "value": "THROW_STR", "multiply": 0.5 },
+      { "value": "THROW_DAMAGE", "multiply": 0.25 }
+    ]
+  },
+  {
+    "id": "robofac_XM_BACK_on",
+    "type": "enchantment",
+    "name": { "str": "Active XM-BACK" },
+    "description": "Your active wearable torso cybernetics are <color_white>slightly</color> increasing your carry weight and improving your ability to throw and absorb recoil.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [
+      { "value": "CARRY_WEIGHT", "multiply": 0.35 },
+      { "value": "RECOIL_MODIFIER", "multiply": -0.05 },
+      { "value": "WEAPON_DISPERSION", "multiply": -0.05 },
+      { "value": "THROW_STR", "multiply": 0.05 },
+      { "value": "THROW_DAMAGE", "multiply": 0.05 }
+    ]
+  },
+  {
+    "//": "This is overwritten in MoM",
+    "id": "ench_mom_incense_nether_attunement",
+    "type": "enchantment",
+    "has": "HELD",
+    "condition": "ALWAYS"
+  },
+  {
+    "//": "This is overwritten in MoM",
+    "id": "ench_mom_incense_nether_attunement_major",
+    "type": "enchantment",
+    "has": "HELD",
+    "condition": "ALWAYS"
   }
 ]

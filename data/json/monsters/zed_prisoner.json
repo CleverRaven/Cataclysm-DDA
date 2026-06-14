@@ -14,7 +14,7 @@
   {
     "id": "mon_zombie_prisoner_brute",
     "type": "MONSTER",
-    "name": { "str": "prisoner brute" },
+    "name": { "str": "prisoner zombie brute" },
     "description": "This muscular zombie wears black and white striped prisoner clothes.",
     "copy-from": "mon_zombie_brute",
     "looks_like": "mon_zombie_brute",
@@ -23,7 +23,7 @@
   {
     "id": "mon_zombie_prisoner_fat",
     "type": "MONSTER",
-    "name": { "str": "fat prisoner" },
+    "name": { "str": "fat prisoner zombie" },
     "description": "This fat zombie wears black and white striped prisoner clothes.",
     "copy-from": "mon_zombie_fat",
     "looks_like": "mon_zombie_fat",
@@ -32,7 +32,7 @@
   {
     "id": "mon_zombie_prisoner_tough",
     "type": "MONSTER",
-    "name": { "str": "tough prisoner" },
+    "name": { "str": "tough prisoner zombie" },
     "description": "This tough-looking zombie wears black and white striped prisoner clothes.",
     "copy-from": "mon_zombie_tough",
     "looks_like": "mon_zombie_tough",

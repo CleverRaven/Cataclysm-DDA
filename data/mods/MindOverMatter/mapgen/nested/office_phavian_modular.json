@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left. This is a meeting room.",
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
     "object": {
@@ -26,16 +25,15 @@
         { "item": "water_clean", "x": 7, "y": 1, "chance": 30, "repeat": [ 1, 2 ] }
       ],
       "items": {
-        "d": [ { "item": "office_supplies", "chance": 50, "repeat": [ 1, 2 ] } ],
-        "t": { "item": "office_supplies", "chance": 20 },
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "d": [ { "item": "SUS_office_desk", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "t": { "item": "SUS_office_desk", "chance": 20 },
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": [ 1, 3 ], "chance": 50 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right. This is a meeting room.",
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
     "object": {
@@ -60,16 +58,15 @@
         { "item": "water_clean", "x": 3, "y": 7, "chance": 30, "repeat": [ 1, 2 ] }
       ],
       "items": {
-        "d": [ { "item": "office_supplies", "chance": 50, "repeat": [ 1, 2 ] } ],
-        "t": { "item": "office_supplies", "chance": 20 },
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "d": [ { "item": "SUS_office_desk", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "t": { "item": "SUS_office_desk", "chance": 20 },
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": [ 1, 3 ], "chance": 50 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left. This is a presentation room.",
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
     "object": {
@@ -91,13 +88,15 @@
         { "item": "television", "x": 3, "y": 7, "chance": 100 },
         { "item": "television", "x": 4, "y": 7, "chance": 100 }
       ],
-      "items": { "t": { "item": "office_supplies", "chance": 40 }, "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] } },
+      "items": {
+        "t": { "item": "SUS_office_desk", "chance": 40 },
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
+      },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": [ 1, 3 ], "chance": 50 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right. This is a presentation room.",
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
     "object": {
@@ -119,14 +118,16 @@
         { "item": "television", "x": 3, "y": 0, "chance": 100 },
         { "item": "television", "x": 4, "y": 0, "chance": 100 }
       ],
-      "items": { "t": { "item": "office_supplies", "chance": 40 }, "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] } },
+      "items": {
+        "t": { "item": "SUS_office_desk", "chance": 40 },
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
+      },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": [ 1, 3 ], "chance": 50 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
-    "//": "A nested map for the Phavian secret office lab room north of the hall, door in the upper left.  This is a general office room for writing reports",
+    "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left.  This is a general office room for writing reports",
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
     "object": {
       "mapgensize": [ 8, 8 ],
@@ -154,14 +155,13 @@
         ],
         "I": { "item": "SUS_office_filing_cabinet", "chance": 80 },
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 1, 3 ], "chance": 60 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right.  This is a general office room for writing reports",
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
     "object": {
@@ -190,14 +190,13 @@
         ],
         "I": { "item": "SUS_office_filing_cabinet", "chance": 80 },
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 1, 3 ], "chance": 60 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left. This is a matrix crystal analysis room.",
     "weight": 900,
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
@@ -226,14 +225,69 @@
         "E": [ { "item": "dist_matrix_crystals_50_50", "chance": 80 } ],
         "U": { "item": "psi_lab", "chance": 70, "repeat": [ 1, 3 ] },
         "ç": { "item": "psi_lab", "chance": 20 },
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 1, 3 ], "chance": 50 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
+    "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right. This is a candidate testing room.",
+    "weight": 900,
+    "nested_mapgen_id": "office_phavian_lab_DS8x8",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "........",
+        "cP....Pc",
+        "---..---",
+        "cP....Pc",
+        "........",
+        "---..---",
+        "cc......",
+        "ɱçççl&.."
+      ],
+      "palettes": [ "office_phavian_palette" ],
+      "place_item": [ { "item": "phavian_noetic_resonance_detector_instructions", "x": 2, "y": 7, "chance": 50 } ],
+      "items": {
+        "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
+        "C": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        "ç": { "item": "psi_lab", "chance": 20 },
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
+      },
+      "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 1, 3 ], "chance": 50 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left. This is a candidate testing room.",
+    "weight": 900,
+    "nested_mapgen_id": "office_phavian_lab_DN8x8",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "..&lçççɱ",
+        "......cc",
+        "---..---",
+        "........",
+        "cP....Pc",
+        "---..---",
+        "cP....Pc",
+        "........"
+      ],
+      "palettes": [ "office_phavian_palette" ],
+      "place_item": [ { "item": "phavian_noetic_resonance_detector_instructions", "x": 5, "y": 0, "chance": 50 } ],
+      "items": {
+        "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
+        "C": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        "ç": { "item": "psi_lab", "chance": 20 },
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
+      },
+      "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 1, 3 ], "chance": 50 } ]
+    }
+  },
+  {
+    "type": "mapgen",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right. This is a matrix crystal analysis room.",
     "weight": 900,
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
@@ -262,14 +316,13 @@
         "E": [ { "item": "dist_matrix_crystals_50_50", "chance": 80 } ],
         "U": { "item": "psi_lab", "chance": 70, "repeat": [ 1, 3 ] },
         "ç": { "item": "psi_lab", "chance": 20 },
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 1, 3 ], "chance": 50 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left.  This is a manufactory.",
     "weight": 800,
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
@@ -308,14 +361,13 @@
           { "item": "supplies_electronics", "chance": 60, "repeat": [ 1, 4 ] },
           { "item": "hardware", "chance": 30, "repeat": [ 1, 5 ] }
         ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [ { "monster": "mon_zombie_technician", "x": [ 1, 6 ], "y": [ 3, 7 ], "repeat": [ 2, 4 ], "chance": 50 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right.  This is a manufactory.",
     "weight": 800,
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
@@ -354,14 +406,13 @@
           { "item": "supplies_electronics", "chance": 60, "repeat": [ 1, 4 ] },
           { "item": "hardware", "chance": 30, "repeat": [ 1, 5 ] }
         ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [ { "monster": "mon_zombie_technician", "x": [ 1, 6 ], "y": [ 0, 4 ], "repeat": [ 2, 4 ], "chance": 50 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left.  This is a bedroom for crashing in.",
     "weight": 750,
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
@@ -393,14 +444,14 @@
         "C": [ { "item": "SUS_bathroom_medicine", "chance": 100 }, { "item": "SUS_bathroom_cabinet", "chance": 50 } ],
         "S": { "item": "SUS_bathroom_sink", "chance": 100, "repeat": [ 1, 2 ] },
         "Y": { "item": "jackets", "chance": 33, "repeat": [ 1, 2 ] },
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        "T": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 3, 6 ], "chance": 70 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right.  This is a bedroom for crashing in.",
     "weight": 750,
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
@@ -432,14 +483,14 @@
         "C": [ { "item": "SUS_bathroom_medicine", "chance": 100 }, { "item": "SUS_bathroom_cabinet", "chance": 50 } ],
         "S": { "item": "SUS_bathroom_sink", "chance": 100, "repeat": [ 1, 2 ] },
         "Y": { "item": "jackets", "chance": 33, "repeat": [ 1, 2 ] },
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        "T": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 3, 6 ], "chance": 70 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left.  This room is for biokinetic testing.",
     "weight": 750,
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
@@ -474,7 +525,7 @@
       "items": {
         "l": [ { "item": "boxing_clothes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "d": [
-          { "item": "office_supplies", "chance": 60, "repeat": [ 1, 2 ] },
+          { "item": "SUS_office_desk", "chance": 60, "repeat": [ 1, 2 ] },
           { "item": "psi_lab", "chance": 30, "repeat": [ 0, 2 ] }
         ]
       },
@@ -486,7 +537,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right.  This room is for biokinetic testing.",
     "weight": 750,
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
@@ -521,7 +571,7 @@
       "items": {
         "l": [ { "item": "boxing_clothes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "d": [
-          { "item": "office_supplies", "chance": 60, "repeat": [ 1, 2 ] },
+          { "item": "SUS_office_desk", "chance": 60, "repeat": [ 1, 2 ] },
           { "item": "psi_lab", "chance": 30, "repeat": [ 0, 2 ] }
         ]
       },
@@ -533,7 +583,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left.  This room is for clairsentient/telepathic testing.",
     "weight": 750,
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
@@ -576,7 +625,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right.  This room is for clairsentient/telepathic testing.",
     "weight": 750,
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
@@ -618,7 +666,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left.  This is a telepathic amplifier.",
     "weight": 650,
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
@@ -639,7 +686,7 @@
       "items": {
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "U": [ { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] }, { "item": "SUS_bathroom_medicine", "chance": 100 } ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
         { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 1, 3 ], "chance": 60 },
@@ -649,7 +696,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right.  This is a telepathic amplifier.",
     "weight": 650,
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
@@ -670,7 +716,7 @@
       "items": {
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "U": [ { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] }, { "item": "SUS_bathroom_medicine", "chance": 100 } ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
         { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 1, 3 ], "chance": 60 },
@@ -680,7 +726,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left.  This is a weapons lab",
     "weight": 450,
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
@@ -710,7 +755,7 @@
         ],
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "U": [ { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] } ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
         { "monster": "mon_zombie_technician", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": [ 2, 4 ], "chance": 60 },
@@ -720,7 +765,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right.  This is a weapons lab",
     "weight": 450,
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
@@ -750,7 +794,7 @@
         ],
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "U": [ { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] } ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
         { "monster": "mon_zombie_technician", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": [ 2, 4 ], "chance": 60 },
@@ -760,7 +804,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room south of the hall, door in the upper left.  This is an anomalous materials lab",
     "weight": 500,
     "nested_mapgen_id": "office_phavian_lab_DN8x8",
@@ -790,7 +833,7 @@
           { "item": "decontamination_room", "chance": 40, "repeat": [ 1, 3 ] }
         ],
         "U": [ { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] } ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
         { "group": "GROUP_NETHER", "x": [ 0, 7 ], "y": [ 3, 7 ], "repeat": [ 0, 4 ], "chance": 70 },
@@ -800,7 +843,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab room north of the hall, door in the lower right.  This is an anomalous materials lab",
     "weight": 500,
     "nested_mapgen_id": "office_phavian_lab_DS8x8",
@@ -830,7 +872,7 @@
           { "item": "decontamination_room", "chance": 40, "repeat": [ 1, 3 ] }
         ],
         "U": [ { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] } ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
         { "group": "GROUP_NETHER", "x": [ 0, 7 ], "y": [ 0, 4 ], "repeat": [ 0, 4 ], "chance": 70 },
@@ -840,7 +882,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for the Phavian secret office lab security room, near the keylocked entrance, door to the south.",
     "nested_mapgen_id": "office_phavian_security_DS8x8",
     "object": {
@@ -857,14 +898,14 @@
       ],
       "palettes": [ "office_phavian_palette" ],
       "items": {
-        "d": [ { "item": "office_supplies", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "d": [ { "item": "SUS_office_desk", "chance": 50, "repeat": [ 1, 2 ] } ],
         "l": [
           { "item": "cop_armory", "chance": 40, "repeat": [ 2, 3 ] },
           { "item": "security_torso", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "security_pants", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "security_shoes", "chance": 20, "repeat": [ 1, 2 ] }
         ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
         { "group": "GROUP_LAB_BASIC_SECURITY", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": [ 3, 6 ], "chance": 65 },

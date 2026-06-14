@@ -1,14 +1,9 @@
 #include "weather_type.h"
 
-#include <cstdlib>
-#include <set>
-
-#include "assign.h"
 #include "condition.h"
 #include "debug.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
-#include <weather.h>
 
 namespace
 {
@@ -98,20 +93,23 @@ void weather_type::check() const
     }
 }
 
-void weather_type::load( const JsonObject &jo, const std::string_view )
+void weather_type::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "id",  id );
 
-    assign( jo, "color", color );
-    assign( jo, "map_color", map_color );
+    optional( jo, was_loaded, "color", color, nc_color_reader{} );
+    optional( jo, was_loaded, "map_color", map_color, nc_color_reader{} );
 
     mandatory( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader );
+    optional( jo, was_loaded, "sun_sym", sun_symbol, unicode_codepoint_from_symbol_reader,
+              static_cast<uint32_t>( 0x263C ) ); // ☼
 
     mandatory( jo, was_loaded, "ranged_penalty", ranged_penalty );
     mandatory( jo, was_loaded, "sight_penalty", sight_penalty );
     mandatory( jo, was_loaded, "light_modifier", light_modifier );
     mandatory( jo, was_loaded, "priority", priority );
+    optional( jo, was_loaded, "light_multiplier", light_multiplier, 1.f );
     optional( jo, was_loaded, "sun_multiplier", sun_multiplier, 1.f );
 
     mandatory( jo, was_loaded, "sound_attn", sound_attn );
@@ -125,20 +123,28 @@ void weather_type::load( const JsonObject &jo, const std::string_view )
     if( duration_min > duration_max ) {
         jo.throw_error( "duration_min must be less than or equal to duration_max" );
     }
+
+    if( jo.has_array( "passive_effects" ) ) {
+        for( JsonObject job : jo.get_array( "passive_effects" ) ) {
+            field_effect fe;
+            fe.deserialize( job );
+            passive_effect.emplace_back( fe );
+        }
+    }
     optional( jo, was_loaded, "debug_cause_eoc", debug_cause_eoc );
     optional( jo, was_loaded, "debug_leave_eoc", debug_leave_eoc );
 
-    if( jo.has_member( "weather_animation" ) ) {
-        JsonObject weather_animation_jo = jo.get_object( "weather_animation" );
-        mandatory( weather_animation_jo, was_loaded, "factor", weather_animation.factor );
-        if( !assign( weather_animation_jo, "color", weather_animation.color ) ) {
-            weather_animation_jo.throw_error( "missing mandatory member \"color\"" );
-        }
-        mandatory( weather_animation_jo, was_loaded, "sym", weather_animation.symbol,
-                   unicode_codepoint_from_symbol_reader );
-    }
+    optional( jo, was_loaded, "weather_animation", weather_animation );
     optional( jo, was_loaded, "required_weathers", required_weathers );
+    // FIXME: generic factory reader for condition
     read_condition( jo, "condition", condition, true );
+}
+
+void weather_animation_t::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "factor", factor );
+    mandatory( jo, false, "color", color, nc_color_reader{} );
+    mandatory( jo, false, "sym", symbol, unicode_codepoint_from_symbol_reader );
 }
 
 void weather_types::reset()
@@ -149,9 +155,6 @@ void weather_types::reset()
 void weather_types::finalize_all()
 {
     weather_type_factory.finalize();
-    for( const weather_type &wt : weather_type_factory.get_all() ) {
-        const_cast<weather_type &>( wt ).finalize();
-    }
 }
 
 const std::vector<weather_type> &weather_types::get_all()

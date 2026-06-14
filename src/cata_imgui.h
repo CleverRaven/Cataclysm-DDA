@@ -1,21 +1,34 @@
-#if !defined(__ANDROID__)
 #pragma once
-#include <string>
-#include <vector>
-#include <functional>
+#include <cstddef>
 #include <memory>
-#include <array>
+#include <string>
+#include <string_view>
+#include <vector>
+#include <unordered_map>
+
+#include "color.h"
+#include "font_loader.h"
 
 class nc_color;
-struct item_info_data;
+struct input_event;
+using ImGuiInputTextFlags = int;
 
-#if defined(WIN32) || defined(TILES)
-struct SDL_Renderer;
-struct SDL_Window;
+#if defined(IMTUI) || !(defined(WIN32) || defined(TILES))
+#   define TUI
 #endif
 
+#ifndef TUI
+#include "sdl_geometry.h"
+#include "sdl_wrappers.h"
+#include "color_loader.h"
+#endif
+#include "text.h"
+
 struct point;
-class ImVec2;
+struct ImVec2;
+struct ImVec4;
+class Font;
+class input_context;
 
 namespace cataimgui
 {
@@ -41,42 +54,127 @@ enum class dialog_result {
     NoClicked
 };
 
+enum class scroll : int {
+    none = 0,
+    begin,
+    end,
+    line_up,
+    line_down,
+    page_up,
+    page_down
+};
+
+// smallest supported resolution, in px
+constexpr int min_screen_res_x = 640;
+constexpr int min_screen_res_y = 384;
+
 class client
 {
+        std::vector<int> cata_input_trail;
+#ifndef TUI
+        // Backend-active latches for the platform (SDL2/SDL3) and
+        // renderer (SDLRenderer2/3) ImGui backends. Guard the wrappers
+        // so partial teardown + retry is idempotent.
+        bool platform_backend_active_ = false;
+        bool renderer_backend_active_ = false;
+#endif
     public:
+#ifdef TUI
         client();
+#else
+        client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Window_Ptr &sdl_window,
+                const GeometryRenderer_Ptr &sdl_geometry );
+        void load_fonts( const std::unique_ptr<Font> &gui_font, const std::unique_ptr<Font> &mono_font,
+                         const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette,
+                         const std::vector<font_config> &gui_typeface, const std::vector<font_config> &mono_typeface );
+#endif
         ~client();
 
-        void new_frame();
+        // display_buffer_w/h drive ImGui layout (DisplaySize). Pass 0 to fall
+        // back to the bound target's output size (only valid while a draw scope
+        // has display_buffer bound).
+        void new_frame( int display_buffer_w = 0, int display_buffer_h = 0 );
         void end_frame();
-        void process_input( void *input );
-#if !(defined(TILES) || defined(WIN32))
+        // Close the active ImGui frame without any backend draw commands, for
+        // aborting mid-flight when end_frame() is unsafe (renderer undefined).
+        // The next NewFrame would assert if the frame were left open.
+        void abort_frame();
+        void process_input( void *input, int display_buffer_w = 0, int display_buffer_h = 0 );
+        void process_cata_input( const input_event &event );
+#ifdef TUI
         void upload_color_pair( int p, int f, int b );
         void set_alloced_pair_count( short count );
 #else
-        static struct SDL_Renderer *sdl_renderer;
-        static struct SDL_Window *sdl_window;
+        const SDL_Renderer_Ptr &sdl_renderer;
+        const SDL_Window_Ptr &sdl_window;
+        const GeometryRenderer_Ptr &sdl_geometry;
+
+        // ImGui backend lifecycle wrappers. Each tracks backend-active state so
+        // the vendored Shutdown (which asserts when inactive) is never doubled.
+        // Pair: init platform then renderer; shutdown reverse.
+        void init_platform_backend();
+        void init_renderer_backend();
+        void shutdown_renderer_backend();
+        void shutdown_platform_backend();
+        // Drop the renderer backend's GPU device objects (font atlas,
+        // buffers) without tearing down the backend; they recreate
+        // lazily on the next RenderDrawData.
+        void destroy_backend_device_objects() const;
 #endif
+        bool auto_size_frame_active();
+        bool any_window_shown();
+
+        // True if ImGui is consuming mouse input (hover / drag / popup).
+        static bool want_capture_mouse();
+        // True if an ImGui text field or shortcut has keyboard focus.
+        static bool want_capture_keyboard();
 };
+
+#ifndef TUI
+// Pick the ImGui DisplaySize for a frame: the explicit display-buffer dims when
+// both are positive, else the renderer's output dims. Keeps the terminal-buffer
+// sizing contract when the idle-null target leaves the output reading the window.
+point imgui_frame_display_size( int display_buffer_w, int display_buffer_h,
+                                int renderer_output_w, int renderer_output_h );
+#endif
 
 void point_to_imvec2( point *src, ImVec2 *dest );
 void imvec2_to_point( ImVec2 *src, point *dest );
 
+ImVec4 imvec4_from_color( const nc_color &color );
+
+ImU32 ImU32_from_color( const nc_color &color );
+
+void set_scroll( scroll &s );
+
+void draw_colored_text( const std::string &original_text, const nc_color &color,
+                        float wrap_width = 0.0F, bool *is_selected = nullptr,
+                        bool *is_focused = nullptr, bool *is_hovered = nullptr );
+#ifndef TUI
+bool clear_pending();
+#endif
+void draw_colored_text( const std::string &original_text, nc_color &color,
+                        float wrap_width = 0.0F, bool *is_selected = nullptr,
+                        bool *is_focused = nullptr, bool *is_hovered = nullptr );
+void draw_colored_text( const std::string &original_text,
+                        float wrap_width = 0.0F, bool *is_selected = nullptr,
+                        bool *is_focused = nullptr, bool *is_hovered = nullptr );
+
+// calculates how much space the text takes horizontally, in pixels, without color tags
+size_t get_string_width( std::string_view str );
+// calculates how much space the text takes vertically, in pixels, including the wrapping
+size_t get_string_height( std::string_view str, float wrap_width );
+
 class window
 {
         std::unique_ptr<class window_impl> p_impl;
+        std::unique_ptr<class filter_box_impl> filter_impl;
         bounds cached_bounds;
     protected:
         explicit window( int window_flags = 0 );
     public:
         explicit window( const std::string &id_, int window_flags = 0 );
         virtual ~window();
-        void draw_colored_text( std::string const &text, const nc_color &color,
-                                float wrap_width = 0.0F, bool *is_selected = nullptr,
-                                bool *is_focused = nullptr, bool *is_hovered = nullptr );
-        void draw_colored_text( std::string const &text, nc_color &color,
-                                float wrap_width = 0.0F, bool *is_selected = nullptr,
-                                bool *is_focused = nullptr, bool *is_hovered = nullptr );
         bool action_button( const std::string &action, const std::string &text );
         bool has_button_action();
         std::string get_button_action();
@@ -85,26 +183,73 @@ class window
         virtual void draw();
         virtual void on_resized() {}
         bool is_bounds_changed();
-        size_t get_text_width( const std::string &text );
+        size_t get_text_width( std::string_view text );
         size_t get_text_height( const char *text );
         size_t str_width_to_pixels( size_t len );
         size_t str_height_to_pixels( size_t len );
+        std::string get_filter();
+        void clear_filter();
+        void defocus_filter();
         void mark_resized();
 
     protected:
         bool force_to_back = false;
+        bool hide_ui = false;
         bool is_open;
         std::string id;
         int window_flags;
         std::string button_action;
         virtual bounds get_bounds();
         virtual void draw_controls() = 0;
+        void draw_filter( const input_context &ctxt, bool filtering_active );
+        void hide_if_hidden() const;
 };
 
-#if !(defined(TILES) || defined(WIN32))
+#ifdef TUI
 void init_pair( int p, int f, int b );
 void load_colors();
 #endif
 
+// drops the ImGuiInputTextFlags_CharsScientific flag from regular imgui InputFloat because it doesn't allow commas
+bool InputFloat( const char *label, float *v, float step = 0.0f, float step_fast = 0.0f,
+                 const char *format = "%.3f", ImGuiInputTextFlags flags = 0 );
+
+void PushGuiFont();
+void PushMonoFont();
+void PushGuiFont1_5x();
+void PopGuiFont1_5x();
+
+bool BeginRightAlign( const char *str_id );
+void EndRightAlign();
+
+// wrapper around BeginTabItem() that allows to define if tab should be selected directly,
+// instead of manually passing ImGuiTabItemFlags_SetSelected
+bool BeginTabItem( const char *label, bool is_selected, bool *p_open = nullptr,
+                   ImGuiTabItemFlags flags = 0 );
+
+// Set ImGui theme colors to those chosen by the player.
+// This loads the settings from `config/imgui_style.json` and - optionally - falls back to base colors
+// for elements not explicitly specified.
+void init_colors();
+
+/**
+ * Print out key(s) and description for a keybinding
+ * e.g. "[/] Filter"
+ * @param ctxt input context
+ * @param action action name, e.g. "FILTER", "QUIT"
+ * @param description action description, e.g. "Do thing", "Whatever else"
+ * @param active whether the action should be highlighted
+ * @param max_limit no more than this many keys will be printed
+ * @param default_color the color to use for non-highlighted actions
+ */
+void TextKeybinding( const input_context &ctxt,
+                     const char *action, const char *description, bool active,
+                     int max_limit = 0, const nc_color &default_color = c_light_gray );
+
+/**
+ * Print out a list separator, ", " in English
+ * The previous and next outputs will appear on the same line.
+ */
+void TextListSeparator( const nc_color &color = c_light_gray );
+
 } // namespace cataimgui
-#endif // #if defined(__ANDROID)

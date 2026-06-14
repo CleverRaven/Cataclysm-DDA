@@ -15,14 +15,14 @@
 When adding stuff to the mod you should organize your files as follows:
 * the perks (which are implemented as mutations) go in the `perks.json` file.
 * any additional things for your perk: items, effects, spells, EOCs should be gathered in a single file called `[name_of_perk].json` in the `perkdata` folder.
-* perk menu expects a `menu entry` and a `confirmation menu` which go in `perkmenu.json`. These are explained bellow:
+* perk menu expects a `menu entry` and a `confirmation menu` which go in `perkmenu.json`. These are explained below:
 
 ### Menu Entry
 Each perk needs to be selectable in the menu itself. To do this append a response to `TALK_PERK_MENU_MAIN` with the following format:
 You need to fill in the:
 `PERK_ID`: The requirements text and the perk condition.
 `REQUIREMENTS TEXT`: A description of the requirements to select the perk. If you don't have requirements put: "No Requirements".
-`CONDITION_GOES_HERE`: The EOC conditional that is required to select the perk. If you don't have a condition put: "math": [ "0", "==", "0" ].
+`CONDITION_GOES_HERE`: The EOC conditional that is required to select the perk. If you don't have a condition put: "math": [ "0 == 0" ].
 `ANY ADDITIONAL INFO TEXT`: Any additional info you want to include. If you don't have any additional details put "".
 ``` json 
 {

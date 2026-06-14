@@ -2,32 +2,6 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "bot_manhack",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "electronics",
-    "skills_required": [ [ "mechanics", 5 ], [ "computer", 5 ] ],
-    "difficulty": 6,
-    "time": "25 m",
-    "reversible": true,
-    "decomp_learn": 7,
-    "book_learn": [ [ "recipe_lab_elec", 6 ], [ "textbook_robots", 7 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "ai_module_basic", 1 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "small_storage_battery", 1 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "quad_rotors", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "spike", 2 ] ],
-      [ [ "identification_module", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "bot_grenade_hack",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -435,38 +409,7 @@
       [ [ "pathfinding_module", 1 ] ],
       [ [ "omni_wheel", 1 ] ],
       [ [ "medium_storage_battery", 1 ] ],
-      [ [ "steel_chunk", 6 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
-    "result": "bot_molebot",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "electronics",
-    "skills_required": [ [ "mechanics", 6 ], [ "computer", 5 ] ],
-    "reversible": true,
-    "decomp_learn": 5,
-    "book_learn": [ [ "schematics_molebot", 7 ] ],
-    "difficulty": 3,
-    "time": "30 m",
-    "//": "50cm weld",
-    "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 50 ] ],
-    "qualities": [
-      { "id": "SCREW", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH", "level": 2 },
-      { "id": "WRENCH_FINE", "level": 1 }
-    ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "memory_module", 1 ] ],
-      [ [ "pathfinding_module", 1 ] ],
-      [ [ "medium_storage_battery", 1 ] ],
-      [ [ "robot_controls", 1 ] ],
-      [ [ "steel_chunk", 20 ] ]
+      [ [ "steel_chunk_any", 6, "LIST" ] ]
     ]
   },
   {
@@ -607,7 +550,7 @@
       [ [ "tazer", 2 ] ],
       [ [ "scrap", 6 ] ],
       [ [ "plut_cell", 1 ] ],
-      [ [ "steel_chunk", 6 ] ]
+      [ [ "steel_chunk_any", 6, "LIST" ] ]
     ]
   },
   {

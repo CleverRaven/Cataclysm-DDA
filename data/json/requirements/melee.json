@@ -8,18 +8,15 @@
   {
     "id": "basic_shivs",
     "type": "requirement",
-    "//": "Any basic shivs not explicity designed for combat, or low-quality things.",
+    "//": "Any basic shivs not explicitly designed for combat, or low-quality things.",
     "tools": [
       [
         [ "glass_shiv", -1 ],
         [ "sharp_toothbrush", -1 ],
         [ "bone_knife", -1 ],
         [ "knuckle_katar", -1 ],
-        [ "sharp_toothbrush", -1 ],
-        [ "knife_steak", -1 ],
-        [ "knife_paring", -1 ],
-        [ "knife_carving", -1 ],
-        [ "knife_bread", -1 ],
+        [ "knife_small", -1 ],
+        [ "knife_large", -1 ],
         [ "screwdriver", -1 ],
         [ "scissors_child", -1 ],
         [ "scissors_medical", -1 ],
@@ -55,20 +52,17 @@
         [ "ax_sheets_bolted", -1 ],
         [ "hockey_stick", -1 ],
         [ "lucern_hammerfake", -1 ],
-        [ "hammer_sledge", -1 ],
-        [ "hammer_sledge_short", -1 ],
-        [ "hammer_sledge_heavy", -1 ],
-        [ "hammer_sledge_engineer", -1 ]
+        [ "homemade_polehammer", -1 ],
+        [ "homemade_polehammer_makeshift", -1 ]
       ]
     ]
   },
   {
     "id": "real_hooks",
     "type": "requirement",
-    "//": "Any quality weapon designed to hook your oppenents and their gear in a fight.  Reserved for the good stuff.",
+    "//": "Any quality weapon designed to hook your opponents and their gear in a fight.  Reserved for the good stuff.",
     "tools": [
       [
-        [ "spear_survivor", -1 ],
         [ "scythe_war", -1 ],
         [ "poleaxe", -1 ],
         [ "ji", -1 ],
@@ -77,6 +71,10 @@
         [ "battleaxe", -1 ],
         [ "lucern_hammer", -1 ],
         [ "warhammer", -1 ],
+        [ "lc_warhammer", -1 ],
+        [ "hc_warhammer", -1 ],
+        [ "ch_warhammer", -1 ],
+        [ "qt_warhammer", -1 ],
         [ "lc_battleaxe", -1 ],
         [ "mc_battleaxe", -1 ],
         [ "hc_battleaxe", -1 ],
@@ -88,7 +86,7 @@
   {
     "id": "basic_knives",
     "type": "requirement",
-    "//": "Any small close-range stabbing weapons.  Not explicity designed for combat.",
+    "//": "Any small close-range stabbing weapons.  Not explicitly designed for combat.",
     "tools": [
       [
         [ "knife_hunting", -1 ],
@@ -100,10 +98,9 @@
         [ "tanto_inferior", -1 ],
         [ "kirpan_cheap", -1 ],
         [ "enfield_bayonet", -1 ],
-        [ "knife_butcher", -1 ],
-        [ "knife_chef", -1 ],
-        [ "knife_vegetable_cleaver", -1 ],
-        [ "knife_meat_cleaver", -1 ]
+        [ "knife_huge", -1 ],
+        [ "knife_large", -1 ],
+        [ "knife_cleaver", -1 ]
       ]
     ]
   },
@@ -119,7 +116,7 @@
         [ "knife_KABAR", -1 ],
         [ "knife_rambo", -1 ],
         [ "lc_knife_rambo", -1 ],
-        [ "mc_knife_rambo", -1 ],
+        [ "knife_rambo", -1 ],
         [ "hc_knife_rambo", -1 ],
         [ "ch_knife_rambo", -1 ],
         [ "qt_knife_rambo", -1 ],
@@ -127,7 +124,7 @@
         [ "knife_folding", -1 ],
         [ "knife_trench", -1 ],
         [ "lc_knife_trench", -1 ],
-        [ "mc_knife_trench", -1 ],
+        [ "knife_trench", -1 ],
         [ "hc_knife_trench", -1 ],
         [ "ch_knife_trench", -1 ],
         [ "qt_knife_trench", -1 ],
@@ -135,7 +132,6 @@
         [ "kris", -1 ],
         [ "kukri", -1 ],
         [ "lc_kukri", -1 ],
-        [ "mc_kukri", -1 ],
         [ "ch_kukri", -1 ],
         [ "hc_kukri", -1 ],
         [ "qt_kukri", -1 ],
@@ -188,7 +184,6 @@
         [ "lc_rapier", -1 ],
         [ "hc_rapier", -1 ],
         [ "ch_rapier", -1 ],
-        [ "mc_rapier", -1 ],
         [ "qt_rapier", -1 ],
         [ "lc_talwar", -1 ],
         [ "mc_talwar", -1 ],
@@ -209,7 +204,6 @@
         [ "qt_jian", -1 ],
         [ "broadsword", -1 ],
         [ "lc_broadsword", -1 ],
-        [ "mc_broadsword", -1 ],
         [ "ch_broadsword", -1 ],
         [ "hc_broadsword", -1 ],
         [ "qt_broadsword", -1 ]
@@ -219,7 +213,7 @@
   {
     "id": "basic_short_swords",
     "type": "requirement",
-    "//": "Any basic thing you could use as a short sword, exlcudes high-quality things.",
+    "//": "Any basic thing you could use as a short sword, excludes high-quality things.",
     "tools": [ [ [ "makeshift_machete", -1 ], [ "machete_gimmick", -1 ], [ "machete", -1 ] ] ]
   },
   {
@@ -234,7 +228,6 @@
         [ "sword_bayonet", -1 ],
         [ "butterfly_swords", -1 ],
         [ "arisaka_bayonet", -1 ],
-        [ "survivor_machete", -1 ],
         [ "survivor_machete_qt", -1 ]
       ]
     ]
@@ -274,7 +267,6 @@
       [
         [ "broadsword", -1 ],
         [ "lc_broadsword", -1 ],
-        [ "mc_broadsword", -1 ],
         [ "ch_broadsword", -1 ],
         [ "hc_broadsword", -1 ],
         [ "qt_broadsword", -1 ],
@@ -382,7 +374,7 @@
   {
     "id": "basic_great_swords",
     "type": "requirement",
-    "//": "Basic or makeshift weapons that can be used like a greatsword.  Exlcudes real or good things.",
+    "//": "Basic or makeshift weapons that can be used like a greatsword.  Excludes real or good things.",
     "tools": [
       [
         [ "sword_wood_large", -1 ],
@@ -435,8 +427,6 @@
     "//": "Any real, cutting weapons that can be used like an axe; large, heavy head with two sharp sides on a pole.",
     "tools": [
       [
-        [ "fire_ax", -1 ],
-        [ "ax", -1 ],
         [ "hatchet", -1 ],
         [ "copper_ax", -1 ],
         [ "iceaxe", -1 ],
@@ -447,17 +437,34 @@
     ]
   },
   {
+    "id": "handaxes_axes",
+    "type": "requirement",
+    "//": "A one-handed weapon with an axe head.",
+    "tools": [
+      [
+        [ "copper_ax", -1 ],
+        [ "throwing_axe", -1 ],
+        [ "iceaxe", -1 ],
+        [ "hatchet", -1 ],
+        [ "crash_axe", -1 ],
+        [ "primitive_axe", -1 ]
+      ]
+    ]
+  },
+  {
     "id": "real_great_axes",
     "type": "requirement",
     "//": "Any real, cutting weapons that can be used like an axe; large, heavy head with two sharp sides on a pole.",
     "tools": [
       [
+        [ "fire_ax", -1 ],
         [ "battleaxe", -1 ],
         [ "lc_battleaxe", -1 ],
         [ "mc_battleaxe", -1 ],
         [ "hc_battleaxe", -1 ],
         [ "ch_battleaxe", -1 ],
-        [ "qt_battleaxe", -1 ]
+        [ "qt_battleaxe", -1 ],
+        [ "ax", -1 ]
       ]
     ]
   },
@@ -468,7 +475,6 @@
     "tools": [
       [
         [ "cudgel", -1 ],
-        [ "q_staff", -1 ],
         [ "bat", -1 ],
         [ "bat_metal", -1 ],
         [ "bat_nerf", -1 ],
@@ -523,7 +529,6 @@
     "tools": [
       [
         [ "club_wooden_large", -1 ],
-        [ "homewrecker", -1 ],
         [ "glass_macuahuitl", -1 ],
         [ "aztec_sword_stone", -1 ],
         [ "aztec_sword_scrap", -1 ],
@@ -543,6 +548,10 @@
     "tools": [
       [
         [ "warhammer", -1 ],
+        [ "lc_warhammer", -1 ],
+        [ "hc_warhammer", -1 ],
+        [ "ch_warhammer", -1 ],
+        [ "qt_warhammer", -1 ],
         [ "lucern_hammer", -1 ],
         [ "2h_club_kanabo_studded", -1 ],
         [ "2h_club_kanabo_spiked", -1 ],
@@ -571,6 +580,7 @@
         [ "nailbat", -1 ],
         [ "nailboard", -1 ],
         [ "bwirebat", -1 ],
+        [ "nutboltbat", -1 ],
         [ "bat", -1 ],
         [ "bat_metal", -1 ],
         [ "bat_nerf", -1 ]
@@ -580,12 +590,12 @@
   {
     "id": "real_maces",
     "type": "requirement",
-    "//": "Any real, top-heavy bashing weapons with a pointy ball at the end that doesn't independantly swing (those are flails).",
+    "//": "Any real, top-heavy bashing weapons with a pointy ball at the end that doesn't independently swing (those are flails).",
     "tools": [
       [
         [ "mace", -1 ],
         [ "lc_mace", -1 ],
-        [ "mc_mace", -1 ],
+        [ "mace", -1 ],
         [ "hc_mace", -1 ],
         [ "ch_mace", -1 ],
         [ "qt_mace", -1 ],
@@ -630,13 +640,13 @@
         [ "makeshift_halberd", -1 ],
         [ "halberd_fake", -1 ],
         [ "makeshift_glaive", -1 ],
-        [ "pointed_rebar", -1 ],
-        [ "sharp_rebar", -1 ],
         [ "naginata_fake", -1 ],
         [ "naginata_inferior", -1 ],
         [ "makeshift_scythe_war", -1 ],
         [ "hockey_stick", -1 ],
-        [ "lucern_hammerfake", -1 ]
+        [ "lucern_hammerfake", -1 ],
+        [ "homemade_polehammer", -1 ],
+        [ "homemade_polehammer_makeshift", -1 ]
       ]
     ]
   },
@@ -655,7 +665,6 @@
         [ "halberd", -1 ],
         [ "lajatang", -1 ],
         [ "naginata", -1 ],
-        [ "spear_survivor", -1 ],
         [ "scythe_war", -1 ],
         [ "poleaxe", -1 ],
         [ "lucern_hammer", -1 ],
@@ -679,7 +688,6 @@
         [ "spear_knife_superior", -1 ],
         [ "spear_homemade_halfpike", -1 ],
         [ "spear_steel_crude", -1 ],
-        [ "spear_forked", -1 ],
         [ "simple_spear_pipe", -1 ],
         [ "spear_rebar", -1 ],
         [ "pike_wood", -1 ],
@@ -710,5 +718,11 @@
         [ "ji", -1 ]
       ]
     ]
+  },
+  {
+    "id": "whips",
+    "type": "requirement",
+    "//": "Any weapon that features a handle and flexible lash.",
+    "tools": [ [ [ "dressage_whip", -1 ], [ "bullwhip", -1 ], [ "bullwhip_razor", -1 ] ] ]
   }
 ]

@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "miniaturerailway_0_0_0", "miniaturerailway_1_0_0" ], [ "miniaturerailway_0_1_0", "miniaturerailway_1_1_0" ] ],
     "object": {
       "fill_ter": "t_floor",
@@ -69,14 +68,13 @@
         { "monster": "GROUP_SCHOOL", "x": [ 24, 47 ], "y": [ 24, 47 ], "repeat": [ 0, 1 ], "density": 0.1 }
       ],
       "place_vehicles": [
-        { "vehicle": "miniature_train_loco", "x": 5, "y": 31, "chance": 100, "fuel": 20, "status": 0, "rotation": 270 },
-        { "vehicle": "miniature_train_loco", "x": 41, "y": 41, "chance": 100, "status": 0, "rotation": 270 }
+        { "vehicle": "miniature_train_loco", "x": 5, "y": 31, "fuel": 20, "status": 0, "rotation": 270 },
+        { "vehicle": "miniature_train_loco", "x": 41, "y": 41, "status": 0, "rotation": 270 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "miniaturerailway_0_0_1", "miniaturerailway_1_0_1" ], [ "miniaturerailway_0_1_1", "miniaturerailway_1_1_1" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
@@ -135,7 +133,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "luna_park_0_0_0", "luna_park_1_0_0", "luna_park_2_0_0" ],
       [ "luna_park_0_1_0", "luna_park_1_1_0", "luna_park_2_1_0" ]
@@ -217,7 +214,7 @@
         { "monster": "GROUP_SCHOOL", "x": [ 48, 71 ], "y": [ 0, 23 ], "repeat": [ 0, 1 ], "density": 0.1 },
         { "monster": "GROUP_SCHOOL", "x": [ 48, 71 ], "y": [ 24, 47 ], "repeat": [ 0, 1 ], "density": 0.1 }
       ],
-      "place_vehicles": [ { "vehicle": "miniature_train_loco", "x": 100, "y": 14, "chance": 100, "fuel": 20, "status": 0, "rotation": 90 } ],
+      "place_vehicles": [ { "vehicle": "miniature_train_loco", "x": 100, "y": 14, "fuel": 20, "status": 0, "rotation": 90 } ],
       "nested": {
         "Ю": { "chunks": [ [ "ordinary_railways", 80 ], [ "trolley_problem", 20 ] ] },
         "~": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 82 ] ] },
@@ -227,7 +224,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "luna_park_0_0_1", "luna_park_1_0_1", "luna_park_2_0_1" ],
       [ "luna_park_0_1_1", "luna_park_1_1_1", "luna_park_2_1_1" ]

@@ -2,14 +2,18 @@
 #ifndef CATA_SRC_SCENARIO_H
 #define CATA_SRC_SCENARIO_H
 
-#include <iosfwd>
+#include <optional>
 #include <set>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
-#include "effect_on_condition.h"
-#include "translations.h"
+#include "coordinates.h"
+#include "point.h"
+#include "ret_val.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -50,6 +54,7 @@ class scenario
         std::set<trait_id> _forced_traits;
         std::set<trait_id> _forbidden_traits;
         std::vector<start_location_id> _allowed_locs;
+        point_rel_om origin_offset = point_rel_om::zero;
         int _point_cost = 0;
         std::set<std::string> flags; // flags for some special properties of the scenario
         map_extra_id _map_extra;
@@ -58,8 +63,11 @@ class scenario
 
         // does this scenario require a specific achiement to unlock
         std::optional<achievement_id> _requirement;
+        // does this scenario require the requirement even when metaprogression is disabled?
+        bool hard_requirement = false;
 
         bool reveal_locale = true;
+        int distance_initial_visibility = 0;
 
         time_point _default_start_of_cataclysm;
         time_point _default_start_of_game;
@@ -87,10 +95,12 @@ class scenario
 
         // clear scenario map, every scenario pointer becomes invalid!
         static void reset();
-        /** calls @ref check_definition for each scenario */
-        static void finalize();
+
+        static void finalize_all();
+        static void check_all();
+
         /** Check that item definitions are valid */
-        void check_definition() const;
+        void check() const;
 
         const string_id<scenario> &ident() const;
         std::string gender_appropriate_name( bool male ) const;
@@ -103,7 +113,9 @@ class scenario
 
         std::optional<achievement_id> get_requirement() const;
 
+        bool has_hard_requirement() const;
         bool get_reveal_locale() const;
+        bool get_distance_initial_visibility() const;
 
         void normalize_calendar() const;
         void reset_calendar() const;
@@ -115,9 +127,9 @@ class scenario
 
         vproto_id vehicle() const;
 
-        const profession *weighted_random_profession() const;
-        std::vector<string_id<profession>> permitted_professions() const;
-        std::vector<string_id<profession>> permitted_hobbies() const;
+        const profession *weighted_random_profession( bool is_npc = false ) const;
+        std::vector<string_id<profession>> permitted_professions( bool is_npc = false ) const;
+        std::vector<string_id<profession>> permitted_hobbies( bool is_npc = false ) const;
 
         bool traitquery( const trait_id &trait ) const;
         std::set<trait_id> get_locked_traits() const;
@@ -128,7 +140,7 @@ class scenario
         signed int point_cost() const;
         bool has_map_extra() const;
         const map_extra_id &get_map_extra() const;
-
+        const point_rel_om &get_origin_offset() const;
         /**
          * Returns "All", "Limited", or "Almost all" (translated)
          * This is used by newcharacter.cpp
@@ -156,6 +168,14 @@ class scenario
         const std::vector<std::pair<mongroup_id, float>> &surround_groups() const;
 
         std::vector<std::pair<string_id<scenario>, mod_id>> src;
+};
+
+struct scenario_sorter {
+    bool sort_by_points = true;
+    bool male = false;
+    bool cities_enabled = false;
+    /** @related player */
+    bool operator()( const scenario *a, const scenario *b ) const;
 };
 
 struct scen_blacklist {

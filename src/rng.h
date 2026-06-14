@@ -8,13 +8,16 @@
 #include <iterator>
 #include <optional>
 #include <random>
+#include <string>
 #include <type_traits>
+#include <utility>
+#include <vector>
 
-#include "units_fwd.h"
+#include "coords_fwd.h"
+#include "units.h"
 
 class map;
 class time_duration;
-struct tripoint;
 template<typename Tripoint>
 class tripoint_range;
 
@@ -193,12 +196,32 @@ inline V random_entry_removed( C &container )
 }
 
 /// Returns a range enclosing all valid points of the map.
-tripoint_range<tripoint> points_in_range( const map &m );
+tripoint_range<tripoint_bub_ms> points_in_range_bub( const map &m );
+// Restricts the points to the specified Z level.
+tripoint_range<tripoint_bub_ms> points_in_level_range( const map &m, int z );
 /// Returns a random point in the given range that satisfies the given predicate ( if any ).
-std::optional<tripoint> random_point( const tripoint_range<tripoint> &range,
-                                      const std::function<bool( const tripoint & )> &predicate );
+std::optional<tripoint_bub_ms> random_point( const tripoint_range<tripoint_bub_ms> &range,
+        const std::function<bool( const tripoint_bub_ms & )> &predicate );
 /// Same as other random_point with a range enclosing all valid points of the map.
-std::optional<tripoint> random_point( const map &m,
-                                      const std::function<bool( const tripoint & )> &predicate );
+std::optional<tripoint_bub_ms> random_point( const map &m,
+        const std::function<bool( const tripoint_bub_ms & )> &predicate );
+std::optional<tripoint_bub_ms> random_point_on_level( const map &m, int z,
+        const std::function<bool( const tripoint_bub_ms & )> &predicate );
+
+// A random coordinate within a map, excluding a border
+int rng_map_coord( int border );
+template<typename Point>
+// A random point within a map, excluding a border
+Point rng_map_point( int border = 0 )
+{
+    return { rng_map_coord( border ), rng_map_coord( border ) };
+}
+// A random tripoint within a map, with a given z coordinate, excluding a border
+template<typename Tripoint>
+Tripoint rng_map_point( int border, int z )
+{
+    return { rng_map_coord( border ), rng_map_coord( border ), z };
+}
+
 
 #endif // CATA_SRC_RNG_H

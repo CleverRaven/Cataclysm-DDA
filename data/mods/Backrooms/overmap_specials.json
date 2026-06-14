@@ -1,0 +1,85 @@
+[
+  {
+    "type": "overmap_location",
+    "id": "backrooms",
+    "terrains": [ "backfloorchamber" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "backroom_stairs_z0",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "backroom_stairs_bottom" },
+      { "point": [ 0, 0, 1 ], "overmap": "backroom_stairs_top" }
+    ],
+    "locations": [ "backrooms" ],
+    "city_distance": [ 0, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 15, 40 ],
+    "flags": [ "BACKROOMS" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "backroom_stairs_z1",
+    "overmaps": [
+      { "point": [ 0, 0, 1 ], "overmap": "backroom_stairs_bottom" },
+      { "point": [ 0, 0, 2 ], "overmap": "backroom_stairs_top" }
+    ],
+    "locations": [ "backrooms" ],
+    "city_distance": [ 0, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 15, 40 ],
+    "flags": [ "BACKROOMS" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "backroom_stairs_z2",
+    "overmaps": [
+      { "point": [ 0, 0, 2 ], "overmap": "backroom_stairs_bottom" },
+      { "point": [ 0, 0, 3 ], "overmap": "backroom_stairs_top" }
+    ],
+    "locations": [ "backrooms" ],
+    "city_distance": [ 0, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 15, 40 ],
+    "flags": [ "BACKROOMS" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "backroom_stairs_z-1",
+    "overmaps": [
+      { "point": [ 0, 0, -1 ], "overmap": "backroom_stairs_bottom" },
+      { "point": [ 0, 0, 0 ], "overmap": "backroom_stairs_top" }
+    ],
+    "locations": [ "backrooms" ],
+    "city_distance": [ 0, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 15, 40 ],
+    "flags": [ "BACKROOMS" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "backroom_stairs_z-2",
+    "overmaps": [
+      { "point": [ 0, 0, -2 ], "overmap": "backroom_stairs_bottom" },
+      { "point": [ 0, 0, -1 ], "overmap": "backroom_stairs_top" }
+    ],
+    "locations": [ "backrooms" ],
+    "city_distance": [ 0, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 15, 40 ],
+    "flags": [ "BACKROOMS" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "backroom_stairs_z-3",
+    "overmaps": [
+      { "point": [ 0, 0, -3 ], "overmap": "backroom_stairs_bottom" },
+      { "point": [ 0, 0, -2 ], "overmap": "backroom_stairs_top" }
+    ],
+    "locations": [ "backrooms" ],
+    "city_distance": [ 0, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 15, 40 ],
+    "flags": [ "BACKROOMS" ]
+  }
+]

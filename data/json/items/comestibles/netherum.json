@@ -1,0 +1,24 @@
+[
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "nl_shrub_glowberries",
+    "name": { "str": "bunch of glowberries", "str_pl": "bunches of glowberries" },
+    "weight": "144 g",
+    "color": "green",
+    "spoils_in": "2 days 12 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 2,
+    "calories": 46,
+    "description": "A handful of strange berries picked from a plastic plant.  You're not sure if they're edible.  Nevertheless, they smell extremely pleasant.",
+    "price": "50 cent",
+    "price_postapoc": "50 cent",
+    "material": [ "fruit" ],
+    "volume": "250 ml",
+    "fun": 0,
+    "flags": [ "EDIBLE_FROZEN" ],
+    "smoking_result": "dry_fruit",
+    "vitamins": [ [ "vitC", "84700 μg" ], [ "calcium", "23 mg" ], [ "fruit_allergen", 1 ] ]
+  }
+]

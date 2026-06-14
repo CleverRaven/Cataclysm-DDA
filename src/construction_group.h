@@ -3,10 +3,12 @@
 #define CATA_SRC_CONSTRUCTION_GROUP_H
 
 #include <cstddef>
-#include <iosfwd>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -31,6 +33,7 @@ namespace construction_groups
 
 void load( const JsonObject &jo, const std::string &src );
 void reset();
+void finalize();
 
 const std::vector<construction_group> &get_all();
 

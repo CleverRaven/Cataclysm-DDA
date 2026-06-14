@@ -1,4 +1,5 @@
 #include <cstring>
+#include <filesystem>
 #include "cata_catch.h"
 #include "filesystem.h"
 #include "string_formatter.h"
@@ -16,7 +17,7 @@ TEST_CASE( "TranslationDocument_loads_valid_MO", "[translations]" )
 {
     const char *path = "./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo";
     CAPTURE( path );
-    REQUIRE( file_exist( fs::u8path( path ) ) );
+    REQUIRE( file_exist( std::filesystem::u8path( path ) ) );
     REQUIRE_NOTHROW( LoadMODocument( path ) );
 }
 
@@ -24,7 +25,7 @@ TEST_CASE( "TranslationDocument_rejects_invalid_MO", "[translations]" )
 {
     const char *path = "./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/INVALID_RAND.mo";
     CAPTURE( path );
-    REQUIRE( file_exist( fs::u8path( path ) ) );
+    REQUIRE( file_exist( std::filesystem::u8path( path ) ) );
     REQUIRE_THROWS_AS( LoadMODocument( path ), InvalidTranslationDocumentException );
 }
 
@@ -88,7 +89,7 @@ TEST_CASE( "TranslationManager_translate_benchmark", "[.][benchmark][translation
     TranslationManager manager;
 
     // Russian
-    REQUIRE( file_exist( fs::u8path( "./lang/mo/ru/LC_MESSAGES/cataclysm-dda.mo" ) ) );
+    REQUIRE( file_exist( std::filesystem::u8path( "./lang/mo/ru/LC_MESSAGES/cataclysm-dda.mo" ) ) );
     manager.LoadDocuments( std::vector<std::string> {"./lang/mo/ru/LC_MESSAGES/cataclysm-dda.mo"} );
     REQUIRE( strcmp( manager.Translate( "battery" ), "battery" ) != 0 );
     BENCHMARK( "Russian" ) {
@@ -96,7 +97,7 @@ TEST_CASE( "TranslationManager_translate_benchmark", "[.][benchmark][translation
     };
 
     // Chinese
-    REQUIRE( file_exist( fs::u8path( "./lang/mo/zh_CN/LC_MESSAGES/cataclysm-dda.mo" ) ) );
+    REQUIRE( file_exist( std::filesystem::u8path( "./lang/mo/zh_CN/LC_MESSAGES/cataclysm-dda.mo" ) ) );
     manager.LoadDocuments( std::vector<std::string> {"./lang/mo/zh_CN/LC_MESSAGES/cataclysm-dda.mo"} );
     REQUIRE( strcmp( manager.Translate( "battery" ), "battery" ) != 0 );
     BENCHMARK( "Chinese" ) {

@@ -4,17 +4,16 @@
 #include <cstddef>
 #include <map>
 #include <string>
-#include <type_traits>
 #include <utility>
 
 #include "cata_assert.h"
 #include "debug.h"
-#include "json.h"
+#include "flexbuffer_json.h"
 #include "mutation.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 
 using namespace trait_group;
 

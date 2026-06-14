@@ -1,0 +1,42 @@
+[
+  {
+    "id": "f_beach_seaweed",
+    "type": "furniture",
+    "name": "scattered seaweed",
+    "description": "Seaweed and other detritus, scattered along the high water line of the beach.",
+    "symbol": "{",
+    "looks_like": "f_leaves_pile",
+    "color": "green",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "bash": {
+      "str_min": 0,
+      "str_max": 2,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "seaweed", "count": [ 2, 10 ] } ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC" ]
+  },
+  {
+    "id": "f_beach_log",
+    "type": "furniture",
+    "name": "driftwood",
+    "description": "A hollow and twisted piece of a root or a branch, bleached white by sun and salt.",
+    "symbol": "-",
+    "looks_like": "t_trunk",
+    "color": "white",
+    "move_cost_mod": 1,
+    "required_str": 12,
+    "bash": {
+      "str_min": 6,
+      "str_max": 30,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [ { "item": "splinter", "count": [ 25, 100 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE" ]
+  }
+]

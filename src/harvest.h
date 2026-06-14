@@ -2,19 +2,18 @@
 #ifndef CATA_SRC_HARVEST_H
 #define CATA_SRC_HARVEST_H
 
-#include <iosfwd>
-#include <list>
-#include <map>
 #include <set>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
 class butchery_requirements;
+template <typename T> class generic_factory;
 
 using butchery_requirements_id = string_id<butchery_requirements>;
 
@@ -22,6 +21,7 @@ class harvest_drop_type
 {
     public:
         static void load_harvest_drop_types( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
         void load( const JsonObject &jo, std::string_view src );
         static const std::vector<harvest_drop_type> &get_all();
@@ -90,6 +90,9 @@ struct harvest_entry {
     bool was_loaded = false;
     void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
+
+    // only compares mandatory members for reader identity checks
+    bool operator==( const harvest_entry &rhs ) const;
 };
 
 class harvest_list
@@ -106,7 +109,7 @@ class harvest_list
 
         bool is_null() const;
 
-        const std::list<harvest_entry> &entries() const {
+        const std::vector<harvest_entry> &entries() const {
             return entries_;
         }
 
@@ -130,13 +133,14 @@ class harvest_list
 
         std::string describe( int at_skill = -1 ) const;
 
-        std::list<harvest_entry>::const_iterator begin() const;
-        std::list<harvest_entry>::const_iterator end() const;
-        std::list<harvest_entry>::const_reverse_iterator rbegin() const;
-        std::list<harvest_entry>::const_reverse_iterator rend() const;
+        std::vector<harvest_entry>::const_iterator begin() const;
+        std::vector<harvest_entry>::const_iterator end() const;
+        std::vector<harvest_entry>::const_reverse_iterator rbegin() const;
+        std::vector<harvest_entry>::const_reverse_iterator rend() const;
 
         /** Fills out the set of cached names. */
         static void finalize_all();
+        void finalize();
 
         /** Check consistency of all loaded harvest data */
         static void check_consistency();
@@ -149,12 +153,11 @@ class harvest_list
         static const std::vector<harvest_list> &get_all();
 
     private:
-        std::list<harvest_entry> entries_;
+        std::vector<harvest_entry> entries_;
         std::set<std::string> names_;
         translation message_;
         butchery_requirements_id butchery_requirements_;
 
-        void finalize();
 };
 
 #endif // CATA_SRC_HARVEST_H

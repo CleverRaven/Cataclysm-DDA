@@ -7,9 +7,14 @@
     "gender": "male",
     "class": "NC_PORTAL_PERSON",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_PORTAL_PERSON_1",
     "faction": "no_faction"
+  },
+  {
+    "type": "snippet",
+    "category": "<end_talking_bye_portal_person>",
+    "text": [ "Pfum." ]
   },
   {
     "type": "npc_class",
@@ -18,6 +23,7 @@
     "common": false,
     "job_description": "I'm from another world.",
     "traits": [ { "group": "Appearance_Latin" } ],
+    "bye_message_override": "<end_talking_bye_portal_person>",
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } }
     ]

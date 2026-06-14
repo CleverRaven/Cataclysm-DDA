@@ -1,7 +1,6 @@
 #include "achievement.h"
 
 #include <cstdlib>
-#include <set>
 #include <string>
 #include <tuple>
 #include <utility>
@@ -14,11 +13,13 @@
 #include "enums.h"
 #include "event.h"
 #include "event_statistics.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "past_achievements_info.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
+#include "translations.h"
 
 template <typename E> struct enum_traits;
 
@@ -75,6 +76,8 @@ bool string_id<achievement>::is_valid() const
     return achievement_factory.is_valid( *this );
 }
 
+namespace
+{
 enum class requirement_visibility : int {
     always,
     when_requirement_completed,
@@ -82,6 +85,7 @@ enum class requirement_visibility : int {
     never,
     last
 };
+} // namespace
 
 template<>
 struct enum_traits<requirement_visibility> {
@@ -403,11 +407,14 @@ void achievement::load_achievement( const JsonObject &jo, const std::string &src
 
 void achievement::finalize()
 {
-    for( achievement &a : const_cast<std::vector<achievement>&>( achievement::get_all() ) ) {
-        for( achievement_requirement &req : a.requirements_ ) {
-            req.finalize();
-        }
+    for( achievement_requirement &req : requirements_ ) {
+        req.finalize();
     }
+}
+
+void achievement::finalize_all()
+{
+    achievement_factory.finalize();
 }
 
 void achievement::check_consistency()
@@ -425,7 +432,7 @@ void achievement::reset()
     achievement_factory.reset();
 }
 
-void achievement::load( const JsonObject &jo, const std::string_view )
+void achievement::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", name_ );
     is_conduct_ = jo.get_string( "type" ) == "conduct";
@@ -496,7 +503,7 @@ static std::optional<std::string> text_for_requirement(
     } else if( current_value.type() == cata_variant_type::int_ ) {
         int current = current_value.get<int>();
         int target = req.target.get<int>();
-        result = string_format( _( "%s/%s %s" ), current, target,
+        result = string_format( _( "%d/%d %s" ), current, target,
                                 req.statistic->description().translated( target ) );
     } else {
         // The tricky part here is formatting an arbitrary cata_variant value.

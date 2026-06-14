@@ -2,7 +2,9 @@
 #ifndef CATA_SRC_ASCII_ART_H
 #define CATA_SRC_ASCII_ART_H
 
-#include <iosfwd>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "type_id.h"
@@ -13,6 +15,7 @@ class ascii_art
 {
     public:
         static void load_ascii_art( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
 
         void load( const JsonObject &jo, std::string_view );

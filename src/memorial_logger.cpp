@@ -1,5 +1,6 @@
 #include "memorial_logger.h"
 
+#include <cstddef>
 #include <istream>
 #include <list>
 #include <map>
@@ -16,6 +17,7 @@
 #include "calendar.h"
 #include "cata_variant.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_id.h"
 #include "coordinates.h"
 #include "debug.h"
@@ -25,11 +27,13 @@
 #include "event.h"
 #include "event_statistics.h"
 #include "filesystem.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "get_version.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "itype.h"
 #include "json.h"
 #include "json_loader.h"
@@ -42,16 +46,21 @@
 #include "mutation.h"
 #include "omdata.h"
 #include "output.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "past_games_info.h"
 #include "pimpl.h"
 #include "profession.h"
+#include "proficiency.h"
 #include "skill.h"
 #include "stats_tracker.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
 #include "units.h"
+
+// IWYU pragma: no_forward_declare debug_menu::debug_menu_index
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_datura( "datura" );
@@ -115,8 +124,8 @@ void memorial_logger::clear()
  * the character dies. The message should contain only the informational string,
  * as the timestamp and location will be automatically prepended.
  */
-void memorial_logger::add( const std::string_view male_msg,
-                           const std::string_view female_msg )
+void memorial_logger::add( std::string_view male_msg,
+                           std::string_view female_msg )
 {
     Character &player_character = get_player_character();
     const std::string_view msg = player_character.male ? male_msg : female_msg;
@@ -125,9 +134,11 @@ void memorial_logger::add( const std::string_view male_msg,
         return;
     }
 
-    const oter_id &cur_ter = overmap_buffer.ter( player_character.global_omt_location() );
+    const oter_id &cur_ter = overmap_buffer.get_overmap_count() == 0 ?
+                             oter_id() :
+                             overmap_buffer.ter( player_character.pos_abs_omt() );
     const oter_type_str_id cur_oter_type = cur_ter->get_type_id();
-    const std::string &oter_name = cur_ter->get_name();
+    const std::string &oter_name = cur_ter->get_name( om_vision_level::full );
 
     log.emplace_back( calendar::turn, cur_oter_type, oter_name, msg );
 }
@@ -216,7 +227,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     }
 
     const std::string locdesc =
-        overmap_buffer.get_description_at( u.global_sm_location() );
+        overmap_buffer.get_description_at( u.pos_abs_sm() );
     //~ First parameter is a pronoun ("He"/"She"), second parameter is a description
     //~ that designates the location relative to its surroundings.
     const std::string kill_place = string_format( _( "%1$s was killed in a %2$s." ),
@@ -246,7 +257,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     //HP
 
     const auto limb_hp =
-    [&file, &indent, &u]( const std::string_view desc, const bodypart_id & bp ) {
+    [&file, &indent, &u]( std::string_view desc, const bodypart_id & bp ) {
         file << indent <<
              string_format( desc, u.get_part_hp_cur( bp ), u.get_part_hp_max( bp ) ) << eol;
     };
@@ -262,15 +273,15 @@ void memorial_logger::write_text_memorial( std::ostream &file,
 
     //Stats
     file << _( "Final Stats:" ) << eol;
-    file << indent << string_format( _( "Str %d" ), u.str_cur )
-         << indent << string_format( _( "Dex %d" ), u.dex_cur )
-         << indent << string_format( _( "Int %d" ), u.int_cur )
-         << indent << string_format( _( "Per %d" ), u.per_cur ) << eol;
+    file << indent << string_format( _( "Str %d" ), u.get_str() )
+         << indent << string_format( _( "Dex %d" ), u.get_dex() )
+         << indent << string_format( _( "Int %d" ), u.get_int() )
+         << indent << string_format( _( "Per %d" ), u.get_per() ) << eol;
     file << _( "Base Stats:" ) << eol;
-    file << indent << string_format( _( "Str %d" ), u.str_max )
-         << indent << string_format( _( "Dex %d" ), u.dex_max )
-         << indent << string_format( _( "Int %d" ), u.int_max )
-         << indent << string_format( _( "Per %d" ), u.per_max ) << eol;
+    file << indent << string_format( _( "Str %d" ), u.get_str_base() )
+         << indent << string_format( _( "Dex %d" ), u.get_dex_base() )
+         << indent << string_format( _( "Int %d" ), u.get_int_base() )
+         << indent << string_format( _( "Per %d" ), u.get_per_base() ) << eol;
     file << eol;
 
     //Last 20 messages
@@ -325,10 +336,10 @@ void memorial_logger::write_text_memorial( std::ostream &file,
 
     //Traits
     file << _( "Traits:" ) << eol;
-    for( const trait_id &mut : u.get_mutations() ) {
+    for( const trait_id &mut : u.get_functioning_mutations() ) {
         file << indent << u.mutation_name( mut ) << eol;
     }
-    if( u.get_mutations().empty() ) {
+    if( u.get_functioning_mutations().empty() ) {
         file << indent << _( "(None)" ) << eol;
     }
     file << eol;
@@ -603,7 +614,7 @@ void memorial_logger::notify( const cata::event &e )
             character_id ch = e.get<character_id>( "killer" );
             if( ch == avatar_id ) {
                 mtype_id victim_type = e.get<mtype_id>( "victim_type" );
-                if( victim_type->difficulty >= 30 ) {
+                if( victim_type->get_total_difficulty() >= 30 ) {
                     add( pgettext( "memorial_male", "Killed a %s." ),
                          pgettext( "memorial_female", "Killed a %s." ),
                          victim_type->nname() );
@@ -777,6 +788,12 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::digs_into_lava: {
             add( pgettext( "memorial_male", "Dug a shaft into lava." ),
                  pgettext( "memorial_female", "Dug a shaft into lava." ) );
+            break;
+        }
+        case event_type::dimension_travel: {
+            add( pgettext( "memorial_male", "Traveled from '%s' to '%s'." ),
+                 pgettext( "memorial_female", "Traveled from '%s' to '%s'." ),
+                 e.get<std::string>( "from_dimension" ), e.get<std::string>( "to_dimension" ) );
             break;
         }
         case event_type::disarms_nuke: {
@@ -994,6 +1011,11 @@ void memorial_logger::notify( const cata::event &e )
                  pgettext( "memorial_female", "Opened a strange temple." ) );
             break;
         }
+        case event_type::phase_move: {
+            add( pgettext( "memorial_male", "Phased through an obstacle." ),
+                 pgettext( "memorial_female", "Phased through an obstacle." ) );
+            break;
+        }
         case event_type::player_fails_conduct: {
             add( pgettext( "memorial_male", "Lost the conduct %s%s." ),
                  pgettext( "memorial_female", "Lost the conduct %s%s." ),
@@ -1113,6 +1135,7 @@ void memorial_logger::notify( const cata::event &e )
         // All the events for which we have no memorial log are here
         case event_type::avatar_enters_omt:
         case event_type::avatar_moves:
+        case event_type::camp_taken_over:
         case event_type::character_consumes_item:
         case event_type::character_dies:
         case event_type::character_eats_item:
@@ -1126,11 +1149,15 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::character_smashes_tile:
         case event_type::character_starts_activity:
         case event_type::character_takes_damage:
+        case event_type::monster_takes_damage:
         case event_type::character_wakes_up:
         case event_type::character_attempt_to_fall_asleep:
         case event_type::character_falls_asleep:
+        case event_type::character_radioactively_mutates:
         case event_type::character_wears_item:
+        case event_type::character_takeoff_item:
         case event_type::character_wields_item:
+        case event_type::character_armor_destroyed:
         case event_type::character_casts_spell:
         case event_type::cuts_tree:
         case event_type::opens_spellbook:
@@ -1143,6 +1170,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::game_begin:
         case event_type::u_var_changed:
         case event_type::vehicle_moves:
+        case event_type::character_butchered_corpse:
             break;
         case event_type::num_event_types: {
             debugmsg( "Invalid event type" );

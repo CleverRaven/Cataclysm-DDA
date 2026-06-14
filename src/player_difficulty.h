@@ -2,16 +2,20 @@
 #ifndef CATA_SRC_PLAYER_DIFFICULTY_H
 #define CATA_SRC_PLAYER_DIFFICULTY_H
 
-#include <npc.h>
+#include <string>
+
+#include "npc.h"
+
+class Character;
+class avatar;
 
 // The point after which stats cost double
 constexpr int HIGH_STAT = 12;
 
+//Leftover from removing the legacy point pool character creation. TRANSFER is required to be 3 so transfer character templates dont break
 enum class pool_type {
     FREEFORM = 0,
-    ONE_POOL,
-    MULTI_POOL,
-    TRANSFER,
+    TRANSFER = 3,
 };
 
 class player_difficulty

@@ -1,18 +1,29 @@
 #include "string_editor_window.h"
 
+#include <algorithm>
+#include <cstddef>
+#include <cstdint>
+#include <iterator>
+#include <vector>
+
 #if defined(TILES)
 #include "sdl_wrappers.h"
+#include "sdltiles.h"
 #endif
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
+
 #include "cata_utility.h"
 #include "options.h"
 #endif
 
+#include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "output.h"
 #include "ui_manager.h"
 #include "unicode.h"
@@ -38,11 +49,14 @@ static bool is_word( const uint32_t uc )
     return uc != ' ';
 }
 
+namespace
+{
 struct folded_line {
     int cpts_start;
     int cpts_end;
     std::string str;
 };
+} // namespace
 
 // fold text without truncating spaces or parsing color tags
 class folded_text
@@ -163,7 +177,7 @@ const std::vector<folded_line> &folded_text::get_lines() const
 point folded_text::codepoint_coordinates( const int cpt_idx, const bool zero_x ) const
 {
     if( lines.empty() ) {
-        return point_zero;
+        return point::zero;
     }
     // find the line before the cursor position
     auto it = std::lower_bound( lines.begin(), lines.end(), cpt_idx,
@@ -172,7 +186,7 @@ point folded_text::codepoint_coordinates( const int cpt_idx, const bool zero_x )
     } );
     if( it == lines.end() ) {
         // past the last codepoint, shouldn't happen
-        return point_zero;
+        return point::zero;
     }
     int y = std::distance( lines.begin(), it );
     // if zero_x is true and the line is not the last line, cursor at the end of
@@ -406,7 +420,7 @@ std::pair<bool, std::string> string_editor_window::query_string()
 #if defined(__ANDROID__)
     on_out_of_scope stop_text_input( []() {
         if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-            StopTextInput();
+            StopTextInput( get_sdl_window() );
         }
     } );
 #endif
@@ -499,11 +513,7 @@ std::pair<bool, std::string> string_editor_window::query_string()
             if( action == "TEXT.PASTE" ) {
 #if defined(TILES)
                 if( edit.empty() ) {
-                    char *const clip = SDL_GetClipboardText();
-                    if( clip ) {
-                        entered = clip;
-                        SDL_free( clip );
-                    }
+                    entered = GetClipboardText();
                 }
 #endif
             } else if( action == "TEXT.INPUT_FROM_FILE" ) {

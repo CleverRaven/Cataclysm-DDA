@@ -1,0 +1,34 @@
+[
+  {
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "id": "book_moons_tears_ingot",
+    "name": { "str": "Report: LAUGHING DANCER metallurgy", "str_pl": "copies of Report: LAUGHING DANCER metallurgy" },
+    "description": "A series of documents discussing the properties of the armor and weapons used by a group or organization only referred to as \"LAUGHING DANCER\".  Some of these described specifications don't seem physically possible.",
+    "material": [ "paper" ],
+    "weight": "60 g",
+    "volume": "250 ml",
+    "looks_like": "mag_glam",
+    "symbol": "?",
+    "color": "light_gray",
+    "required_level": 2,
+    "max_level": 3,
+    "intelligence": 10,
+    "time": "20 m",
+    "price": "85 USD",
+    "price_postapoc": "12 USD 50 cent",
+    "read_skill": "fabrication"
+  },
+  {
+    "id": "manual_arvore_lashing_bough",
+    "copy-from": "book_martial",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "name": { "ctxt": "book", "str": "sap-stained documents", "str_pl": "sets of sap-stained documents" },
+    "price_postapoc": "10 USD",
+    "weight": "60 g",
+    "description": "A set of documents describing some kind of esoteric martial art that apparently controls the plants and power of nature.  Their are repeated references to \"lashing vines\" and \"poison claws.\"",
+    "martial_art": "xe_ma_style_arvore_elemental"
+  }
+]

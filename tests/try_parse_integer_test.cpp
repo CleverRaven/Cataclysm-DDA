@@ -1,9 +1,17 @@
+#include <clocale>
+#include <locale>
+#include <stdexcept>
+#include <string>
+#include <typeinfo>
+
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
+#include "demangle.h"
+#include "ret_val.h"
 #include "try_parse_integer.h"
 
 template<typename TestType>
-void try_parse_int_simple_parsing()
+static void try_parse_int_simple_parsing()
 {
     CAPTURE( demangle( typeid( TestType ).name() ) );
     std::locale const &oldloc = std::locale();
@@ -78,7 +86,7 @@ TEST_CASE( "try_parse_int_simple_parsing", "[try_parse_integer]" )
 }
 
 template<typename TestType>
-void try_parse_int_locale_parsing()
+static void try_parse_int_locale_parsing()
 {
     CAPTURE( demangle( typeid( TestType ).name() ) );
     std::locale const &oldloc = std::locale();

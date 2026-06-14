@@ -18,7 +18,7 @@
   },
   {
     "type": "item_group",
-    "id": "CODY_MILLER_weild",
+    "id": "CODY_MILLER_wield",
     "subtype": "collection",
     "items": [ { "item": "hammer" } ]
   },
@@ -39,7 +39,7 @@
     "id": "JAY_RUCKERS_worn",
     "subtype": "collection",
     "entries": [
-      { "item": "linuxtshirt" },
+      { "item": "tshirt" },
       { "group": "ballistic_vest_light_pristine" },
       { "item": "boxer_briefs" },
       { "item": "jeans" },
@@ -53,7 +53,7 @@
   },
   {
     "type": "item_group",
-    "id": "JAY_RUCKERS_weild",
+    "id": "JAY_RUCKERS_wield",
     "subtype": "collection",
     "items": [ { "item": "screwdriver" } ]
   },

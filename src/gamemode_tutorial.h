@@ -11,8 +11,6 @@
 
 template <typename E> struct enum_traits;
 
-enum action_id : int;
-
 enum class tut_lesson : int {
     LESSON_INTRO = 0,
     LESSON_MOVE, LESSON_MOVEMENT_MODES, LESSON_LOOK, LESSON_OPEN, LESSON_CLOSE, LESSON_SMASH,

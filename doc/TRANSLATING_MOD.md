@@ -2,7 +2,7 @@
 
 This guide demonstrates how to translate a mod through an example. Suppose you have made a mod adding a book item to the game, and you have put your mod in "./mods/demo" folder:
 
-```json
+```jsonc
 [
   {
     "type": "MOD_INFO",
@@ -158,6 +158,6 @@ demo
 │               └── demo.mo
 ├── modinfo.json
 └── your_mod_content.json
-````
+```
 
 When the player plays the Russian version of Cataclysm DDA, the Russian translation of your mod in `lang/mo/ru/LC_MESSAGES/demo.mo` is automatically loaded, and the player will see translated text in Russian in the game.

@@ -1,0 +1,22 @@
+[
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_kelp_forest",
+    "copy-from": "generic_ocean",
+    "name": "kelp forest",
+    "sym": "~",
+    "color": "green",
+    "extend": { "flags": [ "REQUIRES_PREDECESSOR" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "kelp_forest_core",
+    "copy-from": "generic_kelp_forest"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "kelp_forest_end",
+    "copy-from": "generic_kelp_forest",
+    "delete": { "flags": [ "NO_ROTATE" ] }
+  }
+]

@@ -52,16 +52,30 @@ static void CheckDecl( LargeStackObjectCheck &Check, const MatchFinder::MatchRes
         return;
     }
 
-    const Type *T = MatchedDecl->getType().getTypePtr();
+    const QualType QT = MatchedDecl->getType().getCanonicalType();
+    const Type *T = QT.getTypePtrOrNull();
+    if( !T ) {
+        return;
+    }
 
     if( T->isReferenceType() || T->isUndeducedAutoType() ) {
         return;
     }
 
+#if defined(LLVM_VERSION_MAJOR) && LLVM_VERSION_MAJOR >= 22
+    // LLVM 22 getTypeInfoImpl segfaults on DTS with null deduced type
+    // (CTAD aborted by earlier compile errors).
+    if( const auto *DTS = dyn_cast<DeducedTemplateSpecializationType>( T ) ) {
+        if( DTS->getDeducedType().isNull() ) {
+            return;
+        }
+    }
+#endif
+
 #if defined(LLVM_VERSION_MAJOR) && LLVM_VERSION_MAJOR >= 17
-    if( std::optional<CharUnits> VarSize = Result.Context->getTypeSizeInCharsIfKnown( T ) ) {
+    if( std::optional<CharUnits> VarSize = Result.Context->getTypeSizeInCharsIfKnown( QT ) ) {
 #else
-    if( Optional<CharUnits> VarSize = Result.Context->getTypeSizeInCharsIfKnown( T ) ) {
+    if( Optional<CharUnits> VarSize = Result.Context->getTypeSizeInCharsIfKnown( QT ) ) {
 #endif
         int VarSize_KiB = *VarSize / CharUnits::fromQuantity( 1024 );
 

@@ -12,8 +12,8 @@
     "construction_blueprint": "fbmh_2_tent_room_NE",
     "blueprint_name": "northeast tent",
     "blueprint_requires": [ { "id": "fbmh_2" } ],
-    "blueprint_provides": [ { "id": "fbmh_2_room_NE", "amount": 4 } ],
-    "blueprint_excludes": [ { "id": "fbmh_2_room_NE" } ],
+    "blueprint_provides": [ { "id": "fbmh_2_room_NE", "amount": 4 }, { "id": "fbmh_2_tent_NE" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_room_NE" }, { "id": "fmbh_2_tent_NE" } ],
     "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ],
     "check_blueprint_needs": false
   },

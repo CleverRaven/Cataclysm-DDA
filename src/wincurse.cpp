@@ -1,15 +1,18 @@
-#if !defined(TILES) && defined(_WIN32)
-#define UNICODE 1
-#ifndef CMAKE
 #pragma GCC diagnostic ignored "-Wunused-macros"
+#if !defined(TILES) && defined(_WIN32)
+#ifndef CMAKE
 #define _UNICODE 1
 #endif
+#define UNICODE 1
 #include "cursesport.h" // IWYU pragma: associated
-
+#ifndef TUI
 #include <cstdlib>
 #include <fstream>
 
 #include "cached_options.h"
+#if defined(SDL_SOUND)
+#include "sound_backend.h"
+#endif
 #include "cursesdef.h"
 #include "options.h"
 #include "output.h"
@@ -29,6 +32,11 @@
 #include "mmsystem.h"
 #include "ui_manager.h"
 #include "wcwidth.h"
+
+
+#if defined(SDL_SOUND)
+#include "sdlsound.h"
+#endif
 
 //***********************************
 //Globals                           *
@@ -182,7 +190,7 @@ bool handle_resize( int, int )
         TERMINAL_HEIGHT = WndRect.bottom / fontheight;
         WindowWidth = TERMINAL_WIDTH * fontwidth;
         WindowHeight = TERMINAL_HEIGHT * fontheight;
-        catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point_zero );
+        catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point::zero );
         catacurses::resizeterm();
         create_backbuffer();
         SetBkMode( backbuffer, TRANSPARENT ); //Transparent font backgrounds
@@ -559,7 +567,7 @@ static void CheckMessages()
         DispatchMessage( &msg );
     }
     if( needs_resize ) {
-        restore_on_out_of_scope<int> prev_lastchar( lastchar );
+        restore_on_out_of_scope prev_lastchar( lastchar );
         handle_resize( 0, 0 );
         refresh_display();
     }
@@ -650,10 +658,18 @@ void catacurses::init_interface()
     }
     init_colors();
 
-    stdscr = newwin( get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ), point_zero );
+    stdscr = newwin( get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ), point::zero );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 
     initialized = true;
+
+#if defined(SDL_SOUND)
+    initSDLAudioOnly();
+    init_sound();
+    if( sound_init_success ) {
+        load_soundset();
+    }
+#endif
 }
 
 bool catacurses::supports_256_colors()
@@ -739,7 +755,7 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
         rval.text = utf32_to_utf8( lastchar );
         previously_pressed_key = lastchar;
         // for compatibility only add the first byte, not the code point
-        // as it would  conflict with the special keys defined by ncurses
+        // as it would conflict with the special keys defined by ncurses
         rval.add_input( lastchar );
     }
 
@@ -751,8 +767,8 @@ bool gamepad_available()
     return false;
 }
 
-std::optional<tripoint> input_context::get_coordinates( const catacurses::window &, const point &,
-        bool center_cursor ) const
+std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses::window &,
+        const point &, bool center_cursor ) const
 {
     // TODO: implement this properly
     return std::nullopt;
@@ -761,6 +777,7 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
 // Ends the terminal, destroy everything
 void catacurses::endwin()
 {
+    ui_manager::reset();
     DeleteObject( font );
     WinDestroy();
     // Unload it
@@ -800,7 +817,18 @@ HWND getWindowHandle()
 
 void refresh_display()
 {
+#if defined(SDL_SOUND)
+    sound_backend::poll();
+#endif
     RedrawWindow( WindowHandle, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW );
+}
+
+void drain_renderer_recovery()
+{
+}
+
+void refresh_mouse_config()
+{
 }
 
 void set_title( const std::string &title )
@@ -809,5 +837,5 @@ void set_title( const std::string &title )
         SetWindowTextW( WindowHandle, widen( title ).c_str() );
     }
 }
-
+#endif // TUI
 #endif

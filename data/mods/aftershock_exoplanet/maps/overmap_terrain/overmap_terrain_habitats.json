@@ -1,0 +1,74 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_modular_habitat_center_small_ground_level_above", "afs_modular_habitat_center_small_ground_level" ],
+    "name": "habitat entrance",
+    "sym": "H",
+    "color": "light_blue",
+    "see_cost": "high",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "afs_modular_habitat_pillars_ground",
+      "afs_modular_habitat_pillars_ground_walkway",
+      "afs_modular_habitat_end_pillars_above_walkway",
+      "afs_modular_habitat_pillars"
+    ],
+    "name": "habitat superstructure",
+    "sym": "+",
+    "color": "light_gray",
+    "see_cost": "medium"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_modular_habitat_center_maintenance_tiny" ],
+    "name": "habitat maintenance level",
+    "sym": "+",
+    "color": "yellow",
+    "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_modular_habitat_center_farm", "afs_modular_habitat_greenhouse", "afs_modular_habitat_greenhouse_ramp_up" ],
+    "name": "urban farm",
+    "sym": "f",
+    "color": "light_green",
+    "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_modular_habitat_center_industry", "afs_modular_habitat_industry" ],
+    "name": "industrial habitat",
+    "sym": "i",
+    "color": "yellow",
+    "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_modular_habitat_biodiesel_end", "afs_modular_habitat_biodiesel_straight" ],
+    "name": "refinery wing",
+    "sym": "i",
+    "color": "yellow",
+    "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_modular_habitat_roof" ],
+    "name": "habitat roof",
+    "sym": "r",
+    "color": "light_gray",
+    "see_cost": "none",
+    "flags": [ "PP_GENERATE_RUINED" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_modular_habitat_greenhouse_control_ramp" ],
+    "name": "farm control room",
+    "sym": "o",
+    "color": "light_green",
+    "see_cost": "high",
+    "flags": [ "PP_GENERATE_RUINED" ]
+  }
+]

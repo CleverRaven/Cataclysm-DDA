@@ -237,6 +237,42 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_magic_enervation_beginner",
+    "category": "prof_magic_casting",
+    "name": { "str": "Novice Enervation" },
+    "//": "This covers anything that debilitates a target, such as slowing them, silencing them, reducing their regeneration, and so on.",
+    "description": "You're familiar with debilitating your enemies through magic.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_enervation_apprentice",
+    "category": "prof_magic_casting",
+    "name": { "str": "Apprentice Enervation" },
+    "description": "You're proficient in debilitating your enemies through magic.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "16 h",
+    "required_proficiencies": [ "prof_magic_enhancement_beginner" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_enervation_master",
+    "category": "prof_magic_casting",
+    "name": { "str": "Master Enervation" },
+    "description": "You've mastered the art of debilitating your enemies with the power of magical incantations.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "32 h",
+    "required_proficiencies": [ "prof_magic_enhancement_apprentice" ]
+  },
+  {
+    "type": "proficiency",
     "id": "prof_magic_conveyance_beginner",
     "category": "prof_magic_casting",
     "name": { "str": "Novice Conveyance" },
@@ -270,5 +306,140 @@
     "default_skill_penalty": 0.2,
     "time_to_learn": "32 h",
     "required_proficiencies": [ "prof_magic_conveyance_apprentice" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_restoration_beginner",
+    "category": "prof_magic_casting",
+    "name": { "str": "Novice Restoration" },
+    "//": "This covers anything that restores the base physical, spiritual, or mental capabilities of the target, like healing spells.",
+    "description": "You're familiar with how to return a target to its normal condition.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_restoration_apprentice",
+    "category": "prof_magic_casting",
+    "name": { "str": "Apprentice Restoration" },
+    "description": "You're proficient in returning a target to its base condition, curing any ills it might suffer.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "16 h",
+    "required_proficiencies": [ "prof_magic_conveyance_beginner" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_restoration_master",
+    "category": "prof_magic_casting",
+    "name": { "str": "Master Restoration" },
+    "description": "You've mastered the art of restoring a target to its normal condition.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "32 h",
+    "required_proficiencies": [ "prof_magic_conveyance_apprentice" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_transformation_beginner",
+    "category": "prof_magic_casting",
+    "name": { "str": "Novice Transformation" },
+    "//": "This covers anything that turns one thing into another, like leaves into gold or a human into a bear.  It also covers magical mutation.",
+    "description": "You're familiar with how to turn things into other things using magic.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_transformation_apprentice",
+    "category": "prof_magic_casting",
+    "name": { "str": "Apprentice Transformation" },
+    "description": "You're proficient in turning things into other things using magic.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "16 h",
+    "required_proficiencies": [ "prof_magic_conveyance_beginner" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_transformation_master",
+    "category": "prof_magic_casting",
+    "name": { "str": "Master Transformation" },
+    "description": "You've mastered the art of transforming the physical form of creatures and objects.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "32 h",
+    "required_proficiencies": [ "prof_magic_conveyance_apprentice" ]
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_druidic_shifting",
+    "name": "Shapeshifting",
+    "description": "Proficiencies for involving druidic transformation into the forms of animals."
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_druid_basis_of_transformation",
+    "category": "prof_druidic_shifting",
+    "name": { "str": "Basis of Druidic Transformation" },
+    "description": "As a druid, you have the innate potential to transform yourself into different animals.  You just need to study and master the techniques.",
+    "time_to_learn": "1 h",
+    "can_learn": true
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_druid_transformation_bear",
+    "category": "prof_druidic_shifting",
+    "name": { "str": "Form Mastery (Forest King)" },
+    "description": "You've mastered the art of transforming yourself into a bear.",
+    "can_learn": true,
+    "time_to_learn": "16 h",
+    "default_time_multiplier": 1,
+    "default_skill_penalty": 0.1,
+    "required_proficiencies": [ "prof_druid_basis_of_transformation" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_druid_transformation_cougar",
+    "category": "prof_druidic_shifting",
+    "name": { "str": "Form Mastery (Stalking Hunter)" },
+    "description": "You've mastered the art of transforming yourself into a cougar.",
+    "can_learn": true,
+    "time_to_learn": "16 h",
+    "default_time_multiplier": 1,
+    "default_skill_penalty": 0.1,
+    "required_proficiencies": [ "prof_druid_basis_of_transformation" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_druid_transformation_deer",
+    "category": "prof_druidic_shifting",
+    "name": { "str": "Form Mastery (Swift Runner)" },
+    "description": "You've mastered the art of transforming yourself into a deer.",
+    "can_learn": true,
+    "time_to_learn": "16 h",
+    "default_time_multiplier": 1,
+    "default_skill_penalty": 0.1,
+    "required_proficiencies": [ "prof_druid_basis_of_transformation" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_druid_transformation_raven",
+    "category": "prof_druidic_shifting",
+    "name": { "str": "Form Mastery (Soaring Wings)" },
+    "description": "You've mastered the art of transforming yourself into a raven.",
+    "can_learn": true,
+    "time_to_learn": "16 h",
+    "default_time_multiplier": 1,
+    "default_skill_penalty": 0.1,
+    "required_proficiencies": [ "prof_druid_basis_of_transformation" ]
   }
 ]

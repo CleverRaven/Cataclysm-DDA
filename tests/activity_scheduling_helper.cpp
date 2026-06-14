@@ -2,18 +2,23 @@
 
 #include <climits>
 #include <cstdlib>
-#include <list>
 
+#include "activity_tracker.h"
 #include "avatar.h"
 #include "cata_catch.h"
+#include "character_attire.h"
 #include "debug.h"
 #include "item.h"
-#include "make_static.h"
 #include "map_helpers.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "stomach.h"
 #include "string_formatter.h"
+
+static const efftype_id effect_sleep( "sleep" );
+
+static const itype_id itype_duffelbag( "duffelbag" );
+static const itype_id itype_test_lamp( "test_lamp" );
 
 void activity_schedule::setup( avatar &guy ) const
 {
@@ -74,7 +79,7 @@ void sleep_schedule::setup( avatar &guy ) const
 
 void sleep_schedule::do_turn( avatar &guy ) const
 {
-    if( !guy.has_effect( STATIC( efftype_id( "sleep" ) ) ) ) {
+    if( !guy.has_effect( effect_sleep ) ) {
         debugmsg( "Woke up!" );
     }
 }
@@ -85,12 +90,12 @@ weariness_events do_activity( tasklist tasks, bool do_clear_avatar )
     if( do_clear_avatar ) {
         clear_avatar();
     }
-    clear_map();
+    clear_map_without_vision();
 
     avatar &guy = get_avatar();
     // Ensure we have enough light to see
-    item bag( "duffelbag" );
-    item light( "atomic_lamp" );
+    item bag( itype_duffelbag );
+    item light( itype_test_lamp );
     guy.worn.wear_item( guy, bag, false, false );
     guy.i_add( light );
     // How long we've been doing activities for
@@ -112,7 +117,7 @@ weariness_events do_activity( tasklist tasks, bool do_clear_avatar )
             // Consume food, become weary, etc
             guy.update_body();
             // Start each turn with a fresh set of moves
-            guy.moves = 100;
+            guy.set_moves( 100 );
             task.do_turn( guy );
         }
         // Cancel our activity, now that we're done

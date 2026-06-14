@@ -8,5 +8,11 @@
       { "group": "pants", "damage": [ 1, 4 ] },
       { "group": "default_zombie_items" }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "mon_dog_death_drops",
+    "subtype": "collection",
+    "entries": [  ]
   }
 ]

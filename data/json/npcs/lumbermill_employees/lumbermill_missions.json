@@ -107,18 +107,30 @@
     "value": 4000,
     "//": "Dynamic response dialogs would be more natural to accept so many alternate items here.",
     "goal_condition": {
-      "or": [
-        { "u_has_items": { "item": "blanket", "count": 6 } },
-        { "u_has_items": { "item": "fur_blanket", "count": 6 } },
-        { "u_has_items": { "item": "electric_blanket", "count": 6 } },
-        { "u_has_items": { "item": "quilt", "count": 6 } },
-        { "u_has_items": { "item": "quilt_patchwork", "count": 6 } }
+      "u_has_items_sum": [
+        { "item": "blanket", "amount": 6 },
+        { "item": "fur_blanket", "amount": 6 },
+        { "item": "down_blanket", "amount": 6 },
+        { "item": "blanket_weighted", "amount": 6 },
+        { "item": "quilt", "amount": 6 },
+        { "item": "quilt_patchwork", "amount": 6 },
+        { "item": "electric_blanket", "amount": 6 }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "end": {
       "update_mapgen": { "om_terrain": "lumbermill_1_1_ocu", "place_nested": [ { "chunks": [ "occupied_lum_hotel_1_1" ], "x": 0, "y": 0 } ] },
-      "effect": { "run_eocs": "EOC_MISSION_LUMBERMILL_GET_6_BLANKETS_done" }
+      "effect": {
+        "u_consume_item_sum": [
+          { "item": "blanket", "amount": 6 },
+          { "item": "fur_blanket", "amount": 6 },
+          { "item": "down_blanket", "amount": 6 },
+          { "item": "blanket_weighted", "amount": 6 },
+          { "item": "quilt", "amount": 6 },
+          { "item": "quilt_patchwork", "amount": 6 },
+          { "item": "electric_blanket", "amount": 6 }
+        ]
+      }
     },
     "followup": "MISSION_LUMBERMILL_SET_TRADE_ROUTE",
     "has_generic_rewards": true,

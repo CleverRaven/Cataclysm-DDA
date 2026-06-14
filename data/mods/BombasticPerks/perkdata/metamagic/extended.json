@@ -1,0 +1,33 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_metamagic_toggle_extended_on",
+    "effect": [ { "u_add_var": "perk_metamagic_extended_deactivated", "value": "no" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_metamagic_toggle_extended_off",
+    "effect": [
+      { "u_message": "You deactivate your extended metamagic" },
+      { "u_add_var": "perk_metamagic_extended_deactivated", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_metamagic_extended",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": {
+      "and": [
+        { "u_has_trait": "perk_metamagic_extended" },
+        { "not": { "compare_string": [ "yes", { "u_val": "perk_metamagic_extended_deactivated" } ] } }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_spellcasting_adjustment('duration', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES' ) = 1" ] },
+      {
+        "math": [ "u_spellcasting_adjustment('difficulty', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES' ) = +4" ]
+      }
+    ]
+  }
+]

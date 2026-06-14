@@ -1,0 +1,9 @@
+[
+  {
+    "type": "palette",
+    "id": "afs_light_param_palette",
+    "parameters": {
+      "lightstatus": { "type": "nested_mapgen_id", "default": { "distribution": [ [ "afs_map_lights_on", 20 ], [ "null", 80 ] ] } }
+    }
+  }
+]

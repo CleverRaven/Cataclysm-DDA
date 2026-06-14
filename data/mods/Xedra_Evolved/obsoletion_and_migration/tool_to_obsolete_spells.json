@@ -3,18 +3,18 @@
     "type": "effect_on_condition",
     "id": "EOC_MIGRATE_SPELL",
     "effect": [
-      { "math": [ "u_spell_level('summon_battery_gun')", "=", "-1" ] },
-      { "math": [ "u_spell_level('summon_ray_gun')", "=", "-1" ] },
-      { "math": [ "u_spell_level('summon_death_ray')", "=", "-1" ] },
-      { "math": [ "u_spell_level('summon_mace_magic')", "=", "-1" ] },
-      { "math": [ "u_spell_level('summon_bio_launcher')", "=", "-1" ] },
-      { "math": [ "u_spell_level('summon_bio_warhead')", "=", "-1" ] },
-      { "math": [ "u_spell_level('summon_rip_ticket')", "=", "-1" ] },
-      { "math": [ "u_spell_level('summon_helmet_inventor')", "=", "-1" ] },
-      { "math": [ "u_spell_level('summon_ion_gun')", "=", "-1" ] },
-      { "math": [ "u_spell_level('spark_of_inspiration')", "=", "-1" ] },
-      { "math": [ "u_spell_level('research_dreamdross')", "=", "-1" ] },
-      { "math": [ "u_spell_level('forge_dreamdross')", "=", "-1" ] }
+      { "math": [ "u_spell_level('summon_battery_gun') = -1" ] },
+      { "math": [ "u_spell_level('summon_ray_gun') = -1" ] },
+      { "math": [ "u_spell_level('summon_death_ray') = -1" ] },
+      { "math": [ "u_spell_level('summon_mace_magic') = -1" ] },
+      { "math": [ "u_spell_level('summon_bio_launcher') = -1" ] },
+      { "math": [ "u_spell_level('summon_bio_warhead') = -1" ] },
+      { "math": [ "u_spell_level('summon_rip_ticket') = -1" ] },
+      { "math": [ "u_spell_level('summon_helmet_inventor') = -1" ] },
+      { "math": [ "u_spell_level('summon_ion_gun') = -1" ] },
+      { "math": [ "u_spell_level('spark_of_inspiration') = -1" ] },
+      { "math": [ "u_spell_level('research_dreamdross') = -1" ] },
+      { "math": [ "u_spell_level('forge_dreamdross') = -1" ] }
     ]
   }
 ]

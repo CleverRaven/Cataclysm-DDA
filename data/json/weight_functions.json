@@ -1,0 +1,59 @@
+[
+  {
+    "type": "jmath_function",
+    "id": "time_since_cata_start",
+    "//": "These functions return a value between 0 and 1 to be multiplied by a variable amount and potentially added to a flat amount to for example manipulate weights.",
+    "//1": "Usage time_since_cata_start( days until 1 )",
+    "num_args": 1,
+    "return": "time_since('cataclysm', 'unit':'days') < _0 ? 0 : 1"
+  },
+  {
+    "type": "jmath_function",
+    "id": "time_since_cata_end",
+    "//": "Usage time_since_cata_end( days until 0 )",
+    "num_args": 1,
+    "return": "time_since('cataclysm', 'unit':'days') < _0 ? 1 : 0"
+  },
+  {
+    "type": "jmath_function",
+    "id": "time_since_cata_linear_pos",
+    "//": "Usage time_since_cata_linear_pos( days until 1 ).  Linearly increases from 0 to 1.",
+    "num_args": 1,
+    "return": "time_since('cataclysm', 'unit':'days') < _0 ? time_since('cataclysm', 'unit':'days') / _0 : 1"
+  },
+  {
+    "type": "jmath_function",
+    "id": "time_since_cata_linear_neg",
+    "//": "Usage time_since_cata_linear_neg( days until 0 ).  Linearly decreases from 1 to 0.",
+    "num_args": 1,
+    "return": "time_since('cataclysm', 'unit':'days') < _0 ? 1 - ( time_since('cataclysm', 'unit':'days') / _0 ) : 0"
+  },
+  {
+    "type": "jmath_function",
+    "id": "time_since_cata_quadratic_pos",
+    "//": "Usage time_since_cata_quadratic_pos( days until 1 ).  Quadratically increases from 0 to 1.",
+    "num_args": 1,
+    "return": "time_since('cataclysm', 'unit':'days') < _0 ? ( time_since('cataclysm', 'unit':'days') / _0 ) ^ 2 : 1"
+  },
+  {
+    "type": "jmath_function",
+    "id": "time_since_cata_quadratic_neg",
+    "//": "Usage time_since_cata_quadratic_neg( days until 0 ).  Quadratically decreases from 1 to 0.",
+    "num_args": 1,
+    "return": "time_since('cataclysm', 'unit':'days') < _0 ? 1 - ( ( time_since('cataclysm', 'unit':'days') / _0 ) ^ 2 ) : 0"
+  },
+  {
+    "type": "jmath_function",
+    "id": "time_since_cata_quadratic_u_pos",
+    "//": "Usage time_since_cata_quadratic_u_pos( days until 1 ).  Quadratically varies from 0 to 1 then back to 0 in the same amount of time.",
+    "num_args": 1,
+    "return": "time_since('cataclysm', 'unit':'days') < ( _0 * 2 ) ? ( 1 / ( _0 ^ 2 ) ) * ( ( time_since('cataclysm', 'unit':'days') - _0 ) ^ 2 ) : 1"
+  },
+  {
+    "type": "jmath_function",
+    "id": "time_since_cata_quadratic_u_neg",
+    "//": "Usage time_since_cata_quadratic_u_neg( days until 0 ).  Quadratically varies from 1 to 0 then back to 1 in the same amount of time.",
+    "num_args": 1,
+    "return": "time_since('cataclysm', 'unit':'days') < ( _0 * 2 ) ? 1 - ( ( 1 / ( _0 ^ 2 ) ) * ( ( time_since('cataclysm', 'unit':'days') - _0 ) ^ 2 ) ) : 0"
+  }
+]

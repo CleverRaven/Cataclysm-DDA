@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "advanced_inv_listitem.h"
 #include "advanced_inv_pane.h"
 
 class item_category;

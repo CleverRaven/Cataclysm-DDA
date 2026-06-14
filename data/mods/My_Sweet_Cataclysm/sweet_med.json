@@ -1,7 +1,8 @@
 [
   {
     "id": "caramel_ointement",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "caramel ointment" },
     "description": "An ointment made of caramel.  You could use it to heal your wounds, if you were made of sugar.",

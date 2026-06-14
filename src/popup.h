@@ -6,16 +6,16 @@
 #include <functional>
 #include <memory>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "color.h"
-#include "cursesdef.h"
 #include "input_enums.h"
+#include "point.h"
+#include "string_formatter.h"
 
-class ui_adaptor;
-#if !defined(__ANDROID__)
 class query_popup_impl;
-#endif
 
 /**
  * UI class for displaying messages or querying player input with popups.
@@ -37,9 +37,7 @@ class query_popup_impl;
 
 class query_popup
 {
-#if !defined(__ANDROID__)
         friend class query_popup_impl;
-#endif
     public:
         /**
          * Query result returned by `query_once` and `query`.
@@ -92,14 +90,14 @@ class query_popup
          */
         template <typename ...Args>
         query_popup &message( const std::string &fmt, Args &&... args ) {
-            assert_format( fmt, std::forward<Args>( args )... );
+            assert_format<Args...>( fmt );
             invalidate_ui();
             text = string_format( fmt, std::forward<Args>( args )... );
             return *this;
         }
         template <typename ...Args>
         query_popup &message( const char *const fmt, Args &&... args ) {
-            assert_format( fmt, std::forward<Args>( args )... );
+            assert_format<Args...>( fmt );
             invalidate_ui();
             text = string_format( fmt, std::forward<Args>( args )... );
             return *this;
@@ -109,28 +107,28 @@ class query_popup
          **/
         template <typename ...Args>
         query_popup &wait_message( const nc_color &bar_color, const std::string &fmt, Args &&... args ) {
-            assert_format( fmt, std::forward<Args>( args )... );
+            assert_format<Args...>( fmt );
             invalidate_ui();
             text = wait_text( string_format( fmt, std::forward<Args>( args )... ), bar_color );
             return *this;
         }
         template <typename ...Args>
         query_popup &wait_message( const nc_color &bar_color, const char *const fmt, Args &&... args ) {
-            assert_format( fmt, std::forward<Args>( args )... );
+            assert_format<Args...>( fmt );
             invalidate_ui();
             text = wait_text( string_format( fmt, std::forward<Args>( args )... ), bar_color );
             return *this;
         }
         template <typename ...Args>
         query_popup &wait_message( const std::string &fmt, Args &&... args ) {
-            assert_format( fmt, std::forward<Args>( args )... );
+            assert_format<Args...>( fmt );
             invalidate_ui();
             text = wait_text( string_format( fmt, std::forward<Args>( args )... ) );
             return *this;
         }
         template <typename ...Args>
         query_popup &wait_message( const char *const fmt, Args &&... args ) {
-            assert_format( fmt, std::forward<Args>( args )... );
+            assert_format<Args...>( fmt );
             invalidate_ui();
             text = wait_text( string_format( fmt, std::forward<Args>( args )... ) );
             return *this;
@@ -184,12 +182,6 @@ class query_popup
         query_popup &preferred_keyboard_mode( keyboard_mode mode );
 
         /**
-         * Draw the UI. An input context should be provided using `context()`
-         * for this function to properly generate option text.
-         **/
-        void show() const;
-
-        /**
          * Query once and return the result. In order for this method to return
          * valid results, the popup must either have at least one option, or
          * have `allow_cancel` or `allow_anykey` set to true. Otherwise
@@ -205,15 +197,7 @@ class query_popup
          * Create or get a ui_adaptor on the UI stack to handle redrawing and
          * resizing of the popup.
          */
-        std::shared_ptr<ui_adaptor> create_or_get_adaptor();
-#if !defined(__ANDROID__)
         std::shared_ptr<query_popup_impl> create_or_get_impl();
-
-        result query_imgui();
-        result query_once_imgui();
-#endif
-        result query_legacy();
-        result query_once_legacy();
 
     private:
         struct query_option {
@@ -244,26 +228,16 @@ class query_popup
             int width;
         };
 
-        std::weak_ptr<ui_adaptor> adaptor;
-#if !defined(__ANDROID__)
         std::weak_ptr<query_popup_impl> p_impl;
-#endif
 
         // UI caches
-        mutable catacurses::window win;
         mutable std::vector<std::string> folded_msg;
         mutable std::vector<button> buttons;
 
-        static std::vector<std::vector<std::string>> fold_query(
-                    const std::string &category,
-                    keyboard_mode pref_kbd_mode,
-                    const std::vector<query_option> &options,
-                    int max_width, int horz_padding );
         void invalidate_ui() const;
-        void init() const;
 
         template <typename ...Args>
-        static void assert_format( const std::string_view, Args &&... ) {
+        static void assert_format( const std::string_view ) {
             static_assert( sizeof...( Args ) > 0,
                            "Format string should take at least one argument.  "
                            "If your message is not a format string, "
@@ -303,10 +277,7 @@ class static_popup : public query_popup
         static_popup();
 
     private:
-        std::shared_ptr<ui_adaptor> ui;
-#if !defined(__ANDROID__)
-        std::shared_ptr<query_popup_impl> ui_imgui;
-#endif
+        std::shared_ptr<query_popup_impl> ui;
 };
 
 #endif // CATA_SRC_POPUP_H

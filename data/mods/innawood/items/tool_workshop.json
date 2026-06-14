@@ -1,19 +1,18 @@
 [
   {
     "id": "blacksmith_kit",
-    "type": "TOOL",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "name": { "str": "blacksmith repair kit" },
     "description": "This is a set of tools to repair damaged metal tools and armor.  It uses charcoal, contained in a small clay vessel, to heat the part and make it easier to work.",
     "weight": "1600 g",
     "volume": "1400 ml",
     "longest_side": "25 cm",
-    "price": 5000,
-    "price_postapoc": 1000,
-    "to_hit": -2,
+    "price": "50 USD",
+    "price_postapoc": "10 USD",
     "material": [ "steel", "clay" ],
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": [ "charcoal" ],
     "charges_per_use": 5,
     "qualities": [
       [ "HAMMER_FINE", 1 ],
@@ -38,6 +37,7 @@
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 100 } } ],
-    "melee_damage": { "bash": 9 }
+    "melee_damage": { "bash": 9 },
+    "tool_ammo": [ "charcoal" ]
   }
 ]

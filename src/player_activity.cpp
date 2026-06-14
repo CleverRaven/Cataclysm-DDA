@@ -2,44 +2,44 @@
 
 #include <algorithm>
 #include <memory>
-#include <new>
 
+#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
-#include "construction.h"
+#include "creature.h"
+#include "debug.h"
+#include "dialogue.h"
 #include "effect_on_condition.h"
-#include "field.h"
+#include "event.h"
 #include "event_bus.h"
+#include "field.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
-#include "map.h"
+#include "messages.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "talker.h"
+#include "translation.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
+#include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "weather.h"
 
-static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_AIM( "ACT_AIM" );
-static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
-static const activity_id ACT_ATM( "ACT_ATM" );
-static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
 static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
 static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
-static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
-static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
-static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
-static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_INVOKE_ITEM( "ACT_INVOKE_ITEM" );
@@ -47,12 +47,9 @@ static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 static const activity_id ACT_NULL( "ACT_NULL" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
-static const activity_id ACT_PICKUP_MENU( "ACT_PICKUP_MENU" );
 static const activity_id ACT_READ( "ACT_READ" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
-static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
-static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WORKOUT_ACTIVE( "ACT_WORKOUT_ACTIVE" );
 static const activity_id ACT_WORKOUT_HARD( "ACT_WORKOUT_HARD" );
 static const activity_id ACT_WORKOUT_LIGHT( "ACT_WORKOUT_LIGHT" );
@@ -67,7 +64,7 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
     type( t ), moves_total( turns ), moves_left( turns ),
     index( Index ),
     position( pos ), name( name_in ),
-    placement( tripoint_min )
+    placement( tripoint_abs_ms::min )
 {
     if( type != ACT_NULL ) {
         for( const distraction_type dt : type->default_ignored_distractions() ) {
@@ -129,7 +126,7 @@ bool player_activity::is_multi_type() const
     return type->multi_activity();
 }
 
-std::string player_activity::get_str_value( size_t index, const std::string_view def ) const
+std::string player_activity::get_str_value( size_t index, std::string_view def ) const
 {
     return std::string( index < str_values.size() ? str_values[index] : def );
 }
@@ -140,17 +137,9 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
         return std::optional<std::string>();
     }
 
-    if( type == ACT_ADV_INVENTORY ||
-        type == ACT_AIM ||
-        type == ACT_ARMOR_LAYERS ||
-        type == ACT_ATM ||
-        type == ACT_CONSUME_DRINK_MENU ||
-        type == ACT_CONSUME_FOOD_MENU ||
-        type == ACT_CONSUME_MEDS_MENU ||
-        type == ACT_EAT_MENU ||
-        type == ACT_INVOKE_ITEM ||
-        type == ACT_PICKUP_MENU ||
-        type == ACT_VIEW_RECIPE ) {
+    if( type == ACT_AIM ||
+        type == ACT_INVOKE_ITEM
+      ) {
         return std::nullopt;
     }
 
@@ -162,8 +151,8 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
                 if( skill && u.get_knowledge_level( skill ) < reading->level &&
                     u.get_skill_level_object( skill ).can_train() && u.has_identified( book->typeId() ) ) {
                     const SkillLevel &skill_level = u.get_skill_level_object( skill );
-                    //~ skill_name current_skill_level -> next_skill_level (% to next level)
-                    extra_info = string_format( pgettext( "reading progress", "%s %d -> %d (%d%%)" ),
+                    //~ skill_name current_skill_level (% of next level) -> next_skill_level
+                    extra_info = string_format( pgettext( "reading progress", "%1s %2d (%4d%%) -> %3d" ),
                                                 skill.obj().name(),
                                                 skill_level.knowledgeLevel(),
                                                 skill_level.knowledgeLevel() + 1,
@@ -184,17 +173,6 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
             const int percentage = ( ( moves_total - moves_left ) * 100 ) / moves_total;
 
             extra_info = string_format( "%d%%", percentage );
-        }
-
-        if( type == ACT_BUILD ) {
-            partial_con *pc =
-                get_map().partial_con_at( get_map().bub_from_abs( u.activity.placement ) );
-            if( pc ) {
-                int counter = std::min( pc->counter, 10000000 );
-                const int percentage = counter / 100000;
-
-                extra_info = string_format( "%d%%", percentage );
-            }
         }
     }
 
@@ -226,13 +204,14 @@ void player_activity::do_turn( Character &you )
     // This is because the game can get stuck trying to fuel a fire when it's not...
     if( type == ACT_MIGRATION_CANCEL ) {
         actor->do_turn( *this, you );
+        activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( you );
         return;
     }
     // first to ensure sync with actor
     synchronize_type_with_actor();
     // Should happen before activity or it may fail due to 0 moves
     if( *this && type->will_refuel_fires() && have_fire ) {
-        have_fire = try_fuel_fire( *this, you );
+        have_fire = try_fuel_fire( you );
     }
     if( calendar::once_every( 30_minutes ) ) {
         no_food_nearby_for_auto_consume = false;
@@ -265,17 +244,17 @@ void player_activity::do_turn( Character &you )
     if( type->based_on() == based_on_type::TIME ) {
         if( moves_left >= 100 ) {
             moves_left -= 100 * activity_mult;
-            you.moves = 0;
+            you.set_moves( 0 );
         } else {
-            you.moves -= you.moves * moves_left / 100;
+            you.mod_moves( -you.get_moves() * moves_left / 100 );
             moves_left = 0;
         }
     } else if( type->based_on() == based_on_type::SPEED ) {
-        if( you.moves <= moves_left ) {
-            moves_left -= you.moves * activity_mult;
-            you.moves = 0;
+        if( you.get_moves() <= moves_left ) {
+            moves_left -= you.get_moves() * activity_mult;
+            you.set_moves( 0 );
         } else {
-            you.moves -= moves_left;
+            you.mod_moves( -moves_left );
             moves_left = 0;
         }
     }
@@ -294,20 +273,23 @@ void player_activity::do_turn( Character &you )
     if( !type->do_turn_EOC.is_null() ) {
         // if we have an EOC defined in json do that
         dialogue d( get_talker_for( you ), nullptr );
-        if( type->do_turn_EOC->type == eoc_type::ACTIVATION ) {
-            type->do_turn_EOC->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
-        }
+        type->do_turn_EOC->activate_activation_only( d, "player activities" );
         // We may have canceled this via a message interrupt.
         if( type.is_null() ) {
+            activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( you );
             return;
         }
     }
 
     // This might finish the activity (set it to null)
     if( actor ) {
+        const activity_id prior_act_id = id();
         actor->do_turn( *this, you );
+
+        // if an activity was assigned during this activity, stop processing immediately
+        if( *this && prior_act_id != id() ) {
+            return;
+        }
     } else {
         // Use the legacy turn function
         type->call_do_turn( this, &you );
@@ -333,8 +315,6 @@ void player_activity::do_turn( Character &you )
         }
 
         auto_resume = true;
-        player_activity new_act( ACT_WAIT_STAMINA, to_moves<int>( 5_minutes ) );
-        new_act.values.push_back( you.get_stamina_max() );
         if( you.is_avatar() && !ignoreQuery ) {
             uilist tired_query;
             tired_query.text = _( "You struggle to continue.  Keep trying?" );
@@ -357,8 +337,9 @@ void player_activity::do_turn( Character &you )
             }
         }
         if( !ignoreQuery && auto_resume ) {
-            you.assign_activity( new_act );
+            you.assign_activity( wait_stamina_activity_actor( you.get_stamina_max() ) );
         }
+        activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( you );
         return;
     }
     if( *this && type->rooted() ) {
@@ -372,13 +353,12 @@ void player_activity::do_turn( Character &you )
         if( !type->completion_EOC.is_null() ) {
             // if we have an EOC defined in json do that
             dialogue d( get_talker_for( you ), nullptr );
-            if( type->completion_EOC->type == eoc_type::ACTIVATION ) {
-                type->completion_EOC->activate( d );
-            } else {
-                debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
-            }
+            type->completion_EOC->activate_activation_only( d, "player activities" );
         }
+        add_msg_debug( debugmode::DF_ACTIVITY, "Setting activity %s to null for %s, no moves left.",
+                       type.c_str(), you.name );
         get_event_bus().send<event_type::character_finished_activity>( you.getID(), type, false );
+        g->wait_popup_reset();
         if( actor ) {
             actor->finish( *this, you );
         } else {
@@ -391,12 +371,22 @@ void player_activity::do_turn( Character &you )
     if( !*this ) {
         // Make sure data of previous activity is cleared
         you.activity = player_activity();
-        you.resume_backlog_activity();
-
+        // Don't resume backlog while auto-moving to a destination --
+        // the destination_activity will restore the right activity on
+        // arrival. Resuming now would re-trigger the same fetch/route
+        // cycle within the same frame.
+        if( !you.has_destination() ) {
+            you.resume_backlog_activity();
+        }
         // If whatever activity we were doing forced us to pick something up to
         // handle it, drop any overflow that may have caused
         you.drop_invalid_inventory();
     }
+    // According to the existing code, if 'you' is an NPC, the outer layer may try to resume activity from the
+    // backlog  (in npc::do_player_activity()), which results is (!you.activity) && (!you.get_destination_activity())
+    // is true here not meaning that mult_activity ends, so npc's activity_var cannot be handled here.
+    // only avatar's activity_var is erased in player_activity::do_turn.
+    activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( you );
 }
 
 void player_activity::canceled( Character &who )
@@ -404,7 +394,9 @@ void player_activity::canceled( Character &who )
     if( *this && actor ) {
         actor->canceled( *this, who );
     }
+    activity_handlers::clean_may_activity_occupancy_items_var( who );
     get_event_bus().send<event_type::character_finished_activity>( who.getID(), type, true );
+    g->wait_popup_reset();
 }
 
 float player_activity::exertion_level() const
@@ -416,7 +408,7 @@ float player_activity::exertion_level() const
 }
 
 template <typename T>
-bool containers_equal( const T &left, const T &right )
+static bool containers_equal( const T &left, const T &right )
 {
     if( left.size() != right.size() ) {
         return false;
@@ -456,6 +448,17 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
 
     return !auto_resume && index == other.index &&
            position == other.position && name == other.name && targets == other.targets;
+}
+
+void player_activity::set_resume_values( const player_activity &other, const Character &who )
+{
+    if( !can_resume_with( other, who ) ) {
+        return;
+    }
+
+    if( actor && other.actor ) {
+        actor->set_resume_values( *other.actor, who );
+    }
 }
 
 bool player_activity::is_interruptible() const

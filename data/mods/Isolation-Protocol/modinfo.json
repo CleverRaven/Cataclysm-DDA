@@ -7,6 +7,25 @@
     "maintainers": [ "Candlebury" ],
     "description": "A total conversion mod inspired by traditional dungeon crawler roguelikes.  Reach the bottom of an altered lab and prevent the Cataclysm from spreading to the surface!",
     "category": "total_conversion",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "conflicts": [
+      "generic_guns",
+      "aftershock_exoplanet",
+      "innawood",
+      "skyisland",
+      "backrooms",
+      "defense_mode",
+      "MA",
+      "tropicata",
+      "desertpack",
+      "classic_zombies",
+      "no_hope"
+    ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DEFAULT_REGION",
+    "stype": "string_input",
+    "value": "default_isolation"
   }
 ]

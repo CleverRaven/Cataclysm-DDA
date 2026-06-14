@@ -1,0 +1,12 @@
+{
+  "type": "effect_on_condition",
+  "id": "EOC_XE_KRECK_DEATH",
+  "effect": [
+    { "npc_location_variable": { "context_val": "death_loc" } },
+    {
+      "if": { "math": [ "rand(10) >= 9" ] },
+      "then": { "map_spawn_item": "kreck_loot_star_stone", "loc": { "context_val": "death_loc" } }
+    },
+    { "npc_emit": "emit_kreck_death_stones", "target_var": { "context_val": "death_loc" } }
+  ]
+}

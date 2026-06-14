@@ -1,0 +1,227 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_inner_cabins_void",
+    "name": "sprawling plane of black",
+    "description": "There's an otherworldly surface here, black as the depths of the earth.",
+    "symbol": " ",
+    "color": "black",
+    "flags": [ "FLAT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_inner_cabins_void_trans",
+    "name": "fluid void",
+    "description": "At first glance this looks like a pool of dark water, slowly undulating in an unnaturally slow fashion.  The air around it is frigid cold, stale, and softens ambient light.  It does not look safe to walk through, but you could try.",
+    "symbol": "~",
+    "color": "black",
+    "trap": "tr_inner_cabins_void",
+    "flags": [ "TRANSPARENT", "DESTROY_ITEM" ],
+    "move_cost": 600
+  },
+  {
+    "type": "terrain",
+    "id": "t_inner_cabins_void_trans_retracting",
+    "name": "fluid void",
+    "description": "At first glance this looks like a pool of dark water, slowly undulating in an unnaturally slow fashion.  The air around it is frigid cold, stale, softens ambient light.  This patch seems to be slowly retracting toward the center of the pool.  The grass growing at its edges wobbles as if there is a breeze, constantly bending toward the blackness.  It does not look safe to walk through, but you could try.",
+    "symbol": "~",
+    "color": "light_gray",
+    "trap": "tr_inner_cabins_void",
+    "flags": [ "TRANSPARENT", "DESTROY_ITEM" ],
+    "move_cost": 600
+  },
+  {
+    "type": "terrain",
+    "id": "t_inner_cabins_exit_portal",
+    "name": "unstable portal",
+    "description": "A swirling tear in reality.  Beyond it, you see a field of ever-expanding buildings.  Something else is moving inside, beyond your ability to resolve.",
+    "symbol": "O",
+    "color": "magenta",
+    "trap": "tr_inner_cabins_exit_portal",
+    "flags": [ "TRANSPARENT" ],
+    "move_cost": 3,
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "inner_cabins_portal_options",
+          "effect": [
+            {
+              "run_eoc_selector": [ "EOC_INNER_CABINS_PORTAL_LOOK", "EOC_INNER_CABINS_PORTAL_EXIT_TO_SMEAR" ],
+              "allow_cancel": true,
+              "names": [ "Look inside.", "Walk through the portal." ],
+              "title": "There is a ledge here.  What do you want to do?",
+              "descriptions": [ "Just a peek.", "Is there another side?" ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_inner_cabins_door_o",
+    "name": "strange open door",
+    "description": "A wide open door swinging outward, into the darkness, beyond your reach.  The door and the frame look fresh, as if installed recently.",
+    "symbol": "'",
+    "color": "brown",
+    "looks_like": "t_door_o",
+    "move_cost": 2,
+    "roof": "t_wood_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "SUPPORTS_ROOF" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_inner_cabins_nether_glass_floor",
+    "name": "black glass",
+    "description": "An endless expanse of black glass, illuminated by dim, otherworldly light.",
+    "symbol": " ",
+    "color": "black",
+    "move_cost": 2,
+    "light_emitted": 5,
+    "light_color": [ 150, 75, 0 ],
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_scarlet_light",
+    "symbol": ".",
+    "looks_like": "t_utility_light",
+    "name": "scarlet light",
+    "roof": "t_null",
+    "color": "red",
+    "light_color": [ 110, 0, 0 ],
+    "light_emitted": 30,
+    "description": "A red lamp on rods protruding from the ground.  Hard to directly look at without eye protection.",
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_water_sh_scarlet",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
+    },
+    "flags": [ "TRANSPARENT", "WALL" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_water_sh_scarlet",
+    "name": "scarlet water",
+    "description": "The water, if you can call it that, isn't very deep here.  It's difficult to tell if the water is tinted, or if it's reflecting the dim, scarlet sky.  With a watertight container, you could gather it.",
+    "symbol": " ",
+    "color": "black",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SHALLOW_WATER" ],
+    "connect_groups": "WATER",
+    "connects_to": "WATER",
+    "liquid_source": { "id": "water_clean_scarlet", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "light_emitted": 5,
+    "light_color": [ 110, 0, 0 ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_water_sh_scarlet_wave",
+    "name": "scarlet water",
+    "description": "The water, if you can call it that, isn't too deep here.  It's difficult to tell if the water is tinted, or if it's reflecting the dim, scarlet sky.  With a watertight container, you could gather it.",
+    "symbol": " ",
+    "color": "black",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SHALLOW_WATER" ],
+    "connect_groups": "WATER",
+    "connects_to": "WATER",
+    "liquid_source": { "id": "water_clean_scarlet", "min_temp": 2.2 },
+    "examine_action": "water_source",
+    "light_emitted": 5,
+    "light_color": [ 110, 0, 0 ],
+    "emissions": [ "emit_scarlet_sea_wave" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_sand_scarlet",
+    "name": "scarlet glass",
+    "description": "What first appears to be scarlet-tinged sand is in fact dark, volcanic glass, covered in small pits and eroded curves, giving it a flowing appearance.  Gentle flecks of red and yellow minerals dot its exterior.",
+    "symbol": ".",
+    "color": "yellow",
+    "looks_like": "t_sand",
+    "move_cost": 1,
+    "connect_groups": "SAND",
+    "connects_to": [ "SAND", "SANDMOUND", "SANDGLASS" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "light_emitted": 5,
+    "light_color": [ 35, 0, 10 ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_obelisk_scarlet",
+    "copy-from": "t_nl_obelisk_0",
+    "name": "Obelisk",
+    "description": "A dark gray obelisk.  Despite its solid appearance, the face of it seems to slightly ripple, as if it were sand, loosely suspended in space.",
+    "symbol": "A",
+    "color": "dark_gray",
+    "light_color": [ 110, 0, 0 ],
+    "light_emitted": 200,
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_SCARLET_TO_LABYRINTH_OBELISK",
+          "effect": [
+            {
+              "run_eoc_selector": [ "EOC_LS_scarlet_Teleport_to_labyrinth" ],
+              "allow_cancel": true,
+              "names": [ "Place your hand upon the obelisk." ],
+              "title": "As you approach the massive obelisk,\nits surface starts to warp,\nlike sand in the wind.\nA depression quickly forms.\nIn the shape of your hand.",
+              "descriptions": [ "It looks like a perfect fit for you." ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_scrap_wall_scarlet",
+    "name": "scrap metal spire",
+    "looks_like": "t_scrap_wall",
+    "description": "This great spire of twisted metal is held together by fraying wires and large bolts.  It looks like you could climb it.",
+    "symbol": "-",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_nl_scrap_floor",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND", "CLIMBABLE" ],
+    "light_emitted": 5,
+    "light_color": [ 110, 0, 0 ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 200,
+      "sound": "metal crying!",
+      "sound_fail": "clang!",
+      "ter_set": "t_nl_broken_metal_floor",
+      "items": [ { "item": "steel_chunk", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_scrap_scaffolding_scarlet",
+    "name": "mass of climbable metal",
+    "description": "A mass of jagged metal, climbing into the sky.  It looks sharp, but also sturdy enough to climb.",
+    "symbol": "H",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_UP", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z", "SINGLE_SUPPORT", "SHARP", "ROUGH" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [ { "item": "pipe", "count": [ 10, 46 ] }, { "item": "pipe_fittings", "count": [ 10, 55 ] } ]
+    }
+  }
+]

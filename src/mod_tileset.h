@@ -3,9 +3,10 @@
 #define CATA_SRC_MOD_TILESET_H
 
 #include <string> // IWYU pragma: keep
+#include <string_view>
 #include <vector>
 
-#include "path_info.h"
+#include "cata_path.h"
 
 class JsonObject;
 class mod_tileset;

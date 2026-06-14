@@ -104,13 +104,17 @@
     "//": "This monster is part of a hive mind"
   },
   {
-    "id": "TEEP_IMMUNE",
-    "type": "monster_flag",
-    "//": "Immune to telepathic damage"
-  },
-  {
     "id": "TELEPORT_IMMUNE",
     "type": "monster_flag",
     "//": "Immune to forcible teleportation"
+  },
+  {
+    "id": "PHOTOKIN_IRRADIATION_READY",
+    "type": "json_flag",
+    "//": "Used to tag foods to be radiation sterilized"
+  },
+  {
+    "id": "FIFTH_SUN_TECHNOLOGY",
+    "type": "json_flag"
   }
 ]

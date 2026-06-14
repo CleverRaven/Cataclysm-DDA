@@ -1,23 +1,18 @@
-#include <cstdlib>
-#include <unordered_set>
-#include <utility>
-
 #include "climbing.h"
 
-#include "cata_assert.h"
+#include <cstdint>
+#include <utility>
+
+#include "cata_utility.h"
 #include "character.h"
 #include "creature_tracker.h"
-#include "enum_conversions.h"
-#include "enums.h"
-#include "game.h"
+#include "debug.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "int_id.h"
-#include "json.h"
 #include "map.h"
-#include "string_formatter.h"
-#include "vehicle.h"
 #include "vpart_position.h"
 
+template <typename E> struct enum_traits;
 
 static const climbing_aid_id climbing_aid_default( "default" );
 
@@ -83,6 +78,11 @@ void climbing_aid::load_climbing_aid( const JsonObject &jo, const std::string &s
 
 void climbing_aid::finalize()
 {
+}
+
+void climbing_aid::finalize_all()
+{
+    climbing_aid_factory.finalize();
     // Build the climbing aids by condition lookup table
     climbing_aid_default_ptr = nullptr;
     climbing_lookup.clear();
@@ -114,6 +114,7 @@ void climbing_aid::finalize()
         def.down.max_height = 1;
         def.was_loaded = false;
         def.down.was_loaded = true;
+        climbing_aid_default_ptr = &def;
     }
 }
 
@@ -219,7 +220,7 @@ void climbing_aid::down_t::deserialize( const JsonObject &jo )
                 jo.throw_error( str_cat( "failed to read optional member \"menu_hotkey\"" ) );
             }
         }
-        if( menu_hotkey_str.length() ) {
+        if( !menu_hotkey_str.empty() ) {
             menu_hotkey = std::uint8_t( menu_hotkey_str[ 0 ] );
         }
 
@@ -238,7 +239,8 @@ void climbing_aid::climb_cost::deserialize( const JsonObject &jo )
 }
 
 template< typename Lambda >
-void for_each_aid_condition( const climbing_aid::condition_list &conditions, const Lambda &func )
+static void for_each_aid_condition( const climbing_aid::condition_list &conditions,
+                                    const Lambda &func )
 {
     for( const climbing_aid::condition &cond : conditions ) {
         if( int( cond.cat ) < int( climbing_lookup.size() ) ) {
@@ -327,7 +329,7 @@ static void detect_conditions_sub( climbing_aid::condition_list &list,
 }
 
 climbing_aid::condition_list climbing_aid::detect_conditions( Character &you,
-        const tripoint &examp )
+        const tripoint_bub_ms &examp )
 {
     condition_list list;
 
@@ -346,8 +348,8 @@ climbing_aid::condition_list climbing_aid::detect_conditions( Character &you,
         return cond.uses_item > 0;
     };
     auto detect_ter_furn_flag = [&here, &fall]( condition & cond ) {
-        tripoint pos = fall.pos_furniture_or_floor();
-        cond.range = fall.pos_top().z - pos.z;
+        tripoint_bub_ms pos = fall.pos_furniture_or_floor();
+        cond.range = fall.pos_top().z() - pos.z();
         return here.has_flag( cond.flag, pos );
     };
     auto detect_vehicle = [&fall]( condition & cond ) {
@@ -365,7 +367,7 @@ climbing_aid::condition_list climbing_aid::detect_conditions( Character &you,
     return list;
 }
 
-climbing_aid::fall_scan::fall_scan( const tripoint &examp )
+climbing_aid::fall_scan::fall_scan( const tripoint_bub_ms &examp )
 {
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
@@ -378,15 +380,14 @@ climbing_aid::fall_scan::fall_scan( const tripoint &examp )
 
     // Get coordinates just below and at ground level.
     // Also detect if furniture would block our tools/abilities.
-    tripoint bottom = examp;
-    tripoint just_below = examp;
-    just_below.z--;
+    tripoint_bub_ms bottom( examp );
+    tripoint_bub_ms just_below( bottom + tripoint::below );
 
     int hit_furn = false;
     int hit_crea = false;
     int hit_veh = false;
 
-    for( tripoint lower = just_below; here.valid_move( bottom, lower, false, true ); ) {
+    for( tripoint_bub_ms lower = just_below; here.valid_move( bottom, lower, false, true ); ) {
         if( !hit_furn ) {
             if( here.has_furn( lower ) ) {
                 hit_furn = true;
@@ -410,7 +411,7 @@ climbing_aid::fall_scan::fall_scan( const tripoint &examp )
             }
         }
         ++height;
-        bottom.z--;
-        lower.z--;
+        bottom.z()--;
+        lower.z()--;
     }
 }

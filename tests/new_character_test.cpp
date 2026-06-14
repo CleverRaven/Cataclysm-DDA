@@ -1,10 +1,10 @@
 #include <cstddef>
 #include <functional>
-#include <list>
+#include <map>
 #include <memory>
 #include <set>
 #include <sstream>
-#include <unordered_map>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -12,7 +12,6 @@
 #include "cata_catch.h"
 #include "inventory.h"
 #include "item.h"
-#include "iuse.h"
 #include "mutation.h"
 #include "pimpl.h"
 #include "player_helpers.h"
@@ -27,6 +26,7 @@ static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
 static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
 static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
+static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_MEATARIAN( "MEATARIAN" );
 static const trait_id trait_TAIL_FLUFFY( "TAIL_FLUFFY" );
@@ -85,12 +85,17 @@ static int get_item_count( const std::set<const item *> &items )
     return sum;
 }
 
+namespace
+{
+
 struct failure {
     string_id<profession> prof;
     std::vector<trait_id> mut;
     itype_id item_name;
     std::string reason;
 };
+
+} // namespace
 
 namespace std
 {
@@ -133,9 +138,10 @@ TEST_CASE( "starting_items", "[slow]" )
         trait_WOOLALLERGY
     };
     // Prof/scen combinations that need to be checked.
-    std::unordered_map<const scenario *, std::vector<string_id<profession>>> scen_prof_combos;
+    std::vector<std::pair<const scenario *, std::vector<string_id<profession>>>> scen_prof_combos;
+    scen_prof_combos.emplace_back( scenario::generic(), std::vector<string_id<profession>> {} );
     for( const auto &id : scenario::generic()->permitted_professions() ) {
-        scen_prof_combos[scenario::generic()].push_back( id );
+        scen_prof_combos.back().second.push_back( id );
     }
 
     std::set<failure> failures;
@@ -172,7 +178,6 @@ TEST_CASE( "starting_items", "[slow]" )
                     const int num_items_pre_migration = get_item_count( items_visited );
                     items_visited.clear();
 
-                    player_character.migrate_items_to_storage( true );
                     player_character.visit_items( visitable_counter );
                     const int num_items_post_migration = get_item_count( items_visited );
                     items_visited.clear();
@@ -227,5 +232,13 @@ TEST_CASE( "Generated_character_with_category_mutations", "[mutation]" )
         CHECK( u.has_trait( trait_TAIL_FLUFFY ) );
         u.remove_mutation( trait_TAIL_FLUFFY );
         CHECK( !u.has_trait( trait_TAIL_FLUFFY ) );
+    }
+}
+
+TEST_CASE( "cannibal_not_randomly_selected", " [character] [traits] [random]" )
+{
+    for( int i = 0; i < 1000; ++i ) {
+        trait_id random_trait = get_avatar().random_bad_trait();
+        REQUIRE( random_trait != trait_CANNIBAL );
     }
 }

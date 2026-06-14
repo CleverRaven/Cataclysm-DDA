@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//": "This is the 'base' airdrop, and doesn't actually contain anything. Variants are generated via the place_nested field.",
     "update_mapgen_id": "mx_airdrop",
     "object": {
@@ -16,7 +15,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_airdrop_humanitarian_full",
     "//": "untouched version of drop, rare",
     "object": {
@@ -34,7 +32,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "supply_humanitarian",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -46,7 +43,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "supply_water_bottles_full",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -62,7 +58,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "supply_generatos",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -74,7 +69,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "mx_airdrop_humanitarian_looted",
     "//": "versions with a few tents here and there, and some occupants",
     "object": {
@@ -94,12 +88,11 @@
         { "chunks": [ [ "supply_trash", 50 ] ], "x": [ 0, 23 ], "y": [ 0, 23 ] },
         { "chunks": [ [ "supply_generator_active", 30 ] ], "x": [ 0, 23 ], "y": [ 0, 23 ] }
       ],
-      "place_monsters": [ { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100, "density": 0.3 } ]
+      "place_monster": [ { "group": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100, "repeat": [ 4, 6 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "supply_humanitarian_used",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -110,7 +103,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "supply_water_bottles_open",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -121,7 +113,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "supply_trash",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -131,15 +122,12 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "supply_generator_active",
     "object": {
       "mapgensize": [ 1, 1 ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "place_item": [
-        { "item": "laptop", "x": 0, "y": 0, "repeat": [ 0, 4 ] },
-        { "item": "smart_phone", "x": 0, "y": 0, "repeat": [ 2, 7 ] }
-      ],
+      "place_item": [ { "item": "laptop", "x": 0, "y": 0, "repeat": [ 0, 4 ] } ],
+      "place_items": [ { "item": "civilian_phones", "x": 0, "y": 0, "repeat": [ 2, 7 ] } ],
       "place_furniture": [ { "furn": "f_active_backup_generator", "x": 0, "y": 0 } ]
     }
   }

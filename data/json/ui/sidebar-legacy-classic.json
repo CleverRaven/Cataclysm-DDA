@@ -42,7 +42,7 @@
       "pain_desc_no_label",
       "hunger_desc_no_label",
       "thirst_desc_no_label",
-      "fatigue_desc_no_label",
+      "sleepiness_desc_no_label",
       "body_temp_desc_no_label"
     ]
   },
@@ -53,7 +53,13 @@
     "arrange": "rows",
     "width": 12,
     "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle speed should replace speed when driving.",
-    "widgets": [ "pain_num_label", "hunger_desc_no_label", "thirst_desc_no_label", "fatigue_desc_no_label", "body_temp_desc_no_label" ]
+    "widgets": [
+      "pain_num_label",
+      "hunger_desc_no_label",
+      "thirst_desc_no_label",
+      "sleepiness_desc_no_label",
+      "body_temp_desc_no_label"
+    ]
   },
   {
     "id": "lcla_mood_desc",
@@ -185,6 +191,7 @@
       "lcla_lighting_layout",
       "lcla_weapon_layout",
       "wind_desc",
+      "oxygen_layout",
       "bodypart_armor_outer_layout",
       "compass_all_danger_layout",
       "bodygraph_hp_layout",

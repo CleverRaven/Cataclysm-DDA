@@ -1,0 +1,51 @@
+[
+  {
+    "id": "hedge_clairvoyance_cone",
+    "copy-from": "hedge_clairvoyance_cone",
+    "type": "SPELL",
+    "name": "To See Beyond the Barriers",
+    "description": "Gain a brief vision of what lies beyond a barrier.",
+    "message": "You close your eyes and place the sharp rock over them and press, just slightly.  As the pain blooms and the blood trickles, you see beyond."
+  },
+  {
+    "id": "hedge_luck_spell",
+    "copy-from": "hedge_luck_spell",
+    "type": "SPELL",
+    "name": "To Spin the Coin of Gad",
+    "description": "With a candle, a bit of copper, and paper, this will create a short lived luck charm upon oneself.",
+    "message": "You write the words upon the paper, place the copper on the ground, place the paper upon the copper, light the candle then the paper and firmly place the candle in the ashes on top of the copper, let the candle burn down melting all over the copper.  You will find your steps slightly lucky for the several hours to potentially a full day."
+  },
+  {
+    "id": "hedge_protect_the_mind",
+    "copy-from": "hedge_protect_the_mind",
+    "type": "SPELL",
+    "name": "To Shield the Spirit from Assault",
+    "description": "The first principle of defending your spirit is to make sure it is in proper order so there is no foothold an assault can take advantage of.  While in effect, your soul is protected against attack.  <color_red>Too much pain</color> will disrupt your concentration.",
+    "message": "You settle down and begin ordering your spirit."
+  },
+  {
+    "id": "hedge_raziel_amulet_protection",
+    "copy-from": "hedge_raziel_amulet_protection",
+    "type": "SPELL",
+    "name": "To Wrap Yourself in the Names",
+    "description": "Over alcohol and an egg and an apple or citrus fruit, inscribe a copper amulet with the names of spirits and the hidden names of God to create a talisman that will protect you from harm.",
+    "message": "You recite the names of seven spirits over the alcohol, you engrave the sigil on the fruit and eat it, and you write the secret phrases on the egg before you set down and begin carving names on the copper necklace."
+  },
+  {
+    "id": "hedge_prevent_wild_animal_attacks",
+    "copy-from": "hedge_prevent_wild_animal_attacks",
+    "type": "SPELL",
+    "name": "To Shut the Bear's Mouth",
+    "description": "Wild animals are one of the greatest threats to you now.  By entreating the aid of the spirits who rule over dangerous creatures and using the droppings of living animals, you can prevent nearby wild animals from attacking you.",
+    "message": "\"By the name of Methenail, and by the name of Aphethial, and by the name of Vobehielael, who hold dominion over the beasts of the wild, I abjure thee\".",
+    "components": "spell_components_hedge_prevent_wild_animal_attacks"
+  },
+  {
+    "id": "hedge_extinguish_fire_spell",
+    "copy-from": "hedge_extinguish_fire_spell",
+    "type": "SPELL",
+    "name": "To Don the Mantle of the Sun",
+    "description": "The sun is light and heat, filling the sky and providing life to the earth below, and the stars fear it and hide from its light.  This charm allows you to imitate the sun, subduing all lesser fires and causing them to flee for places safer.",
+    "message": "You place the ash upon your tongue and, shredding the morningflower leaves and hurling them into the air, recite the words of the charm."
+  }
+]

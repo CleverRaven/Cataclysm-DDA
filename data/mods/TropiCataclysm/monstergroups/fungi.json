@@ -1,79 +1,44 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_FUNGI",
+    "id": "GROUP_FUNGI",
     "default": "mon_spore",
     "monsters": [
-      { "monster": "mon_spore", "weight": 200, "cost_multiplier": 0 },
-      { "monster": "mon_fungaloid", "weight": 400, "cost_multiplier": 0 },
-      { "monster": "mon_fungaloid_shambler", "weight": 200, "cost_multiplier": 0 },
-      { "monster": "mon_fungaloid_young", "weight": 200, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_fungus", "weight": 0, "cost_multiplier": 0 },
-      { "monster": "mon_boomer_fungus", "weight": 0, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_child_fungus", "weight": 0, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_lasher", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_thorny", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_slimy", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_breather", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_cultivator", "weight": 25, "cost_multiplier": 0 },
-      { "monster": "mon_bushelephant_fungal", "weight": 10, "cost_multiplier": 0 },
-      { "monster": "mon_fungal_wall", "weight": 0, "cost_multiplier": 0 },
-      { "monster": "mon_fungaloid_queen", "weight": 0, "cost_multiplier": 0 }
+      { "monster": "mon_bushelephant_fungal", "weight": 10, "cost_multiplier": 0 }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FUNGI_FUNGALOID",
+    "id": "GROUP_FUNGI_TOWER",
     "monsters": [
-      { "monster": "mon_fungaloid", "weight": 500, "cost_multiplier": 0 },
-      { "monster": "mon_fungaloid_shambler", "weight": 250, "cost_multiplier": 0 },
-      { "monster": "mon_fungaloid_young", "weight": 250, "cost_multiplier": 0, "pack_size": [ 2, 3 ] }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_FUNGI_TOWER",
-    "monsters": [
-      { "monster": "mon_fungal_tendril", "weight": 755, "cost_multiplier": 0 },
-      { "monster": "mon_fungaloid", "weight": 10, "cost_multiplier": 0 },
-      { "monster": "mon_fungaloid_shambler", "weight": 30, "cost_multiplier": 0 },
-      { "monster": "mon_fungaloid_young", "weight": 30, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_fungus", "weight": 75, "cost_multiplier": 0 },
-      { "monster": "mon_boomer_fungus", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_child_fungus", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_lasher", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_thorny", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_slimy", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_breather", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_cultivator", "weight": 25, "cost_multiplier": 0 },
-      { "monster": "mon_bushelephant_fungal", "weight": 10, "cost_multiplier": 0 },
-      { "monster": "mon_fungal_hedgerow", "weight": 0, "cost_multiplier": 0 },
-      { "monster": "mon_fungaloid_tower", "weight": 0, "cost_multiplier": 0 }
+      { "monster": "mon_bushelephant_fungal", "weight": 10, "cost_multiplier": 0 }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FUNGI_FLOWERS",
+    "id": "GROUP_FUNGI_FLOWERS",
     "monsters": [
-      { "monster": "mon_fungal_blossom", "weight": 680, "cost_multiplier": 0 },
-      { "monster": "mon_fungaloid", "weight": 20, "cost_multiplier": 0 },
-      { "monster": "mon_fungaloid_shambler", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_fungaloid_young", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_fungus", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_boomer_fungus", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_child_fungus", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_lasher", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_thorny", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_slimy", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_breather", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_cultivator", "weight": 25, "cost_multiplier": 0 },
-      { "monster": "mon_bushelephant_fungal", "weight": 10, "cost_multiplier": 0 },
-      { "monster": "mon_fungaloid_seeder", "weight": 0, "cost_multiplier": 0 }
+      { "monster": "mon_bushelephant_fungal", "weight": 10, "cost_multiplier": 0 }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FUNGAL_CARETAKER",
+    "id": "GROUP_FUNGAL_CARETAKER",
     "default": "mon_fungaloid",
     "//": "Group for fungal caretakers to evolve",
     "monsters": [
@@ -90,7 +55,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FUNGI_URBAN",
+    "id": "GROUP_FUNGI_URBAN",
     "default": "mon_fungaloid",
     "monsters": [
       { "monster": "mon_fungaloid_caretaker", "weight": 300, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },

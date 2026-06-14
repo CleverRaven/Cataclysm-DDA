@@ -23,6 +23,15 @@ struct ammo_effect;
 using ammo_effect_id = int_id<ammo_effect>;
 using ammo_effect_str_id = string_id<ammo_effect>;
 
+class anatomy;
+using anatomy_id = string_id<anatomy>;
+
+struct attack_vector;
+using attack_vector_id = string_id<attack_vector>;
+
+class bash_damage_profile;
+using bash_damage_profile_id = string_id<bash_damage_profile>;
+
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
 
@@ -55,6 +64,9 @@ using construction_group_str_id = string_id<construction_group>;
 struct clothing_mod;
 using clothing_mod_id = string_id<clothing_mod>;
 
+struct crafting_category;
+using crafting_category_id = string_id<crafting_category>;
+
 struct effect_on_condition;
 using effect_on_condition_id = string_id<effect_on_condition>;
 
@@ -82,14 +94,23 @@ using emit_id = string_id<emit>;
 class enchantment;
 using enchantment_id = string_id<enchantment>;
 
+struct end_screen;
+using end_screen_id = string_id<end_screen>;
+
 class event_statistic;
 using event_statistic_id = string_id<event_statistic>;
+
+class faction_mission;
+using faction_mission_id = string_id<faction_mission>;
 
 class fault;
 using fault_id = string_id<fault>;
 
 class fault_fix;
 using fault_fix_id = string_id<fault_fix>;
+
+class fault_group;
+using fault_group_id = string_id<fault_group>;
 
 struct field_type;
 using field_type_id = int_id<field_type>;
@@ -136,11 +157,17 @@ using matec_id = string_id<ma_technique>;
 class map_extra;
 using map_extra_id = string_id<map_extra>;
 
+struct map_extra_collection;
+using map_extra_collection_id = string_id<map_extra_collection>;
+
 class mapgen_palette;
 using palette_id = string_id<mapgen_palette>;
 
 class material_type;
 using material_id = string_id<material_type>;
+
+class pp_generator;
+using pp_generator_id = string_id<pp_generator>;
 
 struct mission_type;
 using mission_type_id = string_id<mission_type>;
@@ -168,6 +195,7 @@ using morale_type = string_id<morale_type_data>;
 
 struct mtype;
 using mtype_id = string_id<mtype>;
+using mtype_int_id = int_id<mtype>;
 
 class nested_mapgen;
 using nested_mapgen_id = string_id<nested_mapgen>;
@@ -192,6 +220,9 @@ struct oter_type_t;
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
 
+class oter_vision;
+using oter_vision_id = string_id<oter_vision>;
+
 class overmap_connection;
 using overmap_connection_id = string_id<overmap_connection>;
 
@@ -213,6 +244,51 @@ using profession_group_id = string_id<profession_group>;
 class recipe;
 using recipe_id = string_id<recipe>;
 
+struct region_settings_river;
+using region_settings_river_id = string_id<region_settings_river>;
+
+struct region_settings_lake;
+using region_settings_lake_id = string_id<region_settings_lake>;
+
+struct region_settings_ocean;
+using region_settings_ocean_id = string_id<region_settings_ocean>;
+
+struct region_settings_ravine;
+using region_settings_ravine_id = string_id<region_settings_ravine>;
+
+struct region_settings_forest;
+using region_settings_forest_id = string_id<region_settings_forest>;
+
+struct region_settings_highway;
+using region_settings_highway_id = string_id<region_settings_highway>;
+
+struct region_settings_forest_trail;
+using region_settings_forest_trail_id = string_id<region_settings_forest_trail>;
+
+struct region_settings_city;
+using region_settings_city_id = string_id<region_settings_city>;
+
+struct region_settings_terrain_furniture;
+using region_settings_terrain_furniture_id = string_id<region_settings_terrain_furniture>;
+
+struct region_terrain_furniture;
+using region_terrain_furniture_id = string_id<region_terrain_furniture>;
+
+struct region_settings_forest_mapgen;
+using region_settings_forest_mapgen_id = string_id<region_settings_forest_mapgen>;
+
+struct forest_biome_mapgen;
+using forest_biome_mapgen_id = string_id<forest_biome_mapgen>;
+
+struct forest_biome_component;
+using forest_biome_component_id = string_id<forest_biome_component>;
+
+struct region_settings_map_extras;
+using region_settings_map_extras_id = string_id<region_settings_map_extras>;
+
+struct region_settings;
+using region_settings_id = string_id<region_settings>;
+
 struct requirement_data;
 using requirement_id = string_id<requirement_data>;
 
@@ -224,6 +300,9 @@ using shopkeeper_cons_rates_id = string_id<shopkeeper_cons_rates>;
 
 struct shopkeeper_blacklist;
 using shopkeeper_blacklist_id = string_id<shopkeeper_blacklist>;
+
+struct shopkeeper_whitelist;
+using shopkeeper_whitelist_id = string_id<shopkeeper_whitelist>;
 
 class Skill;
 using skill_id = string_id<Skill>;
@@ -239,6 +318,9 @@ using speed_description_id = string_id<speed_description>;
 
 class mood_face;
 using mood_face_id = string_id<mood_face>;
+
+class magic_type;
+using magic_type_id = string_id<magic_type>;
 
 class spell_type;
 using spell_id = string_id<spell_type>;
@@ -257,6 +339,9 @@ using proficiency_category_id = string_id<proficiency_category>;
 
 class proficiency;
 using proficiency_id = string_id<proficiency>;
+
+class relic_procgen_data;
+using relic_procgen_id = string_id<relic_procgen_data>;
 
 struct ter_t;
 using ter_id = int_id<ter_t>;
@@ -294,8 +379,14 @@ using vitamin_id = string_id<vitamin>;
 class vpart_info;
 using vpart_id = string_id<vpart_info>;
 
+class vpart_location;
+using vpart_location_id = string_id<vpart_location>;
+
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
+
+class weather_generator;
+using weather_generator_id = string_id<weather_generator>;
 
 struct weather_type;
 using weather_type_id = string_id<weather_type>;
@@ -323,6 +414,12 @@ using widget_id = string_id<widget>;
 
 struct weakpoints;
 using weakpoints_id = string_id<weakpoints>;
+
+class wound_type;
+using wound_type_id = string_id<wound_type>;
+
+class wound_fix;
+using wound_fix_id = string_id<wound_fix>;
 
 struct connect_group;
 using connect_group_id = string_id<connect_group>;

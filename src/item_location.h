@@ -2,21 +2,26 @@
 #ifndef CATA_SRC_ITEM_LOCATION_H
 #define CATA_SRC_ITEM_LOCATION_H
 
+#include <cstdint>
+#include <list>
 #include <memory>
 #include <string>
+#include <utility>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "units_fwd.h"
 
 class Character;
 class JsonObject;
 class JsonOut;
+class const_talker;
 class item;
 class item_pocket;
+class pocket_constraint;
+class map;
 class map_cursor;
-class vehicle_cursor;
 class talker;
-struct tripoint;
+class vehicle_cursor;
 template<typename T> class ret_val;
 
 /**
@@ -67,9 +72,8 @@ class item_location
         type where_recursive() const;
 
         /** Returns the position where the item is found */
-        // TODO: fix point types (remove position in favour of pos_bub)
-        tripoint position() const;
-        tripoint_bub_ms pos_bub() const;
+        tripoint_bub_ms pos_bub( const map &here ) const;
+        tripoint_abs_ms pos_abs() const;
 
         /** Describes the item location
          *  @param ch if set description is relative to character location */
@@ -111,6 +115,9 @@ class item_location
         /** returns the character whose inventory contains this item, nullptr if none **/
         Character *carrier() const;
 
+        /** returns the character whose inventory contains this item, nullptr if none **/
+        const vehicle_cursor *veh_cursor() const;
+
         /** returns true if the item is in the inventory of the given character **/
         bool held_by( Character const &who ) const;
 
@@ -120,6 +127,17 @@ class item_location
          * exists because calling parent_item() naively causes debug messages
          **/
         bool has_parent() const;
+
+        /**
+        * Returns whether the item location is inside an e-device)
+        */
+        bool is_efile() const;
+
+        /**
+        * Returns true if the item is a gunmod, is installed on a gun
+        * and allowed to be used directly from inventory
+        */
+        bool is_invisible_installed_gunmod() const;
 
         /**
         * Returns available volume capacity where this item is located.
@@ -141,6 +159,11 @@ class item_location
         **/
         bool protected_from_liquids() const;
 
+        /**
+        * returns the pocket-related limitations (on volume_capacity, etc.) on this item due to ancestor pockets.
+        * @param pocket optional. begins with the limits of the given pocket, which must be in this location.
+        */
+        pocket_constraint get_pocket_constraints_recursive( const item_pocket *pocket = nullptr ) const;
         ret_val<void> parents_can_contain_recursive( item *it ) const;
         ret_val<int> max_charges_by_parent_recursive( const item &it ) const;
 
@@ -152,7 +175,21 @@ class item_location
         /**
          * Overflow items into parent pockets recursively
          */
-        void overflow();
+        void overflow( map &here );
+
+        /**
+         * returns whether the item can be reloaded with the specified item.
+         * @param ammo item to be loaded in
+         * @param now whether the currently contained ammo/magazine should be taken into account
+         */
+        bool can_reload_with( const item_location &ammo, bool now ) const;
+
+        /**
+        * returns the item's level of the specified quality.
+        * @param quality the name of quality to check the level of
+        * @param strict_boiling True if containers must be empty to have BOIL quality
+        */
+        int get_quality( const std::string &quality, bool strict_boiling ) const;
 
     private:
         class impl;
@@ -160,6 +197,16 @@ class item_location
         std::shared_ptr<impl> ptr;
 };
 std::unique_ptr<talker> get_talker_for( item_location &it );
-std::unique_ptr<talker> get_talker_for( const item_location &it );
+std::unique_ptr<const_talker> get_const_talker_for( const item_location &it );
 std::unique_ptr<talker> get_talker_for( item_location *it );
+
+struct item_locator_hint;
+
+// Resolve an item by its uid, starting from the hint.  Returns invalid
+// item_location if not found within the accepted resolution boundary.
+item_location find_item_by_uid( int64_t uid, const item_locator_hint &hint );
+
+using drop_location = std::pair<item_location, int>;
+using drop_locations = std::list<drop_location>;
+
 #endif // CATA_SRC_ITEM_LOCATION_H

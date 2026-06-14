@@ -1,7 +1,8 @@
 #include "skill_ui.h"
 
+#include "skill.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 
 std::vector<HeaderSkill> get_HeaderSkills( const std::vector<const Skill *> &sorted_skills )
 {

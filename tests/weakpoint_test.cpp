@@ -1,25 +1,42 @@
+#include <cmath>
+#include <fstream>
+#include <iostream>
+#include <list>
+#include <map>
 #include <string>
+#include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "cata_catch.h"
+#include "character.h"
+#include "coordinates.h"
 #include "damage.h"
-#include "game_constants.h"
+#include "item.h"
 #include "monster.h"
 #include "mtype.h"
 #include "player_helpers.h"
-#include "point.h"
+#include "string_formatter.h"
 #include "type_id.h"
+#include "weakpoint.h"
 
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
 static const damage_type_id damage_cut( "cut" );
 
-static const mtype_id debug_mon( "debug_mon" );
+static const itype_id itype_compbow( "compbow" );
+
+
+static const mtype_id mon_pig( "mon_pig" );
 static const mtype_id mon_test_weakpoint_mon( "mon_test_weakpoint_mon" );
 static const mtype_id mon_test_zombie_cop( "mon_test_zombie_cop" );
-static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_test_zombie_weakpoint_loading( "mon_test_zombie_weakpoint_loading" );
+static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
 
+namespace
+{
 struct weakpoint_report_item {
     std::string weakpoint;
     int totaldamage;
@@ -28,7 +45,10 @@ struct weakpoint_report_item {
         hits{ 1 } { }
     weakpoint_report_item() : weakpoint_report_item( "", 0 ) { }
 };
+} // namespace
 
+namespace
+{
 struct weakpoint_report {
     int hits;
     std::map<std::string, weakpoint_report_item> items;
@@ -64,13 +84,14 @@ struct weakpoint_report {
         items.clear();
     }
 };
+} // namespace
 
 static weakpoint_report damage_monster( const mtype_id &target_type, const damage_instance &dam,
                                         int attacks )
 {
     weakpoint_report ret{};
     for( int i = 0; i < attacks; i++ ) {
-        monster target{ mtype_id( target_type ), tripoint_zero };
+        monster target{ mtype_id( target_type ), tripoint_bub_ms::zero };
         ret.Accumulate( target.deal_damage( nullptr, bodypart_id( "torso" ), dam ) );
     }
 
@@ -88,7 +109,7 @@ TEST_CASE( "weakpoint_basic", "[monster][weakpoint]" )
 {
     constexpr float epsilon = 0.225f;
     // Debug Monster has two weakpoints at 25% each, one leaves 0 armor the other 25 bullet armor, down from 100 bullet armor
-    weakpoint_report wr1 = damage_monster( debug_mon, damage_instance( damage_bullet, 100.0f,
+    weakpoint_report wr1 = damage_monster( pseudo_debug_mon, damage_instance( damage_bullet, 100.0f,
                                            0.0f ), 1000 );
     CHECK( wr1.PercHits( "the knee" ) == Approx( 0.25f ).epsilon( epsilon ) );
     CHECK( wr1.AveDam( "the knee" ) == Approx( 75.0f ).epsilon( epsilon ) ); // 25 armor
@@ -98,7 +119,7 @@ TEST_CASE( "weakpoint_basic", "[monster][weakpoint]" )
     CHECK( wr1.AveDam( "" ) == Approx( 0.0f ).epsilon( epsilon ) ); // Full 100 armor
 
     // With 25 ap, adjust no weakpoint and the knee damage
-    weakpoint_report wr2 = damage_monster( debug_mon, damage_instance( damage_bullet, 100.0f,
+    weakpoint_report wr2 = damage_monster( pseudo_debug_mon, damage_instance( damage_bullet, 100.0f,
                                            25.0f ), 1000 );
     CHECK( wr2.PercHits( "the knee" ) == Approx( 0.25f ).epsilon( epsilon ) );
     CHECK( wr2.AveDam( "the knee" ) == Approx( 100.0f ).epsilon( epsilon ) ); // 25 armor with 25 ap
@@ -108,7 +129,7 @@ TEST_CASE( "weakpoint_basic", "[monster][weakpoint]" )
     CHECK( wr2.AveDam( "" ) == Approx( 25.0f ).epsilon( epsilon ) ); // Full 100 armor with 25 ap
 
     // No cut armordebug_mon
-    weakpoint_report wr3 = damage_monster( debug_mon, damage_instance( damage_cut, 100.0f,
+    weakpoint_report wr3 = damage_monster( pseudo_debug_mon, damage_instance( damage_cut, 100.0f,
                                            0.0f ), 1000 );
     CHECK( wr3.PercHits( "the knee" ) == Approx( 0.25f ).epsilon( epsilon ) );
     CHECK( wr3.AveDam( "the knee" ) == Approx( 100.0f ).epsilon( epsilon ) );
@@ -121,7 +142,7 @@ TEST_CASE( "weakpoint_basic", "[monster][weakpoint]" )
 TEST_CASE( "weakpoint_practice", "[monster][weakpoint]" )
 {
     avatar &dummy = get_avatar();
-    mtype_id wp_mon( "weakpoint_mon" );
+    mtype_id wp_mon( "pseudo_weakpoint_mon" );
     proficiency_id prof( "prof_debug_weakpoint" );
     clear_character( dummy );
 
@@ -213,7 +234,7 @@ TEST_CASE( "Check_damage_from_weakpoint_sets", "[monster][weakpoint]" )
 
 TEST_CASE( "Check_deferred_weakpoint_set_loading", "[monster][weakpoint]" )
 {
-    weakpoints wplist = mon_zombie->weakpoints;
+    weakpoints wplist = mon_test_zombie_weakpoint_loading->weakpoints;
     CHECK( wplist.weakpoint_list.size() == 2 );
 
     std::map<std::string, bool> wp_found {
@@ -264,4 +285,102 @@ TEST_CASE( "Check_copy-from_inheritance_between_sets_and_inline_weakpoints",
     for( const auto &found : wp_found ) {
         CHECK( found.second.first == true );
     }
+}
+
+namespace
+{
+struct wp_test_values {
+    mtype_id mon;
+    itype_id weapon;
+    float skill_lvl;
+    float accuracy = 0.f;
+};
+} // namespace
+
+static std::unordered_map<std::string, int> weakpoint_hit_distribution_proj(
+    wp_test_values test_values )
+{
+    avatar &player_character = get_avatar();
+
+    monster target{ test_values.mon, tripoint_bub_ms::zero };
+
+    weakpoint_attack wp_attack = weakpoint_attack();
+    wp_attack.type = weakpoint_attack::attack_type::PROJECTILE;
+    wp_attack.target = &target;
+    wp_attack.source = &player_character;
+    const item it( test_values.weapon );
+    wp_attack.weapon = &it;
+    wp_attack.compute_wp_skill();
+
+    wp_attack.accuracy = test_values.accuracy;
+
+    player_character.set_all_skills( test_values.skill_lvl );
+
+    std::unordered_map<std::string, int> hits;
+
+    // construct map of all weakpoints; if some weakpoints were hitted 0 times, we want to see it
+    for( const weakpoint &wp : test_values.mon->weakpoints.weakpoint_list ) {
+        hits.emplace( wp.id, 0 );
+    }
+
+    for( int i = 0; i < 10000; i++ ) {
+        const weakpoint *picked = target.type->weakpoints.select_weakpoint( wp_attack );
+
+        std::string wp_id = picked->id;
+
+        if( wp_id.empty() ) {
+            wp_id = "none";
+        }
+
+        hits[wp_id]++;
+    }
+
+    return hits;
+}
+
+TEST_CASE( "weakpoint_hit_distribution_projectile", "[.]" )
+{
+
+    static const std::vector<wp_test_values> test = {
+        // tested creature, weapon, weapon skill level, accuracy
+        { mon_pig, itype_compbow, 0.f },
+        { mon_pig, itype_compbow, 5.f },
+        { mon_pig, itype_compbow, 10.f }
+    };
+
+
+    struct hit_distribution_result {
+        wp_test_values values;
+        std::unordered_map<std::string, int> id_and_hits;
+    };
+
+    std::vector<hit_distribution_result> results;
+
+    for( const wp_test_values &i_test_val : test ) {
+        const std::unordered_map<std::string, int> distr = weakpoint_hit_distribution_proj(
+                    i_test_val );
+
+        hit_distribution_result result = { i_test_val, distr };
+        results.emplace_back( result );
+    }
+
+    std::ofstream output;
+    std::string filename = "weakpoint_hit_distribution.csv";
+    output.open( filename );
+    REQUIRE( output.is_open() );
+    output << "Monster,Weapon,Weapon skill level,Accuracy,Weakpoint id,Probability\n";
+
+    for( const hit_distribution_result &result : results ) {
+        for( const auto &[wp_id, wp_prob] : result.id_and_hits ) {
+            output << string_format( "%s,%s,%f,%f,%s,%i\n",
+                                     result.values.mon.str(),
+                                     result.values.weapon.str(),
+                                     result.values.skill_lvl,
+                                     result.values.accuracy,
+                                     wp_id,
+                                     wp_prob );
+        }
+    }
+
+    std::cout << "Output written to " << filename << std::endl;
 }

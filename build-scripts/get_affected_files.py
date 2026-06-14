@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 
+import argparse
 import glob
 import os
 import sys
+import subprocess
 
 
 class IncludesParser:
@@ -87,9 +89,41 @@ class IncludesParser:
         return self.includes_to_sources.get(changed_file, [])
 
 
-def main(changed_files_file):
-    parser = IncludesParser()
+def get_changed_files_from_list(changed_files_list):
+    with open(changed_files_list, 'r') as f:
+        changed_files = [line.strip() for line in f.read().splitlines()]
+        return changed_files
 
+
+def get_changed_files_from_git(merge_target):
+    out = subprocess.run(
+        ["git", "diff", "--merge-base", "--name-only", merge_target],
+        capture_output=True)
+    if out.returncode != 0:
+        print(out.stderr, file=sys.stderr)
+        raise Exception("git diff failed to run")
+    changed_files = [line.strip() for line in out.stdout.decode().splitlines()]
+    return changed_files
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--changed-files-list", help=("Path to a file"
+                        "containing list of changed files, one per line."))
+    parser.add_argument(
+        "--merge-target", default="master",
+        help=("Name of the branch we are intending to merge into."
+              "Will be used to determine the list of files changed. "
+              "Ignored if --changed-files-list specified explicilty."))
+    args = parser.parse_args()
+
+    changed_files = None
+    if args.changed_files_list:
+        changed_files = get_changed_files_from_list(args.changed_files_list)
+    else:
+        changed_files = get_changed_files_from_git(args.merge_target)
+
+    parser = IncludesParser()
     # Load includes files list.
     if not parser.parse_includes_files_from("obj", "src", "."):
         return 1
@@ -98,25 +132,22 @@ def main(changed_files_file):
     if not parser.parse_includes_files_from("tests/obj", "tests", "tests"):
         return 1
 
-    changed_files = []
     lintable_files = set()
-    with open(changed_files_file, 'r') as f:
-        changed_files = f.read().splitlines()
-        for changed_file in changed_files:
-            for affected_file in parser.get_files_affected_by(changed_file):
-                lintable_files.add(affected_file)
+    for changed_file in changed_files:
+        for affected_file in parser.get_files_affected_by(changed_file):
+            lintable_files.add(affected_file)
+    changed_files = set(changed_files)
 
-    for lintable_file in lintable_files:
+    # Lightly sort the output list so that directly changed files appear first
+    lintable_files_sorted = []
+    lintable_files_sorted.extend(sorted(lintable_files & changed_files))
+    lintable_files_sorted.extend(sorted(lintable_files - changed_files))
+
+    for lintable_file in lintable_files_sorted:
         print(lintable_file)
 
     return 0
 
 
 if __name__ == '__main__':
-    if len(sys.argv) <= 1:
-        print(
-            "First argument must be a path to a list of changed files",
-            file=sys.stderr,
-        )
-        sys.exit(1)
-    sys.exit(main(sys.argv[1]))
+    sys.exit(main())

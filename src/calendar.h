@@ -2,10 +2,13 @@
 #ifndef CATA_SRC_CALENDAR_H
 #define CATA_SRC_CALENDAR_H
 
+#include <array>
+#include <limits>
 #include <optional>
 #include <string>
+#include <string_view>
+#include <type_traits>
 #include <utility>
-#include <vector>
 #include <climits>
 
 #include "units_fwd.h"
@@ -53,6 +56,11 @@ enum moon_phase {
     MOON_PHASE_MAX
 };
 
+inline auto format_as( moon_phase mp )
+{
+    return static_cast<std::underlying_type_t<moon_phase>>( mp );
+}
+
 enum class time_accuracy {
     /** No accuracy, no idea what time it is **/
     NONE = 0,
@@ -91,16 +99,6 @@ bool once_every( const time_duration &event_frequency );
  */
 extern const int INDEFINITELY_LONG;
 
-/**
- * The expected duration of the cataclysm
- *
- * Large duration that can be used to approximate infinite amounts of time.
- *
- * This number can't be safely converted to a number of moves without causing
- * an integer overflow.
- */
-extern const time_duration INDEFINITELY_LONG_DURATION;
-
 /// @returns Whether the eternal season is enabled.
 bool eternal_season();
 void set_eternal_season( bool is_eternal_season );
@@ -121,6 +119,10 @@ time_duration season_length();
 void set_season_length( int dur );
 
 void set_location( float latitude, float longitude );
+
+// time from the start of the year to calendar::turn_zero
+time_duration turn_zero_offset();
+int years_since_cataclysm( time_point );
 
 /// @returns relative length of game season to real life season.
 float season_ratio();
@@ -248,7 +250,7 @@ class time_duration
         /**@}*/
 
         /**
-         * Converts the duration to an amount of the given units. The conversions is
+         * Converts the duration to an amount of the given units. The conversions are
          * done with values of the given template type. That means using an integer
          * type (e.g. `int`) will return a truncated value (amount of *full* minutes
          * that make up the duration, discarding the remainder).
@@ -353,14 +355,14 @@ class time_duration
         /// Returns a random duration in the range [low, hi].
         friend time_duration rng( time_duration lo, time_duration hi );
 
-        static const std::vector<std::pair<std::string, time_duration>> units;
+        static const std::array<std::pair<std::string_view, time_duration>, 15> units;
 };
 
 /// @see x_in_y(int,int)
 bool x_in_y( const time_duration &a, const time_duration &b );
 
 /**
- * Convert the given number into an duration by calling the matching
+ * Convert the given number into a duration by calling the matching
  * `time_duration::from_*` function.
  */
 /**@{*/
@@ -453,7 +455,7 @@ std::string to_string_writable( const time_duration &dur );
  * This can be compared with the usual comparison operators.
  * It can be (de)serialized via JSON.
  *
- * Note that is does not handle variable sized season length. Changing the
+ * Note that it does not handle variable sized season length. Changing the
  * season length has no effect on it.
  */
 class time_point
@@ -520,11 +522,36 @@ class time_point
             return lhs = time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
         }
 
+        // kinda gross
+        friend constexpr inline time_point operator/( const time_point &lhs, const time_duration &rhs ) {
+            return time_point::from_turn( to_turn<int>( lhs ) / to_turns<int>( rhs ) );
+        }
+        friend constexpr inline time_point operator*( const time_point &lhs, const time_duration &rhs ) {
+            return time_point::from_turn( to_turn<int>( lhs ) * to_turns<int>( rhs ) );
+        }
+        friend time_point inline &operator/=( time_point &lhs, const time_duration &rhs ) {
+            return lhs = time_point::from_turn( to_turn<int>( lhs ) / to_turns<int>( rhs ) );
+        }
+        friend time_point inline &operator*=( time_point &lhs, const time_duration &rhs ) {
+            return lhs = time_point::from_turn( to_turn<int>( lhs ) * to_turns<int>( rhs ) );
+        }
+
         // TODO: implement minutes_of_hour and so on and use it.
 };
 
 namespace calendar
 {
+
+/**
+ * The expected duration of the cataclysm
+ *
+ * Large duration that can be used to approximate infinite amounts of time.
+ *
+ * This number can't be safely converted to a number of moves without causing
+ * an integer overflow.
+ */
+inline constexpr time_duration INDEFINITELY_LONG_DURATION(
+    time_duration::from_turns( std::numeric_limits<int>::max() ) );
 
 /**
  * A time point that is always before the current turn, even when the game has
@@ -554,7 +581,7 @@ inline time_duration time_past_midnight( const time_point &p )
 
 inline time_duration time_past_new_year( const time_point &p )
 {
-    return ( p - calendar::turn_zero ) % calendar::year_length();
+    return ( p - calendar::turn_zero + calendar::turn_zero_offset() ) % calendar::year_length();
 }
 
 template<typename T>
@@ -586,7 +613,8 @@ std::string to_string_time_of_day( const time_point &p );
 /** Time approximation based on the player's timekeeping capability, formatted for diary pages **/
 std::string get_diary_time_str( const time_point &turn, time_accuracy acc );
 /** Time approximation based on the player's timekeeping capability, formatted for diary pages **/
-std::string get_diary_time_since_str( const time_duration &turn_diff, time_accuracy acc );
+std::string get_diary_time_since_str( const time_duration &turn_diff, time_accuracy acc,
+                                      bool include_postfix = true );
 /** Returns the default duration of a lunar month (duration between syzygies) */
 time_duration lunar_month();
 /** Returns the current phase of the moon. */
@@ -599,14 +627,18 @@ time_point sunset( const time_point &p );
 time_point daylight_time( const time_point &p );
 /** Returns the time it gets dark based on sunset */
 time_point night_time( const time_point &p );
+/** Returns the time when the clock displays 12:00 */
+time_point noon( const time_point &p );
 /** Returns true if it's currently night time - after dusk and before dawn. */
 bool is_night( const time_point &p );
 /** Returns true if it's currently day time - after dawn and before dusk. */
 bool is_day( const time_point &p );
-/** Returns true if it's currently dusk - between sunset and and twilight_duration after sunset. */
+/** Returns true if it's currently dusk - between sunset and twilight_duration after sunset. */
 bool is_dusk( const time_point &p );
 /** Returns true if it's currently dawn - between sunrise and twilight_duration after sunrise. */
 bool is_dawn( const time_point &p );
+/** Returns true if it's currently dusk or dawn */
+bool is_twilight( const time_point &p );
 /** How much light is provided in full daylight */
 float default_daylight_level();
 /* Irradiance (W/m2) on clear day when sun is at 90 degrees */
@@ -617,6 +649,7 @@ float max_sun_irradiance();
  *  For most situations you actually want to call the below function which also
  *  includes moonlight. */
 float sun_light_at( const time_point &p );
+float moon_light_at( const time_point &p );
 
 /* Returns sun irradiance (W/m2) on a flat surface*/
 float sun_irradiance( const time_point &p );
@@ -646,6 +679,27 @@ enum class weekdays : int {
 };
 
 weekdays day_of_week( const time_point &p );
+std::string to_string( const weekdays &d );
+
+enum class month : int {
+    JANUARY = 0,
+    FEBRUARY,
+    MARCH,
+    APRIL,
+    MAY,
+    JUNE,
+    JULY,
+    AUGUST,
+    SEPTEMBER,
+    OCTOBER,
+    NOVEMBER,
+    DECEMBER,
+    UNKNOWN
+};
+
+std::pair<month, int> month_and_day( time_point );
+std::string to_string( month m );
+
 
 // To support the eternal season option we create a strong typedef of timepoint
 // which is a season_effective_time.  This converts a regular time to a time
