@@ -62,6 +62,113 @@
       "mon_renfield_abomination"
     ],
     "sound": "\"Why won't you just surrender to the masters' needs!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_moroi" ],
+    "sound": "\"So… so fucking hungry.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_moroi" ],
+    "sound": "\"I need blood!  Blood!  BLOOD!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_moroi" ],
+    "sound": "\"Rip!  Tear!  Flesh!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_moroi" ],
+    "sound": "\"Tired…  Must feed…\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_moroi", "mon_vampire_feral" ],
+    "sound": "incoherent babbling",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_moroi" ],
+    "sound": "\"Fresh blood!  Life!  Death!  Life!  Death!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_moroi" ],
+    "sound": "\"300, 2, 46, 17, 734…\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "//": "lit. tasting blood",
+    "speaker": [ "mon_vampire_strigoi" ],
+    "sound": "\"blðdþigen…\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "//": "I will drink the blood you bleed in death.",
+    "speaker": [ "mon_vampire_strigoi" ],
+    "sound": "\"Ic willan āþeġde úre cwealmdréor!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "//": "Madness… my mind is leaving.",
+    "speaker": [ "mon_vampire_strigoi" ],
+    "sound": "\"Wodscipe… Min ferhþ sy forlæ…\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "//": "I mourn for the sun and sky.",
+    "speaker": [ "mon_vampire_strigoi" ],
+    "sound": "\"Ic bemurnan sé sunna ond heofon…",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "//": "I will flay you, and devour your flesh.",
+    "speaker": [ "mon_vampire_strigoi" ],
+    "sound": "\"Ic willan beflean ðu, and þín flæsc fornimst!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_feral" ],
+    "sound": "\"Hungry…\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_feral" ],
+    "sound": "a terrible screech!",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_feral" ],
+    "sound": "teeth rapidly clicking together",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_feral" ],
+    "sound": "awful gurgling",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vampire_feral" ],
+    "sound": "a set of rapidly oscillating chirps!",
     "volume": 32
   }
 ]
