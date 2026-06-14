@@ -1570,6 +1570,8 @@ void tab_game_view::draw_body( debug_console &host )
         ImGui::SameLine();
         host.debug_button( debug_menu_index::QUICK_SETUP_FLAG_DIRTY );
         ImGui::SameLine();
+        host.debug_button( debug_menu_index::QUICK_SETUP_CLEAR_MAP );
+        ImGui::SameLine();
         host.debug_button( debug_menu_index::TOGGLE_SETUP_MUTATION );
         ImGui::SameLine();
         host.debug_button( debug_menu_index::NORMALIZE_BODY_STAT );

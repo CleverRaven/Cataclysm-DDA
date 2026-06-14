@@ -25,8 +25,10 @@ void clear_map_without_vision( int zmin = -2, int zmax = 0 );
 void clear_map_with_vision( int zmin = -2, int zmax = 0, bool with_vision = true );
 void clear_radiation();
 void clear_map_and_put_player_underground();
+#ifdef CATA_TESTS_CATA_CATCH_H
 monster &spawn_test_monster( const std::string &monster_type, const tripoint_bub_ms &start,
                              bool death_drops = true );
+#endif
 void clear_vehicles( map *target = nullptr );
 void build_test_map( const ter_id &terrain );
 void build_water_test_map( const ter_id &surface, const ter_id &mid, const ter_id &bottom );
