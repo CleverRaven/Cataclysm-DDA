@@ -1,6 +1,66 @@
 [
   {
     "type": "profession",
+    "id": "redsmith",
+    "copy-from": "redsmith",
+    "name": "Redsmith",
+    "description": "When you were young, you were selected to be part of a secret fellowship and learned the rites necessary to melt and mold copper into tools.  You have spent long hours over the forge, lit by the glow of molten metal",
+    "npc_background": "BG_survival_story_WORKER_COMMERCIAL",
+    "skills": [ { "level": 6, "name": "fabrication" }, { "level": 2, "name": "swimming" } ],
+    "proficiencies": [ "prof_metalworking", "prof_redsmithing", "prof_redsmithing_adv" ],
+    "recipes": [  ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "mocassins" },
+          { "item": "torch" },
+          { "item": "water_clean", "charges": 6, "container-item": "waterskin" },
+          { "item": "tunic" },
+          { "item": "apron_leather" },
+          { "item": "gloves_wraps_leather" },
+          { "item": "hammer_bronze" },
+          { "item": "crucible_clay" }
+        ]
+      },
+      "male": { "entries": [ { "item": "loincloth_leather" } ] },
+      "female": { "entries": [ { "item": "chestwrap_leather" }, { "item": "loincloth_leather" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "tribal_arbalist",
+    "name": "Tribal Archer",
+    "description": "From your first hunt, you showed talent with a bow.  While the tribe was well guarded by your aim, you're all alone now.",
+    "points": 3,
+    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_fletching", "prof_knives_familiar", "prof_gross_anatomy" ],
+    "skills": [
+      { "level": 4, "name": "archery" },
+      { "level": 3, "name": "gun" },
+      { "level": 2, "name": "swimming" },
+      { "level": 2, "name": "survival" }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "leathersandals" },
+          { "item": "helmet_larmor" },
+          { "item": "vambrace_larmor" },
+          { "item": "socks" },
+          { "item": "skirt_grass" },
+          { "item": "vest_leather" },
+          { "item": "legguard_larmor" },
+          { "item": "longbow" },
+          { "item": "quiver_birchbark", "contents-group": "quiver_bow_hunter" },
+          { "item": "quiver_large_birchbark", "contents-group": "quiver_arbalist" },
+          { "item": "copper_knife", "container-item": "sheath_birchbark" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
     "id": "tribal_warrior_expert",
     "name": "Seasoned Tribal Warrior",
     "description": "You are veteran of many a raid and have fought in defense of your people against the things in the wild when they try to invade your home.  You have been scarred by weapon, by claw, and by things you'd rather not remember.  This latest ordeal is just another battle to be won.",
@@ -35,6 +95,38 @@
           { "item": "spear_copper", "container-item": "spearsling" },
           { "item": "copper_knife", "container-item": "sheath_birchbark" },
           { "item": "longbow", "contents-item": [ "primitive_bow_silencer" ] }
+        ]
+      },
+      "male": { "entries": [ { "item": "loincloth_leather" } ] },
+      "female": { "entries": [ { "item": "chestwrap_leather" }, { "item": "loincloth_leather" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "pattern_tattoo_mountain_prof",
+    "name": "Aspirant of the Mountain",
+    "description": "You are one of the warrior companions to the Wise, and have received the sacred tattoos that bond your soul with the spirits of the land.  In your case, the spirits of the Mountain, granting you resilience and skill in unarmed combat.  Hopefully these talents will help you now.",
+    "points": 7,
+    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_gross_anatomy" ],
+    "skills": [
+      { "level": 2, "name": "deduction" },
+      { "level": 5, "name": "unarmed" },
+      { "level": 4, "name": "dodge" },
+      { "level": 4, "name": "melee" }
+    ],
+    "CBMs": [ "mountain_tattoo_one", "mountain_tattoo_two", "mountain_tattoo_three", "mountain_tattoo_four" ],
+    "traits": [ "TATTOOS_BASIC_TRAIT", "PAINRESIST" ],
+    "spells": [ { "id": "pattern_tattoo_mountain_meditation", "level": 1 } ],
+    "effect_on_conditions": [ "EOC_PROFESSION_PATTERN_TATTOO_MOUNTAIN" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "grass_cloak" },
+          { "item": "shirt_straw" },
+          { "item": "skirt_grass" },
+          { "item": "footrags_leather" },
+          { "item": "water_clean", "charges": 6, "container-item": "waterskin" },
+          { "item": "primitive_knife", "container-item": "sheath_birchbark" }
         ]
       },
       "male": { "entries": [ { "item": "loincloth_leather" } ] },
