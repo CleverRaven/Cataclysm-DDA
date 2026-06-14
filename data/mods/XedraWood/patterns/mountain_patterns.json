@@ -50,7 +50,7 @@
     "id": "mountain_tattoo_three",
     "type": "bionic",
     "name": { "str": "Slopes of the Mountain" },
-    "description": "The third element of the mountain pattern, the pathways up the mountain past forest glend and rushing streams, taking up the rest of the lower back.  When activated, you cannot be knocked back, dazed, stunned, or downed.",
+    "description": "The third element of the mountain pattern, the pathways up the mountain past forest glens and rushing streams, taking up the rest of the lower back.  When activated, you cannot be knocked back, dazed, stunned, or downed.",
     "act_cost": "125 J",
     "react_cost": "125 J",
     "time": "1 s",
