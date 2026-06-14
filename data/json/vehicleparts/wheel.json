@@ -436,6 +436,29 @@
     "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
   },
   {
+    "id": "metal_wheel",
+    "type": "vehicle_part",
+    "name": { "str": "metal wheel" },
+    "item": "wheel_metal",
+    "location": "under",
+    "durability": 180,
+    "description": "A strong metal wheel.",
+    "damage_modifier": 70,
+    "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] }, { "item": "steel_chunk", "count": [ 2, 3 ] } ],
+    "rolling_resistance": 0.375,
+    "categories": [ "movement" ],
+    "color": "dark_gray",
+    "contact_area": 80,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 5 ] ] }
+    },
+    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
+    "damage_reduction": { "all": 66 },
+    "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
+  },
+  {
     "id": "wheel_skateboard",
     "type": "vehicle_part",
     "name": { "str": "skateboard wheels" },
