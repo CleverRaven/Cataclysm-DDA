@@ -1,0 +1,102 @@
+name: Build SDL3 shaders
+description: Build SDL3 shader artifacts for all desktop GPU backends and upload them.
+inputs:
+  artifact-name:
+    description: Name for the uploaded shader artifact.
+    required: false
+    default: cdda-shaders
+  retention-days:
+    description: Number of days to retain the uploaded artifact.
+    required: false
+    default: "1"
+  shader-dir:
+    description: Directory containing shader sources and outputs.
+    required: false
+    default: data/shaders
+  shader-formats:
+    description: Comma-separated shader formats to build.
+    required: false
+    default: spv,dxil,msl
+  shader-stamp:
+    description: Stamp file written after shader compilation succeeds.
+    required: false
+    default: data/shaders/build-spv-dxil-msl.stamp
+runs:
+  using: composite
+  steps:
+    - name: Install shader build dependencies
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y glslang-tools
+
+    - name: Setup SDL3 for shadercross link
+      id: sdl
+      uses: libsdl-org/setup-sdl@4ebea449684c989388fe6bcea0460e300d13a5ae # main
+      with:
+        version: 3.4.10
+        cmake-generator: Ninja
+        install-linux-dependencies: true
+
+    - name: Build SDL_shadercross
+      shell: bash
+      run: |
+        set -euxo pipefail
+        SHADERCROSS_ROOT="${RUNNER_TEMP}/SDL_shadercross"
+        git clone --recursive https://github.com/libsdl-org/SDL_shadercross.git "$SHADERCROSS_ROOT"
+        cd "$SHADERCROSS_ROOT"
+        git checkout 6b06e55c7c5d7e7a09a8a14f76e866dcfad5ab99
+        git submodule update --init --recursive
+        cmake -P build-scripts/download-prebuilt-DirectXShaderCompiler.cmake
+        cmake -S external/SPIRV-Cross -B spirv_cross_build -GNinja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DSPIRV_CROSS_SHARED=OFF \
+            -DSPIRV_CROSS_STATIC=ON \
+            -DSPIRV_CROSS_CLI=OFF \
+            -DSPIRV_CROSS_ENABLE_TESTS=OFF \
+            -DCMAKE_INSTALL_PREFIX=/tmp/spirv_cross_prefix
+        cmake --build spirv_cross_build
+        cmake --install spirv_cross_build
+        cmake -B build -GNinja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_PREFIX_PATH=/tmp/spirv_cross_prefix \
+            -DDirectXShaderCompiler_ROOT="$SHADERCROSS_ROOT/external/DirectXShaderCompiler-binaries" \
+            -DSDLSHADERCROSS_VENDORED=OFF \
+            -DSDLSHADERCROSS_INSTALL=ON \
+            -DSDLSHADERCROSS_CLI=ON \
+            -DSDLSHADERCROSS_SHARED=OFF \
+            -DSDLSHADERCROSS_STATIC=ON \
+            -DSDLSHADERCROSS_SPIRVCROSS_SHARED=OFF
+        cmake --build build
+        sudo cmake --install build
+
+    - name: Compile shaders for all backends
+      shell: bash
+      env:
+        # shadercross dynamically links against SDL3 (built by setup-sdl) and
+        # against the prebuilt DXC libdxcompiler.so under the SDL_shadercross
+        # external/ tree, neither of which is in the system loader path.
+        LD_LIBRARY_PATH: ${{ steps.sdl.outputs.prefix }}/lib:${{ runner.temp }}/SDL_shadercross/external/DirectXShaderCompiler-binaries/linux/lib
+        SHADER_DIR: ${{ inputs.shader-dir }}
+        SHADER_FORMATS: ${{ inputs.shader-formats }}
+        SHADER_STAMP: ${{ inputs.shader-stamp }}
+      run: |
+        python3 tools/build_shaders.py \
+            --shader-dir "$SHADER_DIR" \
+            --formats "$SHADER_FORMATS" \
+            --stamp "$SHADER_STAMP"
+        touch "$SHADER_DIR"/build-spv.stamp \
+              "$SHADER_DIR"/build-dxil.stamp \
+              "$SHADER_DIR"/build-msl.stamp
+
+    - name: Upload shader artifacts
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: |
+          ${{ inputs.shader-dir }}/*.spv
+          ${{ inputs.shader-dir }}/*.dxil
+          ${{ inputs.shader-dir }}/*.msl
+          ${{ inputs.shader-dir }}/build-*.stamp
+        if-no-files-found: error
+        retention-days: ${{ inputs.retention-days }}

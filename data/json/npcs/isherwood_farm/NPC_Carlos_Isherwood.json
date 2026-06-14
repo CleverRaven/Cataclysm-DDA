@@ -8,7 +8,7 @@
     "gender": "male",
     "class": "NC_ISHERWOOD_CARLOS",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "age": 44,
     "height": 176,
     "str": 9,

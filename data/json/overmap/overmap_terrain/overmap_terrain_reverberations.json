@@ -228,5 +228,40 @@
     "see_cost": "high",
     "vision_levels": "underground_dirt",
     "travel_cost_type": "basement"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "scarlet_sea_reverberation" ],
+    "flags": [ "NO_ROTATE" ],
+    "vision_levels": "water_body",
+    "name": "scarlet sea",
+    "sym": "#",
+    "travel_cost_type": "field",
+    "color": "red",
+    "see_cost": "all_clear"
+  },
+  {
+    "type": "overmap_location",
+    "id": "scarlet_sea_reverberation",
+    "terrains": [ "scarlet_sea_reverberation" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "scarlet_scrap_metal_spire" ],
+    "flags": [ "NO_ROTATE" ],
+    "vision_levels": "isolated_tower",
+    "name": "scrap metal spire",
+    "sym": "¡",
+    "color": "light_gray",
+    "see_cost": "all_clear"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "scarlet_sea_xedra_hew" ],
+    "vision_levels": "island",
+    "name": "exposed sandbar",
+    "sym": "i",
+    "color": "light_gray",
+    "see_cost": "all_clear"
   }
 ]

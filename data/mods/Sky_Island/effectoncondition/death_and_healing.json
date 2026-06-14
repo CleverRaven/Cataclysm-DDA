@@ -148,7 +148,8 @@
           "flu",
           "pre_flu",
           "pre_common_cold",
-          "VITRIFYING"
+          "VITRIFYING",
+          "tpollen"
         ]
       },
       { "alter_timed_events": "vitrified_farm_escape_key" },

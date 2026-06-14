@@ -751,8 +751,10 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
         return;
     }
 
-    add_msg_if_player_sees( victim, _( "The %s transforms into a %s." ),
-                            victim.type->nname(), new_id->nname() );
+    if( !sp.message().empty() ) {
+        add_msg_if_player_sees( victim, sp.message(),
+                                victim.type->nname(), new_id->nname() );
+    }
     victim.poly( new_id );
 
     if( sp.has_flag( spell_flag::FRIENDLY_POLY ) ) {

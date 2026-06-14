@@ -8,7 +8,7 @@
     "name_unique": "Elsa Nielsen",
     "gender": "female",
     "attitude": 0,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_HUNTER_MUNDANE",
     "personality": { "aggression": 2, "bravery": 6, "collector": 5, "altruism": 2 },
     "faction": "vampire_hunters"
@@ -35,6 +35,7 @@
     "bonus_per": { "rng": [ 3, 5 ] },
     "sells_belongings": false,
     "shopkeeper_item_group": "hunter_mundane_sold_items",
+    "shopkeeper_consumption_rates": "basic_shop_rates",
     "worn_override": "VAMPIRE_HUNTER_DEFAULT_worn",
     "weapon_override": "VAMPIRE_HUNTER_DEFAULT_CROSSBOW_wield",
     "skills": [

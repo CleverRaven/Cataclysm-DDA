@@ -11,7 +11,7 @@
       { "item": "2x4", "count": [ 1, 2 ], "prob": 25 },
       { "item": "pipe", "count": [ 0, 2 ], "prob": 10 },
       { "item": "cu_pipe", "count": [ 0, 2 ], "prob": 10 },
-      { "item": "cable", "count": [ 0, 200 ], "prob": 10 }
+      { "item": "cable", "count": [ 0, 67 ], "prob": 10 }
     ]
   },
   {
@@ -978,6 +978,7 @@
     "id": "t_wall_metal",
     "copy-from": "t_abstract_wall_metal",
     "name": "metal wall",
+    "extend": { "flags": [ "WIRED_WALL" ] },
     "description": "An industrially fabricated thick sheet carefully positioned and joined seamlessly with perimeter sealant, this wall is capable of resisting extreme elements as well as hostile forces.  Blast load rated and extremely fire-retardant, breaching it will require specialized tools or an industrial vehicle.",
     "oxytorch": {
       "result": "t_scrap_wall_halfway",

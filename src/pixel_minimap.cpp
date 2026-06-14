@@ -35,6 +35,7 @@
 #include "mtype.h"
 #include "pixel_minimap_projectors.h"
 #include "sdl_utils.h"
+#include "sdltiles.h"
 #include "type_id.h"
 #include "vehicle.h"
 #include "viewer.h"
@@ -259,7 +260,6 @@ void pixel_minimap::clear_unused_cache()
 }
 
 //draws individual updates to the submap cache texture
-//the render target will be set back to display_buffer after all submaps are updated
 void pixel_minimap::flush_cache_updates()
 {
     for( auto &mcp : cache ) {
@@ -267,7 +267,22 @@ void pixel_minimap::flush_cache_updates()
             continue;
         }
 
-        SetRenderTarget( renderer, mcp.second.chunk_tex );
+        scoped_render_target chunk_scope( renderer, mcp.second.chunk_tex.get()
+#if SDL_MAJOR_VERSION >= 3
+                                          , get_shared_variant_pass()
+#endif
+                                        );
+        if( !chunk_scope.is_valid() ) {
+            if( !chunk_scope.boundary_intact() ) {
+                // Boundary lost: latch so the enclosing dtor skips detach.
+                display_buffer_scope_signal_recovery_required();
+            }
+            // Chunk did not paint, so a later render would composite stale data.
+            // Throw to abort the frame, like the tint-mask path.
+            throw std::runtime_error( chunk_scope.boundary_intact()
+                                      ? "pixel_minimap::flush_cache_updates: variant_pass refused boundary"
+                                      : "pixel_minimap::flush_cache_updates: scoped_render_target boundary lost" );
+        }
 
         if( !mcp.second.ready ) {
             mcp.second.ready = true;
@@ -300,6 +315,17 @@ void pixel_minimap::flush_cache_updates()
         }
 
         mcp.second.update_list.clear();
+
+        // Restore failure leaves later draws landing on the chunk texture or an
+        // undefined target, so propagate like the other scoped failures.
+        if( !chunk_scope.restore() ) {
+            if( !chunk_scope.boundary_intact() ) {
+                display_buffer_scope_signal_recovery_required();
+            }
+            throw std::runtime_error( chunk_scope.boundary_intact()
+                                      ? "pixel_minimap::flush_cache_updates: variant_pass refused boundary on restore"
+                                      : "pixel_minimap::flush_cache_updates: failed to restore prior render target" );
+        }
     }
 }
 
@@ -440,16 +466,37 @@ void pixel_minimap::reset()
 
 void pixel_minimap::render( const tripoint_bub_ms &center )
 {
-    SetRenderTarget( renderer, main_tex );
-    SetRenderDrawColor( renderer, pixel_minimap_r, pixel_minimap_g, pixel_minimap_b, pixel_minimap_a );
+    scoped_render_target main_scope( renderer, main_tex.get()
+#if SDL_MAJOR_VERSION >= 3
+                                     , get_shared_variant_pass()
+#endif
+                                   );
+    if( !main_scope.is_valid() ) {
+        if( !main_scope.boundary_intact() ) {
+            display_buffer_scope_signal_recovery_required();
+        }
+        // main_tex unpainted: the RenderCopy below would composite stale data.
+        throw std::runtime_error( main_scope.boundary_intact()
+                                  ? "pixel_minimap::render: variant_pass refused boundary"
+                                  : "pixel_minimap::render: scoped_render_target boundary lost" );
+    }
+    SetRenderDrawColor( renderer, pixel_minimap_r, pixel_minimap_g, pixel_minimap_b,
+                        pixel_minimap_a );
     RenderClear( renderer );
 
     render_cache( center );
     render_critters( center );
 
-    //set display buffer to main screen
-    set_displaybuffer_rendertarget();
-    //paint intermediate texture to screen
+    // Restore so the compositing RenderCopy below lands on the caller's prior
+    // target, not main_tex.
+    if( !main_scope.restore() ) {
+        if( !main_scope.boundary_intact() ) {
+            display_buffer_scope_signal_recovery_required();
+        }
+        throw std::runtime_error( main_scope.boundary_intact()
+                                  ? "pixel_minimap::render: variant_pass refused boundary on restore"
+                                  : "pixel_minimap::render: failed to restore prior render target" );
+    }
     RenderCopy( renderer, main_tex, &main_tex_clip_rect, &screen_clip_rect );
 }
 

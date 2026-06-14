@@ -13,7 +13,6 @@
     "type": "overmap_terrain",
     "name": "bosky labyrinth",
     "id": "labyrinth_overgrown_hall",
-    "sym": "_",
     "color": "light_green",
     "see_cost": "high",
     "travel_cost_type": "impassable",
@@ -30,7 +29,7 @@
   },
   {
     "type": "overmap_terrain",
-    "name": "terminal",
+    "name": "root",
     "id": "labyrinth_overgrown_entrance",
     "sym": "O",
     "color": "light_red",
@@ -116,6 +115,21 @@
     "color": "light_gray",
     "see_cost": "high",
     "travel_cost_type": "impassable"
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "labyrinthian structure",
+    "id": [
+      "labyrinth2_scarlet_sea_portal_x0_y0",
+      "labyrinth2_scarlet_sea_portal_x1_y0",
+      "labyrinth2_scarlet_sea_portal_x0_y1",
+      "labyrinth2_scarlet_sea_portal_x1_y1"
+    ],
+    "sym": "+",
+    "color": "light_red",
+    "see_cost": "high",
+    "travel_cost_type": "impassable",
+    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_location",

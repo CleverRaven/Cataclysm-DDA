@@ -54,6 +54,9 @@ struct MOD_INFORMATION {
         /** Full filenames (including extension) of any loading screens this mod may have */
         std::set<std::string> loading_images;
 
+        /** Determines if other loading screens should be used */
+        bool disable_other_loading_screens;
+
         translation description;
         std::string version;
 

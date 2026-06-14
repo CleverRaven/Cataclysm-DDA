@@ -226,7 +226,8 @@
       { "group": "new_usb_drives", "prob": 10 },
       { "group": "new_memory_cards", "prob": 10 },
       [ "manual_electronics", 20 ],
-      [ "cable", 60 ],
+      { "group": "cable_roll", "prob": 60 },
+      { "group": "copper_wire_roll_part", "prob": 30 },
       [ "wristwatch", 60 ],
       [ "fitness_band", 5 ]
     ]
@@ -260,14 +261,8 @@
       [ "curling_iron", 40 ],
       [ "comb_pocket", 10 ],
       [ "hairbrush", 10 ],
-      [ "mirror", 35 ]
+      [ "mirror", 35 ],
+      { "item": "makeup_kit", "prob": 30 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "chaw_wrapper_20",
-    "subtype": "collection",
-    "container-item": "wrapper",
-    "entries": [ { "item": "chaw", "container-item": "null", "count": 20 } ]
   }
 ]

@@ -196,7 +196,7 @@
     "id": "coin_gold",
     "name": { "str": "American Buffalo coin" },
     "description": "The official 24-karat bullion coin of the United States, it has a nominal face value of fifty dollars and is guaranteed to contain one troy ounce of 99.99% pure gold.",
-    "weight": "31 g",
+    "weight": "38 g",
     "volume": "1 ml",
     "price": "1 kUSD 750 USD",
     "price_postapoc": "6 USD",

@@ -4,8 +4,33 @@
     "id": "COMP_labyrinthine_safehouse_computer_meeting",
     "dynamic_line": "& █████╗ ██╗  ████████╗ █████╗ ██████╗      ██████╗ ███████╗\n██╔══██╗██║  ╚══██╔══╝██╔══██╗██╔══██╗    ██╔═══██╗██╔════╝\n███████║██║     ██║   ███████║██████╔╝    ██║   ██║███████╗\n██╔══██║██║     ██║   ██╔══██║██╔══██╗    ██║   ██║╚════██║\n██║  ██║███████╗██║   ██║  ██║██║  ██║    ╚██████╔╝███████║\n╚═╝  ╚═╝╚══════╝╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚══════╝\n\nWelcome ᴴᵁᴹᴬᴺ, to your home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ.\n\nThis is a ˡᵒᵃᵈᴵⁿᵍ ᵖʳᴼᵍʳᵃᵐ.\n\nThis is the ᵐᵉᵈᴵᵘᵐ ᵖˡᵃᶜᵉ.\n\nᵖˡᵉᵃˢᵉ make yourself at home.\n\n @AltarOS > skill -ELEVATE -@User\n\n @User > _",
     "responses": [
-      { "text": "[Step closer to the terminal and touch the keyboard]", "topic": "COMP_labyrinthine_safehouse_computer" },
-      { "text": "[Step away from the terminal]", "topic": "TALK_DONE" }
+      {
+        "text": "[Step closer to the terminal and touch the keyboard]",
+        "topic": "COMP_labyrinthine_safehouse_computer",
+        "effect": { "u_add_var": "traveled_to_labyrinth_safehouse", "value": "yes" }
+      },
+      {
+        "text": "[Step away from the terminal]",
+        "topic": "TALK_DONE",
+        "effect": { "u_add_var": "traveled_to_labyrinth_safehouse", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_labyrinthine_safehouse_computer_meeting_scenario_trapped_in_labyrinth",
+    "dynamic_line": "& █████╗ ██╗  ████████╗ █████╗ ██████╗      ██████╗ ███████╗\n██╔══██╗██║  ╚══██╔══╝██╔══██╗██╔══██╗    ██╔═══██╗██╔════╝\n███████║██║     ██║   ███████║██████╔╝    ██║   ██║███████╗\n██╔══██║██║     ██║   ██╔══██║██╔══██╗    ██║   ██║╚════██║\n██║  ██║███████╗██║   ██║  ██║██║  ██║    ╚██████╔╝███████║\n╚═╝  ╚═╝╚══════╝╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚══════╝\n\nWelcome ᴴᵁᴹᴬᴺ, to your home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ.\n\nThis is a ˡᵒᵃᵈᴵⁿᵍ ᵖʳᴼᵍʳᵃᵐ.\n\nThis is the ᵐᵉᵈᴵᵘᵐ ᵖˡᵃᶜᵉ.\n\nYou were saved from your peril.\n\nYour new implants were necessary to stabilize your reality.\n\nᵖˡᵉᵃˢᵉ make yourself at home.\n\n @AltarOS > skill -ELEVATE -@User\n\n @User > _",
+    "responses": [
+      {
+        "text": "[Step closer to the terminal and touch the keyboard]",
+        "topic": "COMP_labyrinthine_safehouse_computer",
+        "effect": { "u_add_var": "traveled_to_labyrinth_safehouse", "value": "yes" }
+      },
+      {
+        "text": "[Step away from the terminal]",
+        "topic": "TALK_DONE",
+        "effect": { "u_add_var": "traveled_to_labyrinth_safehouse", "value": "yes" }
+      }
     ]
   },
   {
@@ -46,6 +71,30 @@
           ]
         },
         "topic": "COMP_labyrinthine_safehouse_missions_none"
+      },
+      {
+        "text": "<color_light_green>Activate dimensional recalibration protocol",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "scenario_trapped_in_labyrinth" } ] },
+            { "u_has_bionics": "bio_nl_collar" },
+            { "not": { "compare_string": [ "yes", { "u_val": "traveled_home_to_labyrinth" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "stuck_in_labyrinth" } ] } }
+          ]
+        },
+        "topic": "COMP_labyrinthine_safehouse_earth_jaunt"
+      },
+      {
+        "text": "<color_yellow>ERROR002: Cannot dimensionally recalibrate",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "scenario_trapped_in_labyrinth" } ] },
+            { "u_has_bionics": "bio_nl_collar" },
+            { "not": { "compare_string": [ "yes", { "u_val": "traveled_home_to_labyrinth" } ] } },
+            { "compare_string": [ "yes", { "u_val": "stuck_in_labyrinth" } ] }
+          ]
+        },
+        "topic": "COMP_labyrinthine_safehouse_computer_stuck_in_labyrinth_help_2"
       },
       {
         "text": "<color_red>Activate exit protocol: Earth gate",
@@ -99,6 +148,12 @@
         },
         "topic": "COMP_labyrinthine_safehouse_computer_stuck_in_labyrinth_help"
       },
+      {
+        "text": "<color_red>Activate exit protocol: Scarlet Sea",
+        "condition": { "and": [ { "compare_string": [ "yes", { "u_val": "traveled_scarlet_to_labyrinth" } ] } ] },
+        "effect": { "run_eocs": "EOC_LS_scarlet_Exit_labyrinth" },
+        "topic": "TALK_DONE"
+      },
       { "text": "<color_yellow>Log off", "topic": "TALK_DONE" }
     ]
   },
@@ -110,7 +165,7 @@
       {
         "text": "[Prick yourself with the needle]",
         "topic": "COMP_labyrinthine_safehouse_computer_blood_tax_yes",
-        "effect": [ { "math": [ "u_vitamin('blood') -= 500" ] } ]
+        "effect": [ { "math": [ "u_vitamin('blood') -= 500" ] }, { "math": [ "u_vitamin('redcells') -= 500" ] } ]
       },
       { "text": "Log off.", "topic": "TALK_DONE" }
     ]
@@ -123,7 +178,7 @@
       {
         "text": "[Prick yourself with the needle]",
         "topic": "COMP_labyrinthine_safehouse_computer_blood_tax_reenter_yes",
-        "effect": [ { "math": [ "u_vitamin('blood') -= 250" ] } ]
+        "effect": [ { "math": [ "u_vitamin('blood') -= 250" ] }, { "math": [ "u_vitamin('redcells') -= 250" ] } ]
       },
       { "text": "Log off.", "topic": "TALK_DONE" }
     ]
@@ -150,6 +205,11 @@
         "text": "[Update ELECTRIC POWER available]",
         "condition": { "math": [ "nl_boiler_placed != 1" ] },
         "topic": "COMP_labyrinthine_safehouse_missions_boiler"
+      },
+      {
+        "text": "[Update BIONIC POWER available]",
+        "condition": { "and": [ { "math": [ "nl_autodoc_obelisk_placed != 1" ] }, { "math": [ "nl_boiler_placed == 1" ] } ] },
+        "topic": "COMP_labyrinthine_safehouse_missions_autodoc"
       },
       {
         "text": "[Update HUMAN DESIRES: STORAGE available]",
@@ -193,6 +253,25 @@
         "text": "Yes.",
         "effect": [
           { "run_eocs": "EOC_LS_SAFEHOUSE_UPDATE_UTILITY_SPACE_OBELISK" },
+          {
+            "u_message": "The ground shakes for a moment, then you hear a distant, mechanical grinding.",
+            "popup": true
+          }
+        ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "No.", "topic": "COMP_labyrinthine_safehouse_computer" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_labyrinthine_safehouse_missions_autodoc",
+    "dynamic_line": "&<color_light_green> @User > update -BIONICPOWER\n\n .  .  .  .  .  .  %100\n\n Update to BIONIC PIWER available from AltarOS remote.  New dependencies required.  Download new system obelisk?  Y/N",
+    "responses": [
+      {
+        "text": "Yes.",
+        "effect": [
+          { "run_eocs": "EOC_LS_SAFEHOUSE_UPDATE_AUTODOC_OBELISK" },
           {
             "u_message": "The ground shakes for a moment, then you hear a distant, mechanical grinding.",
             "popup": true
@@ -260,6 +339,17 @@
   },
   {
     "type": "talk_topic",
+    "id": "COMP_labyrinthine_safehouse_computer_stuck_in_labyrinth_help_2",
+    "dynamic_line": [
+      "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR002\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and recalibrate to their own reality.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.",
+      "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR002\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and recalibrate to their own reality.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.",
+      "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR002\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and recalibrate to their own reality.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  ᵗʳᵉᵃᵈ ᶜᵃʳᵉᶠᵘˡˡʸ",
+      "&<color_light_green> @User > exit -troubleshoot\n</color> EXIT ERROR002\n   It is not currently possible for ᴴᵁᴹᴬᴺ to exit the ʰᵒᵐᵉ and recalibrate to their own reality.\n   You and your home away from home have traveled too far.\n   You are currently operating via AltarOS remote.\n   If you return to an AltarOS local terminal,\n   in a place like where you first entered,\n   contact can be reestablished.  maybe"
+    ],
+    "responses": [ { "text": "Return.", "topic": "COMP_labyrinthine_safehouse_computer" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": "COMP_labyrinthine_safehouse_missions_none",
     "dynamic_line": [
       "&<color_light_green> @User > update\n\n.  .  .  .  .  .  %100\n\nNo updates available.",
@@ -269,6 +359,61 @@
       "&<color_light_green> @User > update\n\n.  .  .  .  .  .  %100\n\nNo updates available.          ᵃˢˢʰᵒˡᵉ"
     ],
     "responses": [ { "text": "Return.", "topic": "COMP_labyrinthine_safehouse_computer" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_labyrinthine_safehouse_earth_jaunt",
+    "dynamic_line": "&<color_light_green> @User > skill -RECALIBRATE -@User\n\n<color_light_green> Blood required for reality stabilization.\n\n @User > _</color>\n\nA drawer on the side of the terminal slides open, revealing a small, thin needle.",
+    "responses": [
+      { "text": "Help.", "topic": "COMP_labyrinthine_safehouse_earth_jaunt_help" },
+      {
+        "text": "[Prick yourself with the needle]",
+        "condition": { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
+        "topic": "COMP_labyrinthine_safehouse_earth_jaunt2",
+        "effect": [ { "math": [ "u_vitamin('blood') -= 500" ] }, { "math": [ "u_vitamin('redcells') -= 500" ] } ]
+      },
+      {
+        "text": "ERROR - USER DIMENSIONALLY ANCHORED.",
+        "condition": { "not": { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" } },
+        "topic": "COMP_labyrinthine_safehouse_computer"
+      },
+      { "text": "Return.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_labyrinthine_safehouse_earth_jaunt_help",
+    "dynamic_line": [
+      "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.\n   Repeated visits will reattune the user to their own reality.\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+      "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.  ʸᵒᵘ ᶜᵃⁿⁿᵒᵗ ˢᵗᵃʸ\n   Repeated visits will reattune the user to their own reality.\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+      "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.  ᵍᵉᵗ ᵒᵇʲᵉᶜᵗˢ ᶠᵒʳ ᵘˢ\n   Repeated visits will reattune the user to their own reality.\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+      "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.\n   Repeated visits will reattune the user to their own reality.  ᵖᵣₒᵐᵢˢₑ\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+      "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.  ʸᵒᵘ ᶜᵃⁿⁿᵒᵗ ˢᵗᵃʸ\n   Repeated visits will reattune the user to their own reality.  ᵖᵣₒᵐᵢˢₑ\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+      "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.  ᵍᵉᵗ ᵒᵇʲᵉᶜᵗˢ ᶠᵒʳ ᵘˢ\n   Repeated visits will reattune the user to their own reality.  ᵖᵣₒᵐᵢˢₑ\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+      "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.\n   Repeated visits will reattune the user to their own reality.  ᵍʳᵃᵇ ʷʰᵃᵗ ʸᵒᵘ ᶜᵃⁿ\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+      "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.  ʸᵒᵘ ᶜᵃⁿⁿᵒᵗ ˢᵗᵃʸ\n   Repeated visits will reattune the user to their own reality.  ᵍʳᵃᵇ ʷʰᵃᵗ ʸᵒᵘ ᶜᵃⁿ\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible.",
+      "&<color_light_green> @User > skill -RECALIBRATE -help\n</color> skill: RECALIBRATE\n   Available if ᴴᵁᴹᴬᴺ is not attuned to their own reality.\n   Blood is required for temporary reality stabilization.\n   The user will return to their reality, then be extracted by AltarOS remote after the estimated time, 4 EARTH HOURS, has elapsed.\n   The user will return to the home away from home.  ᵍᵉᵗ ᵒᵇʲᵉᶜᵗˢ ᶠᵒʳ ᵘˢ\n   Repeated visits will reattune the user to their own reality.  ᵍʳᵃᵇ ʷʰᵃᵗ ʸᵒᵘ ᶜᵃⁿ\n   WARNING: Dimensional instability will make ᴴᵁᴹᴬᴺ communication impossible."
+    ],
+    "responses": [
+      {
+        "text": "[Prick yourself with the needle]",
+        "condition": { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
+        "topic": "COMP_labyrinthine_safehouse_earth_jaunt2",
+        "effect": [ { "math": [ "u_vitamin('blood') -= 500" ] }, { "math": [ "u_vitamin('redcells') -= 500" ] } ]
+      },
+      {
+        "text": "ERROR - USER DIMENSIONALLY ANCHORED.",
+        "condition": { "not": { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" } },
+        "topic": "COMP_labyrinthine_safehouse_computer"
+      },
+      { "text": "Return.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_labyrinthine_safehouse_earth_jaunt2",
+    "dynamic_line": "&There is a pinch, then a wet, mechanical hiss, as the needle draws a lot of blood.  Your vision blurs.",
+    "responses": [ { "text": "…", "topic": "TALK_DONE", "effect": { "run_eocs": "EOC_LS_earth_jaunt_4hours" } } ]
   },
   {
     "type": "talk_topic",

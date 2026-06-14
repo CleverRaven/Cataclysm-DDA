@@ -21,6 +21,7 @@
 #include "character_attire.h"
 #include "coordinates.h"
 #include "craft_command.h"
+#include "crafting.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
@@ -168,6 +169,13 @@ static const recipe_id recipe_brew_rum( "brew_rum" );
 static const recipe_id recipe_carver_off_test( "carver_off_test" );
 static const recipe_id recipe_cudgel_simple( "cudgel_simple" );
 static const recipe_id recipe_cudgel_slow( "cudgel_slow" );
+static const recipe_id recipe_cudgel_test_charged_fast( "cudgel_test_charged_fast" );
+static const recipe_id
+recipe_cudgel_test_charged_fast_stepless( "cudgel_test_charged_fast_stepless" );
+static const recipe_id recipe_cudgel_test_steps_basic( "cudgel_test_steps_basic" );
+static const recipe_id recipe_cudgel_test_steps_charged( "cudgel_test_steps_charged" );
+static const recipe_id recipe_cudgel_test_steps_dual_charged( "cudgel_test_steps_dual_charged" );
+static const recipe_id recipe_cudgel_test_steps_two_tools( "cudgel_test_steps_two_tools" );
 static const recipe_id recipe_dry_meat( "dry_meat" );
 static const recipe_id recipe_fishing_hook_basic( "fishing_hook_basic" );
 static const recipe_id recipe_helmet_kabuto( "helmet_kabuto" );
@@ -593,6 +601,27 @@ static int actually_test_craft( const recipe_id &rid, int interrupt_after_turns,
         }
     }
     return turns;
+}
+
+// Drive an active craft turn-by-turn until its current step reaches target_step
+// (or the activity ends).  Returns the current step when it stops (-1 if gone).
+static int craft_until_step( const recipe_id &rid, int target_step )
+{
+    setup_test_craft( rid );
+    avatar &player_character = get_avatar();
+
+    int guard = 0;
+    while( player_character.activity.id() == ACT_CRAFT ) {
+        item_location craft = player_character.get_wielded_item();
+        if( craft && craft->is_craft() && craft->get_current_step() >= target_step ) {
+            break;
+        }
+        REQUIRE( ++guard < 100000 );
+        player_character.set_moves( 100 );
+        player_character.activity.do_turn( player_character );
+    }
+    item_location craft = player_character.get_wielded_item();
+    return ( craft && craft->is_craft() ) ? craft->get_current_step() : -1;
 }
 
 static int test_craft_for_prof( const recipe_id &rid, const proficiency_id &prof,
@@ -1057,6 +1086,479 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
                 prep_craft( recipe_carver_off_test, tools, false, 0, false, false );
                 CHECK( get_remaining_charges( itype_UPS_off ) == 10 );
             }
+        }
+    }
+}
+
+TEST_CASE( "craft_per_step_tool_consumption", "[crafting][charge][steps]" )
+{
+    GIVEN( "a 3-step recipe with a charged tool (40 charges) only on the middle step" ) {
+        std::vector<item> tools;
+        tools.emplace_back( itype_2x4 );
+        tools.push_back( tool_with_ammo( itype_soldering_iron_portable, 50 ) );
+        prep_craft( recipe_cudgel_test_steps_charged, tools, true );
+
+        WHEN( "the craft is created but no work has been done yet" ) {
+            setup_test_craft( recipe_cudgel_test_steps_charged );
+
+            THEN( "the middle step's charged tool is untouched" ) {
+                CHECK( get_remaining_charges( itype_soldering_iron_portable ) == 50 );
+            }
+        }
+
+        WHEN( "the craft has only just entered the Solder step" ) {
+            const int step = craft_until_step( recipe_cudgel_test_steps_charged, 1 );
+
+            // Entering a step debits its first 5% bucket (40 / 20 = 2 charges);
+            // the rest drains across the step.
+            THEN( "only the step's entry bucket has been debited" ) {
+                CHECK( step == 1 );
+                CHECK( get_remaining_charges( itype_soldering_iron_portable ) == 48 );
+            }
+        }
+
+        WHEN( "the craft has finished the Solder step" ) {
+            craft_until_step( recipe_cudgel_test_steps_charged, 2 );
+
+            THEN( "the step's full 40 charges have been consumed" ) {
+                CHECK( get_remaining_charges( itype_soldering_iron_portable ) == 10 );
+            }
+        }
+
+        WHEN( "the craft runs to completion" ) {
+            THEN( "total charge consumption matches the single step's 40" ) {
+                actually_test_craft( recipe_cudgel_test_steps_charged, INT_MAX );
+                CHECK( get_remaining_charges( itype_soldering_iron_portable ) == 10 );
+            }
+        }
+    }
+}
+
+TEST_CASE( "craft_charged_step_caps_fast_turn_consumption", "[crafting][charge][steps]" )
+{
+    // A remainder-heavy charge count (30) crafted in one fast turn consumes
+    // exactly its total, with no per-bucket rounding overdraw.  This holds for
+    // both a per-step recipe and a stepless recipe metered as one implicit step.
+    std::vector<item> tools;
+    tools.emplace_back( itype_2x4 );
+    tools.push_back( tool_with_ammo( itype_soldering_iron_portable, 50 ) );
+
+    SECTION( "step recipe" ) {
+        prep_craft( recipe_cudgel_test_charged_fast, tools, true );
+        actually_test_craft( recipe_cudgel_test_charged_fast, INT_MAX );
+        CHECK( get_remaining_charges( itype_soldering_iron_portable ) == 20 );
+    }
+
+    SECTION( "stepless recipe" ) {
+        prep_craft( recipe_cudgel_test_charged_fast_stepless, tools, true );
+        actually_test_craft( recipe_cudgel_test_charged_fast_stepless, INT_MAX );
+        CHECK( get_remaining_charges( itype_soldering_iron_portable ) == 20 );
+    }
+}
+
+TEST_CASE( "craft_continue_preserves_per_step_tool_buckets", "[crafting][charge][steps]" )
+{
+    std::vector<item> tools;
+    tools.emplace_back( itype_2x4 );
+    tools.push_back( tool_with_ammo( itype_soldering_iron_portable, 50 ) );
+    avatar &u = get_avatar();
+
+    SECTION( "step recipe" ) {
+        prep_craft( recipe_cudgel_test_steps_charged, tools, true );
+        setup_test_craft( recipe_cudgel_test_steps_charged );
+
+        item_location craft_loc = u.get_wielded_item();
+        REQUIRE( craft_loc );
+        item &craft = *craft_loc;
+        REQUIRE( craft.is_craft() );
+
+        // Mark the Solder step partly debited, then force a continuation rebuild.
+        craft.set_current_step( 1 );
+        std::vector<std::vector<step_tool_alloc>> allocs = craft.get_step_tool_allocs();
+        REQUIRE( allocs.size() == 3 );
+        REQUIRE_FALSE( allocs[1].empty() );
+        allocs[1][0].consumed_buckets = 7;
+        craft.set_step_tool_allocs( allocs );
+        craft.set_tools_to_continue( false );
+
+        REQUIRE( u.can_continue_craft( craft ) );
+
+        const std::vector<std::vector<step_tool_alloc>> &rebuilt = craft.get_step_tool_allocs();
+        CHECK( rebuilt.size() == 3 );
+        REQUIRE_FALSE( rebuilt[1].empty() );
+        CHECK( rebuilt[1][0].consumed_buckets == 7 );
+        CHECK( craft.has_tools_to_continue() );
+    }
+
+    SECTION( "cleared prior allocations rebuild every step" ) {
+        prep_craft( recipe_cudgel_test_steps_charged, tools, true );
+        setup_test_craft( recipe_cudgel_test_steps_charged );
+
+        item_location craft_loc = u.get_wielded_item();
+        REQUIRE( craft_loc );
+        item &craft = *craft_loc;
+        REQUIRE( craft.is_craft() );
+
+        // Simulate a save whose allocations were scrubbed by load validation:
+        // resume must rebuild all steps, not just the current one.
+        craft.set_current_step( 0 );
+        craft.set_step_tool_allocs( {} );
+        craft.set_tools_to_continue( false );
+
+        REQUIRE( u.can_continue_craft( craft ) );
+
+        const std::vector<std::vector<step_tool_alloc>> &rebuilt = craft.get_step_tool_allocs();
+        REQUIRE( rebuilt.size() == 3 );
+        // The charged Solder step (1) is reallocated even though step 0 is current.
+        CHECK_FALSE( rebuilt[1].empty() );
+        CHECK( craft.has_tools_to_continue() );
+    }
+
+    SECTION( "stepless recipe keeps its implicit-step buckets" ) {
+        prep_craft( recipe_cudgel_test_charged_fast_stepless, tools, true );
+        setup_test_craft( recipe_cudgel_test_charged_fast_stepless );
+
+        item_location craft_loc = u.get_wielded_item();
+        REQUIRE( craft_loc );
+        item &craft = *craft_loc;
+        REQUIRE( craft.is_craft() );
+
+        std::vector<std::vector<step_tool_alloc>> allocs = craft.get_step_tool_allocs();
+        REQUIRE( allocs.size() == 1 );
+        REQUIRE_FALSE( allocs[0].empty() );
+        allocs[0][0].consumed_buckets = 7;
+        craft.set_step_tool_allocs( allocs );
+        craft.set_tools_to_continue( false );
+
+        REQUIRE( u.can_continue_craft( craft ) );
+
+        const std::vector<std::vector<step_tool_alloc>> &rebuilt = craft.get_step_tool_allocs();
+        REQUIRE( rebuilt.size() == 1 );
+        REQUIRE_FALSE( rebuilt[0].empty() );
+        // Without carrying buckets, a stepless resume would re-debit from zero.
+        CHECK( rebuilt[0][0].consumed_buckets == 7 );
+        CHECK( craft.has_tools_to_continue() );
+    }
+}
+
+TEST_CASE( "craft_continue_matches_duplicate_step_tool_allocs_positionally",
+           "[crafting][charge][steps]" )
+{
+    std::vector<item> tools;
+    tools.emplace_back( itype_2x4 );
+    tools.push_back( tool_with_ammo( itype_soldering_iron_portable, 50 ) );
+    prep_craft( recipe_cudgel_test_steps_dual_charged, tools, true );
+    setup_test_craft( recipe_cudgel_test_steps_dual_charged );
+
+    avatar &u = get_avatar();
+    item_location craft_loc = u.get_wielded_item();
+    REQUIRE( craft_loc );
+    item &craft = *craft_loc;
+    REQUIRE( craft.is_craft() );
+
+    std::vector<std::vector<step_tool_alloc>> allocs = craft.get_step_tool_allocs();
+    REQUIRE( allocs.size() == 1 );
+    REQUIRE( allocs[0].size() == 2 );
+
+    SECTION( "same-type allocations keep their own depth" ) {
+        // Two same-type allocations debited to different depths.
+        allocs[0][0].consumed_buckets = 5;
+        allocs[0][1].consumed_buckets = 12;
+        craft.set_step_tool_allocs( allocs );
+        craft.set_tools_to_continue( false );
+
+        REQUIRE( u.can_continue_craft( craft ) );
+
+        const std::vector<std::vector<step_tool_alloc>> &rebuilt = craft.get_step_tool_allocs();
+        REQUIRE( rebuilt.size() == 1 );
+        REQUIRE( rebuilt[0].size() == 2 );
+        // Each allocation keeps its own depth instead of both inheriting the first's.
+        CHECK( rebuilt[0][0].consumed_buckets == 5 );
+        CHECK( rebuilt[0][1].consumed_buckets == 12 );
+    }
+
+    SECTION( "a drifted option carries its prior depth as a fail-safe" ) {
+        // Prior allocation at this position references a tool the recipe no
+        // longer selects, so positional pairing finds a type mismatch.
+        allocs[0][0].sel.comp.type = itype_2x4;
+        allocs[0][0].consumed_buckets = 5;
+        allocs[0][1].consumed_buckets = 12;
+        craft.set_step_tool_allocs( allocs );
+        craft.set_tools_to_continue( false );
+
+        REQUIRE( u.can_continue_craft( craft ) );
+
+        const std::vector<std::vector<step_tool_alloc>> &rebuilt = craft.get_step_tool_allocs();
+        REQUIRE( rebuilt.size() == 1 );
+        REQUIRE( rebuilt[0].size() == 2 );
+        // The depth carries forward instead of resetting to zero, so the resume
+        // does not re-debit charges already paid at that position.
+        CHECK( rebuilt[0][0].consumed_buckets == 5 );
+        CHECK( rebuilt[0][1].consumed_buckets == 12 );
+    }
+}
+
+TEST_CASE( "select_step_tool_allocs_resume_reselects_only_current_step",
+           "[crafting][charge][steps]" )
+{
+    // recipe_cudgel_test_steps_charged has its charged tool on step 1 (Solder);
+    // steps 0 and 2 have no tools.
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    u.set_skill_level( skill_fabrication, 10 );
+    const recipe &r = recipe_cudgel_test_steps_charged.obj();
+    REQUIRE( r.steps().size() == 3 );
+    inventory map_inv;
+    bool cancelled = false;
+
+    SECTION( "a full build selects the charged step's tool" ) {
+        u.i_add( tool_with_ammo( itype_soldering_iron_portable, 50 ) );
+        u.invalidate_crafting_inventory();
+        const std::vector<std::vector<step_tool_alloc>> allocs =
+                    select_step_tool_allocs( u, r, 1, map_inv, cancelled, -1 );
+        CHECK_FALSE( cancelled );
+        REQUIRE( allocs.size() == 3 );
+        CHECK_FALSE( allocs[1].empty() );
+    }
+
+    SECTION( "resuming step 0 reselects only step 0, skipping the charged step" ) {
+        u.i_add( tool_with_ammo( itype_soldering_iron_portable, 50 ) );
+        u.invalidate_crafting_inventory();
+        const std::vector<std::vector<step_tool_alloc>> allocs =
+                    select_step_tool_allocs( u, r, 1, map_inv, cancelled, 0 );
+        CHECK_FALSE( cancelled );
+        REQUIRE( allocs.size() == 3 );
+        CHECK( allocs[1].empty() );
+    }
+
+    SECTION( "resuming step 0 ignores an absent future-step tool" ) {
+        // No soldering tool present; resuming step 0 must not cancel on step 1's
+        // missing tool.
+        u.invalidate_crafting_inventory();
+        const std::vector<std::vector<step_tool_alloc>> allocs =
+                    select_step_tool_allocs( u, r, 1, map_inv, cancelled, 0 );
+        CHECK_FALSE( cancelled );
+        REQUIRE( allocs.size() == 3 );
+        CHECK( allocs[1].empty() );
+    }
+}
+
+TEST_CASE( "craft_step_charge_shortfall_rewinds_turn_progress",
+           "[crafting][charge][steps]" )
+{
+    std::vector<item> tools;
+    tools.emplace_back( itype_2x4 );
+    tools.push_back( tool_with_ammo( itype_soldering_iron_portable, 50 ) );
+    prep_craft( recipe_cudgel_test_steps_charged, tools, true );
+    setup_test_craft( recipe_cudgel_test_steps_charged );
+
+    avatar &u = get_avatar();
+
+    // Drive into the charged Solder step.
+    int guard = 0;
+    while( u.activity.id() == ACT_CRAFT ) {
+        item_location craft = u.get_wielded_item();
+        if( craft && craft->is_craft() && craft->get_current_step() >= 1 ) {
+            break;
+        }
+        REQUIRE( ++guard < 100000 );
+        u.set_moves( 100 );
+        u.activity.do_turn( u );
+    }
+    REQUIRE( u.activity.id() == ACT_CRAFT );
+
+    // Empty the tool mid-step so the next turn cannot cover its charge debit.
+    for( item *it : u.items_with( []( const item & i ) {
+    return i.typeId() == itype_soldering_iron_portable;
+    } ) ) {
+        it->ammo_consume( it->ammo_remaining(), u.pos_bub(), &u );
+    }
+    u.invalidate_crafting_inventory();
+
+    // Drive on until a step bucket crossing tries to debit the now-empty tool.
+    int counter_before_fail = -1;
+    while( u.activity.id() == ACT_CRAFT ) {
+        item_location craft = u.get_wielded_item();
+        REQUIRE( craft );
+        REQUIRE( craft->is_craft() );
+        counter_before_fail = craft->item_counter;
+        REQUIRE( ++guard < 100000 );
+        u.set_moves( 100 );
+        u.activity.do_turn( u );
+    }
+
+    // The shortfall cancels the craft but leaves it resumable: progress is
+    // rewound to exactly where the failed turn began, not backed to a 5% mark.
+    item_location craft = u.get_wielded_item();
+    REQUIRE( craft );
+    REQUIRE( craft->is_craft() );
+    CHECK( craft->item_counter == counter_before_fail );
+    // The failed turn's moves are returned rather than spent, so the cancelled
+    // craft leaves the crafter free to act.
+    CHECK( u.get_moves() == 100 );
+}
+
+TEST_CASE( "craft_terminal_verifier_cancels_on_missing_noncharged_tool",
+           "[crafting][charge][steps]" )
+{
+    std::vector<item> tools;
+    tools.emplace_back( itype_2x4 );
+    tools.emplace_back( itype_soldering_iron_portable );
+    tools.emplace_back( itype_hammer );
+    prep_craft( recipe_cudgel_test_steps_two_tools, tools, true );
+    setup_test_craft( recipe_cudgel_test_steps_two_tools );
+
+    avatar &u = get_avatar();
+
+    // Drive into the final 5% drift window so every bucket has already been
+    // credited with both tools present.
+    int guard = 0;
+    while( u.activity.id() == ACT_CRAFT ) {
+        item_location craft = u.get_wielded_item();
+        REQUIRE( craft );
+        REQUIRE( craft->is_craft() );
+        if( craft->item_counter >= 9500000 ) {
+            break;
+        }
+        REQUIRE( ++guard < 100000 );
+        u.set_moves( 100 );
+        u.activity.do_turn( u );
+    }
+    REQUIRE( u.activity.id() == ACT_CRAFT );
+    {
+        item_location craft = u.get_wielded_item();
+        REQUIRE( craft );
+        REQUIRE( craft->is_craft() );
+        const std::vector<std::vector<step_tool_alloc>> &allocs = craft->get_step_tool_allocs();
+        REQUIRE( allocs.size() == 1 );
+        REQUIRE( allocs[0].size() == 2 );
+        for( const step_tool_alloc &a : allocs[0] ) {
+            REQUIRE( a.consumed_buckets == 20 );
+        }
+        craft->set_tools_to_continue( true );
+    }
+
+    // Remove the hammer in the drift window; the terminal sweep at completion
+    // must reject the craft even though every bucket has already been credited.
+    for( item *it : u.items_with( []( const item & i ) {
+    return i.typeId() == itype_hammer;
+    } ) ) {
+        u.i_rem( it );
+    }
+    u.invalidate_crafting_inventory();
+
+    while( u.activity.id() == ACT_CRAFT ) {
+        REQUIRE( ++guard < 100000 );
+        u.set_moves( 100 );
+        u.activity.do_turn( u );
+    }
+
+    item_location after = u.get_wielded_item();
+    REQUIRE( after );
+    REQUIRE( after->is_craft() );
+    CHECK( after->item_counter < 10000000 );
+    CHECK_FALSE( after->has_tools_to_continue() );
+}
+
+TEST_CASE( "craft_step_consume_requires_selected_noncharged_tool",
+           "[crafting][charge][steps]" )
+{
+    avatar &u = get_avatar();
+    clear_avatar();
+    clear_map();
+    u.setpos( get_map(), tripoint_bub_ms( 60, 60, 0 ) );
+
+    item ingredient( itype_2x4, calendar::turn );
+    item craft( &recipe_cudgel_test_steps_basic.obj(), 1, ingredient );
+    REQUIRE( craft.is_craft() );
+    // Treat the craft as complete so every step trues up to its full target.
+    craft.item_counter = 10000000;
+
+    // A pinned non-charged tool selection (count -1) on the first step.
+    step_tool_alloc alloc;
+    alloc.sel.use_from = usage_from::player;
+    alloc.sel.comp.type = itype_soldering_iron_portable;
+    alloc.sel.comp.count = -1;
+    alloc.step_count_units = 0;
+    std::vector<std::vector<step_tool_alloc>> allocs( craft.get_making().steps().size() );
+    REQUIRE_FALSE( allocs.empty() );
+    allocs[0].push_back( alloc );
+    craft.set_step_tool_allocs( allocs );
+
+    GIVEN( "the pinned non-charged tool is absent" ) {
+        u.invalidate_crafting_inventory();
+
+        THEN( "consuming the step's tools fails instead of running free" ) {
+            CHECK_FALSE( u.craft_consume_step_tools( craft ) );
+            CHECK( craft.get_step_tool_allocs()[0][0].consumed_buckets == 0 );
+        }
+    }
+
+    GIVEN( "the pinned non-charged tool is present" ) {
+        u.i_add( item( itype_soldering_iron_portable, calendar::turn ) );
+        u.invalidate_crafting_inventory();
+
+        THEN( "the step trues up with no charge drain" ) {
+            CHECK( u.craft_consume_step_tools( craft ) );
+            CHECK( craft.get_step_tool_allocs()[0][0].consumed_buckets == 20 );
+        }
+    }
+
+    GIVEN( "the tool's buckets are full but the craft is not done" ) {
+        // Buckets filled earlier with the tool present, then it was removed
+        // before completion; the step-completion verifier must catch the
+        // absence so the step does not finish on a missing tool.
+        allocs[0][0].consumed_buckets = 20;
+        craft.set_step_tool_allocs( allocs );
+        craft.item_counter = 0;
+        craft.set_tools_to_continue( true );
+        u.invalidate_crafting_inventory();
+
+        THEN( "the verifier fails and clears tools_to_continue" ) {
+            CHECK_FALSE( u.verify_step_tools( craft, 0, u.pos_bub(), PICKUP_RANGE,
+                                              /*pin_to_map=*/false ) );
+            CHECK_FALSE( craft.has_tools_to_continue() );
+        }
+    }
+
+    GIVEN( "the tool is removed within a bucket that has already been credited" ) {
+        // Presence is sampled on bucket boundaries (matching charge-debit
+        // semantics), so a tool removed mid-bucket is tolerated until the
+        // next bucket boundary aborts the step.
+        const recipe &rec = craft.get_making();
+        const double budget = rec.step_budget_moves( u, 0, 1, {} );
+        REQUIRE( budget > 0.0 );
+        allocs[0][0].consumed_buckets = 5;
+        craft.set_step_tool_allocs( allocs );
+        craft.set_current_step( 0 );
+        // Place progress comfortably inside bucket 5 (fraction ~0.22) so the
+        // step's target is also 5: no boundary to cross this turn.
+        craft.set_step_progress( budget * 0.22 );
+        craft.item_counter = 2200000;
+        u.invalidate_crafting_inventory();
+
+        THEN( "the mid-bucket call does not abort" ) {
+            CHECK( u.craft_consume_step_tools( craft ) );
+            CHECK( craft.get_step_tool_allocs()[0][0].consumed_buckets == 5 );
+        }
+    }
+
+    GIVEN( "the tool is gone when progress crosses into the next bucket" ) {
+        const recipe &rec = craft.get_making();
+        const double budget = rec.step_budget_moves( u, 0, 1, {} );
+        REQUIRE( budget > 0.0 );
+        allocs[0][0].consumed_buckets = 5;
+        craft.set_step_tool_allocs( allocs );
+        craft.set_current_step( 0 );
+        // Fraction ~0.30 puts the target at bucket 6, one past consumed_buckets.
+        craft.set_step_progress( budget * 0.30 );
+        craft.item_counter = 3000000;
+        u.invalidate_crafting_inventory();
+
+        THEN( "the boundary crossing re-checks presence and aborts" ) {
+            CHECK_FALSE( u.craft_consume_step_tools( craft ) );
+            CHECK( craft.get_step_tool_allocs()[0][0].consumed_buckets == 5 );
         }
     }
 }
@@ -2357,6 +2859,15 @@ TEST_CASE( "recipes_inherit_rot_of_components_properly", "[crafting][rot]" )
 
             THEN( "it should have 1 percent of its shelf life left" ) {
                 item_location dehydrated_meat = player_character.get_wielded_item();
+
+                // Dehydrating runs unattended, so the active loop parks the craft
+                // on wall-clock; resolve it past its deadline to finish it.
+                if( dehydrated_meat && dehydrated_meat->is_craft() ) {
+                    const time_point ready = dehydrated_meat->get_ready_at();
+                    REQUIRE( ready != calendar::before_time_starts );
+                    craft_resolve_overdue_passive( *dehydrated_meat, ready, dehydrated_meat );
+                    dehydrated_meat = player_character.get_wielded_item();
+                }
 
                 REQUIRE( dehydrated_meat->type->get_id() == recipe_dry_meat->result() );
 

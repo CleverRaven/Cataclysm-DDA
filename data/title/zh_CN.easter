@@ -1,39 +1,39 @@
-<color_light_cyan>                                      **                         **            
-<color_light_cyan>          ***                          ***                        ***          
-<color_light_cyan>          **                      *************             ***************    
-<color_light_cyan>          **                     **          ****               **  **         
-<color_light_cyan>    ****************            **    **                    **  **  **  **     
-<color_light_cyan>          **                          **  ****             **   **  **   **    
-<color_light_cyan>          ***                     *** ** **                    ********        
-<color_light_cyan>         ** **                        ***                      **   **         
-<color_light_cyan>        **    **                     **  **                      ***           
-<color_light_cyan>      **       ****                **     ***                  ***  ***        
-<color_light_cyan>   ***           *****         ****         *******        ****       *****    
+<color_light_green>                                      **                         **            
+<color_light_green>          ***                          ***                        ***          
+<color_light_green>          **                      *************             ***************    
+<color_light_green>          **                     **          ****               **  **         
+<color_light_green>    ****************            **    **                    **  **  **  **     
+<color_light_green>          **                          **  ****             **   **  **   **    
+<color_light_green>          ***                     *** ** **                    ********        
+<color_light_green>         ** **                        ***                      **   **         
+<color_light_green>        **    **                     **  **                      ***           
+<color_light_green>      **       ****                **     ***                  ***  ***        
+<color_light_green>   ***           *****         ****         *******        ****       *****    
 
 <color_red>      _
 <color_red>   (`' )<color_white>#######           #########        <color_green>      ####            ##   ##        
 <color_red>  (_ <color_yellow>o<color_red> _)    <color_white>#          ##       #         <color_green>   ###    ###        ##############  
-<color_red>   (_,_)<color_white>########### <color_blue>_ _<color_white>################    <color_green>### ######## ###    ###    ##        
-<color_white>    #     ##      #<color_blue>( ` )<color_white>#     ##      #    <color_green>       ##          ##      ##        
-<color_white>    ##############<color_blue>(_ <color_yellow>o<color_blue> _)<color_white>##############    <color_green>################     ##############  
-<color_white>         ## #  #   <color_blue>(_,_)<color_white>     ## #<color_yellow> ( ' )    <color_green>   ##  ##  ##              ##        
+<color_red>   (_,_)<color_white>########### <color_light_cyan>_ _<color_white>################    <color_green>### ######## ###    ###    ##        
+<color_white>    #     ##      #<color_light_cyan>( ` )<color_white>#     ##      #    <color_green>       ##          ##      ##        
+<color_white>    ##############<color_light_cyan>(_ <color_yellow>o<color_light_cyan> _)<color_white>##############    <color_green>################     ##############  
+<color_white>         ## #  #   <color_light_cyan>(_,_)<color_white>     ## #<color_yellow> ( ' )    <color_green>   ##  ##  ##              ##        
 <color_white>      ###   #  ##  #      ###   #<color_yellow>(_<color_red>{;}<color_yellow>_)   <color_green> ###   ##   ###            ##        
 <color_white>   ###      ########   ###      ##<color_yellow>(_,_)<color_white>#   <color_green>##   ####     ##    ################ 
 
 ################################################################################
-#<color_light_cyan>                                      **                         **            
-#<color_light_cyan>          ***                          ***                        ***          
-#<color_light_cyan>          **                      *************             ***************    
-#<color_light_cyan>          **                     **          ****               **  **         
-#<color_light_cyan>    ****************            **    **                    **  **  **  **     
-#<color_light_cyan>          **                          **  ****             **   **  **   **    
-#<color_light_cyan>          ***                     *** ** **                    ********        
-#<color_light_cyan>         ** **                        ***                      **   **         
-#<color_light_cyan>        **    **                     **  **                      ***           
-#<color_light_cyan>      **       ****                **     ***                  ***  ***        
-#<color_light_cyan>   ***           *****         ****         *******        ****       *****    
-#<color_light_blue>
-#<color_light_blue>
+#<color_light_green>                                      **                         **            
+#<color_light_green>          ***                          ***                        ***          
+#<color_light_green>          **                      *************             ***************    
+#<color_light_green>          **                     **          ****               **  **         
+#<color_light_green>    ****************            **    **                    **  **  **  **     
+#<color_light_green>          **                          **  ****             **   **  **   **    
+#<color_light_green>          ***                     *** ** **                    ********        
+#<color_light_green>         ** **                        ***                      **   **         
+#<color_light_green>        **    **                     **  **                      ***           
+#<color_light_green>      **       ****                **     ***                  ***  ***        
+#<color_light_green>   ***           *****         ****         *******        ****       *****    
+
+
 #<color_white>      #########           #########        <color_green>      ####            ##   ##        
 #<color_white>    ##       #          ##       #         <color_green>   ###    ###        ##############  
 #<color_white>  #################   #################    <color_green>### ######## ###    ###    ##        
@@ -42,7 +42,7 @@
 #<color_white>         ## #  #             ## #  #       <color_green>   ##  ##  ##              ##        
 #<color_white>      ###   #  ##  #      ###   #  ##  #   <color_green> ###   ##   ###            ##        
 #<color_white>   ###      ########   ###      ########   <color_green>##   ####     ##    ################ 
-#<color_white>
+
 #<color_light_cyan>.-./`)
 #<color_light_cyan> \<color_light_red>.-.<color_light_cyan>')  
 #<color_light_cyan>/ <color_light_red>`-'<color_light_cyan> \

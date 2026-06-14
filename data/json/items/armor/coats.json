@@ -607,6 +607,27 @@
         "layers": [ "BELTED" ]
       },
       {
+        "covers": [
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ],
+        "coverage": 86,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [
+          "tentacle_draped_lower_front_l",
+          "tentacle_draped_lower_middle_l",
+          "tentacle_draped_lower_rear_l",
+          "tentacle_draped_lower_front_r",
+          "tentacle_draped_lower_middle_r",
+          "tentacle_draped_lower_rear_r"
+        ],
+        "layers": [ "BELTED" ]
+      },
+      {
         "covers": [ "gastropod_foot" ],
         "coverage": 100,
         "encumbrance": [ 4, 5 ],
@@ -676,7 +697,7 @@
     "warmth": 15,
     "material_thickness": 1.5,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF", "ALLOWS_GASTROPOD_FOOT" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES" ]
   },
   {
     "id": "duster_fur",

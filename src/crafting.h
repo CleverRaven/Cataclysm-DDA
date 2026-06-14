@@ -94,6 +94,10 @@ void craft_resolve_overdue_passive( item &craft, time_point now, item_location &
 // this, switching to or away from set_timer mid-step has no effect.
 void craft_apply_resume_replan( item_location &loc );
 
+// Finalizes a craft parked awaiting collection.  Must run with the player
+// present: complete_craft's liquid pour prompt is interactive.
+void craft_collect_finalized( item_location &loc );
+
 // Stamps passive-step runtime state (passive_started_at, ready_at, alarm_at,
 // fail_at, counter bounds) on a craft sitting at the start of an unattended
 // step, then rebuilds wakeups.  Called from the actor's first-entry path and

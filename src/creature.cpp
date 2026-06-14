@@ -202,6 +202,11 @@ Creature &Creature::operator=( Creature && ) noexcept = default;
 
 Creature::~Creature() = default;
 
+safe_reference<Creature> Creature::get_safe_reference()
+{
+    return anchor->reference_to( this );
+}
+
 tripoint_bub_ms Creature::pos_bub() const
 {
     return get_map().get_bub( location );
@@ -1521,13 +1526,14 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
         total_damage = clamp( get_hp( bp ), total_base_damage, total_damage );
     }
     if( !bp->has_flag( json_flag_BIONIC_LIMB ) ) {
-        mod_pain( total_pain );
+        mod_pain( total_pain, bp );
     }
 
     apply_damage( source, bp, total_damage );
 
     if( wkpt != nullptr ) {
         wkpt->apply_effects( *this, total_damage, attack );
+        add_msg_debug( debugmode::DF_WEAKPOINTS, "applying weakpoint: %s", wkpt->id );
     }
 
     return dealt_dams;
@@ -2216,7 +2222,7 @@ void Creature::clear_values()
     values.clear();
 }
 
-int Creature::mod_pain( int npain )
+int Creature::mod_pain( int npain, const bodypart_id /* bp */ )
 {
     mod_pain_noresist( npain );
     return npain;

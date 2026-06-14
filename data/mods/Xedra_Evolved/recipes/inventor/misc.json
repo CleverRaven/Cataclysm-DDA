@@ -17,7 +17,7 @@
       [ [ "light_minus_disposable_cell", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 3 ] ],
-      [ [ "cable", 20 ] ],
+      [ [ "cable", 7 ] ],
       [ [ "plastic_chunk", 10 ] ],
       [ [ "amplifier", 1 ] ]
     ]
@@ -40,7 +40,7 @@
       [ [ "light_battery_cell", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 3 ] ],
-      [ [ "cable", 40 ] ],
+      [ [ "cable", 14 ] ],
       [ [ "plastic_chunk", 10 ] ],
       [ [ "amplifier", 1 ] ]
     ]
@@ -63,7 +63,7 @@
       [ [ "medium_battery_cell", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 3 ] ],
-      [ [ "cable", 60 ] ],
+      [ [ "cable", 20 ] ],
       [ [ "plastic_chunk", 10 ] ],
       [ [ "amplifier", 1 ] ]
     ]
@@ -86,7 +86,7 @@
       [ [ "heavy_plus_battery_cell", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 3 ] ],
-      [ [ "cable", 80 ] ],
+      [ [ "cable", 27 ] ],
       [ [ "plastic_chunk", 10 ] ],
       [ [ "amplifier", 1 ] ]
     ]
@@ -111,7 +111,7 @@
     "components": [
       [ [ "power_supply", 6 ] ],
       [ [ "scrap", 2 ] ],
-      [ [ "cable", 80 ] ],
+      [ [ "cable", 27 ] ],
       [ [ "plastic_chunk", 5 ] ],
       [ [ "magnetron", 2 ] ],
       [ [ "lens_small", 1 ] ],
@@ -139,7 +139,7 @@
     "components": [
       [ [ "power_supply", 3 ] ],
       [ [ "scrap_aluminum", 15 ] ],
-      [ [ "cable", 80 ] ],
+      [ [ "cable", 27 ] ],
       [ [ "magnetron", 1 ] ],
       [ [ "amplifier", 2 ] ]
     ]
@@ -162,7 +162,7 @@
       [ [ "light_battery_cell", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 3 ] ],
-      [ [ "cable", 4 ] ],
+      [ [ "cable", 2 ] ],
       [ [ "scrap_dreamdross", 4 ] ],
       [ [ "plastic_chunk", 2 ] ],
       [ [ "amplifier", 1 ] ]
@@ -186,7 +186,7 @@
       [ [ "light_battery_cell", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 3 ] ],
-      [ [ "cable", 4 ] ],
+      [ [ "cable", 2 ] ],
       [ [ "scrap_dreamdross", 4 ] ],
       [ [ "plastic_chunk", 2 ] ],
       [ [ "amplifier", 1 ] ]
@@ -256,7 +256,7 @@
       [ [ "power_supply", 2 ] ],
       [ [ "scrap", 20 ] ],
       [ [ "scrap_aluminum", 10 ] ],
-      [ [ "cable", 80 ] ],
+      [ [ "cable", 27 ] ],
       [ [ "plastic_chunk", 5 ] ],
       [ [ "magnetron", 2 ] ],
       [ [ "processor", 1 ] ],
@@ -289,7 +289,7 @@
       [ [ "spike", 1 ] ],
       [ [ "magnetron", 4 ] ],
       [ [ "scrap", 20 ] ],
-      [ [ "cable", 80 ] ],
+      [ [ "cable", 27 ] ],
       [ [ "scrap_aluminum", 10 ] ],
       [ [ "processor", 1 ] ],
       [ [ "lens_small", 4 ] ],
@@ -321,7 +321,7 @@
       [ [ "power_supply", 10 ] ],
       [ [ "motor_micro", 10 ] ],
       [ [ "scrap", 100 ] ],
-      [ [ "cable", 400 ] ],
+      [ [ "cable", 134 ] ],
       [ [ "magnetron", 2 ] ],
       [ [ "processor", 2 ] ]
     ],
@@ -349,7 +349,7 @@
       [ [ "power_supply", 1 ] ],
       [ [ "diamond", 1 ] ],
       [ [ "scrap", 5 ] ],
-      [ [ "cable", 10 ] ],
+      [ [ "cable", 4 ] ],
       [ [ "lens_small", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "inventor_medium_cell", 1 ] ]
@@ -445,7 +445,7 @@
       [ [ "pipe_fittings", 2 ] ],
       [ [ "pipe", 2 ] ],
       [ [ "plastic_chunk", 10 ] ],
-      [ [ "cable", 50 ] ],
+      [ [ "cable", 17 ] ],
       [ [ "pressure_tank", 1 ] ],
       [ [ "pump_complex", 1 ] ]
     ]
@@ -489,7 +489,7 @@
       [ [ "mp3", 1 ] ],
       [ [ "chunk_rubber", 4 ] ],
       [ [ "scrap", 10 ] ],
-      [ [ "cable", 20 ] ]
+      [ [ "cable", 7 ] ]
     ],
     "skill_used": "deduction",
     "difficulty": 5,

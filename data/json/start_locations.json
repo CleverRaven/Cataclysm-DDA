@@ -69,6 +69,13 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_ocean_shore",
+    "name": "Beach",
+    "terrain": [ "ocean_shore" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_house",
     "name": "House",
     "terrain": [

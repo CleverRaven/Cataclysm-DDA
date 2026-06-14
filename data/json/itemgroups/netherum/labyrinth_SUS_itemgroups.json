@@ -29,7 +29,7 @@
       [ "multitool", 10 ],
       [ "recharge_station", 10 ],
       [ "hand_crank_charger", 25 ],
-      { "item": "graphite", "prob": 10, "charges": [ 50, 12500 ] },
+      { "group": "graphite_small_bottle_part", "prob": 10 },
       [ "metal_file", 10 ],
       [ "clamp", 10 ],
       [ "sandpaper", 80 ],
@@ -52,7 +52,7 @@
       { "item": "frame", "prob": 10, "count": [ 1, 10 ] },
       { "item": "frame", "prob": 10, "count": [ 1, 5 ] },
       { "item": "pipe", "prob": 20, "count": [ 2, 8 ] },
-      { "item": "nuts_bolts", "prob": 50, "count": [ 5, 70 ], "charges": [ 1, 100 ] },
+      { "item": "nuts_bolts", "prob": 50, "count": [ 5, 4000 ] },
       { "item": "bolt_steel", "prob": 10, "count": [ 1, 10 ], "charges": [ 1, 10 ] },
       { "item": "spike", "prob": 10, "count": [ 3, 40 ] },
       { "item": "hinge", "prob": 20, "count": [ 1, 30 ] },
@@ -97,7 +97,9 @@
           { "item": "chem_nitric_acid", "prob": 10, "charges": [ 1, -1 ] },
           { "item": "chem_hydrogen_peroxide_conc", "prob": 10, "charges": [ 1, -1 ] },
           { "item": "denat_alcohol", "prob": 6, "charges": [ 250, -1 ] },
-          { "item": "methed_alcohol", "prob": 4, "charges": [ 250, -1 ] }
+          { "item": "methed_alcohol", "prob": 4, "charges": [ 250, -1 ] },
+          { "item": "nl_robo_surg_app", "prob": 1 },
+          { "item": "nl_surg_int_unit", "prob": 1 }
         ]
       },
       {
@@ -140,6 +142,8 @@
     "subtype": "collection",
     "entries": [
       { "group": "LS_SUS_tier0_kipple", "prob": 80 },
+      { "item": "nl_robo_surg_app", "prob": 5 },
+      { "item": "nl_surg_int_unit", "prob": 5 },
       { "item": "nl_chem_thrower_mag", "prob": 10, "charges": 57 },
       { "item": "plut_cell", "prob": 5 },
       { "item": "exodii_wire_kit", "prob": 1 },

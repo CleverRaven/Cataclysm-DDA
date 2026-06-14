@@ -7,7 +7,7 @@
     "name_suffix": "Hub Mercenary",
     "class": "NPC_ROBOFAC_MERC_PAT",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_ROBOFAC_MERC_PAT",
     "death_eocs": [ "ROBOFAC_PAT_DEATH" ],
     "faction": "robofac_auxiliaries"

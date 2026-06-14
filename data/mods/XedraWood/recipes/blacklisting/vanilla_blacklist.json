@@ -1,0 +1,67 @@
+[
+  {
+    "type": "recipe",
+    "result": "coffeemaker",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "electronics_controls",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "food_processor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "dehydrator",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "microcentrifuge",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reading_light",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bat",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bwirebat",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pastaextruder",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "biogas_cooker",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_biogas_tank",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "large_biogas_tank",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "plastic_chunk",
+    "obsolete": true
+  }
+]

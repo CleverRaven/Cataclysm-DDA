@@ -62,7 +62,7 @@
       "items": [
         { "item": "afs_circuitry_4", "count": [ 1, 2 ] },
         { "item": "afs_circuitry_3", "count": [ 4, 8 ] },
-        { "item": "cable", "count": [ 4, 6 ] },
+        { "item": "cable", "count": [ 2, 3 ] },
         { "item": "small_lcd_screen", "count": [ 1, 2 ] },
         { "item": "afs_material_2", "count": [ 6, 10 ] },
         { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
@@ -103,7 +103,7 @@
       "items": [
         { "item": "afs_circuitry_3", "count": [ 1, 2 ] },
         { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
-        { "item": "cable", "count": [ 4, 6 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "small_lcd_screen", "count": [ 1, 2 ] },
         { "item": "afs_material_2", "count": [ 6, 10 ] },
         { "item": "afs_energy_storage_2", "count": [ 1, 2 ] },
@@ -143,7 +143,7 @@
       "items": [
         { "item": "afs_circuitry_2", "count": [ 1, 2 ] },
         { "item": "afs_circuitry_1", "count": [ 4, 8 ] },
-        { "item": "cable", "count": [ 4, 6 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "small_lcd_screen", "count": [ 1, 2 ] },
         { "item": "afs_material_2", "count": [ 6, 10 ] },
         { "item": "afs_energy_storage_1", "count": [ 1, 2 ] },
@@ -340,7 +340,7 @@
       "items": [
         { "item": "afs_circuitry_3", "count": [ 1, 2 ] },
         { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
-        { "item": "cable", "count": [ 4, 6 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "small_lcd_screen", "count": [ 1, 2 ] },
         { "item": "e_scrap", "count": [ 10, 16 ] },
         { "item": "afs_circuitry_1", "count": [ 6, 10 ] },
@@ -408,7 +408,7 @@
       "items": [
         { "item": "afs_circuitry_3", "count": [ 1, 2 ] },
         { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
-        { "item": "cable", "count": [ 4, 6 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "small_lcd_screen", "count": [ 1, 2 ] },
         { "item": "e_scrap", "count": [ 10, 16 ] },
         { "item": "afs_circuitry_1", "count": [ 6, 10 ] },
@@ -475,7 +475,7 @@
         { "item": "scrap", "count": [ 2, 4 ] },
         { "item": "mc_steel_chunk", "count": [ 2, 6 ] },
         { "item": "scrap_copper", "count": [ 4, 6 ] },
-        { "item": "cable", "count": [ 5, 15 ] },
+        { "item": "cable", "count": [ 2, 5 ] },
         { "item": "afs_circuitry_1", "count": [ 0, 2 ] },
         { "item": "afs_circuitry_2", "count": [ 0, 2 ], "prob": 50 },
         { "item": "afs_energy_storage_2", "count": [ 0, 1 ] },
@@ -579,7 +579,7 @@
         { "item": "sheet_metal_small", "count": [ 2, 3 ] },
         { "item": "afs_circuitry_1", "count": [ 1, 2 ] },
         { "item": "processor", "count": [ 1, 2 ] },
-        { "item": "cable", "count": [ 2, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "e_scrap", "count": [ 1, 3 ] },
         { "item": "circuit", "count": [ 1, 2 ] },
         { "item": "power_supply", "count": 1 }
@@ -597,7 +597,7 @@
         { "item": "sheet_metal_small", "count": [ 0, 2 ] },
         { "item": "afs_circuitry_1", "count": [ 0, 1 ] },
         { "item": "processor", "count": [ 0, 1 ] },
-        { "item": "cable", "count": [ 0, 2 ] },
+        { "item": "cable", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 1, 2 ] },
         { "item": "circuit", "count": [ 0, 1 ] },
         { "item": "power_supply", "count": 1, "prob": 25 }
@@ -622,7 +622,7 @@
         { "item": "sheet_metal_small", "count": [ 4, 6 ] },
         { "item": "pipe", "count": [ 4, 8 ] },
         { "item": "pipe_fittings", "count": [ 2, 4 ] },
-        { "item": "cable", "count": [ 15, 35 ] },
+        { "item": "cable", "count": [ 5, 12 ] },
         { "item": "afs_circuitry_1", "count": [ 2, 4 ] },
         { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
         { "item": "afs_circuitry_3", "count": [ 2, 4 ] },
@@ -648,7 +648,7 @@
         { "item": "sheet_metal_small", "count": [ 0, 3 ] },
         { "item": "pipe", "count": [ 0, 3 ] },
         { "item": "pipe_fittings", "count": [ 0, 2 ] },
-        { "item": "cable", "count": [ 5, 15 ] },
+        { "item": "cable", "count": [ 2, 5 ] },
         { "item": "afs_circuitry_2", "count": [ 0, 3 ] },
         { "item": "afs_circuitry_3", "count": [ 0, 2 ], "prob": 50 },
         { "item": "afs_energy_storage_1", "count": [ 0, 1 ] },
@@ -680,7 +680,7 @@
         { "item": "sheet_metal_small", "count": [ 3, 4 ] },
         { "item": "pipe", "count": [ 3, 6 ] },
         { "item": "pipe_fittings", "count": [ 0, 4 ] },
-        { "item": "cable", "count": [ 10, 20 ] },
+        { "item": "cable", "count": [ 4, 7 ] },
         { "item": "afs_circuitry_2", "count": [ 0, 3 ], "prob": 70 },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ], "prob": 25 },
         { "item": "afs_energy_storage_1", "count": [ 0, 1 ], "prob": 50 },
@@ -705,7 +705,7 @@
         { "item": "sheet_metal_small", "count": [ 0, 3 ] },
         { "item": "pipe", "count": [ 0, 3 ] },
         { "item": "pipe_fittings", "count": [ 0, 2 ] },
-        { "item": "cable", "count": [ 5, 10 ] },
+        { "item": "cable", "count": [ 2, 4 ] },
         { "item": "afs_circuitry_2", "count": [ 0, 3 ] },
         { "item": "afs_heat_2_salvage", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 0, 4 ] }
@@ -732,7 +732,7 @@
         { "item": "scrap", "count": [ 2, 4 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 3 ] },
-        { "item": "cable", "count": [ 10, 18 ] },
+        { "item": "cable", "count": [ 4, 6 ] },
         { "item": "pipe_fittings", "count": [ 2, 4 ] },
         { "item": "motor", "count": [ 0, 1 ] },
         { "item": "afs_circuitry_1", "count": [ 1, 4 ] },
@@ -757,7 +757,7 @@
         { "item": "scrap", "count": [ 6, 12 ] },
         { "item": "sheet_metal_small", "count": [ 0, 6 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ], "prob": 50 },
-        { "item": "cable", "count": [ 5, 10 ] },
+        { "item": "cable", "count": [ 2, 4 ] },
         { "item": "pipe_fittings", "count": [ 0, 4 ], "prob": 50 },
         { "item": "afs_circuitry_1", "count": [ 0, 2 ], "prob": 25 },
         { "item": "afs_circuitry_2", "count": [ 0, 1 ], "prob": 25 },
@@ -790,7 +790,7 @@
         { "item": "scrap_copper", "count": [ 4, 8 ] },
         { "item": "pipe", "count": [ 4, 8 ] },
         { "item": "pipe_fittings", "count": [ 2, 4 ] },
-        { "item": "cable", "count": [ 15, 35 ] },
+        { "item": "cable", "count": [ 5, 12 ] },
         { "item": "afs_circuitry_1", "count": [ 1, 3 ] },
         { "item": "afs_circuitry_2", "count": [ 2, 4 ] },
         { "item": "afs_energy_storage_2", "count": [ 1, 3 ] },
@@ -816,7 +816,7 @@
         { "item": "scrap_copper", "count": [ 4, 6 ] },
         { "item": "pipe", "count": [ 2, 4 ] },
         { "item": "pipe_fittings", "count": [ 2, 4 ] },
-        { "item": "cable", "count": [ 5, 15 ] },
+        { "item": "cable", "count": [ 2, 5 ] },
         { "item": "afs_circuitry_1", "count": [ 0, 2 ] },
         { "item": "afs_circuitry_2", "count": [ 0, 2 ], "prob": 50 },
         { "item": "afs_energy_storage_2", "count": [ 0, 1 ] },
@@ -849,7 +849,7 @@
         { "item": "plastic_chunk", "count": [ 4, 8 ] },
         { "item": "pipe", "count": [ 3, 5 ] },
         { "item": "pipe_fittings", "count": [ 2, 4 ] },
-        { "item": "cable", "count": [ 5, 10 ] },
+        { "item": "cable", "count": [ 2, 4 ] },
         { "item": "afs_circuitry_1", "count": [ 0, 2 ] },
         { "item": "afs_circuitry_2", "count": [ 0, 2 ] },
         { "item": "afs_energy_storage_2", "count": [ 1, 3 ] },
@@ -874,7 +874,7 @@
         { "item": "scrap_copper", "count": [ 0, 4 ] },
         { "item": "pipe", "count": [ 0, 2 ] },
         { "item": "pipe_fittings", "count": [ 0, 2 ] },
-        { "item": "cable", "count": [ 0, 5 ] },
+        { "item": "cable", "count": [ 0, 2 ] },
         { "item": "afs_circuitry_1", "count": [ 0, 2 ] },
         { "item": "afs_energy_storage_2", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 0, 4 ] }
@@ -987,7 +987,7 @@
         { "item": "small_lcd_screen", "count": 2 },
         { "item": "sheet_metal_small", "count": [ 2, 3 ] },
         { "item": "afs_circuitry_1", "count": [ 1, 2 ] },
-        { "item": "cable", "count": [ 2, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "e_scrap", "count": [ 1, 3 ] },
         { "item": "circuit", "count": [ 1, 2 ] }
       ]
@@ -1004,7 +1004,7 @@
         { "item": "small_lcd_screen", "count": 1, "prob": 50 },
         { "item": "sheet_metal_small", "count": [ 2, 3 ] },
         { "item": "afs_circuitry_1", "count": 1, "prob": 50 },
-        { "item": "cable", "count": [ 0, 2 ] },
+        { "item": "cable", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 0, 1 ] },
         { "item": "circuit", "count": [ 0, 1 ] }
       ]
@@ -1026,7 +1026,7 @@
       "items": [
         { "item": "frame", "count": 1 },
         { "item": "sheet_metal_small", "count": [ 2, 4 ] },
-        { "item": "cable", "count": [ 5, 20 ] },
+        { "item": "cable", "count": [ 2, 7 ] },
         { "item": "afs_circuitry_2", "count": [ 1, 8 ] },
         { "item": "afs_circuitry_3", "count": [ 1, 4 ] },
         { "item": "afs_energy_storage_1", "count": [ 1, 2 ] },
@@ -1049,7 +1049,7 @@
         { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 2, 4 ] },
         { "item": "sheet_metal_small", "count": [ 0, 3 ] },
-        { "item": "cable", "count": [ 5, 15 ] },
+        { "item": "cable", "count": [ 2, 5 ] },
         { "item": "afs_circuitry_2", "count": [ 0, 3 ] },
         { "item": "afs_circuitry_3", "count": [ 0, 2 ], "prob": 50 },
         { "item": "afs_energy_storage_1", "count": [ 0, 1 ] },
@@ -1079,7 +1079,7 @@
       "items": [
         { "item": "frame", "count": 1 },
         { "item": "sheet_metal_small", "count": [ 3, 4 ] },
-        { "item": "cable", "count": [ 10, 20 ] },
+        { "item": "cable", "count": [ 4, 7 ] },
         { "item": "afs_circuitry_2", "count": [ 0, 3 ], "prob": 70 },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ], "prob": 25 },
         { "item": "afs_energy_storage_1", "count": [ 0, 1 ], "prob": 50 },
@@ -1104,7 +1104,7 @@
         { "item": "sheet_metal_small", "count": [ 0, 3 ] },
         { "item": "pipe", "count": [ 0, 3 ] },
         { "item": "pipe_fittings", "count": [ 0, 2 ] },
-        { "item": "cable", "count": [ 5, 10 ] },
+        { "item": "cable", "count": [ 2, 4 ] },
         { "item": "afs_circuitry_2", "count": [ 0, 3 ] },
         { "item": "afs_heat_2_salvage", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 0, 4 ] }
@@ -1129,7 +1129,7 @@
         { "item": "rebar", "count": [ 1, 2 ] },
         { "item": "spring", "count": [ 2, 4 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
-        { "item": "cable", "count": [ 10, 18 ] },
+        { "item": "cable", "count": [ 4, 6 ] },
         { "item": "afs_circuitry_1", "count": [ 1, 4 ] },
         { "item": "afs_circuitry_2", "count": [ 0, 2 ] },
         { "item": "afs_circuitry_3", "count": [ 0, 2 ] },
@@ -1154,7 +1154,7 @@
         { "item": "rebar", "count": 1 },
         { "item": "spring", "count": [ 0, 2 ] },
         { "item": "sheet_metal_small", "count": [ 0, 2 ] },
-        { "item": "cable", "count": [ 0, 10 ] },
+        { "item": "cable", "count": [ 0, 4 ] },
         { "item": "afs_circuitry_1", "count": [ 0, 2 ] },
         { "item": "afs_circuitry_2", "count": [ 0, 2 ] },
         { "item": "e_scrap", "count": [ 2, 4 ] },
@@ -1201,7 +1201,7 @@
       "items": [
         { "item": "frame", "count": 1 },
         { "item": "sheet_metal_small", "count": [ 3, 4 ] },
-        { "item": "cable", "count": [ 10, 20 ] },
+        { "item": "cable", "count": [ 4, 7 ] },
         { "item": "afs_circuitry_2", "count": [ 0, 3 ], "prob": 70 },
         { "item": "afs_energy_storage_1", "count": [ 0, 1 ], "prob": 50 },
         { "item": "afs_heat_2_salvage", "count": [ 0, 3 ], "prob": 50 },
@@ -1224,7 +1224,7 @@
         { "item": "sheet_metal_small", "count": [ 0, 3 ] },
         { "item": "pipe", "count": [ 0, 3 ] },
         { "item": "pipe_fittings", "count": [ 0, 2 ] },
-        { "item": "cable", "count": [ 5, 10 ] },
+        { "item": "cable", "count": [ 2, 4 ] },
         { "item": "afs_circuitry_2", "count": [ 0, 3 ] },
         { "item": "afs_heat_2_salvage", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 0, 4 ] }
@@ -1247,7 +1247,7 @@
       "items": [
         { "item": "frame", "count": 1 },
         { "item": "sheet_metal_small", "count": [ 3, 4 ] },
-        { "item": "cable", "count": [ 10, 20 ] },
+        { "item": "cable", "count": [ 4, 7 ] },
         { "item": "afs_circuitry_2", "count": [ 0, 15 ], "prob": 40 },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ], "prob": 1 },
         { "item": "afs_energy_storage_1", "count": [ 0, 1 ], "prob": 50 },
@@ -1272,7 +1272,7 @@
         { "item": "sheet_metal_small", "count": [ 0, 3 ] },
         { "item": "pipe", "count": [ 0, 3 ] },
         { "item": "pipe_fittings", "count": [ 0, 2 ] },
-        { "item": "cable", "count": [ 5, 10 ] },
+        { "item": "cable", "count": [ 2, 4 ] },
         { "item": "afs_circuitry_2", "count": [ 0, 3 ] },
         { "item": "afs_heat_2_salvage", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 10, 14 ] }
@@ -1295,7 +1295,7 @@
       "items": [
         { "item": "frame", "count": 1 },
         { "item": "sheet_metal_small", "count": [ 3, 4 ] },
-        { "item": "cable", "count": [ 10, 20 ] },
+        { "item": "cable", "count": [ 4, 7 ] },
         { "item": "afs_circuitry_2", "count": [ 0, 3 ], "prob": 70 },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ], "prob": 25 },
         { "item": "afs_circuitry_4", "count": [ 0, 1 ], "prob": 5 },
@@ -1322,7 +1322,7 @@
         { "item": "sheet_metal_small", "count": [ 0, 3 ] },
         { "item": "pipe", "count": [ 0, 3 ] },
         { "item": "pipe_fittings", "count": [ 0, 2 ] },
-        { "item": "cable", "count": [ 5, 10 ] },
+        { "item": "cable", "count": [ 2, 4 ] },
         { "item": "afs_circuitry_2", "count": [ 0, 3 ] },
         { "item": "afs_heat_2_salvage", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 0, 4 ] }
@@ -1345,7 +1345,7 @@
       "items": [
         { "item": "frame", "count": 1 },
         { "item": "sheet_metal_small", "count": [ 3, 4 ] },
-        { "item": "cable", "count": [ 10, 20 ] },
+        { "item": "cable", "count": [ 4, 7 ] },
         { "item": "afs_circuitry_2", "count": 4 },
         { "item": "afs_circuitry_3", "count": 2 },
         { "item": "afs_circuitry_4", "count": 1 },
@@ -1367,7 +1367,7 @@
       "items": [
         { "item": "frame", "count": 1 },
         { "item": "sheet_metal_small", "count": [ 3, 4 ] },
-        { "item": "cable", "count": [ 10, 20 ] },
+        { "item": "cable", "count": [ 4, 7 ] },
         { "item": "afs_circuitry_2", "count": [ 0, 3 ], "prob": 70 },
         { "item": "afs_circuitry_3", "count": [ 0, 1 ], "prob": 25 },
         { "item": "afs_circuitry_4", "count": [ 0, 1 ], "prob": 5 },
@@ -1400,7 +1400,7 @@
         { "item": "small_lcd_screen", "count": 2 },
         { "item": "sheet_metal_small", "count": [ 2, 3 ] },
         { "item": "afs_circuitry_1", "count": [ 1, 2 ] },
-        { "item": "cable", "count": [ 2, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
         { "item": "e_scrap", "count": [ 1, 3 ] },
         { "item": "circuit", "count": [ 1, 2 ] }
       ]
@@ -1417,7 +1417,7 @@
         { "item": "small_lcd_screen", "count": 1, "prob": 50 },
         { "item": "sheet_metal_small", "count": [ 2, 3 ] },
         { "item": "afs_circuitry_1", "count": 1, "prob": 50 },
-        { "item": "cable", "count": [ 0, 2 ] },
+        { "item": "cable", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 0, 1 ] },
         { "item": "circuit", "count": [ 0, 1 ] }
       ]

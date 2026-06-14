@@ -4335,6 +4335,13 @@ void Character::recalc_limb_energy_usage()
             bionic_limb_count++;
         }
     }
+    for( const bionic_id &bid : get_bionic_fueled_with_muscle() ) {
+        if( has_active_bionic( bid ) ) {
+            bionic_powercost = bionic_powercost * 50;
+        } else {
+            bionic_powercost = bionic_powercost * 5;
+        }
+    }
     arms_power_use = bionic_powercost;
     if( bionic_limb_count > 0 ) {
         arms_stam_mult = 1 - ( bionic_limb_count / total_limb_count );
@@ -4358,6 +4365,13 @@ void Character::recalc_limb_energy_usage()
         if( bp->has_flag( json_flag_BIONIC_LIMB ) ) {
             bionic_powercost += bp->power_efficiency;
             bionic_limb_count++;
+        }
+    }
+    for( const bionic_id &bid : get_bionic_fueled_with_muscle() ) {
+        if( has_active_bionic( bid ) ) {
+            bionic_powercost = bionic_powercost * 50;
+        } else {
+            bionic_powercost = bionic_powercost * 5;
         }
     }
     legs_power_use = bionic_powercost;
@@ -6691,7 +6705,7 @@ void Character::process_one_effect( effect &it, bool is_new )
         }
         if( is_new || it.activated( calendar::turn, "PAIN", val, reduced, mod ) ) {
             int pain_inc = bound_mod_to_vals( get_pain(), val, it.get_max_val( "PAIN", reduced ), 0 );
-            mod_pain( pain_inc );
+            mod_pain( pain_inc, it.get_bp() );
             if( pain_inc > 0 ) {
                 add_pain_msg( val, bp );
             }

@@ -1331,13 +1331,13 @@
         { "item": "scrap", "count": [ 4, 16 ] },
         { "item": "lc_steel_chunk", "count": [ 1, 6 ] },
         { "item": "cobalt_60", "count": [ 1, 5 ] },
-        { "item": "lead", "charges": [ 12, 18 ] }
+        { "item": "lead", "count": [ 12, 18 ] }
       ]
     },
     "deconstruct": {
       "ter_set": "t_pit",
       "items": [
-        { "item": "cable", "count": [ 8, 16 ] },
+        { "item": "cable", "count": [ 3, 6 ] },
         { "item": "cobalt_60", "count": [ 2, 10 ] },
         { "item": "scrap", "count": [ 8, 16 ] },
         { "item": "sheet_metal", "count": [ 5, 10 ] },

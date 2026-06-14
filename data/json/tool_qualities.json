@@ -439,7 +439,7 @@
     "type": "tool_quality",
     "id": "SMG",
     "//": "A catchall for firearms so they can be used in practice recipes.",
-    "name": { "str": "submachinegun practice" }
+    "name": { "str": "submachine gun practice" }
   },
   {
     "type": "tool_quality",

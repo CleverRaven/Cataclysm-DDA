@@ -895,6 +895,14 @@
     "extend": { "flags": [ "HARDTOSHOOT" ] }
   },
   {
+    "id": "mon_zombie_smoker_no_weakpoints",
+    "type": "MONSTER",
+    "name": { "str_sp": "smoker zombie test only", "//~": "NO_I18N" },
+    "description": { "str": "This smoker zombie is for testing purposes only", "//~": "NO_I18N" },
+    "copy-from": "mon_zombie_smoker",
+    "delete": { "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes" ] }
+  },
+  {
     "id": "mon_smoker_brute",
     "type": "MONSTER",
     "name": { "str": "ashen brawler" },
@@ -1077,7 +1085,7 @@
     "id": "mon_zombie_rot_diseased",
     "type": "MONSTER",
     "name": { "str": "zombie plaguebearer" },
-    "description": "The skin of this walking corpses glistens with disturbing fluids.  Even at a distance, the smell nearly makes you gag.",
+    "description": "The skin of this walking corpse glistens with disturbing fluids.  Even at a distance, the smell nearly makes you gag.",
     "copy-from": "mon_zombie_base",
     "hp": 65,
     "speed": 70,

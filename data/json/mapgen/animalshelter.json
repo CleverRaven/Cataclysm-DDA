@@ -112,18 +112,18 @@
         "G~#|glg^gcC..gllllll?#G'",
         "'~#F^lllg....:lllAll?#''",
         "'~#ggg:g|y..c||||||||#'*",
-        "'~#]...D....c|l|l|l|l#''",
+        "'~#]...D§...c|l|l|l|l#''",
         "*~#cT.......y|^|^|^|^#''",
         "G~#cT........:lllllll#*G",
         "'~#...Cy....D|^|^|^|^#G'",
-        "'~#iOOO|....y|l|l|l|l#''",
+        "'~#iOOO|§...y|l|l|l|l#''",
         "'~#.d%.|c..c|||||||||#''",
         "G~#rc..|c..T|ll|ll|ll#G'",
         "'~#|||i|y...|ll|ll|ll#G'",
         "'~#ts+......|g^|g^|g^#G'",
-        "*~####M###...........#4'",
+        "*~####M###..........§#4'",
         "         #.r|g^|g^|g^#'*",
-        "        <#..|ll|ll|ll#'G",
+        "        <#§.|ll|ll|ll#'G",
         "         ##M##########''",
         "         f='RQ''G*G'G=G'",
         "         f=''''''G'G*=*'",
@@ -228,7 +228,8 @@
         { "group": "GROUP_ANIMALSHELTER_DOGS", "x": 19, "y": 19, "chance": 80 },
         { "group": "GROUP_ANIMALSHELTER_DOGS", "x": [ 14, 20 ], "y": [ 21, 22 ], "chance": 50, "repeat": [ 1, 2 ] }
       ],
-      "place_vehicles": [ { "vehicle": "animalshelter", "x": 5, "y": 20, "chance": 25 } ]
+      "place_vehicles": [ { "vehicle": "animalshelter", "x": 5, "y": 20, "chance": 25 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

@@ -134,6 +134,7 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
+#include "veh_shape.h"
 #include "veh_type.h"
 #include "veh_utils.h"
 #include "vehicle.h"
@@ -4374,12 +4375,8 @@ std::string efile_activity_actor::efile_action_name( efile_action action_type, b
     std::vector<std::string> base_names = { _( "browse" ), _( "read" ), _( "move" ), _( "move" ), _( "copy" ), _( "copy" ), _( "wipe" ) };
     std::vector<std::string> past_names = { _( "browsed" ), _( "read" ), _( "moved" ), _( "moved" ), _( "copied" ), _( "copied" ), _( "wiped" ) };
     std::vector<std::string> extensions = { "", "", _( " files onto" ), _( " files off of" ), _( " files onto" ), _( " files off of" ), "" };
-    std::string name_output;
-    past_tense ? name_output += past_names[action_type] : name_output += base_names[action_type];
-    if( extended ) {
-        name_output += extensions[action_type];
-    }
-    return name_output;
+    const std::string name_output = ( past_tense ? past_names : base_names )[action_type];
+    return extended ? name_output + extensions[action_type] : name_output;
 }
 
 bool efile_activity_actor::efile_action_exclude_used( efile_action action_type )
@@ -5378,7 +5375,7 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
         req_fail_reason = requirement_failure_reasons();
         const requirement_check_result req_res = check_requirements( you, act_info, src, src_bub, src_set,
                 check_only );
-        if( req_res == requirement_check_result::RETURN_EARLY ) {
+        if( req_res == requirement_check_result::RETURN_EARLY || !you.activity ) {
             // Fetch dispatched -- prune so we don't re-trigger it.
             if( use_cache ) {
                 cache.sources.erase( src );
@@ -5612,6 +5609,8 @@ requirement_check_result multi_zone_activity_actor::fetch_requirements( Characte
         candidates.push_back( point_elem );
     }
     if( candidates.empty() ) {
+        add_msg_if_player_sees( you,
+                                _( "Failed to find a non-zoned suitably empty tile to drop fetched items within range of work activity." ) );
         you.activity = player_activity();
         you.backlog.clear();
         multi_activity_actor::check_npc_revert( you );
@@ -6317,6 +6316,13 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     if( rec.has_steps() ) {
         const recipe_step &cur_step = rec.steps()[craft.get_current_step()];
         if( cur_step.attention == step_attention::unattended ) {
+            // Parked awaiting collection: stop the actor instead of re-stamping a
+            // fresh passive entry.  The player collects via an explicit activate.
+            if( craft.is_awaiting_collection() ) {
+                act.set_to_null();
+                crafter.set_moves( 0 );
+                return;
+            }
             const std::vector<attention_plan> &plans = craft.get_step_plans();
             const int idx = craft.get_current_step();
             const attention_plan plan = idx < static_cast<int>( plans.size() ) ? plans[idx] :
@@ -6381,12 +6387,18 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         return;
     }
 
+    // Book bonuses and tool speeds come from the nearby inventory, not the
+    // crafter's proficiency, so they survive the per-5% proficiency invalidation.
+    // batch_time still applies the live proficiency malus on top of this context,
+    // so the move totals stay current without rebuilding it each step.
+    if( !cost_ctx_ready ) {
+        cached_cost_ctx = { crafter.book_bonuses_nearby(), compute_tool_speeds( rec, crafter ) };
+        cost_ctx_ready = true;
+    }
+
     if( cached_crafting_speed != crafting_speed || cached_assistants != assistants ) {
         cached_crafting_speed = crafting_speed;
         cached_assistants = assistants;
-        // Recompute cost context: tool speeds + book proficiency bonuses
-        cached_cost_ctx = { crafter.book_bonuses_nearby(), compute_tool_speeds( rec, crafter ) };
-
         // Base moves for batch size with no speed modifier or assistants
         // Must ensure >= 1 so we don't divide by 0;
         cached_base_total_moves = std::max( static_cast<int64_t>( 1 ),
@@ -6403,6 +6415,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     // item_counter represents the percent progress relative to the base batch time
     // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6732000 )
     const int old_counter = craft.item_counter;
+    const int old_moves = crafter.get_moves();
 
     // Delta progress in moves adjusted for current crafting speed /
     //crafter.exertion_adjusted_move_multiplier( exertion_level() )
@@ -6420,7 +6433,23 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     craft.item_counter = std::min( craft.item_counter, 10000000 );
 
     // Step transitions: accumulate work and advance through step boundaries.
+    // Each closing step gets a final non-charged tool sweep before its index
+    // is incremented; a missing tool rewinds the whole turn.
+    int old_step = 0;
+    double old_step_progress = 0.0;
+    const auto rewind_turn = [&]() {
+        if( rec.has_steps() ) {
+            craft.set_current_step( old_step );
+            craft.set_step_progress( old_step_progress );
+        }
+        craft.item_counter = old_counter;
+        crafter.set_moves( old_moves );
+        craft.erase_var( "crafter" );
+        crafter.cancel_activity();
+    };
     if( rec.has_steps() ) {
+        old_step = craft.get_current_step();
+        old_step_progress = craft.get_step_progress();
         craft.mod_step_progress( delta_progress );
         const int last_step_idx = static_cast<int>( rec.steps().size() ) - 1;
         while( craft.get_current_step() < last_step_idx ) {
@@ -6430,9 +6459,29 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
             if( craft.get_step_progress() < budget ) {
                 break;
             }
+            if( !crafter.verify_step_tools( craft, craft.get_current_step(),
+                                            crafter.pos_bub(), PICKUP_RANGE, /*pin_to_map=*/false ) ) {
+                rewind_turn();
+                return;
+            }
             craft.set_step_progress( craft.get_step_progress() - budget );
             craft.set_current_step( craft.get_current_step() + 1 );
         }
+    }
+    // Verify before debit so a rejected closure does not burn charges first.
+    if( craft.item_counter >= 10000000 ) {
+        const int closing_step = rec.has_steps()
+                                 ? static_cast<int>( rec.steps().size() ) - 1 : 0;
+        if( !crafter.verify_step_tools( craft, closing_step,
+                                        crafter.pos_bub(), PICKUP_RANGE, /*pin_to_map=*/false ) ) {
+            rewind_turn();
+            return;
+        }
+    }
+    // Charge shortfall rewinds the turn before any skill gain.
+    if( !crafter.craft_consume_step_tools( craft, &cached_cost_ctx ) ) {
+        rewind_turn();
+        return;
     }
 
     // This nominal craft time is also how many practice ticks to perform
@@ -6459,20 +6508,6 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         use_cached_workbench_multiplier = false;
     }
 
-    // Unlike skill, tools are consumed once at the start and should not be consumed at the end
-    if( craft.item_counter >= 10000000 ) {
-        --five_percent_steps;
-    }
-
-    if( five_percent_steps > 0 ) {
-        if( !crafter.craft_consume_tools( craft, five_percent_steps, false ) ) {
-            // So we don't skip over any tool comsuption
-            craft.item_counter -= craft.item_counter % 500000 + 1;
-            craft.erase_var( "crafter" );
-            crafter.cancel_activity();
-            return;
-        }
-    }
 
     // if item_counter has reached 100% or more
     if( craft.item_counter >= 10000000 ) {
@@ -11380,8 +11415,9 @@ void vehicle_activity_actor::complete_vehicle( player_activity &act, Character &
                 break;
             }
             ::vehicle_part &vp_new = veh.part( partnum );
+            here.add_vehicle_to_cache( &veh );
             if( vp_new.info().variants.size() > 1 ) {
-                veh_interact::do_change_shape_menu( vp_new );
+                veh_shape( here, veh ).change_part_shape( vpart_reference( veh, partnum ) );
             }
 
             // Need map-relative coordinates to compare to output of look_around.

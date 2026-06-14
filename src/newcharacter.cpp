@@ -1047,10 +1047,16 @@ void avatar::initialize( character_type type )
         starting_pets.push_back( elem );
     }
 
-    if( get_scenario()->vehicle() != vproto_id::NULL_ID() ) {
-        starting_vehicle = get_scenario()->vehicle();
+    const scenario *scen = get_scenario();
+    if( scen->vehicle() != vproto_id::NULL_ID() ) {
+        starting_vehicle = scen->vehicle();
     } else {
         starting_vehicle = prof->vehicle();
+    }
+
+    const point_rel_om &offset = scen->get_origin_offset();
+    if( offset != point_rel_om::zero ) {
+        world_origin = world_origin.value_or( point_abs_om() ) + offset;
     }
 
     prof->learn_spells( *this );
@@ -2566,6 +2572,14 @@ void character_creator_ui::setup_new_uilist()
     }
 }
 
+static void set_uilist_selected( std::shared_ptr<uilist> &menu, int idx )
+{
+    if( !menu->entries.empty() ) {
+        menu->set_selected( idx );
+        menu->scrollby( uilist::scroll_amount::abs( idx ) );
+    }
+}
+
 void character_creator_ui::update_uilist_entries()
 {
     std::shared_ptr<uilist> menu = get_current_tab_uilist();
@@ -2585,8 +2599,7 @@ void character_creator_ui::update_uilist_entries()
                 entry.enabled = scen->can_pick().success();
                 menu->addentry( entry );
             }
-            menu->set_selected( cc_uistate.selected_scenario_index );
-            menu->scrollby( uilist::scroll_amount::abs( cc_uistate.selected_scenario_index ) );
+            set_uilist_selected( menu, cc_uistate.selected_scenario_index );
             break;
         }
         case CHARCREATOR_PROFESSION: {
@@ -2599,8 +2612,7 @@ void character_creator_ui::update_uilist_entries()
                 entry.enabled = prof_id->can_pick().success();
                 menu->addentry( entry );
             }
-            menu->set_selected( cc_uistate.selected_profession_index );
-            menu->scrollby( uilist::scroll_amount::abs( cc_uistate.selected_profession_index ) );
+            set_uilist_selected( menu, cc_uistate.selected_profession_index );
             break;
         }
         case CHARCREATOR_BACKGROUND: {
@@ -2853,9 +2865,6 @@ bool character_creator_ui::display()
     // load scenarios so that the past_games_info::ensure_loaded
     // redraw isn't called during uilist setup
     cc_uistate.recalc_scenario_list( get_avatar() );
-    std::shared_ptr<uilist> list = get_tab_uilist( character_creator_tab::CHARCREATOR_SCENARIO );
-    list->set_selected( cc_uistate.selected_scenario_index );
-    list->scrollby( uilist::scroll_amount::abs( cc_uistate.selected_scenario_index ) );
 
     // set first tab
     upon_switching_tab();
@@ -2893,10 +2902,6 @@ void character_creator_ui_impl::draw_scenarios() const
 {
     const avatar &u = get_avatar();
     cc_uistate.recalc_scenario_list( u );
-    std::shared_ptr<uilist> list = ui_parent->get_tab_uilist(
-                                       character_creator_tab::CHARCREATOR_SCENARIO );
-    list->set_selected( cc_uistate.selected_scenario_index );
-    list->scrollby( uilist::scroll_amount::abs( cc_uistate.selected_scenario_index ) );
     const scenario *current_scenario = cc_uistate.get_selected_scenario();
 
     if( ImGui::BeginTable( "SCENARIO_MAIN", 2, CHARACTER_CREATOR_TABLE_FLAGS ) ) {
@@ -2918,10 +2923,6 @@ void character_creator_ui_impl::draw_professions() const
 {
     const avatar &u = get_avatar();
     cc_uistate.recalc_profession_list( u );
-    std::shared_ptr<uilist> list = ui_parent->get_tab_uilist(
-                                       character_creator_tab::CHARCREATOR_PROFESSION );
-    list->set_selected( cc_uistate.selected_profession_index );
-    list->scrollby( uilist::scroll_amount::abs( cc_uistate.selected_profession_index ) );
 
     if( ImGui::BeginTable( "PROFESSION_MAIN", 2, CHARACTER_CREATOR_TABLE_FLAGS ) ) {
         const profession_id &selected_profession = cc_uistate.get_selected_profession();

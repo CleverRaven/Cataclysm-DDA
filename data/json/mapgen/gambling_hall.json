@@ -8,9 +8,9 @@
         "        ##-+-+-##       ",
         " 999999 #.......#       ",
         "#########.......##----##",
-        "##.....^||-+-+-||hthhth#",
+        "##§....^||-+-+-||hthhth#",
         "#..............v|hthhth#",
-        "##.pp..........V|......#",
+        "##.pp..........V|.....§#",
         "#..pp...66.....&|ht..ht#",
         "#..pp...66......|ht..ht#",
         "#....................ht#",
@@ -22,12 +22,12 @@
         "#............^......r..#",
         "#6h.......|%|||%|^..r..#",
         "#6h..hhhh.|''|''||d|||'#",
-        "#....6666^|SU|SU|''qq''#",
+        "#§...6666^|SU|SU|''qq''#",
         "#||a|||||||||||||''''''#",
         "#^....tt.{{{|XX.d''''''#",
         "#...............|SSoo(f#",
         "#h..............########",
-        "#tth..THHH.^|<|.bccDD4cc",
+        "#tth..THHH.^|<|§bccDD4cc",
         "#################ccccccc"
       ],
       "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
@@ -107,7 +107,8 @@
         { "chance": 45, "item": "cannedfood", "x": 18, "y": 20 },
         { "item": "cash_register_random", "x": 20, "y": [ 11, 13 ], "chance": 100 }
       ],
-      "place_monsters": [ { "chance": 15, "density": 0.02, "monster": "GROUP_ZOMBIE", "x": 12, "y": 9 } ]
+      "place_monsters": [ { "chance": 15, "density": 0.02, "monster": "GROUP_ZOMBIE", "x": 12, "y": 9 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

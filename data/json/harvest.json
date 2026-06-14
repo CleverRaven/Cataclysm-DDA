@@ -50,6 +50,11 @@
     "entries": [ { "drop": "carrot_wild" } ]
   },
   {
+    "id": "wild_asparagus_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "raw_asparagus" } ]
+  },
+  {
     "id": "beehive_harv",
     "type": "harvest",
     "message": "You carefully crack open the hive structure and drain the liquid.",
@@ -1170,6 +1175,17 @@
     "//": "no bones or organs, copied from mutant meatslug but may be expanded",
     "type": "harvest",
     "entries": [
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.4 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "mutant_fat", "type": "offal", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "mutant_mollusk_acid",
+    "//": "no bones or organs, copied from mutant meatslug but may be expanded",
+    "type": "harvest",
+    "entries": [
+      { "drop": "blood_acid_insect", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.4 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "mutant_fat", "type": "offal", "mass_ratio": 0.1 }

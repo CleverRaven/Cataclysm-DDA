@@ -3,7 +3,7 @@
     "id": "MISSION_REACH_EXTRACT",
     "type": "mission_definition",
     "name": { "str": "Reach one of the exit points!" },
-    "goal": "MGOAL_GO_TO",
+    "goal": "MGOAL_CONDITION",
     "description": "If you want to get home with your stuff, you'll need to reach one of these nearby exit points.  They're only things that can bring you back to your sanctuary island in one piece.",
     "difficulty": 0,
     "value": 0,

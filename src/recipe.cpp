@@ -843,6 +843,10 @@ void recipe::finalize()
         reqs_external.clear();
         reqs_internal.clear();
 
+        // Snapshot the root-only requirements so root tools stay attributable
+        // after per-step requirements merge into requirements_ below.
+        root_requirements_ = requirements_;
+
         for( recipe_step &step : steps_ ) {
             // Resolve each step's external (using) + inline requirements
             step.requirements = std::accumulate(
@@ -851,20 +855,6 @@ void recipe::finalize()
             step.requirements = std::accumulate(
                                     step.reqs_internal.begin(), step.reqs_internal.end(),
                                     step.requirements );
-            // TODO: charged-tool consumption is not modeled on unattended steps
-            // (the active 5%-loop debit path is bypassed).  Reject after
-            // requirements are fully resolved so step-level "using" injections
-            // are also caught.  Lift once metered charge debit is implemented.
-            if( step.attention == step_attention::unattended ) {
-                for( const std::vector<tool_comp> &tool_group : step.requirements.get_tools() ) {
-                    for( const tool_comp &t : tool_group ) {
-                        if( t.by_charges() ) {
-                            debugmsg( "recipe %s step '%s' is unattended and cannot require charged tools yet",
-                                      ident().str(), step.name.translated() );
-                        }
-                    }
-                }
-            }
             // Merge step requirements into recipe-level for whole-recipe gating
             requirements_ = requirements_ + step.requirements;
             step.reqs_external.clear();
@@ -907,6 +897,16 @@ void recipe::finalize()
         if( item::find_type( result_ )->default_container_variant.has_value() ) {
             container_variant = item::find_type( result_ )->default_container_variant.value();
         }
+    }
+
+    // Uncrafts always specify charges, so skip.
+    const bool is_uncraft = is_reversible();
+    // The item is blacklisted (e.g. ammo in generic guns)
+    const bool item_exists = result().is_valid();
+    if( !is_uncraft && item_exists && result()->count_by_charges() &&
+        !charges && result()->charges_default() > 1 && !obsolete ) {
+        debugmsg( "Recipe %s creates an item with charges but does not specify quantity.  Default charges is %i.",
+                  id.str(), result()->charges_default() );
     }
 
     std::set<proficiency_id> required;
@@ -1124,7 +1124,7 @@ static void set_new_comps( item &newit, int amount, item_components *used, bool 
 std::vector<item> recipe::create_result( bool set_components, bool is_food,
         item_components *used ) const
 {
-    item newit( result_, calendar::turn, item::default_charges_tag{} );
+    item newit( result_, calendar::turn );
 
     if( !variant().empty() ) {
         newit.set_itype_variant( variant() );
@@ -1145,8 +1145,9 @@ std::vector<item> recipe::create_result( bool set_components, bool is_food,
 
     // If the recipe has a `FULL_MAGAZINE` flag, fill it with ammo
     if( newit.is_magazine() && has_flag( flag_FULL_MAGAZINE ) ) {
-        newit.ammo_set( newit.ammo_default(),
-                        newit.ammo_capacity( item::find_type( newit.ammo_default() )->ammo->type ) );
+        if( const std::optional<ammotype> at = item::ammotype_of( newit.ammo_default() ) ) {
+            newit.ammo_set( newit.ammo_default(), newit.ammo_capacity( *at ) );
+        }
     }
 
     // if the first component has compatible pockets, try to preserve the contents
@@ -1162,7 +1163,7 @@ std::vector<item> recipe::create_result( bool set_components, bool is_food,
         }
     }
 
-    int amount = charges ? *charges : newit.count();
+    int amount = charges ? *charges : 1;
 
     bool is_cooked = hot_result() || removes_raw();
     if( set_components ) {

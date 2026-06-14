@@ -1391,7 +1391,7 @@
     "type": "mutation",
     "id": "LEG_TENTACLES",
     "name": { "str": "Leg Tentacles" },
-    "description": "Your legs have transformed into six tentacles.  This decreases your speed on land by 20%, makes your movement silent, increases your swimming speed and reduces wet penalties, but you can't use footwear any more.",
+    "description": "Your legs have transformed into six tentacles.  This decreases your speed on land by about 20%, makes your movement silent, increases your swimming speed and reduces wet penalties, but you can't use footwear any more.  Fortunately the lack of footwear does not reduce your speed, and your tentacles do not need splints to heal should they become critically damaged.",
     "category": [ "CEPHALOPOD" ],
     "types": [ "LEGS", "FEET", "SOLES" ],
     "leads_to": [ "LEG_TENT_BRACE" ],
@@ -1401,15 +1401,30 @@
     "visibility": 8,
     "ugliness": 4,
     "flags": [ "TOUGH_FEET" ],
-    "restricts_gear": [ "foot_l", "foot_r" ],
+    "restricts_gear": [ "leg_r", "leg_l", "foot_l", "foot_r" ],
+    "allowed_items": [ "ALLOWS_LEG_TENTACLES" ],
     "enchantments": [
       {
-        "values": [
-          { "value": "MOVE_COST", "multiply": 0.2 },
-          { "value": "MOVECOST_SWIM_MOD", "multiply": -0.15 },
-          { "value": "FOOTSTEP_NOISE", "multiply": -1 }
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" } },
+        "modified_bodyparts": [
+          { "lose": "foot_l" },
+          { "lose": "leg_l" },
+          { "gain": "tentacle_lower_front_l" },
+          { "gain": "tentacle_lower_middle_l" },
+          { "gain": "tentacle_lower_rear_l" }
         ]
-      }
+      },
+      {
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" } },
+        "modified_bodyparts": [
+          { "lose": "foot_r" },
+          { "lose": "leg_r" },
+          { "gain": "tentacle_lower_front_r" },
+          { "gain": "tentacle_lower_middle_r" },
+          { "gain": "tentacle_lower_rear_r" }
+        ]
+      },
+      { "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -1 } ] }
     ],
     "wet_protection": [
       { "part": "leg_l", "neutral": 21 },

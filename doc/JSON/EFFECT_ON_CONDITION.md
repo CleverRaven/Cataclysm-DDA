@@ -3190,7 +3190,7 @@ Allow to select the bodypart and store it in variable
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- |
-| "u_pick_bodypart`, `npc_pick_bodypart" | **mandatory** | [variable object](#variable-object) | variable where the bodypart will be stored |
+| "u_pick_bodypart", "npc_pick_bodypart" | **mandatory** | [variable object](#variable-object) | variable where the bodypart will be stored |
 | "whitelist_flag" | optional | string or [variable object](#variable-object) | If used, only bodyparts that has this flag will be allowed |
 | "blacklist_flag" | optional | string or [variable object](#variable-object) | If used, bodyparts that has this flag are excluded |
 | "whitelist_type" | optional | array of strings or [variable objects](#variable-object) | If used, only bodyparts of this type will be allowed |
@@ -3215,6 +3215,66 @@ Allows to pick any bodypart and store it in context val `bp`
     "id": "Test",
     "effect": [ { "u_pick_bodypart": { "context_val": "bp" } } ]
   },
+```
+
+#### `u_add_wound`, `npc_add_wound`
+
+Adds a specific wound on specific bodypart
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "u_add_wound", "npc_add_wound" | **mandatory** | string or [variable object](#variable-object) | id of a bodypart where the wound should be added |
+| "wound_id" | optional | string or [variable object](#variable-object) | id of a wound that will be applied |
+
+##### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+Adds deep_scratch to bodypart alpha talker picks from
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ADD_WOUND",
+    "effect": [
+      { "u_pick_bodypart": { "context_val": "bp" } },
+      { "u_add_wound": { "context_val": "bp" }, "wound_id": "deep_scratch" },
+      { "u_message": "Added deep_scratch wound to <context_val:bp>" }
+    ]
+  }
+```
+
+#### `u_remove_wound`, `npc_remove_wound`
+
+Removes specifc wounds from a specific bodypart
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "u_remove_wound", "npc_remove_wound" | **mandatory** | string or [variable object](#variable-object) | id of a bodypart where the wound should be added |
+| "wound_id" | optional | array of strings or [variable objects](#variable-object) | id of a wounds that will be removed |
+
+##### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+Removes all scratch and deep_scratch wounds from bodypart alpha talker picks from
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REMOVE_WOUND",
+    "effect": [
+      { "u_pick_bodypart": { "context_val": "bp" } },
+      { "u_remove_wound": { "context_val": "bp" }, "wound_id": [ "scratch", "deep_scratch" ] },
+      { "u_message": "Removed scratch and deep_scratch wounds from <context_val:bp>" }
+    ]
+  }
 ```
 
 #### `u_deal_damage`, `npc_deal_damage`
@@ -5529,17 +5589,89 @@ Spawn 2 hallucination `portal_person`s, outdoor, 3-5 tiles around the player, fo
 }
 ```
 
+#### `set_trap`
+Spawn a trap around target coordinates.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "set_trap" | **mandatory** | string or [variable object](#variable-object) | id of trap to spawn |
+| "location" | **mandatory** | [variable object](#variable-object) | the trap would spawn from this location |
+| "radius" | optional | int, [variable object](#variable-object) or value between two | default 1; radius in which all traps will be spawned |
+| "square" | optional | boolean | default false; if true, the field spawned will be a square, otherwise it will be a circle |
+
+##### Examples
+Select the area, and spawn bear traps 5 tiles around it
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLACE_TRAP",
+    "effect": [
+      { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
+      { "set_trap": "tr_beartrap", "location": { "context_val": "pos" }, "radius": 5 }
+    ]
+  }
+```
+
+#### `set_terrain`
+Spawn a terrain around target coordinates.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "set_terrain" | **mandatory** | string or [variable object](#variable-object) | id of terrain to spawn |
+| "location" | **mandatory** | [variable object](#variable-object) | the trap would spawn from this location |
+| "radius" | optional | int, [variable object](#variable-object) or value between two | default 1; radius in which all terrain will be spawned |
+| "avoid_creatures" | optional | boolean | default false; if true, terrain will not be spawned if some other creature stands on it |
+| "square" | optional | boolean | default false; if true, the field spawned will be a square, otherwise it will be a circle |
+
+##### Examples
+Select the area, and spawn thin ice 5 tiles around it
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLACE_TERRAIN",
+    "effect": [
+      { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
+      { "set_terrain": "t_ice_sh_thin", "location": { "context_val": "pos" }, "radius": 5 }
+    ]
+  }
+```
+
+#### `set_furniture`
+Spawn a furniture around target coordinates.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "set_furniture" | **mandatory** | string or [variable object](#variable-object) | id of furniture to spawn |
+| "location" | **mandatory** | [variable object](#variable-object) | the trap would spawn from this location |
+| "radius" | optional | int, [variable object](#variable-object) or value between two | default 1; radius in which all furniture will be spawned |
+| "avoid_creatures" | optional | boolean | default false; if true, furniture will not be spawned if some other creature stands on it |
+| "square" | optional | boolean | default false; if true, the field spawned will be a square, otherwise it will be a circle |
+
+##### Examples
+Select the area, and spawn tables 5 tiles around it
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLACE_FURNITURE",
+    "effect": [
+      { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
+      { "set_furniture": "f_table", "location": { "context_val": "pos" }, "radius": 5 }
+    ]
+  }
+```
+
 #### `u_set_field`, `npc_set_field`
-spawn a field in a square around player. it is recommended to not use it in favor of `u_transform_radius` or `u_emit` if possible
+Spawn a field around player or target coordinates.
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- |
 | "u_set_field", "npc_set_field" | **mandatory** | string or [variable object](#variable-object) | id of field to spawn around the player |
-| "intensity" | optional | int, [variable object](#variable-object) or value between two | default 1; intensity of field to spawn |
-| "radius" | optional | int, [variable object](#variable-object) or value between two | default 10000000; radius of a field to spawn |
-| "age" | optional | int, duration, [variable object](#variable-object) or value between two | how long the field would last |
+| "intensity" | optional | int, [variable object](#variable-object) or value between two | default 1; intensity of field to spawn. Each field evaluate intensity separately, so `[1, 5]` would spawn fields of intensity from 1 to 5 |
+| "radius" | optional | int, [variable object](#variable-object) or value between two | default 1; radius of a field to spawn |
+| "age" | optional | int, duration, [variable object](#variable-object) or value between two | default 1 second; how long the field would last. Each field evaluate age separately |
 | "outdoor_only"/ "indoor_only" | optional | boolean | default false; if used, field would be spawned only outside or only inside buildings |
 | "hit_player" | optional | boolean | default true; if field spawn where the player is, process like player stepped on this field |
+| "square" | optional | boolean | default false; if true, the field spawned will be a square, otherwise it will be a circle |
 | "target_var" | optional | [variable object](#variable-object) | if used, the field would spawn from this location instead of you or NPC |
 
 ##### Examples

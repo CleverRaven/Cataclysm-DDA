@@ -226,6 +226,12 @@ class recipe
             return deduped_requirements_;
         }
 
+        // Root-level requirements (inline + "using"), captured before per-step
+        // requirements merge in.  Empty for stepless recipes.
+        const requirement_data &root_requirements() const {
+            return root_requirements_;
+        }
+
         const recipe_id &ident() const {
             return id;
         }
@@ -304,13 +310,13 @@ class recipe
         // The time malus due to proficiencies lacking.
         // book_bonuses: nearby book proficiency bonuses (avoids inventory scan).
         float proficiency_time_maluses( const Character &crafter,
-                                        const book_proficiency_bonuses &books ) const;
+                                        const book_proficiency_bonuses &books = {} ) const;
         // The time malus if all the proficiencies were lacking
         float max_proficiency_time_maluses( const Character &crafter ) const;
         // The skill malus due to proficiencies lacking.
         // book_bonuses: nearby book proficiency bonuses (avoids inventory scan).
         float proficiency_skill_maluses( const Character &crafter,
-                                         const book_proficiency_bonuses &books ) const;
+                                         const book_proficiency_bonuses &books = {} ) const;
         // The max skill malus due to proficiencies lacking
         float max_proficiency_skill_maluses( const Character &crafter ) const;
 
@@ -458,6 +464,9 @@ class recipe
 
         /** Combined requirements cached when recipe finalized */
         requirement_data requirements_;
+
+        /** Snapshot backing root_requirements() */
+        requirement_data root_requirements_;
 
         /** Deduped version constructed from the above requirements_ */
         deduped_requirement_data deduped_requirements_;

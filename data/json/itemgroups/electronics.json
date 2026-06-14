@@ -43,10 +43,10 @@
       { "item": "smart_lamp", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "camera", "prob": 5, "charges": [ 0, 150 ] },
       { "item": "camera_pro", "prob": 2, "charges": [ 0, 150 ] },
-      [ "cable", 30 ],
+      { "group": "cable_roll", "prob": 30 },
       { "item": "soldering_iron_portable", "prob": 70, "charges": [ 0, 50 ] },
       { "item": "soldering_iron", "prob": 70 },
-      [ "solder_wire", 70 ],
+      { "group": "solder_wire_spool_part", "prob": 70 },
       { "item": "hotplate", "prob": 10 },
       { "item": "hotplate_induction", "prob": 3 },
       { "item": "UPS_OFF", "prob": 5, "charges": [ 0, 1000 ] },
@@ -81,7 +81,7 @@
       { "item": "multimeter", "prob": 10, "charges": [ 0, 100 ] },
       { "item": "soldering_iron", "prob": 70 },
       { "item": "soldering_iron_portable", "prob": 70, "charges": [ 0, 50 ] },
-      [ "solder_wire", 70 ],
+      { "group": "solder_wire_spool_part", "prob": 70 },
       [ "solar_cell", 5 ],
       [ "screwdriver", 40 ],
       [ "screwdriver_set", 40 ],
@@ -103,7 +103,7 @@
       { "item": "tazer", "prob": 3, "charges": [ 0, 500 ] },
       [ "manual_electronics", 20 ],
       [ "recipe_augs", 4 ],
-      [ "cable", 60 ],
+      { "group": "cable_roll", "prob": 60 },
       { "item": "vac_sealer", "prob": 10 },
       { "group": "new_phones", "prob": 50 },
       { "group": "new_eink_tablet_pcs", "prob": 15 },
@@ -332,6 +332,6 @@
     "id": "soldering_supplies",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "group": "soldering_tool" }, { "item": "solder_wire", "count": [ 0, 200 ] } ]
+    "items": [ { "group": "soldering_tool" }, { "group": "solder_wire_spool_part" } ]
   }
 ]

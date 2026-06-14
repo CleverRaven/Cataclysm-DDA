@@ -124,6 +124,41 @@
     "difficulty": 0
   },
   {
+    "id": "vampire_create_pits",
+    "type": "SPELL",
+    "name": "Earthen Grave",
+    "description": "Part the earth to create pits for your foes to fall into.\n\nYou must have <color_yellow>greater</color> than <color_red>-500</color> Stolen Blood to use this blood art.",
+    "//": "This spell is mechanically similar to the Ierde's Pit-making spell, with the difference that the vampire does a far more controlled and contained effect by repurposing the Earthen Slumber blood art.",
+    "teachable": false,
+    "magic_type": "xe_vampire_blood_powers",
+    "caster_condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] },
+    "caster_condition_fail_message": "You do not have enough stolen blood.",
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "spell_class": "VAMPIRE_BLOOD_ARTS",
+    "skill": "deduction",
+    "flags": [ "NO_HANDS", "NO_FAIL" ],
+    "difficulty": 3,
+    "effect": "ter_transform",
+    "effect_str": "ierde_create_pits_transform",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min((vampire_total_tier_one_traits_plus_potency() + (vampire_total_tier_two_traits() * 2) + (vampire_total_tier_three_traits() * 3) + (vampire_total_tier_four_traits_plus_potence() * 4) + (vampire_total_tier_five_traits_plus_cauldron() * 5)), 35)"
+      ]
+    },
+    "max_range": {
+      "math": [
+        "min((vampire_total_tier_one_traits_plus_potency() + (vampire_total_tier_two_traits() * 2) + (vampire_total_tier_three_traits() * 3) + (vampire_total_tier_four_traits_plus_potence() * 4) + (vampire_total_tier_five_traits_plus_cauldron() * 5)), 35)"
+      ]
+    },
+    "max_aoe": 0,
+    "base_energy_cost": 100,
+    "base_casting_time": 50,
+    "sound_description": "the ground shakes!",
+    "sound_id": "earth_spell",
+    "sound_variant": "strong"
+  },
+  {
     "id": "vampire_commune_with_night_spell",
     "type": "SPELL",
     "name": "Learn from the Children of the Night",

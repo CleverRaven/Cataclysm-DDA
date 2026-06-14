@@ -1,0 +1,26 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRAWOOD_TRADITIONAL_MINDSET",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "effect": [ { "u_add_trait": "XEDRA_WOOD_COMPUTER_ILLITERATE" }, { "u_add_trait": "ILLITERATE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRAWOOD_LIZARDFOLK_HAVE_NO_HAIR",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": { "u_has_trait": "LIZARDFOLK_BUILD" },
+    "effect": [ { "u_mutate_towards": "LIZARDFOLK_NO_HAIR", "category": "ANY", "use_vitamins": false } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRAWOOD_LIZARDFOLK_HAVE_NO_HAIR_GLOBAL_NPCS",
+    "recurrence": "1 minute",
+    "global": true,
+    "run_for_npcs": true,
+    "condition": { "u_has_trait": "LIZARDFOLK_BUILD" },
+    "effect": [ { "u_mutate_towards": "LIZARDFOLK_NO_HAIR", "category": "ANY", "use_vitamins": false } ]
+  }
+]

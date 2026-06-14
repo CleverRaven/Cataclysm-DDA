@@ -988,6 +988,7 @@
       [ "mx_portal_in", 10 ],
       [ "mx_science", 10 ],
       [ "mx_military", 4 ],
+      [ "mx_failed_fungal_spore", 5 ],
       [ "mx_exocrash_1", 5 ],
       [ "mx_exocrash_2", 5 ],
       [ "mx_golden_monoliths", 1 ]
@@ -1215,7 +1216,7 @@
     "type": "region_terrain_furniture",
     "id": "default_t_region_groundcover",
     "ter_id": "t_region_groundcover",
-    "replace_with_terrain": [ [ "t_grass", 12000 ], [ "t_grass_dead", 2000 ], [ "t_dirt", 1000 ] ]
+    "replace_with_terrain": [ [ "t_grass", 12000 ], [ "t_grass_dead", 2000 ], [ "t_dirt", 1000 ], [ "t_fungus", 10 ] ]
   },
   {
     "type": "region_terrain_furniture",
@@ -1233,7 +1234,7 @@
     "type": "region_terrain_furniture",
     "id": "default_t_region_groundcover_swamp",
     "ter_id": "t_region_groundcover_swamp",
-    "replace_with_terrain": [ [ "t_grass_long", 300 ], [ "t_grass_tall", 100 ], [ "t_moss", 200 ], [ "t_dirt", 200 ] ]
+    "replace_with_terrain": [ [ "t_grass_long", 300 ], [ "t_grass_tall", 100 ], [ "t_moss", 200 ], [ "t_dirt", 200 ], [ "t_fungus", 10 ] ]
   },
   {
     "type": "region_terrain_furniture",
@@ -1550,6 +1551,7 @@
       [ "f_burdock", 400 ],
       [ "f_chamomile", 300 ],
       [ "f_carrot_wild", 300 ],
+      [ "f_asparagus_wild", 300 ],
       [ "f_salsify", 300 ],
       [ "f_datura", 300 ],
       [ "f_japanese_knotweed", 300 ],
@@ -1569,6 +1571,7 @@
       [ "f_flower_spurge", 400 ],
       [ "f_chamomile", 400 ],
       [ "f_carrot_wild", 300 ],
+      [ "f_asparagus_wild", 300 ],
       [ "f_salsify", 300 ],
       [ "f_datura", 300 ],
       [ "f_thistle", 300 ],
@@ -1600,6 +1603,7 @@
       [ "f_chamomile", 500 ],
       [ "f_japanese_knotweed", 300 ],
       [ "f_carrot_wild", 300 ],
+      [ "f_asparagus_wild", 300 ],
       [ "f_salsify", 300 ],
       [ "f_dahlia", 200 ],
       [ "f_mutpoppy", 100 ],

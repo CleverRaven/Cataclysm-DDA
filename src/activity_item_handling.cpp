@@ -2425,9 +2425,28 @@ activity_reason_info multi_craft_activity_actor::multi_activity_can_do( Characte
             const recipe &r = to_craft->get_making();
             std::vector<std::vector<item_comp>> item_comp_vector =
                                                  to_craft->get_continue_reqs().get_components();
-            std::vector<std::vector<quality_requirement>> quality_comp_vector =
-                        r.simple_requirements().get_qualities();
-            std::vector<std::vector<tool_comp>> tool_comp_vector = r.simple_requirements().get_tools();
+            std::vector<std::vector<quality_requirement>> quality_comp_vector;
+            std::vector<std::vector<tool_comp>> tool_comp_vector;
+            if( r.has_steps() ) {
+                // Step recipes consume tools per step; gate continuation on the
+                // current step's tools and qualities plus the recipe-root tools,
+                // not the whole recipe, so a later step's tool cannot block the
+                // current one.
+                const int n_steps = static_cast<int>( r.steps().size() );
+                const int cur = std::clamp( to_craft->get_current_step(), 0, n_steps - 1 );
+                const recipe_step &step = r.steps()[cur];
+                const requirement_data &root = r.root_requirements();
+                quality_comp_vector = step.requirements.get_qualities();
+                const std::vector<std::vector<quality_requirement>> &root_quals = root.get_qualities();
+                quality_comp_vector.insert( quality_comp_vector.end(), root_quals.begin(),
+                                            root_quals.end() );
+                tool_comp_vector = step.requirements.get_tools();
+                const std::vector<std::vector<tool_comp>> &root_tools = root.get_tools();
+                tool_comp_vector.insert( tool_comp_vector.end(), root_tools.begin(), root_tools.end() );
+            } else {
+                quality_comp_vector = r.simple_requirements().get_qualities();
+                tool_comp_vector = r.simple_requirements().get_tools();
+            }
             requirement_data req = requirement_data( tool_comp_vector, quality_comp_vector, item_comp_vector );
             if( req.can_make_with_inventory( inv, is_crafting_component ) ) {
                 return activity_reason_info::ok( do_activity_reason::NEEDS_CRAFT );
@@ -2563,59 +2582,6 @@ bool activity_must_be_in_zone( activity_id act_id, const tripoint_bub_ms &src_lo
         act_id == ACT_MULTIPLE_STUDY ||
         ( act_id == ACT_MULTIPLE_CONSTRUCTION &&
           !here.partial_con_at( src_loc ) );
-}
-
-requirement_check_result fetch_requirements( Character &you, requirement_id what_we_need,
-        const activity_id &act_id,
-        activity_reason_info &act_info, const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc,
-        const std::unordered_set<tripoint_abs_ms> &src_set )
-{
-
-    map &here = get_map();
-
-    if( you.as_npc() && you.as_npc()->job.fetch_history.count( what_we_need.str() ) != 0 &&
-        you.as_npc()->job.fetch_history[what_we_need.str()] == calendar::turn ) {
-        // this may be faild fetch already. give up task for a while to avoid infinite loop.
-        you.activity = player_activity();
-        you.backlog.clear();
-        check_npc_revert( you );
-        return requirement_check_result::SKIP_LOCATION;
-    }
-    you.backlog.emplace_front( act_id );
-    you.assign_activity( ACT_FETCH_REQUIRED );
-    player_activity &act_prev = you.backlog.front();
-    act_prev.str_values.push_back( what_we_need.str() );
-    act_prev.values.push_back( static_cast<int>( act_info.reason ) );
-    // come back here after successfully fetching your stuff
-    if( act_prev.coords.empty() ) {
-        std::vector<tripoint_bub_ms> local_src_set;
-        local_src_set.reserve( src_set.size() );
-        for( const tripoint_abs_ms &elem : src_set ) {
-            local_src_set.push_back( here.get_bub( elem ) );
-        }
-        std::vector<tripoint_bub_ms> candidates;
-        for( const tripoint_bub_ms &point_elem :
-             here.points_in_radius( src_loc, PICKUP_RANGE - 1, 0 ) ) {
-            // we don't want to place the components where they could interfere with our ( or someone else's ) construction spots
-            if( ( std::find( local_src_set.begin(), local_src_set.end(),
-                             point_elem ) != local_src_set.end() ) || !here.can_put_items_ter_furn( point_elem ) ) {
-                continue;
-            }
-            candidates.push_back( point_elem );
-        }
-        if( candidates.empty() ) {
-            you.activity = player_activity();
-            you.backlog.clear();
-            check_npc_revert( you );
-            return requirement_check_result::SKIP_LOCATION_NO_LOCATION;
-        }
-        act_prev.coords.push_back(
-            here.get_abs(
-                candidates[std::max( 0, static_cast<int>( candidates.size() / 2 ) )] )
-        );
-    }
-    act_prev.placement = src;
-    return requirement_check_result::RETURN_EARLY;
 }
 
 requirement_check_result requirement_fail( Character &you, const do_activity_reason &reason,

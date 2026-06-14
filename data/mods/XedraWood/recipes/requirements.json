@@ -10,7 +10,15 @@
     "id": "magical_herbs",
     "type": "requirement",
     "name": "Magical herbs",
-    "components": [ [ [ "harfry_root", 1 ], [ "morningflower_leaves", 1 ], [ "corpsefire_cap", 1 ] ] ]
+    "components": [
+      [
+        [ "harfry_root", 1 ],
+        [ "morningflower_leaves", 1 ],
+        [ "corpsefire_cap", 1 ],
+        [ "tanglevine_root", 1 ],
+        [ "dryad_bark", 1 ]
+      ]
+    ]
   },
   {
     "id": "writing_formulae_apprentice_standard",

@@ -7,7 +7,7 @@
     "name_suffix": "baker",
     "class": "NC_TACOMA_Dana",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_TACOMA_Dana_1",
     "faction": "free_merchants",
     "age": 26,

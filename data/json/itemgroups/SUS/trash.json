@@ -33,6 +33,7 @@
       { "item": "box_small", "prob": 10 },
       { "group": "pillbox_any_empty", "prob": 1, "count": [ 1, 2 ] },
       { "item": "bag_canvas_small", "prob": 2 },
+      { "item": "box_snack", "prob": 15 },
       { "item": "box_cigarette", "prob": 10 },
       { "item": "nic_pouch_can", "prob": 7 },
       { "item": "ifak_pouch", "prob": 5 },
@@ -97,6 +98,7 @@
       { "item": "box_small", "prob": 30 },
       { "group": "pillbox_any_empty", "prob": 10, "count": [ 1, 3 ] },
       { "item": "bag_canvas_small", "prob": 10 },
+      { "item": "box_snack", "prob": 25 },
       { "item": "box_cigarette", "prob": 10 },
       { "item": "nic_pouch_can", "prob": 10 },
       { "item": "ifak_pouch", "prob": 15 },
@@ -366,7 +368,7 @@
       { "item": "qt_wire", "prob": 3 },
       { "item": "sheet_metal_small", "prob": 2 },
       { "item": "pipe", "prob": 5 },
-      { "item": "nuts_bolts", "prob": 10, "charges": [ 1, 15 ] },
+      { "item": "nuts_bolts", "prob": 10, "count": [ 1, 15 ] },
       { "item": "scrap", "prob": 5, "count": [ 1, 2 ] },
       { "item": "scrap_bronze", "prob": 2 },
       { "item": "scrap_brass", "prob": 2 },
@@ -385,7 +387,7 @@
     "items": [
       { "group": "tools_general", "prob": 2 },
       { "item": "nail", "prob": 10, "charges": [ 1, 15 ] },
-      { "item": "nuts_bolts", "prob": 5, "charges": [ 1, 15 ] },
+      { "item": "nuts_bolts", "prob": 5, "count": [ 1, 15 ] },
       { "item": "splinter", "prob": 10, "count": [ 4, 20 ] },
       { "item": "wood_block", "prob": 5, "count": [ 1, 5 ] }
     ]
@@ -536,29 +538,13 @@
     "//": "Trash that's often found on the side of the highway.",
     "subtype": "distribution",
     "items": [
-      [ "rubber_tire_chunk", 300 ],
-      [ "wrapper", 100 ],
-      [ "plastic_shopping_bag", 100 ],
-      { "group": "SUS_trash_trashcan", "prob": 50 },
-      [ "plastic_chunk", 50 ],
-      { "item": "cup_plastic", "prob": 50, "count": [ 1, 3 ] },
-      [ "jug_plastic", 5 ],
-      { "item": "bottle_plastic", "prob": 50, "count": [ 1, 3 ] },
-      { "item": "bottle_plastic_small", "prob": 10, "count": [ 1, 5 ] },
-      [ "can_drink", 50 ],
-      [ "can_food", 50 ],
-      [ "box_cigarette", 50 ],
-      [ "bubblewrap", 5 ],
-      [ "flyer", 5 ],
-      [ "lc_steel_lump", 50 ],
-      [ "lc_steel_chunk", 50 ],
-      [ "cardboard", 25 ],
-      [ "bag_zipper", 25 ],
-      [ "box_snack", 25 ],
-      [ "box_small", 10 ],
-      [ "box_small_folded", 10 ],
-      [ "box_medium_folded", 5 ],
-      [ "box_large_folded", 5 ]
+      { "group": "SUS_trash_forest_manmade", "prob": 50 },
+      { "group": "SUS_trash_glass", "prob": 15 },
+      { "item": "rubber_tire_chunk", "prob": 200 },
+      { "group": "SUS_trash_trashcan", "prob": 5 },
+      { "item": "plastic_chunk", "prob": 50 },
+      { "group": "SUS_trash_floor", "prob": 50 },
+      { "item": "cardboard", "prob": 25 }
     ]
   }
 ]

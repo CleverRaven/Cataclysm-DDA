@@ -1267,7 +1267,7 @@
       [ "cocoa_powder", 30 ],
       [ "cocoa_powder_milk", 30 ],
       [ "powder_eggs", 10 ],
-      { "group": "egg_bird_unfert_carton_egg_10" },
+      { "group": "eggs_in_carton" },
       { "group": "vegetable_oil_bottle", "prob": 20 },
       { "item": "apple", "prob": 5, "custom-flags": [ "IRRADIATED" ] },
       { "item": "banana", "prob": 5, "custom-flags": [ "IRRADIATED" ] },
@@ -1729,7 +1729,8 @@
     "type": "item_group",
     "//": "For s_electronics shops",
     "items": [
-      [ "cable", 95 ],
+      { "group": "cable_roll_part", "prob": 95 },
+      { "group": "copper_wire_roll_part", "prob": 60 },
       { "group": "box_of_batteries_unopened", "prob": 85 },
       [ "scrap", 70 ],
       [ "e_scrap", 95 ],
@@ -1747,7 +1748,7 @@
       [ "receiver", 5 ],
       { "item": "soldering_iron", "prob": 65 },
       { "item": "soldering_iron_portable", "prob": 65, "charges": [ 0, 50 ] },
-      [ "solder_wire", 50 ],
+      { "group": "solder_wire_spool_part", "prob": 50 },
       { "group": "glue_weak_professional", "prob": 25 },
       { "group": "glue_strong_professional", "prob": 30 },
       [ "screwdriver", 60 ],
@@ -2054,11 +2055,7 @@
     "id": "farm_supply_soil_and_sand",
     "type": "item_group",
     "subtype": "collection",
-    "items": [
-      { "item": "material_sand", "prob": 50, "count": 500, "container-item": "bag_canvas" },
-      { "group": "sandbag", "prob": 50 },
-      { "item": "material_soil", "prob": 50, "count": 500, "container-item": "bag_canvas" }
-    ]
+    "items": [ { "group": "sandbag", "prob": 50 }, { "group": "earthbag", "prob": 50 } ]
   },
   {
     "id": "farm_supply_rocks",
@@ -2088,7 +2085,11 @@
   {
     "id": "farm_supply_quicklime_and_saltpetre",
     "type": "item_group",
-    "items": [ { "group": "quicklime_bag", "prob": 85 }, { "item": "chem_saltpetre", "prob": 15, "charges": [ 10, 50 ] } ]
+    "items": [
+      { "group": "quicklime_bag", "prob": 85 },
+      { "group": "quicklime_barrel", "prob": 20 },
+      { "item": "chem_saltpetre", "prob": 15, "count": [ 10, 50 ] }
+    ]
   },
   {
     "id": "farm_supply_animal_feed",
@@ -2122,13 +2123,6 @@
       { "item": "survnote", "prob": 1 },
       { "item": "touristmap", "prob": 1 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "egg_bird_unfert_carton_egg_10",
-    "subtype": "collection",
-    "container-item": "carton_egg",
-    "entries": [ { "item": "egg_bird_unfert", "count": 10 } ]
   },
   {
     "type": "item_group",

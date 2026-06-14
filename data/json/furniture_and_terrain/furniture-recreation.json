@@ -18,7 +18,7 @@
         { "item": "pipe", "count": 1 },
         { "item": "mc_steel_chunk", "count": 1 },
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "lead", "charges": [ 1000, 2000 ] }
+        { "item": "lead", "count": [ 1000, 2000 ] }
       ]
     },
     "bash": {
@@ -30,7 +30,7 @@
         { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "mc_steel_chunk", "prob": 50 },
         { "item": "pipe", "count": 1 },
-        { "item": "lead", "charges": [ 1000, 2000 ] }
+        { "item": "lead", "count": [ 1000, 2000 ] }
       ]
     }
   },
@@ -187,7 +187,7 @@
         { "item": "circuit", "count": 1 },
         { "item": "2x4", "count": 4 },
         { "item": "nail", "charges": [ 10, 12 ] },
-        { "item": "cable", "count": [ 10, 15 ] },
+        { "item": "cable", "count": [ 4, 5 ] },
         { "item": "power_supply", "prob": 50 },
         { "item": "RAM", "count": 1 },
         { "item": "pipe", "count": 2 },
@@ -206,7 +206,7 @@
         { "item": "scrap", "count": [ 0, 4 ] },
         { "item": "2x4", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 4, 8 ] },
-        { "item": "cable", "count": [ 4, 10 ] },
+        { "item": "cable", "count": [ 2, 4 ] },
         { "item": "circuit", "prob": 50 },
         { "item": "power_supply", "prob": 50 },
         { "item": "RAM", "prob": 50 },
@@ -398,7 +398,7 @@
     "deconstruct": {
       "items": [
         { "item": "heavy_punching_bag_sack", "count": 1 },
-        { "item": "nuts_bolts", "charges": 4 },
+        { "item": "nuts_bolts", "count": 4 },
         { "item": "chain", "count": 4 },
         { "item": "blanket", "count": 6 },
         { "item": "material_sand", "count": 4000 }
@@ -464,7 +464,7 @@
         { "item": "wood_panel", "count": 1 },
         { "item": "2x4", "count": 4 },
         { "item": "nail", "charges": [ 8, 10 ] },
-        { "item": "cable", "count": [ 3, 4 ] }
+        { "item": "cable", "count": [ 1, 2 ] }
       ]
     },
     "bash": {

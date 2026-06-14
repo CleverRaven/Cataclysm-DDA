@@ -83,6 +83,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "kill_tracker.h"
+#include "line.h"
 #include "localized_comparator.h"
 #include "magic.h"
 #include "magic_teleporter_list.h"
@@ -94,8 +95,8 @@
 #include "mapgen_functions.h"
 #include "mapgendata.h"
 #include "martialarts.h"
-#include "math_parser_type.h"
 #include "math_parser_diag_value.h"
+#include "math_parser_type.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
@@ -142,8 +143,8 @@
 #include "translation_gendered.h"
 #include "translations.h"
 #include "trap.h"
-#include "uilist.h"
 #include "ui_manager.h"
+#include "uilist.h"
 #include "uistate.h"
 #include "units.h"
 #include "veh_type.h"
@@ -3741,13 +3742,13 @@ talk_effect_fun_t::func f_pick_bodypart( const JsonObject &jo, std::string_view 
 
     if( jo.has_array( "whitelist_type" ) ) {
         for( JsonValue jv : jo.get_array( "whitelist_type" ) ) {
-            whitelist_type.emplace_back( get_str_or_var( jv, member ) );
+            whitelist_type.emplace_back( get_str_or_var( jv, "whitelist_type" ) );
         }
     }
 
     if( jo.has_array( "blacklist_type" ) ) {
         for( JsonValue jv : jo.get_array( "blacklist_type" ) ) {
-            blacklist_type.emplace_back( get_str_or_var( jv, member ) );
+            blacklist_type.emplace_back( get_str_or_var( jv, "blacklist_type" ) );
         }
     }
     std::optional<bool> wounded;
@@ -3845,6 +3846,56 @@ talk_effect_fun_t::func f_pick_bodypart( const JsonObject &jo, std::string_view 
     };
 }
 
+talk_effect_fun_t::func f_add_wound( const JsonObject &jo, std::string_view member,
+                                     std::string_view, bool is_npc )
+{
+    str_or_var bodypart_var;
+    mandatory( jo, false, member, bodypart_var );
+
+    str_or_var wound_to_be_added_var;
+    optional( jo, false, "wound_id", wound_to_be_added_var );
+
+    return [is_npc, bodypart_var, wound_to_be_added_var]( dialogue & d ) {
+
+        bodypart *bp =
+            d.actor( is_npc )->get_character()->get_part( bodypart_id( bodypart_var.evaluate( d ) ) );
+
+        wound_type_id wound_to_be_added = wound_type_id( wound_to_be_added_var.evaluate( d ) );
+
+        bp->add_or_worsen_wound( wound_to_be_added );
+    };
+}
+
+talk_effect_fun_t::func f_remove_wound( const JsonObject &jo, std::string_view member,
+                                        std::string_view, bool is_npc )
+{
+    str_or_var bodypart_var;
+    mandatory( jo, false, member, bodypart_var );
+
+    std::vector<str_or_var> wound_to_be_removed_var;
+    if( jo.has_array( "wound_id" ) ) {
+        for( JsonValue jv : jo.get_array( "wound_id" ) ) {
+            wound_to_be_removed_var.emplace_back( get_str_or_var( jv, member ) );
+        }
+    }
+
+    return [is_npc, bodypart_var, wound_to_be_removed_var]( dialogue & d ) {
+
+        bodypart *bp =
+            d.actor( is_npc )->get_character()->get_part( bodypart_id( bodypart_var.evaluate( d ) ) );
+
+        std::vector<wound_type_id> wound_to_be_removed;
+        wound_to_be_removed.reserve( wound_to_be_removed_var.size() );
+        for( const str_or_var &v : wound_to_be_removed_var ) {
+            wound_to_be_removed.emplace_back( v.evaluate( d ) );
+        }
+
+        for( const wound_type_id &wd_id : wound_to_be_removed ) {
+            bp->remove_all_wounds_of_type( wd_id );
+        }
+
+    };
+}
 
 talk_effect_fun_t::func f_add_var( const JsonObject &jo, std::string_view member,
                                    std::string_view, bool is_npc )
@@ -7874,39 +7925,136 @@ talk_effect_fun_t::func f_spawn_npc( const JsonObject &jo, std::string_view memb
     };
 }
 
+talk_effect_fun_t::func f_set_trap( const JsonObject &jo, std::string_view member,
+                                    std::string_view )
+{
+    str_or_var trap = get_str_or_var( jo.get_member( member ), member, true );
+    var_info location;
+    mandatory( jo, false, "location", location );
+
+    dbl_or_var dov_radius = get_dbl_or_var( jo, "radius", false, 1 );
+    const bool square = jo.get_bool( "square", false );
+
+    return [trap, dov_radius, location, square]( dialogue const & d ) {
+
+        map &here = get_map();
+        const tripoint_abs_ms loc = read_var_value( location, d ).tripoint();
+        const int radius =  dov_radius.evaluate( d );
+        const trap_id tr = trap_id( trap.evaluate( d ) );
+        tripoint_range<tripoint_bub_ms> points( tripoint_bub_ms::zero, tripoint_bub_ms::zero );
+
+        if( square ) {
+            points = points_in_radius( here.get_bub( loc ), radius );
+        } else {
+            points = points_in_radius_circ( here.get_bub( loc ), radius );
+        }
+
+        for( const tripoint_bub_ms &dest : points ) {
+            here.trap_set( dest, tr );
+        }
+    };
+}
+
+talk_effect_fun_t::func f_set_terrain( const JsonObject &jo, std::string_view member,
+                                       std::string_view )
+{
+    str_or_var ter = get_str_or_var( jo.get_member( member ), member, true );
+    var_info location;
+    mandatory( jo, false, "location", location );
+    dbl_or_var dov_radius = get_dbl_or_var( jo, "radius", false, 1 );
+    bool avoid_creatures = jo.get_bool( "avoid_creatures", false );
+    const bool square = jo.get_bool( "square", false );
+
+    return [ter, dov_radius, avoid_creatures, location, square]( dialogue const & d ) {
+
+        map &here = get_map();
+        const tripoint_abs_ms loc = read_var_value( location, d ).tripoint();
+        const int radius =  dov_radius.evaluate( d );
+        const ter_id t = ter_id( ter.evaluate( d ) );
+
+        tripoint_range<tripoint_bub_ms> points( tripoint_bub_ms::zero, tripoint_bub_ms::zero );
+
+        if( square ) {
+            points = points_in_radius( here.get_bub( loc ), radius );
+        } else {
+            points = points_in_radius_circ( here.get_bub( loc ), radius );
+        }
+
+        for( const tripoint_bub_ms &dest : points ) {
+            here.ter_set( dest, t, avoid_creatures );
+        }
+    };
+}
+
+talk_effect_fun_t::func f_set_furniture( const JsonObject &jo, std::string_view member,
+        std::string_view )
+{
+    str_or_var furn = get_str_or_var( jo.get_member( member ), member, true );
+    var_info location;
+    mandatory( jo, false, "location", location );
+    dbl_or_var dov_radius = get_dbl_or_var( jo, "radius", false, 1 );
+    bool avoid_creatures = jo.get_bool( "avoid_creatures", false );
+    const bool square = jo.get_bool( "square", false );
+
+    return [furn, dov_radius, avoid_creatures, location, square]( dialogue const & d ) {
+
+        map &here = get_map();
+        const tripoint_abs_ms loc = read_var_value( location, d ).tripoint();
+        const int radius =  dov_radius.evaluate( d );
+        const furn_id f = furn_id( furn.evaluate( d ) );
+
+        tripoint_range<tripoint_bub_ms> points( tripoint_bub_ms::zero, tripoint_bub_ms::zero );
+
+        if( square ) {
+            points = points_in_radius( here.get_bub( loc ), radius );
+        } else {
+            points = points_in_radius_circ( here.get_bub( loc ), radius );
+        }
+
+        for( const tripoint_bub_ms &dest : points ) {
+            here.furn_set( dest, f, false, avoid_creatures );
+        }
+    };
+}
+
 talk_effect_fun_t::func f_field( const JsonObject &jo, std::string_view member,
                                  std::string_view, bool is_npc )
 {
     str_or_var new_field = get_str_or_var( jo.get_member( member ), member, true );
     dbl_or_var dov_intensity = get_dbl_or_var( jo, "intensity", false, 1 );
     duration_or_var dov_age = get_duration_or_var( jo, "age", false, 1_turns );
-    dbl_or_var dov_radius = get_dbl_or_var( jo, "radius", false, 10000000 );
+    dbl_or_var dov_radius = get_dbl_or_var( jo, "radius", false, 1 );
 
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     const bool indoor_only = jo.get_bool( "indoor_only", false );
     const bool hit_player = jo.get_bool( "hit_player", true );
+    const bool square = jo.get_bool( "square", false );
 
     std::optional<var_info> target_var;
     optional( jo, false, "target_var", target_var );
 
     return [new_field, dov_intensity, dov_age, dov_radius, outdoor_only,
-               hit_player, target_var, is_npc, indoor_only]( dialogue & d ) {
+               hit_player, square, target_var, is_npc, indoor_only]( dialogue & d ) {
+
         map &here = get_map();
-
-        int radius = dov_radius.evaluate( d );
-        int intensity = dov_intensity.evaluate( d );
-
+        const int radius = dov_radius.evaluate( d );
+        const field_type_str_id field = field_type_str_id( new_field.evaluate( d ) );
         tripoint_abs_ms target_pos = d.actor( is_npc )->pos_abs();
         if( target_var.has_value() ) {
             target_pos = read_var_value( *target_var, d ).tripoint();
         }
-        for( const tripoint_bub_ms &dest : here.points_in_radius( here.get_bub( target_pos ),
-                radius ) ) {
-            if( ( !outdoor_only || here.is_outside( dest ) ) && ( !indoor_only ||
-                    !here.is_outside( dest ) ) ) {
-                here.add_field( dest, field_type_str_id( new_field.evaluate( d ) ), intensity,
-                                dov_age.evaluate( d ),
-                                hit_player );
+
+        tripoint_range<tripoint_bub_ms> points( tripoint_bub_ms::zero, tripoint_bub_ms::zero );
+        if( square ) {
+            points = points_in_radius( here.get_bub( target_pos ), radius );
+        } else {
+            points = points_in_radius_circ( here.get_bub( target_pos ), radius );
+        }
+
+        for( const tripoint_bub_ms &dest : points ) {
+            if( ( !outdoor_only || here.is_outside( dest ) ) &&
+                ( !indoor_only || !here.is_outside( dest ) ) ) {
+                here.add_field( dest, field, dov_intensity.evaluate( d ), dov_age.evaluate( d ), hit_player );
             }
         }
     };
@@ -8357,6 +8505,9 @@ parsers = {
     { "u_die", "npc_die", jarg::object, &talk_effect_fun::f_die_advanced},
     { "u_spawn_monster", "npc_spawn_monster", jarg::member, &talk_effect_fun::f_spawn_monster },
     { "u_spawn_npc", "npc_spawn_npc", jarg::member, &talk_effect_fun::f_spawn_npc },
+    { "set_trap", jarg::member, &talk_effect_fun::f_set_trap },
+    { "set_terrain", jarg::member, &talk_effect_fun::f_set_terrain },
+    { "set_furniture", jarg::member, &talk_effect_fun::f_set_furniture },
     { "u_set_field", "npc_set_field", jarg::member, &talk_effect_fun::f_field },
     { "u_emit", "npc_emit", jarg::member, &talk_effect_fun::f_emit },
     { "u_teleport", "npc_teleport", jarg::object, &talk_effect_fun::f_teleport },
@@ -8390,6 +8541,8 @@ parsers = {
     { "u_buy_item", jarg::member, &talk_effect_fun::f_u_buy_item },
     { "u_spawn_item", jarg::member, &talk_effect_fun::f_spawn_item },
     { "u_pick_bodypart", "npc_pick_bodypart", jarg::member, &talk_effect_fun::f_pick_bodypart },
+    { "u_add_wound", "npc_add_wound", jarg::member, &talk_effect_fun::f_add_wound },
+    { "u_remove_wound", "npc_remove_wound", jarg::member, &talk_effect_fun::f_remove_wound },
     { "toggle_npc_rule", jarg::member, &talk_effect_fun::f_toggle_npc_rule },
     { "set_npc_rule", jarg::member, &talk_effect_fun::f_set_npc_rule },
     { "clear_npc_rule", jarg::member, &talk_effect_fun::f_clear_npc_rule },

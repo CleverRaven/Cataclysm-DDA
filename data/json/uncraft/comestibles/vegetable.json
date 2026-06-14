@@ -109,6 +109,22 @@
     "components": [ [ [ "cabbage", 13 ] ] ]
   },
   {
+    "result": "cauliflower_head",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cauliflower", 10 ] ] ]
+  },
+  {
+    "result": "kale_head",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "kale", 10 ] ] ]
+  },
+  {
     "result": "raw_artichoke",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -123,5 +139,13 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "brussels_sprout", 17 ] ] ]
+  },
+  {
+    "result": "pea_pods",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "pea", 8 ] ] ]
   }
 ]

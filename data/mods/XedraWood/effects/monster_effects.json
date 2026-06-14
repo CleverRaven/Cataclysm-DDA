@@ -1,0 +1,18 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_mon_xw_chirurgeon_tracker",
+    "//": "hidden effect, a tracker for the chirurgeon's attacks",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mon_xw_chirurgeon_sleeper",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 10 }, { "value": "CLIMATE_CONTROL_HEAT", "add": 30 } ] } ],
+    "flags": [ "INVISIBLE", "DEAF" ]
+  }
+]

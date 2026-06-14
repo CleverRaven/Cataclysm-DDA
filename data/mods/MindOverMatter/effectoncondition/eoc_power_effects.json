@@ -181,6 +181,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_INTERSTICE_MOM_PHYSIOLOGY_REDUCES_POWER_COST",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_trait": "INTERSTICE_PHYSIOLOGY" },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('cost','flag_whitelist': 'PSIONIC') = -.9" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_MOM_CASCADE_STONE_POWER_BOOST",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",

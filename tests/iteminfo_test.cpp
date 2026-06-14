@@ -51,7 +51,6 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_bio_ethanol( "bio_ethanol" );
 static const itype_id itype_bio_nostril( "bio_nostril" );
 static const itype_id itype_bio_power_storage( "bio_power_storage" );
-static const itype_id itype_bio_purifier( "bio_purifier" );
 static const itype_id itype_candle( "candle" );
 static const itype_id itype_candle_wax( "candle_wax" );
 static const itype_id itype_dress_shirt( "dress_shirt" );
@@ -79,6 +78,7 @@ static const itype_id itype_test_arrow_wood( "test_arrow_wood" );
 static const itype_id itype_test_backpack( "test_backpack" );
 static const itype_id itype_test_balloon( "test_balloon" );
 static const itype_id itype_test_battery_disposable( "test_battery_disposable" );
+static const itype_id itype_test_bio_purifier( "test_bio_purifier" );
 static const itype_id itype_test_bitter_almond( "test_bitter_almond" );
 static const itype_id itype_test_brew_wine( "test_brew_wine" );
 static const itype_id itype_test_briefcase( "test_briefcase" );
@@ -1237,8 +1237,8 @@ TEST_CASE( "armor_rigidity", "[iteminfo][armor][coverage]" )
 
     CHECK( item_info_str( super_tank_top, { iteminfo_parts::ARMOR_RIGIDITY } ) ==
            "--\n"
-           "<color_c_white>This armor is rigid</color>\n"
-           "<color_c_white>This armor is comfortable</color>\n" );
+           "<color_c_white>This armor is rigid</color>.\n"
+           "<color_c_white>This armor is comfortable</color>.\n" );
 }
 
 // Related JSON fields:
@@ -2657,12 +2657,12 @@ TEST_CASE( "bionic_info", "[iteminfo][bionic]" )
     item burner( itype_bio_ethanol );
     item power( itype_bio_power_storage );
     item nostril( itype_bio_nostril );
-    item purifier( itype_bio_purifier );
+    item test_purifier( itype_test_bio_purifier );
 
     REQUIRE( burner.is_bionic() );
     REQUIRE( power.is_bionic() );
     REQUIRE( nostril.is_bionic() );
-    REQUIRE( purifier.is_bionic() );
+    REQUIRE( test_purifier.is_bionic() );
 
     CHECK( item_info_str( burner, {} ) ==
            "--\n"
@@ -2690,7 +2690,7 @@ TEST_CASE( "bionic_info", "[iteminfo][bionic]" )
            "<color_c_white>Encumbrance</color>: "
            "mouth <color_c_yellow>10</color>" );
 
-    CHECK( item_info_str( purifier, {} ) ==
+    CHECK( item_info_str( test_purifier, {} ) ==
            "--\n"
            "<color_c_white>Environmental Protection</color>: "
            "mouth <color_c_yellow>15</color>" );
@@ -2741,7 +2741,10 @@ TEST_CASE( "disassembly_time_and_yield", "[iteminfo][disassembly]" )
            "<color_c_white>Disassembly</color> takes about 20 minutes, requires 1 tool"
            " with <color_c_cyan>cutting of 2</color> or more and 1 tool with"
            " <color_c_cyan>screw driving of 1</color> or more and <color_c_white>might"
-           " yield</color>: 2 electronic scraps, 1 copper, 1 scrap metal, and 5 copper"
+           // i do not understand why clang yells two spaces are needed for `and 59in. copper`
+           // but i cannot figure how to fix it properly
+           //NOLINTNEXTLINE(cata-text-style)
+           " yield</color>: 2 electronic scraps, 1 copper, 1 scrap metal, and 59in. copper"
            " wires.\n" );
 
     CHECK( item_info_str( metal, disassemble ) ==

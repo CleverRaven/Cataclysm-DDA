@@ -95,8 +95,6 @@ class veh_interact
                 const part_selector &sel,
                 const std::string &title = std::string() );
 
-        static void do_change_shape_menu( vehicle_part &vp );
-
     private:
         explicit veh_interact( map &here, vehicle &veh, const point_rel_ms &p = point_rel_ms::zero );
         ~veh_interact();

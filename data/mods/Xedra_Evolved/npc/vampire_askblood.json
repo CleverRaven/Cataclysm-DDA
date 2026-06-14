@@ -1,6 +1,6 @@
 [
   {
-    "id": [ "TALK_FRIEND" ],
+    "id": [ "TALK_FRIEND", "TALK_FRIEND_Liam", "TALK_FRIEND_Luo" ],
     "type": "talk_topic",
     "insert_before_standard_exits": true,
     "//": "Drinking from willing targets doesn't check for worn holy symbols, as the follower is cooperating.",
@@ -28,7 +28,7 @@
     ]
   },
   {
-    "id": [ "TALK_FRIEND" ],
+    "id": [ "TALK_FRIEND", "TALK_FRIEND_Liam", "TALK_FRIEND_Luo" ],
     "type": "talk_topic",
     "insert_before_standard_exits": true,
     "responses": [
@@ -55,7 +55,7 @@
     ]
   },
   {
-    "id": [ "TALK_FRIEND" ],
+    "id": [ "TALK_FRIEND", "TALK_FRIEND_Liam", "TALK_FRIEND_Luo" ],
     "type": "talk_topic",
     "insert_before_standard_exits": true,
     "responses": [
@@ -83,7 +83,7 @@
     ]
   },
   {
-    "id": [ "TALK_FRIEND" ],
+    "id": [ "TALK_FRIEND", "TALK_FRIEND_Liam", "TALK_FRIEND_Luo" ],
     "type": "talk_topic",
     "insert_before_standard_exits": true,
     "responses": [
@@ -118,7 +118,7 @@
     "responses": [
       {
         "text": "[Drink from them] Thank you.  Can we talk about something else?",
-        "topic": "TALK_FRIEND",
+        "topic": "TALK_NONE",
         "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
         "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_FRIEND" } ]
       },
@@ -135,7 +135,7 @@
       },
       {
         "text": "Got it.  Can we talk about something else?",
-        "topic": "TALK_FRIEND",
+        "topic": "TALK_NONE",
         "condition": { "npc_has_effect": "feed_from_recently" }
       },
       {
@@ -156,7 +156,7 @@
     "responses": [
       {
         "text": "[Drink from them] Thank you.  Can we talk about something else?",
-        "topic": "TALK_FRIEND",
+        "topic": "TALK_NONE",
         "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
         "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_ALLY" } ],
         "opinion": { "trust": -1, "value": -1 }

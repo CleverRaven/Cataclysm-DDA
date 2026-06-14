@@ -122,8 +122,6 @@ static const itype_id itype_efile_photos( "efile_photos" );
 static const itype_id itype_efile_recipes( "efile_recipes" );
 static const itype_id itype_joint_lit( "joint_lit" );
 static const itype_id itype_stock_none( "stock_none" );
-static const itype_id itype_water( "water" );
-static const itype_id itype_water_clean( "water_clean" );
 
 static const material_id material_wool( "wool" );
 
@@ -310,7 +308,8 @@ safe_reference<item> item::get_safe_reference()
     return anchor->reference_to( this );
 }
 
-item::item( const recipe *rec, int qty, item_components items, std::vector<item_comp> selections )
+item::item( const recipe *rec, int qty, item_components items, std::vector<item_comp> selections,
+            bool should_add_faults )
     : item( itype_craft, calendar::turn )
 {
     craft_data_ = cata::make_value<craft_data>();
@@ -326,6 +325,10 @@ item::item( const recipe *rec, int qty, item_components items, std::vector<item_
         if( goes_bad() ) {
             inherit_rot_from_components( *this );
         }
+    }
+
+    if( should_add_faults ) {
+        set_flag( flag_FAULT_ON_COMPLETION );
     }
 
     for( item_components::type_vector_pair &tvp : components ) {
@@ -1767,8 +1770,8 @@ std::string item::display_name( unsigned int quantity ) const
         const itype *adata = ammo_data();
         if( adata ) {
             max_amount = ammo_capacity( adata->ammo->type );
-        } else if( !ammo_default().is_null() ) {
-            max_amount = ammo_capacity( item_controller->find_template( ammo_default() )->ammo->type );
+        } else if( const std::optional<ammotype> at = ammotype_of( ammo_default() ) ) {
+            max_amount = ammo_capacity( *at );
         }
     } else if( is_vehicle_battery() ) {
         show_amt = true;
@@ -1820,12 +1823,12 @@ std::string item::display_name( unsigned int quantity ) const
                     }
                     amt = string_format( " (%s%s)",
                                          colorize( string_format( "%s/%s",
-                                                   type->count_or_volume_or_weight_prefix( amount ),
-                                                   type->count_or_volume_or_weight_prefix( max_amount ) ),
+                                                   type->item_measure_prefix( amount ),
+                                                   type->item_measure_prefix( max_amount ) ),
                                                    charges_color ),
                                          ammotext );
                 } else  {
-                    amt = string_format( " (%s%s)", type->count_or_volume_or_weight_prefix( amount ), ammotext );
+                    amt = string_format( " (%s%s)", type->item_measure_prefix( amount ), ammotext );
                 }
             }
         } else if( !ammotext.empty() ) {
@@ -4338,11 +4341,6 @@ void item::set_temp_flags( units::temperature new_temperature, float freeze_perc
     } else if( new_temperature < temperatures::cold ) {
         set_flag( flag_COLD );
     }
-
-    // Convert water into clean water if it starts boiling
-    if( typeId() == itype_water && new_temperature > temperatures::boiling ) {
-        convert( itype_water_clean ).poison = 0;
-    }
 }
 
 float item::get_item_thermal_energy() const
@@ -5071,6 +5069,18 @@ const itype *item::find_type( const itype_id &type )
     return item_controller->find_template( type );
 }
 
+std::optional<ammotype> item::ammotype_of( const itype_id &id )
+{
+    if( id.is_null() ) {
+        return std::nullopt;
+    }
+    const itype *t = find_type( id );
+    if( t == nullptr || !t->ammo ) {
+        return std::nullopt;
+    }
+    return t->ammo->type;
+}
+
 bool item::has_label() const
 {
     return has_var( "item_label" );
@@ -5203,16 +5213,16 @@ bool item::has_tools_to_continue() const
     return craft_data_->tools_to_continue;
 }
 
-void item::set_cached_tool_selections( const std::vector<comp_selection<tool_comp>> &selections )
+void item::set_step_tool_allocs( const std::vector<std::vector<step_tool_alloc>> &allocs )
 {
     cata_assert( craft_data_ );
-    craft_data_->cached_tool_selections = selections;
+    craft_data_->step_tool_allocs = allocs;
 }
 
-const std::vector<comp_selection<tool_comp>> &item::get_cached_tool_selections() const
+const std::vector<std::vector<step_tool_alloc>> &item::get_step_tool_allocs() const
 {
     cata_assert( craft_data_ );
-    return craft_data_->cached_tool_selections;
+    return craft_data_->step_tool_allocs;
 }
 
 int item::get_current_step() const
@@ -5403,6 +5413,17 @@ void item::set_passive_end_counter( int c )
 {
     cata_assert( craft_data_ );
     craft_data_->passive_end_counter = c;
+}
+
+bool item::is_awaiting_collection() const
+{
+    return craft_data_ && craft_data_->awaiting_collection;
+}
+
+void item::set_awaiting_collection( bool v )
+{
+    cata_assert( craft_data_ );
+    craft_data_->awaiting_collection = v;
 }
 
 const cata::value_ptr<islot_comestible> &item::get_comestible() const

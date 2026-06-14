@@ -113,11 +113,12 @@ void end_screen_ui_impl::draw_controls()
         for( const std::string &line : art->picture ) {
             cataimgui::draw_colored_text( line );
 
-            for( std::pair<std::pair<int, int>, std::string> info : added_info ) {
-                if( row ==  info.first.second ) {
-                    parse_tags( info.second, u, u );
+            for( const std::pair<std::pair<int, int>, std::string> &info : added_info ) {
+                if( row == info.first.second ) {
+                    std::string translated_info = _( info.second );
+                    parse_tags( translated_info, u, u );
                     ImGui::SameLine( str_width_to_pixels( info.first.first ), 0 );
-                    cataimgui::draw_colored_text( info.second );
+                    cataimgui::draw_colored_text( translated_info );
                 }
             }
             row++;
@@ -128,7 +129,7 @@ void end_screen_ui_impl::draw_controls()
     if( !input_label.empty() ) {
         ImGui::NewLine();
         ImGui::AlignTextToFramePadding();
-        cataimgui::draw_colored_text( input_label );
+        cataimgui::draw_colored_text( _( input_label ) );
         ImGui::SameLine( str_width_to_pixels( input_label.size() + 2 ), 0 );
         ImGui::InputText( "##LAST_WORD_BOX", &text );
         ImGui::SetKeyboardFocusHere( -1 );

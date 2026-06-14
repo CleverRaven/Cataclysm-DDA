@@ -108,7 +108,7 @@
   },
   {
     "type": "weakpoint_set",
-    "id": "wps_humanoid_body",
+    "id": "wps_humanoid_body_deferred_loading",
     "weakpoints": [
       {
         "id": "test_wp1",

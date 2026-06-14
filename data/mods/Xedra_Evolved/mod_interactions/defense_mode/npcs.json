@@ -5,7 +5,7 @@
     "//": "Scenario specific NPC, should not spawn outside of trigger events.",
     "class": "NC_ZEBRA_INVESTIGATOR",
     "attitude": 3,
-    "mission": 0,
+    "mission": "NULL",
     "chat": "TALK_FRIEND",
     "faction": "your_followers"
   },

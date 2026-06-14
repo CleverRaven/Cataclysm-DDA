@@ -136,6 +136,11 @@ static void put_into_container(
         ctr.set_itype_variant( *container_variant );
     }
     Item_spawn_data::ItemList excess;
+    // ctr is a fresh, isolated container; nothing else touches its contents
+    // during this loop, so its pockets can track volume/weight incrementally
+    // and avoid re-walking all prior contents on every insertion (O(n^2) when
+    // a group spawns many items into one container, e.g. container depots).
+    ctr.begin_bulk_fill();
     for( auto it = items.end() - num_items; it != items.end(); ++it ) {
         // quiet=true: caller handles failure via the overflow path below.
         const pocket_type pk_type = guess_pocket_for( ctr, *it );
@@ -165,6 +170,7 @@ static void put_into_container(
                 break;
         }
     }
+    ctr.end_bulk_fill();
     ctr.add_automatic_whitelist();
     if( sealed ) {
         ctr.seal();
@@ -562,11 +568,15 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
 
             if( new_item.is_magazine() ) {
                 // Get the ammo capacity of the new item itself
-                max_ammo = new_item.ammo_capacity( item_controller->find_template(
-                                                       new_item.ammo_default() )->ammo->type );
+                if( const std::optional<ammotype> at = item::ammotype_of( new_item.ammo_default() ) ) {
+                    max_ammo = new_item.ammo_capacity( *at );
+                }
             } else if( !new_item.magazine_default().is_null() ) {
-                // Get the capacity of the item's default magazine
-                max_ammo = item_controller->find_template( new_item.magazine_default() )->magazine->capacity;
+                // Default magazine may be a non-magazine itype, so guard the slot.
+                const itype *mag = item_controller->find_template( new_item.magazine_default() );
+                if( mag != nullptr && mag->magazine ) {
+                    max_ammo = mag->magazine->capacity;
+                }
             }
             // Don't change the ammo capacity from 0 if the item isn't a magazine
             // and doesn't have a default magazine with a capacity
@@ -666,8 +676,9 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
             }
             // Make sure the item is in valid state
             if( new_item.magazine_integral() ) {
-                new_item.charges = std::min( new_item.charges,
-                                             new_item.ammo_capacity( item_controller->find_template( new_item.ammo_default() )->ammo->type ) );
+                if( const std::optional<ammotype> at = item::ammotype_of( new_item.ammo_default() ) ) {
+                    new_item.charges = std::min( new_item.charges, new_item.ammo_capacity( *at ) );
+                }
             } else {
                 new_item.charges = 0;
             }

@@ -266,7 +266,7 @@
     ],
     "components": [
       [ [ "element", 8 ], [ "crude_heating_element", 12 ] ],
-      [ [ "cable", 4 ] ],
+      [ [ "cable", 2 ] ],
       [ [ "sheet_metal_small", 5 ] ],
       [ [ "power_supply", 1 ] ]
     ]
@@ -299,7 +299,7 @@
     ],
     "components": [
       [ [ "element", 12 ], [ "crude_heating_element", 18 ] ],
-      [ [ "cable", 6 ] ],
+      [ [ "cable", 3 ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "power_supply", 1 ] ]
     ]
@@ -1144,7 +1144,7 @@
     "decomp_learn": 0,
     "flags": [ "BLIND_HARD" ],
     "book_learn": [ [ "adv_chemistry", 1 ], [ "textbook_chemistry", 1 ] ],
-    "components": [ [ [ "cable", 10 ], [ "any_wire", 1, "LIST" ] ], [ [ "hotplate", 1 ] ], [ [ "chemistry_set_basic", 1 ] ] ]
+    "components": [ [ [ "cable", 4 ], [ "any_wire", 1, "LIST" ] ], [ [ "hotplate", 1 ] ], [ [ "chemistry_set_basic", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1216,7 +1216,7 @@
       [ "mag_mechanics", 2 ],
       [ "mag_rifle", 2 ]
     ],
-    "components": [ [ [ "any_wire", 2, "LIST" ], [ "cable", 2 ] ], [ [ "yarn", 1 ], [ "cotton_ball", 1 ], [ "wool_staple", 1 ] ] ]
+    "components": [ [ [ "any_wire", 2, "LIST" ], [ "cable", 1 ] ], [ [ "yarn", 1 ], [ "cotton_ball", 1 ], [ "wool_staple", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1274,7 +1274,7 @@
     "components": [
       [ [ "element", 8 ], [ "crude_heating_element", 12 ] ],
       [ [ "steel_lump_any", 1, "LIST" ], [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 12 ] ],
-      [ [ "cable", 4 ] ],
+      [ [ "cable", 2 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "fire_brick", 8 ] ]
     ]
@@ -1303,7 +1303,7 @@
     "components": [
       [ [ "element", 8 ], [ "crude_heating_element", 12 ] ],
       [ [ "pot_canning_clay", 1 ] ],
-      [ [ "cable", 4 ] ],
+      [ [ "cable", 2 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "fire_brick", 25 ] ],
       [ [ "pipe", 8 ] ],
@@ -1326,7 +1326,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_pottery" } ],
     "using": [ [ "earthenware_firing", 90 ], [ "clay_refractory", 5 ] ],
-    "components": [ [ [ "any_water", 1, "LIST" ] ], [ [ "graphite", 12500 ] ], [ [ "material_sand", 10 ] ] ]
+    "components": [ [ [ "any_water", 1, "LIST" ] ], [ [ "graphite", 250 ] ], [ [ "material_sand", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -1577,7 +1577,7 @@
     ],
     "components": [
       [ [ "element", 8 ], [ "crude_heating_element", 12 ] ],
-      [ [ "cable", 4 ] ],
+      [ [ "cable", 2 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
       [ [ "pipe", 8 ] ],
@@ -1975,7 +1975,7 @@
     "reversible": true,
     "using": [ [ "soldering_standard", 25 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cable", 100 ] ], [ [ "scrap", 4 ] ], [ [ "duct_tape", 50 ] ] ]
+    "components": [ [ [ "cable", 34 ] ], [ [ "scrap", 4 ] ], [ [ "duct_tape", 50 ] ] ]
   },
   {
     "type": "recipe",
@@ -1991,7 +1991,7 @@
     "reversible": true,
     "using": [ [ "soldering_standard", 60 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cable", 650 ] ], [ [ "scrap", 10 ] ], [ [ "duct_tape", 30 ] ], [ [ "hose", 2 ], [ "makeshift_hose", 2 ] ] ]
+    "components": [ [ [ "cable", 217 ] ], [ [ "scrap", 10 ] ], [ [ "duct_tape", 30 ] ], [ [ "hose", 2 ], [ "makeshift_hose", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2007,7 +2007,7 @@
     "reversible": true,
     "using": [ [ "soldering_standard", 50 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cable", 300 ] ], [ [ "scrap", 1 ] ], [ [ "duct_tape", 50 ] ] ]
+    "components": [ [ [ "cable", 100 ] ], [ [ "scrap", 1 ] ], [ [ "duct_tape", 50 ] ] ]
   },
   {
     "type": "recipe",
@@ -2023,7 +2023,7 @@
     "reversible": true,
     "using": [ [ "soldering_standard", 90 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cable", 900 ] ], [ [ "scrap", 2 ] ], [ [ "duct_tape", 50 ] ] ]
+    "components": [ [ [ "cable", 300 ] ], [ [ "scrap", 2 ] ], [ [ "duct_tape", 50 ] ] ]
   },
   {
     "type": "recipe",
@@ -2373,6 +2373,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "plant_fibre",
+    "charges": 10,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
@@ -2417,6 +2418,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "result": "lamellae_lc",
     "id_suffix": "small",
+    "charges": 18,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -2432,6 +2434,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "lamellae_lc",
     "id_suffix": "small_fast",
+    "charges": 18,
     "name": "%s using powered drill",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -2483,6 +2486,7 @@
     "result": "lamellae_ch",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "charges": 18,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -2500,6 +2504,7 @@
     "activity_level": "BRISK_EXERCISE",
     "result": "lc_chain_link",
     "id_suffix": "fabrication",
+    "charges": 425,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -2515,6 +2520,7 @@
     "activity_level": "BRISK_EXERCISE",
     "result": "mc_chain_link",
     "id_suffix": "fabrication",
+    "charges": 425,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -2530,6 +2536,7 @@
     "activity_level": "BRISK_EXERCISE",
     "result": "hc_chain_link",
     "id_suffix": "fabrication",
+    "charges": 425,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -2545,6 +2552,7 @@
     "activity_level": "BRISK_EXERCISE",
     "result": "ch_chain_link",
     "id_suffix": "fabrication",
+    "charges": 425,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -2560,6 +2568,7 @@
     "activity_level": "BRISK_EXERCISE",
     "result": "qt_chain_link",
     "id_suffix": "fabrication",
+    "charges": 425,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -2803,6 +2812,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "wooden_bead",
+    "charges": 100,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",

@@ -2354,6 +2354,7 @@ class map
         // Clips the area to map bounds
         tripoint_range<tripoint_bub_ms> points_in_rectangle(
             const tripoint_bub_ms &from, const tripoint_bub_ms &to ) const;
+        // despite named "radius", returns a square
         tripoint_range<tripoint_bub_ms> points_in_radius(
             const tripoint_bub_ms &center, size_t radius, size_t radiusz = 0 ) const;
 

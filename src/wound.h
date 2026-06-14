@@ -27,6 +27,13 @@ struct wound_progress {
     void deserialize( const JsonObject &jo );
 };
 
+struct wound_limb_score {
+    limb_score_id score;
+    float value;
+
+    void deserialize( const JsonObject &jo );
+};
+
 class wound_type
 {
     public:
@@ -50,6 +57,7 @@ class wound_type
         time_duration evaluate_healing_time() const;
         int get_limit() const;
 
+        std::vector<wound_limb_score> get_limb_scores() const;
 
         // what damage types can apply this wound
         std::vector<damage_type_id> damage_types;
@@ -76,6 +84,8 @@ class wound_type
         // how many of this specific wound character can receive
         // 0 means any amount
         unsigned int limit = 0;
+
+        std::vector<wound_limb_score> limb_scores;
 
         // if applied, how long it may take for it to heal
         std::pair<time_duration, time_duration> healing_time_;

@@ -37,7 +37,7 @@
       { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
       { "item": "scrap", "count": [ 0, 6 ] },
       { "item": "element", "count": [ 1, 3 ] },
-      { "item": "cable", "count": [ 1, 3 ] }
+      { "item": "cable", "count": [ 1, 2 ] }
     ],
     "size": "50 L",
     "type": "vehicle_part",
@@ -60,7 +60,7 @@
       { "item": "scrap", "count": [ 2, 7 ] },
       { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
       { "item": "sheet_metal", "count": [ 2, 6 ] },
-      { "item": "cable", "count": [ 1, 15 ] },
+      { "item": "cable", "count": [ 1, 5 ] },
       { "item": "hose", "count": [ 0, 2 ] },
       { "item": "cu_pipe", "count": [ 1, 4 ] },
       { "item": "scrap_copper", "count": [ 0, 2 ] },
@@ -90,7 +90,7 @@
       { "item": "television", "prob": 50 },
       { "item": "2x4", "count": [ 2, 6 ] },
       { "item": "nail", "charges": [ 4, 10 ] },
-      { "item": "cable", "count": [ 4, 10 ] },
+      { "item": "cable", "count": [ 2, 4 ] },
       { "item": "circuit", "count": [ 0, 4 ] },
       { "item": "power_supply", "prob": 50 },
       { "item": "RAM", "count": [ 0, 2 ] }
@@ -160,7 +160,7 @@
     "pseudo_tools": [ { "id": "drill_press_tool" } ],
     "item": "drill_press",
     "breaks_into": [
-      { "item": "cable", "count": [ 0, 4 ] },
+      { "item": "cable", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
       { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
@@ -225,7 +225,7 @@
     "pseudo_tools": [ { "id": "tablesaw_tool" } ],
     "item": "tablesaw",
     "breaks_into": [
-      { "item": "cable", "count": [ 0, 4 ] },
+      { "item": "cable", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
       { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
@@ -249,7 +249,7 @@
     "pseudo_tools": [ { "id": "mitresaw_tool" } ],
     "item": "mitresaw",
     "breaks_into": [
-      { "item": "cable", "count": [ 0, 4 ] },
+      { "item": "cable", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
       { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
@@ -273,7 +273,7 @@
     "pseudo_tools": [ { "id": "bandsaw_tool" } ],
     "item": "bandsaw",
     "breaks_into": [
-      { "item": "cable", "count": [ 0, 4 ] },
+      { "item": "cable", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
       { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
@@ -297,7 +297,7 @@
     "pseudo_tools": [ { "id": "router_tool" } ],
     "item": "router",
     "breaks_into": [
-      { "item": "cable", "count": [ 0, 4 ] },
+      { "item": "cable", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
       { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
@@ -321,7 +321,7 @@
     "pseudo_tools": [ { "id": "planer_tool" } ],
     "item": "planer",
     "breaks_into": [
-      { "item": "cable", "count": [ 0, 4 ] },
+      { "item": "cable", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
       { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
@@ -345,7 +345,7 @@
     "pseudo_tools": [ { "id": "jointer_tool" } ],
     "item": "jointer",
     "breaks_into": [
-      { "item": "cable", "count": [ 0, 4 ] },
+      { "item": "cable", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
       { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
@@ -376,7 +376,7 @@
       { "item": "well_pump", "count": [ 0, 1 ] },
       { "item": "laptop", "count": [ 0, 1 ] },
       { "item": "pump_complex", "count": [ 0, 3 ] },
-      { "item": "cable", "count": [ 3, 8 ] }
+      { "item": "cable", "count": [ 1, 3 ] }
     ]
   },
   {
@@ -394,7 +394,7 @@
     "pseudo_tools": [ { "id": "hydraulic_press_tool" } ],
     "item": "hydraulic_press",
     "breaks_into": [
-      { "item": "cable", "count": [ 0, 4 ] },
+      { "item": "cable", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
       { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "mc_steel_lump", "count": [ 1, 2 ] },
@@ -417,7 +417,7 @@
     "pseudo_tools": [ { "id": "air_compressor_tool" } ],
     "item": "air_compressor",
     "breaks_into": [
-      { "item": "cable", "count": [ 0, 4 ] },
+      { "item": "cable", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
       { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 4, 10 ] },
@@ -463,7 +463,7 @@
       { "item": "glass_shard", "count": [ 16, 24 ] },
       { "item": "sheet_metal_small", "count": [ 4, 8 ] },
       { "item": "pipe", "count": [ 0, 1 ] },
-      { "item": "cable", "count": [ 150, 300 ] }
+      { "item": "cable", "count": [ 50, 100 ] }
     ],
     "variants": [ { "symbols": "&", "symbols_broken": "x" } ]
   },
@@ -490,7 +490,7 @@
       { "item": "pressure_gauge", "count": [ 0, 1 ] },
       { "item": "steel_grille", "count": [ 6, 10 ] },
       { "item": "element", "count": [ 6, 10 ] },
-      { "item": "cable", "count": [ 15, 30 ] }
+      { "item": "cable", "count": [ 5, 10 ] }
     ],
     "variants": [ { "symbols": "&", "symbols_broken": "x" } ]
   },
@@ -522,7 +522,7 @@
       { "item": "hd_compressor", "count": [ 0, 2 ] },
       { "item": "sheet_metal_small", "count": [ 1, 3 ] },
       { "item": "pressure_gauge", "count": [ 0, 1 ] },
-      { "item": "cable", "count": [ 100, 200 ] }
+      { "item": "cable", "count": [ 34, 67 ] }
     ],
     "variants": [ { "symbols": "&", "symbols_broken": "x" } ]
   },
@@ -550,7 +550,7 @@
       { "item": "sheet_metal_small", "count": [ 1, 2 ] },
       { "item": "hd_compressor", "prob": 25 },
       { "item": "nitrogen_membrane_filter", "prob": 25 },
-      { "item": "cable", "count": [ 4, 8 ] },
+      { "item": "cable", "count": [ 2, 3 ] },
       { "item": "salt", "count": [ 2000, 3000 ], "container-item": "null" }
     ],
     "variants": [ { "symbols": "&", "symbols_broken": "x" } ]
@@ -586,7 +586,7 @@
     "damage_modifier": 10,
     "looks_like": "ap_standing_directed_floodlight",
     "breaks_into": [
-      { "item": "cable", "count": [ 1, 4 ] },
+      { "item": "cable", "count": [ 1, 2 ] },
       { "item": "mc_steel_chunk", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
@@ -610,7 +610,7 @@
     "damage_modifier": 10,
     "looks_like": "f_floor_lamp",
     "breaks_into": [
-      { "item": "cable", "count": [ 1, 4 ] },
+      { "item": "cable", "count": [ 1, 2 ] },
       { "item": "mc_steel_chunk", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
@@ -640,7 +640,7 @@
       { "item": "scrap_copper", "count": [ 2, 12 ] },
       { "item": "amplifier", "count": [ 0, 5 ] },
       { "item": "power_supply", "count": [ 0, 1 ] },
-      { "item": "cable", "count": [ 0, 5 ] }
+      { "item": "cable", "count": [ 0, 2 ] }
     ],
     "flags": [ "CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC" ],
     "requirements": { "removal": { "time": "5 s" } },
@@ -905,11 +905,11 @@
     "description": "A car battery wired into a static power grid.",
     "item": "battery_car",
     "breaks_into": [
-      { "item": "lead", "charges": [ 1680, 2380 ] },
+      { "item": "lead", "count": [ 1680, 2380 ] },
       { "item": "chem_sulphuric_acid", "count": [ 5, 8 ], "container-item": "null" },
       { "item": "plastic_chunk", "count": [ 14, 20 ] },
-      { "item": "scrap", "charges": [ 2, 3 ] },
-      { "item": "shredded_rubber", "charges": [ 10, 14 ] }
+      { "item": "scrap", "count": [ 2, 3 ] },
+      { "item": "shredded_rubber", "count": [ 10, 14 ] }
     ],
     "durability": 120,
     "requirements": { "removal": { "time": "6 m" } },
@@ -926,11 +926,11 @@
     "description": "A motorbike battery wired into a static power grid.",
     "item": "battery_motorbike",
     "breaks_into": [
-      { "item": "lead", "charges": [ 252, 357 ] },
+      { "item": "lead", "count": [ 252, 357 ] },
       { "item": "chem_sulphuric_acid", "count": [ 0, 1 ], "container-item": "null" },
       { "item": "plastic_chunk", "count": [ 2, 3 ] },
-      { "item": "scrap", "charges": [ 0, 1 ] },
-      { "item": "shredded_rubber", "charges": [ 1, 2 ] }
+      { "item": "scrap", "count": [ 0, 1 ] },
+      { "item": "shredded_rubber", "count": [ 1, 2 ] }
     ],
     "durability": 100,
     "requirements": { "removal": { "time": "6 m" } },
@@ -947,11 +947,11 @@
     "description": "A small motorbike battery wired into a static power grid.",
     "item": "battery_motorbike_small",
     "breaks_into": [
-      { "item": "lead", "charges": [ 126, 178 ] },
+      { "item": "lead", "count": [ 126, 178 ] },
       { "item": "chem_sulphuric_acid", "count": [ 0, 1 ], "container-item": "null" },
       { "item": "plastic_chunk" },
-      { "item": "scrap", "charges": [ 0, 1 ] },
-      { "item": "shredded_rubber", "charges": [ 0, 1 ] }
+      { "item": "scrap", "count": [ 0, 1 ] },
+      { "item": "shredded_rubber", "count": [ 0, 1 ] }
     ],
     "durability": 30,
     "requirements": { "removal": { "time": "6 m" } },
@@ -1010,7 +1010,7 @@
     "item": "foot_locker_recharge_station",
     "flags": [ "CARGO", "OBSTACLE", "RECHARGE", "COVERED", "APPLIANCE", "CTRL_ELECTRONIC" ],
     "breaks_into": [
-      { "item": "cable", "count": [ 1, 3 ] },
+      { "item": "cable", "count": [ 1, 2 ] },
       { "item": "mc_steel_lump", "count": [ 4, 6 ] },
       { "item": "mc_steel_chunk", "count": [ 4, 8 ] },
       { "item": "scrap", "count": [ 5, 7 ] }
@@ -1037,7 +1037,7 @@
       { "item": "splinter", "count": [ 3, 5 ] },
       { "item": "nail", "charges": [ 10, 15 ] },
       { "item": "plastic_chunk", "prob": 50 },
-      { "item": "cable", "count": [ 1, 4 ] },
+      { "item": "cable", "count": [ 1, 2 ] },
       { "item": "e_scrap", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 3 ] }
     ],
@@ -1071,7 +1071,7 @@
       { "item": "scrap", "count": [ 4, 16 ] },
       { "item": "mc_steel_chunk", "count": [ 1, 6 ] },
       { "item": "plutonium", "count": [ 0, 2 ] },
-      { "item": "lead", "charges": [ 12, 18 ] }
+      { "item": "lead", "count": [ 12, 18 ] }
     ],
     "damage_reduction": { "all": 60 },
     "variants": [ { "symbols": "0", "symbols_broken": "#" } ]
@@ -1168,7 +1168,7 @@
     "pseudo_tools": [ { "id": "glassblowers_crucible_tool" } ],
     "item": "glassblowers_crucible",
     "breaks_into": [
-      { "item": "cable", "count": [ 0, 4 ] },
+      { "item": "cable", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
       { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
       { "item": "ceramic_shard", "count": [ 21, 42 ] },
@@ -1192,7 +1192,7 @@
     "damage_reduction": { "all": 30 },
     "durability": 80,
     "breaks_into": [
-      { "item": "cable", "count": [ 0, 4 ] },
+      { "item": "cable", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 12, 20 ] },
       { "item": "chunk_cast_iron", "count": [ 2, 4 ] },
       { "item": "lump_cast_iron", "count": [ 1, 2 ] }
@@ -1214,7 +1214,7 @@
     "damage_reduction": { "all": 30 },
     "durability": 80,
     "breaks_into": [
-      { "item": "cable", "count": [ 0, 4 ] },
+      { "item": "cable", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 12, 20 ] },
       { "item": "chunk_cast_iron", "count": [ 2, 4 ] },
       { "item": "lump_cast_iron", "count": [ 1, 2 ] },
@@ -1267,7 +1267,7 @@
       { "item": "element", "count": [ 0, 2 ] },
       { "item": "crude_heating_element", "count": [ 0, 3 ] },
       { "item": "motor_tiny", "count": [ 0, 1 ] },
-      { "item": "cable", "count": [ 0, 10 ] },
+      { "item": "cable", "count": [ 0, 4 ] },
       { "item": "power_supply", "count": [ 0, 1 ] },
       { "item": "pipe_fittings", "count": [ 0, 2 ] },
       { "item": "pipe", "count": [ 0, 2 ] },
@@ -1310,7 +1310,7 @@
       { "item": "scrap_copper", "count": [ 2, 12 ] },
       { "item": "amplifier", "count": [ 0, 5 ] },
       { "item": "power_supply", "count": [ 0, 1 ] },
-      { "item": "cable", "count": [ 0, 5 ] }
+      { "item": "cable", "count": [ 0, 2 ] }
     ],
     "flags": [ "APPLIANCE", "NL_BOILER", "CTRL_ELECTRONIC", "CARGO", "OBSTACLE" ],
     "size": "200 L",

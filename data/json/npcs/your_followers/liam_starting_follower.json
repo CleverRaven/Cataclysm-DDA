@@ -13,7 +13,7 @@
     "class": "NC_STARTINGNPC_LIAM",
     "gender": "male",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "faction": "no_faction",
     "age": 27,
     "height": 182,

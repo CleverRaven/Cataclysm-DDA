@@ -228,7 +228,8 @@ class item : public visitable
         item( const itype *type, time_point turn, solitary_tag );
 
         /** For constructing in-progress crafts */
-        item( const recipe *rec, int qty, item_components items, std::vector<item_comp> selections );
+        item( const recipe *rec, int qty, item_components items, std::vector<item_comp> selections,
+              bool should_add_faults = false );
 
         /** For constructing in-progress disassemblies */
         item( const recipe *rec, int qty, item &component );
@@ -3094,6 +3095,9 @@ class item : public visitable
          * Returns the item type of the given identifier. Never returns null.
          */
         static const itype *find_type( const itype_id &type );
+        // Ammotype of id's ammo slot, or nullopt when it has none. Null-safe for
+        // NULL-ammo guns and pocket-defined magazines.
+        static std::optional<ammotype> ammotype_of( const itype_id &id );
         /**
          * Whether the item is counted by charges, this is a static wrapper
          * around @ref count_by_charges, that does not need an items instance.
@@ -3237,8 +3241,10 @@ class item : public visitable
 
         void set_tools_to_continue( bool value );
         bool has_tools_to_continue() const;
-        void set_cached_tool_selections( const std::vector<comp_selection<tool_comp>> &selections );
-        const std::vector<comp_selection<tool_comp>> &get_cached_tool_selections() const;
+        // Per-step tool allocations, indexed by recipe step (single entry for
+        // stepless recipes).
+        void set_step_tool_allocs( const std::vector<std::vector<step_tool_alloc>> &allocs );
+        const std::vector<std::vector<step_tool_alloc>> &get_step_tool_allocs() const;
 
         // Step iteration state for step recipes.
         // get_current_step clamps to valid range as a defensive measure.
@@ -3279,6 +3285,9 @@ class item : public visitable
         void set_passive_start_counter( int c );
         int get_passive_end_counter() const;
         void set_passive_end_counter( int c );
+
+        bool is_awaiting_collection() const;
+        void set_awaiting_collection( bool v );
 
         std::vector<enchant_cache> get_proc_enchantments() const;
         std::vector<enchantment> get_defined_enchantments() const;
@@ -3366,6 +3375,9 @@ class item : public visitable
         std::list<const item *> all_ablative_armor() const;
 
         void clear_items();
+        /** Engage bulk-fill mode on this container's pockets. See item_pocket::begin_bulk_fill. */
+        void begin_bulk_fill();
+        void end_bulk_fill();
         bool empty() const;
         /** Check if contents is empty. Checking only CONTAINER pockets. */
         bool empty_container() const;
@@ -3546,7 +3558,7 @@ class item : public visitable
                 // If the crafter has insufficient tools to continue to the next 5% progress step
                 bool tools_to_continue = false;
                 int batch_size = -1;
-                std::vector<comp_selection<tool_comp>> cached_tool_selections;
+                std::vector<std::vector<step_tool_alloc>> step_tool_allocs;
                 std::optional<units::mass> cached_weight; // NOLINT(cata-serialize)
                 std::optional<units::volume> cached_volume; // NOLINT(cata-serialize)
 
@@ -3581,6 +3593,10 @@ class item : public visitable
                 // projects linearly between them without mutation.
                 int passive_start_counter = 0;
                 int passive_end_counter = 0;
+
+                // Terminal unattended liquid step finished; held at full progress
+                // until the player explicitly collects (pours) it.
+                bool awaiting_collection = false;
 
                 // Original crafter (for env-check fallback when craft is on
                 // map/vehicle and the crafter is no longer on top of it).

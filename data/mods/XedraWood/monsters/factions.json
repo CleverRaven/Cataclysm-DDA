@@ -1,6 +1,13 @@
 [
   {
     "type": "MONSTER_FACTION",
+    "name": "forest_spirit_faction",
+    "base_faction": "animal",
+    "friendly": [ "animal", "herbivore" ],
+    "hate": [ "zombie", "fungus", "nether_player_hate", "jabberwock" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "undead",
     "base_faction": "nether_hate_humans",
     "neutral": [ "zombie", "nether" ]
@@ -14,6 +21,10 @@
   {
     "type": "MONSTER_FACTION",
     "name": "eldritch_being"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "chirurgeon"
   },
   {
     "type": "MONSTER_FACTION",

@@ -1,0 +1,26 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "field",
+    "copy-from": "field",
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 3 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest",
+    "copy-from": "forest",
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 2 ], "chance": 3 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest_thick",
+    "copy-from": "forest_thick",
+    "spawns": { "group": "GROUP_FOREST_THICK", "population": [ 0, 4 ], "chance": 5 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest_water",
+    "copy-from": "forest_water",
+    "spawns": { "group": "GROUP_SWAMP", "population": [ 1, 4 ], "chance": 8 }
+  }
+]

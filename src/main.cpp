@@ -81,12 +81,14 @@ class ui_adaptor;
 #   include "sdl_version_wrappers.h"
 #endif
 
+#if defined(TILES)
+#   include "sdltiles.h"
+#endif
+
 #if defined(__ANDROID__)
-#include <SDL_filesystem.h>
-#include <SDL_keyboard.h>
-#include <SDL_system.h>
 #include <android/log.h>
 #include <unistd.h>
+#include "sdl_wrappers.h" // for GetAndroidExternalStoragePath(), SDL_main
 
 // Taken from: https://codelab.wordpress.com/2014/11/03/how-to-use-standard-output-streams-for-logging-in-android-apps/
 // Force Android standard output to adb logcat output
@@ -664,7 +666,7 @@ int main( int argc, const char *argv[] )
 
     // On Android first launch, we copy all data files from the APK into the app's writeable folder so std::io stuff works.
     // Use the external storage so it's publicly modifiable data (so users can mess with installed data, save games etc.)
-    std::string external_storage_path( SDL_AndroidGetExternalStoragePath() );
+    std::string external_storage_path( GetAndroidExternalStoragePath() );
 
     PATH_INFO::init_base_path( external_storage_path );
 #else
@@ -846,11 +848,18 @@ int main( int argc, const char *argv[] )
 
 #if defined(LOCALIZE)
     if( get_option<std::string>( "USE_LANG" ).empty() && !SystemLocale::Language().has_value() ) {
-        imclient->new_frame(); // we have to prime the pump, because of reasons
-        imclient->end_frame();
-        const std::string lang = select_language();
-        get_options().get_option( "USE_LANG" ).setValue( lang );
-        set_language_from_options();
+#if defined(TILES)
+        display_buffer_draw_scope draw_scope;
+        if( !display_buffer_scope_is_invalid() ) {
+#endif
+            imclient->new_frame(); // we have to prime the pump, because of reasons
+            imclient->end_frame();
+            const std::string lang = select_language();
+            get_options().get_option( "USE_LANG" ).setValue( lang );
+            set_language_from_options();
+#if defined(TILES)
+        }
+#endif
     }
 #endif
     replay_buffered_debugmsg_prompts();

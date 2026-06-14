@@ -357,7 +357,7 @@
     "container-item": "corpse_generic_male",
     "entries": [
       { "group": "everyday_corpse_generic" },
-      { "group": "everyday_gear", "prob": 40 },
+      { "group": "everyday_gear" },
       { "group": "coats_unisex", "damage": [ 1, 4 ], "prob": 20 },
       { "group": "common_gloves", "damage": [ 1, 4 ], "prob": 20 },
       { "group": "hatstore_hats", "damage": [ 1, 4 ], "prob": 20 },
@@ -493,7 +493,7 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "group": "everyday_gear", "prob": 40 },
+      { "group": "everyday_gear" },
       { "group": "coats_unisex", "damage": [ 1, 4 ], "prob": 20 },
       { "group": "common_gloves", "damage": [ 1, 4 ], "prob": 20 },
       { "group": "hatstore_hats", "damage": [ 1, 4 ], "prob": 20 },

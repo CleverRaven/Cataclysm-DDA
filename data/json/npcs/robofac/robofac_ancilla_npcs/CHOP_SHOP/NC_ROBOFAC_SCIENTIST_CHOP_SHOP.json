@@ -6,7 +6,7 @@
     "name_suffix": "Hub Scientist",
     "class": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP",
     "attitude": 1,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "NC_ROBOFAC_SCIENTIST_CHOP_SHOP",
     "death_eocs": [ "ROBOFAC_ROBOFAC_SCIENTIST_CHOP_SHOP_DEATH" ],
     "faction": "robofac_auxiliaries_chop_shop"
