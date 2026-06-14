@@ -46,7 +46,7 @@
     "id": "achievement_kill_npc",
     "type": "achievement",
     "name": "Psycho Killer",
-    "description": "Kill 3 NPCs within 30 days of game start, loosely meeting the legal definition of a serial killer."
+    "description": "Kill 3 NPCs within 30 days of game start, loosely meeting the legal definition of a serial killer.",
     "time_constraint": { "since": "game_start", "is": "<=", "target": "30 days" },
     "description": "Qu'est-ce que c'est",
     "requirements": [ { "event_statistic": "num_avatar_character_kills", "is": ">=", "target": 3 } ]
