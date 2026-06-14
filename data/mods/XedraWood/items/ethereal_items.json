@@ -1,8 +1,8 @@
 [
   {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
     "id": "item_mountain_tattoo_six",
-    "type": "ARMOR",
-    "category": "armor",
     "name": { "str_sp": "The Crown of the Mountain" },
     "description": "The spirits have infused you with the resilience of the mountains.",
     "weight": "400 g",

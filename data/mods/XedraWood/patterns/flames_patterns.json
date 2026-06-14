@@ -3,10 +3,10 @@
     "id": "flames_tattoo_one",
     "type": "bionic",
     "name": { "str": "The Smoke of the Fire" },
-    "description": "The first element of the flames pattern, the rising smoke above the bonfire that floats up to the stars and disappearsm, depicted on the upper back.  When active, you will immediately rise if you are downed and you'll gain a speed bonus for a short period of time afterwards.",
+    "description": "The first element of the flames pattern, the rising smoke above the bonfire that floats up to the stars and disappears, depicted on the upper back.  When active, you will immediately rise if you are downed and you'll gain a speed bonus for a short period of time afterwards.",
     "included": true,
-    "act_cost": "100 J",
-    "react_cost": "65 J",
+    "act_cost": "50 J",
+    "react_cost": "20 J",
     "time": "1 s",
     "occupied_bodyparts": [ [ "torso", 4 ], [ "arm_l", 1 ], [ "arm_r", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
@@ -22,7 +22,7 @@
     "react_cost": "50 J",
     "time": "1 s",
     "required_bionic": "flames_tattoo_one",
-    "occupied_bodyparts": [ [ "head: 2" ], [ "torso", 5 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
+    "occupied_bodyparts": [ [ "head", 2 ], [ "torso", 5 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "enchantments": [
       {
