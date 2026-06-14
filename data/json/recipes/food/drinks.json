@@ -42,19 +42,54 @@
   },
   {
     "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "result": "water_purifying_active",
+    "result": "water_clean",
     "category": "CC_FOOD",
     "id_suffix": "using_tablets",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "time": "5 m",
-    "batch_time_factors": [ 90, 2 ],
     "charges": 4,
-    "//": "See pur_tablets item definition for documentation and discussion",
     "autolearn": true,
-    "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "water", 4 ], [ "water_murky", 4 ] ], [ [ "pur_tablets", 1 ] ] ]
+    "flags": [ "BLIND_EASY" ],
+    "steps": [
+      {
+        "name": "Mixing and shaking",
+        "time": "10 m",
+        "batch_time_factors": { "mode": "linear", "setup": "10 m" },
+        "activity_level": "MODERATE_EXERCISE"
+      },
+      {
+        "name": "Purifying",
+        "time": "40 m",
+        "batch_time_factors": { "mode": "linear", "setup": "40 m" },
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended"
+      }
+    ],
+    "components": [ [ [ "water", 4 ] ], [ [ "pur_tablets", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "water_clean",
+    "copy-from": "herbal_tea_from_tea_bag",
+    "id_suffix": "using_tablets_from_murky_water",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "steps": [
+      {
+        "name": "Mixing and shaking",
+        "time": "10 m",
+        "batch_time_factors": { "mode": "linear", "setup": "10 m" },
+        "activity_level": "MODERATE_EXERCISE"
+      },
+      {
+        "name": "Purifying",
+        "time": "40 m",
+        "batch_time_factors": { "mode": "linear", "setup": "40 m" },
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended"
+      }
+    ],
+    "components": [ [ [ "water_murky", 4 ] ], [ [ "pur_tablets", 2 ] ] ]
   },
   {
     "type": "recipe",
