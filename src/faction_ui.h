@@ -41,6 +41,10 @@ class faction_ui : public cataimgui::window
                     ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav ) {
         };
 
+        void set_selected_tab( tab_mode tab ) {
+            selected_tab = tab;
+        }
+
         bool execute();
 
         void draw_hint_section() const;

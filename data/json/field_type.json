@@ -1185,6 +1185,16 @@
     "looks_like": "fd_laser"
   },
   {
+    "id": "fd_mortar_illumination",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "mortar illumination flare", "sym": "*", "color": "white", "light_emitted": 150 } ],
+    "description_affix": "illuminated_by",
+    "priority": 1,
+    "half_life": "1 seconds",
+    "display_field": true,
+    "looks_like": "fd_spotlight"
+  },
+  {
     "id": "fd_dazzling",
     "type": "field_type",
     "legacy_enum_id": 27,

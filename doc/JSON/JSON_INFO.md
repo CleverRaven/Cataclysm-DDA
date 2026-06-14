@@ -104,6 +104,7 @@ Use the `Home` key to return to the top.
     - [Harvest Drop Type](#harvest-drop-type)
     - [Weapon Category](#weapon-category)
     - [Connect group definitions](#connect-group-definitions)
+    - [Mortar Type](#mortar-type)
     - [Furniture](#furniture)
       - [`type`](#type-1)
       - [`keg_capacity`](#keg_capacity)
@@ -3264,6 +3265,55 @@ Example
     "id": "WALL"
   }
 ```
+
+### Mortar Type
+
+Mortar types define indirect-fire behavior for deployed mortar furniture.  A mortar type
+links one furniture id to one ammunition type and provides the range, flight timing, and
+dispersion parameters used by player-operated and NPC-operated mortar fire.
+
+All range, distance, and CEP values are in map tiles.
+
+```jsonc
+{
+    "type": "mortar_type",
+    "id": "m224",
+    "furniture": "f_m224_mortar",
+    "ammo": "mortar_60mm",
+    "range": 3500,
+    "player_flight_time": "15 seconds",
+    "npc_fire_message_delay": "10 seconds",
+    "npc_impact_delay": "40 seconds",
+    "npc_impact_message_delay": "41 seconds",
+    "cep_baseline": 100.0,
+    "cep_min_base": 20.0,
+    "cep_min_skill_scale": 1.0,
+    "cep_min_floor": 5.0,
+    "axis_ratio_baseline": 4.0,
+    "axis_ratio_final_base": 2.5,
+    "axis_ratio_skill_scale": 0.1,
+    "axis_ratio_floor": 1.2
+}
+```
+
+| Field                          | Description
+|---                             |---
+| `"id"`                         | Unique id for this mortar type.
+| `"furniture"`                  | Furniture id for the deployed mortar this type controls.
+| `"ammo"`                       | Ammunition type id accepted by this mortar type, not a specific ammo item id.
+| `"range"`                      | Maximum fire mission range in tiles.
+| `"player_flight_time"`         | Time between a player-operated mortar firing and the impact.
+| `"npc_fire_message_delay"`     | Time between ordering an NPC fire mission and the NPC reporting "Shot out."
+| `"npc_impact_delay"`           | Time between ordering an NPC fire mission and the impact.
+| `"npc_impact_message_delay"`   | Time between ordering an NPC fire mission and the impact report.  Defaults to `"npc_impact_delay"`.
+| `"cep_baseline"`               | Initial circular error probable for unbracketed NPC fire and the maximum player CEP.
+| `"cep_min_base"`               | Base value used to calculate the best possible CEP before skill scaling.
+| `"cep_min_skill_scale"`        | Amount subtracted from `"cep_min_base"` per launcher skill level.
+| `"cep_min_floor"`              | Lowest possible CEP after skill scaling.
+| `"axis_ratio_baseline"`        | Major-axis to minor-axis dispersion ratio at `"cep_baseline"`.
+| `"axis_ratio_final_base"`      | Base major-axis to minor-axis dispersion ratio at minimum CEP before skill scaling.
+| `"axis_ratio_skill_scale"`     | Amount subtracted from `"axis_ratio_final_base"` per launcher skill level.
+| `"axis_ratio_floor"`           | Lowest possible major-axis to minor-axis dispersion ratio.
 
 ### Furniture
 

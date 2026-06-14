@@ -88,6 +88,7 @@
       "mine_entrance.*",
       "mine_shaft.*",
       "s_lot_no_sidewalk",
+      "urban_dd_[1-6]",
       "exo_safehouse_stone_.*",
       "exo_warehouse_.*",
       "oil_platform_.*",

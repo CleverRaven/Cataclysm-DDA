@@ -2165,6 +2165,7 @@ void Item_factory::init()
     add_iuse( "RADIOCAR", &iuse::radiocar );
     add_iuse( "RADIOCONTROL", &iuse::radiocontrol );
     add_iuse( "RADIOCONTROL_TICK", &iuse::radiocontrol_tick );
+    add_iuse( "RADIO_CALL", &iuse::radio_call );
     add_iuse( "RADIO_MOD", &iuse::radio_mod );
     add_iuse( "RADIO_ON", &iuse::radio_on );
     add_iuse( "RADIO_TICK", &iuse::radio_tick );

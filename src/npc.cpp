@@ -53,9 +53,11 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
+#include "mortar.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc_class.h"
@@ -89,6 +91,7 @@
 #include "vpart_position.h"
 #include "weather.h"
 
+static const activity_id ACT_MAN_MORTAR( "ACT_MAN_MORTAR" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 
 static const efftype_id effect_bouldering( "bouldering" );
@@ -1160,6 +1163,11 @@ void npc::starting_inv_wear_item( npc *who, item &it )
 
 void npc::revert_after_activity()
 {
+    if( activity.id() == ACT_MAN_MORTAR ) {
+        activity.canceled( *this );
+    } else if( previous_mission != NPC_MISSION_GUARD_ALLY ) {
+        clear_mortar_support();
+    }
     mission = previous_mission;
     attitude = previous_attitude;
     activity = player_activity();
@@ -3253,6 +3261,8 @@ void npc::die( map *here, Creature *nkiller )
         }
     }
 
+    clear_mortar_support();
+
     if( assigned_camp ) {
         std::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
         if( bcp ) {
@@ -3974,6 +3984,10 @@ std::string npc::get_unique_id() const
 
 void npc::set_mission( npc_mission new_mission )
 {
+    if( new_mission != NPC_MISSION_GUARD_ALLY &&
+        ( new_mission != NPC_MISSION_ACTIVITY || activity.id() != ACT_MAN_MORTAR ) ) {
+        clear_mortar_support();
+    }
     if( new_mission != mission ) {
         previous_mission = mission;
         mission = new_mission;
@@ -3981,6 +3995,63 @@ void npc::set_mission( npc_mission new_mission )
     if( mission == NPC_MISSION_ACTIVITY ) {
         current_activity_id = activity.id();
     }
+}
+
+int npc::clear_mortar_support( const bool notify )
+{
+    const diag_value assignment = get_value( "mortar_assignment" );
+    const diag_value stored_types = get_value( "mortar_ammo_types" );
+    if( assignment.is_empty() && stored_types.is_empty() ) {
+        return 0;
+    }
+
+    int dropped_rounds = 0;
+    map &here = get_map();
+    if( !stored_types.is_empty() ) {
+        for( const diag_value &stored_type : stored_types.array() ) {
+            const std::string &ammo_type = stored_type.str();
+            if( ammo_type.empty() ) {
+                continue;
+            }
+            const diag_value stored_count = get_value( "mortar_ammo_" + ammo_type );
+            const int count = std::max( 0, static_cast<int>( stored_count.dbl() ) );
+            if( count > 0 ) {
+                const itype_id ammo_id( ammo_type );
+                if( ammo_id.is_valid() ) {
+                    here.add_item_or_charges( pos_bub( here ), item( ammo_id, calendar::turn, count ) );
+                    dropped_rounds += count;
+                }
+            }
+            remove_value( "mortar_ammo_" + ammo_type );
+        }
+    }
+
+    std::list<item> physical_ammo = remove_items_with( mortar_type::is_mortar_round );
+    for( item &round : physical_ammo ) {
+        dropped_rounds += round.count_by_charges() ? round.charges : 1;
+        here.add_item_or_charges( pos_bub( here ), std::move( round ) );
+    }
+
+    remove_value( "mortar_assignment" );
+    remove_value( "mortar_assignment_pos" );
+    remove_value( "mortar_target" );
+    remove_value( "mortar_current_cep" );
+    remove_value( "mortar_current_accuracy_multiplier" );
+    remove_value( "mortar_location_error" );
+    remove_value( "mortar_last_spot_observed" );
+    remove_value( "mortar_adjustment_ready_turn" );
+    remove_value( "mortar_adjustment_tactic" );
+    remove_value( "mortar_creeping_axis_to" );
+    remove_value( "mortar_selected_ammo" );
+    remove_value( "mortar_ammo_types" );
+
+    if( notify && dropped_rounds > 0 ) {
+        add_msg( n_gettext( "%1$s stops manning the mortar and drops %2$d mortar round.",
+                            "%1$s stops manning the mortar and drops %2$d mortar rounds.",
+                            dropped_rounds ),
+                 disp_name(), dropped_rounds );
+    }
+    return dropped_rounds;
 }
 
 bool npc::has_activity() const
@@ -4305,5 +4376,3 @@ std::unique_ptr<talker> get_talker_for( npc *guy )
 {
     return std::make_unique<talker_npc>( guy );
 }
-
-

@@ -5,8 +5,8 @@
     "subtype": "collection",
     "items": [
       { "group": "milspec_arsenal_60mm_gun&mags" },
-      { "group": "ammo_can_60mm_any_full", "prob": 80 },
-      { "group": "ammo_can_60mm_any_full", "prob": 5 },
+      { "group": "ammo_can_60mm_any_full", "prob": 100 },
+      { "group": "ammo_can_60mm_any_full", "prob": 30 },
       {
         "distribution": [
           { "item": "ammunition_can_pa124", "variant": "ammunition_can_pa124_60mm_m720a1_8", "count": [ 0, 2 ], "prob": 100 },
@@ -24,6 +24,22 @@
     "type": "item_group",
     "id": "milspec_arsenal_60mm_gun&mags",
     "subtype": "collection",
-    "items": [ { "item": "mortar_m224", "prob": 80 } ]
+    "items": [ { "group": "milspec_arsenal_60mm_mortar_with_support", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_60mm_mortar_with_support",
+    "subtype": "collection",
+    "items": [
+      { "item": "mortar_m224" },
+      {
+        "item": "mortar_fire_control_tablet",
+        "prob": 30,
+        "charges": 200,
+        "contents-item": "software_mortar_fire_control"
+      },
+      { "item": "laser_rangefinder", "prob": 30, "charges": [ 0, 100 ] },
+      { "item": "eplrs_net_control_station", "prob": 40, "charges": [ 8, 56 ] }
+    ]
   }
 ]

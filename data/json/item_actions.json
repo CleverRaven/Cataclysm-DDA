@@ -686,6 +686,11 @@
   },
   {
     "type": "item_action",
+    "id": "RADIO_CALL",
+    "name": { "str": "Contact followers" }
+  },
+  {
+    "type": "item_action",
     "id": "RADIOCONTROL",
     "name": { "str": "Control an RC car" }
   },

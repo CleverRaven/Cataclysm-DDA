@@ -20,6 +20,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "manual_launcher", "prob": 5 },
+      { "item": "manual_mortar", "prob": 3 },
       { "item": "manual_pistol", "prob": 50 },
       { "item": "manual_rifle", "prob": 50 },
       { "item": "manual_shotgun", "prob": 30 },
@@ -114,6 +115,7 @@
       { "item": "manual_knives", "prob": 40 },
       { "item": "manual_swords", "prob": 40 },
       { "item": "manual_launcher", "prob": 20 },
+      { "item": "manual_mortar", "prob": 12 },
       { "item": "manual_melee", "prob": 70 },
       { "item": "manual_pankration", "prob": 1 },
       { "item": "manual_pistol", "prob": 30 },
@@ -487,6 +489,7 @@
       { "item": "manual_pistol", "prob": 4 },
       { "item": "manual_smg", "prob": 2 },
       { "item": "manual_launcher", "prob": 1 },
+      { "item": "manual_mortar", "prob": 1 },
       { "item": "text_gunsmith", "prob": 1 },
       { "item": "recipe_bullets", "prob": 2 },
       { "item": "recipe_melee", "prob": 2 },

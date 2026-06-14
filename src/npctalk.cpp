@@ -1,6 +1,7 @@
 
 #include <algorithm>
 #include <array>
+#include <bitset>
 #include <climits>
 #include <cmath>
 #include <cstddef>
@@ -24,6 +25,8 @@
 #include "achievement.h"
 #include "action.h"
 #include "activity_actor_definitions.h"
+#include "ammo.h"
+#include "ammo_effect.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "bionics.h"
@@ -102,6 +105,7 @@
 #include "mission.h"
 #include "mongroup.h"
 #include "monster.h"
+#include "mortar.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
@@ -147,6 +151,7 @@
 #include "uilist.h"
 #include "uistate.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "visitable.h"
@@ -171,12 +176,25 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_operation( "under_operation" );
 
 static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
+static const flag_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
 
 static const itype_id fuel_type_animal( "animal" );
+static const itype_id itype_60mm_shell_m720a1( "60mm_shell_m720a1" );
+static const itype_id itype_60mm_shell_m721( "60mm_shell_m721" );
+static const itype_id itype_60mm_shell_m768( "60mm_shell_m768" );
+static const itype_id itype_eplrs_net_control_station( "eplrs_net_control_station" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
+static const itype_id itype_laser_rangefinder( "laser_rangefinder" );
+static const itype_id itype_mortar_fire_control_tablet( "mortar_fire_control_tablet" );
+static const itype_id itype_software_mortar_fire_control( "software_mortar_fire_control" );
+
+static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
+
+static const proficiency_id proficiency_prof_mortar_operation( "prof_mortar_operation" );
 
 static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_launcher( "launcher" );
 
 static const skill_id skill_speech( "speech" );
 
@@ -189,6 +207,16 @@ static const zone_type_id zone_type_NPC_INVESTIGATE_ONLY( "NPC_INVESTIGATE_ONLY"
 static const zone_type_id zone_type_NPC_NO_INVESTIGATE( "NPC_NO_INVESTIGATE" );
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
+
+namespace talk_effect_fun
+{
+static void assign_mortar_support( npc &gunner );
+static void report_mortar_support( npc &gunner );
+static void request_mortar_fire( npc &gunner, bool repeat_target );
+static void request_mortar_fire_for_effect( npc &gunner );
+static void select_mortar_ammo( npc &gunner );
+static void toggle_mortar_adjustment( npc &gunner );
+} // namespace talk_effect_fun
 
 using item_menu = std::function<item_location( const item_location_filter & )>;
 using item_menu_mul = std::function<drop_locations( const item_location_filter & )>;
@@ -698,6 +726,13 @@ enum npc_chat_menu {
     NPC_CHAT_ANIMAL_VEHICLE_STOP_FOLLOW,
     NPC_CHAT_COMMAND_MAGIC_VEHICLE_FOLLOW,
     NPC_CHAT_COMMAND_MAGIC_VEHICLE_STOP_FOLLOW,
+    NPC_CHAT_MORTAR_SUPPORT,
+    NPC_CHAT_MORTAR_SUPPORT_FIRE,
+    NPC_CHAT_MORTAR_SUPPORT_REPEAT_FIRE,
+    NPC_CHAT_MORTAR_SUPPORT_FIRE_FOR_EFFECT,
+    NPC_CHAT_MORTAR_SUPPORT_SELECT_AMMO,
+    NPC_CHAT_MORTAR_SUPPORT_REPORT_AMMO,
+    NPC_CHAT_MORTAR_SUPPORT_TOGGLE_ADJUSTMENT,
     NPC_CHAT_ACTIVITIES,
     NPC_CHAT_ACTIVITIES_MOVE_LOOT,
     NPC_CHAT_ACTIVITIES_BUTCHERY,
@@ -710,6 +745,7 @@ enum npc_chat_menu {
     NPC_CHAT_ACTIVITIES_FISHING,
     NPC_CHAT_ACTIVITIES_MINING,
     NPC_CHAT_ACTIVITIES_MOPPING,
+    NPC_CHAT_ACTIVITIES_MAN_MORTAR,
     NPC_CHAT_ACTIVITIES_READ_REPEATEDLY,
     NPC_CHAT_ACTIVITIES_STUDY,
     NPC_CHAT_ACTIVITIES_VEHICLE_DECONSTRUCTION,
@@ -997,6 +1033,30 @@ static int npc_activities_menu()
     nmenu.addentry( NPC_CHAT_ACTIVITIES_VEHICLE_REPAIR, true, 'V', _( "Repairing vehicles" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_UNASSIGN, true, '-',
                     _( "Taking it easy (Stop what they are working on)" ) );
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_MAN_MORTAR, true, 'o', _( "Manning a nearby mortar" ) );
+
+    nmenu.query();
+
+    return nmenu.ret;
+}
+
+static int npc_mortar_support_menu()
+{
+    uilist nmenu;
+    nmenu.text = _( "What mortar order?" );
+
+    nmenu.addentry( NPC_CHAT_MORTAR_SUPPORT_FIRE, true, 'f',
+                    _( "Fire a mortar round at a target" ) );
+    nmenu.addentry( NPC_CHAT_MORTAR_SUPPORT_REPEAT_FIRE, true, 'r',
+                    _( "Repeat the last mortar fire mission" ) );
+    nmenu.addentry( NPC_CHAT_MORTAR_SUPPORT_FIRE_FOR_EFFECT, true, 'e',
+                    _( "Fire for effect" ) );
+    nmenu.addentry( NPC_CHAT_MORTAR_SUPPORT_TOGGLE_ADJUSTMENT, true, 'j',
+                    _( "Switch mortar adjustment tactic" ) );
+    nmenu.addentry( NPC_CHAT_MORTAR_SUPPORT_SELECT_AMMO, true, 's',
+                    _( "Select mortar ammunition" ) );
+    nmenu.addentry( NPC_CHAT_MORTAR_SUPPORT_REPORT_AMMO, true, 'a',
+                    _( "Report mortar ammunition" ) );
 
     nmenu.query();
 
@@ -1107,6 +1167,12 @@ void game::chat( const std::optional<tripoint_bub_ms> &p )
                guy.companion_mission_role_id != "FACTION_CAMP";
     } );
     const int available_for_activities_count = available_for_activities.size();
+    const std::vector<npc *> available_mortar_support = get_npcs_if( [&]( const npc & guy ) {
+        return guy.is_player_ally() && guy.can_hear( player_character.pos_bub(), volume ) &&
+               guy.companion_mission_role_id != "FACTION_CAMP" &&
+               !guy.get_value( "mortar_assignment" ).is_empty();
+    } );
+    const int available_mortar_support_count = available_mortar_support.size();
 
     if( player_character.has_trait( trait_PROF_FOODP ) &&
         !( player_character.is_wearing( itype_foodperson_mask ) ||
@@ -1168,6 +1234,13 @@ void game::chat( const std::optional<tripoint_bub_ms> &p )
         nmenu.addentry( NPC_CHAT_ACTIVITIES, true, 'A', available_for_activities_count == 1 ?
                         string_format( _( "Tell %s to work on…" ), title ) :
                         _( "Tell someone to work on…" )
+                      );
+    }
+    if( !available_mortar_support.empty() ) {
+        nmenu.addentry( NPC_CHAT_MORTAR_SUPPORT, true, 'O', available_mortar_support_count == 1 ?
+                        string_format( _( "Give %s a mortar order" ),
+                                       available_mortar_support.front()->get_name() ) :
+                        _( "Give someone a mortar order…" )
                       );
     }
 
@@ -1429,6 +1502,52 @@ void game::chat( const std::optional<tripoint_bub_ms> &p )
         case NPC_CHAT_COMMAND_MAGIC_VEHICLE_STOP_FOLLOW:
             tell_magic_veh_stop_following();
             break;
+        case NPC_CHAT_MORTAR_SUPPORT: {
+            const int mortar_order = npc_mortar_support_menu();
+            if( mortar_order == UILIST_CANCEL ) {
+                return;
+            }
+
+            std::vector<npc *> sorted_npcs( available_mortar_support.begin(),
+                                            available_mortar_support.end() );
+            std::sort( sorted_npcs.begin(), sorted_npcs.end(), []( const npc * a, const npc * b ) {
+                return localized_compare( a->get_name(), b->get_name() );
+            } );
+
+            int npcselect = 0;
+            if( available_mortar_support_count > 1 ) {
+                npcselect = npc_select_menu( sorted_npcs, _( "Who should receive the mortar order?" ),
+                                             false );
+                if( npcselect < 0 ) {
+                    return;
+                }
+            }
+
+            npc &gunner = *sorted_npcs[npcselect];
+            switch( mortar_order ) {
+                case NPC_CHAT_MORTAR_SUPPORT_FIRE:
+                    talk_effect_fun::request_mortar_fire( gunner, false );
+                    break;
+                case NPC_CHAT_MORTAR_SUPPORT_REPEAT_FIRE:
+                    talk_effect_fun::request_mortar_fire( gunner, true );
+                    break;
+                case NPC_CHAT_MORTAR_SUPPORT_FIRE_FOR_EFFECT:
+                    talk_effect_fun::request_mortar_fire_for_effect( gunner );
+                    break;
+                case NPC_CHAT_MORTAR_SUPPORT_TOGGLE_ADJUSTMENT:
+                    talk_effect_fun::toggle_mortar_adjustment( gunner );
+                    break;
+                case NPC_CHAT_MORTAR_SUPPORT_SELECT_AMMO:
+                    talk_effect_fun::select_mortar_ammo( gunner );
+                    break;
+                case NPC_CHAT_MORTAR_SUPPORT_REPORT_AMMO:
+                    talk_effect_fun::report_mortar_support( gunner );
+                    break;
+                default:
+                    break;
+            }
+            break;
+        }
         case NPC_CHAT_ACTIVITIES: {
             const int activity = npc_activities_menu();
             if( activity == UILIST_CANCEL ) {
@@ -1505,6 +1624,10 @@ void game::chat( const std::optional<tripoint_bub_ms> &p )
                     }
                     case NPC_CHAT_ACTIVITIES_MOPPING: {
                         talk_function::do_mopping( *selected_npc );
+                        break;
+                    }
+                    case NPC_CHAT_ACTIVITIES_MAN_MORTAR: {
+                        talk_effect_fun::assign_mortar_support( *selected_npc );
                         break;
                     }
                     case NPC_CHAT_ACTIVITIES_VEHICLE_DECONSTRUCTION: {
@@ -2977,182 +3100,189 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
 {
     d_win.add_history_separator();
 
-    ui_adaptor ui;
-    const auto resize_cb = [&]( ui_adaptor & ui ) {
-        d_win.resize( ui );
-    };
-    ui.on_screen_resize( resize_cb );
-    resize_cb( ui );
+    std::optional<talk_response> chosen_response;
+    bool trial_success = false;
 
-    // Construct full line
-    std::string challenge = dynamic_line( topic );
-    gen_responses( topic );
+    {
+        ui_adaptor ui;
+        const auto resize_cb = [&]( ui_adaptor & ui ) {
+            d_win.resize( ui );
+        };
+        ui.on_screen_resize( resize_cb );
+        resize_cb( ui );
 
-    // Put quotes around challenge (unless it's an action)
-    if( challenge[0] != '*' && challenge[0] != '&' ) {
-        challenge = string_format( _( "\"%s\"" ), challenge );
-    }
+        // Construct full line
+        std::string challenge = dynamic_line( topic );
+        gen_responses( topic );
 
-    // Parse any tags in challenge
-    if( actor( true )->get_npc() ) {
-        parse_tags( challenge, *actor( false )->get_character(), *actor( true )->get_npc(), *this,
-                    topic.item_type );
-    } else {
-        parse_tags( challenge, *actor( false )->get_character(), *actor( false )->get_character(), *this,
-                    topic.item_type );
-    }
-    challenge = uppercase_first_letter( challenge );
-
-    d_win.clear_history_highlights();
-    if( challenge[0] == '&' ) {
-        // No name prepended!
-        challenge = challenge.substr( 1 );
-        d_win.add_to_history( challenge );
-    } else if( challenge[0] == '*' ) {
-        // Prepend name
-        challenge = string_format( pgettext( "npc does something", "%s %s" ),
-                                   speaker_name( d_win ),
-                                   challenge.substr( 1 ) );
-        d_win.add_to_history( challenge );
-    } else {
-        npc *npc_actor = actor( true )->get_npc();
-        d_win.add_to_history( challenge, speaker_name( d_win ),
-                              npc_actor ? npc_actor->basic_symbol_color() : c_red );
-    }
-    if( debug_mode ) {
-        std::vector<std::string> dynamic_line_debug = build_debug_info( d_win, topic );
-        for( auto &line : dynamic_line_debug ) {
-            d_win.add_to_history( line );
+        // Put quotes around challenge (unless it's an action)
+        if( challenge[0] != '*' && challenge[0] != '&' ) {
+            challenge = string_format( _( "\"%s\"" ), challenge );
         }
-    }
-    apply_speaker_effects( topic );
 
-    if( responses.empty() ) {
-        debugmsg( "No dialogue responses" );
-        return talk_topic( "TALK_NONE" );
-    }
-
-    input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
-    d_win.set_up_scrolling( ctxt );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "CONFIRM" );
-    ctxt.register_action( "ANY_INPUT" );
-    ctxt.register_action( "DEBUG_DIALOGUE_DL_CONDITIONAL" );
-    ctxt.register_action( "DEBUG_DIALOGUE_RESP_CONDITIONAL" );
-    ctxt.register_action( "DEBUG_DIALOGUE_DL_EFFECT" );
-    ctxt.register_action( "DEBUG_DIALOGUE_RESP_EFFECT" );
-    ctxt.register_action( "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE" );
-    ctxt.register_action( "QUIT" );
-    std::vector<talk_data> response_lines;
-    std::vector<input_event> response_hotkeys;
-    const auto generate_response_lines = [&]() {
-#if defined(__ANDROID__)
-        ctxt.get_registered_manual_keys().clear();
-#endif
-        const hotkey_queue &queue = hotkey_queue::alphabets();
-        response_lines.clear();
-        response_hotkeys.clear();
-        input_event evt = ctxt.first_unassigned_hotkey( queue );
-        for( talk_response &response : responses ) {
-            const talk_data &td = response.create_option_line( *this, evt, d_win.is_computer );
-            response_lines.emplace_back( td );
-            response_hotkeys.emplace_back( evt );
-#if defined(__ANDROID__)
-            ctxt.register_manual_key( evt.get_first_input(), td.text );
-#endif
-            evt = ctxt.next_unassigned_hotkey( queue, evt );
+        // Parse any tags in challenge
+        if( actor( true )->get_npc() ) {
+            parse_tags( challenge, *actor( false )->get_character(), *actor( true )->get_npc(), *this,
+                        topic.item_type );
+        } else {
+            parse_tags( challenge, *actor( false )->get_character(), *actor( false )->get_character(), *this,
+                        topic.item_type );
         }
-        d_win.set_responses( response_lines );
-    };
-    generate_response_lines();
+        challenge = uppercase_first_letter( challenge );
 
-    ui.on_redraw( [&]( const ui_adaptor & ) {
-        d_win.draw( speaker_name( d_win ) );
-    } );
+        d_win.clear_history_highlights();
+        if( challenge[0] == '&' ) {
+            // No name prepended!
+            challenge = challenge.substr( 1 );
+            d_win.add_to_history( challenge );
+        } else if( challenge[0] == '*' ) {
+            // Prepend name
+            challenge = string_format( pgettext( "npc does something", "%s %s" ),
+                                       speaker_name( d_win ),
+                                       challenge.substr( 1 ) );
+            d_win.add_to_history( challenge );
+        } else {
+            npc *npc_actor = actor( true )->get_npc();
+            d_win.add_to_history( challenge, speaker_name( d_win ),
+                                  npc_actor ? npc_actor->basic_symbol_color() : c_red );
+        }
+        if( debug_mode ) {
+            std::vector<std::string> dynamic_line_debug = build_debug_info( d_win, topic );
+            for( auto &line : dynamic_line_debug ) {
+                d_win.add_to_history( line );
+            }
+        }
+        apply_speaker_effects( topic );
 
-    size_t response_ind = response_hotkeys.size();
-    bool okay;
-    do {
-        std::string action;
+        if( responses.empty() ) {
+            debugmsg( "No dialogue responses" );
+            return talk_topic( "TALK_NONE" );
+        }
+
+        input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
+        d_win.set_up_scrolling( ctxt );
+        ctxt.register_action( "HELP_KEYBINDINGS" );
+        ctxt.register_action( "CONFIRM" );
+        ctxt.register_action( "ANY_INPUT" );
+        ctxt.register_action( "DEBUG_DIALOGUE_DL_CONDITIONAL" );
+        ctxt.register_action( "DEBUG_DIALOGUE_RESP_CONDITIONAL" );
+        ctxt.register_action( "DEBUG_DIALOGUE_DL_EFFECT" );
+        ctxt.register_action( "DEBUG_DIALOGUE_RESP_EFFECT" );
+        ctxt.register_action( "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE" );
+        ctxt.register_action( "QUIT" );
+        std::vector<talk_data> response_lines;
+        std::vector<input_event> response_hotkeys;
+        const auto generate_response_lines = [&]() {
+#if defined(__ANDROID__)
+            ctxt.get_registered_manual_keys().clear();
+#endif
+            const hotkey_queue &queue = hotkey_queue::alphabets();
+            response_lines.clear();
+            response_hotkeys.clear();
+            input_event evt = ctxt.first_unassigned_hotkey( queue );
+            for( talk_response &response : responses ) {
+                const talk_data &td = response.create_option_line( *this, evt, d_win.is_computer );
+                response_lines.emplace_back( td );
+                response_hotkeys.emplace_back( evt );
+#if defined(__ANDROID__)
+                ctxt.register_manual_key( evt.get_first_input(), td.text );
+#endif
+                evt = ctxt.next_unassigned_hotkey( queue, evt );
+            }
+            d_win.set_responses( response_lines );
+        };
+        generate_response_lines();
+
+        ui.on_redraw( [&]( const ui_adaptor & ) {
+            d_win.draw( speaker_name( d_win ) );
+        } );
+
+        size_t response_ind = response_hotkeys.size();
+        bool okay;
         do {
-            if( debug_mode ) {
-                d_win.set_responses_debug( build_debug_info( d_win, topic, d_win.sel_response ) );
-                d_win.debug_topic_name = topic.id;
-            }
-            ui_manager::redraw();
-            input_event evt;
-            action = ctxt.handle_input();
-            evt = ctxt.get_raw_input();
-            if( evt.type == input_event_t::error || evt.type == input_event_t::timeout ) {
-                continue;
-            }
-            d_win.handle_scrolling( action, ctxt );
-            talk_topic st = special_talk( action );
-            if( st.id != "TALK_NONE" ) {
-                return st;
-            }
-            if( action == "HELP_KEYBINDINGS" ) {
-                // Reallocate hotkeys as keybindings may have changed
-                generate_response_lines();
-            } else if( action == "CONFIRM" ) {
-                response_ind = d_win.sel_response;
-                //response condition must be reverified since non-selectable responses can be displayed
-                if( response_condition_exists[response_ind] && ( !response_condition_eval[response_ind] &&
-                        !debug_mode ) ) {
-                    action = "NONE";
-                }
-            } else if( action == "DEBUG_DIALOGUE_DL_CONDITIONAL" ) {
-                d_win.show_dynamic_line_conditionals = !d_win.show_dynamic_line_conditionals;
-            } else if( action == "DEBUG_DIALOGUE_RESP_CONDITIONAL" ) {
-                d_win.show_response_conditionals = !d_win.show_response_conditionals;
-            } else if( action == "DEBUG_DIALOGUE_DL_EFFECT" ) {
-                d_win.show_dynamic_line_effects = !d_win.show_dynamic_line_effects;
-            } else if( action == "DEBUG_DIALOGUE_RESP_EFFECT" ) {
-                d_win.show_response_effects = !d_win.show_response_effects;
-            } else if( action == "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE" ) {
-                d_win.show_all_responses = !d_win.show_all_responses;
+            std::string action;
+            do {
                 if( debug_mode ) {
-                    this->debug_ignore_conditionals = !this->debug_ignore_conditionals;
-                    gen_responses( topic );
+                    d_win.set_responses_debug( build_debug_info( d_win, topic, d_win.sel_response ) );
+                    d_win.debug_topic_name = topic.id;
+                }
+                ui_manager::redraw();
+                input_event evt;
+                action = ctxt.handle_input();
+                evt = ctxt.get_raw_input();
+                if( evt.type == input_event_t::error || evt.type == input_event_t::timeout ) {
+                    continue;
+                }
+                d_win.handle_scrolling( action, ctxt );
+                talk_topic st = special_talk( action );
+                if( st.id != "TALK_NONE" ) {
+                    return st;
+                }
+                if( action == "HELP_KEYBINDINGS" ) {
+                    // Reallocate hotkeys as keybindings may have changed
                     generate_response_lines();
+                } else if( action == "CONFIRM" ) {
+                    response_ind = d_win.sel_response;
+                    //response condition must be reverified since non-selectable responses can be displayed
+                    if( response_condition_exists[response_ind] && ( !response_condition_eval[response_ind] &&
+                            !debug_mode ) ) {
+                        action = "NONE";
+                    }
+                } else if( action == "DEBUG_DIALOGUE_DL_CONDITIONAL" ) {
+                    d_win.show_dynamic_line_conditionals = !d_win.show_dynamic_line_conditionals;
+                } else if( action == "DEBUG_DIALOGUE_RESP_CONDITIONAL" ) {
+                    d_win.show_response_conditionals = !d_win.show_response_conditionals;
+                } else if( action == "DEBUG_DIALOGUE_DL_EFFECT" ) {
+                    d_win.show_dynamic_line_effects = !d_win.show_dynamic_line_effects;
+                } else if( action == "DEBUG_DIALOGUE_RESP_EFFECT" ) {
+                    d_win.show_response_effects = !d_win.show_response_effects;
+                } else if( action == "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE" ) {
+                    d_win.show_all_responses = !d_win.show_all_responses;
+                    if( debug_mode ) {
+                        this->debug_ignore_conditionals = !this->debug_ignore_conditionals;
+                        gen_responses( topic );
+                        generate_response_lines();
+                    }
+                } else if( action == "ANY_INPUT" ) {
+                    // Check real hotkeys; equivalent functionally to CONFIRM
+                    const auto hotkey_it = std::find( response_hotkeys.begin(),
+                                                      response_hotkeys.end(), evt );
+                    response_ind = std::distance( response_hotkeys.begin(), hotkey_it );
+                    if( response_condition_exists[response_ind] && ( !response_condition_eval[response_ind] &&
+                            !debug_mode ) ) {
+                        action = "NONE";
+                    }
+                } else if( action == "QUIT" ) {
+                    response_ind = get_best_quit_response();
                 }
-            } else if( action == "ANY_INPUT" ) {
-                // Check real hotkeys; equivalent functionally to CONFIRM
-                const auto hotkey_it = std::find( response_hotkeys.begin(),
-                                                  response_hotkeys.end(), evt );
-                response_ind = std::distance( response_hotkeys.begin(), hotkey_it );
-                if( response_condition_exists[response_ind] && ( !response_condition_eval[response_ind] &&
-                        !debug_mode ) ) {
-                    action = "NONE";
-                }
-            } else if( action == "QUIT" ) {
-                response_ind = get_best_quit_response();
+            } while( response_ind >= response_hotkeys.size() ||
+                     ( action != "ANY_INPUT" && action != "QUIT" && action != "CONFIRM" ) );
+            okay = true;
+            std::set<dialogue_consequence> consequences = responses[response_ind].get_consequences( *this );
+            if( consequences.count( dialogue_consequence::hostile ) > 0 ) {
+                okay = query_yn( _( "You may be attacked!  Proceed?" ) );
+            } else if( consequences.count( dialogue_consequence::helpless ) > 0 ) {
+                okay = query_yn( _( "You'll be helpless!  Proceed?" ) );
             }
-        } while( response_ind >= response_hotkeys.size() ||
-                 ( action != "ANY_INPUT" && action != "QUIT" && action != "CONFIRM" ) );
-        okay = true;
-        std::set<dialogue_consequence> consequences = responses[response_ind].get_consequences( *this );
-        if( consequences.count( dialogue_consequence::hostile ) > 0 ) {
-            okay = query_yn( _( "You may be attacked!  Proceed?" ) );
-        } else if( consequences.count( dialogue_consequence::helpless ) > 0 ) {
-            okay = query_yn( _( "You'll be helpless!  Proceed?" ) );
+        } while( !okay );
+
+        d_win.add_history_separator();
+        d_win.add_to_history( response_lines[response_ind].text, _( "You" ), c_light_blue );
+
+        talk_response chosen = responses[response_ind];
+        if( chosen.mission_selected != nullptr ) {
+            actor( true )->select_mission( chosen.mission_selected );
         }
-    } while( !okay );
 
-    d_win.add_history_separator();
-    d_win.add_to_history( response_lines[response_ind].text, _( "You" ), c_light_blue );
-
-    talk_response chosen = responses[response_ind];
-    if( chosen.mission_selected != nullptr ) {
-        actor( true )->select_mission( chosen.mission_selected );
+        // We can't set both skill and style or training will bug out
+        // TODO: Allow setting both skill and style
+        actor( true )->store_chosen_training( chosen.skill, chosen.style, chosen.dialogue_spell,
+                                              chosen.proficiency );
+        trial_success = chosen.trial.roll( *this );
+        chosen_response = std::move( chosen );
     }
 
-    // We can't set both skill and style or training will bug out
-    // TODO: Allow setting both skill and style
-    actor( true )->store_chosen_training( chosen.skill, chosen.style, chosen.dialogue_spell,
-                                          chosen.proficiency );
-    const bool success = chosen.trial.roll( *this );
-    talk_effect_t const &effects = success ? chosen.success : chosen.failure;
+    talk_effect_t const &effects = trial_success ? chosen_response->success : chosen_response->failure;
     talk_topic ret_topic =  effects.apply( *this );
     talk_effect_t::update_missions( *this );
     return ret_topic;
@@ -5760,6 +5890,1829 @@ talk_effect_fun_t::func f_take_control_menu()
     };
 }
 
+struct nearby_mortar_assignment {
+    tripoint_bub_ms pos;
+    const mortar_type *type = nullptr;
+};
+
+std::optional<nearby_mortar_assignment> find_nearby_mortar( const Character &center )
+{
+    map &here = get_map();
+    const tripoint_bub_ms center_pos = center.pos_bub( here );
+    std::optional<nearby_mortar_assignment> best;
+    int best_dist = INT_MAX;
+    for( const tripoint_bub_ms &pos : here.points_in_radius( center_pos, 24 ) ) {
+        const mortar_type *mortar = mortar_type::from_furniture( here.furn( pos ).id() );
+        if( mortar == nullptr ) {
+            continue;
+        }
+        const int dist = rl_dist( center_pos, pos );
+        if( dist < best_dist ) {
+            best = nearby_mortar_assignment{ pos, mortar };
+            best_dist = dist;
+        }
+    }
+    return best;
+}
+
+bool is_mortar_round_for_type( const item &it, const mortar_type &mortar )
+{
+    return it.ammo_type() == mortar.ammo();
+}
+
+std::string mortar_ammo_count_key( const itype_id &ammo_id )
+{
+    return "mortar_ammo_" + ammo_id.str();
+}
+
+int mortar_ammo_count( const npc &gunner, const itype_id &ammo_id )
+{
+    const diag_value stored_count = gunner.get_value( mortar_ammo_count_key( ammo_id ) );
+    return std::max( 0, static_cast<int>( stored_count.dbl() ) );
+}
+
+std::optional<itype_id> stored_selected_mortar_ammo( const npc &gunner )
+{
+    const diag_value selected = gunner.get_value( "mortar_selected_ammo" );
+    if( selected.is_empty() ) {
+        return std::nullopt;
+    }
+    const std::string &selected_ammo = selected.str();
+    if( selected_ammo.empty() ) {
+        return std::nullopt;
+    }
+    const itype_id ammo_id( selected_ammo );
+    if( !ammo_id.is_valid() ) {
+        return std::nullopt;
+    }
+    return ammo_id;
+}
+
+void set_selected_mortar_ammo( npc &gunner, const itype_id &ammo_id )
+{
+    gunner.set_value( "mortar_selected_ammo", ammo_id.str() );
+}
+
+std::vector<std::string> mortar_ammo_types( const npc &gunner )
+{
+    std::vector<std::string> result;
+    const diag_value stored_types = gunner.get_value( "mortar_ammo_types" );
+    if( stored_types.is_empty() ) {
+        return result;
+    }
+    for( const diag_value &ammo_type : stored_types.array() ) {
+        const std::string &ammo_id = ammo_type.str();
+        if( !ammo_id.empty() ) {
+            result.emplace_back( ammo_id );
+        }
+    }
+    return result;
+}
+
+void add_mortar_ammo_type( npc &gunner, const itype_id &ammo_id )
+{
+    std::vector<std::string> ammo_types = mortar_ammo_types( gunner );
+    const std::string &ammo_type = ammo_id.str();
+    if( std::find( ammo_types.begin(), ammo_types.end(), ammo_type ) == ammo_types.end() ) {
+        ammo_types.emplace_back( ammo_type );
+        diag_array stored_types;
+        stored_types.reserve( ammo_types.size() );
+        for( const std::string &stored_type : ammo_types ) {
+            stored_types.emplace_back( stored_type );
+        }
+        gunner.set_value( "mortar_ammo_types", stored_types );
+    }
+}
+
+void set_mortar_ammo_count( npc &gunner, const itype_id &ammo_id, const int count )
+{
+    gunner.set_value( mortar_ammo_count_key( ammo_id ), std::max( 0, count ) );
+}
+
+void add_mortar_ammo( npc &gunner, const item &round, const int count )
+{
+    if( count <= 0 ) {
+        return;
+    }
+    const itype_id ammo_id = round.typeId();
+    add_mortar_ammo_type( gunner, ammo_id );
+    set_mortar_ammo_count( gunner, ammo_id, mortar_ammo_count( gunner, ammo_id ) + count );
+    if( !stored_selected_mortar_ammo( gunner ) ) {
+        set_selected_mortar_ammo( gunner, ammo_id );
+    }
+}
+
+void return_mortar_rounds( npc &gunner, const std::vector<item> &rounds )
+{
+    for( const item &round : rounds ) {
+        add_mortar_ammo( gunner, round, 1 );
+    }
+}
+
+std::vector<itype_id> available_mortar_ammo_types( const npc &gunner,
+        const mortar_type &mortar );
+
+drop_locations select_nearby_handover_items( const std::function<bool( const item & )> &filter,
+        const std::string &title, const bool quiet = false )
+{
+    avatar &you = get_avatar();
+    inventory_filter_preset preset( [&filter]( const item_location & loc ) {
+        return loc && filter( *loc );
+    } );
+    inventory_multiselector inv_s( you, preset, title, {}, true );
+    inv_s.set_title( title );
+    inv_s.set_display_stats( false );
+    inv_s.clear_items();
+    inv_s.add_character_items( you );
+    inv_s.add_nearby_items( PICKUP_RANGE );
+    if( inv_s.empty() ) {
+        if( !quiet ) {
+            popup( _( "You don't have any matching items at hand." ), PF_GET_KEY );
+        }
+        return drop_locations();
+    }
+    return inv_s.execute( true );
+}
+
+std::optional<item> take_handover_item( item_location &loc, const int requested_count )
+{
+    if( !loc ) {
+        return std::nullopt;
+    }
+    item &selected = *loc;
+    item taken = selected;
+    if( selected.count_by_charges() ) {
+        const int count = std::max( 1, std::min( requested_count, selected.charges ) );
+        taken.charges = count;
+        if( selected.charges > count ) {
+            selected.mod_charges( -count );
+        } else {
+            loc.remove_item();
+        }
+    } else {
+        loc.remove_item();
+    }
+    return taken;
+}
+
+int give_mortar_rounds( npc &gunner, const mortar_type &mortar, const std::string &title,
+                        const bool quiet = false )
+{
+    int transferred = 0;
+    drop_locations selected_rounds = select_nearby_handover_items( [&mortar]( const item & it ) {
+        return is_mortar_round_for_type( it, mortar );
+    }, title, quiet );
+    for( drop_location &selected : selected_rounds ) {
+        std::optional<item> round = take_handover_item( selected.first, selected.second );
+        if( !round || !is_mortar_round_for_type( *round, mortar ) ) {
+            continue;
+        }
+        const int round_count = round->count_by_charges() ? round->charges : 1;
+        transferred += round_count;
+        add_mortar_ammo( gunner, *round, round_count );
+    }
+    return transferred;
+}
+
+std::string mortar_ammo_summary( const npc &gunner, const mortar_type &mortar )
+{
+    std::vector<std::string> lines;
+    for( const itype_id &ammo_id : available_mortar_ammo_types( gunner, mortar ) ) {
+        const item round( ammo_id, calendar::turn );
+        lines.emplace_back( string_format( "%s x%d", round.tname(), mortar_ammo_count( gunner,
+                                           ammo_id ) ) );
+    }
+    return lines.empty() ? _( "nothing" ) : string_join( lines, ", " );
+}
+
+int total_mortar_ammo_count( const npc &gunner, const mortar_type &mortar )
+{
+    int total = 0;
+    for( const itype_id &ammo_id : available_mortar_ammo_types( gunner, mortar ) ) {
+        total += mortar_ammo_count( gunner, ammo_id );
+    }
+    return total;
+}
+
+int take_back_mortar_rounds( npc &gunner, const mortar_type &mortar )
+{
+    const std::vector<itype_id> ammo_types = available_mortar_ammo_types( gunner, mortar );
+    if( ammo_types.empty() ) {
+        popup( _( "There are no mortar rounds to take back." ), PF_GET_KEY );
+        return 0;
+    }
+
+    uilist menu;
+    menu.text = _( "Take back which mortar ammunition?" );
+    for( size_t i = 0; i < ammo_types.size(); ++i ) {
+        const item round( ammo_types[i], calendar::turn );
+        menu.addentry( i, true, MENU_AUTOASSIGN, "%s (%d)", round.tname(),
+                       mortar_ammo_count( gunner, ammo_types[i] ) );
+    }
+    menu.query();
+    if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= ammo_types.size() ) {
+        return 0;
+    }
+
+    const itype_id ammo_id = ammo_types[menu.ret];
+    const std::optional<itype_id> selected = stored_selected_mortar_ammo( gunner );
+    const int count = mortar_ammo_count( gunner, ammo_id );
+    if( count <= 0 ) {
+        return 0;
+    }
+    avatar &you = get_avatar();
+    item returned( ammo_id, calendar::turn, count );
+    you.i_add_or_drop( returned );
+    set_mortar_ammo_count( gunner, ammo_id, 0 );
+    if( selected && *selected == ammo_id ) {
+        gunner.remove_value( "mortar_selected_ammo" );
+    }
+    return count;
+}
+
+bool mortar_ammo_auto_switch_allowed( const itype_id &from, const itype_id &to )
+{
+    return ( from == itype_60mm_shell_m720a1 && to == itype_60mm_shell_m768 ) ||
+           ( from == itype_60mm_shell_m768 && to == itype_60mm_shell_m720a1 );
+}
+
+std::optional<itype_id> find_mortar_ammo_auto_switch( const npc &gunner,
+        const mortar_type &mortar, const itype_id &depleted_ammo )
+{
+    for( const std::string &ammo_type : mortar_ammo_types( gunner ) ) {
+        const itype_id ammo_id( ammo_type );
+        if( !ammo_id.is_valid() || mortar_ammo_count( gunner, ammo_id ) <= 0 ||
+            !mortar_ammo_auto_switch_allowed( depleted_ammo, ammo_id ) ||
+            !is_mortar_round_for_type( item( ammo_id, calendar::turn ), mortar ) ) {
+            continue;
+        }
+        return ammo_id;
+    }
+    return std::nullopt;
+}
+
+bool select_mortar_ammo_auto_switch( npc &gunner, const mortar_type &mortar,
+                                     const itype_id &depleted_ammo,
+                                     const bool announce_no_replacement )
+{
+    const item depleted_round( depleted_ammo, calendar::turn );
+    const std::optional<itype_id> replacement = find_mortar_ammo_auto_switch( gunner, mortar,
+            depleted_ammo );
+    if( !replacement ) {
+        if( announce_no_replacement ) {
+            add_msg( _( "%1$s reports they are out of %2$s." ), gunner.disp_name(),
+                     depleted_round.tname() );
+        }
+        return false;
+    }
+    const item replacement_round( *replacement, calendar::turn );
+    set_selected_mortar_ammo( gunner, *replacement );
+    add_msg( _( "%1$s reports they are out of %2$s and will use %3$s." ), gunner.disp_name(),
+             depleted_round.tname(), replacement_round.tname() );
+    return true;
+}
+
+std::optional<item> take_cached_mortar_round( npc &gunner, const mortar_type &mortar )
+{
+    std::optional<itype_id> selected = stored_selected_mortar_ammo( gunner );
+    if( !selected ) {
+        return std::nullopt;
+    }
+    int count = mortar_ammo_count( gunner, *selected );
+    if( count <= 0 ) {
+        if( !select_mortar_ammo_auto_switch( gunner, mortar, *selected, false ) ) {
+            return std::nullopt;
+        }
+        selected = stored_selected_mortar_ammo( gunner );
+        count = selected ? mortar_ammo_count( gunner, *selected ) : 0;
+    }
+    if( selected && count > 0 ) {
+        item round( *selected, calendar::turn );
+        if( !is_mortar_round_for_type( round, mortar ) ) {
+            set_mortar_ammo_count( gunner, *selected, 0 );
+            return std::nullopt;
+        }
+        set_mortar_ammo_count( gunner, *selected, count - 1 );
+        if( count == 1 ) {
+            select_mortar_ammo_auto_switch( gunner, mortar, *selected, true );
+        }
+        return round;
+    }
+
+    return std::nullopt;
+}
+
+void cache_physical_mortar_rounds( npc &gunner, const mortar_type &mortar )
+{
+    std::list<item> ammo = gunner.remove_items_with( [&mortar]( const item & it ) {
+        return is_mortar_round_for_type( it, mortar );
+    } );
+    for( item &round : ammo ) {
+        add_mortar_ammo( gunner, round, round.count_by_charges() ? round.charges : 1 );
+    }
+}
+
+std::optional<item> take_mortar_round( npc &gunner, const mortar_type &mortar )
+{
+    cache_physical_mortar_rounds( gunner, mortar );
+    if( std::optional<item> round = take_cached_mortar_round( gunner, mortar ) ) {
+        return round;
+    }
+    return std::nullopt;
+}
+
+std::string mortar_ammo_name( const mortar_type &mortar )
+{
+    return mortar.ammo().obj().name();
+}
+
+std::vector<itype_id> available_mortar_ammo_types( const npc &gunner, const mortar_type &mortar )
+{
+    std::vector<itype_id> result;
+    for( const std::string &ammo_type : mortar_ammo_types( gunner ) ) {
+        const itype_id ammo_id( ammo_type );
+        if( ammo_id.is_valid() && mortar_ammo_count( gunner, ammo_id ) > 0 &&
+            is_mortar_round_for_type( item( ammo_id, calendar::turn ), mortar ) ) {
+            result.emplace_back( ammo_id );
+        }
+    }
+    return result;
+}
+
+struct assigned_mortar {
+    tripoint_abs_ms pos;
+    const mortar_type *type = nullptr;
+};
+
+std::optional<assigned_mortar> get_assigned_mortar( const npc &gunner )
+{
+    const diag_value assignment = gunner.get_value( "mortar_assignment" );
+    if( assignment.is_empty() ) {
+        return std::nullopt;
+    }
+    const std::string &mortar_type = assignment.str();
+    if( mortar_type.empty() ) {
+        return std::nullopt;
+    }
+    const mortar_type_id mortar_id( mortar_type );
+    const diag_value assignment_pos = gunner.get_value( "mortar_assignment_pos" );
+    if( !mortar_id.is_valid() || assignment_pos.is_empty() ) {
+        return std::nullopt;
+    }
+    const tripoint_abs_ms pos = assignment_pos.tripoint();
+    if( !assignment_pos.is_tripoint() ) {
+        return std::nullopt;
+    }
+    return assigned_mortar{
+        pos,
+        &mortar_id.obj()
+    };
+}
+
+npc *mortar_primary_operator_at( const npc &requester, const tripoint_abs_ms &mortar_pos )
+{
+    for( npc *candidate : g->get_npcs_if( [&requester]( const npc & guy ) {
+    return guy.getID() != requester.getID() && guy.is_player_ally() &&
+               !guy.get_value( "mortar_assignment" ).is_empty();
+    } ) ) {
+        const std::optional<assigned_mortar> assignment = get_assigned_mortar( *candidate );
+        if( assignment && assignment->pos == mortar_pos ) {
+            return candidate;
+        }
+    }
+    return nullptr;
+}
+
+std::optional<tripoint_abs_ms> get_mortar_last_target( const npc &gunner )
+{
+    const diag_value target = gunner.get_value( "mortar_target" );
+    if( target.is_empty() ) {
+        return std::nullopt;
+    }
+    const tripoint_abs_ms mortar_target = target.tripoint();
+    if( !target.is_tripoint() ) {
+        return std::nullopt;
+    }
+    return mortar_target;
+}
+
+std::string mortar_fire_event_key( const npc &gunner )
+{
+    return string_format( "mortar_fire_%d", gunner.getID().get_value() );
+}
+
+bool mortar_fire_order_pending( const npc &gunner )
+{
+    return get_timed_events().get( timed_event_type::MORTAR_FIRE_MESSAGE,
+                                   mortar_fire_event_key( gunner ) ) != nullptr;
+}
+
+time_point mortar_adjustment_ready_at( const npc &gunner )
+{
+    const diag_value &value = gunner.get_value( "mortar_adjustment_ready_turn" );
+    if( value.is_empty() ) {
+        return calendar::turn_zero;
+    }
+    if( !value.is_dbl() ) {
+        return calendar::turn_zero;
+    }
+    const double ready_turn = value.dbl();
+    return calendar::turn_zero + time_duration::from_turns( static_cast<int>( ready_turn ) );
+}
+
+void set_mortar_adjustment_ready_at( npc &gunner, const time_point &ready_at )
+{
+    gunner.set_value( "mortar_adjustment_ready_turn",
+                      to_turns<int>( ready_at - calendar::turn_zero ) );
+}
+
+bool mortar_spotting_feedback_pending( const npc &gunner, const tripoint_abs_ms &target )
+{
+    for( const timed_event &event : get_timed_events().get_all() ) {
+        if( event.type == timed_event_type::MORTAR_SPOTTING_FEEDBACK &&
+            event.character == gunner.getID() && event.map_square == target ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void set_mortar_last_target( npc &gunner, const tripoint_abs_ms &target )
+{
+    gunner.set_value( "mortar_target", target );
+}
+
+enum class mortar_adjustment_tactic : int {
+    bracketing,
+    creeping
+};
+
+std::string mortar_adjustment_tactic_name( const mortar_adjustment_tactic tactic )
+{
+    switch( tactic ) {
+        case mortar_adjustment_tactic::creeping:
+            return _( "Creeping Adjustment" );
+        case mortar_adjustment_tactic::bracketing:
+            return _( "Bracketing Adjustment" );
+    }
+    return _( "Bracketing Adjustment" );
+}
+
+mortar_adjustment_tactic get_mortar_adjustment_tactic( const npc &gunner )
+{
+    const diag_value value = gunner.get_value( "mortar_adjustment_tactic" );
+    if( value.is_empty() ) {
+        return mortar_adjustment_tactic::bracketing;
+    }
+    return value.str() == "creeping" ? mortar_adjustment_tactic::creeping :
+           mortar_adjustment_tactic::bracketing;
+}
+
+void set_mortar_adjustment_tactic( npc &gunner, const mortar_adjustment_tactic tactic )
+{
+    if( tactic == mortar_adjustment_tactic::creeping ) {
+        gunner.set_value( "mortar_adjustment_tactic", "creeping" );
+    } else {
+        gunner.remove_value( "mortar_adjustment_tactic" );
+    }
+}
+
+constexpr double mortar_weather_error_multiplier = 3.0;
+constexpr double mortar_no_tactical_data_error_multiplier = 3.0;
+constexpr double mortar_no_proficiency_error_multiplier = 4.0;
+constexpr double mortar_binocular_reference_multiplier = 1.5;
+constexpr double mortar_laser_rangefinder_sensor_multiplier = 1.8;
+constexpr double mortar_laser_rangefinder_axis_multiplier = 0.5;
+constexpr double mortar_laser_rangefinder_repeat_location_multiplier = 0.35;
+constexpr double mortar_eplrs_location_multiplier = 0.3;
+constexpr int mortar_laser_rangefinder_range = 2000;
+constexpr int mortar_eplrs_charges_per_use = 2;
+constexpr float mortar_he_explosion_power_threshold = 100.0f;
+constexpr double mortar_fire_for_effect_minimum_error_slack = 0.05;
+constexpr double mortar_no_wait_feedback_reduction_scale = 0.5;
+constexpr int mortar_report_mode_none = 0;
+constexpr int mortar_report_mode_radio = 1;
+constexpr int mortar_report_mode_shout = 2;
+constexpr int mortar_report_lost_offset = 10;
+constexpr double mortar_danger_area_scale = 1.5;
+
+bool has_charged_radio( const Character &who )
+{
+    return who.cache_has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
+}
+
+std::vector<item_location> mortar_charged_eplrs_units( Character &who )
+{
+    return who.cache_get_items_with( itype_eplrs_net_control_station,
+    [&who]( const item_location & loc ) {
+        return loc->ammo_sufficient( &who );
+    } );
+}
+
+bool mortar_has_charged_eplrs( Character &who )
+{
+    return !mortar_charged_eplrs_units( who ).empty();
+}
+
+bool mortar_uses_eplrs_net( Character &spotter, Character &gunner )
+{
+    return mortar_has_charged_eplrs( spotter ) && mortar_has_charged_eplrs( gunner );
+}
+
+bool mortar_consume_eplrs_charge( Character &who )
+{
+    std::vector<item_location> units = mortar_charged_eplrs_units( who );
+    if( units.empty() ) {
+        return false;
+    }
+    units.front()->ammo_consume( mortar_eplrs_charges_per_use, who.pos_bub(), &who );
+    return true;
+}
+
+bool mortar_consume_eplrs_net_charges( Character &spotter, Character &gunner )
+{
+    if( !mortar_uses_eplrs_net( spotter, gunner ) ) {
+        return false;
+    }
+    return mortar_consume_eplrs_charge( spotter ) && mortar_consume_eplrs_charge( gunner );
+}
+
+int mortar_report_mode( const Character &spotter, const npc &gunner )
+{
+    if( has_charged_radio( spotter ) && has_charged_radio( gunner ) ) {
+        return mortar_report_mode_radio;
+    }
+    if( rl_dist( spotter.pos_abs(), gunner.pos_abs() ) <= MAX_VIEW_DISTANCE ) {
+        return mortar_report_mode_shout;
+    }
+    return mortar_report_mode_none;
+}
+
+bool item_has_mortar_fire_control( const item &it )
+{
+    if( it.typeId() == itype_mortar_fire_control_tablet ||
+        it.typeId() == itype_software_mortar_fire_control ) {
+        return true;
+    }
+    if( it.is_estorage() ) {
+        for( const item *software : it.softwares() ) {
+            if( software->typeId() == itype_software_mortar_fire_control ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool mortar_has_tactical_data_system( const npc &gunner, const tripoint_abs_ms &mortar_pos )
+{
+    if( gunner.cache_has_item_with( itype_mortar_fire_control_tablet ) ||
+        gunner.has_software( itype_software_mortar_fire_control ) ) {
+        return true;
+    }
+
+    map &here = get_map();
+    const tripoint_bub_ms mortar_bub = here.get_bub( mortar_pos );
+    if( !here.inbounds( mortar_bub ) ) {
+        return false;
+    }
+    for( const tripoint_bub_ms &pos : points_in_radius( mortar_bub, 1 ) ) {
+        if( !here.inbounds( pos ) ) {
+            continue;
+        }
+        for( const item &it : here.i_at( pos ) ) {
+            if( item_has_mortar_fire_control( it ) ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+double mortar_proficiency_accuracy_multiplier( const Character &gunner )
+{
+    if( gunner.has_proficiency( proficiency_prof_mortar_operation ) ) {
+        return 1.0;
+    }
+    const double practiced = clamp<double>( gunner.get_proficiency_practice(
+            proficiency_prof_mortar_operation ), 0.0, 1.0 );
+    return 1.0 + ( mortar_no_proficiency_error_multiplier - 1.0 ) * ( 1.0 - practiced );
+}
+
+double get_mortar_accuracy_multiplier( const npc &gunner )
+{
+    const diag_value value = gunner.get_value( "mortar_current_accuracy_multiplier" );
+    if( value.is_empty() ) {
+        return mortar_type::skill_accuracy_multiplier( gunner.get_skill_level( skill_launcher ) );
+    }
+    const double multiplier = value.dbl();
+    if( !value.is_dbl() ) {
+        return mortar_type::skill_accuracy_multiplier( gunner.get_skill_level( skill_launcher ) );
+    }
+    return std::max( 1.0, multiplier );
+}
+
+void set_mortar_accuracy_multiplier( npc &gunner, const double multiplier )
+{
+    gunner.set_value( "mortar_current_accuracy_multiplier", std::max( 1.0, multiplier ) );
+}
+
+double mortar_fixed_accuracy_multiplier( const npc &gunner, const tripoint_abs_ms &mortar_pos,
+        const bool first_shot )
+{
+    return mortar_proficiency_accuracy_multiplier( gunner ) *
+           ( mortar_has_tactical_data_system( gunner, mortar_pos ) ? 1.0 :
+             mortar_no_tactical_data_error_multiplier ) *
+           ( first_shot ? mortar_weather_error_multiplier : 1.0 );
+}
+
+time_duration mortar_adjustment_downtime( const npc &gunner, const tripoint_abs_ms &mortar_pos )
+{
+    double seconds = std::max( 1.0, 5.0 - 0.3 * gunner.get_skill_level( skill_launcher ) );
+    if( !mortar_has_tactical_data_system( gunner, mortar_pos ) ) {
+        seconds *= 3.0;
+    }
+    return time_duration::from_seconds( static_cast<int>( std::ceil( seconds ) ) );
+}
+
+time_duration mortar_fire_for_effect_shot_interval( const int launcher_skill )
+{
+    const double skill = clamp<double>( launcher_skill, mortar_type::minimum_launcher_skill(), 10.0 );
+    const double skill_fraction = ( skill - mortar_type::minimum_launcher_skill() ) /
+                                  ( 10.0 - mortar_type::minimum_launcher_skill() );
+    return time_duration::from_seconds( static_cast<int>( std::round( 8.0 - 4.0 * skill_fraction ) ) );
+}
+
+double mortar_ammo_change_accuracy_penalty( const npc &gunner )
+{
+    return std::max( 0.0, 15.0 - gunner.get_skill_level( skill_launcher ) ) / 20.0;
+}
+
+void set_mortar_last_spot_observed( npc &gunner, const bool observed )
+{
+    gunner.set_value( "mortar_last_spot_observed", observed ? 1 : 0 );
+}
+
+bool mortar_round_has_high_explosive_payload( const item &round )
+{
+    if( !round.ammo_data() ) {
+        return false;
+    }
+    for( const ammo_effect_str_id &ammo_eff : round.ammo_data()->ammo->ammo_effects ) {
+        if( ammo_eff.obj().aoe_explosion_data.power >= mortar_he_explosion_power_threshold ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool mortar_round_has_impact_payload( const item &round )
+{
+    if( round.typeId() == itype_60mm_shell_m721 ) {
+        return true;
+    }
+    if( !round.ammo_data() ) {
+        return false;
+    }
+    for( const ammo_effect_str_id &ammo_eff : round.ammo_data()->ammo->ammo_effects ) {
+        const ammo_effect &effect = ammo_eff.obj();
+        if( effect.aoe_explosion_data.power > 0 || !effect.aoe_field_types.empty() ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool mortar_has_charged_laser_rangefinder( const Character &spotter )
+{
+    return spotter.cache_has_item_with( itype_laser_rangefinder,
+    [&spotter]( const item & it ) {
+        return it.ammo_sufficient( &spotter );
+    } );
+}
+
+bool mortar_uses_laser_rangefinder( const Character &spotter, const tripoint_abs_ms &target )
+{
+    return rl_dist( spotter.pos_abs(), target ) <= mortar_laser_rangefinder_range &&
+           mortar_has_charged_laser_rangefinder( spotter );
+}
+
+bool mortar_has_zoom_optic( const Character &spotter )
+{
+    if( spotter.cache_has_item_with( flag_ZOOM ) ) {
+        return true;
+    }
+    const auto gun_has_zoom_mod = []( const item & gun ) {
+        for( const item *mod : gun.gunmods() ) {
+            if( mod->has_flag( flag_ZOOM ) ) {
+                return true;
+            }
+        }
+        return false;
+    };
+    return spotter.cache_has_item_with( "mortar scoped gun", &item::is_gun, gun_has_zoom_mod );
+}
+
+double mortar_soft_cap_sensor_multiplier( const double multiplier )
+{
+    if( multiplier <= 4.0 ) {
+        return multiplier;
+    }
+    return 4.0 + ( multiplier - 4.0 ) / ( 1.0 + multiplier - 4.0 );
+}
+
+double mortar_spotter_sensor_multiplier( const Character &spotter,
+        const std::optional<tripoint_abs_ms> &target = std::nullopt )
+{
+    double multiplier = 1.0;
+    if( target && mortar_uses_laser_rangefinder( spotter, *target ) ) {
+        multiplier *= mortar_laser_rangefinder_sensor_multiplier;
+    } else if( mortar_has_zoom_optic( spotter ) ) {
+        multiplier *= mortar_binocular_reference_multiplier;
+    }
+    if( spotter.has_flag( json_flag_ENHANCED_VISION ) ) {
+        multiplier *= 1.4;
+    }
+
+    const std::bitset<NUM_VISION_MODES> &vision_modes = spotter.get_vision_modes();
+    if( vision_modes[VISION_CLAIRVOYANCE_SUPER] ) {
+        multiplier *= 1.8;
+    } else if( vision_modes[VISION_CLAIRVOYANCE_PLUS] ) {
+        multiplier *= 1.5;
+    } else if( vision_modes[VISION_CLAIRVOYANCE] ) {
+        multiplier *= 1.3;
+    }
+    if( vision_modes[NV_GOGGLES] ) {
+        multiplier *= 1.25;
+    } else if( vision_modes[NIGHTVISION_3] ) {
+        multiplier *= 1.3;
+    } else if( vision_modes[NIGHTVISION_2] ) {
+        multiplier *= 1.2;
+    } else if( vision_modes[NIGHTVISION_1] ) {
+        multiplier *= 1.1;
+    }
+    if( vision_modes[IR_VISION] ) {
+        multiplier *= 1.2;
+    }
+
+    multiplier *= clamp<double>( spotter.hearing_ability(), 0.25, 1.8 );
+    return mortar_soft_cap_sensor_multiplier( multiplier );
+}
+
+double mortar_perception_spotting_factor( const int perception )
+{
+    if( perception <= 1 ) {
+        return 0.1;
+    }
+    if( perception <= 5 ) {
+        return 0.1 + ( perception - 1 ) * ( 0.4 / 4.0 );
+    }
+    return std::min( 1.0, 0.5 + ( perception - 5 ) * ( 0.5 / 5.0 ) );
+}
+
+double mortar_repeat_accuracy_multiplier( const mortar_type &mortar, const Character &spotter,
+        const int launcher_skill, const tripoint_abs_ms &target )
+{
+    const double base_reduction = 1.0 - mortar.repeat_cep_multiplier( launcher_skill );
+    const double reduction = clamp( base_reduction *
+                                    mortar_perception_spotting_factor( spotter.get_per() ) *
+                                    mortar_spotter_sensor_multiplier( spotter, target ), 0.0, 0.95 );
+    return 1.0 - reduction;
+}
+
+double mortar_feedback_multiplier( const double multiplier, const bool no_wait_adjustment )
+{
+    const double clamped = clamp( multiplier, 0.0, 1.0 );
+    if( !no_wait_adjustment ) {
+        return clamped;
+    }
+    return 1.0 - ( 1.0 - clamped ) * mortar_no_wait_feedback_reduction_scale;
+}
+
+double mortar_base_location_error( const Character &spotter, const tripoint_abs_ms &target )
+{
+    const double perception = clamp<double>( spotter.get_per(), 1.0, 10.0 );
+    double base = 0.0;
+    if( perception <= 5.0 ) {
+        base = 500.0 - ( perception - 1.0 ) * ( 250.0 / 4.0 );
+    } else {
+        base = 250.0 - ( perception - 5.0 ) * ( 100.0 / 5.0 );
+    }
+    return std::max( 1.0, base * mortar_binocular_reference_multiplier /
+                     mortar_spotter_sensor_multiplier( spotter, target ) );
+}
+
+mortar_location_error mortar_make_location_error( const Character &spotter,
+        const tripoint_abs_ms &target, const double cep )
+{
+    mortar_location_error error{ cep, cep };
+    if( mortar_uses_laser_rangefinder( spotter, target ) ) {
+        error.range *= mortar_laser_rangefinder_axis_multiplier;
+    }
+    return error;
+}
+
+tripoint_abs_ms mortar_average_spotter_axis( const tripoint_abs_ms &spotter_pos,
+        const tripoint_abs_ms &old_target, const tripoint_abs_ms &new_target )
+{
+    double old_x = old_target.x() - spotter_pos.x();
+    double old_y = old_target.y() - spotter_pos.y();
+    const double old_length = std::hypot( old_x, old_y );
+    double new_x = new_target.x() - spotter_pos.x();
+    double new_y = new_target.y() - spotter_pos.y();
+    const double new_length = std::hypot( new_x, new_y );
+    if( old_length > 0.0 ) {
+        old_x /= old_length;
+        old_y /= old_length;
+    }
+    if( new_length > 0.0 ) {
+        new_x /= new_length;
+        new_y /= new_length;
+    }
+
+    double ux = old_x + new_x;
+    double uy = old_y + new_y;
+    const double average_length = std::hypot( ux, uy );
+    if( average_length <= 0.0 ) {
+        return new_target;
+    }
+    ux /= average_length;
+    uy /= average_length;
+    return tripoint_abs_ms( spotter_pos.x() + static_cast<int>( std::round( ux * 1000.0 ) ),
+                            spotter_pos.y() + static_cast<int>( std::round( uy * 1000.0 ) ),
+                            new_target.z() );
+}
+
+double get_mortar_location_error( const npc &gunner, const Character &spotter,
+                                  const tripoint_abs_ms &target )
+{
+    const diag_value value = gunner.get_value( "mortar_location_error" );
+    if( value.is_empty() ) {
+        return mortar_base_location_error( spotter, target );
+    }
+    const double error = value.dbl();
+    if( !value.is_dbl() ) {
+        return mortar_base_location_error( spotter, target );
+    }
+    return std::max( 1.0, error );
+}
+
+void set_mortar_location_error( npc &gunner, const double error )
+{
+    gunner.set_value( "mortar_location_error", std::max( 1.0, error ) );
+}
+
+double mortar_near_retarget_location_error_rate( const int perception )
+{
+    if( perception <= 3 ) {
+        return 0.5;
+    }
+    if( perception >= 10 ) {
+        return 0.2;
+    }
+    return 0.5 - ( perception - 3 ) * ( 0.3 / 7.0 );
+}
+
+double mortar_shot_lost_chance( const Character &spotter, const tripoint_abs_ms &impact )
+{
+    const double perception = clamp<double>( spotter.get_per(), 1.0, 10.0 );
+    double chance = 0.0;
+    if( perception <= 5.0 ) {
+        chance = 0.20 - ( perception - 1.0 ) * ( 0.10 / 4.0 );
+    } else {
+        chance = 0.10 - ( perception - 5.0 ) * ( 0.07 / 5.0 );
+    }
+    chance += 0.10 * rl_dist( spotter.pos_abs(), impact ) / 1000.0;
+    chance /= mortar_spotter_sensor_multiplier( spotter, impact );
+    return clamp( chance, 0.0, 0.95 );
+}
+
+bool confirm_mortar_probable_impact_area( const mortar_type &mortar,
+        const tripoint_abs_ms &target, const tripoint_abs_ms &mortar_pos,
+        const mortar_error &ballistic_error, const tripoint_abs_ms &location_axis_from,
+        const tripoint_abs_ms &location_axis_to, const mortar_location_error &location_error,
+        const Character &spotter, const npc &gunner )
+{
+    std::vector<std::string> endangered;
+    if( mortar.point_in_probable_impact_area( target, mortar_pos, target, ballistic_error,
+            location_axis_from, location_axis_to, location_error, spotter.pos_abs(),
+            mortar_danger_area_scale ) ) {
+        endangered.emplace_back( _( "you" ) );
+    }
+    if( mortar.point_in_probable_impact_area( target, mortar_pos, target, ballistic_error,
+            location_axis_from, location_axis_to, location_error, gunner.pos_abs(),
+            mortar_danger_area_scale ) ) {
+        endangered.emplace_back( gunner.disp_name() );
+    }
+    if( endangered.empty() ) {
+        return true;
+    }
+
+    return query_yn(
+               _( "%1$s may be inside the probable impact area for this mortar mission.  Fire anyway?" ),
+               enumerate_as_string( endangered ) );
+}
+
+void set_mortar_creeping_axis_to( npc &gunner, const tripoint_abs_ms &target,
+                                  const tripoint_abs_ms &spotter_pos,
+                                  const tripoint_abs_ms &mortar_pos )
+{
+    gunner.set_value( "mortar_creeping_axis_to",
+                      mortar_make_creeping_axis_to( target, spotter_pos, mortar_pos ) );
+}
+
+void store_mortar_creeping_axis_to( npc &gunner, const tripoint_abs_ms &axis_to )
+{
+    gunner.set_value( "mortar_creeping_axis_to", axis_to );
+}
+
+std::optional<tripoint_abs_ms> get_mortar_creeping_axis_to( const npc &gunner )
+{
+    const diag_value value = gunner.get_value( "mortar_creeping_axis_to" );
+    if( value.is_empty() ) {
+        return std::nullopt;
+    }
+    const tripoint_abs_ms axis_to = value.tripoint();
+    if( !value.is_tripoint() ) {
+        return std::nullopt;
+    }
+    return axis_to;
+}
+
+mortar_error mortar_current_report_error( const npc &gunner, const assigned_mortar &mortar,
+        const Character &spotter, const tripoint_abs_ms &target )
+{
+    const int target_distance = rl_dist( mortar.pos, target );
+    const double accuracy_multiplier = get_mortar_accuracy_multiplier( gunner );
+    const double location_error_cep = get_mortar_location_error( gunner, spotter, target );
+    const mortar_location_error location_error = mortar_make_location_error( spotter, target,
+            location_error_cep );
+    const double fixed_multiplier = mortar_fixed_accuracy_multiplier( gunner, mortar.pos, false );
+    const double total_multiplier = mortar_type::effective_ballistic_multiplier(
+                                        accuracy_multiplier * fixed_multiplier );
+    const mortar_error minimum_error = mortar.type->minimum_error( target_distance );
+    const mortar_error ballistic_error{ minimum_error.range * total_multiplier,
+                                        minimum_error.deflection * total_multiplier };
+    return mortar.type->combined_error( mortar.pos, target, ballistic_error,
+                                        spotter.pos_abs(), target, location_error );
+}
+
+struct mortar_fire_for_effect_readiness {
+    mortar_error reported_error;
+    double range_threshold = 0.0;
+};
+
+std::optional<mortar_fire_for_effect_readiness> mortar_fire_for_effect_readiness_for(
+    const npc &gunner, const assigned_mortar &mortar, const Character &spotter )
+{
+    const std::optional<tripoint_abs_ms> target = get_mortar_last_target( gunner );
+    if( !target ) {
+        return std::nullopt;
+    }
+    const int target_distance = rl_dist( mortar.pos, *target );
+    const double minimum_range_error = mortar.type->minimum_range_error( target_distance );
+    const double range_threshold = minimum_range_error +
+                                   std::max( 1.0, minimum_range_error *
+                                           mortar_fire_for_effect_minimum_error_slack );
+    return mortar_fire_for_effect_readiness{ mortar_current_report_error( gunner, mortar, spotter, *target ),
+            range_threshold };
+}
+
+std::optional<mortar_creeping_solution> mortar_current_creeping_solution( npc &gunner,
+        const assigned_mortar &mortar, const Character &spotter )
+{
+    const std::optional<tripoint_abs_ms> target = get_mortar_last_target( gunner );
+    if( !target ) {
+        return std::nullopt;
+    }
+    std::optional<tripoint_abs_ms> axis_to = get_mortar_creeping_axis_to( gunner );
+    if( !axis_to ) {
+        set_mortar_creeping_axis_to( gunner, *target, spotter.pos_abs(), mortar.pos );
+        axis_to = get_mortar_creeping_axis_to( gunner );
+    }
+    if( !axis_to ) {
+        return std::nullopt;
+    }
+
+    const mortar_error reported_error = mortar_current_report_error( gunner, mortar, spotter,
+                                        *target );
+    return mortar_creeping_adjustment( mortar.pos, *target, *axis_to, spotter.pos_abs(),
+                                       reported_error );
+}
+
+void practice_mortar_shot( npc &gunner )
+{
+    SkillLevel &launcher = gunner.get_skill_level_object( skill_launcher );
+    launcher.set_exercise( launcher.exercise() + 1 );
+    gunner.practice_proficiency( proficiency_prof_mortar_operation, 5_minutes );
+}
+
+void assign_mortar_support_impl( npc &gunner )
+{
+    if( !gunner.is_player_ally() ) {
+        add_msg( _( "%s is not willing to operate a mortar for you." ), gunner.disp_name() );
+        return;
+    }
+    if( gunner.get_skill_level( skill_launcher ) < mortar_type::minimum_launcher_skill() ) {
+        add_msg( _( "%1$s needs launcher skill %2$d to operate the mortar." ),
+                 gunner.disp_name(), mortar_type::minimum_launcher_skill() );
+        return;
+    }
+
+    std::optional<nearby_mortar_assignment> mortar = find_nearby_mortar( gunner );
+    if( !mortar ) {
+        add_msg( _( "There is no deployed mortar within one overmap tile of %s." ),
+                 gunner.disp_name() );
+        return;
+    }
+
+    map &here = get_map();
+    const tripoint_abs_ms mortar_abs = here.get_abs( mortar->pos );
+    if( const npc *operator_npc = mortar_primary_operator_at( gunner, mortar_abs ) ) {
+        add_msg( _( "%1$s is already manning that mortar for %2$s." ),
+                 operator_npc->disp_name(), mortar_ammo_name( *mortar->type ) );
+        return;
+    }
+
+    if( gunner.has_player_activity() ) {
+        gunner.revert_after_activity();
+    }
+
+    const int ammo_transferred = give_mortar_rounds( gunner, *mortar->type,
+                                 _( "Select mortar rounds to hand over" ), true );
+
+    gunner.set_value( "mortar_assignment", mortar->type->id.str() );
+    gunner.set_value( "mortar_assignment_pos", mortar_abs );
+    gunner.remove_value( "mortar_target" );
+    gunner.remove_value( "mortar_current_cep" );
+    gunner.remove_value( "mortar_location_error" );
+    gunner.remove_value( "mortar_adjustment_ready_turn" );
+    gunner.remove_value( "mortar_adjustment_tactic" );
+    gunner.remove_value( "mortar_creeping_axis_to" );
+    set_mortar_accuracy_multiplier( gunner,
+                                    mortar_type::skill_accuracy_multiplier( gunner.get_skill_level( skill_launcher ) ) );
+    set_mortar_last_spot_observed( gunner, true );
+    gunner.assign_activity( man_mortar_activity_actor( mortar_abs, mortar->type->id ) );
+    g->add_npc_follower( gunner.getID() );
+    gunner.chatbin.first_topic = gunner.chatbin.talk_friend;
+    gunner.guard_pos = std::nullopt;
+    gunner.clear_ai_guard_pos();
+    gunner.goal = npc::no_goal_point;
+    gunner.omt_path.clear();
+    gunner.path.clear();
+    gunner.chair_pos = std::nullopt;
+    gunner.wander_pos = std::nullopt;
+    gunner.clear_destination();
+    gunner.clear_committed_goal();
+
+    if( ammo_transferred > 0 ) {
+        add_msg( _( "%1$s mans the mortar and takes %2$d mortar round." ),
+                 gunner.disp_name(), ammo_transferred );
+    } else {
+        add_msg( _( "%1$s mans the mortar, but still needs %2$s." ),
+                 gunner.disp_name(), mortar_ammo_name( *mortar->type ) );
+    }
+}
+
+talk_effect_fun_t::func f_assign_mortar()
+{
+    return []( dialogue const & d ) {
+        npc *gunner = d.actor( true )->get_npc();
+        if( gunner == nullptr ) {
+            debugmsg( "Trying to assign mortar, but beta talker is not an NPC.  %s", d.get_callstack() );
+            return;
+        }
+        if( d.by_radio ) {
+            add_msg( _( "You need to do that in person." ) );
+            return;
+        }
+        assign_mortar_support_impl( *gunner );
+    };
+}
+
+talk_effect_fun_t::func f_manage_mortar_ammo()
+{
+    return []( dialogue const & d ) {
+        npc *gunner = d.actor( true )->get_npc();
+        if( gunner == nullptr ) {
+            debugmsg( "Trying to manage mortar ammo, but beta talker is not an NPC.  %s",
+                      d.get_callstack() );
+            return;
+        }
+        if( d.by_radio ) {
+            add_msg( _( "You need to do that in person." ) );
+            return;
+        }
+        const std::optional<assigned_mortar> mortar = get_assigned_mortar( *gunner );
+        if( !mortar ) {
+            add_msg( _( "%s has not been assigned to a mortar." ), gunner->disp_name() );
+            return;
+        }
+
+        while( true ) {
+            const int action = uilist( _( "Mortar ammunition" ), {
+                _( "Provide mortar rounds." ),
+                _( "Take mortar rounds back." ),
+                _( "Ask what mortar rounds are available." )
+            } );
+            if( action < 0 ) {
+                return;
+            }
+            if( action == 0 ) {
+                const int transferred = give_mortar_rounds( *gunner, *mortar->type,
+                                        _( "Select mortar rounds to hand over" ) );
+                if( transferred > 0 ) {
+                    add_msg( _( "You hand %1$d mortar round to %2$s." ), transferred,
+                             gunner->disp_name() );
+                }
+            } else if( action == 1 ) {
+                const int returned = take_back_mortar_rounds( *gunner, *mortar->type );
+                if( returned > 0 ) {
+                    add_msg( _( "%1$s returns %2$d mortar round." ), gunner->disp_name(), returned );
+                }
+            } else {
+                add_msg( _( "%1$s reports available mortar ammunition: %2$s." ),
+                         gunner->disp_name(), mortar_ammo_summary( *gunner, *mortar->type ) );
+            }
+        }
+    };
+}
+
+talk_effect_fun_t::func f_report_mortar_support()
+{
+    return []( dialogue const & d ) {
+        npc *gunner = d.actor( true )->get_npc();
+        if( gunner == nullptr ) {
+            debugmsg( "Trying to report mortar support, but beta talker is not an NPC.  %s",
+                      d.get_callstack() );
+            return;
+        }
+        report_mortar_support( *gunner );
+    };
+}
+
+talk_effect_fun_t::func f_select_mortar_ammo()
+{
+    return []( dialogue const & d ) {
+        npc *gunner = d.actor( true )->get_npc();
+        if( gunner == nullptr ) {
+            debugmsg( "Trying to select mortar ammo, but beta talker is not an NPC.  %s",
+                      d.get_callstack() );
+            return;
+        }
+        select_mortar_ammo( *gunner );
+    };
+}
+
+std::optional<int> select_mortar_fire_for_effect_round_count( const npc &gunner,
+        const assigned_mortar &mortar, const Character &spotter )
+{
+    const std::optional<mortar_fire_for_effect_readiness> readiness =
+        mortar_fire_for_effect_readiness_for( gunner, mortar, spotter );
+    if( !readiness ) {
+        add_msg( _( "%s reports they do not have a mortar target for fire for effect." ),
+                 gunner.disp_name() );
+        return std::nullopt;
+    }
+
+    add_msg_debug( debugmode::DF_NPC,
+                   "Mortar fire for effect readiness for %s: range error %.2f, threshold %.2f, "
+                   "ready %d.",
+                   gunner.disp_name(), readiness->reported_error.range, readiness->range_threshold,
+                   readiness->reported_error.range <= readiness->range_threshold ? 1 : 0 );
+    if( readiness->reported_error.range > readiness->range_threshold ) {
+        add_msg( _( "%1$s reports fire for effect is not available; current probable range error is %2$d tiles, threshold is %3$d tiles." ),
+                 gunner.disp_name(), static_cast<int>( std::round( readiness->reported_error.range ) ),
+                 static_cast<int>( std::round( readiness->range_threshold ) ) );
+        return std::nullopt;
+    }
+
+    uilist menu;
+    menu.text = _( "Fire for effect: how many rounds?" );
+    menu.addentry( 2, true, '2', _( "Fire 2 rounds" ) );
+    menu.addentry( 4, true, '4', _( "Fire 4 rounds" ) );
+    menu.addentry( 6, true, '6', _( "Fire 6 rounds" ) );
+    menu.query();
+    if( menu.ret != 2 && menu.ret != 4 && menu.ret != 6 ) {
+        return std::nullopt;
+    }
+    return menu.ret;
+}
+
+void queue_mortar_fire_order( const npc &gunner, const tripoint_abs_ms &target,
+                              const int round_count,
+                              const time_point &when )
+{
+    get_timed_events().add_mortar_queued_fire( when, gunner.getID(), target, round_count );
+    add_msg_debug( debugmode::DF_NPC,
+                   "Queued mortar fire order for %s: target %d:%d:%d, rounds %d, due in %d turns.",
+                   gunner.disp_name(), target.x(), target.y(), target.z(), round_count,
+                   to_turns<int>( when - calendar::turn ) );
+}
+
+void request_mortar_fire_impl( npc &gunner, const bool repeat_target,
+                               const int requested_rounds = 1,
+                               const std::optional<tripoint_abs_ms> &forced_target = std::nullopt,
+                               const bool from_queue = false )
+{
+    avatar &you = get_avatar();
+    const int round_count = std::max( 1, requested_rounds );
+
+    const std::optional<assigned_mortar> mortar = get_assigned_mortar( gunner );
+    if( !mortar ) {
+        add_msg( _( "%s has not been assigned to a mortar." ), gunner.disp_name() );
+        return;
+    }
+    const tripoint_abs_ms &mortar_abs = mortar->pos;
+    const mortar_type &mortar_data = *mortar->type;
+    if( rl_dist( gunner.pos_abs_omt(), project_to<coords::omt>( mortar_abs ) ) > 1 ) {
+        add_msg( _( "%s is too far from the assigned mortar." ), gunner.disp_name() );
+        return;
+    }
+    const bool adjustment_pending = mortar_adjustment_ready_at( gunner ) > calendar::turn;
+    const bool fire_order_pending = mortar_fire_order_pending( gunner );
+    if( fire_order_pending && !adjustment_pending && !from_queue ) {
+        add_msg( _( "%s is still preparing the previous mortar fire mission." ), gunner.disp_name() );
+        return;
+    }
+
+    const int max_range_ms = mortar_data.range();
+    map &here = get_map();
+    std::optional<tripoint_abs_ms> target_abs_ms;
+    const std::optional<tripoint_abs_ms> previous_target = get_mortar_last_target( gunner );
+    const int launcher_skill = gunner.get_skill_level( skill_launcher );
+    if( launcher_skill < mortar_type::minimum_launcher_skill() ) {
+        add_msg( _( "%1$s needs launcher skill %2$d to operate the mortar." ),
+                 gunner.disp_name(), mortar_type::minimum_launcher_skill() );
+        return;
+    }
+
+    if( forced_target ) {
+        target_abs_ms = forced_target;
+    } else if( repeat_target ) {
+        if( !previous_target ) {
+            add_msg( _( "%s reports they do not have a previous mortar target to repeat." ),
+                     gunner.disp_name() );
+            return;
+        }
+        target_abs_ms = previous_target;
+    } else {
+        const int targeting_method = uilist( _( "Designate mortar target how?" ), {
+            _( "Visible local square" ), _( "Overmap tile" )
+        } );
+        if( targeting_method < 0 ) {
+            return;
+        }
+
+        if( targeting_method == 0 ) {
+            add_msg( m_info, _( "Designate a visible square for the mortar strike." ) );
+            const std::optional<tripoint_bub_ms> target_bub = g->look_around();
+            if( !target_bub ) {
+                return;
+            }
+            if( !you.sees( here, *target_bub ) ) {
+                add_msg( _( "You need line of sight to designate that square." ) );
+                return;
+            }
+            target_abs_ms = here.get_abs( *target_bub );
+        } else {
+            const int max_range_omt = max_range_ms / ( 2 * SEEX );
+            const tripoint_abs_omt mortar_omt = project_to<coords::omt>( mortar_abs );
+            const tripoint_abs_omt target_omt = ui::omap::choose_point( _( "Pick a mortar target." ),
+                                                mortar_omt, false, max_range_omt );
+            if( target_omt == tripoint_abs_omt::invalid ) {
+                return;
+            }
+            target_abs_ms = project_to<coords::ms>( target_omt );
+            target_abs_ms->x() += SEEX;
+            target_abs_ms->y() += SEEY;
+            target_abs_ms->z() = overmap_buffer.highest_omt_point( target_omt );
+        }
+    }
+
+    const int target_distance = rl_dist( mortar_abs, *target_abs_ms );
+    if( target_distance > max_range_ms ) {
+        add_msg( _( "Target is outside the mortar's fire mission range." ) );
+        return;
+    }
+
+    if( adjustment_pending || ( from_queue && fire_order_pending ) ) {
+        const time_point queued_at = std::max( calendar::turn + 1_turns,
+                                               mortar_adjustment_ready_at( gunner ) );
+        queue_mortar_fire_order( gunner, *target_abs_ms, round_count, queued_at );
+        return;
+    }
+
+    const bool laser_rangefinder_used = mortar_uses_laser_rangefinder( you, *target_abs_ms );
+    const bool eplrs_net_available = mortar_uses_eplrs_net( you, gunner );
+    double accuracy_multiplier = get_mortar_accuracy_multiplier( gunner );
+    double location_error_cep = get_mortar_location_error( gunner, you, *target_abs_ms );
+    const tripoint_abs_ms location_axis_from = you.pos_abs();
+    tripoint_abs_ms location_axis_to = *target_abs_ms;
+    const bool repeat_mission = previous_target && *previous_target == *target_abs_ms;
+    if( !repeat_mission ) {
+        accuracy_multiplier = mortar_type::skill_accuracy_multiplier( launcher_skill );
+        const double base_location_error = mortar_base_location_error( you, *target_abs_ms );
+        if( previous_target ) {
+            const double retarget_increase = rl_dist( *previous_target, *target_abs_ms ) *
+                                             mortar_near_retarget_location_error_rate( you.get_per() );
+            location_error_cep = std::min( base_location_error,
+                                           location_error_cep + retarget_increase );
+            location_axis_to = mortar_average_spotter_axis( location_axis_from, *previous_target,
+                               *target_abs_ms );
+        } else {
+            location_error_cep = base_location_error;
+        }
+        if( eplrs_net_available ) {
+            location_error_cep *= mortar_eplrs_location_multiplier;
+        }
+    }
+    const mortar_location_error location_error = mortar_make_location_error(
+                you, *target_abs_ms, location_error_cep );
+    const double fixed_multiplier = mortar_fixed_accuracy_multiplier( gunner, mortar_abs,
+                                    !repeat_mission );
+    const double raw_total_multiplier = accuracy_multiplier * fixed_multiplier;
+    const double total_multiplier = mortar_type::effective_ballistic_multiplier( raw_total_multiplier );
+    const std::optional<tripoint_abs_ms> stored_creeping_axis_to =
+        get_mortar_creeping_axis_to( gunner );
+    const tripoint_abs_ms selected_creeping_axis_to = ( repeat_mission && stored_creeping_axis_to ) ?
+            *stored_creeping_axis_to :
+            mortar_make_creeping_axis_to( *target_abs_ms, you.pos_abs(), mortar_abs );
+
+    std::optional<item> round = take_mortar_round( gunner, mortar_data );
+    if( !round ) {
+        if( total_mortar_ammo_count( gunner, mortar_data ) > 0 ) {
+            add_msg( _( "%s reports that you need to select a mortar ammunition type first." ),
+                     gunner.disp_name() );
+        } else {
+            add_msg( _( "%1$s reports that they have no %2$s." ), gunner.disp_name(),
+                     mortar_ammo_name( mortar_data ) );
+        }
+        return;
+    }
+    if( !round->ammo_data() ) {
+        add_msg( _( "%s cannot identify that mortar round." ), gunner.disp_name() );
+        add_mortar_ammo( gunner, *round, 1 );
+        return;
+    }
+    if( !mortar_round_has_impact_payload( *round ) ) {
+        add_msg( _( "That round has no mortar impact payload." ) );
+        add_mortar_ammo( gunner, *round, 1 );
+        return;
+    }
+    const bool round_is_he = mortar_round_has_high_explosive_payload( *round );
+    const mortar_fire_solution fire_solution = mortar_data.make_fire_solution(
+                mortar_abs, *target_abs_ms, you.pos_abs(), selected_creeping_axis_to,
+                location_axis_from, location_axis_to, location_error, total_multiplier,
+                round_is_he,
+                get_mortar_adjustment_tactic( gunner ) == mortar_adjustment_tactic::creeping );
+    const int minimum_target_distance = fire_solution.minimum_target_distance;
+    if( target_distance <= minimum_target_distance ) {
+        if( round_is_he ) {
+            add_msg( _( "Target is too close to the mortar; minimum safe range is %d tiles." ),
+                     minimum_target_distance );
+        } else {
+            add_msg( _( "Target is too close to the mortar." ) );
+        }
+        add_mortar_ammo( gunner, *round, 1 );
+        return;
+    }
+    std::vector<item> rounds;
+    rounds.emplace_back( std::move( *round ) );
+    bool round_collection_failed = false;
+    for( int i = 1; i < round_count; ++i ) {
+        std::optional<item> extra_round = take_mortar_round( gunner, mortar_data );
+        if( !extra_round ) {
+            add_msg( _( "%1$s reports they only have %2$d %3$s available for this fire mission." ),
+                     gunner.disp_name(), static_cast<int>( rounds.size() ),
+                     mortar_ammo_name( mortar_data ) );
+            round_collection_failed = true;
+            break;
+        }
+        if( !extra_round->ammo_data() ) {
+            add_msg( _( "%s cannot identify that mortar round." ), gunner.disp_name() );
+            add_mortar_ammo( gunner, *extra_round, 1 );
+            round_collection_failed = true;
+            break;
+        }
+        if( !mortar_round_has_impact_payload( *extra_round ) ) {
+            add_msg( _( "That round has no mortar impact payload." ) );
+            add_mortar_ammo( gunner, *extra_round, 1 );
+            round_collection_failed = true;
+            break;
+        }
+        rounds.emplace_back( std::move( *extra_round ) );
+    }
+    if( round_collection_failed ) {
+        return_mortar_rounds( gunner, rounds );
+        return;
+    }
+
+    const mortar_error &minimum_error = fire_solution.minimum_error;
+    const mortar_error &ballistic_error = fire_solution.ballistic_error;
+    const tripoint_abs_ms &fire_center_abs_ms = fire_solution.fire_center;
+    const std::optional<mortar_creeping_solution> &creeping_solution =
+        fire_solution.creeping_solution;
+
+    if( round_is_he && !confirm_mortar_probable_impact_area( mortar_data, fire_center_abs_ms,
+            mortar_abs,
+            ballistic_error, location_axis_from, location_axis_to, location_error, you, gunner ) ) {
+        return_mortar_rounds( gunner, rounds );
+        return;
+    }
+    bool eplrs_net_used = eplrs_net_available;
+    if( eplrs_net_used && !mortar_consume_eplrs_net_charges( you, gunner ) ) {
+        eplrs_net_used = false;
+    }
+
+    const int report_mode = mortar_report_mode( you, gunner );
+    const bool existing_feedback_pending = mortar_spotting_feedback_pending( gunner,
+                                           *target_abs_ms );
+    const double base_feedback_accuracy_multiplier = mortar_repeat_accuracy_multiplier( mortar_data,
+            you,
+            launcher_skill, *target_abs_ms );
+    const double base_feedback_location_multiplier =
+        ( laser_rangefinder_used ? mortar_laser_rangefinder_repeat_location_multiplier : 0.5 ) *
+        ( eplrs_net_used ? mortar_eplrs_location_multiplier : 1.0 );
+
+    const time_duration fire_delay = mortar_data.npc_fire_message_delay();
+    const time_duration fire_for_effect_interval = mortar_fire_for_effect_shot_interval(
+                launcher_skill );
+    bool any_scheduled = false;
+    int scheduled_rounds = 0;
+    std::optional<time_duration> first_flight_time;
+    for( size_t i = 0; i < rounds.size(); ++i ) {
+        const item &current_round = rounds[i];
+        const tripoint_abs_ms aimpoint_abs_ms = mortar_data.apply_location_error( fire_center_abs_ms,
+                                                location_axis_from, location_axis_to, location_error );
+        const tripoint_abs_ms impact_abs_ms = mortar_data.apply_dispersion( aimpoint_abs_ms,
+                                              mortar_abs, fire_center_abs_ms, ballistic_error );
+        const double shot_lost_chance = mortar_shot_lost_chance( you, impact_abs_ms );
+        const int shot_lost_roll = rng( 1, 10000 );
+        const bool shot_observed = shot_lost_roll > shot_lost_chance * 10000.0;
+        const bool correction_reported = shot_observed && report_mode != mortar_report_mode_none;
+        const int impact_message_strength = report_mode +
+                                            ( shot_observed ? 0 : mortar_report_lost_offset );
+        const bool no_wait_adjustment = existing_feedback_pending || i > 0;
+        const double feedback_accuracy_multiplier = mortar_feedback_multiplier(
+                    base_feedback_accuracy_multiplier, no_wait_adjustment );
+        const double feedback_location_multiplier = mortar_feedback_multiplier(
+                    base_feedback_location_multiplier, no_wait_adjustment );
+
+        add_msg_debug( debugmode::DF_NPC,
+                       "Mortar fire from %s round %d/%d: distance %d, minimum range %.2f, "
+                       "minimum deflection %.2f, skill multiplier %.2f, fixed multiplier %.2f, "
+                       "raw total multiplier %.2f, effective total multiplier %.2f, "
+                       "minimum target distance %d, location error %.2f:%.2f, HE %d, "
+                       "rangefinder %d, EPLRS %d, no-wait adjustment %d, aimpoint offset %d:%d, "
+                       "impact offset %d:%d.",
+                       gunner.disp_name(), static_cast<int>( i + 1 ),
+                       static_cast<int>( rounds.size() ), target_distance, minimum_error.range,
+                       minimum_error.deflection, accuracy_multiplier, fixed_multiplier,
+                       raw_total_multiplier, total_multiplier, minimum_target_distance,
+                       location_error.range, location_error.deflection,
+                       mortar_round_has_high_explosive_payload( current_round ) ? 1 : 0,
+                       laser_rangefinder_used ? 1 : 0,
+                       eplrs_net_used ? 1 : 0,
+                       no_wait_adjustment ? 1 : 0,
+                       aimpoint_abs_ms.x() - target_abs_ms->x(),
+                       aimpoint_abs_ms.y() - target_abs_ms->y(),
+                       impact_abs_ms.x() - target_abs_ms->x(),
+                       impact_abs_ms.y() - target_abs_ms->y() );
+        add_msg_debug( debugmode::DF_NPC,
+                       "Mortar spotting for %s round %d/%d: perception %d, sensor multiplier %.2f, "
+                       "lost chance %.2f%%, roll %d, observed %d, correction reported %d, "
+                       "feedback multiplier %.2f:%.2f.",
+                       gunner.disp_name(), static_cast<int>( i + 1 ),
+                       static_cast<int>( rounds.size() ), you.get_per(),
+                       mortar_spotter_sensor_multiplier( you, impact_abs_ms ),
+                       shot_lost_chance * 100.0, shot_lost_roll, shot_observed ? 1 : 0,
+                       correction_reported ? 1 : 0, feedback_accuracy_multiplier,
+                       feedback_location_multiplier );
+
+        const time_duration fire_offset = fire_for_effect_interval * static_cast<int>( i );
+        const time_point fire_time = calendar::turn + fire_delay + fire_offset;
+        const time_duration flight_time = mortar_data.npc_flight_time( target_distance );
+        const time_point impact_time = fire_time + flight_time;
+        const time_point impact_message_time = impact_time + 1_seconds;
+        bool scheduled = false;
+        if( current_round.typeId() == itype_60mm_shell_m721 ) {
+            const int illumination_duration = rng( 40, 60 );
+            get_timed_events().add_mortar_field( impact_time, impact_abs_ms, 1,
+                                                 "fd_mortar_illumination", 0,
+                                                 illumination_duration );
+            scheduled = true;
+        }
+        for( const ammo_effect_str_id &ammo_eff : current_round.ammo_data()->ammo->ammo_effects ) {
+            const ammo_effect &effect = ammo_eff.obj();
+            if( effect.aoe_explosion_data.power > 0 ) {
+                // Match player-operated mortars: queue an absolute-map timed explosion.
+                // process_explosions() loads a temporary map if the impact is outside the bubble.
+                get_timed_events().add( timed_event_type::EXPLOSION,
+                                        impact_time, impact_abs_ms, effect.aoe_explosion_data );
+                scheduled = true;
+            }
+            for( const aoe_field_effect &aoe : effect.aoe_field_types ) {
+                if( x_in_y( aoe.chance, 100 ) ) {
+                    get_timed_events().add_mortar_field( impact_time, impact_abs_ms,
+                                                         rng( aoe.intensity_min, aoe.intensity_max ),
+                                                         aoe.field_type.str(), aoe.radius );
+                    scheduled = true;
+                }
+            }
+        }
+        if( !scheduled ) {
+            add_msg( _( "That round has no mortar impact payload." ) );
+            add_mortar_ammo( gunner, current_round, 1 );
+            continue;
+        }
+        if( !first_flight_time ) {
+            first_flight_time = flight_time;
+        }
+
+        get_timed_events().add( timed_event_type::MORTAR_FIRE_MESSAGE, fire_time, -1,
+                                impact_abs_ms, -1, gunner.disp_name(),
+                                mortar_fire_event_key( gunner ) );
+        get_timed_events().add( timed_event_type::MORTAR_IMPACT_MESSAGE, impact_message_time,
+                                -1, impact_abs_ms, impact_message_strength,
+                                gunner.disp_name(), *target_abs_ms );
+        get_timed_events().add_mortar_feedback( impact_message_time, gunner.getID(),
+                                                *target_abs_ms, correction_reported,
+                                                feedback_accuracy_multiplier,
+                                                feedback_location_multiplier );
+        any_scheduled = true;
+        ++scheduled_rounds;
+    }
+    if( !any_scheduled ) {
+        return;
+    }
+
+    if( creeping_solution ) {
+        add_msg_debug( debugmode::DF_NPC,
+                       "Mortar creeping adjustment for %s: center offset %d:%d, heading %03d, "
+                       "danger close %d, offset multiplier %.2f, range limited %d.",
+                       gunner.disp_name(), fire_center_abs_ms.x() - target_abs_ms->x(),
+                       fire_center_abs_ms.y() - target_abs_ms->y(),
+                       creeping_solution->offset_heading,
+                       creeping_solution->danger_close ? 1 : 0,
+                       creeping_solution->offset_multiplier,
+                       creeping_solution->range_limited ? 1 : 0 );
+    }
+    store_mortar_creeping_axis_to( gunner, selected_creeping_axis_to );
+    set_mortar_last_target( gunner, *target_abs_ms );
+    if( !repeat_mission ) {
+        set_mortar_accuracy_multiplier( gunner, accuracy_multiplier );
+        set_mortar_location_error( gunner, location_error_cep );
+        set_mortar_last_spot_observed( gunner, false );
+    }
+    for( int i = 0; i < scheduled_rounds; ++i ) {
+        practice_mortar_shot( gunner );
+    }
+
+    const int heading = mortar_heading_degrees( gunner.pos_abs(), you.pos_abs() );
+    const std::string heading_text = string_format( "%03d", heading );
+    const int shot_seconds = to_seconds<int>( mortar_data.npc_fire_message_delay() );
+    const int splash_seconds = shot_seconds + to_seconds<int>( *first_flight_time );
+    const mortar_error &reported_error = fire_solution.reported_error;
+    if( creeping_solution ) {
+        const std::string offset_heading_text = string_format( "%03d",
+                                                creeping_solution->offset_heading );
+        const std::string offset_multiplier_text = string_format( "%.1f",
+                creeping_solution->offset_multiplier );
+        if( creeping_solution->range_limited && creeping_solution->danger_close ) {
+            add_msg( _( "%1$s reports Creeping Adjustment offset heading %2$s degrees, range-limited offset.  Danger close to your position." ),
+                     gunner.disp_name(), offset_heading_text );
+        } else if( creeping_solution->range_limited ) {
+            add_msg( _( "%1$s reports Creeping Adjustment offset heading %2$s degrees, range-limited offset." ),
+                     gunner.disp_name(), offset_heading_text );
+        } else if( creeping_solution->danger_close ) {
+            add_msg( _( "%1$s reports Creeping Adjustment offset heading %2$s degrees, %3$sx probable-error offset.  Danger close to your position." ),
+                     gunner.disp_name(), offset_heading_text, offset_multiplier_text );
+        } else {
+            add_msg( _( "%1$s reports Creeping Adjustment offset heading %2$s degrees, %3$sx probable-error offset." ),
+                     gunner.disp_name(), offset_heading_text, offset_multiplier_text );
+        }
+    }
+    if( launcher_skill >= 5 ) {
+        if( eplrs_net_used && laser_rangefinder_used ) {
+            add_msg( _( "You give the fire mission.  %1$s reads back: \"Grid accepted; EPLRS net and laser rangefinder linked.  OT direction %2$s; probable range/normal-to-range error %3$d by %4$d tiles.  Shot in %5$d, splash in %6$d.\"" ),
+                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
+                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
+                     splash_seconds );
+        } else if( eplrs_net_used ) {
+            add_msg( _( "You give the fire mission.  %1$s reads back: \"Grid accepted; EPLRS net linked.  OT direction %2$s; probable range/normal-to-range error %3$d by %4$d tiles.  Shot in %5$d, splash in %6$d.\"" ),
+                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
+                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
+                     splash_seconds );
+        } else if( laser_rangefinder_used ) {
+            add_msg( _( "You give the fire mission.  %1$s reads back: \"Grid accepted; laser rangefinder linked.  OT direction %2$s; probable range/normal-to-range error %3$d by %4$d tiles.  Shot in %5$d, splash in %6$d.\"" ),
+                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
+                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
+                     splash_seconds );
+        } else {
+            add_msg( _( "You give the fire mission.  %1$s reads back: \"Grid accepted.  OT direction %2$s; probable range/normal-to-range error %3$d by %4$d tiles.  Shot in %5$d, splash in %6$d.\"" ),
+                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
+                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
+                     splash_seconds );
+        }
+    } else {
+        if( eplrs_net_used && laser_rangefinder_used ) {
+            add_msg( _( "You give the fire mission.  %1$s reports EPLRS net and laser rangefinder linked, expected heading %2$s degrees, and probable range/normal-to-range error about %3$d by %4$d tiles.  Shot expected in %5$d seconds; impact in %6$d seconds." ),
+                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
+                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
+                     splash_seconds );
+        } else if( eplrs_net_used ) {
+            add_msg( _( "You give the fire mission.  %1$s reports EPLRS net linked, expected heading %2$s degrees, and probable range/normal-to-range error about %3$d by %4$d tiles.  Shot expected in %5$d seconds; impact in %6$d seconds." ),
+                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
+                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
+                     splash_seconds );
+        } else if( laser_rangefinder_used ) {
+            add_msg( _( "You give the fire mission.  %1$s reports laser rangefinder linked, expected heading %2$s degrees, and probable range/normal-to-range error about %3$d by %4$d tiles.  Shot expected in %5$d seconds; impact in %6$d seconds." ),
+                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
+                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
+                     splash_seconds );
+        } else {
+            add_msg( _( "You give the fire mission.  %1$s reports expected heading %2$s degrees and probable range/normal-to-range error about %3$d by %4$d tiles.  Shot expected in %5$d seconds; impact in %6$d seconds." ),
+                     gunner.disp_name(), heading_text, static_cast<int>( std::round( reported_error.range ) ),
+                     static_cast<int>( std::round( reported_error.deflection ) ), shot_seconds,
+                     splash_seconds );
+        }
+    }
+}
+
+void report_mortar_support_impl( npc &gunner )
+{
+    const std::optional<assigned_mortar> mortar = get_assigned_mortar( gunner );
+    if( !mortar ) {
+        add_msg( _( "%s has not been assigned to a mortar." ), gunner.disp_name() );
+        return;
+    }
+
+    cache_physical_mortar_rounds( gunner, *mortar->type );
+    const int total_ammo = total_mortar_ammo_count( gunner, *mortar->type );
+    if( total_ammo <= 0 ) {
+        add_msg( _( "%1$s reports that they have no %2$s ready." ),
+                 gunner.disp_name(), mortar_ammo_name( *mortar->type ) );
+    } else {
+        add_msg( _( "%1$s reports %2$d %3$s ready: %4$s." ),
+                 gunner.disp_name(), total_ammo, mortar_ammo_name( *mortar->type ),
+                 mortar_ammo_summary( gunner, *mortar->type ) );
+    }
+    add_msg( _( "%1$s reports current adjustment tactic: %2$s." ), gunner.disp_name(),
+             mortar_adjustment_tactic_name( get_mortar_adjustment_tactic( gunner ) ) );
+}
+
+void toggle_mortar_adjustment_impl( npc &gunner )
+{
+    const std::optional<assigned_mortar> mortar = get_assigned_mortar( gunner );
+    if( !mortar ) {
+        add_msg( _( "%s has not been assigned to a mortar." ), gunner.disp_name() );
+        return;
+    }
+
+    avatar &you = get_avatar();
+    const mortar_adjustment_tactic current = get_mortar_adjustment_tactic( gunner );
+    const mortar_adjustment_tactic next = current == mortar_adjustment_tactic::creeping ?
+                                          mortar_adjustment_tactic::bracketing :
+                                          mortar_adjustment_tactic::creeping;
+    set_mortar_adjustment_tactic( gunner, next );
+
+    if( next == mortar_adjustment_tactic::bracketing ) {
+        add_msg( _( "%1$s switches to %2$s." ), gunner.disp_name(),
+                 mortar_adjustment_tactic_name( next ) );
+        return;
+    }
+
+    const std::optional<mortar_creeping_solution> solution = mortar_current_creeping_solution(
+                gunner, *mortar, you );
+    if( !solution ) {
+        add_msg( _( "%1$s switches to %2$s.  Creeping offset heading will be set when you order a target." ),
+                 gunner.disp_name(), mortar_adjustment_tactic_name( next ) );
+        return;
+    }
+
+    const std::string offset_heading_text = string_format( "%03d", solution->offset_heading );
+    const std::string offset_multiplier_text = string_format( "%.1f", solution->offset_multiplier );
+    if( solution->danger_close ) {
+        add_msg( _( "%1$s switches to %2$s.  Current offset heading is %3$s degrees, %4$sx probable-error offset.  Danger close to your position." ),
+                 gunner.disp_name(), mortar_adjustment_tactic_name( next ), offset_heading_text,
+                 offset_multiplier_text );
+    } else {
+        add_msg( _( "%1$s switches to %2$s.  Current offset heading is %3$s degrees, %4$sx probable-error offset." ),
+                 gunner.disp_name(), mortar_adjustment_tactic_name( next ), offset_heading_text,
+                 offset_multiplier_text );
+    }
+}
+
+void select_mortar_ammo_impl( npc &gunner )
+{
+    const std::optional<assigned_mortar> mortar = get_assigned_mortar( gunner );
+    if( !mortar ) {
+        add_msg( _( "%s has not been assigned to a mortar." ), gunner.disp_name() );
+        return;
+    }
+
+    cache_physical_mortar_rounds( gunner, *mortar->type );
+    const std::vector<itype_id> ammo_types = available_mortar_ammo_types( gunner, *mortar->type );
+    if( ammo_types.empty() ) {
+        add_msg( _( "%1$s reports that they have no %2$s." ), gunner.disp_name(),
+                 mortar_ammo_name( *mortar->type ) );
+        return;
+    }
+
+    const std::optional<itype_id> selected = stored_selected_mortar_ammo( gunner );
+    uilist menu;
+    menu.text = _( "Select mortar ammunition." );
+    for( size_t i = 0; i < ammo_types.size(); ++i ) {
+        const item round( ammo_types[i], calendar::turn );
+        const bool is_selected = selected && *selected == ammo_types[i];
+        menu.addentry( i, true, MENU_AUTOASSIGN, "%s%s (%d)",
+                       is_selected ? "* " : "", round.tname(), mortar_ammo_count( gunner, ammo_types[i] ) );
+    }
+    menu.query();
+    if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= ammo_types.size() ) {
+        return;
+    }
+
+    const itype_id &ammo_id = ammo_types[menu.ret];
+    if( selected && *selected != ammo_id ) {
+        set_mortar_accuracy_multiplier( gunner, get_mortar_accuracy_multiplier( gunner ) +
+                                        mortar_ammo_change_accuracy_penalty( gunner ) );
+    }
+    set_selected_mortar_ammo( gunner, ammo_id );
+    const item round( ammo_id, calendar::turn );
+    add_msg( _( "You tell %1$s to use %2$s for mortar fire missions." ), gunner.disp_name(),
+             round.tname() );
+}
+
+talk_effect_fun_t::func f_request_mortar_fire()
+{
+    return []( dialogue const & d ) {
+        npc *gunner = d.actor( true )->get_npc();
+        if( gunner == nullptr ) {
+            debugmsg( "Trying to request mortar fire, but beta talker is not an NPC.  %s",
+                      d.get_callstack() );
+            return;
+        }
+        request_mortar_fire_impl( *gunner, false );
+    };
+}
+
+talk_effect_fun_t::func f_request_mortar_repeat_fire()
+{
+    return []( dialogue const & d ) {
+        npc *gunner = d.actor( true )->get_npc();
+        if( gunner == nullptr ) {
+            debugmsg( "Trying to request mortar fire, but beta talker is not an NPC.  %s",
+                      d.get_callstack() );
+            return;
+        }
+        request_mortar_fire_impl( *gunner, true );
+    };
+}
+
+void request_mortar_fire_for_effect_impl( npc &gunner )
+{
+    const std::optional<assigned_mortar> mortar = get_assigned_mortar( gunner );
+    if( !mortar ) {
+        add_msg( _( "%s has not been assigned to a mortar." ), gunner.disp_name() );
+        return;
+    }
+
+    const std::optional<int> round_count = select_mortar_fire_for_effect_round_count( gunner,
+                                           *mortar, get_avatar() );
+    if( !round_count ) {
+        return;
+    }
+    request_mortar_fire_impl( gunner, true, *round_count );
+}
+
+talk_effect_fun_t::func f_request_mortar_fire_for_effect()
+{
+    return []( dialogue const & d ) {
+        npc *gunner = d.actor( true )->get_npc();
+        if( gunner == nullptr ) {
+            debugmsg( "Trying to request mortar fire for effect, but beta talker is not an NPC.  %s",
+                      d.get_callstack() );
+            return;
+        }
+        request_mortar_fire_for_effect_impl( *gunner );
+    };
+}
+
+talk_effect_fun_t::func f_toggle_mortar_adjustment()
+{
+    return []( dialogue const & d ) {
+        npc *gunner = d.actor( true )->get_npc();
+        if( gunner == nullptr ) {
+            debugmsg( "Trying to toggle mortar adjustment, but beta talker is not an NPC.  %s",
+                      d.get_callstack() );
+            return;
+        }
+        toggle_mortar_adjustment_impl( *gunner );
+    };
+}
+
 talk_effect_fun_t::func f_make_radio_representative( const bool is_beta )
 {
     return [is_beta]( dialogue const & d ) {
@@ -8362,6 +10315,73 @@ talk_effect_fun_t::func f_trigger_event( const JsonObject &jo, std::string_view 
 }
 
 } // namespace
+
+static void assign_mortar_support( npc &gunner )
+{
+    assign_mortar_support_impl( gunner );
+}
+
+static void report_mortar_support( npc &gunner )
+{
+    report_mortar_support_impl( gunner );
+}
+
+static void request_mortar_fire( npc &gunner, const bool repeat_target )
+{
+    request_mortar_fire_impl( gunner, repeat_target );
+}
+
+static void request_mortar_fire_for_effect( npc &gunner )
+{
+    request_mortar_fire_for_effect_impl( gunner );
+}
+
+static void select_mortar_ammo( npc &gunner )
+{
+    select_mortar_ammo_impl( gunner );
+}
+
+static void toggle_mortar_adjustment( npc &gunner )
+{
+    toggle_mortar_adjustment_impl( gunner );
+}
+
+} // namespace talk_effect_fun
+
+namespace talk_effect_fun
+{
+
+void add_mortar_adjustment_downtime( npc &gunner )
+{
+    const std::optional<assigned_mortar> mortar = get_assigned_mortar( gunner );
+    if( !mortar ) {
+        add_msg_debug( debugmode::DF_NPC,
+                       "Mortar adjustment downtime ignored for %s: no assigned mortar.",
+                       gunner.disp_name() );
+        return;
+    }
+
+    const time_duration downtime = mortar_adjustment_downtime( gunner, mortar->pos );
+    const time_point old_ready_at = mortar_adjustment_ready_at( gunner );
+    const time_point new_ready_at = std::max( calendar::turn, old_ready_at ) + downtime;
+    set_mortar_adjustment_ready_at( gunner, new_ready_at );
+    add_msg_debug( debugmode::DF_NPC,
+                   "Mortar adjustment downtime for %s: added %d seconds, ready in %d turns.",
+                   gunner.disp_name(), to_seconds<int>( downtime ),
+                   to_turns<int>( new_ready_at - calendar::turn ) );
+}
+
+void fire_queued_mortar( npc &gunner, const tripoint_abs_ms &target, const int round_count )
+{
+    if( !get_assigned_mortar( gunner ) ) {
+        add_msg_debug( debugmode::DF_NPC,
+                       "Queued mortar fire ignored for %s: no assigned mortar.",
+                       gunner.disp_name() );
+        return;
+    }
+    request_mortar_fire_impl( gunner, false, std::max( 1, round_count ), target, true );
+}
+
 } // namespace talk_effect_fun
 
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun,
@@ -8792,6 +10812,38 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
     }
     if( effect_id == "take_control_menu" ) {
         set_effect( talk_effect_fun_t( talk_effect_fun::f_take_control_menu() ) );
+        return;
+    }
+    if( effect_id == "assign_mortar" ) {
+        set_effect( talk_effect_fun_t( talk_effect_fun::f_assign_mortar() ) );
+        return;
+    }
+    if( effect_id == "request_mortar_fire" ) {
+        set_effect( talk_effect_fun_t( talk_effect_fun::f_request_mortar_fire() ) );
+        return;
+    }
+    if( effect_id == "request_mortar_repeat_fire" ) {
+        set_effect( talk_effect_fun_t( talk_effect_fun::f_request_mortar_repeat_fire() ) );
+        return;
+    }
+    if( effect_id == "request_mortar_fire_for_effect" ) {
+        set_effect( talk_effect_fun_t( talk_effect_fun::f_request_mortar_fire_for_effect() ) );
+        return;
+    }
+    if( effect_id == "toggle_mortar_adjustment" ) {
+        set_effect( talk_effect_fun_t( talk_effect_fun::f_toggle_mortar_adjustment() ) );
+        return;
+    }
+    if( effect_id == "report_mortar_support" ) {
+        set_effect( talk_effect_fun_t( talk_effect_fun::f_report_mortar_support() ) );
+        return;
+    }
+    if( effect_id == "select_mortar_ammo" ) {
+        set_effect( talk_effect_fun_t( talk_effect_fun::f_select_mortar_ammo() ) );
+        return;
+    }
+    if( effect_id == "manage_mortar_ammo" ) {
+        set_effect( talk_effect_fun_t( talk_effect_fun::f_manage_mortar_ammo() ) );
         return;
     }
     if( effect_id == "u_make_radio_representative" ) {
@@ -9525,4 +11577,3 @@ std::vector<std::string> get_all_talk_topic_ids()
     }
     return dialogue_ids;
 }
-
