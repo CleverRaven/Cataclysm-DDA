@@ -730,7 +730,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Your frequent handling of artifacts has allowed you to redirect some of the otherworldly power they carry.  When suffering from resonance effects, you gain a variety of minor bonuses such as resistance to fire, electricity, or cold, increased dodge, or increased stamina regen.",
+    "description": "Your frequent handling of artifacts has allowed you to redirect some of the otherworldly power they carry.  When suffering from resonance effects, you gain a variety of minor bonuses such as resistance to fire, electricity, or cold, increased dodge, or increased stamina regeneration.",
     "enchantments": [
       {
         "condition": { "math": [ "u_artifact_resonance() > 2000" ] },
@@ -1583,5 +1583,18 @@
     "valid": false,
     "active": true,
     "activated_eocs": [ "EOC_BOMBASTIC_PERKS_SOOTHING_THE_SAVAGE_BEAST" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_hive_queen",
+    "name": { "str": "Hive Queen" },
+    "description": "The insects have accepted you as one of their own. You are neutral with eusocial insects, including giant ones, but your presence is a little unnerving to animals and people.",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "ignored_by": [ "INSECT_FLYING", "INSECT" ],
+    "anger_relations": [ [ "MAMMAL", 5 ], [ "BIRD", 5 ] ],
+    "enchantments": [ { "values": [ { "value": "SOCIAL_PERSUADE", "add": -5 }, { "value": "SOCIAL_INTIMIDATE", "add": -5 } ] } ],
+    "flags": [ "ANIMALDISCORD" ]
   }
 ]
