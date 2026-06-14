@@ -110,7 +110,7 @@
     "id": "potassiumchloride_small_bottle_part",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
-    "//": "8 oz glass flask, opened with a variable amount",
+    "//": "8 oz bottle, opened with a variable amount",
     "items": [ { "item": "chem_potassium_chloride", "count": [ 2, 355 ] } ]
   },
   {
