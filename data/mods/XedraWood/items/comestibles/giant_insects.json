@@ -17,7 +17,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "copy-from": "meat",
     "name": { "str": "chunk of insect meat", "str_pl": "chunks of mutant meat" },
-    "description": "Raw meat from a giant insect.  ",
+    "description": "Raw meat from a giant insect.",
     "looks_like": "meat",
     "cooks_like": "insect_meat_cooked",
     "proportional": { "price": 0.2, "calories": 0.5 },
