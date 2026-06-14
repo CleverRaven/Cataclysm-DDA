@@ -99,7 +99,7 @@
     "//": "8 oz glass flask, opened with a variable amount",
     "items": [ { "item": "chem_zinc_powder", "count": [ 2, 175 ] } ]
   },
-   {
+  {
     "id": "potassiumchloride_small_bottle",
     "type": "item_group",
     "container-item": "bottle_plastic_355ml",
