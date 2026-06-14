@@ -7,7 +7,9 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#ifdef CATA_TESTS_CATA_CATCH_H
 #include "cata_catch.h"
+#endif
 #include "character.h"
 #include "character_attire.h"
 #include "clzones.h"
@@ -200,6 +202,7 @@ void clear_map_and_put_player_underground()
     get_player_character().setpos( here, tripoint_bub_ms{ 0, 0, -2 } );
 }
 
+#ifdef CATA_TESTS_CATA_CATCH_H
 monster &spawn_test_monster( const std::string &monster_type, const tripoint_bub_ms &start,
                              const bool death_drops )
 {
@@ -220,6 +223,7 @@ monster &spawn_test_monster( const std::string &monster_type, const tripoint_bub
     test_monster_ptr->death_drops = death_drops;
     return *test_monster_ptr;
 }
+#endif
 
 // Build a map of size MAPSIZE_X x MAPSIZE_Y around tripoint::zero with a given
 // terrain, and no furniture, traps, or items.
