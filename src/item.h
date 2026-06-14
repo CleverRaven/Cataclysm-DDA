@@ -930,6 +930,9 @@ class item : public visitable
          * NOTE: This assumes that there is always one and only one pocket where ammo goes (mag or mag well)
          */
         void update_modified_pockets();
+        /** debugmsg if a mod references an unknown host pocket id, or two live pockets
+         *  share an id (by-id targeting then nondeterministic). */
+        void validate_mod_pocket_refs() const;
         /**
          * For pocket update stuff.
          * @return which pocket @contained is in.

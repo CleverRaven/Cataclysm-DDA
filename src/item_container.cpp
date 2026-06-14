@@ -15,6 +15,7 @@
 #include <memory>
 #include <optional>
 #include <map>
+#include <set>
 #include <string>
 #include <type_traits>
 #include <unordered_map>
@@ -176,6 +177,47 @@ void item::update_modified_pockets()
         const std::map<gun_mode_id, gun_mode> modes = gun_all_modes();
         if( !modes.empty() && modes.count( gun_get_mode_id() ) == 0 ) {
             gun_cycle_mode();
+        }
+    }
+
+    validate_mod_pocket_refs();
+}
+
+void item::validate_mod_pocket_refs() const
+{
+    if( !is_gun() && !is_tool() ) {
+        return;
+    }
+    std::set<std::string> seen;
+    for( const item_pocket *p : get_pockets( []( const item_pocket & q ) {
+    return q.get_pocket_data() && !q.get_pocket_data()->pocket_id.empty();
+    } ) ) {
+        const std::string &id = p->get_pocket_data()->pocket_id;
+        if( !seen.insert( id ).second ) {
+            debugmsg( "%s has duplicate pocket id \"%s\" after mod merge", tname(), id );
+        }
+    }
+    const auto check = [this]( const std::string & id, const char *what ) {
+        if( pocket_by_id( id ) == nullptr ) {
+            debugmsg( "%s: mod %s references unknown pocket id \"%s\"", tname(), what, id );
+        }
+    };
+    for( const item *mod : mods() ) {
+        if( mod->type == nullptr ) {
+            continue;
+        }
+        if( mod->type->gunmod ) {
+            for( const std::pair<const gun_mode_id, std::vector<pocket_consumption_entry>> &mp :
+                 mod->type->gunmod->firing_requirements.per_mode ) {
+                for( const pocket_consumption_entry &e : mp.second ) {
+                    check( e.pocket, "mode_firing_requirements" );
+                }
+            }
+        }
+        if( mod->type->mod ) {
+            for( const pocket_consumption_mod &cm : mod->type->mod->consumption_mods ) {
+                check( cm.pocket, "consumption_mods" );
+            }
         }
     }
 }

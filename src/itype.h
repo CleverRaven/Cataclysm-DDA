@@ -113,6 +113,17 @@ struct pocket_consumption_entry {
     void deserialize( const JsonObject &jo );
 };
 
+// A mod's adjustment to one host pocket's per-use consumption, targeted by id.
+// `set` overrides the resolved qty; `multiply` scales it.
+struct pocket_consumption_mod {
+    std::string pocket;
+    std::optional<int> set;
+    float multiply = 1.0f;
+
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
+};
+
 // Tools lower consumption_per_use into per_mode[DEFAULT]; guns use the
 // firing_requirements map directly.
 struct firing_requirement_set {
@@ -695,6 +706,10 @@ struct islot_mod {
 
     /** Proportional adjustment of parent item ammo capacity */
     float capacity_multiplier = 1.0f;
+
+    /** Per-host-pocket consumption adjustments, targeted by pocket id. On the mod
+     *  slot so gunmods and toolmods share one reader. */
+    std::vector<pocket_consumption_mod> consumption_mods;
 };
 
 /**

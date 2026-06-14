@@ -3290,6 +3290,21 @@ void pocket_consumption_entry::deserialize( const JsonObject &jo )
     }
 }
 
+void pocket_consumption_mod::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, was_loaded, "pocket", pocket );
+    if( jo.has_member( "set" ) ) {
+        set = jo.get_int( "set" );
+        if( *set < 1 ) {
+            jo.throw_error_at( "set", "consumption_mods set must be >= 1" );
+        }
+    }
+    optional( jo, was_loaded, "multiply", multiply, 1.0f );
+    if( multiply <= 0.0f ) {
+        jo.throw_error_at( "multiply", "consumption_mods multiply must be > 0" );
+    }
+}
+
 static std::vector<pocket_consumption_entry> read_consumption_entries(
     const JsonValue &val )
 {
@@ -3678,6 +3693,7 @@ void islot_mod::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "acceptable_ammo", acceptable_ammo, auto_flags_reader<ammotype> {} );
     optional( jo, was_loaded, "magazine_adaptor", magazine_adaptor, magazine_adaptor_reader{} );
     optional( jo, was_loaded, "pocket_mods", add_pockets );
+    optional( jo, was_loaded, "consumption_mods", consumption_mods );
 }
 
 void islot_book::deserialize( const JsonObject &jo )

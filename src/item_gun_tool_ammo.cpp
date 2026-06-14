@@ -2959,6 +2959,33 @@ int item::effective_qty( const pocket_consumption_entry &e ) const
     double scaled = static_cast<double>( e.qty ) * multiplier
                     + static_cast<double>( modifier_int )
                     + units::to_kilojoule( modifier_energy );
+
+    // Explicit per-pocket overrides from installed mods (gunmod or toolmod, both
+    // through the mod slot). Order-independent: the smallest `set` replaces the
+    // resolved value, then the product of all `multiply` scales it.
+    bool has_set = false;
+    int min_set = 0;
+    float mod_multiply = 1.0f;
+    for( const item *mod : mods() ) {
+        if( !mod->type || !mod->type->mod ) {
+            continue;
+        }
+        for( const pocket_consumption_mod &cm : mod->type->mod->consumption_mods ) {
+            if( cm.pocket != e.pocket ) {
+                continue;
+            }
+            if( cm.set ) {
+                min_set = has_set ? std::min( min_set, *cm.set ) : *cm.set;
+                has_set = true;
+            }
+            mod_multiply *= cm.multiply;
+        }
+    }
+    if( has_set ) {
+        scaled = min_set;
+    }
+    scaled *= mod_multiply;
+
     if( scaled <= 0.0 ) {
         return 0;
     }
