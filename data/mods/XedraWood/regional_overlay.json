@@ -25,6 +25,14 @@
     "sandy_beach_width": 15
   },
   {
+    "type": "weather_generator",
+    "id": "default",
+    "copy-from": "default",
+    "base_temperature": 13,
+    "base_humidity": 75.0,
+    "base_pressure": 1012.0
+  },
+  {
     "type": "region_terrain_furniture",
     "id": "default_t_region_groundcover",
     "ter_id": "t_region_groundcover",
