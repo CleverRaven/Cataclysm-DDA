@@ -1342,7 +1342,7 @@
     "description": "A sturdy cardboard box, about the size of a banana box.  Great for packing.  Can be folded.",
     "ascii_picture": "box_medium",
     "weight": "400 g",
-    "volume": "51000 ml",
+    "volume": "46000 ml",
     "longest_side": "51 cm",
     "//": "(25x40x50)",
     "price": "0 cent",
@@ -1351,7 +1351,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
-        "max_contains_volume": "50000 ml",
+        "max_contains_volume": "45000 ml",
         "max_contains_weight": "20 kg",
         "max_item_length": "50 cm"
       }
@@ -1670,7 +1670,7 @@
     "description": "A hefty wooden box.  Great for storing items.",
     "ascii_picture": "box_medium_wood",
     "weight": "5200 g",
-    "volume": "58800 ml",
+    "volume": "54000 ml",
     "longest_side": "52 cm",
     "//": "(25x40x50)",
     "price": "20 USD",
@@ -1679,7 +1679,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
-        "max_contains_volume": "50000 ml",
+        "max_contains_volume": "45000 ml",
         "max_contains_weight": "100 kg",
         "max_item_length": "50 cm"
       }
@@ -1777,7 +1777,7 @@
     "description": "A strong metal box.  Great for packing your heaviest items.",
     "ascii_picture": "box_medium_metal",
     "weight": "6000 g",
-    "volume": "50750 ml",
+    "volume": "45750 ml",
     "longest_side": "51 cm",
     "//": "(25x40x50)",
     "price": "80 USD",
@@ -1786,7 +1786,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
-        "max_contains_volume": "50000 ml",
+        "max_contains_volume": "45000 ml",
         "max_contains_weight": "200 kg",
         "max_item_length": "50 cm"
       }
