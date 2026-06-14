@@ -21,6 +21,7 @@
 #include "debug.h"
 #include "flag.h"
 #include "flat_set.h"
+#include "flexbuffer_json.h"
 #include "gun_mode.h"
 #include "item.h"
 #include "item_group.h"
@@ -31,6 +32,7 @@
 #include "iteminfo_query.h"
 #include "itype.h"
 #include "json.h"
+#include "json_loader.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "messages.h"
@@ -1529,6 +1531,30 @@ TEST_CASE( "capacity_mods_reflected_in_item_name", "[multimag][mod]" )
     INFO( name );
     // the integral ammo pocket capacity doubles 1 -> 2; empty it shows as 0/2
     CHECK( name.find( "0/2" ) != std::string::npos );
+}
+
+TEST_CASE( "capacity_mods_survive_save_load_roundtrip", "[multimag][mod]" )
+{
+    clear_map();
+    item gun( itype_test_multimag_gun_integral_ammo );
+    REQUIRE( gun.put_in( item( itype_test_multimag_capacity_gunmod ),
+                         pocket_type::MOD ).success() );
+    const item_pocket *ammo_p = gun.pocket_by_id( "ammo" );
+    REQUIRE( ammo_p != nullptr );
+    const ammotype at = *ammo_p->ammo_types().begin();
+    REQUIRE( ammo_p->ammo_capacity( at ) == 2 );
+
+    std::ostringstream os;
+    JsonOut jsout( os );
+    gun.serialize( jsout );
+    JsonValue jv = json_loader::from_string( os.str() );
+    item loaded;
+    loaded.deserialize( jv.get_object() );
+
+    // capacity_mult is not serialized; it must re-derive from the saved mod on load
+    const item_pocket *ammo2 = loaded.pocket_by_id( "ammo" );
+    REQUIRE( ammo2 != nullptr );
+    CHECK( ammo2->ammo_capacity( at ) == 2 );
 }
 
 TEST_CASE( "capacity_mod_overflow_grandfathered_on_removal", "[multimag][mod]" )
