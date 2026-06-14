@@ -39,21 +39,17 @@
     "id": "achievement_kill_mutant",
     "type": "achievement",
     "name": "Paging Dr. Tucker!",
-    "description": "Human experimentation is a necessary step.  I would think a scientist should understand...",
+    "description": "Human experimentation is a necessary step.  I would think a scientist should understand…",
     "requirements": [ { "event_statistic": "num_avatar_mutant_kills", "is": ">=", "target": 1, "visible": "when_achievement_completed" } ]
   },
   {
     "id": "achievement_kill_npc",
     "type": "achievement",
     "name": "Psycho Killer",
+    "description": "Kill 3 NPCs within 30 days of game start, loosely meeting the legal definition of a serial killer."
     "time_constraint": { "since": "game_start", "is": "<=", "target": "30 days" },
     "description": "Qu'est-ce que c'est",
-    "requirements": [
-      { "event_statistic": "num_avatar_character_kills", "is": ">=", "target": 3 },
-      {
-        "description": "Kill 3 NPCs within 30 days of game start, loosely meeting the legal definition of a serial killer."
-      }
-    ]
+    "requirements": [ { "event_statistic": "num_avatar_character_kills", "is": ">=", "target": 3 } ]
   },
   {
     "id": "achievement_kill_in_first_minute",
