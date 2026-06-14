@@ -425,6 +425,9 @@ endif
 STRIP = $(CROSS)strip
 RC  = $(CROSS)windres
 AR  = $(CROSS)ar
+CXX_TARGET_MACHINE := $(shell $(CXX) -dumpmachine 2>/dev/null)
+# -mcx16 is an x86 compiler flag and breaks ARM/aarch64 builds.
+CX16_TARGETS := x86_64% i686%
 
 LDFLAGS += $(PROFILE)
 
@@ -1041,8 +1044,10 @@ else
 endif
 
 ifeq ($(TARGETSYSTEM),LINUX)
-  CFLAGS += -mcx16
-  CXXFLAGS += -mcx16
+  ifneq ($(filter $(CX16_TARGETS),$(CXX_TARGET_MACHINE)),)
+    CFLAGS += -mcx16
+    CXXFLAGS += -mcx16
+  endif
   BINDIST_EXTRAS += cataclysm-launcher
   ifeq ($(SDL3),1)
     # bundle-sdl3-linux.sh fills bindist/lib/; RUNPATH=$$ORIGIN/lib lets
@@ -1075,8 +1080,10 @@ ifeq ($(TARGETSYSTEM),LINUX)
 endif
 
 ifeq ($(TARGETSYSTEM),CYGWIN)
-  CFLAGS += -mcx16
-  CXXFLAGS += -mcx16
+  ifneq ($(filter $(CX16_TARGETS),$(CXX_TARGET_MACHINE)),)
+    CFLAGS += -mcx16
+    CXXFLAGS += -mcx16
+  endif
   BINDIST_EXTRAS += cataclysm-launcher
   DEFINES += -D_GLIBCXX_USE_C99_MATH_TR1
 endif
