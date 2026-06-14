@@ -119,6 +119,9 @@ class number_input_popup : public input_popup
                                      const point &pos = point::min, ImGuiWindowFlags flags = ImGuiWindowFlags_None );
         T query();
         void set_step_size( std::optional<T> step, std::optional<T> fast_step );
+        // Records the allowed value range and renders a "Range: X - Y" hint
+        // as the popup description, so the title itself can stay short.
+        void set_value_range( T min, T max );
     protected:
         void draw_input_control() override;
     private:
@@ -126,5 +129,7 @@ class number_input_popup : public input_popup
         T old_value;
         std::optional<T> step_size = std::nullopt;
         std::optional<T> fast_step_size = std::nullopt;
+        std::optional<T> range_min = std::nullopt;
+        std::optional<T> range_max = std::nullopt;
 };
 #endif // CATA_SRC_INPUT_POPUP_H
