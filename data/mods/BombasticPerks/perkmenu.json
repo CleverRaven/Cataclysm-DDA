@@ -1230,11 +1230,46 @@
           },
           { "set_string_var": "perk_artifact_resonance_reduction", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must have <trait_name:perk_artifact_resonance_detection>",
+            "set_string_var": "Must have <trait_name:perk_artifact_resonance_detection>.  Cannot have <trait_name:perk_artifact_resonance_exploitation>",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "u_has_trait": "perk_artifact_resonance_detection" } }
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "and": [
+                { "u_has_trait": "perk_artifact_resonance_detection" },
+                { "not": { "u_has_trait": "perk_artifact_resonance_exploitation" } }
+              ]
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_artifact_resonance_exploitation" } },
+        "text": "Gain [<trait_name:perk_artifact_resonance_exploitation>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_artifact_resonance_exploitation>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_artifact_resonance_exploitation>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_artifact_resonance_exploitation", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have <trait_name:perk_artifact_resonance_detection>.  Cannot have <trait_name:perk_artifact_resonance_reduction>",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "and": [
+                { "u_has_trait": "perk_artifact_resonance_detection" },
+                { "not": { "u_has_trait": "perk_artifact_resonance_reduction" } }
+              ]
+            }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -2278,6 +2313,28 @@
           {
             "set_condition": "perk_condition",
             "condition": { "and": [ { "math": [ "u_skill('cooking') >= 4" ] }, { "math": [ "u_skill('chemistry') >= 5" ] } ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_soothing_the_savage_beast" } },
+        "text": "Gain [<trait_name:perk_soothing_the_savage_beast>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_soothing_the_savage_beast>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_soothing_the_savage_beast>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_soothing_the_savage_beast", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires social 4 and survival 8",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "math": [ "u_skill('speech') >= 4" ] }, { "math": [ "u_skill('survival') >= 8" ] } ] }
           }
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
