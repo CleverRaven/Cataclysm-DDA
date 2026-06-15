@@ -6040,7 +6040,14 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
                                                 tripoint_bub_ms( i.x(), i.y(),
                                                         z_level ) ) ), true );
                     if( tmp_critter && !tmp_critter->is_avatar() ) {
-                        tmp_critter->die( &m, nullptr );
+                        if ( tmp_critter->as_monster() != nullptr ) {
+                            monster target = *tmp_critter->as_monster();
+                            target.death_drops = false;
+                            tmp_critter->die( &m, nullptr );
+                        } else {
+                            tmp_critter->die( &m, nullptr );
+                        }
+  
                     }
                 }
             }

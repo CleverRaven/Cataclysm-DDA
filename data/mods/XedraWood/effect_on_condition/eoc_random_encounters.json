@@ -32,11 +32,11 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_XEDRAWOOD_LIZARDFOLK_HUNTING_PARTY_SWAMP_RANDENC_TEST",
-    "effect": [ { "mapgen_update": [ { "context_val": "nest_RandEnc_lizardfolk_hunting_party_add" } ] } ]
+    "effect": [ { "mapgen_update": "nest_RandEnc_lizardfolk_hunting_party_add" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_XEDRAWOOD_LIZARDFOLK_HUNTING_PARTY_SWAMP_RANDENC_TEST2",
-    "effect": [ { "mapgen_update": [ { "context_val": "nest_RandEnc_lizardfolk_hunting_party_remove" } ] } ]
+    "effect": [ { "mapgen_update": "nest_RandEnc_lizardfolk_hunting_party_remove" } ]
   }
 ]
