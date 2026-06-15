@@ -1,0 +1,123 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "default_skeleton_death_drops",
+    "entries": [
+      { "item": "sword_xiphos", "damage": [ 2, 4 ], "prob": 100 },
+      { "item": "skull_human", "prob": 80 },
+      { "item": "bone_human", "count": [ 10, 25 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "hollow_warrior_death_drops",
+    "entries": [
+      { "item": "sheath_birchbark", "contents-item": "primitive_knife", "prob": 50 },
+      { "item": "spear_stone", "prob": 100, "damage": [ 0, 1 ] },
+      { "item": "helmet_larmor", "prob": 80, "damage": [ 1, 4 ] },
+      { "item": "armor_larmor", "prob": 80, "damage": [ 1, 4 ] },
+      { "item": "leathersandals", "prob": 80, "damage": [ 1, 4 ] },
+      { "item": "legguard_larmor", "prob": 80, "damage": [ 1, 4 ] },
+      { "item": "vambrace_larmor", "prob": 80, "damage": [ 1, 4 ] },
+      { "group": "male_underwear_bottom", "prob": 80, "damage": [ 1, 4 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "hollow_one_death_drops",
+    "entries": [
+      { "item": "sheath_birchbark", "contents-item": "primitive_knife", "prob": 30 },
+      { "group": "shoes_unisex", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "npc_hat", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "male_underwear_bottom", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "female_underwear_top", "prob": 100, "damage": [ 1, 4 ] },
+      { "item": "chestwrap_leather", "prob": 50, "damage": [ 1, 4 ] },
+      { "group": "pants_male", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "npc_coat", "prob": 30, "damage": [ 1, 4 ] },
+      { "group": "npc_gloves", "prob": 100, "damage": [ 1, 4 ] },
+      { "item": "wicker_backpack", "prob": 15, "damage": [ 1, 4 ] },
+      { "item": "jug_clay", "prob": 20, "damage": [ 1, 4 ] },
+      { "group": "tools_common_small", "prob": 25, "damage": [ 1, 4 ] },
+      { "item": "primitive_axe", "prob": 20, "damage": [ 1, 4 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "hollow_hunter_death_drops",
+    "entries": [
+      { "item": "shortbow", "prob": 100, "damage": [ 1, 2 ] },
+      { "item": "quiver_birchbark", "contents-group": "quiver_bow_hunter", "prob": 100, "damage": [ 1, 4 ] },
+      { "item": "sheath_birchbark", "contents-item": "primitive_knife", "prob": 100, "damage": [ 1, 2 ] },
+      { "item": "chestwrap_leather", "prob": 100, "damage": [ 1, 4 ] },
+      { "item": "leathersandals", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "male_underwear_bottom", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "female_underwear_top", "prob": 75, "damage": [ 1, 4 ] },
+      { "item": "legguard_larmor", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "pants_male", "prob": 100, "damage": [ 1, 4 ] },
+      { "item": "vambrace_larmor", "prob": 100, "damage": [ 1, 4 ] },
+      { "item": "grass_cloak", "prob": 30, "damage": [ 1, 4 ] },
+      { "item": "rope_loop", "prob": 55, "damage": [ 1, 4 ] },
+      { "item": "water_clean", "prob": 50 },
+      { "group": "hollow_one_food", "prob": 80, "count": [ 2, 6 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "hollow_one_death_drops_zombie",
+    "entries": [
+      { "item": "sheath_birchbark", "contents-item": "primitive_knife", "prob": 10 },
+      { "group": "shoes_unisex", "prob": 60, "damage": [ 1, 4 ] },
+      { "group": "npc_hat", "prob": 60, "damage": [ 1, 4 ] },
+      { "group": "male_underwear_bottom", "prob": 60, "damage": [ 1, 4 ] },
+      { "group": "female_underwear_top", "prob": 60, "damage": [ 1, 4 ] },
+      { "item": "chestwrap_leather", "prob": 60, "damage": [ 1, 4 ] },
+      { "group": "pants_male", "prob": 60, "damage": [ 1, 4 ] },
+      { "group": "npc_coat", "prob": 20, "damage": [ 1, 4 ] },
+      { "group": "npc_gloves", "prob": 60, "damage": [ 1, 4 ] },
+      { "item": "wicker_backpack", "prob": 2, "damage": [ 1, 4 ] },
+      { "group": "tools_common_small", "prob": 10, "damage": [ 1, 4 ] },
+      { "item": "primitive_axe", "prob": 10, "damage": [ 1, 4 ] },
+      { "item": "water_clean", "prob": 25 },
+      { "group": "hollow_one_food", "prob": 25, "count": [ 1, 3 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_xw_chirurgeon_death_drops",
+    "entries": [
+      { "item": "robe", "damage": [ 1, 4 ] },
+      { "item": "harfry_root", "prob": 75, "count": [ 1, 2 ] },
+      { "item": "bandages_makeshift", "prob": 85, "count": [ 2, 4 ] },
+      { "item": "bandages_makeshift", "prob": 45, "count": [ 1, 2 ] },
+      { "item": "cattail_jelly", "prob": 95, "count": [ 1, 3 ] }
+    ]
+  },
+  {
+    "id": "tanglevine_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "tanglevine_root", "prob": 15 },
+      { "item": "stick", "prob": 90, "count": [ 1, 2 ] },
+      { "item": "leaves", "prob": 100, "count": [ 2, 4 ] },
+      { "item": "withered", "prob": 75, "count": [ 10, 40 ] }
+    ]
+  },
+  {
+    "id": "dryad_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "dryad_bark", "prob": 50, "count": [ 1, 6 ] },
+      { "item": "splinter", "prob": 85, "count": [ 20, 40 ] },
+      { "item": "stick", "prob": 90, "count": [ 2, 4 ] },
+      { "item": "leaves", "prob": 100, "count": [ 10, 30 ] }
+    ]
+  }
+]

@@ -17,8 +17,8 @@
 
 static const efftype_id effect_sleep( "sleep" );
 
-static const itype_id itype_atomic_lamp( "atomic_lamp" );
 static const itype_id itype_duffelbag( "duffelbag" );
+static const itype_id itype_test_lamp( "test_lamp" );
 
 void activity_schedule::setup( avatar &guy ) const
 {
@@ -90,12 +90,12 @@ weariness_events do_activity( tasklist tasks, bool do_clear_avatar )
     if( do_clear_avatar ) {
         clear_avatar();
     }
-    clear_map();
+    clear_map_without_vision();
 
     avatar &guy = get_avatar();
     // Ensure we have enough light to see
     item bag( itype_duffelbag );
-    item light( itype_atomic_lamp );
+    item light( itype_test_lamp );
     guy.worn.wear_item( guy, bag, false, false );
     guy.i_add( light );
     // How long we've been doing activities for

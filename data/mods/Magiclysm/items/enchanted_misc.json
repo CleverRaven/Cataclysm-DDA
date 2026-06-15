@@ -24,7 +24,6 @@
       {
         "type": "transform",
         "target": "heat_cube_torch_on",
-        "active": true,
         "msg": "You push the torch button and the cube emits a large flame from the top, one that does radiate heat, but won't burn anything.",
         "menu_text": "Activate torch mode",
         "moves": 150
@@ -45,7 +44,8 @@
     "revert_to": "heat_cube",
     "use_action": { "target": "heat_cube", "msg": "The torch flame is extinguished.", "menu_text": "Turn off", "type": "transform" },
     "emits": [ "emit_hot_air2_stream" ],
-    "flags": [ "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
+    "light": 15,
+    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE", "SPAWN_ACTIVE" ]
   },
   {
     "id": "mkey_opening",
@@ -84,8 +84,7 @@
     "use_action": {
       "target": "mtorch_everburning_lit",
       "msg": "You light the torch.",
-      "active": true,
-      "menu_text": "Light torch",
+      "menu_text": { "str": "Light", "ctxt": "verb" },
       "type": "transform"
     },
     "melee_damage": { "bash": 8 }
@@ -102,14 +101,50 @@
       {
         "target": "mtorch_everburning",
         "msg": "The torch is extinguished.",
-        "active": false,
         "menu_text": "Extinguish",
         "type": "transform"
       }
     ],
     "techniques": [ "WBLOCK_1" ],
     "sub": "fire",
-    "extend": { "flags": [ "FIRE", "LIGHT_60", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ] }
+    "light": 60,
+    "extend": { "flags": [ "FIRE", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "SPAWN_ACTIVE" ] }
+  },
+  {
+    "id": "mcandle_everburning",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": "everburning candle",
+    "description": "A high quality thick wax candle.  On command, the wick ignites and provides a small amount of light.  It will burn forever.",
+    "weight": "400 g",
+    "volume": "466 ml",
+    "longest_side": "102 mm",
+    "price": "1 kUSD",
+    "price_postapoc": "1 kUSD",
+    "material": [ "paraffin_wax" ],
+    "symbol": ",",
+    "color": "white",
+    "use_action": { "target": "mcandle_everburning_lit", "msg": "You light the candle.", "menu_text": "Light", "type": "transform" }
+  },
+  {
+    "id": "mcandle_everburning_lit",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": "everburning candle",
+    "copy-from": "mcandle_everburning",
+    "revert_to": "mcandle_everburning",
+    "use_action": [
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
+      {
+        "target": "mcandle_everburning",
+        "msg": "The candle winks out.",
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
+    "sub": "fire",
+    "light": 8,
+    "extend": { "flags": [ "FIRE", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "WIND_EXTINGUISH", "SPAWN_ACTIVE" ] }
   },
   {
     "name": { "str": "endless flask" },

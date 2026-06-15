@@ -28,9 +28,9 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 1, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" }, { "proficiency": "prof_frying" } ],
-    "components": [ [ [ "earthworm_boiled", 1 ] ], [ [ "salt", 1 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ] ]
+    "components": [ [ [ "earthworm_boiled", 1 ] ], [ [ "salt", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -203,10 +203,9 @@
     "time": "30 m",
     "autolearn": true,
     "contained": true,
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "roasted_coffee_bean", 1 ] ], [ [ "bag_plastic", 1 ], [ "bag_plastic_small", 1 ] ] ],
-    "charges": 20
+    "components": [ [ [ "roasted_coffee_bean", 1 ] ], [ [ "bag_plastic", 1 ], [ "bag_plastic_small", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -260,6 +259,7 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "cola_meth",
+    "charges": 4,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -421,6 +421,7 @@
         [ "seed_cattail", 3 ],
         [ "seed_dahlia", 3 ],
         [ "seed_eggplant", 3 ],
+        [ "seed_artichoke", 3 ],
         [ "seed_flower", 3 ],
         [ "seed_cactus", 3 ],
         [ "seed_hops", 3 ],
@@ -433,6 +434,8 @@
         [ "seed_tomato", 3 ],
         [ "seed_cotton_boll", 3 ],
         [ "seed_broccoli", 3 ],
+        [ "seed_brussels_sprout", 3 ],
+        [ "seed_asparagus", 3 ],
         [ "seed_zucchini", 3 ],
         [ "seed_onion", 3 ],
         [ "seed_garlic", 3 ],
@@ -454,6 +457,9 @@
         [ "seed_wild_herbs", 3 ],
         [ "seed_veggy_wild", 3 ],
         [ "seed_raw_dandelion", 3 ],
+        [ "seed_cauliflower", 3 ],
+        [ "seed_kale", 3 ],
+        [ "seed_pea", 3 ],
         [ "seed_raw_burdock", 3 ],
         [ "seed_raw_bamboo", 3 ],
         [ "seed_rhubarb", 3 ],
@@ -525,7 +531,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "young_koji",
+    "result": "young_koji_active",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -539,7 +545,7 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "soy_wheat_dough",
+    "result": "soy_wheat_dough_active",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -834,12 +840,14 @@
   {
     "type": "recipe",
     "result": "gravy_prepared",
+    "charges": 4,
     "//": "Uses four instead of 1 because our water is locked to 250ml, and you don't always need 250 ml of gravy",
     "activity_level": "NO_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "time": "10 minutes",
+    "autolearn": true,
     "batch_time_factors": [ 95, 1 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
@@ -856,7 +864,7 @@
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
-    "components": [ [ [ "fries", 2 ], [ "fresh_fries", 2 ], [ "fresh_fries_j", 2 ] ], [ [ "cheese", 2 ] ], [ [ "gravy_prepared", 1 ] ] ],
+    "components": [ [ [ "fries", 2 ] ], [ [ "cheese", 2 ] ], [ [ "gravy_prepared", 1 ] ] ],
     "result_mult": 2
   }
 ]

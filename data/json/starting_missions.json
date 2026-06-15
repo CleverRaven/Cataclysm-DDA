@@ -207,7 +207,7 @@
         { "u_has_item": "remmington_700" },
         { "u_has_item": "modular_ar15" },
         { "u_has_item": "remington700_270" },
-        { "u_has_item": "savage_111f" }
+        { "u_has_item": "remington_700_308" }
       ]
     },
     "difficulty": 3,
@@ -382,13 +382,8 @@
         { "u_has_item": "maid_dress" },
         { "u_has_item": "mummy_dress" },
         { "u_has_item": "bee_dress" },
-        { "u_has_item": "sinister_dress" },
-        { "u_has_item": "sinister_gown" },
         { "u_has_item": "cloak_vampire" },
         { "u_has_item": "cloak_vampire_red" },
-        { "u_has_item": "witch_dress" },
-        { "u_has_item": "witch_dress_long" },
-        { "u_has_item": "witch_dress_short" },
         { "u_has_item": "robe_wizard" },
         { "u_has_item": "ninja_dress" },
         { "u_has_item": "ninja_dress_sleeveless" },
@@ -455,7 +450,7 @@
     "name": { "str": "Dress with style" },
     "description": "You need to always dress in style and fashion.  Find a dress or tuxedo for your personal use.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "or": [ { "u_has_item": "dress" }, { "u_has_item": "sinister_gown" }, { "u_has_item": "tux" } ] },
+    "goal_condition": { "or": [ { "u_has_item": "gown" }, { "u_has_item": "tux" } ] },
     "difficulty": 2,
     "value": 0,
     "end": {
@@ -632,5 +627,36 @@
     "value": 0,
     "start": "kill_nemesis",
     "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_FIND_LABYRINTH_SPIRE",
+    "type": "mission_definition",
+    "name": { "str": "Investigate the green light" },
+    "description": "You don't know where you are, but in the distance you see a jagged spire, with a green light atop it.  Perhaps you should climb this spire and investigate?  What else do you have to lose?",
+    "difficulty": 10,
+    "value": 0,
+    "goal": "MGOAL_NULL",
+    "destination": "scarlet_scrap_metal_spire",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "scarlet_scrap_metal_spire",
+        "om_special": "scarlet_scrap_metal_spire",
+        "reveal_radius": 2,
+        "random": false
+      }
+    },
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
   }
 ]

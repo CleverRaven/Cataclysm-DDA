@@ -13,7 +13,7 @@
         " ! sy----y----y----ys ! ",
         " ! ssssssssssssssssss ! ",
         "   ##w#####dd########   ",
-        "  *#DPD|p..........b#*  ",
+        "  *#DPD|p.........§b#*  ",
         "  *w.h.d...DPDff...bw*  ",
         "  *#BBB|....h.ff...bw*  ",
         "   #||||...|||||...b#*  ",
@@ -22,7 +22,7 @@
         "  *#cnc|..|S,|S,|X%#    ",
         "  s#||||..|t&|t&|,,#*   ",
         "  sd......|||||||~^#*   ",
-        "  s#|d||...........w*   ",
+        "  s#|d||§..........w*   ",
         "   #L__||d|||d|||d|#* [ ",
         "   #L_=|S,E|S,E|S,E#*   ",
         "   #LWF|C,,|C,,|C,,#    ",
@@ -105,7 +105,8 @@
         "C": { "item": "dentist_supplies", "chance": 75 },
         "t": { "item": "SUS_trash_trashcan_public", "chance": 100 }
       },
-      "place_loot": [ { "item": "microwave", "x": 4, "y": 11 } ]
+      "place_loot": [ { "item": "microwave", "x": 4, "y": 11 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

@@ -240,7 +240,7 @@
         { "item": "restaur_fridge", "chance": 100, "repeat": [ 2, 25 ] },
         { "item": "groce_softdrink", "chance": 100, "repeat": [ 2, 10 ] }
       ],
-      "3": [ { "item": "softdrinks_canned", "chance": 15 }, { "item": "SUS_office_desk", "chance": 15 } ],
+      "3": [ { "item": "soda_in_small_container", "chance": 15 }, { "item": "SUS_office_desk", "chance": 15 } ],
       "±": [
         { "item": "groce_frozen", "chance": 80, "repeat": [ 1, 5 ] },
         { "item": "groce_meat", "chance": 80, "repeat": [ 0, 8 ] },

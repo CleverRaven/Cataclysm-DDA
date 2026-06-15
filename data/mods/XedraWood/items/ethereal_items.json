@@ -1,0 +1,25 @@
+[
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
+    "id": "druid_bramble_spear_item",
+    "name": { "str": "spear of brambles", "str_pl": "spears of brambles" },
+    "looks_like": "spear_wood",
+    "description": "A twisted wooden spear whose branches twine together into a vicious point sticky with sap.",
+    "weight": "1200 g",
+    "price_postapoc": "1 cent",
+    "color": "green",
+    "symbol": "/",
+    "material": [ "wood" ],
+    "techniques": [ "WBLOCK_1", "IMPALE" ],
+    "volume": "1750 ml",
+    "longest_side": "180 cm",
+    "melee_damage": { "bash": 5, "stab": 26 },
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE" ],
+    "weapon_category": [ "POLEARMS", "SPEARS" ],
+    "price": "1 cent",
+    "qualities": [ [ "COOK", 1 ] ],
+    "passive_effects": [ { "has": "WIELD", "hit_you_effect": [ { "id": "bramble_spear_slow", "hit_self": false } ] } ]
+  }
+]

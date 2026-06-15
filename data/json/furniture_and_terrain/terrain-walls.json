@@ -11,7 +11,7 @@
       { "item": "2x4", "count": [ 1, 2 ], "prob": 25 },
       { "item": "pipe", "count": [ 0, 2 ], "prob": 10 },
       { "item": "cu_pipe", "count": [ 0, 2 ], "prob": 10 },
-      { "item": "cable", "charges": [ 0, 200 ], "prob": 10 }
+      { "item": "cable", "count": [ 0, 67 ], "prob": 10 }
     ]
   },
   {
@@ -936,7 +936,7 @@
       "sound": "crash!",
       "sound_fail": "bash!",
       "ter_set": "t_null",
-      "items": [ { "item": "material_soil", "count": [ 4, 10 ] }, { "item": "adobe_brick", "count": [ 1, 3 ] } ]
+      "items": [ { "item": "material_soil", "count": [ 4, 10 ] }, { "item": "adobe_brick", "count": [ 5, 20 ] } ]
     }
   },
   {
@@ -952,7 +952,7 @@
       "sound": "crash!",
       "sound_fail": "bash!",
       "ter_set": "t_null",
-      "items": [ { "item": "material_soil", "count": [ 8, 20 ] }, { "item": "adobe_brick", "count": [ 2, 6 ] } ]
+      "items": [ { "item": "material_soil", "count": [ 8, 20 ] }, { "item": "adobe_brick", "count": [ 5, 40 ] } ]
     }
   },
   {
@@ -978,6 +978,7 @@
     "id": "t_wall_metal",
     "copy-from": "t_abstract_wall_metal",
     "name": "metal wall",
+    "extend": { "flags": [ "WIRED_WALL" ] },
     "description": "An industrially fabricated thick sheet carefully positioned and joined seamlessly with perimeter sealant, this wall is capable of resisting extreme elements as well as hostile forces.  Blast load rated and extremely fire-retardant, breaching it will require specialized tools or an industrial vehicle.",
     "oxytorch": {
       "result": "t_scrap_wall_halfway",
@@ -1012,6 +1013,107 @@
       "ter_set": "t_null",
       "items": [ { "item": "lc_steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container",
+    "copy-from": "t_abstract_wall_metal",
+    "name": "shipping container wall",
+    "description": "A shipping container made of corrugated weathering steel.",
+    "symbol": "#",
+    "color": "light_gray",
+    "bash": {
+      "str_min": 60,
+      "str_max": 350,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [ { "item": "lc_steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_black",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "black"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_white",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "white"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_red",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "red"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_light_red",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "light_red"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_green",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "green"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_light_green",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "light_green"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_blue",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "blue"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_light_blue",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "light_blue"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_cyan",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "cyan"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_light_cyan",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "light_cyan"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_magenta",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "magenta"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_brown",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "brown"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_pink",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "pink"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_yellow",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "yellow"
   },
   {
     "type": "terrain",
@@ -1603,6 +1705,7 @@
     "type": "terrain",
     "id": "t_reinforced_glass_lab",
     "copy-from": "t_reinforced_glass",
+    "description": "A thicker pane of glass with thin metal wires embedded throughout, strengthening the structural properties.  Still weaker than other types of walls, and not made to support a roof either.  Not the type of glass to stop a bullet, you realize.",
     "bash": {
       "str_min": 40,
       "str_max": 210,
@@ -1882,6 +1985,28 @@
   },
   {
     "type": "terrain",
+    "id": "t_highland_bronze_pillar",
+    "name": "gigantic bronze pillar",
+    "looks_like": "t_wall_metal",
+    "description": "A gigantic, monolithic pillar of bronze, stained green with age and crisscrossed with curved grooves.  The air around it feels heavy, and you get the distinct impression that this is not something you should be messing with.",
+    "symbol": "#",
+    "color": "green",
+    "light_emitted": 20,
+    "light_color": [ 255, 0, 255 ],
+    "move_cost": 0,
+    "coverage": 100,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "rock", "count": [ 17, 37 ] }, { "item": "rock_large", "count": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_rock_red",
     "name": "red stone",
     "looks_like": "t_rock",
@@ -1997,6 +2122,22 @@
   },
   {
     "type": "terrain",
+    "id": "t_highlands_conqueror_statue",
+    "name": "statue of a conqueror",
+    "description": "The regal countenance of this long-dead conqueror still gazes down upon the world, but only ruins remain of the empire they once built.",
+    "looks_like": "f_statue",
+    "copy-from": "t_column",
+    "bash": {
+      "str_min": 120,
+      "str_max": 200,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "ter_set": "t_stone_masonry_floor",
+      "items": [ { "item": "rock", "count": [ 10, 14 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_bollard",
     "name": "bollard",
     "looks_like": "t_fence_post",
@@ -2096,6 +2237,7 @@
     "name": "field stone wall",
     "looks_like": "t_rock_wall",
     "description": "A sturdy, dry stone wall.  Just rocks fitted together without mortar.",
+    "roof": "t_drystone_roof",
     "bash": {
       "str_min": 50,
       "str_max": 200,
@@ -2127,6 +2269,7 @@
       "MOUNTABLE",
       "MINEABLE",
       "THIN_OBSTACLE",
+      "SHORT",
       "CLIMBABLE",
       "BURROWABLE",
       "PERMEABLE"

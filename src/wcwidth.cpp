@@ -63,10 +63,13 @@
 
 #include <cstdint>
 
+namespace
+{
 struct interval {
     uint32_t first;
     uint32_t last;
 };
+} // namespace
 
 /* auxiliary function for binary search in interval table */
 static uint32_t bisearch( uint32_t ucs, const struct interval *table, uint32_t max )

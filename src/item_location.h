@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_ITEM_LOCATION_H
 #define CATA_SRC_ITEM_LOCATION_H
 
+#include <cstdint>
 #include <list>
 #include <memory>
 #include <string>
@@ -16,6 +17,7 @@ class JsonOut;
 class const_talker;
 class item;
 class item_pocket;
+class pocket_constraint;
 class map;
 class map_cursor;
 class talker;
@@ -132,6 +134,12 @@ class item_location
         bool is_efile() const;
 
         /**
+        * Returns true if the item is a gunmod, is installed on a gun
+        * and allowed to be used directly from inventory
+        */
+        bool is_invisible_installed_gunmod() const;
+
+        /**
         * Returns available volume capacity where this item is located.
         */
         units::volume volume_capacity() const;
@@ -151,6 +159,11 @@ class item_location
         **/
         bool protected_from_liquids() const;
 
+        /**
+        * returns the pocket-related limitations (on volume_capacity, etc.) on this item due to ancestor pockets.
+        * @param pocket optional. begins with the limits of the given pocket, which must be in this location.
+        */
+        pocket_constraint get_pocket_constraints_recursive( const item_pocket *pocket = nullptr ) const;
         ret_val<void> parents_can_contain_recursive( item *it ) const;
         ret_val<int> max_charges_by_parent_recursive( const item &it ) const;
 
@@ -186,6 +199,12 @@ class item_location
 std::unique_ptr<talker> get_talker_for( item_location &it );
 std::unique_ptr<const_talker> get_const_talker_for( const item_location &it );
 std::unique_ptr<talker> get_talker_for( item_location *it );
+
+struct item_locator_hint;
+
+// Resolve an item by its uid, starting from the hint.  Returns invalid
+// item_location if not found within the accepted resolution boundary.
+item_location find_item_by_uid( int64_t uid, const item_locator_hint &hint );
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;

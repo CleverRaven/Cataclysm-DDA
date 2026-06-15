@@ -80,7 +80,7 @@
     "symbol": "#",
     "color": "red",
     "coverage": 50,
-    "move_cost_mod": 2,
+    "move_cost_mod": 0,
     "required_str": -1,
     "flags": [
       "PLANT",
@@ -105,7 +105,7 @@
     "symbol": "#",
     "color": "light_green",
     "coverage": 30,
-    "move_cost_mod": 1,
+    "move_cost_mod": 0,
     "required_str": -1,
     "flags": [
       "PLANT",
@@ -145,7 +145,7 @@
     "color": "brown",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "GROWTH_SEED", "DONT_REMOVE_ROTTEN" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 1, "str_max": 5, "sound": "crunch.", "sound_fail": "whish." },
     "plant_data": { "transform": "f_plant_seedling", "base": "f_null" }
@@ -337,7 +337,7 @@
     "looks_like": "f_plant_seed",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "GROWTH_SEED", "DONT_REMOVE_ROTTEN" ],
     "connect_groups": "PLANTER",
     "connects_to": "PLANTER",
     "examine_action": "aggie_plant",

@@ -1,0 +1,63 @@
+[
+  {
+    "id": "nl_grav_aware_jig",
+    "//": "The nether misunderstanding a jig, and applying sci-fi tech it 'knows' from other worlds.  Uselessly high VISE quality.",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "otherworldly clamp-set" },
+    "description": "A set of 7 small clamps set upon a metal guide-board, each capable of rotating around in a circular configuration.  The board itself has several depressed marks, as if they're made to guide cuts, but they don't span any obvious units you're aware of.  The clamps slide in and out, toward each other, with unnatural ease.  You don't know this tool's original purpose, but you think it could clamp things quite efficiently.",
+    "weight": "640 g",
+    "volume": "600 ml",
+    "price": "0 USD",
+    "price_postapoc": "7 USD",
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "VISE", 10 ] ],
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "id": "nl_laser_mass_indexer",
+    "//": "An otherworldly mass measuring device, or, you know, a wierd scale.  Can measure a stupidly high weight, and is otherwise useless.",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "laser-guided measurement device" },
+    "description": "At first glance this appears to be a set of calipers, with the ability to open and close via a spring-loaded handle.  The tips of the pincers each emit a laser that always meet in the center.  On one side of the handle is a small screen that displays various numbers; while you don't recognize most of them, you do notice grams and pounds are displayed, albeit not next to each other.",
+    "weight": "320 g",
+    "volume": "300 ml",
+    "price": "0 USD",
+    "price_postapoc": "7 USD",
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "use_action": { "type": "weigh_self", "max_weight": "25000 kg" },
+    "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "nl_robo_surg_app",
+    "//": "A ROBOTIC_SURGICAL_APPARATUS for the labyrinth safehouse autodoc.",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "mass of robotic arms", "str_pl": "masses of robotic arms" },
+    "description": "A set 6 robotic arms, folded in on themselves like a dead spider.  There are two large arms.  One ends in a human-like hand with 7 fingers, and the other in what appears to be a dome-like security camera.  The smaller arms are capped with a mix of surgical and construction tools, including a scalpel, a circular saw, some sort of suction device, and a soldering iron.",
+    "weight": "20 kg",
+    "volume": "20 L",
+    "price": "0 USD",
+    "price_postapoc": "60 USD",
+    "material": [ "steel", "cyber_bone" ],
+    "symbol": ";",
+    "color": "yellow",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "melee_damage": { "bash": 1 }
+  },
+  {
+    "type": "ITEM",
+    "id": "nl_surg_int_unit",
+    "name": { "str": "surgical bonebot brain" },
+    "material": [ "cyber_bone", "anomaly" ],
+    "description": "The core of a surgical bonebot, dug out of its head capsule.  Its shape very much resembles a human brain, but is made of what appears to be hard, dark glass.  It looks a bit like a fancy, and creepy, decoration.",
+    "copy-from": "ai_module"
+  }
+]

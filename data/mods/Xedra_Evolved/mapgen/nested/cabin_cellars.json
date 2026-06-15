@@ -29,6 +29,33 @@
   },
   {
     "type": "mapgen",
+    "nested_mapgen_id": "cabin_6x6_cellar_nested",
+    "//": "A cellar for nether cultists",
+    "weight": 50,
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "BB  tt",
+        "   D t",
+        "  OO  ",
+        "  OO  ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "cabin_cellar" ],
+      "furniture": { "O": "f_xe_magic_circle", "B": "f_bookcase" },
+      "items": {
+        "B": [ { "item": "esoteric_books", "chance": 80, "repeat": [ 1, 2 ] } ],
+        "t": [ { "item": "nether_cabin_ritual_ingredients", "chance": 80, "repeat": [ 2, 4 ] } ],
+        "D": { "item": "xe_nether_cult_artifact", "chance": 100 }
+      },
+      "place_fields": [ { "field": "fd_dust", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 10, 20 ] } ],
+      "place_monster": [ { "group": "GROUP_NETHER_CULT", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 66, "repeat": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "cabin_6x6_cellar_nested_zombies",
     "//": "A cellar overlay for a feral vampire.",
     "weight": 200,

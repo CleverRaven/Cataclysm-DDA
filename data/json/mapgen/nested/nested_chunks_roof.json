@@ -232,7 +232,8 @@
     "nested_mapgen_id": "roof_2x2_infrastructure_2",
     "object": {
       "mapgensize": [ 2, 2 ],
-      "place_terrain": [ { "ter": "t_switchgear_s", "x": 0, "y": 0 }, { "ter": "t_sai_box", "x": 0, "y": 1 } ]
+      "place_terrain": [ { "ter": "t_switchgear_s", "x": 0, "y": 0 }, { "ter": "t_sai_box", "x": 0, "y": 1 } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -513,6 +514,140 @@
         { "item": "feather", "x": 0, "y": 0, "chance": 70, "repeat": [ 1, 5 ] },
         { "group": "any_wild_egg", "x": 0, "y": 0, "chance": 30, "repeat": [ 1, 3 ] }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_6kW_solar_v1",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#####",
+        "#####",
+        "#####",
+        "#####",
+        "#####"
+      ],
+      "terrain": { "#": "t_flat_roof" },
+      "furniture": { "#": "f_solar_unit" },
+      "flags": [ "ERASE_ITEMS_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_6kW_solar_v2",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###  ",
+        "###  ",
+        "?##  ",
+        " ##  ",
+        " ##  "
+      ],
+      "terrain": { "#": "t_flat_roof", "?": "t_flat_roof" },
+      "furniture": { "#": "f_solar_unit_v2", "?": [ [ "f_solar_unit_v2", 1 ], [ "f_null", 1 ] ] },
+      "flags": [ "ERASE_ITEMS_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_6kW_solar",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "place_nested": [ { "chunks": [ [ "residential_6kW_solar_v1", 80 ], [ "residential_6kW_solar_v2", 20 ] ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_7kW_solar_v1",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "######",
+        "######",
+        "######",
+        "######",
+        "######",
+        "      "
+      ],
+      "terrain": { "#": "t_flat_roof" },
+      "furniture": { "#": "f_solar_unit" },
+      "flags": [ "ERASE_ITEMS_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_7kW_solar_v2",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###   ",
+        "###   ",
+        "###   ",
+        "###   ",
+        "###   ",
+        "      "
+      ],
+      "terrain": { "#": "t_flat_roof" },
+      "furniture": { "#": "f_solar_unit_v2" },
+      "flags": [ "ERASE_ITEMS_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_7kW_solar",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "place_nested": [ { "chunks": [ [ "residential_7kW_solar_v1", 80 ], [ "residential_7kW_solar_v2", 20 ] ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_8kW_solar_v1",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "######",
+        "######",
+        "######",
+        "######",
+        "######",
+        "######"
+      ],
+      "terrain": { "#": "t_flat_roof" },
+      "furniture": { "#": "f_solar_unit" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_8kW_solar_v2",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###   ",
+        "###   ",
+        "###   ",
+        "###   ",
+        "###   ",
+        "###   "
+      ],
+      "terrain": { "#": "t_flat_roof" },
+      "furniture": { "#": "f_solar_unit_v2" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "residential_8kW_solar",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "place_nested": [ { "chunks": [ [ "residential_8kW_solar_v1", 80 ], [ "residential_8kW_solar_v2", 20 ] ], "x": 0, "y": 0 } ]
     }
   },
   {

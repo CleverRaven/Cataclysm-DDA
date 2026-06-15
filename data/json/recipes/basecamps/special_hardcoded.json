@@ -35,7 +35,7 @@
       { "id": "patrolling" }
     ],
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
-    "blueprint_name": "NPC-only.  If you see this it's a bug",
+    "blueprint_name": "NPC-only.  If you see this it's a bug.",
     "check_blueprint_needs": false
   }
 ]

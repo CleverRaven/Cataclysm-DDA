@@ -462,6 +462,93 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "smg_9mm",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "gun", 2 ] ],
+    "difficulty": 5,
+    "time": "16 h",
+    "book_learn": [ [ "text_gunsmith", 3 ], [ "textbook_anarch", 4 ], [ "manual_smg", 4 ] ],
+    "qualities": [ { "id": "DRILL", "level": 3 }, { "id": "SAW_M", "level": 2 }, { "id": "HAMMER", "level": 3 } ],
+    "tools": [
+      [ [ "metal_file", -1 ] ],
+      [ [ "angle_grinder", 100 ] ],
+      [ [ "belt_grinder", 100 ] ],
+      [ [ "pin_reamer", -1 ] ],
+      [ [ "bench_vise", -1 ] ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_improv" }, { "proficiency": "prof_gunsmithing_basic" } ],
+    "components": [
+      [ [ "pipe", 2 ] ],
+      [ [ "sheet_metal", 5 ] ],
+      [ [ "nuts_bolts", 15 ] ],
+      [ [ "scrap", 33 ] ],
+      [ [ "qt_wire", 1 ] ],
+      [ [ "spring_medium", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "smg_40",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "gun", 2 ] ],
+    "difficulty": 5,
+    "time": "16 h",
+    "book_learn": [ [ "text_gunsmith", 3 ], [ "textbook_anarch", 4 ], [ "manual_smg", 4 ] ],
+    "qualities": [ { "id": "DRILL", "level": 3 }, { "id": "SAW_M", "level": 2 }, { "id": "HAMMER", "level": 3 } ],
+    "tools": [
+      [ [ "metal_file", -1 ] ],
+      [ [ "angle_grinder", 100 ] ],
+      [ [ "belt_grinder", 100 ] ],
+      [ [ "pin_reamer", -1 ] ],
+      [ [ "bench_vise", -1 ] ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_improv" }, { "proficiency": "prof_gunsmithing_basic" } ],
+    "components": [
+      [ [ "pipe", 2 ] ],
+      [ [ "sheet_metal", 5 ] ],
+      [ [ "nuts_bolts", 15 ] ],
+      [ [ "scrap", 33 ] ],
+      [ [ "qt_wire", 1 ] ],
+      [ [ "spring_medium", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "smg_45",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "gun", 2 ] ],
+    "difficulty": 5,
+    "time": "16 h",
+    "book_learn": [ [ "text_gunsmith", 3 ], [ "textbook_anarch", 4 ], [ "manual_smg", 4 ] ],
+    "qualities": [ { "id": "DRILL", "level": 3 }, { "id": "SAW_M", "level": 2 }, { "id": "HAMMER", "level": 3 } ],
+    "tools": [
+      [ [ "metal_file", -1 ] ],
+      [ [ "angle_grinder", 100 ] ],
+      [ [ "belt_grinder", 100 ] ],
+      [ [ "pin_reamer", -1 ] ],
+      [ [ "bench_vise", -1 ] ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_improv" }, { "proficiency": "prof_gunsmithing_basic" } ],
+    "components": [
+      [ [ "pipe", 2 ] ],
+      [ [ "sheet_metal", 5 ] ],
+      [ [ "nuts_bolts", 15 ] ],
+      [ [ "scrap", 33 ] ],
+      [ [ "qt_wire", 1 ] ],
+      [ [ "spring_medium", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "briefcase_smg",
     "category": "CC_WEAPON",
@@ -765,7 +852,7 @@
     "components": [
       [ [ "shotgun_s", 1 ], [ "pipe_shotgun", 1 ] ],
       [ [ "pipe", 3 ] ],
-      [ [ "spring", 1 ] ],
+      [ [ "spring_medium", 2 ] ],
       [ [ "steel_chunk_any", 3, "LIST" ], [ "scrap", 9 ] ]
     ]
   },
@@ -810,7 +897,7 @@
     "components": [
       [ [ "2x4", 2 ], [ "stick", 3 ] ],
       [ [ "cordage_superior_short", 1, "LIST" ] ],
-      [ [ "spring", 1 ] ],
+      [ [ "spring_small", 1 ] ],
       [ [ "scrap", 4 ] ],
       [ [ "nails", 10, "LIST" ] ]
     ]
@@ -895,6 +982,22 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "rifle_22",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "traps", 1 ], [ "gun", 1 ] ],
+    "difficulty": 3,
+    "time": "30 m",
+    "reversible": true,
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "rifle_45_410",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -1013,7 +1116,7 @@
       [ [ "chain", 1 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "power_supply", 2 ] ],
-      [ [ "cable", 4 ] ],
+      [ [ "cable", 2 ] ],
       [ [ "spring", 7 ] ],
       [ [ "scrap", 2 ] ]
     ]
@@ -1039,6 +1142,22 @@
       { "proficiency": "prof_gunsmithing_improv" }
     ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "ashot",
+    "name": "%s from shotgun",
+    "id_suffix": "from_gun",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 2 ],
+    "difficulty": 1,
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "FILE", "level": 1 } ],
+    "components": [ [ [ "shotgun_s", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1127,7 +1246,7 @@
     "components": [
       [ [ "2x4", 14 ] ],
       [ [ "rope_superior_short", 2, "LIST" ] ],
-      [ [ "nail", 60 ], [ "bronze_nail", 60 ] ],
+      [ [ "nails", 60, "LIST" ] ],
       [ [ "nuts_bolts", 60 ] ],
       [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ],
       [ [ "spring", 4 ] ]
@@ -1163,7 +1282,7 @@
       [ [ "2x4", 8 ], [ "stick", 16 ] ],
       [ [ "rope_superior_short", 2, "LIST" ] ],
       [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ],
-      [ [ "spring", 4 ] ],
+      [ [ "spring_medium", 4 ] ],
       [ [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 12 ] ],
       [ [ "nails", 60, "LIST" ] ]
     ]
@@ -1189,7 +1308,7 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "2x4", 4 ], [ "stick", 8 ] ],
-      [ [ "spring", 1 ] ],
+      [ [ "spring_medium", 1 ] ],
       [ [ "cordage_superior", 1, "LIST" ] ],
       [ [ "nails", 20, "LIST" ] ]
     ]
@@ -1258,7 +1377,7 @@
       [ [ "amplifier", 1 ] ],
       [ [ "e_scrap", 30 ] ],
       [ [ "scrap", 10 ] ],
-      [ [ "cable", 100 ] ]
+      [ [ "cable", 34 ] ]
     ]
   },
   {
@@ -1272,11 +1391,10 @@
     "difficulty": 3,
     "time": "25 m",
     "//": "20cm weld",
-    "using": [ [ "welding_standard", 20 ] ],
+    "using": [ [ "welding_standard", 20 ], [ "metal_punch", 1 ] ],
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" } ],
-    "tools": [ [ [ "drift", -1 ] ] ],
     "components": [ [ [ "scrap", 3 ] ], [ [ "pamd68", 1 ] ] ]
   },
   {
@@ -1399,6 +1517,33 @@
     ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "tools": [ [ [ "bench_vise", -1 ] ] ],
-    "components": [ [ [ "ruger_1022", 1 ] ], [ [ "qt_wire", 1 ] ], [ [ "sheet_metal_small", 2 ] ], [ [ "super_glue", 5 ] ] ]
+    "components": [ [ [ "ruger_1022", 1 ] ], [ [ "qt_wire", 1 ] ], [ [ "sheet_metal_small", 2 ] ], [ [ "glue_strong", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "crude_40mm",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "gun",
+    "skills_required": [ [ "fabrication", 1 ] ],
+    "difficulty": 2,
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [
+      { "id": "SAW_W", "level": 2 },
+      { "id": "SAW_M_FINE", "level": 2 },
+      { "id": "DRILL", "level": 2 },
+      { "id": "FILE", "level": 2 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "proficiencies": [ { "proficiency": "prof_gunsmithing_improv" } ],
+    "components": [
+      [ [ "m320_mod", 1 ], [ "m320_mod_mod", 1 ], [ "m203", 1 ], [ "m203_mod", 1 ] ],
+      [ [ "sheet_metal_small", 2 ] ],
+      [ [ "glue_strong", 5 ] ],
+      [ [ "2x4", 1 ] ],
+      [ [ "nuts_bolts", 10 ] ]
+    ]
   }
 ]

@@ -23,18 +23,22 @@ files:
     - Fris0uman
   'data/mods/ruralbiome/**':
     - I-am-Erk
-  'data/mods/stats_through_kills/**':
-    - KorGgenT
   'data/mods/Xedra_Evolved/**':
     - Maleclypse
   'data/mods/MindOverMatter/**':
     - Standing-Storm
+  'data/mods/Megacity/**':
+    - RenechCDDA
   'data/mods/innawood/**':
     - Light-Wave
   'data/mods/MA/**':
     - ZhilkinSerg
+  'data/mods/Sky_Island/**':
+    - gettingusedto
   'data/mods/Tamable_Wildlife/**':
     - Termineitor244
+  'data/mods/translate-dialogue/**':
+    - Tektolnes
   'data/mods/Limb_WIP/**':
     - Venera3
   'data/mods/alt_map_key/**':
@@ -67,5 +71,3 @@ files:
     - Qrox
   'data/raw/keybindings{.json,/**}':
     - Qrox
-  'src/math_parser*':
-    - andrei8l

@@ -71,7 +71,7 @@
     "looks_like": "jacket_leather",
     "name": { "str": "synleather jacket" },
     "price": "350 USD",
-    "description": "A thick, heavy jacket made from synthetic leather.  Grants an elusively retro look.",
+    "description": "A thick, heavy jacket made from synthetic leather.",
     "material": [ "nylon" ],
     "pocket_data": [
       {
@@ -119,7 +119,7 @@
       {
         "id": "generic",
         "name": { "str": "synleather jacket" },
-        "description": "",
+        "description": "Grants an elusively retro look.",
         "color": "dark_gray",
         "weight": 50,
         "append": true

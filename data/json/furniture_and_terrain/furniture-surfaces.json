@@ -9,6 +9,7 @@
     "move_cost_mod": 2,
     "coverage": 60,
     "required_str": 10,
+    "mass": "35 kg",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF", "SMALL_HIDE" ],
     "connect_groups": "COUNTER",
     "connects_to": "COUNTER",
@@ -26,7 +27,7 @@
       "destroyed_field": [ "fd_splinters", 1 ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75 L" }
+    "workbench": { "multiplier": 1.1, "mass": "200 kg", "volume": "75 L" }
   },
   {
     "type": "furniture",
@@ -60,7 +61,7 @@
       "destroyed_field": [ "fd_splinters", 1 ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75 L" }
+    "workbench": { "multiplier": 1.1, "mass": "200 kg", "volume": "75 L" }
   },
   {
     "type": "furniture",
@@ -72,6 +73,7 @@
     "color": "blue",
     "move_cost_mod": 0,
     "required_str": 4,
+    "mass": "10 kg",
     "coverage": 60,
     "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DOOR", "ORGANIC" ],
@@ -99,6 +101,7 @@
     "color": "blue",
     "move_cost_mod": 0,
     "required_str": 4,
+    "mass": "10 kg",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ROAD", "ORGANIC" ],
     "connect_groups": "COUNTER",
     "connects_to": "COUNTER",
@@ -124,6 +127,7 @@
     "move_cost_mod": 1,
     "coverage": 45,
     "required_str": 5,
+    "mass": "12 kg",
     "crafting_pseudo_item": "medium_surface_pseudo",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF", "SMALL_HIDE" ],
     "rotates_to": "INDOORFLOOR",
@@ -145,7 +149,7 @@
       "destroyed_field": [ "fd_splinters", 1 ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75 L" }
+    "workbench": { "multiplier": 1.1, "mass": "200 kg", "volume": "75 L" }
   },
   {
     "type": "furniture",
@@ -156,13 +160,14 @@
     "color": "red",
     "move_cost_mod": 2,
     "required_str": 10,
+    "mass": "20 kg",
     "looks_like": "f_lab_bench",
     "crafting_pseudo_item": "large_surface_pseudo",
     "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "item": "workbench",
     "bash": { "str_min": 35, "str_max": 80, "sound": "metal screeching!", "sound_fail": "clang!" },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.2, "mass": 500000, "volume": "200 L" }
+    "workbench": { "multiplier": 1.2, "mass": "500 kg", "volume": "200 L" }
   },
   {
     "type": "furniture",
@@ -173,13 +178,14 @@
     "bgcolor": "brown",
     "move_cost_mod": 0,
     "required_str": 3,
+    "mass": "1 kg",
     "deployed_item": "leather_tarp",
     "crafting_pseudo_item": "large_surface_pseudo",
     "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF", "CAN_SIT" ],
     "item": "leather_tarp",
     "bash": { "str_min": 5, "str_max": 10, "sound": "smash!", "sound_fail": "whump." },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 0.85, "mass": 500000, "volume": "500 L" }
+    "workbench": { "multiplier": 0.85, "mass": "500 kg", "volume": "500 L" }
   },
   {
     "type": "furniture",
@@ -190,13 +196,14 @@
     "bgcolor": "light_blue",
     "move_cost_mod": 0,
     "required_str": 3,
+    "mass": "1 kg",
     "deployed_item": "plastic_sheet",
     "crafting_pseudo_item": "large_surface_pseudo",
     "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF", "CAN_SIT" ],
     "item": "plastic_sheet",
     "bash": { "str_min": 5, "str_max": 10, "sound": "whuff!", "sound_fail": "crinkle." },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 0.85, "mass": 500000, "volume": "500 L" }
+    "workbench": { "multiplier": 0.85, "mass": "500 kg", "volume": "500 L" }
   },
   {
     "type": "furniture",
@@ -207,13 +214,14 @@
     "bgcolor": "yellow",
     "move_cost_mod": 0,
     "required_str": 3,
+    "mass": "1 kg",
     "deployed_item": "fiber_mat",
     "crafting_pseudo_item": "large_surface_pseudo",
     "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF", "CAN_SIT" ],
     "item": "fiber_mat",
     "bash": { "str_min": 5, "str_max": 10, "sound": "smash!", "sound_fail": "whump." },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 0.85, "mass": 500000, "volume": "500 L" }
+    "workbench": { "multiplier": 0.85, "mass": "500 kg", "volume": "500 L" }
   },
   {
     "type": "furniture",
@@ -225,6 +233,7 @@
     "move_cost_mod": 2,
     "coverage": 40,
     "required_str": 5,
+    "mass": "2 kg",
     "deployed_item": "tourist_table",
     "looks_like": "f_table",
     "crafting_pseudo_item": "medium_surface_pseudo",
@@ -232,7 +241,7 @@
     "item": "tourist_table",
     "bash": { "str_min": 16, "str_max": 50, "sound": "metal screeching!", "sound_fail": "clang!" },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.05, "mass": 100000, "volume": "35 L" }
+    "workbench": { "multiplier": 1.05, "mass": "100 kg", "volume": "35 L" }
   },
   {
     "type": "furniture",
@@ -244,6 +253,7 @@
     "move_cost_mod": 2,
     "coverage": 50,
     "required_str": 5,
+    "mass": "7 kg",
     "crafting_pseudo_item": "medium_surface_pseudo",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF", "SMALL_HIDE" ],
     "deconstruct": {
@@ -264,7 +274,7 @@
       "destroyed_field": [ "fd_splinters", 1 ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75 L" }
+    "workbench": { "multiplier": 1.1, "mass": "200 kg", "volume": "75 L" }
   },
   {
     "type": "furniture",
@@ -277,6 +287,7 @@
     "move_cost_mod": 2,
     "coverage": 50,
     "required_str": 5,
+    "mass": "7 kg",
     "crafting_pseudo_item": "medium_surface_pseudo",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF", "SMALL_HIDE", "EASY_DECONSTRUCT" ],
     "item": "v_table",
@@ -289,7 +300,7 @@
       "destroyed_field": [ "fd_splinters", 1 ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75 L" }
+    "workbench": { "multiplier": 1.1, "mass": "200 kg", "volume": "75 L" }
   },
   {
     "type": "furniture",
@@ -302,6 +313,7 @@
     "move_cost_mod": 2,
     "coverage": 50,
     "required_str": 5,
+    "mass": "2 kg",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 2 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 8 ] } ]
@@ -321,7 +333,7 @@
       "destroyed_field": [ "fd_splinters", 1 ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 0.85, "mass": 200000, "volume": "75 L" }
+    "workbench": { "multiplier": 0.85, "mass": "200 kg", "volume": "75 L" }
   },
   {
     "type": "furniture",
@@ -333,6 +345,7 @@
     "move_cost_mod": 4,
     "coverage": 40,
     "required_str": 8,
+    "mass": "10 kg",
     "crafting_pseudo_item": "medium_surface_pseudo",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "FLAT_SURF", "SHORT", "SMALL_HIDE" ],
     "bash": {
@@ -355,6 +368,6 @@
       ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 500000, "volume": "300 L" }
+    "workbench": { "multiplier": 1.1, "mass": "500 kg", "volume": "300 L" }
   }
 ]

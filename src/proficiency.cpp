@@ -17,6 +17,8 @@ const float book_proficiency_bonus::default_time_factor = 0.5f;
 const float book_proficiency_bonus::default_fail_factor = 0.5f;
 const bool book_proficiency_bonus::default_include_prereqs = true;
 
+static std::map<proficiency_id, proficiency_migration> prof_migrations;
+
 namespace
 {
 generic_factory<proficiency> proficiency_factory( "proficiency" );
@@ -73,10 +75,20 @@ void proficiency::load_proficiencies( const JsonObject &jo, const std::string &s
     proficiency_factory.load( jo, src );
 }
 
+void proficiency::finalize_all()
+{
+    proficiency_factory.finalize();
+}
+
 void proficiency_category::load_proficiency_categories( const JsonObject &jo,
         const std::string &src )
 {
     proficiency_category_factory.load( jo, src );
+}
+
+void proficiency_category::finalize_all()
+{
+    proficiency_category_factory.finalize();
 }
 
 void proficiency_bonus::deserialize( const JsonObject &jo )
@@ -647,4 +659,67 @@ float book_proficiency_bonuses::time_factor( const proficiency_id &id ) const
     }
 
     return static_cast<float>( 1.0 - std::exp( -std::sqrt( sum ) ) );
+}
+
+void proficiency_migration::load( const JsonObject &jo )
+{
+    proficiency_migration migration;
+    mandatory( jo, false, "from", migration.id_old );
+    optional( jo, false, "to", migration.id_new );
+    prof_migrations.emplace( migration.id_old, migration );
+}
+
+void proficiency_migration::reset()
+{
+    prof_migrations.clear();
+}
+
+void proficiency_migration::check()
+{
+    for( const auto &[from_id, pm] : prof_migrations ) {
+        if( pm.id_new.has_value() && !pm.id_new.value().is_valid() ) {
+            debugmsg( "proficiency migration specifies invalid id '%s'", pm.id_new.value().str() );
+            continue;
+        }
+    }
+}
+
+const proficiency_migration *proficiency_migration::find_migration( const proficiency_id &original )
+{
+    const auto migration_it = prof_migrations.find( original );
+    if( migration_it == prof_migrations.cend() ) {
+        return nullptr;
+    }
+    return &migration_it->second;
+}
+
+void proficiency_set::migrate_proficiencies()
+{
+    cata::flat_set<proficiency_id> to_know;
+    for( auto it = known.begin(); it != known.end(); ) {
+        const proficiency_migration *m = proficiency_migration::find_migration( *it );
+        if( m != nullptr ) {
+            if( m->id_new.has_value() ) {
+                to_know.insert( m->id_new.value() );
+            }
+            it = known.erase( it );
+        } else {
+            ++it;
+        }
+    }
+    for( const proficiency_id &prof : to_know ) {
+        known.insert( prof );
+    }
+
+    for( auto it = learning.begin(); it != learning.end(); ) {
+        const proficiency_migration *m = proficiency_migration::find_migration( it->id );
+        if( m != nullptr ) {
+            if( !m->id_new.has_value() ) {
+                it = learning.erase( it );
+                continue;
+            }
+            it->id = m->id_new.value();
+        }
+        ++it;
+    }
 }

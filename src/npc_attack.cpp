@@ -6,6 +6,7 @@
 #include <memory>
 #include <set>
 #include <string>
+#include <utility>
 
 #include "cata_utility.h"
 #include "character.h"
@@ -22,6 +23,7 @@
 #include "magic.h"
 #include "magic_spell_effect_helpers.h"
 #include "map.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "npc.h"
 #include "pimpl.h"
@@ -262,7 +264,7 @@ void npc_attack_melee::use( npc &source, const tripoint_bub_ms &location ) const
     }
     int target_distance = rl_dist( source.pos_bub(), location );
     if( !source.is_adjacent( critter, true ) ) {
-        if( target_distance <= weapon.reach_range( source ) ) {
+        if( target_distance <= weapon.reach_range( source ).first ) {
             add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is attempting a reach attack",
                            source.disp_name() );
             // check for friendlies in the line of fire
@@ -415,11 +417,19 @@ npc_attack_rating npc_attack_melee::evaluate_critter( const npc &source,
         return npc_attack_rating{};
     }
 
+    // Can't melee creatures that are underwater beneath a solid surface
+    if( critter->is_underwater() ) {
+        const map &here = get_map();
+        if( here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, critter->pos_bub() ) ) {
+            return npc_attack_rating{};
+        }
+    }
+
     // TODO: Give bashing weapons a better
     // rating against armored targets
     double damage{ weapon.base_damage_melee().total_damage() };
     damage *= 100.0 / weapon.attack_time( source );
-    const int reach_range{ weapon.reach_range( source ) };
+    const int reach_range{ weapon.reach_range( source ).first };
     const int distance_to_me = clamp( rl_dist( source.pos_bub(), critter->pos_bub() ) - reach_range, 0,
                                       10 );
     // Multiplier of 0.5f to 1.5f based on distance
@@ -465,12 +475,13 @@ void npc_attack_gun::use( npc &source, const tripoint_bub_ms &location ) const
         return;
     }
 
-    const int dist = rl_dist( source.pos_bub(), location );
+    const Target_attributes target( source.pos_bub(), location );
+    const aim_mods_cache aim_cache = source.gen_aim_mods_cache( gun );
 
     // Only aim if we aren't in risk of being hit
     // TODO: Get distance to closest enemy
-    if( dist > 1 && source.aim_per_move( gun, source.recoil ) > 0 &&
-        source.confident_gun_mode_range( gunmode, source.recoil ) < dist ) {
+    if( target.range > 1 && source.aim_per_move( gun, source.recoil, target, aim_cache ) > 0 &&
+        source.confident_gun_mode_range( gunmode, source.recoil ) < target.range ) {
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is aiming", source.disp_name() );
         source.aim( Target_attributes( source.pos_bub(), location ) );
     } else {

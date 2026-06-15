@@ -224,6 +224,8 @@ class uilist_callback
         * After a new item is selected, call this once
         */
         virtual void select( uilist * ) {}
+        // after an item is confirmed
+        virtual void confirm( uilist * ) {}
         virtual bool key( const input_context &, const input_event &/*key*/, int /*entnum*/,
                           uilist * ) {
             return false;
@@ -296,12 +298,36 @@ class uilist // NOLINT(cata-xy)
         // Calculate sizes, populate arrays
         void calc_data();
 
+        // register uilist inputs to the input_context `ctxt`
+        void register_uilist_inputs( input_context &ctxt ) const;
+
         // Calls calc_data() and initialize the window
         void setup();
         // initialize the window or reposition it after screen size change.
         void reposition();
-        bool scrollby( int scrollby );
-        void query( bool loop = true, int timeout = 50, bool allow_unfiltered_hotkeys = false );
+        struct scroll_amount {
+            enum { relative_wrapped, relative_clamped, absolute } type;
+            int qty;
+            static scroll_amount wrapped( int qty ) {
+                return {scroll_amount::relative_wrapped, qty};
+            };
+            static scroll_amount clamped( int qty ) {
+                return {scroll_amount::relative_clamped, qty};
+            };
+            static scroll_amount abs( int idx ) {
+                return {scroll_amount::absolute, idx};
+            };
+        };
+        bool scrollby( uilist::scroll_amount scrollby );
+        // preparation for query(), mostly ANDROID-specific
+        // @return true if query() can be run
+        bool query_setup();
+        // construct a uilist_impl and loop to query input
+        shared_ptr_fast<uilist_impl> query( bool loop = true, int timeout = 50,
+                                            bool allow_unfiltered_hotkeys = false );
+        // helper function for query(); can be used to externally maintain a uilist_impl
+        void query_once( input_context &ctxt, int timeout = 50, bool allow_unfiltered_hotkeys = false );
+
         void filterlist();
         // In add_entry/add_entry_desc/add_entry_col, int k only support letters
         // (a-z, A-Z) and digits (0-9), MENU_AUTOASSIGN, and 0 or ' ' (disable
@@ -311,6 +337,10 @@ class uilist // NOLINT(cata-xy)
         * @param txt string that will be displayed on the entry first column
         */
         void addentry( const std::string &txt );
+        /**
+        * @param txt string that will be displayed on the entry first column
+        */
+        void addentry( const uilist_entry &entry );
         /**
         * @param retval return value of this option when selected during menu query
         * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
@@ -399,12 +429,22 @@ class uilist // NOLINT(cata-xy)
 
         void reset();
 
+#if defined(TILES)
+        void set_hide( bool val );
+        /**
+         * Used to hide ImGui menu under old menu.
+         *
+         * FIXME: Remove after complete ImGui migration.
+         */
+        void hide_if_hidden();
+#endif
+
         shared_ptr_fast<uilist_impl> create_or_get_ui();
         // NOLINTNEXTLINE(google-explicit-constructor)
         operator int() const;
 
     private:
-        int scroll_amount_from_action( const std::string &action );
+        scroll_amount scroll_amount_from_action( const std::string &action );
         // This function assumes it's being called from `query` and should
         // not be made public.
         void inputfilter();
@@ -433,6 +473,7 @@ class uilist // NOLINT(cata-xy)
         std::optional<cataimgui::bounds> desired_bounds;
         bool desc_enabled = false;
 
+        std::string filter;
         bool filtering = false;
         bool filtering_nocase = false;
 
@@ -448,11 +489,14 @@ class uilist // NOLINT(cata-xy)
         // and unhandled by callback, default false.
         bool allow_additional = false;
         bool hilight_disabled = false;
+        // if true, calculates size to include all categories
+        bool size_to_all_categories = false;
+        // if true, forces `calculated_menu_size` to equal `desired_bounds`
+        bool force_desired_bounds = false;
 
     private:
         report_color_error _color_error = report_color_error::yes;
         input_context create_main_input_context() const;
-        input_context create_filter_input_context() const;
 
     public:
         // Iternal states
@@ -477,7 +521,6 @@ class uilist // NOLINT(cata-xy)
         weak_ptr_fast<uilist_impl> ui;
 
         std::unique_ptr<string_input_popup_imgui> filter_popup;
-        std::string filter;
 
         int max_entry_len = 0;
         int max_column_len = 0;
@@ -485,9 +528,10 @@ class uilist // NOLINT(cata-xy)
         int vmax = 0;
 
         bool started = false;
-        bool recalc_start = false;
         bool clicked = false;
         bool need_to_scroll = false;
+
+        //if provided, applies tabs to this list, panned with left/right
         std::vector<std::pair<std::string, std::string>> categories;
         std::function<bool( const uilist_entry &, const std::string & )> category_filter;
         size_t current_category = 0;
@@ -503,6 +547,36 @@ class uilist // NOLINT(cata-xy)
         int previewing = 0;
 
         void set_selected( int index );
+};
+
+
+class uilist_impl : public cataimgui::window
+{
+#if defined(TILES)
+        friend class uilist;
+#endif
+        uilist &parent;
+    public:
+        explicit uilist_impl( uilist &parent ) : cataimgui::window( "UILIST",
+                    ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse |
+                    ImGuiWindowFlags_NoNavInputs ),
+            parent( parent ) {
+        }
+
+        uilist_impl( uilist &parent, const std::string &title ) : cataimgui::window( title,
+                    ImGuiWindowFlags_None | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse |
+                    ImGuiWindowFlags_NoNavInputs ),
+            parent( parent ) {
+        }
+
+        cataimgui::bounds get_bounds() override {
+            if( !parent.started ) {
+                parent.setup();
+            }
+
+            return parent.desired_bounds.value_or( parent.calculated_bounds );
+        }
+        void draw_controls() override;
 };
 
 /**

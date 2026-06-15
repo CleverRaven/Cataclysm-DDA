@@ -261,7 +261,7 @@ bool trap::detect_trap( const tripoint_bub_ms &pos, const Character &p ) const
 
     // Perception is the main stat for spotting traps, int helps a bit.
     // In this case, stats are more important than skills.
-    const float weighted_stat_average = ( 4.0f * p.per_cur + p.int_cur ) / 5.0f;
+    const float weighted_stat_average = ( 4.0f * p.get_per() + p.get_int() ) / 5.0f;
 
     // Eye encumbrance will penalize spotting
     const float encumbrance_penalty = p.encumb( bodypart_id( "eyes" ) ) / 10.0f;
@@ -436,18 +436,19 @@ bool trap::can_not_be_disarmed() const
 
 void trap::finalize()
 {
-    for( const trap &t_const : trap_factory.get_all() ) {
-        trap &t = const_cast<trap &>( t_const );
-        // We need to set int ids manually now
-        t.loadid = t.id.id();
-        if( t.is_funnel() ) {
-            funnel_traps.push_back( &t );
-        }
-        if( t.has_sound_trigger() ) {
-            sound_triggered_traps.push_back( &t );
-        }
+    // We need to set int ids manually now
+    loadid = id.id();
+    if( is_funnel() ) {
+        funnel_traps.push_back( this );
     }
+    if( has_sound_trigger() ) {
+        sound_triggered_traps.push_back( this );
+    }
+}
 
+void trap::finalize_all()
+{
+    trap_factory.finalize();
     tr_null = trap_str_id::NULL_ID().id();
 }
 

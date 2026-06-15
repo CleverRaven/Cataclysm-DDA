@@ -15,7 +15,7 @@
         ".ss___________ss#    c#.",
         ".ss___________ss#    c#.",
         ".ss___________sswr   Lw.",
-        ".ss___________ss#r   L#.",
+        ".ss___________ss#r  §L#.",
         ".sss_________sss## |||#.",
         ".ssssssssssssssss# |rr#.",
         "..sssssssssssssss# |  w.",
@@ -27,13 +27,13 @@
         "...#|||+|#s#kh #s# |  w.",
         "...#rr|  #s#k  #s# |rr#.",
         "...#  *  #s#ooP#s# |||#.",
-        "...#rr|  #s#####s#    #.",
+        "...#rr|  #s#####s#   §#.",
         "...#|||  #ssssssz#    w.",
         "...#rr|  #ssssszz#  11#.",
         "...#  *  ;sszzssz#  11#.",
         "...#rr|  #sszzss<#   2w.",
         "...#|||  #########  11#.",
-        "...#rr|   rrrr      11#.",
+        "...#rr|§  rrrr Ł    11#.",
         "...#  *              2w.",
         "...#rr|              2#.",
         "...#|||              2#.",
@@ -42,7 +42,7 @@
         "...w  7  4424424424422#.",
         "...# }7              rw.",
         "...#  7              r#.",
-        "...#rr7r  LL        rr#.",
+        "...#rr7r  LL      § rr#.",
         "...#####w####w##w##w###.",
         "........................",
         "........................",
@@ -102,11 +102,13 @@
         "c": { "item": "treatment_chemicals", "chance": 50 },
         "o": { "item": "SUS_office_filing_cabinet", "chance": 66 }
       },
+      "vehicles": { "Ł": { "vehicle": "hand_truck", "chance": 75 } },
       "place_monster": [
         { "group": "GROUP_SMALL_STATION", "x": [ 5, 21 ], "y": [ 8, 23 ], "chance": 50 },
         { "group": "GROUP_SMALL_STATION", "x": [ 4, 21 ], "y": [ 24, 37 ], "chance": 50, "repeat": [ 1, 2 ] }
       ],
-      "place_vehicles": [ { "vehicle": "pump_station_vehicles", "x": [ 7, 9 ], "y": 8, "chance": 20, "rotation": 90 } ]
+      "place_vehicles": [ { "vehicle": "pump_station_vehicles", "x": [ 7, 9 ], "y": 8, "chance": 20, "rotation": 90 } ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

@@ -11,6 +11,7 @@
     "price": "10 USD",
     "material": [ "cotton" ],
     "color": "white",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ], "coverage": 100, "encumbrance": [ 1, 1 ] },
       {
@@ -25,7 +26,7 @@
     "variants": [
       {
         "id": "generic_apron_cotton",
-        "name": { "str": "long waist apron" },
+        "//": "inherit name and description from item",
         "description": "It's colored white, like the ones commonly used by chefs, professional or otherwise.",
         "weight": 50,
         "append": true
@@ -146,6 +147,7 @@
     "price": "25 USD",
     "material": [ "cotton" ],
     "color": "white",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ], "coverage": 80, "encumbrance": [ 0, 0 ] },
       {
@@ -160,7 +162,7 @@
     "variants": [
       {
         "id": "generic_apron_cotton",
-        "name": { "str": "short waist apron" },
+        "//": "inherit name from item",
         "description": "It's colored white, like the ones commonly used by chefs, professional or otherwise.",
         "weight": 50,
         "append": true
@@ -281,13 +283,14 @@
     "price": "10 USD",
     "material": [ "cotton" ],
     "color": "white",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "material_thickness": 1.5,
     "delete": { "flags": [ "WATER_FRIENDLY" ] },
     "variant_type": "generic",
     "variants": [
       {
         "id": "generic_apron_cotton",
-        "name": { "str": "cotton apron" },
+        "//": "inherit name from item",
         "description": "It's colored white, like the ones commonly used by chefs, professional or otherwise.",
         "weight": 50,
         "append": true
@@ -480,6 +483,7 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "yellow",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 8, 9 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 4, 4 ] },
@@ -558,7 +562,7 @@
     "flags": [ "VARSIZE", "OUTER" ],
     "variant_type": "generic",
     "variants": [
-      { "id": "generic", "name": { "str": "blazer" }, "description": "A professional-looking wool blazer." },
+      { "id": "generic", "//": "inherit name and description from item" },
       {
         "id": "bostonchan",
         "name": { "str": "Boston-Chan blazer" },
@@ -583,6 +587,7 @@
     "symbol": "[",
     "looks_like": "sundress",
     "color": "blue",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
     "armor": [
@@ -605,6 +610,7 @@
     "symbol": "[",
     "looks_like": "tank_top",
     "color": "red",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "armor": [ { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 90, "encumbrance": 2 } ],
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
@@ -658,20 +664,80 @@
     "id": "dress",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "long dress", "str_pl": "long dresses" },
-    "description": "A long cotton dress.",
-    "weight": "680 g",
-    "volume": "3500 ml",
+    "name": { "str": "dress", "str_pl": "dresses" },
+    "description": "A cotton dress.",
+    "weight": "500 g",
+    "volume": "2600 ml",
     "price": "180 USD",
     "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "robe",
     "color": "pink",
-    "warmth": 10,
+    "faults": [ { "fault_group": "fabric_cotton" } ],
+    "warmth": 5,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 7, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r" ] } ],
+    "flags": [ "VARSIZE", "ALLOWS_GASTROPOD_FOOT" ],
+    "armor": [
+      { "encumbrance": 7, "coverage": 85, "covers": [ "torso" ] },
+      { "encumbrance": 4, "coverage": 55, "covers": [ "leg_l", "leg_r" ] },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": 7,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r", "leg_upper_gastropod" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "encumbrance": 4,
+        "coverage": 40,
+        "specifically_covers": [ "leg_lower_gastropod" ]
+      },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 35, "encumbrance": 4 },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 20, "encumbrance": 4 }
+    ],
+    "variants": [
+      {
+        "id": "white",
+        "name": { "str": "white dress", "str_pl": "white dresses" },
+        "append": true,
+        "description": "This one is white.",
+        "color": "white"
+      },
+      {
+        "id": "black",
+        "name": { "str": "black dress", "str_pl": "black dresses" },
+        "append": true,
+        "description": "This one is black.",
+        "color": "black"
+      }
+    ]
+  },
+  {
+    "copy-from": "dress",
+    "proportional": { "weight": 1.25, "volume": 1.25, "warmth": 2 },
+    "id": "long_dress",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "long dress", "str_pl": "long dresses" },
+    "description": "A long cotton dress.",
+    "armor": [
+      { "encumbrance": 7, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r" ] },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": 7,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r", "leg_upper_gastropod" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 40,
+        "encumbrance": 4,
+        "specifically_covers": [ "leg_lower_gastropod" ]
+      },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 75, "encumbrance": 6 },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": 8 }
+    ],
     "variant_type": "generic",
     "variants": [
       {
@@ -679,22 +745,248 @@
         "name": { "str": "long white dress", "str_pl": "long white dresses" },
         "append": true,
         "description": "This one is white.",
-        "color": "white",
-        "weight": 4
+        "color": "white"
       },
       {
         "id": "black",
         "name": { "str": "long black dress", "str_pl": "long black dresses" },
         "append": true,
         "description": "This one is black.",
-        "color": "dark_gray",
-        "weight": 4
+        "color": "dark_gray"
+      }
+    ]
+  },
+  {
+    "copy-from": "dress",
+    "proportional": { "weight": 0.75, "volume": 0.75, "warmth": 0.5 },
+    "id": "short_dress",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "short dress", "str_pl": "short dresses" },
+    "description": "A short cotton dress.",
+    "armor": [
+      { "encumbrance": 7, "coverage": 85, "covers": [ "torso" ] },
+      { "encumbrance": 1, "coverage": 25, "covers": [ "leg_l", "leg_r" ] }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "white",
+        "name": { "str": "short white dress", "str_pl": "short white dresses" },
+        "append": true,
+        "description": "This one is white.",
+        "color": "white",
+        "weight": 50
       },
       {
-        "id": "gown",
-        "name": { "str": "evening gown" },
-        "description": "A luxurious evening gown.  It accentuates your curves, or lack thereof.",
-        "color": "white"
+        "id": "black",
+        "name": { "str": "short black dress", "str_pl": "short black dresses" },
+        "append": true,
+        "description": "This one is black.",
+        "color": "black",
+        "weight": 50
+      },
+      {
+        "id": "sinister",
+        "name": { "str": "short sinister dress", "str_pl": "short sinister dresses" },
+        "description": "A short red dress made in gothic lolita fashion.",
+        "color": "red"
+      }
+    ]
+  },
+  {
+    "copy-from": "dress",
+    "proportional": { "warmth": 1.25 },
+    "id": "dress_sleeved",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "description": "A cotton dress with sleeves.",
+    "name": { "str": "dress with sleeves", "str_pl": "dresses with sleeves" },
+    "armor": [
+      { "encumbrance": 7, "coverage": 85, "covers": [ "torso" ] },
+      { "encumbrance": 1, "coverage": 85, "covers": [ "arm_l", "arm_r" ] },
+      { "encumbrance": 4, "coverage": 55, "covers": [ "leg_l", "leg_r" ] },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": 7,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r", "leg_upper_gastropod" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 40,
+        "encumbrance": 4,
+        "specifically_covers": [ "leg_lower_gastropod" ]
+      },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 35, "encumbrance": 4 },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 20, "encumbrance": 4 }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "white",
+        "name": { "str": "white dress with sleeves", "str_pl": "white dresses with sleeves" },
+        "append": true,
+        "description": "This one is white.",
+        "color": "white",
+        "weight": 200
+      },
+      {
+        "id": "black",
+        "name": { "str": "black dress with sleeves", "str_pl": "black dresses with sleeves" },
+        "append": true,
+        "description": "This one is black.",
+        "color": "black",
+        "weight": 200
+      },
+      {
+        "id": "witch_black",
+        "name": { "str": "black witch dress", "str_pl": "black witch dresses" },
+        "description": "A dress with full sleeves and pointed cuts at the edges.  Perfect for Halloween.  It's colored black."
+      },
+      {
+        "id": "witch_green",
+        "name": { "str": "green witch dress", "str_pl": "green witch dresses" },
+        "description": "A dress with full sleeves and pointed cuts at the edges.  Perfect for Halloween.  It's colored dark green."
+      },
+      {
+        "id": "witch_red",
+        "name": { "str": "red witch dress", "str_pl": "red witch dresses" },
+        "description": "A dress with full sleeves and pointed cuts at the edges.  Perfect for Halloween.  It's colored dark red."
+      },
+      {
+        "id": "witch_purple",
+        "name": { "str": "purple witch dress", "str_pl": "purple witch dresses" },
+        "description": "A dress with full sleeves and pointed cuts at the edges.  Perfect for Halloween.  It's colored dark purple."
+      }
+    ]
+  },
+  {
+    "copy-from": "dress_sleeved",
+    "proportional": { "weight": 1.25, "volume": 1.25, "warmth": 2 },
+    "id": "long_dress_sleeved",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "description": "A long cotton dress with sleeves.",
+    "name": { "str": "long dress with sleeves", "str_pl": "long dresses with sleeves" },
+    "armor": [
+      { "encumbrance": 7, "coverage": 85, "covers": [ "torso" ] },
+      { "encumbrance": 1, "coverage": 85, "covers": [ "arm_l", "arm_r" ] },
+      { "encumbrance": 7, "coverage": 85, "covers": [ "leg_l", "leg_r" ] },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 100,
+        "encumbrance": 7,
+        "specifically_covers": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r", "leg_upper_gastropod" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 40,
+        "encumbrance": 4,
+        "specifically_covers": [ "leg_lower_gastropod" ]
+      },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 75, "encumbrance": 6 },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": 8 }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "white",
+        "name": { "str": "long white dress with sleeves", "str_pl": "long white dresses with sleeves" },
+        "append": true,
+        "description": "This one is white.",
+        "color": "white",
+        "weight": 225
+      },
+      {
+        "id": "black",
+        "name": { "str": "long black dress with sleeves", "str_pl": "long black dresses with sleeves" },
+        "append": true,
+        "description": "This one is black.",
+        "color": "black",
+        "weight": 225
+      },
+      {
+        "id": "witch_black",
+        "name": { "str": "long black witch dress", "str_pl": "long black witch dresses" },
+        "append": true,
+        "description": "A long dress with sleeves, typical of a witch.  It's colored black."
+      },
+      {
+        "id": "witch_green",
+        "name": { "str": "long green witch dress", "str_pl": "long green witch dresses" },
+        "append": true,
+        "description": "A long dress with sleeves, typical of a witch.  It's colored dark green."
+      },
+      {
+        "id": "witch_red",
+        "name": { "str": "long red witch dress", "str_pl": "long red witch dresses" },
+        "append": true,
+        "description": "A long dress with sleeves, typical of a witch.  It's colored dark red."
+      },
+      {
+        "id": "witch_purple",
+        "name": { "str": "long purple witch dress", "str_pl": "long purple witch dresses" },
+        "append": true,
+        "description": "A long dress with sleeves, typical of a witch.  It's colored dark purple."
+      },
+      {
+        "id": "sinister",
+        "name": { "str": "sinister dress", "str_pl": "sinister dresses" },
+        "description": "A long black and red dress with full sleeves, a collar, and embroidery reminiscent of a vampire duchess."
+      }
+    ]
+  },
+  {
+    "copy-from": "dress_sleeved",
+    "proportional": { "weight": 0.75, "volume": 0.75, "warmth": 0.5 },
+    "id": "short_dress_sleeved",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "description": "A short cotton dress with sleeves.",
+    "name": { "str": "short dress with sleeves", "str_pl": "short dresses with sleeves" },
+    "armor": [
+      { "encumbrance": 7, "coverage": 85, "covers": [ "torso" ] },
+      { "encumbrance": 1, "coverage": 85, "covers": [ "arm_l", "arm_r" ] },
+      { "encumbrance": 1, "coverage": 25, "covers": [ "leg_l", "leg_r" ] }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "white",
+        "name": { "str": "short white dress with sleeves", "str_pl": "short white dresses with sleeves" },
+        "append": true,
+        "description": "This one is white.",
+        "color": "white",
+        "weight": 200
+      },
+      {
+        "id": "black",
+        "name": { "str": "short black dress with sleeves", "str_pl": "short black dresses with sleeves" },
+        "append": true,
+        "description": "This one is black.",
+        "color": "black",
+        "weight": 200
+      },
+      {
+        "id": "witch_black",
+        "name": { "str": "short black witch dress", "str_pl": "short black witch dresses" },
+        "description": "A short dress typically used by witches.  It's colored black."
+      },
+      {
+        "id": "witch_green",
+        "name": { "str": "short green witch dress", "str_pl": "short green witch dresses" },
+        "description": "A short dress typically used by witches.  It's colored dark green."
+      },
+      {
+        "id": "witch_red",
+        "name": { "str": "short red witch dress", "str_pl": "short red witch dresses" },
+        "description": "A short dress typically used by witches.  It's colored dark red."
+      },
+      {
+        "id": "witch_purple",
+        "name": { "str": "short purple witch dress", "str_pl": "short purple witch dresses" },
+        "description": "A short dress typically used by witches.  It's colored dark purple."
       }
     ]
   },
@@ -713,6 +1005,7 @@
     "looks_like": "dress_shirt",
     "symbol": "[",
     "color": "light_blue",
+    "faults": [ { "fault_group": "fabric_denim" } ],
     "flags": [ "VARSIZE" ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 4, 5 ] },
@@ -749,6 +1042,7 @@
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "white",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 4, 5 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 4, 4 ] }
@@ -774,9 +1068,37 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "pocket shirt" },
-    "description": "A white button-down shirt with long sleeves and a pocket on the front.  Looks professional!",
-    "//": "delete button shirt variants",
-    "variants": [  ],
+    "description": "A button-down shirt with long sleeves and a pocket on the front.  Looks professional!",
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "black dress shirt" },
+        "color": "dark_gray",
+        "append": true,
+        "description": "This one is black."
+      },
+      {
+        "id": "white",
+        "name": { "str": "white dress shirt" },
+        "color": "light_gray",
+        "append": true,
+        "description": "This one is white."
+      },
+      {
+        "id": "blue",
+        "name": { "str": "blue dress shirt" },
+        "color": "blue",
+        "append": true,
+        "description": "This one is blue."
+      },
+      {
+        "id": "gray",
+        "name": { "str": "gray dress shirt" },
+        "color": "light_gray",
+        "append": true,
+        "description": "This one is gray."
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -801,6 +1123,7 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "white",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 16,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
@@ -848,6 +1171,55 @@
     "armor": [ { "encumbrance": 50, "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
+    "id": "gown",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "evening gown" },
+    "description": "A luxurious evening gown.  It accentuates your curves, or lack thereof.",
+    "weight": "1800 g",
+    "volume": "5 L",
+    "price": "210 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "dress",
+    "color": "dark_gray",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
+    "warmth": 10,
+    "material_thickness": 0.3,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 14, "coverage": 75, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "copy-from": "gown",
+    "proportional": { "warmth": 1.1, "weight": 1.05, "volume": 1.05 },
+    "id": "gown_sleeved",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "evening gown with sleeves", "str_pl": "evening gowns with sleeves" },
+    "description": "A luxurious evening gown with full sleeves.  It accentuates your curves, or lack thereof.",
+    "armor": [
+      { "encumbrance": 14, "coverage": 75, "covers": [ "torso", "leg_l", "leg_r" ] },
+      { "encumbrance": 2, "coverage": 90, "covers": [ "arm_l", "arm_r" ] }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "black gown" },
+        "append": true,
+        "description": "This one is black.",
+        "color": "black"
+      },
+      {
+        "id": "sinister",
+        "name": { "str": "sinister gown" },
+        "description": "A red and black gown with full sleeves.  It has a gothic style and looks pretty luxurious.",
+        "color": "red"
+      }
+    ]
+  },
+  {
     "id": "halter_top",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -861,6 +1233,7 @@
     "symbol": "[",
     "looks_like": "tank_top",
     "color": "pink",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 2,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
@@ -880,6 +1253,7 @@
     "symbol": "[",
     "looks_like": "sweater",
     "color": "dark_gray",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 6, 12 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 6, 6 ] }
@@ -896,7 +1270,7 @@
     "warmth": 20,
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "HOOD" ],
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER" ],
     "variant_type": "generic",
     "variants": [
       {
@@ -1206,11 +1580,7 @@
     "armor": [ { "breathability": "SECOND_SKIN", "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ],
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic",
-        "name": { "str": "sports jersey" },
-        "description": "A lightweight, breathable shirt made from synthetic fabric, designed for athletic performance and team identification."
-      },
+      { "id": "generic", "//": "inherit name and description from item" },
       {
         "id": "sportsteam",
         "name": { "str": "sports team jersey" },
@@ -1252,6 +1622,7 @@
     "symbol": "[",
     "looks_like": "dress_shirt",
     "color": "blue",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
@@ -1271,6 +1642,7 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "blue",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 5, 7 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 5, 5 ] },
@@ -1329,6 +1701,7 @@
     "symbol": "[",
     "looks_like": "maid_dress",
     "color": "dark_gray",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": 4 },
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 20 },
@@ -1392,6 +1765,7 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "white",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 90 },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 85 },
@@ -1417,6 +1791,7 @@
     "symbol": "[",
     "looks_like": "sundress",
     "color": "dark_gray",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 5,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
@@ -1447,6 +1822,7 @@
     "symbol": "[",
     "looks_like": "sundress",
     "color": "dark_gray",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 5,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
@@ -1480,6 +1856,7 @@
     "symbol": "[",
     "looks_like": "tshirt",
     "color": "light_red",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
@@ -1507,6 +1884,7 @@
     "symbol": "[",
     "looks_like": "polo_shirt",
     "color": "light_blue",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1543,16 +1921,8 @@
     ],
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic",
-        "name": { "str": "mail carrier shirt" },
-        "description": "A light blue button down shirt with a couple of pockets in front and the US postal service logo embroidered on it."
-      },
-      {
-        "id": "sheriff",
-        "name": { "str": "mail carrier shirt" },
-        "description": "A tan button-down shirt with long sleeves."
-      },
+      { "id": "generic", "//": "inherit name and description from item" },
+      { "id": "sheriff", "//": "inherit name from item", "description": "A tan button-down shirt with long sleeves." },
       {
         "id": "swat",
         "name": { "str": "SWAT shirt" },
@@ -1577,6 +1947,7 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "red",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 20,
     "material_thickness": 0.4,
     "flags": [ "VARSIZE" ],
@@ -1606,6 +1977,7 @@
     "symbol": "[",
     "looks_like": "santa_dress",
     "color": "red",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 25,
     "material_thickness": 0.8,
     "flags": [ "VARSIZE" ],
@@ -1632,6 +2004,7 @@
     "symbol": "[",
     "looks_like": "sundress",
     "color": "red",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 15,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
@@ -1674,85 +2047,6 @@
     "flags": [ "VARSIZE" ]
   },
   {
-    "id": "sinister_dress",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "sinister dress", "str_pl": "sinister dresses" },
-    "description": { "str": "A long black and red dress with full sleeves, a collar, and embroidery reminiscent of a vampire duchess." },
-    "weight": "800 g",
-    "volume": "3500 ml",
-    "price": "180 USD",
-    "price_postapoc": "60 cent",
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "dress",
-    "color": "dark_gray",
-    "warmth": 10,
-    "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "COLLAR" ],
-    "armor": [
-      { "covers": [ "torso", "arm_l", "arm_r" ], "coverage": 95, "encumbrance": 7 },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 7 }
-    ]
-  },
-  {
-    "id": "sinister_dress_short",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "short sinister dress", "str_pl": "short sinister dresses" },
-    "description": { "str": "A short red dress made in gothic lolita fashion." },
-    "weight": "600 g",
-    "volume": "2000 ml",
-    "price": "160 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "sundress",
-    "color": "red",
-    "warmth": 8,
-    "material_thickness": 0.2,
-    "flags": [ "VARSIZE" ],
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 75, "encumbrance": 6 },
-      {
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
-        "coverage": 100,
-        "encumbrance": 2
-      },
-      {
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
-        "coverage": 100,
-        "encumbrance": 4
-      },
-      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 80 }
-    ]
-  },
-  {
-    "id": "sinister_gown",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "sinister gown" },
-    "description": "A red and black gown with full sleeves.  It has a gothic style and looks pretty luxurious.",
-    "weight": "2499 g",
-    "volume": "5 L",
-    "price": "210 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "gown",
-    "color": "light_red",
-    "warmth": 12,
-    "material_thickness": 0.3,
-    "flags": [ "VARSIZE" ],
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 85, "encumbrance": 8 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 8 },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 14 }
-    ]
-  },
-  {
     "id": "sundress",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -1766,6 +2060,7 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "yellow",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "material_thickness": 0.1,
     "flags": [ "VARSIZE" ],
     "armor": [
@@ -1811,6 +2106,7 @@
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "light_red",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 30,
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
@@ -1878,11 +2174,12 @@
     "symbol": "[",
     "looks_like": "camisole",
     "color": "white",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 5,
     "material_thickness": 0.1,
     "variant_type": "generic",
     "variants": [
-      { "id": "generic_tshirt", "name": { "str": "t-shirt" }, "description": "A short-sleeved cotton shirt.", "weight": 40 },
+      { "id": "generic_tshirt", "//": "inherit name and description from item", "weight": 40 },
       {
         "id": "baseball_fan_tshirt",
         "name": { "str": "baseball t-shirt" },
@@ -1999,9 +2296,135 @@
         "description": "This one is colored brown.",
         "append": true,
         "weight": 24
+      },
+      {
+        "id": "3dog_tshirt",
+        "name": { "str": "3 Wolf Moon t-shirt" },
+        "color": "magenta",
+        "description": "This magnificent piece of clothing contains not one, not two, but THREE WOLVES.  THREE WOLVES HOWLING AT THE MOON!  It is the most badass item of clothing ever produced.",
+        "weight": 1
+      },
+      {
+        "id": "pride_default",
+        "name": { "str": "pride flag t-shirt" },
+        "description": "This one has patterns akin to the pride flag.",
+        "color": "yellow",
+        "append": true
+      },
+      {
+        "id": "pride_lesbian",
+        "name": { "str": "lesbian flag t-shirt" },
+        "color": "red",
+        "description": "This one has patterns akin to the lesbian flag.",
+        "append": true
+      },
+      {
+        "id": "pride_bisexual",
+        "name": { "str": "bisexual flag t-shirt" },
+        "color": "red",
+        "description": "This one has patterns akin to the bisexual flag.",
+        "append": true
+      },
+      {
+        "id": "pride_transgender",
+        "name": { "str": "transgender flag t-shirt" },
+        "color": "blue",
+        "description": "This one has patterns akin to the transgender flag.",
+        "append": true
+      },
+      {
+        "id": "pride_asexual",
+        "name": { "str": "asexual flag t-shirt" },
+        "color": "magenta",
+        "description": "This one has patterns akin to the asexual flag.",
+        "append": true
+      },
+      {
+        "id": "pride_aromantic",
+        "name": { "str": "aromantic flag t-shirt" },
+        "color": "green",
+        "description": "This one has patterns akin to the aromantic flag.",
+        "append": true
+      },
+      {
+        "id": "pride_pansexual",
+        "name": { "str": "pansexual flag t-shirt" },
+        "color": "blue",
+        "description": "This one has patterns akin to the pansexual flag.",
+        "append": true
+      },
+      {
+        "id": "pride_genderqueer",
+        "name": { "str": "genderqueer flag t-shirt" },
+        "color": "magenta",
+        "description": "This one has patterns akin to the genderqueer flag.",
+        "append": true
+      },
+      {
+        "id": "pride_genderfluid",
+        "name": { "str": "genderfluid flag t-shirt" },
+        "color": "magenta",
+        "description": "This one has patterns akin to the genderfluid flag.",
+        "append": true
+      },
+      {
+        "id": "pride_agender",
+        "name": { "str": "agender flag t-shirt" },
+        "color": "dark_gray",
+        "description": "This one has patterns akin to the agender flag.",
+        "append": true
+      },
+      {
+        "id": "pride_nonbinary",
+        "name": { "str": "non-binary flag t-shirt" },
+        "color": "yellow",
+        "description": "This one has patterns akin to the non-binary flag.",
+        "append": true
+      },
+      {
+        "id": "pride_intersex",
+        "name": { "str": "intersex flag t-shirt" },
+        "color": "yellow",
+        "description": "This one has patterns akin to the intersex flag.",
+        "append": true
+      },
+      {
+        "id": "pride_polysexual",
+        "name": { "str": "polysexual flag t-shirt" },
+        "color": "green",
+        "description": "This one has patterns akin to the polysexual flag.",
+        "append": true
+      },
+      {
+        "id": "striped_blue_yellow",
+        "name": { "str": "blue-yellow striped t-shirt" },
+        "color": "blue",
+        "description": "This one has blue-yellow pattern.",
+        "append": true
+      },
+      {
+        "id": "striped_red_yellow",
+        "name": { "str": "red-yellow striped t-shirt" },
+        "color": "red",
+        "description": "This one has red-yellow pattern.",
+        "append": true
+      },
+      {
+        "id": "striped_yellow_green",
+        "name": { "str": "yellow-green striped t-shirt" },
+        "color": "yellow",
+        "description": "This one has yellow-green pattern.",
+        "append": true
+      },
+      {
+        "id": "striped_blue_white",
+        "name": { "str": "blue-white striped t-shirt" },
+        "color": "blue",
+        "description": "This one has blue-white pattern.",
+        "append": true
       }
     ],
-    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       { "coverage": 90, "covers": [ "torso" ] },
       {
@@ -2031,12 +2454,7 @@
     ],
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_tshirt",
-        "name": { "str": "crop top" },
-        "description": "A short-sleeved cotton shirt, cropped to expose the stomach.",
-        "weight": 1
-      },
+      { "id": "generic_tshirt", "//": "inherit name and description from item", "weight": 1 },
       {
         "id": "red_tshirt",
         "name": { "str": "red crop top" },
@@ -2125,6 +2543,7 @@
     "symbol": "[",
     "looks_like": "tshirt",
     "color": "white",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 10,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
@@ -2152,6 +2571,7 @@
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "brown",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 400 } ],
     "warmth": 5,
     "material_thickness": 0.4,
@@ -2203,195 +2623,6 @@
     "armor": [ { "encumbrance": [ 4, 8 ], "coverage": 90, "covers": [ "torso" ] } ]
   },
   {
-    "id": "witch_dress",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "witch dress", "str_pl": "witch dresses" },
-    "description": { "str": "A dress with full sleeves and pointed cuts at the edges.  Perfect for Halloween." },
-    "weight": "258 g",
-    "volume": "1500 ml",
-    "price": "140 USD",
-    "price_postapoc": "40 cent",
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "dress",
-    "color": "dark_gray",
-    "warmth": 8,
-    "material_thickness": 0.2,
-    "flags": [ "VARSIZE" ],
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 95, "encumbrance": 3 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 80, "encumbrance": 3 },
-      {
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
-        "coverage": 100,
-        "encumbrance": 2
-      },
-      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 90 }
-    ],
-    "variant_type": "generic",
-    "variants": [
-      {
-        "id": "generic_witch_dress",
-        "name": { "str": "black witch dress", "str_pl": "black witch dresses" },
-        "description": "It's colored black.",
-        "weight": 25,
-        "append": true
-      },
-      {
-        "id": "green_witch_dress",
-        "name": { "str": "green witch dress", "str_pl": "green witch dresses" },
-        "description": "It's colored dark green.",
-        "weight": 25,
-        "append": true
-      },
-      {
-        "id": "red_witch_dress",
-        "name": { "str": "red witch dress", "str_pl": "red witch dresses" },
-        "description": "It's colored dark red.",
-        "weight": 25,
-        "append": true
-      },
-      {
-        "id": "purple_witch_dress",
-        "name": { "str": "purple witch dress", "str_pl": "purple witch dresses" },
-        "description": "It's colored dark purple.",
-        "weight": 25,
-        "append": true
-      }
-    ]
-  },
-  {
-    "id": "witch_dress_long",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "long witch dress", "str_pl": "long witch dresses" },
-    "description": "A long dress with sleeves, typical of a witch.  It includes a pouch for storing potions and other magical items.",
-    "weight": "700 g",
-    "volume": "3750 ml",
-    "price": "180 USD",
-    "price_postapoc": "60 cent",
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "dress",
-    "color": "dark_gray",
-    "warmth": 15,
-    "material_thickness": 0.2,
-    "flags": [ "VARSIZE" ],
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 6, 6 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 8, 10 ] }
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "13 cm",
-        "moves": 100
-      }
-    ],
-    "variant_type": "generic",
-    "variants": [
-      {
-        "id": "generic_witch_dress_long",
-        "name": { "str": "long black witch dress", "str_pl": "long black witch dresses" },
-        "description": "It's colored black.",
-        "weight": 25,
-        "append": true
-      },
-      {
-        "id": "green_witch_dress_long",
-        "name": { "str": "long green witch dress", "str_pl": "long green witch dresses" },
-        "description": "It's colored dark green.",
-        "weight": 25,
-        "append": true
-      },
-      {
-        "id": "red_witch_dress_long",
-        "name": { "str": "long red witch dress", "str_pl": "long red witch dresses" },
-        "description": "It's colored dark red.",
-        "weight": 25,
-        "append": true
-      },
-      {
-        "id": "purple_witch_dress_long",
-        "name": { "str": "long purple witch dress", "str_pl": "long purple witch dresses" },
-        "description": "It's colored dark purple.",
-        "weight": 25,
-        "append": true
-      }
-    ]
-  },
-  {
-    "id": "witch_dress_short",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "short witch dress", "str_pl": "short witch dresses" },
-    "description": { "str": "A short dress typically used by witches." },
-    "weight": "200 g",
-    "volume": "1500 ml",
-    "price": "120 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "sundress",
-    "color": "dark_gray",
-    "warmth": 5,
-    "material_thickness": 0.2,
-    "flags": [ "VARSIZE" ],
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 75, "encumbrance": 3 },
-      {
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
-        "coverage": 100,
-        "encumbrance": 1
-      },
-      { "coverage": 50, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_upper_l", "arm_upper_r" ] },
-      {
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
-        "coverage": 100,
-        "encumbrance": 4
-      },
-      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 40 }
-    ],
-    "variant_type": "generic",
-    "variants": [
-      {
-        "id": "generic_witch_dress_short",
-        "name": { "str": "short black witch dress", "str_pl": "short black witch dresses" },
-        "description": "It's colored black.",
-        "weight": 25,
-        "append": true
-      },
-      {
-        "id": "green_witch_dress_short",
-        "name": { "str": "short green witch dress", "str_pl": "short green witch dresses" },
-        "description": "It's colored dark green.",
-        "weight": 25,
-        "append": true
-      },
-      {
-        "id": "red_witch_dress_short",
-        "name": { "str": "short red witch dress", "str_pl": "short red witch dresses" },
-        "description": "It's colored dark red.",
-        "weight": 25,
-        "append": true
-      },
-      {
-        "id": "purple_witch_dress_short",
-        "name": { "str": "short purple witch dress", "str_pl": "short purple witch dresses" },
-        "description": "It's colored dark purple.",
-        "weight": 25,
-        "append": true
-      }
-    ]
-  },
-  {
     "id": "wool_hoodie",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -2421,14 +2652,14 @@
     "warmth": 35,
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER" ]
   },
   {
     "id": "bunny_suit_playboy",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "bunny suit" },
-    "description": "A bunny suit, still shiny despite the time it's likely spent in storage, or worse, on a corpse.  While not resembling a bunny without its accompanying tail and ears, it was a recognizable piece of clothing often found in clubs or in playboy magazines.",
+    "description": "A bunny suit, still shiny despite the time it's likely spent in storage, or worse, on a corpse.  It was a recognizable piece of clothing often found in clubs or in playboy magazines.",
     "weight": "136 g",
     "volume": "750 ml",
     "price": "50 USD",
@@ -2442,7 +2673,20 @@
       { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] }
     ],
     "material_thickness": 0.1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "variants": [
+      {
+        "id": "tailless",
+        "name": { "str": "bunny suit" },
+        "description": "A bunny suit, still shiny despite the time it's likely spent in storage, or worse, on a corpse.  It was a recognizable piece of clothing often found in clubs or in playboy magazines."
+      },
+      {
+        "id": "tail",
+        "name": { "str": "bunny suit" },
+        "description": "This one comes with a white, fluffy tail",
+        "append": true
+      }
+    ]
   },
   {
     "id": "cheongsam",
@@ -2458,6 +2702,7 @@
     "symbol": "Y",
     "looks_like": "dress",
     "color": "light_red",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 100 },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 80 },

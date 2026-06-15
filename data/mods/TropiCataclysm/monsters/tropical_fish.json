@@ -204,7 +204,7 @@
     "copy-from": "mon_fish_large",
     "name": { "str": "arowana" },
     "reproduction": { "baby_type": { "baby_egg": "egg_arowana" }, "baby_count": 2, "baby_timer": 17 },
-    "description": "A member of the Osteoglossidade family.  These fishes can be found on South America, Asia and Australia."
+    "description": "A member of the Osteoglossidade family.  These fish can be found on South America, Asia and Australia."
   },
   {
     "id": "mon_fry_arowana",
@@ -219,7 +219,7 @@
     "copy-from": "mon_fish_huge",
     "name": { "str": "arapaima" },
     "reproduction": { "baby_type": { "baby_egg": "egg_arapaima" }, "baby_count": 2, "baby_timer": 17 },
-    "description": "A member of the Arapaimidae family.  These fishes can be found on South America and Africa, some species can grow to truly huge sizes."
+    "description": "A member of the Arapaimidae family.  These fish can be found on South America and Africa, some species can grow to truly huge sizes."
   },
   {
     "id": "mon_fry_arapaima",
@@ -294,7 +294,7 @@
     "type": "MONSTER",
     "name": { "str": "stingray fry", "str_pl": "stingray fries" },
     "copy-from": "mon_fish_stingray",
-    "description": "A baby stingray.  Like many other cartilaginous fishes, river stingrays are ovoviviparous and carry the eggs until the fries are ready to get out in to the world.",
+    "description": "A baby stingray.  Like many other cartilaginous fish, river stingrays are ovoviviparous and carry the eggs until the fries are ready to get out in to the world.",
     "proportional": { "hp": 0.4, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "10 ml",
     "weight": "1 g",
@@ -307,7 +307,7 @@
     "copy-from": "mon_fish_huge",
     "name": { "str": "gar" },
     "reproduction": { "baby_type": { "baby_egg": "egg_gar" }, "baby_count": 2, "baby_timer": 17 },
-    "description": "A fish belonging to the Lepisosteidae family.  These enormous fishes can be found from North America to the Caribbean and are well known for their prehistoric appearance."
+    "description": "A fish belonging to the Lepisosteidae family.  These enormous fish can be found from North America to the Caribbean and are well known for their prehistoric appearance."
   },
   {
     "id": "mon_fry_gar",
@@ -352,7 +352,7 @@
     "copy-from": "mon_fish_tiny",
     "name": { "str_sp": "angelfish" },
     "reproduction": { "baby_type": { "baby_egg": "egg_angelfish" }, "baby_count": 2, "baby_timer": 17 },
-    "description": "A genus of freshwater fish with a triangular shape native to South America.  Unrelated to the marine angel fishes and known to be semi-aggressive in captivity."
+    "description": "A genus of freshwater fish with a triangular shape native to South America.  Unrelated to the marine angel fish and known to be semi-aggressive in captivity."
   },
   {
     "id": "mon_fry_angelfish",
@@ -367,7 +367,7 @@
     "copy-from": "mon_fish_medium",
     "name": { "str_sp": "koi" },
     "reproduction": { "baby_type": { "baby_egg": "egg_koi" }, "baby_count": 2, "baby_timer": 17 },
-    "description": "A domestic variant of the Amur carp originally bred in Japan for its color variations.  These fishes are known to devolve quickly to feral status if left to escape."
+    "description": "A domestic variant of the Amur carp originally bred in Japan for its color variations.  These fish are known to devolve quickly to feral status if left to escape."
   },
   {
     "id": "mon_fry_koi",
@@ -382,7 +382,7 @@
     "copy-from": "mon_fish_medium",
     "name": { "str": "tilapia" },
     "reproduction": { "baby_type": { "baby_egg": "egg_tilapia" }, "baby_count": 2, "baby_timer": 17 },
-    "description": "A genus of cichlids native to Africa but bred worldwide for food.  They are adaptable herbivorous fishes that can survive well even in salt water."
+    "description": "A genus of cichlids native to Africa but bred worldwide for food.  They are adaptable herbivorous fish that can survive well even in salt water."
   },
   {
     "id": "mon_fry_tilapia",

@@ -680,8 +680,7 @@
       },
       "female": {
         "entries": [
-          { "item": "sinister_dress" },
-          { "item": "bra" },
+          { "item": "long_dress_sleeved", "variant": "sinister" },
           { "item": "panties" },
           { "item": "stockings" },
           { "item": "garter_belt" },
@@ -691,7 +690,7 @@
         ]
       }
     },
-    "traits": [ "ANIMIST", "ALBINO", "TROGLO2", "SLOWHEALER2" ]
+    "traits": [ "ANIMIST", "ALBINO", "TROGLO2", "SLOWHEALER2", "CBM_Interface" ]
   },
   {
     "type": "profession",
@@ -965,7 +964,7 @@
           { "item": "helmet_army" },
           { "item": "hatchet" },
           { "item": "balclava", "variant": "black" },
-          { "item": "rifle_case_soft" },
+          { "item": "rifle_case_xl_soft_leather" },
           { "item": "mess_kit" },
           { "item": "emer_blanket", "custom-flags": [ "no_auto_equip" ] },
           { "item": "tank_top", "variant": "tank_top_camo" },

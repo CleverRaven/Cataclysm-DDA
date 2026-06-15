@@ -14,6 +14,7 @@
     <_CDDA_RELEASE_BUILD>false</_CDDA_RELEASE_BUILD>
     <_CDDA_RELEASE_BUILD Condition="'$(CDDA_RELEASE_BUILD)'!=''">true</_CDDA_RELEASE_BUILD>
     <_CDDA_LLVM_BIN_PATH>$(VCInstallDir)Tools\Llvm\bin\</_CDDA_LLVM_BIN_PATH>
+    <_CDDA_LLVM_BIN_PATH Condition="'$(PreferredToolArchitecture)'=='x64'">$(VCInstallDir)Tools\Llvm\x64\bin\</_CDDA_LLVM_BIN_PATH>
     <_CDDA_LLVM_BIN_PATH Condition="'$(LLVMInstallDir)'!=''">$(LLVMInstallDir)\bin\</_CDDA_LLVM_BIN_PATH>
     <CDDA_LLVM_LIB_PATH Condition="'$(CDDA_LLVM_LIB_PATH)'==''">$(_CDDA_LLVM_BIN_PATH)</CDDA_LLVM_LIB_PATH>
     <CDDA_LLD_LINK_PATH Condition="'$(CDDA_LLD_LINK_PATH)'==''">$(_CDDA_LLVM_BIN_PATH)</CDDA_LLD_LINK_PATH>
@@ -24,6 +25,7 @@
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg">
     <VcpkgAdditionalInstallOptions>--clean-after-build</VcpkgAdditionalInstallOptions>
+    <CustomBuildAfterTargets>VcpkgInstallManifestDependencies</CustomBuildAfterTargets>
   </PropertyGroup>
   <PropertyGroup Condition="$(_CDDA_USE_CCACHE)">
     <ClToolPath>$(CDDA_CCACHE_PATH)</ClToolPath>
@@ -58,6 +60,7 @@
       <ConformanceMode>true</ConformanceMode>
       <SupportJustMyCode>false</SupportJustMyCode>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <ClCompile Condition="$(Configuration.StartsWith(Debug))">
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -68,6 +71,9 @@
     <ClCompile Condition="!$(Configuration.Contains(NoTiles))">
       <PreprocessorDefinitions>TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <ClCompile Condition="!$(Configuration.Contains(NoTiles))">
+      <PreprocessorDefinitions>USE_SDL3;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
     <ClCompile Condition="$(Configuration.Contains(NoTiles))">
       <PreprocessorDefinitions>USE_PDCURSES;PDC_NCMOUSE;PDC_WIDE;IMTUI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
@@ -76,7 +82,6 @@
     </ClCompile>
     <ClCompile Condition="$(_CDDA_USE_CCACHE)">
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
-      <ForcedIncludeFiles />
       <ObjectFileName>$(IntDir)%(FileName).obj</ObjectFileName>
     </ClCompile>
     <Lib Condition="$(_CDDA_ENABLE_THIN_ARCHIVES)">
@@ -87,7 +92,7 @@
       <LinkIncremental>true</LinkIncremental>
       <LinkStatus />
       <LinkTimeCodeGeneration />
-      <AdditionalDependencies>dbghelp.lib;winmm.lib;imm32.lib;version.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;setupapi.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dbghelp.lib;winmm.lib;imm32.lib;version.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;setupapi.lib;shlwapi.lib;WindowsApp.lib;mincore.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <!-- VS2022 DebugFastLink segfaults https://developercommunity.visualstudio.com/t/Visual-Studio-2022-version-1742-crashe/10243923 -->
     <!-- Fixed in VS2022 17.7 == 14.37 -->
@@ -116,21 +121,21 @@
         freetype$(VcpkgLibSuffix).lib;
         jpeg.lib;
         libpng16$(VcpkgLibSuffix).lib;
-        modplug.lib;
+        libwavpack.lib;
         mpg123.lib;
         ogg.lib;
         out123.lib;
         pdcurses.lib;
-        SDL2_image-static$(VcpkgLibSuffix).lib;
-        SDL2_mixer-static$(VcpkgLibSuffix).lib;
-        SDL2_ttf.lib;
-        SDL2-static$(VcpkgLibSuffix).lib;
+        SDL3_image-static.lib;
+        SDL3_mixer-static.lib;
+        SDL3_ttf-static.lib;
+        SDL3-static.lib;
         syn123.lib;
         turbojpeg.lib;
         vorbis.lib;
         vorbisenc.lib;
         vorbisfile.lib;
-        zlib$(VcpkgLibSuffix).lib;
+        zs$(VcpkgLibSuffix).lib;
         <!-- win32 deps of the vcpkg deps -->
         Advapi32.lib;
         Cfgmgr32.lib;
@@ -144,6 +149,10 @@
         User32.lib;
         Version.lib;
         Winmm.lib;
+        %(AdditionalDependencies)
+      </AdditionalDependencies>
+      <AdditionalDependencies Condition="$(Configuration.Contains(NoTiles))">
+        pdcurses.lib;
         %(AdditionalDependencies)
       </AdditionalDependencies>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>

@@ -39,7 +39,7 @@
     "price_postapoc": "10 cent",
     "use_action": {
       "type": "transform",
-      "msg": "You adjust the %s to cover your mouth.",
+      "msg": "You adjust the bandana to cover your mouth.",
       "target": "bandana",
       "menu_text": "Cover mouth"
     },
@@ -171,12 +171,7 @@
     "description": "Whether yer hunting varmints, fixing up the ranch, or heading into the sunset, this is the hat for the job.",
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_cowboy_hat",
-        "name": { "str": "cowboy hat" },
-        "description": "Whether yer hunting varmints, fixing up the ranch, or heading into the sunset, this is the hat for the job.",
-        "weight": 30
-      },
+      { "id": "generic_cowboy_hat", "//": "inherit name and description from item", "weight": 30 },
       {
         "id": "flag_cowboy_hat",
         "name": { "str_sp": "American cowboy hat" },
@@ -370,12 +365,7 @@
     ],
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "generic_hatball",
-        "name": { "str": "baseball cap" },
-        "description": "A cotton cap with a rounded crown, an adjustable strap, and a long visor.  It shields your eyes from the sun and provides a little bit of warmth.  Traditionally worn by baseball players.",
-        "weight": 40
-      },
+      { "id": "generic_hatball", "//": "inherit name and description from item", "weight": 40 },
       {
         "id": "baseball_fan_hatball",
         "name": { "str": "baseball fan cap" },
@@ -520,7 +510,7 @@
     "variants": [
       {
         "id": "white_hat_chef",
-        "name": { "str": "toque" },
+        "//": "inherit name from item",
         "description": "It's colored white.",
         "weight": 60,
         "append": true
@@ -1305,26 +1295,6 @@
     ]
   },
   {
-    "id": "zucchetto",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str": "zucchetto" },
-    "description": "A small, crimson skullcap.  Traditionally worn by Catholic priests.",
-    "weight": "100 g",
-    "volume": "300 ml",
-    "price": "100 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "hat_cotton",
-    "color": "red",
-    "warmth": 3,
-    "material_thickness": 0.2,
-    "armor": [
-      { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] }
-    ]
-  },
-  {
     "id": "kufi",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -1720,6 +1690,14 @@
         "append": true
       }
     ]
+  },
+  {
+    "id": "golden_hat",
+    "type": "ITEM",
+    "copy-from": "wizard_hat_costume",
+    "name": "golden hat",
+    "material": [ "leather" ],
+    "description": "An incredibly tall hat made from leather covered in gold leaf.  Its crown in divided into several segments, with patterns describing the phases of the moon, the seasons and the movements of strange constellations."
   },
   {
     "id": "hijab",

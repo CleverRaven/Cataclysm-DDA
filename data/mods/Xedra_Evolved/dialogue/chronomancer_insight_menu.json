@@ -859,8 +859,8 @@
       {
         "condition": {
           "and": [
-            { "math": [ "u_spell_level('xedra_chronomancer_destabilizing_strikes') > 0" ] },
-            { "math": [ "u_spell_level('xedra_chronomancer_destabilizing_strikes') < xedra_chronomancer_level(1) " ] }
+            { "math": [ "u_spell_level('xedra_chronomancer_stabilize_timeline') > 0" ] },
+            { "math": [ "u_spell_level('xedra_chronomancer_stabilize_timeline') < xedra_chronomancer_level(1) " ] }
           ]
         },
         "text": "Level [<spell_name:xedra_chronomancer_stabilize_timeline>]",

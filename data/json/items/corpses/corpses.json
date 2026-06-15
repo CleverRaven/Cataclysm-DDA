@@ -15,7 +15,7 @@
     "//": "most of the properties depend on the monster type and are created at runtime!",
     "price": "0 cent",
     "volume": "0 ml",
-    "flags": [ "TRADER_AVOID", "CORPSE", "TARDIS" ],
+    "flags": [ "TRADER_AVOID", "CORPSE", "TARDIS", "PUNCTURE_VEHICLE_WHEELS" ],
     "category": "corpses",
     "pocket_data": [
       {
@@ -293,6 +293,18 @@
         "text": "This lifeless body is covered in myriads of uneven scratches.  Some of them look pretty swollen."
       }
     ]
+  },
+  {
+    "type": "ITEM",
+    "id": "corpse_dermatik_victim",
+    "copy-from": "corpse_generic_human",
+    "extend": { "flags": [ "PULPED" ] },
+    "delete": { "flags": [ "CORPSE" ] },
+    "volume": "30 L",
+    "weight": "22 kg",
+    "name": { "str": "strange corpse" },
+    "description": "This face of this corpse is locked in an agonized scream.  Through the large round holes in the skin, you can see that most of the flesh below is missing, leaving the skin and clothes draped over little more than bare bones.",
+    "looks_like": "corpse_generic_human"
   },
   {
     "type": "ITEM",

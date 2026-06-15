@@ -10,6 +10,7 @@ import json
 import os
 
 mods_this_time = []
+mods_lists = []
 
 exclusions = [
     # Tuple of (mod_id, mod_id) - these two mods will be incompatible
@@ -49,7 +50,7 @@ def add_mods(mods):
 
 
 def print_modlist(modlist, master_list):
-    print(','.join(modlist))
+    mods_lists.append(','.join(modlist))
     master_list -= set(modlist)
     modlist.clear()
 
@@ -91,13 +92,15 @@ for r, d, f in os.walk('data/mods'):
         ident = os.path.basename(mod.path)
         if ident in obsolete_mods:
             continue
-        mods_this_time.append(os.path.basename(mod.path))
-    print(','.join(mods_this_time))
+        add_mods([os.path.basename(mod.path)])
+    mods_lists.append(','.join(mods_this_time))
     mods_this_time.clear()
 
 mods_remaining = set(all_mod_dependencies)
 
-print_modlist(mods_this_time, mods_remaining)
+# Remove mods already covered by mod_interactions lists above
+for ml in mods_lists:
+    mods_remaining -= set(ml.split(','))
 
 while mods_remaining:
     for mod in mods_remaining:
@@ -107,3 +110,10 @@ while mods_remaining:
         raise RuntimeError(
             'mods remain ({}) but none could be added'.format(mods_remaining))
     print_modlist(mods_this_time, mods_remaining)
+
+seen = set()
+for entry in sorted(mods_lists, key=len, reverse=True):
+    key = frozenset(entry.split(','))
+    if entry and key not in seen:
+        seen.add(key)
+        print(entry)

@@ -76,6 +76,11 @@ void event_transformation::load_transformation( const JsonObject &jo, const std:
     event_transformation_factory.load( jo, src );
 }
 
+void event_transformation::finalize_all()
+{
+    event_transformation_factory.finalize();
+}
+
 void event_transformation::check_consistency()
 {
     event_transformation_factory.check();
@@ -103,6 +108,11 @@ void event_statistic::load_statistic( const JsonObject &jo, const std::string &s
     event_statistic_factory.load( jo, src );
 }
 
+void event_statistic::finalize_all()
+{
+    event_statistic_factory.finalize();
+}
+
 void event_statistic::check_consistency()
 {
     event_statistic_factory.check();
@@ -123,6 +133,11 @@ template<>
 bool string_id<score>::is_valid() const
 {
     return score_factory.is_valid( *this );
+}
+
+void score::finalize_all()
+{
+    score_factory.finalize();
 }
 
 void score::load_score( const JsonObject &jo, const std::string &src )
@@ -169,6 +184,8 @@ class event_statistic::impl
         virtual std::unique_ptr<impl> clone() const = 0;
 };
 
+namespace
+{
 struct value_constraint {
     enum comparator { lt, lteq, gteq, gt };
     std::vector<cata_variant> equals_any_;
@@ -415,6 +432,7 @@ struct event_transformation_event_source : event_source {
         return std::make_unique<event_transformation_event_source>( *this );
     }
 };
+} // namespace
 
 std::unique_ptr<event_source> event_source::load( const JsonObject &jo )
 {
@@ -432,6 +450,8 @@ std::unique_ptr<event_source> event_source::load( const JsonObject &jo )
     }
 }
 
+namespace
+{
 struct event_transformation_impl : public event_transformation::impl {
     template<typename NewFields, typename Constraints, typename DropFields>
     event_transformation_impl( const string_id<event_transformation> &id,
@@ -687,6 +707,7 @@ struct event_transformation_impl : public event_transformation::impl {
         return std::make_unique<event_transformation_impl>( *this );
     }
 };
+} // namespace
 
 event_multiset event_transformation::value( stats_tracker &stats ) const
 {
@@ -730,6 +751,8 @@ monotonically event_transformation::monotonicity() const
     return impl_->monotonicity();
 }
 
+namespace
+{
 struct event_statistic_count : event_statistic::impl {
     event_statistic_count( const string_id<event_statistic> &i, std::unique_ptr<event_source> s ) :
         id( i ),
@@ -1203,6 +1226,7 @@ struct event_statistic_last_value : event_statistic_field_summary<false> {
         return std::make_unique<event_statistic_last_value>( *this );
     }
 };
+} // namespace
 
 cata_variant event_statistic::value( stats_tracker &stats ) const
 {

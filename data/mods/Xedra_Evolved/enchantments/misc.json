@@ -1,0 +1,8 @@
+[
+  {
+    "id": "ench_inventor_gaming_rig",
+    "type": "enchantment",
+    "condition": "ACTIVE",
+    "ench_effects": [ { "effect": "effect_hedge_no_nightmares", "intensity": 1 } ]
+  }
+]

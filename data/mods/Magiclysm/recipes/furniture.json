@@ -44,7 +44,7 @@
       [ [ "nuts_bolts", 4 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "mtorch_everburning", 1 ] ],
-      [ [ "nail", 4 ] ]
+      [ [ "nails", 4, "LIST" ] ]
     ]
   }
 ]

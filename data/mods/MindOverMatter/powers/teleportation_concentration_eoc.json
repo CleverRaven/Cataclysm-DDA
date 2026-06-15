@@ -10,16 +10,8 @@
       {
         "run_eocs": "EOC_TELEPORT_STRIDE_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('teleport_stride') * 3) + 30) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('teleport_stride') * 4) + 300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('teleport_stride') * 3) + 30) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('teleport_stride') * 4) + 300) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -38,21 +30,13 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 3" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('teleport_stride')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('teleport_stride') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_TELEPORT_STRIDE_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('teleport_stride') * 3) + 30) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('teleport_stride') * 4) + 300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('teleport_stride') * 3) + 30) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('teleport_stride') * 4) + 300) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -69,16 +53,8 @@
       {
         "run_eocs": "EOC_TELEPORT_WARPED_STRIKES_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( ( u_spell_level('teleport_warped_strikes') * 10 ) + 30 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( ( u_spell_level('teleport_warped_strikes') * 30 ) + 300 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( ( u_spell_level('teleport_warped_strikes') * 10 ) + 30 ) * psionic_power_modifiers()" ] },
+          { "math": [ "( ( u_spell_level('teleport_warped_strikes') * 30 ) + 300 ) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -102,16 +78,8 @@
       {
         "run_eocs": "EOC_TELEPORT_WARPED_STRIKES_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( ( u_spell_level('teleport_warped_strikes') * 10 ) + 30 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( ( u_spell_level('teleport_warped_strikes') * 30 ) + 300 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( ( u_spell_level('teleport_warped_strikes') * 10 ) + 30 ) * psionic_power_modifiers()" ] },
+          { "math": [ "( ( u_spell_level('teleport_warped_strikes') * 30 ) + 300 ) * psionic_power_modifiers()" ] }
         ]
       }
     ]
@@ -127,16 +95,8 @@
       {
         "run_eocs": "EOC_TELEPORT_EPHEMERAL_WALK_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('teleport_ephemeral_walk') * 10) + 30) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('teleport_ephemeral_walk') * 30) + 300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('teleport_ephemeral_walk') * 10) + 30) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('teleport_ephemeral_walk') * 30) + 300) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -155,21 +115,13 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 6" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('teleport_ephemeral_walk')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('teleport_ephemeral_walk') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_TELEPORT_EPHEMERAL_WALK_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('teleport_ephemeral_walk') * 10) + 30) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('teleport_ephemeral_walk') * 30) + 300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('teleport_ephemeral_walk') * 10) + 30) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('teleport_ephemeral_walk') * 30) + 300) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -186,15 +138,9 @@
       {
         "run_eocs": "EOC_TELEPORT_REACTIVE_DISPLACEMENT_DRAIN",
         "time_in_future": [
+          { "math": [ "( ( u_spell_level('teleport_reactive_displacement') * 1 ) + 20 ) * psionic_power_modifiers()" ] },
           {
-            "math": [
-              "( ( u_spell_level('teleport_reactive_displacement') * 1 ) + 20 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( ( u_spell_level('teleport_reactive_displacement') * 4 ) + 200 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
+            "math": [ "( ( u_spell_level('teleport_reactive_displacement') * 4 ) + 200 ) * psionic_power_modifiers()" ]
           }
         ]
       }
@@ -219,15 +165,9 @@
       {
         "run_eocs": "EOC_TELEPORT_REACTIVE_DISPLACEMENT_DRAIN",
         "time_in_future": [
+          { "math": [ "( ( u_spell_level('teleport_reactive_displacement') * 2 ) + 20 ) * psionic_power_modifiers()" ] },
           {
-            "math": [
-              "( ( u_spell_level('teleport_reactive_displacement') * 2 ) + 20 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( ( u_spell_level('teleport_reactive_displacement') * 4 ) + 200 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
+            "math": [ "( ( u_spell_level('teleport_reactive_displacement') * 4 ) + 200 ) * psionic_power_modifiers()" ]
           }
         ]
       }
@@ -246,16 +186,8 @@
       {
         "run_eocs": "EOC_TELEPORT_LOCI_ESTABLISHMENT_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( ( u_spell_level('teleport_loci_establishment') * 1 ) + 20 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( ( u_spell_level('teleport_loci_establishment') * 4 ) + 200 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( ( u_spell_level('teleport_loci_establishment') * 1 ) + 20 ) * psionic_power_modifiers()" ] },
+          { "math": [ "( ( u_spell_level('teleport_loci_establishment') * 4 ) + 200 ) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -279,16 +211,8 @@
       {
         "run_eocs": "EOC_TELEPORT_LOCI_ESTABLISHMENT_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( ( u_spell_level('teleport_loci_establishment') * 2 ) + 20 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( ( u_spell_level('teleport_loci_establishment') * 4 ) + 200 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( ( u_spell_level('teleport_loci_establishment') * 2 ) + 20 ) * psionic_power_modifiers()" ] },
+          { "math": [ "( ( u_spell_level('teleport_loci_establishment') * 4 ) + 200 ) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -305,16 +229,8 @@
       {
         "run_eocs": "EOC_TELEPORT_WARPER_COMBAT_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('teleport_warper_combat') * 3.5) + 23) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('teleport_warper_combat') * 8.5) + 97) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('teleport_warper_combat') * 3.5) + 23) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('teleport_warper_combat') * 8.5) + 97) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -336,21 +252,13 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 9" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('teleport_warper_combat')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('teleport_warper_combat') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_TELEPORT_WARPER_COMBAT_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('teleport_warper_combat') * 3.5) + 23) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('teleport_warper_combat') * 8.5) + 97) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('teleport_warper_combat') * 3.5) + 23) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('teleport_warper_combat') * 8.5) + 97) * psionic_power_modifiers()" ] }
         ]
       }
     ],

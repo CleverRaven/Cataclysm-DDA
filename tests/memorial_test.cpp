@@ -34,7 +34,8 @@ static const spell_id spell_pain_damage( "pain_damage" );
 static const trap_str_id tr_pit( "tr_pit" );
 
 template<event_type Type, typename... Args>
-void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, Args... args )
+static void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref,
+                            const Args &... args )
 {
     CAPTURE( io::enum_to_string( Type ) );
     CAPTURE( ref );
@@ -149,12 +150,6 @@ TEST_CASE( "memorials", "[memorial]" )
 
     check_memorial<event_type::crosses_mycus_threshold>(
         m, b, "Became one with the Mycus.", ch );
-
-    check_memorial<event_type::dermatik_eggs_hatch>(
-        m, b, "Dermatik eggs hatched.", ch );
-
-    check_memorial<event_type::dermatik_eggs_injected>(
-        m, b, "Injected with dermatik eggs.", ch );
 
     check_memorial<event_type::destroys_triffid_grove>(
         m, b, "Destroyed a triffid grove." );
@@ -335,7 +330,7 @@ TEST_CASE( "memorial_log_dumping", "[memorial]" )
     const std::string expected_output =
         "| Year 1, Spring, day 0 0800.00 | refugee center | "
         "Apolonia Trout began their journey into the Cataclysm." + eol +
-        "| Year 1, Spring, day 1 4:20:14 AM | forest | Used the debug menu (ENABLE_ACHIEVEMENTS)."
+        "| Year 1, Mar 21 4:20:14 AM | forest | Used the debug menu (ENABLE_ACHIEVEMENTS)."
         + eol;
 
     memorial_logger logger;

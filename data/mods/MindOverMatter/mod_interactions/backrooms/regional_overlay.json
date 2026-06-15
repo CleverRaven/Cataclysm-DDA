@@ -1,0 +1,19 @@
+[
+  {
+    "type": "map_extra_collection",
+    "id": "backrooms",
+    "copy-from": "backrooms",
+    "extend": {
+      "extras": [
+        [ "mx_alien_grass", 100 ],
+        [ "mx_alien_grass_2", 100 ],
+        [ "mx_alien_grass_3", 100 ],
+        [ "mx_alien_grass_4", 100 ],
+        [ "mx_alien_grass_5", 100 ],
+        [ "mx_nether_pond", 500 ],
+        [ "mx_glass_and_crystal", 500 ],
+        [ "mx_phavian_science", 300 ]
+      ]
+    }
+  }
+]

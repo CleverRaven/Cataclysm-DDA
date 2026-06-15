@@ -18,7 +18,7 @@
     "time": "1 m",
     "difficulty": 0,
     "components": [ [ [ "archery_target_box", 1 ] ] ],
-    "pre_special": "check_down_OK",
+    "pre_special": [ "check_empty", "check_down_OK" ],
     "post_terrain": "f_archery_target_box"
   },
   {
@@ -91,7 +91,7 @@
     "components": [ [ [ "training_dummy_heavy", 1 ] ] ],
     "pre_note": "Needs diggable terrain to secure it.",
     "pre_flags": { "flag": "DIGGABLE", "force_terrain": true },
-    "pre_special": "check_down_OK",
+    "pre_special": [ "check_empty", "check_down_OK" ],
     "post_terrain": "f_training_dummy_heavy"
   },
   {
@@ -106,7 +106,7 @@
     "components": [ [ [ "training_dummy_light", 1 ] ] ],
     "pre_note": "Needs diggable terrain to secure it.",
     "pre_flags": { "flag": "DIGGABLE", "force_terrain": true },
-    "pre_special": "check_down_OK",
+    "pre_special": [ "check_empty", "check_down_OK" ],
     "post_terrain": "f_training_dummy_light"
   },
   {

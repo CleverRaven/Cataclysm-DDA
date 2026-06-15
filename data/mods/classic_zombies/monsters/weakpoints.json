@@ -91,21 +91,21 @@
         "effects": [
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 5,
             "message": "The %s is stunned!",
             "damage_required": [ 1, 10 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 25,
             "message": "The %s is stunned!",
             "damage_required": [ 11, 50 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 45,
             "message": "The %s is stunned!",
             "damage_required": [ 51, 100 ]
@@ -123,7 +123,13 @@
         "coverage_mult": { "broad": 0.5 },
         "damage_mult": { "all": 10 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "duration": [ "1 seconds", "2 seconds" ],
+            "chance": 40,
+            "message": "The %s is blinded!",
+            "damage_required": [ 1, 25 ]
+          },
           {
             "effect": "blind",
             "permanent": true,
@@ -147,27 +153,62 @@
         "effects": [
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 5,
             "message": "The %s is stunned!",
             "damage_required": [ 1, 10 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 25,
             "message": "The %s is stunned!",
             "damage_required": [ 11, 50 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 45,
             "message": "The %s is stunned!",
             "damage_required": [ 51, 100 ]
           }
         ],
         "condition": { "npc_has_any_effect": [ "downed" ] }
+      },
+      {
+        "id": "brain",
+        "name": "the brain",
+        "is_head": true,
+        "coverage": 2,
+        "difficulty": { "melee": 4, "ranged": 5 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          {
+            "effect": "staggered",
+            "instant_death_chance": 100,
+            "chance": 100,
+            "message": "The %s collapses in a heap!",
+            "damage_required": [ 7, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "brain_coup",
+        "name": "the brain",
+        "is_head": true,
+        "coverage": 8,
+        "difficulty": { "melee": 3, "ranged": 4 },
+        "coverage_mult": { "broad": 0.5 },
+        "condition": { "npc_has_any_effect": [ "downed" ] },
+        "effects": [
+          {
+            "effect": "staggered",
+            "instant_death_chance": 100,
+            "chance": 100,
+            "message": "The %s collapses in a heap!",
+            "damage_required": [ 7, 100 ]
+          }
+        ]
       }
     ]
   },
@@ -188,21 +229,21 @@
         "effects": [
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 5,
             "message": "The %s is stunned!",
             "damage_required": [ 1, 10 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 25,
             "message": "The %s is stunned!",
             "damage_required": [ 11, 50 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 45,
             "message": "The %s is stunned!",
             "damage_required": [ 51, 100 ]
@@ -220,13 +261,54 @@
         "coverage_mult": { "broad": 0.5 },
         "damage_mult": { "all": 10 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "duration": [ "1 seconds", "2 seconds" ],
+            "chance": 40,
+            "message": "The %s is blinded!",
+            "damage_required": [ 1, 25 ]
+          },
           {
             "effect": "blind",
             "permanent": true,
             "chance": 30,
             "message": "The %s's eyes are obliterated!",
             "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "brain",
+        "name": "the brain",
+        "is_head": true,
+        "coverage": 3,
+        "difficulty": { "melee": 4, "ranged": 5 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          {
+            "effect": "staggered",
+            "instant_death_chance": 100,
+            "chance": 100,
+            "message": "The %s collapses in a heap!",
+            "damage_required": [ 7, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "brain_coup",
+        "name": "the brain",
+        "is_head": true,
+        "coverage": 10,
+        "difficulty": { "melee": 3, "ranged": 4 },
+        "coverage_mult": { "broad": 0.5 },
+        "condition": { "npc_has_any_effect": [ "downed" ] },
+        "effects": [
+          {
+            "effect": "staggered",
+            "instant_death_chance": 100,
+            "chance": 100,
+            "message": "The %s collapses in a heap!",
+            "damage_required": [ 7, 100 ]
           }
         ]
       }
@@ -249,21 +331,21 @@
         "effects": [
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 5,
             "message": "The %s is stunned!",
             "damage_required": [ 1, 10 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 25,
             "message": "The %s is stunned!",
             "damage_required": [ 11, 50 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 45,
             "message": "The %s is stunned!",
             "damage_required": [ 51, 100 ]
@@ -281,13 +363,54 @@
         "coverage_mult": { "broad": 0.5 },
         "damage_mult": { "all": 10 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "duration": [ "1 seconds", "2 seconds" ],
+            "chance": 40,
+            "message": "The %s is blinded!",
+            "damage_required": [ 1, 25 ]
+          },
           {
             "effect": "blind",
             "permanent": true,
             "chance": 30,
             "message": "The %s's eyes are obliterated!",
             "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "brain",
+        "name": "the brain",
+        "is_head": true,
+        "coverage": 1,
+        "difficulty": { "melee": 6, "ranged": 9 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          {
+            "effect": "staggered",
+            "instant_death_chance": 100,
+            "chance": 100,
+            "message": "The %s collapses in a heap!",
+            "damage_required": [ 7, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "brain_coup",
+        "name": "the brain",
+        "is_head": true,
+        "coverage": 5,
+        "difficulty": { "melee": 4, "ranged": 7 },
+        "coverage_mult": { "broad": 0.5 },
+        "condition": { "npc_has_any_effect": [ "downed" ] },
+        "effects": [
+          {
+            "effect": "staggered",
+            "instant_death_chance": 100,
+            "chance": 100,
+            "message": "The %s collapses in a heap!",
+            "damage_required": [ 7, 100 ]
           }
         ]
       }
@@ -373,21 +496,21 @@
         "effects": [
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 5,
             "message": "The %s is stunned!",
             "damage_required": [ 1, 10 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 25,
             "message": "The %s is stunned!",
             "damage_required": [ 11, 50 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 45,
             "message": "The %s is stunned!",
             "damage_required": [ 51, 100 ]
@@ -405,7 +528,13 @@
         "coverage_mult": { "ranged": 0.5 },
         "difficulty": { "point": 7, "broad": 9 },
         "effects": [
-          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "duration": [ "1 seconds", "2 seconds" ],
+            "chance": 25,
+            "message": "The %s is blinded!",
+            "damage_required": [ 1, 25 ]
+          },
           {
             "effect": "blind",
             "permanent": true,
@@ -453,21 +582,21 @@
         "effects": [
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 1,
             "message": "The %s is stunned!",
             "damage_required": [ 1, 10 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 5,
             "message": "The %s is stunned!",
             "damage_required": [ 11, 50 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 10,
             "message": "The %s is stunned!",
             "damage_required": [ 51, 100 ]
@@ -486,7 +615,7 @@
         "effects": [
           {
             "effect": "blind",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 1,
             "message": "The %s is blinded!  The goggles, they did nothing!",
             "damage_required": [ 20, 100 ]
@@ -506,21 +635,21 @@
         "effects": [
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 5,
             "message": "The %s is stunned!",
             "damage_required": [ 1, 10 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 25,
             "message": "The %s is stunned!",
             "damage_required": [ 11, 50 ]
           },
           {
             "effect": "stunned",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 45,
             "message": "The %s is stunned!",
             "damage_required": [ 51, 100 ]
@@ -546,7 +675,7 @@
         "effects": [
           {
             "effect": "blind",
-            "duration": [ 1, 2 ],
+            "duration": [ "1 seconds", "2 seconds" ],
             "chance": 1,
             "message": "The %s is blinded!  The goggles, they did nothing!",
             "damage_required": [ 20, 100 ]

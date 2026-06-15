@@ -40,7 +40,8 @@ contributors](https://github.com/CleverRaven/Cataclysm-DDA/wiki/Guide-to-adding-
 ## The basics
 
 ### Creating a barebones mod
-A mod is created by creating a folder within Cataclysm's `data/mods` directory. The mod's properties are set by the `modinfo.json` file that is present within that folder. In order for Cataclysm to recognize the folder as a mod, it **must** have a `modinfo.json` file present within it. <!--I know this isn't strictly true. A mod will function as long as there's a JSON file with a MOD_INFO structure in it. The file doesn't need to be called "modinfo.json"-->
+Mods are placed in different places depending on whether they are part of CDDA or are third party/private ones. Included ones are found in `data/mods`, while the placement third party/private ones depends on the installation environment: They are placed either in `./mods`, i.e. within the game installation, or in `USER_DIR/mods`.
+A mod is created by creating a folder within the appropriate mod directory of Cataclysm. The mod's properties are set by the `modinfo.json` file that is present within that folder. In order for Cataclysm to recognize the folder as a mod, it **must** have a `modinfo.json` file present within it. <!--I know this isn't strictly true. A mod will function as long as there's a JSON file with a MOD_INFO structure in it. The file doesn't need to be called "modinfo.json"-->
 
 ### Modinfo.json
 The modinfo.json file is a file that contains metadata for your mod. Every mod must have a `modinfo.json` file in order for Cataclysm to find it.
@@ -70,6 +71,7 @@ Here is a full list of supported values for MOD_INFO:
     "category": "graphical",                        // Optional, see below for a full list of supported values. The category is just for information purposes, so don't worry if your mod might fit more than one category.
     "dependencies": [ "dda" ],                      // Optional. What other mods are required for this mod to function? If your mod depends on another one to work properly, adding that mod's `id` attribute to the array causes Cataclysm to force that mod to load before yours.
     "loading_images": [ "cool.png", "cool2.png" ],  // Optional. Filenames for any loading screen images the mod may have. Loading screens are only present on the graphical/"tiles" version. Only supports .png files. Actual loading screen image will be picked randomly from among all mod loading screens, including other loaded mods that have loading screens.
+    "disable_other_loading_screens": true,          // Optional, default false. If set to true, only loading screens from this mod are used.
     "version": "1.3.bacon",                         // Optional. For informational purposes only. No versioning system is provided, so whatever you put here is up to you. Feel free to name your versions after ice cream.
     "core": false,                                  // Optional, default false. Core mods will be loaded before anything else. Used for DDA, third-party use will not be supported.
     "obsolete": false,                              // Optional, default false. Obsolete mods are loaded for legacy saves but cannot be used when starting new worlds
@@ -384,9 +386,3 @@ In game, that appears like this:
 
 Many editors have features that let you track `{ [` and `] }` to see if they're balanced (ie, have a matching opposite); These editors will also respect escaped characters properly. [Notepad++](https://notepad-plus-plus.org/) is a popular, free editor on Windows that contains this feature.  On Linux, there are a plethora of options, and you probably already have a preferred one 🙂
 
-### That which cannot be modded
-
-Almost everything in this game can be modded. Almost. This section is intended to chart those areas not supported for modding to save time and headaches.
-
-The Names folder and contents (EN etcetera) confirmed 5/23/20
-Construction recipes. Can be worked around by adding requirements and modding those, confirmed 7/4/22

@@ -358,7 +358,7 @@
       { "item": "recipe_chimera", "prob": 1 },
       { "item": "recipe_labchem", "prob": 1 },
       { "item": "soldering_iron_portable", "prob": 70, "charges": [ 0, 50 ] },
-      { "item": "solder_wire", "prob": 70 },
+      { "group": "solder_wire_spool_part", "prob": 70 },
       { "item": "textbook_weapwest", "prob": 2 },
       { "item": "textbook_weparabic", "prob": 2 },
       { "item": "textbook_weapeast", "prob": 2 },
@@ -638,7 +638,7 @@
       { "group": "modular_m4a1", "prob": 50 },
       [ "m14ebr", 35 ],
       [ "m249", 20 ],
-      [ "modular_m27_assault_rifle", 50 ],
+      { "group": "h&k416a5_any", "prob": 50 },
       [ "M24", 35 ]
     ]
   },

@@ -19,9 +19,6 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "find_safety", mission_start::find_safety },
         { "place_book", mission_start::place_book },
         { "reveal_refugee_center", mission_start::reveal_refugee_center },
-        { "create_lab_console", mission_start::create_lab_console },
-        { "create_hidden_lab_console", mission_start::create_hidden_lab_console },
-        { "create_ice_lab_console", mission_start::create_ice_lab_console },
         // Endings
         // Failures
     }
@@ -114,8 +111,8 @@ void mission_type::reset()
 }
 
 template <typename Fun>
-void assign_function( const JsonObject &jo, const std::string &id, Fun &target,
-                      const std::map<std::string, Fun> &cont )
+static void assign_function( const JsonObject &jo, const std::string &id, Fun &target,
+                             const std::map<std::string, Fun> &cont )
 {
     if( jo.has_string( id ) ) {
         const auto iter = cont.find( jo.get_string( id ) );
@@ -189,8 +186,7 @@ bool mission_type::load( const JsonObject &jo, const std::string_view src )
         return false;
     }
 
-    // FIXME: duration_or_var generic factory reader
-    deadline = get_duration_or_var( jo, "deadline", false );
+    optional( jo, was_loaded, "deadline", deadline );
 
     optional( jo, was_loaded, "followup", follow_up, mission_type_id::NULL_ID() );
     optional( jo, was_loaded, "monster_species", monster_species );
@@ -216,8 +212,9 @@ bool mission_type::test_goal_condition( struct dialogue &d ) const
     return true;
 }
 
-void mission_type::finalize()
+void mission_type::finalize_all()
 {
+    mission_type_factory.finalize();
 }
 
 void mission_type::check_consistency()

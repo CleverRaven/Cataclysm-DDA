@@ -1,6 +1,60 @@
 [
   {
     "type": "mutation",
+    "id": "PSYCHIC_KNACK_WILD_TALENT_1",
+    "name": { "str": "Psychic Knack Wild Talent 1", "//~": "NO_I18N" },
+    "points": 0,
+    "description": { "str": "This exists to run an EoC.", "//~": "NO_I18N" },
+    "valid": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "PSYCHIC_KNACK_WILD_TALENT_2",
+    "name": { "str": "Psychic Knack Wild Talent 2", "//~": "NO_I18N" },
+    "points": 0,
+    "description": { "str": "This exists to run an EoC.", "//~": "NO_I18N" },
+    "valid": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "PSYCHIC_KNACK_WILD_TALENT_3",
+    "name": { "str": "Psychic Knack Wild Talent 3", "//~": "NO_I18N" },
+    "points": 0,
+    "description": { "str": "This exists to run an EoC.", "//~": "NO_I18N" },
+    "valid": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "PSYCHIC_KNACK_WILD_TALENT_4",
+    "name": { "str": "Psychic Knack Wild Talent 4", "//~": "NO_I18N" },
+    "points": 0,
+    "description": { "str": "This exists to run an EoC.", "//~": "NO_I18N" },
+    "valid": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "PSYCHIC_KNACK_WILD_TALENT_5",
+    "name": { "str": "Psychic Knack Wild Talent 5", "//~": "NO_I18N" },
+    "points": 0,
+    "description": { "str": "This exists to run an EoC.", "//~": "NO_I18N" },
+    "valid": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "PSYCHIC_KNACK_WILD_TALENT_6",
+    "name": { "str": "Psychic Knack Wild Talent 6", "//~": "NO_I18N" },
+    "points": 0,
+    "description": { "str": "This exists to run an EoC.", "//~": "NO_I18N" },
+    "valid": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
     "id": "SCEN_HEART_OF_FIRE",
     "name": { "str": "Heart of Fire" },
     "points": 0,

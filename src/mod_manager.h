@@ -4,6 +4,7 @@
 
 #include <cstddef>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -52,6 +53,9 @@ struct MOD_INFORMATION {
 
         /** Full filenames (including extension) of any loading screens this mod may have */
         std::set<std::string> loading_images;
+
+        /** Determines if other loading screens should be used */
+        bool disable_other_loading_screens;
 
         translation description;
         std::string version;
@@ -134,6 +138,10 @@ class mod_manager
          * world.
          */
         void load_mods_list( WORLD *world ) const;
+        /**
+        * Handle mod migrations/removals
+        * Returns false if player decided to back out of loading after encountering missing mod
+        */
         void check_mods_list( WORLD *world ) const;
         const t_mod_list &get_default_mods() const;
         bool set_default_mods( const t_mod_list &mods );
@@ -199,7 +207,8 @@ class mod_ui
         void try_rem( size_t selection, std::vector<mod_id> &active_list );
         void try_shift( char direction, size_t &selection, std::vector<mod_id> &active_list );
 
-        bool confirm_mod_compatibility( const mod_id &checked_mod, const std::vector<mod_id> &active_list );
+        std::optional<mod_id> find_mod_conflict( const mod_id &checked_mod,
+                const std::vector<mod_id> &active_list );
 
         bool can_shift_up( size_t selection, const std::vector<mod_id> &active_list );
         bool can_shift_down( size_t selection, const std::vector<mod_id> &active_list );

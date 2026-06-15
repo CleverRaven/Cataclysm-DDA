@@ -80,7 +80,6 @@
     "min_aoe": 100,
     "max_aoe": 100,
     "aoe_increment": 0.0,
-    "spell_class": "KELVINIST",
     "base_casting_time": 50,
     "energy_source": "MANA",
     "difficulty": 2,
@@ -88,7 +87,7 @@
   },
   {
     "id": "pressin",
-    "copy-from": "kp32",
+    "copy-from": "lws32",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str_sp": "the Pressin" },

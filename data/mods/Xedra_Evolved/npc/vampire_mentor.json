@@ -2,12 +2,10 @@
   {
     "type": "npc",
     "id": "xe_vampire_mentor",
-    "//": "Maybe there will be non-mentor vampire NPCs someday.  For now, there's only the mentors.",
-    "//2": "When vampires will gain random weaknesses, no mentor will ever have the Barred from Mortal Joys weakness.",
     "name_suffix": "vampire",
     "class": "NC_NPC_XE_VAMPIRE_MENTOR",
     "attitude": 0,
-    "mission": 2,
+    "mission": "SHELTER",
     "chat": "TALK_VAMPIRE_MENTOR",
     "faction": "no_faction"
   },
@@ -36,9 +34,10 @@
     "traits": [
       { "group": "Appearance_demographics" },
       { "group": "BG_survival_story_UNIVERSAL" },
-      { "group": "NPC_starting_traits" },
+      { "group": "NPC_Vampire_Mentor_starting_traits" },
       { "group": "trait_group_complete_vampire" },
-      { "trait": "MENTOR_PEACE", "prob": 100 }
+      { "trait": "MENTOR_PEACE", "prob": 100 },
+      { "trait": "PSYCHOPATH", "prob": 100 }
     ]
   },
   {
@@ -95,7 +94,12 @@
         "condition": {
           "and": [
             { "not": { "u_has_any_trait": [ "VAMPIRE_ANATHEMA", "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" ] } },
-            { "not": { "u_know_recipe": "xe_vampire_blood_gift_research" } },
+            {
+              "or": [
+                { "not": { "u_know_recipe": "xe_vampire_blood_gift_research" } },
+                { "not": { "u_know_recipe": "xe_vampire_blood_gift_refinement_research" } }
+              ]
+            },
             { "compare_string": [ "yes", { "u_val": "told_about_trueness" } ] }
           ]
         }
@@ -302,6 +306,7 @@
         "text": "Yes.  I want more power.",
         "effect": [
           { "u_learn_recipe": "xe_vampire_blood_gift_research" },
+          { "u_learn_recipe": "xe_vampire_blood_gift_refinement_research" },
           { "u_learn_recipe": "xe_vampire_blood_weaknesses_reshuffle" }
         ],
         "topic": "TALK_VAMPIRE_MENTOR_BLOOD_GIFT_RESEARCH_LEARNED"
@@ -538,6 +543,7 @@
     "effect": [
       { "finish_mission": "GET_COMPONENTS_FOR_TIER_5", "success": true },
       { "u_add_trait": "BLOOD_DRINKER" },
+      { "run_eocs": [ "EOC_TIER_5_REMOVE_MORALS" ] },
       { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
       { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
       { "u_add_effect": "vampire_virus_post_mortal", "intensity": 1, "duration": "PERMANENT" },

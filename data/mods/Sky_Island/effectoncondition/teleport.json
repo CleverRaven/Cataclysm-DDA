@@ -1,0 +1,396 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_DIMENSION_SHIFT_CHARACTER_EFFECTS",
+    "effect": [ { "u_add_effect": "effect_sky_island_momentary_flight", "duration": 1 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT",
+    "//": "Prepares player and NPCs to dimension shift, then changes dimensions",
+    "effect": [
+      {
+        "if": { "math": [ "skyisland_merchant_stall == 1" ] },
+        "then": { "run_eocs": "EOC_SKY_ISLAND_RANDOM_MERCHANTS_LEAVE" }
+      },
+      { "run_eocs": [ "EOC_raid_challenge_mode_pre_raid" ] },
+      { "u_location_variable": { "global_val": "OM_HQ_origin" } },
+      { "u_location_variable": { "global_val": "OM_HQ_origin_npc" } },
+      { "copy_var": { "global_val": "OM_HQ_origin" }, "target_var": { "global_val": "OM_temp" } },
+      { "copy_var": { "global_val": "OM_HQ_origin_npc" }, "target_var": { "global_val": "OM_npc_temp" } },
+      { "location_variable_adjust": { "global_val": "OM_temp" }, "z_adjust": -9, "z_override": true },
+      { "location_variable_adjust": { "global_val": "OM_npc_temp" }, "z_adjust": -9, "z_override": true },
+      {
+        "if": { "math": [ "si_npcs_will_join_raid == 1" ] },
+        "then": [
+          { "u_run_npc_eocs": [ "EOC_SKY_ISLAND_DIMENSION_SHIFT_CHARACTER_EFFECTS" ], "npc_range": 10, "local": true },
+          {
+            "u_run_npc_eocs": [
+              {
+                "id": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT_MOVE_NPCS",
+                "condition": { "and": [ "u_following" ] },
+                "effect": [
+                  { "location_variable_adjust": { "global_val": "OM_npc_temp" }, "x_adjust": [ -2, 2 ], "y_adjust": [ -2, 2 ] },
+                  { "u_teleport": { "global_val": "OM_npc_temp" }, "force_safe": true }
+                ]
+              }
+            ],
+            "npc_range": 10,
+            "local": true
+          }
+        ]
+      },
+      { "run_eocs": [ "EOC_SKY_ISLAND_DIMENSION_SHIFT_CHARACTER_EFFECTS" ] },
+      { "u_teleport": { "global_val": "OM_temp" }, "force_safe": true },
+      {
+        "if": { "math": [ "si_npcs_will_join_raid == 1" ] },
+        "then": {
+          "u_travel_to_dimension": "dimension_sky_island_mission",
+          "npc_travel_radius": 10,
+          "region_type": { "global_val": "sky_island_target_region_settings" }
+        },
+        "else": {
+          "u_travel_to_dimension": "dimension_sky_island_mission",
+          "region_type": { "global_val": "sky_island_target_region_settings" }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_initiate_randomport",
+    "//": "The actual EOC that teleports the player and NPCs that follow to the ground.",
+    "effect": [
+      { "math": [ "u_spell_level('island_hostile_eviction') = -1" ] },
+      { "math": [ "u_spell_level('island_close_tear_and_portal') = -1" ] },
+      { "copy_var": { "global_val": "OM_missionspot" }, "target_var": { "global_val": "OM_missionspot_npc" } },
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "EOC_initiate_randomport_npc_follower",
+            "condition": { "and": [ "u_following" ] },
+            "effect": [
+              { "location_variable_adjust": { "global_val": "OM_missionspot_npc" }, "x_adjust": [ -2, 2 ], "y_adjust": [ -2, 2 ] },
+              {
+                "u_teleport": { "global_val": "OM_missionspot_npc" },
+                "success_message": "Your followers teleport with you.",
+                "fail_message": "It seems some of your followers couldn't teleport with you.",
+                "force_safe": true
+              }
+            ]
+          }
+        ],
+        "npc_range": 10,
+        "local": true
+      },
+      {
+        "u_teleport": { "global_val": "OM_missionspot" },
+        "success_message": "You arrive on the raid.",
+        "fail_message": "It seems the portal couldn't find a valid location.",
+        "force_safe": true
+      },
+      { "run_eocs": [ "EOC_SKY_ISLAND_SAFELY_LANDED" ] },
+      { "if": { "math": [ "saved_portal_storms > 0" ] }, "then": { "run_eocs": "EOC_SI_SETUP_RAID_PORTAL_STORM" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_SAFELY_LANDED_CHARACTER_EFFECTS",
+    "//": "Applies all relevant effects to the characters that landed..",
+    "effect": [
+      { "u_add_effect": "warpcloak", "intensity": 1, "duration": { "global_val": "invistime", "default": "60 s" } },
+      {
+        "if": { "math": [ "landing_waterwalk == 1" ] },
+        "then": {
+          "u_add_effect": "effect_warped_waterwalking_hidden",
+          "intensity": 1,
+          "duration": { "global_val": "invistime", "default": "3 s" }
+        }
+      },
+      {
+        "if": { "math": [ "landing_flight == 1" ] },
+        "then": { "u_add_effect": "effect_warped_flight", "intensity": 1, "duration": { "global_val": "invistime", "default": "3 s" } }
+      },
+      {
+        "if": { "math": [ "landing_phase == 1" ] },
+        "then": { "u_add_effect": "effect_warped_phasing", "intensity": 1, "duration": { "global_val": "invistime", "default": "3 s" } }
+      },
+      {
+        "if": { "math": [ "scoutingclairvoyancetime >= 1" ] },
+        "then": {
+          "u_add_effect": "effect_warped_super_clairvoyance",
+          "intensity": 1,
+          "duration": { "global_val": "scoutingclairvoyancetime", "default": "3 s" }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_SAFELY_LANDED",
+    "//": "Called on landing, after teleportations happen.  Applys all effects and starts missions/warpsickness/etc",
+    "//1": "Applying all effects (specifically warpcloak) to the NPCs as well makes them invisible to the player as well",
+    "effect": [
+      { "run_eocs": [ "EOC_SKY_ISLAND_SAFELY_LANDED_CHARACTER_EFFECTS" ] },
+      {
+        "u_message": "You're still materializing and not fully visible yet.  In about <global_val:invistime> seconds, the world will be able to see you, so if you were warped into danger, now's your chance to get to cover.",
+        "popup": false
+      },
+      {
+        "u_message": "You've arrived!\nPress a key when ready and random missions will be generated for this expedition.  This may take another minute.",
+        "popup": true
+      },
+      { "u_add_trait": "awayfromhome" },
+      { "math": [ "timeawayfromhome = 0 - bonuspulses" ] },
+      { "u_add_effect": "warpsickness", "intensity": 6, "duration": "PERMANENT" },
+      { "run_eocs": [ "EOC_create_slaughter", "EOC_SKY_ISLAND_CLIMATE_RESET" ] },
+      { "run_eocs": [ "EOC_create_bonus" ], "iterations": { "global_val": "bonusmissions" } },
+      { "run_eocs": [ "EOC_create_extract" ], "iterations": { "math": [ "bonusexits + 1" ] } },
+      {
+        "if": { "math": [ "goingtolabs == 1" ] },
+        "then": [ { "u_consume_item": "warp_labs_catalyst", "count": 1 }, { "math": [ "goingtolabs = 0" ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SI_WHOLE_ROOM_TELEPORT_BLANK",
+    "//": "Blank EOC to allow us to find the statue location",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_return_OM_teleport",
+    "//": "This is the EOC which actually returns you home.  It brings you home and removes all warp-related effects including warp sickness.  It heals you enough to fix broken limbs.  It also resets the awayfromhome counter to 0 so warp sickness can be tracked properly next time you're out.",
+    "effect": [
+      { "run_eocs": [ "EOC_CANCEL_PORTAL_STORM", "EOC_raid_challenge_mode_post_raid" ] },
+      { "u_run_npc_eocs": [ "EOC_SKY_ISLAND_DIMENSION_SHIFT_CHARACTER_EFFECTS" ], "npc_range": 10, "local": true },
+      { "run_eocs": [ "EOC_SKY_ISLAND_DIMENSION_SHIFT_CHARACTER_EFFECTS" ] },
+      { "mapgen_update": "raid_return_platform", "target_var": { "global_val": "OM_HQ_origin" } },
+      {
+        "if": { "math": [ "si_bring_items_from_raid == 1" ] },
+        "then": [
+          { "math": [ "si_bring_items_from_raid = 0" ] },
+          { "u_location_variable": { "context_val": "loc" } },
+          {
+            "u_map_run_eocs": "EOC_SI_WHOLE_ROOM_TELEPORT_BLANK",
+            "range": 2,
+            "stop_at_first": true,
+            "store_coordinates_in": { "context_val": "loc" },
+            "condition": { "map_furniture_id": "f_returnportal", "loc": { "context_val": "loc" } }
+          },
+          {
+            "u_map_run_item_eocs": "all",
+            "loc": { "context_val": "loc" },
+            "min_radius": 0,
+            "max_radius": 4,
+            "true_eocs": [ { "id": "EOC_map_item_runa", "effect": [ { "npc_teleport": { "global_val": "OM_HQ_origin" } } ] } ]
+          }
+        ]
+      },
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "EOC_return_OM_teleport_followers",
+            "condition": { "and": [ "u_following" ] },
+            "effect": [
+              { "location_variable_adjust": { "global_val": "OM_HQ_origin_npc" }, "x_adjust": [ -2, 2 ], "y_adjust": [ -2, 2 ] },
+              {
+                "u_teleport": { "global_val": "OM_HQ_origin_npc" },
+                "success_message": "Your followers teleport with you.",
+                "fail_message": "It seems some of your followers couldn't teleport with you.",
+                "force_safe": true
+              }
+            ]
+          }
+        ],
+        "npc_range": 10,
+        "local": true
+      },
+      {
+        "u_teleport": { "global_val": "OM_HQ_origin" },
+        "success_message": "You arrive on the island.",
+        "fail_message": "It seems the portal couldn't find a valid location.",
+        "force_safe": true
+      },
+      {
+        "u_travel_to_dimension": "default",
+        "npc_travel_radius": 10,
+        "item_travel_radius": 10,
+        "region_type": "default"
+      },
+      { "u_remove_item_with": "warphome" },
+      { "u_remove_item_with": "warp_healing_salve" },
+      { "u_remove_item_with": "warpextender" },
+      { "math": [ "raidstotal++" ] },
+      { "u_lose_trait": "awayfromhome" },
+      { "u_lose_effect": [ "warpsickness", "warpdisintegration" ] },
+      {
+        "run_eocs": [
+          "EOC_clearmissions",
+          "EOC_clearmissions",
+          "EOC_clearmissions",
+          "EOC_clearmissions",
+          "EOC_clearmissions",
+          "EOC_progressgate1",
+          "EOC_progressgate2",
+          "EOC_award_material_tokens",
+          "EOC_return_heal"
+        ]
+      },
+      { "clear_dimension": "dimension_sky_island_mission" },
+      {
+        "if": { "math": [ "skyisland_merchant_stall == 1" ] },
+        "then": { "run_eocs": "EOC_SKY_ISLAND_RANDOM_MERCHANTS" }
+      },
+      { "math": [ "timeawayfromhome = 0 - bonuspulses" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_award_material_tokens",
+    "//": "If you got home via an exit portal, award material tokens based on raid length.",
+    "condition": { "math": [ "gettokens == 1" ] },
+    "effect": [
+      { "math": [ "gettokens = 0" ] },
+      { "math": [ "owed_material_tokens = lengthofthisraid * 75 + 50" ] },
+      {
+        "if": { "math": [ "challenge_mode_active == 1" ] },
+        "then": [ { "math": [ "owed_material_tokens = owed_material_tokens * challenge_mode_reward_multiplier" ] } ]
+      },
+      {
+        "u_message": "You've returned home safely using a designated exit point.  You have earned <global_val:owed_material_tokens> material tokens for your success.",
+        "popup": true
+      },
+      { "u_spawn_item": "warptoken_material", "count": { "global_val": "owed_material_tokens", "default": 50 } },
+      { "run_eocs": "EOC_innawood_bonus_exp_material_tokens" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_innawood_bonus_exp_material_tokens",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_progressgate1",
+    "//": "Checks to see if you have successfully completed 5 raids and makes Rank Up 1 available if so.",
+    "condition": { "and": [ { "math": [ "islandrank == 0" ] }, { "math": [ "raidswon >= 10" ] } ] },
+    "effect": [
+      {
+        "u_message": "You've proved you can survive a few excursions to the world below.  Something in the warp pulls at you, quickening your pulse and turning your vision red.  The sensation is indescribable.  You feel… powerful.\nThe Heart of the Island may have further use for you.\n\nHealing at the Heart of the Island is no longer free.  Be cautious in your future endeavors.",
+        "popup": true
+      },
+      { "math": [ "islandrank = 1" ] },
+      { "u_learn_recipe": "warpextender" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_progressgate2",
+    "//": "Checks to see if you have successfully completed 10 raids and makes Rank Up 2 available if so.",
+    "condition": { "and": [ { "math": [ "islandrank == 2" ] }, { "math": [ "raidswon >= 20" ] } ] },
+    "effect": [
+      {
+        "u_message": "You've drank deep of the warpstream and survived to tell the tale, though your unique isolation makes finding ears to listen difficult.  The fragments of this reality have risen against you, and you have weathered the storm… for now.\nYou feel confident, powerful.  Your mouth tastes of blood.  As the familiar world takes shape around you once more, you understand the Heart of the Island will surely be interested in your continued growth.",
+        "popup": true
+      },
+      { "math": [ "islandrank = 3" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_clearmissions",
+    "//": "This EOC wipes all missions you might have.  It's more or less a full list of any random missions you can be assigned.",
+    "//1": "Adding find refugee center mission here",
+    "effect": [
+      { "remove_active_mission": "MISSION_REACH_REFUGEE_CENTER" },
+      { "remove_active_mission": "MISSION_REACH_EXTRACT" },
+      { "remove_active_mission": "MISSION_BONUS_TREASURE" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_LIGHT" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_HORDE" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_MID" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_MID_HORDE" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_HARD" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_ELITE" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_BOSS" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_BOSS_GROUP" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_MIGO" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_MIGO_ELITE" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_BOSS_MULTI" },
+      { "remove_active_mission": "MISSION_BONUS_KILL_BOSS_HORDE" },
+      { "remove_active_mission": "MISSION_BONUS_SLAUGHTER_ZED1" },
+      { "remove_active_mission": "MISSION_BONUS_SLAUGHTER_ZED2" },
+      { "remove_active_mission": "MISSION_BONUS_SLAUGHTER_ZED3" },
+      { "remove_active_mission": "MISSION_BONUS_SLAUGHTER_MIGO" },
+      { "remove_active_mission": "MISSION_BONUS_SLAUGHTER_NETHER" },
+      { "remove_active_mission": "MISSION_BONUS_SLAUGHTER_BIRD" },
+      { "remove_active_mission": "MISSION_BONUS_SLAUGHTER_MAMMAL" },
+      { "remove_active_mission": "MISSION_BONUS_ASSASSIN1" },
+      { "remove_active_mission": "MISSION_BONUS_ASSASSIN2" },
+      { "remove_active_mission": "MISSION_BONUS_ASSASSIN3" },
+      { "remove_active_mission": "MISSION_BONUS_ASSASSIN4" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_statue_return",
+    "//": "This EOC is activated by return portals.  It's just here to confirm that you want to return home, then triggers the actual teleport home.  Behavior based on difficulty selector",
+    "effect": {
+      "switch": { "math": [ "roomteleportselector" ] },
+      "cases": [
+        { "case": 0, "effect": [ { "run_eocs": "EOC_statue_return_whole_room" } ] },
+        { "case": 1, "effect": [ { "run_eocs": "EOC_statue_return_whole_room_cost" } ] },
+        { "case": 2, "effect": [ { "run_eocs": "EOC_statue_return_self_only" } ] }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_statue_return_whole_room",
+    "//": "This is the version that returns the whole room home.",
+    "condition": {
+      "u_query": "This will teleport you back to your sky island.  Any items inside the room will be teleported home alongside you.  Are you ready to leave?",
+      "default": false
+    },
+    "effect": [
+      { "math": [ "raidswon++" ] },
+      { "math": [ "gettokens = 1" ] },
+      { "math": [ "si_bring_items_from_raid = 1" ] },
+      { "run_eocs": [ "EOC_return_OM_teleport" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_statue_return_whole_room_cost",
+    "condition": { "u_has_items": { "item": "warp_vortex_token", "count": 1 } },
+    "effect": [ { "run_eocs": [ "EOC_statue_return_whole_room_cost_2" ] } ],
+    "false_effect": [ { "run_eocs": [ "EOC_statue_return_self_only" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_statue_return_whole_room_cost_2",
+    "//": "This is the version that returns the whole room home if you pay a vortex token.",
+    "condition": {
+      "u_query": "This will teleport you back to your sky island.  You will spend your vortex token to return any items in the room home alongside you.  Are you ready to leave?",
+      "default": false
+    },
+    "effect": [
+      { "math": [ "raidswon++" ] },
+      { "math": [ "gettokens = 1" ] },
+      { "math": [ "si_bring_items_from_raid = 1" ] },
+      { "u_consume_item": "warp_vortex_token", "count": 1 },
+      { "run_eocs": [ "EOC_return_OM_teleport" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_statue_return_self_only",
+    "//": "This version returns only you home.",
+    "condition": {
+      "u_query": "This will teleport you back to your sky island.  Any items not on your person WILL BE LOST.  Are you ready to leave?",
+      "default": false
+    },
+    "effect": [ { "math": [ "raidswon++" ] }, { "math": [ "gettokens = 1" ] }, { "run_eocs": [ "EOC_return_OM_teleport" ] } ]
+  }
+]

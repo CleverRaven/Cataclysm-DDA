@@ -13,6 +13,7 @@
       "'": "t_thconc_floor",
       "r": "t_thconc_floor",
       "O": "t_thconc_floor",
+      "Ł": "t_thconc_floor",
       ".": "t_linoleum_gray",
       ":": "t_linoleum_gray",
       "i": "t_linoleum_white",
@@ -88,7 +89,8 @@
     "toilets": { "T": {  } },
     "vehicles": {
       "Á": { "vehicle": "parking_garage", "chance": 50, "rotation": 270 },
-      "É": { "vehicle": "parking_garage", "chance": 50, "rotation": 90 }
+      "É": { "vehicle": "parking_garage", "chance": 50, "rotation": 90 },
+      "Ł": { "vehicle": "hand_truck", "chance": 50 }
     },
     "nested": {
       "7": { "chunks": [ [ "5x5_corridor_office0_sw", 1 ], [ "5x5_corridor_office1_sw", 1 ], [ "5x5_corridor_sofas_sw", 2 ] ] },

@@ -72,7 +72,7 @@
     "copy-from": "545",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "5.45x39mm 7N6" },
+    "name": { "str_sp": "5.45x39mm AP" },
     "description": "5.45x39mm ammunition with a 57gr bullet containing a mild steel penetrator, which penetrates armor marginally better than lead core projectiles.  Developed in 1974 by the Russian military, and banned from import into the US in 2014.",
     "ascii_picture": "545_ap",
     "price": "3 USD 50 cent",

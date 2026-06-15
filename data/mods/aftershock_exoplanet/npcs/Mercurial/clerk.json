@@ -5,7 +5,12 @@
     "name": { "str": "Mercurial augmentation tech." },
     "job_description": "Outfitter Clerk",
     "common": false,
-    "traits": [ { "group": "BG_survival_story_POLICE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "BG_survival_story_POLICE" },
+      { "trait": "RETURN_TO_START_POS" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
     "bonus_str": { "rng": [ 0, 1 ] },
     "bonus_dex": { "rng": [ 0, 2 ] },
     "bonus_int": { "rng": [ -2, 0 ] },
@@ -42,7 +47,7 @@
     "name_suffix": "Mercurial augmentation tech.",
     "class": "NC_AUGUSTMOON_GENETECH_TRADER",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "chat": "TALK_AUGUSTMOON_GENETECH_TRADER",
     "faction": "mercurial"
   },
@@ -52,7 +57,7 @@
     "dynamic_line": "&The Mercurial store is attended by a massive clerk, sleek scales adorn their massive forearms and slightly pointed ears.  They greet you with a voice that is both deep and melodious, \"Welcome to Mercurial Genetech, where we can help you unlock your potential.\"",
     "responses": [
       {
-        "text": "I'm looking into augments",
+        "text": "I'm looking into augments.",
         "topic": "TALK_DONE",
         "effect": "start_trade",
         "condition": { "not": { "u_has_any_trait": [ "ESPER_ADVANCEMENT_OKAY", "ESPER_STARTER_ADVANCEMENT_OKAY" ] } }
@@ -85,7 +90,7 @@
   {
     "id": [ "TALK_AUGUSTMOON_GENETECH_ESPER_WARNING" ],
     "type": "talk_topic",
-    "dynamic_line": "&The clerk picks up a small device, \"Alright, I just need to do a preliminary scan.  If you please.\"  They gesture to your arm and you allow them to place the device against your skin.  There is a moment while the clerk watches the screen and then their eyebrows shoot up.  \"Whoa, esper heritage?  They told me to keep an eye out but I've never seen that before.  Where did I put that disclaimer they gave me…\"  The clerk turns and consults their console for a a short while before they begin reciting, \"While we can guarantee that all Mercurial Genetch products have been tested in a wide variety of conditions and on a wide variety of subjects, Hyperspace Era noetic treatments are notoriously prone to degradation when further genetic modifications are applied.  Mercurial is not responsible for any reduction of esper potential or capability that may or may not occur as a result of our Genetech treatments.  If you have any concerns about your esper potential, we urge you to consult a licensed physician with a specialty in esper families.\"  They pause.  \"And no, before you ask, there isn't one in the system.  It's up to you if you think it's worth the risk.\"",
+    "dynamic_line": "&The clerk picks up a small device, \"Alright, I just need to do a preliminary scan.  If you please.\"  They gesture to your arm and you allow them to place the device against your skin.  There is a moment while the clerk watches the screen and then their eyebrows shoot up.  \"Whoa, esper heritage?  They told me to keep an eye out but I've never seen that before.  Where did I put that disclaimer they gave me…\"  The clerk turns and consults their console for a short while before they begin reciting, \"While we can guarantee that all Mercurial Genetch products have been tested in a wide variety of conditions and on a wide variety of subjects, Hyperspace Era noetic treatments are notoriously prone to degradation when further genetic modifications are applied.  Mercurial is not responsible for any reduction of esper potential or capability that may or may not occur as a result of our Genetech treatments.  If you have any concerns about your esper potential, we urge you to consult a licensed physician with a specialty in esper families.\"  They pause.  \"And no, before you ask, there isn't one in the system.  It's up to you if you think it's worth the risk.\"",
     "responses": [
       {
         "text": "Huh.  Well, I better give it some thought.",

@@ -189,7 +189,9 @@ void player_morale::morale_point::add( const int new_bonus, const int new_max_bo
     }
 
     int sqrt_of_sum_of_squares;
-    if( new_cap || !same_sign ) {
+    if( new_duration == 0_turns ) {
+        sqrt_of_sum_of_squares = new_bonus;
+    } else if( new_cap || !same_sign ) {
         // If the morale bonus is capped apply the full bonus
         // This is because some morale types build up slowly to a cap over time (e.g. morale_wet)
         // If the new bonus is opposing apply the full bonus
@@ -394,6 +396,15 @@ void player_morale::remove_expired()
     remove_if( []( const morale_point & m ) -> bool {
         return m.is_expired();
     } );
+}
+
+std::string player_morale::to_string_writable()
+{
+    std::string str;
+    for( const morale_point mp : points ) {
+        str += string_format( "point: %s, net_bonus: %s\n", mp.get_name(), mp.get_net_bonus() );
+    }
+    return str;
 }
 
 morale_mult player_morale::get_temper_mult() const
@@ -863,6 +874,36 @@ bool player_morale::consistent_with( const player_morale &morale ) const
     }
 
     return test_points( *this, morale ) && test_points( morale, *this );
+}
+
+void player_morale::sync_permanent( const player_morale &reference )
+{
+    // Remove all permanent points, keep temporaries
+    const auto new_end = std::remove_if( points.begin(), points.end(),
+    []( const morale_point & mp ) {
+        return mp.is_permanent();
+    } );
+    points.erase( new_end, points.end() );
+
+    // Copy permanent points from reference
+    for( const morale_point &mp : reference.points ) {
+        if( mp.is_permanent() ) {
+            points.push_back( mp );
+        }
+    }
+
+    // Sync non-point state that consistent_with() checks
+    took_prozac = reference.took_prozac;
+    took_prozac_bad = reference.took_prozac_bad;
+    perceived_pain = reference.perceived_pain;
+    radiation = reference.radiation;
+
+    // Sync mutation and body part state for correct future updates
+    body_parts = reference.body_parts;
+    no_body_part = reference.no_body_part;
+    mutations = reference.mutations;
+
+    invalidate();
 }
 
 void player_morale::clear()

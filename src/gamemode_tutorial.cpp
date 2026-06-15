@@ -145,10 +145,6 @@ bool tutorial_game::init()
     // middle of the "real" game world
     avatar &player_character = get_avatar();
     player_character.normalize();
-    player_character.str_cur = player_character.str_max;
-    player_character.per_cur = player_character.per_max;
-    player_character.int_cur = player_character.int_max;
-    player_character.dex_cur = player_character.dex_max;
 
     player_character.set_all_parts_hp_to_max();
     player_character.clear_effects();

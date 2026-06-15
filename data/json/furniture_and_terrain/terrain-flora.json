@@ -271,6 +271,38 @@
   },
   {
     "type": "terrain",
+    "id": "t_highland_holy_tree",
+    "copy-from": "t_tree_dead",
+    "symbol": "G",
+    "name": " dead holy tree",
+    "description": "Censers and candlelamps hang from the twisted branches of this tree, which seems to have been revered in the past.  A sword is embedded in its trunk.",
+    "bash": {
+      "str_min": 70,
+      "str_max": 140,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "stick_long", "count": [ 2, 6 ] },
+        { "item": "splinter", "count": [ 10, 20 ] },
+        { "item": "khopesh", "variant": "highlands_holy" },
+        { "item": "highland_censer", "count": [ 6, 12 ] }
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_highland_flower_bed",
+    "copy-from": "t_grass_long",
+    "symbol": "G",
+    "name": "flower bed",
+    "looks_like": "f_alien_zapper",
+    "description": "Dozens of large blue flowers grow nearly parallel to the ground .  They retain a neat arrangement even when growing wild."
+  },
+  {
+    "type": "terrain",
     "id": "t_tree_young",
     "name": "young tree",
     "looks_like": "t_tree",
@@ -989,6 +1021,29 @@
   },
   {
     "type": "terrain",
+    "id": "t_tree_spruce",
+    "looks_like": "t_tree_pine",
+    "name": "spruce tree",
+    "description": "A towering coniferous tree that belongs to the 'Picea' genus, generally growing in northern temperate and boreal climates.",
+    "symbol": "4",
+    "color": "green",
+    "move_cost": 0,
+    "coverage": 80,
+    "roof": "t_treetop_evergreen",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_tree_deadpine",
     "name": "dead pine tree",
     "looks_like": "t_tree_dead",
@@ -1541,6 +1596,7 @@
       "SMALL_HIDE"
     ],
     "examine_action": "shrub_wildveggies",
+    "transforms_into": "t_underbrush_harvested",
     "bash": {
       "str_min": 4,
       "str_max": 30,
@@ -1552,131 +1608,14 @@
   },
   {
     "type": "terrain",
-    "id": "t_underbrush_harvested_spring",
-    "name": "underbrush",
-    "looks_like": "t_underbrush",
+    "id": "t_underbrush_harvested",
+    "copy-from": "t_underbrush",
+    "looks_like": "t_underbrush_harvested_spring",
     "description": "Small plants and shrubs that decorate the forest.  It has been rummaged through and doesn't have anything useful left to forage from it.",
-    "symbol": "#",
     "color": "green",
-    "move_cost": 6,
-    "coverage": 40,
-    "flags": [
-      "TRANSPARENT",
-      "DIGGABLE",
-      "CONTAINER",
-      "FLAMMABLE_ASH",
-      "THIN_OBSTACLE",
-      "PLACE_ITEM",
-      "SHRUB",
-      "SHORT",
-      "HARVESTED",
-      "SMALL_HIDE"
-    ],
-    "transforms_into": "t_underbrush",
-    "bash": {
-      "str_min": 4,
-      "str_max": 30,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_underbrush_harvested_summer",
-    "name": "underbrush",
-    "looks_like": "t_underbrush",
-    "description": "Small plants and shrubs that decorate the forest.  It has been rummaged through and doesn't have anything useful left to forage from it.",
-    "symbol": "#",
-    "color": "green",
-    "move_cost": 6,
-    "coverage": 40,
-    "flags": [
-      "TRANSPARENT",
-      "DIGGABLE",
-      "CONTAINER",
-      "FLAMMABLE_ASH",
-      "THIN_OBSTACLE",
-      "PLACE_ITEM",
-      "SHRUB",
-      "SHORT",
-      "HARVESTED",
-      "SMALL_HIDE"
-    ],
-    "transforms_into": "t_underbrush",
-    "bash": {
-      "str_min": 4,
-      "str_max": 30,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_underbrush_harvested_autumn",
-    "name": "underbrush",
-    "looks_like": "t_underbrush",
-    "description": "Small plants and shrubs that decorate the forest.  It has been rummaged through and doesn't have anything useful left to forage from it.",
-    "symbol": "#",
-    "color": "green",
-    "move_cost": 6,
-    "coverage": 40,
-    "flags": [
-      "TRANSPARENT",
-      "DIGGABLE",
-      "CONTAINER",
-      "FLAMMABLE_ASH",
-      "THIN_OBSTACLE",
-      "PLACE_ITEM",
-      "SHRUB",
-      "SHORT",
-      "HARVESTED",
-      "SMALL_HIDE"
-    ],
-    "transforms_into": "t_underbrush",
-    "bash": {
-      "str_min": 4,
-      "str_max": 30,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_underbrush_harvested_winter",
-    "name": "underbrush",
-    "looks_like": "t_underbrush",
-    "description": "Small plants and shrubs that decorate the forest.  It has been rummaged through and doesn't have anything useful left to forage from it.  Frost covers it.",
-    "symbol": "#",
-    "color": "green",
-    "move_cost": 6,
-    "coverage": 40,
-    "flags": [
-      "TRANSPARENT",
-      "DIGGABLE",
-      "CONTAINER",
-      "FLAMMABLE_ASH",
-      "THIN_OBSTACLE",
-      "PLACE_ITEM",
-      "SHRUB",
-      "SHORT",
-      "HARVESTED",
-      "SMALL_HIDE"
-    ],
-    "transforms_into": "t_underbrush",
-    "bash": {
-      "str_min": 4,
-      "str_max": 30,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
-    }
+    "examine_action": "harvested_plant",
+    "extend": { "flags": [ "HARVESTED" ] },
+    "transforms_into": "t_underbrush"
   },
   {
     "type": "terrain",

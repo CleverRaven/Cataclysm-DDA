@@ -158,7 +158,7 @@
     "id": "default_zombie_items_bags_small",
     "entries": [
       { "group": "default_zombie_items_pockets", "prob": 50 },
-      { "item": "vibrator", "prob": 1, "charges": [ 0, 50 ] },
+      { "group": "sex_accessories_domestic", "prob": 1 },
       { "item": "file", "prob": 10 },
       {
         "distribution": [
@@ -214,7 +214,7 @@
           { "item": "cigar", "prob": 5 },
           { "group": "pocket_cigar", "prob": 1 },
           { "item": "handrolled_cig", "prob": 10 },
-          { "item": "nic_gum", "prob": 10 },
+          { "group": "chewing_gum_used_nic", "prob": 10 },
           { "item": "ecig", "prob": 15 },
           {
             "collection": [
@@ -240,7 +240,10 @@
         ],
         "prob": 15
       },
-      { "distribution": [ { "item": "gum" }, { "item": "caff_gum" } ], "prob": 30 },
+      {
+        "distribution": [ { "group": "chewing_gum_used", "prob": 10 }, { "group": "chewing_gum_used_caff", "prob": 1 } ],
+        "prob": 30
+      },
       { "item": "mp3", "prob": 8, "charges": [ 0, 15 ] },
       { "item": "portable_game", "prob": 10, "charges": [ 0, 50 ] },
       { "item": "game_watch", "prob": 1, "damage": [ 1, 4 ], "charges": [ 0, 50 ] },

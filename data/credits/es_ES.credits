@@ -1,6 +1,45 @@
 # Las líneas de más de 78 caracteres se ajustarán automáticamente
 # La siguiente línea es de referencia
 ##############################################################################
+(<color_cyan>0.I</color>):</color>
+<color_white>Autor original:</color>    <color_white>Jefe de Proyecto:</color>
+<color_yellow>Whales</color> (<color_dark_gray>retirado</color>)    <color_yellow>KevinGranade</color>
+
+<color_white>Agradecimientos especiales a:</color>
+<color_yellow>Standing-Storm</color> - Creador y mantenedor del enorme mod ' Mente sobre materia' y numerosas contribuciones a otros mods (¡hadas, espers y magos, oh, Dios mío!)
+<color_yellow>Maleclypse</color> - Xedra Evolved, mantenedor y fusionador, con más de 2000 (¡¡¡mil!!!) fusiones en este ciclo de lanzamiento.
+<color_yellow>GuardianDll</color> - Fusionar cambios no específicos en json y c++, memorizar y citar documentación para todos los que lo necesiten. "No recuerdo haber hecho tantas solicitudes de incorporación de cambios, ¿qué demonios pasa?" - GuardianDll
+<color_yellow>RenechCDDA</color> - Mejoras en las facciones de los PNJ, los campamentos base y los vehículos.
+<color_yellow>Procyonae</color> - Una cantidad absurda de incorporaciones sobre infraestructura, el código mapgen está prosperando bajo su supervisión.
+<color_yellow>PatrikLundell</color> - Una cantidad absurda de correcciones de errores y cambios importantes de seguridad en mapgen, la infraestructura tripoint y otros sistemas críticos.
+<color_yellow>Holli</color> - Por su dedicación en todo lo relacionado con las armas.
+<color_yellow>b3brodie</color> - Gran cantidad de infraestructura de apoyo para hechizos, mejorando tanto los mods como el juego base.
+<color_yellow>Milopetilo</color> - Excelente trabajo en el nuevo mapgen, los parámetros para el mapgen existente, las revisiones de los grupos de objetos y mucho más.
+<color_yellow>ShnitzelX2</color> - Almacenamiento electrónico de objetos y limpieza de 10 años de deuda técnica mediante el traslado de objetos para cargarlos con generic_factory. (No te enfades, pero son mis favoritos).
+<color_yellow>alef</color> - Mantener la construcción del juego para que podamos seguir desarrollándolo y jugando.
+<color_yellow>John Candlebury</color> - Aftershock. ¿Sabías que ahora puedes tener y pilotar una nave espacial colosal en Aftershock? Sí.
+<color_yellow>katemonster33</color> - Ha conquistado el juego con ImGuI e ImTui. Nos ofrece la interfaz de usuario que siempre hemos deseado.
+<color_yellow>Daniel Brooks 'db48x'</color> - Por el trabajo fundamental realizado en nuestras nuevas y hermosas ventanas ImGui.
+<color_yellow>moxian</color> - Trabajo fundamental en la infraestructura de compilación e IWYU. Ha facilitado la vida de todos los desarrolladores.
+<color_yellow>akrieger</color> - Mejoras continuas en la velocidad del juego, mantenimiento de CI y ahorro de espacio en los discos duros gracias a los juegos de Sky Islands con partidas guardadas comprimidas.
+<color_yellow>SariusSkelrets</color> - Ampliación y pulido del contenido sobre vampiros de Xedra Evolved.
+<color_yellow>ehughsbaird</color>, <color_yellow>Karol1223</color> y <color_yellow>mqrause</color>.
+
+<color_white>Gracias especialmente a los contribuidores de arte:</color>
+<color_yellow>hoasd1</color> - La mayoría de las contribuciones a temas de tiles de este ciclo ha decidido retirarse con estilo. Les deseamos mucha suerte en lo que le depare el futuro, ¡pero Ultica siempre estará impregnada de su trabajo!
+<color_yellow>gettingusedto</color> - MSX+ peso pesado y un tipo muy agradable. ¡Ya nos hemos acostumbrado (je) a verlo por aquí!
+
+<color_white>Por favor para ver la lista completa de contribuidores:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+<color_cyan>https://github.com/I-am-Erk/CDDA-Tilesets/graphs/contributors</color>
+<color_cyan>https://github.com/pixel-32/CDDA-tileset/graphs/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> esta liberado como <color_white>CC-BY-SA 3.0</color>:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
+
+
+******************************************************************************
+
 (<color_cyan>0.H </color>): </color>
 <color_white>Autor original:</color>    <color_white>Jefe de Proyecto:</color>
 <color_yellow>Whales</color> (<color_dark_gray>retirado</color>)    <color_yellow>KevinGranade</color>

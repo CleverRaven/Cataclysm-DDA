@@ -63,12 +63,15 @@ void jmath_func::load( JsonObject const &jo, std::string_view /*src*/ )
     }
 }
 
+void jmath_func::finalize_all()
+{
+    get_all_jmath_func().finalize();
+}
+
 void jmath_func::finalize()
 {
-    for( jmath_func const &jmf : jmath_func::get_all() ) {
-        jmf._exp.parse( jmf._str );
-        jmf._str.clear();
-    }
+    _exp.parse( _str );
+    _str.clear();
 }
 
 double jmath_func::eval( const_dialogue const &d ) const

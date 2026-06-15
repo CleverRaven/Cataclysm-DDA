@@ -9,19 +9,23 @@
 #include "output.h"
 #include "point.h"
 #include "translations.h"
-#include "uilist.h"
+#include "ui_helpers.h"
 #include "ui_manager.h"
+#include "uilist.h"
 #include "uistate.h"
 
 namespace distraction_manager
 {
 
+namespace
+{
 struct configurable_distraction {
     bool *state;
     std::string name;
     std::string description;
     bool is_toggle = false;
 };
+} // namespace
 
 static const std::vector<configurable_distraction> &get_configurable_distractions()
 {
@@ -41,6 +45,7 @@ static const std::vector<configurable_distraction> &get_configurable_distraction
         {&uistate.distraction_mutation,        translate_marker( "Mutation" ),                     translate_marker( "This distraction will interrupt your activity when you gain or lose a mutation." )},
         {&uistate.distraction_oxygen,          translate_marker( "Asphyxiation" ),                 translate_marker( "This distraction will interrupt your activity when you can't breathe." )},
         {&uistate.distraction_withdrawal,      translate_marker( "Withdrawal" ),                  translate_marker( "This distraction will interrupt your activity when you have withdrawals." )},
+        {&uistate.distraction_craft_step_complete, translate_marker( "Craft step complete" ),      translate_marker( "This distraction will interrupt your activity when an unattended crafting step completes." )},
         {&uistate.distraction_all,             translate_marker( "Toggle all" ),                   translate_marker( "Toggle all distractions" ), true }
     };
     return configurable_distractions;
@@ -57,21 +62,8 @@ void distraction_manager_gui::show()
 
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
-
-        const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                             TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
-
-        w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                       iOffset );
-
-        w_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                       iOffset + point::south_east );
-
-        w = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
-                                iOffset + point( 1, iHeaderHeight + 1 ) );
-
-        ui.position_from_window( w_border );
+        ui_helpers::full_screen_window( ui, &w, &w_border, &w_header, nullptr,
+                                        &iContentHeight, 1, iHeaderHeight, 0 );
     } );
     ui.mark_resize();
 
@@ -169,6 +161,7 @@ void distraction_manager_gui::show()
                 uistate.distraction_mutation = toggle_state;
                 uistate.distraction_oxygen = toggle_state;
                 uistate.distraction_withdrawal = toggle_state;
+                uistate.distraction_craft_step_complete = toggle_state;
             }
         }
     }

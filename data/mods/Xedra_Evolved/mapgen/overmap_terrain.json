@@ -41,7 +41,7 @@
       "field_office_20"
     ],
     "copy-from": "generic_large_office_tower",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -67,7 +67,7 @@
     "type": "overmap_terrain",
     "id": [ "safe_house" ],
     "copy-from": "generic_city_house",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -78,7 +78,7 @@
     "type": "overmap_terrain",
     "id": [ "safe_house_basement" ],
     "copy-from": "generic_city_house_basement",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -118,14 +118,14 @@
     "copy-from": "cathedral_1_NW",
     "name": "cathedral tower",
     "vision_levels": "isolated_tower",
-    "delete": { "flags": [ "SIDEWALK" ] }
+    "delete": { "flags": [ "SIDEWALK" ], "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
     "id": [ "cathedralv_b_NW", "cathedralv_b_NE", "cathedralv_b_SW", "cathedralv_b_SE" ],
     "copy-from": "cathedral_1_NW",
     "name": "cathedral basement",
-    "delete": { "flags": [ "SIDEWALK" ] }
+    "delete": { "flags": [ "SIDEWALK" ], "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -224,22 +224,27 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lodgev_ground1", "lodgev_ground2" ],
+    "id": [ "lodgev_ground1", "lodgev_ground2", "lodge_VH_ground1", "lodge_VH_ground2" ],
     "copy-from": "lodge_ground1"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lodgev_2ndfloor1", "lodgev_2ndfloor2" ],
+    "id": [ "lodgev_2ndfloor1", "lodgev_2ndfloor2", "lodge_VH_2ndfloor1", "lodge_VH_2ndfloor2" ],
     "copy-from": "lodge_2ndfloor1"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lodgev_roof1", "lodgev_roof2" ],
+    "id": [ "lodgev_roof1", "lodgev_roof2", "lodge_VH_roof1", "lodge_VH_roof2" ],
     "copy-from": "lodge_roof1"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lodgev_basement_residential1", "lodgev_basement_residential2" ],
+    "id": [
+      "lodgev_basement_residential1",
+      "lodgev_basement_residential2",
+      "lodge_VH_basement_residential1",
+      "lodge_VH_basement_residential2"
+    ],
     "copy-from": "lodge_basement_residential1"
   },
   {
@@ -434,5 +439,15 @@
     "id": "cabin_nether_cult",
     "looks_like": "cabin_strange",
     "copy-from": "cabin_strange"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cave_greed_and_hunger",
+    "vision_levels": "underground_dirt",
+    "name": "cave",
+    "sym": "C",
+    "color": "brown",
+    "see_cost": "full_high",
+    "flags": [ "NO_ROTATE" ]
   }
 ]

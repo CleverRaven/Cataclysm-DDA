@@ -144,5 +144,47 @@
         "Ü": { "item": "LS_Rewardroom_Primary_Passcode3" }
       }
     }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_deadend_template_chasm",
+    "//": "A double maze with a cutout in the middle, filled with enemies, and with a central turret.  The turret risks locking you in by destroying the path out.",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!vvvv..............vvvv!",
+        "1          ||2          ",
+        "                        ",
+        "                        ",
+        "      3                 ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           5            ",
+        "            4           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "nested": {
+        "1": { "chunks": [ "ls_ns_11x23_maze" ] },
+        "2": { "chunks": [ "ls_ns_11x23_maze" ] },
+        "3": { "chunks": [ [ "ls_ns_9x9_maze_cutout", 97 ], [ "null", 3 ] ] },
+        "4": { "chunks": [ [ "ls_ns_9x9_maze_cutout", 97 ], [ "null", 3 ] ] }
+      },
+      "monster": { "5": { "monster": "mon_labyrinth_turret_1_2" } }
+    }
   }
 ]

@@ -1,0 +1,27 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_CAN_DATA_SALVAGE",
+    "condition": {
+      "or": [
+        { "u_has_software": { "item": "software_archiving", "charges": 5, "device": "afs_wrist_computer" } },
+        { "u_has_software": { "item": "software_archiving", "charges": 5, "device": "afs_bio_deck_jack" } },
+        { "u_has_software": { "item": "software_archiving", "charges": 5, "device": "afs_wrist_computer" } }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DATA_SALVAGE",
+    "condition": { "expects_vars": [ "data_type" ] },
+    "effect": [
+      { "math": [ "computer_salvageable--" ] },
+      { "message": "Data salvaged from the drive has been copied to your inventory." },
+      {
+        "if": { "compare_string": [ { "context_val": "data_type" }, "generic_ruin" ] },
+        "then": [ { "u_spawn_item": "generated_ruin_data", "use_item_group": true, "force_equip": true } ]
+      }
+    ]
+  }
+]

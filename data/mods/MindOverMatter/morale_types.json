@@ -3,5 +3,10 @@
     "id": "morale_telepathy",
     "type": "morale_type",
     "text": "Thought-Editing"
+  },
+  {
+    "id": "morale_silent_one_drain",
+    "type": "morale_type",
+    "text": "Malaise"
   }
 ]

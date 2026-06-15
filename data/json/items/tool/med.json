@@ -401,7 +401,7 @@
     "id": "scissors_medical",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str": "pair of medical scissors", "str_pl": "pairs of medical scissors" },
+    "name": { "str_sp": "medical scissors" },
     "description": "A pair of medical scissors, typically used by nurses or paramedics to cut bandages or fabric.",
     "ascii_picture": "scissors",
     "weight": "50 g",
@@ -448,7 +448,7 @@
           {
             "id": "SALINE_INFUSION_250",
             "condition": { "math": [ "u_skill('firstaid') >= 3" ] },
-            "effect": { "run_eocs": "SALINE_INFUSION", "variables": { "volume_of_saline": "250" } },
+            "effect": { "run_eocs": "SALINE_INFUSION", "variables": { "volume_of_saline": 250 } },
             "false_effect": [ { "u_message": "You don't actually know how to use it properly.", "type": "bad" } ]
           }
         ]
@@ -477,7 +477,7 @@
           {
             "id": "SALINE_INFUSION_500",
             "condition": { "math": [ "u_skill('firstaid') >= 4" ] },
-            "effect": { "run_eocs": "SALINE_INFUSION", "variables": { "volume_of_saline": "500" } },
+            "effect": { "run_eocs": "SALINE_INFUSION", "variables": { "volume_of_saline": 500 } },
             "false_effect": [ { "u_message": "You don't actually know how to use it properly.", "type": "bad" } ]
           }
         ]
@@ -506,7 +506,7 @@
           {
             "id": "SALINE_INFUSION_1000",
             "condition": { "math": [ "u_skill('firstaid') >= 4" ] },
-            "effect": { "run_eocs": "SALINE_INFUSION", "variables": { "volume_of_saline": "1000" } },
+            "effect": { "run_eocs": "SALINE_INFUSION", "variables": { "volume_of_saline": 1000 } },
             "false_effect": [ { "u_message": "You don't actually know how to use it properly.", "type": "bad" } ]
           }
         ]
@@ -535,7 +535,7 @@
           {
             "id": "SALINE_INFUSION_2000",
             "condition": { "math": [ "u_skill('firstaid') >= 4" ] },
-            "effect": { "run_eocs": "SALINE_INFUSION", "variables": { "volume_of_saline": "2000" } },
+            "effect": { "run_eocs": "SALINE_INFUSION", "variables": { "volume_of_saline": 2000 } },
             "false_effect": [ { "u_message": "You don't actually know how to use it properly.", "type": "bad" } ]
           }
         ]

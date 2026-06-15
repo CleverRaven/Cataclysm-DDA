@@ -1,6 +1,23 @@
 [
   {
     "type": "mutation",
+    "id": "SPELLCASTING_DEFAULT_TRAIT",
+    "name": "Default Spellcasting modifiers",
+    "points": 0,
+    "description": "Adds some default spellcasting modifiers to work around jmath limit.  Should not be player-visible",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_flag": "SPELLCASTING_AID" },
+        "ench_effects": [ { "effect": "effect_magiclysm_spellcasting_aid_item_wielded", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "MAGUS",
     "name": "Magus",
     "points": 0,
@@ -35,9 +52,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "enchantments": [ "KELVINIST" ],
     "cancels": [ "STORMSHAPER" ],
     "spells_learned": [ [ "create_rune_kelvinist", 0 ] ],
+    "enchantments": [ "KELVINIST" ],
     "flags": [ "ATTUNEMENT" ]
   },
   {
@@ -49,9 +66,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "enchantments": [ "STORMSHAPER" ],
     "cancels": [ "KELVINIST" ],
     "spells_learned": [ [ "create_rune_stormshaper", 0 ] ],
+    "enchantments": [ "STORMSHAPER" ],
     "flags": [ "ATTUNEMENT" ]
   },
   {

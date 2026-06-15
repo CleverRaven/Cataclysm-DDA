@@ -8,6 +8,7 @@
 
 #include "coordinates.h"
 #include "debug.h"
+#include "enums.h"
 #include "flexbuffer_json.h"
 #include "map.h"
 #include "memory_fast.h"
@@ -70,8 +71,8 @@ std::vector<vproto_id> VehicleGroup::all_possible_results() const
 {
     std::vector<vproto_id> result;
     result.reserve( vehicles.size() );
-    for( const weighted_object<int, vproto_id> &wo : vehicles ) {
-        result.push_back( wo.obj );
+    for( const std::pair<vproto_id, int> &wo : vehicles ) {
+        result.push_back( wo.first );
     }
     return result;
 }
@@ -154,10 +155,12 @@ void VehicleFunction_json::apply( map &m, const std::string &terrain_name ) cons
                 return;
             }
             const tripoint_bub_ms pos{ loc->pick_point(), m.get_abs_sub().z() };
-            m.add_vehicle( vehicle->pick(), pos, loc->pick_facing(), fuel, status );
+            m.add_vehicle( vehicle->pick(), pos, loc->pick_facing(), fuel,
+                           static_cast<veh_spawn_status>( status ) );
         } else {
             const tripoint_bub_ms pos{ location->pick_point(), m.get_abs_sub().z()};
-            m.add_vehicle( vehicle->pick(), pos, location->pick_facing(), fuel, status );
+            m.add_vehicle( vehicle->pick(), pos, location->pick_facing(), fuel,
+                           static_cast<veh_spawn_status>( status ) );
         }
     }
 }
@@ -241,7 +244,8 @@ static void builtin_parkinglot( map &m, std::string_view )
             } else {
                 facing = one_in( 2 ) ? 0_degrees : 180_degrees;
             }
-            m.add_vehicle( VehicleGroup_parkinglot->pick(), pos_p, facing, -1, -1 );
+            m.add_vehicle( VehicleGroup_parkinglot->pick(), pos_p, facing, -1,
+                           veh_spawn_status::DEFAULT_LIGHT_DMG );
         }
     }
 }

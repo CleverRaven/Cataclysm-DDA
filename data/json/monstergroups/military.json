@@ -9,7 +9,6 @@
       { "monster": "mon_dispatch", "weight": 10, "cost_multiplier": 50 },
       { "monster": "mon_dispatch_military", "weight": 5, "cost_multiplier": 80 },
       { "monster": "mon_talon_m202a1", "weight": 15, "cost_multiplier": 50 },
-      { "monster": "mon_zombie_military_pilot", "weight": 0 },
       { "monster": "mon_feral_soldier", "weight": 15 }
     ]
   },

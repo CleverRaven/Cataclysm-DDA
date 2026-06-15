@@ -45,7 +45,8 @@
       ],
       "nested": { "X": { "chunks": [ "1x1_burned_ground" ] }, "x": { "chunks": [ "1x1_burned_ground_slight", "null" ] } },
       "//": "Here rather than the 1x1 nest for mapgen ordering, otherwise the transform occurs afterwards",
-      "furniture": { "X": [ [ "f_null", 7 ], [ "f_fireweed", 1 ] ], "x": [ [ "f_null", 11 ], [ "f_fireweed", 1 ] ] }
+      "furniture": { "X": [ [ "f_null", 7 ], [ "f_fireweed", 1 ] ], "x": [ [ "f_null", 11 ], [ "f_fireweed", 1 ] ] },
+      "flags": [ "SKIP_ON_OPEN_AIR" ]
     }
   },
   {

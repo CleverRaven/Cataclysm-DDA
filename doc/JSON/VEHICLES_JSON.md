@@ -116,14 +116,12 @@ and describes the items that may spawn at that location.
 TYPE and DATA may be one of:
 ```jsonc
 "items": "itemid"                                   // single item of that type
-"items": [ "itemid1", "itemid2", /* ... */ ]        // all the items in the array
+"items": [ "itemid1", { "id": "itemid2", "variant": "foo" }, /* ... */ ]        // all the items in the array
 "item_groups": "groupid"                            // one or more items in the group, depending on
                                                     // whether the group is a collection or distribution
 "item_groups": [ "groupid1", "groupid2" /* ... */ ] // one or more items for each group
 ```
 the optional keyword "chance" provides an X in 100 chance that a particular item definition will spawn.
-
-If a single item is specified through `"items"`, an itype variant for it can be specified through `"variant"`.
 
 Multiple lines of items may share the same X and Y values.
 

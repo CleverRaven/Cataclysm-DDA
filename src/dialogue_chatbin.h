@@ -76,6 +76,8 @@ struct dialogue_chatbin {
     std::string talk_stranger_friendly = "TALK_STRANGER_FRIENDLY";
     std::string talk_stranger_neutral = "TALK_STRANGER_NEUTRAL";
     std::string talk_friend_guard = "TALK_FRIEND_GUARD";
+    std::string talk_mission_inquire = "TALK_MISSION_INQUIRE";
+    std::string talk_mission_describe_urgent = "TALK_MISSION_DESCRIBE_URGENT";
 };
 
 struct dialogue_chatbin_snippets {
@@ -132,7 +134,7 @@ struct dialogue_chatbin_snippets {
 
     // talk from npctalk.cpp(can use snippets in json)
     translation snip_acknowledged = no_translation( "<acknowledged>" );
-    translation snip_bye = to_translation( "<end_talking_bye>" );
+    translation snip_bye = no_translation( "<end_talking_bye>" );
 
     // talk from talker_npc.cpp(can use snippets in json)
     translation snip_consume_cant_accept =

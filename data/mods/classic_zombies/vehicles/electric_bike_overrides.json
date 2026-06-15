@@ -1,0 +1,14 @@
+[
+  {
+    "id": "bicycle_electric",
+    "copy-from": "bicycle_dirt",
+    "type": "vehicle",
+    "name": "SUV"
+  },
+  {
+    "id": "scooter_electric",
+    "copy-from": "scooter",
+    "type": "vehicle",
+    "name": "SUV"
+  }
+]

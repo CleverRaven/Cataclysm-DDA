@@ -58,18 +58,18 @@
     "joins": [ { "id": "support_join", "into_locations": [ "lake_surface", "open_air", "lake_water_cube", "lake_bed" ] } ],
     "overmaps": {
       "support_top": {
-        "overmap": "hw_supports",
+        "overmap": "hw_supports_north",
         "below": { "id": "support_join", "type": "available" },
         "locations": [ "lake_surface", "open_air" ]
       },
       "support": {
-        "overmap": "hw_supports",
+        "overmap": "hw_supports_north",
         "above": { "id": "support_join", "type": "available" },
         "below": { "id": "support_join", "type": "available" },
         "locations": [ "open_air", "lake_water_cube" ]
       },
       "support_bottom": {
-        "overmap": "hw_supports",
+        "overmap": "hw_supports_north",
         "above": { "id": "support_join", "type": "available" },
         "locations": [ "water", "lake_bed", "subterranean" ]
       }
@@ -508,12 +508,12 @@
       { "point": [ 1, 4, 0 ], "overmap": "hw_three_lane_merge_w_south", "locations": [ "highway" ] }
     ],
     "connections": [
-      { "point": [ -3, 0, 0 ], "terrain": "road", "connection": "highway_road_connection", "from": [ -2, 0, 0 ] },
-      { "point": [ 4, 0, 0 ], "terrain": "road", "connection": "highway_road_connection", "from": [ 3, 0, 0 ] }
+      { "point": [ -3, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ -2, 0, 0 ] },
+      { "point": [ 4, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 3, 0, 0 ] }
     ],
     "priority": 2,
     "locations": [ "land", "highway" ],
-    "occurrences": [ 0, 4 ],
+    "occurrences": [ 0, 0 ],
     "flags": [ "CLASSIC" ]
   },
   {

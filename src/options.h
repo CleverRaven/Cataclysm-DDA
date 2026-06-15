@@ -229,6 +229,9 @@ class options_manager
          */
         options_container get_world_defaults() const;
 
+        // Return a bare copy of all options in raw form, for debugging use only.
+        options_container get_raw_options();
+
         void set_world_options( options_container *options );
 
         /** Check if an option exists? */
@@ -430,6 +433,7 @@ struct option_slider {
         static void finalize_all();
         static void check_consistency();
         void load( const JsonObject &jo, std::string_view src );
+        void finalize();
         void check() const;
         static const std::vector<option_slider> &get_all();
 

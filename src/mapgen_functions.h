@@ -22,12 +22,6 @@ struct mapgen_parameters;
 using mapgen_update_func = std::function<void( const tripoint_abs_omt &map_pos3, mission *miss )>;
 class JsonObject;
 
-/**
- * Calculates the coordinates of a rotated point.
- * Should match the `mapgen_*` rotation.
- */
-tripoint_bub_ms rotate_point( const tripoint_bub_ms &p, int rotations );
-
 int terrain_type_to_nesw_array( oter_id terrain_type, std::array<bool, 4> &array );
 
 using building_gen_pointer = void ( * )( mapgendata & );
@@ -72,6 +66,6 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
             ter_id const &base_ter = ter_str_id( "t_dirt" ).id() );
 mapgen_parameters get_map_special_params( const std::string &mapgen_id );
 
-void resolve_regional_terrain_and_furniture( const mapgendata &dat );
+void resolve_regional_terrain_and_furniture( const mapgendata &dat, int z_offset = 0 );
 
 #endif // CATA_SRC_MAPGEN_FUNCTIONS_H

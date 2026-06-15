@@ -46,5 +46,35 @@
       [ [ "scrap", 12 ] ],
       [ [ "sheet_kevlar_layered", 24 ] ]
     ]
+  },
+  {
+    "result": "armor_chitin",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "2 h",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather_belt", 1 ] ], [ [ "string_6", 16 ] ], [ [ "chitin_piece", 86 ] ], [ [ "sheet_leather_patchwork", 7 ] ] ]
+  },
+  {
+    "result": "armor_chitin_xs",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "2 h",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather_belt", 1 ] ], [ [ "string_6", 16 ] ], [ [ "chitin_piece", 65 ] ], [ [ "sheet_leather_patchwork", 6 ] ] ]
+  },
+  {
+    "result": "xl_armor_chitin",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "2 h",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather_belt", 1 ] ], [ [ "string_6", 18 ] ], [ [ "chitin_piece", 112 ] ], [ [ "sheet_leather_patchwork", 9 ] ] ]
   }
 ]

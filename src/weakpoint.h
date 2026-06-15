@@ -11,6 +11,7 @@
 #include <utility>
 #include <vector>
 
+#include "calendar.h"
 #include "translation.h"
 #include "type_id.h"
 
@@ -20,7 +21,6 @@ class JsonArray;
 class JsonObject;
 class JsonValue;
 class item;
-class time_duration;
 struct const_dialogue;
 struct damage_instance;
 struct resistances;
@@ -74,8 +74,10 @@ struct weakpoint_effect {
     float chance;
     // Whether the effect is permanent.
     bool permanent;
-    // The range of the durations (in turns) of the effect.
-    std::pair<int, int> duration;
+    // Chance to instantly kill the monster on attack, percent from 1 to 100
+    std::pair<int, int> instant_death_chance;
+    // The range of the durations of the effect.
+    std::pair<time_duration, time_duration> duration;
     // The range of the intensities of the effect.
     std::pair<int, int> intensity;
     // The range of damage, as a percentage of max health, required to the effect.
@@ -117,6 +119,9 @@ struct weakpoint_family {
 
     float modifier( const Character &attacker ) const;
     void load( const JsonValue &jsin );
+    void deserialize( const JsonValue &jsin ) {
+        load( jsin );
+    }
 };
 
 struct weakpoint_families {
@@ -133,6 +138,10 @@ struct weakpoint_families {
     void clear();
     void load( const JsonArray &ja );
     void remove( const JsonArray &ja );
+
+    void deserialize( const JsonValue &jv );
+    bool handle_extend( const JsonValue &jv );
+    bool handle_delete( const JsonValue &jv );
 };
 
 struct weakpoint {
@@ -197,6 +206,10 @@ struct weakpoints {
     void remove( const JsonArray &ja );
     void finalize();
     void check() const;
+
+    void deserialize( const JsonValue &jv );
+    bool handle_extend( const JsonValue &jv );
+    bool handle_delete( const JsonValue &jv );
 
     /********************* weakpoint_set handling ****************************/
     // load standalone JSON type

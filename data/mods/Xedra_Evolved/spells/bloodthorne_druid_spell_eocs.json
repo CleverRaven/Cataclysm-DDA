@@ -10,8 +10,8 @@
           "(50 * bloodthorn_druid_traits_sum_as_npc() ) + (25 * n_sum_traits_of_category_char_has('ARVORE_ALCHEMY') )"
         ]
       },
-      { "math": [ "u_vitamin('blood')", "+=", "_blood_bonus" ] },
-      { "math": [ "u_vitamin('redcells')", "+=", "_blood_bonus" ] }
+      { "math": [ "u_vitamin('blood') += _blood_bonus" ] },
+      { "math": [ "u_vitamin('redcells') += _blood_bonus" ] }
     ]
   },
   {
@@ -93,6 +93,28 @@
       { "u_remove_item_with": "bloodthorne_druid_bandage_01" },
       { "u_remove_item_with": "bloodthorne_druid_bandage_02" },
       { "u_remove_item_with": "bloodthorne_druid_bandage_03" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODTHORNE_DRUID_PROTECT_FROM_VAMPIRISM",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_bloodthorne_druid_prevent_vampirism" },
+        { "compare_string": [ "vampire_virus", { "context_val": "effect" } ] }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "effect_bloodthorne_druid_prevent_vampirism" },
+      { "u_message": "As you feel the burning in your veins, your sapshield creaks to life.", "type": "good" },
+      {
+        "u_add_effect": "effect_bloodthorne_druid_prevent_vampirism_active",
+        "duration": {
+          "math": [ "300 + ( ( (20 * bloodthorn_druid_traits_sum() ) + (5 * u_sum_traits_of_category_char_has('ARVORE_ALCHEMY') ) ) ) " ]
+        }
+      }
     ]
   },
   {

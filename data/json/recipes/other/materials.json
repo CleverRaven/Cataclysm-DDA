@@ -69,6 +69,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "shredded_rubber",
+    "charges": 50,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
@@ -90,7 +91,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "chunk_rubber", 16 ] ], [ [ "rubber_cement", 1 ] ] ]
+    "components": [ [ [ "chunk_rubber", 16 ] ], [ [ "glue_weak", 250 ] ] ]
   },
   {
     "type": "recipe",
@@ -166,7 +167,7 @@
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "5l_silver", 2 ], [ "1l_silver", 10 ], [ "silver_small", 20980 ] ] ]
+    "components": [ [ [ "5l_silver", 2 ], [ "1l_silver", 10 ], [ "silver_small", 10000 ] ] ]
   },
   {
     "result": "5l_silver",
@@ -181,7 +182,7 @@
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "1l_silver", 5 ], [ "silver_small", 10490 ] ] ]
+    "components": [ [ [ "1l_silver", 5 ], [ "silver_small", 5000 ] ] ]
   },
   {
     "result": "1l_silver",
@@ -196,7 +197,7 @@
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "silver_small", 2098 ] ] ]
+    "components": [ [ [ "silver_small", 1000 ] ] ]
   },
   {
     "result": "10l_gold",
@@ -211,7 +212,7 @@
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "5l_gold", 2 ], [ "1l_gold", 10 ], [ "gold_small", 38640 ] ] ]
+    "components": [ [ [ "5l_gold", 2 ], [ "1l_gold", 10 ], [ "gold_small", 10000 ] ] ]
   },
   {
     "result": "5l_gold",
@@ -226,7 +227,7 @@
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "1l_gold", 5 ], [ "gold_small", 19320 ] ] ]
+    "components": [ [ [ "1l_gold", 5 ], [ "gold_small", 5000 ] ] ]
   },
   {
     "result": "1l_gold",
@@ -241,7 +242,7 @@
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "gold_small", 3864 ] ] ]
+    "components": [ [ [ "gold_small", 1000 ] ] ]
   },
   {
     "result": "10l_lead",
@@ -256,7 +257,7 @@
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "5l_lead", 2 ], [ "1l_lead", 10 ], [ "lead", 22690 ] ] ]
+    "components": [ [ [ "5l_lead", 2 ], [ "1l_lead", 10 ], [ "lead", 10000 ] ] ]
   },
   {
     "result": "5l_lead",
@@ -271,7 +272,7 @@
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "1l_lead", 5 ], [ "lead", 11345 ] ] ]
+    "components": [ [ [ "1l_lead", 5 ], [ "lead", 5000 ] ] ]
   },
   {
     "result": "1l_lead",
@@ -286,7 +287,7 @@
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "lead", 2269 ] ] ]
+    "components": [ [ [ "lead", 1000 ] ] ]
   },
   {
     "result": "10l_bronze",
@@ -515,8 +516,67 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chem_borax",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "charges": 100,
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "FINE_GRIND", "level": 1 } ],
+    "components": [ [ [ "chunk_borax", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chem_caco3",
+    "id_suffix": "from_calcite",
+    "name": "%s from calcite",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "charges": 866,
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "FINE_GRIND", "level": 1 } ],
+    "components": [ [ [ "chunk_caco3", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "flux_ash",
+    "charges": 1,
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "time": "1 m",
+    "autolearn": true,
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
+    "components": [ [ [ "material_sand", 1 ] ], [ [ "ash", 6 ] ], [ [ "material_limestone", 1 ] ] ],
+    "result_mult": 4
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "graphite",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "charges": 275,
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
+    "components": [ [ [ "chunk_graphite", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "chem_aluminium_powder",
+    "charges": 100,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
@@ -545,7 +605,7 @@
     "using": [ [ "forging_standard", 10 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "5l_zinc", 2 ], [ "1l_zinc", 10 ], [ "zinc_metal", 39780 ] ] ]
+    "components": [ [ [ "5l_zinc", 2 ], [ "1l_zinc", 10 ], [ "zinc_metal", 10000 ] ] ]
   },
   {
     "result": "5l_zinc",
@@ -560,7 +620,7 @@
     "using": [ [ "forging_standard", 5 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "1l_zinc", 5 ], [ "zinc_metal", 19890 ] ] ]
+    "components": [ [ [ "1l_zinc", 5 ], [ "zinc_metal", 5000 ] ] ]
   },
   {
     "result": "1l_zinc",
@@ -575,7 +635,7 @@
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "book_learn": [ [ "metal_casting_book", 2 ] ],
-    "components": [ [ [ "zinc_metal", 3978 ] ] ]
+    "components": [ [ [ "zinc_metal", 1000 ] ] ]
   },
   {
     "type": "recipe",
@@ -597,6 +657,7 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "ash",
+    "charges": 100,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
@@ -683,6 +744,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "thread",
+    "charges": 50,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "tailor",
@@ -698,6 +760,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "thread",
+    "charges": 50,
     "id_suffix": "with_spinningwheel_from_cotton_ball",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -714,6 +777,7 @@
     "activity_level": "NO_EXERCISE",
     "result": "thread",
     "id_suffix": "with_electric_spinwheel_from_cotton_ball",
+    "charges": 50,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "batch_time_factors": [ 70, 1 ],
@@ -742,6 +806,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "thread_canvas",
+    "charges": 50,
     "id_suffix": "with_spinningwheel",
     "batch_time_factors": [ 70, 1 ],
     "category": "CC_OTHER",
@@ -757,6 +822,7 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "thread_canvas",
+    "charges": 50,
     "id_suffix": "with_electric_spinwheel",
     "batch_time_factors": [ 70, 1 ],
     "category": "CC_OTHER",
@@ -819,6 +885,7 @@
     "result": "yarn",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "charges": 10,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "tailor",
@@ -832,6 +899,7 @@
   },
   {
     "result": "yarn",
+    "charges": 10,
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "spinningwheel",
@@ -848,6 +916,7 @@
   },
   {
     "result": "yarn",
+    "charges": 10,
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "id_suffix": "electric_spinwheel",
@@ -901,40 +970,6 @@
     "autolearn": true,
     "book_learn": [ [ "manual_tailor", 4 ], [ "textbook_tailor", 4 ], [ "tailor_portfolio", 5 ] ],
     "tools": [ [ [ "loom_frame", -1 ] ], [ [ "shed_stick", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "thread_kevlar", 100 ] ] ]
-  },
-  {
-    "result": "sheet_kevlar",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_OTHER",
-    "difficulty": 4,
-    "id_suffix": "spinningwheel",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "batch_time_factors": [ 70, 1 ],
-    "time": "2 h",
-    "book_learn": [ [ "manual_tailor", 4 ], [ "textbook_tailor", 4 ], [ "tailor_portfolio", 5 ] ],
-    "proficiencies": [ { "proficiency": "prof_weaving" } ],
-    "tools": [ [ [ "spinwheelitem", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "thread_kevlar", 100 ] ] ]
-  },
-  {
-    "result": "sheet_kevlar",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_OTHER",
-    "difficulty": 4,
-    "id_suffix": "electric_spinwheel",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "batch_time_factors": [ 70, 1 ],
-    "time": "1 h 20 m",
-    "book_learn": [ [ "manual_tailor", 4 ], [ "textbook_tailor", 4 ], [ "tailor_portfolio", 5 ] ],
-    "proficiencies": [ { "proficiency": "prof_weaving" } ],
-    "tools": [ [ [ "electric_spinwheel", 200 ] ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "thread_kevlar", 100 ] ] ]
   },
@@ -1031,38 +1066,6 @@
     "proficiencies": [ { "proficiency": "prof_weaving" }, { "proficiency": "prof_closures_waterproofing" } ],
     "tools": [ [ [ "loom_frame", -1 ] ], [ [ "shed_stick", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "thread_canvas", 80 ] ], [ [ "wax_any", 1, "LIST" ] ] ]
-  },
-  {
-    "result": "sheet_canvas",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_OTHER",
-    "id_suffix": "spinningwheel",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "batch_time_factors": [ 50, 1 ],
-    "time": "1 h 30 m",
-    "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_weaving" }, { "proficiency": "prof_closures_waterproofing" } ],
-    "tools": [ [ [ "spinwheelitem", -1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "thread_canvas", 80 ] ], [ [ "wax_any", 1, "LIST" ] ] ]
-  },
-  {
-    "result": "sheet_canvas",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_OTHER",
-    "id_suffix": "electric_spinwheel",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "batch_time_factors": [ 50, 1 ],
-    "time": "1 h 30 m",
-    "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_weaving" }, { "proficiency": "prof_closures_waterproofing" } ],
-    "tools": [ [ [ "electric_spinwheel", 181 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "thread_canvas", 80 ] ], [ [ "wax_any", 1, "LIST" ] ] ]
   },
   {
@@ -1168,6 +1171,7 @@
     "result": "steel_chunk",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
+    "charges": 1,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -1197,6 +1201,7 @@
   },
   {
     "result": "tin",
+    "charges": 100,
     "id_suffix": "from_bowl",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
@@ -1308,6 +1313,7 @@
   },
   {
     "result": "tin",
+    "charges": 100,
     "id_suffix": "from_scrap",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -1337,6 +1343,7 @@
     "result": "fuse",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "charges": 50,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "chemistry",
@@ -1397,6 +1404,66 @@
     "time": "30 m",
     "tools": [ [ [ "boltcutters", -1 ], [ "pliers", -1 ], [ "toolset", -1 ], [ "multitool", -1 ] ] ],
     "components": [ [ [ "wire_barbed", 1 ] ] ]
+  },
+  {
+    "result": "small_aluminum_bar_round",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "autolearn": true,
+    "time": "30 m",
+    "tools": [ [ [ "fake_lathe", 30 ] ] ],
+    "components": [ [ [ "aluminum_bar_round", 1 ] ] ],
+    "byproducts": [ [ "scrap_aluminum", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_machining_basic" } ]
+  },
+  {
+    "result": "small_lc_steel_bar_round",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "autolearn": true,
+    "time": "45 m",
+    "tools": [ [ [ "fake_lathe", 45 ] ] ],
+    "components": [ [ [ "lc_steel_bar_round", 1 ] ] ],
+    "byproducts": [ [ "scrap", 9 ] ],
+    "proficiencies": [ { "proficiency": "prof_machining_basic" } ]
+  },
+  {
+    "result": "small_mc_steel_bar_round",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "autolearn": true,
+    "time": "50 m",
+    "tools": [ [ [ "fake_lathe", 50 ] ] ],
+    "components": [ [ [ "mc_steel_bar_round", 1 ] ] ],
+    "byproducts": [ [ "scrap", 9 ] ],
+    "proficiencies": [ { "proficiency": "prof_machining_basic" } ]
+  },
+  {
+    "result": "small_hc_steel_bar_round",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "autolearn": true,
+    "time": "60 m",
+    "tools": [ [ [ "fake_lathe", 60 ] ] ],
+    "components": [ [ [ "hc_steel_bar_round", 1 ] ] ],
+    "byproducts": [ [ "scrap", 9 ] ],
+    "proficiencies": [ { "proficiency": "prof_machining_basic" } ]
   },
   {
     "type": "recipe",
@@ -1461,7 +1528,8 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "button_wood",
+    "result": "button_plastic",
+    "variant": "wood",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -1469,6 +1537,7 @@
     "time": "2 h",
     "charges": 50,
     "autolearn": true,
+    "using": [ [ "wood_sealant_any_small", 1 ] ],
     "qualities": [
       { "id": "SAW_W", "level": 1 },
       [ { "id": "PUNCH", "level": 1 }, { "id": "DRILL", "level": 1 } ],
@@ -1476,7 +1545,30 @@
       { "id": "FILE", "level": 1 }
     ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.25, "skill_penalty": 0.125 } ],
-    "components": [ [ [ "mop", 1 ], [ "stick", 1 ], [ "broom", 1 ] ], [ [ "wax_any", 1, "LIST" ], [ "rosin", 1 ] ] ]
+    "components": [ [ [ "mop", 1 ], [ "stick", 1 ], [ "broom", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "button_plastic",
+    "variant": "bone",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "2 h 10 m",
+    "charges": 50,
+    "autolearn": true,
+    "qualities": [
+      { "id": "SAW_W", "level": 1 },
+      [ { "id": "PUNCH", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+      { "id": "CUT", "level": 2 },
+      { "id": "FILE", "level": 1 },
+      { "id": "BOIL", "level": 1 }
+    ],
+    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ], [ [ "water", -1 ], [ "water_clean", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.25, "skill_penalty": 0.125 } ],
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1497,7 +1589,8 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "button_steel",
+    "result": "button_plastic",
+    "variant": "steel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -1515,7 +1608,8 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "button_bronze",
+    "result": "button_plastic",
+    "variant": "bronze",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -1553,6 +1647,7 @@
   {
     "type": "recipe",
     "result": "lc_steel_lump",
+    "charges": 1,
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -1672,7 +1767,7 @@
     "using": [ [ "forging_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "scrap", 6 ] ] ],
-    "byproduct_group": [ { "item": "slag", "charges": 5 } ]
+    "byproduct_group": [ { "item": "slag", "count": 5 } ]
   },
   {
     "result": "budget_steel_lump",
@@ -1689,7 +1784,7 @@
     "using": [ [ "forging_standard", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "scrap", 24 ] ] ],
-    "byproduct_group": [ { "item": "slag", "charges": 20 } ]
+    "byproduct_group": [ { "item": "slag", "count": 20 } ]
   },
   {
     "result": "budget_steel_lump",
@@ -1863,5 +1958,108 @@
     "batch_time_factors": [ 90, 4 ],
     "autolearn": true,
     "components": [ [ [ "can_drink", 2 ] ] ]
+  },
+  {
+    "result": "scrap_brass",
+    "name": "%s from casings",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": "60 m",
+    "batch_time_factors": [ 90, 4 ],
+    "autolearn": true,
+    "using": [ [ "forging_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [
+        [ "unprimed_3030_casing", 43 ],
+        [ "unprimed_270win_casing", 43 ],
+        [ "unprimed_460sw_casing", 43 ],
+        [ "unprimed_450_casing", 75 ],
+        [ "unprimed_500_casing", 43 ],
+        [ "unprimed_77arisaka_casing", 60 ],
+        [ "unprimed_300_casing", 43 ],
+        [ "unprimed_454_casing", 43 ],
+        [ "unprimed_357mag_casing", 100 ],
+        [ "unprimed_50beowulf_casing", 75 ],
+        [ "unprimed_30carbine_casing", 50 ],
+        [ "unprimed_38_casing", 100 ],
+        [ "unprimed_44_casing", 75 ],
+        [ "unprimed_762R_casing", 43 ],
+        [ "unprimed_338lapua_casing", 17 ],
+        [ "unprimed_762_casing", 50 ],
+        [ "unprimed_762_25_casing", 75 ],
+        [ "unprimed_762_51_casing", 50 ],
+        [ "unprimed_38super_casing", 100 ],
+        [ "unprimed_545_casing", 75 ],
+        [ "unprimed_10mm_casing", 100 ],
+        [ "unprimed_45colt_casing", 75 ],
+        [ "unprimed_380_casing", 100 ],
+        [ "unprimed_357sig_casing", 100 ],
+        [ "unprimed_57mm_casing", 150 ],
+        [ "unprimed_300blk_casing", 50 ],
+        [ "unprimed_32_casing", 150 ],
+        [ "unprimed_50_casing", 17 ],
+        [ "unprimed_45_casing", 75 ],
+        [ "unprimed_40_casing", 100 ],
+        [ "unprimed_458wm_casing", 23 ],
+        [ "unprimed_50ae_casing", 50 ],
+        [ "unprimed_4570_casing", 75 ],
+        [ "unprimed_9mm_casing", 100 ],
+        [ "unprimed_9x18mm_casing", 100 ],
+        [ "unprimed_123ln_casing", 43 ],
+        [ "unprimed_3006_casing", 43 ],
+        [ "unprimed_308_casing", 50 ],
+        [ "unprimed_223_casing", 60 ],
+        [ "unprimed_303_casing", 43 ],
+        [ "3030_casing", 43 ],
+        [ "270win_casing", 43 ],
+        [ "460sw_casing", 43 ],
+        [ "450_casing", 75 ],
+        [ "500_casing", 43 ],
+        [ "77arisaka_casing", 60 ],
+        [ "300_casing", 43 ],
+        [ "454_casing", 43 ],
+        [ "357mag_casing", 100 ],
+        [ "50beowulf_casing", 75 ],
+        [ "30carbine_casing", 50 ],
+        [ "38_casing", 100 ],
+        [ "44_casing", 75 ],
+        [ "762R_casing", 43 ],
+        [ "338lapua_casing", 17 ],
+        [ "762_casing", 50 ],
+        [ "762_25_casing", 75 ],
+        [ "762_51_casing", 50 ],
+        [ "38super_casing", 100 ],
+        [ "545_casing", 75 ],
+        [ "10mm_casing", 100 ],
+        [ "45colt_casing", 75 ],
+        [ "380_casing", 100 ],
+        [ "357sig_casing", 100 ],
+        [ "57mm_casing", 150 ],
+        [ "300blk_casing", 50 ],
+        [ "32_casing", 150 ],
+        [ "50_casing", 17 ],
+        [ "45_casing", 75 ],
+        [ "40_casing", 100 ],
+        [ "458wm_casing", 23 ],
+        [ "50ae_casing", 50 ],
+        [ "4570_casing", 75 ],
+        [ "9mm_casing", 100 ],
+        [ "9x18mm_casing", 100 ],
+        [ "123ln_casing", 43 ],
+        [ "3006_casing", 43 ],
+        [ "308_casing", 50 ],
+        [ "223_casing", 60 ],
+        [ "303_casing", 43 ],
+        [ "22_casing", 150 ],
+        [ "33_naval_casing", 4 ],
+        [ "273x110casing", 16 ],
+        [ "273x44casing", 30 ]
+      ]
+    ]
   }
 ]

@@ -1,0 +1,24 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EVAC_BOARD",
+    "condition": {
+      "and": [
+        "u_can_see",
+        { "or": [ { "u_has_flag": "READ_IN_DARKNESS" }, { "math": [ "u_val('fine_detail_vision_mod') <= 4" ] } ] }
+      ]
+    },
+    "effect": {
+      "u_message": "You study the board.  It only bears minutia you no longer need trouble yourself with now that society has collapsed, like 'operating hours' and 'acceptable forms of ID' along with various numbers that wouldn't help much with the power down even if there was anyone left to pick up on the other end."
+    },
+    "false_effect": { "u_message": "It's too dark to read." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DDOTD_REMOVE_PILE_ONE",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "u_has_effect": "effect_zombie_pile_on" },
+    "effect": [ { "u_lose_effect": "effect_zombie_pile_on" } ]
+  }
+]

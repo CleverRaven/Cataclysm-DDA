@@ -9,6 +9,7 @@
 
 #include "computer.h"
 #include "cursesdef.h"
+#include "type_id.h"
 
 class Character;
 
@@ -87,7 +88,6 @@ class computer_session
 
         void action_amigara_log();
         void action_amigara_start();
-        void action_blood_anal();
         void action_cascade();
         void action_complete_disable_external_power();
         void action_conveyor();
@@ -104,6 +104,8 @@ class computer_session
         void action_list_bionics();
         void action_list_mutations();
         void action_lock();
+        void helper_map( bool ( *func )( const oter_id & ), const char *query,
+                         enum computer_action action );
         void action_map_sewer();
         void action_map_subway();
         void action_maps();
@@ -115,6 +117,7 @@ class computer_session
         void action_open_disarm();
         void action_portal();
         void action_radio_archive();
+        void helper_release( float radius );
         void action_release();
         void action_release_bionics();
         void action_release_disarm();
@@ -142,7 +145,6 @@ class computer_session
         void failure_alarm();
         void failure_amigara();
         void failure_damage();
-        void failure_destroy_blood();
         void failure_destroy_data();
         void failure_manhacks();
         void failure_pump_explode();

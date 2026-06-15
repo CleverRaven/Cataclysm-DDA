@@ -1,0 +1,37 @@
+[
+  {
+    "id": "multi_butcher",
+    "type": "requirement",
+    "qualities": [ { "id": "BUTCHER", "level": 1 } ]
+  },
+  {
+    "id": "multi_butcher_big",
+    "type": "requirement",
+    "qualities": [ { "id": "BUTCHER", "level": 1 }, { "id": "SAW_W", "level": 1 }, { "id": "SAW_M", "level": 1 } ]
+  },
+  {
+    "id": "multi_farm_tilling",
+    "type": "requirement",
+    "qualities": [ { "id": "DIG", "level": 1 } ]
+  },
+  {
+    "id": "multi_farm_cut_harvesting",
+    "type": "requirement",
+    "qualities": [ { "id": "GRASS_CUT", "level": 1 } ]
+  },
+  {
+    "id": "multi_chopping_trees",
+    "type": "requirement",
+    "qualities": [ { "id": "AXE", "level": 1 } ]
+  },
+  {
+    "id": "multi_chopping_planks",
+    "type": "requirement",
+    "qualities": [ { "id": "AXE", "level": 1 } ]
+  },
+  {
+    "id": "multi_fishing",
+    "type": "requirement",
+    "qualities": [ { "id": "FISHING_ROD", "level": 1 } ]
+  }
+]

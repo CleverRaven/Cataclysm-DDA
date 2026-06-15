@@ -47,7 +47,18 @@
       [ "cucumber", 50 ],
       [ "celery", 50 ],
       [ "rhubarb", 50 ],
-      [ "eggplant", 50 ]
+      [ "eggplant", 50 ],
+      [ "cauliflower", 50 ],
+      [ "cauliflower_head", 50 ],
+      [ "kale", 50 ],
+      [ "kale_head", 50 ],
+      [ "raw_artichoke", 50 ],
+      [ "artichoke_heart", 50 ],
+      [ "raw_asparagus", 50 ],
+      [ "brussels_sprout_stalk", 50 ],
+      [ "brussels_sprout", 50 ],
+      [ "pea_pods", 50 ],
+      [ "pea", 50 ]
     ]
   },
   {
@@ -98,7 +109,46 @@
       { "item": "cucumber", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
       { "item": "celery", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
       { "item": "rhubarb", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
-      { "item": "eggplant", "prob": 5, "custom-flags": [ "IRRADIATED" ] }
+      { "item": "cauliflower", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
+      { "item": "cauliflower_head", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
+      { "item": "kale", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
+      { "item": "kale_head", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
+      { "item": "eggplant", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
+      { "item": "raw_artichoke", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
+      { "item": "artichoke_heart", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
+      { "item": "raw_asparagus", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
+      { "item": "brussels_sprout_stalk", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
+      { "item": "brussels_sprout", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
+      { "item": "pea_pods", "prob": 50, "custom-flags": [ "IRRADIATED" ] },
+      { "item": "pea", "prob": 50, "custom-flags": [ "IRRADIATED" ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "irradiated_lettuce_bag_plastic_5",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "lettuce", "container-item": "null", "count": 5, "custom-flags": [ "IRRADIATED" ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "irradiated_cabbage_bag_plastic_8",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "cabbage", "container-item": "null", "count": 8, "custom-flags": [ "IRRADIATED" ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "irradiated_carrot_bag_plastic_6",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "carrot", "container-item": "null", "count": 6, "custom-flags": [ "IRRADIATED" ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "irradiated_cranberries_bag_plastic_3",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "cranberries", "container-item": "null", "count": 3, "custom-flags": [ "IRRADIATED" ] } ]
   }
 ]

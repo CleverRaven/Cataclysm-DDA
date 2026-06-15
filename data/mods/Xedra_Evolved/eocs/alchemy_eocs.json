@@ -11,11 +11,11 @@
         "then": { "u_add_trait": "FALSE_SALAMANDER_HATRED" },
         "else": { "u_add_trait": "FAE_ENMITY" }
       },
-      { "math": [ "u_vitamin('mutagen_flamekin')", "+=", "500" ] },
-      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "math": [ "u_vitamin('mutagen_flamekin') += 500" ] },
+      { "math": [ "u_vitamin('mutagen') += 1000" ] },
       { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_flamekin')", "-=", "500" ] },
-      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+      { "math": [ "u_vitamin('mutagen_flamekin') -= 500" ] },
+      { "math": [ "u_vitamin('mutagen') -= 1000" ] }
     ],
     "false_effect": [ { "u_message": "The power attempts to take hold, but is rebuffed by something sinister within you." } ]
   },
@@ -31,11 +31,11 @@
         "then": { "u_add_trait": "FALSE_HOMULLUS_HATRED" },
         "else": { "u_add_trait": "FAE_ENMITY" }
       },
-      { "math": [ "u_vitamin('mutagen_dollkin')", "+=", "500" ] },
-      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "math": [ "u_vitamin('mutagen_dollkin') += 500" ] },
+      { "math": [ "u_vitamin('mutagen') += 1000" ] },
       { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_dollkin')", "-=", "500" ] },
-      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+      { "math": [ "u_vitamin('mutagen_dollkin') -= 500" ] },
+      { "math": [ "u_vitamin('mutagen') -= 1000" ] }
     ],
     "false_effect": [ { "u_message": "The power attempts to take hold, but is rebuffed by something sinister within you." } ]
   },
@@ -92,11 +92,11 @@
         "then": { "u_add_trait": "FALSE_ARVORE_HATRED" },
         "else": { "u_add_trait": "FAE_ENMITY" }
       },
-      { "math": [ "u_vitamin('mutagen_alchemical_plantkin')", "+=", "500" ] },
-      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "math": [ "u_vitamin('mutagen_alchemical_plantkin') += 500" ] },
+      { "math": [ "u_vitamin('mutagen') += 1000" ] },
       { "u_mutate": 0 },
-      { "math": [ "u_vitamin('mutagen_alchemical_plantkin')", "-=", "500" ] },
-      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+      { "math": [ "u_vitamin('mutagen_alchemical_plantkin') -= 500" ] },
+      { "math": [ "u_vitamin('mutagen') -= 1000" ] }
     ],
     "false_effect": [ { "u_message": "The power attempts to take hold, but is rebuffed by something sinister within you." } ]
   }

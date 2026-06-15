@@ -10,6 +10,7 @@
     "move_cost_mod": 6,
     "required_str": -1,
     "light_emitted": 40,
+    "light_color": [ 0, 120, 0 ],
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC" ],
     "bash": {
       "str_min": 6,
@@ -123,7 +124,7 @@
       "destroyed_field": [ "fd_splinters", 1 ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+    "workbench": { "multiplier": 1.1, "mass": "200 kg", "volume": "75L" }
   },
   {
     "type": "furniture",
@@ -173,7 +174,7 @@
       "destroyed_field": [ "fd_splinters", 1 ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+    "workbench": { "multiplier": 1.1, "mass": "200 kg", "volume": "75L" }
   },
   {
     "type": "furniture",
@@ -256,7 +257,7 @@
       "destroyed_field": [ "fd_splinters", 1 ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75 L" }
+    "workbench": { "multiplier": 1.1, "mass": "200 kg", "volume": "75 L" }
   },
   {
     "id": "wildwood_weaver_shelter",

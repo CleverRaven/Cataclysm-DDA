@@ -5,7 +5,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "melatonin tablet" },
-    "description": "An over-the-counter melatonin supplement, commonly prescribed to treat sleep deprivation and to mitigate its effects.  One tablet a day combined with a good night's sleep will help you recover faster.",
+    "description": "An over-the-counter sleep hormone.  Melatonin can help you fall asleep faster and stay asleep longer.  Using it may help restore your sleep schedule, but you might wake up feeling groggy.",
     "material": [ "drug_filler" ],
     "weight": "1 g",
     "volume": "8 ml",
@@ -17,8 +17,8 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You pop a melatonin tablet.",
-      "effects": [ { "id": "melatonin", "duration": "16 h" } ]
+      "activation_message": "You take a %s.",
+      "effects": [ { "id": "melatonin", "duration": "14 h" } ]
     }
   },
   {
@@ -302,7 +302,7 @@
     "stim": 12,
     "addiction_potential": 3,
     "addiction_type": "caffeine",
-    "use_action": { "type": "consume_drug", "activation_message": "You take a caffeine pill." },
+    "use_action": { "type": "consume_drug", "activation_message": "You take a %s." },
     "sleepiness_mod": 9
   },
   {
@@ -443,15 +443,32 @@
     "addiction_potential": 60,
     "addiction_type": "nicotine",
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
-    "use_action": [ "SMOKING" ]
+    "use_action": [ "SMOKING" ],
+    "variants": [
+      {
+        "id": "handrolled",
+        "name": { "str": "hand-rolled cigar" },
+        "description": "A proper cigar rolled by hand from loose tobacco and leaves."
+      },
+      {
+        "id": "premium",
+        "name": { "str": "premium cigar" },
+        "description": "Select long-filler tobacco hand-rolled by a professional with care.  Smooth draw and even burn.  Now THIS is a real cigar!"
+      },
+      {
+        "id": "cheap",
+        "name": { "str": "cheap cigar" },
+        "description": "Cheap, machine-made cigar.  While not as luxurious as hand-rolled cigars, it's still enjoyable."
+      }
+    ]
   },
   {
     "id": "debug_chloroform_rag",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
-    "name": { "str": "debug chloroform soaked rag" },
-    "description": "A debug item that lets you put NPCs (or yourself) to sleep.",
+    "name": { "str": "debug chloroform soaked rag", "//~": "NO_I18N" },
+    "description": { "str": "A debug item that lets you put NPCs (or yourself) to sleep.", "//~": "NO_I18N" },
     "weight": "125 g",
     "volume": "250 ml",
     "price": "30 USD",
@@ -574,7 +591,7 @@
             "id": "EOC_myopia_contacts_weekly",
             "effect": {
               "run_eocs": "EOC_CONTACTS",
-              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "contacts", "time": "604800" }
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "contacts", "time": 604800 }
             }
           }
         ]
@@ -602,7 +619,7 @@
             "id": "EOC_myopia_transition_contacts_weekly",
             "effect": {
               "run_eocs": "EOC_CONTACTS",
-              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "transition_contacts", "time": "604800" }
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "transition_contacts", "time": 604800 }
             }
           }
         ]
@@ -628,7 +645,7 @@
             "id": "EOC_myopia_contacts_daily",
             "effect": {
               "run_eocs": "EOC_CONTACTS",
-              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "contacts", "time": "57600" }
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "contacts", "time": 57600 }
             }
           }
         ]
@@ -654,7 +671,7 @@
             "id": "EOC_myopia_transition_contacts_daily",
             "effect": {
               "run_eocs": "EOC_CONTACTS",
-              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "transition_contacts", "time": "57600" }
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "transition_contacts", "time": 57600 }
             }
           }
         ]
@@ -678,7 +695,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_hyperopia_contacts_weekly",
-            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": "604800" } }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": 604800 } }
           }
         ]
       }
@@ -701,7 +718,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_hyperopia_transition_contacts_weekly",
-            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": "604800" } }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": 604800 } }
           }
         ]
       }
@@ -724,7 +741,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_hyperopia_contacts_daily",
-            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": "57600" } }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": 57600 } }
           }
         ]
       }
@@ -747,7 +764,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_hyperopia_transition_contacts_daily",
-            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": "57600" } }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": 57600 } }
           }
         ]
       }
@@ -772,7 +789,7 @@
             "id": "EOC_bifocal_contacts_weekly",
             "effect": {
               "run_eocs": "EOC_CONTACTS",
-              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "flag3": "HYPEROPIC", "effect": "contacts", "time": "604800" }
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "flag3": "HYPEROPIC", "effect": "contacts", "time": 604800 }
             }
           }
         ]
@@ -798,13 +815,7 @@
             "id": "EOC_bifocal_transition_contacts_weekly",
             "effect": {
               "run_eocs": "EOC_CONTACTS",
-              "variables": {
-                "flag1": "MYOPIC",
-                "flag2": "MYOPIC_IN_LIGHT",
-                "flag3": "HYPEROPIC",
-                "effect": "transition_contacts",
-                "time": "604800"
-              }
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "flag3": "HYPEROPIC", "effect": "transition_contacts", "time": 604800 }
             }
           }
         ]
@@ -830,7 +841,7 @@
             "id": "EOC_bifocal_contacts_daily",
             "effect": {
               "run_eocs": "EOC_CONTACTS",
-              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "flag3": "HYPEROPIC", "effect": "contacts", "time": "57600" }
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "flag3": "HYPEROPIC", "effect": "contacts", "time": 57600 }
             }
           }
         ]
@@ -856,13 +867,7 @@
             "id": "EOC_bifocal_transition_contacts_daily",
             "effect": {
               "run_eocs": "EOC_CONTACTS",
-              "variables": {
-                "flag1": "MYOPIC",
-                "flag2": "MYOPIC_IN_LIGHT",
-                "flag3": "HYPEROPIC",
-                "effect": "transition_contacts",
-                "time": "57600"
-              }
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "flag3": "HYPEROPIC", "effect": "transition_contacts", "time": 57600 }
             }
           }
         ]
@@ -886,7 +891,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_plano_transition_contacts_weekly",
-            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "effect": "transition_contacts_plano", "plano": "1", "time": "604800" } }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "effect": "transition_contacts_plano", "plano": 1, "time": 604800 } }
           }
         ]
       }
@@ -909,7 +914,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_plano_transition_contacts_daily",
-            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "plano": "1", "effect": "transition_contacts_plano", "time": "57600" } }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "plano": 1, "effect": "transition_contacts_plano", "time": 57600 } }
           }
         ]
       }
@@ -962,7 +967,6 @@
     "symbol": "~",
     "color": "yellow",
     "phase": "liquid",
-    "container": "bottle_plastic_small",
     "use_action": [ "FLUMED" ],
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ]
   },
@@ -1293,11 +1297,7 @@
     "color": "white",
     "container": "bottle_plastic_pill_supplement",
     "flags": [ "NO_TEMP" ],
-    "use_action": {
-      "type": "consume_drug",
-      "activation_message": "You take some potassium iodide.",
-      "effects": [ { "id": "iodine", "duration": 7200 } ]
-    }
+    "use_action": { "type": "consume_drug", "activation_message": "You take a %s.", "effects": [ { "id": "iodine", "duration": 7200 } ] }
   },
   {
     "id": "joint",
@@ -1509,7 +1509,6 @@
     "symbol": "~",
     "color": "blue",
     "phase": "liquid",
-    "container": "bottle_plastic_small",
     "stim": -7,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "addiction_potential": 20,
@@ -1538,7 +1537,7 @@
     "addiction_type": "sleeping pill",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take an antihistamine pill.",
+      "activation_message": "You take an %s.",
       "effects": [ { "id": "took_antihistamine", "duration": "10 h" } ]
     }
   },
@@ -1737,11 +1736,7 @@
     "symbol": "!",
     "color": "blue",
     "container": "bottle_plastic_pill_supplement",
-    "use_action": {
-      "type": "consume_drug",
-      "activation_message": "You take some Prussian blue.",
-      "effects": [ { "id": "pblue", "duration": 3600 } ]
-    }
+    "use_action": { "type": "consume_drug", "activation_message": "You take a %s.", "effects": [ { "id": "pblue", "duration": 3600 } ] }
   },
   {
     "id": "quikclot",
@@ -1905,7 +1900,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take the %s.",
+      "activation_message": "You take a %s.",
       "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitC", 24, 48 ] ]
     },
     "//": "Yes, the vitamins are intentionally duplicated here. The consume/use/iteminfo UI needs them in use_action, but to actually pass on the vitamins they need to be in the comestible data, as below.",
@@ -1928,7 +1923,7 @@
     "symbol": "!",
     "color": "magenta",
     "container": "bottle_plastic_pill_supplement",
-    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 75 ] ] }
+    "use_action": { "type": "consume_drug", "activation_message": "You take a %s.", "vitamins": [ [ "calcium", 75 ] ] }
   },
   {
     "id": "bonemeal_tablet",
@@ -1948,7 +1943,7 @@
     "color": "white",
     "looks_like": "calcium_tablet",
     "flags": [ "NO_TEMP" ],
-    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 24 ] ] },
+    "use_action": { "type": "consume_drug", "activation_message": "You take a %s.", "vitamins": [ [ "calcium", 24 ] ] },
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
@@ -1969,7 +1964,7 @@
     "color": "yellow",
     "looks_like": "calcium_tablet",
     "flags": [ "NO_TEMP" ],
-    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 23 ] ] },
+    "use_action": { "type": "consume_drug", "activation_message": "You take a %s.", "vitamins": [ [ "calcium", 23 ] ] },
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
@@ -1987,7 +1982,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
     "symbol": "!",
     "color": "magenta",
-    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "vitC", 556 ] ] }
+    "use_action": { "type": "consume_drug", "activation_message": "You take a %s.", "vitamins": [ [ "vitC", 556 ] ] }
   },
   {
     "id": "vitc_fragment",
@@ -2004,7 +1999,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
     "symbol": "!",
     "color": "magenta",
-    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "vitC", 92 ] ] }
+    "use_action": { "type": "consume_drug", "activation_message": "You take a %s.", "vitamins": [ [ "vitC", 92 ] ] }
   },
   {
     "id": "gummy_vitamins",
@@ -2199,7 +2194,7 @@
     "color": "white",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some heartburn medicine.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "tummy_tablet", "duration": 6400 } ]
     },
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
@@ -2224,7 +2219,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NPC_SAFE", "NO_TEMP" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take an antacid tablet.",
+      "activation_message": "You take an %s.",
       "effects": [ { "id": "tummy_tablet", "duration": 6400 } ],
       "vitamins": [ [ "calcium", 25 ] ]
     }
@@ -2401,7 +2396,7 @@
     "symbol": "!",
     "color": "white",
     "flags": [ "NO_TEMP" ],
-    "use_action": { "type": "consume_drug", "activation_message": "You take the pill." }
+    "use_action": { "type": "consume_drug", "activation_message": "You take a %s." }
   },
   {
     "id": "estrogen",
@@ -2419,5 +2414,28 @@
     "color": "white",
     "flags": [ "NO_TEMP" ],
     "use_action": { "type": "consume_drug", "activation_message": "You set the pill under your tongue and let it dissolve." }
+  },
+  {
+    "id": "sunscreen",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "MED",
+    "name": { "str_sp": "sunscreen" },
+    "description": "Carcinoma may not be such a concern anymore, but sunburns are as painful as ever.",
+    "symbol": "~",
+    "color": "white",
+    "phase": "liquid",
+    "charges": 1,
+    "material": [ "water" ],
+    "weight": "30 g",
+    "volume": "30 ml",
+    "price_postapoc": "10 cent",
+    "flags": [ "NO_TEMP", "NO_INGEST", "NO_AUTO_CONSUME", "INEDIBLE", "IRREPLACEABLE_CONSUMABLE" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You apply some sunscreen.",
+      "moves": 120,
+      "effects": [ { "id": "sunscreen", "duration": "2 h" } ]
+    }
   }
 ]

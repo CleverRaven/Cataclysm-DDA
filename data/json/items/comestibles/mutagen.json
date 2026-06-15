@@ -494,7 +494,7 @@
     "copy-from": "mutagen_flavor",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "name": { "str_sp": "mutagen" },
+    "name": { "str_sp": "mutagenic slurry" },
     "description": "A slurry of organic chemicals and compounds, used as the foundation for making primers and mutagenic catalyst.  In this baseline form, it is highly toxic, and dangerous to consume on its own.",
     "addiction_potential": 6,
     "use_action": { "type": "consume_drug", "activation_message": "You drink the %s.", "vitamins": [ [ "mutagenic_slurry", 25 ] ] }
@@ -789,6 +789,20 @@
       "type": "consume_drug",
       "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_batrachian", 225 ], [ "mutagen", 125 ] ]
+    }
+  },
+  {
+    "id": "mutagen_interstice",
+    "copy-from": "mutagen_flavor",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "name": { "str_sp": "perfectly clear water" },
+    "description": "Everything about this liquid screams that it's water.  However, it's so clear that you can barely perceive it unless in motion.",
+    "looks_like": "mutagen",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the %s.",
+      "vitamins": [ [ "mutagen_interstice", 225 ], [ "mutagen", 125 ] ]
     }
   },
   {

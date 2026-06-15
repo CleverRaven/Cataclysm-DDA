@@ -58,7 +58,7 @@ args = argparse.ArgumentParser(
     description="Read all the terrain and furniture definitions from a "
                 "mapgen .json file and move them into a palette file.  "
                 "Symbols with multiple definitions put the most common "
-                "definition in the the palette and leave the others in "
+                "definition in the palette and leave the others in "
                 "the mapgen file.")
 args.add_argument("mapgen_source", action="store",
                   help="specify json file to convert to palette.")

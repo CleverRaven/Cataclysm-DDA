@@ -38,7 +38,7 @@
     "type": "fault",
     "name": { "str": "Fused internals" },
     "description": "Excessive heat has rendered this weapon inoperable.",
-    "item_prefix": "ruined",
+    "item_prefix": { "ctxt": "prefix", "str": "ruined" },
     "flags": [ "RUINED_GUN" ]
   },
   {
@@ -46,6 +46,13 @@
     "type": "fault",
     "name": { "str": "Overheat safety" },
     "description": "This weapon will attempt to enter a cooling cycle when overheated.",
+    "flags": [ "OVERHEATED_GUN" ]
+  },
+  {
+    "id": "fault_overheat_forced_safety",
+    "type": "fault",
+    "name": { "str": "Overheat Protection" },
+    "description": "This weapon will enter a cooling cycle when overheated.",
     "flags": [ "OVERHEATED_GUN" ]
   },
   {

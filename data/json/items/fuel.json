@@ -4,6 +4,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": "ethanol" },
+    "display_type": "BY_VOLUME",
     "description": "Extremely pure alcohol suitable for use as a component in chemical reactions.  You could also water it down and drink it, or use it as fuel in an alcohol-burning stove.",
     "weight": "1 g",
     "volume": "200ml",
@@ -66,6 +67,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": "diesel" },
+    "display_type": "BY_VOLUME",
     "description": "A petroleum-based fuel made from a byproduct of the gasoline making process.",
     "category": "fuel",
     "weight": "850 mg",
@@ -82,13 +84,14 @@
     "ammo_type": "diesel",
     "damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 4 },
     "range": 4,
-    "effects": [ "FLAME", "STREAM", "IGNITE", "NEVER_MISFIRES" ]
+    "effects": [ "FLAME", "STREAM", "IGNITE" ]
   },
   {
     "id": "jp8",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": "JP8 fuel" },
+    "display_type": "BY_VOLUME",
     "description": "A kerosene-based fuel used mainly by US military vehicles as a replacement for diesel and jet fuel, to simplify logistics.",
     "category": "fuel",
     "weight": "840 mg",
@@ -106,13 +109,14 @@
     "ammo_type": "jp8",
     "damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 5 },
     "range": 4,
-    "effects": [ "FLAME", "STREAM", "IGNITE", "NEVER_MISFIRES" ]
+    "effects": [ "FLAME", "STREAM", "IGNITE" ]
   },
   {
     "id": "avgas",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": "avgas fuel" },
+    "display_type": "BY_VOLUME",
     "description": "A specialized type of petroleum-based fuel used to power aircraft.",
     "category": "fuel",
     "weight": "690 mg",
@@ -130,7 +134,7 @@
     "ammo_type": "avgas",
     "damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 5 },
     "range": 4,
-    "effects": [ "FLAME", "STREAM", "IGNITE", "NEVER_MISFIRES" ]
+    "effects": [ "FLAME", "STREAM", "IGNITE" ]
   },
   {
     "id": "biodiesel",
@@ -149,6 +153,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": "gasoline" },
+    "display_type": "BY_VOLUME",
     "description": "A highly flammable liquid fuel.  When under pressure, it has the potential for violent explosion.",
     "category": "fuel",
     "weight": "750 mg",
@@ -165,13 +170,14 @@
     "ammo_type": "gasoline",
     "damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 5 },
     "range": 4,
-    "effects": [ "FLAME", "STREAM", "IGNITE", "NEVER_MISFIRES" ]
+    "effects": [ "FLAME", "STREAM", "IGNITE" ]
   },
   {
     "id": "lamp_oil",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": "kerosene" },
+    "display_type": "BY_VOLUME",
     "description": "A thin and clean-burning oil made for use in oil lamps.",
     "category": "fuel",
     "weight": "810 mg",
@@ -196,6 +202,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": "motor oil" },
+    "display_type": "BY_VOLUME",
     "description": "An oil made for use in car engines.",
     "category": "fuel",
     "weight": "950 mg",
@@ -247,12 +254,12 @@
     "name": { "str_sp": "napalm" },
     "description": "Gasoline mixed with some other components to make it stick to surfaces and increase burning temperature, meant to be used as flamethrower fuel.",
     "category": "fuel",
-    "weight": "900 mg",
-    "volume": "200ml",
-    "price": "80 USD",
-    "price_postapoc": "10 USD",
-    "count": 250,
-    "stack_size": 200,
+    "weight": "1400 mg",
+    "volume": "1 ml",
+    "price": "0 USD",
+    "price_postapoc": "1 cent",
+    "count": 1,
+    "stack_size": 1,
     "phase": "liquid",
     "container": "pressurized_tank",
     "material": [ "hydrocarbons" ],
@@ -261,7 +268,7 @@
     "ammo_type": "flammable",
     "damage": { "damage_type": "heat", "amount": 15, "armor_penetration": 30 },
     "range": 6,
-    "effects": [ "FLAME", "STREAM_BIG", "IGNITE", "NEVER_MISFIRES" ]
+    "effects": [ "FLAME", "STREAM_BIG", "IGNITE" ]
   },
   {
     "id": "gelled_gasoline",
@@ -269,7 +276,8 @@
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": "gelled gasoline" },
     "copy-from": "gasoline",
-    "description": "A flammable gel composed of gasoline and dissolved shavings of polystyrene, roughly similar in properties to napalm B.  It's meant to be used as flamethrower fuel.",
+    "description": "A flammable gel composed of gasoline and different thickening agents.  It works as a great improvement for a Molotov cocktail.",
+    "phase": "liquid",
     "price": "4 USD",
     "price_postapoc": "5 USD",
     "ammo_type": "flammable",
@@ -316,7 +324,7 @@
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": "biogas" },
     "copy-from": "propane",
-    "description": "Biogas gathered from anaerobic digester system, can be used in biogas cooker.",
+    "description": "Biogas gathered from an anaerobic digester system, can be used in a biogas cooker.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "container": "small_biogas_tank",

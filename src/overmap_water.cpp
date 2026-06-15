@@ -1,14 +1,17 @@
 #include <algorithm>
 #include <array>
+#include <climits>
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <optional>
 #include <string>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "coordinates.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
 #include "flood_fill.h"
@@ -44,6 +47,7 @@ static const oter_str_id oter_river_west( "river_west" );
 void overmap::place_river( const std::vector<const overmap *> &neighbor_overmaps,
                            const overmap_river_node &initial_points, int river_scale, bool major_river )
 {
+    const region_settings_river &settings_river = settings->get_settings_river();
     const int OMAPX_edge = OMAPX - 1;
     const int OMAPY_edge = OMAPY - 1;
     const int directions = 4;
@@ -182,14 +186,14 @@ void overmap::place_river( const std::vector<const overmap *> &neighbor_overmaps
     for( int i = 0; i < curve_size; i++ ) {
         const point_om_omt &bezier_point = segmented_curve.at( i );
         if( inbounds( bezier_point, river_scale + 1 ) &&
-            one_in( settings->overmap_river.river_branch_chance ) ) {
+            one_in( settings_river.river_branch_chance ) ) {
             point_om_omt branch_end_point = point_om_omt::invalid;
 
             //pick an end point from later along the curve
             //TODO: make remerge branches have control points that aren't straight;
             // remerges are less common because they get stopped by the already-generated river
             if( i > branch_last_end ) {
-                if( one_in( settings->overmap_river.river_branch_remerge_chance ) ) {
+                if( one_in( settings_river.river_branch_remerge_chance ) ) {
                     int end_branch_node = rng( i + branch_ahead_points, i + branch_ahead_points * 2 );
                     if( end_branch_node < curve_size ) {
                         branch_end_point = segmented_curve.at( end_branch_node );
@@ -206,7 +210,7 @@ void overmap::place_river( const std::vector<const overmap *> &neighbor_overmaps
             // if the end point is valid, place a new, smaller, overmap-local branch river
             if( !branch_end_point.is_invalid() && inbounds( branch_end_point ) ) {
                 place_river( neighbor_overmaps, overmap_river_node{ bezier_point, branch_end_point },
-                             river_scale - settings->overmap_river.river_branch_scale_decrease );
+                             river_scale - settings_river.river_branch_scale_decrease );
             }
         }
     }
@@ -256,16 +260,19 @@ void overmap::place_lakes( const std::vector<const overmap *> &neighbor_overmaps
 {
     const point_abs_omt origin = global_base_point();
     const om_noise::om_noise_layer_lake noise_func( origin, g->get_seed() );
-    double noise_threshold = settings->overmap_lake.noise_threshold_lake;
+    const region_settings_lake &settings_lake = settings->get_settings_lake();
+    double noise_threshold = settings_lake.noise_threshold_lake;
+    const int lake_depth = settings_lake.lake_depth;
 
+    // For cases where lakes take up most or all of the map, we need to stop the flood-fill
+    // from being unbounded. However, the bounds cannot be simply the overmap edges, or the
+    // shorelines will not be generated properly.
+    inclusive_rectangle<point_om_omt> considered_bounds( point_om_omt( -5, -5 ),
+            point_om_omt( OMAPX + 5, OMAPY + 5 ) );
     const auto is_lake = [&]( const point_om_omt & p ) {
-        return omt_lake_noise_threshold( origin, p, noise_threshold );
+        return considered_bounds.contains( p ) &&
+               settings_lake.invert_lakes ^ omt_lake_noise_threshold( origin, p, noise_threshold );
     };
-
-    const oter_id lake_surface( "lake_surface" );
-    const oter_id lake_shore( "lake_shore" );
-    const oter_id lake_water_cube( "lake_water_cube" );
-    const oter_id lake_bed( "lake_bed" );
 
     // We'll keep track of our visited lake points so we don't repeat the work.
     std::unordered_set<point_om_omt> visited;
@@ -278,20 +285,20 @@ void overmap::place_lakes( const std::vector<const overmap *> &neighbor_overmaps
             }
 
             // It's a lake if it exceeds the noise threshold defined in the region settings.
-            if( !omt_lake_noise_threshold( origin, seed_point, noise_threshold ) ) {
+            if( !is_lake( seed_point ) ) {
                 continue;
             }
 
             // We're going to flood-fill our lake so that we can consider the entire lake when evaluating it
             // for placement, even when the lake runs off the edge of the current overmap.
             std::vector<point_om_omt> lake_points =
-                ff::point_flood_fill_4_connected( seed_point, visited, is_lake );
+                ff::point_flood_fill_4_connected<std::vector>( seed_point, visited, is_lake );
 
             // If this lake doesn't exceed our minimum size threshold, then skip it. We can use this to
             // exclude the tiny lakes that don't provide interesting map features and exist mostly as a
             // noise artifact.
             if( lake_points.size() < static_cast<size_t>
-                ( settings->overmap_lake.lake_size_min ) ) {
+                ( settings_lake.lake_size_min ) ) {
                 continue;
             }
 
@@ -299,10 +306,7 @@ void overmap::place_lakes( const std::vector<const overmap *> &neighbor_overmaps
             // we just found AND all of the rivers on the map, because we want our lakes to write
             // over any rivers that are placed already. Note that the assumption here is that river
             // overmap generation (e.g. place_rivers) runs BEFORE lake overmap generation.
-            std::unordered_set<point_om_omt> lake_set;
-            for( auto &p : lake_points ) {
-                lake_set.emplace( p );
-            }
+            std::unordered_set<point_om_omt> lake_set( lake_points.begin(), lake_points.end() );
 
             // Before we place the lake terrain and get river points, generate a river to somewhere
             // in the lake from an existing river.
@@ -350,14 +354,14 @@ void overmap::place_lakes( const std::vector<const overmap *> &neighbor_overmaps
                     }
                 }
 
-                ter_set( tripoint_om_omt( p, 0 ), shore ? lake_shore : lake_surface );
+                ter_set( tripoint_om_omt( p, 0 ), shore ? settings_lake.shore : settings_lake.surface );
 
                 // If this is not a shore, we'll make our subsurface lake cubes and beds.
                 if( !shore ) {
-                    for( int z = -1; z > settings->overmap_lake.lake_depth; z-- ) {
-                        ter_set( tripoint_om_omt( p, z ), lake_water_cube );
+                    for( int z = -1; z > lake_depth; z-- ) {
+                        ter_set( tripoint_om_omt( p, z ), settings_lake.interior );
                     }
-                    ter_set( tripoint_om_omt( p, settings->overmap_lake.lake_depth ), lake_bed );
+                    ter_set( tripoint_om_omt( p, lake_depth ), settings_lake.bed );
                 }
             }
         }
@@ -367,28 +371,29 @@ void overmap::place_lakes( const std::vector<const overmap *> &neighbor_overmaps
 // helper function for code deduplication, as it is needed multiple times
 float overmap::calculate_ocean_gradient( const point_om_omt &p, const point_abs_om this_om )
 {
-    const int northern_ocean = settings->overmap_ocean.ocean_start_north;
-    const int eastern_ocean = settings->overmap_ocean.ocean_start_east;
-    const int western_ocean = settings->overmap_ocean.ocean_start_west;
-    const int southern_ocean = settings->overmap_ocean.ocean_start_south;
+    const region_settings_ocean &settings_ocean = settings->get_settings_ocean();
+    const int northern_ocean = settings_ocean.ocean_start_north.value_or( INT_MAX );
+    const int eastern_ocean = settings_ocean.ocean_start_east.value_or( INT_MAX );
+    const int western_ocean = settings_ocean.ocean_start_west.value_or( INT_MAX );
+    const int southern_ocean = settings_ocean.ocean_start_south.value_or( INT_MAX );
 
     float ocean_adjust_N = 0.0f;
     float ocean_adjust_E = 0.0f;
     float ocean_adjust_W = 0.0f;
     float ocean_adjust_S = 0.0f;
-    if( northern_ocean > 0 && this_om.y() <= northern_ocean * -1 ) {
+    if( this_om.y() <= northern_ocean * -1 ) {
         ocean_adjust_N = 0.0005f * static_cast<float>( OMAPY - p.y()
                          + std::abs( ( this_om.y() + northern_ocean ) * OMAPY ) );
     }
-    if( eastern_ocean > 0 && this_om.x() >= eastern_ocean ) {
+    if( this_om.x() >= eastern_ocean ) {
         ocean_adjust_E = 0.0005f * static_cast<float>( p.x() + ( this_om.x() - eastern_ocean )
                          * OMAPX );
     }
-    if( western_ocean > 0 && this_om.x() <= western_ocean * -1 ) {
+    if( this_om.x() <= western_ocean * -1 ) {
         ocean_adjust_W = 0.0005f * static_cast<float>( OMAPX - p.x()
                          + std::abs( ( this_om.x() + western_ocean ) * OMAPX ) );
     }
-    if( southern_ocean > 0 && this_om.y() >= southern_ocean ) {
+    if( this_om.y() >= southern_ocean ) {
         ocean_adjust_S = 0.0005f * static_cast<float>( p.y() + ( this_om.y() - southern_ocean ) * OMAPY );
     }
     return std::max( { ocean_adjust_N, ocean_adjust_E, ocean_adjust_W, ocean_adjust_S } );
@@ -396,17 +401,18 @@ float overmap::calculate_ocean_gradient( const point_om_omt &p, const point_abs_
 
 void overmap::place_oceans( const std::vector<const overmap *> &neighbor_overmaps )
 {
-    int northern_ocean = settings->overmap_ocean.ocean_start_north;
-    int eastern_ocean = settings->overmap_ocean.ocean_start_east;
-    int western_ocean = settings->overmap_ocean.ocean_start_west;
-    int southern_ocean = settings->overmap_ocean.ocean_start_south;
+    const region_settings_ocean &settings_ocean = settings->get_settings_ocean();
+    const int ocean_depth = settings_ocean.ocean_depth;
+    const bool oceans_disabled = !settings_ocean.ocean_start_north.has_value() &&
+                                 !settings_ocean.ocean_start_east.has_value() &&
+                                 !settings_ocean.ocean_start_west.has_value() && !settings_ocean.ocean_start_south.has_value();
 
     const om_noise::om_noise_layer_ocean f( global_base_point(), g->get_seed() );
     const point_abs_om this_om = pos();
 
     const auto is_ocean = [&]( const point_om_omt & p ) {
         // credit to ehughsbaird for thinking up this inbounds solution to infinite flood fill lag.
-        if( northern_ocean == 0 && eastern_ocean == 0 && western_ocean == 0 && southern_ocean == 0 ) {
+        if( oceans_disabled ) {
             // you know you could just turn oceans off in global_settings.json right?
             return false;
         }
@@ -419,7 +425,7 @@ void overmap::place_oceans( const std::vector<const overmap *> &neighbor_overmap
             // It's too soon!  Too soon for an ocean!!  ABORT!!!
             return false;
         }
-        return f.noise_at( p ) + ocean_adjust > settings->overmap_ocean.noise_threshold_ocean;
+        return f.noise_at( p ) + ocean_adjust > settings_ocean.noise_threshold_ocean;
     };
 
     const oter_id ocean_surface( "ocean_surface" );
@@ -442,20 +448,17 @@ void overmap::place_oceans( const std::vector<const overmap *> &neighbor_overmap
             }
 
             std::vector<point_om_omt> ocean_points =
-                ff::point_flood_fill_4_connected( seed_point, visited, is_ocean );
+                ff::point_flood_fill_4_connected<std::vector>( seed_point, visited, is_ocean );
 
             // Ocean size is checked like lake size, but minimum size is much bigger.
             // you could change this, if you want little tiny oceans all over the place.
             // I'm not sure why you'd want that.  Use place_lakes, my friend.
             if( ocean_points.size() < static_cast<size_t>
-                ( settings->overmap_ocean.ocean_size_min ) ) {
+                ( settings_ocean.ocean_size_min ) ) {
                 continue;
             }
 
-            std::unordered_set<point_om_omt> ocean_set;
-            for( auto &p : ocean_points ) {
-                ocean_set.emplace( p );
-            }
+            std::unordered_set<point_om_omt> ocean_set( ocean_points.begin(), ocean_points.end() );
 
             for( int x = 0; x < OMAPX; x++ ) {
                 for( int y = 0; y < OMAPY; y++ ) {
@@ -484,10 +487,10 @@ void overmap::place_oceans( const std::vector<const overmap *> &neighbor_overmap
                 ter_set( tripoint_om_omt( p, 0 ), shore ? ocean_shore : ocean_surface );
 
                 if( !shore ) {
-                    for( int z = -1; z > settings->overmap_ocean.ocean_depth; z-- ) {
+                    for( int z = -1; z > ocean_depth; z-- ) {
                         ter_set( tripoint_om_omt( p, z ), ocean_water_cube );
                     }
-                    ter_set( tripoint_om_omt( p, settings->overmap_ocean.ocean_depth ), ocean_bed );
+                    ter_set( tripoint_om_omt( p, ocean_depth ), ocean_bed );
                 }
             }
 
@@ -544,7 +547,8 @@ void overmap::place_rivers( const std::vector<const overmap *> &neighbor_overmap
     const int OMAPY_edge = OMAPY - 1;
     const int directions = neighbor_overmaps.size();
     const int max_rivers = 2;
-    int river_scale = settings->overmap_river.river_scale;
+    const region_settings_river &settings_river = settings->get_settings_river();
+    int river_scale = settings_river.river_scale;
     if( river_scale == 0 ) {
         return;
     }
@@ -558,7 +562,7 @@ void overmap::place_rivers( const std::vector<const overmap *> &neighbor_overmap
     // ..closer to end point
     std::array<point_om_omt, max_rivers> control_end = { point_om_omt::invalid, point_om_omt::invalid };
 
-    auto bound_control_point = []( const point_om_omt & p, const point_rel_omt & init_diff ) {
+    auto bound_control_point = [&]( const point_om_omt & p, const point_rel_omt & init_diff ) {
         point_rel_omt diff = init_diff;
         point_om_omt continue_line = p + diff;
         while( !inbounds( continue_line ) ) {
@@ -606,7 +610,7 @@ void overmap::place_rivers( const std::vector<const overmap *> &neighbor_overmap
     //if there wasn't an neighboring river, 1 / (river frequency ^ rivers generated) chance to continue
     bool no_neighboring_rivers = preset_start_nodes == 0 && preset_end_nodes == 0;
     if( no_neighboring_rivers ) {
-        if( !x_in_y( 1.0, std::pow( settings->overmap_river.river_frequency,
+        if( !x_in_y( 1.0, std::pow( settings_river.river_frequency,
                                     overmap_buffer.get_major_river_count() ) ) ) {
             return;
         }
@@ -771,7 +775,7 @@ void overmap::build_river_shores( const std::vector<const overmap *> &neighbor_o
         };
 
         if( mask == 15 ) {
-            // Trim corners if neccessary
+            // Trim corners if necessary
             // We assume if corner are not inbounds then we are placed because of neighbouring overmap river
             const std::array<oter_str_id, 4> trimmed_corner_ters = { oter_river_c_not_ne, oter_river_c_not_se, oter_river_c_not_sw, oter_river_c_not_nw };
             for( int i = 0; i < 4; i++ ) {

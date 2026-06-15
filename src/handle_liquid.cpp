@@ -224,6 +224,15 @@ void handle_npc_liquid( item liquid, Character &who )
     who.invalidate_weight_carried_cache();
 }
 
+void handle_all_or_npc_liquid( Character &p, item &newit, int radius, const item *avoid )
+{
+    if( p.is_avatar() ) {
+        liquid_handler::handle_all_liquid( newit, radius, avoid );
+    } else {
+        liquid_handler::handle_npc_liquid( newit, p );
+    }
+}
+
 bool consume_liquid( item &liquid, const int radius, const item *const avoid )
 {
     const int original_charges = liquid.charges;
@@ -484,11 +493,13 @@ static bool handle_item_target( Character &player_character, item &liquid, liqui
     // not on ground or similar. TODO: implement storing arbitrary container locations.
     if( target.item_loc && create_activity() ) {
         serialize_liquid_target( player_character.activity, target.item_loc );
+        return true;
     } else if( player_character.pour_into( target.item_loc, liquid, true, silent ) ) {
         target.item_loc.make_active();
         player_character.mod_moves( -100 );
+        return true;
     }
-    return true;
+    return false;
 }
 
 static bool handle_vehicle_target( Character &player_character, item &liquid,

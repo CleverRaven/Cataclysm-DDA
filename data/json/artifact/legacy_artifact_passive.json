@@ -81,8 +81,8 @@
   {
     "type": "SPELL",
     "id": "AEP_EVIL_SPELL",
-    "name": { "str": "EEEEEEVVVVVIIIIILLLL!" },
-    "description": "You debugged in this spell!  It makes you evil for 30 minutes.",
+    "name": { "str": "EEEEEEVVVVVIIIIILLLL!", "//~": "NO_I18N" },
+    "description": { "str": "You debugged in this spell!  It makes you evil for 30 minutes.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ally", "self" ],
     "effect": "attack",
     "flags": [ "NO_PROJECTILE" ],

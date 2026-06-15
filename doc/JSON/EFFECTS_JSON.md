@@ -273,7 +273,7 @@ matching trait or effect then they are "resisting" the effect, which changes its
 ```jsonc
 "immune_flags": [ "INFECTION_IMMUNE", "YOUR_FLAG" ]
 ```
-Having any of the defined character flags (See JSON_FLAGS.md#Character flags) will make you immune to the effect. Note that these are completely JSON-driven, so you can add a custom flag for your effect without C++ changes.
+Having any of the defined character flags (See JSON_FLAGS.md#Character flags) or monster flags will make the target immune to the effect. Note that these are completely JSON-driven, so you can add a custom flag for your effect without C++ changes.
 
 ### Bodypart Immunity Flags
 

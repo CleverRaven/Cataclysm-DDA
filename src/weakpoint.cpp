@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <memory>
+#include <set>
 #include <string>
 #include <utility>
 
@@ -17,6 +18,7 @@
 #include "effect_source.h"
 #include "enums.h"
 #include "flexbuffer_json.h"
+#include "map.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "magic_enchantment.h"
@@ -199,6 +201,26 @@ void weakpoint_families::load( const JsonArray &ja )
     }
 }
 
+void weakpoint_families::deserialize( const JsonValue &jv )
+{
+    // the load function extends, which is kinda gross, but fine
+    clear();
+    load( jv.get_array() );
+}
+
+bool weakpoint_families::handle_extend( const JsonValue &jv )
+{
+    // the load function extends, which is fine I guess
+    load( jv.get_array() );
+    return true;
+}
+
+bool weakpoint_families::handle_delete( const JsonValue &jv )
+{
+    remove( jv.get_array() );
+    return true;
+}
+
 void weakpoint_families::remove( const JsonArray &ja )
 {
     for( const JsonValue jsin : ja ) {
@@ -260,7 +282,7 @@ void weakpoint_difficulty::load( const JsonObject &jo )
 weakpoint_effect::weakpoint_effect()  :
     chance( 100.0f ),
     permanent( false ),
-    duration( 1, 1 ),
+    duration( 1_seconds, 1_seconds ),
     intensity( 0, 0 ),
     damage_required( 0.0f, 100.0f ) {}
 
@@ -293,19 +315,25 @@ void weakpoint_effect::apply_to( Creature &target, int total_damage,
         eoc->activate( d );
     }
 
+    if( x_in_y( rng( instant_death_chance.first, instant_death_chance.second ), 100 ) ) {
+        target.die( &get_map(), attack.source == nullptr ? nullptr : attack.source );
+    }
+
     if( !get_message().empty() && attack.source != nullptr && attack.source->is_avatar() ) {
         add_msg_if_player_sees( target, m_good, get_message(), target.get_name() );
     }
+    add_msg_debug( debugmode::DF_WEAKPOINTS, "applying effect: %s", effect.str() );
 }
 
 void weakpoint_effect::load( const JsonObject &jo )
 {
     optional( jo, false, "effect", effect );
     optional( jo, false, "effect_on_conditions", effect_on_conditions );
-    optional( jo, false, "chance", chance, numeric_bound_reader{0.f, 100.f} );
+    optional( jo, false, "chance", chance, numeric_bound_reader{0.f, 100.f}, 100.f );
     optional( jo, false, "permanent", permanent );
     optional( jo, false, "message", message );
-    optional( jo, false, "duration", duration, pair_reader<int> {} );
+    optional( jo, false, "instant_death_chance", instant_death_chance, pair_reader<int> {} );
+    optional( jo, false, "duration", duration, pair_reader<time_duration> {} );
     optional( jo, false, "intensity", intensity, pair_reader<int> {} );
     optional( jo, false, "damage_required", damage_required, pair_reader<float> {} );
 }
@@ -577,6 +605,61 @@ const weakpoint *weakpoints::select_weakpoint( const weakpoint_attack &attack ) 
 void weakpoints::clear()
 {
     weakpoint_list.clear();
+}
+
+void weakpoints::deserialize( const JsonValue &jv )
+{
+    load( jv.get_array() );
+}
+
+bool weakpoints::handle_extend( const JsonValue &jv )
+{
+    weakpoints tmp;
+    tmp.deserialize( jv );
+    add_from_set( tmp, true );
+    return true;
+}
+
+bool weakpoints::handle_delete( const JsonValue &jv )
+{
+    weakpoints tmp;
+    tmp.deserialize( jv );
+    del_from_set( tmp );
+    return true;
+}
+
+weakpoints weakpoints_reader::get_next( const JsonValue &jv ) const
+{
+    weakpoints ret;
+    if( !jv.read( ret ) ) {
+        jv.throw_error( "Invalid weakpoints format" );
+    }
+    return ret;
+}
+
+bool weakpoints_reader::do_extend( const JsonObject &jo, const std::string_view name,
+                                   weakpoints &member ) const
+{
+    if( !jo.has_member( name ) ) {
+        return false;
+    }
+    return member.handle_extend( jo.get_member( name ) );
+}
+
+bool weakpoints_reader::do_delete( const JsonObject &jo, const std::string_view name,
+                                   weakpoints &member ) const
+{
+    if( !jo.has_member( name ) ) {
+        return false;
+    }
+    weakpoints tmp;
+    tmp.deserialize( jo.get_member( name ) );
+    // deferred delete for weakpoints from sets
+    for( const weakpoint &del : tmp.weakpoint_list ) {
+        deleted.emplace( del.id );
+    }
+    member.del_from_set( tmp );
+    return true;
 }
 
 void weakpoints::load( const JsonArray &ja )

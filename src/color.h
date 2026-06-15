@@ -335,6 +335,11 @@ enum color_id {
     num_colors
 };
 
+inline auto format_as( color_id cid )
+{
+    return static_cast<std::underlying_type_t<color_id>>( cid );
+}
+
 class cata_path;
 class JsonArray;
 class JsonOut;
@@ -368,7 +373,7 @@ class nc_color
     public:
         nc_color() : attribute_value( 0 ), index( 0 ) { }
 
-        operator ImVec4(); // NOLINT(google-explicit-constructor): the conversion is not expensive
+        operator ImVec4() const; // NOLINT(google-explicit-constructor): the conversion is not expensive
 
         // Most of the functions here are implemented in ncurses_def.cpp
         // (for ncurses builds) *and* in cursesport.cpp (for other builds).

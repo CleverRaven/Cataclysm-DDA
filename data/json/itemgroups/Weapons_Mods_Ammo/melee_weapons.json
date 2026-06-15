@@ -22,7 +22,6 @@
       { "item": "cudgel", "prob": 8 },
       { "item": "golf_club", "prob": 8 },
       { "item": "hockey_stick", "prob": 8 },
-      { "item": "homewrecker", "prob": 1 },
       { "item": "homemade_polehammer", "prob": 1 },
       { "item": "homemade_polehammer_makeshift", "prob": 1 },
       { "item": "mace_trench", "prob": 4 },
@@ -140,6 +139,7 @@
       { "group": "falxes", "prob": 1 },
       { "group": "talwars", "prob": 1 },
       { "group": "kilijes", "prob": 1 },
+      { "group": "khopeshes", "prob": 1 },
       { "item": "makeshift_scythe_war", "prob": 16 },
       { "item": "makeshift_halberd", "prob": 16 },
       { "item": "halberd", "prob": 1 },
@@ -153,7 +153,6 @@
       { "item": "sword_metal_large", "prob": 4 },
       { "item": "knife_hunting", "prob": 16 },
       { "item": "machete", "prob": 16 },
-      { "item": "survivor_machete", "prob": 4 },
       { "item": "survivor_machete_qt", "prob": 1 },
       { "item": "sword_xiphos", "prob": 1 },
       { "item": "khopesh", "prob": 1 },
@@ -331,14 +330,14 @@
   {
     "type": "item_group",
     "id": "maces",
-    "items": [ [ "mace_bronze", 20 ], [ "lc_mace", 20 ], [ "mc_mace", 10 ], [ "hc_mace", 5 ], [ "ch_mace", 2 ], [ "qt_mace", 1 ] ]
+    "items": [ [ "mace_bronze", 20 ], [ "lc_mace", 20 ], [ "mace", 10 ], [ "hc_mace", 5 ], [ "ch_mace", 2 ], [ "qt_mace", 1 ] ]
   },
   {
     "type": "item_group",
     "id": "rambo_knives",
     "items": [
       [ "lc_knife_rambo", 20 ],
-      [ "mc_knife_rambo", 10 ],
+      [ "knife_rambo", 10 ],
       [ "hc_knife_rambo", 5 ],
       [ "ch_knife_rambo", 2 ],
       [ "qt_knife_rambo", 1 ]
@@ -349,7 +348,7 @@
     "id": "trench_knives",
     "items": [
       [ "lc_knife_trench", 20 ],
-      [ "mc_knife_trench", 10 ],
+      [ "knife_trench", 10 ],
       [ "hc_knife_trench", 5 ],
       [ "ch_knife_trench", 2 ],
       [ "qt_knife_trench", 1 ]
@@ -369,7 +368,7 @@
   {
     "type": "item_group",
     "id": "kukris",
-    "items": [ [ "lc_kukri", 20 ], [ "mc_kukri", 10 ], [ "hc_kukri", 5 ], [ "ch_kukri", 2 ], [ "qt_kukri", 1 ] ]
+    "items": [ [ "lc_kukri", 20 ], [ "kukri", 10 ], [ "hc_kukri", 5 ], [ "ch_kukri", 2 ], [ "qt_kukri", 1 ] ]
   },
   {
     "type": "item_group",
@@ -390,6 +389,11 @@
     "type": "item_group",
     "id": "longswords",
     "items": [ [ "lc_longsword", 20 ], [ "mc_longsword", 10 ], [ "hc_longsword", 5 ], [ "ch_longsword", 2 ], [ "qt_longsword", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "khopeshes",
+    "items": [ [ "lc_khopesh", 20 ], [ "mc_khopesh", 10 ], [ "hc_khopesh", 5 ], [ "ch_khopesh", 2 ], [ "qt_khopesh", 1 ] ]
   },
   {
     "type": "item_group",
@@ -428,7 +432,7 @@
     "id": "broadswords",
     "items": [
       [ "lc_broadsword", 20 ],
-      [ "mc_broadsword", 10 ],
+      [ "broadsword", 10 ],
       [ "hc_broadsword", 5 ],
       [ "ch_broadsword", 2 ],
       [ "qt_broadsword", 1 ]
@@ -437,7 +441,7 @@
   {
     "type": "item_group",
     "id": "rapiers",
-    "items": [ [ "lc_rapier", 20 ], [ "mc_rapier", 10 ], [ "hc_rapier", 5 ], [ "ch_rapier", 2 ], [ "qt_rapier", 1 ] ]
+    "items": [ [ "lc_rapier", 20 ], [ "rapier", 10 ], [ "hc_rapier", 5 ], [ "ch_rapier", 2 ], [ "qt_rapier", 1 ] ]
   },
   {
     "type": "item_group",

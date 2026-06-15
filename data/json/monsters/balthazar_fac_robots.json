@@ -9,7 +9,7 @@
     "path_settings": { "max_dist": 30, "avoid_traps": true },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "aggro_character": true,
-    "death_function": { "eoc": "EOC_BALTHAZAR_SECUBOT_DEATH" }
+    "death_function": { "corpse_type": "BROKEN", "eoc": "EOC_BALTHAZAR_SECUBOT_DEATH" }
   },
   {
     "id": "mon_turret_rifle_balthazar",
@@ -20,6 +20,6 @@
     "starting_ammo": { "556": 1600 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "aggro_character": true,
-    "death_function": { "eoc": "EOC_BALTHAZAR_TURRET_DEATH" }
+    "death_function": { "corpse_type": "BROKEN", "eoc": "EOC_BALTHAZAR_TURRET_DEATH" }
   }
 ]

@@ -63,7 +63,6 @@
     "material": [ "forged_dreamstuff" ],
     "weight": "300 g",
     "volume": "750 ml",
-    "to_hit": -3,
     "use_action": { "type": "learn_spell", "spells": [ "spell_summon_twin" ] },
     "melee_damage": { "bash": 2 }
   },

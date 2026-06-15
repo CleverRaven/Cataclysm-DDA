@@ -17,7 +17,7 @@
     "components": [
       [ [ "pot", 1 ], [ "pot_copper", 1 ], [ "pot_makeshift_copper", 1 ] ],
       [ [ "cu_pipe", 1 ] ],
-      [ [ "bone_glue", 1 ], [ "super_glue", 1 ] ],
+      [ [ "glue_weak", 150 ], [ "glue_strong", 1 ] ],
       [ [ "duct_tape", 10 ] ]
     ]
   },

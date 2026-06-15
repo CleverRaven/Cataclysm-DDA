@@ -43,7 +43,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "boat_rental", "boat_rental_1", "boat_rental_2", "boat_rental_roof", "boat_rental_1_roof", "boat_rental_2_roof" ],
+    "id": [ "boat_rental", "boat_rental_1", "boat_rental_2" ],
     "copy-from": "boat_rental",
     "name": "boat rental",
     "sym": "B",
@@ -51,9 +51,23 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "bandit_garage_1", "bandit_garage_2", "bandit_garage_1_roof", "bandit_garage_2_roof" ],
+    "id": [ "boat_rental_roof", "boat_rental_1_roof", "boat_rental_2_roof" ],
+    "copy-from": "boat_rental_roof",
+    "sym": "B",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "bandit_garage_1", "bandit_garage_2" ],
     "copy-from": "bandit_garage_1",
     "name": "garage",
+    "sym": "G",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "bandit_garage_1_roof", "bandit_garage_2_roof" ],
+    "copy-from": "bandit_garage_1_roof",
     "sym": "G",
     "color": "light_blue"
   },
@@ -365,7 +379,7 @@
     "type": "overmap_terrain",
     "id": [ "cs_car_dealership_roof", "s_cardealer_roof" ],
     "copy-from": "cs_car_dealership_roof",
-    "name": "car dealership",
+    "name": "car dealership roof",
     "sym": "C",
     "color": "light_blue"
   },
@@ -515,18 +529,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "marina_11",
-      "marina_12",
-      "marina_13",
-      "marina_14",
-      "marina_15",
-      "marina_11_roof",
-      "marina_12_roof",
-      "marina_15_roof"
-    ],
+    "id": [ "marina_11", "marina_12", "marina_13", "marina_14", "marina_15" ],
     "copy-from": "marina_11",
     "name": "marina",
+    "sym": "M",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "marina_11_roof", "marina_12_roof", "marina_15_roof" ],
+    "copy-from": "marina_11_roof",
+    "name": "marina roof",
     "sym": "M",
     "color": "light_blue"
   },

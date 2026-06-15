@@ -17,7 +17,7 @@
   },
   {
     "result": "acetylene",
-    "byproduct_group": [ { "item": "chem_slaked_lime", "charges": 50 } ],
+    "byproduct_group": [ { "item": "chem_slaked_lime", "count": 50 } ],
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
@@ -75,6 +75,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "welding_rod_steel",
+    "charges": 10,
     "result_mult": 2,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -97,7 +98,7 @@
       [ [ "material_limestone", 1 ], [ "chem_manganese_dioxide", 1 ], [ "light_battery_cell", 1 ] ],
       [
         [ "rosin", 5 ],
-        [ "bone_glue", 1 ],
+        [ "glue_weak", 150 ],
         [ "sugar", 1 ],
         [ "plastic_chunk", 1 ],
         [ "wax_any", 1, "LIST" ],
@@ -109,6 +110,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "welding_rod_alloy",
+    "charges": 10,
     "result_mult": 50,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -146,6 +148,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "welding_wire_steel",
+    "charges": 180,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
@@ -177,6 +180,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "welding_wire_alloy",
+    "charges": 180,
     "result_mult": 2,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -197,6 +201,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "brazing_rod_bronze",
+    "charges": 10,
     "result_mult": 7,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -205,6 +210,7 @@
     "difficulty": 3,
     "time": "45 m",
     "autolearn": true,
+    "using": [ [ "flux", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ] ] ],
     "proficiencies": [
@@ -213,12 +219,13 @@
       { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_intro_chemistry" }
     ],
-    "components": [ [ [ "scrap_bronze", 1 ] ], [ [ "detergent", 7 ] ] ]
+    "components": [ [ [ "scrap_bronze", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "brazing_rod_alloy",
+    "charges": 10,
     "result_mult": 38,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",

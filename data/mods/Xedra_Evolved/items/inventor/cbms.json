@@ -1,0 +1,46 @@
+[
+  {
+    "id": "bio_inventor_mana_kj_penalty_switch",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Cyberarcanic Interference Inverter" },
+    "description": "Mana and electricity interfere with each other while inside the same thing.  By thoroughly inverting the polarities you switched the interference, prioritizing your inner mana capacity instead of your electrical supply.",
+    "weight": "500 g",
+    "difficulty": 8,
+    "extend": { "flags": [ "INVENTOR_CRAFTED" ] }
+  },
+  {
+    "id": "bio_inventor_calorie_storage",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Calorie Etherealization System" },
+    "description": "The best place to store calories is inside your own body.  Unfortunately, caloric oversaturation causes issues that impede this perfect storage.  Thanks to magnets, orbital tragectories and your own ingenuity, your calories are now close to you and will be consumed as needed without penalties.  The process is imperfect and the orbit can't be maintained without power, but nothing preserves calories this well.",
+    "weight": "500 g",
+    "difficulty": 8,
+    "extend": { "flags": [ "INVENTOR_CRAFTED" ] }
+  },
+  {
+    "id": "bio_inventor_creative_fuel",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Creative-Electric Converter" },
+    "description": "Blood is fuel?  More like everything is fuel.  This device drains your very creativity to produce power for your bionics.  It's somehow simultaneously among your best and worst ideas.",
+    "weight": "500 g",
+    "difficulty": 8,
+    "extend": { "flags": [ "INVENTOR_CRAFTED" ] }
+  },
+  {
+    "id": "bio_inventor_book_burn_boost",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Book Burner's Buddy", "str_pl": "Book Burner's Buddies" },
+    "description": "Probably the most selfish thing you ever made, constantly burning countless pieces of written media for fleeting knowledge.  You might think it is worth the price, but the false knowledge this so-called buddy fills you with will leave little room to learn anything else, coercing you to burn books further and forevermore for a simulacrum of smarts.",
+    "weight": "500 g",
+    "difficulty": 8,
+    "extend": { "flags": [ "INVENTOR_CRAFTED" ] }
+  }
+]

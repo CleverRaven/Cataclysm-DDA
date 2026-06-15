@@ -100,7 +100,7 @@ pretty much the most anyone will be willing to spend on any one thing, no matter
   {
     "id": "boltcutters",
     "type": "TOOL",
-    "name": { "str": "pair of bolt cutters", "str_pl": "pairs of bolt cutters" },
+    "name": { "str_sp": "bolt cutters" },
     "description": "This is a large pair of bolt cutters.  You could use them to cut padlocks or heavy gauge wire.",
     "price_postapoc": "2 USD 50 cent",
   },

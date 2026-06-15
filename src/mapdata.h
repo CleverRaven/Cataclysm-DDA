@@ -5,11 +5,13 @@
 #include <array>
 #include <bitset>
 #include <cstddef>
+#include <map>
 #include <optional>
 #include <set>
 #include <string>
 #include <string_view>
 #include <utility>
+#include <variant>
 #include <vector>
 
 #include "calendar.h"
@@ -19,6 +21,7 @@
 #include "enum_bitset.h"
 #include "game_constants.h"
 #include "iexamine.h"
+#include "lightmap.h"
 #include "requirements.h"
 #include "translation.h"
 #include "type_id.h"
@@ -27,6 +30,7 @@
 
 class Character;
 class JsonObject;
+class JsonValue;
 struct connect_group;
 struct furn_t;
 struct itype;
@@ -57,16 +61,22 @@ struct map_common_bash_info { //TODO: Half of this shouldn't be common
         bool destroy_only = false;   // Only used for destroying, not normally bashable
         // This terrain is the roof of the tile below it, try to destroy that too
         bool bash_below = false;
+        bash_damage_profile_id damage_profile;
         item_group_id drop_group; // item group of items that are dropped when the object is bashed
         translation sound;      // sound made on success ('You hear a "smash!"')
         translation sound_fail; // sound made on fail
         std::vector<furn_str_id> tent_centers;
         std::pair<field_type_str_id, int> hit_field; // field spawned on any hit
         std::pair<field_type_str_id, int> destroyed_field; // field spawned on successful bash
+
         void load( const JsonObject &jo, bool was_loaded, const std::string &context );
         void check( const std::string &id ) const;
         // todo: move it to map_data_common_t
         std::string potential_bash_items( const map_data_common_t &ter_furn ) const;
+
+        int damage_to( const std::map<damage_type_id, int> &str,
+                       bool supported = false, bool blocked = false ) const;
+        int hp( bool supported = false, bool blocked = false ) const;
     public:
         virtual ~map_common_bash_info() = default;
 };
@@ -94,8 +104,8 @@ struct map_fd_bash_info : map_common_bash_info {
 };
 struct map_deconstruct_skill {
     skill_id id; // Id of skill to increase on successful deconstruction
-    int min; // Minimum level to recieve xp
-    int max; // Level cap after which no xp is recieved but practise still occurs delaying rust
+    int min; // Minimum level to receive xp
+    int max; // Level cap after which no xp is received but practise still occurs delaying rust
     double multiplier; // Multiplier of the base xp given that's calced using the mean of the min and max
 };
 struct map_common_deconstruct_info {
@@ -264,6 +274,9 @@ enum class ter_furn_flag : int {
     TFLAG_SHALLOW_WATER,
     TFLAG_WATER_CUBE,
     TFLAG_CURRENT,
+    TFLAG_THIN_ICE,
+    TFLAG_THICK_ICE,
+    TFLAG_SWIM_UNDER,
     TFLAG_HARVESTED,
     TFLAG_PERMEABLE,
     TFLAG_AUTO_WALL_SYMBOL,
@@ -310,6 +323,7 @@ enum class ter_furn_flag : int {
     TFLAG_CAN_SIT,
     TFLAG_FLAT_SURF,
     TFLAG_BUTCHER_EQ,
+    TFLAG_GROWTH_SEED,
     TFLAG_GROWTH_SEEDLING,
     TFLAG_GROWTH_MATURE,
     TFLAG_WORKOUT_ARMS,
@@ -362,8 +376,13 @@ enum class ter_furn_flag : int {
     TFLAG_FLOATS_IN_AIR,
     TFLAG_HARVEST_REQ_CUT1,
     TFLAG_NATURAL_UNDERGROUND,
+    TFLAG_PHASE_BACK,
     TFLAG_WIRED_WALL,
     TFLAG_MON_AVOID_STRICT,
+    TFLAG_REGION_PSEUDO,
+    TFLAG_ONE_DIMENSIONAL_X,
+    TFLAG_ONE_DIMENSIONAL_Y,
+    TFLAG_ONE_DIMENSIONAL_Z,
 
     NUM_TFLAG_FLAGS
 };
@@ -540,6 +559,7 @@ struct map_data_common_t {
         void examine( Character &, const tripoint_bub_ms & ) const;
 
         int light_emitted = 0;
+        light_color_rgb light_color{};
         // The amount of movement points required to pass this terrain by default.
         int movecost = 0;
         int heat_radiation = 0;
@@ -652,6 +672,8 @@ struct map_data_common_t {
                    has_flag( ter_furn_flag::TFLAG_FLAMMABLE_HARD );
         }
 
+        virtual bool is_terrain() const;
+
         virtual void load( const JsonObject &jo, const std::string & );
         virtual void check() const {};
 };
@@ -670,6 +692,17 @@ struct ter_t : map_data_common_t {
 
     std::optional<map_ter_bash_info> bash;
     std::optional<map_ter_deconstruct_info> deconstruct;
+
+    // Phase-change configuration
+    // List of terrain ids that this terrain can transform into under a phase change
+    // (e.g. ice/steam variants). One entry may be empty to indicate "itself".
+    std::vector<ter_str_id> phase_targets;
+    // Corresponding list of temperatures (interpreted as degrees Celsius in JSON)
+    // at which the terrain will pick the corresponding phase target.
+    std::vector<units::temperature> phase_temps;
+    // Method describing how to apply the phase change (string identifier)
+    // Example values: "thresholds", "closest", "gradient" etc.
+    std::string phase_method;
 
     ter_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
 
@@ -698,6 +731,7 @@ struct ter_t : map_data_common_t {
     static size_t count();
 
     bool is_null() const;
+    bool is_terrain() const override;
 
     std::vector<std::string> extended_description() const override;
     bool is_smashable() const override;
@@ -711,7 +745,7 @@ void set_furn_ids();
 void reset_furn_ter();
 
 /*
- * The terrain list contains the master list of  information and metadata for a given type of terrain.
+ * The terrain list contains the master list of information and metadata for a given type of terrain.
  */
 
 struct furn_t : map_data_common_t {
@@ -768,8 +802,22 @@ struct furn_t : map_data_common_t {
     void check() const override;
 };
 
+//holds either a ter_id OR furn_id (not both!), for loading JSON
+struct ter_furn_id {
+    std::variant<ter_id, furn_id> ter_furn;
+    void deserialize( const JsonValue &jo );
+    ter_furn_id();
+    explicit ter_furn_id( const std::string &name );
+    bool operator==( const ter_furn_id &rhs ) const {
+        return ter_furn == rhs.ter_furn;
+    }
+    bool resolve( const std::string &name );
+};
+
 void load_furniture( const JsonObject &jo, const std::string &src );
+void finalize_furniture();
 void load_terrain( const JsonObject &jo, const std::string &src );
+void finalize_terrain();
 
 class ter_furn_migrations
 {

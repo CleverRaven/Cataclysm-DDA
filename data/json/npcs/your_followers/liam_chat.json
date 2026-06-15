@@ -156,7 +156,7 @@
   {
     "type": "talk_topic",
     "id": "BGSS_Liam3",
-    "dynamic_line": "I wanna say it was a hell of a story, but really, I was on the way back to Boston from a delivery and a thing about the riots came on the radio.  I was close to the cabin so I just thought, 'this is starting to sound really fuckin bad.'  I called in sick and took a few days to hunker down out of civilization.  By the time I had to think about going back to work, we were into that wild time when half the people were trying to keep things running and the other half were trying to burn everything down.  I shut the blinds and stayed in, until Chris showed up acting like a freak.",
+    "dynamic_line": "I wanna say it was a hell of a story, but really, I was on the way back to Boston from a delivery and a thing about the riots came on the radio.  I was close to the cabin so I just thought, 'this is starting to sound really fuckin' bad.'  I called in sick and took a few days to hunker down out of civilization.  By the time I had to think about going back to work, we were into that wild time when half the people were trying to keep things running and the other half were trying to burn everything down.  I shut the blinds and stayed in, until Chris showed up acting like a freak.",
     "responses": [
       { "text": "You picked up a lot of useful skills over the years, hey.", "topic": "BGSS_Liam_Expertise" },
       { "text": "<done_conversation_section>", "topic": "TALK_Liam_SOCIAL" },
@@ -166,7 +166,7 @@
   {
     "type": "talk_topic",
     "id": "BGSS_Liam_Expertise",
-    "dynamic_line": "It doesn't feel that way, but I guess so.  I don't know if I ever told you, but my dad was quite the weirdo prepper.  He built the cabin and when I was a kid we'd head out and do drills for the end of the world.  It's part of why I was kinda wacked out on apocalypse stuff when you and I first met, back when we made the plan for where to meet up and all.  He taught me archery and some survival skills but I never really took to it, partly because my ol' man was a real piece of work.\"  He stares off for a minute.  \"To be honest, though, now that we're in the middle of a real-ass apocalypse, I can see a lot of what he taught me was just crap anyway.",
+    "dynamic_line": "It doesn't feel that way, but I guess so.  I don't know if I ever told you, but my dad was quite the weirdo prepper.  He built the cabin and when I was a kid we'd head out and do drills for the end of the world.  It's part of why I was kinda whacked out on apocalypse stuff when you and I first met, back when we made the plan for where to meet up and all.  He taught me archery and some survival skills but I never really took to it, partly because my ol' man was a real piece of work.\"  He stares off for a minute.  \"To be honest, though, now that we're in the middle of a real-ass apocalypse, I can see a lot of what he taught me was just crap anyway.",
     "responses": [
       { "text": "What happened to your father?  You never talked about him much.", "topic": "BGSS_Liam_Father" },
       { "text": "<done_conversation_section>", "topic": "TALK_Liam_SOCIAL" },
@@ -266,7 +266,7 @@
         "condition": { "u_has_mission": "directions_hub01" }
       },
       {
-        "text": "This 'scrap metal castle' sounds far fetched to me.",
+        "text": "This 'scrap metal castle' sounds far-fetched to me.",
         "topic": "TALK_Liam_Opinions_directions_exodii",
         "condition": { "u_has_mission": "directions_exodii" }
       },
@@ -1047,13 +1047,13 @@
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_2",
     "dynamic_line": "I think a supermarket might be the *yeast* likely place to find it!\"  He watches your expression for a moment, then shrugs.  \"Worth a shot.  Anyway, as far as I know, dry yeast lasts practically forever.  Should be able to find some of it anywhere people did baking or brewing.",
-    "responses": [ { "text": "Thanks, man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+    "responses": [ { "text": "Thanks man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_3",
     "dynamic_line": "Those Tacoma folks really think about sustainability, hey?  I like that.  Buy local, you know?  I got no idea where to find sugar beet seeds though.  I don't remember having any stocked at the cabin.  Maybe a farm or farm supply store would have them?",
-    "responses": [ { "text": "Thanks, man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+    "responses": [ { "text": "Thanks man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
@@ -1084,7 +1084,7 @@
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" },
-        { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "+=", "1" ] }
+        { "math": [ "u_mission_cleanup_promises_Boris_mission_1 += 1" ] }
       ]
     },
     "responses": [
@@ -1539,7 +1539,7 @@
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_COWBOYT_SHOTGUN",
     "dynamic_line": "I'm not a great expert on guns, to be honest.  I know how to shoot a bit, but my focus was always on archery when I was a kid.  That sounds like a pretty rare gun though, I think maybe we should see if we can find some old collector rather than trying to raid a gun store?  Just a guess.",
-    "responses": [ { "text": "Thanks, man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+    "responses": [ { "text": "Thanks man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",

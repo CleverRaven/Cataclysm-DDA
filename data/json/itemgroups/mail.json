@@ -12,6 +12,7 @@
       { "group": "brochures", "prob": 15 },
       { "group": "pamphlets", "prob": 5 },
       { "item": "flyer", "prob": 30, "count": [ 0, 2 ] },
+      { "item": "flyer_evac", "prob": 40 },
       { "item": "survnote", "prob": 3 }
     ]
   },

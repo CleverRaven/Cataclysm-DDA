@@ -1,7 +1,16 @@
 [
   {
-    "type": "region_overlay",
-    "regions": [ "all" ],
-    "city": { "houses": { "railroad_station_city": 5 } }
+    "type": "region_settings",
+    "id": "default",
+    "copy-from": "default",
+    "highways": null,
+    "place_railroads": true,
+    "place_railroads_before_roads": true
+  },
+  {
+    "type": "region_settings_city",
+    "id": "default",
+    "copy-from": "default",
+    "extend": { "houses": [ [ "railroad_station_city", 5 ] ] }
   }
 ]

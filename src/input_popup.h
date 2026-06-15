@@ -12,6 +12,7 @@
 
 #include "cata_imgui.h"
 #include "color.h"
+#include "coords_fwd.h"
 #include "imgui/imgui.h"
 #include "input_context.h"
 #include "point.h"
@@ -86,6 +87,8 @@ class string_input_popup_imgui : public input_popup
                                            ImGuiWindowFlags flags = ImGuiWindowFlags_None );
 
         std::string query();
+        // tries to parse input into a tripoint_abs_omt
+        std::optional<tripoint_abs_omt> query_coordinate( bool loop = false );
         void set_identifier( const std::string &ident );
         void set_text( const std::string &txt );
         void use_uilist_history( bool use_uilist );

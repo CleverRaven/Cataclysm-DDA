@@ -1,0 +1,92 @@
+[
+  {
+    "id": "afs_espertech_gain_esper_powers",
+    "name": { "str_sp": "enkindling tincture" },
+    "description": "A palm-sized device with a large Ψ on one side and spiraling text identifying it as treatment for enkindling latent esper powers, should the bearer possess any.",
+    "type": "ITEM",
+    "weight": "250 g",
+    "volume": "150 ml",
+    "price": "10 kUSD",
+    "price_postapoc": "10 kUSD",
+    "symbol": "!",
+    "material": [ { "type": "alien_liquid", "portion": 1 } ],
+    "color": "blue",
+    "flags": [ "SINGLE_USE" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": true,
+      "menu_text": "Use the enkindling tincture",
+      "description": "You place the enkindling tincture against your bare skin and trigger it.",
+      "effect_on_conditions": [ "EOC_NONE" ]
+    }
+  },
+  {
+    "type": "ITEM",
+    "id": "afs_espertech_gain_esper_powers_used",
+    "copy-from": "afs_espertech_gain_esper_powers",
+    "description": "A palm-sized device with a large Ψ on one side and spiraling text identifying it as treatment for enkindling latent esper powers, should the bearer possess any.  This one has already been activated.",
+    "price": "10 USD",
+    "price_postapoc": "10 USD",
+    "name": { "str_sp": "enkindling tincture (spent)" },
+    "delete": { "flags": [ "SINGLE_USE" ] },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": true,
+      "menu_text": "Use the enkindling tincture",
+      "description": "You place the enkindling tincture against your bare skin and trigger it.",
+      "effect_on_conditions": [ "EOC_AFS_NONE_ENKINDLING" ]
+    }
+  },
+  {
+    "type": "ITEM",
+    "id": "afs_espertech_gain_esper_powers_geist",
+    "copy-from": "afs_espertech_gain_esper_powers",
+    "name": { "str_sp": "enkindling tincture" },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": true,
+      "menu_text": "Use the enkindling tincture",
+      "description": "You place the enkindling tincture against your bare skin and trigger it.",
+      "effect_on_conditions": [ "EOC_AFS_GEIST_ENKINDLING" ]
+    }
+  },
+  {
+    "type": "ITEM",
+    "id": "afs_espertech_gain_esper_powers_spark",
+    "copy-from": "afs_espertech_gain_esper_powers",
+    "name": { "str_sp": "enkindling tincture" },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": true,
+      "menu_text": "Use the enkindling tincture",
+      "description": "You place the enkindling tincture against your bare skin and trigger it.",
+      "effect_on_conditions": [ "EOC_AFS_SPARK_ENKINDLING" ]
+    }
+  },
+  {
+    "type": "ITEM",
+    "id": "afs_espertech_gain_esper_powers_sybil",
+    "copy-from": "afs_espertech_gain_esper_powers",
+    "name": { "str_sp": "enkindling tincture" },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": true,
+      "menu_text": "Use the enkindling tincture",
+      "description": "You place the enkindling tincture against your bare skin and trigger it.",
+      "effect_on_conditions": [ "EOC_AFS_SYBIL_ENKINDLING" ]
+    }
+  },
+  {
+    "type": "ITEM",
+    "id": "afs_espertech_gain_esper_powers_whisper",
+    "copy-from": "afs_espertech_gain_esper_powers",
+    "name": { "str_sp": "enkindling tincture" },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": true,
+      "menu_text": "Use the enkindling tincture",
+      "description": "You place the enkindling tincture against your bare skin and trigger it.",
+      "effect_on_conditions": [ "EOC_AFS_WHISPER_ENKINDLING" ]
+    }
+  }
+]

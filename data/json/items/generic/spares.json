@@ -164,7 +164,6 @@
   {
     "id": "magnet",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "magnet" },
     "description": "A small but strong permanent magnet made from alnico alloy, which produces a magnetic field that attracts ferromagnetic materials such as steel.  Useful for crafting.",
@@ -174,8 +173,7 @@
     "price_postapoc": "10 cent",
     "material": [ "iron" ],
     "symbol": ",",
-    "color": "light_gray",
-    "ammo_type": "components"
+    "color": "light_gray"
   },
   {
     "id": "hd_pipe",
@@ -299,5 +297,17 @@
     "volume": "1 L",
     "price": "24 USD",
     "price_postapoc": "7 USD"
+  },
+  {
+    "id": "tire_repair_kit",
+    "copy-from": "spare_part",
+    "type": "ITEM",
+    "name": { "str": "tire repair kit" },
+    "description": "A set of tools, multiple cords, and a glue, all designed to save your punctured tire and make it back on track.  It supposed to last only for a day or two, and change of the tire is strongly advised by the manufacturer.",
+    "material": [ "plastic" ],
+    "weight": "100 g",
+    "volume": "150 ml",
+    "price": "23 USD",
+    "price_postapoc": "5 USD"
   }
 ]

@@ -179,7 +179,7 @@ The player can accumulate raw materials and tools to craft a wide variety of ite
 
 Skill,tool, raw material and time requirements to craft items reflect the parameters of crafting the corresponding item in reality.
 
-This places many useful items out of reach of most survivors, in particular staples such as electronics  internal combustion engines, most firearms and gunpowder are out of reach.
+This places many useful items out of reach of most survivors, in particular staples such as electronics internal combustion engines, most firearms and gunpowder are out of reach.
 
 ### Structures
 

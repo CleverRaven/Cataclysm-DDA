@@ -45,12 +45,11 @@ int kill_tracker::guilt_kill_count( const mtype_id &mon ) const
 {
     int count = 0;
     mon_flag_id flag;
+    // NOTE: GUILT_HUMAN is not used here! See Character::apply_murder_penalties()
     if( mon->has_flag( mon_flag_GUILT_ANIMAL ) ) {
         flag = mon_flag_GUILT_ANIMAL;
     } else if( mon->has_flag( mon_flag_GUILT_CHILD ) ) {
         flag = mon_flag_GUILT_CHILD;
-    } else if( mon->has_flag( mon_flag_GUILT_HUMAN ) ) {
-        flag = mon_flag_GUILT_HUMAN;
     } else if( mon->has_flag( mon_flag_GUILT_OTHERS ) ) {
         flag = mon_flag_GUILT_OTHERS;
     } else { // worst case scenario when no guilt flags are found
@@ -86,16 +85,6 @@ int kill_tracker::total_kill_count() const
     return monster_kill_count() + npc_kill_count();
 }
 
-int kill_tracker::legacy_kill_xp() const
-{
-    int ret = 0;
-    for( const std::pair<const mtype_id, int> &pair : kills ) {
-        ret += ( pair.first->difficulty + pair.first->difficulty_base ) * pair.second;
-    }
-    ret += npc_kills.size() * 10;
-    return ret;
-}
-
 void kill_tracker::clear()
 {
     kills.clear();
@@ -114,6 +103,7 @@ static Character *get_avatar_or_follower( const character_id &id )
     return nullptr;
 }
 
+// Legacy value, maintained until kill_xp rework/removal from dependent in-repo mods
 static constexpr int npc_kill_xp = 10;
 
 void kill_tracker::notify( const cata::event &e )
@@ -124,6 +114,7 @@ void kill_tracker::notify( const cata::event &e )
             if( Character *killer = get_avatar_or_follower( killer_id ) ) {
                 const mtype_id victim_type = e.get<mtype_id>( "victim_type" );
                 kills[victim_type]++;
+                // Legacy value update, maintained until kill_xp rework/removal from dependent in-repo mods
                 killer->kill_xp += e.get<int>( "exp" );
                 victim_type.obj().families.practice_kill( *killer );
             }
@@ -131,9 +122,11 @@ void kill_tracker::notify( const cata::event &e )
         }
         case event_type::character_kills_character: {
             const character_id killer_id = e.get<character_id>( "killer" );
+            // player is credited for NPC kills they or their followers make
             if( Character *killer = get_avatar_or_follower( killer_id ) ) {
                 const std::string victim_name = e.get<cata_variant_type::string>( "victim_name" );
                 npc_kills.push_back( victim_name );
+                // Legacy value update, maintained until kill_xp rework/removal from dependent in-repo mods
                 killer->kill_xp += npc_kill_xp;
             }
             break;

@@ -1,0 +1,32 @@
+[
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_MIND",
+    "copy-from": "INTERSTICE_MIND",
+    "extend": { "flags": [ "TEEPSHIELD" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_RESONANCE_2",
+    "copy-from": "INTERSTICE_RESONANCE_2",
+    "enchantments": [
+      {
+        "condition": { "current_dimension": "" },
+        "values": [ { "value": "ARTIFACT_RESONANCE", "add": 1250 } ],
+        "ench_effects": [ { "effect": "psi_nether_attention", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_RESONANCE_3",
+    "copy-from": "INTERSTICE_RESONANCE_3",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "ARTIFACT_RESONANCE", "add": 1250 } ],
+        "ench_effects": [ { "effect": "psi_nether_attention", "intensity": 3 } ]
+      }
+    ]
+  }
+]

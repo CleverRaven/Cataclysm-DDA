@@ -6,7 +6,7 @@
     "temp_suffix": "Prisoner",
     "class": "NC_PRISONER",
     "attitude": 0,
-    "mission": 7,
+    "mission": "GUARD",
     "chat": "TALK_MI-GO_PRISONER1",
     "faction": "no_faction"
   },

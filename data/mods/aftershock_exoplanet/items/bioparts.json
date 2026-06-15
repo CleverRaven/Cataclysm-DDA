@@ -81,7 +81,7 @@
   },
   {
     "id": "vibrating_blaster",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "vibrating bioblaster" },

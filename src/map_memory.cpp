@@ -41,7 +41,7 @@ static tripoint_abs_sm mmr_to_sm_copy( const tripoint &p )
 
 static cata_path find_mm_dir()
 {
-    return PATH_INFO::player_base_save_path() + ".mm1";
+    return PATH_INFO::current_dimension_player_save_path() + ".mm1";
 }
 
 static std::string find_region_filename( const tripoint &p )
@@ -49,6 +49,8 @@ static std::string find_region_filename( const tripoint &p )
     return string_format( "%d.%d.%d.mmr", p.x, p.y, p.z );
 }
 
+namespace
+{
 /**
  * Helper class for converting global sm coord into
  * global mm_region coord + sm coord within the region.
@@ -61,6 +63,7 @@ struct reg_coord_pair {
         reg = tripoint( sm_to_mmr_remain( sm_loc.x(), sm_loc.y() ), p.z() );
     }
 };
+} // namespace
 
 mm_submap::mm_submap( bool make_valid ) : valid( make_valid ) {}
 
@@ -554,7 +557,12 @@ bool map_memory::save( const tripoint_abs_ms &pos )
 
     return result;
 }
-
+void map_memory::clear()
+{
+    clear_cache();
+    submaps.clear();
+    dbg( D_INFO ) << "[CLEAR] Done.";
+}
 void map_memory::clear_cache()
 {
     cached.clear();

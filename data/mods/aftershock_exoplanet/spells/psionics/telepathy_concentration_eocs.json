@@ -31,7 +31,7 @@
     "condition": { "u_has_effect": "effect_afs_telepathic_psi_armor" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('afs_telepathic_shield')" ] },
-      { "math": [ "u_spell_exp('afs_telepathic_shield')", "+=", "psionic_power_experience_formula_maintenance()" ] },
+      { "math": [ "u_spell_exp('afs_telepathic_shield') += psionic_power_experience_formula_maintenance()" ] },
       { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_AFS_TELEPATH_SHIELD_MAINTENANCE",
@@ -77,9 +77,7 @@
     "condition": { "u_has_effect": "effect_afs_telepath_sense_minds" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('afs_telepathic_mind_sense')" ] },
-      {
-        "math": [ "u_spell_exp('afs_telepathic_mind_sense')", "+=", "psionic_power_experience_formula_maintenance()" ]
-      },
+      { "math": [ "u_spell_exp('afs_telepathic_mind_sense') += psionic_power_experience_formula_maintenance()" ] },
       { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_AFS_TELEPATH_SENSE_MINDS_MAINTENANCE",
@@ -127,9 +125,7 @@
     "condition": { "u_has_effect": "effect_afs_telepathic_suggestion" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('afs_telepathic_suggestion')" ] },
-      {
-        "math": [ "u_spell_exp('afs_telepathic_suggestion')", "+=", "psionic_power_experience_formula_maintenance()" ]
-      },
+      { "math": [ "u_spell_exp('afs_telepathic_suggestion') += psionic_power_experience_formula_maintenance()" ] },
       { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_AFS_TELEPATH_SUGGESTION_MAINTENANCE",

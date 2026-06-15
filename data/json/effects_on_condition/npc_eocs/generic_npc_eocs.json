@@ -177,7 +177,7 @@
     },
     "effect": [
       { "u_spawn_npc": "hells_raiders_assassin", "real_count": 2, "min_radius": 15, "max_radius": 25 },
-      { "math": [ "u_bandit_assassins_sent", "+=", "2" ] }
+      { "math": [ "u_bandit_assassins_sent += 2" ] }
     ]
   },
   {
@@ -200,7 +200,7 @@
     },
     "effect": [
       { "u_spawn_npc": "hells_raiders_assassin", "real_count": 3, "min_radius": 15, "max_radius": 25 },
-      { "math": [ "u_bandit_assassins_sent", "+=", "3" ] }
+      { "math": [ "u_bandit_assassins_sent += 3" ] }
     ]
   },
   {
@@ -223,7 +223,7 @@
     },
     "effect": [
       { "u_spawn_npc": "old_guard_assassin", "real_count": 2, "min_radius": 15, "max_radius": 25 },
-      { "math": [ "u_government_assassins_sent", "+=", "2" ] }
+      { "math": [ "u_government_assassins_sent += 2" ] }
     ]
   },
   {
@@ -232,6 +232,8 @@
     "//": "Runs once an hour and moves refugee center npcs around based on what hour it is.",
     "global": true,
     "recurrence": "1 hours",
+    "condition": { "current_dimension": "" },
+    "deactivate_condition": { "not": { "current_dimension": "" } },
     "effect": [
       {
         "switch": { "math": [ "time_since('midnight', 'unit': 'hour')" ] },

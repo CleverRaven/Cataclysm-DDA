@@ -75,5 +75,29 @@
     "mod_damage": -1000,
     "mod_degradation": -100,
     "requirements": [ { "qualities": [ { "id": "CUT", "level": 2 } ], "components": [ [ [ "2x4", 1 ], [ "stick_long", 1 ] ] ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_steel_pipe_bent_heat_application",
+    "name": "Straighten using heat",
+    "success_msg": "You successfully straighten your %s.",
+    "time": "60 m",
+    "//": "I chose to make this take an hour because the metal needs to cool slowly to prevent brittleness",
+    "faults_removed": [ "fault_steel_pipe_bent", "fault_steel_pipe_bent_heavy" ],
+    "mod_damage": -1000,
+    "mod_degradation": -50,
+    "requirements": [ [ "forging_standard", 1 ], { "qualities": [ { "id": "VISE", "level": 1 } ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_steel_pipe_bent_hand_straightening",
+    "name": "Straighten by hand",
+    "success_msg": "You successfully straighten your %s.",
+    "time": "5 m",
+    "//": "takes much less time, but can only remove minor bends",
+    "faults_removed": [ "fault_steel_pipe_bent" ],
+    "mod_damage": -1000,
+    "mod_degradation": -25,
+    "requirements": [ { "qualities": [ { "id": "VISE", "level": 1 } ] } ]
   }
 ]

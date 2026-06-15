@@ -57,7 +57,7 @@
     "name": { "str": "visitor's pass", "str_pl": "visitor's passes" },
     "description": "A visitor's pass to some sort of facility.  The reverse side describes the protocol for using it; this could grant access at a card reader, if you can find one.  It also lists the addresses of nearby facilities; activate it to add their locations to your map.",
     "price": "600 USD",
-    "extend": { "flags": [ "SCIENCE_CARD_VISITOR" ] },
+    "extend": { "flags": [ "SCIENCE_CARD_VISITOR", "PRESERVE_SPAWN_LOC", "LOCATION_PRECISE_CLOSEST_CITY" ] },
     "price_postapoc": "2 USD 50 cent",
     "category": "keys",
     "use_action": {
@@ -116,11 +116,11 @@
     "copy-from": "id_science",
     "name": { "str": "transport freight employee badge" },
     "description": "An employee badge for a freight hauler.  The reverse side describes the protocol for using it; this could grant access at transport freight card readers.  It also lists the addresses of nearby facilities; activate it to add their locations to your map.",
-    "flags": [ "SCIENCE_CARD_TRANSPORT_1", "CREDIT_CARD_SHAPED" ],
+    "flags": [ "SCIENCE_CARD_TRANSPORT_1", "CREDIT_CARD_SHAPED", "PRESERVE_SPAWN_LOC", "LOCATION_PRECISE_CLOSEST_CITY" ],
     "use_action": {
       "type": "reveal_map",
       "radius": 300,
-      "message": "You add the facilities to your map",
+      "message": "You add the facilities to your map.",
       "terrain": [
         "lab_res_8_SWD_ground",
         "lab_res_8_SED_ground",
@@ -350,6 +350,30 @@
     "weight": "500 g",
     "material": [ "plastic", "qt_steel" ],
     "flags": [ "TRADER_AVOID" ],
+    "price_postapoc": "0 cent",
+    "category": "keys"
+  },
+  {
+    "type": "ITEM",
+    "id": "id_anduril_ar",
+    "copy-from": "card_plastic_abstract",
+    "color": "blue",
+    "name": { "str": "Anduril Industries ID card" },
+    "description": "An ID card for an Anduril Industries software engineer.",
+    "price": "600 USD",
+    "extend": { "flags": [ "ANDURIL_AR_CARD" ] },
+    "price_postapoc": "2 USD 50 cent",
+    "category": "keys"
+  },
+  {
+    "type": "ITEM",
+    "id": "id_exodii_string_dimension",
+    "copy-from": "card_plastic_abstract",
+    "color": "yellow",
+    "name": { "str": "strange plastic key" },
+    "description": "A thick plastic key with an archaic-looking, angled bit.",
+    "price": "0 cent",
+    "extend": { "flags": [ "EXODII_STRING_DIMENSION_CARD" ] },
     "price_postapoc": "0 cent",
     "category": "keys"
   }

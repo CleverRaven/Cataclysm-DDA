@@ -10,6 +10,8 @@
 #include <vector>
 
 #include "calendar.h"
+#include "coordinates.h"
+#include "point.h"
 #include "ret_val.h"
 #include "translation.h"
 #include "type_id.h"
@@ -52,6 +54,7 @@ class scenario
         std::set<trait_id> _forced_traits;
         std::set<trait_id> _forbidden_traits;
         std::vector<start_location_id> _allowed_locs;
+        point_rel_om origin_offset = point_rel_om::zero;
         int _point_cost = 0;
         std::set<std::string> flags; // flags for some special properties of the scenario
         map_extra_id _map_extra;
@@ -92,10 +95,12 @@ class scenario
 
         // clear scenario map, every scenario pointer becomes invalid!
         static void reset();
-        /** calls @ref check_definition for each scenario */
-        static void finalize();
+
+        static void finalize_all();
+        static void check_all();
+
         /** Check that item definitions are valid */
-        void check_definition() const;
+        void check() const;
 
         const string_id<scenario> &ident() const;
         std::string gender_appropriate_name( bool male ) const;
@@ -135,7 +140,7 @@ class scenario
         signed int point_cost() const;
         bool has_map_extra() const;
         const map_extra_id &get_map_extra() const;
-
+        const point_rel_om &get_origin_offset() const;
         /**
          * Returns "All", "Limited", or "Almost all" (translated)
          * This is used by newcharacter.cpp
@@ -163,6 +168,14 @@ class scenario
         const std::vector<std::pair<mongroup_id, float>> &surround_groups() const;
 
         std::vector<std::pair<string_id<scenario>, mod_id>> src;
+};
+
+struct scenario_sorter {
+    bool sort_by_points = true;
+    bool male = false;
+    bool cities_enabled = false;
+    /** @related player */
+    bool operator()( const scenario *a, const scenario *b ) const;
 };
 
 struct scen_blacklist {

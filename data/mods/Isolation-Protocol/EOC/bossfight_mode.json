@@ -1,0 +1,32 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_IN_BOSSFIGHT",
+    "global": true,
+    "condition": { "math": [ "u_monsters_nearby( 'radius': 50) > 0" ] },
+    "effect": [ { "run_eocs": "EOC_ISO_IN_BOSSFIGHT", "time_in_future": 3 } ],
+    "false_effect": [
+      { "math": [ "u_bossfight_complete = 1" ] },
+      { "math": [ "bossfight_active = 0" ] },
+      {
+        "u_message": "The oppressive atmosphere in the room lifts as the last of the hostiles is defeated.",
+        "popup": true
+      },
+      { "run_eocs": "EOC_ISO_OPEN_BOSSFIGHT_DOORS" },
+      {
+        "if": { "not": { "math": [ "has_var(u_iso_balthazar_ally)" ] } },
+        "then": { "open_dialogue": { "topic": "ISO_BALTHAZAR_WORK_TOGETHER" } }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_OPEN_BOSSFIGHT_DOORS",
+    "effect": [ { "u_transform_radius": 60, "ter_furn_transform": "iso_open_bossfight" } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "iso_open_bossfight",
+    "terrain": [ { "result": "t_metal_floor", "valid_terrain": [ "t_iso_bossfight_door" ] } ]
+  }
+]

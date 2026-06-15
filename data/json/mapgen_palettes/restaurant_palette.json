@@ -76,7 +76,8 @@
       "7": "f_cupboard",
       "8": "f_counter",
       "Ø": "f_pinball_machine",
-      "Æ": "f_arcade_machine"
+      "Æ": "f_arcade_machine",
+      "a": "f_deep_fryer"
     },
     "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
     "items": {
@@ -114,7 +115,8 @@
         { "item": "chem_home", "chance": 50, "repeat": [ 1, 2 ] },
         { "item": "stash_drugs", "chance": 2 },
         { "item": "maps", "chance": 1 }
-      ]
+      ],
+      "a": { "item": "SUS_deep_fryer", "chance": 50 }
     }
   }
 ]

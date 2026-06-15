@@ -1,19 +1,17 @@
+from ..helper import get_singular_name
 from ..write_text import write_text
 
 
 def parse_addiction_type(json, origin):
-    id = json["id"]
-    if "name" in json:
-        write_text(json["name"], origin,
-                   comment="Name of the \"{}\" addiction's "
-                   "effect as it appears in the player's status".format(id))
+    name = get_singular_name(json)
 
-    if "type_name" in json:
-        write_text(json["type_name"], origin,
-                   comment="The name of the \"{}\" addiction's source"
-                   .format(id))
+    write_text(json.get("name"), origin,
+               comment="Name of addiction effect as"
+               " it appears in the player's status")
 
-    if "description" in json:
-        write_text(json["description"], origin, c_format=False,
-                   comment="Description of the \"{}\" addiction's effects as "
-                   "it appears in the player's status".format(id))
+    write_text(json.get("type_name"), origin,
+               comment=f"Name of '{name}' addiction's source")
+
+    write_text(json.get("description"), origin,
+               comment=f"Description of addiction effect '{name}'"
+               " as it appears in the player's status")

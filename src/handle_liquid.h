@@ -52,6 +52,10 @@ void handle_all_liquid( item liquid, int radius, const item *avoid = nullptr );
  */
 void handle_npc_liquid( item liquid, Character &who );
 
+/** Call handle_all_liquid for player or handle_npc_liquid for npc */
+void handle_all_or_npc_liquid( Character &p, item &newit, int radius = 0,
+                               const item *avoid = nullptr );
+
 /**
  * Consume / handle as much of the liquid as possible in varying ways. This function can
  * be used when the action can be canceled, which implies the liquid can be put back

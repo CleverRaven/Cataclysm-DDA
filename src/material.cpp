@@ -64,7 +64,11 @@ material_type::material_type() :
     _bash_dmg_verb( to_translation( "damages" ) ),
     _cut_dmg_verb( to_translation( "damages" ) )
 {
-    _dmg_adj = { to_translation( "lightly damaged" ), to_translation( "damaged" ), to_translation( "very damaged" ), to_translation( "thoroughly damaged" ) };
+    _dmg_adj = { to_translation( "adjective", "lightly damaged" ),
+                 to_translation( "adjective", "damaged" ),
+                 to_translation( "adjective", "very damaged" ),
+                 to_translation( "adjective", "thoroughly damaged" )
+               };
 }
 
 void mat_burn_data::deserialize( const JsonObject &jo )
@@ -91,7 +95,7 @@ void material_type::load( const JsonObject &jsobj, std::string_view )
     }
 
     optional( jsobj, was_loaded, "conductive", _conductive );
-    mandatory( jsobj, was_loaded, "chip_resist", _chip_resist );
+    mandatory( jsobj, was_loaded, "chip_resist", _chip_resist, numeric_bound_reader<int> {0} );
     mandatory( jsobj, was_loaded, "density", _density );
 
     optional( jsobj, was_loaded, "sheet_thickness", _sheet_thickness );
@@ -112,7 +116,7 @@ void material_type::load( const JsonObject &jsobj, std::string_view )
     optional( jsobj, was_loaded, "soft", _soft, false );
     optional( jsobj, was_loaded, "uncomfortable", _uncomfortable, false );
 
-    optional( jsobj, was_loaded, "vitamins", _vitamins, weighted_string_id_reader<vitamin_id, double> { 1 } );
+    optional( jsobj, was_loaded, "vitamins", _vitamins, weighted_string_id_reader<vitamin_id, double> { 1.0 } );
 
     mandatory( jsobj, was_loaded, "bash_dmg_verb", _bash_dmg_verb );
     mandatory( jsobj, was_loaded, "cut_dmg_verb", _cut_dmg_verb );
@@ -128,13 +132,14 @@ void material_type::load( const JsonObject &jsobj, std::string_view )
     optional( jsobj, was_loaded, "burn_products", _burn_products );
 }
 
+void material_type::finalize()
+{
+    finalize_damage_map( _resistances.resist_vals );
+}
+
 void material_type::finalize_all()
 {
     material_data.finalize();
-    for( const material_type &mtype : material_data.get_all() ) {
-        material_type &mt = const_cast<material_type &>( mtype );
-        finalize_damage_map( mt._resistances.resist_vals );
-    }
 }
 
 void material_type::check() const
@@ -364,7 +369,7 @@ material_list materials::get_all()
     return material_data.get_all();
 }
 
-std::set<material_id> materials::get_rotting()
+const std::set<material_id> &materials::get_rotting()
 {
     static generic_factory<material_type>::Version version;
     static std::set<material_id> rotting;

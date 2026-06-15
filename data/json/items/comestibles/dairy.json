@@ -7,7 +7,6 @@
     "weight": "258 g",
     "color": "white",
     "spoils_in": "1 d",
-    "container": "jug_plastic",
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 70,
@@ -62,7 +61,6 @@
     "name": { "str_sp": "shelf stable milk" },
     "copy-from": "milk",
     "spoils_in": "7 d",
-    "container": "carton_sealed",
     "description": "This is milk that has been pasteurized at much higher temperatures than normal.  It tastes slightly different, but, unopened, will last far longer than regular milk.",
     "price": "50 cent",
     "price_postapoc": "1 USD 50 cent"
@@ -142,8 +140,18 @@
     "material": [ "milk" ],
     "volume": "15 ml",
     "flags": [ "NO_AUTO_CONSUME" ],
-    "fun": -1,
-    "vitamins": [ [ "milk_allergen", 1 ] ]
+    "fun": -7,
+    "vitamins": [ [ "milk_allergen", 1 ] ],
+    "consumption_effect_on_conditions": [
+      {
+        "id": "EOC_BUTTER_NAUSEA",
+        "condition": { "math": [ "u_consumption_count('butter', 'hours': 6) >= 3" ] },
+        "effect": [
+          { "u_add_effect": "nausea", "duration": "10 minutes" },
+          { "u_message": "Ugh, you've been eating too much butter\u2026", "type": "bad" }
+        ]
+      }
+    ]
   },
   {
     "type": "ITEM",
@@ -151,6 +159,7 @@
     "id": "raw_butter",
     "name": { "str_sp": "raw butter" },
     "copy-from": "butter",
+    "eats_like": "butter",
     "weight": "14 g",
     "color": "white",
     "spoils_in": "10 days",
@@ -168,6 +177,7 @@
     "id": "ghee",
     "name": { "str_sp": "ghee" },
     "copy-from": "butter",
+    "eats_like": "butter",
     "weight": "13500 mg",
     "spoils_in": "90 days",
     "container": "jar_glass_sealed",
@@ -178,7 +188,7 @@
     "material": [ "oil" ],
     "charges": 1,
     "phase": "liquid",
-    "flags": "ANIMAL_PRODUCT"
+    "flags": [ "ANIMAL_PRODUCT" ]
   },
   {
     "type": "ITEM",
@@ -330,7 +340,24 @@
     "primary_material": "cheese",
     "volume": "250 ml",
     "fun": 1,
+    "smoking_result": "mozzarella_cheese_smoked",
     "vitamins": [ [ "calcium", 13 ], [ "milk_allergen", 1 ] ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "mozzarella_cheese_smoked",
+    "name": { "str_sp": "smoked mozzarella cheese" },
+    "copy-from": "mozzarella_cheese",
+    "weight": "30 g",
+    "color": "brown",
+    "spoils_in": "18 days",
+    "container": "bag_plastic_small",
+    "calories": 85,
+    "quench": -1,
+    "description": "Smoked mozzarella cheese.  Has a longer shelf life than fresh mozzarella and a more savory taste.",
+    "price": "5 USD",
+    "price_postapoc": "65 cent"
   },
   {
     "type": "ITEM",
@@ -426,7 +453,6 @@
     "name": { "str_sp": "powdered milk" },
     "weight": "30 g",
     "color": "white",
-    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,

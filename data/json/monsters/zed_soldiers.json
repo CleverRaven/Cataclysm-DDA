@@ -23,11 +23,13 @@
   {
     "id": "mon_zombie_soldier_no_weakpoints",
     "type": "MONSTER",
-    "name": { "str_sp": "zombie soldier test only" },
-    "description": "This zombie soldier is for testing purposes only.",
+    "name": { "str_sp": "zombie soldier test only", "//~": "NO_I18N" },
+    "description": { "str": "This zombie soldier is for testing purposes only.", "//~": "NO_I18N" },
     "copy-from": "mon_zombie_soldier",
     "dodge": 1,
-    "delete": { "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ] }
+    "delete": {
+      "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ]
+    }
   },
   {
     "id": "mon_zombie_soldier_blackops_1",
@@ -220,7 +222,8 @@
       { "id": "slam", "cooldown": 12, "damage_max_instance": [ { "damage_type": "bash", "amount": 35 } ] },
       { "id": "longswipe" },
       { "id": "cut_throat" },
-      { "id": "smash", "throw_strength": 72 }
+      { "id": "smash", "throw_strength": 72 },
+      { "id": "hulk_wide_swing", "accuracy": 9 }
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
     "armor": { "bash": 30, "cut": 50, "bullet": 40, "electric": 6 },

@@ -269,6 +269,7 @@
       { "trait": "DOWN" },
       { "trait": "BEAK_RAVEN" },
       { "trait": "RAVENFOLK_LEGS" },
+      { "trait": "RAVENFOLK_EYES" },
       { "trait": "PER_UP_3" },
       { "trait": "FLEET" },
       { "trait": "FEATHERS" },

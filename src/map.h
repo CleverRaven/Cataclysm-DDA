@@ -23,6 +23,7 @@
 #include "active_item_cache.h"
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_small_literal_vector.h"
 #include "cata_type_traits.h"
 #include "cata_utility.h"
 #include "colony.h"
@@ -95,6 +96,8 @@ struct wrapped_vehicle {
 using VehicleList = std::vector<wrapped_vehicle>;
 class map;
 
+class weather_generator;
+
 enum class ter_furn_flag : int;
 struct pathfinding_cache;
 struct pathfinding_settings;
@@ -138,7 +141,7 @@ struct visibility_variables {
 
 struct bash_params {
     // Initial strength
-    int strength = 0;
+    const std::map<damage_type_id, int> &strength;
     // Make a sound?
     bool silent = false;
     // Essentially infinite bash strength + some
@@ -154,6 +157,8 @@ struct bash_params {
     float roll = 0.0f;
     // Was anything hit?
     bool did_bash = false;
+    // can we keep damaging this tile (if not destroyed)
+    bool can_bash = false;
     // Was anything destroyed?
     bool success = false;
     // Did we bash furniture, terrain or vehicle
@@ -302,11 +307,63 @@ struct drawsq_params {
         //@}
 };
 
+// Accumulated screen-pixel bounding box of all sprites drawn for a single tile
+// during the current frame. Used by the ortho tint overlay to cover the full
+// sprite extent instead of a fixed tile_width x tile_height rect.
+// NOLINTNEXTLINE(cata-xy)
+struct sprite_screen_bounds {
+    int x = 0, y = 0, w = 0, h = 0;
+    bool valid = false;
+    // NOLINTNEXTLINE(cata-large-inline-function,cata-xy)
+    void expand( int rx, int ry, int rw, int rh ) {
+        if( !valid ) {
+            x = rx;
+            y = ry;
+            w = rw;
+            h = rh;
+            valid = true;
+        } else {
+            const int nx = x < rx ? x : rx; // NOLINT(cata-combine-locals-into-point)
+            const int ny = y < ry ? y : ry;
+            const int x2 = ( x + w > rx + rw ) ? x + w : rx + rw;
+            const int y2 = ( y + h > ry + rh ) ? y + h : ry + rh;
+            x = nx;
+            y = ny;
+            w = x2 - nx;
+            h = y2 - ny;
+        }
+    }
+};
+
+// Snapshot of a single sprite draw call, recorded during the layer loop so the
+// ortho tint overlay can replay the sprite as a white silhouette into a mask
+// texture. Captures everything needed to reproduce the draw at the same screen
+// position with the silhouette color filter variant.
+struct tint_sprite_record {
+    int sprite_index;      // index into tileset tile_values / silhouette_tile_values
+    struct { // NOLINT(cata-xy)
+        int x, y, w, h;
+    } destination;         // screen-space destination rect at time of draw
+    double angle;          // rotation angle (0, -90, 90)
+    int flip;              // CataFlipMode cast to int (avoids SDL include)
+};
+
 struct tile_render_info {
     struct common {
         const tripoint_bub_ms pos;
         // accumulator for 3d tallness of sprites rendered here so far;
         int height_3d = 0;
+        // Ortho tint overlay state, populated during the draw prepass and layer
+        // loop. For tiles where needs_tint is true:
+        //   bounds       - union of all content sprite screen rects (opaque only)
+        //   tint_sprites - draw records for silhouette mask replay
+        //   tint_color   - precomputed RGBA tint from the colored light cache
+        sprite_screen_bounds bounds;
+        small_literal_vector<tint_sprite_record, 4> tint_sprites;
+        bool needs_tint = false;
+        struct {
+            uint8_t r, g, b, a;
+        } tint_color = { 0, 0, 0, 0 };
 
         common( const tripoint_bub_ms &pos, const int height_3d )
             : pos( pos ), height_3d( height_3d ) {}
@@ -367,7 +424,7 @@ struct tile_render_info {
 class map
 {
         friend class teleport;
-        friend class editmap;
+        friend class editmap_ui;
         friend std::list<item> map_cursor::remove_items_with( const std::function<bool( const item & )> &,
                 int );
 
@@ -382,8 +439,16 @@ class map
                 field_proc_data & );
         friend void field_processor_fd_incendiary( const tripoint_bub_ms &, field_entry &,
                 field_proc_data & );
+        friend void field_processor_monster_spawn( const tripoint_bub_ms &, field_entry &,
+                field_proc_data & );
+
+        // add_spawn is private; these classes need it for data-driven spawning
+        // (JSON mapgen and monster reproduction). Mapgen code should use place_spawns() instead.
+        friend class jmapgen_monster;
+        friend class monster;
 
         // for testing
+        friend class map_meddler;
         friend void clear_fields( int zlevel );
 
     protected:
@@ -392,6 +457,16 @@ class map
         // Constructors & Initialization
         map() : map( MAPSIZE, true ) { }
         virtual ~map();
+
+        // Apply phase-change logic for a single map square based on historical
+        // weather (10-day average at 08:00). Currently implements "water_freeze".
+        void temp_based_phase_change_at( const tripoint_bub_ms &p, const class weather_generator &wgen );
+
+        // Original terrain recording for phase changes
+        bool has_original_terrain_at( const tripoint_bub_ms &p ) const;
+        ter_id get_original_terrain_at( const tripoint_bub_ms &p ) const;
+        void set_original_terrain_at( const tripoint_bub_ms &p, const ter_id &t );
+        void clear_original_terrain_at( const tripoint_bub_ms &p );
 
         map &operator=( const map & ) = delete;
         // NOLINTNEXTLINE(performance-noexcept-move-constructor)
@@ -420,6 +495,8 @@ class map
         void set_seen_cache_dirty( int zlevel );
         void set_outside_cache_dirty( int zlev );
         void set_floor_cache_dirty( int zlev );
+        void set_lightmap_cache_dirty( int zlev );
+        void set_lightmap_cache_dirty_below( int zlev );
         void set_pathfinding_cache_dirty( int zlev );
         void set_pathfinding_cache_dirty( const tripoint_bub_ms &p );
         /*@}*/
@@ -695,15 +772,27 @@ class map
          * Iteratively tries Bresenham lines with different biases
          * until it finds a clear line or decides there isn't one.
          * returns the line found, which may be the straight line, but blocked.
+         * With empty_on_fail returns empty vector
          */
         std::vector<tripoint_bub_ms> find_clear_path( const tripoint_bub_ms &source,
-                const tripoint_bub_ms &destination ) const;
+                const tripoint_bub_ms &destination, bool empty_on_fail = false ) const;
 
         /**
          * Check whether the player can access the items located @p. Certain furniture/terrain
          * may prevent that (e.g. a locked safe).
          */
         bool accessible_items( const tripoint_bub_ms &t ) const;
+
+        /**
+         * Visit every non-liquid item reachable from @p center within @p radius.
+         * Handles tile accessibility, item ownership (if @p ch is non-null),
+         * and vehicle cargo.  The visitor receives each item by const reference
+         * and is never called for liquids.
+         */
+        void for_each_reachable_item( const tripoint_bub_ms &center, int radius,
+                                      const Character *ch,
+                                      const std::function<void( const item & )> &fn );
+
         /**
          * Calculate next search points surrounding the current position.
          * Points closer to the target come first.
@@ -754,10 +843,17 @@ class map
         int extra_cost( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
                         const pathfinding_settings &settings,
                         PathfindingFlags p_special ) const;
+        // Catches up renewable generation (solar/wind/water) for off-map vehicles
+        // that are connected to in-bubble grids via cables.
+        void resolve_off_map_grid_generation();
+        // Re-enables appliance parts that were disabled by power_parts() deficit
+        // when the connected grid actually has battery charge available.
+        void resolve_appliance_grid_power();
     public:
 
         // Vehicles: Common to 2D and 3D
         VehicleList get_vehicles();
+        bool place_vehicle( std::unique_ptr<vehicle> &&new_vehicle );
         void add_vehicle_to_cache( vehicle * );
         void clear_vehicle_point_from_cache( vehicle *veh, const tripoint_bub_ms &pt );
         // clears all vehicle level caches
@@ -823,6 +919,12 @@ class map
         // TODO: Remove the ugly sinking vehicle hack
         float vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modifiers = false );
 
+        // Traction at a hypothetical position (for drag feasibility checks).
+        // Computes wheel positions as at_origin + part.precalc[0] instead of
+        // using the vehicle's actual map position.
+        float vehicle_wheel_traction( const vehicle &veh, const tripoint_bub_ms &at_origin,
+                                      bool ignore_movement_modifiers = false );
+
         // Executes vehicle-vehicle collision based on vehicle::collision results
         // Returns impulse of the executed collision
         // If vector contains collisions with vehicles other than veh2, they will be ignored
@@ -885,6 +987,8 @@ class map
         ter_id ter( const point_bub_ms &p ) const {
             return ter( tripoint_bub_ms( p, abs_sub.z() ) );
         }
+
+        void furniture_terrain_emit_fields();
 
         int get_map_damage( const tripoint_bub_ms &p ) const;
         void set_map_damage( const tripoint_bub_ms &p, int dmg );
@@ -1030,6 +1134,10 @@ class map
         // Checks terrain or furniture
         bool has_flag_ter_or_furn( ter_furn_flag flag, const tripoint_bub_ms &p ) const;
 
+        // Returns true if a and b are on matching stairs connecting them
+        // across exactly one z-level (one has GOES_UP, the other GOES_DOWN).
+        bool on_matching_stairs( const tripoint_bub_ms &a, const tripoint_bub_ms &b ) const;
+
         // Bashable
         /** Returns true if there is a bashable vehicle part or the furn/terrain is bashable at p */
         bool is_bashable( const tripoint_bub_ms &p, bool allow_floor = false ) const;
@@ -1045,7 +1153,8 @@ class map
         int bash_resistance( const tripoint_bub_ms &p, bool allow_floor = false ) const;
         /** Returns a success rating from -1 to 10 for a given tile based on a set strength, used for AI movement planning
         *  Values roughly correspond to 10% increment chances of success on a given bash, rounded down. -1 means the square is not bashable */
-        int bash_rating( int str, const tripoint_bub_ms &p, bool allow_floor = false ) const;
+        int bash_rating( const std::map<damage_type_id, int> &str, const tripoint_bub_ms &p,
+                         bool allow_floor = false ) const;
 
         // Rubble
         /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
@@ -1060,6 +1169,12 @@ class map
         }
 
         bool is_outside( const tripoint_bub_ms &p ) const;
+        // Returns true if precipitation cannot reach this tile. Walks upward
+        // through z-levels looking for any blocking surface: solid floor,
+        // TRANSPARENT_FLOOR (glass/ramps/grates), NO_FLOOR_WATER, SUN_ROOF_ABOVE
+        // furniture, or vehicle with ROOF/OPAQUE. Uses floor_cache when valid,
+        // falls back to direct terrain/furniture/vehicle checks otherwise.
+        bool is_roofed( const tripoint_bub_ms &p ) const;
         /**
          * Returns whether or not the terrain at the given location can be dived into
          * (by monsters that can swim or are aquatic or non-breathing).
@@ -1150,8 +1265,10 @@ class map
         /** Causes a collapse at p, such as from destroying a wall */
         void collapse_at( const tripoint_bub_ms &p, bool silent, bool was_supporting = false,
                           bool destroy_pos = true );
-        /** Tries to smash the items at the given tripoint. Used by the explosion code */
-        void smash_items( const tripoint_bub_ms &p, int power, const std::string &cause_message );
+        /** Tries to smash the items at the given tripoint. Used by the explosion code. vp_wheel and veh are
+        used when running over items, and are assumed to either both be nullptr or be valid pointers */
+        void smash_items( const tripoint_bub_ms &p, int power, const std::string &cause_message,
+                          vehicle_part *vp_wheel = nullptr, vehicle *veh = nullptr );
         /**
          * Returns a pair where first is whether anything was smashed and second is if it was destroyed.
          *
@@ -1162,8 +1279,12 @@ class map
          * @param bash_floor Allow bashing the floor and the tile that supports it
          * @param bashing_vehicle Vehicle that should NOT be bashed (because it is doing the bashing)
          */
-        bash_params bash( const tripoint_bub_ms &p, int str, bool silent = false,
-                          bool destroy = false, bool bash_floor = false,
+        bash_params bash( const tripoint_bub_ms &p, const std::map<damage_type_id, int> &str,
+                          bool silent = false, bool destroy = false, bool bash_floor = false,
+                          const vehicle *bashing_vehicle = nullptr,
+                          bool repair_missing_ground = true );
+        bash_params bash( const tripoint_bub_ms &p, int str,
+                          bool silent = false, bool destroy = false, bool bash_floor = false,
                           const vehicle *bashing_vehicle = nullptr,
                           bool repair_missing_ground = true );
 
@@ -1409,9 +1530,14 @@ class map
         // Partial construction functions
         void partial_con_set( const tripoint_bub_ms &p, const partial_con &con );
         void partial_con_remove( const tripoint_bub_ms &p );
+        void partial_con_remove_no_vision_for_testing( const tripoint_bub_ms &p );
         partial_con *partial_con_at( const tripoint_bub_ms &p );
         // Traps
         void trap_set( const tripoint_bub_ms &p, const trap_id &type );
+
+    private:
+        void partial_con_remove_impl( const tripoint_bub_ms &p );
+    public:
 
         const trap &tr_at( const tripoint_abs_ms &p ) const;
         const trap &tr_at( const tripoint_bub_ms &p ) const;
@@ -1538,7 +1664,8 @@ class map
          */
         bool add_field(
             const tripoint_bub_ms &p, const field_type_id &type_id, int intensity = INT_MAX,
-            const time_duration &age = 0_turns, bool hit_player = true );
+            const time_duration &age = 0_turns, bool hit_player = true,
+            effect_source source = effect_source() );
         /**
          * Remove field entry at xy, ignored if the field entry is not present.
          */
@@ -1609,7 +1736,6 @@ class map
                        bool need_validate = true );
         void remove_submap_camp( const tripoint_bub_ms & );
         basecamp hoist_submap_camp( const tripoint_bub_ms &p );
-        bool point_within_camp( const tripoint_abs_ms &point_check ) const;
         // Graffiti
         bool has_graffiti_at( const tripoint_bub_ms &p ) const;
         const std::string &graffiti_at( const tripoint_bub_ms &p ) const;
@@ -1683,13 +1809,6 @@ class map
         character_id place_npc( const point_bub_ms &p, const string_id<npc_template> &type );
         void apply_faction_ownership( const point_bub_ms &p1, const point_bub_ms &p2,
                                       const faction_id &id );
-        void add_spawn( const mtype_id &type, int count, const tripoint_bub_ms &p,
-                        bool friendly = false, int faction_id = -1, int mission_id = -1,
-                        const std::optional<std::string> &name = std::nullopt );
-        void add_spawn( const mtype_id &type, int count, const tripoint_bub_ms &p, bool friendly,
-                        int faction_id, int mission_id, const std::optional<std::string> &name,
-                        const spawn_data &data );
-        void add_spawn( const MonsterGroupResult &spawn_details, const tripoint_bub_ms &p );
         void do_vehicle_caching( int z );
         // Note: in 3D mode, will actually build caches on ALL z-levels
         void build_map_cache( int zlev, bool skip_lightmap = false );
@@ -1715,7 +1834,8 @@ class map
         // @param merge_wrecks      if true and vehicle overlaps another then both turn into wrecks
         //                          if false and vehicle will overlap aborts and returns nullptr
         vehicle *add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, const units::angle &dir,
-                              int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true,
+                              int init_veh_fuel = -1, veh_spawn_status init_veh_status = veh_spawn_status::DEFAULT_LIGHT_DMG,
+                              bool merge_wrecks = true,
                               bool force_status = false );
 
         // Light/transparency
@@ -1825,6 +1945,14 @@ class map
         */
         void rotten_item_spawn( const item &item, const tripoint_bub_ms &p );
     private:
+        void add_spawn( const mtype_id &type, int count, const tripoint_bub_ms &p,
+                        bool friendly = false, int faction_id = -1, int mission_id = -1,
+                        const std::optional<std::string> &name = std::nullopt );
+        void add_spawn( const mtype_id &type, int count, const tripoint_bub_ms &p, bool friendly,
+                        int faction_id, int mission_id, const std::optional<std::string> &name,
+                        const spawn_data &data );
+        void add_spawn( const MonsterGroupResult &spawn_details, const tripoint_bub_ms &p );
+
         // Helper #1 - spawns monsters on one submap
         void spawn_monsters_submap( const tripoint_rel_sm &gp, bool ignore_sight,
                                     bool spawn_nonlocal = false );
@@ -1835,6 +1963,13 @@ class map
     protected:
         void saven( const tripoint_bub_sm &grid );
         void loadn( const point_bub_sm &grid, bool update_vehicles );
+        /**
+         * Walk all items currently in the bubble (map tiles + vehicle cargo,
+         * recursing into containers) and call rebuild_for_item on each.  Run
+         * after submaps come back into range so item-targeted wakeups re-arm
+         * from authoritative item state.
+         */
+        void reconcile_item_wakeups();
         /**
          * Fast forward a submap that has just been loading into this map.
          * This is used to rot and remove rotten items, grow plants, fill funnels etc.
@@ -1875,6 +2010,8 @@ class map
         * direction from 'p', leaving a stump behind at 'p'.
         */
         void cut_down_tree( tripoint_bub_ms p, point_rel_ms dir );
+
+        void maybe_apply_field_effect( const std::vector<field_effect> &vfe, Creature &critter ) const;
     protected:
         /**
          * Radiation-related plant (and fungus?) death.
@@ -1891,10 +2028,9 @@ class map
          */
         void shift_traps( const point_rel_sm &shift );
 
+        void on_unload( const tripoint_rel_sm &loc );
         void copy_grid( const tripoint_rel_sm &to, const tripoint_rel_sm &from );
         void draw_map( mapgendata &dat );
-
-        void draw_lab( mapgendata &dat );
 
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
@@ -1943,7 +2079,6 @@ class map
          */
         void set_abs_sub( const tripoint_abs_sm &p );
 
-    private:
         field &get_field( const tripoint_bub_ms &p );
 
         /**
@@ -1995,7 +2130,6 @@ class map
         }
         submap *get_submap_at_grid( const tripoint_rel_sm &gridp );
         const submap *get_submap_at_grid( const tripoint_rel_sm &gridp ) const;
-    protected:
         /**
          * Get the index of a submap pointer in the grid given by grid coordinates. The grid
          * coordinates must be valid: 0 <= x < my_MAPSIZE, same for y.
@@ -2030,9 +2164,9 @@ class map
          */
         int move_cost_internal( const furn_t &furniture, const ter_t &terrain, const field &field,
                                 const vehicle *veh, int vpart ) const;
-        int bash_rating_internal( int str, const furn_t &furniture,
-                                  const ter_t &terrain, bool allow_floor,
-                                  const vehicle *veh, int part ) const;
+        int bash_rating_internal( const std::map<damage_type_id, int> &str,
+                                  const furn_t &furniture, const ter_t &terrain,
+                                  bool allow_floor, const vehicle *veh, int part ) const;
 
         /**
          * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
@@ -2051,11 +2185,15 @@ class map
         void apply_light_source( const tripoint_bub_ms &p, float luminance );
         // ...this, which will apply the light after at the end of generate_lightmap, and prevent redundant
         // light rays from causing massive slowdowns, if there's a huge amount of light.
-        void add_light_source( const tripoint_bub_ms &p, float luminance );
+        // Color rides the same buffer; omit for white (uncolored) light.
+        void add_light_source( const tripoint_bub_ms &p, float luminance,
+                               const light_color_rgb &color = {} );
         // Handle just cardinal directions and 45 deg angles.
-        void apply_directional_light( const tripoint_bub_ms &p, int direction, float luminance );
+        void apply_directional_light( const tripoint_bub_ms &p, int direction, float luminance,
+                                      const light_color_rgb &color = {} );
         void apply_light_arc( const tripoint_bub_ms &p, const units::angle &angle, float luminance,
-                              const units::angle &wideangle = 30_degrees );
+                              const units::angle &wideangle = 30_degrees,
+                              const light_color_rgb &color = {} );
         void apply_light_ray( cata::mdarray<bool, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &lit,
                               const tripoint_bub_ms &s, const tripoint_bub_ms &e, float luminance );
         void add_light_from_items( const tripoint_bub_ms &p, const item_stack &items );
@@ -2132,9 +2270,18 @@ class map
          */
         std::vector<tripoint_bub_ms> field_ter_locs;
         /**
+         * Holds free'd caches because we probably don't have to return the memory to the OS.
+         */
+        static std::list<std::unique_ptr<level_cache>> free_cache_pool;
+        struct level_cache_free {
+            void operator()( level_cache *cache ) {
+                free_cache_pool.emplace_back( cache );
+            }
+        };
+        /**
          * Holds caches for visibility, light, transparency and vehicles
          */
-        mutable std::array< std::unique_ptr<level_cache>, OVERMAP_LAYERS > caches;
+        mutable std::array< std::unique_ptr<level_cache, level_cache_free>, OVERMAP_LAYERS > caches;
 
         mutable std::array< std::unique_ptr<pathfinding_cache>, OVERMAP_LAYERS > pathfinding_caches;
         /**
@@ -2152,12 +2299,14 @@ class map
 
         // Note: no bounds check
         level_cache &get_cache( int zlev ) const {
-            std::unique_ptr<level_cache> &cache = caches[zlev + OVERMAP_DEPTH];
+            std::unique_ptr<level_cache, level_cache_free> &cache = caches[zlev + OVERMAP_DEPTH];
             if( !cache ) {
-                cache = std::make_unique<level_cache>();
+                cache = alloc_cache();
             }
             return *cache;
         }
+
+        static std::unique_ptr<level_cache, level_cache_free> alloc_cache();
 
         level_cache *get_cache_lazy( int zlev ) const {
             return caches[zlev + OVERMAP_DEPTH].get();
@@ -2171,6 +2320,7 @@ class map
         // !value || value->first != map::abs_sub means cache is invalid
         std::optional<std::pair<tripoint_abs_sm, int>> max_populated_zlev = std::nullopt;
 
+        bool mapgen_in_progress = false;
         // this is set for maps loaded in bounds of the main map (g->m)
         bool _main_requires_cleanup = false;
         std::optional<bool> _main_cleanup_override = std::nullopt;
@@ -2204,6 +2354,7 @@ class map
         // Clips the area to map bounds
         tripoint_range<tripoint_bub_ms> points_in_rectangle(
             const tripoint_bub_ms &from, const tripoint_bub_ms &to ) const;
+        // despite named "radius", returns a square
         tripoint_range<tripoint_bub_ms> points_in_radius(
             const tripoint_bub_ms &center, size_t radius, size_t radiusz = 0 ) const;
 
@@ -2232,6 +2383,9 @@ class map
                 size_t radiusz = 0 ) const;
         /**returns creatures in specified radius*/
         std::list<Creature *> get_creatures_in_radius( const tripoint_bub_ms &center, size_t radius,
+                size_t radiusz = 0 ) const;
+
+        std::list<Creature *> get_creatures_in_radius_circ( const tripoint_bub_ms &center, size_t radius,
                 size_t radiusz = 0 ) const;
 
         level_cache &access_cache( int zlev );
@@ -2284,7 +2438,7 @@ bool generate_uniform_omt( const tripoint_abs_sm &p, const oter_id &terrain_type
 */
 class tinymap : private map
 {
-        friend class editmap;
+        friend class editmap_ui;
     protected:
         tinymap( int mapsize, bool zlev ) : map( mapsize, zlev ) {};
 
@@ -2322,12 +2476,6 @@ class tinymap : private map
                                friendly,
                                name, mission_id );
         }
-        void add_spawn( const mtype_id &type, int count, const tripoint_omt_ms &p,
-                        bool friendly = false, int faction_id = -1, int mission_id = -1,
-                        const std::optional<std::string> &name = std::nullopt ) {
-            map::add_spawn( type, count, rebase_bub( p ), friendly, faction_id, mission_id, name );
-        }
-
         using map::translate;
         ter_id ter( const tripoint_omt_ms &p ) const {
             return map::ter( rebase_bub( p ) );
@@ -2389,6 +2537,7 @@ class tinymap : private map
         tripoint_range<tripoint_omt_ms> points_on_zlevel( int z ) const;
         tripoint_range<tripoint_omt_ms> points_in_rectangle(
             const tripoint_omt_ms &from, const tripoint_omt_ms &to ) const;
+        // rectangular prism
         tripoint_range<tripoint_omt_ms> points_in_radius(
             const tripoint_omt_ms &center, size_t radius, size_t radiusz = 0 ) const;
         map_stack i_at( const tripoint_omt_ms &p ) {
@@ -2468,7 +2617,9 @@ class tinymap : private map
             return map::veh_at( rebase_bub( p ) );
         }
         vehicle *add_vehicle( const vproto_id &type, const tripoint_omt_ms &p, const units::angle &dir,
-                              int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true,
+                              int init_veh_fuel = -1,
+                              veh_spawn_status init_veh_status = veh_spawn_status::DEFAULT_LIGHT_DMG,
+                              bool merge_wrecks = true,
                               bool force_status = false ) {
             return map::add_vehicle( type, rebase_bub( p ), dir, init_veh_fuel, init_veh_status,
                                      merge_wrecks, force_status );
@@ -2493,6 +2644,9 @@ class tinymap : private map
         };
         bool is_outside( const tripoint_omt_ms &p ) const {
             return map::is_outside( rebase_bub( p ) );
+        }
+        bool is_roofed( const tripoint_omt_ms &p ) const {
+            return map::is_roofed( rebase_bub( p ) );
         }
         int get_radiation( const tripoint_omt_ms &p ) const {
             return map::get_radiation( rebase_bub( p ) );

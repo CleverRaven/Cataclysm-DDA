@@ -7,9 +7,10 @@
     "name_suffix": "Forge Lord",
     "class": "NC_FORGE_LORD_LIBRARIAN",
     "attitude": 0,
-    "mission": 3,
+    "mission": "SHOPKEEP",
     "gender": "female",
     "chat": "TALK_FORGE_LORD_LIBRARIAN",
+    "death_eocs": [ "EOC_DEATH_FORGE_LORD" ],
     "faction": "forge_lords"
   },
   {
@@ -27,8 +28,42 @@
     "common": false,
     "bonus_int": { "one_in": 4 },
     "bonus_per": { "one_in": 4 },
-    "shopkeeper_item_group": [ { "group": "NC_FORGE_LORD_STORE_LIBRARY_SHOP", "rigid": true } ],
+    "shopkeeper_item_group": [
+      { "group": "NC_FORGE_LORD_STORE_LIBRARY_SHOP", "rigid": true },
+      {
+        "group": "forge_lord_ardelia_loved_items",
+        "condition": { "math": [ "1 == 0" ] },
+        "strict": true,
+        "refusal": "<npc_name> will never give you their beech nuts."
+      }
+    ],
+    "shopkeeper_whitelist": "FORGE_LIBRARIAN_WHITELIST",
+    "//1": "Regular books are not really interesting to extradimensional beings. Will pay a lot for beechnuts, though.",
+    "shopkeeper_price_rules": [
+      { "item": "denarius", "price": 2500, "fixed_adj": 0 },
+      { "group": "book_military", "premium": 0.2, "markup": 5 },
+      { "group": "book_gunref", "premium": 0.2, "markup": 5 },
+      { "group": "boxing_books", "premium": 0.2, "markup": 5 },
+      { "group": "book_survival", "premium": 0.2, "markup": 5 },
+      { "group": "book_school", "premium": 0.2, "markup": 5 },
+      { "group": "hardware_books", "premium": 0.2, "markup": 5 },
+      { "group": "ranch_homebooks", "premium": 0.2, "markup": 5 },
+      { "group": "manuals", "premium": 0.2, "markup": 5 },
+      { "group": "textbooks", "premium": 0.2, "markup": 5 },
+      { "group": "lab_bookshelves", "premium": 0.2, "markup": 5 },
+      { "group": "exotic_books", "premium": 0.2, "markup": 5 },
+      { "group": "esoteric_books", "premium": 0.2, "markup": 5 },
+      { "group": "dojo_manuals", "premium": 0.2, "markup": 5 },
+      { "group": "doctors_books", "premium": 0.2, "markup": 5 },
+      { "group": "fireman_doc", "premium": 0.2, "markup": 5 },
+      { "group": "tailorbooks", "premium": 0.2, "markup": 5 },
+      { "group": "carpentrybooks", "premium": 0.2, "markup": 5 },
+      { "group": "magazines", "premium": 0.2, "markup": 5 },
+      { "group": "forge_lord_ardelia_loved_items", "premium": 5, "markup": 100 }
+    ],
     "worn_override": "NC_FORGE_LIBRARIAN_clothes",
+    "carry_override": "EMPTY_GROUP",
+    "sells_belongings": false,
     "skills": [
       {
         "skill": "ALL",
@@ -88,7 +123,41 @@
   {
     "id": "TALK_FORGE_LIBRARIAN_ASK_INTERVAL",
     "type": "talk_topic",
-    "dynamic_line": "It shouldn't take Valzain too long to read what he desires from what I have out.  Check back in <interval> and I should have some new books set out.",
+    "dynamic_line": "It shouldn't take Valzain too long to read what he desires from what I have out.  Check back on <restock_time_point> and I should have some new books set out.",
     "responses": [ { "text": "Safe readings.", "topic": "TALK_FORGE_LORD_LIBRARIAN" } ]
+  },
+  {
+    "type": "shopkeeper_whitelist",
+    "id": "FORGE_LIBRARIAN_WHITELIST",
+    "message": "<npcname> does not want this in the library.",
+    "entries": [
+      { "item": "denarius" },
+      { "group": "spellcraft_books" },
+      { "group": "dragon_books" },
+      { "group": "religious_books" },
+      { "group": "magic_recipe_basic" },
+      { "group": "magic_recipe_advanced" },
+      { "group": "magic_shop_books" },
+      { "group": "book_military" },
+      { "group": "book_gunref" },
+      { "group": "boxing_books" },
+      { "group": "book_survival" },
+      { "group": "book_school" },
+      { "group": "hardware_books" },
+      { "group": "ranch_homebooks" },
+      { "group": "manuals" },
+      { "group": "textbooks" },
+      { "group": "lab_bookshelves" },
+      { "group": "exotic_books" },
+      { "group": "esoteric_books" },
+      { "group": "dojo_manuals" },
+      { "group": "doctors_books" },
+      { "group": "fireman_doc" },
+      { "group": "tailorbooks" },
+      { "group": "carpentrybooks" },
+      { "group": "magazines" },
+      { "group": "forge_of_wonders_tradeables" },
+      { "group": "forge_lord_ardelia_loved_items" }
+    ]
   }
 ]

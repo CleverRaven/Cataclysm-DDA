@@ -97,7 +97,7 @@
     "subtype": "hobby",
     "id": "newly_clairsentient",
     "name": "Newly-Awakened Clairsentient",
-    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can read much faster and can see much better in the dark, and even in total darkness you no longer have any hesitation about moving.  At least once you avoided zombies on the other side of a wall that you didn't hear and couldn't see, but you, you just knew they were there.",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can read much faster and your senses are much sharper; you've been able to hear a zombie scratching at a front door from outside and across the street.  At least once you avoided zombies on the other side of a wall that you didn't hear and couldn't see, but you just knew they were there.  Maybe you felt the vibrations of their movement.",
     "points": 5,
     "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES" ],
     "chargen_allow_npc": false
@@ -279,7 +279,8 @@
     "skills": [ { "level": 7, "name": "metaphysics" } ],
     "spells": [
       { "id": "pyrokinetic_flash", "level": 8 },
-      { "id": "pyrokinetic_eruption", "level": 7 },
+      { "id": "pyrokinetic_intensify_flames", "level": 8 },
+      { "id": "pyrokinetic_eruption", "level": 5 },
       { "id": "pyrokinetic_call_flames", "level": 8 },
       { "id": "pyrokinetic_quell_flames", "level": 5 },
       { "id": "pyrokinetic_cloak", "level": 6 },
@@ -294,12 +295,13 @@
     "id": "late_pyrokinetic",
     "name": "Ascended Pyrokinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You are one with the flames, and they come at your command and obey your every instruction.  Zombies, mutants, aliens, stranger things--no matter what is out there, you will incinerate it and survive.",
-    "points": 7,
+    "points": 11,
     "traits": [ "PYROKINETIC", "PYROKIN_ADAPTATION" ],
     "skills": [ { "level": 4, "name": "metaphysics" } ],
     "spells": [
       { "id": "pyrokinetic_flash", "level": 8 },
-      { "id": "pyrokinetic_eruption", "level": 11 },
+      { "id": "pyrokinetic_intensify_flames", "level": 11 },
+      { "id": "pyrokinetic_eruption", "level": 7 },
       { "id": "pyrokinetic_call_flames", "level": 8 },
       { "id": "pyrokinetic_quell_flames", "level": 9 },
       { "id": "pyrokinetic_cloak", "level": 8 },
@@ -592,9 +594,19 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "knack_clair_examine_item",
+    "name": "Psychic Knack (Psychometry)",
+    "description": "Before the Cataclysm you would sometimes get strong impressions from items you touched, or have dreams about things you had bought.  Bits of their history that seemed so real, they had to have happened.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "clair_examine_item_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "knack_clair_astral_projection",
     "name": "Psychic Knack (Astral Projection)",
-    "description": "Before the Cataclysm you sometimes felt like already new unfamiliar places, like you had been there before in a dream, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "description": "Before the Cataclysm you sometimes felt like you already knew unfamiliar places, like you had been there before in a dream, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
     "points": 5,
     "traits": [ "PSYCHIC_KNACK" ],
     "spells": [ { "id": "clair_astral_projection_knack", "level": 6 } ]
@@ -662,6 +674,16 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "knack_pyrokinetic_intensify_flames",
+    "name": "Psychic Knack (Intensify Flames)",
+    "description": "Before the Cataclysm you'd go camping sometimes, and while you were no better at starting a fire than anyone else, once you got a fire going it would always burn no matter what the conditions were.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 2,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "pyrokinetic_intensify_flames_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "knack_pyrokinetic_flash",
     "name": "Psychic Knack (Brilliant Flash)",
     "description": "Before the Cataclysm you always managed to make the other guy look away first, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
@@ -672,9 +694,19 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "knack_pyrokinetic_eruption",
+    "name": "Psychic Knack (Fountain of Flames)",
+    "description": "Before the Cataclysm you had an easy time starting a fire no matter the conditions, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 4,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "pyrokinetic_eruption_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "knack_pyrokinetic_call_flames",
     "name": "Psychic Knack (Banked Flames)",
-    "description": "Before the Cataclysm you had an easy time starting a fire no matter the conditions, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "description": "Before the Cataclysm your hands never really got cold even in the harshest winter, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
     "points": 3,
     "traits": [ "PSYCHIC_KNACK" ],
     "spells": [ { "id": "pyrokinetic_call_flames_knack", "level": 6 } ]
@@ -688,6 +720,16 @@
     "points": 3,
     "traits": [ "PSYCHIC_KNACK" ],
     "spells": [ { "id": "pyrokinetic_cloak_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_telekinetic_pull",
+    "name": "Psychic Knack (Far Hand)",
+    "description": "Before the Cataclysm you could basically always make a coin come up the way you needed to when it counted, and sometimes got lucky with autolocking doors not quite closing or things you dropped falling in just the perfect way to easily retrieve them, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "telekinetic_pull_knack", "level": 6 } ]
   },
   {
     "type": "profession",
@@ -752,6 +794,16 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "knack_telepathic_blast",
+    "name": "Psychic Knack (Synaptic Overload)",
+    "description": "Before the Cataclysm people who annoyed you or who got into arguments with you would sometimes develop headaches later, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "telepathic_blast_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "knack_telepathic_mesmerize",
     "name": "Psychic Knack (Mesmerize)",
     "description": "Before the Cataclysm you were always good at holding people's attention, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
@@ -778,6 +830,16 @@
     "points": 4,
     "traits": [ "PSYCHIC_KNACK" ],
     "spells": [ { "id": "telepathic_invisibility_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_telepathic_blast_radius",
+    "name": "Psychic Knack (Psychic Scream)",
+    "description": "Before the Cataclysm, when you felt strong negative emotions it seemed to affect the people around you, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 4,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "telepathic_blast_radius_knack", "level": 6 } ]
   },
   {
     "type": "profession",
@@ -818,5 +880,69 @@
     "points": 3,
     "traits": [ "PSYCHIC_KNACK" ],
     "spells": [ { "id": "vita_cure_disease_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_vita_banish_illness",
+    "name": "Psychic Knack (Banish Illness)",
+    "description": "Before the Cataclysm you had a talent for helping people recover from illnesses, and that ability has been greatly heightened after the world ended.  While you are not a fully awakened psion, you have a single trick you can use.  Hopefully it helps you survive.",
+    "points": 5,
+    "traits": [ "PSYCHIC_KNACK" ],
+    "spells": [ { "id": "vita_banish_illness_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_random_01",
+    "name": "Wild Talent (Kappa)",
+    "description": "Perhaps the Cataclysm triggered some hidden power that you previously had no idea you possessed, and now you can do things you never previously dreamed possible, or perhaps your powers manifested earlier in your life and you have kept them hidden until now.  You have one random psychic knack.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK", "PSYCHIC_KNACK_WILD_TALENT_1" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_random_02",
+    "name": "Wild Talent (Theta)",
+    "description": "Perhaps the Cataclysm triggered some hidden power that you previously had no idea you possessed, and now you can do things you never previously dreamed possible, or perhaps your powers manifested earlier in your life and you have kept them hidden until now.  You have two random psychic knacks.",
+    "points": 4,
+    "traits": [ "PSYCHIC_KNACK", "PSYCHIC_KNACK_WILD_TALENT_2" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_random_03",
+    "name": "Wild Talent (Epsilon)",
+    "description": "Perhaps the Cataclysm triggered some hidden power that you previously had no idea you possessed, and now you can do things you never previously dreamed possible, or perhaps your powers manifested earlier in your life and you have kept them hidden until now.  You have three random psychic knacks.",
+    "points": 6,
+    "traits": [ "PSYCHIC_KNACK", "PSYCHIC_KNACK_WILD_TALENT_3" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_random_04",
+    "name": "Wild Talent (Gamma)",
+    "description": "Perhaps the Cataclysm triggered some hidden power that you previously had no idea you possessed, and now you can do things you never previously dreamed possible, or perhaps your powers manifested earlier in your life and you have kept them hidden until now.  You have four random psychic knacks.",
+    "points": 8,
+    "traits": [ "PSYCHIC_KNACK", "PSYCHIC_KNACK_WILD_TALENT_4" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_random_05",
+    "name": "Wild Talent (Beta)",
+    "description": "Perhaps the Cataclysm triggered some hidden power that you previously had no idea you possessed, and now you can do things you never previously dreamed possible, or perhaps your powers manifested earlier in your life and you have kept them hidden until now.  You have five random psychic knacks.",
+    "points": 10,
+    "traits": [ "PSYCHIC_KNACK", "PSYCHIC_KNACK_WILD_TALENT_5" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_random_06",
+    "name": "Wild Talent (Alpha)",
+    "description": "Perhaps the Cataclysm triggered some hidden power that you previously had no idea you possessed, and now you can do things you never previously dreamed possible, or perhaps your powers manifested earlier in your life and you have kept them hidden until now.  You have six random psychic knacks.",
+    "points": 15,
+    "traits": [ "PSYCHIC_KNACK", "PSYCHIC_KNACK_WILD_TALENT_6" ]
   }
 ]

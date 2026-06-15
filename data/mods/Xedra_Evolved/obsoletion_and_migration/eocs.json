@@ -110,6 +110,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_XP_UPDATER_UPDATE",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": { "and": [ { "u_has_trait": "WEREWOLF_ANIMAL_FORM" }, { "math": [ "u_werewolf_give_xp_updater_value != 1" ] } ] },
+    "effect": [ { "math": [ "u_werewolf_xp_threshold_updater = 250" ] }, { "math": [ "u_werewolf_give_xp_updater_value = 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_POWER_TRAIT_UPDATE_GAME_BEGIN",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
@@ -128,6 +136,63 @@
       { "u_lose_effect": "effect_ierde_salamander_wearing_steel" },
       { "u_lose_effect": "effect_changeling_wearing_iron" },
       { "u_lose_effect": "effect_changeling_wearing_steel" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SUN_BURN_CHECK",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_TORPOR_RECOVER",
+    "effect": [ { "math": [ "u_val('sleepiness') = 0" ] }, { "math": [ "u_val('sleep_deprivation') = 0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOT_THE_SUN",
+    "effect": [ { "math": [ "blotted_sun = 1" ] }, "next_weather" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNBLOT_THE_SUN",
+    "effect": [
+      { "math": [ "blotted_sun = 0" ] },
+      "next_weather",
+      { "u_message": "The darkness you summoned fades away, clearing the sky.", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_SKILLS_UPDATE_START",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": { "u_has_any_trait": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ] },
+    "effect": [ { "math": [ "u_paraclesian_technology_update = 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_SKILLS_UPDATE_LOAD",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": {
+      "and": [
+        { "math": [ "u_paraclesian_technology_update != 1" ] },
+        { "u_has_any_trait": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ] }
+      ]
+    },
+    "effect": [
+      {
+        "if": { "math": [ "u_skill('computers') > 0" ] },
+        "then": { "math": [ "u_proficiency('prof_paraclesian_computer_understanding', 'format': 'percent', 'direct': true) += 100" ] }
+      },
+      {
+        "if": { "math": [ "u_skill('electronics') > 0" ] },
+        "then": {
+          "math": [ "u_proficiency('prof_paraclesian_electronics_understanding', 'format': 'percent', 'direct': true) += 100" ]
+        }
+      },
+      { "math": [ "u_paraclesian_technology_update = 1" ] }
     ]
   }
 ]

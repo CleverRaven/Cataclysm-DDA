@@ -1,6 +1,45 @@
 # Le righe che superano 78 caratteri andranno a capo automaticamente
 # Questa riga è per riferimento
 ##############################################################################
+(<color_cyan>0.I</color>):</color>
+<color_white>Autore originale</color><color_white>Responsabile del Progetto</color>
+<color_yellow>Whales</color> (<color_dark_gray>ritirato</color>)    <color_yellow>KevinGranade</color>
+
+<color_white>Un ringraziamento speciale a:</color>
+<color_yellow>Standing-Storm</color> - Creator and maintainer of the enormous 'Mind over Matter' mod and numerous contributions to other mods (fair folk and espers and wizards, oh my!)
+<color_yellow>Maleclypse</color> - Xedra Evolved maintainer and merger, clocking in at over 2,000 (thousand!!!) merges this release cycle.
+<color_yellow>GuardianDll</color> - Merging, non-specific json and c++ changes, memorizing and quoting documentation for everyone needed.  "I don't remember making so many PRs, what the hell?" - GuardianDll
+<color_yellow>RenechCDDA</color> - Improvements to NPC factions, basecamps, and vehicles.
+<color_yellow>Procyonae</color> - Ludicrous amount of infrastructure PRs, mapgen code is thriving under their watch.
+<color_yellow>PatrikLundell</color> - An absurd amount of bugfixes and important safety changes to mapgen, tripoint infrastructure, and other critical systems.
+<color_yellow>Holli</color> - For their dedicated work on all things gun and gun related.
+<color_yellow>b3brodie</color> - Tons of infrastructure support for spells, bettering both mods and the base game.
+<color_yellow>Milopetilo</color> - Awesome work on new mapgen, parameters for existing mapgen, item group overhauls, and more.
+<color_yellow>ShnitzelX2</color> - Electronic storage for items and cleaning up 10 years of technical debt by moving items to be loaded with generic_factory. (Don't be jealous, but they're my favorite.)
+<color_yellow>alef</color> - Keeping the game building so we can keep developing and playing.
+<color_yellow>John Candlebury</color> - Aftershock. Did you know you can own and fly a colossal spaceship in Aftershock now? Yeah.
+<color_yellow>katemonster33</color> - Took the game by the storm with ImGuI and ImTui. Bringing us the UI we've always wanted.
+<color_yellow>Daniel Brooks 'db48x'</color> - For fundamental work on our beautiful new ImGui windows.
+<color_yellow>moxian</color> - Mission-critical work on build and IWYU infrastructure. They've made every developer's life easier.
+<color_yellow>akrieger</color> - Continued game speed improvements, keeping CI alive, and saving hard drives from Sky Islands games with compressed saves.
+<color_yellow>SariusSkelrets</color> - Expansion and polishing of Xedra Evolved's vampire content.
+<color_yellow>ehughsbaird</color>, <color_yellow>Karol1223</color>, and <color_yellow>mqrause</color>.
+
+<color_white>Ringraziamenti speciali in ambito artistico:</color>
+<color_yellow>hoasd1</color> - Most tileset contributions this cycle, they've chosen to ride off into the sunset with style. We wish them the best of luck with where life takes them, but Ultica will forever be shaped by their work!
+<color_yellow>gettingusedto</color> - MSX+ heavyweight and all around nice guy. We've gotten used to (heh) seeing them around!
+
+<color_white>Per una lista completa dei contributori si prega di vedere:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+<color_cyan>https://github.com/I-am-Erk/CDDA-Tilesets/graphs/contributors</color>
+<color_cyan>https://github.com/pixel-32/CDDA-tileset/graphs/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> è rilasciato sotto licenza  <color_white>CC-BY-SA 3.0</color>:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
+
+
+******************************************************************************
+
 (<color_cyan>0.H</color>):</color>
 <color_white>Autore originale</color><color_white>Responsabile del Progetto</color>
 <color_yellow>Whales</color> (<color_dark_gray>ritirato</color>)    <color_yellow>KevinGranade</color>

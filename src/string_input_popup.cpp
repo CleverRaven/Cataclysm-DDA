@@ -5,8 +5,7 @@
 
 #include "cata_scope_helpers.h"
 #include "catacharset.h"
-#include "condition.h"
-#include "flexbuffer_json.h"
+#include "generic_factory.h"
 #include "input.h"
 #include "input_context.h"
 #include "input_enums.h"
@@ -23,6 +22,7 @@
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
+#include "sdltiles.h"
 #endif
 
 #if defined(__ANDROID__)
@@ -334,7 +334,8 @@ void string_input_popup::query( const bool loop, const bool draw_only )
 }
 
 template<typename T>
-std::optional<T> query_int_impl( string_input_popup &p, const bool loop, const bool draw_only )
+static std::optional<T> query_int_impl( string_input_popup &p, const bool loop,
+                                        const bool draw_only )
 {
     do {
         const std::string &queried_string = p.query_string( loop, draw_only );
@@ -489,7 +490,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         } else if( action == "TEXT.QUIT" ) {
 #if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                StopTextInput();
+                StopTextInput( get_sdl_window() );
             }
 #endif
             _text.clear();
@@ -562,11 +563,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
                 if( action == "TEXT.PASTE" ) {
 #if defined(TILES)
                     if( edit.empty() ) {
-                        char *const clip = SDL_GetClipboardText();
-                        if( clip ) {
-                            entered = clip;
-                            SDL_free( clip );
-                        }
+                        entered = GetClipboardText();
                     }
 #endif
                 } else if( action == "TEXT.INPUT_FROM_FILE" ) {
@@ -699,24 +696,9 @@ void string_input_popup::add_callback( int input, const std::function<bool()> &c
 string_input_params string_input_params::parse_string_input_params( const JsonObject &jo )
 {
     string_input_params p;
-    if( jo.has_member( "title" ) ) {
-        const JsonValue &jv_title = jo.get_member( "title" );
-        p.title = get_str_translation_or_var( jv_title, "" );
-    }
-    if( jo.has_member( "description" ) ) {
-        const JsonValue &jv_description = jo.get_member( "description" );
-        p.description = get_str_translation_or_var( jv_description, "" );
-    }
-    if( jo.has_member( "default_text" ) ) {
-        const JsonValue &jv_default_text = jo.get_member( "default_text" );
-        p.default_text = get_str_translation_or_var( jv_default_text, "" );
-    }
-    if( jo.has_int( "width" ) ) {
-        p.width = jo.get_int( "width" );
-    }
-    if( jo.has_member( "identifier" ) ) {
-        const JsonValue &jv_identifier = jo.get_member( "identifier" );
-        p.identifier = get_str_or_var( jv_identifier, "" );
-    }
+    optional( jo, false, "title", p.title );
+    optional( jo, false, "description", p.description );
+    optional( jo, false, "default_text", p.default_text );
+    optional( jo, false, "identifier", p.identifier );
     return p;
 }

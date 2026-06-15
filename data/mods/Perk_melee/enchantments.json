@@ -28,11 +28,46 @@
   },
   {
     "type": "enchantment",
+    "id": "melee_perk_ench_undodging",
+    "condition": "ACTIVE",
+    "values": [ { "value": "DODGE_CHANCE", "add": -20000000 } ]
+  },
+  {
+    "type": "enchantment",
     "id": "melee_perk_ench_perfect_tempo",
     "name": { "str": "Perfect Tempo" },
     "description": " +15 quickness as long as you have the maximum number of combat tempo stacks.",
     "condition": { "math": [ "u_effect_intensity('mabuff:buff_perk_tempo')", ">", "2" ] },
     "values": [ { "value": "SPEED", "add": 15 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "melee_perk_ench_poise",
+    "hit_me_effect": [ { "id": "perk_lose_poise_spell", "hit_self": true } ],
+    "incoming_damage_mod": [
+      { "type": "bash", "multiply": { "math": [ "u_poise * -0.40" ] } },
+      { "type": "cut", "multiply": { "math": [ "u_poise * -0.40" ] } },
+      { "type": "stab", "multiply": { "math": [ "u_poise * -0.40" ] } }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "melee_perk_ench_no_poise",
+    "condition": { "math": [ "u_poise == 0" ] },
+    "hit_me_effect": [ { "id": "perk_lose_poise_spell", "hit_self": true } ],
+    "incoming_damage_mod": [ { "type": "bash", "multiply": 1 }, { "type": "cut", "multiply": 1 }, { "type": "stab", "multiply": 1 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "melee_perk_ench_shrug_off",
+    "condition": { "math": [ "u_poise == 4" ] },
+    "incoming_damage_mod": [ { "type": "bullet", "multiply": -0.6 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "melee_perk_ench_poise_reckless",
+    "condition": { "math": [ "u_poise == 0" ] },
+    "values": [ { "value": "REGEN_STAMINA", "multiply": 3.0 } ]
   },
   {
     "type": "enchantment",

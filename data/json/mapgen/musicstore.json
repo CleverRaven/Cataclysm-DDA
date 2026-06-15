@@ -14,7 +14,7 @@
         "zs______,______,______sz",
         "zssssssssssssssssssssssz",
         "z##----##----#++##-----z",
-        " #^.CC....CC.....a.EcC- ",
+        " #^§CC....CC.....a.EcC- ",
         " -...............a....# ",
         " -E..aaarrr..rr..a....- ",
         " -c..aaarrr..rr..aaaa.- ",
@@ -24,7 +24,7 @@
         " -...........|+||+||+|# ",
         " -E..rrrrrr..|g7|gg|gg- ",
         " -c..rrrrrr..|gg|gg|gg- ",
-        " #...........|Kh|Kh|Kh# ",
+        " #..........§|Kh|Kh|Kh# ",
         " #D|||D#D############## ",
         " #.S|S.#sddds         < ",
         " #Ta|aT#sddds           ",
@@ -90,7 +90,8 @@
         { "vehicle": "parking_garage_short", "x": 5, "y": 3, "rotation": 90, "chance": 33 },
         { "vehicle": "parking_garage_short", "x": 12, "y": 3, "rotation": 90, "chance": 33 },
         { "vehicle": "parking_garage_short", "x": 19, "y": 3, "rotation": 90, "chance": 33 }
-      ]
+      ],
+      "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
     }
   },
   {

@@ -223,13 +223,13 @@ void bresenham( const tripoint_bub_ms &loc1, const tripoint_bub_ms &loc2, int t,
 //probably slow, so leaving two full functions for now
 std::vector<point> line_to( const point &p1, const point &p2, int t )
 {
-    std::vector<point> line;
     // Preallocate the number of cells we need instead of allocating them piecewise.
-    const int numCells = square_dist( p1, p2 );
-    if( numCells == 0 ) {
+    const int numCells = square_dist( p1, p2 ) + 1;
+    std::vector<point> line;
+    line.reserve( numCells );
+    if( numCells == 1 ) {
         line.push_back( p1 );
     } else {
-        line.reserve( numCells );
         bresenham( point_bub_ms( p1 ), point_bub_ms( p2 ), t, [&line]( const point_bub_ms & new_point ) {
             line.push_back( new_point.raw() );
             return true;
@@ -240,13 +240,13 @@ std::vector<point> line_to( const point &p1, const point &p2, int t )
 
 std::vector <tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t, int t2 )
 {
-    std::vector<tripoint> line;
     // Preallocate the number of cells we need instead of allocating them piecewise.
-    const int numCells = square_dist( loc1, loc2 );
-    if( numCells == 0 ) {
+    const int numCells = square_dist( loc1, loc2 ) + 1;
+    std::vector<tripoint> line;
+    line.reserve( numCells );
+    if( numCells == 1 ) {
         line.push_back( loc1 );
     } else {
-        line.reserve( numCells );
         bresenham( tripoint_bub_ms( loc1 ), tripoint_bub_ms( loc2 ), t,
         t2, [&line]( const tripoint_bub_ms & new_point ) {
             line.push_back( new_point.raw() );
@@ -258,12 +258,16 @@ std::vector <tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int 
 
 std::vector<point_abs_om> orthogonal_line_to( const point_abs_om &p1, const point_abs_om &p2 )
 {
+    // Preallocate the number of cells we need instead of allocating them piecewise.
+    const int numCells = manhattan_dist( p1, p2 ) + 1;
+    std::vector<point_abs_om> points;
+    points.reserve( numCells );
     point diff( p2.x() - p1.x(), p2.y() - p1.y() );
     point diff_abs = diff.abs();
     point diff_sign( diff.x > 0 ? 1 : -1, diff.y > 0 ? 1 : -1 );
 
     point_abs_om iter = p1;
-    std::vector<point_abs_om> points = { iter };
+    points.emplace_back( iter );
     point i;
     for( i.x = 0, i.y = 0; i.x < diff_abs.x || i.y < diff_abs.y; ) {
         if( ( 0.5 + i.x ) / diff_abs.x < ( 0.5 + i.y ) / diff_abs.y ) {
@@ -721,37 +725,37 @@ std::string direction_suffix( const tripoint_abs_ms &p, const tripoint_abs_ms &q
 // Sub-sub-cardinals are direction && abs(x) > abs(y) or vice versa.
 // Result is adjacent cardinal and sub-cardinals, plus the nearest other cardinal.
 // e.g. if the direction is NNE, also include E.
-std::vector<tripoint_bub_ms> squares_closer_to( const tripoint_bub_ms &from,
-        const tripoint_bub_ms &to )
+std::vector<tripoint> squares_closer_to( const tripoint &from,
+        const tripoint &to )
 {
-    std::vector<tripoint_bub_ms> adjacent_closer_squares;
+    std::vector<tripoint> adjacent_closer_squares;
     adjacent_closer_squares.reserve( 5 );
-    const tripoint_rel_ms d( to - from );
-    const point a( std::abs( d.x() ), std::abs( d.y() ) );
-    if( d.z() != 0 ) {
-        adjacent_closer_squares.push_back( from + tripoint( sgn( d.x() ), sgn( d.y() ), sgn( d.z() ) ) );
+    const tripoint d( to - from );
+    const point a( std::abs( d.x ), std::abs( d.y ) );
+    if( d.z != 0 ) {
+        adjacent_closer_squares.push_back( from + tripoint( sgn( d.x ), sgn( d.y ), sgn( d.z ) ) );
     }
     if( a.x > a.y ) {
         // X dominant.
-        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), 0 ) );
-        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), 1 ) );
-        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), -1 ) );
-        if( d.y() != 0 ) {
-            adjacent_closer_squares.push_back( from + point( 0, sgn( d.y() ) ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x ), 0 ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x ), 1 ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x ), -1 ) );
+        if( d.y != 0 ) {
+            adjacent_closer_squares.push_back( from + point( 0, sgn( d.y ) ) );
         }
     } else if( a.x < a.y ) {
         // Y dominant.
-        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y() ) ) );
-        adjacent_closer_squares.push_back( from + point( 1, sgn( d.y() ) ) );
-        adjacent_closer_squares.push_back( from + point( -1, sgn( d.y() ) ) );
-        if( d.x() != 0 ) {
-            adjacent_closer_squares.push_back( from + point( sgn( d.x() ), 0 ) );
+        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y ) ) );
+        adjacent_closer_squares.push_back( from + point( 1, sgn( d.y ) ) );
+        adjacent_closer_squares.push_back( from + point( -1, sgn( d.y ) ) );
+        if( d.x != 0 ) {
+            adjacent_closer_squares.push_back( from + point( sgn( d.x ), 0 ) );
         }
-    } else if( d.x() != 0 ) {
+    } else if( d.x != 0 ) {
         // Pure diagonal.
-        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), sgn( d.y() ) ) );
-        adjacent_closer_squares.push_back( from + point( sgn( d.x() ), 0 ) );
-        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y() ) ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x ), sgn( d.y ) ) );
+        adjacent_closer_squares.push_back( from + point( sgn( d.x ), 0 ) );
+        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y ) ) );
     }
 
     return adjacent_closer_squares;

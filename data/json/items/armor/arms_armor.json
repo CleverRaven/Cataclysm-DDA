@@ -107,29 +107,32 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str_sp": "chitin arm guards (pair)" },
-    "description": "A pair of arm guards made from the exoskeletons of insects.  Light and durable.",
-    "weight": "392 g",
-    "volume": "2500 ml",
-    "price": "200 USD",
-    "price_postapoc": "7 USD 50 cent",
-    "material": [ "chitin" ],
+    "name": { "str_sp": "chitinous scale mail sleeves (pair)" },
+    "description": "A pair of sleeves of chitin sections overlapping with each other, secured to a leather backing.  The odd irregular shapes make full coverage impossible, not helped by how poor of a material chitin is.  Seems to be made more out of desperation than anything, and would benefit greatly from some underlying armor.",
+    "weight": "1501 g",
+    "volume": "1330 ml",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 arms are 18% leaving us with 3348 cm^2.",
+    "//1": "Chitin has a density of 1.45g/cm^3, thickness of 0.32 cm, coverage of 80% leaves us with 1 243 grams.",
+    "//2": "Leather has a density of 1.1g/cm^3, thickness of 0.07 cm, coverage of 100% leaves us with 258 grams.",
+    "//3": "Totalled up this is 1 501 grams with some rounding",
+    "price": "130 USD",
+    "price_postapoc": "1 USD",
+    "material": [ { "type": "chitin", "portion": 35 }, { "type": "leather", "portion": 1 } ],
     "symbol": "[",
-    "looks_like": "armguard_hard",
+    "looks_like": "armor_larmor",
     "color": "green",
-    "warmth": 10,
-    "material_thickness": 3,
-    "environmental_protection": 2,
-    "flags": [ "STURDY", "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
+    "warmth": 20,
+    "longest_side": "15 cm",
+    "flags": [ "OUTER" ],
     "armor": [
       {
+        "material": [
+          { "type": "chitin", "covered_by_mat": 80, "thickness": 3.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.7 }
+        ],
         "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 4,
-        "coverage": 90,
-        "cover_melee": 90,
-        "cover_ranged": 90,
-        "cover_vitals": 50,
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l" ]
+        "coverage": 100,
+        "encumbrance": 12
       }
     ]
   },
@@ -138,7 +141,7 @@
     "copy-from": "armguard_chitin",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str_sp": "chitin arm guards (pair)" },
+    "name": { "str_sp": "chitinous scale mail sleeves (pair)" },
     "proportional": { "weight": 1.25, "volume": 1.23 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -147,7 +150,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "armguard_chitin",
-    "name": { "str_sp": "chitin arm guards (pair)" },
+    "name": { "str_sp": "chitinous scale mail sleeves (pair)" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -334,55 +337,6 @@
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
-    "id": "armguard_lightplate",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "category": "armor",
-    "name": { "str_sp": "steel arm guards (pair)" },
-    "description": "A full assembly of medieval arm protection.  Rerebraces, couters, and vambraces, with leather straps to secure each piece and connect it as part of a set.",
-    "weight": "2720 g",
-    "volume": "5500 ml",
-    "price": "200 USD",
-    "price_postapoc": "120 USD",
-    "material": [ "steel", "leather" ],
-    "symbol": "[",
-    "looks_like": "armguard_metal",
-    "color": "light_gray",
-    "warmth": 20,
-    "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY", "BLOCK_WHILE_WORN" ],
-    "armor": [
-      {
-        "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 16,
-        "coverage": 95,
-        "cover_melee": 95,
-        "cover_ranged": 95,
-        "cover_vitals": 90,
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ]
-      }
-    ]
-  },
-  {
-    "id": "xl_armguard_lightplate",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "name": { "str_sp": "steel arm guards (pair)" },
-    "weight": "3243 g",
-    "volume": "7 L",
-    "copy-from": "armguard_lightplate",
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
-  },
-  {
-    "id": "xs_armguard_lightplate",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "copy-from": "armguard_lightplate",
-    "name": { "str_sp": "steel arm guards (pair)" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
-  },
-  {
     "id": "armguard_metal",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -440,7 +394,7 @@
     "material": [ "lc_steel" ],
     "repairs_with": [ "steel" ],
     "symbol": "[",
-    "looks_like": "armguard_lightplate",
+    "looks_like": "armor_lc_armguard",
     "color": "light_gray",
     "warmth": 10,
     "material_thickness": 1.5,
@@ -633,11 +587,11 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str_sp": "scrap arm guards (pair)" },
-    "description": "A pair of arm guards made from scraps of metal secured by simple strings.",
-    "weight": "3064 g",
-    "volume": "4750 ml",
-    "price": "200 USD",
-    "price_postapoc": "5 USD",
+    "description": "Jagged metal scraps crudely strapped to lower arms.  Gaps expose skin and swinging feels like lifting weights.",
+    "weight": "2500 g",
+    "volume": "1800 ml",
+    "price": "4 USD",
+    "price_postapoc": "2 USD",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
@@ -648,12 +602,12 @@
     "armor": [
       {
         "material": [
-          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 1.5 },
+          { "type": "budget_steel", "covered_by_mat": 60, "thickness": 1.5 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 6,
-        "coverage": 95,
+        "encumbrance": 8,
+        "coverage": 70,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
       }
     ],
@@ -1185,7 +1139,7 @@
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "bronze", "leather" ],
     "symbol": "[",
-    "looks_like": "armguard_lightplate",
+    "looks_like": "armor_lc_armguard",
     "color": "yellow",
     "warmth": 15,
     "material_thickness": 4,
@@ -1307,14 +1261,37 @@
     "armor": [
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.05 },
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 0.75 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r" ],
         "coverage": 100,
-        "encumbrance": 10
+        "cover_vitals": 85
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 0.7 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_upper_r" ],
+        "coverage": 100,
+        "cover_vitals": 80
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.75 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_lower_l", "arm_lower_r" ],
+        "coverage": 100,
+        "encumbrance": 8,
+        "cover_vitals": 95
       }
     ],
     "melee_damage": { "bash": 8 }
@@ -1336,19 +1313,7 @@
     "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel light arm guard" },
     "description": "A light armguard, 1.25 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 10
-      }
-    ]
+    "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_armor_mc_lightarmguard",
@@ -1367,19 +1332,7 @@
     "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel light arm guard" },
     "description": "A light armguard, 1.25 mm at the thickest.  Made with high steel offering excellent protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 10
-      }
-    ]
+    "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_armor_hc_lightarmguard",
@@ -1398,19 +1351,7 @@
     "material": [ "ch_steel", "ch_steel_chain" ],
     "name": { "str": "hardened steel light arm guard" },
     "description": "A light armguard, 1.25 mm at the thickest.  The mild steel has been hardened, offering superior protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 10
-      }
-    ]
+    "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_armor_ch_lightarmguard",
@@ -1429,19 +1370,7 @@
     "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered steel light arm guard" },
     "description": "A light armguard, 1.25 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 10
-      }
-    ]
+    "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_armor_qt_lightarmguard",
@@ -1476,14 +1405,26 @@
     "armor": [
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.55 },
+          { "type": "lc_steel", "covered_by_mat": 97, "thickness": 1.15 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
+        "specifically_covers": [ "arm_lower_l", "arm_lower_r" ],
         "coverage": 100,
-        "encumbrance": 15
+        "cover_vitals": 100,
+        "encumbrance": 10
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 94, "thickness": 1.15 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_upper_r", "arm_elbow_l", "arm_elbow_r" ],
+        "coverage": 100,
+        "cover_vitals": 90
       }
     ],
     "melee_damage": { "bash": 8 }
@@ -1502,22 +1443,9 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "armor_lc_armguard",
-    "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel arm guard" },
     "description": "An armguard, 1.75 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 15
-      }
-    ]
+    "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_armor_mc_armguard",
@@ -1536,19 +1464,7 @@
     "name": { "str": "high steel arm guard" },
     "material": [ "hc_steel", "hc_steel_chain" ],
     "description": "An armguard, 1.75 mm at the thickest.  Made with high steel offering excellent protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 15
-      }
-    ]
+    "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_armor_hc_armguard",
@@ -1567,19 +1483,7 @@
     "material": [ "ch_steel", "ch_steel_chain" ],
     "name": { "str": "hardened steel arm guard" },
     "description": "An armguard, 1.75 mm at the thickest.  The mild steel has been hardened, offering superior protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 15
-      }
-    ]
+    "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_armor_ch_armguard",
@@ -1598,19 +1502,7 @@
     "name": { "str": "tempered steel arm guard" },
     "material": [ "qt_steel", "qt_steel_chain" ],
     "description": "An armguard, 1.75 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 15
-      }
-    ]
+    "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_armor_qt_armguard",
@@ -1633,6 +1525,7 @@
     "price": "600 USD",
     "price_postapoc": "120 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "light_gray",
@@ -1644,14 +1537,26 @@
     "armor": [
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 1.05 },
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.65 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
+        "specifically_covers": [ "arm_lower_l", "arm_lower_r" ],
+        "cover_vitals": 100,
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 15
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 96, "thickness": 1.65 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_upper_r", "arm_elbow_l", "arm_elbow_r" ],
+        "coverage": 100,
+        "cover_vitals": 95
       }
     ],
     "melee_damage": { "bash": 8 }
@@ -1672,19 +1577,7 @@
     "copy-from": "armor_lc_heavyarmguard",
     "name": { "str": "medium steel heavy arm guard" },
     "description": "A heavy armguard, 2.25 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_armor_mc_heavyarmguard",
@@ -1702,19 +1595,7 @@
     "copy-from": "armor_lc_heavyarmguard",
     "name": { "str": "high steel heavy arm guard" },
     "description": "A heavy armguard, 2.25 mm at the thickest.  Made with high steel offering excellent protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_armor_hc_heavyarmguard",
@@ -1732,19 +1613,7 @@
     "copy-from": "armor_lc_heavyarmguard",
     "name": { "str": "hardened steel heavy arm guard" },
     "description": "A heavy armguard, 2.25 mm at the thickest.  The mild steel has been hardened, offering superior protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_armor_ch_heavyarmguard",
@@ -1762,19 +1631,7 @@
     "copy-from": "armor_lc_heavyarmguard",
     "name": { "str": "tempered steel heavy arm guard" },
     "description": "A heavy armguard, 2.25 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_armor_qt_heavyarmguard",

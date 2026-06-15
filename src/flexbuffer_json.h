@@ -120,6 +120,7 @@ class Json
         std::shared_ptr<parsed_flexbuffer> root_;
         // The actual thing we are pointing to with this Json instance.
         flexbuffer json_;
+        std::string get_root_source_path() const;
 };
 
 class JsonWithPath : protected Json
@@ -223,6 +224,7 @@ class JsonValue : Json
         using Json::throw_error;
         using Json::throw_error_after;
         using Json::string_error;
+        using Json::get_root_source_path;
 
         // optionally-fatal reading into values by reference
         // returns true if the data was read successfully, false otherwise
@@ -607,6 +609,7 @@ class JsonObject : JsonWithPath
 
         std::string get_string( const std::string &key ) const;
         std::string get_string( const char *key ) const;
+        std::string get_string( std::string_view key ) const;
 
         template<typename T, typename std::enable_if_t<std::is_convertible_v<T, std::string>>* = nullptr>
         std::string get_string( const std::string &key, T && fallback ) const;
@@ -617,6 +620,7 @@ class JsonObject : JsonWithPath
         // Vanilla accessors. Just return the named member and use it's conversion function.
         bool get_bool( std::string_view key ) const;
         int get_int( std::string_view key ) const;
+        int64_t get_int64( std::string_view key ) const;
         double get_float( std::string_view key ) const;
         JsonArray get_array( std::string_view key ) const;
         JsonObject get_object( std::string_view key ) const;

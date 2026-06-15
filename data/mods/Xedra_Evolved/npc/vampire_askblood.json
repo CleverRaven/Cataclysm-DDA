@@ -1,8 +1,10 @@
 [
   {
-    "id": [ "TALK_FRIEND" ],
+    "id": [ "TALK_FRIEND", "TALK_FRIEND_Liam", "TALK_FRIEND_Luo" ],
     "type": "talk_topic",
     "insert_before_standard_exits": true,
+    "//": "Drinking from willing targets doesn't check for worn holy symbols, as the follower is cooperating.",
+    "//2": "When asked, they remove the symbol, are drank from, then put on the symbol again without needing player input.",
     "responses": [
       {
         "text": "Can I drink some of your blood?  I really need some of it.",
@@ -26,7 +28,7 @@
     ]
   },
   {
-    "id": [ "TALK_FRIEND" ],
+    "id": [ "TALK_FRIEND", "TALK_FRIEND_Liam", "TALK_FRIEND_Luo" ],
     "type": "talk_topic",
     "insert_before_standard_exits": true,
     "responses": [
@@ -53,7 +55,7 @@
     ]
   },
   {
-    "id": [ "TALK_FRIEND" ],
+    "id": [ "TALK_FRIEND", "TALK_FRIEND_Liam", "TALK_FRIEND_Luo" ],
     "type": "talk_topic",
     "insert_before_standard_exits": true,
     "responses": [
@@ -81,7 +83,7 @@
     ]
   },
   {
-    "id": [ "TALK_FRIEND" ],
+    "id": [ "TALK_FRIEND", "TALK_FRIEND_Liam", "TALK_FRIEND_Luo" ],
     "type": "talk_topic",
     "insert_before_standard_exits": true,
     "responses": [
@@ -116,7 +118,7 @@
     "responses": [
       {
         "text": "[Drink from them] Thank you.  Can we talk about something else?",
-        "topic": "TALK_FRIEND",
+        "topic": "TALK_NONE",
         "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
         "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_FRIEND" } ]
       },
@@ -133,7 +135,7 @@
       },
       {
         "text": "Got it.  Can we talk about something else?",
-        "topic": "TALK_FRIEND",
+        "topic": "TALK_NONE",
         "condition": { "npc_has_effect": "feed_from_recently" }
       },
       {
@@ -154,7 +156,7 @@
     "responses": [
       {
         "text": "[Drink from them] Thank you.  Can we talk about something else?",
-        "topic": "TALK_FRIEND",
+        "topic": "TALK_NONE",
         "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
         "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_ALLY" } ],
         "opinion": { "trust": -1, "value": -1 }
@@ -225,8 +227,8 @@
     "global": false,
     "effect": [
       { "npc_add_effect": "feed_from_recently", "duration": "5 d" },
-      { "math": [ "n_vitamin('blood')", "-=", "400 + rand(100)" ] },
-      { "math": [ "n_vitamin('redcells')", "-=", "400 + rand(100)" ] }
+      { "math": [ "n_vitamin('blood') -= 400 + rand(100)" ] },
+      { "math": [ "n_vitamin('redcells') -= 400 + rand(100)" ] }
     ]
   },
   {
@@ -235,8 +237,8 @@
     "global": false,
     "effect": [
       { "npc_add_effect": "feed_from_recently", "duration": "10 d" },
-      { "math": [ "n_vitamin('blood')", "-=", "400 + rand(100)" ] },
-      { "math": [ "n_vitamin('redcells')", "-=", "400 + rand(100)" ] }
+      { "math": [ "n_vitamin('blood') -= 400 + rand(100)" ] },
+      { "math": [ "n_vitamin('redcells') -= 400 + rand(100)" ] }
     ]
   }
 ]

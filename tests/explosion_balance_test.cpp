@@ -15,6 +15,7 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "damage.h"
+#include "enums.h"
 #include "explosion.h"
 #include "fragment_cloud.h"
 #include "game.h"
@@ -41,9 +42,14 @@ static const damage_type_id damage_bullet( "bullet" );
 
 static const itype_id itype_grenade_act( "grenade_act" );
 
+namespace
+{
+
 enum class outcome_type {
     Kill, Casualty
 };
+
+} // namespace
 
 static float get_damage_vs_target( const std::string &target_id )
 {
@@ -190,7 +196,7 @@ static void check_vehicle_damage( const itype_id &explosive_id, const std::strin
     tripoint_bub_ms origin( 30, 30, 0 );
 
     vehicle *target_vehicle = get_map().add_vehicle( vproto_id( vehicle_id ), origin, 0_degrees,
-                              -1, 0 );
+                              -1, veh_spawn_status::UNDAMAGED );
     std::vector<int> before_hp = get_part_hp( target_vehicle );
 
     while( get_map().veh_at( origin ) ) {
@@ -221,7 +227,7 @@ static void check_vehicle_damage( const itype_id &explosive_id, const std::strin
     CHECK( after_hp_total <= ceil( before_hp_total * damage_upper_bound ) );
 }
 
-TEST_CASE( "grenade_lethality_scaling_with_size", "[grenade],[explosion],[balance]" )
+TEST_CASE( "grenade_lethality_scaling_with_size", "[grenade] [explosion] [balance]" )
 {
     // We want monsters of different sizes with the same armor to test that we aren't scaling damage with size.
     float tiny = get_damage_vs_target( "mon_spawn_raptor" );
@@ -243,14 +249,14 @@ TEST_CASE( "grenade_lethality_scaling_with_size", "[grenade],[explosion],[balanc
     CHECK( large_armored == Approx( huge_armored ).margin( 1.0 ) );
 }
 
-TEST_CASE( "grenade_lethality", "[grenade],[explosion],[balance],[slow]" )
+TEST_CASE( "grenade_lethality", "[grenade] [explosion] [balance] [slow]" )
 {
     check_lethality( itype_grenade_act, 0, 0.99, 0.06, outcome_type::Kill );
     check_lethality( itype_grenade_act, 5, 0.95, 0.06, outcome_type::Kill );
     check_lethality( itype_grenade_act, 15, 0.40, 0.06, outcome_type::Casualty );
 }
 
-TEST_CASE( "grenade_vs_vehicle", "[grenade],[explosion],[balance]" )
+TEST_CASE( "grenade_vs_vehicle", "[grenade] [explosion] [balance]" )
 {
     /* as of test writing, car hp is 17653. 0.998 of that means the grenade
      * has to do more than 36 points of damage to 'fail', which isn't remotely

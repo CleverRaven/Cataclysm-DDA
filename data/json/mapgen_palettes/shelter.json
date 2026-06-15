@@ -48,6 +48,7 @@
     "terrain": {
       ".": "t_floor",
       "6": "t_floor",
+      "§": "t_floor",
       "b": "t_floor",
       "c": "t_floor",
       "S": "t_floor",
@@ -76,7 +77,8 @@
       "t": "f_table",
       "C": "f_counter"
     },
-    "toilets": { "T": {  } }
+    "toilets": { "T": {  } },
+    "nested": { "§": { "chunks": [ "fire_extinguisher" ] } }
   },
   {
     "type": "palette",

@@ -126,7 +126,7 @@
     <ClCompile Include="..\tools\format\*.cpp" Exclude="..\tools\format\format_main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\msvc-full-features\Cataclysm-lib-vcpkg-static.vcxproj">
+    <ProjectReference Include="..\msvc-full-features\Cataclysm-libMZ-vcpkg-static.vcxproj">
       <Project>{0009bb11-11ad-4c14-a5fc-d882a942c00b}</Project>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>

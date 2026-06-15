@@ -26,12 +26,12 @@
       "afs_spacer",
       "afs_leadership",
       "afs_earthling",
+      "afs_noetic_scion_inheritance",
       "afs_physical_stat_genemod",
       "afs_mental_stat_genemod",
       "afs_health_genemod",
       "afs_efficiency_genemod",
-      "afs_beauty_genemod",
-      "afs_esper_inheritance"
+      "afs_beauty_genemod"
     ],
     "flags": [ "LONE_START" ],
     "start_name": "Port Augustmoon"
@@ -68,12 +68,12 @@
       "afs_spacer",
       "afs_leadership",
       "afs_earthling",
+      "afs_noetic_scion_inheritance",
       "afs_physical_stat_genemod",
       "afs_mental_stat_genemod",
       "afs_health_genemod",
       "afs_efficiency_genemod",
-      "afs_beauty_genemod",
-      "afs_esper_inheritance"
+      "afs_beauty_genemod"
     ],
     "surround_groups": [ [ "GROUP_PIRATE__BOT_AMBUSH", 70.0 ] ],
     "requirement": "afs_achievement_crashed_spaceship",
@@ -168,7 +168,14 @@
     "whitelist_hobbies": true,
     "requirement": "afs_achievement_crashed_spaceship",
     "hard_requirement": true,
-    "hobbies": [ "afs_speed_freak", "afs_armament_license", "afs_spacer", "afs_leadership", "afs_earthling" ],
+    "hobbies": [
+      "afs_speed_freak",
+      "afs_armament_license",
+      "afs_spacer",
+      "afs_leadership",
+      "afs_earthling",
+      "afs_noetic_scion_inheritance"
+    ],
     "eoc": [ "EOC_CRASHING_SHIP_SETUP" ]
   },
   {
@@ -176,10 +183,10 @@
     "id": "afs_esper_start",
     "name": "Esper",
     "points": 1,
-    "description": "There are stories that before the Discontinuity, scientists had developed secret treatments to unlock the powers of the human mind.  To read thoughts, move objects at a distance, control computers by the power of will alone, were just a few of the rumored abilities that laid dormant and at the edge of human potential.  But all knowledge of these treatments was lost when the Discontinuity shattered interstellar civilization.\n\nOr so you thought, until you had heard some tantalizing rumors about espers, centered on a backwater planet on the edge of known civilization.  You remember buying passage to the Salus system, arriving at Port Augustmoon, buying supplies, and descending to the surface, but after that things get hazy…  You're not entirely sure where you are, and you've clearly been through it, but somehow you've rediscovered that lost secret.  Now you just need to make it back alive.",
+    "description": "There are stories that before the Discontinuity, scientists had developed secret treatments to unlock the powers of the human mind.  To read thoughts, move objects at a distance, control computers by the power of will alone, and even see the future, these were just a few of the rumored abilities that laid dormant and at the edge of human potential.  But all knowledge of these treatments was lost when the Discontinuity shattered interstellar civilization, their only heirs the handful of families who jealously guarded their powers and interbred to maintain their noetic gifts.\n\nOr so you thought, until you had heard some tantalizing rumors about new espers, centered on a backwater planet on the edge of known civilization.  You remember buying passage to the Salus system, arriving at Port Augustmoon, buying supplies, and descending to the surface, but after that things get hazy…  You're not entirely sure where you are, and you've clearly been through it, but somehow you've rediscovered that lost secret.  Now you just need to make it back alive.",
     "forced_traits": [ "ESPER", "ESPER_STARTER_ADVANCEMENT_OKAY" ],
     "allowed_locs": [ "sloc_afs_glacial_tunnels" ],
-    "professions": [ "afs_esper_electrokinetic", "afs_esper_telepath", "afs_esper_telekinetic" ],
+    "professions": [ "afs_esper_electrokinetic", "afs_esper_precog", "afs_esper_telepath", "afs_esper_telekinetic" ],
     "flags": [ "LONE_START" ],
     "start_name": "Lost on the Surface",
     "reveal_locale": false,
@@ -214,12 +221,12 @@
       "afs_spacer",
       "afs_leadership",
       "afs_earthling",
+      "afs_noetic_scion_inheritance",
       "afs_physical_stat_genemod",
       "afs_mental_stat_genemod",
       "afs_health_genemod",
       "afs_efficiency_genemod",
-      "afs_beauty_genemod",
-      "afs_esper_inheritance"
+      "afs_beauty_genemod"
     ],
     "flags": [ "LONE_START" ],
     "requirement": "afs_achievement_crashed_spaceship",

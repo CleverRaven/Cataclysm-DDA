@@ -1,0 +1,25 @@
+[
+  {
+    "type": "palette",
+    "id": "ravine",
+    "nested": {
+      "#": [
+        { "chunks": [ "1x1_ground" ], "check_z": [ 0 ] },
+        { "chunks": [ "1x1_under_soil" ], "check_z": [ -1 ] },
+        { "chunks": [ "1x1_under_stone" ], "check_z": [ -2 ] }
+      ],
+      " ": { "chunks": [ "1x1_open_air" ], "check_z": [ 0 ] }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "ravine_straight_parameters",
+    "parameters": {
+      "variant": {
+        "type": "nested_mapgen_id",
+        "scope": "omt_stack",
+        "default": { "distribution": [ "24x24_ravine_straight_v1", "24x24_ravine_straight_v2" ] }
+      }
+    }
+  }
+]

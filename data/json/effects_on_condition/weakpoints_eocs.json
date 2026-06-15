@@ -3,27 +3,18 @@
     "type": "effect_on_condition",
     "id": "EOC_FLEE_WEAK",
     "condition": "has_beta",
-    "effect": [
-      { "math": [ "u_val('morale')", "-=", "u_val('morale') + 5" ] },
-      { "math": [ "u_val('anger')", "-=", "u_val('anger') + 5" ] }
-    ]
+    "effect": [ { "math": [ "u_val('morale') -= u_val('morale') + 5" ] }, { "math": [ "u_val('anger') -= u_val('anger') + 5" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_FLEE",
     "condition": "has_beta",
-    "effect": [
-      { "math": [ "u_val('morale')", "-=", "u_val('morale') + 15" ] },
-      { "math": [ "u_val('anger')", "-=", "u_val('anger') + 15" ] }
-    ]
+    "effect": [ { "math": [ "u_val('morale') -= u_val('morale') + 15" ] }, { "math": [ "u_val('anger') -= u_val('anger') + 15" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_FLEE_STRONG",
     "condition": "has_beta",
-    "effect": [
-      { "math": [ "u_val('morale')", "-=", "u_val('morale') + 25" ] },
-      { "math": [ "u_val('anger')", "-=", "u_val('anger') + 25" ] }
-    ]
+    "effect": [ { "math": [ "u_val('morale') -= u_val('morale') + 25" ] }, { "math": [ "u_val('anger') -= u_val('anger') + 25" ] } ]
   }
 ]
