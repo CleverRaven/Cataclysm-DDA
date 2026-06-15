@@ -2515,7 +2515,11 @@ void character_creator_ui::setup_new_uilist()
                         if( key == CHARACTER_CREATOR_TRAITS_NEGATIVE.translated() && entry_trait->points < 0 ) {
                             return true;
                         }
-                        if( key == CHARACTER_CREATOR_TRAITS_NEUTRAL.translated() && entry_trait->points == 0 ) {
+                        if( key == CHARACTER_CREATOR_TRAITS_NEUTRAL.translated() && entry_trait->points == 0 &&
+                            !entry_trait->vanity ) {
+                            return true;
+                        }
+                        if( key == CHARACTER_CREATOR_TRAITS_COSMETIC.translated() && entry_trait->vanity ) {
                             return true;
                         }
                     }
@@ -2530,6 +2534,8 @@ void character_creator_ui::setup_new_uilist()
                                           CHARACTER_CREATOR_TRAITS_NEGATIVE.translated() );
                 new_uilist->add_category( CHARACTER_CREATOR_TRAITS_NEUTRAL.translated(),
                                           CHARACTER_CREATOR_TRAITS_NEUTRAL.translated() );
+                new_uilist->add_category( CHARACTER_CREATOR_TRAITS_COSMETIC.translated(),
+                                          CHARACTER_CREATOR_TRAITS_COSMETIC.translated() );
                 break;
             }
             case CHARCREATOR_SKILLS: {
