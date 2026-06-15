@@ -20,7 +20,7 @@
       { "name": "Pour it into the mold", "time": "2 m", "activity_level": "MODERATE_EXERCISE" },
       {
         "name": "Allow the metal to cool",
-        "time": "30 m",
+        "time": "1 h 30 m",
         "activity_level": "NO_EXERCISE",
         "attention": "unattended",
         "unattend_message": "The metal is cooling in the mold."
