@@ -1763,7 +1763,12 @@
     "description": "Your head is implanted with a low-power reading light and a short-distance laser scanner, allowing you to upload digital images of books straight into your brain's optic lobe and language centers.  When active, you read slightly faster, and can read in the dark.",
     "occupied_bodyparts": [ [ "head", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "READING_SPEED_MULTIPLIER", "multiply": -0.2 }, { "value": "LUMINATION", "add": 10 } ] } ],
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "values": [ { "value": "READING_SPEED_MULTIPLIER", "multiply": -0.2 }, { "value": "LUMINATION", "add": 10 } ]
+      }
+    ],
     "act_cost": "2 J",
     "react_cost": "2 J",
     "time": "1 s"
