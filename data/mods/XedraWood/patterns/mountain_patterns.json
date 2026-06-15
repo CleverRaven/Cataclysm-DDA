@@ -3,7 +3,7 @@
     "id": "mountain_tattoo_one",
     "type": "bionic",
     "name": { "str": "Roots of the Mountain" },
-    "description": "The first element of the mountain pattern, a series of stylized boulders and trees on the upper legs. It makes your limbs more resilient, providing them with extra armor.",
+    "description": "The first element of the mountain pattern, a series of stylized boulders and trees on the upper legs.  It makes your limbs more resilient, providing them with extra armor.",
     "occupied_bodyparts": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "protec": [
       [ "arm_l", { "bash": 4, "cut": 2 } ],
