@@ -1182,11 +1182,18 @@
           { "value": "CARDIO_MULTIPLIER", "multiply": 0.4 },
           { "value": "REGEN_HP_AWAKE", "multiply": 0.15 },
           { "value": "REGEN_HP", "multiply": 0.5 },
-          { "value": "CLIMATE_CONTROL_HEAT", "add": 5 }
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 5 },
+          { "value": "bio_bloodreplenish" }
         ]
       },
-      { "condition": "ALWAYS", "ench_effects": [ { "effect": "bio_bloodreplenish", "intensity": 1 } ] }
+      { "condition": "ALWAYS", "ench_effects": [ { "effect": "bio_bloodreplenish" } ] }
     ]
+  },
+  {
+    "type": "enchantment",
+    "id": "bio_bloodreplenish",
+    "condition": "ALWAYS",
+    "effect": [ { "math": [ "u_vitamin('blood') += 0.6" ] } ]
   },
   {
     "id": "bio_remote",
