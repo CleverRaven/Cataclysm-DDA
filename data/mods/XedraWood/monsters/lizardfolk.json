@@ -4,7 +4,7 @@
     "looks_like": "mon_lizardfolk_warrior",
     "type": "MONSTER",
     "name": "lizardfolk warrior",
-    "description": "One of the lizardfolk of the swamps.  The size and ",
+    "description": "One of the lizardfolk of the swamps.  The size and armaments indicate this is a warrior.",
     "default_faction": "lizardfolk_nonhostile",
     "bodytype": "human",
     "species": [ "LIZARDFOLK" ],
@@ -39,7 +39,7 @@
       "HEARS",
       "SMELLS",
       "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "CLIMBS",
       "GROUP_MORALE",
       "SWIMS",
@@ -56,7 +56,7 @@
     "looks_like": "mon_lizardfolk_hunter",
     "type": "MONSTER",
     "name": "lizardman hunter",
-    "description": "The hunter is smaller than a warrior, but equally as deadly, with their lithe figures and accurate javelin throws.",
+    "description": "One of the lizardfolk of the swamps. Lithe and deadly, this is a hunter, bringing back the game that the lizardfolk require.",
     "copy-from": "mon_lizardfolk_warrior",
     "symbol": "L",
     "proportional": { "hp": 0.9, "volume": 0.9, "weight": 0.9, "speed": 0.97 },
@@ -92,8 +92,8 @@
     "type": "MONSTER",
     "name": "lizardfolk hunter",
     "description": "The hunter is smaller than a warrior, but equally as deadly, with their lithe figures and accurate javelin throws.",
-    "copy-from": "mon_lizardman_warrior",
-    "default_faction": "mon_lizardfolk_hunter",
+    "copy-from": "mon_lizardfolk_hunter",
+    "default_faction": "lizardfolk_hostile",
     "aggression": 30
   }
 ]

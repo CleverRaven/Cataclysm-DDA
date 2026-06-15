@@ -22,18 +22,21 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "nest_RandEnc_lizardfolk_hunting_party_add",
-    "object": { "place_monster": [ { "monster": "GROUP_LIZARDFOLK_RANDENC", "x": [ 0, 24 ], "y": [ 0, 24 ] } ] }
+    "object": { "place_monster": [ { "group": "GROUP_LIZARDFOLK_RANDENC", "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "nest_RandEnc_lizardfolk_hunting_party_remove",
-    "object": {
-      "remove_monsters": [
-        { "monster": "mon_lizardfolk_warrior", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "monster": "mon_lizardfolk_hunter", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "monster": "mon_lizardfolk_warrior_hostile", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "monster": "mon_lizardfolk_hunter_hostile", "x": [ 0, 23 ], "y": [ 0, 23 ] }
-      ]
-    }
+    "object": { "set": [ { "square": "creature_remove", "x": 0, "y": 0, "x2": 23, "y2": 23 } ], "flags": [ "NO_UNDERLYING_ROTATE" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRAWOOD_LIZARDFOLK_HUNTING_PARTY_SWAMP_RANDENC_TEST",
+    "effect": [ { "mapgen_update": [ { "context_val": "nest_RandEnc_lizardfolk_hunting_party_add" } ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRAWOOD_LIZARDFOLK_HUNTING_PARTY_SWAMP_RANDENC_TEST2",
+    "effect": [ { "mapgen_update": [ { "context_val": "nest_RandEnc_lizardfolk_hunting_party_remove" } ] } ]
   }
 ]
