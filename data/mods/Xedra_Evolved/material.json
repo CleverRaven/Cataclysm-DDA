@@ -337,7 +337,6 @@
     "dmg_adj": [ "agitated", "thinned", "culled", "eradicated" ],
     "bash_dmg_verb": "ripples",
     "cut_dmg_verb": "passed through",
-    "repaired_with": "chimerically_charged_ooze",
     "soft": true,
     "resist": { "bash": 1, "cut": 3, "acid": 8, "heat": 4, "bullet": 6 },
     "//1": "Once it's dead it requires dreamstuff to hold a shape.  The material isn't dead, just the mind controlling it.",
