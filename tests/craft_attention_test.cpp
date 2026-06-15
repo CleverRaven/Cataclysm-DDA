@@ -34,6 +34,7 @@
 #include "type_id.h"
 
 static const itype_id itype_2x4( "2x4" );
+static const itype_id itype_cudgel( "cudgel" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_microwave( "microwave" );
 static const itype_id itype_soldering_iron_portable( "soldering_iron_portable" );
@@ -1381,6 +1382,99 @@ TEST_CASE( "craft_actualize_ready_fail_at_precedes_ready",
     craft_resolve_overdue_passive( on_map, calendar::turn + 30_minutes, loc );
 
     CHECK( loc.get_item() == nullptr );
+}
+
+TEST_CASE( "craft_stamp_passive_entry_batch_scales_fail_at",
+           "[craft][attention][fail][batch]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    u.setpos( here, origin );
+
+    const recipe &rec = recipe_cudgel_test_timeout_recipe.obj();
+
+    // Single unit: ready_at and fail_at match the per-unit values.
+    SECTION( "batch of one is unchanged" ) {
+        item ingredient( itype_2x4, calendar::turn );
+        item placed( &rec, 1, ingredient );
+        item &on_map = here.add_item( origin, placed );
+        REQUIRE( on_map.is_craft() );
+        REQUIRE( on_map.get_making_batch_size() == 1 );
+        on_map.set_current_step( 1 );
+        on_map.set_crafter_id( u.getID() );
+        on_map.set_step_plans( std::vector<attention_plan>( 2 ) );
+
+        item_location loc( map_cursor( here.get_abs( origin ) ), &on_map );
+        craft_stamp_passive_entry( on_map, u, calendar::turn, loc );
+
+        // Cure: time 10m -> ready; max_time 20m + grace 5m -> fail 25m.
+        CHECK( on_map.get_ready_at() == calendar::turn + 10_minutes );
+        CHECK( on_map.get_fail_at() == calendar::turn + 25_minutes );
+    }
+
+    // Batch of eight (no batch_time_factors -> none -> x8):
+    //   ready_at = entry + 10m*8 = 80m
+    //   fail_at  = entry + (20m + 5m)*8 = 200m
+    SECTION( "batch of eight scales both deadlines, fail stays after ready" ) {
+        const int batch = 8;
+        item ingredient( itype_2x4, calendar::turn );
+        item placed( &rec, batch, ingredient );
+        item &on_map = here.add_item( origin, placed );
+        REQUIRE( on_map.is_craft() );
+        REQUIRE( on_map.get_making_batch_size() == batch );
+        on_map.set_current_step( 1 );
+        on_map.set_crafter_id( u.getID() );
+        on_map.set_step_plans( std::vector<attention_plan>( 2 ) );
+
+        item_location loc( map_cursor( here.get_abs( origin ) ), &on_map );
+        craft_stamp_passive_entry( on_map, u, calendar::turn, loc );
+
+        CHECK( on_map.get_ready_at() == calendar::turn + 80_minutes );
+        CHECK( on_map.get_fail_at() == calendar::turn + 200_minutes );
+        // Ruin deadline must stay strictly after completion.
+        CHECK( on_map.get_fail_at() > on_map.get_ready_at() );
+    }
+}
+
+TEST_CASE( "craft_batch_completes_instead_of_vanishing",
+           "[craft][attention][fail][batch]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    u.setpos( here, origin );
+
+    const recipe &rec = recipe_cudgel_test_timeout_recipe.obj();
+    const int batch = 8;
+    item ingredient( itype_2x4, calendar::turn );
+    item placed( &rec, batch, ingredient );
+    item &on_map = here.add_item( origin, placed );
+    REQUIRE( on_map.is_craft() );
+    on_map.set_current_step( 1 );
+    on_map.set_crafter_id( u.getID() );
+    on_map.set_step_plans( std::vector<attention_plan>( 2 ) );
+
+    item_location loc( map_cursor( here.get_abs( origin ) ), &on_map );
+    craft_stamp_passive_entry( on_map, u, calendar::turn, loc );
+    get_item_wakeups().rebuild_for_item( loc );
+
+    // Past the batch-scaled ready_at (80m) but well before the scaled fail_at
+    // (200m): the step finalizes and spawns the result rather than being
+    // destroyed by a ruin deadline that elapsed before completion.
+    craft_resolve_overdue_passive( on_map, calendar::turn + 81_minutes, loc );
+
+    bool found_cudgel = false;
+    for( const item &it : here.i_at( origin ) ) {
+        if( it.typeId() == itype_cudgel ) {
+            found_cudgel = true;
+        }
+    }
+    CHECK( found_cudgel );
 }
 
 TEST_CASE( "craft_terminal_unattended_liquid_parks_for_collection",
