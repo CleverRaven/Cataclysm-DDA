@@ -1,0 +1,36 @@
+[
+  {
+    "id": "sheet_metal_bronze",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "small bronze sheet" },
+    "description": "A small sheet of bronze.",
+    "looks_like": "sheet_metal",
+    "weight": "300 g",
+    "volume": "40 ml",
+    "longest_side": "20 cm",
+    "price": "20 USD",
+    "price_postapoc": "1 cent",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "bronze" ],
+    "symbol": "]",
+    "color": "yellow",
+    "melee_damage": { "bash": 5 }
+  },
+  {
+    "type": "ITEM",
+    "id": "lamellae_bronze",
+    "category": "spare_parts",
+    "name": { "str": "bronze lamella", "str_pl": "bronze lamellae" },
+    "description": "A pile of small bronze rectangles with a pattern of holes drilled into it.  For use in creating or repairing lamellar armor.",
+    "//": "An individual lamella is roughly 3cm x 6cm x 1mm in size.",
+    "weight": "14 g",
+    "volume": "100 ml",
+    "price": "10 USD",
+    "price_postapoc": "25 cent",
+    "material": [ "bronze" ],
+    "symbol": ",",
+    "color": "yellow",
+    "flags": [ "NO_SALVAGE" ]
+  }
+]
