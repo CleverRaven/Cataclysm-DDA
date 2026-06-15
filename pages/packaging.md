@@ -31,4 +31,6 @@ Ncurses and tiles versions are available in the [official repos](https://src.fed
 
 `sudo dnf install cataclysm-dda`
 
+### Flatpak
 
+Download from [Flathub](https://flathub.org/apps/org.cataclysmdda.CataclysmDDA).
